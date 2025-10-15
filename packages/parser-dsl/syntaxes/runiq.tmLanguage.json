@@ -10,7 +10,7 @@
     },
     {
       "name": "keyword.control.runiq",
-      "match": "\\b(BT|LR|RL|TB|as|diagram|group|shape|style)\\b|\\b(direction:|icon:|label:|link:|style:|tooltip:)\\B"
+      "match": "\\b(BT|LR|RL|TB|as|bottom|container|dashed|diagram|dotted|group|left|right|shape|solid|style|top)\\b|\\b(backgroundColor:|borderColor:|borderStyle:|borderWidth:|direction:|icon:|label:|labelPosition:|link:|opacity:|padding:|style:|tooltip:)\\B"
     },
     {
       "name": "string.quoted.double.runiq",

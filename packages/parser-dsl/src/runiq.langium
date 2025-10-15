@@ -11,7 +11,8 @@ Statement:
     | StyleDeclaration
     | ShapeDeclaration
     | EdgeDeclaration
-    | GroupBlock;
+    | GroupBlock
+    | ContainerBlock;
 
 // diagram "flowchart"
 DiagramDeclaration:
@@ -67,6 +68,31 @@ GroupBlock:
     'group' label=STRING '{'
         statements+=Statement*
     '}';
+
+// container "Label" { ... } with optional properties
+ContainerBlock:
+    'container' (id=ID)? label=STRING properties+=ContainerProperty* '{'
+        statements+=Statement*
+    '}';
+
+ContainerProperty:
+    StyleRefProperty
+    | ContainerStyleProperty;
+
+ContainerStyleProperty:
+    'borderStyle:' borderStyle=BorderStyleValue
+    | 'borderColor:' borderColor=STRING
+    | 'borderWidth:' borderWidth=NUMBER
+    | 'backgroundColor:' backgroundColor=STRING
+    | 'opacity:' opacity=NUMBER
+    | 'padding:' padding=NUMBER
+    | 'labelPosition:' labelPosition=LabelPositionValue;
+
+BorderStyleValue returns string:
+    'solid' | 'dashed' | 'dotted';
+
+LabelPositionValue returns string:
+    'top' | 'bottom' | 'left' | 'right';
 
 // Terminals
 terminal ARROW: '->';

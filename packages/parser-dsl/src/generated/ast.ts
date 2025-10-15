@@ -28,23 +28,102 @@ export type RuniqKeywordNames =
     | "RL"
     | "TB"
     | "as"
+    | "backgroundColor:"
+    | "borderColor:"
+    | "borderStyle:"
+    | "borderWidth:"
+    | "bottom"
+    | "container"
+    | "dashed"
     | "diagram"
     | "direction:"
+    | "dotted"
     | "group"
     | "icon:"
     | "label:"
+    | "labelPosition:"
+    | "left"
     | "link:"
+    | "opacity:"
+    | "padding:"
+    | "right"
     | "shape"
+    | "solid"
     | "style"
     | "style:"
     | "tooltip:"
+    | "top"
     | "{"
     | "}";
 
 export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
 
+export type BorderStyleValue = 'dashed' | 'dotted' | 'solid';
+
+export function isBorderStyleValue(item: unknown): item is BorderStyleValue {
+    return item === 'solid' || item === 'dashed' || item === 'dotted';
+}
+
+export interface ContainerBlock extends langium.AstNode {
+    readonly $container: ContainerBlock | Document | GroupBlock;
+    readonly $type: 'ContainerBlock';
+    id?: string;
+    label: string;
+    properties: Array<ContainerProperty>;
+    statements: Array<Statement>;
+}
+
+export const ContainerBlock = {
+    $type: 'ContainerBlock',
+    id: 'id',
+    label: 'label',
+    properties: 'properties',
+    statements: 'statements'
+} as const;
+
+export function isContainerBlock(item: unknown): item is ContainerBlock {
+    return reflection.isInstance(item, ContainerBlock.$type);
+}
+
+export type ContainerProperty = ContainerStyleProperty | StyleRefProperty;
+
+export const ContainerProperty = {
+    $type: 'ContainerProperty'
+} as const;
+
+export function isContainerProperty(item: unknown): item is ContainerProperty {
+    return reflection.isInstance(item, ContainerProperty.$type);
+}
+
+export interface ContainerStyleProperty extends langium.AstNode {
+    readonly $container: ContainerBlock;
+    readonly $type: 'ContainerStyleProperty';
+    backgroundColor?: string;
+    borderColor?: string;
+    borderStyle?: BorderStyleValue;
+    borderWidth?: string;
+    labelPosition?: LabelPositionValue;
+    opacity?: string;
+    padding?: string;
+}
+
+export const ContainerStyleProperty = {
+    $type: 'ContainerStyleProperty',
+    backgroundColor: 'backgroundColor',
+    borderColor: 'borderColor',
+    borderStyle: 'borderStyle',
+    borderWidth: 'borderWidth',
+    labelPosition: 'labelPosition',
+    opacity: 'opacity',
+    padding: 'padding'
+} as const;
+
+export function isContainerStyleProperty(item: unknown): item is ContainerStyleProperty {
+    return reflection.isInstance(item, ContainerStyleProperty.$type);
+}
+
 export interface DiagramDeclaration extends langium.AstNode {
-    readonly $container: Document | GroupBlock;
+    readonly $container: ContainerBlock | Document | GroupBlock;
     readonly $type: 'DiagramDeclaration';
     type: string;
 }
@@ -59,7 +138,7 @@ export function isDiagramDeclaration(item: unknown): item is DiagramDeclaration 
 }
 
 export interface DirectionDeclaration extends langium.AstNode {
-    readonly $container: Document | GroupBlock;
+    readonly $container: ContainerBlock | Document | GroupBlock;
     readonly $type: 'DirectionDeclaration';
     value: DirectionValue;
 }
@@ -94,7 +173,7 @@ export function isDocument(item: unknown): item is Document {
 }
 
 export interface EdgeDeclaration extends langium.AstNode {
-    readonly $container: Document | GroupBlock;
+    readonly $container: ContainerBlock | Document | GroupBlock;
     readonly $type: 'EdgeDeclaration';
     arrow: string;
     from: string;
@@ -115,7 +194,7 @@ export function isEdgeDeclaration(item: unknown): item is EdgeDeclaration {
 }
 
 export interface GroupBlock extends langium.AstNode {
-    readonly $container: Document | GroupBlock;
+    readonly $container: ContainerBlock | Document | GroupBlock;
     readonly $type: 'GroupBlock';
     label: string;
     statements: Array<Statement>;
@@ -146,6 +225,12 @@ export const IconProperty = {
 
 export function isIconProperty(item: unknown): item is IconProperty {
     return reflection.isInstance(item, IconProperty.$type);
+}
+
+export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
+
+export function isLabelPositionValue(item: unknown): item is LabelPositionValue {
+    return item === 'top' || item === 'bottom' || item === 'left' || item === 'right';
 }
 
 export interface LabelProperty extends langium.AstNode {
@@ -189,7 +274,7 @@ export function isNodeProperty(item: unknown): item is NodeProperty {
 }
 
 export interface ShapeDeclaration extends langium.AstNode {
-    readonly $container: Document | GroupBlock;
+    readonly $container: ContainerBlock | Document | GroupBlock;
     readonly $type: 'ShapeDeclaration';
     id: string;
     properties: Array<NodeProperty>;
@@ -207,7 +292,7 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type Statement = DiagramDeclaration | DirectionDeclaration | EdgeDeclaration | GroupBlock | ShapeDeclaration | StyleDeclaration;
+export type Statement = ContainerBlock | DiagramDeclaration | DirectionDeclaration | EdgeDeclaration | GroupBlock | ShapeDeclaration | StyleDeclaration;
 
 export const Statement = {
     $type: 'Statement'
@@ -218,7 +303,7 @@ export function isStatement(item: unknown): item is Statement {
 }
 
 export interface StyleDeclaration extends langium.AstNode {
-    readonly $container: Document | GroupBlock;
+    readonly $container: ContainerBlock | Document | GroupBlock;
     readonly $type: 'StyleDeclaration';
     name: string;
     properties: Array<StyleProperty>;
@@ -252,7 +337,7 @@ export function isStyleProperty(item: unknown): item is StyleProperty {
 }
 
 export interface StyleRefProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
+    readonly $container: ContainerBlock | ShapeDeclaration;
     readonly $type: 'StyleRefProperty';
     ref: langium.Reference<StyleDeclaration>;
 }
@@ -282,6 +367,9 @@ export function isTooltipProperty(item: unknown): item is TooltipProperty {
 }
 
 export type RuniqAstType = {
+    ContainerBlock: ContainerBlock
+    ContainerProperty: ContainerProperty
+    ContainerStyleProperty: ContainerStyleProperty
     DiagramDeclaration: DiagramDeclaration
     DirectionDeclaration: DirectionDeclaration
     Document: Document
@@ -301,6 +389,59 @@ export type RuniqAstType = {
 
 export class RuniqAstReflection extends langium.AbstractAstReflection {
     override readonly types = {
+        ContainerBlock: {
+            name: ContainerBlock.$type,
+            properties: {
+                id: {
+                    name: ContainerBlock.id
+                },
+                label: {
+                    name: ContainerBlock.label
+                },
+                properties: {
+                    name: ContainerBlock.properties,
+                    defaultValue: []
+                },
+                statements: {
+                    name: ContainerBlock.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Statement.$type]
+        },
+        ContainerProperty: {
+            name: ContainerProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        ContainerStyleProperty: {
+            name: ContainerStyleProperty.$type,
+            properties: {
+                backgroundColor: {
+                    name: ContainerStyleProperty.backgroundColor
+                },
+                borderColor: {
+                    name: ContainerStyleProperty.borderColor
+                },
+                borderStyle: {
+                    name: ContainerStyleProperty.borderStyle
+                },
+                borderWidth: {
+                    name: ContainerStyleProperty.borderWidth
+                },
+                labelPosition: {
+                    name: ContainerStyleProperty.labelPosition
+                },
+                opacity: {
+                    name: ContainerStyleProperty.opacity
+                },
+                padding: {
+                    name: ContainerStyleProperty.padding
+                }
+            },
+            superTypes: [ContainerProperty.$type]
+        },
         DiagramDeclaration: {
             name: DiagramDeclaration.$type,
             properties: {
@@ -451,7 +592,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     referenceType: StyleDeclaration.$type
                 }
             },
-            superTypes: [NodeProperty.$type]
+            superTypes: [ContainerProperty.$type, NodeProperty.$type]
         },
         TooltipProperty: {
             name: TooltipProperty.$type,

@@ -5,6 +5,8 @@ import type {
   GroupAst,
   Style,
   Direction,
+  ContainerDeclaration,
+  ContainerStyle,
 } from '@runiq/core';
 import { EmptyFileSystem } from 'langium';
 import { createRuniqServices } from './langium-module.js';
@@ -190,8 +192,153 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
         diagram.groups = [];
       }
       diagram.groups.push(group);
+    } else if (Langium.isContainerBlock(statement)) {
+      const container = convertContainer(statement, declaredNodes, diagram);
+      if (!diagram.containers) {
+        diagram.containers = [];
+      }
+      diagram.containers.push(container);
     }
   }
 
   return diagram;
+}
+
+function convertContainer(
+  block: Langium.ContainerBlock,
+  declaredNodes: Set<string>,
+  diagram: DiagramAst
+): ContainerDeclaration {
+  // Generate ID from label if not provided
+  const id =
+    block.id ||
+    block.label
+      .replace(/^"|"$/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-');
+
+  const container: ContainerDeclaration = {
+    type: 'container',
+    id,
+    label: block.label.replace(/^"|"$/g, ''),
+    children: [],
+  };
+
+  // Process container properties
+  let styleRef: string | undefined;
+  const containerStyle: ContainerStyle = {};
+
+  for (const prop of block.properties) {
+    if (Langium.isStyleRefProperty(prop)) {
+      styleRef = prop.ref?.$refText;
+    } else if (Langium.isContainerStyleProperty(prop)) {
+      if (prop.borderStyle) {
+        containerStyle.borderStyle = prop.borderStyle;
+      } else if (prop.borderColor) {
+        containerStyle.borderColor = prop.borderColor.replace(/^"|"$/g, '');
+      } else if (prop.borderWidth !== undefined) {
+        containerStyle.borderWidth = parseFloat(prop.borderWidth);
+      } else if (prop.backgroundColor) {
+        containerStyle.backgroundColor = prop.backgroundColor.replace(
+          /^"|"$/g,
+          ''
+        );
+      } else if (prop.opacity !== undefined) {
+        containerStyle.opacity = parseFloat(prop.opacity);
+      } else if (prop.padding !== undefined) {
+        containerStyle.padding = parseFloat(prop.padding);
+      } else if (prop.labelPosition) {
+        containerStyle.labelPosition = prop.labelPosition as
+          | 'top'
+          | 'bottom'
+          | 'left'
+          | 'right';
+      }
+    }
+  }
+
+  if (styleRef) {
+    container.style = styleRef;
+  }
+
+  if (Object.keys(containerStyle).length > 0) {
+    container.containerStyle = containerStyle;
+  }
+
+  // Process nested statements recursively
+  for (const statement of block.statements) {
+    if (Langium.isShapeDeclaration(statement)) {
+      // Add node to container's children
+      container.children.push(statement.id);
+
+      // Add node to main diagram
+      const node: NodeAst = {
+        id: statement.id,
+        shape: statement.shape,
+      };
+
+      // Process node properties
+      for (const prop of statement.properties) {
+        if (Langium.isLabelProperty(prop)) {
+          node.label = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isStyleRefProperty(prop)) {
+          node.style = prop.ref?.$refText;
+        } else if (Langium.isIconProperty(prop)) {
+          node.icon = {
+            provider: prop.provider,
+            name: prop.icon,
+          };
+        } else if (Langium.isLinkProperty(prop)) {
+          node.link = {
+            href: prop.url.replace(/^"|"$/g, ''),
+          };
+        } else if (Langium.isTooltipProperty(prop)) {
+          node.tooltip = prop.text.replace(/^"|"$/g, '');
+        }
+      }
+
+      diagram.nodes.push(node);
+      declaredNodes.add(statement.id);
+    } else if (Langium.isEdgeDeclaration(statement)) {
+      // Edges in containers just get added to main diagram
+      const edge: EdgeAst = {
+        from: statement.from,
+        to: statement.to,
+      };
+
+      if (statement.label) {
+        edge.label = statement.label;
+      }
+
+      diagram.edges.push(edge);
+
+      // Auto-create nodes if needed
+      if (!declaredNodes.has(statement.from)) {
+        diagram.nodes.push({
+          id: statement.from,
+          shape: 'rounded',
+        });
+        declaredNodes.add(statement.from);
+      }
+
+      if (!declaredNodes.has(statement.to)) {
+        diagram.nodes.push({
+          id: statement.to,
+          shape: 'rounded',
+        });
+        declaredNodes.add(statement.to);
+      }
+    } else if (Langium.isContainerBlock(statement)) {
+      // Recursive nesting - convert nested container
+      const nestedContainer = convertContainer(statement, declaredNodes, diagram);
+
+      // Add nested container to parent's containers array (not children)
+      if (!container.containers) {
+        container.containers = [];
+      }
+      container.containers.push(nestedContainer);
+    }
+  }
+
+  return container;
 }
