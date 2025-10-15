@@ -1,0 +1,61 @@
+{
+  "name": "runiq",
+  "version": "0.1.0",
+  "description": "A markdown-friendly diagram DSL with JSON twin that compiles to standards-compliant SVG",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@8.15.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm --filter runiq-editor dev",
+    "dev:editor": "pnpm --filter runiq-editor dev",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write .",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r clean",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish",
+    "example": "cd packages/cli && node dist/cli.js render ../../examples/auth-flow.runiq -o ../../examples/auth-flow.svg"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  },
+  "keywords": [
+    "diagram",
+    "dsl",
+    "svg",
+    "sveltekit",
+    "monaco",
+    "layout",
+    "dagre",
+    "icons",
+    "fontawesome",
+    "typescript"
+  ],
+  "author": "Runiq Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/runiq/runiq.git"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

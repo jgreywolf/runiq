@@ -1,0 +1,16 @@
+diagram "Auth Flow" direction: LR
+
+style default fill:#f7f7ff stroke:#444 font:Inter fontSize:14
+style decision fill:#fff7e6 stroke:#aa7700
+style link stroke:#2a6fdb strokeWidth:2
+
+shape User     as @actor   label:"Visitor" icon:fa/user
+shape Landing  as @rounded label:"Landing Page"
+shape Check    as @rhombus label:"Signed up?" style:decision
+shape Welcome  as @hex     label:"Welcome"
+shape Pricing  as @doc     label:"Pricing" icon:fa/dollar link:"/pricing" tooltip:"See pricing"
+
+User -> Landing : visits
+Landing -> Check
+Check[yes] -> Welcome style:link
+Check[no]  -> Pricing  : reads

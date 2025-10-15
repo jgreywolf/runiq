@@ -1,0 +1,14 @@
+{
+  "languages": [
+    {
+      "id": "runiq",
+      "grammar": "src/runiq.langium",
+      "fileExtensions": [".runiq"],
+      "textMate": {
+        "out": "syntaxes/runiq.tmLanguage.json"
+      }
+    }
+  ],
+  "out": "src/generated",
+  "projectName": "Runiq"
+}

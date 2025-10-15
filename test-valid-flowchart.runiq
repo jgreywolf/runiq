@@ -1,0 +1,13 @@
+# Valid Flowchart - Only Uses Allowed Shapes
+
+diagram "flowchart"
+
+# All shapes are valid for flowchart: rounded, rhombus, doc, hex
+shape user as @rounded label: "User"
+shape process as @rounded label: "Process Step"
+shape decision as @rhombus label: "Is Valid?"
+shape document as @doc label: "Output Document"
+
+user -> process
+process -> decision
+decision -> document

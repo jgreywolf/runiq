@@ -1,0 +1,13 @@
+# E-Commerce System Flow
+
+# Basic flow
+customer -> website
+website -> cart
+cart -> payment
+payment -> order
+order -> shipping
+shipping -> delivery
+
+# Error handling
+payment -failed-> error-page
+error-page -> cart

@@ -1,0 +1,47 @@
+{
+  "name": "@runiq/parser-dsl",
+  "version": "0.1.0",
+  "description": "DSL parser for Runiq diagrams",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "langium:generate": "langium generate",
+    "build": "pnpm langium:generate && tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@runiq/core": "workspace:*",
+    "langium": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "langium": "^4.1.0",
+    "langium-cli": "^4.1.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  },
+  "keywords": [
+    "parser",
+    "dsl",
+    "diagram"
+  ],
+  "author": "Runiq Team",
+  "license": "MIT"
+}

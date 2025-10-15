@@ -1,0 +1,61 @@
+{
+  "name": "runiq",
+  "scopeName": "source.runiq",
+  "fileTypes": [
+    ".runiq"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.control.runiq",
+      "match": "\\b(BT|LR|RL|TB|as|diagram|group|shape|style)\\b|\\b(direction:|icon:|label:|link:|style:|tooltip:)\\B"
+    },
+    {
+      "name": "string.quoted.double.runiq",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "include": "#string-character-escape"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.runiq",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.runiq"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.runiq"
+            }
+          }
+        },
+        {
+          "begin": "//#",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.runiq"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.runiq"
+        }
+      ]
+    },
+    "string-character-escape": {
+      "name": "constant.character.escape.runiq",
+      "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+    }
+  }
+}
