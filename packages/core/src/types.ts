@@ -140,10 +140,21 @@ export interface RoutedEdge {
   points: { x: number; y: number }[];
 }
 
+export interface PositionedContainer {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  label?: string;
+  containers?: PositionedContainer[]; // Nested containers
+}
+
 export interface LaidOutDiagram {
   nodes: PositionedNode[];
   edges: RoutedEdge[];
   size: { width: number; height: number };
+  containers?: PositionedContainer[];
 }
 
 export interface LayoutEngine {
