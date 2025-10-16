@@ -54,6 +54,7 @@ import { orShape } from './or.js';
 import { cloudShape } from './cloud.js';
 import { pieChart } from './charts/pie.js';
 import { barChartVertical } from './charts/bar-chart-vertical.js';
+import { barChartHorizontal } from './charts/bar-chart-horizontal.js';
 
 export function registerDefaultShapes(): void {
   // Original shapes
@@ -132,6 +133,7 @@ export function registerDefaultShapes(): void {
   // Data-driven charts
   shapeRegistry.register(pieChart);
   shapeRegistry.register(barChartVertical);
+  shapeRegistry.register(barChartHorizontal);
 }
 
 export * from './actor.js';
@@ -189,3 +191,4 @@ export * from './or.js';
 export * from './cloud.js';
 export * from './charts/pie.js';
 export * from './charts/bar-chart-vertical.js';
+export * from './charts/bar-chart-horizontal.js';
