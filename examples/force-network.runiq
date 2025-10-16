@@ -1,0 +1,34 @@
+diagram "Force-Directed Network Topology"
+
+// Force-directed layout is ideal for network topologies
+// where nodes should be evenly distributed based on connections
+container "Network Cluster" algorithm: force spacing: 60 {
+  shape server1 as @server label: "Web Server 1"
+  shape server2 as @server label: "Web Server 2"
+  shape server3 as @server label: "Web Server 3"
+  shape lb as @load-balancer label: "Load Balancer"
+  shape db1 as @database label: "Primary DB"
+  shape db2 as @database label: "Replica DB"
+  
+  // Network connections create force-directed layout
+  lb -> server1
+  lb -> server2
+  lb -> server3
+  server1 -> db1
+  server2 -> db1
+  server3 -> db1
+  db1 -> db2
+}
+
+// Compare with layered layout (default hierarchical)
+container "Traditional Hierarchy" algorithm: layered spacing: 40 {
+  shape api as @server label: "API Gateway"
+  shape service1 as @service label: "Auth Service"
+  shape service2 as @service label: "Data Service"
+  shape cache as @cache label: "Redis Cache"
+  
+  api -> service1
+  api -> service2
+  service1 -> cache
+  service2 -> cache
+}
