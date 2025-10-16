@@ -1,0 +1,96 @@
+{
+  "astVersion": "1.0.0",
+  "nodes": [
+    {
+      "id": "vbar1",
+      "shape": "bar-chart-vertical",
+      "label": "Simple Vertical Bars",
+      "data": {
+        "values": [30, 45, 25, 60, 35]
+      }
+    },
+    {
+      "id": "vbar2",
+      "shape": "bar-chart-vertical",
+      "label": "Labeled Vertical Bars",
+      "data": {
+        "values": [
+          { "label": "Jan", "value": 30 },
+          { "label": "Feb", "value": 45 },
+          { "label": "Mar", "value": 25 },
+          { "label": "Apr", "value": 60 }
+        ]
+      }
+    },
+    {
+      "id": "vbar3",
+      "shape": "bar-chart-vertical",
+      "label": "Grouped Vertical Bars",
+      "data": {
+        "values": [
+          { "label": "Q1", "values": [30, 45, 25] },
+          { "label": "Q2", "values": [35, 50, 30] },
+          { "label": "Q3", "values": [40, 55, 35] }
+        ]
+      }
+    },
+    {
+      "id": "vbar4",
+      "shape": "bar-chart-vertical",
+      "label": "Stacked Vertical Bars",
+      "data": {
+        "stacked": true,
+        "values": [
+          { "label": "Q1", "values": [30, 45, 25] },
+          { "label": "Q2", "values": [35, 50, 30] },
+          { "label": "Q3", "values": [40, 55, 35] },
+          { "label": "Q4", "values": [45, 60, 40] }
+        ]
+      }
+    },
+    {
+      "id": "vbar5",
+      "shape": "bar-chart-vertical",
+      "label": "Custom Colors",
+      "data": {
+        "values": [30, 45, 25, 60],
+        "colors": ["#e74c3c", "#f39c12", "#2ecc71", "#3498db"]
+      }
+    },
+    {
+      "id": "vbar6",
+      "shape": "bar-chart-vertical",
+      "label": "With Title and Labels",
+      "data": {
+        "values": [
+          { "label": "Jan", "value": 30 },
+          { "label": "Feb", "value": 45 },
+          { "label": "Mar", "value": 25 },
+          { "label": "Apr", "value": 60 }
+        ],
+        "title": "Monthly Sales",
+        "xLabel": "Months",
+        "yLabel": "Revenue ($K)"
+      }
+    },
+    {
+      "id": "vbar7",
+      "shape": "bar-chart-vertical",
+      "label": "Complete Stacked with All Features",
+      "data": {
+        "stacked": true,
+        "values": [
+          { "label": "Q1", "values": [30, 45, 25] },
+          { "label": "Q2", "values": [35, 50, 30] },
+          { "label": "Q3", "values": [40, 55, 35] },
+          { "label": "Q4", "values": [45, 60, 40] }
+        ],
+        "title": "Quarterly Product Sales",
+        "xLabel": "Quarters",
+        "yLabel": "Units Sold (K)",
+        "colors": ["#667eea", "#764ba2", "#f093fb"]
+      }
+    }
+  ],
+  "edges": []
+}

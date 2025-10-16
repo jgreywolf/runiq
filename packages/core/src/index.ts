@@ -17,7 +17,7 @@ export {
   detectCircularReferences,
   calculateNestingDepth,
   validateNestingDepth,
-  validateDiagram,
+  validateDiagram as validateContainers,
   getContainerMembership,
   findContainerForNode,
   getAllDescendants,

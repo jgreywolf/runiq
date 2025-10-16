@@ -1,0 +1,15 @@
+{
+  "astVersion": "1.0.0",
+  "nodes": [
+    {
+      "id": "chart1",
+      "shape": "pie-chart",
+      "label": "Test Chart",
+      "data": {
+        "values": [30, 25, 20, 15, 10],
+        "title": "Simple Pie Chart"
+      }
+    }
+  ],
+  "edges": []
+}

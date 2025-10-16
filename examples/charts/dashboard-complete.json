@@ -1,0 +1,105 @@
+{
+  "astVersion": "1.0.0",
+  "description": "Comprehensive dashboard showcasing all chart features: legends, grouped/stacked bars, custom colors, titles, and axis labels",
+  "styles": {
+    "title-style": {
+      "fill": "#667eea",
+      "stroke": "#5a67d8",
+      "textColor": "#ffffff"
+    }
+  },
+  "nodes": [
+    {
+      "id": "title",
+      "shape": "rect",
+      "label": "Sales Analytics Dashboard",
+      "style": "title-style"
+    },
+    {
+      "id": "pie_revenue",
+      "shape": "pie-chart",
+      "label": "Revenue by Region",
+      "data": {
+        "values": [
+          { "label": "North America", "value": 45 },
+          { "label": "Europe", "value": 32 },
+          { "label": "Asia Pacific", "value": 28 },
+          { "label": "Latin America", "value": 15 }
+        ],
+        "title": "Revenue Distribution (M$)",
+        "showLegend": true,
+        "colors": ["#667eea", "#764ba2", "#f093fb", "#4facfe"]
+      }
+    },
+    {
+      "id": "vbar_quarterly",
+      "shape": "bar-chart-vertical",
+      "label": "Quarterly Performance",
+      "data": {
+        "stacked": true,
+        "values": [
+          { "label": "Q1", "values": [30, 25, 20] },
+          { "label": "Q2", "values": [35, 30, 25] },
+          { "label": "Q3", "values": [40, 35, 30] },
+          { "label": "Q4", "values": [45, 40, 35] }
+        ],
+        "title": "Quarterly Revenue by Product",
+        "xLabel": "Quarters (2025)",
+        "yLabel": "Revenue ($M)",
+        "colors": ["#e74c3c", "#f39c12", "#2ecc71"]
+      }
+    },
+    {
+      "id": "hbar_products",
+      "shape": "bar-chart-horizontal",
+      "label": "Product Performance",
+      "data": {
+        "values": [
+          { "label": "Product Alpha", "values": [45, 38] },
+          { "label": "Product Beta", "values": [52, 48] },
+          { "label": "Product Gamma", "values": [38, 42] },
+          { "label": "Product Delta", "values": [60, 55] }
+        ],
+        "title": "Product Sales: H1 vs H2",
+        "xLabel": "Units Sold (K)",
+        "yLabel": "Products",
+        "colors": ["#3498db", "#9b59b6"]
+      }
+    },
+    {
+      "id": "pie_customer",
+      "shape": "pie-chart",
+      "label": "Customer Segments",
+      "data": {
+        "values": [
+          { "label": "Enterprise", "value": 40 },
+          { "label": "SMB", "value": 35 },
+          { "label": "Startup", "value": 25 }
+        ],
+        "title": "Customer Mix (%)",
+        "showLegend": true,
+        "colors": ["#2c3e50", "#34495e", "#7f8c8d"]
+      }
+    },
+    {
+      "id": "vbar_monthly",
+      "shape": "bar-chart-vertical",
+      "label": "Monthly Growth",
+      "data": {
+        "values": [
+          { "label": "Jan", "values": [30, 35] },
+          { "label": "Feb", "values": [32, 38] },
+          { "label": "Mar", "values": [35, 42] },
+          { "label": "Apr", "values": [38, 45] },
+          { "label": "May", "values": [42, 50] },
+          { "label": "Jun", "values": [45, 55] }
+        ],
+        "title": "New vs Returning Customers",
+        "xLabel": "Months (H1 2025)",
+        "yLabel": "Customers (K)",
+        "colors": ["#16a085", "#27ae60"]
+      }
+    }
+  ],
+  "edges": []
+}

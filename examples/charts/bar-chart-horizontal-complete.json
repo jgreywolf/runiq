@@ -1,0 +1,94 @@
+{
+  "astVersion": "1.0.0",
+  "nodes": [
+    {
+      "id": "hbar1",
+      "shape": "bar-chart-horizontal",
+      "label": "Simple Horizontal Bars",
+      "data": {
+        "values": [30, 45, 25, 60, 35]
+      }
+    },
+    {
+      "id": "hbar2",
+      "shape": "bar-chart-horizontal",
+      "label": "Labeled Horizontal Bars",
+      "data": {
+        "values": [
+          { "label": "Product A", "value": 30 },
+          { "label": "Product B", "value": 45 },
+          { "label": "Product C", "value": 25 },
+          { "label": "Product D", "value": 60 }
+        ]
+      }
+    },
+    {
+      "id": "hbar3",
+      "shape": "bar-chart-horizontal",
+      "label": "Grouped Horizontal Bars",
+      "data": {
+        "values": [
+          { "label": "Region 1", "values": [30, 45] },
+          { "label": "Region 2", "values": [35, 50] },
+          { "label": "Region 3", "values": [40, 55] }
+        ]
+      }
+    },
+    {
+      "id": "hbar4",
+      "shape": "bar-chart-horizontal",
+      "label": "Stacked Horizontal Bars",
+      "data": {
+        "stacked": true,
+        "values": [
+          { "label": "Product A", "values": [30, 45, 25] },
+          { "label": "Product B", "values": [35, 50, 30] },
+          { "label": "Product C", "values": [40, 55, 35] }
+        ]
+      }
+    },
+    {
+      "id": "hbar5",
+      "shape": "bar-chart-horizontal",
+      "label": "Custom Colors",
+      "data": {
+        "values": [30, 45, 25, 60],
+        "colors": ["#e74c3c", "#f39c12", "#2ecc71", "#3498db"]
+      }
+    },
+    {
+      "id": "hbar6",
+      "shape": "bar-chart-horizontal",
+      "label": "With Title and Labels",
+      "data": {
+        "values": [
+          { "label": "Product A", "value": 30 },
+          { "label": "Product B", "value": 45 },
+          { "label": "Product C", "value": 25 },
+          { "label": "Product D", "value": 60 }
+        ],
+        "title": "Product Sales",
+        "xLabel": "Revenue ($K)",
+        "yLabel": "Products"
+      }
+    },
+    {
+      "id": "hbar7",
+      "shape": "bar-chart-horizontal",
+      "label": "Complete Grouped with All Features",
+      "data": {
+        "values": [
+          { "label": "North", "values": [30, 45] },
+          { "label": "South", "values": [35, 50] },
+          { "label": "East", "values": [40, 55] },
+          { "label": "West", "values": [38, 48] }
+        ],
+        "title": "Regional Performance by Half",
+        "xLabel": "Revenue ($M)",
+        "yLabel": "Regions",
+        "colors": ["#667eea", "#764ba2"]
+      }
+    }
+  ],
+  "edges": []
+}

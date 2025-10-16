@@ -1,0 +1,67 @@
+{
+  "astVersion": "1.0.0",
+  "nodes": [
+    {
+      "id": "pie1",
+      "shape": "pie-chart",
+      "label": "Simple Pie Chart",
+      "data": {
+        "values": [30, 25, 20, 15, 10]
+      }
+    },
+    {
+      "id": "pie2",
+      "shape": "pie-chart",
+      "label": "Pie with Legend",
+      "data": {
+        "values": [
+          { "label": "Product A", "value": 35 },
+          { "label": "Product B", "value": 25 },
+          { "label": "Product C", "value": 20 },
+          { "label": "Product D", "value": 20 }
+        ],
+        "showLegend": true
+      }
+    },
+    {
+      "id": "pie3",
+      "shape": "pie-chart",
+      "label": "Pie with Custom Colors",
+      "data": {
+        "values": [40, 30, 30],
+        "colors": ["#ff6b6b", "#4ecdc4", "#45b7d1"]
+      }
+    },
+    {
+      "id": "pie4",
+      "shape": "pie-chart",
+      "label": "Pie with Title",
+      "data": {
+        "values": [
+          { "label": "North", "value": 35 },
+          { "label": "South", "value": 28 },
+          { "label": "East", "value": 22 },
+          { "label": "West", "value": 15 }
+        ],
+        "title": "Sales by Region"
+      }
+    },
+    {
+      "id": "pie5",
+      "shape": "pie-chart",
+      "label": "Complete Pie Chart",
+      "data": {
+        "values": [
+          { "label": "Q1", "value": 45 },
+          { "label": "Q2", "value": 38 },
+          { "label": "Q3", "value": 52 },
+          { "label": "Q4", "value": 65 }
+        ],
+        "title": "Quarterly Revenue (M$)",
+        "showLegend": true,
+        "colors": ["#667eea", "#764ba2", "#f093fb", "#4facfe"]
+      }
+    }
+  ],
+  "edges": []
+}
