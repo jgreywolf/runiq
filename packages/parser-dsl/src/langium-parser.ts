@@ -24,21 +24,31 @@ function convertDataProperty(prop: Langium.DataProperty): Record<string, unknown
       const obj: Record<string, unknown> = {};
       for (const objProp of item.properties) {
         const key = objProp.key;
-        let value: string | number = objProp.value;
+        const value = objProp.value;
+        
+        // Handle arrays (DataArray type)
+        if (Langium.isDataArray(value)) {
+          const arrayValues = value.items.map(num => parseFloat(num));
+          obj[key] = arrayValues;
+          continue;
+        }
         
         // Remove quotes from strings
         if (typeof value === 'string') {
-          if (value.startsWith('"') && value.endsWith('"')) {
-            value = value.slice(1, -1);
+          let strValue = value;
+          if (strValue.startsWith('"') && strValue.endsWith('"')) {
+            strValue = strValue.slice(1, -1);
           }
           // Try to parse as number
-          const numValue = parseFloat(value);
-          if (!isNaN(numValue) && value === numValue.toString()) {
-            value = numValue;
+          const numValue = parseFloat(strValue);
+          if (!isNaN(numValue) && strValue === numValue.toString()) {
+            obj[key] = numValue;
+          } else {
+            obj[key] = strValue;
           }
+        } else {
+          obj[key] = value;
         }
-        
-        obj[key] = value;
       }
       values.push(obj);
     } else if (Langium.isDataValue(item)) {
@@ -171,6 +181,20 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
         } else if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.showLegend = prop.value === 'true';
+        } else if (Langium.isStackedProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.stacked = prop.value === 'true';
+        }
+      }
+
+      // Second pass: ensure showLegend and stacked are set after DataProperty
+      for (const prop of statement.properties) {
+        if (Langium.isShowLegendProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.showLegend = prop.value === 'true';
+        } else if (Langium.isStackedProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.stacked = prop.value === 'true';
         }
       }
 
@@ -248,6 +272,20 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
             } else if (Langium.isShowLegendProperty(prop)) {
               if (!node.data) node.data = {};
               node.data.showLegend = prop.value === 'true';
+            } else if (Langium.isStackedProperty(prop)) {
+              if (!node.data) node.data = {};
+              node.data.stacked = prop.value === 'true';
+            }
+          }
+
+          // Second pass: ensure showLegend and stacked are set after DataProperty
+          for (const prop of subStatement.properties) {
+            if (Langium.isShowLegendProperty(prop)) {
+              if (!node.data) node.data = {};
+              node.data.showLegend = prop.value === 'true';
+            } else if (Langium.isStackedProperty(prop)) {
+              if (!node.data) node.data = {};
+              node.data.stacked = prop.value === 'true';
             }
           }
 
@@ -378,6 +416,20 @@ function convertContainer(
         } else if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.showLegend = prop.value === 'true';
+        } else if (Langium.isStackedProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.stacked = prop.value === 'true';
+        }
+      }
+
+      // Second pass: ensure showLegend and stacked are set after DataProperty
+      for (const prop of statement.properties) {
+        if (Langium.isShowLegendProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.showLegend = prop.value === 'true';
+        } else if (Langium.isStackedProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.stacked = prop.value === 'true';
         }
       }
 

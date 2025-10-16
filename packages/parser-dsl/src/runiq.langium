@@ -43,7 +43,8 @@ NodeProperty:
     | LinkProperty
     | TooltipProperty
     | DataProperty
-    | ShowLegendProperty;
+    | ShowLegendProperty
+    | StackedProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -63,6 +64,9 @@ TooltipProperty:
 ShowLegendProperty:
     'showLegend:' value=BOOLEAN;
 
+StackedProperty:
+    'stacked:' value=BOOLEAN;
+
 DataProperty:
     'data:' '[' (items+=DataItem (',' items+=DataItem)*)? ']';
 
@@ -76,7 +80,10 @@ DataObject:
     '{' properties+=DataObjectProperty (',' properties+=DataObjectProperty)* '}';
 
 DataObjectProperty:
-    key=(ID | STRING) ':' value=(STRING | NUMBER);
+    key=(ID | STRING) ':' value=(DataArray | STRING | NUMBER);
+
+DataArray:
+    '[' (items+=NUMBER (',' items+=NUMBER)*)? ']';
 
 // node1 -> node2
 // node1 -label-> node2

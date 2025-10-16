@@ -1,0 +1,9 @@
+// Labeled Bar Chart Example
+// Bar chart with labeled bars
+
+shape chart1 as @bar-chart-vertical label: "Quarterly Revenue" data: [
+  {"label": "Q1", "value": 120},
+  {"label": "Q2", "value": 150},
+  {"label": "Q3", "value": 180},
+  {"label": "Q4", "value": 200}
+]

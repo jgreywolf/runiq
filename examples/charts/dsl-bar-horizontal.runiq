@@ -1,0 +1,9 @@
+// Horizontal Bar Chart Example
+// Bars extend horizontally instead of vertically
+
+shape chart1 as @bar-chart-horizontal label: "Department Budget" data: [
+  {"label": "Engineering", "value": 500},
+  {"label": "Marketing", "value": 350},
+  {"label": "Sales", "value": 420},
+  {"label": "Operations", "value": 280}
+]

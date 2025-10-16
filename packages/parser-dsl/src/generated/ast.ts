@@ -62,6 +62,7 @@ export type RuniqKeywordNames =
     | "showLegend:"
     | "solid"
     | "spacing:"
+    | "stacked:"
     | "stress"
     | "style"
     | "style:"
@@ -153,6 +154,21 @@ export function isContainerStyleProperty(item: unknown): item is ContainerStyleP
     return reflection.isInstance(item, ContainerStyleProperty.$type);
 }
 
+export interface DataArray extends langium.AstNode {
+    readonly $container: DataObjectProperty;
+    readonly $type: 'DataArray';
+    items: Array<string>;
+}
+
+export const DataArray = {
+    $type: 'DataArray',
+    items: 'items'
+} as const;
+
+export function isDataArray(item: unknown): item is DataArray {
+    return reflection.isInstance(item, DataArray.$type);
+}
+
 export type DataItem = DataObject | DataValue;
 
 export const DataItem = {
@@ -182,7 +198,7 @@ export interface DataObjectProperty extends langium.AstNode {
     readonly $container: DataObject;
     readonly $type: 'DataObjectProperty';
     key: string;
-    value: string;
+    value: DataArray | string;
 }
 
 export const DataObjectProperty = {
@@ -372,7 +388,7 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
 }
 
-export type NodeProperty = DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StyleRefProperty | TooltipProperty;
+export type NodeProperty = DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TooltipProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -414,6 +430,21 @@ export const ShowLegendProperty = {
 
 export function isShowLegendProperty(item: unknown): item is ShowLegendProperty {
     return reflection.isInstance(item, ShowLegendProperty.$type);
+}
+
+export interface StackedProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'StackedProperty';
+    value: string;
+}
+
+export const StackedProperty = {
+    $type: 'StackedProperty',
+    value: 'value'
+} as const;
+
+export function isStackedProperty(item: unknown): item is StackedProperty {
+    return reflection.isInstance(item, StackedProperty.$type);
 }
 
 export type Statement = ContainerBlock | DiagramDeclaration | DirectionDeclaration | EdgeDeclaration | GroupBlock | ShapeDeclaration | StyleDeclaration;
@@ -495,6 +526,7 @@ export type RuniqAstType = {
     ContainerLayoutProperty: ContainerLayoutProperty
     ContainerProperty: ContainerProperty
     ContainerStyleProperty: ContainerStyleProperty
+    DataArray: DataArray
     DataItem: DataItem
     DataObject: DataObject
     DataObjectProperty: DataObjectProperty
@@ -511,6 +543,7 @@ export type RuniqAstType = {
     NodeProperty: NodeProperty
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
+    StackedProperty: StackedProperty
     Statement: Statement
     StyleDeclaration: StyleDeclaration
     StyleProperty: StyleProperty
@@ -584,6 +617,16 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [ContainerProperty.$type]
+        },
+        DataArray: {
+            name: DataArray.$type,
+            properties: {
+                items: {
+                    name: DataArray.items,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
         },
         DataItem: {
             name: DataItem.$type,
@@ -748,6 +791,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: ShowLegendProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        StackedProperty: {
+            name: StackedProperty.$type,
+            properties: {
+                value: {
+                    name: StackedProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

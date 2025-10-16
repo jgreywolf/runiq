@@ -1,0 +1,43 @@
+// Complete Chart Features Example
+// Demonstrates all available chart properties in DSL
+
+// Simple pie chart
+shape pie1 as @pie-chart 
+  label: "Market Share" 
+  showLegend: true 
+  data: [
+    {"label": "Product A", "value": 35},
+    {"label": "Product B", "value": 28},
+    {"label": "Product C", "value": 22},
+    {"label": "Product D", "value": 15}
+  ]
+
+// Grouped vertical bars
+shape vbar1 as @bar-chart-vertical 
+  label: "Sales by Region" 
+  showLegend: true 
+  data: [
+    {"label": "Q1", "values": [30, 45, 25]},
+    {"label": "Q2", "values": [35, 50, 30]},
+    {"label": "Q3", "values": [40, 55, 35]}
+  ]
+
+// Stacked vertical bars
+shape vbar2 as @bar-chart-vertical 
+  label: "Revenue Breakdown" 
+  stacked: true 
+  showLegend: true 
+  data: [
+    {"label": "Jan", "values": [50, 30, 20]},
+    {"label": "Feb", "values": [55, 35, 25]},
+    {"label": "Mar", "values": [60, 40, 30]}
+  ]
+
+// Horizontal bars with labels
+shape hbar1 as @bar-chart-horizontal 
+  label: "Performance Metrics" 
+  data: [
+    {"label": "Speed", "value": 85},
+    {"label": "Quality", "value": 92},
+    {"label": "Efficiency", "value": 78}
+  ]

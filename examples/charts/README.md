@@ -335,8 +335,117 @@ All chart features are thoroughly tested:
 - **Horizontal bars:** 44 tests
 - **Total:** 117 chart tests, all passing
 
+## DSL Syntax
+
+Runiq DSL now fully supports chart features including nested arrays for grouped and stacked bars!
+
+### Basic Pie Chart (DSL)
+```runiq
+shape pie1 as @pie-chart label: "Simple Pie" data: [30, 45, 25]
+```
+
+### Labeled Pie Chart (DSL)
+```runiq
+shape pie1 as @pie-chart label: "Product Sales" data: [
+  {"label": "Product A", "value": 450},
+  {"label": "Product B", "value": 320},
+  {"label": "Product C", "value": 230}
+]
+```
+
+### Simple Bar Chart (DSL)
+```runiq
+shape chart1 as @bar-chart-vertical label: "Monthly Sales" data: [30, 45, 60, 55, 70]
+```
+
+### Labeled Bar Chart (DSL)
+```runiq
+shape chart1 as @bar-chart-vertical label: "Quarterly Revenue" data: [
+  {"label": "Q1", "value": 120},
+  {"label": "Q2", "value": 150},
+  {"label": "Q3", "value": 180},
+  {"label": "Q4", "value": 200}
+]
+```
+
+### Grouped Bar Chart (DSL)
+Nested arrays create grouped bars (side-by-side):
+```runiq
+shape chart1 as @bar-chart-vertical label: "Revenue by Region" data: [
+  {"label": "Q1", "values": [30, 45, 25]},
+  {"label": "Q2", "values": [35, 50, 30]},
+  {"label": "Q3", "values": [40, 55, 35]},
+  {"label": "Q4", "values": [45, 60, 40]}
+]
+```
+
+### Stacked Bar Chart (DSL)
+Add `stacked: true` to stack bars vertically:
+```runiq
+shape chart1 as @bar-chart-vertical label: "Revenue Breakdown" stacked: true data: [
+  {"label": "Q1", "values": [30, 45, 25]},
+  {"label": "Q2", "values": [35, 50, 30]},
+  {"label": "Q3", "values": [40, 55, 35]},
+  {"label": "Q4", "values": [45, 60, 40]}
+]
+```
+
+### Horizontal Bars (DSL)
+```runiq
+shape chart1 as @bar-chart-horizontal label: "Department Budget" data: [
+  {"label": "Engineering", "value": 500},
+  {"label": "Marketing", "value": 350},
+  {"label": "Sales", "value": 420}
+]
+```
+
+### Show Legend (DSL)
+Add `showLegend: true` to display a legend:
+```runiq
+shape pie1 as @pie-chart label: "Market Share" showLegend: true data: [
+  {"label": "Product A", "value": 35},
+  {"label": "Product B", "value": 28}
+]
+```
+
+### DSL Properties Reference
+
+**Chart Properties:**
+- `label: "string"` - Chart title
+- `showLegend: true/false` - Display legend
+- `stacked: true/false` - Stack bars vertically (bar charts only)
+
+**Data Formats:**
+- Simple values: `data: [30, 45, 25]`
+- Labeled values: `data: [{"label": "Q1", "value": 120}]`
+- Nested arrays (grouped/stacked): `data: [{"label": "Q1", "values": [30, 45, 25]}]`
+
+**DSL Example Files:**
+- `dsl-pie-simple.runiq` - Basic pie chart
+- `dsl-pie-labeled.runiq` - Labeled pie chart
+- `dsl-bar-simple.runiq` - Simple bar chart
+- `dsl-bar-labeled.runiq` - Labeled bar chart
+- `dsl-bar-grouped.runiq` - Grouped bars (side-by-side)
+- `dsl-bar-stacked.runiq` - Stacked bars (vertically stacked)
+- `dsl-bar-horizontal.runiq` - Horizontal bars
+- `dsl-all-features.runiq` - Complete example with all features
+
+### Rendering DSL Charts
+
+```bash
+# Render a DSL chart file
+runiq render dsl-bar-stacked.runiq output.svg
+
+# Or using Node directly
+node packages/cli/dist/cli.js render dsl-bar-stacked.runiq output.svg
+```
+
 ## Next Steps
 
-- DSL syntax support for nested arrays (coming soon)
-- DSL syntax for color arrays (coming soon)
-- Interactive chart examples in web editor (coming soon)
+- ✅ DSL syntax for nested arrays (COMPLETE!)
+- ✅ DSL syntax for stacked property (COMPLETE!)
+- ✅ DSL syntax for showLegend property (COMPLETE!)
+- Color arrays in DSL (`colors: ["#ff0000", "#00ff00"]`) - coming soon
+- Title/axis label properties in DSL - coming soon
+- Interactive chart examples in web editor - coming soon
+
