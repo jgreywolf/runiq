@@ -101,4 +101,85 @@ describe('Pie Chart Shape', () => {
     const pathCount = (rendered.match(/<path/g) || []).length;
     expect(pathCount).toBe(2);
   });
+
+  describe('Legend Support', () => {
+    it('should render legend when showLegend is true', () => {
+      const data = {
+        values: [30, 45, 25],
+        showLegend: true,
+      };
+      const rendered = pieChart.render(ctx(data), { x: 0, y: 0 });
+      expect(rendered).toContain('<g'); // Legend container
+      expect(rendered).toContain('<rect'); // Color swatches
+      expect(rendered).toContain('<text'); // Legend labels
+    });
+
+    it('should not render legend when showLegend is false', () => {
+      const data = {
+        values: [30, 45, 25],
+        showLegend: false,
+      };
+      const rendered = pieChart.render(ctx(data), { x: 0, y: 0 });
+      // Should only contain path elements (slices), no legend
+      const rectCount = (rendered.match(/<rect/g) || []).length;
+      expect(rectCount).toBe(0);
+    });
+
+    it('should not render legend by default (backwards compatible)', () => {
+      const data = {
+        values: [30, 45, 25],
+      };
+      const rendered = pieChart.render(ctx(data), { x: 0, y: 0 });
+      const rectCount = (rendered.match(/<rect/g) || []).length;
+      expect(rectCount).toBe(0);
+    });
+
+    it('should include labels in legend', () => {
+      const data = {
+        values: [
+          { label: 'Category A', value: 30 },
+          { label: 'Category B', value: 45 },
+        ],
+        showLegend: true,
+      };
+      const rendered = pieChart.render(ctx(data), { x: 0, y: 0 });
+      expect(rendered).toContain('Category A');
+      expect(rendered).toContain('Category B');
+    });
+
+    it('should include percentages in legend', () => {
+      const data = {
+        values: [30, 70],
+        showLegend: true,
+      };
+      const rendered = pieChart.render(ctx(data), { x: 0, y: 0 });
+      expect(rendered).toContain('30%');
+      expect(rendered).toContain('70%');
+    });
+
+    it('should render color swatches matching slice colors', () => {
+      const data = {
+        values: [30, 45, 25],
+        showLegend: true,
+      };
+      const rendered = pieChart.render(ctx(data), { x: 0, y: 0 });
+      expect(rendered).toContain('#4299e1'); // First color (blue)
+      expect(rendered).toContain('#48bb78'); // Second color (green)
+      expect(rendered).toContain('#ed8936'); // Third color (orange)
+    });
+
+    it('should expand bounds when legend is shown', () => {
+      const data = {
+        values: [30, 45, 25],
+        showLegend: true,
+      };
+      const boundsWithLegend = pieChart.bounds(ctx(data));
+      const boundsNoLegend = pieChart.bounds(ctx({ values: [30, 45, 25] }));
+      
+      // Width should be wider to accommodate legend
+      expect(boundsWithLegend.width).toBeGreaterThan(boundsNoLegend.width);
+      // Height should be same or taller
+      expect(boundsWithLegend.height).toBeGreaterThanOrEqual(boundsNoLegend.height);
+    });
+  });
 });

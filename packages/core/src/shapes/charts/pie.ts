@@ -125,14 +125,49 @@ function renderSlices(
 }
 
 /**
+ * Render legend for pie chart
+ */
+function renderLegend(
+  slices: PieSlice[],
+  startX: number,
+  startY: number
+): string {
+  const SWATCH_SIZE = 12;
+  const ROW_HEIGHT = 20;
+  const LABEL_OFFSET = 18;
+
+  return slices
+    .map((slice, i) => {
+      const y = startY + i * ROW_HEIGHT;
+      const color = getSliceColor(i);
+      // Round percentage, remove decimal if .0
+      const percentage = Math.round(slice.percentage * 10) / 10;
+      const percentageStr = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
+
+      return `<g>
+      <rect x="${startX}" y="${y}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
+      <text x="${startX + LABEL_OFFSET}" y="${y + 10}" font-size="11" fill="#333">${slice.label} (${percentageStr}%)</text>
+    </g>`;
+    })
+    .join('\n    ');
+}
+
+/**
  * Pie chart shape with data-driven slice rendering
  */
 export const pieChart: ShapeDefinition = {
   id: 'pie-chart',
 
-  bounds(_ctx: ShapeRenderContext): { width: number; height: number } {
-    // Default size: 200x200
+  bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     const size = 200;
+    const showLegend = ctx.node.data?.showLegend === true;
+    
+    if (showLegend) {
+      // Add space for legend on the right
+      const legendWidth = 150;
+      return { width: size + legendWidth, height: size };
+    }
+    
     return { width: size, height: size };
   },
 
@@ -159,6 +194,18 @@ export const pieChart: ShapeDefinition = {
 
     // Render slices
     const paths = renderSlices(slices, cx, cy, radius, ctx);
+
+    // Check if legend should be rendered
+    const showLegend = ctx.node.data?.showLegend === true;
+    
+    if (showLegend && slices.length > 0) {
+      // Render legend to the right of the pie
+      const legendX = position.x + size + 10;
+      const legendY = position.y + 20;
+      const legend = renderLegend(slices, legendX, legendY);
+      
+      return `${paths}\n    ${legend}`;
+    }
 
     return paths;
   },

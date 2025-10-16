@@ -168,6 +168,9 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
           node.tooltip = prop.text.replace(/^"|"$/g, '');
         } else if (Langium.isDataProperty(prop)) {
           node.data = convertDataProperty(prop);
+        } else if (Langium.isShowLegendProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.showLegend = prop.value === 'true';
         }
       }
 
@@ -242,6 +245,9 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
               node.tooltip = prop.text.replace(/^"|"$/g, '');
             } else if (Langium.isDataProperty(prop)) {
               node.data = convertDataProperty(prop);
+            } else if (Langium.isShowLegendProperty(prop)) {
+              if (!node.data) node.data = {};
+              node.data.showLegend = prop.value === 'true';
             }
           }
 
@@ -369,6 +375,9 @@ function convertContainer(
           node.tooltip = prop.text.replace(/^"|"$/g, '');
         } else if (Langium.isDataProperty(prop)) {
           node.data = convertDataProperty(prop);
+        } else if (Langium.isShowLegendProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.showLegend = prop.value === 'true';
         }
       }
 

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="382" height="232" 
+    viewBox="0 0 382 232"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Revenue Distribution with Legend</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style></defs><g data-runiq-node="revenue"><path d="M 112,112 L 112,22 A 90,90 0 0,1 139.81152949374527,197.59508646656383 Z" fill="#4299e1" stroke="#333" stroke-width="2" />
+    <path d="M 112,112 L 139.81152949374527,197.59508646656383 A 90,90 0 0,1 22,112.00000000000001 Z" fill="#48bb78" stroke="#333" stroke-width="2" />
+    <path d="M 112,112 L 22,112.00000000000001 A 90,90 0 0,1 73.67986375914344,30.56556527805826 Z" fill="#ed8936" stroke="#333" stroke-width="2" />
+    <path d="M 112,112 L 73.67986375914344,30.56556527805826 A 90,90 0 0,1 111.99999999999999,22 Z" fill="#9f7aea" stroke="#333" stroke-width="2" />
+    <g>
+      <rect x="222" y="32" width="12" height="12" fill="#4299e1" stroke="#333" stroke-width="1" />
+      <text x="240" y="42" font-size="11" fill="#333">North America (45%)</text>
+    </g>
+    <g>
+      <rect x="222" y="52" width="12" height="12" fill="#48bb78" stroke="#333" stroke-width="1" />
+      <text x="240" y="62" font-size="11" fill="#333">Europe (30%)</text>
+    </g>
+    <g>
+      <rect x="222" y="72" width="12" height="12" fill="#ed8936" stroke="#333" stroke-width="1" />
+      <text x="240" y="82" font-size="11" fill="#333">Asia Pacific (18%)</text>
+    </g>
+    <g>
+      <rect x="222" y="92" width="12" height="12" fill="#9f7aea" stroke="#333" stroke-width="1" />
+      <text x="240" y="102" font-size="11" fill="#333">Latin America (7%)</text>
+    </g></g></svg>

@@ -42,7 +42,8 @@ NodeProperty:
     | IconProperty
     | LinkProperty
     | TooltipProperty
-    | DataProperty;
+    | DataProperty
+    | ShowLegendProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -58,6 +59,9 @@ LinkProperty:
 
 TooltipProperty:
     'tooltip:' text=STRING;
+
+ShowLegendProperty:
+    'showLegend:' value=BOOLEAN;
 
 DataProperty:
     'data:' '[' (items+=DataItem (',' items+=DataItem)*)? ']';
@@ -122,6 +126,7 @@ LayoutAlgorithmValue returns string:
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal ARROW: '->';
 terminal HYPHEN: '-';
+terminal BOOLEAN: /true|false/;
 terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
