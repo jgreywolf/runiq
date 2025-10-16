@@ -1,0 +1,33 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "tech-stack",
+      "shape": "venn-4",
+      "label": "Technology Stack Overlap",
+      "data": {
+        "setA": 1000,
+        "setB": 900,
+        "setC": 800,
+        "setD": 700,
+        "AB": 250,
+        "AC": 220,
+        "AD": 200,
+        "BC": 190,
+        "BD": 180,
+        "CD": 170,
+        "ABC": 80,
+        "ABD": 70,
+        "ACD": 60,
+        "BCD": 50,
+        "ABCD": 25,
+        "labelA": "React",
+        "labelB": "Vue",
+        "labelC": "Angular",
+        "labelD": "Svelte",
+        "colors": ["#4299e1", "#48bb78", "#ed8936", "#9f7aea"]
+      }
+    }
+  ],
+  "edges": []
+}

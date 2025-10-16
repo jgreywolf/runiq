@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { venn2Shape } from '../shapes/venn-2.js';
 import { venn3Shape } from '../shapes/venn-3.js';
+import { venn4Shape } from '../shapes/venn-4.js';
 import type { ShapeRenderContext } from '../types.js';
 
 /**
@@ -262,6 +263,7 @@ describe('Venn Diagram Shapes', () => {
       
       expect(() => venn2Shape.render(ctx, { x: 0, y: 0 })).not.toThrow();
       expect(() => venn3Shape.render(ctx, { x: 0, y: 0 })).not.toThrow();
+      expect(() => venn4Shape.render(ctx, { x: 0, y: 0 })).not.toThrow();
     });
 
     it('should render valid SVG markup', () => {
@@ -277,4 +279,129 @@ describe('Venn Diagram Shapes', () => {
       expect(svg).toMatch(/<text[^>]*>/);
     });
   });
+
+  describe('4-Circle Venn Diagram', () => {
+    it('should have correct id', () => {
+      expect(venn4Shape.id).toBe('venn-4');
+    });
+
+    it('should calculate bounds with minimum size', () => {
+      const ctx = createMockContext('Four Sets');
+      const bounds = venn4Shape.bounds(ctx);
+
+      expect(bounds.width).toBeGreaterThanOrEqual(190);
+      expect(bounds.height).toBeGreaterThanOrEqual(190);
+    });
+
+    it('should provide 4 anchor points', () => {
+      const ctx = createMockContext('Test');
+      const anchors = venn4Shape.anchors!(ctx);
+
+      expect(anchors).toHaveLength(4);
+    });
+
+    it('should render four overlapping circles', () => {
+      const ctx = createMockContext('Venn');
+      const svg = venn4Shape.render(ctx, { x: 0, y: 0 });
+
+      expect(svg).toContain('<circle');
+      expect(svg.split('<circle').length - 1).toBe(4); // Exactly 4 circles
+    });
+
+    it('should handle complete 4-set data format', () => {
+      const ctx = createMockContext('Tech Stack Analysis', {
+        setA: 1000,
+        setB: 900,
+        setC: 800,
+        setD: 700,
+        AB: 250,
+        AC: 220,
+        AD: 200,
+        BC: 190,
+        BD: 180,
+        CD: 170,
+        ABC: 80,
+        ABD: 70,
+        ACD: 60,
+        BCD: 50,
+        ABCD: 25,
+        labelA: 'React',
+        labelB: 'Vue',
+        labelC: 'Angular',
+        labelD: 'Svelte',
+      });
+      const svg = venn4Shape.render(ctx, { x: 0, y: 0 });
+
+      expect(svg).toContain('React');
+      expect(svg).toContain('Vue');
+      expect(svg).toContain('Angular');
+      expect(svg).toContain('Svelte');
+      expect(svg).toContain('25'); // Center ABCD intersection
+    });
+
+    it('should work with default labels', () => {
+      const ctx = createMockContext('Venn', {
+        setA: 100,
+        setB: 90,
+        setC: 80,
+        setD: 70,
+        AB: 30,
+        AC: 25,
+        AD: 20,
+        BC: 22,
+        BD: 18,
+        CD: 15,
+        ABC: 10,
+        ABD: 8,
+        ACD: 7,
+        BCD: 6,
+        ABCD: 3,
+      });
+      const svg = venn4Shape.render(ctx, { x: 0, y: 0 });
+
+      expect(svg).toContain('Set A');
+      expect(svg).toContain('Set B');
+      expect(svg).toContain('Set C');
+      expect(svg).toContain('Set D');
+    });
+
+    it('should apply custom colors to four circles', () => {
+      const ctx = createMockContext('Venn', {
+        setA: 100,
+        setB: 90,
+        setC: 80,
+        setD: 70,
+        AB: 30,
+        AC: 25,
+        AD: 20,
+        BC: 22,
+        BD: 18,
+        CD: 15,
+        ABC: 10,
+        ABD: 8,
+        ACD: 7,
+        BCD: 6,
+        ABCD: 3,
+        colors: ['#4299e1', '#48bb78', '#ed8936', '#9f7aea'],
+      });
+      const svg = venn4Shape.render(ctx, { x: 0, y: 0 });
+
+      expect(svg).toContain('#4299e1');
+      expect(svg).toContain('#48bb78');
+      expect(svg).toContain('#ed8936');
+      expect(svg).toContain('#9f7aea');
+    });
+
+    it('should be larger than 3-circle diagram', () => {
+      const ctx3 = createMockContext('Three');
+      const ctx4 = createMockContext('Four');
+      
+      const bounds3 = venn3Shape.bounds(ctx3);
+      const bounds4 = venn4Shape.bounds(ctx4);
+
+      expect(bounds4.width).toBeGreaterThanOrEqual(bounds3.width);
+      expect(bounds4.height).toBeGreaterThanOrEqual(bounds3.height);
+    });
+  });
 });
+
