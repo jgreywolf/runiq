@@ -245,4 +245,58 @@ describe('Pie Chart Shape', () => {
       expect(svg).toContain('Green');
     });
   });
+
+  describe('Title Support', () => {
+    it('should render title when provided', () => {
+      const context = ctx({
+        values: [30, 25, 20],
+        title: 'Sales by Region',
+      });
+      const svg = pieChart.render(context, { x: 0, y: 0 });
+      
+      // Should contain the title text
+      expect(svg).toContain('Sales by Region');
+      expect(svg).toContain('<text');
+    });
+
+    it('should not render title when not provided', () => {
+      const context = ctx({
+        values: [30, 25, 20],
+      });
+      const svg = pieChart.render(context, { x: 0, y: 0 });
+      
+      // Should only have slice paths, no title
+      expect(svg).toContain('<path');
+      // The word "title" shouldn't appear in rendered output
+      const titleMatches = svg.match(/title/gi);
+      expect(titleMatches).toBeNull();
+    });
+
+    it('should position title above pie chart', () => {
+      const context = ctx({
+        values: [30, 25, 20],
+        title: 'Test Chart',
+      });
+      const svg = pieChart.render(context, { x: 0, y: 0 });
+      
+      // Title should be near top (y coordinate close to 0)
+      expect(svg).toContain('Test Chart');
+      // Should be centered (text-anchor="middle")
+      expect(svg).toContain('text-anchor="middle"');
+    });
+
+    it('should work with title and legend together', () => {
+      const context = ctx({
+        values: [{ label: 'A', value: 30 }, { label: 'B', value: 25 }],
+        title: 'Chart with Legend',
+        showLegend: true,
+      });
+      const svg = pieChart.render(context, { x: 0, y: 0 });
+      
+      // Should have both title and legend
+      expect(svg).toContain('Chart with Legend');
+      expect(svg).toContain('A (');
+      expect(svg).toContain('B (');
+    });
+  });
 });

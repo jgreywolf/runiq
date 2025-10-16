@@ -156,6 +156,14 @@ function renderLegend(
 }
 
 /**
+ * Render title text above the pie chart
+ */
+function renderTitle(title: string, cx: number, cy: number): string {
+  const titleY = cy - 110; // Position above chart
+  return `<text x="${cx}" y="${titleY}" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">${title}</text>`;
+}
+
+/**
  * Pie chart shape with data-driven slice rendering
  */
 export const pieChart: ShapeDefinition = {
@@ -198,6 +206,10 @@ export const pieChart: ShapeDefinition = {
     // Get custom colors if provided
     const customColors = Array.isArray(ctx.node.data?.colors) ? ctx.node.data.colors as string[] : undefined;
 
+    // Get title if provided
+    const title = ctx.node.data?.title;
+    const titleElement = title ? renderTitle(title as string, cx, cy) : '';
+
     // Render slices
     const paths = renderSlices(slices, cx, cy, radius, ctx, customColors);
 
@@ -210,9 +222,9 @@ export const pieChart: ShapeDefinition = {
       const legendY = position.y + 20;
       const legend = renderLegend(slices, legendX, legendY, customColors);
       
-      return `${paths}\n    ${legend}`;
+      return `${titleElement}${paths}\n    ${legend}`;
     }
 
-    return paths;
+    return `${titleElement}${paths}`;
   },
 };

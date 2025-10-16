@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="954.8" height="531.6" 
+    viewBox="0 0 954.8 531.6"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">E-Commerce System Context (C4)</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style></defs><g data-runiq-edge="web-api"><path d="M 562 221.60000000000002 L 562 261.6 L 385 261.6 L 385 301.6" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-web-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 562 221.60000000000002 L 562 261.6 L 385 261.6 L 385 301.6" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-web-api)" /></g><g data-runiq-edge="mobile-api"><path d="M 353 221.60000000000002 L 353 301.6" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-mobile-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 353 221.60000000000002 L 353 301.6" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-mobile-api)" /></g><g data-runiq-edge="adminpanel-api"><path d="M 160 221.60000000000002 L 160 261.6 L 321 261.6 L 321 301.6" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-adminpanel-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 160 221.60000000000002 L 160 261.6 L 321 261.6 L 321 301.6" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-adminpanel-api)" /></g><g data-runiq-edge="customer-web"><path d="M 562 90.8 L 562 180.8" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-customer-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 562 90.8 L 562 180.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-customer-web)" /></g><g data-runiq-edge="customer-mobile"><path d="M 531 90.8 L 531 140.8 L 353 140.8 L 353 180.8" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-customer-mobile" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 531 90.8 L 531 140.8 L 353 140.8 L 353 180.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-customer-mobile)" /></g><g data-runiq-edge="admin-adminpanel"><path d="M 354 90.8 L 354 130.8 L 180 130.8 L 180 180.8" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-admin-adminpanel" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 354 90.8 L 354 130.8 L 180 130.8 L 180 180.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-admin-adminpanel)" /></g><g data-runiq-edge="support-adminpanel"><path d="M 140 90.8 L 140 130.8 L 141 130.8 L 141 180.8" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-support-adminpanel" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 140 90.8 L 140 130.8 L 141 130.8 L 141 180.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-support-adminpanel)" /></g><g data-runiq-edge="api-payment"><path d="M 366 361.6 L 366 411.6 L 595 411.6 L 595 451.6" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-api-payment" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 366 361.6 L 366 411.6 L 595 411.6 L 595 451.6" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-api-payment)" /></g><g data-runiq-edge="api-shipping"><path d="M 392 361.6 L 392 401.6 L 845 401.6 L 845 451.6" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-api-shipping" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 392 361.6 L 392 401.6 L 845 401.6 L 845 451.6" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-api-shipping)" /></g><g data-runiq-edge="api-email"><path d="M 315 361.6 L 315 401.6 L 93 401.6 L 93 451.6" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-api-email" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 315 361.6 L 315 401.6 L 93 401.6 L 93 451.6" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-api-email)" /></g><g data-runiq-edge="api-analytics"><path d="M 340 361.6 L 340 451.6" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-api-analytics" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 340 361.6 L 340 451.6" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-api-analytics)" /></g><g data-runiq-node="customer">
+      <!-- Actor head -->
+      <circle cx="546.6" cy="35" r="15" 
+              fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="506" y="55" width="81.2" height="30.799999999999997"
+            rx="5" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="546.6" y="70.4" text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Customer
+      </text>
+    </g><g data-runiq-node="admin">
+      <!-- Actor head -->
+      <circle cx="353.6" cy="35" r="15" 
+              fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="292" y="55" width="123.19999999999999" height="30.799999999999997"
+            rx="5" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="353.6" y="70.4" text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Administrator
+      </text>
+    </g><g data-runiq-node="support">
+      <!-- Actor head -->
+      <circle cx="139.6" cy="35" r="15" 
+              fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="78" y="55" width="123.19999999999999" height="30.799999999999997"
+            rx="5" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="139.6" y="70.4" text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Support Staff
+      </text>
+    </g><g data-runiq-node="web">
+      <rect x="487" y="180.8" width="150" height="40.8"
+            rx="8" ry="8" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="562" y="201.20000000000002" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Web Application
+      </text>
+    </g><g data-runiq-node="mobile">
+      <rect x="299" y="180.8" width="108" height="40.8"
+            rx="8" ry="8" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="353" y="201.20000000000002" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Mobile App
+      </text>
+    </g><g data-runiq-node="api">
+      <polygon points="308.26,301.6 398.14,301.6 417.4,331.6 398.14,361.6 308.26,361.6 289,331.6" 
+               fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="353.2" y="331.6" text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        API Backend
+      </text>
+    </g><g data-runiq-node="adminpanel">
+      <rect x="102" y="180.8" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="160.2" y="201.20000000000002" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Admin Panel
+      </text>
+    </g><g data-runiq-node="payment">
+      <polygon points="595,451.6 676,481.6 595,511.6 514,481.6" 
+               fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="595" y="481.6" text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Payment Gateway
+      </text>
+    </g><g data-runiq-node="shipping">
+      <polygon points="845.4,451.6 934.8,481.6 845.4,511.6 756,481.6" 
+               fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="845.4" y="481.6" text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Shipping Provider
+      </text>
+    </g><g data-runiq-node="email">
+      <polygon points="92.6,451.6 165.2,481.6 92.6,511.6 20,481.6" 
+               fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="92.6" y="481.6" text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Email Service
+      </text>
+    </g><g data-runiq-node="analytics">
+      <polygon points="339.6,451.6 433.20000000000005,481.6 339.6,511.6 246,481.6" 
+               fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="339.6" y="481.6" text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Analytics Platform
+      </text>
+    </g></svg>

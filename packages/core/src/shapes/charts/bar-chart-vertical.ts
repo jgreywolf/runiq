@@ -309,6 +309,33 @@ function renderStackedBars(
 }
 
 /**
+ * Render title text above the bar chart
+ */
+function renderTitle(title: string, position: { x: number; y: number }, width: number): string {
+  const titleX = position.x + width / 2;
+  const titleY = position.y + 20;
+  return `<text x="${titleX}" y="${titleY}" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">${title}</text>`;
+}
+
+/**
+ * Render X-axis label at bottom
+ */
+function renderXLabel(label: string, position: { x: number; y: number }, width: number, height: number): string {
+  const labelX = position.x + width / 2;
+  const labelY = position.y + height + 40;
+  return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666">${label}</text>`;
+}
+
+/**
+ * Render Y-axis label on left side (rotated)
+ */
+function renderYLabel(label: string, position: { x: number; y: number }, height: number): string {
+  const labelX = position.x - 30;
+  const labelY = position.y + height / 2;
+  return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666" transform="rotate(-90 ${labelX} ${labelY})">${label}</text>`;
+}
+
+/**
  * Vertical bar chart shape definition
  */
 export const barChartVertical: ShapeDefinition = {
@@ -378,6 +405,16 @@ export const barChartVertical: ShapeDefinition = {
     // Get custom colors if provided
     const customColors = Array.isArray(ctx.node.data?.colors) ? ctx.node.data.colors as string[] : undefined;
     
+    // Get title and labels if provided
+    const title = ctx.node.data?.title;
+    const xLabel = ctx.node.data?.xLabel;
+    const yLabel = ctx.node.data?.yLabel;
+    
+    const bounds = this.bounds(ctx);
+    const titleElement = title ? renderTitle(title as string, position, bounds.width) : '';
+    const xLabelElement = xLabel ? renderXLabel(xLabel as string, position, bounds.width, bounds.height) : '';
+    const yLabelElement = yLabel ? renderYLabel(yLabel as string, position, bounds.height) : '';
+    
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
@@ -393,7 +430,7 @@ export const barChartVertical: ShapeDefinition = {
       const bars = renderStackedBars(groups, maxTotal, ctx, position, customColors);
       const axis = renderAxis(ctx, position);
       
-      return `<g>${bars}${axis}</g>`;
+      return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}</g>`;
     }
     
     // Check if data is in grouped format
@@ -411,7 +448,7 @@ export const barChartVertical: ShapeDefinition = {
       const bars = renderGroupedBars(groups, maxValue, ctx, position, customColors);
       const axis = renderAxis(ctx, position);
       
-      return `<g>${bars}${axis}</g>`;
+      return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}</g>`;
     }
     
     // Simple format
@@ -425,6 +462,6 @@ export const barChartVertical: ShapeDefinition = {
     const bars = renderBars(data, maxValue, ctx, position, customColors);
     const axis = renderAxis(ctx, position);
 
-    return `<g>${bars}${axis}</g>`;
+    return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}</g>`;
   },
 };

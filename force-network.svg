@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="622" height="182" 
+    viewBox="0 0 622 182"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Force-Directed Network Topology</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style></defs><g data-runiq-container="network-cluster"><rect x="402" y="12" width="200" height="150" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="412" y="32" class="runiq-container-label">Network Cluster</text></g><g data-runiq-container="traditional-hierarchy"><rect x="52" y="12" width="200" height="150" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="62" y="32" class="runiq-container-label">Traditional Hierarchy</text></g><g data-runiq-edge="lb-server1"><path d="M 402 154.30952132988165 L 392 154.30952132988165 L 392 174.63945294843617 L 402 174.63945294843617" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-lb-server1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 402 154.30952132988165 L 392 154.30952132988165 L 392 174.63945294843617 L 402 174.63945294843617" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-lb-server1)" /></g><g data-runiq-edge="lb-server2"><path d="M 402 133.97958971132712 L 382 133.97958971132712 L 382 194.9693845669907 L 402 194.9693845669907" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-lb-server2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 402 133.97958971132712 L 382 133.97958971132712 L 382 194.9693845669907 L 402 194.9693845669907" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-lb-server2)" /></g><g data-runiq-edge="lb-server3"><path d="M 402 113.6496580927726 L 372 113.6496580927726 L 372 215.29931618554522 L 402 215.29931618554522" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-lb-server3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 402 113.6496580927726 L 372 113.6496580927726 L 372 215.29931618554522 L 402 215.29931618554522" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-lb-server3)" /></g><g data-runiq-edge="server1-db1"><path d="M 402 93.31972647421807 L 362 93.31972647421807 L 362 235.62924780409975 L 402 235.62924780409975" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-server1-db1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 402 93.31972647421807 L 362 93.31972647421807 L 362 235.62924780409975 L 402 235.62924780409975" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-server1-db1)" /></g><g data-runiq-edge="server2-db1"><path d="M 402 72.98979485566355 L 352 72.98979485566355 L 352 255.95917942265427 L 402 255.95917942265427" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-server2-db1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 402 72.98979485566355 L 352 72.98979485566355 L 352 255.95917942265427 L 402 255.95917942265427" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-server2-db1)" /></g><g data-runiq-edge="server3-db1"><path d="M 402 52.659863237109036 L 342 52.659863237109036 L 342 276.2891110412088 L 402 276.2891110412088" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-server3-db1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 402 52.659863237109036 L 342 52.659863237109036 L 342 276.2891110412088 L 402 276.2891110412088" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-server3-db1)" /></g><g data-runiq-edge="db1-db2"><path d="M 402 32.32993161855452 L 332 32.32993161855452 L 332 296.6190426597633 L 402 296.6190426597633" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-db1-db2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 402 32.32993161855452 L 332 32.32993161855452 L 332 296.6190426597633 L 402 296.6190426597633" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-db1-db2)" /></g><g data-runiq-edge="api-service1"><path d="M 52 127.55555555555556 L 42 127.55555555555556 L 42 156.44444444444446 L 52 156.44444444444446" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-api-service1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 52 127.55555555555556 L 42 127.55555555555556 L 42 156.44444444444446 L 52 156.44444444444446" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-api-service1)" /></g><g data-runiq-edge="api-service2"><path d="M 52 98.66666666666667 L 32 98.66666666666667 L 32 185.33333333333334 L 52 185.33333333333334" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-api-service2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 52 98.66666666666667 L 32 98.66666666666667 L 32 185.33333333333334 L 52 185.33333333333334" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-api-service2)" /></g><g data-runiq-edge="service1-cache"><path d="M 52 69.77777777777777 L 22 69.77777777777777 L 22 214.22222222222223 L 52 214.22222222222223" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-service1-cache" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 52 69.77777777777777 L 22 69.77777777777777 L 22 214.22222222222223 L 52 214.22222222222223" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-service1-cache)" /></g><g data-runiq-edge="service2-cache"><path d="M 52 40.888888888888886 L 12 40.888888888888886 L 12 243.11111111111111 L 52 243.11111111111111" fill="none" stroke="#333" stroke-width="1" />
+    <defs>
+      <marker id="arrow-service2-cache" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker>
+    </defs>
+  <path d="M 52 40.888888888888886 L 12 40.888888888888886 L 12 243.11111111111111 L 52 243.11111111111111" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-service2-cache)" /></g></svg>

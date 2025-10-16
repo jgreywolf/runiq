@@ -9,6 +9,7 @@ import * as langium from 'langium';
 export const RuniqTerminals = {
     LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/,
     ARROW: /->/,
+    BOOLEAN: /true|false/,
     SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
     ID: /[a-zA-Z_][a-zA-Z0-9_]*/,
     STRING: /"(?:[^"\\]|\\.)*"/,
@@ -58,6 +59,7 @@ export type RuniqKeywordNames =
     | "radial"
     | "right"
     | "shape"
+    | "showLegend:"
     | "solid"
     | "spacing:"
     | "stress"
@@ -370,7 +372,7 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
 }
 
-export type NodeProperty = DataProperty | IconProperty | LabelProperty | LinkProperty | StyleRefProperty | TooltipProperty;
+export type NodeProperty = DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StyleRefProperty | TooltipProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -397,6 +399,21 @@ export const ShapeDeclaration = {
 
 export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
+}
+
+export interface ShowLegendProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ShowLegendProperty';
+    value: string;
+}
+
+export const ShowLegendProperty = {
+    $type: 'ShowLegendProperty',
+    value: 'value'
+} as const;
+
+export function isShowLegendProperty(item: unknown): item is ShowLegendProperty {
+    return reflection.isInstance(item, ShowLegendProperty.$type);
 }
 
 export type Statement = ContainerBlock | DiagramDeclaration | DirectionDeclaration | EdgeDeclaration | GroupBlock | ShapeDeclaration | StyleDeclaration;
@@ -493,6 +510,7 @@ export type RuniqAstType = {
     LinkProperty: LinkProperty
     NodeProperty: NodeProperty
     ShapeDeclaration: ShapeDeclaration
+    ShowLegendProperty: ShowLegendProperty
     Statement: Statement
     StyleDeclaration: StyleDeclaration
     StyleProperty: StyleProperty
@@ -724,6 +742,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [Statement.$type]
+        },
+        ShowLegendProperty: {
+            name: ShowLegendProperty.$type,
+            properties: {
+                value: {
+                    name: ShowLegendProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         Statement: {
             name: Statement.$type,

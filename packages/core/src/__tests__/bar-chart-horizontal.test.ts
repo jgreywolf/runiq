@@ -500,4 +500,61 @@ describe('Bar Chart Horizontal Shape', () => {
       expect(svg).toContain('fill="#4299e1"');
     });
   });
+
+  describe('Title and Axis Labels', () => {
+    it('should render title when provided', () => {
+      const ctx = createContext({
+        values: [30, 45, 25],
+        title: 'Sales by Product',
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      expect(svg).toContain('Sales by Product');
+    });
+
+    it('should render xLabel at bottom', () => {
+      const ctx = createContext({
+        values: [30, 45, 25],
+        xLabel: 'Revenue ($K)',
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      expect(svg).toContain('Revenue ($K)');
+    });
+
+    it('should render yLabel on left side', () => {
+      const ctx = createContext({
+        values: [30, 45, 25],
+        yLabel: 'Products',
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      expect(svg).toContain('Products');
+    });
+
+    it('should render all labels together', () => {
+      const ctx = createContext({
+        values: [30, 45, 25],
+        title: 'Product Sales',
+        xLabel: 'Revenue ($K)',
+        yLabel: 'Products',
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      expect(svg).toContain('Product Sales');
+      expect(svg).toContain('Revenue ($K)');
+      expect(svg).toContain('Products');
+    });
+
+    it('should not render labels when not provided', () => {
+      const ctx = createContext({
+        values: [30, 45, 25],
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      // Should have bars and axis
+      expect(svg).toContain('<rect');
+      expect(svg).toContain('<line');
+    });
+  });
 });

@@ -46,34 +46,34 @@ export const cloudShape: ShapeDefinition = {
     // Start at left-middle and go clockwise creating bumps
     const cx = x + w / 2;
     const cy = y + h / 2;
-    
+
     // Calculate control points for cloud bumps
     // Using cubic Bezier curves (C command) for smooth bumps
     const path = [
       // Start at left center
       `M ${x + bump},${cy}`,
-      
+
       // Top-left bump
       `C ${x},${cy - bump} ${x + bump},${y + bump * 0.5} ${x + w * 0.25},${y + bump * 0.5}`,
-      
+
       // Top-center bump
       `C ${x + w * 0.35},${y} ${x + w * 0.65},${y} ${x + w * 0.75},${y + bump * 0.5}`,
-      
+
       // Top-right bump
       `C ${x + w - bump},${y + bump * 0.5} ${x + w},${cy - bump} ${x + w - bump},${cy}`,
-      
+
       // Right-middle bump (small)
       `C ${x + w},${cy} ${x + w},${cy + bump * 0.5} ${x + w - bump * 0.5},${cy + bump}`,
-      
+
       // Bottom-right bump
       `C ${x + w - bump},${y + h - bump * 0.5} ${x + w * 0.8},${y + h} ${x + w * 0.65},${y + h - bump * 0.3}`,
-      
+
       // Bottom-center bump
       `C ${x + w * 0.5},${y + h} ${x + w * 0.35},${y + h - bump * 0.3} ${x + w * 0.25},${y + h - bump * 0.5}`,
-      
+
       // Bottom-left bump
       `C ${x + bump},${y + h - bump * 0.5} ${x},${cy + bump} ${x + bump},${cy}`,
-      
+
       `Z`,
     ].join(' ');
 

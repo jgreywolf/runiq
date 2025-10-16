@@ -99,7 +99,7 @@ container backend "Backend Services"
   shape auth as @hex label: "Auth Service"
   shape api as @hex label: "API Gateway"
   shape users as @hex label: "User Service"
-  
+
   api -> auth
   api -> users
 }
@@ -203,17 +203,17 @@ See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for d
 
 ## 🎨 Supported Diagram Types
 
-| Status | Type              | Notes                                     |
-| ------ | ----------------- | ----------------------------------------- |
-| ✅     | Flowcharts        | Full support                              |
-| ✅     | Sequence diagrams | Full support                              |
-| ✅     | Class diagrams    | Full support                              |
-| ✅     | State diagrams    | Full support                              |
-| ✅     | ER diagrams       | Full support                              |
-| ✅     | C4 diagrams       | Container support complete! 🎉            |
-| 🟡     | BPMN              | Swim lanes coming soon                    |
-| 🟡     | Mind maps         | Partial support                           |
-| 🟡     | Timeline/Gantt    | Time-based layouts planned                |
+| Status | Type              | Notes                          |
+| ------ | ----------------- | ------------------------------ |
+| ✅     | Flowcharts        | Full support                   |
+| ✅     | Sequence diagrams | Full support                   |
+| ✅     | Class diagrams    | Full support                   |
+| ✅     | State diagrams    | Full support                   |
+| ✅     | ER diagrams       | Full support                   |
+| ✅     | C4 diagrams       | Container support complete! 🎉 |
+| 🟡     | BPMN              | Swim lanes coming soon         |
+| 🟡     | Mind maps         | Partial support                |
+| 🟡     | Timeline/Gantt    | Time-based layouts planned     |
 
 [See full analysis of 45 diagram types →](./docs/diagram-type-support.md)
 

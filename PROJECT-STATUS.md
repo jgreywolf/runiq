@@ -73,23 +73,27 @@
 All phases of hierarchical container support are now complete:
 
 ### Phase 1: Core Types ✅
+
 - `ContainerDeclaration`, `ContainerStyle`, `ContainerLayoutOptions` types
 - Validation utilities (circular refs, nesting depth, membership)
 - 50 tests passing
 
 ### Phase 2: Parser Support ✅
+
 - Langium grammar extended: `container "Label" { ... }`
 - Nested container syntax
 - Inline styling and layout options
 - 24 parser tests passing
 
 ### Phase 3: ELK Layout ✅
+
 - Flat layout with container placeholders (avoiding ELK compound node issues)
 - Recursive container positioning
 - Cross-boundary edge routing
 - 40 layout tests (36 passing, 4 skipped for deep nesting edge cases)
 
 ### Phase 4: SVG Rendering ✅
+
 - Container backgrounds with styling (backgroundColor, borderColor, borderWidth)
 - Z-index layering (containers → edges → nodes)
 - Container labels with positioning
@@ -97,6 +101,7 @@ All phases of hierarchical container support are now complete:
 - 34 renderer tests passing
 
 ### Phase 5: Integration & Documentation ✅
+
 - 4 end-to-end integration tests
 - Comprehensive [container documentation](./docs/containers.md)
 - 4 example .runiq files (microservices, C4, multi-region, docker)
@@ -107,6 +112,7 @@ All phases of hierarchical container support are now complete:
 ## 🚀 Next Steps
 
 ### Immediate
+
 - [ ] Test CLI with container examples
 - [ ] Verify SVG generation from .runiq files
 - [ ] Editor integration testing

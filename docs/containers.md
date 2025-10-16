@@ -79,15 +79,15 @@ Containers support custom styling through inline properties:
 
 ### Available Style Properties
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `backgroundColor` | string | `#f9f9f9` | Fill color for container background |
-| `borderColor` | string | `#ddd` | Stroke color for container border |
-| `borderWidth` | number | `2` | Width of the border in pixels |
-| `borderStyle` | `solid` \| `dashed` \| `dotted` | `solid` | Border line style |
-| `opacity` | number (0-1) | `1.0` | Transparency of the container |
-| `padding` | number | `20` | Inner padding in pixels |
-| `labelPosition` | `top` \| `bottom` \| `left` \| `right` | `top` | Position of the label |
+| Property          | Type                                   | Default   | Description                         |
+| ----------------- | -------------------------------------- | --------- | ----------------------------------- |
+| `backgroundColor` | string                                 | `#f9f9f9` | Fill color for container background |
+| `borderColor`     | string                                 | `#ddd`    | Stroke color for container border   |
+| `borderWidth`     | number                                 | `2`       | Width of the border in pixels       |
+| `borderStyle`     | `solid` \| `dashed` \| `dotted`        | `solid`   | Border line style                   |
+| `opacity`         | number (0-1)                           | `1.0`     | Transparency of the container       |
+| `padding`         | number                                 | `20`      | Inner padding in pixels             |
+| `labelPosition`   | `top` \| `bottom` \| `left` \| `right` | `top`     | Position of the label               |
 
 ### Styling Syntax
 
@@ -109,6 +109,7 @@ container sys "System Name"
 ### Style Examples
 
 #### Highlighted Container
+
 ```runiq
 container important "Critical System"
   backgroundColor: "#fff7e6"
@@ -119,6 +120,7 @@ container important "Critical System"
 ```
 
 #### Subtle Container
+
 ```runiq
 container background "Background Services"
   backgroundColor: "#fafafa"
@@ -136,11 +138,11 @@ Containers support per-container layout configuration:
 
 ### Available Layout Options
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `direction` | `DOWN` \| `UP` \| `RIGHT` \| `LEFT` | `DOWN` | Flow direction inside container |
-| `spacing` | number | `50` | Space between nodes in pixels |
-| `algorithm` | `layered` \| `force` \| `radial` \| `stress` | `layered` | ELK algorithm (advanced) |
+| Property    | Type                                         | Default   | Description                     |
+| ----------- | -------------------------------------------- | --------- | ------------------------------- |
+| `direction` | `DOWN` \| `UP` \| `RIGHT` \| `LEFT`          | `DOWN`    | Flow direction inside container |
+| `spacing`   | number                                       | `50`      | Space between nodes in pixels   |
+| `algorithm` | `layered` \| `force` \| `radial` \| `stress` | `layered` | ELK algorithm (advanced)        |
 
 ### Layout Syntax
 
@@ -166,13 +168,13 @@ diagram "Nested System"
 
 container outer "Company System" {
   shape gateway as @diamond label: "Gateway"
-  
+
   container subsystem1 "Subsystem A" {
     shape comp1 as @rounded label: "Component 1"
     shape comp2 as @rounded label: "Component 2"
     comp1 -> comp2
   }
-  
+
   gateway -> comp1
 }
 ```
@@ -203,7 +205,7 @@ container backend "Backend Services"
   shape auth as @hex label: "Auth Service"
   shape api as @hex label: "API Gateway"
   shape users as @hex label: "User Service"
-  
+
   api -> auth
   api -> users
 }
@@ -237,7 +239,7 @@ container system "E-Commerce Platform"
   shape web as @rounded label: "Web Application"
   shape mobile as @rounded label: "Mobile App"
   shape api as @hex label: "API Backend"
-  
+
   web -> api
   mobile -> api
 }
@@ -263,7 +265,7 @@ container us_east "US East Region"
   shape lb1 as @trapezoid label: "Load Balancer"
   shape app1 as @rounded label: "App Server"
   shape db1 as @cylinder label: "DB Primary"
-  
+
   lb1 -> app1 -> db1
 }
 
@@ -274,7 +276,7 @@ container us_west "US West Region"
   shape lb2 as @trapezoid label: "Load Balancer"
   shape app2 as @rounded label: "App Server"
   shape db2 as @cylinder label: "DB Replica"
-  
+
   lb2 -> app2 -> db2
 }
 
@@ -295,7 +297,7 @@ container webnet "Web Network"
   borderColor: "#424242" {
   shape nginx as @rect label: "Nginx"
   shape app as @rounded label: "Node.js App"
-  
+
   nginx -> app
 }
 
@@ -305,7 +307,7 @@ container backend "Backend Network"
   shape api as @hex label: "FastAPI"
   shape worker as @rect label: "Celery Worker"
   shape redis as @cylinder label: "Redis"
-  
+
   api -> redis
   worker -> redis
 }
@@ -329,12 +331,14 @@ app -> s3
 
 **Issue**: Deep nesting (2+ levels) may result in incorrect position calculations.
 
-**Status**: 
+**Status**:
+
 - ✅ Parser fully supports nested containers
 - ✅ Renderer correctly draws nested backgrounds
 - ⚠️ Layout engine position calculations need refinement
 
 **Affected Tests**:
+
 - `should layout two-level nested containers` (skipped)
 - `should layout three-level nested containers` (skipped)
 - `should layout a complete C4 system context diagram` (skipped)
@@ -366,14 +370,14 @@ Containers automatically size to fit their contents plus padding. Manual width/h
 
 ## Integration Status
 
-| Component | Status | Tests |
-|-----------|--------|-------|
-| Core Types | ✅ Complete | 50 tests |
-| Parser (Langium) | ✅ Complete | 24 tests |
+| Component           | Status          | Tests                     |
+| ------------------- | --------------- | ------------------------- |
+| Core Types          | ✅ Complete     | 50 tests                  |
+| Parser (Langium)    | ✅ Complete     | 24 tests                  |
 | Layout Engine (ELK) | ✅ 90% Complete | 36/40 passing (4 skipped) |
-| SVG Renderer | ✅ Complete | 34 tests |
-| Integration Tests | ✅ Complete | 4 tests |
-| **Total** | **✅ 95%** | **148 tests** |
+| SVG Renderer        | ✅ Complete     | 34 tests                  |
+| Integration Tests   | ✅ Complete     | 4 tests                   |
+| **Total**           | **✅ 95%**      | **148 tests**             |
 
 ## API Reference
 
@@ -384,8 +388,8 @@ interface ContainerDeclaration {
   type: 'container';
   id: string;
   label?: string;
-  children: string[];  // Node IDs
-  containers?: ContainerDeclaration[];  // Nested containers
+  children: string[]; // Node IDs
+  containers?: ContainerDeclaration[]; // Nested containers
   containerStyle?: ContainerStyle;
   layoutOptions?: ContainerLayoutOptions;
 }
@@ -413,7 +417,7 @@ interface PositionedContainer {
   width: number;
   height: number;
   label?: string;
-  containers?: PositionedContainer[];  // Nested
+  containers?: PositionedContainer[]; // Nested
 }
 ```
 
