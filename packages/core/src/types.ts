@@ -1,5 +1,18 @@
 export type Direction = 'LR' | 'RL' | 'TB' | 'BT';
 
+/**
+ * Data value types for data-driven rendering (charts, graphs)
+ */
+export type DataValue = number | { label: string; value: number };
+export type DataArray = DataValue[];
+
+export interface DataPoint {
+  x: number;
+  y: number;
+  label?: string;
+  value?: number;
+}
+
 export interface DiagramAst {
   astVersion: string;
   title?: string;
