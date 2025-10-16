@@ -1,0 +1,56 @@
+diagram "Docker Compose Stack"
+
+# Web Network
+container webnet "Web Network"
+  backgroundColor: "#f5f5f5"
+  borderColor: "#424242"
+  borderStyle: solid
+  borderWidth: 2 {
+  
+  shape nginx as @rect label: "nginx"
+  shape app as @rounded label: "node-app"
+  
+  nginx -> app
+}
+
+# Backend Network
+container backend "Backend Network"
+  backgroundColor: "#e0f7fa"
+  borderColor: "#00796b"
+  borderStyle: solid
+  borderWidth: 2 {
+  
+  shape api as @hex label: "fastapi"
+  shape worker as @rect label: "celery-worker"
+  shape redis as @cyl label: "redis"
+  shape rabbitmq as @rect label: "rabbitmq"
+  
+  api -> redis
+  api -> rabbitmq
+  worker -> redis
+  worker -> rabbitmq
+}
+
+# Storage Network
+container storage "Storage"
+  backgroundColor: "#fce4ec"
+  borderColor: "#c2185b"
+  borderStyle: solid
+  borderWidth: 2 {
+  
+  shape postgres as @cyl label: "postgres"
+  shape pgbackup as @rect label: "pg-backup"
+  shape volumes as @rect label: "shared-volumes"
+  
+  postgres -> pgbackup
+}
+
+# External
+shape s3 as @hex label: "AWS S3"
+
+# Cross-Network Connections
+app -> api
+api -> postgres
+worker -> postgres
+app -> s3
+worker -> s3
