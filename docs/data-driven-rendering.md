@@ -59,30 +59,31 @@ shape sales as @pie-chart
   data: [30, 45, 25]
 
 // Labeled data (pie chart with legend)
+// NOTE: Object keys must be quoted strings to avoid keyword conflicts
 shape revenue as @pie-chart
   label: "Revenue by Region"
   data: [
-    {label: "North America", value: 45},
-    {label: "Europe", value: 30},
-    {label: "Asia", value: 25}
+    {"label": "North America", "value": 45},
+    {"label": "Europe", "value": 30},
+    {"label": "Asia", "value": 25}
   ]
 
 // Bar chart with labeled bars
 shape metrics as @bar-chart
   label: "Performance Metrics"
   data: [
-    {label: "Speed", value: 85},
-    {label: "Quality", value: 92},
-    {label: "Cost", value: 78}
+    {"label": "Speed", "value": 85},
+    {"label": "Quality", "value": 92},
+    {"label": "Cost", "value": 78}
   ]
 
 // XY scatter plot data
 shape points as @scatter-plot
   label: "Customer Segments"
   data: [
-    {x: 10, y: 20, label: "Segment A"},
-    {x: 30, y: 45, label: "Segment B"},
-    {x: 50, y: 15, label: "Segment C"}
+    {"x": 10, "y": 20, "label": "Segment A"},
+    {"x": 30, "y": 45, "label": "Segment B"},
+    {"x": 50, "y": 15, "label": "Segment C"}
   ]
 ```
 
@@ -93,10 +94,10 @@ shape points as @scatter-plot
 **Tasks:**
 
 1. ✅ Design document (this file)
-2. ⏳ Add `data` property to `NodeDeclaration` type
-3. ⏳ Implement `pie-chart` shape with data-driven rendering
-4. ⏳ Write comprehensive tests for pie chart calculations
-5. ⏳ Add DSL parser support for data arrays
+2. ✅ Add `data` property to `NodeDeclaration` type (18 tests passing)
+3. ✅ Implement `pie-chart` shape with data-driven rendering (11 tests passing)
+4. ✅ Write comprehensive tests for pie chart calculations
+5. ✅ Add DSL parser support for data arrays (16 tests passing, negative numbers supported, keys must be quoted)
 6. ⏳ Create pie chart examples
 
 **Deliverables:**

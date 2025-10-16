@@ -41,7 +41,8 @@ NodeProperty:
     | StyleRefProperty
     | IconProperty
     | LinkProperty
-    | TooltipProperty;
+    | TooltipProperty
+    | DataProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -57,6 +58,21 @@ LinkProperty:
 
 TooltipProperty:
     'tooltip:' text=STRING;
+
+DataProperty:
+    'data:' '[' (items+=DataItem (',' items+=DataItem)*)? ']';
+
+DataItem:
+    DataObject | DataValue;
+
+DataValue:
+    value=NUMBER;
+
+DataObject:
+    '{' properties+=DataObjectProperty (',' properties+=DataObjectProperty)* '}';
+
+DataObjectProperty:
+    key=(ID | STRING) ':' value=(STRING | NUMBER);
 
 // node1 -> node2
 // node1 -label-> node2
@@ -109,7 +125,7 @@ terminal HYPHEN: '-';
 terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
-terminal NUMBER: /[0-9]+(\.[0-9]+)?/;
+terminal NUMBER: /-?[0-9]+(\.[0-9]+)?/;
 
 hidden terminal WS: /\s+/;
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;

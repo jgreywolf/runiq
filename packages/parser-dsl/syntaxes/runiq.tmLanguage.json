@@ -10,7 +10,7 @@
     },
     {
       "name": "keyword.control.runiq",
-      "match": "\\b(BT|LR|RL|TB|as|bottom|container|dashed|diagram|dotted|group|left|right|shape|solid|style|top)\\b|\\b(backgroundColor:|borderColor:|borderStyle:|borderWidth:|direction:|icon:|label:|labelPosition:|link:|opacity:|padding:|style:|tooltip:)\\B"
+      "match": "\\b(BT|LR|RL|TB|as|bottom|container|dashed|diagram|dotted|force|group|layered|left|mrtree|radial|right|shape|solid|stress|style|top)\\b|\\b(algorithm:|backgroundColor:|borderColor:|borderStyle:|borderWidth:|data:|direction:|icon:|label:|labelPosition:|link:|opacity:|padding:|spacing:|style:|tooltip:)\\B"
     },
     {
       "name": "string.quoted.double.runiq",

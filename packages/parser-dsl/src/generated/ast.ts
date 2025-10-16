@@ -12,7 +12,7 @@ export const RuniqTerminals = {
     SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
     ID: /[a-zA-Z_][a-zA-Z0-9_]*/,
     STRING: /"(?:[^"\\]|\\.)*"/,
-    NUMBER: /[0-9]+(\.[0-9]+)?/,
+    NUMBER: /-?[0-9]+(\.[0-9]+)?/,
     WS: /\s+/,
     ML_COMMENT: /\/\*[\s\S]*?\*\//,
     SL_COMMENT: /(\/\/|#)[^\n\r]*/,
@@ -21,6 +21,7 @@ export const RuniqTerminals = {
 export type RuniqTerminalNames = keyof typeof RuniqTerminals;
 
 export type RuniqKeywordNames =
+    | ","
     | "/"
     | ":"
     | "@"
@@ -28,6 +29,9 @@ export type RuniqKeywordNames =
     | "LR"
     | "RL"
     | "TB"
+    | "["
+    | "]"
+    | "algorithm:"
     | "as"
     | "backgroundColor:"
     | "borderColor:"
@@ -36,20 +40,27 @@ export type RuniqKeywordNames =
     | "bottom"
     | "container"
     | "dashed"
+    | "data:"
     | "diagram"
     | "direction:"
     | "dotted"
+    | "force"
     | "group"
     | "icon:"
     | "label:"
     | "labelPosition:"
+    | "layered"
     | "left"
     | "link:"
+    | "mrtree"
     | "opacity:"
     | "padding:"
+    | "radial"
     | "right"
     | "shape"
     | "solid"
+    | "spacing:"
+    | "stress"
     | "style"
     | "style:"
     | "tooltip:"
@@ -86,7 +97,24 @@ export function isContainerBlock(item: unknown): item is ContainerBlock {
     return reflection.isInstance(item, ContainerBlock.$type);
 }
 
-export type ContainerProperty = ContainerStyleProperty | StyleRefProperty;
+export interface ContainerLayoutProperty extends langium.AstNode {
+    readonly $container: ContainerBlock;
+    readonly $type: 'ContainerLayoutProperty';
+    algorithm?: LayoutAlgorithmValue;
+    spacing?: string;
+}
+
+export const ContainerLayoutProperty = {
+    $type: 'ContainerLayoutProperty',
+    algorithm: 'algorithm',
+    spacing: 'spacing'
+} as const;
+
+export function isContainerLayoutProperty(item: unknown): item is ContainerLayoutProperty {
+    return reflection.isInstance(item, ContainerLayoutProperty.$type);
+}
+
+export type ContainerProperty = ContainerLayoutProperty | ContainerStyleProperty | StyleRefProperty;
 
 export const ContainerProperty = {
     $type: 'ContainerProperty'
@@ -121,6 +149,78 @@ export const ContainerStyleProperty = {
 
 export function isContainerStyleProperty(item: unknown): item is ContainerStyleProperty {
     return reflection.isInstance(item, ContainerStyleProperty.$type);
+}
+
+export type DataItem = DataObject | DataValue;
+
+export const DataItem = {
+    $type: 'DataItem'
+} as const;
+
+export function isDataItem(item: unknown): item is DataItem {
+    return reflection.isInstance(item, DataItem.$type);
+}
+
+export interface DataObject extends langium.AstNode {
+    readonly $container: DataProperty;
+    readonly $type: 'DataObject';
+    properties: Array<DataObjectProperty>;
+}
+
+export const DataObject = {
+    $type: 'DataObject',
+    properties: 'properties'
+} as const;
+
+export function isDataObject(item: unknown): item is DataObject {
+    return reflection.isInstance(item, DataObject.$type);
+}
+
+export interface DataObjectProperty extends langium.AstNode {
+    readonly $container: DataObject;
+    readonly $type: 'DataObjectProperty';
+    key: string;
+    value: string;
+}
+
+export const DataObjectProperty = {
+    $type: 'DataObjectProperty',
+    key: 'key',
+    value: 'value'
+} as const;
+
+export function isDataObjectProperty(item: unknown): item is DataObjectProperty {
+    return reflection.isInstance(item, DataObjectProperty.$type);
+}
+
+export interface DataProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'DataProperty';
+    items: Array<DataItem>;
+}
+
+export const DataProperty = {
+    $type: 'DataProperty',
+    items: 'items'
+} as const;
+
+export function isDataProperty(item: unknown): item is DataProperty {
+    return reflection.isInstance(item, DataProperty.$type);
+}
+
+export interface DataValue extends langium.AstNode {
+    readonly $container: DataProperty;
+    readonly $type: 'DataValue';
+    value: string;
+}
+
+export const DataValue = {
+    $type: 'DataValue',
+    value: 'value'
+} as const;
+
+export function isDataValue(item: unknown): item is DataValue {
+    return reflection.isInstance(item, DataValue.$type);
 }
 
 export interface DiagramDeclaration extends langium.AstNode {
@@ -249,6 +349,12 @@ export function isLabelProperty(item: unknown): item is LabelProperty {
     return reflection.isInstance(item, LabelProperty.$type);
 }
 
+export type LayoutAlgorithmValue = 'force' | 'layered' | 'mrtree' | 'radial' | 'stress';
+
+export function isLayoutAlgorithmValue(item: unknown): item is LayoutAlgorithmValue {
+    return item === 'layered' || item === 'force' || item === 'stress' || item === 'radial' || item === 'mrtree';
+}
+
 export interface LinkProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'LinkProperty';
@@ -264,7 +370,7 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
 }
 
-export type NodeProperty = IconProperty | LabelProperty | LinkProperty | StyleRefProperty | TooltipProperty;
+export type NodeProperty = DataProperty | IconProperty | LabelProperty | LinkProperty | StyleRefProperty | TooltipProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -369,8 +475,14 @@ export function isTooltipProperty(item: unknown): item is TooltipProperty {
 
 export type RuniqAstType = {
     ContainerBlock: ContainerBlock
+    ContainerLayoutProperty: ContainerLayoutProperty
     ContainerProperty: ContainerProperty
     ContainerStyleProperty: ContainerStyleProperty
+    DataItem: DataItem
+    DataObject: DataObject
+    DataObjectProperty: DataObjectProperty
+    DataProperty: DataProperty
+    DataValue: DataValue
     DiagramDeclaration: DiagramDeclaration
     DirectionDeclaration: DirectionDeclaration
     Document: Document
@@ -410,6 +522,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [Statement.$type]
         },
+        ContainerLayoutProperty: {
+            name: ContainerLayoutProperty.$type,
+            properties: {
+                algorithm: {
+                    name: ContainerLayoutProperty.algorithm
+                },
+                spacing: {
+                    name: ContainerLayoutProperty.spacing
+                }
+            },
+            superTypes: [ContainerProperty.$type]
+        },
         ContainerProperty: {
             name: ContainerProperty.$type,
             properties: {
@@ -442,6 +566,53 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [ContainerProperty.$type]
+        },
+        DataItem: {
+            name: DataItem.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        DataObject: {
+            name: DataObject.$type,
+            properties: {
+                properties: {
+                    name: DataObject.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [DataItem.$type]
+        },
+        DataObjectProperty: {
+            name: DataObjectProperty.$type,
+            properties: {
+                key: {
+                    name: DataObjectProperty.key
+                },
+                value: {
+                    name: DataObjectProperty.value
+                }
+            },
+            superTypes: []
+        },
+        DataProperty: {
+            name: DataProperty.$type,
+            properties: {
+                items: {
+                    name: DataProperty.items,
+                    defaultValue: []
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        DataValue: {
+            name: DataValue.$type,
+            properties: {
+                value: {
+                    name: DataValue.value
+                }
+            },
+            superTypes: [DataItem.$type]
         },
         DiagramDeclaration: {
             name: DiagramDeclaration.$type,

@@ -13,6 +13,47 @@ import { createRuniqServices } from './langium-module.js';
 import * as Langium from './generated/ast.js';
 
 /**
+ * Convert Langium DataProperty to core data format
+ */
+function convertDataProperty(prop: Langium.DataProperty): Record<string, unknown> {
+  const values: Array<number | Record<string, unknown>> = [];
+
+  for (const item of prop.items) {
+    if (Langium.isDataObject(item)) {
+      // Convert object properties to key-value pairs
+      const obj: Record<string, unknown> = {};
+      for (const objProp of item.properties) {
+        const key = objProp.key;
+        let value: string | number = objProp.value;
+        
+        // Remove quotes from strings
+        if (typeof value === 'string') {
+          if (value.startsWith('"') && value.endsWith('"')) {
+            value = value.slice(1, -1);
+          }
+          // Try to parse as number
+          const numValue = parseFloat(value);
+          if (!isNaN(numValue) && value === numValue.toString()) {
+            value = numValue;
+          }
+        }
+        
+        obj[key] = value;
+      }
+      values.push(obj);
+    } else if (Langium.isDataValue(item)) {
+      // Plain number value (DataValue type)
+      const numValue = parseFloat(item.value);
+      if (!isNaN(numValue)) {
+        values.push(numValue);
+      }
+    }
+  }
+
+  return { values };
+}
+
+/**
  * Parse result type
  */
 export interface ParseResult {
@@ -125,6 +166,8 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
           };
         } else if (Langium.isTooltipProperty(prop)) {
           node.tooltip = prop.text.replace(/^"|"$/g, '');
+        } else if (Langium.isDataProperty(prop)) {
+          node.data = convertDataProperty(prop);
         }
       }
 
@@ -180,10 +223,25 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
             shape: subStatement.shape,
           };
 
-          // Process properties (simplified - reuse logic from above if needed)
+          // Process properties
           for (const prop of subStatement.properties) {
             if (Langium.isLabelProperty(prop)) {
               node.label = prop.value.replace(/^"|"$/g, '');
+            } else if (Langium.isStyleRefProperty(prop)) {
+              node.style = prop.ref?.$refText;
+            } else if (Langium.isIconProperty(prop)) {
+              node.icon = {
+                provider: prop.provider,
+                name: prop.icon,
+              };
+            } else if (Langium.isLinkProperty(prop)) {
+              node.link = {
+                href: prop.url.replace(/^"|"$/g, ''),
+              };
+            } else if (Langium.isTooltipProperty(prop)) {
+              node.tooltip = prop.text.replace(/^"|"$/g, '');
+            } else if (Langium.isDataProperty(prop)) {
+              node.data = convertDataProperty(prop);
             }
           }
 
@@ -309,6 +367,8 @@ function convertContainer(
           };
         } else if (Langium.isTooltipProperty(prop)) {
           node.tooltip = prop.text.replace(/^"|"$/g, '');
+        } else if (Langium.isDataProperty(prop)) {
+          node.data = convertDataProperty(prop);
         }
       }
 
