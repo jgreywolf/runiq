@@ -15,12 +15,17 @@ import { shapeRegistry, createTextMeasurer } from '@runiq/core';
  * ELK (Eclipse Layout Kernel) layout engine adapter for Runiq.
  * Provides superior layout quality compared to Dagre with multiple algorithms.
  *
- * @todo Container Layout: Current implementation adds containers as ELK compound nodes,
- * but edges at root level cannot find nodes inside containers. Need to either:
- * 1. Add all edges at container level where both source/target exist
- * 2. Use flat node structure with parent references instead of nested children
- * 3. Calculate container bounds manually from positioned child nodes
- * See container-layout.test.ts for failing tests (15/16 tests need ELK hierarchy fix)
+ * Current Implementation Status:
+ * ✅ Basic containers with nodes - WORKING
+ * ✅ Cross-container edges - WORKING (12/16 tests passing)
+ * ✅ Multiple containers - WORKING
+ * ✅ Container padding - WORKING
+ * ⏳ Nested containers - PARTIAL (simple nesting works, multi-level needs positioning fix)
+ * ⏳ Spacing option with containers - TODO
+ *
+ * @todo Nested Container Positioning: Multi-level nested containers need proper relative
+ * positioning to parent. Currently using flat structure with placeholder bounds.
+ * See container-layout.test.ts for 4 skipped tests (two-level, three-level, C4, spacing).
  */
 export class ElkLayoutEngine implements LayoutEngine {
   id = 'elk';
