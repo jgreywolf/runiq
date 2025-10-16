@@ -34,7 +34,7 @@ program
   .argument('<input>', 'Input file (.runiq, .md, or .json)')
   .option('-o, --output <file>', 'Output SVG file')
   .option('--strict', 'Use strict SVG mode (no enhanced features)')
-  .option('--layout <engine>', 'Layout engine to use', 'dagre')
+  .option('--layout <engine>', 'Layout engine to use', 'elk')
   .option(
     '--type <type>',
     'Diagram type for validation (flowchart, sequence, entity-relationship, state-machine)'
