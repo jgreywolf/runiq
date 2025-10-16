@@ -45,7 +45,10 @@ NodeProperty:
     | DataProperty
     | ShowLegendProperty
     | StackedProperty
-    | ColorsProperty;
+    | ColorsProperty
+    | TitleProperty
+    | XLabelProperty
+    | YLabelProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -70,6 +73,15 @@ StackedProperty:
 
 ColorsProperty:
     'colors:' value=StringArray;
+
+TitleProperty:
+    'title:' value=STRING;
+
+XLabelProperty:
+    'xLabel:' value=STRING;
+
+YLabelProperty:
+    'yLabel:' value=STRING;
 
 StringArray:
     '[' (items+=STRING (',' items+=STRING)*)? ']';

@@ -67,8 +67,11 @@ export type RuniqKeywordNames =
     | "stress"
     | "style"
     | "style:"
+    | "title:"
     | "tooltip:"
     | "top"
+    | "xLabel:"
+    | "yLabel:"
     | "{"
     | "}";
 
@@ -404,7 +407,7 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
 }
 
-export type NodeProperty = ColorsProperty | DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TooltipProperty;
+export type NodeProperty = ColorsProperty | DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -537,6 +540,21 @@ export function isStyleRefProperty(item: unknown): item is StyleRefProperty {
     return reflection.isInstance(item, StyleRefProperty.$type);
 }
 
+export interface TitleProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'TitleProperty';
+    value: string;
+}
+
+export const TitleProperty = {
+    $type: 'TitleProperty',
+    value: 'value'
+} as const;
+
+export function isTitleProperty(item: unknown): item is TitleProperty {
+    return reflection.isInstance(item, TitleProperty.$type);
+}
+
 export interface TooltipProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'TooltipProperty';
@@ -550,6 +568,36 @@ export const TooltipProperty = {
 
 export function isTooltipProperty(item: unknown): item is TooltipProperty {
     return reflection.isInstance(item, TooltipProperty.$type);
+}
+
+export interface XLabelProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'XLabelProperty';
+    value: string;
+}
+
+export const XLabelProperty = {
+    $type: 'XLabelProperty',
+    value: 'value'
+} as const;
+
+export function isXLabelProperty(item: unknown): item is XLabelProperty {
+    return reflection.isInstance(item, XLabelProperty.$type);
+}
+
+export interface YLabelProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'YLabelProperty';
+    value: string;
+}
+
+export const YLabelProperty = {
+    $type: 'YLabelProperty',
+    value: 'value'
+} as const;
+
+export function isYLabelProperty(item: unknown): item is YLabelProperty {
+    return reflection.isInstance(item, YLabelProperty.$type);
 }
 
 export type RuniqAstType = {
@@ -581,7 +629,10 @@ export type RuniqAstType = {
     StyleDeclaration: StyleDeclaration
     StyleProperty: StyleProperty
     StyleRefProperty: StyleRefProperty
+    TitleProperty: TitleProperty
     TooltipProperty: TooltipProperty
+    XLabelProperty: XLabelProperty
+    YLabelProperty: YLabelProperty
 }
 
 export class RuniqAstReflection extends langium.AbstractAstReflection {
@@ -897,11 +948,38 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [ContainerProperty.$type, NodeProperty.$type]
         },
+        TitleProperty: {
+            name: TitleProperty.$type,
+            properties: {
+                value: {
+                    name: TitleProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         TooltipProperty: {
             name: TooltipProperty.$type,
             properties: {
                 text: {
                     name: TooltipProperty.text
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        XLabelProperty: {
+            name: XLabelProperty.$type,
+            properties: {
+                value: {
+                    name: XLabelProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        YLabelProperty: {
+            name: YLabelProperty.$type,
+            properties: {
+                value: {
+                    name: YLabelProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

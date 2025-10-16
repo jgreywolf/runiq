@@ -13,12 +13,12 @@ Enable Runiq to render charts (pie, bar, XY scatter) where shapes dynamically re
 
 ### Available Chart Types
 
-| Chart Type | Shape ID | Status | Tests | Features |
-|------------|----------|--------|-------|----------|
-| Pie Chart | `@pie-chart` | ✅ Complete | 11 | Dynamic slices, color palette, proportional angles |
-| Vertical Bar Chart | `@bar-chart-vertical` | ✅ Complete | 18 | Horizontal bars, labels below, values above, axis |
-| Horizontal Bar Chart | `@bar-chart-horizontal` | ✅ Complete | 18 | Vertical bars, labels left, values right, axis |
-| Scatter Plot | `@scatter-plot` | ⏳ Future | 0 | XY positioning (Phase 3) |
+| Chart Type           | Shape ID                | Status      | Tests | Features                                           |
+| -------------------- | ----------------------- | ----------- | ----- | -------------------------------------------------- |
+| Pie Chart            | `@pie-chart`            | ✅ Complete | 11    | Dynamic slices, color palette, proportional angles |
+| Vertical Bar Chart   | `@bar-chart-vertical`   | ✅ Complete | 18    | Horizontal bars, labels below, values above, axis  |
+| Horizontal Bar Chart | `@bar-chart-horizontal` | ✅ Complete | 18    | Vertical bars, labels left, values right, axis     |
+| Scatter Plot         | `@scatter-plot`         | ⏳ Future   | 0     | XY positioning (Phase 3)                           |
 
 **Total:** 3 chart types available, 47 chart-specific tests passing
 

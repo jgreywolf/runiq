@@ -25,7 +25,7 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should calculate bounds based on number of bars', () => {
       const ctx = createContext({ values: [30, 45, 25, 60] });
       const bounds = barChartHorizontal.bounds(ctx);
-      
+
       // Height: 4 bars * (40 height + 15 spacing) + 15 spacing = 235
       expect(bounds.height).toBe(235);
       expect(bounds.width).toBe(400); // default width
@@ -44,11 +44,19 @@ describe('Bar Chart Horizontal Shape', () => {
       const ctx = createContext({ values: [30, 45, 25] });
       const anchors = barChartHorizontal.anchors!(ctx);
       expect(anchors).toHaveLength(4);
-      
+
       const bounds = barChartHorizontal.bounds(ctx);
       expect(anchors[0]).toEqual({ x: bounds.width / 2, y: 0, name: 'n' }); // north
-      expect(anchors[1]).toEqual({ x: bounds.width, y: bounds.height / 2, name: 'e' }); // east
-      expect(anchors[2]).toEqual({ x: bounds.width / 2, y: bounds.height, name: 's' }); // south
+      expect(anchors[1]).toEqual({
+        x: bounds.width,
+        y: bounds.height / 2,
+        name: 'e',
+      }); // east
+      expect(anchors[2]).toEqual({
+        x: bounds.width / 2,
+        y: bounds.height,
+        name: 's',
+      }); // south
       expect(anchors[3]).toEqual({ x: 0, y: bounds.height / 2, name: 'w' }); // west
     });
   });
@@ -75,7 +83,7 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should filter out negative and zero values', () => {
       const ctx = createContext({ values: [30, -10, 0, 45, 25] });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should only render 3 bars (30, 45, 25)
       const rectCount = (svg.match(/<rect/g) || []).length;
       expect(rectCount).toBe(3); // exactly 3 bars
@@ -86,7 +94,7 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should scale bar widths proportionally to max value', () => {
       const ctx = createContext({ values: [50, 100, 25] });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should contain bar elements
       expect(svg).toContain('<rect');
       expect(svg).toContain('width=');
@@ -95,7 +103,7 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should render bars with correct spacing', () => {
       const ctx = createContext({ values: [30, 45, 25] });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Check that bars are positioned with spacing
       expect(svg).toContain('y="15"'); // first bar at y=15 (spacing)
       expect(svg).toContain('y="70"'); // second bar at y=70 (15 + 40 + 15)
@@ -104,7 +112,7 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should use color palette for bars', () => {
       const ctx = createContext({ values: [30, 45, 25] });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Check that colors from palette are used
       expect(svg).toContain('fill="#4299e1"'); // first color (blue)
       expect(svg).toContain('fill="#48bb78"'); // second color (green)
@@ -119,10 +127,10 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Check for axis line
       expect(svg).toContain('<line'); // y-axis
-      
+
       // Check for labels
       expect(svg).toContain('<text');
       expect(svg).toContain('Category A');
@@ -155,7 +163,7 @@ describe('Bar Chart Horizontal Shape', () => {
       const ctx = createContext({ values });
       const bounds = barChartHorizontal.bounds(ctx);
       expect(bounds.height).toBe(20 * 55 + 15); // 20 bars * (40 + 15) + 15
-      
+
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('<rect');
     });
@@ -176,7 +184,10 @@ describe('Bar Chart Horizontal Shape', () => {
 
   describe('Style Integration', () => {
     it('should respect custom stroke from style', () => {
-      const ctx = createContext({ values: [30, 45] }, { stroke: '#000', strokeWidth: 3 });
+      const ctx = createContext(
+        { values: [30, 45] },
+        { stroke: '#000', strokeWidth: 3 }
+      );
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('stroke="#000"');
       expect(svg).toContain('stroke-width="3"');
@@ -192,7 +203,7 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should render 6 bars total (2 groups * 3 series)
       const rectCount = (svg.match(/<rect/g) || []).length;
       expect(rectCount).toBe(6);
@@ -206,19 +217,17 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const bounds = barChartHorizontal.bounds(ctx);
-      
+
       // Height should accommodate 2 groups
       expect(bounds.height).toBeGreaterThan(100);
     });
 
     it('should use different colors for each series', () => {
       const ctx = createContext({
-        values: [
-          { label: 'Q1', values: [30, 45, 25] },
-        ],
+        values: [{ label: 'Q1', values: [30, 45, 25] }],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should have 3 different colors
       expect(svg).toContain('#4299e1'); // blue (series 1)
       expect(svg).toContain('#48bb78'); // green (series 2)
@@ -233,7 +242,7 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       expect(svg).toContain('Q1');
       expect(svg).toContain('Q2');
     });
@@ -246,7 +255,7 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       const rectCount = (svg.match(/<rect/g) || []).length;
       expect(rectCount).toBe(5);
     });
@@ -259,7 +268,7 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       expect(svg).toContain('<rect');
       expect(svg).toContain('width=');
     });
@@ -267,12 +276,12 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should detect grouped format vs simple format', () => {
       const simpleCtx = createContext({ values: [30, 45, 25] });
       const simpleSvg = barChartHorizontal.render(simpleCtx, { x: 0, y: 0 });
-      
+
       const groupedCtx = createContext({
         values: [{ label: 'Q1', values: [30, 45] }],
       });
       const groupedSvg = barChartHorizontal.render(groupedCtx, { x: 0, y: 0 });
-      
+
       expect(simpleSvg).toContain('<rect');
       expect(groupedSvg).toContain('<rect');
       expect(simpleSvg).not.toContain('Q1');
@@ -290,11 +299,11 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should render rectangles for each segment
       const rectCount = (svg.match(/<rect/g) || []).length;
       expect(rectCount).toBe(6); // 2 groups * 3 series = 6 segments
-      
+
       // Should contain group labels
       expect(svg).toContain('Q1');
       expect(svg).toContain('Q2');
@@ -310,7 +319,7 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const bounds = barChartHorizontal.bounds(ctx);
-      
+
       expect(bounds.width).toBe(400); // default width
       // 3 groups * (40 height + 15 spacing) + 15 spacing = 180
       expect(bounds.height).toBe(180);
@@ -319,12 +328,10 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should use different colors for each series in stack', () => {
       const ctx = createContext({
         stacked: true,
-        values: [
-          { label: 'Q1', values: [30, 20, 15] },
-        ],
+        values: [{ label: 'Q1', values: [30, 20, 15] }],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should use default color palette
       expect(svg).toContain('fill="#4299e1"'); // first series (blue)
       expect(svg).toContain('fill="#48bb78"'); // second series (green)
@@ -339,13 +346,13 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Parse SVG to check x positions
       // Left segment (30) should start at left
       // Middle segment (20) should start after left
       // Right segment (10) should start at right
       expect(svg).toContain('<rect'); // has rectangles
-      
+
       // Segments should be stacked (not overlapping)
       const rectMatches = svg.match(/<rect[^>]*>/g) || [];
       expect(rectMatches.length).toBe(3);
@@ -360,7 +367,7 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should have labels at left of each stack
       expect(svg).toContain('Q1');
       expect(svg).toContain('Q2');
@@ -372,11 +379,11 @@ describe('Bar Chart Horizontal Shape', () => {
         stacked: true,
         values: [
           { label: 'Q1', values: [30, 20, 15] }, // 3 series
-          { label: 'Q2', values: [40, 25] },      // 2 series
+          { label: 'Q2', values: [40, 25] }, // 2 series
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should render all segments
       const rectCount = (svg.match(/<rect/g) || []).length;
       expect(rectCount).toBe(5); // 3 + 2 = 5 segments
@@ -391,11 +398,11 @@ describe('Bar Chart Horizontal Shape', () => {
         ],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Q2 stack should reach full width
       // Q1 stack should be proportionally shorter
       expect(svg).toContain('<rect'); // has bars
-      
+
       // Both stacks should be present
       expect(svg).toContain('Q1');
       expect(svg).toContain('Q2');
@@ -404,12 +411,10 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should handle single group with stacked bars', () => {
       const ctx = createContext({
         stacked: true,
-        values: [
-          { label: 'Total', values: [40, 30, 20, 10] },
-        ],
+        values: [{ label: 'Total', values: [40, 30, 20, 10] }],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       const rectCount = (svg.match(/<rect/g) || []).length;
       expect(rectCount).toBe(4); // 4 segments in stack
       expect(svg).toContain('Total');
@@ -421,7 +426,7 @@ describe('Bar Chart Horizontal Shape', () => {
         values: [],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       expect(svg).toContain('No data available');
     });
 
@@ -433,14 +438,14 @@ describe('Bar Chart Horizontal Shape', () => {
       const groupedCtx = createContext({
         values: [{ label: 'Q1', values: [30, 20] }],
       });
-      
+
       const stackedSvg = barChartHorizontal.render(stackedCtx, { x: 0, y: 0 });
       const groupedSvg = barChartHorizontal.render(groupedCtx, { x: 0, y: 0 });
-      
+
       // Both should render but with different layouts
       expect(stackedSvg).toContain('<rect');
       expect(groupedSvg).toContain('<rect');
-      
+
       // Stacked should have horizontal segments
       // Grouped should have vertical segments
     });
@@ -453,7 +458,7 @@ describe('Bar Chart Horizontal Shape', () => {
         colors: ['#ff0000', '#00ff00', '#0000ff'],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should use custom colors
       expect(svg).toContain('fill="#ff0000"');
       expect(svg).toContain('fill="#00ff00"');
@@ -462,13 +467,11 @@ describe('Bar Chart Horizontal Shape', () => {
 
     it('should use custom colors in grouped format', () => {
       const ctx = createContext({
-        values: [
-          { label: 'Q1', values: [30, 20] },
-        ],
+        values: [{ label: 'Q1', values: [30, 20] }],
         colors: ['#ff0000', '#00ff00'],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should use custom colors for series
       expect(svg).toContain('fill="#ff0000"');
       expect(svg).toContain('fill="#00ff00"');
@@ -477,13 +480,11 @@ describe('Bar Chart Horizontal Shape', () => {
     it('should use custom colors in stacked format', () => {
       const ctx = createContext({
         stacked: true,
-        values: [
-          { label: 'Q1', values: [30, 20, 15] },
-        ],
+        values: [{ label: 'Q1', values: [30, 20, 15] }],
         colors: ['#ff0000', '#00ff00', '#0000ff'],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should use custom colors for segments
       expect(svg).toContain('fill="#ff0000"');
       expect(svg).toContain('fill="#00ff00"');
@@ -495,7 +496,7 @@ describe('Bar Chart Horizontal Shape', () => {
         values: [30, 45, 25],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should use default palette
       expect(svg).toContain('fill="#4299e1"');
     });
@@ -508,7 +509,7 @@ describe('Bar Chart Horizontal Shape', () => {
         title: 'Sales by Product',
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       expect(svg).toContain('Sales by Product');
     });
 
@@ -518,7 +519,7 @@ describe('Bar Chart Horizontal Shape', () => {
         xLabel: 'Revenue ($K)',
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       expect(svg).toContain('Revenue ($K)');
     });
 
@@ -528,7 +529,7 @@ describe('Bar Chart Horizontal Shape', () => {
         yLabel: 'Products',
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       expect(svg).toContain('Products');
     });
 
@@ -540,7 +541,7 @@ describe('Bar Chart Horizontal Shape', () => {
         yLabel: 'Products',
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       expect(svg).toContain('Product Sales');
       expect(svg).toContain('Revenue ($K)');
       expect(svg).toContain('Products');
@@ -551,7 +552,7 @@ describe('Bar Chart Horizontal Shape', () => {
         values: [30, 45, 25],
       });
       const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
-      
+
       // Should have bars and axis
       expect(svg).toContain('<rect');
       expect(svg).toContain('<line');

@@ -175,11 +175,13 @@ describe('Pie Chart Shape', () => {
       };
       const boundsWithLegend = pieChart.bounds(ctx(data));
       const boundsNoLegend = pieChart.bounds(ctx({ values: [30, 45, 25] }));
-      
+
       // Width should be wider to accommodate legend
       expect(boundsWithLegend.width).toBeGreaterThan(boundsNoLegend.width);
       // Height should be same or taller
-      expect(boundsWithLegend.height).toBeGreaterThanOrEqual(boundsNoLegend.height);
+      expect(boundsWithLegend.height).toBeGreaterThanOrEqual(
+        boundsNoLegend.height
+      );
     });
   });
 
@@ -194,12 +196,12 @@ describe('Pie Chart Shape', () => {
         colors: ['#ff0000', '#00ff00', '#0000ff'],
       });
       const svg = pieChart.render(context, { x: 0, y: 0 });
-      
+
       // Should use custom colors
       expect(svg).toContain('fill="#ff0000"');
       expect(svg).toContain('fill="#00ff00"');
       expect(svg).toContain('fill="#0000ff"');
-      
+
       // Should not use default palette colors
       expect(svg).not.toContain('fill="#4299e1"');
     });
@@ -210,7 +212,7 @@ describe('Pie Chart Shape', () => {
         colors: ['#ff0000', '#00ff00'],
       });
       const svg = pieChart.render(context, { x: 0, y: 0 });
-      
+
       // Should use colors and cycle back
       expect(svg).toContain('fill="#ff0000"');
       expect(svg).toContain('fill="#00ff00"');
@@ -221,7 +223,7 @@ describe('Pie Chart Shape', () => {
         values: [30, 25, 20],
       });
       const svg = pieChart.render(context, { x: 0, y: 0 });
-      
+
       // Should use default palette
       expect(svg).toContain('fill="#4299e1"');
       expect(svg).toContain('fill="#48bb78"');
@@ -237,7 +239,7 @@ describe('Pie Chart Shape', () => {
         showLegend: true,
       });
       const svg = pieChart.render(context, { x: 0, y: 0 });
-      
+
       // Legend should show custom colors
       expect(svg).toContain('fill="#ff0000"');
       expect(svg).toContain('fill="#00ff00"');
@@ -253,7 +255,7 @@ describe('Pie Chart Shape', () => {
         title: 'Sales by Region',
       });
       const svg = pieChart.render(context, { x: 0, y: 0 });
-      
+
       // Should contain the title text
       expect(svg).toContain('Sales by Region');
       expect(svg).toContain('<text');
@@ -264,7 +266,7 @@ describe('Pie Chart Shape', () => {
         values: [30, 25, 20],
       });
       const svg = pieChart.render(context, { x: 0, y: 0 });
-      
+
       // Should only have slice paths, no title
       expect(svg).toContain('<path');
       // The word "title" shouldn't appear in rendered output
@@ -278,7 +280,7 @@ describe('Pie Chart Shape', () => {
         title: 'Test Chart',
       });
       const svg = pieChart.render(context, { x: 0, y: 0 });
-      
+
       // Title should be near top (y coordinate close to 0)
       expect(svg).toContain('Test Chart');
       // Should be centered (text-anchor="middle")
@@ -287,12 +289,15 @@ describe('Pie Chart Shape', () => {
 
     it('should work with title and legend together', () => {
       const context = ctx({
-        values: [{ label: 'A', value: 30 }, { label: 'B', value: 25 }],
+        values: [
+          { label: 'A', value: 30 },
+          { label: 'B', value: 25 },
+        ],
         title: 'Chart with Legend',
         showLegend: true,
       });
       const svg = pieChart.render(context, { x: 0, y: 0 });
-      
+
       // Should have both title and legend
       expect(svg).toContain('Chart with Legend');
       expect(svg).toContain('A (');

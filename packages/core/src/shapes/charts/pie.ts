@@ -18,7 +18,8 @@ const DEFAULT_PALETTE = [
  * Get color for slice at given index (cycles through palette)
  */
 function getSliceColor(index: number, customColors?: string[]): string {
-  const palette = customColors && customColors.length > 0 ? customColors : DEFAULT_PALETTE;
+  const palette =
+    customColors && customColors.length > 0 ? customColors : DEFAULT_PALETTE;
   return palette[index % palette.length];
 }
 
@@ -145,7 +146,8 @@ function renderLegend(
       const color = getSliceColor(i, customColors);
       // Round percentage, remove decimal if .0
       const percentage = Math.round(slice.percentage * 10) / 10;
-      const percentageStr = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
+      const percentageStr =
+        percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
 
       return `<g>
       <rect x="${startX}" y="${y}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
@@ -172,13 +174,13 @@ export const pieChart: ShapeDefinition = {
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     const size = 200;
     const showLegend = ctx.node.data?.showLegend === true;
-    
+
     if (showLegend) {
       // Add space for legend on the right
       const legendWidth = 150;
       return { width: size + legendWidth, height: size };
     }
-    
+
     return { width: size, height: size };
   },
 
@@ -204,7 +206,9 @@ export const pieChart: ShapeDefinition = {
     const slices = calculateSlices(data);
 
     // Get custom colors if provided
-    const customColors = Array.isArray(ctx.node.data?.colors) ? ctx.node.data.colors as string[] : undefined;
+    const customColors = Array.isArray(ctx.node.data?.colors)
+      ? (ctx.node.data.colors as string[])
+      : undefined;
 
     // Get title if provided
     const title = ctx.node.data?.title;
@@ -215,13 +219,13 @@ export const pieChart: ShapeDefinition = {
 
     // Check if legend should be rendered
     const showLegend = ctx.node.data?.showLegend === true;
-    
+
     if (showLegend && slices.length > 0) {
       // Render legend to the right of the pie
       const legendX = position.x + size + 10;
       const legendY = position.y + 20;
       const legend = renderLegend(slices, legendX, legendY, customColors);
-      
+
       return `${titleElement}${paths}\n    ${legend}`;
     }
 

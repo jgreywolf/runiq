@@ -39,7 +39,7 @@ function isGroupedFormat(data: any): boolean {
   if (!data || !data.values || !Array.isArray(data.values)) {
     return false;
   }
-  
+
   // Check if first item has 'values' array property
   const firstItem = data.values[0];
   return (
@@ -60,13 +60,17 @@ function normalizeGroupedData(data: any): GroupedBarData[] {
 
   return data.values
     .map((item: any): GroupedBarData | null => {
-      if (typeof item === 'object' && item !== null && Array.isArray(item.values)) {
+      if (
+        typeof item === 'object' &&
+        item !== null &&
+        Array.isArray(item.values)
+      ) {
         const values = item.values
           .map((v: any) => Number(v))
           .filter((v: number) => !isNaN(v) && v > 0);
-        
+
         if (values.length === 0) return null;
-        
+
         return {
           label: item.label || 'Group',
           values,
@@ -74,7 +78,9 @@ function normalizeGroupedData(data: any): GroupedBarData[] {
       }
       return null;
     })
-    .filter((item: GroupedBarData | null): item is GroupedBarData => item !== null);
+    .filter(
+      (item: GroupedBarData | null): item is GroupedBarData => item !== null
+    );
 }
 
 /**
@@ -122,7 +128,8 @@ function normalizeData(data: any): BarData[] {
  * Get color from palette by index
  */
 function getBarColor(index: number, customColors?: string[]): string {
-  const palette = customColors && customColors.length > 0 ? customColors : DEFAULT_PALETTE;
+  const palette =
+    customColors && customColors.length > 0 ? customColors : DEFAULT_PALETTE;
   return palette[index % palette.length];
 }
 
@@ -170,7 +177,10 @@ function renderBars(
 /**
  * Render X-axis
  */
-function renderAxis(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
+function renderAxis(
+  ctx: ShapeRenderContext,
+  position: { x: number; y: number }
+): string {
   const bounds = barChartVertical.bounds(ctx);
   const axisY = position.y + bounds.height - CHART_MARGIN_BOTTOM;
   const axisX1 = position.x + BAR_SPACING / 2;
@@ -182,7 +192,10 @@ function renderAxis(ctx: ShapeRenderContext, position: { x: number; y: number })
 /**
  * Render empty state
  */
-function renderEmptyState(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
+function renderEmptyState(
+  ctx: ShapeRenderContext,
+  position: { x: number; y: number }
+): string {
   const bounds = barChartVertical.bounds(ctx);
   const centerX = position.x + bounds.width / 2;
   const centerY = position.y + bounds.height / 2;
@@ -205,28 +218,31 @@ function renderGroupedBars(
 ): string {
   const bounds = barChartVertical.bounds(ctx);
   const chartHeight = bounds.height - CHART_MARGIN_TOP - CHART_MARGIN_BOTTOM;
-  
+
   const elements: string[] = [];
   let currentX = position.x + GROUP_SPACING;
-  
+
   groups.forEach((group) => {
-    const groupWidth = group.values.length * GROUPED_BAR_WIDTH + (group.values.length - 1) * GROUPED_BAR_SPACING;
-    
+    const groupWidth =
+      group.values.length * GROUPED_BAR_WIDTH +
+      (group.values.length - 1) * GROUPED_BAR_SPACING;
+
     // Render bars in this group
     group.values.forEach((value, seriesIndex) => {
       const barHeight = (value / maxValue) * chartHeight;
-      const x = currentX + seriesIndex * (GROUPED_BAR_WIDTH + GROUPED_BAR_SPACING);
+      const x =
+        currentX + seriesIndex * (GROUPED_BAR_WIDTH + GROUPED_BAR_SPACING);
       const y = position.y + CHART_MARGIN_TOP + (chartHeight - barHeight);
-      
+
       const color = getBarColor(seriesIndex, customColors);
       const stroke = ctx.style?.stroke || '#333';
       const strokeWidth = ctx.style?.strokeWidth || 1;
-      
+
       // Bar rectangle
       elements.push(
         `<rect x="${x}" y="${y}" width="${GROUPED_BAR_WIDTH}" height="${barHeight}" fill="${color}" stroke="${stroke}" stroke-width="${strokeWidth}" />`
       );
-      
+
       // Value above bar
       const valueX = x + GROUPED_BAR_WIDTH / 2;
       const valueY = y - 5;
@@ -234,17 +250,17 @@ function renderGroupedBars(
         `<text x="${valueX}" y="${valueY}" text-anchor="middle" font-size="10" fill="#666">${value}</text>`
       );
     });
-    
+
     // Group label below
     const labelX = currentX + groupWidth / 2;
     const labelY = position.y + bounds.height - CHART_MARGIN_BOTTOM + 20;
     elements.push(
       `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${group.label}</text>`
     );
-    
+
     currentX += groupWidth + GROUP_SPACING;
   });
-  
+
   return elements.join('\n');
 }
 
@@ -260,58 +276,63 @@ function renderStackedBars(
 ): string {
   const bounds = barChartVertical.bounds(ctx);
   const chartHeight = bounds.height - CHART_MARGIN_TOP - CHART_MARGIN_BOTTOM;
-  
+
   const elements: string[] = [];
   let currentX = position.x + BAR_SPACING;
-  
+
   groups.forEach((group) => {
     const total = group.values.reduce((sum, val) => sum + val, 0);
     const stackHeight = (total / maxTotal) * chartHeight;
-    
+
     // Start from bottom of chart
     let currentY = position.y + CHART_MARGIN_TOP + chartHeight;
-    
+
     // Render segments from bottom to top
     group.values.forEach((value, seriesIndex) => {
       const segmentHeight = (value / maxTotal) * chartHeight;
       const y = currentY - segmentHeight;
-      
+
       const color = getBarColor(seriesIndex, customColors);
       const stroke = ctx.style?.stroke || '#333';
       const strokeWidth = ctx.style?.strokeWidth || 1;
-      
+
       // Segment rectangle
       elements.push(
         `<rect x="${currentX}" y="${y}" width="${BAR_WIDTH}" height="${segmentHeight}" fill="${color}" stroke="${stroke}" stroke-width="${strokeWidth}" />`
       );
-      
+
       currentY = y; // Move up for next segment
     });
-    
+
     // Total value above stack
     const totalX = currentX + BAR_WIDTH / 2;
-    const totalY = position.y + CHART_MARGIN_TOP + (chartHeight - stackHeight) - 5;
+    const totalY =
+      position.y + CHART_MARGIN_TOP + (chartHeight - stackHeight) - 5;
     elements.push(
       `<text x="${totalX}" y="${totalY}" text-anchor="middle" font-size="10" fill="#666">${total}</text>`
     );
-    
+
     // Group label below
     const labelX = currentX + BAR_WIDTH / 2;
     const labelY = position.y + bounds.height - CHART_MARGIN_BOTTOM + 20;
     elements.push(
       `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${group.label}</text>`
     );
-    
+
     currentX += BAR_WIDTH + BAR_SPACING;
   });
-  
+
   return elements.join('\n');
 }
 
 /**
  * Render title text above the bar chart
  */
-function renderTitle(title: string, position: { x: number; y: number }, width: number): string {
+function renderTitle(
+  title: string,
+  position: { x: number; y: number },
+  width: number
+): string {
   const titleX = position.x + width / 2;
   const titleY = position.y + 20;
   return `<text x="${titleX}" y="${titleY}" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">${title}</text>`;
@@ -320,7 +341,12 @@ function renderTitle(title: string, position: { x: number; y: number }, width: n
 /**
  * Render X-axis label at bottom
  */
-function renderXLabel(label: string, position: { x: number; y: number }, width: number, height: number): string {
+function renderXLabel(
+  label: string,
+  position: { x: number; y: number },
+  width: number,
+  height: number
+): string {
   const labelX = position.x + width / 2;
   const labelY = position.y + height + 40;
   return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666">${label}</text>`;
@@ -329,7 +355,11 @@ function renderXLabel(label: string, position: { x: number; y: number }, width: 
 /**
  * Render Y-axis label on left side (rotated)
  */
-function renderYLabel(label: string, position: { x: number; y: number }, height: number): string {
+function renderYLabel(
+  label: string,
+  position: { x: number; y: number },
+  height: number
+): string {
   const labelX = position.x - 30;
   const labelY = position.y + height / 2;
   return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666" transform="rotate(-90 ${labelX} ${labelY})">${label}</text>`;
@@ -345,34 +375,36 @@ export const barChartVertical: ShapeDefinition = {
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
-      
+
       if (groups.length === 0) {
         return { width: 200, height: DEFAULT_HEIGHT };
       }
-      
+
       // Calculate width same as simple format
       const width = groups.length * (BAR_WIDTH + BAR_SPACING) + BAR_SPACING;
       return { width, height: DEFAULT_HEIGHT };
     }
-    
+
     // Check if data is in grouped format
     if (isGroupedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
-      
+
       if (groups.length === 0) {
         return { width: 200, height: DEFAULT_HEIGHT };
       }
-      
+
       // Calculate total width based on groups
       let totalWidth = GROUP_SPACING; // initial spacing
-      groups.forEach(group => {
-        const groupWidth = group.values.length * GROUPED_BAR_WIDTH + (group.values.length - 1) * GROUPED_BAR_SPACING;
+      groups.forEach((group) => {
+        const groupWidth =
+          group.values.length * GROUPED_BAR_WIDTH +
+          (group.values.length - 1) * GROUPED_BAR_SPACING;
         totalWidth += groupWidth + GROUP_SPACING;
       });
-      
+
       return { width: totalWidth, height: DEFAULT_HEIGHT };
     }
-    
+
     // Simple format
     const data = normalizeData(ctx.node.data);
 
@@ -403,54 +435,76 @@ export const barChartVertical: ShapeDefinition = {
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
     // Get custom colors if provided
-    const customColors = Array.isArray(ctx.node.data?.colors) ? ctx.node.data.colors as string[] : undefined;
-    
+    const customColors = Array.isArray(ctx.node.data?.colors)
+      ? (ctx.node.data.colors as string[])
+      : undefined;
+
     // Get title and labels if provided
     const title = ctx.node.data?.title;
     const xLabel = ctx.node.data?.xLabel;
     const yLabel = ctx.node.data?.yLabel;
-    
+
     const bounds = this.bounds(ctx);
-    const titleElement = title ? renderTitle(title as string, position, bounds.width) : '';
-    const xLabelElement = xLabel ? renderXLabel(xLabel as string, position, bounds.width, bounds.height) : '';
-    const yLabelElement = yLabel ? renderYLabel(yLabel as string, position, bounds.height) : '';
-    
+    const titleElement = title
+      ? renderTitle(title as string, position, bounds.width)
+      : '';
+    const xLabelElement = xLabel
+      ? renderXLabel(xLabel as string, position, bounds.width, bounds.height)
+      : '';
+    const yLabelElement = yLabel
+      ? renderYLabel(yLabel as string, position, bounds.height)
+      : '';
+
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
-      
+
       if (groups.length === 0) {
         return renderEmptyState(ctx, position);
       }
-      
+
       // Find max cumulative total across all groups
-      const totals = groups.map(g => g.values.reduce((sum, val) => sum + val, 0));
+      const totals = groups.map((g) =>
+        g.values.reduce((sum, val) => sum + val, 0)
+      );
       const maxTotal = Math.max(...totals);
-      
-      const bars = renderStackedBars(groups, maxTotal, ctx, position, customColors);
+
+      const bars = renderStackedBars(
+        groups,
+        maxTotal,
+        ctx,
+        position,
+        customColors
+      );
       const axis = renderAxis(ctx, position);
-      
+
       return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}</g>`;
     }
-    
+
     // Check if data is in grouped format
     if (isGroupedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
-      
+
       if (groups.length === 0) {
         return renderEmptyState(ctx, position);
       }
-      
+
       // Find max value across all series in all groups
-      const allValues = groups.flatMap(g => g.values);
+      const allValues = groups.flatMap((g) => g.values);
       const maxValue = Math.max(...allValues);
-      
-      const bars = renderGroupedBars(groups, maxValue, ctx, position, customColors);
+
+      const bars = renderGroupedBars(
+        groups,
+        maxValue,
+        ctx,
+        position,
+        customColors
+      );
       const axis = renderAxis(ctx, position);
-      
+
       return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}</g>`;
     }
-    
+
     // Simple format
     const data = normalizeData(ctx.node.data);
 

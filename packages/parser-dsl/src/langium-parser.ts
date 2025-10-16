@@ -15,7 +15,9 @@ import * as Langium from './generated/ast.js';
 /**
  * Convert Langium DataProperty to core data format
  */
-function convertDataProperty(prop: Langium.DataProperty): Record<string, unknown> {
+function convertDataProperty(
+  prop: Langium.DataProperty
+): Record<string, unknown> {
   const values: Array<number | Record<string, unknown>> = [];
 
   for (const item of prop.items) {
@@ -25,14 +27,14 @@ function convertDataProperty(prop: Langium.DataProperty): Record<string, unknown
       for (const objProp of item.properties) {
         const key = objProp.key;
         const value = objProp.value;
-        
+
         // Handle arrays (DataArray type)
         if (Langium.isDataArray(value)) {
-          const arrayValues = value.items.map(num => parseFloat(num));
+          const arrayValues = value.items.map((num) => parseFloat(num));
           obj[key] = arrayValues;
           continue;
         }
-        
+
         // Remove quotes from strings
         if (typeof value === 'string') {
           let strValue = value;
@@ -188,12 +190,14 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
           if (!node.data) node.data = {};
           // Convert StringArray to array of strings
           if (prop.value && Langium.isStringArray(prop.value)) {
-            node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+            node.data.colors = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
           }
         }
       }
 
-      // Second pass: ensure showLegend, stacked, and colors are set after DataProperty
+      // Second pass: ensure showLegend, stacked, colors, title, and labels are set after DataProperty
       for (const prop of statement.properties) {
         if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
@@ -205,8 +209,19 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
           if (!node.data) node.data = {};
           // Convert StringArray to array of strings
           if (prop.value && Langium.isStringArray(prop.value)) {
-            node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+            node.data.colors = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
           }
+        } else if (Langium.isTitleProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.title = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isXLabelProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.xLabel = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isYLabelProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.yLabel = prop.value.replace(/^"|"$/g, '');
         }
       }
 
@@ -291,12 +306,14 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
               if (!node.data) node.data = {};
               // Convert StringArray to array of strings
               if (prop.value && Langium.isStringArray(prop.value)) {
-                node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+                node.data.colors = prop.value.items.map((item) =>
+                  item.replace(/^"|"$/g, '')
+                );
               }
             }
           }
 
-          // Second pass: ensure showLegend, stacked, and colors are set after DataProperty
+          // Second pass: ensure showLegend, stacked, colors, title, and labels are set after DataProperty
           for (const prop of subStatement.properties) {
             if (Langium.isShowLegendProperty(prop)) {
               if (!node.data) node.data = {};
@@ -308,8 +325,19 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
               if (!node.data) node.data = {};
               // Convert StringArray to array of strings
               if (prop.value && Langium.isStringArray(prop.value)) {
-                node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+                node.data.colors = prop.value.items.map((item) =>
+                  item.replace(/^"|"$/g, '')
+                );
               }
+            } else if (Langium.isTitleProperty(prop)) {
+              if (!node.data) node.data = {};
+              node.data.title = prop.value.replace(/^"|"$/g, '');
+            } else if (Langium.isXLabelProperty(prop)) {
+              if (!node.data) node.data = {};
+              node.data.xLabel = prop.value.replace(/^"|"$/g, '');
+            } else if (Langium.isYLabelProperty(prop)) {
+              if (!node.data) node.data = {};
+              node.data.yLabel = prop.value.replace(/^"|"$/g, '');
             }
           }
 
@@ -447,12 +475,14 @@ function convertContainer(
           if (!node.data) node.data = {};
           // Convert StringArray to array of strings
           if (prop.value && Langium.isStringArray(prop.value)) {
-            node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+            node.data.colors = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
           }
         }
       }
 
-      // Second pass: ensure showLegend, stacked, and colors are set after DataProperty
+      // Second pass: ensure showLegend, stacked, colors, title, and labels are set after DataProperty
       for (const prop of statement.properties) {
         if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
@@ -464,8 +494,19 @@ function convertContainer(
           if (!node.data) node.data = {};
           // Convert StringArray to array of strings
           if (prop.value && Langium.isStringArray(prop.value)) {
-            node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+            node.data.colors = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
           }
+        } else if (Langium.isTitleProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.title = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isXLabelProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.xLabel = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isYLabelProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.yLabel = prop.value.replace(/^"|"$/g, '');
         }
       }
 

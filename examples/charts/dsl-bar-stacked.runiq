@@ -1,10 +1,13 @@
 // Stacked Bar Chart Example
 // Multiple values stacked vertically using nested arrays
 // The stacked property makes bars stack instead of group
-// Custom colors applied to each segment
+// Custom colors applied to each segment with title and axis labels
 
 shape chart1 as @bar-chart-vertical 
   label: "Revenue Breakdown" 
+  title: "Monthly Revenue by Category"
+  xLabel: "Month"
+  yLabel: "Revenue ($K)"
   stacked: true 
   colors: ["#f56565", "#48bb78", "#4299e1"]
   data: [

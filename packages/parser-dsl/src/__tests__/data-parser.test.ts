@@ -25,7 +25,9 @@ describe('Data Property Parser', () => {
 
       const result = parse(dsl);
       expect(result.success).toBe(true);
-      expect(result.diagram?.nodes[0].data?.values).toEqual([10.5, 20.75, 33.25]);
+      expect(result.diagram?.nodes[0].data?.values).toEqual([
+        10.5, 20.75, 33.25,
+      ]);
     });
 
     it('should parse array with single value', () => {
@@ -65,7 +67,7 @@ describe('Data Property Parser', () => {
       expect(result.success).toBe(true);
       expect(result.diagram?.nodes[0].data?.values).toEqual([
         { label: 'Q1', value: 100 },
-        { label: 'Q2', value: 150 }
+        { label: 'Q2', value: 150 },
       ]);
     });
 
@@ -78,7 +80,10 @@ describe('Data Property Parser', () => {
       const result = parse(dsl);
       expect(result.success).toBe(true);
       expect(result.diagram?.nodes[0].data?.values).toHaveLength(2);
-      expect(result.diagram?.nodes[0].data?.values[0]).toEqual({ label: 'A', value: 60 });
+      expect(result.diagram?.nodes[0].data?.values[0]).toEqual({
+        label: 'A',
+        value: 60,
+      });
     });
 
     it('should parse many labeled items', () => {
@@ -113,7 +118,11 @@ describe('Data Property Parser', () => {
       const result = parse(dsl);
       expect(result.success).toBe(true);
       expect(result.diagram?.nodes[0].data?.values).toHaveLength(2);
-      expect(result.diagram?.nodes[0].data?.values[0]).toEqual({ x: 10, y: 20, label: 'A' });
+      expect(result.diagram?.nodes[0].data?.values[0]).toEqual({
+        x: 10,
+        y: 20,
+        label: 'A',
+      });
     });
 
     it('should parse XY points without labels', () => {
@@ -127,7 +136,10 @@ describe('Data Property Parser', () => {
 
       const result = parse(dsl);
       expect(result.success).toBe(true);
-      expect(result.diagram?.nodes[0].data?.values[0]).toEqual({ x: 10, y: 20 });
+      expect(result.diagram?.nodes[0].data?.values[0]).toEqual({
+        x: 10,
+        y: 20,
+      });
     });
   });
 

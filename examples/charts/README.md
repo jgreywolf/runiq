@@ -7,6 +7,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ### 1. Pie Charts (`pie-chart`)
 
 **Basic Format:**
+
 ```json
 {
   "type": "pie-chart",
@@ -17,6 +18,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ```
 
 **With Labels:**
+
 ```json
 {
   "type": "pie-chart",
@@ -30,6 +32,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ```
 
 **Features:**
+
 - ✅ Simple values (numbers only)
 - ✅ Labeled values (objects with label and value)
 - ✅ Legend support (`showLegend: true`)
@@ -39,6 +42,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 - ✅ Color cycling for multiple slices
 
 **Complete Example:**
+
 ```json
 {
   "type": "pie-chart",
@@ -57,6 +61,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ### 2. Vertical Bar Charts (`bar-chart-vertical`)
 
 **Simple Format:**
+
 ```json
 {
   "type": "bar-chart-vertical",
@@ -67,6 +72,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ```
 
 **Grouped Format:**
+
 ```json
 {
   "type": "bar-chart-vertical",
@@ -80,6 +86,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ```
 
 **Stacked Format:**
+
 ```json
 {
   "type": "bar-chart-vertical",
@@ -94,6 +101,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ```
 
 **Features:**
+
 - ✅ Simple bars (single values)
 - ✅ Grouped bars (multiple series side-by-side)
 - ✅ Stacked bars (multiple series stacked vertically)
@@ -105,6 +113,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 - ✅ Bar labels and value display
 
 **Complete Example:**
+
 ```json
 {
   "type": "bar-chart-vertical",
@@ -125,6 +134,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ### 3. Horizontal Bar Charts (`bar-chart-horizontal`)
 
 **Simple Format:**
+
 ```json
 {
   "type": "bar-chart-horizontal",
@@ -135,6 +145,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ```
 
 **Grouped Format:**
+
 ```json
 {
   "type": "bar-chart-horizontal",
@@ -148,6 +159,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ```
 
 **Stacked Format:**
+
 ```json
 {
   "type": "bar-chart-horizontal",
@@ -162,6 +174,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 ```
 
 **Features:**
+
 - ✅ Simple bars (single values)
 - ✅ Grouped bars (multiple series vertically arranged)
 - ✅ Stacked bars (multiple series stacked horizontally)
@@ -173,6 +186,7 @@ This directory contains comprehensive examples demonstrating all chart features 
 - ✅ Bar labels and value display
 
 **Complete Example:**
+
 ```json
 {
   "type": "bar-chart-horizontal",
@@ -191,19 +205,19 @@ This directory contains comprehensive examples demonstrating all chart features 
 
 ## Feature Summary
 
-| Feature | Pie Chart | Vertical Bars | Horizontal Bars |
-|---------|-----------|---------------|-----------------|
-| Simple values | ✅ | ✅ | ✅ |
-| Labeled values | ✅ | ✅ | ✅ |
-| Grouped series | ❌ | ✅ | ✅ |
-| Stacked series | ❌ | ✅ | ✅ |
-| Custom colors | ✅ | ✅ | ✅ |
-| Title | ✅ | ✅ | ✅ |
-| X-axis label | ❌ | ✅ | ✅ |
-| Y-axis label | ❌ | ✅ | ✅ |
-| Legend | ✅ | ❌ | ❌ |
-| Auto-scaling | N/A | ✅ | ✅ |
-| Percentages | ✅ | ❌ | ❌ |
+| Feature        | Pie Chart | Vertical Bars | Horizontal Bars |
+| -------------- | --------- | ------------- | --------------- |
+| Simple values  | ✅        | ✅            | ✅              |
+| Labeled values | ✅        | ✅            | ✅              |
+| Grouped series | ❌        | ✅            | ✅              |
+| Stacked series | ❌        | ✅            | ✅              |
+| Custom colors  | ✅        | ✅            | ✅              |
+| Title          | ✅        | ✅            | ✅              |
+| X-axis label   | ❌        | ✅            | ✅              |
+| Y-axis label   | ❌        | ✅            | ✅              |
+| Legend         | ✅        | ❌            | ❌              |
+| Auto-scaling   | N/A       | ✅            | ✅              |
+| Percentages    | ✅        | ❌            | ❌              |
 
 ## Color System
 
@@ -219,6 +233,7 @@ All charts support custom color palettes:
 ```
 
 **Default Palette** (8 colors, cycles automatically):
+
 - `#4299e1` - Blue
 - `#48bb78` - Green
 - `#ed8936` - Orange
@@ -229,6 +244,7 @@ All charts support custom color palettes:
 - `#ecc94b` - Yellow
 
 **Color Cycling:**
+
 - If you have more data points than colors, colors automatically cycle
 - Custom colors override the default palette
 - Falls back to default if `colors` array is empty
@@ -317,10 +333,10 @@ const context = {
       values: [30, 25, 20],
       title: 'Revenue Distribution',
       showLegend: true,
-      colors: ['#667eea', '#764ba2', '#f093fb']
-    }
+      colors: ['#667eea', '#764ba2', '#f093fb'],
+    },
   },
-  styles: {}
+  styles: {},
 };
 
 const svg = pieChart.render(context, { x: 0, y: 0 });
@@ -330,6 +346,7 @@ console.log(svg); // SVG markup
 ## Test Coverage
 
 All chart features are thoroughly tested:
+
 - **Pie charts:** 26 tests
 - **Vertical bars:** 47 tests
 - **Horizontal bars:** 44 tests
@@ -340,11 +357,13 @@ All chart features are thoroughly tested:
 Runiq DSL now fully supports chart features including nested arrays for grouped and stacked bars!
 
 ### Basic Pie Chart (DSL)
+
 ```runiq
 shape pie1 as @pie-chart label: "Simple Pie" data: [30, 45, 25]
 ```
 
 ### Labeled Pie Chart (DSL)
+
 ```runiq
 shape pie1 as @pie-chart label: "Product Sales" data: [
   {"label": "Product A", "value": 450},
@@ -354,11 +373,13 @@ shape pie1 as @pie-chart label: "Product Sales" data: [
 ```
 
 ### Simple Bar Chart (DSL)
+
 ```runiq
 shape chart1 as @bar-chart-vertical label: "Monthly Sales" data: [30, 45, 60, 55, 70]
 ```
 
 ### Labeled Bar Chart (DSL)
+
 ```runiq
 shape chart1 as @bar-chart-vertical label: "Quarterly Revenue" data: [
   {"label": "Q1", "value": 120},
@@ -369,7 +390,9 @@ shape chart1 as @bar-chart-vertical label: "Quarterly Revenue" data: [
 ```
 
 ### Grouped Bar Chart (DSL)
+
 Nested arrays create grouped bars (side-by-side):
+
 ```runiq
 shape chart1 as @bar-chart-vertical label: "Revenue by Region" data: [
   {"label": "Q1", "values": [30, 45, 25]},
@@ -380,7 +403,9 @@ shape chart1 as @bar-chart-vertical label: "Revenue by Region" data: [
 ```
 
 ### Stacked Bar Chart (DSL)
+
 Add `stacked: true` to stack bars vertically:
+
 ```runiq
 shape chart1 as @bar-chart-vertical label: "Revenue Breakdown" stacked: true data: [
   {"label": "Q1", "values": [30, 45, 25]},
@@ -391,6 +416,7 @@ shape chart1 as @bar-chart-vertical label: "Revenue Breakdown" stacked: true dat
 ```
 
 ### Horizontal Bars (DSL)
+
 ```runiq
 shape chart1 as @bar-chart-horizontal label: "Department Budget" data: [
   {"label": "Engineering", "value": 500},
@@ -400,7 +426,9 @@ shape chart1 as @bar-chart-horizontal label: "Department Budget" data: [
 ```
 
 ### Show Legend (DSL)
+
 Add `showLegend: true` to display a legend:
+
 ```runiq
 shape pie1 as @pie-chart label: "Market Share" showLegend: true data: [
   {"label": "Product A", "value": 35},
@@ -409,10 +437,12 @@ shape pie1 as @pie-chart label: "Market Share" showLegend: true data: [
 ```
 
 ### Custom Colors (DSL)
+
 Add `colors: [...]` to specify custom colors:
+
 ```runiq
-shape pie1 as @pie-chart 
-  label: "Product Sales" 
+shape pie1 as @pie-chart
+  label: "Product Sales"
   colors: ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
   data: [
     {"label": "Product A", "value": 35},
@@ -423,8 +453,9 @@ shape pie1 as @pie-chart
 ```
 
 For grouped/stacked bars, colors apply to each bar group:
+
 ```runiq
-shape chart1 as @bar-chart-vertical 
+shape chart1 as @bar-chart-vertical
   label: "Sales by Region"
   colors: ["#e53e3e", "#38b2ac", "#9f7aea"]
   data: [
@@ -433,36 +464,77 @@ shape chart1 as @bar-chart-vertical
   ]
 ```
 
+### Title and Axis Labels (DSL)
+Add `title:`, `xLabel:`, and `yLabel:` properties:
+```runiq
+shape chart1 as @bar-chart-vertical 
+  label: "Quarterly Revenue"
+  title: "2025 Performance"
+  xLabel: "Quarter"
+  yLabel: "Revenue ($K)"
+  colors: ["#4299e1", "#48bb78", "#ed8936"]
+  data: [
+    {"label": "Q1", "value": 120},
+    {"label": "Q2", "value": 150},
+    {"label": "Q3", "value": 180},
+    {"label": "Q4", "value": 200}
+  ]
+```
+
+Pie charts support `title:`:
+```runiq
+shape pie1 as @pie-chart 
+  label: "Product Sales"
+  title: "Q4 2025 Sales Report"
+  colors: ["#667eea", "#764ba2", "#f093fb"]
+  data: [
+    {"label": "Product A", "value": 450},
+    {"label": "Product B", "value": 320}
+  ]
+```
+
 ### DSL Properties Reference
 
 **Chart Properties:**
+
 - `label: "string"` - Chart title
 - `showLegend: true/false` - Display legend
 - `stacked: true/false` - Stack bars vertically (bar charts only)
 - `colors: ["#hex", ...]` - Custom color array for slices/bars
+- `title: "string"` - Chart title (displayed above chart)
+- `xLabel: "string"` - X-axis label (bar charts only)
+- `yLabel: "string"` - Y-axis label (bar charts only)
 
 **Data Formats:**
+
 - Simple values: `data: [30, 45, 25]`
 - Labeled values: `data: [{"label": "Q1", "value": 120}]`
 - Nested arrays (grouped/stacked): `data: [{"label": "Q1", "values": [30, 45, 25]}]`
 
 **Color Specification:**
+
 - Use hex colors: `["#ff0000", "#00ff00", "#0000ff"]`
 - Colors cycle if fewer colors than data points
 - For grouped/stacked bars: colors apply to each bar in the group
 
 **DSL Example Files:**
+
 - `dsl-pie-simple.runiq` - Basic pie chart
-- `dsl-pie-labeled.runiq` - Labeled pie chart with colors
+- `dsl-pie-labeled.runiq` - Labeled pie chart with colors and title
 - `dsl-bar-simple.runiq` - Simple bar chart
-- `dsl-bar-labeled.runiq` - Labeled bar chart
-- `dsl-bar-grouped.runiq` - Grouped bars with custom colors
-- `dsl-bar-stacked.runiq` - Stacked bars with custom colors
-- `dsl-bar-horizontal.runiq` - Horizontal bars
+- `dsl-bar-labeled.runiq` - Labeled bar chart with title and axis labels
+- `dsl-bar-grouped.runiq` - Grouped bars with colors and labels
+- `dsl-bar-stacked.runiq` - Stacked bars with colors and labels
+- `dsl-bar-horizontal.runiq` - Horizontal bars with title and labels
 - `dsl-all-features.runiq` - Complete example with all features
 - `test-colors-pie-dsl.runiq` - Pie chart color test
 - `test-colors-bar-dsl.runiq` - Grouped bars color test
 - `test-colors-stacked-dsl.runiq` - Stacked bars color test
+- `test-title-pie-dsl.runiq` - Pie chart title test
+- `test-labels-bar-dsl.runiq` - Bar chart with title and axis labels
+- `test-labels-grouped-dsl.runiq` - Grouped bars with all labels
+- `test-labels-stacked-dsl.runiq` - Stacked bars with all labels
+- `test-labels-horizontal-dsl.runiq` - Horizontal bars with labels
 
 ### Rendering DSL Charts
 
@@ -480,6 +552,6 @@ node packages/cli/dist/cli.js render dsl-bar-stacked.runiq output.svg
 - ✅ DSL syntax for stacked property (COMPLETE!)
 - ✅ DSL syntax for showLegend property (COMPLETE!)
 - ✅ DSL syntax for color arrays (COMPLETE!)
-- Title/axis label properties in DSL - coming soon
+- ✅ DSL syntax for title and axis labels (COMPLETE!)
 - Interactive chart examples in web editor - coming soon
 
