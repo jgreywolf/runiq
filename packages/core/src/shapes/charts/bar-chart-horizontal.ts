@@ -77,6 +77,13 @@ function normalizeGroupedData(data: any): GroupedBarData[] {
 }
 
 /**
+ * Check if data is in stacked format
+ */
+function isStackedFormat(data: any): boolean {
+  return data && data.stacked === true && isGroupedFormat(data);
+}
+
+/**
  * Normalize data into consistent format
  */
 function normalizeData(data: any): BarData[] {
@@ -238,12 +245,83 @@ function renderGroupedBars(
 }
 
 /**
+ * Render stacked bars
+ */
+function renderStackedBars(
+  groups: GroupedBarData[],
+  maxTotal: number,
+  ctx: ShapeRenderContext,
+  position: { x: number; y: number }
+): string {
+  const bounds = barChartHorizontal.bounds(ctx);
+  const chartWidth = bounds.width - CHART_MARGIN_LEFT - CHART_MARGIN_RIGHT;
+  
+  const elements: string[] = [];
+  let currentY = position.y + BAR_SPACING;
+  
+  groups.forEach((group) => {
+    const total = group.values.reduce((sum, val) => sum + val, 0);
+    const stackWidth = (total / maxTotal) * chartWidth;
+    
+    // Start from left edge
+    let currentX = position.x + CHART_MARGIN_LEFT;
+    
+    // Render segments from left to right
+    group.values.forEach((value, seriesIndex) => {
+      const segmentWidth = (value / maxTotal) * chartWidth;
+      
+      const color = getBarColor(seriesIndex);
+      const stroke = ctx.style?.stroke || '#333';
+      const strokeWidth = ctx.style?.strokeWidth || 1;
+      
+      // Segment rectangle
+      elements.push(
+        `<rect x="${currentX}" y="${currentY}" width="${segmentWidth}" height="${BAR_HEIGHT}" fill="${color}" stroke="${stroke}" stroke-width="${strokeWidth}" />`
+      );
+      
+      currentX += segmentWidth; // Move right for next segment
+    });
+    
+    // Total value at end of stack
+    const totalX = position.x + CHART_MARGIN_LEFT + stackWidth + 5;
+    const totalY = currentY + BAR_HEIGHT / 2 + 4;
+    elements.push(
+      `<text x="${totalX}" y="${totalY}" font-size="10" fill="#666">${total}</text>`
+    );
+    
+    // Group label on the left
+    const labelX = position.x + CHART_MARGIN_LEFT - 10;
+    const labelY = currentY + BAR_HEIGHT / 2 + 4;
+    elements.push(
+      `<text x="${labelX}" y="${labelY}" text-anchor="end" font-size="12" fill="#333">${group.label}</text>`
+    );
+    
+    currentY += BAR_HEIGHT + BAR_SPACING;
+  });
+  
+  return elements.join('\n');
+}
+
+/**
  * Horizontal bar chart shape definition
  */
 export const barChartHorizontal: ShapeDefinition = {
   id: 'bar-chart-horizontal',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
+    // Check if data is in stacked format
+    if (isStackedFormat(ctx.node.data)) {
+      const groups = normalizeGroupedData(ctx.node.data);
+      
+      if (groups.length === 0) {
+        return { width: DEFAULT_WIDTH, height: 200 };
+      }
+      
+      // Calculate height same as simple format
+      const height = groups.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING;
+      return { width: DEFAULT_WIDTH, height };
+    }
+    
     // Check if data is in grouped format
     if (isGroupedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
@@ -291,6 +369,24 @@ export const barChartHorizontal: ShapeDefinition = {
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
+    // Check if data is in stacked format
+    if (isStackedFormat(ctx.node.data)) {
+      const groups = normalizeGroupedData(ctx.node.data);
+      
+      if (groups.length === 0) {
+        return renderEmptyState(ctx, position);
+      }
+      
+      // Find max cumulative total across all groups
+      const totals = groups.map(g => g.values.reduce((sum, val) => sum + val, 0));
+      const maxTotal = Math.max(...totals);
+      
+      const bars = renderStackedBars(groups, maxTotal, ctx, position);
+      const axis = renderAxis(ctx, position);
+      
+      return `<g>${bars}${axis}</g>`;
+    }
+    
     // Check if data is in grouped format
     if (isGroupedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);

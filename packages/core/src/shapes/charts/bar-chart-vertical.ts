@@ -78,6 +78,13 @@ function normalizeGroupedData(data: any): GroupedBarData[] {
 }
 
 /**
+ * Check if data is in stacked format
+ */
+function isStackedFormat(data: any): boolean {
+  return data && data.stacked === true && isGroupedFormat(data);
+}
+
+/**
  * Normalize data into consistent format
  */
 function normalizeData(data: any): BarData[] {
@@ -239,12 +246,84 @@ function renderGroupedBars(
 }
 
 /**
+ * Render stacked bars
+ */
+function renderStackedBars(
+  groups: GroupedBarData[],
+  maxTotal: number,
+  ctx: ShapeRenderContext,
+  position: { x: number; y: number }
+): string {
+  const bounds = barChartVertical.bounds(ctx);
+  const chartHeight = bounds.height - CHART_MARGIN_TOP - CHART_MARGIN_BOTTOM;
+  
+  const elements: string[] = [];
+  let currentX = position.x + BAR_SPACING;
+  
+  groups.forEach((group) => {
+    const total = group.values.reduce((sum, val) => sum + val, 0);
+    const stackHeight = (total / maxTotal) * chartHeight;
+    
+    // Start from bottom of chart
+    let currentY = position.y + CHART_MARGIN_TOP + chartHeight;
+    
+    // Render segments from bottom to top
+    group.values.forEach((value, seriesIndex) => {
+      const segmentHeight = (value / maxTotal) * chartHeight;
+      const y = currentY - segmentHeight;
+      
+      const color = getBarColor(seriesIndex);
+      const stroke = ctx.style?.stroke || '#333';
+      const strokeWidth = ctx.style?.strokeWidth || 1;
+      
+      // Segment rectangle
+      elements.push(
+        `<rect x="${currentX}" y="${y}" width="${BAR_WIDTH}" height="${segmentHeight}" fill="${color}" stroke="${stroke}" stroke-width="${strokeWidth}" />`
+      );
+      
+      currentY = y; // Move up for next segment
+    });
+    
+    // Total value above stack
+    const totalX = currentX + BAR_WIDTH / 2;
+    const totalY = position.y + CHART_MARGIN_TOP + (chartHeight - stackHeight) - 5;
+    elements.push(
+      `<text x="${totalX}" y="${totalY}" text-anchor="middle" font-size="10" fill="#666">${total}</text>`
+    );
+    
+    // Group label below
+    const labelX = currentX + BAR_WIDTH / 2;
+    const labelY = position.y + bounds.height - CHART_MARGIN_BOTTOM + 20;
+    elements.push(
+      `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${group.label}</text>`
+    );
+    
+    currentX += BAR_WIDTH + BAR_SPACING;
+  });
+  
+  return elements.join('\n');
+}
+
+/**
  * Vertical bar chart shape definition
  */
 export const barChartVertical: ShapeDefinition = {
   id: 'bar-chart-vertical',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
+    // Check if data is in stacked format
+    if (isStackedFormat(ctx.node.data)) {
+      const groups = normalizeGroupedData(ctx.node.data);
+      
+      if (groups.length === 0) {
+        return { width: 200, height: DEFAULT_HEIGHT };
+      }
+      
+      // Calculate width same as simple format
+      const width = groups.length * (BAR_WIDTH + BAR_SPACING) + BAR_SPACING;
+      return { width, height: DEFAULT_HEIGHT };
+    }
+    
     // Check if data is in grouped format
     if (isGroupedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
@@ -292,6 +371,24 @@ export const barChartVertical: ShapeDefinition = {
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
+    // Check if data is in stacked format
+    if (isStackedFormat(ctx.node.data)) {
+      const groups = normalizeGroupedData(ctx.node.data);
+      
+      if (groups.length === 0) {
+        return renderEmptyState(ctx, position);
+      }
+      
+      // Find max cumulative total across all groups
+      const totals = groups.map(g => g.values.reduce((sum, val) => sum + val, 0));
+      const maxTotal = Math.max(...totals);
+      
+      const bars = renderStackedBars(groups, maxTotal, ctx, position);
+      const axis = renderAxis(ctx, position);
+      
+      return `<g>${bars}${axis}</g>`;
+    }
+    
     // Check if data is in grouped format
     if (isGroupedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);

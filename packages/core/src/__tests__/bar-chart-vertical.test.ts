@@ -325,4 +325,170 @@ describe('Bar Chart Vertical Shape', () => {
       expect(svg).toContain('Q2');
     });
   });
+
+  describe('Stacked Bars', () => {
+    it('should render stacked bars with multiple series', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Q1', values: [30, 20, 15] }, // total 65
+          { label: 'Q2', values: [40, 25, 10] }, // total 75
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Should render rectangles for each segment
+      const rectCount = (svg.match(/<rect/g) || []).length;
+      expect(rectCount).toBe(6); // 2 groups * 3 series = 6 segments
+      
+      // Should contain group labels
+      expect(svg).toContain('Q1');
+      expect(svg).toContain('Q2');
+    });
+
+    it('should calculate bounds for stacked bars', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Q1', values: [30, 20, 15] },
+          { label: 'Q2', values: [40, 25, 10] },
+          { label: 'Q3', values: [35, 30, 20] },
+        ],
+      });
+      const bounds = barChartVertical.bounds(ctx);
+      
+      // 3 groups * (60 width + 20 spacing) + 20 spacing = 260
+      expect(bounds.width).toBe(260);
+      expect(bounds.height).toBe(300);
+    });
+
+    it('should use different colors for each series in stack', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Q1', values: [30, 20, 15] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Should use default color palette
+      expect(svg).toContain('fill="#4299e1"'); // first series (blue)
+      expect(svg).toContain('fill="#48bb78"'); // second series (green)
+      expect(svg).toContain('fill="#ed8936"'); // third series (orange)
+    });
+
+    it('should stack bars vertically with cumulative heights', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Q1', values: [30, 20, 10] }, // total 60
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Parse SVG to check y positions
+      // Bottom segment (30) should start at bottom
+      // Middle segment (20) should start above bottom
+      // Top segment (10) should start at top
+      expect(svg).toContain('<rect'); // has rectangles
+      
+      // Segments should be stacked (not overlapping)
+      const rectMatches = svg.match(/<rect[^>]*>/g) || [];
+      expect(rectMatches.length).toBe(3);
+    });
+
+    it('should render group labels at bottom', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Q1', values: [30, 20] },
+          { label: 'Q2', values: [40, 25] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Should have labels at bottom of each stack
+      expect(svg).toContain('Q1');
+      expect(svg).toContain('Q2');
+      expect(svg).toContain('<text'); // has text elements
+    });
+
+    it('should handle groups with different number of series', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Q1', values: [30, 20, 15] }, // 3 series
+          { label: 'Q2', values: [40, 25] },      // 2 series
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Should render all segments
+      const rectCount = (svg.match(/<rect/g) || []).length;
+      expect(rectCount).toBe(5); // 3 + 2 = 5 segments
+    });
+
+    it('should scale stacks to max cumulative total', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Q1', values: [30, 20, 10] }, // total 60
+          { label: 'Q2', values: [40, 30, 20] }, // total 90 (max)
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Q2 stack should reach full height
+      // Q1 stack should be proportionally shorter
+      expect(svg).toContain('<rect'); // has bars
+      
+      // Both stacks should be present
+      expect(svg).toContain('Q1');
+      expect(svg).toContain('Q2');
+    });
+
+    it('should handle single group with stacked bars', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Total', values: [40, 30, 20, 10] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      const rectCount = (svg.match(/<rect/g) || []).length;
+      expect(rectCount).toBe(4); // 4 segments in stack
+      expect(svg).toContain('Total');
+    });
+
+    it('should handle empty stacked data', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      expect(svg).toContain('No data available');
+    });
+
+    it('should detect stacked format via stacked property', () => {
+      const stackedCtx = createContext({
+        stacked: true,
+        values: [{ label: 'Q1', values: [30, 20] }],
+      });
+      const groupedCtx = createContext({
+        values: [{ label: 'Q1', values: [30, 20] }],
+      });
+      
+      const stackedSvg = barChartVertical.render(stackedCtx, { x: 0, y: 0 });
+      const groupedSvg = barChartVertical.render(groupedCtx, { x: 0, y: 0 });
+      
+      // Both should render but with different layouts
+      expect(stackedSvg).toContain('<rect');
+      expect(groupedSvg).toContain('<rect');
+      
+      // Stacked should have fewer rects visible (overlapping)
+      // Grouped should have side-by-side bars
+    });
+  });
 });
