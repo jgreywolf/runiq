@@ -603,4 +603,130 @@ describe('Container Validation', () => {
       expect(descendants).toHaveLength(0);
     });
   });
+
+  describe('Algorithm Validation', () => {
+    it('should accept valid layered algorithm', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Layered Container',
+        children: ['n1'],
+        layoutOptions: {
+          algorithm: 'layered',
+        },
+      };
+
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [{ id: 'n1', shape: 'rect' }],
+        edges: [],
+      };
+
+      const result = validateContainer(container, diagram);
+      expect(result.valid).toBe(true);
+    });
+
+    it('should accept valid force algorithm', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Force Container',
+        children: ['n1'],
+        layoutOptions: {
+          algorithm: 'force',
+        },
+      };
+
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [{ id: 'n1', shape: 'rect' }],
+        edges: [],
+      };
+
+      const result = validateContainer(container, diagram);
+      expect(result.valid).toBe(true);
+    });
+
+    it('should accept valid stress algorithm', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Stress Container',
+        children: ['n1'],
+        layoutOptions: {
+          algorithm: 'stress',
+        },
+      };
+
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [{ id: 'n1', shape: 'rect' }],
+        edges: [],
+      };
+
+      const result = validateContainer(container, diagram);
+      expect(result.valid).toBe(true);
+    });
+
+    it('should accept valid radial algorithm', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Radial Container',
+        children: ['n1'],
+        layoutOptions: {
+          algorithm: 'radial',
+        },
+      };
+
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [{ id: 'n1', shape: 'rect' }],
+        edges: [],
+      };
+
+      const result = validateContainer(container, diagram);
+      expect(result.valid).toBe(true);
+    });
+
+    it('should accept valid mrtree algorithm', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'MrTree Container',
+        children: ['n1'],
+        layoutOptions: {
+          algorithm: 'mrtree',
+        },
+      };
+
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [{ id: 'n1', shape: 'rect' }],
+        edges: [],
+      };
+
+      const result = validateContainer(container, diagram);
+      expect(result.valid).toBe(true);
+    });
+
+    it('should use layered as default algorithm when not specified', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Default Container',
+        children: ['n1'],
+      };
+
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [{ id: 'n1', shape: 'rect' }],
+        edges: [],
+      };
+
+      const result = validateContainer(container, diagram);
+      expect(result.valid).toBe(true);
+      // Default algorithm should be 'layered' (tested in layout engine)
+    });
+  });
 });

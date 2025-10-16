@@ -69,10 +69,25 @@ export interface ContainerStyle {
 }
 
 /**
+ * ELK layout algorithms supported by Runiq
+ * - layered: Hierarchical layout (default, good for flowcharts)
+ * - force: Force-directed layout (good for network graphs)
+ * - stress: Stress-minimization layout (minimize edge lengths)
+ * - radial: Radial tree layout (good for org charts, mind maps)
+ * - mrtree: Multi-rooted tree layout (good for forests)
+ */
+export type LayoutAlgorithm =
+  | 'layered'
+  | 'force'
+  | 'stress'
+  | 'radial'
+  | 'mrtree';
+
+/**
  * Layout options that can be specified per container
  */
 export interface ContainerLayoutOptions {
-  algorithm?: 'layered' | 'force' | 'radial' | 'stress';
+  algorithm?: LayoutAlgorithm;
   direction?: Direction;
   spacing?: number;
 }
