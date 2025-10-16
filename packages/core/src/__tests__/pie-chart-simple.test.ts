@@ -182,4 +182,67 @@ describe('Pie Chart Shape', () => {
       expect(boundsWithLegend.height).toBeGreaterThanOrEqual(boundsNoLegend.height);
     });
   });
+
+  describe('Custom Colors', () => {
+    it('should use custom colors when provided', () => {
+      const context = ctx({
+        values: [
+          { label: 'Red', value: 30 },
+          { label: 'Green', value: 25 },
+          { label: 'Blue', value: 20 },
+        ],
+        colors: ['#ff0000', '#00ff00', '#0000ff'],
+      });
+      const svg = pieChart.render(context, { x: 0, y: 0 });
+      
+      // Should use custom colors
+      expect(svg).toContain('fill="#ff0000"');
+      expect(svg).toContain('fill="#00ff00"');
+      expect(svg).toContain('fill="#0000ff"');
+      
+      // Should not use default palette colors
+      expect(svg).not.toContain('fill="#4299e1"');
+    });
+
+    it('should cycle through custom colors if more slices than colors', () => {
+      const context = ctx({
+        values: [30, 25, 20, 15, 10],
+        colors: ['#ff0000', '#00ff00'],
+      });
+      const svg = pieChart.render(context, { x: 0, y: 0 });
+      
+      // Should use colors and cycle back
+      expect(svg).toContain('fill="#ff0000"');
+      expect(svg).toContain('fill="#00ff00"');
+    });
+
+    it('should fall back to default palette if no custom colors', () => {
+      const context = ctx({
+        values: [30, 25, 20],
+      });
+      const svg = pieChart.render(context, { x: 0, y: 0 });
+      
+      // Should use default palette
+      expect(svg).toContain('fill="#4299e1"');
+      expect(svg).toContain('fill="#48bb78"');
+    });
+
+    it('should use custom colors in legend', () => {
+      const context = ctx({
+        values: [
+          { label: 'Red', value: 30 },
+          { label: 'Green', value: 25 },
+        ],
+        colors: ['#ff0000', '#00ff00'],
+        showLegend: true,
+      });
+      const svg = pieChart.render(context, { x: 0, y: 0 });
+      
+      // Legend should show custom colors
+      expect(svg).toContain('fill="#ff0000"');
+      expect(svg).toContain('fill="#00ff00"');
+      expect(svg).toContain('Red');
+      expect(svg).toContain('Green');
+    });
+  });
 });

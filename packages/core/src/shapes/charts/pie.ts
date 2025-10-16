@@ -17,8 +17,9 @@ const DEFAULT_PALETTE = [
 /**
  * Get color for slice at given index (cycles through palette)
  */
-function getSliceColor(index: number): string {
-  return DEFAULT_PALETTE[index % DEFAULT_PALETTE.length];
+function getSliceColor(index: number, customColors?: string[]): string {
+  const palette = customColors && customColors.length > 0 ? customColors : DEFAULT_PALETTE;
+  return palette[index % palette.length];
 }
 
 /**
@@ -99,7 +100,8 @@ function renderSlices(
   cx: number,
   cy: number,
   radius: number,
-  ctx: ShapeRenderContext
+  ctx: ShapeRenderContext,
+  customColors?: string[]
 ): string {
   if (slices.length === 0) {
     // Render empty circle placeholder
@@ -117,7 +119,7 @@ function renderSlices(
       const y2 = cy + radius * Math.sin(endRad);
 
       const largeArc = slice.angle > 180 ? 1 : 0;
-      const color = getSliceColor(i);
+      const color = getSliceColor(i, customColors);
 
       return `<path d="M ${cx},${cy} L ${x1},${y1} A ${radius},${radius} 0 ${largeArc},1 ${x2},${y2} Z" fill="${color}" stroke="${ctx.style.stroke || '#333'}" stroke-width="${ctx.style.strokeWidth || 2}" />`;
     })
@@ -130,7 +132,8 @@ function renderSlices(
 function renderLegend(
   slices: PieSlice[],
   startX: number,
-  startY: number
+  startY: number,
+  customColors?: string[]
 ): string {
   const SWATCH_SIZE = 12;
   const ROW_HEIGHT = 20;
@@ -139,7 +142,7 @@ function renderLegend(
   return slices
     .map((slice, i) => {
       const y = startY + i * ROW_HEIGHT;
-      const color = getSliceColor(i);
+      const color = getSliceColor(i, customColors);
       // Round percentage, remove decimal if .0
       const percentage = Math.round(slice.percentage * 10) / 10;
       const percentageStr = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
@@ -192,8 +195,11 @@ export const pieChart: ShapeDefinition = {
     const data = normalizeData(ctx.node.data);
     const slices = calculateSlices(data);
 
+    // Get custom colors if provided
+    const customColors = Array.isArray(ctx.node.data?.colors) ? ctx.node.data.colors as string[] : undefined;
+
     // Render slices
-    const paths = renderSlices(slices, cx, cy, radius, ctx);
+    const paths = renderSlices(slices, cx, cy, radius, ctx, customColors);
 
     // Check if legend should be rendered
     const showLegend = ctx.node.data?.showLegend === true;
@@ -202,7 +208,7 @@ export const pieChart: ShapeDefinition = {
       // Render legend to the right of the pie
       const legendX = position.x + size + 10;
       const legendY = position.y + 20;
-      const legend = renderLegend(slices, legendX, legendY);
+      const legend = renderLegend(slices, legendX, legendY, customColors);
       
       return `${paths}\n    ${legend}`;
     }

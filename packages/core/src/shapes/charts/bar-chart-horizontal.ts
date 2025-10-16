@@ -120,8 +120,9 @@ function normalizeData(data: any): BarData[] {
 /**
  * Get color from palette by index
  */
-function getBarColor(index: number): string {
-  return DEFAULT_PALETTE[index % DEFAULT_PALETTE.length];
+function getBarColor(index: number, customColors?: string[]): string {
+  const palette = customColors && customColors.length > 0 ? customColors : DEFAULT_PALETTE;
+  return palette[index % palette.length];
 }
 
 /**
@@ -131,7 +132,8 @@ function renderBars(
   data: BarData[],
   maxValue: number,
   ctx: ShapeRenderContext,
-  position: { x: number; y: number }
+  position: { x: number; y: number },
+  customColors?: string[]
 ): string {
   const bounds = barChartHorizontal.bounds(ctx);
   const chartWidth = bounds.width - CHART_MARGIN_LEFT - CHART_MARGIN_RIGHT;
@@ -141,7 +143,7 @@ function renderBars(
     const x = position.x + CHART_MARGIN_LEFT;
     const y = position.y + BAR_SPACING + index * (BAR_HEIGHT + BAR_SPACING);
 
-    const color = getBarColor(index);
+    const color = getBarColor(index, customColors);
     const stroke = ctx.style?.stroke || '#333';
     const strokeWidth = ctx.style?.strokeWidth || 1;
 
@@ -197,7 +199,8 @@ function renderGroupedBars(
   groups: GroupedBarData[],
   maxValue: number,
   ctx: ShapeRenderContext,
-  position: { x: number; y: number }
+  position: { x: number; y: number },
+  customColors?: string[]
 ): string {
   const bounds = barChartHorizontal.bounds(ctx);
   const chartWidth = bounds.width - CHART_MARGIN_LEFT - CHART_MARGIN_RIGHT;
@@ -214,7 +217,7 @@ function renderGroupedBars(
       const x = position.x + CHART_MARGIN_LEFT;
       const y = currentY + seriesIndex * (GROUPED_BAR_HEIGHT + GROUPED_BAR_SPACING);
       
-      const color = getBarColor(seriesIndex);
+      const color = getBarColor(seriesIndex, customColors);
       const stroke = ctx.style?.stroke || '#333';
       const strokeWidth = ctx.style?.strokeWidth || 1;
       
@@ -251,7 +254,8 @@ function renderStackedBars(
   groups: GroupedBarData[],
   maxTotal: number,
   ctx: ShapeRenderContext,
-  position: { x: number; y: number }
+  position: { x: number; y: number },
+  customColors?: string[]
 ): string {
   const bounds = barChartHorizontal.bounds(ctx);
   const chartWidth = bounds.width - CHART_MARGIN_LEFT - CHART_MARGIN_RIGHT;
@@ -270,7 +274,7 @@ function renderStackedBars(
     group.values.forEach((value, seriesIndex) => {
       const segmentWidth = (value / maxTotal) * chartWidth;
       
-      const color = getBarColor(seriesIndex);
+      const color = getBarColor(seriesIndex, customColors);
       const stroke = ctx.style?.stroke || '#333';
       const strokeWidth = ctx.style?.strokeWidth || 1;
       
@@ -369,6 +373,9 @@ export const barChartHorizontal: ShapeDefinition = {
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
+    // Get custom colors if provided
+    const customColors = Array.isArray(ctx.node.data?.colors) ? ctx.node.data.colors as string[] : undefined;
+    
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
@@ -381,7 +388,7 @@ export const barChartHorizontal: ShapeDefinition = {
       const totals = groups.map(g => g.values.reduce((sum, val) => sum + val, 0));
       const maxTotal = Math.max(...totals);
       
-      const bars = renderStackedBars(groups, maxTotal, ctx, position);
+      const bars = renderStackedBars(groups, maxTotal, ctx, position, customColors);
       const axis = renderAxis(ctx, position);
       
       return `<g>${bars}${axis}</g>`;
@@ -399,7 +406,7 @@ export const barChartHorizontal: ShapeDefinition = {
       const allValues = groups.flatMap(g => g.values);
       const maxValue = Math.max(...allValues);
       
-      const bars = renderGroupedBars(groups, maxValue, ctx, position);
+      const bars = renderGroupedBars(groups, maxValue, ctx, position, customColors);
       const axis = renderAxis(ctx, position);
       
       return `<g>${bars}${axis}</g>`;
@@ -413,7 +420,7 @@ export const barChartHorizontal: ShapeDefinition = {
     }
 
     const maxValue = Math.max(...data.map((d) => d.value));
-    const bars = renderBars(data, maxValue, ctx, position);
+    const bars = renderBars(data, maxValue, ctx, position, customColors);
     const axis = renderAxis(ctx, position);
 
     return `<g>${bars}${axis}</g>`;

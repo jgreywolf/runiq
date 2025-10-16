@@ -445,4 +445,59 @@ describe('Bar Chart Horizontal Shape', () => {
       // Grouped should have vertical segments
     });
   });
+
+  describe('Custom Colors', () => {
+    it('should use custom colors in simple format', () => {
+      const ctx = createContext({
+        values: [30, 45, 25],
+        colors: ['#ff0000', '#00ff00', '#0000ff'],
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      // Should use custom colors
+      expect(svg).toContain('fill="#ff0000"');
+      expect(svg).toContain('fill="#00ff00"');
+      expect(svg).toContain('fill="#0000ff"');
+    });
+
+    it('should use custom colors in grouped format', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 20] },
+        ],
+        colors: ['#ff0000', '#00ff00'],
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      // Should use custom colors for series
+      expect(svg).toContain('fill="#ff0000"');
+      expect(svg).toContain('fill="#00ff00"');
+    });
+
+    it('should use custom colors in stacked format', () => {
+      const ctx = createContext({
+        stacked: true,
+        values: [
+          { label: 'Q1', values: [30, 20, 15] },
+        ],
+        colors: ['#ff0000', '#00ff00', '#0000ff'],
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      // Should use custom colors for segments
+      expect(svg).toContain('fill="#ff0000"');
+      expect(svg).toContain('fill="#00ff00"');
+      expect(svg).toContain('fill="#0000ff"');
+    });
+
+    it('should fall back to default palette if no custom colors', () => {
+      const ctx = createContext({
+        values: [30, 45, 25],
+      });
+      const svg = barChartHorizontal.render(ctx, { x: 0, y: 0 });
+      
+      // Should use default palette
+      expect(svg).toContain('fill="#4299e1"');
+    });
+  });
 });
