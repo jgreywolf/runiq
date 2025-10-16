@@ -53,7 +53,7 @@ function normalizeData(data: any): BarData[] {
 
       return null;
     })
-    .filter((item): item is BarData => item !== null);
+    .filter((item: BarData | null): item is BarData => item !== null);
 }
 
 /**
@@ -142,12 +142,12 @@ export const barChartVertical: ShapeDefinition = {
       // Minimum size for empty state
       return {
         width: 200,
-        height: ctx.height || DEFAULT_HEIGHT,
+        height: DEFAULT_HEIGHT,
       };
     }
 
     const width = data.length * (BAR_WIDTH + BAR_SPACING) + BAR_SPACING;
-    const height = ctx.height || DEFAULT_HEIGHT;
+    const height = DEFAULT_HEIGHT;
 
     return { width, height };
   },

@@ -1,0 +1,10 @@
+diagram "Performance Metrics"
+
+shape metrics as @bar-chart-vertical
+  label: "Team Performance"
+  data: [
+    {"label": "Speed", "value": 85},
+    {"label": "Quality", "value": 92},
+    {"label": "Cost", "value": 78},
+    {"label": "Satisfaction", "value": 88}
+  ]

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="232" height="232" 
+    viewBox="0 0 232 232"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Quarterly Revenue</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style></defs><g data-runiq-node="quarters"><path d="M 112,112 L 112,22 A 90,90 0 0,1 193.86687958190663,74.61264882983022 Z" fill="#4299e1" stroke="#333" stroke-width="2" />
+    <path d="M 112,112 L 193.86687958190663,74.61264882983022 A 90,90 0 0,1 137.35593011572868,198.35436762530475 Z" fill="#48bb78" stroke="#333" stroke-width="2" />
+    <path d="M 112,112 L 137.35593011572868,198.35436762530475 A 90,90 0 0,1 32.40103621019671,154.0000590903106 Z" fill="#ed8936" stroke="#333" stroke-width="2" />
+    <path d="M 112,112 L 32.40103621019671,154.0000590903106 A 90,90 0 0,1 111.99999999999999,22 Z" fill="#9f7aea" stroke="#333" stroke-width="2" /></g></svg>
