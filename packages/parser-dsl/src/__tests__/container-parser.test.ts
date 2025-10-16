@@ -522,4 +522,150 @@ describe('Container Parser', () => {
       expect(result.success).toBe(false);
     });
   });
+
+  describe('Container Layout Properties', () => {
+    it('should parse container with layered algorithm', () => {
+      const dsl = `
+        diagram "test"
+        container "Test" algorithm: layered {
+          shape Node1 as @rect label: "A"
+          shape Node2 as @rect label: "B"
+          Node1 -> Node2
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const container = result.diagram?.containers?.[0];
+      expect(container?.layoutOptions?.algorithm).toBe('layered');
+    });
+
+    it('should parse container with force algorithm', () => {
+      const dsl = `
+        diagram "test"
+        container "Network" algorithm: force {
+          shape Node1 as @server label: "Server 1"
+          shape Node2 as @server label: "Server 2"
+          Node1 -> Node2
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const container = result.diagram?.containers?.[0];
+      expect(container?.layoutOptions?.algorithm).toBe('force');
+    });
+
+    it('should parse container with stress algorithm', () => {
+      const dsl = `
+        diagram "test"
+        container "Graph" algorithm: stress {
+          shape Node1 as @rect label: "A"
+          shape Node2 as @rect label: "B"
+          Node1 -> Node2
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const container = result.diagram?.containers?.[0];
+      expect(container?.layoutOptions?.algorithm).toBe('stress');
+    });
+
+    it('should parse container with radial algorithm', () => {
+      const dsl = `
+        diagram "test"
+        container "OrgChart" algorithm: radial {
+          shape CEO as @person label: "CEO"
+          shape CTO as @person label: "CTO"
+          CEO -> CTO
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const container = result.diagram?.containers?.[0];
+      expect(container?.layoutOptions?.algorithm).toBe('radial');
+    });
+
+    it('should parse container with mrtree algorithm', () => {
+      const dsl = `
+        diagram "test"
+        container "MultiTree" algorithm: mrtree {
+          shape Root1 as @rect label: "Root A"
+          shape Root2 as @rect label: "Root B"
+          shape Child as @rect label: "Child"
+          Root1 -> Child
+          Root2 -> Child
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const container = result.diagram?.containers?.[0];
+      expect(container?.layoutOptions?.algorithm).toBe('mrtree');
+    });
+
+    it('should parse container with spacing property', () => {
+      const dsl = `
+        diagram "test"
+        container "Spaced" spacing: 50 {
+          shape Node1 as @rect label: "A"
+          shape Node2 as @rect label: "B"
+          Node1 -> Node2
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const container = result.diagram?.containers?.[0];
+      expect(container?.layoutOptions?.spacing).toBe(50);
+    });
+
+    it('should parse container with both algorithm and spacing', () => {
+      const dsl = `
+        diagram "test"
+        container "Complex" 
+          algorithm: force 
+          spacing: 30 {
+          shape Node1 as @rect label: "A"
+          shape Node2 as @rect label: "B"
+          Node1 -> Node2
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const container = result.diagram?.containers?.[0];
+      expect(container?.layoutOptions?.algorithm).toBe('force');
+      expect(container?.layoutOptions?.spacing).toBe(30);
+    });
+
+    it('should parse container without layout options', () => {
+      const dsl = `
+        diagram "test"
+        container "NoLayout" {
+          shape Node1 as @rect label: "A"
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const container = result.diagram?.containers?.[0];
+      expect(container?.layoutOptions).toBeUndefined();
+    });
+
+    it('should handle container with invalid algorithm', () => {
+      const dsl = `
+        diagram "test"
+        container "Test" algorithm: invalid {
+          shape Node1 as @rect label: "Node"
+        }
+      `;
+      const result = parse(dsl);
+
+      // Should fail parsing due to invalid algorithm value
+      expect(result.success).toBe(false);
+    });
+  });
 });

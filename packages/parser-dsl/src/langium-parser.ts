@@ -231,6 +231,7 @@ function convertContainer(
   // Process container properties
   let styleRef: string | undefined;
   const containerStyle: ContainerStyle = {};
+  const layoutOptions: { algorithm?: string; spacing?: number } = {};
 
   for (const prop of block.properties) {
     if (Langium.isStyleRefProperty(prop)) {
@@ -258,6 +259,12 @@ function convertContainer(
           | 'left'
           | 'right';
       }
+    } else if (Langium.isContainerLayoutProperty(prop)) {
+      if (prop.algorithm) {
+        layoutOptions.algorithm = prop.algorithm;
+      } else if (prop.spacing !== undefined) {
+        layoutOptions.spacing = parseFloat(prop.spacing);
+      }
     }
   }
 
@@ -267,6 +274,10 @@ function convertContainer(
 
   if (Object.keys(containerStyle).length > 0) {
     container.containerStyle = containerStyle;
+  }
+
+  if (Object.keys(layoutOptions).length > 0) {
+    container.layoutOptions = layoutOptions as any;
   }
 
   // Process nested statements recursively

@@ -77,7 +77,8 @@ ContainerBlock:
 
 ContainerProperty:
     StyleRefProperty
-    | ContainerStyleProperty;
+    | ContainerStyleProperty
+    | ContainerLayoutProperty;
 
 ContainerStyleProperty:
     'borderStyle:' borderStyle=BorderStyleValue
@@ -88,11 +89,18 @@ ContainerStyleProperty:
     | 'padding:' padding=NUMBER
     | 'labelPosition:' labelPosition=LabelPositionValue;
 
+ContainerLayoutProperty:
+    'algorithm:' algorithm=LayoutAlgorithmValue
+    | 'spacing:' spacing=NUMBER;
+
 BorderStyleValue returns string:
     'solid' | 'dashed' | 'dotted';
 
 LabelPositionValue returns string:
     'top' | 'bottom' | 'left' | 'right';
+
+LayoutAlgorithmValue returns string:
+    'layered' | 'force' | 'stress' | 'radial' | 'mrtree';
 
 // Terminals
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
