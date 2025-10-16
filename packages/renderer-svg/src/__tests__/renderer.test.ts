@@ -843,4 +843,195 @@ describe('renderer-svg', () => {
       expect(result.svg).toContain('&quot;');
     });
   });
+
+  describe('Container Rendering', () => {
+    it('should render container with nodes', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [{ id: 'A', shape: 'rounded' }],
+        edges: [],
+        containers: [
+          {
+            type: 'container',
+            id: 'c1',
+            label: 'Container 1',
+            children: ['A'],
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [{ id: 'A', x: 50, y: 50, width: 100, height: 60 }],
+        edges: [],
+        size: { width: 250, height: 200 },
+        containers: [
+          {
+            id: 'c1',
+            x: 20,
+            y: 20,
+            width: 200,
+            height: 150,
+            label: 'Container 1',
+          },
+        ],
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      // Should contain container rectangle
+      expect(result.svg).toContain('data-runiq-container="c1"');
+      expect(result.svg).toContain('Container 1');
+      // Container should be rendered before nodes (appear in SVG first)
+      const containerIndex = result.svg.indexOf('data-runiq-container');
+      const nodeIndex = result.svg.indexOf('data-runiq-node');
+      expect(containerIndex).toBeLessThan(nodeIndex);
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render nested containers', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [],
+        containers: [
+          {
+            type: 'container',
+            id: 'outer',
+            label: 'Outer',
+            children: ['A'],
+            containers: [
+              {
+                type: 'container',
+                id: 'inner',
+                label: 'Inner',
+                children: ['B'],
+              },
+            ],
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'A', x: 50, y: 50, width: 100, height: 60 },
+          { id: 'B', x: 80, y: 150, width: 100, height: 60 },
+        ],
+        edges: [],
+        size: { width: 300, height: 280 },
+        containers: [
+          {
+            id: 'outer',
+            x: 20,
+            y: 20,
+            width: 250,
+            height: 240,
+            label: 'Outer',
+            containers: [
+              {
+                id: 'inner',
+                x: 50,
+                y: 120,
+                width: 180,
+                height: 120,
+                label: 'Inner',
+              },
+            ],
+          },
+        ],
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('data-runiq-container="outer"');
+      expect(result.svg).toContain('data-runiq-container="inner"');
+      expect(result.svg).toContain('Outer');
+      expect(result.svg).toContain('Inner');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render empty container', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [],
+        edges: [],
+        containers: [
+          {
+            type: 'container',
+            id: 'empty',
+            label: 'Empty Container',
+            children: [],
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [],
+        edges: [],
+        size: { width: 250, height: 200 },
+        containers: [
+          {
+            id: 'empty',
+            x: 20,
+            y: 20,
+            width: 200,
+            height: 150,
+            label: 'Empty Container',
+          },
+        ],
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('data-runiq-container="empty"');
+      expect(result.svg).toContain('Empty Container');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should apply container styles', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [],
+        edges: [],
+        containers: [
+          {
+            type: 'container',
+            id: 'styled',
+            label: 'Styled Container',
+            children: [],
+            containerStyle: {
+              backgroundColor: '#e0f0ff',
+              borderColor: '#0066cc',
+              borderWidth: 3,
+            },
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [],
+        edges: [],
+        size: { width: 250, height: 200 },
+        containers: [
+          {
+            id: 'styled',
+            x: 20,
+            y: 20,
+            width: 200,
+            height: 150,
+            label: 'Styled Container',
+          },
+        ],
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('fill="#e0f0ff"');
+      expect(result.svg).toContain('stroke="#0066cc"');
+      expect(result.svg).toContain('stroke-width="3"');
+      expect(result.warnings).toHaveLength(0);
+    });
+  });
 });

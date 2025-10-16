@@ -14,7 +14,7 @@ import { shapeRegistry, createTextMeasurer } from '@runiq/core';
 /**
  * ELK (Eclipse Layout Kernel) layout engine adapter for Runiq.
  * Provides superior layout quality compared to Dagre with multiple algorithms.
- * 
+ *
  * @todo Container Layout: Current implementation adds containers as ELK compound nodes,
  * but edges at root level cannot find nodes inside containers. Need to either:
  * 1. Add all edges at container level where both source/target exist
@@ -28,7 +28,10 @@ export class ElkLayoutEngine implements LayoutEngine {
   private elk: InstanceType<typeof ELK>;
 
   constructor() {
-    this.elk = new ELK();
+    // Disable web workers for Node.js compatibility
+    this.elk = new ELK({
+      workerUrl: undefined,
+    });
   }
 
   async layout(
@@ -54,30 +57,23 @@ export class ElkLayoutEngine implements LayoutEngine {
     const spacing = opts.spacing || 80;
 
     // Build ELK graph structure with hierarchyHandling for containers
-    const elkGraph = {
+    const elkGraph: ElkNode = {
       id: 'root',
       layoutOptions: {
         'elk.algorithm': 'layered',
         'elk.direction': direction,
         'elk.spacing.nodeNode': spacing.toString(),
         'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
-        'elk.layered.spacing.edgeNodeBetweenLayers': (spacing * 0.5).toString(),
-        'elk.spacing.edgeNode': (spacing * 0.3).toString(),
-        'elk.spacing.edgeEdge': '20',
-        'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-        'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX',
-        'elk.padding': '[top=20,left=20,bottom=20,right=20]',
-        'elk.hierarchyHandling': 'INCLUDE_CHILDREN',
       },
-      children: [] as ElkNode[],
-      edges: [] as ElkExtendedEdge[],
+      children: [],
+      edges: [],
     };
 
     // Track which nodes belong to containers
     const nodeContainerMap = new Map<string, string>();
     const containerMap = new Map<string, ContainerDeclaration>();
 
-    // Build container hierarchy
+    // Build container hierarchy map
     if (diagram.containers) {
       this.buildContainerMap(
         diagram.containers,
@@ -86,18 +82,22 @@ export class ElkLayoutEngine implements LayoutEngine {
       );
     }
 
-    // Add top-level containers to ELK graph
+    // Option #2: Add placeholder nodes for containers, layout separately
+    // Then arrange nodes within their container bounds
+
+    // Add container placeholder nodes
+    const containerPlaceholders = new Map<
+      string,
+      { width: number; height: number }
+    >();
     if (diagram.containers) {
-      for (const container of diagram.containers) {
-        const elkContainer = this.buildElkContainer(
-          container,
-          diagram,
-          measureText,
-          spacing,
-          direction
-        );
-        elkGraph.children.push(elkContainer);
-      }
+      this.addContainerPlaceholders(
+        diagram.containers,
+        elkGraph,
+        diagram,
+        measureText,
+        containerPlaceholders
+      );
     }
 
     // Add standalone nodes (not in any container)
@@ -115,45 +115,80 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
 
-        const elkNode: ElkNode = {
+        if (!elkGraph.children) elkGraph.children = [];
+        elkGraph.children.push({
           id: node.id,
           width: bounds.width,
           height: bounds.height,
-          labels: node.label
-            ? [{ text: node.label, width: 0, height: 0 }]
-            : undefined,
-        };
-
-        elkGraph.children.push(elkNode);
+        });
       }
     }
 
-    // Add edges
+    // Add edges between standalone nodes and container placeholders
+    // For layout purposes, edges to/from container nodes connect to the container placeholder
     for (const edge of diagram.edges) {
+      const fromContainer = nodeContainerMap.get(edge.from);
+      const toContainer = nodeContainerMap.get(edge.to);
+
+      // Replace node IDs with container placeholder IDs if nodes are in containers
+      const fromId = fromContainer
+        ? `__container__${fromContainer}`
+        : edge.from;
+      const toId = toContainer ? `__container__${toContainer}` : edge.to;
+
+      if (!elkGraph.edges) elkGraph.edges = [];
       elkGraph.edges.push({
-        id: `${edge.from}->${edge.to}`,
-        sources: [edge.from],
-        targets: [edge.to],
-        labels: edge.label
-          ? [{ text: edge.label, width: 0, height: 0 }]
-          : undefined,
+        id: `${edge.from}->${edge.to}`, // Keep original IDs in the edge ID
+        sources: [fromId],
+        targets: [toId],
       });
     }
 
-    // Run ELK layout algorithm
+    // Run ELK layout algorithm (with container placeholders)
     const laidOut = await this.elk.layout(elkGraph);
 
-    // Convert ELK result back to Runiq format
+    // Extract container placeholder positions
+    const containerPositions = new Map<string, { x: number; y: number }>();
+    for (const elkNode of laidOut.children || []) {
+      if (elkNode.id.startsWith('__container__')) {
+        const containerId = elkNode.id.replace('__container__', '');
+        containerPositions.set(containerId, {
+          x: elkNode.x || 0,
+          y: elkNode.y || 0,
+        });
+      }
+    }
+
+    // Layout nodes within each container and position containers
     const nodes: PositionedNode[] = [];
     const containers: PositionedContainer[] = [];
 
-    // Extract all nodes and containers recursively
-    this.extractNodesAndContainers(
-      laidOut.children || [],
-      nodes,
-      containers,
-      containerMap
-    );
+    if (diagram.containers) {
+      await this.layoutContainersWithNodes(
+        diagram.containers,
+        diagram,
+        measureText,
+        nodeContainerMap,
+        containerPositions,
+        spacing,
+        direction,
+        nodes,
+        containers
+      );
+    }
+
+    // Add standalone nodes (not in containers)
+    for (const elkNode of laidOut.children || []) {
+      if (!elkNode.id.startsWith('__container__')) {
+        nodes.push({
+          id: elkNode.id,
+          x: elkNode.x || 0,
+          y: elkNode.y || 0,
+          width: elkNode.width || 0,
+          height: elkNode.height || 0,
+        });
+      }
+    }
 
     // Extract edge routing
     const edges: RoutedEdge[] = [];
@@ -192,11 +227,17 @@ export class ElkLayoutEngine implements LayoutEngine {
   private buildContainerMap(
     containers: ContainerDeclaration[],
     nodeContainerMap: Map<string, string>,
-    containerMap: Map<string, ContainerDeclaration>
+    containerMap: Map<string, ContainerDeclaration>,
+    parentId?: string
   ): void {
     for (const container of containers) {
       if (container.id) {
         containerMap.set(container.id, container);
+
+        // Track parent relationship for LCA calculation
+        if (parentId) {
+          nodeContainerMap.set(`__parent__${container.id}`, parentId);
+        }
       }
 
       // Map direct children
@@ -209,14 +250,332 @@ export class ElkLayoutEngine implements LayoutEngine {
         this.buildContainerMap(
           container.containers,
           nodeContainerMap,
-          containerMap
+          containerMap,
+          container.id
         );
       }
     }
   }
 
   /**
+   * Add placeholder nodes for containers and layout their internal nodes
+   */
+  private addContainerPlaceholders(
+    containers: ContainerDeclaration[],
+    elkGraph: ElkNode,
+    diagram: DiagramAst,
+    measureText: ReturnType<typeof createTextMeasurer>,
+    placeholders: Map<string, { width: number; height: number }>
+  ): void {
+    for (const container of containers) {
+      // Create a mini ELK graph for this container's contents
+      const containerGraph: ElkNode = {
+        id: `__container_internal__${container.id}`,
+        layoutOptions: {
+          'elk.algorithm': 'layered',
+          'elk.direction': 'DOWN',
+        },
+        children: [],
+        edges: [],
+      };
+
+      // Add child nodes to container graph
+      for (const childId of container.children) {
+        const node = diagram.nodes.find((n) => n.id === childId);
+        if (node) {
+          const shapeImpl = shapeRegistry.get(node.shape);
+          if (!shapeImpl) continue;
+
+          const style = node.style ? diagram.styles?.[node.style] || {} : {};
+          const bounds = shapeImpl.bounds({ node, style, measureText });
+
+          containerGraph.children!.push({
+            id: node.id,
+            width: bounds.width,
+            height: bounds.height,
+          });
+        }
+      }
+
+      // Add edges within this container
+      for (const edge of diagram.edges) {
+        if (
+          container.children.includes(edge.from) &&
+          container.children.includes(edge.to)
+        ) {
+          containerGraph.edges!.push({
+            id: `${edge.from}->${edge.to}`,
+            sources: [edge.from],
+            targets: [edge.to],
+          });
+        }
+      }
+
+      // Calculate container size (placeholder dimensions)
+      const padding =
+        container.containerStyle?.padding !== undefined
+          ? container.containerStyle.padding
+          : 30;
+
+      // Estimate container size based on children
+      const childCount = container.children.length;
+      const avgNodeSize = 100;
+      const estimatedWidth = Math.max(
+        200,
+        Math.sqrt(childCount) * avgNodeSize + padding * 2
+      );
+      const estimatedHeight = Math.max(
+        150,
+        Math.sqrt(childCount) * avgNodeSize + padding * 2
+      );
+
+      // Add placeholder node representing this container
+      if (!elkGraph.children) elkGraph.children = [];
+      elkGraph.children.push({
+        id: `__container__${container.id}`,
+        width: estimatedWidth,
+        height: estimatedHeight,
+      });
+
+      placeholders.set(container.id!, {
+        width: estimatedWidth,
+        height: estimatedHeight,
+      });
+
+      // Recursively handle nested containers
+      if (container.containers) {
+        this.addContainerPlaceholders(
+          container.containers,
+          elkGraph,
+          diagram,
+          measureText,
+          placeholders
+        );
+      }
+    }
+  }
+
+  /**
+   * Layout nodes within containers and position everything
+   */
+  private async layoutContainersWithNodes(
+    containers: ContainerDeclaration[],
+    diagram: DiagramAst,
+    measureText: ReturnType<typeof createTextMeasurer>,
+    nodeContainerMap: Map<string, string>,
+    containerPositions: Map<string, { x: number; y: number }>,
+    spacing: number,
+    direction: string,
+    nodes: PositionedNode[],
+    result: PositionedContainer[]
+  ): Promise<void> {
+    for (const container of containers) {
+      const padding =
+        container.containerStyle?.padding !== undefined
+          ? container.containerStyle.padding
+          : 30;
+
+      // Get container position from placeholder
+      const containerPos = containerPositions.get(container.id!) || {
+        x: 0,
+        y: 0,
+      };
+
+      // Create mini ELK graph for container contents
+      const containerGraph: ElkNode = {
+        id: `container_${container.id}`,
+        layoutOptions: {
+          'elk.algorithm': 'layered',
+          'elk.direction': direction, // Use direction from options
+          'elk.spacing.nodeNode': spacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+        },
+        children: [],
+        edges: [],
+      };
+
+      // Add child nodes
+      for (const childId of container.children) {
+        const node = diagram.nodes.find((n) => n.id === childId);
+        if (node) {
+          const shapeImpl = shapeRegistry.get(node.shape);
+          if (!shapeImpl) continue;
+
+          const style = node.style ? diagram.styles?.[node.style] || {} : {};
+          const bounds = shapeImpl.bounds({ node, style, measureText });
+
+          containerGraph.children!.push({
+            id: node.id,
+            width: bounds.width,
+            height: bounds.height,
+          });
+        }
+      }
+
+      // Add internal edges
+      for (const edge of diagram.edges) {
+        if (
+          container.children.includes(edge.from) &&
+          container.children.includes(edge.to)
+        ) {
+          containerGraph.edges!.push({
+            id: `${edge.from}->${edge.to}`,
+            sources: [edge.from],
+            targets: [edge.to],
+          });
+        }
+      }
+
+      // Layout container contents
+      let containerWidth = 200;
+      let containerHeight = 150;
+
+      if (containerGraph.children!.length > 0) {
+        const laidOutContainer = await this.elk.layout(containerGraph);
+
+        // Add nodes with positions relative to container
+        for (const elkNode of laidOutContainer.children || []) {
+          nodes.push({
+            id: elkNode.id,
+            x: containerPos.x + padding + (elkNode.x || 0),
+            y: containerPos.y + padding + (elkNode.y || 0),
+            width: elkNode.width || 0,
+            height: elkNode.height || 0,
+          });
+        }
+
+        // Calculate container size from laid out content
+        containerWidth = (laidOutContainer.width || 0) + padding * 2;
+        containerHeight = (laidOutContainer.height || 0) + padding * 2;
+      }
+
+      // Handle nested containers recursively
+      const nestedContainers: PositionedContainer[] = [];
+      if (container.containers) {
+        // For nested containers, adjust their positions relative to parent
+        const nestedPositions = new Map<string, { x: number; y: number }>();
+        for (const [id, pos] of containerPositions.entries()) {
+          // Adjust nested container positions to be relative to this container
+          nestedPositions.set(id, {
+            x: pos.x - containerPos.x - padding,
+            y: pos.y - containerPos.y - padding,
+          });
+        }
+
+        await this.layoutContainersWithNodes(
+          container.containers,
+          diagram,
+          measureText,
+          nodeContainerMap,
+          nestedPositions,
+          spacing,
+          direction,
+          nodes,
+          nestedContainers
+        );
+
+        // Adjust nested container positions back to absolute coordinates
+        for (const nested of nestedContainers) {
+          nested.x += containerPos.x + padding;
+          nested.y += containerPos.y + padding;
+        }
+      }
+
+      result.push({
+        id: container.id || '',
+        x: containerPos.x,
+        y: containerPos.y,
+        width: containerWidth,
+        height: containerHeight,
+        label: container.label,
+        containers: nestedContainers.length > 0 ? nestedContainers : undefined,
+      });
+    }
+  }
+
+  /**
+   * Calculate container bounds from their children's positions (post-layout)
+   * NOTE: This method is now unused - we use layoutContainersWithNodes instead
+   */
+  private calculateContainerBounds(
+    containers: ContainerDeclaration[],
+    nodes: PositionedNode[],
+    nodeContainerMap: Map<string, string>,
+    result: PositionedContainer[],
+    parentId?: string
+  ): void {
+    for (const container of containers) {
+      const padding =
+        container.containerStyle?.padding !== undefined
+          ? container.containerStyle.padding
+          : 30;
+
+      // Find all direct child nodes in this container
+      const childNodes = nodes.filter(
+        (node) => nodeContainerMap.get(node.id) === container.id
+      );
+
+      // Recursively calculate nested container bounds
+      const nestedContainers: PositionedContainer[] = [];
+      if (container.containers) {
+        this.calculateContainerBounds(
+          container.containers,
+          nodes,
+          nodeContainerMap,
+          nestedContainers,
+          container.id
+        );
+      }
+
+      // Calculate bounds from children (nodes + nested containers)
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+
+      for (const node of childNodes) {
+        minX = Math.min(minX, node.x);
+        minY = Math.min(minY, node.y);
+        maxX = Math.max(maxX, node.x + node.width);
+        maxY = Math.max(maxY, node.y + node.height);
+      }
+
+      for (const nested of nestedContainers) {
+        minX = Math.min(minX, nested.x);
+        minY = Math.min(minY, nested.y);
+        maxX = Math.max(maxX, nested.x + nested.width);
+        maxY = Math.max(maxY, nested.y + nested.height);
+      }
+
+      // Handle empty containers
+      if (childNodes.length === 0 && nestedContainers.length === 0) {
+        minX = 0;
+        minY = 0;
+        maxX = 200;
+        maxY = 150;
+      }
+
+      // Add padding
+      const x = minX - padding;
+      const y = minY - padding;
+      const width = maxX - minX + padding * 2;
+      const height = maxY - minY + padding * 2;
+
+      result.push({
+        id: container.id || '',
+        x,
+        y,
+        width,
+        height,
+        label: container.label,
+        containers: nestedContainers.length > 0 ? nestedContainers : undefined,
+      });
+    }
+  }
+
+  /**
    * Build ELK container node (compound node) with children
+   * NOTE: This method is now unused - we use flat layout instead
    */
   private buildElkContainer(
     container: ContainerDeclaration,
@@ -232,17 +591,21 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     const elkContainer: ElkNode = {
       id: container.id || '',
-      labels: container.label ? [{ text: container.label, width: 0, height: 0 }] : undefined,
+      // Note: Labels are optional for layout
       layoutOptions: {
         'elk.padding': `[top=${padding},left=${padding},bottom=${padding},right=${padding}]`,
-        'elk.algorithm': 'layered',
-        'elk.spacing.nodeNode': spacing.toString(),
-        ...(direction && { 'elk.direction': direction }),
       },
       children: [],
+      // Don't initialize edges array - will be added by distributeEdges if needed
       // Set minimum size for empty containers
-      width: container.children.length === 0 && !container.containers?.length ? 200 : undefined,
-      height: container.children.length === 0 && !container.containers?.length ? 150 : undefined,
+      width:
+        container.children.length === 0 && !container.containers?.length
+          ? 200
+          : undefined,
+      height:
+        container.children.length === 0 && !container.containers?.length
+          ? 150
+          : undefined,
     };
 
     // Add child nodes
@@ -265,9 +628,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           id: node.id,
           width: bounds.width,
           height: bounds.height,
-          labels: node.label
-            ? [{ text: node.label, width: 0, height: 0 }]
-            : undefined,
+          // Note: Labels are optional for layout, ELK can handle them or we can omit them
         });
       }
     }
@@ -343,6 +704,27 @@ export class ElkLayoutEngine implements LayoutEngine {
   /**
    * Extract edge routing information
    */
+  /**
+   * Recursively extract edges from the ELK result, including edges in nested containers
+   */
+  private extractEdgesRecursive(
+    elkNode: ElkNode,
+    nodes: PositionedNode[],
+    edges: RoutedEdge[]
+  ): void {
+    // Extract edges at this level
+    if (elkNode.edges) {
+      this.extractEdges(elkNode.edges, nodes, edges);
+    }
+
+    // Recurse into child containers
+    if (elkNode.children) {
+      for (const child of elkNode.children) {
+        this.extractEdgesRecursive(child, nodes, edges);
+      }
+    }
+  }
+
   private extractEdges(
     elkEdges: ElkExtendedEdge[],
     nodes: PositionedNode[],
@@ -389,12 +771,148 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
       }
 
+      // Extract original from/to from edge ID (format: "from->to")
+      const edgeParts = elkEdge.id.split('->');
+      const from = edgeParts[0];
+      const to = edgeParts[1] || elkEdge.targets[0];
+
       edges.push({
-        from: elkEdge.sources[0],
-        to: elkEdge.targets[0],
+        from,
+        to,
         points,
       });
     }
+  }
+
+  /**
+   * Distribute edges to the appropriate container levels.
+   * Each edge must be added to the lowest common ancestor (LCA) container
+   * that contains both the source and target nodes.
+   */
+  private distributeEdges(
+    edges: DiagramAst['edges'],
+    elkGraph: ElkNode,
+    nodeContainerMap: Map<string, string>
+  ): void {
+    for (const edge of edges) {
+      const fromContainer = nodeContainerMap.get(edge.from);
+      const toContainer = nodeContainerMap.get(edge.to);
+
+      // Find the lowest common ancestor container
+      const lcaId = this.findLowestCommonAncestor(
+        fromContainer,
+        toContainer,
+        nodeContainerMap
+      );
+
+      const elkEdge: ElkExtendedEdge = {
+        id: `${edge.from}->${edge.to}`,
+        sources: [edge.from],
+        targets: [edge.to],
+        // Note: Labels are optional for layout
+      };
+
+      // Add edge to the appropriate container
+      if (lcaId === null) {
+        // Both nodes are at root level or cross root containers
+        elkGraph.edges!.push(elkEdge);
+      } else {
+        // Find and add to the container
+        const container = this.findElkNodeById(elkGraph, lcaId);
+        if (container) {
+          // Initialize edges array if not present
+          if (!container.edges) {
+            container.edges = [];
+          }
+          container.edges.push(elkEdge);
+        } else {
+          // Fallback to root if container not found
+          elkGraph.edges!.push(elkEdge);
+        }
+      }
+    }
+  }
+
+  /**
+   * Find lowest common ancestor of two nodes based on their container hierarchy
+   */
+  private findLowestCommonAncestor(
+    containerId1: string | undefined,
+    containerId2: string | undefined,
+    nodeContainerMap: Map<string, string>
+  ): string | null {
+    // If both are at root level (undefined), LCA is root
+    if (!containerId1 && !containerId2) {
+      return null;
+    }
+
+    // If one is at root, LCA is root
+    if (!containerId1 || !containerId2) {
+      return null;
+    }
+
+    // If both in same container, that's the LCA
+    if (containerId1 === containerId2) {
+      return containerId1;
+    }
+
+    // Build ancestor chains
+    const ancestors1 = this.getAncestorChain(containerId1, nodeContainerMap);
+    const ancestors2 = this.getAncestorChain(containerId2, nodeContainerMap);
+
+    // Find common ancestor by comparing chains
+    for (const ancestor of ancestors1) {
+      if (ancestors2.includes(ancestor)) {
+        return ancestor;
+      }
+    }
+
+    // No common ancestor means LCA is root
+    return null;
+  }
+
+  /**
+   * Get chain of ancestor container IDs for a given container
+   */
+  private getAncestorChain(
+    containerId: string,
+    nodeContainerMap: Map<string, string>
+  ): string[] {
+    const chain: string[] = [containerId];
+    let current = containerId;
+
+    // Walk up the hierarchy using parent tracking
+    while (true) {
+      const parentKey = `__parent__${current}`;
+      const parent = nodeContainerMap.get(parentKey);
+      if (!parent) {
+        break; // Reached root
+      }
+      chain.push(parent);
+      current = parent;
+    }
+
+    return chain;
+  }
+
+  /**
+   * Find an ELK node by ID (recursively search through hierarchy)
+   */
+  private findElkNodeById(node: ElkNode, targetId: string): ElkNode | null {
+    if (node.id === targetId) {
+      return node;
+    }
+
+    if (node.children) {
+      for (const child of node.children) {
+        const found = this.findElkNodeById(child, targetId);
+        if (found) {
+          return found;
+        }
+      }
+    }
+
+    return null;
   }
 
   /**

@@ -122,7 +122,7 @@ describe('Container Parser', () => {
       expect(outer?.label).toBe('Outer');
       expect(outer?.children).toHaveLength(1);
       expect(outer?.containers).toHaveLength(1);
-      
+
       const inner = outer?.containers?.[0];
       expect(inner?.label).toBe('Inner');
       expect(inner?.children).toHaveLength(1);
@@ -145,10 +145,10 @@ describe('Container Parser', () => {
       expect(result.success).toBe(true);
       const level1 = result.diagram?.containers?.[0];
       expect(level1?.label).toBe('Level1');
-      
+
       const level2 = level1?.containers?.[0];
       expect(level2?.label).toBe('Level2');
-      
+
       const level3 = level2?.containers?.[0];
       expect(level3?.label).toBe('Level3');
       expect(level3?.children).toHaveLength(1);
@@ -270,7 +270,7 @@ describe('Container Parser', () => {
 
     it('should parse all border style options', () => {
       const styles = ['solid', 'dashed', 'dotted'];
-      
+
       styles.forEach((borderStyle) => {
         const dsl = `
           diagram "test"
@@ -281,13 +281,15 @@ describe('Container Parser', () => {
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
-        expect(result.diagram?.containers?.[0].containerStyle?.borderStyle).toBe(borderStyle);
+        expect(
+          result.diagram?.containers?.[0].containerStyle?.borderStyle
+        ).toBe(borderStyle);
       });
     });
 
     it('should parse all label position options', () => {
       const positions = ['top', 'bottom', 'left', 'right'];
-      
+
       positions.forEach((position) => {
         const dsl = `
           diagram "test"
@@ -298,7 +300,9 @@ describe('Container Parser', () => {
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
-        expect(result.diagram?.containers?.[0].containerStyle?.labelPosition).toBe(position);
+        expect(
+          result.diagram?.containers?.[0].containerStyle?.labelPosition
+        ).toBe(position);
       });
     });
   });
@@ -465,16 +469,16 @@ describe('Container Parser', () => {
       expect(result.success).toBe(true);
       expect(result.diagram?.title).toBe('Banking System - System Context');
       expect(result.diagram?.containers).toHaveLength(1);
-      
+
       const mainContainer = result.diagram?.containers?.[0];
       expect(mainContainer?.label).toBe('Internet Banking System');
       expect(mainContainer?.children).toHaveLength(4); // WebApp, MobileApp, API, Backend
       expect(mainContainer?.containers).toHaveLength(1); // Data Layer
-      
+
       const dataLayer = mainContainer?.containers?.[0];
       expect(dataLayer?.label).toBe('Data Layer');
       expect(dataLayer?.children).toHaveLength(2); // MainDB, Cache
-      
+
       expect(result.diagram?.edges?.length).toBeGreaterThan(0);
     });
   });

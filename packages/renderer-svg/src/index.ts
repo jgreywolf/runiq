@@ -2,6 +2,7 @@ import type {
   DiagramAst,
   LaidOutDiagram,
   PositionedNode,
+  PositionedContainer,
   RoutedEdge,
   IconRef,
 } from '@runiq/core';
@@ -46,14 +47,23 @@ export function renderSvg(
   svg += '<defs><style type="text/css"><![CDATA[';
   svg += '.runiq-node-text { font-family: sans-serif; font-size: 14px; }';
   svg += '.runiq-edge-text { font-family: sans-serif; font-size: 12px; }';
+  svg +=
+    '.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }';
   svg += ']]></style></defs>';
 
-  // Render edges first (so they appear behind nodes)
+  // Render containers first (as backgrounds)
+  if (layout.containers) {
+    for (const container of layout.containers) {
+      svg += renderContainer(container, diagram, strict);
+    }
+  }
+
+  // Render edges (so they appear behind nodes but above containers)
   for (const edge of layout.edges) {
     svg += renderEdge(edge, diagram, strict, warnings);
   }
 
-  // Render nodes
+  // Render nodes (on top of everything)
   for (const node of layout.nodes) {
     svg += renderNode(node, diagram, measureText, strict, warnings);
   }
@@ -107,6 +117,66 @@ function renderNode(
   }
 
   return `<g${groupAttrs}>${nodeMarkup}${nodeAst.tooltip ? `<title>${escapeXml(nodeAst.tooltip)}</title>` : ''}</g>`;
+}
+
+function renderContainer(
+  container: PositionedContainer,
+  diagram: DiagramAst,
+  strict: boolean
+): string {
+  const { x, y, width, height, label, id } = container;
+
+  // Find container declaration in AST for styling
+  const containerAst = findContainerInAst(diagram.containers, id);
+  const style = containerAst?.containerStyle || {};
+
+  // Map ContainerStyle properties to SVG attributes
+  const fill = style.backgroundColor || '#f9f9f9';
+  const stroke = style.borderColor || '#ddd';
+  const strokeWidth = style.borderWidth || 2;
+  const rx = style.rx || 8;
+
+  const groupAttrs = strict ? '' : ` data-runiq-container="${id}"`;
+
+  let markup = `<g${groupAttrs}>`;
+
+  // Container background
+  markup += `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
+    fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" rx="${rx}" />`;
+
+  // Container label (top-left)
+  if (label) {
+    const labelX = x + 10;
+    const labelY = y + 20;
+    markup += `<text x="${labelX}" y="${labelY}" class="runiq-container-label">${escapeXml(label)}</text>`;
+  }
+
+  // Recursively render nested containers
+  if (container.containers) {
+    for (const nested of container.containers) {
+      markup += renderContainer(nested, diagram, strict);
+    }
+  }
+
+  markup += '</g>';
+
+  return markup;
+}
+
+function findContainerInAst(
+  containers: any[] | undefined,
+  id: string
+): any | undefined {
+  if (!containers) return undefined;
+
+  for (const container of containers) {
+    if (container.id === id) return container;
+    if (container.containers) {
+      const found = findContainerInAst(container.containers, id);
+      if (found) return found;
+    }
+  }
+  return undefined;
 }
 
 function renderEdge(
