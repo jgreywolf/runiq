@@ -465,9 +465,11 @@ shape chart1 as @bar-chart-vertical
 ```
 
 ### Title and Axis Labels (DSL)
+
 Add `title:`, `xLabel:`, and `yLabel:` properties:
+
 ```runiq
-shape chart1 as @bar-chart-vertical 
+shape chart1 as @bar-chart-vertical
   label: "Quarterly Revenue"
   title: "2025 Performance"
   xLabel: "Quarter"
@@ -482,8 +484,9 @@ shape chart1 as @bar-chart-vertical
 ```
 
 Pie charts support `title:`:
+
 ```runiq
-shape pie1 as @pie-chart 
+shape pie1 as @pie-chart
   label: "Product Sales"
   title: "Q4 2025 Sales Report"
   colors: ["#667eea", "#764ba2", "#f093fb"]
@@ -554,4 +557,3 @@ node packages/cli/dist/cli.js render dsl-bar-stacked.runiq output.svg
 - ✅ DSL syntax for color arrays (COMPLETE!)
 - ✅ DSL syntax for title and axis labels (COMPLETE!)
 - Interactive chart examples in web editor - coming soon
-

@@ -7,6 +7,16 @@ import type {
   Direction,
   ContainerDeclaration,
   ContainerStyle,
+  RuniqDocument,
+  DiagramProfile,
+  ElectricalProfile,
+  DigitalProfile,
+  NetAst,
+  PartAst,
+  AnalysisAst,
+  ModuleAst,
+  PortAst,
+  InstanceAst,
 } from '@runiq/core';
 import { EmptyFileSystem } from 'langium';
 import { createRuniqServices } from './langium-module.js';
@@ -70,7 +80,8 @@ function convertDataProperty(
  */
 export interface ParseResult {
   success: boolean;
-  diagram?: DiagramAst;
+  diagram?: DiagramAst; // Legacy single diagram support
+  document?: RuniqDocument; // New multi-profile support
   errors: string[];
 }
 
@@ -81,9 +92,9 @@ const services = createRuniqServices(EmptyFileSystem);
 const parser = services.Runiq.parser.LangiumParser;
 
 /**
- * Parse Runiq DSL text into DiagramAst
+ * Parse Runiq DSL text into RuniqDocument or DiagramAst (legacy)
  * @param text - The Runiq DSL source code
- * @returns ParseResult with diagram or errors
+ * @returns ParseResult with document/diagram or errors
  */
 export function parse(text: string): ParseResult {
   // Parse using Langium
@@ -107,19 +118,60 @@ export function parse(text: string): ParseResult {
     return { success: false, errors };
   }
 
-  // Convert Langium AST to Runiq DiagramAst
+  // Convert Langium AST to Runiq Document
   const document = parseResult.value as Langium.Document;
-  const diagram = convertToRuniqAst(document);
+  const runiqDocument = convertToRuniqDocument(document);
 
-  return { success: true, diagram, errors: [] };
+  // For backward compatibility, if there's only one diagram profile,
+  // also provide it as diagram
+  let legacyDiagram: DiagramAst | undefined;
+  if (runiqDocument.profiles.length === 1) {
+    const profile = runiqDocument.profiles[0];
+    if (profile.type === 'diagram') {
+      legacyDiagram = convertDiagramProfileToAst(profile);
+    }
+  }
+
+  return {
+    success: true,
+    document: runiqDocument,
+    diagram: legacyDiagram,
+    errors: [],
+  };
 }
 
 /**
- * Convert Langium Document AST to Runiq DiagramAst
+ * Convert Langium Document to RuniqDocument with profiles
  */
-function convertToRuniqAst(document: Langium.Document): DiagramAst {
-  const diagram: DiagramAst = {
+function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
+  const runiqDoc: RuniqDocument = {
     astVersion: '1.0',
+    profiles: [],
+  };
+
+  // Convert each profile
+  for (const profile of document.profiles) {
+    if (Langium.isDiagramProfile(profile)) {
+      runiqDoc.profiles.push(convertDiagramProfile(profile));
+    } else if (Langium.isElectricalProfile(profile)) {
+      runiqDoc.profiles.push(convertElectricalProfile(profile));
+    } else if (Langium.isDigitalProfile(profile)) {
+      runiqDoc.profiles.push(convertDigitalProfile(profile));
+    }
+  }
+
+  return runiqDoc;
+}
+
+/**
+ * Convert DiagramProfile to core AST format
+ */
+function convertDiagramProfile(
+  profile: Langium.DiagramProfile
+): DiagramProfile {
+  const diagramProfile: DiagramProfile = {
+    type: 'diagram',
+    name: profile.name.replace(/^"|"$/g, ''),
     direction: 'TB', // Default
     nodes: [],
     edges: [],
@@ -130,238 +182,325 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
   // Track which nodes have been explicitly declared
   const declaredNodes = new Set<string>();
 
-  // Process all statements
-  for (const statement of document.statements) {
-    if (Langium.isDiagramDeclaration(statement)) {
-      // Extract diagram title from string (strip quotes)
-      diagram.title = statement.type.replace(/^"|"$/g, '');
-    } else if (Langium.isDirectionDeclaration(statement)) {
-      diagram.direction = statement.value as Direction;
-    } else if (Langium.isStyleDeclaration(statement)) {
-      const style: Style = {};
-      for (const prop of statement.properties) {
-        let value = prop.value;
-        // Remove quotes from string values
-        if (
-          typeof value === 'string' &&
-          value.startsWith('"') &&
-          value.endsWith('"')
-        ) {
-          value = value.slice(1, -1);
-        }
-        style[prop.key] = value;
+  // Process all statements in the diagram
+  for (const statement of profile.statements) {
+    processDialogStatement(statement, diagramProfile, declaredNodes);
+  }
+
+  return diagramProfile;
+}
+
+/**
+ * Convert DiagramProfile to legacy DiagramAst for backward compatibility
+ */
+function convertDiagramProfileToAst(profile: DiagramProfile): DiagramAst {
+  return {
+    astVersion: '1.0',
+    title: profile.name,
+    direction: profile.direction,
+    styles: profile.styles,
+    nodes: profile.nodes,
+    edges: profile.edges,
+    groups: profile.groups,
+    containers: profile.containers,
+  };
+}
+
+/**
+ * Convert ElectricalProfile to core AST format
+ */
+function convertElectricalProfile(
+  profile: Langium.ElectricalProfile
+): ElectricalProfile {
+  const electricalProfile: ElectricalProfile = {
+    type: 'electrical',
+    name: profile.name.replace(/^"|"$/g, ''),
+    nets: [],
+    parts: [],
+  };
+
+  // Process electrical statements
+  for (const statement of profile.statements) {
+    if (Langium.isNetStatement(statement)) {
+      // net IN, OUT, GND
+      for (const netName of statement.names) {
+        electricalProfile.nets.push({ name: netName });
       }
-      if (!diagram.styles) {
-        diagram.styles = {};
-      }
-      diagram.styles[statement.name] = style;
-    } else if (Langium.isShapeDeclaration(statement)) {
-      const node: NodeAst = {
-        id: statement.id,
-        shape: statement.shape,
+    } else if (Langium.isPartStatement(statement)) {
+      // part R1 type:R value:10k pins:(IN,OUT)
+      const part: PartAst = {
+        ref: statement.ref,
+        type: '',
+        pins: [],
       };
 
-      // Process node properties
       for (const prop of statement.properties) {
-        if (Langium.isLabelProperty(prop)) {
-          node.label = prop.value.replace(/^"|"$/g, '');
-        } else if (Langium.isStyleRefProperty(prop)) {
-          node.style = prop.ref?.$refText;
-        } else if (Langium.isIconProperty(prop)) {
-          node.icon = {
-            provider: prop.provider,
-            name: prop.icon,
-          };
-        } else if (Langium.isLinkProperty(prop)) {
-          node.link = {
-            href: prop.url.replace(/^"|"$/g, ''),
-          };
-        } else if (Langium.isTooltipProperty(prop)) {
-          node.tooltip = prop.text.replace(/^"|"$/g, '');
-        } else if (Langium.isDataProperty(prop)) {
-          node.data = convertDataProperty(prop);
-        } else if (Langium.isShowLegendProperty(prop)) {
-          if (!node.data) node.data = {};
-          node.data.showLegend = prop.value === 'true';
-        } else if (Langium.isStackedProperty(prop)) {
-          if (!node.data) node.data = {};
-          node.data.stacked = prop.value === 'true';
-        } else if (Langium.isColorsProperty(prop)) {
-          if (!node.data) node.data = {};
-          // Convert StringArray to array of strings
-          if (prop.value && Langium.isStringArray(prop.value)) {
-            node.data.colors = prop.value.items.map((item) =>
-              item.replace(/^"|"$/g, '')
-            );
+        if (Langium.isPartTypeProperty(prop)) {
+          part.type = prop.type;
+        } else if (Langium.isPartValueProperty(prop)) {
+          if (!part.params) part.params = {};
+          let value = prop.value;
+          if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+            value = value.slice(1, -1);
           }
+          part.params.value = value;
+        } else if (Langium.isPartSourceProperty(prop)) {
+          if (!part.params) part.params = {};
+          part.params.source = prop.source.replace(/^"|"$/g, '');
+        } else if (Langium.isPartPinsProperty(prop)) {
+          part.pins = prop.pins;
         }
       }
 
-      // Second pass: ensure showLegend, stacked, colors, title, and labels are set after DataProperty
-      for (const prop of statement.properties) {
-        if (Langium.isShowLegendProperty(prop)) {
-          if (!node.data) node.data = {};
-          node.data.showLegend = prop.value === 'true';
-        } else if (Langium.isStackedProperty(prop)) {
-          if (!node.data) node.data = {};
-          node.data.stacked = prop.value === 'true';
-        } else if (Langium.isColorsProperty(prop)) {
-          if (!node.data) node.data = {};
-          // Convert StringArray to array of strings
-          if (prop.value && Langium.isStringArray(prop.value)) {
-            node.data.colors = prop.value.items.map((item) =>
-              item.replace(/^"|"$/g, '')
-            );
-          }
-        } else if (Langium.isTitleProperty(prop)) {
-          if (!node.data) node.data = {};
-          node.data.title = prop.value.replace(/^"|"$/g, '');
-        } else if (Langium.isXLabelProperty(prop)) {
-          if (!node.data) node.data = {};
-          node.data.xLabel = prop.value.replace(/^"|"$/g, '');
-        } else if (Langium.isYLabelProperty(prop)) {
-          if (!node.data) node.data = {};
-          node.data.yLabel = prop.value.replace(/^"|"$/g, '');
-        }
-      }
-
-      diagram.nodes.push(node);
-      declaredNodes.add(statement.id);
-    } else if (Langium.isEdgeDeclaration(statement)) {
-      const edge: EdgeAst = {
-        from: statement.from,
-        to: statement.to,
+      electricalProfile.parts.push(part);
+    } else if (Langium.isAnalysisStatement(statement)) {
+      // analysis tran "0 5m"
+      if (!electricalProfile.analyses) electricalProfile.analyses = [];
+      const analysis: AnalysisAst = {
+        kind: statement.kind as AnalysisAst['kind'],
+        args: statement.args?.replace(/^"|"$/g, ''),
       };
-
-      // Check if edge has a label (uses -label-> syntax)
-      if (statement.labeledArrow) {
-        // Extract label from labeledArrow terminal (e.g., "-success->" -> "success")
-        const match = statement.labeledArrow.match(/^-(.+)->$/);
-        if (match) {
-          edge.label = match[1];
-        }
-      }
-
-      diagram.edges.push(edge);
-
-      // Auto-create nodes that weren't explicitly declared
-      if (!declaredNodes.has(statement.from)) {
-        diagram.nodes.push({
-          id: statement.from,
-          shape: 'rounded', // Default shape for auto-created nodes
-        });
-        declaredNodes.add(statement.from);
-      }
-
-      if (!declaredNodes.has(statement.to)) {
-        diagram.nodes.push({
-          id: statement.to,
-          shape: 'rounded',
-        });
-        declaredNodes.add(statement.to);
-      }
-    } else if (Langium.isGroupBlock(statement)) {
-      const group: GroupAst = {
-        label: statement.label.replace(/^"|"$/g, ''),
-        children: [],
-      };
-
-      // Collect child node IDs from group statements
-      for (const subStatement of statement.statements) {
-        if (Langium.isShapeDeclaration(subStatement)) {
-          group.children.push(subStatement.id);
-
-          // Also add the node to the main diagram
-          const node: NodeAst = {
-            id: subStatement.id,
-            shape: subStatement.shape,
-          };
-
-          // Process properties
-          for (const prop of subStatement.properties) {
-            if (Langium.isLabelProperty(prop)) {
-              node.label = prop.value.replace(/^"|"$/g, '');
-            } else if (Langium.isStyleRefProperty(prop)) {
-              node.style = prop.ref?.$refText;
-            } else if (Langium.isIconProperty(prop)) {
-              node.icon = {
-                provider: prop.provider,
-                name: prop.icon,
-              };
-            } else if (Langium.isLinkProperty(prop)) {
-              node.link = {
-                href: prop.url.replace(/^"|"$/g, ''),
-              };
-            } else if (Langium.isTooltipProperty(prop)) {
-              node.tooltip = prop.text.replace(/^"|"$/g, '');
-            } else if (Langium.isDataProperty(prop)) {
-              node.data = convertDataProperty(prop);
-            } else if (Langium.isShowLegendProperty(prop)) {
-              if (!node.data) node.data = {};
-              node.data.showLegend = prop.value === 'true';
-            } else if (Langium.isStackedProperty(prop)) {
-              if (!node.data) node.data = {};
-              node.data.stacked = prop.value === 'true';
-            } else if (Langium.isColorsProperty(prop)) {
-              if (!node.data) node.data = {};
-              // Convert StringArray to array of strings
-              if (prop.value && Langium.isStringArray(prop.value)) {
-                node.data.colors = prop.value.items.map((item) =>
-                  item.replace(/^"|"$/g, '')
-                );
-              }
-            }
-          }
-
-          // Second pass: ensure showLegend, stacked, colors, title, and labels are set after DataProperty
-          for (const prop of subStatement.properties) {
-            if (Langium.isShowLegendProperty(prop)) {
-              if (!node.data) node.data = {};
-              node.data.showLegend = prop.value === 'true';
-            } else if (Langium.isStackedProperty(prop)) {
-              if (!node.data) node.data = {};
-              node.data.stacked = prop.value === 'true';
-            } else if (Langium.isColorsProperty(prop)) {
-              if (!node.data) node.data = {};
-              // Convert StringArray to array of strings
-              if (prop.value && Langium.isStringArray(prop.value)) {
-                node.data.colors = prop.value.items.map((item) =>
-                  item.replace(/^"|"$/g, '')
-                );
-              }
-            } else if (Langium.isTitleProperty(prop)) {
-              if (!node.data) node.data = {};
-              node.data.title = prop.value.replace(/^"|"$/g, '');
-            } else if (Langium.isXLabelProperty(prop)) {
-              if (!node.data) node.data = {};
-              node.data.xLabel = prop.value.replace(/^"|"$/g, '');
-            } else if (Langium.isYLabelProperty(prop)) {
-              if (!node.data) node.data = {};
-              node.data.yLabel = prop.value.replace(/^"|"$/g, '');
-            }
-          }
-
-          diagram.nodes.push(node);
-          declaredNodes.add(subStatement.id);
-        }
-      }
-
-      if (!diagram.groups) {
-        diagram.groups = [];
-      }
-      diagram.groups.push(group);
-    } else if (Langium.isContainerBlock(statement)) {
-      const container = convertContainer(statement, declaredNodes, diagram);
-      if (!diagram.containers) {
-        diagram.containers = [];
-      }
-      diagram.containers.push(container);
+      electricalProfile.analyses.push(analysis);
     }
   }
 
-  return diagram;
+  return electricalProfile;
 }
 
+/**
+ * Convert DigitalProfile to core AST format
+ */
+function convertDigitalProfile(
+  profile: Langium.DigitalProfile
+): DigitalProfile {
+  const digitalProfile: DigitalProfile = {
+    type: 'digital',
+    name: profile.name.replace(/^"|"$/g, ''),
+    instances: [],
+    nets: [],
+  };
+
+  // Process digital statements
+  for (const statement of profile.statements) {
+    if (Langium.isModuleStatement(statement)) {
+      // module Counter ports:(clk,reset,count[7:0])
+      if (!digitalProfile.modules) digitalProfile.modules = [];
+      const module: ModuleAst = {
+        name: statement.name,
+        ports: [],
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isModulePortsProperty(prop)) {
+          for (const portDecl of prop.ports) {
+            const port: PortAst = {
+              name: portDecl.name,
+              dir: 'input', // Default, would need grammar enhancement for dir
+            };
+            if (portDecl.width) {
+              // Parse bus width [msb:lsb]
+              port.width = parseInt(portDecl.width.msb) - parseInt(portDecl.width.lsb) + 1;
+            }
+            module.ports.push(port);
+          }
+        } else if (Langium.isModuleParamsProperty(prop)) {
+          if (!module.params) module.params = {};
+          for (const paramDecl of prop.params) {
+            let value = paramDecl.value;
+            if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+              value = value.slice(1, -1);
+            }
+            module.params[paramDecl.name] = value;
+          }
+        }
+      }
+
+      digitalProfile.modules.push(module);
+    } else if (Langium.isInstStatement(statement)) {
+      // inst U1 of:Counter map:(clk:clk, reset:reset)
+      const instance: InstanceAst = {
+        ref: statement.ref,
+        of: '',
+        portMap: {},
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isInstOfProperty(prop)) {
+          instance.of = prop.module;
+        } else if (Langium.isInstMapProperty(prop)) {
+          for (const conn of prop.connections) {
+            instance.portMap[conn.port] = conn.net;
+          }
+        } else if (Langium.isInstParamsProperty(prop)) {
+          if (!instance.paramMap) instance.paramMap = {};
+          for (const param of prop.params) {
+            let value = param.value;
+            if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+              value = value.slice(1, -1);
+            }
+            instance.paramMap[param.param] = value;
+          }
+        }
+      }
+
+      digitalProfile.instances.push(instance);
+    } else if (Langium.isDigitalNetStatement(statement)) {
+      // net clk, reset, count[7:0]
+      for (const netDecl of statement.names) {
+        const net: NetAst = {
+          name: netDecl.name,
+        };
+        if (netDecl.width) {
+          net.width = parseInt(netDecl.width.msb) - parseInt(netDecl.width.lsb) + 1;
+        }
+        digitalProfile.nets.push(net);
+      }
+    }
+  }
+
+  return digitalProfile;
+}
+
+/**
+ * Process a single diagram statement (extracted for reuse)
+ */
+function processDialogStatement(
+  statement: Langium.DiagramStatement,
+  diagram: DiagramProfile,
+  declaredNodes: Set<string>
+): void {
+  if (Langium.isDirectionDeclaration(statement)) {
+    diagram.direction = statement.value as Direction;
+  } else if (Langium.isStyleDeclaration(statement)) {
+    const style: Style = {};
+    for (const prop of statement.properties) {
+      let value = prop.value;
+      // Remove quotes from string values
+      if (
+        typeof value === 'string' &&
+        value.startsWith('"') &&
+        value.endsWith('"')
+      ) {
+        value = value.slice(1, -1);
+      }
+      style[prop.key] = value;
+    }
+    if (!diagram.styles) {
+      diagram.styles = {};
+    }
+    diagram.styles[statement.name] = style;
+  } else if (Langium.isShapeDeclaration(statement)) {
+    const node: NodeAst = {
+      id: statement.id,
+      shape: statement.shape,
+    };
+
+    // Process node properties
+    for (const prop of statement.properties) {
+      if (Langium.isLabelProperty(prop)) {
+        node.label = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isStyleRefProperty(prop)) {
+        node.style = prop.ref?.$refText;
+      } else if (Langium.isIconProperty(prop)) {
+        node.icon = {
+          provider: prop.provider,
+          name: prop.icon,
+        };
+      } else if (Langium.isLinkProperty(prop)) {
+        node.link = {
+          href: prop.url.replace(/^"|"$/g, ''),
+        };
+      } else if (Langium.isTooltipProperty(prop)) {
+        node.tooltip = prop.text.replace(/^"|"$/g, '');
+      } else if (Langium.isDataProperty(prop)) {
+        node.data = convertDataProperty(prop);
+      } else if (Langium.isShowLegendProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.showLegend = prop.value === 'true';
+      } else if (Langium.isStackedProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.stacked = prop.value === 'true';
+      } else if (Langium.isColorsProperty(prop)) {
+        if (!node.data) node.data = {};
+        // Convert StringArray to array of strings
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.data.colors = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      }
+    }
+
+    // Second pass: ensure showLegend, stacked, colors, title, and labels are set after DataProperty
+    for (const prop of statement.properties) {
+      if (Langium.isShowLegendProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.showLegend = prop.value === 'true';
+      } else if (Langium.isStackedProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.stacked = prop.value === 'true';
+      } else if (Langium.isColorsProperty(prop)) {
+        if (!node.data) node.data = {};
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.data.colors = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isTitleProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.title = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isXLabelProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.xLabel = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isYLabelProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.yLabel = prop.value.replace(/^"|"$/g, '');
+      }
+    }
+
+    diagram.nodes.push(node);
+    declaredNodes.add(node.id);
+  } else if (Langium.isEdgeDeclaration(statement)) {
+    const edge: EdgeAst = {
+      from: statement.from,
+      to: statement.to,
+    };
+
+    if (statement.labeledArrow) {
+      edge.label = statement.labeledArrow.slice(1, -2);
+    }
+
+    diagram.edges.push(edge);
+  } else if (Langium.isGroupBlock(statement)) {
+    if (!diagram.groups) diagram.groups = [];
+    const group: GroupAst = {
+      label: statement.label.replace(/^"|"$/g, ''),
+      children: [],
+    };
+
+    for (const child of statement.statements) {
+      processDialogStatement(child, diagram, declaredNodes);
+      if (Langium.isShapeDeclaration(child)) {
+        group.children.push(child.id);
+      }
+    }
+
+    diagram.groups.push(group);
+  } else if (Langium.isContainerBlock(statement)) {
+    // Convert DiagramProfile to DiagramAst for convertContainer
+    const tempDiagram: DiagramAst = {
+      astVersion: '1.0',
+      ...diagram,
+    };
+    const container = convertContainer(statement, declaredNodes, tempDiagram);
+    if (!diagram.containers) diagram.containers = [];
+    diagram.containers.push(container);
+  }
+}
+
+/**
+ * Container conversion helper
+ */
 function convertContainer(
   block: Langium.ContainerBlock,
   declaredNodes: Set<string>,

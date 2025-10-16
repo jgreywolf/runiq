@@ -190,3 +190,128 @@ export interface LayoutEngine {
   supportsManualPositions?: boolean; // future: respect node.data.position if provided
   layout(diagram: DiagramAst, opts?: LayoutOptions): Promise<LaidOutDiagram>;
 }
+
+// ============================================================================
+// Profile-Based System for Multi-Domain Support
+// ============================================================================
+
+/**
+ * Top-level Runiq document containing one or more profiles
+ * Each profile represents a different domain (visual diagrams, electrical, digital, etc.)
+ */
+export interface RuniqDocument {
+  astVersion: string;
+  profiles: Profile[];
+}
+
+/**
+ * Union type for all supported profile types
+ * Each profile has completely separate grammar and semantics
+ */
+export type Profile = DiagramProfile | ElectricalProfile | DigitalProfile;
+
+/**
+ * Visual diagram profile (existing Runiq diagrams)
+ * Supports flowcharts, architecture diagrams, etc.
+ */
+export interface DiagramProfile {
+  type: 'diagram';
+  name: string;
+  direction?: Direction;
+  styles?: Record<string, Style>;
+  nodes: NodeAst[];
+  edges: EdgeAst[];
+  groups?: GroupAst[];
+  containers?: ContainerDeclaration[];
+}
+
+/**
+ * Electrical/Analog circuit profile
+ * Exports to SPICE, EDIF
+ */
+export interface ElectricalProfile {
+  type: 'electrical';
+  name: string;
+  nets: NetAst[];
+  parts: PartAst[];
+  analyses?: AnalysisAst[];
+}
+
+/**
+ * Digital circuit profile
+ * Exports to Verilog, EDIF
+ */
+export interface DigitalProfile {
+  type: 'digital';
+  name: string;
+  modules?: ModuleAst[];
+  instances: InstanceAst[];
+  nets: NetAst[];
+}
+
+// ============================================================================
+// Electrical Profile Types
+// ============================================================================
+
+/**
+ * Net (electrical connection/wire)
+ * Examples: "IN", "OUT", "GND", "VCC"
+ */
+export interface NetAst {
+  name: string;
+  width?: number; // For digital buses (e.g., 8 for data[7:0])
+}
+
+/**
+ * Analog device/component
+ * Examples: Resistor, Capacitor, Voltage source
+ */
+export interface PartAst {
+  ref: string; // Component reference (e.g., "R1", "C1", "V1")
+  type: string; // Component type (e.g., "R", "C", "L", "V", "I")
+  params?: Record<string, string | number>; // Component parameters (e.g., {value: "10k"})
+  pins: string[]; // Connected nets (positional, e.g., ["IN", "OUT"])
+  doc?: string; // Optional documentation comment
+}
+
+/**
+ * SPICE analysis directive
+ * Examples: .tran, .ac, .dc, .op
+ */
+export interface AnalysisAst {
+  kind: 'tran' | 'ac' | 'dc' | 'op' | 'noise' | 'custom';
+  args?: string; // Unparsed arguments (e.g., "0 5m" for transient)
+}
+
+// ============================================================================
+// Digital Profile Types
+// ============================================================================
+
+/**
+ * Digital module declaration (similar to Verilog module)
+ */
+export interface ModuleAst {
+  name: string; // Module name (e.g., "Counter")
+  ports: PortAst[]; // Port declarations
+  params?: Record<string, string | number>; // Module parameters
+}
+
+/**
+ * Port declaration for digital modules
+ */
+export interface PortAst {
+  name: string; // Port name (e.g., "clk", "reset")
+  dir: 'input' | 'output' | 'inout'; // Direction
+  width?: number; // Bus width (e.g., 8 for count[7:0])
+}
+
+/**
+ * Module instance (instantiation of a module)
+ */
+export interface InstanceAst {
+  ref: string; // Instance reference (e.g., "U1")
+  of: string; // Module name being instantiated
+  paramMap?: Record<string, string | number>; // Parameter overrides
+  portMap: Record<string, string>; // Port connections (port -> net)
+  doc?: string; // Optional documentation
+}

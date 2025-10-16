@@ -1,0 +1,13 @@
+electrical "RC Lowpass Filter" {
+  net IN, OUT, GND
+  
+  # Input voltage source: 1V sine wave at 1kHz
+  part V1 type:V source:"SIN(0 1 1k)" pins:(IN,GND)
+  
+  # Filter components
+  part R1 type:R value:"10k" pins:(IN,OUT)
+  part C1 type:C value:"1n" pins:(OUT,GND)
+  
+  # Transient analysis: 0 to 5ms
+  analysis tran "0 5m"
+}

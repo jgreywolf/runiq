@@ -7,10 +7,7 @@ import type { ShapeRenderContext } from '../types.js';
 /**
  * Mock context for testing Venn diagram shapes
  */
-function createMockContext(
-  label: string,
-  data?: any
-): ShapeRenderContext {
+function createMockContext(label: string, data?: any): ShapeRenderContext {
   return {
     node: {
       id: 'test',
@@ -250,7 +247,7 @@ describe('Venn Diagram Shapes', () => {
     it('3-circle should be larger than 2-circle', () => {
       const ctx2 = createMockContext('Two');
       const ctx3 = createMockContext('Three');
-      
+
       const bounds2 = venn2Shape.bounds(ctx2);
       const bounds3 = venn3Shape.bounds(ctx3);
 
@@ -260,7 +257,7 @@ describe('Venn Diagram Shapes', () => {
 
     it('should handle missing or invalid data gracefully', () => {
       const ctx = createMockContext('Test', {});
-      
+
       expect(() => venn2Shape.render(ctx, { x: 0, y: 0 })).not.toThrow();
       expect(() => venn3Shape.render(ctx, { x: 0, y: 0 })).not.toThrow();
       expect(() => venn4Shape.render(ctx, { x: 0, y: 0 })).not.toThrow();
@@ -395,7 +392,7 @@ describe('Venn Diagram Shapes', () => {
     it('should be larger than 3-circle diagram', () => {
       const ctx3 = createMockContext('Three');
       const ctx4 = createMockContext('Four');
-      
+
       const bounds3 = venn3Shape.bounds(ctx3);
       const bounds4 = venn4Shape.bounds(ctx4);
 
@@ -404,4 +401,3 @@ describe('Venn Diagram Shapes', () => {
     });
   });
 });
-

@@ -1,6 +1,7 @@
 # Venn Diagram Examples
 
 Venn diagrams for showing overlaps and intersections between sets. Perfect for:
+
 - Market analysis and customer segmentation
 - Skill overlap analysis
 - Feature comparisons
@@ -13,6 +14,7 @@ Venn diagrams for showing overlaps and intersections between sets. Perfect for:
 Shows overlap between two sets.
 
 **Data Format:**
+
 ```json
 {
   "setA": <number>,           // Total size of set A
@@ -25,6 +27,7 @@ Shows overlap between two sets.
 ```
 
 **Calculations:**
+
 - Only A = setA - intersection
 - Only B = setB - intersection
 - Both = intersection
@@ -34,6 +37,7 @@ Shows overlap between two sets.
 Shows overlaps between three sets with all possible intersections.
 
 **Data Format:**
+
 ```json
 {
   "setA": <number>,           // Total size of set A
@@ -51,6 +55,7 @@ Shows overlaps between three sets with all possible intersections.
 ```
 
 **Calculations:**
+
 - Only A = setA - AB - AC + ABC
 - Only B = setB - AB - BC + ABC
 - Only C = setC - AC - BC + ABC
@@ -68,11 +73,13 @@ Shows overlaps between three sets with all possible intersections.
 Analyzes customer overlap between two products.
 
 **Data:**
+
 - Product A Users: 500 total (350 unique + 150 shared)
 - Product B Users: 450 total (300 unique + 150 shared)
 - Both Products: 150 users
 
 **Rendering:**
+
 ```bash
 node packages/cli/dist/cli.js render examples/venn-diagrams/market-overlap.json > output.svg
 ```
@@ -84,12 +91,14 @@ node packages/cli/dist/cli.js render examples/venn-diagrams/market-overlap.json 
 Shows overlapping skills among developers knowing JavaScript, Python, and TypeScript.
 
 **Data:**
+
 - JavaScript: 1200 total
 - Python: 1000 total
 - TypeScript: 800 total
 - Various overlaps including 150 developers knowing all three
 
 **Rendering:**
+
 ```bash
 node packages/cli/dist/cli.js render examples/venn-diagrams/developer-skills.json > output.svg
 ```
@@ -105,6 +114,7 @@ Both Venn diagram types support custom colors:
 ```
 
 Default palette:
+
 - Blue: `#4299e1`
 - Green: `#48bb78`
 - Orange: `#ed8936`
@@ -112,24 +122,28 @@ Default palette:
 ### Transparency
 
 Circles are rendered with semi-transparency to show overlapping regions:
+
 - 2-circle: 50% opacity
 - 3-circle: 40% opacity (more transparent for better visibility with 3 overlaps)
 
 ## 🔍 Use Cases
 
 ### Business & Marketing
+
 - Customer segment overlap
 - Market share analysis
 - Product feature comparison
 - Target audience analysis
 
 ### Education & Research
+
 - Survey response overlap
 - Experimental group analysis
 - Classification systems
 - Literature review coverage
 
 ### Technology & Development
+
 - Skill set analysis (as shown in example)
 - Feature compatibility matrices
 - Test coverage overlap
@@ -143,20 +157,21 @@ Circles are rendered with semi-transparency to show overlapping regions:
 ✅ Set labels positioned outside circles  
 ✅ Custom color support  
 ✅ Responsive sizing  
-✅ Clean, professional SVG output  
+✅ Clean, professional SVG output
 
 ## 🆚 Comparison with Other Tools
 
-| Feature | Runiq | Mermaid | Draw.io | Lucidchart |
-|---------|-------|---------|---------|------------|
-| Data-driven 2-circle | ✅ | ⚠️ Basic | ❌ Manual | ❌ Manual |
-| Data-driven 3-circle | ✅ | ❌ | ❌ Manual | ❌ Manual |
-| Auto-calculate regions | ✅ | ❌ | ❌ | ❌ |
-| Custom colors | ✅ | ⚠️ Limited | ✅ | ✅ |
-| DSL syntax | ✅ | ✅ | ❌ | ❌ |
-| JSON API | ✅ | ❌ | ❌ | ❌ |
+| Feature                | Runiq | Mermaid    | Draw.io   | Lucidchart |
+| ---------------------- | ----- | ---------- | --------- | ---------- |
+| Data-driven 2-circle   | ✅    | ⚠️ Basic   | ❌ Manual | ❌ Manual  |
+| Data-driven 3-circle   | ✅    | ❌         | ❌ Manual | ❌ Manual  |
+| Auto-calculate regions | ✅    | ❌         | ❌        | ❌         |
+| Custom colors          | ✅    | ⚠️ Limited | ✅        | ✅         |
+| DSL syntax             | ✅    | ✅         | ❌        | ❌         |
+| JSON API               | ✅    | ❌         | ❌        | ❌         |
 
 **Runiq Advantages:**
+
 - Fully data-driven (just provide numbers, get diagram)
 - Automatic calculation of exclusive regions
 - Both JSON and DSL support

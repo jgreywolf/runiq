@@ -1,22 +1,146 @@
 grammar Runiq
 
-// Entry point - a Runiq diagram document
+// ============================================================================
+// Entry point - Profile-based Runiq document
+// ============================================================================
+// A document can contain multiple profiles (diagram, electrical, digital)
+// Each profile has its own grammar and semantics
 entry Document:
-    statements+=Statement*;
+    profiles+=Profile*;
 
-// Top-level statements
-Statement:
-    DiagramDeclaration
-    | DirectionDeclaration
+// Profile types - keyword determines which grammar rules apply
+Profile:
+    DiagramProfile | ElectricalProfile | DigitalProfile;
+
+// ============================================================================
+// Visual Diagram Profile (existing functionality)
+// ============================================================================
+DiagramProfile:
+    'diagram' name=STRING '{'
+        statements+=DiagramStatement*
+    '}';
+
+// Statements within diagram profile
+DiagramStatement:
+    DirectionDeclaration
     | StyleDeclaration
     | ShapeDeclaration
     | EdgeDeclaration
     | GroupBlock
     | ContainerBlock;
 
-// diagram "flowchart"
-DiagramDeclaration:
-    'diagram' type=STRING;
+// ============================================================================
+// Electrical Profile (analog circuits)
+// ============================================================================
+ElectricalProfile:
+    'electrical' name=STRING '{'
+        statements+=ElectricalStatement*
+    '}';
+
+// Statements within electrical profile
+ElectricalStatement:
+    NetStatement | PartStatement | AnalysisStatement;
+
+// net IN, OUT, GND
+NetStatement:
+    'net' names+=ID (',' names+=ID)*;
+
+// part R1 type:R value:10k pins:(IN,OUT)
+PartStatement:
+    'part' ref=ID properties+=PartProperty+;
+
+PartProperty:
+    PartTypeProperty | PartValueProperty | PartPinsProperty | PartSourceProperty;
+
+PartTypeProperty:
+    'type:' type=ID;
+
+PartValueProperty:
+    'value:' value=(STRING | NUMBER | ID);
+
+PartSourceProperty:
+    'source:' source=STRING;
+
+PartPinsProperty:
+    'pins:' '(' pins+=ID (',' pins+=ID)* ')';
+
+// analysis tran "0 5m"
+AnalysisStatement:
+    'analysis' kind=AnalysisKind args=STRING?;
+
+AnalysisKind returns string:
+    'tran' | 'ac' | 'dc' | 'op' | 'noise';
+
+// ============================================================================
+// Digital Profile (digital circuits)
+// ============================================================================
+DigitalProfile:
+    'digital' name=STRING '{'
+        statements+=DigitalStatement*
+    '}';
+
+// Statements within digital profile
+DigitalStatement:
+    ModuleStatement | InstStatement | DigitalNetStatement;
+
+// module Counter ports:(clk,reset,count[7:0])
+ModuleStatement:
+    'module' name=ID properties+=ModuleProperty+;
+
+ModuleProperty:
+    ModulePortsProperty | ModuleParamsProperty;
+
+ModulePortsProperty:
+    'ports:' '(' ports+=PortDecl (',' ports+=PortDecl)* ')';
+
+ModuleParamsProperty:
+    'params:' '(' params+=ParamDecl (',' params+=ParamDecl)* ')';
+
+PortDecl:
+    name=ID ('[' width=BusWidth ']')?;
+
+BusWidth:
+    msb=NUMBER ':' lsb=NUMBER;
+
+ParamDecl:
+    name=ID ':' value=(STRING | NUMBER);
+
+// inst U1 of:Counter map:(clk:clk, reset:reset)
+InstStatement:
+    'inst' ref=ID properties+=InstProperty+;
+
+InstProperty:
+    InstOfProperty | InstMapProperty | InstParamsProperty;
+
+InstOfProperty:
+    'of:' module=ID;
+
+InstMapProperty:
+    'map:' '(' connections+=PortConnection (',' connections+=PortConnection)* ')';
+
+InstParamsProperty:
+    'params:' '(' params+=ParamOverride (',' params+=ParamOverride)* ')';
+
+PortConnection:
+    port=ID ':' net=ID ('[' range=BusWidth ']')?;
+
+ParamOverride:
+    param=ID ':' value=(STRING | NUMBER);
+
+// Digital nets (with optional bus notation)
+DigitalNetStatement:
+    'net' names+=NetDecl (',' names+=NetDecl)*;
+
+NetDecl:
+    name=ID ('[' width=BusWidth ']')?;
+
+// ============================================================================
+// Diagram profile statements (existing grammar)
+// ============================================================================
+
+// diagram "flowchart" - DEPRECATED, now part of DiagramProfile
+// DiagramDeclaration:
+//     'diagram' type=STRING;
 
 // direction: LR | RL | TB | BT
 DirectionDeclaration:
@@ -112,13 +236,13 @@ EdgeDeclaration:
 // group "My Group" { ... }
 GroupBlock:
     'group' label=STRING '{'
-        statements+=Statement*
+        statements+=DiagramStatement*
     '}';
 
 // container "Label" { ... } with optional properties
 ContainerBlock:
     'container' (id=ID)? label=STRING properties+=ContainerProperty* '{'
-        statements+=Statement*
+        statements+=DiagramStatement*
     '}';
 
 ContainerProperty:

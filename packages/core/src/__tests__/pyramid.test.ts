@@ -5,10 +5,7 @@ import type { ShapeRenderContext } from '../types.js';
 /**
  * Mock context for testing Pyramid diagram shape
  */
-function createMockContext(
-  label: string,
-  data?: any
-): ShapeRenderContext {
+function createMockContext(label: string, data?: any): ShapeRenderContext {
   return {
     node: {
       id: 'test',
@@ -156,7 +153,7 @@ describe('Pyramid Diagram Shape', () => {
   describe('Edge Cases', () => {
     it('should handle missing data gracefully', () => {
       const ctx = createMockContext('Empty', {});
-      
+
       expect(() => pyramidShape.render(ctx, { x: 0, y: 0 })).not.toThrow();
     });
 

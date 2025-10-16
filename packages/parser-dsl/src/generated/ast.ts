@@ -22,6 +22,8 @@ export const RuniqTerminals = {
 export type RuniqTerminalNames = keyof typeof RuniqTerminals;
 
 export type RuniqKeywordNames =
+    | "("
+    | ")"
     | ","
     | "/"
     | ":"
@@ -32,7 +34,9 @@ export type RuniqKeywordNames =
     | "TB"
     | "["
     | "]"
+    | "ac"
     | "algorithm:"
+    | "analysis"
     | "as"
     | "backgroundColor:"
     | "borderColor:"
@@ -43,25 +47,40 @@ export type RuniqKeywordNames =
     | "container"
     | "dashed"
     | "data:"
+    | "dc"
     | "diagram"
+    | "digital"
     | "direction:"
     | "dotted"
+    | "electrical"
     | "force"
     | "group"
     | "icon:"
+    | "inst"
     | "label:"
     | "labelPosition:"
     | "layered"
     | "left"
     | "link:"
+    | "map:"
+    | "module"
     | "mrtree"
+    | "net"
+    | "noise"
+    | "of:"
+    | "op"
     | "opacity:"
     | "padding:"
+    | "params:"
+    | "part"
+    | "pins:"
+    | "ports:"
     | "radial"
     | "right"
     | "shape"
     | "showLegend:"
     | "solid"
+    | "source:"
     | "spacing:"
     | "stacked:"
     | "stress"
@@ -70,6 +89,9 @@ export type RuniqKeywordNames =
     | "title:"
     | "tooltip:"
     | "top"
+    | "tran"
+    | "type:"
+    | "value:"
     | "xLabel:"
     | "yLabel:"
     | "{"
@@ -77,10 +99,50 @@ export type RuniqKeywordNames =
 
 export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
 
+export type AnalysisKind = 'ac' | 'dc' | 'noise' | 'op' | 'tran';
+
+export function isAnalysisKind(item: unknown): item is AnalysisKind {
+    return item === 'tran' || item === 'ac' || item === 'dc' || item === 'op' || item === 'noise';
+}
+
+export interface AnalysisStatement extends langium.AstNode {
+    readonly $container: ElectricalProfile;
+    readonly $type: 'AnalysisStatement';
+    args?: string;
+    kind: AnalysisKind;
+}
+
+export const AnalysisStatement = {
+    $type: 'AnalysisStatement',
+    args: 'args',
+    kind: 'kind'
+} as const;
+
+export function isAnalysisStatement(item: unknown): item is AnalysisStatement {
+    return reflection.isInstance(item, AnalysisStatement.$type);
+}
+
 export type BorderStyleValue = 'dashed' | 'dotted' | 'solid';
 
 export function isBorderStyleValue(item: unknown): item is BorderStyleValue {
     return item === 'solid' || item === 'dashed' || item === 'dotted';
+}
+
+export interface BusWidth extends langium.AstNode {
+    readonly $container: NetDecl | PortConnection | PortDecl;
+    readonly $type: 'BusWidth';
+    lsb: string;
+    msb: string;
+}
+
+export const BusWidth = {
+    $type: 'BusWidth',
+    lsb: 'lsb',
+    msb: 'msb'
+} as const;
+
+export function isBusWidth(item: unknown): item is BusWidth {
+    return reflection.isInstance(item, BusWidth.$type);
 }
 
 export interface ColorsProperty extends langium.AstNode {
@@ -99,12 +161,12 @@ export function isColorsProperty(item: unknown): item is ColorsProperty {
 }
 
 export interface ContainerBlock extends langium.AstNode {
-    readonly $container: ContainerBlock | Document | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ContainerBlock';
     id?: string;
     label: string;
     properties: Array<ContainerProperty>;
-    statements: Array<Statement>;
+    statements: Array<DiagramStatement>;
 }
 
 export const ContainerBlock = {
@@ -260,23 +322,77 @@ export function isDataValue(item: unknown): item is DataValue {
     return reflection.isInstance(item, DataValue.$type);
 }
 
-export interface DiagramDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | Document | GroupBlock;
-    readonly $type: 'DiagramDeclaration';
-    type: string;
+export interface DiagramProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'DiagramProfile';
+    name: string;
+    statements: Array<DiagramStatement>;
 }
 
-export const DiagramDeclaration = {
-    $type: 'DiagramDeclaration',
-    type: 'type'
+export const DiagramProfile = {
+    $type: 'DiagramProfile',
+    name: 'name',
+    statements: 'statements'
 } as const;
 
-export function isDiagramDeclaration(item: unknown): item is DiagramDeclaration {
-    return reflection.isInstance(item, DiagramDeclaration.$type);
+export function isDiagramProfile(item: unknown): item is DiagramProfile {
+    return reflection.isInstance(item, DiagramProfile.$type);
+}
+
+export type DiagramStatement = ContainerBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | ShapeDeclaration | StyleDeclaration;
+
+export const DiagramStatement = {
+    $type: 'DiagramStatement'
+} as const;
+
+export function isDiagramStatement(item: unknown): item is DiagramStatement {
+    return reflection.isInstance(item, DiagramStatement.$type);
+}
+
+export interface DigitalNetStatement extends langium.AstNode {
+    readonly $container: DigitalProfile;
+    readonly $type: 'DigitalNetStatement';
+    names: Array<NetDecl>;
+}
+
+export const DigitalNetStatement = {
+    $type: 'DigitalNetStatement',
+    names: 'names'
+} as const;
+
+export function isDigitalNetStatement(item: unknown): item is DigitalNetStatement {
+    return reflection.isInstance(item, DigitalNetStatement.$type);
+}
+
+export interface DigitalProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'DigitalProfile';
+    name: string;
+    statements: Array<DigitalStatement>;
+}
+
+export const DigitalProfile = {
+    $type: 'DigitalProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isDigitalProfile(item: unknown): item is DigitalProfile {
+    return reflection.isInstance(item, DigitalProfile.$type);
+}
+
+export type DigitalStatement = DigitalNetStatement | InstStatement | ModuleStatement;
+
+export const DigitalStatement = {
+    $type: 'DigitalStatement'
+} as const;
+
+export function isDigitalStatement(item: unknown): item is DigitalStatement {
+    return reflection.isInstance(item, DigitalStatement.$type);
 }
 
 export interface DirectionDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | Document | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'DirectionDeclaration';
     value: DirectionValue;
 }
@@ -298,12 +414,12 @@ export function isDirectionValue(item: unknown): item is DirectionValue {
 
 export interface Document extends langium.AstNode {
     readonly $type: 'Document';
-    statements: Array<Statement>;
+    profiles: Array<Profile>;
 }
 
 export const Document = {
     $type: 'Document',
-    statements: 'statements'
+    profiles: 'profiles'
 } as const;
 
 export function isDocument(item: unknown): item is Document {
@@ -311,7 +427,7 @@ export function isDocument(item: unknown): item is Document {
 }
 
 export interface EdgeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | Document | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'EdgeDeclaration';
     arrow?: string;
     from: string;
@@ -331,11 +447,38 @@ export function isEdgeDeclaration(item: unknown): item is EdgeDeclaration {
     return reflection.isInstance(item, EdgeDeclaration.$type);
 }
 
+export interface ElectricalProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'ElectricalProfile';
+    name: string;
+    statements: Array<ElectricalStatement>;
+}
+
+export const ElectricalProfile = {
+    $type: 'ElectricalProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isElectricalProfile(item: unknown): item is ElectricalProfile {
+    return reflection.isInstance(item, ElectricalProfile.$type);
+}
+
+export type ElectricalStatement = AnalysisStatement | NetStatement | PartStatement;
+
+export const ElectricalStatement = {
+    $type: 'ElectricalStatement'
+} as const;
+
+export function isElectricalStatement(item: unknown): item is ElectricalStatement {
+    return reflection.isInstance(item, ElectricalStatement.$type);
+}
+
 export interface GroupBlock extends langium.AstNode {
-    readonly $container: ContainerBlock | Document | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'GroupBlock';
     label: string;
-    statements: Array<Statement>;
+    statements: Array<DiagramStatement>;
 }
 
 export const GroupBlock = {
@@ -363,6 +506,78 @@ export const IconProperty = {
 
 export function isIconProperty(item: unknown): item is IconProperty {
     return reflection.isInstance(item, IconProperty.$type);
+}
+
+export interface InstMapProperty extends langium.AstNode {
+    readonly $container: InstStatement;
+    readonly $type: 'InstMapProperty';
+    connections: Array<PortConnection>;
+}
+
+export const InstMapProperty = {
+    $type: 'InstMapProperty',
+    connections: 'connections'
+} as const;
+
+export function isInstMapProperty(item: unknown): item is InstMapProperty {
+    return reflection.isInstance(item, InstMapProperty.$type);
+}
+
+export interface InstOfProperty extends langium.AstNode {
+    readonly $container: InstStatement;
+    readonly $type: 'InstOfProperty';
+    module: string;
+}
+
+export const InstOfProperty = {
+    $type: 'InstOfProperty',
+    module: 'module'
+} as const;
+
+export function isInstOfProperty(item: unknown): item is InstOfProperty {
+    return reflection.isInstance(item, InstOfProperty.$type);
+}
+
+export interface InstParamsProperty extends langium.AstNode {
+    readonly $container: InstStatement;
+    readonly $type: 'InstParamsProperty';
+    params: Array<ParamOverride>;
+}
+
+export const InstParamsProperty = {
+    $type: 'InstParamsProperty',
+    params: 'params'
+} as const;
+
+export function isInstParamsProperty(item: unknown): item is InstParamsProperty {
+    return reflection.isInstance(item, InstParamsProperty.$type);
+}
+
+export type InstProperty = InstMapProperty | InstOfProperty | InstParamsProperty;
+
+export const InstProperty = {
+    $type: 'InstProperty'
+} as const;
+
+export function isInstProperty(item: unknown): item is InstProperty {
+    return reflection.isInstance(item, InstProperty.$type);
+}
+
+export interface InstStatement extends langium.AstNode {
+    readonly $container: DigitalProfile;
+    readonly $type: 'InstStatement';
+    properties: Array<InstProperty>;
+    ref: string;
+}
+
+export const InstStatement = {
+    $type: 'InstStatement',
+    properties: 'properties',
+    ref: 'ref'
+} as const;
+
+export function isInstStatement(item: unknown): item is InstStatement {
+    return reflection.isInstance(item, InstStatement.$type);
 }
 
 export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
@@ -407,6 +622,95 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
 }
 
+export interface ModuleParamsProperty extends langium.AstNode {
+    readonly $container: ModuleStatement;
+    readonly $type: 'ModuleParamsProperty';
+    params: Array<ParamDecl>;
+}
+
+export const ModuleParamsProperty = {
+    $type: 'ModuleParamsProperty',
+    params: 'params'
+} as const;
+
+export function isModuleParamsProperty(item: unknown): item is ModuleParamsProperty {
+    return reflection.isInstance(item, ModuleParamsProperty.$type);
+}
+
+export interface ModulePortsProperty extends langium.AstNode {
+    readonly $container: ModuleStatement;
+    readonly $type: 'ModulePortsProperty';
+    ports: Array<PortDecl>;
+}
+
+export const ModulePortsProperty = {
+    $type: 'ModulePortsProperty',
+    ports: 'ports'
+} as const;
+
+export function isModulePortsProperty(item: unknown): item is ModulePortsProperty {
+    return reflection.isInstance(item, ModulePortsProperty.$type);
+}
+
+export type ModuleProperty = ModuleParamsProperty | ModulePortsProperty;
+
+export const ModuleProperty = {
+    $type: 'ModuleProperty'
+} as const;
+
+export function isModuleProperty(item: unknown): item is ModuleProperty {
+    return reflection.isInstance(item, ModuleProperty.$type);
+}
+
+export interface ModuleStatement extends langium.AstNode {
+    readonly $container: DigitalProfile;
+    readonly $type: 'ModuleStatement';
+    name: string;
+    properties: Array<ModuleProperty>;
+}
+
+export const ModuleStatement = {
+    $type: 'ModuleStatement',
+    name: 'name',
+    properties: 'properties'
+} as const;
+
+export function isModuleStatement(item: unknown): item is ModuleStatement {
+    return reflection.isInstance(item, ModuleStatement.$type);
+}
+
+export interface NetDecl extends langium.AstNode {
+    readonly $container: DigitalNetStatement;
+    readonly $type: 'NetDecl';
+    name: string;
+    width?: BusWidth;
+}
+
+export const NetDecl = {
+    $type: 'NetDecl',
+    name: 'name',
+    width: 'width'
+} as const;
+
+export function isNetDecl(item: unknown): item is NetDecl {
+    return reflection.isInstance(item, NetDecl.$type);
+}
+
+export interface NetStatement extends langium.AstNode {
+    readonly $container: ElectricalProfile;
+    readonly $type: 'NetStatement';
+    names: Array<string>;
+}
+
+export const NetStatement = {
+    $type: 'NetStatement',
+    names: 'names'
+} as const;
+
+export function isNetStatement(item: unknown): item is NetStatement {
+    return reflection.isInstance(item, NetStatement.$type);
+}
+
 export type NodeProperty = ColorsProperty | DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
@@ -417,8 +721,175 @@ export function isNodeProperty(item: unknown): item is NodeProperty {
     return reflection.isInstance(item, NodeProperty.$type);
 }
 
+export interface ParamDecl extends langium.AstNode {
+    readonly $container: ModuleParamsProperty;
+    readonly $type: 'ParamDecl';
+    name: string;
+    value: string;
+}
+
+export const ParamDecl = {
+    $type: 'ParamDecl',
+    name: 'name',
+    value: 'value'
+} as const;
+
+export function isParamDecl(item: unknown): item is ParamDecl {
+    return reflection.isInstance(item, ParamDecl.$type);
+}
+
+export interface ParamOverride extends langium.AstNode {
+    readonly $container: InstParamsProperty;
+    readonly $type: 'ParamOverride';
+    param: string;
+    value: string;
+}
+
+export const ParamOverride = {
+    $type: 'ParamOverride',
+    param: 'param',
+    value: 'value'
+} as const;
+
+export function isParamOverride(item: unknown): item is ParamOverride {
+    return reflection.isInstance(item, ParamOverride.$type);
+}
+
+export interface PartPinsProperty extends langium.AstNode {
+    readonly $container: PartStatement;
+    readonly $type: 'PartPinsProperty';
+    pins: Array<string>;
+}
+
+export const PartPinsProperty = {
+    $type: 'PartPinsProperty',
+    pins: 'pins'
+} as const;
+
+export function isPartPinsProperty(item: unknown): item is PartPinsProperty {
+    return reflection.isInstance(item, PartPinsProperty.$type);
+}
+
+export type PartProperty = PartPinsProperty | PartSourceProperty | PartTypeProperty | PartValueProperty;
+
+export const PartProperty = {
+    $type: 'PartProperty'
+} as const;
+
+export function isPartProperty(item: unknown): item is PartProperty {
+    return reflection.isInstance(item, PartProperty.$type);
+}
+
+export interface PartSourceProperty extends langium.AstNode {
+    readonly $container: PartStatement;
+    readonly $type: 'PartSourceProperty';
+    source: string;
+}
+
+export const PartSourceProperty = {
+    $type: 'PartSourceProperty',
+    source: 'source'
+} as const;
+
+export function isPartSourceProperty(item: unknown): item is PartSourceProperty {
+    return reflection.isInstance(item, PartSourceProperty.$type);
+}
+
+export interface PartStatement extends langium.AstNode {
+    readonly $container: ElectricalProfile;
+    readonly $type: 'PartStatement';
+    properties: Array<PartProperty>;
+    ref: string;
+}
+
+export const PartStatement = {
+    $type: 'PartStatement',
+    properties: 'properties',
+    ref: 'ref'
+} as const;
+
+export function isPartStatement(item: unknown): item is PartStatement {
+    return reflection.isInstance(item, PartStatement.$type);
+}
+
+export interface PartTypeProperty extends langium.AstNode {
+    readonly $container: PartStatement;
+    readonly $type: 'PartTypeProperty';
+    type: string;
+}
+
+export const PartTypeProperty = {
+    $type: 'PartTypeProperty',
+    type: 'type'
+} as const;
+
+export function isPartTypeProperty(item: unknown): item is PartTypeProperty {
+    return reflection.isInstance(item, PartTypeProperty.$type);
+}
+
+export interface PartValueProperty extends langium.AstNode {
+    readonly $container: PartStatement;
+    readonly $type: 'PartValueProperty';
+    value: string;
+}
+
+export const PartValueProperty = {
+    $type: 'PartValueProperty',
+    value: 'value'
+} as const;
+
+export function isPartValueProperty(item: unknown): item is PartValueProperty {
+    return reflection.isInstance(item, PartValueProperty.$type);
+}
+
+export interface PortConnection extends langium.AstNode {
+    readonly $container: InstMapProperty;
+    readonly $type: 'PortConnection';
+    net: string;
+    port: string;
+    range?: BusWidth;
+}
+
+export const PortConnection = {
+    $type: 'PortConnection',
+    net: 'net',
+    port: 'port',
+    range: 'range'
+} as const;
+
+export function isPortConnection(item: unknown): item is PortConnection {
+    return reflection.isInstance(item, PortConnection.$type);
+}
+
+export interface PortDecl extends langium.AstNode {
+    readonly $container: ModulePortsProperty;
+    readonly $type: 'PortDecl';
+    name: string;
+    width?: BusWidth;
+}
+
+export const PortDecl = {
+    $type: 'PortDecl',
+    name: 'name',
+    width: 'width'
+} as const;
+
+export function isPortDecl(item: unknown): item is PortDecl {
+    return reflection.isInstance(item, PortDecl.$type);
+}
+
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile;
+
+export const Profile = {
+    $type: 'Profile'
+} as const;
+
+export function isProfile(item: unknown): item is Profile {
+    return reflection.isInstance(item, Profile.$type);
+}
+
 export interface ShapeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | Document | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ShapeDeclaration';
     id: string;
     properties: Array<NodeProperty>;
@@ -466,16 +937,6 @@ export function isStackedProperty(item: unknown): item is StackedProperty {
     return reflection.isInstance(item, StackedProperty.$type);
 }
 
-export type Statement = ContainerBlock | DiagramDeclaration | DirectionDeclaration | EdgeDeclaration | GroupBlock | ShapeDeclaration | StyleDeclaration;
-
-export const Statement = {
-    $type: 'Statement'
-} as const;
-
-export function isStatement(item: unknown): item is Statement {
-    return reflection.isInstance(item, Statement.$type);
-}
-
 export interface StringArray extends langium.AstNode {
     readonly $container: ColorsProperty;
     readonly $type: 'StringArray';
@@ -492,7 +953,7 @@ export function isStringArray(item: unknown): item is StringArray {
 }
 
 export interface StyleDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | Document | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'StyleDeclaration';
     name: string;
     properties: Array<StyleProperty>;
@@ -601,6 +1062,8 @@ export function isYLabelProperty(item: unknown): item is YLabelProperty {
 }
 
 export type RuniqAstType = {
+    AnalysisStatement: AnalysisStatement
+    BusWidth: BusWidth
     ColorsProperty: ColorsProperty
     ContainerBlock: ContainerBlock
     ContainerLayoutProperty: ContainerLayoutProperty
@@ -612,19 +1075,46 @@ export type RuniqAstType = {
     DataObjectProperty: DataObjectProperty
     DataProperty: DataProperty
     DataValue: DataValue
-    DiagramDeclaration: DiagramDeclaration
+    DiagramProfile: DiagramProfile
+    DiagramStatement: DiagramStatement
+    DigitalNetStatement: DigitalNetStatement
+    DigitalProfile: DigitalProfile
+    DigitalStatement: DigitalStatement
     DirectionDeclaration: DirectionDeclaration
     Document: Document
     EdgeDeclaration: EdgeDeclaration
+    ElectricalProfile: ElectricalProfile
+    ElectricalStatement: ElectricalStatement
     GroupBlock: GroupBlock
     IconProperty: IconProperty
+    InstMapProperty: InstMapProperty
+    InstOfProperty: InstOfProperty
+    InstParamsProperty: InstParamsProperty
+    InstProperty: InstProperty
+    InstStatement: InstStatement
     LabelProperty: LabelProperty
     LinkProperty: LinkProperty
+    ModuleParamsProperty: ModuleParamsProperty
+    ModulePortsProperty: ModulePortsProperty
+    ModuleProperty: ModuleProperty
+    ModuleStatement: ModuleStatement
+    NetDecl: NetDecl
+    NetStatement: NetStatement
     NodeProperty: NodeProperty
+    ParamDecl: ParamDecl
+    ParamOverride: ParamOverride
+    PartPinsProperty: PartPinsProperty
+    PartProperty: PartProperty
+    PartSourceProperty: PartSourceProperty
+    PartStatement: PartStatement
+    PartTypeProperty: PartTypeProperty
+    PartValueProperty: PartValueProperty
+    PortConnection: PortConnection
+    PortDecl: PortDecl
+    Profile: Profile
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     StackedProperty: StackedProperty
-    Statement: Statement
     StringArray: StringArray
     StyleDeclaration: StyleDeclaration
     StyleProperty: StyleProperty
@@ -637,6 +1127,30 @@ export type RuniqAstType = {
 
 export class RuniqAstReflection extends langium.AbstractAstReflection {
     override readonly types = {
+        AnalysisStatement: {
+            name: AnalysisStatement.$type,
+            properties: {
+                args: {
+                    name: AnalysisStatement.args
+                },
+                kind: {
+                    name: AnalysisStatement.kind
+                }
+            },
+            superTypes: [ElectricalStatement.$type]
+        },
+        BusWidth: {
+            name: BusWidth.$type,
+            properties: {
+                lsb: {
+                    name: BusWidth.lsb
+                },
+                msb: {
+                    name: BusWidth.msb
+                }
+            },
+            superTypes: []
+        },
         ColorsProperty: {
             name: ColorsProperty.$type,
             properties: {
@@ -664,7 +1178,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     defaultValue: []
                 }
             },
-            superTypes: [Statement.$type]
+            superTypes: [DiagramStatement.$type]
         },
         ContainerLayoutProperty: {
             name: ContainerLayoutProperty.$type,
@@ -768,14 +1282,53 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [DataItem.$type]
         },
-        DiagramDeclaration: {
-            name: DiagramDeclaration.$type,
+        DiagramProfile: {
+            name: DiagramProfile.$type,
             properties: {
-                type: {
-                    name: DiagramDeclaration.type
+                name: {
+                    name: DiagramProfile.name
+                },
+                statements: {
+                    name: DiagramProfile.statements,
+                    defaultValue: []
                 }
             },
-            superTypes: [Statement.$type]
+            superTypes: [Profile.$type]
+        },
+        DiagramStatement: {
+            name: DiagramStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        DigitalNetStatement: {
+            name: DigitalNetStatement.$type,
+            properties: {
+                names: {
+                    name: DigitalNetStatement.names,
+                    defaultValue: []
+                }
+            },
+            superTypes: [DigitalStatement.$type]
+        },
+        DigitalProfile: {
+            name: DigitalProfile.$type,
+            properties: {
+                name: {
+                    name: DigitalProfile.name
+                },
+                statements: {
+                    name: DigitalProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        DigitalStatement: {
+            name: DigitalStatement.$type,
+            properties: {
+            },
+            superTypes: []
         },
         DirectionDeclaration: {
             name: DirectionDeclaration.$type,
@@ -784,13 +1337,13 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: DirectionDeclaration.value
                 }
             },
-            superTypes: [Statement.$type]
+            superTypes: [DiagramStatement.$type]
         },
         Document: {
             name: Document.$type,
             properties: {
-                statements: {
-                    name: Document.statements,
+                profiles: {
+                    name: Document.profiles,
                     defaultValue: []
                 }
             },
@@ -812,7 +1365,26 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: EdgeDeclaration.to
                 }
             },
-            superTypes: [Statement.$type]
+            superTypes: [DiagramStatement.$type]
+        },
+        ElectricalProfile: {
+            name: ElectricalProfile.$type,
+            properties: {
+                name: {
+                    name: ElectricalProfile.name
+                },
+                statements: {
+                    name: ElectricalProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        ElectricalStatement: {
+            name: ElectricalStatement.$type,
+            properties: {
+            },
+            superTypes: []
         },
         GroupBlock: {
             name: GroupBlock.$type,
@@ -825,7 +1397,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     defaultValue: []
                 }
             },
-            superTypes: [Statement.$type]
+            superTypes: [DiagramStatement.$type]
         },
         IconProperty: {
             name: IconProperty.$type,
@@ -838,6 +1410,54 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        InstMapProperty: {
+            name: InstMapProperty.$type,
+            properties: {
+                connections: {
+                    name: InstMapProperty.connections,
+                    defaultValue: []
+                }
+            },
+            superTypes: [InstProperty.$type]
+        },
+        InstOfProperty: {
+            name: InstOfProperty.$type,
+            properties: {
+                module: {
+                    name: InstOfProperty.module
+                }
+            },
+            superTypes: [InstProperty.$type]
+        },
+        InstParamsProperty: {
+            name: InstParamsProperty.$type,
+            properties: {
+                params: {
+                    name: InstParamsProperty.params,
+                    defaultValue: []
+                }
+            },
+            superTypes: [InstProperty.$type]
+        },
+        InstProperty: {
+            name: InstProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        InstStatement: {
+            name: InstStatement.$type,
+            properties: {
+                properties: {
+                    name: InstStatement.properties,
+                    defaultValue: []
+                },
+                ref: {
+                    name: InstStatement.ref
+                }
+            },
+            superTypes: [DigitalStatement.$type]
         },
         LabelProperty: {
             name: LabelProperty.$type,
@@ -857,8 +1477,182 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        ModuleParamsProperty: {
+            name: ModuleParamsProperty.$type,
+            properties: {
+                params: {
+                    name: ModuleParamsProperty.params,
+                    defaultValue: []
+                }
+            },
+            superTypes: [ModuleProperty.$type]
+        },
+        ModulePortsProperty: {
+            name: ModulePortsProperty.$type,
+            properties: {
+                ports: {
+                    name: ModulePortsProperty.ports,
+                    defaultValue: []
+                }
+            },
+            superTypes: [ModuleProperty.$type]
+        },
+        ModuleProperty: {
+            name: ModuleProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        ModuleStatement: {
+            name: ModuleStatement.$type,
+            properties: {
+                name: {
+                    name: ModuleStatement.name
+                },
+                properties: {
+                    name: ModuleStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [DigitalStatement.$type]
+        },
+        NetDecl: {
+            name: NetDecl.$type,
+            properties: {
+                name: {
+                    name: NetDecl.name
+                },
+                width: {
+                    name: NetDecl.width
+                }
+            },
+            superTypes: []
+        },
+        NetStatement: {
+            name: NetStatement.$type,
+            properties: {
+                names: {
+                    name: NetStatement.names,
+                    defaultValue: []
+                }
+            },
+            superTypes: [ElectricalStatement.$type]
+        },
         NodeProperty: {
             name: NodeProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        ParamDecl: {
+            name: ParamDecl.$type,
+            properties: {
+                name: {
+                    name: ParamDecl.name
+                },
+                value: {
+                    name: ParamDecl.value
+                }
+            },
+            superTypes: []
+        },
+        ParamOverride: {
+            name: ParamOverride.$type,
+            properties: {
+                param: {
+                    name: ParamOverride.param
+                },
+                value: {
+                    name: ParamOverride.value
+                }
+            },
+            superTypes: []
+        },
+        PartPinsProperty: {
+            name: PartPinsProperty.$type,
+            properties: {
+                pins: {
+                    name: PartPinsProperty.pins,
+                    defaultValue: []
+                }
+            },
+            superTypes: [PartProperty.$type]
+        },
+        PartProperty: {
+            name: PartProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        PartSourceProperty: {
+            name: PartSourceProperty.$type,
+            properties: {
+                source: {
+                    name: PartSourceProperty.source
+                }
+            },
+            superTypes: [PartProperty.$type]
+        },
+        PartStatement: {
+            name: PartStatement.$type,
+            properties: {
+                properties: {
+                    name: PartStatement.properties,
+                    defaultValue: []
+                },
+                ref: {
+                    name: PartStatement.ref
+                }
+            },
+            superTypes: [ElectricalStatement.$type]
+        },
+        PartTypeProperty: {
+            name: PartTypeProperty.$type,
+            properties: {
+                type: {
+                    name: PartTypeProperty.type
+                }
+            },
+            superTypes: [PartProperty.$type]
+        },
+        PartValueProperty: {
+            name: PartValueProperty.$type,
+            properties: {
+                value: {
+                    name: PartValueProperty.value
+                }
+            },
+            superTypes: [PartProperty.$type]
+        },
+        PortConnection: {
+            name: PortConnection.$type,
+            properties: {
+                net: {
+                    name: PortConnection.net
+                },
+                port: {
+                    name: PortConnection.port
+                },
+                range: {
+                    name: PortConnection.range
+                }
+            },
+            superTypes: []
+        },
+        PortDecl: {
+            name: PortDecl.$type,
+            properties: {
+                name: {
+                    name: PortDecl.name
+                },
+                width: {
+                    name: PortDecl.width
+                }
+            },
+            superTypes: []
+        },
+        Profile: {
+            name: Profile.$type,
             properties: {
             },
             superTypes: []
@@ -877,7 +1671,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ShapeDeclaration.shape
                 }
             },
-            superTypes: [Statement.$type]
+            superTypes: [DiagramStatement.$type]
         },
         ShowLegendProperty: {
             name: ShowLegendProperty.$type,
@@ -896,12 +1690,6 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
-        },
-        Statement: {
-            name: Statement.$type,
-            properties: {
-            },
-            superTypes: []
         },
         StringArray: {
             name: StringArray.$type,
@@ -924,7 +1712,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     defaultValue: []
                 }
             },
-            superTypes: [Statement.$type]
+            superTypes: [DiagramStatement.$type]
         },
         StyleProperty: {
             name: StyleProperty.$type,

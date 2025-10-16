@@ -5,6 +5,7 @@ Pyramid diagrams are hierarchical visualizations showing stacked layers with pro
 ## Examples
 
 ### 1. Maslow's Hierarchy (`maslow-hierarchy.json`)
+
 Classic psychological model showing human needs from basic (physiological) to advanced (self-actualization).
 
 ```json
@@ -22,6 +23,7 @@ Classic psychological model showing human needs from basic (physiological) to ad
 ```
 
 ### 2. Organizational Structure (`organizational-structure.json`)
+
 Company hierarchy showing employee distribution across levels.
 
 ```json
@@ -61,18 +63,21 @@ Company hierarchy showing employee distribution across levels.
 ## Use Cases
 
 ### Business
+
 - Organizational hierarchies
 - Sales funnels (use with inverted colors)
 - Market segmentation
 - Customer lifetime value stages
 
 ### Education
+
 - Maslow's hierarchy of needs
 - Bloom's taxonomy
 - Learning progression models
 - Knowledge depth levels
 
 ### Analysis
+
 - Food pyramids
 - Population demographics
 - Priority frameworks
@@ -80,13 +85,13 @@ Company hierarchy showing employee distribution across levels.
 
 ## Comparison with Competitors
 
-| Feature | Runiq | Mermaid | PlantUML | Draw.io |
-|---------|-------|---------|----------|---------|
-| Data-driven rendering | ✅ Yes | ❌ No | ❌ No | ❌ Manual |
-| Proportional widths | ✅ Auto | ❌ Manual | ❌ Manual | ❌ Manual |
-| Programmatic API | ✅ Yes | ❌ No | ❌ No | ❌ No |
-| Custom colors | ✅ Yes | ⚠️ Limited | ⚠️ Limited | ✅ Yes |
-| Value display | ✅ Toggle | ❌ No | ❌ No | ⚠️ Manual |
+| Feature               | Runiq     | Mermaid    | PlantUML   | Draw.io   |
+| --------------------- | --------- | ---------- | ---------- | --------- |
+| Data-driven rendering | ✅ Yes    | ❌ No      | ❌ No      | ❌ Manual |
+| Proportional widths   | ✅ Auto   | ❌ Manual  | ❌ Manual  | ❌ Manual |
+| Programmatic API      | ✅ Yes    | ❌ No      | ❌ No      | ❌ No     |
+| Custom colors         | ✅ Yes    | ⚠️ Limited | ⚠️ Limited | ✅ Yes    |
+| Value display         | ✅ Toggle | ❌ No      | ❌ No      | ⚠️ Manual |
 
 **Runiq Advantage**: Fully data-driven with automatic proportional scaling. Competitors require manual adjustment of each level's width.
 
@@ -95,21 +100,34 @@ Company hierarchy showing employee distribution across levels.
 ### Color Schemes
 
 **Professional** (default):
+
 ```json
-["#4299e1", "#48bb78", "#ed8936", "#9f7aea", "#f56565", "#38b2ac", "#ecc94b", "#667eea"]
+[
+  "#4299e1",
+  "#48bb78",
+  "#ed8936",
+  "#9f7aea",
+  "#f56565",
+  "#38b2ac",
+  "#ecc94b",
+  "#667eea"
+]
 ```
 
 **Corporate**:
+
 ```json
 ["#1e3a8a", "#1e40af", "#3b82f6", "#60a5fa", "#93c5fd"]
 ```
 
 **Earth Tones**:
+
 ```json
 ["#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b"]
 ```
 
 ### Level Count
+
 - **Minimum**: 1 level (single box)
 - **Recommended**: 3-7 levels for readability
 - **Maximum**: No hard limit, but >10 levels may become cramped
