@@ -2,13 +2,25 @@
 
 > Design document for implementing data-driven chart rendering in Runiq
 
-**Status:** 🚧 In Progress  
+**Status:** ✅ Phase 1 & 2 Complete - 3 Chart Types Available  
 **Priority:** HIGH  
-**Date:** October 15, 2025
+**Date:** October 15, 2025  
+**Last Updated:** October 15, 2025
 
 ## Overview
 
 Enable Runiq to render charts (pie, bar, XY scatter) where shapes dynamically render based on provided data values, rather than static fixed shapes.
+
+### Available Chart Types
+
+| Chart Type | Shape ID | Status | Tests | Features |
+|------------|----------|--------|-------|----------|
+| Pie Chart | `@pie-chart` | ✅ Complete | 11 | Dynamic slices, color palette, proportional angles |
+| Vertical Bar Chart | `@bar-chart-vertical` | ✅ Complete | 18 | Horizontal bars, labels below, values above, axis |
+| Horizontal Bar Chart | `@bar-chart-horizontal` | ✅ Complete | 18 | Vertical bars, labels left, values right, axis |
+| Scatter Plot | `@scatter-plot` | ⏳ Future | 0 | XY positioning (Phase 3) |
+
+**Total:** 3 chart types available, 47 chart-specific tests passing
 
 ## Goals
 
@@ -87,9 +99,92 @@ shape points as @scatter-plot
   ]
 ```
 
+## Usage Examples
+
+### Pie Chart - Simple
+
+**File:** `examples/pie-chart-simple.runiq`
+
+```runiq
+diagram "Simple Pie Chart Example"
+
+shape revenue as @pie-chart
+  label: "Revenue Distribution"
+  data: [30, 45, 25]
+```
+
+**Output:** Pie chart with 3 slices (30%, 45%, 25%) using default color palette.
+
+### Pie Chart - Labeled
+
+**File:** `examples/pie-chart-labeled.runiq`
+
+```runiq
+diagram "Quarterly Revenue"
+
+shape quarters as @pie-chart
+  label: "Q1-Q4 2024"
+  data: [
+    {"label": "Q1", "value": 100},
+    {"label": "Q2", "value": 150},
+    {"label": "Q3", "value": 120},
+    {"label": "Q4", "value": 180}
+  ]
+```
+
+**Output:** Pie chart with 4 labeled slices showing quarterly data with proportional angles.
+
+### Bar Chart - Vertical
+
+**File:** `examples/bar-chart-vertical.runiq`
+
+```runiq
+diagram "Performance Metrics"
+
+shape metrics as @bar-chart-vertical
+  label: "Team Performance"
+  data: [
+    {"label": "Speed", "value": 85},
+    {"label": "Quality", "value": 92},
+    {"label": "Cost", "value": 78},
+    {"label": "Satisfaction", "value": 88}
+  ]
+```
+
+**Output:** Vertical bar chart with 4 bars, labels below, values above, proportionally scaled to max value (92).
+
+### Bar Chart - Horizontal
+
+**File:** `examples/bar-chart-horizontal.runiq`
+
+```runiq
+diagram "Product Sales"
+
+shape sales as @bar-chart-horizontal
+  label: "Top Products"
+  data: [
+    {"label": "Product A", "value": 250},
+    {"label": "Product B", "value": 180},
+    {"label": "Product C", "value": 320},
+    {"label": "Product D", "value": 210}
+  ]
+```
+
+**Output:** Horizontal bar chart with 4 bars, labels left, values right, proportionally scaled to max value (320).
+
+### Rendering Examples
+
+```bash
+# Render pie chart
+node packages/cli/dist/cli.js render examples/pie-chart-simple.runiq -o output/pie.svg
+
+# Render bar chart
+node packages/cli/dist/cli.js render examples/bar-chart-vertical.runiq -o output/bars.svg
+```
+
 ## Implementation Plan
 
-### Phase 1: Core Types & Pie Charts (Current)
+### Phase 1: Core Types & Pie Charts ✅ COMPLETE
 
 **Tasks:**
 
@@ -98,30 +193,33 @@ shape points as @scatter-plot
 3. ✅ Implement `pie-chart` shape with data-driven rendering (11 tests passing)
 4. ✅ Write comprehensive tests for pie chart calculations
 5. ✅ Add DSL parser support for data arrays (16 tests passing, negative numbers supported, keys must be quoted)
-6. ⏳ Create pie chart examples
+6. ✅ Create pie chart examples (pie-chart-simple.runiq, pie-chart-labeled.runiq)
 
 **Deliverables:**
 
-- Working pie charts with data-driven slice angles
-- ~30 passing tests
-- Example files demonstrating pie charts
+- ✅ Working pie charts with data-driven slice angles
+- ✅ 45 passing tests (18 data types + 16 parser + 11 pie chart)
+- ✅ Example files demonstrating pie charts
+- ✅ End-to-end rendering verified
 
-### Phase 2: Bar Charts
+### Phase 2: Bar Charts ✅ COMPLETE
 
 **Tasks:**
 
-1. Implement `bar-chart-vertical` shape
-2. Implement `bar-chart-horizontal` shape
-3. Support multi-bar charts (grouped bars)
-4. Add axes and labels
-5. Write bar chart tests
-6. Create bar chart examples
+1. ✅ Implement `bar-chart-vertical` shape (TDD with 18 tests)
+2. ✅ Implement `bar-chart-horizontal` shape (TDD with 18 tests)
+3. ⏳ Support multi-bar charts (grouped bars) - Future enhancement
+4. ✅ Add axes and labels
+5. ✅ Write bar chart tests (36 total: 18 vertical + 18 horizontal)
+6. ✅ Create bar chart examples (bar-chart-vertical.runiq, bar-chart-horizontal.runiq)
 
 **Deliverables:**
 
-- Working vertical and horizontal bar charts
-- ~25 passing tests
-- Example files demonstrating bar charts
+- ✅ Working vertical and horizontal bar charts
+- ✅ 36 passing tests for bar charts
+- ✅ Example files demonstrating both orientations
+- ✅ Proportional scaling, color palette, axis rendering
+- ✅ End-to-end rendering verified
 
 ### Phase 3: XY Scatter Plots
 
@@ -398,12 +496,22 @@ q2 -> q3 : "growth"
 
 ## Success Criteria
 
-- [ ] Pie chart shape renders correctly with data
-- [ ] DSL parser handles data arrays
-- [ ] 30+ tests passing for pie charts
-- [ ] Example files render successfully
-- [ ] Documentation complete
-- [ ] Integration with CLI and editor
+### Phase 1 & 2 (COMPLETE) ✅
+
+- [x] Pie chart shape renders correctly with data
+- [x] Bar chart shapes (vertical & horizontal) render correctly
+- [x] DSL parser handles data arrays and labeled data
+- [x] 81+ tests passing (18 data types + 16 parser + 11 pie + 36 bar charts)
+- [x] 428 total core tests passing (no regressions)
+- [x] Example files render successfully (4 examples created)
+- [x] End-to-end rendering verified (DSL → parse → layout → SVG)
+- [x] Documentation complete with usage examples
+- [x] Integration with CLI verified
+
+### Phase 3 (Future)
+
+- [ ] Scatter plot shape with XY positioning
+- [ ] Additional chart types as needed
 
 ## Timeline
 
