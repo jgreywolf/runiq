@@ -52,6 +52,33 @@ describe('Langium Parser', () => {
       expect(result.diagram?.nodes[0].label).toBe('My Node');
     });
 
+    it('should parse shape with hyphenated shape ID', () => {
+      const dsl = `
+        diagram "test"
+        shape Node1 as @lean-l label: "Lean Left"
+        shape Node2 as @lean-r label: "Lean Right"
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      expect(result.diagram?.nodes).toHaveLength(2);
+      expect(result.diagram?.nodes[0].shape).toBe('lean-l');
+      expect(result.diagram?.nodes[1].shape).toBe('lean-r');
+    });
+
+    it('should parse cloud shape', () => {
+      const dsl = `
+        diagram "test"
+        shape CloudNode as @cloud label: "Cloud Service"
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      expect(result.diagram?.nodes).toHaveLength(1);
+      expect(result.diagram?.nodes[0].shape).toBe('cloud');
+      expect(result.diagram?.nodes[0].label).toBe('Cloud Service');
+    });
+
     it('should parse shape with all properties', () => {
       const dsl = `
         diagram "test"

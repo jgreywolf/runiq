@@ -7,8 +7,9 @@
 import * as langium from 'langium';
 
 export const RuniqTerminals = {
+    LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/,
     ARROW: /->/,
-    HYPHEN: /-/,
+    SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
     ID: /[a-zA-Z_][a-zA-Z0-9_]*/,
     STRING: /"(?:[^"\\]|\\.)*"/,
     NUMBER: /[0-9]+(\.[0-9]+)?/,
@@ -175,9 +176,9 @@ export function isDocument(item: unknown): item is Document {
 export interface EdgeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | Document | GroupBlock;
     readonly $type: 'EdgeDeclaration';
-    arrow: string;
+    arrow?: string;
     from: string;
-    label?: string;
+    labeledArrow?: string;
     to: string;
 }
 
@@ -185,7 +186,7 @@ export const EdgeDeclaration = {
     $type: 'EdgeDeclaration',
     arrow: 'arrow',
     from: 'from',
-    label: 'label',
+    labeledArrow: 'labeledArrow',
     to: 'to'
 } as const;
 
@@ -479,8 +480,8 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 from: {
                     name: EdgeDeclaration.from
                 },
-                label: {
-                    name: EdgeDeclaration.label
+                labeledArrow: {
+                    name: EdgeDeclaration.labeledArrow
                 },
                 to: {
                     name: EdgeDeclaration.to

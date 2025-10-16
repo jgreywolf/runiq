@@ -137,8 +137,12 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
       };
 
       // Check if edge has a label (uses -label-> syntax)
-      if (statement.label) {
-        edge.label = statement.label;
+      if (statement.labeledArrow) {
+        // Extract label from labeledArrow terminal (e.g., "-success->" -> "success")
+        const match = statement.labeledArrow.match(/^-(.+)->$/);
+        if (match) {
+          edge.label = match[1];
+        }
       }
 
       diagram.edges.push(edge);
@@ -306,8 +310,12 @@ function convertContainer(
         to: statement.to,
       };
 
-      if (statement.label) {
-        edge.label = statement.label;
+      if (statement.labeledArrow) {
+        // Extract label from labeledArrow terminal (e.g., "-success->" -> "success")
+        const match = statement.labeledArrow.match(/^-(.+)->$/);
+        if (match) {
+          edge.label = match[1];
+        }
       }
 
       diagram.edges.push(edge);
@@ -330,7 +338,11 @@ function convertContainer(
       }
     } else if (Langium.isContainerBlock(statement)) {
       // Recursive nesting - convert nested container
-      const nestedContainer = convertContainer(statement, declaredNodes, diagram);
+      const nestedContainer = convertContainer(
+        statement,
+        declaredNodes,
+        diagram
+      );
 
       // Add nested container to parent's containers array (not children)
       if (!container.containers) {

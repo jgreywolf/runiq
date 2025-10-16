@@ -34,7 +34,7 @@ StyleProperty:
 
 // shape node1 as @rounded label: "My Node" style: myStyle icon: fa/user link: "http://example.com"
 ShapeDeclaration:
-    'shape' id=ID 'as' '@' shape=ID properties+=NodeProperty*;
+    'shape' id=ID 'as' '@' shape=(SHAPE_ID | ID) properties+=NodeProperty*;
 
 NodeProperty:
     LabelProperty
@@ -61,7 +61,7 @@ TooltipProperty:
 // node1 -> node2
 // node1 -label-> node2
 EdgeDeclaration:
-    from=ID (arrow=ARROW | (HYPHEN label=ID? arrow=ARROW)) to=ID;
+    from=ID (arrow=ARROW | labeledArrow=LABELED_ARROW) to=ID;
 
 // group "My Group" { ... }
 GroupBlock:
@@ -95,8 +95,10 @@ LabelPositionValue returns string:
     'top' | 'bottom' | 'left' | 'right';
 
 // Terminals
+terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal ARROW: '->';
 terminal HYPHEN: '-';
+terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
 terminal NUMBER: /[0-9]+(\.[0-9]+)?/;
