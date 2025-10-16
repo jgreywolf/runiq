@@ -51,6 +51,7 @@ import { cardShape } from './card.js';
 import { offPageConnectorShape } from './off-page-connector.js';
 import { summingJunctionShape } from './summing-junction.js';
 import { orShape } from './or.js';
+import { cloudShape } from './cloud.js';
 
 export function registerDefaultShapes(): void {
   // Original shapes
@@ -119,6 +120,7 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(forkJoinShape);
   shapeRegistry.register(summingJunctionShape);
   shapeRegistry.register(orShape);
+  shapeRegistry.register(cloudShape);
 
   // Annotation shapes
   shapeRegistry.register(textBlockShape);
@@ -178,3 +180,4 @@ export * from './card.js';
 export * from './off-page-connector.js';
 export * from './summing-junction.js';
 export * from './or.js';
+export * from './cloud.js';
