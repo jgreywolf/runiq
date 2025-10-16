@@ -53,6 +53,7 @@ import { summingJunctionShape } from './summing-junction.js';
 import { orShape } from './or.js';
 import { cloudShape } from './cloud.js';
 import { pieChart } from './charts/pie.js';
+import { barChartVertical } from './charts/bar-chart-vertical.js';
 
 export function registerDefaultShapes(): void {
   // Original shapes
@@ -130,6 +131,7 @@ export function registerDefaultShapes(): void {
 
   // Data-driven charts
   shapeRegistry.register(pieChart);
+  shapeRegistry.register(barChartVertical);
 }
 
 export * from './actor.js';
@@ -186,3 +188,4 @@ export * from './summing-junction.js';
 export * from './or.js';
 export * from './cloud.js';
 export * from './charts/pie.js';
+export * from './charts/bar-chart-vertical.js';
