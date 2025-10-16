@@ -1,0 +1,22 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "maslow",
+      "shape": "pyramid",
+      "label": "Maslow's Hierarchy of Needs",
+      "data": {
+        "levels": [
+          { "label": "Self-Actualization", "value": 10 },
+          { "label": "Esteem", "value": 30 },
+          { "label": "Love & Belonging", "value": 50 },
+          { "label": "Safety Needs", "value": 70 },
+          { "label": "Physiological Needs", "value": 100 }
+        ],
+        "colors": ["#9f7aea", "#ed8936", "#48bb78", "#4299e1", "#f56565"],
+        "showValues": true
+      }
+    }
+  ],
+  "edges": []
+}

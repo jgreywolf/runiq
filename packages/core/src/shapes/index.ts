@@ -58,6 +58,7 @@ import { barChartHorizontal } from './charts/bar-chart-horizontal.js';
 import { venn2Shape } from './venn-2.js';
 import { venn3Shape } from './venn-3.js';
 import { venn4Shape } from './venn-4.js';
+import { pyramidShape } from './pyramid.js';
 
 export function registerDefaultShapes(): void {
   // Original shapes
@@ -142,6 +143,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(venn2Shape);
   shapeRegistry.register(venn3Shape);
   shapeRegistry.register(venn4Shape);
+
+  // Hierarchical diagrams
+  shapeRegistry.register(pyramidShape);
 }
 
 export * from './actor.js';
@@ -200,6 +204,7 @@ export * from './cloud.js';
 export * from './venn-2.js';
 export * from './venn-3.js';
 export * from './venn-4.js';
+export * from './pyramid.js';
 export * from './charts/pie.js';
 export * from './charts/bar-chart-vertical.js';
 export * from './charts/bar-chart-horizontal.js';

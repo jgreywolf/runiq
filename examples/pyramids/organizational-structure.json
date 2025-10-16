@@ -1,0 +1,21 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "org-chart",
+      "shape": "pyramid",
+      "label": "Company Organizational Structure",
+      "data": {
+        "levels": [
+          { "label": "CEO", "value": 1 },
+          { "label": "VP & Directors", "value": 5 },
+          { "label": "Senior Managers", "value": 15 },
+          { "label": "Team Leads", "value": 45 },
+          { "label": "Individual Contributors", "value": 180 }
+        ],
+        "showValues": true
+      }
+    }
+  ],
+  "edges": []
+}
