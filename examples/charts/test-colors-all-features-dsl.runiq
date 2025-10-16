@@ -1,0 +1,32 @@
+// Complete example with colors, legend, stacked, and all features
+// Testing all chart properties together
+
+shape pie1 as @pie-chart 
+  label: "Product Distribution"
+  showLegend: true
+  colors: ["#667eea", "#764ba2", "#f093fb", "#4facfe"]
+  data: [
+    {"label": "Product A", "value": 35},
+    {"label": "Product B", "value": 28},
+    {"label": "Product C", "value": 22},
+    {"label": "Product D", "value": 15}
+  ]
+
+shape bar1 as @bar-chart-vertical
+  label: "Sales by Region"
+  showLegend: true
+  colors: ["#ff6b6b", "#4ecdc4", "#45b7d1"]
+  data: [
+    {"label": "Q1", "values": [30, 45, 25]},
+    {"label": "Q2", "values": [35, 50, 30]}
+  ]
+
+shape bar2 as @bar-chart-vertical
+  label: "Revenue Breakdown"
+  stacked: true
+  showLegend: true
+  colors: ["#a8e6cf", "#ffd3b6", "#ffaaa5"]
+  data: [
+    {"label": "Jan", "values": [50, 30, 20]},
+    {"label": "Feb", "values": [55, 35, 25]}
+  ]

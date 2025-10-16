@@ -408,27 +408,61 @@ shape pie1 as @pie-chart label: "Market Share" showLegend: true data: [
 ]
 ```
 
+### Custom Colors (DSL)
+Add `colors: [...]` to specify custom colors:
+```runiq
+shape pie1 as @pie-chart 
+  label: "Product Sales" 
+  colors: ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
+  data: [
+    {"label": "Product A", "value": 35},
+    {"label": "Product B", "value": 28},
+    {"label": "Product C", "value": 22},
+    {"label": "Product D", "value": 15}
+  ]
+```
+
+For grouped/stacked bars, colors apply to each bar group:
+```runiq
+shape chart1 as @bar-chart-vertical 
+  label: "Sales by Region"
+  colors: ["#e53e3e", "#38b2ac", "#9f7aea"]
+  data: [
+    {"label": "Q1", "values": [30, 45, 25]},
+    {"label": "Q2", "values": [35, 50, 30]}
+  ]
+```
+
 ### DSL Properties Reference
 
 **Chart Properties:**
 - `label: "string"` - Chart title
 - `showLegend: true/false` - Display legend
 - `stacked: true/false` - Stack bars vertically (bar charts only)
+- `colors: ["#hex", ...]` - Custom color array for slices/bars
 
 **Data Formats:**
 - Simple values: `data: [30, 45, 25]`
 - Labeled values: `data: [{"label": "Q1", "value": 120}]`
 - Nested arrays (grouped/stacked): `data: [{"label": "Q1", "values": [30, 45, 25]}]`
 
+**Color Specification:**
+- Use hex colors: `["#ff0000", "#00ff00", "#0000ff"]`
+- Colors cycle if fewer colors than data points
+- For grouped/stacked bars: colors apply to each bar in the group
+
 **DSL Example Files:**
 - `dsl-pie-simple.runiq` - Basic pie chart
-- `dsl-pie-labeled.runiq` - Labeled pie chart
+- `dsl-pie-labeled.runiq` - Labeled pie chart with colors
 - `dsl-bar-simple.runiq` - Simple bar chart
 - `dsl-bar-labeled.runiq` - Labeled bar chart
-- `dsl-bar-grouped.runiq` - Grouped bars (side-by-side)
-- `dsl-bar-stacked.runiq` - Stacked bars (vertically stacked)
+- `dsl-bar-grouped.runiq` - Grouped bars with custom colors
+- `dsl-bar-stacked.runiq` - Stacked bars with custom colors
 - `dsl-bar-horizontal.runiq` - Horizontal bars
 - `dsl-all-features.runiq` - Complete example with all features
+- `test-colors-pie-dsl.runiq` - Pie chart color test
+- `test-colors-bar-dsl.runiq` - Grouped bars color test
+- `test-colors-stacked-dsl.runiq` - Stacked bars color test
 
 ### Rendering DSL Charts
 
@@ -445,7 +479,7 @@ node packages/cli/dist/cli.js render dsl-bar-stacked.runiq output.svg
 - ✅ DSL syntax for nested arrays (COMPLETE!)
 - ✅ DSL syntax for stacked property (COMPLETE!)
 - ✅ DSL syntax for showLegend property (COMPLETE!)
-- Color arrays in DSL (`colors: ["#ff0000", "#00ff00"]`) - coming soon
+- ✅ DSL syntax for color arrays (COMPLETE!)
 - Title/axis label properties in DSL - coming soon
 - Interactive chart examples in web editor - coming soon
 

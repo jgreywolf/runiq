@@ -1,10 +1,9 @@
-// Grouped Bar Chart Example
-// Multiple bars per category displayed side-by-side
-// Using nested arrays for grouped values with custom colors
+// Vertical bar chart with custom color array for grouped bars
+// Testing colors: property with grouped bars
 
 shape chart1 as @bar-chart-vertical 
-  label: "Quarterly Revenue by Region" 
-  colors: ["#4299e1", "#48bb78", "#ed8936"]
+  label: "Custom Colors Grouped Bars"
+  colors: ["#e53e3e", "#38b2ac", "#9f7aea"]
   data: [
     {"label": "Q1", "values": [30, 45, 25]},
     {"label": "Q2", "values": [35, 50, 30]},

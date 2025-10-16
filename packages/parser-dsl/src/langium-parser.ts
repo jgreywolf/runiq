@@ -184,10 +184,16 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
         } else if (Langium.isStackedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.stacked = prop.value === 'true';
+        } else if (Langium.isColorsProperty(prop)) {
+          if (!node.data) node.data = {};
+          // Convert StringArray to array of strings
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+          }
         }
       }
 
-      // Second pass: ensure showLegend and stacked are set after DataProperty
+      // Second pass: ensure showLegend, stacked, and colors are set after DataProperty
       for (const prop of statement.properties) {
         if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
@@ -195,6 +201,12 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
         } else if (Langium.isStackedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.stacked = prop.value === 'true';
+        } else if (Langium.isColorsProperty(prop)) {
+          if (!node.data) node.data = {};
+          // Convert StringArray to array of strings
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+          }
         }
       }
 
@@ -275,10 +287,16 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
             } else if (Langium.isStackedProperty(prop)) {
               if (!node.data) node.data = {};
               node.data.stacked = prop.value === 'true';
+            } else if (Langium.isColorsProperty(prop)) {
+              if (!node.data) node.data = {};
+              // Convert StringArray to array of strings
+              if (prop.value && Langium.isStringArray(prop.value)) {
+                node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+              }
             }
           }
 
-          // Second pass: ensure showLegend and stacked are set after DataProperty
+          // Second pass: ensure showLegend, stacked, and colors are set after DataProperty
           for (const prop of subStatement.properties) {
             if (Langium.isShowLegendProperty(prop)) {
               if (!node.data) node.data = {};
@@ -286,6 +304,12 @@ function convertToRuniqAst(document: Langium.Document): DiagramAst {
             } else if (Langium.isStackedProperty(prop)) {
               if (!node.data) node.data = {};
               node.data.stacked = prop.value === 'true';
+            } else if (Langium.isColorsProperty(prop)) {
+              if (!node.data) node.data = {};
+              // Convert StringArray to array of strings
+              if (prop.value && Langium.isStringArray(prop.value)) {
+                node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+              }
             }
           }
 
@@ -419,10 +443,16 @@ function convertContainer(
         } else if (Langium.isStackedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.stacked = prop.value === 'true';
+        } else if (Langium.isColorsProperty(prop)) {
+          if (!node.data) node.data = {};
+          // Convert StringArray to array of strings
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+          }
         }
       }
 
-      // Second pass: ensure showLegend and stacked are set after DataProperty
+      // Second pass: ensure showLegend, stacked, and colors are set after DataProperty
       for (const prop of statement.properties) {
         if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
@@ -430,6 +460,12 @@ function convertContainer(
         } else if (Langium.isStackedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.stacked = prop.value === 'true';
+        } else if (Langium.isColorsProperty(prop)) {
+          if (!node.data) node.data = {};
+          // Convert StringArray to array of strings
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.colors = prop.value.items.map(item => item.replace(/^"|"$/g, ''));
+          }
         }
       }
 

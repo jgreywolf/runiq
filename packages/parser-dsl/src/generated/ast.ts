@@ -39,6 +39,7 @@ export type RuniqKeywordNames =
     | "borderStyle:"
     | "borderWidth:"
     | "bottom"
+    | "colors:"
     | "container"
     | "dashed"
     | "data:"
@@ -77,6 +78,21 @@ export type BorderStyleValue = 'dashed' | 'dotted' | 'solid';
 
 export function isBorderStyleValue(item: unknown): item is BorderStyleValue {
     return item === 'solid' || item === 'dashed' || item === 'dotted';
+}
+
+export interface ColorsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ColorsProperty';
+    value: StringArray;
+}
+
+export const ColorsProperty = {
+    $type: 'ColorsProperty',
+    value: 'value'
+} as const;
+
+export function isColorsProperty(item: unknown): item is ColorsProperty {
+    return reflection.isInstance(item, ColorsProperty.$type);
 }
 
 export interface ContainerBlock extends langium.AstNode {
@@ -388,7 +404,7 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
 }
 
-export type NodeProperty = DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TooltipProperty;
+export type NodeProperty = ColorsProperty | DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TooltipProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -457,6 +473,21 @@ export function isStatement(item: unknown): item is Statement {
     return reflection.isInstance(item, Statement.$type);
 }
 
+export interface StringArray extends langium.AstNode {
+    readonly $container: ColorsProperty;
+    readonly $type: 'StringArray';
+    items: Array<string>;
+}
+
+export const StringArray = {
+    $type: 'StringArray',
+    items: 'items'
+} as const;
+
+export function isStringArray(item: unknown): item is StringArray {
+    return reflection.isInstance(item, StringArray.$type);
+}
+
 export interface StyleDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | Document | GroupBlock;
     readonly $type: 'StyleDeclaration';
@@ -522,6 +553,7 @@ export function isTooltipProperty(item: unknown): item is TooltipProperty {
 }
 
 export type RuniqAstType = {
+    ColorsProperty: ColorsProperty
     ContainerBlock: ContainerBlock
     ContainerLayoutProperty: ContainerLayoutProperty
     ContainerProperty: ContainerProperty
@@ -545,6 +577,7 @@ export type RuniqAstType = {
     ShowLegendProperty: ShowLegendProperty
     StackedProperty: StackedProperty
     Statement: Statement
+    StringArray: StringArray
     StyleDeclaration: StyleDeclaration
     StyleProperty: StyleProperty
     StyleRefProperty: StyleRefProperty
@@ -553,6 +586,15 @@ export type RuniqAstType = {
 
 export class RuniqAstReflection extends langium.AbstractAstReflection {
     override readonly types = {
+        ColorsProperty: {
+            name: ColorsProperty.$type,
+            properties: {
+                value: {
+                    name: ColorsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         ContainerBlock: {
             name: ContainerBlock.$type,
             properties: {
@@ -807,6 +849,16 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
         Statement: {
             name: Statement.$type,
             properties: {
+            },
+            superTypes: []
+        },
+        StringArray: {
+            name: StringArray.$type,
+            properties: {
+                items: {
+                    name: StringArray.items,
+                    defaultValue: []
+                }
             },
             superTypes: []
         },

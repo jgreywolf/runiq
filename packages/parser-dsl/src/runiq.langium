@@ -44,7 +44,8 @@ NodeProperty:
     | TooltipProperty
     | DataProperty
     | ShowLegendProperty
-    | StackedProperty;
+    | StackedProperty
+    | ColorsProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -66,6 +67,12 @@ ShowLegendProperty:
 
 StackedProperty:
     'stacked:' value=BOOLEAN;
+
+ColorsProperty:
+    'colors:' value=StringArray;
+
+StringArray:
+    '[' (items+=STRING (',' items+=STRING)*)? ']';
 
 DataProperty:
     'data:' '[' (items+=DataItem (',' items+=DataItem)*)? ']';
