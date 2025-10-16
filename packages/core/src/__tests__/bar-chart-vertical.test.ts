@@ -182,4 +182,147 @@ describe('Bar Chart Vertical Shape', () => {
       expect(svg).toContain('stroke-width="3"');
     });
   });
+
+  describe('Grouped Bars', () => {
+    it('should render grouped bars with multiple series', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 45, 25] },
+          { label: 'Q2', values: [35, 50, 30] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Should render 6 bars total (2 groups * 3 series)
+      const rectCount = (svg.match(/<rect/g) || []).length;
+      expect(rectCount).toBe(6);
+    });
+
+    it('should calculate bounds for grouped bars', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 45, 25] },
+          { label: 'Q2', values: [35, 50, 30] },
+        ],
+      });
+      const bounds = barChartVertical.bounds(ctx);
+      
+      // 2 groups * (3 bars * 20 width + 2*5 spacing within group + 20 group spacing) + 20 initial spacing
+      // Simpler: 2 groups * 80 + 20 = 180
+      expect(bounds.width).toBeGreaterThan(150);
+    });
+
+    it('should use different colors for each series', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 45, 25] },
+          { label: 'Q2', values: [35, 50, 30] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Should have at least 3 different colors (for 3 series)
+      expect(svg).toContain('#4299e1'); // blue (series 1)
+      expect(svg).toContain('#48bb78'); // green (series 2)
+      expect(svg).toContain('#ed8936'); // orange (series 3)
+    });
+
+    it('should render group labels below each group', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 45] },
+          { label: 'Q2', values: [35, 50] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      expect(svg).toContain('Q1');
+      expect(svg).toContain('Q2');
+    });
+
+    it('should handle groups with different number of series', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 45] },
+          { label: 'Q2', values: [35, 50, 25] }, // 3 series
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // Should render 5 bars total (2 + 3)
+      const rectCount = (svg.match(/<rect/g) || []).length;
+      expect(rectCount).toBe(5);
+    });
+
+    it('should scale all bars to same max value across all series', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 100] }, // max is 100
+          { label: 'Q2', values: [50, 60] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      // All bars should scale to max value of 100
+      expect(svg).toContain('<rect');
+      expect(svg).toContain('height='); // Should have proportional heights
+    });
+
+    it('should handle single group with multiple series', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Total', values: [30, 45, 60] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      const rectCount = (svg.match(/<rect/g) || []).length;
+      expect(rectCount).toBe(3);
+    });
+
+    it('should handle empty group values', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      expect(svg).toBeDefined();
+      expect(svg).toContain('No data available');
+    });
+
+    it('should detect grouped format vs simple format', () => {
+      // Simple format
+      const simpleCtx = createContext({ values: [30, 45, 25] });
+      const simpleSvg = barChartVertical.render(simpleCtx, { x: 0, y: 0 });
+      
+      // Grouped format
+      const groupedCtx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 45] },
+        ],
+      });
+      const groupedSvg = barChartVertical.render(groupedCtx, { x: 0, y: 0 });
+      
+      // Both should render successfully but differently
+      expect(simpleSvg).toContain('<rect');
+      expect(groupedSvg).toContain('<rect');
+      expect(simpleSvg).not.toContain('Q1');
+      expect(groupedSvg).toContain('Q1');
+    });
+
+    it('should support labeled data in grouped format', () => {
+      const ctx = createContext({
+        values: [
+          { label: 'Q1', values: [30, 45, 25] },
+          { label: 'Q2', values: [35, 50, 30] },
+        ],
+      });
+      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      
+      expect(svg).toContain('Q1');
+      expect(svg).toContain('Q2');
+    });
+  });
 });

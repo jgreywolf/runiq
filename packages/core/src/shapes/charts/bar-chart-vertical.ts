@@ -6,6 +6,11 @@ const CHART_MARGIN_TOP = 40;
 const CHART_MARGIN_BOTTOM = 60;
 const DEFAULT_HEIGHT = 300;
 
+// Grouped bar constants
+const GROUPED_BAR_WIDTH = 20;
+const GROUPED_BAR_SPACING = 5;
+const GROUP_SPACING = 20;
+
 const DEFAULT_PALETTE = [
   '#4299e1', // blue
   '#48bb78', // green
@@ -20,6 +25,56 @@ const DEFAULT_PALETTE = [
 interface BarData {
   label: string;
   value: number;
+}
+
+interface GroupedBarData {
+  label: string;
+  values: number[];
+}
+
+/**
+ * Check if data is in grouped format
+ */
+function isGroupedFormat(data: any): boolean {
+  if (!data || !data.values || !Array.isArray(data.values)) {
+    return false;
+  }
+  
+  // Check if first item has 'values' array property
+  const firstItem = data.values[0];
+  return (
+    firstItem &&
+    typeof firstItem === 'object' &&
+    'values' in firstItem &&
+    Array.isArray(firstItem.values)
+  );
+}
+
+/**
+ * Normalize grouped data format
+ */
+function normalizeGroupedData(data: any): GroupedBarData[] {
+  if (!data || !data.values || !Array.isArray(data.values)) {
+    return [];
+  }
+
+  return data.values
+    .map((item: any): GroupedBarData | null => {
+      if (typeof item === 'object' && item !== null && Array.isArray(item.values)) {
+        const values = item.values
+          .map((v: any) => Number(v))
+          .filter((v: number) => !isNaN(v) && v > 0);
+        
+        if (values.length === 0) return null;
+        
+        return {
+          label: item.label || 'Group',
+          values,
+        };
+      }
+      return null;
+    })
+    .filter((item: GroupedBarData | null): item is GroupedBarData => item !== null);
 }
 
 /**
@@ -130,12 +185,85 @@ function renderEmptyState(ctx: ShapeRenderContext, position: { x: number; y: num
 }
 
 /**
+ * Render grouped bars
+ */
+function renderGroupedBars(
+  groups: GroupedBarData[],
+  maxValue: number,
+  ctx: ShapeRenderContext,
+  position: { x: number; y: number }
+): string {
+  const bounds = barChartVertical.bounds(ctx);
+  const chartHeight = bounds.height - CHART_MARGIN_TOP - CHART_MARGIN_BOTTOM;
+  
+  const elements: string[] = [];
+  let currentX = position.x + GROUP_SPACING;
+  
+  groups.forEach((group) => {
+    const groupWidth = group.values.length * GROUPED_BAR_WIDTH + (group.values.length - 1) * GROUPED_BAR_SPACING;
+    
+    // Render bars in this group
+    group.values.forEach((value, seriesIndex) => {
+      const barHeight = (value / maxValue) * chartHeight;
+      const x = currentX + seriesIndex * (GROUPED_BAR_WIDTH + GROUPED_BAR_SPACING);
+      const y = position.y + CHART_MARGIN_TOP + (chartHeight - barHeight);
+      
+      const color = getBarColor(seriesIndex);
+      const stroke = ctx.style?.stroke || '#333';
+      const strokeWidth = ctx.style?.strokeWidth || 1;
+      
+      // Bar rectangle
+      elements.push(
+        `<rect x="${x}" y="${y}" width="${GROUPED_BAR_WIDTH}" height="${barHeight}" fill="${color}" stroke="${stroke}" stroke-width="${strokeWidth}" />`
+      );
+      
+      // Value above bar
+      const valueX = x + GROUPED_BAR_WIDTH / 2;
+      const valueY = y - 5;
+      elements.push(
+        `<text x="${valueX}" y="${valueY}" text-anchor="middle" font-size="10" fill="#666">${value}</text>`
+      );
+    });
+    
+    // Group label below
+    const labelX = currentX + groupWidth / 2;
+    const labelY = position.y + bounds.height - CHART_MARGIN_BOTTOM + 20;
+    elements.push(
+      `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${group.label}</text>`
+    );
+    
+    currentX += groupWidth + GROUP_SPACING;
+  });
+  
+  return elements.join('\n');
+}
+
+/**
  * Vertical bar chart shape definition
  */
 export const barChartVertical: ShapeDefinition = {
   id: 'bar-chart-vertical',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
+    // Check if data is in grouped format
+    if (isGroupedFormat(ctx.node.data)) {
+      const groups = normalizeGroupedData(ctx.node.data);
+      
+      if (groups.length === 0) {
+        return { width: 200, height: DEFAULT_HEIGHT };
+      }
+      
+      // Calculate total width based on groups
+      let totalWidth = GROUP_SPACING; // initial spacing
+      groups.forEach(group => {
+        const groupWidth = group.values.length * GROUPED_BAR_WIDTH + (group.values.length - 1) * GROUPED_BAR_SPACING;
+        totalWidth += groupWidth + GROUP_SPACING;
+      });
+      
+      return { width: totalWidth, height: DEFAULT_HEIGHT };
+    }
+    
+    // Simple format
     const data = normalizeData(ctx.node.data);
 
     if (data.length === 0) {
@@ -164,6 +292,25 @@ export const barChartVertical: ShapeDefinition = {
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
+    // Check if data is in grouped format
+    if (isGroupedFormat(ctx.node.data)) {
+      const groups = normalizeGroupedData(ctx.node.data);
+      
+      if (groups.length === 0) {
+        return renderEmptyState(ctx, position);
+      }
+      
+      // Find max value across all series in all groups
+      const allValues = groups.flatMap(g => g.values);
+      const maxValue = Math.max(...allValues);
+      
+      const bars = renderGroupedBars(groups, maxValue, ctx, position);
+      const axis = renderAxis(ctx, position);
+      
+      return `<g>${bars}${axis}</g>`;
+    }
+    
+    // Simple format
     const data = normalizeData(ctx.node.data);
 
     if (data.length === 0) {
