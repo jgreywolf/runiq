@@ -268,12 +268,20 @@ export class ElkLayoutEngine implements LayoutEngine {
     placeholders: Map<string, { width: number; height: number }>
   ): void {
     for (const container of containers) {
+      // Map Runiq algorithm to ELK algorithm ID
+      const algorithm = this.mapAlgorithmToElk(
+        container.layoutOptions?.algorithm || 'layered'
+      );
+      const containerSpacing =
+        container.layoutOptions?.spacing?.toString() || '50';
+
       // Create a mini ELK graph for this container's contents
       const containerGraph: ElkNode = {
         id: `__container_internal__${container.id}`,
         layoutOptions: {
-          'elk.algorithm': 'layered',
+          'elk.algorithm': algorithm,
           'elk.direction': 'DOWN',
+          'elk.spacing.nodeNode': containerSpacing,
         },
         children: [],
         edges: [],
@@ -497,12 +505,13 @@ export class ElkLayoutEngine implements LayoutEngine {
    * Calculate container bounds from their children's positions (post-layout)
    * NOTE: This method is now unused - we use layoutContainersWithNodes instead
    */
+  // @ts-expect-error - Kept for reference, may be needed for future layout strategies
   private calculateContainerBounds(
     containers: ContainerDeclaration[],
     nodes: PositionedNode[],
     nodeContainerMap: Map<string, string>,
     result: PositionedContainer[],
-    parentId?: string
+    _parentId?: string
   ): void {
     for (const container of containers) {
       const padding =
@@ -577,6 +586,7 @@ export class ElkLayoutEngine implements LayoutEngine {
    * Build ELK container node (compound node) with children
    * NOTE: This method is now unused - we use flat layout instead
    */
+  // @ts-expect-error - Kept for reference, alternative hierarchical layout approach
   private buildElkContainer(
     container: ContainerDeclaration,
     diagram: DiagramAst,
@@ -653,6 +663,7 @@ export class ElkLayoutEngine implements LayoutEngine {
   /**
    * Extract nodes and containers from ELK result
    */
+  // @ts-expect-error - Kept for reference, alternative extraction approach
   private extractNodesAndContainers(
     elkChildren: ElkNode[],
     nodes: PositionedNode[],
@@ -707,6 +718,7 @@ export class ElkLayoutEngine implements LayoutEngine {
   /**
    * Recursively extract edges from the ELK result, including edges in nested containers
    */
+  // @ts-expect-error - Kept for reference, alternative edge extraction approach
   private extractEdgesRecursive(
     elkNode: ElkNode,
     nodes: PositionedNode[],
@@ -789,6 +801,7 @@ export class ElkLayoutEngine implements LayoutEngine {
    * Each edge must be added to the lowest common ancestor (LCA) container
    * that contains both the source and target nodes.
    */
+  // @ts-expect-error - Kept for reference, alternative edge distribution approach
   private distributeEdges(
     edges: DiagramAst['edges'],
     elkGraph: ElkNode,
@@ -913,6 +926,26 @@ export class ElkLayoutEngine implements LayoutEngine {
     }
 
     return null;
+  }
+
+  /**
+   * Map Runiq LayoutAlgorithm to ELK algorithm ID
+   */
+  private mapAlgorithmToElk(algorithm: string): string {
+    switch (algorithm) {
+      case 'layered':
+        return 'layered';
+      case 'force':
+        return 'org.eclipse.elk.force';
+      case 'stress':
+        return 'org.eclipse.elk.stress';
+      case 'radial':
+        return 'org.eclipse.elk.radial';
+      case 'mrtree':
+        return 'org.eclipse.elk.mrtree';
+      default:
+        return 'layered'; // Default fallback
+    }
   }
 
   /**
