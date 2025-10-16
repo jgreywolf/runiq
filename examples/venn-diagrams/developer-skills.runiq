@@ -1,0 +1,18 @@
+// Three-Circle Venn Diagram Example
+// Developer skills analysis
+
+shape skills as @venn-3
+  label: "Developer Skills Analysis"
+  data: [
+    {"setA": 1200},
+    {"setB": 1000},
+    {"setC": 800},
+    {"AB": 350},
+    {"AC": 280},
+    {"BC": 220},
+    {"ABC": 150},
+    {"labelA": "JavaScript"},
+    {"labelB": "Python"},
+    {"labelC": "TypeScript"}
+  ]
+  colors: ["#4299e1", "#48bb78", "#ed8936"]

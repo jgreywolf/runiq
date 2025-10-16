@@ -1,0 +1,13 @@
+// Two-Circle Venn Diagram Example
+// Market overlap analysis
+
+shape market as @venn-2
+  label: "Market Analysis"
+  data: [
+    {"setA": 500},
+    {"setB": 450},
+    {"intersection": 150},
+    {"labelA": "Product A Users"},
+    {"labelB": "Product B Users"}
+  ]
+  colors: ["#4299e1", "#48bb78"]

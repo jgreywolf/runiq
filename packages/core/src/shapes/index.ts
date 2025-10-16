@@ -55,6 +55,8 @@ import { cloudShape } from './cloud.js';
 import { pieChart } from './charts/pie.js';
 import { barChartVertical } from './charts/bar-chart-vertical.js';
 import { barChartHorizontal } from './charts/bar-chart-horizontal.js';
+import { venn2Shape } from './venn-2.js';
+import { venn3Shape } from './venn-3.js';
 
 export function registerDefaultShapes(): void {
   // Original shapes
@@ -134,6 +136,10 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(pieChart);
   shapeRegistry.register(barChartVertical);
   shapeRegistry.register(barChartHorizontal);
+
+  // Statistical/Set diagrams
+  shapeRegistry.register(venn2Shape);
+  shapeRegistry.register(venn3Shape);
 }
 
 export * from './actor.js';
@@ -189,6 +195,8 @@ export * from './off-page-connector.js';
 export * from './summing-junction.js';
 export * from './or.js';
 export * from './cloud.js';
+export * from './venn-2.js';
+export * from './venn-3.js';
 export * from './charts/pie.js';
 export * from './charts/bar-chart-vertical.js';
 export * from './charts/bar-chart-horizontal.js';
