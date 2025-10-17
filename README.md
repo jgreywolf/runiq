@@ -7,7 +7,7 @@
 [![Tests](https://img.shields.io/badge/tests-470%2B-brightgreen.svg)](./packages)
 
 **🚀 Status**: Phase 1 Complete - Core types, 52 shapes, ELK layout, hierarchical containers!  
-**⚡ NEW**: Electrical circuit support with SPICE netlists and IEEE-standard schematic rendering!
+**⚡ NEW**: Digital circuit support with Verilog HDL export and IEEE logic gate symbols!
 
 ## ✨ Features
 
@@ -18,10 +18,12 @@
 - **SvelteKit editor**: Monaco code editor with real-time preview
 - **Standards compliant**: SVG 1.1/2.0 friendly with accessibility support
 
-### Electrical Circuits (NEW! 🎉)
+### Electrical & Digital Circuits (NEW! 🎉)
 - **Text-based circuit definition**: Write circuits in plain text with clear syntax
 - **SPICE netlist export**: Automatic generation of simulation-ready netlists
-- **IEEE schematic rendering**: Professional SVG schematics with standard symbols
+- **Verilog HDL export**: Generate synthesizable Verilog for digital designs
+- **IEEE schematic rendering**: Professional SVG schematics with standard symbols (22 symbols!)
+- **Logic gate library**: AND, OR, NOT, XOR, NAND, NOR, BUFFER (IEEE/ANSI distinctive shapes)
 - **Complete workflow**: Design → Simulate → Visualize from single source
 - **Version control friendly**: Track circuit changes like code
 
@@ -58,11 +60,12 @@ pnpm dev
 | [`@runiq/icons-fontawesome`](./packages/icons-fontawesome) | Font Awesome icon provider         | -      |
 | [`@runiq/cli`](./packages/cli)                             | Command-line interface             | -      |
 
-### Electrical Circuit Packages (NEW!)
+### Electrical & Digital Circuit Packages (NEW!)
 | Package                                                          | Description                              | Tests   |
 | ---------------------------------------------------------------- | ---------------------------------------- | ------- |
-| [`@runiq/export-spice`](./packages/export-spice)                 | SPICE netlist generator                  | 18 ✅   |
-| [`@runiq/renderer-schematic`](./packages/renderer-schematic)     | IEEE-standard schematic SVG renderer     | 21 ✅   |
+| [`@runiq/export-spice`](./packages/export-spice)                 | SPICE netlist generator (analog)         | 18 ✅   |
+| [`@runiq/export-verilog`](./packages/export-verilog)             | Verilog HDL generator (digital)          | 15 ✅   |
+| [`@runiq/renderer-schematic`](./packages/renderer-schematic)     | IEEE-standard schematic SVG renderer     | 46 ✅   |
 
 ### Applications
 | App                               | Description                     |
@@ -126,6 +129,24 @@ electrical "RC Lowpass Filter" {
 - 🎨 **IEEE Schematic SVG** with professional symbols and labels
 
 [See more electrical examples →](./examples/electrical/)
+
+### Digital Circuit - Half Adder (NEW!)
+
+```runiq
+digital "Half Adder" {
+  net A, B, SUM, CARRY
+  
+  gate U1 type:XOR inputs:(A,B) output:SUM
+  gate U2 type:AND inputs:(A,B) output:CARRY
+}
+```
+
+**This generates:**
+- 💻 **Verilog HDL** module for synthesis/simulation
+- 🎨 **IEEE Logic Gate Schematic** with distinctive gate symbols (curved OR, flat AND, etc.)
+- 📊 **Truth table validation** for correctness checking
+
+[See more digital examples →](./packages/export-verilog/examples/)
 
 ### With Containers
 
