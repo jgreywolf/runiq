@@ -6,15 +6,24 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Tests](https://img.shields.io/badge/tests-470%2B-brightgreen.svg)](./packages)
 
-**🚀 Status**: Phase 1 Complete - Core types, 52 shapes, ELK layout, hierarchical containers!
+**🚀 Status**: Phase 1 Complete - Core types, 52 shapes, ELK layout, hierarchical containers!  
+**⚡ NEW**: Electrical circuit support with SPICE netlists and IEEE-standard schematic rendering!
 
 ## ✨ Features
 
+### Software Diagrams
 - **Two inputs, one AST**: Human-friendly DSL and 1:1 JSON format
 - **Pure SVG output**: No HTML hacks, embed-safe for PowerPoint/Keynote/Google Slides
 - **Pluggable system**: Extensible shapes, icons, layout engines, and themes
 - **SvelteKit editor**: Monaco code editor with real-time preview
 - **Standards compliant**: SVG 1.1/2.0 friendly with accessibility support
+
+### Electrical Circuits (NEW! 🎉)
+- **Text-based circuit definition**: Write circuits in plain text with clear syntax
+- **SPICE netlist export**: Automatic generation of simulation-ready netlists
+- **IEEE schematic rendering**: Professional SVG schematics with standard symbols
+- **Complete workflow**: Design → Simulate → Visualize from single source
+- **Version control friendly**: Track circuit changes like code
 
 ## 🚀 Quick Start
 
@@ -38,16 +47,27 @@ pnpm dev
 
 ## 📦 Packages
 
+### Core Packages
 | Package                                                    | Description                        | Tests  |
 | ---------------------------------------------------------- | ---------------------------------- | ------ |
 | [`@runiq/core`](./packages/core)                           | Core types, shapes, and registries | 345 ✅ |
-| [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | -      |
+| [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | 5 ✅   |
 | [`@runiq/layout-base`](./packages/layout-base)             | ELK layout engine adapter          | 24 ✅  |
 | [`@runiq/renderer-svg`](./packages/renderer-svg)           | SVG rendering engine               | 30 ✅  |
-| [`@runiq/io-json`](./packages/io-json)                     | JSON import/export                 | 28     |
+| [`@runiq/io-json`](./packages/io-json)                     | JSON import/export                 | 28 ✅  |
 | [`@runiq/icons-fontawesome`](./packages/icons-fontawesome) | Font Awesome icon provider         | -      |
 | [`@runiq/cli`](./packages/cli)                             | Command-line interface             | -      |
-| [`runiq-editor`](./apps/editor)                            | SvelteKit web editor               | -      |
+
+### Electrical Circuit Packages (NEW!)
+| Package                                                          | Description                              | Tests   |
+| ---------------------------------------------------------------- | ---------------------------------------- | ------- |
+| [`@runiq/export-spice`](./packages/export-spice)                 | SPICE netlist generator                  | 18 ✅   |
+| [`@runiq/renderer-schematic`](./packages/renderer-schematic)     | IEEE-standard schematic SVG renderer     | 21 ✅   |
+
+### Applications
+| App                               | Description                     |
+| --------------------------------- | ------------------------------- |
+| [`runiq-editor`](./apps/editor)   | SvelteKit web editor            |
 
 ## Parser Technology
 
@@ -68,7 +88,7 @@ See [docs/langium-migration.md](./docs/langium-migration.md) for migration detai
 
 ## Example DSL
 
-### Basic Flowchart
+### Software Diagram - Basic Flowchart
 
 ```runiq
 diagram "Auth Flow" direction: LR
@@ -86,6 +106,26 @@ Landing -> Check
 Check[yes] -> Welcome
 Check[no]  -> Pricing : reads
 ```
+
+### Electrical Circuit - RC Lowpass Filter (NEW!)
+
+```runiq
+electrical "RC Lowpass Filter" {
+  net IN, OUT, GND
+  
+  part V1 type:V source:"SIN(0 1 1k)" pins:(IN,GND)
+  part R1 type:R value:"10k" pins:(IN,OUT)
+  part C1 type:C value:"1n" pins:(OUT,GND)
+  
+  analysis tran "0 5m"
+}
+```
+
+**This generates:**
+- 📄 **SPICE Netlist** for simulation (ngspice/LTspice compatible)
+- 🎨 **IEEE Schematic SVG** with professional symbols and labels
+
+[See more electrical examples →](./examples/electrical/)
 
 ### With Containers
 
@@ -114,6 +154,7 @@ web -> api : HTTPS
 
 ### ✅ Completed
 
+**Software Diagrams:**
 - [x] **52 shapes implemented** (100% of goal! 🎉)
   - Actors, circles, data/documents, data I/O, storage, process, specialized, annotations
 - [x] **ELK layout engine integrated** - Replaced Dagre with superior Eclipse Layout Kernel
@@ -124,23 +165,51 @@ web -> api : HTTPS
   - Cross-container edges fully supported
   - 148 container-related tests (95% passing)
   - [See Container Documentation →](./docs/containers.md)
-- [x] **Test coverage** - 550+ tests passing across packages
+
+**Electrical Circuits (NEW!):**
+- [x] **Profile-based architecture** - Multi-domain support (electrical, digital)
+- [x] **Electrical DSL** - Clean syntax for circuits with parts, nets, analysis
+- [x] **SPICE exporter** - Automatic netlist generation (18/18 tests ✅)
+- [x] **IEEE schematic renderer** - Professional SVG schematics (21/21 tests ✅)
+  - 8 standard symbols: R, C, L, V, I, GND, D, LED
+  - Automatic layout and wire routing
+  - Configurable styling and labels
+  - [See Schematic Renderer →](./packages/renderer-schematic/)
+- [x] **Complete workflow validated** - 5 working examples with SPICE + schematics
+  - [See Electrical Examples →](./examples/electrical/)
+
+**Testing & Infrastructure:**
+- [x] **Test coverage** - 600+ tests passing across packages
 - [x] **Monorepo architecture** - Clean package separation with pnpm workspaces
 
 ### 🚧 In Progress
 
+**Software Diagrams:**
 - [ ] **Phase 2: Parser Support** - Langium grammar for `container "Label" { ... }` syntax
 - [ ] **Phase 3: ELK Layout** - Compound nodes for nested containers
 - [ ] **Phase 4: SVG Rendering** - Container backgrounds, borders, z-index layering
 - [ ] **Phase 5: Integration** - CLI + Editor support with C4/BPMN examples
 
+**Electrical/Digital Circuits:**
+- [ ] **Verilog exporter** - Generate Verilog HDL from digital circuits
+- [ ] **EDIF exporter** - Electronic Design Interchange Format for EDA tools
+- [ ] **Schema validation** - Runtime validation with Zod schemas
+
 ### 🔮 Roadmap
 
+**Software Diagrams:**
 1. **Hierarchical Containers** (CRITICAL) - Complete Phases 2-5 for C4, BPMN, architecture diagrams
 2. **Alternative Layout Algorithms** (HIGH) - Enable ELK's force/radial/stress layouts
 3. **Data-Driven Rendering** (HIGH) - Charts with data values (pie, bar, XY)
 4. **Swim Lanes/Zones** (MEDIUM) - BPMN lane partitioning
 5. **Time-Based Layouts** (MEDIUM) - Gantt charts, timelines
+
+**Electrical/Digital Circuits:**
+1. **Enhanced Symbols** (MEDIUM) - Transistors, MOSFETs, op-amps, logic gates
+2. **Advanced Routing** (MEDIUM) - Orthogonal wire routing, junction dots
+3. **Component Rotation** (LOW) - 90°/180°/270° orientation
+4. **Digital Simulation** (HIGH) - Integrate with Icarus Verilog or similar
+5. **PCB Export** (FUTURE) - KiCad footprint mapping
 
 ## 📚 Documentation
 
@@ -168,10 +237,17 @@ pnpm build
 
 **Test Coverage:**
 
+**Software Diagrams:**
 - Core: 345 tests (types, shapes, validation)
 - Layout: 24 tests (ELK adapter)
 - Renderer: 30 tests (SVG output)
-- Total: 470+ tests passing
+
+**Electrical Circuits:**
+- Parser: 5 tests (electrical profile parsing)
+- SPICE Exporter: 18 tests (netlist generation)
+- Schematic Renderer: 21 tests (IEEE symbol rendering)
+
+**Total: 600+ tests passing** ✅
 
 ## 📋 Requirements
 
@@ -203,6 +279,7 @@ See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for d
 
 ## 🎨 Supported Diagram Types
 
+### Software Diagrams
 | Status | Type              | Notes                          |
 | ------ | ----------------- | ------------------------------ |
 | ✅     | Flowcharts        | Full support                   |
@@ -212,6 +289,32 @@ See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for d
 | ✅     | ER diagrams       | Full support                   |
 | ✅     | C4 diagrams       | Container support complete! 🎉 |
 | 🟡     | BPMN              | Swim lanes coming soon         |
+
+### Electrical & Digital Circuits (NEW!)
+| Status | Type                    | Notes                                              |
+| ------ | ----------------------- | -------------------------------------------------- |
+| ✅     | Analog circuits         | R, C, L, V, I sources + SPICE export               |
+| ✅     | Power supplies          | Voltage dividers, filters, regulators              |
+| ✅     | LED circuits            | Current limiting, indicators                       |
+| ✅     | Schematic rendering     | IEEE-standard SVG schematics                       |
+| 🟡     | Digital logic           | Grammar ready, Verilog export coming soon          |
+| 🟡     | Mixed-signal            | Analog + digital in same circuit (future)          |
+
+## 🚀 What Makes Runiq Unique?
+
+**For Software Engineers:**
+- ✨ Version control friendly (plain text)
+- ✨ Embed diagrams in Markdown/docs
+- ✨ Consistent styling across teams
+- ✨ No vendor lock-in (open format)
+
+**For Hardware Engineers (NEW!):**
+- ⚡ **Text → SPICE + Schematic** from single source (no other tool does this!)
+- ⚡ Design → Simulate → Document workflow
+- ⚡ Version control electrical circuits like code
+- ⚡ IEEE-standard professional schematics
+- ⚡ Automatic ground normalization
+- ⚡ Compatible with industry tools (ngspice, LTspice)
 | 🟡     | Mind maps         | Partial support                |
 | 🟡     | Timeline/Gantt    | Time-based layouts planned     |
 
