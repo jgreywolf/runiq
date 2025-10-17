@@ -146,6 +146,12 @@ Check[yes] -> Welcome
 Check[no]  -> Pricing : reads
 ```
 
+**Output:**
+
+![Auth Flow Diagram](./examples/auth-flow.svg)
+
+[See full example →](./examples/auth-flow.runiq)
+
 ### Electrical Circuit - RC Lowpass Filter (NEW!)
 
 ```runiq
@@ -164,6 +170,10 @@ electrical "RC Lowpass Filter" {
 
 - 📄 **SPICE Netlist** for simulation (ngspice/LTspice compatible)
 - 🎨 **IEEE Schematic SVG** with professional symbols and labels
+
+**Output:**
+
+![RC Filter Schematic](./examples/electrical/schematics/rc-filter.svg)
 
 [See more electrical examples →](./examples/electrical/)
 
@@ -184,9 +194,13 @@ digital "Half Adder" {
 - 🎨 **IEEE Logic Gate Schematic** with distinctive gate symbols (curved OR, flat AND, etc.)
 - 📊 **Truth table validation** for correctness checking
 
+**Output:**
+
+![Half Adder Schematic](./packages/renderer-schematic/examples/digital/schematics/half-adder.svg)
+
 [See more digital examples →](./packages/export-verilog/examples/)
 
-### With Containers
+###With Containers
 
 ```runiq
 diagram "Microservices" direction: LR
@@ -206,6 +220,8 @@ container backend "Backend Services"
 shape web as @rounded label: "Web UI"
 web -> api : HTTPS
 ```
+
+_SVG output coming soon - see [examples/microservices.runiq](./examples/microservices.runiq)_
 
 [See more container examples →](./examples/)
 
@@ -248,6 +264,10 @@ PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open
 - 📦 **System boundaries** - Dotted rectangles grouping related use cases
 - 🔗 **Associations** - Connections showing actor-use case relationships
 - 📋 **Stereotypes** - <<include>>, <<extend>> with proper UML notation
+
+_SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq](./examples/use-case-diagram/banking-advanced.runiq)_
+
+[See all use case examples →](./examples/use-case-diagram/)
 - 🎨 **Line styles** - Solid, dashed, dotted lines for different semantics
 - ➡️ **Arrow types** - Standard, hollow, open arrows for relationship types
 

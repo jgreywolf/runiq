@@ -1,14 +1,18 @@
 # Electrical Circuit Examples
 
-This folder contains example electrical circuits in Runiq format and their generated SPICE netlists.
+This folder contains example electrical circuits in Runiq format and their generated outputs.
+
+> **📸 Visual Schematics Available!** Check the `schematics/` directory for IEEE-standard SVG circuit diagrams of all examples.
 
 ## 📁 Structure
 
 ```
 electrical/
-├── *.runiq          # Runiq circuit definitions
-└── spice-output/    # Generated SPICE netlists (.cir files)
-    └── *.cir
+├── *.runiq             # Runiq circuit definitions
+├── spice-output/       # Generated SPICE netlists (.cir files)
+│   └── *.cir
+└── schematics/         # Generated IEEE-standard SVG schematics
+    └── *.svg
 ```
 
 ## 🔌 Examples

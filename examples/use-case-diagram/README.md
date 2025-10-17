@@ -2,6 +2,8 @@
 
 UML use case diagrams showing actors interacting with system functionality.
 
+> **📸 Visual Outputs:** SVG visualizations are coming soon! For now, you can view the `.runiq` source files below. To generate SVGs, run through the Runiq CLI or renderer.
+
 ## ✨ NEW Features! 
 
 ### UML Relationship Stereotypes
