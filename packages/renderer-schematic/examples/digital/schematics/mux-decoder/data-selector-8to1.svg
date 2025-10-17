@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="150" 
+    height="200" 
+    viewBox="60 60 150 200"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">8-to-1 Data Selector</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- Trapezoidal body (narrow left, wide right) -->
+      <path d="M 105,100 L 153,100 L 165,160 L 153,220 L 105,220 Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- MUX label -->
+      <text x="125" y="165" 
+        font-family="Arial, sans-serif" font-size="12" fill="currentColor" text-anchor="middle">
+        MUX
+      </text>
+      
+      <!-- 8:1 indicator -->
+      <text x="125" y="178" 
+        font-family="Arial, sans-serif" font-size="9" fill="currentColor" text-anchor="middle">
+        8:1
+      </text>
+      
+      <!-- Select inputs -->
+      <path d="M 115,220 L 115,215" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 130,220 L 130,215" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 145,220 L 145,215" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Data input lines (8 inputs) -->
+      <path d="M 100,112 L 105,112" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,124 L 105,124" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,136 L 105,136" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,148 L 105,148" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,172 L 105,172" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,184 L 105,184" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,196 L 105,196" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,208 L 105,208" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output line -->
+      <path d="M 165,160 L 170,160" stroke="currentColor" stroke-width="1.5"/>
+        <text x="135" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>

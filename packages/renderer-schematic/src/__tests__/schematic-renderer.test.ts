@@ -1641,5 +1641,274 @@ describe('Schematic Renderer', () => {
       expect(result.warnings).toHaveLength(0);
     });
   });
+
+  describe('Multiplexers and Decoders', () => {
+    it('should render 4-to-1 MUX with trapezoidal shape', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '4-to-1 Multiplexer',
+        nets: [
+          { name: 'D0' },
+          { name: 'D1' },
+          { name: 'D2' },
+          { name: 'D3' },
+          { name: 'S0' },
+          { name: 'S1' },
+          { name: 'Y' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'MUX41',
+            params: {},
+            pins: ['D0', 'D1', 'D2', 'D3', 'S0', 'S1', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('MUX'); // Label
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 8-to-1 MUX with 8:1 label', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '8-to-1 Multiplexer',
+        nets: [
+          { name: 'D0' },
+          { name: 'D1' },
+          { name: 'D2' },
+          { name: 'D3' },
+          { name: 'D4' },
+          { name: 'D5' },
+          { name: 'D6' },
+          { name: 'D7' },
+          { name: 'S0' },
+          { name: 'S1' },
+          { name: 'S2' },
+          { name: 'Y' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'MUX81',
+            params: {},
+            pins: ['D0', 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'S0', 'S1', 'S2', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('MUX');
+      expect(result.svg).toContain('8:1');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 2-to-4 decoder with inverted trapezoid', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '2-to-4 Decoder',
+        nets: [
+          { name: 'A0' },
+          { name: 'A1' },
+          { name: 'EN' },
+          { name: 'Y0' },
+          { name: 'Y1' },
+          { name: 'Y2' },
+          { name: 'Y3' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'DEC24',
+            params: {},
+            pins: ['A0', 'A1', 'EN', 'Y0', 'Y1', 'Y2', 'Y3'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('DEC');
+      expect(result.svg).toContain('2:4');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 3-to-8 decoder with 3:8 label', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '3-to-8 Decoder',
+        nets: [
+          { name: 'A0' },
+          { name: 'A1' },
+          { name: 'A2' },
+          { name: 'EN' },
+          { name: 'Y0' },
+          { name: 'Y1' },
+          { name: 'Y2' },
+          { name: 'Y3' },
+          { name: 'Y4' },
+          { name: 'Y5' },
+          { name: 'Y6' },
+          { name: 'Y7' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'DEC38',
+            params: {},
+            pins: ['A0', 'A1', 'A2', 'EN', 'Y0', 'Y1', 'Y2', 'Y3', 'Y4', 'Y5', 'Y6', 'Y7'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('DEC');
+      expect(result.svg).toContain('3:8');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render ALU data path with MUX selector', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Simple ALU with MUX',
+        nets: [
+          { name: 'ADD_RESULT' },
+          { name: 'SUB_RESULT' },
+          { name: 'AND_RESULT' },
+          { name: 'OR_RESULT' },
+          { name: 'OP0' },
+          { name: 'OP1' },
+          { name: 'OUTPUT' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'MUX41',
+            params: {},
+            pins: ['ADD_RESULT', 'SUB_RESULT', 'AND_RESULT', 'OR_RESULT', 'OP0', 'OP1', 'OUTPUT'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('MUX');
+      expect(result.svg).toContain('Simple ALU with MUX');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render memory address decoder circuit', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Memory Address Decoder',
+        nets: [
+          { name: 'ADDR0' },
+          { name: 'ADDR1' },
+          { name: 'ADDR2' },
+          { name: 'CS' },
+          { name: 'MEM0' },
+          { name: 'MEM1' },
+          { name: 'MEM2' },
+          { name: 'MEM3' },
+          { name: 'MEM4' },
+          { name: 'MEM5' },
+          { name: 'MEM6' },
+          { name: 'MEM7' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'DEC38',
+            params: {},
+            pins: ['ADDR0', 'ADDR1', 'ADDR2', 'CS', 'MEM0', 'MEM1', 'MEM2', 'MEM3', 'MEM4', 'MEM5', 'MEM6', 'MEM7'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('DEC');
+      expect(result.svg).toContain('3:8');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render data selector with cascaded MUXes', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '8-input Data Selector',
+        nets: [
+          { name: 'D0' },
+          { name: 'D1' },
+          { name: 'D2' },
+          { name: 'D3' },
+          { name: 'D4' },
+          { name: 'D5' },
+          { name: 'D6' },
+          { name: 'D7' },
+          { name: 'SEL0' },
+          { name: 'SEL1' },
+          { name: 'SEL2' },
+          { name: 'OUT' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'MUX81',
+            params: {},
+            pins: ['D0', 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'SEL0', 'SEL1', 'SEL2', 'OUT'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('8:1');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render demultiplexer using decoder with enable', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '1-to-4 Demux (using decoder)',
+        nets: [
+          { name: 'A0' },
+          { name: 'A1' },
+          { name: 'DATA_IN' },
+          { name: 'OUT0' },
+          { name: 'OUT1' },
+          { name: 'OUT2' },
+          { name: 'OUT3' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'DEC24',
+            params: {},
+            pins: ['A0', 'A1', 'DATA_IN', 'OUT0', 'OUT1', 'OUT2', 'OUT3'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('DEC');
+      expect(result.svg).toContain('2:4');
+      expect(result.warnings).toHaveLength(0);
+    });
+  });
 });
+
 

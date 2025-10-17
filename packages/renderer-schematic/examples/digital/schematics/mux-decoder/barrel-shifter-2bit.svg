@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="620" 
+    height="160" 
+    viewBox="60 60 620 160"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">2-bit Barrel Shifter</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+  <path d="M 100,115 L 260,165" class="schematic-wire"/>
+  <text x="265" y="160" class="schematic-net-label">IN0</text>
+  <path d="M 100,130 L 260,115" class="schematic-wire"/>
+  <text x="265" y="110" class="schematic-net-label">IN1</text>
+  <path d="M 100,150 L 260,130" class="schematic-wire"/>
+  <text x="265" y="125" class="schematic-net-label">IN2</text>
+  <path d="M 100,165 L 260,150" class="schematic-wire"/>
+  <text x="265" y="145" class="schematic-net-label">IN3</text>
+  <path d="M 115,180 L 135,180" class="schematic-wire"/>
+  <text x="140" y="175" class="schematic-net-label">SHIFT0</text>
+  <path d="M 135,180 L 275,180" class="schematic-wire"/>
+  <text x="280" y="175" class="schematic-net-label">SHIFT0</text>
+  <path d="M 275,180 L 295,180" class="schematic-wire"/>
+  <text x="300" y="175" class="schematic-net-label">SHIFT0</text>
+  <path d="M 160,140 L 420,115" class="schematic-wire"/>
+  <text x="425" y="110" class="schematic-net-label">MID0</text>
+  <path d="M 420,115 L 420,150" class="schematic-wire"/>
+  <text x="425" y="145" class="schematic-net-label">MID0</text>
+  <path d="M 420,150 L 580,130" class="schematic-wire"/>
+  <text x="585" y="125" class="schematic-net-label">MID0</text>
+  <path d="M 580,130 L 580,165" class="schematic-wire"/>
+  <text x="585" y="160" class="schematic-net-label">MID0</text>
+  <path d="M 320,140 L 420,130" class="schematic-wire"/>
+  <text x="425" y="125" class="schematic-net-label">MID1</text>
+  <path d="M 420,130 L 420,165" class="schematic-wire"/>
+  <text x="425" y="160" class="schematic-net-label">MID1</text>
+  <path d="M 420,165 L 580,115" class="schematic-wire"/>
+  <text x="585" y="110" class="schematic-net-label">MID1</text>
+  <path d="M 580,115 L 580,150" class="schematic-wire"/>
+  <text x="585" y="145" class="schematic-net-label">MID1</text>
+  <path d="M 435,180 L 455,180" class="schematic-wire"/>
+  <text x="460" y="175" class="schematic-net-label">SHIFT1</text>
+  <path d="M 455,180 L 595,180" class="schematic-wire"/>
+  <text x="600" y="175" class="schematic-net-label">SHIFT1</text>
+  <path d="M 595,180 L 615,180" class="schematic-wire"/>
+  <text x="620" y="175" class="schematic-net-label">SHIFT1</text>
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- Trapezoidal body (narrow left, wide right) -->
+      <path d="M 105,100 L 145,100 L 155,140 L 145,180 L 105,180 Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- MUX label -->
+      <text x="122" y="145" 
+        font-family="Arial, sans-serif" font-size="12" fill="currentColor" text-anchor="middle">
+        MUX
+      </text>
+      
+      <!-- Select inputs with small triangles at bottom -->
+      <path d="M 115,180 L 115,175" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 135,180 L 135,175" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Data input lines -->
+      <path d="M 100,115 L 105,115" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,130 L 105,130" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,150 L 105,150" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,165 L 105,165" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output line -->
+      <path d="M 155,140 L 160,140" stroke="currentColor" stroke-width="1.5"/>
+        <text x="130" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+  <g class="schematic-component" data-ref="U2">
+
+      <!-- Trapezoidal body (narrow left, wide right) -->
+      <path d="M 265,100 L 305,100 L 315,140 L 305,180 L 265,180 Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- MUX label -->
+      <text x="282" y="145" 
+        font-family="Arial, sans-serif" font-size="12" fill="currentColor" text-anchor="middle">
+        MUX
+      </text>
+      
+      <!-- Select inputs with small triangles at bottom -->
+      <path d="M 275,180 L 275,175" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 295,180 L 295,175" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Data input lines -->
+      <path d="M 260,115 L 265,115" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 260,130 L 265,130" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 260,150 L 265,150" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 260,165 L 265,165" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output line -->
+      <path d="M 315,140 L 320,140" stroke="currentColor" stroke-width="1.5"/>
+        <text x="290" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U2</text>
+  </g>
+  <g class="schematic-component" data-ref="U3">
+
+      <!-- Trapezoidal body (narrow left, wide right) -->
+      <path d="M 425,100 L 465,100 L 475,140 L 465,180 L 425,180 Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- MUX label -->
+      <text x="442" y="145" 
+        font-family="Arial, sans-serif" font-size="12" fill="currentColor" text-anchor="middle">
+        MUX
+      </text>
+      
+      <!-- Select inputs with small triangles at bottom -->
+      <path d="M 435,180 L 435,175" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 455,180 L 455,175" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Data input lines -->
+      <path d="M 420,115 L 425,115" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 420,130 L 425,130" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 420,150 L 425,150" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 420,165 L 425,165" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output line -->
+      <path d="M 475,140 L 480,140" stroke="currentColor" stroke-width="1.5"/>
+        <text x="450" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U3</text>
+  </g>
+  <g class="schematic-component" data-ref="U4">
+
+      <!-- Trapezoidal body (narrow left, wide right) -->
+      <path d="M 585,100 L 625,100 L 635,140 L 625,180 L 585,180 Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- MUX label -->
+      <text x="602" y="145" 
+        font-family="Arial, sans-serif" font-size="12" fill="currentColor" text-anchor="middle">
+        MUX
+      </text>
+      
+      <!-- Select inputs with small triangles at bottom -->
+      <path d="M 595,180 L 595,175" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 615,180 L 615,175" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Data input lines -->
+      <path d="M 580,115 L 585,115" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 580,130 L 585,130" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 580,150 L 585,150" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 580,165 L 585,165" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output line -->
+      <path d="M 635,140 L 640,140" stroke="currentColor" stroke-width="1.5"/>
+        <text x="610" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U4</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>

@@ -1416,6 +1416,256 @@ export const register8 = createSymbol(
 );
 
 /**
+ * 4-to-1 Multiplexer
+ * IEEE standard trapezoidal symbol
+ * 4 data inputs, 2 select inputs, 1 output
+ */
+export const mux4to1 = createSymbol(
+  'mux41',
+  60,
+  80,
+  [
+    { x: 0, y: 15, name: 'D0' },
+    { x: 0, y: 30, name: 'D1' },
+    { x: 0, y: 50, name: 'D2' },
+    { x: 0, y: 65, name: 'D3' },
+    { x: 15, y: 80, name: 'S0' },
+    { x: 35, y: 80, name: 'S1' },
+    { x: 60, y: 40, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 30;
+    const right = cx + 30;
+    const top = cy - 40;
+    const bottom = cy + 40;
+    const trapLeft = left + 5;
+    const trapRight = right - 5;
+
+    return `
+      <!-- Trapezoidal body (narrow left, wide right) -->
+      <path d="M ${trapLeft},${top} L ${trapRight - 10},${top} L ${trapRight},${cy} L ${trapRight - 10},${bottom} L ${trapLeft},${bottom} Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- MUX label -->
+      <text x="${cx - 8}" y="${cy + 5}" 
+        font-family="Arial, sans-serif" font-size="12" fill="currentColor" text-anchor="middle">
+        MUX
+      </text>
+      
+      <!-- Select inputs with small triangles at bottom -->
+      <path d="M ${left + 15},${bottom} L ${left + 15},${bottom - 5}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left + 35},${bottom} L ${left + 35},${bottom - 5}" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Data input lines -->
+      <path d="M ${left},${top + 15} L ${trapLeft},${top + 15}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 30} L ${trapLeft},${top + 30}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 50} L ${trapLeft},${top + 50}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 65} L ${trapLeft},${top + 65}" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output line -->
+      <path d="M ${trapRight},${cy} L ${right},${cy}" stroke="currentColor" stroke-width="1.5"/>
+    `;
+  }
+);
+
+/**
+ * 8-to-1 Multiplexer
+ * IEEE standard trapezoidal symbol
+ * 8 data inputs, 3 select inputs, 1 output
+ */
+export const mux8to1 = createSymbol(
+  'mux81',
+  70,
+  120,
+  [
+    { x: 0, y: 12, name: 'D0' },
+    { x: 0, y: 24, name: 'D1' },
+    { x: 0, y: 36, name: 'D2' },
+    { x: 0, y: 48, name: 'D3' },
+    { x: 0, y: 72, name: 'D4' },
+    { x: 0, y: 84, name: 'D5' },
+    { x: 0, y: 96, name: 'D6' },
+    { x: 0, y: 108, name: 'D7' },
+    { x: 15, y: 120, name: 'S0' },
+    { x: 30, y: 120, name: 'S1' },
+    { x: 45, y: 120, name: 'S2' },
+    { x: 70, y: 60, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 35;
+    const right = cx + 35;
+    const top = cy - 60;
+    const bottom = cy + 60;
+    const trapLeft = left + 5;
+    const trapRight = right - 5;
+
+    return `
+      <!-- Trapezoidal body (narrow left, wide right) -->
+      <path d="M ${trapLeft},${top} L ${trapRight - 12},${top} L ${trapRight},${cy} L ${trapRight - 12},${bottom} L ${trapLeft},${bottom} Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- MUX label -->
+      <text x="${cx - 10}" y="${cy + 5}" 
+        font-family="Arial, sans-serif" font-size="12" fill="currentColor" text-anchor="middle">
+        MUX
+      </text>
+      
+      <!-- 8:1 indicator -->
+      <text x="${cx - 10}" y="${cy + 18}" 
+        font-family="Arial, sans-serif" font-size="9" fill="currentColor" text-anchor="middle">
+        8:1
+      </text>
+      
+      <!-- Select inputs -->
+      <path d="M ${left + 15},${bottom} L ${left + 15},${bottom - 5}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left + 30},${bottom} L ${left + 30},${bottom - 5}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left + 45},${bottom} L ${left + 45},${bottom - 5}" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Data input lines (8 inputs) -->
+      <path d="M ${left},${top + 12} L ${trapLeft},${top + 12}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 24} L ${trapLeft},${top + 24}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 36} L ${trapLeft},${top + 36}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 48} L ${trapLeft},${top + 48}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 72} L ${trapLeft},${top + 72}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 84} L ${trapLeft},${top + 84}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 96} L ${trapLeft},${top + 96}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 108} L ${trapLeft},${top + 108}" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output line -->
+      <path d="M ${trapRight},${cy} L ${right},${cy}" stroke="currentColor" stroke-width="1.5"/>
+    `;
+  }
+);
+
+/**
+ * 2-to-4 Decoder
+ * IEEE standard inverted trapezoidal symbol
+ * 2 address inputs, optional enable, 4 outputs
+ */
+export const decoder2to4 = createSymbol(
+  'dec24',
+  60,
+  70,
+  [
+    { x: 0, y: 25, name: 'A0' },
+    { x: 0, y: 45, name: 'A1' },
+    { x: 20, y: 0, name: 'EN' },
+    { x: 60, y: 15, name: 'Y0' },
+    { x: 60, y: 28, name: 'Y1' },
+    { x: 60, y: 42, name: 'Y2' },
+    { x: 60, y: 55, name: 'Y3' },
+  ],
+  (cx, cy) => {
+    const left = cx - 30;
+    const right = cx + 30;
+    const top = cy - 35;
+    const bottom = cy + 35;
+    const trapLeft = left + 5;
+    const trapRight = right - 5;
+
+    return `
+      <!-- Inverted trapezoidal body (wide left, narrow right) -->
+      <path d="M ${trapLeft},${top + 10} L ${trapRight - 10},${top} L ${trapRight - 10},${bottom} L ${trapLeft},${bottom - 10} Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- DEC label -->
+      <text x="${cx - 5}" y="${cy + 5}" 
+        font-family="Arial, sans-serif" font-size="11" fill="currentColor" text-anchor="middle">
+        DEC
+      </text>
+      
+      <!-- 2:4 indicator -->
+      <text x="${cx - 5}" y="${cy + 16}" 
+        font-family="Arial, sans-serif" font-size="9" fill="currentColor" text-anchor="middle">
+        2:4
+      </text>
+      
+      <!-- Enable input at top -->
+      <path d="M ${left + 20},${top} L ${left + 20},${top + 10}" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Address input lines -->
+      <path d="M ${left},${top + 25} L ${trapLeft},${top + 25}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 45} L ${trapLeft},${top + 45}" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output lines (4 outputs) -->
+      <path d="M ${trapRight - 10},${top + 15} L ${right},${top + 15}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 10},${top + 28} L ${right},${top + 28}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 10},${top + 42} L ${right},${top + 42}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 10},${top + 55} L ${right},${top + 55}" stroke="currentColor" stroke-width="1.5"/>
+    `;
+  }
+);
+
+/**
+ * 3-to-8 Decoder
+ * IEEE standard inverted trapezoidal symbol
+ * 3 address inputs, optional enable, 8 outputs
+ */
+export const decoder3to8 = createSymbol(
+  'dec38',
+  70,
+  110,
+  [
+    { x: 0, y: 35, name: 'A0' },
+    { x: 0, y: 55, name: 'A1' },
+    { x: 0, y: 75, name: 'A2' },
+    { x: 25, y: 0, name: 'EN' },
+    { x: 70, y: 15, name: 'Y0' },
+    { x: 70, y: 27, name: 'Y1' },
+    { x: 70, y: 39, name: 'Y2' },
+    { x: 70, y: 51, name: 'Y3' },
+    { x: 70, y: 63, name: 'Y4' },
+    { x: 70, y: 75, name: 'Y5' },
+    { x: 70, y: 87, name: 'Y6' },
+    { x: 70, y: 99, name: 'Y7' },
+  ],
+  (cx, cy) => {
+    const left = cx - 35;
+    const right = cx + 35;
+    const top = cy - 55;
+    const bottom = cy + 55;
+    const trapLeft = left + 5;
+    const trapRight = right - 5;
+
+    return `
+      <!-- Inverted trapezoidal body (wide left, narrow right) -->
+      <path d="M ${trapLeft},${top + 10} L ${trapRight - 12},${top} L ${trapRight - 12},${bottom} L ${trapLeft},${bottom - 10} Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- DEC label -->
+      <text x="${cx - 8}" y="${cy + 5}" 
+        font-family="Arial, sans-serif" font-size="11" fill="currentColor" text-anchor="middle">
+        DEC
+      </text>
+      
+      <!-- 3:8 indicator -->
+      <text x="${cx - 8}" y="${cy + 18}" 
+        font-family="Arial, sans-serif" font-size="9" fill="currentColor" text-anchor="middle">
+        3:8
+      </text>
+      
+      <!-- Enable input at top -->
+      <path d="M ${left + 25},${top} L ${left + 25},${top + 10}" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Address input lines (3 inputs) -->
+      <path d="M ${left},${top + 35} L ${trapLeft},${top + 35}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 55} L ${trapLeft},${top + 55}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${left},${top + 75} L ${trapLeft},${top + 75}" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output lines (8 outputs) -->
+      <path d="M ${trapRight - 12},${top + 15} L ${right},${top + 15}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 12},${top + 27} L ${right},${top + 27}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 12},${top + 39} L ${right},${top + 39}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 12},${top + 51} L ${right},${top + 51}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 12},${top + 63} L ${right},${top + 63}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 12},${top + 75} L ${right},${top + 75}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 12},${top + 87} L ${right},${top + 87}" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${trapRight - 12},${top + 99} L ${right},${top + 99}" stroke="currentColor" stroke-width="1.5"/>
+    `;
+  }
+);
+
+/**
  * Symbol registry
  */
 export const symbolRegistry = new Map<string, SymbolDefinition>([
@@ -1455,6 +1705,12 @@ export const symbolRegistry = new Map<string, SymbolDefinition>([
   // Registers
   ['REG4', register4],
   ['REG8', register8],
+  // Multiplexers
+  ['MUX41', mux4to1],
+  ['MUX81', mux8to1],
+  // Decoders
+  ['DEC24', decoder2to4],
+  ['DEC38', decoder3to8],
 ]);
 
 /**

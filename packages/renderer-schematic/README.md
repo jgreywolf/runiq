@@ -4,23 +4,25 @@ Professional electrical schematic renderer for Runiq with IEEE/IEC standard symb
 
 ## ✨ Features
 
-- **IEEE Standard Symbols** - 32 professional schematic symbols
+- **IEEE Standard Symbols** - 36 professional schematic symbols
   - Passive: R, C, L
   - Sources: V (voltage), I (current)
   - Semiconductors: D (diode), LED
   - Transistors: NPN, PNP, NMOS, PMOS
   - Advanced: Op-amp, Transformer
-  - **Digital Logic Gates:** AND, OR, NOT, XOR, NAND, NOR, BUFFER, XNOR (NEW! 🎉)
-  - **3-Input Gates:** AND3, OR3, NAND3, NOR3 (NEW! 🎉)
-  - **Flip-Flops:** D, JK, T (NEW! 🎉)
-  - **Registers:** 4-bit, 8-bit (NEW! 🎉)
+  - **Digital Logic Gates:** AND, OR, NOT, XOR, NAND, NOR, BUFFER, XNOR
+  - **3-Input Gates:** AND3, OR3, NAND3, NOR3
+  - **Flip-Flops:** D, JK, T
+  - **Registers:** 4-bit, 8-bit
+  - **Multiplexers:** 4-to-1, 8-to-1 (NEW! 🎉)
+  - **Decoders:** 2-to-4, 3-to-8 (NEW! 🎉)
 - **Component Rotation** - Rotate components 0°, 90°, 180°, or 270°
 - **Orthogonal Wire Routing** - Manhattan-style routing with junction dots
 - **Automatic Layout** - Smart component placement with wire routing
 - **Ground Normalization** - Automatic GND/VSS symbol rendering
 - **Configurable Display** - Control labels, values, net names, and colors
 - **SVG Output** - Scalable, embeddable in web pages and documentation
-- **Comprehensive Testing** - 60/60 tests passing with full coverage (NEW! 🎉)
+- **Comprehensive Testing** - 68/68 tests passing with full coverage (NEW! 🎉)
 
 ## 📦 Installation
 
@@ -120,6 +122,14 @@ console.log(result.svg); // SVG markup
 **Registers:** (NEW! 🎉)
 - **REG4** - 4-bit Register (100×80px, D0-D3 inputs, Q0-Q3 outputs, CLK, EN)
 - **REG8** - 8-bit Register (120×100px, D0-D7 inputs, Q0-Q7 outputs, CLK, EN)
+
+**Multiplexers:** (NEW! 🎉)
+- **MUX41** - 4-to-1 Multiplexer (60×80px, trapezoidal, D0-D3 inputs, S0-S1 select, Y output)
+- **MUX81** - 8-to-1 Multiplexer (70×120px, trapezoidal, D0-D7 inputs, S0-S2 select, Y output)
+
+**Decoders:** (NEW! 🎉)
+- **DEC24** - 2-to-4 Decoder (60×70px, inverted trapezoid, A0-A1 address, EN, Y0-Y3 outputs)
+- **DEC38** - 3-to-8 Decoder (70×110px, inverted trapezoid, A0-A2 address, EN, Y0-Y7 outputs)
 
 ### Symbols
 
@@ -725,14 +735,20 @@ Test coverage:
 - ✅ Component rotation (5 tests)
 - ✅ Orthogonal routing (3 tests)
 - ✅ Logic gate symbols (9 tests)
-- ✅ **Advanced digital components (14 tests)** **NEW!** 🎉
+- ✅ **Advanced digital components (14 tests)**
   - XNOR gates
   - 3-input gates (AND3, OR3, NAND3, NOR3)
   - Flip-flops (D, JK, T)
   - Registers (4-bit, 8-bit)
   - Complex circuits (counter, comparator, etc.)
+- ✅ **Multiplexers and Decoders (8 tests)** **NEW!** 🎉
+  - 4-to-1 and 8-to-1 multiplexers
+  - 2-to-4 and 3-to-8 decoders
+  - ALU data path with MUX
+  - Memory address decoder
+  - Data selectors and demultiplexers
 
-**Total: 60/60 tests passing** ✅
+**Total: 68/68 tests passing** ✅
 
 ## 📝 Rendering Examples
 
@@ -854,22 +870,25 @@ Part of the Runiq project. See main repository for license details.
 
 ## 🎉 Status
 
-**Current Version: 0.3.0**
+**Current Version: 0.4.0**
 
 - ✅ Core schematic rendering
-- ✅ IEEE-standard symbols (32 total!)
+- ✅ **IEEE-standard symbols (36 total!)** **NEW TOTAL!** 🎉
 - ✅ Digital logic gates (8 basic gates)
-- ✅ **3-input logic gates (AND3, OR3, NAND3, NOR3)** **NEW!** 🎉
-- ✅ **Flip-flops (D, JK, T)** **NEW!** 🎉
-- ✅ **Registers (4-bit, 8-bit)** **NEW!** 🎉
+- ✅ 3-input logic gates (AND3, OR3, NAND3, NOR3)
+- ✅ Flip-flops (D, JK, T)
+- ✅ Registers (4-bit, 8-bit)
+- ✅ **Multiplexers (4-to-1, 8-to-1)** **NEW!** 🎉
+- ✅ **Decoders (2-to-4, 3-to-8)** **NEW!** 🎉
 - ✅ Component rotation (0°/90°/180°/270°)
 - ✅ Orthogonal wire routing with junction dots
 - ✅ Automatic layout
 - ✅ Wire routing
 - ✅ Ground symbols
 - ✅ Component/net labels
-- ✅ 60/60 tests passing
-- ✅ 13+ example schematics rendered
+- ✅ **68/68 tests passing** **NEW!** 🎉
+- ✅ **19+ example schematics rendered** **NEW!** 🎉
 
-**Ready for production use!** 🚀
+**Complete digital component library!** 🚀
+**Ready for production use!** ✅
 

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="140" 
+    height="150" 
+    viewBox="60 60 140 150"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">1-to-4 Demultiplexer</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- Inverted trapezoidal body (wide left, narrow right) -->
+      <path d="M 105,110 L 145,100 L 145,170 L 105,160 Z"
+        fill="white" stroke="currentColor" stroke-width="2"/>
+      
+      <!-- DEC label -->
+      <text x="125" y="140" 
+        font-family="Arial, sans-serif" font-size="11" fill="currentColor" text-anchor="middle">
+        DEC
+      </text>
+      
+      <!-- 2:4 indicator -->
+      <text x="125" y="151" 
+        font-family="Arial, sans-serif" font-size="9" fill="currentColor" text-anchor="middle">
+        2:4
+      </text>
+      
+      <!-- Enable input at top -->
+      <path d="M 120,100 L 120,110" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Address input lines -->
+      <path d="M 100,125 L 105,125" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 100,145 L 105,145" stroke="currentColor" stroke-width="1.5"/>
+      
+      <!-- Output lines (4 outputs) -->
+      <path d="M 145,115 L 160,115" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 145,128 L 160,128" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 145,142 L 160,142" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 145,155 L 160,155" stroke="currentColor" stroke-width="1.5"/>
+        <text x="130" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>
