@@ -247,8 +247,25 @@ DataArray:
 
 // node1 -> node2
 // node1 -label-> node2
+// node1 -> node2 lineStyle:double arrowType:none (for marriage edges)
 EdgeDeclaration:
-    from=ID (arrow=ARROW | labeledArrow=LABELED_ARROW) to=ID;
+    from=ID (arrow=ARROW | labeledArrow=LABELED_ARROW) to=ID properties+=EdgeProperty*;
+
+EdgeProperty:
+    LineStyleProperty
+    | ArrowTypeProperty;
+
+LineStyleProperty:
+    'lineStyle:' value=LineStyleValue;
+
+LineStyleValue returns string:
+    'solid' | 'dashed' | 'dotted' | 'double';
+
+ArrowTypeProperty:
+    'arrowType:' value=ArrowTypeValue;
+
+ArrowTypeValue returns string:
+    'standard' | 'hollow' | 'open' | 'none';
 
 // group "My Group" { ... }
 GroupBlock:

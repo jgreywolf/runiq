@@ -46,7 +46,7 @@ export interface EdgeAst {
   data?: Record<string, unknown>;
   // UML enhancements for use case diagrams and other notations
   stereotype?: string; // e.g., 'include', 'extend', 'uses' (rendered as <<stereotype>>)
-  lineStyle?: 'solid' | 'dashed' | 'dotted'; // Line appearance
+  lineStyle?: 'solid' | 'dashed' | 'dotted' | 'double'; // Line appearance (double for consanguineous marriages)
   arrowType?: 'standard' | 'hollow' | 'open' | 'none'; // Arrow head style
 }
 

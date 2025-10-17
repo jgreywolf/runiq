@@ -231,10 +231,15 @@ function renderEdge(
   // Determine line style
   const lineStyle = edgeAst.lineStyle || 'solid';
   let strokeDasharray = '';
+  let isDoubleLine = false;
+  
   if (lineStyle === 'dashed') {
     strokeDasharray = ' stroke-dasharray="5,3"';
   } else if (lineStyle === 'dotted') {
     strokeDasharray = ' stroke-dasharray="2,2"';
+  } else if (lineStyle === 'double') {
+    // Double line for consanguineous marriages
+    isDoubleLine = true;
   }
 
   // Create path
@@ -284,7 +289,33 @@ function renderEdge(
   // Edge line with optional marker
   const markerAttr =
     arrowType !== 'none' ? ` marker-end="url(#${arrowId})"` : '';
-  edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+  
+  // Render double line for consanguineous marriages
+  if (isDoubleLine) {
+    // Parallel lines with small offset (3px apart)
+    const offset = 3;
+    
+    // Calculate perpendicular offset for parallel lines
+    // For simplicity, offset vertically for horizontal lines, horizontally for vertical lines
+    const isHorizontal = Math.abs(points[points.length - 1].y - points[0].y) < Math.abs(points[points.length - 1].x - points[0].x);
+    
+    if (isHorizontal) {
+      // Offset vertically for horizontal lines
+      const offsetPath1 = `M ${start.x} ${start.y - offset}` + points.slice(1).map(p => ` L ${p.x} ${p.y - offset}`).join('');
+      const offsetPath2 = `M ${start.x} ${start.y + offset}` + points.slice(1).map(p => ` L ${p.x} ${p.y + offset}`).join('');
+      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+    } else {
+      // Offset horizontally for vertical lines
+      const offsetPath1 = `M ${start.x - offset} ${start.y}` + points.slice(1).map(p => ` L ${p.x - offset} ${p.y}`).join('');
+      const offsetPath2 = `M ${start.x + offset} ${start.y}` + points.slice(1).map(p => ` L ${p.x + offset} ${p.y}`).join('');
+      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+    }
+  } else {
+    // Single line (standard)
+    edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+  }
 
   // Calculate midpoint for labels
   const midIndex = Math.floor(points.length / 2);

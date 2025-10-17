@@ -1,0 +1,19 @@
+# Test Consanguineous Marriage (Double Line)
+# Demonstrates lineStyle:double for blood-related spouses
+diagram "Consanguinity Test" {
+  direction:TB
+
+  # Cousins who marry (consanguineous)
+  shape cousin1 as @pedigree-male label:"Cousin 1" 
+  shape cousin2 as @pedigree-female label:"Cousin 2"
+
+  # Child
+  shape child as @pedigree-male label:"Child"
+
+  # Consanguineous marriage (double line, no arrow)
+  cousin1 -> cousin2 lineStyle:double arrowType:none
+
+  # Parent-child (standard)
+  cousin1 -> child
+  cousin2 -> child
+}

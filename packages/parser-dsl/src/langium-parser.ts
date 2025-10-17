@@ -478,6 +478,15 @@ function processDialogStatement(
       edge.label = statement.labeledArrow.slice(1, -2);
     }
 
+    // Process edge properties
+    for (const prop of statement.properties) {
+      if (Langium.isLineStyleProperty(prop)) {
+        edge.lineStyle = prop.value as 'solid' | 'dashed' | 'dotted' | 'double';
+      } else if (Langium.isArrowTypeProperty(prop)) {
+        edge.arrowType = prop.value as 'standard' | 'hollow' | 'open' | 'none';
+      }
+    }
+
     diagram.edges.push(edge);
   } else if (Langium.isGroupBlock(statement)) {
     if (!diagram.groups) diagram.groups = [];
@@ -681,6 +690,15 @@ function convertContainer(
         const match = statement.labeledArrow.match(/^-(.+)->$/);
         if (match) {
           edge.label = match[1];
+        }
+      }
+
+      // Process edge properties
+      for (const prop of statement.properties) {
+        if (Langium.isLineStyleProperty(prop)) {
+          edge.lineStyle = prop.value as 'solid' | 'dashed' | 'dotted' | 'double';
+        } else if (Langium.isArrowTypeProperty(prop)) {
+          edge.arrowType = prop.value as 'standard' | 'hollow' | 'open' | 'none';
         }
       }
 

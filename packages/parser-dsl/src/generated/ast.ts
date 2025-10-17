@@ -38,6 +38,7 @@ export type RuniqKeywordNames =
     | "affected:"
     | "algorithm:"
     | "analysis"
+    | "arrowType:"
     | "as"
     | "backgroundColor:"
     | "borderColor:"
@@ -55,24 +56,29 @@ export type RuniqKeywordNames =
     | "digital"
     | "direction:"
     | "dotted"
+    | "double"
     | "electrical"
     | "force"
     | "group"
+    | "hollow"
     | "icon:"
     | "inst"
     | "label:"
     | "labelPosition:"
     | "layered"
     | "left"
+    | "lineStyle:"
     | "link:"
     | "map:"
     | "module"
     | "mrtree"
     | "net"
     | "noise"
+    | "none"
     | "of:"
     | "op"
     | "opacity:"
+    | "open"
     | "padding:"
     | "params:"
     | "part"
@@ -86,6 +92,7 @@ export type RuniqKeywordNames =
     | "source:"
     | "spacing:"
     | "stacked:"
+    | "standard"
     | "stress"
     | "style"
     | "style:"
@@ -138,6 +145,27 @@ export const AnalysisStatement = {
 
 export function isAnalysisStatement(item: unknown): item is AnalysisStatement {
     return reflection.isInstance(item, AnalysisStatement.$type);
+}
+
+export interface ArrowTypeProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'ArrowTypeProperty';
+    value: ArrowTypeValue;
+}
+
+export const ArrowTypeProperty = {
+    $type: 'ArrowTypeProperty',
+    value: 'value'
+} as const;
+
+export function isArrowTypeProperty(item: unknown): item is ArrowTypeProperty {
+    return reflection.isInstance(item, ArrowTypeProperty.$type);
+}
+
+export type ArrowTypeValue = 'hollow' | 'none' | 'open' | 'standard';
+
+export function isArrowTypeValue(item: unknown): item is ArrowTypeValue {
+    return item === 'standard' || item === 'hollow' || item === 'open' || item === 'none';
 }
 
 export type BorderStyleValue = 'dashed' | 'dotted' | 'solid';
@@ -480,6 +508,7 @@ export interface EdgeDeclaration extends langium.AstNode {
     arrow?: string;
     from: string;
     labeledArrow?: string;
+    properties: Array<EdgeProperty>;
     to: string;
 }
 
@@ -488,11 +517,22 @@ export const EdgeDeclaration = {
     arrow: 'arrow',
     from: 'from',
     labeledArrow: 'labeledArrow',
+    properties: 'properties',
     to: 'to'
 } as const;
 
 export function isEdgeDeclaration(item: unknown): item is EdgeDeclaration {
     return reflection.isInstance(item, EdgeDeclaration.$type);
+}
+
+export type EdgeProperty = ArrowTypeProperty | LineStyleProperty;
+
+export const EdgeProperty = {
+    $type: 'EdgeProperty'
+} as const;
+
+export function isEdgeProperty(item: unknown): item is EdgeProperty {
+    return reflection.isInstance(item, EdgeProperty.$type);
 }
 
 export interface ElectricalProfile extends langium.AstNode {
@@ -653,6 +693,27 @@ export type LayoutAlgorithmValue = 'force' | 'layered' | 'mrtree' | 'radial' | '
 
 export function isLayoutAlgorithmValue(item: unknown): item is LayoutAlgorithmValue {
     return item === 'layered' || item === 'force' || item === 'stress' || item === 'radial' || item === 'mrtree';
+}
+
+export interface LineStyleProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'LineStyleProperty';
+    value: LineStyleValue;
+}
+
+export const LineStyleProperty = {
+    $type: 'LineStyleProperty',
+    value: 'value'
+} as const;
+
+export function isLineStyleProperty(item: unknown): item is LineStyleProperty {
+    return reflection.isInstance(item, LineStyleProperty.$type);
+}
+
+export type LineStyleValue = 'dashed' | 'dotted' | 'double' | 'solid';
+
+export function isLineStyleValue(item: unknown): item is LineStyleValue {
+    return item === 'solid' || item === 'dashed' || item === 'dotted' || item === 'double';
 }
 
 export interface LinkProperty extends langium.AstNode {
@@ -1129,6 +1190,7 @@ export function isYLabelProperty(item: unknown): item is YLabelProperty {
 export type RuniqAstType = {
     AffectedProperty: AffectedProperty
     AnalysisStatement: AnalysisStatement
+    ArrowTypeProperty: ArrowTypeProperty
     BusWidth: BusWidth
     CarrierProperty: CarrierProperty
     ColorsProperty: ColorsProperty
@@ -1151,6 +1213,7 @@ export type RuniqAstType = {
     DirectionDeclaration: DirectionDeclaration
     Document: Document
     EdgeDeclaration: EdgeDeclaration
+    EdgeProperty: EdgeProperty
     ElectricalProfile: ElectricalProfile
     ElectricalStatement: ElectricalStatement
     GroupBlock: GroupBlock
@@ -1161,6 +1224,7 @@ export type RuniqAstType = {
     InstProperty: InstProperty
     InstStatement: InstStatement
     LabelProperty: LabelProperty
+    LineStyleProperty: LineStyleProperty
     LinkProperty: LinkProperty
     ModuleParamsProperty: ModuleParamsProperty
     ModulePortsProperty: ModulePortsProperty
@@ -1216,6 +1280,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [ElectricalStatement.$type]
+        },
+        ArrowTypeProperty: {
+            name: ArrowTypeProperty.$type,
+            properties: {
+                value: {
+                    name: ArrowTypeProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
         },
         BusWidth: {
             name: BusWidth.$type,
@@ -1457,11 +1530,21 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 labeledArrow: {
                     name: EdgeDeclaration.labeledArrow
                 },
+                properties: {
+                    name: EdgeDeclaration.properties,
+                    defaultValue: []
+                },
                 to: {
                     name: EdgeDeclaration.to
                 }
             },
             superTypes: [DiagramStatement.$type]
+        },
+        EdgeProperty: {
+            name: EdgeProperty.$type,
+            properties: {
+            },
+            superTypes: []
         },
         ElectricalProfile: {
             name: ElectricalProfile.$type,
@@ -1563,6 +1646,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        LineStyleProperty: {
+            name: LineStyleProperty.$type,
+            properties: {
+                value: {
+                    name: LineStyleProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
         },
         LinkProperty: {
             name: LinkProperty.$type,

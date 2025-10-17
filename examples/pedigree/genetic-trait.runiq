@@ -1,42 +1,44 @@
 # Genetic Trait Inheritance
 # Example showing autosomal recessive inheritance pattern
 # Black = Affected, Half-filled = Carrier, White = Normal
-diagram pedigree
+diagram "Genetic Trait Inheritance" {
+  direction:TB
 
-# Generation I
-I-1: pedigree-male "I-1" { carrier: true }
-I-2: pedigree-female "I-2" { carrier: true }
+  # Generation I
+  shape i1 as @pedigree-male label:"I-1" carrier:true
+  shape i2 as @pedigree-female label:"I-2" carrier:true
 
-# Generation II
-II-1: pedigree-female "II-1"
-II-2: pedigree-male "II-2" { carrier: true }
-II-3: pedigree-female "II-3" { affected: true }
-II-4: pedigree-male "II-4" { carrier: true }
-II-5: pedigree-female "II-5"
+  # Generation II
+  shape ii1 as @pedigree-female label:"II-1"
+  shape ii2 as @pedigree-male label:"II-2" carrier:true
+  shape ii3 as @pedigree-female label:"II-3" affected:true
+  shape ii4 as @pedigree-male label:"II-4" carrier:true
+  shape ii5 as @pedigree-female label:"II-5"
 
-# Generation III (II-2 married to II-partner)
-II-partner: pedigree-female "II-partner"
-III-1: pedigree-male "III-1" { carrier: true }
-III-2: pedigree-female "III-2"
+  # Generation III (II-2 married to II-partner)
+  shape iipartner as @pedigree-female label:"II-partner"
+  shape iii1 as @pedigree-male label:"III-1" carrier:true
+  shape iii2 as @pedigree-female label:"III-2"
 
-# Marriage relationships
-I-1 -> I-2
-II-2 -> II-partner
+  # Marriage relationships (no arrows)
+  i1 -> i2 arrowType:none
+  ii2 -> iipartner arrowType:none
 
-# Parent-child connections (Generation I -> II)
-I-1 -> II-1
-I-1 -> II-2
-I-1 -> II-3
-I-1 -> II-4
-I-1 -> II-5
-I-2 -> II-1
-I-2 -> II-2
-I-2 -> II-3
-I-2 -> II-4
-I-2 -> II-5
+  # Parent-child connections (Generation I -> II)
+  i1 -> ii1
+  i1 -> ii2
+  i1 -> ii3
+  i1 -> ii4
+  i1 -> ii5
+  i2 -> ii1
+  i2 -> ii2
+  i2 -> ii3
+  i2 -> ii4
+  i2 -> ii5
 
-# Parent-child connections (Generation II -> III)
-II-2 -> III-1
-II-2 -> III-2
-II-partner -> III-1
-II-partner -> III-2
+  # Parent-child connections (Generation II -> III)
+  ii2 -> iii1
+  ii2 -> iii2
+  iipartner -> iii1
+  iipartner -> iii2
+}

@@ -18,8 +18,9 @@ diagram "Simple Pedigree" {
   shape daughter as @pedigree-female label:"Daughter" carrier:true
 
   # Relationships (Marriage and Parent-Child)
-  grandfather -> grandmother
-  father -> mother
+  # Marriages (horizontal lines, no arrows)
+  grandfather -> grandmother arrowType:none
+  father -> mother arrowType:none
 
   # Parent-child connections
   grandfather -> father
