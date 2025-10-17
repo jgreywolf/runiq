@@ -1,28 +1,28 @@
 # Shape Reference
 
-Runiq provides **54 shapes** across 9 categories for building professional diagrams.
+Runiq provides **57 shapes** across 10 categories for building professional diagrams.
 
 ## Quick Reference
 
-| Shape | Syntax | Use Case |
-|-------|--------|----------|
-| Rectangle | `@rect` | Process steps, general purpose |
-| Rounded Rectangle | `@rounded` | Terminal points (start/end) |
-| Diamond | `@rhombus` | Decisions, branching |
-| Hexagon | `@hex` | Preparation, success states |
-| Circle | `@circle` | Simple state, connector |
-| Ellipse | `@ellipse` | Elongated state |
-| Cylinder | `@cyl` | Databases, storage |
-| Document | `@doc` | Documents, outputs |
-| Parallelogram | `@para` | Input/output |
-| Trapezoid | `@trap` | Manual operation |
-| Cloud | `@cloud` | Cloud services, external systems |
-| Pentagon | `@pent` | Process container |
-| Triangle | `@triangle` | Flow direction |
-| Octagon | `@octagon` | Stop, halt |
-| Star | `@star` | Special events |
+| Shape             | Syntax      | Use Case                         |
+| ----------------- | ----------- | -------------------------------- |
+| Rectangle         | `@rect`     | Process steps, general purpose   |
+| Rounded Rectangle | `@rounded`  | Terminal points (start/end)      |
+| Diamond           | `@rhombus`  | Decisions, branching             |
+| Hexagon           | `@hex`      | Preparation, success states      |
+| Circle            | `@circle`   | Simple state, connector          |
+| Ellipse           | `@ellipse`  | Elongated state                  |
+| Cylinder          | `@cyl`      | Databases, storage               |
+| Document          | `@doc`      | Documents, outputs               |
+| Parallelogram     | `@para`     | Input/output                     |
+| Trapezoid         | `@trap`     | Manual operation                 |
+| Cloud             | `@cloud`    | Cloud services, external systems |
+| Pentagon          | `@pent`     | Process container                |
+| Triangle          | `@triangle` | Flow direction                   |
+| Octagon           | `@octagon`  | Stop, halt                       |
+| Star              | `@star`     | Special events                   |
 
-[See all 54 shapes below ↓](#all-shapes)
+[See all 57 shapes below ↓](#all-shapes)
 
 ## Categories
 
@@ -30,18 +30,19 @@ Runiq provides **54 shapes** across 9 categories for building professional diagr
 
 User representations for use case diagrams:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Actor | `@actor` | Classic stick figure actor |
-| Box Actor | `@box-actor` | Simplified box actor |
-| Circle Actor | `@circle-actor` | Circle head with body |
-| Rounded Actor | `@rounded-actor` | Rounded box actor |
-| Square Actor | `@square-actor` | Square body actor |
-| Tall Actor | `@tall-actor` | Tall proportions |
-| Wide Actor | `@wide-actor` | Wide proportions |
-| Custom Actor | `@custom-actor` | Configurable actor |
+| Shape         | Syntax           | Description                |
+| ------------- | ---------------- | -------------------------- |
+| Actor         | `@actor`         | Classic stick figure actor |
+| Box Actor     | `@box-actor`     | Simplified box actor       |
+| Circle Actor  | `@circle-actor`  | Circle head with body      |
+| Rounded Actor | `@rounded-actor` | Rounded box actor          |
+| Square Actor  | `@square-actor`  | Square body actor          |
+| Tall Actor    | `@tall-actor`    | Tall proportions           |
+| Wide Actor    | `@wide-actor`    | Wide proportions           |
+| Custom Actor  | `@custom-actor`  | Configurable actor         |
 
 **Example:**
+
 ```runiq
 shape User as @actor label: "Customer"
 shape Admin as @box-actor label: "Administrator"
@@ -51,20 +52,21 @@ shape Admin as @box-actor label: "Administrator"
 
 Various circle styles and sizes:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Circle | `@circle` | Standard circle |
-| Small Circle | `@circle-sm` | Small circle |
-| Large Circle | `@circle-lg` | Large circle |
-| XL Circle | `@circle-xl` | Extra large circle |
+| Shape         | Syntax           | Description        |
+| ------------- | ---------------- | ------------------ |
+| Circle        | `@circle`        | Standard circle    |
+| Small Circle  | `@circle-sm`     | Small circle       |
+| Large Circle  | `@circle-lg`     | Large circle       |
+| XL Circle     | `@circle-xl`     | Extra large circle |
 | Double Circle | `@double-circle` | Concentric circles |
-| Filled Circle | `@filled-circle` | Solid filled |
-| Dashed Circle | `@dashed-circle` | Dashed border |
-| Dotted Circle | `@dotted-circle` | Dotted border |
-| Thick Circle | `@thick-circle` | Thick border |
-| Thin Circle | `@thin-circle` | Thin border |
+| Filled Circle | `@filled-circle` | Solid filled       |
+| Dashed Circle | `@dashed-circle` | Dashed border      |
+| Dotted Circle | `@dotted-circle` | Dotted border      |
+| Thick Circle  | `@thick-circle`  | Thick border       |
+| Thin Circle   | `@thin-circle`   | Thin border        |
 
 **Example:**
+
 ```runiq
 shape Start as @circle label: "A"
 shape End as @double-circle label: "Z"
@@ -74,12 +76,13 @@ shape End as @double-circle label: "Z"
 
 UML-specific shapes:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Use Case Oval | `@usecase` | UML use case |
+| Shape           | Syntax             | Description      |
+| --------------- | ------------------ | ---------------- |
+| Use Case Oval   | `@usecase`         | UML use case     |
 | System Boundary | `@system-boundary` | System container |
 
 **Example:**
+
 ```runiq
 container "Banking System" as @system-boundary {
   shape Login as @usecase label: "User Login"
@@ -90,17 +93,18 @@ container "Banking System" as @system-boundary {
 
 Documents and data representations:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Document | `@doc` | Single document |
-| Multi-Document | `@multi-doc` | Stack of documents |
-| Tape | `@tape` | Magnetic tape |
-| Stored Data | `@stored-data` | Data at rest |
-| Display | `@display` | Screen/monitor |
-| Note | `@note` | Annotation |
-| Card | `@card` | Punch card |
+| Shape          | Syntax         | Description        |
+| -------------- | -------------- | ------------------ |
+| Document       | `@doc`         | Single document    |
+| Multi-Document | `@multi-doc`   | Stack of documents |
+| Tape           | `@tape`        | Magnetic tape      |
+| Stored Data    | `@stored-data` | Data at rest       |
+| Display        | `@display`     | Screen/monitor     |
+| Note           | `@note`        | Annotation         |
+| Card           | `@card`        | Punch card         |
 
 **Example:**
+
 ```runiq
 shape Report as @doc label: "Monthly Report"
 shape Archive as @tape label: "Backup"
@@ -110,16 +114,17 @@ shape Archive as @tape label: "Backup"
 
 Input and output operations:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Parallelogram | `@para` | General I/O |
-| Input | `@input` | Data input |
-| Output | `@output` | Data output |
-| Manual Input | `@manual-input` | Keyboard entry |
-| Manual Operation | `@manual-op` | Manual step |
-| Prep | `@prep` | Preparation |
+| Shape            | Syntax          | Description    |
+| ---------------- | --------------- | -------------- |
+| Parallelogram    | `@para`         | General I/O    |
+| Input            | `@input`        | Data input     |
+| Output           | `@output`       | Data output    |
+| Manual Input     | `@manual-input` | Keyboard entry |
+| Manual Operation | `@manual-op`    | Manual step    |
+| Prep             | `@prep`         | Preparation    |
 
 **Example:**
+
 ```runiq
 shape UserInput as @manual-input label: "Enter Data"
 shape Process as @rect label: "Validate"
@@ -130,16 +135,17 @@ shape Result as @output label: "Display"
 
 Database and storage systems:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Cylinder | `@cyl` | Database |
-| Drum | `@drum` | Direct access storage |
-| Disk | `@disk` | Magnetic disk |
-| Stored Data | `@stored-data` | Data at rest |
-| Internal Storage | `@internal-storage` | RAM, registers |
-| Sequential Data | `@seq-data` | Sequential access |
+| Shape            | Syntax              | Description           |
+| ---------------- | ------------------- | --------------------- |
+| Cylinder         | `@cyl`              | Database              |
+| Drum             | `@drum`             | Direct access storage |
+| Disk             | `@disk`             | Magnetic disk         |
+| Stored Data      | `@stored-data`      | Data at rest          |
+| Internal Storage | `@internal-storage` | RAM, registers        |
+| Sequential Data  | `@seq-data`         | Sequential access     |
 
 **Example:**
+
 ```runiq
 shape MainDB as @cyl label: "PostgreSQL"
 shape Cache as @internal-storage label: "Redis"
@@ -149,19 +155,20 @@ shape Cache as @internal-storage label: "Redis"
 
 Process and operation steps:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Rectangle | `@rect` | Process step |
-| Rounded Rectangle | `@rounded` | Terminal (start/end) |
-| Subroutine | `@subroutine` | Predefined process |
-| Subprocess | `@subprocess` | Complex subprocess |
-| Loop Limit | `@loop-limit` | Loop bounds |
-| Collate | `@collate` | Sorting, ordering |
-| Sort | `@sort` | Sort operation |
-| Merge | `@merge` | Merge operation |
-| Extract | `@extract` | Extract data |
+| Shape             | Syntax        | Description          |
+| ----------------- | ------------- | -------------------- |
+| Rectangle         | `@rect`       | Process step         |
+| Rounded Rectangle | `@rounded`    | Terminal (start/end) |
+| Subroutine        | `@subroutine` | Predefined process   |
+| Subprocess        | `@subprocess` | Complex subprocess   |
+| Loop Limit        | `@loop-limit` | Loop bounds          |
+| Collate           | `@collate`    | Sorting, ordering    |
+| Sort              | `@sort`       | Sort operation       |
+| Merge             | `@merge`      | Merge operation      |
+| Extract           | `@extract`    | Extract data         |
 
 **Example:**
+
 ```runiq
 shape Start as @rounded label: "Start"
 shape Process as @rect label: "Process"
@@ -173,13 +180,14 @@ shape End as @rounded label: "End"
 
 Special-purpose shapes:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Cloud | `@cloud` | Cloud service, external system |
-| Delay | `@delay` | Time delay |
-| Off-page | `@off-page` | Off-page connector |
+| Shape    | Syntax      | Description                    |
+| -------- | ----------- | ------------------------------ |
+| Cloud    | `@cloud`    | Cloud service, external system |
+| Delay    | `@delay`    | Time delay                     |
+| Off-page | `@off-page` | Off-page connector             |
 
 **Example:**
+
 ```runiq
 shape AWS as @cloud label: "AWS S3"
 shape Wait as @delay label: "Wait 5 seconds"
@@ -189,21 +197,66 @@ shape Wait as @delay label: "Wait 5 seconds"
 
 Comments and notes:
 
-| Shape | Syntax | Description |
-|-------|--------|-------------|
-| Note | `@note` | Annotation |
-| Comment | `@comment` | Comment block |
+| Shape   | Syntax     | Description    |
+| ------- | ---------- | -------------- |
+| Note    | `@note`    | Annotation     |
+| Comment | `@comment` | Comment block  |
 | Callout | `@callout` | Callout bubble |
 
 **Example:**
+
 ```runiq
 shape Step as @rect label: "Process"
 shape Info as @note label: "Runs nightly"
 ```
 
+### 10. Pedigree (3 shapes)
+
+Medical/genetic family tree symbols following standard pedigree notation:
+
+| Shape            | Syntax              | Description                      |
+| ---------------- | ------------------- | -------------------------------- |
+| Pedigree Male    | `@pedigree-male`    | Male individual (square)         |
+| Pedigree Female  | `@pedigree-female`  | Female individual (circle)       |
+| Pedigree Unknown | `@pedigree-unknown` | Unknown sex individual (diamond) |
+
+**Properties:**
+- `affected:true` - Black fill (has genetic condition)
+- `carrier:true` - Half-fill pattern (carries one copy)
+- `deceased:true` - Diagonal line overlay
+
+**Example:**
+
+```runiq
+diagram "Family History" {
+  direction:TB
+  
+  # Parents (both carriers)
+  shape father as @pedigree-male label:"Father" carrier:true
+  shape mother as @pedigree-female label:"Mother" carrier:true
+  
+  # Children
+  shape son as @pedigree-male label:"Son" affected:true
+  shape daughter as @pedigree-female label:"Daughter"
+  
+  # Marriage (no arrow)
+  father -> mother arrowType:none
+  
+  # Parent-child relationships
+  father -> son
+  father -> daughter
+  mother -> son
+  mother -> daughter
+}
+```
+
+::: tip Pedigree Charts
+See the [Pedigree Charts Guide](../guide/pedigree-charts.md) for comprehensive documentation on creating medical family trees with inheritance patterns.
+:::
+
 ## All Shapes
 
-Complete table of all 54 shapes:
+Complete table of all 57 shapes:
 
 <table>
 <thead>
@@ -268,6 +321,9 @@ Complete table of all 54 shapes:
 <tr><td>Note</td><td><code>@note</code></td><td>Annotations</td><td>Note, comment</td></tr>
 <tr><td>Comment</td><td><code>@comment</code></td><td>Annotations</td><td>Comment block</td></tr>
 <tr><td>Callout</td><td><code>@callout</code></td><td>Annotations</td><td>Callout bubble</td></tr>
+<tr><td>Pedigree Male</td><td><code>@pedigree-male</code></td><td>Pedigree</td><td>Male individual (square)</td></tr>
+<tr><td>Pedigree Female</td><td><code>@pedigree-female</code></td><td>Pedigree</td><td>Female individual (circle)</td></tr>
+<tr><td>Pedigree Unknown</td><td><code>@pedigree-unknown</code></td><td>Pedigree</td><td>Unknown sex (diamond)</td></tr>
 </tbody>
 </table>
 
@@ -276,7 +332,7 @@ Complete table of all 54 shapes:
 All shapes support these properties:
 
 ```runiq
-shape MyShape as @rect 
+shape MyShape as @rect
   label: "Display Text"
   fillColor: "#4caf50"
   textColor: "#ffffff"
@@ -309,9 +365,10 @@ shape MyShape as @rect
 
 ::: tip Choosing Shapes
 When in doubt:
+
 - **@rounded** for start/end
 - **@rect** for processes
 - **@rhombus** for decisions
 - **@cyl** for databases
 - **@doc** for documents
-:::
+  :::

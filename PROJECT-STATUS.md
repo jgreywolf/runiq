@@ -26,6 +26,7 @@
 **📦 Packages (11 total):**
 
 Core Packages:
+
 1. `@runiq/core` - 611 tests ✅
 2. `@runiq/layout-base` - 44 tests (40 passing, 4 skipped) ✅
 3. `@runiq/renderer-svg` - 45 tests ✅
@@ -34,16 +35,12 @@ Core Packages:
 6. `@runiq/icons-fontawesome` - Font Awesome integration
 7. `@runiq/cli` - Command-line interface
 
-Circuit Packages:
-8. `@runiq/export-spice` - 18 tests ✅ (analog circuits)
-9. `@runiq/export-verilog` - 15 tests ✅ (digital circuits)
-10. `@runiq/renderer-schematic` - 68 tests ✅ (IEEE schematics)
+Circuit Packages: 8. `@runiq/export-spice` - 18 tests ✅ (analog circuits) 9. `@runiq/export-verilog` - 15 tests ✅ (digital circuits) 10. `@runiq/renderer-schematic` - 68 tests ✅ (IEEE schematics)
 
-Block Diagram Packages:
-11. `@runiq/export-latex` - 8 tests ✅ (NEW!)
-12. `@runiq/export-simulink` - 8 tests ✅ (NEW!)
+Block Diagram Packages: 11. `@runiq/export-latex` - 8 tests ✅ (NEW!) 12. `@runiq/export-simulink` - 8 tests ✅ (NEW!)
 
 Applications:
+
 - `runiq-editor` - SvelteKit web editor
 
 ### Key Features
@@ -81,6 +78,7 @@ Applications:
 ### Example Files
 
 Software Diagrams:
+
 - [Microservices Architecture](./examples/microservices.runiq)
 - [C4 System Context](./examples/c4-context.runiq)
 - [Multi-Region Deployment](./examples/multi-region.runiq)
@@ -89,6 +87,7 @@ Software Diagrams:
 - [Block Diagrams](./examples/block-diagrams/) - 5 control system examples
 
 Circuits:
+
 - [Electrical Circuits](./examples/electrical/) - Analog circuits with SPICE
 - [Digital Circuits](./examples/digital/) - Logic circuits with Verilog
 
@@ -138,13 +137,14 @@ All phases of hierarchical container support are now complete:
 ### Immediate (Oct 17-20, 2025)
 
 - [x] Research new diagram types (pedigree, quantum, network, timing, SmartArt)
-- [ ] **Implement Pedigree Charts** (1-2 days) - Family trees for genealogy & genetics
-  - [ ] Gender-specific shapes (male=square, female=circle, unknown=diamond)
-  - [ ] Affected/carrier/normal styles with fill patterns
-  - [ ] Marriage/partnership connectors
-  - [ ] Parent-child relationships with tree layout
-  - [ ] DSL syntax for pedigree-specific features
-  - [ ] ~28 tests
+- [x] **Implement Pedigree Charts** ✅ COMPLETE (Oct 17, 2025)
+  - [x] Gender-specific shapes (male=square, female=circle, unknown=diamond)
+  - [x] Affected/carrier/normal styles with fill patterns
+  - [x] Marriage/partnership connectors (arrowType:none, lineStyle:double)
+  - [x] Parent-child relationships with tree layout
+  - [x] DSL syntax for pedigree properties (affected, carrier, deceased)
+  - [x] 32 tests passing
+  - [x] Complete documentation and examples
 - [ ] Test CLI with all diagram types
 - [ ] Update editor with new features
 
@@ -158,8 +158,8 @@ All phases of hierarchical container support are now complete:
 
 **Specialized Diagram Types:**
 
-1. **Pedigree Charts** (IN PROGRESS) - Genealogy, medical genetics
-2. **Network Topology** (NEXT) - IT infrastructure, cloud architecture  
+1. **Pedigree Charts** ✅ COMPLETE - Genealogy, medical genetics (57 shapes total)
+2. **Network Topology** (NEXT) - IT infrastructure, cloud architecture
 3. **Quantum Circuits** (FUTURE) - Quantum computing education
 4. **UML Timing Diagrams** (FUTURE) - Real-time systems, protocols
 
@@ -199,23 +199,27 @@ TOTAL                       705+    ✅ All passing
 ## 📈 Recent Milestones
 
 **October 17, 2025:**
+
 - ✅ Comprehensive research on 5 new diagram types
 - ✅ Created feasibility analysis document
 - ✅ Updated all documentation and roadmaps
 - ✅ Ready to implement pedigree charts
 
 **October 16, 2025:**
+
 - ✅ LaTeX/TikZ export package (8 tests)
 - ✅ Simulink MDL export package (8 tests)
 - ✅ Use case diagram enhancements
 - ✅ UML relationship features complete
 
 **October 15, 2025:**
+
 - ✅ UML stereotypes, line styles, arrow types (31 tests)
 - ✅ Use case diagram shapes (18 tests)
 - ✅ Comprehensive examples and documentation
 
 **October 14, 2025:**
+
 - ✅ Hierarchical containers complete (148 tests)
 - ✅ Project inception and initial setup
 
@@ -242,12 +246,15 @@ JSON Parser    ─→                 ─→                 ─→   Renderer
 | ----------- | ----- | ----------------------------- |
 | Actors      | 8     | People, systems, agents       |
 | Circles     | 10    | State indicators, endpoints   |
+| UML         | 2     | Use case, component diagrams  |
 | Data & Docs | 7     | Documents, notes, cards       |
 | Data I/O    | 6     | Input/output operations       |
 | Storage     | 6     | Databases, persistent storage |
 | Process     | 9     | Operations, transformations   |
 | Specialized | 3     | Cloud, delays, connectors     |
 | Annotations | 3     | Comments, notes               |
+| Pedigree    | 3     | Medical family trees          |
+| **Total**   | **57** | **10 categories**           |
 
 ## 🔧 Development Commands
 
@@ -275,12 +282,12 @@ pnpm format          # Prettier
 
 - **Lines of Code**: ~27,000+
 - **Test Files**: 12
-- **Test Cases**: 470+
+- **Test Cases**: 478+ (32 pedigree tests added)
 - **Packages**: 7
 - **Apps**: 2
-- **Documentation Files**: 10+
-- **Shapes**: 52
-- **Diagram Types Supported**: 5 full + 9 partial
+- **Documentation Files**: 12+
+- **Shapes**: 57 (across 10 categories)
+- **Diagram Types Supported**: 6 full + 9 partial
 
 ## 🤝 Contributing
 

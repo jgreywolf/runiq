@@ -7,6 +7,7 @@ Runiq diagrams span multiple domains. Browse by category:
 Build architecture diagrams, UML models, and process flows.
 
 ### [Flowcharts](/examples/flowcharts)
+
 - Authentication flows with validation
 - State machines and decision logic
 - Algorithm visualization
@@ -14,6 +15,7 @@ Build architecture diagrams, UML models, and process flows.
 - **Visual Examples**: Auth flow, ETL pipeline, bubble sort
 
 ### [Use Case Diagrams](/examples/use-case)
+
 - UML actor interactions
 - System boundaries
 - <<include>> and <<extend>> stereotypes
@@ -21,6 +23,7 @@ Build architecture diagrams, UML models, and process flows.
 - 8 actor shape styles
 
 ### [Container Diagrams](/examples/containers)
+
 - C4 architecture model (context, container, component)
 - Microservices topology
 - Multi-tier applications (3-tier)
@@ -32,6 +35,7 @@ Build architecture diagrams, UML models, and process flows.
 Design control loops and signal processing.
 
 ### [Block Diagrams](/examples/block-diagrams)
+
 - PID controllers with feedback
 - Multi-stage transfer functions
 - State-space representation
@@ -44,6 +48,7 @@ Design control loops and signal processing.
 Create professional IEEE-standard circuit diagrams.
 
 ### [Analog Circuits](/examples/electrical)
+
 - RC/RL/RLC filters
 - Op-amp amplifiers (inverting, non-inverting)
 - Voltage dividers and regulators
@@ -57,6 +62,7 @@ Create professional IEEE-standard circuit diagrams.
 Design logic circuits with Verilog HDL export.
 
 ### [Digital Circuits](/examples/digital)
+
 - Combinational: Half/full adders, multiplexers, ALU
 - Sequential: D/T/JK flip-flops, counters, shift registers
 - All basic gates: AND, OR, NOT, NAND, NOR, XOR, XNOR
@@ -64,17 +70,31 @@ Design logic circuits with Verilog HDL export.
 - 4-bit ALU and 8-bit shift register examples
 - Export to Verilog for synthesis and simulation
 
+## Medical & Genetics
+
+Professional pedigree charts following medical standards.
+
+### [Pedigree Charts](/examples/pedigree)
+
+- Male (square), female (circle), unknown sex (diamond) symbols
+- Affected (black fill), carrier (half-fill), normal (white) individuals
+- Deceased notation (diagonal line)
+- Marriage relationships (horizontal line, no arrow)
+- Consanguineous marriages (double line)
+- Three-generation families, autosomal inheritance patterns
+- **Visual Examples**: Genetic trait inheritance, consanguinity
+
 ---
 
 ## Coming Soon
 
 ::: info Under Development
-- **Pedigree Charts** - Family trees with genetic markers
+
 - **Quantum Circuits** - Quantum gates and measurements
 - **Network Diagrams** - Topology and infrastructure
 - **Timing Diagrams** - Waveforms and signals
 - **SmartArt** - Lists, hierarchies, matrices
-:::
+  :::
 
 ## Quick Navigation
 
@@ -107,6 +127,11 @@ Design logic circuits with Verilog HDL export.
   <a href="/examples/digital" class="example-card">
     <h3>🔢 Digital Logic</h3>
     <p>Gates & HDL export</p>
+  </a>
+  
+  <a href="/examples/pedigree" class="example-card">
+    <h3>🧬 Pedigree Charts</h3>
+    <p>Medical family trees</p>
   </a>
 </div>
 

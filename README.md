@@ -6,12 +6,12 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Tests](https://img.shields.io/badge/tests-705%2B-brightgreen.svg)](./packages)
 
-**🚀 Status**: Phase 1 Complete - Core types, **54 shapes**, ELK layout, hierarchical containers!  
+**🚀 Status**: Phase 1 Complete - Core types, **57 shapes**, ELK layout, hierarchical containers!  
+**⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬  
 **⚡ NEW**: UML relationships - stereotypes (<<include>>, <<extend>>), line styles, arrow types!  
 **⚡ NEW**: Use Case diagram support with actors, use cases, and system boundaries!  
 **⚡ NEW**: Block diagram support for control systems & signal processing!  
-**⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!  
-**⚡ NEXT**: Pedigree charts for genealogy and medical genetics! 🧬
+**⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!
 
 ## ✨ Features
 
@@ -27,7 +27,7 @@
 
 - **Stereotypes**: <<include>>, <<extend>>, <<uses>>, <<implements>>, custom stereotypes
 - **Line styles**: Solid, dashed, dotted for different relationship types
-- **Arrow types**: 
+- **Arrow types**:
   - Standard (filled) - associations
   - Hollow (open triangle) - generalization/inheritance
   - Open (V-shaped) - dependencies
@@ -52,6 +52,17 @@
 - **Feedback loops**: Model closed-loop control systems with feedback paths
 - **Engineering applications**: PID controllers, state-space models, signal processing
 - **5 example diagrams**: Ready-to-use templates in `examples/block-diagrams/`
+
+### Pedigree Charts (NEW! 🎉)
+
+- **Medical genetics notation**: Standard symbols for genealogy and clinical genetics
+- **Gender-specific shapes**: Male (square), female (circle), unknown sex (diamond)
+- **Genetic status markers**: Affected (black fill), carrier (half-fill), normal (white)
+- **Vital status**: Deceased individuals with diagonal line overlay
+- **Relationship types**: Marriage (horizontal line, no arrow), consanguinity (double line)
+- **Property-based syntax**: Inline `affected:true`, `carrier:true`, `deceased:true`
+- **Standards compliant**: Follows medical/genetics pedigree conventions
+- **5 example diagrams**: Inheritance patterns, consanguinity, multi-generation families
 
 ## 🚀 Quick Start
 
@@ -97,10 +108,10 @@ pnpm dev
 
 ### Block Diagram Export Packages (NEW! 🎉)
 
-| Package                                                  | Description                                    | Tests |
-| -------------------------------------------------------- | ---------------------------------------------- | ----- |
-| [`@runiq/export-latex`](./packages/export-latex)         | LaTeX/TikZ exporter for academic papers        | 8 ✅  |
-| [`@runiq/export-simulink`](./packages/export-simulink)   | Simulink MDL exporter for MATLAB integration   | 8 ✅  |
+| Package                                                | Description                                  | Tests |
+| ------------------------------------------------------ | -------------------------------------------- | ----- |
+| [`@runiq/export-latex`](./packages/export-latex)       | LaTeX/TikZ exporter for academic papers      | 8 ✅  |
+| [`@runiq/export-simulink`](./packages/export-simulink) | Simulink MDL exporter for MATLAB integration | 8 ✅  |
 
 ### Applications
 
@@ -268,6 +279,7 @@ PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open
 _SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq](./examples/use-case-diagram/banking-advanced.runiq)_
 
 [See all use case examples →](./examples/use-case-diagram/)
+
 - 🎨 **Line styles** - Solid, dashed, dotted lines for different semantics
 - ➡️ **Arrow types** - Standard, hollow, open arrows for relationship types
 
@@ -322,6 +334,7 @@ _SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq]
 **Research & Planning:**
 
 See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) for analysis of:
+
 - ✅ Pedigree charts (genealogy, medical genetics) - **READY TO IMPLEMENT**
 - Quantum circuit diagrams (quantum computing education)
 - Network topology diagrams (IT infrastructure)
@@ -410,7 +423,7 @@ Contributions are welcome! This project follows **Test-Driven Development (TDD)*
 
 See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for detailed development guidelines.
 
-## 📊 Shape Library (54 Total)
+## 📊 Shape Library (57 Total)
 
 | Category        | Count | Shapes                                                                                          |
 | --------------- | ----- | ----------------------------------------------------------------------------------------------- |
@@ -423,21 +436,22 @@ See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for d
 | **Process**     | 9     | process, rect, subroutine, predefined, preparation, manual, manual-operation, loop-limit, merge |
 | **Specialized** | 3     | cloud, delay, off-page-connector                                                                |
 | **Annotations** | 3     | annotation-left, annotation-right, comment                                                      |
+| **Pedigree**    | 3     | pedigree-male (square), pedigree-female (circle), pedigree-unknown (diamond)                    |
 
 ## 🎨 Supported Diagram Types
 
 ### Software Diagrams
 
-| Status | Type              | Notes                          |
-| ------ | ----------------- | ------------------------------ |
-| ✅     | Flowcharts        | Full support                   |
-| ✅     | Sequence diagrams | Full support                   |
+| Status | Type              | Notes                                 |
+| ------ | ----------------- | ------------------------------------- |
+| ✅     | Flowcharts        | Full support                          |
+| ✅     | Sequence diagrams | Full support                          |
 | ✅     | Use case diagrams | NEW! Actors, use cases, boundaries 🎉 |
-| ✅     | Class diagrams    | Full support                   |
-| ✅     | State diagrams    | Full support                   |
-| ✅     | ER diagrams       | Full support                   |
-| ✅     | C4 diagrams       | Container support complete! 🎉 |
-| 🟡     | BPMN              | Swim lanes coming soon         |
+| ✅     | Class diagrams    | Full support                          |
+| ✅     | State diagrams    | Full support                          |
+| ✅     | ER diagrams       | Full support                          |
+| ✅     | C4 diagrams       | Container support complete! 🎉        |
+| 🟡     | BPMN              | Swim lanes coming soon                |
 
 ### Electrical & Digital Circuits (NEW!)
 
@@ -447,8 +461,17 @@ See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for d
 | ✅     | Power supplies      | Voltage dividers, filters, regulators     |
 | ✅     | LED circuits        | Current limiting, indicators              |
 | ✅     | Schematic rendering | IEEE-standard SVG schematics              |
-| 🟡     | Digital logic       | Grammar ready, Verilog export coming soon |
+| ✅     | Digital logic       | Grammar ready, Verilog export coming soon |
 | 🟡     | Mixed-signal        | Analog + digital in same circuit (future) |
+
+### Medical & Genetics (NEW!)
+
+| Status | Type            | Notes                                          |
+| ------ | --------------- | ---------------------------------------------- |
+| ✅     | Pedigree charts | Male/female/unknown shapes, genetic markers 🎉 |
+| ✅     | Inheritance     | Affected, carrier, normal status               |
+| ✅     | Relationships   | Marriage, consanguinity (double line)          |
+| ✅     | Vital status    | Deceased marker (diagonal line)                |
 
 ## 🚀 What Makes Runiq Unique?
 
