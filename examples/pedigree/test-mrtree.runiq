@@ -1,0 +1,25 @@
+# Test MRTree Layout for Pedigree
+# Simple 2-generation test to evaluate mrtree algorithm
+diagram "MRTree Test" {
+  direction:TB
+
+  # Generation I
+  shape father as @pedigree-male label:"Father" affected:true
+  shape mother as @pedigree-female label:"Mother"
+
+  # Generation II  
+  shape child1 as @pedigree-male label:"Child 1" affected:true
+  shape child2 as @pedigree-female label:"Child 2" carrier:true
+  shape child3 as @pedigree-male label:"Child 3"
+
+  # Marriage
+  father -> mother
+
+  # Parent-child (both parents to all children)
+  father -> child1
+  father -> child2
+  father -> child3
+  mother -> child1
+  mother -> child2
+  mother -> child3
+}

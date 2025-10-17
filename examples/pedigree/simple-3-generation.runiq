@@ -1,6 +1,8 @@
 # Simple 3-Generation Pedigree
 # Demonstrates basic pedigree structure with affected/carrier/deceased properties
 diagram "Simple Pedigree" {
+  direction:TB
+
   # Generation I (Grandparents)
   shape grandfather as @pedigree-male label:"Grandfather"
   shape grandmother as @pedigree-female label:"Grandmother"

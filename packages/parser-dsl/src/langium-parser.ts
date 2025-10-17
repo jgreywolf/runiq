@@ -626,6 +626,16 @@ function convertContainer(
               item.replace(/^"|"$/g, '')
             );
           }
+        } else if (Langium.isAffectedProperty(prop)) {
+          // Store pedigree properties in node.data for later merging into style
+          if (!node.data) node.data = {};
+          node.data.affected = prop.value === 'true';
+        } else if (Langium.isCarrierProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.carrier = prop.value === 'true';
+        } else if (Langium.isDeceasedProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.deceased = prop.value === 'true';
         }
       }
 
