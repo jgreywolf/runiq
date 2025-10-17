@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="640" 
+    height="130" 
+    viewBox="60 60 640 130"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">Majority Vote Circuit</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+  <path d="M 100,112 L 260,112 L 260,112 L 420,112" class="schematic-wire"/>
+  <text x="265" y="107" class="schematic-net-label">A</text>
+  <path d="M 100,128 L 180,128 L 180,112 L 260,112" class="schematic-wire"/>
+  <text x="185" y="107" class="schematic-net-label">B</text>
+  <path d="M 160,120 L 370,120 L 370,110 L 580,110" class="schematic-wire"/>
+  <text x="375" y="105" class="schematic-net-label">AB</text>
+  <path d="M 260,128 L 340,128 L 340,128 L 420,128" class="schematic-wire"/>
+  <text x="345" y="123" class="schematic-net-label">C</text>
+  <path d="M 320,120 L 450,120 L 450,125 L 580,125" class="schematic-wire"/>
+  <text x="455" y="120" class="schematic-net-label">BC</text>
+  <path d="M 480,120 L 530,120 L 530,140 L 580,140" class="schematic-wire"/>
+  <text x="535" y="135" class="schematic-net-label">AC</text>
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- AND gate body -->
+      <path d="M 100,100 L 130,100 A 20,20 0 0,1 130,140 L 100,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="90" y1="112" x2="100" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="128" x2="100" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="150" y1="120" x2="170" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="130" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+  <g class="schematic-component" data-ref="U2">
+
+      <!-- AND gate body -->
+      <path d="M 260,100 L 290,100 A 20,20 0 0,1 290,140 L 260,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="250" y1="112" x2="260" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="250" y1="128" x2="260" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="310" y1="120" x2="330" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="290" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U2</text>
+  </g>
+  <g class="schematic-component" data-ref="U3">
+
+      <!-- AND gate body -->
+      <path d="M 420,100 L 450,100 A 20,20 0 0,1 450,140 L 420,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="410" y1="112" x2="420" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="410" y1="128" x2="420" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="470" y1="120" x2="490" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="450" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U3</text>
+  </g>
+  <g class="schematic-component" data-ref="U4">
+
+      <!-- OR gate body -->
+      <path d="M 580,100 Q 610,125 580,150 M 580,100 Q 630,100 645,125 Q 630,150 580,150" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="570" y1="115" x2="580" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="570" y1="125" x2="580" y2="125" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="570" y1="135" x2="580" y2="135" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="645" y1="125" x2="670" y2="125" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="620" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U4</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>

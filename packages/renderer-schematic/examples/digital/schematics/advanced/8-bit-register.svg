@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="200" 
+    height="180" 
+    viewBox="60 60 200 180"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">8-bit Data Register</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- Rectangular body -->
+      <rect x="100" y="100" width="120" height="100" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Label -->
+      <text x="145" y="155" 
+        font-family="sans-serif" 
+        font-size="14" 
+        font-weight="bold"
+        fill="currentColor">REG</text>
+      <text x="150" y="168" 
+        font-family="sans-serif" 
+        font-size="10" 
+        fill="currentColor">8-bit</text>
+      <!-- Clock triangle -->
+      <path d="M 130,200 L 130,192 L 138,196 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines (left side) -->
+      <line x1="90" y1="108" x2="100" y2="108" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="120" x2="100" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="132" x2="100" y2="132" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="144" x2="100" y2="144" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="156" x2="100" y2="156" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="168" x2="100" y2="168" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="180" x2="100" y2="180" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="192" x2="100" y2="192" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Clock and enable lines (bottom) -->
+      <line x1="130" y1="210" x2="130" y2="200" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="160" y1="210" x2="160" y2="200" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output lines (right side) -->
+      <line x1="220" y1="108" x2="230" y2="108" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="220" y1="120" x2="230" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="220" y1="132" x2="230" y2="132" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="220" y1="144" x2="230" y2="144" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="220" y1="156" x2="230" y2="156" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="220" y1="168" x2="230" y2="168" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="220" y1="180" x2="230" y2="180" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="220" y1="192" x2="230" y2="192" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="160" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>

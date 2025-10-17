@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="480" 
+    height="120" 
+    viewBox="60 60 480 120"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">2-bit Equality Comparator</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+  <path d="M 170,120 L 305,120 L 305,112 L 440,112" class="schematic-wire"/>
+  <text x="310" y="107" class="schematic-net-label">EQ0</text>
+  <path d="M 340,120 L 390,120 L 390,128 L 440,128" class="schematic-wire"/>
+  <text x="395" y="123" class="schematic-net-label">EQ1</text>
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- Additional input curve (XOR distinctive feature) -->
+      <path d="M 95,100 Q 100,120 95,140" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Main OR-style body -->
+      <path d="M 100,100 Q 125,120 100,140 M 100,100 Q 145,100 161,120 Q 145,140 100,140" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Output inverter bubble -->
+      <circle cx="164" cy="120" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="85" y1="108" x2="95" y2="108" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="85" y1="132" x2="95" y2="132" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="167" y1="120" x2="180" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="135" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+  <g class="schematic-component" data-ref="U2">
+
+      <!-- Additional input curve (XOR distinctive feature) -->
+      <path d="M 265,100 Q 270,120 265,140" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Main OR-style body -->
+      <path d="M 270,100 Q 295,120 270,140 M 270,100 Q 315,100 331,120 Q 315,140 270,140" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Output inverter bubble -->
+      <circle cx="334" cy="120" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="255" y1="108" x2="265" y2="108" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="255" y1="132" x2="265" y2="132" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="337" y1="120" x2="350" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="305" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U2</text>
+  </g>
+  <g class="schematic-component" data-ref="U3">
+
+      <!-- AND gate body -->
+      <path d="M 440,100 L 470,100 A 20,20 0 0,1 470,140 L 440,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="430" y1="112" x2="440" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="430" y1="128" x2="440" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="490" y1="120" x2="510" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="470" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U3</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>

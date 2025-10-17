@@ -172,7 +172,12 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'Series Circuit',
-        nets: [{ name: 'VIN' }, { name: 'N1' }, { name: 'VOUT' }, { name: 'GND' }],
+        nets: [
+          { name: 'VIN' },
+          { name: 'N1' },
+          { name: 'VOUT' },
+          { name: 'GND' },
+        ],
         parts: [
           {
             ref: 'V1',
@@ -556,7 +561,12 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'NPN Transistor Test',
-        nets: [{ name: 'VCC' }, { name: 'BASE' }, { name: 'OUT' }, { name: 'GND' }],
+        nets: [
+          { name: 'VCC' },
+          { name: 'BASE' },
+          { name: 'OUT' },
+          { name: 'GND' },
+        ],
         parts: [
           {
             ref: 'V1',
@@ -590,7 +600,12 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'PNP Transistor Test',
-        nets: [{ name: 'VCC' }, { name: 'BASE' }, { name: 'OUT' }, { name: 'GND' }],
+        nets: [
+          { name: 'VCC' },
+          { name: 'BASE' },
+          { name: 'OUT' },
+          { name: 'GND' },
+        ],
         parts: [
           {
             ref: 'Q1',
@@ -612,7 +627,12 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'NMOS Test',
-        nets: [{ name: 'VDD' }, { name: 'GATE' }, { name: 'OUT' }, { name: 'GND' }],
+        nets: [
+          { name: 'VDD' },
+          { name: 'GATE' },
+          { name: 'OUT' },
+          { name: 'GND' },
+        ],
         parts: [
           {
             ref: 'M1',
@@ -634,7 +654,12 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'PMOS Test',
-        nets: [{ name: 'VDD' }, { name: 'GATE' }, { name: 'OUT' }, { name: 'GND' }],
+        nets: [
+          { name: 'VDD' },
+          { name: 'GATE' },
+          { name: 'OUT' },
+          { name: 'GND' },
+        ],
         parts: [
           {
             ref: 'M1',
@@ -658,7 +683,13 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'Op-Amp Test',
-        nets: [{ name: 'VIN+' }, { name: 'VIN-' }, { name: 'VOUT' }, { name: 'VCC' }, { name: 'GND' }],
+        nets: [
+          { name: 'VIN+' },
+          { name: 'VIN-' },
+          { name: 'VOUT' },
+          { name: 'VCC' },
+          { name: 'GND' },
+        ],
         parts: [
           {
             ref: 'U1',
@@ -680,7 +711,12 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'Transformer Test',
-        nets: [{ name: 'AC1' }, { name: 'AC2' }, { name: 'OUT1' }, { name: 'OUT2' }],
+        nets: [
+          { name: 'AC1' },
+          { name: 'AC2' },
+          { name: 'OUT1' },
+          { name: 'OUT2' },
+        ],
         parts: [
           {
             ref: 'T1',
@@ -1095,12 +1131,7 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'SR Latch',
-        nets: [
-          { name: 'S' },
-          { name: 'R' },
-          { name: 'Q' },
-          { name: 'Qn' },
-        ],
+        nets: [{ name: 'S' }, { name: 'R' }, { name: 'Q' }, { name: 'Qn' }],
         parts: [
           {
             ref: 'U1',
@@ -1125,4 +1156,490 @@ describe('Schematic Renderer', () => {
       expect(result.warnings).toHaveLength(0);
     });
   });
+
+  describe('Advanced Digital Components', () => {
+    it('should render XNOR gate with inverter bubble', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'XNOR Gate',
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'XNOR',
+            params: {},
+            pins: ['A', 'B', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('circle'); // Inverter bubble
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 3-input AND gate', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '3-Input AND',
+        nets: [
+          { name: 'A' },
+          { name: 'B' },
+          { name: 'C' },
+          { name: 'Y' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'AND3',
+            params: {},
+            pins: ['A', 'B', 'C', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('3-Input AND');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 3-input OR gate', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '3-Input OR',
+        nets: [
+          { name: 'A' },
+          { name: 'B' },
+          { name: 'C' },
+          { name: 'Y' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'OR3',
+            params: {},
+            pins: ['A', 'B', 'C', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 3-input NAND gate with bubble', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '3-Input NAND',
+        nets: [
+          { name: 'A' },
+          { name: 'B' },
+          { name: 'C' },
+          { name: 'Y' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'NAND3',
+            params: {},
+            pins: ['A', 'B', 'C', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('circle'); // Inverter bubble
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 3-input NOR gate with bubble', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '3-Input NOR',
+        nets: [
+          { name: 'A' },
+          { name: 'B' },
+          { name: 'C' },
+          { name: 'Y' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'NOR3',
+            params: {},
+            pins: ['A', 'B', 'C', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('circle'); // Inverter bubble
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render D flip-flop with clock triangle', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'D Flip-Flop',
+        nets: [
+          { name: 'D' },
+          { name: 'CLK' },
+          { name: 'Q' },
+          { name: 'QN' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'DFF',
+            params: {},
+            pins: ['D', 'CLK', 'Q', 'QN'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('D Flip-Flop');
+      expect(result.svg).toContain('rect'); // Rectangular body
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render JK flip-flop', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'JK Flip-Flop',
+        nets: [
+          { name: 'J' },
+          { name: 'K' },
+          { name: 'CLK' },
+          { name: 'Q' },
+          { name: 'QN' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'JKFF',
+            params: {},
+            pins: ['J', 'CLK', 'K', 'Q', 'QN'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('JK Flip-Flop');
+      expect(result.svg).toContain('rect');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render T flip-flop', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'T Flip-Flop',
+        nets: [
+          { name: 'T' },
+          { name: 'CLK' },
+          { name: 'Q' },
+          { name: 'QN' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'TFF',
+            params: {},
+            pins: ['T', 'CLK', 'Q', 'QN'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('T Flip-Flop');
+      expect(result.svg).toContain('rect');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 4-bit register', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '4-bit Register',
+        nets: [
+          { name: 'D0' },
+          { name: 'D1' },
+          { name: 'D2' },
+          { name: 'D3' },
+          { name: 'CLK' },
+          { name: 'EN' },
+          { name: 'Q0' },
+          { name: 'Q1' },
+          { name: 'Q2' },
+          { name: 'Q3' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'REG4',
+            params: {},
+            pins: [
+              'D0',
+              'D1',
+              'D2',
+              'D3',
+              'CLK',
+              'EN',
+              'Q0',
+              'Q1',
+              'Q2',
+              'Q3',
+            ],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('4-bit Register');
+      expect(result.svg).toContain('REG');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 8-bit register', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '8-bit Register',
+        nets: [
+          { name: 'D0' },
+          { name: 'D1' },
+          { name: 'D2' },
+          { name: 'D3' },
+          { name: 'D4' },
+          { name: 'D5' },
+          { name: 'D6' },
+          { name: 'D7' },
+          { name: 'CLK' },
+          { name: 'EN' },
+          { name: 'Q0' },
+          { name: 'Q1' },
+          { name: 'Q2' },
+          { name: 'Q3' },
+          { name: 'Q4' },
+          { name: 'Q5' },
+          { name: 'Q6' },
+          { name: 'Q7' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'REG8',
+            params: {},
+            pins: [
+              'D0',
+              'D1',
+              'D2',
+              'D3',
+              'D4',
+              'D5',
+              'D6',
+              'D7',
+              'CLK',
+              'EN',
+              'Q0',
+              'Q1',
+              'Q2',
+              'Q3',
+              'Q4',
+              'Q5',
+              'Q6',
+              'Q7',
+            ],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('8-bit Register');
+      expect(result.svg).toContain('REG');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render full adder with 3-input gates', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Full Adder (3-input)',
+        nets: [
+          { name: 'A' },
+          { name: 'B' },
+          { name: 'CIN' },
+          { name: 'SUM' },
+          { name: 'COUT' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'XOR',
+            params: {},
+            pins: ['A', 'B', 'SUM'],
+          },
+          {
+            ref: 'U2',
+            type: 'AND3',
+            params: {},
+            pins: ['A', 'B', 'CIN', 'COUT'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('data-ref="U2"');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 2-bit counter with flip-flops', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: '2-bit Counter',
+        nets: [
+          { name: 'CLK' },
+          { name: 'Q0' },
+          { name: 'Q0N' },
+          { name: 'Q1' },
+          { name: 'Q1N' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'TFF',
+            params: {},
+            pins: ['Q0N', 'CLK', 'Q0', 'Q0N'],
+          },
+          {
+            ref: 'U2',
+            type: 'TFF',
+            params: {},
+            pins: ['Q1N', 'Q0', 'Q1', 'Q1N'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('data-ref="U2"');
+      expect(result.svg).toContain('2-bit Counter');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render equality comparator with XNOR gates', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Equality Comparator',
+        nets: [
+          { name: 'A0' },
+          { name: 'A1' },
+          { name: 'B0' },
+          { name: 'B1' },
+          { name: 'EQ0' },
+          { name: 'EQ1' },
+          { name: 'EQUAL' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'XNOR',
+            params: {},
+            pins: ['A0', 'B0', 'EQ0'],
+          },
+          {
+            ref: 'U2',
+            type: 'XNOR',
+            params: {},
+            pins: ['A1', 'B1', 'EQ1'],
+          },
+          {
+            ref: 'U3',
+            type: 'AND',
+            params: {},
+            pins: ['EQ0', 'EQ1', 'EQUAL'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('data-ref="U2"');
+      expect(result.svg).toContain('data-ref="U3"');
+      expect(result.svg).toContain('Equality Comparator');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render majority gate with 3-input logic', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Majority Gate',
+        nets: [
+          { name: 'A' },
+          { name: 'B' },
+          { name: 'C' },
+          { name: 'AND1' },
+          { name: 'AND2' },
+          { name: 'AND3' },
+          { name: 'Y' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'AND',
+            params: {},
+            pins: ['A', 'B', 'AND1'],
+          },
+          {
+            ref: 'U2',
+            type: 'AND',
+            params: {},
+            pins: ['B', 'C', 'AND2'],
+          },
+          {
+            ref: 'U3',
+            type: 'AND',
+            params: {},
+            pins: ['A', 'C', 'AND3'],
+          },
+          {
+            ref: 'U4',
+            type: 'OR3',
+            params: {},
+            pins: ['AND1', 'AND2', 'AND3', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('data-ref="U2"');
+      expect(result.svg).toContain('data-ref="U3"');
+      expect(result.svg).toContain('data-ref="U4"');
+      expect(result.warnings).toHaveLength(0);
+    });
+  });
 });
+

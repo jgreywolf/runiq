@@ -4,20 +4,23 @@ Professional electrical schematic renderer for Runiq with IEEE/IEC standard symb
 
 ## ✨ Features
 
-- **IEEE Standard Symbols** - 22 professional schematic symbols
+- **IEEE Standard Symbols** - 32 professional schematic symbols
   - Passive: R, C, L
   - Sources: V (voltage), I (current)
   - Semiconductors: D (diode), LED
   - Transistors: NPN, PNP, NMOS, PMOS
   - Advanced: Op-amp, Transformer
-  - **Digital Logic Gates:** AND, OR, NOT, XOR, NAND, NOR, BUFFER (NEW! 🎉)
+  - **Digital Logic Gates:** AND, OR, NOT, XOR, NAND, NOR, BUFFER, XNOR (NEW! 🎉)
+  - **3-Input Gates:** AND3, OR3, NAND3, NOR3 (NEW! 🎉)
+  - **Flip-Flops:** D, JK, T (NEW! 🎉)
+  - **Registers:** 4-bit, 8-bit (NEW! 🎉)
 - **Component Rotation** - Rotate components 0°, 90°, 180°, or 270°
 - **Orthogonal Wire Routing** - Manhattan-style routing with junction dots
 - **Automatic Layout** - Smart component placement with wire routing
 - **Ground Normalization** - Automatic GND/VSS symbol rendering
 - **Configurable Display** - Control labels, values, net names, and colors
 - **SVG Output** - Scalable, embeddable in web pages and documentation
-- **Comprehensive Testing** - 46/46 tests passing with full coverage (NEW! 🎉)
+- **Comprehensive Testing** - 60/60 tests passing with full coverage (NEW! 🎉)
 
 ## 📦 Installation
 
@@ -64,29 +67,36 @@ console.log(result.svg); // SVG markup
 ## 🎨 Supported Components
 
 ### Passive Components
+
 - **R** - Resistor (IEEE zigzag style)
 - **C** - Capacitor (parallel plates)
 - **L** - Inductor (coil)
 
 ### Sources
+
 - **V** - Voltage Source (circle with +/-)
 - **I** - Current Source (circle with arrow)
 
 ### Semiconductors
+
 - **D** - Diode (triangle with bar)
 - **LED** - Light Emitting Diode (with light rays)
 
 ### Transistors (NEW! 🎉)
+
 - **Q_NPN** - NPN Bipolar Junction Transistor
 - **Q_PNP** - PNP Bipolar Junction Transistor
 - **M_NMOS** - N-Channel MOSFET (enhancement mode)
 - **M_PMOS** - P-Channel MOSFET (enhancement mode)
 
 ### Advanced Components
+
 - **OPAMP** - Operational Amplifier (triangle with +/- inputs)
 - **XFMR** - Transformer (coupled inductors with core)
 
 ### Digital Logic Gates (NEW! 🎉)
+
+**Basic 2-Input Gates:**
 - **AND** - 2-input AND gate (IEEE distinctive shape: flat left, curved right)
 - **OR** - 2-input OR gate (IEEE distinctive shape: curved both sides)
 - **NOT** - Inverter (triangle with output bubble)
@@ -94,8 +104,25 @@ console.log(result.svg); // SVG markup
 - **NAND** - 2-input NAND gate (AND with output bubble)
 - **NOR** - 2-input NOR gate (OR with output bubble)
 - **BUFFER** - Non-inverting buffer (triangle without bubble)
+- **XNOR** - 2-input XNOR gate (XOR with output bubble) **NEW!** 🎉
+
+**3-Input Gates:** (NEW! 🎉)
+- **AND3** - 3-input AND gate (80×50px, wider for 3 inputs)
+- **OR3** - 3-input OR gate (80×50px, curved distinctive shape)
+- **NAND3** - 3-input NAND gate (AND3 with output bubble)
+- **NOR3** - 3-input NOR gate (OR3 with output bubble)
+
+**Flip-Flops:** (NEW! 🎉)
+- **DFF** - D Flip-Flop (rectangular with clock triangle, 80×60px)
+- **JKFF** - JK Flip-Flop (rectangular with clock triangle, 80×70px)
+- **TFF** - T Flip-Flop (rectangular with clock triangle, 80×60px)
+
+**Registers:** (NEW! 🎉)
+- **REG4** - 4-bit Register (100×80px, D0-D3 inputs, Q0-Q3 outputs, CLK, EN)
+- **REG8** - 8-bit Register (120×100px, D0-D7 inputs, Q0-Q7 outputs, CLK, EN)
 
 ### Symbols
+
 - **GND** - Ground (IEEE earth symbol)
 - **JUNCTION** - Wire junction dot
 
@@ -103,12 +130,12 @@ console.log(result.svg); // SVG markup
 
 ```typescript
 interface SchematicOptions {
-  gridSize?: number;              // Grid spacing (default: 50)
-  wireColor?: string;             // Wire color (default: '#000000')
-  componentColor?: string;        // Component color (default: '#000000')
-  showNetLabels?: boolean;        // Show net names (default: true)
-  showValues?: boolean;           // Show component values (default: true)
-  showReferences?: boolean;       // Show component refs (default: true)
+  gridSize?: number; // Grid spacing (default: 50)
+  wireColor?: string; // Wire color (default: '#000000')
+  componentColor?: string; // Component color (default: '#000000')
+  showNetLabels?: boolean; // Show net names (default: true)
+  showValues?: boolean; // Show component values (default: true)
+  showReferences?: boolean; // Show component refs (default: true)
   orientation?: 'horizontal' | 'vertical'; // Layout direction (default: 'horizontal')
   routing?: 'direct' | 'orthogonal'; // Wire routing style (default: 'direct') (NEW! 🎉)
 }
@@ -122,29 +149,40 @@ Rotate components by adding a `rotation` parameter (0, 90, 180, or 270 degrees):
 const circuit: ElectricalProfile = {
   type: 'electrical',
   name: 'H-Bridge Motor Driver',
-  nets: [{ name: 'VCC' }, { name: 'MOTOR_P' }, { name: 'MOTOR_N' }, { name: 'GND' }],
+  nets: [
+    { name: 'VCC' },
+    { name: 'MOTOR_P' },
+    { name: 'MOTOR_N' },
+    { name: 'GND' },
+  ],
   parts: [
     // High-side PMOS rotated 90°
-    { 
-      ref: 'M1', 
-      type: 'M_PMOS', 
-      params: { model: 'IRF9530', rotation: 90 }, 
-      pins: ['MOTOR_P', 'CTRL_A', 'VCC', 'VCC'] 
+    {
+      ref: 'M1',
+      type: 'M_PMOS',
+      params: { model: 'IRF9530', rotation: 90 },
+      pins: ['MOTOR_P', 'CTRL_A', 'VCC', 'VCC'],
     },
     // Low-side NMOS rotated 270°
-    { 
-      ref: 'M3', 
-      type: 'M_NMOS', 
-      params: { model: 'IRF530', rotation: 270 }, 
-      pins: ['MOTOR_P', 'CTRL_A', 'GND', 'GND'] 
+    {
+      ref: 'M3',
+      type: 'M_NMOS',
+      params: { model: 'IRF530', rotation: 270 },
+      pins: ['MOTOR_P', 'CTRL_A', 'GND', 'GND'],
     },
     // Motor components rotated 90° for horizontal layout
-    { ref: 'L1', type: 'L', params: { value: '10m', rotation: 90 }, pins: ['MOTOR_P', 'MOTOR_N'] },
+    {
+      ref: 'L1',
+      type: 'L',
+      params: { value: '10m', rotation: 90 },
+      pins: ['MOTOR_P', 'MOTOR_N'],
+    },
   ],
 };
 ```
 
 **Rotation Features:**
+
 - Valid angles: 0°, 90°, 180°, 270° only
 - Rotates entire component including symbol and labels
 - Maintains terminal connectivity
@@ -156,17 +194,19 @@ Enable Manhattan-style routing with junction dots for cleaner schematics:
 
 ```typescript
 const result = renderSchematic(circuit, {
-  routing: 'orthogonal',  // Manhattan routing
+  routing: 'orthogonal', // Manhattan routing
   showNetLabels: true,
   showValues: true,
 });
 ```
 
 **Routing Modes:**
+
 - `'direct'` (default): Straight-line connections between terminals
 - `'orthogonal'`: Manhattan-style routing with horizontal bus lines and vertical drops
 
 **Orthogonal Routing Features:**
+
 - **Multi-terminal nets** (3+ connections): Common horizontal bus with vertical drops
 - **Two-terminal nets**: Horizontal → vertical → horizontal through midpoint
 - **Junction dots**: Automatically rendered at wire intersections (3px circles)
@@ -176,14 +216,14 @@ const result = renderSchematic(circuit, {
 
 ```typescript
 const result = renderSchematic(circuit, {
-  routing: 'orthogonal',        // Manhattan routing (NEW!)
-  gridSize: 100,                // Larger spacing
-  wireColor: '#0066cc',         // Blue wires
-  componentColor: '#cc0000',    // Red components
-  showNetLabels: true,          // Show net names
-  showValues: true,             // Show "10k", "1n", etc.
-  showReferences: true,         // Show "R1", "C1", etc.
-  orientation: 'vertical',      // Vertical layout
+  routing: 'orthogonal', // Manhattan routing (NEW!)
+  gridSize: 100, // Larger spacing
+  wireColor: '#0066cc', // Blue wires
+  componentColor: '#cc0000', // Red components
+  showNetLabels: true, // Show net names
+  showValues: true, // Show "10k", "1n", etc.
+  showReferences: true, // Show "R1", "C1", etc.
+  orientation: 'vertical', // Vertical layout
 });
 ```
 
@@ -214,7 +254,12 @@ const rlc: ElectricalProfile = {
   name: 'RLC Resonant',
   nets: [{ name: 'VIN' }, { name: 'N1' }, { name: 'GND' }],
   parts: [
-    { ref: 'V1', type: 'V', params: { source: 'AC 1 1k' }, pins: ['VIN', 'GND'] },
+    {
+      ref: 'V1',
+      type: 'V',
+      params: { source: 'AC 1 1k' },
+      pins: ['VIN', 'GND'],
+    },
     { ref: 'R1', type: 'R', params: { value: '100' }, pins: ['VIN', 'N1'] },
     { ref: 'L1', type: 'L', params: { value: '10m' }, pins: ['N1', 'GND'] },
     { ref: 'C1', type: 'C', params: { value: '1u' }, pins: ['N1', 'GND'] },
@@ -231,8 +276,18 @@ const led: ElectricalProfile = {
   nets: [{ name: 'VCC' }, { name: 'LED_ANODE' }, { name: 'GND' }],
   parts: [
     { ref: 'V1', type: 'V', params: { value: '5' }, pins: ['VCC', 'GND'] },
-    { ref: 'R1', type: 'R', params: { value: '220' }, pins: ['VCC', 'LED_ANODE'] },
-    { ref: 'D1', type: 'LED', params: { value: '2V' }, pins: ['LED_ANODE', 'GND'] },
+    {
+      ref: 'R1',
+      type: 'R',
+      params: { value: '220' },
+      pins: ['VCC', 'LED_ANODE'],
+    },
+    {
+      ref: 'D1',
+      type: 'LED',
+      params: { value: '2V' },
+      pins: ['LED_ANODE', 'GND'],
+    },
   ],
 };
 ```
@@ -243,14 +298,30 @@ const led: ElectricalProfile = {
 const amplifier: ElectricalProfile = {
   type: 'electrical',
   name: 'Common Emitter Amplifier',
-  nets: [{ name: 'VCC' }, { name: 'VIN' }, { name: 'VOUT' }, { name: 'VBIAS' }, { name: 'GND' }],
+  nets: [
+    { name: 'VCC' },
+    { name: 'VIN' },
+    { name: 'VOUT' },
+    { name: 'VBIAS' },
+    { name: 'GND' },
+  ],
   parts: [
     { ref: 'V1', type: 'V', params: { value: '12' }, pins: ['VCC', 'GND'] },
-    { ref: 'V2', type: 'V', params: { source: 'SIN(0 0.01 1k)' }, pins: ['VIN', 'GND'] },
+    {
+      ref: 'V2',
+      type: 'V',
+      params: { source: 'SIN(0 0.01 1k)' },
+      pins: ['VIN', 'GND'],
+    },
     { ref: 'C1', type: 'C', params: { value: '10u' }, pins: ['VIN', 'VBIAS'] },
     { ref: 'R1', type: 'R', params: { value: '100k' }, pins: ['VCC', 'VBIAS'] },
     { ref: 'R2', type: 'R', params: { value: '22k' }, pins: ['VBIAS', 'GND'] },
-    { ref: 'Q1', type: 'Q_NPN', params: { model: '2N2222' }, pins: ['VOUT', 'VBIAS', 'GND'] },
+    {
+      ref: 'Q1',
+      type: 'Q_NPN',
+      params: { model: '2N2222' },
+      pins: ['VOUT', 'VBIAS', 'GND'],
+    },
     { ref: 'R3', type: 'R', params: { value: '4.7k' }, pins: ['VCC', 'VOUT'] },
     { ref: 'C2', type: 'C', params: { value: '10u' }, pins: ['VOUT', 'GND'] },
   ],
@@ -266,11 +337,26 @@ const inverter: ElectricalProfile = {
   nets: [{ name: 'VDD' }, { name: 'VIN' }, { name: 'VOUT' }, { name: 'GND' }],
   parts: [
     { ref: 'V1', type: 'V', params: { value: '5' }, pins: ['VDD', 'GND'] },
-    { ref: 'V2', type: 'V', params: { source: 'PULSE(0 5 0 1n 1n 50n 100n)' }, pins: ['VIN', 'GND'] },
+    {
+      ref: 'V2',
+      type: 'V',
+      params: { source: 'PULSE(0 5 0 1n 1n 50n 100n)' },
+      pins: ['VIN', 'GND'],
+    },
     // PMOS pull-up: Drain, Gate, Source, Bulk
-    { ref: 'M1', type: 'M_PMOS', params: { model: 'PMOS', w: '20u', l: '1u' }, pins: ['VOUT', 'VIN', 'VDD', 'VDD'] },
-    // NMOS pull-down: Drain, Gate, Source, Bulk  
-    { ref: 'M2', type: 'M_NMOS', params: { model: 'NMOS', w: '10u', l: '1u' }, pins: ['VOUT', 'VIN', 'GND', 'GND'] },
+    {
+      ref: 'M1',
+      type: 'M_PMOS',
+      params: { model: 'PMOS', w: '20u', l: '1u' },
+      pins: ['VOUT', 'VIN', 'VDD', 'VDD'],
+    },
+    // NMOS pull-down: Drain, Gate, Source, Bulk
+    {
+      ref: 'M2',
+      type: 'M_NMOS',
+      params: { model: 'NMOS', w: '10u', l: '1u' },
+      pins: ['VOUT', 'VIN', 'GND', 'GND'],
+    },
     { ref: 'C1', type: 'C', params: { value: '1p' }, pins: ['VOUT', 'GND'] },
   ],
 };
@@ -290,56 +376,76 @@ const hBridge: ElectricalProfile = {
     { name: 'CTRL_B' },
     { name: 'MOTOR_P' },
     { name: 'MOTOR_N' },
-    { name: 'GND' }
+    { name: 'GND' },
   ],
   parts: [
     // Power supply
     { ref: 'V1', type: 'V', params: { value: '12' }, pins: ['VCC', 'GND'] },
-    
+
     // Control signals
-    { ref: 'V2', type: 'V', params: { source: 'PULSE(0 5 0 1n 1n 100u 200u)' }, pins: ['CTRL_A', 'GND'] },
-    { ref: 'V3', type: 'V', params: { source: 'PULSE(0 5 100u 1n 1n 100u 200u)' }, pins: ['CTRL_B', 'GND'] },
-    
+    {
+      ref: 'V2',
+      type: 'V',
+      params: { source: 'PULSE(0 5 0 1n 1n 100u 200u)' },
+      pins: ['CTRL_A', 'GND'],
+    },
+    {
+      ref: 'V3',
+      type: 'V',
+      params: { source: 'PULSE(0 5 100u 1n 1n 100u 200u)' },
+      pins: ['CTRL_B', 'GND'],
+    },
+
     // H-Bridge: High-side MOSFETs (PMOS) - rotated 90°
-    { 
-      ref: 'M1', 
-      type: 'M_PMOS', 
-      params: { model: 'IRF9530', w: '50u', l: '2u', rotation: 90 }, 
-      pins: ['MOTOR_P', 'CTRL_A', 'VCC', 'VCC'] 
+    {
+      ref: 'M1',
+      type: 'M_PMOS',
+      params: { model: 'IRF9530', w: '50u', l: '2u', rotation: 90 },
+      pins: ['MOTOR_P', 'CTRL_A', 'VCC', 'VCC'],
     },
-    { 
-      ref: 'M2', 
-      type: 'M_PMOS', 
-      params: { model: 'IRF9530', w: '50u', l: '2u', rotation: 90 }, 
-      pins: ['MOTOR_N', 'CTRL_B', 'VCC', 'VCC'] 
+    {
+      ref: 'M2',
+      type: 'M_PMOS',
+      params: { model: 'IRF9530', w: '50u', l: '2u', rotation: 90 },
+      pins: ['MOTOR_N', 'CTRL_B', 'VCC', 'VCC'],
     },
-    
+
     // H-Bridge: Low-side MOSFETs (NMOS) - rotated 270°
-    { 
-      ref: 'M3', 
-      type: 'M_NMOS', 
-      params: { model: 'IRF530', w: '100u', l: '2u', rotation: 270 }, 
-      pins: ['MOTOR_P', 'CTRL_A', 'GND', 'GND'] 
+    {
+      ref: 'M3',
+      type: 'M_NMOS',
+      params: { model: 'IRF530', w: '100u', l: '2u', rotation: 270 },
+      pins: ['MOTOR_P', 'CTRL_A', 'GND', 'GND'],
     },
-    { 
-      ref: 'M4', 
-      type: 'M_NMOS', 
-      params: { model: 'IRF530', w: '100u', l: '2u', rotation: 270 }, 
-      pins: ['MOTOR_N', 'CTRL_B', 'GND', 'GND'] 
+    {
+      ref: 'M4',
+      type: 'M_NMOS',
+      params: { model: 'IRF530', w: '100u', l: '2u', rotation: 270 },
+      pins: ['MOTOR_N', 'CTRL_B', 'GND', 'GND'],
     },
-    
+
     // Motor (inductor + resistor) - rotated 90° for horizontal layout
-    { ref: 'L1', type: 'L', params: { value: '10m', rotation: 90 }, pins: ['MOTOR_P', 'MOTOR_N'] },
-    { ref: 'R1', type: 'R', params: { value: '5', rotation: 90 }, pins: ['MOTOR_P', 'MOTOR_N'] },
+    {
+      ref: 'L1',
+      type: 'L',
+      params: { value: '10m', rotation: 90 },
+      pins: ['MOTOR_P', 'MOTOR_N'],
+    },
+    {
+      ref: 'R1',
+      type: 'R',
+      params: { value: '5', rotation: 90 },
+      pins: ['MOTOR_P', 'MOTOR_N'],
+    },
   ],
 };
 
 // Render with orthogonal routing for clean wire layout
 const result = renderSchematic(hBridge, {
-  routing: 'orthogonal',  // Manhattan-style routing with junction dots
+  routing: 'orthogonal', // Manhattan-style routing with junction dots
   showValues: true,
   showReferences: true,
-  showNetLabels: true
+  showNetLabels: true,
 });
 
 // Output includes:
@@ -359,12 +465,7 @@ The schematic renderer now supports IEEE/ANSI standard logic gate symbols for di
 const halfAdder: ElectricalProfile = {
   type: 'electrical',
   name: 'Half Adder',
-  nets: [
-    { name: 'A' },
-    { name: 'B' },
-    { name: 'SUM' },
-    { name: 'CARRY' }
-  ],
+  nets: [{ name: 'A' }, { name: 'B' }, { name: 'SUM' }, { name: 'CARRY' }],
   parts: [
     { ref: 'U1', type: 'XOR', params: {}, pins: ['A', 'B', 'SUM'] },
     { ref: 'U2', type: 'AND', params: {}, pins: ['A', 'B', 'CARRY'] },
@@ -385,19 +486,34 @@ const fullAdder: ElectricalProfile = {
   type: 'electrical',
   name: 'Full Adder',
   nets: [
-    { name: 'A' }, { name: 'B' }, { name: 'CIN' },
-    { name: 'SUM' }, { name: 'COUT' },
-    { name: 'XOR1_OUT' }, { name: 'AND1_OUT' }, { name: 'AND2_OUT' }
+    { name: 'A' },
+    { name: 'B' },
+    { name: 'CIN' },
+    { name: 'SUM' },
+    { name: 'COUT' },
+    { name: 'XOR1_OUT' },
+    { name: 'AND1_OUT' },
+    { name: 'AND2_OUT' },
   ],
   parts: [
     // First half adder
     { ref: 'U1', type: 'XOR', params: {}, pins: ['A', 'B', 'XOR1_OUT'] },
     { ref: 'U2', type: 'XOR', params: {}, pins: ['XOR1_OUT', 'CIN', 'SUM'] },
-    
+
     // Carry logic
     { ref: 'U3', type: 'AND', params: {}, pins: ['A', 'B', 'AND1_OUT'] },
-    { ref: 'U4', type: 'AND', params: {}, pins: ['XOR1_OUT', 'CIN', 'AND2_OUT'] },
-    { ref: 'U5', type: 'OR', params: {}, pins: ['AND1_OUT', 'AND2_OUT', 'COUT'] },
+    {
+      ref: 'U4',
+      type: 'AND',
+      params: {},
+      pins: ['XOR1_OUT', 'CIN', 'AND2_OUT'],
+    },
+    {
+      ref: 'U5',
+      type: 'OR',
+      params: {},
+      pins: ['AND1_OUT', 'AND2_OUT', 'COUT'],
+    },
   ],
 };
 ```
@@ -409,15 +525,20 @@ const decoder: ElectricalProfile = {
   type: 'electrical',
   name: '2-to-4 Decoder',
   nets: [
-    { name: 'A0' }, { name: 'A1' },
-    { name: 'A0_N' }, { name: 'A1_N' },
-    { name: 'Y0' }, { name: 'Y1' }, { name: 'Y2' }, { name: 'Y3' }
+    { name: 'A0' },
+    { name: 'A1' },
+    { name: 'A0_N' },
+    { name: 'A1_N' },
+    { name: 'Y0' },
+    { name: 'Y1' },
+    { name: 'Y2' },
+    { name: 'Y3' },
   ],
   parts: [
     // Inverters
     { ref: 'U1', type: 'NOT', params: {}, pins: ['A0', 'A0_N'] },
     { ref: 'U2', type: 'NOT', params: {}, pins: ['A1', 'A1_N'] },
-    
+
     // Output gates
     { ref: 'U3', type: 'AND', params: {}, pins: ['A0_N', 'A1_N', 'Y0'] },
     { ref: 'U4', type: 'AND', params: {}, pins: ['A0', 'A1_N', 'Y1'] },
@@ -433,12 +554,7 @@ const decoder: ElectricalProfile = {
 const srLatch: ElectricalProfile = {
   type: 'electrical',
   name: 'SR Latch (NAND)',
-  nets: [
-    { name: 'S' },
-    { name: 'R' },
-    { name: 'Q' },
-    { name: 'Q_N' }
-  ],
+  nets: [{ name: 'S' }, { name: 'R' }, { name: 'Q' }, { name: 'Q_N' }],
   parts: [
     // Cross-coupled NAND gates
     { ref: 'U1', type: 'NAND', params: {}, pins: ['S', 'Q_N', 'Q'] },
@@ -448,6 +564,7 @@ const srLatch: ElectricalProfile = {
 ```
 
 **Digital Gate Features:**
+
 - **IEEE/ANSI Distinctive Shapes**: Authentic gate symbols (curved OR, flat AND, etc.)
 - **Inverter Bubbles**: 3px circles on NOT, NAND, NOR outputs
 - **Proper Terminal Naming**: A, B for inputs; Y for output
@@ -461,11 +578,11 @@ const srLatch: ElectricalProfile = {
 ```runiq
 electrical "RC Filter" {
   net IN, OUT, GND
-  
+
   part V1 type:V source:"SIN(0 1 1k)" pins:(IN,GND)
   part R1 type:R value:"10k" pins:(IN,OUT)
   part C1 type:C value:"1n" pins:(OUT,GND)
-  
+
   analysis tran "0 5m"
 }
 ```
@@ -480,7 +597,7 @@ const content = await fs.readFile('rc-filter.runiq', 'utf-8');
 const parseResult = parse(content);
 
 const electricalProfile = parseResult.document.profiles.find(
-  p => p.type === 'electrical'
+  (p) => p.type === 'electrical'
 );
 
 const schematic = renderSchematic(electricalProfile);
@@ -493,34 +610,38 @@ await fs.writeFile('rc-filter.svg', schematic.svg);
 ```html
 <!DOCTYPE html>
 <html>
-<body>
-  <h1>RC Lowpass Filter</h1>
-  <img src="rc-filter.svg" alt="RC Filter Schematic" />
-</body>
+  <body>
+    <h1>RC Lowpass Filter</h1>
+    <img src="rc-filter.svg" alt="RC Filter Schematic" />
+  </body>
 </html>
 ```
 
 ## 🎓 Symbol Details
 
 ### Resistor (IEEE Style)
+
 ```
     ┌─┐  ┌─┐  ┌─┐  ┌─┐
 ────┤ └──┘ └──┘ └──┘ └──────
 ```
 
 ### Capacitor (Parallel Plates)
+
 ```
 ────┤  ├────
     │  │
 ```
 
 ### Inductor (Coil)
+
 ```
     ╭──╮╭──╮╭──╮
 ────╯  ╰╯  ╰╯  ╰────
 ```
 
 ### Voltage Source
+
 ```
      ┌───┐
      │ + │
@@ -530,6 +651,7 @@ await fs.writeFile('rc-filter.svg', schematic.svg);
 ```
 
 ### Ground (IEEE)
+
 ```
     │
     ├───
@@ -545,7 +667,7 @@ await fs.writeFile('rc-filter.svg', schematic.svg);
 // Components are automatically placed on a grid
 // Use gridSize to control spacing
 
-const tight = renderSchematic(circuit, { gridSize: 30 });  // Compact
+const tight = renderSchematic(circuit, { gridSize: 30 }); // Compact
 const normal = renderSchematic(circuit, { gridSize: 50 }); // Default
 const spacious = renderSchematic(circuit, { gridSize: 100 }); // Roomy
 ```
@@ -564,7 +686,7 @@ const vertical = renderSchematic(circuit, { orientation: 'vertical' });
 const minimal = renderSchematic(circuit, {
   showNetLabels: false,
   showReferences: false,
-  showValues: true,  // Keep values for component identification
+  showValues: true, // Keep values for component identification
 });
 ```
 
@@ -575,8 +697,8 @@ const minimal = renderSchematic(circuit, {
 const presentation = renderSchematic(circuit, {
   wireColor: '#000000',
   componentColor: '#000000',
-  showNetLabels: false,  // Reduce clutter
-  gridSize: 80,          // Larger spacing
+  showNetLabels: false, // Reduce clutter
+  gridSize: 80, // Larger spacing
 });
 ```
 
@@ -590,6 +712,7 @@ pnpm test
 ```
 
 Test coverage:
+
 - ✅ Basic component rendering (4 tests)
 - ✅ Ground symbol handling (2 tests)
 - ✅ Wire routing and labels (3 tests)
@@ -601,9 +724,15 @@ Test coverage:
 - ✅ Advanced symbols (2 tests)
 - ✅ Component rotation (5 tests)
 - ✅ Orthogonal routing (3 tests)
-- ✅ Logic gate symbols (9 tests) **NEW!** 🎉
+- ✅ Logic gate symbols (9 tests)
+- ✅ **Advanced digital components (14 tests)** **NEW!** 🎉
+  - XNOR gates
+  - 3-input gates (AND3, OR3, NAND3, NOR3)
+  - Flip-flops (D, JK, T)
+  - Registers (4-bit, 8-bit)
+  - Complex circuits (counter, comparator, etc.)
 
-**Total: 46/46 tests passing** ✅
+**Total: 60/60 tests passing** ✅
 
 ## 📝 Rendering Examples
 
@@ -614,6 +743,7 @@ pnpm render:examples
 ```
 
 Output:
+
 ```
 ⚡ Runiq → Schematic SVG Rendering Test
 
@@ -651,32 +781,32 @@ await fs.writeFile('circuit.cir', spice);
 The generated SVG includes CSS classes for customization:
 
 ```css
-.schematic-wire { 
-  stroke: #000000; 
-  stroke-width: 2; 
-  fill: none; 
+.schematic-wire {
+  stroke: #000000;
+  stroke-width: 2;
+  fill: none;
 }
 
-.schematic-component { 
-  color: #000000; 
+.schematic-component {
+  color: #000000;
 }
 
-.schematic-label { 
-  font-family: sans-serif; 
-  font-size: 12px; 
-  fill: #000000; 
+.schematic-label {
+  font-family: sans-serif;
+  font-size: 12px;
+  fill: #000000;
 }
 
-.schematic-value { 
-  font-family: sans-serif; 
-  font-size: 10px; 
-  fill: #000000; 
+.schematic-value {
+  font-family: sans-serif;
+  font-size: 10px;
+  fill: #000000;
 }
 
-.schematic-net-label { 
-  font-family: sans-serif; 
-  font-size: 10px; 
-  fill: #0066cc; 
+.schematic-net-label {
+  font-family: sans-serif;
+  font-size: 10px;
+  fill: #0066cc;
 }
 ```
 
@@ -702,15 +832,15 @@ The generated SVG includes CSS classes for customization:
 
 ## 🤝 Comparison with Other Tools
 
-| Feature | Runiq | KiCad | Fritzing | LTspice |
-|---------|-------|-------|----------|---------|
-| Text-based | ✅ | ❌ | ❌ | ❌ |
-| Auto-layout | ✅ | ❌ | Limited | ❌ |
-| Version control friendly | ✅ | Limited | Limited | Limited |
-| SVG output | ✅ | ✅ | ✅ | ❌ |
-| SPICE export | ✅ | ✅ | ❌ | ✅ |
-| Web rendering | ✅ | ❌ | ❌ | ❌ |
-| IEEE symbols | ✅ | ✅ | ❌ | ✅ |
+| Feature                  | Runiq | KiCad   | Fritzing | LTspice |
+| ------------------------ | ----- | ------- | -------- | ------- |
+| Text-based               | ✅    | ❌      | ❌       | ❌      |
+| Auto-layout              | ✅    | ❌      | Limited  | ❌      |
+| Version control friendly | ✅    | Limited | Limited  | Limited |
+| SVG output               | ✅    | ✅      | ✅       | ❌      |
+| SPICE export             | ✅    | ✅      | ❌       | ✅      |
+| Web rendering            | ✅    | ❌      | ❌       | ❌      |
+| IEEE symbols             | ✅    | ✅      | ❌       | ✅      |
 
 ## 📚 Resources
 
@@ -724,18 +854,22 @@ Part of the Runiq project. See main repository for license details.
 
 ## 🎉 Status
 
-**Current Version: 0.2.0**
+**Current Version: 0.3.0**
 
 - ✅ Core schematic rendering
-- ✅ IEEE-standard symbols (22 total!)
-- ✅ Digital logic gates (7 gates) **NEW!** 🎉
+- ✅ IEEE-standard symbols (32 total!)
+- ✅ Digital logic gates (8 basic gates)
+- ✅ **3-input logic gates (AND3, OR3, NAND3, NOR3)** **NEW!** 🎉
+- ✅ **Flip-flops (D, JK, T)** **NEW!** 🎉
+- ✅ **Registers (4-bit, 8-bit)** **NEW!** 🎉
 - ✅ Component rotation (0°/90°/180°/270°)
 - ✅ Orthogonal wire routing with junction dots
 - ✅ Automatic layout
 - ✅ Wire routing
 - ✅ Ground symbols
 - ✅ Component/net labels
-- ✅ 46/46 tests passing
-- ✅ 5+ example schematics rendered
+- ✅ 60/60 tests passing
+- ✅ 13+ example schematics rendered
 
 **Ready for production use!** 🚀
+

@@ -1,6 +1,6 @@
 /**
  * IEEE/IEC Standard Electrical Schematic Symbols
- * 
+ *
  * This module provides SVG path definitions for standard electrical components
  * following IEEE 315 and IEC 60617 standards.
  */
@@ -49,7 +49,7 @@ export const resistor = createSymbol(
   ],
   (cx, cy) => {
     const left = cx - 30;
-    
+
     return `
       <path d="M ${left},${cy} l 5,0 l 2.5,-5 l 5,10 l 5,-10 l 5,10 l 5,-10 l 5,10 l 2.5,-5 l 5,0" 
         stroke="currentColor" 
@@ -77,7 +77,7 @@ export const capacitor = createSymbol(
     const right = cx + 20;
     const plateLeft = cx - 3;
     const plateRight = cx + 3;
-    
+
     return `
       <line x1="${left}" y1="${cy}" x2="${plateLeft}" y2="${cy}" 
         stroke="currentColor" stroke-width="2"/>
@@ -106,7 +106,7 @@ export const inductor = createSymbol(
     const left = cx - 30;
     const right = cx + 30;
     const arcRadius = 6;
-    
+
     // Four semicircular arcs forming a coil
     return `
       <path d="M ${left},${cy} 
@@ -137,7 +137,7 @@ export const voltageSource = createSymbol(
     const radius = 15;
     const left = cx - 20;
     const right = cx + 20;
-    
+
     return `
       <circle cx="${cx}" cy="${cy}" r="${radius}" 
         stroke="currentColor" 
@@ -172,7 +172,7 @@ export const currentSource = createSymbol(
     const radius = 15;
     const left = cx - 20;
     const right = cx + 20;
-    
+
     return `
       <circle cx="${cx}" cy="${cy}" r="${radius}" 
         stroke="currentColor" 
@@ -197,9 +197,7 @@ export const ground = createSymbol(
   'ground',
   30,
   25,
-  [
-    { x: 15, y: 0, name: 'terminal' },
-  ],
+  [{ x: 15, y: 0, name: 'terminal' }],
   (cx, cy) => {
     return `
       <line x1="${cx}" y1="${cy - 12}" x2="${cx}" y2="${cy}" 
@@ -228,7 +226,7 @@ export const diode = createSymbol(
   (cx, cy) => {
     const left = cx - 20;
     const right = cx + 20;
-    
+
     return `
       <line x1="${left}" y1="${cy}" x2="${cx - 8}" y2="${cy}" 
         stroke="currentColor" stroke-width="2"/>
@@ -258,7 +256,7 @@ export const led = createSymbol(
   (cx, cy) => {
     const left = cx - 20;
     const right = cx + 20;
-    
+
     return `
       <line x1="${left}" y1="${cy}" x2="${cx - 8}" y2="${cy}" 
         stroke="currentColor" stroke-width="2"/>
@@ -286,9 +284,7 @@ export const junction = createSymbol(
   'junction',
   8,
   8,
-  [
-    { x: 4, y: 4, name: 'center' },
-  ],
+  [{ x: 4, y: 4, name: 'center' }],
   (cx, cy) => {
     return `<circle cx="${cx}" cy="${cy}" r="3" fill="currentColor"/>`;
   }
@@ -310,7 +306,7 @@ export const npnTransistor = createSymbol(
   (cx, cy) => {
     const baseX = cx - 25;
     const verticalLine = cx - 10;
-    
+
     return `
       <!-- Base connection -->
       <line x1="${baseX}" y1="${cy}" x2="${verticalLine}" y2="${cy}" 
@@ -348,7 +344,7 @@ export const pnpTransistor = createSymbol(
   (cx, cy) => {
     const baseX = cx - 25;
     const verticalLine = cx - 10;
-    
+
     return `
       <!-- Base connection -->
       <line x1="${baseX}" y1="${cy}" x2="${verticalLine}" y2="${cy}" 
@@ -388,7 +384,7 @@ export const nmosTransistor = createSymbol(
     const gateX = cx - 25;
     const channelX = cx - 15;
     const drainSourceX = cx + 10;
-    
+
     return `
       <!-- Gate -->
       <line x1="${gateX}" y1="${cy}" x2="${channelX}" y2="${cy}" 
@@ -440,7 +436,7 @@ export const pmosTransistor = createSymbol(
     const gateX = cx - 25;
     const channelX = cx - 15;
     const drainSourceX = cx + 10;
-    
+
     return `
       <!-- Gate with bubble (PMOS indicator) -->
       <line x1="${gateX}" y1="${cy}" x2="${channelX - 5}" y2="${cy}" 
@@ -496,7 +492,7 @@ export const opamp = createSymbol(
     const right = cx + 30;
     const top = cy - 30;
     const bottom = cy + 30;
-    
+
     return `
       <!-- Triangle body -->
       <path d="M ${left},${top + 15} L ${left},${bottom - 15} L ${right},${cy} Z" 
@@ -537,7 +533,7 @@ export const transformer = createSymbol(
     const sec = cx + 20;
     const top = cy - 30;
     const bottom = cy + 30;
-    
+
     return `
       <!-- Primary coil -->
       <line x1="${pri}" y1="${top}" x2="${pri}" y2="${top + 5}" 
@@ -597,7 +593,7 @@ export const andGate = createSymbol(
     const right = cx + 30;
     const top = cy - 20;
     const bottom = cy + 20;
-    
+
     return `
       <!-- AND gate body -->
       <path d="M ${left},${top} L ${cx},${top} A 20,20 0 0,1 ${cx},${bottom} L ${left},${bottom} Z" 
@@ -633,7 +629,7 @@ export const orGate = createSymbol(
     const right = cx + 30;
     const top = cy - 20;
     const bottom = cy + 20;
-    
+
     return `
       <!-- OR gate body -->
       <path d="M ${left},${top} Q ${left + 10},${cy} ${left},${bottom} Q ${cx},${bottom} ${cx + 20},${cy} Q ${cx},${top} ${left},${top}" 
@@ -669,7 +665,7 @@ export const notGate = createSymbol(
     const top = cy - 15;
     const bottom = cy + 15;
     const bubbleX = cx + 18;
-    
+
     return `
       <!-- Inverter triangle -->
       <path d="M ${left},${top} L ${left},${bottom} L ${cx + 15},${cy} Z" 
@@ -708,7 +704,7 @@ export const xorGate = createSymbol(
     const right = cx + 32.5;
     const top = cy - 20;
     const bottom = cy + 20;
-    
+
     return `
       <!-- XOR gate body (OR shape) -->
       <path d="M ${left + 5},${top} Q ${left + 15},${cy} ${left + 5},${bottom} Q ${cx + 5},${bottom} ${cx + 25},${cy} Q ${cx + 5},${top} ${left + 5},${top}" 
@@ -750,7 +746,7 @@ export const nandGate = createSymbol(
     const top = cy - 20;
     const bottom = cy + 20;
     const bubbleX = cx + 23;
-    
+
     return `
       <!-- NAND gate body (AND shape) -->
       <path d="M ${left},${top} L ${cx + 5},${top} A 20,20 0 0,1 ${cx + 5},${bottom} L ${left},${bottom} Z" 
@@ -792,7 +788,7 @@ export const norGate = createSymbol(
     const top = cy - 20;
     const bottom = cy + 20;
     const bubbleX = cx + 23;
-    
+
     return `
       <!-- NOR gate body (OR shape) -->
       <path d="M ${left},${top} Q ${left + 10},${cy} ${left},${bottom} Q ${cx + 5},${bottom} ${cx + 25},${cy} Q ${cx + 5},${top} ${left},${top}" 
@@ -832,7 +828,7 @@ export const bufferGate = createSymbol(
     const right = cx + 25;
     const top = cy - 15;
     const bottom = cy + 15;
-    
+
     return `
       <!-- Buffer triangle -->
       <path d="M ${left},${top} L ${left},${bottom} L ${cx + 15},${cy} Z" 
@@ -844,6 +840,576 @@ export const bufferGate = createSymbol(
         stroke="currentColor" stroke-width="2"/>
       <!-- Output line -->
       <line x1="${cx + 15}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * XNOR gate (2-input)
+ * IEEE distinctive shape: XOR with output inverter bubble
+ */
+export const xnorGate = createSymbol(
+  'xnor',
+  70,
+  40,
+  [
+    { x: 0, y: 12, name: 'A' },
+    { x: 0, y: 28, name: 'B' },
+    { x: 70, y: 20, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 35;
+    const right = cx + 35;
+    const top = cy - 20;
+    const bottom = cy + 20;
+    const bubbleX = cx + 29;
+
+    return `
+      <!-- Additional input curve (XOR distinctive feature) -->
+      <path d="M ${left - 5},${top} Q ${left},${cy} ${left - 5},${bottom}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Main OR-style body -->
+      <path d="M ${left},${top} Q ${cx - 10},${cy} ${left},${bottom} M ${left},${top} Q ${cx + 10},${top} ${cx + 26},${cy} Q ${cx + 10},${bottom} ${left},${bottom}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Output inverter bubble -->
+      <circle cx="${bubbleX}" cy="${cy}" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 15}" y1="${top + 8}" x2="${left - 5}" y2="${top + 8}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 15}" y1="${bottom - 8}" x2="${left - 5}" y2="${bottom - 8}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${bubbleX + 3}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * AND3 gate (3-input)
+ * IEEE distinctive shape: flat left, semicircular right, 3 inputs
+ */
+export const and3Gate = createSymbol(
+  'and3',
+  80,
+  50,
+  [
+    { x: 0, y: 10, name: 'A' },
+    { x: 0, y: 25, name: 'B' },
+    { x: 0, y: 40, name: 'C' },
+    { x: 80, y: 25, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 40;
+    const right = cx + 40;
+    const top = cy - 25;
+    const bottom = cy + 25;
+
+    return `
+      <!-- AND gate body -->
+      <path d="M ${left},${top} L ${cx},${top} A 25,25 0 0,1 ${cx},${bottom} L ${left},${bottom} Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 15}" x2="${left}" y2="${top + 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${cy}" x2="${left}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 15}" x2="${left}" y2="${bottom - 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${cx + 25}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * OR3 gate (3-input)
+ * IEEE distinctive shape: curved sides, 3 inputs
+ */
+export const or3Gate = createSymbol(
+  'or3',
+  80,
+  50,
+  [
+    { x: 0, y: 10, name: 'A' },
+    { x: 0, y: 25, name: 'B' },
+    { x: 0, y: 40, name: 'C' },
+    { x: 80, y: 25, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 40;
+    const right = cx + 40;
+    const top = cy - 25;
+    const bottom = cy + 25;
+
+    return `
+      <!-- OR gate body -->
+      <path d="M ${left},${top} Q ${cx - 10},${cy} ${left},${bottom} M ${left},${top} Q ${cx + 10},${top} ${cx + 25},${cy} Q ${cx + 10},${bottom} ${left},${bottom}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 15}" x2="${left}" y2="${top + 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${cy}" x2="${left}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 15}" x2="${left}" y2="${bottom - 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${cx + 25}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * NAND3 gate (3-input)
+ * IEEE distinctive shape: AND with output bubble, 3 inputs
+ */
+export const nand3Gate = createSymbol(
+  'nand3',
+  85,
+  50,
+  [
+    { x: 0, y: 10, name: 'A' },
+    { x: 0, y: 25, name: 'B' },
+    { x: 0, y: 40, name: 'C' },
+    { x: 85, y: 25, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 42.5;
+    const right = cx + 42.5;
+    const top = cy - 25;
+    const bottom = cy + 25;
+    const bubbleX = cx + 28;
+
+    return `
+      <!-- AND gate body -->
+      <path d="M ${left},${top} L ${cx},${top} A 25,25 0 0,1 ${cx},${bottom} L ${left},${bottom} Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Output inverter bubble -->
+      <circle cx="${bubbleX}" cy="${cy}" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 15}" x2="${left}" y2="${top + 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${cy}" x2="${left}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 15}" x2="${left}" y2="${bottom - 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${bubbleX + 3}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * NOR3 gate (3-input)
+ * IEEE distinctive shape: OR with output bubble, 3 inputs
+ */
+export const nor3Gate = createSymbol(
+  'nor3',
+  85,
+  50,
+  [
+    { x: 0, y: 10, name: 'A' },
+    { x: 0, y: 25, name: 'B' },
+    { x: 0, y: 40, name: 'C' },
+    { x: 85, y: 25, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 42.5;
+    const right = cx + 42.5;
+    const top = cy - 25;
+    const bottom = cy + 25;
+    const bubbleX = cx + 28;
+
+    return `
+      <!-- OR gate body -->
+      <path d="M ${left},${top} Q ${cx - 10},${cy} ${left},${bottom} M ${left},${top} Q ${cx + 10},${top} ${cx + 25},${cy} Q ${cx + 10},${bottom} ${left},${bottom}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Output inverter bubble -->
+      <circle cx="${bubbleX}" cy="${cy}" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 15}" x2="${left}" y2="${top + 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${cy}" x2="${left}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 15}" x2="${left}" y2="${bottom - 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${bubbleX + 3}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * D Flip-Flop
+ * IEEE rectangular symbol with clock triangle
+ */
+export const dFlipFlop = createSymbol(
+  'dff',
+  80,
+  60,
+  [
+    { x: 0, y: 15, name: 'D' },
+    { x: 0, y: 45, name: 'CLK' },
+    { x: 80, y: 15, name: 'Q' },
+    { x: 80, y: 45, name: 'QN' },
+  ],
+  (cx, cy) => {
+    const left = cx - 40;
+    const right = cx + 40;
+    const top = cy - 30;
+    const bottom = cy + 30;
+
+    return `
+      <!-- Rectangular body -->
+      <rect x="${left}" y="${top}" width="80" height="60" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Clock triangle -->
+      <path d="M ${left},${bottom - 20} L ${left + 8},${bottom - 15} L ${left},${bottom - 10}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Labels -->
+      <text x="${cx - 20}" y="${top + 20}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">D</text>
+      <text x="${cx + 10}" y="${top + 20}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q</text>
+      <text x="${cx + 10}" y="${bottom - 5}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q̄</text>
+      <!-- Input/output lines -->
+      <line x1="${left - 10}" y1="${top + 15}" x2="${left}" y2="${top + 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 15}" x2="${left}" y2="${bottom - 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 15}" x2="${right + 10}" y2="${top + 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${bottom - 15}" x2="${right + 10}" y2="${bottom - 15}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * JK Flip-Flop
+ * IEEE rectangular symbol with clock triangle
+ */
+export const jkFlipFlop = createSymbol(
+  'jkff',
+  80,
+  70,
+  [
+    { x: 0, y: 10, name: 'J' },
+    { x: 0, y: 35, name: 'CLK' },
+    { x: 0, y: 60, name: 'K' },
+    { x: 80, y: 20, name: 'Q' },
+    { x: 80, y: 50, name: 'QN' },
+  ],
+  (cx, cy) => {
+    const left = cx - 40;
+    const right = cx + 40;
+    const top = cy - 35;
+    const bottom = cy + 35;
+
+    return `
+      <!-- Rectangular body -->
+      <rect x="${left}" y="${top}" width="80" height="70" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Clock triangle -->
+      <path d="M ${left},${cy - 5} L ${left + 8},${cy} L ${left},${cy + 5}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Labels -->
+      <text x="${cx - 20}" y="${top + 15}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">J</text>
+      <text x="${cx - 20}" y="${bottom - 5}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">K</text>
+      <text x="${cx + 10}" y="${top + 25}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q</text>
+      <text x="${cx + 10}" y="${bottom - 15}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q̄</text>
+      <!-- Input/output lines -->
+      <line x1="${left - 10}" y1="${top + 10}" x2="${left}" y2="${top + 10}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${cy}" x2="${left}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 10}" x2="${left}" y2="${bottom - 10}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 20}" x2="${right + 10}" y2="${top + 20}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${bottom - 20}" x2="${right + 10}" y2="${bottom - 20}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * T Flip-Flop
+ * IEEE rectangular symbol with clock triangle
+ */
+export const tFlipFlop = createSymbol(
+  'tff',
+  80,
+  60,
+  [
+    { x: 0, y: 15, name: 'T' },
+    { x: 0, y: 45, name: 'CLK' },
+    { x: 80, y: 15, name: 'Q' },
+    { x: 80, y: 45, name: 'QN' },
+  ],
+  (cx, cy) => {
+    const left = cx - 40;
+    const right = cx + 40;
+    const top = cy - 30;
+    const bottom = cy + 30;
+
+    return `
+      <!-- Rectangular body -->
+      <rect x="${left}" y="${top}" width="80" height="60" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Clock triangle -->
+      <path d="M ${left},${bottom - 20} L ${left + 8},${bottom - 15} L ${left},${bottom - 10}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Labels -->
+      <text x="${cx - 20}" y="${top + 20}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">T</text>
+      <text x="${cx + 10}" y="${top + 20}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q</text>
+      <text x="${cx + 10}" y="${bottom - 5}" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q̄</text>
+      <!-- Input/output lines -->
+      <line x1="${left - 10}" y1="${top + 15}" x2="${left}" y2="${top + 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 15}" x2="${left}" y2="${bottom - 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 15}" x2="${right + 10}" y2="${top + 15}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${bottom - 15}" x2="${right + 10}" y2="${bottom - 15}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * 4-bit Register
+ * Rectangular symbol with data inputs, clock, enable
+ */
+export const register4 = createSymbol(
+  'reg4',
+  100,
+  80,
+  [
+    { x: 0, y: 10, name: 'D0' },
+    { x: 0, y: 25, name: 'D1' },
+    { x: 0, y: 40, name: 'D2' },
+    { x: 0, y: 55, name: 'D3' },
+    { x: 20, y: 80, name: 'CLK' },
+    { x: 50, y: 80, name: 'EN' },
+    { x: 100, y: 10, name: 'Q0' },
+    { x: 100, y: 25, name: 'Q1' },
+    { x: 100, y: 40, name: 'Q2' },
+    { x: 100, y: 55, name: 'Q3' },
+  ],
+  (cx, cy) => {
+    const left = cx - 50;
+    const right = cx + 50;
+    const top = cy - 40;
+    const bottom = cy + 40;
+
+    return `
+      <!-- Rectangular body -->
+      <rect x="${left}" y="${top}" width="100" height="80" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Label -->
+      <text x="${cx - 15}" y="${cy + 5}" 
+        font-family="sans-serif" 
+        font-size="14" 
+        font-weight="bold"
+        fill="currentColor">REG</text>
+      <text x="${cx - 10}" y="${cy + 18}" 
+        font-family="sans-serif" 
+        font-size="10" 
+        fill="currentColor">4-bit</text>
+      <!-- Clock triangle -->
+      <path d="M ${left + 20},${bottom} L ${left + 20},${bottom - 8} L ${left + 28},${bottom - 4} Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input/output lines (left side) -->
+      <line x1="${left - 10}" y1="${top + 10}" x2="${left}" y2="${top + 10}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 25}" x2="${left}" y2="${top + 25}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 40}" x2="${left}" y2="${top + 40}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 55}" x2="${left}" y2="${top + 55}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Clock and enable lines (bottom) -->
+      <line x1="${left + 20}" y1="${bottom + 10}" x2="${left + 20}" y2="${bottom}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${bottom + 10}" x2="${cx}" y2="${bottom}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output lines (right side) -->
+      <line x1="${right}" y1="${top + 10}" x2="${right + 10}" y2="${top + 10}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 25}" x2="${right + 10}" y2="${top + 25}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 40}" x2="${right + 10}" y2="${top + 40}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 55}" x2="${right + 10}" y2="${top + 55}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * 8-bit Register
+ * Larger rectangular symbol with 8 data inputs/outputs
+ */
+export const register8 = createSymbol(
+  'reg8',
+  120,
+  100,
+  [
+    { x: 0, y: 8, name: 'D0' },
+    { x: 0, y: 20, name: 'D1' },
+    { x: 0, y: 32, name: 'D2' },
+    { x: 0, y: 44, name: 'D3' },
+    { x: 0, y: 56, name: 'D4' },
+    { x: 0, y: 68, name: 'D5' },
+    { x: 0, y: 80, name: 'D6' },
+    { x: 0, y: 92, name: 'D7' },
+    { x: 30, y: 100, name: 'CLK' },
+    { x: 60, y: 100, name: 'EN' },
+    { x: 120, y: 8, name: 'Q0' },
+    { x: 120, y: 20, name: 'Q1' },
+    { x: 120, y: 32, name: 'Q2' },
+    { x: 120, y: 44, name: 'Q3' },
+    { x: 120, y: 56, name: 'Q4' },
+    { x: 120, y: 68, name: 'Q5' },
+    { x: 120, y: 80, name: 'Q6' },
+    { x: 120, y: 92, name: 'Q7' },
+  ],
+  (cx, cy) => {
+    const left = cx - 60;
+    const right = cx + 60;
+    const top = cy - 50;
+    const bottom = cy + 50;
+
+    return `
+      <!-- Rectangular body -->
+      <rect x="${left}" y="${top}" width="120" height="100" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Label -->
+      <text x="${cx - 15}" y="${cy + 5}" 
+        font-family="sans-serif" 
+        font-size="14" 
+        font-weight="bold"
+        fill="currentColor">REG</text>
+      <text x="${cx - 10}" y="${cy + 18}" 
+        font-family="sans-serif" 
+        font-size="10" 
+        fill="currentColor">8-bit</text>
+      <!-- Clock triangle -->
+      <path d="M ${left + 30},${bottom} L ${left + 30},${bottom - 8} L ${left + 38},${bottom - 4} Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines (left side) -->
+      <line x1="${left - 10}" y1="${top + 8}" x2="${left}" y2="${top + 8}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 20}" x2="${left}" y2="${top + 20}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 32}" x2="${left}" y2="${top + 32}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 44}" x2="${left}" y2="${top + 44}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 56}" x2="${left}" y2="${top + 56}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 68}" x2="${left}" y2="${top + 68}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 80}" x2="${left}" y2="${top + 80}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${top + 92}" x2="${left}" y2="${top + 92}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Clock and enable lines (bottom) -->
+      <line x1="${left + 30}" y1="${bottom + 10}" x2="${left + 30}" y2="${bottom}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${bottom + 10}" x2="${cx}" y2="${bottom}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output lines (right side) -->
+      <line x1="${right}" y1="${top + 8}" x2="${right + 10}" y2="${top + 8}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 20}" x2="${right + 10}" y2="${top + 20}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 32}" x2="${right + 10}" y2="${top + 32}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 44}" x2="${right + 10}" y2="${top + 44}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 56}" x2="${right + 10}" y2="${top + 56}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 68}" x2="${right + 10}" y2="${top + 68}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 80}" x2="${right + 10}" y2="${top + 80}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${right}" y1="${top + 92}" x2="${right + 10}" y2="${top + 92}" 
         stroke="currentColor" stroke-width="2"/>
     `;
   }
@@ -877,6 +1443,18 @@ export const symbolRegistry = new Map<string, SymbolDefinition>([
   ['NAND', nandGate],
   ['NOR', norGate],
   ['BUFFER', bufferGate],
+  ['XNOR', xnorGate],
+  ['AND3', and3Gate],
+  ['OR3', or3Gate],
+  ['NAND3', nand3Gate],
+  ['NOR3', nor3Gate],
+  // Flip-flops
+  ['DFF', dFlipFlop],
+  ['JKFF', jkFlipFlop],
+  ['TFF', tFlipFlop],
+  // Registers
+  ['REG4', register4],
+  ['REG8', register8],
 ]);
 
 /**

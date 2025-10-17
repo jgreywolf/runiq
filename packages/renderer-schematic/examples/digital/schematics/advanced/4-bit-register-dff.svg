@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="700" 
+    height="140" 
+    viewBox="60 60 700 140"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">4-bit Register (DFF)</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+  <path d="M 100,145 L 100,150" class="schematic-wire"/>
+  <text x="105" y="145" class="schematic-net-label">CLK</text>
+  <path d="M 100,150 L 280,150" class="schematic-wire"/>
+  <text x="285" y="145" class="schematic-net-label">CLK</text>
+  <path d="M 280,145 L 280,150" class="schematic-wire"/>
+  <text x="285" y="145" class="schematic-net-label">CLK</text>
+  <path d="M 280,150 L 460,150" class="schematic-wire"/>
+  <text x="465" y="145" class="schematic-net-label">CLK</text>
+  <path d="M 460,145 L 460,150" class="schematic-wire"/>
+  <text x="465" y="145" class="schematic-net-label">CLK</text>
+  <path d="M 460,150 L 640,150" class="schematic-wire"/>
+  <text x="645" y="145" class="schematic-net-label">CLK</text>
+  <path d="M 640,145 L 640,150" class="schematic-wire"/>
+  <text x="645" y="145" class="schematic-net-label">CLK</text>
+  <g class="schematic-junctions">
+    <circle cx="100" cy="150" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="280" cy="150" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="460" cy="150" r="3" class="schematic-junction" fill="currentColor"/>
+  </g>
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- Rectangular body -->
+      <rect x="100" y="100" width="80" height="60" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Clock triangle -->
+      <path d="M 100,140 L 108,145 L 100,150" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Labels -->
+      <text x="120" y="120" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">D</text>
+      <text x="150" y="120" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q</text>
+      <text x="150" y="155" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q̄</text>
+      <!-- Input/output lines -->
+      <line x1="90" y1="115" x2="100" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="145" x2="100" y2="145" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="180" y1="115" x2="190" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="180" y1="145" x2="190" y2="145" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="140" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+  <g class="schematic-component" data-ref="U2">
+
+      <!-- Rectangular body -->
+      <rect x="280" y="100" width="80" height="60" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Clock triangle -->
+      <path d="M 280,140 L 288,145 L 280,150" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Labels -->
+      <text x="300" y="120" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">D</text>
+      <text x="330" y="120" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q</text>
+      <text x="330" y="155" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q̄</text>
+      <!-- Input/output lines -->
+      <line x1="270" y1="115" x2="280" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="270" y1="145" x2="280" y2="145" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="360" y1="115" x2="370" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="360" y1="145" x2="370" y2="145" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="320" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U2</text>
+  </g>
+  <g class="schematic-component" data-ref="U3">
+
+      <!-- Rectangular body -->
+      <rect x="460" y="100" width="80" height="60" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Clock triangle -->
+      <path d="M 460,140 L 468,145 L 460,150" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Labels -->
+      <text x="480" y="120" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">D</text>
+      <text x="510" y="120" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q</text>
+      <text x="510" y="155" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q̄</text>
+      <!-- Input/output lines -->
+      <line x1="450" y1="115" x2="460" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="450" y1="145" x2="460" y2="145" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="540" y1="115" x2="550" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="540" y1="145" x2="550" y2="145" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="500" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U3</text>
+  </g>
+  <g class="schematic-component" data-ref="U4">
+
+      <!-- Rectangular body -->
+      <rect x="640" y="100" width="80" height="60" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Clock triangle -->
+      <path d="M 640,140 L 648,145 L 640,150" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Labels -->
+      <text x="660" y="120" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">D</text>
+      <text x="690" y="120" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q</text>
+      <text x="690" y="155" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">Q̄</text>
+      <!-- Input/output lines -->
+      <line x1="630" y1="115" x2="640" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="630" y1="145" x2="640" y2="145" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="720" y1="115" x2="730" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="720" y1="145" x2="730" y2="145" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="680" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U4</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>
