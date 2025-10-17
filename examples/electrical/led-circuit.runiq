@@ -1,0 +1,20 @@
+electrical "LED Circuit with Current Limiting" {
+  net VCC, LED_ANODE, GND
+  
+  # 5V power supply
+  part V1 type:V value:"5" pins:(VCC,GND)
+  
+  # Current limiting resistor (220Ω for typical red LED)
+  # Limits current to ~15mA with 2V LED forward voltage
+  part R1 type:R value:"220" pins:(VCC,LED_ANODE)
+  
+  # LED modeled as voltage source (typical forward voltage)
+  # In real SPICE, use diode model
+  part D1 type:V value:"2" pins:(LED_ANODE,GND)
+  
+  # DC operating point analysis
+  analysis op
+  
+  # DC sweep to see V-I characteristics
+  analysis dc "V1 0 6 0.1"
+}

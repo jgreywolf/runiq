@@ -14,12 +14,14 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:examples": "node scripts/test-examples.mjs"
   },
   "dependencies": {
     "@runiq/core": "workspace:*"
   },
   "devDependencies": {
+    "@runiq/parser-dsl": "workspace:*",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3",
     "vitest": "^1.6.1"

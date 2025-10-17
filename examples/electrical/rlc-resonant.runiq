@@ -1,0 +1,18 @@
+electrical "RLC Resonant Circuit" {
+  net VIN, N1, GND
+  
+  # AC voltage source: 1V amplitude, 1kHz frequency
+  part V1 type:V source:"AC 1 1k" pins:(VIN,GND)
+  
+  # Series RLC components
+  # Resonant frequency = 1/(2π√LC) ≈ 1.59 kHz
+  part R1 type:R value:"100" pins:(VIN,N1)
+  part L1 type:L value:"10m" pins:(N1,GND)
+  part C1 type:C value:"1u" pins:(N1,GND)
+  
+  # AC analysis: decade sweep from 100Hz to 100kHz
+  analysis ac "dec 50 100 100k"
+  
+  # Transient analysis: 10ms simulation
+  analysis tran "0 10m"
+}

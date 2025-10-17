@@ -1,0 +1,18 @@
+electrical "RL High-Pass Filter" {
+  net VIN, VOUT, GND
+  
+  # AC input: 1V sine wave at 1kHz
+  part V1 type:V source:"SIN(0 1 1k)" pins:(VIN,GND)
+  
+  # RL high-pass filter
+  # Cutoff frequency: fc = R/(2πL)
+  # With R=1k, L=10mH: fc ≈ 15.9 kHz
+  part L1 type:L value:"10m" pins:(VIN,VOUT)
+  part R1 type:R value:"1k" pins:(VOUT,GND)
+  
+  # Transient analysis: 0 to 5ms
+  analysis tran "0 5m"
+  
+  # AC analysis to see frequency response
+  analysis ac "dec 50 100 100k"
+}

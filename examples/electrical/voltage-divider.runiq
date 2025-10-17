@@ -1,0 +1,19 @@
+electrical "Voltage Divider" {
+  net VIN, VOUT, GND
+  
+  # 12V input supply
+  part V1 type:V value:"12" pins:(VIN,GND)
+  
+  # Upper resistor (10kΩ)
+  part R1 type:R value:"10k" pins:(VIN,VOUT)
+  
+  # Lower resistor (10kΩ)
+  # Creates 6V output (50% divider)
+  part R2 type:R value:"10k" pins:(VOUT,GND)
+  
+  # Operating point to calculate output voltage
+  analysis op
+  
+  # DC analysis to verify divider ratio
+  analysis dc "V1 0 15 0.5"
+}

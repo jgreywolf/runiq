@@ -210,6 +210,9 @@ importers:
         specifier: workspace:*
         version: link:../core
     devDependencies:
+      '@runiq/parser-dsl':
+        specifier: workspace:*
+        version: link:../parser-dsl
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(typescript@5.9.3)

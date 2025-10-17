@@ -1,0 +1,8 @@
+* RLC Resonant Circuit
+V1 VIN 0 AC 1 1k
+R1 VIN N1 100
+L1 N1 0 10m
+C1 N1 0 1u
+.ac dec 50 100 100k
+.tran 0 10m
+.end
