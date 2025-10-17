@@ -80,8 +80,7 @@ function convertDataProperty(
  */
 export interface ParseResult {
   success: boolean;
-  diagram?: DiagramAst; // Legacy single diagram support
-  document?: RuniqDocument; // New multi-profile support
+  document?: RuniqDocument;
   errors: string[];
 }
 
@@ -122,20 +121,9 @@ export function parse(text: string): ParseResult {
   const document = parseResult.value as Langium.Document;
   const runiqDocument = convertToRuniqDocument(document);
 
-  // For backward compatibility, if there's only one diagram profile,
-  // also provide it as diagram
-  let legacyDiagram: DiagramAst | undefined;
-  if (runiqDocument.profiles.length === 1) {
-    const profile = runiqDocument.profiles[0];
-    if (profile.type === 'diagram') {
-      legacyDiagram = convertDiagramProfileToAst(profile);
-    }
-  }
-
   return {
     success: true,
     document: runiqDocument,
-    diagram: legacyDiagram,
     errors: [],
   };
 }
@@ -188,22 +176,6 @@ function convertDiagramProfile(
   }
 
   return diagramProfile;
-}
-
-/**
- * Convert DiagramProfile to legacy DiagramAst for backward compatibility
- */
-function convertDiagramProfileToAst(profile: DiagramProfile): DiagramAst {
-  return {
-    astVersion: '1.0',
-    title: profile.name,
-    direction: profile.direction,
-    styles: profile.styles,
-    nodes: profile.nodes,
-    edges: profile.edges,
-    groups: profile.groups,
-    containers: profile.containers,
-  };
 }
 
 /**
