@@ -1,0 +1,21 @@
+electrical "CMOS Inverter" {
+  net VDD, VIN, VOUT, GND
+  
+  # Power supply
+  part V1 type:V value:"5" pins:(VDD,GND)
+  
+  # Input signal
+  part V2 type:V source:"PULSE(0 5 0 1n 1n 50n 100n)" pins:(VIN,GND)
+  
+  # PMOS transistor (pull-up)
+  part M1 type:M_PMOS model:"PMOS" w:"20u" l:"1u" pins:(VOUT,VIN,VDD,VDD)
+  
+  # NMOS transistor (pull-down)
+  part M2 type:M_NMOS model:"NMOS" w:"10u" l:"1u" pins:(VOUT,VIN,GND,GND)
+  
+  # Output load capacitor
+  part C1 type:C value:"1p" pins:(VOUT,GND)
+  
+  # Transient analysis
+  analysis tran "0 200n"
+}

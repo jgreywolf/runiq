@@ -1,0 +1,24 @@
+electrical "Transformer Power Supply" {
+  net AC1, AC2, SEC1, SEC2, DC_OUT, GND
+  
+  # AC input source (120V RMS, 60Hz)
+  part V1 type:V source:"SIN(0 170 60)" pins:(AC1,AC2)
+  
+  # Step-down transformer (120V to 12V, 10:1 ratio)
+  part T1 type:XFMR ratio:"10:1" pins:(AC1,AC2,SEC1,SEC2)
+  
+  # Full-wave bridge rectifier
+  part D1 type:D model:"1N4001" pins:(SEC1,DC_OUT)
+  part D2 type:D model:"1N4001" pins:(GND,SEC1)
+  part D3 type:D model:"1N4001" pins:(SEC2,DC_OUT)
+  part D4 type:D model:"1N4001" pins:(GND,SEC2)
+  
+  # Filter capacitor
+  part C1 type:C value:"1000u" pins:(DC_OUT,GND)
+  
+  # Load resistor
+  part R1 type:R value:"100" pins:(DC_OUT,GND)
+  
+  # Transient analysis
+  analysis tran "0 100m"
+}

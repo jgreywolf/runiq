@@ -1,0 +1,26 @@
+electrical "Op-Amp Non-Inverting Amplifier" {
+  net VIN, VP, VN, VOUT, VCC, VEE, GND
+  
+  # Power supplies
+  part V1 type:V value:"15" pins:(VCC,GND)
+  part V2 type:V value:"15" pins:(GND,VEE)
+  
+  # Input signal
+  part V3 type:V source:"SIN(0 0.1 1k)" pins:(VIN,GND)
+  
+  # Input resistor
+  part R1 type:R value:"10k" pins:(VIN,VP)
+  
+  # Op-amp (non-inverting configuration)
+  part U1 type:OPAMP model:"LM358" pins:(VP,VN,VOUT,VCC,VEE)
+  
+  # Feedback network (gain = 1 + R3/R2 = 11)
+  part R2 type:R value:"1k" pins:(VN,GND)
+  part R3 type:R value:"10k" pins:(VOUT,VN)
+  
+  # Output load
+  part R4 type:R value:"10k" pins:(VOUT,GND)
+  
+  # Transient analysis
+  analysis tran "0 5m"
+}

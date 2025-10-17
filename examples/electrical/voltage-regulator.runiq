@@ -1,0 +1,27 @@
+electrical "5V Voltage Regulator" {
+  net VIN, VREG, VOUT, GND
+  
+  # Input voltage source
+  part V1 type:V value:"12" pins:(VIN,GND)
+  
+  # Input filter capacitor
+  part C1 type:C value:"10u" pins:(VIN,GND)
+  
+  # Series resistor for current limiting
+  part R1 type:R value:"100" pins:(VIN,VREG)
+  
+  # Voltage regulator (represented as voltage source for SPICE)
+  part VREG type:V value:"5" pins:(VREG,GND)
+  
+  # Output filter capacitor
+  part C2 type:C value:"10u" pins:(VOUT,GND)
+  
+  # Load resistor
+  part R2 type:R value:"1k" pins:(VOUT,GND)
+  
+  # Connect regulator output to load
+  part R3 type:R value:"1" pins:(VREG,VOUT)
+  
+  # DC analysis
+  analysis dc "V1 0 15 0.1"
+}

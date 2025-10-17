@@ -50,7 +50,7 @@ PartStatement:
     'part' ref=ID properties+=PartProperty+;
 
 PartProperty:
-    PartTypeProperty | PartValueProperty | PartPinsProperty | PartSourceProperty;
+    PartTypeProperty | PartValueProperty | PartPinsProperty | PartSourceProperty | PartGenericProperty;
 
 PartTypeProperty:
     'type:' type=ID;
@@ -63,6 +63,10 @@ PartSourceProperty:
 
 PartPinsProperty:
     'pins:' '(' pins+=ID (',' pins+=ID)* ')';
+
+// Generic parameters for transistors, op-amps, etc: model:"2N2222", w:"10u", l:"1u", ratio:"10:1"
+PartGenericProperty:
+    key=ID ':' value=(STRING | NUMBER | ID);
 
 // analysis tran "0 5m"
 AnalysisStatement:

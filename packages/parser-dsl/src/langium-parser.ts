@@ -221,6 +221,14 @@ function convertElectricalProfile(
           part.params.source = prop.source.replace(/^"|"$/g, '');
         } else if (Langium.isPartPinsProperty(prop)) {
           part.pins = prop.pins;
+        } else if (Langium.isPartGenericProperty(prop)) {
+          // Handle generic properties like model:"2N2222", w:"10u", l:"1u", ratio:"10:1"
+          if (!part.params) part.params = {};
+          let value = prop.value;
+          if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+            value = value.slice(1, -1);
+          }
+          part.params[prop.key] = value;
         }
       }
 

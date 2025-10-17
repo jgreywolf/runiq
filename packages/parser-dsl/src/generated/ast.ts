@@ -755,6 +755,23 @@ export function isParamOverride(item: unknown): item is ParamOverride {
     return reflection.isInstance(item, ParamOverride.$type);
 }
 
+export interface PartGenericProperty extends langium.AstNode {
+    readonly $container: PartStatement;
+    readonly $type: 'PartGenericProperty';
+    key: string;
+    value: string;
+}
+
+export const PartGenericProperty = {
+    $type: 'PartGenericProperty',
+    key: 'key',
+    value: 'value'
+} as const;
+
+export function isPartGenericProperty(item: unknown): item is PartGenericProperty {
+    return reflection.isInstance(item, PartGenericProperty.$type);
+}
+
 export interface PartPinsProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartPinsProperty';
@@ -770,7 +787,7 @@ export function isPartPinsProperty(item: unknown): item is PartPinsProperty {
     return reflection.isInstance(item, PartPinsProperty.$type);
 }
 
-export type PartProperty = PartPinsProperty | PartSourceProperty | PartTypeProperty | PartValueProperty;
+export type PartProperty = PartGenericProperty | PartPinsProperty | PartSourceProperty | PartTypeProperty | PartValueProperty;
 
 export const PartProperty = {
     $type: 'PartProperty'
@@ -1103,6 +1120,7 @@ export type RuniqAstType = {
     NodeProperty: NodeProperty
     ParamDecl: ParamDecl
     ParamOverride: ParamOverride
+    PartGenericProperty: PartGenericProperty
     PartPinsProperty: PartPinsProperty
     PartProperty: PartProperty
     PartSourceProperty: PartSourceProperty
@@ -1567,6 +1585,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: []
+        },
+        PartGenericProperty: {
+            name: PartGenericProperty.$type,
+            properties: {
+                key: {
+                    name: PartGenericProperty.key
+                },
+                value: {
+                    name: PartGenericProperty.value
+                }
+            },
+            superTypes: [PartProperty.$type]
         },
         PartPinsProperty: {
             name: PartPinsProperty.$type,

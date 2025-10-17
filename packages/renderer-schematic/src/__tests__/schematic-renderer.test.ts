@@ -550,4 +550,152 @@ describe('Schematic Renderer', () => {
       expect(result.warnings).toHaveLength(0);
     });
   });
+
+  describe('Transistor Symbols', () => {
+    it('should render NPN transistor', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'NPN Transistor Test',
+        nets: [{ name: 'VCC' }, { name: 'BASE' }, { name: 'OUT' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'V1',
+            type: 'V',
+            params: { value: '5' },
+            pins: ['VCC', 'GND'],
+          },
+          {
+            ref: 'Q1',
+            type: 'Q_NPN',
+            params: { model: '2N2222' },
+            pins: ['OUT', 'BASE', 'GND'], // Collector, Base, Emitter
+          },
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '10k' },
+            pins: ['VCC', 'BASE'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="Q1"');
+      expect(result.svg).toContain('2N2222');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render PNP transistor', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'PNP Transistor Test',
+        nets: [{ name: 'VCC' }, { name: 'BASE' }, { name: 'OUT' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'Q1',
+            type: 'Q_PNP',
+            params: { model: '2N2907' },
+            pins: ['GND', 'BASE', 'VCC'], // Collector, Base, Emitter
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="Q1"');
+      expect(result.svg).toContain('2N2907');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render NMOS transistor', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'NMOS Test',
+        nets: [{ name: 'VDD' }, { name: 'GATE' }, { name: 'OUT' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'M1',
+            type: 'M_NMOS',
+            params: { model: 'NMOS_BASIC', w: '10u', l: '1u' },
+            pins: ['OUT', 'GATE', 'GND', 'GND'], // Drain, Gate, Source, Bulk
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="M1"');
+      expect(result.svg).toContain('NMOS_BASIC');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render PMOS transistor', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'PMOS Test',
+        nets: [{ name: 'VDD' }, { name: 'GATE' }, { name: 'OUT' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'M1',
+            type: 'M_PMOS',
+            params: { model: 'PMOS_BASIC', w: '20u', l: '1u' },
+            pins: ['OUT', 'GATE', 'VDD', 'VDD'], // Drain, Gate, Source, Bulk
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="M1"');
+      expect(result.svg).toContain('PMOS_BASIC');
+      expect(result.warnings).toHaveLength(0);
+    });
+  });
+
+  describe('Advanced Symbols', () => {
+    it('should render operational amplifier', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Op-Amp Test',
+        nets: [{ name: 'VIN+' }, { name: 'VIN-' }, { name: 'VOUT' }, { name: 'VCC' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'OPAMP',
+            params: { model: 'LM358' },
+            pins: ['VIN+', 'VIN-', 'VOUT', 'VCC', 'GND'], // +IN, -IN, OUT, V+, V-
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('LM358');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render transformer', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Transformer Test',
+        nets: [{ name: 'AC1' }, { name: 'AC2' }, { name: 'OUT1' }, { name: 'OUT2' }],
+        parts: [
+          {
+            ref: 'T1',
+            type: 'XFMR',
+            params: { ratio: '10:1' },
+            pins: ['AC1', 'AC2', 'OUT1', 'OUT2'], // Primary+, Primary-, Secondary+, Secondary-
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="T1"');
+      expect(result.svg).toContain('10:1');
+      expect(result.warnings).toHaveLength(0);
+    });
+  });
 });

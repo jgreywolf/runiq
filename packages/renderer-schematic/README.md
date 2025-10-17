@@ -4,12 +4,17 @@ Professional electrical schematic renderer for Runiq with IEEE/IEC standard symb
 
 ## ✨ Features
 
-- **IEEE Standard Symbols** - Resistors, capacitors, inductors, voltage/current sources
+- **IEEE Standard Symbols** - 14 professional electrical symbols
+  - Passive: R, C, L
+  - Sources: V (voltage), I (current)
+  - Semiconductors: D (diode), LED
+  - Transistors: NPN, PNP, NMOS, PMOS
+  - Advanced: Op-amp, Transformer
 - **Automatic Layout** - Smart component placement with wire routing
 - **Ground Normalization** - Automatic GND/VSS symbol rendering
 - **Configurable Display** - Control labels, values, net names, and colors
 - **SVG Output** - Scalable, embeddable in web pages and documentation
-- **Comprehensive Testing** - 21/21 tests passing with full coverage
+- **Comprehensive Testing** - 27/27 tests passing with full coverage
 
 ## 📦 Installation
 
@@ -67,6 +72,16 @@ console.log(result.svg); // SVG markup
 ### Semiconductors
 - **D** - Diode (triangle with bar)
 - **LED** - Light Emitting Diode (with light rays)
+
+### Transistors (NEW! 🎉)
+- **Q_NPN** - NPN Bipolar Junction Transistor
+- **Q_PNP** - PNP Bipolar Junction Transistor
+- **M_NMOS** - N-Channel MOSFET (enhancement mode)
+- **M_PMOS** - P-Channel MOSFET (enhancement mode)
+
+### Advanced Components (NEW! 🎉)
+- **OPAMP** - Operational Amplifier (triangle with +/- inputs)
+- **XFMR** - Transformer (coupled inductors with core)
 
 ### Symbols
 - **GND** - Ground (IEEE earth symbol)
@@ -146,6 +161,45 @@ const led: ElectricalProfile = {
     { ref: 'V1', type: 'V', params: { value: '5' }, pins: ['VCC', 'GND'] },
     { ref: 'R1', type: 'R', params: { value: '220' }, pins: ['VCC', 'LED_ANODE'] },
     { ref: 'D1', type: 'LED', params: { value: '2V' }, pins: ['LED_ANODE', 'GND'] },
+  ],
+};
+```
+
+### Common-Emitter Amplifier (NEW!)
+
+```typescript
+const amplifier: ElectricalProfile = {
+  type: 'electrical',
+  name: 'Common Emitter Amplifier',
+  nets: [{ name: 'VCC' }, { name: 'VIN' }, { name: 'VOUT' }, { name: 'VBIAS' }, { name: 'GND' }],
+  parts: [
+    { ref: 'V1', type: 'V', params: { value: '12' }, pins: ['VCC', 'GND'] },
+    { ref: 'V2', type: 'V', params: { source: 'SIN(0 0.01 1k)' }, pins: ['VIN', 'GND'] },
+    { ref: 'C1', type: 'C', params: { value: '10u' }, pins: ['VIN', 'VBIAS'] },
+    { ref: 'R1', type: 'R', params: { value: '100k' }, pins: ['VCC', 'VBIAS'] },
+    { ref: 'R2', type: 'R', params: { value: '22k' }, pins: ['VBIAS', 'GND'] },
+    { ref: 'Q1', type: 'Q_NPN', params: { model: '2N2222' }, pins: ['VOUT', 'VBIAS', 'GND'] },
+    { ref: 'R3', type: 'R', params: { value: '4.7k' }, pins: ['VCC', 'VOUT'] },
+    { ref: 'C2', type: 'C', params: { value: '10u' }, pins: ['VOUT', 'GND'] },
+  ],
+};
+```
+
+### CMOS Inverter (NEW!)
+
+```typescript
+const inverter: ElectricalProfile = {
+  type: 'electrical',
+  name: 'CMOS Inverter',
+  nets: [{ name: 'VDD' }, { name: 'VIN' }, { name: 'VOUT' }, { name: 'GND' }],
+  parts: [
+    { ref: 'V1', type: 'V', params: { value: '5' }, pins: ['VDD', 'GND'] },
+    { ref: 'V2', type: 'V', params: { source: 'PULSE(0 5 0 1n 1n 50n 100n)' }, pins: ['VIN', 'GND'] },
+    // PMOS pull-up: Drain, Gate, Source, Bulk
+    { ref: 'M1', type: 'M_PMOS', params: { model: 'PMOS', w: '20u', l: '1u' }, pins: ['VOUT', 'VIN', 'VDD', 'VDD'] },
+    // NMOS pull-down: Drain, Gate, Source, Bulk  
+    { ref: 'M2', type: 'M_NMOS', params: { model: 'NMOS', w: '10u', l: '1u' }, pins: ['VOUT', 'VIN', 'GND', 'GND'] },
+    { ref: 'C1', type: 'C', params: { value: '1p' }, pins: ['VOUT', 'GND'] },
   ],
 };
 ```

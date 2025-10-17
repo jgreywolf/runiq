@@ -1,0 +1,28 @@
+electrical "Common Emitter Amplifier" {
+  net VCC, VIN, VOUT, VBIAS, GND
+  
+  # Power supply
+  part V1 type:V value:"12" pins:(VCC,GND)
+  
+  # Input signal
+  part V2 type:V source:"SIN(0 0.01 1k)" pins:(VIN,GND)
+  
+  # Input coupling capacitor
+  part C1 type:C value:"10u" pins:(VIN,VBIAS)
+  
+  # Base bias resistors (voltage divider)
+  part R1 type:R value:"100k" pins:(VCC,VBIAS)
+  part R2 type:R value:"22k" pins:(VBIAS,GND)
+  
+  # NPN transistor (common emitter configuration)
+  part Q1 type:Q_NPN model:"2N2222" pins:(VOUT,VBIAS,GND)
+  
+  # Collector load resistor
+  part R3 type:R value:"4.7k" pins:(VCC,VOUT)
+  
+  # Output coupling capacitor
+  part C2 type:C value:"10u" pins:(VOUT,GND)
+  
+  # Transient analysis
+  analysis tran "0 5m"
+}

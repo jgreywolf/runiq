@@ -1,0 +1,251 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="1160" 
+    height="140" 
+    viewBox="60 60 1160 140"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">Transformer Power Supply</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+  <path d="M 100,120 L 260,100" class="schematic-wire"/>
+  <text x="265" y="95" class="schematic-net-label">AC1</text>
+  <path d="M 140,120 L 260,160" class="schematic-wire"/>
+  <text x="265" y="155" class="schematic-net-label">AC2</text>
+  <path d="M 300,100 L 420,115" class="schematic-wire"/>
+  <text x="425" y="110" class="schematic-net-label">SEC1</text>
+  <path d="M 420,115 L 600,115" class="schematic-wire"/>
+  <text x="605" y="110" class="schematic-net-label">SEC1</text>
+  <path d="M 300,160 L 700,115" class="schematic-wire"/>
+  <text x="705" y="110" class="schematic-net-label">SEC2</text>
+  <path d="M 700,115 L 880,115" class="schematic-wire"/>
+  <text x="885" y="110" class="schematic-net-label">SEC2</text>
+  <path d="M 460,115 L 740,115" class="schematic-wire"/>
+  <text x="745" y="110" class="schematic-net-label">DC_OUT</text>
+  <path d="M 740,115 L 980,115" class="schematic-wire"/>
+  <text x="985" y="110" class="schematic-net-label">DC_OUT</text>
+  <path d="M 980,115 L 1120,110" class="schematic-wire"/>
+  <text x="1125" y="105" class="schematic-net-label">DC_OUT</text>
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="V1">
+
+      <circle cx="120" cy="120" r="15" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <line x1="100" y1="120" x2="105" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="135" y1="120" x2="140" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="114" y="124" 
+        font-family="sans-serif" 
+        font-size="12" 
+        fill="currentColor">+</text>
+      <line x1="115" y1="120" x2="109" y2="120" 
+        stroke="currentColor" stroke-width="1.5"/>
+        <text x="120" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">V1</text>
+    <text x="120" y="155" 
+          class="schematic-value" 
+          text-anchor="middle">SIN(0 170 60)</text>
+  </g>
+  <g class="schematic-component" data-ref="T1">
+
+      <!-- Primary coil -->
+      <line x1="260" y1="100" x2="260" y2="105" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M 252,105 A 8,8 0 0,0 268,105" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M 252,113 A 8,8 0 0,0 268,113" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M 252,121 A 8,8 0 0,0 268,121" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M 252,129 A 8,8 0 0,0 268,129" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <line x1="260" y1="137" x2="260" y2="160" 
+        stroke="currentColor" stroke-width="2"/>
+      
+      <!-- Secondary coil -->
+      <line x1="300" y1="100" x2="300" y2="105" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M 292,105 A 8,8 0 0,0 308,105" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M 292,113 A 8,8 0 0,0 308,113" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M 292,121 A 8,8 0 0,0 308,121" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M 292,129 A 8,8 0 0,0 308,129" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <line x1="300" y1="137" x2="300" y2="160" 
+        stroke="currentColor" stroke-width="2"/>
+      
+      <!-- Core lines -->
+      <line x1="272" y1="110" x2="272" y2="150" 
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="275" y1="110" x2="275" y2="150" 
+        stroke="currentColor" stroke-width="1.5"/>
+        <text x="280" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">T1</text>
+    <text x="280" y="175" 
+          class="schematic-value" 
+          text-anchor="middle">10:1</text>
+  </g>
+  <g class="schematic-component" data-ref="D1">
+
+      <line x1="420" y1="115" x2="432" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M 432,107 l 0,16 l 16,-8 z" 
+        fill="currentColor" 
+        stroke="currentColor" 
+        stroke-width="1"/>
+      <line x1="448" y1="107" x2="448" y2="123" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="448" y1="115" x2="460" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="440" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">D1</text>
+    <text x="440" y="145" 
+          class="schematic-value" 
+          text-anchor="middle">1N4001</text>
+  </g>
+  <g class="schematic-component" data-ref="D2">
+
+      <line x1="560" y1="115" x2="572" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M 572,107 l 0,16 l 16,-8 z" 
+        fill="currentColor" 
+        stroke="currentColor" 
+        stroke-width="1"/>
+      <line x1="588" y1="107" x2="588" y2="123" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="588" y1="115" x2="600" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="580" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">D2</text>
+    <text x="580" y="145" 
+          class="schematic-value" 
+          text-anchor="middle">1N4001</text>
+  </g>
+  <g class="schematic-component" data-ref="D3">
+
+      <line x1="700" y1="115" x2="712" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M 712,107 l 0,16 l 16,-8 z" 
+        fill="currentColor" 
+        stroke="currentColor" 
+        stroke-width="1"/>
+      <line x1="728" y1="107" x2="728" y2="123" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="728" y1="115" x2="740" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="720" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">D3</text>
+    <text x="720" y="145" 
+          class="schematic-value" 
+          text-anchor="middle">1N4001</text>
+  </g>
+  <g class="schematic-component" data-ref="D4">
+
+      <line x1="840" y1="115" x2="852" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M 852,107 l 0,16 l 16,-8 z" 
+        fill="currentColor" 
+        stroke="currentColor" 
+        stroke-width="1"/>
+      <line x1="868" y1="107" x2="868" y2="123" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="868" y1="115" x2="880" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="860" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">D4</text>
+    <text x="860" y="145" 
+          class="schematic-value" 
+          text-anchor="middle">1N4001</text>
+  </g>
+  <g class="schematic-component" data-ref="C1">
+
+      <line x1="980" y1="115" x2="997" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="997" y1="105" x2="997" y2="125" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="1003" y1="105" x2="1003" y2="125" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="1003" y1="115" x2="1020" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="1000" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">C1</text>
+    <text x="1000" y="145" 
+          class="schematic-value" 
+          text-anchor="middle">1000u</text>
+  </g>
+  <g class="schematic-component" data-ref="R1">
+
+      <path d="M 1120,110 l 5,0 l 2.5,-5 l 5,10 l 5,-10 l 5,10 l 5,-10 l 5,10 l 2.5,-5 l 5,0" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+        <text x="1150" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">R1</text>
+    <text x="1150" y="135" 
+          class="schematic-value" 
+          text-anchor="middle">100</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+
+      <line x1="560" y1="120.5" x2="560" y2="132.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="550" y1="132.5" x2="570" y2="132.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="554" y1="136.5" x2="566" y2="136.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="557" y1="140.5" x2="563" y2="140.5" 
+        stroke="currentColor" stroke-width="2"/>
+    
+      <line x1="840" y1="120.5" x2="840" y2="132.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="830" y1="132.5" x2="850" y2="132.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="834" y1="136.5" x2="846" y2="136.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="837" y1="140.5" x2="843" y2="140.5" 
+        stroke="currentColor" stroke-width="2"/>
+    
+      <line x1="1020" y1="120.5" x2="1020" y2="132.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="1010" y1="132.5" x2="1030" y2="132.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="1014" y1="136.5" x2="1026" y2="136.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="1017" y1="140.5" x2="1023" y2="140.5" 
+        stroke="currentColor" stroke-width="2"/>
+    
+      <line x1="1180" y1="115.5" x2="1180" y2="127.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="1170" y1="127.5" x2="1190" y2="127.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="1174" y1="131.5" x2="1186" y2="131.5" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="1177" y1="135.5" x2="1183" y2="135.5" 
+        stroke="currentColor" stroke-width="2"/>
+    </g>
+</svg>

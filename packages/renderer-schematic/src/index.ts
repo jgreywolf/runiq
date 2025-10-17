@@ -355,7 +355,11 @@ function renderComponents(
 
     // Component value (below)
     if (showValues && comp.part.params) {
-      const value = comp.part.params.value || comp.part.params.source || '';
+      const value = comp.part.params.value || 
+                    comp.part.params.source || 
+                    comp.part.params.model ||
+                    comp.part.params.ratio ||
+                    '';
       if (value) {
         const valueX = comp.x + comp.symbol.width / 2;
         const valueY = comp.y + comp.symbol.height + 15;
