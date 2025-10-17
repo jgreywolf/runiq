@@ -314,6 +314,25 @@ importers:
         specifier: ^1.2.2
         version: 1.6.1(@types/node@20.19.20)
 
+  packages/renderer-schematic:
+    dependencies:
+      '@runiq/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@runiq/parser-dsl':
+        specifier: workspace:*
+        version: link:../parser-dsl
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(typescript@5.9.3)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.1
+        version: 1.6.1(@types/node@20.19.20)
+
   packages/renderer-svg:
     dependencies:
       '@runiq/core':

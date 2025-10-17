@@ -1,0 +1,29 @@
+{
+  "name": "@runiq/renderer-schematic",
+  "version": "0.1.0",
+  "description": "Electrical schematic renderer for Runiq with IEEE/IEC standard symbols",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "render:examples": "node scripts/render-examples.mjs"
+  },
+  "dependencies": {
+    "@runiq/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@runiq/parser-dsl": "workspace:*",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "^1.6.1"
+  }
+}
