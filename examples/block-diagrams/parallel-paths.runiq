@@ -1,0 +1,15 @@
+diagram "Parallel Signal Processing"
+
+  shape input as @box label: "Input"
+  shape split as @small-circle label: ""
+  shape g1 as @gain label: "10"
+  shape g2 as @gain label: "5"
+  shape mult as @multiply-junction label: "×"
+  shape output as @box label: "Output"
+
+  input -> split
+  split -> g1 label: "path 1"
+  split -> g2 label: "path 2"
+  g1 -> mult
+  g2 -> mult
+  mult -> output

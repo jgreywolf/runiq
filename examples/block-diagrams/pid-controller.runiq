@@ -1,0 +1,13 @@
+diagram "PID Controller"
+
+  shape ref as @box label: "Reference"
+  shape sum as @junction label: "+/-"
+  shape pid as @transfer-fn label: "PID"
+  shape plant as @transfer-fn label: "Plant\nG(s)"
+  shape output as @box label: "Output"
+
+  ref -> sum label: "r(t)"
+  sum -> pid label: "e(t)"
+  pid -> plant label: "u(t)"
+  plant -> output label: "y(t)"
+  output -> sum label: "feedback"

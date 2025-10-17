@@ -1,0 +1,19 @@
+diagram "State-Space Representation"
+
+  shape u as @box label: "u(t)"
+  shape b as @gain label: "B"
+  shape sum1 as @junction label: "+"
+  shape int as @integrator label: "1/s"
+  shape x as @box label: "x(t)"
+  shape c as @gain label: "C"
+  shape y as @box label: "y(t)"
+  shape a as @gain label: "A"
+
+  u -> b
+  b -> sum1
+  sum1 -> int
+  int -> x
+  x -> c
+  c -> y
+  x -> a
+  a -> sum1

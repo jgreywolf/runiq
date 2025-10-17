@@ -208,7 +208,11 @@ export interface RuniqDocument {
  * Union type for all supported profile types
  * Each profile has completely separate grammar and semantics
  */
-export type Profile = DiagramProfile | ElectricalProfile | DigitalProfile;
+export type Profile =
+  | DiagramProfile
+  | ElectricalProfile
+  | DigitalProfile
+  | BlockDiagramProfile;
 
 /**
  * Visual diagram profile (existing Runiq diagrams)
@@ -247,6 +251,19 @@ export interface DigitalProfile {
   modules?: ModuleAst[];
   instances: InstanceAst[];
   nets: NetAst[];
+}
+
+/**
+ * Block diagram profile
+ * For control systems, signal processing, system modeling
+ * Exports to Simulink, LaTeX (TikZ)
+ */
+export interface BlockDiagramProfile {
+  type: 'block-diagram';
+  name: string;
+  nets: NetAst[]; // Signal paths
+  parts: PartAst[]; // Transfer functions, gain blocks, operations
+  feedbackLoops?: boolean; // Enable feedback loop routing
 }
 
 // ============================================================================

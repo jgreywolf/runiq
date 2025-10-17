@@ -1,0 +1,12 @@
+diagram "Cascaded Transfer Functions"
+
+  shape input as @box label: "Input"
+  shape g1 as @transfer-fn label: "K/(s+1)"
+  shape g2 as @transfer-fn label: "10/(s+5)"
+  shape g3 as @integrator label: "1/s"
+  shape output as @box label: "Output"
+
+  input -> g1
+  g1 -> g2
+  g2 -> g3
+  g3 -> output

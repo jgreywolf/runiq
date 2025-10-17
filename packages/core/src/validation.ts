@@ -5,6 +5,7 @@ export type DiagramType =
   | 'sequence'
   | 'entity-relationship'
   | 'state-machine'
+  | 'block-diagram'
   | 'generic';
 
 export interface DiagramValidationError {
@@ -51,6 +52,26 @@ export const DIAGRAM_TYPE_CONSTRAINTS: Record<
     type: 'state-machine',
     description: 'State diagrams showing states and transitions',
     allowedShapes: ['rounded', 'hex'],
+  },
+  'block-diagram': {
+    type: 'block-diagram',
+    description: 'Control system and signal flow diagrams',
+    allowedShapes: [
+      'box',
+      'rounded',
+      'junction',
+      'multiply-junction',
+      'divide-junction',
+      'compare-junction',
+      'transfer-fn',
+      'gain',
+      'integrator',
+      'differentiator',
+      'time-delay',
+      'saturation',
+      'small-circle',
+      'circle',
+    ],
   },
   generic: {
     type: 'generic',

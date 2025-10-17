@@ -60,6 +60,17 @@ import { venn3Shape } from './venn-3.js';
 import { venn4Shape } from './venn-4.js';
 import { pyramidShape } from './pyramid.js';
 
+// Block diagram shapes (control systems)
+import { transferFunctionShape } from './transfer-function.js';
+import { gainShape } from './gain.js';
+import { integratorShape } from './integrator.js';
+import { differentiatorShape } from './differentiator.js';
+import { timeDelayShape } from './time-delay.js';
+import { saturationShape } from './saturation.js';
+import { multiplyJunctionShape } from './multiply-junction.js';
+import { divideJunctionShape } from './divide-junction.js';
+import { compareJunctionShape } from './compare-junction.js';
+
 export function registerDefaultShapes(): void {
   // Original shapes
   shapeRegistry.register(actorShape);
@@ -146,6 +157,17 @@ export function registerDefaultShapes(): void {
 
   // Hierarchical diagrams
   shapeRegistry.register(pyramidShape);
+
+  // Block diagram shapes (control systems)
+  shapeRegistry.register(transferFunctionShape);
+  shapeRegistry.register(gainShape);
+  shapeRegistry.register(integratorShape);
+  shapeRegistry.register(differentiatorShape);
+  shapeRegistry.register(timeDelayShape);
+  shapeRegistry.register(saturationShape);
+  shapeRegistry.register(multiplyJunctionShape);
+  shapeRegistry.register(divideJunctionShape);
+  shapeRegistry.register(compareJunctionShape);
 }
 
 export * from './actor.js';
@@ -205,6 +227,18 @@ export * from './venn-2.js';
 export * from './venn-3.js';
 export * from './venn-4.js';
 export * from './pyramid.js';
+
+// Block diagram shapes
+export * from './transfer-function.js';
+export * from './gain.js';
+export * from './integrator.js';
+export * from './differentiator.js';
+export * from './time-delay.js';
+export * from './saturation.js';
+export * from './multiply-junction.js';
+export * from './divide-junction.js';
+export * from './compare-junction.js';
+
 export * from './charts/pie.js';
 export * from './charts/bar-chart-vertical.js';
 export * from './charts/bar-chart-horizontal.js';
