@@ -1,0 +1,15 @@
+digital "ShiftRegister" {
+  module ShiftRegister8bit {
+    param WIDTH = 8
+    
+    input clk
+    input reset
+    input serial_in
+    input shift_enable
+    output serial_out
+    output [7:0] parallel_out
+  }
+  
+  net clk, reset, serial_in, shift_enable, serial_out
+  net parallel_out[7:0]
+}

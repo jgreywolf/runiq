@@ -1,0 +1,19 @@
+digital "StateMachine" {
+  module TrafficLightController {
+    input clk
+    input reset
+    input sensor
+    output [1:0] north_south
+    output [1:0] east_west
+  }
+  
+  # Traffic light states:
+  # 00 = RED
+  # 01 = YELLOW
+  # 10 = GREEN
+  
+  net clk, reset, sensor
+  net north_south[1:0], east_west[1:0]
+  net state[2:0], next_state[2:0]
+  net timer[7:0]
+}
