@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import { promises as fs } from 'fs';
-import { parse } from '@runiq/parser-dsl';
+import { parse, type ParseResult } from '@runiq/parser-dsl';
 import { jsonToAst, astToJson } from '@runiq/io-json';
 import { ElkLayoutEngine } from '@runiq/layout-base';
 import { renderSvg } from '@runiq/renderer-svg';
@@ -13,6 +13,8 @@ import {
   validateDiagramType,
   listDiagramTypes,
   type DiagramType,
+  type DiagramAst,
+  type DiagramProfile,
 } from '@runiq/core';
 import { fontAwesome } from '@runiq/icons-fontawesome';
 
@@ -20,6 +22,41 @@ import { fontAwesome } from '@runiq/icons-fontawesome';
 registerDefaultShapes();
 layoutRegistry.register(new ElkLayoutEngine());
 iconRegistry.register(fontAwesome);
+
+/**
+ * Helper function to extract DiagramProfile from ParseResult
+ * For backward compatibility with single-diagram DSL files
+ */
+function extractDiagramFromParseResult(result: ParseResult): DiagramAst | null {
+  if (!result.success || !result.document) {
+    return null;
+  }
+
+  const doc = result.document;
+
+  // Find the first diagram profile
+  const diagramProfile = doc.profiles.find(
+    (p): p is DiagramProfile => p.type === 'diagram'
+  );
+
+  if (!diagramProfile) {
+    return null;
+  }
+
+  // Convert DiagramProfile to DiagramAst for backward compatibility
+  const ast: DiagramAst = {
+    astVersion: doc.astVersion,
+    title: diagramProfile.name,
+    direction: diagramProfile.direction,
+    styles: diagramProfile.styles,
+    nodes: diagramProfile.nodes,
+    edges: diagramProfile.edges,
+    groups: diagramProfile.groups,
+    containers: diagramProfile.containers,
+  };
+
+  return ast;
+}
 
 const program = new Command();
 
@@ -64,7 +101,11 @@ program
           result.errors.forEach((e: string) => console.error(`  ${e}`));
           process.exit(1);
         }
-        ast = result.diagram!;
+        ast = extractDiagramFromParseResult(result);
+        if (!ast) {
+          console.error('No diagram profile found in document');
+          process.exit(1);
+        }
       }
 
       // Validate diagram type if specified
@@ -159,7 +200,11 @@ program
         const result = parse(dslContent);
         if (result.success) {
           console.log('✓ Valid DSL diagram syntax');
-          ast = result.diagram;
+          ast = extractDiagramFromParseResult(result);
+          if (!ast) {
+            console.error('✗ No diagram profile found in document');
+            process.exit(1);
+          }
         } else {
           console.error('✗ Invalid DSL diagram:');
           result.errors.forEach((e: string) => console.error(`  ${e}`));
@@ -243,7 +288,13 @@ program
           process.exit(1);
         }
 
-        const jsonResult = astToJson(parseResult.diagram!);
+        const ast = extractDiagramFromParseResult(parseResult);
+        if (!ast) {
+          console.error('No diagram profile found in document');
+          process.exit(1);
+        }
+
+        const jsonResult = astToJson(ast);
         if (!jsonResult.success) {
           console.error('JSON conversion failed:');
           jsonResult.problems.forEach((p) => console.error(`  ${p}`));

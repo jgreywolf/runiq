@@ -35,6 +35,7 @@ export type RuniqKeywordNames =
     | "["
     | "]"
     | "ac"
+    | "affected:"
     | "algorithm:"
     | "analysis"
     | "as"
@@ -43,11 +44,13 @@ export type RuniqKeywordNames =
     | "borderStyle:"
     | "borderWidth:"
     | "bottom"
+    | "carrier:"
     | "colors:"
     | "container"
     | "dashed"
     | "data:"
     | "dc"
+    | "deceased:"
     | "diagram"
     | "digital"
     | "direction:"
@@ -99,6 +102,21 @@ export type RuniqKeywordNames =
 
 export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
 
+export interface AffectedProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'AffectedProperty';
+    value: string;
+}
+
+export const AffectedProperty = {
+    $type: 'AffectedProperty',
+    value: 'value'
+} as const;
+
+export function isAffectedProperty(item: unknown): item is AffectedProperty {
+    return reflection.isInstance(item, AffectedProperty.$type);
+}
+
 export type AnalysisKind = 'ac' | 'dc' | 'noise' | 'op' | 'tran';
 
 export function isAnalysisKind(item: unknown): item is AnalysisKind {
@@ -143,6 +161,21 @@ export const BusWidth = {
 
 export function isBusWidth(item: unknown): item is BusWidth {
     return reflection.isInstance(item, BusWidth.$type);
+}
+
+export interface CarrierProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'CarrierProperty';
+    value: string;
+}
+
+export const CarrierProperty = {
+    $type: 'CarrierProperty',
+    value: 'value'
+} as const;
+
+export function isCarrierProperty(item: unknown): item is CarrierProperty {
+    return reflection.isInstance(item, CarrierProperty.$type);
 }
 
 export interface ColorsProperty extends langium.AstNode {
@@ -320,6 +353,21 @@ export const DataValue = {
 
 export function isDataValue(item: unknown): item is DataValue {
     return reflection.isInstance(item, DataValue.$type);
+}
+
+export interface DeceasedProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'DeceasedProperty';
+    value: string;
+}
+
+export const DeceasedProperty = {
+    $type: 'DeceasedProperty',
+    value: 'value'
+} as const;
+
+export function isDeceasedProperty(item: unknown): item is DeceasedProperty {
+    return reflection.isInstance(item, DeceasedProperty.$type);
 }
 
 export interface DiagramProfile extends langium.AstNode {
@@ -711,7 +759,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = ColorsProperty | DataProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -1079,8 +1127,10 @@ export function isYLabelProperty(item: unknown): item is YLabelProperty {
 }
 
 export type RuniqAstType = {
+    AffectedProperty: AffectedProperty
     AnalysisStatement: AnalysisStatement
     BusWidth: BusWidth
+    CarrierProperty: CarrierProperty
     ColorsProperty: ColorsProperty
     ContainerBlock: ContainerBlock
     ContainerLayoutProperty: ContainerLayoutProperty
@@ -1092,6 +1142,7 @@ export type RuniqAstType = {
     DataObjectProperty: DataObjectProperty
     DataProperty: DataProperty
     DataValue: DataValue
+    DeceasedProperty: DeceasedProperty
     DiagramProfile: DiagramProfile
     DiagramStatement: DiagramStatement
     DigitalNetStatement: DigitalNetStatement
@@ -1145,6 +1196,15 @@ export type RuniqAstType = {
 
 export class RuniqAstReflection extends langium.AbstractAstReflection {
     override readonly types = {
+        AffectedProperty: {
+            name: AffectedProperty.$type,
+            properties: {
+                value: {
+                    name: AffectedProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         AnalysisStatement: {
             name: AnalysisStatement.$type,
             properties: {
@@ -1168,6 +1228,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: []
+        },
+        CarrierProperty: {
+            name: CarrierProperty.$type,
+            properties: {
+                value: {
+                    name: CarrierProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         ColorsProperty: {
             name: ColorsProperty.$type,
@@ -1299,6 +1368,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [DataItem.$type]
+        },
+        DeceasedProperty: {
+            name: DeceasedProperty.$type,
+            properties: {
+                value: {
+                    name: DeceasedProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         DiagramProfile: {
             name: DiagramProfile.$type,

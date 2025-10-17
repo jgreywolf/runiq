@@ -1,19 +1,19 @@
 # Simple 3-Generation Pedigree
-# Demonstrates basic pedigree structure
+# Demonstrates basic pedigree structure with affected/carrier/deceased properties
 diagram "Simple Pedigree" {
   # Generation I (Grandparents)
   shape grandfather as @pedigree-male label:"Grandfather"
   shape grandmother as @pedigree-female label:"Grandmother"
 
   # Generation II (Parents)
-  shape father as @pedigree-male label:"Father"
+  shape father as @pedigree-male label:"Father" affected:true
   shape mother as @pedigree-female label:"Mother"
-  shape uncle as @pedigree-male label:"Uncle"
+  shape uncle as @pedigree-male label:"Uncle" deceased:true
 
   # Generation III (Children)
-  shape son1 as @pedigree-male label:"Son 1"
+  shape son1 as @pedigree-male label:"Son 1" affected:true
   shape son2 as @pedigree-male label:"Son 2"
-  shape daughter as @pedigree-female label:"Daughter"
+  shape daughter as @pedigree-female label:"Daughter" carrier:true
 
   # Relationships (Marriage and Parent-Child)
   grandfather -> grandmother

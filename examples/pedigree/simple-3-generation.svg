@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="312" height="552" 
+    viewBox="0 0 312 552"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Simple Pedigree</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="grandfather-grandmother"><defs>
+      <marker id="arrow-standard-grandfather-grandmother" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 263.33333333333337 52 L 263.33333333333337 72 L 160 72 L 160 132" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-grandfather-grandmother)" /></g><g data-runiq-edge="father-mother"><defs>
+      <marker id="arrow-standard-father-mother" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 262.6666666666667 292 L 262.6666666666667 312 L 48.66666666666666 312 L 48.66666666666666 372" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-father-mother)" /></g><g data-runiq-edge="grandfather-father"><defs>
+      <marker id="arrow-standard-grandfather-father" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 273.33333333333337 52 L 273.33333333333337 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-grandfather-father)" /></g><g data-runiq-edge="grandfather-uncle"><defs>
+      <marker id="arrow-standard-grandfather-uncle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 253.33333333333334 52 L 253.33333333333334 62 L 129 62 L 129 182 L 140 182 L 140 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-grandfather-uncle)" /></g><g data-runiq-edge="grandmother-father"><defs>
+      <marker id="arrow-standard-grandmother-father" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 166.66666666666666 172 L 166.66666666666669 182 L 260 182 L 260 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-grandmother-father)" /></g><g data-runiq-edge="grandmother-uncle"><defs>
+      <marker id="arrow-standard-grandmother-uncle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 153.33333333333334 172 L 153.33333333333334 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-grandmother-uncle)" /></g><g data-runiq-edge="father-son1"><defs>
+      <marker id="arrow-standard-father-son1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 270.6666666666667 292 L 270.6666666666667 322 L 158.66666666666669 322 L 158.66666666666666 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-father-son1)" /></g><g data-runiq-edge="father-son2"><defs>
+      <marker id="arrow-standard-father-son2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 278.6666666666667 292 L 278.6666666666667 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-father-son2)" /></g><g data-runiq-edge="father-daughter"><defs>
+      <marker id="arrow-standard-father-daughter" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 254.66666666666669 292 L 254.66666666666669 302 L 17.666666666666657 302 L 17.666666666666657 422 L 25.333333333333343 422 L 25.333333333333336 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-father-daughter)" /></g><g data-runiq-edge="mother-son1"><defs>
+      <marker id="arrow-standard-mother-son1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 48.66666666666666 412 L 48.66666666666666 432 L 145.33333333333331 432 L 145.33333333333334 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-mother-son1)" /></g><g data-runiq-edge="mother-son2"><defs>
+      <marker id="arrow-standard-mother-son2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 58.66666666666666 412 L 58.66666666666666 422 L 265.33333333333337 422 L 265.33333333333337 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-mother-son2)" /></g><g data-runiq-edge="mother-daughter"><defs>
+      <marker id="arrow-standard-mother-daughter" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 38.66666666666666 412 L 38.66666666666667 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-mother-daughter)" /></g><g data-runiq-node="grandfather"><rect x="243.33333333333334" y="12" width="40" height="40"
+                fill="#fff" stroke="#000" stroke-width="2"/><text x="263.33333333333337" y="67"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">Grandfather</text></g><g data-runiq-node="grandmother"><circle cx="160" cy="152" r="19"
+                fill="#fff" stroke="#000" stroke-width="2"/><text x="160" y="187"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">Grandmother</text></g><g data-runiq-node="father"><rect x="246.66666666666669" y="252" width="40" height="40"
+                fill="#000" stroke="#000" stroke-width="2"/><text x="266.6666666666667" y="307"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">Father</text></g><g data-runiq-node="mother"><circle cx="48.66666666666666" cy="392" r="19"
+                fill="#fff" stroke="#000" stroke-width="2"/><text x="48.66666666666666" y="427"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">Mother</text></g><g data-runiq-node="uncle"><rect x="126.66666666666667" y="252" width="40" height="40"
+                fill="#fff" stroke="#000" stroke-width="2"/><line x1="126.66666666666667" y1="252" x2="166.66666666666669" y2="292"
+                   stroke="#000" stroke-width="2"/><text x="146.66666666666669" y="307"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">Uncle</text></g><g data-runiq-node="son1"><rect x="132" y="492" width="40" height="40"
+                fill="#000" stroke="#000" stroke-width="2"/><text x="152" y="547"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">Son 1</text></g><g data-runiq-node="son2"><rect x="252" y="492" width="40" height="40"
+                fill="#fff" stroke="#000" stroke-width="2"/><text x="272" y="547"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">Son 2</text></g><g data-runiq-node="daughter"><circle cx="32" cy="512" r="19"
+                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="32" y="547"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">Daughter</text></g></svg>

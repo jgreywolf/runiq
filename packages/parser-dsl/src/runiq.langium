@@ -176,7 +176,10 @@ NodeProperty:
     | ColorsProperty
     | TitleProperty
     | XLabelProperty
-    | YLabelProperty;
+    | YLabelProperty
+    | AffectedProperty
+    | CarrierProperty
+    | DeceasedProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -210,6 +213,16 @@ XLabelProperty:
 
 YLabelProperty:
     'yLabel:' value=STRING;
+
+// Pedigree-specific properties
+AffectedProperty:
+    'affected:' value=BOOLEAN;
+
+CarrierProperty:
+    'carrier:' value=BOOLEAN;
+
+DeceasedProperty:
+    'deceased:' value=BOOLEAN;
 
 StringArray:
     '[' (items+=STRING (',' items+=STRING)*)? ']';

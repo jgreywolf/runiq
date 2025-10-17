@@ -49,7 +49,15 @@ export function renderSvg(
   svg += '.runiq-edge-text { font-family: sans-serif; font-size: 12px; }';
   svg +=
     '.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }';
-  svg += ']]></style></defs>';
+  svg += ']]></style>';
+  
+  // Add pedigree chart pattern for carrier shading
+  svg += '<pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse">';
+  svg += '<rect x="0" y="0" width="20" height="40" fill="#000"/>';
+  svg += '<rect x="20" y="0" width="20" height="40" fill="#fff"/>';
+  svg += '</pattern>';
+  
+  svg += '</defs>';
 
   // Render containers first (as backgrounds)
   if (layout.containers) {
@@ -93,6 +101,19 @@ function renderNode(
   }
 
   const style = nodeAst.style ? diagram.styles?.[nodeAst.style] || {} : {};
+  
+  // Merge inline pedigree properties from node.data into style
+  if (nodeAst.data) {
+    if (nodeAst.data.affected !== undefined) {
+      style.affected = nodeAst.data.affected;
+    }
+    if (nodeAst.data.carrier !== undefined) {
+      style.carrier = nodeAst.data.carrier;
+    }
+    if (nodeAst.data.deceased !== undefined) {
+      style.deceased = nodeAst.data.deceased;
+    }
+  }
 
   let nodeMarkup = shapeImpl.render(
     { node: nodeAst, style, measureText },
@@ -232,11 +253,11 @@ function renderEdge(
   // Determine arrow type
   const arrowType = edgeAst.arrowType || 'standard';
   const arrowId = `arrow-${arrowType}-${routed.from}-${routed.to}`;
-  
+
   // Define arrow marker based on type
   if (arrowType !== 'none') {
     edgeMarkup += `<defs>`;
-    
+
     if (arrowType === 'standard') {
       // Filled triangle (association, standard arrow)
       edgeMarkup += `
@@ -256,18 +277,19 @@ function renderEdge(
         <polyline points="0,0 9,3 0,6" fill="none" stroke="${stroke}" stroke-width="1" />
       </marker>`;
     }
-    
+
     edgeMarkup += `</defs>`;
   }
 
   // Edge line with optional marker
-  const markerAttr = arrowType !== 'none' ? ` marker-end="url(#${arrowId})"` : '';
+  const markerAttr =
+    arrowType !== 'none' ? ` marker-end="url(#${arrowId})"` : '';
   edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
 
   // Calculate midpoint for labels
   const midIndex = Math.floor(points.length / 2);
   const midPoint = points[midIndex];
-  
+
   // Stereotype text (rendered above the line in guillemets)
   if (edgeAst.stereotype) {
     const stereotypeText = `<<${edgeAst.stereotype}>>`;

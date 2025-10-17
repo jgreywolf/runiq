@@ -10,7 +10,7 @@
     },
     {
       "name": "keyword.control.runiq",
-      "match": "\\b(BT|LR|RL|TB|ac|analysis|as|bottom|container|dashed|dc|diagram|digital|dotted|electrical|force|group|inst|layered|left|module|mrtree|net|noise|op|part|radial|right|shape|solid|stress|style|top|tran)\\b|\\b(algorithm:|backgroundColor:|borderColor:|borderStyle:|borderWidth:|colors:|data:|direction:|icon:|label:|labelPosition:|link:|map:|of:|opacity:|padding:|params:|pins:|ports:|showLegend:|source:|spacing:|stacked:|style:|title:|tooltip:|type:|value:|xLabel:|yLabel:)\\B"
+      "match": "\\b(BT|LR|RL|TB|ac|analysis|as|bottom|container|dashed|dc|diagram|digital|dotted|electrical|force|group|inst|layered|left|module|mrtree|net|noise|op|part|radial|right|shape|solid|stress|style|top|tran)\\b|\\b(affected:|algorithm:|backgroundColor:|borderColor:|borderStyle:|borderWidth:|carrier:|colors:|data:|deceased:|direction:|icon:|label:|labelPosition:|link:|map:|of:|opacity:|padding:|params:|pins:|ports:|showLegend:|source:|spacing:|stacked:|style:|title:|tooltip:|type:|value:|xLabel:|yLabel:)\\B"
     },
     {
       "name": "string.quoted.double.runiq",
