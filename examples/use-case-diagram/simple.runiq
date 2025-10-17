@@ -1,0 +1,17 @@
+diagram: use-case
+title: "Simple ATM Example"
+
+# Actor
+actor User "Bank Customer"
+
+# System
+system-boundary ATM "ATM System" {
+  ellipse-wide Withdraw "Withdraw Cash"
+  ellipse-wide CheckBalance "Check Balance"
+  ellipse-wide PrintReceipt "Print Receipt"
+}
+
+# Relationships
+User -> Withdraw
+User -> CheckBalance
+Withdraw -> PrintReceipt "optional"

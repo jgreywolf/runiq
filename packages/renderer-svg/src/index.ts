@@ -207,9 +207,17 @@ function renderEdge(
   const stroke = style.stroke || '#333';
   const strokeWidth = style.strokeWidth || 1;
 
+  // Determine line style
+  const lineStyle = edgeAst.lineStyle || 'solid';
+  let strokeDasharray = '';
+  if (lineStyle === 'dashed') {
+    strokeDasharray = ' stroke-dasharray="5,3"';
+  } else if (lineStyle === 'dotted') {
+    strokeDasharray = ' stroke-dasharray="2,2"';
+  }
+
   // Create path
   const start = points[0];
-
   let pathData = `M ${start.x} ${start.y}`;
   for (let i = 1; i < points.length; i++) {
     pathData += ` L ${points[i].x} ${points[i].y}`;
@@ -221,25 +229,55 @@ function renderEdge(
 
   let edgeMarkup = `<g${groupAttrs}>`;
 
-  // Edge line
-  edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
-
-  // Arrowhead
-  const arrowId = `arrow-${routed.from}-${routed.to}`;
-  edgeMarkup += `
-    <defs>
+  // Determine arrow type
+  const arrowType = edgeAst.arrowType || 'standard';
+  const arrowId = `arrow-${arrowType}-${routed.from}-${routed.to}`;
+  
+  // Define arrow marker based on type
+  if (arrowType !== 'none') {
+    edgeMarkup += `<defs>`;
+    
+    if (arrowType === 'standard') {
+      // Filled triangle (association, standard arrow)
+      edgeMarkup += `
       <marker id="${arrowId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="${stroke}" />
-      </marker>
-    </defs>
-  `;
-  edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" marker-end="url(#${arrowId})" />`;
+      </marker>`;
+    } else if (arrowType === 'hollow') {
+      // Hollow triangle (generalization/inheritance)
+      edgeMarkup += `
+      <marker id="${arrowId}" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="white" stroke="${stroke}" stroke-width="1" />
+      </marker>`;
+    } else if (arrowType === 'open') {
+      // Open arrow (dependency)
+      edgeMarkup += `
+      <marker id="${arrowId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polyline points="0,0 9,3 0,6" fill="none" stroke="${stroke}" stroke-width="1" />
+      </marker>`;
+    }
+    
+    edgeMarkup += `</defs>`;
+  }
 
-  // Edge label
+  // Edge line with optional marker
+  const markerAttr = arrowType !== 'none' ? ` marker-end="url(#${arrowId})"` : '';
+  edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+
+  // Calculate midpoint for labels
+  const midIndex = Math.floor(points.length / 2);
+  const midPoint = points[midIndex];
+  
+  // Stereotype text (rendered above the line in guillemets)
+  if (edgeAst.stereotype) {
+    const stereotypeText = `<<${edgeAst.stereotype}>>`;
+    edgeMarkup += `<text x="${midPoint.x}" y="${midPoint.y - 15}" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">${escapeXml(stereotypeText)}</text>`;
+  }
+
+  // Edge label (rendered below stereotype if both exist)
   if (edgeAst.label) {
-    const midIndex = Math.floor(points.length / 2);
-    const midPoint = points[midIndex];
-    edgeMarkup += `<text x="${midPoint.x}" y="${midPoint.y - 5}" text-anchor="middle" class="runiq-edge-text">${escapeXml(edgeAst.label)}</text>`;
+    const labelY = edgeAst.stereotype ? midPoint.y - 5 : midPoint.y - 5;
+    edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" class="runiq-edge-text">${escapeXml(edgeAst.label)}</text>`;
   }
 
   // Tooltip

@@ -1,4 +1,10 @@
-import type { DigitalProfile, ModuleAst, PortAst, InstanceAst, NetAst } from '@runiq/core';
+import type {
+  DigitalProfile,
+  ModuleAst,
+  PortAst,
+  InstanceAst,
+  NetAst,
+} from '@runiq/core';
 
 /**
  * Result of Verilog generation
@@ -39,9 +45,9 @@ export function toVerilog(profile: DigitalProfile): VerilogResult {
   lines.push('');
 
   // Generate wire declarations for internal nets
-  const portNames = new Set(mainModule.ports.map(p => p.name));
-  const internalNets = profile.nets.filter(net => !portNames.has(net.name));
-  
+  const portNames = new Set(mainModule.ports.map((p) => p.name));
+  const internalNets = profile.nets.filter((net) => !portNames.has(net.name));
+
   if (internalNets.length > 0) {
     lines.push('  // Internal wires');
     for (const net of internalNets) {
@@ -51,11 +57,13 @@ export function toVerilog(profile: DigitalProfile): VerilogResult {
   }
 
   // Validate net usage in instances
-  const declaredNets = new Set(profile.nets.map(n => n.name));
+  const declaredNets = new Set(profile.nets.map((n) => n.name));
   for (const instance of profile.instances) {
     for (const [port, net] of Object.entries(instance.portMap)) {
       if (!declaredNets.has(net)) {
-        warnings.push(`Net '${net}' used in instance '${instance.ref}' port '${port}' is not declared in nets list`);
+        warnings.push(
+          `Net '${net}' used in instance '${instance.ref}' port '${port}' is not declared in nets list`
+        );
       }
     }
   }
@@ -82,9 +90,9 @@ export function toVerilog(profile: DigitalProfile): VerilogResult {
  */
 function generateModuleHeader(module: ModuleAst): string[] {
   const lines: string[] = [];
-  
+
   lines.push(`module ${module.name}`);
-  
+
   // Add parameters if present
   if (module.params && Object.keys(module.params).length > 0) {
     lines.push('#(');
@@ -96,7 +104,7 @@ function generateModuleHeader(module: ModuleAst): string[] {
     });
     lines.push(')');
   }
-  
+
   return lines;
 }
 
@@ -106,11 +114,11 @@ function generateModuleHeader(module: ModuleAst): string[] {
 function generatePortDeclaration(port: PortAst, isLast: boolean): string {
   const comma = isLast ? '' : ',';
   let decl = `  ${port.dir}`;
-  
+
   if (port.width && port.width > 1) {
     decl += ` [${port.width - 1}:0]`;
   }
-  
+
   decl += ` ${port.name}${comma}`;
   return decl;
 }
@@ -120,11 +128,11 @@ function generatePortDeclaration(port: PortAst, isLast: boolean): string {
  */
 function generateWireDeclaration(net: NetAst): string {
   let decl = '  wire';
-  
+
   if (net.width && net.width > 1) {
     decl += ` [${net.width - 1}:0]`;
   }
-  
+
   decl += ` ${net.name};`;
   return decl;
 }
@@ -134,27 +142,27 @@ function generateWireDeclaration(net: NetAst): string {
  */
 function generateInstance(instance: InstanceAst): string[] {
   const lines: string[] = [];
-  
+
   // Module name and parameters
   let instLine = `  ${instance.of}`;
-  
+
   if (instance.paramMap && Object.keys(instance.paramMap).length > 0) {
     instLine += ' #(';
     lines.push(instLine);
-    
+
     const paramEntries = Object.entries(instance.paramMap);
     paramEntries.forEach(([name, value], idx) => {
       const isLast = idx === paramEntries.length - 1;
       const comma = isLast ? '' : ',';
       lines.push(`    .${name}(${value})${comma}`);
     });
-    
+
     lines.push(`  ) ${instance.ref} (`);
   } else {
     instLine += ` ${instance.ref} (`;
     lines.push(instLine);
   }
-  
+
   // Port mappings
   const portEntries = Object.entries(instance.portMap);
   portEntries.forEach(([port, net], idx) => {
@@ -162,8 +170,8 @@ function generateInstance(instance: InstanceAst): string[] {
     const comma = isLast ? '' : ',';
     lines.push(`    .${port}(${net})${comma}`);
   });
-  
+
   lines.push('  );');
-  
+
   return lines;
 }

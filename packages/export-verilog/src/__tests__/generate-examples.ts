@@ -169,7 +169,9 @@ const aluResult = toVerilog(alu);
 writeFileSync(join(outputDir, 'alu-4bit.v'), aluResult.verilog);
 console.log('✅ ALU4bit generated');
 console.log(`   Instances: ${alu.instances.length}`);
-console.log(`   Internal wires: ${aluResult.verilog.match(/wire/g)?.length || 0}`);
+console.log(
+  `   Internal wires: ${aluResult.verilog.match(/wire/g)?.length || 0}`
+);
 console.log(`   Warnings: ${aluResult.warnings.length}`);
 
 // Example 4: Traffic Light Controller

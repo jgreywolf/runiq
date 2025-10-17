@@ -22,12 +22,7 @@ console.log('🎨 Generating digital circuit schematics and Verilog...\n');
 const halfAdderSchematic: ElectricalProfile = {
   type: 'electrical',
   name: 'Half Adder',
-  nets: [
-    { name: 'A' },
-    { name: 'B' },
-    { name: 'SUM' },
-    { name: 'CARRY' },
-  ],
+  nets: [{ name: 'A' }, { name: 'B' }, { name: 'SUM' }, { name: 'CARRY' }],
   parts: [
     {
       ref: 'U1',
@@ -195,12 +190,7 @@ console.log(`   Outputs: Y0, Y1, Y2, Y3`);
 const srLatchSchematic: ElectricalProfile = {
   type: 'electrical',
   name: 'SR Latch (NAND)',
-  nets: [
-    { name: 'S' },
-    { name: 'R' },
-    { name: 'Q' },
-    { name: 'Q_N' },
-  ],
+  nets: [{ name: 'S' }, { name: 'R' }, { name: 'Q' }, { name: 'Q_N' }],
   parts: [
     {
       ref: 'U1',
@@ -337,7 +327,9 @@ console.log('  - sr-latch.svg');
 console.log('  - mux-4to1.svg');
 
 console.log('\n✨ Features demonstrated:');
-console.log('   - 7 different logic gate types (AND, OR, NOT, XOR, NAND, NOR, BUFFER)');
+console.log(
+  '   - 7 different logic gate types (AND, OR, NOT, XOR, NAND, NOR, BUFFER)'
+);
 console.log('   - Orthogonal wire routing');
 console.log('   - Junction dots at intersections');
 console.log('   - IEEE/ANSI standard gate symbols');

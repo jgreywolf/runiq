@@ -1,7 +1,8 @@
 # Runiq Diagram Type Support Matrix
 
-**Date:** October 14, 2025  
-**Status:** Current architecture analysis and roadmap
+**Date:** October 17, 2025  
+**Status:** Current architecture analysis and roadmap  
+**Update:** Added pedigree charts to implementation queue
 
 ---
 
@@ -9,24 +10,36 @@
 
 Runiq's architecture consists of:
 
-- **52 shapes** across 8 categories (flowchart, data I/O, process, storage, specialized, etc.)
+- **54 shapes** across 9 categories (flowchart, data I/O, process, storage, UML, specialized, etc.)
 - **ELK layout engine** (layered, force, stress, tree, radial algorithms)
 - **DSL parser** (Langium-based, extensible)
 - **SVG renderer** with styling support
 - **Generic node-edge model** (supports any directed graph)
+- **Container system** (hierarchical nesting, cross-container edges)
+- **UML relationships** (stereotypes, line styles, arrow types)
+- **Export formats** (SPICE, Verilog, LaTeX, Simulink)
+
+---
+
+## Recently Added (October 2025) 🎉
+
+- ✅ **Use Case Diagrams** - Actors, use cases, system boundaries
+- ✅ **UML Relationships** - Stereotypes, line styles, arrow types
+- ✅ **Block Diagrams** - Control systems with LaTeX/Simulink export
+- ✅ **Hierarchical Containers** - Nested containers for C4, BPMN
 
 ---
 
 ## Diagram Type Analysis
 
-### ✅ **Fully Supported (5 types)**
+### ✅ **Fully Supported (7 types)**
 
 These work today with existing shapes and syntax:
 
 #### 1. **Flowchart** ✅
 
 - **Status:** ✅ Fully supported
-- **Shapes:** All 52 shapes available
+- **Shapes:** All 54 shapes available
 - **Layout:** ELK layered algorithm
 - **Syntax:** Native DSL
 

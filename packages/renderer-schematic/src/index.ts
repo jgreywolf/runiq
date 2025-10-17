@@ -1,6 +1,6 @@
 /**
  * Electrical Schematic Renderer for Runiq
- * 
+ *
  * Converts ElectricalProfile to SVG schematic diagrams with IEEE-standard symbols.
  * Uses automatic routing and placement for clean, professional-looking schematics.
  */
@@ -69,7 +69,12 @@ export function renderSchematic(
   const netMap = buildNetMap(profile);
 
   // Place components on grid
-  const positioned = placeComponents(profile.parts, gridSize, orientation, warnings);
+  const positioned = placeComponents(
+    profile.parts,
+    gridSize,
+    orientation,
+    warnings
+  );
 
   // Calculate terminal positions for each component
   const connections = calculateConnections(positioned);
@@ -170,16 +175,18 @@ function placeComponents(
 /**
  * Calculate actual terminal positions for all components
  */
-function calculateConnections(positioned: PositionedComponent[]): NetConnection[] {
+function calculateConnections(
+  positioned: PositionedComponent[]
+): NetConnection[] {
   const connections: NetConnection[] = [];
 
   for (const comp of positioned) {
     const { part, symbol, x, y } = comp;
-    
+
     for (let i = 0; i < part.pins.length && i < symbol.terminals.length; i++) {
       const terminal = symbol.terminals[i];
       const netName = normalizeNetName(part.pins[i]);
-      
+
       connections.push({
         net: netName,
         terminal: {
@@ -202,29 +209,39 @@ function routeWires(
   connections: NetConnection[],
   gridSize: number,
   routing: 'direct' | 'orthogonal' = 'direct'
-): { net: string; points: { x: number; y: number }[]; junctions?: { x: number; y: number }[] }[] {
-  const wires: { net: string; points: { x: number; y: number }[]; junctions?: { x: number; y: number }[] }[] = [];
+): {
+  net: string;
+  points: { x: number; y: number }[];
+  junctions?: { x: number; y: number }[];
+}[] {
+  const wires: {
+    net: string;
+    points: { x: number; y: number }[];
+    junctions?: { x: number; y: number }[];
+  }[] = [];
 
   for (const [netName, _parts] of netMap.entries()) {
     if (netName === 'GND') continue; // Ground handled separately
 
-    const terminals = connections.filter(c => c.net === netName);
+    const terminals = connections.filter((c) => c.net === netName);
     if (terminals.length < 2) continue;
 
     if (routing === 'orthogonal') {
       // Orthogonal (Manhattan) routing
       const junctions: { x: number; y: number }[] = [];
-      
+
       // For multiple terminals, create a common bus line
       if (terminals.length > 2) {
         // Find average Y position for horizontal bus
-        const avgY = terminals.reduce((sum, t) => sum + t.terminal.y, 0) / terminals.length;
+        const avgY =
+          terminals.reduce((sum, t) => sum + t.terminal.y, 0) /
+          terminals.length;
         const busY = Math.round(avgY / gridSize) * gridSize;
-        
+
         // Connect each terminal to the bus with orthogonal routing
         for (let i = 0; i < terminals.length; i++) {
           const terminal = terminals[i].terminal;
-          
+
           // Vertical line from terminal to bus
           if (Math.abs(terminal.y - busY) > 1) {
             wires.push({
@@ -236,7 +253,7 @@ function routeWires(
             });
             junctions.push({ x: terminal.x, y: busY });
           }
-          
+
           // Horizontal bus line (connect to next terminal)
           if (i < terminals.length - 1) {
             const nextTerminal = terminals[i + 1].terminal;
@@ -246,7 +263,10 @@ function routeWires(
                 { x: terminal.x, y: busY },
                 { x: nextTerminal.x, y: busY },
               ],
-              junctions: junctions.length > 0 ? [junctions[junctions.length - 1]] : undefined,
+              junctions:
+                junctions.length > 0
+                  ? [junctions[junctions.length - 1]]
+                  : undefined,
             });
           }
         }
@@ -255,15 +275,10 @@ function routeWires(
         const start = terminals[0].terminal;
         const end = terminals[1].terminal;
         const midX = (start.x + end.x) / 2;
-        
+
         wires.push({
           net: netName,
-          points: [
-            start,
-            { x: midX, y: start.y },
-            { x: midX, y: end.y },
-            end,
-          ],
+          points: [start, { x: midX, y: start.y }, { x: midX, y: end.y }, end],
         });
       }
     } else {
@@ -365,14 +380,18 @@ function generateDefs(): string {
  * Render wires
  */
 function renderWires(
-  wires: { net: string; points: { x: number; y: number }[]; junctions?: { x: number; y: number }[] }[],
+  wires: {
+    net: string;
+    points: { x: number; y: number }[];
+    junctions?: { x: number; y: number }[];
+  }[],
   showNetLabels: boolean
 ): string {
   let svg = '<g class="schematic-wires">\n';
 
   // Collect all junctions
   const allJunctions = new Map<string, { x: number; y: number }>();
-  
+
   for (const wire of wires) {
     if (wire.points.length < 2) continue;
 
@@ -388,7 +407,7 @@ function renderWires(
       const midPoint = wire.points[midIdx];
       svg += `  <text x="${midPoint.x + 5}" y="${midPoint.y - 5}" class="schematic-net-label">${escapeXml(wire.net)}</text>\n`;
     }
-    
+
     // Collect junctions from this wire
     if (wire.junctions) {
       for (const junction of wire.junctions) {
@@ -397,7 +416,7 @@ function renderWires(
       }
     }
   }
-  
+
   // Render junction dots
   if (allJunctions.size > 0) {
     svg += '  <g class="schematic-junctions">\n';
@@ -424,25 +443,30 @@ function renderComponents(
 
   for (const comp of positioned) {
     // Get rotation angle (default to 0)
-    const rotation = comp.part.params?.rotation ? Number(comp.part.params.rotation) : 0;
-    
+    const rotation = comp.part.params?.rotation
+      ? Number(comp.part.params.rotation)
+      : 0;
+
     // Validate rotation (must be 0, 90, 180, or 270)
     const validRotations = [0, 90, 180, 270];
     if (rotation !== 0 && !validRotations.includes(rotation)) {
-      warnings.push(`Invalid rotation angle ${rotation} for ${comp.part.ref}. Must be 0, 90, 180, or 270. Using 0.`);
+      warnings.push(
+        `Invalid rotation angle ${rotation} for ${comp.part.ref}. Must be 0, 90, 180, or 270. Using 0.`
+      );
     }
-    
+
     const actualRotation = validRotations.includes(rotation) ? rotation : 0;
-    
+
     // Calculate center point for rotation
     const centerX = comp.x + comp.symbol.width / 2;
     const centerY = comp.y + comp.symbol.height / 2;
-    
+
     // Apply rotation transform if needed
-    const transformAttr = actualRotation !== 0 
-      ? ` transform="rotate(${actualRotation} ${centerX} ${centerY})"` 
-      : '';
-    
+    const transformAttr =
+      actualRotation !== 0
+        ? ` transform="rotate(${actualRotation} ${centerX} ${centerY})"`
+        : '';
+
     svg += `  <g class="schematic-component" data-ref="${escapeXml(comp.part.ref)}"${transformAttr}>\n`;
     svg += comp.symbol.render(comp.x, comp.y);
 
@@ -457,11 +481,12 @@ function renderComponents(
 
     // Component value (below)
     if (showValues && comp.part.params) {
-      const value = comp.part.params.value || 
-                    comp.part.params.source || 
-                    comp.part.params.model ||
-                    comp.part.params.ratio ||
-                    '';
+      const value =
+        comp.part.params.value ||
+        comp.part.params.source ||
+        comp.part.params.model ||
+        comp.part.params.ratio ||
+        '';
       if (value) {
         const valueX = comp.x + comp.symbol.width / 2;
         const valueY = comp.y + comp.symbol.height + 15;
@@ -488,7 +513,7 @@ function renderGroundSymbols(
 ): string {
   let svg = '<g class="schematic-grounds">\n';
 
-  const groundConnections = connections.filter(c => c.net === 'GND');
+  const groundConnections = connections.filter((c) => c.net === 'GND');
 
   for (const conn of groundConnections) {
     const gndSymbol = getSymbol('GND');

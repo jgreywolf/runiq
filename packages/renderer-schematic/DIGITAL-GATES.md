@@ -7,9 +7,10 @@ The schematic renderer now includes a complete library of **7 IEEE/ANSI standard
 ## Gate Specifications
 
 ### 1. AND Gate
+
 - **Size:** 60×40 pixels
 - **Shape:** IEEE distinctive - flat left side, semicircular right side
-- **Terminals:** 
+- **Terminals:**
   - A (input): x=0, y=12
   - B (input): x=0, y=28
   - Y (output): x=60, y=20
@@ -20,6 +21,7 @@ The schematic renderer now includes a complete library of **7 IEEE/ANSI standard
 ```
 
 ### 2. OR Gate
+
 - **Size:** 60×40 pixels
 - **Shape:** IEEE distinctive - curved on both input and output sides
 - **Terminals:**
@@ -33,6 +35,7 @@ The schematic renderer now includes a complete library of **7 IEEE/ANSI standard
 ```
 
 ### 3. NOT Gate (Inverter)
+
 - **Size:** 50×30 pixels
 - **Shape:** Triangle with 3px radius output bubble
 - **Terminals:**
@@ -46,6 +49,7 @@ The schematic renderer now includes a complete library of **7 IEEE/ANSI standard
 ```
 
 ### 4. XOR Gate
+
 - **Size:** 65×40 pixels
 - **Shape:** IEEE distinctive - OR shape with additional curved input line
 - **Terminals:**
@@ -60,6 +64,7 @@ The schematic renderer now includes a complete library of **7 IEEE/ANSI standard
 ```
 
 ### 5. NAND Gate
+
 - **Size:** 65×40 pixels
 - **Shape:** AND shape with 3px radius output bubble
 - **Terminals:**
@@ -74,6 +79,7 @@ The schematic renderer now includes a complete library of **7 IEEE/ANSI standard
 ```
 
 ### 6. NOR Gate
+
 - **Size:** 65×40 pixels
 - **Shape:** OR shape with 3px radius output bubble
 - **Terminals:**
@@ -88,6 +94,7 @@ The schematic renderer now includes a complete library of **7 IEEE/ANSI standard
 ```
 
 ### 7. BUFFER Gate
+
 - **Size:** 50×30 pixels
 - **Shape:** Triangle (same as NOT but no bubble)
 - **Terminals:**
@@ -105,18 +112,21 @@ The schematic renderer now includes a complete library of **7 IEEE/ANSI standard
 All gates follow **IEEE/ANSI Std 91-1984** distinctive shapes:
 
 ### Common Elements
+
 - **Stroke:** 2px width, `currentColor` for styling
 - **Fill:** White for visibility against background
 - **Input Lines:** Extend 10px left of gate body
 - **Output Lines:** Extend 10px right of gate body
 
 ### Inverter Bubbles
+
 - **Radius:** 3px
 - **Gates:** NOT, NAND, NOR
 - **Position:** At output terminal
 - **Meaning:** Logical inversion (NOT operation)
 
 ### Terminal Naming Convention
+
 - **Inputs:** A, B (top to bottom for 2-input gates)
 - **Output:** Y (industry standard)
 - **Multi-gate circuits:** Connect by net names
@@ -132,8 +142,8 @@ const halfAdder: ElectricalProfile = {
   nets: [
     { name: 'A' },
     { name: 'B' },
-    { name: 'SUM' },     // A XOR B
-    { name: 'CARRY' },   // A AND B
+    { name: 'SUM' }, // A XOR B
+    { name: 'CARRY' }, // A AND B
   ],
   parts: [
     { ref: 'U1', type: 'XOR', params: {}, pins: ['A', 'B', 'SUM'] },
@@ -142,19 +152,19 @@ const halfAdder: ElectricalProfile = {
 };
 
 const svg = renderSchematic(halfAdder, {
-  routing: 'orthogonal',  // Clean Manhattan routing
-  showReferences: true,   // Show U1, U2
-  showNetLabels: true,    // Show SUM, CARRY
+  routing: 'orthogonal', // Clean Manhattan routing
+  showReferences: true, // Show U1, U2
+  showNetLabels: true, // Show SUM, CARRY
 });
 ```
 
 **Truth Table:**
 | A | B | SUM | CARRY |
 |---|---|-----|-------|
-| 0 | 0 |  0  |   0   |
-| 0 | 1 |  1  |   0   |
-| 1 | 0 |  1  |   0   |
-| 1 | 1 |  0  |   1   |
+| 0 | 0 | 0 | 0 |
+| 0 | 1 | 1 | 0 |
+| 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 1 |
 
 ### SR Latch (Feedback Circuit)
 
@@ -163,10 +173,10 @@ const srLatch: ElectricalProfile = {
   type: 'electrical',
   name: 'SR Latch (NAND)',
   nets: [
-    { name: 'S' },      // Set input
-    { name: 'R' },      // Reset input
-    { name: 'Q' },      // Output
-    { name: 'Q_N' },    // Inverted output
+    { name: 'S' }, // Set input
+    { name: 'R' }, // Reset input
+    { name: 'Q' }, // Output
+    { name: 'Q_N' }, // Inverted output
   ],
   parts: [
     // Cross-coupled NAND gates
@@ -177,6 +187,7 @@ const srLatch: ElectricalProfile = {
 ```
 
 **Operation:**
+
 - **Set (S=0, R=1):** Q=1, Q̅=0
 - **Reset (S=1, R=0):** Q=0, Q̅=1
 - **Hold (S=1, R=1):** Maintains previous state
@@ -189,19 +200,34 @@ const fullAdder: ElectricalProfile = {
   type: 'electrical',
   name: 'Full Adder',
   nets: [
-    { name: 'A' }, { name: 'B' }, { name: 'CIN' },
-    { name: 'SUM' }, { name: 'COUT' },
-    { name: 'XOR1_OUT' }, { name: 'AND1_OUT' }, { name: 'AND2_OUT' },
+    { name: 'A' },
+    { name: 'B' },
+    { name: 'CIN' },
+    { name: 'SUM' },
+    { name: 'COUT' },
+    { name: 'XOR1_OUT' },
+    { name: 'AND1_OUT' },
+    { name: 'AND2_OUT' },
   ],
   parts: [
     // First half adder
     { ref: 'U1', type: 'XOR', params: {}, pins: ['A', 'B', 'XOR1_OUT'] },
     { ref: 'U2', type: 'XOR', params: {}, pins: ['XOR1_OUT', 'CIN', 'SUM'] },
-    
+
     // Carry logic
     { ref: 'U3', type: 'AND', params: {}, pins: ['A', 'B', 'AND1_OUT'] },
-    { ref: 'U4', type: 'AND', params: {}, pins: ['XOR1_OUT', 'CIN', 'AND2_OUT'] },
-    { ref: 'U5', type: 'OR', params: {}, pins: ['AND1_OUT', 'AND2_OUT', 'COUT'] },
+    {
+      ref: 'U4',
+      type: 'AND',
+      params: {},
+      pins: ['XOR1_OUT', 'CIN', 'AND2_OUT'],
+    },
+    {
+      ref: 'U5',
+      type: 'OR',
+      params: {},
+      pins: ['AND1_OUT', 'AND2_OUT', 'COUT'],
+    },
   ],
 };
 ```
@@ -215,21 +241,25 @@ const decoder: ElectricalProfile = {
   type: 'electrical',
   name: '2-to-4 Decoder',
   nets: [
-    { name: 'A0' }, { name: 'A1' },         // Address inputs
-    { name: 'A0_N' }, { name: 'A1_N' },     // Inverted addresses
-    { name: 'Y0' }, { name: 'Y1' },         // Outputs 0-3
-    { name: 'Y2' }, { name: 'Y3' },
+    { name: 'A0' },
+    { name: 'A1' }, // Address inputs
+    { name: 'A0_N' },
+    { name: 'A1_N' }, // Inverted addresses
+    { name: 'Y0' },
+    { name: 'Y1' }, // Outputs 0-3
+    { name: 'Y2' },
+    { name: 'Y3' },
   ],
   parts: [
     // Inverters
     { ref: 'U1', type: 'NOT', params: {}, pins: ['A0', 'A0_N'] },
     { ref: 'U2', type: 'NOT', params: {}, pins: ['A1', 'A1_N'] },
-    
+
     // Decode logic (each AND gate activates one output)
     { ref: 'U3', type: 'AND', params: {}, pins: ['A0_N', 'A1_N', 'Y0'] }, // 00
-    { ref: 'U4', type: 'AND', params: {}, pins: ['A0', 'A1_N', 'Y1'] },   // 01
-    { ref: 'U5', type: 'AND', params: {}, pins: ['A0_N', 'A1', 'Y2'] },   // 10
-    { ref: 'U6', type: 'AND', params: {}, pins: ['A0', 'A1', 'Y3'] },     // 11
+    { ref: 'U4', type: 'AND', params: {}, pins: ['A0', 'A1_N', 'Y1'] }, // 01
+    { ref: 'U5', type: 'AND', params: {}, pins: ['A0_N', 'A1', 'Y2'] }, // 10
+    { ref: 'U6', type: 'AND', params: {}, pins: ['A0', 'A1', 'Y3'] }, // 11
   ],
 };
 ```
@@ -262,6 +292,7 @@ pnpm test
 ```
 
 Expected output:
+
 ```
 ✓ Logic Gate Symbols (9)
   ✓ should render 2-input AND gate
@@ -287,6 +318,7 @@ npx tsx src/__tests__/generate-digital-examples.ts
 ```
 
 Output files (in `examples/digital/schematics/`):
+
 - `half-adder.svg` - XOR + AND implementation
 - `full-adder.svg` - 5-gate cascaded design
 - `decoder-2to4.svg` - Address decoder
@@ -314,6 +346,7 @@ await fs.writeFile('circuit.v', verilog);
 ```
 
 Now you have both:
+
 - 📊 **Visual documentation** (SVG schematic)
 - 💻 **Simulation-ready code** (Verilog HDL)
 
@@ -324,7 +357,7 @@ All gates are registered in the symbol registry:
 ```typescript
 export const symbolRegistry = new Map<string, SymbolDefinition>([
   // ... electrical symbols ...
-  
+
   // Digital logic gates
   ['AND', andGate],
   ['OR', orGate],
@@ -337,6 +370,7 @@ export const symbolRegistry = new Map<string, SymbolDefinition>([
 ```
 
 Access via:
+
 ```typescript
 import { getSymbol } from '@runiq/renderer-schematic';
 

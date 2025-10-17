@@ -2,59 +2,76 @@
 
 **Repository**: https://github.com/jgreywolf/runiq  
 **Created**: October 14, 2025  
+**Updated**: October 17, 2025  
 **License**: MIT  
 **Author**: Justin Greywolf
 
-## 🎉 Milestone: Initial Release v0.1.0
+## 🎉 Current Status: v0.1.0 Complete + Export Packages!
 
-### What's Included
+### Latest Accomplishments (Oct 17, 2025)
 
 **✅ Complete:**
 
-- 52 professionally designed shapes (100% of goal!)
-- ELK layout engine integration (replaced Dagre)
-- **Hierarchical containers - ALL PHASES COMPLETE! 🎉**
-  - ✅ Phase 1: Core types and validation
-  - ✅ Phase 2: Parser support (Langium DSL)
-  - ✅ Phase 3: ELK layout engine (90% - 4 nested edge cases skipped)
-  - ✅ Phase 4: SVG rendering with styling
-  - ✅ Phase 5: Integration tests and documentation
-- 550+ tests passing across all packages
-- Comprehensive documentation (6 major docs + container guide)
-- Monorepo architecture with 7 packages + 2 apps
+- **54 professionally designed shapes** (exceeded goal of 52!)
+- **ELK layout engine** integration (replaced Dagre)
+- **Hierarchical containers** - ALL PHASES COMPLETE! 🎉
+- **UML relationships** - Stereotypes, line styles, arrow types
+- **Use case diagrams** - Actors, use cases, system boundaries
+- **Block diagrams** - Control systems with transfer functions
+- **Export packages** - LaTeX/TikZ and Simulink MDL exporters
+- **705+ tests passing** across all packages
+- **Comprehensive documentation** (9+ major docs)
+- **Monorepo architecture** with 11 packages + 2 apps
 
-**📦 Packages:**
+**📦 Packages (11 total):**
 
-1. `@runiq/core` - 345 tests ✅
+Core Packages:
+1. `@runiq/core` - 611 tests ✅
 2. `@runiq/layout-base` - 44 tests (40 passing, 4 skipped) ✅
-3. `@runiq/renderer-svg` - 34 tests ✅
-4. `@runiq/parser-dsl` - 24 container tests ✅ (Langium-based)
-5. `@runiq/io-json` - 28 tests (needs container schema update)
+3. `@runiq/renderer-svg` - 45 tests ✅
+4. `@runiq/parser-dsl` - 24 tests ✅ (Langium-based)
+5. `@runiq/io-json` - 28 tests ✅
 6. `@runiq/icons-fontawesome` - Font Awesome integration
 7. `@runiq/cli` - Command-line interface
-8. `runiq-editor` - SvelteKit web editor
+
+Circuit Packages:
+8. `@runiq/export-spice` - 18 tests ✅ (analog circuits)
+9. `@runiq/export-verilog` - 15 tests ✅ (digital circuits)
+10. `@runiq/renderer-schematic` - 68 tests ✅ (IEEE schematics)
+
+Block Diagram Packages:
+11. `@runiq/export-latex` - 8 tests ✅ (NEW!)
+12. `@runiq/export-simulink` - 8 tests ✅ (NEW!)
+
+Applications:
+- `runiq-editor` - SvelteKit web editor
 
 ### Key Features
 
 - **Two Input Formats**: DSL syntax + JSON (1:1 mapping)
-- **Professional Layouts**: ELK with layered/force/radial/stress algorithms
+- **Professional Layouts**: ELK with layered/force/radial/stress/tree algorithms
 - **Pure SVG Output**: Standards-compliant, embed-safe
 - **Extensible System**: Pluggable shapes, icons, layouts, themes
 - **Type-Safe**: Full TypeScript with strict mode
-- **Well-Tested**: TDD approach with 470+ tests
+- **Well-Tested**: TDD approach with 705+ tests
 
 ### Technical Highlights
 
 1. **Modern Parser**: Langium framework with LSP support
 2. **Superior Layout**: Eclipse Layout Kernel (ELK 0.9.3)
-3. **Container Support**: Full implementation with styling, nesting, and cross-container edges! 🎉
-4. **Validation System**: Circular ref detection, nesting depth checks
-5. **Shape Library**: 8 categories spanning flowcharts to architecture
-6. **Test Coverage**: 550+ tests with TDD approach
+3. **Container Support**: Full implementation with styling, nesting, cross-container edges! 🎉
+4. **UML Relationships**: Stereotypes, line styles (solid/dashed/dotted), arrow types (standard/hollow/open)
+5. **Export Formats**: SPICE, Verilog, LaTeX/TikZ, Simulink MDL
+6. **Validation System**: Circular ref detection, nesting depth checks
+7. **Shape Library**: 54 shapes in 9 categories
+8. **Test Coverage**: 705+ tests with TDD approach
 
 ### Documentation
 
-- [Container Guide](./docs/containers.md) - **NEW!** Complete container documentation
+- [Container Guide](./docs/containers.md) - Complete container documentation
+- [Use Case Diagram Guide](./examples/use-case-diagram/README.md) - UML use case documentation
+- [Block Diagram Guide](./examples/block-diagrams/README.md) - Control systems examples
+- [New Diagram Types Research](./docs/new-diagram-types-research.md) - Feasibility analysis
 - [Layout Research](./docs/layout-research-2025.md) - Why ELK?
 - [Diagram Type Support](./docs/diagram-type-support.md) - 45 types analyzed
 - [Container Design](./docs/hierarchical-containers-design.md) - Original design doc
@@ -63,10 +80,17 @@
 
 ### Example Files
 
+Software Diagrams:
 - [Microservices Architecture](./examples/microservices.runiq)
 - [C4 System Context](./examples/c4-context.runiq)
 - [Multi-Region Deployment](./examples/multi-region.runiq)
 - [Docker Compose Stack](./examples/docker-stack.runiq)
+- [Use Case Diagrams](./examples/use-case-diagram/) - 4 examples
+- [Block Diagrams](./examples/block-diagrams/) - 5 control system examples
+
+Circuits:
+- [Electrical Circuits](./examples/electrical/) - Analog circuits with SPICE
+- [Digital Circuits](./examples/digital/) - Logic circuits with Verilog
 
 ## ✅ Container Implementation Complete! (Oct 15, 2025)
 
@@ -111,45 +135,89 @@ All phases of hierarchical container support are now complete:
 
 ## 🚀 Next Steps
 
-### Immediate
+### Immediate (Oct 17-20, 2025)
 
-- [ ] Test CLI with container examples
-- [ ] Verify SVG generation from .runiq files
-- [ ] Editor integration testing
+- [x] Research new diagram types (pedigree, quantum, network, timing, SmartArt)
+- [ ] **Implement Pedigree Charts** (1-2 days) - Family trees for genealogy & genetics
+  - [ ] Gender-specific shapes (male=square, female=circle, unknown=diamond)
+  - [ ] Affected/carrier/normal styles with fill patterns
+  - [ ] Marriage/partnership connectors
+  - [ ] Parent-child relationships with tree layout
+  - [ ] DSL syntax for pedigree-specific features
+  - [ ] ~28 tests
+- [ ] Test CLI with all diagram types
+- [ ] Update editor with new features
+
+### Short-Term (Next 2 weeks)
+
+- [ ] **Network Topology Diagrams** (1-2 days) - IT infrastructure visualization
+- [ ] Enable ELK force/radial layouts for all diagram types
+- [ ] BPMN swim lanes using container foundation
 
 ## 🎯 Long-Term Roadmap
 
-1. **Alternative Layout Algorithms** (HIGH)
-   - Enable ELK force/radial/stress
-   - Per-container algorithm selection
+**Specialized Diagram Types:**
 
-2. **Data-Driven Rendering** (HIGH)
-   - Chart support (pie, bar, XY)
-   - Data-to-visual mapping
-   - Dynamic sizing/coloring
+1. **Pedigree Charts** (IN PROGRESS) - Genealogy, medical genetics
+2. **Network Topology** (NEXT) - IT infrastructure, cloud architecture  
+3. **Quantum Circuits** (FUTURE) - Quantum computing education
+4. **UML Timing Diagrams** (FUTURE) - Real-time systems, protocols
 
-3. **Swim Lanes/Zones** (MEDIUM)
-   - BPMN lane partitioning
-   - Lane labels and styling
-   - Layout constraints
+**Layout & Rendering Enhancements:**
 
-4. **Time-Based Layouts** (MEDIUM)
-   - Gantt charts
-   - Timeline diagrams
-   - Date/time positioning
+1. **Alternative Layout Algorithms** (HIGH) - Enable ELK force/radial/stress for all types
+2. **Data-Driven Rendering** (HIGH) - Charts with actual data values
+3. **Swim Lanes/Zones** (MEDIUM) - BPMN lane partitioning
+4. **Time-Based Layouts** (MEDIUM) - Gantt charts, timelines
 
-## 📊 Test Coverage
+**Circuit Enhancements:**
+
+1. **Enhanced Symbols** (MEDIUM) - Transistors, MOSFETs, op-amps
+2. **Advanced Routing** (MEDIUM) - Orthogonal routing, junction dots
+3. **Component Rotation** (LOW) - 90°/180°/270° orientation
+4. **Digital Simulation** (HIGH) - Icarus Verilog integration
+
+## 📊 Test Coverage (Oct 17, 2025)
 
 ```
-Package              Tests    Status
-─────────────────────────────────────
-@runiq/core          345      ✅ All passing
-@runiq/layout-base    24      ✅ All passing
-@runiq/renderer-svg   30      ✅ All passing
-@runiq/io-json        28      ⚠️  21 failing (container schema)
-─────────────────────────────────────
-TOTAL                427      399 passing
+Package                    Tests    Status
+──────────────────────────────────────────────
+@runiq/core                 611     ✅ (8 skipped)
+@runiq/renderer-svg          45     ✅ All passing
+@runiq/layout-base           44     ✅ (4 skipped)
+@runiq/parser-dsl            24     ✅ All passing
+@runiq/io-json               28     ✅ All passing
+@runiq/export-spice          18     ✅ All passing
+@runiq/export-verilog        15     ✅ All passing
+@runiq/export-latex           8     ✅ All passing (NEW!)
+@runiq/export-simulink        8     ✅ All passing (NEW!)
+@runiq/renderer-schematic    68     ✅ All passing
+──────────────────────────────────────────────
+TOTAL                       705+    ✅ All passing
 ```
+
+## 📈 Recent Milestones
+
+**October 17, 2025:**
+- ✅ Comprehensive research on 5 new diagram types
+- ✅ Created feasibility analysis document
+- ✅ Updated all documentation and roadmaps
+- ✅ Ready to implement pedigree charts
+
+**October 16, 2025:**
+- ✅ LaTeX/TikZ export package (8 tests)
+- ✅ Simulink MDL export package (8 tests)
+- ✅ Use case diagram enhancements
+- ✅ UML relationship features complete
+
+**October 15, 2025:**
+- ✅ UML stereotypes, line styles, arrow types (31 tests)
+- ✅ Use case diagram shapes (18 tests)
+- ✅ Comprehensive examples and documentation
+
+**October 14, 2025:**
+- ✅ Hierarchical containers complete (148 tests)
+- ✅ Project inception and initial setup
 
 ## 🏗️ Architecture
 

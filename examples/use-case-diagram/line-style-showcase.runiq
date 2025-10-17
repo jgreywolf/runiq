@@ -1,0 +1,35 @@
+diagram: use-case
+title: "Line Style and Arrow Type Showcase"
+
+# Demonstration of all combinations
+rounded A "Solid + Standard"
+rounded B "Dashed + Standard"
+rounded C "Dotted + Standard"
+rounded D "Solid + Hollow"
+rounded E "Dashed + Hollow"
+rounded F "Solid + Open"
+rounded G "Dashed + Open"
+rounded H "Solid + None"
+rounded I "Dashed + None"
+
+# Solid lines
+A -> B lineStyle: solid arrowType: standard
+B -> C lineStyle: dashed arrowType: standard
+C -> D lineStyle: dotted arrowType: standard
+
+# Hollow arrows (inheritance/generalization)
+D -> E lineStyle: solid arrowType: hollow
+E -> F lineStyle: dashed arrowType: hollow
+
+# Open arrows (dependency)
+F -> G lineStyle: solid arrowType: open
+G -> H lineStyle: dashed arrowType: open
+
+# No arrows (bidirectional or undirected)
+H -> I lineStyle: solid arrowType: none
+I -> A lineStyle: dashed arrowType: none
+
+# With stereotypes
+A -> D stereotype: "includes" lineStyle: dashed arrowType: open
+D -> G stereotype: "extends" lineStyle: dashed arrowType: open
+F -> I stereotype: "uses" lineStyle: dashed arrowType: open

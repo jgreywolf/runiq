@@ -8,16 +8,17 @@ describe('SPICE Exporter', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'Simple Resistor',
-        nets: [
-          { name: 'IN' },
-          { name: 'OUT' },
-          { name: '0' }
-        ],
+        nets: [{ name: 'IN' }, { name: 'OUT' }, { name: '0' }],
         parts: [
           { ref: 'V1', type: 'V', params: { value: '5' }, pins: ['IN', '0'] },
-          { ref: 'R1', type: 'R', params: { value: '1k' }, pins: ['IN', 'OUT'] },
-          { ref: 'R2', type: 'R', params: { value: '2k' }, pins: ['OUT', '0'] }
-        ]
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '1k' },
+            pins: ['IN', 'OUT'],
+          },
+          { ref: 'R2', type: 'R', params: { value: '2k' }, pins: ['OUT', '0'] },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -33,16 +34,27 @@ describe('SPICE Exporter', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'RC Lowpass Filter',
-        nets: [
-          { name: 'IN' },
-          { name: 'OUT' },
-          { name: 'GND' }
-        ],
+        nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
         parts: [
-          { ref: 'V1', type: 'V', params: { source: 'SIN(0 1 1k)' }, pins: ['IN', 'GND'] },
-          { ref: 'R1', type: 'R', params: { value: '10k' }, pins: ['IN', 'OUT'] },
-          { ref: 'C1', type: 'C', params: { value: '1n' }, pins: ['OUT', 'GND'] }
-        ]
+          {
+            ref: 'V1',
+            type: 'V',
+            params: { source: 'SIN(0 1 1k)' },
+            pins: ['IN', 'GND'],
+          },
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '10k' },
+            pins: ['IN', 'OUT'],
+          },
+          {
+            ref: 'C1',
+            type: 'C',
+            params: { value: '1n' },
+            pins: ['OUT', 'GND'],
+          },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -60,8 +72,8 @@ describe('SPICE Exporter', () => {
         name: 'RL Circuit',
         nets: [{ name: 'A' }, { name: 'B' }],
         parts: [
-          { ref: 'L1', type: 'L', params: { value: '10m' }, pins: ['A', 'B'] }
-        ]
+          { ref: 'L1', type: 'L', params: { value: '10m' }, pins: ['A', 'B'] },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -75,8 +87,8 @@ describe('SPICE Exporter', () => {
         name: 'Current Source',
         nets: [{ name: 'N1' }, { name: '0' }],
         parts: [
-          { ref: 'I1', type: 'I', params: { value: '1m' }, pins: ['N1', '0'] }
-        ]
+          { ref: 'I1', type: 'I', params: { value: '1m' }, pins: ['N1', '0'] },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -92,8 +104,8 @@ describe('SPICE Exporter', () => {
         name: 'DC Source',
         nets: [{ name: 'VCC' }, { name: '0' }],
         parts: [
-          { ref: 'VDD', type: 'V', params: { value: '5' }, pins: ['VCC', '0'] }
-        ]
+          { ref: 'VDD', type: 'V', params: { value: '5' }, pins: ['VCC', '0'] },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -107,8 +119,13 @@ describe('SPICE Exporter', () => {
         name: 'AC Source',
         nets: [{ name: 'IN' }, { name: '0' }],
         parts: [
-          { ref: 'V1', type: 'V', params: { source: 'SIN(0 1 1k)' }, pins: ['IN', '0'] }
-        ]
+          {
+            ref: 'V1',
+            type: 'V',
+            params: { source: 'SIN(0 1 1k)' },
+            pins: ['IN', '0'],
+          },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -122,13 +139,13 @@ describe('SPICE Exporter', () => {
         name: 'Source Priority',
         nets: [{ name: 'N' }, { name: '0' }],
         parts: [
-          { 
-            ref: 'V1', 
-            type: 'V', 
-            params: { value: '5', source: 'PULSE(0 5 0 1n 1n 1u 2u)' }, 
-            pins: ['N', '0'] 
-          }
-        ]
+          {
+            ref: 'V1',
+            type: 'V',
+            params: { value: '5', source: 'PULSE(0 5 0 1n 1n 1u 2u)' },
+            pins: ['N', '0'],
+          },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -145,8 +162,8 @@ describe('SPICE Exporter', () => {
         name: 'Ground Test',
         nets: [{ name: 'A' }, { name: 'GND' }],
         parts: [
-          { ref: 'R1', type: 'R', params: { value: '1k' }, pins: ['A', 'GND'] }
-        ]
+          { ref: 'R1', type: 'R', params: { value: '1k' }, pins: ['A', 'GND'] },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -160,8 +177,8 @@ describe('SPICE Exporter', () => {
         name: 'Zero Test',
         nets: [{ name: 'A' }, { name: '0' }],
         parts: [
-          { ref: 'R1', type: 'R', params: { value: '1k' }, pins: ['A', '0'] }
-        ]
+          { ref: 'R1', type: 'R', params: { value: '1k' }, pins: ['A', '0'] },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -177,9 +194,7 @@ describe('SPICE Exporter', () => {
         name: 'Transient',
         nets: [],
         parts: [],
-        analyses: [
-          { kind: 'tran', args: '0 5m' }
-        ]
+        analyses: [{ kind: 'tran', args: '0 5m' }],
       };
 
       const spice = toSpice(profile);
@@ -193,9 +208,7 @@ describe('SPICE Exporter', () => {
         name: 'AC Analysis',
         nets: [],
         parts: [],
-        analyses: [
-          { kind: 'ac', args: 'dec 10 1 100k' }
-        ]
+        analyses: [{ kind: 'ac', args: 'dec 10 1 100k' }],
       };
 
       const spice = toSpice(profile);
@@ -209,9 +222,7 @@ describe('SPICE Exporter', () => {
         name: 'DC Analysis',
         nets: [],
         parts: [],
-        analyses: [
-          { kind: 'dc', args: 'V1 0 5 0.1' }
-        ]
+        analyses: [{ kind: 'dc', args: 'V1 0 5 0.1' }],
       };
 
       const spice = toSpice(profile);
@@ -225,9 +236,7 @@ describe('SPICE Exporter', () => {
         name: 'OP Analysis',
         nets: [],
         parts: [],
-        analyses: [
-          { kind: 'op' }
-        ]
+        analyses: [{ kind: 'op' }],
       };
 
       const spice = toSpice(profile);
@@ -243,14 +252,19 @@ describe('SPICE Exporter', () => {
         name: 'Multi-Analysis',
         nets: [{ name: 'IN' }, { name: '0' }],
         parts: [
-          { ref: 'V1', type: 'V', params: { source: 'SIN(0 1 1k)' }, pins: ['IN', '0'] },
-          { ref: 'R1', type: 'R', params: { value: '1k' }, pins: ['IN', '0'] }
+          {
+            ref: 'V1',
+            type: 'V',
+            params: { source: 'SIN(0 1 1k)' },
+            pins: ['IN', '0'],
+          },
+          { ref: 'R1', type: 'R', params: { value: '1k' }, pins: ['IN', '0'] },
         ],
         analyses: [
           { kind: 'tran', args: '0 10m' },
           { kind: 'ac', args: 'dec 10 1 100k' },
-          { kind: 'op' }
-        ]
+          { kind: 'op' },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -267,7 +281,7 @@ describe('SPICE Exporter', () => {
         type: 'electrical',
         name: 'Empty',
         nets: [],
-        parts: []
+        parts: [],
       };
 
       const spice = toSpice(profile);
@@ -281,9 +295,7 @@ describe('SPICE Exporter', () => {
         type: 'electrical',
         name: 'No Params',
         nets: [{ name: 'A' }, { name: 'B' }],
-        parts: [
-          { ref: 'R1', type: 'R', pins: ['A', 'B'] }
-        ]
+        parts: [{ ref: 'R1', type: 'R', pins: ['A', 'B'] }],
       };
 
       const spice = toSpice(profile);
@@ -298,8 +310,13 @@ describe('SPICE Exporter', () => {
         name: 'Complex Nets',
         nets: [{ name: 'VCC_3V3' }, { name: 'VSS' }],
         parts: [
-          { ref: 'R1', type: 'R', params: { value: '10k' }, pins: ['VCC_3V3', 'VSS'] }
-        ]
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '10k' },
+            pins: ['VCC_3V3', 'VSS'],
+          },
+        ],
       };
 
       const spice = toSpice(profile);
@@ -313,20 +330,31 @@ describe('SPICE Exporter', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'RC Lowpass Filter',
-        nets: [
-          { name: 'IN' },
-          { name: 'OUT' },
-          { name: 'GND' }
-        ],
+        nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
         parts: [
-          { ref: 'V1', type: 'V', params: { source: 'SIN(0 1 1k)' }, pins: ['IN', 'GND'] },
-          { ref: 'R1', type: 'R', params: { value: '10k' }, pins: ['IN', 'OUT'] },
-          { ref: 'C1', type: 'C', params: { value: '1n' }, pins: ['OUT', 'GND'] }
+          {
+            ref: 'V1',
+            type: 'V',
+            params: { source: 'SIN(0 1 1k)' },
+            pins: ['IN', 'GND'],
+          },
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '10k' },
+            pins: ['IN', 'OUT'],
+          },
+          {
+            ref: 'C1',
+            type: 'C',
+            params: { value: '1n' },
+            pins: ['OUT', 'GND'],
+          },
         ],
         analyses: [
           { kind: 'tran', args: '0 5m' },
-          { kind: 'ac', args: 'dec 10 1 100k' }
-        ]
+          { kind: 'ac', args: 'dec 10 1 100k' },
+        ],
       };
 
       const spice = toSpice(profile);

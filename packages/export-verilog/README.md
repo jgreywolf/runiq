@@ -39,11 +39,7 @@ const counter: DigitalProfile = {
     },
   ],
   instances: [],
-  nets: [
-    { name: 'clk' },
-    { name: 'reset' },
-    { name: 'count', width: 4 },
-  ],
+  nets: [{ name: 'clk' }, { name: 'reset' }, { name: 'count', width: 4 }],
 };
 
 const result = toVerilog(counter);
@@ -51,6 +47,7 @@ console.log(result.verilog);
 ```
 
 **Output:**
+
 ```verilog
 module Counter4bit
 (
@@ -81,17 +78,14 @@ const andGate: DigitalProfile = {
     },
   ],
   instances: [],
-  nets: [
-    { name: 'a' },
-    { name: 'b' },
-    { name: 'y' },
-  ],
+  nets: [{ name: 'a' }, { name: 'b' }, { name: 'y' }],
 };
 
 const result = toVerilog(andGate);
 ```
 
 **Output:**
+
 ```verilog
 module AND2
 (
@@ -124,15 +118,12 @@ const register: DigitalProfile = {
     },
   ],
   instances: [],
-  nets: [
-    { name: 'clk' },
-    { name: 'd', width: 8 },
-    { name: 'q', width: 8 },
-  ],
+  nets: [{ name: 'clk' }, { name: 'd', width: 8 }, { name: 'q', width: 8 }],
 };
 ```
 
 **Output:**
+
 ```verilog
 module Register
 #(
@@ -199,6 +190,7 @@ const alu: DigitalProfile = {
 ```
 
 **Output:**
+
 ```verilog
 module ALU4bit
 (
@@ -238,12 +230,14 @@ endmodule
 Converts a digital profile to Verilog HDL.
 
 **Parameters:**
+
 - `profile: DigitalProfile` - The digital circuit to convert
 
 **Returns:**
+
 ```typescript
 interface VerilogResult {
-  verilog: string;    // Generated Verilog code
+  verilog: string; // Generated Verilog code
   warnings: string[]; // Any validation warnings
 }
 ```
@@ -253,10 +247,10 @@ interface VerilogResult {
 ```typescript
 interface DigitalProfile {
   type: 'digital';
-  name: string;               // Top-level module name
-  modules?: ModuleAst[];      // Module declarations
-  instances: InstanceAst[];   // Module instances
-  nets: NetAst[];             // Wire/net declarations
+  name: string; // Top-level module name
+  modules?: ModuleAst[]; // Module declarations
+  instances: InstanceAst[]; // Module instances
+  nets: NetAst[]; // Wire/net declarations
 }
 ```
 
@@ -264,8 +258,8 @@ interface DigitalProfile {
 
 ```typescript
 interface ModuleAst {
-  name: string;                           // Module name
-  ports: PortAst[];                       // Port list
+  name: string; // Module name
+  ports: PortAst[]; // Port list
   params?: Record<string, string | number>; // Parameters
 }
 ```
@@ -274,9 +268,9 @@ interface ModuleAst {
 
 ```typescript
 interface PortAst {
-  name: string;                    // Port name
+  name: string; // Port name
   dir: 'input' | 'output' | 'inout'; // Direction
-  width?: number;                  // Bus width (optional)
+  width?: number; // Bus width (optional)
 }
 ```
 
@@ -284,10 +278,10 @@ interface PortAst {
 
 ```typescript
 interface InstanceAst {
-  ref: string;                              // Instance name
-  of: string;                               // Module type
+  ref: string; // Instance name
+  of: string; // Module type
   paramMap?: Record<string, string | number>; // Parameter overrides
-  portMap: Record<string, string>;          // Port connections
+  portMap: Record<string, string>; // Port connections
 }
 ```
 
@@ -295,7 +289,7 @@ interface InstanceAst {
 
 ```typescript
 interface NetAst {
-  name: string;   // Net name
+  name: string; // Net name
   width?: number; // Bus width (optional)
 }
 ```
@@ -308,12 +302,13 @@ The exporter performs validation and provides warnings for:
 - **Port Conflicts**: Ports that might conflict with wire declarations
 
 Example:
+
 ```typescript
 const result = toVerilog(profile);
 
 if (result.warnings.length > 0) {
   console.warn('Validation warnings:');
-  result.warnings.forEach(w => console.warn('  -', w));
+  result.warnings.forEach((w) => console.warn('  -', w));
 }
 ```
 
@@ -331,6 +326,7 @@ pnpm test:coverage
 ```
 
 **Test Coverage:**
+
 - ✅ Simple modules (4 tests)
 - ✅ Wire declarations (2 tests)
 - ✅ Module instances (4 tests)
@@ -350,7 +346,7 @@ digital "Counter" {
     input reset
     output [7:0] count
   }
-  
+
   net clk, reset, count[7:0]
 }
 ```
@@ -365,7 +361,7 @@ const content = await fs.readFile('counter.runiq', 'utf-8');
 const parseResult = parse(content);
 
 const digitalProfile = parseResult.document.profiles.find(
-  p => p.type === 'digital'
+  (p) => p.type === 'digital'
 );
 
 const verilogResult = toVerilog(digitalProfile);

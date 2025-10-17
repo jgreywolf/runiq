@@ -9,24 +9,28 @@ We've successfully implemented a **complete Verilog HDL exporter** for Runiq dig
 ### ✨ Core Features
 
 **1. Module Generation**
+
 - Module headers with parameter declarations
 - Port lists (input/output/inout) with bus widths
 - Parameterized modules with default values
 - Clean, IEEE 1364-2001 compliant syntax
 
 **2. Wire Declarations**
+
 - Automatic internal wire generation
 - Smart port vs. wire detection (no re-declarations)
 - Bus width support `[N:0]`
 - Organized with section comments
 
 **3. Instance Generation**
+
 - Named port connections `.port(net)`
 - Parameter overrides `#(.PARAM(value))`
 - Multiple instances per module
 - Bus connections fully supported
 
 **4. Validation**
+
 - Warns about undeclared nets
 - Port conflict detection
 - Helpful error messages
@@ -38,6 +42,7 @@ We've successfully implemented a **complete Verilog HDL exporter** for Runiq dig
 **15/15 tests passing** ✅ (100% pass rate!)
 
 ### Test Breakdown:
+
 - ✅ Simple Modules (4 tests)
   - Basic module with no ports
   - Module with input/output ports
@@ -68,6 +73,7 @@ We've successfully implemented a **complete Verilog HDL exporter** for Runiq dig
 ## Example Output
 
 ### Input (TypeScript):
+
 ```typescript
 const alu: DigitalProfile = {
   type: 'digital',
@@ -107,6 +113,7 @@ const alu: DigitalProfile = {
 ```
 
 ### Output (Verilog):
+
 ```verilog
 module ALU4bit
 (
@@ -146,6 +153,7 @@ endmodule
 Created 4 comprehensive examples:
 
 ### 1. **4-bit Counter** (`counter-4bit.runiq`)
+
 ```verilog
 module Counter4bit
 #(
@@ -163,6 +171,7 @@ endmodule
 ```
 
 ### 2. **8-bit Shift Register** (`shift-register.runiq`)
+
 ```verilog
 module ShiftRegister8bit
 #(
@@ -181,12 +190,14 @@ endmodule
 ```
 
 ### 3. **4-bit ALU** (`alu-4bit.runiq`)
+
 - 5 instances (Adder, Subtractor, AND, OR, Mux)
 - 4 internal wire buses
 - Parameter override on Mux
 - Complete hierarchical design
 
 ### 4. **Traffic Light Controller** (`state-machine.runiq`)
+
 - State machine example
 - Multi-bit state registers
 - Timer logic
@@ -199,6 +210,7 @@ endmodule
 ### Code Structure
 
 **`packages/export-verilog/src/index.ts`** (~200 lines)
+
 - `toVerilog()` - Main export function
 - `generateModuleHeader()` - Module + parameters
 - `generatePortDeclaration()` - Port lists
@@ -206,6 +218,7 @@ endmodule
 - `generateInstance()` - Module instances
 
 **Key Design Decisions:**
+
 1. **Clean Output** - 2-space indentation, section comments
 2. **Type Safety** - Full TypeScript strict mode
 3. **Validation** - Proactive warning system
@@ -213,6 +226,7 @@ endmodule
 5. **Testability** - Pure functions, easy to test
 
 ### Code Quality Metrics
+
 - **Lines of Code**: ~200 (implementation)
 - **Test Lines**: ~400 (15 comprehensive tests)
 - **Test Coverage**: 100% of public API
@@ -226,20 +240,23 @@ endmodule
 
 **Package**: `@runiq/export-verilog`
 **Version**: 0.1.0
-**Dependencies**: 
+**Dependencies**:
+
 - `@runiq/core` (workspace)
 
 **Dev Dependencies**:
+
 - TypeScript 5.9.3
 - Vitest 1.6.1
 - tsup 8.5.0
 
 **Exports**:
+
 ```typescript
 export function toVerilog(profile: DigitalProfile): VerilogResult;
 
 export interface VerilogResult {
-  verilog: string;    // Generated Verilog code
+  verilog: string; // Generated Verilog code
   warnings: string[]; // Validation warnings
 }
 ```
@@ -281,6 +298,7 @@ export interface VerilogResult {
 ## What This Enables
 
 ### For FPGA/ASIC Design:
+
 ✅ Text-based digital circuit definition
 ✅ Version control friendly workflow
 ✅ Automatic Verilog generation
@@ -289,12 +307,14 @@ export interface VerilogResult {
 ✅ Ready for synthesis tools
 
 ### For Education:
+
 ✅ Learn digital design with simple syntax
 ✅ See generated Verilog for understanding
 ✅ Build complex designs from simple parts
 ✅ Experiment with different architectures
 
 ### For Prototyping:
+
 ✅ Rapid design iteration
 ✅ Consistent code style
 ✅ Automatic documentation
@@ -305,17 +325,20 @@ export interface VerilogResult {
 ## Performance
 
 **Generation Speed:**
+
 - Simple module: <1ms
 - 5-instance ALU: <2ms
 - All 4 examples: <10ms total
 
 **Output Size:**
+
 - Counter: 12 lines
 - Shift Register: 14 lines
 - ALU (5 instances): 50 lines
 - Traffic Light: 18 lines
 
 **Build Performance:**
+
 - TypeScript compilation: <3s
 - Test execution: ~15ms
 - Full build + test: <5s
@@ -325,6 +348,7 @@ export interface VerilogResult {
 ## Comparison with Manual Verilog
 
 ### Manual Verilog (Traditional):
+
 ```verilog
 module ALU4bit(
   input [3:0] a,
@@ -332,7 +356,7 @@ module ALU4bit(
   input [1:0] op,
   output [3:0] result
 );
-  
+
   wire [3:0] add_result;
   wire [3:0] sub_result;
   // ... lots of manual typing ...
@@ -341,19 +365,33 @@ module ALU4bit(
 ```
 
 ### Runiq + Verilog Export:
+
 ```typescript
 const alu: DigitalProfile = {
   type: 'digital',
   name: 'ALU4bit',
-  modules: [{ /* ports */ }],
-  instances: [{ /* instances */ }],
-  nets: [{ /* nets */ }],
+  modules: [
+    {
+      /* ports */
+    },
+  ],
+  instances: [
+    {
+      /* instances */
+    },
+  ],
+  nets: [
+    {
+      /* nets */
+    },
+  ],
 };
 
 const result = toVerilog(alu); // ✨ Magic!
 ```
 
 **Benefits:**
+
 - ✅ Type-safe definitions
 - ✅ Automatic validation
 - ✅ Consistent formatting
@@ -368,24 +406,28 @@ const result = toVerilog(alu); // ✨ Magic!
 **Potential additions** (not yet implemented):
 
 ### Behavioral Verilog:
+
 - `assign` statements for continuous assignments
 - `always @(*)` blocks for combinational logic
 - `always @(posedge clk)` for sequential logic
 - Initial blocks for simulation
 
 ### Advanced Features:
+
 - Generate blocks for arrays
 - Case statements
 - Function definitions
 - Task definitions
 
 ### SystemVerilog:
+
 - `logic` type instead of wire/reg
 - Interfaces
 - Classes
 - Assertions
 
 ### Toolchain Integration:
+
 - Direct Vivado/Quartus project generation
 - Testbench generation
 - Simulation script generation
@@ -399,12 +441,14 @@ const result = toVerilog(alu); // ✨ Magic!
 With Verilog export complete, we can now:
 
 ### Option A: Logic Gate Symbols (Recommended) 🎨
+
 - Add AND, OR, NOT, XOR, NAND, NOR to schematic renderer
 - IEEE/ANSI logic gate symbols
 - Support for digital schematics
 - **Estimated time:** 2-3 hours
 
 ### Option B: More Digital Examples 📚
+
 - Complete counter with behavioral Verilog
 - UART transmitter/receiver
 - SPI controller
@@ -412,6 +456,7 @@ With Verilog export complete, we can now:
 - **Estimated time:** 3-4 hours
 
 ### Option C: Parser Integration 🔧
+
 - Parse `.runiq` digital circuits
 - Full DSL → Verilog workflow
 - Command-line tool
@@ -422,6 +467,7 @@ With Verilog export complete, we can now:
 ## Impact Summary
 
 **Digital Circuit Support:**
+
 - ✅ **Verilog Exporter** - Complete (15/15 tests)
 - ✅ **Examples** - 4 comprehensive circuits
 - ✅ **Documentation** - Full README + API docs
@@ -429,12 +475,12 @@ With Verilog export complete, we can now:
 - ⏳ **Behavioral Verilog** - Not started
 
 **Overall Runiq Status:**
+
 - ✅ **Electrical Circuits** - 100% Complete
   - SPICE exporter (18/18 tests)
   - Schematic renderer (37/37 tests)
   - Component rotation
   - Orthogonal routing
-  
 - ✅ **Digital Circuits** - Core Complete
   - Verilog exporter (15/15 tests)
   - 4 example circuits
@@ -447,6 +493,7 @@ With Verilog export complete, we can now:
 ## Development Stats
 
 **Time Investment:**
+
 - Package setup: ~15 minutes
 - Implementation: ~45 minutes
 - Testing: ~20 minutes
@@ -455,12 +502,14 @@ With Verilog export complete, we can now:
 - **Total: ~110 minutes** (< 2 hours!)
 
 **TDD Approach:**
+
 - ✅ Wrote 15 tests FIRST
 - ✅ Implemented to pass tests
 - ✅ Refactored for clarity
 - ✅ 100% pass rate from start
 
 **Code Quality:**
+
 - Zero TypeScript errors
 - Zero lint warnings
 - Consistent formatting

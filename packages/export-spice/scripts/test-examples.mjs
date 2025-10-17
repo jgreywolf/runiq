@@ -14,8 +14,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Find all .runiq files in examples/electrical
-const examplesDir = path.join(__dirname, '..', '..', '..', 'examples', 'electrical');
-const outputDir = path.join(__dirname, '..', '..', '..', 'examples', 'electrical', 'spice-output');
+const examplesDir = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'examples',
+  'electrical'
+);
+const outputDir = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'examples',
+  'electrical',
+  'spice-output'
+);
 
 // Ensure output directory exists
 if (!fs.existsSync(outputDir)) {
@@ -26,7 +41,7 @@ console.log('🔌 Runiq → SPICE Conversion Test\n');
 console.log(`Input:  ${examplesDir}`);
 console.log(`Output: ${outputDir}\n`);
 
-const files = fs.readdirSync(examplesDir).filter(f => f.endsWith('.runiq'));
+const files = fs.readdirSync(examplesDir).filter((f) => f.endsWith('.runiq'));
 
 let successCount = 0;
 let errorCount = 0;
@@ -34,44 +49,48 @@ let errorCount = 0;
 for (const file of files) {
   const inputPath = path.join(examplesDir, file);
   const outputPath = path.join(outputDir, file.replace('.runiq', '.cir'));
-  
+
   try {
     console.log(`📄 Processing: ${file}`);
-    
+
     // Read and parse
     const content = fs.readFileSync(inputPath, 'utf-8');
     const parseResult = parse(content);
-    
+
     if (!parseResult.success || !parseResult.document) {
       console.error(`   ❌ Parse error: ${parseResult.errors.join(', ')}`);
       errorCount++;
       continue;
     }
-    
+
     // Find electrical profile
     const electricalProfile = parseResult.document.profiles.find(
-      p => p.type === 'electrical'
+      (p) => p.type === 'electrical'
     );
-    
+
     if (!electricalProfile) {
       console.error(`   ⚠️  No electrical profile found`);
       errorCount++;
       continue;
     }
-    
+
     // Convert to SPICE
     const spice = toSpice(electricalProfile);
-    
+
     // Write output
     fs.writeFileSync(outputPath, spice, 'utf-8');
-    
+
     console.log(`   ✅ Exported to: ${path.basename(outputPath)}`);
-    console.log(`   📊 Stats: ${electricalProfile.parts.length} parts, ${electricalProfile.analyses?.length || 0} analyses`);
+    console.log(
+      `   📊 Stats: ${electricalProfile.parts.length} parts, ${electricalProfile.analyses?.length || 0} analyses`
+    );
     console.log();
-    
+
     successCount++;
   } catch (error) {
-    console.error(`   ❌ Error: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(
+      `   ❌ Error: ${error instanceof Error ? error.message : String(error)}`
+    );
     errorCount++;
   }
 }

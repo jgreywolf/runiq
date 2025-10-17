@@ -1,0 +1,42 @@
+diagram: use-case
+title: "E-Commerce System"
+
+# External actors
+actor Customer "Online Customer"
+actor Admin "System Administrator"
+actor Vendor "External Vendor"
+
+# System boundary
+system-boundary ECommerce "E-Commerce Platform" {
+  # Customer use cases
+  ellipse-wide Browse "Browse Products"
+  ellipse-wide Search "Search Catalog"
+  ellipse-wide AddToCart "Add to Cart"
+  ellipse-wide Checkout "Checkout"
+  ellipse-wide Payment "Process Payment"
+  ellipse-wide TrackOrder "Track Order"
+  
+  # Admin use cases
+  ellipse-wide ManageProducts "Manage Products"
+  ellipse-wide ViewReports "View Sales Reports"
+  ellipse-wide ManageUsers "Manage Users"
+}
+
+# Customer associations
+Customer -> Browse
+Customer -> Search
+Customer -> AddToCart
+Customer -> Checkout
+Customer -> TrackOrder
+
+# Checkout extends to payment
+Checkout -> Payment
+
+# Admin associations
+Admin -> ManageProducts
+Admin -> ViewReports
+Admin -> ManageUsers
+
+# External system interaction
+Payment -> Vendor "validates payment"
+ManageProducts -> Vendor "syncs inventory"

@@ -2,11 +2,11 @@ import type { ElectricalProfile, PartAst, AnalysisAst } from '@runiq/core';
 
 /**
  * Export an ElectricalProfile to SPICE netlist format
- * 
+ *
  * @param profile - The electrical profile to export
  * @param options - Export options (flavor: ngspice, pspice, ltspice)
  * @returns SPICE netlist as a string
- * 
+ *
  * @example
  * ```typescript
  * const profile: ElectricalProfile = {
@@ -20,7 +20,7 @@ import type { ElectricalProfile, PartAst, AnalysisAst } from '@runiq/core';
  *   ],
  *   analyses: [{ kind: 'tran', args: '0 5m' }]
  * };
- * 
+ *
  * const spice = toSpice(profile);
  * // Output:
  * // * RC Filter
@@ -101,11 +101,11 @@ function partToSpice(part: PartAst): string {
  */
 function analysisToSpice(analysis: AnalysisAst): string {
   const directive = `.${analysis.kind}`;
-  
+
   if (analysis.args) {
     return `${directive} ${analysis.args}`;
   }
-  
+
   return directive;
 }
 
@@ -116,10 +116,10 @@ function analysisToSpice(analysis: AnalysisAst): string {
  */
 function normalizeNetName(name: string): string {
   const upper = name.toUpperCase();
-  
+
   if (upper === 'GND' || upper === 'VSS') {
     return '0';
   }
-  
+
   return name;
 }

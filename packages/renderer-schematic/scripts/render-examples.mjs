@@ -14,8 +14,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Find all .runiq files in examples/electrical
-const examplesDir = path.join(__dirname, '..', '..', '..', 'examples', 'electrical');
-const outputDir = path.join(__dirname, '..', '..', '..', 'examples', 'electrical', 'schematics');
+const examplesDir = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'examples',
+  'electrical'
+);
+const outputDir = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'examples',
+  'electrical',
+  'schematics'
+);
 
 // Ensure output directory exists
 if (!fs.existsSync(outputDir)) {
@@ -26,7 +41,7 @@ console.log('⚡ Runiq → Schematic SVG Rendering Test\n');
 console.log(`Input:  ${examplesDir}`);
 console.log(`Output: ${outputDir}\n`);
 
-const files = fs.readdirSync(examplesDir).filter(f => f.endsWith('.runiq'));
+const files = fs.readdirSync(examplesDir).filter((f) => f.endsWith('.runiq'));
 
 let successCount = 0;
 let errorCount = 0;
@@ -34,53 +49,55 @@ let errorCount = 0;
 for (const file of files) {
   const inputPath = path.join(examplesDir, file);
   const outputPath = path.join(outputDir, file.replace('.runiq', '.svg'));
-  
+
   try {
     console.log(`📄 Processing: ${file}`);
-    
+
     // Read and parse
     const content = fs.readFileSync(inputPath, 'utf-8');
     const parseResult = parse(content);
-    
+
     if (!parseResult.success || !parseResult.document) {
       console.error(`   ❌ Parse error: ${parseResult.errors.join(', ')}`);
       errorCount++;
       continue;
     }
-    
+
     // Find electrical profile
     const electricalProfile = parseResult.document.profiles.find(
-      p => p.type === 'electrical'
+      (p) => p.type === 'electrical'
     );
-    
+
     if (!electricalProfile) {
       console.error(`   ⚠️  No electrical profile found`);
       errorCount++;
       continue;
     }
-    
+
     // Render schematic
     const schematic = renderSchematic(electricalProfile, {
       showNetLabels: true,
       showValues: true,
       showReferences: true,
     });
-    
+
     if (schematic.warnings.length > 0) {
       console.log(`   ⚠️  Warnings:`);
-      schematic.warnings.forEach(w => console.log(`       - ${w}`));
+      schematic.warnings.forEach((w) => console.log(`       - ${w}`));
     }
-    
+
     // Write output
     fs.writeFileSync(outputPath, schematic.svg, 'utf-8');
-    
+
     console.log(`   ✅ Rendered to: ${path.basename(outputPath)}`);
     console.log(`   📊 Stats: ${electricalProfile.parts.length} components`);
     console.log();
-    
+
     successCount++;
   } catch (error) {
-    console.error(`   ❌ Error: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(
+      `   ❌ Error: ${error instanceof Error ? error.message : String(error)}`
+    );
     errorCount++;
   }
 }

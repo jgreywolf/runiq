@@ -1,0 +1,57 @@
+diagram: use-case
+title: "Online Banking - Advanced Relationships"
+
+# Primary actors
+actor Customer "Customer"
+actor Admin "Bank Administrator"
+
+# Secondary actor (external system)
+actor PaymentGateway "Payment Gateway"
+
+# System boundary
+system-boundary Banking "Online Banking System" {
+  # Main use cases
+  ellipse-wide Login "Login to Account"
+  ellipse-wide ViewBalance "View Balance"
+  ellipse-wide Transfer "Transfer Money"
+  ellipse-wide Deposit "Deposit Funds"
+  ellipse-wide Withdraw "Withdraw Funds"
+  
+  # Included use cases (shared functionality)
+  ellipse-wide Authenticate "Authenticate User"
+  ellipse-wide ValidateAccount "Validate Account"
+  ellipse-wide LogTransaction "Log Transaction"
+  
+  # Extension use cases (optional features)
+  ellipse-wide SendNotification "Send Email Notification"
+  ellipse-wide PrintReceipt "Print Receipt"
+}
+
+# Customer associations (standard solid arrows)
+Customer -> Login
+Customer -> ViewBalance
+Customer -> Transfer
+Customer -> Deposit
+Customer -> Withdraw
+
+# Admin associations
+Admin -> ViewBalance
+Admin -> LogTransaction
+
+# <<include>> relationships (dashed arrow, open head)
+# Required dependencies - base use case ALWAYS includes the included use case
+Login -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
+Transfer -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
+Transfer -> ValidateAccount stereotype: "include" lineStyle: dashed arrowType: open
+Transfer -> LogTransaction stereotype: "include" lineStyle: dashed arrowType: open
+Deposit -> LogTransaction stereotype: "include" lineStyle: dashed arrowType: open
+Withdraw -> LogTransaction stereotype: "include" lineStyle: dashed arrowType: open
+
+# <<extend>> relationships (dashed arrow, open head) 
+# Optional extensions - extending use case adds behavior to base use case
+SendNotification -> Transfer stereotype: "extend" lineStyle: dashed arrowType: open label: "on success"
+SendNotification -> Deposit stereotype: "extend" lineStyle: dashed arrowType: open
+PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open label: "optional"
+
+# External system interaction (standard association)
+Transfer -> PaymentGateway label: "processes"

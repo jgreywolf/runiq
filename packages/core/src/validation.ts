@@ -6,6 +6,7 @@ export type DiagramType =
   | 'entity-relationship'
   | 'state-machine'
   | 'block-diagram'
+  | 'use-case'
   | 'generic';
 
 export interface DiagramValidationError {
@@ -71,6 +72,19 @@ export const DIAGRAM_TYPE_CONSTRAINTS: Record<
       'saturation',
       'small-circle',
       'circle',
+    ],
+  },
+  'use-case': {
+    type: 'use-case',
+    description: 'UML use case diagrams showing actors and system interactions',
+    allowedShapes: [
+      'actor',
+      'actor-circle',
+      'actor-rect',
+      'person',
+      'ellipse-wide',
+      'system-boundary',
+      'rounded',
     ],
   },
   generic: {

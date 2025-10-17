@@ -7,6 +7,8 @@ import { docShape } from './doc.js';
 import { rectangleShape } from './rectangle.js';
 import { stadiumShape } from './stadium.js';
 import { circleShape } from './circle.js';
+import { ellipseWideShape } from './ellipse-wide.js';
+import { systemBoundaryShape } from './system-boundary.js';
 import { triangleShape } from './triangle.js';
 import { parallelogramShape } from './parallelogram.js';
 import { trapezoidShape, flippedTrapezoidShape } from './trapezoid.js';
@@ -83,6 +85,8 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(rectangleShape);
   shapeRegistry.register(stadiumShape);
   shapeRegistry.register(circleShape);
+  shapeRegistry.register(ellipseWideShape);
+  shapeRegistry.register(systemBoundaryShape);
   shapeRegistry.register(triangleShape);
 
   // Circle variants
@@ -181,6 +185,8 @@ export * from './tagged-document.js';
 export * from './rectangle.js';
 export * from './stadium.js';
 export * from './circle.js';
+export * from './ellipse-wide.js';
+export * from './system-boundary.js';
 export * from './double-circle.js';
 export * from './small-circle.js';
 export * from './framed-circle.js';

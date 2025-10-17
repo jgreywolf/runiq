@@ -131,7 +131,7 @@ describe('Verilog Exporter', () => {
       // Internal nets should be declared as wires
       expect(result.verilog).toContain('wire internal');
       expect(result.verilog).toContain('wire [7:0] data_bus');
-      
+
       // Port names should not be re-declared as wires
       expect(result.verilog).not.toMatch(/wire in[;\s]/);
       expect(result.verilog).not.toMatch(/wire out[;\s]/);

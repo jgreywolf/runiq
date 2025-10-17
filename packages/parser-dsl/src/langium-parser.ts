@@ -212,7 +212,11 @@ function convertElectricalProfile(
         } else if (Langium.isPartValueProperty(prop)) {
           if (!part.params) part.params = {};
           let value = prop.value;
-          if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
             value = value.slice(1, -1);
           }
           part.params.value = value;
@@ -225,7 +229,11 @@ function convertElectricalProfile(
           // Handle generic properties like model:"2N2222", w:"10u", l:"1u", ratio:"10:1"
           if (!part.params) part.params = {};
           let value = prop.value;
-          if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
             value = value.slice(1, -1);
           }
           part.params[prop.key] = value;
@@ -279,7 +287,8 @@ function convertDigitalProfile(
             };
             if (portDecl.width) {
               // Parse bus width [msb:lsb]
-              port.width = parseInt(portDecl.width.msb) - parseInt(portDecl.width.lsb) + 1;
+              port.width =
+                parseInt(portDecl.width.msb) - parseInt(portDecl.width.lsb) + 1;
             }
             module.ports.push(port);
           }
@@ -287,7 +296,11 @@ function convertDigitalProfile(
           if (!module.params) module.params = {};
           for (const paramDecl of prop.params) {
             let value = paramDecl.value;
-            if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+            if (
+              typeof value === 'string' &&
+              value.startsWith('"') &&
+              value.endsWith('"')
+            ) {
               value = value.slice(1, -1);
             }
             module.params[paramDecl.name] = value;
@@ -315,7 +328,11 @@ function convertDigitalProfile(
           if (!instance.paramMap) instance.paramMap = {};
           for (const param of prop.params) {
             let value = param.value;
-            if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+            if (
+              typeof value === 'string' &&
+              value.startsWith('"') &&
+              value.endsWith('"')
+            ) {
               value = value.slice(1, -1);
             }
             instance.paramMap[param.param] = value;
@@ -331,7 +348,8 @@ function convertDigitalProfile(
           name: netDecl.name,
         };
         if (netDecl.width) {
-          net.width = parseInt(netDecl.width.msb) - parseInt(netDecl.width.lsb) + 1;
+          net.width =
+            parseInt(netDecl.width.msb) - parseInt(netDecl.width.lsb) + 1;
         }
         digitalProfile.nets.push(net);
       }

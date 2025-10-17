@@ -1,0 +1,32 @@
+diagram: use-case
+title: "Banking System - Customer Use Cases"
+
+# Actors
+actor Customer "Customer"
+actor BankStaff "Bank Staff"
+actor System "Payment Gateway"
+
+# System boundary (contains use cases)
+system-boundary Bank "Banking System" {
+  # Use cases - the functionality provided by the system
+  ellipse-wide Login "Login to Account"
+  ellipse-wide ViewBalance "View Account Balance"
+  ellipse-wide Transfer "Transfer Money"
+  ellipse-wide Deposit "Deposit Funds"
+  ellipse-wide Withdraw "Withdraw Funds"
+  ellipse-wide GenerateReport "Generate Transaction Report"
+}
+
+# Customer interactions (associations)
+Customer -> Login
+Customer -> ViewBalance
+Customer -> Transfer
+Customer -> Deposit
+Customer -> Withdraw
+
+# Bank staff interactions
+BankStaff -> GenerateReport
+BankStaff -> ViewBalance
+
+# System interactions
+Transfer -> System "processes payment"

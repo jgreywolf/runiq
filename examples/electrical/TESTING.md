@@ -20,6 +20,7 @@ ngspice rc-filter.cir
 ```
 
 Within ngspice:
+
 ```
 ngspice 1 -> run
 ngspice 2 -> plot v(OUT) v(IN)
@@ -55,7 +56,8 @@ ngspice 2 -> plot ac1.v(N1)
 ngspice 3 -> plot tran1.v(N1)
 ```
 
-**Expected behavior**: 
+**Expected behavior**:
+
 - AC plot shows resonance peak around 1.6 kHz
 - Transient shows oscillating voltage
 
@@ -87,6 +89,7 @@ ngspice 4 -> plot dc1.i(V1)
 ```
 
 **Expected results**:
+
 - LED_ANODE voltage: ~2V (LED forward voltage)
 - Current: ~13.6mA through R1
 
@@ -112,17 +115,21 @@ All tests pass if:
 ## 🐛 Common Issues
 
 ### "Cannot find file"
+
 → Make sure you're in `examples/electrical/spice-output/` directory
 
 ### "No such analysis"
+
 → Run the `run` command first before plotting
 
 ### Convergence failures
+
 → This shouldn't happen with these simple circuits. If it does, the netlist may be malformed.
 
 ## ✨ Result
 
 If all tests pass, this validates:
+
 - ✅ Runiq parser correctly interprets electrical circuits
 - ✅ SPICE exporter generates valid netlists
 - ✅ Ground normalization works (GND → 0)
@@ -135,6 +142,7 @@ If all tests pass, this validates:
 If you don't have ngspice installed, you can manually verify the `.cir` files:
 
 **Check rc-filter.cir:**
+
 ```spice
 * RC Lowpass Filter
 V1 IN 0 SIN(0 1 1k)
@@ -145,6 +153,7 @@ C1 OUT 0 1n
 ```
 
 Verify:
+
 - ✅ Title comment exists
 - ✅ GND converted to 0
 - ✅ Components in correct format: `REF NODE1 NODE2 VALUE`
@@ -160,7 +169,7 @@ Repeat for other files!
 ```
 🔌 Runiq → SPICE Conversion Test
    ✅ Success: 5/5 examples
-   
+
    📄 led-circuit.cir      (3 parts, 2 analyses)
    📄 rc-filter.cir        (3 parts, 1 analysis)
    📄 rl-high-pass.cir     (3 parts, 2 analyses)

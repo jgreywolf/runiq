@@ -229,7 +229,7 @@ describe('renderer-svg', () => {
       const result = renderSvg(diagram, layout);
 
       expect(result.svg).toContain('<marker');
-      expect(result.svg).toContain('arrow-A-B');
+      expect(result.svg).toContain('arrow-standard-A-B'); // Updated to match new format
       expect(result.svg).toContain('marker-end');
       expect(result.warnings).toHaveLength(0);
     });
@@ -277,9 +277,10 @@ describe('renderer-svg', () => {
 
       const result = renderSvg(diagram, layout);
 
+      // Each edge now creates 1 path (line with marker), not 2
       expect((result.svg.match(/<path/g) || []).length).toBeGreaterThanOrEqual(
-        4
-      ); // 2 edges × 2 paths each (line + arrow)
+        2
+      ); // 2 edges × 1 path each
       expect(result.warnings).toHaveLength(0);
     });
   });
@@ -1031,6 +1032,465 @@ describe('renderer-svg', () => {
       expect(result.svg).toContain('fill="#e0f0ff"');
       expect(result.svg).toContain('stroke="#0066cc"');
       expect(result.svg).toContain('stroke-width="3"');
+      expect(result.warnings).toHaveLength(0);
+    });
+  });
+
+  describe('Edge Enhancements - Stereotypes and Line Styles', () => {
+    it('should render edge with dashed line', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            lineStyle: 'dashed',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'A', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'B', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('stroke-dasharray="5,3"');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render edge with dotted line', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            lineStyle: 'dotted',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'A', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'B', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('stroke-dasharray="2,2"');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render edge with solid line (default)', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            lineStyle: 'solid',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'A', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'B', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).not.toContain('stroke-dasharray');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render edge with hollow arrow (generalization)', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'Derived', shape: 'rounded' },
+          { id: 'Base', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'Derived',
+            to: 'Base',
+            arrowType: 'hollow',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'Derived', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'Base', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'Derived',
+            to: 'Base',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('arrow-hollow-Derived-Base');
+      expect(result.svg).toContain('fill="white"');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render edge with open arrow (dependency)', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'Client', shape: 'rounded' },
+          { id: 'Service', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'Client',
+            to: 'Service',
+            arrowType: 'open',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'Client', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'Service', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'Client',
+            to: 'Service',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('arrow-open-Client-Service');
+      expect(result.svg).toContain('polyline');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render edge with no arrow', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            arrowType: 'none',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'A', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'B', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).not.toContain('marker-end');
+      expect(result.svg).not.toContain('<marker');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render edge with stereotype', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'UC1', shape: 'rounded' },
+          { id: 'UC2', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'UC1',
+            to: 'UC2',
+            stereotype: 'include',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'UC1', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'UC2', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'UC1',
+            to: 'UC2',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('&lt;&lt;include&gt;&gt;');
+      expect(result.svg).toContain('class="runiq-edge-stereotype"');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render edge with stereotype and label', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            stereotype: 'extend',
+            label: 'conditional',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'A', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'B', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('&lt;&lt;extend&gt;&gt;');
+      expect(result.svg).toContain('conditional');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render complete UML use case relationship', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'Checkout', shape: 'rounded' },
+          { id: 'Payment', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'Checkout',
+            to: 'Payment',
+            stereotype: 'include',
+            lineStyle: 'dashed',
+            arrowType: 'open',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'Checkout', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'Payment', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'Checkout',
+            to: 'Payment',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('&lt;&lt;include&gt;&gt;');
+      expect(result.svg).toContain('stroke-dasharray="5,3"');
+      expect(result.svg).toContain('arrow-open-Checkout-Payment');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render class diagram generalization', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'Dog', shape: 'rounded' },
+          { id: 'Animal', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'Dog',
+            to: 'Animal',
+            lineStyle: 'solid',
+            arrowType: 'hollow',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'Dog', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'Animal', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'Dog',
+            to: 'Animal',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).not.toContain('stroke-dasharray');
+      expect(result.svg).toContain('arrow-hollow-Dog-Animal');
+      expect(result.svg).toContain('fill="white"');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render interface realization', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'ArrayList', shape: 'rounded' },
+          { id: 'List', shape: 'rounded' },
+        ],
+        edges: [
+          {
+            from: 'ArrayList',
+            to: 'List',
+            stereotype: 'implements',
+            lineStyle: 'dashed',
+            arrowType: 'hollow',
+          },
+        ],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'ArrayList', x: 0, y: 0, width: 100, height: 50 },
+          { id: 'List', x: 150, y: 0, width: 100, height: 50 },
+        ],
+        edges: [
+          {
+            from: 'ArrayList',
+            to: 'List',
+            points: [
+              { x: 100, y: 25 },
+              { x: 150, y: 25 },
+            ],
+          },
+        ],
+        size: { width: 300, height: 100 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg).toContain('&lt;&lt;implements&gt;&gt;');
+      expect(result.svg).toContain('stroke-dasharray="5,3"');
+      expect(result.svg).toContain('arrow-hollow-ArrayList-List');
       expect(result.warnings).toHaveLength(0);
     });
   });
