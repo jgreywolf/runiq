@@ -698,4 +698,201 @@ describe('Schematic Renderer', () => {
       expect(result.warnings).toHaveLength(0);
     });
   });
+
+  describe('Component Rotation', () => {
+    it('should render resistor with 0 degree rotation (default)', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Rotated Resistor Test',
+        nets: [{ name: 'IN' }, { name: 'OUT' }],
+        parts: [
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '1k', rotation: 0 },
+            pins: ['IN', 'OUT'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="R1"');
+      expect(result.svg).toContain('1k');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render resistor with 90 degree rotation', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Rotated Resistor Test',
+        nets: [{ name: 'IN' }, { name: 'OUT' }],
+        parts: [
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '1k', rotation: 90 },
+            pins: ['IN', 'OUT'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="R1"');
+      expect(result.svg).toContain('transform="rotate(90');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render transistor with 180 degree rotation', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Rotated Transistor Test',
+        nets: [{ name: 'VCC' }, { name: 'BASE' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'Q1',
+            type: 'Q_NPN',
+            params: { model: '2N2222', rotation: 180 },
+            pins: ['VCC', 'BASE', 'GND'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="Q1"');
+      expect(result.svg).toContain('transform="rotate(180');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render capacitor with 270 degree rotation', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Rotated Capacitor Test',
+        nets: [{ name: 'IN' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'C1',
+            type: 'C',
+            params: { value: '10u', rotation: 270 },
+            pins: ['IN', 'GND'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="C1"');
+      expect(result.svg).toContain('transform="rotate(270');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should warn about invalid rotation angles', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Invalid Rotation Test',
+        nets: [{ name: 'IN' }, { name: 'OUT' }],
+        parts: [
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '1k', rotation: 45 },
+            pins: ['IN', 'OUT'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.warnings.length).toBeGreaterThan(0);
+      expect(result.warnings[0]).toContain('Invalid rotation');
+    });
+  });
+
+  describe('Orthogonal Wire Routing', () => {
+    it('should route wires with Manhattan distance (horizontal then vertical)', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Orthogonal Routing Test',
+        nets: [{ name: 'SIGNAL' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '1k' },
+            pins: ['SIGNAL', 'GND'],
+          },
+          {
+            ref: 'R2',
+            type: 'R',
+            params: { value: '1k' },
+            pins: ['SIGNAL', 'GND'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile, { routing: 'orthogonal' });
+
+      // Should contain path with multiple line segments (L commands in SVG path)
+      expect(result.svg).toContain('schematic-wire');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should add junction dots at wire intersections', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Junction Test',
+        nets: [{ name: 'VCC' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '1k' },
+            pins: ['VCC', 'GND'],
+          },
+          {
+            ref: 'R2',
+            type: 'R',
+            params: { value: '1k' },
+            pins: ['VCC', 'GND'],
+          },
+          {
+            ref: 'R3',
+            type: 'R',
+            params: { value: '1k' },
+            pins: ['VCC', 'GND'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile, { routing: 'orthogonal' });
+
+      // Should contain junction circles at connection points
+      expect(result.svg).toContain('schematic-junction');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should use direct routing by default', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Direct Routing Test',
+        nets: [{ name: 'SIGNAL' }, { name: 'GND' }],
+        parts: [
+          {
+            ref: 'R1',
+            type: 'R',
+            params: { value: '1k' },
+            pins: ['SIGNAL', 'GND'],
+          },
+        ],
+      };
+
+      // Default routing should be 'direct'
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('schematic-wire');
+      expect(result.warnings).toHaveLength(0);
+    });
+  });
 });

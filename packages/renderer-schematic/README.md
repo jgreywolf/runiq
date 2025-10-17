@@ -10,11 +10,13 @@ Professional electrical schematic renderer for Runiq with IEEE/IEC standard symb
   - Semiconductors: D (diode), LED
   - Transistors: NPN, PNP, NMOS, PMOS
   - Advanced: Op-amp, Transformer
+- **Component Rotation** - Rotate components 0°, 90°, 180°, or 270° (NEW! 🎉)
+- **Orthogonal Wire Routing** - Manhattan-style routing with junction dots (NEW! 🎉)
 - **Automatic Layout** - Smart component placement with wire routing
 - **Ground Normalization** - Automatic GND/VSS symbol rendering
 - **Configurable Display** - Control labels, values, net names, and colors
 - **SVG Output** - Scalable, embeddable in web pages and documentation
-- **Comprehensive Testing** - 27/27 tests passing with full coverage
+- **Comprehensive Testing** - 37/37 tests passing with full coverage
 
 ## 📦 Installation
 
@@ -98,13 +100,73 @@ interface SchematicOptions {
   showValues?: boolean;           // Show component values (default: true)
   showReferences?: boolean;       // Show component refs (default: true)
   orientation?: 'horizontal' | 'vertical'; // Layout direction (default: 'horizontal')
+  routing?: 'direct' | 'orthogonal'; // Wire routing style (default: 'direct') (NEW! 🎉)
 }
 ```
 
-### Example with Options
+### Component Rotation (NEW! 🎉)
+
+Rotate components by adding a `rotation` parameter (0, 90, 180, or 270 degrees):
+
+```typescript
+const circuit: ElectricalProfile = {
+  type: 'electrical',
+  name: 'H-Bridge Motor Driver',
+  nets: [{ name: 'VCC' }, { name: 'MOTOR_P' }, { name: 'MOTOR_N' }, { name: 'GND' }],
+  parts: [
+    // High-side PMOS rotated 90°
+    { 
+      ref: 'M1', 
+      type: 'M_PMOS', 
+      params: { model: 'IRF9530', rotation: 90 }, 
+      pins: ['MOTOR_P', 'CTRL_A', 'VCC', 'VCC'] 
+    },
+    // Low-side NMOS rotated 270°
+    { 
+      ref: 'M3', 
+      type: 'M_NMOS', 
+      params: { model: 'IRF530', rotation: 270 }, 
+      pins: ['MOTOR_P', 'CTRL_A', 'GND', 'GND'] 
+    },
+    // Motor components rotated 90° for horizontal layout
+    { ref: 'L1', type: 'L', params: { value: '10m', rotation: 90 }, pins: ['MOTOR_P', 'MOTOR_N'] },
+  ],
+};
+```
+
+**Rotation Features:**
+- Valid angles: 0°, 90°, 180°, 270° only
+- Rotates entire component including symbol and labels
+- Maintains terminal connectivity
+- Invalid angles show warning and default to 0°
+
+### Orthogonal Wire Routing (NEW! 🎉)
+
+Enable Manhattan-style routing with junction dots for cleaner schematics:
 
 ```typescript
 const result = renderSchematic(circuit, {
+  routing: 'orthogonal',  // Manhattan routing
+  showNetLabels: true,
+  showValues: true,
+});
+```
+
+**Routing Modes:**
+- `'direct'` (default): Straight-line connections between terminals
+- `'orthogonal'`: Manhattan-style routing with horizontal bus lines and vertical drops
+
+**Orthogonal Routing Features:**
+- **Multi-terminal nets** (3+ connections): Common horizontal bus with vertical drops
+- **Two-terminal nets**: Horizontal → vertical → horizontal through midpoint
+- **Junction dots**: Automatically rendered at wire intersections (3px circles)
+- **Grid-snapped**: Bus lines align to grid for clean appearance
+
+### Example with All New Options
+
+```typescript
+const result = renderSchematic(circuit, {
+  routing: 'orthogonal',        // Manhattan routing (NEW!)
   gridSize: 100,                // Larger spacing
   wireColor: '#0066cc',         // Blue wires
   componentColor: '#cc0000',    // Red components
@@ -202,6 +264,79 @@ const inverter: ElectricalProfile = {
     { ref: 'C1', type: 'C', params: { value: '1p' }, pins: ['VOUT', 'GND'] },
   ],
 };
+```
+
+### H-Bridge Motor Driver with Rotation and Orthogonal Routing (NEW! 🎉)
+
+This example demonstrates both component rotation and orthogonal wire routing:
+
+```typescript
+const hBridge: ElectricalProfile = {
+  type: 'electrical',
+  name: 'H-Bridge Motor Driver',
+  nets: [
+    { name: 'VCC' },
+    { name: 'CTRL_A' },
+    { name: 'CTRL_B' },
+    { name: 'MOTOR_P' },
+    { name: 'MOTOR_N' },
+    { name: 'GND' }
+  ],
+  parts: [
+    // Power supply
+    { ref: 'V1', type: 'V', params: { value: '12' }, pins: ['VCC', 'GND'] },
+    
+    // Control signals
+    { ref: 'V2', type: 'V', params: { source: 'PULSE(0 5 0 1n 1n 100u 200u)' }, pins: ['CTRL_A', 'GND'] },
+    { ref: 'V3', type: 'V', params: { source: 'PULSE(0 5 100u 1n 1n 100u 200u)' }, pins: ['CTRL_B', 'GND'] },
+    
+    // H-Bridge: High-side MOSFETs (PMOS) - rotated 90°
+    { 
+      ref: 'M1', 
+      type: 'M_PMOS', 
+      params: { model: 'IRF9530', w: '50u', l: '2u', rotation: 90 }, 
+      pins: ['MOTOR_P', 'CTRL_A', 'VCC', 'VCC'] 
+    },
+    { 
+      ref: 'M2', 
+      type: 'M_PMOS', 
+      params: { model: 'IRF9530', w: '50u', l: '2u', rotation: 90 }, 
+      pins: ['MOTOR_N', 'CTRL_B', 'VCC', 'VCC'] 
+    },
+    
+    // H-Bridge: Low-side MOSFETs (NMOS) - rotated 270°
+    { 
+      ref: 'M3', 
+      type: 'M_NMOS', 
+      params: { model: 'IRF530', w: '100u', l: '2u', rotation: 270 }, 
+      pins: ['MOTOR_P', 'CTRL_A', 'GND', 'GND'] 
+    },
+    { 
+      ref: 'M4', 
+      type: 'M_NMOS', 
+      params: { model: 'IRF530', w: '100u', l: '2u', rotation: 270 }, 
+      pins: ['MOTOR_N', 'CTRL_B', 'GND', 'GND'] 
+    },
+    
+    // Motor (inductor + resistor) - rotated 90° for horizontal layout
+    { ref: 'L1', type: 'L', params: { value: '10m', rotation: 90 }, pins: ['MOTOR_P', 'MOTOR_N'] },
+    { ref: 'R1', type: 'R', params: { value: '5', rotation: 90 }, pins: ['MOTOR_P', 'MOTOR_N'] },
+  ],
+};
+
+// Render with orthogonal routing for clean wire layout
+const result = renderSchematic(hBridge, {
+  routing: 'orthogonal',  // Manhattan-style routing with junction dots
+  showValues: true,
+  showReferences: true,
+  showNetLabels: true
+});
+
+// Output includes:
+// - 6 rotated components (4 MOSFETs + L + R)
+// - 11 junction dots at wire intersections
+// - Clean horizontal bus lines with vertical drops
+// - Professional H-Bridge topology layout
 ```
 
 ## 🔧 Complete Workflow

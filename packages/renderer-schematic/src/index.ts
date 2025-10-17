@@ -23,6 +23,8 @@ export interface SchematicOptions {
   showReferences?: boolean;
   /** Orientation: 'horizontal' | 'vertical' (default: 'horizontal') */
   orientation?: 'horizontal' | 'vertical';
+  /** Wire routing mode: 'direct' | 'orthogonal' (default: 'direct') */
+  routing?: 'direct' | 'orthogonal';
 }
 
 export interface RenderResult {
@@ -60,6 +62,7 @@ export function renderSchematic(
     showValues = true,
     showReferences = true,
     orientation = 'horizontal',
+    routing = 'direct',
   } = options;
 
   // Build net connectivity map
@@ -71,8 +74,8 @@ export function renderSchematic(
   // Calculate terminal positions for each component
   const connections = calculateConnections(positioned);
 
-  // Route wires between components
-  const wires = routeWires(netMap, connections, gridSize);
+  // Route wires between components (with routing mode)
+  const wires = routeWires(netMap, connections, gridSize, routing);
 
   // Calculate bounds
   const bounds = calculateBounds(positioned, wires);
@@ -86,7 +89,7 @@ export function renderSchematic(
   svg += renderWires(wires, showNetLabels);
 
   // Render components
-  svg += renderComponents(positioned, showValues, showReferences);
+  svg += renderComponents(positioned, showValues, showReferences, warnings);
 
   // Render ground symbols
   svg += renderGroundSymbols(netMap, connections, gridSize);
@@ -197,9 +200,10 @@ function calculateConnections(positioned: PositionedComponent[]): NetConnection[
 function routeWires(
   netMap: Map<string, PartAst[]>,
   connections: NetConnection[],
-  _gridSize: number
-): { net: string; points: { x: number; y: number }[] }[] {
-  const wires: { net: string; points: { x: number; y: number }[] }[] = [];
+  gridSize: number,
+  routing: 'direct' | 'orthogonal' = 'direct'
+): { net: string; points: { x: number; y: number }[]; junctions?: { x: number; y: number }[] }[] {
+  const wires: { net: string; points: { x: number; y: number }[]; junctions?: { x: number; y: number }[] }[] = [];
 
   for (const [netName, _parts] of netMap.entries()) {
     if (netName === 'GND') continue; // Ground handled separately
@@ -207,15 +211,72 @@ function routeWires(
     const terminals = connections.filter(c => c.net === netName);
     if (terminals.length < 2) continue;
 
-    // Simple horizontal/vertical routing between consecutive terminals
-    for (let i = 0; i < terminals.length - 1; i++) {
-      const start = terminals[i].terminal;
-      const end = terminals[i + 1].terminal;
+    if (routing === 'orthogonal') {
+      // Orthogonal (Manhattan) routing
+      const junctions: { x: number; y: number }[] = [];
+      
+      // For multiple terminals, create a common bus line
+      if (terminals.length > 2) {
+        // Find average Y position for horizontal bus
+        const avgY = terminals.reduce((sum, t) => sum + t.terminal.y, 0) / terminals.length;
+        const busY = Math.round(avgY / gridSize) * gridSize;
+        
+        // Connect each terminal to the bus with orthogonal routing
+        for (let i = 0; i < terminals.length; i++) {
+          const terminal = terminals[i].terminal;
+          
+          // Vertical line from terminal to bus
+          if (Math.abs(terminal.y - busY) > 1) {
+            wires.push({
+              net: netName,
+              points: [
+                { x: terminal.x, y: terminal.y },
+                { x: terminal.x, y: busY },
+              ],
+            });
+            junctions.push({ x: terminal.x, y: busY });
+          }
+          
+          // Horizontal bus line (connect to next terminal)
+          if (i < terminals.length - 1) {
+            const nextTerminal = terminals[i + 1].terminal;
+            wires.push({
+              net: netName,
+              points: [
+                { x: terminal.x, y: busY },
+                { x: nextTerminal.x, y: busY },
+              ],
+              junctions: junctions.length > 0 ? [junctions[junctions.length - 1]] : undefined,
+            });
+          }
+        }
+      } else {
+        // Two terminals: horizontal then vertical routing
+        const start = terminals[0].terminal;
+        const end = terminals[1].terminal;
+        const midX = (start.x + end.x) / 2;
+        
+        wires.push({
+          net: netName,
+          points: [
+            start,
+            { x: midX, y: start.y },
+            { x: midX, y: end.y },
+            end,
+          ],
+        });
+      }
+    } else {
+      // Direct (straight line) routing
+      for (let i = 0; i < terminals.length - 1; i++) {
+        const start = terminals[i].terminal;
+        const end = terminals[i + 1].terminal;
 
-      wires.push({
-        net: netName,
-        points: [start, end],
-      });
+        wires.push({
+          net: netName,
+          points: [start, end],
+        });
+      }
     }
   }
 
@@ -304,11 +365,14 @@ function generateDefs(): string {
  * Render wires
  */
 function renderWires(
-  wires: { net: string; points: { x: number; y: number }[] }[],
+  wires: { net: string; points: { x: number; y: number }[]; junctions?: { x: number; y: number }[] }[],
   showNetLabels: boolean
 ): string {
   let svg = '<g class="schematic-wires">\n';
 
+  // Collect all junctions
+  const allJunctions = new Map<string, { x: number; y: number }>();
+  
   for (const wire of wires) {
     if (wire.points.length < 2) continue;
 
@@ -324,6 +388,23 @@ function renderWires(
       const midPoint = wire.points[midIdx];
       svg += `  <text x="${midPoint.x + 5}" y="${midPoint.y - 5}" class="schematic-net-label">${escapeXml(wire.net)}</text>\n`;
     }
+    
+    // Collect junctions from this wire
+    if (wire.junctions) {
+      for (const junction of wire.junctions) {
+        const key = `${junction.x},${junction.y}`;
+        allJunctions.set(key, junction);
+      }
+    }
+  }
+  
+  // Render junction dots
+  if (allJunctions.size > 0) {
+    svg += '  <g class="schematic-junctions">\n';
+    for (const junction of allJunctions.values()) {
+      svg += `    <circle cx="${junction.x}" cy="${junction.y}" r="3" class="schematic-junction" fill="currentColor"/>\n`;
+    }
+    svg += '  </g>\n';
   }
 
   svg += '</g>\n';
@@ -336,12 +417,33 @@ function renderWires(
 function renderComponents(
   positioned: PositionedComponent[],
   showValues: boolean,
-  showReferences: boolean
+  showReferences: boolean,
+  warnings: string[]
 ): string {
   let svg = '<g class="schematic-components">\n';
 
   for (const comp of positioned) {
-    svg += `  <g class="schematic-component" data-ref="${escapeXml(comp.part.ref)}">\n`;
+    // Get rotation angle (default to 0)
+    const rotation = comp.part.params?.rotation ? Number(comp.part.params.rotation) : 0;
+    
+    // Validate rotation (must be 0, 90, 180, or 270)
+    const validRotations = [0, 90, 180, 270];
+    if (rotation !== 0 && !validRotations.includes(rotation)) {
+      warnings.push(`Invalid rotation angle ${rotation} for ${comp.part.ref}. Must be 0, 90, 180, or 270. Using 0.`);
+    }
+    
+    const actualRotation = validRotations.includes(rotation) ? rotation : 0;
+    
+    // Calculate center point for rotation
+    const centerX = comp.x + comp.symbol.width / 2;
+    const centerY = comp.y + comp.symbol.height / 2;
+    
+    // Apply rotation transform if needed
+    const transformAttr = actualRotation !== 0 
+      ? ` transform="rotate(${actualRotation} ${centerX} ${centerY})"` 
+      : '';
+    
+    svg += `  <g class="schematic-component" data-ref="${escapeXml(comp.part.ref)}"${transformAttr}>\n`;
     svg += comp.symbol.render(comp.x, comp.y);
 
     // Component reference (above)
