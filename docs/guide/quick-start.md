@@ -58,6 +58,7 @@ shape Start as @rounded label: "Start"
 ```
 
 Common shapes:
+
 - `@rounded` - Rounded rectangle (start/end)
 - `@rect` - Rectangle (process)
 - `@rhombus` - Diamond (decision)
@@ -177,7 +178,7 @@ async function generateDiagram() {
   // Parse DSL
   const dsl = readFileSync('auth-flow.runiq', 'utf-8');
   const parseResult = parse(dsl);
-  
+
   if (!parseResult.success) {
     console.error('Errors:', parseResult.errors);
     return;
@@ -188,12 +189,12 @@ async function generateDiagram() {
   const laidOut = await layoutDiagram(diagram, {
     algorithm: 'layered',
     direction: 'TB',
-    spacing: 80
+    spacing: 80,
   });
 
   // Render
   const result = renderSvg(diagram, laidOut, {
-    title: diagram.title
+    title: diagram.title,
   });
 
   // Save
@@ -284,23 +285,28 @@ Now that you've created your first diagram:
 
 ::: tip Use Meaningful IDs
 Choose IDs that describe the purpose, not just `A`, `B`, `C`:
+
 ```runiq
 shape ValidateUser as @rect    # ✅ Clear
 shape Node1 as @rect            # ❌ Unclear
 ```
+
 :::
 
 ::: tip Group Related Shapes
 Use containers to organize complex diagrams:
+
 ```runiq
 container "Frontend" { ... }
 container "Backend" { ... }
 container "Database" { ... }
 ```
+
 :::
 
 ::: tip Test Your Diagrams
 Write tests for critical diagrams to ensure they parse correctly:
+
 ```typescript
 test('auth flow parses correctly', () => {
   const result = parse(readFileSync('auth-flow.runiq', 'utf-8'));
@@ -308,6 +314,7 @@ test('auth flow parses correctly', () => {
   expect(result.document.diagrams).toHaveLength(1);
 });
 ```
+
 :::
 
 ---

@@ -337,12 +337,7 @@ console.log(`   Gates: 3× AND + 1× OR3`);
 const jkToggleSchematic: ElectricalProfile = {
   type: 'electrical',
   name: 'JK Flip-Flop Toggle Mode',
-  nets: [
-    { name: 'VCC' },
-    { name: 'CLK' },
-    { name: 'Q' },
-    { name: 'QN' },
-  ],
+  nets: [{ name: 'VCC' }, { name: 'CLK' }, { name: 'Q' }, { name: 'QN' }],
   parts: [
     {
       ref: 'U1',
@@ -415,7 +410,10 @@ const fullAdder3Result = renderSchematic(fullAdder3Schematic, {
   showNetLabels: true,
 });
 
-writeFileSync(join(schematicDir, 'full-adder-3input.svg'), fullAdder3Result.svg);
+writeFileSync(
+  join(schematicDir, 'full-adder-3input.svg'),
+  fullAdder3Result.svg
+);
 console.log('✅ Full Adder (3-input) schematic generated');
 console.log(`   Uses OR3 for carry logic`);
 console.log(`   Gates: 2× XOR + 1× AND + 1× OR3`);

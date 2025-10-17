@@ -29,8 +29,9 @@ diagram "PID Controller"
 $$C(s) = K_p + \frac{K_i}{s} + K_d s$$
 
 Where:
+
 - $K_p$ = Proportional gain
-- $K_i$ = Integral gain  
+- $K_i$ = Integral gain
 - $K_d$ = Derivative gain
 
 ### Control Law
@@ -38,6 +39,7 @@ Where:
 $$u(t) = K_p e(t) + K_i \int_0^t e(\tau) d\tau + K_d \frac{de(t)}{dt}$$
 
 ### Use Cases
+
 - Temperature control
 - Motor speed control
 - Robotic arm positioning
@@ -58,10 +60,10 @@ diagram "Feedback Control System" direction: LR
   shape controller as @transfer-fn label: "Controller\nC(s)"
   shape plant as @transfer-fn label: "Plant\nG(s)"
   shape output as @box label: "Output\nY(s)"
-  
+
   # Feedback path
   shape sensor as @transfer-fn label: "Sensor\nH(s)"
-  
+
   # Disturbance
   shape disturbance as @box label: "Disturbance\nD(s)"
   shape dist_sum as @summing-junction label: "Σ"
@@ -73,7 +75,7 @@ diagram "Feedback Control System" direction: LR
   disturbance -> dist_sum label: "+"
   dist_sum -> plant
   plant -> output
-  
+
   # Feedback path
   output -> sensor
   sensor -> error label: "-"
@@ -86,11 +88,13 @@ $$\frac{Y(s)}{R(s)} = \frac{C(s)G(s)}{1 + C(s)G(s)H(s)}$$
 ### Open-Loop vs Closed-Loop
 
 **Open-Loop** (no feedback):
+
 - Simple design
 - No self-correction
 - Sensitive to disturbances
 
 **Closed-Loop** (with feedback):
+
 - Self-correcting
 - Reduced sensitivity
 - Improved stability
@@ -135,21 +139,21 @@ diagram "State-Space System" direction: TB
 
   # Input
   shape u as @box label: "Input\nu(t)"
-  
+
   # State equations
   shape B as @gain label: "B"
   shape integrator as @transfer-fn label: "1/s"
   shape A as @gain label: "A"
   shape C as @gain label: "C"
   shape D as @gain label: "D"
-  
+
   # Output
   shape y as @box label: "Output\ny(t)"
-  
+
   # State feedback
   shape sum1 as @summing-junction label: "Σ"
   shape sum2 as @summing-junction label: "Σ"
-  
+
   # Connections
   u -> B
   B -> sum1 label: "+"
@@ -169,6 +173,7 @@ $$\dot{x}(t) = Ax(t) + Bu(t)$$
 $$y(t) = Cx(t) + Du(t)$$
 
 Where:
+
 - $x(t)$ = State vector
 - $u(t)$ = Input vector
 - $y(t)$ = Output vector
@@ -187,16 +192,16 @@ Multiple parallel signal paths that combine.
 diagram "Parallel PID Controller" direction: LR
 
   shape error as @box label: "Error\ne(t)"
-  
+
   # Parallel paths
   shape Kp as @gain label: "Kp"
   shape Ki as @transfer-fn label: "Ki/s"
   shape Kd as @transfer-fn label: "Kd·s"
-  
+
   # Sum
   shape sum as @summing-junction label: "Σ"
   shape output as @box label: "Output\nu(t)"
-  
+
   # Connections
   error -> Kp -> sum label: "+"
   error -> Ki -> sum label: "+"
@@ -218,15 +223,15 @@ Runiq provides specialized shapes for control systems:
 
 ### Basic Blocks
 
-| Shape | Syntax | Use Case |
-|-------|--------|----------|
-| **Box** | `@box` | Input/output, reference |
-| **Transfer Function** | `@transfer-fn` | System dynamics $G(s)$ |
-| **Gain** | `@gain` | Constant multiplier $K$ |
-| **Summing Junction** | `@summing-junction` | Addition/subtraction $\Sigma$ |
-| **Junction** | `@junction` | Signal split point |
-| **Integrator** | `@transfer-fn` | $\frac{1}{s}$ or $\int$ |
-| **Differentiator** | `@transfer-fn` | $s$ or $\frac{d}{dt}$ |
+| Shape                 | Syntax              | Use Case                      |
+| --------------------- | ------------------- | ----------------------------- |
+| **Box**               | `@box`              | Input/output, reference       |
+| **Transfer Function** | `@transfer-fn`      | System dynamics $G(s)$        |
+| **Gain**              | `@gain`             | Constant multiplier $K$       |
+| **Summing Junction**  | `@summing-junction` | Addition/subtraction $\Sigma$ |
+| **Junction**          | `@junction`         | Signal split point            |
+| **Integrator**        | `@transfer-fn`      | $\frac{1}{s}$ or $\int$       |
+| **Differentiator**    | `@transfer-fn`      | $s$ or $\frac{d}{dt}$         |
 
 ### Common Transfer Functions
 
@@ -259,20 +264,20 @@ diagram "DC Motor Speed Control" direction: LR
 
   # Input
   shape ref as @box label: "Desired\nSpeed"
-  
+
   # Controller
   shape error as @summing-junction label: "Σ"
   shape pid as @transfer-fn label: "PID\nController"
-  
+
   # Motor model
   shape motor as @transfer-fn label: "Motor\nK/(Js+b)"
-  
+
   # Tachometer (sensor)
   shape tacho as @gain label: "Kt"
-  
+
   # Output
   shape speed as @box label: "Actual\nSpeed"
-  
+
   # Connections
   ref -> error label: "+"
   error -> pid
@@ -289,27 +294,27 @@ diagram "Aircraft Pitch Control" direction: LR
 
   # Reference
   shape theta_ref as @box label: "θ_ref"
-  
+
   # Autopilot
   shape error as @summing-junction label: "Σ"
   shape autopilot as @transfer-fn label: "Autopilot\nC(s)"
-  
+
   # Elevator actuator
   shape actuator as @transfer-fn label: "Actuator\n1/(τs+1)"
-  
+
   # Aircraft dynamics
   shape aircraft as @transfer-fn label: "Aircraft\nG(s)"
-  
+
   # Pitch angle sensor
   shape gyro as @gain label: "Kg"
-  
+
   # Output
   shape theta as @box label: "θ"
-  
+
   # Disturbance (wind)
   shape wind as @box label: "Wind"
   shape wind_sum as @summing-junction label: "Σ"
-  
+
   # Connections
   theta_ref -> error label: "+"
   error -> autopilot
@@ -335,7 +340,7 @@ Generate publication-quality diagrams for papers:
   \node [block, right of=sum] (controller) {$C(s)$};
   \node [block, right of=controller] (plant) {$G(s)$};
   \node [output, right of=plant] (output) {$Y(s)$};
-  
+
   \draw [->] (input) -- (sum);
   \draw [->] (sum) -- (controller);
   \draw [->] (controller) -- (plant);
@@ -347,6 +352,7 @@ Generate publication-quality diagrams for papers:
 ### Simulink
 
 Generate `.mdl` files for MATLAB Simulink:
+
 - Drag-and-drop compatible
 - Preserves transfer functions
 - Ready for simulation
@@ -365,49 +371,58 @@ matlab -r "open_system('pid.mdl')"
 ### Frequency Response
 
 **Bode Plot**: Magnitude and phase vs. frequency
+
 - Gain margin
 - Phase margin
 - Crossover frequencies
 
 **Nyquist Plot**: Polar plot in complex plane
+
 - Stability analysis
 - Encirclements of -1 point
 
 ### Time Response
 
 **Step Response**: System response to unit step
+
 - Rise time
 - Settling time
 - Overshoot
 - Steady-state error
 
 **Impulse Response**: Response to delta function
+
 - System characterization
 - Natural frequencies
 
 ## Best Practices
 
 ::: tip Signal Flow
+
 - Use **LR** (left-right) direction for forward paths
 - Use **TB** (top-bottom) for hierarchical systems
 - Place feedback paths below forward paths
-:::
+  :::
 
 ::: tip Transfer Function Labels
 Use proper mathematical notation:
+
 ```runiq
 shape tf as @transfer-fn label: "K/(τs+1)"
 shape tf2 as @transfer-fn label: "ωₙ²/(s²+2ζωₙs+ωₙ²)"
 ```
+
 Support Unicode: τ, ω, ζ, θ, ϕ
 :::
 
 ::: tip Summing Junctions
 Always label inputs with signs:
+
 ```runiq
 ref -> sum label: "+"
 feedback -> sum label: "-"
 ```
+
 :::
 
 ## Next Steps

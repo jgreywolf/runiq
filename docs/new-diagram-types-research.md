@@ -20,13 +20,16 @@ This document analyzes the requirements, complexity, and implementation effort f
 ## 1. Quantum Circuit Diagrams 🟡
 
 ### What It Is
+
 Visual representation of quantum algorithms showing:
+
 - Quantum bits (qubits) as horizontal lines
 - Quantum gates applied to qubits
 - Measurement operations
 - Classical control flow
 
 ### Example Structure
+
 ```
 |0⟩ ─── H ─── • ─── M
                 │
@@ -36,6 +39,7 @@ Visual representation of quantum algorithms showing:
 ### Current Runiq Capabilities
 
 **✅ Already Have:**
+
 - Horizontal layout (ELK algorithm with LR direction)
 - Line rendering (edges between nodes)
 - Custom shape support (could create gate shapes)
@@ -43,6 +47,7 @@ Visual representation of quantum algorithms showing:
 - Multi-layer structure (parallel qubits)
 
 **❌ Missing:**
+
 - Quantum-specific gate symbols (H, X, Y, Z, CNOT, etc.)
 - Wire-based layout (qubits as persistent horizontal lines, not edges)
 - Gate-on-wire rendering paradigm
@@ -55,6 +60,7 @@ Visual representation of quantum algorithms showing:
 **Complexity:** 🟡 MEDIUM (3-5 days)
 
 **Phase 1: Core Gates (2 days)**
+
 - [ ] Create quantum gate shapes:
   - Single-qubit gates: H (Hadamard), X, Y, Z, S, T
   - Measurement box (meter icon)
@@ -64,11 +70,13 @@ Visual representation of quantum algorithms showing:
 - [ ] 15-20 tests for gate rendering
 
 **Phase 2: Multi-Qubit Gates (1 day)**
+
 - [ ] CNOT, SWAP, Toffoli gate rendering
 - [ ] Vertical connection lines for controlled gates
 - [ ] 10 tests for multi-qubit operations
 
 **Phase 3: Layout Algorithm (1-2 days)**
+
 - [ ] Custom "quantum wire" layout
   - Qubits as horizontal swimlanes
   - Gates positioned on time steps
@@ -89,24 +97,26 @@ export const hGateShape: ShapeDefinition = {
           fill="#fff" stroke="#000" stroke-width="2"/>
     <text x="${pos.x + 20}" y="${pos.y + 25}" 
           text-anchor="middle" font-size="18" font-weight="bold">H</text>
-  `
+  `,
 };
 
 // Special layout mode
 const layoutOptions = {
   algorithm: 'quantum-wire', // Custom algorithm
   qubitCount: 3,
-  timeSteps: 5
+  timeSteps: 5,
 };
 ```
 
 **Pros:**
+
 - Growing field (quantum computing education)
 - Clear visual standard (Qiskit, Cirq formats)
 - Educational value for quantum courses
 - Unique offering (few text-based quantum circuit tools)
 
 **Cons:**
+
 - Niche audience (quantum computing researchers/students)
 - Need to learn quantum gate conventions
 - Different paradigm than node-edge diagrams
@@ -118,7 +128,9 @@ const layoutOptions = {
 ## 2. Pedigree Charts 🟢
 
 ### What It Is
+
 Family tree diagrams showing:
+
 - Individuals (male/female/unknown)
 - Marriages/partnerships
 - Parent-child relationships
@@ -126,6 +138,7 @@ Family tree diagrams showing:
 - Multiple generations
 
 ### Example Structure
+
 ```
     ┌─────┐     ┌─────┐
     │ ♂️   │─────│ ♀️   │
@@ -140,6 +153,7 @@ Family tree diagrams showing:
 ### Current Runiq Capabilities
 
 **✅ Already Have:**
+
 - Tree layout (ELK tree algorithm)
 - Hierarchical structure (parent-child via containers)
 - Node shapes (rectangles, circles for individuals)
@@ -148,6 +162,7 @@ Family tree diagrams showing:
 - Multiple children from same parents
 
 **❌ Missing:**
+
 - Gender-specific shapes (square=male, circle=female convention)
 - Marriage/partnership connectors (horizontal lines between spouses)
 - Sibling grouping (multiple children on same level)
@@ -160,6 +175,7 @@ Family tree diagrams showing:
 **Complexity:** 🟢 EASY (1-2 days)
 
 **Phase 1: Pedigree Shapes (4 hours)**
+
 - [ ] Male shape (square)
 - [ ] Female shape (circle)
 - [ ] Unknown sex shape (diamond)
@@ -168,12 +184,14 @@ Family tree diagrams showing:
 - [ ] 10 tests for shapes
 
 **Phase 2: Relationship Notation (4 hours)**
+
 - [ ] Marriage edge type (horizontal connector)
 - [ ] Sibling grouping syntax
 - [ ] Parent-child vertical lines
 - [ ] 8 tests for relationships
 
 **Phase 3: Pedigree DSL (2-4 hours)**
+
 - [ ] Extend parser for pedigree-specific syntax:
   ```runiq
   diagram pedigree "Smith Family"
@@ -193,7 +211,7 @@ Family tree diagrams showing:
 const layoutOptions = {
   algorithm: 'mrtree', // ELK's tree algorithm
   direction: 'DOWN',
-  spacing: 60
+  spacing: 60,
 };
 
 // New pedigree-specific shapes
@@ -201,15 +219,19 @@ export const maleShape: ShapeDefinition = {
   id: 'pedigree-male',
   bounds: () => ({ width: 40, height: 40 }),
   render: (ctx, pos) => {
-    const fill = ctx.style?.affected ? '#000' : 
-                 ctx.style?.carrier ? 'url(#half-fill)' : '#fff';
+    const fill = ctx.style?.affected
+      ? '#000'
+      : ctx.style?.carrier
+        ? 'url(#half-fill)'
+        : '#fff';
     return `<rect x="${pos.x}" y="${pos.y}" width="40" height="40"
                   fill="${fill}" stroke="#000" stroke-width="2"/>`;
-  }
+  },
 };
 ```
 
 **Pros:**
+
 - Very similar to existing tree layout
 - Clear conventions (medical genetics standards)
 - Wide audience (genealogy, genetics, medicine)
@@ -217,6 +239,7 @@ export const maleShape: ShapeDefinition = {
 - Could use existing container system for generations
 
 **Cons:**
+
 - Need to support horizontal marriage connectors (different from tree edges)
 - Sibling ordering can be complex
 
@@ -227,7 +250,9 @@ export const maleShape: ShapeDefinition = {
 ## 3. UML Timing Diagrams 🟡
 
 ### What It Is
+
 Shows how object states change over time:
+
 - Horizontal time axis
 - Lifelines (objects) with state changes
 - State transitions as waveforms
@@ -235,6 +260,7 @@ Shows how object states change over time:
 - Events and messages
 
 ### Example Structure
+
 ```
 Object A:  ──────┐      ┌────────
            state1 └──────┘ state2
@@ -246,6 +272,7 @@ Time:      0    2s     5s     10s
 ### Current Runiq Capabilities
 
 **✅ Already Have:**
+
 - Horizontal layout (ELK LR direction)
 - Sequence diagram foundation (lifelines, messages)
 - Time-based positioning (manual x-coordinates)
@@ -254,6 +281,7 @@ Time:      0    2s     5s     10s
 - Actor shapes for lifelines
 
 **❌ Missing:**
+
 - Waveform rendering (digital signal visualization)
 - Time axis with tick marks and scale
 - State duration bars (rectangle spans)
@@ -266,18 +294,21 @@ Time:      0    2s     5s     10s
 **Complexity:** 🟡 MEDIUM-HIGH (4-6 days)
 
 **Phase 1: Time Axis & Grid (1 day)**
+
 - [ ] Time axis shape (horizontal ruler with ticks)
 - [ ] Grid overlay option
 - [ ] Time scale support (ms, s, min)
 - [ ] 8 tests
 
 **Phase 2: State Waveforms (2 days)**
+
 - [ ] State duration shape (horizontal bar with label)
 - [ ] Waveform transition rendering (vertical edges)
 - [ ] Multi-state lifelines (stacked swimlanes)
 - [ ] 15 tests
 
 **Phase 3: Timing Layout Algorithm (1-2 days)**
+
 - [ ] Custom "timing" layout:
   - Objects as vertical lanes
   - States positioned by time
@@ -286,6 +317,7 @@ Time:      0    2s     5s     10s
 - [ ] 12 tests
 
 **Phase 4: Time Constraints (1 day)**
+
 - [ ] Duration annotations
 - [ ] Time constraint syntax: `{t=5s..10s}`
 - [ ] Occurrence specifications
@@ -299,22 +331,22 @@ Time:      0    2s     5s     10s
 // Timing-specific DSL
 diagram timing "Protocol Handshake"
   timeline 0-10s grid:1s
-  
+
   lifeline Client {
     state idle 0-2s
     state connecting 2-3s
     state connected 3-10s
   }
-  
+
   lifeline Server {
     state listening 0-2.5s
     state processing 2.5-3s
     state active 3-10s
   }
-  
+
   event "SYN" at:2s from:Client to:Server
   event "ACK" at:2.5s from:Server to:Client
-  
+
   constraint "Response time" duration:0.5s
 
 // Custom layout for timing diagrams
@@ -327,12 +359,14 @@ const timingLayout = {
 ```
 
 **Pros:**
+
 - UML standard (well-documented)
 - Useful for embedded systems, protocols, real-time systems
 - Combines state + sequence concepts
 - Educational value (UML completeness)
 
 **Cons:**
+
 - Complex layout (time-based positioning)
 - Need waveform rendering (new paradigm)
 - Less common than sequence/state diagrams
@@ -345,7 +379,9 @@ const timingLayout = {
 ## 4. Network Topology Diagrams 🟢
 
 ### What It Is
+
 Computer network diagrams showing:
+
 - Devices (routers, switches, servers, computers, firewalls)
 - Connections (Ethernet, fiber, wireless)
 - Network segments (subnets, VLANs)
@@ -353,6 +389,7 @@ Computer network diagrams showing:
 - Cloud/internet connections
 
 ### Example Structure
+
 ```
     [Internet Cloud]
            |
@@ -366,6 +403,7 @@ Computer network diagrams showing:
 ### Current Runiq Capabilities
 
 **✅ Already Have:**
+
 - Network device shapes (cloud, hexagon for routers)
 - Hierarchical structure (subnets as containers)
 - Edge labels (connection types, bandwidth)
@@ -374,6 +412,7 @@ Computer network diagrams showing:
 - Grouping (containers for subnets)
 
 **❌ Missing:**
+
 - Network-specific device shapes:
   - Router icon (distinct from hex)
   - Switch/hub shapes
@@ -389,6 +428,7 @@ Computer network diagrams showing:
 **Complexity:** 🟢 EASY (1-2 days)
 
 **Phase 1: Network Device Shapes (4 hours)**
+
 - [ ] Router shape (with antenna icon)
 - [ ] Switch shape (rectangular with ports)
 - [ ] Firewall shape (brick wall pattern)
@@ -397,6 +437,7 @@ Computer network diagrams showing:
 - [ ] 12 tests
 
 **Phase 2: Connection Types (2 hours)**
+
 - [ ] Ethernet line (solid)
 - [ ] Fiber line (double line)
 - [ ] Wireless line (wavy/dashed)
@@ -404,6 +445,7 @@ Computer network diagrams showing:
 - [ ] 6 tests
 
 **Phase 3: Network DSL Syntax (2-4 hours)**
+
 - [ ] Extend parser for network-specific syntax:
   ```runiq
   diagram network "Office Network"
@@ -427,9 +469,9 @@ export const routerShape: ShapeDefinition = {
   id: 'router',
   bounds: () => ({ width: 60, height: 50 }),
   render: (ctx, pos) => `
-    <rect x="${pos.x}" y="${pos.y}" width="60" height="40" 
+    <rect x="${pos.x}" y="${pos.y}" width="60" height="40"
           fill="#e8f4f8" stroke="#2196F3" stroke-width="2" rx="5"/>
-    <path d="M${pos.x+10},${pos.y+40} l10,-5 l10,5" 
+    <path d="M${pos.x+10},${pos.y+40} l10,-5 l10,5"
           fill="none" stroke="#2196F3" stroke-width="2"/>
     <text...>${ctx.label}</text>
   `
@@ -453,6 +495,7 @@ const layoutOptions = {
 ```
 
 **Pros:**
+
 - High demand (IT, DevOps, networking courses)
 - We already have cloud shape and icons
 - Can reuse container system for subnets/VLANs
@@ -460,6 +503,7 @@ const layoutOptions = {
 - Icon library (Font Awesome) has network icons
 
 **Cons:**
+
 - Need many device shape variants
 - Network diagrams can be very large
 
@@ -470,7 +514,9 @@ const layoutOptions = {
 ## 5. PowerPoint SmartArt 🔴
 
 ### What It Is
+
 Microsoft's structured graphics for:
+
 - Lists (bullet, vertical, horizontal)
 - Processes (step-by-step flows)
 - Cycles (continuous processes)
@@ -482,6 +528,7 @@ Microsoft's structured graphics for:
 ### Current Runiq Capabilities
 
 **✅ Already Have:**
+
 - List layouts (vertical stacking)
 - Process flows (flowcharts with arrows)
 - Hierarchies (tree layout, containers)
@@ -490,6 +537,7 @@ Microsoft's structured graphics for:
 - Matrix layouts (can simulate with grid positioning)
 
 **❌ Missing:**
+
 - SmartArt is a **collection of 200+ templates**, not a single diagram type
 - Automatic text-to-visual conversion (SmartArt's key feature)
 - Dynamic resizing based on content
@@ -503,6 +551,7 @@ Microsoft's structured graphics for:
 
 **Why This Is Hard:**
 SmartArt is not a diagram type - it's a **productivity feature** that:
+
 1. Takes structured text (bullets, lists)
 2. Applies pre-designed templates (200+ layouts)
 3. Automatically sizes/positions elements
@@ -510,6 +559,7 @@ SmartArt is not a diagram type - it's a **productivity feature** that:
 5. Provides theme variations
 
 **What We'd Need to Build:**
+
 - [ ] 200+ layout templates (massive effort)
 - [ ] Text-to-diagram AI/rules engine
 - [ ] Automatic shape sizing based on text length
@@ -519,6 +569,7 @@ SmartArt is not a diagram type - it's a **productivity feature** that:
 - [ ] Estimated: 500+ tests
 
 **Problems:**
+
 1. **Scope Creep**: SmartArt is an entire product category
 2. **Unclear Target**: Users want "SmartArt" for convenience, not specific diagram types
 3. **Reinventing Wheel**: Microsoft has 20+ years of SmartArt development
@@ -528,19 +579,20 @@ SmartArt is not a diagram type - it's a **productivity feature** that:
 
 Instead of "SmartArt", support the **underlying diagram types**:
 
-| SmartArt Category | Runiq Equivalent | Status |
-|-------------------|------------------|--------|
-| List | Vertical flowchart | ✅ Already supported |
-| Process | Flowchart with arrows | ✅ Already supported |
-| Cycle | Circular layout | 🟡 Partial (use radial) |
-| Hierarchy | Tree layout, org chart | ✅ Already supported |
-| Relationship | Venn, matrix | 🟡 Partial (examples exist) |
-| Matrix | Grid layout | 🟡 Can simulate |
-| Pyramid | Pyramid shape | ✅ Already have shape |
+| SmartArt Category | Runiq Equivalent       | Status                      |
+| ----------------- | ---------------------- | --------------------------- |
+| List              | Vertical flowchart     | ✅ Already supported        |
+| Process           | Flowchart with arrows  | ✅ Already supported        |
+| Cycle             | Circular layout        | 🟡 Partial (use radial)     |
+| Hierarchy         | Tree layout, org chart | ✅ Already supported        |
+| Relationship      | Venn, matrix           | 🟡 Partial (examples exist) |
+| Matrix            | Grid layout            | 🟡 Can simulate             |
+| Pyramid           | Pyramid shape          | ✅ Already have shape       |
 
 **Technical Approach:**
 
 Rather than "PowerPoint SmartArt support", we could:
+
 1. **Create preset templates** for common patterns
 2. **Improve our matrix layout** (2x2, 3x3 grids)
 3. **Add circular/cycle layout** algorithm
@@ -550,7 +602,7 @@ Rather than "PowerPoint SmartArt support", we could:
 // Instead of SmartArt, provide templates
 diagram process "Project Phases" template:horizontal-process
   step "Research"
-  step "Design"  
+  step "Design"
   step "Develop"
   step "Test"
   step "Deploy"
@@ -563,6 +615,7 @@ diagram flowchart "Project Phases" direction:LR
 ```
 
 **Estimated Effort for Alternative (Preset Templates):**
+
 - 🟡 MEDIUM (2-3 days)
 - [ ] Create 10-15 common templates
 - [ ] Template system in parser
@@ -570,11 +623,13 @@ diagram flowchart "Project Phases" direction:LR
 - [ ] 20-25 tests
 
 **Pros:**
+
 - "SmartArt" is a recognized brand (users search for it)
 - Could attract PowerPoint users looking for code alternative
 - Templates lower barrier to entry
 
 **Cons:**
+
 - Impossible to fully replicate (200+ layouts)
 - Users expect WYSIWYG convenience
 - Would always be "inferior" to PowerPoint
@@ -583,6 +638,7 @@ diagram flowchart "Project Phases" direction:LR
 **Recommendation:** 🔴 **POOR FIT** - Unclear scope, massive effort, better to focus on specific diagram types
 
 **Better Alternative:** 🟢 Focus on improving **specific diagram types** SmartArt covers:
+
 - Matrix/Grid layouts (EASY, 1 day)
 - Circular/Cycle layouts (EASY-MEDIUM, 1-2 days)
 - Template library (MEDIUM, 2-3 days)
@@ -591,30 +647,29 @@ diagram flowchart "Project Phases" direction:LR
 
 ## Summary & Recommendations
 
-| Diagram Type | Complexity | Effort | Tests | Value | Recommendation |
-|--------------|------------|--------|-------|-------|----------------|
-| **Quantum Circuits** | 🟡 Medium | 3-5 days | ~40 | Medium | 🟢 **YES** - Unique offering |
-| **Pedigree Charts** | 🟢 Easy | 1-2 days | ~28 | High | 🟢 **YES** - Low effort, high value |
-| **UML Timing** | 🟡 Medium-High | 4-6 days | ~45 | Medium | 🟡 Maybe - Fills UML gap |
-| **Network Topology** | 🟢 Easy | 1-2 days | ~28 | High | 🟢 **YES** - High demand |
-| **PowerPoint SmartArt** | 🔴 Very High | 3-6 weeks | 500+ | Low | 🔴 **NO** - Use templates instead |
+| Diagram Type            | Complexity     | Effort    | Tests | Value  | Recommendation                      |
+| ----------------------- | -------------- | --------- | ----- | ------ | ----------------------------------- |
+| **Quantum Circuits**    | 🟡 Medium      | 3-5 days  | ~40   | Medium | 🟢 **YES** - Unique offering        |
+| **Pedigree Charts**     | 🟢 Easy        | 1-2 days  | ~28   | High   | 🟢 **YES** - Low effort, high value |
+| **UML Timing**          | 🟡 Medium-High | 4-6 days  | ~45   | Medium | 🟡 Maybe - Fills UML gap            |
+| **Network Topology**    | 🟢 Easy        | 1-2 days  | ~28   | High   | 🟢 **YES** - High demand            |
+| **PowerPoint SmartArt** | 🔴 Very High   | 3-6 weeks | 500+  | Low    | 🔴 **NO** - Use templates instead   |
 
 ### Recommended Priority Order
 
 **Phase 1: Quick Wins (3-4 days total)** 🏆
+
 1. **Pedigree Charts** (1-2 days) - Easy, uses tree layout
 2. **Network Topology** (1-2 days) - Easy, high demand
 
-**Phase 2: Moderate Effort (3-5 days)** 🎯
-3. **Quantum Circuits** (3-5 days) - Unique, growing field
+**Phase 2: Moderate Effort (3-5 days)** 🎯 3. **Quantum Circuits** (3-5 days) - Unique, growing field
 
-**Phase 3: Specialized (4-6 days)** 🔬
-4. **UML Timing Diagrams** (4-6 days) - Completes UML suite
+**Phase 3: Specialized (4-6 days)** 🔬 4. **UML Timing Diagrams** (4-6 days) - Completes UML suite
 
-**Phase 4: Alternative to SmartArt (2-3 days)** 📊
-5. **Template Library** (2-3 days) - Common patterns, not full SmartArt
+**Phase 4: Alternative to SmartArt (2-3 days)** 📊 5. **Template Library** (2-3 days) - Common patterns, not full SmartArt
 
 ### Total Estimated Effort
+
 - **Phases 1-2:** ~8 days → All 4 recommended diagram types
 - **With templates:** ~10 days → Complete package
 
@@ -629,7 +684,7 @@ If you want to proceed, I recommend:
    - Uses existing tree layout
    - Immediate value for genealogy/genetics
 
-2. **Then Network Topology** (1-2 days)  
+2. **Then Network Topology** (1-2 days)
    - High demand from IT/DevOps
    - Leverages existing shapes and containers
 

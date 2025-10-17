@@ -50,6 +50,7 @@ GenerateToken -> Success
 ### Explanation
 
 **Shapes Used:**
+
 - `@rounded` - Terminal points (start/end)
 - `@rect` - Process steps
 - `@rhombus` - Decisions
@@ -58,6 +59,7 @@ GenerateToken -> Success
 - `@doc` - Documents/errors
 
 **Flow:**
+
 1. User enters credentials
 2. Input validation (valid/invalid branch)
 3. Database lookup
@@ -98,6 +100,7 @@ Business -> Cache
 ```
 
 **Features:**
+
 - Three containers for separation of concerns
 - Color-coded layers (blue, orange, green)
 - Database and cache in data layer
@@ -126,6 +129,7 @@ ErrorLog -> Archive
 ```
 
 **Use Case:** ETL (Extract, Transform, Load) process
+
 - Left-to-right flow (`direction: LR`)
 - Validation decision point
 - Error handling path
@@ -164,6 +168,7 @@ IncrementI -> OuterCheck
 ```
 
 **Features:**
+
 - Nested loops (outer and inner)
 - Multiple decision points
 - Loop back edges
@@ -200,6 +205,7 @@ Delivered -> Refunded label: "refund"
 ```
 
 **Use Case:** E-commerce order lifecycle
+
 - States as shapes
 - Transitions as edges with labels
 - Multiple paths to cancelled state
@@ -208,27 +214,31 @@ Delivered -> Refunded label: "refund"
 ## Best Practices
 
 ::: tip Shape Selection
+
 - **@rounded**: Start/end states
 - **@rect**: Process/action steps
 - **@rhombus**: Decisions (branching)
 - **@hex**: Preparation/success states
 - **@cyl**: Data stores
 - **@doc**: Documents/outputs
-:::
+  :::
 
 ::: tip Layout Direction
+
 - **TB** (top-bottom): Sequential processes, hierarchies
 - **LR** (left-right): Timelines, pipelines
 - **BT** (bottom-top): Reverse flows
 - **RL** (right-left): Eastern reading order
-:::
+  :::
 
 ::: tip Edge Labels
 Place labels on the source for conditional branches:
+
 ```runiq
 Decision[yes] -> Success
 Decision[no] -> Failure
 ```
+
 :::
 
 ## Next Steps

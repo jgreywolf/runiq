@@ -28,6 +28,7 @@ API -> DB
 ```
 
 ### Use Cases
+
 - Logical grouping of components
 - System boundaries
 - Deployment zones
@@ -43,8 +44,8 @@ System context showing external actors and systems.
 diagram "C4 Context - Banking System" direction: TB
 
 # Central system
-shape BankingSystem as @rect 
-  label: "Internet Banking\nSystem" 
+shape BankingSystem as @rect
+  label: "Internet Banking\nSystem"
   fillColor: "#1168bd"
   textColor: "#ffffff"
 
@@ -53,11 +54,11 @@ actor Customer as @actor label: "Personal Banking\nCustomer"
 actor Admin as @actor label: "Bank Staff"
 
 # External systems
-shape EmailSystem as @rect 
-  label: "Email System" 
+shape EmailSystem as @rect
+  label: "Email System"
   fillColor: "#999999"
-shape MainframeSystem as @rect 
-  label: "Mainframe Banking\nSystem" 
+shape MainframeSystem as @rect
+  label: "Mainframe Banking\nSystem"
   fillColor: "#999999"
 
 # Relationships
@@ -86,29 +87,29 @@ diagram "C4 Container - Banking System" direction: TB
 actor Customer as @actor label: "Personal Banking\nCustomer"
 
 container "Internet Banking System" fillColor: "#e3f2fd" {
-  
-  shape WebApp as @rect 
+
+  shape WebApp as @rect
     label: "Web Application\n[JavaScript, React]"
     fillColor: "#1168bd"
     textColor: "#ffffff"
-  
-  shape API as @rect 
+
+  shape API as @rect
     label: "API Application\n[Java, Spring Boot]"
     fillColor: "#1168bd"
     textColor: "#ffffff"
-  
-  shape DB as @cyl 
+
+  shape DB as @cyl
     label: "Database\n[Oracle]"
     fillColor: "#1168bd"
     textColor: "#ffffff"
 }
 
 # External systems
-shape EmailSystem as @rect 
+shape EmailSystem as @rect
   label: "Email System\n[Microsoft Exchange]"
   fillColor: "#999999"
-  
-shape Mainframe as @rect 
+
+shape Mainframe as @rect
   label: "Mainframe System\n[IBM z/OS]"
   fillColor: "#999999"
 
@@ -123,6 +124,7 @@ API -> Mainframe label: "Gets data\n[XML/HTTPS]"
 ### Technology Labels
 
 Include technology stack in labels:
+
 - `[JavaScript, React]` - Frontend
 - `[Java, Spring Boot]` - Backend
 - `[Oracle]` - Database
@@ -138,7 +140,7 @@ Modern distributed system with multiple services.
 diagram "Microservices Architecture" direction: TB
 
 # API Gateway
-shape Gateway as @rect 
+shape Gateway as @rect
   label: "API Gateway\n[Nginx]"
   fillColor: "#ff9800"
   textColor: "#ffffff"
@@ -195,16 +197,19 @@ Inventory -> ServiceDiscovery
 ### Microservices Patterns
 
 **Service Mesh**: Communication between services
+
 - Service discovery
 - Load balancing
 - Circuit breakers
 
 **Event-Driven**: Asynchronous messaging
+
 - Message queues
 - Event bus
 - Pub/sub
 
 **Data Isolation**: Each service owns its data
+
 - Separate databases
 - No shared tables
 - API-only access
@@ -376,9 +381,9 @@ container "Database" fillColor: "#e8f5e9" {
 ### Border Styles
 
 ```runiq
-container "Secure Zone" 
-  strokeColor: "#f44336" 
-  strokeWidth: 3 
+container "Secure Zone"
+  strokeColor: "#f44336"
+  strokeWidth: 3
   lineStyle: dashed {
   # Dashed red border
 }
@@ -392,7 +397,7 @@ container "Data Center" {
     shape Server1 as @rect
     shape Server2 as @rect
   }
-  
+
   container "Rack 2" {
     shape Server3 as @rect
     shape Server4 as @rect
@@ -404,48 +409,57 @@ container "Data Center" {
 
 ::: tip Color Coding
 Use consistent colors for container types:
+
 - **Blue** (#e3f2fd): Frontend/UI layers
 - **Orange** (#fff3e0): Backend/API layers
 - **Green** (#e8f5e9): Data/infrastructure layers
 - **Gray** (#999999): External systems
-:::
+  :::
 
 ::: tip Labels
 Include technology stack in labels:
+
 ```runiq
 shape API as @rect label: "API Service\n[Java, Spring Boot]"
 ```
+
 Format: `Name\n[Technology]`
 :::
 
 ::: tip Cross-Container Edges
 Always connect shapes across containers:
+
 ```runiq
 # ✅ Good
 Frontend.UI -> Backend.API
 
 # ❌ Avoid orphaned shapes
 ```
+
 :::
 
 ## Use Cases
 
 ### Software Architecture
+
 - C4 model diagrams
 - Microservices topology
 - Component relationships
 
 ### Infrastructure
+
 - Multi-region deployments
 - Network zones (DMZ, private, public)
 - Cloud architecture (VPC, subnets)
 
 ### Business Processes
+
 - BPMN swimlanes
 - Organizational boundaries
 - Cross-functional workflows
 
 ### Deployment
+
 - Docker containers
 - Kubernetes pods/namespaces
 - VM distributions

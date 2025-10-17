@@ -71,7 +71,12 @@ describe('Block Diagram Shapes (TDD)', () => {
       const anchors = transferFunctionShape.anchors!(ctx);
 
       expect(anchors).toHaveLength(4);
-      expect(anchors.map((a) => a.name)).toEqual(['in', 'out', 'top', 'bottom']);
+      expect(anchors.map((a) => a.name)).toEqual([
+        'in',
+        'out',
+        'top',
+        'bottom',
+      ]);
     });
 
     it('should handle multi-line transfer functions', () => {

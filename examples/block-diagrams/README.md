@@ -11,6 +11,7 @@ Block diagrams are used in control systems, signal processing, and systems engin
 ## Features Demonstrated
 
 ### Shapes Used
+
 - **Transfer Function** (`@transfer-function`) - System dynamics in Laplace domain, e.g., `K/(s+1)`
 - **Gain Block** (`@gain`) - Simple multiplier: `K×`
 - **Integrator** (`@integrator`) - Integration operator: `1/s`
@@ -25,6 +26,7 @@ Block diagrams are used in control systems, signal processing, and systems engin
 ### Export Formats
 
 These diagrams can be exported to:
+
 - **LaTeX/TikZ** - For academic papers and documentation
 - **Simulink MDL** - For MATLAB simulation and analysis
 - **SVG** - For web and presentations
@@ -32,7 +34,9 @@ These diagrams can be exported to:
 ## Examples
 
 ### pid-controller.runiq
+
 Classic PID (Proportional-Integral-Derivative) controller:
+
 ```runiq
 diagram: block-diagram
 title: "PID Controller"
@@ -55,13 +59,16 @@ Output -> Error : feedback
 ```
 
 **Demonstrates:**
+
 - PID controller structure
 - Parallel control paths
 - Feedback loop
 - Standard control notation
 
 ### feedback-system.runiq
+
 Negative feedback control system:
+
 ```runiq
 diagram: block-diagram
 title: "Feedback Control System"
@@ -79,13 +86,16 @@ Output -> Sensor -> Error : feedback "-"
 ```
 
 **Demonstrates:**
+
 - Classic feedback loop structure
 - Controller-Plant-Sensor chain
 - Negative feedback path
 - Laplace domain notation
 
 ### transfer-function-chain.runiq
+
 Series of transfer functions:
+
 ```runiq
 diagram: block-diagram
 title: "Transfer Function Chain"
@@ -100,13 +110,16 @@ Input -> TF1 -> TF2 -> TF3 -> Output
 ```
 
 **Demonstrates:**
+
 - Cascaded transfer functions
 - First-order systems
 - Second-order systems
 - Greek letters and subscripts in notation
 
 ### state-space.runiq
+
 State-space representation:
+
 ```runiq
 diagram: block-diagram
 title: "State-Space Model"
@@ -130,13 +143,16 @@ Sum2 -> Output
 ```
 
 **Demonstrates:**
+
 - State-space form: ẋ = Ax + Bu, y = Cx + Du
 - State feedback
 - Direct feedthrough path
 - Modern control theory notation
 
 ### parallel-paths.runiq
+
 Parallel signal paths:
+
 ```runiq
 diagram: block-diagram
 title: "Parallel Control Paths"
@@ -155,6 +171,7 @@ Sum -> Output
 ```
 
 **Demonstrates:**
+
 - Multiple parallel paths
 - Signal summation
 - Multi-input systems

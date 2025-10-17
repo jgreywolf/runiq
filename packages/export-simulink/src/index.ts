@@ -1,4 +1,9 @@
-import type { DiagramAst, LaidOutDiagram, PositionedNode, RoutedEdge } from '@runiq/core';
+import type {
+  DiagramAst,
+  LaidOutDiagram,
+  PositionedNode,
+  RoutedEdge,
+} from '@runiq/core';
 
 export interface SimulinkResult {
   mdl: string;
@@ -10,7 +15,10 @@ let blockCounter = 0;
 /**
  * Convert a block diagram with layout to Simulink MDL format
  */
-export function toSimulink(diagram: DiagramAst, layout: LaidOutDiagram): SimulinkResult {
+export function toSimulink(
+  diagram: DiagramAst,
+  layout: LaidOutDiagram
+): SimulinkResult {
   const warnings: string[] = [];
   const parts: string[] = [];
   blockCounter = 0;
@@ -113,11 +121,11 @@ function generateBlock(
 function getBlockType(shape: string, warnings: string[]): string {
   const blockTypeMap: Record<string, string> = {
     'transfer-fn': 'TransferFcn',
-    'gain': 'Gain',
-    'integrator': 'Integrator',
-    'differentiator': 'Derivative',
+    gain: 'Gain',
+    integrator: 'Integrator',
+    differentiator: 'Derivative',
     'time-delay': 'TransportDelay',
-    'saturation': 'Saturate',
+    saturation: 'Saturate',
     'compare-junction': 'Sum',
     'multiply-junction': 'Product',
     'divide-junction': 'Product',

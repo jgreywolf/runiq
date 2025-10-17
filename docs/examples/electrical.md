@@ -11,14 +11,14 @@ A classic RC filter circuit with SPICE simulation.
 ```runiq
 electrical "RC Lowpass Filter" {
   net IN, OUT, GND
-  
+
   # Input voltage source: 1V sine wave at 1kHz
   part V1 type:V source:"SIN(0 1 1k)" pins:(IN,GND)
-  
+
   # Filter components
   part R1 type:R value:"10k" pins:(IN,OUT)
   part C1 type:C value:"1n" pins:(OUT,GND)
-  
+
   # Transient analysis: 0 to 5ms
   analysis tran "0 5m"
 }
@@ -49,6 +49,7 @@ C1 OUT GND 1n
 **Transfer Function**: $H(s) = \frac{1}{1 + sRC}$
 
 **Use Cases**:
+
 - Anti-aliasing filters
 - Noise reduction
 - Signal smoothing
@@ -62,14 +63,14 @@ Simple resistor divider for voltage scaling.
 ```runiq
 electrical "Voltage Divider" {
   net VIN, VOUT, GND
-  
+
   # Input: 12V DC
   part VIN type:V source:"DC 12" pins:(VIN,GND)
-  
+
   # Divider resistors
   part R1 type:R value:"10k" pins:(VIN,VOUT)
   part R2 type:R value:"10k" pins:(VOUT,GND)
-  
+
   # DC operating point analysis
   analysis op
 }
@@ -96,21 +97,21 @@ Operational amplifier in non-inverting configuration.
 ```runiq
 electrical "Non-Inverting Amplifier" {
   net IN, OUT, GND, VCC, VEE
-  
+
   # Power supplies
   part VCC type:V source:"DC 15" pins:(VCC,GND)
   part VEE type:V source:"DC -15" pins:(GND,VEE)
-  
+
   # Input signal: 100mV AC at 1kHz
   part VIN type:V source:"AC 0.1 1k" pins:(IN,GND)
-  
+
   # Op-amp (741 or similar)
   part U1 type:OPAMP model:"LM741" pins:(IN,OUT,VCC,VEE,GND)
-  
+
   # Feedback network
   part R1 type:R value:"1k" pins:(OUT,GND)
   part R2 type:R value:"10k" pins:(OUT,IN)
-  
+
   # AC analysis: 10Hz to 100kHz
   analysis ac "dec 10 10 100k"
 }
@@ -132,38 +133,42 @@ electrical "Non-Inverting Amplifier" {
 
 Runiq supports standard SPICE component types:
 
-| Component | Type | Syntax Example |
-|-----------|------|----------------|
-| **Resistor** | `R` | `part R1 type:R value:"10k" pins:(A,B)` |
-| **Capacitor** | `C` | `part C1 type:C value:"1u" pins:(A,B)` |
-| **Inductor** | `L` | `part L1 type:L value:"10m" pins:(A,B)` |
-| **Voltage Source** | `V` | `part V1 type:V source:"DC 5" pins:(A,B)` |
-| **Current Source** | `I` | `part I1 type:I source:"DC 1m" pins:(A,B)` |
-| **Diode** | `D` | `part D1 type:D model:"1N4148" pins:(A,K)` |
-| **BJT Transistor** | `Q` | `part Q1 type:Q model:"2N2222" pins:(C,B,E)` |
-| **MOSFET** | `M` | `part M1 type:M model:"2N7000" pins:(D,G,S)` |
-| **Op-Amp** | `OPAMP` | `part U1 type:OPAMP model:"LM741" pins:(IN+,IN-,OUT,VCC,VEE)` |
+| Component          | Type    | Syntax Example                                                |
+| ------------------ | ------- | ------------------------------------------------------------- |
+| **Resistor**       | `R`     | `part R1 type:R value:"10k" pins:(A,B)`                       |
+| **Capacitor**      | `C`     | `part C1 type:C value:"1u" pins:(A,B)`                        |
+| **Inductor**       | `L`     | `part L1 type:L value:"10m" pins:(A,B)`                       |
+| **Voltage Source** | `V`     | `part V1 type:V source:"DC 5" pins:(A,B)`                     |
+| **Current Source** | `I`     | `part I1 type:I source:"DC 1m" pins:(A,B)`                    |
+| **Diode**          | `D`     | `part D1 type:D model:"1N4148" pins:(A,K)`                    |
+| **BJT Transistor** | `Q`     | `part Q1 type:Q model:"2N2222" pins:(C,B,E)`                  |
+| **MOSFET**         | `M`     | `part M1 type:M model:"2N7000" pins:(D,G,S)`                  |
+| **Op-Amp**         | `OPAMP` | `part U1 type:OPAMP model:"LM741" pins:(IN+,IN-,OUT,VCC,VEE)` |
 
 ## Voltage Sources
 
 ### DC Source
+
 ```runiq
 part VCC type:V source:"DC 5" pins:(VCC,GND)
 ```
 
 ### AC Source
+
 ```runiq
 part VIN type:V source:"AC 1 1k" pins:(IN,GND)
 # AC amplitude 1V, frequency 1kHz
 ```
 
 ### Sine Wave
+
 ```runiq
 part VSIN type:V source:"SIN(0 1 1k)" pins:(IN,GND)
 # Offset 0V, amplitude 1V, frequency 1kHz
 ```
 
 ### Pulse
+
 ```runiq
 part VPULSE type:V source:"PULSE(0 5 0 1n 1n 500n 1u)" pins:(IN,GND)
 # Low, High, Delay, Rise, Fall, Width, Period
@@ -172,46 +177,54 @@ part VPULSE type:V source:"PULSE(0 5 0 1n 1n 500n 1u)" pins:(IN,GND)
 ## SPICE Analysis Types
 
 ### DC Operating Point
+
 ```runiq
 analysis op
 ```
+
 Calculates DC voltages and currents at all nodes.
 
 ### Transient Analysis
+
 ```runiq
 analysis tran "0 10m"
 # Start time, Stop time
 ```
+
 Time-domain simulation.
 
 ### AC Analysis
+
 ```runiq
 analysis ac "dec 10 10 100k"
 # Sweep type, points/decade, start freq, stop freq
 ```
+
 Frequency response (Bode plots).
 
 ### DC Sweep
+
 ```runiq
 analysis dc "VIN 0 10 0.1"
 # Source name, start, stop, step
 ```
+
 Sweep voltage/current and plot response.
 
 ## Value Suffixes
 
 Standard SPICE suffixes for component values:
 
-| Suffix | Multiplier | Example | Value |
-|--------|------------|---------|-------|
-| `f` | $10^{-15}$ | `1f` | 1 femto |
-| `p` | $10^{-12}$ | `10p` | 10 pico |
-| `n` | $10^{-9}$ | `1n` | 1 nano |
-| `u` | $10^{-6}$ | `10u` | 10 micro |
-| `m` | $10^{-3}$ | `1m` | 1 milli |
-| `k` | $10^{3}$ | `10k` | 10 kilo |
-| `Meg` | $10^{6}$ | `1Meg` | 1 mega |
-| `G` | $10^{9}$ | `1G` | 1 giga |
+| Suffix | Multiplier | Example | Value    |
+| ------ | ---------- | ------- | -------- |
+| `f`    | $10^{-15}$ | `1f`    | 1 femto  |
+| `p`    | $10^{-12}$ | `10p`   | 10 pico  |
+| `n`    | $10^{-9}$  | `1n`    | 1 nano   |
+| `u`    | $10^{-6}$  | `10u`   | 10 micro |
+| `m`    | $10^{-3}$  | `1m`    | 1 milli  |
+| `k`    | $10^{3}$   | `10k`   | 10 kilo  |
+| `Meg`  | $10^{6}$   | `1Meg`  | 1 mega   |
+| `G`    | $10^{9}$   | `1G`    | 1 giga   |
 
 ## Complete Examples
 
@@ -220,16 +233,16 @@ Standard SPICE suffixes for component values:
 ```runiq
 electrical "LED Circuit" {
   net VCC, LED_ANODE, GND
-  
+
   # 5V power supply
   part V1 type:V source:"DC 5" pins:(VCC,GND)
-  
+
   # Current limiting resistor: (5V - 2V) / 20mA = 150Ω
   part R1 type:R value:"150" pins:(VCC,LED_ANODE)
-  
+
   # Red LED (forward voltage ~2V)
   part LED1 type:D model:"LED_RED" pins:(LED_ANODE,GND)
-  
+
   analysis dc "V1 0 10 0.1"
 }
 ```
@@ -243,15 +256,15 @@ electrical "LED Circuit" {
 ```runiq
 electrical "RLC Resonant Circuit" {
   net IN, OUT, GND
-  
+
   # AC voltage source: 1V at variable frequency
   part V1 type:V source:"AC 1" pins:(IN,GND)
-  
+
   # Series RLC components
   part R1 type:R value:"10" pins:(IN,OUT)
   part L1 type:L value:"10m" pins:(OUT,GND)
   part C1 type:C value:"1u" pins:(OUT,GND)
-  
+
   # AC analysis: 100Hz to 10kHz
   analysis ac "dec 50 100 10k"
 }
@@ -266,6 +279,7 @@ electrical "RLC Resonant Circuit" {
 $$f_0 = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{10mH \times 1\mu F}} \approx 1.59 \text{ kHz}$$
 
 **Use Cases**:
+
 - Bandpass filters
 - Oscillator circuits
 - RF tuning circuits
@@ -276,22 +290,22 @@ $$f_0 = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{10mH \times 1\mu F}} \appro
 ```runiq
 electrical "Bridge Rectifier" {
   net AC_IN, DC_PLUS, DC_MINUS, GND
-  
+
   # AC input: 120V RMS at 60Hz
   part VAC type:V source:"SIN(0 170 60)" pins:(AC_IN,GND)
-  
+
   # Bridge diodes
   part D1 type:D model:"1N4007" pins:(AC_IN,DC_PLUS)
   part D2 type:D model:"1N4007" pins:(GND,AC_IN)
   part D3 type:D model:"1N4007" pins:(GND,DC_PLUS)
   part D4 type:D model:"1N4007" pins:(DC_MINUS,GND)
-  
+
   # Filter capacitor
   part C1 type:C value:"1000u" pins:(DC_PLUS,DC_MINUS)
-  
+
   # Load resistor
   part RL type:R value:"100" pins:(DC_PLUS,DC_MINUS)
-  
+
   analysis tran "0 100m"
 }
 ```
@@ -299,27 +313,31 @@ electrical "Bridge Rectifier" {
 ## Best Practices
 
 ::: tip Component Naming
+
 - Use descriptive IDs: `R_PULLUP`, `C_FILTER`, `LED_STATUS`
 - Follow SPICE conventions: R1, R2, C1, C2, etc.
 - Group related components: R_FB1, R_FB2 (feedback network)
-:::
+  :::
 
 ::: tip Net Naming
+
 - Always define `GND` as reference
 - Use meaningful names: `VCC`, `VIN`, `VOUT`, `DATA`, `CLK`
 - Group signals: `BUS_D0`, `BUS_D1`, etc.
-:::
+  :::
 
 ::: tip Simulation Settings
+
 - Start with DC operating point (`op`) to verify bias
 - Use transient (`tran`) for time-domain behavior
 - Use AC analysis for frequency response
 - Choose appropriate time scales and frequencies
-:::
+  :::
 
 ## Export to SPICE
 
 Generate SPICE netlists for simulation in:
+
 - **LTspice** (free, Windows/Mac/Linux)
 - **Ngspice** (open source)
 - **PSPICE** (commercial)

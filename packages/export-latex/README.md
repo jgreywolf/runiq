@@ -25,8 +25,12 @@ import { toLatex } from '@runiq/export-latex';
 import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
 
 // Your diagram and layout from parser + layout engine
-const diagram: DiagramAst = { /* ... */ };
-const layout: LaidOutDiagram = { /* ... */ };
+const diagram: DiagramAst = {
+  /* ... */
+};
+const layout: LaidOutDiagram = {
+  /* ... */
+};
 
 // Export to LaTeX
 const result = toLatex(diagram, layout);
@@ -92,10 +96,12 @@ Or use online tools like Overleaf.
 ### `toLatex(diagram, layout): LatexResult`
 
 **Parameters:**
+
 - `diagram` (DiagramAst): The diagram AST from parser
 - `layout` (LaidOutDiagram): The positioned nodes/edges from layout engine
 
 **Returns:** `LatexResult`
+
 - `latex` (string): Complete LaTeX document
 - `warnings` (string[]): Array of warning messages
 

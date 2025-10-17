@@ -14,9 +14,15 @@ describe('Edge Enhancements - Stereotypes and Line Styles', () => {
     });
 
     it('should support common UML stereotypes', () => {
-      const stereotypes = ['include', 'extend', 'uses', 'implements', 'creates'];
-      
-      stereotypes.forEach(stereotype => {
+      const stereotypes = [
+        'include',
+        'extend',
+        'uses',
+        'implements',
+        'creates',
+      ];
+
+      stereotypes.forEach((stereotype) => {
         const edge: EdgeAst = {
           from: 'A',
           to: 'B',
@@ -37,9 +43,13 @@ describe('Edge Enhancements - Stereotypes and Line Styles', () => {
     });
 
     it('should support all line styles', () => {
-      const styles: Array<'solid' | 'dashed' | 'dotted'> = ['solid', 'dashed', 'dotted'];
-      
-      styles.forEach(lineStyle => {
+      const styles: Array<'solid' | 'dashed' | 'dotted'> = [
+        'solid',
+        'dashed',
+        'dotted',
+      ];
+
+      styles.forEach((lineStyle) => {
         const edge: EdgeAst = {
           from: 'A',
           to: 'B',
@@ -64,10 +74,10 @@ describe('Edge Enhancements - Stereotypes and Line Styles', () => {
         'standard',
         'hollow',
         'open',
-        'none'
+        'none',
       ];
-      
-      types.forEach(arrowType => {
+
+      types.forEach((arrowType) => {
         const edge: EdgeAst = {
           from: 'A',
           to: 'B',
@@ -278,16 +288,16 @@ describe('Edge Enhancements - Stereotypes and Line Styles', () => {
       };
 
       expect(diagram.edges).toHaveLength(3);
-      
+
       // Inheritance
       expect(diagram.edges[0].arrowType).toBe('hollow');
       expect(diagram.edges[0].lineStyle).toBe('solid');
-      
+
       // Implementation
       expect(diagram.edges[1].stereotype).toBe('implements');
       expect(diagram.edges[1].lineStyle).toBe('dashed');
       expect(diagram.edges[1].arrowType).toBe('hollow');
-      
+
       // Dependency
       expect(diagram.edges[2].stereotype).toBe('uses');
       expect(diagram.edges[2].arrowType).toBe('open');

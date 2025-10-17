@@ -72,7 +72,20 @@ const dataSelector8to1: ElectricalProfile = {
       ref: 'U1',
       type: 'MUX81',
       params: {},
-      pins: ['IN0', 'IN1', 'IN2', 'IN3', 'IN4', 'IN5', 'IN6', 'IN7', 'SEL0', 'SEL1', 'SEL2', 'DATA_OUT'],
+      pins: [
+        'IN0',
+        'IN1',
+        'IN2',
+        'IN3',
+        'IN4',
+        'IN5',
+        'IN6',
+        'IN7',
+        'SEL0',
+        'SEL1',
+        'SEL2',
+        'DATA_OUT',
+      ],
     },
   ],
 };
@@ -102,8 +115,20 @@ const memoryDecoder: ElectricalProfile = {
       ref: 'U1',
       type: 'DEC38',
       params: {},
-      pins: ['A0', 'A1', 'A2', 'CS', 'MEM_BANK_0', 'MEM_BANK_1', 'MEM_BANK_2', 'MEM_BANK_3', 
-             'MEM_BANK_4', 'MEM_BANK_5', 'MEM_BANK_6', 'MEM_BANK_7'],
+      pins: [
+        'A0',
+        'A1',
+        'A2',
+        'CS',
+        'MEM_BANK_0',
+        'MEM_BANK_1',
+        'MEM_BANK_2',
+        'MEM_BANK_3',
+        'MEM_BANK_4',
+        'MEM_BANK_5',
+        'MEM_BANK_6',
+        'MEM_BANK_7',
+      ],
     },
   ],
 };
@@ -233,7 +258,7 @@ for (const example of examples) {
 
   fs.writeFileSync(filepath, result.svg, 'utf-8');
   console.log(`✅ ${example.profile.name} schematic generated: ${filename}`);
-  
+
   if (result.warnings.length > 0) {
     console.log(`   ⚠️  Warnings: ${result.warnings.join(', ')}`);
   }

@@ -18,10 +18,12 @@ describe('LaTeX/TikZ Exporter', () => {
       };
 
       const result = toLatex(diagram, layout);
-      
+
       expect(result.latex).toContain('\\documentclass');
       expect(result.latex).toContain('\\usepackage{tikz}');
-      expect(result.latex).toContain('\\usetikzlibrary{positioning,shapes.geometric,arrows.meta,calc}');
+      expect(result.latex).toContain(
+        '\\usetikzlibrary{positioning,shapes.geometric,arrows.meta,calc}'
+      );
       expect(result.latex).toContain('\\begin{tikzpicture}');
       expect(result.latex).toContain('\\end{tikzpicture}');
       expect(result.warnings).toEqual([]);
@@ -32,22 +34,18 @@ describe('LaTeX/TikZ Exporter', () => {
     it('should export transfer function with proper TikZ syntax', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'tf1', shape: 'transfer-fn', label: 'K/(s+1)' },
-        ],
+        nodes: [{ id: 'tf1', shape: 'transfer-fn', label: 'K/(s+1)' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'tf1', x: 100, y: 50, width: 80, height: 60 },
-        ],
+        nodes: [{ id: 'tf1', x: 100, y: 50, width: 80, height: 60 }],
         edges: [],
         size: { width: 200, height: 120 },
       };
 
       const result = toLatex(diagram, layout);
-      
+
       expect(result.latex).toContain('\\node[block]');
       expect(result.latex).toContain('(tf1)');
       expect(result.latex).toContain('at (2.54cm,1.27cm)'); // 100px, 50px converted to cm
@@ -59,22 +57,18 @@ describe('LaTeX/TikZ Exporter', () => {
     it('should export gain block with triangle shape', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'g1', shape: 'gain', label: 'K=10' },
-        ],
+        nodes: [{ id: 'g1', shape: 'gain', label: 'K=10' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'g1', x: 50, y: 50, width: 60, height: 40 },
-        ],
+        nodes: [{ id: 'g1', x: 50, y: 50, width: 60, height: 40 }],
         edges: [],
         size: { width: 150, height: 100 },
       };
 
       const result = toLatex(diagram, layout);
-      
+
       expect(result.latex).toContain('\\node[gain]');
       expect(result.latex).toContain('(g1)');
       expect(result.latex).toContain('$K=10$');
@@ -85,22 +79,18 @@ describe('LaTeX/TikZ Exporter', () => {
     it('should export integrator block with blue fill', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'int1', shape: 'integrator', label: '1/s' },
-        ],
+        nodes: [{ id: 'int1', shape: 'integrator', label: '1/s' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'int1', x: 0, y: 0, width: 60, height: 40 },
-        ],
+        nodes: [{ id: 'int1', x: 0, y: 0, width: 60, height: 40 }],
         edges: [],
         size: { width: 80, height: 60 },
       };
 
       const result = toLatex(diagram, layout);
-      
+
       expect(result.latex).toContain('\\node[block,fill=blue!10]');
       expect(result.latex).toContain('\\frac{1}{s}');
     });
@@ -110,22 +100,18 @@ describe('LaTeX/TikZ Exporter', () => {
     it('should export compare junction with operators', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'cmp1', shape: 'compare-junction', label: '+-' },
-        ],
+        nodes: [{ id: 'cmp1', shape: 'compare-junction', label: '+-' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'cmp1', x: 50, y: 50, width: 40, height: 40 },
-        ],
+        nodes: [{ id: 'cmp1', x: 50, y: 50, width: 40, height: 40 }],
         edges: [],
         size: { width: 100, height: 100 },
       };
 
       const result = toLatex(diagram, layout);
-      
+
       expect(result.latex).toContain('\\node[sum]');
       expect(result.latex).toContain('(cmp1)');
     });
@@ -139,9 +125,7 @@ describe('LaTeX/TikZ Exporter', () => {
           { id: 'A', shape: 'gain', label: 'K1' },
           { id: 'B', shape: 'transfer-fn', label: 'G(s)' },
         ],
-        edges: [
-          { from: 'A', to: 'B', label: 'signal' },
-        ],
+        edges: [{ from: 'A', to: 'B', label: 'signal' }],
       };
 
       const layout: LaidOutDiagram = {
@@ -163,7 +147,7 @@ describe('LaTeX/TikZ Exporter', () => {
       };
 
       const result = toLatex(diagram, layout);
-      
+
       expect(result.latex).toContain('\\draw[->,>=Stealth]');
       expect(result.latex).toContain('(A)');
       expect(result.latex).toContain('(B)');
@@ -215,7 +199,7 @@ describe('LaTeX/TikZ Exporter', () => {
       };
 
       const result = toLatex(diagram, layout);
-      
+
       expect(result.latex).toContain('\\node[block]'); // transfer functions
       expect(result.latex).toContain('\\node[sum]'); // junction
       expect(result.warnings.length).toBe(0);
@@ -226,23 +210,21 @@ describe('LaTeX/TikZ Exporter', () => {
     it('should warn about unsupported shapes', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'invalid', shape: 'nonexistent-shape' as any },
-        ],
+        nodes: [{ id: 'invalid', shape: 'nonexistent-shape' as any }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'invalid', x: 0, y: 0, width: 60, height: 40 },
-        ],
+        nodes: [{ id: 'invalid', x: 0, y: 0, width: 60, height: 40 }],
         edges: [],
         size: { width: 80, height: 60 },
       };
 
       const result = toLatex(diagram, layout);
-      
-      expect(result.warnings.some((w: string) => w.includes('shape'))).toBe(true);
+
+      expect(result.warnings.some((w: string) => w.includes('shape'))).toBe(
+        true
+      );
     });
   });
 });

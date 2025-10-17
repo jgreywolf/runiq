@@ -113,12 +113,12 @@ if (!parseResult.success) {
 const diagram = parseResult.document!.diagrams[0];
 const laidOut = await layoutDiagram(diagram, {
   direction: 'TB',
-  spacing: 80
+  spacing: 80,
 });
 
 // Render
 const result = renderSvg(diagram, laidOut, {
-  title: 'Hello Runiq'
+  title: 'Hello Runiq',
 });
 
 // Save
@@ -183,6 +183,7 @@ pnpm dev
 ### Contributing
 
 See [Contributing Guide](/contributing) for:
+
 - Code style guidelines
 - Pull request process
 - Test requirements
@@ -195,6 +196,7 @@ See [Contributing Guide](/contributing) for:
 **Problem:** `Cannot find module '@runiq/core'`
 
 **Solution:** Build dependencies first:
+
 ```bash
 cd packages/core && pnpm build
 ```
@@ -204,6 +206,7 @@ cd packages/core && pnpm build
 **Problem:** Tests failing after changes
 
 **Solution:** Rebuild and re-run:
+
 ```bash
 pnpm -r build
 pnpm test
@@ -214,6 +217,7 @@ pnpm test
 **Problem:** Langium parser not working
 
 **Solution:** Regenerate Langium artifacts:
+
 ```bash
 cd packages/parser-dsl
 pnpm langium:generate

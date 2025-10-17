@@ -1184,12 +1184,7 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: '3-Input AND',
-        nets: [
-          { name: 'A' },
-          { name: 'B' },
-          { name: 'C' },
-          { name: 'Y' },
-        ],
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'Y' }],
         parts: [
           {
             ref: 'U1',
@@ -1211,12 +1206,7 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: '3-Input OR',
-        nets: [
-          { name: 'A' },
-          { name: 'B' },
-          { name: 'C' },
-          { name: 'Y' },
-        ],
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'Y' }],
         parts: [
           {
             ref: 'U1',
@@ -1237,12 +1227,7 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: '3-Input NAND',
-        nets: [
-          { name: 'A' },
-          { name: 'B' },
-          { name: 'C' },
-          { name: 'Y' },
-        ],
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'Y' }],
         parts: [
           {
             ref: 'U1',
@@ -1264,12 +1249,7 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: '3-Input NOR',
-        nets: [
-          { name: 'A' },
-          { name: 'B' },
-          { name: 'C' },
-          { name: 'Y' },
-        ],
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'Y' }],
         parts: [
           {
             ref: 'U1',
@@ -1291,12 +1271,7 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'D Flip-Flop',
-        nets: [
-          { name: 'D' },
-          { name: 'CLK' },
-          { name: 'Q' },
-          { name: 'QN' },
-        ],
+        nets: [{ name: 'D' }, { name: 'CLK' }, { name: 'Q' }, { name: 'QN' }],
         parts: [
           {
             ref: 'U1',
@@ -1348,12 +1323,7 @@ describe('Schematic Renderer', () => {
       const profile: ElectricalProfile = {
         type: 'electrical',
         name: 'T Flip-Flop',
-        nets: [
-          { name: 'T' },
-          { name: 'CLK' },
-          { name: 'Q' },
-          { name: 'QN' },
-        ],
+        nets: [{ name: 'T' }, { name: 'CLK' }, { name: 'Q' }, { name: 'QN' }],
         parts: [
           {
             ref: 'U1',
@@ -1393,18 +1363,7 @@ describe('Schematic Renderer', () => {
             ref: 'U1',
             type: 'REG4',
             params: {},
-            pins: [
-              'D0',
-              'D1',
-              'D2',
-              'D3',
-              'CLK',
-              'EN',
-              'Q0',
-              'Q1',
-              'Q2',
-              'Q3',
-            ],
+            pins: ['D0', 'D1', 'D2', 'D3', 'CLK', 'EN', 'Q0', 'Q1', 'Q2', 'Q3'],
           },
         ],
       };
@@ -1696,7 +1655,20 @@ describe('Schematic Renderer', () => {
             ref: 'U1',
             type: 'MUX81',
             params: {},
-            pins: ['D0', 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'S0', 'S1', 'S2', 'Y'],
+            pins: [
+              'D0',
+              'D1',
+              'D2',
+              'D3',
+              'D4',
+              'D5',
+              'D6',
+              'D7',
+              'S0',
+              'S1',
+              'S2',
+              'Y',
+            ],
           },
         ],
       };
@@ -1763,7 +1735,20 @@ describe('Schematic Renderer', () => {
             ref: 'U1',
             type: 'DEC38',
             params: {},
-            pins: ['A0', 'A1', 'A2', 'EN', 'Y0', 'Y1', 'Y2', 'Y3', 'Y4', 'Y5', 'Y6', 'Y7'],
+            pins: [
+              'A0',
+              'A1',
+              'A2',
+              'EN',
+              'Y0',
+              'Y1',
+              'Y2',
+              'Y3',
+              'Y4',
+              'Y5',
+              'Y6',
+              'Y7',
+            ],
           },
         ],
       };
@@ -1794,7 +1779,15 @@ describe('Schematic Renderer', () => {
             ref: 'U1',
             type: 'MUX41',
             params: {},
-            pins: ['ADD_RESULT', 'SUB_RESULT', 'AND_RESULT', 'OR_RESULT', 'OP0', 'OP1', 'OUTPUT'],
+            pins: [
+              'ADD_RESULT',
+              'SUB_RESULT',
+              'AND_RESULT',
+              'OR_RESULT',
+              'OP0',
+              'OP1',
+              'OUTPUT',
+            ],
           },
         ],
       };
@@ -1830,7 +1823,20 @@ describe('Schematic Renderer', () => {
             ref: 'U1',
             type: 'DEC38',
             params: {},
-            pins: ['ADDR0', 'ADDR1', 'ADDR2', 'CS', 'MEM0', 'MEM1', 'MEM2', 'MEM3', 'MEM4', 'MEM5', 'MEM6', 'MEM7'],
+            pins: [
+              'ADDR0',
+              'ADDR1',
+              'ADDR2',
+              'CS',
+              'MEM0',
+              'MEM1',
+              'MEM2',
+              'MEM3',
+              'MEM4',
+              'MEM5',
+              'MEM6',
+              'MEM7',
+            ],
           },
         ],
       };
@@ -1866,7 +1872,20 @@ describe('Schematic Renderer', () => {
             ref: 'U1',
             type: 'MUX81',
             params: {},
-            pins: ['D0', 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'SEL0', 'SEL1', 'SEL2', 'OUT'],
+            pins: [
+              'D0',
+              'D1',
+              'D2',
+              'D3',
+              'D4',
+              'D5',
+              'D6',
+              'D7',
+              'SEL0',
+              'SEL1',
+              'SEL2',
+              'OUT',
+            ],
           },
         ],
       };
@@ -1910,5 +1929,3 @@ describe('Schematic Renderer', () => {
     });
   });
 });
-
-

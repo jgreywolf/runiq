@@ -50,13 +50,14 @@ export function renderSvg(
   svg +=
     '.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }';
   svg += ']]></style>';
-  
+
   // Add pedigree chart pattern for carrier shading
-  svg += '<pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse">';
+  svg +=
+    '<pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse">';
   svg += '<rect x="0" y="0" width="20" height="40" fill="#000"/>';
   svg += '<rect x="20" y="0" width="20" height="40" fill="#fff"/>';
   svg += '</pattern>';
-  
+
   svg += '</defs>';
 
   // Render containers first (as backgrounds)
@@ -101,7 +102,7 @@ function renderNode(
   }
 
   const style = nodeAst.style ? diagram.styles?.[nodeAst.style] || {} : {};
-  
+
   // Merge inline pedigree properties from node.data into style
   if (nodeAst.data) {
     if (nodeAst.data.affected !== undefined) {
@@ -232,7 +233,7 @@ function renderEdge(
   const lineStyle = edgeAst.lineStyle || 'solid';
   let strokeDasharray = '';
   let isDoubleLine = false;
-  
+
   if (lineStyle === 'dashed') {
     strokeDasharray = ' stroke-dasharray="5,3"';
   } else if (lineStyle === 'dotted') {
@@ -289,26 +290,48 @@ function renderEdge(
   // Edge line with optional marker
   const markerAttr =
     arrowType !== 'none' ? ` marker-end="url(#${arrowId})"` : '';
-  
+
   // Render double line for consanguineous marriages
   if (isDoubleLine) {
     // Parallel lines with small offset (3px apart)
     const offset = 3;
-    
+
     // Calculate perpendicular offset for parallel lines
     // For simplicity, offset vertically for horizontal lines, horizontally for vertical lines
-    const isHorizontal = Math.abs(points[points.length - 1].y - points[0].y) < Math.abs(points[points.length - 1].x - points[0].x);
-    
+    const isHorizontal =
+      Math.abs(points[points.length - 1].y - points[0].y) <
+      Math.abs(points[points.length - 1].x - points[0].x);
+
     if (isHorizontal) {
       // Offset vertically for horizontal lines
-      const offsetPath1 = `M ${start.x} ${start.y - offset}` + points.slice(1).map(p => ` L ${p.x} ${p.y - offset}`).join('');
-      const offsetPath2 = `M ${start.x} ${start.y + offset}` + points.slice(1).map(p => ` L ${p.x} ${p.y + offset}`).join('');
+      const offsetPath1 =
+        `M ${start.x} ${start.y - offset}` +
+        points
+          .slice(1)
+          .map((p) => ` L ${p.x} ${p.y - offset}`)
+          .join('');
+      const offsetPath2 =
+        `M ${start.x} ${start.y + offset}` +
+        points
+          .slice(1)
+          .map((p) => ` L ${p.x} ${p.y + offset}`)
+          .join('');
       edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
       edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
     } else {
       // Offset horizontally for vertical lines
-      const offsetPath1 = `M ${start.x - offset} ${start.y}` + points.slice(1).map(p => ` L ${p.x - offset} ${p.y}`).join('');
-      const offsetPath2 = `M ${start.x + offset} ${start.y}` + points.slice(1).map(p => ` L ${p.x + offset} ${p.y}`).join('');
+      const offsetPath1 =
+        `M ${start.x - offset} ${start.y}` +
+        points
+          .slice(1)
+          .map((p) => ` L ${p.x - offset} ${p.y}`)
+          .join('');
+      const offsetPath2 =
+        `M ${start.x + offset} ${start.y}` +
+        points
+          .slice(1)
+          .map((p) => ` L ${p.x + offset} ${p.y}`)
+          .join('');
       edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
       edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
     }

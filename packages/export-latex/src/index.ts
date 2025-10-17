@@ -1,4 +1,9 @@
-import type { DiagramAst, LaidOutDiagram, PositionedNode, RoutedEdge } from '@runiq/core';
+import type {
+  DiagramAst,
+  LaidOutDiagram,
+  PositionedNode,
+  RoutedEdge,
+} from '@runiq/core';
 
 export interface LatexResult {
   latex: string;
@@ -10,7 +15,10 @@ const PX_TO_CM = 0.0254; // 1 pixel ≈ 0.0254 cm (at 100 DPI)
 /**
  * Convert a block diagram with layout to LaTeX/TikZ format
  */
-export function toLatex(diagram: DiagramAst, layout: LaidOutDiagram): LatexResult {
+export function toLatex(
+  diagram: DiagramAst,
+  layout: LaidOutDiagram
+): LatexResult {
   const warnings: string[] = [];
   const parts: string[] = [];
 
@@ -36,7 +44,9 @@ export function toLatex(diagram: DiagramAst, layout: LaidOutDiagram): LatexResul
 
   // Generate edges
   for (const routedEdge of layout.edges) {
-    const edgeAst = diagram.edges.find((e) => e.from === routedEdge.from && e.to === routedEdge.to);
+    const edgeAst = diagram.edges.find(
+      (e) => e.from === routedEdge.from && e.to === routedEdge.to
+    );
     const edgeTikz = generateEdge(routedEdge, edgeAst, warnings);
     if (edgeTikz) {
       parts.push(edgeTikz);
@@ -117,18 +127,18 @@ function getShapeStyle(shape: string, warnings: string[]): string {
   // Block diagram shapes
   const shapeMap: Record<string, string> = {
     'transfer-fn': 'block',
-    'gain': 'gain',
-    'integrator': 'block,fill=blue!10',
-    'differentiator': 'block,fill=orange!10',
+    gain: 'gain',
+    integrator: 'block,fill=blue!10',
+    differentiator: 'block,fill=orange!10',
     'time-delay': 'block,fill=pink!10',
-    'saturation': 'block,fill=yellow!10',
+    saturation: 'block,fill=yellow!10',
     'compare-junction': 'sum',
     'multiply-junction': 'sum',
     'divide-junction': 'sum',
     // Flowchart shapes
-    'rounded': 'block,rounded corners',
-    'rhombus': 'block,diamond',
-    'terminal': 'block,rounded corners,fill=gray!10',
+    rounded: 'block,rounded corners',
+    rhombus: 'block,diamond',
+    terminal: 'block,rounded corners,fill=gray!10',
   };
 
   if (shape in shapeMap) {

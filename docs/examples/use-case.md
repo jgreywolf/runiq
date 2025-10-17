@@ -31,18 +31,22 @@ Withdraw -> PrintReceipt "optional"
 ### Key Concepts
 
 **Actors**: Represent users or external systems
+
 - Use `actor <ID> "<Label>"` syntax
 - Rendered as stick figures
 
 **System Boundaries**: Container for use cases
+
 - `system-boundary <ID> "<Label>" { ... }`
 - Groups related functionality
 
 **Use Cases**: System functionality
+
 - `ellipse-wide <ID> "<Label>"`
 - Oval shapes for actions
 
 **Relationships**: Connections between actors and use cases
+
 - Simple: `Actor -> UseCase`
 - Labeled: `UseCase1 -> UseCase2 "stereotype"`
 
@@ -68,7 +72,7 @@ system-boundary Banking "Online Banking" {
   ellipse ViewAccount "View Account"
   ellipse Transfer "Transfer Money"
   ellipse PayBills "Pay Bills"
-  
+
   # Extended use cases
   ellipse TwoFactor "Two-Factor Auth"
   ellipse ValidateAccount "Validate Account"
@@ -98,11 +102,13 @@ edge SendNotification -> PayBills stereotype: "<<extend>>" lineStyle: dashed arr
 ### UML Stereotypes
 
 **<<include>>**: Mandatory behavior
+
 - The base use case **requires** the included use case
 - Example: Login requires Two-Factor Auth
 - Use `stereotype: "<<include>>"` with `lineStyle: dashed`
 
 **<<extend>>**: Optional behavior
+
 - The base use case **may** use the extending use case
 - Example: Transfer may trigger SendNotification
 - Use `stereotype: "<<extend>>"` with `lineStyle: dashed`
@@ -145,7 +151,7 @@ system-boundary Shop "E-Commerce System" {
   ellipse Browse "Browse Products"
   ellipse Search "Search Products"
   ellipse ViewDetails "View Product Details"
-  
+
   # Customer capabilities
   ellipse Register "Register Account"
   ellipse Login "Login"
@@ -153,12 +159,12 @@ system-boundary Shop "E-Commerce System" {
   ellipse Checkout "Checkout"
   ellipse Payment "Process Payment"
   ellipse TrackOrder "Track Order"
-  
+
   # Seller capabilities
   ellipse ListProduct "List Product"
   ellipse ManageInventory "Manage Inventory"
   ellipse ViewSales "View Sales"
-  
+
   # Admin capabilities
   ellipse ManageUsers "Manage Users"
   ellipse ViewAnalytics "View Analytics"
@@ -208,25 +214,28 @@ actor User8 as @custom-actor       # Configurable
 ## Best Practices
 
 ::: tip Actor Placement
+
 - Place primary actors (users) on the left
 - Place secondary actors (systems, admins) on the right
 - Group related use cases within system boundaries
-:::
+  :::
 
 ::: tip Stereotypes
+
 - **<<include>>**: When behavior is always required
   - Login → Two-Factor Auth
   - Checkout → Process Payment
 - **<<extend>>**: When behavior is optional
   - Transfer → Send Notification
   - Purchase → Apply Coupon
-:::
+    :::
 
 ::: tip Relationship Lines
+
 - **Solid line**: Actor to use case (standard association)
 - **Dashed line with arrow**: Stereotype relationships (include/extend)
 - **Label on arrow**: Describe the relationship type
-:::
+  :::
 
 ## Use Case Diagram Checklist
 

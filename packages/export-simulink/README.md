@@ -25,8 +25,12 @@ import { toSimulink } from '@runiq/export-simulink';
 import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
 
 // Your diagram and layout from parser + layout engine
-const diagram: DiagramAst = { /* ... */ };
-const layout: LaidOutDiagram = { /* ... */ };
+const diagram: DiagramAst = {
+  /* ... */
+};
+const layout: LaidOutDiagram = {
+  /* ... */
+};
 
 // Export to Simulink MDL
 const result = toSimulink(diagram, layout);
@@ -49,11 +53,11 @@ Model {
   Name		"untitled"
   Version		"7.6"
   SavedCharacterEncoding	"UTF-8"
-  
+
   System {
     Name		"untitled"
     Location		[0, 0, 800, 600]
-    
+
     Block {
       BlockType		"TransferFcn"
       Name		"tf1"
@@ -62,7 +66,7 @@ Model {
       Position		[100, 50, 180, 110]
       SID		"1"
     }
-    
+
     Block {
       BlockType		"Gain"
       Name		"g1"
@@ -70,7 +74,7 @@ Model {
       Position		[200, 50, 260, 90]
       SID		"2"
     }
-    
+
     Line {
       SrcBlock		"tf1"
       SrcPort		1
@@ -84,6 +88,7 @@ Model {
 ## Loading in MATLAB/Simulink
 
 1. Save the output to a `.mdl` file:
+
    ```typescript
    import fs from 'fs';
    fs.writeFileSync('control_system.mdl', result.mdl);
@@ -96,17 +101,17 @@ Model {
 
 ## Supported Shapes → Simulink Blocks
 
-| Runiq Shape | Simulink Block | Description |
-|-------------|---------------|-------------|
-| `transfer-fn` | TransferFcn | Transfer function with numerator/denominator |
-| `gain` | Gain | Amplifier/gain block |
-| `integrator` | Integrator | Integration block (1/s) |
-| `differentiator` | Derivative | Differentiation block (s) |
-| `time-delay` | TransportDelay | Time delay block |
-| `saturation` | Saturate | Saturation with limits |
-| `compare-junction` | Sum | Summing junction with +/- inputs |
-| `multiply-junction` | Product | Multiplication block |
-| `divide-junction` | Product | Division block |
+| Runiq Shape         | Simulink Block | Description                                  |
+| ------------------- | -------------- | -------------------------------------------- |
+| `transfer-fn`       | TransferFcn    | Transfer function with numerator/denominator |
+| `gain`              | Gain           | Amplifier/gain block                         |
+| `integrator`        | Integrator     | Integration block (1/s)                      |
+| `differentiator`    | Derivative     | Differentiation block (s)                    |
+| `time-delay`        | TransportDelay | Time delay block                             |
+| `saturation`        | Saturate       | Saturation with limits                       |
+| `compare-junction`  | Sum            | Summing junction with +/- inputs             |
+| `multiply-junction` | Product        | Multiplication block                         |
+| `divide-junction`   | Product        | Division block                               |
 
 ## Transfer Function Parsing
 
@@ -123,10 +128,12 @@ For complex polynomials, the exporter provides a best-effort conversion. You may
 ### `toSimulink(diagram, layout): SimulinkResult`
 
 **Parameters:**
+
 - `diagram` (DiagramAst): The diagram AST from parser
 - `layout` (LaidOutDiagram): The positioned nodes/edges from layout engine
 
 **Returns:** `SimulinkResult`
+
 - `mdl` (string): Complete MDL file content
 - `warnings` (string[]): Array of warning messages
 

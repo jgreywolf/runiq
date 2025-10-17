@@ -18,7 +18,7 @@ describe('Simulink MDL Exporter', () => {
       };
 
       const result = toSimulink(diagram, layout);
-      
+
       expect(result.mdl).toContain('Model {');
       expect(result.mdl).toContain('Name\t\t"untitled"');
       expect(result.mdl).toContain('System {');
@@ -31,22 +31,18 @@ describe('Simulink MDL Exporter', () => {
     it('should export transfer function block', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'tf1', shape: 'transfer-fn', label: '1/(s+1)' },
-        ],
+        nodes: [{ id: 'tf1', shape: 'transfer-fn', label: '1/(s+1)' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'tf1', x: 100, y: 50, width: 80, height: 60 },
-        ],
+        nodes: [{ id: 'tf1', x: 100, y: 50, width: 80, height: 60 }],
         edges: [],
         size: { width: 200, height: 120 },
       };
 
       const result = toSimulink(diagram, layout);
-      
+
       expect(result.mdl).toContain('Block {');
       expect(result.mdl).toContain('BlockType\t\t"TransferFcn"');
       expect(result.mdl).toContain('Name\t\t"tf1"');
@@ -60,22 +56,18 @@ describe('Simulink MDL Exporter', () => {
     it('should export gain block', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'g1', shape: 'gain', label: 'K=10' },
-        ],
+        nodes: [{ id: 'g1', shape: 'gain', label: 'K=10' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'g1', x: 50, y: 50, width: 60, height: 40 },
-        ],
+        nodes: [{ id: 'g1', x: 50, y: 50, width: 60, height: 40 }],
         edges: [],
         size: { width: 150, height: 100 },
       };
 
       const result = toSimulink(diagram, layout);
-      
+
       expect(result.mdl).toContain('BlockType\t\t"Gain"');
       expect(result.mdl).toContain('Name\t\t"g1"');
       expect(result.mdl).toContain('Gain\t\t"10"');
@@ -86,22 +78,18 @@ describe('Simulink MDL Exporter', () => {
     it('should export integrator block', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'int1', shape: 'integrator' },
-        ],
+        nodes: [{ id: 'int1', shape: 'integrator' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'int1', x: 0, y: 0, width: 60, height: 40 },
-        ],
+        nodes: [{ id: 'int1', x: 0, y: 0, width: 60, height: 40 }],
         edges: [],
         size: { width: 80, height: 60 },
       };
 
       const result = toSimulink(diagram, layout);
-      
+
       expect(result.mdl).toContain('BlockType\t\t"Integrator"');
       expect(result.mdl).toContain('Name\t\t"int1"');
     });
@@ -111,22 +99,18 @@ describe('Simulink MDL Exporter', () => {
     it('should export sum block with operators', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'sum1', shape: 'compare-junction', label: '+-' },
-        ],
+        nodes: [{ id: 'sum1', shape: 'compare-junction', label: '+-' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'sum1', x: 50, y: 50, width: 40, height: 40 },
-        ],
+        nodes: [{ id: 'sum1', x: 50, y: 50, width: 40, height: 40 }],
         edges: [],
         size: { width: 100, height: 100 },
       };
 
       const result = toSimulink(diagram, layout);
-      
+
       expect(result.mdl).toContain('BlockType\t\t"Sum"');
       expect(result.mdl).toContain('Name\t\t"sum1"');
       expect(result.mdl).toContain('Inputs\t\t"+-"');
@@ -141,9 +125,7 @@ describe('Simulink MDL Exporter', () => {
           { id: 'A', shape: 'gain', label: 'K1' },
           { id: 'B', shape: 'transfer-fn', label: 'G(s)' },
         ],
-        edges: [
-          { from: 'A', to: 'B' },
-        ],
+        edges: [{ from: 'A', to: 'B' }],
       };
 
       const layout: LaidOutDiagram = {
@@ -165,7 +147,7 @@ describe('Simulink MDL Exporter', () => {
       };
 
       const result = toSimulink(diagram, layout);
-      
+
       expect(result.mdl).toContain('Line {');
       expect(result.mdl).toContain('SrcBlock\t\t"A"');
       expect(result.mdl).toContain('DstBlock\t\t"B"');
@@ -217,7 +199,7 @@ describe('Simulink MDL Exporter', () => {
       };
 
       const result = toSimulink(diagram, layout);
-      
+
       expect(result.mdl).toContain('BlockType\t\t"TransferFcn"'); // transfer functions
       expect(result.mdl).toContain('BlockType\t\t"Sum"'); // summing junction
       expect(result.warnings.length).toBe(0);
@@ -228,23 +210,21 @@ describe('Simulink MDL Exporter', () => {
     it('should warn about unsupported shapes', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [
-          { id: 'invalid', shape: 'nonexistent-shape' as any },
-        ],
+        nodes: [{ id: 'invalid', shape: 'nonexistent-shape' as any }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [
-          { id: 'invalid', x: 0, y: 0, width: 60, height: 40 },
-        ],
+        nodes: [{ id: 'invalid', x: 0, y: 0, width: 60, height: 40 }],
         edges: [],
         size: { width: 80, height: 60 },
       };
 
       const result = toSimulink(diagram, layout);
-      
-      expect(result.warnings.some((w: string) => w.includes('Unsupported shape'))).toBe(true);
+
+      expect(
+        result.warnings.some((w: string) => w.includes('Unsupported shape'))
+      ).toBe(true);
     });
   });
 });

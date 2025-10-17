@@ -284,7 +284,10 @@ describe('Pedigree Chart Shapes (TDD)', () => {
 
       const svgMale = pedigreeMaleShape.render(ctxMale, { x: 0, y: 0 });
       const svgFemale = pedigreeFemaleShape.render(ctxFemale, { x: 0, y: 0 });
-      const svgUnknown = pedigreeUnknownShape.render(ctxUnknown, { x: 0, y: 0 });
+      const svgUnknown = pedigreeUnknownShape.render(ctxUnknown, {
+        x: 0,
+        y: 0,
+      });
 
       expect(svgMale).toContain('stroke="#ff0000"');
       expect(svgFemale).toContain('stroke="#ff0000"');

@@ -99,6 +99,7 @@ console.log(result.svg); // SVG markup
 ### Digital Logic Gates (NEW! 🎉)
 
 **Basic 2-Input Gates:**
+
 - **AND** - 2-input AND gate (IEEE distinctive shape: flat left, curved right)
 - **OR** - 2-input OR gate (IEEE distinctive shape: curved both sides)
 - **NOT** - Inverter (triangle with output bubble)
@@ -109,25 +110,30 @@ console.log(result.svg); // SVG markup
 - **XNOR** - 2-input XNOR gate (XOR with output bubble) **NEW!** 🎉
 
 **3-Input Gates:** (NEW! 🎉)
+
 - **AND3** - 3-input AND gate (80×50px, wider for 3 inputs)
 - **OR3** - 3-input OR gate (80×50px, curved distinctive shape)
 - **NAND3** - 3-input NAND gate (AND3 with output bubble)
 - **NOR3** - 3-input NOR gate (OR3 with output bubble)
 
 **Flip-Flops:** (NEW! 🎉)
+
 - **DFF** - D Flip-Flop (rectangular with clock triangle, 80×60px)
 - **JKFF** - JK Flip-Flop (rectangular with clock triangle, 80×70px)
 - **TFF** - T Flip-Flop (rectangular with clock triangle, 80×60px)
 
 **Registers:** (NEW! 🎉)
+
 - **REG4** - 4-bit Register (100×80px, D0-D3 inputs, Q0-Q3 outputs, CLK, EN)
 - **REG8** - 8-bit Register (120×100px, D0-D7 inputs, Q0-Q7 outputs, CLK, EN)
 
 **Multiplexers:** (NEW! 🎉)
+
 - **MUX41** - 4-to-1 Multiplexer (60×80px, trapezoidal, D0-D3 inputs, S0-S1 select, Y output)
 - **MUX81** - 8-to-1 Multiplexer (70×120px, trapezoidal, D0-D7 inputs, S0-S2 select, Y output)
 
 **Decoders:** (NEW! 🎉)
+
 - **DEC24** - 2-to-4 Decoder (60×70px, inverted trapezoid, A0-A1 address, EN, Y0-Y3 outputs)
 - **DEC38** - 3-to-8 Decoder (70×110px, inverted trapezoid, A0-A2 address, EN, Y0-Y7 outputs)
 
@@ -891,4 +897,3 @@ Part of the Runiq project. See main repository for license details.
 
 **Complete digital component library!** 🚀
 **Ready for production use!** ✅
-

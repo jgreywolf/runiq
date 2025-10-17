@@ -7,6 +7,7 @@ Successfully completed the Runiq digital component library by implementing **4 n
 ## What Was Delivered
 
 ### ✅ Phase 1: Multiplexer Symbols
+
 **Duration:** ~20 minutes
 
 1. **4-to-1 MUX (MUX41)** - 60×80px
@@ -26,6 +27,7 @@ Successfully completed the Runiq digital component library by implementing **4 n
    - Used in larger data selection systems
 
 ### ✅ Phase 2: Decoder Symbols
+
 **Duration:** ~20 minutes
 
 3. **2-to-4 Decoder (DEC24)** - 60×70px
@@ -49,6 +51,7 @@ Successfully completed the Runiq digital component library by implementing **4 n
 ### Test Summary: 68/68 Passing (100% Success Rate!)
 
 **8 New Tests Added:**
+
 1. 4-to-1 MUX with trapezoidal shape
 2. 8-to-1 MUX with 8:1 label
 3. 2-to-4 decoder with inverted trapezoid
@@ -59,11 +62,13 @@ Successfully completed the Runiq digital component library by implementing **4 n
 8. Demultiplexer using decoder with enable
 
 **Test Categories:**
+
 - Individual component rendering: 4 tests
 - Application circuits: 4 tests
 - All verify correct labels, component refs, and zero warnings
 
 **Test Execution:**
+
 ```bash
 Test Files  2 passed (2)
 Tests  68 passed (68)
@@ -116,17 +121,20 @@ Duration  649ms (execution: 22ms)
 ## Code Statistics
 
 ### Files Modified/Created
+
 - `symbols.ts` - +~300 lines (4 new symbols)
 - `schematic-renderer.test.ts` - +~290 lines (8 new tests)
 - `generate-mux-decoder-examples.ts` - +~250 lines (new file)
 - `README.md` - Updated with all new features
 
 ### Files Created
+
 - 6 MUX/decoder example SVG schematics
 
 **Total New Code:** ~840 lines
 
 ### Build Results
+
 ```bash
 ESM dist\index.js     Build success
 DTS ⚡️ Build success
@@ -138,6 +146,7 @@ All 68/68 tests passing
 ### Complete Component Inventory (36 Symbols Total!)
 
 **Electrical Components (15):**
+
 - Passive: R, C, L (3)
 - Sources: V, I (2)
 - Semiconductors: D, LED (2)
@@ -146,6 +155,7 @@ All 68/68 tests passing
 - Symbols: GND, JUNCTION (2)
 
 **Digital Components (21):**
+
 - **Basic Gates (8):** AND, OR, NOT, XOR, NAND, NOR, BUFFER, XNOR
 - **3-Input Gates (4):** AND3, OR3, NAND3, NOR3
 - **Flip-Flops (3):** DFF, JKFF, TFF
@@ -156,6 +166,7 @@ All 68/68 tests passing
 **Total: 36 Symbols** (up from 32, +12.5% increase)
 
 ### Symbol Growth Progression
+
 - Advanced digital session start: 32 symbols
 - **After MUX/decoder completion: 36 symbols** (+4, +12.5%)
 - **Total digital symbols: 21** (58% of library!)
@@ -163,6 +174,7 @@ All 68/68 tests passing
 ## Documentation Updates
 
 ### README.md Changes
+
 - ✅ Updated symbol count: 32 → 36
 - ✅ Updated test count: 60 → 68
 - ✅ Added multiplexers section with specs
@@ -173,6 +185,7 @@ All 68/68 tests passing
 - ✅ Added "Complete digital component library!" status
 
 ### Key Documentation Sections
+
 1. **Features Section** - Lists all 36 symbols with categories
 2. **Components Section** - Detailed specs for MUX/decoder
 3. **Testing Section** - 68 tests with MUX/decoder breakdown
@@ -183,11 +196,15 @@ All 68/68 tests passing
 ### Design Patterns Used
 
 **1. Trapezoidal MUX Symbols**
+
 ```typescript
 export const mux4to1 = createSymbol(
   'mux41',
-  60, 80,
-  [/* 7 terminals: D0-D3, S0-S1, Y */],
+  60,
+  80,
+  [
+    /* 7 terminals: D0-D3, S0-S1, Y */
+  ],
   (cx, cy) => {
     // Narrow left, wide right trapezoid
     // "MUX" label centered
@@ -197,11 +214,15 @@ export const mux4to1 = createSymbol(
 ```
 
 **2. Inverted Trapezoidal Decoder Symbols**
+
 ```typescript
 export const decoder2to4 = createSymbol(
   'dec24',
-  60, 70,
-  [/* 7 terminals: A0-A1, EN, Y0-Y3 */],
+  60,
+  70,
+  [
+    /* 7 terminals: A0-A1, EN, Y0-Y3 */
+  ],
   (cx, cy) => {
     // Wide left, narrow right (inverted)
     // "DEC" label + "2:4" indicator
@@ -211,6 +232,7 @@ export const decoder2to4 = createSymbol(
 ```
 
 **3. IEEE/ANSI Compliance**
+
 - Trapezoidal shapes per ANSI/IEEE Std 91-1984
 - Data inputs on wide side
 - Select/address on narrow side
@@ -219,16 +241,17 @@ export const decoder2to4 = createSymbol(
 
 ### Component Specifications
 
-| Component | Size (W×H) | Inputs | Select/Addr | Outputs | Special Features |
-|-----------|------------|--------|-------------|---------|------------------|
-| MUX41 | 60×80 | 4 (D0-D3) | 2 (S0-S1) | 1 (Y) | Trapezoid, "MUX" label |
-| MUX81 | 70×120 | 8 (D0-D7) | 3 (S0-S2) | 1 (Y) | Trapezoid, "MUX", "8:1" |
-| DEC24 | 60×70 | - | 2 (A0-A1) + EN | 4 (Y0-Y3) | Inverted trap, "DEC", "2:4" |
-| DEC38 | 70×110 | - | 3 (A0-A2) + EN | 8 (Y0-Y7) | Inverted trap, "DEC", "3:8" |
+| Component | Size (W×H) | Inputs    | Select/Addr    | Outputs   | Special Features            |
+| --------- | ---------- | --------- | -------------- | --------- | --------------------------- |
+| MUX41     | 60×80      | 4 (D0-D3) | 2 (S0-S1)      | 1 (Y)     | Trapezoid, "MUX" label      |
+| MUX81     | 70×120     | 8 (D0-D7) | 3 (S0-S2)      | 1 (Y)     | Trapezoid, "MUX", "8:1"     |
+| DEC24     | 60×70      | -         | 2 (A0-A1) + EN | 4 (Y0-Y3) | Inverted trap, "DEC", "2:4" |
+| DEC38     | 70×110     | -         | 3 (A0-A2) + EN | 8 (Y0-Y7) | Inverted trap, "DEC", "3:8" |
 
 ## Integration Points
 
 ### Works Seamlessly With:
+
 - ✅ Component rotation (0°/90°/180°/270°)
 - ✅ Orthogonal wire routing
 - ✅ Junction dots at intersections
@@ -237,6 +260,7 @@ export const decoder2to4 = createSymbol(
 - ✅ Verilog HDL export (@runiq/export-verilog)
 
 ### Complete Digital Design Workflow:
+
 ```
 Design Circuit
     ↓
@@ -247,6 +271,7 @@ Runiq ElectricalProfile
 ```
 
 ### Digital Component Categories Now Complete:
+
 - ✅ Combinational logic (gates, MUX, decoders)
 - ✅ Sequential logic (flip-flops, registers)
 - ✅ Data routing (multiplexers)
@@ -256,17 +281,20 @@ Runiq ElectricalProfile
 ## Performance Metrics
 
 ### Test Execution
+
 - **Total tests:** 68
 - **Execution time:** 22ms
 - **Average per test:** 0.32ms
 - **Pass rate:** 100%
 
 ### Build Performance
+
 - **TypeScript compilation:** Clean, no errors
 - **All symbols registered** in symbolRegistry
 - **Output size:** Optimized
 
 ### Example Generation
+
 - **6 MUX/decoder circuits:** <1 second total
 - **SVG file sizes:** 3-8 KB each
 - **All examples valid and renderable**
@@ -275,17 +303,18 @@ Runiq ElectricalProfile
 
 ### Goals vs Achievement
 
-| Goal | Target | Achieved | Status |
-|------|--------|----------|--------|
-| MUX symbols | 2 | 2 (4:1, 8:1) | ✅ Perfect |
-| Decoder symbols | 2 | 2 (2:4, 3:8) | ✅ Perfect |
-| New tests | 8-10 | 8 | ✅ 100% |
-| Test pass rate | 100% | 100% | ✅ Perfect |
-| Examples | 4-6 | 6 | ✅ Perfect |
-| Build success | Clean | Clean | ✅ Perfect |
-| Documentation | Complete | Complete | ✅ Perfect |
+| Goal            | Target   | Achieved     | Status     |
+| --------------- | -------- | ------------ | ---------- |
+| MUX symbols     | 2        | 2 (4:1, 8:1) | ✅ Perfect |
+| Decoder symbols | 2        | 2 (2:4, 3:8) | ✅ Perfect |
+| New tests       | 8-10     | 8            | ✅ 100%    |
+| Test pass rate  | 100%     | 100%         | ✅ Perfect |
+| Examples        | 4-6      | 6            | ✅ Perfect |
+| Build success   | Clean    | Clean        | ✅ Perfect |
+| Documentation   | Complete | Complete     | ✅ Perfect |
 
 ### Quality Indicators
+
 - ✅ **Zero build errors**
 - ✅ **Zero test failures**
 - ✅ **100% pass rate** (68/68)
@@ -297,12 +326,14 @@ Runiq ElectricalProfile
 ## Lessons Learned
 
 ### What Worked Well
+
 1. **Systematic Approach** - 4 symbols → tests → examples → docs
 2. **IEEE Standards** - Clear trapezoidal shapes eliminate guesswork
 3. **Batch Testing** - All 8 tests written together for efficiency
 4. **Practical Examples** - Real-world circuits (ALU, memory decoder) show value
 
 ### Technical Insights
+
 - **Trapezoidal symbols** require careful path calculations
 - **Label positioning** is critical for readability
 - **Multi-pin components** (8+ terminals) need spacing consideration
@@ -311,6 +342,7 @@ Runiq ElectricalProfile
 ## Production Readiness
 
 ### Checklist
+
 - ✅ All 4 symbols implemented correctly
 - ✅ All tests passing (68/68)
 - ✅ Build successful with no warnings
@@ -322,6 +354,7 @@ Runiq ElectricalProfile
 - ✅ Version bumped appropriately (0.4.0)
 
 ### Deployment Status
+
 **Ready for production use!** 🚀
 
 - Package version: 0.4.0
@@ -333,46 +366,74 @@ Runiq ElectricalProfile
 ## Usage Examples
 
 ### Simple 4-to-1 MUX
+
 ```typescript
 const mux: ElectricalProfile = {
   type: 'electrical',
   name: 'ALU Output Selector',
   nets: [
-    { name: 'ADD' }, { name: 'SUB' },
-    { name: 'AND' }, { name: 'OR' },
-    { name: 'OP0' }, { name: 'OP1' },
-    { name: 'RESULT' }
+    { name: 'ADD' },
+    { name: 'SUB' },
+    { name: 'AND' },
+    { name: 'OR' },
+    { name: 'OP0' },
+    { name: 'OP1' },
+    { name: 'RESULT' },
   ],
-  parts: [{
-    ref: 'U1',
-    type: 'MUX41',
-    params: {},
-    pins: ['ADD', 'SUB', 'AND', 'OR', 'OP0', 'OP1', 'RESULT'],
-  }],
+  parts: [
+    {
+      ref: 'U1',
+      type: 'MUX41',
+      params: {},
+      pins: ['ADD', 'SUB', 'AND', 'OR', 'OP0', 'OP1', 'RESULT'],
+    },
+  ],
 };
 
 const svg = renderSchematic(mux);
 ```
 
 ### Memory Decoder
+
 ```typescript
 const decoder: ElectricalProfile = {
   type: 'electrical',
   name: 'Memory Address Decoder',
   nets: [
-    { name: 'A0' }, { name: 'A1' }, { name: 'A2' },
+    { name: 'A0' },
+    { name: 'A1' },
+    { name: 'A2' },
     { name: 'CS' },
-    { name: 'MEM0' }, { name: 'MEM1' },
-    { name: 'MEM2' }, { name: 'MEM3' },
-    { name: 'MEM4' }, { name: 'MEM5' },
-    { name: 'MEM6' }, { name: 'MEM7' }
+    { name: 'MEM0' },
+    { name: 'MEM1' },
+    { name: 'MEM2' },
+    { name: 'MEM3' },
+    { name: 'MEM4' },
+    { name: 'MEM5' },
+    { name: 'MEM6' },
+    { name: 'MEM7' },
   ],
-  parts: [{
-    ref: 'U1',
-    type: 'DEC38',
-    params: {},
-    pins: ['A0', 'A1', 'A2', 'CS', 'MEM0', 'MEM1', 'MEM2', 'MEM3', 'MEM4', 'MEM5', 'MEM6', 'MEM7'],
-  }],
+  parts: [
+    {
+      ref: 'U1',
+      type: 'DEC38',
+      params: {},
+      pins: [
+        'A0',
+        'A1',
+        'A2',
+        'CS',
+        'MEM0',
+        'MEM1',
+        'MEM2',
+        'MEM3',
+        'MEM4',
+        'MEM5',
+        'MEM6',
+        'MEM7',
+      ],
+    },
+  ],
 };
 ```
 
@@ -383,6 +444,7 @@ const decoder: ElectricalProfile = {
 **What was requested:** "Lets complete the digital library"
 
 **What was delivered:**
+
 - ✅ 4-to-1 multiplexer (MUX41)
 - ✅ 8-to-1 multiplexer (MUX81)
 - ✅ 2-to-4 decoder (DEC24)
@@ -395,6 +457,7 @@ const decoder: ElectricalProfile = {
 **Completion:** 8 out of 8 tasks (100%)
 
 ### Summary Statistics
+
 - **New symbols:** 4
 - **New tests:** 8 (68 total)
 - **New examples:** 6 (19+ total)
@@ -404,6 +467,7 @@ const decoder: ElectricalProfile = {
 - **Quality:** Production-ready
 
 ### Complete Digital Library Now Includes:
+
 - ✅ 8 basic 2-input logic gates
 - ✅ 4 three-input logic gates
 - ✅ 3 flip-flops (sequential logic)

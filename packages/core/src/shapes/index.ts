@@ -74,7 +74,11 @@ import { divideJunctionShape } from './divide-junction.js';
 import { compareJunctionShape } from './compare-junction.js';
 
 // Pedigree chart shapes
-import { pedigreeMaleShape, pedigreeFemaleShape, pedigreeUnknownShape } from './pedigree.js';
+import {
+  pedigreeMaleShape,
+  pedigreeFemaleShape,
+  pedigreeUnknownShape,
+} from './pedigree.js';
 
 export function registerDefaultShapes(): void {
   // Original shapes

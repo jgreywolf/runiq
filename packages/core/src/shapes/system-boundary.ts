@@ -16,7 +16,7 @@ export const systemBoundaryShape: ShapeDefinition = {
       textSize.width + padding * 3,
       200 // minimum width for containing use cases
     );
-    
+
     const height = Math.max(
       150, // minimum height for containing use cases
       textSize.height + padding * 6 // extra space for content

@@ -5,6 +5,7 @@ Runiq is a **diagram-as-code** tool that lets you create beautiful, standards-co
 ## The Problem
 
 Traditional diagramming tools are:
+
 - **Not version control friendly** - Binary files, hard to diff
 - **Vendor lock-in** - Proprietary formats, subscription requirements
 - **Manual layout** - Click, drag, align, repeat...
@@ -14,6 +15,7 @@ Traditional diagramming tools are:
 ## The Runiq Solution
 
 Runiq provides:
+
 - ✅ **Plain text format** - Easy diffs, Git-friendly
 - ✅ **Two input formats** - DSL syntax + JSON (1:1 mapping)
 - ✅ **Professional layouts** - Automatic with ELK layout engine
@@ -57,6 +59,7 @@ Both produce the same diagram!
 ### 3. Professional Layouts
 
 Runiq uses the **Eclipse Layout Kernel (ELK)** with 5 algorithms:
+
 - **Layered** - Hierarchical, top-to-bottom or left-to-right
 - **Force** - Physics-based, good for networks
 - **Stress** - Optimization-based, minimizes edge crossings
@@ -66,6 +69,7 @@ Runiq uses the **Eclipse Layout Kernel (ELK)** with 5 algorithms:
 ### 4. Rich Shape Library
 
 **54 shapes** across 9 categories:
+
 - **Actors** (8) - User representations for use case diagrams
 - **Circles** (10) - Various circle styles and sizes
 - **UML** (2) - Use case ovals, system boundaries
@@ -103,6 +107,7 @@ container "Backend Services" {
 ```
 
 Perfect for:
+
 - C4 architecture diagrams
 - BPMN processes with swim lanes
 - Microservices architectures
@@ -111,6 +116,7 @@ Perfect for:
 ### 7. Electrical & Digital Circuits
 
 **Analog circuits** with SPICE export:
+
 ```runiq
 electrical "RC Filter" {
   part R1 type:R value:"10k"
@@ -119,6 +125,7 @@ electrical "RC Filter" {
 ```
 
 **Digital logic** with Verilog export:
+
 ```runiq
 digital "Half Adder" {
   gate U1 type:XOR inputs:(A,B) output:SUM
@@ -166,16 +173,16 @@ Runiq is built as a **monorepo** with modular packages:
 
 ## Comparison with Other Tools
 
-| Feature | Runiq | Mermaid | PlantUML | Graphviz |
-|---------|-------|---------|----------|----------|
-| **Format** | DSL + JSON | Markdown | Text | DOT |
-| **Output** | Pure SVG | SVG + HTML | PNG/SVG | SVG/PNG |
-| **Layout** | ELK (5 algorithms) | Dagre | GraphViz | Built-in |
-| **Containers** | ✅ Full support | ⚠️ Limited | ✅ | ❌ |
-| **UML** | ✅ Stereotypes, line styles | ⚠️ Basic | ✅ Full | ❌ |
-| **Circuits** | ✅ SPICE, Verilog | ❌ | ❌ | ❌ |
-| **Extensible** | ✅ Plugins | ⚠️ Limited | ⚠️ Limited | ❌ |
-| **TypeScript** | ✅ Native | ❌ | ❌ | ❌ |
+| Feature        | Runiq                       | Mermaid    | PlantUML   | Graphviz |
+| -------------- | --------------------------- | ---------- | ---------- | -------- |
+| **Format**     | DSL + JSON                  | Markdown   | Text       | DOT      |
+| **Output**     | Pure SVG                    | SVG + HTML | PNG/SVG    | SVG/PNG  |
+| **Layout**     | ELK (5 algorithms)          | Dagre      | GraphViz   | Built-in |
+| **Containers** | ✅ Full support             | ⚠️ Limited | ✅         | ❌       |
+| **UML**        | ✅ Stereotypes, line styles | ⚠️ Basic   | ✅ Full    | ❌       |
+| **Circuits**   | ✅ SPICE, Verilog           | ❌         | ❌         | ❌       |
+| **Extensible** | ✅ Plugins                  | ⚠️ Limited | ⚠️ Limited | ❌       |
+| **TypeScript** | ✅ Native                   | ❌         | ❌         | ❌       |
 
 ## Philosophy
 
@@ -188,24 +195,28 @@ Runiq is built as a **monorepo** with modular packages:
 ## Use Cases
 
 ### Software Engineering
+
 - Architecture diagrams (C4, microservices)
 - UML diagrams (use case, class, sequence, state)
 - Process flows (BPMN, flowcharts)
 - Database schemas (ER diagrams)
 
 ### Control Systems
+
 - Block diagrams with transfer functions
 - PID controllers, feedback loops
 - State-space models
 - Export to LaTeX papers or Simulink
 
 ### Electrical Engineering
+
 - Analog circuit design
 - SPICE netlist generation
 - Professional IEEE schematics
 - Power supplies, filters, amplifiers
 
 ### Digital Design
+
 - Logic circuits (gates, flip-flops)
 - Verilog HDL generation
 - Combinational and sequential circuits

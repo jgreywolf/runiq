@@ -12,10 +12,10 @@ Basic combinational circuit that adds two single bits.
 digital "Half Adder" {
   # Inputs
   input A, B
-  
+
   # Outputs
   output SUM, CARRY
-  
+
   # Logic gates
   gate U1 type:XOR inputs:(A,B) output:SUM
   gate U2 type:AND inputs:(A,B) output:CARRY
@@ -24,12 +24,12 @@ digital "Half Adder" {
 
 ### Truth Table
 
-| A | B | SUM | CARRY |
-|---|---|-----|-------|
-| 0 | 0 | 0   | 0     |
-| 0 | 1 | 1   | 0     |
-| 1 | 0 | 1   | 0     |
-| 1 | 1 | 0   | 1     |
+| A   | B   | SUM | CARRY |
+| --- | --- | --- | ----- |
+| 0   | 0   | 0   | 0     |
+| 0   | 1   | 1   | 0     |
+| 1   | 0   | 1   | 0     |
+| 1   | 1   | 0   | 1     |
 
 ### Logic Equations
 
@@ -65,21 +65,21 @@ Adds three bits (two inputs plus carry-in).
 digital "Full Adder" {
   # Inputs
   input A, B, CIN
-  
+
   # Outputs
   output SUM, COUT
-  
+
   # Internal nets
   wire SUM1, CARRY1, CARRY2
-  
+
   # First half adder
   gate U1 type:XOR inputs:(A,B) output:SUM1
   gate U2 type:AND inputs:(A,B) output:CARRY1
-  
+
   # Second half adder
   gate U3 type:XOR inputs:(SUM1,CIN) output:SUM
   gate U4 type:AND inputs:(SUM1,CIN) output:CARRY2
-  
+
   # Carry out
   gate U5 type:OR inputs:(CARRY1,CARRY2) output:COUT
 }
@@ -87,16 +87,16 @@ digital "Full Adder" {
 
 ### Truth Table
 
-| A | B | CIN | SUM | COUT |
-|---|---|-----|-----|------|
-| 0 | 0 | 0   | 0   | 0    |
-| 0 | 0 | 1   | 1   | 0    |
-| 0 | 1 | 0   | 1   | 0    |
-| 0 | 1 | 1   | 0   | 1    |
-| 1 | 0 | 0   | 1   | 0    |
-| 1 | 0 | 1   | 0   | 1    |
-| 1 | 1 | 0   | 0   | 1    |
-| 1 | 1 | 1   | 1   | 1    |
+| A   | B   | CIN | SUM | COUT |
+| --- | --- | --- | --- | ---- |
+| 0   | 0   | 0   | 0   | 0    |
+| 0   | 0   | 1   | 1   | 0    |
+| 0   | 1   | 0   | 1   | 0    |
+| 0   | 1   | 1   | 0   | 1    |
+| 1   | 0   | 0   | 1   | 0    |
+| 1   | 0   | 1   | 0   | 1    |
+| 1   | 1   | 0   | 0   | 1    |
+| 1   | 1   | 1   | 1   | 1    |
 
 ### Logic Equations
 
@@ -113,20 +113,20 @@ Selects one of two inputs based on a select signal.
 digital "2-to-1 Multiplexer" {
   # Inputs
   input D0, D1, SEL
-  
+
   # Output
   output Y
-  
+
   # Internal nets
   wire SEL_N, T0, T1
-  
+
   # Invert select
   gate U1 type:NOT inputs:(SEL) output:SEL_N
-  
+
   # AND gates for selection
   gate U2 type:AND inputs:(D0,SEL_N) output:T0
   gate U3 type:AND inputs:(D1,SEL) output:T1
-  
+
   # OR gate for output
   gate U4 type:OR inputs:(T0,T1) output:Y
 }
@@ -134,12 +134,12 @@ digital "2-to-1 Multiplexer" {
 
 ### Truth Table
 
-| SEL | D0 | D1 | Y |
-|-----|----|----|---|
-| 0   | 0  | X  | 0 |
-| 0   | 1  | X  | 1 |
-| 1   | X  | 0  | 0 |
-| 1   | X  | 1  | 1 |
+| SEL | D0  | D1  | Y   |
+| --- | --- | --- | --- |
+| 0   | 0   | X   | 0   |
+| 0   | 1   | X   | 1   |
+| 1   | X   | 0   | 0   |
+| 1   | X   | 1   | 1   |
 
 ### Logic Equation
 
@@ -154,22 +154,22 @@ Complementary MOSFET inverter - the basic building block of digital logic.
 ```runiq
 electrical "CMOS Inverter" {
   net VDD, IN, OUT, GND
-  
+
   # Power supply: 5V
   part VDD type:V source:"DC 5" pins:(VDD,GND)
-  
+
   # Input signal: pulse from 0 to 5V
   part VIN type:V source:"PULSE(0 5 0 1n 1n 10n 20n)" pins:(IN,GND)
-  
+
   # PMOS pull-up (on when input is low)
   part MP type:M model:"PMOS" pins:(VDD,IN,OUT)
-  
+
   # NMOS pull-down (on when input is high)
   part MN type:M model:"NMOS" pins:(OUT,IN,GND)
-  
+
   # Output load capacitance
   part CL type:C value:"1p" pins:(OUT,GND)
-  
+
   # Transient analysis
   analysis tran "0 100n"
 }
@@ -182,13 +182,14 @@ electrical "CMOS Inverter" {
 ### Operation
 
 | Input (VIN) | PMOS | NMOS | Output (VOUT) |
-|-------------|------|------|---------------|
+| ----------- | ---- | ---- | ------------- |
 | LOW (0V)    | ON   | OFF  | HIGH (VDD)    |
 | HIGH (VDD)  | OFF  | ON   | LOW (0V)      |
 
 **Power Consumption**: Only during switching (dynamic power)
 
 **Use Cases**:
+
 - NOT gate implementation
 - Buffer circuits
 - Basic logic building block
@@ -204,17 +205,17 @@ Basic sequential element with clock.
 digital "D Flip-Flop" {
   # Inputs
   input D, CLK, RST
-  
+
   # Outputs
   output Q, Q_N
-  
+
   # Master-slave structure
   wire M_Q, M_Q_N, S_D
-  
+
   # Master latch (active on clock high)
   gate U1 type:DFF inputs:(D,CLK,RST) output:M_Q
   gate U2 type:NOT inputs:(M_Q) output:M_Q_N
-  
+
   # Slave latch (active on clock low)
   gate U3 type:DFF inputs:(M_Q,CLK,RST) output:Q
   gate U4 type:NOT inputs:(Q) output:Q_N
@@ -247,25 +248,25 @@ Sequential circuit that counts from 0 to 15.
 digital "4-Bit Counter" {
   # Inputs
   input CLK, RST, EN
-  
+
   # Outputs (4-bit count)
   output Q0, Q1, Q2, Q3
-  
+
   # Internal carry signals
   wire C0, C1, C2
-  
+
   # Bit 0 (LSB) - toggles every clock
   gate FF0 type:TFF inputs:(EN,CLK,RST) output:Q0
   gate A0 type:AND inputs:(Q0,EN) output:C0
-  
+
   # Bit 1 - toggles when Q0=1
   gate FF1 type:TFF inputs:(C0,CLK,RST) output:Q1
   gate A1 type:AND inputs:(Q1,C0) output:C1
-  
+
   # Bit 2 - toggles when Q1=Q0=1
   gate FF2 type:TFF inputs:(C1,CLK,RST) output:Q2
   gate A2 type:AND inputs:(Q2,C1) output:C2
-  
+
   # Bit 3 (MSB) - toggles when Q2=Q1=Q0=1
   gate FF3 type:TFF inputs:(C2,CLK,RST) output:Q3
 }
@@ -273,15 +274,15 @@ digital "4-Bit Counter" {
 
 ### Count Sequence
 
-| CLK | Q3 | Q2 | Q1 | Q0 | Decimal |
-|-----|----|----|----|----|---------|
-| 0   | 0  | 0  | 0  | 0  | 0       |
-| 1   | 0  | 0  | 0  | 1  | 1       |
-| 2   | 0  | 0  | 1  | 0  | 2       |
-| 3   | 0  | 0  | 1  | 1  | 3       |
-| ... | ...| ...| ...| ...| ...     |
-| 15  | 1  | 1  | 1  | 1  | 15      |
-| 16  | 0  | 0  | 0  | 0  | 0 (wrap)|
+| CLK | Q3  | Q2  | Q1  | Q0  | Decimal  |
+| --- | --- | --- | --- | --- | -------- |
+| 0   | 0   | 0   | 0   | 0   | 0        |
+| 1   | 0   | 0   | 0   | 1   | 1        |
+| 2   | 0   | 0   | 1   | 0   | 2        |
+| 3   | 0   | 0   | 1   | 1   | 3        |
+| ... | ... | ... | ... | ... | ...      |
+| 15  | 1   | 1   | 1   | 1   | 15       |
+| 16  | 0   | 0   | 0   | 0   | 0 (wrap) |
 
 ## Supported Gate Types
 
@@ -289,24 +290,24 @@ Runiq supports standard digital logic gates:
 
 ### Basic Gates
 
-| Gate | Type | Inputs | Function |
-|------|------|--------|----------|
-| **NOT** | `NOT` | 1 | $Y = \overline{A}$ |
-| **AND** | `AND` | 2+ | $Y = A \cdot B$ |
-| **OR** | `OR` | 2+ | $Y = A + B$ |
-| **NAND** | `NAND` | 2+ | $Y = \overline{A \cdot B}$ |
-| **NOR** | `NOR` | 2+ | $Y = \overline{A + B}$ |
-| **XOR** | `XOR` | 2 | $Y = A \oplus B$ |
-| **XNOR** | `XNOR` | 2 | $Y = \overline{A \oplus B}$ |
+| Gate     | Type   | Inputs | Function                    |
+| -------- | ------ | ------ | --------------------------- |
+| **NOT**  | `NOT`  | 1      | $Y = \overline{A}$          |
+| **AND**  | `AND`  | 2+     | $Y = A \cdot B$             |
+| **OR**   | `OR`   | 2+     | $Y = A + B$                 |
+| **NAND** | `NAND` | 2+     | $Y = \overline{A \cdot B}$  |
+| **NOR**  | `NOR`  | 2+     | $Y = \overline{A + B}$      |
+| **XOR**  | `XOR`  | 2      | $Y = A \oplus B$            |
+| **XNOR** | `XNOR` | 2      | $Y = \overline{A \oplus B}$ |
 
 ### Sequential Elements
 
-| Element | Type | Description |
-|---------|------|-------------|
-| **D Flip-Flop** | `DFF` | Data flip-flop (edge-triggered) |
-| **T Flip-Flop** | `TFF` | Toggle flip-flop |
-| **JK Flip-Flop** | `JKFF` | JK flip-flop (most versatile) |
-| **SR Latch** | `SR` | Set-reset latch (level-sensitive) |
+| Element          | Type   | Description                       |
+| ---------------- | ------ | --------------------------------- |
+| **D Flip-Flop**  | `DFF`  | Data flip-flop (edge-triggered)   |
+| **T Flip-Flop**  | `TFF`  | Toggle flip-flop                  |
+| **JK Flip-Flop** | `JKFF` | JK flip-flop (most versatile)     |
+| **SR Latch**     | `SR`   | Set-reset latch (level-sensitive) |
 
 ### Syntax
 
@@ -330,37 +331,37 @@ digital "4-Bit ALU" {
   # Inputs (4-bit operands)
   input A[3:0], B[3:0]
   input OP[1:0]  # Operation select
-  
+
   # Outputs
   output Y[3:0]  # Result
   output ZERO    # Zero flag
   output CARRY   # Carry out
-  
+
   # Internal signals
   wire ADD_Y[3:0], SUB_Y[3:0], AND_Y[3:0], OR_Y[3:0]
   wire C[3:0]    # Carry chain
-  
+
   # Adder
   gate ADD0 type:FULL_ADD inputs:(A[0],B[0],0) outputs:(ADD_Y[0],C[0])
   gate ADD1 type:FULL_ADD inputs:(A[1],B[1],C[0]) outputs:(ADD_Y[1],C[1])
   gate ADD2 type:FULL_ADD inputs:(A[2],B[2],C[1]) outputs:(ADD_Y[2],C[2])
   gate ADD3 type:FULL_ADD inputs:(A[3],B[3],C[2]) outputs:(ADD_Y[3],CARRY)
-  
+
   # Bitwise AND
   gate AND0 type:AND inputs:(A[0],B[0]) output:AND_Y[0]
   gate AND1 type:AND inputs:(A[1],B[1]) output:AND_Y[1]
   gate AND2 type:AND inputs:(A[2],B[2]) output:AND_Y[2]
   gate AND3 type:AND inputs:(A[3],B[3]) output:AND_Y[3]
-  
+
   # Bitwise OR
   gate OR0 type:OR inputs:(A[0],B[0]) output:OR_Y[0]
   gate OR1 type:OR inputs:(A[1],B[1]) output:OR_Y[1]
   gate OR2 type:OR inputs:(A[2],B[2]) output:OR_Y[2]
   gate OR3 type:OR inputs:(A[3],B[3]) output:OR_Y[3]
-  
+
   # Multiplexer for operation select
   mux MUX type:MUX4 select:OP[1:0] inputs:(ADD_Y,SUB_Y,AND_Y,OR_Y) output:Y[3:0]
-  
+
   # Zero detection
   gate ZERO_DET type:NOR inputs:(Y[0],Y[1],Y[2],Y[3]) output:ZERO
 }
@@ -373,11 +374,11 @@ digital "8-Bit Shift Register" {
   # Inputs
   input DATA_IN, CLK, RST
   input SHIFT_EN
-  
+
   # Outputs (parallel)
   output Q[7:0]
   output SERIAL_OUT
-  
+
   # Flip-flop chain
   gate FF0 type:DFF inputs:(DATA_IN,CLK,RST) output:Q[0]
   gate FF1 type:DFF inputs:(Q[0],CLK,RST) output:Q[1]
@@ -387,7 +388,7 @@ digital "8-Bit Shift Register" {
   gate FF5 type:DFF inputs:(Q[4],CLK,RST) output:Q[5]
   gate FF6 type:DFF inputs:(Q[5],CLK,RST) output:Q[6]
   gate FF7 type:DFF inputs:(Q[6],CLK,RST) output:Q[7]
-  
+
   # Serial output is MSB
   assign SERIAL_OUT = Q[7]
 }
@@ -396,29 +397,34 @@ digital "8-Bit Shift Register" {
 ## Best Practices
 
 ::: tip Gate Naming
+
 - Use descriptive IDs: `U_AND_GATE`, `FF_DATA`, `MUX_SELECT`
 - Number related gates: `ADD0`, `ADD1`, `ADD2`, etc.
 - Indicate function: `INV_CLK`, `OR_OUT`, `DFF_Q0`
-:::
+  :::
 
 ::: tip Bus Notation
 Use bit vectors for multi-bit signals:
+
 ```runiq
 input DATA[7:0]    # 8-bit input
 output ADDR[15:0]  # 16-bit output
 wire TEMP[3:0]     # 4-bit internal signal
 ```
+
 :::
 
 ::: tip Clock and Reset
+
 - Always include `CLK` for sequential circuits
 - Add `RST` (reset) for initialization
 - Use consistent names: `CLK`, `RST`, `EN` (enable)
-:::
+  :::
 
 ## Export to Verilog
 
 Generate Verilog HDL for:
+
 - **Simulation**: ModelSim, Icarus Verilog, Verilator
 - **Synthesis**: Vivado (Xilinx), Quartus (Intel), Yosys
 - **FPGA Programming**: Deploy to real hardware
@@ -435,6 +441,7 @@ vvp half_adder
 ## Verification
 
 Always verify your designs with:
+
 1. **Truth tables** - Enumerate all input combinations
 2. **Timing diagrams** - Check sequential behavior
 3. **Testbenches** - Write Verilog testbenches

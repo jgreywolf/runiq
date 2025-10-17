@@ -16,7 +16,7 @@ export const ellipseWideShape: ShapeDefinition = {
       textSize.width * 1.5 + padding * 2,
       80 // minimum width
     );
-    
+
     const height = Math.max(
       textSize.height * 1.5 + padding * 2,
       40 // minimum height

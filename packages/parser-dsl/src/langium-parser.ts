@@ -696,9 +696,17 @@ function convertContainer(
       // Process edge properties
       for (const prop of statement.properties) {
         if (Langium.isLineStyleProperty(prop)) {
-          edge.lineStyle = prop.value as 'solid' | 'dashed' | 'dotted' | 'double';
+          edge.lineStyle = prop.value as
+            | 'solid'
+            | 'dashed'
+            | 'dotted'
+            | 'double';
         } else if (Langium.isArrowTypeProperty(prop)) {
-          edge.arrowType = prop.value as 'standard' | 'hollow' | 'open' | 'none';
+          edge.arrowType = prop.value as
+            | 'standard'
+            | 'hollow'
+            | 'open'
+            | 'none';
         }
       }
 

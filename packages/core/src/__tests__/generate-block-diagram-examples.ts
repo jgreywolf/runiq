@@ -142,7 +142,14 @@ const examples = [
 
 examples.forEach(({ name, diagram }) => {
   const dsl = toDSL(diagram);
-  const outputPath = join(process.cwd(), '..', '..', 'examples', 'block-diagrams', `${name}.runiq`);
+  const outputPath = join(
+    process.cwd(),
+    '..',
+    '..',
+    'examples',
+    'block-diagrams',
+    `${name}.runiq`
+  );
 
   console.log(`Generating ${name}.runiq...`);
   console.log(dsl);
@@ -154,4 +161,6 @@ examples.forEach(({ name, diagram }) => {
 
 console.log('✅ Block diagram examples generated!');
 console.log('📝 5 example files created in examples/block-diagrams/');
-console.log('🎯 Shapes used: transfer-fn, gain, integrator, junction, multiply-junction');
+console.log(
+  '🎯 Shapes used: transfer-fn, gain, integrator, junction, multiply-junction'
+);

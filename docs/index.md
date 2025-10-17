@@ -23,35 +23,35 @@ features:
   - icon: 📝
     title: Two Input Formats
     details: Human-friendly DSL syntax and 1:1 JSON format. Choose the one that fits your workflow.
-    
+
   - icon: 🎨
     title: Pure SVG Output
     details: Standards-compliant SVG with no HTML hacks. Embed-safe for PowerPoint, Keynote, Google Slides.
-    
+
   - icon: 🔧
     title: 54 Shapes Across 9 Categories
     details: From flowcharts to UML diagrams, electrical circuits to block diagrams.
-    
+
   - icon: 🏗️
     title: Hierarchical Containers
     details: Build complex architectures with nested containers. Perfect for C4, BPMN, and microservices diagrams.
-    
+
   - icon: 🔗
     title: UML Relationships
     details: Stereotypes (<<include>>, <<extend>>), line styles (solid, dashed, dotted), arrow types (standard, hollow, open).
-    
+
   - icon: ⚡
     title: Professional Layouts
     details: Eclipse Layout Kernel (ELK) with 5 algorithms - layered, force, stress, tree, radial.
-    
+
   - icon: 🔌
     title: Electrical & Digital Circuits
     details: SPICE netlist and Verilog HDL export. IEEE-standard schematic rendering.
-    
+
   - icon: 📊
     title: Block Diagrams
     details: Control systems with transfer functions. Export to LaTeX/TikZ and Simulink.
-    
+
   - icon: 🧪
     title: 705+ Tests Passing
     details: Comprehensive test coverage with TDD approach. Production-ready quality.
@@ -62,7 +62,7 @@ features:
 ```runiq
 diagram "Auth Flow" direction: LR
 
-style default fill:#f7f7ff stroke:#444 
+style default fill:#f7f7ff stroke:#444
 style decision fill:#fff7e6 stroke:#aa7700
 
 shape User     as @actor   label:"Visitor"
@@ -113,6 +113,7 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 ## Recent Updates
 
 **October 17, 2025** - v0.1.0 Released! 🎉
+
 - ✅ 54 shapes across 9 categories
 - ✅ UML relationship support (stereotypes, line styles, arrow types)
 - ✅ Use case diagrams with actors and system boundaries
