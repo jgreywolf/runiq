@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="920" 
+    height="120" 
+    viewBox="60 60 920 120"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">2-to-4 Decoder</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+  <path d="M 100,115 L 100,100" class="schematic-wire"/>
+  <text x="105" y="95" class="schematic-net-label">A0</text>
+  <path d="M 100,100 L 560,100" class="schematic-wire"/>
+  <text x="565" y="95" class="schematic-net-label">A0</text>
+  <path d="M 560,112 L 560,100" class="schematic-wire"/>
+  <text x="565" y="95" class="schematic-net-label">A0</text>
+  <path d="M 560,100 L 880,100" class="schematic-wire"/>
+  <text x="885" y="95" class="schematic-net-label">A0</text>
+  <path d="M 880,112 L 880,100" class="schematic-wire"/>
+  <text x="885" y="95" class="schematic-net-label">A0</text>
+  <path d="M 150,115 L 150,100" class="schematic-wire"/>
+  <text x="155" y="95" class="schematic-net-label">A0_N</text>
+  <path d="M 150,100 L 400,100" class="schematic-wire"/>
+  <text x="405" y="95" class="schematic-net-label">A0_N</text>
+  <path d="M 400,112 L 400,100" class="schematic-wire"/>
+  <text x="405" y="95" class="schematic-net-label">A0_N</text>
+  <path d="M 400,100 L 720,100" class="schematic-wire"/>
+  <text x="725" y="95" class="schematic-net-label">A0_N</text>
+  <path d="M 720,112 L 720,100" class="schematic-wire"/>
+  <text x="725" y="95" class="schematic-net-label">A0_N</text>
+  <path d="M 250,115 L 250,100" class="schematic-wire"/>
+  <text x="255" y="95" class="schematic-net-label">A1</text>
+  <path d="M 250,100 L 720,100" class="schematic-wire"/>
+  <text x="725" y="95" class="schematic-net-label">A1</text>
+  <path d="M 720,128 L 720,100" class="schematic-wire"/>
+  <text x="725" y="95" class="schematic-net-label">A1</text>
+  <path d="M 720,100 L 880,100" class="schematic-wire"/>
+  <text x="885" y="95" class="schematic-net-label">A1</text>
+  <path d="M 880,128 L 880,100" class="schematic-wire"/>
+  <text x="885" y="95" class="schematic-net-label">A1</text>
+  <path d="M 300,115 L 300,100" class="schematic-wire"/>
+  <text x="305" y="95" class="schematic-net-label">A1_N</text>
+  <path d="M 300,100 L 400,100" class="schematic-wire"/>
+  <text x="405" y="95" class="schematic-net-label">A1_N</text>
+  <path d="M 400,128 L 400,100" class="schematic-wire"/>
+  <text x="405" y="95" class="schematic-net-label">A1_N</text>
+  <path d="M 400,100 L 560,100" class="schematic-wire"/>
+  <text x="565" y="95" class="schematic-net-label">A1_N</text>
+  <path d="M 560,128 L 560,100" class="schematic-wire"/>
+  <text x="565" y="95" class="schematic-net-label">A1_N</text>
+  <g class="schematic-junctions">
+    <circle cx="100" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="560" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="150" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="400" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="250" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="720" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="300" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+  </g>
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- Inverter triangle -->
+      <path d="M 100,100 L 100,130 L 140,115 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Inverter bubble -->
+      <circle cx="143" cy="115" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input line -->
+      <line x1="90" y1="115" x2="100" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="146" y1="115" x2="160" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="125" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+  <g class="schematic-component" data-ref="U2">
+
+      <!-- Inverter triangle -->
+      <path d="M 250,100 L 250,130 L 290,115 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Inverter bubble -->
+      <circle cx="293" cy="115" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input line -->
+      <line x1="240" y1="115" x2="250" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="296" y1="115" x2="310" y2="115" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="275" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U2</text>
+  </g>
+  <g class="schematic-component" data-ref="U3">
+
+      <!-- AND gate body -->
+      <path d="M 400,100 L 430,100 A 20,20 0 0,1 430,140 L 400,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="390" y1="112" x2="400" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="390" y1="128" x2="400" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="450" y1="120" x2="470" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="430" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U3</text>
+  </g>
+  <g class="schematic-component" data-ref="U4">
+
+      <!-- AND gate body -->
+      <path d="M 560,100 L 590,100 A 20,20 0 0,1 590,140 L 560,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="550" y1="112" x2="560" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="550" y1="128" x2="560" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="610" y1="120" x2="630" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="590" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U4</text>
+  </g>
+  <g class="schematic-component" data-ref="U5">
+
+      <!-- AND gate body -->
+      <path d="M 720,100 L 750,100 A 20,20 0 0,1 750,140 L 720,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="710" y1="112" x2="720" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="710" y1="128" x2="720" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="770" y1="120" x2="790" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="750" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U5</text>
+  </g>
+  <g class="schematic-component" data-ref="U6">
+
+      <!-- AND gate body -->
+      <path d="M 880,100 L 910,100 A 20,20 0 0,1 910,140 L 880,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="870" y1="112" x2="880" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="870" y1="128" x2="880" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="930" y1="120" x2="950" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="910" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U6</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>

@@ -576,10 +576,284 @@ export const transformer = createSymbol(
   }
 );
 
+// ============================================================================
+// Digital Logic Gates (IEEE/ANSI standard symbols)
+// ============================================================================
+
+/**
+ * 2-input AND gate (IEEE distinctive shape)
+ */
+export const andGate = createSymbol(
+  'and',
+  60,
+  40,
+  [
+    { x: 0, y: 12, name: 'A' },
+    { x: 0, y: 28, name: 'B' },
+    { x: 60, y: 20, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 30;
+    const right = cx + 30;
+    const top = cy - 20;
+    const bottom = cy + 20;
+    
+    return `
+      <!-- AND gate body -->
+      <path d="M ${left},${top} L ${cx},${top} A 20,20 0 0,1 ${cx},${bottom} L ${left},${bottom} Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 12}" x2="${left}" y2="${top + 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 12}" x2="${left}" y2="${bottom - 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${cx + 20}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * 2-input OR gate (IEEE distinctive shape)
+ */
+export const orGate = createSymbol(
+  'or',
+  60,
+  40,
+  [
+    { x: 0, y: 12, name: 'A' },
+    { x: 0, y: 28, name: 'B' },
+    { x: 60, y: 20, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 30;
+    const right = cx + 30;
+    const top = cy - 20;
+    const bottom = cy + 20;
+    
+    return `
+      <!-- OR gate body -->
+      <path d="M ${left},${top} Q ${left + 10},${cy} ${left},${bottom} Q ${cx},${bottom} ${cx + 20},${cy} Q ${cx},${top} ${left},${top}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 12}" x2="${left}" y2="${top + 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 12}" x2="${left}" y2="${bottom - 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${cx + 20}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * NOT gate (Inverter - triangle with bubble)
+ */
+export const notGate = createSymbol(
+  'not',
+  50,
+  30,
+  [
+    { x: 0, y: 15, name: 'A' },
+    { x: 50, y: 15, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 25;
+    const right = cx + 25;
+    const top = cy - 15;
+    const bottom = cy + 15;
+    const bubbleX = cx + 18;
+    
+    return `
+      <!-- Inverter triangle -->
+      <path d="M ${left},${top} L ${left},${bottom} L ${cx + 15},${cy} Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Inverter bubble -->
+      <circle cx="${bubbleX}" cy="${cy}" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input line -->
+      <line x1="${left - 10}" y1="${cy}" x2="${left}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${bubbleX + 3}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * 2-input XOR gate (OR gate with additional input line)
+ */
+export const xorGate = createSymbol(
+  'xor',
+  65,
+  40,
+  [
+    { x: 0, y: 12, name: 'A' },
+    { x: 0, y: 28, name: 'B' },
+    { x: 65, y: 20, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 32.5;
+    const right = cx + 32.5;
+    const top = cy - 20;
+    const bottom = cy + 20;
+    
+    return `
+      <!-- XOR gate body (OR shape) -->
+      <path d="M ${left + 5},${top} Q ${left + 15},${cy} ${left + 5},${bottom} Q ${cx + 5},${bottom} ${cx + 25},${cy} Q ${cx + 5},${top} ${left + 5},${top}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Additional input line for XOR -->
+      <path d="M ${left},${top} Q ${left + 10},${cy} ${left},${bottom}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 12}" x2="${left + 5}" y2="${top + 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 12}" x2="${left + 5}" y2="${bottom - 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${cx + 25}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * 2-input NAND gate (AND gate with output bubble)
+ */
+export const nandGate = createSymbol(
+  'nand',
+  65,
+  40,
+  [
+    { x: 0, y: 12, name: 'A' },
+    { x: 0, y: 28, name: 'B' },
+    { x: 65, y: 20, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 32.5;
+    const right = cx + 32.5;
+    const top = cy - 20;
+    const bottom = cy + 20;
+    const bubbleX = cx + 23;
+    
+    return `
+      <!-- NAND gate body (AND shape) -->
+      <path d="M ${left},${top} L ${cx + 5},${top} A 20,20 0 0,1 ${cx + 5},${bottom} L ${left},${bottom} Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Inverter bubble -->
+      <circle cx="${bubbleX}" cy="${cy}" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 12}" x2="${left}" y2="${top + 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 12}" x2="${left}" y2="${bottom - 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${bubbleX + 3}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * 2-input NOR gate (OR gate with output bubble)
+ */
+export const norGate = createSymbol(
+  'nor',
+  65,
+  40,
+  [
+    { x: 0, y: 12, name: 'A' },
+    { x: 0, y: 28, name: 'B' },
+    { x: 65, y: 20, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 32.5;
+    const right = cx + 32.5;
+    const top = cy - 20;
+    const bottom = cy + 20;
+    const bubbleX = cx + 23;
+    
+    return `
+      <!-- NOR gate body (OR shape) -->
+      <path d="M ${left},${top} Q ${left + 10},${cy} ${left},${bottom} Q ${cx + 5},${bottom} ${cx + 25},${cy} Q ${cx + 5},${top} ${left},${top}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Inverter bubble -->
+      <circle cx="${bubbleX}" cy="${cy}" r="3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="${left - 10}" y1="${top + 12}" x2="${left}" y2="${top + 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left - 10}" y1="${bottom - 12}" x2="${left}" y2="${bottom - 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${bubbleX + 3}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
+/**
+ * Buffer gate (triangle without bubble)
+ */
+export const bufferGate = createSymbol(
+  'buffer',
+  50,
+  30,
+  [
+    { x: 0, y: 15, name: 'A' },
+    { x: 50, y: 15, name: 'Y' },
+  ],
+  (cx, cy) => {
+    const left = cx - 25;
+    const right = cx + 25;
+    const top = cy - 15;
+    const bottom = cy + 15;
+    
+    return `
+      <!-- Buffer triangle -->
+      <path d="M ${left},${top} L ${left},${bottom} L ${cx + 15},${cy} Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input line -->
+      <line x1="${left - 10}" y1="${cy}" x2="${left}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="${cx + 15}" y1="${cy}" x2="${right + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+    `;
+  }
+);
+
 /**
  * Symbol registry
  */
 export const symbolRegistry = new Map<string, SymbolDefinition>([
+  // Electrical components
   ['R', resistor],
   ['C', capacitor],
   ['L', inductor],
@@ -595,6 +869,14 @@ export const symbolRegistry = new Map<string, SymbolDefinition>([
   ['M_PMOS', pmosTransistor],
   ['OPAMP', opamp],
   ['XFMR', transformer],
+  // Digital logic gates
+  ['AND', andGate],
+  ['OR', orGate],
+  ['NOT', notGate],
+  ['XOR', xorGate],
+  ['NAND', nandGate],
+  ['NOR', norGate],
+  ['BUFFER', bufferGate],
 ]);
 
 /**

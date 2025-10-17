@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="790" 
+    height="120" 
+    viewBox="60 60 790 120"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">Full Adder</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+  <path d="M 100,112 L 265,112 L 265,112 L 430,112" class="schematic-wire"/>
+  <text x="270" y="107" class="schematic-net-label">A</text>
+  <path d="M 100,128 L 265,128 L 265,128 L 430,128" class="schematic-wire"/>
+  <text x="270" y="123" class="schematic-net-label">B</text>
+  <path d="M 165,120 L 165,100" class="schematic-wire"/>
+  <text x="170" y="95" class="schematic-net-label">XOR1_OUT</text>
+  <path d="M 165,100 L 265,100" class="schematic-wire"/>
+  <text x="270" y="95" class="schematic-net-label">XOR1_OUT</text>
+  <path d="M 265,112 L 265,100" class="schematic-wire"/>
+  <text x="270" y="95" class="schematic-net-label">XOR1_OUT</text>
+  <path d="M 265,100 L 590,100" class="schematic-wire"/>
+  <text x="595" y="95" class="schematic-net-label">XOR1_OUT</text>
+  <path d="M 590,112 L 590,100" class="schematic-wire"/>
+  <text x="595" y="95" class="schematic-net-label">XOR1_OUT</text>
+  <path d="M 265,128 L 427.5,128 L 427.5,128 L 590,128" class="schematic-wire"/>
+  <text x="432.5" y="123" class="schematic-net-label">CIN</text>
+  <path d="M 490,120 L 620,120 L 620,112 L 750,112" class="schematic-wire"/>
+  <text x="625" y="107" class="schematic-net-label">AND1_OUT</text>
+  <path d="M 650,120 L 700,120 L 700,128 L 750,128" class="schematic-wire"/>
+  <text x="705" y="123" class="schematic-net-label">AND2_OUT</text>
+  <g class="schematic-junctions">
+    <circle cx="165" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+    <circle cx="265" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+  </g>
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- XOR gate body (OR shape) -->
+      <path d="M 105,100 Q 115,120 105,140 Q 137.5,140 157.5,120 Q 137.5,100 105,100" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Additional input line for XOR -->
+      <path d="M 100,100 Q 110,120 100,140" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Input lines -->
+      <line x1="90" y1="112" x2="105" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="128" x2="105" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="157.5" y1="120" x2="175" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="132.5" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+  <g class="schematic-component" data-ref="U2">
+
+      <!-- XOR gate body (OR shape) -->
+      <path d="M 270,100 Q 280,120 270,140 Q 302.5,140 322.5,120 Q 302.5,100 270,100" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Additional input line for XOR -->
+      <path d="M 265,100 Q 275,120 265,140" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Input lines -->
+      <line x1="255" y1="112" x2="270" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="255" y1="128" x2="270" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="322.5" y1="120" x2="340" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="297.5" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U2</text>
+  </g>
+  <g class="schematic-component" data-ref="U3">
+
+      <!-- AND gate body -->
+      <path d="M 430,100 L 460,100 A 20,20 0 0,1 460,140 L 430,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="420" y1="112" x2="430" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="420" y1="128" x2="430" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="480" y1="120" x2="500" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="460" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U3</text>
+  </g>
+  <g class="schematic-component" data-ref="U4">
+
+      <!-- AND gate body -->
+      <path d="M 590,100 L 620,100 A 20,20 0 0,1 620,140 L 590,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="580" y1="112" x2="590" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="580" y1="128" x2="590" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="640" y1="120" x2="660" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="620" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U4</text>
+  </g>
+  <g class="schematic-component" data-ref="U5">
+
+      <!-- OR gate body -->
+      <path d="M 750,100 Q 760,120 750,140 Q 780,140 800,120 Q 780,100 750,100" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="740" y1="112" x2="750" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="740" y1="128" x2="750" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="800" y1="120" x2="820" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="780" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U5</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>

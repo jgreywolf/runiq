@@ -895,4 +895,234 @@ describe('Schematic Renderer', () => {
       expect(result.warnings).toHaveLength(0);
     });
   });
+
+  describe('Logic Gate Symbols', () => {
+    it('should render 2-input AND gate', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'AND Gate',
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'AND',
+            params: {},
+            pins: ['A', 'B', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('AND Gate');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 2-input OR gate', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'OR Gate',
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'OR',
+            params: {},
+            pins: ['A', 'B', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('OR Gate');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render NOT gate (inverter)', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'NOT Gate',
+        nets: [{ name: 'A' }, { name: 'Y' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'NOT',
+            params: {},
+            pins: ['A', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('NOT Gate');
+      // Check for inverter bubble (circle)
+      expect(result.svg).toContain('circle');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 2-input XOR gate', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'XOR Gate',
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'XOR',
+            params: {},
+            pins: ['A', 'B', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('XOR Gate');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 2-input NAND gate', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'NAND Gate',
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'NAND',
+            params: {},
+            pins: ['A', 'B', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('NAND Gate');
+      // NAND should have inverter bubble on output
+      expect(result.svg).toContain('circle');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render 2-input NOR gate', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'NOR Gate',
+        nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'NOR',
+            params: {},
+            pins: ['A', 'B', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('NOR Gate');
+      // NOR should have inverter bubble on output
+      expect(result.svg).toContain('circle');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render BUFFER gate', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Buffer',
+        nets: [{ name: 'A' }, { name: 'Y' }],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'BUFFER',
+            params: {},
+            pins: ['A', 'Y'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('Buffer');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render half adder with multiple logic gates', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'Half Adder',
+        nets: [
+          { name: 'A' },
+          { name: 'B' },
+          { name: 'SUM' },
+          { name: 'CARRY' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'XOR',
+            params: {},
+            pins: ['A', 'B', 'SUM'],
+          },
+          {
+            ref: 'U2',
+            type: 'AND',
+            params: {},
+            pins: ['A', 'B', 'CARRY'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('data-ref="U2"');
+      expect(result.svg).toContain('Half Adder');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should render SR latch with NAND gates', () => {
+      const profile: ElectricalProfile = {
+        type: 'electrical',
+        name: 'SR Latch',
+        nets: [
+          { name: 'S' },
+          { name: 'R' },
+          { name: 'Q' },
+          { name: 'Qn' },
+        ],
+        parts: [
+          {
+            ref: 'U1',
+            type: 'NAND',
+            params: {},
+            pins: ['S', 'Qn', 'Q'],
+          },
+          {
+            ref: 'U2',
+            type: 'NAND',
+            params: {},
+            pins: ['R', 'Q', 'Qn'],
+          },
+        ],
+      };
+
+      const result = renderSchematic(profile);
+
+      expect(result.svg).toContain('data-ref="U1"');
+      expect(result.svg).toContain('data-ref="U2"');
+      expect(result.svg).toContain('SR Latch');
+      expect(result.warnings).toHaveLength(0);
+    });
+  });
 });

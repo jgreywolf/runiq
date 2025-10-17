@@ -4,19 +4,20 @@ Professional electrical schematic renderer for Runiq with IEEE/IEC standard symb
 
 ## ✨ Features
 
-- **IEEE Standard Symbols** - 14 professional electrical symbols
+- **IEEE Standard Symbols** - 22 professional schematic symbols
   - Passive: R, C, L
   - Sources: V (voltage), I (current)
   - Semiconductors: D (diode), LED
   - Transistors: NPN, PNP, NMOS, PMOS
   - Advanced: Op-amp, Transformer
-- **Component Rotation** - Rotate components 0°, 90°, 180°, or 270° (NEW! 🎉)
-- **Orthogonal Wire Routing** - Manhattan-style routing with junction dots (NEW! 🎉)
+  - **Digital Logic Gates:** AND, OR, NOT, XOR, NAND, NOR, BUFFER (NEW! 🎉)
+- **Component Rotation** - Rotate components 0°, 90°, 180°, or 270°
+- **Orthogonal Wire Routing** - Manhattan-style routing with junction dots
 - **Automatic Layout** - Smart component placement with wire routing
 - **Ground Normalization** - Automatic GND/VSS symbol rendering
 - **Configurable Display** - Control labels, values, net names, and colors
 - **SVG Output** - Scalable, embeddable in web pages and documentation
-- **Comprehensive Testing** - 37/37 tests passing with full coverage
+- **Comprehensive Testing** - 46/46 tests passing with full coverage (NEW! 🎉)
 
 ## 📦 Installation
 
@@ -81,9 +82,18 @@ console.log(result.svg); // SVG markup
 - **M_NMOS** - N-Channel MOSFET (enhancement mode)
 - **M_PMOS** - P-Channel MOSFET (enhancement mode)
 
-### Advanced Components (NEW! 🎉)
+### Advanced Components
 - **OPAMP** - Operational Amplifier (triangle with +/- inputs)
 - **XFMR** - Transformer (coupled inductors with core)
+
+### Digital Logic Gates (NEW! 🎉)
+- **AND** - 2-input AND gate (IEEE distinctive shape: flat left, curved right)
+- **OR** - 2-input OR gate (IEEE distinctive shape: curved both sides)
+- **NOT** - Inverter (triangle with output bubble)
+- **XOR** - 2-input XOR gate (OR shape with extra input curve)
+- **NAND** - 2-input NAND gate (AND with output bubble)
+- **NOR** - 2-input NOR gate (OR with output bubble)
+- **BUFFER** - Non-inverting buffer (triangle without bubble)
 
 ### Symbols
 - **GND** - Ground (IEEE earth symbol)
@@ -339,6 +349,111 @@ const result = renderSchematic(hBridge, {
 // - Professional H-Bridge topology layout
 ```
 
+### Digital Logic Circuits (NEW! 🎉)
+
+The schematic renderer now supports IEEE/ANSI standard logic gate symbols for digital circuit design:
+
+#### Half Adder
+
+```typescript
+const halfAdder: ElectricalProfile = {
+  type: 'electrical',
+  name: 'Half Adder',
+  nets: [
+    { name: 'A' },
+    { name: 'B' },
+    { name: 'SUM' },
+    { name: 'CARRY' }
+  ],
+  parts: [
+    { ref: 'U1', type: 'XOR', params: {}, pins: ['A', 'B', 'SUM'] },
+    { ref: 'U2', type: 'AND', params: {}, pins: ['A', 'B', 'CARRY'] },
+  ],
+};
+
+const svg = renderSchematic(halfAdder, {
+  routing: 'orthogonal',
+  showReferences: true,
+  showNetLabels: true,
+});
+```
+
+#### Full Adder
+
+```typescript
+const fullAdder: ElectricalProfile = {
+  type: 'electrical',
+  name: 'Full Adder',
+  nets: [
+    { name: 'A' }, { name: 'B' }, { name: 'CIN' },
+    { name: 'SUM' }, { name: 'COUT' },
+    { name: 'XOR1_OUT' }, { name: 'AND1_OUT' }, { name: 'AND2_OUT' }
+  ],
+  parts: [
+    // First half adder
+    { ref: 'U1', type: 'XOR', params: {}, pins: ['A', 'B', 'XOR1_OUT'] },
+    { ref: 'U2', type: 'XOR', params: {}, pins: ['XOR1_OUT', 'CIN', 'SUM'] },
+    
+    // Carry logic
+    { ref: 'U3', type: 'AND', params: {}, pins: ['A', 'B', 'AND1_OUT'] },
+    { ref: 'U4', type: 'AND', params: {}, pins: ['XOR1_OUT', 'CIN', 'AND2_OUT'] },
+    { ref: 'U5', type: 'OR', params: {}, pins: ['AND1_OUT', 'AND2_OUT', 'COUT'] },
+  ],
+};
+```
+
+#### 2-to-4 Decoder
+
+```typescript
+const decoder: ElectricalProfile = {
+  type: 'electrical',
+  name: '2-to-4 Decoder',
+  nets: [
+    { name: 'A0' }, { name: 'A1' },
+    { name: 'A0_N' }, { name: 'A1_N' },
+    { name: 'Y0' }, { name: 'Y1' }, { name: 'Y2' }, { name: 'Y3' }
+  ],
+  parts: [
+    // Inverters
+    { ref: 'U1', type: 'NOT', params: {}, pins: ['A0', 'A0_N'] },
+    { ref: 'U2', type: 'NOT', params: {}, pins: ['A1', 'A1_N'] },
+    
+    // Output gates
+    { ref: 'U3', type: 'AND', params: {}, pins: ['A0_N', 'A1_N', 'Y0'] },
+    { ref: 'U4', type: 'AND', params: {}, pins: ['A0', 'A1_N', 'Y1'] },
+    { ref: 'U5', type: 'AND', params: {}, pins: ['A0_N', 'A1', 'Y2'] },
+    { ref: 'U6', type: 'AND', params: {}, pins: ['A0', 'A1', 'Y3'] },
+  ],
+};
+```
+
+#### SR Latch
+
+```typescript
+const srLatch: ElectricalProfile = {
+  type: 'electrical',
+  name: 'SR Latch (NAND)',
+  nets: [
+    { name: 'S' },
+    { name: 'R' },
+    { name: 'Q' },
+    { name: 'Q_N' }
+  ],
+  parts: [
+    // Cross-coupled NAND gates
+    { ref: 'U1', type: 'NAND', params: {}, pins: ['S', 'Q_N', 'Q'] },
+    { ref: 'U2', type: 'NAND', params: {}, pins: ['R', 'Q', 'Q_N'] },
+  ],
+};
+```
+
+**Digital Gate Features:**
+- **IEEE/ANSI Distinctive Shapes**: Authentic gate symbols (curved OR, flat AND, etc.)
+- **Inverter Bubbles**: 3px circles on NOT, NAND, NOR outputs
+- **Proper Terminal Naming**: A, B for inputs; Y for output
+- **Scalable SVG**: Perfect for documentation and web display
+- **All 7 Gate Types**: AND, OR, NOT, XOR, NAND, NOR, BUFFER
+
 ## 🔧 Complete Workflow
 
 ### 1. Write Runiq Circuit
@@ -482,8 +597,13 @@ Test coverage:
 - ✅ Customization options (3 tests)
 - ✅ Error handling (3 tests)
 - ✅ Complex circuits (2 tests)
+- ✅ Transistor symbols (4 tests)
+- ✅ Advanced symbols (2 tests)
+- ✅ Component rotation (5 tests)
+- ✅ Orthogonal routing (3 tests)
+- ✅ Logic gate symbols (9 tests) **NEW!** 🎉
 
-**Total: 21/21 tests passing** ✅
+**Total: 46/46 tests passing** ✅
 
 ## 📝 Rendering Examples
 
@@ -563,19 +683,22 @@ The generated SVG includes CSS classes for customization:
 ## ⚠️ Current Limitations
 
 - **Layout:** Simple linear placement (horizontal or vertical)
-- **Routing:** Direct connections between components
-- **Components:** Basic set (R, C, L, V, I, D, LED, GND)
-- **Orientation:** Components always horizontal (no rotation)
+- **Routing:** ~~Direct connections~~ Now supports orthogonal routing! ✅
+- **Components:** ~~Basic set~~ Now includes 22 symbols (electrical + digital)! ✅
+- **Orientation:** ~~Fixed~~ Now supports 0°/90°/180°/270° rotation! ✅
 
 ## 🚀 Future Enhancements
 
-- [ ] Smart auto-routing (orthogonal lines)
-- [ ] Component rotation (0°, 90°, 180°, 270°)
+- [x] ~~Smart auto-routing (orthogonal lines)~~ **DONE!** ✅
+- [x] ~~Component rotation (0°, 90°, 180°, 270°)~~ **DONE!** ✅
+- [x] ~~More components (transistors, MOSFETs, op-amps)~~ **DONE!** ✅
+- [x] ~~Digital logic gates~~ **DONE!** ✅
 - [ ] Grid-based manual placement
-- [ ] More components (transistors, MOSFETs, op-amps)
-- [ ] Multi-net junctions
+- [ ] Multi-net junctions (enhanced)
 - [ ] Hierarchical subcircuits
 - [ ] Export to PNG/PDF
+- [ ] 3+ input logic gates
+- [ ] Flip-flops and registers
 
 ## 🤝 Comparison with Other Tools
 
@@ -601,15 +724,18 @@ Part of the Runiq project. See main repository for license details.
 
 ## 🎉 Status
 
-**Current Version: 0.1.0**
+**Current Version: 0.2.0**
 
 - ✅ Core schematic rendering
-- ✅ IEEE-standard symbols
+- ✅ IEEE-standard symbols (22 total!)
+- ✅ Digital logic gates (7 gates) **NEW!** 🎉
+- ✅ Component rotation (0°/90°/180°/270°)
+- ✅ Orthogonal wire routing with junction dots
 - ✅ Automatic layout
 - ✅ Wire routing
 - ✅ Ground symbols
 - ✅ Component/net labels
-- ✅ 21/21 tests passing
-- ✅ 5 example schematics rendered
+- ✅ 46/46 tests passing
+- ✅ 5+ example schematics rendered
 
 **Ready for production use!** 🚀

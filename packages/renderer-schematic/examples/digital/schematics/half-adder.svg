@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="305" 
+    height="120" 
+    viewBox="60 60 305 120"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">Half Adder</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .schematic-component { color: #000000; }
+      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="schematic-wires">
+  <path d="M 100,112 L 265,112" class="schematic-wire"/>
+  <text x="270" y="107" class="schematic-net-label">A</text>
+  <path d="M 100,128 L 265,128" class="schematic-wire"/>
+  <text x="270" y="123" class="schematic-net-label">B</text>
+</g>
+<g class="schematic-components">
+  <g class="schematic-component" data-ref="U1">
+
+      <!-- XOR gate body (OR shape) -->
+      <path d="M 105,100 Q 115,120 105,140 Q 137.5,140 157.5,120 Q 137.5,100 105,100" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Additional input line for XOR -->
+      <path d="M 100,100 Q 110,120 100,140" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Input lines -->
+      <line x1="90" y1="112" x2="105" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="90" y1="128" x2="105" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="157.5" y1="120" x2="175" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="132.5" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U1</text>
+  </g>
+  <g class="schematic-component" data-ref="U2">
+
+      <!-- AND gate body -->
+      <path d="M 265,100 L 295,100 A 20,20 0 0,1 295,140 L 265,140 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Input lines -->
+      <line x1="255" y1="112" x2="265" y2="112" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="255" y1="128" x2="265" y2="128" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Output line -->
+      <line x1="315" y1="120" x2="335" y2="120" 
+        stroke="currentColor" stroke-width="2"/>
+        <text x="295" y="92" 
+        class="schematic-label" 
+        text-anchor="middle">U2</text>
+  </g>
+</g>
+<g class="schematic-grounds">
+</g>
+</svg>
