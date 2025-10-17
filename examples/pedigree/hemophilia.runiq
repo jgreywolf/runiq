@@ -1,0 +1,70 @@
+# Hemophilia Pedigree
+# Classic X-linked recessive inheritance pattern
+# Shows affected males and carrier females
+diagram pedigree
+
+# Generation I
+I-1: pedigree-male "I-1"
+I-2: pedigree-female "I-2" { carrier: true }
+
+# Generation II
+II-1: pedigree-female "II-1" { carrier: true }
+II-2: pedigree-male "II-2" { affected: true, deceased: true }
+II-3: pedigree-female "II-3" { carrier: true }
+II-4: pedigree-male "II-4"
+II-5: pedigree-female "II-5"
+
+# Generation II spouses
+II-1-spouse: pedigree-male "Spouse"
+II-3-spouse: pedigree-male "Spouse"
+II-5-spouse: pedigree-male "Spouse"
+
+# Generation III
+III-1: pedigree-female "III-1" { carrier: true }
+III-2: pedigree-male "III-2"
+III-3: pedigree-male "III-3" { affected: true }
+III-4: pedigree-female "III-4"
+III-5: pedigree-male "III-5" { affected: true }
+III-6: pedigree-female "III-6" { carrier: true }
+III-7: pedigree-male "III-7"
+III-8: pedigree-female "III-8"
+
+# Marriage relationships (Generation I)
+I-1 -> I-2
+
+# Marriage relationships (Generation II)
+II-1 -> II-1-spouse
+II-3 -> II-3-spouse
+II-5 -> II-5-spouse
+
+# Parent-child (Generation I -> II)
+I-1 -> II-1
+I-1 -> II-2
+I-1 -> II-3
+I-1 -> II-4
+I-1 -> II-5
+I-2 -> II-1
+I-2 -> II-2
+I-2 -> II-3
+I-2 -> II-4
+I-2 -> II-5
+
+# Parent-child (Generation II -> III)
+II-1 -> III-1
+II-1 -> III-2
+II-1-spouse -> III-1
+II-1-spouse -> III-2
+
+II-3 -> III-3
+II-3 -> III-4
+II-3-spouse -> III-3
+II-3-spouse -> III-4
+
+II-5 -> III-5
+II-5 -> III-6
+II-5 -> III-7
+II-5 -> III-8
+II-5-spouse -> III-5
+II-5-spouse -> III-6
+II-5-spouse -> III-7
+II-5-spouse -> III-8

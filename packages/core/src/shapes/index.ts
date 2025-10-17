@@ -73,6 +73,9 @@ import { multiplyJunctionShape } from './multiply-junction.js';
 import { divideJunctionShape } from './divide-junction.js';
 import { compareJunctionShape } from './compare-junction.js';
 
+// Pedigree chart shapes
+import { pedigreeMaleShape, pedigreeFemaleShape, pedigreeUnknownShape } from './pedigree.js';
+
 export function registerDefaultShapes(): void {
   // Original shapes
   shapeRegistry.register(actorShape);
@@ -162,7 +165,7 @@ export function registerDefaultShapes(): void {
   // Hierarchical diagrams
   shapeRegistry.register(pyramidShape);
 
-  // Block diagram shapes (control systems)
+  // Block diagram shapes - control systems
   shapeRegistry.register(transferFunctionShape);
   shapeRegistry.register(gainShape);
   shapeRegistry.register(integratorShape);
@@ -172,6 +175,11 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(multiplyJunctionShape);
   shapeRegistry.register(divideJunctionShape);
   shapeRegistry.register(compareJunctionShape);
+
+  // Pedigree chart shapes
+  shapeRegistry.register(pedigreeMaleShape);
+  shapeRegistry.register(pedigreeFemaleShape);
+  shapeRegistry.register(pedigreeUnknownShape);
 }
 
 export * from './actor.js';
@@ -248,3 +256,6 @@ export * from './compare-junction.js';
 export * from './charts/pie.js';
 export * from './charts/bar-chart-vertical.js';
 export * from './charts/bar-chart-horizontal.js';
+
+// Pedigree charts
+export * from './pedigree.js';

@@ -1,0 +1,42 @@
+# Genetic Trait Inheritance
+# Example showing autosomal recessive inheritance pattern
+# Black = Affected, Half-filled = Carrier, White = Normal
+diagram pedigree
+
+# Generation I
+I-1: pedigree-male "I-1" { carrier: true }
+I-2: pedigree-female "I-2" { carrier: true }
+
+# Generation II
+II-1: pedigree-female "II-1"
+II-2: pedigree-male "II-2" { carrier: true }
+II-3: pedigree-female "II-3" { affected: true }
+II-4: pedigree-male "II-4" { carrier: true }
+II-5: pedigree-female "II-5"
+
+# Generation III (II-2 married to II-partner)
+II-partner: pedigree-female "II-partner"
+III-1: pedigree-male "III-1" { carrier: true }
+III-2: pedigree-female "III-2"
+
+# Marriage relationships
+I-1 -> I-2
+II-2 -> II-partner
+
+# Parent-child connections (Generation I -> II)
+I-1 -> II-1
+I-1 -> II-2
+I-1 -> II-3
+I-1 -> II-4
+I-1 -> II-5
+I-2 -> II-1
+I-2 -> II-2
+I-2 -> II-3
+I-2 -> II-4
+I-2 -> II-5
+
+# Parent-child connections (Generation II -> III)
+II-2 -> III-1
+II-2 -> III-2
+II-partner -> III-1
+II-partner -> III-2
