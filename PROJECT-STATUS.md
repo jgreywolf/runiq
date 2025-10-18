@@ -12,22 +12,26 @@
 
 **✅ Complete:**
 
-- **54 professionally designed shapes** (exceeded goal of 52!)
+- **71 professionally designed shapes** (exceeded goal of 52!)
+  - 59 existing shapes + 12 quantum circuit gates
 - **ELK layout engine** integration (replaced Dagre)
 - **Hierarchical containers** - ALL PHASES COMPLETE! 🎉
 - **UML relationships** - Stereotypes, line styles, arrow types
 - **Use case diagrams** - Actors, use cases, system boundaries
 - **Block diagrams** - Control systems with transfer functions
+- **Quantum circuits** - 12 IBM Qiskit-style gates for quantum computing ⚛️
+- **Network topology** - Routers, switches, firewalls, clouds, servers 🌐
+- **Pedigree charts** - Medical genetics and genealogy diagrams 🧬
 - **Export packages** - LaTeX/TikZ and Simulink MDL exporters
-- **705+ tests passing** across all packages
-- **Comprehensive documentation** (9+ major docs)
+- **728+ tests passing** across all packages
+- **Comprehensive documentation** (12+ major docs)
 - **Monorepo architecture** with 11 packages + 2 apps
 
 **📦 Packages (11 total):**
 
 Core Packages:
 
-1. `@runiq/core` - 611 tests ✅
+1. `@runiq/core` - 728 tests ✅
 2. `@runiq/layout-base` - 44 tests (40 passing, 4 skipped) ✅
 3. `@runiq/renderer-svg` - 45 tests ✅
 4. `@runiq/parser-dsl` - 24 tests ✅ (Langium-based)
@@ -60,12 +64,17 @@ Applications:
 4. **UML Relationships**: Stereotypes, line styles (solid/dashed/dotted), arrow types (standard/hollow/open)
 5. **Export Formats**: SPICE, Verilog, LaTeX/TikZ, Simulink MDL
 6. **Validation System**: Circular ref detection, nesting depth checks
-7. **Shape Library**: 54 shapes in 9 categories
-8. **Test Coverage**: 705+ tests with TDD approach
+7. **Shape Library**: 71 shapes in 11 categories
+   - Quantum circuits: 12 gates (Pauli, Hadamard, phase, multi-qubit, measurement)
+   - Network topology: 7 shapes (routers, switches, firewalls, servers, clouds)
+   - Pedigree charts: 3 shapes (male, female, unknown sex)
+   - Plus: Flowchart, UML, circuit, block diagram shapes
+8. **Test Coverage**: 728+ tests with TDD approach
 
 ### Documentation
 
 - [Container Guide](./docs/containers.md) - Complete container documentation
+- [Quantum Circuits Guide](./docs/guide/quantum-circuits.md) - Quantum computing visualization ⚛️
 - [Use Case Diagram Guide](./examples/use-case-diagram/README.md) - UML use case documentation
 - [Block Diagram Guide](./examples/block-diagrams/README.md) - Control systems examples
 - [New Diagram Types Research](./docs/new-diagram-types-research.md) - Feasibility analysis
@@ -90,6 +99,19 @@ Circuits:
 
 - [Electrical Circuits](./examples/electrical/) - Analog circuits with SPICE
 - [Digital Circuits](./examples/digital/) - Logic circuits with Verilog
+
+Quantum Computing:
+
+- [Quantum Circuits](./examples/quantum-circuits/) - 4 quantum algorithm examples
+  - Bell State (entanglement)
+  - Quantum Teleportation (3-qubit protocol)
+  - Grover's Search (amplitude amplification)
+  - Quantum Fourier Transform (QFT)
+
+Network & Pedigree:
+
+- Network Topology - Coming soon
+- Pedigree Charts - 5 genetics/genealogy examples
 
 ## ✅ Container Implementation Complete! (Oct 15, 2025)
 
@@ -145,6 +167,18 @@ All phases of hierarchical container support are now complete:
   - [x] DSL syntax for pedigree properties (affected, carrier, deceased)
   - [x] 32 tests passing
   - [x] Complete documentation and examples
+- [x] **Implement Network Topology** ✅ COMPLETE (Oct 17, 2025)
+  - [x] 7 network shapes (router, switch, firewall, server, cloud, wan, load-balancer)
+  - [x] Infrastructure diagram support
+  - [x] 33 tests passing
+  - [x] Documentation and examples
+- [x] **Implement Quantum Circuits** ✅ COMPLETE (Oct 17, 2025)
+  - [x] 12 quantum gates (Pauli X/Y/Z, Hadamard, Phase S/T, multi-qubit primitives)
+  - [x] IBM Qiskit visual standard
+  - [x] Control dots, CNOT targets, SWAP, measurement, barriers
+  - [x] 52 tests passing
+  - [x] 4 quantum algorithm examples (Bell, Teleportation, Grover, QFT)
+  - [x] Comprehensive documentation guide
 - [ ] Test CLI with all diagram types
 - [ ] Update editor with new features
 
@@ -242,19 +276,19 @@ JSON Parser    ─→                 ─→                 ─→   Renderer
 
 ## 🎨 Shape Categories
 
-| Category    | Count | Purpose                       |
-| ----------- | ----- | ----------------------------- |
-| Actors      | 8     | People, systems, agents       |
-| Circles     | 10    | State indicators, endpoints   |
-| UML         | 2     | Use case, component diagrams  |
-| Data & Docs | 7     | Documents, notes, cards       |
-| Data I/O    | 6     | Input/output operations       |
-| Storage     | 6     | Databases, persistent storage |
-| Process     | 9     | Operations, transformations   |
-| Specialized | 3     | Cloud, delays, connectors     |
-| Annotations | 3     | Comments, notes               |
-| Pedigree    | 3     | Medical family trees          |
-| **Total**   | **57** | **10 categories**           |
+| Category    | Count  | Purpose                       |
+| ----------- | ------ | ----------------------------- |
+| Actors      | 8      | People, systems, agents       |
+| Circles     | 10     | State indicators, endpoints   |
+| UML         | 2      | Use case, component diagrams  |
+| Data & Docs | 7      | Documents, notes, cards       |
+| Data I/O    | 6      | Input/output operations       |
+| Storage     | 6      | Databases, persistent storage |
+| Process     | 9      | Operations, transformations   |
+| Specialized | 3      | Cloud, delays, connectors     |
+| Annotations | 3      | Comments, notes               |
+| Pedigree    | 3      | Medical family trees          |
+| **Total**   | **57** | **10 categories**             |
 
 ## 🔧 Development Commands
 

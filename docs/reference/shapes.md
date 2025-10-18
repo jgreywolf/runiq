@@ -221,6 +221,7 @@ Medical/genetic family tree symbols following standard pedigree notation:
 | Pedigree Unknown | `@pedigree-unknown` | Unknown sex individual (diamond) |
 
 **Properties:**
+
 - `affected:true` - Black fill (has genetic condition)
 - `carrier:true` - Half-fill pattern (carries one copy)
 - `deceased:true` - Diagonal line overlay
@@ -230,18 +231,18 @@ Medical/genetic family tree symbols following standard pedigree notation:
 ```runiq
 diagram "Family History" {
   direction:TB
-  
+
   # Parents (both carriers)
   shape father as @pedigree-male label:"Father" carrier:true
   shape mother as @pedigree-female label:"Mother" carrier:true
-  
+
   # Children
   shape son as @pedigree-male label:"Son" affected:true
   shape daughter as @pedigree-female label:"Daughter"
-  
+
   # Marriage (no arrow)
   father -> mother arrowType:none
-  
+
   # Parent-child relationships
   father -> son
   father -> daughter

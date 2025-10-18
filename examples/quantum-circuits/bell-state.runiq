@@ -1,0 +1,33 @@
+# Bell State - Quantum Entanglement
+# Creates the Bell state |Φ+⟩ = (|00⟩ + |11⟩)/√2
+# This is the simplest example of quantum entanglement
+
+graph TD
+    q0["Qubit 0: |0⟩"]
+    q1["Qubit 1: |0⟩"]
+    
+    # Time step 1: Apply Hadamard to q0 (creates superposition)
+    H0[gate-h:H]
+    
+    # Time step 2: Apply CNOT (creates entanglement)
+    control0[control-dot]
+    target1[cnot-target]
+    
+    # Wire connections (qubit 0)
+    q0 --> H0
+    H0 --> control0
+    
+    # Wire connections (qubit 1)
+    q1 --> target1
+    
+    # Vertical connection for CNOT
+    control0 -.-> target1
+    
+    # Result: Bell state |Φ+⟩
+    # If q0 is measured as |0⟩, q1 will be |0⟩
+    # If q0 is measured as |1⟩, q1 will be |1⟩
+    # They are perfectly correlated (entangled)
+
+style H0 fill:#e8f5e9,stroke:#000
+style control0 fill:#000,stroke:#000
+style target1 fill:#fff,stroke:#000

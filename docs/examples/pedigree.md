@@ -44,6 +44,7 @@ diagram "Simple Pedigree" {
 ```
 
 **Key Features:**
+
 - ■ Black fill = Affected by condition (Father, Son 1)
 - ▦ Half-fill = Carrier status (Daughter)
 - ⌿ Diagonal line = Deceased (Uncle)
@@ -99,6 +100,7 @@ diagram "Genetic Trait Inheritance" {
 
 **Expected Ratio:**
 With two carrier parents (I-1 × I-2):
+
 - 25% affected (II-3)
 - 50% carriers (II-2, II-4)
 - 25% normal (II-1, II-5)
@@ -167,6 +169,7 @@ diagram "Multiple Marriages" {
 ```
 
 **Notes:**
+
 - Children 1 and 2 are half-siblings to Child 3
 - Wife 1 is marked deceased with diagonal line
 - Both marriage lines shown without arrows
@@ -197,6 +200,7 @@ diagram "Unknown Sex" {
 
 **Diamond Symbol:**
 The `@pedigree-unknown` shape renders as a diamond, used for:
+
 - Unborn children (prenatal testing)
 - Miscarriages where sex unknown
 - Historical records where sex not recorded
@@ -221,21 +225,26 @@ diagram "Combined Properties" {
 ```
 
 **Rendering:**
+
 - Patient: Black-filled square with diagonal line
-- Grandmother: Half-filled circle with diagonal line  
+- Grandmother: Half-filled circle with diagonal line
 - Child: White-filled circle (normal)
 
 ## Best Practices
 
 ### Generation Labels
+
 Use Roman numerals for clarity:
+
 ```runiq
 shape i1 as @pedigree-male label:"I-1"     # Generation I, individual 1
 shape ii3 as @pedigree-female label:"II-3" # Generation II, individual 3
 ```
 
 ### ID Naming
+
 Keep IDs simple and lowercase:
+
 ```runiq
 # Good
 shape father as @pedigree-male
@@ -246,7 +255,9 @@ shape i-1 as @pedigree-male  # DON'T
 ```
 
 ### Edge Order
+
 Define marriages before parent-child relationships:
+
 ```runiq
 # 1. Marriages first
 father -> mother arrowType:none
@@ -257,7 +268,9 @@ mother -> child
 ```
 
 ### Direction
+
 Always use top-to-bottom for pedigree charts:
+
 ```runiq
 diagram "My Pedigree" {
   direction:TB  # Required for proper pedigree layout
@@ -282,16 +295,16 @@ While Runiq doesn't auto-generate legends, include explanatory comments:
 
 Runiq's pedigree implementation follows standard medical genetics notation:
 
-| Symbol | Meaning | Runiq Syntax |
-|--------|---------|--------------|
-| □ (square) | Male | `@pedigree-male` |
-| ○ (circle) | Female | `@pedigree-female` |
-| ◇ (diamond) | Unknown sex | `@pedigree-unknown` |
-| ■ (filled) | Affected | `affected:true` |
-| ▦ (half-filled) | Carrier | `carrier:true` |
-| ⌿ (diagonal line) | Deceased | `deceased:true` |
-| ─ (horizontal, no arrow) | Marriage | `arrowType:none` |
-| ═ (double line) | Consanguinity | `lineStyle:double arrowType:none` |
+| Symbol                   | Meaning       | Runiq Syntax                      |
+| ------------------------ | ------------- | --------------------------------- |
+| □ (square)               | Male          | `@pedigree-male`                  |
+| ○ (circle)               | Female        | `@pedigree-female`                |
+| ◇ (diamond)              | Unknown sex   | `@pedigree-unknown`               |
+| ■ (filled)               | Affected      | `affected:true`                   |
+| ▦ (half-filled)          | Carrier       | `carrier:true`                    |
+| ⌿ (diagonal line)        | Deceased      | `deceased:true`                   |
+| ─ (horizontal, no arrow) | Marriage      | `arrowType:none`                  |
+| ═ (double line)          | Consanguinity | `lineStyle:double arrowType:none` |
 
 ## See Also
 

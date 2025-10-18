@@ -4,12 +4,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/tests-705%2B-brightgreen.svg)](./packages)
+[![Tests](https://img.shields.io/badge/tests-728%2B-brightgreen.svg)](./packages)
 
-**🚀 Status**: Phase 1 Complete - Core types, **57 shapes**, ELK layout, hierarchical containers!  
+**🚀 Status**: Phase 1 Complete - Core types, **71 shapes**, ELK layout, hierarchical containers!  
+**⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️  
 **⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬  
+**⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
 **⚡ NEW**: UML relationships - stereotypes (<<include>>, <<extend>>), line styles, arrow types!  
-**⚡ NEW**: Use Case diagram support with actors, use cases, and system boundaries!  
 **⚡ NEW**: Block diagram support for control systems & signal processing!  
 **⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!
 
@@ -64,6 +65,26 @@
 - **Standards compliant**: Follows medical/genetics pedigree conventions
 - **5 example diagrams**: Inheritance patterns, consanguinity, multi-generation families
 
+### Quantum Circuits (NEW! 🎉)
+
+- **IBM Qiskit style**: Industry-standard quantum circuit visualization
+- **12 quantum gates**: Pauli (X, Y, Z), Hadamard, Phase (S, T), multi-qubit primitives
+- **Single-qubit gates**: Basis transformations, superposition, phase rotations
+- **Multi-qubit operations**: Control dots, CNOT targets, SWAP gates
+- **Measurement & utilities**: Measurement boxes, qubit wires, circuit barriers
+- **Color-coded gates**: Red (Pauli), green (Hadamard), yellow (phase), blue (measurement)
+- **4 example circuits**: Bell state, quantum teleportation, Grover search, QFT
+- **Educational focus**: Visualize quantum algorithms without quantum simulation
+
+### Network Topology (NEW! 🎉)
+
+- **7 network shapes**: Routers, switches, firewalls, servers, clouds, WANs, load balancers
+- **Infrastructure modeling**: Design network architectures visually
+- **Standard symbols**: Industry-recognized network diagram notation
+- **Security visualization**: Firewalls, DMZs, security zones
+- **Cloud integration**: Multi-cloud and hybrid architectures
+- **Enterprise ready**: Data centers, campus networks, branch offices
+
 ## 🚀 Quick Start
 
 ```bash
@@ -90,7 +111,7 @@ pnpm dev
 
 | Package                                                    | Description                        | Tests  |
 | ---------------------------------------------------------- | ---------------------------------- | ------ |
-| [`@runiq/core`](./packages/core)                           | Core types, shapes, and registries | 573 ✅ |
+| [`@runiq/core`](./packages/core)                           | Core types, shapes, and registries | 728 ✅ |
 | [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | 5 ✅   |
 | [`@runiq/layout-base`](./packages/layout-base)             | ELK layout engine adapter          | 24 ✅  |
 | [`@runiq/renderer-svg`](./packages/renderer-svg)           | SVG rendering engine               | 30 ✅  |

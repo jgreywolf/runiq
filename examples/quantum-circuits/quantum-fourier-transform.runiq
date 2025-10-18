@@ -1,0 +1,100 @@
+# Quantum Fourier Transform (QFT) - 3 Qubits
+# The QFT is a key component in many quantum algorithms (Shor's algorithm, phase estimation)
+# Transforms computational basis to Fourier basis
+# Classical FFT: O(n·2^n) operations
+# Quantum QFT: O(n²) operations
+
+graph TD
+    # Initial qubits
+    q0["Qubit 0: |q₀⟩"]
+    q1["Qubit 1: |q₁⟩"]
+    q2["Qubit 2: |q₂⟩"]
+    
+    # ===== QFT on Qubit 0 =====
+    # Apply Hadamard
+    H0_1[gate-h:H]
+    
+    # Controlled phase rotations from q1 and q2
+    # R₂ controlled by q1 (phase = π/2 = S gate)
+    control1_0[control-dot]
+    S0_1[gate-s:S]
+    
+    # R₃ controlled by q2 (phase = π/4 = T gate)
+    control2_0[control-dot]
+    T0_1[gate-t:T]
+    
+    barrier1[barrier]
+    
+    # ===== QFT on Qubit 1 =====
+    # Apply Hadamard
+    H1_1[gate-h:H]
+    
+    # Controlled phase rotation from q2
+    # R₂ controlled by q2 (phase = π/2 = S gate)
+    control2_1[control-dot]
+    S1_1[gate-s:S]
+    
+    barrier2[barrier]
+    
+    # ===== QFT on Qubit 2 =====
+    # Apply Hadamard (no controlled rotations needed for last qubit)
+    H2_1[gate-h:H]
+    
+    barrier3[barrier]
+    
+    # ===== SWAP gates (reverse qubit order) =====
+    # QFT produces output in reversed order, so we swap
+    swap0_1[swap-x:⨉]
+    swap2_1[swap-x:⨉]
+    
+    # Final barrier
+    barrier4[barrier]
+    
+    # Qubit 0 circuit
+    q0 --> H0_1
+    H0_1 --> S0_1
+    S0_1 --> T0_1
+    T0_1 --> barrier1
+    barrier1 --> swap0_1
+    swap0_1 --> barrier4
+    
+    # Qubit 1 circuit
+    q1 --> control1_0
+    control1_0 --> barrier1
+    barrier1 --> H1_1
+    H1_1 --> S1_1
+    S1_1 --> barrier2
+    barrier2 --> barrier4
+    
+    # Qubit 2 circuit
+    q2 --> control2_0
+    control2_0 --> control2_1
+    control2_1 --> barrier2
+    barrier2 --> H2_1
+    H2_1 --> barrier3
+    barrier3 --> swap2_1
+    swap2_1 --> barrier4
+    
+    # Vertical connections for controlled gates
+    control1_0 -.-> S0_1
+    control2_0 -.-> T0_1
+    control2_1 -.-> S1_1
+    
+    # SWAP connection
+    swap0_1 -.-> swap2_1
+    
+    # Result: Qubits are in Fourier basis
+    # |q₀q₁q₂⟩ → (1/√8) Σₖ exp(2πi·jk/8)|k⟩
+    # Used in Shor's factoring algorithm and quantum phase estimation
+
+style H0_1 fill:#e8f5e9,stroke:#000
+style H1_1 fill:#e8f5e9,stroke:#000
+style H2_1 fill:#e8f5e9,stroke:#000
+style S0_1 fill:#fff9c4,stroke:#000
+style S1_1 fill:#fff9c4,stroke:#000
+style T0_1 fill:#fff9c4,stroke:#000
+style control1_0 fill:#000,stroke:#000
+style control2_0 fill:#000,stroke:#000
+style control2_1 fill:#000,stroke:#000
+style swap0_1 fill:#fff,stroke:#000
+style swap2_1 fill:#fff,stroke:#000

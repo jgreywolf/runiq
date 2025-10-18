@@ -80,6 +80,33 @@ import {
   pedigreeUnknownShape,
 } from './pedigree.js';
 
+// Network topology shapes
+import {
+  serverShape,
+  routerShape,
+  switchShape,
+  firewallShape,
+  loadBalancerShape,
+  cloudShape as networkCloudShape,
+  storageShape,
+} from './network-topology.js';
+
+// Quantum circuit shapes
+import {
+  gateXShape,
+  gateYShape,
+  gateZShape,
+  gateHShape,
+  gateSShape,
+  gateTShape,
+  controlDotShape,
+  cnotTargetShape,
+  swapXShape,
+  measurementShape,
+  qubitWireShape,
+  barrierShape,
+} from './quantum-circuit.js';
+
 export function registerDefaultShapes(): void {
   // Original shapes
   shapeRegistry.register(actorShape);
@@ -184,6 +211,30 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(pedigreeMaleShape);
   shapeRegistry.register(pedigreeFemaleShape);
   shapeRegistry.register(pedigreeUnknownShape);
+
+  // Network topology shapes
+  shapeRegistry.register(serverShape);
+  shapeRegistry.register(routerShape);
+  shapeRegistry.register(switchShape);
+  shapeRegistry.register(firewallShape);
+  shapeRegistry.register(loadBalancerShape);
+  shapeRegistry.register(networkCloudShape);
+  shapeRegistry.register(storageShape);
+  // Note: 'database' uses the existing cylinderShape
+
+  // Quantum circuit shapes
+  shapeRegistry.register(gateXShape);
+  shapeRegistry.register(gateYShape);
+  shapeRegistry.register(gateZShape);
+  shapeRegistry.register(gateHShape);
+  shapeRegistry.register(gateSShape);
+  shapeRegistry.register(gateTShape);
+  shapeRegistry.register(controlDotShape);
+  shapeRegistry.register(cnotTargetShape);
+  shapeRegistry.register(swapXShape);
+  shapeRegistry.register(measurementShape);
+  shapeRegistry.register(qubitWireShape);
+  shapeRegistry.register(barrierShape);
 }
 
 export * from './actor.js';
@@ -263,3 +314,17 @@ export * from './charts/bar-chart-horizontal.js';
 
 // Pedigree charts
 export * from './pedigree.js';
+
+// Network topology
+export {
+  serverShape,
+  routerShape,
+  switchShape,
+  firewallShape,
+  loadBalancerShape,
+  cloudShape as networkTopologyCloudShape,
+  storageShape,
+} from './network-topology.js';
+
+// Quantum circuits
+export * from './quantum-circuit.js';

@@ -1,0 +1,71 @@
+# Quantum Teleportation Protocol
+# Teleports the state of q0 to q2 using entanglement and classical communication
+# Protocol: Alice has q0 (unknown state), Bob has q2
+# They share entangled pair (q1, q2)
+
+graph TD
+    # Initial qubits
+    q0["Qubit 0: |ψ⟩ (Alice's state to teleport)"]
+    q1["Qubit 1: |0⟩ (Alice's half of EPR pair)"]
+    q2["Qubit 2: |0⟩ (Bob's half of EPR pair)"]
+    
+    # Step 1: Create EPR pair between q1 and q2
+    H1_prep[gate-h:H]
+    control1_prep[control-dot]
+    target2_prep[cnot-target]
+    
+    # Step 2: Alice entangles q0 with q1
+    control0[control-dot]
+    target1[cnot-target]
+    
+    # Step 3: Alice applies Hadamard to q0
+    H0[gate-h:H]
+    
+    # Step 4: Alice measures both q0 and q1
+    M0[measurement:M0]
+    M1[measurement:M1]
+    
+    # Step 5: Bob applies corrections based on measurements
+    # If M1=1, apply X gate to q2
+    X2[gate-x:X]
+    # If M0=1, apply Z gate to q2
+    Z2[gate-z:Z]
+    
+    barrier1[barrier]
+    barrier2[barrier]
+    
+    # Qubit 0 (Alice) circuit
+    q0 --> control0
+    control0 --> H0
+    H0 --> M0
+    
+    # Qubit 1 (Alice) circuit
+    q1 --> H1_prep
+    H1_prep --> control1_prep
+    control1_prep --> target1
+    target1 --> M1
+    
+    # Qubit 2 (Bob) circuit
+    q2 --> target2_prep
+    target2_prep --> barrier1
+    barrier1 --> X2
+    X2 --> Z2
+    
+    # Vertical connections
+    control0 -.-> target1
+    control1_prep -.-> target2_prep
+    
+    # Classical control lines (measurement results)
+    M1 -.->|"if M1=1"| X2
+    M0 -.->|"if M0=1"| Z2
+    
+    # Result: q2 now has the state |ψ⟩ that was originally in q0
+    # q0 and q1 are destroyed by measurement
+    # This is quantum teleportation!
+
+style H1_prep fill:#e8f5e9,stroke:#000
+style H0 fill:#e8f5e9,stroke:#000
+style M0 fill:#e3f2fd,stroke:#000
+style M1 fill:#e3f2fd,stroke:#000
+style X2 fill:#ffebee,stroke:#000
+style Z2 fill:#ffebee,stroke:#000
