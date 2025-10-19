@@ -39,6 +39,49 @@ export class ElkLayoutEngine implements LayoutEngine {
     });
   }
 
+  /**
+   * Generate orthogonal (step) routing between two points.
+   * Creates a path with right-angle bends using horizontal and vertical segments.
+   */
+  private generateOrthogonalRouting(
+    fromX: number,
+    fromY: number,
+    toX: number,
+    toY: number,
+    direction: string
+  ): { x: number; y: number }[] {
+    const points: { x: number; y: number }[] = [];
+
+    // Start point
+    points.push({ x: fromX, y: fromY });
+
+    // Determine routing based on layout direction
+    if (direction === 'DOWN' || direction === 'UP') {
+      // Vertical layout: prefer vertical-horizontal-vertical routing
+      const midY = (fromY + toY) / 2;
+
+      // Go down/up to midpoint
+      points.push({ x: fromX, y: midY });
+
+      // Go horizontal to target X
+      points.push({ x: toX, y: midY });
+    } else {
+      // Horizontal layout: prefer horizontal-vertical-horizontal routing
+      const midX = (fromX + toX) / 2;
+
+      // Go right/left to midpoint
+      points.push({ x: midX, y: fromY });
+
+      // Go vertical to target Y
+      points.push({ x: midX, y: toY });
+    }
+
+    // End point
+    points.push({ x: toX, y: toY });
+
+    return points;
+  }
+
   async layout(
     diagram: DiagramAst,
     opts: LayoutOptions = {}
@@ -59,7 +102,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const direction = this.convertDirection(
       opts.direction || diagram.direction || 'TB'
     );
-    const spacing = opts.spacing || 80;
+    const spacing = opts.spacing || 100; // Increased from 80 to 100 for better clarity
 
     // Build ELK graph structure with hierarchyHandling for containers
     const elkGraph: ElkNode = {
@@ -69,6 +112,11 @@ export class ElkLayoutEngine implements LayoutEngine {
         'elk.direction': direction,
         'elk.spacing.nodeNode': spacing.toString(),
         'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+        'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing (right-angle bends)
+        // Edge crossing minimization
+        'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+        'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
+        'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
       },
       children: [],
       edges: [],
@@ -167,8 +215,13 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Layout nodes within each container and position containers
     const nodes: PositionedNode[] = [];
     const containers: PositionedContainer[] = [];
+    const edges: RoutedEdge[] = [];
+
+    console.log('Diagram containers:', diagram.containers);
+    console.log('Container positions:', containerPositions);
 
     if (diagram.containers) {
+      console.log(`Processing ${diagram.containers.length} containers`);
       await this.layoutContainersWithNodes(
         diagram.containers,
         diagram,
@@ -178,7 +231,11 @@ export class ElkLayoutEngine implements LayoutEngine {
         spacing,
         direction,
         nodes,
+        edges,
         containers
+      );
+      console.log(
+        `After layoutContainersWithNodes: ${nodes.length} nodes, ${containers.length} containers, ${edges.length} internal edges`
       );
     }
 
@@ -195,9 +252,99 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
     }
 
-    // Extract edge routing
-    const edges: RoutedEdge[] = [];
-    this.extractEdges(laidOut.edges || [], nodes, edges);
+    // Extract edge routing from top-level layout (ONLY edges between standalone nodes and cross-container edges)
+    // Skip edges that are internal to containers - those were already extracted from container layouts
+    const topLevelEdges = (laidOut.edges || []).filter((elkEdge) => {
+      // Parse edge ID to get from/to
+      const edgeId = elkEdge.id || '';
+      const match = edgeId.match(/^(.+)->(.+)$/);
+      if (!match) return true; // Keep if we can't parse
+
+      const [, from, to] = match;
+      const fromContainer = nodeContainerMap.get(from);
+      const toContainer = nodeContainerMap.get(to);
+
+      // Skip if both nodes are in the SAME container (internal edge, already extracted)
+      const isInternalEdge =
+        fromContainer && toContainer && fromContainer === toContainer;
+      if (isInternalEdge) {
+        console.log(
+          `Skipping internal edge ${from} -> ${to} (already extracted from container ${fromContainer})`
+        );
+      }
+      return !isInternalEdge;
+    });
+
+    this.extractEdges(topLevelEdges, nodes, edges);
+
+    console.log(`Extracted ${edges.length} total edges from layouts`);
+    if (edges.length > 0) {
+      console.log('Sample edge routing:', edges[0]);
+    }
+
+    // Fix cross-container edges: Replace placeholder-based routing with actual node positions
+    for (const edge of diagram.edges) {
+      const fromContainer = nodeContainerMap.get(edge.from);
+      const toContainer = nodeContainerMap.get(edge.to);
+
+      // Check if this edge crosses a container boundary
+      const isCrossContainer =
+        (fromContainer && !toContainer) || (!fromContainer && toContainer);
+
+      if (isCrossContainer) {
+        // Find the existing edge that was extracted (it will have wrong routing)
+        const existingEdgeIndex = edges.findIndex(
+          (e) => e.from === edge.from && e.to === edge.to
+        );
+
+        // Find actual node positions
+        const fromNode = nodes.find((n) => n.id === edge.from);
+        const toNode = nodes.find((n) => n.id === edge.to);
+
+        if (fromNode && toNode) {
+          // Generate orthogonal (step) routing instead of straight lines
+          const fromCenterX = fromNode.x + fromNode.width / 2;
+          const fromCenterY = fromNode.y + fromNode.height / 2;
+          const toCenterX = toNode.x + toNode.width / 2;
+          const toCenterY = toNode.y + toNode.height / 2;
+
+          const newPoints = this.generateOrthogonalRouting(
+            fromCenterX,
+            fromCenterY,
+            toCenterX,
+            toCenterY,
+            direction
+          );
+
+          if (existingEdgeIndex >= 0) {
+            // Replace the edge with corrected routing
+            edges[existingEdgeIndex] = {
+              from: edge.from,
+              to: edge.to,
+              points: newPoints,
+            };
+            console.log(
+              `Fixed cross-container edge: ${edge.from} -> ${edge.to} (orthogonal routing, ${newPoints.length} points)`
+            );
+          } else {
+            // Edge wasn't extracted (Issue #10), add it manually
+            edges.push({
+              from: edge.from,
+              to: edge.to,
+              points: newPoints,
+            });
+            console.log(
+              `Added missing cross-container edge: ${edge.from} -> ${edge.to} (orthogonal routing, ${newPoints.length} points)`
+            );
+          }
+        } else {
+          console.warn(
+            `Could not find nodes for cross-container edge: ${edge.from} -> ${edge.to}`,
+            { fromNode: !!fromNode, toNode: !!toNode }
+          );
+        }
+      }
+    }
 
     // Calculate overall diagram size
     let maxX = 0;
@@ -380,9 +527,17 @@ export class ElkLayoutEngine implements LayoutEngine {
     spacing: number,
     direction: string,
     nodes: PositionedNode[],
+    edges: RoutedEdge[],
     result: PositionedContainer[]
   ): Promise<void> {
+    console.log(
+      `layoutContainersWithNodes called with ${containers.length} containers`
+    );
     for (const container of containers) {
+      console.log(
+        `Processing container: ${container.id}, children:`,
+        container.children
+      );
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
@@ -395,24 +550,46 @@ export class ElkLayoutEngine implements LayoutEngine {
       };
 
       // Create mini ELK graph for container contents
+      // Map Runiq algorithm to ELK algorithm ID
+      const algorithm = this.mapAlgorithmToElk(
+        container.layoutOptions?.algorithm || 'layered'
+      );
+
       const containerGraph: ElkNode = {
         id: `container_${container.id}`,
         layoutOptions: {
-          'elk.algorithm': 'layered',
+          'elk.algorithm': algorithm,
           'elk.direction': direction, // Use direction from options
           'elk.spacing.nodeNode': spacing.toString(),
           'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+          'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing for container edges
+          // Edge crossing minimization for container layouts
+          'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+          'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX',
         },
         children: [],
         edges: [],
       };
 
       // Add child nodes
+      console.log(
+        `Container ${container.id}: Looking for ${container.children.length} children in diagram.nodes (total: ${diagram.nodes.length})`
+      );
+      console.log('Container children IDs:', container.children);
+      console.log(
+        'Diagram node IDs:',
+        diagram.nodes.map((n) => n.id)
+      );
+
       for (const childId of container.children) {
         const node = diagram.nodes.find((n) => n.id === childId);
         if (node) {
+          console.log(`Found node ${childId} with shape ${node.shape}`);
           const shapeImpl = shapeRegistry.get(node.shape);
-          if (!shapeImpl) continue;
+          if (!shapeImpl) {
+            console.warn(`Shape not found: ${node.shape}`);
+            continue;
+          }
 
           const style = node.style ? diagram.styles?.[node.style] || {} : {};
           const bounds = shapeImpl.bounds({ node, style, measureText });
@@ -422,6 +599,11 @@ export class ElkLayoutEngine implements LayoutEngine {
             width: bounds.width,
             height: bounds.height,
           });
+          console.log(
+            `Added ${childId} to container graph: ${bounds.width}x${bounds.height}`
+          );
+        } else {
+          console.warn(`Node ${childId} not found in diagram.nodes!`);
         }
       }
 
@@ -444,22 +626,82 @@ export class ElkLayoutEngine implements LayoutEngine {
       let containerHeight = 150;
 
       if (containerGraph.children!.length > 0) {
-        const laidOutContainer = await this.elk.layout(containerGraph);
+        try {
+          console.log(
+            `Laying out container ${container.id} with algorithm ${algorithm}, children:`,
+            containerGraph.children!.length
+          );
+          const laidOutContainer = await this.elk.layout(containerGraph);
 
-        // Add nodes with positions relative to container
-        for (const elkNode of laidOutContainer.children || []) {
-          nodes.push({
-            id: elkNode.id,
-            x: containerPos.x + padding + (elkNode.x || 0),
-            y: containerPos.y + padding + (elkNode.y || 0),
-            width: elkNode.width || 0,
-            height: elkNode.height || 0,
-          });
+          // Debug: Check if nodes were positioned
+          if (
+            !laidOutContainer.children ||
+            laidOutContainer.children.length === 0
+          ) {
+            console.warn(
+              `Container ${container.id} with algorithm ${algorithm}: No children after layout`
+            );
+          } else {
+            console.log(
+              `Container ${container.id} laid out ${laidOutContainer.children.length} nodes`
+            );
+          }
+
+          // Add nodes with positions relative to container
+          for (const elkNode of laidOutContainer.children || []) {
+            const positionedNode = {
+              id: elkNode.id,
+              x: containerPos.x + padding + (elkNode.x || 0),
+              y: containerPos.y + padding + (elkNode.y || 0),
+              width: elkNode.width || 0,
+              height: elkNode.height || 0,
+            };
+            console.log(
+              `Adding node ${elkNode.id} at position:`,
+              positionedNode
+            );
+            nodes.push(positionedNode);
+          }
+
+          // Extract internal container edges (CRITICAL: edges between nodes inside container)
+          // These need to be extracted from the container layout, not the top-level layout
+          console.log(
+            `Container ${container.id}: laidOutContainer.edges =`,
+            laidOutContainer.edges
+          );
+
+          const tempEdges: RoutedEdge[] = [];
+          this.extractEdges(laidOutContainer.edges || [], nodes, tempEdges);
+
+          console.log(
+            `Before position adjustment, tempEdges for ${container.id}:`,
+            tempEdges
+          );
+
+          // Adjust edge positions to be relative to container
+          for (const edge of tempEdges) {
+            for (const point of edge.points) {
+              point.x += containerPos.x + padding;
+              point.y += containerPos.y + padding;
+            }
+          }
+
+          console.log(
+            `Extracted ${tempEdges.length} internal edges from container ${container.id}, adjusted for position`
+          );
+          console.log('Adjusted tempEdges:', tempEdges);
+          edges.push(...tempEdges);
+
+          // Calculate container size from laid out content
+          containerWidth = (laidOutContainer.width || 0) + padding * 2;
+          containerHeight = (laidOutContainer.height || 0) + padding * 2;
+        } catch (error) {
+          console.error(
+            `Error laying out container ${container.id} with algorithm ${algorithm}:`,
+            error
+          );
+          // Fall back to default positioning if layout fails
         }
-
-        // Calculate container size from laid out content
-        containerWidth = (laidOutContainer.width || 0) + padding * 2;
-        containerHeight = (laidOutContainer.height || 0) + padding * 2;
       }
 
       // Handle nested containers recursively
@@ -484,6 +726,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           spacing,
           direction,
           nodes,
+          edges,
           nestedContainers
         );
 
