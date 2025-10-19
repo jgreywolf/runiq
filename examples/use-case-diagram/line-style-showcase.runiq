@@ -1,35 +1,35 @@
-diagram: use-case
-title: "Line Style and Arrow Type Showcase"
-
-# Demonstration of all combinations
-rounded A "Solid + Standard"
-rounded B "Dashed + Standard"
-rounded C "Dotted + Standard"
-rounded D "Solid + Hollow"
-rounded E "Dashed + Hollow"
-rounded F "Solid + Open"
-rounded G "Dashed + Open"
-rounded H "Solid + None"
-rounded I "Dashed + None"
-
-# Solid lines
-A -> B lineStyle: solid arrowType: standard
-B -> C lineStyle: dashed arrowType: standard
-C -> D lineStyle: dotted arrowType: standard
-
-# Hollow arrows (inheritance/generalization)
-D -> E lineStyle: solid arrowType: hollow
-E -> F lineStyle: dashed arrowType: hollow
-
-# Open arrows (dependency)
-F -> G lineStyle: solid arrowType: open
-G -> H lineStyle: dashed arrowType: open
-
-# No arrows (bidirectional or undirected)
-H -> I lineStyle: solid arrowType: none
-I -> A lineStyle: dashed arrowType: none
-
-# With stereotypes
-A -> D stereotype: "includes" lineStyle: dashed arrowType: open
-D -> G stereotype: "extends" lineStyle: dashed arrowType: open
-F -> I stereotype: "uses" lineStyle: dashed arrowType: open
+diagram "Line Style and Arrow Type Showcase" {
+  
+  // Demonstration of all combinations
+  shape a as @rounded label:"Solid + Standard"
+  shape b as @rounded label:"Dashed + Standard"
+  shape c as @rounded label:"Dotted + Standard"
+  shape d as @rounded label:"Solid + Hollow"
+  shape e as @rounded label:"Dashed + Hollow"
+  shape f as @rounded label:"Solid + Open"
+  shape g as @rounded label:"Dashed + Open"
+  shape h as @rounded label:"Solid + None"
+  shape i as @rounded label:"Dashed + None"
+  
+  // Solid lines
+  a -> b lineStyle:solid arrowType:standard
+  b -> c lineStyle:dashed arrowType:standard
+  c -> d lineStyle:dotted arrowType:standard
+  
+  // Hollow arrows (inheritance/generalization)
+  d -> e lineStyle:solid arrowType:hollow
+  e -> f lineStyle:dashed arrowType:hollow
+  
+  // Open arrows (dependency)
+  f -> g lineStyle:solid arrowType:open
+  g -> h lineStyle:dashed arrowType:open
+  
+  // No arrows (bidirectional or undirected)
+  h -> i lineStyle:solid arrowType:none
+  i -> a lineStyle:dashed arrowType:none
+  
+  // With edge labels (stereotypes shown as labels)
+  a -includes-> d lineStyle:dashed arrowType:open
+  d -extends-> g lineStyle:dashed arrowType:open
+  f -uses-> i lineStyle:dashed arrowType:open
+}

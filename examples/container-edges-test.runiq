@@ -1,23 +1,25 @@
-diagram "Container with Internal Edges Test"
+diagram "Container with Internal Edges Test" {
 
-// Test case 1: edges between nodes in the same container
-container "Network Services" {
-  shape api as @service label: "API"
-  shape auth as @service label: "Auth"
-  shape db as @database label: "Database"
-  
-  // These edges should work within the container
-  api -> auth
-  api -> db
-  auth -> db
-}
+  // Test case 1: edges between nodes in the same container
+  container "Network Services" {
+    shape api as @service label:"API"
+    shape auth as @service label:"Auth"
+    shape db as @database label:"Database"
+    
+    // These edges should work within the container
+    api -> auth
+    api -> db
+    auth -> db
+  }
 
-// Test case 2: force algorithm with edges
-container "Force Network" algorithm: force {
-  shape web as @server label: "Web Server"
-  shape app as @service label: "App Server"
-  shape cache as @cache label: "Redis"
-  
-  web -> app
-  app -> cache
+  // Test case 2: force algorithm with edges
+  container "Force Network" algorithm:force {
+    shape web as @server label:"Web Server"
+    shape app as @service label:"App Server"
+    shape cache as @cache label:"Redis"
+    
+    web -> app
+    app -> cache
+  }
+
 }

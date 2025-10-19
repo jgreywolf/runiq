@@ -1,25 +1,25 @@
-diagram: use-case
-title: "Class Diagram - Relationship Showcase"
-
-# Classes as rounded rectangles
-rounded Animal "Animal"
-rounded Dog "Dog"
-rounded Cat "Cat"
-rounded IAnimal "<<interface>>\nIAnimal"
-rounded AnimalController "AnimalController"
-rounded AnimalService "AnimalService"
-
-# Generalization (inheritance) - solid line, hollow arrow
-# Child class -> Parent class
-Dog -> Animal lineStyle: solid arrowType: hollow label: "inherits"
-Cat -> Animal lineStyle: solid arrowType: hollow
-
-# Realization (implements interface) - dashed line, hollow arrow
-Animal -> IAnimal stereotype: "implements" lineStyle: dashed arrowType: hollow
-
-# Dependency - dashed line, open arrow with <<stereotype>>
-AnimalController -> AnimalService stereotype: "uses" lineStyle: dashed arrowType: open
-AnimalController -> Animal stereotype: "creates" lineStyle: dashed arrowType: open
-
-# Association - solid line, standard arrow
-AnimalService -> Animal lineStyle: solid arrowType: standard label: "manages"
+diagram "Class Diagram - Relationship Showcase" {
+  
+  // Classes as rounded rectangles
+  shape animal as @rounded label:"Animal"
+  shape dog as @rounded label:"Dog"
+  shape cat as @rounded label:"Cat"
+  shape iAnimal as @rounded label:"<<interface>>\nIAnimal"
+  shape animalController as @rounded label:"AnimalController"
+  shape animalService as @rounded label:"AnimalService"
+  
+  // Generalization (inheritance) - solid line, hollow arrow
+  // Child class -> Parent class
+  dog -inherits-> animal lineStyle:solid arrowType:hollow
+  cat -> animal lineStyle:solid arrowType:hollow
+  
+  // Realization (implements interface) - dashed line, hollow arrow
+  animal -implements-> iAnimal lineStyle:dashed arrowType:hollow
+  
+  // Dependency - dashed line, open arrow
+  animalController -uses-> animalService lineStyle:dashed arrowType:open
+  animalController -creates-> animal lineStyle:dashed arrowType:open
+  
+  // Association - solid line, standard arrow
+  animalService -manages-> animal lineStyle:solid arrowType:standard
+}

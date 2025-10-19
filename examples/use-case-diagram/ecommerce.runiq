@@ -1,42 +1,42 @@
-diagram: use-case
-title: "E-Commerce System"
-
-# External actors
-actor Customer "Online Customer"
-actor Admin "System Administrator"
-actor Vendor "External Vendor"
-
-# System boundary
-system-boundary ECommerce "E-Commerce Platform" {
-  # Customer use cases
-  ellipse-wide Browse "Browse Products"
-  ellipse-wide Search "Search Catalog"
-  ellipse-wide AddToCart "Add to Cart"
-  ellipse-wide Checkout "Checkout"
-  ellipse-wide Payment "Process Payment"
-  ellipse-wide TrackOrder "Track Order"
+diagram "E-Commerce System" {
   
-  # Admin use cases
-  ellipse-wide ManageProducts "Manage Products"
-  ellipse-wide ViewReports "View Sales Reports"
-  ellipse-wide ManageUsers "Manage Users"
+  // External actors
+  shape customer as @actor label:"Online Customer"
+  shape admin as @actor label:"System Administrator"
+  shape vendor as @actor label:"External Vendor"
+  
+  // System boundary
+  container ecommerce "E-Commerce Platform" {
+    // Customer use cases
+    shape browse as @ellipse-wide label:"Browse Products"
+    shape search as @ellipse-wide label:"Search Catalog"
+    shape addToCart as @ellipse-wide label:"Add to Cart"
+    shape checkout as @ellipse-wide label:"Checkout"
+    shape payment as @ellipse-wide label:"Process Payment"
+    shape trackOrder as @ellipse-wide label:"Track Order"
+    
+    // Admin use cases
+    shape manageProducts as @ellipse-wide label:"Manage Products"
+    shape viewReports as @ellipse-wide label:"View Sales Reports"
+    shape manageUsers as @ellipse-wide label:"Manage Users"
+  }
+  
+  // Customer associations
+  customer -> browse
+  customer -> search
+  customer -> addToCart
+  customer -> checkout
+  customer -> trackOrder
+  
+  // Checkout extends to payment
+  checkout -> payment
+  
+  // Admin associations
+  admin -> manageProducts
+  admin -> viewReports
+  admin -> manageUsers
+  
+  // External system interaction
+  payment -> vendor
+  manageProducts -> vendor
 }
-
-# Customer associations
-Customer -> Browse
-Customer -> Search
-Customer -> AddToCart
-Customer -> Checkout
-Customer -> TrackOrder
-
-# Checkout extends to payment
-Checkout -> Payment
-
-# Admin associations
-Admin -> ManageProducts
-Admin -> ViewReports
-Admin -> ManageUsers
-
-# External system interaction
-Payment -> Vendor "validates payment"
-ManageProducts -> Vendor "syncs inventory"

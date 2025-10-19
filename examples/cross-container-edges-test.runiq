@@ -1,27 +1,29 @@
-diagram "Cross-Container Edges Test"
+diagram "Cross-Container Edges Test" {
 
-// Test case 1: Edge between nodes in different containers
-container "Frontend" {
-  shape web as @browser label: "Web App"
+  // Test case 1: Edge between nodes in different containers
+  container "Frontend" {
+    shape web as @curv-trap label:"Web App"
+  }
+
+  container "Backend" {
+    shape api as @server label:"API Service"
+    shape db as @cyl label:"Database"
+    
+    // Internal edge (should work)
+    api -> db
+  }
+
+  // Cross-container edge (may not work)
+  web -> api
+
+  // Test case 2: Edge from standalone node to container node
+  shape client as @actor label:"Client"
+
+  container "Services" {
+    shape auth as @server label:"Auth"
+  }
+
+  // External to container edge
+  client -> auth
+
 }
-
-container "Backend" {
-  shape api as @service label: "API Service"
-  shape db as @database label: "Database"
-  
-  // Internal edge (should work)
-  api -> db
-}
-
-// Cross-container edge (may not work)
-web -> api
-
-// Test case 2: Edge from standalone node to container node
-shape client as @actor label: "Client"
-
-container "Services" {
-  shape auth as @service label: "Auth"
-}
-
-// External to container edge
-client -> auth

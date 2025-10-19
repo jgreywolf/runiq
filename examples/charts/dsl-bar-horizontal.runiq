@@ -2,15 +2,6 @@
 // Bars extend horizontally instead of vertically
 // Includes title and axis labels
 
-shape chart1 as @bar-chart-horizontal 
-  label: "Department Budget" 
-  title: "2025 Budget Allocation"
-  xLabel: "Budget ($K)"
-  yLabel: "Department"
-  colors: ["#667eea", "#764ba2", "#f093fb", "#4facfe"]
-  data: [
-    {"label": "Engineering", "value": 500},
-    {"label": "Marketing", "value": 350},
-    {"label": "Sales", "value": 420},
-    {"label": "Operations", "value": 280}
-  ]
+diagram "Department Budget" {
+  shape chart1 as @bar-chart-horizontal label:"Department Budget" title:"2025 Budget Allocation" xLabel:"Budget ($K)" yLabel:"Department" colors:["#667eea","#764ba2","#f093fb","#4facfe"] data:[{"label":"Engineering","value":500},{"label":"Marketing","value":350},{"label":"Sales","value":420},{"label":"Operations","value":280}]
+}

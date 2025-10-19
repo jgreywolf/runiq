@@ -1,11 +1,13 @@
-diagram "Simple Example" direction: LR
+diagram "Simple Example" {
+  direction:LR
 
-style default fill:#f0f8ff stroke:#4682b4 fontSize:14
-style highlight fill:#fffacd stroke:#daa520
+  style default fill: "#f0f8ff" stroke: "#4682b4" fontSize: 14
+  style highlight fill: "#fffacd" stroke: "#daa520"
 
-shape Start as @rounded label:"Start" style:highlight
-shape Process as @rounded label:"Process Data"
-shape End as @rounded label:"End" style:highlight
+  shape Start as @rounded label:"Start" style:highlight
+  shape Process as @rounded label:"Process Data"
+  shape End as @rounded label:"End" style:highlight
 
-Start -> Process : begin
-Process -> End : complete
+  Start -begin-> Process
+  Process -complete-> End
+}

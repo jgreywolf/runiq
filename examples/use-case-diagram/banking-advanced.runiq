@@ -1,57 +1,57 @@
-diagram: use-case
-title: "Online Banking - Advanced Relationships"
-
-# Primary actors
-actor Customer "Customer"
-actor Admin "Bank Administrator"
-
-# Secondary actor (external system)
-actor PaymentGateway "Payment Gateway"
-
-# System boundary
-system-boundary Banking "Online Banking System" {
-  # Main use cases
-  ellipse-wide Login "Login to Account"
-  ellipse-wide ViewBalance "View Balance"
-  ellipse-wide Transfer "Transfer Money"
-  ellipse-wide Deposit "Deposit Funds"
-  ellipse-wide Withdraw "Withdraw Funds"
+diagram "Online Banking - Advanced Relationships" {
   
-  # Included use cases (shared functionality)
-  ellipse-wide Authenticate "Authenticate User"
-  ellipse-wide ValidateAccount "Validate Account"
-  ellipse-wide LogTransaction "Log Transaction"
+  // Primary actors
+  shape customer as @actor label:"Customer"
+  shape admin as @actor label:"Bank Administrator"
   
-  # Extension use cases (optional features)
-  ellipse-wide SendNotification "Send Email Notification"
-  ellipse-wide PrintReceipt "Print Receipt"
+  // Secondary actor (external system)
+  shape paymentGateway as @actor label:"Payment Gateway"
+  
+  // System boundary
+  container banking "Online Banking System" {
+    // Main use cases
+    shape login as @ellipse-wide label:"Login to Account"
+    shape viewBalance as @ellipse-wide label:"View Balance"
+    shape transfer as @ellipse-wide label:"Transfer Money"
+    shape deposit as @ellipse-wide label:"Deposit Funds"
+    shape withdraw as @ellipse-wide label:"Withdraw Funds"
+    
+    // Included use cases (shared functionality)
+    shape authenticate as @ellipse-wide label:"Authenticate User"
+    shape validateAccount as @ellipse-wide label:"Validate Account"
+    shape logTransaction as @ellipse-wide label:"Log Transaction"
+    
+    // Extension use cases (optional features)
+    shape sendNotification as @ellipse-wide label:"Send Email Notification"
+    shape printReceipt as @ellipse-wide label:"Print Receipt"
+  }
+  
+  // Customer associations (standard solid arrows)
+  customer -> login
+  customer -> viewBalance
+  customer -> transfer
+  customer -> deposit
+  customer -> withdraw
+  
+  // Admin associations
+  admin -> viewBalance
+  admin -> logTransaction
+  
+  // <<include>> relationships (dashed arrow, open head)
+  // Required dependencies - base use case ALWAYS includes the included use case
+  login -include-> authenticate lineStyle:dashed arrowType:open
+  transfer -include-> authenticate lineStyle:dashed arrowType:open
+  transfer -include-> validateAccount lineStyle:dashed arrowType:open
+  transfer -include-> logTransaction lineStyle:dashed arrowType:open
+  deposit -include-> logTransaction lineStyle:dashed arrowType:open
+  withdraw -include-> logTransaction lineStyle:dashed arrowType:open
+  
+  // <<extend>> relationships (dashed arrow, open head) 
+  // Optional extensions - extending use case adds behavior to base use case
+  sendNotification -extend_on_success-> transfer lineStyle:dashed arrowType:open
+  sendNotification -extend-> deposit lineStyle:dashed arrowType:open
+  printReceipt -extend_optional-> withdraw lineStyle:dashed arrowType:open
+  
+  // External system interaction (standard association)
+  transfer -processes-> paymentGateway
 }
-
-# Customer associations (standard solid arrows)
-Customer -> Login
-Customer -> ViewBalance
-Customer -> Transfer
-Customer -> Deposit
-Customer -> Withdraw
-
-# Admin associations
-Admin -> ViewBalance
-Admin -> LogTransaction
-
-# <<include>> relationships (dashed arrow, open head)
-# Required dependencies - base use case ALWAYS includes the included use case
-Login -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
-Transfer -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
-Transfer -> ValidateAccount stereotype: "include" lineStyle: dashed arrowType: open
-Transfer -> LogTransaction stereotype: "include" lineStyle: dashed arrowType: open
-Deposit -> LogTransaction stereotype: "include" lineStyle: dashed arrowType: open
-Withdraw -> LogTransaction stereotype: "include" lineStyle: dashed arrowType: open
-
-# <<extend>> relationships (dashed arrow, open head) 
-# Optional extensions - extending use case adds behavior to base use case
-SendNotification -> Transfer stereotype: "extend" lineStyle: dashed arrowType: open label: "on success"
-SendNotification -> Deposit stereotype: "extend" lineStyle: dashed arrowType: open
-PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open label: "optional"
-
-# External system interaction (standard association)
-Transfer -> PaymentGateway label: "processes"

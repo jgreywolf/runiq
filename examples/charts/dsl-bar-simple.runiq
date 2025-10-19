@@ -1,4 +1,6 @@
 // Simple Bar Chart Example
 // Basic vertical bar chart with numeric values
 
-shape chart1 as @bar-chart-vertical label: "Monthly Sales" data: [30, 45, 60, 55, 70]
+diagram "Monthly Sales" {
+  shape chart1 as @bar-chart-vertical label:"Monthly Sales" data:[30,45,60,55,70]
+}

@@ -1,0 +1,37 @@
+diagram "Layout Algorithm Comparison with Edges" {
+
+// Radial layout - nodes in a container visualized with radial algorithm
+container "Radial Layout" algorithm:radial {
+  shape node1 as @person label:"Node 1"
+  shape node2 as @person label:"Node 2"
+  shape node3 as @person label:"Node 3"
+  shape node4 as @person label:"Node 4"
+  
+  node1 -> node2
+  node1 -> node3
+  node1 -> node4
+}
+
+// Stress layout - minimizes edge crossings
+container "Stress Layout" algorithm:stress {
+  shape snode1 as @rect label:"A"
+  shape snode2 as @rect label:"B"
+  shape snode3 as @rect label:"C"
+  shape snode4 as @rect label:"D"
+  
+  snode1 -> snode2
+  snode2 -> snode3
+  snode3 -> snode4
+}
+
+// Multi-rooted tree layout
+container "MRTree Layout" algorithm:mrtree {
+  shape mnode1 as @service label:"Service 1"
+  shape mnode2 as @service label:"Service 2"
+  shape mnode3 as @service label:"Service 3"
+  
+  mnode1 -> mnode2
+  mnode1 -> mnode3
+}
+
+}
