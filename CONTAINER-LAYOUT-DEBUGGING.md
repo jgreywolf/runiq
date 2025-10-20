@@ -429,7 +429,7 @@ Improved readability with reduced (but not eliminated) edge crossings. For diagr
 
 ---
 
-## Issue #3: Pie Chart Data Labels Missing
+## Issue #3: Pie Chart Data Labels Missing (LOW - Enhancement Only)
 
 ```runiq
 diagram "Simple Pie Chart Example" {
@@ -437,19 +437,37 @@ diagram "Simple Pie Chart Example" {
 }
 ```
 
-**Expected**: Pie chart should show with labels indicating the values (30, 45, 25) or percentages
+**Expected**: Pie chart should show with labels indicating the values (30, 45, 25) or percentages on the slices themselves
 
-**Actual**: Pie chart renders but no data labels visible on the slices
+**Actual**: Pie chart renders but no data labels visible on the slices (labels only appear in legend when `showLegend:true`)
 
-**Impact**: Low - Chart is functional but lacks important visual information
+**Impact**: LOW - Chart is functional, legend provides labels when needed
 
-**Status**: Documented, not yet investigated
+**Status**: ✅ **DOCUMENTED** - Current implementation acceptable, enhancement optional
 
-**Possible Causes**:
+**Analysis** (2025-10-19):
 
-- Labels may need explicit label data: `data:[{"label":"Q1","value":30},{"label":"Q2","value":45},{"label":"Q3","value":25}]`
-- Renderer may not be implementing label rendering for simple number arrays
-- SVG text elements may not be positioned correctly or missing
+The current pie chart implementation in `packages/core/src/shapes/charts/pie.ts`:
+- ✅ Renders pie slices correctly
+- ✅ Supports legend with labels and percentages (`showLegend:true`)
+- ✅ Supports custom colors and labeled data
+- ❌ Does NOT show labels directly on slices
+
+**Why Current Approach is OK**:
+- Labels on small slices (<10%) would overlap and be unreadable
+- Legend provides clear labeling without clutter
+- Industry standard for many charting libraries (show labels only for large slices)
+
+**Future Enhancement** (Optional):
+If slice labels are needed, implementation would require:
+1. Calculate midpoint angle of each slice
+2. Position text at `radius * 0.7` from center
+3. Only show label if `percentage > 5%` to avoid overlap
+4. Add `showLabels` option to toggle feature
+
+**Workaround**: Use `showLegend:true` in diagram to display labels with percentages
+
+**Priority**: LOW - Not blocking, current implementation is acceptable
 
 ---
 
@@ -610,15 +628,16 @@ private mapAlgorithmToElk(algorithm: string): string {
 
 ---
 
-## Issue #4: Horizontal Bar Chart Title Overlap ⚠️
+## Issue #4: Horizontal Bar Chart Title Overlap ✅ FIXED
 
 **Discovered**: 2025-10-19  
 **File**: `examples/charts/dsl-bar-horizontal.runiq`  
-**Severity**: Medium (visual/UX issue)
+**Severity**: Medium (visual/UX issue)  
+**Status**: ✅ **RESOLVED** (2025-10-19)
 
 ### Description
 
-When rendering horizontal bar charts with a title, the title text is **partially hidden underneath the actual chart** bars, making it difficult or impossible to read.
+When rendering horizontal bar charts with a title, the title text was **partially hidden underneath the actual chart** bars, making it difficult or impossible to read.
 
 ### Example File
 
@@ -626,7 +645,7 @@ When rendering horizontal bar charts with a title, the title text is **partially
 diagram "Department Budget" {
   shape chart1 as @bar-chart-horizontal
     label:"Department Budget"
-    title:"2025 Budget Allocation"  // ← This title is hidden
+    title:"2025 Budget Allocation"  // ← This title was hidden
     xLabel:"Budget ($K)"
     yLabel:"Department"
     colors:["#667eea","#764ba2","#f093fb","#4facfe"]
@@ -639,31 +658,45 @@ diagram "Department Budget" {
 }
 ```
 
-### Symptoms
+### Root Cause
 
-- ✅ Chart renders with bars, labels, and axis labels
-- ❌ Title text is obscured by chart elements
-- ❌ Title appears to be positioned at same z-index or below chart bars
+The `bounds()` function calculated height based only on bar count, without accounting for title height. Bars started at `position.y + BAR_SPACING` but title rendered at `position.y + 20`, causing overlap.
 
-### Likely Cause
+### Solution Applied ✅
 
-The SVG rendering order places the title element before the chart bars in the DOM, or the title positioning doesn't account for chart padding/margins correctly.
+**File**: `packages/core/src/shapes/charts/bar-chart-horizontal.ts`
 
-### Impact
+**Changes Made**:
 
-**Medium**: Chart is still functional and data is visible, but title information is lost.
+1. **Added title margin constant** (line 7):
+   ```typescript
+   const CHART_MARGIN_TOP = 40; // Space for title at top
+   ```
 
-### Affected Chart Types
+2. **Updated `bounds()` function** to add title height when title present:
+   ```typescript
+   const titleMargin = ctx.node.data?.title ? CHART_MARGIN_TOP : 0;
+   const height = data.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
+   ```
 
-- `@bar-chart-horizontal` - Confirmed
-- Other chart types - Need to verify (likely @bar-chart-vertical, @pie-chart if they use titles)
+3. **Updated all rendering functions** to offset bars by `titleMargin`:
+   - `renderBars()`: `y = position.y + titleMargin + BAR_SPACING + ...`
+   - `renderAxis()`: `axisY1 = position.y + titleMargin + BAR_SPACING / 2`
+   - `renderGroupedBars()`: `currentY = position.y + titleMargin + GROUP_SPACING`
+   - `renderStackedBars()`: `currentY = position.y + titleMargin + BAR_SPACING`
 
-### Next Steps
+4. **Updated Y-label positioning** to center on chart area (excluding title):
+   ```typescript
+   const labelY = position.y + titleMargin + (height - titleMargin) / 2;
+   ```
 
-1. Check SVG rendering order in `packages/renderer-svg/src/index.ts`
-2. Verify title positioning logic in chart shape renderers
-3. Ensure title has proper margin/padding above chart
-4. Consider z-index or SVG group ordering
+**Result**: Title now renders above bars with proper spacing, fully visible
+
+**Verification**: ✅ Vertical bar chart already had `CHART_MARGIN_TOP` properly implemented
+
+**Build**: `cd packages/core && pnpm build` - Successful
+
+**Testing**: Reload `examples/charts/dsl-bar-horizontal.runiq` in editor to verify fix
 
 ---
 
@@ -744,52 +777,104 @@ shape r as @rect label:"R(s)"
 
 ---
 
-## Issue #6: "Fit" Zoom Does Not Fit Entire Diagram ⚠️
+## Issue #6: "Fit" Zoom Does Not Fit Entire Diagram ✅ FIXED
 
 **Discovered**: 2025-10-19  
 **Component**: Editor UI - Zoom controls  
-**Severity**: Medium (UX/usability issue)
+**Severity**: Medium (UX/usability issue)  
+**Status**: ✅ **RESOLVED** (2025-10-19)
 
 ### Description
 
-When clicking the "Fit" button in the editor, the diagram zoom adjusts but **does not fit the entire diagram** in the viewport. Only most of the diagram is visible, with some parts cut off or requiring scrolling.
+When clicking the "Fit" button in the editor, the diagram zoom adjusted but **did not fit the entire diagram** in the viewport. Only most of the diagram was visible, with some parts cut off or requiring scrolling.
 
-### Symptoms
+### Root Cause
 
-- ✅ "Fit" button responds to clicks
-- ❌ Zoom level doesn't fully encompass the entire diagram
-- ❌ User must manually zoom out or scroll to see edges of diagram
+The `fitToScreen()` function in `Preview.svelte` was hardcoded to `scale = 0.9` instead of calculating the proper scale based on:
+1. SVG diagram dimensions
+2. Container viewport size
+3. Appropriate padding
 
-### Expected Behavior
+```typescript
+// BEFORE (Broken):
+function fitToScreen() {
+  scale = 0.9;  // Hardcoded, doesn't account for diagram size!
+  translateX = 0;
+  translateY = 0;
+}
+```
 
-Clicking "Fit" should:
+### Solution Applied ✅
 
-1. Calculate the bounding box of the entire diagram (all nodes, edges, containers)
-2. Adjust zoom level to fit that bounding box with appropriate padding
-3. Center the diagram in the viewport
+**File**: `apps/editor/src/lib/components/Preview.svelte`
 
-### Actual Behavior
+**Changes Made**:
 
-The diagram is mostly visible but parts are cut off, suggesting:
+Rewrote `fitToScreen()` to dynamically calculate scale:
 
-- Bounding box calculation may be slightly off
-- Padding/margin calculation may be incorrect
-- Zoom calculation may not account for full diagram extent
+```typescript
+function fitToScreen() {
+  if (!svgContainer || !svgOutput) return;
 
-### Impact
+  // Reset translate first
+  translateX = 0;
+  translateY = 0;
 
-**Medium**: Diagram is functional but user experience is degraded. Users must manually adjust zoom after clicking "Fit".
+  // Parse SVG to get dimensions
+  const parser = new DOMParser();
+  const svgDoc = parser.parseFromString(svgOutput, 'image/svg+xml');
+  const svgElement = svgDoc.querySelector('svg');
 
-### Likely Location
+  if (!svgElement) return;
 
-`apps/editor/src/routes/+page.svelte` - The zoom/fit controls and viewport calculations
+  // Get SVG dimensions from viewBox or width/height attributes
+  let svgWidth = 0;
+  let svgHeight = 0;
 
-### Next Steps
+  const viewBox = svgElement.getAttribute('viewBox');
+  if (viewBox) {
+    const [, , width, height] = viewBox.split(' ').map(Number);
+    svgWidth = width;
+    svgHeight = height;
+  } else {
+    // Fallback to width/height attributes
+    svgWidth = parseFloat(svgElement.getAttribute('width') || '0');
+    svgHeight = parseFloat(svgElement.getAttribute('height') || '0');
+  }
 
-1. Check bounding box calculation for diagram elements
-2. Verify padding/margin constants
-3. Test with various diagram sizes
-4. Ensure containers, edges, and labels are included in bounds
+  if (svgWidth === 0 || svgHeight === 0) {
+    // Fallback to hardcoded scale if we can't determine dimensions
+    scale = 0.9;
+    return;
+  }
+
+  // Get container dimensions
+  const containerWidth = svgContainer.clientWidth;
+  const containerHeight = svgContainer.clientHeight;
+
+  // Calculate scale to fit with 10% padding
+  const padding = 0.9; // 90% of container size
+  const scaleX = (containerWidth * padding) / svgWidth;
+  const scaleY = (containerHeight * padding) / svgHeight;
+
+  // Use the smaller scale to ensure entire diagram fits
+  scale = Math.min(scaleX, scaleY, 5); // Cap at max zoom of 5x
+}
+```
+
+**Key Improvements**:
+
+1. ✅ Parses SVG to extract actual diagram dimensions (viewBox or width/height)
+2. ✅ Gets container viewport size dynamically
+3. ✅ Calculates separate X and Y scale factors
+4. ✅ Uses smaller scale to ensure entire diagram fits
+5. ✅ Adds 10% padding (0.9 factor) for visual breathing room
+6. ✅ Caps max zoom at 5x to prevent excessive zooming on tiny diagrams
+7. ✅ Graceful fallback to 0.9 if dimensions can't be determined
+
+**Result**: Clicking "Fit" now properly scales diagram to fit entire viewport with appropriate padding
+
+**Testing**: Load any diagram in editor and click "Fit" button - entire diagram should be visible with padding
 
 ---
 

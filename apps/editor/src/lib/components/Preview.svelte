@@ -142,10 +142,51 @@
 	}
 
 	function fitToScreen() {
-		// Reset first
-		scale = 0.9;
+		if (!svgContainer || !svgOutput) return;
+
+		// Reset translate first
 		translateX = 0;
 		translateY = 0;
+
+		// Parse SVG to get dimensions
+		const parser = new DOMParser();
+		const svgDoc = parser.parseFromString(svgOutput, 'image/svg+xml');
+		const svgElement = svgDoc.querySelector('svg');
+
+		if (!svgElement) return;
+
+		// Get SVG dimensions from viewBox or width/height attributes
+		let svgWidth = 0;
+		let svgHeight = 0;
+
+		const viewBox = svgElement.getAttribute('viewBox');
+		if (viewBox) {
+			const [, , width, height] = viewBox.split(' ').map(Number);
+			svgWidth = width;
+			svgHeight = height;
+		} else {
+			// Fallback to width/height attributes
+			svgWidth = parseFloat(svgElement.getAttribute('width') || '0');
+			svgHeight = parseFloat(svgElement.getAttribute('height') || '0');
+		}
+
+		if (svgWidth === 0 || svgHeight === 0) {
+			// Fallback to hardcoded scale if we can't determine dimensions
+			scale = 0.9;
+			return;
+		}
+
+		// Get container dimensions
+		const containerWidth = svgContainer.clientWidth;
+		const containerHeight = svgContainer.clientHeight;
+
+		// Calculate scale to fit with 10% padding
+		const padding = 0.9; // 90% of container size
+		const scaleX = (containerWidth * padding) / svgWidth;
+		const scaleY = (containerHeight * padding) / svgHeight;
+
+		// Use the smaller scale to ensure entire diagram fits
+		scale = Math.min(scaleX, scaleY, 5); // Cap at max zoom of 5x
 	}
 
 	// Pan controls

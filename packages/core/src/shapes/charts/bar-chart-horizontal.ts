@@ -4,6 +4,7 @@ const BAR_HEIGHT = 40;
 const BAR_SPACING = 15;
 const CHART_MARGIN_LEFT = 120; // Space for labels on the left
 const CHART_MARGIN_RIGHT = 40;
+const CHART_MARGIN_TOP = 40; // Space for title at top
 const DEFAULT_WIDTH = 400;
 
 // Grouped bar constants
@@ -144,11 +145,12 @@ function renderBars(
 ): string {
   const bounds = barChartHorizontal.bounds(ctx);
   const chartWidth = bounds.width - CHART_MARGIN_LEFT - CHART_MARGIN_RIGHT;
+  const titleMargin = ctx.node.data?.title ? CHART_MARGIN_TOP : 0;
 
   const bars = data.map((item, index) => {
     const barWidth = (item.value / maxValue) * chartWidth;
     const x = position.x + CHART_MARGIN_LEFT;
-    const y = position.y + BAR_SPACING + index * (BAR_HEIGHT + BAR_SPACING);
+    const y = position.y + titleMargin + BAR_SPACING + index * (BAR_HEIGHT + BAR_SPACING);
 
     const color = getBarColor(index, customColors);
     const stroke = ctx.style?.stroke || '#333';
@@ -181,8 +183,9 @@ function renderAxis(
   position: { x: number; y: number }
 ): string {
   const bounds = barChartHorizontal.bounds(ctx);
+  const titleMargin = ctx.node.data?.title ? CHART_MARGIN_TOP : 0;
   const axisX = position.x + CHART_MARGIN_LEFT;
-  const axisY1 = position.y + BAR_SPACING / 2;
+  const axisY1 = position.y + titleMargin + BAR_SPACING / 2;
   const axisY2 = position.y + bounds.height - BAR_SPACING / 2;
 
   return `<line x1="${axisX}" y1="${axisY1}" x2="${axisX}" y2="${axisY2}" stroke="#333" stroke-width="2" />`;
@@ -217,9 +220,10 @@ function renderGroupedBars(
 ): string {
   const bounds = barChartHorizontal.bounds(ctx);
   const chartWidth = bounds.width - CHART_MARGIN_LEFT - CHART_MARGIN_RIGHT;
+  const titleMargin = ctx.node.data?.title ? CHART_MARGIN_TOP : 0;
 
   const elements: string[] = [];
-  let currentY = position.y + GROUP_SPACING;
+  let currentY = position.y + titleMargin + GROUP_SPACING;
 
   groups.forEach((group) => {
     const groupHeight =
@@ -275,9 +279,10 @@ function renderStackedBars(
 ): string {
   const bounds = barChartHorizontal.bounds(ctx);
   const chartWidth = bounds.width - CHART_MARGIN_LEFT - CHART_MARGIN_RIGHT;
+  const titleMargin = ctx.node.data?.title ? CHART_MARGIN_TOP : 0;
 
   const elements: string[] = [];
-  let currentY = position.y + BAR_SPACING;
+  let currentY = position.y + titleMargin + BAR_SPACING;
 
   groups.forEach((group) => {
     const total = group.values.reduce((sum, val) => sum + val, 0);
@@ -355,10 +360,12 @@ function renderXLabel(
 function renderYLabel(
   label: string,
   position: { x: number; y: number },
-  height: number
+  height: number,
+  titleMargin: number = 0
 ): string {
   const labelX = position.x - 30;
-  const labelY = position.y + height / 2;
+  // Center Y label on the chart area (excluding title)
+  const labelY = position.y + titleMargin + (height - titleMargin) / 2;
   return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666" transform="rotate(-90 ${labelX} ${labelY})">${label}</text>`;
 }
 
@@ -369,16 +376,19 @@ export const barChartHorizontal: ShapeDefinition = {
   id: 'bar-chart-horizontal',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
+    // Add extra height for title if present
+    const titleMargin = ctx.node.data?.title ? CHART_MARGIN_TOP : 0;
+    
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
 
       if (groups.length === 0) {
-        return { width: DEFAULT_WIDTH, height: 200 };
+        return { width: DEFAULT_WIDTH, height: 200 + titleMargin };
       }
 
       // Calculate height same as simple format
-      const height = groups.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING;
+      const height = groups.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
       return { width: DEFAULT_WIDTH, height };
     }
 
@@ -387,7 +397,7 @@ export const barChartHorizontal: ShapeDefinition = {
       const groups = normalizeGroupedData(ctx.node.data);
 
       if (groups.length === 0) {
-        return { width: DEFAULT_WIDTH, height: 200 };
+        return { width: DEFAULT_WIDTH, height: 200 + titleMargin };
       }
 
       // Calculate total height based on groups
@@ -399,7 +409,7 @@ export const barChartHorizontal: ShapeDefinition = {
         totalHeight += groupHeight + GROUP_SPACING;
       });
 
-      return { width: DEFAULT_WIDTH, height: totalHeight };
+      return { width: DEFAULT_WIDTH, height: totalHeight + titleMargin };
     }
 
     // Simple format
@@ -409,12 +419,12 @@ export const barChartHorizontal: ShapeDefinition = {
       // Minimum size for empty state
       return {
         width: DEFAULT_WIDTH,
-        height: 200,
+        height: 200 + titleMargin,
       };
     }
 
     const width = DEFAULT_WIDTH;
-    const height = data.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING;
+    const height = data.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
 
     return { width, height };
   },
@@ -442,6 +452,7 @@ export const barChartHorizontal: ShapeDefinition = {
     const yLabel = ctx.node.data?.yLabel;
 
     const bounds = this.bounds(ctx);
+    const titleMargin = title ? CHART_MARGIN_TOP : 0;
     const titleElement = title
       ? renderTitle(title as string, position, bounds.width)
       : '';
@@ -449,7 +460,7 @@ export const barChartHorizontal: ShapeDefinition = {
       ? renderXLabel(xLabel as string, position, bounds.width, bounds.height)
       : '';
     const yLabelElement = yLabel
-      ? renderYLabel(yLabel as string, position, bounds.height)
+      ? renderYLabel(yLabel as string, position, bounds.height, titleMargin)
       : '';
 
     // Check if data is in stacked format
