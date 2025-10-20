@@ -448,18 +448,21 @@ diagram "Simple Pie Chart Example" {
 **Analysis** (2025-10-19):
 
 The current pie chart implementation in `packages/core/src/shapes/charts/pie.ts`:
+
 - ✅ Renders pie slices correctly
 - ✅ Supports legend with labels and percentages (`showLegend:true`)
 - ✅ Supports custom colors and labeled data
 - ❌ Does NOT show labels directly on slices
 
 **Why Current Approach is OK**:
+
 - Labels on small slices (<10%) would overlap and be unreadable
 - Legend provides clear labeling without clutter
 - Industry standard for many charting libraries (show labels only for large slices)
 
 **Future Enhancement** (Optional):
 If slice labels are needed, implementation would require:
+
 1. Calculate midpoint angle of each slice
 2. Position text at `radius * 0.7` from center
 3. Only show label if `percentage > 5%` to avoid overlap
@@ -669,14 +672,17 @@ The `bounds()` function calculated height based only on bar count, without accou
 **Changes Made**:
 
 1. **Added title margin constant** (line 7):
+
    ```typescript
    const CHART_MARGIN_TOP = 40; // Space for title at top
    ```
 
 2. **Updated `bounds()` function** to add title height when title present:
+
    ```typescript
    const titleMargin = ctx.node.data?.title ? CHART_MARGIN_TOP : 0;
-   const height = data.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
+   const height =
+     data.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
    ```
 
 3. **Updated all rendering functions** to offset bars by `titleMargin`:
@@ -791,6 +797,7 @@ When clicking the "Fit" button in the editor, the diagram zoom adjusted but **di
 ### Root Cause
 
 The `fitToScreen()` function in `Preview.svelte` was hardcoded to `scale = 0.9` instead of calculating the proper scale based on:
+
 1. SVG diagram dimensions
 2. Container viewport size
 3. Appropriate padding
@@ -798,7 +805,7 @@ The `fitToScreen()` function in `Preview.svelte` was hardcoded to `scale = 0.9` 
 ```typescript
 // BEFORE (Broken):
 function fitToScreen() {
-  scale = 0.9;  // Hardcoded, doesn't account for diagram size!
+  scale = 0.9; // Hardcoded, doesn't account for diagram size!
   translateX = 0;
   translateY = 0;
 }
