@@ -16,9 +16,7 @@ Profile:
 // Visual Diagram Profile (existing functionality)
 // ============================================================================
 DiagramProfile:
-    'diagram' name=STRING '{'
-        statements+=DiagramStatement*
-    '}';
+    'diagram' name=STRING ('{' statements+=DiagramStatement* '}' | statements+=DiagramStatement*);
 
 // Statements within diagram profile
 DiagramStatement:

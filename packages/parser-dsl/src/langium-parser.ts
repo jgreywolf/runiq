@@ -81,6 +81,7 @@ function convertDataProperty(
 export interface ParseResult {
   success: boolean;
   document?: RuniqDocument;
+  diagram?: DiagramAst; // Backwards compatibility - points to first diagram profile
   errors: string[];
 }
 
@@ -121,9 +122,26 @@ export function parse(text: string): ParseResult {
   const document = parseResult.value as Langium.Document;
   const runiqDocument = convertToRuniqDocument(document);
 
+  // Backwards compatibility: expose first diagram profile as 'diagram'
+  const firstDiagramProfile = runiqDocument.profiles.find(
+    (p) => p.type === 'diagram'
+  );
+
+  let diagram: DiagramAst | undefined;
+  if (firstDiagramProfile && firstDiagramProfile.type === 'diagram') {
+    // Convert DiagramProfile to DiagramAst for backwards compatibility
+    const { type, name, ...rest } = firstDiagramProfile;
+    diagram = {
+      ...rest,
+      astVersion: runiqDocument.astVersion,
+      title: name, // Map 'name' to 'title'
+    };
+  }
+
   return {
     success: true,
     document: runiqDocument,
+    diagram, // Backwards compatibility
     errors: [],
   };
 }
@@ -494,6 +512,23 @@ function processDialogStatement(
     }
 
     diagram.edges.push(edge);
+
+    // Auto-create nodes if needed (for edges without explicit shape declarations)
+    if (!declaredNodes.has(statement.from)) {
+      diagram.nodes.push({
+        id: statement.from,
+        shape: 'rounded',
+      });
+      declaredNodes.add(statement.from);
+    }
+
+    if (!declaredNodes.has(statement.to)) {
+      diagram.nodes.push({
+        id: statement.to,
+        shape: 'rounded',
+      });
+      declaredNodes.add(statement.to);
+    }
   } else if (Langium.isGroupBlock(statement)) {
     if (!diagram.groups) diagram.groups = [];
     const group: GroupAst = {

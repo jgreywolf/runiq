@@ -325,7 +325,7 @@ describe('Langium Parser', () => {
     it('should handle numeric values', () => {
       const dsl = `
         diagram "test"
-        style myStyle strokeWidth: 3 padding: 10
+        style myStyle strokeWidth: 3 fontSize: 16
       `;
       const result = parse(dsl);
 
@@ -333,7 +333,7 @@ describe('Langium Parser', () => {
       // Note: Numbers are currently parsed as strings by Langium
       // This should be fixed in the value converter later
       expect(result.diagram?.styles?.myStyle.strokeWidth).toBe('3');
-      expect(result.diagram?.styles?.myStyle.padding).toBe('10');
+      expect(result.diagram?.styles?.myStyle.fontSize).toBe('16');
     });
 
     it('should handle whitespace variations', () => {
