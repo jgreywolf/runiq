@@ -328,7 +328,15 @@ function renderStackedBars(
 /**
  * Legend position options
  */
-type LegendPosition = 'top' | 'top-right' | 'right' | 'bottom-right' | 'bottom' | 'bottom-left' | 'left' | 'top-left';
+type LegendPosition =
+  | 'top'
+  | 'top-right'
+  | 'right'
+  | 'bottom-right'
+  | 'bottom'
+  | 'bottom-left'
+  | 'left'
+  | 'top-left';
 
 /**
  * Render legend (vertical layout)
@@ -369,32 +377,32 @@ function renderLegendHorizontal(
   const SWATCH_SIZE = 12;
   const ITEM_SPACING = 15;
   const LABEL_OFFSET = 18;
-  
+
   let currentX = 0;
   let currentY = 0;
   const items: string[] = [];
 
   labels.forEach((label, i) => {
     const color = getBarColor(i, customColors);
-    
+
     // Estimate text width
     const estimatedTextWidth = label.length * 5.5;
     const itemWidth = SWATCH_SIZE + LABEL_OFFSET + estimatedTextWidth;
-    
+
     // Wrap to next row if needed
     if (currentX > 0 && currentX + itemWidth > maxWidth) {
       currentY += 20;
       currentX = 0;
     }
-    
+
     const actualX = x + currentX;
     const actualY = y + currentY;
-    
+
     items.push(`<g>
       <rect x="${actualX}" y="${actualY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
       <text x="${actualX + LABEL_OFFSET}" y="${actualY + 10}" font-size="11" fill="#333">${label}</text>
     </g>`);
-    
+
     currentX += itemWidth + ITEM_SPACING;
   });
 
@@ -422,19 +430,34 @@ function calculateLegendPosition(
     case 'top-right':
       return { x: position.x + chartWidth + 10, y: position.y };
     case 'right':
-      return { x: position.x + chartWidth + 10, y: position.y + (chartHeight - legendHeight) / 2 };
+      return {
+        x: position.x + chartWidth + 10,
+        y: position.y + (chartHeight - legendHeight) / 2,
+      };
     case 'bottom-right':
-      return { x: position.x + chartWidth + 10, y: position.y + chartHeight - legendHeight };
+      return {
+        x: position.x + chartWidth + 10,
+        y: position.y + chartHeight - legendHeight,
+      };
     case 'bottom':
       return { x: position.x, y: position.y + chartHeight + 10 };
     case 'bottom-left':
-      return { x: position.x - legendWidth - 10, y: position.y + chartHeight - legendHeight };
+      return {
+        x: position.x - legendWidth - 10,
+        y: position.y + chartHeight - legendHeight,
+      };
     case 'left':
-      return { x: position.x - legendWidth - 10, y: position.y + (chartHeight - legendHeight) / 2 };
+      return {
+        x: position.x - legendWidth - 10,
+        y: position.y + (chartHeight - legendHeight) / 2,
+      };
     case 'top-left':
       return { x: position.x - legendWidth - 10, y: position.y };
     default:
-      return { x: position.x + chartWidth + 10, y: position.y + chartHeight - legendHeight };
+      return {
+        x: position.x + chartWidth + 10,
+        y: position.y + chartHeight - legendHeight,
+      };
   }
 }
 
@@ -485,12 +508,13 @@ export const barChartVertical: ShapeDefinition = {
   id: 'bar-chart-vertical',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
-    const showLegend = ctx.node.data?.showLegend !== false;
-    const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
-    
+    const showLegend = ctx.node.data?.showLegend === true; // Only show if explicitly true
+    const legendPosition =
+      (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
+
     let baseWidth: number;
     let baseHeight = DEFAULT_HEIGHT;
-    
+
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
@@ -538,7 +562,10 @@ export const barChartVertical: ShapeDefinition = {
       switch (legendPosition) {
         case 'top':
         case 'bottom':
-          return { width: baseWidth, height: baseHeight + horizontalLegendHeight + 10 };
+          return {
+            width: baseWidth,
+            height: baseHeight + horizontalLegendHeight + 10,
+          };
         case 'left':
         case 'top-left':
         case 'bottom-left':
@@ -588,7 +615,8 @@ export const barChartVertical: ShapeDefinition = {
 
     // Legend support
     const showLegend = ctx.node.data?.showLegend === true; // Explicit opt-in for bar charts
-    const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
+    const legendPosition =
+      (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
 
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
@@ -617,13 +645,33 @@ export const barChartVertical: ShapeDefinition = {
       let legendElement = '';
       if (showLegend && groups.length > 0 && groups[0].values.length > 0) {
         const seriesCount = groups[0].values.length;
-        const seriesLabels = Array.from({ length: seriesCount }, (_, i) => `Series ${i + 1}`);
-        const legendPos = calculateLegendPosition(position, bounds.width, bounds.height, seriesLabels.length, legendPosition);
-        
+        const seriesLabels = Array.from(
+          { length: seriesCount },
+          (_, i) => `Series ${i + 1}`
+        );
+        const legendPos = calculateLegendPosition(
+          position,
+          bounds.width,
+          bounds.height,
+          seriesLabels.length,
+          legendPosition
+        );
+
         if (legendPosition === 'top' || legendPosition === 'bottom') {
-          legendElement = renderLegendHorizontal(seriesLabels, legendPos.x, legendPos.y, bounds.width, customColors);
+          legendElement = renderLegendHorizontal(
+            seriesLabels,
+            legendPos.x,
+            legendPos.y,
+            bounds.width,
+            customColors
+          );
         } else {
-          legendElement = renderLegend(seriesLabels, legendPos.x, legendPos.y, customColors);
+          legendElement = renderLegend(
+            seriesLabels,
+            legendPos.x,
+            legendPos.y,
+            customColors
+          );
         }
       }
 
@@ -655,13 +703,33 @@ export const barChartVertical: ShapeDefinition = {
       let legendElement = '';
       if (showLegend && groups.length > 0 && groups[0].values.length > 0) {
         const seriesCount = groups[0].values.length;
-        const seriesLabels = Array.from({ length: seriesCount }, (_, i) => `Series ${i + 1}`);
-        const legendPos = calculateLegendPosition(position, bounds.width, bounds.height, seriesLabels.length, legendPosition);
-        
+        const seriesLabels = Array.from(
+          { length: seriesCount },
+          (_, i) => `Series ${i + 1}`
+        );
+        const legendPos = calculateLegendPosition(
+          position,
+          bounds.width,
+          bounds.height,
+          seriesLabels.length,
+          legendPosition
+        );
+
         if (legendPosition === 'top' || legendPosition === 'bottom') {
-          legendElement = renderLegendHorizontal(seriesLabels, legendPos.x, legendPos.y, bounds.width, customColors);
+          legendElement = renderLegendHorizontal(
+            seriesLabels,
+            legendPos.x,
+            legendPos.y,
+            bounds.width,
+            customColors
+          );
         } else {
-          legendElement = renderLegend(seriesLabels, legendPos.x, legendPos.y, customColors);
+          legendElement = renderLegend(
+            seriesLabels,
+            legendPos.x,
+            legendPos.y,
+            customColors
+          );
         }
       }
 
