@@ -326,7 +326,120 @@ function renderStackedBars(
 }
 
 /**
- * Render title text above the bar chart
+ * Legend position options
+ */
+type LegendPosition = 'top' | 'top-right' | 'right' | 'bottom-right' | 'bottom' | 'bottom-left' | 'left' | 'top-left';
+
+/**
+ * Render legend (vertical layout)
+ */
+function renderLegend(
+  labels: string[],
+  startX: number,
+  startY: number,
+  customColors?: string[]
+): string {
+  const SWATCH_SIZE = 12;
+  const ROW_HEIGHT = 20;
+  const LABEL_OFFSET = 18;
+
+  return labels
+    .map((label, i) => {
+      const y = startY + i * ROW_HEIGHT;
+      const color = getBarColor(i, customColors);
+
+      return `<g>
+      <rect x="${startX}" y="${y}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
+      <text x="${startX + LABEL_OFFSET}" y="${y + 10}" font-size="11" fill="#333">${label}</text>
+    </g>`;
+    })
+    .join('\n    ');
+}
+
+/**
+ * Render legend (horizontal layout for top/bottom positions)
+ */
+function renderLegendHorizontal(
+  labels: string[],
+  x: number,
+  y: number,
+  maxWidth: number,
+  customColors?: string[]
+): string {
+  const SWATCH_SIZE = 12;
+  const ITEM_SPACING = 15;
+  const LABEL_OFFSET = 18;
+  
+  let currentX = 0;
+  let currentY = 0;
+  const items: string[] = [];
+
+  labels.forEach((label, i) => {
+    const color = getBarColor(i, customColors);
+    
+    // Estimate text width
+    const estimatedTextWidth = label.length * 5.5;
+    const itemWidth = SWATCH_SIZE + LABEL_OFFSET + estimatedTextWidth;
+    
+    // Wrap to next row if needed
+    if (currentX > 0 && currentX + itemWidth > maxWidth) {
+      currentY += 20;
+      currentX = 0;
+    }
+    
+    const actualX = x + currentX;
+    const actualY = y + currentY;
+    
+    items.push(`<g>
+      <rect x="${actualX}" y="${actualY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
+      <text x="${actualX + LABEL_OFFSET}" y="${actualY + 10}" font-size="11" fill="#333">${label}</text>
+    </g>`);
+    
+    currentX += itemWidth + ITEM_SPACING;
+  });
+
+  return items.join('\n    ');
+}
+
+/**
+ * Calculate legend position based on position setting
+ */
+function calculateLegendPosition(
+  position: { x: number; y: number },
+  chartWidth: number,
+  chartHeight: number,
+  labelCount: number,
+  legendPos: LegendPosition
+): { x: number; y: number } {
+  const ROW_HEIGHT = 20;
+  const legendHeight = labelCount * ROW_HEIGHT;
+  const legendWidth = 150;
+  const horizontalLegendHeight = 40;
+
+  switch (legendPos) {
+    case 'top':
+      return { x: position.x, y: position.y - horizontalLegendHeight - 10 };
+    case 'top-right':
+      return { x: position.x + chartWidth + 10, y: position.y };
+    case 'right':
+      return { x: position.x + chartWidth + 10, y: position.y + (chartHeight - legendHeight) / 2 };
+    case 'bottom-right':
+      return { x: position.x + chartWidth + 10, y: position.y + chartHeight - legendHeight };
+    case 'bottom':
+      return { x: position.x, y: position.y + chartHeight + 10 };
+    case 'bottom-left':
+      return { x: position.x - legendWidth - 10, y: position.y + chartHeight - legendHeight };
+    case 'left':
+      return { x: position.x - legendWidth - 10, y: position.y + (chartHeight - legendHeight) / 2 };
+    case 'top-left':
+      return { x: position.x - legendWidth - 10, y: position.y };
+    default:
+      return { x: position.x + chartWidth + 10, y: position.y + chartHeight - legendHeight };
+  }
+}
+
+/**
+ * Render chart title at top
  */
 function renderTitle(
   title: string,
@@ -372,54 +485,72 @@ export const barChartVertical: ShapeDefinition = {
   id: 'bar-chart-vertical',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
+    const showLegend = ctx.node.data?.showLegend !== false;
+    const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
+    
+    let baseWidth: number;
+    let baseHeight = DEFAULT_HEIGHT;
+    
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
 
       if (groups.length === 0) {
-        return { width: 200, height: DEFAULT_HEIGHT };
+        baseWidth = 200;
+      } else {
+        baseWidth = groups.length * (BAR_WIDTH + BAR_SPACING) + BAR_SPACING;
       }
-
-      // Calculate width same as simple format
-      const width = groups.length * (BAR_WIDTH + BAR_SPACING) + BAR_SPACING;
-      return { width, height: DEFAULT_HEIGHT };
     }
-
     // Check if data is in grouped format
-    if (isGroupedFormat(ctx.node.data)) {
+    else if (isGroupedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
 
       if (groups.length === 0) {
-        return { width: 200, height: DEFAULT_HEIGHT };
+        baseWidth = 200;
+      } else {
+        // Calculate total width based on groups
+        let totalWidth = GROUP_SPACING;
+        groups.forEach((group) => {
+          const groupWidth =
+            group.values.length * GROUPED_BAR_WIDTH +
+            (group.values.length - 1) * GROUPED_BAR_SPACING;
+          totalWidth += groupWidth + GROUP_SPACING;
+        });
+        baseWidth = totalWidth;
       }
-
-      // Calculate total width based on groups
-      let totalWidth = GROUP_SPACING; // initial spacing
-      groups.forEach((group) => {
-        const groupWidth =
-          group.values.length * GROUPED_BAR_WIDTH +
-          (group.values.length - 1) * GROUPED_BAR_SPACING;
-        totalWidth += groupWidth + GROUP_SPACING;
-      });
-
-      return { width: totalWidth, height: DEFAULT_HEIGHT };
     }
-
     // Simple format
-    const data = normalizeData(ctx.node.data);
+    else {
+      const data = normalizeData(ctx.node.data);
 
-    if (data.length === 0) {
-      // Minimum size for empty state
-      return {
-        width: 200,
-        height: DEFAULT_HEIGHT,
-      };
+      if (data.length === 0) {
+        baseWidth = 200;
+      } else {
+        baseWidth = data.length * (BAR_WIDTH + BAR_SPACING) + BAR_SPACING;
+      }
     }
 
-    const width = data.length * (BAR_WIDTH + BAR_SPACING) + BAR_SPACING;
-    const height = DEFAULT_HEIGHT;
+    // Adjust bounds for legend
+    if (showLegend) {
+      const legendWidth = 150;
+      const horizontalLegendHeight = 40;
 
-    return { width, height };
+      switch (legendPosition) {
+        case 'top':
+        case 'bottom':
+          return { width: baseWidth, height: baseHeight + horizontalLegendHeight + 10 };
+        case 'left':
+        case 'top-left':
+        case 'bottom-left':
+        case 'right':
+        case 'top-right':
+        case 'bottom-right':
+        default:
+          return { width: baseWidth + legendWidth + 10, height: baseHeight };
+      }
+    }
+
+    return { width: baseWidth, height: baseHeight };
   },
 
   anchors(ctx: ShapeRenderContext) {
@@ -455,6 +586,10 @@ export const barChartVertical: ShapeDefinition = {
       ? renderYLabel(yLabel as string, position, bounds.height)
       : '';
 
+    // Legend support
+    const showLegend = ctx.node.data?.showLegend === true; // Explicit opt-in for bar charts
+    const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
+
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
@@ -478,7 +613,21 @@ export const barChartVertical: ShapeDefinition = {
       );
       const axis = renderAxis(ctx, position);
 
-      return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}</g>`;
+      // Generate legend for series (stacked bars show series in legend)
+      let legendElement = '';
+      if (showLegend && groups.length > 0 && groups[0].values.length > 0) {
+        const seriesCount = groups[0].values.length;
+        const seriesLabels = Array.from({ length: seriesCount }, (_, i) => `Series ${i + 1}`);
+        const legendPos = calculateLegendPosition(position, bounds.width, bounds.height, seriesLabels.length, legendPosition);
+        
+        if (legendPosition === 'top' || legendPosition === 'bottom') {
+          legendElement = renderLegendHorizontal(seriesLabels, legendPos.x, legendPos.y, bounds.width, customColors);
+        } else {
+          legendElement = renderLegend(seriesLabels, legendPos.x, legendPos.y, customColors);
+        }
+      }
+
+      return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}${legendElement}</g>`;
     }
 
     // Check if data is in grouped format
@@ -502,10 +651,24 @@ export const barChartVertical: ShapeDefinition = {
       );
       const axis = renderAxis(ctx, position);
 
-      return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}</g>`;
+      // Generate legend for series (grouped bars show series in legend)
+      let legendElement = '';
+      if (showLegend && groups.length > 0 && groups[0].values.length > 0) {
+        const seriesCount = groups[0].values.length;
+        const seriesLabels = Array.from({ length: seriesCount }, (_, i) => `Series ${i + 1}`);
+        const legendPos = calculateLegendPosition(position, bounds.width, bounds.height, seriesLabels.length, legendPosition);
+        
+        if (legendPosition === 'top' || legendPosition === 'bottom') {
+          legendElement = renderLegendHorizontal(seriesLabels, legendPos.x, legendPos.y, bounds.width, customColors);
+        } else {
+          legendElement = renderLegend(seriesLabels, legendPos.x, legendPos.y, customColors);
+        }
+      }
+
+      return `<g>${titleElement}${yLabelElement}${bars}${axis}${xLabelElement}${legendElement}</g>`;
     }
 
-    // Simple format
+    // Simple format - no legend needed for single bar charts
     const data = normalizeData(ctx.node.data);
 
     if (data.length === 0) {
