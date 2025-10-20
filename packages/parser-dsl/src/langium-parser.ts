@@ -415,6 +415,9 @@ function processDialogStatement(
       } else if (Langium.isShowLegendProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.showLegend = prop.value === 'true';
+      } else if (Langium.isLegendPositionProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isStackedProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.stacked = prop.value === 'true';
@@ -444,6 +447,9 @@ function processDialogStatement(
       if (Langium.isShowLegendProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.showLegend = prop.value === 'true';
+      } else if (Langium.isLegendPositionProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isStackedProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.stacked = prop.value === 'true';
@@ -624,6 +630,9 @@ function convertContainer(
         } else if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.showLegend = prop.value === 'true';
+        } else if (Langium.isLegendPositionProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStackedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.stacked = prop.value === 'true';
@@ -653,6 +662,9 @@ function convertContainer(
         if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.showLegend = prop.value === 'true';
+        } else if (Langium.isLegendPositionProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStackedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.stacked = prop.value === 'true';

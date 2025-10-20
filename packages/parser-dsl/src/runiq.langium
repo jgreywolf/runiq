@@ -172,6 +172,7 @@ NodeProperty:
     | TooltipProperty
     | DataProperty
     | ShowLegendProperty
+    | LegendPositionProperty
     | StackedProperty
     | ColorsProperty
     | TitleProperty
@@ -198,6 +199,9 @@ TooltipProperty:
 
 ShowLegendProperty:
     'showLegend:' value=BOOLEAN;
+
+LegendPositionProperty:
+    'legendPosition:' value=STRING;
 
 StackedProperty:
     'stacked:' value=BOOLEAN;

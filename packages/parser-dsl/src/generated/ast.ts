@@ -67,6 +67,7 @@ export type RuniqKeywordNames =
     | "labelPosition:"
     | "layered"
     | "left"
+    | "legendPosition:"
     | "lineStyle:"
     | "link:"
     | "map:"
@@ -695,6 +696,21 @@ export function isLayoutAlgorithmValue(item: unknown): item is LayoutAlgorithmVa
     return item === 'layered' || item === 'force' || item === 'stress' || item === 'radial' || item === 'mrtree';
 }
 
+export interface LegendPositionProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'LegendPositionProperty';
+    value: string;
+}
+
+export const LegendPositionProperty = {
+    $type: 'LegendPositionProperty',
+    value: 'value'
+} as const;
+
+export function isLegendPositionProperty(item: unknown): item is LegendPositionProperty {
+    return reflection.isInstance(item, LegendPositionProperty.$type);
+}
+
 export interface LineStyleProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration;
     readonly $type: 'LineStyleProperty';
@@ -820,7 +836,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | IconProperty | LabelProperty | LegendPositionProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -1224,6 +1240,7 @@ export type RuniqAstType = {
     InstProperty: InstProperty
     InstStatement: InstStatement
     LabelProperty: LabelProperty
+    LegendPositionProperty: LegendPositionProperty
     LineStyleProperty: LineStyleProperty
     LinkProperty: LinkProperty
     ModuleParamsProperty: ModuleParamsProperty
@@ -1643,6 +1660,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: LabelProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        LegendPositionProperty: {
+            name: LegendPositionProperty.$type,
+            properties: {
+                value: {
+                    name: LegendPositionProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

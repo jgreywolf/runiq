@@ -144,10 +144,11 @@ function calculateLegendPosition(
   const ROW_HEIGHT = 20;
   const legendHeight = sliceCount * ROW_HEIGHT;
   const legendWidth = 150;
+  const horizontalLegendHeight = 40; // Height for horizontal legend (1-2 rows typical)
 
   switch (legendPos) {
     case 'top':
-      return { x: position.x + (size - legendWidth) / 2, y: position.y - legendHeight - 10 };
+      return { x: position.x, y: position.y - horizontalLegendHeight - 10 };
     case 'top-right':
       return { x: position.x + size + 10, y: position.y };
     case 'right':
@@ -155,7 +156,7 @@ function calculateLegendPosition(
     case 'bottom-right':
       return { x: position.x + size + 10, y: position.y + size - legendHeight };
     case 'bottom':
-      return { x: position.x + (size - legendWidth) / 2, y: position.y + size + 10 };
+      return { x: position.x, y: position.y + size + 10 };
     case 'bottom-left':
       return { x: position.x - legendWidth - 10, y: position.y + size - legendHeight };
     case 'left':
@@ -168,7 +169,7 @@ function calculateLegendPosition(
 }
 
 /**
- * Render legend for pie chart
+ * Render legend for pie chart (vertical layout)
  */
 function renderLegend(
   slices: PieSlice[],
@@ -195,6 +196,52 @@ function renderLegend(
     </g>`;
     })
     .join('\n    ');
+}
+
+/**
+ * Render legend for pie chart (horizontal layout for top/bottom positions)
+ */
+function renderLegendHorizontal(
+  slices: PieSlice[],
+  x: number,
+  y: number,
+  maxWidth: number,
+  customColors?: string[]
+): string {
+  const SWATCH_SIZE = 12;
+  const ITEM_SPACING = 15; // Space between items
+  const LABEL_OFFSET = 18; // Space between swatch and text
+  
+  let currentX = 0; // Start at 0, will be offset by x when rendering
+  let currentY = 0; // Start at 0, will be offset by y when rendering
+  const items: string[] = [];
+
+  slices.forEach((slice, i) => {
+    const color = getSliceColor(i, customColors);
+    const labelText = slice.label; // Just the label, no percentage (values are on slices)
+    
+    // Estimate text width more accurately (roughly 5.5px per character for 11px font)
+    const estimatedTextWidth = labelText.length * 5.5;
+    const itemWidth = SWATCH_SIZE + LABEL_OFFSET + estimatedTextWidth;
+    
+    // Wrap to next row if needed (and not first item)
+    if (currentX > 0 && currentX + itemWidth > maxWidth) {
+      currentY += 20;
+      currentX = 0;
+    }
+    
+    const actualX = x + currentX;
+    const actualY = y + currentY;
+    
+    items.push(`<g>
+      <rect x="${actualX}" y="${actualY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
+      <text x="${actualX + LABEL_OFFSET}" y="${actualY + 10}" font-size="11" fill="#333">${labelText}</text>
+    </g>`);
+    
+    currentX += itemWidth + ITEM_SPACING;
+  });
+
+  return items.join('\n    ');
 }
 
 /**
@@ -244,20 +291,20 @@ export const pieChart: ShapeDefinition = {
   id: 'pie-chart',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
-    const size = 200;
+    const size = 250;
     // Show legend by default unless explicitly set to false
     const showLegend = ctx.node.data?.showLegend !== false;
 
     if (showLegend) {
       const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
       const legendWidth = 150;
-      const legendHeight = 100; // Approximate, depends on number of slices
+      const horizontalLegendHeight = 40; // Height for horizontal legend (1-2 rows typical)
 
       // Calculate bounds based on legend position
       switch (legendPosition) {
         case 'top':
         case 'bottom':
-          return { width: size, height: size + legendHeight + 10 };
+          return { width: size, height: size + horizontalLegendHeight + 10 };
         case 'left':
         case 'top-left':
         case 'bottom-left':
@@ -274,7 +321,7 @@ export const pieChart: ShapeDefinition = {
   },
 
   anchors(_ctx: ShapeRenderContext) {
-    const size = 200;
+    const size = 250;
     const r = size / 2;
     return [
       { x: r, y: 0, name: 'n' },
@@ -285,9 +332,32 @@ export const pieChart: ShapeDefinition = {
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
-    const size = 200;
-    const cx = position.x + size / 2;
-    const cy = position.y + size / 2;
+    const size = 250;
+    const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
+    const showLegend = ctx.node.data?.showLegend !== false;
+    
+    // Adjust pie chart position based on legend position
+    let pieX = position.x;
+    let pieY = position.y;
+    
+    if (showLegend) {
+      const legendWidth = 150;
+      const horizontalLegendHeight = 40; // Height for horizontal legend
+      
+      switch (legendPosition) {
+        case 'top':
+          pieY = position.y + horizontalLegendHeight + 10;
+          break;
+        case 'left':
+        case 'top-left':
+        case 'bottom-left':
+          pieX = position.x + legendWidth + 10;
+          break;
+      }
+    }
+    
+    const cx = pieX + size / 2;
+    const cy = pieY + size / 2;
     const radius = size / 2 - 10; // Leave margin for stroke
 
     // Normalize and calculate slices
@@ -311,14 +381,16 @@ export const pieChart: ShapeDefinition = {
       ? renderSliceLabels(slices, cx, cy, radius, customColors)
       : '';
 
-    // Show legend by default unless explicitly set to false
-    const showLegend = ctx.node.data?.showLegend !== false;
-
     if (showLegend && slices.length > 0) {
-      // Get legend position (default: bottom-right)
-      const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
-      const legendPos = calculateLegendPosition(position, size, slices.length, legendPosition);
-      const legend = renderLegend(slices, legendPos.x, legendPos.y, customColors);
+      const legendPos = calculateLegendPosition({ x: pieX, y: pieY }, size, slices.length, legendPosition);
+      
+      // Use horizontal layout for top/bottom positions
+      let legend: string;
+      if (legendPosition === 'top' || legendPosition === 'bottom') {
+        legend = renderLegendHorizontal(slices, legendPos.x, legendPos.y, size, customColors);
+      } else {
+        legend = renderLegend(slices, legendPos.x, legendPos.y, customColors);
+      }
 
       return `${titleElement}${paths}\n    ${sliceLabels}\n    ${legend}`;
     }

@@ -358,6 +358,7 @@ chore: maintenance
 **Enhancement**: Add optional labels directly on pie slices
 
 **Implementation Plan**:
+
 - Calculate midpoint angle for each slice
 - Position text at `radius * 0.7` from center
 - Only show label if `percentage > 5%` to avoid overlap on small slices
@@ -373,6 +374,7 @@ chore: maintenance
 **Enhancement**: Allow users to specify routing style per diagram or per edge
 
 **Proposed Syntax**:
+
 ```runiq
 diagram "My Diagram" edgeRouting:"orthogonal" {
   // All edges use orthogonal routing
@@ -385,12 +387,14 @@ e -> f routing:"splines"
 ```
 
 **Options**:
+
 - `"straight"` - Direct line from source to target
 - `"orthogonal"` - Right-angle bends (current default)
 - `"polyline"` - Multi-segment lines
 - `"splines"` - Smooth curved lines
 
 **Files**:
+
 - `packages/parser-dsl/src/runiq.langium` - Add grammar rules
 - `packages/layout-base/src/elk-adapter.ts` - Respect routing preference
 - `packages/core/src/types.ts` - Add EdgeRouting type
@@ -405,31 +409,34 @@ e -> f routing:"splines"
 **Enhancement**: Allow intuitive aliases for shapes
 
 **Proposed Implementation**:
+
 ```typescript
 // In shape registration:
 registerShape(shape, {
   id: 'cyl',
-  aliases: ['cylinder', 'database', 'db']
+  aliases: ['cylinder', 'database', 'db'],
 });
 
 registerShape(shape, {
   id: 'server',
-  aliases: ['service', 'backend']
+  aliases: ['service', 'backend'],
 });
 
 registerShape(shape, {
   id: 'curv-trap',
-  aliases: ['browser', 'display', 'monitor']
+  aliases: ['browser', 'display', 'monitor'],
 });
 ```
 
 **Benefits**:
+
 - More intuitive for users
 - Backwards compatibility with old examples
 - Better discoverability
 - Reduces "shape not found" errors
 
 **Files**:
+
 - `packages/core/src/registries/shape-registry.ts` - Add alias lookup
 - `SHAPE-ID-REFERENCE.md` - Document aliases
 - Tests for alias resolution
@@ -442,12 +449,14 @@ registerShape(shape, {
 **Enhancement**: Validate shape IDs during parsing with helpful error messages
 
 **Proposed Implementation**:
+
 - Pass shape registry to parser validation phase
 - Check if shape ID exists (including aliases)
 - Provide suggestions for typos using Levenshtein distance
 - List available shapes matching pattern
 
 **Example Error**:
+
 ```
 Error: Unknown shape '@servr'
 Did you mean: @server, @curv-trap, @servlet?
@@ -455,6 +464,7 @@ Available shapes: @server, @service, @actor, ...
 ```
 
 **Files**:
+
 - `packages/parser-dsl/src/validator.ts` - Add shape validation
 - `packages/core/src/registries/shape-registry.ts` - Export shape list
 - Integration test for validation
@@ -467,12 +477,14 @@ Available shapes: @server, @service, @actor, ...
 **Enhancement**: Show visual error in editor preview with helpful message
 
 **Proposed UI**:
+
 - Overlay on preview showing which shapes are invalid
 - Inline markers in code editor at shape declarations
 - Quick-fix suggestions in context menu
 - List of available shapes in sidebar
 
 **Files**:
+
 - `apps/editor/src/lib/components/Preview.svelte` - Error overlay
 - `apps/editor/src/lib/components/CodeEditor.svelte` - Inline markers
 - Consider Monaco editor diagnostics integration
@@ -485,6 +497,7 @@ Available shapes: @server, @service, @actor, ...
 **Enhancement**: Auto-generate shape catalog from registry
 
 **Output**:
+
 - Markdown file with all shapes
 - SVG thumbnails of each shape
 - Shape IDs, aliases, categories
@@ -492,12 +505,14 @@ Available shapes: @server, @service, @actor, ...
 - Searchable/filterable catalog
 
 **Script**:
+
 ```bash
 pnpm run generate:catalog
 # Outputs: docs/SHAPE-CATALOG.md
 ```
 
 **Files**:
+
 - `scripts/generate-shape-catalog.ts` - Generator script
 - `docs/SHAPE-CATALOG.md` - Generated output
 - Add to build pipeline

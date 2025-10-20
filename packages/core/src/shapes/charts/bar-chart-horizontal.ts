@@ -150,7 +150,11 @@ function renderBars(
   const bars = data.map((item, index) => {
     const barWidth = (item.value / maxValue) * chartWidth;
     const x = position.x + CHART_MARGIN_LEFT;
-    const y = position.y + titleMargin + BAR_SPACING + index * (BAR_HEIGHT + BAR_SPACING);
+    const y =
+      position.y +
+      titleMargin +
+      BAR_SPACING +
+      index * (BAR_HEIGHT + BAR_SPACING);
 
     const color = getBarColor(index, customColors);
     const stroke = ctx.style?.stroke || '#333';
@@ -378,7 +382,7 @@ export const barChartHorizontal: ShapeDefinition = {
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     // Add extra height for title if present
     const titleMargin = ctx.node.data?.title ? CHART_MARGIN_TOP : 0;
-    
+
     // Check if data is in stacked format
     if (isStackedFormat(ctx.node.data)) {
       const groups = normalizeGroupedData(ctx.node.data);
@@ -388,7 +392,8 @@ export const barChartHorizontal: ShapeDefinition = {
       }
 
       // Calculate height same as simple format
-      const height = groups.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
+      const height =
+        groups.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
       return { width: DEFAULT_WIDTH, height };
     }
 
@@ -424,7 +429,8 @@ export const barChartHorizontal: ShapeDefinition = {
     }
 
     const width = DEFAULT_WIDTH;
-    const height = data.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
+    const height =
+      data.length * (BAR_HEIGHT + BAR_SPACING) + BAR_SPACING + titleMargin;
 
     return { width, height };
   },
