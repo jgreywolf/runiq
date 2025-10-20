@@ -128,6 +128,46 @@ function renderSlices(
 }
 
 /**
+ * Legend position options
+ */
+type LegendPosition = 'top' | 'top-right' | 'right' | 'bottom-right' | 'bottom' | 'bottom-left' | 'left' | 'top-left';
+
+/**
+ * Calculate legend position based on position setting
+ */
+function calculateLegendPosition(
+  position: { x: number; y: number },
+  size: number,
+  sliceCount: number,
+  legendPos: LegendPosition
+): { x: number; y: number } {
+  const ROW_HEIGHT = 20;
+  const legendHeight = sliceCount * ROW_HEIGHT;
+  const legendWidth = 150;
+
+  switch (legendPos) {
+    case 'top':
+      return { x: position.x + (size - legendWidth) / 2, y: position.y - legendHeight - 10 };
+    case 'top-right':
+      return { x: position.x + size + 10, y: position.y };
+    case 'right':
+      return { x: position.x + size + 10, y: position.y + (size - legendHeight) / 2 };
+    case 'bottom-right':
+      return { x: position.x + size + 10, y: position.y + size - legendHeight };
+    case 'bottom':
+      return { x: position.x + (size - legendWidth) / 2, y: position.y + size + 10 };
+    case 'bottom-left':
+      return { x: position.x - legendWidth - 10, y: position.y + size - legendHeight };
+    case 'left':
+      return { x: position.x - legendWidth - 10, y: position.y + (size - legendHeight) / 2 };
+    case 'top-left':
+      return { x: position.x - legendWidth - 10, y: position.y };
+    default:
+      return { x: position.x + size + 10, y: position.y + size - legendHeight }; // bottom-right default
+  }
+}
+
+/**
  * Render legend for pie chart
  */
 function renderLegend(
@@ -158,6 +198,38 @@ function renderLegend(
 }
 
 /**
+ * Render value labels on pie slices
+ */
+function renderSliceLabels(
+  slices: PieSlice[],
+  cx: number,
+  cy: number,
+  radius: number,
+  customColors?: string[]
+): string {
+  return slices
+    .map((slice, i) => {
+      // Calculate midpoint angle
+      const midAngle = ((slice.startAngle + slice.endAngle) / 2 - 90) * Math.PI / 180;
+      
+      // Position text at 70% of radius from center
+      const labelRadius = radius * 0.7;
+      const x = cx + labelRadius * Math.cos(midAngle);
+      const y = cy + labelRadius * Math.sin(midAngle);
+
+      // Use contrasting text color (white for dark slices, black for light)
+      const color = getSliceColor(i, customColors);
+      const brightness = parseInt(color.slice(1, 3), 16) * 0.299 +
+                        parseInt(color.slice(3, 5), 16) * 0.587 +
+                        parseInt(color.slice(5, 7), 16) * 0.114;
+      const textColor = brightness > 128 ? '#333' : '#fff';
+
+      return `<text x="${x}" y="${y + 4}" text-anchor="middle" font-size="12" font-weight="bold" fill="${textColor}">${slice.value}</text>`;
+    })
+    .join('\n    ');
+}
+
+/**
  * Render title text above the pie chart
  */
 function renderTitle(title: string, cx: number, cy: number): string {
@@ -173,12 +245,29 @@ export const pieChart: ShapeDefinition = {
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     const size = 200;
-    const showLegend = ctx.node.data?.showLegend === true;
+    // Show legend by default unless explicitly set to false
+    const showLegend = ctx.node.data?.showLegend !== false;
 
     if (showLegend) {
-      // Add space for legend on the right
+      const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
       const legendWidth = 150;
-      return { width: size + legendWidth, height: size };
+      const legendHeight = 100; // Approximate, depends on number of slices
+
+      // Calculate bounds based on legend position
+      switch (legendPosition) {
+        case 'top':
+        case 'bottom':
+          return { width: size, height: size + legendHeight + 10 };
+        case 'left':
+        case 'top-left':
+        case 'bottom-left':
+          return { width: size + legendWidth + 10, height: size };
+        case 'right':
+        case 'top-right':
+        case 'bottom-right':
+        default:
+          return { width: size + legendWidth + 10, height: size };
+      }
     }
 
     return { width: size, height: size };
@@ -217,18 +306,23 @@ export const pieChart: ShapeDefinition = {
     // Render slices
     const paths = renderSlices(slices, cx, cy, radius, ctx, customColors);
 
-    // Check if legend should be rendered
-    const showLegend = ctx.node.data?.showLegend === true;
+    // Render values on slices
+    const sliceLabels = slices.length > 0 
+      ? renderSliceLabels(slices, cx, cy, radius, customColors)
+      : '';
+
+    // Show legend by default unless explicitly set to false
+    const showLegend = ctx.node.data?.showLegend !== false;
 
     if (showLegend && slices.length > 0) {
-      // Render legend to the right of the pie
-      const legendX = position.x + size + 10;
-      const legendY = position.y + 20;
-      const legend = renderLegend(slices, legendX, legendY, customColors);
+      // Get legend position (default: bottom-right)
+      const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
+      const legendPos = calculateLegendPosition(position, size, slices.length, legendPosition);
+      const legend = renderLegend(slices, legendPos.x, legendPos.y, customColors);
 
-      return `${titleElement}${paths}\n    ${legend}`;
+      return `${titleElement}${paths}\n    ${sliceLabels}\n    ${legend}`;
     }
 
-    return `${titleElement}${paths}`;
+    return `${titleElement}${paths}\n    ${sliceLabels}`;
   },
 };
