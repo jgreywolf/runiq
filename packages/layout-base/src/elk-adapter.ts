@@ -20,8 +20,8 @@ import { shapeRegistry, createTextMeasurer } from '@runiq/core';
  * ✅ Cross-container edges - WORKING (12/16 tests passing)
  * ✅ Multiple containers - WORKING
  * ✅ Container padding - WORKING
+ * ✅ Spacing option with containers - WORKING (spacing parameter passed to container layouts)
  * ⏳ Nested containers - PARTIAL (simple nesting works, multi-level needs positioning fix)
- * ⏳ Spacing option with containers - TODO
  *
  * @todo Nested Container Positioning: Multi-level nested containers need proper relative
  * positioning to parent. Currently using flat structure with placeholder bounds.
@@ -104,6 +104,11 @@ export class ElkLayoutEngine implements LayoutEngine {
     );
     const spacing = opts.spacing || 100; // Increased from 80 to 100 for better clarity
 
+    // Detect if this is a pedigree chart
+    const isPedigreeChart = diagram.nodes.some(
+      (n) => n.shape === 'pedigree-male' || n.shape === 'pedigree-female'
+    );
+
     // Build ELK graph structure with hierarchyHandling for containers
     const elkGraph: ElkNode = {
       id: 'root',
@@ -117,6 +122,16 @@ export class ElkLayoutEngine implements LayoutEngine {
         'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
         'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
         'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
+        // For pedigree charts, enforce layer-based layouting
+        ...(isPedigreeChart
+          ? {
+              'elk.layered.layering.strategy': 'INTERACTIVE',
+              'elk.layered.considerModelOrder.strategy': 'NONE',
+              'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
+              'elk.layered.nodePlacement.bk.fixedAlignment': 'BALANCED',
+              'elk.layered.compaction.postCompaction.strategy': 'EDGE_LENGTH',
+            }
+          : {}),
       },
       children: [],
       edges: [],
@@ -153,6 +168,13 @@ export class ElkLayoutEngine implements LayoutEngine {
       );
     }
 
+    // Calculate generations for pedigree charts (isPedigreeChart already declared above)
+    const nodeGenerations = new Map<string, number>();
+    const spousePairs = new Map<string, string>(); // Track spouse relationships
+    if (isPedigreeChart) {
+      this.calculatePedigreeGenerations(diagram, nodeGenerations, spousePairs);
+    }
+
     // Add standalone nodes (not in any container)
     for (const node of diagram.nodes) {
       if (!nodeContainerMap.has(node.id)) {
@@ -169,11 +191,30 @@ export class ElkLayoutEngine implements LayoutEngine {
         });
 
         if (!elkGraph.children) elkGraph.children = [];
-        elkGraph.children.push({
+
+        const elkNode: any = {
           id: node.id,
           width: bounds.width,
           height: bounds.height,
-        });
+        };
+
+        // Apply layer constraint for pedigree charts
+        if (isPedigreeChart && nodeGenerations.has(node.id)) {
+          const generation = nodeGenerations.get(node.id)!;
+
+          // Get spouse if any - spouses should have same position priority
+          const spouse = spousePairs.get(node.id);
+          const basePosition = spouse && node.id < spouse ? 0 : spouse ? 1 : 0;
+
+          elkNode.layoutOptions = {
+            'elk.layered.layering.layer': generation,
+            'elk.layered.crossingMinimization.semiInteractive': 'true',
+            'elk.layered.nodePlacement.bk.fixedAlignment': 'BALANCED',
+            'elk.priority': (generation * 100 + basePosition).toString(),
+          };
+        }
+
+        elkGraph.children.push(elkNode);
       }
     }
 
@@ -217,11 +258,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const containers: PositionedContainer[] = [];
     const edges: RoutedEdge[] = [];
 
-    console.log('Diagram containers:', diagram.containers);
-    console.log('Container positions:', containerPositions);
-
     if (diagram.containers) {
-      console.log(`Processing ${diagram.containers.length} containers`);
       await this.layoutContainersWithNodes(
         diagram.containers,
         diagram,
@@ -233,9 +270,6 @@ export class ElkLayoutEngine implements LayoutEngine {
         nodes,
         edges,
         containers
-      );
-      console.log(
-        `After layoutContainersWithNodes: ${nodes.length} nodes, ${containers.length} containers, ${edges.length} internal edges`
       );
     }
 
@@ -276,11 +310,6 @@ export class ElkLayoutEngine implements LayoutEngine {
     });
 
     this.extractEdges(topLevelEdges, nodes, edges);
-
-    console.log(`Extracted ${edges.length} total edges from layouts`);
-    if (edges.length > 0) {
-      console.log('Sample edge routing:', edges[0]);
-    }
 
     // Fix cross-container edges: Replace placeholder-based routing with actual node positions
     for (const edge of diagram.edges) {
@@ -333,15 +362,7 @@ export class ElkLayoutEngine implements LayoutEngine {
               to: edge.to,
               points: newPoints,
             });
-            console.log(
-              `Added missing cross-container edge: ${edge.from} -> ${edge.to} (orthogonal routing, ${newPoints.length} points)`
-            );
           }
-        } else {
-          console.warn(
-            `Could not find nodes for cross-container edge: ${edge.from} -> ${edge.to}`,
-            { fromNode: !!fromNode, toNode: !!toNode }
-          );
         }
       }
     }
@@ -599,11 +620,6 @@ export class ElkLayoutEngine implements LayoutEngine {
             width: bounds.width,
             height: bounds.height,
           });
-          console.log(
-            `Added ${childId} to container graph: ${bounds.width}x${bounds.height}`
-          );
-        } else {
-          console.warn(`Node ${childId} not found in diagram.nodes!`);
         }
       }
 
@@ -627,25 +643,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
       if (containerGraph.children!.length > 0) {
         try {
-          console.log(
-            `Laying out container ${container.id} with algorithm ${algorithm}, children:`,
-            containerGraph.children!.length
-          );
           const laidOutContainer = await this.elk.layout(containerGraph);
-
-          // Debug: Check if nodes were positioned
-          if (
-            !laidOutContainer.children ||
-            laidOutContainer.children.length === 0
-          ) {
-            console.warn(
-              `Container ${container.id} with algorithm ${algorithm}: No children after layout`
-            );
-          } else {
-            console.log(
-              `Container ${container.id} laid out ${laidOutContainer.children.length} nodes`
-            );
-          }
 
           // Add nodes with positions relative to container
           for (const elkNode of laidOutContainer.children || []) {
@@ -656,10 +654,6 @@ export class ElkLayoutEngine implements LayoutEngine {
               width: elkNode.width || 0,
               height: elkNode.height || 0,
             };
-            console.log(
-              `Adding node ${elkNode.id} at position:`,
-              positionedNode
-            );
             nodes.push(positionedNode);
           }
 
@@ -686,20 +680,12 @@ export class ElkLayoutEngine implements LayoutEngine {
             }
           }
 
-          console.log(
-            `Extracted ${tempEdges.length} internal edges from container ${container.id}, adjusted for position`
-          );
-          console.log('Adjusted tempEdges:', tempEdges);
           edges.push(...tempEdges);
 
           // Calculate container size from laid out content
           containerWidth = (laidOutContainer.width || 0) + padding * 2;
           containerHeight = (laidOutContainer.height || 0) + padding * 2;
         } catch (error) {
-          console.error(
-            `Error laying out container ${container.id} with algorithm ${algorithm}:`,
-            error
-          );
           // Fall back to default positioning if layout fails
         }
       }
@@ -1193,6 +1179,199 @@ export class ElkLayoutEngine implements LayoutEngine {
         return 'org.eclipse.elk.mrtree';
       default:
         return 'layered'; // Default fallback
+    }
+  }
+
+  /**
+   * Calculate generation (layer) for each node in a pedigree chart.
+   * Uses BFS from root nodes (those with no incoming parent edges)
+   * to assign generation numbers that enforce hierarchical layering.
+   */
+  private calculatePedigreeGenerations(
+    diagram: DiagramAst,
+    nodeGenerations: Map<string, number>,
+    spousePairsOut?: Map<string, string>
+  ): void {
+    // Build adjacency lists for parent->child relationships
+    const children = new Map<string, Set<string>>();
+    const parents = new Map<string, Set<string>>();
+
+    for (const node of diagram.nodes) {
+      children.set(node.id, new Set());
+      parents.set(node.id, new Set());
+    }
+
+    // Analyze edges to find parent-child relationships
+    // In pedigree charts, edges from both parents point to children
+    for (const edge of diagram.edges) {
+      children.get(edge.from)?.add(edge.to);
+      parents.get(edge.to)?.add(edge.from);
+    }
+
+    // Find root nodes (generation 0) - nodes with no parents or only spouse edges
+    const roots: string[] = [];
+    const spouseEdges = new Set<string>();
+    const spousePairs = new Set<string>(); // Track spouse relationships
+
+    // Detect spouse/marriage edges using multiple heuristics:
+    // 1. Bidirectional edges (explicit marriage notation)
+    for (const edge of diagram.edges) {
+      const hasReverseEdge = diagram.edges.some(
+        (e) => e.from === edge.to && e.to === edge.from
+      );
+      if (hasReverseEdge) {
+        spouseEdges.add(`${edge.from}-${edge.to}`);
+        spouseEdges.add(`${edge.to}-${edge.from}`);
+        const pairKey = [edge.from, edge.to].sort().join('-');
+        spousePairs.add(pairKey);
+      }
+    }
+
+    // 2. Co-parents: if two nodes both point to the same child(ren), they're likely spouses
+    const childToParents = new Map<string, Set<string>>();
+    for (const edge of diagram.edges) {
+      if (!childToParents.has(edge.to)) {
+        childToParents.set(edge.to, new Set());
+      }
+      childToParents.get(edge.to)!.add(edge.from);
+    }
+
+    // If two parents point to the same child, mark them as spouses
+    for (const [_child, parentSet] of childToParents.entries()) {
+      const parentList = Array.from(parentSet);
+      if (parentList.length === 2) {
+        const [p1, p2] = parentList;
+        // Check if both parents are pedigree shapes
+        const p1Node = diagram.nodes.find((n) => n.id === p1);
+        const p2Node = diagram.nodes.find((n) => n.id === p2);
+        if (
+          p1Node &&
+          p2Node &&
+          (p1Node.shape === 'pedigree-male' ||
+            p1Node.shape === 'pedigree-female') &&
+          (p2Node.shape === 'pedigree-male' ||
+            p2Node.shape === 'pedigree-female')
+        ) {
+          spouseEdges.add(`${p1}-${p2}`);
+          spouseEdges.add(`${p2}-${p1}`);
+          const pairKey = [p1, p2].sort().join('-');
+          spousePairs.add(pairKey);
+        }
+      }
+    }
+
+    // Populate output spouse pairs map if provided
+    if (spousePairsOut) {
+      for (const pairKey of spousePairs) {
+        const [p1, p2] = pairKey.split('-');
+        spousePairsOut.set(p1, p2);
+        spousePairsOut.set(p2, p1);
+      }
+    }
+
+    // Build spouse relationship map
+    const spouseMap = new Map<string, string[]>();
+    for (const pairKey of spousePairs) {
+      const [p1, p2] = pairKey.split('-');
+      if (!spouseMap.has(p1)) spouseMap.set(p1, []);
+      if (!spouseMap.has(p2)) spouseMap.set(p2, []);
+      spouseMap.get(p1)!.push(p2);
+      spouseMap.get(p2)!.push(p1);
+    }
+
+    // Identify roots: nodes with no non-spouse parents
+    // Key insight: A node is a root ONLY if:
+    // 1. It has no real parents, AND
+    // 2. Its spouse (if any) ALSO has no real parents
+    // This prevents spouses who "married in" from being roots
+    const processedRoots = new Set<string>();
+
+    for (const node of diagram.nodes) {
+      if (processedRoots.has(node.id)) continue;
+
+      const nodeParents = parents.get(node.id)!;
+      const realParents = Array.from(nodeParents).filter((p) => {
+        return !spouseEdges.has(`${p}-${node.id}`);
+      });
+
+      const nodeChildren = children.get(node.id)!;
+      const nonSpouseChildren = Array.from(nodeChildren).filter((c) => {
+        return !spouseEdges.has(`${node.id}-${c}`);
+      });
+
+      // This node is a potential root if it has no real parents and has descendants
+      if (realParents.length === 0 && nonSpouseChildren.length > 0) {
+        // Check if this node has a spouse
+        const spouses = spouseMap.get(node.id) || [];
+
+        if (spouses.length > 0) {
+          // Check if ANY spouse has real parents
+          let anySpouseHasParents = false;
+          for (const spouseId of spouses) {
+            const spouseParents = parents.get(spouseId)!;
+            const spouseRealParents = Array.from(spouseParents).filter((p) => {
+              return !spouseEdges.has(`${p}-${spouseId}`);
+            });
+            if (spouseRealParents.length > 0) {
+              anySpouseHasParents = true;
+              break;
+            }
+          }
+
+          // Only add as root if NO spouse has real parents
+          if (!anySpouseHasParents) {
+            roots.push(node.id);
+            nodeGenerations.set(node.id, 0);
+            processedRoots.add(node.id);
+          }
+        } else {
+          // No spouse - single root
+          roots.push(node.id);
+          nodeGenerations.set(node.id, 0);
+          processedRoots.add(node.id);
+        }
+      }
+    }
+
+    // Process all nodes using BFS, handling spouses and children
+    const queue: string[] = [...roots];
+    const visited = new Set<string>();
+
+    // Mark roots as visited
+    for (const root of roots) {
+      visited.add(root);
+    }
+
+    while (queue.length > 0) {
+      const nodeId = queue.shift()!;
+      const currentGen = nodeGenerations.get(nodeId) || 0;
+
+      // Process all edges from this node
+      const nodeChildren = children.get(nodeId)!;
+      for (const childId of nodeChildren) {
+        if (spouseEdges.has(`${nodeId}-${childId}`)) {
+          // Spouse edge - same generation
+          const existingGen = nodeGenerations.get(childId);
+          if (existingGen === undefined || existingGen !== currentGen) {
+            nodeGenerations.set(childId, currentGen);
+          }
+          if (!visited.has(childId)) {
+            visited.add(childId);
+            queue.push(childId);
+          }
+        } else {
+          // Parent-child edge - next generation
+          const childGen = currentGen + 1;
+          const existingGen = nodeGenerations.get(childId);
+          if (existingGen === undefined || childGen < existingGen) {
+            nodeGenerations.set(childId, childGen);
+          }
+          if (!visited.has(childId)) {
+            visited.add(childId);
+            queue.push(childId);
+          }
+        }
+      }
     }
   }
 

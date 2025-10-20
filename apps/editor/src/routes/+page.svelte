@@ -27,12 +27,32 @@
 	let code = $state('');
 	let errors = $state<string[]>([]);
 	let layoutEngine = $state('elk');
+	let autoSaveTimeout: ReturnType<typeof setTimeout> | null = null;
 
-	// Handle code changes
+	// Auto-save configuration
+	const AUTO_SAVE_DELAY = 2000; // 2 seconds after last change
+	const AUTO_SAVE_KEY = 'runiq-autosave-code';
+
+	// Handle code changes with auto-save
 	function handleCodeChange(newCode: string) {
 		code = newCode;
 		isDirty = true;
-		// TODO: Implement auto-save
+
+		// Clear existing timeout
+		if (autoSaveTimeout) {
+			clearTimeout(autoSaveTimeout);
+		}
+
+		// Set new auto-save timeout
+		autoSaveTimeout = setTimeout(() => {
+			try {
+				localStorage.setItem(AUTO_SAVE_KEY, code);
+				lastSaved = new Date();
+				console.log('Auto-saved at', lastSaved.toLocaleTimeString());
+			} catch (e) {
+				console.warn('Auto-save failed:', e);
+			}
+		}, AUTO_SAVE_DELAY);
 	}
 
 	// Handle editor errors
@@ -46,8 +66,9 @@
 		errors = parseErrors;
 	}
 
-	// Load panel sizes from localStorage
+	// Load panel sizes and auto-saved code from localStorage
 	onMount(() => {
+		// Load panel sizes
 		const saved = localStorage.getItem('runiq-panel-sizes');
 		if (saved) {
 			try {
@@ -58,6 +79,14 @@
 			} catch (e) {
 				console.warn('Failed to load panel sizes:', e);
 			}
+		}
+
+		// Restore auto-saved code
+		const autoSaved = localStorage.getItem(AUTO_SAVE_KEY);
+		if (autoSaved) {
+			code = autoSaved;
+			isDirty = false;
+			console.log('Restored auto-saved code');
 		}
 	});
 
