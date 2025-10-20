@@ -347,7 +347,166 @@ perf: performance
 chore: maintenance
 ```
 
-## 🔗 Links
+## � Future Enhancements
+
+### Priority: Low (Nice-to-Have)
+
+#### 1. Pie Chart Slice Labels
+
+**Status**: Current implementation acceptable  
+**Current Behavior**: Labels shown in legend (when `showLegend:true`), not on slices  
+**Enhancement**: Add optional labels directly on pie slices
+
+**Implementation Plan**:
+- Calculate midpoint angle for each slice
+- Position text at `radius * 0.7` from center
+- Only show label if `percentage > 5%` to avoid overlap on small slices
+- Add `showSliceLabels` option to toggle feature
+- Test with various slice sizes and label lengths
+
+**File**: `packages/core/src/shapes/charts/pie.ts`  
+**Estimated Effort**: 2-3 hours
+
+#### 2. DSL Syntax for Edge Routing Preference
+
+**Status**: Currently defaults to orthogonal routing  
+**Enhancement**: Allow users to specify routing style per diagram or per edge
+
+**Proposed Syntax**:
+```runiq
+diagram "My Diagram" edgeRouting:"orthogonal" {
+  // All edges use orthogonal routing
+}
+
+// Or per-edge:
+a -> b routing:"straight"
+c -> d routing:"orthogonal"
+e -> f routing:"splines"
+```
+
+**Options**:
+- `"straight"` - Direct line from source to target
+- `"orthogonal"` - Right-angle bends (current default)
+- `"polyline"` - Multi-segment lines
+- `"splines"` - Smooth curved lines
+
+**Files**:
+- `packages/parser-dsl/src/runiq.langium` - Add grammar rules
+- `packages/layout-base/src/elk-adapter.ts` - Respect routing preference
+- `packages/core/src/types.ts` - Add EdgeRouting type
+
+**Estimated Effort**: 4-6 hours
+
+#### 3. Shape Alias System
+
+**Status**: Users must know exact shape IDs  
+**Current Issue**: Common names don't work (`@database` vs `@cyl`, `@service` vs `@server`, `@browser` vs `@curv-trap`)
+
+**Enhancement**: Allow intuitive aliases for shapes
+
+**Proposed Implementation**:
+```typescript
+// In shape registration:
+registerShape(shape, {
+  id: 'cyl',
+  aliases: ['cylinder', 'database', 'db']
+});
+
+registerShape(shape, {
+  id: 'server',
+  aliases: ['service', 'backend']
+});
+
+registerShape(shape, {
+  id: 'curv-trap',
+  aliases: ['browser', 'display', 'monitor']
+});
+```
+
+**Benefits**:
+- More intuitive for users
+- Backwards compatibility with old examples
+- Better discoverability
+- Reduces "shape not found" errors
+
+**Files**:
+- `packages/core/src/registries/shape-registry.ts` - Add alias lookup
+- `SHAPE-ID-REFERENCE.md` - Document aliases
+- Tests for alias resolution
+
+**Estimated Effort**: 3-4 hours
+
+#### 4. Shape Validation in Parser
+
+**Status**: Unknown shapes only detected at render time  
+**Enhancement**: Validate shape IDs during parsing with helpful error messages
+
+**Proposed Implementation**:
+- Pass shape registry to parser validation phase
+- Check if shape ID exists (including aliases)
+- Provide suggestions for typos using Levenshtein distance
+- List available shapes matching pattern
+
+**Example Error**:
+```
+Error: Unknown shape '@servr'
+Did you mean: @server, @curv-trap, @servlet?
+Available shapes: @server, @service, @actor, ...
+```
+
+**Files**:
+- `packages/parser-dsl/src/validator.ts` - Add shape validation
+- `packages/core/src/registries/shape-registry.ts` - Export shape list
+- Integration test for validation
+
+**Estimated Effort**: 4-5 hours
+
+#### 5. Editor: "Shape Not Found" Error Handling
+
+**Status**: Diagrams with invalid shapes fail silently  
+**Enhancement**: Show visual error in editor preview with helpful message
+
+**Proposed UI**:
+- Overlay on preview showing which shapes are invalid
+- Inline markers in code editor at shape declarations
+- Quick-fix suggestions in context menu
+- List of available shapes in sidebar
+
+**Files**:
+- `apps/editor/src/lib/components/Preview.svelte` - Error overlay
+- `apps/editor/src/lib/components/CodeEditor.svelte` - Inline markers
+- Consider Monaco editor diagnostics integration
+
+**Estimated Effort**: 6-8 hours
+
+#### 6. Generate Shape Catalog Documentation
+
+**Status**: Manual shape documentation  
+**Enhancement**: Auto-generate shape catalog from registry
+
+**Output**:
+- Markdown file with all shapes
+- SVG thumbnails of each shape
+- Shape IDs, aliases, categories
+- Usage examples
+- Searchable/filterable catalog
+
+**Script**:
+```bash
+pnpm run generate:catalog
+# Outputs: docs/SHAPE-CATALOG.md
+```
+
+**Files**:
+- `scripts/generate-shape-catalog.ts` - Generator script
+- `docs/SHAPE-CATALOG.md` - Generated output
+- Add to build pipeline
+
+**Estimated Effort**: 5-6 hours
+
+---
+
+## �🔗 Links
 
 - **Repository**: https://github.com/jgreywolf/runiq
 - **Issues**: https://github.com/jgreywolf/runiq/issues
@@ -355,5 +514,5 @@ chore: maintenance
 
 ---
 
-**Status**: ✅ Phase 1 Complete | 🚧 Phase 2 Next  
-**Last Updated**: October 14, 2025
+**Status**: ✅ Editor MVP Complete | ✅ All Critical Issues Resolved | 🔮 Enhancements Listed  
+**Last Updated**: October 19, 2025
