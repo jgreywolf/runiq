@@ -123,8 +123,41 @@ source -> target lineStyle:solid arrowType:none
 - `stroke: "#color"`
 - `strokeWidth: number`
 - `fontSize: number`
-- `padding: number`
-- `font: "fontname"`
+- `fontFamily: "fontname"`
+- `fontWeight: number`
+- `textAlign: left|center|right`
+- `color: "#color"`
+
+⚠️ **RESERVED KEYWORDS - Cannot be used in generic style declarations:**
+
+The following keywords are reserved for specific container or layout properties and **CANNOT** be used in generic `style` declarations. Use the alternatives shown:
+
+| Reserved Keyword   | Used For           | Alternative for Styles             |
+| ------------------ | ------------------ | ---------------------------------- |
+| `padding:`         | Container property | `margin:` or custom property       |
+| `opacity:`         | Container style    | `fillOpacity:` or `strokeOpacity:` |
+| `borderStyle:`     | Container property | `lineStyle:` (for edges)           |
+| `borderColor:`     | Container property | `stroke:` (for shapes)             |
+| `borderWidth:`     | Container property | `strokeWidth:` (for shapes)        |
+| `backgroundColor:` | Container property | `fill:` (for shapes)               |
+| `labelPosition:`   | Container label    | Custom positioning                 |
+| `algorithm:`       | Container layout   | N/A (layout property only)         |
+| `spacing:`         | Container layout   | N/A (layout property only)         |
+
+**Example - Correct Usage:**
+
+```runiq
+// ✅ CORRECT - Safe properties in style declarations
+style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
+
+// ✅ CORRECT - Reserved keywords in container declarations
+container "Box" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 padding:20 {
+  shape node1 as @rect label:"Node"
+}
+
+// ❌ WRONG - Reserved keywords in style declarations (will cause parse errors)
+style badStyle padding: 10 opacity: 0.8 backgroundColor: "#fff"
+```
 
 ## Complete Examples
 

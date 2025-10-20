@@ -3,15 +3,6 @@
 // Using nested arrays for grouped values with custom colors
 // Includes title and axis labels
 
-shape chart1 as @bar-chart-vertical 
-  label: "Quarterly Revenue by Region" 
-  title: "Regional Sales - 2025"
-  xLabel: "Quarter"
-  yLabel: "Sales ($K)"
-  colors: ["#4299e1", "#48bb78", "#ed8936"]
-  data: [
-    {"label": "Q1", "values": [30, 45, 25]},
-    {"label": "Q2", "values": [35, 50, 30]},
-    {"label": "Q3", "values": [40, 55, 35]},
-    {"label": "Q4", "values": [45, 60, 40]}
-  ]
+diagram "Grouped Bar Chart" {
+  shape chart1 as @bar-chart-vertical label:"Quarterly Revenue by Region" title:"Regional Sales - 2025" xLabel:"Quarter" yLabel:"Sales ($K)" colors:["#4299e1", "#48bb78", "#ed8936"] data:[{"label": "Q1", "values": [30, 45, 25]},{"label": "Q2", "values": [35, 50, 30]},{"label": "Q3", "values": [40, 55, 35]},{"label": "Q4", "values": [45, 60, 40]}]
+}
