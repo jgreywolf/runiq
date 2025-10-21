@@ -505,7 +505,7 @@ function renderYLabel(
  * Vertical bar chart shape definition
  */
 export const barChartVertical: ShapeDefinition = {
-  id: 'bar-chart-vertical',
+  id: 'barChartVertical',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     const showLegend = ctx.node.data?.showLegend === true; // Only show if explicitly true

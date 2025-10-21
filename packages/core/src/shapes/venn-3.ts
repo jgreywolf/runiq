@@ -14,7 +14,7 @@ const DEFAULT_COLORS = ['#4299e1', '#48bb78', '#ed8936'];
  *        ABC = intersection of all three sets
  */
 export const venn3Shape: ShapeDefinition = {
-  id: 'venn-3',
+  id: 'venn3',
 
   bounds() {
     // Fixed size for consistent layout

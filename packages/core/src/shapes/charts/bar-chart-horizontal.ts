@@ -377,7 +377,7 @@ function renderYLabel(
  * Horizontal bar chart shape definition
  */
 export const barChartHorizontal: ShapeDefinition = {
-  id: 'bar-chart-horizontal',
+  id: 'barChartHorizontal',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     // Add extra height for title if present

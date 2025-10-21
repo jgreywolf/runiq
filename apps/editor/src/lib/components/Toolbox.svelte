@@ -192,22 +192,22 @@
 			label: 'Charts & Diagrams',
 			shapes: [
 				{
-					id: 'pie-chart',
+					id: 'pieChart',
 					label: 'Pie Chart',
-					code: 'shape id as @pie-chart label:"Sales"\n  data:{values:[30,20,50] labels:["A","B","C"]}'
+					code: 'shape id as @pieChart label:"Sales"\n  data:{values:[30,20,50] labels:["A","B","C"]}'
 				},
 				{
-					id: 'bar-chart-vertical',
+					id: 'barChartVertical',
 					label: 'Bar Chart (Vertical)',
-					code: 'shape id as @bar-chart-vertical label:"Data"\n  data:{values:[10,20,15] labels:["Q1","Q2","Q3"]}'
+					code: 'shape id as @barChartVertical label:"Data"\n  data:{values:[10,20,15] labels:["Q1","Q2","Q3"]}'
 				},
 				{
-					id: 'bar-chart-horizontal',
+					id: 'barChartHorizontal',
 					label: 'Bar Chart (Horizontal)',
-					code: 'shape id as @bar-chart-horizontal label:"Data"\n  data:{values:[10,20,15] labels:["Q1","Q2","Q3"]}'
+					code: 'shape id as @barChartHorizontal label:"Data"\n  data:{values:[10,20,15] labels:["Q1","Q2","Q3"]}'
 				},
-				{ id: 'venn-2', label: 'Venn Diagram (2)', code: 'shape id as @venn-2 label:"Sets"' },
-				{ id: 'venn-3', label: 'Venn Diagram (3)', code: 'shape id as @venn-3 label:"Sets"' },
+				{ id: 'venn2', label: 'Venn Diagram (2)', code: 'shape id as @venn2 label:"Sets"' },
+				{ id: 'venn3', label: 'Venn Diagram (3)', code: 'shape id as @venn3 label:"Sets"' },
 				{ id: 'pyramid', label: 'Pyramid', code: 'shape id as @pyramid label:"Hierarchy"' }
 			]
 		},
@@ -216,8 +216,8 @@
 			label: 'Special',
 			shapes: [
 				{ id: 'text', label: 'Text Block', code: 'shape id as @text-block label:"Note"' },
-				{ id: 'brace-l', label: 'Brace Left', code: 'shape id as @brace-left label:""' },
-				{ id: 'brace-r', label: 'Brace Right', code: 'shape id as @brace-right label:""' },
+				{ id: 'braceLeft', label: 'Brace Left', code: 'shape id as @braceLeft label:""' },
+				{ id: 'braceRight', label: 'Brace Right', code: 'shape id as @braceRight label:""' },
 				{ id: 'lightning', label: 'Lightning Bolt', code: 'shape id as @lightning-bolt label:""' },
 				{ id: 'hourglass', label: 'Hourglass', code: 'shape id as @hourglass label:""' },
 				{ id: 'fork', label: 'Fork/Join', code: 'shape id as @fork-join label:""' }

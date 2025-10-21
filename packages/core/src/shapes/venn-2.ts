@@ -10,7 +10,7 @@ const DEFAULT_COLORS = ['#4299e1', '#48bb78', '#ed8936'];
  * Data format: { setA, setB, intersection, labelA, labelB, colors? }
  */
 export const venn2Shape: ShapeDefinition = {
-  id: 'venn-2',
+  id: 'venn2',
 
   bounds() {
     // Fixed size for consistent layout

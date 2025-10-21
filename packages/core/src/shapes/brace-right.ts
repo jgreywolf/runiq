@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Tall curly brace } shape for indicating grouped items
  */
 export const braceRightShape: ShapeDefinition = {
-  id: 'brace-r',
+  id: 'braceRight',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

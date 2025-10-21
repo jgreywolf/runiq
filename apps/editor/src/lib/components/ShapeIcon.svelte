@@ -68,8 +68,8 @@
 			'manualInput',
 			'document',
 			'delay',
-			'brace-l',
-			'brace-r'
+			'braceLeft',
+			'braceRight'
 		];
 		if (needsMinBounds.includes(shapeId)) {
 			return {

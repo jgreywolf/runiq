@@ -18,7 +18,7 @@ const DEFAULT_COLORS = ['#4299e1', '#48bb78', '#ed8936', '#9f7aea'];
  * Circles arranged in 2x2 grid pattern for best overlap visualization
  */
 export const venn4Shape: ShapeDefinition = {
-  id: 'venn-4',
+  id: 'venn4',
 
   bounds() {
     // Fixed size for consistent layout

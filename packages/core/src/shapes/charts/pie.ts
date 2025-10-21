@@ -307,7 +307,7 @@ function renderTitle(title: string, cx: number, cy: number): string {
  * Pie chart shape with data-driven slice rendering
  */
 export const pieChart: ShapeDefinition = {
-  id: 'pie-chart',
+  id: 'pieChart',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     const size = 250;
