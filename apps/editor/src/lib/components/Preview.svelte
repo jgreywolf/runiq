@@ -51,6 +51,9 @@
 			svgOutput = '';
 			errors = [];
 			warnings = [];
+			parseTime = 0;
+			renderTime = 0;
+			if (onparse) onparse(true, []);
 			return;
 		}
 
