@@ -191,7 +191,7 @@ export const firewallShape: ShapeDefinition = {
 // ============================================================================
 
 export const loadBalancerShape: ShapeDefinition = {
-  id: 'load-balancer',
+  id: 'loadBalancer',
   bounds: () => ({ width: 70, height: 60 }),
   anchors: () => [
     { x: 35, y: 0, name: 'top' },

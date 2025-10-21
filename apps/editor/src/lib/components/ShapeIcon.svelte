@@ -66,6 +66,8 @@
 			'predefinedProcess',
 			'preparation',
 			'manualInput',
+			'document',
+			'delay',
 			'brace-l',
 			'brace-r'
 		];

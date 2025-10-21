@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for division operations in block diagrams
  */
 export const divideJunctionShape: ShapeDefinition = {
-  id: 'divide-junction',
+  id: 'divideJunction',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

@@ -7,7 +7,7 @@ import type { ShapeDefinition } from '../types.js';
  * Different from flowchart delay shape
  */
 export const timeDelayShape: ShapeDefinition = {
-  id: 'time-delay',
+  id: 'timeDelay',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || 'e^-sT', ctx.style);

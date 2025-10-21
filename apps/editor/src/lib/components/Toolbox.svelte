@@ -128,9 +128,9 @@
 				},
 				{ id: 'actor', label: 'Actor', code: 'shape id as @actor label:"Actor"' },
 				{
-					id: 'system-boundary',
+					id: 'systemBoundary',
 					label: 'System Boundary',
-					code: 'shape id as @system-boundary label:"System"'
+					code: 'shape id as @systemBoundary label:"System"'
 				}
 			]
 		},
@@ -143,9 +143,9 @@
 				{ id: 'switch', label: 'Switch', code: 'shape id as @switch label:"Switch"' },
 				{ id: 'firewall', label: 'Firewall', code: 'shape id as @firewall label:"Firewall"' },
 				{
-					id: 'load-balancer',
+					id: 'loadBalancer',
 					label: 'Load Balancer',
-					code: 'shape id as @load-balancer label:"Load Balancer"'
+					code: 'shape id as @loadBalancer label:"Load Balancer"'
 				},
 				{ id: 'cloud', label: 'Cloud', code: 'shape id as @cloud label:"Cloud"' },
 				{ id: 'storage', label: 'Storage', code: 'shape id as @storage label:"Storage"' }
@@ -156,9 +156,9 @@
 			label: 'Block Diagram',
 			shapes: [
 				{
-					id: 'transfer-fn',
+					id: 'transferFunction',
 					label: 'Transfer Function',
-					code: 'shape id as @transfer-function label:"H(s)"'
+					code: 'shape id as @transferFunction label:"H(s)"'
 				},
 				{ id: 'gain', label: 'Gain', code: 'shape id as @gain label:"K"' },
 				{ id: 'integrator', label: 'Integrator', code: 'shape id as @integrator label:"1/s"' },
@@ -167,23 +167,23 @@
 					label: 'Differentiator',
 					code: 'shape id as @differentiator label:"s"'
 				},
-				{ id: 'time-delay', label: 'Time Delay', code: 'shape id as @time-delay label:"Delay"' },
+				{ id: 'timeDelay', label: 'Time Delay', code: 'shape id as @timeDelay label:"Delay"' },
 				{ id: 'saturation', label: 'Saturation', code: 'shape id as @saturation label:"Sat"' },
 				{
-					id: 'junction',
+					id: 'summingJunction',
 					label: 'Summing Junction',
-					code: 'shape id as @summing-junction label:"+"'
+					code: 'shape id as @summingJunction label:"+"'
 				},
 				{
-					id: 'multiply-junction',
+					id: 'multiplyJunction',
 					label: 'Multiply',
-					code: 'shape id as @multiply-junction label:"×"'
+					code: 'shape id as @multiplyJunction label:"×"'
 				},
-				{ id: 'divide-junction', label: 'Divide', code: 'shape id as @divide-junction label:"÷"' },
+				{ id: 'divideJunction', label: 'Divide', code: 'shape id as @divideJunction label:"÷"' },
 				{
-					id: 'compare-junction',
+					id: 'compareJunction',
 					label: 'Compare',
-					code: 'shape id as @compare-junction label:"="'
+					code: 'shape id as @compareJunction label:"="'
 				}
 			]
 		},

@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Dotted border with label at top-left, used in UML use case diagrams
  */
 export const systemBoundaryShape: ShapeDefinition = {
-  id: 'system-boundary',
+  id: 'systemBoundary',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 20;

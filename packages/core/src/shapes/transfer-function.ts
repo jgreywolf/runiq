@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Format: Numerator / Denominator (e.g., K/(s+1), (s+2)/(s^2+3s+2))
  */
 export const transferFunctionShape: ShapeDefinition = {
-  id: 'transfer-fn',
+  id: 'transferFunction',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

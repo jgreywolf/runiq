@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for summing or junction points
  */
 export const summingJunctionShape: ShapeDefinition = {
-  id: 'junction',
+  id: 'summingJunction',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

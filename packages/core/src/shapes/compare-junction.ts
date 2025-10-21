@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for comparison operations in block diagrams (=, >, <, ≥, ≤)
  */
 export const compareJunctionShape: ShapeDefinition = {
-  id: 'compare-junction',
+  id: 'compareJunction',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '=', ctx.style);

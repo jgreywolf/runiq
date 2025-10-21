@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for multiplication operations in block diagrams
  */
 export const multiplyJunctionShape: ShapeDefinition = {
-  id: 'multiply-junction',
+  id: 'multiplyJunction',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
