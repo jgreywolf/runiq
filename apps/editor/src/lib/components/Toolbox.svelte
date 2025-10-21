@@ -16,32 +16,44 @@
 			id: 'basic',
 			label: 'Basic Shapes',
 			shapes: [
-				{ id: 'rect', label: 'Rectangle', code: 'shape id as @rectangle label:"Label"' },
-				{ id: 'rounded', label: 'Rounded Rectangle', code: 'shape id as @rounded label:"Label"' },
-				{ id: 'circ', label: 'Circle', code: 'shape id as @circle label:"Label"' },
-				{ id: 'sm-circ', label: 'Small Circle', code: 'shape id as @small-circle label:"Label"' },
-				{ id: 'ellipse-wide', label: 'Ellipse', code: 'shape id as @ellipse-wide label:"Label"' },
-				{ id: 'rhombus', label: 'Diamond', code: 'shape id as @rhombus label:"Label"' },
-				{ id: 'hex', label: 'Hexagon', code: 'shape id as @hex label:"Label"' },
-				{ id: 'stadium', label: 'Stadium', code: 'shape id as @stadium label:"Label"' },
-				{ id: 'tri', label: 'Triangle', code: 'shape id as @triangle label:"Label"' },
+				{ id: 'rectangle', label: 'Rectangle', code: 'shape id as @rectangle label:"Label"' },
 				{
-					id: 'flip-tri',
+					id: 'roundedRectangle',
+					label: 'Rounded Rectangle',
+					code: 'shape id as @roundedRectangle label:"Label"'
+				},
+				{ id: 'circle', label: 'Circle', code: 'shape id as @circle label:"Label"' },
+				{
+					id: 'smallCircle',
+					label: 'Small Circle',
+					code: 'shape id as @smallCircle label:"Label"'
+				},
+				{ id: 'ellipseWide', label: 'Ellipse', code: 'shape id as @ellipseWide label:"Label"' },
+				{ id: 'rhombus', label: 'Diamond', code: 'shape id as @rhombus label:"Label"' },
+				{ id: 'hexagon', label: 'Hexagon', code: 'shape id as @hexagon label:"Label"' },
+				{ id: 'stadium', label: 'Stadium', code: 'shape id as @stadium label:"Label"' },
+				{ id: 'triangle', label: 'Triangle', code: 'shape id as @triangle label:"Label"' },
+				{
+					id: 'flippedTriangle',
 					label: 'Flipped Triangle',
 					code: 'shape id as @flipped-triangle label:"Label"'
 				},
-				{ id: 'lean-r', label: 'Parallelogram', code: 'shape id as @parallelogram label:"Label"' },
-				{ id: 'trap-b', label: 'Trapezoid', code: 'shape id as @trapezoid label:"Label"' }
+				{
+					id: 'parallelogram',
+					label: 'Parallelogram',
+					code: 'shape id as @parallelogram label:"Label"'
+				},
+				{ id: 'trapezoid', label: 'Trapezoid', code: 'shape id as @trapezoid label:"Label"' }
 			]
 		},
 		{
 			id: 'flowchart',
 			label: 'Flowchart',
 			shapes: [
-				{ id: 'rect', label: 'Process', code: 'shape id as @rectangle label:"Process"' },
+				{ id: 'rectangle', label: 'Process', code: 'shape id as @rectangle label:"Process"' },
 				{ id: 'rhombus', label: 'Decision', code: 'shape id as @rhombus label:"Decision?"' },
 				{
-					id: 'lean-r',
+					id: 'parallelogram',
 					label: 'Input/Output',
 					code: 'shape id as @parallelogram label:"Input/Output"'
 				},
@@ -62,11 +74,11 @@
 					code: 'shape id as @manual-input label:"Manual Input"'
 				},
 				{
-					id: 'trap-b',
+					id: 'trapezoid',
 					label: 'Manual Operation',
 					code: 'shape id as @trapezoid label:"Manual"'
 				},
-				{ id: 'doc', label: 'Document', code: 'shape id as @doc label:"Document"' },
+				{ id: 'doc', label: 'Document', code: 'shape id as @document label:"Document"' },
 				{
 					id: 'multi-doc',
 					label: 'Multiple Documents',
@@ -213,8 +225,13 @@
 		}
 	];
 
+	let shapeCounter = $state(1);
+
 	function insertShape(shapeCode: string) {
-		onInsertShape(shapeCode);
+		// Replace 'id' with a unique identifier
+		const uniqueCode = shapeCode.replace(/^shape id /, `shape shape${shapeCounter} `);
+		shapeCounter++;
+		onInsertShape(uniqueCode);
 	}
 </script>
 

@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Smaller than standard circle (30px min vs 50px)
  */
 export const smallCircleShape: ShapeDefinition = {
-  id: 'sm-circ',
+  id: 'smallCircle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

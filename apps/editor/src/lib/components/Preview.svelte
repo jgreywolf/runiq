@@ -73,30 +73,40 @@
 				return;
 			}
 
-		// Get the first diagram profile
-		const profile = parseResult.document.profiles[0];
-		if (!profile) {
-			errors = ['No profile found in document'];
-			svgOutput = '';
-			isRendering = false;
-			return;
-		}
+			// Get the first diagram profile
+			const profile = parseResult.document.profiles[0];
+			if (!profile) {
+				errors = ['No profile found in document'];
+				svgOutput = '';
+				isRendering = false;
+				return;
+			}
 
-		if (profile.type !== 'diagram') {
-			errors = [
-				`Profile type '${profile.type}' is not yet supported in the preview.`,
-				`Currently only 'diagram' profiles can be rendered.`,
-				`Electrical and digital profiles are parsed but rendering is not yet implemented.`
-			];
-			svgOutput = '';
-			isRendering = false;
-			if (onparse) onparse(false, errors);
-			return;
-		}			// Add astVersion for compatibility with DiagramAst
+			if (profile.type !== 'diagram') {
+				errors = [
+					`Profile type '${profile.type}' is not yet supported in the preview.`,
+					`Currently only 'diagram' profiles can be rendered.`,
+					`Electrical and digital profiles are parsed but rendering is not yet implemented.`
+				];
+				svgOutput = '';
+				isRendering = false;
+				if (onparse) onparse(false, errors);
+				return;
+			} // Add astVersion for compatibility with DiagramAst
 			const diagram = {
 				...profile,
 				astVersion: parseResult.document.astVersion
 			};
+
+			// Debug: Log the nodes to see their shapes
+			console.log(
+				'Diagram nodes:',
+				JSON.stringify(
+					diagram.nodes.map((n) => ({ id: n.id, shape: n.shape, label: n.label })),
+					null,
+					2
+				)
+			);
 
 			const startRender = performance.now();
 
@@ -231,29 +241,56 @@
 			{#if isRendering}
 				<Badge variant="secondary" class="gap-1">
 					<svg class="h-3 w-3 animate-spin" viewBox="0 0 24 24">
-						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-						<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						<circle
+							class="opacity-25"
+							cx="12"
+							cy="12"
+							r="10"
+							stroke="currentColor"
+							stroke-width="4"
+							fill="none"
+						></circle>
+						<path
+							class="opacity-75"
+							fill="currentColor"
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+						></path>
 					</svg>
 					Rendering...
 				</Badge>
 			{:else if errors.length > 0}
 				<Badge variant="destructive" class="gap-1">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M6 18L18 6M6 6l12 12"
+						/>
 					</svg>
 					{errors.length} Error{errors.length === 1 ? '' : 's'}
 				</Badge>
 			{:else if warnings.length > 0}
 				<Badge variant="outline" class="gap-1 border-warning text-warning">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+						/>
 					</svg>
 					{warnings.length} Warning{warnings.length === 1 ? '' : 's'}
 				</Badge>
 			{:else if svgOutput}
 				<Badge variant="default" class="gap-1 bg-success text-white">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M5 13l4 4L19 7"
+						/>
 					</svg>
 					Ready
 				</Badge>
@@ -274,7 +311,12 @@
 				title="Zoom Out"
 			>
 				<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"
+					/>
 				</svg>
 			</button>
 
@@ -288,7 +330,12 @@
 				title="Zoom In"
 			>
 				<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+					/>
 				</svg>
 			</button>
 
@@ -328,7 +375,12 @@
 				<div class="max-w-2xl rounded-lg border-2 border-error bg-white p-6 shadow-lg">
 					<div class="mb-4 flex items-center gap-2 text-error">
 						<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
 						</svg>
 						<h3 class="text-lg font-semibold">Parsing Errors</h3>
 					</div>

@@ -57,10 +57,10 @@
 
 		// Shapes that need minimum bounds (won't render properly with no text)
 		const needsMinBounds = [
-			'rounded',
+			'roundedRectangle',
 			'stadium',
-			'trap-b',
-			'flip-tri',
+			'trapezoid',
+			'flippedTriangle',
 			'integrator',
 			'pyramid',
 			'predef-proc',
@@ -88,7 +88,7 @@
 		}
 
 		// Shapes that are squashed and need wider bounds
-		const needsWiderBounds = ['lean-r', 'trap-b'];
+		const needsWiderBounds = ['parallelogram', 'trapezoid'];
 		if (needsWiderBounds.includes(shapeId)) {
 			return {
 				node: { id: '', label: '' },

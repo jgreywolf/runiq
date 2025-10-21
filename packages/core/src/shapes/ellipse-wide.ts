@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Wider than tall, typically used to represent use cases in UML diagrams
  */
 export const ellipseWideShape: ShapeDefinition = {
-  id: 'ellipse-wide',
+  id: 'ellipseWide',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

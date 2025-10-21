@@ -82,9 +82,9 @@
 			{ label: 'RL', type: 'constant', detail: 'Right to Left' },
 			// Basic shapes
 			{ label: '@rectangle', type: 'type', detail: 'Basic rectangle' },
-			{ label: '@rounded', type: 'type', detail: 'Rounded rectangle' },
+			{ label: '@roundedRectangle', type: 'type', detail: 'Rounded rectangle' },
 			{ label: '@circle', type: 'type', detail: 'Circle' },
-			{ label: '@ellipse-wide', type: 'type', detail: 'Wide ellipse' },
+			{ label: '@ellipseWide', type: 'type', detail: 'Wide ellipse' },
 			{ label: '@rhombus', type: 'type', detail: 'Diamond shape' },
 			{ label: '@hex', type: 'type', detail: 'Hexagon' },
 			{ label: '@stadium', type: 'type', detail: 'Stadium (pill shape)' },

@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Aliases: trap-b, trapezoid, priority
  */
 export const trapezoidShape: ShapeDefinition = {
-  id: 'trap-b',
+  id: 'trapezoid',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

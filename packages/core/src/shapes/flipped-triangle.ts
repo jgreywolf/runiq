@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used in flowcharts for manual file operations or inverted merge/extract
  */
 export const flippedTriangleShape: ShapeDefinition = {
-  id: 'flip-tri',
+  id: 'flippedTriangle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);
