@@ -11,6 +11,7 @@
 ### Latest Accomplishments (Oct 20, 2025)
 
 **✅ NEW: Mindmap Support** 🧠
+
 - Radial layout algorithm enabled
 - 10 comprehensive tests
 - 4 example mindmaps (simple, project planning, learning, business strategy)
