@@ -95,6 +95,9 @@ importers:
       codemirror:
         specifier: ^6.0.2
         version: 6.0.2
+      lucide-svelte:
+        specifier: ^0.546.0
+        version: 0.546.0(svelte@5.39.11)
       monaco-editor:
         specifier: ^0.44.0
         version: 0.44.0
@@ -4466,6 +4469,14 @@ packages:
   /lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
     dev: true
+
+  /lucide-svelte@0.546.0(svelte@5.39.11):
+    resolution: {integrity: sha512-vCvBUlFapD59ivX1b/i7wdUadSgC/3gQGvrGEZjSecOlThT+UR+X5UxdVEakHuhniTrSX0nJ2WrY5r25SVDtyQ==}
+    peerDependencies:
+      svelte: ^3 || ^4 || ^5.0.0-next.42
+    dependencies:
+      svelte: 5.39.11
+    dev: false
 
   /lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}

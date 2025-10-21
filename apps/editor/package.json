@@ -65,6 +65,7 @@
 		"@runiq/renderer-svg": "workspace:*",
 		"clsx": "^2.1.1",
 		"codemirror": "^6.0.2",
+		"lucide-svelte": "^0.546.0",
 		"monaco-editor": "^0.44.0",
 		"paneforge": "^1.0.2",
 		"tailwind-merge": "^3.3.1",

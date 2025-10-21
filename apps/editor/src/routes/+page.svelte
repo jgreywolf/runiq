@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { PaneGroup, Pane, PaneResizer } from 'paneforge';
 	import Header from '$lib/components/Header.svelte';
-	import PanelPlaceholder from '$lib/components/PanelPlaceholder.svelte';
+	import Toolbox from '$lib/components/Toolbox.svelte';
 	import CodeEditor from '$lib/components/CodeEditor.svelte';
 	import Preview from '$lib/components/Preview.svelte';
 	import { registerDefaultShapes, layoutRegistry, iconRegistry } from '@runiq/core';
@@ -28,6 +28,7 @@
 	let errors = $state<string[]>([]);
 	let layoutEngine = $state('elk');
 	let autoSaveTimeout: ReturnType<typeof setTimeout> | null = null;
+	let codeEditorRef: CodeEditor | null = null;
 
 	// Auto-save configuration
 	const AUTO_SAVE_DELAY = 2000; // 2 seconds after last change
@@ -64,6 +65,30 @@
 	// Handle parse results from preview
 	function handleParse(success: boolean, parseErrors: string[]) {
 		errors = parseErrors;
+	}
+
+	// Handle shape insertion from toolbox
+	function handleInsertShape(shapeCode: string) {
+		if (codeEditorRef) {
+			codeEditorRef.insertAtCursor(shapeCode);
+		}
+	}
+
+	// Handle new diagram creation
+	function handleNewDiagram() {
+		const defaultContent = 'diagram "My Diagram" {\n  // Add your shapes and connections here\n}';
+		if (codeEditorRef) {
+			codeEditorRef.setValue(defaultContent);
+		}
+		code = defaultContent;
+		diagramName = 'Untitled Diagram';
+		isDirty = false;
+
+		// Clear auto-saved content
+		localStorage.removeItem(AUTO_SAVE_KEY);
+		lastSaved = null;
+
+		console.log('New diagram created');
 	}
 
 	// Load panel sizes and auto-saved code from localStorage
@@ -105,7 +130,7 @@
 
 <div class="flex h-screen flex-col overflow-hidden bg-neutral-50">
 	<!-- Header -->
-	<Header {diagramName} {lastSaved} {isDirty} />
+	<Header {diagramName} {lastSaved} {isDirty} onNewDiagram={handleNewDiagram} />
 
 	<!-- Main Content: Three-Panel Layout -->
 	<div class="flex-1 overflow-hidden">
@@ -124,33 +149,15 @@
 					<div class="border-b border-runiq-200 bg-runiq-500 px-4 py-3">
 						<h2 class="text-sm font-semibold text-white">Toolbox</h2>
 					</div>
-					<div class="flex-1 overflow-auto p-4">
-						<PanelPlaceholder>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="mb-3 h-12 w-12 text-neutral-400"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="1.5"
-									d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-								/>
-							</svg>
-							<h3 class="mb-2 text-lg font-medium text-neutral-700">Shape Toolbox</h3>
-							<p class="text-sm text-neutral-500">
-								Drag shapes from here into the editor to build your diagram.
-							</p>
-							<p class="mt-2 text-xs text-neutral-400">Coming in Week 2</p>
-						</PanelPlaceholder>
+					<div class="flex-1 overflow-auto">
+						<Toolbox onInsertShape={handleInsertShape} />
 					</div>
 				</div>
 			</Pane>
 
-			<PaneResizer class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500" />
+			<PaneResizer
+				class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500"
+			/>
 
 			<!-- Center Panel: Code Editor (40% default) -->
 			<Pane
@@ -168,6 +175,7 @@
 					</div>
 					<div class="flex-1 overflow-hidden">
 						<CodeEditor
+							bind:this={codeEditorRef}
 							value={code}
 							onchange={handleCodeChange}
 							onerror={handleEditorErrors}
@@ -176,7 +184,9 @@
 				</div>
 			</Pane>
 
-			<PaneResizer class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500" />
+			<PaneResizer
+				class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500"
+			/>
 
 			<!-- Right Panel: Preview (40% default) -->
 			<Pane
@@ -192,11 +202,7 @@
 						<h2 class="text-sm font-semibold text-white">Preview</h2>
 					</div>
 					<div class="flex-1 overflow-hidden">
-						<Preview
-							{code}
-							{layoutEngine}
-							onparse={handleParse}
-						/>
+						<Preview {code} {layoutEngine} onparse={handleParse} />
 					</div>
 				</div>
 			</Pane>

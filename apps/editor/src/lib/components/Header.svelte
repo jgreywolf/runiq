@@ -6,11 +6,25 @@
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
+		onNewDiagram?: () => void;
 	}
 
-	let { diagramName = 'Untitled Diagram', lastSaved = null, isDirty = false }: Props = $props();
+	let {
+		diagramName = 'Untitled Diagram',
+		lastSaved = null,
+		isDirty = false,
+		onNewDiagram
+	}: Props = $props();
 
 	// Actions
+	function handleNewDiagram() {
+		if (isDirty) {
+			const confirmed = confirm('You have unsaved changes. Create a new diagram?');
+			if (!confirmed) return;
+		}
+		onNewDiagram?.();
+	}
+
 	function handleExport() {
 		// TODO: Implement export menu
 		console.log('Export clicked');
@@ -42,12 +56,14 @@
 	}
 </script>
 
-<header class="flex h-20 items-center justify-between border-b border-neutral-200 bg-white px-4 shadow-sm">
+<header
+	class="flex h-20 items-center justify-between border-b border-neutral-200 bg-white px-4 shadow-sm"
+>
 	<!-- Left: Logo & Brand -->
 	<div class="flex items-center gap-3">
 		<img src="/images/runiq.at.whiteboard.png" alt="Runiq" class="h-16 w-auto" />
 		<div class="flex flex-col">
-			<span class="text-lg font-semibold leading-tight text-neutral-800">Runiq</span>
+			<span class="text-lg leading-tight font-semibold text-neutral-800">Runiq</span>
 			<span class="text-xs text-neutral-500">Diagram Editor</span>
 		</div>
 	</div>
@@ -58,7 +74,7 @@
 			<input
 				type="text"
 				value={diagramName}
-				class="bg-transparent border-b border-transparent px-2 py-1 text-center text-sm font-medium text-neutral-800 outline-none transition-colors hover:border-neutral-300 focus:border-runiq-500"
+				class="border-b border-transparent bg-transparent px-2 py-1 text-center text-sm font-medium text-neutral-800 transition-colors outline-none hover:border-neutral-300 focus:border-runiq-500"
 				placeholder="Diagram name"
 			/>
 			<span class="text-xs text-neutral-500">
@@ -79,6 +95,29 @@
 
 	<!-- Right: Actions -->
 	<div class="flex items-center gap-2">
+		<!-- New Diagram Button -->
+		<button
+			onclick={handleNewDiagram}
+			class="inline-flex items-center gap-2 rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
+			title="New diagram (Ctrl+N)"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-4 w-4"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+				/>
+			</svg>
+			New
+		</button>
+
 		<!-- Export Button -->
 		<button
 			onclick={handleExport}

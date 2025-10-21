@@ -5,6 +5,7 @@
 	import { javascript } from '@codemirror/lang-javascript';
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic } from '@codemirror/lint';
+	import { autocompletion, type CompletionContext } from '@codemirror/autocomplete';
 
 	// Props
 	interface Props {
@@ -20,22 +21,8 @@
 	let editorView: EditorView | null = null;
 	let editorTheme = new Compartment();
 
-	// Sample Runiq DSL code
-	const sampleCode = `diagram "Parallel Signal Processing" {
-  shape input as @box label:"Input"
-  shape split as @small-circle label:""
-  shape g1 as @gain label:"10"
-  shape g2 as @gain label:"5"
-  shape mult as @multiply-junction label:"×"
-  shape output as @box label:"Output"
-
-  input -> split
-  split -> g1 label:"path 1"
-  split -> g2 label:"path 2"
-  g1 -> mult
-  g2 -> mult
-  mult -> output
-}`;
+	// Default blank diagram
+	const defaultCode = `diagram "My Diagram" {\n  // Add your shapes and connections here\n}`;
 
 	// Simple DSL linter (basic validation)
 	function runiqLinter(view: EditorView): Diagnostic[] {
@@ -70,6 +57,92 @@
 		});
 
 		return diagnostics;
+	}
+
+	// Autocompletion for Runiq DSL
+	function runiqCompletions(context: CompletionContext) {
+		const word = context.matchBefore(/\w*/);
+		if (!word || (word.from === word.to && !context.explicit)) return null;
+
+		const completions = [
+			// Keywords
+			{ label: 'diagram', type: 'keyword', detail: 'diagram "name" { ... }' },
+			{ label: 'shape', type: 'keyword', detail: 'shape id as @type' },
+			{ label: 'group', type: 'keyword', detail: 'group id [...]' },
+			{ label: 'style', type: 'keyword', detail: 'style id {...}' },
+			{ label: 'as', type: 'keyword' },
+			{ label: 'label:', type: 'property' },
+			{ label: 'icon:', type: 'property' },
+			{ label: 'link:', type: 'property' },
+			{ label: 'tooltip:', type: 'property' },
+			{ label: 'direction:', type: 'property' },
+			{ label: 'TB', type: 'constant', detail: 'Top to Bottom' },
+			{ label: 'BT', type: 'constant', detail: 'Bottom to Top' },
+			{ label: 'LR', type: 'constant', detail: 'Left to Right' },
+			{ label: 'RL', type: 'constant', detail: 'Right to Left' },
+			// Basic shapes
+			{ label: '@rectangle', type: 'type', detail: 'Basic rectangle' },
+			{ label: '@rounded', type: 'type', detail: 'Rounded rectangle' },
+			{ label: '@circle', type: 'type', detail: 'Circle' },
+			{ label: '@ellipse-wide', type: 'type', detail: 'Wide ellipse' },
+			{ label: '@rhombus', type: 'type', detail: 'Diamond shape' },
+			{ label: '@hex', type: 'type', detail: 'Hexagon' },
+			{ label: '@stadium', type: 'type', detail: 'Stadium (pill shape)' },
+			{ label: '@triangle', type: 'type', detail: 'Triangle' },
+			{ label: '@parallelogram', type: 'type', detail: 'Parallelogram' },
+			// Flowchart shapes
+			{ label: '@doc', type: 'type', detail: 'Document' },
+			{ label: '@cylinder', type: 'type', detail: 'Database/Cylinder' },
+			{ label: '@predefined-process', type: 'type', detail: 'Predefined process' },
+			{ label: '@manual-input', type: 'type', detail: 'Manual input' },
+			{ label: '@delay', type: 'type', detail: 'Delay' },
+			// UML shapes
+			{ label: '@class', type: 'type', detail: 'UML Class' },
+			{ label: '@actor', type: 'type', detail: 'UML Actor' },
+			{ label: '@system-boundary', type: 'type', detail: 'System boundary' },
+			// Network shapes
+			{ label: '@server', type: 'type', detail: 'Server' },
+			{ label: '@router', type: 'type', detail: 'Router' },
+			{ label: '@switch', type: 'type', detail: 'Network switch' },
+			{ label: '@firewall', type: 'type', detail: 'Firewall' },
+			{ label: '@cloud', type: 'type', detail: 'Cloud' },
+			// Block diagram shapes
+			{ label: '@transfer-function', type: 'type', detail: 'Transfer function' },
+			{ label: '@gain', type: 'type', detail: 'Gain block' },
+			{ label: '@integrator', type: 'type', detail: 'Integrator' },
+			{ label: '@summing-junction', type: 'type', detail: 'Summing junction' },
+			// Chart shapes
+			{ label: '@pie-chart', type: 'type', detail: 'Pie chart' },
+			{ label: '@bar-chart-vertical', type: 'type', detail: 'Vertical bar chart' },
+			{ label: '@bar-chart-horizontal', type: 'type', detail: 'Horizontal bar chart' },
+			// UML properties
+			{ label: 'attributes:', type: 'property', detail: 'Class attributes array' },
+			{ label: 'methods:', type: 'property', detail: 'Class methods array' },
+			{ label: 'visibility:', type: 'property', detail: 'public|private|protected' },
+			{ label: 'public', type: 'constant' },
+			{ label: 'private', type: 'constant' },
+			{ label: 'protected', type: 'constant' },
+			{ label: 'static:', type: 'property', detail: 'Static member flag' },
+			{ label: 'abstract:', type: 'property', detail: 'Abstract method flag' },
+			{ label: 'derived:', type: 'property', detail: 'Derived attribute flag' },
+			// Edge properties
+			{ label: 'edgeType:', type: 'property', detail: 'UML relationship type' },
+			{ label: 'aggregation', type: 'constant' },
+			{ label: 'composition', type: 'constant' },
+			{ label: 'generalization', type: 'constant' },
+			{ label: 'multiplicitySource:', type: 'property', detail: 'Source multiplicity' },
+			{ label: 'multiplicityTarget:', type: 'property', detail: 'Target multiplicity' },
+			{ label: 'navigability:', type: 'property', detail: 'Navigation direction' },
+			{ label: 'source', type: 'constant' },
+			{ label: 'target', type: 'constant' },
+			{ label: 'bidirectional', type: 'constant' },
+			{ label: 'constraints:', type: 'property', detail: 'Constraints array' }
+		];
+
+		return {
+			from: word.from,
+			options: completions
+		};
 	}
 
 	// Custom theme for Runiq DSL
@@ -110,12 +183,13 @@
 
 	onMount(() => {
 		const startState = EditorState.create({
-			doc: value || sampleCode,
+			doc: value || defaultCode,
 			extensions: [
 				basicSetup,
 				javascript(), // Temporary - will create custom Runiq language later
 				lintGutter(),
 				linter(runiqLinter),
+				autocompletion({ override: [runiqCompletions] }),
 				editorTheme.of(runiqTheme),
 				EditorView.updateListener.of((update) => {
 					if (update.docChanged && onchange) {
@@ -165,6 +239,36 @@
 				}
 			});
 		}
+	}
+
+	// Export function to insert text at cursor position
+	export function insertAtCursor(text: string) {
+		if (!editorView) return;
+
+		const cursor = editorView.state.selection.main.head;
+		const currentLine = editorView.state.doc.lineAt(cursor);
+
+		// Check if we're at the end of a line or in whitespace
+		let insertText = text;
+		if (cursor === currentLine.to || currentLine.text.trim() === '') {
+			// Insert at end of line or on empty line - add indentation if needed
+			const indent = currentLine.text.match(/^\s*/)?.[0] || '';
+			if (cursor === currentLine.to && currentLine.text.trim() !== '') {
+				// Add newline before if there's content on the line
+				insertText = '\n' + indent + text;
+			}
+		}
+
+		editorView.dispatch({
+			changes: {
+				from: cursor,
+				insert: insertText
+			},
+			selection: { anchor: cursor + insertText.length }
+		});
+
+		// Focus the editor
+		editorView.focus();
 	}
 </script>
 
