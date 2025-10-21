@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Similar to double-circle but used for distinguished operations
  */
 export const framedCircleShape: ShapeDefinition = {
-  id: 'fr-circ',
+  id: 'framedCircle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

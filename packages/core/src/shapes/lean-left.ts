@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Leans to the left (top-right lower than top-left)
  */
 export const leanLeftShape: ShapeDefinition = {
-  id: 'lean-l',
+  id: 'leanLeft',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

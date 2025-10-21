@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used to indicate special tagged or flagged operations
  */
 export const taggedRectangleShape: ShapeDefinition = {
-  id: 'tag-rect',
+  id: 'taggedRectangle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

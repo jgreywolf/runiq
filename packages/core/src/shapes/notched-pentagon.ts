@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used in flowcharts to indicate loop limits or iteration boundaries
  */
 export const notchedPentagonShape: ShapeDefinition = {
-  id: 'notch-pent',
+  id: 'notchedPentagon',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

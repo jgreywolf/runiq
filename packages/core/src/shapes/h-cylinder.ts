@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Common for magnetic disk or drum storage
  */
 export const hCylinderShape: ShapeDefinition = {
-  id: 'h-cyl',
+  id: 'hCylinder',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

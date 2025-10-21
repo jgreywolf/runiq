@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for solid states or endpoints (like filled bullet points)
  */
 export const filledCircleShape: ShapeDefinition = {
-  id: 'fill-circ',
+  id: 'filledCircle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

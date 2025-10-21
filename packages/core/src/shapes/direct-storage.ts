@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Alternative representation for direct access storage devices
  */
 export const directStorageShape: ShapeDefinition = {
-  id: 'direct-storage',
+  id: 'directStorage',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

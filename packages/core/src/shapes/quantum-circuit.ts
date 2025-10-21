@@ -16,7 +16,7 @@ import type { ShapeDefinition, ShapeRenderContext } from '../types.js';
 // ============================================================================
 
 export const gateXShape: ShapeDefinition = {
-  id: 'gate-x',
+  id: 'gateX',
   bounds: () => ({ width: 20, height: 20 }),
   anchors: () => [
     { x: 10, y: 0, name: 'top' },
@@ -47,7 +47,7 @@ export const gateXShape: ShapeDefinition = {
 // ============================================================================
 
 export const gateYShape: ShapeDefinition = {
-  id: 'gate-y',
+  id: 'gateY',
   bounds: () => ({ width: 20, height: 20 }),
   anchors: () => [
     { x: 10, y: 0, name: 'top' },
@@ -78,7 +78,7 @@ export const gateYShape: ShapeDefinition = {
 // ============================================================================
 
 export const gateZShape: ShapeDefinition = {
-  id: 'gate-z',
+  id: 'gateZ',
   bounds: () => ({ width: 20, height: 20 }),
   anchors: () => [
     { x: 10, y: 0, name: 'top' },
@@ -109,7 +109,7 @@ export const gateZShape: ShapeDefinition = {
 // ============================================================================
 
 export const gateHShape: ShapeDefinition = {
-  id: 'gate-h',
+  id: 'gateH',
   bounds: () => ({ width: 20, height: 20 }),
   anchors: () => [
     { x: 10, y: 0, name: 'top' },
@@ -140,7 +140,7 @@ export const gateHShape: ShapeDefinition = {
 // ============================================================================
 
 export const gateSShape: ShapeDefinition = {
-  id: 'gate-s',
+  id: 'gateS',
   bounds: () => ({ width: 20, height: 20 }),
   anchors: () => [
     { x: 10, y: 0, name: 'top' },
@@ -171,7 +171,7 @@ export const gateSShape: ShapeDefinition = {
 // ============================================================================
 
 export const gateTShape: ShapeDefinition = {
-  id: 'gate-t',
+  id: 'gateT',
   bounds: () => ({ width: 20, height: 20 }),
   anchors: () => [
     { x: 10, y: 0, name: 'top' },
@@ -202,7 +202,7 @@ export const gateTShape: ShapeDefinition = {
 // ============================================================================
 
 export const controlDotShape: ShapeDefinition = {
-  id: 'control-dot',
+  id: 'controlDot',
   bounds: () => ({ width: 8, height: 8 }),
   anchors: () => [
     { x: 4, y: 0, name: 'top' },
@@ -230,7 +230,7 @@ export const controlDotShape: ShapeDefinition = {
 // ============================================================================
 
 export const cnotTargetShape: ShapeDefinition = {
-  id: 'cnot-target',
+  id: 'cnotTarget',
   bounds: () => ({ width: 16, height: 16 }),
   anchors: () => [
     { x: 8, y: 0, name: 'top' },
@@ -264,7 +264,7 @@ export const cnotTargetShape: ShapeDefinition = {
 // ============================================================================
 
 export const swapXShape: ShapeDefinition = {
-  id: 'swap-x',
+  id: 'swapX',
   bounds: () => ({ width: 12, height: 12 }),
   anchors: () => [
     { x: 6, y: 0, name: 'top' },
@@ -334,7 +334,7 @@ export const measurementShape: ShapeDefinition = {
 // ============================================================================
 
 export const qubitWireShape: ShapeDefinition = {
-  id: 'qubit-wire',
+  id: 'qubitWire',
   bounds: () => ({ width: 50, height: 1 }), // Default segment length
   anchors: () => [
     { x: 0, y: 0.5, name: 'left' },

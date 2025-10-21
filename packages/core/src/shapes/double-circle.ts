@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Two circles with a gap between them
  */
 export const doubleCircleShape: ShapeDefinition = {
-  id: 'd-circ',
+  id: 'doubleCircle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

@@ -64,7 +64,7 @@ export const trapezoidShape: ShapeDefinition = {
  * Aliases: trap-t, inv-trapezoid, manual
  */
 export const flippedTrapezoidShape: ShapeDefinition = {
-  id: 'trap-t',
+  id: 'flippedTrapezoid',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

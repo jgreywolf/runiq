@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for cancel, reject, or exclusion operations
  */
 export const crossCircleShape: ShapeDefinition = {
-  id: 'x-circ',
+  id: 'crossCircle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

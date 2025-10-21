@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for interface or connection points
  */
 export const notchedRectangleShape: ShapeDefinition = {
-  id: 'notch-rect',
+  id: 'notchedRectangle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

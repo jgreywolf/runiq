@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used to show segmented or multi-phase operations
  */
 export const linedRectangleShape: ShapeDefinition = {
-  id: 'lined-rect',
+  id: 'linedRectangle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

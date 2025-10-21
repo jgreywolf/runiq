@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Common in flowcharts to indicate predefined process or subroutine call
  */
 export const framedRectangleShape: ShapeDefinition = {
-  id: 'fr-rect',
+  id: 'framedRectangle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

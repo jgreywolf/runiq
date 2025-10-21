@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used to show parallel operations or dual-phase processes
  */
 export const dividedRectangleShape: ShapeDefinition = {
-  id: 'div-rect',
+  id: 'dividedRectangle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

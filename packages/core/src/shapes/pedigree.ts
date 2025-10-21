@@ -28,7 +28,7 @@ const STROKE_WIDTH = 2;
  * Aliases: pedigree-male
  */
 export const pedigreeMaleShape: ShapeDefinition = {
-  id: 'pedigree-male',
+  id: 'pedigreeMale',
 
   bounds() {
     return { width: SIZE, height: SIZE };
@@ -84,7 +84,7 @@ export const pedigreeMaleShape: ShapeDefinition = {
  * Aliases: pedigree-female
  */
 export const pedigreeFemaleShape: ShapeDefinition = {
-  id: 'pedigree-female',
+  id: 'pedigreeFemale',
 
   bounds() {
     return { width: SIZE, height: SIZE };
@@ -144,7 +144,7 @@ export const pedigreeFemaleShape: ShapeDefinition = {
  * Aliases: pedigree-unknown
  */
 export const pedigreeUnknownShape: ShapeDefinition = {
-  id: 'pedigree-unknown',
+  id: 'pedigreeUnknown',
 
   bounds() {
     return { width: SIZE, height: SIZE };

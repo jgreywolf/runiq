@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Common in flowcharts to indicate iterative processes
  */
 export const multiRectangleShape: ShapeDefinition = {
-  id: 'multi-rect',
+  id: 'multiRectangle',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);
