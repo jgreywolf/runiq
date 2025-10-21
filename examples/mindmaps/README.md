@@ -5,6 +5,7 @@ Mindmaps are visual thinking tools that help organize information hierarchically
 ## Quick Start - Simplified Syntax
 
 Runiq now supports a simplified syntax for mindmaps using `type:mindmap` on containers. This automatically assigns shapes:
+
 - **First node**: `@circ` (circle for central idea)
 - **All other nodes**: `@rounded` (rounded rectangles for branches)
 
@@ -15,7 +16,7 @@ diagram "Quick Mindmap" {
     shape central label:"Main Idea"
     shape branch1 label:"Branch 1"
     shape branch2 label:"Branch 2"
-    
+
     central -> branch1
     central -> branch2
   }
@@ -23,6 +24,7 @@ diagram "Quick Mindmap" {
 ```
 
 **Benefits**:
+
 - ✅ Less verbose - no repetitive `as @circ` or `as @rounded`
 - ✅ Faster to write - focus on content, not formatting
 - ✅ Consistent appearance - automatic shape assignments follow mindmap conventions
@@ -58,7 +60,7 @@ diagram "Simple Mindmap" {
     shape branch1 as @rounded label:"Mobile App"
     shape branch2 as @rounded label:"Website"
     shape branch3 as @rounded label:"API Service"
-    
+
     central -> branch1
     central -> branch2
     central -> branch3
@@ -67,6 +69,7 @@ diagram "Simple Mindmap" {
 ```
 
 **Structure**:
+
 - 1 central node (circle)
 - 3 main branches (rounded rectangles)
 - Radial layout with 80px spacing
@@ -76,6 +79,7 @@ diagram "Simple Mindmap" {
 Hierarchical mindmap with multiple levels for detailed planning.
 
 **Structure**:
+
 - Central topic: "Website Redesign"
 - Level 1: 4 main phases (Research, Design, Development, Testing)
 - Level 2: 12 subtasks distributed across phases
@@ -89,6 +93,7 @@ Hierarchical mindmap with multiple levels for detailed planning.
 Educational mindmap with styled nodes for different learning levels.
 
 **Features**:
+
 - **Styled Nodes**: 3 style levels (highlight, level1, level2)
 - **Color Coding**: Yellow for central topic, blue for main areas, purple for subtopics
 - **Categories**: Basics, Advanced, Frameworks, Tools
@@ -101,12 +106,14 @@ Educational mindmap with styled nodes for different learning levels.
 Strategic planning mindmap using different shapes for different types of information.
 
 **Shape Usage**:
+
 - 🔵 **Circle** (goal): Central strategic goal
 - ⬡ **Hexagon** (strategy): Strategic pillars
 - 📦 **Rounded** (tactic): Actionable tactics
 - ♦️ **Diamond** (metric): Key performance indicators
 
 **Features**:
+
 - 4 strategic pillars
 - 8 tactical initiatives
 - 4 measurable KPIs
@@ -121,11 +128,11 @@ diagram "My Mindmap" {
   container "MindmapName" algorithm:radial spacing:100 {
     // Central node (typically a circle)
     shape center as @circ label:"Main Topic"
-    
+
     // Branches (typically rounded)
     shape branch1 as @rounded label:"Branch 1"
     shape branch2 as @rounded label:"Branch 2"
-    
+
     // Connect central to branches
     center -> branch1
     center -> branch2
@@ -151,14 +158,14 @@ subtopic1a -> detail1
 
 ### Shape Selection Guide
 
-| Node Type | Recommended Shape | Why |
-|-----------|-------------------|-----|
-| Central Topic | `@circ` | Draws attention, represents unity |
-| Main Branches | `@rounded` | Soft, approachable, main categories |
-| Subtopics | `@rect` | Clear hierarchy, detail level |
-| Actions/Tasks | `@hexagon` | Dynamic, action-oriented |
-| Decisions | `@rhombus` | Traditional decision symbol |
-| Metrics/KPIs | `@rhombus` | Measurable outcomes |
+| Node Type     | Recommended Shape | Why                                 |
+| ------------- | ----------------- | ----------------------------------- |
+| Central Topic | `@circ`           | Draws attention, represents unity   |
+| Main Branches | `@rounded`        | Soft, approachable, main categories |
+| Subtopics     | `@rect`           | Clear hierarchy, detail level       |
+| Actions/Tasks | `@hexagon`        | Dynamic, action-oriented            |
+| Decisions     | `@rhombus`        | Traditional decision symbol         |
+| Metrics/KPIs  | `@rhombus`        | Measurable outcomes                 |
 
 ### Styling Mindmaps
 
@@ -172,7 +179,7 @@ container "Mindmap" algorithm:radial {
   shape center as @circ label:"Topic" style:main
   shape sub1 as @rounded label:"Branch" style:branch
   shape detail1 as @rect label:"Detail" style:detail
-  
+
   center -> sub1
   sub1 -> detail1
 }
@@ -181,8 +188,8 @@ container "Mindmap" algorithm:radial {
 ### Container Styling
 
 ```runiq
-container "Mindmap" 
-  algorithm:radial 
+container "Mindmap"
+  algorithm:radial
   spacing:100
   backgroundColor:"#f5f5f5"
   borderColor:"#9e9e9e"
@@ -194,10 +201,13 @@ container "Mindmap"
 ## Layout Options
 
 ### `algorithm:radial`
+
 **Required** for mindmap layout. Places the first node (root) at the center and arranges other nodes radially around it based on their connections.
 
 ### `spacing:NUMBER`
+
 Controls the distance between nodes. Typical values:
+
 - **60-80**: Compact, good for simple mindmaps
 - **90-100**: Balanced, most common
 - **110-150**: Spacious, good for complex hierarchies
@@ -205,27 +215,34 @@ Controls the distance between nodes. Typical values:
 ## Best Practices
 
 ### 1. Start with the Center
+
 Always place your main topic in a circle (`@circ`) at the center. This draws the eye and establishes the focus.
 
 ### 2. Use Consistent Shapes per Level
+
 - Level 1 (main branches): Rounded rectangles
 - Level 2 (subtopics): Rectangles
 - Level 3 (details): Stadium or small shapes
 
 ### 3. Color Code by Category
+
 Use styles to differentiate:
+
 - **Topics** (warm colors: yellow, orange)
 - **Actions** (blue, green)
 - **Risks** (red, purple)
 - **Metrics** (purple, indigo)
 
 ### 4. Limit Depth
+
 For clarity, limit mindmaps to 3-4 levels. Beyond that, create separate mindmaps or use a different diagram type.
 
 ### 5. Balance Branches
+
 Try to distribute nodes evenly around the center for visual balance. 3-6 main branches work best.
 
 ### 6. Use Descriptive Labels
+
 Keep labels short (2-4 words) but meaningful. Use nouns for topics, verbs for actions.
 
 ## Integration with Other Diagram Types
@@ -240,14 +257,18 @@ Mindmaps work well alongside:
 ## Technical Notes
 
 ### Radial Algorithm (ELK)
+
 Runiq uses the Eclipse Layout Kernel (ELK) radial algorithm, which:
+
 - Places root node at center
 - Arranges children in concentric circles
 - Minimizes edge crossings
 - Optimizes angular distribution
 
 ### Performance
+
 Mindmaps scale well:
+
 - ✅ Under 50 nodes: Excellent performance
 - ✅ 50-100 nodes: Good performance
 - ⚠️ 100-200 nodes: Consider splitting

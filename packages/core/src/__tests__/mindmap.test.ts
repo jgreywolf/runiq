@@ -65,7 +65,14 @@ describe('Mindmap Diagrams', () => {
               algorithm: 'radial',
               spacing: 80,
             },
-            memberNodes: ['main', 'topic1', 'topic2', 'sub1a', 'sub1b', 'sub2a'],
+            memberNodes: [
+              'main',
+              'topic1',
+              'topic2',
+              'sub1a',
+              'sub1b',
+              'sub2a',
+            ],
           },
         ],
       };
@@ -112,10 +119,10 @@ describe('Mindmap Diagrams', () => {
       expect(mindmap.containers).toHaveLength(1);
       expect(mindmap.nodes).toHaveLength(6);
       expect(mindmap.edges).toHaveLength(5);
-      
+
       // Verify hierarchical structure
       const edges = mindmap.edges!;
-      const rootEdges = edges.filter(e => e.from === 'root');
+      const rootEdges = edges.filter((e) => e.from === 'root');
       expect(rootEdges).toHaveLength(2);
     });
   });
@@ -129,9 +136,7 @@ describe('Mindmap Diagrams', () => {
           { id: 'center', shape: 'circ', label: 'Center' },
           { id: 'branch1', shape: 'rounded', label: 'Branch 1' },
         ],
-        edges: [
-          { from: 'center', to: 'branch1' },
-        ],
+        edges: [{ from: 'center', to: 'branch1' }],
         containers: [
           {
             id: 'map',
@@ -152,9 +157,7 @@ describe('Mindmap Diagrams', () => {
       const mindmap: DiagramAst = {
         astVersion: '0.1.0',
         title: 'Mindmap with Custom Spacing',
-        nodes: [
-          { id: 'root', shape: 'circ', label: 'Root' },
-        ],
+        nodes: [{ id: 'root', shape: 'circ', label: 'Root' }],
         containers: [
           {
             id: 'map',
@@ -201,7 +204,7 @@ describe('Mindmap Diagrams', () => {
         ],
       };
 
-      const shapes = mindmap.nodes!.map(n => n.shape);
+      const shapes = mindmap.nodes!.map((n) => n.shape);
       expect(shapes).toContain('circ');
       expect(shapes).toContain('rounded');
       expect(shapes).toContain('rect');
@@ -216,12 +219,15 @@ describe('Mindmap Diagrams', () => {
         astVersion: '0.1.0',
         title: 'Styled Mindmap',
         nodes: [
-          { id: 'center', shape: 'circ', label: 'Main Idea', style: 'highlight' },
+          {
+            id: 'center',
+            shape: 'circ',
+            label: 'Main Idea',
+            style: 'highlight',
+          },
           { id: 'sub1', shape: 'rounded', label: 'Subtopic', style: 'default' },
         ],
-        edges: [
-          { from: 'center', to: 'sub1' },
-        ],
+        edges: [{ from: 'center', to: 'sub1' }],
         styles: {
           highlight: {
             fill: '#ffeb3b',
@@ -254,9 +260,7 @@ describe('Mindmap Diagrams', () => {
       const mindmap: DiagramAst = {
         astVersion: '0.1.0',
         title: 'Mindmap with Styled Container',
-        nodes: [
-          { id: 'root', shape: 'circ', label: 'Root' },
-        ],
+        nodes: [{ id: 'root', shape: 'circ', label: 'Root' }],
         containers: [
           {
             id: 'mindmap',
@@ -369,7 +373,18 @@ describe('Mindmap Diagrams', () => {
               algorithm: 'radial',
               spacing: 90,
             },
-            memberNodes: ['js', 'basics', 'advanced', 'frameworks', 'variables', 'functions', 'closures', 'promises', 'react', 'vue'],
+            memberNodes: [
+              'js',
+              'basics',
+              'advanced',
+              'frameworks',
+              'variables',
+              'functions',
+              'closures',
+              'promises',
+              'react',
+              'vue',
+            ],
           },
         ],
       };

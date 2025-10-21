@@ -15,27 +15,27 @@ describe('Mindmap Type Tests', () => {
         }
       }
     `;
-    
+
     const result = parse(dsl);
-    
+
     console.log('Parse result:', JSON.stringify(result, null, 2));
-    
+
     expect(result.success).toBe(true);
     expect(result.diagram?.containers).toHaveLength(1);
     expect(result.diagram?.nodes).toHaveLength(3);
-    
+
     // First node should be circ (central)
-    const centralNode = result.diagram?.nodes.find(n => n.id === 'central');
+    const centralNode = result.diagram?.nodes.find((n) => n.id === 'central');
     expect(centralNode?.shape).toBe('circ');
-    
+
     // Other nodes should be rounded (branches)
-    const branch1 = result.diagram?.nodes.find(n => n.id === 'branch1');
+    const branch1 = result.diagram?.nodes.find((n) => n.id === 'branch1');
     expect(branch1?.shape).toBe('rounded');
-    
-    const branch2 = result.diagram?.nodes.find(n => n.id === 'branch2');
+
+    const branch2 = result.diagram?.nodes.find((n) => n.id === 'branch2');
     expect(branch2?.shape).toBe('rounded');
   });
-  
+
   it('should allow explicit shapes to override mindmap defaults', () => {
     const dsl = `
       diagram "Test Mindmap" {
@@ -47,17 +47,17 @@ describe('Mindmap Type Tests', () => {
         }
       }
     `;
-    
+
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    
+
     // Explicitly specified shape should override default
-    const centralNode = result.diagram?.nodes.find(n => n.id === 'central');
+    const centralNode = result.diagram?.nodes.find((n) => n.id === 'central');
     expect(centralNode?.shape).toBe('hex');
-    
+
     // Second node still gets default
-    const branch1 = result.diagram?.nodes.find(n => n.id === 'branch1');
+    const branch1 = result.diagram?.nodes.find((n) => n.id === 'branch1');
     expect(branch1?.shape).toBe('rounded');
   });
 });
