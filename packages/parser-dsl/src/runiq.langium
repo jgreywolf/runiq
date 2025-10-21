@@ -159,8 +159,9 @@ StyleProperty:
     key=ID ':' value=(STRING | NUMBER | ID);
 
 // shape node1 as @rounded label: "My Node" style: myStyle icon: fa/user link: "http://example.com"
+// shape node1 label: "My Node" (shape optional if inside type:mindmap container)
 ShapeDeclaration:
-    'shape' id=ID 'as' '@' shape=(SHAPE_ID | ID) properties+=NodeProperty*;
+    'shape' id=ID ('as' '@' shape=(SHAPE_ID | ID))? properties+=NodeProperty*;
 
 NodeProperty:
     LabelProperty
@@ -283,8 +284,15 @@ ContainerBlock:
 
 ContainerProperty:
     StyleRefProperty
+    | ContainerTypeProperty
     | ContainerStyleProperty
     | ContainerLayoutProperty;
+
+ContainerTypeProperty:
+    'type:' type=ContainerTypeValue;
+
+ContainerTypeValue returns string:
+    'mindmap' | 'default';
 
 ContainerStyleProperty:
     'borderStyle:' borderStyle=BorderStyleValue

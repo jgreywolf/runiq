@@ -4,9 +4,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/tests-728%2B-brightgreen.svg)](./packages)
+[![Tests](https://img.shields.io/badge/tests-1098%2B-brightgreen.svg)](./packages)
 
 **🚀 Status**: Phase 1 Complete - Core types, **71 shapes**, ELK layout, hierarchical containers!  
+**⚡ NEW**: Mindmap diagrams for brainstorming & knowledge mapping - radial layout, 10 tests! 🧠  
 **⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️  
 **⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬  
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
@@ -53,6 +54,18 @@
 - **Feedback loops**: Model closed-loop control systems with feedback paths
 - **Engineering applications**: PID controllers, state-space models, signal processing
 - **5 example diagrams**: Ready-to-use templates in `examples/block-diagrams/`
+
+### Mindmap Diagrams (NEW! 🎉)
+
+- **Radial layout**: Central node with branches radiating outward
+- **Brainstorming**: Organize ideas hierarchically around central concepts
+- **Knowledge mapping**: Create learning roadmaps and study guides
+- **Project planning**: Break down complex projects into phases and tasks
+- **Multiple levels**: Support for 3-4 hierarchical levels (main topics → subtopics → details)
+- **Mixed shapes**: Use different shapes for different node types (topics, actions, metrics)
+- **Custom styling**: Color-code by category, importance, or type
+- **Flexible spacing**: Control node distance for clarity
+- **4 example diagrams**: Simple brainstorming, project planning, learning roadmap, business strategy
 
 ### Pedigree Charts (NEW! 🎉)
 
@@ -111,9 +124,9 @@ pnpm dev
 
 | Package                                                    | Description                        | Tests  |
 | ---------------------------------------------------------- | ---------------------------------- | ------ |
-| [`@runiq/core`](./packages/core)                           | Core types, shapes, and registries | 728 ✅ |
-| [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | 5 ✅   |
-| [`@runiq/layout-base`](./packages/layout-base)             | ELK layout engine adapter          | 24 ✅  |
+| [`@runiq/core`](./packages/core)                           | Core types, shapes, and registries | 743 ✅ |
+| [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | 114 ✅   |
+| [`@runiq/layout-base`](./packages/layout-base)             | ELK layout engine adapter          | 40 ✅  |
 | [`@runiq/renderer-svg`](./packages/renderer-svg)           | SVG rendering engine               | 30 ✅  |
 | [`@runiq/io-json`](./packages/io-json)                     | JSON import/export                 | 28 ✅  |
 | [`@runiq/icons-fontawesome`](./packages/icons-fontawesome) | Font Awesome icon provider         | -      |

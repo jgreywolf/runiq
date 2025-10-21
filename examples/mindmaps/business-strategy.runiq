@@ -1,0 +1,65 @@
+// Business Strategy Mindmap
+// Strategic planning with different shape types for different categories
+// Uses type:mindmap with explicit shape overrides for semantic meaning
+
+diagram "Business Strategy 2025" {
+  
+  style goal fill:"#4caf50" stroke:"#2e7d32" strokeWidth:3
+  style strategy fill:"#2196f3" stroke:"#1565c0" strokeWidth:2
+  style tactic fill:"#ff9800" stroke:"#e65100"
+  style metric fill:"#9c27b0" stroke:"#6a1b9a"
+  
+  container "StrategyMap" type:mindmap algorithm:radial spacing:110 backgroundColor:"#eceff1" borderColor:"#546e7a" borderWidth:3 {
+    
+    // Central goal - auto @circ (perfect for central idea!)
+    shape goal label:"Market Leadership" style:goal
+    
+    // Strategic pillars - explicit hexagons to show structural pillars
+    shape product as @hexagon label:"Product Excellence" style:strategy
+    shape customer as @hexagon label:"Customer Focus" style:strategy
+    shape innovation as @hexagon label:"Innovation" style:strategy
+    shape operations as @hexagon label:"Operational Efficiency" style:strategy
+    
+    // Tactics - could use auto @rounded, but being explicit for clarity
+    shape quality as @rounded label:"Quality Improvement" style:tactic
+    shape features as @rounded label:"New Features" style:tactic
+    shape support as @rounded label:"24/7 Support" style:tactic
+    shape feedback as @rounded label:"Feedback Loop" style:tactic
+    shape research as @rounded label:"R&D Investment" style:tactic
+    shape partnerships as @rounded label:"Tech Partnerships" style:tactic
+    shape automation as @rounded label:"Process Automation" style:tactic
+    shape training as @rounded label:"Team Training" style:tactic
+    
+    // Metrics - explicit diamonds to distinguish KPIs from actions
+    shape nps as @rhombus label:"NPS Score" style:metric
+    shape adoption as @rhombus label:"Adoption Rate" style:metric
+    shape patents as @rhombus label:"Patent Count" style:metric
+    shape efficiency as @rhombus label:"Efficiency %" style:metric
+    
+    // Main goal connections
+    goal -> product
+    goal -> customer
+    goal -> innovation
+    goal -> operations
+    
+    // Product connections
+    product -> quality
+    product -> features
+    quality -> nps
+    
+    // Customer connections
+    customer -> support
+    customer -> feedback
+    support -> adoption
+    
+    // Innovation connections
+    innovation -> research
+    innovation -> partnerships
+    research -> patents
+    
+    // Operations connections
+    operations -> automation
+    operations -> training
+    automation -> efficiency
+  }
+}

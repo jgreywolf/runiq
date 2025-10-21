@@ -2,13 +2,22 @@
 
 **Repository**: https://github.com/jgreywolf/runiq  
 **Created**: October 14, 2025  
-**Updated**: October 17, 2025  
+**Updated**: October 20, 2025  
 **License**: MIT  
 **Author**: Justin Greywolf
 
-## 🎉 Current Status: v0.1.0 Complete + Export Packages!
+## 🎉 Current Status: v0.1.0 Complete + Mindmaps!
 
-### Latest Accomplishments (Oct 17, 2025)
+### Latest Accomplishments (Oct 20, 2025)
+
+**✅ NEW: Mindmap Support** 🧠
+- Radial layout algorithm enabled
+- 10 comprehensive tests
+- 4 example mindmaps (simple, project planning, learning, business strategy)
+- Complete documentation guide
+- No new shapes needed - uses existing shapes
+
+### Previous Accomplishments (Oct 17-19, 2025)
 
 **✅ Complete:**
 
@@ -31,10 +40,10 @@
 
 Core Packages:
 
-1. `@runiq/core` - 728 tests ✅
+1. `@runiq/core` - 743 tests ✅ (+10 mindmap tests)
 2. `@runiq/layout-base` - 44 tests (40 passing, 4 skipped) ✅
 3. `@runiq/renderer-svg` - 45 tests ✅
-4. `@runiq/parser-dsl` - 24 tests ✅ (Langium-based)
+4. `@runiq/parser-dsl` - 114 tests ✅ (Langium-based, +90 fixed)
 5. `@runiq/io-json` - 28 tests ✅
 6. `@runiq/icons-fontawesome` - Font Awesome integration
 7. `@runiq/cli` - Command-line interface

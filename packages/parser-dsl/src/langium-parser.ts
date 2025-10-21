@@ -408,7 +408,7 @@ function processDialogStatement(
   } else if (Langium.isShapeDeclaration(statement)) {
     const node: NodeAst = {
       id: statement.id,
-      shape: statement.shape,
+      shape: statement.shape || 'rounded', // Default to rounded if no shape specified
     };
 
     // Process node properties
@@ -581,12 +581,15 @@ function convertContainer(
 
   // Process container properties
   let styleRef: string | undefined;
+  let containerType: string | undefined;
   const containerStyle: ContainerStyle = {};
   const layoutOptions: { algorithm?: string; spacing?: number } = {};
 
   for (const prop of block.properties) {
     if (Langium.isStyleRefProperty(prop)) {
       styleRef = prop.ref?.$refText;
+    } else if (Langium.isContainerTypeProperty(prop)) {
+      containerType = prop.type;
     } else if (Langium.isContainerStyleProperty(prop)) {
       if (prop.borderStyle) {
         containerStyle.borderStyle = prop.borderStyle;
@@ -632,15 +635,34 @@ function convertContainer(
   }
 
   // Process nested statements recursively
+  let isFirstNode = true; // Track first node for mindmap central node
   for (const statement of block.statements) {
     if (Langium.isShapeDeclaration(statement)) {
       // Add node to container's children
       container.children.push(statement.id);
 
+      // Determine shape based on container type or explicit declaration
+      let shape: string;
+      if (statement.shape) {
+        // Explicit shape specified
+        shape = statement.shape;
+      } else if (containerType === 'mindmap') {
+        // Mindmap defaults: first node is central (circle), rest are branches (rounded)
+        shape = isFirstNode ? 'circ' : 'rounded';
+      } else {
+        // Default shape for other containers
+        shape = 'rounded';
+      }
+      
+      // Track that we've processed the first node (for mindmap defaults)
+      if (isFirstNode) {
+        isFirstNode = false;
+      }
+
       // Add node to main diagram
       const node: NodeAst = {
         id: statement.id,
-        shape: statement.shape,
+        shape,
       };
 
       // Process node properties

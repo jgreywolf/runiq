@@ -52,6 +52,7 @@ export type RuniqKeywordNames =
     | "data:"
     | "dc"
     | "deceased:"
+    | "default"
     | "diagram"
     | "digital"
     | "direction:"
@@ -71,6 +72,7 @@ export type RuniqKeywordNames =
     | "lineStyle:"
     | "link:"
     | "map:"
+    | "mindmap"
     | "module"
     | "mrtree"
     | "net"
@@ -260,7 +262,7 @@ export function isContainerLayoutProperty(item: unknown): item is ContainerLayou
     return reflection.isInstance(item, ContainerLayoutProperty.$type);
 }
 
-export type ContainerProperty = ContainerLayoutProperty | ContainerStyleProperty | StyleRefProperty;
+export type ContainerProperty = ContainerLayoutProperty | ContainerStyleProperty | ContainerTypeProperty | StyleRefProperty;
 
 export const ContainerProperty = {
     $type: 'ContainerProperty'
@@ -295,6 +297,27 @@ export const ContainerStyleProperty = {
 
 export function isContainerStyleProperty(item: unknown): item is ContainerStyleProperty {
     return reflection.isInstance(item, ContainerStyleProperty.$type);
+}
+
+export interface ContainerTypeProperty extends langium.AstNode {
+    readonly $container: ContainerBlock;
+    readonly $type: 'ContainerTypeProperty';
+    type: ContainerTypeValue;
+}
+
+export const ContainerTypeProperty = {
+    $type: 'ContainerTypeProperty',
+    type: 'type'
+} as const;
+
+export function isContainerTypeProperty(item: unknown): item is ContainerTypeProperty {
+    return reflection.isInstance(item, ContainerTypeProperty.$type);
+}
+
+export type ContainerTypeValue = 'default' | 'mindmap';
+
+export function isContainerTypeValue(item: unknown): item is ContainerTypeValue {
+    return item === 'mindmap' || item === 'default';
 }
 
 export interface DataArray extends langium.AstNode {
@@ -1035,7 +1058,7 @@ export interface ShapeDeclaration extends langium.AstNode {
     readonly $type: 'ShapeDeclaration';
     id: string;
     properties: Array<NodeProperty>;
-    shape: string;
+    shape?: string;
 }
 
 export const ShapeDeclaration = {
@@ -1214,6 +1237,7 @@ export type RuniqAstType = {
     ContainerLayoutProperty: ContainerLayoutProperty
     ContainerProperty: ContainerProperty
     ContainerStyleProperty: ContainerStyleProperty
+    ContainerTypeProperty: ContainerTypeProperty
     DataArray: DataArray
     DataItem: DataItem
     DataObject: DataObject
@@ -1398,6 +1422,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 padding: {
                     name: ContainerStyleProperty.padding
+                }
+            },
+            superTypes: [ContainerProperty.$type]
+        },
+        ContainerTypeProperty: {
+            name: ContainerTypeProperty.$type,
+            properties: {
+                type: {
+                    name: ContainerTypeProperty.type
                 }
             },
             superTypes: [ContainerProperty.$type]

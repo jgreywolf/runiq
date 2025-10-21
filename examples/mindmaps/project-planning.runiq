@@ -1,0 +1,64 @@
+// Hierarchical Mindmap Example
+// Main topic with subtopics and details
+// Uses type:mindmap with explicit shape overrides for third level
+
+diagram "Hierarchical Mindmap" {
+  
+  container "ProjectPlanning" type:mindmap algorithm:radial spacing:100 backgroundColor:"#e8f5e9" borderColor:"#4caf50" borderWidth:2 {
+    
+    // Central topic - auto @circ
+    shape main label:"Website Redesign"
+    
+    // Level 1 - Main phases - auto @rounded
+    shape research label:"Research"
+    shape design label:"Design"
+    shape development label:"Development"
+    shape testing label:"Testing"
+    
+    // Level 2 - Research subtasks - explicit @rect for differentiation
+    shape surveys as @rect label:"User Surveys"
+    shape competitors as @rect label:"Competitor Analysis"
+    shape analytics as @rect label:"Analytics Review"
+    
+    // Level 2 - Design subtasks
+    shape wireframes as @rect label:"Wireframes"
+    shape mockups as @rect label:"Mockups"
+    shape prototype as @rect label:"Prototype"
+    
+    // Level 2 - Development subtasks
+    shape frontend as @rect label:"Frontend"
+    shape backend as @rect label:"Backend"
+    shape database as @rect label:"Database"
+    
+    // Level 2 - Testing subtasks
+    shape unit_tests as @rect label:"Unit Tests"
+    shape integration as @rect label:"Integration"
+    shape user_testing as @rect label:"User Testing"
+    
+    // Main connections
+    main -> research
+    main -> design
+    main -> development
+    main -> testing
+    
+    // Research connections
+    research -> surveys
+    research -> competitors
+    research -> analytics
+    
+    // Design connections
+    design -> wireframes
+    design -> mockups
+    design -> prototype
+    
+    // Development connections
+    development -> frontend
+    development -> backend
+    development -> database
+    
+    // Testing connections
+    testing -> unit_tests
+    testing -> integration
+    testing -> user_testing
+  }
+}
