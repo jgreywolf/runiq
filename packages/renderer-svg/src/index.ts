@@ -258,13 +258,35 @@ function renderEdge(
 
   // Determine arrow type
   const arrowType = edgeAst.arrowType || 'standard';
-  const arrowId = `arrow-${arrowType}-${routed.from}-${routed.to}`;
+  const edgeType = edgeAst.edgeType; // UML relationship type (aggregation, composition, etc.)
+  const arrowId = `arrow-${edgeType || arrowType}-${routed.from}-${routed.to}`;
 
   // Define arrow marker based on type
-  if (arrowType !== 'none') {
+  // For UML relationships, use edgeType to determine marker
+  let useMarkerStart = false; // Diamonds go on the source (start) end
+
+  if (
+    edgeType === 'aggregation' ||
+    edgeType === 'composition' ||
+    arrowType !== 'none'
+  ) {
     edgeMarkup += `<defs>`;
 
-    if (arrowType === 'standard') {
+    if (edgeType === 'aggregation') {
+      // Hollow diamond (shared aggregation)
+      edgeMarkup += `
+      <marker id="${arrowId}" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto" markerUnits="strokeWidth">
+        <polygon points="6,0 12,6 6,12 0,6" fill="white" stroke="${stroke}" stroke-width="1" />
+      </marker>`;
+      useMarkerStart = true;
+    } else if (edgeType === 'composition') {
+      // Filled diamond (composite aggregation)
+      edgeMarkup += `
+      <marker id="${arrowId}" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto" markerUnits="strokeWidth">
+        <polygon points="6,0 12,6 6,12 0,6" fill="${stroke}" />
+      </marker>`;
+      useMarkerStart = true;
+    } else if (arrowType === 'standard') {
       // Filled triangle (association, standard arrow)
       edgeMarkup += `
       <marker id="${arrowId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -288,8 +310,13 @@ function renderEdge(
   }
 
   // Edge line with optional marker
-  const markerAttr =
-    arrowType !== 'none' ? ` marker-end="url(#${arrowId})"` : '';
+  const markerAttr = useMarkerStart
+    ? ` marker-start="url(#${arrowId})"` // Diamond on source end
+    : edgeType !== 'aggregation' &&
+        edgeType !== 'composition' &&
+        arrowType !== 'none'
+      ? ` marker-end="url(#${arrowId})"` // Arrow on target end
+      : '';
 
   // Render double line for consanguineous marriages
   if (isDoubleLine) {
@@ -354,6 +381,49 @@ function renderEdge(
   if (edgeAst.label) {
     const labelY = edgeAst.stereotype ? midPoint.y - 5 : midPoint.y - 5;
     edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" class="runiq-edge-text">${escapeXml(edgeAst.label)}</text>`;
+  }
+
+  // UML Multiplicity labels (at endpoints)
+  if (edgeAst.multiplicitySource || edgeAst.roleSource) {
+    // Position near source endpoint (15% along the edge)
+    const from = points[0];
+    const to = points[points.length - 1];
+    const sourcePoint = {
+      x: from.x + (to.x - from.x) * 0.15,
+      y: from.y + (to.y - from.y) * 0.15,
+    };
+
+    if (edgeAst.multiplicitySource) {
+      edgeMarkup += `<text x="${sourcePoint.x}" y="${sourcePoint.y - 8}" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">${escapeXml(edgeAst.multiplicitySource)}</text>`;
+    }
+
+    if (edgeAst.roleSource) {
+      const roleY = edgeAst.multiplicitySource
+        ? sourcePoint.y + 5
+        : sourcePoint.y - 8;
+      edgeMarkup += `<text x="${sourcePoint.x}" y="${roleY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">${escapeXml(edgeAst.roleSource)}</text>`;
+    }
+  }
+
+  if (edgeAst.multiplicityTarget || edgeAst.roleTarget) {
+    // Position near target endpoint (85% along the edge)
+    const from = points[0];
+    const to = points[points.length - 1];
+    const targetPoint = {
+      x: from.x + (to.x - from.x) * 0.85,
+      y: from.y + (to.y - from.y) * 0.85,
+    };
+
+    if (edgeAst.multiplicityTarget) {
+      edgeMarkup += `<text x="${targetPoint.x}" y="${targetPoint.y - 8}" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">${escapeXml(edgeAst.multiplicityTarget)}</text>`;
+    }
+
+    if (edgeAst.roleTarget) {
+      const roleY = edgeAst.multiplicityTarget
+        ? targetPoint.y + 5
+        : targetPoint.y - 8;
+      edgeMarkup += `<text x="${targetPoint.x}" y="${roleY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">${escapeXml(edgeAst.roleTarget)}</text>`;
+    }
   }
 
   // Tooltip

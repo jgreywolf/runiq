@@ -107,6 +107,9 @@ import {
   barrierShape,
 } from './quantum-circuit.js';
 
+// UML shapes
+import { classShape } from './uml/class.js';
+
 export function registerDefaultShapes(): void {
   // Original shapes
   shapeRegistry.register(actorShape);
@@ -235,6 +238,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(measurementShape);
   shapeRegistry.register(qubitWireShape);
   shapeRegistry.register(barrierShape);
+
+  // UML shapes
+  shapeRegistry.register(classShape);
 }
 
 export * from './actor.js';

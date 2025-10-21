@@ -82,6 +82,15 @@ export class ElkLayoutEngine implements LayoutEngine {
     return points;
   }
 
+  /**
+   * Extract node ID from potentially member-level reference
+   * e.g., "Order.customerId" -> "Order", "Customer" -> "Customer"
+   */
+  private extractNodeId(reference: string): string {
+    const dotIndex = reference.indexOf('.');
+    return dotIndex > 0 ? reference.substring(0, dotIndex) : reference;
+  }
+
   async layout(
     diagram: DiagramAst,
     opts: LayoutOptions = {}
@@ -221,18 +230,23 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Add edges between standalone nodes and container placeholders
     // For layout purposes, edges to/from container nodes connect to the container placeholder
     for (const edge of diagram.edges) {
-      const fromContainer = nodeContainerMap.get(edge.from);
-      const toContainer = nodeContainerMap.get(edge.to);
+      // Extract node IDs from potentially member-level references
+      // e.g., "Order.customerId" -> "Order"
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      const fromContainer = nodeContainerMap.get(fromNodeId);
+      const toContainer = nodeContainerMap.get(toNodeId);
 
       // Replace node IDs with container placeholder IDs if nodes are in containers
       const fromId = fromContainer
         ? `__container__${fromContainer}`
-        : edge.from;
-      const toId = toContainer ? `__container__${toContainer}` : edge.to;
+        : fromNodeId;
+      const toId = toContainer ? `__container__${toContainer}` : toNodeId;
 
       if (!elkGraph.edges) elkGraph.edges = [];
       elkGraph.edges.push({
-        id: `${edge.from}->${edge.to}`, // Keep original IDs in the edge ID
+        id: `${edge.from}->${edge.to}`, // Keep original IDs (including member refs) in the edge ID
         sources: [fromId],
         targets: [toId],
       });
@@ -295,8 +309,12 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (!match) return true; // Keep if we can't parse
 
       const [, from, to] = match;
-      const fromContainer = nodeContainerMap.get(from);
-      const toContainer = nodeContainerMap.get(to);
+      // Extract node IDs from potentially member-level references
+      const fromNodeId = this.extractNodeId(from);
+      const toNodeId = this.extractNodeId(to);
+
+      const fromContainer = nodeContainerMap.get(fromNodeId);
+      const toContainer = nodeContainerMap.get(toNodeId);
 
       // Skip if both nodes are in the SAME container (internal edge, already extracted)
       const isInternalEdge =
@@ -313,8 +331,12 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Fix cross-container edges: Replace placeholder-based routing with actual node positions
     for (const edge of diagram.edges) {
-      const fromContainer = nodeContainerMap.get(edge.from);
-      const toContainer = nodeContainerMap.get(edge.to);
+      // Extract node IDs from potentially member-level references
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      const fromContainer = nodeContainerMap.get(fromNodeId);
+      const toContainer = nodeContainerMap.get(toNodeId);
 
       // Check if this edge crosses a container boundary
       const isCrossContainer =
@@ -327,8 +349,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         );
 
         // Find actual node positions
-        const fromNode = nodes.find((n) => n.id === edge.from);
-        const toNode = nodes.find((n) => n.id === edge.to);
+        const fromNode = nodes.find((n) => n.id === fromNodeId);
+        const toNode = nodes.find((n) => n.id === toNodeId);
 
         if (fromNode && toNode) {
           // Generate orthogonal (step) routing instead of straight lines
@@ -480,14 +502,18 @@ export class ElkLayoutEngine implements LayoutEngine {
 
       // Add edges within this container
       for (const edge of diagram.edges) {
+        // Extract node IDs from potentially member-level references
+        const fromNodeId = this.extractNodeId(edge.from);
+        const toNodeId = this.extractNodeId(edge.to);
+
         if (
-          container.children.includes(edge.from) &&
-          container.children.includes(edge.to)
+          container.children.includes(fromNodeId) &&
+          container.children.includes(toNodeId)
         ) {
           containerGraph.edges!.push({
             id: `${edge.from}->${edge.to}`,
-            sources: [edge.from],
-            targets: [edge.to],
+            sources: [fromNodeId],
+            targets: [toNodeId],
           });
         }
       }
