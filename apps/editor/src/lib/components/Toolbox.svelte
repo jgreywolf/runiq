@@ -59,37 +59,37 @@
 				},
 				{ id: 'stadium', label: 'Start/End', code: 'shape id as @stadium label:"Start"' },
 				{
-					id: 'predef-proc',
+					id: 'predefinedProcess',
 					label: 'Predefined Process',
-					code: 'shape id as @predefined-process label:"Subroutine"'
+					code: 'shape id as @predefinedProcess label:"Subroutine"'
 				},
 				{
-					id: 'prep-alt',
+					id: 'preparation',
 					label: 'Preparation',
-					code: 'shape id as @preparation-alt label:"Setup"'
+					code: 'shape id as @preparation label:"Setup"'
 				},
 				{
-					id: 'sl-rect',
+					id: 'manualInput',
 					label: 'Manual Input',
-					code: 'shape id as @manual-input label:"Manual Input"'
+					code: 'shape id as @manualInput label:"Manual Input"'
 				},
 				{
 					id: 'trapezoid',
 					label: 'Manual Operation',
 					code: 'shape id as @trapezoid label:"Manual"'
 				},
-				{ id: 'doc', label: 'Document', code: 'shape id as @document label:"Document"' },
+				{ id: 'document', label: 'Document', code: 'shape id as @document label:"Document"' },
 				{
-					id: 'multi-doc',
+					id: 'multiDocument',
 					label: 'Multiple Documents',
-					code: 'shape id as @multi-document label:"Documents"'
+					code: 'shape id as @multiDocument label:"Documents"'
 				},
-				{ id: 'curv-trap', label: 'Display', code: 'shape id as @display label:"Display"' },
+				{ id: 'display', label: 'Display', code: 'shape id as @display label:"Display"' },
 				{ id: 'delay', label: 'Delay', code: 'shape id as @delay label:"Wait"' },
 				{
-					id: 'off-page',
+					id: 'offPageConnector',
 					label: 'Off-Page Connector',
-					code: 'shape id as @off-page-connector label:"A"'
+					code: 'shape id as @offPageConnector label:"A"'
 				}
 			]
 		},
@@ -97,18 +97,18 @@
 			id: 'storage',
 			label: 'Data Storage',
 			shapes: [
-				{ id: 'cyl', label: 'Database', code: 'shape id as @cylinder label:"Database"' },
-				{ id: 'disk', label: 'Disk Storage', code: 'shape id as @disk label:"Disk"' },
-				{ id: 'storedData', label: 'Stored Data', code: 'shape id as @bow-tie label:"Data"' },
+				{ id: 'cylinder', label: 'Database', code: 'shape id as @cylinder label:"Database"' },
+				{ id: 'diskStorage', label: 'Disk Storage', code: 'shape id as @diskStorage label:"Disk"' },
+				{ id: 'storedData', label: 'Stored Data', code: 'shape id as @storedData label:"Data"' },
 				{
-					id: 'int-storage',
+					id: 'internalStorage',
 					label: 'Internal Storage',
-					code: 'shape id as @int-storage label:"Storage"'
+					code: 'shape id as @internalStorage label:"Storage"'
 				},
 				{
-					id: 'seq-stor',
+					id: 'sequentialStorage',
 					label: 'Sequential Storage',
-					code: 'shape id as @sequential-storage label:"Tape"'
+					code: 'shape id as @sequentialStorage label:"Tape"'
 				},
 				{
 					id: 'direct-stor',

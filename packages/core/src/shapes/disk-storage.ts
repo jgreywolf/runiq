@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Wider than tall to emphasize disk shape
  */
 export const diskStorageShape: ShapeDefinition = {
-  id: 'disk',
+  id: 'diskStorage',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

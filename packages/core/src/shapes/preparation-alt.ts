@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * More elongated than standard hexagon for preparation steps
  */
 export const preparationAltShape: ShapeDefinition = {
-  id: 'prep-alt',
+  id: 'preparation',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

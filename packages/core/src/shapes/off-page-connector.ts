@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Connects to another page or section
  */
 export const offPageConnectorShape: ShapeDefinition = {
-  id: 'off-page',
+  id: 'offPageConnector',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

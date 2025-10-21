@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Has cross division creating 4 sections
  */
 export const internalStorageShape: ShapeDefinition = {
-  id: 'int-storage',
+  id: 'internalStorage',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

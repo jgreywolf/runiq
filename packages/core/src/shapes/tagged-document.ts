@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Combines document fold with corner tag (like tagged-rectangle)
  */
 export const taggedDocumentShape: ShapeDefinition = {
-  id: 'tag-doc',
+  id: 'taggedDocument',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

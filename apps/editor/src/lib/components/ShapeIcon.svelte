@@ -63,9 +63,9 @@
 			'flippedTriangle',
 			'integrator',
 			'pyramid',
-			'predef-proc',
-			'prep-alt',
-			'sl-rect',
+			'predefinedProcess',
+			'preparation',
+			'manualInput',
 			'brace-l',
 			'brace-r'
 		];

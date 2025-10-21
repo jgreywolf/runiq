@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Like multi-rectangle but with document fold corners
  */
 export const multiDocumentShape: ShapeDefinition = {
-  id: 'multi-doc',
+  id: 'multiDocument',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

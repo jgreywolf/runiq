@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Combines document fold with lined-rectangle pattern
  */
 export const linedDocumentShape: ShapeDefinition = {
-  id: 'lined-doc',
+  id: 'linedDocument',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

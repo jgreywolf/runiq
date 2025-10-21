@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for tape or sequential storage media
  */
 export const storedDataShape: ShapeDefinition = {
-  id: 'bow-tie',
+  id: 'storedData',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

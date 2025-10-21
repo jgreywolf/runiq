@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Half-stadium shape for sequential access like tape storage
  */
 export const sequentialStorageShape: ShapeDefinition = {
-  id: 'seq-storage',
+  id: 'sequentialStorage',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

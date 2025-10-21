@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Aliases: cyl, cylinder, database, can
  */
 export const cylinderShape: ShapeDefinition = {
-  id: 'cyl',
+  id: 'cylinder',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

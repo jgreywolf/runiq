@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Aliases: sl-rect, manual-input, sloped-rect
  */
 export const manualInputShape: ShapeDefinition = {
-  id: 'sl-rect',
+  id: 'manualInput',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

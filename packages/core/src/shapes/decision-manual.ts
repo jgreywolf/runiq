@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Manual decision point combining diamond with document-style wave
  */
 export const decisionManualShape: ShapeDefinition = {
-  id: 'decision-manual',
+  id: 'decisionManual',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

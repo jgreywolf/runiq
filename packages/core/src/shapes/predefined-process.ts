@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Used for subroutines or predefined operations
  */
 export const predefinedProcessShape: ShapeDefinition = {
-  id: 'predef-proc',
+  id: 'predefinedProcess',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
