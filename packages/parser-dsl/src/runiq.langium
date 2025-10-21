@@ -179,7 +179,11 @@ NodeProperty:
     | YLabelProperty
     | AffectedProperty
     | CarrierProperty
-    | DeceasedProperty;
+    | DeceasedProperty
+    | AttributesProperty
+    | MethodsProperty
+    | GenericTypesProperty
+    | StereotypeProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -227,6 +231,88 @@ CarrierProperty:
 DeceasedProperty:
     'deceased:' value=BOOLEAN;
 
+// UML Class Diagram properties
+AttributesProperty:
+    'attributes:' '[' (attributes+=AttributeDecl (',' attributes+=AttributeDecl)*)? ']';
+
+AttributeDecl:
+    '{' properties+=AttributeField+ '}';
+
+AttributeField:
+    AttrNameField | AttrTypeField | AttrVisibilityField | AttrDefaultField | AttrStaticField | AttrDerivedField | AttrConstraintsField;
+
+AttrNameField:
+    'name:' value=STRING;
+
+AttrTypeField:
+    'type:' value=STRING;
+
+AttrVisibilityField:
+    'visibility:' value=VisibilityValue;
+
+VisibilityValue returns string:
+    'public' | 'private' | 'protected' | 'package';
+
+AttrDefaultField:
+    'default:' value=STRING;
+
+AttrStaticField:
+    'static:' value=BOOLEAN;
+
+AttrDerivedField:
+    'derived:' value=BOOLEAN;
+
+AttrConstraintsField:
+    'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
+
+MethodsProperty:
+    'methods:' '[' (methods+=MethodDecl (',' methods+=MethodDecl)*)? ']';
+
+MethodDecl:
+    '{' properties+=MethodField+ '}';
+
+MethodField:
+    MethodNameField | MethodParamsField | MethodReturnTypeField | MethodVisibilityField | MethodAbstractField | MethodStaticField | MethodConstraintsField;
+
+MethodNameField:
+    'name:' value=STRING;
+
+MethodParamsField:
+    'params:' '[' (params+=MethodParamDecl (',' params+=MethodParamDecl)*)? ']';
+
+MethodParamDecl:
+    '{' properties+=MethodParamField+ '}';
+
+MethodParamField:
+    ParamNameField | ParamTypeField;
+
+ParamNameField:
+    'name:' value=STRING;
+
+ParamTypeField:
+    'type:' value=STRING;
+
+MethodReturnTypeField:
+    'returnType:' value=STRING;
+
+MethodVisibilityField:
+    'visibility:' value=VisibilityValue;
+
+MethodAbstractField:
+    'abstract:' value=BOOLEAN;
+
+MethodStaticField:
+    'static:' value=BOOLEAN;
+
+MethodConstraintsField:
+    'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
+
+GenericTypesProperty:
+    'genericTypes:' '[' (types+=STRING (',' types+=STRING)*)? ']';
+
+StereotypeProperty:
+    'stereotype:' value=STRING;
+
 StringArray:
     '[' (items+=STRING (',' items+=STRING)*)? ']';
 
@@ -251,12 +337,24 @@ DataArray:
 // node1 -> node2
 // node1 -label-> node2
 // node1 -> node2 lineStyle:double arrowType:none (for marriage edges)
+// Class.field -> OtherClass.method (member-level connections)
 EdgeDeclaration:
-    from=ID (arrow=ARROW | labeledArrow=LABELED_ARROW) to=ID properties+=EdgeProperty*;
+    from=NodeRef (arrow=ARROW | labeledArrow=LABELED_ARROW) to=NodeRef properties+=EdgeProperty*;
+
+// Support both simple node references (node1) and member references (Class.field)
+NodeRef:
+    node=ID ('.' member=ID)?;
 
 EdgeProperty:
     LineStyleProperty
-    | ArrowTypeProperty;
+    | ArrowTypeProperty
+    | MultiplicitySourceProperty
+    | MultiplicityTargetProperty
+    | RoleSourceProperty
+    | RoleTargetProperty
+    | EdgeTypeProperty
+    | NavigabilityProperty
+    | EdgeConstraintsProperty;
 
 LineStyleProperty:
     'lineStyle:' value=LineStyleValue;
@@ -269,6 +367,34 @@ ArrowTypeProperty:
 
 ArrowTypeValue returns string:
     'standard' | 'hollow' | 'open' | 'none';
+
+// UML Relationship Properties
+MultiplicitySourceProperty:
+    'multiplicitySource:' value=STRING;
+
+MultiplicityTargetProperty:
+    'multiplicityTarget:' value=STRING;
+
+RoleSourceProperty:
+    'roleSource:' value=STRING;
+
+RoleTargetProperty:
+    'roleTarget:' value=STRING;
+
+EdgeTypeProperty:
+    'edgeType:' value=EdgeTypeValue;
+
+EdgeTypeValue returns string:
+    'association' | 'aggregation' | 'composition' | 'dependency' | 'generalization' | 'realization';
+
+NavigabilityProperty:
+    'navigability:' value=NavigabilityDirection;
+
+NavigabilityDirection returns string:
+    'source' | 'target' | 'bidirectional' | 'none';
+
+EdgeConstraintsProperty:
+    'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
 
 // group "My Group" { ... }
 GroupBlock:

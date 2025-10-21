@@ -48,6 +48,21 @@ export interface EdgeAst {
   stereotype?: string; // e.g., 'include', 'extend', 'uses' (rendered as <<stereotype>>)
   lineStyle?: 'solid' | 'dashed' | 'dotted' | 'double'; // Line appearance (double for consanguineous marriages)
   arrowType?: 'standard' | 'hollow' | 'open' | 'none'; // Arrow head style
+  // UML Class Diagram relationship properties (Phase 1)
+  edgeType?:
+    | 'association'
+    | 'aggregation'
+    | 'composition'
+    | 'dependency'
+    | 'generalization'
+    | 'realization'; // Relationship type
+  multiplicitySource?: string; // Source multiplicity (e.g., '1', '0..1', '1..*', '0..*', '*')
+  multiplicityTarget?: string; // Target multiplicity
+  roleSource?: string; // Role name at source end
+  roleTarget?: string; // Role name at target end
+  // UML Class Diagram Phase 3 properties
+  navigability?: 'source' | 'target' | 'bidirectional' | 'none'; // Direction of navigation
+  constraints?: string[]; // Constraints like 'ordered', 'unique', etc.
 }
 
 export interface GroupAst {
