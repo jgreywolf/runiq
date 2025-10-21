@@ -1,0 +1,78 @@
+// Observer Pattern Example
+// Demonstrates the Observer design pattern with subject and observers
+
+diagram "Observer Pattern" {
+  direction: LR
+  
+  // Subject interface
+  shape ISubject as @class label:"ISubject"
+    stereotype:"interface"
+    methods:[
+      {name:"attach" params:[{name:"observer" type:"IObserver"}] returnType:"void" visibility:public},
+      {name:"detach" params:[{name:"observer" type:"IObserver"}] returnType:"void" visibility:public},
+      {name:"notify" returnType:"void" visibility:public}
+    ]
+  
+  // Observer interface
+  shape IObserver as @class label:"IObserver"
+    stereotype:"interface"
+    methods:[
+      {name:"update" params:[{name:"data" type:"object"}] returnType:"void" visibility:public}
+    ]
+  
+  // Concrete subject
+  shape WeatherStation as @class label:"WeatherStation"
+    attributes:[
+      {name:"observers" type:"List<IObserver>" visibility:private},
+      {name:"temperature" type:"float" visibility:private},
+      {name:"humidity" type:"float" visibility:private},
+      {name:"pressure" type:"float" visibility:private}
+    ]
+    methods:[
+      {name:"attach" params:[{name:"observer" type:"IObserver"}] returnType:"void" visibility:public},
+      {name:"detach" params:[{name:"observer" type:"IObserver"}] returnType:"void" visibility:public},
+      {name:"notify" returnType:"void" visibility:public},
+      {name:"setMeasurements" params:[{name:"temp" type:"float"}, {name:"humidity" type:"float"}, {name:"pressure" type:"float"}] returnType:"void" visibility:public}
+    ]
+  
+  // Concrete observers
+  shape CurrentConditionsDisplay as @class label:"CurrentConditionsDisplay"
+    attributes:[
+      {name:"temperature" type:"float" visibility:private},
+      {name:"humidity" type:"float" visibility:private}
+    ]
+    methods:[
+      {name:"update" params:[{name:"data" type:"object"}] returnType:"void" visibility:public},
+      {name:"display" returnType:"void" visibility:public}
+    ]
+  
+  shape StatisticsDisplay as @class label:"StatisticsDisplay"
+    attributes:[
+      {name:"maxTemp" type:"float" visibility:private},
+      {name:"minTemp" type:"float" visibility:private},
+      {name:"avgTemp" type:"float" visibility:private}
+    ]
+    methods:[
+      {name:"update" params:[{name:"data" type:"object"}] returnType:"void" visibility:public},
+      {name:"display" returnType:"void" visibility:public}
+    ]
+  
+  shape ForecastDisplay as @class label:"ForecastDisplay"
+    attributes:[
+      {name:"currentPressure" type:"float" visibility:private},
+      {name:"lastPressure" type:"float" visibility:private}
+    ]
+    methods:[
+      {name:"update" params:[{name:"data" type:"object"}] returnType:"void" visibility:public},
+      {name:"display" returnType:"void" visibility:public}
+    ]
+  
+  // Implementation relationships
+  WeatherStation -> ISubject lineStyle:dashed
+  CurrentConditionsDisplay -> IObserver lineStyle:dashed
+  StatisticsDisplay -> IObserver lineStyle:dashed
+  ForecastDisplay -> IObserver lineStyle:dashed
+  
+  // Subject holds observers
+  WeatherStation -> IObserver
+}

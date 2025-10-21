@@ -1,0 +1,133 @@
+// Complete UML Relationships Example
+// Demonstrates all Phase 1 features: multiplicity, aggregation, composition, roles
+
+diagram "University System" {
+  direction: TB
+  
+  // Core entities
+  shape University as @class label:"University"
+    attributes:[
+      {name:"name" type:"string" visibility:private},
+      {name:"founded" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"addDepartment" params:[{name:"dept" type:"Department"}] visibility:public}
+    ]
+  
+  shape Department as @class label:"Department"
+    attributes:[
+      {name:"name" type:"string" visibility:private},
+      {name:"building" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"hireProfessor" params:[{name:"prof" type:"Professor"}] visibility:public}
+    ]
+  
+  shape Professor as @class label:"Professor"
+    attributes:[
+      {name:"employeeId" type:"string" visibility:private},
+      {name:"name" type:"string" visibility:private},
+      {name:"specialty" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"teach" params:[{name:"course" type:"Course"}] visibility:public},
+      {name:"research" returnType:"Paper" visibility:public}
+    ]
+  
+  shape Student as @class label:"Student"
+    attributes:[
+      {name:"studentId" type:"string" visibility:private},
+      {name:"name" type:"string" visibility:private},
+      {name:"major" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"enroll" params:[{name:"course" type:"Course"}] visibility:public},
+      {name:"graduate" visibility:public}
+    ]
+  
+  shape Course as @class label:"Course"
+    attributes:[
+      {name:"code" type:"string" visibility:private},
+      {name:"title" type:"string" visibility:private},
+      {name:"credits" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"addStudent" params:[{name:"student" type:"Student"}] visibility:public}
+    ]
+  
+  // Composition: University owns Departments (strong lifecycle dependency)
+  University -> Department
+    edgeType: composition
+    multiplicitySource: "1"
+    multiplicityTarget: "1..*"
+    roleSource: "institution"
+    roleTarget: "unit"
+  
+  // Aggregation: Department has Professors (professors can exist independently)
+  Department -> Professor
+    edgeType: aggregation
+    multiplicitySource: "1..*"
+    multiplicityTarget: "1..*"
+    roleSource: "employer"
+    roleTarget: "faculty"
+  
+  // Association: Professor teaches Courses (with multiplicity and roles)
+  Professor -teaches-> Course
+    multiplicitySource: "1..*"
+    multiplicityTarget: "1..*"
+    roleSource: "instructor"
+    roleTarget: "subject"
+  
+  // Association: Student enrolls in Courses (many-to-many)
+  Student -enrolledIn-> Course
+    multiplicitySource: "0..*"
+    multiplicityTarget: "0..*"
+    roleSource: "learner"
+    roleTarget: "curriculum"
+  
+  // Association: Department advises Students (one-to-many)
+  Department -advises-> Student
+    multiplicitySource: "1"
+    multiplicityTarget: "0..*"
+}
+
+// Relationship Summary:
+//
+// 1. COMPOSITION (University -> Department)
+//    - Filled diamond on University
+//    - Multiplicities: 1 to 1..*
+//    - Roles: institution/unit
+//    - Meaning: Departments can't exist without University
+//
+// 2. AGGREGATION (Department -> Professor)
+//    - Hollow diamond on Department  
+//    - Multiplicities: 1..* to 1..* (professors in multiple departments)
+//    - Roles: employer/faculty
+//    - Meaning: Professors can exist independently
+//
+// 3. ASSOCIATION (Professor -> Course)
+//    - Labeled edge: "teaches"
+//    - Multiplicities: 1..* to 1..* (many-to-many)
+//    - Roles: instructor/subject
+//    - Meaning: Professors teach multiple courses, courses have multiple professors
+//
+// 4. ASSOCIATION (Student -> Course)
+//    - Labeled edge: "enrolledIn"
+//    - Multiplicities: 0..* to 0..* (optional many-to-many)
+//    - Roles: learner/curriculum
+//    - Meaning: Students can enroll in many courses, courses have many students
+//
+// 5. ASSOCIATION (Department -> Student)
+//    - Labeled edge: "advises"
+//    - Multiplicities: 1 to 0..* (one-to-many)
+//    - No roles (simpler relationship)
+//    - Meaning: Each student has one department, departments have many students
+//
+// Multiplicity Cheat Sheet:
+// - 1       : Exactly one
+// - 0..1    : Zero or one (optional)
+// - 0..*    : Zero or more (optional many)
+// - 1..*    : One or more (required many)
+// - *       : Zero or more (shorthand for 0..*)
+// - 4       : Exactly four (specific number)
+// - 2..5    : Between two and five (range)

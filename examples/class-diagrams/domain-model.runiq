@@ -1,0 +1,111 @@
+// Domain Model with Foreign Key Relationships
+// Demonstrates member-level edge connections for database relationships
+
+diagram "E-Commerce Domain Model" {
+  direction: TB
+  
+  // Customer entity
+  shape Customer as @class label:"Customer"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"email" type:"string" visibility:private},
+      {name:"firstName" type:"string" visibility:private},
+      {name:"lastName" type:"string" visibility:private},
+      {name:"registeredDate" type:"Date" visibility:private}
+    ]
+    methods:[
+      {name:"getId" returnType:"int" visibility:public},
+      {name:"getFullName" returnType:"string" visibility:public},
+      {name:"placeOrder" params:[{name:"cart" type:"ShoppingCart"}] returnType:"Order" visibility:public}
+    ]
+  
+  // Order entity
+  shape Order as @class label:"Order"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"customerId" type:"int" visibility:private},
+      {name:"orderDate" type:"Date" visibility:private},
+      {name:"status" type:"OrderStatus" visibility:private},
+      {name:"total" type:"decimal" visibility:private}
+    ]
+    methods:[
+      {name:"getId" returnType:"int" visibility:public},
+      {name:"calculateTotal" returnType:"decimal" visibility:public},
+      {name:"addItem" params:[{name:"item" type:"OrderItem"}] returnType:"void" visibility:public},
+      {name:"getCustomer" returnType:"Customer" visibility:public}
+    ]
+  
+  // OrderItem entity (line items)
+  shape OrderItem as @class label:"OrderItem"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"orderId" type:"int" visibility:private},
+      {name:"productId" type:"int" visibility:private},
+      {name:"quantity" type:"int" visibility:private},
+      {name:"unitPrice" type:"decimal" visibility:private}
+    ]
+    methods:[
+      {name:"getSubtotal" returnType:"decimal" visibility:public},
+      {name:"getProduct" returnType:"Product" visibility:public}
+    ]
+  
+  // Product entity
+  shape Product as @class label:"Product"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"name" type:"string" visibility:private},
+      {name:"description" type:"string" visibility:private},
+      {name:"price" type:"decimal" visibility:private},
+      {name:"categoryId" type:"int" visibility:private},
+      {name:"stock" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"getId" returnType:"int" visibility:public},
+      {name:"isInStock" returnType:"bool" visibility:public},
+      {name:"getCategory" returnType:"Category" visibility:public}
+    ]
+  
+  // Category entity
+  shape Category as @class label:"Category"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"name" type:"string" visibility:private},
+      {name:"description" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"getId" returnType:"int" visibility:public},
+      {name:"getProducts" returnType:"List<Product>" visibility:public}
+    ]
+  
+  // Payment entity
+  shape Payment as @class label:"Payment"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"orderId" type:"int" visibility:private},
+      {name:"amount" type:"decimal" visibility:private},
+      {name:"paymentDate" type:"Date" visibility:private},
+      {name:"method" type:"PaymentMethod" visibility:private}
+    ]
+    methods:[
+      {name:"process" returnType:"bool" visibility:public},
+      {name:"refund" returnType:"bool" visibility:public}
+    ]
+  
+  // Foreign key relationships using member-level connections
+  // This is the innovative feature - edges connect specific attributes!
+  
+  // Order belongs to Customer
+  Order.customerId -> Customer.id
+  
+  // OrderItem belongs to Order
+  OrderItem.orderId -> Order.id
+  
+  // OrderItem references Product
+  OrderItem.productId -> Product.id
+  
+  // Product belongs to Category
+  Product.categoryId -> Category.id
+  
+  // Payment belongs to Order
+  Payment.orderId -> Order.id
+}
