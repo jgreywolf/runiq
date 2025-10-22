@@ -97,7 +97,7 @@
 }`;
 			defaultName = 'Untitled Circuit';
 		} else {
-			defaultContent = 'diagram "My Diagram" {\n  // Add your shapes and connections here\n}';
+			defaultContent = 'diagram "My Diagram"\n\n// Add your shapes and connections here';
 			defaultName = 'Untitled Diagram';
 		}
 

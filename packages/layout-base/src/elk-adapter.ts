@@ -26,6 +26,13 @@ import { shapeRegistry, createTextMeasurer } from '@runiq/core';
  * @todo Nested Container Positioning: Multi-level nested containers need proper relative
  * positioning to parent. Currently using flat structure with placeholder bounds.
  * See container-layout.test.ts for 4 skipped tests (two-level, three-level, C4, spacing).
+ *
+ * @todo Container Grid Layout: Support flexible grid-like positioning of containers
+ * (e.g., 3 containers top row, 2 containers bottom row where one spans multiple columns).
+ * Currently containers layout in a single direction. Need to support:
+ * - Multi-row/column container layouts
+ * - Container spanning (width/height across multiple grid cells)
+ * - Mixed horizontal/vertical container arrangements
  */
 export class ElkLayoutEngine implements LayoutEngine {
   id = 'elk';

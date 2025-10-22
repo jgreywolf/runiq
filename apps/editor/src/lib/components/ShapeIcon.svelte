@@ -13,6 +13,13 @@
 		paperTape: 'flag'
 	};
 
+	// IDs that should display special icons (not in shape registry)
+	const specialIcons: Record<string, string> = {
+		container: '📦',
+		containerStyled: '📦',
+		group: '🗂️'
+	};
+
 	// Get the actual shape ID (mapped or original)
 	const actualShapeId = shapeIdMap[shapeId] || shapeId;
 
@@ -185,63 +192,84 @@
 
 	// Render the shape
 	let svgContent = $derived.by(() => {
-		// Handle electrical components that don't have shape definitions
-		const electricalComponents = [
-			'resistor',
-			'capacitor',
-			'inductor',
-			'transformer',
-			'voltageSource',
-			'currentSource',
-			'ground',
-			'junction',
-			'diode',
-			'led',
-			'npnTransistor',
-			'pnpTransistor',
-			'nmosTransistor',
-			'pmosTransistor',
-			'opamp',
-			'andGate',
-			'orGate',
-			'notGate',
-			'bufferGate',
-			'xorGate',
-			'xnorGate',
-			'nandGate',
-			'norGate',
-			'and3Gate',
-			'or3Gate',
-			'nand3Gate',
-			'nor3Gate',
-			'dFlipFlop',
-			'jkFlipFlop',
-			'tFlipFlop',
-			'register4',
-			'register8',
-			'mux4to1',
-			'mux8to1',
-			'decoder2to4',
-			'decoder3to8'
-		];
+		// Check for special icons first (non-shape elements like containers)
+		const specialIcon = specialIcons[shapeId];
+		if (specialIcon) {
+			return `
+				<svg 
+					width="${size}" 
+					height="${size}" 
+					viewBox="0 0 40 40"
+					xmlns="http://www.w3.org/2000/svg"
+					style="display: block;"
+				>
+					<text 
+						x="20" 
+						y="28" 
+						text-anchor="middle" 
+						font-size="24"
+					>${specialIcon}</text>
+				</svg>
+			`;
+		}
 
-		if (electricalComponents.includes(shapeId)) {
+		// For electrical components, use special text-based icons
+		if (
+			[
+				'resistor',
+				'capacitor',
+				'inductor',
+				'transformer',
+				'voltageSource',
+				'currentSource',
+				'ground',
+				'junction',
+				'diode',
+				'led',
+				'npnTransistor',
+				'pnpTransistor',
+				'nmosTransistor',
+				'pmosTransistor',
+				'opamp',
+				'andGate',
+				'orGate',
+				'notGate',
+				'bufferGate',
+				'xorGate',
+				'xnorGate',
+				'nandGate',
+				'norGate',
+				'and3Gate',
+				'or3Gate',
+				'nand3Gate',
+				'nor3Gate',
+				'dFlipFlop',
+				'jkFlipFlop',
+				'tFlipFlop',
+				'register4',
+				'register8',
+				'mux4to1',
+				'mux8to1',
+				'decoder2to4',
+				'decoder3to8'
+			].includes(shapeId)
+		) {
 			// Return a simple icon representation for electrical components
 			const iconMap: Record<string, string> = {
-				resistor: '─┴─',
+				resistor: '─▭─',
 				capacitor: '─||─',
 				inductor: '─∿─',
 				transformer: '∿∿',
 				voltageSource: '─⊕─',
-				currentSource: '─⊙─',
+				currentSource: '─⊗─',
 				ground: '⏚',
 				junction: '●',
 				diode: '─▷|─',
-				led: '─▷|→',
-				npnTransistor: '─┤├─',
-				pnpTransistor: '─├┤─',
-				nmosTransistor: '─┤├─',
-				pmosTransistor: '─├┤─',
+				led: '─▷|↯',
+				npnTransistor: '─↓↑─',
+				pnpTransistor: '─↑↓─',
+				nmosTransistor: '─↓↑─',
+				pmosTransistor: '─↑↓─',
 				opamp: '─▷─',
 				andGate: '─D─',
 				orGate: '─)─',
