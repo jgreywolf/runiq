@@ -37,7 +37,13 @@ export const pyramidShape: ShapeDefinition = {
 
   bounds(ctx) {
     const data = (ctx.node.data as any) || {};
-    const levels = Array.isArray(data.levels) ? data.levels : [];
+    // Support multiple formats:
+    // 1. data.levels (programmatic API)
+    // 2. data.values (DSL parser output)
+    // 3. data as array directly
+    const levels = Array.isArray(data.levels) 
+      ? data.levels 
+      : (Array.isArray(data.values) ? data.values : (Array.isArray(data) ? data : []));
 
     // Default size or size based on number of levels
     const levelCount = Math.max(levels.length, 3);
@@ -63,9 +69,13 @@ export const pyramidShape: ShapeDefinition = {
   render(ctx) {
     const bounds = this.bounds(ctx);
     const data = (ctx.node.data as any) || {};
+    // Support multiple formats:
+    // 1. data.levels (programmatic API)
+    // 2. data.values (DSL parser output)
+    // 3. data as array directly
     const levels: PyramidLevel[] = Array.isArray(data.levels)
       ? data.levels
-      : [];
+      : (Array.isArray(data.values) ? data.values : (Array.isArray(data) ? data : []));
     const colors = Array.isArray(data.colors) ? data.colors : DEFAULT_COLORS;
     const showValues = data.showValues !== false; // Show by default
 

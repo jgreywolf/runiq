@@ -8,8 +8,16 @@
 
 	let { shapeId, size = 24 }: Props = $props();
 
+	// Map toolbox IDs to actual shape registry IDs
+	const shapeIdMap: Record<string, string> = {
+		paperTape: 'flag'
+	};
+
+	// Get the actual shape ID (mapped or original)
+	const actualShapeId = shapeIdMap[shapeId] || shapeId;
+
 	// Get the shape definition from registry
-	const shape = shapeRegistry.get(shapeId);
+	const shape = shapeRegistry.get(actualShapeId);
 
 	// Create a minimal render context for the icon
 	const createMockContext = (shapeId: string) => {
@@ -57,6 +65,34 @@
 			};
 		}
 
+		// Special handling for pyramid - requires data
+		if (shapeId === 'pyramid') {
+			return {
+				node: {
+					id: '',
+					label: '',
+					data: {
+						levels: [
+							{ label: 'Top', value: 50 },
+							{ label: 'Mid', value: 100 },
+							{ label: 'Base', value: 150 }
+						]
+					}
+				},
+				style: {
+					padding: 2,
+					fill: '#cbd5e1',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 20, height: 8 };
+				}
+			};
+		}
+
 		// Special handling for lightning bolt to make it more visible
 		if (shapeId === 'lightning') {
 			return {
@@ -89,7 +125,8 @@
 			'document',
 			'delay',
 			'braceLeft',
-			'braceRight'
+			'braceRight',
+			'flag'
 		];
 		if (needsMinBounds.includes(shapeId)) {
 			return {
@@ -253,7 +290,7 @@
 
 		if (!shape) return '';
 
-		const mockContext = createMockContext(shapeId);
+		const mockContext = createMockContext(actualShapeId);
 		const bounds = shape.bounds(mockContext as any);
 		const shapeContent = shape.render(mockContext as any, { x: 0, y: 0 });
 

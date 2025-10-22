@@ -136,7 +136,7 @@
 				{
 					id: 'paperTape',
 					label: 'Paper Tape',
-					code: 'shape id as @paperTape label:"Tape"'
+					code: 'shape id as @flag label:"Tape"'
 				},
 				{
 					id: 'card',
@@ -287,7 +287,7 @@
 					label: 'Venn Diagram (4)',
 					code: 'shape id as @venn4 label:"Sets" data:[{"setA":100},{"setB":100},{"setC":100},{"setD":100}]'
 				},
-				{ id: 'pyramid', label: 'Pyramid', code: 'shape id as @pyramid label:"Hierarchy"' }
+				{ id: 'pyramid', label: 'Pyramid', code: 'shape id as @pyramid label:"Hierarchy" data:[{"label":"Top","value":100},{"label":"Middle","value":200},{"label":"Bottom","value":300}]' }
 			]
 		},
 		{
