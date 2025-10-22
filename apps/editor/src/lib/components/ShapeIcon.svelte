@@ -100,25 +100,92 @@
 			};
 		}
 
-		// Special handling for lightning bolt to make it more visible
-		if (shapeId === 'lightning') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 4,
-					fill: '#fbbf24',
-					stroke: '#000',
-					strokeWidth: 1.5,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
+	// Special handling for lightning bolt to make it more visible
+	if (shapeId === 'lightning') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 4,
+				fill: '#fbbf24',
+				stroke: '#000',
+				strokeWidth: 1.5,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
 
-		// Shapes that need minimum bounds (won't render properly with no text)
+	// Special handling for C4 shapes to show proper styling
+	if (shapeId === 'c4-person') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#08427B',
+				stroke: '#052E56',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'c4-system') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 3,
+				fill: '#1168BD',
+				stroke: '#0B4884',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 7
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 30, height: 10 };
+			}
+		};
+	}
+
+	if (shapeId === 'c4-container') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 3,
+				fill: '#438DD5',
+				stroke: '#2E6295',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 28, height: 10 };
+			}
+		};
+	}
+
+	if (shapeId === 'c4-component') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#85BBF0',
+				stroke: '#5A9BD5',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 24, height: 8 };
+			}
+		};
+	}		// Shapes that need minimum bounds (won't render properly with no text)
 		const needsMinBounds = [
 			'roundedRectangle',
 			'stadium',
