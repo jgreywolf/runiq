@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import { Button } from '$lib/components/ui/button';
 
 	// Props
 	interface Props {
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
-		onNewDiagram?: () => void;
+		onNewDiagram?: (type: 'diagram' | 'electrical') => void;
 	}
 
 	let {
@@ -16,13 +18,20 @@
 		onNewDiagram
 	}: Props = $props();
 
+	let showNewDiagramDialog = $state(false);
+
 	// Actions
-	function handleNewDiagram() {
+	function handleNewDiagramClick() {
 		if (isDirty) {
 			const confirmed = confirm('You have unsaved changes. Create a new diagram?');
 			if (!confirmed) return;
 		}
-		onNewDiagram?.();
+		showNewDiagramDialog = true;
+	}
+
+	function createDiagram(type: 'diagram' | 'electrical') {
+		showNewDiagramDialog = false;
+		onNewDiagram?.(type);
 	}
 
 	function handleExport() {
@@ -97,7 +106,7 @@
 	<div class="flex items-center gap-2">
 		<!-- New Diagram Button -->
 		<button
-			onclick={handleNewDiagram}
+			onclick={handleNewDiagramClick}
 			class="inline-flex items-center gap-2 rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
 			title="New diagram (Ctrl+N)"
 		>
@@ -192,3 +201,83 @@
 		</button>
 	</div>
 </header>
+
+<!-- New Diagram Type Selection Dialog -->
+<Dialog.Root bind:open={showNewDiagramDialog}>
+	<Dialog.Content class="bg-white sm:max-w-md">
+		<Dialog.Header>
+			<Dialog.Title class="text-neutral-900">Create New Diagram</Dialog.Title>
+			<Dialog.Description class="text-neutral-600"
+				>Choose the type of diagram you want to create.</Dialog.Description
+			>
+		</Dialog.Header>
+
+		<div class="grid gap-4 py-4">
+			<!-- Regular Diagram Option -->
+			<button
+				onclick={() => createDiagram('diagram')}
+				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-runiq-100 text-runiq-600 transition-colors group-hover:bg-runiq-200"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z"
+							/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Diagram</h3>
+						<p class="text-sm text-neutral-600">Flowcharts, UML, network diagrams</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Electrical Circuit Option -->
+			<button
+				onclick={() => createDiagram('electrical')}
+				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 transition-colors group-hover:bg-amber-200"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M13 10V3L4 14h7v7l9-11h-7z"
+							/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Electrical Circuit</h3>
+						<p class="text-sm text-neutral-600">Schematics, logic gates, components</p>
+					</div>
+				</div>
+			</button>
+		</div>
+
+		<Dialog.Footer>
+			<Button variant="outline" onclick={() => (showNewDiagramDialog = false)}>Cancel</Button>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>

@@ -148,6 +148,109 @@
 
 	// Render the shape
 	let svgContent = $derived.by(() => {
+		// Handle electrical components that don't have shape definitions
+		const electricalComponents = [
+			'resistor',
+			'capacitor',
+			'inductor',
+			'transformer',
+			'voltageSource',
+			'currentSource',
+			'ground',
+			'junction',
+			'diode',
+			'led',
+			'npnTransistor',
+			'pnpTransistor',
+			'nmosTransistor',
+			'pmosTransistor',
+			'opamp',
+			'andGate',
+			'orGate',
+			'notGate',
+			'bufferGate',
+			'xorGate',
+			'xnorGate',
+			'nandGate',
+			'norGate',
+			'and3Gate',
+			'or3Gate',
+			'nand3Gate',
+			'nor3Gate',
+			'dFlipFlop',
+			'jkFlipFlop',
+			'tFlipFlop',
+			'register4',
+			'register8',
+			'mux4to1',
+			'mux8to1',
+			'decoder2to4',
+			'decoder3to8'
+		];
+
+		if (electricalComponents.includes(shapeId)) {
+			// Return a simple icon representation for electrical components
+			const iconMap: Record<string, string> = {
+				resistor: '─┴─',
+				capacitor: '─||─',
+				inductor: '─∿─',
+				transformer: '∿∿',
+				voltageSource: '─⊕─',
+				currentSource: '─⊙─',
+				ground: '⏚',
+				junction: '●',
+				diode: '─▷|─',
+				led: '─▷|→',
+				npnTransistor: '─┤├─',
+				pnpTransistor: '─├┤─',
+				nmosTransistor: '─┤├─',
+				pmosTransistor: '─├┤─',
+				opamp: '─▷─',
+				andGate: '─D─',
+				orGate: '─)─',
+				notGate: '─▷○',
+				bufferGate: '─▷─',
+				xorGate: '─⊕─',
+				xnorGate: '⊕○',
+				nandGate: '─D○',
+				norGate: '─)○',
+				and3Gate: 'D3',
+				or3Gate: ')3',
+				nand3Gate: 'D3○',
+				nor3Gate: ')3○',
+				dFlipFlop: 'D',
+				jkFlipFlop: 'JK',
+				tFlipFlop: 'T',
+				register4: 'R4',
+				register8: 'R8',
+				mux4to1: 'M4',
+				mux8to1: 'M8',
+				decoder2to4: 'D24',
+				decoder3to8: 'D38'
+			};
+
+			const icon = iconMap[shapeId] || '─?─';
+
+			return `
+				<svg 
+					width="${size}" 
+					height="${size}" 
+					viewBox="0 0 40 40"
+					xmlns="http://www.w3.org/2000/svg"
+					style="display: block;"
+				>
+					<text 
+						x="20" 
+						y="25" 
+						text-anchor="middle" 
+						font-family="monospace" 
+						font-size="16" 
+						fill="#334155"
+					>${icon}</text>
+				</svg>
+			`;
+		}
+
 		if (!shape) return '';
 
 		const mockContext = createMockContext(shapeId);

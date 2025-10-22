@@ -86,6 +86,9 @@ importers:
       '@runiq/parser-dsl':
         specifier: workspace:*
         version: link:../../packages/parser-dsl
+      '@runiq/renderer-schematic':
+        specifier: workspace:*
+        version: link:../../packages/renderer-schematic
       '@runiq/renderer-svg':
         specifier: workspace:*
         version: link:../../packages/renderer-svg

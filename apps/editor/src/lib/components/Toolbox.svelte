@@ -6,9 +6,13 @@
 
 	interface Props {
 		onInsertShape: (shapeCode: string) => void;
+		currentCode?: string; // Current editor content to detect diagram type
 	}
 
-	let { onInsertShape }: Props = $props();
+	let { onInsertShape, currentCode = '' }: Props = $props();
+
+	// Detect if current code is for electrical circuit or regular diagram
+	let isElectricalMode = $derived(currentCode.trim().startsWith('electrical'));
 
 	// Shape categories with their shapes
 	const shapeCategories = [
@@ -232,23 +236,139 @@
 				{ id: 'hourglass', label: 'Hourglass', code: 'shape id as @hourglass label:""' },
 				{ id: 'fork', label: 'Fork/Join', code: 'shape id as @fork label:""' }
 			]
+		},
+		{
+			id: 'electrical',
+			label: 'Electrical Components',
+			shapes: [
+				{ id: 'resistor', label: 'Resistor', code: 'part id type:R value:"1k" pins:(N1,N2)' },
+				{ id: 'capacitor', label: 'Capacitor', code: 'part id type:C value:"1u" pins:(N1,N2)' },
+				{ id: 'inductor', label: 'Inductor', code: 'part id type:L value:"1m" pins:(N1,N2)' },
+				{ id: 'transformer', label: 'Transformer', code: 'part id type:XFMR pins:(P1,P2,S1,S2)' },
+				{
+					id: 'voltageSource',
+					label: 'Voltage Source',
+					code: 'part id type:V value:"5" pins:(VCC,GND)'
+				},
+				{
+					id: 'currentSource',
+					label: 'Current Source',
+					code: 'part id type:I value:"1m" pins:(N1,N2)'
+				},
+				{ id: 'ground', label: 'Ground', code: 'part id type:GND pins:(GND)' },
+				{ id: 'junction', label: 'Junction', code: 'part id type:JUNC pins:(N1)' },
+				{ id: 'diode', label: 'Diode', code: 'part id type:D pins:(N1,N2)' },
+				{ id: 'led', label: 'LED', code: 'part id type:LED pins:(N1,N2)' },
+				{ id: 'npnTransistor', label: 'NPN Transistor', code: 'part id type:NPN pins:(C,B,E)' },
+				{ id: 'pnpTransistor', label: 'PNP Transistor', code: 'part id type:PNP pins:(C,B,E)' },
+				{ id: 'nmosTransistor', label: 'NMOS', code: 'part id type:NMOS pins:(D,G,S)' },
+				{ id: 'pmosTransistor', label: 'PMOS', code: 'part id type:PMOS pins:(D,G,S)' },
+				{ id: 'opamp', label: 'Op-Amp', code: 'part id type:OPAMP pins:(OUT,INP,INN,VCC,GND)' }
+			]
+		},
+		{
+			id: 'logic-gates',
+			label: 'Logic Gates',
+			shapes: [
+				{ id: 'andGate', label: 'AND (2-input)', code: 'part id type:AND pins:(A,B,Y)' },
+				{ id: 'orGate', label: 'OR (2-input)', code: 'part id type:OR pins:(A,B,Y)' },
+				{ id: 'notGate', label: 'NOT', code: 'part id type:NOT pins:(A,Y)' },
+				{ id: 'bufferGate', label: 'Buffer', code: 'part id type:BUF pins:(A,Y)' },
+				{ id: 'xorGate', label: 'XOR', code: 'part id type:XOR pins:(A,B,Y)' },
+				{ id: 'xnorGate', label: 'XNOR', code: 'part id type:XNOR pins:(A,B,Y)' },
+				{ id: 'nandGate', label: 'NAND (2-input)', code: 'part id type:NAND pins:(A,B,Y)' },
+				{ id: 'norGate', label: 'NOR (2-input)', code: 'part id type:NOR pins:(A,B,Y)' },
+				{ id: 'and3Gate', label: 'AND (3-input)', code: 'part id type:AND3 pins:(A,B,C,Y)' },
+				{ id: 'or3Gate', label: 'OR (3-input)', code: 'part id type:OR3 pins:(A,B,C,Y)' },
+				{ id: 'nand3Gate', label: 'NAND (3-input)', code: 'part id type:NAND3 pins:(A,B,C,Y)' },
+				{ id: 'nor3Gate', label: 'NOR (3-input)', code: 'part id type:NOR3 pins:(A,B,C,Y)' }
+			]
+		},
+		{
+			id: 'digital-components',
+			label: 'Digital Components',
+			shapes: [
+				{ id: 'dFlipFlop', label: 'D Flip-Flop', code: 'part id type:DFF pins:(D,CLK,Q,QB)' },
+				{ id: 'jkFlipFlop', label: 'JK Flip-Flop', code: 'part id type:JKFF pins:(J,K,CLK,Q,QB)' },
+				{ id: 'tFlipFlop', label: 'T Flip-Flop', code: 'part id type:TFF pins:(T,CLK,Q,QB)' },
+				{
+					id: 'register4',
+					label: '4-bit Register',
+					code: 'part id type:REG4 pins:(D0,D1,D2,D3,CLK,Q0,Q1,Q2,Q3)'
+				},
+				{
+					id: 'register8',
+					label: '8-bit Register',
+					code: 'part id type:REG8 pins:(D0,D1,D2,D3,D4,D5,D6,D7,CLK,Q0,Q1,Q2,Q3,Q4,Q5,Q6,Q7)'
+				},
+				{
+					id: 'mux4to1',
+					label: '4-to-1 Mux',
+					code: 'part id type:MUX4 pins:(D0,D1,D2,D3,S0,S1,Y)'
+				},
+				{
+					id: 'mux8to1',
+					label: '8-to-1 Mux',
+					code: 'part id type:MUX8 pins:(D0,D1,D2,D3,D4,D5,D6,D7,S0,S1,S2,Y)'
+				},
+				{
+					id: 'decoder2to4',
+					label: '2-to-4 Decoder',
+					code: 'part id type:DEC24 pins:(A0,A1,Y0,Y1,Y2,Y3)'
+				},
+				{
+					id: 'decoder3to8',
+					label: '3-to-8 Decoder',
+					code: 'part id type:DEC38 pins:(A0,A1,A2,Y0,Y1,Y2,Y3,Y4,Y5,Y6,Y7)'
+				}
+			]
 		}
 	];
 
 	let shapeCounter = $state(1);
+	let partCounter = $state(1);
 
 	function insertShape(shapeCode: string) {
 		// Replace 'id' with a unique identifier
-		const uniqueCode = shapeCode.replace(/^shape id /, `shape shape${shapeCounter} `);
-		shapeCounter++;
+		let uniqueCode: string;
+
+		if (shapeCode.startsWith('part ')) {
+			// Electrical component - use part counter
+			uniqueCode = shapeCode.replace(/^part id /, `part P${partCounter} `);
+			partCounter++;
+		} else {
+			// Regular shape - use shape counter
+			uniqueCode = shapeCode.replace(/^shape id /, `shape shape${shapeCounter} `);
+			shapeCounter++;
+		}
+
 		onInsertShape(uniqueCode);
 	}
+
+	// Filter categories based on mode
+	let displayedCategories = $derived(
+		isElectricalMode
+			? shapeCategories.filter(
+					(cat) =>
+						cat.id === 'electrical' || cat.id === 'logic-gates' || cat.id === 'digital-components'
+				)
+			: shapeCategories.filter(
+					(cat) =>
+						cat.id !== 'electrical' && cat.id !== 'logic-gates' && cat.id !== 'digital-components'
+				)
+	);
 </script>
 
 <Tooltip.Provider delayDuration={200}>
 	<div class="flex h-full flex-col">
+		{#if isElectricalMode}
+			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
+				<p class="text-xs font-medium text-amber-900">⚡ Electrical Circuit Mode</p>
+			</div>
+		{/if}
+
 		<Accordion.Root type="multiple" class="w-full">
-			{#each shapeCategories as category}
+			{#each displayedCategories as category}
 				<Accordion.Item value={category.id}>
 					<Accordion.Trigger class="px-4 py-2 text-sm font-medium hover:bg-neutral-50">
 						{category.label}

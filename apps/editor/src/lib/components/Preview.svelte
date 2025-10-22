@@ -3,6 +3,7 @@
 	import { parse } from '@runiq/parser-dsl';
 	import { layoutRegistry } from '@runiq/core';
 	import { renderSvg } from '@runiq/renderer-svg';
+	import { renderSchematic } from '@runiq/renderer-schematic';
 	import { Badge } from '$lib/components/ui/badge';
 
 	// Props
@@ -76,26 +77,51 @@
 				return;
 			}
 
-			// Get the first diagram profile
+			// Get the first profile
 			const profile = parseResult.document.profiles[0];
 			if (!profile) {
 				errors = ['No profile found in document'];
 				svgOutput = '';
 				isRendering = false;
+				if (onparse) onparse(false, errors);
 				return;
 			}
 
+			// Start render timer
+			const startRender = performance.now();
+
+			// Handle electrical/circuit profiles
+			if (profile.type === 'electrical') {
+				// Render electrical schematic
+				const renderResult = renderSchematic(profile as any, {
+					gridSize: 50,
+					routing: 'orthogonal',
+					showNetLabels: true,
+					showValues: true,
+					showReferences: true
+				});
+
+				svgOutput = renderResult.svg;
+				warnings = renderResult.warnings;
+				renderTime = Math.round(performance.now() - startRender);
+				isRendering = false;
+				if (onparse) onparse(true, []);
+				return;
+			}
+
+			// Handle diagram profiles
 			if (profile.type !== 'diagram') {
 				errors = [
 					`Profile type '${profile.type}' is not yet supported in the preview.`,
-					`Currently only 'diagram' profiles can be rendered.`,
-					`Electrical and digital profiles are parsed but rendering is not yet implemented.`
+					`Currently only 'diagram' and 'electrical' profiles can be rendered.`
 				];
 				svgOutput = '';
 				isRendering = false;
 				if (onparse) onparse(false, errors);
 				return;
-			} // Add astVersion for compatibility with DiagramAst
+			}
+
+			// Add astVersion for compatibility with DiagramAst
 			const diagram = {
 				...profile,
 				astVersion: parseResult.document.astVersion
@@ -110,8 +136,6 @@
 					2
 				)
 			);
-
-			const startRender = performance.now();
 
 			// Layout
 			const layoutEng = layoutRegistry.get(layoutEngine);

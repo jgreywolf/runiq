@@ -74,21 +74,36 @@
 		}
 	}
 
-	// Handle new diagram creation
-	function handleNewDiagram() {
-		const defaultContent = 'diagram "My Diagram" {\n  // Add your shapes and connections here\n}';
+	// Handle new diagram creation with type selection
+	function handleNewDiagram(type: 'diagram' | 'electrical') {
+		let defaultContent: string;
+		let defaultName: string;
+
+		if (type === 'electrical') {
+			defaultContent = `electrical "My Circuit" {
+  net VCC, GND
+  
+  // Add your electrical components here
+  // Example: part R1 type:R value:"1k" pins:(VCC,GND)
+}`;
+			defaultName = 'Untitled Circuit';
+		} else {
+			defaultContent = 'diagram "My Diagram" {\n  // Add your shapes and connections here\n}';
+			defaultName = 'Untitled Diagram';
+		}
+
 		if (codeEditorRef) {
 			codeEditorRef.setValue(defaultContent);
 		}
 		code = defaultContent;
-		diagramName = 'Untitled Diagram';
+		diagramName = defaultName;
 		isDirty = false;
 
 		// Clear auto-saved content
 		localStorage.removeItem(AUTO_SAVE_KEY);
 		lastSaved = null;
 
-		console.log('New diagram created');
+		console.log(`New ${type} created`);
 	}
 
 	// Load panel sizes and auto-saved code from localStorage
@@ -150,7 +165,7 @@
 						<h2 class="text-sm font-semibold text-white">Toolbox</h2>
 					</div>
 					<div class="flex-1 overflow-auto">
-						<Toolbox onInsertShape={handleInsertShape} />
+						<Toolbox onInsertShape={handleInsertShape} currentCode={code} />
 					</div>
 				</div>
 			</Pane>
