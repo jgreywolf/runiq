@@ -202,32 +202,10 @@ export const shapeCategories: ShapeCategory[] = [
 		label: 'UML',
 		shapes: [
 			// Class Diagrams
-			{
-				id: 'class',
-				label: 'Class',
-				code: `shape id as @class label:"ClassName"
-  attributes:[{name:"attribute" type:"String" visibility:public}]
-  methods:[{name:"method" returnType:"void" visibility:public}]`
-			},
-			{
-				id: 'interface',
-				label: 'Interface',
-				code: `shape id as @interface label:"IRepository"
-  methods:["save()" "find()" "delete()"]`
-			},
-			{
-				id: 'abstract',
-				label: 'Abstract Class',
-				code: `shape id as @abstract label:"Vehicle"
-  attributes:["speed: int"]
-  methods:["move()" "stop()"]`
-			},
-			{
-				id: 'enum',
-				label: 'Enumeration',
-				code: `shape id as @enum label:"Priority"
-  values:["LOW" "MEDIUM" "HIGH" "CRITICAL"]`
-			},
+			{ id: 'class', label: 'Class', code: 'shape id as @class label:"ClassName"' },
+			{ id: 'interface', label: 'Interface', code: 'shape id as @interface label:"IRepository"' },
+			{ id: 'abstract', label: 'Abstract Class', code: 'shape id as @abstract label:"Vehicle"' },
+			{ id: 'enum', label: 'Enumeration', code: 'shape id as @enum label:"Priority"' },
 			{
 				id: 'package',
 				label: 'Package',
@@ -242,91 +220,20 @@ export const shapeCategories: ShapeCategory[] = [
 				code: 'shape id as @systemBoundary label:"System"'
 			},
 			// Sequence Diagrams
-			{
-				id: 'lifeline',
-				label: 'Lifeline',
-				code: `shape id as @lifeline label:"Controller"
-  stereotype:"boundary"
-  height:200`
-			},
-			{
-				id: 'activation',
-				label: 'Activation',
-				code: `shape id as @activation
-  height:80`
-			},
-			{
-				id: 'fragment',
-				label: 'Fragment',
-				code: `shape id as @fragment label:"alt"
-  condition:"[x > 0]"
-  width:200
-  height:120`
-			},
+			{ id: 'lifeline', label: 'Lifeline', code: 'shape id as @lifeline label:"Controller"' },
+			{ id: 'activation', label: 'Activation', code: 'shape id as @activation' },
+			{ id: 'fragment', label: 'Fragment', code: 'shape id as @fragment label:"alt"' },
 			{ id: 'deletion', label: 'Deletion', code: 'shape id as @deletion' },
 			// State Machine Diagrams
-			{
-				id: 'state',
-				label: 'State',
-				code: `shape id as @state label:"Active"
-  activities:["entry / init()" "do / process()" "exit / cleanup()"]`
-			},
+			{ id: 'state', label: 'State', code: 'shape id as @state label:"Active"' },
 			{ id: 'initialState', label: 'Initial State', code: 'shape id as @initialState' },
 			{ id: 'finalState', label: 'Final State', code: 'shape id as @finalState' },
-			{
-				id: 'choice',
-				label: 'Choice',
-				code: 'shape id as @choice label:"[x > 0]"'
-			},
-			{
-				id: 'fork',
-				label: 'Fork',
-				code: `shape id as @fork
-  width:100`
-			},
-			{
-				id: 'join',
-				label: 'Join',
-				code: `shape id as @join
-  width:100`
-			},
-			{
-				id: 'activity',
-				label: 'Activity',
-				code: 'shape id as @activity label:"Process Order"'
-			},
-			{
-				id: 'activityDecision',
-				label: 'Decision',
-				code: 'shape id as @activityDecision label:"[approved?]"'
-			},
-			{
-				id: 'activityMerge',
-				label: 'Merge',
-				code: 'shape id as @activityMerge label:""'
-			},
-			{
-				id: 'activityFork',
-				label: 'Fork Bar',
-				code: `shape id as @activityFork
-  width:80`
-			},
-			{
-				id: 'activityJoin',
-				label: 'Join Bar',
-				code: `shape id as @activityJoin
-  width:80`
-			},
-			{
-				id: 'activityInitial',
-				label: 'Initial Node',
-				code: 'shape id as @activityInitial label:""'
-			},
-			{
-				id: 'activityFinal',
-				label: 'Final Node',
-				code: 'shape id as @activityFinal label:""'
-			}
+			{ id: 'choice', label: 'Choice', code: 'shape id as @choice label:"[x > 0]"' },
+			{ id: 'fork', label: 'Fork/Join Bar', code: 'shape id as @fork' },
+			// Activity Diagrams
+			{ id: 'activity', label: 'Activity', code: 'shape id as @activity label:"Process Order"' },
+			{ id: 'activityDecision', label: 'Decision', code: 'shape id as @activityDecision label:"[approved?]"' },
+			{ id: 'activityMerge', label: 'Merge', code: 'shape id as @activityMerge label:""' }
 		]
 	},
 	{
@@ -892,8 +799,8 @@ cancelled -> final`
 				description: 'Online shopping process flow',
 				code: `diagram "Online Shopping Activity"
 
-shape start as @activityInitial
-shape end as @activityFinal
+shape start as @initialState
+shape end as @finalState
 
 shape browse as @activity label:"Browse Products"
 shape addCart as @activity label:"Add to Cart"
@@ -904,13 +811,11 @@ shape login as @activity label:"Login"
 shape merge1 as @activityMerge
 shape payment as @activity label:"Enter Payment"
 shape decision2 as @activityDecision label:"[payment valid?]"
-shape fork1 as @activityFork
-  width:120
+shape fork1 as @fork
 shape processPayment as @activity label:"Process Payment"
 shape sendConfirm as @activity label:"Send Confirmation"
 shape updateInventory as @activity label:"Update Inventory"
-shape join1 as @activityJoin
-  width:120
+shape join1 as @join
 
 start -> browse
 browse -> addCart
