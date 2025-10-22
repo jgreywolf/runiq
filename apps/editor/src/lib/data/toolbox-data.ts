@@ -245,8 +245,9 @@ export const shapeCategories: ShapeCategory[] = [
 			{
 				id: 'lifeline',
 				label: 'Lifeline',
-				code: `shape id as @lifeline label:":Controller"
-  stereotype:"boundary"`
+				code: `shape id as @lifeline label:"Controller"
+  stereotype:"boundary"
+  height:200`
 			},
 			{
 				id: 'activation',
@@ -792,39 +793,26 @@ note1 .. shape`
 				description: 'User authentication flow',
 				code: `diagram "Authentication Sequence"
 
-shape user as @lifeline label:":User"
-  height:300
+shape user as @lifeline label:"User"
+  height:250
 
-shape ui as @lifeline label:":LoginUI"
-  height:300
+shape ui as @lifeline label:"LoginUI"
+  stereotype:"boundary"
+  height:250
 
-shape controller as @lifeline label:":AuthController"
+shape controller as @lifeline label:"AuthController"
   stereotype:"controller"
-  height:300
+  height:250
 
-shape db as @lifeline label:":Database"
-  height:300
+shape db as @lifeline label:"Database"
+  height:250
 
-shape act1 as @activation
-  height:50
-
-shape act2 as @activation
-  height:80
-
-shape act3 as @activation
-  height:40
-
-shape frag as @fragment label:"alt"
-  condition:"[credentials valid]"
-  width:300
-  height:100
-
-user -Enter credentials-> ui
-ui -authenticate()-> controller
-controller -query()-> db
-db -result-> controller
-controller -success-> ui
-ui -show home-> user`
+user -"1: enter credentials"-> ui
+ui -"2: authenticate()"-> controller
+controller -"3: validateUser()"-> db
+db -"4: user data"-> controller
+controller -"5: token"-> ui
+ui -"6: show home"-> user`
 			},
 			{
 				name: 'State Machine',
