@@ -217,6 +217,32 @@ export const shapeCategories: ShapeCategory[] = [
 		]
 	},
 	{
+		id: 'c4',
+		label: 'C4 Architecture',
+		shapes: [
+			{
+				id: 'c4-person',
+				label: 'Person',
+				code: 'shape id as @c4-person label:"User"'
+			},
+			{
+				id: 'c4-system',
+				label: 'Software System',
+				code: 'shape id as @c4-system label:"System Name"'
+			},
+			{
+				id: 'c4-container',
+				label: 'Container',
+				code: 'shape id as @c4-container label:"Web App\\n[React, TypeScript]"'
+			},
+			{
+				id: 'c4-component',
+				label: 'Component',
+				code: 'shape id as @c4-component label:"Controller"'
+			}
+		]
+	},
+	{
 		id: 'network',
 		label: 'Network',
 		shapes: [
@@ -673,6 +699,48 @@ shape teacher as @class label:"Teacher"
 
 student -> person
 teacher -> person`
+			}
+		]
+	},
+	{
+		id: 'c4-architecture',
+		label: 'C4 Architecture',
+		samples: [
+			{
+				name: 'System Context',
+				description: 'C4 Level 1: Banking system context',
+				code: `diagram "Banking System - Context"
+direction: TB
+
+shape customer as @c4-person label:"Customer"
+shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
+shape emailSystem as @c4-system label:"Email System"
+shape mainframe as @c4-system label:"Mainframe\\nBanking System"
+
+customer -Uses-> bankingSystem
+bankingSystem -Sends emails-> emailSystem
+bankingSystem -Uses-> mainframe`
+			},
+			{
+				name: 'Container Diagram',
+				description: 'C4 Level 2: System containers',
+				code: `diagram "Banking System - Containers"
+direction: TB
+
+shape customer as @c4-person label:"Customer"
+
+container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  shape webapp as @c4-container label:"Single-Page App\\n[JavaScript, React]"
+  shape api as @c4-container label:"API Application\\n[Java, Spring Boot]"
+  shape db as @c4-container label:"Database\\n[Oracle]"
+}
+
+shape emailSystem as @c4-system label:"Email System"
+
+customer -Uses [HTTPS]-> webapp
+webapp -API calls [JSON/HTTPS]-> api
+api -Reads/Writes [SQL/TCP]-> db
+api -Sends emails [SMTP]-> emailSystem`
 			}
 		]
 	},
