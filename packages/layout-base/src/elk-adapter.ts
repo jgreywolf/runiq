@@ -21,11 +21,21 @@ import { shapeRegistry, createTextMeasurer } from '@runiq/core';
  * ✅ Multiple containers - WORKING
  * ✅ Container padding - WORKING
  * ✅ Spacing option with containers - WORKING (spacing parameter passed to container layouts)
- * ⏳ Nested containers - PARTIAL (simple nesting works, multi-level needs positioning fix)
+ * ❌ Nested containers - NOT WORKING (known limitation, see below)
  *
- * @todo Nested Container Positioning: Multi-level nested containers need proper relative
- * positioning to parent. Currently using flat structure with placeholder bounds.
+ * @todo HIGH PRIORITY: Nested Container Positioning
+ * Multi-level nested containers need proper relative positioning to parent.
+ * Currently using flat structure with placeholder bounds - nested containers position
+ * outside their parents. This is CRITICAL for:
+ * - C4 architecture diagrams (System → Container → Component hierarchy)
+ * - BPMN pools with nested lanes
+ * - Complex organizational charts
+ * - Deployment diagrams with nested environments
+ *
  * See container-layout.test.ts for 4 skipped tests (two-level, three-level, C4, spacing).
+ *
+ * WORKAROUND: C4 and other hierarchical diagrams currently use FLAT container hierarchies
+ * (multiple containers side-by-side at same level) which works correctly.
  *
  * @todo Container Grid Layout: Support flexible grid-like positioning of containers
  * (e.g., 3 containers top row, 2 containers bottom row where one spans multiple columns).

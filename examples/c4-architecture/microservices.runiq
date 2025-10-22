@@ -1,0 +1,38 @@
+diagram "E-Commerce Platform - Microservices"
+direction: LR
+
+shape customer as @c4-person label:"Customer"
+shape admin as @c4-person label:"Admin"
+
+container frontend "Frontend" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderWidth:2 {
+  shape web as @c4-container label:"Web UI\n[React]"
+  shape mobile as @c4-container label:"Mobile App\n[Flutter]"
+}
+
+container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  shape gateway as @c4-container label:"API Gateway\n[Node.js]"
+  shape auth as @c4-container label:"Auth Service\n[Java]"
+  shape catalog as @c4-container label:"Catalog Service\n[Python]"
+  shape orders as @c4-container label:"Orders Service\n[Go]"
+}
+
+container data "Data Layer" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:2 {
+  shape userDb as @c4-container label:"User DB\n[PostgreSQL]"
+  shape catalogDb as @c4-container label:"Catalog DB\n[MongoDB]"
+  shape cache as @c4-container label:"Cache\n[Redis]"
+}
+
+customer -Uses-> web
+customer -Uses-> mobile
+admin -Manages-> web
+
+web -API Calls-> gateway
+mobile -API Calls-> gateway
+
+gateway -Authenticates-> auth
+gateway -Fetches Products-> catalog
+gateway -Places Orders-> orders
+
+auth -Reads/Writes-> userDb
+catalog -Reads-> catalogDb
+orders -Writes-> cache

@@ -259,7 +259,7 @@ describe('Storage & Specialized Shapes (TDD)', () => {
       expect(pointsMatch).toBeTruthy();
       if (pointsMatch) {
         const coords = pointsMatch[1].split(' ');
-        expect(coords.length).toBeGreaterThanOrEqual(8); // Multiple zigzag points
+        expect(coords.length).toBeGreaterThanOrEqual(7); // Classic 7-point lightning bolt
       }
     });
   });

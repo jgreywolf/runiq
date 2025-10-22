@@ -6,7 +6,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Tests](https://img.shields.io/badge/tests-1098%2B-brightgreen.svg)](./packages)
 
-**🚀 Status**: Phase 1 Complete - Core types, **71 shapes**, ELK layout, hierarchical containers!  
+**🚀 Status**: Phase 1 Complete - Core types, **75 shapes**, ELK layout, hierarchical containers!  
+**⚡ NEW**: C4 Architecture diagrams - System Context, Containers, Components with official color palette! 🏗️  
 **⚡ NEW**: UML Class Diagrams with generics, member-level edges, and design patterns! 🎨  
 **⚡ NEW**: Mindmap diagrams for brainstorming & knowledge mapping - radial layout, 10 tests! 🧠  
 **⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️  
@@ -25,6 +26,18 @@
 - **Pluggable system**: Extensible shapes, icons, layout engines, and themes
 - **SvelteKit editor**: Monaco code editor with real-time preview
 - **Standards compliant**: SVG 1.1/2.0 friendly with accessibility support
+
+### C4 Architecture Diagrams (NEW! 🎉)
+
+- **4 hierarchical levels**: System Context, Container, Component, Code (use UML)
+- **Official C4 color palette**: Person (#08427B), System (#1168BD), Container (#438DD5), Component (#85BBF0)
+- **Technology labels**: Multi-line labels with `\n` separator for app name + tech stack
+- **Simon Brown's C4 model**: Industry-standard architecture visualization ([c4model.com](https://c4model.com/))
+- **4 shape types**: Person (external actors), Software System, Container (apps/DBs), Component (code modules)
+- **Microservices support**: Organize containers by architectural layer (frontend, backend, data)
+- **Relationship labels**: Technology/protocol annotations ([HTTPS], [SQL/TCP], [JSON/REST])
+- **Sample diagrams**: Banking system, microservices architecture, API components
+- **Professional styling**: Consistent with C4 community standards
 
 ### UML Class Diagrams (NEW! 🎉)
 
@@ -260,7 +273,32 @@ digital "Half Adder" {
 
 [See more digital examples →](./packages/export-verilog/examples/)
 
-###With Containers
+### C4 Architecture - System Context (NEW!)
+
+```runiq
+diagram "Banking System - Context"
+direction: TB
+
+shape customer as @c4-person label:"Customer"
+shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
+shape emailSystem as @c4-system label:"Email System"
+shape mainframe as @c4-system label:"Mainframe\\nBanking System"
+
+customer -Uses-> bankingSystem
+bankingSystem -Sends emails-> emailSystem
+bankingSystem -Uses-> mainframe
+```
+
+**Features:**
+
+- ✅ **Official C4 color palette** - Professional blue tones for each level
+- ✅ **Multi-line labels** - Use `\\n` for system name + description
+- ✅ **Technology labels** - Add protocols to edges: `-Uses [HTTPS]->`
+- ✅ **4 shape types** - Person, System, Container, Component
+
+[See full C4 guide →](./docs/examples/c4-architecture.md)
+
+### With Containers
 
 ```runiq
 diagram "Microservices" direction: LR
