@@ -32,6 +32,26 @@
 					label: 'Small Circle',
 					code: 'shape id as @smallCircle label:"Label"'
 				},
+				{
+					id: 'doubleCircle',
+					label: 'Double Circle',
+					code: 'shape id as @doubleCircle label:"Label"'
+				},
+				{
+					id: 'framedCircle',
+					label: 'Framed Circle',
+					code: 'shape id as @framedCircle label:"Label"'
+				},
+				{
+					id: 'crossCircle',
+					label: 'Cross Circle',
+					code: 'shape id as @crossCircle label:"Label"'
+				},
+				{
+					id: 'filledCircle',
+					label: 'Filled Circle',
+					code: 'shape id as @filledCircle label:"Label"'
+				},
 				{ id: 'ellipseWide', label: 'Ellipse', code: 'shape id as @ellipseWide label:"Label"' },
 				{ id: 'rhombus', label: 'Diamond', code: 'shape id as @rhombus label:"Label"' },
 				{ id: 'hexagon', label: 'Hexagon', code: 'shape id as @hexagon label:"Label"' },
@@ -47,7 +67,12 @@
 					label: 'Parallelogram',
 					code: 'shape id as @parallelogram label:"Label"'
 				},
-				{ id: 'trapezoid', label: 'Trapezoid', code: 'shape id as @trapezoid label:"Label"' }
+				{ id: 'trapezoid', label: 'Trapezoid', code: 'shape id as @trapezoid label:"Label"' },
+				{
+					id: 'flippedTrapezoid',
+					label: 'Flipped Trapezoid',
+					code: 'shape id as @flippedTrapezoid label:"Label"'
+				}
 			]
 		},
 		{
@@ -60,6 +85,11 @@
 					id: 'parallelogram',
 					label: 'Input/Output',
 					code: 'shape id as @parallelogram label:"Input/Output"'
+				},
+				{
+					id: 'leanLeft',
+					label: 'Data (Lean Left)',
+					code: 'shape id as @leanLeft label:"Data"'
 				},
 				{ id: 'stadium', label: 'Start/End', code: 'shape id as @stadium label:"Start"' },
 				{
@@ -82,11 +112,36 @@
 					label: 'Manual Operation',
 					code: 'shape id as @trapezoid label:"Manual"'
 				},
+				{
+					id: 'decisionManual',
+					label: 'Manual Decision',
+					code: 'shape id as @decisionManual label:"Choose"'
+				},
 				{ id: 'document', label: 'Document', code: 'shape id as @document label:"Document"' },
+				{
+					id: 'linedDocument',
+					label: 'Lined Document',
+					code: 'shape id as @linedDocument label:"Document"'
+				},
 				{
 					id: 'multiDocument',
 					label: 'Multiple Documents',
 					code: 'shape id as @multiDocument label:"Documents"'
+				},
+				{
+					id: 'taggedDocument',
+					label: 'Tagged Document',
+					code: 'shape id as @taggedDocument label:"Document"'
+				},
+				{
+					id: 'paperTape',
+					label: 'Paper Tape',
+					code: 'shape id as @paperTape label:"Tape"'
+				},
+				{
+					id: 'card',
+					label: 'Punched Card',
+					code: 'shape id as @card label:"Card"'
 				},
 				{ id: 'display', label: 'Display', code: 'shape id as @display label:"Display"' },
 				{ id: 'delay', label: 'Delay', code: 'shape id as @delay label:"Wait"' },
@@ -102,6 +157,11 @@
 			label: 'Data Storage',
 			shapes: [
 				{ id: 'cylinder', label: 'Database', code: 'shape id as @cylinder label:"Database"' },
+				{
+					id: 'hCylinder',
+					label: 'Horizontal Cylinder',
+					code: 'shape id as @hCylinder label:"Storage"'
+				},
 				{ id: 'diskStorage', label: 'Disk Storage', code: 'shape id as @diskStorage label:"Disk"' },
 				{ id: 'storedData', label: 'Stored Data', code: 'shape id as @storedData label:"Data"' },
 				{
@@ -222,6 +282,11 @@
 					label: 'Venn Diagram (3)',
 					code: 'shape id as @venn3 label:"Sets" data:[{"setA":120},{"setB":100},{"setC":80},{"AB":35},{"AC":28},{"BC":22},{"ABC":15},{"labelA":"Set A"},{"labelB":"Set B"},{"labelC":"Set C"}]'
 				},
+				{
+					id: 'venn4',
+					label: 'Venn Diagram (4)',
+					code: 'shape id as @venn4 label:"Sets" data:[{"setA":100},{"setB":100},{"setC":100},{"setD":100}]'
+				},
 				{ id: 'pyramid', label: 'Pyramid', code: 'shape id as @pyramid label:"Hierarchy"' }
 			]
 		},
@@ -234,7 +299,76 @@
 				{ id: 'braceRight', label: 'Brace Right', code: 'shape id as @braceRight label:""' },
 				{ id: 'lightning', label: 'Lightning Bolt', code: 'shape id as @lightning label:""' },
 				{ id: 'hourglass', label: 'Hourglass', code: 'shape id as @hourglass label:""' },
-				{ id: 'fork', label: 'Fork/Join', code: 'shape id as @fork label:""' }
+				{ id: 'fork', label: 'Fork/Join', code: 'shape id as @fork label:""' },
+				{ id: 'or', label: 'OR Symbol', code: 'shape id as @or label:""' }
+			]
+		},
+		{
+			id: 'rect-variants',
+			label: 'Rectangle Variants',
+			shapes: [
+				{
+					id: 'framedRectangle',
+					label: 'Framed Rectangle',
+					code: 'shape id as @framedRectangle label:"Frame"'
+				},
+				{
+					id: 'multiRectangle',
+					label: 'Multi Rectangle',
+					code: 'shape id as @multiRectangle label:"Stack"'
+				},
+				{
+					id: 'linedRectangle',
+					label: 'Lined Rectangle',
+					code: 'shape id as @linedRectangle label:"Lined"'
+				},
+				{
+					id: 'dividedRectangle',
+					label: 'Divided Rectangle',
+					code: 'shape id as @dividedRectangle label:"Divided"'
+				},
+				{
+					id: 'taggedRectangle',
+					label: 'Tagged Rectangle',
+					code: 'shape id as @taggedRectangle label:"Tagged"'
+				},
+				{
+					id: 'notchedRectangle',
+					label: 'Notched Rectangle',
+					code: 'shape id as @notchedRectangle label:"Notch"'
+				},
+				{
+					id: 'notchedPentagon',
+					label: 'Notched Pentagon',
+					code: 'shape id as @notchedPentagon label:"Notch"'
+				}
+			]
+		},
+		{
+			id: 'pedigree',
+			label: 'Pedigree Charts',
+			shapes: [
+				{ id: 'pedigreeMale', label: 'Male', code: 'shape id as @pedigreeMale label:"M"' },
+				{ id: 'pedigreeFemale', label: 'Female', code: 'shape id as @pedigreeFemale label:"F"' },
+				{ id: 'pedigreeUnknown', label: 'Unknown', code: 'shape id as @pedigreeUnknown label:"?"' }
+			]
+		},
+		{
+			id: 'quantum',
+			label: 'Quantum Circuits',
+			shapes: [
+				{ id: 'gateX', label: 'X Gate (Pauli-X)', code: 'shape id as @gateX label:"X"' },
+				{ id: 'gateY', label: 'Y Gate (Pauli-Y)', code: 'shape id as @gateY label:"Y"' },
+				{ id: 'gateZ', label: 'Z Gate (Pauli-Z)', code: 'shape id as @gateZ label:"Z"' },
+				{ id: 'gateH', label: 'H Gate (Hadamard)', code: 'shape id as @gateH label:"H"' },
+				{ id: 'gateS', label: 'S Gate (Phase)', code: 'shape id as @gateS label:"S"' },
+				{ id: 'gateT', label: 'T Gate (π/8)', code: 'shape id as @gateT label:"T"' },
+				{ id: 'controlDot', label: 'Control Dot', code: 'shape id as @controlDot label:""' },
+				{ id: 'cnotTarget', label: 'CNOT Target', code: 'shape id as @cnotTarget label:""' },
+				{ id: 'swapX', label: 'Swap Gate', code: 'shape id as @swapX label:""' },
+				{ id: 'measurement', label: 'Measurement', code: 'shape id as @measurement label:"M"' },
+				{ id: 'qubitWire', label: 'Qubit Wire', code: 'shape id as @qubitWire label:""' },
+				{ id: 'barrier', label: 'Barrier', code: 'shape id as @barrier label:""' }
 			]
 		},
 		{
