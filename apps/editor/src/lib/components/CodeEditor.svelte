@@ -243,21 +243,21 @@
 			const doc = editorView.state.doc;
 			const text = doc.toString();
 			const lines = text.split('\n');
-			
+
 			// Find the line with the comment
-			const commentLineIndex = lines.findIndex(line => 
+			const commentLineIndex = lines.findIndex((line) =>
 				line.includes('Add your shapes and connections here')
 			);
-			
+
 			if (commentLineIndex !== -1 && commentLineIndex + 1 < lines.length) {
 				// Position cursor at the start of the line after the comment
 				const targetLine = doc.line(commentLineIndex + 2); // +2 because lines are 1-indexed
 				const indent = targetLine.text.match(/^\s*/)?.[0] || '';
-				
+
 				editorView.dispatch({
 					selection: { anchor: targetLine.from + indent.length }
 				});
-				
+
 				// Focus the editor
 				editorView.focus();
 			}

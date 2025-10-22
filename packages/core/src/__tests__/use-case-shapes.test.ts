@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { ellipseWideShape } from '../shapes/ellipse-wide.js';
-import { systemBoundaryShape } from '../shapes/system-boundary.js';
+import { ellipseWideShape } from '../shapes/ellipseWide.js';
+import { systemBoundaryShape } from '../shapes/systemBoundary.js';
 import type { DiagramNode, Style, TextMeasurement } from '../types.js';
 
 describe('Use Case Shapes', () => {
@@ -19,7 +19,7 @@ describe('Use Case Shapes', () => {
 
   describe('ellipse-wide (Use Case Oval)', () => {
     it('should have correct shape id', () => {
-      expect(ellipseWideShape.id).toBe('ellipse-wide');
+      expect(ellipseWideShape.id).toBe('ellipseWide');
     });
 
     it('should calculate bounds wider than tall (horizontal oval)', () => {
@@ -145,7 +145,7 @@ describe('Use Case Shapes', () => {
     };
 
     it('should have correct shape id', () => {
-      expect(systemBoundaryShape.id).toBe('system-boundary');
+      expect(systemBoundaryShape.id).toBe('systemBoundary');
     });
 
     it('should calculate bounds with extra space for label at top', () => {

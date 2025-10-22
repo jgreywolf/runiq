@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Rectangle with dashed border and transparent/light fill
  */
 export const textBlockShape: ShapeDefinition = {
-  id: 'text',
+  id: 'textBlock',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

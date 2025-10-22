@@ -15,7 +15,7 @@ describe('Performance Benchmarks', () => {
     for (let i = 0; i < 100; i++) {
       nodes.push({
         id: `node${i}`,
-        shape: 'rect', // Correct ID
+        shape: 'rectangle', // Correct ID
         data: { label: `Node ${i}` },
       });
     }
@@ -67,12 +67,12 @@ describe('Performance Benchmarks', () => {
   it('should handle complex shapes efficiently', () => {
     // Use actual registered shape IDs
     const complexShapes = [
-      'pie',
-      'bar-chart-vertical',
-      'pedigree-male',
-      'pedigree-female',
-      'gate-x',
-      'gate-h',
+      'pieChart',
+      'barChartVertical',
+      'pedigreeMale',
+      'pedigreeFemale',
+      'gateX',
+      'gateH',
       'server',
       'router',
     ];
@@ -117,7 +117,7 @@ describe('Performance Benchmarks', () => {
     for (let i = 0; i < nodeCount; i++) {
       nodes.push({
         id: `n${i}`,
-        shape: 'rounded',
+        shape: 'roundedRectangle',
         data: { label: `Node ${i}` },
       });
     }
@@ -150,7 +150,13 @@ describe('Performance Benchmarks', () => {
 
   it('should cache shape lookups efficiently', () => {
     const lookupCount = 10000;
-    const shapes = ['rect', 'rounded', 'circ', 'rhombus', 'hex'];
+    const shapes = [
+      'rectangle',
+      'roundedRectangle',
+      'circle',
+      'rhombus',
+      'hexagon',
+    ];
 
     const startTime = performance.now();
 

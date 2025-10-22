@@ -31,7 +31,7 @@ function createMockContext(label: string): ShapeRenderContext {
 describe('Circle Variants (TDD)', () => {
   describe('Double Circle (Concentric)', () => {
     it('should have id d-circ', () => {
-      expect(doubleCircleShape.id).toBe('d-circ');
+      expect(doubleCircleShape.id).toBe('doubleCircle');
     });
 
     it('should calculate bounds with padding for outer circle', () => {
@@ -71,7 +71,7 @@ describe('Circle Variants (TDD)', () => {
 
   describe('Small Circle', () => {
     it('should have id sm-circ', () => {
-      expect(smallCircleShape.id).toBe('sm-circ');
+      expect(smallCircleShape.id).toBe('smallCircle');
     });
 
     it('should calculate smaller bounds than standard circle', () => {
@@ -106,7 +106,7 @@ describe('Circle Variants (TDD)', () => {
 
   describe('Framed Circle', () => {
     it('should have id fr-circ', () => {
-      expect(framedCircleShape.id).toBe('fr-circ');
+      expect(framedCircleShape.id).toBe('framedCircle');
     });
 
     it('should calculate bounds with frame space', () => {
@@ -146,7 +146,7 @@ describe('Circle Variants (TDD)', () => {
 
   describe('Cross Circle (X Inside)', () => {
     it('should have id x-circ', () => {
-      expect(crossCircleShape.id).toBe('x-circ');
+      expect(crossCircleShape.id).toBe('crossCircle');
     });
 
     it('should calculate standard circle bounds', () => {
@@ -183,7 +183,7 @@ describe('Circle Variants (TDD)', () => {
 
   describe('Filled Circle', () => {
     it('should have id fill-circ', () => {
-      expect(filledCircleShape.id).toBe('fill-circ');
+      expect(filledCircleShape.id).toBe('filledCircle');
     });
 
     it('should calculate standard circle bounds', () => {

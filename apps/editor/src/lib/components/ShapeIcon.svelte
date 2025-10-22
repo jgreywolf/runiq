@@ -18,21 +18,23 @@
 			return {
 				node: {
 					id: '',
-					label: '',
-					attributes: [{ name: '...', type: '', visibility: 'public' }],
-					methods: [{ name: '...', returnType: '', visibility: 'public' }]
+					label: 'Class',
+					data: {
+						attributes: [{ name: 'attr', type: 'type', visibility: 'public' }],
+						methods: [{ name: 'method', returnType: 'void', visibility: 'public' }]
+					}
 				},
 				style: {
-					padding: 2,
+					padding: 3,
 					fill: '#cbd5e1',
 					stroke: '#000',
 					strokeWidth: 1,
 					font: 'sans-serif',
-					fontSize: 6
+					fontSize: 7
 				},
 				measureText: (text: string, style: any) => {
-					if (text === '...') return { width: 8, height: 4 };
-					return { width: 0, height: 0 };
+					const charWidth = 4;
+					return { width: text.length * charWidth, height: 8 };
 				}
 			};
 		}
@@ -46,6 +48,24 @@
 					fill: 'none',
 					stroke: '#000',
 					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
+
+		// Special handling for lightning bolt to make it more visible
+		if (shapeId === 'lightning') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 4,
+					fill: '#fbbf24',
+					stroke: '#000',
+					strokeWidth: 1.5,
 					font: 'sans-serif',
 					fontSize: 6
 				},

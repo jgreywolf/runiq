@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { barChartHorizontal } from '../shapes/charts/bar-chart-horizontal.js';
+import { barChartHorizontal } from '../shapes/charts/barChartHorizontal.js';
 import type { ShapeRenderContext, NodeAst } from '../types.js';
 
 // Helper to create render context
@@ -19,7 +19,7 @@ function createContext(data: any, style?: any): ShapeRenderContext {
 describe('Bar Chart Horizontal Shape', () => {
   describe('Shape Properties', () => {
     it('should have correct shape ID', () => {
-      expect(barChartHorizontal.id).toBe('bar-chart-horizontal');
+      expect(barChartHorizontal.id).toBe('barChartHorizontal');
     });
 
     it('should calculate bounds based on number of bars', () => {

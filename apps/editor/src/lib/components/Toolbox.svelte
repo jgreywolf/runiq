@@ -36,7 +36,7 @@
 				{
 					id: 'flippedTriangle',
 					label: 'Flipped Triangle',
-					code: 'shape id as @flipped-triangle label:"Label"'
+					code: 'shape id as @flippedTriangle label:"Label"'
 				},
 				{
 					id: 'parallelogram',
@@ -111,9 +111,9 @@
 					code: 'shape id as @sequentialStorage label:"Tape"'
 				},
 				{
-					id: 'direct-stor',
+					id: 'directStorage',
 					label: 'Direct Storage',
-					code: 'shape id as @direct-storage label:"Direct"'
+					code: 'shape id as @directStorage label:"Direct"'
 				}
 			]
 		},
@@ -124,7 +124,9 @@
 				{
 					id: 'class',
 					label: 'Class',
-					code: 'shape id as @class label:"ClassName"\n  attributes:[{name:"attr" type:"String" visibility:public}]\n  methods:[{name:"method" returnType:"void" visibility:public}]'
+					code: `shape id as @class label:"ClassName"
+  attributes:[{name:"attribute" type:"String" visibility:public}]
+  methods:[{name:"method" returnType:"void" visibility:public}]`
 				},
 				{ id: 'actor', label: 'Actor', code: 'shape id as @actor label:"Actor"' },
 				{
@@ -194,20 +196,28 @@
 				{
 					id: 'pieChart',
 					label: 'Pie Chart',
-					code: 'shape id as @pieChart label:"Sales"\n  data:{values:[30,20,50] labels:["A","B","C"]}'
+					code: 'shape id as @pieChart label:"Sales" data:[30,20,50]'
 				},
 				{
 					id: 'barChartVertical',
 					label: 'Bar Chart (Vertical)',
-					code: 'shape id as @barChartVertical label:"Data"\n  data:{values:[10,20,15] labels:["Q1","Q2","Q3"]}'
+					code: 'shape id as @barChartVertical label:"Data" data:[10,20,15]'
 				},
 				{
 					id: 'barChartHorizontal',
 					label: 'Bar Chart (Horizontal)',
-					code: 'shape id as @barChartHorizontal label:"Data"\n  data:{values:[10,20,15] labels:["Q1","Q2","Q3"]}'
+					code: 'shape id as @barChartHorizontal label:"Data" data:[10,20,15]'
 				},
-				{ id: 'venn2', label: 'Venn Diagram (2)', code: 'shape id as @venn2 label:"Sets"' },
-				{ id: 'venn3', label: 'Venn Diagram (3)', code: 'shape id as @venn3 label:"Sets"' },
+				{
+					id: 'venn2',
+					label: 'Venn Diagram (2)',
+					code: 'shape id as @venn2 label:"Sets" data:[{"setA":100},{"setB":80},{"intersection":30},{"labelA":"Set A"},{"labelB":"Set B"}]'
+				},
+				{
+					id: 'venn3',
+					label: 'Venn Diagram (3)',
+					code: 'shape id as @venn3 label:"Sets" data:[{"setA":120},{"setB":100},{"setC":80},{"AB":35},{"AC":28},{"BC":22},{"ABC":15},{"labelA":"Set A"},{"labelB":"Set B"},{"labelC":"Set C"}]'
+				},
 				{ id: 'pyramid', label: 'Pyramid', code: 'shape id as @pyramid label:"Hierarchy"' }
 			]
 		},
@@ -215,12 +225,12 @@
 			id: 'special',
 			label: 'Special',
 			shapes: [
-				{ id: 'text', label: 'Text Block', code: 'shape id as @text-block label:"Note"' },
+				{ id: 'textBlock', label: 'Text Block', code: 'shape id as @textBlock label:"Note"' },
 				{ id: 'braceLeft', label: 'Brace Left', code: 'shape id as @braceLeft label:""' },
 				{ id: 'braceRight', label: 'Brace Right', code: 'shape id as @braceRight label:""' },
-				{ id: 'lightning', label: 'Lightning Bolt', code: 'shape id as @lightning-bolt label:""' },
+				{ id: 'lightning', label: 'Lightning Bolt', code: 'shape id as @lightning label:""' },
 				{ id: 'hourglass', label: 'Hourglass', code: 'shape id as @hourglass label:""' },
-				{ id: 'fork', label: 'Fork/Join', code: 'shape id as @fork-join label:""' }
+				{ id: 'fork', label: 'Fork/Join', code: 'shape id as @fork label:""' }
 			]
 		}
 	];
@@ -247,15 +257,18 @@
 						<div class="grid grid-cols-4 gap-0.5 p-1">
 							{#each category.shapes as shape}
 								<Tooltip.Root>
-									<Tooltip.Trigger>
-										<button
-											class="flex h-10 w-10 items-center justify-center rounded-md border border-transparent transition-colors hover:border-runiq-200 hover:bg-runiq-50 hover:text-runiq-700"
-											onclick={() => insertShape(shape.code)}
-										>
-											<ShapeIcon shapeId={shape.id} size={20} />
-										</button>
+									<Tooltip.Trigger
+										class="flex h-10 w-10 items-center justify-center rounded-md border border-transparent transition-colors hover:border-runiq-200 hover:bg-runiq-50 hover:text-runiq-700"
+										onclick={() => insertShape(shape.code)}
+									>
+										<ShapeIcon shapeId={shape.id} size={20} />
 									</Tooltip.Trigger>
-									<Tooltip.Content side="bottom" class="max-w-xs" sideOffset={2}>
+									<Tooltip.Content
+										side="top"
+										class="max-w-xs border border-neutral-300 bg-white text-neutral-900 shadow-lg"
+										sideOffset={4}
+										arrowClasses="bg-white border-r border-b border-neutral-300"
+									>
 										<p class="text-xs font-medium">{shape.label}</p>
 									</Tooltip.Content>
 								</Tooltip.Root>

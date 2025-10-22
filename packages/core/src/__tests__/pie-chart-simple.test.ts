@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { pieChart } from '../shapes/charts/pie.js';
+import { pieChart } from '../shapes/charts/pieChart.js';
 import type { ShapeRenderContext, NodeAst, Style } from '../types.js';
 
 // Helper to create test context
@@ -24,7 +24,7 @@ function ctx(data?: any): ShapeRenderContext {
 
 describe('Pie Chart Shape', () => {
   it('should have correct shape ID', () => {
-    expect(pieChart.id).toBe('pie-chart');
+    expect(pieChart.id).toBe('pieChart');
   });
 
   it('should calculate default bounds (250x250 without legend)', () => {

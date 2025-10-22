@@ -10,7 +10,7 @@ function createMockContext(label: string): ShapeRenderContext {
   return {
     node: {
       id: label.toLowerCase(),
-      shape: 'text',
+      shape: 'textBlock',
       label,
     },
     style: {
@@ -29,7 +29,7 @@ function createMockContext(label: string): ShapeRenderContext {
 describe('Annotation Shapes (TDD)', () => {
   describe('Text Block (Comment)', () => {
     it('should have id text', () => {
-      expect(textBlockShape.id).toBe('text');
+      expect(textBlockShape.id).toBe('textBlock');
     });
 
     it('should calculate bounds with padding', () => {
@@ -67,7 +67,7 @@ describe('Annotation Shapes (TDD)', () => {
 
   describe('Brace Left (Grouping)', () => {
     it('should have id brace-l', () => {
-      expect(braceLeftShape.id).toBe('brace-l');
+      expect(braceLeftShape.id).toBe('braceLeft');
     });
 
     it('should calculate tall bounds for grouping', () => {
@@ -104,7 +104,7 @@ describe('Annotation Shapes (TDD)', () => {
 
   describe('Brace Right (Grouping)', () => {
     it('should have id brace-r', () => {
-      expect(braceRightShape.id).toBe('brace-r');
+      expect(braceRightShape.id).toBe('braceRight');
     });
 
     it('should calculate tall bounds for grouping', () => {

@@ -41,7 +41,7 @@ function createMockContext(
 describe('Pedigree Chart Shapes (TDD)', () => {
   describe('Male Individual (Square)', () => {
     it('should have id pedigree-male', () => {
-      expect(pedigreeMaleShape.id).toBe('pedigree-male');
+      expect(pedigreeMaleShape.id).toBe('pedigreeMale');
     });
 
     it('should calculate fixed 40x40 bounds', () => {
@@ -122,7 +122,7 @@ describe('Pedigree Chart Shapes (TDD)', () => {
 
   describe('Female Individual (Circle)', () => {
     it('should have id pedigree-female', () => {
-      expect(pedigreeFemaleShape.id).toBe('pedigree-female');
+      expect(pedigreeFemaleShape.id).toBe('pedigreeFemale');
     });
 
     it('should calculate fixed 40x40 bounds', () => {
@@ -201,7 +201,7 @@ describe('Pedigree Chart Shapes (TDD)', () => {
 
   describe('Unknown Sex Individual (Diamond)', () => {
     it('should have id pedigree-unknown', () => {
-      expect(pedigreeUnknownShape.id).toBe('pedigree-unknown');
+      expect(pedigreeUnknownShape.id).toBe('pedigreeUnknown');
     });
 
     it('should calculate fixed 40x40 bounds', () => {

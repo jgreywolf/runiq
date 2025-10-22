@@ -36,7 +36,7 @@ function createMockContext(label: string): ShapeRenderContext {
 describe('Storage & Specialized Shapes (TDD)', () => {
   describe('H-Cylinder (Horizontal Database)', () => {
     it('should have id h-cyl', () => {
-      expect(hCylinderShape.id).toBe('h-cyl');
+      expect(hCylinderShape.id).toBe('hCylinder');
     });
 
     it('should calculate bounds with ellipse space', () => {
@@ -73,7 +73,7 @@ describe('Storage & Specialized Shapes (TDD)', () => {
 
   describe('Disk Storage', () => {
     it('should have id disk', () => {
-      expect(diskStorageShape.id).toBe('disk');
+      expect(diskStorageShape.id).toBe('diskStorage');
     });
 
     it('should calculate bounds for disk shape', () => {
@@ -109,7 +109,7 @@ describe('Storage & Specialized Shapes (TDD)', () => {
 
   describe('Stored Data (Bow-tie)', () => {
     it('should have id bow-tie', () => {
-      expect(storedDataShape.id).toBe('bow-tie');
+      expect(storedDataShape.id).toBe('storedData');
     });
 
     it('should calculate bounds for curved sides', () => {
@@ -147,7 +147,7 @@ describe('Storage & Specialized Shapes (TDD)', () => {
 
   describe('Internal Storage', () => {
     it('should have id int-storage', () => {
-      expect(internalStorageShape.id).toBe('int-storage');
+      expect(internalStorageShape.id).toBe('internalStorage');
     });
 
     it('should calculate standard bounds', () => {
@@ -184,7 +184,7 @@ describe('Storage & Specialized Shapes (TDD)', () => {
 
   describe('Notched Pentagon (Loop Limit)', () => {
     it('should have id notch-pent', () => {
-      expect(notchedPentagonShape.id).toBe('notch-pent');
+      expect(notchedPentagonShape.id).toBe('notchedPentagon');
     });
 
     it('should calculate bounds for pentagon', () => {

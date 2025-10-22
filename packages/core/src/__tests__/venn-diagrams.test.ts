@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { venn2Shape } from '../shapes/venn-2.js';
-import { venn3Shape } from '../shapes/venn-3.js';
-import { venn4Shape } from '../shapes/venn-4.js';
+import { venn2Shape } from '../shapes/venn2.js';
+import { venn3Shape } from '../shapes/venn3.js';
+import { venn4Shape } from '../shapes/venn4.js';
 import type { ShapeRenderContext } from '../types.js';
 
 /**
@@ -33,7 +33,7 @@ function createMockContext(label: string, data?: any): ShapeRenderContext {
 describe('Venn Diagram Shapes', () => {
   describe('2-Circle Venn Diagram', () => {
     it('should have correct id', () => {
-      expect(venn2Shape.id).toBe('venn-2');
+      expect(venn2Shape.id).toBe('venn2');
     });
 
     it('should calculate bounds with minimum size', () => {
@@ -125,7 +125,7 @@ describe('Venn Diagram Shapes', () => {
 
   describe('3-Circle Venn Diagram', () => {
     it('should have correct id', () => {
-      expect(venn3Shape.id).toBe('venn-3');
+      expect(venn3Shape.id).toBe('venn3');
     });
 
     it('should calculate bounds with minimum size', () => {
@@ -279,7 +279,7 @@ describe('Venn Diagram Shapes', () => {
 
   describe('4-Circle Venn Diagram', () => {
     it('should have correct id', () => {
-      expect(venn4Shape.id).toBe('venn-4');
+      expect(venn4Shape.id).toBe('venn4');
     });
 
     it('should calculate bounds with minimum size', () => {

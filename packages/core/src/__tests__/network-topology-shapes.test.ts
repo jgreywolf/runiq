@@ -16,7 +16,7 @@ import {
   loadBalancerShape,
   cloudShape,
   storageShape,
-} from '../shapes/network-topology.js';
+} from '../shapes/networkTopology.js';
 import { cylinderShape } from '../shapes/cylinder.js';
 
 function createMockContext(
@@ -200,7 +200,7 @@ describe('Network Topology Shapes', () => {
 
   describe('Load Balancer Shape', () => {
     it('should have id load-balancer', () => {
-      expect(loadBalancerShape.id).toBe('load-balancer');
+      expect(loadBalancerShape.id).toBe('loadBalancer');
     });
 
     it('should calculate fixed 70×60 bounds', () => {
@@ -311,7 +311,7 @@ describe('Network Topology Shapes', () => {
 
   describe('Database Shape (Cylinder)', () => {
     it('should have id cyl', () => {
-      expect(cylinderShape.id).toBe('cyl');
+      expect(cylinderShape.id).toBe('cylinder');
     });
 
     it('should render as cylinder (database visual)', () => {

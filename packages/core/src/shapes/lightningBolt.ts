@@ -37,28 +37,26 @@ export const lightningBoltShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    // Create lightning bolt zigzag pattern
+    // Classic lightning bolt shape with improved middle zigzag
+    // The zigzag should be more horizontal and pronounced
     const points = [
-      `${x + w * 0.4},${y}`, // Top
-      `${x + w * 0.35},${y + h * 0.4}`, // Upper middle left
-      `${x + w * 0.55},${y + h * 0.45}`, // Upper middle right
-      `${x + w * 0.5},${y + h * 0.6}`, // Center
-      `${x + w},${y + h * 0.55}`, // Right protrusion
-      `${x + w * 0.45},${y + h * 0.65}`, // Lower middle
-      `${x + w * 0.6},${y + h}`, // Bottom
-      `${x + w * 0.3},${y + h * 0.7}`, // Left lower
-      `${x},${y + h * 0.5}`, // Left protrusion
-      `${x + w * 0.35},${y + h * 0.45}`, // Back to upper middle
+      `${x + w * 0.5},${y}`, // 1. Top center-left
+      `${x + w * 0.2},${y + h * 0.42}`, // 2. Left side upper jag (go left)
+      `${x + w * 0.55},${y + h * 0.42}`, // 3. Middle notch (jog RIGHT past center)
+      `${x + w * 0.25},${y + h}`, // 4. Bottom sharp point (go left to tip)
+      `${x + w * 0.8},${y + h * 0.3}`, // 5. Right side (from tip, go FAR RIGHT)
+      `${x + w * 0.55},${y + h * 0.3}`, // 6. Middle indent (jog back LEFT)
+      `${x + w * 0.8},${y}`, // 7. Top center-right (back to top)
     ].join(' ');
 
-    const fill = ctx.style.fill || '#f0f0f0';
+    const fill = ctx.style.fill || '#fbbf24';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
     const font = ctx.style.font || 'sans-serif';
-    const fontSize = ctx.style.fontSize || 12; // Smaller font for complex shape
+    const fontSize = ctx.style.fontSize || 10;
 
     const textX = x + w / 2;
-    const textY = y + h / 2;
+    const textY = y + h * 0.78; // Lower to avoid bolt shape
 
     return `
       <polygon points="${points}"
