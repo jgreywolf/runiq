@@ -62,7 +62,8 @@ export class RuniqValidator {
       'queue',
     ];
 
-    if (!validShapes.includes(shape.shape)) {
+    // Skip validation if shape is not specified (will be set by container type defaults)
+    if (shape.shape && !validShapes.includes(shape.shape)) {
       accept(
         'warning',
         `Unknown shape type "${shape.shape}". Valid shapes: ${validShapes.join(', ')}`,

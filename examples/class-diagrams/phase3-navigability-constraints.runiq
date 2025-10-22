@@ -1,0 +1,89 @@
+/*
+ * Phase 3 UML Class Diagram Features: Navigability & Constraints
+ * 
+ * This example demonstrates:
+ * - Navigability arrows (showing direction of traversal)
+ * - Constraints on attributes, methods, and associations
+ */
+
+diagram "Library Management System" {
+  
+  // Library System Classes
+  shape Library as @class label:"Library"
+    attributes:[
+      {name:"name" type:"String" visibility:public},
+      {name:"address" type:"String" visibility:public},
+      {name:"catalog" type:"List<Book>" visibility:private constraints:["ordered"]}
+    ]
+    methods:[
+      {name:"addBook" params:[{name:"book" type:"Book"}] returnType:"void" visibility:public},
+      {name:"findBook" params:[{name:"isbn" type:"String"}] returnType:"Book" visibility:public constraints:["readonly"]},
+      {name:"removeBook" params:[{name:"isbn" type:"String"}] returnType:"boolean" visibility:public}
+    ]
+  
+  shape Book as @class label:"Book"
+    attributes:[
+      {name:"isbn" type:"String" visibility:public constraints:["unique"]},
+      {name:"title" type:"String" visibility:public},
+      {name:"author" type:"String" visibility:public},
+      {name:"available" type:"boolean" visibility:private}
+    ]
+    methods:[
+      {name:"checkout" returnType:"void" visibility:public},
+      {name:"checkin" returnType:"void" visibility:public},
+      {name:"isAvailable" returnType:"boolean" visibility:public constraints:["readonly"]}
+    ]
+  
+  shape Member as @class label:"Member"
+    attributes:[
+      {name:"memberId" type:"String" visibility:public constraints:["unique"]},
+      {name:"name" type:"String" visibility:public},
+      {name:"borrowedBooks" type:"List<Book>" visibility:private constraints:["ordered", "unique"]}
+    ]
+    methods:[
+      {name:"borrowBook" params:[{name:"book" type:"Book"}] returnType:"void" visibility:public},
+      {name:"returnBook" params:[{name:"book" type:"Book"}] returnType:"void" visibility:public},
+      {name:"getBorrowedBooks" returnType:"List<Book>" visibility:public constraints:["readonly"]}
+    ]
+  
+  /*
+   * Association: Library contains Books
+   * - Navigability: target (Library can find Books, but Books don't reference Library)
+   * - Constraint: ordered (Books in catalog are kept in order)
+   */
+  Library -> Book
+    edgeType:aggregation
+    navigability:target
+    multiplicitySource:"1"
+    multiplicityTarget:"0..*"
+    roleTarget:"catalog"
+    constraints:["ordered"]
+  
+  /*
+   * Association: Member borrows Books
+   * - Navigability: bidirectional (both can find each other)
+   * - Member can borrow up to 5 books
+   * - Constraints: ordered (Member's borrowed list is ordered)
+   */
+  Member -> Book
+    edgeType:association
+    navigability:bidirectional
+    multiplicitySource:"0..*"
+    multiplicityTarget:"0..5"
+    roleSource:"borrowers"
+    roleTarget:"borrowedBooks"
+    constraints:["ordered"]
+  
+  /*
+   * Association: Library has Members
+   * - Navigability: target (Library tracks Members, but Members don't reference Library directly)
+   * - Constraint: unique (no duplicate members)
+   */
+  Library -> Member
+    edgeType:aggregation
+    navigability:target
+    multiplicitySource:"1"
+    multiplicityTarget:"0..*"
+    roleTarget:"members"
+    constraints:["unique"]
+}

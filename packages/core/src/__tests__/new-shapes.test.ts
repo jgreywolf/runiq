@@ -39,7 +39,7 @@ function createMockContext(label: string): ShapeRenderContext {
 describe('New Shapes', () => {
   describe('Rectangle Shape', () => {
     it('should have correct id', () => {
-      expect(rectangleShape.id).toBe('rect');
+      expect(rectangleShape.id).toBe('rectangle');
     });
 
     it('should calculate bounds based on text', () => {
@@ -124,7 +124,7 @@ describe('New Shapes', () => {
 
   describe('Circle Shape', () => {
     it('should have correct id', () => {
-      expect(circleShape.id).toBe('circ');
+      expect(circleShape.id).toBe('circle');
     });
 
     it('should calculate square bounds for circular shape', () => {
@@ -178,7 +178,7 @@ describe('New Shapes', () => {
 
   describe('Triangle Shape', () => {
     it('should have correct id', () => {
-      expect(triangleShape.id).toBe('tri');
+      expect(triangleShape.id).toBe('triangle');
     });
 
     it('should calculate bounds with minimum size', () => {
@@ -227,7 +227,7 @@ describe('New Shapes', () => {
 
   describe('Parallelogram Shape (Data I/O)', () => {
     it('should have correct id', () => {
-      expect(parallelogramShape.id).toBe('lean-r');
+      expect(parallelogramShape.id).toBe('parallelogram');
     });
 
     it('should calculate bounds with skew space', () => {
@@ -272,7 +272,7 @@ describe('New Shapes', () => {
 
   describe('Trapezoid Shape', () => {
     it('should have correct id for base-down trapezoid', () => {
-      expect(trapezoidShape.id).toBe('trap-b');
+      expect(trapezoidShape.id).toBe('trapezoid');
     });
 
     it('should calculate bounds with minimum size', () => {
@@ -303,7 +303,7 @@ describe('New Shapes', () => {
 
   describe('Flipped Trapezoid Shape', () => {
     it('should have correct id for base-up trapezoid', () => {
-      expect(flippedTrapezoidShape.id).toBe('trap-t');
+      expect(flippedTrapezoidShape.id).toBe('flippedTrapezoid');
     });
 
     it('should render trapezoid with narrower bottom', () => {
@@ -328,7 +328,7 @@ describe('New Shapes', () => {
 
   describe('Manual Input Shape', () => {
     it('should have correct id', () => {
-      expect(manualInputShape.id).toBe('sl-rect');
+      expect(manualInputShape.id).toBe('manualInput');
     });
 
     it('should calculate bounds with extra height for slope', () => {
@@ -422,7 +422,7 @@ describe('New Shapes', () => {
 
   describe('Cylinder Shape (Database)', () => {
     it('should have correct id', () => {
-      expect(cylinderShape.id).toBe('cyl');
+      expect(cylinderShape.id).toBe('cylinder');
     });
 
     it('should calculate bounds with minimum size', () => {

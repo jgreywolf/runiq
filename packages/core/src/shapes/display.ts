@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../types.js';
  * Wider at bottom, narrower at top, with curved sides
  */
 export const displayShape: ShapeDefinition = {
-  id: 'curv-trap',
+  id: 'display',
 
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);

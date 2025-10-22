@@ -1,7 +1,5 @@
-# Grouped Bar Chart Test
+// Grouped Bar Chart Test
 
-shape chart1 as @bar-chart-vertical label: "Grouped Bars Test" data: [
-  {"label": "Q1", "values": [30, 45, 25]},
-  {"label": "Q2", "values": [35, 50, 30]},
-  {"label": "Q3", "values": [40, 55, 35]}
-]
+diagram "Grouped Bars Test" {
+  shape chart1 as @bar-chart-vertical label:"Grouped Bars Test" data:[{"label":"Q1","values":[30,45,25]},{"label":"Q2","values":[35,50,30]},{"label":"Q3","values":[40,55,35]}]
+}

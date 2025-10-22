@@ -1,3 +1,102 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+/* ============================================================================
+   Runiq Brand Colors
+   ============================================================================
+   Primary brand color: #5a819e (Wolf mascot scarf & outline)
+   See BRAND-COLORS.md for full palette documentation
+   ============================================================================ */
+
+@theme {
+	/* Runiq Brand Colors (Primary) */
+	--color-runiq-50: #f0f5f8;
+	--color-runiq-100: #dce8ef;
+	--color-runiq-200: #b9d1df;
+	--color-runiq-300: #96bacf;
+	--color-runiq-400: #73a3bf;
+	--color-runiq-500: #5a819e; /* PRIMARY BRAND COLOR */
+	--color-runiq-600: #48677e;
+	--color-runiq-700: #364d5f;
+	--color-runiq-800: #24333f;
+	--color-runiq-900: #121a20;
+
+	/* Semantic Colors */
+	--color-success: #10b981;
+	--color-success-dark: #059669;
+	--color-error: #ef4444;
+	--color-error-dark: #dc2626;
+	--color-warning: #f59e0b;
+	--color-warning-dark: #d97706;
+	--color-info: #06b6d4;
+	--color-info-dark: #0891b2;
+}
+
+/* ============================================================================
+   Global Styles
+   ============================================================================ */
+
+:root {
+	/* Light mode defaults */
+	--bg-primary: #f9fafb;
+	--bg-secondary: #f3f4f6;
+	--bg-panel: #ffffff;
+	--border-default: #e5e7eb;
+	--text-primary: #111827;
+	--text-secondary: #4b5563;
+	--text-muted: #6b7280;
+
+	/* Brand color aliases */
+	--brand-primary: #5a819e;
+	--brand-hover: #48677e;
+	--brand-active: #364d5f;
+	--brand-light: #dce8ef;
+	--brand-lighter: #f0f5f8;
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg-primary: #0f1419;
+		--bg-secondary: #1a1f26;
+		--bg-panel: #1e2329;
+		--border-default: #2d3748;
+		--text-primary: #e2e8f0;
+		--text-secondary: #cbd5e0;
+		--text-muted: #a0aec0;
+	}
+}
+
+/* Optional: Manual dark mode class */
+.dark {
+	--bg-primary: #0f1419;
+	--bg-secondary: #1a1f26;
+	--bg-panel: #1e2329;
+	--border-default: #2d3748;
+	--text-primary: #e2e8f0;
+	--text-secondary: #cbd5e0;
+	--text-muted: #a0aec0;
+}
+
+/* ============================================================================
+   Base Styles
+   ============================================================================ */
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family:
+		Inter,
+		system-ui,
+		-apple-system,
+		sans-serif;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+	line-height: 1.6;
+}
+
+code,
+pre {
+	font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+}

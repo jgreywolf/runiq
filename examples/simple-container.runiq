@@ -1,13 +1,12 @@
-diagram "Simple Container Test"
+diagram "Simple Container Test" {
 
-container backend "Backend"
-  backgroundColor: "#e3f2fd"
-  borderColor: "#1976d2"
-  borderWidth: 3 {
-  shape api as @hex label: "API"
-  shape auth as @hex label: "Auth"
-  api -> auth
+  container backend "Backend" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 {
+    shape api as @hex label:"API"
+    shape auth as @hex label:"Auth"
+    api -> auth
+  }
+
+  shape web as @rounded label:"Web"
+  web -> api
+
 }
-
-shape web as @rounded label: "Web"
-web -> api

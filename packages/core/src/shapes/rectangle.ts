@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Aliases: rect, process
  */
 export const rectangleShape: ShapeDefinition = {
-  id: 'rect',
+  id: 'rectangle',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

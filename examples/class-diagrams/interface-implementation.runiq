@@ -1,0 +1,50 @@
+// Interface Implementation Example
+// Demonstrates interface definitions and implementation relationships
+
+diagram "Comparable Types" {
+  direction: TB
+  
+  // Interface definition
+  shape IComparable as @class label:"IComparable"
+    stereotype:"interface"
+    genericTypes:["T"]
+    methods:[
+      {name:"compareTo" params:[{name:"other" type:"T"}] returnType:"int" visibility:public}
+    ]
+  
+  // Classes implementing the interface
+  shape Integer as @class label:"Integer"
+    attributes:[
+      {name:"value" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"compareTo" params:[{name:"other" type:"Integer"}] returnType:"int" visibility:public},
+      {name:"getValue" returnType:"int" visibility:public}
+    ]
+  
+  shape String as @class label:"String"
+    attributes:[
+      {name:"data" type:"char[]" visibility:private},
+      {name:"length" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"compareTo" params:[{name:"other" type:"String"}] returnType:"int" visibility:public},
+      {name:"toString" returnType:"String" visibility:public}
+    ]
+  
+  shape Date as @class label:"Date"
+    attributes:[
+      {name:"year" type:"int" visibility:private},
+      {name:"month" type:"int" visibility:private},
+      {name:"day" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"compareTo" params:[{name:"other" type:"Date"}] returnType:"int" visibility:public},
+      {name:"isAfter" params:[{name:"other" type:"Date"}] returnType:"bool" visibility:public}
+    ]
+  
+  // Implementation relationships (dashed arrows typically)
+  Integer -> IComparable lineStyle:dashed
+  String -> IComparable lineStyle:dashed
+  Date -> IComparable lineStyle:dashed
+}

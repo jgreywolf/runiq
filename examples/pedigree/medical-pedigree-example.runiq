@@ -1,0 +1,59 @@
+// Medical Pedigree Example - Genetic Disorder Tracking
+// Shows affected individuals, carriers, and deceased members
+
+diagram "Genetic Disorder Tracking" {
+  // Generation I
+  shape g1m1 as @pedigree-male label:"I-1" deceased:true
+  shape g1f1 as @pedigree-female label:"I-2" carrier:true deceased:true
+  
+  // Generation II
+  shape g2m1 as @pedigree-male label:"II-1" affected:true
+  shape g2f1 as @pedigree-female label:"II-2"
+  shape g2m2 as @pedigree-male label:"II-3"
+  shape g2f2 as @pedigree-female label:"II-4" carrier:true
+  shape g2m3 as @pedigree-male label:"II-5" deceased:true
+  shape g2f3 as @pedigree-female label:"II-6" carrier:true
+  
+  // Generation III
+  shape g3f1 as @pedigree-female label:"III-1" carrier:true
+  shape g3m1 as @pedigree-male label:"III-2" affected:true
+  shape g3f2 as @pedigree-female label:"III-3"
+  shape g3m2 as @pedigree-male label:"III-4"
+  shape g3f3 as @pedigree-female label:"III-5" affected:true
+  shape g3m3 as @pedigree-male label:"III-6"
+  shape g3f4 as @pedigree-female label:"III-7" carrier:true
+  
+  // Marriages Gen I
+  g1m1 -> g1f1
+  
+  // Children Gen I to Gen II
+  g1m1 -> g2m1
+  g1m1 -> g2m2
+  g1m1 -> g2m3
+  g1f1 -> g2m1
+  g1f1 -> g2m2
+  g1f1 -> g2m3
+  
+  // Marriages Gen II
+  g2m1 -> g2f1
+  g2m2 -> g2f2
+  g2m3 -> g2f3
+  
+  // Children Gen II to Gen III
+  g2m1 -> g3f1
+  g2m1 -> g3m1
+  g2f1 -> g3f1
+  g2f1 -> g3m1
+  
+  g2m2 -> g3f2
+  g2m2 -> g3m2
+  g2f2 -> g3f2
+  g2f2 -> g3m2
+  
+  g2m3 -> g3f3
+  g2m3 -> g3m3
+  g2m3 -> g3f4
+  g2f3 -> g3f3
+  g2f3 -> g3m3
+  g2f3 -> g3f4
+}

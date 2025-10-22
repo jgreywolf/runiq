@@ -1,0 +1,60 @@
+// Visual Enhancements Example
+// Demonstrates Phase 2 features: static underline, abstract italics, derived attributes
+
+diagram "Visual Enhancements" {
+  direction: TB
+  
+  // Singleton Pattern with static members
+  shape Singleton as @class label:"Singleton"
+    attributes:[
+      {name:"instance" type:"Singleton" visibility:private static:true},
+      {name:"createdAt" type:"Date" visibility:private},
+      {name:"uptime" type:"Duration" visibility:public derived:true}
+    ]
+    methods:[
+      {name:"getInstance" returnType:"Singleton" visibility:public static:true},
+      {name:"resetInstance" visibility:private static:true},
+      {name:"doWork" visibility:public}
+    ]
+  
+  // Abstract base class with abstract methods
+  shape Shape as @class label:"Shape"
+    stereotype:"abstract"
+    attributes:[
+      {name:"id" type:"string" visibility:protected},
+      {name:"area" type:"double" visibility:public derived:true}
+    ]
+    methods:[
+      {name:"calculateArea" returnType:"double" visibility:public abstract:true},
+      {name:"draw" visibility:public abstract:true}
+    ]
+  
+  // Concrete implementation  
+  shape Circle as @class label:"Circle"
+    attributes:[
+      {name:"radius" type:"double" visibility:private},
+      {name:"PI" type:"double" visibility:public static:true}
+    ]
+    methods:[
+      {name:"calculateArea" returnType:"double" visibility:public},
+      {name:"draw" visibility:public}
+    ]
+
+  // Relationships
+  Shape -> Circle
+    edgeType: generalization
+}
+
+// Phase 2 Visual Enhancements:
+// 1. STATIC MEMBERS (Underlined)
+//    - Singleton.instance: Singleton (static attribute)
+//    - Singleton.getInstance(): Singleton (static method)
+//    - Circle.PI: double (static constant)
+//
+// 2. ABSTRACT METHODS (Italics)
+//    - Shape.calculateArea(): double (must be implemented)
+//    - Shape.draw() (must be implemented)
+//
+// 3. DERIVED ATTRIBUTES (/ prefix)
+//    - Singleton./uptime: Duration (calculated from createdAt)
+//    - Shape./area: double (calculated via calculateArea())

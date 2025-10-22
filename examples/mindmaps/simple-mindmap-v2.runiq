@@ -1,0 +1,20 @@
+// Simple Mindmap - Version 2 with type:mindmap
+// Demonstrates simplified syntax where shapes are automatically assigned
+
+diagram "Simple Mindmap v2" {
+  
+  container "BrainstormingSession" type:mindmap algorithm:radial spacing:80 {
+    // No need to specify shapes!
+    // First node is automatically @circ (central)
+    // All other nodes are automatically @rounded (branches)
+    
+    shape central label:"Project Ideas"
+    shape branch1 label:"Mobile App"
+    shape branch2 label:"Website"
+    shape branch3 label:"API Service"
+    
+    central -> branch1
+    central -> branch2
+    central -> branch3
+  }
+}

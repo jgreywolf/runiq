@@ -19,6 +19,8 @@
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
 		"@eslint/js": "^9.36.0",
+		"@internationalized/date": "3.8.1",
+		"@lucide/svelte": "0.544.0",
 		"@playwright/test": "^1.55.1",
 		"@sveltejs/adapter-auto": "^6.1.0",
 		"@sveltejs/kit": "^2.43.2",
@@ -28,6 +30,7 @@
 		"@tailwindcss/vite": "^4.1.13",
 		"@types/node": "^22",
 		"@vitest/browser": "^3.2.4",
+		"bits-ui": "2.11.0",
 		"eslint": "^9.36.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.12.4",
@@ -46,12 +49,27 @@
 		"vitest-browser-svelte": "^1.1.0"
 	},
 	"dependencies": {
+		"@codemirror/autocomplete": "^6.19.0",
+		"@codemirror/commands": "^6.9.0",
+		"@codemirror/lang-javascript": "^6.2.4",
+		"@codemirror/language": "^6.11.3",
+		"@codemirror/lint": "^6.9.0",
+		"@codemirror/search": "^6.5.11",
+		"@codemirror/state": "^6.5.2",
+		"@codemirror/view": "^6.38.6",
 		"@runiq/core": "workspace:*",
-		"@runiq/parser-dsl": "workspace:*",
+		"@runiq/icons-fontawesome": "workspace:*",
 		"@runiq/io-json": "workspace:*",
 		"@runiq/layout-base": "workspace:*",
+		"@runiq/parser-dsl": "workspace:*",
+		"@runiq/renderer-schematic": "workspace:*",
 		"@runiq/renderer-svg": "workspace:*",
-		"@runiq/icons-fontawesome": "workspace:*",
-		"monaco-editor": "^0.44.0"
+		"clsx": "^2.1.1",
+		"codemirror": "^6.0.2",
+		"lucide-svelte": "^0.546.0",
+		"monaco-editor": "^0.44.0",
+		"paneforge": "^1.0.2",
+		"tailwind-merge": "^3.3.1",
+		"tailwind-variants": "^3.1.1"
 	}
 }

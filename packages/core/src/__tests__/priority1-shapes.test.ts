@@ -35,7 +35,7 @@ function createMockContext(label: string): ShapeRenderContext {
 describe('Priority 1 Shapes (TDD)', () => {
   describe('Display Shape (Curved Trapezoid)', () => {
     it('should have id curv-trap', () => {
-      expect(displayShape.id).toBe('curv-trap');
+      expect(displayShape.id).toBe('display');
     });
 
     it('should calculate bounds with extra width for curves', () => {
@@ -81,7 +81,7 @@ describe('Priority 1 Shapes (TDD)', () => {
 
   describe('Lean-Left Parallelogram', () => {
     it('should have id lean-l', () => {
-      expect(leanLeftShape.id).toBe('lean-l');
+      expect(leanLeftShape.id).toBe('leanLeft');
     });
 
     it('should calculate bounds with skew space', () => {
@@ -156,7 +156,7 @@ describe('Priority 1 Shapes (TDD)', () => {
 
   describe('Flipped Triangle Shape', () => {
     it('should have id flip-tri', () => {
-      expect(flippedTriangleShape.id).toBe('flip-tri');
+      expect(flippedTriangleShape.id).toBe('flippedTriangle');
     });
 
     it('should calculate bounds with minimum size', () => {
@@ -200,7 +200,7 @@ describe('Priority 1 Shapes (TDD)', () => {
 
   describe('Framed Rectangle (Subroutine)', () => {
     it('should have id fr-rect', () => {
-      expect(framedRectangleShape.id).toBe('fr-rect');
+      expect(framedRectangleShape.id).toBe('framedRectangle');
     });
 
     it('should calculate bounds with frame spacing', () => {

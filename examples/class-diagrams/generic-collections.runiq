@@ -1,0 +1,86 @@
+// Generic Collections Example
+// Demonstrates generic type parameters with collections
+
+diagram "Generic Collections" {
+  direction: LR
+  
+  // Simple generic class
+  shape List as @class label:"List"
+    stereotype:"interface"
+    genericTypes:["T"]
+    methods:[
+      {name:"add" params:[{name:"item" type:"T"}] returnType:"void" visibility:public},
+      {name:"get" params:[{name:"index" type:"int"}] returnType:"T" visibility:public},
+      {name:"remove" params:[{name:"index" type:"int"}] returnType:"T" visibility:public},
+      {name:"size" returnType:"int" visibility:public}
+    ]
+  
+  // Multiple type parameters
+  shape Map as @class label:"Map"
+    stereotype:"interface"
+    genericTypes:["K", "V"]
+    methods:[
+      {name:"put" params:[{name:"key" type:"K"}, {name:"value" type:"V"}] returnType:"void" visibility:public},
+      {name:"get" params:[{name:"key" type:"K"}] returnType:"V" visibility:public},
+      {name:"containsKey" params:[{name:"key" type:"K"}] returnType:"bool" visibility:public},
+      {name:"remove" params:[{name:"key" type:"K"}] returnType:"V" visibility:public}
+    ]
+  
+  // Concrete implementation with generics
+  shape ArrayList as @class label:"ArrayList"
+    genericTypes:["T"]
+    attributes:[
+      {name:"elements" type:"T[]" visibility:private},
+      {name:"capacity" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"add" params:[{name:"item" type:"T"}] returnType:"void" visibility:public},
+      {name:"get" params:[{name:"index" type:"int"}] returnType:"T" visibility:public},
+      {name:"ensureCapacity" returnType:"void" visibility:private}
+    ]
+  
+  // HashMap with complex generics
+  shape HashMap as @class label:"HashMap"
+    genericTypes:["K", "V"]
+    attributes:[
+      {name:"buckets" type:"Entry<K,V>[]" visibility:private},
+      {name:"size" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"put" params:[{name:"key" type:"K"}, {name:"value" type:"V"}] returnType:"void" visibility:public},
+      {name:"get" params:[{name:"key" type:"K"}] returnType:"V" visibility:public},
+      {name:"hash" params:[{name:"key" type:"K"}] returnType:"int" visibility:private}
+    ]
+  
+  // Nested generics example
+  shape Repository as @class label:"Repository"
+    genericTypes:["T"]
+    attributes:[
+      {name:"cache" type:"Map<String,T>" visibility:private},
+      {name:"items" type:"List<T>" visibility:private}
+    ]
+    methods:[
+      {name:"findById" params:[{name:"id" type:"String"}] returnType:"T" visibility:public},
+      {name:"save" params:[{name:"item" type:"T"}] returnType:"void" visibility:public},
+      {name:"getAll" returnType:"List<T>" visibility:public}
+    ]
+  
+  // Bounded type parameters
+  shape SortedList as @class label:"SortedList"
+    genericTypes:["T extends Comparable<T>"]
+    attributes:[
+      {name:"elements" type:"T[]" visibility:private}
+    ]
+    methods:[
+      {name:"add" params:[{name:"item" type:"T"}] returnType:"void" visibility:public},
+      {name:"sort" returnType:"void" visibility:private}
+    ]
+  
+  // Implementation relationships
+  ArrayList -> List lineStyle:dashed
+  HashMap -> Map lineStyle:dashed
+  
+  // Composition relationships
+  Repository -> Map
+  Repository -> List
+}

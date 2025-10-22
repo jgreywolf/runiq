@@ -1,0 +1,21 @@
+// Simple Family Tree - Two Generations
+// Basic example showing parents and children
+
+diagram "Johnson Family" {
+  // Parents
+  shape dad as @pedigree-male label:"Tom Johnson"
+  shape mom as @pedigree-female label:"Lisa Johnson"
+  
+  // Children
+  shape son as @pedigree-male label:"Jake"
+  shape daughter as @pedigree-female label:"Emma"
+  
+  // Marriage
+  dad -> mom
+  
+  // Children relationships
+  dad -> son
+  dad -> daughter
+  mom -> son
+  mom -> daughter
+}

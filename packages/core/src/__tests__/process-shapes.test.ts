@@ -34,7 +34,7 @@ function createMockContext(label: string): ShapeRenderContext {
 describe('Process Shapes (TDD)', () => {
   describe('Multi Rectangle (Stacked)', () => {
     it('should have id multi-rect', () => {
-      expect(multiRectangleShape.id).toBe('multi-rect');
+      expect(multiRectangleShape.id).toBe('multiRectangle');
     });
 
     it('should calculate bounds with offset for stacked effect', () => {
@@ -78,7 +78,7 @@ describe('Process Shapes (TDD)', () => {
 
   describe('Tagged Rectangle', () => {
     it('should have id tag-rect', () => {
-      expect(taggedRectangleShape.id).toBe('tag-rect');
+      expect(taggedRectangleShape.id).toBe('taggedRectangle');
     });
 
     it('should calculate standard bounds', () => {
@@ -115,7 +115,7 @@ describe('Process Shapes (TDD)', () => {
 
   describe('Lined Rectangle', () => {
     it('should have id lined-rect', () => {
-      expect(linedRectangleShape.id).toBe('lined-rect');
+      expect(linedRectangleShape.id).toBe('linedRectangle');
     });
 
     it('should calculate bounds with minimum height', () => {
@@ -151,7 +151,7 @@ describe('Process Shapes (TDD)', () => {
 
   describe('Divided Rectangle', () => {
     it('should have id div-rect', () => {
-      expect(dividedRectangleShape.id).toBe('div-rect');
+      expect(dividedRectangleShape.id).toBe('dividedRectangle');
     });
 
     it('should calculate bounds with minimum width', () => {
@@ -188,7 +188,7 @@ describe('Process Shapes (TDD)', () => {
 
   describe('Notched Rectangle', () => {
     it('should have id notch-rect', () => {
-      expect(notchedRectangleShape.id).toBe('notch-rect');
+      expect(notchedRectangleShape.id).toBe('notchedRectangle');
     });
 
     it('should calculate standard bounds', () => {

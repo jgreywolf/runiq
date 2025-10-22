@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img">
+  <title>Runiq rune R icon</title>
+  <desc>Rune-styled letter R built from angular strokes, in Runiq palette, pure SVG.</desc>
+  <defs>
+    <style>
+      .bg { fill: none; }
+      .stroke { fill: none; stroke: #4F87C6; stroke-width: 96; stroke-linecap: round; stroke-linejoin: round; }
+      .fill { fill: #4F87C6; }
+      .outline { fill: none; stroke: #1E1E24; stroke-width: 10; opacity:.12; }
+    </style>
+  </defs>
+  <!-- optional subtle outline box for alignment (invisible) -->
+  <rect class="bg" x="0" y="0" width="1024" height="1024"/>
+  <!-- Rune-like R constructed as polyline strokes -->
+  <polyline class="stroke" points="280,128 280,896" />
+  <polyline class="stroke" points="280,128 720,384 280,384" />
+  <polyline class="stroke" points="280,384 740,896" />
+</svg>

@@ -1,15 +1,6 @@
 // Labeled Bar Chart Example
 // Bar chart with labeled bars, title, and axis labels
 
-shape chart1 as @bar-chart-vertical 
-  label: "Quarterly Revenue" 
-  title: "2025 Performance"
-  xLabel: "Quarter"
-  yLabel: "Revenue ($K)"
-  colors: ["#4299e1", "#48bb78", "#ed8936", "#9f7aea"]
-  data: [
-    {"label": "Q1", "value": 120},
-    {"label": "Q2", "value": 150},
-    {"label": "Q3", "value": 180},
-    {"label": "Q4", "value": 200}
-  ]
+diagram "Labeled Bar Chart" {
+  shape chart1 as @bar-chart-vertical label:"Quarterly Revenue" title:"2025 Performance" xLabel:"Quarter" yLabel:"Revenue ($K)" colors:["#4299e1", "#48bb78", "#ed8936", "#9f7aea"] data:[{"label": "Q1", "value": 120},{"label": "Q2", "value": 150},{"label": "Q3", "value": 180},{"label": "Q4", "value": 200}]
+}

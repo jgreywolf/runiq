@@ -1,0 +1,46 @@
+// Smith Family Tree - Three Generations
+// Simple genealogy chart showing family relationships
+
+diagram "Smith Family Tree" {
+  // Generation I - Grandparents
+  shape grandpa as @pedigree-male label:"John Smith"
+  shape grandma as @pedigree-female label:"Mary Johnson"
+  
+  // Generation II - Parents and Aunt/Uncle
+  shape dad as @pedigree-male label:"Robert Smith"
+  shape mom as @pedigree-female label:"Susan Davis"
+  shape uncle as @pedigree-male label:"James Smith"
+  shape aunt as @pedigree-female label:"Linda Brown"
+  
+  // Generation III - Children and Cousins
+  shape emily as @pedigree-female label:"Emily Smith"
+  shape michael as @pedigree-male label:"Michael Smith"
+  shape sarah as @pedigree-female label:"Sarah Smith"
+  shape david as @pedigree-male label:"David Smith"
+  shape jennifer as @pedigree-female label:"Jennifer Smith"
+  
+  // Marriages
+  grandpa -> grandma
+  dad -> mom
+  uncle -> aunt
+  
+  // Grandparents to Parents
+  grandpa -> dad
+  grandpa -> uncle
+  grandma -> dad
+  grandma -> uncle
+  
+  // Parents to Children
+  dad -> emily
+  dad -> michael
+  dad -> sarah
+  mom -> emily
+  mom -> michael
+  mom -> sarah
+  
+  // Uncle/Aunt to Cousins
+  uncle -> david
+  uncle -> jennifer
+  aunt -> david
+  aunt -> jennifer
+}

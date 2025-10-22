@@ -4,9 +4,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/tests-728%2B-brightgreen.svg)](./packages)
+[![Tests](https://img.shields.io/badge/tests-1098%2B-brightgreen.svg)](./packages)
 
 **🚀 Status**: Phase 1 Complete - Core types, **71 shapes**, ELK layout, hierarchical containers!  
+**⚡ NEW**: UML Class Diagrams with generics, member-level edges, and design patterns! 🎨  
+**⚡ NEW**: Mindmap diagrams for brainstorming & knowledge mapping - radial layout, 10 tests! 🧠  
 **⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️  
 **⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬  
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
@@ -24,7 +26,21 @@
 - **SvelteKit editor**: Monaco code editor with real-time preview
 - **Standards compliant**: SVG 1.1/2.0 friendly with accessibility support
 
-### UML Relationships (NEW! 🎉)
+### UML Class Diagrams (NEW! 🎉)
+
+- **3-Compartment structure**: Name, attributes, methods with automatic compartment hiding
+- **Generic type support**: Single (`List<T>`), multiple (`Map<K,V>`), nested (`List<Map<K,V>>`), bounded (`T extends Comparable<T>`)
+- **Visibility modifiers**: Public (+), private (-), protected (#), package (~)
+- **Stereotypes**: «interface», «abstract» with proper guillemet rendering
+- **Member-level edges**: Revolutionary syntax for FK relationships: `Order.customerId -> Customer.id`
+- **Method signatures**: Full parameter lists with types and return values
+- **Abstract methods**: Rendered in italic with `abstract:true` flag
+- **Static members**: Support for static fields and methods
+- **Default values**: Show field initialization values
+- **Design patterns**: 6 comprehensive examples (inheritance, interfaces, generics, factory, observer, domain models)
+- **Database modeling**: Perfect for entity-relationship diagrams with FK connections
+
+### UML Relationships
 
 - **Stereotypes**: <<include>>, <<extend>>, <<uses>>, <<implements>>, custom stereotypes
 - **Line styles**: Solid, dashed, dotted for different relationship types
@@ -53,6 +69,18 @@
 - **Feedback loops**: Model closed-loop control systems with feedback paths
 - **Engineering applications**: PID controllers, state-space models, signal processing
 - **5 example diagrams**: Ready-to-use templates in `examples/block-diagrams/`
+
+### Mindmap Diagrams (NEW! 🎉)
+
+- **Radial layout**: Central node with branches radiating outward
+- **Brainstorming**: Organize ideas hierarchically around central concepts
+- **Knowledge mapping**: Create learning roadmaps and study guides
+- **Project planning**: Break down complex projects into phases and tasks
+- **Multiple levels**: Support for 3-4 hierarchical levels (main topics → subtopics → details)
+- **Mixed shapes**: Use different shapes for different node types (topics, actions, metrics)
+- **Custom styling**: Color-code by category, importance, or type
+- **Flexible spacing**: Control node distance for clarity
+- **4 example diagrams**: Simple brainstorming, project planning, learning roadmap, business strategy
 
 ### Pedigree Charts (NEW! 🎉)
 
@@ -111,9 +139,9 @@ pnpm dev
 
 | Package                                                    | Description                        | Tests  |
 | ---------------------------------------------------------- | ---------------------------------- | ------ |
-| [`@runiq/core`](./packages/core)                           | Core types, shapes, and registries | 728 ✅ |
-| [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | 5 ✅   |
-| [`@runiq/layout-base`](./packages/layout-base)             | ELK layout engine adapter          | 24 ✅  |
+| [`@runiq/core`](./packages/core)                           | Core types, shapes, and registries | 743 ✅ |
+| [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | 114 ✅ |
+| [`@runiq/layout-base`](./packages/layout-base)             | ELK layout engine adapter          | 40 ✅  |
 | [`@runiq/renderer-svg`](./packages/renderer-svg)           | SVG rendering engine               | 30 ✅  |
 | [`@runiq/io-json`](./packages/io-json)                     | JSON import/export                 | 28 ✅  |
 | [`@runiq/icons-fontawesome`](./packages/icons-fontawesome) | Font Awesome icon provider         | -      |
@@ -306,6 +334,55 @@ _SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq]
 
 [See more use case examples →](./examples/use-case-diagram/)
 
+### UML Class Diagram - E-Commerce Domain Model (NEW!)
+
+```runiq
+diagram "Domain Model" {
+  direction: TB
+
+  // Customer entity
+  shape Customer as @class label:"Customer"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"email" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"placeOrder" params:[{name:"cart" type:"Cart"}] returnType:"Order" visibility:public}
+    ]
+
+  // Order entity with foreign key
+  shape Order as @class label:"Order"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"customerId" type:"int" visibility:private},
+      {name:"total" type:"decimal" visibility:private}
+    ]
+    methods:[
+      {name:"calculateTotal" returnType:"decimal" visibility:public}
+    ]
+
+  // Member-level edge showing FK relationship
+  Order.customerId -> Customer.id
+}
+```
+
+**This generates:**
+
+- 📦 **3-compartment boxes** - Name, attributes, methods (auto-hides empty sections)
+- 🔤 **Generic types** - `List<T>`, `Map<K,V>`, nested and bounded generics
+- 🔒 **Visibility** - +public, -private, #protected, ~package symbols
+- 🏷️ **Stereotypes** - «interface», «abstract» with proper guillemets
+- 🔗 **Member-level edges** - Revolutionary FK syntax: `Order.customerId -> Customer.id`
+- ⚙️ **Method signatures** - Full parameters with types and return values
+
+[See all class diagram examples →](./examples/class-diagrams/)
+
+- Simple inheritance (abstract classes)
+- Interface implementation
+- Generic collections
+- Design patterns (Factory, Observer)
+- Domain models with foreign keys
+
 ## 🎯 Current Status (October 2025)
 
 ### ✅ Completed
@@ -315,6 +392,15 @@ _SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq]
 - [x] **61 shapes implemented** (52 flowchart/diagram + 9 block diagram shapes! 🎉)
   - Flowchart: Actors, circles, data/documents, data I/O, storage, process, specialized, annotations
   - Block Diagrams: Transfer functions, gain, integrator, differentiator, delay, saturation, junctions
+- [x] **UML Class Diagrams** - Complete! 🎉
+  - 3-compartment rendering (name, attributes, methods)
+  - Generic type support (single, multiple, nested, bounded)
+  - Visibility modifiers (+, -, #, ~)
+  - Stereotypes («interface», «abstract»)
+  - Member-level edge connections for FK relationships
+  - 18 shape tests + 8 parser tests passing
+  - 6 comprehensive examples (patterns, domain models)
+  - [See Class Diagram Examples →](./examples/class-diagrams/)
 - [x] **ELK layout engine integrated** - Replaced Dagre with superior Eclipse Layout Kernel
 - [x] **SVG renderer functional** - Standards-compliant output
 - [x] **Hierarchical containers - Complete! 🎉**

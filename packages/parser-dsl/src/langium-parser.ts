@@ -23,6 +23,17 @@ import { createRuniqServices } from './langium-module.js';
 import * as Langium from './generated/ast.js';
 
 /**
+ * Convert NodeRef to string representation
+ * Supports both simple refs (node1) and member refs (Class.field)
+ */
+function nodeRefToString(ref: Langium.NodeRef): string {
+  if (ref.member) {
+    return `${ref.node}.${ref.member}`;
+  }
+  return ref.node;
+}
+
+/**
  * Convert Langium DataProperty to core data format
  */
 function convertDataProperty(
@@ -81,6 +92,7 @@ function convertDataProperty(
 export interface ParseResult {
   success: boolean;
   document?: RuniqDocument;
+  diagram?: DiagramAst; // Backwards compatibility - points to first diagram profile
   errors: string[];
 }
 
@@ -107,11 +119,22 @@ export function parse(text: string): ParseResult {
     const errors: string[] = [];
 
     parseResult.lexerErrors.forEach((err) => {
-      errors.push(`Lexer error: ${err.message}`);
+      const location =
+        err.line !== undefined && err.column !== undefined
+          ? ` at line ${err.line}, column ${err.column}`
+          : '';
+      errors.push(`Lexer error${location}: ${err.message}`);
     });
 
     parseResult.parserErrors.forEach((err) => {
-      errors.push(`Parser error: ${err.message}`);
+      const token = err.token;
+      const location =
+        token &&
+        token.startLine !== undefined &&
+        token.startColumn !== undefined
+          ? ` at line ${token.startLine}, column ${token.startColumn}`
+          : '';
+      errors.push(`Parser error${location}: ${err.message}`);
     });
 
     return { success: false, errors };
@@ -121,9 +144,26 @@ export function parse(text: string): ParseResult {
   const document = parseResult.value as Langium.Document;
   const runiqDocument = convertToRuniqDocument(document);
 
+  // Backwards compatibility: expose first diagram profile as 'diagram'
+  const firstDiagramProfile = runiqDocument.profiles.find(
+    (p) => p.type === 'diagram'
+  );
+
+  let diagram: DiagramAst | undefined;
+  if (firstDiagramProfile && firstDiagramProfile.type === 'diagram') {
+    // Convert DiagramProfile to DiagramAst for backwards compatibility
+    const { type, name, ...rest } = firstDiagramProfile;
+    diagram = {
+      ...rest,
+      astVersion: runiqDocument.astVersion,
+      title: name, // Map 'name' to 'title'
+    };
+  }
+
   return {
     success: true,
     document: runiqDocument,
+    diagram, // Backwards compatibility
     errors: [],
   };
 }
@@ -390,7 +430,7 @@ function processDialogStatement(
   } else if (Langium.isShapeDeclaration(statement)) {
     const node: NodeAst = {
       id: statement.id,
-      shape: statement.shape,
+      shape: statement.shape || 'rounded', // Default to rounded if no shape specified
     };
 
     // Process node properties
@@ -415,6 +455,9 @@ function processDialogStatement(
       } else if (Langium.isShowLegendProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.showLegend = prop.value === 'true';
+      } else if (Langium.isLegendPositionProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isStackedProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.stacked = prop.value === 'true';
@@ -436,6 +479,80 @@ function processDialogStatement(
       } else if (Langium.isDeceasedProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.deceased = prop.value === 'true';
+      } else if (Langium.isAttributesProperty(prop)) {
+        // UML Class diagram attributes
+        if (!node.data) node.data = {};
+        node.data.attributes = prop.attributes.map((attr) => {
+          const attrObj: Record<string, unknown> = {};
+          for (const field of attr.properties) {
+            if (Langium.isAttrNameField(field)) {
+              attrObj.name = field.value.replace(/^"|"$/g, '');
+            } else if (Langium.isAttrTypeField(field)) {
+              attrObj.type = field.value.replace(/^"|"$/g, '');
+            } else if (Langium.isAttrVisibilityField(field)) {
+              attrObj.visibility = field.value;
+            } else if (Langium.isAttrDefaultField(field)) {
+              attrObj.defaultValue = field.value.replace(/^"|"$/g, '');
+            } else if (Langium.isAttrStaticField(field)) {
+              attrObj.isStatic = field.value === 'true';
+            } else if (Langium.isAttrDerivedField(field)) {
+              attrObj.isDerived = field.value === 'true';
+            } else if (Langium.isAttrConstraintsField(field)) {
+              attrObj.constraints = field.values.map((v) =>
+                v.replace(/^"|"$/g, '')
+              );
+            }
+          }
+          return attrObj;
+        });
+      } else if (Langium.isMethodsProperty(prop)) {
+        // UML Class diagram methods
+        if (!node.data) node.data = {};
+        node.data.methods = prop.methods.map((method) => {
+          const methodObj: Record<string, unknown> = {};
+          for (const field of method.properties) {
+            if (Langium.isMethodNameField(field)) {
+              methodObj.name = field.value.replace(/^"|"$/g, '');
+            } else if (Langium.isMethodParamsField(field)) {
+              methodObj.params = field.params.map((param) => {
+                const paramObj: Record<string, unknown> = {};
+                for (const paramField of param.properties) {
+                  if (Langium.isParamNameField(paramField)) {
+                    paramObj.name = paramField.value.replace(/^"|"$/g, '');
+                  } else if (Langium.isParamTypeField(paramField)) {
+                    paramObj.type = paramField.value.replace(/^"|"$/g, '');
+                  }
+                }
+                return paramObj;
+              });
+            } else if (Langium.isMethodReturnTypeField(field)) {
+              methodObj.returnType = field.value.replace(/^"|"$/g, '');
+            } else if (Langium.isMethodVisibilityField(field)) {
+              methodObj.visibility = field.value;
+            } else if (Langium.isMethodAbstractField(field)) {
+              methodObj.isAbstract = field.value === 'true';
+            } else if (Langium.isMethodStaticField(field)) {
+              methodObj.isStatic = field.value === 'true';
+            } else if (Langium.isMethodConstraintsField(field)) {
+              methodObj.constraints = field.values.map((v) =>
+                v.replace(/^"|"$/g, '')
+              );
+            }
+          }
+          // Default returnType to 'void' if not specified
+          if (!methodObj.returnType) {
+            methodObj.returnType = 'void';
+          }
+          return methodObj;
+        });
+      } else if (Langium.isGenericTypesProperty(prop)) {
+        // Generic type parameters
+        if (!node.data) node.data = {};
+        node.data.genericTypes = prop.types.map((t) => t.replace(/^"|"$/g, ''));
+      } else if (Langium.isStereotypeProperty(prop)) {
+        // UML stereotype
+        if (!node.data) node.data = {};
+        node.data.stereotype = prop.value.replace(/^"|"$/g, '');
       }
     }
 
@@ -444,6 +561,9 @@ function processDialogStatement(
       if (Langium.isShowLegendProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.showLegend = prop.value === 'true';
+      } else if (Langium.isLegendPositionProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isStackedProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.stacked = prop.value === 'true';
@@ -466,12 +586,21 @@ function processDialogStatement(
       }
     }
 
+    // Default label to ID if not specified
+    if (!node.label) {
+      node.label = node.id;
+    }
+
     diagram.nodes.push(node);
     declaredNodes.add(node.id);
   } else if (Langium.isEdgeDeclaration(statement)) {
+    // Convert NodeRef to strings (supports member refs like Class.field)
+    const fromId = nodeRefToString(statement.from);
+    const toId = nodeRefToString(statement.to);
+
     const edge: EdgeAst = {
-      from: statement.from,
-      to: statement.to,
+      from: fromId,
+      to: toId,
     };
 
     if (statement.labeledArrow) {
@@ -484,10 +613,52 @@ function processDialogStatement(
         edge.lineStyle = prop.value as 'solid' | 'dashed' | 'dotted' | 'double';
       } else if (Langium.isArrowTypeProperty(prop)) {
         edge.arrowType = prop.value as 'standard' | 'hollow' | 'open' | 'none';
+      } else if (Langium.isMultiplicitySourceProperty(prop)) {
+        edge.multiplicitySource = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isMultiplicityTargetProperty(prop)) {
+        edge.multiplicityTarget = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isRoleSourceProperty(prop)) {
+        edge.roleSource = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isRoleTargetProperty(prop)) {
+        edge.roleTarget = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isEdgeTypeProperty(prop)) {
+        edge.edgeType = prop.value as
+          | 'association'
+          | 'aggregation'
+          | 'composition'
+          | 'dependency'
+          | 'generalization'
+          | 'realization';
+      } else if (Langium.isNavigabilityProperty(prop)) {
+        edge.navigability = prop.value as
+          | 'source'
+          | 'target'
+          | 'bidirectional'
+          | 'none';
+      } else if (Langium.isEdgeConstraintsProperty(prop)) {
+        edge.constraints = prop.values.map((v) => v.replace(/^"|"$/g, ''));
       }
     }
 
     diagram.edges.push(edge);
+
+    // Auto-create nodes if needed (for edges without explicit shape declarations)
+    // Only create if it's a simple node reference (not a member reference)
+    if (!statement.from.member && !declaredNodes.has(fromId)) {
+      diagram.nodes.push({
+        id: fromId,
+        shape: 'rounded',
+      });
+      declaredNodes.add(fromId);
+    }
+
+    if (!statement.to.member && !declaredNodes.has(toId)) {
+      diagram.nodes.push({
+        id: toId,
+        shape: 'rounded',
+      });
+      declaredNodes.add(toId);
+    }
   } else if (Langium.isGroupBlock(statement)) {
     if (!diagram.groups) diagram.groups = [];
     const group: GroupAst = {
@@ -540,12 +711,15 @@ function convertContainer(
 
   // Process container properties
   let styleRef: string | undefined;
+  let containerType: string | undefined;
   const containerStyle: ContainerStyle = {};
   const layoutOptions: { algorithm?: string; spacing?: number } = {};
 
   for (const prop of block.properties) {
     if (Langium.isStyleRefProperty(prop)) {
       styleRef = prop.ref?.$refText;
+    } else if (Langium.isContainerTypeProperty(prop)) {
+      containerType = prop.type;
     } else if (Langium.isContainerStyleProperty(prop)) {
       if (prop.borderStyle) {
         containerStyle.borderStyle = prop.borderStyle;
@@ -591,15 +765,34 @@ function convertContainer(
   }
 
   // Process nested statements recursively
+  let isFirstNode = true; // Track first node for mindmap central node
   for (const statement of block.statements) {
     if (Langium.isShapeDeclaration(statement)) {
       // Add node to container's children
       container.children.push(statement.id);
 
+      // Determine shape based on container type or explicit declaration
+      let shape: string;
+      if (statement.shape) {
+        // Explicit shape specified
+        shape = statement.shape;
+      } else if (containerType === 'mindmap') {
+        // Mindmap defaults: first node is central (circle), rest are branches (rounded)
+        shape = isFirstNode ? 'circ' : 'rounded';
+      } else {
+        // Default shape for other containers
+        shape = 'rounded';
+      }
+
+      // Track that we've processed the first node (for mindmap defaults)
+      if (isFirstNode) {
+        isFirstNode = false;
+      }
+
       // Add node to main diagram
       const node: NodeAst = {
         id: statement.id,
-        shape: statement.shape,
+        shape,
       };
 
       // Process node properties
@@ -624,6 +817,9 @@ function convertContainer(
         } else if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.showLegend = prop.value === 'true';
+        } else if (Langium.isLegendPositionProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStackedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.stacked = prop.value === 'true';
@@ -653,6 +849,9 @@ function convertContainer(
         if (Langium.isShowLegendProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.showLegend = prop.value === 'true';
+        } else if (Langium.isLegendPositionProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStackedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.stacked = prop.value === 'true';
@@ -680,9 +879,13 @@ function convertContainer(
       declaredNodes.add(statement.id);
     } else if (Langium.isEdgeDeclaration(statement)) {
       // Edges in containers just get added to main diagram
+      // Convert NodeRef to strings (supports member refs like Class.field)
+      const fromId = nodeRefToString(statement.from);
+      const toId = nodeRefToString(statement.to);
+
       const edge: EdgeAst = {
-        from: statement.from,
-        to: statement.to,
+        from: fromId,
+        to: toId,
       };
 
       if (statement.labeledArrow) {
@@ -712,21 +915,21 @@ function convertContainer(
 
       diagram.edges.push(edge);
 
-      // Auto-create nodes if needed
-      if (!declaredNodes.has(statement.from)) {
+      // Auto-create nodes if needed (only for simple refs, not member refs)
+      if (!statement.from.member && !declaredNodes.has(fromId)) {
         diagram.nodes.push({
-          id: statement.from,
+          id: fromId,
           shape: 'rounded',
         });
-        declaredNodes.add(statement.from);
+        declaredNodes.add(fromId);
       }
 
-      if (!declaredNodes.has(statement.to)) {
+      if (!statement.to.member && !declaredNodes.has(toId)) {
         diagram.nodes.push({
-          id: statement.to,
+          id: toId,
           shape: 'rounded',
         });
-        declaredNodes.add(statement.to);
+        declaredNodes.add(toId);
       }
     } else if (Langium.isContainerBlock(statement)) {
       // Recursive nesting - convert nested container

@@ -1,14 +1,6 @@
 // Pie chart with title
 // Testing title: property
 
-shape pie1 as @pie-chart 
-  label: "Product Sales Distribution" 
-  title: "Q4 2025 Sales Report"
-  showLegend: true
-  colors: ["#667eea", "#764ba2", "#f093fb", "#4facfe"]
-  data: [
-    {"label": "Product A", "value": 450},
-    {"label": "Product B", "value": 320},
-    {"label": "Product C", "value": 230},
-    {"label": "Product D", "value": 150}
-  ]
+diagram "Product Sales with Title" {
+  shape pie1 as @pie-chart label:"Product Sales Distribution" title:"Q4 2025 Sales Report" showLegend:true colors:["#667eea","#764ba2","#f093fb","#4facfe"] data:[{"label":"Product A","value":450},{"label":"Product B","value":320},{"label":"Product C","value":230},{"label":"Product D","value":150}]
+}

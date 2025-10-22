@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Aliases: lean-r, lean-right, parallelogram, data, in-out
  */
 export const parallelogramShape: ShapeDefinition = {
-  id: 'lean-r',
+  id: 'parallelogram',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

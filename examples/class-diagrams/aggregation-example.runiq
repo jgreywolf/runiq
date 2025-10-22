@@ -1,0 +1,56 @@
+// Aggregation Example
+// Demonstrates shared aggregation (hollow diamond)
+// Parts can exist independently of the whole
+
+diagram "Department-Employee Aggregation" {
+  direction: TB
+  
+  // Container (whole)
+  shape Department as @class label:"Department"
+    attributes:[
+      {name:"name" type:"string" visibility:private},
+      {name:"location" type:"string" visibility:private},
+      {name:"budget" type:"decimal" visibility:private}
+    ]
+    methods:[
+      {name:"addEmployee" params:[{name:"emp" type:"Employee"}] visibility:public},
+      {name:"removeEmployee" params:[{name:"emp" type:"Employee"}] visibility:public},
+      {name:"getEmployees" returnType:"List<Employee>" visibility:public}
+    ]
+  
+  // Part (can exist independently)
+  shape Employee as @class label:"Employee"
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"name" type:"string" visibility:private},
+      {name:"salary" type:"decimal" visibility:private},
+      {name:"position" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"getDetails" returnType:"string" visibility:public},
+      {name:"updateSalary" params:[{name:"amount" type:"decimal"}] visibility:public}
+    ]
+  
+  // Aggregation relationship: Department has Employees
+  // Hollow diamond on Department (container) side
+  // Employees can exist without Department (e.g., transferred to another department)
+  Department -> Employee
+    edgeType: aggregation
+    multiplicitySource: "1"
+    multiplicityTarget: "0..*"
+    roleSource: "employer"
+    roleTarget: "member"
+}
+
+// Key Points about Aggregation:
+// 1. Hollow Diamond: Rendered as white-filled diamond on container side
+// 2. Shared Ownership: Parts can belong to multiple wholes
+// 3. Independent Lifecycle: Destroying Department doesn't destroy Employees
+// 4. "Has-A" Relationship: Department has Employees
+// 5. Catalog Containment: Logical grouping rather than physical containment
+//
+// Real-world Examples:
+// - Department has Employees (employee can work in multiple departments)
+// - Library has Books (books can be moved between libraries)
+// - Course has Students (students enroll in multiple courses)
+// - Playlist has Songs (songs can be in multiple playlists)

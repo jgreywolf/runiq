@@ -148,7 +148,7 @@ describe('Runiq Validator', () => {
     it('should validate style properties', () => {
       const dsl = `
         diagram "test"
-        style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2 fontSize: 14 padding: 10
+        style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
       `;
       const result = parse(dsl);
 
@@ -159,7 +159,7 @@ describe('Runiq Validator', () => {
         stroke: '#000000',
         strokeWidth: '2',
         fontSize: '14',
-        padding: '10',
+        fontFamily: 'Arial', // Quotes are stripped
       });
     });
 

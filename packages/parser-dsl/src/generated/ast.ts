@@ -25,6 +25,7 @@ export type RuniqKeywordNames =
     | "("
     | ")"
     | ","
+    | "."
     | "/"
     | ":"
     | "@"
@@ -34,31 +35,45 @@ export type RuniqKeywordNames =
     | "TB"
     | "["
     | "]"
+    | "abstract:"
     | "ac"
     | "affected:"
+    | "aggregation"
     | "algorithm:"
     | "analysis"
     | "arrowType:"
     | "as"
+    | "association"
+    | "attributes:"
     | "backgroundColor:"
+    | "bidirectional"
     | "borderColor:"
     | "borderStyle:"
     | "borderWidth:"
     | "bottom"
     | "carrier:"
     | "colors:"
+    | "composition"
+    | "constraints:"
     | "container"
     | "dashed"
     | "data:"
     | "dc"
     | "deceased:"
+    | "default"
+    | "default:"
+    | "dependency"
+    | "derived:"
     | "diagram"
     | "digital"
     | "direction:"
     | "dotted"
     | "double"
+    | "edgeType:"
     | "electrical"
     | "force"
+    | "generalization"
+    | "genericTypes:"
     | "group"
     | "hollow"
     | "icon:"
@@ -67,11 +82,18 @@ export type RuniqKeywordNames =
     | "labelPosition:"
     | "layered"
     | "left"
+    | "legendPosition:"
     | "lineStyle:"
     | "link:"
     | "map:"
+    | "methods:"
+    | "mindmap"
     | "module"
     | "mrtree"
+    | "multiplicitySource:"
+    | "multiplicityTarget:"
+    | "name:"
+    | "navigability:"
     | "net"
     | "noise"
     | "none"
@@ -79,29 +101,42 @@ export type RuniqKeywordNames =
     | "op"
     | "opacity:"
     | "open"
+    | "package"
     | "padding:"
     | "params:"
     | "part"
     | "pins:"
     | "ports:"
+    | "private"
+    | "protected"
+    | "public"
     | "radial"
+    | "realization"
+    | "returnType:"
     | "right"
+    | "roleSource:"
+    | "roleTarget:"
     | "shape"
     | "showLegend:"
     | "solid"
+    | "source"
     | "source:"
     | "spacing:"
     | "stacked:"
     | "standard"
+    | "static:"
+    | "stereotype:"
     | "stress"
     | "style"
     | "style:"
+    | "target"
     | "title:"
     | "tooltip:"
     | "top"
     | "tran"
     | "type:"
     | "value:"
+    | "visibility:"
     | "xLabel:"
     | "yLabel:"
     | "{"
@@ -166,6 +201,151 @@ export type ArrowTypeValue = 'hollow' | 'none' | 'open' | 'standard';
 
 export function isArrowTypeValue(item: unknown): item is ArrowTypeValue {
     return item === 'standard' || item === 'hollow' || item === 'open' || item === 'none';
+}
+
+export interface AttrConstraintsField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrConstraintsField';
+    values: Array<string>;
+}
+
+export const AttrConstraintsField = {
+    $type: 'AttrConstraintsField',
+    values: 'values'
+} as const;
+
+export function isAttrConstraintsField(item: unknown): item is AttrConstraintsField {
+    return reflection.isInstance(item, AttrConstraintsField.$type);
+}
+
+export interface AttrDefaultField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrDefaultField';
+    value: string;
+}
+
+export const AttrDefaultField = {
+    $type: 'AttrDefaultField',
+    value: 'value'
+} as const;
+
+export function isAttrDefaultField(item: unknown): item is AttrDefaultField {
+    return reflection.isInstance(item, AttrDefaultField.$type);
+}
+
+export interface AttrDerivedField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrDerivedField';
+    value: string;
+}
+
+export const AttrDerivedField = {
+    $type: 'AttrDerivedField',
+    value: 'value'
+} as const;
+
+export function isAttrDerivedField(item: unknown): item is AttrDerivedField {
+    return reflection.isInstance(item, AttrDerivedField.$type);
+}
+
+export interface AttributeDecl extends langium.AstNode {
+    readonly $container: AttributesProperty;
+    readonly $type: 'AttributeDecl';
+    properties: Array<AttributeField>;
+}
+
+export const AttributeDecl = {
+    $type: 'AttributeDecl',
+    properties: 'properties'
+} as const;
+
+export function isAttributeDecl(item: unknown): item is AttributeDecl {
+    return reflection.isInstance(item, AttributeDecl.$type);
+}
+
+export type AttributeField = AttrConstraintsField | AttrDefaultField | AttrDerivedField | AttrNameField | AttrStaticField | AttrTypeField | AttrVisibilityField;
+
+export const AttributeField = {
+    $type: 'AttributeField'
+} as const;
+
+export function isAttributeField(item: unknown): item is AttributeField {
+    return reflection.isInstance(item, AttributeField.$type);
+}
+
+export interface AttributesProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'AttributesProperty';
+    attributes: Array<AttributeDecl>;
+}
+
+export const AttributesProperty = {
+    $type: 'AttributesProperty',
+    attributes: 'attributes'
+} as const;
+
+export function isAttributesProperty(item: unknown): item is AttributesProperty {
+    return reflection.isInstance(item, AttributesProperty.$type);
+}
+
+export interface AttrNameField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrNameField';
+    value: string;
+}
+
+export const AttrNameField = {
+    $type: 'AttrNameField',
+    value: 'value'
+} as const;
+
+export function isAttrNameField(item: unknown): item is AttrNameField {
+    return reflection.isInstance(item, AttrNameField.$type);
+}
+
+export interface AttrStaticField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrStaticField';
+    value: string;
+}
+
+export const AttrStaticField = {
+    $type: 'AttrStaticField',
+    value: 'value'
+} as const;
+
+export function isAttrStaticField(item: unknown): item is AttrStaticField {
+    return reflection.isInstance(item, AttrStaticField.$type);
+}
+
+export interface AttrTypeField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrTypeField';
+    value: string;
+}
+
+export const AttrTypeField = {
+    $type: 'AttrTypeField',
+    value: 'value'
+} as const;
+
+export function isAttrTypeField(item: unknown): item is AttrTypeField {
+    return reflection.isInstance(item, AttrTypeField.$type);
+}
+
+export interface AttrVisibilityField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrVisibilityField';
+    value: VisibilityValue;
+}
+
+export const AttrVisibilityField = {
+    $type: 'AttrVisibilityField',
+    value: 'value'
+} as const;
+
+export function isAttrVisibilityField(item: unknown): item is AttrVisibilityField {
+    return reflection.isInstance(item, AttrVisibilityField.$type);
 }
 
 export type BorderStyleValue = 'dashed' | 'dotted' | 'solid';
@@ -259,7 +439,7 @@ export function isContainerLayoutProperty(item: unknown): item is ContainerLayou
     return reflection.isInstance(item, ContainerLayoutProperty.$type);
 }
 
-export type ContainerProperty = ContainerLayoutProperty | ContainerStyleProperty | StyleRefProperty;
+export type ContainerProperty = ContainerLayoutProperty | ContainerStyleProperty | ContainerTypeProperty | StyleRefProperty;
 
 export const ContainerProperty = {
     $type: 'ContainerProperty'
@@ -294,6 +474,27 @@ export const ContainerStyleProperty = {
 
 export function isContainerStyleProperty(item: unknown): item is ContainerStyleProperty {
     return reflection.isInstance(item, ContainerStyleProperty.$type);
+}
+
+export interface ContainerTypeProperty extends langium.AstNode {
+    readonly $container: ContainerBlock;
+    readonly $type: 'ContainerTypeProperty';
+    type: ContainerTypeValue;
+}
+
+export const ContainerTypeProperty = {
+    $type: 'ContainerTypeProperty',
+    type: 'type'
+} as const;
+
+export function isContainerTypeProperty(item: unknown): item is ContainerTypeProperty {
+    return reflection.isInstance(item, ContainerTypeProperty.$type);
+}
+
+export type ContainerTypeValue = 'default' | 'mindmap';
+
+export function isContainerTypeValue(item: unknown): item is ContainerTypeValue {
+    return item === 'mindmap' || item === 'default';
 }
 
 export interface DataArray extends langium.AstNode {
@@ -502,14 +703,29 @@ export function isDocument(item: unknown): item is Document {
     return reflection.isInstance(item, Document.$type);
 }
 
+export interface EdgeConstraintsProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'EdgeConstraintsProperty';
+    values: Array<string>;
+}
+
+export const EdgeConstraintsProperty = {
+    $type: 'EdgeConstraintsProperty',
+    values: 'values'
+} as const;
+
+export function isEdgeConstraintsProperty(item: unknown): item is EdgeConstraintsProperty {
+    return reflection.isInstance(item, EdgeConstraintsProperty.$type);
+}
+
 export interface EdgeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'EdgeDeclaration';
     arrow?: string;
-    from: string;
+    from: NodeRef;
     labeledArrow?: string;
     properties: Array<EdgeProperty>;
-    to: string;
+    to: NodeRef;
 }
 
 export const EdgeDeclaration = {
@@ -525,7 +741,7 @@ export function isEdgeDeclaration(item: unknown): item is EdgeDeclaration {
     return reflection.isInstance(item, EdgeDeclaration.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | LineStyleProperty;
+export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeTypeProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty;
 
 export const EdgeProperty = {
     $type: 'EdgeProperty'
@@ -533,6 +749,27 @@ export const EdgeProperty = {
 
 export function isEdgeProperty(item: unknown): item is EdgeProperty {
     return reflection.isInstance(item, EdgeProperty.$type);
+}
+
+export interface EdgeTypeProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'EdgeTypeProperty';
+    value: EdgeTypeValue;
+}
+
+export const EdgeTypeProperty = {
+    $type: 'EdgeTypeProperty',
+    value: 'value'
+} as const;
+
+export function isEdgeTypeProperty(item: unknown): item is EdgeTypeProperty {
+    return reflection.isInstance(item, EdgeTypeProperty.$type);
+}
+
+export type EdgeTypeValue = 'aggregation' | 'association' | 'composition' | 'dependency' | 'generalization' | 'realization';
+
+export function isEdgeTypeValue(item: unknown): item is EdgeTypeValue {
+    return item === 'association' || item === 'aggregation' || item === 'composition' || item === 'dependency' || item === 'generalization' || item === 'realization';
 }
 
 export interface ElectricalProfile extends langium.AstNode {
@@ -560,6 +797,21 @@ export const ElectricalStatement = {
 
 export function isElectricalStatement(item: unknown): item is ElectricalStatement {
     return reflection.isInstance(item, ElectricalStatement.$type);
+}
+
+export interface GenericTypesProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'GenericTypesProperty';
+    types: Array<string>;
+}
+
+export const GenericTypesProperty = {
+    $type: 'GenericTypesProperty',
+    types: 'types'
+} as const;
+
+export function isGenericTypesProperty(item: unknown): item is GenericTypesProperty {
+    return reflection.isInstance(item, GenericTypesProperty.$type);
 }
 
 export interface GroupBlock extends langium.AstNode {
@@ -695,6 +947,21 @@ export function isLayoutAlgorithmValue(item: unknown): item is LayoutAlgorithmVa
     return item === 'layered' || item === 'force' || item === 'stress' || item === 'radial' || item === 'mrtree';
 }
 
+export interface LegendPositionProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'LegendPositionProperty';
+    value: string;
+}
+
+export const LegendPositionProperty = {
+    $type: 'LegendPositionProperty',
+    value: 'value'
+} as const;
+
+export function isLegendPositionProperty(item: unknown): item is LegendPositionProperty {
+    return reflection.isInstance(item, LegendPositionProperty.$type);
+}
+
 export interface LineStyleProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration;
     readonly $type: 'LineStyleProperty';
@@ -729,6 +996,176 @@ export const LinkProperty = {
 
 export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
+}
+
+export interface MethodAbstractField extends langium.AstNode {
+    readonly $container: MethodDecl;
+    readonly $type: 'MethodAbstractField';
+    value: string;
+}
+
+export const MethodAbstractField = {
+    $type: 'MethodAbstractField',
+    value: 'value'
+} as const;
+
+export function isMethodAbstractField(item: unknown): item is MethodAbstractField {
+    return reflection.isInstance(item, MethodAbstractField.$type);
+}
+
+export interface MethodConstraintsField extends langium.AstNode {
+    readonly $container: MethodDecl;
+    readonly $type: 'MethodConstraintsField';
+    values: Array<string>;
+}
+
+export const MethodConstraintsField = {
+    $type: 'MethodConstraintsField',
+    values: 'values'
+} as const;
+
+export function isMethodConstraintsField(item: unknown): item is MethodConstraintsField {
+    return reflection.isInstance(item, MethodConstraintsField.$type);
+}
+
+export interface MethodDecl extends langium.AstNode {
+    readonly $container: MethodsProperty;
+    readonly $type: 'MethodDecl';
+    properties: Array<MethodField>;
+}
+
+export const MethodDecl = {
+    $type: 'MethodDecl',
+    properties: 'properties'
+} as const;
+
+export function isMethodDecl(item: unknown): item is MethodDecl {
+    return reflection.isInstance(item, MethodDecl.$type);
+}
+
+export type MethodField = MethodAbstractField | MethodConstraintsField | MethodNameField | MethodParamsField | MethodReturnTypeField | MethodStaticField | MethodVisibilityField;
+
+export const MethodField = {
+    $type: 'MethodField'
+} as const;
+
+export function isMethodField(item: unknown): item is MethodField {
+    return reflection.isInstance(item, MethodField.$type);
+}
+
+export interface MethodNameField extends langium.AstNode {
+    readonly $container: MethodDecl;
+    readonly $type: 'MethodNameField';
+    value: string;
+}
+
+export const MethodNameField = {
+    $type: 'MethodNameField',
+    value: 'value'
+} as const;
+
+export function isMethodNameField(item: unknown): item is MethodNameField {
+    return reflection.isInstance(item, MethodNameField.$type);
+}
+
+export interface MethodParamDecl extends langium.AstNode {
+    readonly $container: MethodParamsField;
+    readonly $type: 'MethodParamDecl';
+    properties: Array<MethodParamField>;
+}
+
+export const MethodParamDecl = {
+    $type: 'MethodParamDecl',
+    properties: 'properties'
+} as const;
+
+export function isMethodParamDecl(item: unknown): item is MethodParamDecl {
+    return reflection.isInstance(item, MethodParamDecl.$type);
+}
+
+export type MethodParamField = ParamNameField | ParamTypeField;
+
+export const MethodParamField = {
+    $type: 'MethodParamField'
+} as const;
+
+export function isMethodParamField(item: unknown): item is MethodParamField {
+    return reflection.isInstance(item, MethodParamField.$type);
+}
+
+export interface MethodParamsField extends langium.AstNode {
+    readonly $container: MethodDecl;
+    readonly $type: 'MethodParamsField';
+    params: Array<MethodParamDecl>;
+}
+
+export const MethodParamsField = {
+    $type: 'MethodParamsField',
+    params: 'params'
+} as const;
+
+export function isMethodParamsField(item: unknown): item is MethodParamsField {
+    return reflection.isInstance(item, MethodParamsField.$type);
+}
+
+export interface MethodReturnTypeField extends langium.AstNode {
+    readonly $container: MethodDecl;
+    readonly $type: 'MethodReturnTypeField';
+    value: string;
+}
+
+export const MethodReturnTypeField = {
+    $type: 'MethodReturnTypeField',
+    value: 'value'
+} as const;
+
+export function isMethodReturnTypeField(item: unknown): item is MethodReturnTypeField {
+    return reflection.isInstance(item, MethodReturnTypeField.$type);
+}
+
+export interface MethodsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'MethodsProperty';
+    methods: Array<MethodDecl>;
+}
+
+export const MethodsProperty = {
+    $type: 'MethodsProperty',
+    methods: 'methods'
+} as const;
+
+export function isMethodsProperty(item: unknown): item is MethodsProperty {
+    return reflection.isInstance(item, MethodsProperty.$type);
+}
+
+export interface MethodStaticField extends langium.AstNode {
+    readonly $container: MethodDecl;
+    readonly $type: 'MethodStaticField';
+    value: string;
+}
+
+export const MethodStaticField = {
+    $type: 'MethodStaticField',
+    value: 'value'
+} as const;
+
+export function isMethodStaticField(item: unknown): item is MethodStaticField {
+    return reflection.isInstance(item, MethodStaticField.$type);
+}
+
+export interface MethodVisibilityField extends langium.AstNode {
+    readonly $container: MethodDecl;
+    readonly $type: 'MethodVisibilityField';
+    value: VisibilityValue;
+}
+
+export const MethodVisibilityField = {
+    $type: 'MethodVisibilityField',
+    value: 'value'
+} as const;
+
+export function isMethodVisibilityField(item: unknown): item is MethodVisibilityField {
+    return reflection.isInstance(item, MethodVisibilityField.$type);
 }
 
 export interface ModuleParamsProperty extends langium.AstNode {
@@ -788,6 +1225,57 @@ export function isModuleStatement(item: unknown): item is ModuleStatement {
     return reflection.isInstance(item, ModuleStatement.$type);
 }
 
+export interface MultiplicitySourceProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'MultiplicitySourceProperty';
+    value: string;
+}
+
+export const MultiplicitySourceProperty = {
+    $type: 'MultiplicitySourceProperty',
+    value: 'value'
+} as const;
+
+export function isMultiplicitySourceProperty(item: unknown): item is MultiplicitySourceProperty {
+    return reflection.isInstance(item, MultiplicitySourceProperty.$type);
+}
+
+export interface MultiplicityTargetProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'MultiplicityTargetProperty';
+    value: string;
+}
+
+export const MultiplicityTargetProperty = {
+    $type: 'MultiplicityTargetProperty',
+    value: 'value'
+} as const;
+
+export function isMultiplicityTargetProperty(item: unknown): item is MultiplicityTargetProperty {
+    return reflection.isInstance(item, MultiplicityTargetProperty.$type);
+}
+
+export type NavigabilityDirection = 'bidirectional' | 'none' | 'source' | 'target';
+
+export function isNavigabilityDirection(item: unknown): item is NavigabilityDirection {
+    return item === 'source' || item === 'target' || item === 'bidirectional' || item === 'none';
+}
+
+export interface NavigabilityProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'NavigabilityProperty';
+    value: NavigabilityDirection;
+}
+
+export const NavigabilityProperty = {
+    $type: 'NavigabilityProperty',
+    value: 'value'
+} as const;
+
+export function isNavigabilityProperty(item: unknown): item is NavigabilityProperty {
+    return reflection.isInstance(item, NavigabilityProperty.$type);
+}
+
 export interface NetDecl extends langium.AstNode {
     readonly $container: DigitalNetStatement;
     readonly $type: 'NetDecl';
@@ -820,7 +1308,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | IconProperty | LabelProperty | LinkProperty | ShowLegendProperty | StackedProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | GenericTypesProperty | IconProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | ShowLegendProperty | StackedProperty | StereotypeProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -828,6 +1316,23 @@ export const NodeProperty = {
 
 export function isNodeProperty(item: unknown): item is NodeProperty {
     return reflection.isInstance(item, NodeProperty.$type);
+}
+
+export interface NodeRef extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'NodeRef';
+    member?: string;
+    node: string;
+}
+
+export const NodeRef = {
+    $type: 'NodeRef',
+    member: 'member',
+    node: 'node'
+} as const;
+
+export function isNodeRef(item: unknown): item is NodeRef {
+    return reflection.isInstance(item, NodeRef.$type);
 }
 
 export interface ParamDecl extends langium.AstNode {
@@ -847,6 +1352,21 @@ export function isParamDecl(item: unknown): item is ParamDecl {
     return reflection.isInstance(item, ParamDecl.$type);
 }
 
+export interface ParamNameField extends langium.AstNode {
+    readonly $container: MethodParamDecl;
+    readonly $type: 'ParamNameField';
+    value: string;
+}
+
+export const ParamNameField = {
+    $type: 'ParamNameField',
+    value: 'value'
+} as const;
+
+export function isParamNameField(item: unknown): item is ParamNameField {
+    return reflection.isInstance(item, ParamNameField.$type);
+}
+
 export interface ParamOverride extends langium.AstNode {
     readonly $container: InstParamsProperty;
     readonly $type: 'ParamOverride';
@@ -862,6 +1382,21 @@ export const ParamOverride = {
 
 export function isParamOverride(item: unknown): item is ParamOverride {
     return reflection.isInstance(item, ParamOverride.$type);
+}
+
+export interface ParamTypeField extends langium.AstNode {
+    readonly $container: MethodParamDecl;
+    readonly $type: 'ParamTypeField';
+    value: string;
+}
+
+export const ParamTypeField = {
+    $type: 'ParamTypeField',
+    value: 'value'
+} as const;
+
+export function isParamTypeField(item: unknown): item is ParamTypeField {
+    return reflection.isInstance(item, ParamTypeField.$type);
 }
 
 export interface PartGenericProperty extends langium.AstNode {
@@ -1014,12 +1549,42 @@ export function isProfile(item: unknown): item is Profile {
     return reflection.isInstance(item, Profile.$type);
 }
 
+export interface RoleSourceProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'RoleSourceProperty';
+    value: string;
+}
+
+export const RoleSourceProperty = {
+    $type: 'RoleSourceProperty',
+    value: 'value'
+} as const;
+
+export function isRoleSourceProperty(item: unknown): item is RoleSourceProperty {
+    return reflection.isInstance(item, RoleSourceProperty.$type);
+}
+
+export interface RoleTargetProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'RoleTargetProperty';
+    value: string;
+}
+
+export const RoleTargetProperty = {
+    $type: 'RoleTargetProperty',
+    value: 'value'
+} as const;
+
+export function isRoleTargetProperty(item: unknown): item is RoleTargetProperty {
+    return reflection.isInstance(item, RoleTargetProperty.$type);
+}
+
 export interface ShapeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ShapeDeclaration';
     id: string;
     properties: Array<NodeProperty>;
-    shape: string;
+    shape?: string;
 }
 
 export const ShapeDeclaration = {
@@ -1061,6 +1626,21 @@ export const StackedProperty = {
 
 export function isStackedProperty(item: unknown): item is StackedProperty {
     return reflection.isInstance(item, StackedProperty.$type);
+}
+
+export interface StereotypeProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'StereotypeProperty';
+    value: string;
+}
+
+export const StereotypeProperty = {
+    $type: 'StereotypeProperty',
+    value: 'value'
+} as const;
+
+export function isStereotypeProperty(item: unknown): item is StereotypeProperty {
+    return reflection.isInstance(item, StereotypeProperty.$type);
 }
 
 export interface StringArray extends langium.AstNode {
@@ -1157,6 +1737,12 @@ export function isTooltipProperty(item: unknown): item is TooltipProperty {
     return reflection.isInstance(item, TooltipProperty.$type);
 }
 
+export type VisibilityValue = 'package' | 'private' | 'protected' | 'public';
+
+export function isVisibilityValue(item: unknown): item is VisibilityValue {
+    return item === 'public' || item === 'private' || item === 'protected' || item === 'package';
+}
+
 export interface XLabelProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'XLabelProperty';
@@ -1191,6 +1777,16 @@ export type RuniqAstType = {
     AffectedProperty: AffectedProperty
     AnalysisStatement: AnalysisStatement
     ArrowTypeProperty: ArrowTypeProperty
+    AttrConstraintsField: AttrConstraintsField
+    AttrDefaultField: AttrDefaultField
+    AttrDerivedField: AttrDerivedField
+    AttrNameField: AttrNameField
+    AttrStaticField: AttrStaticField
+    AttrTypeField: AttrTypeField
+    AttrVisibilityField: AttrVisibilityField
+    AttributeDecl: AttributeDecl
+    AttributeField: AttributeField
+    AttributesProperty: AttributesProperty
     BusWidth: BusWidth
     CarrierProperty: CarrierProperty
     ColorsProperty: ColorsProperty
@@ -1198,6 +1794,7 @@ export type RuniqAstType = {
     ContainerLayoutProperty: ContainerLayoutProperty
     ContainerProperty: ContainerProperty
     ContainerStyleProperty: ContainerStyleProperty
+    ContainerTypeProperty: ContainerTypeProperty
     DataArray: DataArray
     DataItem: DataItem
     DataObject: DataObject
@@ -1212,10 +1809,13 @@ export type RuniqAstType = {
     DigitalStatement: DigitalStatement
     DirectionDeclaration: DirectionDeclaration
     Document: Document
+    EdgeConstraintsProperty: EdgeConstraintsProperty
     EdgeDeclaration: EdgeDeclaration
     EdgeProperty: EdgeProperty
+    EdgeTypeProperty: EdgeTypeProperty
     ElectricalProfile: ElectricalProfile
     ElectricalStatement: ElectricalStatement
+    GenericTypesProperty: GenericTypesProperty
     GroupBlock: GroupBlock
     IconProperty: IconProperty
     InstMapProperty: InstMapProperty
@@ -1224,17 +1824,36 @@ export type RuniqAstType = {
     InstProperty: InstProperty
     InstStatement: InstStatement
     LabelProperty: LabelProperty
+    LegendPositionProperty: LegendPositionProperty
     LineStyleProperty: LineStyleProperty
     LinkProperty: LinkProperty
+    MethodAbstractField: MethodAbstractField
+    MethodConstraintsField: MethodConstraintsField
+    MethodDecl: MethodDecl
+    MethodField: MethodField
+    MethodNameField: MethodNameField
+    MethodParamDecl: MethodParamDecl
+    MethodParamField: MethodParamField
+    MethodParamsField: MethodParamsField
+    MethodReturnTypeField: MethodReturnTypeField
+    MethodStaticField: MethodStaticField
+    MethodVisibilityField: MethodVisibilityField
+    MethodsProperty: MethodsProperty
     ModuleParamsProperty: ModuleParamsProperty
     ModulePortsProperty: ModulePortsProperty
     ModuleProperty: ModuleProperty
     ModuleStatement: ModuleStatement
+    MultiplicitySourceProperty: MultiplicitySourceProperty
+    MultiplicityTargetProperty: MultiplicityTargetProperty
+    NavigabilityProperty: NavigabilityProperty
     NetDecl: NetDecl
     NetStatement: NetStatement
     NodeProperty: NodeProperty
+    NodeRef: NodeRef
     ParamDecl: ParamDecl
+    ParamNameField: ParamNameField
     ParamOverride: ParamOverride
+    ParamTypeField: ParamTypeField
     PartGenericProperty: PartGenericProperty
     PartPinsProperty: PartPinsProperty
     PartProperty: PartProperty
@@ -1245,9 +1864,12 @@ export type RuniqAstType = {
     PortConnection: PortConnection
     PortDecl: PortDecl
     Profile: Profile
+    RoleSourceProperty: RoleSourceProperty
+    RoleTargetProperty: RoleTargetProperty
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     StackedProperty: StackedProperty
+    StereotypeProperty: StereotypeProperty
     StringArray: StringArray
     StyleDeclaration: StyleDeclaration
     StyleProperty: StyleProperty
@@ -1289,6 +1911,96 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [EdgeProperty.$type]
+        },
+        AttrConstraintsField: {
+            name: AttrConstraintsField.$type,
+            properties: {
+                values: {
+                    name: AttrConstraintsField.values,
+                    defaultValue: []
+                }
+            },
+            superTypes: [AttributeField.$type]
+        },
+        AttrDefaultField: {
+            name: AttrDefaultField.$type,
+            properties: {
+                value: {
+                    name: AttrDefaultField.value
+                }
+            },
+            superTypes: [AttributeField.$type]
+        },
+        AttrDerivedField: {
+            name: AttrDerivedField.$type,
+            properties: {
+                value: {
+                    name: AttrDerivedField.value
+                }
+            },
+            superTypes: [AttributeField.$type]
+        },
+        AttrNameField: {
+            name: AttrNameField.$type,
+            properties: {
+                value: {
+                    name: AttrNameField.value
+                }
+            },
+            superTypes: [AttributeField.$type]
+        },
+        AttrStaticField: {
+            name: AttrStaticField.$type,
+            properties: {
+                value: {
+                    name: AttrStaticField.value
+                }
+            },
+            superTypes: [AttributeField.$type]
+        },
+        AttrTypeField: {
+            name: AttrTypeField.$type,
+            properties: {
+                value: {
+                    name: AttrTypeField.value
+                }
+            },
+            superTypes: [AttributeField.$type]
+        },
+        AttrVisibilityField: {
+            name: AttrVisibilityField.$type,
+            properties: {
+                value: {
+                    name: AttrVisibilityField.value
+                }
+            },
+            superTypes: [AttributeField.$type]
+        },
+        AttributeDecl: {
+            name: AttributeDecl.$type,
+            properties: {
+                properties: {
+                    name: AttributeDecl.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        AttributeField: {
+            name: AttributeField.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        AttributesProperty: {
+            name: AttributesProperty.$type,
+            properties: {
+                attributes: {
+                    name: AttributesProperty.attributes,
+                    defaultValue: []
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         BusWidth: {
             name: BusWidth.$type,
@@ -1381,6 +2093,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 padding: {
                     name: ContainerStyleProperty.padding
+                }
+            },
+            superTypes: [ContainerProperty.$type]
+        },
+        ContainerTypeProperty: {
+            name: ContainerTypeProperty.$type,
+            properties: {
+                type: {
+                    name: ContainerTypeProperty.type
                 }
             },
             superTypes: [ContainerProperty.$type]
@@ -1518,6 +2239,16 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        EdgeConstraintsProperty: {
+            name: EdgeConstraintsProperty.$type,
+            properties: {
+                values: {
+                    name: EdgeConstraintsProperty.values,
+                    defaultValue: []
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
         EdgeDeclaration: {
             name: EdgeDeclaration.$type,
             properties: {
@@ -1546,6 +2277,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        EdgeTypeProperty: {
+            name: EdgeTypeProperty.$type,
+            properties: {
+                value: {
+                    name: EdgeTypeProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
         ElectricalProfile: {
             name: ElectricalProfile.$type,
             properties: {
@@ -1564,6 +2304,16 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
             },
             superTypes: []
+        },
+        GenericTypesProperty: {
+            name: GenericTypesProperty.$type,
+            properties: {
+                types: {
+                    name: GenericTypesProperty.types,
+                    defaultValue: []
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         GroupBlock: {
             name: GroupBlock.$type,
@@ -1647,6 +2397,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        LegendPositionProperty: {
+            name: LegendPositionProperty.$type,
+            properties: {
+                value: {
+                    name: LegendPositionProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         LineStyleProperty: {
             name: LineStyleProperty.$type,
             properties: {
@@ -1661,6 +2420,113 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 url: {
                     name: LinkProperty.url
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        MethodAbstractField: {
+            name: MethodAbstractField.$type,
+            properties: {
+                value: {
+                    name: MethodAbstractField.value
+                }
+            },
+            superTypes: [MethodField.$type]
+        },
+        MethodConstraintsField: {
+            name: MethodConstraintsField.$type,
+            properties: {
+                values: {
+                    name: MethodConstraintsField.values,
+                    defaultValue: []
+                }
+            },
+            superTypes: [MethodField.$type]
+        },
+        MethodDecl: {
+            name: MethodDecl.$type,
+            properties: {
+                properties: {
+                    name: MethodDecl.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        MethodField: {
+            name: MethodField.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        MethodNameField: {
+            name: MethodNameField.$type,
+            properties: {
+                value: {
+                    name: MethodNameField.value
+                }
+            },
+            superTypes: [MethodField.$type]
+        },
+        MethodParamDecl: {
+            name: MethodParamDecl.$type,
+            properties: {
+                properties: {
+                    name: MethodParamDecl.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        MethodParamField: {
+            name: MethodParamField.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        MethodParamsField: {
+            name: MethodParamsField.$type,
+            properties: {
+                params: {
+                    name: MethodParamsField.params,
+                    defaultValue: []
+                }
+            },
+            superTypes: [MethodField.$type]
+        },
+        MethodReturnTypeField: {
+            name: MethodReturnTypeField.$type,
+            properties: {
+                value: {
+                    name: MethodReturnTypeField.value
+                }
+            },
+            superTypes: [MethodField.$type]
+        },
+        MethodStaticField: {
+            name: MethodStaticField.$type,
+            properties: {
+                value: {
+                    name: MethodStaticField.value
+                }
+            },
+            superTypes: [MethodField.$type]
+        },
+        MethodVisibilityField: {
+            name: MethodVisibilityField.$type,
+            properties: {
+                value: {
+                    name: MethodVisibilityField.value
+                }
+            },
+            superTypes: [MethodField.$type]
+        },
+        MethodsProperty: {
+            name: MethodsProperty.$type,
+            properties: {
+                methods: {
+                    name: MethodsProperty.methods,
+                    defaultValue: []
                 }
             },
             superTypes: [NodeProperty.$type]
@@ -1704,6 +2570,33 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [DigitalStatement.$type]
         },
+        MultiplicitySourceProperty: {
+            name: MultiplicitySourceProperty.$type,
+            properties: {
+                value: {
+                    name: MultiplicitySourceProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
+        MultiplicityTargetProperty: {
+            name: MultiplicityTargetProperty.$type,
+            properties: {
+                value: {
+                    name: MultiplicityTargetProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
+        NavigabilityProperty: {
+            name: NavigabilityProperty.$type,
+            properties: {
+                value: {
+                    name: NavigabilityProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
         NetDecl: {
             name: NetDecl.$type,
             properties: {
@@ -1732,6 +2625,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        NodeRef: {
+            name: NodeRef.$type,
+            properties: {
+                member: {
+                    name: NodeRef.member
+                },
+                node: {
+                    name: NodeRef.node
+                }
+            },
+            superTypes: []
+        },
         ParamDecl: {
             name: ParamDecl.$type,
             properties: {
@@ -1744,6 +2649,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        ParamNameField: {
+            name: ParamNameField.$type,
+            properties: {
+                value: {
+                    name: ParamNameField.value
+                }
+            },
+            superTypes: [MethodParamField.$type]
+        },
         ParamOverride: {
             name: ParamOverride.$type,
             properties: {
@@ -1755,6 +2669,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: []
+        },
+        ParamTypeField: {
+            name: ParamTypeField.$type,
+            properties: {
+                value: {
+                    name: ParamTypeField.value
+                }
+            },
+            superTypes: [MethodParamField.$type]
         },
         PartGenericProperty: {
             name: PartGenericProperty.$type,
@@ -1857,6 +2780,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        RoleSourceProperty: {
+            name: RoleSourceProperty.$type,
+            properties: {
+                value: {
+                    name: RoleSourceProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
+        RoleTargetProperty: {
+            name: RoleTargetProperty.$type,
+            properties: {
+                value: {
+                    name: RoleTargetProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
         ShapeDeclaration: {
             name: ShapeDeclaration.$type,
             properties: {
@@ -1887,6 +2828,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: StackedProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        StereotypeProperty: {
+            name: StereotypeProperty.$type,
+            properties: {
+                value: {
+                    name: StereotypeProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

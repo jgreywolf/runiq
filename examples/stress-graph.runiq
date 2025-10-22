@@ -1,18 +1,20 @@
-diagram "Algorithm Showcase"
+diagram "Algorithm Showcase" {
 
-// Stress layout demonstration
-container "Stress Algorithm" algorithm: stress spacing: 70 {
-  shape svc1 as @service label: "Service 1"
-  shape svc2 as @service label: "Service 2"
-  shape svc3 as @service label: "Service 3"
-  shape svc4 as @service label: "Service 4"
-  shape svc5 as @service label: "Service 5"
-}
+  // Stress layout demonstration
+  container "Stress Algorithm" algorithm:stress spacing:70 {
+    shape svc1 as @service label:"Service 1"
+    shape svc2 as @service label:"Service 2"
+    shape svc3 as @service label:"Service 3"
+    shape svc4 as @service label:"Service 4"
+    shape svc5 as @service label:"Service 5"
+  }
 
-// Layered layout for comparison
-container "Layered Algorithm" algorithm: layered spacing: 40 {
-  shape node1 as @rect label: "Layer 1A"
-  shape node2 as @rect label: "Layer 1B"
-  shape node3 as @rect label: "Layer 2"
-  shape node4 as @rect label: "Layer 3"
+  // Layered layout for comparison
+  container "Layered Algorithm" algorithm:layered spacing:40 {
+    shape node1 as @rect label:"Layer 1A"
+    shape node2 as @rect label:"Layer 1B"
+    shape node3 as @rect label:"Layer 2"
+    shape node4 as @rect label:"Layer 3"
+  }
+
 }

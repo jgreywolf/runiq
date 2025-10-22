@@ -1,15 +1,17 @@
-diagram "Unity Feedback System"
+diagram "Unity Feedback System" {
 
-  shape r as @box label: "R(s)"
-  shape sum as @junction label: "+/-"
-  shape gc as @transfer-fn label: "5/(s+2)"
-  shape gp as @transfer-fn label: "(s+1)/(s^2+3s+2)"
-  shape y as @box label: "Y(s)"
-  shape h as @gain label: "H(s)=1"
+  shape r as @rect label:"R(s)"
+  shape sum as @junction label:"+/-"
+  shape gc as @transfer-fn label:"5/(s+2)"
+  shape gp as @transfer-fn label:"(s+1)/(s^2+3s+2)"
+  shape y as @rect label:"Y(s)"
+  shape h as @gain label:"H(s)=1"
 
   r -> sum
   sum -> gc
   gc -> gp
   gp -> y
   y -> h
-  h -> sum label: "negative"
+  h -negative-> sum
+
+}

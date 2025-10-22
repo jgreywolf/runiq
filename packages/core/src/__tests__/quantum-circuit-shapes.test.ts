@@ -24,7 +24,7 @@ import {
   measurementShape,
   qubitWireShape,
   barrierShape,
-} from '../shapes/quantum-circuit.js';
+} from '../shapes/quantumCircuit.js';
 
 function createMockContext(
   label: string,
@@ -60,7 +60,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('Pauli X Gate', () => {
     it('should have id gate-x', () => {
-      expect(gateXShape.id).toBe('gate-x');
+      expect(gateXShape.id).toBe('gateX');
     });
 
     it('should calculate fixed 20×20 bounds', () => {
@@ -98,7 +98,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('Pauli Y Gate', () => {
     it('should have id gate-y', () => {
-      expect(gateYShape.id).toBe('gate-y');
+      expect(gateYShape.id).toBe('gateY');
     });
 
     it('should calculate fixed 20×20 bounds', () => {
@@ -134,7 +134,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('Pauli Z Gate', () => {
     it('should have id gate-z', () => {
-      expect(gateZShape.id).toBe('gate-z');
+      expect(gateZShape.id).toBe('gateZ');
     });
 
     it('should calculate fixed 20×20 bounds', () => {
@@ -170,7 +170,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('Hadamard Gate', () => {
     it('should have id gate-h', () => {
-      expect(gateHShape.id).toBe('gate-h');
+      expect(gateHShape.id).toBe('gateH');
     });
 
     it('should calculate fixed 20×20 bounds', () => {
@@ -206,7 +206,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('S Gate (Phase)', () => {
     it('should have id gate-s', () => {
-      expect(gateSShape.id).toBe('gate-s');
+      expect(gateSShape.id).toBe('gateS');
     });
 
     it('should calculate fixed 20×20 bounds', () => {
@@ -242,7 +242,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('T Gate', () => {
     it('should have id gate-t', () => {
-      expect(gateTShape.id).toBe('gate-t');
+      expect(gateTShape.id).toBe('gateT');
     });
 
     it('should calculate fixed 20×20 bounds', () => {
@@ -278,7 +278,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('Control Dot', () => {
     it('should have id control-dot', () => {
-      expect(controlDotShape.id).toBe('control-dot');
+      expect(controlDotShape.id).toBe('controlDot');
     });
 
     it('should calculate fixed 8×8 bounds', () => {
@@ -315,7 +315,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('CNOT Target', () => {
     it('should have id cnot-target', () => {
-      expect(cnotTargetShape.id).toBe('cnot-target');
+      expect(cnotTargetShape.id).toBe('cnotTarget');
     });
 
     it('should calculate fixed 16×16 bounds', () => {
@@ -352,7 +352,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('SWAP X Symbol', () => {
     it('should have id swap-x', () => {
-      expect(swapXShape.id).toBe('swap-x');
+      expect(swapXShape.id).toBe('swapX');
     });
 
     it('should calculate fixed 12×12 bounds', () => {
@@ -427,7 +427,7 @@ describe('Quantum Circuit Shapes (TDD)', () => {
 
   describe('Qubit Wire', () => {
     it('should have id qubit-wire', () => {
-      expect(qubitWireShape.id).toBe('qubit-wire');
+      expect(qubitWireShape.id).toBe('qubitWire');
     });
 
     it('should calculate wire segment bounds', () => {

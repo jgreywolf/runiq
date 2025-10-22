@@ -1,0 +1,110 @@
+// Composition Example
+// Demonstrates composite aggregation (filled diamond)
+// Parts cannot exist independently of the whole
+
+diagram "House-Room Composition" {
+  direction: TB
+  
+  // Container (whole) - owns the parts
+  shape House as @class label:"House"
+    attributes:[
+      {name:"address" type:"string" visibility:private},
+      {name:"yearBuilt" type:"int" visibility:private},
+      {name:"squareFeet" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"getTotalRooms" returnType:"int" visibility:public},
+      {name:"getRoom" params:[{name:"name" type:"string"}] returnType:"Room" visibility:public},
+      {name:"demolish" visibility:public}
+    ]
+  
+  // Part (cannot exist without container)
+  shape Room as @class label:"Room"
+    attributes:[
+      {name:"name" type:"string" visibility:private},
+      {name:"squareFeet" type:"int" visibility:private},
+      {name:"hasWindow" type:"bool" visibility:private}
+    ]
+    methods:[
+      {name:"getArea" returnType:"int" visibility:public},
+      {name:"renovate" visibility:public}
+    ]
+  
+  // Composition relationship: House consists of Rooms
+  // Filled diamond on House (container) side
+  // When House is destroyed, Rooms are also destroyed
+  House -> Room
+    edgeType: composition
+    multiplicitySource: "1"
+    multiplicityTarget: "1..*"
+    roleSource: "whole"
+    roleTarget: "part"
+}
+
+// Additional Composition Example: Car and Engine
+diagram "Car-Engine Composition" {
+  direction: LR
+  
+  shape Car as @class label:"Car"
+    attributes:[
+      {name:"vin" type:"string" visibility:private},
+      {name:"make" type:"string" visibility:private},
+      {name:"model" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"start" visibility:public},
+      {name:"stop" visibility:public}
+    ]
+  
+  shape Engine as @class label:"Engine"
+    attributes:[
+      {name:"serialNumber" type:"string" visibility:private},
+      {name:"horsepower" type:"int" visibility:private},
+      {name:"cylinders" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"ignite" visibility:public},
+      {name:"shutdown" visibility:public}
+    ]
+  
+  shape Wheel as @class label:"Wheel"
+    attributes:[
+      {name:"diameter" type:"int" visibility:private},
+      {name:"pressure" type:"int" visibility:private}
+    ]
+    methods:[
+      {name:"rotate" visibility:public},
+      {name:"inflate" params:[{name:"psi" type:"int"}] visibility:public}
+    ]
+  
+  // Composition: Car has exactly one Engine
+  Car -> Engine
+    edgeType: composition
+    multiplicitySource: "1"
+    multiplicityTarget: "1"
+  
+  // Composition: Car has exactly 4 Wheels
+  Car -> Wheel
+    edgeType: composition
+    multiplicitySource: "1"
+    multiplicityTarget: "4"
+}
+
+// Key Points about Composition:
+// 1. Filled Diamond: Rendered as black-filled diamond on container side
+// 2. Exclusive Ownership: Parts belong to exactly one whole
+// 3. Dependent Lifecycle: Destroying container destroys all parts
+// 4. "Part-Of" Relationship: Engine is part of Car
+// 5. Physical Containment: Strong, physical relationship
+//
+// Real-world Examples:
+// - House has Rooms (rooms destroyed when house demolished)
+// - Car has Engine (engine is specific to that car)
+// - Book has Chapters (chapters don't exist without the book)
+// - Document has Paragraphs (paragraphs are destroyed with document)
+//
+// Composition vs Aggregation:
+// - Composition: Strong "death" relationship (filled diamond)
+// - Aggregation: Weak "catalog" relationship (hollow diamond)
+// - Composition: Parts can't be shared
+// - Aggregation: Parts can be shared across multiple wholes

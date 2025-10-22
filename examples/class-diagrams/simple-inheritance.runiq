@@ -1,0 +1,52 @@
+// Simple Inheritance Example
+// Demonstrates basic class inheritance with abstract base class
+
+diagram "Animal Hierarchy" {
+  direction: TB
+  
+  // Abstract base class
+  shape Animal as @class label:"Animal"
+    stereotype:"abstract"
+    attributes:[
+      {name:"name" type:"string" visibility:protected},
+      {name:"age" type:"int" visibility:protected}
+    ]
+    methods:[
+      {name:"eat" returnType:"void" visibility:public},
+      {name:"sleep" returnType:"void" visibility:public},
+      {name:"makeSound" returnType:"void" visibility:public abstract:true}
+    ]
+  
+  // Concrete derived classes
+  shape Dog as @class label:"Dog"
+    attributes:[
+      {name:"breed" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"makeSound" returnType:"void" visibility:public},
+      {name:"fetch" returnType:"void" visibility:public}
+    ]
+  
+  shape Cat as @class label:"Cat"
+    attributes:[
+      {name:"indoor" type:"bool" visibility:private}
+    ]
+    methods:[
+      {name:"makeSound" returnType:"void" visibility:public},
+      {name:"scratch" returnType:"void" visibility:public}
+    ]
+  
+  shape Bird as @class label:"Bird"
+    attributes:[
+      {name:"wingspan" type:"float" visibility:private}
+    ]
+    methods:[
+      {name:"makeSound" returnType:"void" visibility:public},
+      {name:"fly" returnType:"void" visibility:public}
+    ]
+  
+  // Inheritance relationships
+  Dog -> Animal
+  Cat -> Animal
+  Bird -> Animal
+}

@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Aliases: circ, circle
  */
 export const circleShape: ShapeDefinition = {
-  id: 'circ',
+  id: 'circle',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

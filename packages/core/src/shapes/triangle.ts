@@ -5,7 +5,7 @@ import type { ShapeDefinition } from '../types.js';
  * Aliases: tri, triangle, extract
  */
 export const triangleShape: ShapeDefinition = {
-  id: 'tri',
+  id: 'triangle',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

@@ -1,32 +1,32 @@
-diagram: use-case
-title: "Banking System - Customer Use Cases"
-
-# Actors
-actor Customer "Customer"
-actor BankStaff "Bank Staff"
-actor System "Payment Gateway"
-
-# System boundary (contains use cases)
-system-boundary Bank "Banking System" {
-  # Use cases - the functionality provided by the system
-  ellipse-wide Login "Login to Account"
-  ellipse-wide ViewBalance "View Account Balance"
-  ellipse-wide Transfer "Transfer Money"
-  ellipse-wide Deposit "Deposit Funds"
-  ellipse-wide Withdraw "Withdraw Funds"
-  ellipse-wide GenerateReport "Generate Transaction Report"
+diagram "Banking System - Customer Use Cases" {
+  
+  // Actors
+  shape customer as @actor label:"Customer"
+  shape bankStaff as @actor label:"Bank Staff"
+  shape system as @actor label:"Payment Gateway"
+  
+  // System boundary (contains use cases)
+  container bank "Banking System" {
+    // Use cases - the functionality provided by the system
+    shape login as @ellipse-wide label:"Login to Account"
+    shape viewBalance as @ellipse-wide label:"View Account Balance"
+    shape transfer as @ellipse-wide label:"Transfer Money"
+    shape deposit as @ellipse-wide label:"Deposit Funds"
+    shape withdraw as @ellipse-wide label:"Withdraw Funds"
+    shape generateReport as @ellipse-wide label:"Generate Transaction Report"
+  }
+  
+  // Customer interactions (associations)
+  customer -> login
+  customer -> viewBalance
+  customer -> transfer
+  customer -> deposit
+  customer -> withdraw
+  
+  // Bank staff interactions
+  bankStaff -> generateReport
+  bankStaff -> viewBalance
+  
+  // System interactions
+  transfer -processes_payment-> system
 }
-
-# Customer interactions (associations)
-Customer -> Login
-Customer -> ViewBalance
-Customer -> Transfer
-Customer -> Deposit
-Customer -> Withdraw
-
-# Bank staff interactions
-BankStaff -> GenerateReport
-BankStaff -> ViewBalance
-
-# System interactions
-Transfer -> System "processes payment"

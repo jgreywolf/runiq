@@ -1,0 +1,48 @@
+// Simple class diagram demonstrating automatic label defaulting
+// When label is not provided, the shape ID is used as the label
+
+diagram "Simple Classes" {
+  // No explicit labels - IDs will be used as labels automatically
+  
+  shape Person as @class 
+    attributes:[
+      {name:"id" type:"int" visibility:private},
+      {name:"name" type:"string"},
+      {name:"email" type:"string"}
+    ]
+    methods:[
+      {name:"getName"},
+      {name:"setEmail" params:[{name:"email" type:"string"}]}
+    ]
+
+  shape Address as @class
+    attributes:[
+      {name:"street" type:"string"},
+      {name:"city" type:"string"},
+      {name:"zipCode" type:"string"}
+    ]
+
+  shape Company as @class
+    attributes:[
+      {name:"name" type:"string"},
+      {name:"industry" type:"string"}
+    ]
+    methods:[
+      {name:"hire" params:[{name:"person" type:"Person"}]}
+    ]
+
+  // Relationships using UML features from Phase 1
+  Person -> Address 
+    label:"lives at"
+    multiplicitySource:"1"
+    multiplicityTarget:"1..*"
+    roleSource:"resident"
+    roleTarget:"residence"
+
+  Company -> Person
+    edgeType:aggregation
+    multiplicitySource:"1"
+    multiplicityTarget:"0..*"
+    roleSource:"employer"
+    roleTarget:"employee"
+}

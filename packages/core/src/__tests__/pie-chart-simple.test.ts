@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { pieChart } from '../shapes/charts/pie.js';
+import { pieChart } from '../shapes/charts/pieChart.js';
 import type { ShapeRenderContext, NodeAst, Style } from '../types.js';
 
 // Helper to create test context
@@ -24,12 +24,12 @@ function ctx(data?: any): ShapeRenderContext {
 
 describe('Pie Chart Shape', () => {
   it('should have correct shape ID', () => {
-    expect(pieChart.id).toBe('pie-chart');
+    expect(pieChart.id).toBe('pieChart');
   });
 
-  it('should calculate default bounds (200x200)', () => {
-    const bounds = pieChart.bounds(ctx());
-    expect(bounds).toEqual({ width: 200, height: 200 });
+  it('should calculate default bounds (250x250 without legend)', () => {
+    const bounds = pieChart.bounds(ctx({ showLegend: false }));
+    expect(bounds).toEqual({ width: 250, height: 250 });
   });
 
   it('should define 4 anchor points', () => {
@@ -125,13 +125,13 @@ describe('Pie Chart Shape', () => {
       expect(rectCount).toBe(0);
     });
 
-    it('should not render legend by default (backwards compatible)', () => {
+    it('should render legend by default (3 rects for 3 values)', () => {
       const data = {
         values: [30, 45, 25],
       };
       const rendered = pieChart.render(ctx(data), { x: 0, y: 0 });
       const rectCount = (rendered.match(/<rect/g) || []).length;
-      expect(rectCount).toBe(0);
+      expect(rectCount).toBe(3); // Legend shows by default now
     });
 
     it('should include labels in legend', () => {
@@ -171,10 +171,12 @@ describe('Pie Chart Shape', () => {
     it('should expand bounds when legend is shown', () => {
       const data = {
         values: [30, 45, 25],
-        showLegend: true,
+        showLegend: true, // Explicitly enabled
       };
       const boundsWithLegend = pieChart.bounds(ctx(data));
-      const boundsNoLegend = pieChart.bounds(ctx({ values: [30, 45, 25] }));
+      const boundsNoLegend = pieChart.bounds(
+        ctx({ values: [30, 45, 25], showLegend: false })
+      ); // Explicitly disabled
 
       // Width should be wider to accommodate legend
       expect(boundsWithLegend.width).toBeGreaterThan(boundsNoLegend.width);

@@ -1,0 +1,74 @@
+// Learning Roadmap Mindmap
+// Knowledge map for learning JavaScript
+// Uses type:mindmap with explicit @rect for third level detail nodes
+
+diagram "Learning JavaScript Roadmap" {
+  
+  style highlight fill:"#ffeb3b" stroke:"#f57c00" strokeWidth:3
+  style level1 fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2
+  style level2 fill:"#f3e5f5" stroke:"#7b1fa2"
+  
+  container "LearningPath" type:mindmap algorithm:radial spacing:90 backgroundColor:"#fafafa" borderColor:"#757575" borderWidth:2 {
+    
+    // Central topic - auto @circ
+    shape js label:"JavaScript" style:highlight
+    
+    // Level 1 - Main areas - auto @rounded
+    shape basics label:"Basics" style:level1
+    shape advanced label:"Advanced" style:level1
+    shape frameworks label:"Frameworks" style:level1
+    shape tools label:"Tools" style:level1
+    
+    // Level 2 - Basics subtopics - explicit @rect for visual hierarchy
+    shape variables as @rect label:"Variables" style:level2
+    shape functions as @rect label:"Functions" style:level2
+    shape arrays as @rect label:"Arrays" style:level2
+    shape objects as @rect label:"Objects" style:level2
+    
+    // Level 2 - Advanced subtopics
+    shape closures as @rect label:"Closures" style:level2
+    shape promises as @rect label:"Promises" style:level2
+    shape async_await as @rect label:"Async/Await" style:level2
+    shape modules as @rect label:"Modules" style:level2
+    
+    // Level 2 - Framework subtopics
+    shape react as @rect label:"React" style:level2
+    shape vue as @rect label:"Vue" style:level2
+    shape svelte as @rect label:"Svelte" style:level2
+    
+    // Level 2 - Tools subtopics
+    shape npm as @rect label:"npm" style:level2
+    shape webpack as @rect label:"Webpack" style:level2
+    shape vite as @rect label:"Vite" style:level2
+    shape typescript as @rect label:"TypeScript" style:level2
+    
+    // Main connections
+    js -> basics
+    js -> advanced
+    js -> frameworks
+    js -> tools
+    
+    // Basics connections
+    basics -> variables
+    basics -> functions
+    basics -> arrays
+    basics -> objects
+    
+    // Advanced connections
+    advanced -> closures
+    advanced -> promises
+    advanced -> async_await
+    advanced -> modules
+    
+    // Framework connections
+    frameworks -> react
+    frameworks -> vue
+    frameworks -> svelte
+    
+    // Tools connections
+    tools -> npm
+    tools -> webpack
+    tools -> vite
+    tools -> typescript
+  }
+}

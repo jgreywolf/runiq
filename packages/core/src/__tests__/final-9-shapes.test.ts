@@ -35,7 +35,7 @@ function createMockContext(label: string): ShapeRenderContext {
 describe('Final 9 Shapes (TDD)', () => {
   describe('Predefined Process', () => {
     it('should have id predef-proc', () => {
-      expect(predefinedProcessShape.id).toBe('predef-proc');
+      expect(predefinedProcessShape.id).toBe('predefinedProcess');
     });
 
     it('should calculate bounds with frame space', () => {
@@ -72,7 +72,7 @@ describe('Final 9 Shapes (TDD)', () => {
 
   describe('Decision Manual', () => {
     it('should have id decision-manual', () => {
-      expect(decisionManualShape.id).toBe('decision-manual');
+      expect(decisionManualShape.id).toBe('decisionManual');
     });
 
     it('should calculate diamond bounds', () => {
@@ -108,7 +108,7 @@ describe('Final 9 Shapes (TDD)', () => {
 
   describe('Preparation Alt (Elongated Hexagon)', () => {
     it('should have id prep-alt', () => {
-      expect(preparationAltShape.id).toBe('prep-alt');
+      expect(preparationAltShape.id).toBe('preparation');
     });
 
     it('should calculate elongated hexagon bounds', () => {
@@ -148,7 +148,7 @@ describe('Final 9 Shapes (TDD)', () => {
 
   describe('Sequential Access Storage', () => {
     it('should have id seq-storage', () => {
-      expect(sequentialStorageShape.id).toBe('seq-storage');
+      expect(sequentialStorageShape.id).toBe('sequentialStorage');
     });
 
     it('should calculate bounds for tape storage', () => {
@@ -183,7 +183,7 @@ describe('Final 9 Shapes (TDD)', () => {
 
   describe('Direct Access Storage', () => {
     it('should have id direct-storage', () => {
-      expect(directStorageShape.id).toBe('direct-storage');
+      expect(directStorageShape.id).toBe('directStorage');
     });
 
     it('should calculate bounds for direct access', () => {
@@ -259,7 +259,7 @@ describe('Final 9 Shapes (TDD)', () => {
 
   describe('Off-Page Connector', () => {
     it('should have id off-page', () => {
-      expect(offPageConnectorShape.id).toBe('off-page');
+      expect(offPageConnectorShape.id).toBe('offPageConnector');
     });
 
     it('should calculate pentagon bounds', () => {
@@ -300,7 +300,7 @@ describe('Final 9 Shapes (TDD)', () => {
 
   describe('Summing Junction (Plus Circle)', () => {
     it('should have id junction', () => {
-      expect(summingJunctionShape.id).toBe('junction');
+      expect(summingJunctionShape.id).toBe('summingJunction');
     });
 
     it('should calculate circle bounds', () => {

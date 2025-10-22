@@ -29,7 +29,7 @@ function createMockContext(label: string): ShapeRenderContext {
 describe('Document Shapes (TDD)', () => {
   describe('Lined Document', () => {
     it('should have id lined-doc', () => {
-      expect(linedDocumentShape.id).toBe('lined-doc');
+      expect(linedDocumentShape.id).toBe('linedDocument');
     });
 
     it('should calculate bounds with fold space', () => {
@@ -66,7 +66,7 @@ describe('Document Shapes (TDD)', () => {
 
   describe('Multi Document (Stacked)', () => {
     it('should have id multi-doc', () => {
-      expect(multiDocumentShape.id).toBe('multi-doc');
+      expect(multiDocumentShape.id).toBe('multiDocument');
     });
 
     it('should calculate bounds with stack offset', () => {
@@ -103,7 +103,7 @@ describe('Document Shapes (TDD)', () => {
 
   describe('Tagged Document', () => {
     it('should have id tag-doc', () => {
-      expect(taggedDocumentShape.id).toBe('tag-doc');
+      expect(taggedDocumentShape.id).toBe('taggedDocument');
     });
 
     it('should calculate bounds with fold and tag', () => {

@@ -1,12 +1,6 @@
 // Pie chart with custom color array
 // Testing colors: property with string array
 
-shape pie1 as @pie-chart 
-  label: "Custom Colors Pie" 
-  colors: ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
-  data: [
-    {"label": "Red Slice", "value": 35},
-    {"label": "Green Slice", "value": 28},
-    {"label": "Blue Slice", "value": 22},
-    {"label": "Yellow Slice", "value": 15}
-  ]
+diagram "Custom Colors Pie Chart" {
+  shape pie1 as @pie-chart label:"Custom Colors Pie" legendPosition:"bottom-right" colors:["#ff0000","#00ff00","#0000ff","#ffff00"] data:[{"label":"Red Slice","value":35},{"label":"Green Slice","value":28},{"label":"Blue Slice","value":22},{"label":"Yellow Slice","value":15}]
+}

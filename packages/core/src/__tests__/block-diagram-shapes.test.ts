@@ -53,7 +53,7 @@ describe('Block Diagram Shapes (TDD)', () => {
 
   describe('Transfer Function Block', () => {
     it('should have id transfer-fn', () => {
-      expect(transferFunctionShape.id).toBe('transfer-fn');
+      expect(transferFunctionShape.id).toBe('transferFunction');
     });
 
     it('should render rectangle with numerator/denominator', () => {
@@ -190,7 +190,7 @@ describe('Block Diagram Shapes (TDD)', () => {
 
   describe('Delay Block (e^-sT)', () => {
     it('should have id time-delay', () => {
-      expect(timeDelayShape.id).toBe('time-delay');
+      expect(timeDelayShape.id).toBe('timeDelay');
     });
 
     it('should render rectangle with delay notation', () => {
@@ -236,7 +236,7 @@ describe('Block Diagram Shapes (TDD)', () => {
 
   describe('Summing Junction (Plus)', () => {
     it('should have id junction', () => {
-      expect(summingJunctionShape.id).toBe('junction');
+      expect(summingJunctionShape.id).toBe('summingJunction');
     });
 
     it('should render circle with plus sign', () => {
@@ -271,7 +271,7 @@ describe('Block Diagram Shapes (TDD)', () => {
 
   describe('Multiply Junction (×)', () => {
     it('should have id multiply-junction', () => {
-      expect(multiplyJunctionShape.id).toBe('multiply-junction');
+      expect(multiplyJunctionShape.id).toBe('multiplyJunction');
     });
 
     it('should render circle with × sign', () => {
@@ -300,7 +300,7 @@ describe('Block Diagram Shapes (TDD)', () => {
 
   describe('Divide Junction (÷)', () => {
     it('should have id divide-junction', () => {
-      expect(divideJunctionShape.id).toBe('divide-junction');
+      expect(divideJunctionShape.id).toBe('divideJunction');
     });
 
     it('should render circle with ÷ sign', () => {
@@ -324,7 +324,7 @@ describe('Block Diagram Shapes (TDD)', () => {
 
   describe('Compare Junction (Comparator)', () => {
     it('should have id compare-junction', () => {
-      expect(compareJunctionShape.id).toBe('compare-junction');
+      expect(compareJunctionShape.id).toBe('compareJunction');
     });
 
     it('should render circle with comparison operator', () => {

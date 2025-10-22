@@ -1,24 +1,26 @@
-diagram "Layout Algorithm Comparison"
+diagram "Layout Algorithm Comparison" {
 
-// Radial layout - nodes in a container visualized with radial algorithm
-container "Radial Layout" algorithm: radial {
-  shape node1 as @person label: "Node 1"
-  shape node2 as @person label: "Node 2"
-  shape node3 as @person label: "Node 3"
-  shape node4 as @person label: "Node 4"
-}
+  // Radial layout - nodes in a container visualized with radial algorithm
+  container "Radial Layout" algorithm:radial {
+    shape node1 as @person label:"Node 1"
+    shape node2 as @person label:"Node 2"
+    shape node3 as @person label:"Node 3"
+    shape node4 as @person label:"Node 4"
+  }
 
-// Stress layout - minimizes edge crossings
-container "Stress Layout" algorithm: stress {
-  shape snode1 as @rect label: "A"
-  shape snode2 as @rect label: "B"
-  shape snode3 as @rect label: "C"
-  shape snode4 as @rect label: "D"
-}
+  // Stress layout - minimizes edge crossings
+  container "Stress Layout" algorithm:stress {
+    shape snode1 as @rect label:"A"
+    shape snode2 as @rect label:"B"
+    shape snode3 as @rect label:"C"
+    shape snode4 as @rect label:"D"
+  }
 
-// Multi-rooted tree layout
-container "MRTree Layout" algorithm: mrtree {
-  shape mnode1 as @service label: "Service 1"
-  shape mnode2 as @service label: "Service 2"
-  shape mnode3 as @service label: "Service 3"
+  // Multi-rooted tree layout
+  container "MRTree Layout" algorithm:mrtree {
+    shape mnode1 as @service label:"Service 1"
+    shape mnode2 as @service label:"Service 2"
+    shape mnode3 as @service label:"Service 3"
+  }
+
 }
