@@ -12,7 +12,7 @@ export const c4Container: ShapeDefinition = {
     const padding = ctx.style.padding || 16;
     const minWidth = 140;
     const minHeight = 80;
-    
+
     // Reserve space for technology label (smaller text)
     const techHeight = 18;
 
@@ -26,7 +26,7 @@ export const c4Container: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#438DD5';  // C4 container light blue
+    const fill = ctx.style.fill || '#438DD5'; // C4 container light blue
     const stroke = ctx.style.stroke || '#2E6295';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const textColor = ctx.style.textColor || '#ffffff';
@@ -55,7 +55,9 @@ export const c4Container: ShapeDefinition = {
         ${title}
       </text>
       
-      ${technology ? `
+      ${
+        technology
+          ? `
       <!-- Technology Label -->
       <text x="${x + bounds.width / 2}" y="${techY}" 
             text-anchor="middle" dominant-baseline="middle"
@@ -63,7 +65,9 @@ export const c4Container: ShapeDefinition = {
             fill="${textColor}" font-style="italic">
         ${technology}
       </text>
-      ` : ''}
+      `
+          : ''
+      }
     `;
   },
 };

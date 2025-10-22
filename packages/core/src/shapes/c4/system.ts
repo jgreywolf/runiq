@@ -29,7 +29,7 @@ export const c4System: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#1168BD';  // C4 system blue
+    const fill = ctx.style.fill || '#1168BD'; // C4 system blue
     const stroke = ctx.style.stroke || '#0B4884';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const textColor = ctx.style.textColor || '#ffffff';

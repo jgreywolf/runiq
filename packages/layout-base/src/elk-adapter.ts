@@ -31,9 +31,9 @@ import { shapeRegistry, createTextMeasurer } from '@runiq/core';
  * - BPMN pools with nested lanes
  * - Complex organizational charts
  * - Deployment diagrams with nested environments
- * 
+ *
  * See container-layout.test.ts for 4 skipped tests (two-level, three-level, C4, spacing).
- * 
+ *
  * WORKAROUND: C4 and other hierarchical diagrams currently use FLAT container hierarchies
  * (multiple containers side-by-side at same level) which works correctly.
  *

@@ -23,10 +23,10 @@ export const c4Component: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#85BBF0';  // C4 component lighter blue
+    const fill = ctx.style.fill || '#85BBF0'; // C4 component lighter blue
     const stroke = ctx.style.stroke || '#5A9BD5';
     const strokeWidth = ctx.style.strokeWidth || 1.5;
-    const textColor = ctx.style.textColor || '#000000';  // Dark text for lighter background
+    const textColor = ctx.style.textColor || '#000000'; // Dark text for lighter background
     const rx = ctx.style.rx || 6;
 
     return `

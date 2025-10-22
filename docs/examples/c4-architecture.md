@@ -209,6 +209,7 @@ Use the official C4 color scheme for consistency:
 - **External System**: `#999999` (gray)
 
 For container boxes, use lighter complementary colors:
+
 - Light blue: `backgroundColor:"#e3f2fd" borderColor:"#1976d2"`
 - Light pink: `backgroundColor:"#fce4ec" borderColor:"#c2185b"`
 - Light purple: `backgroundColor:"#f3e5f5" borderColor:"#7b1fa2"`
@@ -253,6 +254,7 @@ These limitations are being addressed - see the roadmap for updates.
 ---
 
 **Next Steps:**
+
 - [Container Guide](./containers.md) - Learn more about containers
 - [Shape Reference](../reference/shapes.md) - All available shapes
 - [UML Diagrams](./uml.md) - For Level 4 (Code) diagrams

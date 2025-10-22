@@ -1,0 +1,17 @@
+diagram "Banking System - Container Diagram"
+direction: TB
+
+shape customer as @c4-person label:"Customer"
+
+container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  shape webapp as @c4-container label:"Single-Page App\n[JavaScript, React]"
+  shape api as @c4-container label:"API Application\n[Java, Spring Boot]"
+  shape db as @c4-container label:"Database\n[Oracle]"
+}
+
+shape emailSystem as @c4-system label:"Email System"
+
+customer -Uses [HTTPS]-> webapp
+webapp -API calls [JSON/HTTPS]-> api
+api -Reads/Writes [SQL/TCP]-> db
+api -Sends emails [SMTP]-> emailSystem

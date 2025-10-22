@@ -23,7 +23,7 @@ export const c4Person: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#08427B';  // C4 person blue
+    const fill = ctx.style.fill || '#08427B'; // C4 person blue
     const stroke = ctx.style.stroke || '#052E56';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const textColor = ctx.style.textColor || '#ffffff';
