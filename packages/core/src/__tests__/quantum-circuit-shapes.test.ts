@@ -24,7 +24,7 @@ import {
   measurementShape,
   qubitWireShape,
   barrierShape,
-} from '../shapes/quantumCircuit.js';
+} from '../shapes/quantum/index.js';
 
 function createMockContext(
   label: string,

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { pyramidShape } from '../shapes/pyramid.js';
+import { pyramidShape } from '../shapes/charts/pyramid.js';
 import type { ShapeRenderContext } from '../types.js';
 
 /**

@@ -86,7 +86,7 @@ export const cloudShape: ShapeDefinition = {
     const textX = cx;
     const textY = cy;
 
-    return `
+    return `<g>
       <path d="${path}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
@@ -95,6 +95,6 @@ export const cloudShape: ShapeDefinition = {
             font-family="${font}" font-size="${fontSize}">
         ${ctx.node.label || ''}
       </text>
-    `;
+    </g>`;
   },
 };

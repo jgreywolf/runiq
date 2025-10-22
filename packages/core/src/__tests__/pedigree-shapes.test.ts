@@ -4,7 +4,7 @@ import {
   pedigreeMaleShape,
   pedigreeFemaleShape,
   pedigreeUnknownShape,
-} from '../shapes/pedigree.js';
+} from '../shapes/pedigree/index.js';
 
 function createMockContext(
   label: string,

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { ellipseWideShape } from '../shapes/ellipseWide.js';
-import { systemBoundaryShape } from '../shapes/systemBoundary.js';
+import { ellipseWideShape } from '../shapes/basic/ellipseWide.js';
+import { systemBoundaryShape } from '../shapes/uml/systemBoundary.js';
 import type { DiagramNode, Style, TextMeasurement } from '../types.js';
 
 describe('Use Case Shapes', () => {

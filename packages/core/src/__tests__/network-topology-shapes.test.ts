@@ -16,8 +16,8 @@ import {
   loadBalancerShape,
   cloudShape,
   storageShape,
-} from '../shapes/networkTopology.js';
-import { cylinderShape } from '../shapes/cylinder.js';
+} from '../shapes/network/index.js';
+import { cylinderShape } from '../shapes/storage/cylinder.js';
 
 function createMockContext(
   label: string,
@@ -239,11 +239,11 @@ describe('Network Topology Shapes', () => {
       expect(cloudShape.id).toBe('cloud');
     });
 
-    it('should calculate fixed 80×50 bounds', () => {
+    it('should calculate fixed 100×70 bounds', () => {
       const ctx = createMockContext('AWS', 'cloud');
       const bounds = cloudShape.bounds(ctx);
-      expect(bounds.width).toBe(80);
-      expect(bounds.height).toBe(50);
+      expect(bounds.width).toBe(100);
+      expect(bounds.height).toBe(70);
     });
 
     it('should have 4 anchor points', () => {
@@ -262,7 +262,7 @@ describe('Network Topology Shapes', () => {
       const ctx = createMockContext('AWS', 'cloud');
       const svg = cloudShape.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('<path'); // Cloud path
-      expect(svg).toContain('Q'); // Quadratic curves for bumps
+      expect(svg).toContain('C'); // Cubic Bezier curves for bumps
     });
   });
 

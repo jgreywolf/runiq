@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { venn2Shape } from '../shapes/venn2.js';
-import { venn3Shape } from '../shapes/venn3.js';
-import { venn4Shape } from '../shapes/venn4.js';
+import { venn2Shape } from '../shapes/charts/venn2.js';
+import { venn3Shape } from '../shapes/charts/venn3.js';
+import { venn4Shape } from '../shapes/charts/venn4.js';
 import type { ShapeRenderContext } from '../types.js';
 
 /**
