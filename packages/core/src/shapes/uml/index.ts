@@ -11,4 +11,10 @@ export { lifelineShape } from './lifeline.js';
 export { activationShape } from './activation.js';
 export { fragmentShape } from './fragment.js';
 export { deletionShape } from './deletion.js';
+export { stateShape } from './state.js';
+export { initialStateShape } from './initialState.js';
+export { finalStateShape } from './finalState.js';
+export { choiceShape } from './choice.js';
+export { forkShape } from './fork.js';
+export { joinShape } from './join.js';
 
