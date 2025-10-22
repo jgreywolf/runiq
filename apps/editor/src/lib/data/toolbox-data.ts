@@ -289,6 +289,43 @@ export const shapeCategories: ShapeCategory[] = [
 				label: 'Join',
 				code: `shape id as @join
   width:100`
+			},
+			{
+				id: 'activity',
+				label: 'Activity',
+				code: 'shape id as @activity label:"Process Order"'
+			},
+			{
+				id: 'activityDecision',
+				label: 'Decision',
+				code: 'shape id as @activityDecision label:"[approved?]"'
+			},
+			{
+				id: 'activityMerge',
+				label: 'Merge',
+				code: 'shape id as @activityMerge label:""'
+			},
+			{
+				id: 'activityFork',
+				label: 'Fork Bar',
+				code: `shape id as @activityFork
+  width:80`
+			},
+			{
+				id: 'activityJoin',
+				label: 'Join Bar',
+				code: `shape id as @activityJoin
+  width:80`
+			},
+			{
+				id: 'activityInitial',
+				label: 'Initial Node',
+				code: 'shape id as @activityInitial label:""'
+			},
+			{
+				id: 'activityFinal',
+				label: 'Final Node',
+				code: 'shape id as @activityFinal label:""'
 			}
 		]
 	},
@@ -849,6 +886,51 @@ fork1 -> shipped
 shipped -> delivered
 delivered -> final
 cancelled -> final`
+			},
+			{
+				name: 'Activity Diagram',
+				description: 'Online shopping process flow',
+				code: `diagram "Online Shopping Activity"
+
+shape start as @activityInitial
+shape end as @activityFinal
+
+shape browse as @activity label:"Browse Products"
+shape addCart as @activity label:"Add to Cart"
+shape checkout as @activity label:"Checkout"
+shape decision1 as @activityDecision label:"[has account?]"
+shape register as @activity label:"Register"
+shape login as @activity label:"Login"
+shape merge1 as @activityMerge
+shape payment as @activity label:"Enter Payment"
+shape decision2 as @activityDecision label:"[payment valid?]"
+shape fork1 as @activityFork
+  width:120
+shape processPayment as @activity label:"Process Payment"
+shape sendConfirm as @activity label:"Send Confirmation"
+shape updateInventory as @activity label:"Update Inventory"
+shape join1 as @activityJoin
+  width:120
+
+start -> browse
+browse -> addCart
+addCart -> checkout
+checkout -> decision1
+decision1 -[no]-> register
+decision1 -[yes]-> login
+register -> merge1
+login -> merge1
+merge1 -> payment
+payment -> decision2
+decision2 -[no]-> payment
+decision2 -[yes]-> fork1
+fork1 -> processPayment
+fork1 -> sendConfirm
+fork1 -> updateInventory
+processPayment -> join1
+sendConfirm -> join1
+updateInventory -> join1
+join1 -> end`
 			}
 		]
 	},
