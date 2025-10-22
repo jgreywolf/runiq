@@ -201,6 +201,7 @@ export const shapeCategories: ShapeCategory[] = [
 		id: 'uml',
 		label: 'UML',
 		shapes: [
+			// Class Diagrams
 			{
 				id: 'class',
 				label: 'Class',
@@ -208,11 +209,85 @@ export const shapeCategories: ShapeCategory[] = [
   attributes:[{name:"attribute" type:"String" visibility:public}]
   methods:[{name:"method" returnType:"void" visibility:public}]`
 			},
+			{
+				id: 'interface',
+				label: 'Interface',
+				code: `shape id as @interface label:"IRepository"
+  methods:["save()" "find()" "delete()"]`
+			},
+			{
+				id: 'abstract',
+				label: 'Abstract Class',
+				code: `shape id as @abstract label:"Vehicle"
+  attributes:["speed: int"]
+  methods:["move()" "stop()"]`
+			},
+			{
+				id: 'enum',
+				label: 'Enumeration',
+				code: `shape id as @enum label:"Priority"
+  values:["LOW" "MEDIUM" "HIGH" "CRITICAL"]`
+			},
+			{
+				id: 'package',
+				label: 'Package',
+				code: 'shape id as @package label:"com.example.models"'
+			},
+			{ id: 'note', label: 'Note', code: 'shape id as @note label:"Important note here"' },
+			// Use Case Diagrams
 			{ id: 'actor', label: 'Actor', code: 'shape id as @actor label:"Actor"' },
 			{
 				id: 'systemBoundary',
 				label: 'System Boundary',
 				code: 'shape id as @systemBoundary label:"System"'
+			},
+			// Sequence Diagrams
+			{
+				id: 'lifeline',
+				label: 'Lifeline',
+				code: `shape id as @lifeline label:":Controller"
+  stereotype:"boundary"`
+			},
+			{
+				id: 'activation',
+				label: 'Activation',
+				code: `shape id as @activation
+  height:80`
+			},
+			{
+				id: 'fragment',
+				label: 'Fragment',
+				code: `shape id as @fragment label:"alt"
+  condition:"[x > 0]"
+  width:200
+  height:120`
+			},
+			{ id: 'deletion', label: 'Deletion', code: 'shape id as @deletion' },
+			// State Machine Diagrams
+			{
+				id: 'state',
+				label: 'State',
+				code: `shape id as @state label:"Active"
+  activities:["entry / init()" "do / process()" "exit / cleanup()"]`
+			},
+			{ id: 'initialState', label: 'Initial State', code: 'shape id as @initialState' },
+			{ id: 'finalState', label: 'Final State', code: 'shape id as @finalState' },
+			{
+				id: 'choice',
+				label: 'Choice',
+				code: 'shape id as @choice label:"[x > 0]"'
+			},
+			{
+				id: 'fork',
+				label: 'Fork',
+				code: `shape id as @fork
+  width:100`
+			},
+			{
+				id: 'join',
+				label: 'Join',
+				code: `shape id as @join
+  width:100`
 			}
 		]
 	},
@@ -682,23 +757,110 @@ admin -> login`
 			},
 			{
 				name: 'Class Diagram',
-				description: 'Simple class hierarchy',
+				description: 'Simple class hierarchy with interface',
 				code: `diagram "Class Hierarchy"
 
-shape person as @class label:"Person"
-  attributes:[{name:"name" type:"string" visibility:public},{name:"age" type:"number" visibility:public}]
-  methods:[{name:"getName" returnType:"string" visibility:public}]
+shape iShape as @interface label:"IShape"
+  methods:["draw()" "getArea()"]
 
-shape student as @class label:"Student"
-  attributes:[{name:"studentId" type:"string" visibility:public}]
-  methods:[{name:"enroll" returnType:"void" visibility:public}]
+shape shape as @abstract label:"Shape"
+  attributes:["color: string"]
+  methods:["draw()" "getArea()"]
+  showStereotype:true
 
-shape teacher as @class label:"Teacher"
-  attributes:[{name:"subject" type:"string" visibility:public}]
-  methods:[{name:"teach" returnType:"void" visibility:public}]
+shape circle as @class label:"Circle"
+  attributes:[{name:"radius" type:"number" visibility:public}]
+  methods:[{name:"draw" returnType:"void" visibility:public},{name:"getArea" returnType:"number" visibility:public}]
 
-student -> person
-teacher -> person`
+shape rectangle as @class label:"Rectangle"
+  attributes:[{name:"width" type:"number" visibility:public},{name:"height" type:"number" visibility:public}]
+  methods:[{name:"draw" returnType:"void" visibility:public},{name:"getArea" returnType:"number" visibility:public}]
+
+shape colors as @enum label:"Color"
+  values:["RED" "GREEN" "BLUE"]
+
+shape note1 as @note label:"All shapes implement IShape"
+
+iShape -> shape
+shape -> circle
+shape -> rectangle
+circle .. colors
+note1 .. shape`
+			},
+			{
+				name: 'Sequence Diagram',
+				description: 'User authentication flow',
+				code: `diagram "Authentication Sequence"
+
+shape user as @lifeline label:":User"
+  height:300
+
+shape ui as @lifeline label:":LoginUI"
+  height:300
+
+shape controller as @lifeline label:":AuthController"
+  stereotype:"controller"
+  height:300
+
+shape db as @lifeline label:":Database"
+  height:300
+
+shape act1 as @activation
+  height:50
+
+shape act2 as @activation
+  height:80
+
+shape act3 as @activation
+  height:40
+
+shape frag as @fragment label:"alt"
+  condition:"[credentials valid]"
+  width:300
+  height:100
+
+user -Enter credentials-> ui
+ui -authenticate()-> controller
+controller -query()-> db
+db -result-> controller
+controller -success-> ui
+ui -show home-> user`
+			},
+			{
+				name: 'State Machine',
+				description: 'Order processing states',
+				code: `diagram "Order State Machine"
+
+shape initial as @initialState
+shape final as @finalState
+
+shape pending as @state label:"Pending"
+  activities:["entry / notifyUser()" "do / validateOrder()"]
+
+shape processing as @state label:"Processing"
+  activities:["entry / reserveItems()" "do / processPayment()" "exit / confirmOrder()"]
+
+shape shipped as @state label:"Shipped"
+  activities:["entry / generateTrackingNumber()" "do / updateInventory()"]
+
+shape delivered as @state label:"Delivered"
+
+shape cancelled as @state label:"Cancelled"
+  activities:["entry / refundPayment()" "exit / restoreInventory()"]
+
+shape choice1 as @choice label:"[valid?]"
+shape fork1 as @fork
+  width:120
+
+initial -> pending
+pending -> choice1
+choice1 -[yes]-> processing
+choice1 -[no]-> cancelled
+processing -> fork1
+fork1 -> shipped
+shipped -> delivered
+delivered -> final
+cancelled -> final`
 			}
 		]
 	},
