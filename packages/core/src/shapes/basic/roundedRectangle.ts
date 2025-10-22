@@ -1,6 +1,6 @@
 import type { ShapeDefinition } from '@runiq/core';
 
-export const roundedShape: ShapeDefinition = {
+export const roundedRectangleShape: ShapeDefinition = {
   id: 'roundedRectangle',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

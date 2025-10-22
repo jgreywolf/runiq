@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../types.js';
+import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Default color palette for pyramid levels
