@@ -125,6 +125,11 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(uml.classShape);
   shapeRegistry.register(uml.actorShape);
   shapeRegistry.register(uml.systemBoundaryShape);
+  shapeRegistry.register(uml.interfaceShape);
+  shapeRegistry.register(uml.abstractShape);
+  shapeRegistry.register(uml.enumShape);
+  shapeRegistry.register(uml.packageShape);
+  shapeRegistry.register(uml.noteShape);
 
   // Pedigree chart shapes
   shapeRegistry.register(pedigree.pedigreeMaleShape);
