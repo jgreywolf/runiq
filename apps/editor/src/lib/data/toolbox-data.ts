@@ -706,24 +706,10 @@ admin -> login`
 				code: `diagram "Class Hierarchy"
 
 shape iShape as @interface label:"IShape"
-  methods:["draw()" "getArea()"]
-
 shape shape as @abstract label:"Shape"
-  attributes:["color: string"]
-  methods:["draw()" "getArea()"]
-  showStereotype:true
-
 shape circle as @class label:"Circle"
-  attributes:[{name:"radius" type:"number" visibility:public}]
-  methods:[{name:"draw" returnType:"void" visibility:public},{name:"getArea" returnType:"number" visibility:public}]
-
 shape rectangle as @class label:"Rectangle"
-  attributes:[{name:"width" type:"number" visibility:public},{name:"height" type:"number" visibility:public}]
-  methods:[{name:"draw" returnType:"void" visibility:public},{name:"getArea" returnType:"number" visibility:public}]
-
 shape colors as @enum label:"Color"
-  values:["RED" "GREEN" "BLUE"]
-
 shape note1 as @note label:"All shapes implement IShape"
 
 iShape -> shape
@@ -738,18 +724,9 @@ note1 .. shape`
 				code: `diagram "Authentication Sequence"
 
 shape user as @lifeline label:"User"
-  height:250
-
 shape ui as @lifeline label:"LoginUI"
-  stereotype:"boundary"
-  height:250
-
 shape controller as @lifeline label:"AuthController"
-  stereotype:"controller"
-  height:250
-
 shape db as @lifeline label:"Database"
-  height:250
 
 user -"1: enter credentials"-> ui
 ui -"2: authenticate()"-> controller
@@ -765,24 +742,13 @@ ui -"6: show home"-> user`
 
 shape initial as @initialState
 shape final as @finalState
-
 shape pending as @state label:"Pending"
-  activities:["entry / notifyUser()" "do / validateOrder()"]
-
 shape processing as @state label:"Processing"
-  activities:["entry / reserveItems()" "do / processPayment()" "exit / confirmOrder()"]
-
 shape shipped as @state label:"Shipped"
-  activities:["entry / generateTrackingNumber()" "do / updateInventory()"]
-
 shape delivered as @state label:"Delivered"
-
 shape cancelled as @state label:"Cancelled"
-  activities:["entry / refundPayment()" "exit / restoreInventory()"]
-
 shape choice1 as @choice label:"[valid?]"
 shape fork1 as @fork
-  width:120
 
 initial -> pending
 pending -> choice1
