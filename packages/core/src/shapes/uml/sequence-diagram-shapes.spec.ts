@@ -1,15 +1,16 @@
 import { describe, it, expect } from 'vitest';
-import type { RenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types.js';
 import { lifelineShape } from './lifeline.js';
 import { activationShape } from './activation.js';
 import { fragmentShape } from './fragment.js';
 import { deletionShape } from './deletion.js';
 
 // Mock render context helper
-function createMockContext(label: string = '', data: Record<string, unknown> = {}): RenderContext {
+function createMockContext(label: string = '', data: Record<string, unknown> = {}): ShapeRenderContext {
   return {
     node: {
       id: 'test-node',
+      shape: '@test',
       label,
       data,
     },

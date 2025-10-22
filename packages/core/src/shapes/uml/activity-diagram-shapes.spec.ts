@@ -1,14 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import type { RenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types.js';
 import { activityShape } from './activity.js';
 import { activityDecisionShape } from './activityDecision.js';
 import { activityMergeShape } from './activityMerge.js';
 
 // Mock render context helper
-function createMockContext(label: string = '', data: Record<string, unknown> = {}): RenderContext {
+function createMockContext(label: string = '', data: Record<string, unknown> = {}): ShapeRenderContext {
   return {
     node: {
       id: 'test-node',
+      shape: '@test',
       label,
       data,
     },

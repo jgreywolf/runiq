@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { RenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types.js';
 import { stateShape } from './state.js';
 import { initialStateShape } from './initialState.js';
 import { finalStateShape } from './finalState.js';
@@ -8,10 +8,11 @@ import { forkShape } from './fork.js';
 import { joinShape } from './join.js';
 
 // Mock render context helper
-function createMockContext(label: string = '', data: Record<string, unknown> = {}): RenderContext {
+function createMockContext(label: string = '', data: Record<string, unknown> = {}): ShapeRenderContext {
   return {
     node: {
       id: 'test-node',
+      shape: '@test',
       label,
       data,
     },
