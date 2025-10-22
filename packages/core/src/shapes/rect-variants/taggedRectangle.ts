@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../types.js';
+import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Tagged rectangle - for tagged/labeled processes

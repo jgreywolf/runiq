@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../types.js';
+import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Manual Input - Sloped rectangle for manual data entry

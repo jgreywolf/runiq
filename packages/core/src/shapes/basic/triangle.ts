@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../types.js';
+import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Triangle - Upward-pointing triangle for extract/merge operations

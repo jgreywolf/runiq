@@ -7,7 +7,7 @@
  * - database (alias to cylinder)
  */
 
-import type { ShapeDefinition, ShapeRenderContext } from '../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
 
 // ============================================================================
 // Server Shape (Rack-mount appearance)

@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../types.js';
+import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Small circle - Compact circle for minimal notation

@@ -123,7 +123,7 @@ export const classShape: ShapeDefinition = {
     const data = ctx.node.data || {};
     const attributes = (data.attributes as ClassAttribute[]) || [];
     const methods = (data.methods as ClassMethod[]) || [];
-    const genericTypes = (data.genericTypes as string[]) || [];
+    // const genericTypes = (data.genericTypes as string[]) || [];
     const stereotype = data.stereotype as string | undefined;
 
     const padding = 12;
@@ -148,7 +148,7 @@ export const classShape: ShapeDefinition = {
 
     // Attribute-level anchors (for connecting to specific attributes)
     let currentY = nameHeight + padding + lineHeight / 2;
-    attributes.forEach((attr, index) => {
+    attributes.forEach((attr) => {
       const anchorName = `${ctx.node.id}.${attr.name}`;
       anchors.push({
         x: bounds.width, // Right side of class box
@@ -194,8 +194,8 @@ export const classShape: ShapeDefinition = {
 
     const attributesHeight =
       attributes.length > 0 ? attributes.length * lineHeight + padding * 2 : 0;
-    const methodsHeight =
-      methods.length > 0 ? methods.length * lineHeight + padding * 2 : 0;
+    // const methodsHeight =
+    //   methods.length > 0 ? methods.length * lineHeight + padding * 2 : 0;
 
     const className = ctx.node.label || ctx.node.id;
     let nameText = className;

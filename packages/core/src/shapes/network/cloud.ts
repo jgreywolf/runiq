@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../types.js';
+import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Cloud shape - puffy cloud outline for cloud services, cloud storage, etc.

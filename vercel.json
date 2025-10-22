@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm run --filter runiq-editor... build",
+  "installCommand": "pnpm install",
+  "framework": "sveltekit"
+}
