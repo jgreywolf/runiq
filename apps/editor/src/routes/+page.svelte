@@ -74,6 +74,15 @@
 		}
 	}
 
+	// Handle sample diagram insertion - replaces all content
+	function handleInsertSample(sampleCode: string) {
+		if (codeEditorRef) {
+			codeEditorRef.setValue(sampleCode);
+		}
+		code = sampleCode;
+		isDirty = true;
+	}
+
 	// Handle new diagram creation with type selection
 	function handleNewDiagram(type: 'diagram' | 'electrical') {
 		let defaultContent: string;
@@ -165,7 +174,11 @@
 						<h2 class="text-sm font-semibold text-white">Toolbox</h2>
 					</div>
 					<div class="flex-1 overflow-auto">
-						<Toolbox onInsertShape={handleInsertShape} currentCode={code} />
+						<Toolbox
+							onInsertShape={handleInsertShape}
+							onInsertSample={handleInsertSample}
+							currentCode={code}
+						/>
 					</div>
 				</div>
 			</Pane>
