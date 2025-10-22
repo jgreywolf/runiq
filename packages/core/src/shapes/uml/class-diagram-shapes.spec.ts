@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import type { RenderContext } from '../../../types.js';
-import { interfaceShape } from '../interface.js';
-import { abstractShape } from '../abstract.js';
-import { enumShape } from '../enum.js';
-import { packageShape } from '../package.js';
-import { noteShape } from '../note.js';
+import type { RenderContext } from '../../types.js';
+import { interfaceShape } from './interface.js';
+import { abstractShape } from './abstract.js';
+import { enumShape } from './enum.js';
+import { packageShape } from './package.js';
+import { noteShape } from './note.js';
 
 // Mock render context helper
 function createMockContext(label: string = '', data: Record<string, unknown> = {}): RenderContext {
