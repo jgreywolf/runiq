@@ -136,7 +136,7 @@ describe('ElkLayoutEngine - Container Support', () => {
   });
 
   describe('Nested Containers', () => {
-    it.skip('should layout two-level nested containers', async () => {
+    it('should layout two-level nested containers', async () => {
       // TODO: Implement proper nested container positioning relative to parent
       const diagram: DiagramAst = {
         astVersion: '1.0',

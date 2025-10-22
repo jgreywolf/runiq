@@ -110,6 +110,9 @@ import {
 // UML shapes
 import { classShape } from './uml/class.js';
 
+// C4 model shapes
+import { c4Person, c4System, c4Container, c4Component } from './c4/index.js';
+
 export function registerDefaultShapes(): void {
   // Original shapes
   shapeRegistry.register(actorShape);
@@ -241,6 +244,12 @@ export function registerDefaultShapes(): void {
 
   // UML shapes
   shapeRegistry.register(classShape);
+
+  // C4 model shapes
+  shapeRegistry.register(c4Person);
+  shapeRegistry.register(c4System);
+  shapeRegistry.register(c4Container);
+  shapeRegistry.register(c4Component);
 }
 
 export * from './actor.js';
@@ -334,3 +343,6 @@ export {
 
 // Quantum circuits
 export * from './quantumCircuit.js';
+
+// C4 model
+export * from './c4/index.js';

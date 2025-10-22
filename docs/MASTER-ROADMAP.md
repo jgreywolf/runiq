@@ -471,13 +471,22 @@ Start with highest ROI implementations:
 
 **Month 1: Foundation for Advanced Features**
 
-- [ ] Issue #27: C4 Architecture (1-2 weeks) - CRITICAL!
-- [ ] Hierarchical container enhancements
+- [ ] **Issue #27: C4 Architecture (1-2 weeks) - IN PROGRESS** ⚡
+  - ✅ Research complete
+  - 🔄 Implementing with FLAT container hierarchies (workaround for nested limitation)
+  - C4 shapes: Person, SoftwareSystem, Container, Component
+  - Technology labels on edges ([HTTPS], [SQL], etc.)
+  - Banking system examples for all 4 levels
+- [ ] **🔴 HIGH PRIORITY: Fix Nested Container Layout** - BLOCKS full C4 implementation!
+  - Currently nested containers position outside parents
+  - Needed for proper C4 hierarchy (System → Container → Component)
+  - Also needed for: BPMN pools, org charts, deployment diagrams
+  - See elk-adapter.ts TODO and container-layout.test.ts skipped tests
 - [ ] Testing and documentation
 
 **Month 2-3: Advanced Diagrams**
 
-- [ ] Issue #28: BPMN 2.0 (2-3 weeks)
+- [ ] Issue #28: BPMN 2.0 (2-3 weeks) - BLOCKED by nested containers
 - [ ] Issue #29: Sankey (1-2 weeks)
 - [ ] Issue #30: Roadmap Visualization (1-2 weeks)
 - [ ] Issue #32: PERT Chart (1-2 weeks)
