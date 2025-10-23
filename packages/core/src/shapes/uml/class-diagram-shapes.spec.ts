@@ -171,7 +171,7 @@ describe('UML Class Diagram Shapes', () => {
 
   describe('packageShape', () => {
     it('should have correct id', () => {
-      expect(packageShape.id).toBe('package');
+      expect(packageShape.id).toBe('umlPackage');
     });
 
     it('should calculate bounds for package', () => {
@@ -193,9 +193,10 @@ describe('UML Class Diagram Shapes', () => {
       const ctx = createMockContext('controllers');
       const svg = packageShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('<path'); // Tab shape
-      expect(svg).toContain('<rect'); // Main body
+      expect(svg).toContain('<path'); // Folder shape with tab
       expect(svg).toContain('controllers');
+      // Verify the path draws a folder shape (should have 8 points for the tab + body)
+      expect(svg).toMatch(/M \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ Z/);
     });
 
     it('should handle nested package names', () => {

@@ -756,6 +756,10 @@ function convertContainer(
     container.style = styleRef;
   }
 
+  if (block.shape) {
+    container.shape = block.shape;
+  }
+
   if (Object.keys(containerStyle).length > 0) {
     container.containerStyle = containerStyle;
   }

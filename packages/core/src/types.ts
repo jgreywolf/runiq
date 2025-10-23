@@ -80,6 +80,7 @@ export interface ContainerDeclaration {
   type: 'container';
   id?: string; // Optional - can be auto-generated from label
   label?: string;
+  shape?: string; // Optional - reference to shape type (e.g., 'umlPackage', 'awsVpc')
   style?: string; // Reference to named style in DiagramAst.styles
   containerStyle?: ContainerStyle;
   children: string[]; // Node IDs that belong to this container

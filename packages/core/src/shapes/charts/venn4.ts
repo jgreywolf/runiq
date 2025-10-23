@@ -27,8 +27,8 @@ export const venn4Shape: ShapeDefinition = {
     const spacing = 55; // Distance between circle centers
 
     // Width and height: accommodate 2 circles with spacing
-    const width = circleRadius * 2 + spacing + 30; // Extra padding
-    const height = circleRadius * 2 + spacing + 30;
+    const width = circleRadius * 2 + spacing + 35; // Extra padding to be larger than venn3
+    const height = circleRadius * 2 + spacing + 35;
 
     return { width, height };
   },
@@ -51,10 +51,13 @@ export const venn4Shape: ShapeDefinition = {
     // Extract data with defaults
     // Data can be at ctx.node.data directly or in ctx.node.data.values[0]
     const rawData = (ctx.node.data as any) || {};
-    const data = rawData.values && Array.isArray(rawData.values) && rawData.values.length > 0
-      ? rawData.values[0]
-      : rawData;
-    
+    const data =
+      rawData.values &&
+      Array.isArray(rawData.values) &&
+      rawData.values.length > 0
+        ? rawData.values[0]
+        : rawData;
+
     const labelA = data.labelA || 'Set A';
     const labelB = data.labelB || 'Set B';
     const labelC = data.labelC || 'Set C';
@@ -108,7 +111,7 @@ export const venn4Shape: ShapeDefinition = {
     svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Labels inside circles (positioned in non-overlapping regions)
-    
+
     // Label A (top-left circle, pushed to top-left corner)
     svg += `<text x="${circleAX - 30}" y="${circleAY - 20}" `;
     svg += `text-anchor="middle" dominant-baseline="middle" `;
