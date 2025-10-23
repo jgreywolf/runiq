@@ -3,7 +3,8 @@
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import ToolboxShapes from './ToolboxShapes.svelte';
 	import ToolboxSamples from './ToolboxSamples.svelte';
-	import { shapeCategories, sampleDiagrams } from '$lib/data/toolbox-data';
+	import { shapeCategories } from '$lib/data/toolbox-data';
+	import { sampleDiagrams } from '$lib/data/sample-data';
 
 	interface Props {
 		onInsertShape: (shapeCode: string) => void;
