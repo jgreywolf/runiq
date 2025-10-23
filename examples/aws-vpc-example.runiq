@@ -1,0 +1,23 @@
+diagram "AWS VPC Architecture"
+
+# VPC as a container with AWS resources inside
+container vpc1 "Production VPC" as @awsVpc {
+  shape ec2_1 as @awsEc2 label:"Web Server 1"
+  shape ec2_2 as @awsEc2 label:"Web Server 2"
+  shape rds as @awsRds label:"PostgreSQL"
+  shape s3 as @awsS3 label:"Assets Bucket"
+  
+  ec2_1 -> rds label:"DB Query"
+  ec2_2 -> rds label:"DB Query"
+  ec2_1 -> s3 label:"Read Assets"
+  ec2_2 -> s3 label:"Read Assets"
+}
+
+# API Gateway outside VPC
+shape api as @awsApiGateway label:"Public API"
+api -> shape ec2_1 label:"HTTP"
+api -> shape ec2_2 label:"HTTP"
+
+# Lambda function
+shape lambda as @awsLambda label:"ProcessData"
+lambda -> shape rds label:"Write"
