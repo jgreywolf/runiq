@@ -730,12 +730,12 @@ shape ui as @lifeline label:"LoginUI"
 shape controller as @lifeline label:"AuthController"
 shape db as @lifeline label:"Database"
 
-user -enter credentials-> ui
+user -enterCredentials-> ui
 ui -authenticate-> controller
 controller -validateUser-> db
-db -user data-> controller
+db -userData-> controller
 controller -token-> ui
-ui -show home-> user`
+ui -showHome-> user`
 			},
 			{
 				name: 'State Machine',
