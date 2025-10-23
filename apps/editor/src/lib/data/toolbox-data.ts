@@ -205,7 +205,9 @@ export const shapeCategories: ShapeCategory[] = [
 			{
 				id: 'package',
 				label: 'Package',
-				code: 'shape packageId as @package label:"com.example.models"'
+				code: `container pkg1 "com.example.models" as @umlPackage {
+  shape class1 as @class label:"MyClass"
+}`
 			},
 			{ id: 'note', label: 'Note', code: 'shape noteId as @note label:"Important note here"' },
 			// Use Case Diagrams
@@ -213,7 +215,9 @@ export const shapeCategories: ShapeCategory[] = [
 			{
 				id: 'systemBoundary',
 				label: 'System Boundary',
-				code: 'shape boundaryId as @systemBoundary label:"System"'
+				code: `container boundary1 "System" as @systemBoundary {
+  shape usecase1 as @ellipseWide label:"Use Case"
+}`
 			},
 			// Sequence Diagrams
 			{ id: 'lifeline', label: 'Lifeline', code: 'shape id as @lifeline label:"Controller"' },
@@ -268,32 +272,32 @@ export const shapeCategories: ShapeCategory[] = [
 			{
 				id: 'bpmnEventStart',
 				label: 'Start Event',
-				code: 'shape id as @bpmnEvent label:"Start" eventType:"start"'
+				code: 'shape id as @bpmnEvent label:"Start" data:[{"eventType":"start"}]'
 			},
 			{
 				id: 'bpmnEventEnd',
 				label: 'End Event',
-				code: 'shape id as @bpmnEvent label:"End" eventType:"end"'
+				code: 'shape id as @bpmnEvent label:"End" data:[{"eventType":"end"}]'
 			},
 			{
 				id: 'bpmnEventIntermediate',
 				label: 'Intermediate Event',
-				code: 'shape id as @bpmnEvent eventType:"intermediate"'
+				code: 'shape id as @bpmnEvent data:[{"eventType":"intermediate"}]'
 			},
 			{
 				id: 'bpmnGatewayExclusive',
 				label: 'Exclusive Gateway',
-				code: 'shape id as @bpmnGateway gatewayType:"exclusive"'
+				code: 'shape id as @bpmnGateway data:[{"gatewayType":"exclusive"}]'
 			},
 			{
 				id: 'bpmnGatewayParallel',
 				label: 'Parallel Gateway',
-				code: 'shape id as @bpmnGateway gatewayType:"parallel"'
+				code: 'shape id as @bpmnGateway data:[{"gatewayType":"parallel"}]'
 			},
 			{
 				id: 'bpmnGatewayInclusive',
 				label: 'Inclusive Gateway',
-				code: 'shape id as @bpmnGateway gatewayType:"inclusive"'
+				code: 'shape id as @bpmnGateway data:[{"gatewayType":"inclusive"}]'
 			},
 			{
 				id: 'bpmnDataObject',
@@ -308,7 +312,9 @@ export const shapeCategories: ShapeCategory[] = [
 			{
 				id: 'bpmnPool',
 				label: 'Pool/Lane',
-				code: 'shape id as @bpmnPool label:"Customer" width:600 height:150'
+				code: `container pool1 "Customer" as @bpmnPool {
+  shape task1 as @bpmnTask label:"Task"
+}`
 			}
 		]
 	},
@@ -327,7 +333,9 @@ export const shapeCategories: ShapeCategory[] = [
 			{
 				id: 'awsVpc',
 				label: 'VPC',
-				code: 'shape id as @awsVpc label:"Production VPC" width:600 height:400'
+				code: `container vpc1 "Production VPC" as @awsVpc {
+  shape ec2 as @awsEc2 label:"Web Server"
+}`
 			},
 			{
 				id: 'awsApiGateway',
@@ -566,10 +574,10 @@ export const shapeCategories: ShapeCategory[] = [
 			{ id: 'junction', label: 'Junction', code: 'part id type:JUNC pins:(N1)' },
 			{ id: 'diode', label: 'Diode', code: 'part id type:D pins:(N1,N2)' },
 			{ id: 'led', label: 'LED', code: 'part id type:LED pins:(N1,N2)' },
-			{ id: 'npnTransistor', label: 'NPN Transistor', code: 'part id type:NPN pins:(C,B,E)' },
-			{ id: 'pnpTransistor', label: 'PNP Transistor', code: 'part id type:PNP pins:(C,B,E)' },
-			{ id: 'nmosTransistor', label: 'NMOS', code: 'part id type:NMOS pins:(D,G,S)' },
-			{ id: 'pmosTransistor', label: 'PMOS', code: 'part id type:PMOS pins:(D,G,S)' },
+			{ id: 'npnTransistor', label: 'NPN Transistor', code: 'part id type:Q_NPN pins:(C,B,E)' },
+			{ id: 'pnpTransistor', label: 'PNP Transistor', code: 'part id type:Q_PNP pins:(C,B,E)' },
+			{ id: 'nmosTransistor', label: 'NMOS', code: 'part id type:M_NMOS pins:(D,G,S)' },
+			{ id: 'pmosTransistor', label: 'PMOS', code: 'part id type:M_PMOS pins:(D,G,S)' },
 			{ id: 'opamp', label: 'Op-Amp', code: 'part id type:OPAMP pins:(OUT,INP,INN,VCC,GND)' }
 		]
 	},
@@ -581,7 +589,7 @@ export const shapeCategories: ShapeCategory[] = [
 			{ id: 'andGate', label: 'AND (2-input)', code: 'part id type:AND pins:(A,B,Y)' },
 			{ id: 'orGate', label: 'OR (2-input)', code: 'part id type:OR pins:(A,B,Y)' },
 			{ id: 'notGate', label: 'NOT', code: 'part id type:NOT pins:(A,Y)' },
-			{ id: 'bufferGate', label: 'Buffer', code: 'part id type:BUF pins:(A,Y)' },
+			{ id: 'bufferGate', label: 'Buffer', code: 'part id type:BUFFER pins:(A,Y)' },
 			{ id: 'xorGate', label: 'XOR', code: 'part id type:XOR pins:(A,B,Y)' },
 			{ id: 'xnorGate', label: 'XNOR', code: 'part id type:XNOR pins:(A,B,Y)' },
 			{ id: 'nandGate', label: 'NAND (2-input)', code: 'part id type:NAND pins:(A,B,Y)' },
