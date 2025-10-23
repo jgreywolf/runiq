@@ -479,6 +479,28 @@ export class ElkLayoutEngine implements LayoutEngine {
     measureText: ReturnType<typeof createTextMeasurer>,
     placeholders: Map<string, { width: number; height: number }>
   ): void {
+    // For BPMN pools, calculate uniform width (max of all pools)
+    const bpmnPools = containers.filter(c => c.shape === 'bpmnPool');
+    let uniformPoolWidth: number | undefined;
+    
+    if (bpmnPools.length > 1) {
+      // Calculate max width needed across all pools
+      let maxWidth = 0;
+      for (const pool of bpmnPools) {
+        const padding = pool.containerStyle?.padding !== undefined
+          ? pool.containerStyle.padding
+          : 30;
+        const childCount = pool.children.length;
+        const avgNodeSize = 100;
+        const estimatedWidth = Math.max(
+          400, // Minimum width for pools
+          Math.sqrt(childCount) * avgNodeSize * 1.5 + padding * 2
+        );
+        maxWidth = Math.max(maxWidth, estimatedWidth);
+      }
+      uniformPoolWidth = maxWidth;
+    }
+    
     for (const container of containers) {
       // Map Runiq algorithm to ELK algorithm ID
       const algorithm = this.mapAlgorithmToElk(
@@ -487,12 +509,19 @@ export class ElkLayoutEngine implements LayoutEngine {
       const containerSpacing =
         container.layoutOptions?.spacing?.toString() || '50';
 
+      // Determine layout direction based on container shape
+      // BPMN pools should flow horizontally (left to right)
+      let direction = 'DOWN'; // Default: vertical
+      if (container.shape === 'bpmnPool') {
+        direction = 'RIGHT'; // Horizontal flow for BPMN pools
+      }
+
       // Create a mini ELK graph for this container's contents
       const containerGraph: ElkNode = {
         id: `__container_internal__${container.id}`,
         layoutOptions: {
           'elk.algorithm': algorithm,
-          'elk.direction': 'DOWN',
+          'elk.direction': direction,
           'elk.spacing.nodeNode': containerSpacing,
         },
         children: [],
@@ -544,10 +573,18 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Estimate container size based on children
       const childCount = container.children.length;
       const avgNodeSize = 100;
-      const estimatedWidth = Math.max(
-        200,
-        Math.sqrt(childCount) * avgNodeSize + padding * 2
-      );
+      
+      // Use uniform width for BPMN pools, otherwise calculate individually
+      let estimatedWidth: number;
+      if (container.shape === 'bpmnPool' && uniformPoolWidth) {
+        estimatedWidth = uniformPoolWidth;
+      } else {
+        estimatedWidth = Math.max(
+          200,
+          Math.sqrt(childCount) * avgNodeSize + padding * 2
+        );
+      }
+      
       const estimatedHeight = Math.max(
         150,
         Math.sqrt(childCount) * avgNodeSize + padding * 2
@@ -619,11 +656,18 @@ export class ElkLayoutEngine implements LayoutEngine {
         container.layoutOptions?.algorithm || 'layered'
       );
 
+      // Determine layout direction based on container shape
+      // BPMN pools should flow horizontally (left to right)
+      let containerDirection = direction; // Default: use diagram direction
+      if (container.shape === 'bpmnPool') {
+        containerDirection = 'RIGHT'; // Horizontal flow for BPMN pools
+      }
+
       const containerGraph: ElkNode = {
         id: `container_${container.id}`,
         layoutOptions: {
           'elk.algorithm': algorithm,
-          'elk.direction': direction, // Use direction from options
+          'elk.direction': containerDirection, // Use container-specific direction
           'elk.spacing.nodeNode': spacing.toString(),
           'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
           'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing for container edges

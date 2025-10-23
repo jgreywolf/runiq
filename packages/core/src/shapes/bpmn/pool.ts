@@ -8,7 +8,13 @@ export const bpmnPoolShape: ShapeDefinition = {
   id: 'bpmnPool',
 
   bounds(ctx: ShapeRenderContext) {
-    // Pools/lanes are explicitly sized by the user
+    // For containers, layout engine provides the actual dimensions in data
+    const data = ctx.node.data as any;
+    if (data?.width && data?.height) {
+      return { width: data.width, height: data.height };
+    }
+
+    // Fallback for standalone usage (non-container)
     const width = (ctx.node.data?.width as number) || 600;
     const height = (ctx.node.data?.height as number) || 150;
 
