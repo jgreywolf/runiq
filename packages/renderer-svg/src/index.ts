@@ -152,25 +152,58 @@ function renderContainer(
   const containerAst = findContainerInAst(diagram.containers, id);
   const style = containerAst?.containerStyle || {};
 
-  // Map ContainerStyle properties to SVG attributes
-  const fill = style.backgroundColor || '#f9f9f9';
-  const stroke = style.borderColor || '#ddd';
-  const strokeWidth = style.borderWidth || 2;
-  const rx = style.rx || 8;
-
   const groupAttrs = strict ? '' : ` data-runiq-container="${id}"`;
 
   let markup = `<g${groupAttrs}>`;
 
-  // Container background
-  markup += `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
-    fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" rx="${rx}" />`;
+  // Check if container references a shape type (as @shapeName)
+  if (containerAst?.shape) {
+    const shapeDefinition = shapeRegistry.get(containerAst.shape);
+    if (shapeDefinition) {
+      // Use the shape's render function for the container background
+      const measureText = createTextMeasurer();
+      const shapeStyle = {
+        fill: style.backgroundColor || '#f9f9f9',
+        stroke: style.borderColor || '#ddd',
+        strokeWidth: style.borderWidth || 2,
+        padding: style.padding || 20,
+        font: 'sans-serif',
+        fontSize: 14,
+        ...style,
+      };
 
-  // Container label (top-left)
-  if (label) {
-    const labelX = x + 10;
-    const labelY = y + 20;
-    markup += `<text x="${labelX}" y="${labelY}" class="runiq-container-label">${escapeXml(label)}</text>`;
+      // Merge layout dimensions with any existing data
+      const shapeData = {
+        ...(containerAst.data || {}),
+        width,
+        height,
+      };
+
+      const ctx = {
+        node: {
+          id,
+          label: label || id,
+          shape: containerAst.shape,
+          data: shapeData,
+        },
+        style: shapeStyle,
+        measureText,
+      };
+
+      markup += shapeDefinition.render(ctx, { x, y });
+    } else {
+      // Shape not found, fall back to default rendering
+      markup += renderDefaultContainerBackground(x, y, width, height, style);
+      if (label) {
+        markup += renderDefaultContainerLabel(x, y, label);
+      }
+    }
+  } else {
+    // No shape reference, use default container rendering
+    markup += renderDefaultContainerBackground(x, y, width, height, style);
+    if (label) {
+      markup += renderDefaultContainerLabel(x, y, label);
+    }
   }
 
   // Recursively render nested containers
@@ -183,6 +216,32 @@ function renderContainer(
   markup += '</g>';
 
   return markup;
+}
+
+function renderDefaultContainerBackground(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  style: any
+): string {
+  const fill = style.backgroundColor || '#f9f9f9';
+  const stroke = style.borderColor || '#ddd';
+  const strokeWidth = style.borderWidth || 2;
+  const rx = style.rx || 8;
+
+  return `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
+    fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" rx="${rx}" />`;
+}
+
+function renderDefaultContainerLabel(
+  x: number,
+  y: number,
+  label: string
+): string {
+  const labelX = x + 10;
+  const labelY = y + 20;
+  return `<text x="${labelX}" y="${labelY}" class="runiq-container-label">${escapeXml(label)}</text>`;
 }
 
 function findContainerInAst(
