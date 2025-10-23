@@ -10,7 +10,15 @@
 
 	// Map toolbox IDs to actual shape registry IDs
 	const shapeIdMap: Record<string, string> = {
-		paperTape: 'flag'
+		paperTape: 'flag',
+		// BPMN events map to bpmnEvent
+		bpmnEventStart: 'bpmnEvent',
+		bpmnEventEnd: 'bpmnEvent',
+		bpmnEventIntermediate: 'bpmnEvent',
+		// BPMN gateways map to bpmnGateway
+		bpmnGatewayExclusive: 'bpmnGateway',
+		bpmnGatewayParallel: 'bpmnGateway',
+		bpmnGatewayInclusive: 'bpmnGateway'
 	};
 
 	// IDs that should display special icons (not in shape registry)
@@ -185,7 +193,338 @@
 				return { width: 24, height: 8 };
 			}
 		};
-	}		// Shapes that need minimum bounds (won't render properly with no text)
+	}
+
+	// BPMN shapes with proper styling
+	if (shapeId === 'bpmnTask') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 28, height: 10 };
+			}
+		};
+	}
+
+	if (shapeId === 'bpmnEventStart' || shapeId === 'bpmnEventEnd' || shapeId === 'bpmnEventIntermediate') {
+		const eventType = shapeId.replace('bpmnEvent', '').toLowerCase();
+		return {
+			node: { id: '', label: '', shape: 'bpmnEvent', data: [{ eventType }] },
+			style: {
+				padding: 1,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'bpmnGatewayExclusive' || shapeId === 'bpmnGatewayParallel' || shapeId === 'bpmnGatewayInclusive') {
+		const gatewayType = shapeId.replace('bpmnGateway', '').toLowerCase();
+		return {
+			node: { id: '', label: '', shape: 'bpmnGateway', data: [{ gatewayType }] },
+			style: {
+				padding: 1,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'bpmnDataObject') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 18, height: 24 };
+			}
+		};
+	}
+
+	if (shapeId === 'bpmnMessage') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 20, height: 12 };
+			}
+		};
+	}
+
+	if (shapeId === 'bpmnPool') {
+		return {
+			node: { id: '', label: '', data: { width: 120, height: 40 } },
+			style: {
+				padding: 2,
+				fill: '#e6f3ff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	// AWS shapes with official AWS colors
+	if (shapeId === 'awsEc2') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#FF9900',
+				stroke: '#232F3E',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'awsS3') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#569A31',
+				stroke: '#232F3E',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'awsLambda') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#FF9900',
+				stroke: '#232F3E',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'awsRds') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#3F5BE7',
+				stroke: '#232F3E',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'awsVpc') {
+		return {
+			node: { id: '', label: '', data: { width: 80, height: 60 } },
+			style: {
+				padding: 2,
+				fill: '#E6F3FF',
+				stroke: '#147EB8',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'awsApiGateway') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#945BB3',
+				stroke: '#232F3E',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	// ERD shapes
+	if (shapeId === 'erdEntity') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 30, height: 12 };
+			}
+		};
+	}
+
+	if (shapeId === 'erdWeakEntity') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 30, height: 12 };
+			}
+		};
+	}
+
+	if (shapeId === 'erdRelationship') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 25, height: 12 };
+			}
+		};
+	}
+
+	if (shapeId === 'erdAttribute') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 25, height: 12 };
+			}
+		};
+	}
+
+	if (shapeId === 'erdKeyAttribute') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 25, height: 12 };
+			}
+		};
+	}
+
+	if (shapeId === 'erdMultiValuedAttribute') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 2,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 25, height: 12 };
+			}
+		};
+	}
+
+	// Package (UML) shape
+	if (shapeId === 'package') {
+		return {
+			node: { id: '', label: 'Pkg' },
+			style: {
+				padding: 4,
+				fill: '#fff',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 15, height: 8 };
+			}
+		};
+	}
+
+	// Shapes that need minimum bounds (won't render properly with no text)
 		const needsMinBounds = [
 			'roundedRectangle',
 			'stadium',

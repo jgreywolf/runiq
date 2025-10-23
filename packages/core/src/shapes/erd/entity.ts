@@ -5,61 +5,61 @@ import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
  * Rendered as a rectangle
  */
 export const erdEntityShape: ShapeDefinition = {
-	id: 'erdEntity',
+  id: 'erdEntity',
 
-	bounds(ctx: ShapeRenderContext) {
-		const padding = ctx.style.padding || 12;
-		const labelMetrics = ctx.measureText(ctx.node.label || '', ctx.style);
+  bounds(ctx: ShapeRenderContext) {
+    const padding = ctx.style.padding || 12;
+    const labelMetrics = ctx.measureText(ctx.node.label || '', ctx.style);
 
-		const minWidth = 100;
-		const minHeight = 60;
+    const minWidth = 100;
+    const minHeight = 60;
 
-		const width = Math.max(minWidth, labelMetrics.width + padding * 2);
-		const height = Math.max(minHeight, labelMetrics.height + padding * 2);
+    const width = Math.max(minWidth, labelMetrics.width + padding * 2);
+    const height = Math.max(minHeight, labelMetrics.height + padding * 2);
 
-		return { width, height };
-	},
+    return { width, height };
+  },
 
-	anchors(ctx: ShapeRenderContext) {
-		const bounds = this.bounds(ctx);
-		const halfWidth = bounds.width / 2;
-		const halfHeight = bounds.height / 2;
+  anchors(ctx: ShapeRenderContext) {
+    const bounds = this.bounds(ctx);
+    const halfWidth = bounds.width / 2;
+    const halfHeight = bounds.height / 2;
 
-		return [
-			{ x: halfWidth, y: 0, name: 'top' },
-			{ x: bounds.width, y: halfHeight, name: 'right' },
-			{ x: halfWidth, y: bounds.height, name: 'bottom' },
-			{ x: 0, y: halfHeight, name: 'left' }
-		];
-	},
+    return [
+      { x: halfWidth, y: 0, name: 'top' },
+      { x: bounds.width, y: halfHeight, name: 'right' },
+      { x: halfWidth, y: bounds.height, name: 'bottom' },
+      { x: 0, y: halfHeight, name: 'left' },
+    ];
+  },
 
-	render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
-		const bounds = this.bounds(ctx);
-		const fillColor = (ctx.node.data?.fillColor as string) || '#E8F4FD';
-		const strokeColor = (ctx.node.data?.strokeColor as string) || '#1976D2';
-		const textColor = (ctx.node.data?.textColor as string) || '#000000';
+  render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
+    const bounds = this.bounds(ctx);
+    const fillColor = (ctx.node.data?.fillColor as string) || '#E8F4FD';
+    const strokeColor = (ctx.node.data?.strokeColor as string) || '#1976D2';
+    const textColor = (ctx.node.data?.textColor as string) || '#000000';
 
-		let result = `<g>`;
+    let result = `<g>`;
 
-		// Rectangle
-		result += `<rect x="${position.x}" y="${position.y}" 
+    // Rectangle
+    result += `<rect x="${position.x}" y="${position.y}" 
                    width="${bounds.width}" height="${bounds.height}" 
                    fill="${fillColor}" 
                    stroke="${strokeColor}" 
                    stroke-width="2"/>`;
 
-		// Label
-		if (ctx.node.label) {
-			result += `<text x="${position.x + bounds.width / 2}" 
+    // Label
+    if (ctx.node.label) {
+      result += `<text x="${position.x + bounds.width / 2}" 
                       y="${position.y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3}" 
                       text-anchor="middle" 
                       fill="${textColor}" 
                       font-size="${ctx.style.fontSize || 14}" 
                       font-weight="bold" 
                       font-family="${ctx.style.fontFamily || 'Arial'}">${ctx.node.label}</text>`;
-		}
+    }
 
-		result += `</g>`;
-		return result;
-	}
+    result += `</g>`;
+    return result;
+  },
 };

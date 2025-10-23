@@ -292,11 +292,11 @@ join1 -> end`
 	{
 		id: 'c4-architecture',
 		label: 'C4 Architecture',
-	samples: [
-		{
-			name: 'System Context',
-			description: 'C4 Level 1: Banking system context',
-			code: `diagram "Banking System - Context"
+		samples: [
+			{
+				name: 'System Context',
+				description: 'C4 Level 1: Banking system context',
+				code: `diagram "Banking System - Context"
 direction: TB
 
 shape customer as @c4-person label:"Customer"
@@ -307,10 +307,10 @@ shape mainframe as @c4-system label:"Mainframe\\nBanking System"
 customer -> bankingSystem label:"Uses"
 bankingSystem -> emailSystem label:"Sends emails"
 bankingSystem -> mainframe label:"Uses"`
-		},
-		{
-			name: 'Container Diagram',
-			description: 'C4 Level 2: System containers',
+			},
+			{
+				name: 'Container Diagram',
+				description: 'C4 Level 2: System containers',
 				code: `diagram "Banking System - Containers"
 direction: TB
 
@@ -328,10 +328,10 @@ customer -> webapp label:"Uses [HTTPS]"
 webapp -> api label:"API calls [JSON/HTTPS]"
 api -> db label:"Reads/Writes [SQL/TCP]"
 api -> emailSystem label:"Sends emails [SMTP]"`
-		},
-		{
-			name: 'Component Diagram',
-			description: 'C4 Level 3: API components',
+			},
+			{
+				name: 'Component Diagram',
+				description: 'C4 Level 3: API components',
 				code: `diagram "API Application - Components"
 direction: TB
 
@@ -351,10 +351,10 @@ controller -> security label:"Uses"
 controller -> emailComponent label:"Uses"
 controller -> accountComponent label:"Uses"
 accountComponent -> db label:"Reads/Writes"`
-		},
-		{
-			name: 'Microservices Architecture',
-			description: 'C4 Container view with multiple services',
+			},
+			{
+				name: 'Microservices Architecture',
+				description: 'C4 Container view with multiple services',
 				code: `diagram "E-Commerce Platform"
 direction: LR
 
