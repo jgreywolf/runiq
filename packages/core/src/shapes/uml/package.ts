@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../../types.js';
  * Used in class diagrams to show package/namespace organization
  */
 export const packageShape: ShapeDefinition = {
-  id: 'package',
+  id: 'umlPackage',
 
   bounds(ctx) {
     const padding = ctx.style.padding || 12;
@@ -40,8 +40,8 @@ export const packageShape: ShapeDefinition = {
     const h = bounds.height;
 
     const padding = ctx.style.padding || 12;
-    const tabHeight = 20;
-    const tabWidth = Math.min(w * 0.4, 80);
+    const tabHeight = 22;
+    const tabWidth = Math.min(w * 0.35, 70);
 
     const fill = ctx.style.fill || '#ffffff';
     const stroke = ctx.style.stroke || '#000000';
@@ -49,26 +49,20 @@ export const packageShape: ShapeDefinition = {
 
     let svg = `<g class="package-shape">`;
 
-    // Package shape with tab
-    // Tab at top-left
-    svg += `<path d="`;
-    svg += `M ${x} ${y + tabHeight} `;
-    svg += `L ${x} ${y} `;
-    svg += `L ${x + tabWidth} ${y} `;
-    svg += `L ${x + tabWidth} ${y + tabHeight} `;
-    svg += `L ${x + w} ${y + tabHeight} `;
-    svg += `L ${x + w} ${y + h} `;
-    svg += `L ${x} ${y + h} `;
-    svg += `Z" `;
+    // UML Package shape - folder with tab on top-left
+    // Main body rectangle
+    svg += `<rect x="${x}" y="${y + tabHeight}" width="${w}" height="${h - tabHeight}" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
-    // Tab separator line
-    svg += `<line x1="${x}" y1="${y + tabHeight}" x2="${x + tabWidth}" y2="${y + tabHeight}" `;
-    svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
-
-    // Main body rectangle (visual guide)
-    svg += `<rect x="${x}" y="${y + tabHeight}" width="${w}" height="${h - tabHeight}" `;
-    svg += `fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+    // Tab rectangle on top
+    svg += `<rect x="${x}" y="${y}" width="${tabWidth}" height="${tabHeight}" `;
+    svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+    
+    // Remove the line between tab and body by drawing a white line over it
+    // This creates the "folder tab" appearance
+    svg += `<line x1="${x + strokeWidth}" y1="${y + tabHeight}" `;
+    svg += `x2="${x + tabWidth - strokeWidth}" y2="${y + tabHeight}" `;
+    svg += `stroke="${fill}" stroke-width="${strokeWidth * 1.5}" />`;
 
     // Package name in the main body
     const textY = y + tabHeight + padding + (ctx.style.fontSize || 14);
