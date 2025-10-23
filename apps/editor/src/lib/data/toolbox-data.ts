@@ -708,17 +708,17 @@ admin -> login`
 				code: `diagram "Class Hierarchy"
 
 shape iShape as @interface label:"IShape"
-shape shape as @abstract label:"Shape"
+shape baseShape as @abstract label:"Shape"
 shape circle as @class label:"Circle"
 shape rectangle as @class label:"Rectangle"
 shape colors as @enum label:"Color"
 shape note1 as @note label:"All shapes implement IShape"
 
-iShape -> shape
-shape -> circle
-shape -> rectangle
+iShape -> baseShape
+baseShape -> circle
+baseShape -> rectangle
 circle .. colors
-note1 .. shape`
+note1 .. baseShape`
 			},
 			{
 				name: 'Sequence Diagram',
