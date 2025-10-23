@@ -10,11 +10,27 @@ export const packageShape: ShapeDefinition = {
 
   bounds(ctx) {
     const padding = ctx.style.padding || 12;
+    
+    // Calculate minimum width needed for the tab label
+    const labelSize = ctx.measureText(ctx.node.label || '', {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) - 2,
+    });
+    const minWidthForTab = labelSize.width + padding * 3;
+
+    // For containers, layout engine provides the actual dimensions in data
+    const data = ctx.node.data as any;
+    if (data?.width && data?.height) {
+      // Ensure the package is at least wide enough for the tab label
+      const width = Math.max(data.width, minWidthForTab);
+      return { width, height: data.height };
+    }
+
+    // Fallback for standalone usage (non-container)
     const nameSize = ctx.measureText(ctx.node.label || '', ctx.style);
 
     // Package should be wider and taller than just the label
-    // to accommodate nested content visually
-    const width = Math.max(nameSize.width + padding * 3, 140);
+    const width = Math.max(nameSize.width + padding * 3, minWidthForTab, 140);
     const height = Math.max(nameSize.height + padding * 4, 100);
 
     return { width, height };
@@ -41,7 +57,15 @@ export const packageShape: ShapeDefinition = {
 
     const padding = ctx.style.padding || 12;
     const tabHeight = 22;
-    const tabWidth = Math.min(w * 0.35, 70);
+    
+    // Calculate tab width based on label size with generous padding
+    const labelSize = ctx.measureText(ctx.node.label || '', {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) - 2,
+    });
+    const minTabWidth = labelSize.width + padding * 2.5; // Extra padding for comfort
+    const maxTabWidth = w * 0.7; // Allow up to 70% of width
+    const tabWidth = Math.min(Math.max(minTabWidth, 70), maxTabWidth);
 
     const fill = ctx.style.fill || '#ffe4b5'; // Moccasin/light orange - very visible!
     const stroke = ctx.style.stroke || '#000000';
@@ -66,10 +90,11 @@ export const packageShape: ShapeDefinition = {
 
     // Package name in the tab area
     const textY = y + tabHeight / 2 + (ctx.style.fontSize || 14) / 2;
+    const textColor = ctx.style.color || '#000000'; // Use explicit text color or black
     svg += `<text x="${x + padding / 2}" y="${textY}" `;
     svg += `font-size="${(ctx.style.fontSize || 14) - 2}" `;
     svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
-    svg += `font-weight="bold" fill="${stroke}">`;
+    svg += `font-weight="bold" fill="${textColor}">`;
     svg += `${ctx.node.label || ''}</text>`;
 
     svg += `</g>`;

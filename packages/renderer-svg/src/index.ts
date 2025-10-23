@@ -163,7 +163,8 @@ function renderContainer(
       // Use the shape's render function for the container background
       const measureText = createTextMeasurer();
       const shapeStyle = {
-        fill: style.backgroundColor || '#f9f9f9',
+        // Only set fill if explicitly provided, otherwise let shape use its default
+        ...(style.backgroundColor && { fill: style.backgroundColor }),
         stroke: style.borderColor || '#ddd',
         strokeWidth: style.borderWidth || 2,
         padding: style.padding || 20,
