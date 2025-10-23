@@ -690,10 +690,12 @@ app -> storage`
 
 shape user as @actor label:"User"
 shape admin as @actor label:"Admin"
-shape login as @ellipseWide label:"Login"
-shape register as @ellipseWide label:"Register"
-shape resetPwd as @ellipseWide label:"Reset Password"
-shape boundary as @systemBoundary label:"Auth System"
+
+container boundary "Auth System" as @systemBoundary {
+  shape login as @ellipseWide label:"Login"
+  shape register as @ellipseWide label:"Register"
+  shape resetPwd as @ellipseWide label:"Reset Password"
+}
 
 user -> login
 user -> register
@@ -728,12 +730,12 @@ shape ui as @lifeline label:"LoginUI"
 shape controller as @lifeline label:"AuthController"
 shape db as @lifeline label:"Database"
 
-user -"1: enter credentials"-> ui
-ui -"2: authenticate()"-> controller
-controller -"3: validateUser()"-> db
-db -"4: user data"-> controller
-controller -"5: token"-> ui
-ui -"6: show home"-> user`
+user -1: enter credentials-> ui
+ui -2: authenticate()-> controller
+controller -3: validateUser()-> db
+db -4: user data-> controller
+controller -5: token-> ui
+ui -6: show home-> user`
 			},
 			{
 				name: 'State Machine',
@@ -752,8 +754,8 @@ shape fork1 as @fork
 
 initial -> pending
 pending -> choice1
-choice1 -[yes]-> processing
-choice1 -[no]-> cancelled
+choice1 -yes-> processing
+choice1 -no-> cancelled
 processing -> fork1
 fork1 -> shipped
 shipped -> delivered
@@ -787,14 +789,14 @@ start -> browse
 browse -> addCart
 addCart -> checkout
 checkout -> decision1
-decision1 -[no]-> register
-decision1 -[yes]-> login
+decision1 -no-> register
+decision1 -yes-> login
 register -> merge1
 login -> merge1
 merge1 -> payment
 payment -> decision2
-decision2 -[no]-> payment
-decision2 -[yes]-> fork1
+decision2 -no-> payment
+decision2 -yes-> fork1
 fork1 -> processPayment
 fork1 -> sendConfirm
 fork1 -> updateInventory
