@@ -13,6 +13,7 @@ import * as quantum from './quantum/index.js';
 import * as uml from './uml/index.js';
 import * as c4 from './c4/index.js';
 import * as pedigree from './pedigree/index.js';
+import * as bpmn from './bpmn/index.js';
 
 export function registerDefaultShapes(): void {
   // Basic shapes
@@ -155,6 +156,14 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(c4.c4System);
   shapeRegistry.register(c4.c4Container);
   shapeRegistry.register(c4.c4Component);
+
+  // BPMN shapes
+  shapeRegistry.register(bpmn.bpmnTaskShape);
+  shapeRegistry.register(bpmn.bpmnEventShape);
+  shapeRegistry.register(bpmn.bpmnGatewayShape);
+  shapeRegistry.register(bpmn.bpmnDataObjectShape);
+  shapeRegistry.register(bpmn.bpmnMessageShape);
+  shapeRegistry.register(bpmn.bpmnPoolShape);
 }
 
 // Re-export all shapes from category folders
@@ -170,3 +179,4 @@ export * from './quantum/index.js';
 export * from './uml/index.js';
 export * from './pedigree/index.js';
 export * from './c4/index.js';
+export * from './bpmn/index.js';

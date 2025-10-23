@@ -261,6 +261,58 @@ export const shapeCategories: ShapeCategory[] = [
 		]
 	},
 	{
+		id: 'bpmn',
+		label: 'BPMN',
+		shapes: [
+			{ id: 'bpmnTask', label: 'Task', code: 'shape id as @bpmnTask label:"Process Order"' },
+			{
+				id: 'bpmnEventStart',
+				label: 'Start Event',
+				code: 'shape id as @bpmnEvent label:"Start" eventType:"start"'
+			},
+			{
+				id: 'bpmnEventEnd',
+				label: 'End Event',
+				code: 'shape id as @bpmnEvent label:"End" eventType:"end"'
+			},
+			{
+				id: 'bpmnEventIntermediate',
+				label: 'Intermediate Event',
+				code: 'shape id as @bpmnEvent eventType:"intermediate"'
+			},
+			{
+				id: 'bpmnGatewayExclusive',
+				label: 'Exclusive Gateway',
+				code: 'shape id as @bpmnGateway gatewayType:"exclusive"'
+			},
+			{
+				id: 'bpmnGatewayParallel',
+				label: 'Parallel Gateway',
+				code: 'shape id as @bpmnGateway gatewayType:"parallel"'
+			},
+			{
+				id: 'bpmnGatewayInclusive',
+				label: 'Inclusive Gateway',
+				code: 'shape id as @bpmnGateway gatewayType:"inclusive"'
+			},
+			{
+				id: 'bpmnDataObject',
+				label: 'Data Object',
+				code: 'shape id as @bpmnDataObject label:"Customer Data"'
+			},
+			{
+				id: 'bpmnMessage',
+				label: 'Message',
+				code: 'shape id as @bpmnMessage label:"Email"'
+			},
+			{
+				id: 'bpmnPool',
+				label: 'Pool/Lane',
+				code: 'shape id as @bpmnPool label:"Customer" width:600 height:150'
+			}
+		]
+	},
+	{
 		id: 'network',
 		label: 'Network',
 		shapes: [
