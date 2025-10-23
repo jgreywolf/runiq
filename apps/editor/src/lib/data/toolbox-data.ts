@@ -313,6 +313,30 @@ export const shapeCategories: ShapeCategory[] = [
 		]
 	},
 	{
+		id: 'aws',
+		label: 'AWS Cloud',
+		shapes: [
+			{ id: 'awsEc2', label: 'EC2 Instance', code: 'shape id as @awsEc2 label:"Web Server"' },
+			{ id: 'awsS3', label: 'S3 Bucket', code: 'shape id as @awsS3 label:"assets-bucket"' },
+			{
+				id: 'awsLambda',
+				label: 'Lambda Function',
+				code: 'shape id as @awsLambda label:"ProcessOrder"'
+			},
+			{ id: 'awsRds', label: 'RDS Database', code: 'shape id as @awsRds label:"PostgreSQL"' },
+			{
+				id: 'awsVpc',
+				label: 'VPC',
+				code: 'shape id as @awsVpc label:"Production VPC" width:600 height:400'
+			},
+			{
+				id: 'awsApiGateway',
+				label: 'API Gateway',
+				code: 'shape id as @awsApiGateway label:"Public API"'
+			}
+		]
+	},
+	{
 		id: 'network',
 		label: 'Network',
 		shapes: [

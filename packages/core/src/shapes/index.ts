@@ -14,6 +14,7 @@ import * as uml from './uml/index.js';
 import * as c4 from './c4/index.js';
 import * as pedigree from './pedigree/index.js';
 import * as bpmn from './bpmn/index.js';
+import * as aws from './aws/index.js';
 
 export function registerDefaultShapes(): void {
   // Basic shapes
@@ -164,6 +165,14 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(bpmn.bpmnDataObjectShape);
   shapeRegistry.register(bpmn.bpmnMessageShape);
   shapeRegistry.register(bpmn.bpmnPoolShape);
+
+  // AWS Cloud shapes
+  shapeRegistry.register(aws.awsEc2Shape);
+  shapeRegistry.register(aws.awsS3Shape);
+  shapeRegistry.register(aws.awsLambdaShape);
+  shapeRegistry.register(aws.awsRdsShape);
+  shapeRegistry.register(aws.awsVpcShape);
+  shapeRegistry.register(aws.awsApiGatewayShape);
 }
 
 // Re-export all shapes from category folders
@@ -180,3 +189,4 @@ export * from './uml/index.js';
 export * from './pedigree/index.js';
 export * from './c4/index.js';
 export * from './bpmn/index.js';
+export * from './aws/index.js';
