@@ -233,7 +233,11 @@ export const shapeCategories: ShapeCategory[] = [
 				label: 'Decision',
 				code: 'shape id as @activityDecision label:"[approved?]"'
 			},
-			{ id: 'activityMerge', label: 'Merge', code: 'shape id as @activityMerge label:""' }
+			{ id: 'activityMerge', label: 'Merge', code: 'shape id as @activityMerge label:""' },
+			// Component Diagrams
+			{ id: 'component', label: 'Component', code: 'shape id as @component label:"UserService"' },
+			{ id: 'artifact', label: 'Artifact', code: 'shape id as @artifact label:"config.xml"' },
+			{ id: 'node', label: 'Node', code: 'shape id as @node label:"Application Server"' }
 		]
 	},
 	{
