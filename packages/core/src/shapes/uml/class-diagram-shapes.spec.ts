@@ -7,7 +7,10 @@ import { packageShape } from './package.js';
 import { noteShape } from './note.js';
 
 // Mock render context helper
-function createMockContext(label: string = '', data: Record<string, unknown> = {}): ShapeRenderContext {
+function createMockContext(
+  label: string = '',
+  data: Record<string, unknown> = {}
+): ShapeRenderContext {
   return {
     node: {
       id: 'test-node',
@@ -246,7 +249,8 @@ describe('UML Class Diagram Shapes', () => {
       const ctx = createMockContext('Note');
       const svg = noteShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('fill="#ffffcc"') || expect(svg).toContain('fill="#fffacd"');
+      expect(svg).toContain('fill="#ffffcc"') ||
+        expect(svg).toContain('fill="#fffacd"');
     });
   });
 });

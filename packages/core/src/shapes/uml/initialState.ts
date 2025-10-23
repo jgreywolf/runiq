@@ -30,16 +30,16 @@ export const initialStateShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const radius = bounds.width / 2;
-    
+
     const cx = x + radius;
     const cy = y + radius;
-    
+
     let svg = `<g class="initial-state-shape">`;
-    
+
     // Filled black circle
     svg += `<circle cx="${cx}" cy="${cy}" r="${radius}" `;
     svg += `fill="#000000" stroke="none" />`;
-    
+
     svg += `</g>`;
     return svg;
   },

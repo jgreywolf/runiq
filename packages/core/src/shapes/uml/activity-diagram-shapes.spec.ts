@@ -5,7 +5,10 @@ import { activityDecisionShape } from './activityDecision.js';
 import { activityMergeShape } from './activityMerge.js';
 
 // Mock render context helper
-function createMockContext(label: string = '', data: Record<string, unknown> = {}): ShapeRenderContext {
+function createMockContext(
+  label: string = '',
+  data: Record<string, unknown> = {}
+): ShapeRenderContext {
   return {
     node: {
       id: 'test-node',

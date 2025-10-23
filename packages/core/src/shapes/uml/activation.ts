@@ -12,7 +12,7 @@ export const activationShape: ShapeDefinition = {
     // Activation boxes are narrow
     const width = 16;
     const height = (ctx.node.data?.height as number) || 60;
-    
+
     return { width, height };
   },
 
@@ -34,17 +34,17 @@ export const activationShape: ShapeDefinition = {
     const { x, y } = position;
     const w = bounds.width;
     const h = bounds.height;
-    
+
     const fill = ctx.style.fill || '#ffffff';
     const stroke = ctx.style.stroke || '#000000';
     const strokeWidth = ctx.style.strokeWidth || 1;
-    
+
     let svg = `<g class="activation-shape">`;
-    
+
     // Thin vertical rectangle
     svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
-    
+
     svg += `</g>`;
     return svg;
   },

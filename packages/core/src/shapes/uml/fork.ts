@@ -11,7 +11,7 @@ export const forkShape: ShapeDefinition = {
   bounds(ctx) {
     const width = (ctx.node.data?.width as number) || 80;
     const height = 8; // Thick bar
-    
+
     return { width, height };
   },
 
@@ -33,13 +33,13 @@ export const forkShape: ShapeDefinition = {
     const { x, y } = position;
     const w = bounds.width;
     const h = bounds.height;
-    
+
     let svg = `<g class="fork-shape">`;
-    
+
     // Thick filled horizontal bar
     svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" `;
     svg += `fill="#000000" stroke="none" />`;
-    
+
     svg += `</g>`;
     return svg;
   },

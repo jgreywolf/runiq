@@ -203,21 +203,29 @@ export const shapeCategories: ShapeCategory[] = [
 		shapes: [
 			// Class Diagrams
 			{ id: 'class', label: 'Class', code: 'shape id as @class label:"ClassName"' },
-			{ id: 'interface', label: 'Interface', code: 'shape id as @interface label:"IRepository"' },
-			{ id: 'abstract', label: 'Abstract Class', code: 'shape id as @abstract label:"Vehicle"' },
-			{ id: 'enum', label: 'Enumeration', code: 'shape id as @enum label:"Priority"' },
+			{
+				id: 'interface',
+				label: 'Interface',
+				code: 'shape interfaceId as @interface label:"IRepository"'
+			},
+			{
+				id: 'abstract',
+				label: 'Abstract Class',
+				code: 'shape abstractId as @abstract label:"Vehicle"'
+			},
+			{ id: 'enum', label: 'Enumeration', code: 'shape enumId as @enum label:"Priority"' },
 			{
 				id: 'package',
 				label: 'Package',
-				code: 'shape id as @package label:"com.example.models"'
+				code: 'shape packageId as @package label:"com.example.models"'
 			},
-			{ id: 'note', label: 'Note', code: 'shape id as @note label:"Important note here"' },
+			{ id: 'note', label: 'Note', code: 'shape noteId as @note label:"Important note here"' },
 			// Use Case Diagrams
-			{ id: 'actor', label: 'Actor', code: 'shape id as @actor label:"Actor"' },
+			{ id: 'actor', label: 'Actor', code: 'shape actorId as @actor label:"Actor"' },
 			{
 				id: 'systemBoundary',
 				label: 'System Boundary',
-				code: 'shape id as @systemBoundary label:"System"'
+				code: 'shape boundaryId as @systemBoundary label:"System"'
 			},
 			// Sequence Diagrams
 			{ id: 'lifeline', label: 'Lifeline', code: 'shape id as @lifeline label:"Controller"' },
@@ -232,7 +240,11 @@ export const shapeCategories: ShapeCategory[] = [
 			{ id: 'fork', label: 'Fork/Join Bar', code: 'shape id as @fork' },
 			// Activity Diagrams
 			{ id: 'activity', label: 'Activity', code: 'shape id as @activity label:"Process Order"' },
-			{ id: 'activityDecision', label: 'Decision', code: 'shape id as @activityDecision label:"[approved?]"' },
+			{
+				id: 'activityDecision',
+				label: 'Decision',
+				code: 'shape id as @activityDecision label:"[approved?]"'
+			},
 			{ id: 'activityMerge', label: 'Merge', code: 'shape id as @activityMerge label:""' }
 		]
 	},
@@ -717,8 +729,8 @@ shape note1 as @note label:"All shapes implement IShape"
 iShape -> baseShape
 baseShape -> circle
 baseShape -> rectangle
-circle .. colors
-note1 .. baseShape`
+circle -> colors lineStyle:dashed
+note1 -> baseShape lineStyle:dashed`
 			},
 			{
 				name: 'Sequence Diagram',

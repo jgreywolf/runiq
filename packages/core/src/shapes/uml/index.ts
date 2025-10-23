@@ -20,4 +20,3 @@ export { joinShape } from './join.js';
 export { activityShape } from './activity.js';
 export { activityDecisionShape } from './activityDecision.js';
 export { activityMergeShape } from './activityMerge.js';
-

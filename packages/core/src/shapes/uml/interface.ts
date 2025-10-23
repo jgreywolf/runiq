@@ -11,22 +11,22 @@ export const interfaceShape: ShapeDefinition = {
   bounds(ctx) {
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
-    
+
     const methods = (ctx.node.data?.methods as string[]) || [];
     const nameSize = ctx.measureText(ctx.node.label || '', ctx.style);
     const stereotypeSize = ctx.measureText('«interface»', ctx.style);
-    
+
     // Calculate width based on longest text
     let maxWidth = Math.max(nameSize.width, stereotypeSize.width);
     methods.forEach((method) => {
       const methodSize = ctx.measureText(method, ctx.style);
       maxWidth = Math.max(maxWidth, methodSize.width);
     });
-    
+
     const width = maxWidth + padding * 2;
-    
+
     // Height: stereotype + name + separator + methods
-    const height = 
+    const height =
       padding + // top padding
       lineHeight + // stereotype
       lineHeight + // name
@@ -34,7 +34,7 @@ export const interfaceShape: ShapeDefinition = {
       (methods.length > 0 ? padding : 0) + // separator padding
       methods.length * lineHeight + // methods
       padding; // bottom padding
-    
+
     return { width: Math.max(width, 100), height: Math.max(height, 60) };
   },
 
@@ -56,28 +56,28 @@ export const interfaceShape: ShapeDefinition = {
     const { x, y } = position;
     const w = bounds.width;
     const h = bounds.height;
-    
+
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
     const methods = (ctx.node.data?.methods as string[]) || [];
-    
+
     const fill = ctx.style.fill || '#ffffff';
     const stroke = ctx.style.stroke || '#000000';
     const strokeWidth = ctx.style.strokeWidth || 1;
-    
+
     let svg = `<g class="interface-shape">`;
-    
+
     // Main rectangle
     svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
-    
+
     // Stereotype text
     let currentY = y + padding + lineHeight * 0.7;
     svg += `<text x="${x + w / 2}" y="${currentY}" `;
     svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
     svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
     svg += `«interface»</text>`;
-    
+
     // Interface name
     currentY += lineHeight;
     svg += `<text x="${x + w / 2}" y="${currentY}" `;
@@ -85,14 +85,14 @@ export const interfaceShape: ShapeDefinition = {
     svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
     svg += `font-weight="bold" fill="${stroke}">`;
     svg += `${ctx.node.label || ''}</text>`;
-    
+
     // Separator line if there are methods
     if (methods.length > 0) {
       currentY += lineHeight * 0.3;
       svg += `<line x1="${x}" y1="${currentY}" x2="${x + w}" y2="${currentY}" `;
       svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
       currentY += padding;
-      
+
       // Method list
       methods.forEach((method) => {
         currentY += lineHeight * 0.7;
@@ -103,7 +103,7 @@ export const interfaceShape: ShapeDefinition = {
         currentY += lineHeight * 0.3;
       });
     }
-    
+
     svg += `</g>`;
     return svg;
   },

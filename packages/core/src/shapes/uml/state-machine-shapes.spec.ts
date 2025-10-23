@@ -8,7 +8,10 @@ import { forkShape } from './fork.js';
 import { joinShape } from './join.js';
 
 // Mock render context helper
-function createMockContext(label: string = '', data: Record<string, unknown> = {}): ShapeRenderContext {
+function createMockContext(
+  label: string = '',
+  data: Record<string, unknown> = {}
+): ShapeRenderContext {
   return {
     node: {
       id: 'test-node',
@@ -64,7 +67,11 @@ describe('UML State Machine Shapes', () => {
 
     it('should support internal activities', () => {
       const ctx = createMockContext('Processing', {
-        activities: ['entry / startTimer()', 'do / process()', 'exit / stopTimer()'],
+        activities: [
+          'entry / startTimer()',
+          'do / process()',
+          'exit / stopTimer()',
+        ],
       });
       const svg = stateShape.render(ctx, { x: 0, y: 0 });
 
@@ -101,7 +108,8 @@ describe('UML State Machine Shapes', () => {
       const svg = initialStateShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('<circle');
-      expect(svg).toContain('fill="#000000"') || expect(svg).toContain('fill="black"');
+      expect(svg).toContain('fill="#000000"') ||
+        expect(svg).toContain('fill="black"');
     });
   });
 
@@ -134,7 +142,8 @@ describe('UML State Machine Shapes', () => {
       // Should have 2 circles
       const circleCount = (svg.match(/<circle/g) || []).length;
       expect(circleCount).toBe(2);
-      expect(svg).toContain('fill="#000000"') || expect(svg).toContain('fill="black"');
+      expect(svg).toContain('fill="#000000"') ||
+        expect(svg).toContain('fill="black"');
     });
   });
 
@@ -202,7 +211,8 @@ describe('UML State Machine Shapes', () => {
       const svg = forkShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('<rect');
-      expect(svg).toContain('fill="#000000"') || expect(svg).toContain('fill="black"');
+      expect(svg).toContain('fill="#000000"') ||
+        expect(svg).toContain('fill="black"');
     });
 
     it('should support custom width', () => {
@@ -239,7 +249,8 @@ describe('UML State Machine Shapes', () => {
       const svg = joinShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('<rect');
-      expect(svg).toContain('fill="#000000"') || expect(svg).toContain('fill="black"');
+      expect(svg).toContain('fill="#000000"') ||
+        expect(svg).toContain('fill="black"');
     });
 
     it('should support custom width', () => {

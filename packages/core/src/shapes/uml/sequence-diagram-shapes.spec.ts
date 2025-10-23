@@ -6,7 +6,10 @@ import { fragmentShape } from './fragment.js';
 import { deletionShape } from './deletion.js';
 
 // Mock render context helper
-function createMockContext(label: string = '', data: Record<string, unknown> = {}): ShapeRenderContext {
+function createMockContext(
+  label: string = '',
+  data: Record<string, unknown> = {}
+): ShapeRenderContext {
   return {
     node: {
       id: 'test-node',
@@ -149,8 +152,16 @@ describe('UML Sequence Diagram Shapes', () => {
     });
 
     it('should support different operators', () => {
-      const operators = ['alt', 'opt', 'loop', 'par', 'break', 'critical', 'ref'];
-      
+      const operators = [
+        'alt',
+        'opt',
+        'loop',
+        'par',
+        'break',
+        'critical',
+        'ref',
+      ];
+
       operators.forEach((op) => {
         const ctx = createMockContext(op);
         const svg = fragmentShape.render(ctx, { x: 0, y: 0 });
@@ -214,7 +225,8 @@ describe('UML Sequence Diagram Shapes', () => {
       const svg = deletionShape.render(ctx, { x: 0, y: 0 });
 
       // Should use stroke-width of 2 or 3
-      const hasThickStroke = svg.includes('stroke-width="2"') || svg.includes('stroke-width="3"');
+      const hasThickStroke =
+        svg.includes('stroke-width="2"') || svg.includes('stroke-width="3"');
       expect(hasThickStroke).toBe(true);
     });
   });

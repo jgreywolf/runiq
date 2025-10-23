@@ -32,21 +32,21 @@ export const deletionShape: ShapeDefinition = {
     const { x, y } = position;
     const w = bounds.width;
     const h = bounds.height;
-    
+
     const stroke = ctx.style.stroke || '#000000';
     const strokeWidth = 2; // Thicker for visibility
-    
+
     let svg = `<g class="deletion-shape">`;
-    
+
     // X mark: two diagonal lines
     // Line from top-left to bottom-right
     svg += `<line x1="${x}" y1="${y}" x2="${x + w}" y2="${y + h}" `;
     svg += `stroke="${stroke}" stroke-width="${strokeWidth}" stroke-linecap="round" />`;
-    
+
     // Line from top-right to bottom-left
     svg += `<line x1="${x + w}" y1="${y}" x2="${x}" y2="${y + h}" `;
     svg += `stroke="${stroke}" stroke-width="${strokeWidth}" stroke-linecap="round" />`;
-    
+
     svg += `</g>`;
     return svg;
   },

@@ -32,22 +32,22 @@ export const choiceShape: ShapeDefinition = {
     const { x, y } = position;
     const w = bounds.width;
     const h = bounds.height;
-    
+
     const fill = ctx.style.fill || '#ffffff';
     const stroke = ctx.style.stroke || '#000000';
     const strokeWidth = ctx.style.strokeWidth || 1;
-    
+
     let svg = `<g class="choice-shape">`;
-    
+
     // Diamond shape
     svg += `<path d="`;
-    svg += `M ${x + w / 2} ${y} `;         // Top point
-    svg += `L ${x + w} ${y + h / 2} `;     // Right point
-    svg += `L ${x + w / 2} ${y + h} `;     // Bottom point
-    svg += `L ${x} ${y + h / 2} `;         // Left point
+    svg += `M ${x + w / 2} ${y} `; // Top point
+    svg += `L ${x + w} ${y + h / 2} `; // Right point
+    svg += `L ${x + w / 2} ${y + h} `; // Bottom point
+    svg += `L ${x} ${y + h / 2} `; // Left point
     svg += `Z" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
-    
+
     // Optional label (guard condition)
     if (ctx.node.label) {
       svg += `<text x="${x + w / 2}" y="${y + h / 2 + 5}" `;
@@ -55,7 +55,7 @@ export const choiceShape: ShapeDefinition = {
       svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
       svg += `${ctx.node.label}</text>`;
     }
-    
+
     svg += `</g>`;
     return svg;
   },
