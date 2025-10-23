@@ -49,10 +49,13 @@ export const venn3Shape: ShapeDefinition = {
     // Extract data with defaults
     // Data can be at ctx.node.data directly or in ctx.node.data.values[0]
     const rawData = (ctx.node.data as any) || {};
-    const data = rawData.values && Array.isArray(rawData.values) && rawData.values.length > 0
-      ? rawData.values[0]
-      : rawData;
-    
+    const data =
+      rawData.values &&
+      Array.isArray(rawData.values) &&
+      rawData.values.length > 0
+        ? rawData.values[0]
+        : rawData;
+
     const labelA = data.labelA || 'Set A';
     const labelB = data.labelB || 'Set B';
     const labelC = data.labelC || 'Set C';
