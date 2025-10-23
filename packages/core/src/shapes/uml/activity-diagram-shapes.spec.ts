@@ -1,8 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import type { ShapeRenderContext } from '../../types.js';
 import { activityShape } from './activity.js';
-import { activityDecisionShape } from './activityDecision.js';
-import { activityMergeShape } from './activityMerge.js';
 
 // Mock render context helper
 function createMockContext(
@@ -60,71 +58,6 @@ describe('UML Activity Diagram Shapes', () => {
       expect(svg).toContain('<rect');
       expect(svg).toContain('rx=');
       expect(svg).toContain('Send Email');
-    });
-  });
-
-  describe('activityDecisionShape', () => {
-    it('should have correct id', () => {
-      expect(activityDecisionShape.id).toBe('activityDecision');
-    });
-
-    it('should calculate bounds as diamond', () => {
-      const ctx = createMockContext();
-      const bounds = activityDecisionShape.bounds(ctx);
-
-      expect(bounds.width).toBeLessThan(60);
-      expect(bounds.height).toBeLessThan(60);
-      expect(bounds.width).toBe(bounds.height);
-    });
-
-    it('should provide 4 anchor points', () => {
-      const ctx = createMockContext();
-      const anchors = activityDecisionShape.anchors(ctx);
-
-      expect(anchors).toHaveLength(4);
-    });
-
-    it('should render diamond shape', () => {
-      const ctx = createMockContext();
-      const svg = activityDecisionShape.render(ctx, { x: 0, y: 0 });
-
-      expect(svg).toContain('<path') || expect(svg).toContain('<polygon');
-    });
-
-    it('should support guard conditions', () => {
-      const ctx = createMockContext('[x > 0]');
-      const svg = activityDecisionShape.render(ctx, { x: 0, y: 0 });
-
-      expect(svg).toContain('[x > 0]');
-    });
-  });
-
-  describe('activityMergeShape', () => {
-    it('should have correct id', () => {
-      expect(activityMergeShape.id).toBe('activityMerge');
-    });
-
-    it('should calculate bounds as diamond', () => {
-      const ctx = createMockContext();
-      const bounds = activityMergeShape.bounds(ctx);
-
-      expect(bounds.width).toBeLessThan(60);
-      expect(bounds.height).toBeLessThan(60);
-      expect(bounds.width).toBe(bounds.height);
-    });
-
-    it('should provide 4 anchor points', () => {
-      const ctx = createMockContext();
-      const anchors = activityMergeShape.anchors(ctx);
-
-      expect(anchors).toHaveLength(4);
-    });
-
-    it('should render diamond shape', () => {
-      const ctx = createMockContext();
-      const svg = activityMergeShape.render(ctx, { x: 0, y: 0 });
-
-      expect(svg).toContain('<path') || expect(svg).toContain('<polygon');
     });
   });
 });

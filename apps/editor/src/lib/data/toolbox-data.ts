@@ -228,12 +228,6 @@ export const shapeCategories: ShapeCategory[] = [
 			{ id: 'fork', label: 'Fork/Join Bar', code: 'shape id as @fork' },
 			// Activity Diagrams
 			{ id: 'activity', label: 'Activity', code: 'shape id as @activity label:"Process Order"' },
-			{
-				id: 'activityDecision',
-				label: 'Decision',
-				code: 'shape id as @activityDecision label:"[approved?]"'
-			},
-			{ id: 'activityMerge', label: 'Merge', code: 'shape id as @activityMerge label:""' },
 			// Component Diagrams
 			{ id: 'component', label: 'Component', code: 'shape id as @component label:"UserService"' },
 			{ id: 'artifact', label: 'Artifact', code: 'shape id as @artifact label:"config.xml"' },

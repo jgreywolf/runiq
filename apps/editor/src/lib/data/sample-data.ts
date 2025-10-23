@@ -255,12 +255,12 @@ shape end as @finalState
 shape browse as @activity label:"Browse Products"
 shape addCart as @activity label:"Add to Cart"
 shape checkout as @activity label:"Checkout"
-shape decision1 as @activityDecision label:"[has account?]"
+shape decision1 as @choice label:"[has account?]"
 shape register as @activity label:"Register"
 shape login as @activity label:"Login"
-shape merge1 as @activityMerge
+shape merge1 as @choice
 shape payment as @activity label:"Enter Payment"
-shape decision2 as @activityDecision label:"[payment valid?]"
+shape decision2 as @choice label:"[payment valid?]"
 shape fork1 as @fork
 shape processPayment as @activity label:"Process Payment"
 shape sendConfirm as @activity label:"Send Confirmation"
