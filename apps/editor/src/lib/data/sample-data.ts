@@ -292,11 +292,11 @@ join1 -> end`
 	{
 		id: 'c4-architecture',
 		label: 'C4 Architecture',
-		samples: [
-			{
-				name: 'System Context',
-				description: 'C4 Level 1: Banking system context',
-				code: `diagram "Banking System - Context"
+	samples: [
+		{
+			name: 'System Context',
+			description: 'C4 Level 1: Banking system context',
+			code: `diagram "Banking System - Context"
 direction: TB
 
 shape customer as @c4-person label:"Customer"
@@ -304,13 +304,13 @@ shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
 shape emailSystem as @c4-system label:"Email System"
 shape mainframe as @c4-system label:"Mainframe\\nBanking System"
 
-customer -Uses-> bankingSystem
-bankingSystem -Sends emails-> emailSystem
-bankingSystem -Uses-> mainframe`
-			},
-			{
-				name: 'Container Diagram',
-				description: 'C4 Level 2: System containers',
+customer -> bankingSystem label:"Uses"
+bankingSystem -> emailSystem label:"Sends emails"
+bankingSystem -> mainframe label:"Uses"`
+		},
+		{
+			name: 'Container Diagram',
+			description: 'C4 Level 2: System containers',
 				code: `diagram "Banking System - Containers"
 direction: TB
 
@@ -324,14 +324,14 @@ container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" bo
 
 shape emailSystem as @c4-system label:"Email System"
 
-customer -Uses [HTTPS]-> webapp
-webapp -API calls [JSON/HTTPS]-> api
-api -Reads/Writes [SQL/TCP]-> db
-api -Sends emails [SMTP]-> emailSystem`
-			},
-			{
-				name: 'Component Diagram',
-				description: 'C4 Level 3: API components',
+customer -> webapp label:"Uses [HTTPS]"
+webapp -> api label:"API calls [JSON/HTTPS]"
+api -> db label:"Reads/Writes [SQL/TCP]"
+api -> emailSystem label:"Sends emails [SMTP]"`
+		},
+		{
+			name: 'Component Diagram',
+			description: 'C4 Level 3: API components',
 				code: `diagram "API Application - Components"
 direction: TB
 
@@ -346,15 +346,15 @@ container apiContainer "API Container" backgroundColor:"#e3f2fd" borderColor:"#1
 
 shape db as @c4-container label:"Database"
 
-webapp -Makes API calls-> controller
-controller -Uses-> security
-controller -Uses-> emailComponent
-controller -Uses-> accountComponent
-accountComponent -Reads/Writes-> db`
-			},
-			{
-				name: 'Microservices Architecture',
-				description: 'C4 Container view with multiple services',
+webapp -> controller label:"Makes API calls"
+controller -> security label:"Uses"
+controller -> emailComponent label:"Uses"
+controller -> accountComponent label:"Uses"
+accountComponent -> db label:"Reads/Writes"`
+		},
+		{
+			name: 'Microservices Architecture',
+			description: 'C4 Container view with multiple services',
 				code: `diagram "E-Commerce Platform"
 direction: LR
 
@@ -379,20 +379,20 @@ container data "Data Layer" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" bord
   shape cache as @c4-container label:"Cache\\n[Redis]"
 }
 
-customer -Uses-> web
-customer -Uses-> mobile
-admin -Manages-> web
+customer -> web label:"Uses"
+customer -> mobile label:"Uses"
+admin -> web label:"Manages"
 
-web -API Calls-> gateway
-mobile -API Calls-> gateway
+web -> gateway label:"API Calls"
+mobile -> gateway label:"API Calls"
 
-gateway -Authenticates-> auth
-gateway -Fetches Products-> catalog
-gateway -Places Orders-> orders
+gateway -> auth label:"Authenticates"
+gateway -> catalog label:"Fetches Products"
+gateway -> orders label:"Places Orders"
 
-auth -Reads/Writes-> userDb
-catalog -Reads-> catalogDb
-orders -Writes-> cache`
+auth -> userDb label:"Reads/Writes"
+catalog -> catalogDb label:"Reads"
+orders -> cache label:"Writes"`
 			}
 		]
 	},
@@ -584,7 +584,7 @@ shape pyramid as @pyramid label:"Sales Funnel" data:[{"label":"Leads","value":10
 				description: 'Set relationships',
 				code: `diagram "Feature Comparison"
 
-shape venn as @venn2 label:"Products" data:[{"setA":100},{"setB":80},{"intersection":30},{"labelA":"Product A"},{"labelB":"Product B"}]`
+shape venn as @venn2 label:"Products" data:[{"setA":100,"setB":80,"intersection":30,"labelA":"Product A","labelB":"Product B"}]`
 			}
 		]
 	},

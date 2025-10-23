@@ -19,14 +19,14 @@ export const venn3Shape: ShapeDefinition = {
   bounds() {
     // Fixed size for consistent layout
     // Three circles in triangular arrangement
-    const circleRadius = 60;
-    const spacing = 50; // Distance between circle centers
+    const circleRadius = 70;
+    const spacing = 60; // Distance between circle centers
 
     // Width: needs to accommodate two circles side-by-side
     const width = circleRadius * 2 + spacing + 20; // Add padding
 
     // Height: needs to accommodate vertical arrangement (triangle)
-    const height = circleRadius * 2 + spacing + 40; // Extra space for labels
+    const height = circleRadius * 2 + spacing + 20;
 
     return { width, height };
   },
@@ -41,34 +41,22 @@ export const venn3Shape: ShapeDefinition = {
     ];
   },
 
-  render(ctx) {
+  render(ctx, position) {
     const bounds = this.bounds({} as any);
-    const circleRadius = 60;
-    const spacing = 50;
+    const circleRadius = 70;
+    const spacing = 60;
 
     // Extract data with defaults
-    const data = (ctx.node.data as any) || {};
-    const setA = typeof data.setA === 'number' ? data.setA : 0;
-    const setB = typeof data.setB === 'number' ? data.setB : 0;
-    const setC = typeof data.setC === 'number' ? data.setC : 0;
-    const AB = typeof data.AB === 'number' ? data.AB : 0;
-    const AC = typeof data.AC === 'number' ? data.AC : 0;
-    const BC = typeof data.BC === 'number' ? data.BC : 0;
-    const ABC = typeof data.ABC === 'number' ? data.ABC : 0;
-
+    // Data can be at ctx.node.data directly or in ctx.node.data.values[0]
+    const rawData = (ctx.node.data as any) || {};
+    const data = rawData.values && Array.isArray(rawData.values) && rawData.values.length > 0
+      ? rawData.values[0]
+      : rawData;
+    
     const labelA = data.labelA || 'Set A';
     const labelB = data.labelB || 'Set B';
     const labelC = data.labelC || 'Set C';
     const colors = Array.isArray(data.colors) ? data.colors : DEFAULT_COLORS;
-
-    // Calculate exclusive values for each region
-    // Only A = A - (AB + AC - ABC) = A - AB - AC + ABC
-    const onlyA = Math.max(0, setA - AB - AC + ABC);
-    const onlyB = Math.max(0, setB - AB - BC + ABC);
-    const onlyC = Math.max(0, setC - AC - BC + ABC);
-    const onlyAB = Math.max(0, AB - ABC);
-    const onlyAC = Math.max(0, AC - ABC);
-    const onlyBC = Math.max(0, BC - ABC);
 
     // Circle positions - triangular arrangement
     // Top two circles (A and B)
@@ -92,7 +80,7 @@ export const venn3Shape: ShapeDefinition = {
     const colorC = colors[2] || DEFAULT_COLORS[2];
     const opacity = 0.4; // More transparent for 3 circles
 
-    let svg = '';
+    let svg = `<g transform="translate(${position.x},${position.y})">`;
 
     // Circle A (top left)
     svg += `<circle cx="${circleAX}" cy="${circleAY}" r="${circleRadius}" `;
@@ -109,82 +97,31 @@ export const venn3Shape: ShapeDefinition = {
     svg += `fill="${colorC}" fill-opacity="${opacity}" `;
     svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
-    // Label A (above top-left circle)
-    svg += `<text x="${circleAX}" y="${circleAY - circleRadius - 10}" `;
+    // Label A (inside top-left circle, pushed left)
+    svg += `<text x="${circleAX - 35}" y="${circleAY - 15}" `;
     svg += `text-anchor="middle" dominant-baseline="middle" `;
     svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
     svg += `fill="${stroke}">`;
     svg += `${labelA}`;
     svg += `</text>`;
 
-    // Label B (above top-right circle)
-    svg += `<text x="${circleBX}" y="${circleBY - circleRadius - 10}" `;
+    // Label B (inside top-right circle, pushed right)
+    svg += `<text x="${circleBX + 35}" y="${circleBY - 15}" `;
     svg += `text-anchor="middle" dominant-baseline="middle" `;
     svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
     svg += `fill="${stroke}">`;
     svg += `${labelB}`;
     svg += `</text>`;
 
-    // Label C (below bottom circle)
-    svg += `<text x="${circleCX}" y="${circleCY + circleRadius + 20}" `;
+    // Label C (inside bottom circle, pushed down)
+    svg += `<text x="${circleCX}" y="${circleCY + 35}" `;
     svg += `text-anchor="middle" dominant-baseline="middle" `;
     svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
     svg += `fill="${stroke}">`;
     svg += `${labelC}`;
     svg += `</text>`;
 
-    // Values in each region
-    const valueFontSize = fontSize - 1;
-
-    // Only A (left, in circle A only)
-    svg += `<text x="${circleAX - 25}" y="${circleAY - 10}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${valueFontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">${onlyA}</text>`;
-
-    // Only B (right, in circle B only)
-    svg += `<text x="${circleBX + 25}" y="${circleBY - 10}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${valueFontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">${onlyB}</text>`;
-
-    // Only C (bottom, in circle C only)
-    svg += `<text x="${circleCX}" y="${circleCY + 30}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${valueFontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">${onlyC}</text>`;
-
-    // AB intersection (between A and B, above center)
-    const abX = (circleAX + circleBX) / 2;
-    const abY = circleAY - 8;
-    svg += `<text x="${abX}" y="${abY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${valueFontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">${onlyAB}</text>`;
-
-    // AC intersection (between A and C, lower left)
-    const acX = (circleAX + circleCX) / 2 - 15;
-    const acY = (circleAY + circleCY) / 2;
-    svg += `<text x="${acX}" y="${acY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${valueFontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">${onlyAC}</text>`;
-
-    // BC intersection (between B and C, lower right)
-    const bcX = (circleBX + circleCX) / 2 + 15;
-    const bcY = (circleBY + circleCY) / 2;
-    svg += `<text x="${bcX}" y="${bcY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${valueFontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">${onlyBC}</text>`;
-
-    // ABC intersection (center of all three)
-    const abcX = (circleAX + circleBX) / 2;
-    const abcY = (circleAY + circleCY) / 2 + 5;
-    svg += `<text x="${abcX}" y="${abcY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${valueFontSize + 1}" font-weight="bold" `;
-    svg += `fill="${stroke}">${ABC}</text>`;
+    svg += `</g>`;
 
     return svg;
   },

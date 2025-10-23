@@ -15,6 +15,7 @@ import * as c4 from './c4/index.js';
 import * as pedigree from './pedigree/index.js';
 import * as bpmn from './bpmn/index.js';
 import * as aws from './aws/index.js';
+import * as erd from './erd/index.js';
 
 export function registerDefaultShapes(): void {
   // Basic shapes
@@ -173,6 +174,14 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(aws.awsRdsShape);
   shapeRegistry.register(aws.awsVpcShape);
   shapeRegistry.register(aws.awsApiGatewayShape);
+
+  // ERD (Entity Relationship Diagram) shapes
+  shapeRegistry.register(erd.erdEntityShape);
+  shapeRegistry.register(erd.erdWeakEntityShape);
+  shapeRegistry.register(erd.erdRelationshipShape);
+  shapeRegistry.register(erd.erdAttributeShape);
+  shapeRegistry.register(erd.erdKeyAttributeShape);
+  shapeRegistry.register(erd.erdMultivaluedAttributeShape);
 }
 
 // Re-export all shapes from category folders
@@ -190,3 +199,4 @@ export * from './pedigree/index.js';
 export * from './c4/index.js';
 export * from './bpmn/index.js';
 export * from './aws/index.js';
+export * from './erd/index.js';
