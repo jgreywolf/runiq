@@ -46,17 +46,16 @@ export const decisionManualShape: ShapeDefinition = {
 
     const midX = x + w / 2;
     const midY = y + h / 2;
-    const waveHeight = 8;
 
-    // Diamond with wavy bottom edge
+    // Diamond with wavy bottom edge (wave stays within diamond bounds)
     const path = [
       `M ${midX} ${y}`, // Top point
       `L ${x + w} ${midY}`, // Right point
-      // Wavy bottom instead of straight line to bottom point
-      `Q ${x + w * 0.875} ${y + h - waveHeight} ${x + w * 0.75} ${y + h}`,
-      `Q ${x + w * 0.625} ${y + h + waveHeight} ${midX} ${y + h}`,
-      `Q ${x + w * 0.375} ${y + h + waveHeight} ${x + w * 0.25} ${y + h}`,
-      `Q ${x + w * 0.125} ${y + h - waveHeight} ${x} ${midY}`, // Left point
+      // Wavy bottom - oscillates around the straight line from right to left point
+      `Q ${x + w * 0.875} ${y + h * 0.8} ${x + w * 0.75} ${y + h * 0.875}`,
+      `Q ${x + w * 0.625} ${y + h * 0.95} ${midX} ${y + h * 0.9}`,
+      `Q ${x + w * 0.375} ${y + h * 0.95} ${x + w * 0.25} ${y + h * 0.875}`,
+      `Q ${x + w * 0.125} ${y + h * 0.8} ${x} ${midY}`, // Left point
       `Z`,
     ].join(' ');
 

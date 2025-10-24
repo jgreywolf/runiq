@@ -47,13 +47,16 @@ export const taggedRectangleShape: ShapeDefinition = {
     const textX = x + w / 2;
     const textY = y + h / 2;
 
+    // Calculate tag fill color (slightly darker than main fill)
+    const tagFill = ctx.style.tagFill || stroke;
+
     // Draw rectangle and corner tag
     return `
       <rect x="${x}" y="${y}" width="${w}" height="${h}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
       <polygon points="${x + w},${y} ${x + w - tagSize},${y} ${x + w},${y + tagSize}"
-               fill="${stroke}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+               fill="${tagFill}" stroke="${stroke}" stroke-width="${strokeWidth / 2}" />
       
       <text x="${textX}" y="${textY}"
             text-anchor="middle" dominant-baseline="middle"

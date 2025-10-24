@@ -11,8 +11,10 @@ export const multiRectangleShape: ShapeDefinition = {
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);
     const padding = ctx.style.padding || 12;
-    const offset = 4; // Offset for each stacked rectangle
-    const stackCount = 2; // Number of rectangles to show
+    // Allow customization via data, with defaults
+    const data = ctx.node.data as any;
+    const offset = data?.offset || 4; // Offset for each stacked rectangle
+    const stackCount = data?.stackCount || 2; // Number of rectangles to show
 
     const width = textSize.width + padding * 2 + offset * stackCount;
     const height = textSize.height + padding * 2 + offset * stackCount;
@@ -24,8 +26,10 @@ export const multiRectangleShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const w = bounds.width;
     const h = bounds.height;
-    const offset = 4;
-    const stackCount = 2;
+    // Allow customization via data, with defaults
+    const data = ctx.node.data as any;
+    const offset = data?.offset || 4;
+    const stackCount = data?.stackCount || 2;
     const totalOffset = offset * stackCount;
 
     // Anchors on the front (top-most) rectangle
@@ -40,8 +44,10 @@ export const multiRectangleShape: ShapeDefinition = {
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
-    const offset = 4;
-    const stackCount = 2;
+    // Allow customization via data, with defaults
+    const data = ctx.node.data as any;
+    const offset = data?.offset || 4;
+    const stackCount = data?.stackCount || 2;
     const totalOffset = offset * stackCount;
 
     const rectWidth = bounds.width - totalOffset;

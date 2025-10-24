@@ -12,8 +12,12 @@ export const linedRectangleShape: ShapeDefinition = {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);
     const padding = ctx.style.padding || 12;
 
+    // Allow customization of minimum height via data
+    const data = ctx.node.data as any;
+    const minHeight = data?.minHeight !== undefined ? data.minHeight : 60;
+
     const width = textSize.width + padding * 2;
-    const height = Math.max(textSize.height + padding * 2, 60); // Taller for lines
+    const height = Math.max(textSize.height + padding * 2, minHeight);
 
     return { width, height };
   },

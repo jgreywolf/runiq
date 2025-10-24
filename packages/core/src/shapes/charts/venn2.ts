@@ -15,14 +15,14 @@ export const venn2Shape: ShapeDefinition = {
   bounds() {
     // Fixed size for consistent layout
     // Two circles side-by-side with overlap
-    const circleRadius = 60;
-    const overlapDistance = 40; // Distance between circle centers
+    const circleRadius = 80;
+    const overlapDistance = 60; // Distance between circle centers
 
     // Width: left circle + overlap + right circle
     const width = circleRadius * 2 + overlapDistance;
 
-    // Height: single circle diameter + padding for labels
-    const height = circleRadius * 2 + 40; // Extra space for labels above/below
+    // Height: single circle diameter (no extra padding for labels)
+    const height = circleRadius * 2;
 
     return { width, height };
   },
@@ -37,24 +37,24 @@ export const venn2Shape: ShapeDefinition = {
     ];
   },
 
-  render(ctx) {
+  render(ctx, position) {
     const bounds = this.bounds(ctx);
-    const circleRadius = 60;
-    const overlapDistance = 40;
+    const circleRadius = 80;
+    const overlapDistance = 60;
 
     // Extract data with defaults
-    const data = (ctx.node.data as any) || {};
-    const setA = typeof data.setA === 'number' ? data.setA : 0;
-    const setB = typeof data.setB === 'number' ? data.setB : 0;
-    const intersection =
-      typeof data.intersection === 'number' ? data.intersection : 0;
+    // Data can be at ctx.node.data directly or in ctx.node.data.values[0]
+    const rawData = (ctx.node.data as any) || {};
+    const data =
+      rawData.values &&
+      Array.isArray(rawData.values) &&
+      rawData.values.length > 0
+        ? rawData.values[0]
+        : rawData;
+
     const labelA = data.labelA || 'Set A';
     const labelB = data.labelB || 'Set B';
     const colors = Array.isArray(data.colors) ? data.colors : DEFAULT_COLORS;
-
-    // Calculate only-A and only-B values
-    const onlyA = Math.max(0, setA - intersection);
-    const onlyB = Math.max(0, setB - intersection);
 
     // Circle positions (centered vertically, overlapping horizontally)
     const centerY = bounds.height / 2;
@@ -72,7 +72,7 @@ export const venn2Shape: ShapeDefinition = {
     const colorB = colors[1] || DEFAULT_COLORS[1];
     const opacity = 0.5; // Semi-transparent circles
 
-    let svg = '';
+    let svg = `<g transform="translate(${position.x},${position.y})">`;
 
     // Circle A (left)
     svg += `<circle cx="${circleAX}" cy="${centerY}" r="${circleRadius}" `;
@@ -84,9 +84,9 @@ export const venn2Shape: ShapeDefinition = {
     svg += `fill="${colorB}" fill-opacity="${opacity}" `;
     svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
-    // Label A (above left circle)
-    const labelAX = circleAX;
-    const labelAY = 15;
+    // Label A (inside left circle, non-overlapping region)
+    const labelAX = circleAX - 30;
+    const labelAY = centerY;
     svg += `<text x="${labelAX}" y="${labelAY}" `;
     svg += `text-anchor="middle" dominant-baseline="middle" `;
     svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
@@ -94,9 +94,9 @@ export const venn2Shape: ShapeDefinition = {
     svg += `${labelA}`;
     svg += `</text>`;
 
-    // Label B (above right circle)
-    const labelBX = circleBX;
-    const labelBY = 15;
+    // Label B (inside right circle, non-overlapping region)
+    const labelBX = circleBX + 30;
+    const labelBY = centerY;
     svg += `<text x="${labelBX}" y="${labelBY}" `;
     svg += `text-anchor="middle" dominant-baseline="middle" `;
     svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
@@ -104,35 +104,7 @@ export const venn2Shape: ShapeDefinition = {
     svg += `${labelB}`;
     svg += `</text>`;
 
-    // Value: Only A (left circle, non-overlapping region)
-    const valueAX = circleAX - 20;
-    const valueAY = centerY;
-    svg += `<text x="${valueAX}" y="${valueAY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize + 2}" font-weight="bold" `;
-    svg += `fill="${stroke}">`;
-    svg += `${onlyA}`;
-    svg += `</text>`;
-
-    // Value: Intersection (center, overlapping region)
-    const valueIntersectionX = (circleAX + circleBX) / 2;
-    const valueIntersectionY = centerY;
-    svg += `<text x="${valueIntersectionX}" y="${valueIntersectionY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize + 2}" font-weight="bold" `;
-    svg += `fill="${stroke}">`;
-    svg += `${intersection}`;
-    svg += `</text>`;
-
-    // Value: Only B (right circle, non-overlapping region)
-    const valueBX = circleBX + 20;
-    const valueBY = centerY;
-    svg += `<text x="${valueBX}" y="${valueBY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize + 2}" font-weight="bold" `;
-    svg += `fill="${stroke}">`;
-    svg += `${onlyB}`;
-    svg += `</text>`;
+    svg += `</g>`;
 
     return svg;
   },

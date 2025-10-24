@@ -13,6 +13,9 @@ import * as quantum from './quantum/index.js';
 import * as uml from './uml/index.js';
 import * as c4 from './c4/index.js';
 import * as pedigree from './pedigree/index.js';
+import * as bpmn from './bpmn/index.js';
+import * as aws from './aws/index.js';
+import * as erd from './erd/index.js';
 
 export function registerDefaultShapes(): void {
   // Basic shapes
@@ -125,6 +128,25 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(uml.classShape);
   shapeRegistry.register(uml.actorShape);
   shapeRegistry.register(uml.systemBoundaryShape);
+  shapeRegistry.register(uml.interfaceShape);
+  shapeRegistry.register(uml.abstractShape);
+  shapeRegistry.register(uml.enumShape);
+  shapeRegistry.register(uml.packageShape);
+  shapeRegistry.register(uml.noteShape);
+  shapeRegistry.register(uml.lifelineShape);
+  shapeRegistry.register(uml.activationShape);
+  shapeRegistry.register(uml.fragmentShape);
+  shapeRegistry.register(uml.deletionShape);
+  shapeRegistry.register(uml.stateShape);
+  shapeRegistry.register(uml.initialStateShape);
+  shapeRegistry.register(uml.finalStateShape);
+  shapeRegistry.register(uml.choiceShape);
+  shapeRegistry.register(uml.forkShape);
+  shapeRegistry.register(uml.joinShape);
+  shapeRegistry.register(uml.activityShape);
+  shapeRegistry.register(uml.componentShape);
+  shapeRegistry.register(uml.artifactShape);
+  shapeRegistry.register(uml.nodeShape);
 
   // Pedigree chart shapes
   shapeRegistry.register(pedigree.pedigreeMaleShape);
@@ -136,6 +158,30 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(c4.c4System);
   shapeRegistry.register(c4.c4Container);
   shapeRegistry.register(c4.c4Component);
+
+  // BPMN shapes
+  shapeRegistry.register(bpmn.bpmnTaskShape);
+  shapeRegistry.register(bpmn.bpmnEventShape);
+  shapeRegistry.register(bpmn.bpmnGatewayShape);
+  shapeRegistry.register(bpmn.bpmnDataObjectShape);
+  shapeRegistry.register(bpmn.bpmnMessageShape);
+  shapeRegistry.register(bpmn.bpmnPoolShape);
+
+  // AWS Cloud shapes
+  shapeRegistry.register(aws.awsEc2Shape);
+  shapeRegistry.register(aws.awsS3Shape);
+  shapeRegistry.register(aws.awsLambdaShape);
+  shapeRegistry.register(aws.awsRdsShape);
+  shapeRegistry.register(aws.awsVpcShape);
+  shapeRegistry.register(aws.awsApiGatewayShape);
+
+  // ERD (Entity Relationship Diagram) shapes
+  shapeRegistry.register(erd.erdEntityShape);
+  shapeRegistry.register(erd.erdWeakEntityShape);
+  shapeRegistry.register(erd.erdRelationshipShape);
+  shapeRegistry.register(erd.erdAttributeShape);
+  shapeRegistry.register(erd.erdKeyAttributeShape);
+  shapeRegistry.register(erd.erdMultivaluedAttributeShape);
 }
 
 // Re-export all shapes from category folders
@@ -151,3 +197,6 @@ export * from './quantum/index.js';
 export * from './uml/index.js';
 export * from './pedigree/index.js';
 export * from './c4/index.js';
+export * from './bpmn/index.js';
+export * from './aws/index.js';
+export * from './erd/index.js';

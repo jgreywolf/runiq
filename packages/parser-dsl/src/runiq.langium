@@ -346,7 +346,8 @@ NodeRef:
     node=ID ('.' member=ID)?;
 
 EdgeProperty:
-    LineStyleProperty
+    EdgeLabelProperty
+    | LineStyleProperty
     | ArrowTypeProperty
     | MultiplicitySourceProperty
     | MultiplicityTargetProperty
@@ -355,6 +356,9 @@ EdgeProperty:
     | EdgeTypeProperty
     | NavigabilityProperty
     | EdgeConstraintsProperty;
+
+EdgeLabelProperty:
+    'label:' label=STRING;
 
 LineStyleProperty:
     'lineStyle:' value=LineStyleValue;
@@ -403,8 +407,9 @@ GroupBlock:
     '}';
 
 // container "Label" { ... } with optional properties
+// Now supports: container id "Label" as @shapeName { ... }
 ContainerBlock:
-    'container' (id=ID)? label=STRING properties+=ContainerProperty* '{'
+    'container' (id=ID)? label=STRING ('as' '@' shape=(SHAPE_ID | ID))? properties+=ContainerProperty* '{'
         statements+=DiagramStatement*
     '}';
 

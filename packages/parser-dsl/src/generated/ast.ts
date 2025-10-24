@@ -407,6 +407,7 @@ export interface ContainerBlock extends langium.AstNode {
     id?: string;
     label: string;
     properties: Array<ContainerProperty>;
+    shape?: string;
     statements: Array<DiagramStatement>;
 }
 
@@ -415,6 +416,7 @@ export const ContainerBlock = {
     id: 'id',
     label: 'label',
     properties: 'properties',
+    shape: 'shape',
     statements: 'statements'
 } as const;
 
@@ -741,7 +743,22 @@ export function isEdgeDeclaration(item: unknown): item is EdgeDeclaration {
     return reflection.isInstance(item, EdgeDeclaration.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeTypeProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty;
+export interface EdgeLabelProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'EdgeLabelProperty';
+    label: string;
+}
+
+export const EdgeLabelProperty = {
+    $type: 'EdgeLabelProperty',
+    label: 'label'
+} as const;
+
+export function isEdgeLabelProperty(item: unknown): item is EdgeLabelProperty {
+    return reflection.isInstance(item, EdgeLabelProperty.$type);
+}
+
+export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty;
 
 export const EdgeProperty = {
     $type: 'EdgeProperty'
@@ -1811,6 +1828,7 @@ export type RuniqAstType = {
     Document: Document
     EdgeConstraintsProperty: EdgeConstraintsProperty
     EdgeDeclaration: EdgeDeclaration
+    EdgeLabelProperty: EdgeLabelProperty
     EdgeProperty: EdgeProperty
     EdgeTypeProperty: EdgeTypeProperty
     ElectricalProfile: ElectricalProfile
@@ -2045,6 +2063,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ContainerBlock.properties,
                     defaultValue: []
                 },
+                shape: {
+                    name: ContainerBlock.shape
+                },
                 statements: {
                     name: ContainerBlock.statements,
                     defaultValue: []
@@ -2270,6 +2291,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [DiagramStatement.$type]
+        },
+        EdgeLabelProperty: {
+            name: EdgeLabelProperty.$type,
+            properties: {
+                label: {
+                    name: EdgeLabelProperty.label
+                }
+            },
+            superTypes: [EdgeProperty.$type]
         },
         EdgeProperty: {
             name: EdgeProperty.$type,
