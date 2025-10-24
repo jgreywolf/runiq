@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { shapeRegistry } from '../registries.js';
 import { registerDefaultShapes } from '../shapes/index.js';
-import type { DiagramAst, NodeDeclaration } from '../types.js';
+import type { DiagramAst, NodeAst } from '../types.js';
 import { createTextMeasurer } from '../text-measurement/index.js';
 
 describe('Performance Benchmarks', () => {
@@ -9,7 +9,7 @@ describe('Performance Benchmarks', () => {
   const measureText = createTextMeasurer();
 
   it('should render 100 nodes in under 100ms', () => {
-    const nodes: NodeDeclaration[] = [];
+    const nodes: NodeAst[] = [];
 
     // Create 100 simple rectangle nodes
     for (let i = 0; i < 100; i++) {
@@ -82,7 +82,7 @@ describe('Performance Benchmarks', () => {
     for (const shapeName of complexShapes) {
       const shape = shapeRegistry.get(shapeName);
       if (shape) {
-        const node: NodeDeclaration = {
+        const node: NodeAst = {
           id: `test-${shapeName}`,
           shape: shapeName,
           data: { label: 'Test' },
@@ -111,7 +111,7 @@ describe('Performance Benchmarks', () => {
 
   it('should create large diagrams efficiently', () => {
     const nodeCount = 50;
-    const nodes: NodeDeclaration[] = [];
+    const nodes: NodeAst[] = [];
 
     // Create a grid of nodes
     for (let i = 0; i < nodeCount; i++) {

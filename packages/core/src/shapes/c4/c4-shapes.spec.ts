@@ -1,12 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  c4Person,
-  c4System,
-  c4Container,
-  c4Component,
-} from './index.js';
-import { shapeRegistry } from '../../registries.js';
-import type { NodeAst } from '../../types.js';
+import { c4Person, c4System, c4Container, c4Component } from './index.js';
 import { createTextMeasurer } from '../../text-measurement/index.js';
 
 describe('C4 Model Shapes', () => {
