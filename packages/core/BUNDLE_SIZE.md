@@ -188,6 +188,7 @@ if (result.success) {
 ```
 
 **Note**: If you use validation, install Zod as a dependency:
+
 ```bash
 pnpm add zod
 ```
@@ -210,6 +211,7 @@ import { measureText } from '@runiq/core/text-measurement/node';
 ```
 
 **SSR Pattern**: Use Node.js implementation on both server and client for consistent hydration:
+
 ```typescript
 import { measureText } from '@runiq/core/text-measurement/node';
 ```

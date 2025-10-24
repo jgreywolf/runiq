@@ -21,7 +21,8 @@ function heuristicMeasureText(
 }
 
 // Detect browser environment
-const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+const isBrowser =
+  typeof window !== 'undefined' && typeof document !== 'undefined';
 
 export function measureText(
   text: string,
@@ -32,23 +33,23 @@ export function measureText(
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      
+
       if (ctx) {
         const fontSize = style.fontSize || 14;
         const fontFamily = style.fontFamily || 'Arial, sans-serif';
         const fontWeight = style.fontWeight || 'normal';
-        
+
         ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
-        
+
         const lines = text.split('\n');
         const lineHeight = fontSize * 1.2;
-        
+
         let maxWidth = 0;
         for (const line of lines) {
           const metrics = ctx.measureText(line);
           maxWidth = Math.max(maxWidth, metrics.width);
         }
-        
+
         return {
           width: maxWidth,
           height: lines.length * lineHeight,
@@ -58,7 +59,7 @@ export function measureText(
       // Fall through to heuristic
     }
   }
-  
+
   // Node.js or fallback: use heuristic
   return heuristicMeasureText(text, style);
 }
@@ -66,4 +67,3 @@ export function measureText(
 export function createTextMeasurer() {
   return measureText;
 }
-

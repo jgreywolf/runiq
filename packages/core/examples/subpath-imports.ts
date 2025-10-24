@@ -3,7 +3,11 @@
  */
 
 // Example 1: Import only basic shapes
-import { rectangleShape, circleShape, triangleShape } from '@runiq/core/shapes/basic';
+import {
+  rectangleShape,
+  circleShape,
+  triangleShape,
+} from '@runiq/core/shapes/basic';
 import { shapeRegistry } from '@runiq/core';
 
 shapeRegistry.register(rectangleShape);
@@ -13,7 +17,11 @@ shapeRegistry.register(triangleShape);
 // Bundle size: ~15 KB (vs 165 KB for full package)
 
 // Example 2: Import UML shapes for class diagrams
-import { classShape, interfaceShape, packageShape } from '@runiq/core/shapes/uml';
+import {
+  classShape,
+  interfaceShape,
+  packageShape,
+} from '@runiq/core/shapes/uml';
 
 shapeRegistry.register(classShape);
 shapeRegistry.register(interfaceShape);

@@ -1,6 +1,6 @@
 /**
  * Example: Using optional validation
- * 
+ *
  * Phase 3 optimization makes Zod validation optional.
  * Import validation only when needed to save ~25 KB from bundle.
  */
@@ -56,11 +56,11 @@ if (isDevelopment) {
 
 /**
  * When to use validation:
- * 
+ *
  * ✅ Parsing user input or external data
  * ✅ API responses that might be malformed
  * ✅ Development/testing environments
- * 
+ *
  * ❌ Statically-typed, internally-generated diagrams
  * ❌ Performance-critical rendering loops
  * ❌ Production bundles where you trust the data

@@ -1,6 +1,6 @@
 /**
  * Example: Platform-specific text measurement
- * 
+ *
  * Phase 4 optimization provides separate implementations for browser and Node.js
  */
 
@@ -8,7 +8,7 @@
 import { measureText } from '@runiq/core';
 
 // Automatically uses:
-// - Browser: Canvas API (accurate, ~5-8 KB)  
+// - Browser: Canvas API (accurate, ~5-8 KB)
 // - Node.js: Heuristic (fast, ~2-3 KB)
 const size = measureText('Hello World', { fontSize: 16 });
 console.log(size); // { width: number, height: number }
@@ -30,17 +30,17 @@ const nodeSize = nodeMeasureText('Hello', { fontSize: 14 });
 
 /**
  * Use Cases:
- * 
+ *
  * Auto-detection (default):
  * ✅ Most applications
  * ✅ Client-side rendering
  * ✅ Simple Node.js usage
- * 
+ *
  * Browser explicit:
  * ✅ When you need maximum accuracy
  * ✅ Browser-only applications
  * ✅ SSR hydration matching (client-side)
- * 
+ *
  * Node.js explicit:
  * ✅ Server-side rendering (smaller bundle)
  * ✅ CLI tools
