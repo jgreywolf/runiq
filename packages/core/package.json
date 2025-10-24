@@ -15,6 +15,10 @@
     "dist",
     "src"
   ],
+  "sideEffects": [
+    "./src/shapes/index.ts",
+    "./dist/shapes/index.js"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

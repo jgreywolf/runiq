@@ -4,9 +4,9 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm'],
   dts: true,
-  sourcemap: true,
+  sourcemap: process.env.NODE_ENV !== 'production',
   clean: true,
   splitting: false,
-  minify: false,
+  minify: process.env.NODE_ENV === 'production',
   target: 'es2022',
 });
