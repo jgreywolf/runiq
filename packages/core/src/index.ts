@@ -1,7 +1,7 @@
 export * from './types.js';
 export * from './validation/schema.js';
 export * from './registries.js';
-export * from './text-measurement.js';
+export * from './text-measurement/index.js';
 export * from './shapes/index.js';
 export {
   validateDiagramType,

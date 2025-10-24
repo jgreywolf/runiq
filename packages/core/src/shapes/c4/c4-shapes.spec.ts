@@ -5,7 +5,9 @@ import {
   c4Container,
   c4Component,
 } from './index.js';
-import { createTextMeasurer } from '../../text-measurement.js';
+import { shapeRegistry } from '../../registries.js';
+import type { NodeAst } from '../../types.js';
+import { createTextMeasurer } from '../../text-measurement/index.js';
 
 describe('C4 Model Shapes', () => {
   const measureText = createTextMeasurer();

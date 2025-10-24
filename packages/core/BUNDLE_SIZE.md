@@ -11,6 +11,7 @@ The `@runiq/core` package supports **selective shape registration** to reduce bu
 - **Core only (no shapes)**: ~35 KB
 - **With selective registration**: 50-150 KB (depending on shapes used)
 - **Validation (optional)**: ~25 KB (Zod dependency)
+- **Text measurement**: Auto-detects (browser: ~5 KB, Node.js: ~2 KB)
 
 ## Usage
 
@@ -191,6 +192,28 @@ if (result.success) {
 pnpm add zod
 ```
 
+## Platform-Specific Text Measurement
+
+Text measurement automatically detects your environment:
+
+```typescript
+// Auto-detection (recommended)
+import { measureText } from '@runiq/core';
+// Browser: Uses Canvas API (~5 KB, accurate)
+// Node.js: Uses heuristics (~2 KB, fast)
+
+// Force browser implementation (accurate, browser-only)
+import { measureText } from '@runiq/core/text-measurement/browser';
+
+// Force Node.js implementation (smaller bundle)
+import { measureText } from '@runiq/core/text-measurement/node';
+```
+
+**SSR Pattern**: Use Node.js implementation on both server and client for consistent hydration:
+```typescript
+import { measureText } from '@runiq/core/text-measurement/node';
+```
+
 ## Measuring Your Bundle
 
 ```bash
@@ -205,10 +228,7 @@ npx webpack-bundle-analyzer stats.json
 
 ✅ **Phase 1**: Selective shape registration (45% reduction)  
 ✅ **Phase 2**: Subpath exports for tree-shaking  
-✅ **Phase 3**: Optional Zod validation (~25 KB savings)
-
-### Future Optimizations
-
-⏳ **Phase 4**: Platform-specific text measurement (smaller Node.js bundle)
+✅ **Phase 3**: Optional Zod validation (~25 KB savings)  
+✅ **Phase 4**: Platform-specific text measurement (~3-5 KB savings)
 
 See [BUNDLE_OPTIMIZATION_ANALYSIS.md](../../BUNDLE_OPTIMIZATION_ANALYSIS.md) for details.

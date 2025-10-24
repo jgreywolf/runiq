@@ -73,6 +73,14 @@
     "./validation": {
       "types": "./dist/validation/schema.d.ts",
       "import": "./dist/validation/schema.js"
+    },
+    "./text-measurement/browser": {
+      "types": "./dist/text-measurement/browser.d.ts",
+      "import": "./dist/text-measurement/browser.js"
+    },
+    "./text-measurement/node": {
+      "types": "./dist/text-measurement/node.d.ts",
+      "import": "./dist/text-measurement/node.js"
     }
   },
   "files": [

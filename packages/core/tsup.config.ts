@@ -19,6 +19,8 @@ export default defineConfig({
     'src/shapes/aws/index.ts',
     'src/shapes/erd/index.ts',
     'src/validation/schema.ts',
+    'src/text-measurement/browser.ts',
+    'src/text-measurement/node.ts',
   ],
   format: ['esm'],
   dts: true,
