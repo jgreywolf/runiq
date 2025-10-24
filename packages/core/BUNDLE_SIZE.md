@@ -22,63 +22,77 @@ import { registerDefaultShapes } from '@runiq/core';
 registerDefaultShapes();
 ```
 
-### Option 2: Selective Registration (Recommended)
+### Option 2: Selective Registration Functions
 
 ```typescript
-import { 
+import {
   registerBasicShapes,
   registerFlowchartShapes,
-  registerUMLShapes 
+  registerUMLShapes,
 } from '@runiq/core';
 
 // Only register what you need (~70 KB minified)
-registerBasicShapes();      // Rectangle, circle, triangle, etc.
-registerFlowchartShapes();  // Process, decision, document, etc.
-registerUMLShapes();        // Class, actor, package, etc.
+registerBasicShapes(); // Rectangle, circle, triangle, etc.
+registerFlowchartShapes(); // Process, decision, document, etc.
+registerUMLShapes(); // Class, actor, package, etc.
 ```
 
-### Option 3: Manual Registration (Smallest)
+### Option 3: Direct Category Imports (Recommended for Smallest Bundles)
+
+```typescript
+import { rectangleShape, circleShape } from '@runiq/core/shapes/basic';
+import { docShape, processShape } from '@runiq/core/shapes/flowchart';
+import { shapeRegistry } from '@runiq/core';
+
+// Import only specific shapes from categories (~15-30 KB minified)
+shapeRegistry.register(rectangleShape);
+shapeRegistry.register(circleShape);
+shapeRegistry.register(docShape);
+shapeRegistry.register(processShape);
+```
+
+### Option 4: Manual Registration (Maximum Control)
 
 ```typescript
 import { shapeRegistry } from '@runiq/core';
-import { rectangleShape, circleShape } from '@runiq/core';
+import { rectangleShape, circleShape } from '@runiq/core/shapes/basic';
 
-// Register individual shapes (~40 KB minified)
+// Register individual shapes with full control
 shapeRegistry.register(rectangleShape);
 shapeRegistry.register(circleShape);
 ```
 
 ## Available Registration Functions
 
-| Function | Shapes Included | Approx Size |
-|----------|----------------|-------------|
-| `registerBasicShapes()` | Rectangle, Circle, Triangle, Hexagon, etc. (17) | ~25 KB |
-| `registerFlowchartShapes()` | Document, Process, Decision, etc. (14) | ~20 KB |
-| `registerStorageShapes()` | Cylinder, Disk, Database, etc. (7) | ~10 KB |
-| `registerRectVariantShapes()` | Framed, Multi, Divided rectangles (7) | ~8 KB |
-| `registerControlSystemShapes()` | Transfer function, Gain, Integrator, etc. (10) | ~12 KB |
-| `registerSpecialShapes()` | Text, Brace, Lightning, etc. (7) | ~8 KB |
-| `registerChartShapes()` | Pie, Bar, Venn, Pyramid (7) | ~15 KB |
-| `registerNetworkShapes()` | Server, Router, Cloud, etc. (7) | ~10 KB |
-| `registerQuantumShapes()` | Quantum gates, CNOT, etc. (12) | ~12 KB |
-| `registerUMLShapes()` | Class, Actor, Package, etc. (23) | ~35 KB |
-| `registerPedigreeShapes()` | Family tree shapes (3) | ~4 KB |
-| `registerC4Shapes()` | C4 model shapes (4) | ~5 KB |
-| `registerBPMNShapes()` | BPMN process shapes (6) | ~12 KB |
-| `registerAWSShapes()` | AWS cloud shapes (6) | ~10 KB |
-| `registerERDShapes()` | Entity-relationship diagrams (6) | ~8 KB |
+| Function                        | Shapes Included                                 | Approx Size |
+| ------------------------------- | ----------------------------------------------- | ----------- |
+| `registerBasicShapes()`         | Rectangle, Circle, Triangle, Hexagon, etc. (17) | ~25 KB      |
+| `registerFlowchartShapes()`     | Document, Process, Decision, etc. (14)          | ~20 KB      |
+| `registerStorageShapes()`       | Cylinder, Disk, Database, etc. (7)              | ~10 KB      |
+| `registerRectVariantShapes()`   | Framed, Multi, Divided rectangles (7)           | ~8 KB       |
+| `registerControlSystemShapes()` | Transfer function, Gain, Integrator, etc. (10)  | ~12 KB      |
+| `registerSpecialShapes()`       | Text, Brace, Lightning, etc. (7)                | ~8 KB       |
+| `registerChartShapes()`         | Pie, Bar, Venn, Pyramid (7)                     | ~15 KB      |
+| `registerNetworkShapes()`       | Server, Router, Cloud, etc. (7)                 | ~10 KB      |
+| `registerQuantumShapes()`       | Quantum gates, CNOT, etc. (12)                  | ~12 KB      |
+| `registerUMLShapes()`           | Class, Actor, Package, etc. (23)                | ~35 KB      |
+| `registerPedigreeShapes()`      | Family tree shapes (3)                          | ~4 KB       |
+| `registerC4Shapes()`            | C4 model shapes (4)                             | ~5 KB       |
+| `registerBPMNShapes()`          | BPMN process shapes (6)                         | ~12 KB      |
+| `registerAWSShapes()`           | AWS cloud shapes (6)                            | ~10 KB      |
+| `registerERDShapes()`           | Entity-relationship diagrams (6)                | ~8 KB       |
 
-*Sizes are approximate and include dependencies*
+_Sizes are approximate and include dependencies_
 
 ## Examples
 
 ### Minimal Flowchart App
 
 ```typescript
-import { 
+import {
   shapeRegistry,
   registerBasicShapes,
-  registerFlowchartShapes 
+  registerFlowchartShapes,
 } from '@runiq/core';
 
 registerBasicShapes();
@@ -90,10 +104,7 @@ registerFlowchartShapes();
 ### UML Class Diagram Tool
 
 ```typescript
-import { 
-  registerBasicShapes,
-  registerUMLShapes 
-} from '@runiq/core';
+import { registerBasicShapes, registerUMLShapes } from '@runiq/core';
 
 registerBasicShapes();
 registerUMLShapes();
@@ -104,10 +115,10 @@ registerUMLShapes();
 ### Cloud Architecture Diagrams
 
 ```typescript
-import { 
+import {
   registerBasicShapes,
   registerNetworkShapes,
-  registerAWSShapes 
+  registerAWSShapes,
 } from '@runiq/core';
 
 registerBasicShapes();
@@ -123,10 +134,7 @@ The package is configured for tree-shaking with modern bundlers (Webpack 5+, Rol
 
 ```json
 {
-  "sideEffects": [
-    "./src/shapes/index.ts",
-    "./dist/shapes/index.js"
-  ]
+  "sideEffects": ["./src/shapes/index.ts", "./dist/shapes/index.js"]
 }
 ```
 
@@ -142,17 +150,16 @@ When using selective registration, unused shapes will be automatically removed f
 ## Migration from v0.1.x
 
 ### Before:
+
 ```typescript
 import { registerDefaultShapes } from '@runiq/core';
 registerDefaultShapes(); // All shapes
 ```
 
 ### After:
+
 ```typescript
-import { 
-  registerBasicShapes,
-  registerFlowchartShapes 
-} from '@runiq/core';
+import { registerBasicShapes, registerFlowchartShapes } from '@runiq/core';
 
 registerBasicShapes();
 registerFlowchartShapes();
@@ -174,6 +181,7 @@ npx webpack-bundle-analyzer stats.json
 ## Future Optimizations
 
 Planned for future releases:
+
 - Subpath exports (`@runiq/core/shapes/basic`)
 - Separate validation package (remove Zod from core)
 - Platform-specific text measurement (smaller Node.js bundle)
