@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import { getDataProperty } from '../../types.js';
 
 /**
  * BPMN Event shape - represents something that happens during a process.
@@ -35,21 +36,28 @@ export const bpmnEventShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#ffffff';
     const stroke = ctx.style.stroke || '#000000';
 
-    const eventType = (ctx.node.data?.eventType as string) || 'start';
+    // Get event type from data (handles parser's { values: [...] } format)
+    const eventType = getDataProperty<string>(
+      ctx.node.data,
+      'eventType',
+      'start'
+    );
+
     let svg = '';
 
     if (eventType === 'start') {
-      // Start event: filled circle (solid black/dark fill)
-      const startFill =
-        ctx.style.fill === '#ffffff' ? '#90EE90' : ctx.style.fill; // Light green if white
-      svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 1}" fill="${startFill}" stroke="${stroke}" stroke-width="1"/>`;
-    } else if (eventType === 'end') {
-      // End event: single thick circle
-      svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 2}" fill="${fill}" stroke="${stroke}" stroke-width="4"/>`;
-    } else if (eventType === 'intermediate') {
-      // Intermediate event: double circle
+      // Start event: single thin circle (1px stroke)
       svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 1}" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
-      svg += `<circle cx="${cx}" cy="${cy}" r="${radius - 4}" fill="none" stroke="${stroke}" stroke-width="1"/>`;
+    } else if (eventType === 'end') {
+      // End event: single VERY thick circle (5px stroke - very bold and obvious)
+      svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 2.5}" fill="${fill}" stroke="${stroke}" stroke-width="5"/>`;
+    } else if (eventType === 'intermediate') {
+      // Intermediate event: double circles - outer and prominent inner circle
+      svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 1}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
+      svg += `<circle cx="${cx}" cy="${cy}" r="${radius - 5}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
+    } else {
+      // Default: same as start
+      svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 1}" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
     }
 
     // Optional label below the event

@@ -40,15 +40,16 @@ export const braceLeftShape: ShapeDefinition = {
     // Left-facing curly brace { shape
     // Start from top-right, curve to middle-left point, curve to bottom-right
     const midY = y + h / 2;
-    const leftPoint = x + w * 0.2; // Point of the brace
-    const rightEdge = x + w * 0.8;
+    const leftPoint = x + w * 0.15; // Point of the brace (more pronounced)
+    const rightEdge = x + w * 0.7; // Right edge closer to center
+    const controlOffset = w * 0.4; // Control point offset
 
     const path = [
       `M ${rightEdge} ${y}`, // Top right
-      `Q ${x + w * 0.5} ${y + h * 0.1} ${x + w * 0.5} ${y + h * 0.25}`, // Top curve inward
-      `Q ${x + w * 0.3} ${y + h * 0.4} ${leftPoint} ${midY}`, // Curve to middle point
-      `Q ${x + w * 0.3} ${y + h * 0.6} ${x + w * 0.5} ${y + h * 0.75}`, // Curve from middle
-      `Q ${x + w * 0.5} ${y + h * 0.9} ${rightEdge} ${y + h}`, // Bottom curve
+      `Q ${rightEdge - controlOffset} ${y + h * 0.2} ${rightEdge - controlOffset} ${y + h * 0.4}`, // Top curve inward
+      `Q ${rightEdge - controlOffset * 0.5} ${y + h * 0.45} ${leftPoint} ${midY}`, // Curve to middle point
+      `Q ${rightEdge - controlOffset * 0.5} ${y + h * 0.55} ${rightEdge - controlOffset} ${y + h * 0.6}`, // Curve from middle
+      `Q ${rightEdge - controlOffset} ${y + h * 0.8} ${rightEdge} ${y + h}`, // Bottom curve
     ].join(' ');
 
     return `

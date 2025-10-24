@@ -128,7 +128,11 @@ export class ElkLayoutEngine implements LayoutEngine {
     const direction = this.convertDirection(
       opts.direction || diagram.direction || 'TB'
     );
-    const spacing = opts.spacing || 100; // Increased from 80 to 100 for better clarity
+
+    // Increase spacing if diagram has containers (to avoid overlaps)
+    const hasContainers = diagram.containers && diagram.containers.length > 0;
+    const baseSpacing = hasContainers ? 150 : 100; // Extra spacing for container diagrams
+    const spacing = opts.spacing || baseSpacing;
 
     // Detect if this is a pedigree chart
     const isPedigreeChart = diagram.nodes.some(
@@ -138,27 +142,28 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Build ELK graph structure with hierarchyHandling for containers
     const elkGraph: ElkNode = {
       id: 'root',
-      layoutOptions: {
-        'elk.algorithm': 'layered',
-        'elk.direction': direction,
-        'elk.spacing.nodeNode': spacing.toString(),
-        'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
-        'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing (right-angle bends)
-        // Edge crossing minimization
-        'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-        'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
-        'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
-        // For pedigree charts, enforce layer-based layouting
-        ...(isPedigreeChart
-          ? {
-              'elk.layered.layering.strategy': 'INTERACTIVE',
-              'elk.layered.considerModelOrder.strategy': 'NONE',
-              'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
-              'elk.layered.nodePlacement.bk.fixedAlignment': 'BALANCED',
-              'elk.layered.compaction.postCompaction.strategy': 'EDGE_LENGTH',
-            }
-          : {}),
-      },
+      layoutOptions: isPedigreeChart
+        ? {
+            // For pedigree/family tree charts, use MrTree algorithm which is designed for trees
+            'elk.algorithm': 'mrtree',
+            'elk.direction': direction,
+            'elk.spacing.nodeNode': '80',
+            'elk.mrtree.searchOrder': 'DFS',
+            'elk.edgeRouting': 'POLYLINE',
+          }
+        : {
+            'elk.algorithm': 'layered',
+            'elk.direction': direction,
+            'elk.spacing.nodeNode': spacing.toString(),
+            'elk.layered.spacing.nodeNodeBetweenLayers': (
+              spacing * 1.5
+            ).toString(), // Extra layer spacing for containers
+            'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing (right-angle bends)
+            // Edge crossing minimization
+            'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+            'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
+            'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
+          },
       children: [],
       edges: [],
     };
@@ -480,16 +485,17 @@ export class ElkLayoutEngine implements LayoutEngine {
     placeholders: Map<string, { width: number; height: number }>
   ): void {
     // For BPMN pools, calculate uniform width (max of all pools)
-    const bpmnPools = containers.filter(c => c.shape === 'bpmnPool');
+    const bpmnPools = containers.filter((c) => c.shape === 'bpmnPool');
     let uniformPoolWidth: number | undefined;
-    
+
     if (bpmnPools.length > 1) {
       // Calculate max width needed across all pools
       let maxWidth = 0;
       for (const pool of bpmnPools) {
-        const padding = pool.containerStyle?.padding !== undefined
-          ? pool.containerStyle.padding
-          : 30;
+        const padding =
+          pool.containerStyle?.padding !== undefined
+            ? pool.containerStyle.padding
+            : 30;
         const childCount = pool.children.length;
         const avgNodeSize = 100;
         const estimatedWidth = Math.max(
@@ -500,7 +506,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
       uniformPoolWidth = maxWidth;
     }
-    
+
     for (const container of containers) {
       // Map Runiq algorithm to ELK algorithm ID
       const algorithm = this.mapAlgorithmToElk(
@@ -573,7 +579,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Estimate container size based on children
       const childCount = container.children.length;
       const avgNodeSize = 100;
-      
+
       // Use uniform width for BPMN pools, otherwise calculate individually
       let estimatedWidth: number;
       if (container.shape === 'bpmnPool' && uniformPoolWidth) {
@@ -584,7 +590,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           Math.sqrt(childCount) * avgNodeSize + padding * 2
         );
       }
-      
+
       const estimatedHeight = Math.max(
         150,
         Math.sqrt(childCount) * avgNodeSize + padding * 2

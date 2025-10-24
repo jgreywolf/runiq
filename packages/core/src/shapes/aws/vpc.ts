@@ -8,9 +8,15 @@ export const awsVpcShape: ShapeDefinition = {
   id: 'awsVpc',
 
   bounds(ctx: ShapeRenderContext) {
-    const width = (ctx.node.data?.width as number) || 400;
-    const height = (ctx.node.data?.height as number) || 300;
+    // For containers, layout engine provides the actual dimensions
+    const data = ctx.node.data as any;
+    if (data?.width && data?.height) {
+      return { width: data.width, height: data.height };
+    }
 
+    // Fallback for standalone shapes
+    const width = 400;
+    const height = 300;
     return { width, height };
   },
 

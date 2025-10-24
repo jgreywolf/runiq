@@ -11,6 +11,7 @@
 	// Map toolbox IDs to actual shape registry IDs
 	const shapeIdMap: Record<string, string> = {
 		paperTape: 'flag',
+		package: 'umlPackage', // UML package
 		// BPMN events map to bpmnEvent
 		bpmnEventStart: 'bpmnEvent',
 		bpmnEventEnd: 'bpmnEvent',
@@ -107,6 +108,24 @@
 				}
 			};
 		}
+
+	// Special handling for multiRectangle to make offset more visible
+	if (shapeId === 'multiRectangle') {
+		return {
+			node: { id: '', label: '', data: { offset: 6, stackCount: 3 } },
+			style: {
+				padding: 2,
+				fill: '#f0f0f0',
+				stroke: '#333',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 20, height: 8 };
+			}
+		};
+	}
 
 	// Special handling for lightning bolt to make it more visible
 	if (shapeId === 'lightning') {
@@ -216,7 +235,7 @@
 	if (shapeId === 'bpmnEventStart' || shapeId === 'bpmnEventEnd' || shapeId === 'bpmnEventIntermediate') {
 		const eventType = shapeId.replace('bpmnEvent', '').toLowerCase();
 		return {
-			node: { id: '', label: '', shape: 'bpmnEvent', data: [{ eventType }] },
+			node: { id: '', label: '', shape: 'bpmnEvent', data: { values: [{ eventType }] } },
 			style: {
 				padding: 1,
 				fill: '#fff',
@@ -234,7 +253,7 @@
 	if (shapeId === 'bpmnGatewayExclusive' || shapeId === 'bpmnGatewayParallel' || shapeId === 'bpmnGatewayInclusive') {
 		const gatewayType = shapeId.replace('bpmnGateway', '').toLowerCase();
 		return {
-			node: { id: '', label: '', shape: 'bpmnGateway', data: [{ gatewayType }] },
+			node: { id: '', label: '', shape: 'bpmnGateway', data: { values: [{ gatewayType }] } },
 			style: {
 				padding: 1,
 				fill: '#fff',
@@ -278,12 +297,47 @@
 				fontSize: 6
 			},
 			measureText: (text: string, style: any) => {
-				return { width: 20, height: 12 };
+				return { width: 24, height: 18 };
 			}
 		};
 	}
 
-	if (shapeId === 'bpmnPool') {
+	// Quantum circuit shapes - use thinner strokes for small circles
+	if (shapeId === 'controlDot') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 0,
+				fill: '#000',
+				stroke: 'none', // No stroke - solid filled circle
+				strokeWidth: 0,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'cnotTarget') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 0,
+				fill: 'none',
+				stroke: '#000',
+				strokeWidth: 0.5, // Thinner stroke for icon
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'pieChart') {
 		return {
 			node: { id: '', label: '', data: { width: 120, height: 40 } },
 			style: {
@@ -293,6 +347,82 @@
 				strokeWidth: 1,
 				font: 'sans-serif',
 				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	// Chart shapes with sample data for preview
+	if (shapeId === 'pieChart') {
+		return {
+			node: {
+				id: '',
+				label: '',
+				data: {
+					values: [
+						{ label: 'A', value: 30 },
+						{ label: 'B', value: 25 },
+						{ label: 'C', value: 20 }
+					],
+					showLegend: false
+				}
+			},
+			style: {
+				padding: 2,
+				font: 'sans-serif',
+				fontSize: 5
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'barChartVertical') {
+		return {
+			node: {
+				id: '',
+				label: '',
+				data: {
+					values: [
+						{ label: 'A', value: 30 },
+						{ label: 'B', value: 45 },
+						{ label: 'C', value: 25 }
+					],
+					showLegend: false
+				}
+			},
+			style: {
+				padding: 2,
+				font: 'sans-serif',
+				fontSize: 5
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 0, height: 0 };
+			}
+		};
+	}
+
+	if (shapeId === 'barChartHorizontal') {
+		return {
+			node: {
+				id: '',
+				label: '',
+				data: {
+					values: [
+						{ label: 'A', value: 30 },
+						{ label: 'B', value: 45 },
+						{ label: 'C', value: 25 }
+					],
+					showLegend: false
+				}
+			},
+			style: {
+				padding: 2,
+				font: 'sans-serif',
+				fontSize: 5
 			},
 			measureText: (text: string, style: any) => {
 				return { width: 0, height: 0 };
@@ -506,20 +636,93 @@
 		};
 	}
 
-	// Package (UML) shape
+	// Package (UML) shape - toolbox uses 'package', maps to 'umlPackage'
 	if (shapeId === 'package') {
 		return {
-			node: { id: '', label: 'Pkg' },
+			node: { id: '', label: 'Pkg', shape: 'umlPackage' },
 			style: {
 				padding: 4,
-				fill: '#fff',
-				stroke: '#000',
+				fill: '#ffe4b5', // Orange/moccasin color
+				stroke: '#333',
 				strokeWidth: 1,
+				color: '#000', // Black text
 				font: 'sans-serif',
 				fontSize: 6
 			},
 			measureText: (text: string, style: any) => {
 				return { width: 15, height: 8 };
+			}
+		};
+	}
+
+	// Special handling for dividedRectangle - narrower for icon
+	if (shapeId === 'dividedRectangle') {
+		return {
+			node: { id: '', label: '', data: { minWidth: 32 } },
+			style: {
+				padding: 2,
+				fill: '#f0f0f0',
+				stroke: '#333',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 20, height: 8 };
+			}
+		};
+	}
+
+	// Special handling for linedRectangle - shorter for icon
+	if (shapeId === 'linedRectangle') {
+		return {
+			node: { id: '', label: '', data: { minHeight: 28 } },
+			style: {
+				padding: 2,
+				fill: '#f0f0f0',
+				stroke: '#333',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 18, height: 8 };
+			}
+		};
+	}
+
+	// Special handling for taggedRectangle - proper styling
+	if (shapeId === 'taggedRectangle') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 3,
+				fill: '#e0f2fe', // Light blue fill
+				stroke: '#0369a1', // Darker blue for outline and tag
+				strokeWidth: 1.5,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 20, height: 10 };
+			}
+		};
+	}
+
+	// Special handling for notchedRectangle - proper styling
+	if (shapeId === 'notchedRectangle') {
+		return {
+			node: { id: '', label: '' },
+			style: {
+				padding: 3,
+				fill: '#fef3c7', // Light yellow fill
+				stroke: '#d97706', // Amber for outline
+				strokeWidth: 1.5,
+				font: 'sans-serif',
+				fontSize: 6
+			},
+			measureText: (text: string, style: any) => {
+				return { width: 20, height: 10 };
 			}
 		};
 	}
@@ -662,7 +865,7 @@
 		) {
 			// Return a simple icon representation for electrical components
 			const iconMap: Record<string, string> = {
-				resistor: '─▭─',
+				resistor: '─∿─', // Zigzag to match actual shape
 				capacitor: '─||─',
 				inductor: '─∿─',
 				transformer: '∿∿',
@@ -715,7 +918,7 @@
 						y="25" 
 						text-anchor="middle" 
 						font-family="monospace" 
-						font-size="16" 
+						font-size="32" 
 						fill="#334155"
 					>${icon}</text>
 				</svg>
@@ -724,14 +927,18 @@
 
 		if (!shape) return '';
 
-		const mockContext = createMockContext(actualShapeId);
+		const mockContext = createMockContext(shapeId);
 		const bounds = shape.bounds(mockContext as any);
 		const shapeContent = shape.render(mockContext as any, { x: 0, y: 0 });
 
+		// Chart shapes need larger display size in toolbox
+		const isChartShape = ['pieChart', 'barChartVertical', 'barChartHorizontal', 'pyramid'].includes(shapeId);
+		const displaySize = isChartShape ? size * 3 : size;
+
 		return `
 			<svg 
-				width="${size}" 
-				height="${size}" 
+				width="${displaySize}" 
+				height="${displaySize}" 
 				viewBox="0 0 ${bounds.width} ${bounds.height}"
 				xmlns="http://www.w3.org/2000/svg"
 				style="display: block;"

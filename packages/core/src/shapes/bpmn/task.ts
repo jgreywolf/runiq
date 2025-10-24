@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import { getDataProperty } from '../../types.js';
 
 /**
  * BPMN Task shape - represents an atomic activity within a process.
@@ -52,7 +53,7 @@ export const bpmnTaskShape: ShapeDefinition = {
 
     // Optional task type marker (user, service, manual, etc.)
     let marker = '';
-    const taskType = ctx.node.data?.taskType as string;
+    const taskType = getDataProperty<string>(ctx.node.data, 'taskType');
     if (taskType) {
       const markerSize = 16;
       const markerX = x + 8;

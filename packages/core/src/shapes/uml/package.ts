@@ -10,7 +10,7 @@ export const packageShape: ShapeDefinition = {
 
   bounds(ctx) {
     const padding = ctx.style.padding || 12;
-    
+
     // Calculate minimum width needed for the tab label
     const labelSize = ctx.measureText(ctx.node.label || '', {
       ...ctx.style,
@@ -57,7 +57,7 @@ export const packageShape: ShapeDefinition = {
 
     const padding = ctx.style.padding || 12;
     const tabHeight = 22;
-    
+
     // Calculate tab width based on label size with generous padding
     const labelSize = ctx.measureText(ctx.node.label || '', {
       ...ctx.style,
@@ -83,7 +83,7 @@ export const packageShape: ShapeDefinition = {
       `L ${x + w} ${y + tabHeight}`, // Across to right edge
       `L ${x + w} ${y + h}`, // Down to bottom-right
       `L ${x} ${y + h}`, // Across to bottom-left
-      `Z` // Close path back to start
+      `Z`, // Close path back to start
     ].join(' ');
 
     svg += `<path d="${path}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;

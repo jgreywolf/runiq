@@ -196,7 +196,9 @@ describe('UML Class Diagram Shapes', () => {
       expect(svg).toContain('<path'); // Folder shape with tab
       expect(svg).toContain('controllers');
       // Verify the path draws a folder shape (should have 8 points for the tab + body)
-      expect(svg).toMatch(/M \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ Z/);
+      expect(svg).toMatch(
+        /M \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ L \d+ \d+ Z/
+      );
     });
 
     it('should handle nested package names', () => {

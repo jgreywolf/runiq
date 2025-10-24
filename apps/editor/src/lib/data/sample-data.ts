@@ -462,7 +462,7 @@ web -> api`
 				name: 'Multi-Region Deployment',
 				description: 'Multiple containers for regions',
 				code: `diagram "Multi-Region"
-direction: LR
+direction: TB
 
 container useast "US East" backgroundColor:"#e8f5e9" borderColor:"#388e3c" borderWidth:3 {
   shape lb1 as @rectangle label:"Load Balancer"

@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import { getDataProperty } from '../../types.js';
 
 /**
  * BPMN Gateway shape - represents a branching or merging point in a process.
@@ -40,12 +41,12 @@ export const bpmnGatewayShape: ShapeDefinition = {
     const path = `M ${x + w / 2},${y} L ${x + w},${y + h / 2} L ${x + w / 2},${y + h} L ${x},${y + h / 2} Z`;
     let svg = `<path d="${path}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"/>`;
 
-    // Gateway type marker
-    // Support both array format data:[{gatewayType:"..."}] and direct format data:{gatewayType:"..."}
-    const dataItem = Array.isArray(ctx.node.data)
-      ? ctx.node.data[0]
-      : ctx.node.data;
-    const gatewayType = (dataItem?.gatewayType as string) || 'exclusive';
+    // Gateway type marker (handles parser's { values: [...] } format)
+    const gatewayType = getDataProperty<string>(
+      ctx.node.data,
+      'gatewayType',
+      'exclusive'
+    );
     const centerX = x + w / 2;
     const centerY = y + h / 2;
     const markerSize = w * 0.5;

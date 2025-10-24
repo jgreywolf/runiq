@@ -157,6 +157,38 @@ export interface ShapeRenderContext {
   ) => { width: number; height: number };
 }
 
+/**
+ * Helper function to extract a property from node data.
+ * Handles the parser's format: { values: [{ property: value }] }
+ * Also supports direct format and array format.
+ */
+export function getDataProperty<T = any>(
+  data: Record<string, unknown> | undefined,
+  property: string,
+  defaultValue?: T
+): T | undefined {
+  if (!data) return defaultValue;
+
+  const d = data as any;
+
+  // Format from parser: { values: [{ property: value }] }
+  if (d.values && Array.isArray(d.values) && d.values[0]) {
+    return d.values[0][property] ?? defaultValue;
+  }
+
+  // Direct format: { property: value }
+  if (d[property] !== undefined) {
+    return d[property] ?? defaultValue;
+  }
+
+  // Array format: [{ property: value }]
+  if (Array.isArray(d) && d[0]) {
+    return d[0][property] ?? defaultValue;
+  }
+
+  return defaultValue;
+}
+
 export interface ShapeDefinition {
   id: string;
   bounds(ctx: ShapeRenderContext): { width: number; height: number };

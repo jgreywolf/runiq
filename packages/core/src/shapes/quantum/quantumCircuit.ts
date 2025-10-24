@@ -213,12 +213,11 @@ export const controlDotShape: ShapeDefinition = {
   render: (ctx: ShapeRenderContext, position: { x: number; y: number }) => {
     const { x, y } = position;
     const fill = ctx.style?.fill || '#000000'; // Black filled circle
-    const stroke = ctx.style?.stroke || '#000000';
 
     let svg = `<g>`;
 
-    // Filled circle (control qubit indicator)
-    svg += `<circle cx="${x + 4}" cy="${y + 4}" r="4" fill="${fill}" stroke="${stroke}" stroke-width="1" />`;
+    // Filled circle (control qubit indicator) - no stroke for clean circle
+    svg += `<circle cx="${x + 4}" cy="${y + 4}" r="4" fill="${fill}" stroke="none" />`;
 
     svg += `</g>`;
     return svg;

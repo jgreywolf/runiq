@@ -12,7 +12,11 @@ export const dividedRectangleShape: ShapeDefinition = {
     const textSize = ctx.measureText(ctx.node.label || '', ctx.style);
     const padding = ctx.style.padding || 12;
 
-    const width = Math.max(textSize.width + padding * 2, 80); // Wider for division
+    // Allow customization of minimum width via data
+    const data = ctx.node.data as any;
+    const minWidth = data?.minWidth !== undefined ? data.minWidth : 80;
+
+    const width = Math.max(textSize.width + padding * 2, minWidth);
     const height = textSize.height + padding * 2;
 
     return { width, height };
