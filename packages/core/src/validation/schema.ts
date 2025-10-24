@@ -7,7 +7,7 @@ import type {
   Style,
   IconRef,
   LinkRef,
-} from './types.js';
+} from '../types.js';
 
 const DirectionSchema = z.enum(['LR', 'RL', 'TB', 'BT']);
 

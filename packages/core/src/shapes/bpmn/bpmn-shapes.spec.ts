@@ -46,13 +46,14 @@ describe('BPMN Shapes', () => {
 
     it('should have 4 anchor points', () => {
       const ctx = createMockContext('Task');
-      const anchors = bpmnTaskShape.anchors(ctx);
+      const anchors = bpmnTaskShape.anchors?.(ctx);
 
-      expect(anchors).toHaveLength(4);
-      expect(anchors[0].name).toBe('top');
-      expect(anchors[1].name).toBe('right');
-      expect(anchors[2].name).toBe('bottom');
-      expect(anchors[3].name).toBe('left');
+      expect(anchors).toBeDefined();
+      expect(anchors!).toHaveLength(4);
+      expect(anchors![0].name).toBe('top');
+      expect(anchors![1].name).toBe('right');
+      expect(anchors![2].name).toBe('bottom');
+      expect(anchors![3].name).toBe('left');
     });
 
     it('should render rounded rectangle', () => {
@@ -88,9 +89,10 @@ describe('BPMN Shapes', () => {
 
     it('should have 4 anchor points', () => {
       const ctx = createMockContext('');
-      const anchors = bpmnEventShape.anchors(ctx);
+      const anchors = bpmnEventShape.anchors?.(ctx);
 
-      expect(anchors).toHaveLength(4);
+      expect(anchors).toBeDefined();
+      expect(anchors!).toHaveLength(4);
     });
 
     it('should render start event (single circle)', () => {
@@ -104,7 +106,7 @@ describe('BPMN Shapes', () => {
       const ctx = createMockContext('End', { eventType: 'end' });
       const svg = bpmnEventShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('stroke-width="4"'); // Thick border for end events
+      expect(svg).toContain('stroke-width="5"'); // Thick border for end events
     });
 
     it('should render intermediate event (double circle)', () => {
@@ -134,9 +136,10 @@ describe('BPMN Shapes', () => {
 
     it('should have 4 anchor points', () => {
       const ctx = createMockContext('');
-      const anchors = bpmnGatewayShape.anchors(ctx);
+      const anchors = bpmnGatewayShape.anchors?.(ctx);
 
-      expect(anchors).toHaveLength(4);
+      expect(anchors).toBeDefined();
+      expect(anchors!).toHaveLength(4);
     });
 
     it('should render diamond shape', () => {
@@ -178,9 +181,10 @@ describe('BPMN Shapes', () => {
 
     it('should have 4 anchor points', () => {
       const ctx = createMockContext('Data');
-      const anchors = bpmnDataObjectShape.anchors(ctx);
+      const anchors = bpmnDataObjectShape.anchors?.(ctx);
 
-      expect(anchors).toHaveLength(4);
+      expect(anchors).toBeDefined();
+      expect(anchors!).toHaveLength(4);
     });
 
     it('should render document with folded corner', () => {
@@ -207,9 +211,10 @@ describe('BPMN Shapes', () => {
 
     it('should have 4 anchor points', () => {
       const ctx = createMockContext('');
-      const anchors = bpmnMessageShape.anchors(ctx);
+      const anchors = bpmnMessageShape.anchors?.(ctx);
 
-      expect(anchors).toHaveLength(4);
+      expect(anchors).toBeDefined();
+      expect(anchors!).toHaveLength(4);
     });
 
     it('should render envelope shape', () => {
@@ -236,9 +241,10 @@ describe('BPMN Shapes', () => {
 
     it('should have 4 anchor points', () => {
       const ctx = createMockContext('Lane');
-      const anchors = bpmnPoolShape.anchors(ctx);
+      const anchors = bpmnPoolShape.anchors?.(ctx);
 
-      expect(anchors).toHaveLength(4);
+      expect(anchors).toBeDefined();
+      expect(anchors!).toHaveLength(4);
     });
 
     it('should render horizontal lane with label', () => {

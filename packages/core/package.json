@@ -9,11 +9,88 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./shapes/basic": {
+      "types": "./dist/shapes/basic/index.d.ts",
+      "import": "./dist/shapes/basic/index.js"
+    },
+    "./shapes/flowchart": {
+      "types": "./dist/shapes/flowchart/index.d.ts",
+      "import": "./dist/shapes/flowchart/index.js"
+    },
+    "./shapes/storage": {
+      "types": "./dist/shapes/storage/index.d.ts",
+      "import": "./dist/shapes/storage/index.js"
+    },
+    "./shapes/rect-variants": {
+      "types": "./dist/shapes/rect-variants/index.d.ts",
+      "import": "./dist/shapes/rect-variants/index.js"
+    },
+    "./shapes/control-systems": {
+      "types": "./dist/shapes/control-systems/index.d.ts",
+      "import": "./dist/shapes/control-systems/index.js"
+    },
+    "./shapes/special": {
+      "types": "./dist/shapes/special/index.d.ts",
+      "import": "./dist/shapes/special/index.js"
+    },
+    "./shapes/charts": {
+      "types": "./dist/shapes/charts/index.d.ts",
+      "import": "./dist/shapes/charts/index.js"
+    },
+    "./shapes/network": {
+      "types": "./dist/shapes/network/index.d.ts",
+      "import": "./dist/shapes/network/index.js"
+    },
+    "./shapes/quantum": {
+      "types": "./dist/shapes/quantum/index.d.ts",
+      "import": "./dist/shapes/quantum/index.js"
+    },
+    "./shapes/uml": {
+      "types": "./dist/shapes/uml/index.d.ts",
+      "import": "./dist/shapes/uml/index.js"
+    },
+    "./shapes/pedigree": {
+      "types": "./dist/shapes/pedigree/index.d.ts",
+      "import": "./dist/shapes/pedigree/index.js"
+    },
+    "./shapes/c4": {
+      "types": "./dist/shapes/c4/index.d.ts",
+      "import": "./dist/shapes/c4/index.js"
+    },
+    "./shapes/bpmn": {
+      "types": "./dist/shapes/bpmn/index.d.ts",
+      "import": "./dist/shapes/bpmn/index.js"
+    },
+    "./shapes/aws": {
+      "types": "./dist/shapes/aws/index.d.ts",
+      "import": "./dist/shapes/aws/index.js"
+    },
+    "./shapes/erd": {
+      "types": "./dist/shapes/erd/index.d.ts",
+      "import": "./dist/shapes/erd/index.js"
+    },
+    "./validation": {
+      "types": "./dist/validation/schema.d.ts",
+      "import": "./dist/validation/schema.js"
+    },
+    "./text-measurement/browser": {
+      "types": "./dist/text-measurement/browser.d.ts",
+      "import": "./dist/text-measurement/browser.js"
+    },
+    "./text-measurement/node": {
+      "types": "./dist/text-measurement/node.d.ts",
+      "import": "./dist/text-measurement/node.js"
     }
   },
   "files": [
     "dist",
     "src"
+  ],
+  "sideEffects": [
+    "./src/shapes/index.ts",
+    "./dist/shapes/index.js",
+    "./dist/shapes/*/index.js"
   ],
   "scripts": {
     "build": "tsup",
@@ -24,14 +101,20 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
+  "peerDependencies": {
     "zod": "^3.22.4"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
-    "vitest": "^1.2.2"
+    "vitest": "^1.2.2",
+    "zod": "^3.22.4"
   },
   "keywords": [
     "diagram",

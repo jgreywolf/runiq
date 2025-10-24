@@ -17,8 +17,8 @@ import * as bpmn from './bpmn/index.js';
 import * as aws from './aws/index.js';
 import * as erd from './erd/index.js';
 
-export function registerDefaultShapes(): void {
-  // Basic shapes
+// Selective registration functions for tree-shaking
+export function registerBasicShapes(): void {
   shapeRegistry.register(basic.rectangleShape);
   shapeRegistry.register(basic.roundedRectangleShape);
   shapeRegistry.register(basic.circleShape);
@@ -36,8 +36,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(basic.parallelogramShape);
   shapeRegistry.register(basic.trapezoidShape);
   shapeRegistry.register(basic.flippedTrapezoidShape);
+}
 
-  // Flowchart shapes
+export function registerFlowchartShapes(): void {
   shapeRegistry.register(flowchart.docShape);
   shapeRegistry.register(flowchart.linedDocumentShape);
   shapeRegistry.register(flowchart.multiDocumentShape);
@@ -52,8 +53,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(flowchart.cardShape);
   shapeRegistry.register(flowchart.paperTapeShape);
   shapeRegistry.register(flowchart.leanLeftShape);
+}
 
-  // Storage shapes
+export function registerStorageShapes(): void {
   shapeRegistry.register(storage.cylinderShape);
   shapeRegistry.register(storage.hCylinderShape);
   shapeRegistry.register(storage.diskStorageShape);
@@ -61,8 +63,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(storage.internalStorageShape);
   shapeRegistry.register(storage.sequentialStorageShape);
   shapeRegistry.register(storage.directStorageShape);
+}
 
-  // Rectangle variants
+export function registerRectVariantShapes(): void {
   shapeRegistry.register(rectVariants.framedRectangleShape);
   shapeRegistry.register(rectVariants.multiRectangleShape);
   shapeRegistry.register(rectVariants.linedRectangleShape);
@@ -70,8 +73,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(rectVariants.taggedRectangleShape);
   shapeRegistry.register(rectVariants.notchedRectangleShape);
   shapeRegistry.register(rectVariants.notchedPentagonShape);
+}
 
-  // Control system shapes
+export function registerControlSystemShapes(): void {
   shapeRegistry.register(controlSystems.transferFunctionShape);
   shapeRegistry.register(controlSystems.gainShape);
   shapeRegistry.register(controlSystems.integratorShape);
@@ -82,8 +86,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(controlSystems.multiplyJunctionShape);
   shapeRegistry.register(controlSystems.divideJunctionShape);
   shapeRegistry.register(controlSystems.compareJunctionShape);
+}
 
-  // Special shapes
+export function registerSpecialShapes(): void {
   shapeRegistry.register(special.textBlockShape);
   shapeRegistry.register(special.braceLeftShape);
   shapeRegistry.register(special.braceRightShape);
@@ -91,8 +96,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(special.hourglassShape);
   shapeRegistry.register(special.forkJoinShape);
   shapeRegistry.register(special.orShape);
+}
 
-  // Chart shapes
+export function registerChartShapes(): void {
   shapeRegistry.register(charts.pieChart);
   shapeRegistry.register(charts.barChartVertical);
   shapeRegistry.register(charts.barChartHorizontal);
@@ -100,8 +106,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(charts.venn2Shape);
   shapeRegistry.register(charts.venn3Shape);
   shapeRegistry.register(charts.venn4Shape);
+}
 
-  // Network topology shapes
+export function registerNetworkShapes(): void {
   shapeRegistry.register(network.serverShape);
   shapeRegistry.register(network.routerShape);
   shapeRegistry.register(network.switchShape);
@@ -109,8 +116,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(network.loadBalancerShape);
   shapeRegistry.register(network.cloudShape);
   shapeRegistry.register(network.storageShape);
+}
 
-  // Quantum circuit shapes
+export function registerQuantumShapes(): void {
   shapeRegistry.register(quantum.gateXShape);
   shapeRegistry.register(quantum.gateYShape);
   shapeRegistry.register(quantum.gateZShape);
@@ -123,8 +131,9 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(quantum.measurementShape);
   shapeRegistry.register(quantum.qubitWireShape);
   shapeRegistry.register(quantum.barrierShape);
+}
 
-  // UML shapes
+export function registerUMLShapes(): void {
   shapeRegistry.register(uml.classShape);
   shapeRegistry.register(uml.actorShape);
   shapeRegistry.register(uml.systemBoundaryShape);
@@ -147,41 +156,69 @@ export function registerDefaultShapes(): void {
   shapeRegistry.register(uml.componentShape);
   shapeRegistry.register(uml.artifactShape);
   shapeRegistry.register(uml.nodeShape);
+}
 
-  // Pedigree chart shapes
+export function registerPedigreeShapes(): void {
   shapeRegistry.register(pedigree.pedigreeMaleShape);
   shapeRegistry.register(pedigree.pedigreeFemaleShape);
   shapeRegistry.register(pedigree.pedigreeUnknownShape);
+}
 
-  // C4 model shapes
+export function registerC4Shapes(): void {
   shapeRegistry.register(c4.c4Person);
   shapeRegistry.register(c4.c4System);
   shapeRegistry.register(c4.c4Container);
   shapeRegistry.register(c4.c4Component);
+}
 
-  // BPMN shapes
+export function registerBPMNShapes(): void {
   shapeRegistry.register(bpmn.bpmnTaskShape);
   shapeRegistry.register(bpmn.bpmnEventShape);
   shapeRegistry.register(bpmn.bpmnGatewayShape);
   shapeRegistry.register(bpmn.bpmnDataObjectShape);
   shapeRegistry.register(bpmn.bpmnMessageShape);
   shapeRegistry.register(bpmn.bpmnPoolShape);
+}
 
-  // AWS Cloud shapes
+export function registerAWSShapes(): void {
   shapeRegistry.register(aws.awsEc2Shape);
   shapeRegistry.register(aws.awsS3Shape);
   shapeRegistry.register(aws.awsLambdaShape);
   shapeRegistry.register(aws.awsRdsShape);
   shapeRegistry.register(aws.awsVpcShape);
   shapeRegistry.register(aws.awsApiGatewayShape);
+}
 
-  // ERD (Entity Relationship Diagram) shapes
+export function registerERDShapes(): void {
   shapeRegistry.register(erd.erdEntityShape);
   shapeRegistry.register(erd.erdWeakEntityShape);
   shapeRegistry.register(erd.erdRelationshipShape);
   shapeRegistry.register(erd.erdAttributeShape);
   shapeRegistry.register(erd.erdKeyAttributeShape);
   shapeRegistry.register(erd.erdMultivaluedAttributeShape);
+}
+
+/**
+ * Register all default shapes at once.
+ * This is the legacy API and includes all shapes (larger bundle).
+ * For smaller bundles, use selective registration functions above.
+ */
+export function registerDefaultShapes(): void {
+  registerBasicShapes();
+  registerFlowchartShapes();
+  registerStorageShapes();
+  registerRectVariantShapes();
+  registerControlSystemShapes();
+  registerSpecialShapes();
+  registerChartShapes();
+  registerNetworkShapes();
+  registerQuantumShapes();
+  registerUMLShapes();
+  registerPedigreeShapes();
+  registerC4Shapes();
+  registerBPMNShapes();
+  registerAWSShapes();
+  registerERDShapes();
 }
 
 // Re-export all shapes from category folders
