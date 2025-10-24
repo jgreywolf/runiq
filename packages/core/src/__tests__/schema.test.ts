@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { DiagramAstSchema, validateDiagram } from '../schema.js';
+import { DiagramAstSchema, validateDiagram } from '../validation/schema.js';
 import type { DiagramAst } from '../types.js';
 
 describe('Schema', () => {

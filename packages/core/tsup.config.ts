@@ -18,6 +18,7 @@ export default defineConfig({
     'src/shapes/bpmn/index.ts',
     'src/shapes/aws/index.ts',
     'src/shapes/erd/index.ts',
+    'src/validation/schema.ts',
   ],
   format: ['esm'],
   dts: true,

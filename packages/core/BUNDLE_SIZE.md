@@ -10,6 +10,7 @@ The `@runiq/core` package supports **selective shape registration** to reduce bu
 - **Full package (unminified)**: 305 KB
 - **Core only (no shapes)**: ~35 KB
 - **With selective registration**: 50-150 KB (depending on shapes used)
+- **Validation (optional)**: ~25 KB (Zod dependency)
 
 ## Usage
 
@@ -168,6 +169,28 @@ registerFlowchartShapes();
 
 No breaking changes - `registerDefaultShapes()` still works!
 
+## Optional Validation
+
+AST validation with Zod is now optional. Import only if needed:
+
+```typescript
+// Without validation (saves ~25 KB)
+import { shapeRegistry } from '@runiq/core';
+
+// With validation
+import { validateDiagram } from '@runiq/core/validation';
+
+const result = validateDiagram(data);
+if (result.success) {
+  // Use validated data
+}
+```
+
+**Note**: If you use validation, install Zod as a dependency:
+```bash
+pnpm add zod
+```
+
 ## Measuring Your Bundle
 
 ```bash
@@ -178,12 +201,14 @@ npx vite-bundle-visualizer
 npx webpack-bundle-analyzer stats.json
 ```
 
-## Future Optimizations
+## Optimizations Completed
 
-Planned for future releases:
+✅ **Phase 1**: Selective shape registration (45% reduction)  
+✅ **Phase 2**: Subpath exports for tree-shaking  
+✅ **Phase 3**: Optional Zod validation (~25 KB savings)
 
-- Subpath exports (`@runiq/core/shapes/basic`)
-- Separate validation package (remove Zod from core)
-- Platform-specific text measurement (smaller Node.js bundle)
+### Future Optimizations
+
+⏳ **Phase 4**: Platform-specific text measurement (smaller Node.js bundle)
 
 See [BUNDLE_OPTIMIZATION_ANALYSIS.md](../../BUNDLE_OPTIMIZATION_ANALYSIS.md) for details.

@@ -1,5 +1,5 @@
 export * from './types.js';
-export * from './schema.js';
+export * from './validation/schema.js';
 export * from './registries.js';
 export * from './text-measurement.js';
 export * from './shapes/index.js';
