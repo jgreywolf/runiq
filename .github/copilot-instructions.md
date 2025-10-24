@@ -2,6 +2,23 @@
 
 ## Runiq Project Development Guidelines
 
+Please also review the following files for additional context on Runiq development practices:
+.github\svelte-instructions.md
+.github\general-typescript-instructions.md
+.github\remember-prompt.md
+.github\suggest-github-copilot-instructions.md
+
+### ABSOLUTE MANDATORY RULES:
+
+    1. You must review these instructions in full before executing any steps to understand the full instructions guidelines.
+    2. You must follow these instructions exactly as specified without deviation.
+    3. Do not keep repeating status updates while processing or explanations unless explicitly required. This is bad and will flood Copilot session context.
+    4. NO phase announcements (no "# Phase X" headers in output)
+    5. Phases must be executed one at a time and in the exact order specified.
+    6. NO combining of phases in one response
+    7. NO skipping of phases
+    8. NO verbose explanations or commentary
+
 ### Test-Driven Development (TDD)
 
 **ALWAYS use Test-Driven Development wherever possible:**
@@ -15,7 +32,7 @@
 ### Testing Standards
 
 - All new features must have corresponding tests
-- Test files: `packages/*/src/__tests__/*.test.ts`
+- Test files: inline with the code \*.spec.ts
 - Use Vitest for all testing
 - Minimum test coverage targets:
   - Core logic: 90%+
@@ -27,7 +44,7 @@
 
 When adding new shapes to `packages/core/src/shapes/`:
 
-1. **Write tests first** in `__tests__/new-shapes.test.ts` or dedicated file
+1. **Write tests first** in dedicated file
 2. Test structure for each shape:
    - ID correctness
    - Bounds calculation

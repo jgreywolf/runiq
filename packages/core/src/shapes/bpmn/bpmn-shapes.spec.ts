@@ -104,7 +104,7 @@ describe('BPMN Shapes', () => {
       const ctx = createMockContext('End', { eventType: 'end' });
       const svg = bpmnEventShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('stroke-width="4"'); // Thick border for end events
+      expect(svg).toContain('stroke-width="5"'); // Thick border for end events
     });
 
     it('should render intermediate event (double circle)', () => {
