@@ -816,6 +816,37 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
       }
 
+      // Ensure this container's size encloses both its own laid-out nodes and any nested containers
+      if (containerGraph.children && containerGraph.children.length > 0) {
+        // Compute the right/bottom edges based on nodes we just added for this container
+        const childNodes = nodes.filter((n) => container.children.includes(n.id));
+
+        // Minimum content area starts at inner padding
+        let contentRight = containerPos.x + padding;
+        let contentBottom = containerPos.y + padding;
+
+        if (childNodes.length > 0) {
+          for (const n of childNodes) {
+            contentRight = Math.max(contentRight, n.x + n.width);
+            contentBottom = Math.max(contentBottom, n.y + n.height);
+          }
+        }
+
+        if (nestedContainers.length > 0) {
+          for (const nc of nestedContainers) {
+            contentRight = Math.max(contentRight, nc.x + nc.width);
+            contentBottom = Math.max(contentBottom, nc.y + nc.height);
+          }
+        }
+
+        // Add padding on the far edge to mirror left/top padding
+        const requiredWidth = Math.max(200, contentRight - containerPos.x + padding);
+        const requiredHeight = Math.max(150, contentBottom - containerPos.y + padding);
+
+        containerWidth = Math.max(containerWidth, requiredWidth);
+        containerHeight = Math.max(containerHeight, requiredHeight);
+      }
+
       result.push({
         id: container.id || '',
         x: containerPos.x,

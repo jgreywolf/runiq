@@ -1,6 +1,8 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
 import {
+  BarData,
   getBarColor,
+  GroupedBarData,
   isGroupedFormat,
   isStackedFormat,
   LegendPosition,
