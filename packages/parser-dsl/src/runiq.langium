@@ -423,7 +423,7 @@ ContainerTypeProperty:
     'type:' type=ContainerTypeValue;
 
 ContainerTypeValue returns string:
-    'mindmap' | 'default';
+    'mindmap' | ID;
 
 ContainerStyleProperty:
     'borderStyle:' borderStyle=BorderStyleValue

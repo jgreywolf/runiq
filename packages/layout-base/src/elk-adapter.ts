@@ -396,9 +396,7 @@ export class ElkLayoutEngine implements LayoutEngine {
               to: edge.to,
               points: newPoints,
             };
-            console.log(
-              `Fixed cross-container edge: ${edge.from} -> ${edge.to} (orthogonal routing, ${newPoints.length} points)`
-            );
+            // routing fixed
           } else {
             // Edge wasn't extracted (Issue #10), add it manually
             edges.push({
@@ -637,14 +635,9 @@ export class ElkLayoutEngine implements LayoutEngine {
     edges: RoutedEdge[],
     result: PositionedContainer[]
   ): Promise<void> {
-    console.log(
-      `layoutContainersWithNodes called with ${containers.length} containers`
-    );
+    // layout containers and contents
     for (const container of containers) {
-      console.log(
-        `Processing container: ${container.id}, children:`,
-        container.children
-      );
+      // process one container
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
@@ -686,19 +679,11 @@ export class ElkLayoutEngine implements LayoutEngine {
       };
 
       // Add child nodes
-      console.log(
-        `Container ${container.id}: Looking for ${container.children.length} children in diagram.nodes (total: ${diagram.nodes.length})`
-      );
-      console.log('Container children IDs:', container.children);
-      console.log(
-        'Diagram node IDs:',
-        diagram.nodes.map((n) => n.id)
-      );
+      // resolve child nodes in diagram
 
       for (const childId of container.children) {
         const node = diagram.nodes.find((n) => n.id === childId);
         if (node) {
-          console.log(`Found node ${childId} with shape ${node.shape}`);
           const shapeImpl = shapeRegistry.get(node.shape);
           if (!shapeImpl) {
             console.warn(`Shape not found: ${node.shape}`);
@@ -752,18 +737,12 @@ export class ElkLayoutEngine implements LayoutEngine {
 
           // Extract internal container edges (CRITICAL: edges between nodes inside container)
           // These need to be extracted from the container layout, not the top-level layout
-          console.log(
-            `Container ${container.id}: laidOutContainer.edges =`,
-            laidOutContainer.edges
-          );
+          // edges laid out within container
 
           const tempEdges: RoutedEdge[] = [];
           this.extractEdges(laidOutContainer.edges || [], nodes, tempEdges);
 
-          console.log(
-            `Before position adjustment, tempEdges for ${container.id}:`,
-            tempEdges
-          );
+          // adjust edge points relative to container
 
           // Adjust edge positions to be relative to container
           for (const edge of tempEdges) {
@@ -814,6 +793,45 @@ export class ElkLayoutEngine implements LayoutEngine {
           nested.x += containerPos.x + padding;
           nested.y += containerPos.y + padding;
         }
+      }
+
+      // Ensure this container's size encloses both its own laid-out nodes and any nested containers
+      if (containerGraph.children && containerGraph.children.length > 0) {
+        // Compute the right/bottom edges based on nodes we just added for this container
+        const childNodes = nodes.filter((n) =>
+          container.children.includes(n.id)
+        );
+
+        // Minimum content area starts at inner padding
+        let contentRight = containerPos.x + padding;
+        let contentBottom = containerPos.y + padding;
+
+        if (childNodes.length > 0) {
+          for (const n of childNodes) {
+            contentRight = Math.max(contentRight, n.x + n.width);
+            contentBottom = Math.max(contentBottom, n.y + n.height);
+          }
+        }
+
+        if (nestedContainers.length > 0) {
+          for (const nc of nestedContainers) {
+            contentRight = Math.max(contentRight, nc.x + nc.width);
+            contentBottom = Math.max(contentBottom, nc.y + nc.height);
+          }
+        }
+
+        // Add padding on the far edge to mirror left/top padding
+        const requiredWidth = Math.max(
+          200,
+          contentRight - containerPos.x + padding
+        );
+        const requiredHeight = Math.max(
+          150,
+          contentBottom - containerPos.y + padding
+        );
+
+        containerWidth = Math.max(containerWidth, requiredWidth);
+        containerHeight = Math.max(containerHeight, requiredHeight);
       }
 
       result.push({
