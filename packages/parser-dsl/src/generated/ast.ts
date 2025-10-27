@@ -60,7 +60,6 @@ export type RuniqKeywordNames =
     | "data:"
     | "dc"
     | "deceased:"
-    | "default"
     | "default:"
     | "dependency"
     | "derived:"
@@ -493,10 +492,10 @@ export function isContainerTypeProperty(item: unknown): item is ContainerTypePro
     return reflection.isInstance(item, ContainerTypeProperty.$type);
 }
 
-export type ContainerTypeValue = 'default' | 'mindmap';
+export type ContainerTypeValue = 'mindmap' | string;
 
 export function isContainerTypeValue(item: unknown): item is ContainerTypeValue {
-    return item === 'mindmap' || item === 'default';
+    return item === 'mindmap' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface DataArray extends langium.AstNode {

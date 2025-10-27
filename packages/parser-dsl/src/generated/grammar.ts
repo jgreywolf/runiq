@@ -4656,8 +4656,11 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "value": "mindmap"
           },
           {
-            "$type": "Keyword",
-            "value": "default"
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@121"
+            },
+            "arguments": []
           }
         ]
       },
