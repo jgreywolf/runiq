@@ -22,7 +22,7 @@ export function renderNode(
     return renderFallbackNode(positioned, nodeAst);
   }
 
-  const style: any = nodeAst.style ? (diagram.styles?.[nodeAst.style] || {}) : {};
+  const style: any = nodeAst.style ? diagram.styles?.[nodeAst.style] || {} : {};
 
   // Merge inline pedigree properties from node.data into style
   if (nodeAst.data) {

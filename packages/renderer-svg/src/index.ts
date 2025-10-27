@@ -3,6 +3,7 @@ import { escapeXml } from './renderers/utils.js';
 import { renderContainer } from './renderers/container.js';
 import { renderEdge } from './renderers/edge.js';
 import { renderNode } from './renderers/node.js';
+import { renderDefs } from './renderers/defs.js';
 
 export interface RenderOptions {
   strict?: boolean; // strict SVG mode (no enhanced features)
@@ -38,17 +39,7 @@ export function renderSvg(
   }
 
   // Add default styles and patterns
-  svg += '<defs><style type="text/css"><![CDATA[';
-  svg += '.runiq-node-text { font-family: sans-serif; font-size: 14px; }';
-  svg += '.runiq-edge-text { font-family: sans-serif; font-size: 12px; }';
-  svg +=
-    '.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }';
-  svg += ']]></style>';
-  svg += '<pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse">';
-  svg += '<rect x="0" y="0" width="20" height="40" fill="#000"/>';
-  svg += '<rect x="20" y="0" width="20" height="40" fill="#fff"/>';
-  svg += '</pattern>';
-  svg += '</defs>';
+  svg += renderDefs();
 
   // Render containers first (as backgrounds)
   if (layout.containers) {

@@ -19,13 +19,17 @@ export function renderContainer(
 
   // Check if container references a shape type (as @shapeName)
   if ((containerAst as any)?.shape) {
-    const shapeDefinition = shapeRegistry.get((containerAst as any).shape as string);
+    const shapeDefinition = shapeRegistry.get(
+      (containerAst as any).shape as string
+    );
     if (shapeDefinition) {
       // Use the shape's render function for the container background
       const measureText = createTextMeasurer();
       const shapeStyle = {
         // Only set fill if explicitly provided, otherwise let shape use its default
-        ...((style as any).backgroundColor && { fill: (style as any).backgroundColor }),
+        ...((style as any).backgroundColor && {
+          fill: (style as any).backgroundColor,
+        }),
         stroke: (style as any).borderColor || '#ddd',
         strokeWidth: (style as any).borderWidth || 2,
         padding: (style as any).padding || 20,

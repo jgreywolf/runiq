@@ -11,13 +11,17 @@ export function renderEdge(
     (e) => e.from === routed.from && e.to === routed.to
   );
   if (!edgeAst) {
-    warnings.push(`Edge ${routed.from} -> ${routed.to} not found in diagram AST`);
+    warnings.push(
+      `Edge ${routed.from} -> ${routed.to} not found in diagram AST`
+    );
     return '';
   }
 
   const points = routed.points;
   if (points.length < 2) {
-    warnings.push(`Edge ${routed.from} -> ${routed.to} has insufficient points`);
+    warnings.push(
+      `Edge ${routed.from} -> ${routed.to} has insufficient points`
+    );
     return '';
   }
 
@@ -46,7 +50,9 @@ export function renderEdge(
     pathData += ` L ${points[i].x} ${points[i].y}`;
   }
 
-  const groupAttrs = strict ? '' : ` data-runiq-edge="${routed.from}-${routed.to}"`;
+  const groupAttrs = strict
+    ? ''
+    : ` data-runiq-edge="${routed.from}-${routed.to}"`;
   let edgeMarkup = `<g${groupAttrs}>`;
 
   // Determine arrow type
@@ -58,7 +64,11 @@ export function renderEdge(
   // For UML relationships, use edgeType to determine marker
   let useMarkerStart = false; // Diamonds go on the source (start) end
 
-  if (edgeType === 'aggregation' || edgeType === 'composition' || arrowType !== 'none') {
+  if (
+    edgeType === 'aggregation' ||
+    edgeType === 'composition' ||
+    arrowType !== 'none'
+  ) {
     edgeMarkup += `<defs>`;
 
     if (edgeType === 'aggregation') {
@@ -101,7 +111,9 @@ export function renderEdge(
   // Edge line with optional marker
   const markerAttr = useMarkerStart
     ? ` marker-start="url(#${arrowId})"`
-    : edgeType !== 'aggregation' && edgeType !== 'composition' && arrowType !== 'none'
+    : edgeType !== 'aggregation' &&
+        edgeType !== 'composition' &&
+        arrowType !== 'none'
       ? ` marker-end="url(#${arrowId})"`
       : '';
 
@@ -119,20 +131,32 @@ export function renderEdge(
       // Offset vertically for horizontal lines
       const offsetPath1 =
         `M ${start.x} ${start.y - offset}` +
-        points.slice(1).map((p) => ` L ${p.x} ${p.y - offset}`).join('');
+        points
+          .slice(1)
+          .map((p) => ` L ${p.x} ${p.y - offset}`)
+          .join('');
       const offsetPath2 =
         `M ${start.x} ${start.y + offset}` +
-        points.slice(1).map((p) => ` L ${p.x} ${p.y + offset}`).join('');
+        points
+          .slice(1)
+          .map((p) => ` L ${p.x} ${p.y + offset}`)
+          .join('');
       edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
       edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
     } else {
       // Offset horizontally for vertical lines
       const offsetPath1 =
         `M ${start.x - offset} ${start.y}` +
-        points.slice(1).map((p) => ` L ${p.x - offset} ${p.y}`).join('');
+        points
+          .slice(1)
+          .map((p) => ` L ${p.x - offset} ${p.y}`)
+          .join('');
       const offsetPath2 =
         `M ${start.x + offset} ${start.y}` +
-        points.slice(1).map((p) => ` L ${p.x + offset} ${p.y}`).join('');
+        points
+          .slice(1)
+          .map((p) => ` L ${p.x + offset} ${p.y}`)
+          .join('');
       edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
       edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
     }
@@ -153,7 +177,9 @@ export function renderEdge(
 
   // Edge label (rendered below stereotype if both exist)
   if ((edgeAst as any).label) {
-    const labelY = (edgeAst as any).stereotype ? midPoint.y - 5 : midPoint.y - 5;
+    const labelY = (edgeAst as any).stereotype
+      ? midPoint.y - 5
+      : midPoint.y - 5;
     edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" class="runiq-edge-text">${escapeXml((edgeAst as any).label)}</text>`;
   }
 
@@ -172,7 +198,9 @@ export function renderEdge(
     }
 
     if ((edgeAst as any).roleSource) {
-      const roleY = (edgeAst as any).multiplicitySource ? sourcePoint.y + 5 : sourcePoint.y - 8;
+      const roleY = (edgeAst as any).multiplicitySource
+        ? sourcePoint.y + 5
+        : sourcePoint.y - 8;
       edgeMarkup += `<text x="${sourcePoint.x}" y="${roleY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">${escapeXml((edgeAst as any).roleSource)}</text>`;
     }
   }
@@ -191,7 +219,9 @@ export function renderEdge(
     }
 
     if ((edgeAst as any).roleTarget) {
-      const roleY = (edgeAst as any).multiplicityTarget ? targetPoint.y + 5 : targetPoint.y - 8;
+      const roleY = (edgeAst as any).multiplicityTarget
+        ? targetPoint.y + 5
+        : targetPoint.y - 8;
       edgeMarkup += `<text x="${targetPoint.x}" y="${roleY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">${escapeXml((edgeAst as any).roleTarget)}</text>`;
     }
   }
