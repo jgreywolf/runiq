@@ -3,14 +3,14 @@ grammar Runiq
 // ============================================================================
 // Entry point - Profile-based Runiq document
 // ============================================================================
-// A document can contain multiple profiles (diagram, electrical, digital)
+// A document can contain multiple profiles (diagram, schematic, digital)
 // Each profile has its own grammar and semantics
 entry Document:
     profiles+=Profile*;
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile;
+    DiagramProfile | SchematicProfile | DigitalProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -28,14 +28,14 @@ DiagramStatement:
     | ContainerBlock;
 
 // ============================================================================
-// Electrical Profile (analog circuits)
+// Schematic Profile (analog circuits)
 // ============================================================================
-ElectricalProfile:
-    ('schematic' | 'electrical') name=STRING '{'
+SchematicProfile:
+    'schematic' name=STRING '{'
         statements+=ElectricalStatement*
     '}';
 
-// Statements within electrical profile
+// Statements within schematic profile
 ElectricalStatement:
     NetStatement | PartStatement | AnalysisStatement;
 

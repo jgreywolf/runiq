@@ -109,8 +109,8 @@ const result = renderSchematic(circuit, {
 **Code:**
 
 ```typescript
-const hBridge: ElectricalProfile = {
-  type: 'electrical',
+const hBridge: SchematicProfile = {
+  type: 'schematic',
   name: 'H-Bridge Motor Driver',
   nets: [
     { name: 'VCC' },

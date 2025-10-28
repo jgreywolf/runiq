@@ -14,14 +14,14 @@
 
 	let { onInsertShape, onInsertSample, currentCode = '' }: Props = $props();
 
-	// Detect if current code is for electrical circuit or regular diagram
-	let isElectricalMode = $derived(currentCode.trim().startsWith('electrical'));
+	// Detect if current code is for schematic or regular diagram
+	let isSchematicMode = $derived(currentCode.trim().startsWith('schematic'));
 
-	// Filter categories based on electrical mode
+	// Filter categories based on schematic mode
 	let displayedCategories = $derived(
-		isElectricalMode
-			? shapeCategories.filter((cat) => cat.electricalOnly)
-			: shapeCategories.filter((cat) => !cat.electricalOnly)
+		isSchematicMode
+			? shapeCategories.filter((cat) => cat.schematicOnly)
+			: shapeCategories.filter((cat) => !cat.schematicOnly)
 	);
 
 	// Handler for inserting samples - use provided handler or fallback to shape handler
@@ -36,9 +36,9 @@
 
 <Tooltip.Provider delayDuration={200}>
 	<div class="flex h-full flex-col">
-		{#if isElectricalMode}
+		{#if isSchematicMode}
 			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
-				<p class="text-xs font-medium text-amber-900">⚡ Electrical Circuit Mode</p>
+				<p class="text-xs font-medium text-amber-900">⚡ Schematic Circuit Mode</p>
 			</div>
 		{/if}
 

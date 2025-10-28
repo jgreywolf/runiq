@@ -84,18 +84,18 @@
 	}
 
 	// Handle new diagram creation with type selection
-	function handleNewDiagram(type: 'diagram' | 'electrical') {
+	function handleNewDiagram(type: 'diagram' | 'schematic') {
 		let defaultContent: string;
 		let defaultName: string;
 
-		if (type === 'electrical') {
-			defaultContent = `electrical "My Circuit" {
+		if (type === 'schematic') {
+			defaultContent = `schematic "My Circuit" {
   net VCC, GND
   
-  // Add your electrical components here
+  // Add your schematic components here
   // Example: part R1 type:R value:"1k" pins:(VCC,GND)
 }`;
-			defaultName = 'Untitled Circuit';
+			defaultName = 'Untitled schematic';
 		} else {
 			defaultContent = 'diagram "My Diagram"\n\n// Add your shapes and connections here';
 			defaultName = 'Untitled Diagram';

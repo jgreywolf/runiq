@@ -16,7 +16,7 @@ Draw IEEE-style schematics and export SPICE netlists for simulation. Runiq suppo
 Example:
 
 ```runiq
-electrical "RC Lowpass Filter" {
+schematic "RC Lowpass Filter" {
 	net IN, OUT, GND
 	part V1 type:V source:"SIN(0 1 1k)" pins:(IN,GND)
 	part R1 type:R value:"10k" pins:(IN,OUT)

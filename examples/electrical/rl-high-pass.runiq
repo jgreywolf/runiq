@@ -1,4 +1,4 @@
-electrical "RL High-Pass Filter" {
+schematic "RL High-Pass Filter" {
   net VIN, VOUT, GND
   
   # AC input: 1V sine wave at 1kHz

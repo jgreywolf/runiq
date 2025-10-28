@@ -64,18 +64,18 @@ for (const file of files) {
     }
 
     // Find electrical profile
-    const electricalProfile = parseResult.document.profiles.find(
+    const SchematicProfile = parseResult.document.profiles.find(
       (p) => p.type === 'electrical'
     );
 
-    if (!electricalProfile) {
+    if (!SchematicProfile) {
       console.error(`   ⚠️  No electrical profile found`);
       errorCount++;
       continue;
     }
 
     // Render schematic
-    const schematic = renderSchematic(electricalProfile, {
+    const schematic = renderSchematic(SchematicProfile, {
       showNetLabels: true,
       showValues: true,
       showReferences: true,
@@ -90,7 +90,7 @@ for (const file of files) {
     fs.writeFileSync(outputPath, schematic.svg, 'utf-8');
 
     console.log(`   ✅ Rendered to: ${path.basename(outputPath)}`);
-    console.log(`   📊 Stats: ${electricalProfile.parts.length} components`);
+    console.log(`   📊 Stats: ${SchematicProfile.parts.length} components`);
     console.log();
 
     successCount++;

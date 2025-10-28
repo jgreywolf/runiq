@@ -280,7 +280,7 @@ export const dFlipFlop = createSymbol(
 - ✅ Orthogonal wire routing
 - ✅ Junction dots at intersections
 - ✅ Net labeling
-- ✅ ElectricalProfile type system
+- ✅ SchematicProfile type system
 - ✅ Verilog HDL export (@runiq/export-verilog)
 
 ### Complete Digital Workflow:
@@ -288,7 +288,7 @@ export const dFlipFlop = createSymbol(
 ```
 Design Circuit
     ↓
-Runiq ElectricalProfile
+Runiq SchematicProfile
     ↓
 ├─→ renderSchematic() → SVG Diagram
 └─→ toVerilog() → Verilog HDL
@@ -447,8 +447,8 @@ feat(digital): add advanced digital components
 ### Simple Flip-Flop
 
 ```typescript
-const dff: ElectricalProfile = {
-  type: 'electrical',
+const dff: SchematicProfile = {
+  type: 'schematic',
   name: 'D Flip-Flop Demo',
   nets: [{ name: 'D' }, { name: 'CLK' }, { name: 'Q' }, { name: 'QN' }],
   parts: [
@@ -467,8 +467,8 @@ const svg = renderSchematic(dff);
 ### 3-Input Logic
 
 ```typescript
-const majority: ElectricalProfile = {
-  type: 'electrical',
+const majority: SchematicProfile = {
+  type: 'schematic',
   name: 'Majority Vote',
   nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'OUT' }],
   parts: [
@@ -485,8 +485,8 @@ const majority: ElectricalProfile = {
 ### Register Circuit
 
 ```typescript
-const register: ElectricalProfile = {
-  type: 'electrical',
+const register: SchematicProfile = {
+  type: 'schematic',
   name: '8-bit Storage',
   nets: [
     ...Array.from({ length: 8 }, (_, i) => ({ name: `D${i}` })),

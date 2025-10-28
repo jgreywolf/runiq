@@ -8,7 +8,7 @@ export const electricalSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Simple LED Circuit',
 				description: 'Basic LED with current-limiting resistor',
-				code: `electrical "LED Circuit" {
+				code: `schematic "LED Circuit" {
   net VCC, GND, N1
 
   part V1 type:V value:"5V" pins:(VCC,GND)
@@ -20,7 +20,7 @@ export const electricalSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'RC Low-Pass Filter',
 				description: 'First-order passive filter',
-				code: `electrical "RC Filter" {
+				code: `schematic "RC Filter" {
   net IN, OUT, GND
 
   part R1 type:R value:"1k" pins:(IN,OUT)
@@ -31,7 +31,7 @@ export const electricalSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Voltage Divider',
 				description: 'Basic voltage divider circuit',
-				code: `electrical "Voltage Divider" {
+				code: `schematic "Voltage Divider" {
   net VCC, VOUT, GND
 
   part V1 type:V value:"12V" pins:(VCC,GND)
@@ -43,7 +43,7 @@ export const electricalSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'NPN Transistor Switch',
 				description: 'Transistor as a switch',
-				code: `electrical "Transistor Switch" {
+				code: `schematic "Transistor Switch" {
   net VCC, BASE, COLL, GND
 
   part V1 type:V value:"5V" pins:(VCC,GND)

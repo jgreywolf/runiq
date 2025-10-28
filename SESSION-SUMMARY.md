@@ -229,7 +229,7 @@ Runiq DSL (.runiq)
     ↓
 Parser (@runiq/parser-dsl)
     ↓
-ElectricalProfile
+SchematicProfile
     ├→ SPICE Exporter → .cir netlist → ngspice simulation
     └→ Schematic Renderer → .svg schematic → Documentation
 ```

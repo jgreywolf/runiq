@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { parse } from '../langium-parser.js';
 
-describe('Electrical Profile Parsing', () => {
-  it('should parse a simple electrical profile with nets', () => {
+describe('Schematic Profile Parsing', () => {
+  it('should parse a simple schematic profile with nets', () => {
     const input = `
-electrical "RC Filter" {
+schematic "RC Filter" {
   net IN, OUT, GND
 }`;
 
@@ -15,10 +15,10 @@ electrical "RC Filter" {
     expect(result.document?.profiles).toHaveLength(1);
 
     const profile = result.document!.profiles[0];
-    expect(profile.type).toBe('electrical');
+    expect(profile.type).toBe('schematic');
     expect(profile.name).toBe('RC Filter');
 
-    if (profile.type === 'electrical') {
+    if (profile.type === 'schematic') {
       expect(profile.nets).toHaveLength(3);
       expect(profile.nets[0].name).toBe('IN');
       expect(profile.nets[1].name).toBe('OUT');
@@ -26,9 +26,9 @@ electrical "RC Filter" {
     }
   });
 
-  it('should parse electrical profile with parts', () => {
+  it('should parse schematic profile with parts', () => {
     const input = `
-electrical "RC Lowpass" {
+schematic "RC Lowpass" {
   net IN, OUT, GND
   part R1 type:R value:"10k" pins:(IN,OUT)
   part C1 type:C value:"1n" pins:(OUT,GND)
@@ -43,7 +43,7 @@ electrical "RC Lowpass" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'electrical') {
+    if (profile.type === 'schematic') {
       expect(profile.parts).toHaveLength(2);
 
       // Check R1
@@ -60,9 +60,9 @@ electrical "RC Lowpass" {
     }
   });
 
-  it('should parse electrical profile with voltage source', () => {
+  it('should parse schematic profile with voltage source', () => {
     const input = `
-electrical "Test Circuit" {
+schematic "Test Circuit" {
   net IN, GND
   part V1 type:V source:"SIN(0 1 1k)" pins:(IN,GND)
 }`;
@@ -72,7 +72,7 @@ electrical "Test Circuit" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'electrical') {
+    if (profile.type === 'schematic') {
       expect(profile.parts).toHaveLength(1);
       expect(profile.parts[0].ref).toBe('V1');
       expect(profile.parts[0].type).toBe('V');
@@ -81,9 +81,9 @@ electrical "Test Circuit" {
     }
   });
 
-  it('should parse electrical profile with analysis', () => {
+  it('should parse schematic profile with analysis', () => {
     const input = `
-electrical "RC Filter" {
+schematic "RC Filter" {
   net IN, OUT, GND
   part R1 type:R value:"10k" pins:(IN,OUT)
   part C1 type:C value:"1n" pins:(OUT,GND)
@@ -96,7 +96,7 @@ electrical "RC Filter" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'electrical') {
+    if (profile.type === 'schematic') {
       expect(profile.analyses).toBeDefined();
       expect(profile.analyses).toHaveLength(1);
       expect(profile.analyses![0].kind).toBe('tran');
@@ -106,7 +106,7 @@ electrical "RC Filter" {
 
   it('should parse multiple analysis statements', () => {
     const input = `
-electrical "Multi-Analysis" {
+schematic "Multi-Analysis" {
   net IN, OUT, GND
   part R1 type:R value:"10k" pins:(IN,OUT)
   analysis tran "0 5m"
@@ -119,7 +119,7 @@ electrical "Multi-Analysis" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'electrical') {
+    if (profile.type === 'schematic') {
       expect(profile.analyses).toHaveLength(3);
       expect(profile.analyses![0].kind).toBe('tran');
       expect(profile.analyses![1].kind).toBe('ac');

@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { toSpice } from '../index.js';
-import type { ElectricalProfile } from '@runiq/core';
+import type { SchematicProfile } from '@runiq/core';
 
 describe('SPICE Exporter', () => {
   describe('Basic Components', () => {
     it('should export a simple resistor circuit', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Simple Resistor',
         nets: [{ name: 'IN' }, { name: 'OUT' }, { name: '0' }],
         parts: [
@@ -31,8 +31,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should export RC lowpass filter', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'RC Lowpass Filter',
         nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
         parts: [
@@ -67,8 +67,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should export inductor', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'RL Circuit',
         nets: [{ name: 'A' }, { name: 'B' }],
         parts: [
@@ -82,8 +82,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should export current source', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Current Source',
         nets: [{ name: 'N1' }, { name: '0' }],
         parts: [
@@ -99,8 +99,8 @@ describe('SPICE Exporter', () => {
 
   describe('Voltage Sources', () => {
     it('should handle DC voltage source', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'DC Source',
         nets: [{ name: 'VCC' }, { name: '0' }],
         parts: [
@@ -114,8 +114,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should handle AC source with source parameter', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'AC Source',
         nets: [{ name: 'IN' }, { name: '0' }],
         parts: [
@@ -134,8 +134,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should prefer source over value for voltage sources', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Source Priority',
         nets: [{ name: 'N' }, { name: '0' }],
         parts: [
@@ -157,8 +157,8 @@ describe('SPICE Exporter', () => {
 
   describe('Ground Normalization', () => {
     it('should normalize GND to 0', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Ground Test',
         nets: [{ name: 'A' }, { name: 'GND' }],
         parts: [
@@ -172,8 +172,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should keep numeric 0 as is', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Zero Test',
         nets: [{ name: 'A' }, { name: '0' }],
         parts: [
@@ -189,8 +189,8 @@ describe('SPICE Exporter', () => {
 
   describe('Analyses', () => {
     it('should export transient analysis', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Transient',
         nets: [],
         parts: [],
@@ -203,8 +203,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should export AC analysis', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'AC Analysis',
         nets: [],
         parts: [],
@@ -217,8 +217,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should export DC analysis', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'DC Analysis',
         nets: [],
         parts: [],
@@ -231,8 +231,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should export operating point analysis without args', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'OP Analysis',
         nets: [],
         parts: [],
@@ -247,8 +247,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should export multiple analyses', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Multi-Analysis',
         nets: [{ name: 'IN' }, { name: '0' }],
         parts: [
@@ -277,8 +277,8 @@ describe('SPICE Exporter', () => {
 
   describe('Edge Cases', () => {
     it('should handle empty profile', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Empty',
         nets: [],
         parts: [],
@@ -291,8 +291,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should handle parts without params', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'No Params',
         nets: [{ name: 'A' }, { name: 'B' }],
         parts: [{ ref: 'R1', type: 'R', pins: ['A', 'B'] }],
@@ -305,8 +305,8 @@ describe('SPICE Exporter', () => {
     });
 
     it('should handle complex net names', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'Complex Nets',
         nets: [{ name: 'VCC_3V3' }, { name: 'VSS' }],
         parts: [
@@ -327,8 +327,8 @@ describe('SPICE Exporter', () => {
 
   describe('Complete Circuit', () => {
     it('should export complete RC filter with all elements', () => {
-      const profile: ElectricalProfile = {
-        type: 'electrical',
+      const profile: SchematicProfile = {
+        type: 'schematic',
         name: 'RC Lowpass Filter',
         nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
         parts: [

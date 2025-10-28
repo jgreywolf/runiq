@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { renderSchematic } from '../index.js';
-import type { ElectricalProfile } from '@runiq/core';
+import type { SchematicProfile } from '@runiq/core';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
 describe('Demo: New Features (Rotation + Orthogonal Routing)', () => {
   it('should generate H-Bridge motor driver with rotation and orthogonal routing', () => {
-    const profile: ElectricalProfile = {
-      type: 'electrical',
+    const profile: SchematicProfile = {
+      type: 'schematic',
       name: 'H-Bridge Motor Driver',
       nets: [
         { name: 'VCC' },
@@ -128,8 +128,8 @@ describe('Demo: New Features (Rotation + Orthogonal Routing)', () => {
   });
 
   it('should generate voltage regulator with mixed rotations', () => {
-    const profile: ElectricalProfile = {
-      type: 'electrical',
+    const profile: SchematicProfile = {
+      type: 'schematic',
       name: 'Voltage Regulator Demo',
       nets: [{ name: 'VIN' }, { name: 'VOUT' }, { name: 'GND' }],
       parts: [

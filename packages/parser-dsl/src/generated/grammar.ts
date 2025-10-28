@@ -193,22 +193,13 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
     },
     {
       "$type": "ParserRule",
-      "name": "ElectricalProfile",
+      "name": "SchematicProfile",
       "definition": {
         "$type": "Group",
         "elements": [
           {
-            "$type": "Alternatives",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "schematic"
-              },
-              {
-                "$type": "Keyword",
-                "value": "electrical"
-              }
-            ]
+            "$type": "Keyword",
+            "value": "schematic"
           },
           {
             "$type": "Assignment",

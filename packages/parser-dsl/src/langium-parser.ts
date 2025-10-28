@@ -9,7 +9,7 @@ import type {
   ContainerStyle,
   RuniqDocument,
   DiagramProfile,
-  ElectricalProfile,
+  SchematicProfile,
   DigitalProfile,
   NetAst,
   PartAst,
@@ -181,8 +181,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
   for (const profile of document.profiles) {
     if (Langium.isDiagramProfile(profile)) {
       runiqDoc.profiles.push(convertDiagramProfile(profile));
-    } else if (Langium.isElectricalProfile(profile)) {
-      runiqDoc.profiles.push(convertElectricalProfile(profile));
+    } else if (Langium.isSchematicProfile(profile)) {
+      runiqDoc.profiles.push(convertSchematicProfile(profile));
     } else if (Langium.isDigitalProfile(profile)) {
       runiqDoc.profiles.push(convertDigitalProfile(profile));
     }
@@ -219,13 +219,13 @@ function convertDiagramProfile(
 }
 
 /**
- * Convert ElectricalProfile to core AST format
+ * Convert SchematicProfile to core AST format
  */
-function convertElectricalProfile(
-  profile: Langium.ElectricalProfile
-): ElectricalProfile {
-  const electricalProfile: ElectricalProfile = {
-    type: 'electrical',
+function convertSchematicProfile(
+  profile: Langium.SchematicProfile
+): SchematicProfile {
+  const schematicProfile: SchematicProfile = {
+    type: 'schematic',
     name: profile.name.replace(/^"|"$/g, ''),
     nets: [],
     parts: [],
@@ -236,7 +236,7 @@ function convertElectricalProfile(
     if (Langium.isNetStatement(statement)) {
       // net IN, OUT, GND
       for (const netName of statement.names) {
-        electricalProfile.nets.push({ name: netName });
+        schematicProfile.nets.push({ name: netName });
       }
     } else if (Langium.isPartStatement(statement)) {
       // part R1 type:R value:10k pins:(IN,OUT)
@@ -280,19 +280,19 @@ function convertElectricalProfile(
         }
       }
 
-      electricalProfile.parts.push(part);
+      schematicProfile.parts.push(part);
     } else if (Langium.isAnalysisStatement(statement)) {
       // analysis tran "0 5m"
-      if (!electricalProfile.analyses) electricalProfile.analyses = [];
+      if (!schematicProfile.analyses) schematicProfile.analyses = [];
       const analysis: AnalysisAst = {
         kind: statement.kind as AnalysisAst['kind'],
         args: statement.args?.replace(/^"|"$/g, ''),
       };
-      electricalProfile.analyses.push(analysis);
+      schematicProfile.analyses.push(analysis);
     }
   }
 
-  return electricalProfile;
+  return schematicProfile;
 }
 
 /**

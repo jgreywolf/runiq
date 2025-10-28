@@ -2,9 +2,6 @@
 
 Create professional IEEE/IEC-standard schematics with SPICE netlist export.
 
-> Note: The 'electrical' profile keyword has been renamed to 'schematic'.
-> The old 'electrical' keyword will continue to work for backward compatibility.
-
 ## RC Lowpass Filter
 
 A classic RC filter circuit with SPICE simulation.
@@ -234,7 +231,7 @@ Standard SPICE suffixes for component values:
 ### LED Circuit with Current Limiting
 
 ```runiq
-electrical "LED Circuit" {
+schematic "LED Circuit" {
   net VCC, LED_ANODE, GND
 
   # 5V power supply
@@ -257,7 +254,7 @@ electrical "LED Circuit" {
 ### RLC Resonant Circuit
 
 ```runiq
-electrical "RLC Resonant Circuit" {
+schematic "RLC Resonant Circuit" {
   net IN, OUT, GND
 
   # AC voltage source: 1V at variable frequency
@@ -291,7 +288,7 @@ $$f_0 = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{10mH \times 1\mu F}} \appro
 ### Full Bridge Rectifier
 
 ```runiq
-electrical "Bridge Rectifier" {
+schematic "Bridge Rectifier" {
   net AC_IN, DC_PLUS, DC_MINUS, GND
 
   # AC input: 120V RMS at 60Hz

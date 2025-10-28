@@ -256,7 +256,7 @@ export const decoder2to4 = createSymbol(
 - ✅ Orthogonal wire routing
 - ✅ Junction dots at intersections
 - ✅ Net labeling
-- ✅ ElectricalProfile type system
+- ✅ SchematicProfile type system
 - ✅ Verilog HDL export (@runiq/export-verilog)
 
 ### Complete Digital Design Workflow:
@@ -264,7 +264,7 @@ export const decoder2to4 = createSymbol(
 ```
 Design Circuit
     ↓
-Runiq ElectricalProfile
+Runiq SchematicProfile
     ↓
 ├─→ renderSchematic() → SVG Diagram
 └─→ toVerilog() → Verilog HDL
@@ -368,8 +368,8 @@ Runiq ElectricalProfile
 ### Simple 4-to-1 MUX
 
 ```typescript
-const mux: ElectricalProfile = {
-  type: 'electrical',
+const mux: SchematicProfile = {
+  type: 'schematic',
   name: 'ALU Output Selector',
   nets: [
     { name: 'ADD' },
@@ -396,8 +396,8 @@ const svg = renderSchematic(mux);
 ### Memory Decoder
 
 ```typescript
-const decoder: ElectricalProfile = {
-  type: 'electrical',
+const decoder: SchematicProfile = {
+  type: 'schematic',
   name: 'Memory Address Decoder',
   nets: [
     { name: 'A0' },

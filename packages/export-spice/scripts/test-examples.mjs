@@ -63,26 +63,26 @@ for (const file of files) {
       continue;
     }
 
-    // Find electrical profile
-    const electricalProfile = parseResult.document.profiles.find(
-      (p) => p.type === 'electrical'
+    // Find schematic profile
+    const schematicProfile = parseResult.document.profiles.find(
+      (p) => p.type === 'schematic'
     );
 
-    if (!electricalProfile) {
+    if (!schematicProfile) {
       console.error(`   ⚠️  No electrical profile found`);
       errorCount++;
       continue;
     }
 
     // Convert to SPICE
-    const spice = toSpice(electricalProfile);
+    const spice = toSpice(schematicProfile);
 
     // Write output
     fs.writeFileSync(outputPath, spice, 'utf-8');
 
     console.log(`   ✅ Exported to: ${path.basename(outputPath)}`);
     console.log(
-      `   📊 Stats: ${electricalProfile.parts.length} parts, ${electricalProfile.analyses?.length || 0} analyses`
+      `   📊 Stats: ${schematicProfile.parts.length} parts, ${schematicProfile.analyses?.length || 0} analyses`
     );
     console.log();
 
