@@ -37,6 +37,10 @@ export function registerBasicShapes(): void {
   shapeRegistry.register(basic.parallelogramShape);
   shapeRegistry.register(basic.trapezoidShape);
   shapeRegistry.register(basic.flippedTrapezoidShape);
+  shapeRegistry.register(basic.starShape);
+  shapeRegistry.register(basic.starFilledShape);
+  shapeRegistry.register(basic.octagonShape);
+  shapeRegistry.register(basic.plusShape);
 }
 
 export function registerFlowchartShapes(): void {
