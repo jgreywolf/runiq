@@ -177,7 +177,7 @@ electrical "CMOS Inverter" {
 
 ### Generated SVG
 
-![CMOS Inverter](../examples/cmos-inverter.svg)
+![CMOS Inverter](/examples/cmos-inverter.svg)
 
 ### Operation
 

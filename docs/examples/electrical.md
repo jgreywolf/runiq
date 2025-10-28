@@ -26,7 +26,7 @@ electrical "RC Lowpass Filter" {
 
 ### Generated SVG
 
-![RC Lowpass Filter](../examples/rc-filter.svg)
+![RC Lowpass Filter](/examples/rc-filter.svg)
 
 ### Exported SPICE Netlist
 
@@ -78,7 +78,7 @@ electrical "Voltage Divider" {
 
 ### Generated SVG
 
-![Voltage Divider](../examples/voltage-divider.svg)
+![Voltage Divider](/examples/voltage-divider.svg)
 
 ### Circuit Calculation
 
@@ -119,7 +119,7 @@ electrical "Non-Inverting Amplifier" {
 
 ### Generated SVG
 
-![Op-Amp Amplifier](../examples/opamp-amplifier.svg)
+![Op-Amp Amplifier](/examples/opamp-amplifier.svg)
 
 ### Gain Calculation
 
@@ -249,7 +249,7 @@ electrical "LED Circuit" {
 
 ### Generated SVG
 
-![LED Circuit](../examples/led-circuit.svg)
+![LED Circuit](/examples/led-circuit.svg)
 
 ### RLC Resonant Circuit
 
@@ -272,7 +272,7 @@ electrical "RLC Resonant Circuit" {
 
 ### Generated SVG
 
-![RLC Resonant Circuit](../examples/rlc-resonant.svg)
+![RLC Resonant Circuit](/examples/rlc-resonant.svg)
 
 ### Resonant Frequency
 

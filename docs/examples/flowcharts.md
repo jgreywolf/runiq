@@ -45,7 +45,7 @@ GenerateToken -> Success
 
 ### Generated SVG
 
-![Authentication Flow](../../examples/auth-flow.svg)
+![Authentication Flow](/examples/auth-flow.svg)
 
 ### Explanation
 

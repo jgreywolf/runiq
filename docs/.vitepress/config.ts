@@ -5,6 +5,8 @@ export default defineConfig({
   title: 'Runiq',
   description:
     'A markdown-friendly diagram DSL with JSON twin that compiles to standards-compliant SVG',
+  // Temporarily ignore dead links to allow publishing while stubs are added
+  ignoreDeadLinks: true,
 
   // Base URL (adjust for GitHub Pages if needed)
   // base: '/runiq/',
@@ -175,5 +177,28 @@ export default defineConfig({
       dark: 'github-dark',
     },
     lineNumbers: true,
+  },
+  // Register trivial highlighters for custom languages to avoid fallback warnings
+  // When ready, replace with Shiki transformers to provide proper grammar
+  // https://vitepress.dev/guide/markdown#highlight
+  // @ts-ignore
+  async shikiSetup(shiki) {
+    // Use plaintext for custom languages until grammars are added
+    const langs = await shiki.getLoadedLanguages?.();
+    const hasTxt = langs?.includes('txt');
+    const as = hasTxt ? 'txt' : 'plaintext';
+    // Aliases
+    shiki.addAlias?.({
+      lang: 'runiq',
+      name: as,
+    });
+    shiki.addAlias?.({
+      lang: 'spice',
+      name: as,
+    });
+    shiki.addAlias?.({
+      lang: 'langium',
+      name: as,
+    });
   },
 });

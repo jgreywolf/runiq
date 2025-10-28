@@ -38,7 +38,7 @@ features:
 
   - icon: 🔗
     title: UML Relationships
-    details: Stereotypes (<<include>>, <<extend>>), line styles (solid, dashed, dotted), arrow types (standard, hollow, open).
+    details: Stereotypes (`<<include>>`, `<<extend>>`), line styles (solid, dashed, dotted), arrow types (standard, hollow, open).
 
   - icon: ⚡
     title: Professional Layouts

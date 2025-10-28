@@ -18,7 +18,7 @@ Build architecture diagrams, UML models, and process flows.
 
 - UML actor interactions
 - System boundaries
-- <<include>> and <<extend>> stereotypes
+- `<<include>>` and `<<extend>>` stereotypes
 - Banking, e-commerce examples
 - 8 actor shape styles
 

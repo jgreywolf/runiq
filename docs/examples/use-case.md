@@ -101,13 +101,13 @@ edge SendNotification -> PayBills stereotype: "<<extend>>" lineStyle: dashed arr
 
 ### UML Stereotypes
 
-**<<include>>**: Mandatory behavior
+`<<include>>`: Mandatory behavior
 
 - The base use case **requires** the included use case
 - Example: Login requires Two-Factor Auth
 - Use `stereotype: "<<include>>"` with `lineStyle: dashed`
 
-**<<extend>>**: Optional behavior
+`<<extend>>`: Optional behavior
 
 - The base use case **may** use the extending use case
 - Example: Transfer may trigger SendNotification
@@ -192,8 +192,8 @@ Admin -> ManageUsers
 Admin -> ViewAnalytics
 
 # Include relationships
-edge Checkout -> Payment stereotype: "<<include>>" lineStyle: dashed arrowType: open
-edge ListProduct -> ManageInventory stereotype: "<<include>>" lineStyle: dashed arrowType: open
+edge Checkout -> Payment stereotype: "\u003c\u003cinclude\u003e\u003e" lineStyle: dashed arrowType: open
+edge ListProduct -> ManageInventory stereotype: "\u003c\u003cinclude\u003e\u003e" lineStyle: dashed arrowType: open
 ```
 
 ## Actor Styles
@@ -218,24 +218,24 @@ actor User8 as @custom-actor       # Configurable
 - Place primary actors (users) on the left
 - Place secondary actors (systems, admins) on the right
 - Group related use cases within system boundaries
-  :::
+:::
 
 ::: tip Stereotypes
 
-- **<<include>>**: When behavior is always required
+- **`<<include>>`**: When behavior is always required
   - Login → Two-Factor Auth
   - Checkout → Process Payment
-- **<<extend>>**: When behavior is optional
+- **`<<extend>>`**: When behavior is optional
   - Transfer → Send Notification
   - Purchase → Apply Coupon
-    :::
+:::
 
 ::: tip Relationship Lines
 
 - **Solid line**: Actor to use case (standard association)
 - **Dashed line with arrow**: Stereotype relationships (include/extend)
 - **Label on arrow**: Describe the relationship type
-  :::
+:::
 
 ## Use Case Diagram Checklist
 
@@ -243,8 +243,8 @@ actor User8 as @custom-actor       # Configurable
 - [ ] Define system boundary (what's inside your system)
 - [ ] List all use cases (system functionality)
 - [ ] Connect actors to their use cases
-- [ ] Add <<include>> for mandatory shared behavior
-- [ ] Add <<extend>> for optional enhancements
+- [ ] Add `<<include>>` for mandatory shared behavior
+- [ ] Add `<<extend>>` for optional enhancements
 - [ ] Use meaningful labels for all elements
 - [ ] Group related use cases logically
 
