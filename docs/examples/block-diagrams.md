@@ -28,6 +28,10 @@ diagram "PID Controller"
 
 ![PID Controller](/examples/pid-controller.svg)
 
+### Generated SVG
+
+![PID Controller](/examples/pid-controller.svg)
+
 ### Transfer Function
 
 $$C(s) = K_p + \frac{K_i}{s} + K_d s$$
@@ -89,6 +93,10 @@ diagram "Feedback Control System" direction: LR
 
 ![Feedback Control System](/examples/feedback-system.svg)
 
+### Generated SVG
+
+![Feedback Control System](/examples/feedback-system.svg)
+
 ### Closed-Loop Transfer Function
 
 $$\frac{Y(s)}{R(s)} = \frac{C(s)G(s)}{1 + C(s)G(s)H(s)}$$
@@ -127,6 +135,10 @@ diagram "Multi-Stage Amplifier" direction: LR
   stage2 -> stage3
   stage3 -> output
 ```
+
+### Generated SVG
+
+![Multi-Stage Amplifier](/examples/transfer-function-chain.svg)
 
 ### Generated SVG
 
@@ -181,6 +193,10 @@ diagram "State-Space System" direction: TB
 
 ### Generated SVG
 
+![State-Space System](/examples/state-space.svg)
+
+### Generated SVG
+
 ![State-Space](/examples/state-space.svg)
 
 ### State-Space Equations
@@ -224,6 +240,10 @@ diagram "Parallel PID Controller" direction: LR
   error -> Kd -> sum label: "+"
   sum -> output
 ```
+
+### Generated SVG
+
+![Parallel PID Controller](/examples/parallel-paths.svg)
 
 ### Generated SVG
 
