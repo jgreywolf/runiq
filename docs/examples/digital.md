@@ -2,6 +2,10 @@
 
 Design digital circuits with Verilog HDL export for synthesis and simulation.
 
+::: info Coming soon
+Rendered SVG visuals for the Digital profile are coming soon. The DSL snippets below are accurate, and parser support for `digital { ... }` modules is in progress. Once available, this page will include side-by-side rendered diagrams.
+:::
+
 ## Half Adder
 
 Basic combinational circuit that adds two single bits.
