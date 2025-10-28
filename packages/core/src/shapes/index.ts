@@ -17,6 +17,7 @@ import * as pedigree from './pedigree/index.js';
 import * as bpmn from './bpmn/index.js';
 import * as aws from './aws/index.js';
 import * as erd from './erd/index.js';
+import * as dataFlow from './data-flow/index.js';
 
 // Selective registration functions for tree-shaking
 export function registerBasicShapes(): void {
@@ -203,6 +204,15 @@ export function registerERDShapes(): void {
   shapeRegistry.register(erd.erdMultivaluedAttributeShape);
 }
 
+export function registerDataFlowShapes(): void {
+  shapeRegistry.register(dataFlow.externalEntityShape);
+  shapeRegistry.register(dataFlow.externalEntityCornerShape);
+  shapeRegistry.register(dataFlow.processCircleShape);
+  shapeRegistry.register(dataFlow.dataStoreLineShape);
+  shapeRegistry.register(dataFlow.dataStoreLeftShape);
+  shapeRegistry.register(dataFlow.dataStoreOpenShape);
+}
+
 /**
  * Register all default shapes at once.
  * This is the legacy API and includes all shapes (larger bundle).
@@ -224,6 +234,7 @@ export function registerDefaultShapes(): void {
   registerBPMNShapes();
   registerAWSShapes();
   registerERDShapes();
+  registerDataFlowShapes();
 
   // Register common aliases used by the DSL
   const alias = (name: string, shape: ShapeDefinition) =>
@@ -275,3 +286,4 @@ export * from './c4/index.js';
 export * from './bpmn/index.js';
 export * from './aws/index.js';
 export * from './erd/index.js';
+export * from './data-flow/index.js';
