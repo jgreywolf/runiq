@@ -28,6 +28,10 @@ User -> CheckBalance
 Withdraw -> PrintReceipt "optional"
 ```
 
+### Generated SVG
+
+![Simple ATM Use Case](/examples/use-case-simple.svg)
+
 ### Key Concepts
 
 **Actors**: Represent users or external systems

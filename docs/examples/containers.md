@@ -27,6 +27,10 @@ Router -> API
 API -> DB
 ```
 
+### Generated SVG
+
+![Simple Container](/examples/simple-container.svg)
+
 ### Use Cases
 
 - Logical grouping of components
@@ -300,6 +304,10 @@ C4 -> C5
 C3[no] -> C5
 ```
 
+### Generated SVG
+
+![BPMN Cross-Functional](/examples/bpmn-cross-functional.svg)
+
 ## Multi-Region Deployment
 
 Geographic distribution with replication.
@@ -359,6 +367,10 @@ APApp2 -> APDB
 USDB -> EUDB label: "replicate"
 USDB -> APDB label: "replicate"
 ```
+
+### Generated SVG
+
+![Multi-Region Architecture](/examples/multi-region.svg)
 
 ## Container Styling
 
