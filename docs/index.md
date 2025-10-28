@@ -6,8 +6,8 @@ hero:
   text: Diagram DSL with JSON Twin
   tagline: Create beautiful, standards-compliant diagrams with plain text. Two inputs, one AST, pure SVG output.
   image:
-    src: /logo.svg
-    alt: Runiq
+    src: /images/runiq.banner.png
+    alt: Runiq Banner
   actions:
     - theme: brand
       text: Get Started

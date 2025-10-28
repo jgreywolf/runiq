@@ -1,12 +1,17 @@
 # Getting Started
 
+<div style="text-align:center; margin: 1.5rem 0;">
+  <img src="/images/runiq.waving.png" alt="Runiq waving" style="max-width: 520px; width: 100%;" />
+  <div style="color:#6b7280; font-size: 0.95rem; margin-top: .5rem;">Say hello to Runiq!</div>
+</div>
+
 This guide will help you get Runiq up and running in minutes.
 
 ## Installation
 
 ### Prerequisites
 
-- **Node.js** >= 18
+- **Node.js** >= 20.19 (or >= 22.12)
 - **pnpm** >= 8.15.0 (recommended) or npm
 
 ### Install via pnpm

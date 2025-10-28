@@ -9,13 +9,16 @@ export default defineConfig({
   // Base URL (adjust for GitHub Pages if needed)
   // base: '/runiq/',
 
-  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]],
+  head: [
+    ['link', { rel: 'icon', type: 'image/png', href: '/images/runiq.mascot.badge.png' }]
+  ],
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '/logo.svg',
+  logo: '/images/runiq.mascot.badge.png',
 
     nav: [
+      { text: 'Playground', link: 'https://runedit.lostware.com' },
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'Examples', link: '/examples/' },
       { text: 'Reference', link: '/reference/shapes' },
@@ -45,12 +48,13 @@ export default defineConfig({
             { text: 'What is Runiq?', link: '/guide/what-is-runiq' },
             { text: 'Getting Started', link: '/guide/getting-started' },
             { text: 'Quick Start', link: '/guide/quick-start' },
+            { text: 'Profiles', link: '/guide/profiles' },
           ],
         },
         {
           text: 'Core Concepts',
           items: [
-            { text: 'Shapes', link: '/guide/shapes' },
+            { text: 'Shapes Overview', link: '/guide/shapes' },
             { text: 'Edges & Connections', link: '/guide/edges' },
             { text: 'Containers', link: '/guide/containers' },
             { text: 'Styling', link: '/guide/styling' },
@@ -80,7 +84,10 @@ export default defineConfig({
       '/examples/': [
         {
           text: 'Examples',
-          items: [{ text: 'Overview', link: '/examples/' }],
+          items: [
+            { text: 'Overview', link: '/examples/' },
+            { text: 'Toolbox Samples', link: '/examples/toolbox-samples' },
+          ],
         },
         {
           text: 'Software Engineering',
