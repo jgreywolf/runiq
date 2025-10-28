@@ -17,8 +17,6 @@ export { leanLeftShape } from './leanLeft.js';
 // Flowchart Additional Shapes
 export {
   multiProcessShape,
-  orShape,
-  summingJunctionShape,
   curlyBraceAnnotationShape,
   magneticTapeShape,
 } from './flowchart-additions.js';

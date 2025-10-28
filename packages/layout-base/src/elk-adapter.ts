@@ -230,11 +230,29 @@ export class ElkLayoutEngine implements LayoutEngine {
 
         if (!elkGraph.children) elkGraph.children = [];
 
+        // Get anchor points from shape if available
+        const anchors = shapeImpl.anchors?.({
+          node,
+          style,
+          measureText,
+        });
+
         const elkNode: any = {
           id: node.id,
           width: bounds.width,
           height: bounds.height,
         };
+
+        // Add ports (anchor points) to the node for proper edge attachment
+        if (anchors && anchors.length > 0) {
+          elkNode.ports = anchors.map((anchor) => ({
+            id: `${node.id}_${anchor.name}`,
+            x: anchor.x,
+            y: anchor.y,
+            width: 1,
+            height: 1,
+          }));
+        }
 
         // Apply layer constraint for pedigree charts
         if (isPedigreeChart && nodeGenerations.has(node.id)) {
