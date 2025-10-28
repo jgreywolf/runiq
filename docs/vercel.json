@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "framework": "vitepress",
+  "buildCommand": "pnpm -w docs:build",
+  "installCommand": "pnpm -w install --frozen-lockfile",
+  "outputDirectory": ".vitepress/dist",
+  "github": {
+    "enabled": true
+  }
+}
