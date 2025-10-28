@@ -4,6 +4,10 @@ import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
+	// Force Vite dev server to bind on IPv4 localhost to avoid Windows ::1 EACCES issues
+	server: {
+		host: '127.0.0.1'
+	},
 	test: {
 		expect: { requireAssertions: true },
 		projects: [
