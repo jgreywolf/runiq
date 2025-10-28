@@ -9,10 +9,14 @@ export const starShape: ShapeDefinition = {
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
-    
+
     // Star needs room for points - make it wider/taller than text
-    const size = Math.max(textSize.width + padding * 2, textSize.height + padding * 2, 60);
-    
+    const size = Math.max(
+      textSize.width + padding * 2,
+      textSize.height + padding * 2,
+      60
+    );
+
     return {
       width: size,
       height: size,
@@ -39,7 +43,7 @@ export const starShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const outerRadius = Math.min(bounds.width, bounds.height) / 2;
     const innerRadius = outerRadius * 0.4; // Inner points at 40% of outer
-    
+
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 2;
 
@@ -48,20 +52,25 @@ export const starShape: ShapeDefinition = {
     for (let i = 0; i < 5; i++) {
       const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
       const innerAngle = ((i + 0.5) * 2 * Math.PI) / 5 - Math.PI / 2;
-      
+
       points.push(
         cx + outerRadius * Math.cos(outerAngle),
         cy + outerRadius * Math.sin(outerAngle)
       );
-      
+
       points.push(
         cx + innerRadius * Math.cos(innerAngle),
         cy + innerRadius * Math.sin(innerAngle)
       );
     }
-    
-    const pathData = `M ${points[0]} ${points[1]} ` +
-      points.slice(2).map((p, i) => i % 2 === 0 ? `L ${p}` : p).join(' ') + ' Z';
+
+    const pathData =
+      `M ${points[0]} ${points[1]} ` +
+      points
+        .slice(2)
+        .map((p, i) => (i % 2 === 0 ? `L ${p}` : p))
+        .join(' ') +
+      ' Z';
 
     return `
       <path d="${pathData}"
@@ -85,10 +94,14 @@ export const starFilledShape: ShapeDefinition = {
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
-    
+
     // Star needs room for points - make it wider/taller than text
-    const size = Math.max(textSize.width + padding * 2, textSize.height + padding * 2, 60);
-    
+    const size = Math.max(
+      textSize.width + padding * 2,
+      textSize.height + padding * 2,
+      60
+    );
+
     return {
       width: size,
       height: size,
@@ -115,7 +128,7 @@ export const starFilledShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const outerRadius = Math.min(bounds.width, bounds.height) / 2;
     const innerRadius = outerRadius * 0.4;
-    
+
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
@@ -125,20 +138,25 @@ export const starFilledShape: ShapeDefinition = {
     for (let i = 0; i < 5; i++) {
       const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
       const innerAngle = ((i + 0.5) * 2 * Math.PI) / 5 - Math.PI / 2;
-      
+
       points.push(
         cx + outerRadius * Math.cos(outerAngle),
         cy + outerRadius * Math.sin(outerAngle)
       );
-      
+
       points.push(
         cx + innerRadius * Math.cos(innerAngle),
         cy + innerRadius * Math.sin(innerAngle)
       );
     }
-    
-    const pathData = `M ${points[0]} ${points[1]} ` +
-      points.slice(2).map((p, i) => i % 2 === 0 ? `L ${p}` : p).join(' ') + ' Z';
+
+    const pathData =
+      `M ${points[0]} ${points[1]} ` +
+      points
+        .slice(2)
+        .map((p, i) => (i % 2 === 0 ? `L ${p}` : p))
+        .join(' ') +
+      ' Z';
 
     return `
       <path d="${pathData}"
@@ -162,9 +180,13 @@ export const octagonShape: ShapeDefinition = {
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
-    
-    const size = Math.max(textSize.width + padding * 2, textSize.height + padding * 2, 60);
-    
+
+    const size = Math.max(
+      textSize.width + padding * 2,
+      textSize.height + padding * 2,
+      60
+    );
+
     return {
       width: size,
       height: size,
@@ -183,7 +205,16 @@ export const octagonShape: ShapeDefinition = {
     const anchors = [];
     for (let i = 0; i < 8; i++) {
       const angle = (i * Math.PI) / 4 - Math.PI / 2; // Start at top
-      const names = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left'];
+      const names = [
+        'top',
+        'top-right',
+        'right',
+        'bottom-right',
+        'bottom',
+        'bottom-left',
+        'left',
+        'top-left',
+      ];
       anchors.push({
         x: cx + radius * Math.cos(angle),
         y: cy + radius * Math.sin(angle),
@@ -200,7 +231,7 @@ export const octagonShape: ShapeDefinition = {
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;
     const radius = Math.min(bounds.width, bounds.height) / 2;
-    
+
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
@@ -209,14 +240,16 @@ export const octagonShape: ShapeDefinition = {
     const points = [];
     for (let i = 0; i < 8; i++) {
       const angle = (i * Math.PI) / 4 - Math.PI / 2;
-      points.push(
-        cx + radius * Math.cos(angle),
-        cy + radius * Math.sin(angle)
-      );
+      points.push(cx + radius * Math.cos(angle), cy + radius * Math.sin(angle));
     }
-    
-    const pathData = `M ${points[0]} ${points[1]} ` +
-      points.slice(2).map((p, i) => i % 2 === 0 ? `L ${p}` : p).join(' ') + ' Z';
+
+    const pathData =
+      `M ${points[0]} ${points[1]} ` +
+      points
+        .slice(2)
+        .map((p, i) => (i % 2 === 0 ? `L ${p}` : p))
+        .join(' ') +
+      ' Z';
 
     return `
       <path d="${pathData}"
@@ -240,9 +273,13 @@ export const plusShape: ShapeDefinition = {
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
-    
-    const size = Math.max(textSize.width + padding * 2, textSize.height + padding * 2, 60);
-    
+
+    const size = Math.max(
+      textSize.width + padding * 2,
+      textSize.height + padding * 2,
+      60
+    );
+
     return {
       width: size,
       height: size,
@@ -270,7 +307,7 @@ export const plusShape: ShapeDefinition = {
     const size = Math.min(bounds.width, bounds.height);
     const armWidth = size * 0.3; // Width of plus arms
     const armLength = size / 2;
-    
+
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;

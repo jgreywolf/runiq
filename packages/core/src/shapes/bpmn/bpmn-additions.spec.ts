@@ -95,7 +95,9 @@ describe('BPMN Additions', () => {
 
   describe('intermediateNonInterferingShape', () => {
     it('should have correct id', () => {
-      expect(intermediateNonInterferingShape.id).toBe('intermediate-non-interfering');
+      expect(intermediateNonInterferingShape.id).toBe(
+        'intermediate-non-interfering'
+      );
     });
 
     it('should render double unfilled circle with dashed stroke', () => {

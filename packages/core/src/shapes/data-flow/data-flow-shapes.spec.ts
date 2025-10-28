@@ -55,7 +55,12 @@ describe('Data Flow Shapes', () => {
       const anchors = externalEntityShape.anchors?.(ctx) || [];
 
       expect(anchors).toHaveLength(4);
-      expect(anchors.map(a => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
 
     it('should render as simple rectangle', () => {
@@ -100,7 +105,12 @@ describe('Data Flow Shapes', () => {
       const anchors = processCircleShape.anchors?.(ctx) || [];
 
       expect(anchors).toHaveLength(4);
-      expect(anchors.map(a => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
 
     it('should render as large unfilled circle', () => {

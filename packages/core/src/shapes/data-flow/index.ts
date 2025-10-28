@@ -122,7 +122,7 @@ export const processCircleShape: ShapeDefinition = {
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
-    
+
     // Circle diameter should fit text with padding
     const diameter = Math.max(
       textSize.width + padding * 2,
