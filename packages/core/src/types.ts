@@ -1,4 +1,5 @@
 export type Direction = 'LR' | 'RL' | 'TB' | 'BT';
+export type EdgeRouting = 'orthogonal' | 'polyline' | 'splines' | 'straight';
 
 /**
  * Data value types for data-driven rendering (charts, graphs)
@@ -17,6 +18,7 @@ export interface DiagramAst {
   astVersion: string;
   title?: string;
   direction?: Direction;
+  routing?: EdgeRouting;
   styles?: Record<string, Style>;
   nodes: NodeAst[];
   edges: EdgeAst[];
@@ -55,6 +57,7 @@ export interface EdgeAst {
   link?: LinkRef;
   tooltip?: string;
   data?: Record<string, unknown>;
+  routing?: EdgeRouting; // Per-edge routing override
   // UML enhancements for use case diagrams and other notations
   stereotype?: string; // e.g., 'include', 'extend', 'uses' (rendered as <<stereotype>>)
   lineStyle?: 'solid' | 'dashed' | 'dotted' | 'double'; // Line appearance (double for consanguineous marriages)
@@ -285,6 +288,7 @@ export interface DiagramProfile {
   type: 'diagram';
   name: string;
   direction?: Direction;
+  routing?: EdgeRouting;
   styles?: Record<string, Style>;
   nodes: NodeAst[];
   edges: EdgeAst[];

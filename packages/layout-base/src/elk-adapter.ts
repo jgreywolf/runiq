@@ -8,8 +8,27 @@ import type {
   RoutedEdge,
   PositionedContainer,
   ContainerDeclaration,
+  EdgeRouting,
 } from '@runiq/core';
 import { shapeRegistry, createTextMeasurer } from '@runiq/core';
+
+/**
+ * Map Runiq edge routing types to ELK edge routing algorithms
+ */
+function mapRoutingToElk(routing?: EdgeRouting): string {
+  switch (routing) {
+    case 'straight':
+      return 'POLYLINE'; // ELK's POLYLINE creates straight connections
+    case 'orthogonal':
+      return 'ORTHOGONAL'; // Right-angle bends
+    case 'splines':
+      return 'SPLINES'; // Curved edges
+    case 'polyline':
+      return 'POLYLINE'; // Multi-segment straight lines
+    default:
+      return 'ORTHOGONAL'; // Default to orthogonal routing
+  }
+}
 
 /**
  * ELK (Eclipse Layout Kernel) layout engine adapter for Runiq.
@@ -141,6 +160,9 @@ export class ElkLayoutEngine implements LayoutEngine {
     const baseSpacing = hasContainers ? 150 : 100; // Extra spacing for container diagrams
     const spacing = opts.spacing || baseSpacing;
 
+    // Get diagram-level routing preference (default: orthogonal)
+    const defaultRouting = mapRoutingToElk(diagram.routing);
+
     // Detect if this is a pedigree chart
     const isPedigreeChart = diagram.nodes.some(
       (n) => n.shape === 'pedigree-male' || n.shape === 'pedigree-female'
@@ -165,7 +187,7 @@ export class ElkLayoutEngine implements LayoutEngine {
             'elk.layered.spacing.nodeNodeBetweenLayers': (
               spacing * 1.5
             ).toString(), // Extra layer spacing for containers
-            'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing (right-angle bends)
+            'elk.edgeRouting': defaultRouting, // Use diagram-level routing preference
             // Edge crossing minimization
             'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
             'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction

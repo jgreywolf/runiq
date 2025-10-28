@@ -21,6 +21,7 @@ DiagramProfile:
 // Statements within diagram profile
 DiagramStatement:
     DirectionDeclaration
+    | RoutingDeclaration
     | StyleDeclaration
     | ShapeDeclaration
     | EdgeDeclaration
@@ -144,12 +145,19 @@ NetDecl:
 // DiagramDeclaration:
 //     'diagram' type=STRING;
 
-// direction: LR | RL | TB | BT
+// direction LR | RL | TB | BT
 DirectionDeclaration:
-    'direction:' value=DirectionValue;
+    'direction' value=DirectionValue;
 
 DirectionValue returns string:
     'LR' | 'RL' | 'TB' | 'BT';
+
+// routing orthogonal | polyline | splines | straight
+RoutingDeclaration:
+    'routing' value=RoutingValue;
+
+RoutingValue returns string:
+    'orthogonal' | 'polyline' | 'splines' | 'straight';
 
 // style myStyle fill: "red" stroke: "blue"
 StyleDeclaration:
@@ -355,7 +363,8 @@ EdgeProperty:
     | RoleTargetProperty
     | EdgeTypeProperty
     | NavigabilityProperty
-    | EdgeConstraintsProperty;
+    | EdgeConstraintsProperty
+    | RoutingProperty;
 
 EdgeLabelProperty:
     'label:' label=STRING;
@@ -399,6 +408,9 @@ NavigabilityDirection returns string:
 
 EdgeConstraintsProperty:
     'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
+
+RoutingProperty:
+    'routing:' value=RoutingValue;
 
 // group "My Group" { ... }
 GroupBlock:

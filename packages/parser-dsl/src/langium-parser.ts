@@ -5,6 +5,7 @@ import type {
   GroupAst,
   Style,
   Direction,
+  EdgeRouting,
   ContainerDeclaration,
   ContainerStyle,
   RuniqDocument,
@@ -409,6 +410,8 @@ function processDialogStatement(
 ): void {
   if (Langium.isDirectionDeclaration(statement)) {
     diagram.direction = statement.value as Direction;
+  } else if (Langium.isRoutingDeclaration(statement)) {
+    diagram.routing = statement.value as EdgeRouting;
   } else if (Langium.isStyleDeclaration(statement)) {
     const style: Style = {};
     for (const prop of statement.properties) {
@@ -613,6 +616,8 @@ function processDialogStatement(
         edge.lineStyle = prop.value as 'solid' | 'dashed' | 'dotted' | 'double';
       } else if (Langium.isArrowTypeProperty(prop)) {
         edge.arrowType = prop.value as 'standard' | 'hollow' | 'open' | 'none';
+      } else if (Langium.isRoutingProperty(prop)) {
+        edge.routing = prop.value as EdgeRouting;
       } else if (Langium.isMultiplicitySourceProperty(prop)) {
         edge.multiplicitySource = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isMultiplicityTargetProperty(prop)) {
