@@ -11,7 +11,7 @@ container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" bo
 
 shape emailSystem as @c4-system label:"Email System"
 
-customer -Uses [HTTPS]-> webapp
-webapp -API calls [JSON/HTTPS]-> api
-api -Reads/Writes [SQL/TCP]-> db
-api -Sends emails [SMTP]-> emailSystem
+customer -> webapp label:"Uses [HTTPS]"
+webapp -> api label:"API calls [JSON/HTTPS]"
+api -> db label:"Reads/Writes [SQL/TCP]"
+api -> emailSystem label:"Sends emails [SMTP]"

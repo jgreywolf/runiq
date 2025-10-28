@@ -78,6 +78,10 @@ bankingSystem -Sends emails-> emailSystem
 bankingSystem -Uses-> mainframe
 ```
 
+### Generated SVG
+
+![C4 System Context](/examples/c4-system-context.svg)
+
 ### Level 2: Container Diagram
 
 Shows the high-level technology choices and how containers communicate.
@@ -101,6 +105,10 @@ webapp -API calls [JSON/HTTPS]-> api
 api -Reads/Writes [SQL/TCP]-> db
 api -Sends emails [SMTP]-> emailSystem
 ```
+
+### Generated SVG
+
+![C4 Container Diagram](/examples/c4-container.svg)
 
 ### Level 3: Component Diagram
 
@@ -127,6 +135,10 @@ controller -Uses-> emailComponent
 controller -Uses-> accountComponent
 accountComponent -Reads/Writes-> db
 ```
+
+### Generated SVG
+
+![C4 Component Diagram](/examples/c4-component.svg)
 
 ### Microservices Architecture
 
@@ -172,6 +184,10 @@ auth -Reads/Writes-> userDb
 catalog -Reads-> catalogDb
 orders -Writes-> cache
 ```
+
+### Generated SVG
+
+![C4 Microservices](/examples/c4-microservices.svg)
 
 ## Technology Labels
 

@@ -22,17 +22,17 @@ container data "Data Layer" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" bord
   shape cache as @c4-container label:"Cache\n[Redis]"
 }
 
-customer -Uses-> web
-customer -Uses-> mobile
-admin -Manages-> web
+customer -> web label:"Uses"
+customer -> mobile label:"Uses"
+admin -> web label:"Manages"
 
-web -API Calls-> gateway
-mobile -API Calls-> gateway
+web -> gateway label:"API Calls"
+mobile -> gateway label:"API Calls"
 
-gateway -Authenticates-> auth
-gateway -Fetches Products-> catalog
-gateway -Places Orders-> orders
+gateway -> auth label:"Authenticates"
+gateway -> catalog label:"Fetches Products"
+gateway -> orders label:"Places Orders"
 
-auth -Reads/Writes-> userDb
-catalog -Reads-> catalogDb
-orders -Writes-> cache
+auth -> userDb label:"Reads/Writes"
+catalog -> catalogDb label:"Reads"
+orders -> cache label:"Writes"

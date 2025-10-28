@@ -6,6 +6,6 @@ shape bankingSystem as @c4-system label:"Internet Banking\nSystem"
 shape emailSystem as @c4-system label:"Email System"
 shape mainframe as @c4-system label:"Mainframe\nBanking System"
 
-customer -Uses-> bankingSystem
-bankingSystem -Sends emails-> emailSystem
-bankingSystem -Uses-> mainframe
+customer -> bankingSystem label:"Uses"
+bankingSystem -> emailSystem label:"Sends emails"
+bankingSystem -> mainframe label:"Uses"

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="939" height="902" 
+    viewBox="0 0 939 902"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">API Application - Component Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="apiContainer"><rect x="42" y="317" width="877" height="354" 
+    fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8" /><text x="52" y="337" class="runiq-container-label">API Container</text></g><g data-runiq-edge="controller-security"><defs>
+      <marker id="arrow-standard-controller-security" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 489 419 L 489 569" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-controller-security)" /></g><g data-runiq-edge="controller-emailComponent"><defs>
+      <marker id="arrow-standard-controller-emailComponent" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 527 419 L 527 429 L 802 429 L 802 569" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-controller-emailComponent)" /></g><g data-runiq-edge="controller-accountComponent"><defs>
+      <marker id="arrow-standard-controller-accountComponent" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 452 419 L 452 429 L 167 429 L 167 569" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-controller-accountComponent)" /></g><g data-runiq-edge="webapp-controller"><defs>
+      <marker id="arrow-standard-webapp-controller" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 172 52 L 172 220.5 L 489 220.5 L 489 389" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-webapp-controller)" /></g><g data-runiq-edge="accountComponent-db"><defs>
+      <marker id="arrow-standard-accountComponent-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 167.4 599 L 167.4 720.5 L 172 720.5 L 172 842" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-accountComponent-db)" /></g><g data-runiq-node="controller">
+      <!-- C4 Component -->
+      <rect x="414" y="359" width="150" height="60"
+            rx="6" ry="6" fill="#85BBF0" stroke="#5A9BD5" stroke-width="1.5" />
+      
+      <!-- Label -->
+      <text x="489" y="389" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="13"
+            fill="#000000" font-weight="600">
+        REST Controller
+      </text>
+    </g><g data-runiq-node="security">
+      <!-- C4 Component -->
+      <rect x="401" y="569" width="175.20000000000002" height="60"
+            rx="6" ry="6" fill="#85BBF0" stroke="#5A9BD5" stroke-width="1.5" />
+      
+      <!-- Label -->
+      <text x="488.6" y="599" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="13"
+            fill="#000000" font-weight="600">
+        Security Component
+      </text>
+    </g><g data-runiq-node="emailComponent">
+      <!-- C4 Component -->
+      <rect x="727" y="569" width="150" height="60"
+            rx="6" ry="6" fill="#85BBF0" stroke="#5A9BD5" stroke-width="1.5" />
+      
+      <!-- Label -->
+      <text x="802" y="599" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="13"
+            fill="#000000" font-weight="600">
+        Email Component
+      </text>
+    </g><g data-runiq-node="accountComponent">
+      <!-- C4 Component -->
+      <rect x="84" y="569" width="166.8" height="60"
+            rx="6" ry="6" fill="#85BBF0" stroke="#5A9BD5" stroke-width="1.5" />
+      
+      <!-- Label -->
+      <text x="167.4" y="599" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="13"
+            fill="#000000" font-weight="600">
+        Account Component
+      </text>
+    </g><g data-runiq-node="webapp">
+      <!-- C4 Container -->
+      <rect x="93" y="12" width="158" height="80"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="172" y="52" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Web Application
+      </text>
+      
+      
+    </g><g data-runiq-node="db">
+      <!-- C4 Container -->
+      <rect x="102" y="802" width="140" height="80"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="172" y="842" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Database
+      </text>
+      
+      
+    </g></svg>

@@ -12,8 +12,8 @@ container apiContainer "API Container" backgroundColor:"#e3f2fd" borderColor:"#1
 
 shape db as @c4-container label:"Database"
 
-webapp -Makes API calls-> controller
-controller -Uses-> security
-controller -Uses-> emailComponent
-controller -Uses-> accountComponent
-accountComponent -Reads/Writes-> db
+webapp -> controller label:"Makes API calls"
+controller -> security label:"Uses"
+controller -> emailComponent label:"Uses"
+controller -> accountComponent label:"Uses"
+accountComponent -> db label:"Reads/Writes"
