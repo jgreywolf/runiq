@@ -136,8 +136,8 @@ All gates follow **IEEE/ANSI Std 91-1984** distinctive shapes:
 ### Half Adder (Basic Digital Circuit)
 
 ```typescript
-const halfAdder: ElectricalProfile = {
-  type: 'electrical',
+const halfAdder: SchematicProfile = {
+  type: 'schematic',
   name: 'Half Adder',
   nets: [
     { name: 'A' },
@@ -169,8 +169,8 @@ const svg = renderSchematic(halfAdder, {
 ### SR Latch (Feedback Circuit)
 
 ```typescript
-const srLatch: ElectricalProfile = {
-  type: 'electrical',
+const srLatch: SchematicProfile = {
+  type: 'schematic',
   name: 'SR Latch (NAND)',
   nets: [
     { name: 'S' }, // Set input
@@ -196,8 +196,8 @@ const srLatch: ElectricalProfile = {
 ### Full Adder (Multi-Stage Circuit)
 
 ```typescript
-const fullAdder: ElectricalProfile = {
-  type: 'electrical',
+const fullAdder: SchematicProfile = {
+  type: 'schematic',
   name: 'Full Adder',
   nets: [
     { name: 'A' },
@@ -237,8 +237,8 @@ const fullAdder: ElectricalProfile = {
 ### 2-to-4 Decoder
 
 ```typescript
-const decoder: ElectricalProfile = {
-  type: 'electrical',
+const decoder: SchematicProfile = {
+  type: 'schematic',
   name: '2-to-4 Decoder',
   nets: [
     { name: 'A0' },

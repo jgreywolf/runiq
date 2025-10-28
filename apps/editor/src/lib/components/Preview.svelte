@@ -90,9 +90,8 @@
 			// Start render timer
 			const startRender = performance.now();
 
-			// Handle electrical/circuit profiles
-			if (profile.type === 'electrical') {
-				// Render electrical schematic
+			// Handle schematic/circuit profiles
+			if (profile.type === 'schematic') {
 				const renderResult = renderSchematic(profile as any, {
 					gridSize: 50,
 					routing: 'orthogonal',
@@ -113,7 +112,7 @@
 			if (profile.type !== 'diagram') {
 				errors = [
 					`Profile type '${profile.type}' is not yet supported in the preview.`,
-					`Currently only 'diagram' and 'electrical' profiles can be rendered.`
+					`Currently only 'diagram' and 'schematic' profiles can be rendered.`
 				];
 				svgOutput = '';
 				isRendering = false;

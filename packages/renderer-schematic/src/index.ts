@@ -1,11 +1,11 @@
 /**
  * Electrical Schematic Renderer for Runiq
  *
- * Converts ElectricalProfile to SVG schematic diagrams with IEEE-standard symbols.
+ * Converts SchematicProfile to SVG schematic diagrams with IEEE-standard symbols.
  * Uses automatic routing and placement for clean, professional-looking schematics.
  */
 
-import type { ElectricalProfile, PartAst } from '@runiq/core';
+import type { SchematicProfile, PartAst } from '@runiq/core';
 import { getSymbol, type SymbolDefinition } from './symbols.js';
 
 export interface SchematicOptions {
@@ -50,7 +50,7 @@ interface NetConnection {
  * Main schematic rendering function
  */
 export function renderSchematic(
-  profile: ElectricalProfile,
+  profile: SchematicProfile | SchematicProfile,
   options: SchematicOptions = {}
 ): RenderResult {
   const warnings: string[] = [];
@@ -107,7 +107,9 @@ export function renderSchematic(
 /**
  * Build map of nets to connected parts
  */
-function buildNetMap(profile: ElectricalProfile): Map<string, PartAst[]> {
+function buildNetMap(
+  profile: SchematicProfile | SchematicProfile
+): Map<string, PartAst[]> {
   const netMap = new Map<string, PartAst[]>();
 
   for (const part of profile.parts) {

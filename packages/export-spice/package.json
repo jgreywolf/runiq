@@ -1,7 +1,7 @@
 {
   "name": "@runiq/export-spice",
   "version": "0.1.0",
-  "description": "SPICE netlist exporter for Runiq electrical profiles",
+  "description": "SPICE netlist exporter for Runiq Schematic profiles",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

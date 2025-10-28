@@ -34,7 +34,7 @@ A complete text-based electrical circuit design and simulation workflow.
 
 4. **Parser Implementation** - Commit `518afc7`
    - Profile dispatch logic
-   - convertElectricalProfile()
+   - convertSchematicProfile()
    - convertDigitalProfile()
    - 5/5 parser tests passing ✅
 

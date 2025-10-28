@@ -8,7 +8,7 @@
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
-		onNewDiagram?: (type: 'diagram' | 'electrical') => void;
+		onNewDiagram?: (type: 'diagram' | 'schematic') => void;
 	}
 
 	let {
@@ -29,7 +29,7 @@
 		showNewDiagramDialog = true;
 	}
 
-	function createDiagram(type: 'diagram' | 'electrical') {
+	function createDiagram(type: 'diagram' | 'schematic') {
 		showNewDiagramDialog = false;
 		onNewDiagram?.(type);
 	}
@@ -246,7 +246,7 @@
 
 			<!-- Electrical Circuit Option -->
 			<button
-				onclick={() => createDiagram('electrical')}
+				onclick={() => createDiagram('schematic')}
 				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
 			>
 				<div class="flex items-center gap-3">
@@ -269,8 +269,8 @@
 						</svg>
 					</div>
 					<div>
-						<h3 class="font-semibold text-neutral-900">Electrical Circuit</h3>
-						<p class="text-sm text-neutral-600">Schematics, logic gates, components</p>
+						<h3 class="font-semibold text-neutral-900">Schematics</h3>
+						<p class="text-sm text-neutral-600">Electrical circuit, logic gates, components</p>
 					</div>
 				</div>
 			</button>

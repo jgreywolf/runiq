@@ -69,7 +69,6 @@ export type RuniqKeywordNames =
     | "dotted"
     | "double"
     | "edgeType:"
-    | "electrical"
     | "force"
     | "generalization"
     | "genericTypes:"
@@ -115,6 +114,7 @@ export type RuniqKeywordNames =
     | "right"
     | "roleSource:"
     | "roleTarget:"
+    | "schematic"
     | "shape"
     | "showLegend:"
     | "solid"
@@ -165,7 +165,7 @@ export function isAnalysisKind(item: unknown): item is AnalysisKind {
 }
 
 export interface AnalysisStatement extends langium.AstNode {
-    readonly $container: ElectricalProfile;
+    readonly $container: SchematicProfile;
     readonly $type: 'AnalysisStatement';
     args?: string;
     kind: AnalysisKind;
@@ -788,23 +788,6 @@ export function isEdgeTypeValue(item: unknown): item is EdgeTypeValue {
     return item === 'association' || item === 'aggregation' || item === 'composition' || item === 'dependency' || item === 'generalization' || item === 'realization';
 }
 
-export interface ElectricalProfile extends langium.AstNode {
-    readonly $container: Document;
-    readonly $type: 'ElectricalProfile';
-    name: string;
-    statements: Array<ElectricalStatement>;
-}
-
-export const ElectricalProfile = {
-    $type: 'ElectricalProfile',
-    name: 'name',
-    statements: 'statements'
-} as const;
-
-export function isElectricalProfile(item: unknown): item is ElectricalProfile {
-    return reflection.isInstance(item, ElectricalProfile.$type);
-}
-
 export type ElectricalStatement = AnalysisStatement | NetStatement | PartStatement;
 
 export const ElectricalStatement = {
@@ -1310,7 +1293,7 @@ export function isNetDecl(item: unknown): item is NetDecl {
 }
 
 export interface NetStatement extends langium.AstNode {
-    readonly $container: ElectricalProfile;
+    readonly $container: SchematicProfile;
     readonly $type: 'NetStatement';
     names: Array<string>;
 }
@@ -1473,7 +1456,7 @@ export function isPartSourceProperty(item: unknown): item is PartSourceProperty 
 }
 
 export interface PartStatement extends langium.AstNode {
-    readonly $container: ElectricalProfile;
+    readonly $container: SchematicProfile;
     readonly $type: 'PartStatement';
     properties: Array<PartProperty>;
     ref: string;
@@ -1555,7 +1538,7 @@ export function isPortDecl(item: unknown): item is PortDecl {
     return reflection.isInstance(item, PortDecl.$type);
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile;
+export type Profile = DiagramProfile | DigitalProfile | SchematicProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -1593,6 +1576,23 @@ export const RoleTargetProperty = {
 
 export function isRoleTargetProperty(item: unknown): item is RoleTargetProperty {
     return reflection.isInstance(item, RoleTargetProperty.$type);
+}
+
+export interface SchematicProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'SchematicProfile';
+    name: string;
+    statements: Array<ElectricalStatement>;
+}
+
+export const SchematicProfile = {
+    $type: 'SchematicProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isSchematicProfile(item: unknown): item is SchematicProfile {
+    return reflection.isInstance(item, SchematicProfile.$type);
 }
 
 export interface ShapeDeclaration extends langium.AstNode {
@@ -1830,7 +1830,6 @@ export type RuniqAstType = {
     EdgeLabelProperty: EdgeLabelProperty
     EdgeProperty: EdgeProperty
     EdgeTypeProperty: EdgeTypeProperty
-    ElectricalProfile: ElectricalProfile
     ElectricalStatement: ElectricalStatement
     GenericTypesProperty: GenericTypesProperty
     GroupBlock: GroupBlock
@@ -1883,6 +1882,7 @@ export type RuniqAstType = {
     Profile: Profile
     RoleSourceProperty: RoleSourceProperty
     RoleTargetProperty: RoleTargetProperty
+    SchematicProfile: SchematicProfile
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     StackedProperty: StackedProperty
@@ -2314,19 +2314,6 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [EdgeProperty.$type]
-        },
-        ElectricalProfile: {
-            name: ElectricalProfile.$type,
-            properties: {
-                name: {
-                    name: ElectricalProfile.name
-                },
-                statements: {
-                    name: ElectricalProfile.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [Profile.$type]
         },
         ElectricalStatement: {
             name: ElectricalStatement.$type,
@@ -2826,6 +2813,19 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [EdgeProperty.$type]
+        },
+        SchematicProfile: {
+            name: SchematicProfile.$type,
+            properties: {
+                name: {
+                    name: SchematicProfile.name
+                },
+                statements: {
+                    name: SchematicProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
         },
         ShapeDeclaration: {
             name: ShapeDeclaration.$type,

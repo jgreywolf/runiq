@@ -2,17 +2,17 @@
 title: Profiles
 ---
 
-# Profiles: Diagram vs Electrical
+# Profiles: Diagram vs Schematic
 
 Runiq supports two primary profiles:
 
 - Diagram profile: general-purpose diagrams (flowcharts, UML, architecture, block diagrams, mind maps, org, etc.). You can freely mix any supported shapes in a single diagram.
-- Electrical profile: schematic diagrams rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
+- Schematic profile: schematic diagrams rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 
 Most syntax is shared across profiles. The key differences are:
 
-- Shape set and rendering style for electrical symbols
-- Exporters available (SPICE/Verilog for electrical)
+- Shape set and rendering style for schematic symbols
+- Exporters available (SPICE/Verilog for schematic)
 - Some layout defaults (e.g., orthogonal wiring)
 
 To use the diagram profile (default):
@@ -28,10 +28,10 @@ Start -> Amp
 Amp   -> Box
 ```
 
-To use the electrical profile:
+To use the schematic profile:
 
 ```runiq
-electrical "Simple RC" direction: LR
+schematic "Simple RC" direction: LR
 
 shape V1 as @voltage-source label:"5V"
 shape R1 as @resistor       label:"1kΩ"

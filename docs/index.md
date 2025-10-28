@@ -30,7 +30,7 @@ features:
 
   - icon: 🔧
     title: 54 Shapes Across 9 Categories
-    details: From flowcharts to UML diagrams, electrical circuits to block diagrams.
+  details: From flowcharts to UML diagrams, schematic circuits to block diagrams.
 
   - icon: 🏗️
     title: Hierarchical Containers
@@ -90,7 +90,7 @@ Create flowcharts, sequence diagrams, use case diagrams, class diagrams, state m
 Design PID controllers, feedback loops, and state-space models. Export to LaTeX for papers or Simulink for simulation.
 :::
 
-::: info Electrical Engineering
+::: info Schematic/Electrical Engineering
 Define analog circuits and export SPICE netlists for simulation. Generate professional IEEE-standard schematics.
 :::
 
