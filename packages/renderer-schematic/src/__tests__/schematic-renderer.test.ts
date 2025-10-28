@@ -1,8 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { renderSchematic } from '../index.js';
-import type { ElectricalProfile } from '@runiq/core';
+import type { ElectricalProfile, SchematicProfile } from '@runiq/core';
 
 describe('Schematic Renderer', () => {
+  it('should render a simple schematic profile (type: schematic)', () => {
+    const profile: SchematicProfile = {
+      type: 'schematic',
+      name: 'Test Schematic',
+      nets: [],
+      parts: [
+        { ref: 'R1', type: 'R', params: { value: '10k' }, pins: ['A', 'B'] },
+      ],
+    };
+    const result = renderSchematic(profile);
+    expect(result.svg).toContain('<svg');
+    expect(result.svg).toContain('Test Schematic');
+  });
   describe('Basic Rendering', () => {
     it('should render simple resistor circuit', () => {
       const profile: ElectricalProfile = {

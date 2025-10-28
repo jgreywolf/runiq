@@ -1,7 +1,9 @@
 {
   "name": "runiq",
   "scopeName": "source.runiq",
-  "fileTypes": [".runiq"],
+  "fileTypes": [
+    ".runiq"
+  ],
   "patterns": [
     {
       "include": "#comments"

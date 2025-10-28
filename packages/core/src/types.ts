@@ -263,6 +263,7 @@ export interface RuniqDocument {
 export type Profile =
   | DiagramProfile
   | ElectricalProfile
+  | SchematicProfile
   | DigitalProfile
   | BlockDiagramProfile;
 
@@ -287,6 +288,18 @@ export interface DiagramProfile {
  */
 export interface ElectricalProfile {
   type: 'electrical';
+  name: string;
+  nets: NetAst[];
+  parts: PartAst[];
+  analyses?: AnalysisAst[];
+}
+
+/**
+ * Schematic circuit profile (renamed from ElectricalProfile)
+ * Backward compatible with ElectricalProfile; identical fields.
+ */
+export interface SchematicProfile {
+  type: 'schematic';
   name: string;
   nets: NetAst[];
   parts: PartAst[];
