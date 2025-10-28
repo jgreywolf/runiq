@@ -198,8 +198,17 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
         "$type": "Group",
         "elements": [
           {
-            "$type": "Keyword",
-            "value": "electrical"
+            "$type": "Alternatives",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "schematic"
+              },
+              {
+                "$type": "Keyword",
+                "value": "electrical"
+              }
+            ]
           },
           {
             "$type": "Assignment",

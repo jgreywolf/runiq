@@ -1,6 +1,9 @@
-# Electrical Circuit Examples
+# Schematic Circuit Examples
 
-Create professional IEEE-standard electrical schematics with SPICE netlist export.
+Create professional IEEE/IEC-standard schematics with SPICE netlist export.
+
+> Note: The 'electrical' profile keyword has been renamed to 'schematic'.
+> The old 'electrical' keyword will continue to work for backward compatibility.
 
 ## RC Lowpass Filter
 
@@ -9,7 +12,7 @@ A classic RC filter circuit with SPICE simulation.
 ### DSL Code
 
 ```runiq
-electrical "RC Lowpass Filter" {
+schematic "RC Lowpass Filter" {
   net IN, OUT, GND
 
   # Input voltage source: 1V sine wave at 1kHz
@@ -61,7 +64,7 @@ Simple resistor divider for voltage scaling.
 ### DSL Code
 
 ```runiq
-electrical "Voltage Divider" {
+schematic "Voltage Divider" {
   net VIN, VOUT, GND
 
   # Input: 12V DC
@@ -95,7 +98,7 @@ Operational amplifier in non-inverting configuration.
 ### DSL Code
 
 ```runiq
-electrical "Non-Inverting Amplifier" {
+schematic "Non-Inverting Amplifier" {
   net IN, OUT, GND, VCC, VEE
 
   # Power supplies

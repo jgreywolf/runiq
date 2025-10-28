@@ -31,7 +31,7 @@ DiagramStatement:
 // Electrical Profile (analog circuits)
 // ============================================================================
 ElectricalProfile:
-    'electrical' name=STRING '{'
+    ('schematic' | 'electrical') name=STRING '{'
         statements+=ElectricalStatement*
     '}';
 

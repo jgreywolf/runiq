@@ -115,6 +115,7 @@ export type RuniqKeywordNames =
     | "right"
     | "roleSource:"
     | "roleTarget:"
+    | "schematic"
     | "shape"
     | "showLegend:"
     | "solid"
