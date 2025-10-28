@@ -63,84 +63,6 @@ export default defineConfig({
             { text: 'Layout', link: '/guide/layout' },
           ],
         },
-        {
-          text: 'Diagram Types',
-          items: [
-            { text: 'Flowcharts', link: '/guide/flowcharts' },
-            { text: 'Sequence Diagrams', link: '/guide/sequence' },
-            { text: 'Use Case Diagrams', link: '/guide/use-case' },
-            { text: 'Class Diagrams', link: '/guide/class' },
-            { text: 'State Machines', link: '/guide/state-machine' },
-            { text: 'ER Diagrams', link: '/guide/entity-relationship' },
-            { text: 'Block Diagrams', link: '/guide/block-diagrams' },
-          ],
-        },
-        {
-          text: 'Circuits',
-          items: [
-            { text: 'Electrical Circuits', link: '/guide/electrical' },
-            { text: 'Digital Logic', link: '/guide/digital' },
-          ],
-        },
-      ],
-      '/examples/': [
-        {
-          text: 'Examples',
-          items: [
-            { text: 'Overview', link: '/examples/' },
-            { text: 'Toolbox Samples', link: '/examples/toolbox-samples' },
-          ],
-        },
-        {
-          text: 'Software Engineering',
-          items: [
-            { text: 'Flowcharts', link: '/examples/flowcharts' },
-            { text: 'Use Case Diagrams', link: '/examples/use-case' },
-            { text: 'Container Diagrams', link: '/examples/containers' },
-          ],
-        },
-        {
-          text: 'Control Systems',
-          items: [{ text: 'Block Diagrams', link: '/examples/block-diagrams' }],
-        },
-        {
-          text: 'Circuits',
-          items: [
-            { text: 'Electrical (Analog)', link: '/examples/electrical' },
-            { text: 'Digital Logic', link: '/examples/digital' },
-          ],
-        },
-      ],
-      '/reference/': [
-        {
-          text: 'Reference',
-          items: [
-            { text: 'Shape Catalog', link: '/reference/shapes' },
-            { text: 'DSL Syntax', link: '/reference/dsl' },
-            { text: 'JSON Format', link: '/reference/json' },
-            { text: 'CLI Usage', link: '/reference/cli' },
-          ],
-        },
-        {
-          text: 'API',
-          items: [
-            { text: 'Core API', link: '/reference/api/core' },
-            { text: 'Parser', link: '/reference/api/parser' },
-            { text: 'Layout', link: '/reference/api/layout' },
-            { text: 'Renderer', link: '/reference/api/renderer' },
-          ],
-        },
-      ],
-      '/export/': [
-        {
-          text: 'Export Formats',
-          items: [
-            { text: 'SPICE Netlist', link: '/export/spice' },
-            { text: 'Verilog HDL', link: '/export/verilog' },
-            { text: 'LaTeX/TikZ', link: '/export/latex' },
-            { text: 'Simulink', link: '/export/simulink' },
-          ],
-        },
       ],
     },
 
@@ -178,27 +100,12 @@ export default defineConfig({
     },
     lineNumbers: true,
   },
-  // Register trivial highlighters for custom languages to avoid fallback warnings
-  // When ready, replace with Shiki transformers to provide proper grammar
+  // Map custom languages to built-ins for basic highlighting
   // https://vitepress.dev/guide/markdown#highlight
   // @ts-ignore
   async shikiSetup(shiki) {
-    // Use plaintext for custom languages until grammars are added
-    const langs = await shiki.getLoadedLanguages?.();
-    const hasTxt = langs?.includes('txt');
-    const as = hasTxt ? 'txt' : 'plaintext';
-    // Aliases
-    shiki.addAlias?.({
-      lang: 'runiq',
-      name: as,
-    });
-    shiki.addAlias?.({
-      lang: 'spice',
-      name: as,
-    });
-    shiki.addAlias?.({
-      lang: 'langium',
-      name: as,
-    });
+    shiki.addAlias?.({ lang: 'runiq', name: 'yaml' });
+    shiki.addAlias?.({ lang: 'spice', name: 'ini' });
+    shiki.addAlias?.({ lang: 'langium', name: 'bnf' });
   },
 });
