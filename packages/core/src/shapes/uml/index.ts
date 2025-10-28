@@ -21,3 +21,22 @@ export { activityShape } from './activity.js';
 export { componentShape } from './component.js';
 export { artifactShape } from './artifact.js';
 export { nodeShape } from './node.js';
+
+// UML Component Additions
+export {
+  portShape,
+  moduleShape,
+  templateShape,
+  sendSignalShape,
+  receiveSignalShape,
+  historyShape,
+  pinShape,
+  assemblyShape,
+  providedInterfaceShape,
+  requiredInterfaceShape,
+  frameShape,
+  collaborationShape,
+  submachineShape,
+  loopShape,
+  verticalForkShape,
+} from './component-additions.js';

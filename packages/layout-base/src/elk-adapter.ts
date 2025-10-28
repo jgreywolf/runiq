@@ -57,9 +57,9 @@ export class ElkLayoutEngine implements LayoutEngine {
   constructor() {
     // Disable web workers for Node.js compatibility
     // ELK bundler typings don't expose a constructable type under NodeNext; cast to a constructor
-    const ElkCtor = ELK as unknown as new (
-      opts?: { workerUrl?: string }
-    ) => ElkApi;
+    const ElkCtor = ELK as unknown as new (opts?: {
+      workerUrl?: string;
+    }) => ElkApi;
     this.elk = new ElkCtor({ workerUrl: undefined });
   }
 
@@ -331,30 +331,32 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Extract edge routing from top-level layout (ONLY edges between standalone nodes and cross-container edges)
     // Skip edges that are internal to containers - those were already extracted from container layouts
-  const topLevelEdges = (laidOut.edges || []).filter((elkEdge: ElkExtendedEdge) => {
-      // Parse edge ID to get from/to
-      const edgeId = elkEdge.id || '';
-      const match = edgeId.match(/^(.+)->(.+)$/);
-      if (!match) return true; // Keep if we can't parse
+    const topLevelEdges = (laidOut.edges || []).filter(
+      (elkEdge: ElkExtendedEdge) => {
+        // Parse edge ID to get from/to
+        const edgeId = elkEdge.id || '';
+        const match = edgeId.match(/^(.+)->(.+)$/);
+        if (!match) return true; // Keep if we can't parse
 
-      const [, from, to] = match;
-      // Extract node IDs from potentially member-level references
-      const fromNodeId = this.extractNodeId(from);
-      const toNodeId = this.extractNodeId(to);
+        const [, from, to] = match;
+        // Extract node IDs from potentially member-level references
+        const fromNodeId = this.extractNodeId(from);
+        const toNodeId = this.extractNodeId(to);
 
-      const fromContainer = nodeContainerMap.get(fromNodeId);
-      const toContainer = nodeContainerMap.get(toNodeId);
+        const fromContainer = nodeContainerMap.get(fromNodeId);
+        const toContainer = nodeContainerMap.get(toNodeId);
 
-      // Skip if both nodes are in the SAME container (internal edge, already extracted)
-      const isInternalEdge =
-        fromContainer && toContainer && fromContainer === toContainer;
-      if (isInternalEdge) {
-        console.log(
-          `Skipping internal edge ${from} -> ${to} (already extracted from container ${fromContainer})`
-        );
+        // Skip if both nodes are in the SAME container (internal edge, already extracted)
+        const isInternalEdge =
+          fromContainer && toContainer && fromContainer === toContainer;
+        if (isInternalEdge) {
+          console.log(
+            `Skipping internal edge ${from} -> ${to} (already extracted from container ${fromContainer})`
+          );
+        }
+        return !isInternalEdge;
       }
-      return !isInternalEdge;
-    });
+    );
 
     this.extractEdges(topLevelEdges, nodes, edges);
 
