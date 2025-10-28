@@ -376,13 +376,13 @@ importers:
 
   packages/layout-base:
     dependencies:
-      '@runiq/core':
-        specifier: workspace:*
-        version: link:../core
       elkjs:
         specifier: ^0.9.3
         version: 0.9.3
     devDependencies:
+      '@runiq/core':
+        specifier: workspace:*
+        version: link:../core
       '@runiq/parser-dsl':
         specifier: workspace:*
         version: link:../parser-dsl
@@ -447,10 +447,37 @@ importers:
         version: 1.6.1(@types/node@20.19.20)
 
   packages/renderer-svg:
+    devDependencies:
+      '@runiq/core':
+        specifier: workspace:*
+        version: link:../core
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.20
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(typescript@5.9.3)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.2
+        version: 1.6.1(@types/node@20.19.20)
+
+  packages/web:
     dependencies:
       '@runiq/core':
         specifier: workspace:*
         version: link:../core
+      '@runiq/layout-base':
+        specifier: workspace:*
+        version: link:../layout-base
+      '@runiq/parser-dsl':
+        specifier: workspace:*
+        version: link:../parser-dsl
+      '@runiq/renderer-svg':
+        specifier: workspace:*
+        version: link:../renderer-svg
     devDependencies:
       '@types/node':
         specifier: ^20.11.0

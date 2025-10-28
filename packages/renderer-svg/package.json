@@ -24,10 +24,11 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@runiq/core": "workspace:*"
   },
   "devDependencies": {
+    "@runiq/core": "workspace:*",
     "@types/node": "^20.11.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",

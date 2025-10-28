@@ -1,7 +1,7 @@
 {
-  "name": "@runiq/layout-base",
+  "name": "@runiq/web",
   "version": "0.1.0",
-  "description": "Layout engine interfaces and adapters for Runiq",
+  "description": "Browser-friendly SDK to parse, layout, and render Runiq diagrams to SVG",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,29 +22,33 @@
     "test:watch": "vitest",
     "lint": "eslint src/**/*.ts",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rimraf dist"
   },
   "dependencies": {
-    "elkjs": "^0.9.3"
-  },
-  "peerDependencies": {
-    "@runiq/core": "workspace:*"
-  },
-  "devDependencies": {
     "@runiq/core": "workspace:*",
     "@runiq/parser-dsl": "workspace:*",
-    "@runiq/renderer-svg": "workspace:*",
+    "@runiq/layout-base": "workspace:*",
+    "@runiq/renderer-svg": "workspace:*"
+  },
+  "devDependencies": {
     "@types/node": "^20.11.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
   },
   "keywords": [
+    "runiq",
+    "diagram",
+    "parser",
     "layout",
-    "elk",
     "elkjs",
-    "diagram"
+    "svg",
+    "renderer",
+    "browser"
   ],
   "author": "Runiq Team",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
