@@ -13,3 +13,12 @@ export { offPageConnectorShape } from './offPageConnector.js';
 export { cardShape } from './card.js';
 export { paperTapeShape } from './paperTape.js';
 export { leanLeftShape } from './leanLeft.js';
+
+// Flowchart Additional Shapes
+export {
+  multiProcessShape,
+  orShape,
+  summingJunctionShape,
+  curlyBraceAnnotationShape,
+  magneticTapeShape,
+} from './flowchart-additions.js';
