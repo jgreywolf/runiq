@@ -13,6 +13,7 @@ diagram "My Diagram" direction: LR
 ```
 
 Options:
+
 - direction: TB | LR | BT | RL
 - title: optional string (used by renderers)
 
@@ -37,6 +38,7 @@ Decide[no]  -> Note : warn
 ```
 
 Edge adornments:
+
 - Labels: `: text`
 - Branches: `[yes]`, `[no]`, or custom `[label]`
 - Styles via named styles or direct style on edge (see Styles)

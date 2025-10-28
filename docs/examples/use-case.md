@@ -218,7 +218,7 @@ actor User8 as @custom-actor       # Configurable
 - Place primary actors (users) on the left
 - Place secondary actors (systems, admins) on the right
 - Group related use cases within system boundaries
-:::
+  :::
 
 ::: tip Stereotypes
 
@@ -228,14 +228,14 @@ actor User8 as @custom-actor       # Configurable
 - **`<<extend>>`**: When behavior is optional
   - Transfer → Send Notification
   - Purchase → Apply Coupon
-:::
+    :::
 
 ::: tip Relationship Lines
 
 - **Solid line**: Actor to use case (standard association)
 - **Dashed line with arrow**: Stereotype relationships (include/extend)
 - **Label on arrow**: Describe the relationship type
-:::
+  :::
 
 ## Use Case Diagram Checklist
 

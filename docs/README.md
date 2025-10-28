@@ -93,10 +93,30 @@ Currently, VitePress doesn't have syntax highlighting for Runiq DSL. Code blocks
 
 ### Vercel
 
-1. Push to GitHub
-2. Import project in Vercel
-3. Set build command: `pnpm docs:build`
-4. Set output directory: `docs/.vitepress/dist`
+There are two reliable ways to deploy the docs on Vercel. Pick ONE.
+
+Option A — Root at repository (recommended for this monorepo):
+
+- Root Directory: repository root (leave empty)
+- Install Command: `pnpm install --frozen-lockfile`
+- Build Command: `pnpm docs:build`
+- Output Directory: `docs/.vitepress/dist`
+- Node.js Version: `22.x` (or `20.19.0`) to match `package.json` engines
+- Framework Preset: VitePress or Other
+
+Option B — Root at `docs/` subfolder (clean URL, minimal config):
+
+- Root Directory: `docs`
+- Install Command: `pnpm -w install --frozen-lockfile`
+- Build Command: `pnpm -w docs:build` (or `npx vitepress build .`)
+- Output Directory: `.vitepress/dist` (note: relative to `docs/`)
+- Node.js Version: `22.x` (or `20.19.0`)
+
+Common pitfalls that cause 404s:
+
+- Output Directory is wrong for the chosen Root Directory (e.g., using `docs/.vitepress/dist` when Root Directory is `docs/`; use `.vitepress/dist` instead).
+- Building inside `docs/` without using the workspace root (`-w`) so dependencies aren’t installed; use `pnpm -w` or run the build from the repository root.
+- Base path mismatches. We publish the docs at the domain root, so `base` is not set in `.vitepress/config.ts` (keep it that way unless you deploy under a subpath).
 
 ### Netlify
 

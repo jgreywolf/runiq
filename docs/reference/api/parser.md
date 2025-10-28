@@ -13,7 +13,7 @@ import { parse } from '@runiq/parser-dsl';
 
 const result = parse(source);
 if (!result.success) {
-	console.error(result.errors);
+  console.error(result.errors);
 }
 const diagram = result.document!.diagrams[0];
 ```
@@ -22,9 +22,9 @@ const diagram = result.document!.diagrams[0];
 
 ```ts
 interface ParseResult {
-	success: boolean;
-	document?: Document;
-	errors?: { message: string; line?: number; column?: number }[];
+  success: boolean;
+  document?: Document;
+  errors?: { message: string; line?: number; column?: number }[];
 }
 ```
 

@@ -12,12 +12,19 @@ export default defineConfig({
   // base: '/runiq/',
 
   head: [
-    ['link', { rel: 'icon', type: 'image/png', href: '/images/runiq.mascot.badge.png' }]
+    [
+      'link',
+      {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/images/runiq.mascot.badge.png',
+      },
+    ],
   ],
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-  logo: '/images/runiq.mascot.badge.png',
+    logo: '/images/runiq.mascot.badge.png',
 
     nav: [
       { text: 'Playground', link: 'https://runedit.lostware.com' },

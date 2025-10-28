@@ -12,10 +12,10 @@ Shapes implement a common interface:
 
 ```ts
 export interface ShapeDefinition {
-	id: string;
-	bounds(ctx): { width: number; height: number };
-	anchors(ctx): Anchor[];
-	render(ctx, position): string; // returns SVG fragment
+  id: string;
+  bounds(ctx): { width: number; height: number };
+  anchors(ctx): Anchor[];
+  render(ctx, position): string; // returns SVG fragment
 }
 ```
 

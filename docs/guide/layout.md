@@ -15,9 +15,9 @@ import { layoutDiagram } from '@runiq/layout-base';
 const parseResult = parse(dsl);
 const diagram = parseResult.document!.diagrams[0];
 const laidOut = await layoutDiagram(diagram, {
-	algorithm: 'layered', // layered | force | stress | tree | radial
-	direction: 'TB',      // TB | BT | LR | RL
-	spacing: 80,
+  algorithm: 'layered', // layered | force | stress | tree | radial
+  direction: 'TB', // TB | BT | LR | RL
+  spacing: 80,
 });
 ```
 

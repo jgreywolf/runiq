@@ -12,7 +12,7 @@ Render laid-out diagrams to pure SVG.
 import { renderSvg } from '@runiq/renderer-svg';
 
 const { svg, width, height } = renderSvg(diagram, laidOut, {
-	title: diagram.title,
+  title: diagram.title,
 });
 ```
 
@@ -20,9 +20,9 @@ const { svg, width, height } = renderSvg(diagram, laidOut, {
 
 ```ts
 interface RenderResult {
-	svg: string;     // SVG markup
-	width: number;
-	height: number;
+  svg: string; // SVG markup
+  width: number;
+  height: number;
 }
 ```
 
