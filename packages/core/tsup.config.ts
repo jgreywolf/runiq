@@ -23,7 +23,8 @@ export default defineConfig({
     'src/text-measurement/node.ts',
   ],
   format: ['esm'],
-  dts: true,
+  // JS bundling only; declarations are generated via tsc (see tsconfig.build.json)
+  dts: false,
   sourcemap: process.env.NODE_ENV !== 'production',
   clean: true,
   splitting: false,

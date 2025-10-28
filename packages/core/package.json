@@ -93,7 +93,7 @@
     "./dist/shapes/*/index.js"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc -p tsconfig.build.json",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",

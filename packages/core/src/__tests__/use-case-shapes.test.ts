@@ -1,20 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { ellipseWideShape } from '../shapes/basic/ellipseWide.js';
 import { systemBoundaryShape } from '../shapes/uml/systemBoundary.js';
-import type { DiagramNode, Style, TextMeasurement } from '../types.js';
+import type { ShapeRenderContext, Style } from '../types.js';
 
 describe('Use Case Shapes', () => {
-  const mockCtx = {
-    node: {
-      id: 'uc1',
-      label: 'Place Order',
-      shape: 'ellipse-wide',
-    } as DiagramNode,
+  const mockCtx: ShapeRenderContext = {
+    node: { id: 'uc1', label: 'Place Order', shape: 'ellipse-wide' },
     style: { padding: 12, fontSize: 14 } as Style,
-    measureText: (text: string): TextMeasurement => ({
-      width: text.length * 8,
-      height: 16,
-    }),
+    measureText: (text: string) => ({ width: text.length * 8, height: 16 }),
   };
 
   describe('ellipse-wide (Use Case Oval)', () => {

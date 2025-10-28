@@ -44,16 +44,23 @@ import { shapeRegistry, createTextMeasurer } from '@runiq/core';
  * - Container spanning (width/height across multiple grid cells)
  * - Mixed horizontal/vertical container arrangements
  */
+// Narrowed runtime API surface we use from ELK
+interface ElkApi {
+  layout(graph: ElkNode): Promise<ElkNode>;
+}
+
 export class ElkLayoutEngine implements LayoutEngine {
   id = 'elk';
   supportsManualPositions = true;
-  private elk: InstanceType<typeof ELK>;
+  private elk: ElkApi;
 
   constructor() {
     // Disable web workers for Node.js compatibility
-    this.elk = new ELK({
-      workerUrl: undefined,
-    });
+    // ELK bundler typings don't expose a constructable type under NodeNext; cast to a constructor
+    const ElkCtor = ELK as unknown as new (
+      opts?: { workerUrl?: string }
+    ) => ElkApi;
+    this.elk = new ElkCtor({ workerUrl: undefined });
   }
 
   /**
@@ -324,7 +331,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Extract edge routing from top-level layout (ONLY edges between standalone nodes and cross-container edges)
     // Skip edges that are internal to containers - those were already extracted from container layouts
-    const topLevelEdges = (laidOut.edges || []).filter((elkEdge) => {
+  const topLevelEdges = (laidOut.edges || []).filter((elkEdge: ElkExtendedEdge) => {
       // Parse edge ID to get from/to
       const edgeId = elkEdge.id || '';
       const match = edgeId.match(/^(.+)->(.+)$/);

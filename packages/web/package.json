@@ -48,6 +48,11 @@
   ],
   "author": "Runiq Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgreywolf/runiq.git",
+    "directory": "packages/web"
+  },
   "publishConfig": {
     "access": "public"
   }
