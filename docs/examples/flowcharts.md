@@ -99,6 +99,10 @@ Business -> DB
 Business -> Cache
 ```
 
+### Generated SVG
+
+![Three-Tier Web App](/examples/three-tier-web-app.svg)
+
 **Features:**
 
 - Three containers for separation of concerns
@@ -127,6 +131,10 @@ Validate[no] -> ErrorLog
 Load -> Archive
 ErrorLog -> Archive
 ```
+
+### Generated SVG
+
+![ETL Pipeline](/examples/etl-pipeline.svg)
 
 **Use Case:** ETL (Extract, Transform, Load) process
 
@@ -167,6 +175,10 @@ IncrementJ -> InnerCheck
 IncrementI -> OuterCheck
 ```
 
+### Generated SVG
+
+![Bubble Sort Algorithm](/examples/bubble-sort.svg)
+
 **Features:**
 
 - Nested loops (outer and inner)
@@ -203,6 +215,10 @@ Processing -> Cancelled label: "cancel"
 # Refund path
 Delivered -> Refunded label: "refund"
 ```
+
+### Generated SVG
+
+![Order State Machine](/examples/order-state-machine.svg)
 
 **Use Case:** E-commerce order lifecycle
 

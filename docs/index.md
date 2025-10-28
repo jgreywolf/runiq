@@ -17,7 +17,7 @@ hero:
       link: /examples/
     - theme: alt
       text: Try Online
-      link: /playground
+      link: editor.runiq.org
 
 features:
   - icon: 📝

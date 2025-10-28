@@ -1,0 +1,25 @@
+diagram "Three-Tier Web App" direction: TB
+
+container frontend "Frontend" backgroundColor:"#e3f2fd" {
+  shape Browser as @rect label: "Web Browser"
+  shape UI as @rect label: "React UI"
+}
+
+container backend "Backend" backgroundColor:"#fff3e0" {
+  shape API as @rect label: "REST API"
+  shape Auth as @rect label: "Auth Service"
+  shape Business as @rect label: "Business Logic"
+}
+
+container datalayer "Data Layer" backgroundColor:"#e8f5e9" {
+  shape DB as @cyl label: "PostgreSQL"
+  shape Cache as @cyl label: "Redis"
+}
+
+# Cross-container connections
+Browser -> UI
+UI -> API
+API -> Auth
+API -> Business
+Business -> DB
+Business -> Cache
