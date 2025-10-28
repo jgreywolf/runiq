@@ -3,7 +3,13 @@ import { twMerge } from 'tailwind-merge';
 import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
 
-export type WithElementRef<T> = T & { ref?: any };
+export type WithElementRef<T> = T & { ref?: Element | null };
+
+// Remove the `children` prop (used by Bits-UI types)
+// Keep `children` (renderer function) but ensure `child` is not present
+export type WithoutChild<T> = Omit<T, 'child'> & { child?: undefined };
+// Remove both `children` and `child` props where components accept either
+export type WithoutChildrenOrChild<T> = Omit<T, 'child'> & { child?: undefined };
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));

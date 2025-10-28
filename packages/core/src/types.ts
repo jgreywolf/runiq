@@ -32,7 +32,16 @@ export interface NodeAst {
   icon?: IconRef;
   link?: LinkRef;
   tooltip?: string;
-  data?: Record<string, unknown>;
+  // Data used by data-driven shapes (charts etc.)
+  // Known common fields are typed to improve DX while still allowing arbitrary extras
+  data?: {
+    value?: number;
+    values?: DataArray;
+    points?: DataPoint[];
+    labels?: string[];
+    colors?: string[];
+    [k: string]: unknown;
+  } | Record<string, unknown>;
 }
 
 export interface EdgeAst {
