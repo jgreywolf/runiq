@@ -592,7 +592,7 @@ const srLatch: SchematicProfile = {
 ### 1. Write Runiq Circuit
 
 ```runiq
-electrical "RC Filter" {
+schematic "RC Filter" {
   net IN, OUT, GND
 
   part V1 type:V source:"SIN(0 1 1k)" pins:(IN,GND)
@@ -613,7 +613,7 @@ const content = await fs.readFile('rc-filter.runiq', 'utf-8');
 const parseResult = parse(content);
 
 const SchematicProfile = parseResult.document.profiles.find(
-  (p) => p.type === 'electrical'
+  (p) => p.type === 'schematic'
 );
 
 const schematic = renderSchematic(SchematicProfile);
