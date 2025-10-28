@@ -27,7 +27,7 @@ export default defineConfig({
     logo: '/images/runiq.mascot.badge.png',
 
     nav: [
-      { text: 'Playground', link: 'https://runedit.lostware.com' },
+      { text: 'Playground', link: 'https://editor.runiq.org' },
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'Examples', link: '/examples/' },
       { text: 'Reference', link: '/reference/shapes' },
