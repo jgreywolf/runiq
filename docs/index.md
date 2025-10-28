@@ -5,7 +5,7 @@ hero:
   name: Runiq
   text: Diagram DSL with JSON Twin
   tagline: Create beautiful, standards-compliant diagrams with plain text. Two inputs, one AST, pure SVG output.
-  image:
+   Live demo: Render Runiq DSL to SVG in your browser → [Web Demo](./web-demo.md)
     src: /images/runiq.banner.png
     alt: Runiq Banner
   actions:

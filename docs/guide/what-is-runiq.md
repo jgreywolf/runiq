@@ -21,6 +21,7 @@ Runiq provides:
 - ✅ **Professional layouts** - Automatic with ELK layout engine
 - ✅ **Pure SVG output** - Embed anywhere, no dependencies
 - ✅ **Extensible** - Pluggable shapes, themes, exporters
+- ✅ **Browser SDK** - Use in web apps via `@runiq/web`
 
 ## Key Features
 
@@ -68,7 +69,7 @@ Runiq uses the **Eclipse Layout Kernel (ELK)** with 5 algorithms:
 
 ### 4. Rich Shape Library
 
-**54 shapes** across 9 categories:
+**75+ shapes** across many categories:
 
 - **Actors** (8) - User representations for use case diagrams
 - **Circles** (10) - Various circle styles and sizes
@@ -81,6 +82,25 @@ Runiq uses the **Eclipse Layout Kernel (ELK)** with 5 algorithms:
 - **Annotations** (3) - Comments and notes
 
 [View all shapes →](/reference/shapes)
+
+### 9. Web SDK for browsers
+
+Render Runiq DSL to SVG in the browser with a single call:
+
+```ts
+import { renderRuniqToSvg } from '@runiq/web';
+
+const dsl = `diagram "My Diagram" {
+  shape A as @rect label:"Hello"
+  shape B as @rect label:"World"
+  A -link-> B
+}`;
+
+const { svg } = await renderRuniqToSvg(dsl);
+document.getElementById('output')!.innerHTML = svg;
+```
+
+[Try the live web demo →](/web-demo)
 
 ### 5. UML Relationships
 
@@ -155,7 +175,9 @@ Runiq is built as a **monorepo** with modular packages:
 @runiq/parser-dsl     # Langium-based parser
 @runiq/layout-base    # ELK layout adapter
 @runiq/renderer-svg   # SVG rendering
+@runiq/renderer-schematic # IEEE-style schematic renderer
 @runiq/io-json        # JSON import/export
+@runiq/web            # Browser SDK (parse→layout→render)
 @runiq/export-spice   # SPICE netlist exporter
 @runiq/export-verilog # Verilog HDL exporter
 @runiq/export-latex   # LaTeX/TikZ exporter
@@ -167,7 +189,7 @@ Runiq is built as a **monorepo** with modular packages:
 - **Language**: TypeScript (strict mode)
 - **Parser**: Langium (modern language engineering)
 - **Layout**: Eclipse Layout Kernel (ELK 0.9.3)
-- **Testing**: Vitest (705+ tests)
+- **Testing**: Vitest (1000+ tests)
 - **Build**: tsup (zero-config bundler)
 - **Monorepo**: pnpm workspaces
 

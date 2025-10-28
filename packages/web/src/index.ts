@@ -3,7 +3,11 @@ import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
 import '@runiq/core';
 import { parse as parseDsl, type ParseResult } from '@runiq/parser-dsl';
 import { ElkLayoutEngine } from '@runiq/layout-base';
-import { renderSvg, type RenderResult, type RenderOptions } from '@runiq/renderer-svg';
+import {
+  renderSvg,
+  type RenderResult,
+  type RenderOptions,
+} from '@runiq/renderer-svg';
 import {
   registerBasicShapes,
   registerRectVariantShapes,

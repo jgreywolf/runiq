@@ -1,6 +1,6 @@
 {
   "name": "@runiq/web",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Browser-friendly SDK to parse, layout, and render Runiq diagrams to SVG",
   "type": "module",
   "main": "./dist/index.js",

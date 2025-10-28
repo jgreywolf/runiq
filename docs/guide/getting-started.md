@@ -14,7 +14,7 @@ This guide will help you get Runiq up and running in minutes.
 - **Node.js** >= 20.19 (or >= 22.12)
 - **pnpm** >= 8.15.0 (recommended) or npm
 
-### Install via pnpm
+### Install via pnpm (monorepo dev)
 
 ```bash
 # Install pnpm globally if you haven't
@@ -34,7 +34,27 @@ pnpm build
 pnpm test
 ```
 
-### Install via npm
+### Use in your web app (npm)
+
+If you just want to render diagrams in your own application, install the browser SDK:
+
+```bash
+npm install @runiq/web
+```
+
+Quick start in code:
+
+```ts
+import { renderRuniqToSvg } from '@runiq/web';
+
+const text = `diagram "Hello" {\n  shape A as @rect label:"Hi"\n  shape B as @rect label:"There"\n  A -link-> B\n}`;
+const { svg } = await renderRuniqToSvg(text);
+document.querySelector('#out')!.innerHTML = svg;
+```
+
+[Try the live web demo](/web-demo)
+
+### Install via npm (monorepo dev)
 
 ```bash
 # Clone and install
@@ -56,7 +76,9 @@ Runiq/
 │   ├── parser-dsl/       # Langium parser
 │   ├── layout-base/      # ELK layout engine
 │   ├── renderer-svg/     # SVG renderer
+│   ├── renderer-schematic/# IEEE schematic renderer
 │   ├── io-json/          # JSON I/O
+│   ├── web/              # Browser SDK
 │   ├── export-spice/     # SPICE exporter
 │   ├── export-verilog/   # Verilog exporter
 │   ├── export-latex/     # LaTeX exporter

@@ -156,6 +156,7 @@ pnpm dev
 | [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | 114 ✅ |
 | [`@runiq/layout-base`](./packages/layout-base)             | ELK layout engine adapter          | 40 ✅  |
 | [`@runiq/renderer-svg`](./packages/renderer-svg)           | SVG rendering engine               | 30 ✅  |
+| [`@runiq/web`](./packages/web)                             | Browser SDK (parse→layout→render)  | 2 ✅   |
 | [`@runiq/io-json`](./packages/io-json)                     | JSON import/export                 | 28 ✅  |
 | [`@runiq/icons-fontawesome`](./packages/icons-fontawesome) | Font Awesome icon provider         | -      |
 | [`@runiq/cli`](./packages/cli)                             | Command-line interface             | -      |
@@ -180,6 +181,28 @@ pnpm dev
 | App                             | Description          |
 | ------------------------------- | -------------------- |
 | [`runiq-editor`](./apps/editor) | SvelteKit web editor |
+
+### Use in web apps (npm)
+
+Install the browser SDK and render diagrams directly in your app:
+
+```bash
+pnpm add @runiq/web
+```
+
+```ts
+import { renderRuniqToSvg } from '@runiq/web';
+
+const text = `diagram "My Diagram" {\n  shape A as @rectangle label:"Hello"\n  shape B as @rectangle label:"World"\n  A -link-> B\n}`;
+const { svg } = await renderRuniqToSvg(text);
+```
+
+CLI usage:
+
+```bash
+pnpm add -g @runiq/cli
+runiq render input.runiq > out.svg
+```
 
 ## Parser Technology
 

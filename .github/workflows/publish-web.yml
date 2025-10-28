@@ -1,0 +1,46 @@
+name: Publish @runiq/web
+
+on:
+  push:
+    tags:
+      - 'web-v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Install deps
+        run: pnpm -w install --frozen-lockfile
+
+      - name: Build deps
+        run: |
+          pnpm -C packages/parser-dsl build
+          pnpm -C packages/layout-base build
+          pnpm -C packages/renderer-svg build
+
+      - name: Build web
+        run: pnpm -C packages/web build
+
+      - name: Publish web
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd packages/web
+          pnpm publish --access public --no-git-checks
