@@ -28,7 +28,9 @@
 	const defaultCode = `diagram "My Diagram" {\n  // Add your shapes and connections here\n}`;
 
 	// Initialize Langium services for validation
-	const langiumServices = createRuniqServices(EmptyFileSystem).Runiq;
+	const allServices = createRuniqServices(EmptyFileSystem);
+	const langiumServices = allServices.Runiq;
+	const sharedServices = allServices.shared;
 
 	// Enhanced DSL linter with Langium validation
 	async function runiqLinter(view: EditorView): Promise<Diagnostic[]> {
@@ -38,14 +40,14 @@
 
 		try {
 			// Create a temporary Langium document with proper URI
-			const uri = URI.parse('inmemory://temp.runiq');
-			const langiumDoc = langiumServices.shared.workspace.LangiumDocumentFactory.fromString(
+			const uri = URI.parse('file:///temp.runiq');
+			const langiumDoc = sharedServices.workspace.LangiumDocumentFactory.fromString(
 				text,
 				uri
 			);
 
 			// Build the document (resolve cross-references, etc.)
-			await langiumServices.shared.workspace.DocumentBuilder.build([langiumDoc], {});
+			await sharedServices.workspace.DocumentBuilder.build([langiumDoc], {});
 
 			// Get validation diagnostics
 			const validationDiagnostics =
