@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | SchematicProfile | DigitalProfile | WardleyProfile;
+    DiagramProfile | SchematicProfile | DigitalProfile | WardleyProfile | SequenceProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -181,6 +181,90 @@ WardleyDependencyStatement:
 // evolve "Legacy System" to evolution:0.7
 WardleyEvolutionStatement:
     'evolve' component=STRING 'to' properties+=WardleyEvolutionProperty+;
+
+// ============================================================================
+// Sequence Profile (sequence diagrams)
+// ============================================================================
+SequenceProfile:
+    'sequence' name=STRING '{'
+        statements+=SequenceStatement*
+    '}';
+
+SequenceStatement:
+    SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement;
+
+// participant Actor as actor
+// participant "Web Server" as entity
+SequenceParticipantStatement:
+    'participant' name=STRING ('as' type=SequenceParticipantType)?;
+
+SequenceParticipantType returns string:
+    'actor' | 'entity' | 'boundary' | 'control' | 'database';
+
+// message from:"Actor" to:"Web Server" label:"HTTP Request" type:sync activate:true
+SequenceMessageStatement:
+    'message' properties+=SequenceMessageProperty+;
+
+SequenceMessageProperty:
+    SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty;
+
+SequenceFromProperty:
+    'from:' from=STRING;
+
+SequenceToProperty:
+    'to:' to=STRING;
+
+SequenceLabelProperty:
+    'label:' label=STRING;
+
+SequenceTypeProperty:
+    'type:' type=SequenceMessageType;
+
+SequenceMessageType returns string:
+    'sync' | 'async' | 'return' | 'create' | 'destroy';
+
+SequenceActivateProperty:
+    'activate:' value=BOOLEAN;
+
+// note "This is a note" position:left participants:("Actor")
+// note "Spanning note" position:over participants:("Actor","Web Server")
+SequenceNoteStatement:
+    'note' text=STRING properties+=SequenceNoteProperty+;
+
+SequenceNoteProperty:
+    SequenceNotePositionProperty | SequenceNoteParticipantsProperty;
+
+SequenceNotePositionProperty:
+    'position:' position=SequenceNotePosition;
+
+SequenceNotePosition returns string:
+    'left' | 'right' | 'over';
+
+SequenceNoteParticipantsProperty:
+    'participants:' '(' participants+=STRING (',' participants+=STRING)* ')';
+
+// fragment loop "Retry Logic" from:5 to:7
+// fragment alt "Error Handling" from:10 to:15 alternatives:("Success":10-12,"Failure":13-15)
+SequenceFragmentStatement:
+    'fragment' type=SequenceFragmentType label=STRING properties+=SequenceFragmentProperty+;
+
+SequenceFragmentType returns string:
+    'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break';
+
+SequenceFragmentProperty:
+    SequenceFragmentFromProperty | SequenceFragmentToProperty | SequenceFragmentAlternativesProperty;
+
+SequenceFragmentFromProperty:
+    'from:' from=NUMBER;
+
+SequenceFragmentToProperty:
+    'to:' to=NUMBER;
+
+SequenceFragmentAlternativesProperty:
+    'alternatives:' '(' alternatives+=SequenceAlternativeDecl (',' alternatives+=SequenceAlternativeDecl)* ')';
+
+SequenceAlternativeDecl:
+    label=STRING ':' fromMsg=NUMBER '-' toMsg=NUMBER;
 
 // ============================================================================
 // Diagram profile statements (existing grammar)
@@ -507,7 +591,6 @@ LayoutAlgorithmValue returns string:
 // Terminals
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal ARROW: '->';
-terminal HYPHEN: '-';
 terminal BOOLEAN: /true|false/;
 terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
