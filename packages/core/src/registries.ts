@@ -6,7 +6,7 @@ class ShapeRegistry {
 
   register(shape: ShapeDefinition, aliases?: string[]): void {
     this.shapes.set(shape.id, shape);
-    
+
     // Register aliases if provided
     if (aliases) {
       for (const alias of aliases) {
@@ -20,7 +20,9 @@ class ShapeRegistry {
    */
   registerAlias(alias: string, shapeId: string): void {
     if (!this.shapes.has(shapeId)) {
-      throw new Error(`Cannot create alias "${alias}" for unknown shape "${shapeId}"`);
+      throw new Error(
+        `Cannot create alias "${alias}" for unknown shape "${shapeId}"`
+      );
     }
     this.aliases.set(alias, shapeId);
   }

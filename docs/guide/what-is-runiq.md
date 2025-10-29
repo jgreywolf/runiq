@@ -162,8 +162,8 @@ diagram: block-diagram
 title: "PID Controller"
 
 shape Kp as @gain label: "Kp"
-shape Ki as @transfer-function label: "Ki/s"
-shape Kd as @transfer-function label: "Kd·s"
+shape Ki as @transferFunction label: "Ki/s"
+shape Kd as @transferFunction label: "Kd·s"
 ```
 
 ## Architecture

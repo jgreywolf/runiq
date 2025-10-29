@@ -147,7 +147,7 @@
 		</button>
 
 		<!-- Export Button -->
-		<div class="relative export-menu-container">
+		<div class="export-menu-container relative">
 			<button
 				onclick={() => (showExportMenu = !showExportMenu)}
 				class="inline-flex items-center gap-2 rounded-md bg-runiq-500 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-runiq-600"
@@ -175,13 +175,18 @@
 					viewBox="0 0 24 24"
 					stroke="currentColor"
 				>
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M19 9l-7 7-7-7"
+					/>
 				</svg>
 			</button>
 
 			{#if showExportMenu}
 				<div
-					class="absolute right-0 top-full z-50 mt-1 w-40 rounded-md border border-neutral-200 bg-white shadow-lg"
+					class="absolute top-full right-0 z-50 mt-1 w-40 rounded-md border border-neutral-200 bg-white shadow-lg"
 				>
 					<button
 						onclick={() => handleExport('svg')}

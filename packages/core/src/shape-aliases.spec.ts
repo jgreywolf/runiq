@@ -166,7 +166,7 @@ describe('Shape Alias System', () => {
     it('should generate alias map for documentation', () => {
       const aliasMap = getAliasMap();
       expect(aliasMap.size).toBeGreaterThan(0);
-      
+
       const rectangleAliases = aliasMap.get('rectangle');
       expect(rectangleAliases).toBeDefined();
       expect(rectangleAliases).toContain('rect');
@@ -177,7 +177,9 @@ describe('Shape Alias System', () => {
     it('should throw error when registering alias for non-existent shape', () => {
       expect(() => {
         shapeRegistry.registerAlias('fake-alias', 'non-existent-shape');
-      }).toThrow('Cannot create alias "fake-alias" for unknown shape "non-existent-shape"');
+      }).toThrow(
+        'Cannot create alias "fake-alias" for unknown shape "non-existent-shape"'
+      );
     });
 
     it('should return undefined for unknown alias', () => {

@@ -65,7 +65,7 @@ export type RuniqKeywordNames =
     | "derived:"
     | "diagram"
     | "digital"
-    | "direction:"
+    | "direction"
     | "dotted"
     | "double"
     | "edgeType:"
@@ -99,11 +99,13 @@ export type RuniqKeywordNames =
     | "op"
     | "opacity:"
     | "open"
+    | "orthogonal"
     | "package"
     | "padding:"
     | "params:"
     | "part"
     | "pins:"
+    | "polyline"
     | "ports:"
     | "private"
     | "protected"
@@ -114,6 +116,8 @@ export type RuniqKeywordNames =
     | "right"
     | "roleSource:"
     | "roleTarget:"
+    | "routing"
+    | "routing:"
     | "schematic"
     | "shape"
     | "showLegend:"
@@ -121,10 +125,12 @@ export type RuniqKeywordNames =
     | "source"
     | "source:"
     | "spacing:"
+    | "splines"
     | "stacked:"
     | "standard"
     | "static:"
     | "stereotype:"
+    | "straight"
     | "stress"
     | "style"
     | "style:"
@@ -617,7 +623,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | ShapeDeclaration | StyleDeclaration;
+export type DiagramStatement = ContainerBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -757,7 +763,7 @@ export function isEdgeLabelProperty(item: unknown): item is EdgeLabelProperty {
     return reflection.isInstance(item, EdgeLabelProperty.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty;
+export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty;
 
 export const EdgeProperty = {
     $type: 'EdgeProperty'
@@ -1578,6 +1584,42 @@ export function isRoleTargetProperty(item: unknown): item is RoleTargetProperty 
     return reflection.isInstance(item, RoleTargetProperty.$type);
 }
 
+export interface RoutingDeclaration extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'RoutingDeclaration';
+    value: RoutingValue;
+}
+
+export const RoutingDeclaration = {
+    $type: 'RoutingDeclaration',
+    value: 'value'
+} as const;
+
+export function isRoutingDeclaration(item: unknown): item is RoutingDeclaration {
+    return reflection.isInstance(item, RoutingDeclaration.$type);
+}
+
+export interface RoutingProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'RoutingProperty';
+    value: RoutingValue;
+}
+
+export const RoutingProperty = {
+    $type: 'RoutingProperty',
+    value: 'value'
+} as const;
+
+export function isRoutingProperty(item: unknown): item is RoutingProperty {
+    return reflection.isInstance(item, RoutingProperty.$type);
+}
+
+export type RoutingValue = 'orthogonal' | 'polyline' | 'splines' | 'straight';
+
+export function isRoutingValue(item: unknown): item is RoutingValue {
+    return item === 'orthogonal' || item === 'polyline' || item === 'splines' || item === 'straight';
+}
+
 export interface SchematicProfile extends langium.AstNode {
     readonly $container: Document;
     readonly $type: 'SchematicProfile';
@@ -1882,6 +1924,8 @@ export type RuniqAstType = {
     Profile: Profile
     RoleSourceProperty: RoleSourceProperty
     RoleTargetProperty: RoleTargetProperty
+    RoutingDeclaration: RoutingDeclaration
+    RoutingProperty: RoutingProperty
     SchematicProfile: SchematicProfile
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
@@ -2810,6 +2854,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: RoleTargetProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
+        RoutingDeclaration: {
+            name: RoutingDeclaration.$type,
+            properties: {
+                value: {
+                    name: RoutingDeclaration.value
+                }
+            },
+            superTypes: [DiagramStatement.$type]
+        },
+        RoutingProperty: {
+            name: RoutingProperty.$type,
+            properties: {
+                value: {
+                    name: RoutingProperty.value
                 }
             },
             superTypes: [EdgeProperty.$type]

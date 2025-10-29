@@ -143,12 +143,12 @@
 		}
 
 		const svg = previewRef.getSvg();
-		
+
 		// Create a temporary container to parse SVG dimensions
 		const tempDiv = document.createElement('div');
 		tempDiv.innerHTML = svg;
 		const svgElement = tempDiv.querySelector('svg');
-		
+
 		if (!svgElement) {
 			alert('Failed to parse SVG content');
 			return;
@@ -251,7 +251,13 @@
 
 <div class="flex h-screen flex-col overflow-hidden bg-neutral-50">
 	<!-- Header -->
-	<Header {diagramName} {lastSaved} {isDirty} onNewDiagram={handleNewDiagram} onExport={handleExport} />
+	<Header
+		{diagramName}
+		{lastSaved}
+		{isDirty}
+		onNewDiagram={handleNewDiagram}
+		onExport={handleExport}
+	/>
 
 	<!-- Main Content: Three-Panel Layout -->
 	<div class="flex-1 overflow-hidden">

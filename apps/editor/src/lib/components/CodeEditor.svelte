@@ -4,8 +4,11 @@
 	import { EditorState, Compartment } from '@codemirror/state';
 	import { javascript } from '@codemirror/lang-javascript';
 	import { lintGutter, linter } from '@codemirror/lint';
-	import type { Diagnostic } from '@codemirror/lint';
+	import type { Diagnostic, Action } from '@codemirror/lint';
 	import { autocompletion, type CompletionContext } from '@codemirror/autocomplete';
+	import { createRuniqServices } from '@runiq/parser-dsl';
+	import { EmptyFileSystem } from 'langium';
+	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
 
 	// Props
 	interface Props {
@@ -24,39 +27,106 @@
 	// Default blank diagram
 	const defaultCode = `diagram "My Diagram" {\n  // Add your shapes and connections here\n}`;
 
-	// Simple DSL linter (basic validation)
-	function runiqLinter(view: EditorView): Diagnostic[] {
+	// Initialize Langium services for validation
+	const langiumServices = createRuniqServices(EmptyFileSystem).Runiq;
+
+	// Enhanced DSL linter with Langium validation
+	async function runiqLinter(view: EditorView): Promise<Diagnostic[]> {
 		const diagnostics: Diagnostic[] = [];
 		const doc = view.state.doc;
 		const text = doc.toString();
 
-		// Basic syntax checking
-		const lines = text.split('\n');
-		lines.forEach((line, index) => {
-			const lineNumber = index + 1;
-			const trimmed = line.trim();
+		try {
+			// Create a temporary Langium document
+			const uri = 'inmemory://temp.runiq' as any; // Type workaround for URI
+			const langiumDoc = langiumServices.shared.workspace.LangiumDocumentFactory.fromString(
+				text,
+				uri
+			);
 
-			// Check for common issues
-			if (trimmed.startsWith('shape') && !trimmed.includes('as')) {
+			// Build the document (resolve cross-references, etc.)
+			await langiumServices.shared.workspace.DocumentBuilder.build([langiumDoc], {});
+
+			// Get validation diagnostics
+			const validationDiagnostics =
+				await langiumServices.validation.DocumentValidator.validateDocument(langiumDoc);
+
+			// Convert Langium diagnostics to CodeMirror format
+			for (const diagnostic of validationDiagnostics) {
+				const from = offsetAt(doc, diagnostic.range.start);
+				const to = offsetAt(doc, diagnostic.range.end);
+
+				// Map Langium severity to CodeMirror severity
+				let severity: 'error' | 'warning' | 'info' = 'error';
+				if (diagnostic.severity === 1) severity = 'error';
+				else if (diagnostic.severity === 2) severity = 'warning';
+				else if (diagnostic.severity === 3 || diagnostic.severity === 4) severity = 'info';
+
+				// Extract suggestions from the diagnostic message if present
+				const actions = extractQuickFixes(diagnostic, view, from, to);
+
 				diagnostics.push({
-					from: doc.line(lineNumber).from,
-					to: doc.line(lineNumber).to,
-					severity: 'error',
-					message: 'Shape definition must include "as @type"'
+					from,
+					to,
+					severity,
+					message: diagnostic.message,
+					actions: actions.length > 0 ? actions : undefined
 				});
 			}
-
-			if (trimmed.includes('->') && trimmed.split('->').length > 2) {
-				diagnostics.push({
-					from: doc.line(lineNumber).from,
-					to: doc.line(lineNumber).to,
-					severity: 'warning',
-					message: 'Multiple arrows on one line may cause confusion'
-				});
-			}
-		});
+		} catch (err) {
+			console.error('Validation error:', err);
+		}
 
 		return diagnostics;
+	}
+
+	// Convert LSP position to CodeMirror offset
+	function offsetAt(doc: any, position: { line: number; character: number }): number {
+		const line = doc.line(position.line + 1); // LSP lines are 0-based, CodeMirror is 1-based
+		return line.from + position.character;
+	}
+
+	// Extract quick-fix actions from diagnostic messages
+	function extractQuickFixes(
+		diagnostic: LangiumDiagnostic,
+		view: EditorView,
+		from: number,
+		to: number
+	): Action[] {
+		const actions: Action[] = [];
+		const message = diagnostic.message;
+
+		// Look for "Did you mean: X, Y, Z?" pattern
+		const didYouMeanMatch = message.match(/Did you mean: ([^?]+)\?/);
+		if (didYouMeanMatch) {
+			const suggestions = didYouMeanMatch[1].split(',').map((s) => s.trim());
+
+			// Create quick-fix action for each suggestion
+			for (const suggestion of suggestions.slice(0, 3)) {
+				// Limit to top 3
+				actions.push({
+					name: `Replace with '${suggestion}'`,
+					apply: (view, from, to) => {
+						const doc = view.state.doc;
+						const lineStart = doc.lineAt(from);
+						const lineText = lineStart.text;
+
+						// Find the shape type in the line (after "as")
+						const asMatch = lineText.match(/as\s+(@?\w+)/);
+						if (asMatch && asMatch[1]) {
+							const shapeStart = lineStart.from + lineText.indexOf(asMatch[1]);
+							const shapeEnd = shapeStart + asMatch[1].length;
+
+							view.dispatch({
+								changes: { from: shapeStart, to: shapeEnd, insert: suggestion }
+							});
+						}
+					}
+				});
+			}
+		}
+
+		return actions;
 	}
 
 	// Autocompletion for Runiq DSL
@@ -107,7 +177,7 @@
 			{ label: '@firewall', type: 'type', detail: 'Firewall' },
 			{ label: '@cloud', type: 'type', detail: 'Cloud' },
 			// Block diagram shapes
-			{ label: '@transfer-function', type: 'type', detail: 'Transfer function' },
+			{ label: '@transferFunction', type: 'type', detail: 'Transfer function' },
 			{ label: '@gain', type: 'type', detail: 'Gain block' },
 			{ label: '@integrator', type: 'type', detail: 'Integrator' },
 			{ label: '@summing-junction', type: 'type', detail: 'Summing junction' },
@@ -188,7 +258,7 @@
 				basicSetup,
 				javascript(), // Temporary - will create custom Runiq language later
 				lintGutter(),
-				linter(runiqLinter),
+				linter(runiqLinter), // Now async - CodeMirror handles promises
 				autocompletion({ override: [runiqCompletions] }),
 				editorTheme.of(runiqTheme),
 				EditorView.updateListener.of((update) => {
@@ -196,13 +266,14 @@
 						const newValue = update.state.doc.toString();
 						onchange(newValue);
 
-						// Extract errors for parent component
-						const diagnostics = runiqLinter(update.view);
+						// Extract errors asynchronously
 						if (onerror) {
-							const errors = diagnostics
-								.filter((d) => d.severity === 'error')
-								.map((d) => d.message);
-							onerror(errors);
+							runiqLinter(update.view).then((diagnostics) => {
+								const errors = diagnostics
+									.filter((d) => d.severity === 'error')
+									.map((d) => d.message);
+								onerror(errors);
+							});
 						}
 					}
 				}),
@@ -246,7 +317,7 @@
 
 			// Find the line with the comment
 			const commentLineIndex = lines.findIndex((line) =>
-				line.includes('Add your shapes and connections here')
+				line.includes('// Add your shapes and connections here')
 			);
 
 			if (commentLineIndex !== -1 && commentLineIndex + 1 < lines.length) {

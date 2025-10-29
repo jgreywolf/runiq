@@ -15,7 +15,7 @@ describe('Levenshtein Distance', () => {
 
     it('should calculate distance for single character difference', () => {
       expect(levenshteinDistance('hello', 'hallo')).toBe(1); // substitution
-      expect(levenshteinDistance('hello', 'helo')).toBe(1);  // deletion
+      expect(levenshteinDistance('hello', 'helo')).toBe(1); // deletion
       expect(levenshteinDistance('hello', 'helllo')).toBe(1); // insertion
     });
 
@@ -106,7 +106,7 @@ describe('Levenshtein Distance', () => {
       // With distance 1, only very close matches
       const strictMatches = findClosestMatches('rectange', shapes, 1);
       expect(strictMatches).toContain('rectangle');
-      
+
       // With distance 3, more permissive
       const looseMatches = findClosestMatches('rektangle', shapes, 3);
       expect(looseMatches.length).toBeGreaterThanOrEqual(strictMatches.length);
@@ -115,13 +115,26 @@ describe('Levenshtein Distance', () => {
 
   describe('Shape Validation Scenarios', () => {
     const allShapes = [
-      'rectangle', 'rect', 'box', 'square',
-      'rhombus', 'diamond', 'decision',
-      'circle', 'ellipse', 'stadium', 'pill',
-      'cylinder', 'db', 'database',
-      'hexagon', 'hex',
-      'parallelogram', 'trapezoid',
-      'triangle', 'star',
+      'rectangle',
+      'rect',
+      'box',
+      'square',
+      'rhombus',
+      'diamond',
+      'decision',
+      'circle',
+      'ellipse',
+      'stadium',
+      'pill',
+      'cylinder',
+      'db',
+      'database',
+      'hexagon',
+      'hex',
+      'parallelogram',
+      'trapezoid',
+      'triangle',
+      'star',
     ];
 
     it('should suggest correct shape for common misspellings', () => {
@@ -140,7 +153,10 @@ describe('Levenshtein Distance', () => {
       testCases.forEach(({ input, expected }) => {
         const matches = findClosestMatches(input, allShapes);
         expect(matches, `Failed for input: ${input}`).toContain(expected);
-        expect(matches[0], `Expected "${expected}" to be first match for "${input}"`).toBe(expected);
+        expect(
+          matches[0],
+          `Expected "${expected}" to be first match for "${input}"`
+        ).toBe(expected);
       });
     });
 

@@ -12,7 +12,7 @@ Block diagrams are used in control systems, signal processing, and systems engin
 
 ### Shapes Used
 
-- **Transfer Function** (`@transfer-function`) - System dynamics in Laplace domain, e.g., `K/(s+1)`
+- **Transfer Function** (`@transferFunction`) - System dynamics in Laplace domain, e.g., `K/(s+1)`
 - **Gain Block** (`@gain`) - Simple multiplier: `K×`
 - **Integrator** (`@integrator`) - Integration operator: `1/s`
 - **Differentiator** (`@differentiator`) - Derivative operator: `s`
@@ -44,10 +44,10 @@ title: "PID Controller"
 shape Reference as @rounded label: "r(t)"
 shape Error as @summing-junction label: "Σ"
 shape Kp as @gain label: "Kp"
-shape Ki as @transfer-function label: "Ki/s"
-shape Kd as @transfer-function label: "Kd·s"
+shape Ki as @transferFunction label: "Ki/s"
+shape Kd as @transferFunction label: "Kd·s"
 shape Sum as @summing-junction label: "Σ"
-shape Plant as @transfer-function label: "1/(s+1)"
+shape Plant as @transferFunction label: "1/(s+1)"
 shape Output as @rounded label: "y(t)"
 
 Reference -> Error
@@ -75,10 +75,10 @@ title: "Feedback Control System"
 
 shape Input as @rounded label: "R(s)"
 shape Error as @summing-junction label: "+"
-shape Controller as @transfer-function label: "C(s)"
-shape Plant as @transfer-function label: "G(s)"
+shape Controller as @transferFunction label: "C(s)"
+shape Plant as @transferFunction label: "G(s)"
 shape Output as @rounded label: "Y(s)"
-shape Sensor as @transfer-function label: "H(s)"
+shape Sensor as @transferFunction label: "H(s)"
 
 Input -> Error
 Error -> Controller -> Plant -> Output
@@ -101,9 +101,9 @@ diagram: block-diagram
 title: "Transfer Function Chain"
 
 shape Input as @rounded label: "X(s)"
-shape TF1 as @transfer-function label: "G₁(s) = K/(s+a)"
-shape TF2 as @transfer-function label: "G₂(s) = 1/(τs+1)"
-shape TF3 as @transfer-function label: "G₃(s) = ωn²/(s²+2ζωns+ωn²)"
+shape TF1 as @transferFunction label: "G₁(s) = K/(s+a)"
+shape TF2 as @transferFunction label: "G₂(s) = 1/(τs+1)"
+shape TF3 as @transferFunction label: "G₃(s) = ωn²/(s²+2ζωns+ωn²)"
 shape Output as @rounded label: "Y(s)"
 
 Input -> TF1 -> TF2 -> TF3 -> Output
@@ -158,9 +158,9 @@ diagram: block-diagram
 title: "Parallel Control Paths"
 
 shape Input as @rounded label: "Input"
-shape Path1 as @transfer-function label: "G₁(s)"
-shape Path2 as @transfer-function label: "G₂(s)"
-shape Path3 as @transfer-function label: "G₃(s)"
+shape Path1 as @transferFunction label: "G₁(s)"
+shape Path2 as @transferFunction label: "G₂(s)"
+shape Path3 as @transferFunction label: "G₃(s)"
 shape Sum as @summing-junction label: "Σ"
 shape Output as @rounded label: "Output"
 

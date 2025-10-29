@@ -26,8 +26,8 @@ export function levenshteinDistance(a: string, b: string): number {
       } else {
         matrix[i][j] = Math.min(
           matrix[i - 1][j - 1] + 1, // substitution
-          matrix[i][j - 1] + 1,     // insertion
-          matrix[i - 1][j] + 1      // deletion
+          matrix[i][j - 1] + 1, // insertion
+          matrix[i - 1][j] + 1 // deletion
         );
       }
     }
@@ -51,32 +51,34 @@ export function findClosestMatches(
   maxSuggestions: number = 5
 ): string[] {
   const inputLower = input.toLowerCase();
-  
+
   // Calculate distances for all candidates
-  const distances = candidates.map(candidate => ({
+  const distances = candidates.map((candidate) => ({
     candidate,
     distance: levenshteinDistance(inputLower, candidate.toLowerCase()),
     // Bonus for prefix matches
     prefixMatch: candidate.toLowerCase().startsWith(inputLower),
     // Bonus for contains matches
-    containsMatch: candidate.toLowerCase().includes(inputLower)
+    containsMatch: candidate.toLowerCase().includes(inputLower),
   }));
 
   // Filter and sort
   return distances
-    .filter(d => d.distance <= maxDistance || d.prefixMatch || d.containsMatch)
+    .filter(
+      (d) => d.distance <= maxDistance || d.prefixMatch || d.containsMatch
+    )
     .sort((a, b) => {
       // Prioritize prefix matches
       if (a.prefixMatch && !b.prefixMatch) return -1;
       if (!a.prefixMatch && b.prefixMatch) return 1;
-      
+
       // Then contains matches
       if (a.containsMatch && !b.containsMatch) return -1;
       if (!a.containsMatch && b.containsMatch) return 1;
-      
+
       // Then by distance
       return a.distance - b.distance;
     })
     .slice(0, maxSuggestions)
-    .map(d => d.candidate);
+    .map((d) => d.candidate);
 }

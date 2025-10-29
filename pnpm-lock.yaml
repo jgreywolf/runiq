@@ -98,6 +98,9 @@ importers:
       codemirror:
         specifier: ^6.0.2
         version: 6.0.2
+      langium:
+        specifier: ^4.1.0
+        version: 4.1.0
       lucide-svelte:
         specifier: ^0.546.0
         version: 0.546.0(svelte@5.39.11)
@@ -113,6 +116,9 @@ importers:
       tailwind-variants:
         specifier: ^3.1.1
         version: 3.1.1(tailwind-merge@3.3.1)(tailwindcss@4.1.14)
+      vscode-languageserver-types:
+        specifier: ^3.17.5
+        version: 3.17.5
     devDependencies:
       '@eslint/compat':
         specifier: ^1.4.0

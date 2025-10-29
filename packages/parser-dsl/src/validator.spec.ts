@@ -13,12 +13,13 @@ describe('Shape Validation', () => {
   beforeAll(async () => {
     // Register all shapes before testing
     registerDefaultShapes();
-    
+
     services = createRuniqServices(EmptyFileSystem).Runiq;
     parse = async (input: string) => {
       const document = await parseHelper<Document>(services)(input);
       // Manually trigger validation and attach diagnostics to document
-      const diagnostics = await services.validation.DocumentValidator.validateDocument(document);
+      const diagnostics =
+        await services.validation.DocumentValidator.validateDocument(document);
       (document as any).diagnostics = diagnostics;
       return document;
     };
@@ -36,8 +37,8 @@ describe('Shape Validation', () => {
       const doc = await parse(input);
       expect(doc.parseResult.lexerErrors).toHaveLength(0);
       expect(doc.parseResult.parserErrors).toHaveLength(0);
-      
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? []; // Error severity
+
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? []; // Error severity
       expect(errors).toHaveLength(0);
     });
 
@@ -50,7 +51,7 @@ describe('Shape Validation', () => {
         shape D as @pill
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors).toHaveLength(0);
     });
 
@@ -61,7 +62,7 @@ describe('Shape Validation', () => {
         shape B as @diamond
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors).toHaveLength(0);
     });
   });
@@ -73,7 +74,7 @@ describe('Shape Validation', () => {
         shape A as @unknownshape
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
       expect(errors[0].message).toContain('Unknown shape type');
     });
@@ -84,7 +85,7 @@ describe('Shape Validation', () => {
         shape A as @rectange
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
       expect(errors[0].message).toContain('Did you mean');
       expect(errors[0].message).toContain('rectangle');
@@ -96,7 +97,7 @@ describe('Shape Validation', () => {
         shape A as @diamnd
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
       expect(errors[0].message).toContain('Did you mean');
       expect(errors[0].message).toContain('diamond');
@@ -108,7 +109,7 @@ describe('Shape Validation', () => {
         shape A as @xyzabc123
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
       expect(errors[0].message).toContain('Unknown shape type');
     });
@@ -121,7 +122,7 @@ describe('Shape Validation', () => {
         shape A as @rect
       `;
       const doc = await parse(input);
-      const hints = doc.diagnostics?.filter(d => d.severity === 4) ?? []; // Hint severity
+      const hints = doc.diagnostics?.filter((d) => d.severity === 4) ?? []; // Hint severity
       expect(hints.length).toBeGreaterThan(0);
       expect(hints[0].message).toContain('alias');
       expect(hints[0].message).toContain('rectangle');
@@ -133,7 +134,7 @@ describe('Shape Validation', () => {
         shape A as @rectangle
       `;
       const doc = await parse(input);
-      const hints = doc.diagnostics?.filter(d => d.severity === 4) ?? [];
+      const hints = doc.diagnostics?.filter((d) => d.severity === 4) ?? [];
       expect(hints).toHaveLength(0);
     });
   });
@@ -146,7 +147,7 @@ describe('Shape Validation', () => {
         shape ${longId} as @rectangle
       `;
       const doc = await parse(input);
-      const warnings = doc.diagnostics?.filter(d => d.severity === 2) ?? []; // Warning severity
+      const warnings = doc.diagnostics?.filter((d) => d.severity === 2) ?? []; // Warning severity
       expect(warnings.length).toBeGreaterThan(0);
       expect(warnings[0].message).toContain('very long');
     });
@@ -157,7 +158,7 @@ describe('Shape Validation', () => {
         shape NormalLengthID as @rectangle
       `;
       const doc = await parse(input);
-      const warnings = doc.diagnostics?.filter(d => d.severity === 2) ?? [];
+      const warnings = doc.diagnostics?.filter((d) => d.severity === 2) ?? [];
       expect(warnings).toHaveLength(0);
     });
   });
@@ -180,9 +181,14 @@ describe('Shape Validation', () => {
           shape A as @${typo}
         `;
         const doc = await parse(input);
-        const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
-        expect(errors.length, `Expected error for typo: ${typo}`).toBeGreaterThan(0);
-        expect(errors[0].message, `Expected suggestion for: ${typo}`).toContain(correct);
+        const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
+        expect(
+          errors.length,
+          `Expected error for typo: ${typo}`
+        ).toBeGreaterThan(0);
+        expect(errors[0].message, `Expected suggestion for: ${typo}`).toContain(
+          correct
+        );
       });
     });
   });
@@ -194,7 +200,7 @@ describe('Shape Validation', () => {
         shape A as @RECTANGLE
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       // Should suggest lowercase version
       expect(errors.length).toBeGreaterThan(0);
       expect(errors[0].message).toContain('rectangle');
@@ -206,7 +212,7 @@ describe('Shape Validation', () => {
         shape A as @Rectangle
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
       expect(errors[0].message).toContain('rectangle');
     });
@@ -219,7 +225,7 @@ describe('Shape Validation', () => {
         shape A as @rectangle label: "Node without container"
       `;
       const doc = await parse(input);
-      const errors = doc.diagnostics?.filter(d => d.severity === 1) ?? [];
+      const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       // Should pass - shape has explicit type
       expect(errors).toHaveLength(0);
     });
