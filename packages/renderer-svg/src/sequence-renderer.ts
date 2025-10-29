@@ -49,7 +49,8 @@ const PARTICIPANT_BOX_WIDTH = 120;
 const ACTIVATION_BOX_WIDTH = 10;
 const NOTE_WIDTH = 150;
 const FRAGMENT_PADDING = 10;
-const LIFELINE_START = 60;
+const PARTICIPANT_BOX_TOP = 50; // Top of participant boxes (below title at y=30)
+const LIFELINE_START = PARTICIPANT_BOX_TOP + PARTICIPANT_BOX_HEIGHT + 20; // Start lifelines 20px below participant boxes (y=110)
 
 /**
  * Main sequence diagram rendering function
@@ -303,7 +304,7 @@ function renderParticipants(
   for (const participant of participants) {
     const x = participantMap.get(participant.id)!;
     const boxX = x - boxWidth / 2;
-    const boxY = 10;
+    const boxY = PARTICIPANT_BOX_TOP;
 
     // Participant box
     svg += `<rect x="${boxX}" y="${boxY}" width="${boxWidth}" height="${boxHeight}" class="participant-box" rx="5"/>`;

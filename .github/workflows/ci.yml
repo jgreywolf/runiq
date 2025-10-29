@@ -27,6 +27,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build core package (required for typecheck)
+        run: pnpm --filter @runiq/core build
+
       - name: Type check
         run: pnpm typecheck
 
