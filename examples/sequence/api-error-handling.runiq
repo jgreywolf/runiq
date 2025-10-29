@@ -9,7 +9,7 @@ sequence "API Request with Error Handling" {
   message from:"API Gateway" to:"Service" label:"Process request" type:sync activate:true
   message from:"Service" to:"Cache" label:"Check cache" type:sync
 
-  fragment alt "Cache Status" from:3 to:7 alternatives:("Cache Hit":3-4,"Cache Miss":5-6)
+  fragment alt "Cache Status" from:3 to:7 alternatives:("Cache Hit":3..4,"Cache Miss":5..6)
   
   message from:"Cache" to:"Service" label:"Cache hit" type:return
   message from:"Service" to:"API Gateway" label:"200 OK" type:return

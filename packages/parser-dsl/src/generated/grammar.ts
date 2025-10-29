@@ -2883,7 +2883,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
-            "value": "-"
+            "value": ".."
           },
           {
             "$type": "Assignment",

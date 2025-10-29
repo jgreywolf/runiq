@@ -94,7 +94,7 @@ note "Spanning note" position:over participants:("Participant1","Participant2")
 fragment loop "Condition" from:2 to:5
 
 // Alt fragment with alternatives
-fragment alt "Decision" from:10 to:15 alternatives:("Success":10-12,"Failure":13-15)
+fragment alt "Decision" from:10 to:15 alternatives:("Success":10..12,"Failure":13..15)
 ```
 
 **Fragment Types:**

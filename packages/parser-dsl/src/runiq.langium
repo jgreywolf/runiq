@@ -264,7 +264,7 @@ SequenceFragmentAlternativesProperty:
     'alternatives:' '(' alternatives+=SequenceAlternativeDecl (',' alternatives+=SequenceAlternativeDecl)* ')';
 
 SequenceAlternativeDecl:
-    label=STRING ':' fromMsg=NUMBER '-' toMsg=NUMBER;
+    label=STRING ':' fromMsg=NUMBER '..' toMsg=NUMBER;
 
 // ============================================================================
 // Diagram profile statements (existing grammar)

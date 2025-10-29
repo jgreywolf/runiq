@@ -1,0 +1,8 @@
+sequence "Test" {
+  participant "A"
+  participant "B"
+  message from:"A" to:"B" label:"M1" type:sync
+  message from:"B" to:"A" label:"M2" type:return
+  fragment loop "Loop" from:0 to:1
+  fragment alt "Alt" from:0 to:1 alternatives:("A":0..1,"B":1..2)
+}
