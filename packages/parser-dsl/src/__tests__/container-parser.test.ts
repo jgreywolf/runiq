@@ -400,7 +400,7 @@ describe('Container Parser', () => {
     it('should parse containers mixed with styles and directions', () => {
       const dsl = `
         diagram "C4 Diagram"
-        direction: TB
+        direction TB
         
         style system fill: "#08427B" stroke: "#fff"
         style external fill: "#999" stroke: "#fff"
@@ -431,7 +431,7 @@ describe('Container Parser', () => {
     it('should parse a complete C4 system context diagram', () => {
       const dsl = `
         diagram "Banking System - System Context"
-        direction: TB
+        direction TB
         
         style person fill: "#08427B"
         style system fill: "#1168BD"
@@ -576,8 +576,8 @@ describe('Container Parser', () => {
       const dsl = `
         diagram "test"
         container "OrgChart" algorithm: radial {
-          shape CEO as @person label: "CEO"
-          shape CTO as @person label: "CTO"
+          shape CEO as @actor label: "CEO"
+          shape CTO as @actor label: "CTO"
           CEO -> CTO
         }
       `;

@@ -125,10 +125,10 @@ describe('Shape Alias System', () => {
       expect(shape?.id).toBe('class');
     });
 
-    it('should resolve "actor" to actor shape', () => {
+    it('should resolve "actor" to user shape', () => {
       const shape = shapeRegistry.get('actor');
       expect(shape).toBeDefined();
-      expect(shape?.id).toBe('actor');
+      expect(shape?.id).toBe('user');
     });
   });
 

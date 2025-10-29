@@ -243,7 +243,7 @@ describe('Runiq Validator', () => {
       const validDirections = ['LR', 'RL', 'TB', 'BT'];
 
       validDirections.forEach((direction) => {
-        const dsl = `diagram "test"\ndirection: ${direction}`;
+        const dsl = `diagram "test"\ndirection ${direction}`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -310,7 +310,7 @@ describe('Runiq Validator', () => {
     it('should validate complete diagram structure', () => {
       const dsl = `
         diagram "flowchart"
-        direction: TB
+        direction TB
         
         style default fill: "#f0f0f0" stroke: "#333"
         style highlight fill: "#ffeb3b"

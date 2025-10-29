@@ -6,7 +6,7 @@ export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
 	// Force Vite dev server to bind on IPv4 localhost to avoid Windows ::1 EACCES issues
 	server: {
-		host: '127.0.0.1'
+		host: 'localhost'
 	},
 	test: {
 		expect: { requireAssertions: true },

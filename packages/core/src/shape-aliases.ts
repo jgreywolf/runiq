@@ -54,12 +54,13 @@ export function registerShapeAliases() {
 
   // UML Shapes
   shapeRegistry.registerAlias('class', 'class');
-  shapeRegistry.registerAlias('actor', 'actor');
+  shapeRegistry.registerAlias('person', 'user'); // UML actor/user shape
+  shapeRegistry.registerAlias('actor', 'user'); // Alias for sequence diagrams compatibility
   shapeRegistry.registerAlias('state', 'state');
   shapeRegistry.registerAlias('activity', 'activity');
 
   // C4 Shapes
-  shapeRegistry.registerAlias('person', 'c4-person');
+  shapeRegistry.registerAlias('c4person', 'c4-person');
   shapeRegistry.registerAlias('system', 'c4-system');
   shapeRegistry.registerAlias('container', 'c4-container');
   shapeRegistry.registerAlias('component', 'c4-component');

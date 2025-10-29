@@ -1996,7 +1996,7 @@ export interface ShapeDeclaration extends langium.AstNode {
     readonly $type: 'ShapeDeclaration';
     id: string;
     properties: Array<NodeProperty>;
-    shape?: string;
+    shape?: ShapeIdentifier;
 }
 
 export const ShapeDeclaration = {
@@ -2008,6 +2008,12 @@ export const ShapeDeclaration = {
 
 export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
+}
+
+export type ShapeIdentifier = 'actor' | 'boundary' | 'control' | 'database' | 'entity' | string;
+
+export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {

@@ -298,7 +298,11 @@ StyleProperty:
 // shape node1 as @rounded label: "My Node" style: myStyle icon: fa/user link: "http://example.com"
 // shape node1 label: "My Node" (shape optional if inside type:mindmap container)
 ShapeDeclaration:
-    'shape' id=ID ('as' '@' shape=(SHAPE_ID | ID))? properties+=NodeProperty*;
+    'shape' id=ID ('as' '@' shape=ShapeIdentifier)? properties+=NodeProperty*;
+
+// Allow shape IDs, regular IDs, and certain keywords that are valid shape names
+ShapeIdentifier returns string:
+    SHAPE_ID | ID | 'actor' | 'entity' | 'boundary' | 'control' | 'database';
 
 NodeProperty:
     LabelProperty
