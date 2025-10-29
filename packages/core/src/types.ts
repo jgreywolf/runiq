@@ -279,7 +279,8 @@ export type Profile =
   | SchematicProfile
   | DigitalProfile
   | BlockDiagramProfile
-  | WardleyProfile;
+  | WardleyProfile
+  | SequenceProfile;
 
 /**
  * Visual diagram profile (existing Runiq diagrams)
@@ -457,4 +458,71 @@ export interface WardleyAnchor {
 export interface WardleyEvolution {
   component: string; // Component name
   toEvolution: number; // Target evolution stage
+}
+
+// ============================================================================
+// Sequence Diagram Profile Types
+// ============================================================================
+
+/**
+ * Sequence diagram profile for showing interactions over time
+ * Depicts message exchanges between participants/actors in chronological order
+ */
+export interface SequenceProfile {
+  type: 'sequence';
+  astVersion: string;
+  title: string;
+  participants: SequenceParticipant[];
+  messages: SequenceMessage[];
+  notes?: SequenceNote[];
+  fragments?: SequenceFragment[];
+}
+
+/**
+ * Participant in a sequence diagram (actor, system, service)
+ */
+export interface SequenceParticipant {
+  id: string; // Unique identifier (e.g., "user", "api", "db")
+  name: string; // Display name (e.g., "User", "API Server", "Database")
+  type?: 'actor' | 'entity' | 'boundary' | 'control' | 'database'; // Participant type
+}
+
+/**
+ * Message exchanged between participants
+ */
+export interface SequenceMessage {
+  from: string; // Source participant ID
+  to: string; // Target participant ID
+  label: string; // Message description
+  type?: 'sync' | 'async' | 'return' | 'create' | 'destroy'; // Message type
+  activate?: boolean; // Whether to show activation box on target
+}
+
+/**
+ * Note/annotation on the diagram
+ */
+export interface SequenceNote {
+  text: string; // Note content
+  position: 'left' | 'right' | 'over'; // Position relative to participant(s)
+  participants: string[]; // Participant ID(s) the note refers to
+}
+
+/**
+ * Combined fragment (loop, alt, opt, etc.)
+ */
+export interface SequenceFragment {
+  type: 'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break'; // Fragment type
+  label?: string; // Condition or description
+  startAfterMessage: number; // Message index where fragment starts
+  endAfterMessage: number; // Message index where fragment ends
+  alternatives?: SequenceFragmentAlternative[]; // For alt fragments
+}
+
+/**
+ * Alternative path in an alt fragment
+ */
+export interface SequenceFragmentAlternative {
+  label: string; // Condition label (e.g., "[success]", "[error]")
+  startAfterMessage: number; // Message index where alternative starts
+  endAfterMessage: number; // Message index where alternative ends
 }
