@@ -31,6 +31,7 @@ jobs:
 
       - name: Build deps
         run: |
+          pnpm -C packages/core build
           pnpm -C packages/parser-dsl build
           pnpm -C packages/layout-base build
           pnpm -C packages/renderer-svg build
