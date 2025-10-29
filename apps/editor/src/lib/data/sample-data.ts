@@ -10,6 +10,7 @@ import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
 import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
 import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
 import { chartSampleDiagrams } from './toolboxSamples/chartSampleDiagrams';
+import { wardleySampleDiagrams } from './toolboxSamples/wardleySampleDiagrams';
 
 export interface Sample {
 	name: string;
@@ -37,3 +38,5 @@ export const sampleDiagrams: SampleCategory[] = [
 	...logicGateSampleDiagrams,
 	...digitalSampleDiagrams
 ];
+
+export const wardleySamples: SampleCategory[] = [...wardleySampleDiagrams];

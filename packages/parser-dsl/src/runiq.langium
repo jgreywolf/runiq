@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | SchematicProfile | DigitalProfile;
+    DiagramProfile | SchematicProfile | DigitalProfile | WardleyProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -136,6 +136,51 @@ DigitalNetStatement:
 
 NetDecl:
     name=ID ('[' width=BusWidth ']')?;
+
+// ============================================================================
+// Wardley Map Profile (strategic mapping)
+// ============================================================================
+WardleyProfile:
+    'wardley' name=STRING '{'
+        statements+=WardleyStatement*
+    '}';
+
+WardleyStatement:
+    WardleyComponentStatement | WardleyDependencyStatement | WardleyAnchorStatement | WardleyEvolutionStatement;
+
+// component "Customer" at evolution:0.8 value:0.9
+WardleyComponentStatement:
+    'component' name=STRING properties+=WardleyComponentProperty+;
+
+WardleyComponentProperty:
+    WardleyEvolutionProperty | WardleyValueProperty | WardleyLabelProperty | WardleyInertiaProperty;
+
+WardleyEvolutionProperty:
+    'evolution:' value=NUMBER;
+
+WardleyValueProperty:
+    'value:' value=NUMBER;
+
+WardleyLabelProperty:
+    'label:' value=STRING;
+
+WardleyInertiaProperty:
+    'inertia:' value=BOOLEAN;
+
+// anchor "User Need" at value:0.95
+WardleyAnchorStatement:
+    'anchor' name=STRING properties+=WardleyAnchorProperty+;
+
+WardleyAnchorProperty:
+    WardleyValueProperty | WardleyEvolutionProperty;
+
+// dependency from:"Customer" to:"CRM System"
+WardleyDependencyStatement:
+    'dependency' 'from:' from=STRING 'to:' to=STRING;
+
+// evolve "Legacy System" to evolution:0.7
+WardleyEvolutionStatement:
+    'evolve' component=STRING 'to' properties+=WardleyEvolutionProperty+;
 
 // ============================================================================
 // Diagram profile statements (existing grammar)

@@ -85,7 +85,7 @@
 	}
 
 	// Handle new diagram creation with type selection
-	function handleNewDiagram(type: 'diagram' | 'schematic') {
+	function handleNewDiagram(type: 'diagram' | 'schematic' | 'wardley') {
 		let defaultContent: string;
 		let defaultName: string;
 
@@ -96,7 +96,23 @@
   // Add your schematic components here
   // Example: part R1 type:R value:"1k" pins:(VCC,GND)
 }`;
-			defaultName = 'Untitled schematic';
+			defaultName = 'Untitled Schematic';
+		} else if (type === 'wardley') {
+			defaultContent = `wardley "My Strategy Map" {
+  // Define user needs at the top
+  anchor "User Need" value:0.95
+  
+  // Add components with evolution (0=genesis, 1=commodity) and value (0=invisible, 1=visible)
+  component "Product" evolution:0.7 value:0.8
+  component "Platform" evolution:0.5 value:0.6
+  component "Infrastructure" evolution:0.9 value:0.3
+  
+  // Define dependencies
+  dependency from:"User Need" to:"Product"
+  dependency from:"Product" to:"Platform"
+  dependency from:"Platform" to:"Infrastructure"
+}`;
+			defaultName = 'Untitled Wardley Map';
 		} else {
 			defaultContent = 'diagram "My Diagram"\n\n// Add your shapes and connections here';
 			defaultName = 'Untitled Diagram';

@@ -41,6 +41,7 @@ export type RuniqKeywordNames =
     | "aggregation"
     | "algorithm:"
     | "analysis"
+    | "anchor"
     | "arrowType:"
     | "as"
     | "association"
@@ -53,6 +54,7 @@ export type RuniqKeywordNames =
     | "bottom"
     | "carrier:"
     | "colors:"
+    | "component"
     | "composition"
     | "constraints:"
     | "container"
@@ -69,12 +71,16 @@ export type RuniqKeywordNames =
     | "dotted"
     | "double"
     | "edgeType:"
+    | "evolution:"
+    | "evolve"
     | "force"
+    | "from:"
     | "generalization"
     | "genericTypes:"
     | "group"
     | "hollow"
     | "icon:"
+    | "inertia:"
     | "inst"
     | "label:"
     | "labelPosition:"
@@ -136,12 +142,15 @@ export type RuniqKeywordNames =
     | "style:"
     | "target"
     | "title:"
+    | "to"
+    | "to:"
     | "tooltip:"
     | "top"
     | "tran"
     | "type:"
     | "value:"
     | "visibility:"
+    | "wardley"
     | "xLabel:"
     | "yLabel:"
     | "{"
@@ -1544,7 +1553,7 @@ export function isPortDecl(item: unknown): item is PortDecl {
     return reflection.isInstance(item, PortDecl.$type);
 }
 
-export type Profile = DiagramProfile | DigitalProfile | SchematicProfile;
+export type Profile = DiagramProfile | DigitalProfile | SchematicProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -1801,6 +1810,181 @@ export function isVisibilityValue(item: unknown): item is VisibilityValue {
     return item === 'public' || item === 'private' || item === 'protected' || item === 'package';
 }
 
+export type WardleyAnchorProperty = WardleyEvolutionProperty | WardleyValueProperty;
+
+export const WardleyAnchorProperty = {
+    $type: 'WardleyAnchorProperty'
+} as const;
+
+export function isWardleyAnchorProperty(item: unknown): item is WardleyAnchorProperty {
+    return reflection.isInstance(item, WardleyAnchorProperty.$type);
+}
+
+export interface WardleyAnchorStatement extends langium.AstNode {
+    readonly $container: WardleyProfile;
+    readonly $type: 'WardleyAnchorStatement';
+    name: string;
+    properties: Array<WardleyAnchorProperty>;
+}
+
+export const WardleyAnchorStatement = {
+    $type: 'WardleyAnchorStatement',
+    name: 'name',
+    properties: 'properties'
+} as const;
+
+export function isWardleyAnchorStatement(item: unknown): item is WardleyAnchorStatement {
+    return reflection.isInstance(item, WardleyAnchorStatement.$type);
+}
+
+export type WardleyComponentProperty = WardleyEvolutionProperty | WardleyInertiaProperty | WardleyLabelProperty | WardleyValueProperty;
+
+export const WardleyComponentProperty = {
+    $type: 'WardleyComponentProperty'
+} as const;
+
+export function isWardleyComponentProperty(item: unknown): item is WardleyComponentProperty {
+    return reflection.isInstance(item, WardleyComponentProperty.$type);
+}
+
+export interface WardleyComponentStatement extends langium.AstNode {
+    readonly $container: WardleyProfile;
+    readonly $type: 'WardleyComponentStatement';
+    name: string;
+    properties: Array<WardleyComponentProperty>;
+}
+
+export const WardleyComponentStatement = {
+    $type: 'WardleyComponentStatement',
+    name: 'name',
+    properties: 'properties'
+} as const;
+
+export function isWardleyComponentStatement(item: unknown): item is WardleyComponentStatement {
+    return reflection.isInstance(item, WardleyComponentStatement.$type);
+}
+
+export interface WardleyDependencyStatement extends langium.AstNode {
+    readonly $container: WardleyProfile;
+    readonly $type: 'WardleyDependencyStatement';
+    from: string;
+    to: string;
+}
+
+export const WardleyDependencyStatement = {
+    $type: 'WardleyDependencyStatement',
+    from: 'from',
+    to: 'to'
+} as const;
+
+export function isWardleyDependencyStatement(item: unknown): item is WardleyDependencyStatement {
+    return reflection.isInstance(item, WardleyDependencyStatement.$type);
+}
+
+export interface WardleyEvolutionProperty extends langium.AstNode {
+    readonly $container: WardleyAnchorStatement | WardleyComponentStatement | WardleyEvolutionStatement;
+    readonly $type: 'WardleyEvolutionProperty';
+    value: string;
+}
+
+export const WardleyEvolutionProperty = {
+    $type: 'WardleyEvolutionProperty',
+    value: 'value'
+} as const;
+
+export function isWardleyEvolutionProperty(item: unknown): item is WardleyEvolutionProperty {
+    return reflection.isInstance(item, WardleyEvolutionProperty.$type);
+}
+
+export interface WardleyEvolutionStatement extends langium.AstNode {
+    readonly $container: WardleyProfile;
+    readonly $type: 'WardleyEvolutionStatement';
+    component: string;
+    properties: Array<WardleyEvolutionProperty>;
+}
+
+export const WardleyEvolutionStatement = {
+    $type: 'WardleyEvolutionStatement',
+    component: 'component',
+    properties: 'properties'
+} as const;
+
+export function isWardleyEvolutionStatement(item: unknown): item is WardleyEvolutionStatement {
+    return reflection.isInstance(item, WardleyEvolutionStatement.$type);
+}
+
+export interface WardleyInertiaProperty extends langium.AstNode {
+    readonly $container: WardleyComponentStatement;
+    readonly $type: 'WardleyInertiaProperty';
+    value: string;
+}
+
+export const WardleyInertiaProperty = {
+    $type: 'WardleyInertiaProperty',
+    value: 'value'
+} as const;
+
+export function isWardleyInertiaProperty(item: unknown): item is WardleyInertiaProperty {
+    return reflection.isInstance(item, WardleyInertiaProperty.$type);
+}
+
+export interface WardleyLabelProperty extends langium.AstNode {
+    readonly $container: WardleyComponentStatement;
+    readonly $type: 'WardleyLabelProperty';
+    value: string;
+}
+
+export const WardleyLabelProperty = {
+    $type: 'WardleyLabelProperty',
+    value: 'value'
+} as const;
+
+export function isWardleyLabelProperty(item: unknown): item is WardleyLabelProperty {
+    return reflection.isInstance(item, WardleyLabelProperty.$type);
+}
+
+export interface WardleyProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'WardleyProfile';
+    name: string;
+    statements: Array<WardleyStatement>;
+}
+
+export const WardleyProfile = {
+    $type: 'WardleyProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isWardleyProfile(item: unknown): item is WardleyProfile {
+    return reflection.isInstance(item, WardleyProfile.$type);
+}
+
+export type WardleyStatement = WardleyAnchorStatement | WardleyComponentStatement | WardleyDependencyStatement | WardleyEvolutionStatement;
+
+export const WardleyStatement = {
+    $type: 'WardleyStatement'
+} as const;
+
+export function isWardleyStatement(item: unknown): item is WardleyStatement {
+    return reflection.isInstance(item, WardleyStatement.$type);
+}
+
+export interface WardleyValueProperty extends langium.AstNode {
+    readonly $container: WardleyAnchorStatement | WardleyComponentStatement;
+    readonly $type: 'WardleyValueProperty';
+    value: string;
+}
+
+export const WardleyValueProperty = {
+    $type: 'WardleyValueProperty',
+    value: 'value'
+} as const;
+
+export function isWardleyValueProperty(item: unknown): item is WardleyValueProperty {
+    return reflection.isInstance(item, WardleyValueProperty.$type);
+}
+
 export interface XLabelProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'XLabelProperty';
@@ -1937,6 +2121,18 @@ export type RuniqAstType = {
     StyleRefProperty: StyleRefProperty
     TitleProperty: TitleProperty
     TooltipProperty: TooltipProperty
+    WardleyAnchorProperty: WardleyAnchorProperty
+    WardleyAnchorStatement: WardleyAnchorStatement
+    WardleyComponentProperty: WardleyComponentProperty
+    WardleyComponentStatement: WardleyComponentStatement
+    WardleyDependencyStatement: WardleyDependencyStatement
+    WardleyEvolutionProperty: WardleyEvolutionProperty
+    WardleyEvolutionStatement: WardleyEvolutionStatement
+    WardleyInertiaProperty: WardleyInertiaProperty
+    WardleyLabelProperty: WardleyLabelProperty
+    WardleyProfile: WardleyProfile
+    WardleyStatement: WardleyStatement
+    WardleyValueProperty: WardleyValueProperty
     XLabelProperty: XLabelProperty
     YLabelProperty: YLabelProperty
 }
@@ -2994,6 +3190,124 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        WardleyAnchorProperty: {
+            name: WardleyAnchorProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        WardleyAnchorStatement: {
+            name: WardleyAnchorStatement.$type,
+            properties: {
+                name: {
+                    name: WardleyAnchorStatement.name
+                },
+                properties: {
+                    name: WardleyAnchorStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [WardleyStatement.$type]
+        },
+        WardleyComponentProperty: {
+            name: WardleyComponentProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        WardleyComponentStatement: {
+            name: WardleyComponentStatement.$type,
+            properties: {
+                name: {
+                    name: WardleyComponentStatement.name
+                },
+                properties: {
+                    name: WardleyComponentStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [WardleyStatement.$type]
+        },
+        WardleyDependencyStatement: {
+            name: WardleyDependencyStatement.$type,
+            properties: {
+                from: {
+                    name: WardleyDependencyStatement.from
+                },
+                to: {
+                    name: WardleyDependencyStatement.to
+                }
+            },
+            superTypes: [WardleyStatement.$type]
+        },
+        WardleyEvolutionProperty: {
+            name: WardleyEvolutionProperty.$type,
+            properties: {
+                value: {
+                    name: WardleyEvolutionProperty.value
+                }
+            },
+            superTypes: [WardleyAnchorProperty.$type, WardleyComponentProperty.$type]
+        },
+        WardleyEvolutionStatement: {
+            name: WardleyEvolutionStatement.$type,
+            properties: {
+                component: {
+                    name: WardleyEvolutionStatement.component
+                },
+                properties: {
+                    name: WardleyEvolutionStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [WardleyStatement.$type]
+        },
+        WardleyInertiaProperty: {
+            name: WardleyInertiaProperty.$type,
+            properties: {
+                value: {
+                    name: WardleyInertiaProperty.value
+                }
+            },
+            superTypes: [WardleyComponentProperty.$type]
+        },
+        WardleyLabelProperty: {
+            name: WardleyLabelProperty.$type,
+            properties: {
+                value: {
+                    name: WardleyLabelProperty.value
+                }
+            },
+            superTypes: [WardleyComponentProperty.$type]
+        },
+        WardleyProfile: {
+            name: WardleyProfile.$type,
+            properties: {
+                name: {
+                    name: WardleyProfile.name
+                },
+                statements: {
+                    name: WardleyProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        WardleyStatement: {
+            name: WardleyStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        WardleyValueProperty: {
+            name: WardleyValueProperty.$type,
+            properties: {
+                value: {
+                    name: WardleyValueProperty.value
+                }
+            },
+            superTypes: [WardleyAnchorProperty.$type, WardleyComponentProperty.$type]
         },
         XLabelProperty: {
             name: XLabelProperty.$type,

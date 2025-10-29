@@ -35,9 +35,7 @@
 	});
 
 	// Count total shapes
-	let totalShapes = $derived(
-		filteredCategories.reduce((sum, cat) => sum + cat.shapes.length, 0)
-	);
+	let totalShapes = $derived(filteredCategories.reduce((sum, cat) => sum + cat.shapes.length, 0));
 
 	// Auto-expand all categories when searching
 	$effect(() => {
@@ -70,17 +68,17 @@
 	<!-- Search Bar -->
 	<div class="border-b border-neutral-200 bg-white p-3">
 		<div class="relative">
-			<Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
+			<Search class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
 			<input
 				type="text"
 				bind:value={searchQuery}
 				placeholder="Search shapes..."
-				class="w-full rounded-md border border-neutral-300 py-2 pl-10 pr-9 text-sm transition-colors focus:border-runiq-400 focus:outline-none focus:ring-2 focus:ring-runiq-200"
+				class="w-full rounded-md border border-neutral-300 py-2 pr-9 pl-10 text-sm transition-colors focus:border-runiq-400 focus:ring-2 focus:ring-runiq-200 focus:outline-none"
 			/>
 			{#if searchQuery}
 				<button
 					onclick={clearSearch}
-					class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+					class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
 					aria-label="Clear search"
 				>
 					<X class="h-4 w-4" />
@@ -94,23 +92,20 @@
 				{#if searchQuery}
 					{totalShapes} result{totalShapes !== 1 ? 's' : ''} found
 				{:else}
-					{categories.length} categories, {categories.reduce((sum, cat) => sum + cat.shapes.length, 0)}
+					{categories.length} categories, {categories.reduce(
+						(sum, cat) => sum + cat.shapes.length,
+						0
+					)}
 					shapes
 				{/if}
 			</span>
 			{#if !searchQuery}
 				<div class="flex gap-2">
-					<button
-						onclick={expandAll}
-						class="text-runiq-600 hover:text-runiq-700 hover:underline"
-					>
+					<button onclick={expandAll} class="text-runiq-600 hover:text-runiq-700 hover:underline">
 						Expand All
 					</button>
 					<span>|</span>
-					<button
-						onclick={collapseAll}
-						class="text-runiq-600 hover:text-runiq-700 hover:underline"
-					>
+					<button onclick={collapseAll} class="text-runiq-600 hover:text-runiq-700 hover:underline">
 						Collapse All
 					</button>
 				</div>
@@ -148,7 +143,7 @@
 										>
 											<ShapeIcon shapeId={shape.id} size={24} />
 											<span
-												class="text-[10px] text-neutral-500 group-hover:text-runiq-700 line-clamp-1 max-w-full"
+												class="line-clamp-1 max-w-full text-[10px] text-neutral-500 group-hover:text-runiq-700"
 											>
 												{shape.id}
 											</span>
@@ -162,7 +157,7 @@
 											<div class="space-y-1">
 												<p class="text-xs font-semibold">{shape.label}</p>
 												<p class="font-mono text-xs text-neutral-500">@{shape.id}</p>
-												<p class="text-xs italic text-neutral-400">Click to insert</p>
+												<p class="text-xs text-neutral-400 italic">Click to insert</p>
 											</div>
 										</Tooltip.Content>
 									</Tooltip.Root>
@@ -175,4 +170,3 @@
 		{/if}
 	</div>
 </div>
-

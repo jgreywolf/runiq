@@ -1,0 +1,30 @@
+// Tea Shop - Classic Wardley Map Example
+// Simon Wardley's original tea shop example demonstrating value chain mapping
+
+wardley "Cup of Tea" {
+  // User needs at the top of the value chain
+  anchor "Customer" value:0.95
+
+  // Components along the value chain (value: 0 = invisible, 1 = visible)
+  // Evolution stages (evolution: 0 = genesis, 0.25 = custom, 0.5 = product, 0.75 = commodity)
+  
+  // Customer-facing components (high value)
+  component "Cup of Tea" evolution:0.8 value:0.9
+  component "Cup" evolution:0.9 value:0.7
+  component "Tea" evolution:0.8 value:0.7
+  component "Hot Water" evolution:0.9 value:0.6
+  
+  // Mid-chain components
+  component "Water" evolution:1.0 value:0.5 label:"Water Supply"
+  component "Kettle" evolution:0.85 value:0.5
+  component "Power" evolution:1.0 value:0.4 label:"Electricity"
+  
+  // Dependencies (value chain relationships)
+  dependency from:"Customer" to:"Cup of Tea"
+  dependency from:"Cup of Tea" to:"Cup"
+  dependency from:"Cup of Tea" to:"Tea"
+  dependency from:"Cup of Tea" to:"Hot Water"
+  dependency from:"Hot Water" to:"Water"
+  dependency from:"Hot Water" to:"Kettle"
+  dependency from:"Kettle" to:"Power"
+}

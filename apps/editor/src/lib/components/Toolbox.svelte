@@ -4,7 +4,7 @@
 	import ShapeBrowser from './ShapeBrowser.svelte';
 	import ToolboxSamples from './ToolboxSamples.svelte';
 	import { shapeCategories } from '$lib/data/toolbox-data';
-	import { sampleDiagrams } from '$lib/data/sample-data';
+	import { sampleDiagrams, wardleySamples } from '$lib/data/sample-data';
 
 	interface Props {
 		onInsertShape: (shapeCode: string) => void;
@@ -14,15 +14,19 @@
 
 	let { onInsertShape, onInsertSample, currentCode = '' }: Props = $props();
 
-	// Detect if current code is for schematic or regular diagram
+	// Detect profile type from current code
 	let isSchematicMode = $derived(currentCode.trim().startsWith('schematic'));
+	let isWardleyMode = $derived(currentCode.trim().startsWith('wardley'));
 
-	// Filter categories based on schematic mode
+	// Filter categories based on mode
 	let displayedCategories = $derived(
 		isSchematicMode
 			? shapeCategories.filter((cat) => cat.schematicOnly)
 			: shapeCategories.filter((cat) => !cat.schematicOnly)
 	);
+
+	// Select appropriate samples
+	let displayedSamples = $derived(isWardleyMode ? wardleySamples : sampleDiagrams);
 
 	// Handler for inserting samples - use provided handler or fallback to shape handler
 	function handleInsertSample(sampleCode: string) {
@@ -40,13 +44,18 @@
 			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
 				<p class="text-xs font-medium text-amber-900">⚡ Schematic Circuit Mode</p>
 			</div>
+		{:else if isWardleyMode}
+			<div class="border-b border-purple-200 bg-purple-50 px-4 py-2">
+				<p class="text-xs font-medium text-purple-900">📊 Wardley Map Mode</p>
+			</div>
 		{/if}
 
-		<Tabs.Root value="shapes" class="flex h-full flex-col">
+		<Tabs.Root value={isWardleyMode ? 'samples' : 'shapes'} class="flex h-full flex-col">
 			<Tabs.List class="m-2 grid w-auto grid-cols-2 gap-1 rounded-lg bg-neutral-100 p-1">
 				<Tabs.Trigger
 					value="shapes"
 					class="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:text-runiq-700 data-[state=active]:shadow-sm data-[state=inactive]:text-neutral-600 data-[state=inactive]:hover:text-neutral-900"
+					disabled={isWardleyMode}
 				>
 					Shapes
 				</Tabs.Trigger>
@@ -54,21 +63,32 @@
 					value="samples"
 					class="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:text-runiq-700 data-[state=active]:shadow-sm data-[state=inactive]:text-neutral-600 data-[state=inactive]:hover:text-neutral-900"
 				>
-					Sample Diagrams
+					{isWardleyMode ? 'Templates' : 'Sample Diagrams'}
 				</Tabs.Trigger>
 			</Tabs.List>
 
 			<Tabs.Content value="shapes" class="flex-1 overflow-auto">
-				<ShapeBrowser categories={displayedCategories} {onInsertShape} />
+				{#if !isWardleyMode}
+					<ShapeBrowser categories={displayedCategories} {onInsertShape} />
+				{:else}
+					<div class="flex h-full items-center justify-center p-4 text-center">
+						<p class="text-sm text-neutral-500">
+							Wardley Maps use uniform components.<br />
+							See Templates for examples.
+						</p>
+					</div>
+				{/if}
 			</Tabs.Content>
 
 			<Tabs.Content value="samples" class="flex-1 overflow-auto">
-				<ToolboxSamples categories={sampleDiagrams} onInsertSample={handleInsertSample} />
+				<ToolboxSamples categories={displayedSamples} onInsertSample={handleInsertSample} />
 			</Tabs.Content>
 		</Tabs.Root>
 
 		<div class="mt-auto border-t border-neutral-200 bg-neutral-50 p-3">
-			<p class="text-xs text-neutral-500">Click a shape to insert it at the cursor</p>
+			<p class="text-xs text-neutral-500">
+				{isWardleyMode ? 'Click a template to insert' : 'Click a shape to insert it at the cursor'}
+			</p>
 		</div>
 	</div>
 </Tooltip.Provider>

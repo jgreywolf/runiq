@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { parse } from '@runiq/parser-dsl';
 	import { layoutRegistry } from '@runiq/core';
-	import { renderSvg } from '@runiq/renderer-svg';
+	import { renderSvg, renderWardleyMap } from '@runiq/renderer-svg';
 	import { renderSchematic } from '@runiq/renderer-schematic';
 	import { Badge } from '$lib/components/ui/badge';
 
@@ -118,11 +118,29 @@
 				return;
 			}
 
+			// Handle Wardley Map profiles
+			if (profile.type === 'wardley') {
+				const renderResult = renderWardleyMap(profile as any, {
+					width: 800,
+					height: 600,
+					showGrid: true,
+					showEvolutionLabels: true,
+					showValueLabels: true
+				});
+
+				svgOutput = renderResult.svg;
+				warnings = renderResult.warnings;
+				renderTime = Math.round(performance.now() - startRender);
+				isRendering = false;
+				if (onparse) onparse(true, []);
+				return;
+			}
+
 			// Handle diagram profiles
 			if (profile.type !== 'diagram') {
 				errors = [
 					`Profile type '${profile.type}' is not yet supported in the preview.`,
-					`Currently only 'diagram' and 'schematic' profiles can be rendered.`
+					`Currently 'diagram', 'schematic', and 'wardley' profiles can be rendered.`
 				];
 				svgOutput = '';
 				isRendering = false;

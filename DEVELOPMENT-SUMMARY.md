@@ -11,6 +11,7 @@ This document summarizes the major features and improvements implemented during 
 **File**: `packages/core/src/registries/shape-registry.ts`
 
 ### Features
+
 - Added `toJSON()` method to export all registered shapes
 - Added `fromJSON()` method to import shape configurations
 - Enables shape registry serialization for:
@@ -20,6 +21,7 @@ This document summarizes the major features and improvements implemented during 
   - Cross-platform sharing
 
 ### API Usage
+
 ```typescript
 import { shapeRegistry } from '@runiq/core';
 
@@ -36,11 +38,13 @@ shapeRegistry.fromJSON(shapesJSON);
 
 ## 2. Shape Alias System ✅
 
-**Files**: 
+**Files**:
+
 - `packages/core/src/shape-aliases.ts`
 - `packages/core/src/registries/shape-registry.ts`
 
 ### Features
+
 - 60+ common shape aliases organized by category
 - Allows friendly alternative names: `@rectangle` → `@rect`
 - Supports multiple aliases per shape
@@ -51,6 +55,7 @@ shapeRegistry.fromJSON(shapesJSON);
   - Special Shapes (pill, capsule, small-circle, etc.)
 
 ### API Usage
+
 ```typescript
 // All of these are equivalent:
 shape db1 as @cyl          // Canonical ID
@@ -71,11 +76,13 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ## 3. Shape Validation with Smart Suggestions ✅
 
 **Files**:
+
 - `packages/parser-dsl/src/utils/levenshtein.ts`
 - `packages/parser-dsl/src/validator.ts`
 - `packages/parser-dsl/src/validator.spec.ts`
 
 ### Features
+
 - **Levenshtein Distance Algorithm**: Fuzzy string matching for typo detection
 - **Smart Typo Suggestions**: Up to 5 closest shape matches when errors occur
 - **Three-tier Prioritization**:
@@ -88,6 +95,7 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
   - Alias hints for canonical shapes
 
 ### Example Messages
+
 ```
 ❌ Error: Unknown shape type 'rectange'. Did you mean: rectangle, triangle, rhombus?
 💡 Hint: Shape 'rect' is alias for 'rectangle'. Available aliases: rect, box, square
@@ -95,6 +103,7 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ```
 
 ### Test Coverage
+
 - 21 validator integration tests
 - 19 Levenshtein algorithm tests
 - Coverage: 95%+ for DSL parsing validation
@@ -106,17 +115,20 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ## 4. TypeScript Declaration Files Fix ✅
 
 **Files**:
+
 - `packages/renderer-schematic/tsup.config.ts`
 - `packages/renderer-svg/tsup.config.ts`
 - `packages/renderer-schematic/tsconfig.json`
 - `packages/renderer-svg/tsconfig.json`
 
 ### Changes
+
 - Enabled `dts: true` in tsup build configs
 - Added `rootDir: "./src"` to tsconfig.json files
 - Fixes "Cannot find module" errors in Svelte imports
 
 ### Impact
+
 - Proper TypeScript intellisense in editor
 - No more module resolution errors
 - Better IDE support for renderer packages
@@ -128,10 +140,12 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ## 5. Editor Validation with Quick-Fix Actions ✅
 
 **Files**:
+
 - `apps/editor/src/lib/components/CodeEditor.svelte`
 - `apps/editor/package.json`
 
 ### Features
+
 - **Langium Integration**: Full DSL validation in real-time
 - **LSP → CodeMirror Conversion**: Proper diagnostic mapping
 - **Quick-Fix Actions**: Clickable suggestions in error tooltips
@@ -141,12 +155,14 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
   - 🔵 Info/Hint (blue squiggles): Alias hints, best practices
 
 ### User Experience
+
 1. Type invalid shape: `shape A as @rectange`
 2. See error with red squiggle
 3. Hover to see: "Did you mean: rectangle, triangle, rhombus?"
 4. Click "Replace with 'rectangle'" → Instant fix
 
 ### Dependencies Added
+
 - `langium` v4.1.0
 - `vscode-languageserver-types` v3.17.5
 
@@ -157,10 +173,12 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ## 6. Enhanced Shape Browser UI ✅
 
 **Files**:
+
 - `apps/editor/src/lib/components/ShapeBrowser.svelte`
 - `apps/editor/src/lib/components/Toolbox.svelte`
 
 ### Features
+
 - **Instant Search**: Filter shapes by ID or label as you type
 - **Shape Count Badges**: See shapes per category at a glance
 - **Expand/Collapse All**: Quick category controls
@@ -177,6 +195,7 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 - **Proper Keying**: Fixed icon rendering during search with Svelte keys
 
 ### User Benefits
+
 - Easy discovery of 52+ shapes across 17 categories
 - No need to memorize shape IDs
 - Quick filtering to find the right shape
@@ -189,10 +208,12 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ## Documentation Updates ✅
 
 ### Updated Files
+
 - `SHAPE-ID-REFERENCE.md`: Added alias table, validation features, Shape Browser guide
 - `apps/editor/EDITOR-VALIDATION.md`: Comprehensive validation documentation
 
 ### New Content
+
 - Shape alias reference table (60+ aliases)
 - Smart validation explanation
 - Quick-fix action guide
@@ -205,6 +226,7 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ## Test Coverage
 
 ### Parser DSL Package
+
 - **183 of 191 tests passing**
 - New tests added:
   - 21 validator integration tests
@@ -212,6 +234,7 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 - 8 pre-existing test failures (unrelated to new features)
 
 ### Overall Project
+
 - **446 tests passing** across entire workspace
 - **52 shapes implemented** (100% of goal! 🎉)
 - Core packages healthy and building
@@ -221,12 +244,14 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ## Technical Achievements
 
 ### Performance
+
 - Async validation prevents UI blocking
 - Debounced updates (300ms) for smooth editing
-- Efficient Levenshtein algorithm (O(n*m))
+- Efficient Levenshtein algorithm (O(n\*m))
 - Smart caching in shape registry
 
 ### Code Quality
+
 - TypeScript strict mode throughout
 - Comprehensive test coverage
 - Clean separation of concerns
@@ -234,6 +259,7 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 - Accessible UI components
 
 ### Developer Experience
+
 - IntelliSense support via .d.ts files
 - Clear error messages with actionable suggestions
 - One-click fixes for common mistakes
@@ -245,12 +271,14 @@ shapeRegistry.getAliases('rect');      // ['rectangle', 'box', 'square']
 ## Remaining Work
 
 ### Integration Testing (Not Started)
+
 - End-to-end tests for editor validation
 - Alias resolution testing in real scenarios
 - Quick-fix action testing
 - Shape Browser interaction tests
 
 ### Estimated Time
+
 - 4-6 hours for comprehensive E2E test suite
 
 ---
@@ -275,6 +303,7 @@ ee59edd - feat(parser): Add shape validation with Levenshtein suggestions
 ## Impact Summary
 
 ### For Users
+
 - ✨ Easier shape discovery with search
 - 🎯 Friendly aliases (use `@rectangle` instead of `@rect`)
 - 💡 Smart error messages with suggestions
@@ -282,6 +311,7 @@ ee59edd - feat(parser): Add shape validation with Levenshtein suggestions
 - 🎨 Visual shape browser
 
 ### For Developers
+
 - 📦 Shape registry import/export API
 - 🔍 Comprehensive validation system
 - 🧪 Well-tested codebase
@@ -289,6 +319,7 @@ ee59edd - feat(parser): Add shape validation with Levenshtein suggestions
 - 🛠️ Proper TypeScript support
 
 ### Quality Metrics
+
 - 95%+ test coverage for validation
 - 60+ shape aliases
 - 52 shapes with full support

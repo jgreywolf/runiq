@@ -6,37 +6,38 @@
 
 ### Common Aliases
 
-| Alias              | Maps To      | Description           |
-| ------------------ | ------------ | --------------------- |
-| `@rectangle`       | `@rect`      | Standard rectangle    |
-| `@box`             | `@rect`      | Alternative name      |
-| `@square`          | `@rect`      | Alternative name      |
-| `@diamond`         | `@rhombus`   | Decision diamond      |
-| `@database`        | `@cyl`       | Database cylinder     |
-| `@db`              | `@cyl`       | Short form            |
-| `@cylinder`        | `@cyl`       | Full name             |
-| `@pill`            | `@stadium`   | Pill/capsule shape    |
-| `@capsule`         | `@stadium`   | Alternative name      |
-| `@rounded`         | `@stadium`   | Rounded rectangle     |
-| `@parallelogram`   | `@lean-r`    | Slanted rectangle     |
-| `@display`         | `@curv-trap` | Display screen        |
-| `@ellipse-wide`    | `@ellipse-w` | Wide ellipse          |
-| `@ellipse-tall`    | `@ellipse-t` | Tall ellipse          |
-| `@small-circle`    | `@sm-circ`   | Small circle          |
-| `@summing`         | `@junction`  | Summing junction      |
-| `@transfer`        | `@tfn`       | Transfer function     |
-| `@multiply`        | `@mult-junc` | Multiply junction     |
-| `@divide`          | `@div-junc`  | Divide junction       |
-| `@compare`         | `@cmp-junc`  | Compare junction      |
-| `@predefined`      | `@predef`    | Predefined process    |
-| `@manual`          | `@manual-in` | Manual input          |
-| `@paper-tape`      | `@flag`      | Paper tape/flag       |
+| Alias            | Maps To      | Description        |
+| ---------------- | ------------ | ------------------ |
+| `@rectangle`     | `@rect`      | Standard rectangle |
+| `@box`           | `@rect`      | Alternative name   |
+| `@square`        | `@rect`      | Alternative name   |
+| `@diamond`       | `@rhombus`   | Decision diamond   |
+| `@database`      | `@cyl`       | Database cylinder  |
+| `@db`            | `@cyl`       | Short form         |
+| `@cylinder`      | `@cyl`       | Full name          |
+| `@pill`          | `@stadium`   | Pill/capsule shape |
+| `@capsule`       | `@stadium`   | Alternative name   |
+| `@rounded`       | `@stadium`   | Rounded rectangle  |
+| `@parallelogram` | `@lean-r`    | Slanted rectangle  |
+| `@display`       | `@curv-trap` | Display screen     |
+| `@ellipse-wide`  | `@ellipse-w` | Wide ellipse       |
+| `@ellipse-tall`  | `@ellipse-t` | Tall ellipse       |
+| `@small-circle`  | `@sm-circ`   | Small circle       |
+| `@summing`       | `@junction`  | Summing junction   |
+| `@transfer`      | `@tfn`       | Transfer function  |
+| `@multiply`      | `@mult-junc` | Multiply junction  |
+| `@divide`        | `@div-junc`  | Divide junction    |
+| `@compare`       | `@cmp-junc`  | Compare junction   |
+| `@predefined`    | `@predef`    | Predefined process |
+| `@manual`        | `@manual-in` | Manual input       |
+| `@paper-tape`    | `@flag`      | Paper tape/flag    |
 
 ### Validation & Smart Suggestions ✨
 
 The Runiq parser includes **smart shape validation** with typo detection:
 
 #### Real-time Validation
+
 - **Error Detection**: Unknown shapes are flagged immediately in the editor
 - **Smart Suggestions**: Levenshtein distance algorithm suggests closest matches
 - **Quick Fixes**: Click suggestions to auto-replace typos
@@ -56,6 +57,7 @@ The Runiq parser includes **smart shape validation** with typo detection:
 #### Using Aliases in DSL
 
 All of these are **valid and equivalent**:
+
 ```
 shape db1 as @cyl          # Canonical ID
 shape db2 as @cylinder     # Alias
@@ -212,20 +214,21 @@ For developers integrating Runiq:
    ```
 4. **Check aliases**: `packages/core/src/shape-aliases.ts`
 5. **Use ShapeRegistry API**:
+
    ```typescript
    import { shapeRegistry } from '@runiq/core';
-   
+
    // Check if shape exists (works with IDs and aliases)
    shapeRegistry.has('rectangle'); // true
-   shapeRegistry.has('rect');      // true (canonical)
-   shapeRegistry.has('box');       // true (alias)
-   
+   shapeRegistry.has('rect'); // true (canonical)
+   shapeRegistry.has('box'); // true (alias)
+
    // Get canonical ID from alias
    shapeRegistry.resolveAlias('rectangle'); // 'rect'
-   
+
    // Get all aliases for a shape
    shapeRegistry.getAliases('rect'); // ['rectangle', 'box', 'square']
-   
+
    // Export/import shapes
    const json = shapeRegistry.toJSON();
    shapeRegistry.fromJSON(json);
