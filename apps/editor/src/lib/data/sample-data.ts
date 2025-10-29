@@ -6,6 +6,7 @@ import { electricalSampleDiagrams } from './toolboxSamples/electricalSampleDiagr
 import { flowchartSampleDiagrams } from './toolboxSamples/flowchartSampleDiagrams';
 import { networkSampleDiagrams } from './toolboxSamples/networkSampleDiagrams';
 import { pedigreeSampleDiagrams } from './toolboxSamples/pedigreeSampleDiagrams';
+import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
 import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
 import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
 import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
@@ -28,6 +29,7 @@ export const sampleDiagrams: SampleCategory[] = [
 	...flowchartSampleDiagrams,
 	...containerSampleDiagrams,
 	...umlSampleDiagrams,
+	...sequenceSampleDiagrams,
 	...networkSampleDiagrams,
 	...c4SampleDiagrams,
 	...controlSystemsSampleDiagrams,

@@ -85,11 +85,24 @@
 	}
 
 	// Handle new diagram creation with type selection
-	function handleNewDiagram(type: 'diagram' | 'schematic' | 'wardley') {
+	function handleNewDiagram(type: 'diagram' | 'schematic' | 'wardley' | 'sequence') {
 		let defaultContent: string;
 		let defaultName: string;
 
-		if (type === 'schematic') {
+		if (type === 'sequence') {
+			defaultContent = `sequence "My Sequence Diagram"
+
+  participant "User" as actor
+  participant "System" as entity
+  participant "Database" as database
+
+  message from:"User" to:"System" label:"Request" type:sync
+  message from:"System" to:"Database" label:"Query" type:sync
+  message from:"Database" to:"System" label:"Data" type:return
+  message from:"System" to:"User" label:"Response" type:return
+`;
+			defaultName = 'Untitled Sequence';
+		} else if (type === 'schematic') {
 			defaultContent = `schematic "My Circuit" {
   net VCC, GND
   

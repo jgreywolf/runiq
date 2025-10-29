@@ -9,7 +9,7 @@
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
-		onNewDiagram?: (type: 'diagram' | 'schematic' | 'wardley') => void;
+		onNewDiagram?: (type: 'diagram' | 'schematic' | 'wardley' | 'sequence') => void;
 		onExport?: (format: 'svg' | 'png') => void;
 	}
 
@@ -33,7 +33,7 @@
 		showNewDiagramDialog = true;
 	}
 
-	function createDiagram(type: 'diagram' | 'schematic' | 'wardley') {
+	function createDiagram(type: 'diagram' | 'schematic' | 'wardley' | 'sequence') {
 		showNewDiagramDialog = false;
 		onNewDiagram?.(type);
 	}
@@ -344,6 +344,37 @@
 					<div>
 						<h3 class="font-semibold text-neutral-900">Diagram</h3>
 						<p class="text-sm text-neutral-600">Flowcharts, UML, network diagrams</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Sequence Diagram Option -->
+			<button
+				onclick={() => createDiagram('sequence')}
+				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-blue-400 hover:bg-blue-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-600 transition-colors group-hover:bg-blue-200"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+							/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Sequence Diagram</h3>
+						<p class="text-sm text-neutral-600">Interactions, messages, lifelines</p>
 					</div>
 				</div>
 			</button>
