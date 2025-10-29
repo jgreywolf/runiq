@@ -29,6 +29,7 @@
 	let layoutEngine = $state('elk');
 	let autoSaveTimeout: ReturnType<typeof setTimeout> | null = null;
 	let codeEditorRef: CodeEditor | null = null;
+	let previewRef: Preview | null = null;
 
 	// Auto-save configuration
 	const AUTO_SAVE_DELAY = 2000; // 2 seconds after last change
@@ -115,6 +116,102 @@
 		console.log(`New ${type} created`);
 	}
 
+	// Handle export to SVG
+	function handleExportSvg() {
+		if (!previewRef || !previewRef.hasValidDiagram()) {
+			alert('No valid diagram to export. Please fix any errors first.');
+			return;
+		}
+
+		const svg = previewRef.getSvg();
+		const blob = new Blob([svg], { type: 'image/svg+xml' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `${diagramName.replace(/\s+/g, '-')}.svg`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	}
+
+	// Handle export to PNG
+	async function handleExportPng() {
+		if (!previewRef || !previewRef.hasValidDiagram()) {
+			alert('No valid diagram to export. Please fix any errors first.');
+			return;
+		}
+
+		const svg = previewRef.getSvg();
+		
+		// Create a temporary container to parse SVG dimensions
+		const tempDiv = document.createElement('div');
+		tempDiv.innerHTML = svg;
+		const svgElement = tempDiv.querySelector('svg');
+		
+		if (!svgElement) {
+			alert('Failed to parse SVG content');
+			return;
+		}
+
+		// Get SVG dimensions
+		const width = parseInt(svgElement.getAttribute('width') || '800');
+		const height = parseInt(svgElement.getAttribute('height') || '600');
+
+		// Create canvas
+		const canvas = document.createElement('canvas');
+		canvas.width = width;
+		canvas.height = height;
+		const ctx = canvas.getContext('2d');
+
+		if (!ctx) {
+			alert('Failed to create canvas context');
+			return;
+		}
+
+		// Create image from SVG
+		const img = new Image();
+		const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+		const url = URL.createObjectURL(svgBlob);
+
+		img.onload = () => {
+			ctx.fillStyle = 'white';
+			ctx.fillRect(0, 0, width, height);
+			ctx.drawImage(img, 0, 0);
+			URL.revokeObjectURL(url);
+
+			// Convert canvas to PNG and download
+			canvas.toBlob((blob) => {
+				if (blob) {
+					const pngUrl = URL.createObjectURL(blob);
+					const a = document.createElement('a');
+					a.href = pngUrl;
+					a.download = `${diagramName.replace(/\s+/g, '-')}.png`;
+					document.body.appendChild(a);
+					a.click();
+					document.body.removeChild(a);
+					URL.revokeObjectURL(pngUrl);
+				}
+			}, 'image/png');
+		};
+
+		img.onerror = () => {
+			URL.revokeObjectURL(url);
+			alert('Failed to render SVG to PNG');
+		};
+
+		img.src = url;
+	}
+
+	// Handle export button click
+	function handleExport(format: 'svg' | 'png') {
+		if (format === 'svg') {
+			handleExportSvg();
+		} else {
+			handleExportPng();
+		}
+	}
+
 	// Load panel sizes and auto-saved code from localStorage
 	onMount(() => {
 		// Load panel sizes
@@ -154,7 +251,7 @@
 
 <div class="flex h-screen flex-col overflow-hidden bg-neutral-50">
 	<!-- Header -->
-	<Header {diagramName} {lastSaved} {isDirty} onNewDiagram={handleNewDiagram} />
+	<Header {diagramName} {lastSaved} {isDirty} onNewDiagram={handleNewDiagram} onExport={handleExport} />
 
 	<!-- Main Content: Three-Panel Layout -->
 	<div class="flex-1 overflow-hidden">
@@ -230,7 +327,7 @@
 						<h2 class="text-sm font-semibold text-white">Preview</h2>
 					</div>
 					<div class="flex-1 overflow-hidden">
-						<Preview {code} {layoutEngine} onparse={handleParse} />
+						<Preview bind:this={previewRef} {code} {layoutEngine} onparse={handleParse} />
 					</div>
 				</div>
 			</Pane>

@@ -22,6 +22,16 @@
 	let parseTime = $state(0);
 	let renderTime = $state(0);
 
+	// Export function to get current SVG
+	export function getSvg(): string {
+		return svgOutput;
+	}
+
+	// Export function to check if diagram is valid
+	export function hasValidDiagram(): boolean {
+		return svgOutput.length > 0 && errors.length === 0;
+	}
+
 	// Pan and zoom state
 	let scale = $state(1);
 	let translateX = $state(0);
