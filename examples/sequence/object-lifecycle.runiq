@@ -1,0 +1,25 @@
+// Object creation and destruction
+sequence "Resource Lifecycle" {
+  participant "Client" as actor
+  participant "Factory" as control
+  participant "Resource" as entity
+  participant "Pool" as database
+
+  message from:"Client" to:"Factory" label:"Request resource" type:sync
+  message from:"Factory" to:"Resource" label:"<<create>>" type:create activate:true
+  message from:"Resource" to:"Pool" label:"Register" type:sync
+  message from:"Pool" to:"Resource" label:"ACK" type:return
+  message from:"Factory" to:"Client" label:"Resource handle" type:return
+
+  note "Resource is now active" position:over participants:("Resource")
+
+  message from:"Client" to:"Resource" label:"Use resource" type:sync
+  message from:"Resource" to:"Client" label:"Result" type:return
+
+  message from:"Client" to:"Factory" label:"Release resource" type:sync
+  message from:"Factory" to:"Resource" label:"Cleanup" type:sync
+  message from:"Resource" to:"Pool" label:"Unregister" type:sync
+  message from:"Factory" to:"Resource" label:"<<destroy>>" type:destroy
+
+  note "Resource destroyed and memory freed" position:over participants:("Resource")
+}

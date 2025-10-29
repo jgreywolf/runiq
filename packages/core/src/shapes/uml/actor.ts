@@ -1,7 +1,7 @@
 import type { ShapeDefinition } from '@runiq/core';
 
 export const actorShape: ShapeDefinition = {
-  id: 'actor',
+  id: 'user',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

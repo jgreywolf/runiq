@@ -26,6 +26,7 @@ export type RuniqKeywordNames =
     | ")"
     | ","
     | "."
+    | ".."
     | "/"
     | ":"
     | "@"
@@ -37,14 +38,19 @@ export type RuniqKeywordNames =
     | "]"
     | "abstract:"
     | "ac"
+    | "activate:"
+    | "actor"
     | "affected:"
     | "aggregation"
     | "algorithm:"
+    | "alt"
+    | "alternatives:"
     | "analysis"
     | "anchor"
     | "arrowType:"
     | "as"
     | "association"
+    | "async"
     | "attributes:"
     | "backgroundColor:"
     | "bidirectional"
@@ -52,28 +58,37 @@ export type RuniqKeywordNames =
     | "borderStyle:"
     | "borderWidth:"
     | "bottom"
+    | "boundary"
+    | "break"
     | "carrier:"
     | "colors:"
     | "component"
     | "composition"
     | "constraints:"
     | "container"
+    | "control"
+    | "create"
+    | "critical"
     | "dashed"
     | "data:"
+    | "database"
     | "dc"
     | "deceased:"
     | "default:"
     | "dependency"
     | "derived:"
+    | "destroy"
     | "diagram"
     | "digital"
     | "direction"
     | "dotted"
     | "double"
     | "edgeType:"
+    | "entity"
     | "evolution:"
     | "evolve"
     | "force"
+    | "fragment"
     | "from:"
     | "generalization"
     | "genericTypes:"
@@ -89,7 +104,9 @@ export type RuniqKeywordNames =
     | "legendPosition:"
     | "lineStyle:"
     | "link:"
+    | "loop"
     | "map:"
+    | "message"
     | "methods:"
     | "mindmap"
     | "module"
@@ -101,23 +118,31 @@ export type RuniqKeywordNames =
     | "net"
     | "noise"
     | "none"
+    | "note"
     | "of:"
     | "op"
     | "opacity:"
     | "open"
+    | "opt"
     | "orthogonal"
+    | "over"
     | "package"
     | "padding:"
+    | "par"
     | "params:"
     | "part"
+    | "participant"
+    | "participants:"
     | "pins:"
     | "polyline"
     | "ports:"
+    | "position:"
     | "private"
     | "protected"
     | "public"
     | "radial"
     | "realization"
+    | "return"
     | "returnType:"
     | "right"
     | "roleSource:"
@@ -125,6 +150,7 @@ export type RuniqKeywordNames =
     | "routing"
     | "routing:"
     | "schematic"
+    | "sequence"
     | "shape"
     | "showLegend:"
     | "solid"
@@ -140,6 +166,7 @@ export type RuniqKeywordNames =
     | "stress"
     | "style"
     | "style:"
+    | "sync"
     | "target"
     | "title:"
     | "to"
@@ -1553,7 +1580,7 @@ export function isPortDecl(item: unknown): item is PortDecl {
     return reflection.isInstance(item, PortDecl.$type);
 }
 
-export type Profile = DiagramProfile | DigitalProfile | SchematicProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | SchematicProfile | SequenceProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -1646,12 +1673,330 @@ export function isSchematicProfile(item: unknown): item is SchematicProfile {
     return reflection.isInstance(item, SchematicProfile.$type);
 }
 
+export interface SequenceActivateProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceActivateProperty';
+    value: string;
+}
+
+export const SequenceActivateProperty = {
+    $type: 'SequenceActivateProperty',
+    value: 'value'
+} as const;
+
+export function isSequenceActivateProperty(item: unknown): item is SequenceActivateProperty {
+    return reflection.isInstance(item, SequenceActivateProperty.$type);
+}
+
+export interface SequenceAlternativeDecl extends langium.AstNode {
+    readonly $container: SequenceFragmentAlternativesProperty;
+    readonly $type: 'SequenceAlternativeDecl';
+    fromMsg: string;
+    label: string;
+    toMsg: string;
+}
+
+export const SequenceAlternativeDecl = {
+    $type: 'SequenceAlternativeDecl',
+    fromMsg: 'fromMsg',
+    label: 'label',
+    toMsg: 'toMsg'
+} as const;
+
+export function isSequenceAlternativeDecl(item: unknown): item is SequenceAlternativeDecl {
+    return reflection.isInstance(item, SequenceAlternativeDecl.$type);
+}
+
+export interface SequenceFragmentAlternativesProperty extends langium.AstNode {
+    readonly $container: SequenceFragmentStatement;
+    readonly $type: 'SequenceFragmentAlternativesProperty';
+    alternatives: Array<SequenceAlternativeDecl>;
+}
+
+export const SequenceFragmentAlternativesProperty = {
+    $type: 'SequenceFragmentAlternativesProperty',
+    alternatives: 'alternatives'
+} as const;
+
+export function isSequenceFragmentAlternativesProperty(item: unknown): item is SequenceFragmentAlternativesProperty {
+    return reflection.isInstance(item, SequenceFragmentAlternativesProperty.$type);
+}
+
+export interface SequenceFragmentFromProperty extends langium.AstNode {
+    readonly $container: SequenceFragmentStatement;
+    readonly $type: 'SequenceFragmentFromProperty';
+    from: string;
+}
+
+export const SequenceFragmentFromProperty = {
+    $type: 'SequenceFragmentFromProperty',
+    from: 'from'
+} as const;
+
+export function isSequenceFragmentFromProperty(item: unknown): item is SequenceFragmentFromProperty {
+    return reflection.isInstance(item, SequenceFragmentFromProperty.$type);
+}
+
+export type SequenceFragmentProperty = SequenceFragmentAlternativesProperty | SequenceFragmentFromProperty | SequenceFragmentToProperty;
+
+export const SequenceFragmentProperty = {
+    $type: 'SequenceFragmentProperty'
+} as const;
+
+export function isSequenceFragmentProperty(item: unknown): item is SequenceFragmentProperty {
+    return reflection.isInstance(item, SequenceFragmentProperty.$type);
+}
+
+export interface SequenceFragmentStatement extends langium.AstNode {
+    readonly $container: SequenceProfile;
+    readonly $type: 'SequenceFragmentStatement';
+    label: string;
+    properties: Array<SequenceFragmentProperty>;
+    type: SequenceFragmentType;
+}
+
+export const SequenceFragmentStatement = {
+    $type: 'SequenceFragmentStatement',
+    label: 'label',
+    properties: 'properties',
+    type: 'type'
+} as const;
+
+export function isSequenceFragmentStatement(item: unknown): item is SequenceFragmentStatement {
+    return reflection.isInstance(item, SequenceFragmentStatement.$type);
+}
+
+export interface SequenceFragmentToProperty extends langium.AstNode {
+    readonly $container: SequenceFragmentStatement;
+    readonly $type: 'SequenceFragmentToProperty';
+    to: string;
+}
+
+export const SequenceFragmentToProperty = {
+    $type: 'SequenceFragmentToProperty',
+    to: 'to'
+} as const;
+
+export function isSequenceFragmentToProperty(item: unknown): item is SequenceFragmentToProperty {
+    return reflection.isInstance(item, SequenceFragmentToProperty.$type);
+}
+
+export type SequenceFragmentType = 'alt' | 'break' | 'critical' | 'loop' | 'opt' | 'par';
+
+export function isSequenceFragmentType(item: unknown): item is SequenceFragmentType {
+    return item === 'loop' || item === 'alt' || item === 'opt' || item === 'par' || item === 'critical' || item === 'break';
+}
+
+export interface SequenceFromProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceFromProperty';
+    from: string;
+}
+
+export const SequenceFromProperty = {
+    $type: 'SequenceFromProperty',
+    from: 'from'
+} as const;
+
+export function isSequenceFromProperty(item: unknown): item is SequenceFromProperty {
+    return reflection.isInstance(item, SequenceFromProperty.$type);
+}
+
+export interface SequenceLabelProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceLabelProperty';
+    label: string;
+}
+
+export const SequenceLabelProperty = {
+    $type: 'SequenceLabelProperty',
+    label: 'label'
+} as const;
+
+export function isSequenceLabelProperty(item: unknown): item is SequenceLabelProperty {
+    return reflection.isInstance(item, SequenceLabelProperty.$type);
+}
+
+export type SequenceMessageProperty = SequenceActivateProperty | SequenceFromProperty | SequenceLabelProperty | SequenceToProperty | SequenceTypeProperty;
+
+export const SequenceMessageProperty = {
+    $type: 'SequenceMessageProperty'
+} as const;
+
+export function isSequenceMessageProperty(item: unknown): item is SequenceMessageProperty {
+    return reflection.isInstance(item, SequenceMessageProperty.$type);
+}
+
+export interface SequenceMessageStatement extends langium.AstNode {
+    readonly $container: SequenceProfile;
+    readonly $type: 'SequenceMessageStatement';
+    properties: Array<SequenceMessageProperty>;
+}
+
+export const SequenceMessageStatement = {
+    $type: 'SequenceMessageStatement',
+    properties: 'properties'
+} as const;
+
+export function isSequenceMessageStatement(item: unknown): item is SequenceMessageStatement {
+    return reflection.isInstance(item, SequenceMessageStatement.$type);
+}
+
+export type SequenceMessageType = 'async' | 'create' | 'destroy' | 'return' | 'sync';
+
+export function isSequenceMessageType(item: unknown): item is SequenceMessageType {
+    return item === 'sync' || item === 'async' || item === 'return' || item === 'create' || item === 'destroy';
+}
+
+export interface SequenceNoteParticipantsProperty extends langium.AstNode {
+    readonly $container: SequenceNoteStatement;
+    readonly $type: 'SequenceNoteParticipantsProperty';
+    participants: Array<string>;
+}
+
+export const SequenceNoteParticipantsProperty = {
+    $type: 'SequenceNoteParticipantsProperty',
+    participants: 'participants'
+} as const;
+
+export function isSequenceNoteParticipantsProperty(item: unknown): item is SequenceNoteParticipantsProperty {
+    return reflection.isInstance(item, SequenceNoteParticipantsProperty.$type);
+}
+
+export type SequenceNotePosition = 'left' | 'over' | 'right';
+
+export function isSequenceNotePosition(item: unknown): item is SequenceNotePosition {
+    return item === 'left' || item === 'right' || item === 'over';
+}
+
+export interface SequenceNotePositionProperty extends langium.AstNode {
+    readonly $container: SequenceNoteStatement;
+    readonly $type: 'SequenceNotePositionProperty';
+    position: SequenceNotePosition;
+}
+
+export const SequenceNotePositionProperty = {
+    $type: 'SequenceNotePositionProperty',
+    position: 'position'
+} as const;
+
+export function isSequenceNotePositionProperty(item: unknown): item is SequenceNotePositionProperty {
+    return reflection.isInstance(item, SequenceNotePositionProperty.$type);
+}
+
+export type SequenceNoteProperty = SequenceNoteParticipantsProperty | SequenceNotePositionProperty;
+
+export const SequenceNoteProperty = {
+    $type: 'SequenceNoteProperty'
+} as const;
+
+export function isSequenceNoteProperty(item: unknown): item is SequenceNoteProperty {
+    return reflection.isInstance(item, SequenceNoteProperty.$type);
+}
+
+export interface SequenceNoteStatement extends langium.AstNode {
+    readonly $container: SequenceProfile;
+    readonly $type: 'SequenceNoteStatement';
+    properties: Array<SequenceNoteProperty>;
+    text: string;
+}
+
+export const SequenceNoteStatement = {
+    $type: 'SequenceNoteStatement',
+    properties: 'properties',
+    text: 'text'
+} as const;
+
+export function isSequenceNoteStatement(item: unknown): item is SequenceNoteStatement {
+    return reflection.isInstance(item, SequenceNoteStatement.$type);
+}
+
+export interface SequenceParticipantStatement extends langium.AstNode {
+    readonly $container: SequenceProfile;
+    readonly $type: 'SequenceParticipantStatement';
+    name: string;
+    type?: SequenceParticipantType;
+}
+
+export const SequenceParticipantStatement = {
+    $type: 'SequenceParticipantStatement',
+    name: 'name',
+    type: 'type'
+} as const;
+
+export function isSequenceParticipantStatement(item: unknown): item is SequenceParticipantStatement {
+    return reflection.isInstance(item, SequenceParticipantStatement.$type);
+}
+
+export type SequenceParticipantType = 'actor' | 'boundary' | 'control' | 'database' | 'entity';
+
+export function isSequenceParticipantType(item: unknown): item is SequenceParticipantType {
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database';
+}
+
+export interface SequenceProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'SequenceProfile';
+    name: string;
+    statements: Array<SequenceStatement>;
+}
+
+export const SequenceProfile = {
+    $type: 'SequenceProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isSequenceProfile(item: unknown): item is SequenceProfile {
+    return reflection.isInstance(item, SequenceProfile.$type);
+}
+
+export type SequenceStatement = SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
+
+export const SequenceStatement = {
+    $type: 'SequenceStatement'
+} as const;
+
+export function isSequenceStatement(item: unknown): item is SequenceStatement {
+    return reflection.isInstance(item, SequenceStatement.$type);
+}
+
+export interface SequenceToProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceToProperty';
+    to: string;
+}
+
+export const SequenceToProperty = {
+    $type: 'SequenceToProperty',
+    to: 'to'
+} as const;
+
+export function isSequenceToProperty(item: unknown): item is SequenceToProperty {
+    return reflection.isInstance(item, SequenceToProperty.$type);
+}
+
+export interface SequenceTypeProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceTypeProperty';
+    type: SequenceMessageType;
+}
+
+export const SequenceTypeProperty = {
+    $type: 'SequenceTypeProperty',
+    type: 'type'
+} as const;
+
+export function isSequenceTypeProperty(item: unknown): item is SequenceTypeProperty {
+    return reflection.isInstance(item, SequenceTypeProperty.$type);
+}
+
 export interface ShapeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ShapeDeclaration';
     id: string;
     properties: Array<NodeProperty>;
-    shape?: string;
+    shape?: ShapeIdentifier;
 }
 
 export const ShapeDeclaration = {
@@ -1663,6 +2008,12 @@ export const ShapeDeclaration = {
 
 export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
+}
+
+export type ShapeIdentifier = 'actor' | 'boundary' | 'control' | 'database' | 'entity' | string;
+
+export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -2111,6 +2462,26 @@ export type RuniqAstType = {
     RoutingDeclaration: RoutingDeclaration
     RoutingProperty: RoutingProperty
     SchematicProfile: SchematicProfile
+    SequenceActivateProperty: SequenceActivateProperty
+    SequenceAlternativeDecl: SequenceAlternativeDecl
+    SequenceFragmentAlternativesProperty: SequenceFragmentAlternativesProperty
+    SequenceFragmentFromProperty: SequenceFragmentFromProperty
+    SequenceFragmentProperty: SequenceFragmentProperty
+    SequenceFragmentStatement: SequenceFragmentStatement
+    SequenceFragmentToProperty: SequenceFragmentToProperty
+    SequenceFromProperty: SequenceFromProperty
+    SequenceLabelProperty: SequenceLabelProperty
+    SequenceMessageProperty: SequenceMessageProperty
+    SequenceMessageStatement: SequenceMessageStatement
+    SequenceNoteParticipantsProperty: SequenceNoteParticipantsProperty
+    SequenceNotePositionProperty: SequenceNotePositionProperty
+    SequenceNoteProperty: SequenceNoteProperty
+    SequenceNoteStatement: SequenceNoteStatement
+    SequenceParticipantStatement: SequenceParticipantStatement
+    SequenceProfile: SequenceProfile
+    SequenceStatement: SequenceStatement
+    SequenceToProperty: SequenceToProperty
+    SequenceTypeProperty: SequenceTypeProperty
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     StackedProperty: StackedProperty
@@ -3084,6 +3455,201 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [Profile.$type]
+        },
+        SequenceActivateProperty: {
+            name: SequenceActivateProperty.$type,
+            properties: {
+                value: {
+                    name: SequenceActivateProperty.value
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
+        },
+        SequenceAlternativeDecl: {
+            name: SequenceAlternativeDecl.$type,
+            properties: {
+                fromMsg: {
+                    name: SequenceAlternativeDecl.fromMsg
+                },
+                label: {
+                    name: SequenceAlternativeDecl.label
+                },
+                toMsg: {
+                    name: SequenceAlternativeDecl.toMsg
+                }
+            },
+            superTypes: []
+        },
+        SequenceFragmentAlternativesProperty: {
+            name: SequenceFragmentAlternativesProperty.$type,
+            properties: {
+                alternatives: {
+                    name: SequenceFragmentAlternativesProperty.alternatives,
+                    defaultValue: []
+                }
+            },
+            superTypes: [SequenceFragmentProperty.$type]
+        },
+        SequenceFragmentFromProperty: {
+            name: SequenceFragmentFromProperty.$type,
+            properties: {
+                from: {
+                    name: SequenceFragmentFromProperty.from
+                }
+            },
+            superTypes: [SequenceFragmentProperty.$type]
+        },
+        SequenceFragmentProperty: {
+            name: SequenceFragmentProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        SequenceFragmentStatement: {
+            name: SequenceFragmentStatement.$type,
+            properties: {
+                label: {
+                    name: SequenceFragmentStatement.label
+                },
+                properties: {
+                    name: SequenceFragmentStatement.properties,
+                    defaultValue: []
+                },
+                type: {
+                    name: SequenceFragmentStatement.type
+                }
+            },
+            superTypes: [SequenceStatement.$type]
+        },
+        SequenceFragmentToProperty: {
+            name: SequenceFragmentToProperty.$type,
+            properties: {
+                to: {
+                    name: SequenceFragmentToProperty.to
+                }
+            },
+            superTypes: [SequenceFragmentProperty.$type]
+        },
+        SequenceFromProperty: {
+            name: SequenceFromProperty.$type,
+            properties: {
+                from: {
+                    name: SequenceFromProperty.from
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
+        },
+        SequenceLabelProperty: {
+            name: SequenceLabelProperty.$type,
+            properties: {
+                label: {
+                    name: SequenceLabelProperty.label
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
+        },
+        SequenceMessageProperty: {
+            name: SequenceMessageProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        SequenceMessageStatement: {
+            name: SequenceMessageStatement.$type,
+            properties: {
+                properties: {
+                    name: SequenceMessageStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [SequenceStatement.$type]
+        },
+        SequenceNoteParticipantsProperty: {
+            name: SequenceNoteParticipantsProperty.$type,
+            properties: {
+                participants: {
+                    name: SequenceNoteParticipantsProperty.participants,
+                    defaultValue: []
+                }
+            },
+            superTypes: [SequenceNoteProperty.$type]
+        },
+        SequenceNotePositionProperty: {
+            name: SequenceNotePositionProperty.$type,
+            properties: {
+                position: {
+                    name: SequenceNotePositionProperty.position
+                }
+            },
+            superTypes: [SequenceNoteProperty.$type]
+        },
+        SequenceNoteProperty: {
+            name: SequenceNoteProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        SequenceNoteStatement: {
+            name: SequenceNoteStatement.$type,
+            properties: {
+                properties: {
+                    name: SequenceNoteStatement.properties,
+                    defaultValue: []
+                },
+                text: {
+                    name: SequenceNoteStatement.text
+                }
+            },
+            superTypes: [SequenceStatement.$type]
+        },
+        SequenceParticipantStatement: {
+            name: SequenceParticipantStatement.$type,
+            properties: {
+                name: {
+                    name: SequenceParticipantStatement.name
+                },
+                type: {
+                    name: SequenceParticipantStatement.type
+                }
+            },
+            superTypes: [SequenceStatement.$type]
+        },
+        SequenceProfile: {
+            name: SequenceProfile.$type,
+            properties: {
+                name: {
+                    name: SequenceProfile.name
+                },
+                statements: {
+                    name: SequenceProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        SequenceStatement: {
+            name: SequenceStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        SequenceToProperty: {
+            name: SequenceToProperty.$type,
+            properties: {
+                to: {
+                    name: SequenceToProperty.to
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
+        },
+        SequenceTypeProperty: {
+            name: SequenceTypeProperty.$type,
+            properties: {
+                type: {
+                    name: SequenceTypeProperty.type
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
         },
         ShapeDeclaration: {
             name: ShapeDeclaration.$type,

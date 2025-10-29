@@ -18,7 +18,7 @@ describe('Langium Parser', () => {
     it('should parse diagram with direction', () => {
       const dsl = `
         diagram "test"
-        direction: LR
+        direction LR
       `;
       const result = parse(dsl);
 
@@ -30,7 +30,7 @@ describe('Langium Parser', () => {
       const directions = ['LR', 'RL', 'TB', 'BT'];
 
       directions.forEach((dir) => {
-        const dsl = `diagram "test"\ndirection: ${dir}`;
+        const dsl = `diagram "test"\ndirection ${dir}`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -229,7 +229,7 @@ describe('Langium Parser', () => {
     it('should parse multiple statements', () => {
       const dsl = `
         diagram "flowchart"
-        direction: LR
+        direction LR
         
         style default fill: "#f0f0f0" stroke: "#333"
         style highlight fill: "#ffeb3b" stroke: "#f57c00"
@@ -468,7 +468,7 @@ A -> B`;
     it('should parse a complete flowchart', () => {
       const dsl = `
         diagram "flowchart"
-        direction: TB
+        direction TB
         
         style default fill: "#f0f0f0" stroke: "#333" strokeWidth: 2
         style decision fill: "#fff7e6" stroke: "#aa7700"

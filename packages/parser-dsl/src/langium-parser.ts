@@ -17,6 +17,12 @@ import type {
   WardleyDependency,
   WardleyAnchor,
   WardleyEvolution,
+  SequenceProfile,
+  SequenceParticipant,
+  SequenceMessage,
+  SequenceNote,
+  SequenceFragment,
+  SequenceFragmentAlternative,
   NetAst,
   PartAst,
   AnalysisAst,
@@ -193,6 +199,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertDigitalProfile(profile));
     } else if (Langium.isWardleyProfile(profile)) {
       runiqDoc.profiles.push(convertWardleyProfile(profile));
+    } else if (Langium.isSequenceProfile(profile)) {
+      runiqDoc.profiles.push(convertSequenceProfile(profile));
     }
   }
 
@@ -487,6 +495,115 @@ function convertWardleyProfile(
   }
 
   return wardleyProfile;
+}
+
+/**
+ * Convert SequenceProfile from Langium AST to core format
+ */
+function convertSequenceProfile(
+  profile: Langium.SequenceProfile
+): SequenceProfile {
+  const sequenceProfile: SequenceProfile = {
+    type: 'sequence',
+    astVersion: '1.0',
+    title: profile.name.replace(/^"|"$/g, ''),
+    participants: [],
+    messages: [],
+  };
+
+  // Process sequence statements
+  for (const statement of profile.statements) {
+    if (Langium.isSequenceParticipantStatement(statement)) {
+      // participant "Actor" as actor
+      const name = statement.name.replace(/^"|"$/g, '');
+      const participant: SequenceParticipant = {
+        id: name.toLowerCase().replace(/\s+/g, '_'), // Generate ID from name
+        name: name,
+        type: statement.type || 'entity', // Default to entity
+      };
+      sequenceProfile.participants.push(participant);
+    } else if (Langium.isSequenceMessageStatement(statement)) {
+      // message from:"Actor" to:"Web Server" label:"HTTP Request" type:sync activate:true
+      const message: SequenceMessage = {
+        from: '',
+        to: '',
+        label: '',
+        type: 'sync', // Default
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isSequenceFromProperty(prop)) {
+          const from = prop.from.replace(/^"|"$/g, '');
+          message.from = from.toLowerCase().replace(/\s+/g, '_');
+        } else if (Langium.isSequenceToProperty(prop)) {
+          const to = prop.to.replace(/^"|"$/g, '');
+          message.to = to.toLowerCase().replace(/\s+/g, '_');
+        } else if (Langium.isSequenceLabelProperty(prop)) {
+          message.label = prop.label.replace(/^"|"$/g, '');
+        } else if (Langium.isSequenceTypeProperty(prop)) {
+          message.type = prop.type as SequenceMessage['type'];
+        } else if (Langium.isSequenceActivateProperty(prop)) {
+          message.activate = prop.value === 'true';
+        }
+      }
+
+      sequenceProfile.messages.push(message);
+    } else if (Langium.isSequenceNoteStatement(statement)) {
+      // note "This is a note" position:left participants:("Actor")
+      if (!sequenceProfile.notes) sequenceProfile.notes = [];
+      
+      const note: SequenceNote = {
+        text: statement.text.replace(/^"|"$/g, ''),
+        position: 'left', // Default
+        participants: [],
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isSequenceNotePositionProperty(prop)) {
+          note.position = prop.position as SequenceNote['position'];
+        } else if (Langium.isSequenceNoteParticipantsProperty(prop)) {
+          note.participants = prop.participants.map((p) => {
+            const name = p.replace(/^"|"$/g, '');
+            return name.toLowerCase().replace(/\s+/g, '_');
+          });
+        }
+      }
+
+      sequenceProfile.notes.push(note);
+    } else if (Langium.isSequenceFragmentStatement(statement)) {
+      // fragment loop "Retry Logic" from:5 to:7
+      if (!sequenceProfile.fragments) sequenceProfile.fragments = [];
+      
+      const fragment: SequenceFragment = {
+        type: statement.type as SequenceFragment['type'],
+        label: statement.label.replace(/^"|"$/g, ''),
+        startAfterMessage: 0,
+        endAfterMessage: 0,
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isSequenceFragmentFromProperty(prop)) {
+          fragment.startAfterMessage = parseFloat(prop.from);
+        } else if (Langium.isSequenceFragmentToProperty(prop)) {
+          fragment.endAfterMessage = parseFloat(prop.to);
+        } else if (Langium.isSequenceFragmentAlternativesProperty(prop)) {
+          if (!fragment.alternatives) fragment.alternatives = [];
+          for (const alt of prop.alternatives) {
+            const alternative: SequenceFragmentAlternative = {
+              label: alt.label.replace(/^"|"$/g, ''),
+              startAfterMessage: parseFloat(alt.fromMsg),
+              endAfterMessage: parseFloat(alt.toMsg),
+            };
+            fragment.alternatives.push(alternative);
+          }
+        }
+      }
+
+      sequenceProfile.fragments.push(fragment);
+    }
+  }
+
+  return sequenceProfile;
 }
 
 /**

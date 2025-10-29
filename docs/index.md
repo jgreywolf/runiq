@@ -4,8 +4,8 @@ layout: home
 hero:
   name: Runiq
   text: Diagram DSL with JSON Twin
-  tagline: Create beautiful, standards-compliant diagrams with plain text. Two inputs, one AST, pure SVG output.
-   Live demo: Render Runiq DSL to SVG in your browser → [Web Demo](./web-demo.md)
+  tagline: Create beautiful, standards-compliant diagrams with plain text. Two inputs, one AST, pure SVG output. Live demo - Render Runiq DSL to SVG in your browser.
+  image:
     src: /images/runiq.banner.png
     alt: Runiq Banner
   actions:
@@ -30,7 +30,7 @@ features:
 
   - icon: 🔧
     title: 54 Shapes Across 9 Categories
-  details: From flowcharts to UML diagrams, schematic circuits to block diagrams.
+    details: From flowcharts to UML diagrams, schematic circuits to block diagrams.
 
   - icon: 🏗️
     title: Hierarchical Containers
