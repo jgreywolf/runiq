@@ -30,7 +30,7 @@ features:
 
   - icon: 🔧
     title: 54 Shapes Across 9 Categories
-  details: From flowcharts to UML diagrams, schematic circuits to block diagrams.
+    details: From flowcharts to UML diagrams, schematic circuits to block diagrams.
 
   - icon: 🏗️
     title: Hierarchical Containers
