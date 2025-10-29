@@ -7,7 +7,7 @@
 	import type { Diagnostic, Action } from '@codemirror/lint';
 	import { autocompletion, type CompletionContext } from '@codemirror/autocomplete';
 	import { createRuniqServices } from '@runiq/parser-dsl';
-	import { EmptyFileSystem } from 'langium';
+	import { EmptyFileSystem, URI } from 'langium';
 	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
 
 	// Props
@@ -37,8 +37,8 @@
 		const text = doc.toString();
 
 		try {
-			// Create a temporary Langium document
-			const uri = 'inmemory://temp.runiq' as any; // Type workaround for URI
+			// Create a temporary Langium document with proper URI
+			const uri = URI.parse('inmemory://temp.runiq');
 			const langiumDoc = langiumServices.shared.workspace.LangiumDocumentFactory.fromString(
 				text,
 				uri
