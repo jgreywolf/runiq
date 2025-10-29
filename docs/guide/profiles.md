@@ -62,6 +62,7 @@ dependency from:"Visible Service" to:"Infrastructure"
 ```
 
 **Key Differences:**
+
 - Uses 2D coordinate system (evolution: 0-1, value: 0-1)
 - Manual positioning (no auto-layout)
 - Different syntax: `component`, `dependency`, `anchor`, `evolve`

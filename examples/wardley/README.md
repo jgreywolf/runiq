@@ -19,16 +19,19 @@ Wardley Maps are strategic mapping tools created by Simon Wardley for visualizin
 The classic Simon Wardley "Tea Shop" example demonstrating a simple business value chain.
 
 **Components:**
+
 - 7 components from user-visible (Cup of Tea) to infrastructure (Power)
 - Evolution from custom-built (0.8) to complete commodity (1.0)
 - Clear value chain showing all dependencies
 
 **Key Concepts:**
+
 - User anchor at top (high value)
 - Commodity utilities at bottom (low value)
 - Dependencies flow upward through value chain
 
 **Render:**
+
 ```bash
 runiq render tea-shop.runiq -o tea-shop.svg
 ```
@@ -38,18 +41,21 @@ runiq render tea-shop.runiq -o tea-shop.svg
 Modern web application stack showing strategic technology evolution.
 
 **Components:**
+
 - 13 components including emerging technologies (Serverless, Edge Computing)
 - Multiple evolution stages from genesis to commodity
 - Inertia indicator on Mobile App (resistance to change)
 - 3 evolution arrows showing strategic movements
 
 **Key Concepts:**
+
 - Emerging technologies (evolution: 0.3-0.5)
 - Product stage platforms (evolution: 0.6-0.8)
 - Commodity infrastructure (evolution: 0.9-1.0)
 - Strategic evolution planning
 
 **Render:**
+
 ```bash
 runiq render technology-evolution.runiq -o tech-evolution.svg
 ```
@@ -58,21 +64,21 @@ runiq render technology-evolution.runiq -o tech-evolution.svg
 
 ### Evolution Axis (X-axis)
 
-| Range | Stage | Characteristics |
-|-------|-------|----------------|
-| 0.0 - 0.25 | Genesis | Novel, uncertain, experimental |
-| 0.25 - 0.50 | Custom Built | Bespoke, artisanal solutions |
-| 0.50 - 0.75 | Product | Standardized, competitive |
-| 0.75 - 1.00 | Commodity | Utility, ubiquitous |
+| Range       | Stage        | Characteristics                |
+| ----------- | ------------ | ------------------------------ |
+| 0.0 - 0.25  | Genesis      | Novel, uncertain, experimental |
+| 0.25 - 0.50 | Custom Built | Bespoke, artisanal solutions   |
+| 0.50 - 0.75 | Product      | Standardized, competitive      |
+| 0.75 - 1.00 | Commodity    | Utility, ubiquitous            |
 
 ### Value Chain Axis (Y-axis)
 
-| Range | Visibility | Description |
-|-------|-----------|-------------|
-| 0.0 - 0.3 | Invisible | Deep infrastructure |
-| 0.3 - 0.6 | Supporting | Backend services |
-| 0.6 - 0.9 | Visible | User-facing features |
-| 0.9 - 1.0 | Anchor | User needs |
+| Range     | Visibility | Description          |
+| --------- | ---------- | -------------------- |
+| 0.0 - 0.3 | Invisible  | Deep infrastructure  |
+| 0.3 - 0.6 | Supporting | Backend services     |
+| 0.6 - 0.9 | Visible    | User-facing features |
+| 0.9 - 1.0 | Anchor     | User needs           |
 
 ## Quick Syntax Reference
 
@@ -122,18 +128,21 @@ evolve "Component" to evolution:0.9
 ### Common Patterns
 
 **Technical Debt:**
+
 ```runiq
 component "Legacy System" evolution:0.85 value:0.5 inertia:true
 evolve "Legacy System" to evolution:0.95  # Migrate to commodity
 ```
 
 **Innovation:**
+
 ```runiq
 component "Novel Feature" evolution:0.15 value:0.8 label:"Differentiator"
 evolve "Novel Feature" to evolution:0.45  # Move to custom-built
 ```
 
 **Platform Strategy:**
+
 ```runiq
 component "Custom Platform" evolution:0.55 value:0.6
 component "Cloud Service" evolution:0.95 value:0.3
@@ -143,6 +152,7 @@ dependency from:"Custom Platform" to:"Cloud Service"
 ## Learn More
 
 For complete documentation, see:
+
 - [Wardley Maps Documentation](/docs/examples/wardley-maps.md)
 - [Simon Wardley's Book (free)](https://medium.com/wardleymaps)
 - [LearnWardleyMapping.com](https://learnwardleymapping.com/)
@@ -172,12 +182,14 @@ Open the Runiq web editor and select "Wardley Map" from the New Diagram dialog:
 ## File Format
 
 All `.runiq` files are plain text DSL files that can be:
+
 - Edited in any text editor
 - Version controlled with git
 - Shared and collaborated on
 - Rendered to SVG via CLI or web editor
 
 Example:
+
 ```runiq
 wardley "My Strategy"
 anchor "User Goal" value:0.95

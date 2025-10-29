@@ -13,12 +13,12 @@ Components are connected by dependencies, showing how value flows through the sy
 
 ## Evolution Stages
 
-| Stage | Evolution Range | Characteristics | Examples |
-|-------|----------------|-----------------|----------|
-| **Genesis** | 0.0 - 0.25 | Novel, uncertain, experimental | New research, prototypes, R&D |
-| **Custom Built** | 0.25 - 0.50 | Bespoke solutions, artisanal | Custom software, MVP, beta versions |
-| **Product** | 0.50 - 0.75 | Standardized, competitive market | Commercial products, SaaS platforms |
-| **Commodity** | 0.75 - 1.0 | Utility, standardized, ubiquitous | Cloud compute, electricity, APIs |
+| Stage            | Evolution Range | Characteristics                   | Examples                            |
+| ---------------- | --------------- | --------------------------------- | ----------------------------------- |
+| **Genesis**      | 0.0 - 0.25      | Novel, uncertain, experimental    | New research, prototypes, R&D       |
+| **Custom Built** | 0.25 - 0.50     | Bespoke solutions, artisanal      | Custom software, MVP, beta versions |
+| **Product**      | 0.50 - 0.75     | Standardized, competitive market  | Commercial products, SaaS platforms |
+| **Commodity**    | 0.75 - 1.0      | Utility, standardized, ubiquitous | Cloud compute, electricity, APIs    |
 
 ## Tea Shop Example
 
@@ -59,12 +59,14 @@ dependency from:"Kettle" to:"Power"
 ### Explanation
 
 **Components:**
+
 - **Cup of Tea** (evolution: 0.8, value: 0.9) - The visible product customers want
 - **Tea, Cup** (evolution: 0.9-1.0, value: 0.7-0.8) - Commoditized ingredients
 - **Hot Water, Kettle** (evolution: 0.9-0.95, value: 0.4-0.6) - Supporting infrastructure
 - **Water, Power** (evolution: 1.0, value: 0.1-0.3) - Complete commodities (utilities)
 
 **Value Chain:**
+
 - Flows from bottom (invisible infrastructure) to top (visible product)
 - Shows all dependencies needed to deliver the final product
 - Power and Water are complete utilities (evolution = 1.0)
@@ -120,16 +122,19 @@ evolve "Edge Computing" to evolution:0.6
 ### Strategic Insights
 
 **Inertia:**
+
 - `Mobile App` has `inertia:true` - resistance to change despite evolution pressure
 - Often due to organizational constraints, technical debt, or market forces
 
 **Evolution Arrows:**
+
 - Show planned strategic movements
 - Mobile App evolving from custom (0.7) toward product (0.85)
 - Serverless evolving from genesis (0.5) toward product (0.75)
 - Edge Computing still in genesis (0.3) but moving to custom-built (0.6)
 
 **Component Positioning:**
+
 - Network is complete commodity (evolution: 1.0)
 - Edge Computing is novel/emerging (evolution: 0.3)
 - Clear progression from genesis → custom → product → commodity
@@ -180,15 +185,18 @@ evolve "Legacy Database" to evolution:0.95 # Migrate to commodity
 ### Strategic Analysis
 
 **Investment Priorities:**
+
 1. **Customer Portal** (evolution: 0.6) - Custom-built differentiator
 2. **Analytics Platform** (evolution: 0.55) - Key investment area
 3. **Mobile Experience** (evolution: 0.5) - Has inertia, needs attention
 
 **Technical Debt:**
+
 - **Legacy Database** (evolution: 0.85, inertia: true) - Old product-stage tech
 - Evolution arrow to 0.95 indicates migration to commodity/cloud strategy
 
 **Commodity Usage:**
+
 - Email Service, Cloud Storage, Compute Resources already commoditized
 - Strategic decision: buy not build for utilities
 
@@ -236,21 +244,25 @@ evolve "Standard Components" to evolution:1.0
 ### Product Lifecycle
 
 **Genesis Stage (0.15-0.2):**
+
 - Novel Feature, Prototype
 - High uncertainty, experimental
 - R&D investment required
 
 **Custom Built Stage (0.35-0.45):**
+
 - MVP, Beta Version
 - Bespoke solutions, early adopters
 - Iteration and refinement
 
 **Product Stage (0.65-0.7):**
+
 - Released Product, Feature Set
 - Competitive market, standardization
 - Scaling and growth focus
 
 **Commodity Stage (0.9-1.0):**
+
 - Standard Components, Open Source, Cloud Services
 - Utilities, buy not build
 - Focus on integration not creation
@@ -313,21 +325,21 @@ evolve "Component Name" to evolution:0.8
 
 ### Evolution Axis (X-axis, Horizontal)
 
-| Value | Stage | Description |
-|-------|-------|-------------|
-| 0.0 - 0.25 | Genesis | Novel, unique, uncertain, chaotic |
-| 0.25 - 0.5 | Custom Built | Bespoke, artisanal, emerging patterns |
-| 0.5 - 0.75 | Product | Competitive market, standardizing |
-| 0.75 - 1.0 | Commodity | Utility, standardized, well-understood |
+| Value      | Stage        | Description                            |
+| ---------- | ------------ | -------------------------------------- |
+| 0.0 - 0.25 | Genesis      | Novel, unique, uncertain, chaotic      |
+| 0.25 - 0.5 | Custom Built | Bespoke, artisanal, emerging patterns  |
+| 0.5 - 0.75 | Product      | Competitive market, standardizing      |
+| 0.75 - 1.0 | Commodity    | Utility, standardized, well-understood |
 
 ### Value Chain Axis (Y-axis, Vertical)
 
-| Value | Visibility | Description |
-|-------|-----------|-------------|
-| 0.0 - 0.3 | Invisible | Deep infrastructure, utilities |
-| 0.3 - 0.6 | Supporting | Backend services, middleware |
-| 0.6 - 0.9 | Visible | User-facing features, products |
-| 0.9 - 1.0 | Anchor | User needs, outcomes |
+| Value     | Visibility | Description                    |
+| --------- | ---------- | ------------------------------ |
+| 0.0 - 0.3 | Invisible  | Deep infrastructure, utilities |
+| 0.3 - 0.6 | Supporting | Backend services, middleware   |
+| 0.6 - 0.9 | Visible    | User-facing features, products |
+| 0.9 - 1.0 | Anchor     | User needs, outcomes           |
 
 ## Visual Elements
 
@@ -391,18 +403,21 @@ evolve "Component Name" to evolution:0.8
 ### Common Patterns
 
 **Build-Measure-Learn:**
+
 ```runiq
 component "Experiment" evolution:0.15 value:0.8
 evolve "Experiment" to evolution:0.35  # Move to MVP
 ```
 
 **Technical Debt:**
+
 ```runiq
 component "Legacy System" evolution:0.85 value:0.5 inertia:true
 evolve "Legacy System" to evolution:0.95  # Migrate to commodity
 ```
 
 **Platform Strategy:**
+
 ```runiq
 component "Custom Platform" evolution:0.55 value:0.6
 component "Cloud Service" evolution:0.95 value:0.4
@@ -424,24 +439,28 @@ runiq render business-strategy.runiq -o strategy.svg --width 1200 --height 800
 ## Use Cases
 
 ### Business Strategy
+
 - Competitive landscape analysis
 - Market positioning
 - Investment priorities
 - Build vs. buy decisions
 
 ### Technology Planning
+
 - Architecture evolution
 - Technical debt identification
 - Platform strategy
 - Technology adoption roadmaps
 
 ### Product Management
+
 - Feature prioritization
 - Component evolution tracking
 - Dependency mapping
 - Strategic roadmapping
 
 ### Organizational Design
+
 - Capability mapping
 - Team structure alignment
 - Skill gap analysis
