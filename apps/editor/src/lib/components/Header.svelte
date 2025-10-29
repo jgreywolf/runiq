@@ -9,7 +9,7 @@
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
-		onNewDiagram?: (type: 'diagram' | 'schematic') => void;
+		onNewDiagram?: (type: 'diagram' | 'schematic' | 'wardley') => void;
 		onExport?: (format: 'svg' | 'png') => void;
 	}
 
@@ -33,7 +33,7 @@
 		showNewDiagramDialog = true;
 	}
 
-	function createDiagram(type: 'diagram' | 'schematic') {
+	function createDiagram(type: 'diagram' | 'schematic' | 'wardley') {
 		showNewDiagramDialog = false;
 		onNewDiagram?.(type);
 	}
@@ -353,6 +353,37 @@
 					<div>
 						<h3 class="font-semibold text-neutral-900">Schematics</h3>
 						<p class="text-sm text-neutral-600">Electrical circuit, logic gates, components</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Wardley Map Option -->
+			<button
+				onclick={() => createDiagram('wardley')}
+				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-purple-400 hover:bg-purple-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 text-purple-600 transition-colors group-hover:bg-purple-200"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+							/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Wardley Map</h3>
+						<p class="text-sm text-neutral-600">Strategic mapping, evolution, value chain</p>
 					</div>
 				</div>
 			</button>

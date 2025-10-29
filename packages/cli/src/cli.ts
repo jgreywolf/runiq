@@ -5,7 +5,7 @@ import { promises as fs } from 'fs';
 import { parse, type ParseResult } from '@runiq/parser-dsl';
 import { jsonToAst, astToJson } from '@runiq/io-json';
 import { ElkLayoutEngine } from '@runiq/layout-base';
-import { renderSvg } from '@runiq/renderer-svg';
+import { renderSvg, renderWardleyMap } from '@runiq/renderer-svg';
 import {
   registerDefaultShapes,
   layoutRegistry,
@@ -15,6 +15,7 @@ import {
   type DiagramType,
   type DiagramAst,
   type DiagramProfile,
+  type WardleyProfile,
 } from '@runiq/core';
 import { fontAwesome } from '@runiq/icons-fontawesome';
 
@@ -80,13 +81,15 @@ program
     try {
       const content = await fs.readFile(input, 'utf-8');
       let ast;
+      let isWardley = false;
+      let wardleyProfile: WardleyProfile | null = null;
 
       // Parse based on file extension or content
       if (input.endsWith('.json')) {
         const result = jsonToAst(content);
         if (!result.success) {
           console.error('JSON parse failed:');
-          result.problems.forEach((p) => console.error(`  ${p}`));
+          result.problems.forEach((p: any) => console.error(`  ${p}`));
           process.exit(1);
         }
         ast = result.data!;
@@ -101,13 +104,44 @@ program
           result.errors.forEach((e: string) => console.error(`  ${e}`));
           process.exit(1);
         }
-        ast = extractDiagramFromParseResult(result);
-        if (!ast) {
-          console.error('No diagram profile found in document');
-          process.exit(1);
+
+        // Check if it's a Wardley profile
+        const wardley = result.document?.profiles.find(
+          (p: any): p is WardleyProfile => p.type === 'wardley'
+        );
+
+        if (wardley) {
+          isWardley = true;
+          wardleyProfile = wardley;
+        } else {
+          ast = extractDiagramFromParseResult(result);
+          if (!ast) {
+            console.error('No diagram or Wardley profile found in document');
+            process.exit(1);
+          }
         }
       }
 
+      // Handle Wardley Map rendering (no layout needed)
+      if (isWardley && wardleyProfile) {
+        const renderResult = renderWardleyMap(wardleyProfile);
+
+        if (renderResult.warnings.length > 0) {
+          console.warn('Warnings:');
+          renderResult.warnings.forEach((w) => console.warn(`  ${w}`));
+        }
+
+        // Output
+        if (options.output) {
+          await fs.writeFile(options.output, renderResult.svg);
+          console.log(`Wardley Map SVG written to ${options.output}`);
+        } else {
+          console.log(renderResult.svg);
+        }
+        return;
+      }
+
+      // Standard diagram rendering (with layout)
       // Validate diagram type if specified
       if (options.type) {
         const validationResult = validateDiagramType(

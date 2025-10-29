@@ -278,7 +278,8 @@ export type Profile =
   | DiagramProfile
   | SchematicProfile
   | DigitalProfile
-  | BlockDiagramProfile;
+  | BlockDiagramProfile
+  | WardleyProfile;
 
 /**
  * Visual diagram profile (existing Runiq diagrams)
@@ -398,4 +399,62 @@ export interface InstanceAst {
   paramMap?: Record<string, string | number>; // Parameter overrides
   portMap: Record<string, string>; // Port connections (port -> net)
   doc?: string; // Optional documentation
+}
+
+// ============================================================================
+// Wardley Map Profile Types
+// ============================================================================
+
+/**
+ * Wardley Map profile for strategic mapping
+ * Maps components on two axes:
+ * - Evolution (x-axis): genesis → custom → product → commodity (0 to 1)
+ * - Value Chain (y-axis): visible/user needs → invisible/infrastructure (0 to 1, rendered top to bottom)
+ */
+export interface WardleyProfile {
+  type: 'wardley';
+  astVersion: string;
+  name: string;
+  components: WardleyComponent[];
+  dependencies: WardleyDependency[];
+  anchors?: WardleyAnchor[];
+  evolutions?: WardleyEvolution[];
+}
+
+/**
+ * Component in a Wardley Map
+ * Positioned manually by evolution and value chain coordinates
+ */
+export interface WardleyComponent {
+  name: string; // Component name (e.g., "CRM System", "Customer Data")
+  evolution: number; // Evolution stage: 0 (genesis) to 1 (commodity)
+  value: number; // Value chain position: 0 (infrastructure) to 1 (user visible)
+  label?: string; // Optional label override
+  inertia?: boolean; // Whether component has inertia (resistance to change)
+}
+
+/**
+ * Value chain dependency between components
+ */
+export interface WardleyDependency {
+  from: string; // Source component name
+  to: string; // Target component name
+}
+
+/**
+ * Anchor point (user need) at the top of the value chain
+ */
+export interface WardleyAnchor {
+  name: string; // Anchor name (e.g., "User Need", "Business Goal")
+  value: number; // Value chain position (typically 0.9-1.0)
+  evolution?: number; // Optional evolution position (defaults to middle)
+}
+
+/**
+ * Evolution movement indicator
+ * Shows future/planned evolution of a component
+ */
+export interface WardleyEvolution {
+  component: string; // Component name
+  toEvolution: number; // Target evolution stage
 }

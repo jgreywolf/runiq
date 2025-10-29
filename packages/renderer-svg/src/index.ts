@@ -5,6 +5,13 @@ import { renderEdge } from './renderers/edge.js';
 import { renderNode } from './renderers/node.js';
 import { renderDefs } from './renderers/defs.js';
 
+// Re-export Wardley renderer
+export {
+  renderWardleyMap,
+  type WardleyRenderOptions,
+  type WardleyRenderResult,
+} from './wardley-renderer.js';
+
 export interface RenderOptions {
   strict?: boolean; // strict SVG mode (no enhanced features)
   title?: string;

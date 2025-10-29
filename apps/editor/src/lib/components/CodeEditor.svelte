@@ -41,10 +41,7 @@
 		try {
 			// Create a temporary Langium document with proper URI
 			const uri = URI.parse('file:///temp.runiq');
-			const langiumDoc = sharedServices.workspace.LangiumDocumentFactory.fromString(
-				text,
-				uri
-			);
+			const langiumDoc = sharedServices.workspace.LangiumDocumentFactory.fromString(text, uri);
 
 			// Build the document (resolve cross-references, etc.)
 			await sharedServices.workspace.DocumentBuilder.build([langiumDoc], {});
