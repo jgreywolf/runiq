@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Tabs from '$lib/components/ui/tabs';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import ToolboxShapes from './ToolboxShapes.svelte';
+	import ShapeBrowser from './ShapeBrowser.svelte';
 	import ToolboxSamples from './ToolboxSamples.svelte';
 	import { shapeCategories } from '$lib/data/toolbox-data';
 	import { sampleDiagrams } from '$lib/data/sample-data';
@@ -59,7 +59,7 @@
 			</Tabs.List>
 
 			<Tabs.Content value="shapes" class="flex-1 overflow-auto">
-				<ToolboxShapes categories={displayedCategories} {onInsertShape} />
+				<ShapeBrowser categories={displayedCategories} {onInsertShape} />
 			</Tabs.Content>
 
 			<Tabs.Content value="samples" class="flex-1 overflow-auto">
