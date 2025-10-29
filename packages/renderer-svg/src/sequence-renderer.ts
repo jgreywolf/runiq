@@ -98,14 +98,14 @@ export function renderSequenceDiagram(
     LIFELINE_START +
     (totalMessages + totalNotes + totalFragments) * messageSpacing +
     100;
-  const height = Math.max(DEFAULT_HEIGHT, estimatedHeight);
+  const height = options.height || Math.max(DEFAULT_HEIGHT, estimatedHeight);
 
   // Calculate diagram width
   const lastParticipantX =
     startX +
     (profile.participants.length - 1) * participantSpacing +
     participantBoxWidth;
-  const width = Math.max(DEFAULT_WIDTH, lastParticipantX + 50);
+  const width = options.width || Math.max(DEFAULT_WIDTH, lastParticipantX + 50);
 
   // Start SVG
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" 
@@ -154,7 +154,7 @@ export function renderSequenceDiagram(
   // Track activation state for each participant
   const activations = new Map<string, boolean>();
 
-  // Render messages, notes, and fragments
+  // Render messages and fragments
   for (let i = 0; i < profile.messages.length; i++) {
     const message = profile.messages[i];
 
@@ -177,23 +177,6 @@ export function renderSequenceDiagram(
       }
     }
 
-    // Check for notes at this message index
-    if (profile.notes) {
-      const notesAtMessage = profile.notes.filter((note) =>
-        note.participants.includes(message.from)
-      );
-      for (const note of notesAtMessage) {
-        svg += renderNote(
-          note,
-          participantMap,
-          currentY,
-          noteWidth,
-          participantBoxWidth
-        );
-        currentY += messageSpacing;
-      }
-    }
-
     // Render the message
     svg += renderMessage(
       message,
@@ -204,6 +187,20 @@ export function renderSequenceDiagram(
     );
 
     currentY += messageSpacing;
+  }
+
+  // Render notes separately
+  if (profile.notes && profile.notes.length > 0) {
+    for (const note of profile.notes) {
+      svg += renderNote(
+        note,
+        participantMap,
+        currentY,
+        noteWidth,
+        participantBoxWidth
+      );
+      currentY += messageSpacing;
+    }
   }
 
   // Close SVG
