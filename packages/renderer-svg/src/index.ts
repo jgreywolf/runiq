@@ -12,6 +12,13 @@ export {
   type WardleyRenderResult,
 } from './wardley-renderer.js';
 
+// Re-export Sequence renderer
+export {
+  renderSequenceDiagram,
+  type SequenceRenderOptions,
+  type SequenceRenderResult,
+} from './sequence-renderer.js';
+
 export interface RenderOptions {
   strict?: boolean; // strict SVG mode (no enhanced features)
   title?: string;
