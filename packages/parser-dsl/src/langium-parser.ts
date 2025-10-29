@@ -551,7 +551,7 @@ function convertSequenceProfile(
     } else if (Langium.isSequenceNoteStatement(statement)) {
       // note "This is a note" position:left participants:("Actor")
       if (!sequenceProfile.notes) sequenceProfile.notes = [];
-      
+
       const note: SequenceNote = {
         text: statement.text.replace(/^"|"$/g, ''),
         position: 'left', // Default
@@ -573,7 +573,7 @@ function convertSequenceProfile(
     } else if (Langium.isSequenceFragmentStatement(statement)) {
       // fragment loop "Retry Logic" from:5 to:7
       if (!sequenceProfile.fragments) sequenceProfile.fragments = [];
-      
+
       const fragment: SequenceFragment = {
         type: statement.type as SequenceFragment['type'],
         label: statement.label.replace(/^"|"$/g, ''),

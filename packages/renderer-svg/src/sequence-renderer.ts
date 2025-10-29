@@ -395,11 +395,7 @@ function renderMessage(
 /**
  * Render activation box
  */
-function renderActivationBox(
-  x: number,
-  y: number,
-  width: number
-): string {
+function renderActivationBox(x: number, y: number, width: number): string {
   const height = 40; // Fixed height for now
   return `<rect x="${x - width / 2}" y="${y}" width="${width}" height="${height}" class="activation-box"/>`;
 }

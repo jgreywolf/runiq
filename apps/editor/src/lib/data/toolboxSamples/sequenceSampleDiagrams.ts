@@ -8,7 +8,7 @@ export const sequenceSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Simple Authentication',
 				description: 'Basic user login sequence',
-				code: `sequence "User Authentication"
+				code: `sequence "User Authentication" {
 
   participant "User" as actor
   participant "Web App" as entity
@@ -22,12 +22,13 @@ export const sequenceSampleDiagrams: SampleCategory[] = [
   message from:"Auth Service" to:"Web App" label:"Auth token" type:return
   message from:"Web App" to:"User" label:"Login success" type:return
 
-  note "Token stored in session" position:right participants:("Web App")`
+  note "Token stored in session" position:right participants:("Web App")
+      }`
 			},
 			{
 				name: 'API with Error Handling',
 				description: 'REST API call with retry logic',
-				code: `sequence "API Error Handling"
+				code: `sequence "API Error Handling" {
 
   participant "Client" as actor
   participant "API Gateway" as control
@@ -47,12 +48,13 @@ export const sequenceSampleDiagrams: SampleCategory[] = [
   message from:"Service" to:"Database" label:"Query (retry)" type:sync
   message from:"Database" to:"Service" label:"Data" type:return
   message from:"Service" to:"API Gateway" label:"Success response" type:return
-  message from:"API Gateway" to:"Client" label:"200 OK" type:return`
+  message from:"API Gateway" to:"Client" label:"200 OK" type:return
+      }`
 			},
 			{
 				name: 'Async Messaging',
 				description: 'Asynchronous message queue pattern',
-				code: `sequence "Async Order Processing"
+				code: `sequence "Async Order Processing" {
 
   participant "User" as actor
   participant "Web UI" as boundary
@@ -74,12 +76,13 @@ export const sequenceSampleDiagrams: SampleCategory[] = [
 
   message from:"Message Queue" to:"Worker" label:"Process order" type:async activate:true
   message from:"Worker" to:"Email Service" label:"Send confirmation" type:async
-  message from:"Email Service" to:"User" label:"Email" type:async`
+  message from:"Email Service" to:"User" label:"Email" type:async
+      }`
 			},
 			{
 				name: 'Object Lifecycle',
 				description: 'Object creation and destruction',
-				code: `sequence "Object Lifecycle"
+				code: `sequence "Object Lifecycle" {
 
   participant "Factory" as control
   participant "Manager" as control
@@ -101,12 +104,13 @@ export const sequenceSampleDiagrams: SampleCategory[] = [
   note "Object destruction" position:over participants:("Manager", "Resource")
 
   message from:"Factory" to:"Manager" label:"cleanup()" type:sync
-  message from:"Manager" to:"Resource" label:"<<destroy>>" type:sync`
+  message from:"Manager" to:"Resource" label:"<<destroy>>" type:sync
+      }{}`
 			},
 			{
 				name: 'Loop and Conditional',
 				description: 'Retry loop with conditional logic',
-				code: `sequence "Retry with Backoff"
+				code: `sequence "Retry with Backoff" {
 
   participant "Client" as actor
   participant "Service" as control
@@ -131,7 +135,8 @@ export const sequenceSampleDiagrams: SampleCategory[] = [
 
   note "[end loop]" position:right participants:("Service")
 
-  message from:"Service" to:"Client" label:"Response data" type:return`
+  message from:"Service" to:"Client" label:"Response data" type:return
+      }`
 			}
 		]
 	}

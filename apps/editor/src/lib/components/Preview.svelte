@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { parse } from '@runiq/parser-dsl';
 	import { layoutRegistry } from '@runiq/core';
-	import { renderSvg, renderWardleyMap } from '@runiq/renderer-svg';
+	import { renderSvg, renderWardleyMap, renderSequenceDiagram } from '@runiq/renderer-svg';
 	import { renderSchematic } from '@runiq/renderer-schematic';
 	import { Badge } from '$lib/components/ui/badge';
 
@@ -136,11 +136,29 @@
 				return;
 			}
 
+			// Handle Sequence Diagram profiles
+			if (profile.type === 'sequence') {
+				const renderResult = renderSequenceDiagram(profile as any, {
+					width: 800,
+					participantSpacing: 150,
+					messageSpacing: 60,
+					showActivations: true,
+					showReturns: true
+				});
+
+				svgOutput = renderResult.svg;
+				warnings = renderResult.warnings;
+				renderTime = Math.round(performance.now() - startRender);
+				isRendering = false;
+				if (onparse) onparse(true, []);
+				return;
+			}
+
 			// Handle diagram profiles
 			if (profile.type !== 'diagram') {
 				errors = [
 					`Profile type '${profile.type}' is not yet supported in the preview.`,
-					`Currently 'diagram', 'schematic', and 'wardley' profiles can be rendered.`
+					`Currently 'diagram', 'schematic', 'sequence', and 'wardley' profiles can be rendered.`
 				];
 				svgOutput = '';
 				isRendering = false;
