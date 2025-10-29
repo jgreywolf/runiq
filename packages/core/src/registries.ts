@@ -2,21 +2,79 @@ import type { ShapeDefinition, IconProvider, LayoutEngine } from './types.js';
 
 class ShapeRegistry {
   private shapes = new Map<string, ShapeDefinition>();
+  private aliases = new Map<string, string>(); // alias -> canonical ID
 
-  register(shape: ShapeDefinition): void {
+  register(shape: ShapeDefinition, aliases?: string[]): void {
     this.shapes.set(shape.id, shape);
+    
+    // Register aliases if provided
+    if (aliases) {
+      for (const alias of aliases) {
+        this.aliases.set(alias, shape.id);
+      }
+    }
   }
 
-  get(id: string): ShapeDefinition | undefined {
-    return this.shapes.get(id);
+  /**
+   * Register an alias for an existing shape
+   */
+  registerAlias(alias: string, shapeId: string): void {
+    if (!this.shapes.has(shapeId)) {
+      throw new Error(`Cannot create alias "${alias}" for unknown shape "${shapeId}"`);
+    }
+    this.aliases.set(alias, shapeId);
+  }
+
+  /**
+   * Get shape by ID or alias
+   */
+  get(idOrAlias: string): ShapeDefinition | undefined {
+    // Try direct lookup first
+    const shape = this.shapes.get(idOrAlias);
+    if (shape) return shape;
+
+    // Try alias lookup
+    const canonicalId = this.aliases.get(idOrAlias);
+    if (canonicalId) {
+      return this.shapes.get(canonicalId);
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Resolve alias to canonical ID
+   */
+  resolveAlias(idOrAlias: string): string {
+    return this.aliases.get(idOrAlias) || idOrAlias;
+  }
+
+  /**
+   * Get all aliases for a shape ID
+   */
+  getAliases(shapeId: string): string[] {
+    const aliases: string[] = [];
+    for (const [alias, id] of this.aliases.entries()) {
+      if (id === shapeId) {
+        aliases.push(alias);
+      }
+    }
+    return aliases;
   }
 
   list(): ShapeDefinition[] {
     return Array.from(this.shapes.values());
   }
 
-  has(id: string): boolean {
-    return this.shapes.has(id);
+  /**
+   * List all registered IDs and aliases
+   */
+  listAllIdentifiers(): string[] {
+    return [...this.shapes.keys(), ...this.aliases.keys()];
+  }
+
+  has(idOrAlias: string): boolean {
+    return this.shapes.has(idOrAlias) || this.aliases.has(idOrAlias);
   }
 }
 

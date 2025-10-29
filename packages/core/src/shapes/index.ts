@@ -1,5 +1,6 @@
 import { shapeRegistry } from '../registries.js';
 import type { ShapeDefinition } from '../types.js';
+import { registerShapeAliases } from '../shape-aliases.js';
 
 // Import from category folders
 import * as basic from './basic/index.js';
@@ -236,38 +237,8 @@ export function registerDefaultShapes(): void {
   registerERDShapes();
   registerDataFlowShapes();
 
-  // Register common aliases used by the DSL
-  const alias = (name: string, shape: ShapeDefinition) =>
-    shapeRegistry.register({ ...shape, id: name });
-
-  // Basic shapes
-  alias('rect', basic.rectangleShape);
-  alias('box', basic.rectangleShape);
-  alias('process', basic.rectangleShape);
-  alias('rounded', basic.roundedRectangleShape);
-  alias('hex', basic.hexShape);
-  alias('rhombus', basic.rhombusShape); // already id 'rhombus', but keep mapping stable
-  alias('ellipse-wide', basic.ellipseWideShape);
-  alias('sm-circ', basic.smallCircleShape);
-
-  // Flowchart convenience
-  alias('doc', flowchart.docShape);
-
-  // Storage/Data
-  alias('cyl', storage.cylinderShape);
-  alias('database', storage.cylinderShape);
-
-  // Control systems
-  alias('transfer-fn', controlSystems.transferFunctionShape);
-  alias('junction', controlSystems.summingJunctionShape);
-  alias('sum', controlSystems.summingJunctionShape);
-  alias('summing-junction', controlSystems.summingJunctionShape);
-  alias('multiply-junction', controlSystems.multiplyJunctionShape);
-  alias('divide-junction', controlSystems.divideJunctionShape);
-  alias('compare-junction', controlSystems.compareJunctionShape);
-  alias('time-delay', controlSystems.timeDelayShape);
-
-  // UML/C4 common tokens already match their ids (e.g., 'actor')
+  // Register all common aliases
+  registerShapeAliases();
 }
 
 // Re-export all shapes from category folders

@@ -3,6 +3,7 @@ export * from './validation/schema.js';
 export * from './registries.js';
 export * from './text-measurement/index.js';
 export * from './shapes/index.js';
+export * from './shape-aliases.js';
 export {
   validateDiagramType,
   listDiagramTypes,
