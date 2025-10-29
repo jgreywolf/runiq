@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '@runiq/core';
+import type { ShapeDefinition } from '../../types.js';
 
 /**
  * C4 Model: Component

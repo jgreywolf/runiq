@@ -1,6 +1,6 @@
-import type { ShapeDefinition } from '@runiq/core';
+import type { ShapeDefinition } from '../../types.js';
 
-export const docShape: ShapeDefinition = {
+export const documentShape: ShapeDefinition = {
   id: 'document',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);

@@ -1,5 +1,5 @@
 // Flowchart Shapes
-export { docShape } from './document.js';
+export { documentShape } from './document.js';
 export { linedDocumentShape } from './linedDocument.js';
 export { multiDocumentShape } from './multiDocument.js';
 export { taggedDocumentShape } from './taggedDocument.js';

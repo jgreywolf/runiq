@@ -46,7 +46,7 @@ export function registerBasicShapes(): void {
 }
 
 export function registerFlowchartShapes(): void {
-  shapeRegistry.register(flowchart.docShape);
+  shapeRegistry.register(flowchart.documentShape);
   shapeRegistry.register(flowchart.linedDocumentShape);
   shapeRegistry.register(flowchart.multiDocumentShape);
   shapeRegistry.register(flowchart.taggedDocumentShape);
