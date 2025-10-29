@@ -128,7 +128,7 @@
 			</div>
 		{:else}
 			<Accordion.Root type="multiple" bind:value={expandedCategories} class="w-full">
-				{#each filteredCategories as category}
+				{#each filteredCategories as category (category.id)}
 					<Accordion.Item value={category.id}>
 						<Accordion.Trigger class="px-4 py-2 text-sm font-medium hover:bg-neutral-50">
 							<span class="flex items-center gap-2">
@@ -140,7 +140,7 @@
 						</Accordion.Trigger>
 						<Accordion.Content>
 							<div class="grid grid-cols-4 gap-1 p-2">
-								{#each category.shapes as shape}
+								{#each category.shapes as shape (shape.id)}
 									<Tooltip.Root>
 										<Tooltip.Trigger
 											class="group flex h-12 w-full flex-col items-center justify-center gap-0.5 rounded-md border border-transparent p-1 transition-all hover:border-runiq-300 hover:bg-runiq-50 hover:shadow-sm active:scale-95"
