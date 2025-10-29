@@ -19,13 +19,11 @@
 - ✅ Core package builds successfully (verified with `pnpm build`)
 - ✅ **Committed:** `1d6b15d` - "feat(core): add Sequence diagram profile types"
 
-## 🚧 In Progress
+## ✅ Nearly Complete!
 
-### Step 2: Langium Grammar (IN PROGRESS)
+**Current Status:** Steps 1-5 done, Step 6 mostly done (45 tests passing!), Step 7 in progress
 
-**File:** `packages/parser-dsl/src/runiq.langium`
-
-**CRITICAL ISSUE:** `replace_string_in_file` tool reporting success but not persisting changes to disk!
+### Major Accomplishments
 
 **What needs to be added manually:**
 

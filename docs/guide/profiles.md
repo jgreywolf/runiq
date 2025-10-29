@@ -2,13 +2,14 @@
 title: Profiles
 ---
 
-# Profiles: Diagram, Schematic, and Wardley
+# Profiles: Diagram, Schematic, Wardley, and Sequence
 
-Runiq supports three primary profiles:
+Runiq supports four primary profiles:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, block diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **Schematic profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
+- **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
 
 Most syntax is shared across profiles. The key differences are:
 
@@ -69,6 +70,36 @@ dependency from:"Visible Service" to:"Infrastructure"
 - Rendered with strategic mapping visuals (grid, axes, evolution arrows)
 
 See [Wardley Maps Examples](/examples/wardley-maps) for detailed documentation.
+
+## Sequence Profile
+
+To use the Sequence profile for interaction diagrams:
+
+```runiq
+sequence "User Login" {
+  participant "User" as actor
+  participant "Web App" as boundary
+  participant "Auth Service" as control
+  participant "Database" as database
+
+  message from:"User" to:"Web App" label:"Enter credentials" type:sync
+  message from:"Web App" to:"Auth Service" label:"Validate" type:sync activate:true
+  message from:"Auth Service" to:"Database" label:"Query user" type:sync
+  message from:"Database" to:"Auth Service" label:"User data" type:return
+  message from:"Auth Service" to:"Web App" label:"Auth token" type:return
+  message from:"Web App" to:"User" label:"Success" type:return
+}
+```
+
+**Key Differences:**
+
+- Timeline-based layout (time flows top to bottom)
+- Uses participants instead of nodes: `participant "Name" as type`
+- Messages instead of edges: `message from:"A" to:"B" label:"Text" type:sync`
+- Supports fragments for control flow: `fragment loop "Retry" from:0 to:3`
+- Rendered with lifelines, activation boxes, and UML-style arrows
+
+See [Sequence Diagrams Examples](/examples/sequence-diagrams) for detailed documentation.
 
 ---
 
