@@ -1,0 +1,22 @@
+// API request with error handling using alt fragment
+sequence "API Request with Error Handling" {
+  participant "Client" as actor
+  participant "API Gateway" as boundary
+  participant "Service" as control
+  participant "Cache" as database
+
+  message from:"Client" to:"API Gateway" label:"GET /data" type:sync
+  message from:"API Gateway" to:"Service" label:"Process request" type:sync activate:true
+  message from:"Service" to:"Cache" label:"Check cache" type:sync
+
+  fragment alt "Cache Status" from:3 to:7 alternatives:("Cache Hit":3-4,"Cache Miss":5-6)
+  
+  message from:"Cache" to:"Service" label:"Cache hit" type:return
+  message from:"Service" to:"API Gateway" label:"200 OK" type:return
+  message from:"Cache" to:"Service" label:"Cache miss" type:return
+  message from:"Service" to:"API Gateway" label:"404 Not Found" type:return
+  
+  message from:"API Gateway" to:"Client" label:"Response" type:return
+
+  note "Client should handle both success and error cases" position:over participants:("Client","API Gateway")
+}

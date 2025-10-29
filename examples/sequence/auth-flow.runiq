@@ -1,0 +1,16 @@
+// Basic authentication flow sequence diagram
+sequence "User Authentication" {
+  participant "User" as actor
+  participant "Web App" as entity
+  participant "Auth Service" as control
+  participant "Database" as database
+
+  message from:"User" to:"Web App" label:"Enter credentials" type:sync
+  message from:"Web App" to:"Auth Service" label:"Validate login" type:sync activate:true
+  message from:"Auth Service" to:"Database" label:"Query user" type:sync
+  message from:"Database" to:"Auth Service" label:"User data" type:return
+  message from:"Auth Service" to:"Web App" label:"Auth token" type:return
+  message from:"Web App" to:"User" label:"Login success" type:return
+
+  note "Token stored in session" position:right participants:("Web App")
+}
