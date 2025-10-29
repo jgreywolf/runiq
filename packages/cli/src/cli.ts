@@ -142,6 +142,12 @@ program
       }
 
       // Standard diagram rendering (with layout)
+      // Ensure ast is defined
+      if (!ast) {
+        console.error('No diagram AST available');
+        process.exit(1);
+      }
+
       // Validate diagram type if specified
       if (options.type) {
         const validationResult = validateDiagramType(

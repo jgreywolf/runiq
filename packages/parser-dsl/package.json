@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "langium:generate": "langium generate",
-    "build": "pnpm langium:generate && tsup",
+    "build": "pnpm langium:generate && tsup && tsc -p tsconfig.build.json",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
