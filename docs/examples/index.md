@@ -84,6 +84,21 @@ Professional pedigree charts following medical standards.
 - Three-generation families, autosomal inheritance patterns
 - **Visual Examples**: Genetic trait inheritance, consanguinity
 
+## Strategy & Planning
+
+Strategic mapping tools for business analysis and decision-making.
+
+### [Wardley Maps](/examples/wardley-maps)
+
+- 2D strategic mapping: Evolution × Value Chain axes
+- Component positioning: Genesis → Custom → Product → Commodity
+- Value chain dependencies and flow visualization
+- Evolution indicators showing strategic movements
+- Inertia markers for organizational resistance
+- Anchor points for user needs and outcomes
+- **Visual Examples**: Tea shop, technology evolution, business strategy
+- Export to SVG for presentations and documentation
+
 ---
 
 ## Coming Soon
@@ -132,6 +147,11 @@ Professional pedigree charts following medical standards.
   <a href="/examples/pedigree" class="example-card">
     <h3>🧬 Pedigree Charts</h3>
     <p>Medical family trees</p>
+  </a>
+  
+  <a href="/examples/wardley-maps" class="example-card">
+    <h3>📊 Wardley Maps</h3>
+    <p>Strategic evolution mapping</p>
   </a>
 </div>
 
