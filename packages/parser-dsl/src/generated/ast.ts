@@ -1688,6 +1688,36 @@ export function isSequenceActivateProperty(item: unknown): item is SequenceActiv
     return reflection.isInstance(item, SequenceActivateProperty.$type);
 }
 
+export interface SequenceGuardProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceGuardProperty';
+    value: string;
+}
+
+export const SequenceGuardProperty = {
+    $type: 'SequenceGuardProperty',
+    value: 'value'
+} as const;
+
+export function isSequenceGuardProperty(item: unknown): item is SequenceGuardProperty {
+    return reflection.isInstance(item, SequenceGuardProperty.$type);
+}
+
+export interface SequenceTimingProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceTimingProperty';
+    value: string;
+}
+
+export const SequenceTimingProperty = {
+    $type: 'SequenceTimingProperty',
+    value: 'value'
+} as const;
+
+export function isSequenceTimingProperty(item: unknown): item is SequenceTimingProperty {
+    return reflection.isInstance(item, SequenceTimingProperty.$type);
+}
+
 export interface SequenceAlternativeDecl extends langium.AstNode {
     readonly $container: SequenceFragmentAlternativesProperty;
     readonly $type: 'SequenceAlternativeDecl';
@@ -1817,7 +1847,7 @@ export function isSequenceLabelProperty(item: unknown): item is SequenceLabelPro
     return reflection.isInstance(item, SequenceLabelProperty.$type);
 }
 
-export type SequenceMessageProperty = SequenceActivateProperty | SequenceFromProperty | SequenceLabelProperty | SequenceToProperty | SequenceTypeProperty;
+export type SequenceMessageProperty = SequenceActivateProperty | SequenceFromProperty | SequenceGuardProperty | SequenceLabelProperty | SequenceTimingProperty | SequenceToProperty | SequenceTypeProperty;
 
 export const SequenceMessageProperty = {
     $type: 'SequenceMessageProperty'

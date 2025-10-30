@@ -442,4 +442,151 @@ describe('Sequence Profile Parser', () => {
       expect(profile.notes).toHaveLength(1);
     });
   });
+
+  describe('Advanced Features', () => {
+    it('should parse message with guard condition', () => {
+      const source = `
+        sequence "Guard Test" {
+          participant "Client"
+          participant "Server"
+
+          message from:"Client" to:"Server" label:"request" guard:"authenticated"
+        }
+      `;
+
+      const result = parse(source);
+      expect(result.success).toBe(true);
+
+      const profile = result.document!.profiles[0] as SequenceProfile;
+      const message = profile.messages[0];
+
+      expect(message.label).toBe('request');
+      expect(message.guard).toBe('authenticated');
+    });
+
+    it('should parse message with timing constraint', () => {
+      const source = `
+        sequence "Timing Test" {
+          participant "API"
+          participant "Database"
+
+          message from:"API" to:"Database" label:"query" timing:"< 100ms"
+        }
+      `;
+
+      const result = parse(source);
+      expect(result.success).toBe(true);
+
+      const profile = result.document!.profiles[0] as SequenceProfile;
+      const message = profile.messages[0];
+
+      expect(message.label).toBe('query');
+      expect(message.timing).toBe('< 100ms');
+    });
+
+    it('should parse message with both guard and timing', () => {
+      const source = `
+        sequence "Combined Test" {
+          participant "Client"
+          participant "Server"
+
+          message from:"Client" to:"Server" label:"criticalOp" guard:"authorized" timing:"< 5s"
+        }
+      `;
+
+      const result = parse(source);
+      expect(result.success).toBe(true);
+
+      const profile = result.document!.profiles[0] as SequenceProfile;
+      const message = profile.messages[0];
+
+      expect(message.label).toBe('criticalOp');
+      expect(message.guard).toBe('authorized');
+      expect(message.timing).toBe('< 5s');
+    });
+
+    it('should parse lost message (to:lost)', () => {
+      const source = `
+        sequence "Lost Message Test" {
+          participant "Server"
+
+          message from:"Server" to:lost label:"auditLog" type:async
+        }
+      `;
+
+      const result = parse(source);
+      expect(result.success).toBe(true);
+
+      const profile = result.document!.profiles[0] as SequenceProfile;
+      const message = profile.messages[0];
+
+      expect(message.from).toBe('server');
+      expect(message.to).toBe('lost');
+      expect(message.label).toBe('auditLog');
+    });
+
+    it('should parse found message (from:found)', () => {
+      const source = `
+        sequence "Found Message Test" {
+          participant "Client"
+
+          message from:found to:"Client" label:"interrupt" type:async
+        }
+      `;
+
+      const result = parse(source);
+      expect(result.success).toBe(true);
+
+      const profile = result.document!.profiles[0] as SequenceProfile;
+      const message = profile.messages[0];
+
+      expect(message.from).toBe('found');
+      expect(message.to).toBe('client');
+      expect(message.label).toBe('interrupt');
+    });
+
+    it('should parse complete advanced features example', () => {
+      const source = `
+        sequence "Advanced Features Demo" {
+          participant "Client"
+          participant "Server"
+          participant "Database"
+
+          message from:"Client" to:"Server" label:"request" guard:"authenticated" type:sync
+          message from:"Server" to:"Server" label:"validate()"
+          message from:"Server" to:"Database" label:"query" guard:"cache miss" timing:"< 100ms"
+          message from:"Server" to:lost label:"auditLog" type:async
+          message from:found to:"Client" label:"pushNotification"
+          message from:"Server" to:"Client" label:"response" guard:"success" timing:"< 200ms"
+        }
+      `;
+
+      const result = parse(source);
+      expect(result.success).toBe(true);
+
+      const profile = result.document!.profiles[0] as SequenceProfile;
+      expect(profile.messages).toHaveLength(6);
+
+      // Verify first message with guard
+      expect(profile.messages[0].guard).toBe('authenticated');
+
+      // Verify self-message
+      expect(profile.messages[1].from).toBe('server');
+      expect(profile.messages[1].to).toBe('server');
+
+      // Verify message with both guard and timing
+      expect(profile.messages[2].guard).toBe('cache miss');
+      expect(profile.messages[2].timing).toBe('< 100ms');
+
+      // Verify lost message
+      expect(profile.messages[3].to).toBe('lost');
+
+      // Verify found message
+      expect(profile.messages[4].from).toBe('found');
+
+      // Verify final message with both properties
+      expect(profile.messages[5].guard).toBe('success');
+      expect(profile.messages[5].timing).toBe('< 200ms');
+    });
+  });
 });
