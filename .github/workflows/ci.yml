@@ -46,8 +46,9 @@ jobs:
       - name: Type check
         run: pnpm typecheck
 
-      - name: Lint
-        run: pnpm lint
+      # TODO: Re-enable once ESLint workspace hoisting is resolved
+      # - name: Lint
+      #   run: pnpm lint
 
       - name: Test
         run: pnpm test
