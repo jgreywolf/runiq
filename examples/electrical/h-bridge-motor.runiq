@@ -1,4 +1,4 @@
-schematic "H-Bridge Motor Driver" {
+electrical "H-Bridge Motor Driver" {
   net VCC, CTRL_A, CTRL_B, MOTOR_P, MOTOR_N, GND
   
   # Power supply

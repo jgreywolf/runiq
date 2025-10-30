@@ -7,7 +7,7 @@ title: Profiles
 Runiq supports four primary profiles:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, block diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
-- **Schematic profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
+- **electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
 - **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
 
@@ -15,8 +15,8 @@ Most syntax is shared across profiles. The key differences are:
 
 - Shape set and rendering style
 - Positioning system (auto-layout vs. manual coordinates)
-- Exporters available (SPICE/Verilog for schematic, SVG for all)
-- Layout defaults (e.g., orthogonal wiring for schematics)
+- Exporters available (SPICE/Verilog for electrical, SVG for all)
+- Layout defaults (e.g., orthogonal wiring for electrical)
 
 ## Diagram Profile (Default)
 
@@ -33,12 +33,12 @@ Start -> Amp
 Amp   -> Box
 ```
 
-## Schematic Profile
+## electrical Profile
 
-To use the schematic profile:
+To use the electrical profile:
 
 ```runiq
-schematic "Simple RC" direction: LR
+electrical "Simple RC" direction: LR
 
 shape V1 as @voltage-source label:"5V"
 shape R1 as @resistor       label:"1kΩ"

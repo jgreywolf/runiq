@@ -1,4 +1,4 @@
-schematic "Common Emitter Amplifier" {
+electrical "Common Emitter Amplifier" {
   net VCC, VIN, VOUT, VBIAS, GND
   
   # Power supply

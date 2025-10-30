@@ -31,7 +31,7 @@
 
 ```langium
 Profile:
-    DiagramProfile | SchematicProfile | DigitalProfile | WardleyProfile | SequenceProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile;
 
 
 2. **After line 186** (after WardleyEvolutionStatement) - Add complete sequence grammar:

@@ -4,7 +4,7 @@ export const logicGateShapeIcons: ShapeCategory[] = [
 	{
 		id: 'logicGates',
 		label: 'Logic Gates',
-		schematicOnly: true,
+		electricalOnly: true,
 		shapes: [
 			{ id: 'andGate', label: 'AND (2-input)', code: 'part id type:AND pins:(A,B,Y)' },
 			{ id: 'orGate', label: 'OR (2-input)', code: 'part id type:OR pins:(A,B,Y)' },

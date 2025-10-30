@@ -1,4 +1,4 @@
-schematic "LED Circuit with Current Limiting" {
+electrical "LED Circuit with Current Limiting" {
   net VCC, LED_ANODE, GND
   
   # 5V power supply

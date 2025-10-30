@@ -4,7 +4,7 @@ export const digitalComponentShapeIcons: ShapeCategory[] = [
 	{
 		id: 'digitalComponents',
 		label: 'Digital Components',
-		schematicOnly: true,
+		electricalOnly: true,
 		shapes: [
 			{ id: 'dFlipFlop', label: 'D Flip-Flop', code: 'part id type:DFF pins:(D,CLK,Q,QB)' },
 			{ id: 'jkFlipFlop', label: 'JK Flip-Flop', code: 'part id type:JKFF pins:(J,K,CLK,Q,QB)' },

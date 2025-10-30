@@ -4,7 +4,7 @@ import { parse } from '../langium-parser.js';
 describe('Schematic Profile Parsing', () => {
   it('should parse a simple schematic profile with nets', () => {
     const input = `
-schematic "RC Filter" {
+electrical "RC Filter" {
   net IN, OUT, GND
 }`;
 
@@ -28,7 +28,7 @@ schematic "RC Filter" {
 
   it('should parse schematic profile with parts and analysis', () => {
     const input = `
-schematic "RC Lowpass" {
+electrical "RC Lowpass" {
   net IN, OUT, GND
   part R1 type:R value:"10k" pins:(IN,OUT)
   part C1 type:C value:"1n" pins:(OUT,GND)

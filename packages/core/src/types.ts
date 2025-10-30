@@ -102,7 +102,7 @@ export interface ContainerDeclaration {
   badge?: string; // Phase 1: Badge text (e.g., version, status)
   collapsible?: boolean; // Phase 1: Can this container be collapsed?
   collapsed?: boolean; // Phase 1/2: Is this container currently collapsed?
-  
+
   // Phase 2: Collapse/Expand functionality
   collapseMode?: 'full' | 'partial'; // full: hide all, partial: show first level
   collapseRedirectEdges?: boolean; // Redirect edges to collapsed container
@@ -115,7 +115,7 @@ export interface ContainerDeclaration {
   collapsePersistState?: boolean; // Save collapse state to storage
   collapseStateKey?: string; // Unique key for state persistence
   collapseKeyboardShortcut?: string; // Keyboard shortcut to toggle
-  
+
   shape?: string; // Optional - reference to shape type (e.g., 'umlPackage', 'awsVpc')
   style?: string; // Reference to named style in DiagramAst.styles
   containerStyle?: ContainerStyle;
@@ -136,15 +136,15 @@ export interface ContainerStyle {
   opacity?: number;
   padding?: number;
   labelPosition?: 'top' | 'bottom' | 'left' | 'right';
-  
+
   // Phase 1: Shadow and depth
   shadow?: boolean; // Enable drop shadow effect
   depth?: number; // Visual depth level (0-3+, higher = more prominent)
-  
+
   // Phase 1: Header styling
   headerPosition?: 'top' | 'bottom' | 'left' | 'right';
   headerBackgroundColor?: string;
-  
+
   // Phase 1: Icon styling
   iconSize?: number; // Icon size in pixels
   iconColor?: string; // Icon color
@@ -192,17 +192,21 @@ export interface ContainerStyle {
   // Phase 4: Visual Controls
   // Collapse button controls
   collapseButtonVisible?: boolean; // Show/hide collapse button
-  collapseButtonPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'; // Button corner position
+  collapseButtonPosition?:
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right'; // Button corner position
   collapseButtonStyle?: 'icon' | 'text' | 'icon-text'; // Button display style
   collapseButtonSize?: number; // Button size in pixels
   collapseButtonColor?: string; // Button color
-  
+
   // Resize controls
   resizable?: boolean; // Enable manual resize handles
   resizeHandles?: ('n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw')[]; // Which handles to show (n=north, s=south, etc.)
   minResizeWidth?: number; // Minimum width when resizing manually
   minResizeHeight?: number; // Minimum height when resizing manually
-  
+
   // Interactive feedback
   hoverHighlight?: boolean; // Highlight container on hover
   hoverBorderColor?: string; // Border color on hover
@@ -210,10 +214,14 @@ export interface ContainerStyle {
   selectionHighlight?: boolean; // Highlight when selected
   selectionBorderColor?: string; // Border color when selected
   selectionBorderWidth?: number; // Border width when selected
-  
+
   // Visual feedback indicators
   showChildCount?: boolean; // Show number of children badge
-  childCountPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'; // Badge position
+  childCountPosition?:
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right'; // Badge position
   showDepthIndicator?: boolean; // Show nesting depth visual indicator
   depthIndicatorStyle?: 'bar' | 'indent' | 'color'; // How to show depth
 
@@ -460,7 +468,7 @@ export interface ElectricalProfile {
 /**
  * @deprecated Use ElectricalProfile instead
  */
-export type SchematicProfile = ElectricalProfile;
+export type ElectricalProfile = ElectricalProfile;
 
 /**
  * Digital circuit profile

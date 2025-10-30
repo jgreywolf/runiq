@@ -1,4 +1,4 @@
-# Schematic Circuit Examples
+# Electrical Circuit Examples
 
 Create professional IEEE/IEC-standard schematics with SPICE netlist export.
 
@@ -9,7 +9,7 @@ A classic RC filter circuit with SPICE simulation.
 ### DSL Code
 
 ```runiq
-schematic "RC Lowpass Filter" {
+electrical "RC Lowpass Filter" {
   net IN, OUT, GND
 
   # Input voltage source: 1V sine wave at 1kHz
@@ -61,7 +61,7 @@ Simple resistor divider for voltage scaling.
 ### DSL Code
 
 ```runiq
-schematic "Voltage Divider" {
+electrical "Voltage Divider" {
   net VIN, VOUT, GND
 
   # Input: 12V DC
@@ -95,7 +95,7 @@ Operational amplifier in non-inverting configuration.
 ### DSL Code
 
 ```runiq
-schematic "Non-Inverting Amplifier" {
+electrical "Non-Inverting Amplifier" {
   net IN, OUT, GND, VCC, VEE
 
   # Power supplies
@@ -231,7 +231,7 @@ Standard SPICE suffixes for component values:
 ### LED Circuit with Current Limiting
 
 ```runiq
-schematic "LED Circuit" {
+electrical "LED Circuit" {
   net VCC, LED_ANODE, GND
 
   # 5V power supply
@@ -254,7 +254,7 @@ schematic "LED Circuit" {
 ### RLC Resonant Circuit
 
 ```runiq
-schematic "RLC Resonant Circuit" {
+electrical "RLC Resonant Circuit" {
   net IN, OUT, GND
 
   # AC voltage source: 1V at variable frequency
@@ -288,7 +288,7 @@ $$f_0 = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{10mH \times 1\mu F}} \appro
 ### Full Bridge Rectifier
 
 ```runiq
-schematic "Bridge Rectifier" {
+electrical "Bridge Rectifier" {
   net AC_IN, DC_PLUS, DC_MINUS, GND
 
   # AC input: 120V RMS at 60Hz

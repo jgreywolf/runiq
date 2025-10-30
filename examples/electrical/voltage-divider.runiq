@@ -1,4 +1,4 @@
-schematic "Voltage Divider" {
+electrical "Voltage Divider" {
   net VIN, VOUT, GND
   
   # 12V input supply

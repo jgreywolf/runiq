@@ -13,7 +13,7 @@
 		id: string;
 		label: string;
 		shapes: Shape[];
-		schematicOnly?: boolean;
+		electricalOnly?: boolean;
 	}
 
 	interface Props {

@@ -610,12 +610,7 @@ describe('Hierarchical Containers - Core Types', () => {
     });
 
     it('should support different depth levels', () => {
-      const styles = [
-        { depth: 0 },
-        { depth: 1 },
-        { depth: 2 },
-        { depth: 3 },
-      ];
+      const styles = [{ depth: 0 }, { depth: 1 }, { depth: 2 }, { depth: 3 }];
 
       expect(styles[0].depth).toBe(0);
       expect(styles[1].depth).toBe(1);
@@ -844,8 +839,13 @@ describe('Hierarchical Containers - Core Types', () => {
       };
 
       expect(diagram.containers![0].containerStyle?.depth).toBe(0);
-      expect(diagram.containers![0].containers![0].containerStyle?.depth).toBe(1);
-      expect(diagram.containers![0].containers![0].containers![0].containerStyle?.depth).toBe(2);
+      expect(diagram.containers![0].containers![0].containerStyle?.depth).toBe(
+        1
+      );
+      expect(
+        diagram.containers![0].containers![0].containers![0].containerStyle
+          ?.depth
+      ).toBe(2);
     });
 
     it('should support automatic depth calculation based on nesting', () => {
@@ -920,7 +920,9 @@ describe('Hierarchical Containers - Core Types', () => {
       };
 
       expect(parent.containerStyle?.backgroundColor).toBe('#f0f0f0');
-      expect(parent.containers![0].containerStyle?.backgroundColor).toBe('#e0e0e0');
+      expect(parent.containers![0].containerStyle?.backgroundColor).toBe(
+        '#e0e0e0'
+      );
     });
 
     it('should support inherit keyword for explicit inheritance', () => {

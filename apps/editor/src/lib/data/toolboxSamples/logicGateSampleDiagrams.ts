@@ -8,7 +8,7 @@ export const logicGateSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Half Adder',
 				description: 'Single-bit adder without carry-in',
-				code: `schematic "Half Adder" {
+				code: `electrical"Half Adder" {
   net A, B, SUM, CARRY, GND
 
   part XOR1 type:XOR pins:(A,B,SUM)
@@ -19,7 +19,7 @@ export const logicGateSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Full Adder',
 				description: 'Single-bit adder with carry',
-				code: `schematic "Full Adder" {
+				code: `electrical"Full Adder" {
   net A, B, CIN, S1, C1, SUM, COUT, GND
 
   part XOR1 type:XOR pins:(A,B,S1)
@@ -33,7 +33,7 @@ export const logicGateSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'SR Latch',
 				description: 'Set-Reset latch using NOR gates',
-				code: `schematic "SR Latch" {
+				code: `electrical"SR Latch" {
   net S, R, Q, QB, GND
 
   part NOR1 type:NOR pins:(S,QB,Q)

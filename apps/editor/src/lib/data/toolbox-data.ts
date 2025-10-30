@@ -29,7 +29,7 @@ export interface ShapeCategory {
 	id: string;
 	label: string;
 	shapes: Shape[];
-	schematicOnly?: boolean;
+	electricalOnly?: boolean;
 }
 
 export const shapeCategories: ShapeCategory[] = [

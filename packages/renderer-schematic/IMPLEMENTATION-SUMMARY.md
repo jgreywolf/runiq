@@ -137,7 +137,7 @@ Duration  1.11s (58ms execution)
 - ✅ Works with component rotation (0°/90°/180°/270°)
 - ✅ Compatible with orthogonal wire routing
 - ✅ Supports junction dots at intersections
-- ✅ Integrates with SchematicProfile type
+- ✅ Integrates with ElectricalProfile type
 
 ### With Other Packages
 

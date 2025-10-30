@@ -1,4 +1,4 @@
-schematic "RLC Resonant Circuit" {
+electrical "RLC Resonant Circuit" {
   net VIN, N1, GND
   
   # AC voltage source: 1V amplitude, 1kHz frequency

@@ -1,7 +1,7 @@
-import type { SchematicProfile, PartAst, AnalysisAst } from '@runiq/core';
+import type { ElectricalProfile, PartAst, AnalysisAst } from '@runiq/core';
 
 /**
- * Export a schematicProfile to SPICE netlist format
+ * Export a ElectricalProfile to SPICE netlist format
  *
  * @param profile - The schematic profile to export
  * @param options - Export options (flavor: ngspice, pspice, ltspice)
@@ -9,8 +9,8 @@ import type { SchematicProfile, PartAst, AnalysisAst } from '@runiq/core';
  *
  * @example
  * ```typescript
- * const profile: SchematicProfile = {
- *   type: 'schematic',
+ * const profile: ElectricalProfile = {
+ *   type: 'electrical',
  *   name: 'RC Filter',
  *   nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
  *   parts: [
@@ -32,7 +32,7 @@ import type { SchematicProfile, PartAst, AnalysisAst } from '@runiq/core';
  * ```
  */
 export function toSpice(
-  profile: SchematicProfile,
+  profile: ElectricalProfile,
   _options?: { flavor?: 'ngspice' | 'pspice' | 'ltspice' }
 ): string {
   const lines: string[] = [];

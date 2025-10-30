@@ -1,4 +1,4 @@
-schematic "5V Voltage Regulator" {
+electrical "5V Voltage Regulator" {
   net VIN, VREG, VOUT, GND
   
   # Input voltage source

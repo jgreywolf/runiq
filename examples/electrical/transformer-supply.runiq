@@ -1,4 +1,4 @@
-schematic "Transformer Power Supply" {
+electrical "Transformer Power Supply" {
   net AC1, AC2, SEC1, SEC2, DC_OUT, GND
   
   # AC input source (120V RMS, 60Hz)

@@ -34,10 +34,10 @@ pnpm add @runiq/renderer-schematic
 
 ```typescript
 import { renderSchematic } from '@runiq/renderer-schematic';
-import type { SchematicProfile } from '@runiq/core';
+import type { ElectricalProfile } from '@runiq/core';
 
-const circuit: SchematicProfile = {
-  type: 'schematic',
+const circuit: ElectricalProfile = {
+  type: 'electrical',
   name: 'RC Lowpass Filter',
   nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
   parts: [
@@ -162,8 +162,8 @@ interface SchematicOptions {
 Rotate components by adding a `rotation` parameter (0, 90, 180, or 270 degrees):
 
 ```typescript
-const circuit: SchematicProfile = {
-  type: 'schematic',
+const circuit: ElectricalProfile = {
+  type: 'electrical',
   name: 'H-Bridge Motor Driver',
   nets: [
     { name: 'VCC' },
@@ -248,8 +248,8 @@ const result = renderSchematic(circuit, {
 ### Voltage Divider
 
 ```typescript
-const divider: SchematicProfile = {
-  type: 'schematic',
+const divider: ElectricalProfile = {
+  type: 'electrical',
   name: 'Voltage Divider',
   nets: [{ name: 'VIN' }, { name: 'VOUT' }, { name: 'GND' }],
   parts: [
@@ -265,8 +265,8 @@ const svg = renderSchematic(divider);
 ### RLC Resonant Circuit
 
 ```typescript
-const rlc: SchematicProfile = {
-  type: 'schematic',
+const rlc: ElectricalProfile = {
+  type: 'electrical',
   name: 'RLC Resonant',
   nets: [{ name: 'VIN' }, { name: 'N1' }, { name: 'GND' }],
   parts: [
@@ -286,8 +286,8 @@ const rlc: SchematicProfile = {
 ### LED Circuit
 
 ```typescript
-const led: SchematicProfile = {
-  type: 'schematic',
+const led: ElectricalProfile = {
+  type: 'electrical',
   name: 'LED with Current Limiting',
   nets: [{ name: 'VCC' }, { name: 'LED_ANODE' }, { name: 'GND' }],
   parts: [
@@ -311,8 +311,8 @@ const led: SchematicProfile = {
 ### Common-Emitter Amplifier (NEW!)
 
 ```typescript
-const amplifier: SchematicProfile = {
-  type: 'schematic',
+const amplifier: ElectricalProfile = {
+  type: 'electrical',
   name: 'Common Emitter Amplifier',
   nets: [
     { name: 'VCC' },
@@ -347,8 +347,8 @@ const amplifier: SchematicProfile = {
 ### CMOS Inverter (NEW!)
 
 ```typescript
-const inverter: SchematicProfile = {
-  type: 'schematic',
+const inverter: ElectricalProfile = {
+  type: 'electrical',
   name: 'CMOS Inverter',
   nets: [{ name: 'VDD' }, { name: 'VIN' }, { name: 'VOUT' }, { name: 'GND' }],
   parts: [
@@ -383,8 +383,8 @@ const inverter: SchematicProfile = {
 This example demonstrates both component rotation and orthogonal wire routing:
 
 ```typescript
-const hBridge: SchematicProfile = {
-  type: 'schematic',
+const hBridge: ElectricalProfile = {
+  type: 'electrical',
   name: 'H-Bridge Motor Driver',
   nets: [
     { name: 'VCC' },
@@ -478,8 +478,8 @@ The schematic renderer now supports IEEE/ANSI standard logic gate symbols for di
 #### Half Adder
 
 ```typescript
-const halfAdder: SchematicProfile = {
-  type: 'schematic',
+const halfAdder: ElectricalProfile = {
+  type: 'electrical',
   name: 'Half Adder',
   nets: [{ name: 'A' }, { name: 'B' }, { name: 'SUM' }, { name: 'CARRY' }],
   parts: [
@@ -498,8 +498,8 @@ const svg = renderSchematic(halfAdder, {
 #### Full Adder
 
 ```typescript
-const fullAdder: SchematicProfile = {
-  type: 'schematic',
+const fullAdder: ElectricalProfile = {
+  type: 'electrical',
   name: 'Full Adder',
   nets: [
     { name: 'A' },
@@ -537,8 +537,8 @@ const fullAdder: SchematicProfile = {
 #### 2-to-4 Decoder
 
 ```typescript
-const decoder: SchematicProfile = {
-  type: 'schematic',
+const decoder: ElectricalProfile = {
+  type: 'electrical',
   name: '2-to-4 Decoder',
   nets: [
     { name: 'A0' },
@@ -567,8 +567,8 @@ const decoder: SchematicProfile = {
 #### SR Latch
 
 ```typescript
-const srLatch: SchematicProfile = {
-  type: 'schematic',
+const srLatch: ElectricalProfile = {
+  type: 'electrical',
   name: 'SR Latch (NAND)',
   nets: [{ name: 'S' }, { name: 'R' }, { name: 'Q' }, { name: 'Q_N' }],
   parts: [
@@ -592,7 +592,7 @@ const srLatch: SchematicProfile = {
 ### 1. Write Runiq Circuit
 
 ```runiq
-schematic "RC Filter" {
+electrical "RC Filter" {
   net IN, OUT, GND
 
   part V1 type:V source:"SIN(0 1 1k)" pins:(IN,GND)
@@ -612,11 +612,11 @@ import { renderSchematic } from '@runiq/renderer-schematic';
 const content = await fs.readFile('rc-filter.runiq', 'utf-8');
 const parseResult = parse(content);
 
-const SchematicProfile = parseResult.document.profiles.find(
-  (p) => p.type === 'schematic'
+const ElectricalProfile = parseResult.document.profiles.find(
+  (p) => p.type === 'electrical'
 );
 
-const schematic = renderSchematic(SchematicProfile);
+const schematic = renderSchematic(ElectricalProfile);
 
 await fs.writeFile('rc-filter.svg', schematic.svg);
 ```

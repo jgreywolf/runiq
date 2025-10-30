@@ -5,7 +5,7 @@
 import fs from 'fs';
 import path from 'path';
 import { renderSchematic } from '../index.js';
-import type { SchematicProfile } from '@runiq/core';
+import type { ElectricalProfile } from '@runiq/core';
 
 const OUTPUT_DIR = path.join(
   import.meta.dirname || __dirname,
@@ -25,8 +25,8 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 /**
  * Example 1: Simple 4-to-1 ALU using MUX
  */
-const aluWith4to1Mux: SchematicProfile = {
-  type: 'schematic',
+const aluWith4to1Mux: ElectricalProfile = {
+  type: 'electrical',
   name: '4-to-1 ALU Data Path',
   nets: [
     { name: 'ADD' },
@@ -50,8 +50,8 @@ const aluWith4to1Mux: SchematicProfile = {
 /**
  * Example 2: 8-to-1 data selector
  */
-const dataSelector8to1: SchematicProfile = {
-  type: 'schematic',
+const dataSelector8to1: ElectricalProfile = {
+  type: 'electrical',
   name: '8-to-1 Data Selector',
   nets: [
     { name: 'IN0' },
@@ -93,8 +93,8 @@ const dataSelector8to1: SchematicProfile = {
 /**
  * Example 3: Memory address decoder (3-to-8)
  */
-const memoryDecoder: SchematicProfile = {
-  type: 'schematic',
+const memoryDecoder: ElectricalProfile = {
+  type: 'electrical',
   name: 'Memory Address Decoder',
   nets: [
     { name: 'A0' },
@@ -136,8 +136,8 @@ const memoryDecoder: SchematicProfile = {
 /**
  * Example 4: Demultiplexer (1-to-4) using 2-to-4 decoder
  */
-const demux1to4: SchematicProfile = {
-  type: 'schematic',
+const demux1to4: ElectricalProfile = {
+  type: 'electrical',
   name: '1-to-4 Demultiplexer',
   nets: [
     { name: 'SEL0' },
@@ -161,8 +161,8 @@ const demux1to4: SchematicProfile = {
 /**
  * Example 5: 2-bit barrel shifter using MUXes
  */
-const barrelShifter: SchematicProfile = {
-  type: 'schematic',
+const barrelShifter: ElectricalProfile = {
+  type: 'electrical',
   name: '2-bit Barrel Shifter',
   nets: [
     { name: 'IN0' },
@@ -211,8 +211,8 @@ const barrelShifter: SchematicProfile = {
 /**
  * Example 6: Priority encoder using decoder and gates
  */
-const priorityEncoder: SchematicProfile = {
-  type: 'schematic',
+const priorityEncoder: ElectricalProfile = {
+  type: 'electrical',
   name: 'Priority Encoder with Decoder',
   nets: [
     { name: 'REQ0' },

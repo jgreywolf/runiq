@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { renderSchematic } from '../index.js';
-import type { SchematicProfile } from '@runiq/core';
+import type { ElectricalProfile } from '@runiq/core';
 
-describe('Schematic Renderer', () => {
+describe('Electrical Renderer', () => {
   it('should render a simple schematic profile (type: schematic)', () => {
-    const profile: SchematicProfile = {
-      type: 'schematic',
+    const profile: ElectricalProfile = {
+      type: 'electrical',
       name: 'Test Schematic',
       nets: [],
       parts: [
@@ -18,8 +18,8 @@ describe('Schematic Renderer', () => {
   });
   describe('Basic Rendering', () => {
     it('should render simple resistor circuit', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Simple Resistor',
         nets: [{ name: 'VCC' }, { name: 'GND' }],
         parts: [
@@ -49,8 +49,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render RC filter circuit', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'RC Lowpass Filter',
         nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
         parts: [
@@ -86,8 +86,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render circuit with inductor', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'RL Circuit',
         nets: [{ name: 'VIN' }, { name: 'VOUT' }, { name: 'GND' }],
         parts: [
@@ -114,8 +114,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render current source', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Current Source',
         nets: [{ name: 'N1' }, { name: 'GND' }],
         parts: [
@@ -138,8 +138,8 @@ describe('Schematic Renderer', () => {
 
   describe('Ground Symbols', () => {
     it('should render ground symbols for GND connections', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'With Ground',
         nets: [{ name: 'VCC' }, { name: 'GND' }],
         parts: [
@@ -154,13 +154,13 @@ describe('Schematic Renderer', () => {
 
       const result = renderSchematic(profile);
 
-      expect(result.svg).toContain('schematic-grounds');
+      expect(result.svg).toContain('electrical-grounds');
       expect(result.warnings).toHaveLength(0);
     });
 
     it('should normalize VSS to GND', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'With VSS',
         nets: [{ name: 'VCC' }, { name: 'VSS' }],
         parts: [
@@ -175,15 +175,15 @@ describe('Schematic Renderer', () => {
 
       const result = renderSchematic(profile);
 
-      expect(result.svg).toContain('schematic-grounds');
+      expect(result.svg).toContain('electrical-grounds');
       expect(result.warnings).toHaveLength(0);
     });
   });
 
   describe('Wiring', () => {
     it('should render wires between components', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Series Circuit',
         nets: [
           { name: 'VIN' },
@@ -215,14 +215,14 @@ describe('Schematic Renderer', () => {
 
       const result = renderSchematic(profile);
 
-      expect(result.svg).toContain('schematic-wires');
+      expect(result.svg).toContain('-wires');
       expect(result.svg).toContain('<path');
       expect(result.warnings).toHaveLength(0);
     });
 
     it('should show net labels on wires', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Labeled Nets',
         nets: [{ name: 'VCC' }, { name: 'SIGNAL' }, { name: 'GND' }],
         parts: [
@@ -244,13 +244,13 @@ describe('Schematic Renderer', () => {
       const result = renderSchematic(profile, { showNetLabels: true });
 
       expect(result.svg).toContain('SIGNAL');
-      expect(result.svg).toContain('schematic-net-label');
+      expect(result.svg).toContain('electrical-net-label');
       expect(result.warnings).toHaveLength(0);
     });
 
     it('should hide net labels when disabled', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'No Labels',
         nets: [{ name: 'VCC' }, { name: 'SIGNAL' }, { name: 'GND' }],
         parts: [
@@ -279,8 +279,8 @@ describe('Schematic Renderer', () => {
 
   describe('Component Labels', () => {
     it('should show component references', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'With References',
         nets: [{ name: 'N1' }, { name: 'N2' }],
         parts: [
@@ -300,8 +300,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should show component values', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'With Values',
         nets: [{ name: 'N1' }, { name: 'N2' }],
         parts: [
@@ -321,8 +321,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should hide values when disabled', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'No Values',
         nets: [{ name: 'N1' }, { name: 'N2' }],
         parts: [
@@ -342,8 +342,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should show source parameter for voltage sources', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'AC Source',
         nets: [{ name: 'IN' }, { name: 'GND' }],
         parts: [
@@ -365,8 +365,8 @@ describe('Schematic Renderer', () => {
 
   describe('Options', () => {
     it('should respect custom grid size', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Custom Grid',
         nets: [{ name: 'N1' }, { name: 'N2' }],
         parts: [
@@ -386,8 +386,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should use vertical orientation', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Vertical Layout',
         nets: [{ name: 'VIN' }, { name: 'VOUT' }, { name: 'GND' }],
         parts: [
@@ -413,8 +413,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should apply custom colors', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Custom Colors',
         nets: [{ name: 'N1' }, { name: 'N2' }],
         parts: [
@@ -440,8 +440,8 @@ describe('Schematic Renderer', () => {
 
   describe('Error Handling', () => {
     it('should warn about unknown component types', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Unknown Type',
         nets: [{ name: 'N1' }, { name: 'N2' }],
         parts: [
@@ -460,8 +460,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should handle empty circuit', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Empty',
         nets: [],
         parts: [],
@@ -475,8 +475,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should handle circuit with no nets', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'No Nets',
         nets: [],
         parts: [
@@ -498,8 +498,8 @@ describe('Schematic Renderer', () => {
 
   describe('Complex Circuits', () => {
     it('should render voltage divider', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Voltage Divider',
         nets: [{ name: 'VIN' }, { name: 'VOUT' }, { name: 'GND' }],
         parts: [
@@ -534,8 +534,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render complete RC filter', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'RC Lowpass Filter',
         nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
         parts: [
@@ -563,16 +563,16 @@ describe('Schematic Renderer', () => {
       const result = renderSchematic(profile);
 
       expect(result.svg).toContain('SIN(0 1 1k)');
-      expect(result.svg).toContain('schematic-wires');
-      expect(result.svg).toContain('schematic-grounds');
+      expect(result.svg).toContain('electrical-wires');
+      expect(result.svg).toContain('electrical-grounds');
       expect(result.warnings).toHaveLength(0);
     });
   });
 
   describe('Transistor Symbols', () => {
     it('should render NPN transistor', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'NPN Transistor Test',
         nets: [
           { name: 'VCC' },
@@ -610,8 +610,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render PNP transistor', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'PNP Transistor Test',
         nets: [
           { name: 'VCC' },
@@ -637,8 +637,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render NMOS transistor', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'NMOS Test',
         nets: [
           { name: 'VDD' },
@@ -664,8 +664,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render PMOS transistor', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'PMOS Test',
         nets: [
           { name: 'VDD' },
@@ -693,8 +693,8 @@ describe('Schematic Renderer', () => {
 
   describe('Advanced Symbols', () => {
     it('should render operational amplifier', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Op-Amp Test',
         nets: [
           { name: 'VIN+' },
@@ -721,8 +721,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render transformer', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Transformer Test',
         nets: [
           { name: 'AC1' },
@@ -750,8 +750,8 @@ describe('Schematic Renderer', () => {
 
   describe('Component Rotation', () => {
     it('should render resistor with 0 degree rotation (default)', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Rotated Resistor Test',
         nets: [{ name: 'IN' }, { name: 'OUT' }],
         parts: [
@@ -772,8 +772,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render resistor with 90 degree rotation', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Rotated Resistor Test',
         nets: [{ name: 'IN' }, { name: 'OUT' }],
         parts: [
@@ -794,8 +794,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render transistor with 180 degree rotation', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Rotated Transistor Test',
         nets: [{ name: 'VCC' }, { name: 'BASE' }, { name: 'GND' }],
         parts: [
@@ -816,8 +816,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render capacitor with 270 degree rotation', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Rotated Capacitor Test',
         nets: [{ name: 'IN' }, { name: 'GND' }],
         parts: [
@@ -838,8 +838,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should warn about invalid rotation angles', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Invalid Rotation Test',
         nets: [{ name: 'IN' }, { name: 'OUT' }],
         parts: [
@@ -861,8 +861,8 @@ describe('Schematic Renderer', () => {
 
   describe('Orthogonal Wire Routing', () => {
     it('should route wires with Manhattan distance (horizontal then vertical)', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Orthogonal Routing Test',
         nets: [{ name: 'SIGNAL' }, { name: 'GND' }],
         parts: [
@@ -884,13 +884,13 @@ describe('Schematic Renderer', () => {
       const result = renderSchematic(profile, { routing: 'orthogonal' });
 
       // Should contain path with multiple line segments (L commands in SVG path)
-      expect(result.svg).toContain('schematic-wire');
+      expect(result.svg).toContain('electrical-wire');
       expect(result.warnings).toHaveLength(0);
     });
 
     it('should add junction dots at wire intersections', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Junction Test',
         nets: [{ name: 'VCC' }, { name: 'GND' }],
         parts: [
@@ -918,13 +918,13 @@ describe('Schematic Renderer', () => {
       const result = renderSchematic(profile, { routing: 'orthogonal' });
 
       // Should contain junction circles at connection points
-      expect(result.svg).toContain('schematic-junction');
+      expect(result.svg).toContain('electrical-junction');
       expect(result.warnings).toHaveLength(0);
     });
 
     it('should use direct routing by default', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Direct Routing Test',
         nets: [{ name: 'SIGNAL' }, { name: 'GND' }],
         parts: [
@@ -940,15 +940,15 @@ describe('Schematic Renderer', () => {
       // Default routing should be 'direct'
       const result = renderSchematic(profile);
 
-      expect(result.svg).toContain('schematic-wire');
+      expect(result.svg).toContain('electrical-wire');
       expect(result.warnings).toHaveLength(0);
     });
   });
 
   describe('Logic Gate Symbols', () => {
     it('should render 2-input AND gate', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'AND Gate',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
         parts: [
@@ -969,8 +969,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 2-input OR gate', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'OR Gate',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
         parts: [
@@ -991,8 +991,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render NOT gate (inverter)', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'NOT Gate',
         nets: [{ name: 'A' }, { name: 'Y' }],
         parts: [
@@ -1015,8 +1015,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 2-input XOR gate', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'XOR Gate',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
         parts: [
@@ -1037,8 +1037,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 2-input NAND gate', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'NAND Gate',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
         parts: [
@@ -1061,8 +1061,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 2-input NOR gate', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'NOR Gate',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
         parts: [
@@ -1085,8 +1085,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render BUFFER gate', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Buffer',
         nets: [{ name: 'A' }, { name: 'Y' }],
         parts: [
@@ -1107,8 +1107,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render half adder with multiple logic gates', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Half Adder',
         nets: [
           { name: 'A' },
@@ -1141,8 +1141,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render SR latch with NAND gates', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'SR Latch',
         nets: [{ name: 'S' }, { name: 'R' }, { name: 'Q' }, { name: 'Qn' }],
         parts: [
@@ -1172,8 +1172,8 @@ describe('Schematic Renderer', () => {
 
   describe('Advanced Digital Components', () => {
     it('should render XNOR gate with inverter bubble', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'XNOR Gate',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'Y' }],
         parts: [
@@ -1194,8 +1194,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 3-input AND gate', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '3-Input AND',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'Y' }],
         parts: [
@@ -1216,8 +1216,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 3-input OR gate', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '3-Input OR',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'Y' }],
         parts: [
@@ -1237,8 +1237,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 3-input NAND gate with bubble', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '3-Input NAND',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'Y' }],
         parts: [
@@ -1259,8 +1259,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 3-input NOR gate with bubble', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '3-Input NOR',
         nets: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'Y' }],
         parts: [
@@ -1281,8 +1281,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render D flip-flop with clock triangle', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'D Flip-Flop',
         nets: [{ name: 'D' }, { name: 'CLK' }, { name: 'Q' }, { name: 'QN' }],
         parts: [
@@ -1304,8 +1304,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render JK flip-flop', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'JK Flip-Flop',
         nets: [
           { name: 'J' },
@@ -1333,8 +1333,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render T flip-flop', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'T Flip-Flop',
         nets: [{ name: 'T' }, { name: 'CLK' }, { name: 'Q' }, { name: 'QN' }],
         parts: [
@@ -1356,8 +1356,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 4-bit register', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '4-bit Register',
         nets: [
           { name: 'D0' },
@@ -1390,8 +1390,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 8-bit register', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '8-bit Register',
         nets: [
           { name: 'D0' },
@@ -1451,8 +1451,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render full adder with 3-input gates', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Full Adder (3-input)',
         nets: [
           { name: 'A' },
@@ -1485,8 +1485,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 2-bit counter with flip-flops', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '2-bit Counter',
         nets: [
           { name: 'CLK' },
@@ -1520,8 +1520,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render equality comparator with XNOR gates', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Equality Comparator',
         nets: [
           { name: 'A0' },
@@ -1564,8 +1564,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render majority gate with 3-input logic', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Majority Gate',
         nets: [
           { name: 'A' },
@@ -1616,8 +1616,8 @@ describe('Schematic Renderer', () => {
 
   describe('Multiplexers and Decoders', () => {
     it('should render 4-to-1 MUX with trapezoidal shape', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '4-to-1 Multiplexer',
         nets: [
           { name: 'D0' },
@@ -1646,8 +1646,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 8-to-1 MUX with 8:1 label', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '8-to-1 Multiplexer',
         nets: [
           { name: 'D0' },
@@ -1695,8 +1695,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 2-to-4 decoder with inverted trapezoid', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '2-to-4 Decoder',
         nets: [
           { name: 'A0' },
@@ -1726,8 +1726,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render 3-to-8 decoder with 3:8 label', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '3-to-8 Decoder',
         nets: [
           { name: 'A0' },
@@ -1775,8 +1775,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render ALU data path with MUX selector', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Simple ALU with MUX',
         nets: [
           { name: 'ADD_RESULT' },
@@ -1814,8 +1814,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render memory address decoder circuit', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: 'Memory Address Decoder',
         nets: [
           { name: 'ADDR0' },
@@ -1863,8 +1863,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render data selector with cascaded MUXes', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '8-input Data Selector',
         nets: [
           { name: 'D0' },
@@ -1911,8 +1911,8 @@ describe('Schematic Renderer', () => {
     });
 
     it('should render demultiplexer using decoder with enable', () => {
-      const profile: SchematicProfile = {
-        type: 'schematic',
+      const profile: ElectricalProfile = {
+        type: 'electrical',
         name: '1-to-4 Demux (using decoder)',
         nets: [
           { name: 'A0' },

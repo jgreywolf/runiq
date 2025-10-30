@@ -162,7 +162,7 @@ Strategic mapping tools for business analysis and decision-making.
   
   <a href="/examples/electrical" class="example-card">
     <h3>⚡ Analog Circuits</h3>
-    <p>Schematics with SPICE export</p>
+    <p>Electrical circuits with SPICE export</p>
   </a>
   
   <a href="/examples/digital" class="example-card">

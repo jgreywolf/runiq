@@ -4,7 +4,7 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 	{
 		id: 'hydraulic',
 		label: 'Hydraulic Components',
-		schematicOnly: true,
+		electricalOnly: true,
 		shapes: [
 			{
 				id: 'reservoir',

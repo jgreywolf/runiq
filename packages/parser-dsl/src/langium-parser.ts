@@ -1180,11 +1180,20 @@ function convertContainer(
       } else if (prop.collapseRedirectEdges !== undefined) {
         container.collapseRedirectEdges = prop.collapseRedirectEdges === 'true';
       } else if (prop.collapseTransitionState) {
-        container.collapseTransitionState = prop.collapseTransitionState as 'stable' | 'collapsing' | 'expanding';
+        container.collapseTransitionState = prop.collapseTransitionState as
+          | 'stable'
+          | 'collapsing'
+          | 'expanding';
       } else if (prop.collapseAnimationDuration !== undefined) {
-        container.collapseAnimationDuration = parseFloat(prop.collapseAnimationDuration);
+        container.collapseAnimationDuration = parseFloat(
+          prop.collapseAnimationDuration
+        );
       } else if (prop.collapseAnimationEasing) {
-        container.collapseAnimationEasing = prop.collapseAnimationEasing as 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+        container.collapseAnimationEasing = prop.collapseAnimationEasing as
+          | 'linear'
+          | 'ease-in'
+          | 'ease-out'
+          | 'ease-in-out';
       } else if (prop.collapseSummary) {
         container.collapseSummary = prop.collapseSummary.replace(/^"|"$/g, '');
       } else if (prop.collapseShowCount !== undefined) {
@@ -1194,9 +1203,13 @@ function convertContainer(
       } else if (prop.collapsePersistState !== undefined) {
         container.collapsePersistState = prop.collapsePersistState === 'true';
       } else if (prop.collapseStateKey) {
-        container.collapseStateKey = prop.collapseStateKey.replace(/^"|"$/g, '');
+        container.collapseStateKey = prop.collapseStateKey.replace(
+          /^"|"$/g,
+          ''
+        );
       } else if (prop.collapseKeyboardShortcut) {
-        container.collapseKeyboardShortcut = prop.collapseKeyboardShortcut.replace(/^"|"$/g, '');
+        container.collapseKeyboardShortcut =
+          prop.collapseKeyboardShortcut.replace(/^"|"$/g, '');
       }
     } else if (Langium.isContainerStyleProperty(prop)) {
       if (prop.borderStyle) {
@@ -1235,7 +1248,8 @@ function convertContainer(
           | 'right';
       } else if (prop.headerBackgroundColor) {
         // Phase 1: Header background color
-        containerStyle.headerBackgroundColor = prop.headerBackgroundColor.replace(/^"|"$/g, '');
+        containerStyle.headerBackgroundColor =
+          prop.headerBackgroundColor.replace(/^"|"$/g, '');
       } else if (prop.iconSize !== undefined) {
         // Phase 1: Icon size
         containerStyle.iconSize = parseFloat(prop.iconSize);
@@ -1261,7 +1275,9 @@ function convertContainer(
         } else if (prop.autoResize === 'false') {
           containerStyle.autoResize = false;
         } else {
-          containerStyle.autoResize = prop.autoResize as 'fit-content' | 'fill-available';
+          containerStyle.autoResize = prop.autoResize as
+            | 'fit-content'
+            | 'fill-available';
         }
       } else if (prop.paddingTop !== undefined) {
         // Phase 3: Padding top
@@ -1292,25 +1308,40 @@ function convertContainer(
         containerStyle.marginLeft = parseFloat(prop.marginLeft);
       } else if (prop.alignContent) {
         // Phase 3: Align content
-        containerStyle.alignContent = prop.alignContent as 'left' | 'center' | 'right';
+        containerStyle.alignContent = prop.alignContent as
+          | 'left'
+          | 'center'
+          | 'right';
       } else if (prop.verticalAlign) {
         // Phase 3: Vertical align
-        containerStyle.verticalAlign = prop.verticalAlign as 'top' | 'middle' | 'bottom';
+        containerStyle.verticalAlign = prop.verticalAlign as
+          | 'top'
+          | 'middle'
+          | 'bottom';
       } else if (prop.distribution) {
         // Phase 3: Distribution
-        containerStyle.distribution = prop.distribution as 'space-evenly' | 'space-between' | 'space-around' | 'packed';
+        containerStyle.distribution = prop.distribution as
+          | 'space-evenly'
+          | 'space-between'
+          | 'space-around'
+          | 'packed';
       } else if (prop.nodeSpacing !== undefined) {
         // Phase 3: Node spacing
         containerStyle.nodeSpacing = parseFloat(prop.nodeSpacing);
       } else if (prop.edgeRouting) {
         // Phase 3: Edge routing
-        containerStyle.edgeRouting = prop.edgeRouting as 'container-aware' | 'orthogonal' | 'spline' | 'polyline';
+        containerStyle.edgeRouting = prop.edgeRouting as
+          | 'container-aware'
+          | 'orthogonal'
+          | 'spline'
+          | 'polyline';
       } else if (prop.edgeBundling !== undefined) {
         // Phase 3: Edge bundling
         containerStyle.edgeBundling = prop.edgeBundling === 'true';
       } else if (prop.crossContainerEdgeOptimization !== undefined) {
         // Phase 3: Cross-container edge optimization
-        containerStyle.crossContainerEdgeOptimization = prop.crossContainerEdgeOptimization === 'true';
+        containerStyle.crossContainerEdgeOptimization =
+          prop.crossContainerEdgeOptimization === 'true';
       } else if (prop.layoutCache !== undefined) {
         // Phase 3: Layout cache
         containerStyle.layoutCache = prop.layoutCache === 'true';
@@ -1319,28 +1350,51 @@ function convertContainer(
         containerStyle.incrementalLayout = prop.incrementalLayout === 'true';
       } else if (prop.layoutComplexity) {
         // Phase 3: Layout complexity
-        containerStyle.layoutComplexity = prop.layoutComplexity as 'low' | 'medium' | 'high';
+        containerStyle.layoutComplexity = prop.layoutComplexity as
+          | 'low'
+          | 'medium'
+          | 'high';
       } else if (prop.collapseButtonVisible !== undefined) {
         // Phase 4: Collapse button visible
-        containerStyle.collapseButtonVisible = prop.collapseButtonVisible === 'true';
+        containerStyle.collapseButtonVisible =
+          prop.collapseButtonVisible === 'true';
       } else if (prop.collapseButtonPosition) {
         // Phase 4: Collapse button position
-        containerStyle.collapseButtonPosition = prop.collapseButtonPosition as 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+        containerStyle.collapseButtonPosition = prop.collapseButtonPosition as
+          | 'top-left'
+          | 'top-right'
+          | 'bottom-left'
+          | 'bottom-right';
       } else if (prop.collapseButtonStyle) {
         // Phase 4: Collapse button style
-        containerStyle.collapseButtonStyle = prop.collapseButtonStyle as 'icon' | 'text' | 'icon-text';
+        containerStyle.collapseButtonStyle = prop.collapseButtonStyle as
+          | 'icon'
+          | 'text'
+          | 'icon-text';
       } else if (prop.collapseButtonSize !== undefined) {
         // Phase 4: Collapse button size
         containerStyle.collapseButtonSize = parseFloat(prop.collapseButtonSize);
       } else if (prop.collapseButtonColor) {
         // Phase 4: Collapse button color
-        containerStyle.collapseButtonColor = prop.collapseButtonColor.replace(/^"|"$/g, '');
+        containerStyle.collapseButtonColor = prop.collapseButtonColor.replace(
+          /^"|"$/g,
+          ''
+        );
       } else if (prop.resizable !== undefined) {
         // Phase 4: Resizable
         containerStyle.resizable = prop.resizable === 'true';
       } else if (prop.resizeHandles && prop.resizeHandles.length > 0) {
         // Phase 4: Resize handles
-        containerStyle.resizeHandles = prop.resizeHandles as ('n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw')[];
+        containerStyle.resizeHandles = prop.resizeHandles as (
+          | 'n'
+          | 's'
+          | 'e'
+          | 'w'
+          | 'ne'
+          | 'nw'
+          | 'se'
+          | 'sw'
+        )[];
       } else if (prop.minResizeWidth !== undefined) {
         // Phase 4: Min resize width
         containerStyle.minResizeWidth = parseFloat(prop.minResizeWidth);
@@ -1352,7 +1406,10 @@ function convertContainer(
         containerStyle.hoverHighlight = prop.hoverHighlight === 'true';
       } else if (prop.hoverBorderColor) {
         // Phase 4: Hover border color
-        containerStyle.hoverBorderColor = prop.hoverBorderColor.replace(/^"|"$/g, '');
+        containerStyle.hoverBorderColor = prop.hoverBorderColor.replace(
+          /^"|"$/g,
+          ''
+        );
       } else if (prop.hoverBorderWidth !== undefined) {
         // Phase 4: Hover border width
         containerStyle.hoverBorderWidth = parseFloat(prop.hoverBorderWidth);
@@ -1361,22 +1418,34 @@ function convertContainer(
         containerStyle.selectionHighlight = prop.selectionHighlight === 'true';
       } else if (prop.selectionBorderColor) {
         // Phase 4: Selection border color
-        containerStyle.selectionBorderColor = prop.selectionBorderColor.replace(/^"|"$/g, '');
+        containerStyle.selectionBorderColor = prop.selectionBorderColor.replace(
+          /^"|"$/g,
+          ''
+        );
       } else if (prop.selectionBorderWidth !== undefined) {
         // Phase 4: Selection border width
-        containerStyle.selectionBorderWidth = parseFloat(prop.selectionBorderWidth);
+        containerStyle.selectionBorderWidth = parseFloat(
+          prop.selectionBorderWidth
+        );
       } else if (prop.showChildCount !== undefined) {
         // Phase 4: Show child count
         containerStyle.showChildCount = prop.showChildCount === 'true';
       } else if (prop.childCountPosition) {
         // Phase 4: Child count position
-        containerStyle.childCountPosition = prop.childCountPosition as 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+        containerStyle.childCountPosition = prop.childCountPosition as
+          | 'top-left'
+          | 'top-right'
+          | 'bottom-left'
+          | 'bottom-right';
       } else if (prop.showDepthIndicator !== undefined) {
         // Phase 4: Show depth indicator
         containerStyle.showDepthIndicator = prop.showDepthIndicator === 'true';
       } else if (prop.depthIndicatorStyle) {
         // Phase 4: Depth indicator style
-        containerStyle.depthIndicatorStyle = prop.depthIndicatorStyle as 'bar' | 'indent' | 'color';
+        containerStyle.depthIndicatorStyle = prop.depthIndicatorStyle as
+          | 'bar'
+          | 'indent'
+          | 'color';
       } else if (prop.templateId) {
         // Phase 5: Template reference
         containerStyle.templateId = prop.templateId.replace(/^"|"$/g, '');
@@ -1621,7 +1690,7 @@ function convertTemplate(block: Langium.TemplateBlock): ContainerTemplate {
         name: param.name.replace(/^"|"$/g, ''),
         type: param.type as 'string' | 'number' | 'boolean' | 'color',
       };
-      
+
       // Add default value if present
       if (param.defaultValue !== undefined) {
         if (param.type === 'string') {
@@ -1634,38 +1703,50 @@ function convertTemplate(block: Langium.TemplateBlock): ContainerTemplate {
           templateParam.defaultValue = param.defaultValue.replace(/^"|"$/g, '');
         }
       }
-      
+
       return templateParam;
     });
   }
 
   // Extract children placeholders if present
   if (block.children && block.children.length > 0) {
-    template.children = block.children.map((child: string) => child.replace(/^"|"$/g, ''));
+    template.children = block.children.map((child: string) =>
+      child.replace(/^"|"$/g, '')
+    );
   }
 
   // Extract container style properties
   if (block.properties && block.properties.length > 0) {
     const containerStyle: ContainerStyle = {};
-    
+
     for (const prop of block.properties) {
       // Reuse the same property parsing logic from convertContainer
       if (Langium.isContainerStyleProperty(prop)) {
         // Phase 1 properties
         if (prop.backgroundColor) {
-          containerStyle.backgroundColor = prop.backgroundColor.replace(/^"|"$/g, '');
+          containerStyle.backgroundColor = prop.backgroundColor.replace(
+            /^"|"$/g,
+            ''
+          );
         } else if (prop.borderColor) {
           containerStyle.borderColor = prop.borderColor.replace(/^"|"$/g, '');
         } else if (prop.borderWidth !== undefined) {
           containerStyle.borderWidth = parseFloat(prop.borderWidth);
         } else if (prop.borderStyle) {
-          containerStyle.borderStyle = prop.borderStyle as 'solid' | 'dashed' | 'dotted';
+          containerStyle.borderStyle = prop.borderStyle as
+            | 'solid'
+            | 'dashed'
+            | 'dotted';
         } else if (prop.padding !== undefined) {
           containerStyle.padding = parseFloat(prop.padding);
         } else if (prop.opacity !== undefined) {
           containerStyle.opacity = parseFloat(prop.opacity);
         } else if (prop.labelPosition) {
-          containerStyle.labelPosition = prop.labelPosition as 'top' | 'bottom' | 'left' | 'right';
+          containerStyle.labelPosition = prop.labelPosition as
+            | 'top'
+            | 'bottom'
+            | 'left'
+            | 'right';
         } else if (prop.shadow !== undefined) {
           containerStyle.shadow = prop.shadow === 'true';
         } else if (prop.depth !== undefined) {
@@ -1674,7 +1755,7 @@ function convertTemplate(block: Langium.TemplateBlock): ContainerTemplate {
         // Add more properties as needed for templates...
       }
     }
-    
+
     if (Object.keys(containerStyle).length > 0) {
       template.containerStyle = containerStyle;
     }
@@ -1703,19 +1784,29 @@ function convertPreset(block: Langium.PresetBlock): ContainerPreset {
       if (Langium.isContainerStyleProperty(prop)) {
         // Phase 1 properties
         if (prop.backgroundColor) {
-          preset.style.backgroundColor = prop.backgroundColor.replace(/^"|"$/g, '');
+          preset.style.backgroundColor = prop.backgroundColor.replace(
+            /^"|"$/g,
+            ''
+          );
         } else if (prop.borderColor) {
           preset.style.borderColor = prop.borderColor.replace(/^"|"$/g, '');
         } else if (prop.borderWidth !== undefined) {
           preset.style.borderWidth = parseFloat(prop.borderWidth);
         } else if (prop.borderStyle) {
-          preset.style.borderStyle = prop.borderStyle as 'solid' | 'dashed' | 'dotted';
+          preset.style.borderStyle = prop.borderStyle as
+            | 'solid'
+            | 'dashed'
+            | 'dotted';
         } else if (prop.padding !== undefined) {
           preset.style.padding = parseFloat(prop.padding);
         } else if (prop.opacity !== undefined) {
           preset.style.opacity = parseFloat(prop.opacity);
         } else if (prop.labelPosition) {
-          preset.style.labelPosition = prop.labelPosition as 'top' | 'bottom' | 'left' | 'right';
+          preset.style.labelPosition = prop.labelPosition as
+            | 'top'
+            | 'bottom'
+            | 'left'
+            | 'right';
         } else if (prop.shadow !== undefined) {
           preset.style.shadow = prop.shadow === 'true';
         } else if (prop.depth !== undefined) {
@@ -1728,4 +1819,3 @@ function convertPreset(block: Langium.PresetBlock): ContainerPreset {
 
   return preset;
 }
-

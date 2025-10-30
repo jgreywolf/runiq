@@ -1,5 +1,5 @@
 import { renderSchematic } from '@runiq/renderer-schematic';
-import type { SchematicProfile } from '@runiq/core';
+import type { ElectricalProfile } from '@runiq/core';
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
@@ -23,8 +23,8 @@ console.log('🎨 Generating advanced digital circuit schematics...\n');
 // Example 1: 4-bit Ripple Counter (T Flip-Flops)
 // ============================================================================
 
-const counterSchematic: SchematicProfile = {
-  type: 'schematic',
+const counterSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: '4-bit Ripple Counter',
   nets: [
     { name: 'CLK' },
@@ -82,8 +82,8 @@ console.log(`   Outputs: Q0-Q3 (binary count)`);
 // Example 2: 8-bit Data Register with Enable
 // ============================================================================
 
-const registerSchematic: SchematicProfile = {
-  type: 'schematic',
+const registerSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: '8-bit Data Register',
   nets: [
     { name: 'D0' },
@@ -149,8 +149,8 @@ console.log(`   8 data inputs, 8 outputs`);
 // Example 3: Equality Comparator (2-bit)
 // ============================================================================
 
-const comparatorSchematic: SchematicProfile = {
-  type: 'schematic',
+const comparatorSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: '2-bit Equality Comparator',
   nets: [
     { name: 'A0' },
@@ -202,8 +202,8 @@ console.log(`   Output: EQUAL (high when A==B)`);
 // Example 4: 3-bit Priority Encoder
 // ============================================================================
 
-const priorityEncoderSchematic: SchematicProfile = {
-  type: 'schematic',
+const priorityEncoderSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: '3-bit Priority Encoder',
   nets: [
     { name: 'I0' },
@@ -278,8 +278,8 @@ console.log(`   Gates: 3× NOT + 2× AND + 2× OR`);
 // Example 5: Majority Vote Circuit (3-input)
 // ============================================================================
 
-const majoritySchematic: SchematicProfile = {
-  type: 'schematic',
+const majoritySchematic: ElectricalProfile = {
+  type: 'electrical',
   name: 'Majority Vote Circuit',
   nets: [
     { name: 'A' },
@@ -334,8 +334,8 @@ console.log(`   Gates: 3× AND + 1× OR3`);
 // Example 6: JK Flip-Flop Toggle Demo
 // ============================================================================
 
-const jkToggleSchematic: SchematicProfile = {
-  type: 'schematic',
+const jkToggleSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: 'JK Flip-Flop Toggle Mode',
   nets: [{ name: 'VCC' }, { name: 'CLK' }, { name: 'Q' }, { name: 'QN' }],
   parts: [
@@ -362,8 +362,8 @@ console.log(`   Output toggles on each clock edge`);
 // Example 7: Full Adder with 3-Input Gates
 // ============================================================================
 
-const fullAdder3Schematic: SchematicProfile = {
-  type: 'schematic',
+const fullAdder3Schematic: ElectricalProfile = {
+  type: 'electrical',
   name: 'Full Adder (3-Input Gates)',
   nets: [
     { name: 'A' },
@@ -422,8 +422,8 @@ console.log(`   Gates: 2× XOR + 1× AND + 1× OR3`);
 // Example 8: 4-bit Register with D Flip-Flops
 // ============================================================================
 
-const register4FFSchematic: SchematicProfile = {
-  type: 'schematic',
+const register4FFSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: '4-bit Register (DFF)',
   nets: [
     { name: 'D0' },

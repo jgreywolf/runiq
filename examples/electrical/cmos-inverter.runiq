@@ -1,4 +1,4 @@
-schematic "CMOS Inverter" {
+electrical "CMOS Inverter" {
   net VDD, VIN, VOUT, GND
   
   # Power supply

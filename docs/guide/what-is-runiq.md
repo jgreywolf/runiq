@@ -138,7 +138,7 @@ Perfect for:
 **Analog circuits** with SPICE export:
 
 ```runiq
-schematic "RC Filter" {
+electrical "RC Filter" {
   part R1 type:R value:"10k"
   part C1 type:C value:"1nF"
 }
@@ -147,7 +147,7 @@ schematic "RC Filter" {
 **Digital logic** with Verilog export:
 
 ```runiq
-schematic "Half Adder" {
+electrical "Half Adder" {
   gate U1 type:XOR inputs:(A,B) output:SUM
   gate U2 type:AND inputs:(A,B) output:CARRY
 }

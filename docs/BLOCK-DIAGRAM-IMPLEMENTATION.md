@@ -16,7 +16,7 @@ Successfully implemented **full block diagram support** for Runiq, enabling cont
 
 - Added `BlockDiagramProfile` interface
 - Extended `Profile` union type to include block diagrams
-- Follows same pattern as `SchematicProfile` (nets + parts model)
+- Follows same pattern as `ElectricalProfile` (nets + parts model)
 
 ```typescript
 export interface BlockDiagramProfile {

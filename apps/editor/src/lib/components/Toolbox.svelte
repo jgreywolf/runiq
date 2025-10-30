@@ -21,8 +21,8 @@
 	// Filter categories based on mode
 	let displayedCategories = $derived(
 		isElectricalMode
-			? shapeCategories.filter((cat) => cat.schematicOnly)
-			: shapeCategories.filter((cat) => !cat.schematicOnly)
+			? shapeCategories.filter((cat) => cat.electricalOnly)
+			: shapeCategories.filter((cat) => !cat.electricalOnly)
 	);
 
 	// Select appropriate samples

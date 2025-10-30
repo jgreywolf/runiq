@@ -1,5 +1,5 @@
 import { renderSchematic } from '@runiq/renderer-schematic';
-import type { SchematicProfile } from '@runiq/core';
+import type { ElectricalProfile } from '@runiq/core';
 import { toVerilog } from '@runiq/export-verilog';
 import type { DigitalProfile } from '@runiq/core';
 import { writeFileSync, mkdirSync } from 'fs';
@@ -19,8 +19,8 @@ console.log('🎨 Generating digital circuit schematics and Verilog...\n');
 // Example 1: Half Adder
 // ============================================================================
 
-const halfAdderSchematic: SchematicProfile = {
-  type: 'schematic',
+const halfAdderSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: 'Half Adder',
   nets: [{ name: 'A' }, { name: 'B' }, { name: 'SUM' }, { name: 'CARRY' }],
   parts: [
@@ -53,8 +53,8 @@ console.log(`   Outputs: SUM, CARRY`);
 // Example 2: Full Adder
 // ============================================================================
 
-const fullAdderSchematic: SchematicProfile = {
-  type: 'schematic',
+const fullAdderSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: 'Full Adder',
   nets: [
     { name: 'A' },
@@ -116,8 +116,8 @@ console.log(`   Outputs: SUM, COUT`);
 // Example 3: 2-to-4 Decoder
 // ============================================================================
 
-const decoderSchematic: SchematicProfile = {
-  type: 'schematic',
+const decoderSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: '2-to-4 Decoder',
   nets: [
     { name: 'A0' },
@@ -187,8 +187,8 @@ console.log(`   Outputs: Y0, Y1, Y2, Y3`);
 // Example 4: SR Latch (NAND gates)
 // ============================================================================
 
-const srLatchSchematic: SchematicProfile = {
-  type: 'schematic',
+const srLatchSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: 'SR Latch (NAND)',
   nets: [{ name: 'S' }, { name: 'R' }, { name: 'Q' }, { name: 'Q_N' }],
   parts: [
@@ -223,8 +223,8 @@ console.log(`   Outputs: Q, Q_N`);
 // Example 5: 4-to-1 Multiplexer
 // ============================================================================
 
-const muxSchematic: SchematicProfile = {
-  type: 'schematic',
+const muxSchematic: ElectricalProfile = {
+  type: 'electrical',
   name: '4-to-1 Multiplexer',
   nets: [
     { name: 'D0' },

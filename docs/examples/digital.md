@@ -156,7 +156,7 @@ Complementary MOSFET inverter - the basic building block of digital logic.
 ### DSL Code
 
 ```runiq
-schematic "CMOS Inverter" {
+electrical "CMOS Inverter" {
   net VDD, IN, OUT, GND
 
   # Power supply: 5V

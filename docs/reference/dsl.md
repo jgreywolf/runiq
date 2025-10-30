@@ -69,10 +69,10 @@ Web -> API
 
 Nested containers are supported. See the Containers guide for layout details.
 
-## Schematic profile
+## Electrical profile
 
 ```runiq
-schematic "RC Filter" direction: LR
+electrical "RC Filter" direction: LR
 
 shape V1 as @voltage-source label:"5V"
 shape R1 as @resistor       label:"1kΩ"
@@ -81,7 +81,7 @@ shape C1 as @capacitor      label:"10µF"
 V1 -> R1 -> C1
 ```
 
-The schematic profile uses schematic symbols and enables SPICE/Verilog export.
+The electrical profile uses electrical circuit symbols and enables SPICE/Verilog export.
 
 ---
 
@@ -111,7 +111,7 @@ Check[no]  -> Landing : retry
 ### Electrical (analog)
 
 ```runiq
-schematic "Voltage Divider" direction: TB
+electrical "Voltage Divider" direction: TB
 
 shape V1 as @voltage-source label:"Vin"
 shape R1 as @resistor       label:"R1"

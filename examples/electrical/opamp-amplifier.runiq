@@ -1,4 +1,4 @@
-schematic "Op-Amp Non-Inverting Amplifier" {
+electrical "Op-Amp Non-Inverting Amplifier" {
   net VIN, VP, VN, VOUT, VCC, VEE, GND
   
   # Power supplies
