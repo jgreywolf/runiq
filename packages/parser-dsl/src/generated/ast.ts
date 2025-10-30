@@ -88,11 +88,13 @@ export type RuniqKeywordNames =
     | "evolution:"
     | "evolve"
     | "force"
+    | "found"
     | "fragment"
     | "from:"
     | "generalization"
     | "genericTypes:"
     | "group"
+    | "guard:"
     | "hollow"
     | "icon:"
     | "inertia:"
@@ -105,6 +107,7 @@ export type RuniqKeywordNames =
     | "lineStyle:"
     | "link:"
     | "loop"
+    | "lost"
     | "map:"
     | "message"
     | "methods:"
@@ -168,6 +171,7 @@ export type RuniqKeywordNames =
     | "style:"
     | "sync"
     | "target"
+    | "timing:"
     | "title:"
     | "to"
     | "to:"
@@ -1688,36 +1692,6 @@ export function isSequenceActivateProperty(item: unknown): item is SequenceActiv
     return reflection.isInstance(item, SequenceActivateProperty.$type);
 }
 
-export interface SequenceGuardProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceGuardProperty';
-    value: string;
-}
-
-export const SequenceGuardProperty = {
-    $type: 'SequenceGuardProperty',
-    value: 'value'
-} as const;
-
-export function isSequenceGuardProperty(item: unknown): item is SequenceGuardProperty {
-    return reflection.isInstance(item, SequenceGuardProperty.$type);
-}
-
-export interface SequenceTimingProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceTimingProperty';
-    value: string;
-}
-
-export const SequenceTimingProperty = {
-    $type: 'SequenceTimingProperty',
-    value: 'value'
-} as const;
-
-export function isSequenceTimingProperty(item: unknown): item is SequenceTimingProperty {
-    return reflection.isInstance(item, SequenceTimingProperty.$type);
-}
-
 export interface SequenceAlternativeDecl extends langium.AstNode {
     readonly $container: SequenceFragmentAlternativesProperty;
     readonly $type: 'SequenceAlternativeDecl';
@@ -1820,7 +1794,7 @@ export function isSequenceFragmentType(item: unknown): item is SequenceFragmentT
 export interface SequenceFromProperty extends langium.AstNode {
     readonly $container: SequenceMessageStatement;
     readonly $type: 'SequenceFromProperty';
-    from: string;
+    from: 'found' | 'lost' | string;
 }
 
 export const SequenceFromProperty = {
@@ -1830,6 +1804,21 @@ export const SequenceFromProperty = {
 
 export function isSequenceFromProperty(item: unknown): item is SequenceFromProperty {
     return reflection.isInstance(item, SequenceFromProperty.$type);
+}
+
+export interface SequenceGuardProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceGuardProperty';
+    value: string;
+}
+
+export const SequenceGuardProperty = {
+    $type: 'SequenceGuardProperty',
+    value: 'value'
+} as const;
+
+export function isSequenceGuardProperty(item: unknown): item is SequenceGuardProperty {
+    return reflection.isInstance(item, SequenceGuardProperty.$type);
 }
 
 export interface SequenceLabelProperty extends langium.AstNode {
@@ -1991,10 +1980,25 @@ export function isSequenceStatement(item: unknown): item is SequenceStatement {
     return reflection.isInstance(item, SequenceStatement.$type);
 }
 
+export interface SequenceTimingProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceTimingProperty';
+    value: string;
+}
+
+export const SequenceTimingProperty = {
+    $type: 'SequenceTimingProperty',
+    value: 'value'
+} as const;
+
+export function isSequenceTimingProperty(item: unknown): item is SequenceTimingProperty {
+    return reflection.isInstance(item, SequenceTimingProperty.$type);
+}
+
 export interface SequenceToProperty extends langium.AstNode {
     readonly $container: SequenceMessageStatement;
     readonly $type: 'SequenceToProperty';
-    to: string;
+    to: 'found' | 'lost' | string;
 }
 
 export const SequenceToProperty = {
@@ -2500,6 +2504,7 @@ export type RuniqAstType = {
     SequenceFragmentStatement: SequenceFragmentStatement
     SequenceFragmentToProperty: SequenceFragmentToProperty
     SequenceFromProperty: SequenceFromProperty
+    SequenceGuardProperty: SequenceGuardProperty
     SequenceLabelProperty: SequenceLabelProperty
     SequenceMessageProperty: SequenceMessageProperty
     SequenceMessageStatement: SequenceMessageStatement
@@ -2510,6 +2515,7 @@ export type RuniqAstType = {
     SequenceParticipantStatement: SequenceParticipantStatement
     SequenceProfile: SequenceProfile
     SequenceStatement: SequenceStatement
+    SequenceTimingProperty: SequenceTimingProperty
     SequenceToProperty: SequenceToProperty
     SequenceTypeProperty: SequenceTypeProperty
     ShapeDeclaration: ShapeDeclaration
@@ -3569,6 +3575,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [SequenceMessageProperty.$type]
         },
+        SequenceGuardProperty: {
+            name: SequenceGuardProperty.$type,
+            properties: {
+                value: {
+                    name: SequenceGuardProperty.value
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
+        },
         SequenceLabelProperty: {
             name: SequenceLabelProperty.$type,
             properties: {
@@ -3662,6 +3677,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
             },
             superTypes: []
+        },
+        SequenceTimingProperty: {
+            name: SequenceTimingProperty.$type,
+            properties: {
+                value: {
+                    name: SequenceTimingProperty.value
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
         },
         SequenceToProperty: {
             name: SequenceToProperty.$type,

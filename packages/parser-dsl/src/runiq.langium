@@ -209,10 +209,10 @@ SequenceMessageProperty:
     SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty | SequenceGuardProperty | SequenceTimingProperty;
 
 SequenceFromProperty:
-    'from:' from=STRING;
+    'from:' (from=STRING | from='lost' | from='found');
 
 SequenceToProperty:
-    'to:' to=STRING;
+    'to:' (to=STRING | to='lost' | to='found');
 
 SequenceLabelProperty:
     'label:' label=STRING;
