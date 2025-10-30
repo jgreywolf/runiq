@@ -70,8 +70,20 @@ export type RuniqKeywordNames =
     | "boundary"
     | "break"
     | "carrier:"
+    | "collapseAnimationDuration:"
+    | "collapseAnimationEasing:"
+    | "collapseIcon:"
+    | "collapseKeyboardShortcut:"
+    | "collapseMode:"
+    | "collapsePersistState:"
+    | "collapseRedirectEdges:"
+    | "collapseShowCount:"
+    | "collapseStateKey:"
+    | "collapseSummary:"
+    | "collapseTransitionState:"
     | "collapsed:"
     | "collapsible:"
+    | "collapsing"
     | "colors:"
     | "component"
     | "composition"
@@ -97,17 +109,22 @@ export type RuniqKeywordNames =
     | "direction"
     | "dotted"
     | "double"
+    | "ease-in"
+    | "ease-in-out"
+    | "ease-out"
     | "edgeType:"
     | "electrical"
     | "entity"
     | "evolution:"
     | "evolve"
+    | "expanding"
     | "flowRate"
     | "fluid"
     | "force"
     | "found"
     | "fragment"
     | "from:"
+    | "full"
     | "generalization"
     | "genericTypes:"
     | "group"
@@ -129,6 +146,7 @@ export type RuniqKeywordNames =
     | "left"
     | "legendPosition:"
     | "lineStyle:"
+    | "linear"
     | "link:"
     | "loop"
     | "lost"
@@ -163,6 +181,7 @@ export type RuniqKeywordNames =
     | "par"
     | "params:"
     | "part"
+    | "partial"
     | "participant"
     | "participants:"
     | "phosphate-ester"
@@ -196,6 +215,7 @@ export type RuniqKeywordNames =
     | "source:"
     | "spacing:"
     | "splines"
+    | "stable"
     | "stacked:"
     | "standard"
     | "static:"
@@ -469,6 +489,24 @@ export function isCarrierProperty(item: unknown): item is CarrierProperty {
     return reflection.isInstance(item, CarrierProperty.$type);
 }
 
+export type CollapseEasingValue = 'ease-in' | 'ease-in-out' | 'ease-out' | 'linear';
+
+export function isCollapseEasingValue(item: unknown): item is CollapseEasingValue {
+    return item === 'linear' || item === 'ease-in' || item === 'ease-out' || item === 'ease-in-out';
+}
+
+export type CollapseModeValue = 'full' | 'partial';
+
+export function isCollapseModeValue(item: unknown): item is CollapseModeValue {
+    return item === 'full' || item === 'partial';
+}
+
+export type CollapseTransitionValue = 'collapsing' | 'expanding' | 'stable';
+
+export function isCollapseTransitionValue(item: unknown): item is CollapseTransitionValue {
+    return item === 'stable' || item === 'collapsing' || item === 'expanding';
+}
+
 export interface ColorsProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'ColorsProperty';
@@ -528,7 +566,18 @@ export interface ContainerMetadataProperty extends langium.AstNode {
     readonly $container: ContainerBlock;
     readonly $type: 'ContainerMetadataProperty';
     badge?: string;
+    collapseAnimationDuration?: string;
+    collapseAnimationEasing?: CollapseEasingValue;
     collapsed?: string;
+    collapseIcon?: string;
+    collapseKeyboardShortcut?: string;
+    collapseMode?: CollapseModeValue;
+    collapsePersistState?: string;
+    collapseRedirectEdges?: string;
+    collapseShowCount?: string;
+    collapseStateKey?: string;
+    collapseSummary?: string;
+    collapseTransitionState?: CollapseTransitionValue;
     collapsible?: string;
     header?: string;
     icon?: string;
@@ -537,7 +586,18 @@ export interface ContainerMetadataProperty extends langium.AstNode {
 export const ContainerMetadataProperty = {
     $type: 'ContainerMetadataProperty',
     badge: 'badge',
+    collapseAnimationDuration: 'collapseAnimationDuration',
+    collapseAnimationEasing: 'collapseAnimationEasing',
     collapsed: 'collapsed',
+    collapseIcon: 'collapseIcon',
+    collapseKeyboardShortcut: 'collapseKeyboardShortcut',
+    collapseMode: 'collapseMode',
+    collapsePersistState: 'collapsePersistState',
+    collapseRedirectEdges: 'collapseRedirectEdges',
+    collapseShowCount: 'collapseShowCount',
+    collapseStateKey: 'collapseStateKey',
+    collapseSummary: 'collapseSummary',
+    collapseTransitionState: 'collapseTransitionState',
     collapsible: 'collapsible',
     header: 'header',
     icon: 'icon'
@@ -2961,8 +3021,41 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 badge: {
                     name: ContainerMetadataProperty.badge
                 },
+                collapseAnimationDuration: {
+                    name: ContainerMetadataProperty.collapseAnimationDuration
+                },
+                collapseAnimationEasing: {
+                    name: ContainerMetadataProperty.collapseAnimationEasing
+                },
                 collapsed: {
                     name: ContainerMetadataProperty.collapsed
+                },
+                collapseIcon: {
+                    name: ContainerMetadataProperty.collapseIcon
+                },
+                collapseKeyboardShortcut: {
+                    name: ContainerMetadataProperty.collapseKeyboardShortcut
+                },
+                collapseMode: {
+                    name: ContainerMetadataProperty.collapseMode
+                },
+                collapsePersistState: {
+                    name: ContainerMetadataProperty.collapsePersistState
+                },
+                collapseRedirectEdges: {
+                    name: ContainerMetadataProperty.collapseRedirectEdges
+                },
+                collapseShowCount: {
+                    name: ContainerMetadataProperty.collapseShowCount
+                },
+                collapseStateKey: {
+                    name: ContainerMetadataProperty.collapseStateKey
+                },
+                collapseSummary: {
+                    name: ContainerMetadataProperty.collapseSummary
+                },
+                collapseTransitionState: {
+                    name: ContainerMetadataProperty.collapseTransitionState
                 },
                 collapsible: {
                     name: ContainerMetadataProperty.collapsible

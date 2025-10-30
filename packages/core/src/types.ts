@@ -98,7 +98,21 @@ export interface ContainerDeclaration {
   icon?: string; // Phase 1: Icon reference (e.g., 'server', 'database')
   badge?: string; // Phase 1: Badge text (e.g., version, status)
   collapsible?: boolean; // Phase 1: Can this container be collapsed?
-  collapsed?: boolean; // Phase 1: Is this container currently collapsed?
+  collapsed?: boolean; // Phase 1/2: Is this container currently collapsed?
+  
+  // Phase 2: Collapse/Expand functionality
+  collapseMode?: 'full' | 'partial'; // full: hide all, partial: show first level
+  collapseRedirectEdges?: boolean; // Redirect edges to collapsed container
+  collapseTransitionState?: 'stable' | 'collapsing' | 'expanding'; // Animation state
+  collapseAnimationDuration?: number; // Animation duration in milliseconds
+  collapseAnimationEasing?: 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out'; // Easing function
+  collapseSummary?: string; // Summary text shown when collapsed
+  collapseShowCount?: boolean; // Show child count badge when collapsed
+  collapseIcon?: string; // Icon for collapse indicator
+  collapsePersistState?: boolean; // Save collapse state to storage
+  collapseStateKey?: string; // Unique key for state persistence
+  collapseKeyboardShortcut?: string; // Keyboard shortcut to toggle
+  
   shape?: string; // Optional - reference to shape type (e.g., 'umlPackage', 'awsVpc')
   style?: string; // Reference to named style in DiagramAst.styles
   containerStyle?: ContainerStyle;

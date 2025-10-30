@@ -15,12 +15,12 @@
 	let { onInsertShape, onInsertSample, currentCode = '' }: Props = $props();
 
 	// Detect profile type from current code
-	let isSchematicMode = $derived(currentCode.trim().startsWith('schematic'));
+	let isElectricalMode = $derived(currentCode.trim().startsWith('electrical'));
 	let isWardleyMode = $derived(currentCode.trim().startsWith('wardley'));
 
 	// Filter categories based on mode
 	let displayedCategories = $derived(
-		isSchematicMode
+		isElectricalMode
 			? shapeCategories.filter((cat) => cat.schematicOnly)
 			: shapeCategories.filter((cat) => !cat.schematicOnly)
 	);
@@ -40,9 +40,9 @@
 
 <Tooltip.Provider delayDuration={200}>
 	<div class="flex h-full flex-col">
-		{#if isSchematicMode}
+		{#if isElectricalMode}
 			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
-				<p class="text-xs font-medium text-amber-900">⚡ Schematic Circuit Mode</p>
+				<p class="text-xs font-medium text-amber-900">⚡ Electrical Circuit Mode</p>
 			</div>
 		{:else if isWardleyMode}
 			<div class="border-b border-purple-200 bg-purple-50 px-4 py-2">

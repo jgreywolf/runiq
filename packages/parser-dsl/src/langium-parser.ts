@@ -1161,6 +1161,30 @@ function convertContainer(
       } else if (prop.collapsed !== undefined) {
         container.collapsed = prop.collapsed === 'true';
       }
+      // Phase 2: Collapse/expand properties
+      else if (prop.collapseMode) {
+        container.collapseMode = prop.collapseMode as 'full' | 'partial';
+      } else if (prop.collapseRedirectEdges !== undefined) {
+        container.collapseRedirectEdges = prop.collapseRedirectEdges === 'true';
+      } else if (prop.collapseTransitionState) {
+        container.collapseTransitionState = prop.collapseTransitionState as 'stable' | 'collapsing' | 'expanding';
+      } else if (prop.collapseAnimationDuration !== undefined) {
+        container.collapseAnimationDuration = parseFloat(prop.collapseAnimationDuration);
+      } else if (prop.collapseAnimationEasing) {
+        container.collapseAnimationEasing = prop.collapseAnimationEasing as 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+      } else if (prop.collapseSummary) {
+        container.collapseSummary = prop.collapseSummary.replace(/^"|"$/g, '');
+      } else if (prop.collapseShowCount !== undefined) {
+        container.collapseShowCount = prop.collapseShowCount === 'true';
+      } else if (prop.collapseIcon) {
+        container.collapseIcon = prop.collapseIcon.replace(/^"|"$/g, '');
+      } else if (prop.collapsePersistState !== undefined) {
+        container.collapsePersistState = prop.collapsePersistState === 'true';
+      } else if (prop.collapseStateKey) {
+        container.collapseStateKey = prop.collapseStateKey.replace(/^"|"$/g, '');
+      } else if (prop.collapseKeyboardShortcut) {
+        container.collapseKeyboardShortcut = prop.collapseKeyboardShortcut.replace(/^"|"$/g, '');
+      }
     } else if (Langium.isContainerStyleProperty(prop)) {
       if (prop.borderStyle) {
         containerStyle.borderStyle = prop.borderStyle;

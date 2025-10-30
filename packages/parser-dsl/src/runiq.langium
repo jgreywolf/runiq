@@ -629,12 +629,24 @@ ContainerTypeValue returns string:
     'mindmap' | ID;
 
 // Phase 1: Container metadata properties (header, icon, badge, collapsible, collapsed)
+// Phase 2: Collapse/expand properties
 ContainerMetadataProperty:
     'header:' header=STRING
     | 'icon:' icon=STRING
     | 'badge:' badge=STRING
     | 'collapsible:' collapsible=BOOLEAN
-    | 'collapsed:' collapsed=BOOLEAN;
+    | 'collapsed:' collapsed=BOOLEAN
+    | 'collapseMode:' collapseMode=CollapseModeValue
+    | 'collapseRedirectEdges:' collapseRedirectEdges=BOOLEAN
+    | 'collapseTransitionState:' collapseTransitionState=CollapseTransitionValue
+    | 'collapseAnimationDuration:' collapseAnimationDuration=NUMBER
+    | 'collapseAnimationEasing:' collapseAnimationEasing=CollapseEasingValue
+    | 'collapseSummary:' collapseSummary=STRING
+    | 'collapseShowCount:' collapseShowCount=BOOLEAN
+    | 'collapseIcon:' collapseIcon=STRING
+    | 'collapsePersistState:' collapsePersistState=BOOLEAN
+    | 'collapseStateKey:' collapseStateKey=STRING
+    | 'collapseKeyboardShortcut:' collapseKeyboardShortcut=STRING;
 
 ContainerStyleProperty:
     'borderStyle:' borderStyle=BorderStyleValue
@@ -663,6 +675,16 @@ LabelPositionValue returns string:
 
 LayoutAlgorithmValue returns string:
     'layered' | 'force' | 'stress' | 'radial' | 'mrtree';
+
+// Phase 2: Collapse/expand value types
+CollapseModeValue returns string:
+    'full' | 'partial';
+
+CollapseTransitionValue returns string:
+    'stable' | 'collapsing' | 'expanding';
+
+CollapseEasingValue returns string:
+    'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
 
 // Terminals
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
