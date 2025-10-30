@@ -17,6 +17,7 @@ import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
 import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
 import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
 import { quantumShapeIcons } from './toolboxIcons/quantumShapeIcons';
+import { containerTemplateShapeIcons } from './toolboxIcons/containerTemplateShapeIcons';
 
 export interface Shape {
 	id: string;
@@ -34,6 +35,7 @@ export interface ShapeCategory {
 export const shapeCategories: ShapeCategory[] = [
 	...basicShapeIcons,
 	...flowchartShapeIcons,
+	...containerTemplateShapeIcons,
 	...umlShapeIcons,
 	...erdShapeIcons,
 	...storageShapeIcons,
