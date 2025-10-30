@@ -12,6 +12,7 @@ import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
 import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
 import { chartSampleDiagrams } from './toolboxSamples/chartSampleDiagrams';
 import { wardleySampleDiagrams } from './toolboxSamples/wardleySampleDiagrams';
+import { templatePresetSampleDiagrams } from './toolboxSamples/templatePresetSampleDiagrams';
 
 export interface Sample {
 	name: string;
@@ -28,6 +29,7 @@ export interface SampleCategory {
 export const sampleDiagrams: SampleCategory[] = [
 	...flowchartSampleDiagrams,
 	...containerSampleDiagrams,
+	...templatePresetSampleDiagrams,
 	...umlSampleDiagrams,
 	...sequenceSampleDiagrams,
 	...networkSampleDiagrams,
