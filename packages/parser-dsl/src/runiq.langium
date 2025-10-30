@@ -26,7 +26,9 @@ DiagramStatement:
     | ShapeDeclaration
     | EdgeDeclaration
     | GroupBlock
-    | ContainerBlock;
+    | ContainerBlock
+    | TemplateBlock
+    | PresetBlock;
 
 // ============================================================================
 // Electrical Profile (analog circuits) - accepts both 'electrical' and 'schematic' keywords
@@ -216,7 +218,7 @@ WardleyLabelProperty:
     'label:' value=STRING;
 
 WardleyInertiaProperty:
-    'inertia:' value=BOOLEAN;
+    'inertia:' value=BooleanValue;
 
 // anchor "User Need" at value:0.95
 WardleyAnchorStatement:
@@ -275,7 +277,7 @@ SequenceMessageType returns string:
     'sync' | 'async' | 'return' | 'create' | 'destroy';
 
 SequenceActivateProperty:
-    'activate:' value=BOOLEAN;
+    'activate:' value=BooleanValue;
 
 SequenceGuardProperty:
     'guard:' value=STRING;
@@ -399,13 +401,13 @@ TooltipProperty:
     'tooltip:' text=STRING;
 
 ShowLegendProperty:
-    'showLegend:' value=BOOLEAN;
+    'showLegend:' value=BooleanValue;
 
 LegendPositionProperty:
     'legendPosition:' value=STRING;
 
 StackedProperty:
-    'stacked:' value=BOOLEAN;
+    'stacked:' value=BooleanValue;
 
 ColorsProperty:
     'colors:' value=StringArray;
@@ -421,13 +423,13 @@ YLabelProperty:
 
 // Pedigree-specific properties
 AffectedProperty:
-    'affected:' value=BOOLEAN;
+    'affected:' value=BooleanValue;
 
 CarrierProperty:
-    'carrier:' value=BOOLEAN;
+    'carrier:' value=BooleanValue;
 
 DeceasedProperty:
-    'deceased:' value=BOOLEAN;
+    'deceased:' value=BooleanValue;
 
 // UML Class Diagram properties
 AttributesProperty:
@@ -455,10 +457,10 @@ AttrDefaultField:
     'default:' value=STRING;
 
 AttrStaticField:
-    'static:' value=BOOLEAN;
+    'static:' value=BooleanValue;
 
 AttrDerivedField:
-    'derived:' value=BOOLEAN;
+    'derived:' value=BooleanValue;
 
 AttrConstraintsField:
     'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
@@ -497,10 +499,10 @@ MethodVisibilityField:
     'visibility:' value=VisibilityValue;
 
 MethodAbstractField:
-    'abstract:' value=BOOLEAN;
+    'abstract:' value=BooleanValue;
 
 MethodStaticField:
-    'static:' value=BOOLEAN;
+    'static:' value=BooleanValue;
 
 MethodConstraintsField:
     'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
@@ -618,6 +620,7 @@ ContainerBlock:
 ContainerProperty:
     StyleRefProperty
     | ContainerTypeProperty
+    | ContainerMetadataProperty
     | ContainerStyleProperty
     | ContainerLayoutProperty;
 
@@ -627,6 +630,26 @@ ContainerTypeProperty:
 ContainerTypeValue returns string:
     'mindmap' | ID;
 
+// Phase 1: Container metadata properties (header, icon, badge, collapsible, collapsed)
+// Phase 2: Collapse/expand properties
+ContainerMetadataProperty:
+    'header:' header=STRING
+    | 'icon:' icon=STRING
+    | 'badge:' badge=STRING
+    | 'collapsible:' collapsible=BooleanValue
+    | 'collapsed:' collapsed=BooleanValue
+    | 'collapseMode:' collapseMode=CollapseModeValue
+    | 'collapseRedirectEdges:' collapseRedirectEdges=BooleanValue
+    | 'collapseTransitionState:' collapseTransitionState=CollapseTransitionValue
+    | 'collapseAnimationDuration:' collapseAnimationDuration=NUMBER
+    | 'collapseAnimationEasing:' collapseAnimationEasing=CollapseEasingValue
+    | 'collapseSummary:' collapseSummary=STRING
+    | 'collapseShowCount:' collapseShowCount=BooleanValue
+    | 'collapseIcon:' collapseIcon=STRING
+    | 'collapsePersistState:' collapsePersistState=BooleanValue
+    | 'collapseStateKey:' collapseStateKey=STRING
+    | 'collapseKeyboardShortcut:' collapseKeyboardShortcut=STRING;
+
 ContainerStyleProperty:
     'borderStyle:' borderStyle=BorderStyleValue
     | 'borderColor:' borderColor=STRING
@@ -634,11 +657,92 @@ ContainerStyleProperty:
     | 'backgroundColor:' backgroundColor=STRING
     | 'opacity:' opacity=NUMBER
     | 'padding:' padding=NUMBER
-    | 'labelPosition:' labelPosition=LabelPositionValue;
+    | 'labelPosition:' labelPosition=LabelPositionValue
+    | 'shadow:' shadow=BooleanValue
+    | 'depth:' depth=NUMBER
+    | 'headerPosition:' headerPosition=LabelPositionValue
+    | 'headerBackgroundColor:' headerBackgroundColor=STRING
+    | 'iconSize:' iconSize=NUMBER
+    | 'iconColor:' iconColor=STRING
+    | 'minWidth:' minWidth=NUMBER
+    | 'maxWidth:' maxWidth=NUMBER
+    | 'minHeight:' minHeight=NUMBER
+    | 'maxHeight:' maxHeight=NUMBER
+    | 'autoResize:' autoResize=AutoResizeValue
+    | 'paddingTop:' paddingTop=NUMBER
+    | 'paddingRight:' paddingRight=NUMBER
+    | 'paddingBottom:' paddingBottom=NUMBER
+    | 'paddingLeft:' paddingLeft=NUMBER
+    | 'margin:' margin=NUMBER
+    | 'marginTop:' marginTop=NUMBER
+    | 'marginRight:' marginRight=NUMBER
+    | 'marginBottom:' marginBottom=NUMBER
+    | 'marginLeft:' marginLeft=NUMBER
+    | 'alignContent:' alignContent=AlignContentValue
+    | 'verticalAlign:' verticalAlign=VerticalAlignValue
+    | 'distribution:' distribution=DistributionValue
+    | 'nodeSpacing:' nodeSpacing=NUMBER
+    | 'edgeRouting:' edgeRouting=EdgeRoutingValue
+    | 'edgeBundling:' edgeBundling=BooleanValue
+    | 'crossContainerEdgeOptimization:' crossContainerEdgeOptimization=BooleanValue
+    | 'layoutCache:' layoutCache=BooleanValue
+    | 'incrementalLayout:' incrementalLayout=BooleanValue
+    | 'layoutComplexity:' layoutComplexity=LayoutComplexityValue
+    | 'collapseButtonVisible:' collapseButtonVisible=BooleanValue
+    | 'collapseButtonPosition:' collapseButtonPosition=ButtonPositionValue
+    | 'collapseButtonStyle:' collapseButtonStyle=ButtonStyleValue
+    | 'collapseButtonSize:' collapseButtonSize=NUMBER
+    | 'collapseButtonColor:' collapseButtonColor=STRING
+    | 'resizable:' resizable=BooleanValue
+    | 'resizeHandles:' '[' (resizeHandles+=ResizeHandleValue (',' resizeHandles+=ResizeHandleValue)*)? ']'
+    | 'minResizeWidth:' minResizeWidth=NUMBER
+    | 'minResizeHeight:' minResizeHeight=NUMBER
+    | 'hoverHighlight:' hoverHighlight=BooleanValue
+    | 'hoverBorderColor:' hoverBorderColor=STRING
+    | 'hoverBorderWidth:' hoverBorderWidth=NUMBER
+    | 'selectionHighlight:' selectionHighlight=BooleanValue
+    | 'selectionBorderColor:' selectionBorderColor=STRING
+    | 'selectionBorderWidth:' selectionBorderWidth=NUMBER
+    | 'showChildCount:' showChildCount=BooleanValue
+    | 'childCountPosition:' childCountPosition=ButtonPositionValue
+    | 'showDepthIndicator:' showDepthIndicator=BooleanValue
+    | 'depthIndicatorStyle:' depthIndicatorStyle=DepthIndicatorStyleValue
+    // Phase 5: Templates & Presets
+    | 'templateId:' templateId=STRING
+    | 'extends:' extends=STRING
+    | 'preset:' preset=STRING;
 
 ContainerLayoutProperty:
     'algorithm:' algorithm=LayoutAlgorithmValue
     | 'spacing:' spacing=NUMBER;
+
+// ============================================================================
+// Phase 5: Template & Preset Definitions
+// ============================================================================
+
+// template "name" { ... }
+TemplateBlock:
+    'template' id=STRING '{'
+        ('label:' label=STRING)?
+        ('description:' description=STRING)?
+        ('parameters:' '[' parameters+=TemplateParameter (',' parameters+=TemplateParameter)* ']')?
+        ('children:' '[' children+=STRING (',' children+=STRING)* ']')?
+        properties+=ContainerStyleProperty*
+    '}';
+
+TemplateParameter:
+    name=STRING ':' type=TemplateParameterType ('=' defaultValue=(STRING | NUMBER | BooleanValue))?;
+
+TemplateParameterType returns string:
+    'string' | 'number' | 'boolean' | 'color';
+
+// preset "name" { ... }
+PresetBlock:
+    'preset' id=STRING '{'
+        ('label:' label=STRING)?
+        properties+=ContainerStyleProperty*
+    '}';
+
 
 BorderStyleValue returns string:
     'solid' | 'dashed' | 'dotted';
@@ -649,10 +753,54 @@ LabelPositionValue returns string:
 LayoutAlgorithmValue returns string:
     'layered' | 'force' | 'stress' | 'radial' | 'mrtree';
 
+// Phase 2: Collapse/expand value types
+CollapseModeValue returns string:
+    'full' | 'partial';
+
+CollapseTransitionValue returns string:
+    'stable' | 'collapsing' | 'expanding';
+
+CollapseEasingValue returns string:
+    'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+
+// Phase 3: Layout optimization value types
+AutoResizeValue returns string:
+    'true' | 'false' | 'fit-content' | 'fill-available';
+
+AlignContentValue returns string:
+    'left' | 'center' | 'right';
+
+VerticalAlignValue returns string:
+    'top' | 'middle' | 'bottom';
+
+DistributionValue returns string:
+    'space-evenly' | 'space-between' | 'space-around' | 'packed';
+
+EdgeRoutingValue returns string:
+    'container-aware' | 'orthogonal' | 'spline' | 'polyline';
+
+LayoutComplexityValue returns string:
+    'low' | 'medium' | 'high';
+
+BooleanValue returns string:
+    'true' | 'false';
+
+// Phase 4: Visual controls value types
+ButtonPositionValue returns string:
+    'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+
+ButtonStyleValue returns string:
+    'icon' | 'text' | 'icon-text';
+
+ResizeHandleValue returns string:
+    'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
+
+DepthIndicatorStyleValue returns string:
+    'bar' | 'indent' | 'color';
+
 // Terminals
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal ARROW: '->';
-terminal BOOLEAN: /true|false/;
 terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;

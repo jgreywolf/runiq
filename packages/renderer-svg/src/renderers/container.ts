@@ -1,6 +1,7 @@
-import type { DiagramAst, PositionedContainer } from '@runiq/core';
+import type { DiagramAst, PositionedContainer, ContainerStyle } from '@runiq/core';
 import { shapeRegistry, createTextMeasurer } from '@runiq/core';
 import { escapeXml } from './utils.js';
+import { resolveContainerStyle } from './style-resolver.js';
 
 export function renderContainer(
   container: PositionedContainer,
@@ -11,36 +12,40 @@ export function renderContainer(
 
   // Find container declaration in AST for styling
   const containerAst = findContainerInAst(diagram.containers, id);
-  const style = (containerAst as any)?.containerStyle || {};
+  
+  // Resolve styles with Phase 5 template/preset/extends support
+  let style: ContainerStyle = {};
+  if (containerAst) {
+    // Use Phase 5 style resolution (template → preset → extends → inline)
+    style = resolveContainerStyle(containerAst, diagram);
+  }
 
   const groupAttrs = strict ? '' : ` data-runiq-container="${id}"`;
 
   let markup = `<g${groupAttrs}>`;
 
   // Check if container references a shape type (as @shapeName)
-  if ((containerAst as any)?.shape) {
-    const shapeDefinition = shapeRegistry.get(
-      (containerAst as any).shape as string
-    );
+  if (containerAst?.shape) {
+    const shapeDefinition = shapeRegistry.get(containerAst.shape);
     if (shapeDefinition) {
       // Use the shape's render function for the container background
       const measureText = createTextMeasurer();
       const shapeStyle = {
         // Only set fill if explicitly provided, otherwise let shape use its default
-        ...((style as any).backgroundColor && {
-          fill: (style as any).backgroundColor,
+        ...(style.backgroundColor && {
+          fill: style.backgroundColor,
         }),
-        stroke: (style as any).borderColor || '#ddd',
-        strokeWidth: (style as any).borderWidth || 2,
-        padding: (style as any).padding || 20,
+        stroke: style.borderColor || '#ddd',
+        strokeWidth: style.borderWidth || 2,
+        padding: style.padding || 20,
         font: 'sans-serif',
         fontSize: 14,
-        ...(style as any),
-      } as any;
+        ...style,
+      };
 
       // Merge layout dimensions with any existing data
       const shapeData = {
-        ...(((containerAst as any)?.data as any) || {}),
+        ...(containerAst.data || {}),
         width,
         height,
       };
@@ -49,9 +54,9 @@ export function renderContainer(
         node: {
           id,
           label: label || id,
-          shape: (containerAst as any).shape,
+          shape: containerAst.shape,
           data: shapeData,
-        } as any,
+        },
         style: shapeStyle,
         measureText,
       };
@@ -89,12 +94,12 @@ function renderDefaultContainerBackground(
   y: number,
   width: number,
   height: number,
-  style: any
+  style: ContainerStyle
 ): string {
-  const fill = (style as any).backgroundColor || '#f9f9f9';
-  const stroke = (style as any).borderColor || '#ddd';
-  const strokeWidth = (style as any).borderWidth || 2;
-  const rx = (style as any).rx || 8;
+  const fill = style.backgroundColor || '#f9f9f9';
+  const stroke = style.borderColor || '#ddd';
+  const strokeWidth = style.borderWidth || 2;
+  const rx = 8;
 
   return `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
     fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" rx="${rx}" />`;
@@ -111,15 +116,15 @@ function renderDefaultContainerLabel(
 }
 
 function findContainerInAst(
-  containers: any[] | undefined,
+  containers: import('@runiq/core').ContainerDeclaration[] | undefined,
   id: string
-): any | undefined {
+): import('@runiq/core').ContainerDeclaration | undefined {
   if (!containers) return undefined;
 
   for (const container of containers) {
-    if ((container as any).id === id) return container;
-    if ((container as any).containers) {
-      const found = findContainerInAst((container as any).containers, id);
+    if (container.id === id) return container;
+    if (container.containers) {
+      const found = findContainerInAst(container.containers, id);
       if (found) return found;
     }
   }

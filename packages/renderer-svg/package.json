@@ -27,6 +27,9 @@
   "peerDependencies": {
     "@runiq/core": "workspace:*"
   },
+  "dependencies": {
+    "@runiq/parser-dsl": "workspace:*"
+  },
   "devDependencies": {
     "@runiq/core": "workspace:*",
     "@types/node": "^20.11.0",

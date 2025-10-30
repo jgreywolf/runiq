@@ -1,0 +1,102 @@
+// Phase 5 Example: Container Templates & Presets
+// Demonstrates reusable container patterns with templates and style presets
+
+diagram "Microservices Architecture with Templates"
+
+// Define reusable templates
+template "microservice" {
+  label: "Microservice Template"
+  description: "Standard microservice container with default styling"
+  backgroundColor: "#e3f2fd"
+  borderColor: "#2196f3"
+  borderWidth: 2
+  padding: 20
+  collapseButtonVisible: true
+  shadow: true
+}
+
+template "database" {
+  label: "Database Template"
+  description: "Database container template"
+  backgroundColor: "#fff3e0"
+  borderColor: "#ff9800"
+  borderWidth: 2
+  padding: 15
+  shadow: true
+}
+
+template "api-gateway" {
+  label: "API Gateway Template"
+  description: "API gateway container template"
+  backgroundColor: "#f3e5f5"
+  borderColor: "#9c27b0"
+  borderWidth: 2
+  padding: 20
+  collapseButtonVisible: true
+}
+
+// Define style presets
+preset "card" {
+  label: "Card Style"
+  padding: 15
+  shadow: true
+  borderWidth: 1
+  borderStyle: "solid"
+}
+
+preset "highlighted" {
+  label: "Highlighted Section"
+  backgroundColor: "#fff3cd"
+  borderColor: "#ffc107"
+  borderWidth: 2
+}
+
+preset "panel" {
+  label: "Panel Style"
+  padding: 20
+  borderStyle: "solid"
+  shadow: false
+}
+
+// Use templates and presets
+container "API Services" templateId: "api-gateway" preset: "card" {
+  shape gateway as @server label: "API Gateway"
+  shape auth as @rectangle label: "Auth Service"
+  shape routing as @rectangle label: "Routing"
+}
+
+container "User Service" templateId: "microservice" preset: "card" {
+  shape api1 as @rectangle label: "User API"
+  shape cache1 as @cylinder label: "Cache"
+}
+
+container "Order Service" templateId: "microservice" preset: "card" {
+  shape api2 as @rectangle label: "Order API"
+  shape cache2 as @cylinder label: "Cache"
+}
+
+container "Data Layer" templateId: "database" preset: "highlighted" {
+  shape userdb as @cylinder label: "User DB"
+  shape orderdb as @cylinder label: "Order DB"
+  shape analytics as @cylinder label: "Analytics"
+}
+
+// Container with template and inline overrides
+container "Payment Service" templateId: "microservice" backgroundColor: "#e8f5e9" borderColor: "#4caf50" {
+  shape payment as @rectangle label: "Payment API"
+  shape vault as @cylinder label: "Vault"
+}
+
+// Container extending another container
+container "Notification Service" extends: "User Service" preset: "panel" {
+  shape notif as @rectangle label: "Notification API"
+  shape queue as @cylinder label: "Message Queue"
+}
+
+// Edges
+gateway -> api1
+gateway -> api2
+api1 -> userdb
+api2 -> orderdb
+payment -> vault
+notif -> queue

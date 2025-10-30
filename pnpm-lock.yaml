@@ -453,6 +453,10 @@ importers:
         version: 1.6.1(@types/node@20.19.20)
 
   packages/renderer-svg:
+    dependencies:
+      '@runiq/parser-dsl':
+        specifier: workspace:*
+        version: link:../parser-dsl
     devDependencies:
       '@runiq/core':
         specifier: workspace:*

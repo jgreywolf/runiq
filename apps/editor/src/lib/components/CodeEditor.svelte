@@ -139,6 +139,9 @@
 			{ label: 'shape', type: 'keyword', detail: 'shape id as @type' },
 			{ label: 'group', type: 'keyword', detail: 'group id [...]' },
 			{ label: 'style', type: 'keyword', detail: 'style id {...}' },
+			{ label: 'container', type: 'keyword', detail: 'container "name" { ... }' },
+			{ label: 'template', type: 'keyword', detail: 'template "id" { ... }' },
+			{ label: 'preset', type: 'keyword', detail: 'preset "id" { ... }' },
 			{ label: 'as', type: 'keyword' },
 			{ label: 'label:', type: 'property' },
 			{ label: 'icon:', type: 'property' },
@@ -205,7 +208,27 @@
 			{ label: 'source', type: 'constant' },
 			{ label: 'target', type: 'constant' },
 			{ label: 'bidirectional', type: 'constant' },
-			{ label: 'constraints:', type: 'property', detail: 'Constraints array' }
+			{ label: 'constraints:', type: 'property', detail: 'Constraints array' },
+			// Phase 5: Templates & Presets
+			{ label: 'templateId:', type: 'property', detail: 'Reference to container template' },
+			{ label: 'preset:', type: 'property', detail: 'Apply named style preset' },
+			{ label: 'extends:', type: 'property', detail: 'Inherit from container/template' },
+			{ label: 'parameters:', type: 'property', detail: 'Template parameters array' },
+			{ label: 'description:', type: 'property', detail: 'Template/preset description' },
+			{ label: 'children:', type: 'property', detail: 'Template children placeholders' },
+			// Parameter types
+			{ label: 'string', type: 'type', detail: 'String parameter type' },
+			{ label: 'number', type: 'type', detail: 'Number parameter type' },
+			{ label: 'boolean', type: 'type', detail: 'Boolean parameter type' },
+			{ label: 'color', type: 'type', detail: 'Color parameter type' },
+			// Container style properties
+			{ label: 'backgroundColor:', type: 'property', detail: 'Container background color' },
+			{ label: 'borderColor:', type: 'property', detail: 'Container border color' },
+			{ label: 'borderWidth:', type: 'property', detail: 'Container border width' },
+			{ label: 'padding:', type: 'property', detail: 'Container padding' },
+			{ label: 'shadow:', type: 'property', detail: 'Container shadow (true/false)' },
+			{ label: 'collapseButtonVisible:', type: 'property', detail: 'Show collapse button' },
+			{ label: 'resizable:', type: 'property', detail: 'Enable resizing' }
 		];
 
 		return {

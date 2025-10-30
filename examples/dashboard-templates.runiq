@@ -1,0 +1,110 @@
+// Phase 5 Example: Advanced Template Usage
+// Demonstrates complex template inheritance and preset combinations
+
+diagram "Dashboard Components"
+
+// Widget template with parameters
+template "dashboard-widget" {
+  label: "Dashboard Widget"
+  description: "Reusable dashboard component with collapsible sections"
+  parameters: [
+    "title": string = "Widget",
+    "height": number = 250,
+    "collapsible": boolean = true
+  ]
+  backgroundColor: "#ffffff"
+  borderColor: "#dee2e6"
+  borderWidth: 1
+  padding: 15
+  shadow: true
+  collapseButtonVisible: true
+  resizable: true
+}
+
+// Chart template
+template "chart-container" {
+  label: "Chart Container"
+  description: "Container for charts and visualizations"
+  backgroundColor: "#f8f9fa"
+  borderColor: "#6c757d"
+  borderWidth: 1
+  padding: 20
+  shadow: false
+}
+
+// Presets for different themes
+preset "primary" {
+  label: "Primary Theme"
+  backgroundColor: "#e3f2fd"
+  borderColor: "#2196f3"
+  borderWidth: 2
+}
+
+preset "success" {
+  label: "Success Theme"
+  backgroundColor: "#e8f5e9"
+  borderColor: "#4caf50"
+  borderWidth: 2
+}
+
+preset "warning" {
+  label: "Warning Theme"
+  backgroundColor: "#fff3e0"
+  borderColor: "#ff9800"
+  borderWidth: 2
+}
+
+preset "compact" {
+  label: "Compact Layout"
+  padding: 10
+  borderWidth: 1
+}
+
+// Dashboard sections using templates
+container "User Metrics" templateId: "dashboard-widget" preset: "primary" {
+  shape total as @bar-chart-vertical label: "Total Users: 1,250"
+  shape active as @bar-chart-vertical label: "Active: 987"
+  shape growth as @line-chart label: "+15% this month"
+}
+
+container "Revenue" templateId: "dashboard-widget" preset: "success" {
+  shape monthly as @bar-chart-vertical label: "Monthly Revenue"
+  shape ytd as @pie-chart label: "YTD: $2.4M"
+  shape trend as @line-chart label: "↑ Trending Up"
+}
+
+container "Alerts" templateId: "dashboard-widget" preset: "warning" {
+  shape critical as @rhombus label: "2 Critical"
+  shape warnings as @rhombus label: "5 Warnings"
+  shape info as @circle label: "12 Info"
+}
+
+// Chart section with template
+container "Analytics" templateId: "chart-container" preset: "compact" {
+  shape visits as @bar-chart-horizontal label: "Page Visits"
+  shape conversion as @pie-chart label: "Conversion Rate"
+  shape bounce as @line-chart label: "Bounce Rate"
+}
+
+// Container extending another with preset override
+container "Performance" extends: "User Metrics" preset: "primary" backgroundColor: "#f3e5f5" {
+  shape cpu as @gauge label: "CPU: 45%"
+  shape memory as @gauge label: "Memory: 67%"
+  shape disk as @gauge label: "Disk: 23%"
+}
+
+// Multiple inheritance: template + preset + extends
+container "Advanced Metrics" 
+  templateId: "dashboard-widget" 
+  preset: "success" 
+  extends: "User Metrics"
+  padding: 25 {
+  shape custom1 as @bar-chart-vertical label: "Custom Metric 1"
+  shape custom2 as @pie-chart label: "Custom Metric 2"
+}
+
+// Edges for data flow
+total -> monthly
+active -> monthly
+growth -> conversion
+visits -> bounce
