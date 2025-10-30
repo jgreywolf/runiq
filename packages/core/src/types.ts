@@ -491,11 +491,13 @@ export interface SequenceParticipant {
  * Message exchanged between participants
  */
 export interface SequenceMessage {
-  from: string; // Source participant ID
-  to: string; // Target participant ID
+  from: string; // Source participant ID (use 'lost' or 'found' for lost/found messages)
+  to: string; // Target participant ID (use 'lost' or 'found' for lost/found messages)
   label: string; // Message description
   type?: 'sync' | 'async' | 'return' | 'create' | 'destroy'; // Message type
   activate?: boolean; // Whether to show activation box on target
+  guard?: string; // Guard condition (e.g., "[x > 0]")
+  timing?: string; // Timing constraint (e.g., "{t < 5s}")
 }
 
 /**

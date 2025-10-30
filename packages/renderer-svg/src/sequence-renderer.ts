@@ -348,15 +348,39 @@ function renderMessage(
 ): string {
   let svg = '';
 
-  const fromX = participantMap.get(message.from);
-  const toX = participantMap.get(message.to);
+  // Handle lost and found messages
+  const isLostMessage = message.to === 'lost' || message.to === 'found';
+  const isFoundMessage = message.from === 'lost' || message.from === 'found';
 
-  if (fromX === undefined || toX === undefined) {
-    return `<!-- Warning: Invalid participant reference in message -->`;
+  let fromX: number | undefined;
+  let toX: number | undefined;
+
+  if (isFoundMessage) {
+    // Found message: arrow comes from diagram edge
+    toX = participantMap.get(message.to);
+    if (toX === undefined) {
+      return `<!-- Warning: Invalid participant reference in message -->`;
+    }
+    fromX = 10; // Start from left edge
+  } else if (isLostMessage) {
+    // Lost message: arrow goes to diagram edge
+    fromX = participantMap.get(message.from);
+    if (fromX === undefined) {
+      return `<!-- Warning: Invalid participant reference in message -->`;
+    }
+    toX = fromX + 150; // End at fixed distance from sender
+  } else {
+    // Regular message
+    fromX = participantMap.get(message.from);
+    toX = participantMap.get(message.to);
+
+    if (fromX === undefined || toX === undefined) {
+      return `<!-- Warning: Invalid participant reference in message -->`;
+    }
   }
 
-  // Handle activation
-  if (message.activate && !activations.get(message.to)) {
+  // Handle activation (not for lost/found messages)
+  if (message.activate && !activations.get(message.to) && !isLostMessage) {
     activations.set(message.to, true);
     svg += renderActivationBox(toX, y, activationBoxWidth);
   }
@@ -371,12 +395,18 @@ function renderMessage(
   // Draw line
   svg += `<line x1="${fromX}" y1="${y}" x2="${toX}" y2="${y}" class="message-line" stroke-dasharray="${strokeDasharray}"/>`;
 
-  // Draw arrow
+  // Draw arrow or markers for lost/found
   const arrowSize = 8;
   const direction = toX > fromX ? 1 : -1;
   const arrowX = toX - direction * arrowSize;
 
-  if (message.type === 'return') {
+  if (isLostMessage) {
+    // Lost message: filled circle at the end
+    svg += `<circle cx="${toX}" cy="${y}" r="5" class="lost-message-end" fill="#333333"/>`;
+  } else if (isFoundMessage) {
+    // Found message: filled circle at the start
+    svg += `<circle cx="${fromX}" cy="${y}" r="5" class="found-message-start" fill="#333333"/>`;
+  } else if (message.type === 'return') {
     // Open arrow for return messages
     svg += `<polyline points="${arrowX},${y - arrowSize / 2} ${toX},${y} ${arrowX},${y + arrowSize / 2}" class="message-arrow" fill="none"/>`;
   } else {
@@ -384,10 +414,23 @@ function renderMessage(
     svg += `<polygon points="${toX},${y} ${arrowX},${y - arrowSize / 2} ${arrowX},${y + arrowSize / 2}" class="message-arrow"/>`;
   }
 
+  // Guard condition (above arrow)
+  if (message.guard) {
+    const labelX = (fromX + toX) / 2;
+    const guardY = y - 20;
+    svg += `<text x="${labelX}" y="${guardY}" class="message-guard" text-anchor="middle" font-size="10" fill="#666666">[${escapeXml(message.guard)}]</text>`;
+  }
+
   // Message label
   const labelX = (fromX + toX) / 2;
   const labelY = y - 5;
   svg += `<text x="${labelX}" y="${labelY}" class="message-text" text-anchor="middle">${escapeXml(message.label)}</text>`;
+
+  // Timing constraint (below arrow)
+  if (message.timing) {
+    const timingY = y + 15;
+    svg += `<text x="${labelX}" y="${timingY}" class="message-timing" text-anchor="middle" font-size="10" fill="#666666">{${escapeXml(message.timing)}}</text>`;
+  }
 
   return svg;
 }

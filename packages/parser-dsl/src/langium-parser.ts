@@ -534,16 +534,28 @@ function convertSequenceProfile(
       for (const prop of statement.properties) {
         if (Langium.isSequenceFromProperty(prop)) {
           const from = prop.from.replace(/^"|"$/g, '');
-          message.from = from.toLowerCase().replace(/\s+/g, '_');
+          // Preserve 'lost' and 'found' as-is for special message types
+          message.from =
+            from === 'lost' || from === 'found'
+              ? from
+              : from.toLowerCase().replace(/\s+/g, '_');
         } else if (Langium.isSequenceToProperty(prop)) {
           const to = prop.to.replace(/^"|"$/g, '');
-          message.to = to.toLowerCase().replace(/\s+/g, '_');
+          // Preserve 'lost' and 'found' as-is for special message types
+          message.to =
+            to === 'lost' || to === 'found'
+              ? to
+              : to.toLowerCase().replace(/\s+/g, '_');
         } else if (Langium.isSequenceLabelProperty(prop)) {
           message.label = prop.label.replace(/^"|"$/g, '');
         } else if (Langium.isSequenceTypeProperty(prop)) {
           message.type = prop.type as SequenceMessage['type'];
         } else if (Langium.isSequenceActivateProperty(prop)) {
           message.activate = prop.value === 'true';
+        } else if (Langium.isSequenceGuardProperty(prop)) {
+          message.guard = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isSequenceTimingProperty(prop)) {
+          message.timing = prop.value.replace(/^"|"$/g, '');
         }
       }
 

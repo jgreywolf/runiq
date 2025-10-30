@@ -206,13 +206,13 @@ SequenceMessageStatement:
     'message' properties+=SequenceMessageProperty+;
 
 SequenceMessageProperty:
-    SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty;
+    SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty | SequenceGuardProperty | SequenceTimingProperty;
 
 SequenceFromProperty:
-    'from:' from=STRING;
+    'from:' (from=STRING | from='lost' | from='found');
 
 SequenceToProperty:
-    'to:' to=STRING;
+    'to:' (to=STRING | to='lost' | to='found');
 
 SequenceLabelProperty:
     'label:' label=STRING;
@@ -225,6 +225,12 @@ SequenceMessageType returns string:
 
 SequenceActivateProperty:
     'activate:' value=BOOLEAN;
+
+SequenceGuardProperty:
+    'guard:' value=STRING;
+
+SequenceTimingProperty:
+    'timing:' value=STRING;
 
 // note "This is a note" position:left participants:("Actor")
 // note "Spanning note" position:over participants:("Actor","Web Server")
