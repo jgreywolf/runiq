@@ -8,7 +8,9 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
 			{
 				id: 'basic-container',
 				label: 'Basic Container',
-				code: `container "Container Name" {
+				code: `
+
+container "Container Name" {
   shape node1 as @rectangle label: "Node 1"
   shape node2 as @rectangle label: "Node 2"
 }
@@ -17,7 +19,9 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
 			{
 				id: 'styled-container',
 				label: 'Styled Container',
-				code: `container "Styled" backgroundColor: "#e3f2fd" borderColor: "#2196f3" padding: 20 shadow: true {
+				code: `
+
+container "Styled" backgroundColor: "#e3f2fd" borderColor: "#2196f3" padding: 20 shadow: true {
   shape node as @rectangle label: "Content"
 }
 `
@@ -25,40 +29,14 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
 			{
 				id: 'template-definition',
 				label: 'Template Definition',
-				code: `template "my-template" {
-  label: "My Template"
+				code: `
+
+template "my-template" {
   backgroundColor: "#e3f2fd"
   borderColor: "#2196f3"
   borderWidth: 2
   padding: 20
   shadow: true
-}
-`
-			},
-			{
-				id: 'template-usage',
-				label: 'Use Template',
-				code: `container "Service" templateId: "my-template" {
-  shape api as @rectangle label: "API"
-}
-`
-			},
-			{
-				id: 'preset-definition',
-				label: 'Preset Definition',
-				code: `preset "card" {
-  label: "Card Style"
-  padding: 15
-  shadow: true
-  borderWidth: 1
-}
-`
-			},
-			{
-				id: 'preset-usage',
-				label: 'Use Preset',
-				code: `container "Panel" preset: "card" {
-  shape content as @rectangle label: "Content"
 }
 `
 			},
@@ -77,10 +55,60 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
 `
 			},
 			{
+				id: 'template-usage',
+				label: 'Use Template',
+				code: `
+
+container "Service" templateId: "my-template" {
+  shape api as @rectangle label: "API"
+}
+`
+			},
+			{
+				id: 'preset-definition',
+				label: 'Preset Definition',
+				code: `
+preset "card" {
+  backgroundColor: "#e3f2fd"
+  borderColor: "#2196f3"
+  padding: 15
+  shadow: true
+  borderWidth: 1
+}
+`
+			},
+			{
+				id: 'preset-usage',
+				label: 'Use Preset',
+				code: `container "Panel" preset: "card" {
+  shape content as @rectangle label: "Content"
+}
+`
+			},
+			{
+				id: 'themed-presets',
+				label: 'Themed Presets',
+				code: `preset "primary" {
+  backgroundColor: "#e3f2fd"
+  borderColor: "#2196f3"
+}
+
+preset "success" {
+  backgroundColor: "#e8f5e9"
+  borderColor: "#4caf50"
+}
+
+preset "warning" {
+  backgroundColor: "#fff3e0"
+  borderColor: "#ff9800"
+}
+`
+			},
+
+			{
 				id: 'container-inheritance',
 				label: 'Container Inheritance',
-				code: `container "Extended" extends: "BaseContainer" {
-  borderColor: "#2196f3"
+				code: `container "Extended" extends: "BaseContainer" borderColor: "#2196f3" {
   shape child as @rectangle label: "Child"
 }
 `
@@ -113,25 +141,6 @@ container "Outer" {
   container "Inner" {
     shape inner1 as @rectangle label: "Inner Node"
   }
-}
-`
-			},
-			{
-				id: 'themed-presets',
-				label: 'Themed Presets',
-				code: `preset "primary" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
-}
-
-preset "success" {
-  backgroundColor: "#e8f5e9"
-  borderColor: "#4caf50"
-}
-
-preset "warning" {
-  backgroundColor: "#fff3e0"
-  borderColor: "#ff9800"
 }
 `
 			}
