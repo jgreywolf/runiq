@@ -597,4 +597,190 @@ describe('Sequence Diagram Renderer', () => {
       expect(result.svg).not.toContain('<script>');
     });
   });
+
+  describe('Advanced Features', () => {
+    describe('Self Messages', () => {
+      it('should render self-message (participant messaging itself)', () => {
+        const profile: SequenceProfile = {
+          type: 'sequence',
+          astVersion: '1.0',
+          title: 'Self Message Test',
+          participants: [
+            { id: 'obj', name: 'Object', type: 'entity' },
+          ],
+          messages: [
+            { from: 'obj', to: 'obj', label: 'self()', type: 'sync' },
+          ],
+        };
+
+        const result = renderSequenceDiagram(profile);
+        
+        expect(result.svg).toContain('self()');
+        // Self-message should have a loop back to same participant
+        expect(result.svg).toContain('class="message-line"');
+      });
+    });
+
+    describe('Lost and Found Messages', () => {
+      it('should render lost message (message to nowhere)', () => {
+        const profile: SequenceProfile = {
+          type: 'sequence',
+          astVersion: '1.0',
+          title: 'Lost Message Test',
+          participants: [
+            { id: 'client', name: 'Client', type: 'actor' },
+          ],
+          messages: [
+            { from: 'client', to: 'lost', label: 'broadcast()', type: 'async' },
+          ],
+        };
+
+        const result = renderSequenceDiagram(profile);
+        
+        expect(result.svg).toContain('broadcast()');
+        // Lost message should have a filled circle at the end
+        expect(result.svg).toContain('class="lost-message-end"');
+      });
+
+      it('should render found message (message from nowhere)', () => {
+        const profile: SequenceProfile = {
+          type: 'sequence',
+          astVersion: '1.0',
+          title: 'Found Message Test',
+          participants: [
+            { id: 'server', name: 'Server', type: 'entity' },
+          ],
+          messages: [
+            { from: 'found', to: 'server', label: 'interrupt', type: 'async' },
+          ],
+        };
+
+        const result = renderSequenceDiagram(profile);
+        
+        expect(result.svg).toContain('interrupt');
+        // Found message should have a filled circle at the start
+        expect(result.svg).toContain('class="found-message-start"');
+      });
+    });
+
+    describe('Guards and Constraints', () => {
+      it('should render message with guard condition', () => {
+        const profile: SequenceProfile = {
+          type: 'sequence',
+          astVersion: '1.0',
+          title: 'Guard Test',
+          participants: [
+            { id: 'a', name: 'A', type: 'entity' },
+            { id: 'b', name: 'B', type: 'entity' },
+          ],
+          messages: [
+            { 
+              from: 'a', 
+              to: 'b', 
+              label: 'execute', 
+              type: 'sync',
+              guard: 'x > 0'
+            },
+          ],
+        };
+
+        const result = renderSequenceDiagram(profile);
+        
+        expect(result.svg).toContain('execute');
+        expect(result.svg).toContain('[x &gt; 0]');
+        expect(result.svg).toContain('class="message-guard"');
+      });
+
+      it('should render message with timing constraint', () => {
+        const profile: SequenceProfile = {
+          type: 'sequence',
+          astVersion: '1.0',
+          title: 'Timing Test',
+          participants: [
+            { id: 'a', name: 'A', type: 'entity' },
+            { id: 'b', name: 'B', type: 'entity' },
+          ],
+          messages: [
+            { 
+              from: 'a', 
+              to: 'b', 
+              label: 'request', 
+              type: 'sync',
+              timing: 't < 5s'
+            },
+          ],
+        };
+
+        const result = renderSequenceDiagram(profile);
+        
+        expect(result.svg).toContain('request');
+        expect(result.svg).toContain('{t &lt; 5s}');
+        expect(result.svg).toContain('class="message-timing"');
+      });
+
+      it('should render message with both guard and timing', () => {
+        const profile: SequenceProfile = {
+          type: 'sequence',
+          astVersion: '1.0',
+          title: 'Guard + Timing Test',
+          participants: [
+            { id: 'a', name: 'A', type: 'entity' },
+            { id: 'b', name: 'B', type: 'entity' },
+          ],
+          messages: [
+            { 
+              from: 'a', 
+              to: 'b', 
+              label: 'criticalOp', 
+              type: 'sync',
+              guard: 'authorized',
+              timing: 'deadline = 100ms'
+            },
+          ],
+        };
+
+        const result = renderSequenceDiagram(profile);
+        
+        expect(result.svg).toContain('criticalOp');
+        expect(result.svg).toContain('[authorized]');
+        expect(result.svg).toContain('{deadline = 100ms}');
+      });
+    });
+
+    describe('Complex Scenarios', () => {
+      it('should handle all advanced features together', () => {
+        const profile: SequenceProfile = {
+          type: 'sequence',
+          astVersion: '1.0',
+          title: 'Complex Sequence',
+          participants: [
+            { id: 'client', name: 'Client', type: 'actor' },
+            { id: 'server', name: 'Server', type: 'entity' },
+          ],
+          messages: [
+            { from: 'client', to: 'server', label: 'login', guard: 'credentials valid' },
+            { from: 'server', to: 'server', label: 'validate()' },
+            { from: 'server', to: 'lost', label: 'audit log', type: 'async' },
+            { from: 'found', to: 'client', label: 'timeout' },
+          ],
+          fragments: [
+            { type: 'opt', label: 'authentication', startAfterMessage: 0, endAfterMessage: 1 },
+          ],
+          notes: [
+            { text: 'Security check', position: 'right', participants: ['server'] },
+          ],
+        };
+
+        const result = renderSequenceDiagram(profile);
+        
+        expect(result.svg).toContain('login');
+        expect(result.svg).toContain('[credentials valid]');
+        expect(result.svg).toContain('validate()');
+        expect(result.svg).toContain('audit log');
+        expect(result.svg).toContain('timeout');
+        expect(result.svg).toContain('opt');
+        expect(result.svg).toContain('Security check');
+      });
+    });
+  });
 });

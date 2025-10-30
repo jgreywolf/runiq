@@ -137,6 +137,43 @@ export const sequenceSampleDiagrams: SampleCategory[] = [
 
   message from:"Service" to:"Client" label:"Response data" type:return
       }`
+			},
+			{
+				name: 'Advanced Features',
+				description: 'Guards, timing, lost/found messages',
+				code: `sequence "Advanced Sequence Features" {
+
+  participant "Client" as actor
+  participant "Server" as control
+  participant "Cache" as entity
+  participant "Database" as database
+
+  note "Guard conditions protect actions" position:over participants:("Client", "Server")
+
+  message from:"Client" to:"Server" label:"request(data)" type:sync guard:"authenticated" activate:true
+
+  note "Self-messaging for internal processing" position:right participants:("Server")
+
+  message from:"Server" to:"Server" label:"validateInput()" type:sync
+
+  note "Timing constraints ensure SLA" position:over participants:("Server", "Cache")
+
+  message from:"Server" to:"Cache" label:"lookup(key)" type:sync timing:"< 10ms"
+  message from:"Cache" to:"Server" label:"null" type:return
+
+  message from:"Server" to:"Database" label:"query()" type:sync guard:"cache miss" timing:"< 100ms"
+  message from:"Database" to:"Server" label:"result" type:return
+
+  note "Lost message: no response expected" position:right participants:("Server")
+
+  message from:"Server" to:lost label:"auditLog(event)" type:async
+
+  note "Found message: unsolicited event" position:left participants:("Client")
+
+  message from:found to:"Client" label:"pushNotification" type:async
+
+  message from:"Server" to:"Client" label:"response" type:return guard:"success" timing:"< 200ms"
+      }`
 			}
 		]
 	}
