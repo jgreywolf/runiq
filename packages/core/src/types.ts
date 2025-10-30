@@ -185,6 +185,34 @@ export interface ContainerStyle {
   layoutCache?: boolean; // Cache layout results for performance
   incrementalLayout?: boolean; // Enable incremental layout updates
   layoutComplexity?: 'low' | 'medium' | 'high'; // Hint for layout complexity
+
+  // Phase 4: Visual Controls
+  // Collapse button controls
+  collapseButtonVisible?: boolean; // Show/hide collapse button
+  collapseButtonPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'; // Button corner position
+  collapseButtonStyle?: 'icon' | 'text' | 'icon-text'; // Button display style
+  collapseButtonSize?: number; // Button size in pixels
+  collapseButtonColor?: string; // Button color
+  
+  // Resize controls
+  resizable?: boolean; // Enable manual resize handles
+  resizeHandles?: ('n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw')[]; // Which handles to show (n=north, s=south, etc.)
+  minResizeWidth?: number; // Minimum width when resizing manually
+  minResizeHeight?: number; // Minimum height when resizing manually
+  
+  // Interactive feedback
+  hoverHighlight?: boolean; // Highlight container on hover
+  hoverBorderColor?: string; // Border color on hover
+  hoverBorderWidth?: number; // Border width on hover
+  selectionHighlight?: boolean; // Highlight when selected
+  selectionBorderColor?: string; // Border color when selected
+  selectionBorderWidth?: number; // Border width when selected
+  
+  // Visual feedback indicators
+  showChildCount?: boolean; // Show number of children badge
+  childCountPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'; // Badge position
+  showDepthIndicator?: boolean; // Show nesting depth visual indicator
+  depthIndicatorStyle?: 'bar' | 'indent' | 'color'; // How to show depth
 }
 
 /**

@@ -1307,6 +1307,63 @@ function convertContainer(
       } else if (prop.layoutComplexity) {
         // Phase 3: Layout complexity
         containerStyle.layoutComplexity = prop.layoutComplexity as 'low' | 'medium' | 'high';
+      } else if (prop.collapseButtonVisible !== undefined) {
+        // Phase 4: Collapse button visible
+        containerStyle.collapseButtonVisible = prop.collapseButtonVisible === 'true';
+      } else if (prop.collapseButtonPosition) {
+        // Phase 4: Collapse button position
+        containerStyle.collapseButtonPosition = prop.collapseButtonPosition as 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+      } else if (prop.collapseButtonStyle) {
+        // Phase 4: Collapse button style
+        containerStyle.collapseButtonStyle = prop.collapseButtonStyle as 'icon' | 'text' | 'icon-text';
+      } else if (prop.collapseButtonSize !== undefined) {
+        // Phase 4: Collapse button size
+        containerStyle.collapseButtonSize = parseFloat(prop.collapseButtonSize);
+      } else if (prop.collapseButtonColor) {
+        // Phase 4: Collapse button color
+        containerStyle.collapseButtonColor = prop.collapseButtonColor.replace(/^"|"$/g, '');
+      } else if (prop.resizable !== undefined) {
+        // Phase 4: Resizable
+        containerStyle.resizable = prop.resizable === 'true';
+      } else if (prop.resizeHandles && prop.resizeHandles.length > 0) {
+        // Phase 4: Resize handles
+        containerStyle.resizeHandles = prop.resizeHandles as ('n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw')[];
+      } else if (prop.minResizeWidth !== undefined) {
+        // Phase 4: Min resize width
+        containerStyle.minResizeWidth = parseFloat(prop.minResizeWidth);
+      } else if (prop.minResizeHeight !== undefined) {
+        // Phase 4: Min resize height
+        containerStyle.minResizeHeight = parseFloat(prop.minResizeHeight);
+      } else if (prop.hoverHighlight !== undefined) {
+        // Phase 4: Hover highlight
+        containerStyle.hoverHighlight = prop.hoverHighlight === 'true';
+      } else if (prop.hoverBorderColor) {
+        // Phase 4: Hover border color
+        containerStyle.hoverBorderColor = prop.hoverBorderColor.replace(/^"|"$/g, '');
+      } else if (prop.hoverBorderWidth !== undefined) {
+        // Phase 4: Hover border width
+        containerStyle.hoverBorderWidth = parseFloat(prop.hoverBorderWidth);
+      } else if (prop.selectionHighlight !== undefined) {
+        // Phase 4: Selection highlight
+        containerStyle.selectionHighlight = prop.selectionHighlight === 'true';
+      } else if (prop.selectionBorderColor) {
+        // Phase 4: Selection border color
+        containerStyle.selectionBorderColor = prop.selectionBorderColor.replace(/^"|"$/g, '');
+      } else if (prop.selectionBorderWidth !== undefined) {
+        // Phase 4: Selection border width
+        containerStyle.selectionBorderWidth = parseFloat(prop.selectionBorderWidth);
+      } else if (prop.showChildCount !== undefined) {
+        // Phase 4: Show child count
+        containerStyle.showChildCount = prop.showChildCount === 'true';
+      } else if (prop.childCountPosition) {
+        // Phase 4: Child count position
+        containerStyle.childCountPosition = prop.childCountPosition as 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+      } else if (prop.showDepthIndicator !== undefined) {
+        // Phase 4: Show depth indicator
+        containerStyle.showDepthIndicator = prop.showDepthIndicator === 'true';
+      } else if (prop.depthIndicatorStyle) {
+        // Phase 4: Depth indicator style
+        containerStyle.depthIndicatorStyle = prop.depthIndicatorStyle as 'bar' | 'indent' | 'color';
       }
     } else if (Langium.isContainerLayoutProperty(prop)) {
       if (prop.algorithm) {

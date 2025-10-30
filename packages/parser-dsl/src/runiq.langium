@@ -685,7 +685,26 @@ ContainerStyleProperty:
     | 'crossContainerEdgeOptimization:' crossContainerEdgeOptimization=BooleanValue
     | 'layoutCache:' layoutCache=BooleanValue
     | 'incrementalLayout:' incrementalLayout=BooleanValue
-    | 'layoutComplexity:' layoutComplexity=LayoutComplexityValue;
+    | 'layoutComplexity:' layoutComplexity=LayoutComplexityValue
+    | 'collapseButtonVisible:' collapseButtonVisible=BooleanValue
+    | 'collapseButtonPosition:' collapseButtonPosition=ButtonPositionValue
+    | 'collapseButtonStyle:' collapseButtonStyle=ButtonStyleValue
+    | 'collapseButtonSize:' collapseButtonSize=NUMBER
+    | 'collapseButtonColor:' collapseButtonColor=STRING
+    | 'resizable:' resizable=BooleanValue
+    | 'resizeHandles:' '[' (resizeHandles+=ResizeHandleValue (',' resizeHandles+=ResizeHandleValue)*)? ']'
+    | 'minResizeWidth:' minResizeWidth=NUMBER
+    | 'minResizeHeight:' minResizeHeight=NUMBER
+    | 'hoverHighlight:' hoverHighlight=BooleanValue
+    | 'hoverBorderColor:' hoverBorderColor=STRING
+    | 'hoverBorderWidth:' hoverBorderWidth=NUMBER
+    | 'selectionHighlight:' selectionHighlight=BooleanValue
+    | 'selectionBorderColor:' selectionBorderColor=STRING
+    | 'selectionBorderWidth:' selectionBorderWidth=NUMBER
+    | 'showChildCount:' showChildCount=BooleanValue
+    | 'childCountPosition:' childCountPosition=ButtonPositionValue
+    | 'showDepthIndicator:' showDepthIndicator=BooleanValue
+    | 'depthIndicatorStyle:' depthIndicatorStyle=DepthIndicatorStyleValue;
 
 ContainerLayoutProperty:
     'algorithm:' algorithm=LayoutAlgorithmValue
@@ -731,6 +750,19 @@ LayoutComplexityValue returns string:
 
 BooleanValue returns string:
     'true' | 'false';
+
+// Phase 4: Visual controls value types
+ButtonPositionValue returns string:
+    'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+
+ButtonStyleValue returns string:
+    'icon' | 'text' | 'icon-text';
+
+ResizeHandleValue returns string:
+    'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
+
+DepthIndicatorStyleValue returns string:
+    'bar' | 'indent' | 'color';
 
 // Terminals
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;

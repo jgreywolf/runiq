@@ -68,12 +68,20 @@ export type RuniqKeywordNames =
     | "borderStyle:"
     | "borderWidth:"
     | "bottom"
+    | "bottom-left"
+    | "bottom-right"
     | "boundary"
     | "break"
     | "carrier:"
     | "center"
+    | "childCountPosition:"
     | "collapseAnimationDuration:"
     | "collapseAnimationEasing:"
+    | "collapseButtonColor:"
+    | "collapseButtonPosition:"
+    | "collapseButtonSize:"
+    | "collapseButtonStyle:"
+    | "collapseButtonVisible:"
     | "collapseIcon:"
     | "collapseKeyboardShortcut:"
     | "collapseMode:"
@@ -86,6 +94,7 @@ export type RuniqKeywordNames =
     | "collapsed:"
     | "collapsible:"
     | "collapsing"
+    | "color"
     | "colors:"
     | "component"
     | "composition"
@@ -106,6 +115,7 @@ export type RuniqKeywordNames =
     | "degF"
     | "dependency"
     | "depth:"
+    | "depthIndicatorStyle:"
     | "derived:"
     | "destroy"
     | "diagram"
@@ -114,6 +124,7 @@ export type RuniqKeywordNames =
     | "distribution:"
     | "dotted"
     | "double"
+    | "e"
     | "ease-in"
     | "ease-in-out"
     | "ease-out"
@@ -144,11 +155,17 @@ export type RuniqKeywordNames =
     | "headerPosition:"
     | "high"
     | "hollow"
+    | "hoverBorderColor:"
+    | "hoverBorderWidth:"
+    | "hoverHighlight:"
     | "hydraulic"
+    | "icon"
+    | "icon-text"
     | "icon:"
     | "iconColor:"
     | "iconSize:"
     | "incrementalLayout:"
+    | "indent"
     | "inertia:"
     | "inst"
     | "kPa"
@@ -180,6 +197,8 @@ export type RuniqKeywordNames =
     | "middle"
     | "min"
     | "minHeight:"
+    | "minResizeHeight:"
+    | "minResizeWidth:"
     | "minWidth:"
     | "mindmap"
     | "mineral"
@@ -188,13 +207,16 @@ export type RuniqKeywordNames =
     | "multiplicitySource:"
     | "multiplicityTarget:"
     | "m³/h"
+    | "n"
     | "name:"
     | "navigability:"
+    | "ne"
     | "net"
     | "nodeSpacing:"
     | "noise"
     | "none"
     | "note"
+    | "nw"
     | "of:"
     | "op"
     | "opacity:"
@@ -230,6 +252,8 @@ export type RuniqKeywordNames =
     | "radial"
     | "rated"
     | "realization"
+    | "resizable:"
+    | "resizeHandles:"
     | "return"
     | "returnType:"
     | "right"
@@ -237,10 +261,17 @@ export type RuniqKeywordNames =
     | "roleTarget:"
     | "routing"
     | "routing:"
+    | "s"
     | "schematic"
+    | "se"
+    | "selectionBorderColor:"
+    | "selectionBorderWidth:"
+    | "selectionHighlight:"
     | "sequence"
     | "shadow:"
     | "shape"
+    | "showChildCount:"
+    | "showDepthIndicator:"
     | "showLegend:"
     | "solid"
     | "source"
@@ -260,22 +291,27 @@ export type RuniqKeywordNames =
     | "stress"
     | "style"
     | "style:"
+    | "sw"
     | "sync"
     | "synthetic"
     | "target"
     | "temp:"
+    | "text"
     | "timing:"
     | "title:"
     | "to"
     | "to:"
     | "tooltip:"
     | "top"
+    | "top-left"
+    | "top-right"
     | "tran"
     | "true"
     | "type:"
     | "value:"
     | "verticalAlign:"
     | "visibility:"
+    | "w"
     | "wardley"
     | "water-glycol"
     | "xLabel:"
@@ -530,6 +566,18 @@ export function isBusWidth(item: unknown): item is BusWidth {
     return reflection.isInstance(item, BusWidth.$type);
 }
 
+export type ButtonPositionValue = 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+
+export function isButtonPositionValue(item: unknown): item is ButtonPositionValue {
+    return item === 'top-left' || item === 'top-right' || item === 'bottom-left' || item === 'bottom-right';
+}
+
+export type ButtonStyleValue = 'icon' | 'icon-text' | 'text';
+
+export function isButtonStyleValue(item: unknown): item is ButtonStyleValue {
+    return item === 'icon' || item === 'text' || item === 'icon-text';
+}
+
 export interface CarrierProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'CarrierProperty';
@@ -682,13 +730,23 @@ export interface ContainerStyleProperty extends langium.AstNode {
     borderColor?: string;
     borderStyle?: BorderStyleValue;
     borderWidth?: string;
+    childCountPosition?: ButtonPositionValue;
+    collapseButtonColor?: string;
+    collapseButtonPosition?: ButtonPositionValue;
+    collapseButtonSize?: string;
+    collapseButtonStyle?: ButtonStyleValue;
+    collapseButtonVisible?: BooleanValue;
     crossContainerEdgeOptimization?: BooleanValue;
     depth?: string;
+    depthIndicatorStyle?: DepthIndicatorStyleValue;
     distribution?: DistributionValue;
     edgeBundling?: BooleanValue;
     edgeRouting?: EdgeRoutingValue;
     headerBackgroundColor?: string;
     headerPosition?: LabelPositionValue;
+    hoverBorderColor?: string;
+    hoverBorderWidth?: string;
+    hoverHighlight?: BooleanValue;
     iconColor?: string;
     iconSize?: string;
     incrementalLayout?: BooleanValue;
@@ -703,6 +761,8 @@ export interface ContainerStyleProperty extends langium.AstNode {
     maxHeight?: string;
     maxWidth?: string;
     minHeight?: string;
+    minResizeHeight?: string;
+    minResizeWidth?: string;
     minWidth?: string;
     nodeSpacing?: string;
     opacity?: string;
@@ -711,7 +771,14 @@ export interface ContainerStyleProperty extends langium.AstNode {
     paddingLeft?: string;
     paddingRight?: string;
     paddingTop?: string;
+    resizable?: BooleanValue;
+    resizeHandles: Array<ResizeHandleValue>;
+    selectionBorderColor?: string;
+    selectionBorderWidth?: string;
+    selectionHighlight?: BooleanValue;
     shadow?: BooleanValue;
+    showChildCount?: BooleanValue;
+    showDepthIndicator?: BooleanValue;
     verticalAlign?: VerticalAlignValue;
 }
 
@@ -723,13 +790,23 @@ export const ContainerStyleProperty = {
     borderColor: 'borderColor',
     borderStyle: 'borderStyle',
     borderWidth: 'borderWidth',
+    childCountPosition: 'childCountPosition',
+    collapseButtonColor: 'collapseButtonColor',
+    collapseButtonPosition: 'collapseButtonPosition',
+    collapseButtonSize: 'collapseButtonSize',
+    collapseButtonStyle: 'collapseButtonStyle',
+    collapseButtonVisible: 'collapseButtonVisible',
     crossContainerEdgeOptimization: 'crossContainerEdgeOptimization',
     depth: 'depth',
+    depthIndicatorStyle: 'depthIndicatorStyle',
     distribution: 'distribution',
     edgeBundling: 'edgeBundling',
     edgeRouting: 'edgeRouting',
     headerBackgroundColor: 'headerBackgroundColor',
     headerPosition: 'headerPosition',
+    hoverBorderColor: 'hoverBorderColor',
+    hoverBorderWidth: 'hoverBorderWidth',
+    hoverHighlight: 'hoverHighlight',
     iconColor: 'iconColor',
     iconSize: 'iconSize',
     incrementalLayout: 'incrementalLayout',
@@ -744,6 +821,8 @@ export const ContainerStyleProperty = {
     maxHeight: 'maxHeight',
     maxWidth: 'maxWidth',
     minHeight: 'minHeight',
+    minResizeHeight: 'minResizeHeight',
+    minResizeWidth: 'minResizeWidth',
     minWidth: 'minWidth',
     nodeSpacing: 'nodeSpacing',
     opacity: 'opacity',
@@ -752,7 +831,14 @@ export const ContainerStyleProperty = {
     paddingLeft: 'paddingLeft',
     paddingRight: 'paddingRight',
     paddingTop: 'paddingTop',
+    resizable: 'resizable',
+    resizeHandles: 'resizeHandles',
+    selectionBorderColor: 'selectionBorderColor',
+    selectionBorderWidth: 'selectionBorderWidth',
+    selectionHighlight: 'selectionHighlight',
     shadow: 'shadow',
+    showChildCount: 'showChildCount',
+    showDepthIndicator: 'showDepthIndicator',
     verticalAlign: 'verticalAlign'
 } as const;
 
@@ -881,6 +967,12 @@ export const DeceasedProperty = {
 
 export function isDeceasedProperty(item: unknown): item is DeceasedProperty {
     return reflection.isInstance(item, DeceasedProperty.$type);
+}
+
+export type DepthIndicatorStyleValue = 'bar' | 'color' | 'indent';
+
+export function isDepthIndicatorStyleValue(item: unknown): item is DepthIndicatorStyleValue {
+    return item === 'bar' || item === 'indent' || item === 'color';
 }
 
 export interface DiagramProfile extends langium.AstNode {
@@ -2001,6 +2093,12 @@ export const Profile = {
 
 export function isProfile(item: unknown): item is Profile {
     return reflection.isInstance(item, Profile.$type);
+}
+
+export type ResizeHandleValue = 'e' | 'n' | 'ne' | 'nw' | 's' | 'se' | 'sw' | 'w';
+
+export function isResizeHandleValue(item: unknown): item is ResizeHandleValue {
+    return item === 'n' || item === 's' || item === 'e' || item === 'w' || item === 'ne' || item === 'nw' || item === 'se' || item === 'sw';
 }
 
 export interface RoleSourceProperty extends langium.AstNode {
@@ -3224,11 +3322,32 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 borderWidth: {
                     name: ContainerStyleProperty.borderWidth
                 },
+                childCountPosition: {
+                    name: ContainerStyleProperty.childCountPosition
+                },
+                collapseButtonColor: {
+                    name: ContainerStyleProperty.collapseButtonColor
+                },
+                collapseButtonPosition: {
+                    name: ContainerStyleProperty.collapseButtonPosition
+                },
+                collapseButtonSize: {
+                    name: ContainerStyleProperty.collapseButtonSize
+                },
+                collapseButtonStyle: {
+                    name: ContainerStyleProperty.collapseButtonStyle
+                },
+                collapseButtonVisible: {
+                    name: ContainerStyleProperty.collapseButtonVisible
+                },
                 crossContainerEdgeOptimization: {
                     name: ContainerStyleProperty.crossContainerEdgeOptimization
                 },
                 depth: {
                     name: ContainerStyleProperty.depth
+                },
+                depthIndicatorStyle: {
+                    name: ContainerStyleProperty.depthIndicatorStyle
                 },
                 distribution: {
                     name: ContainerStyleProperty.distribution
@@ -3244,6 +3363,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 headerPosition: {
                     name: ContainerStyleProperty.headerPosition
+                },
+                hoverBorderColor: {
+                    name: ContainerStyleProperty.hoverBorderColor
+                },
+                hoverBorderWidth: {
+                    name: ContainerStyleProperty.hoverBorderWidth
+                },
+                hoverHighlight: {
+                    name: ContainerStyleProperty.hoverHighlight
                 },
                 iconColor: {
                     name: ContainerStyleProperty.iconColor
@@ -3287,6 +3415,12 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 minHeight: {
                     name: ContainerStyleProperty.minHeight
                 },
+                minResizeHeight: {
+                    name: ContainerStyleProperty.minResizeHeight
+                },
+                minResizeWidth: {
+                    name: ContainerStyleProperty.minResizeWidth
+                },
                 minWidth: {
                     name: ContainerStyleProperty.minWidth
                 },
@@ -3311,8 +3445,30 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 paddingTop: {
                     name: ContainerStyleProperty.paddingTop
                 },
+                resizable: {
+                    name: ContainerStyleProperty.resizable
+                },
+                resizeHandles: {
+                    name: ContainerStyleProperty.resizeHandles,
+                    defaultValue: []
+                },
+                selectionBorderColor: {
+                    name: ContainerStyleProperty.selectionBorderColor
+                },
+                selectionBorderWidth: {
+                    name: ContainerStyleProperty.selectionBorderWidth
+                },
+                selectionHighlight: {
+                    name: ContainerStyleProperty.selectionHighlight
+                },
                 shadow: {
                     name: ContainerStyleProperty.shadow
+                },
+                showChildCount: {
+                    name: ContainerStyleProperty.showChildCount
+                },
+                showDepthIndicator: {
+                    name: ContainerStyleProperty.showDepthIndicator
                 },
                 verticalAlign: {
                     name: ContainerStyleProperty.verticalAlign
