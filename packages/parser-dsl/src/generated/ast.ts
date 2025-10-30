@@ -7,3947 +7,4283 @@
 import * as langium from 'langium';
 
 export const RuniqTerminals = {
-    LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/,
-    ARROW: /->/,
-    BOOLEAN: /true|false/,
-    SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
-    ID: /[a-zA-Z_][a-zA-Z0-9_]*/,
-    STRING: /"(?:[^"\\]|\\.)*"/,
-    NUMBER: /-?[0-9]+(\.[0-9]+)?/,
-    WS: /\s+/,
-    ML_COMMENT: /\/\*[\s\S]*?\*\//,
-    SL_COMMENT: /(\/\/|#)[^\n\r]*/,
+  LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/,
+  ARROW: /->/,
+  BOOLEAN: /true|false/,
+  SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
+  ID: /[a-zA-Z_][a-zA-Z0-9_]*/,
+  STRING: /"(?:[^"\\]|\\.)*"/,
+  NUMBER: /-?[0-9]+(\.[0-9]+)?/,
+  WS: /\s+/,
+  ML_COMMENT: /\/\*[\s\S]*?\*\//,
+  SL_COMMENT: /(\/\/|#)[^\n\r]*/,
 };
 
 export type RuniqTerminalNames = keyof typeof RuniqTerminals;
 
 export type RuniqKeywordNames =
-    | "("
-    | ")"
-    | ","
-    | "."
-    | ".."
-    | "/"
-    | ":"
-    | "@"
-    | "BT"
-    | "LR"
-    | "RL"
-    | "TB"
-    | "["
-    | "]"
-    | "abstract:"
-    | "ac"
-    | "activate:"
-    | "actor"
-    | "affected:"
-    | "aggregation"
-    | "algorithm:"
-    | "alt"
-    | "alternatives:"
-    | "analysis"
-    | "anchor"
-    | "arrowType:"
-    | "as"
-    | "association"
-    | "async"
-    | "attributes:"
-    | "backgroundColor:"
-    | "bidirectional"
-    | "borderColor:"
-    | "borderStyle:"
-    | "borderWidth:"
-    | "bottom"
-    | "boundary"
-    | "break"
-    | "carrier:"
-    | "colors:"
-    | "component"
-    | "composition"
-    | "constraints:"
-    | "container"
-    | "control"
-    | "create"
-    | "critical"
-    | "dashed"
-    | "data:"
-    | "database"
-    | "dc"
-    | "deceased:"
-    | "default:"
-    | "dependency"
-    | "derived:"
-    | "destroy"
-    | "diagram"
-    | "digital"
-    | "direction"
-    | "dotted"
-    | "double"
-    | "edgeType:"
-    | "entity"
-    | "evolution:"
-    | "evolve"
-    | "force"
-    | "found"
-    | "fragment"
-    | "from:"
-    | "generalization"
-    | "genericTypes:"
-    | "group"
-    | "guard:"
-    | "hollow"
-    | "icon:"
-    | "inertia:"
-    | "inst"
-    | "label:"
-    | "labelPosition:"
-    | "layered"
-    | "left"
-    | "legendPosition:"
-    | "lineStyle:"
-    | "link:"
-    | "loop"
-    | "lost"
-    | "map:"
-    | "message"
-    | "methods:"
-    | "mindmap"
-    | "module"
-    | "mrtree"
-    | "multiplicitySource:"
-    | "multiplicityTarget:"
-    | "name:"
-    | "navigability:"
-    | "net"
-    | "noise"
-    | "none"
-    | "note"
-    | "of:"
-    | "op"
-    | "opacity:"
-    | "open"
-    | "opt"
-    | "orthogonal"
-    | "over"
-    | "package"
-    | "padding:"
-    | "par"
-    | "params:"
-    | "part"
-    | "participant"
-    | "participants:"
-    | "pins:"
-    | "polyline"
-    | "ports:"
-    | "position:"
-    | "private"
-    | "protected"
-    | "public"
-    | "radial"
-    | "realization"
-    | "return"
-    | "returnType:"
-    | "right"
-    | "roleSource:"
-    | "roleTarget:"
-    | "routing"
-    | "routing:"
-    | "schematic"
-    | "sequence"
-    | "shape"
-    | "showLegend:"
-    | "solid"
-    | "source"
-    | "source:"
-    | "spacing:"
-    | "splines"
-    | "stacked:"
-    | "standard"
-    | "static:"
-    | "stereotype:"
-    | "straight"
-    | "stress"
-    | "style"
-    | "style:"
-    | "sync"
-    | "target"
-    | "timing:"
-    | "title:"
-    | "to"
-    | "to:"
-    | "tooltip:"
-    | "top"
-    | "tran"
-    | "type:"
-    | "value:"
-    | "visibility:"
-    | "wardley"
-    | "xLabel:"
-    | "yLabel:"
-    | "{"
-    | "}";
+  | '('
+  | ')'
+  | ','
+  | '.'
+  | '..'
+  | '/'
+  | ':'
+  | '@'
+  | 'BT'
+  | 'LR'
+  | 'RL'
+  | 'TB'
+  | '['
+  | ']'
+  | 'abstract:'
+  | 'ac'
+  | 'activate:'
+  | 'actor'
+  | 'affected:'
+  | 'aggregation'
+  | 'algorithm:'
+  | 'alt'
+  | 'alternatives:'
+  | 'analysis'
+  | 'anchor'
+  | 'arrowType:'
+  | 'as'
+  | 'association'
+  | 'async'
+  | 'attributes:'
+  | 'backgroundColor:'
+  | 'bidirectional'
+  | 'borderColor:'
+  | 'borderStyle:'
+  | 'borderWidth:'
+  | 'bottom'
+  | 'boundary'
+  | 'break'
+  | 'carrier:'
+  | 'colors:'
+  | 'component'
+  | 'composition'
+  | 'constraints:'
+  | 'container'
+  | 'control'
+  | 'create'
+  | 'critical'
+  | 'dashed'
+  | 'data:'
+  | 'database'
+  | 'dc'
+  | 'deceased:'
+  | 'default:'
+  | 'dependency'
+  | 'derived:'
+  | 'destroy'
+  | 'diagram'
+  | 'digital'
+  | 'direction'
+  | 'dotted'
+  | 'double'
+  | 'edgeType:'
+  | 'entity'
+  | 'evolution:'
+  | 'evolve'
+  | 'force'
+  | 'found'
+  | 'fragment'
+  | 'from:'
+  | 'generalization'
+  | 'genericTypes:'
+  | 'group'
+  | 'guard:'
+  | 'hollow'
+  | 'icon:'
+  | 'inertia:'
+  | 'inst'
+  | 'label:'
+  | 'labelPosition:'
+  | 'layered'
+  | 'left'
+  | 'legendPosition:'
+  | 'lineStyle:'
+  | 'link:'
+  | 'loop'
+  | 'lost'
+  | 'map:'
+  | 'message'
+  | 'methods:'
+  | 'mindmap'
+  | 'module'
+  | 'mrtree'
+  | 'multiplicitySource:'
+  | 'multiplicityTarget:'
+  | 'name:'
+  | 'navigability:'
+  | 'net'
+  | 'noise'
+  | 'none'
+  | 'note'
+  | 'of:'
+  | 'op'
+  | 'opacity:'
+  | 'open'
+  | 'opt'
+  | 'orthogonal'
+  | 'over'
+  | 'package'
+  | 'padding:'
+  | 'par'
+  | 'params:'
+  | 'part'
+  | 'participant'
+  | 'participants:'
+  | 'pins:'
+  | 'polyline'
+  | 'ports:'
+  | 'position:'
+  | 'private'
+  | 'protected'
+  | 'public'
+  | 'radial'
+  | 'realization'
+  | 'return'
+  | 'returnType:'
+  | 'right'
+  | 'roleSource:'
+  | 'roleTarget:'
+  | 'routing'
+  | 'routing:'
+  | 'schematic'
+  | 'sequence'
+  | 'shape'
+  | 'showLegend:'
+  | 'solid'
+  | 'source'
+  | 'source:'
+  | 'spacing:'
+  | 'splines'
+  | 'stacked:'
+  | 'standard'
+  | 'static:'
+  | 'stereotype:'
+  | 'straight'
+  | 'stress'
+  | 'style'
+  | 'style:'
+  | 'sync'
+  | 'target'
+  | 'timing:'
+  | 'title:'
+  | 'to'
+  | 'to:'
+  | 'tooltip:'
+  | 'top'
+  | 'tran'
+  | 'type:'
+  | 'value:'
+  | 'visibility:'
+  | 'wardley'
+  | 'xLabel:'
+  | 'yLabel:'
+  | '{'
+  | '}';
 
 export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
 
 export interface AffectedProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'AffectedProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'AffectedProperty';
+  value: string;
 }
 
 export const AffectedProperty = {
-    $type: 'AffectedProperty',
-    value: 'value'
+  $type: 'AffectedProperty',
+  value: 'value',
 } as const;
 
 export function isAffectedProperty(item: unknown): item is AffectedProperty {
-    return reflection.isInstance(item, AffectedProperty.$type);
+  return reflection.isInstance(item, AffectedProperty.$type);
 }
 
 export type AnalysisKind = 'ac' | 'dc' | 'noise' | 'op' | 'tran';
 
 export function isAnalysisKind(item: unknown): item is AnalysisKind {
-    return item === 'tran' || item === 'ac' || item === 'dc' || item === 'op' || item === 'noise';
+  return (
+    item === 'tran' ||
+    item === 'ac' ||
+    item === 'dc' ||
+    item === 'op' ||
+    item === 'noise'
+  );
 }
 
 export interface AnalysisStatement extends langium.AstNode {
-    readonly $container: SchematicProfile;
-    readonly $type: 'AnalysisStatement';
-    args?: string;
-    kind: AnalysisKind;
+  readonly $container: SchematicProfile;
+  readonly $type: 'AnalysisStatement';
+  args?: string;
+  kind: AnalysisKind;
 }
 
 export const AnalysisStatement = {
-    $type: 'AnalysisStatement',
-    args: 'args',
-    kind: 'kind'
+  $type: 'AnalysisStatement',
+  args: 'args',
+  kind: 'kind',
 } as const;
 
 export function isAnalysisStatement(item: unknown): item is AnalysisStatement {
-    return reflection.isInstance(item, AnalysisStatement.$type);
+  return reflection.isInstance(item, AnalysisStatement.$type);
 }
 
 export interface ArrowTypeProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'ArrowTypeProperty';
-    value: ArrowTypeValue;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'ArrowTypeProperty';
+  value: ArrowTypeValue;
 }
 
 export const ArrowTypeProperty = {
-    $type: 'ArrowTypeProperty',
-    value: 'value'
+  $type: 'ArrowTypeProperty',
+  value: 'value',
 } as const;
 
 export function isArrowTypeProperty(item: unknown): item is ArrowTypeProperty {
-    return reflection.isInstance(item, ArrowTypeProperty.$type);
+  return reflection.isInstance(item, ArrowTypeProperty.$type);
 }
 
 export type ArrowTypeValue = 'hollow' | 'none' | 'open' | 'standard';
 
 export function isArrowTypeValue(item: unknown): item is ArrowTypeValue {
-    return item === 'standard' || item === 'hollow' || item === 'open' || item === 'none';
+  return (
+    item === 'standard' ||
+    item === 'hollow' ||
+    item === 'open' ||
+    item === 'none'
+  );
 }
 
 export interface AttrConstraintsField extends langium.AstNode {
-    readonly $container: AttributeDecl;
-    readonly $type: 'AttrConstraintsField';
-    values: Array<string>;
+  readonly $container: AttributeDecl;
+  readonly $type: 'AttrConstraintsField';
+  values: Array<string>;
 }
 
 export const AttrConstraintsField = {
-    $type: 'AttrConstraintsField',
-    values: 'values'
+  $type: 'AttrConstraintsField',
+  values: 'values',
 } as const;
 
-export function isAttrConstraintsField(item: unknown): item is AttrConstraintsField {
-    return reflection.isInstance(item, AttrConstraintsField.$type);
+export function isAttrConstraintsField(
+  item: unknown
+): item is AttrConstraintsField {
+  return reflection.isInstance(item, AttrConstraintsField.$type);
 }
 
 export interface AttrDefaultField extends langium.AstNode {
-    readonly $container: AttributeDecl;
-    readonly $type: 'AttrDefaultField';
-    value: string;
+  readonly $container: AttributeDecl;
+  readonly $type: 'AttrDefaultField';
+  value: string;
 }
 
 export const AttrDefaultField = {
-    $type: 'AttrDefaultField',
-    value: 'value'
+  $type: 'AttrDefaultField',
+  value: 'value',
 } as const;
 
 export function isAttrDefaultField(item: unknown): item is AttrDefaultField {
-    return reflection.isInstance(item, AttrDefaultField.$type);
+  return reflection.isInstance(item, AttrDefaultField.$type);
 }
 
 export interface AttrDerivedField extends langium.AstNode {
-    readonly $container: AttributeDecl;
-    readonly $type: 'AttrDerivedField';
-    value: string;
+  readonly $container: AttributeDecl;
+  readonly $type: 'AttrDerivedField';
+  value: string;
 }
 
 export const AttrDerivedField = {
-    $type: 'AttrDerivedField',
-    value: 'value'
+  $type: 'AttrDerivedField',
+  value: 'value',
 } as const;
 
 export function isAttrDerivedField(item: unknown): item is AttrDerivedField {
-    return reflection.isInstance(item, AttrDerivedField.$type);
+  return reflection.isInstance(item, AttrDerivedField.$type);
 }
 
 export interface AttributeDecl extends langium.AstNode {
-    readonly $container: AttributesProperty;
-    readonly $type: 'AttributeDecl';
-    properties: Array<AttributeField>;
+  readonly $container: AttributesProperty;
+  readonly $type: 'AttributeDecl';
+  properties: Array<AttributeField>;
 }
 
 export const AttributeDecl = {
-    $type: 'AttributeDecl',
-    properties: 'properties'
+  $type: 'AttributeDecl',
+  properties: 'properties',
 } as const;
 
 export function isAttributeDecl(item: unknown): item is AttributeDecl {
-    return reflection.isInstance(item, AttributeDecl.$type);
+  return reflection.isInstance(item, AttributeDecl.$type);
 }
 
-export type AttributeField = AttrConstraintsField | AttrDefaultField | AttrDerivedField | AttrNameField | AttrStaticField | AttrTypeField | AttrVisibilityField;
+export type AttributeField =
+  | AttrConstraintsField
+  | AttrDefaultField
+  | AttrDerivedField
+  | AttrNameField
+  | AttrStaticField
+  | AttrTypeField
+  | AttrVisibilityField;
 
 export const AttributeField = {
-    $type: 'AttributeField'
+  $type: 'AttributeField',
 } as const;
 
 export function isAttributeField(item: unknown): item is AttributeField {
-    return reflection.isInstance(item, AttributeField.$type);
+  return reflection.isInstance(item, AttributeField.$type);
 }
 
 export interface AttributesProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'AttributesProperty';
-    attributes: Array<AttributeDecl>;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'AttributesProperty';
+  attributes: Array<AttributeDecl>;
 }
 
 export const AttributesProperty = {
-    $type: 'AttributesProperty',
-    attributes: 'attributes'
+  $type: 'AttributesProperty',
+  attributes: 'attributes',
 } as const;
 
-export function isAttributesProperty(item: unknown): item is AttributesProperty {
-    return reflection.isInstance(item, AttributesProperty.$type);
+export function isAttributesProperty(
+  item: unknown
+): item is AttributesProperty {
+  return reflection.isInstance(item, AttributesProperty.$type);
 }
 
 export interface AttrNameField extends langium.AstNode {
-    readonly $container: AttributeDecl;
-    readonly $type: 'AttrNameField';
-    value: string;
+  readonly $container: AttributeDecl;
+  readonly $type: 'AttrNameField';
+  value: string;
 }
 
 export const AttrNameField = {
-    $type: 'AttrNameField',
-    value: 'value'
+  $type: 'AttrNameField',
+  value: 'value',
 } as const;
 
 export function isAttrNameField(item: unknown): item is AttrNameField {
-    return reflection.isInstance(item, AttrNameField.$type);
+  return reflection.isInstance(item, AttrNameField.$type);
 }
 
 export interface AttrStaticField extends langium.AstNode {
-    readonly $container: AttributeDecl;
-    readonly $type: 'AttrStaticField';
-    value: string;
+  readonly $container: AttributeDecl;
+  readonly $type: 'AttrStaticField';
+  value: string;
 }
 
 export const AttrStaticField = {
-    $type: 'AttrStaticField',
-    value: 'value'
+  $type: 'AttrStaticField',
+  value: 'value',
 } as const;
 
 export function isAttrStaticField(item: unknown): item is AttrStaticField {
-    return reflection.isInstance(item, AttrStaticField.$type);
+  return reflection.isInstance(item, AttrStaticField.$type);
 }
 
 export interface AttrTypeField extends langium.AstNode {
-    readonly $container: AttributeDecl;
-    readonly $type: 'AttrTypeField';
-    value: string;
+  readonly $container: AttributeDecl;
+  readonly $type: 'AttrTypeField';
+  value: string;
 }
 
 export const AttrTypeField = {
-    $type: 'AttrTypeField',
-    value: 'value'
+  $type: 'AttrTypeField',
+  value: 'value',
 } as const;
 
 export function isAttrTypeField(item: unknown): item is AttrTypeField {
-    return reflection.isInstance(item, AttrTypeField.$type);
+  return reflection.isInstance(item, AttrTypeField.$type);
 }
 
 export interface AttrVisibilityField extends langium.AstNode {
-    readonly $container: AttributeDecl;
-    readonly $type: 'AttrVisibilityField';
-    value: VisibilityValue;
+  readonly $container: AttributeDecl;
+  readonly $type: 'AttrVisibilityField';
+  value: VisibilityValue;
 }
 
 export const AttrVisibilityField = {
-    $type: 'AttrVisibilityField',
-    value: 'value'
+  $type: 'AttrVisibilityField',
+  value: 'value',
 } as const;
 
-export function isAttrVisibilityField(item: unknown): item is AttrVisibilityField {
-    return reflection.isInstance(item, AttrVisibilityField.$type);
+export function isAttrVisibilityField(
+  item: unknown
+): item is AttrVisibilityField {
+  return reflection.isInstance(item, AttrVisibilityField.$type);
 }
 
 export type BorderStyleValue = 'dashed' | 'dotted' | 'solid';
 
 export function isBorderStyleValue(item: unknown): item is BorderStyleValue {
-    return item === 'solid' || item === 'dashed' || item === 'dotted';
+  return item === 'solid' || item === 'dashed' || item === 'dotted';
 }
 
 export interface BusWidth extends langium.AstNode {
-    readonly $container: NetDecl | PortConnection | PortDecl;
-    readonly $type: 'BusWidth';
-    lsb: string;
-    msb: string;
+  readonly $container: NetDecl | PortConnection | PortDecl;
+  readonly $type: 'BusWidth';
+  lsb: string;
+  msb: string;
 }
 
 export const BusWidth = {
-    $type: 'BusWidth',
-    lsb: 'lsb',
-    msb: 'msb'
+  $type: 'BusWidth',
+  lsb: 'lsb',
+  msb: 'msb',
 } as const;
 
 export function isBusWidth(item: unknown): item is BusWidth {
-    return reflection.isInstance(item, BusWidth.$type);
+  return reflection.isInstance(item, BusWidth.$type);
 }
 
 export interface CarrierProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'CarrierProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'CarrierProperty';
+  value: string;
 }
 
 export const CarrierProperty = {
-    $type: 'CarrierProperty',
-    value: 'value'
+  $type: 'CarrierProperty',
+  value: 'value',
 } as const;
 
 export function isCarrierProperty(item: unknown): item is CarrierProperty {
-    return reflection.isInstance(item, CarrierProperty.$type);
+  return reflection.isInstance(item, CarrierProperty.$type);
 }
 
 export interface ColorsProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'ColorsProperty';
-    value: StringArray;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'ColorsProperty';
+  value: StringArray;
 }
 
 export const ColorsProperty = {
-    $type: 'ColorsProperty',
-    value: 'value'
+  $type: 'ColorsProperty',
+  value: 'value',
 } as const;
 
 export function isColorsProperty(item: unknown): item is ColorsProperty {
-    return reflection.isInstance(item, ColorsProperty.$type);
+  return reflection.isInstance(item, ColorsProperty.$type);
 }
 
 export interface ContainerBlock extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'ContainerBlock';
-    id?: string;
-    label: string;
-    properties: Array<ContainerProperty>;
-    shape?: string;
-    statements: Array<DiagramStatement>;
+  readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+  readonly $type: 'ContainerBlock';
+  id?: string;
+  label: string;
+  properties: Array<ContainerProperty>;
+  shape?: string;
+  statements: Array<DiagramStatement>;
 }
 
 export const ContainerBlock = {
-    $type: 'ContainerBlock',
-    id: 'id',
-    label: 'label',
-    properties: 'properties',
-    shape: 'shape',
-    statements: 'statements'
+  $type: 'ContainerBlock',
+  id: 'id',
+  label: 'label',
+  properties: 'properties',
+  shape: 'shape',
+  statements: 'statements',
 } as const;
 
 export function isContainerBlock(item: unknown): item is ContainerBlock {
-    return reflection.isInstance(item, ContainerBlock.$type);
+  return reflection.isInstance(item, ContainerBlock.$type);
 }
 
 export interface ContainerLayoutProperty extends langium.AstNode {
-    readonly $container: ContainerBlock;
-    readonly $type: 'ContainerLayoutProperty';
-    algorithm?: LayoutAlgorithmValue;
-    spacing?: string;
+  readonly $container: ContainerBlock;
+  readonly $type: 'ContainerLayoutProperty';
+  algorithm?: LayoutAlgorithmValue;
+  spacing?: string;
 }
 
 export const ContainerLayoutProperty = {
-    $type: 'ContainerLayoutProperty',
-    algorithm: 'algorithm',
-    spacing: 'spacing'
+  $type: 'ContainerLayoutProperty',
+  algorithm: 'algorithm',
+  spacing: 'spacing',
 } as const;
 
-export function isContainerLayoutProperty(item: unknown): item is ContainerLayoutProperty {
-    return reflection.isInstance(item, ContainerLayoutProperty.$type);
+export function isContainerLayoutProperty(
+  item: unknown
+): item is ContainerLayoutProperty {
+  return reflection.isInstance(item, ContainerLayoutProperty.$type);
 }
 
-export type ContainerProperty = ContainerLayoutProperty | ContainerStyleProperty | ContainerTypeProperty | StyleRefProperty;
+export type ContainerProperty =
+  | ContainerLayoutProperty
+  | ContainerStyleProperty
+  | ContainerTypeProperty
+  | StyleRefProperty;
 
 export const ContainerProperty = {
-    $type: 'ContainerProperty'
+  $type: 'ContainerProperty',
 } as const;
 
 export function isContainerProperty(item: unknown): item is ContainerProperty {
-    return reflection.isInstance(item, ContainerProperty.$type);
+  return reflection.isInstance(item, ContainerProperty.$type);
 }
 
 export interface ContainerStyleProperty extends langium.AstNode {
-    readonly $container: ContainerBlock;
-    readonly $type: 'ContainerStyleProperty';
-    backgroundColor?: string;
-    borderColor?: string;
-    borderStyle?: BorderStyleValue;
-    borderWidth?: string;
-    labelPosition?: LabelPositionValue;
-    opacity?: string;
-    padding?: string;
+  readonly $container: ContainerBlock;
+  readonly $type: 'ContainerStyleProperty';
+  backgroundColor?: string;
+  borderColor?: string;
+  borderStyle?: BorderStyleValue;
+  borderWidth?: string;
+  labelPosition?: LabelPositionValue;
+  opacity?: string;
+  padding?: string;
 }
 
 export const ContainerStyleProperty = {
-    $type: 'ContainerStyleProperty',
-    backgroundColor: 'backgroundColor',
-    borderColor: 'borderColor',
-    borderStyle: 'borderStyle',
-    borderWidth: 'borderWidth',
-    labelPosition: 'labelPosition',
-    opacity: 'opacity',
-    padding: 'padding'
+  $type: 'ContainerStyleProperty',
+  backgroundColor: 'backgroundColor',
+  borderColor: 'borderColor',
+  borderStyle: 'borderStyle',
+  borderWidth: 'borderWidth',
+  labelPosition: 'labelPosition',
+  opacity: 'opacity',
+  padding: 'padding',
 } as const;
 
-export function isContainerStyleProperty(item: unknown): item is ContainerStyleProperty {
-    return reflection.isInstance(item, ContainerStyleProperty.$type);
+export function isContainerStyleProperty(
+  item: unknown
+): item is ContainerStyleProperty {
+  return reflection.isInstance(item, ContainerStyleProperty.$type);
 }
 
 export interface ContainerTypeProperty extends langium.AstNode {
-    readonly $container: ContainerBlock;
-    readonly $type: 'ContainerTypeProperty';
-    type: ContainerTypeValue;
+  readonly $container: ContainerBlock;
+  readonly $type: 'ContainerTypeProperty';
+  type: ContainerTypeValue;
 }
 
 export const ContainerTypeProperty = {
-    $type: 'ContainerTypeProperty',
-    type: 'type'
+  $type: 'ContainerTypeProperty',
+  type: 'type',
 } as const;
 
-export function isContainerTypeProperty(item: unknown): item is ContainerTypeProperty {
-    return reflection.isInstance(item, ContainerTypeProperty.$type);
+export function isContainerTypeProperty(
+  item: unknown
+): item is ContainerTypeProperty {
+  return reflection.isInstance(item, ContainerTypeProperty.$type);
 }
 
 export type ContainerTypeValue = 'mindmap' | string;
 
-export function isContainerTypeValue(item: unknown): item is ContainerTypeValue {
-    return item === 'mindmap' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+export function isContainerTypeValue(
+  item: unknown
+): item is ContainerTypeValue {
+  return (
+    item === 'mindmap' ||
+    (typeof item === 'string' && /[a-zA-Z_][a-zA-Z0-9_]*/.test(item))
+  );
 }
 
 export interface DataArray extends langium.AstNode {
-    readonly $container: DataObjectProperty;
-    readonly $type: 'DataArray';
-    items: Array<string>;
+  readonly $container: DataObjectProperty;
+  readonly $type: 'DataArray';
+  items: Array<string>;
 }
 
 export const DataArray = {
-    $type: 'DataArray',
-    items: 'items'
+  $type: 'DataArray',
+  items: 'items',
 } as const;
 
 export function isDataArray(item: unknown): item is DataArray {
-    return reflection.isInstance(item, DataArray.$type);
+  return reflection.isInstance(item, DataArray.$type);
 }
 
 export type DataItem = DataObject | DataValue;
 
 export const DataItem = {
-    $type: 'DataItem'
+  $type: 'DataItem',
 } as const;
 
 export function isDataItem(item: unknown): item is DataItem {
-    return reflection.isInstance(item, DataItem.$type);
+  return reflection.isInstance(item, DataItem.$type);
 }
 
 export interface DataObject extends langium.AstNode {
-    readonly $container: DataProperty;
-    readonly $type: 'DataObject';
-    properties: Array<DataObjectProperty>;
+  readonly $container: DataProperty;
+  readonly $type: 'DataObject';
+  properties: Array<DataObjectProperty>;
 }
 
 export const DataObject = {
-    $type: 'DataObject',
-    properties: 'properties'
+  $type: 'DataObject',
+  properties: 'properties',
 } as const;
 
 export function isDataObject(item: unknown): item is DataObject {
-    return reflection.isInstance(item, DataObject.$type);
+  return reflection.isInstance(item, DataObject.$type);
 }
 
 export interface DataObjectProperty extends langium.AstNode {
-    readonly $container: DataObject;
-    readonly $type: 'DataObjectProperty';
-    key: string;
-    value: DataArray | string;
+  readonly $container: DataObject;
+  readonly $type: 'DataObjectProperty';
+  key: string;
+  value: DataArray | string;
 }
 
 export const DataObjectProperty = {
-    $type: 'DataObjectProperty',
-    key: 'key',
-    value: 'value'
+  $type: 'DataObjectProperty',
+  key: 'key',
+  value: 'value',
 } as const;
 
-export function isDataObjectProperty(item: unknown): item is DataObjectProperty {
-    return reflection.isInstance(item, DataObjectProperty.$type);
+export function isDataObjectProperty(
+  item: unknown
+): item is DataObjectProperty {
+  return reflection.isInstance(item, DataObjectProperty.$type);
 }
 
 export interface DataProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'DataProperty';
-    items: Array<DataItem>;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'DataProperty';
+  items: Array<DataItem>;
 }
 
 export const DataProperty = {
-    $type: 'DataProperty',
-    items: 'items'
+  $type: 'DataProperty',
+  items: 'items',
 } as const;
 
 export function isDataProperty(item: unknown): item is DataProperty {
-    return reflection.isInstance(item, DataProperty.$type);
+  return reflection.isInstance(item, DataProperty.$type);
 }
 
 export interface DataValue extends langium.AstNode {
-    readonly $container: DataProperty;
-    readonly $type: 'DataValue';
-    value: string;
+  readonly $container: DataProperty;
+  readonly $type: 'DataValue';
+  value: string;
 }
 
 export const DataValue = {
-    $type: 'DataValue',
-    value: 'value'
+  $type: 'DataValue',
+  value: 'value',
 } as const;
 
 export function isDataValue(item: unknown): item is DataValue {
-    return reflection.isInstance(item, DataValue.$type);
+  return reflection.isInstance(item, DataValue.$type);
 }
 
 export interface DeceasedProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'DeceasedProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'DeceasedProperty';
+  value: string;
 }
 
 export const DeceasedProperty = {
-    $type: 'DeceasedProperty',
-    value: 'value'
+  $type: 'DeceasedProperty',
+  value: 'value',
 } as const;
 
 export function isDeceasedProperty(item: unknown): item is DeceasedProperty {
-    return reflection.isInstance(item, DeceasedProperty.$type);
+  return reflection.isInstance(item, DeceasedProperty.$type);
 }
 
 export interface DiagramProfile extends langium.AstNode {
-    readonly $container: Document;
-    readonly $type: 'DiagramProfile';
-    name: string;
-    statements: Array<DiagramStatement>;
+  readonly $container: Document;
+  readonly $type: 'DiagramProfile';
+  name: string;
+  statements: Array<DiagramStatement>;
 }
 
 export const DiagramProfile = {
-    $type: 'DiagramProfile',
-    name: 'name',
-    statements: 'statements'
+  $type: 'DiagramProfile',
+  name: 'name',
+  statements: 'statements',
 } as const;
 
 export function isDiagramProfile(item: unknown): item is DiagramProfile {
-    return reflection.isInstance(item, DiagramProfile.$type);
+  return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration;
+export type DiagramStatement =
+  | ContainerBlock
+  | DirectionDeclaration
+  | EdgeDeclaration
+  | GroupBlock
+  | RoutingDeclaration
+  | ShapeDeclaration
+  | StyleDeclaration;
 
 export const DiagramStatement = {
-    $type: 'DiagramStatement'
+  $type: 'DiagramStatement',
 } as const;
 
 export function isDiagramStatement(item: unknown): item is DiagramStatement {
-    return reflection.isInstance(item, DiagramStatement.$type);
+  return reflection.isInstance(item, DiagramStatement.$type);
 }
 
 export interface DigitalNetStatement extends langium.AstNode {
-    readonly $container: DigitalProfile;
-    readonly $type: 'DigitalNetStatement';
-    names: Array<NetDecl>;
+  readonly $container: DigitalProfile;
+  readonly $type: 'DigitalNetStatement';
+  names: Array<NetDecl>;
 }
 
 export const DigitalNetStatement = {
-    $type: 'DigitalNetStatement',
-    names: 'names'
+  $type: 'DigitalNetStatement',
+  names: 'names',
 } as const;
 
-export function isDigitalNetStatement(item: unknown): item is DigitalNetStatement {
-    return reflection.isInstance(item, DigitalNetStatement.$type);
+export function isDigitalNetStatement(
+  item: unknown
+): item is DigitalNetStatement {
+  return reflection.isInstance(item, DigitalNetStatement.$type);
 }
 
 export interface DigitalProfile extends langium.AstNode {
-    readonly $container: Document;
-    readonly $type: 'DigitalProfile';
-    name: string;
-    statements: Array<DigitalStatement>;
+  readonly $container: Document;
+  readonly $type: 'DigitalProfile';
+  name: string;
+  statements: Array<DigitalStatement>;
 }
 
 export const DigitalProfile = {
-    $type: 'DigitalProfile',
-    name: 'name',
-    statements: 'statements'
+  $type: 'DigitalProfile',
+  name: 'name',
+  statements: 'statements',
 } as const;
 
 export function isDigitalProfile(item: unknown): item is DigitalProfile {
-    return reflection.isInstance(item, DigitalProfile.$type);
+  return reflection.isInstance(item, DigitalProfile.$type);
 }
 
-export type DigitalStatement = DigitalNetStatement | InstStatement | ModuleStatement;
+export type DigitalStatement =
+  | DigitalNetStatement
+  | InstStatement
+  | ModuleStatement;
 
 export const DigitalStatement = {
-    $type: 'DigitalStatement'
+  $type: 'DigitalStatement',
 } as const;
 
 export function isDigitalStatement(item: unknown): item is DigitalStatement {
-    return reflection.isInstance(item, DigitalStatement.$type);
+  return reflection.isInstance(item, DigitalStatement.$type);
 }
 
 export interface DirectionDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'DirectionDeclaration';
-    value: DirectionValue;
+  readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+  readonly $type: 'DirectionDeclaration';
+  value: DirectionValue;
 }
 
 export const DirectionDeclaration = {
-    $type: 'DirectionDeclaration',
-    value: 'value'
+  $type: 'DirectionDeclaration',
+  value: 'value',
 } as const;
 
-export function isDirectionDeclaration(item: unknown): item is DirectionDeclaration {
-    return reflection.isInstance(item, DirectionDeclaration.$type);
+export function isDirectionDeclaration(
+  item: unknown
+): item is DirectionDeclaration {
+  return reflection.isInstance(item, DirectionDeclaration.$type);
 }
 
 export type DirectionValue = 'BT' | 'LR' | 'RL' | 'TB';
 
 export function isDirectionValue(item: unknown): item is DirectionValue {
-    return item === 'LR' || item === 'RL' || item === 'TB' || item === 'BT';
+  return item === 'LR' || item === 'RL' || item === 'TB' || item === 'BT';
 }
 
 export interface Document extends langium.AstNode {
-    readonly $type: 'Document';
-    profiles: Array<Profile>;
+  readonly $type: 'Document';
+  profiles: Array<Profile>;
 }
 
 export const Document = {
-    $type: 'Document',
-    profiles: 'profiles'
+  $type: 'Document',
+  profiles: 'profiles',
 } as const;
 
 export function isDocument(item: unknown): item is Document {
-    return reflection.isInstance(item, Document.$type);
+  return reflection.isInstance(item, Document.$type);
 }
 
 export interface EdgeConstraintsProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'EdgeConstraintsProperty';
-    values: Array<string>;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'EdgeConstraintsProperty';
+  values: Array<string>;
 }
 
 export const EdgeConstraintsProperty = {
-    $type: 'EdgeConstraintsProperty',
-    values: 'values'
+  $type: 'EdgeConstraintsProperty',
+  values: 'values',
 } as const;
 
-export function isEdgeConstraintsProperty(item: unknown): item is EdgeConstraintsProperty {
-    return reflection.isInstance(item, EdgeConstraintsProperty.$type);
+export function isEdgeConstraintsProperty(
+  item: unknown
+): item is EdgeConstraintsProperty {
+  return reflection.isInstance(item, EdgeConstraintsProperty.$type);
 }
 
 export interface EdgeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'EdgeDeclaration';
-    arrow?: string;
-    from: NodeRef;
-    labeledArrow?: string;
-    properties: Array<EdgeProperty>;
-    to: NodeRef;
+  readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+  readonly $type: 'EdgeDeclaration';
+  arrow?: string;
+  from: NodeRef;
+  labeledArrow?: string;
+  properties: Array<EdgeProperty>;
+  to: NodeRef;
 }
 
 export const EdgeDeclaration = {
-    $type: 'EdgeDeclaration',
-    arrow: 'arrow',
-    from: 'from',
-    labeledArrow: 'labeledArrow',
-    properties: 'properties',
-    to: 'to'
+  $type: 'EdgeDeclaration',
+  arrow: 'arrow',
+  from: 'from',
+  labeledArrow: 'labeledArrow',
+  properties: 'properties',
+  to: 'to',
 } as const;
 
 export function isEdgeDeclaration(item: unknown): item is EdgeDeclaration {
-    return reflection.isInstance(item, EdgeDeclaration.$type);
+  return reflection.isInstance(item, EdgeDeclaration.$type);
 }
 
 export interface EdgeLabelProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'EdgeLabelProperty';
-    label: string;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'EdgeLabelProperty';
+  label: string;
 }
 
 export const EdgeLabelProperty = {
-    $type: 'EdgeLabelProperty',
-    label: 'label'
+  $type: 'EdgeLabelProperty',
+  label: 'label',
 } as const;
 
 export function isEdgeLabelProperty(item: unknown): item is EdgeLabelProperty {
-    return reflection.isInstance(item, EdgeLabelProperty.$type);
+  return reflection.isInstance(item, EdgeLabelProperty.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty;
+export type EdgeProperty =
+  | ArrowTypeProperty
+  | EdgeConstraintsProperty
+  | EdgeLabelProperty
+  | EdgeTypeProperty
+  | LineStyleProperty
+  | MultiplicitySourceProperty
+  | MultiplicityTargetProperty
+  | NavigabilityProperty
+  | RoleSourceProperty
+  | RoleTargetProperty
+  | RoutingProperty;
 
 export const EdgeProperty = {
-    $type: 'EdgeProperty'
+  $type: 'EdgeProperty',
 } as const;
 
 export function isEdgeProperty(item: unknown): item is EdgeProperty {
-    return reflection.isInstance(item, EdgeProperty.$type);
+  return reflection.isInstance(item, EdgeProperty.$type);
 }
 
 export interface EdgeTypeProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'EdgeTypeProperty';
-    value: EdgeTypeValue;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'EdgeTypeProperty';
+  value: EdgeTypeValue;
 }
 
 export const EdgeTypeProperty = {
-    $type: 'EdgeTypeProperty',
-    value: 'value'
+  $type: 'EdgeTypeProperty',
+  value: 'value',
 } as const;
 
 export function isEdgeTypeProperty(item: unknown): item is EdgeTypeProperty {
-    return reflection.isInstance(item, EdgeTypeProperty.$type);
+  return reflection.isInstance(item, EdgeTypeProperty.$type);
 }
 
-export type EdgeTypeValue = 'aggregation' | 'association' | 'composition' | 'dependency' | 'generalization' | 'realization';
+export type EdgeTypeValue =
+  | 'aggregation'
+  | 'association'
+  | 'composition'
+  | 'dependency'
+  | 'generalization'
+  | 'realization';
 
 export function isEdgeTypeValue(item: unknown): item is EdgeTypeValue {
-    return item === 'association' || item === 'aggregation' || item === 'composition' || item === 'dependency' || item === 'generalization' || item === 'realization';
+  return (
+    item === 'association' ||
+    item === 'aggregation' ||
+    item === 'composition' ||
+    item === 'dependency' ||
+    item === 'generalization' ||
+    item === 'realization'
+  );
 }
 
-export type ElectricalStatement = AnalysisStatement | NetStatement | PartStatement;
+export type ElectricalStatement =
+  | AnalysisStatement
+  | NetStatement
+  | PartStatement;
 
 export const ElectricalStatement = {
-    $type: 'ElectricalStatement'
+  $type: 'ElectricalStatement',
 } as const;
 
-export function isElectricalStatement(item: unknown): item is ElectricalStatement {
-    return reflection.isInstance(item, ElectricalStatement.$type);
+export function isElectricalStatement(
+  item: unknown
+): item is ElectricalStatement {
+  return reflection.isInstance(item, ElectricalStatement.$type);
 }
 
 export interface GenericTypesProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'GenericTypesProperty';
-    types: Array<string>;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'GenericTypesProperty';
+  types: Array<string>;
 }
 
 export const GenericTypesProperty = {
-    $type: 'GenericTypesProperty',
-    types: 'types'
+  $type: 'GenericTypesProperty',
+  types: 'types',
 } as const;
 
-export function isGenericTypesProperty(item: unknown): item is GenericTypesProperty {
-    return reflection.isInstance(item, GenericTypesProperty.$type);
+export function isGenericTypesProperty(
+  item: unknown
+): item is GenericTypesProperty {
+  return reflection.isInstance(item, GenericTypesProperty.$type);
 }
 
 export interface GroupBlock extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'GroupBlock';
-    label: string;
-    statements: Array<DiagramStatement>;
+  readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+  readonly $type: 'GroupBlock';
+  label: string;
+  statements: Array<DiagramStatement>;
 }
 
 export const GroupBlock = {
-    $type: 'GroupBlock',
-    label: 'label',
-    statements: 'statements'
+  $type: 'GroupBlock',
+  label: 'label',
+  statements: 'statements',
 } as const;
 
 export function isGroupBlock(item: unknown): item is GroupBlock {
-    return reflection.isInstance(item, GroupBlock.$type);
+  return reflection.isInstance(item, GroupBlock.$type);
 }
 
 export interface IconProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'IconProperty';
-    icon: string;
-    provider: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'IconProperty';
+  icon: string;
+  provider: string;
 }
 
 export const IconProperty = {
-    $type: 'IconProperty',
-    icon: 'icon',
-    provider: 'provider'
+  $type: 'IconProperty',
+  icon: 'icon',
+  provider: 'provider',
 } as const;
 
 export function isIconProperty(item: unknown): item is IconProperty {
-    return reflection.isInstance(item, IconProperty.$type);
+  return reflection.isInstance(item, IconProperty.$type);
 }
 
 export interface InstMapProperty extends langium.AstNode {
-    readonly $container: InstStatement;
-    readonly $type: 'InstMapProperty';
-    connections: Array<PortConnection>;
+  readonly $container: InstStatement;
+  readonly $type: 'InstMapProperty';
+  connections: Array<PortConnection>;
 }
 
 export const InstMapProperty = {
-    $type: 'InstMapProperty',
-    connections: 'connections'
+  $type: 'InstMapProperty',
+  connections: 'connections',
 } as const;
 
 export function isInstMapProperty(item: unknown): item is InstMapProperty {
-    return reflection.isInstance(item, InstMapProperty.$type);
+  return reflection.isInstance(item, InstMapProperty.$type);
 }
 
 export interface InstOfProperty extends langium.AstNode {
-    readonly $container: InstStatement;
-    readonly $type: 'InstOfProperty';
-    module: string;
+  readonly $container: InstStatement;
+  readonly $type: 'InstOfProperty';
+  module: string;
 }
 
 export const InstOfProperty = {
-    $type: 'InstOfProperty',
-    module: 'module'
+  $type: 'InstOfProperty',
+  module: 'module',
 } as const;
 
 export function isInstOfProperty(item: unknown): item is InstOfProperty {
-    return reflection.isInstance(item, InstOfProperty.$type);
+  return reflection.isInstance(item, InstOfProperty.$type);
 }
 
 export interface InstParamsProperty extends langium.AstNode {
-    readonly $container: InstStatement;
-    readonly $type: 'InstParamsProperty';
-    params: Array<ParamOverride>;
+  readonly $container: InstStatement;
+  readonly $type: 'InstParamsProperty';
+  params: Array<ParamOverride>;
 }
 
 export const InstParamsProperty = {
-    $type: 'InstParamsProperty',
-    params: 'params'
+  $type: 'InstParamsProperty',
+  params: 'params',
 } as const;
 
-export function isInstParamsProperty(item: unknown): item is InstParamsProperty {
-    return reflection.isInstance(item, InstParamsProperty.$type);
+export function isInstParamsProperty(
+  item: unknown
+): item is InstParamsProperty {
+  return reflection.isInstance(item, InstParamsProperty.$type);
 }
 
-export type InstProperty = InstMapProperty | InstOfProperty | InstParamsProperty;
+export type InstProperty =
+  | InstMapProperty
+  | InstOfProperty
+  | InstParamsProperty;
 
 export const InstProperty = {
-    $type: 'InstProperty'
+  $type: 'InstProperty',
 } as const;
 
 export function isInstProperty(item: unknown): item is InstProperty {
-    return reflection.isInstance(item, InstProperty.$type);
+  return reflection.isInstance(item, InstProperty.$type);
 }
 
 export interface InstStatement extends langium.AstNode {
-    readonly $container: DigitalProfile;
-    readonly $type: 'InstStatement';
-    properties: Array<InstProperty>;
-    ref: string;
+  readonly $container: DigitalProfile;
+  readonly $type: 'InstStatement';
+  properties: Array<InstProperty>;
+  ref: string;
 }
 
 export const InstStatement = {
-    $type: 'InstStatement',
-    properties: 'properties',
-    ref: 'ref'
+  $type: 'InstStatement',
+  properties: 'properties',
+  ref: 'ref',
 } as const;
 
 export function isInstStatement(item: unknown): item is InstStatement {
-    return reflection.isInstance(item, InstStatement.$type);
+  return reflection.isInstance(item, InstStatement.$type);
 }
 
 export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
 
-export function isLabelPositionValue(item: unknown): item is LabelPositionValue {
-    return item === 'top' || item === 'bottom' || item === 'left' || item === 'right';
+export function isLabelPositionValue(
+  item: unknown
+): item is LabelPositionValue {
+  return (
+    item === 'top' || item === 'bottom' || item === 'left' || item === 'right'
+  );
 }
 
 export interface LabelProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'LabelProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'LabelProperty';
+  value: string;
 }
 
 export const LabelProperty = {
-    $type: 'LabelProperty',
-    value: 'value'
+  $type: 'LabelProperty',
+  value: 'value',
 } as const;
 
 export function isLabelProperty(item: unknown): item is LabelProperty {
-    return reflection.isInstance(item, LabelProperty.$type);
+  return reflection.isInstance(item, LabelProperty.$type);
 }
 
-export type LayoutAlgorithmValue = 'force' | 'layered' | 'mrtree' | 'radial' | 'stress';
+export type LayoutAlgorithmValue =
+  | 'force'
+  | 'layered'
+  | 'mrtree'
+  | 'radial'
+  | 'stress';
 
-export function isLayoutAlgorithmValue(item: unknown): item is LayoutAlgorithmValue {
-    return item === 'layered' || item === 'force' || item === 'stress' || item === 'radial' || item === 'mrtree';
+export function isLayoutAlgorithmValue(
+  item: unknown
+): item is LayoutAlgorithmValue {
+  return (
+    item === 'layered' ||
+    item === 'force' ||
+    item === 'stress' ||
+    item === 'radial' ||
+    item === 'mrtree'
+  );
 }
 
 export interface LegendPositionProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'LegendPositionProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'LegendPositionProperty';
+  value: string;
 }
 
 export const LegendPositionProperty = {
-    $type: 'LegendPositionProperty',
-    value: 'value'
+  $type: 'LegendPositionProperty',
+  value: 'value',
 } as const;
 
-export function isLegendPositionProperty(item: unknown): item is LegendPositionProperty {
-    return reflection.isInstance(item, LegendPositionProperty.$type);
+export function isLegendPositionProperty(
+  item: unknown
+): item is LegendPositionProperty {
+  return reflection.isInstance(item, LegendPositionProperty.$type);
 }
 
 export interface LineStyleProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'LineStyleProperty';
-    value: LineStyleValue;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'LineStyleProperty';
+  value: LineStyleValue;
 }
 
 export const LineStyleProperty = {
-    $type: 'LineStyleProperty',
-    value: 'value'
+  $type: 'LineStyleProperty',
+  value: 'value',
 } as const;
 
 export function isLineStyleProperty(item: unknown): item is LineStyleProperty {
-    return reflection.isInstance(item, LineStyleProperty.$type);
+  return reflection.isInstance(item, LineStyleProperty.$type);
 }
 
 export type LineStyleValue = 'dashed' | 'dotted' | 'double' | 'solid';
 
 export function isLineStyleValue(item: unknown): item is LineStyleValue {
-    return item === 'solid' || item === 'dashed' || item === 'dotted' || item === 'double';
+  return (
+    item === 'solid' ||
+    item === 'dashed' ||
+    item === 'dotted' ||
+    item === 'double'
+  );
 }
 
 export interface LinkProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'LinkProperty';
-    url: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'LinkProperty';
+  url: string;
 }
 
 export const LinkProperty = {
-    $type: 'LinkProperty',
-    url: 'url'
+  $type: 'LinkProperty',
+  url: 'url',
 } as const;
 
 export function isLinkProperty(item: unknown): item is LinkProperty {
-    return reflection.isInstance(item, LinkProperty.$type);
+  return reflection.isInstance(item, LinkProperty.$type);
 }
 
 export interface MethodAbstractField extends langium.AstNode {
-    readonly $container: MethodDecl;
-    readonly $type: 'MethodAbstractField';
-    value: string;
+  readonly $container: MethodDecl;
+  readonly $type: 'MethodAbstractField';
+  value: string;
 }
 
 export const MethodAbstractField = {
-    $type: 'MethodAbstractField',
-    value: 'value'
+  $type: 'MethodAbstractField',
+  value: 'value',
 } as const;
 
-export function isMethodAbstractField(item: unknown): item is MethodAbstractField {
-    return reflection.isInstance(item, MethodAbstractField.$type);
+export function isMethodAbstractField(
+  item: unknown
+): item is MethodAbstractField {
+  return reflection.isInstance(item, MethodAbstractField.$type);
 }
 
 export interface MethodConstraintsField extends langium.AstNode {
-    readonly $container: MethodDecl;
-    readonly $type: 'MethodConstraintsField';
-    values: Array<string>;
+  readonly $container: MethodDecl;
+  readonly $type: 'MethodConstraintsField';
+  values: Array<string>;
 }
 
 export const MethodConstraintsField = {
-    $type: 'MethodConstraintsField',
-    values: 'values'
+  $type: 'MethodConstraintsField',
+  values: 'values',
 } as const;
 
-export function isMethodConstraintsField(item: unknown): item is MethodConstraintsField {
-    return reflection.isInstance(item, MethodConstraintsField.$type);
+export function isMethodConstraintsField(
+  item: unknown
+): item is MethodConstraintsField {
+  return reflection.isInstance(item, MethodConstraintsField.$type);
 }
 
 export interface MethodDecl extends langium.AstNode {
-    readonly $container: MethodsProperty;
-    readonly $type: 'MethodDecl';
-    properties: Array<MethodField>;
+  readonly $container: MethodsProperty;
+  readonly $type: 'MethodDecl';
+  properties: Array<MethodField>;
 }
 
 export const MethodDecl = {
-    $type: 'MethodDecl',
-    properties: 'properties'
+  $type: 'MethodDecl',
+  properties: 'properties',
 } as const;
 
 export function isMethodDecl(item: unknown): item is MethodDecl {
-    return reflection.isInstance(item, MethodDecl.$type);
+  return reflection.isInstance(item, MethodDecl.$type);
 }
 
-export type MethodField = MethodAbstractField | MethodConstraintsField | MethodNameField | MethodParamsField | MethodReturnTypeField | MethodStaticField | MethodVisibilityField;
+export type MethodField =
+  | MethodAbstractField
+  | MethodConstraintsField
+  | MethodNameField
+  | MethodParamsField
+  | MethodReturnTypeField
+  | MethodStaticField
+  | MethodVisibilityField;
 
 export const MethodField = {
-    $type: 'MethodField'
+  $type: 'MethodField',
 } as const;
 
 export function isMethodField(item: unknown): item is MethodField {
-    return reflection.isInstance(item, MethodField.$type);
+  return reflection.isInstance(item, MethodField.$type);
 }
 
 export interface MethodNameField extends langium.AstNode {
-    readonly $container: MethodDecl;
-    readonly $type: 'MethodNameField';
-    value: string;
+  readonly $container: MethodDecl;
+  readonly $type: 'MethodNameField';
+  value: string;
 }
 
 export const MethodNameField = {
-    $type: 'MethodNameField',
-    value: 'value'
+  $type: 'MethodNameField',
+  value: 'value',
 } as const;
 
 export function isMethodNameField(item: unknown): item is MethodNameField {
-    return reflection.isInstance(item, MethodNameField.$type);
+  return reflection.isInstance(item, MethodNameField.$type);
 }
 
 export interface MethodParamDecl extends langium.AstNode {
-    readonly $container: MethodParamsField;
-    readonly $type: 'MethodParamDecl';
-    properties: Array<MethodParamField>;
+  readonly $container: MethodParamsField;
+  readonly $type: 'MethodParamDecl';
+  properties: Array<MethodParamField>;
 }
 
 export const MethodParamDecl = {
-    $type: 'MethodParamDecl',
-    properties: 'properties'
+  $type: 'MethodParamDecl',
+  properties: 'properties',
 } as const;
 
 export function isMethodParamDecl(item: unknown): item is MethodParamDecl {
-    return reflection.isInstance(item, MethodParamDecl.$type);
+  return reflection.isInstance(item, MethodParamDecl.$type);
 }
 
 export type MethodParamField = ParamNameField | ParamTypeField;
 
 export const MethodParamField = {
-    $type: 'MethodParamField'
+  $type: 'MethodParamField',
 } as const;
 
 export function isMethodParamField(item: unknown): item is MethodParamField {
-    return reflection.isInstance(item, MethodParamField.$type);
+  return reflection.isInstance(item, MethodParamField.$type);
 }
 
 export interface MethodParamsField extends langium.AstNode {
-    readonly $container: MethodDecl;
-    readonly $type: 'MethodParamsField';
-    params: Array<MethodParamDecl>;
+  readonly $container: MethodDecl;
+  readonly $type: 'MethodParamsField';
+  params: Array<MethodParamDecl>;
 }
 
 export const MethodParamsField = {
-    $type: 'MethodParamsField',
-    params: 'params'
+  $type: 'MethodParamsField',
+  params: 'params',
 } as const;
 
 export function isMethodParamsField(item: unknown): item is MethodParamsField {
-    return reflection.isInstance(item, MethodParamsField.$type);
+  return reflection.isInstance(item, MethodParamsField.$type);
 }
 
 export interface MethodReturnTypeField extends langium.AstNode {
-    readonly $container: MethodDecl;
-    readonly $type: 'MethodReturnTypeField';
-    value: string;
+  readonly $container: MethodDecl;
+  readonly $type: 'MethodReturnTypeField';
+  value: string;
 }
 
 export const MethodReturnTypeField = {
-    $type: 'MethodReturnTypeField',
-    value: 'value'
+  $type: 'MethodReturnTypeField',
+  value: 'value',
 } as const;
 
-export function isMethodReturnTypeField(item: unknown): item is MethodReturnTypeField {
-    return reflection.isInstance(item, MethodReturnTypeField.$type);
+export function isMethodReturnTypeField(
+  item: unknown
+): item is MethodReturnTypeField {
+  return reflection.isInstance(item, MethodReturnTypeField.$type);
 }
 
 export interface MethodsProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'MethodsProperty';
-    methods: Array<MethodDecl>;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'MethodsProperty';
+  methods: Array<MethodDecl>;
 }
 
 export const MethodsProperty = {
-    $type: 'MethodsProperty',
-    methods: 'methods'
+  $type: 'MethodsProperty',
+  methods: 'methods',
 } as const;
 
 export function isMethodsProperty(item: unknown): item is MethodsProperty {
-    return reflection.isInstance(item, MethodsProperty.$type);
+  return reflection.isInstance(item, MethodsProperty.$type);
 }
 
 export interface MethodStaticField extends langium.AstNode {
-    readonly $container: MethodDecl;
-    readonly $type: 'MethodStaticField';
-    value: string;
+  readonly $container: MethodDecl;
+  readonly $type: 'MethodStaticField';
+  value: string;
 }
 
 export const MethodStaticField = {
-    $type: 'MethodStaticField',
-    value: 'value'
+  $type: 'MethodStaticField',
+  value: 'value',
 } as const;
 
 export function isMethodStaticField(item: unknown): item is MethodStaticField {
-    return reflection.isInstance(item, MethodStaticField.$type);
+  return reflection.isInstance(item, MethodStaticField.$type);
 }
 
 export interface MethodVisibilityField extends langium.AstNode {
-    readonly $container: MethodDecl;
-    readonly $type: 'MethodVisibilityField';
-    value: VisibilityValue;
+  readonly $container: MethodDecl;
+  readonly $type: 'MethodVisibilityField';
+  value: VisibilityValue;
 }
 
 export const MethodVisibilityField = {
-    $type: 'MethodVisibilityField',
-    value: 'value'
+  $type: 'MethodVisibilityField',
+  value: 'value',
 } as const;
 
-export function isMethodVisibilityField(item: unknown): item is MethodVisibilityField {
-    return reflection.isInstance(item, MethodVisibilityField.$type);
+export function isMethodVisibilityField(
+  item: unknown
+): item is MethodVisibilityField {
+  return reflection.isInstance(item, MethodVisibilityField.$type);
 }
 
 export interface ModuleParamsProperty extends langium.AstNode {
-    readonly $container: ModuleStatement;
-    readonly $type: 'ModuleParamsProperty';
-    params: Array<ParamDecl>;
+  readonly $container: ModuleStatement;
+  readonly $type: 'ModuleParamsProperty';
+  params: Array<ParamDecl>;
 }
 
 export const ModuleParamsProperty = {
-    $type: 'ModuleParamsProperty',
-    params: 'params'
+  $type: 'ModuleParamsProperty',
+  params: 'params',
 } as const;
 
-export function isModuleParamsProperty(item: unknown): item is ModuleParamsProperty {
-    return reflection.isInstance(item, ModuleParamsProperty.$type);
+export function isModuleParamsProperty(
+  item: unknown
+): item is ModuleParamsProperty {
+  return reflection.isInstance(item, ModuleParamsProperty.$type);
 }
 
 export interface ModulePortsProperty extends langium.AstNode {
-    readonly $container: ModuleStatement;
-    readonly $type: 'ModulePortsProperty';
-    ports: Array<PortDecl>;
+  readonly $container: ModuleStatement;
+  readonly $type: 'ModulePortsProperty';
+  ports: Array<PortDecl>;
 }
 
 export const ModulePortsProperty = {
-    $type: 'ModulePortsProperty',
-    ports: 'ports'
+  $type: 'ModulePortsProperty',
+  ports: 'ports',
 } as const;
 
-export function isModulePortsProperty(item: unknown): item is ModulePortsProperty {
-    return reflection.isInstance(item, ModulePortsProperty.$type);
+export function isModulePortsProperty(
+  item: unknown
+): item is ModulePortsProperty {
+  return reflection.isInstance(item, ModulePortsProperty.$type);
 }
 
 export type ModuleProperty = ModuleParamsProperty | ModulePortsProperty;
 
 export const ModuleProperty = {
-    $type: 'ModuleProperty'
+  $type: 'ModuleProperty',
 } as const;
 
 export function isModuleProperty(item: unknown): item is ModuleProperty {
-    return reflection.isInstance(item, ModuleProperty.$type);
+  return reflection.isInstance(item, ModuleProperty.$type);
 }
 
 export interface ModuleStatement extends langium.AstNode {
-    readonly $container: DigitalProfile;
-    readonly $type: 'ModuleStatement';
-    name: string;
-    properties: Array<ModuleProperty>;
+  readonly $container: DigitalProfile;
+  readonly $type: 'ModuleStatement';
+  name: string;
+  properties: Array<ModuleProperty>;
 }
 
 export const ModuleStatement = {
-    $type: 'ModuleStatement',
-    name: 'name',
-    properties: 'properties'
+  $type: 'ModuleStatement',
+  name: 'name',
+  properties: 'properties',
 } as const;
 
 export function isModuleStatement(item: unknown): item is ModuleStatement {
-    return reflection.isInstance(item, ModuleStatement.$type);
+  return reflection.isInstance(item, ModuleStatement.$type);
 }
 
 export interface MultiplicitySourceProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'MultiplicitySourceProperty';
-    value: string;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'MultiplicitySourceProperty';
+  value: string;
 }
 
 export const MultiplicitySourceProperty = {
-    $type: 'MultiplicitySourceProperty',
-    value: 'value'
+  $type: 'MultiplicitySourceProperty',
+  value: 'value',
 } as const;
 
-export function isMultiplicitySourceProperty(item: unknown): item is MultiplicitySourceProperty {
-    return reflection.isInstance(item, MultiplicitySourceProperty.$type);
+export function isMultiplicitySourceProperty(
+  item: unknown
+): item is MultiplicitySourceProperty {
+  return reflection.isInstance(item, MultiplicitySourceProperty.$type);
 }
 
 export interface MultiplicityTargetProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'MultiplicityTargetProperty';
-    value: string;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'MultiplicityTargetProperty';
+  value: string;
 }
 
 export const MultiplicityTargetProperty = {
-    $type: 'MultiplicityTargetProperty',
-    value: 'value'
+  $type: 'MultiplicityTargetProperty',
+  value: 'value',
 } as const;
 
-export function isMultiplicityTargetProperty(item: unknown): item is MultiplicityTargetProperty {
-    return reflection.isInstance(item, MultiplicityTargetProperty.$type);
+export function isMultiplicityTargetProperty(
+  item: unknown
+): item is MultiplicityTargetProperty {
+  return reflection.isInstance(item, MultiplicityTargetProperty.$type);
 }
 
-export type NavigabilityDirection = 'bidirectional' | 'none' | 'source' | 'target';
+export type NavigabilityDirection =
+  | 'bidirectional'
+  | 'none'
+  | 'source'
+  | 'target';
 
-export function isNavigabilityDirection(item: unknown): item is NavigabilityDirection {
-    return item === 'source' || item === 'target' || item === 'bidirectional' || item === 'none';
+export function isNavigabilityDirection(
+  item: unknown
+): item is NavigabilityDirection {
+  return (
+    item === 'source' ||
+    item === 'target' ||
+    item === 'bidirectional' ||
+    item === 'none'
+  );
 }
 
 export interface NavigabilityProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'NavigabilityProperty';
-    value: NavigabilityDirection;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'NavigabilityProperty';
+  value: NavigabilityDirection;
 }
 
 export const NavigabilityProperty = {
-    $type: 'NavigabilityProperty',
-    value: 'value'
+  $type: 'NavigabilityProperty',
+  value: 'value',
 } as const;
 
-export function isNavigabilityProperty(item: unknown): item is NavigabilityProperty {
-    return reflection.isInstance(item, NavigabilityProperty.$type);
+export function isNavigabilityProperty(
+  item: unknown
+): item is NavigabilityProperty {
+  return reflection.isInstance(item, NavigabilityProperty.$type);
 }
 
 export interface NetDecl extends langium.AstNode {
-    readonly $container: DigitalNetStatement;
-    readonly $type: 'NetDecl';
-    name: string;
-    width?: BusWidth;
+  readonly $container: DigitalNetStatement;
+  readonly $type: 'NetDecl';
+  name: string;
+  width?: BusWidth;
 }
 
 export const NetDecl = {
-    $type: 'NetDecl',
-    name: 'name',
-    width: 'width'
+  $type: 'NetDecl',
+  name: 'name',
+  width: 'width',
 } as const;
 
 export function isNetDecl(item: unknown): item is NetDecl {
-    return reflection.isInstance(item, NetDecl.$type);
+  return reflection.isInstance(item, NetDecl.$type);
 }
 
 export interface NetStatement extends langium.AstNode {
-    readonly $container: SchematicProfile;
-    readonly $type: 'NetStatement';
-    names: Array<string>;
+  readonly $container: SchematicProfile;
+  readonly $type: 'NetStatement';
+  names: Array<string>;
 }
 
 export const NetStatement = {
-    $type: 'NetStatement',
-    names: 'names'
+  $type: 'NetStatement',
+  names: 'names',
 } as const;
 
 export function isNetStatement(item: unknown): item is NetStatement {
-    return reflection.isInstance(item, NetStatement.$type);
+  return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | GenericTypesProperty | IconProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | ShowLegendProperty | StackedProperty | StereotypeProperty | StyleRefProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty =
+  | AffectedProperty
+  | AttributesProperty
+  | CarrierProperty
+  | ColorsProperty
+  | DataProperty
+  | DeceasedProperty
+  | GenericTypesProperty
+  | IconProperty
+  | LabelProperty
+  | LegendPositionProperty
+  | LinkProperty
+  | MethodsProperty
+  | ShowLegendProperty
+  | StackedProperty
+  | StereotypeProperty
+  | StyleRefProperty
+  | TitleProperty
+  | TooltipProperty
+  | XLabelProperty
+  | YLabelProperty;
 
 export const NodeProperty = {
-    $type: 'NodeProperty'
+  $type: 'NodeProperty',
 } as const;
 
 export function isNodeProperty(item: unknown): item is NodeProperty {
-    return reflection.isInstance(item, NodeProperty.$type);
+  return reflection.isInstance(item, NodeProperty.$type);
 }
 
 export interface NodeRef extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'NodeRef';
-    member?: string;
-    node: string;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'NodeRef';
+  member?: string;
+  node: string;
 }
 
 export const NodeRef = {
-    $type: 'NodeRef',
-    member: 'member',
-    node: 'node'
+  $type: 'NodeRef',
+  member: 'member',
+  node: 'node',
 } as const;
 
 export function isNodeRef(item: unknown): item is NodeRef {
-    return reflection.isInstance(item, NodeRef.$type);
+  return reflection.isInstance(item, NodeRef.$type);
 }
 
 export interface ParamDecl extends langium.AstNode {
-    readonly $container: ModuleParamsProperty;
-    readonly $type: 'ParamDecl';
-    name: string;
-    value: string;
+  readonly $container: ModuleParamsProperty;
+  readonly $type: 'ParamDecl';
+  name: string;
+  value: string;
 }
 
 export const ParamDecl = {
-    $type: 'ParamDecl',
-    name: 'name',
-    value: 'value'
+  $type: 'ParamDecl',
+  name: 'name',
+  value: 'value',
 } as const;
 
 export function isParamDecl(item: unknown): item is ParamDecl {
-    return reflection.isInstance(item, ParamDecl.$type);
+  return reflection.isInstance(item, ParamDecl.$type);
 }
 
 export interface ParamNameField extends langium.AstNode {
-    readonly $container: MethodParamDecl;
-    readonly $type: 'ParamNameField';
-    value: string;
+  readonly $container: MethodParamDecl;
+  readonly $type: 'ParamNameField';
+  value: string;
 }
 
 export const ParamNameField = {
-    $type: 'ParamNameField',
-    value: 'value'
+  $type: 'ParamNameField',
+  value: 'value',
 } as const;
 
 export function isParamNameField(item: unknown): item is ParamNameField {
-    return reflection.isInstance(item, ParamNameField.$type);
+  return reflection.isInstance(item, ParamNameField.$type);
 }
 
 export interface ParamOverride extends langium.AstNode {
-    readonly $container: InstParamsProperty;
-    readonly $type: 'ParamOverride';
-    param: string;
-    value: string;
+  readonly $container: InstParamsProperty;
+  readonly $type: 'ParamOverride';
+  param: string;
+  value: string;
 }
 
 export const ParamOverride = {
-    $type: 'ParamOverride',
-    param: 'param',
-    value: 'value'
+  $type: 'ParamOverride',
+  param: 'param',
+  value: 'value',
 } as const;
 
 export function isParamOverride(item: unknown): item is ParamOverride {
-    return reflection.isInstance(item, ParamOverride.$type);
+  return reflection.isInstance(item, ParamOverride.$type);
 }
 
 export interface ParamTypeField extends langium.AstNode {
-    readonly $container: MethodParamDecl;
-    readonly $type: 'ParamTypeField';
-    value: string;
+  readonly $container: MethodParamDecl;
+  readonly $type: 'ParamTypeField';
+  value: string;
 }
 
 export const ParamTypeField = {
-    $type: 'ParamTypeField',
-    value: 'value'
+  $type: 'ParamTypeField',
+  value: 'value',
 } as const;
 
 export function isParamTypeField(item: unknown): item is ParamTypeField {
-    return reflection.isInstance(item, ParamTypeField.$type);
+  return reflection.isInstance(item, ParamTypeField.$type);
 }
 
 export interface PartGenericProperty extends langium.AstNode {
-    readonly $container: PartStatement;
-    readonly $type: 'PartGenericProperty';
-    key: string;
-    value: string;
+  readonly $container: PartStatement;
+  readonly $type: 'PartGenericProperty';
+  key: string;
+  value: string;
 }
 
 export const PartGenericProperty = {
-    $type: 'PartGenericProperty',
-    key: 'key',
-    value: 'value'
+  $type: 'PartGenericProperty',
+  key: 'key',
+  value: 'value',
 } as const;
 
-export function isPartGenericProperty(item: unknown): item is PartGenericProperty {
-    return reflection.isInstance(item, PartGenericProperty.$type);
+export function isPartGenericProperty(
+  item: unknown
+): item is PartGenericProperty {
+  return reflection.isInstance(item, PartGenericProperty.$type);
 }
 
 export interface PartPinsProperty extends langium.AstNode {
-    readonly $container: PartStatement;
-    readonly $type: 'PartPinsProperty';
-    pins: Array<string>;
+  readonly $container: PartStatement;
+  readonly $type: 'PartPinsProperty';
+  pins: Array<string>;
 }
 
 export const PartPinsProperty = {
-    $type: 'PartPinsProperty',
-    pins: 'pins'
+  $type: 'PartPinsProperty',
+  pins: 'pins',
 } as const;
 
 export function isPartPinsProperty(item: unknown): item is PartPinsProperty {
-    return reflection.isInstance(item, PartPinsProperty.$type);
+  return reflection.isInstance(item, PartPinsProperty.$type);
 }
 
-export type PartProperty = PartGenericProperty | PartPinsProperty | PartSourceProperty | PartTypeProperty | PartValueProperty;
+export type PartProperty =
+  | PartGenericProperty
+  | PartPinsProperty
+  | PartSourceProperty
+  | PartTypeProperty
+  | PartValueProperty;
 
 export const PartProperty = {
-    $type: 'PartProperty'
+  $type: 'PartProperty',
 } as const;
 
 export function isPartProperty(item: unknown): item is PartProperty {
-    return reflection.isInstance(item, PartProperty.$type);
+  return reflection.isInstance(item, PartProperty.$type);
 }
 
 export interface PartSourceProperty extends langium.AstNode {
-    readonly $container: PartStatement;
-    readonly $type: 'PartSourceProperty';
-    source: string;
+  readonly $container: PartStatement;
+  readonly $type: 'PartSourceProperty';
+  source: string;
 }
 
 export const PartSourceProperty = {
-    $type: 'PartSourceProperty',
-    source: 'source'
+  $type: 'PartSourceProperty',
+  source: 'source',
 } as const;
 
-export function isPartSourceProperty(item: unknown): item is PartSourceProperty {
-    return reflection.isInstance(item, PartSourceProperty.$type);
+export function isPartSourceProperty(
+  item: unknown
+): item is PartSourceProperty {
+  return reflection.isInstance(item, PartSourceProperty.$type);
 }
 
 export interface PartStatement extends langium.AstNode {
-    readonly $container: SchematicProfile;
-    readonly $type: 'PartStatement';
-    properties: Array<PartProperty>;
-    ref: string;
+  readonly $container: SchematicProfile;
+  readonly $type: 'PartStatement';
+  properties: Array<PartProperty>;
+  ref: string;
 }
 
 export const PartStatement = {
-    $type: 'PartStatement',
-    properties: 'properties',
-    ref: 'ref'
+  $type: 'PartStatement',
+  properties: 'properties',
+  ref: 'ref',
 } as const;
 
 export function isPartStatement(item: unknown): item is PartStatement {
-    return reflection.isInstance(item, PartStatement.$type);
+  return reflection.isInstance(item, PartStatement.$type);
 }
 
 export interface PartTypeProperty extends langium.AstNode {
-    readonly $container: PartStatement;
-    readonly $type: 'PartTypeProperty';
-    type: string;
+  readonly $container: PartStatement;
+  readonly $type: 'PartTypeProperty';
+  type: string;
 }
 
 export const PartTypeProperty = {
-    $type: 'PartTypeProperty',
-    type: 'type'
+  $type: 'PartTypeProperty',
+  type: 'type',
 } as const;
 
 export function isPartTypeProperty(item: unknown): item is PartTypeProperty {
-    return reflection.isInstance(item, PartTypeProperty.$type);
+  return reflection.isInstance(item, PartTypeProperty.$type);
 }
 
 export interface PartValueProperty extends langium.AstNode {
-    readonly $container: PartStatement;
-    readonly $type: 'PartValueProperty';
-    value: string;
+  readonly $container: PartStatement;
+  readonly $type: 'PartValueProperty';
+  value: string;
 }
 
 export const PartValueProperty = {
-    $type: 'PartValueProperty',
-    value: 'value'
+  $type: 'PartValueProperty',
+  value: 'value',
 } as const;
 
 export function isPartValueProperty(item: unknown): item is PartValueProperty {
-    return reflection.isInstance(item, PartValueProperty.$type);
+  return reflection.isInstance(item, PartValueProperty.$type);
 }
 
 export interface PortConnection extends langium.AstNode {
-    readonly $container: InstMapProperty;
-    readonly $type: 'PortConnection';
-    net: string;
-    port: string;
-    range?: BusWidth;
+  readonly $container: InstMapProperty;
+  readonly $type: 'PortConnection';
+  net: string;
+  port: string;
+  range?: BusWidth;
 }
 
 export const PortConnection = {
-    $type: 'PortConnection',
-    net: 'net',
-    port: 'port',
-    range: 'range'
+  $type: 'PortConnection',
+  net: 'net',
+  port: 'port',
+  range: 'range',
 } as const;
 
 export function isPortConnection(item: unknown): item is PortConnection {
-    return reflection.isInstance(item, PortConnection.$type);
+  return reflection.isInstance(item, PortConnection.$type);
 }
 
 export interface PortDecl extends langium.AstNode {
-    readonly $container: ModulePortsProperty;
-    readonly $type: 'PortDecl';
-    name: string;
-    width?: BusWidth;
+  readonly $container: ModulePortsProperty;
+  readonly $type: 'PortDecl';
+  name: string;
+  width?: BusWidth;
 }
 
 export const PortDecl = {
-    $type: 'PortDecl',
-    name: 'name',
-    width: 'width'
+  $type: 'PortDecl',
+  name: 'name',
+  width: 'width',
 } as const;
 
 export function isPortDecl(item: unknown): item is PortDecl {
-    return reflection.isInstance(item, PortDecl.$type);
+  return reflection.isInstance(item, PortDecl.$type);
 }
 
-export type Profile = DiagramProfile | DigitalProfile | SchematicProfile | SequenceProfile | WardleyProfile;
+export type Profile =
+  | DiagramProfile
+  | DigitalProfile
+  | SchematicProfile
+  | SequenceProfile
+  | WardleyProfile;
 
 export const Profile = {
-    $type: 'Profile'
+  $type: 'Profile',
 } as const;
 
 export function isProfile(item: unknown): item is Profile {
-    return reflection.isInstance(item, Profile.$type);
+  return reflection.isInstance(item, Profile.$type);
 }
 
 export interface RoleSourceProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'RoleSourceProperty';
-    value: string;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'RoleSourceProperty';
+  value: string;
 }
 
 export const RoleSourceProperty = {
-    $type: 'RoleSourceProperty',
-    value: 'value'
+  $type: 'RoleSourceProperty',
+  value: 'value',
 } as const;
 
-export function isRoleSourceProperty(item: unknown): item is RoleSourceProperty {
-    return reflection.isInstance(item, RoleSourceProperty.$type);
+export function isRoleSourceProperty(
+  item: unknown
+): item is RoleSourceProperty {
+  return reflection.isInstance(item, RoleSourceProperty.$type);
 }
 
 export interface RoleTargetProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'RoleTargetProperty';
-    value: string;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'RoleTargetProperty';
+  value: string;
 }
 
 export const RoleTargetProperty = {
-    $type: 'RoleTargetProperty',
-    value: 'value'
+  $type: 'RoleTargetProperty',
+  value: 'value',
 } as const;
 
-export function isRoleTargetProperty(item: unknown): item is RoleTargetProperty {
-    return reflection.isInstance(item, RoleTargetProperty.$type);
+export function isRoleTargetProperty(
+  item: unknown
+): item is RoleTargetProperty {
+  return reflection.isInstance(item, RoleTargetProperty.$type);
 }
 
 export interface RoutingDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'RoutingDeclaration';
-    value: RoutingValue;
+  readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+  readonly $type: 'RoutingDeclaration';
+  value: RoutingValue;
 }
 
 export const RoutingDeclaration = {
-    $type: 'RoutingDeclaration',
-    value: 'value'
+  $type: 'RoutingDeclaration',
+  value: 'value',
 } as const;
 
-export function isRoutingDeclaration(item: unknown): item is RoutingDeclaration {
-    return reflection.isInstance(item, RoutingDeclaration.$type);
+export function isRoutingDeclaration(
+  item: unknown
+): item is RoutingDeclaration {
+  return reflection.isInstance(item, RoutingDeclaration.$type);
 }
 
 export interface RoutingProperty extends langium.AstNode {
-    readonly $container: EdgeDeclaration;
-    readonly $type: 'RoutingProperty';
-    value: RoutingValue;
+  readonly $container: EdgeDeclaration;
+  readonly $type: 'RoutingProperty';
+  value: RoutingValue;
 }
 
 export const RoutingProperty = {
-    $type: 'RoutingProperty',
-    value: 'value'
+  $type: 'RoutingProperty',
+  value: 'value',
 } as const;
 
 export function isRoutingProperty(item: unknown): item is RoutingProperty {
-    return reflection.isInstance(item, RoutingProperty.$type);
+  return reflection.isInstance(item, RoutingProperty.$type);
 }
 
 export type RoutingValue = 'orthogonal' | 'polyline' | 'splines' | 'straight';
 
 export function isRoutingValue(item: unknown): item is RoutingValue {
-    return item === 'orthogonal' || item === 'polyline' || item === 'splines' || item === 'straight';
+  return (
+    item === 'orthogonal' ||
+    item === 'polyline' ||
+    item === 'splines' ||
+    item === 'straight'
+  );
 }
 
 export interface SchematicProfile extends langium.AstNode {
-    readonly $container: Document;
-    readonly $type: 'SchematicProfile';
-    name: string;
-    statements: Array<ElectricalStatement>;
+  readonly $container: Document;
+  readonly $type: 'SchematicProfile';
+  name: string;
+  statements: Array<ElectricalStatement>;
 }
 
 export const SchematicProfile = {
-    $type: 'SchematicProfile',
-    name: 'name',
-    statements: 'statements'
+  $type: 'SchematicProfile',
+  name: 'name',
+  statements: 'statements',
 } as const;
 
 export function isSchematicProfile(item: unknown): item is SchematicProfile {
-    return reflection.isInstance(item, SchematicProfile.$type);
+  return reflection.isInstance(item, SchematicProfile.$type);
 }
 
 export interface SequenceActivateProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceActivateProperty';
-    value: string;
+  readonly $container: SequenceMessageStatement;
+  readonly $type: 'SequenceActivateProperty';
+  value: string;
 }
 
 export const SequenceActivateProperty = {
-    $type: 'SequenceActivateProperty',
-    value: 'value'
+  $type: 'SequenceActivateProperty',
+  value: 'value',
 } as const;
 
-export function isSequenceActivateProperty(item: unknown): item is SequenceActivateProperty {
-    return reflection.isInstance(item, SequenceActivateProperty.$type);
+export function isSequenceActivateProperty(
+  item: unknown
+): item is SequenceActivateProperty {
+  return reflection.isInstance(item, SequenceActivateProperty.$type);
 }
 
 export interface SequenceAlternativeDecl extends langium.AstNode {
-    readonly $container: SequenceFragmentAlternativesProperty;
-    readonly $type: 'SequenceAlternativeDecl';
-    fromMsg: string;
-    label: string;
-    toMsg: string;
+  readonly $container: SequenceFragmentAlternativesProperty;
+  readonly $type: 'SequenceAlternativeDecl';
+  fromMsg: string;
+  label: string;
+  toMsg: string;
 }
 
 export const SequenceAlternativeDecl = {
-    $type: 'SequenceAlternativeDecl',
-    fromMsg: 'fromMsg',
-    label: 'label',
-    toMsg: 'toMsg'
+  $type: 'SequenceAlternativeDecl',
+  fromMsg: 'fromMsg',
+  label: 'label',
+  toMsg: 'toMsg',
 } as const;
 
-export function isSequenceAlternativeDecl(item: unknown): item is SequenceAlternativeDecl {
-    return reflection.isInstance(item, SequenceAlternativeDecl.$type);
+export function isSequenceAlternativeDecl(
+  item: unknown
+): item is SequenceAlternativeDecl {
+  return reflection.isInstance(item, SequenceAlternativeDecl.$type);
 }
 
 export interface SequenceFragmentAlternativesProperty extends langium.AstNode {
-    readonly $container: SequenceFragmentStatement;
-    readonly $type: 'SequenceFragmentAlternativesProperty';
-    alternatives: Array<SequenceAlternativeDecl>;
+  readonly $container: SequenceFragmentStatement;
+  readonly $type: 'SequenceFragmentAlternativesProperty';
+  alternatives: Array<SequenceAlternativeDecl>;
 }
 
 export const SequenceFragmentAlternativesProperty = {
-    $type: 'SequenceFragmentAlternativesProperty',
-    alternatives: 'alternatives'
+  $type: 'SequenceFragmentAlternativesProperty',
+  alternatives: 'alternatives',
 } as const;
 
-export function isSequenceFragmentAlternativesProperty(item: unknown): item is SequenceFragmentAlternativesProperty {
-    return reflection.isInstance(item, SequenceFragmentAlternativesProperty.$type);
+export function isSequenceFragmentAlternativesProperty(
+  item: unknown
+): item is SequenceFragmentAlternativesProperty {
+  return reflection.isInstance(
+    item,
+    SequenceFragmentAlternativesProperty.$type
+  );
 }
 
 export interface SequenceFragmentFromProperty extends langium.AstNode {
-    readonly $container: SequenceFragmentStatement;
-    readonly $type: 'SequenceFragmentFromProperty';
-    from: string;
+  readonly $container: SequenceFragmentStatement;
+  readonly $type: 'SequenceFragmentFromProperty';
+  from: string;
 }
 
 export const SequenceFragmentFromProperty = {
-    $type: 'SequenceFragmentFromProperty',
-    from: 'from'
+  $type: 'SequenceFragmentFromProperty',
+  from: 'from',
 } as const;
 
-export function isSequenceFragmentFromProperty(item: unknown): item is SequenceFragmentFromProperty {
-    return reflection.isInstance(item, SequenceFragmentFromProperty.$type);
+export function isSequenceFragmentFromProperty(
+  item: unknown
+): item is SequenceFragmentFromProperty {
+  return reflection.isInstance(item, SequenceFragmentFromProperty.$type);
 }
 
-export type SequenceFragmentProperty = SequenceFragmentAlternativesProperty | SequenceFragmentFromProperty | SequenceFragmentToProperty;
+export type SequenceFragmentProperty =
+  | SequenceFragmentAlternativesProperty
+  | SequenceFragmentFromProperty
+  | SequenceFragmentToProperty;
 
 export const SequenceFragmentProperty = {
-    $type: 'SequenceFragmentProperty'
+  $type: 'SequenceFragmentProperty',
 } as const;
 
-export function isSequenceFragmentProperty(item: unknown): item is SequenceFragmentProperty {
-    return reflection.isInstance(item, SequenceFragmentProperty.$type);
+export function isSequenceFragmentProperty(
+  item: unknown
+): item is SequenceFragmentProperty {
+  return reflection.isInstance(item, SequenceFragmentProperty.$type);
 }
 
 export interface SequenceFragmentStatement extends langium.AstNode {
-    readonly $container: SequenceProfile;
-    readonly $type: 'SequenceFragmentStatement';
-    label: string;
-    properties: Array<SequenceFragmentProperty>;
-    type: SequenceFragmentType;
+  readonly $container: SequenceProfile;
+  readonly $type: 'SequenceFragmentStatement';
+  label: string;
+  properties: Array<SequenceFragmentProperty>;
+  type: SequenceFragmentType;
 }
 
 export const SequenceFragmentStatement = {
-    $type: 'SequenceFragmentStatement',
-    label: 'label',
-    properties: 'properties',
-    type: 'type'
+  $type: 'SequenceFragmentStatement',
+  label: 'label',
+  properties: 'properties',
+  type: 'type',
 } as const;
 
-export function isSequenceFragmentStatement(item: unknown): item is SequenceFragmentStatement {
-    return reflection.isInstance(item, SequenceFragmentStatement.$type);
+export function isSequenceFragmentStatement(
+  item: unknown
+): item is SequenceFragmentStatement {
+  return reflection.isInstance(item, SequenceFragmentStatement.$type);
 }
 
 export interface SequenceFragmentToProperty extends langium.AstNode {
-    readonly $container: SequenceFragmentStatement;
-    readonly $type: 'SequenceFragmentToProperty';
-    to: string;
+  readonly $container: SequenceFragmentStatement;
+  readonly $type: 'SequenceFragmentToProperty';
+  to: string;
 }
 
 export const SequenceFragmentToProperty = {
-    $type: 'SequenceFragmentToProperty',
-    to: 'to'
+  $type: 'SequenceFragmentToProperty',
+  to: 'to',
 } as const;
 
-export function isSequenceFragmentToProperty(item: unknown): item is SequenceFragmentToProperty {
-    return reflection.isInstance(item, SequenceFragmentToProperty.$type);
+export function isSequenceFragmentToProperty(
+  item: unknown
+): item is SequenceFragmentToProperty {
+  return reflection.isInstance(item, SequenceFragmentToProperty.$type);
 }
 
-export type SequenceFragmentType = 'alt' | 'break' | 'critical' | 'loop' | 'opt' | 'par';
+export type SequenceFragmentType =
+  | 'alt'
+  | 'break'
+  | 'critical'
+  | 'loop'
+  | 'opt'
+  | 'par';
 
-export function isSequenceFragmentType(item: unknown): item is SequenceFragmentType {
-    return item === 'loop' || item === 'alt' || item === 'opt' || item === 'par' || item === 'critical' || item === 'break';
+export function isSequenceFragmentType(
+  item: unknown
+): item is SequenceFragmentType {
+  return (
+    item === 'loop' ||
+    item === 'alt' ||
+    item === 'opt' ||
+    item === 'par' ||
+    item === 'critical' ||
+    item === 'break'
+  );
 }
 
 export interface SequenceFromProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceFromProperty';
-    from: 'found' | 'lost' | string;
+  readonly $container: SequenceMessageStatement;
+  readonly $type: 'SequenceFromProperty';
+  from: 'found' | 'lost' | string;
 }
 
 export const SequenceFromProperty = {
-    $type: 'SequenceFromProperty',
-    from: 'from'
+  $type: 'SequenceFromProperty',
+  from: 'from',
 } as const;
 
-export function isSequenceFromProperty(item: unknown): item is SequenceFromProperty {
-    return reflection.isInstance(item, SequenceFromProperty.$type);
+export function isSequenceFromProperty(
+  item: unknown
+): item is SequenceFromProperty {
+  return reflection.isInstance(item, SequenceFromProperty.$type);
 }
 
 export interface SequenceGuardProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceGuardProperty';
-    value: string;
+  readonly $container: SequenceMessageStatement;
+  readonly $type: 'SequenceGuardProperty';
+  value: string;
 }
 
 export const SequenceGuardProperty = {
-    $type: 'SequenceGuardProperty',
-    value: 'value'
+  $type: 'SequenceGuardProperty',
+  value: 'value',
 } as const;
 
-export function isSequenceGuardProperty(item: unknown): item is SequenceGuardProperty {
-    return reflection.isInstance(item, SequenceGuardProperty.$type);
+export function isSequenceGuardProperty(
+  item: unknown
+): item is SequenceGuardProperty {
+  return reflection.isInstance(item, SequenceGuardProperty.$type);
 }
 
 export interface SequenceLabelProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceLabelProperty';
-    label: string;
+  readonly $container: SequenceMessageStatement;
+  readonly $type: 'SequenceLabelProperty';
+  label: string;
 }
 
 export const SequenceLabelProperty = {
-    $type: 'SequenceLabelProperty',
-    label: 'label'
+  $type: 'SequenceLabelProperty',
+  label: 'label',
 } as const;
 
-export function isSequenceLabelProperty(item: unknown): item is SequenceLabelProperty {
-    return reflection.isInstance(item, SequenceLabelProperty.$type);
+export function isSequenceLabelProperty(
+  item: unknown
+): item is SequenceLabelProperty {
+  return reflection.isInstance(item, SequenceLabelProperty.$type);
 }
 
-export type SequenceMessageProperty = SequenceActivateProperty | SequenceFromProperty | SequenceGuardProperty | SequenceLabelProperty | SequenceTimingProperty | SequenceToProperty | SequenceTypeProperty;
+export type SequenceMessageProperty =
+  | SequenceActivateProperty
+  | SequenceFromProperty
+  | SequenceGuardProperty
+  | SequenceLabelProperty
+  | SequenceTimingProperty
+  | SequenceToProperty
+  | SequenceTypeProperty;
 
 export const SequenceMessageProperty = {
-    $type: 'SequenceMessageProperty'
+  $type: 'SequenceMessageProperty',
 } as const;
 
-export function isSequenceMessageProperty(item: unknown): item is SequenceMessageProperty {
-    return reflection.isInstance(item, SequenceMessageProperty.$type);
+export function isSequenceMessageProperty(
+  item: unknown
+): item is SequenceMessageProperty {
+  return reflection.isInstance(item, SequenceMessageProperty.$type);
 }
 
 export interface SequenceMessageStatement extends langium.AstNode {
-    readonly $container: SequenceProfile;
-    readonly $type: 'SequenceMessageStatement';
-    properties: Array<SequenceMessageProperty>;
+  readonly $container: SequenceProfile;
+  readonly $type: 'SequenceMessageStatement';
+  properties: Array<SequenceMessageProperty>;
 }
 
 export const SequenceMessageStatement = {
-    $type: 'SequenceMessageStatement',
-    properties: 'properties'
+  $type: 'SequenceMessageStatement',
+  properties: 'properties',
 } as const;
 
-export function isSequenceMessageStatement(item: unknown): item is SequenceMessageStatement {
-    return reflection.isInstance(item, SequenceMessageStatement.$type);
+export function isSequenceMessageStatement(
+  item: unknown
+): item is SequenceMessageStatement {
+  return reflection.isInstance(item, SequenceMessageStatement.$type);
 }
 
-export type SequenceMessageType = 'async' | 'create' | 'destroy' | 'return' | 'sync';
+export type SequenceMessageType =
+  | 'async'
+  | 'create'
+  | 'destroy'
+  | 'return'
+  | 'sync';
 
-export function isSequenceMessageType(item: unknown): item is SequenceMessageType {
-    return item === 'sync' || item === 'async' || item === 'return' || item === 'create' || item === 'destroy';
+export function isSequenceMessageType(
+  item: unknown
+): item is SequenceMessageType {
+  return (
+    item === 'sync' ||
+    item === 'async' ||
+    item === 'return' ||
+    item === 'create' ||
+    item === 'destroy'
+  );
 }
 
 export interface SequenceNoteParticipantsProperty extends langium.AstNode {
-    readonly $container: SequenceNoteStatement;
-    readonly $type: 'SequenceNoteParticipantsProperty';
-    participants: Array<string>;
+  readonly $container: SequenceNoteStatement;
+  readonly $type: 'SequenceNoteParticipantsProperty';
+  participants: Array<string>;
 }
 
 export const SequenceNoteParticipantsProperty = {
-    $type: 'SequenceNoteParticipantsProperty',
-    participants: 'participants'
+  $type: 'SequenceNoteParticipantsProperty',
+  participants: 'participants',
 } as const;
 
-export function isSequenceNoteParticipantsProperty(item: unknown): item is SequenceNoteParticipantsProperty {
-    return reflection.isInstance(item, SequenceNoteParticipantsProperty.$type);
+export function isSequenceNoteParticipantsProperty(
+  item: unknown
+): item is SequenceNoteParticipantsProperty {
+  return reflection.isInstance(item, SequenceNoteParticipantsProperty.$type);
 }
 
 export type SequenceNotePosition = 'left' | 'over' | 'right';
 
-export function isSequenceNotePosition(item: unknown): item is SequenceNotePosition {
-    return item === 'left' || item === 'right' || item === 'over';
+export function isSequenceNotePosition(
+  item: unknown
+): item is SequenceNotePosition {
+  return item === 'left' || item === 'right' || item === 'over';
 }
 
 export interface SequenceNotePositionProperty extends langium.AstNode {
-    readonly $container: SequenceNoteStatement;
-    readonly $type: 'SequenceNotePositionProperty';
-    position: SequenceNotePosition;
+  readonly $container: SequenceNoteStatement;
+  readonly $type: 'SequenceNotePositionProperty';
+  position: SequenceNotePosition;
 }
 
 export const SequenceNotePositionProperty = {
-    $type: 'SequenceNotePositionProperty',
-    position: 'position'
+  $type: 'SequenceNotePositionProperty',
+  position: 'position',
 } as const;
 
-export function isSequenceNotePositionProperty(item: unknown): item is SequenceNotePositionProperty {
-    return reflection.isInstance(item, SequenceNotePositionProperty.$type);
+export function isSequenceNotePositionProperty(
+  item: unknown
+): item is SequenceNotePositionProperty {
+  return reflection.isInstance(item, SequenceNotePositionProperty.$type);
 }
 
-export type SequenceNoteProperty = SequenceNoteParticipantsProperty | SequenceNotePositionProperty;
+export type SequenceNoteProperty =
+  | SequenceNoteParticipantsProperty
+  | SequenceNotePositionProperty;
 
 export const SequenceNoteProperty = {
-    $type: 'SequenceNoteProperty'
+  $type: 'SequenceNoteProperty',
 } as const;
 
-export function isSequenceNoteProperty(item: unknown): item is SequenceNoteProperty {
-    return reflection.isInstance(item, SequenceNoteProperty.$type);
+export function isSequenceNoteProperty(
+  item: unknown
+): item is SequenceNoteProperty {
+  return reflection.isInstance(item, SequenceNoteProperty.$type);
 }
 
 export interface SequenceNoteStatement extends langium.AstNode {
-    readonly $container: SequenceProfile;
-    readonly $type: 'SequenceNoteStatement';
-    properties: Array<SequenceNoteProperty>;
-    text: string;
+  readonly $container: SequenceProfile;
+  readonly $type: 'SequenceNoteStatement';
+  properties: Array<SequenceNoteProperty>;
+  text: string;
 }
 
 export const SequenceNoteStatement = {
-    $type: 'SequenceNoteStatement',
-    properties: 'properties',
-    text: 'text'
+  $type: 'SequenceNoteStatement',
+  properties: 'properties',
+  text: 'text',
 } as const;
 
-export function isSequenceNoteStatement(item: unknown): item is SequenceNoteStatement {
-    return reflection.isInstance(item, SequenceNoteStatement.$type);
+export function isSequenceNoteStatement(
+  item: unknown
+): item is SequenceNoteStatement {
+  return reflection.isInstance(item, SequenceNoteStatement.$type);
 }
 
 export interface SequenceParticipantStatement extends langium.AstNode {
-    readonly $container: SequenceProfile;
-    readonly $type: 'SequenceParticipantStatement';
-    name: string;
-    type?: SequenceParticipantType;
+  readonly $container: SequenceProfile;
+  readonly $type: 'SequenceParticipantStatement';
+  name: string;
+  type?: SequenceParticipantType;
 }
 
 export const SequenceParticipantStatement = {
-    $type: 'SequenceParticipantStatement',
-    name: 'name',
-    type: 'type'
+  $type: 'SequenceParticipantStatement',
+  name: 'name',
+  type: 'type',
 } as const;
 
-export function isSequenceParticipantStatement(item: unknown): item is SequenceParticipantStatement {
-    return reflection.isInstance(item, SequenceParticipantStatement.$type);
+export function isSequenceParticipantStatement(
+  item: unknown
+): item is SequenceParticipantStatement {
+  return reflection.isInstance(item, SequenceParticipantStatement.$type);
 }
 
-export type SequenceParticipantType = 'actor' | 'boundary' | 'control' | 'database' | 'entity';
+export type SequenceParticipantType =
+  | 'actor'
+  | 'boundary'
+  | 'control'
+  | 'database'
+  | 'entity';
 
-export function isSequenceParticipantType(item: unknown): item is SequenceParticipantType {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database';
+export function isSequenceParticipantType(
+  item: unknown
+): item is SequenceParticipantType {
+  return (
+    item === 'actor' ||
+    item === 'entity' ||
+    item === 'boundary' ||
+    item === 'control' ||
+    item === 'database'
+  );
 }
 
 export interface SequenceProfile extends langium.AstNode {
-    readonly $container: Document;
-    readonly $type: 'SequenceProfile';
-    name: string;
-    statements: Array<SequenceStatement>;
+  readonly $container: Document;
+  readonly $type: 'SequenceProfile';
+  name: string;
+  statements: Array<SequenceStatement>;
 }
 
 export const SequenceProfile = {
-    $type: 'SequenceProfile',
-    name: 'name',
-    statements: 'statements'
+  $type: 'SequenceProfile',
+  name: 'name',
+  statements: 'statements',
 } as const;
 
 export function isSequenceProfile(item: unknown): item is SequenceProfile {
-    return reflection.isInstance(item, SequenceProfile.$type);
+  return reflection.isInstance(item, SequenceProfile.$type);
 }
 
-export type SequenceStatement = SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
+export type SequenceStatement =
+  | SequenceFragmentStatement
+  | SequenceMessageStatement
+  | SequenceNoteStatement
+  | SequenceParticipantStatement;
 
 export const SequenceStatement = {
-    $type: 'SequenceStatement'
+  $type: 'SequenceStatement',
 } as const;
 
 export function isSequenceStatement(item: unknown): item is SequenceStatement {
-    return reflection.isInstance(item, SequenceStatement.$type);
+  return reflection.isInstance(item, SequenceStatement.$type);
 }
 
 export interface SequenceTimingProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceTimingProperty';
-    value: string;
+  readonly $container: SequenceMessageStatement;
+  readonly $type: 'SequenceTimingProperty';
+  value: string;
 }
 
 export const SequenceTimingProperty = {
-    $type: 'SequenceTimingProperty',
-    value: 'value'
+  $type: 'SequenceTimingProperty',
+  value: 'value',
 } as const;
 
-export function isSequenceTimingProperty(item: unknown): item is SequenceTimingProperty {
-    return reflection.isInstance(item, SequenceTimingProperty.$type);
+export function isSequenceTimingProperty(
+  item: unknown
+): item is SequenceTimingProperty {
+  return reflection.isInstance(item, SequenceTimingProperty.$type);
 }
 
 export interface SequenceToProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceToProperty';
-    to: 'found' | 'lost' | string;
+  readonly $container: SequenceMessageStatement;
+  readonly $type: 'SequenceToProperty';
+  to: 'found' | 'lost' | string;
 }
 
 export const SequenceToProperty = {
-    $type: 'SequenceToProperty',
-    to: 'to'
+  $type: 'SequenceToProperty',
+  to: 'to',
 } as const;
 
-export function isSequenceToProperty(item: unknown): item is SequenceToProperty {
-    return reflection.isInstance(item, SequenceToProperty.$type);
+export function isSequenceToProperty(
+  item: unknown
+): item is SequenceToProperty {
+  return reflection.isInstance(item, SequenceToProperty.$type);
 }
 
 export interface SequenceTypeProperty extends langium.AstNode {
-    readonly $container: SequenceMessageStatement;
-    readonly $type: 'SequenceTypeProperty';
-    type: SequenceMessageType;
+  readonly $container: SequenceMessageStatement;
+  readonly $type: 'SequenceTypeProperty';
+  type: SequenceMessageType;
 }
 
 export const SequenceTypeProperty = {
-    $type: 'SequenceTypeProperty',
-    type: 'type'
+  $type: 'SequenceTypeProperty',
+  type: 'type',
 } as const;
 
-export function isSequenceTypeProperty(item: unknown): item is SequenceTypeProperty {
-    return reflection.isInstance(item, SequenceTypeProperty.$type);
+export function isSequenceTypeProperty(
+  item: unknown
+): item is SequenceTypeProperty {
+  return reflection.isInstance(item, SequenceTypeProperty.$type);
 }
 
 export interface ShapeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'ShapeDeclaration';
-    id: string;
-    properties: Array<NodeProperty>;
-    shape?: ShapeIdentifier;
+  readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+  readonly $type: 'ShapeDeclaration';
+  id: string;
+  properties: Array<NodeProperty>;
+  shape?: ShapeIdentifier;
 }
 
 export const ShapeDeclaration = {
-    $type: 'ShapeDeclaration',
-    id: 'id',
-    properties: 'properties',
-    shape: 'shape'
+  $type: 'ShapeDeclaration',
+  id: 'id',
+  properties: 'properties',
+  shape: 'shape',
 } as const;
 
 export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
-    return reflection.isInstance(item, ShapeDeclaration.$type);
+  return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'actor' | 'boundary' | 'control' | 'database' | 'entity' | string;
+export type ShapeIdentifier =
+  | 'actor'
+  | 'boundary'
+  | 'control'
+  | 'database'
+  | 'entity'
+  | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+  return (
+    item === 'actor' ||
+    item === 'entity' ||
+    item === 'boundary' ||
+    item === 'control' ||
+    item === 'database' ||
+    (typeof item === 'string' &&
+      (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) ||
+        /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)))
+  );
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'ShowLegendProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'ShowLegendProperty';
+  value: string;
 }
 
 export const ShowLegendProperty = {
-    $type: 'ShowLegendProperty',
-    value: 'value'
+  $type: 'ShowLegendProperty',
+  value: 'value',
 } as const;
 
-export function isShowLegendProperty(item: unknown): item is ShowLegendProperty {
-    return reflection.isInstance(item, ShowLegendProperty.$type);
+export function isShowLegendProperty(
+  item: unknown
+): item is ShowLegendProperty {
+  return reflection.isInstance(item, ShowLegendProperty.$type);
 }
 
 export interface StackedProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'StackedProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'StackedProperty';
+  value: string;
 }
 
 export const StackedProperty = {
-    $type: 'StackedProperty',
-    value: 'value'
+  $type: 'StackedProperty',
+  value: 'value',
 } as const;
 
 export function isStackedProperty(item: unknown): item is StackedProperty {
-    return reflection.isInstance(item, StackedProperty.$type);
+  return reflection.isInstance(item, StackedProperty.$type);
 }
 
 export interface StereotypeProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'StereotypeProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'StereotypeProperty';
+  value: string;
 }
 
 export const StereotypeProperty = {
-    $type: 'StereotypeProperty',
-    value: 'value'
+  $type: 'StereotypeProperty',
+  value: 'value',
 } as const;
 
-export function isStereotypeProperty(item: unknown): item is StereotypeProperty {
-    return reflection.isInstance(item, StereotypeProperty.$type);
+export function isStereotypeProperty(
+  item: unknown
+): item is StereotypeProperty {
+  return reflection.isInstance(item, StereotypeProperty.$type);
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty;
-    readonly $type: 'StringArray';
-    items: Array<string>;
+  readonly $container: ColorsProperty;
+  readonly $type: 'StringArray';
+  items: Array<string>;
 }
 
 export const StringArray = {
-    $type: 'StringArray',
-    items: 'items'
+  $type: 'StringArray',
+  items: 'items',
 } as const;
 
 export function isStringArray(item: unknown): item is StringArray {
-    return reflection.isInstance(item, StringArray.$type);
+  return reflection.isInstance(item, StringArray.$type);
 }
 
 export interface StyleDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'StyleDeclaration';
-    name: string;
-    properties: Array<StyleProperty>;
+  readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+  readonly $type: 'StyleDeclaration';
+  name: string;
+  properties: Array<StyleProperty>;
 }
 
 export const StyleDeclaration = {
-    $type: 'StyleDeclaration',
-    name: 'name',
-    properties: 'properties'
+  $type: 'StyleDeclaration',
+  name: 'name',
+  properties: 'properties',
 } as const;
 
 export function isStyleDeclaration(item: unknown): item is StyleDeclaration {
-    return reflection.isInstance(item, StyleDeclaration.$type);
+  return reflection.isInstance(item, StyleDeclaration.$type);
 }
 
 export interface StyleProperty extends langium.AstNode {
-    readonly $container: StyleDeclaration;
-    readonly $type: 'StyleProperty';
-    key: string;
-    value: string;
+  readonly $container: StyleDeclaration;
+  readonly $type: 'StyleProperty';
+  key: string;
+  value: string;
 }
 
 export const StyleProperty = {
-    $type: 'StyleProperty',
-    key: 'key',
-    value: 'value'
+  $type: 'StyleProperty',
+  key: 'key',
+  value: 'value',
 } as const;
 
 export function isStyleProperty(item: unknown): item is StyleProperty {
-    return reflection.isInstance(item, StyleProperty.$type);
+  return reflection.isInstance(item, StyleProperty.$type);
 }
 
 export interface StyleRefProperty extends langium.AstNode {
-    readonly $container: ContainerBlock | ShapeDeclaration;
-    readonly $type: 'StyleRefProperty';
-    ref: langium.Reference<StyleDeclaration>;
+  readonly $container: ContainerBlock | ShapeDeclaration;
+  readonly $type: 'StyleRefProperty';
+  ref: langium.Reference<StyleDeclaration>;
 }
 
 export const StyleRefProperty = {
-    $type: 'StyleRefProperty',
-    ref: 'ref'
+  $type: 'StyleRefProperty',
+  ref: 'ref',
 } as const;
 
 export function isStyleRefProperty(item: unknown): item is StyleRefProperty {
-    return reflection.isInstance(item, StyleRefProperty.$type);
+  return reflection.isInstance(item, StyleRefProperty.$type);
 }
 
 export interface TitleProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'TitleProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'TitleProperty';
+  value: string;
 }
 
 export const TitleProperty = {
-    $type: 'TitleProperty',
-    value: 'value'
+  $type: 'TitleProperty',
+  value: 'value',
 } as const;
 
 export function isTitleProperty(item: unknown): item is TitleProperty {
-    return reflection.isInstance(item, TitleProperty.$type);
+  return reflection.isInstance(item, TitleProperty.$type);
 }
 
 export interface TooltipProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'TooltipProperty';
-    text: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'TooltipProperty';
+  text: string;
 }
 
 export const TooltipProperty = {
-    $type: 'TooltipProperty',
-    text: 'text'
+  $type: 'TooltipProperty',
+  text: 'text',
 } as const;
 
 export function isTooltipProperty(item: unknown): item is TooltipProperty {
-    return reflection.isInstance(item, TooltipProperty.$type);
+  return reflection.isInstance(item, TooltipProperty.$type);
 }
 
 export type VisibilityValue = 'package' | 'private' | 'protected' | 'public';
 
 export function isVisibilityValue(item: unknown): item is VisibilityValue {
-    return item === 'public' || item === 'private' || item === 'protected' || item === 'package';
+  return (
+    item === 'public' ||
+    item === 'private' ||
+    item === 'protected' ||
+    item === 'package'
+  );
 }
 
-export type WardleyAnchorProperty = WardleyEvolutionProperty | WardleyValueProperty;
+export type WardleyAnchorProperty =
+  | WardleyEvolutionProperty
+  | WardleyValueProperty;
 
 export const WardleyAnchorProperty = {
-    $type: 'WardleyAnchorProperty'
+  $type: 'WardleyAnchorProperty',
 } as const;
 
-export function isWardleyAnchorProperty(item: unknown): item is WardleyAnchorProperty {
-    return reflection.isInstance(item, WardleyAnchorProperty.$type);
+export function isWardleyAnchorProperty(
+  item: unknown
+): item is WardleyAnchorProperty {
+  return reflection.isInstance(item, WardleyAnchorProperty.$type);
 }
 
 export interface WardleyAnchorStatement extends langium.AstNode {
-    readonly $container: WardleyProfile;
-    readonly $type: 'WardleyAnchorStatement';
-    name: string;
-    properties: Array<WardleyAnchorProperty>;
+  readonly $container: WardleyProfile;
+  readonly $type: 'WardleyAnchorStatement';
+  name: string;
+  properties: Array<WardleyAnchorProperty>;
 }
 
 export const WardleyAnchorStatement = {
-    $type: 'WardleyAnchorStatement',
-    name: 'name',
-    properties: 'properties'
+  $type: 'WardleyAnchorStatement',
+  name: 'name',
+  properties: 'properties',
 } as const;
 
-export function isWardleyAnchorStatement(item: unknown): item is WardleyAnchorStatement {
-    return reflection.isInstance(item, WardleyAnchorStatement.$type);
+export function isWardleyAnchorStatement(
+  item: unknown
+): item is WardleyAnchorStatement {
+  return reflection.isInstance(item, WardleyAnchorStatement.$type);
 }
 
-export type WardleyComponentProperty = WardleyEvolutionProperty | WardleyInertiaProperty | WardleyLabelProperty | WardleyValueProperty;
+export type WardleyComponentProperty =
+  | WardleyEvolutionProperty
+  | WardleyInertiaProperty
+  | WardleyLabelProperty
+  | WardleyValueProperty;
 
 export const WardleyComponentProperty = {
-    $type: 'WardleyComponentProperty'
+  $type: 'WardleyComponentProperty',
 } as const;
 
-export function isWardleyComponentProperty(item: unknown): item is WardleyComponentProperty {
-    return reflection.isInstance(item, WardleyComponentProperty.$type);
+export function isWardleyComponentProperty(
+  item: unknown
+): item is WardleyComponentProperty {
+  return reflection.isInstance(item, WardleyComponentProperty.$type);
 }
 
 export interface WardleyComponentStatement extends langium.AstNode {
-    readonly $container: WardleyProfile;
-    readonly $type: 'WardleyComponentStatement';
-    name: string;
-    properties: Array<WardleyComponentProperty>;
+  readonly $container: WardleyProfile;
+  readonly $type: 'WardleyComponentStatement';
+  name: string;
+  properties: Array<WardleyComponentProperty>;
 }
 
 export const WardleyComponentStatement = {
-    $type: 'WardleyComponentStatement',
-    name: 'name',
-    properties: 'properties'
+  $type: 'WardleyComponentStatement',
+  name: 'name',
+  properties: 'properties',
 } as const;
 
-export function isWardleyComponentStatement(item: unknown): item is WardleyComponentStatement {
-    return reflection.isInstance(item, WardleyComponentStatement.$type);
+export function isWardleyComponentStatement(
+  item: unknown
+): item is WardleyComponentStatement {
+  return reflection.isInstance(item, WardleyComponentStatement.$type);
 }
 
 export interface WardleyDependencyStatement extends langium.AstNode {
-    readonly $container: WardleyProfile;
-    readonly $type: 'WardleyDependencyStatement';
-    from: string;
-    to: string;
+  readonly $container: WardleyProfile;
+  readonly $type: 'WardleyDependencyStatement';
+  from: string;
+  to: string;
 }
 
 export const WardleyDependencyStatement = {
-    $type: 'WardleyDependencyStatement',
-    from: 'from',
-    to: 'to'
+  $type: 'WardleyDependencyStatement',
+  from: 'from',
+  to: 'to',
 } as const;
 
-export function isWardleyDependencyStatement(item: unknown): item is WardleyDependencyStatement {
-    return reflection.isInstance(item, WardleyDependencyStatement.$type);
+export function isWardleyDependencyStatement(
+  item: unknown
+): item is WardleyDependencyStatement {
+  return reflection.isInstance(item, WardleyDependencyStatement.$type);
 }
 
 export interface WardleyEvolutionProperty extends langium.AstNode {
-    readonly $container: WardleyAnchorStatement | WardleyComponentStatement | WardleyEvolutionStatement;
-    readonly $type: 'WardleyEvolutionProperty';
-    value: string;
+  readonly $container:
+    | WardleyAnchorStatement
+    | WardleyComponentStatement
+    | WardleyEvolutionStatement;
+  readonly $type: 'WardleyEvolutionProperty';
+  value: string;
 }
 
 export const WardleyEvolutionProperty = {
-    $type: 'WardleyEvolutionProperty',
-    value: 'value'
+  $type: 'WardleyEvolutionProperty',
+  value: 'value',
 } as const;
 
-export function isWardleyEvolutionProperty(item: unknown): item is WardleyEvolutionProperty {
-    return reflection.isInstance(item, WardleyEvolutionProperty.$type);
+export function isWardleyEvolutionProperty(
+  item: unknown
+): item is WardleyEvolutionProperty {
+  return reflection.isInstance(item, WardleyEvolutionProperty.$type);
 }
 
 export interface WardleyEvolutionStatement extends langium.AstNode {
-    readonly $container: WardleyProfile;
-    readonly $type: 'WardleyEvolutionStatement';
-    component: string;
-    properties: Array<WardleyEvolutionProperty>;
+  readonly $container: WardleyProfile;
+  readonly $type: 'WardleyEvolutionStatement';
+  component: string;
+  properties: Array<WardleyEvolutionProperty>;
 }
 
 export const WardleyEvolutionStatement = {
-    $type: 'WardleyEvolutionStatement',
-    component: 'component',
-    properties: 'properties'
+  $type: 'WardleyEvolutionStatement',
+  component: 'component',
+  properties: 'properties',
 } as const;
 
-export function isWardleyEvolutionStatement(item: unknown): item is WardleyEvolutionStatement {
-    return reflection.isInstance(item, WardleyEvolutionStatement.$type);
+export function isWardleyEvolutionStatement(
+  item: unknown
+): item is WardleyEvolutionStatement {
+  return reflection.isInstance(item, WardleyEvolutionStatement.$type);
 }
 
 export interface WardleyInertiaProperty extends langium.AstNode {
-    readonly $container: WardleyComponentStatement;
-    readonly $type: 'WardleyInertiaProperty';
-    value: string;
+  readonly $container: WardleyComponentStatement;
+  readonly $type: 'WardleyInertiaProperty';
+  value: string;
 }
 
 export const WardleyInertiaProperty = {
-    $type: 'WardleyInertiaProperty',
-    value: 'value'
+  $type: 'WardleyInertiaProperty',
+  value: 'value',
 } as const;
 
-export function isWardleyInertiaProperty(item: unknown): item is WardleyInertiaProperty {
-    return reflection.isInstance(item, WardleyInertiaProperty.$type);
+export function isWardleyInertiaProperty(
+  item: unknown
+): item is WardleyInertiaProperty {
+  return reflection.isInstance(item, WardleyInertiaProperty.$type);
 }
 
 export interface WardleyLabelProperty extends langium.AstNode {
-    readonly $container: WardleyComponentStatement;
-    readonly $type: 'WardleyLabelProperty';
-    value: string;
+  readonly $container: WardleyComponentStatement;
+  readonly $type: 'WardleyLabelProperty';
+  value: string;
 }
 
 export const WardleyLabelProperty = {
-    $type: 'WardleyLabelProperty',
-    value: 'value'
+  $type: 'WardleyLabelProperty',
+  value: 'value',
 } as const;
 
-export function isWardleyLabelProperty(item: unknown): item is WardleyLabelProperty {
-    return reflection.isInstance(item, WardleyLabelProperty.$type);
+export function isWardleyLabelProperty(
+  item: unknown
+): item is WardleyLabelProperty {
+  return reflection.isInstance(item, WardleyLabelProperty.$type);
 }
 
 export interface WardleyProfile extends langium.AstNode {
-    readonly $container: Document;
-    readonly $type: 'WardleyProfile';
-    name: string;
-    statements: Array<WardleyStatement>;
+  readonly $container: Document;
+  readonly $type: 'WardleyProfile';
+  name: string;
+  statements: Array<WardleyStatement>;
 }
 
 export const WardleyProfile = {
-    $type: 'WardleyProfile',
-    name: 'name',
-    statements: 'statements'
+  $type: 'WardleyProfile',
+  name: 'name',
+  statements: 'statements',
 } as const;
 
 export function isWardleyProfile(item: unknown): item is WardleyProfile {
-    return reflection.isInstance(item, WardleyProfile.$type);
+  return reflection.isInstance(item, WardleyProfile.$type);
 }
 
-export type WardleyStatement = WardleyAnchorStatement | WardleyComponentStatement | WardleyDependencyStatement | WardleyEvolutionStatement;
+export type WardleyStatement =
+  | WardleyAnchorStatement
+  | WardleyComponentStatement
+  | WardleyDependencyStatement
+  | WardleyEvolutionStatement;
 
 export const WardleyStatement = {
-    $type: 'WardleyStatement'
+  $type: 'WardleyStatement',
 } as const;
 
 export function isWardleyStatement(item: unknown): item is WardleyStatement {
-    return reflection.isInstance(item, WardleyStatement.$type);
+  return reflection.isInstance(item, WardleyStatement.$type);
 }
 
 export interface WardleyValueProperty extends langium.AstNode {
-    readonly $container: WardleyAnchorStatement | WardleyComponentStatement;
-    readonly $type: 'WardleyValueProperty';
-    value: string;
+  readonly $container: WardleyAnchorStatement | WardleyComponentStatement;
+  readonly $type: 'WardleyValueProperty';
+  value: string;
 }
 
 export const WardleyValueProperty = {
-    $type: 'WardleyValueProperty',
-    value: 'value'
+  $type: 'WardleyValueProperty',
+  value: 'value',
 } as const;
 
-export function isWardleyValueProperty(item: unknown): item is WardleyValueProperty {
-    return reflection.isInstance(item, WardleyValueProperty.$type);
+export function isWardleyValueProperty(
+  item: unknown
+): item is WardleyValueProperty {
+  return reflection.isInstance(item, WardleyValueProperty.$type);
 }
 
 export interface XLabelProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'XLabelProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'XLabelProperty';
+  value: string;
 }
 
 export const XLabelProperty = {
-    $type: 'XLabelProperty',
-    value: 'value'
+  $type: 'XLabelProperty',
+  value: 'value',
 } as const;
 
 export function isXLabelProperty(item: unknown): item is XLabelProperty {
-    return reflection.isInstance(item, XLabelProperty.$type);
+  return reflection.isInstance(item, XLabelProperty.$type);
 }
 
 export interface YLabelProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'YLabelProperty';
-    value: string;
+  readonly $container: ShapeDeclaration;
+  readonly $type: 'YLabelProperty';
+  value: string;
 }
 
 export const YLabelProperty = {
-    $type: 'YLabelProperty',
-    value: 'value'
+  $type: 'YLabelProperty',
+  value: 'value',
 } as const;
 
 export function isYLabelProperty(item: unknown): item is YLabelProperty {
-    return reflection.isInstance(item, YLabelProperty.$type);
+  return reflection.isInstance(item, YLabelProperty.$type);
 }
 
 export type RuniqAstType = {
-    AffectedProperty: AffectedProperty
-    AnalysisStatement: AnalysisStatement
-    ArrowTypeProperty: ArrowTypeProperty
-    AttrConstraintsField: AttrConstraintsField
-    AttrDefaultField: AttrDefaultField
-    AttrDerivedField: AttrDerivedField
-    AttrNameField: AttrNameField
-    AttrStaticField: AttrStaticField
-    AttrTypeField: AttrTypeField
-    AttrVisibilityField: AttrVisibilityField
-    AttributeDecl: AttributeDecl
-    AttributeField: AttributeField
-    AttributesProperty: AttributesProperty
-    BusWidth: BusWidth
-    CarrierProperty: CarrierProperty
-    ColorsProperty: ColorsProperty
-    ContainerBlock: ContainerBlock
-    ContainerLayoutProperty: ContainerLayoutProperty
-    ContainerProperty: ContainerProperty
-    ContainerStyleProperty: ContainerStyleProperty
-    ContainerTypeProperty: ContainerTypeProperty
-    DataArray: DataArray
-    DataItem: DataItem
-    DataObject: DataObject
-    DataObjectProperty: DataObjectProperty
-    DataProperty: DataProperty
-    DataValue: DataValue
-    DeceasedProperty: DeceasedProperty
-    DiagramProfile: DiagramProfile
-    DiagramStatement: DiagramStatement
-    DigitalNetStatement: DigitalNetStatement
-    DigitalProfile: DigitalProfile
-    DigitalStatement: DigitalStatement
-    DirectionDeclaration: DirectionDeclaration
-    Document: Document
-    EdgeConstraintsProperty: EdgeConstraintsProperty
-    EdgeDeclaration: EdgeDeclaration
-    EdgeLabelProperty: EdgeLabelProperty
-    EdgeProperty: EdgeProperty
-    EdgeTypeProperty: EdgeTypeProperty
-    ElectricalStatement: ElectricalStatement
-    GenericTypesProperty: GenericTypesProperty
-    GroupBlock: GroupBlock
-    IconProperty: IconProperty
-    InstMapProperty: InstMapProperty
-    InstOfProperty: InstOfProperty
-    InstParamsProperty: InstParamsProperty
-    InstProperty: InstProperty
-    InstStatement: InstStatement
-    LabelProperty: LabelProperty
-    LegendPositionProperty: LegendPositionProperty
-    LineStyleProperty: LineStyleProperty
-    LinkProperty: LinkProperty
-    MethodAbstractField: MethodAbstractField
-    MethodConstraintsField: MethodConstraintsField
-    MethodDecl: MethodDecl
-    MethodField: MethodField
-    MethodNameField: MethodNameField
-    MethodParamDecl: MethodParamDecl
-    MethodParamField: MethodParamField
-    MethodParamsField: MethodParamsField
-    MethodReturnTypeField: MethodReturnTypeField
-    MethodStaticField: MethodStaticField
-    MethodVisibilityField: MethodVisibilityField
-    MethodsProperty: MethodsProperty
-    ModuleParamsProperty: ModuleParamsProperty
-    ModulePortsProperty: ModulePortsProperty
-    ModuleProperty: ModuleProperty
-    ModuleStatement: ModuleStatement
-    MultiplicitySourceProperty: MultiplicitySourceProperty
-    MultiplicityTargetProperty: MultiplicityTargetProperty
-    NavigabilityProperty: NavigabilityProperty
-    NetDecl: NetDecl
-    NetStatement: NetStatement
-    NodeProperty: NodeProperty
-    NodeRef: NodeRef
-    ParamDecl: ParamDecl
-    ParamNameField: ParamNameField
-    ParamOverride: ParamOverride
-    ParamTypeField: ParamTypeField
-    PartGenericProperty: PartGenericProperty
-    PartPinsProperty: PartPinsProperty
-    PartProperty: PartProperty
-    PartSourceProperty: PartSourceProperty
-    PartStatement: PartStatement
-    PartTypeProperty: PartTypeProperty
-    PartValueProperty: PartValueProperty
-    PortConnection: PortConnection
-    PortDecl: PortDecl
-    Profile: Profile
-    RoleSourceProperty: RoleSourceProperty
-    RoleTargetProperty: RoleTargetProperty
-    RoutingDeclaration: RoutingDeclaration
-    RoutingProperty: RoutingProperty
-    SchematicProfile: SchematicProfile
-    SequenceActivateProperty: SequenceActivateProperty
-    SequenceAlternativeDecl: SequenceAlternativeDecl
-    SequenceFragmentAlternativesProperty: SequenceFragmentAlternativesProperty
-    SequenceFragmentFromProperty: SequenceFragmentFromProperty
-    SequenceFragmentProperty: SequenceFragmentProperty
-    SequenceFragmentStatement: SequenceFragmentStatement
-    SequenceFragmentToProperty: SequenceFragmentToProperty
-    SequenceFromProperty: SequenceFromProperty
-    SequenceGuardProperty: SequenceGuardProperty
-    SequenceLabelProperty: SequenceLabelProperty
-    SequenceMessageProperty: SequenceMessageProperty
-    SequenceMessageStatement: SequenceMessageStatement
-    SequenceNoteParticipantsProperty: SequenceNoteParticipantsProperty
-    SequenceNotePositionProperty: SequenceNotePositionProperty
-    SequenceNoteProperty: SequenceNoteProperty
-    SequenceNoteStatement: SequenceNoteStatement
-    SequenceParticipantStatement: SequenceParticipantStatement
-    SequenceProfile: SequenceProfile
-    SequenceStatement: SequenceStatement
-    SequenceTimingProperty: SequenceTimingProperty
-    SequenceToProperty: SequenceToProperty
-    SequenceTypeProperty: SequenceTypeProperty
-    ShapeDeclaration: ShapeDeclaration
-    ShowLegendProperty: ShowLegendProperty
-    StackedProperty: StackedProperty
-    StereotypeProperty: StereotypeProperty
-    StringArray: StringArray
-    StyleDeclaration: StyleDeclaration
-    StyleProperty: StyleProperty
-    StyleRefProperty: StyleRefProperty
-    TitleProperty: TitleProperty
-    TooltipProperty: TooltipProperty
-    WardleyAnchorProperty: WardleyAnchorProperty
-    WardleyAnchorStatement: WardleyAnchorStatement
-    WardleyComponentProperty: WardleyComponentProperty
-    WardleyComponentStatement: WardleyComponentStatement
-    WardleyDependencyStatement: WardleyDependencyStatement
-    WardleyEvolutionProperty: WardleyEvolutionProperty
-    WardleyEvolutionStatement: WardleyEvolutionStatement
-    WardleyInertiaProperty: WardleyInertiaProperty
-    WardleyLabelProperty: WardleyLabelProperty
-    WardleyProfile: WardleyProfile
-    WardleyStatement: WardleyStatement
-    WardleyValueProperty: WardleyValueProperty
-    XLabelProperty: XLabelProperty
-    YLabelProperty: YLabelProperty
-}
+  AffectedProperty: AffectedProperty;
+  AnalysisStatement: AnalysisStatement;
+  ArrowTypeProperty: ArrowTypeProperty;
+  AttrConstraintsField: AttrConstraintsField;
+  AttrDefaultField: AttrDefaultField;
+  AttrDerivedField: AttrDerivedField;
+  AttrNameField: AttrNameField;
+  AttrStaticField: AttrStaticField;
+  AttrTypeField: AttrTypeField;
+  AttrVisibilityField: AttrVisibilityField;
+  AttributeDecl: AttributeDecl;
+  AttributeField: AttributeField;
+  AttributesProperty: AttributesProperty;
+  BusWidth: BusWidth;
+  CarrierProperty: CarrierProperty;
+  ColorsProperty: ColorsProperty;
+  ContainerBlock: ContainerBlock;
+  ContainerLayoutProperty: ContainerLayoutProperty;
+  ContainerProperty: ContainerProperty;
+  ContainerStyleProperty: ContainerStyleProperty;
+  ContainerTypeProperty: ContainerTypeProperty;
+  DataArray: DataArray;
+  DataItem: DataItem;
+  DataObject: DataObject;
+  DataObjectProperty: DataObjectProperty;
+  DataProperty: DataProperty;
+  DataValue: DataValue;
+  DeceasedProperty: DeceasedProperty;
+  DiagramProfile: DiagramProfile;
+  DiagramStatement: DiagramStatement;
+  DigitalNetStatement: DigitalNetStatement;
+  DigitalProfile: DigitalProfile;
+  DigitalStatement: DigitalStatement;
+  DirectionDeclaration: DirectionDeclaration;
+  Document: Document;
+  EdgeConstraintsProperty: EdgeConstraintsProperty;
+  EdgeDeclaration: EdgeDeclaration;
+  EdgeLabelProperty: EdgeLabelProperty;
+  EdgeProperty: EdgeProperty;
+  EdgeTypeProperty: EdgeTypeProperty;
+  ElectricalStatement: ElectricalStatement;
+  GenericTypesProperty: GenericTypesProperty;
+  GroupBlock: GroupBlock;
+  IconProperty: IconProperty;
+  InstMapProperty: InstMapProperty;
+  InstOfProperty: InstOfProperty;
+  InstParamsProperty: InstParamsProperty;
+  InstProperty: InstProperty;
+  InstStatement: InstStatement;
+  LabelProperty: LabelProperty;
+  LegendPositionProperty: LegendPositionProperty;
+  LineStyleProperty: LineStyleProperty;
+  LinkProperty: LinkProperty;
+  MethodAbstractField: MethodAbstractField;
+  MethodConstraintsField: MethodConstraintsField;
+  MethodDecl: MethodDecl;
+  MethodField: MethodField;
+  MethodNameField: MethodNameField;
+  MethodParamDecl: MethodParamDecl;
+  MethodParamField: MethodParamField;
+  MethodParamsField: MethodParamsField;
+  MethodReturnTypeField: MethodReturnTypeField;
+  MethodStaticField: MethodStaticField;
+  MethodVisibilityField: MethodVisibilityField;
+  MethodsProperty: MethodsProperty;
+  ModuleParamsProperty: ModuleParamsProperty;
+  ModulePortsProperty: ModulePortsProperty;
+  ModuleProperty: ModuleProperty;
+  ModuleStatement: ModuleStatement;
+  MultiplicitySourceProperty: MultiplicitySourceProperty;
+  MultiplicityTargetProperty: MultiplicityTargetProperty;
+  NavigabilityProperty: NavigabilityProperty;
+  NetDecl: NetDecl;
+  NetStatement: NetStatement;
+  NodeProperty: NodeProperty;
+  NodeRef: NodeRef;
+  ParamDecl: ParamDecl;
+  ParamNameField: ParamNameField;
+  ParamOverride: ParamOverride;
+  ParamTypeField: ParamTypeField;
+  PartGenericProperty: PartGenericProperty;
+  PartPinsProperty: PartPinsProperty;
+  PartProperty: PartProperty;
+  PartSourceProperty: PartSourceProperty;
+  PartStatement: PartStatement;
+  PartTypeProperty: PartTypeProperty;
+  PartValueProperty: PartValueProperty;
+  PortConnection: PortConnection;
+  PortDecl: PortDecl;
+  Profile: Profile;
+  RoleSourceProperty: RoleSourceProperty;
+  RoleTargetProperty: RoleTargetProperty;
+  RoutingDeclaration: RoutingDeclaration;
+  RoutingProperty: RoutingProperty;
+  SchematicProfile: SchematicProfile;
+  SequenceActivateProperty: SequenceActivateProperty;
+  SequenceAlternativeDecl: SequenceAlternativeDecl;
+  SequenceFragmentAlternativesProperty: SequenceFragmentAlternativesProperty;
+  SequenceFragmentFromProperty: SequenceFragmentFromProperty;
+  SequenceFragmentProperty: SequenceFragmentProperty;
+  SequenceFragmentStatement: SequenceFragmentStatement;
+  SequenceFragmentToProperty: SequenceFragmentToProperty;
+  SequenceFromProperty: SequenceFromProperty;
+  SequenceGuardProperty: SequenceGuardProperty;
+  SequenceLabelProperty: SequenceLabelProperty;
+  SequenceMessageProperty: SequenceMessageProperty;
+  SequenceMessageStatement: SequenceMessageStatement;
+  SequenceNoteParticipantsProperty: SequenceNoteParticipantsProperty;
+  SequenceNotePositionProperty: SequenceNotePositionProperty;
+  SequenceNoteProperty: SequenceNoteProperty;
+  SequenceNoteStatement: SequenceNoteStatement;
+  SequenceParticipantStatement: SequenceParticipantStatement;
+  SequenceProfile: SequenceProfile;
+  SequenceStatement: SequenceStatement;
+  SequenceTimingProperty: SequenceTimingProperty;
+  SequenceToProperty: SequenceToProperty;
+  SequenceTypeProperty: SequenceTypeProperty;
+  ShapeDeclaration: ShapeDeclaration;
+  ShowLegendProperty: ShowLegendProperty;
+  StackedProperty: StackedProperty;
+  StereotypeProperty: StereotypeProperty;
+  StringArray: StringArray;
+  StyleDeclaration: StyleDeclaration;
+  StyleProperty: StyleProperty;
+  StyleRefProperty: StyleRefProperty;
+  TitleProperty: TitleProperty;
+  TooltipProperty: TooltipProperty;
+  WardleyAnchorProperty: WardleyAnchorProperty;
+  WardleyAnchorStatement: WardleyAnchorStatement;
+  WardleyComponentProperty: WardleyComponentProperty;
+  WardleyComponentStatement: WardleyComponentStatement;
+  WardleyDependencyStatement: WardleyDependencyStatement;
+  WardleyEvolutionProperty: WardleyEvolutionProperty;
+  WardleyEvolutionStatement: WardleyEvolutionStatement;
+  WardleyInertiaProperty: WardleyInertiaProperty;
+  WardleyLabelProperty: WardleyLabelProperty;
+  WardleyProfile: WardleyProfile;
+  WardleyStatement: WardleyStatement;
+  WardleyValueProperty: WardleyValueProperty;
+  XLabelProperty: XLabelProperty;
+  YLabelProperty: YLabelProperty;
+};
 
 export class RuniqAstReflection extends langium.AbstractAstReflection {
-    override readonly types = {
-        AffectedProperty: {
-            name: AffectedProperty.$type,
-            properties: {
-                value: {
-                    name: AffectedProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        AnalysisStatement: {
-            name: AnalysisStatement.$type,
-            properties: {
-                args: {
-                    name: AnalysisStatement.args
-                },
-                kind: {
-                    name: AnalysisStatement.kind
-                }
-            },
-            superTypes: [ElectricalStatement.$type]
-        },
-        ArrowTypeProperty: {
-            name: ArrowTypeProperty.$type,
-            properties: {
-                value: {
-                    name: ArrowTypeProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        AttrConstraintsField: {
-            name: AttrConstraintsField.$type,
-            properties: {
-                values: {
-                    name: AttrConstraintsField.values,
-                    defaultValue: []
-                }
-            },
-            superTypes: [AttributeField.$type]
-        },
-        AttrDefaultField: {
-            name: AttrDefaultField.$type,
-            properties: {
-                value: {
-                    name: AttrDefaultField.value
-                }
-            },
-            superTypes: [AttributeField.$type]
-        },
-        AttrDerivedField: {
-            name: AttrDerivedField.$type,
-            properties: {
-                value: {
-                    name: AttrDerivedField.value
-                }
-            },
-            superTypes: [AttributeField.$type]
-        },
-        AttrNameField: {
-            name: AttrNameField.$type,
-            properties: {
-                value: {
-                    name: AttrNameField.value
-                }
-            },
-            superTypes: [AttributeField.$type]
-        },
-        AttrStaticField: {
-            name: AttrStaticField.$type,
-            properties: {
-                value: {
-                    name: AttrStaticField.value
-                }
-            },
-            superTypes: [AttributeField.$type]
-        },
-        AttrTypeField: {
-            name: AttrTypeField.$type,
-            properties: {
-                value: {
-                    name: AttrTypeField.value
-                }
-            },
-            superTypes: [AttributeField.$type]
-        },
-        AttrVisibilityField: {
-            name: AttrVisibilityField.$type,
-            properties: {
-                value: {
-                    name: AttrVisibilityField.value
-                }
-            },
-            superTypes: [AttributeField.$type]
-        },
-        AttributeDecl: {
-            name: AttributeDecl.$type,
-            properties: {
-                properties: {
-                    name: AttributeDecl.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: []
-        },
-        AttributeField: {
-            name: AttributeField.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        AttributesProperty: {
-            name: AttributesProperty.$type,
-            properties: {
-                attributes: {
-                    name: AttributesProperty.attributes,
-                    defaultValue: []
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        BusWidth: {
-            name: BusWidth.$type,
-            properties: {
-                lsb: {
-                    name: BusWidth.lsb
-                },
-                msb: {
-                    name: BusWidth.msb
-                }
-            },
-            superTypes: []
-        },
-        CarrierProperty: {
-            name: CarrierProperty.$type,
-            properties: {
-                value: {
-                    name: CarrierProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        ColorsProperty: {
-            name: ColorsProperty.$type,
-            properties: {
-                value: {
-                    name: ColorsProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        ContainerBlock: {
-            name: ContainerBlock.$type,
-            properties: {
-                id: {
-                    name: ContainerBlock.id
-                },
-                label: {
-                    name: ContainerBlock.label
-                },
-                properties: {
-                    name: ContainerBlock.properties,
-                    defaultValue: []
-                },
-                shape: {
-                    name: ContainerBlock.shape
-                },
-                statements: {
-                    name: ContainerBlock.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
-        ContainerLayoutProperty: {
-            name: ContainerLayoutProperty.$type,
-            properties: {
-                algorithm: {
-                    name: ContainerLayoutProperty.algorithm
-                },
-                spacing: {
-                    name: ContainerLayoutProperty.spacing
-                }
-            },
-            superTypes: [ContainerProperty.$type]
-        },
-        ContainerProperty: {
-            name: ContainerProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        ContainerStyleProperty: {
-            name: ContainerStyleProperty.$type,
-            properties: {
-                backgroundColor: {
-                    name: ContainerStyleProperty.backgroundColor
-                },
-                borderColor: {
-                    name: ContainerStyleProperty.borderColor
-                },
-                borderStyle: {
-                    name: ContainerStyleProperty.borderStyle
-                },
-                borderWidth: {
-                    name: ContainerStyleProperty.borderWidth
-                },
-                labelPosition: {
-                    name: ContainerStyleProperty.labelPosition
-                },
-                opacity: {
-                    name: ContainerStyleProperty.opacity
-                },
-                padding: {
-                    name: ContainerStyleProperty.padding
-                }
-            },
-            superTypes: [ContainerProperty.$type]
-        },
-        ContainerTypeProperty: {
-            name: ContainerTypeProperty.$type,
-            properties: {
-                type: {
-                    name: ContainerTypeProperty.type
-                }
-            },
-            superTypes: [ContainerProperty.$type]
-        },
-        DataArray: {
-            name: DataArray.$type,
-            properties: {
-                items: {
-                    name: DataArray.items,
-                    defaultValue: []
-                }
-            },
-            superTypes: []
-        },
-        DataItem: {
-            name: DataItem.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        DataObject: {
-            name: DataObject.$type,
-            properties: {
-                properties: {
-                    name: DataObject.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: [DataItem.$type]
-        },
-        DataObjectProperty: {
-            name: DataObjectProperty.$type,
-            properties: {
-                key: {
-                    name: DataObjectProperty.key
-                },
-                value: {
-                    name: DataObjectProperty.value
-                }
-            },
-            superTypes: []
-        },
-        DataProperty: {
-            name: DataProperty.$type,
-            properties: {
-                items: {
-                    name: DataProperty.items,
-                    defaultValue: []
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        DataValue: {
-            name: DataValue.$type,
-            properties: {
-                value: {
-                    name: DataValue.value
-                }
-            },
-            superTypes: [DataItem.$type]
-        },
-        DeceasedProperty: {
-            name: DeceasedProperty.$type,
-            properties: {
-                value: {
-                    name: DeceasedProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        DiagramProfile: {
-            name: DiagramProfile.$type,
-            properties: {
-                name: {
-                    name: DiagramProfile.name
-                },
-                statements: {
-                    name: DiagramProfile.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [Profile.$type]
-        },
-        DiagramStatement: {
-            name: DiagramStatement.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        DigitalNetStatement: {
-            name: DigitalNetStatement.$type,
-            properties: {
-                names: {
-                    name: DigitalNetStatement.names,
-                    defaultValue: []
-                }
-            },
-            superTypes: [DigitalStatement.$type]
-        },
-        DigitalProfile: {
-            name: DigitalProfile.$type,
-            properties: {
-                name: {
-                    name: DigitalProfile.name
-                },
-                statements: {
-                    name: DigitalProfile.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [Profile.$type]
-        },
-        DigitalStatement: {
-            name: DigitalStatement.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        DirectionDeclaration: {
-            name: DirectionDeclaration.$type,
-            properties: {
-                value: {
-                    name: DirectionDeclaration.value
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
-        Document: {
-            name: Document.$type,
-            properties: {
-                profiles: {
-                    name: Document.profiles,
-                    defaultValue: []
-                }
-            },
-            superTypes: []
-        },
-        EdgeConstraintsProperty: {
-            name: EdgeConstraintsProperty.$type,
-            properties: {
-                values: {
-                    name: EdgeConstraintsProperty.values,
-                    defaultValue: []
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        EdgeDeclaration: {
-            name: EdgeDeclaration.$type,
-            properties: {
-                arrow: {
-                    name: EdgeDeclaration.arrow
-                },
-                from: {
-                    name: EdgeDeclaration.from
-                },
-                labeledArrow: {
-                    name: EdgeDeclaration.labeledArrow
-                },
-                properties: {
-                    name: EdgeDeclaration.properties,
-                    defaultValue: []
-                },
-                to: {
-                    name: EdgeDeclaration.to
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
-        EdgeLabelProperty: {
-            name: EdgeLabelProperty.$type,
-            properties: {
-                label: {
-                    name: EdgeLabelProperty.label
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        EdgeProperty: {
-            name: EdgeProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        EdgeTypeProperty: {
-            name: EdgeTypeProperty.$type,
-            properties: {
-                value: {
-                    name: EdgeTypeProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        ElectricalStatement: {
-            name: ElectricalStatement.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        GenericTypesProperty: {
-            name: GenericTypesProperty.$type,
-            properties: {
-                types: {
-                    name: GenericTypesProperty.types,
-                    defaultValue: []
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        GroupBlock: {
-            name: GroupBlock.$type,
-            properties: {
-                label: {
-                    name: GroupBlock.label
-                },
-                statements: {
-                    name: GroupBlock.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
-        IconProperty: {
-            name: IconProperty.$type,
-            properties: {
-                icon: {
-                    name: IconProperty.icon
-                },
-                provider: {
-                    name: IconProperty.provider
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        InstMapProperty: {
-            name: InstMapProperty.$type,
-            properties: {
-                connections: {
-                    name: InstMapProperty.connections,
-                    defaultValue: []
-                }
-            },
-            superTypes: [InstProperty.$type]
-        },
-        InstOfProperty: {
-            name: InstOfProperty.$type,
-            properties: {
-                module: {
-                    name: InstOfProperty.module
-                }
-            },
-            superTypes: [InstProperty.$type]
-        },
-        InstParamsProperty: {
-            name: InstParamsProperty.$type,
-            properties: {
-                params: {
-                    name: InstParamsProperty.params,
-                    defaultValue: []
-                }
-            },
-            superTypes: [InstProperty.$type]
-        },
-        InstProperty: {
-            name: InstProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        InstStatement: {
-            name: InstStatement.$type,
-            properties: {
-                properties: {
-                    name: InstStatement.properties,
-                    defaultValue: []
-                },
-                ref: {
-                    name: InstStatement.ref
-                }
-            },
-            superTypes: [DigitalStatement.$type]
-        },
-        LabelProperty: {
-            name: LabelProperty.$type,
-            properties: {
-                value: {
-                    name: LabelProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        LegendPositionProperty: {
-            name: LegendPositionProperty.$type,
-            properties: {
-                value: {
-                    name: LegendPositionProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        LineStyleProperty: {
-            name: LineStyleProperty.$type,
-            properties: {
-                value: {
-                    name: LineStyleProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        LinkProperty: {
-            name: LinkProperty.$type,
-            properties: {
-                url: {
-                    name: LinkProperty.url
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        MethodAbstractField: {
-            name: MethodAbstractField.$type,
-            properties: {
-                value: {
-                    name: MethodAbstractField.value
-                }
-            },
-            superTypes: [MethodField.$type]
-        },
-        MethodConstraintsField: {
-            name: MethodConstraintsField.$type,
-            properties: {
-                values: {
-                    name: MethodConstraintsField.values,
-                    defaultValue: []
-                }
-            },
-            superTypes: [MethodField.$type]
-        },
-        MethodDecl: {
-            name: MethodDecl.$type,
-            properties: {
-                properties: {
-                    name: MethodDecl.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: []
-        },
-        MethodField: {
-            name: MethodField.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        MethodNameField: {
-            name: MethodNameField.$type,
-            properties: {
-                value: {
-                    name: MethodNameField.value
-                }
-            },
-            superTypes: [MethodField.$type]
-        },
-        MethodParamDecl: {
-            name: MethodParamDecl.$type,
-            properties: {
-                properties: {
-                    name: MethodParamDecl.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: []
-        },
-        MethodParamField: {
-            name: MethodParamField.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        MethodParamsField: {
-            name: MethodParamsField.$type,
-            properties: {
-                params: {
-                    name: MethodParamsField.params,
-                    defaultValue: []
-                }
-            },
-            superTypes: [MethodField.$type]
-        },
-        MethodReturnTypeField: {
-            name: MethodReturnTypeField.$type,
-            properties: {
-                value: {
-                    name: MethodReturnTypeField.value
-                }
-            },
-            superTypes: [MethodField.$type]
-        },
-        MethodStaticField: {
-            name: MethodStaticField.$type,
-            properties: {
-                value: {
-                    name: MethodStaticField.value
-                }
-            },
-            superTypes: [MethodField.$type]
-        },
-        MethodVisibilityField: {
-            name: MethodVisibilityField.$type,
-            properties: {
-                value: {
-                    name: MethodVisibilityField.value
-                }
-            },
-            superTypes: [MethodField.$type]
-        },
-        MethodsProperty: {
-            name: MethodsProperty.$type,
-            properties: {
-                methods: {
-                    name: MethodsProperty.methods,
-                    defaultValue: []
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        ModuleParamsProperty: {
-            name: ModuleParamsProperty.$type,
-            properties: {
-                params: {
-                    name: ModuleParamsProperty.params,
-                    defaultValue: []
-                }
-            },
-            superTypes: [ModuleProperty.$type]
-        },
-        ModulePortsProperty: {
-            name: ModulePortsProperty.$type,
-            properties: {
-                ports: {
-                    name: ModulePortsProperty.ports,
-                    defaultValue: []
-                }
-            },
-            superTypes: [ModuleProperty.$type]
-        },
-        ModuleProperty: {
-            name: ModuleProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        ModuleStatement: {
-            name: ModuleStatement.$type,
-            properties: {
-                name: {
-                    name: ModuleStatement.name
-                },
-                properties: {
-                    name: ModuleStatement.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: [DigitalStatement.$type]
-        },
-        MultiplicitySourceProperty: {
-            name: MultiplicitySourceProperty.$type,
-            properties: {
-                value: {
-                    name: MultiplicitySourceProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        MultiplicityTargetProperty: {
-            name: MultiplicityTargetProperty.$type,
-            properties: {
-                value: {
-                    name: MultiplicityTargetProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        NavigabilityProperty: {
-            name: NavigabilityProperty.$type,
-            properties: {
-                value: {
-                    name: NavigabilityProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        NetDecl: {
-            name: NetDecl.$type,
-            properties: {
-                name: {
-                    name: NetDecl.name
-                },
-                width: {
-                    name: NetDecl.width
-                }
-            },
-            superTypes: []
-        },
-        NetStatement: {
-            name: NetStatement.$type,
-            properties: {
-                names: {
-                    name: NetStatement.names,
-                    defaultValue: []
-                }
-            },
-            superTypes: [ElectricalStatement.$type]
-        },
-        NodeProperty: {
-            name: NodeProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        NodeRef: {
-            name: NodeRef.$type,
-            properties: {
-                member: {
-                    name: NodeRef.member
-                },
-                node: {
-                    name: NodeRef.node
-                }
-            },
-            superTypes: []
-        },
-        ParamDecl: {
-            name: ParamDecl.$type,
-            properties: {
-                name: {
-                    name: ParamDecl.name
-                },
-                value: {
-                    name: ParamDecl.value
-                }
-            },
-            superTypes: []
-        },
-        ParamNameField: {
-            name: ParamNameField.$type,
-            properties: {
-                value: {
-                    name: ParamNameField.value
-                }
-            },
-            superTypes: [MethodParamField.$type]
-        },
-        ParamOverride: {
-            name: ParamOverride.$type,
-            properties: {
-                param: {
-                    name: ParamOverride.param
-                },
-                value: {
-                    name: ParamOverride.value
-                }
-            },
-            superTypes: []
-        },
-        ParamTypeField: {
-            name: ParamTypeField.$type,
-            properties: {
-                value: {
-                    name: ParamTypeField.value
-                }
-            },
-            superTypes: [MethodParamField.$type]
-        },
-        PartGenericProperty: {
-            name: PartGenericProperty.$type,
-            properties: {
-                key: {
-                    name: PartGenericProperty.key
-                },
-                value: {
-                    name: PartGenericProperty.value
-                }
-            },
-            superTypes: [PartProperty.$type]
-        },
-        PartPinsProperty: {
-            name: PartPinsProperty.$type,
-            properties: {
-                pins: {
-                    name: PartPinsProperty.pins,
-                    defaultValue: []
-                }
-            },
-            superTypes: [PartProperty.$type]
-        },
-        PartProperty: {
-            name: PartProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        PartSourceProperty: {
-            name: PartSourceProperty.$type,
-            properties: {
-                source: {
-                    name: PartSourceProperty.source
-                }
-            },
-            superTypes: [PartProperty.$type]
-        },
-        PartStatement: {
-            name: PartStatement.$type,
-            properties: {
-                properties: {
-                    name: PartStatement.properties,
-                    defaultValue: []
-                },
-                ref: {
-                    name: PartStatement.ref
-                }
-            },
-            superTypes: [ElectricalStatement.$type]
-        },
-        PartTypeProperty: {
-            name: PartTypeProperty.$type,
-            properties: {
-                type: {
-                    name: PartTypeProperty.type
-                }
-            },
-            superTypes: [PartProperty.$type]
-        },
-        PartValueProperty: {
-            name: PartValueProperty.$type,
-            properties: {
-                value: {
-                    name: PartValueProperty.value
-                }
-            },
-            superTypes: [PartProperty.$type]
-        },
-        PortConnection: {
-            name: PortConnection.$type,
-            properties: {
-                net: {
-                    name: PortConnection.net
-                },
-                port: {
-                    name: PortConnection.port
-                },
-                range: {
-                    name: PortConnection.range
-                }
-            },
-            superTypes: []
-        },
-        PortDecl: {
-            name: PortDecl.$type,
-            properties: {
-                name: {
-                    name: PortDecl.name
-                },
-                width: {
-                    name: PortDecl.width
-                }
-            },
-            superTypes: []
-        },
-        Profile: {
-            name: Profile.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        RoleSourceProperty: {
-            name: RoleSourceProperty.$type,
-            properties: {
-                value: {
-                    name: RoleSourceProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        RoleTargetProperty: {
-            name: RoleTargetProperty.$type,
-            properties: {
-                value: {
-                    name: RoleTargetProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        RoutingDeclaration: {
-            name: RoutingDeclaration.$type,
-            properties: {
-                value: {
-                    name: RoutingDeclaration.value
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
-        RoutingProperty: {
-            name: RoutingProperty.$type,
-            properties: {
-                value: {
-                    name: RoutingProperty.value
-                }
-            },
-            superTypes: [EdgeProperty.$type]
-        },
-        SchematicProfile: {
-            name: SchematicProfile.$type,
-            properties: {
-                name: {
-                    name: SchematicProfile.name
-                },
-                statements: {
-                    name: SchematicProfile.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [Profile.$type]
-        },
-        SequenceActivateProperty: {
-            name: SequenceActivateProperty.$type,
-            properties: {
-                value: {
-                    name: SequenceActivateProperty.value
-                }
-            },
-            superTypes: [SequenceMessageProperty.$type]
-        },
-        SequenceAlternativeDecl: {
-            name: SequenceAlternativeDecl.$type,
-            properties: {
-                fromMsg: {
-                    name: SequenceAlternativeDecl.fromMsg
-                },
-                label: {
-                    name: SequenceAlternativeDecl.label
-                },
-                toMsg: {
-                    name: SequenceAlternativeDecl.toMsg
-                }
-            },
-            superTypes: []
-        },
-        SequenceFragmentAlternativesProperty: {
-            name: SequenceFragmentAlternativesProperty.$type,
-            properties: {
-                alternatives: {
-                    name: SequenceFragmentAlternativesProperty.alternatives,
-                    defaultValue: []
-                }
-            },
-            superTypes: [SequenceFragmentProperty.$type]
-        },
-        SequenceFragmentFromProperty: {
-            name: SequenceFragmentFromProperty.$type,
-            properties: {
-                from: {
-                    name: SequenceFragmentFromProperty.from
-                }
-            },
-            superTypes: [SequenceFragmentProperty.$type]
-        },
-        SequenceFragmentProperty: {
-            name: SequenceFragmentProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        SequenceFragmentStatement: {
-            name: SequenceFragmentStatement.$type,
-            properties: {
-                label: {
-                    name: SequenceFragmentStatement.label
-                },
-                properties: {
-                    name: SequenceFragmentStatement.properties,
-                    defaultValue: []
-                },
-                type: {
-                    name: SequenceFragmentStatement.type
-                }
-            },
-            superTypes: [SequenceStatement.$type]
-        },
-        SequenceFragmentToProperty: {
-            name: SequenceFragmentToProperty.$type,
-            properties: {
-                to: {
-                    name: SequenceFragmentToProperty.to
-                }
-            },
-            superTypes: [SequenceFragmentProperty.$type]
-        },
-        SequenceFromProperty: {
-            name: SequenceFromProperty.$type,
-            properties: {
-                from: {
-                    name: SequenceFromProperty.from
-                }
-            },
-            superTypes: [SequenceMessageProperty.$type]
-        },
-        SequenceGuardProperty: {
-            name: SequenceGuardProperty.$type,
-            properties: {
-                value: {
-                    name: SequenceGuardProperty.value
-                }
-            },
-            superTypes: [SequenceMessageProperty.$type]
-        },
-        SequenceLabelProperty: {
-            name: SequenceLabelProperty.$type,
-            properties: {
-                label: {
-                    name: SequenceLabelProperty.label
-                }
-            },
-            superTypes: [SequenceMessageProperty.$type]
-        },
-        SequenceMessageProperty: {
-            name: SequenceMessageProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        SequenceMessageStatement: {
-            name: SequenceMessageStatement.$type,
-            properties: {
-                properties: {
-                    name: SequenceMessageStatement.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: [SequenceStatement.$type]
-        },
-        SequenceNoteParticipantsProperty: {
-            name: SequenceNoteParticipantsProperty.$type,
-            properties: {
-                participants: {
-                    name: SequenceNoteParticipantsProperty.participants,
-                    defaultValue: []
-                }
-            },
-            superTypes: [SequenceNoteProperty.$type]
-        },
-        SequenceNotePositionProperty: {
-            name: SequenceNotePositionProperty.$type,
-            properties: {
-                position: {
-                    name: SequenceNotePositionProperty.position
-                }
-            },
-            superTypes: [SequenceNoteProperty.$type]
-        },
-        SequenceNoteProperty: {
-            name: SequenceNoteProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        SequenceNoteStatement: {
-            name: SequenceNoteStatement.$type,
-            properties: {
-                properties: {
-                    name: SequenceNoteStatement.properties,
-                    defaultValue: []
-                },
-                text: {
-                    name: SequenceNoteStatement.text
-                }
-            },
-            superTypes: [SequenceStatement.$type]
-        },
-        SequenceParticipantStatement: {
-            name: SequenceParticipantStatement.$type,
-            properties: {
-                name: {
-                    name: SequenceParticipantStatement.name
-                },
-                type: {
-                    name: SequenceParticipantStatement.type
-                }
-            },
-            superTypes: [SequenceStatement.$type]
-        },
-        SequenceProfile: {
-            name: SequenceProfile.$type,
-            properties: {
-                name: {
-                    name: SequenceProfile.name
-                },
-                statements: {
-                    name: SequenceProfile.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [Profile.$type]
-        },
-        SequenceStatement: {
-            name: SequenceStatement.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        SequenceTimingProperty: {
-            name: SequenceTimingProperty.$type,
-            properties: {
-                value: {
-                    name: SequenceTimingProperty.value
-                }
-            },
-            superTypes: [SequenceMessageProperty.$type]
-        },
-        SequenceToProperty: {
-            name: SequenceToProperty.$type,
-            properties: {
-                to: {
-                    name: SequenceToProperty.to
-                }
-            },
-            superTypes: [SequenceMessageProperty.$type]
-        },
-        SequenceTypeProperty: {
-            name: SequenceTypeProperty.$type,
-            properties: {
-                type: {
-                    name: SequenceTypeProperty.type
-                }
-            },
-            superTypes: [SequenceMessageProperty.$type]
-        },
-        ShapeDeclaration: {
-            name: ShapeDeclaration.$type,
-            properties: {
-                id: {
-                    name: ShapeDeclaration.id
-                },
-                properties: {
-                    name: ShapeDeclaration.properties,
-                    defaultValue: []
-                },
-                shape: {
-                    name: ShapeDeclaration.shape
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
-        ShowLegendProperty: {
-            name: ShowLegendProperty.$type,
-            properties: {
-                value: {
-                    name: ShowLegendProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        StackedProperty: {
-            name: StackedProperty.$type,
-            properties: {
-                value: {
-                    name: StackedProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        StereotypeProperty: {
-            name: StereotypeProperty.$type,
-            properties: {
-                value: {
-                    name: StereotypeProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        StringArray: {
-            name: StringArray.$type,
-            properties: {
-                items: {
-                    name: StringArray.items,
-                    defaultValue: []
-                }
-            },
-            superTypes: []
-        },
-        StyleDeclaration: {
-            name: StyleDeclaration.$type,
-            properties: {
-                name: {
-                    name: StyleDeclaration.name
-                },
-                properties: {
-                    name: StyleDeclaration.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
-        StyleProperty: {
-            name: StyleProperty.$type,
-            properties: {
-                key: {
-                    name: StyleProperty.key
-                },
-                value: {
-                    name: StyleProperty.value
-                }
-            },
-            superTypes: []
-        },
-        StyleRefProperty: {
-            name: StyleRefProperty.$type,
-            properties: {
-                ref: {
-                    name: StyleRefProperty.ref,
-                    referenceType: StyleDeclaration.$type
-                }
-            },
-            superTypes: [ContainerProperty.$type, NodeProperty.$type]
-        },
-        TitleProperty: {
-            name: TitleProperty.$type,
-            properties: {
-                value: {
-                    name: TitleProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        TooltipProperty: {
-            name: TooltipProperty.$type,
-            properties: {
-                text: {
-                    name: TooltipProperty.text
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        WardleyAnchorProperty: {
-            name: WardleyAnchorProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        WardleyAnchorStatement: {
-            name: WardleyAnchorStatement.$type,
-            properties: {
-                name: {
-                    name: WardleyAnchorStatement.name
-                },
-                properties: {
-                    name: WardleyAnchorStatement.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: [WardleyStatement.$type]
-        },
-        WardleyComponentProperty: {
-            name: WardleyComponentProperty.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        WardleyComponentStatement: {
-            name: WardleyComponentStatement.$type,
-            properties: {
-                name: {
-                    name: WardleyComponentStatement.name
-                },
-                properties: {
-                    name: WardleyComponentStatement.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: [WardleyStatement.$type]
-        },
-        WardleyDependencyStatement: {
-            name: WardleyDependencyStatement.$type,
-            properties: {
-                from: {
-                    name: WardleyDependencyStatement.from
-                },
-                to: {
-                    name: WardleyDependencyStatement.to
-                }
-            },
-            superTypes: [WardleyStatement.$type]
-        },
-        WardleyEvolutionProperty: {
-            name: WardleyEvolutionProperty.$type,
-            properties: {
-                value: {
-                    name: WardleyEvolutionProperty.value
-                }
-            },
-            superTypes: [WardleyAnchorProperty.$type, WardleyComponentProperty.$type]
-        },
-        WardleyEvolutionStatement: {
-            name: WardleyEvolutionStatement.$type,
-            properties: {
-                component: {
-                    name: WardleyEvolutionStatement.component
-                },
-                properties: {
-                    name: WardleyEvolutionStatement.properties,
-                    defaultValue: []
-                }
-            },
-            superTypes: [WardleyStatement.$type]
-        },
-        WardleyInertiaProperty: {
-            name: WardleyInertiaProperty.$type,
-            properties: {
-                value: {
-                    name: WardleyInertiaProperty.value
-                }
-            },
-            superTypes: [WardleyComponentProperty.$type]
-        },
-        WardleyLabelProperty: {
-            name: WardleyLabelProperty.$type,
-            properties: {
-                value: {
-                    name: WardleyLabelProperty.value
-                }
-            },
-            superTypes: [WardleyComponentProperty.$type]
-        },
-        WardleyProfile: {
-            name: WardleyProfile.$type,
-            properties: {
-                name: {
-                    name: WardleyProfile.name
-                },
-                statements: {
-                    name: WardleyProfile.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [Profile.$type]
-        },
-        WardleyStatement: {
-            name: WardleyStatement.$type,
-            properties: {
-            },
-            superTypes: []
-        },
-        WardleyValueProperty: {
-            name: WardleyValueProperty.$type,
-            properties: {
-                value: {
-                    name: WardleyValueProperty.value
-                }
-            },
-            superTypes: [WardleyAnchorProperty.$type, WardleyComponentProperty.$type]
-        },
-        XLabelProperty: {
-            name: XLabelProperty.$type,
-            properties: {
-                value: {
-                    name: XLabelProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
-        YLabelProperty: {
-            name: YLabelProperty.$type,
-            properties: {
-                value: {
-                    name: YLabelProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        }
-    } as const satisfies langium.AstMetaData
+  override readonly types = {
+    AffectedProperty: {
+      name: AffectedProperty.$type,
+      properties: {
+        value: {
+          name: AffectedProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    AnalysisStatement: {
+      name: AnalysisStatement.$type,
+      properties: {
+        args: {
+          name: AnalysisStatement.args,
+        },
+        kind: {
+          name: AnalysisStatement.kind,
+        },
+      },
+      superTypes: [ElectricalStatement.$type],
+    },
+    ArrowTypeProperty: {
+      name: ArrowTypeProperty.$type,
+      properties: {
+        value: {
+          name: ArrowTypeProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    AttrConstraintsField: {
+      name: AttrConstraintsField.$type,
+      properties: {
+        values: {
+          name: AttrConstraintsField.values,
+          defaultValue: [],
+        },
+      },
+      superTypes: [AttributeField.$type],
+    },
+    AttrDefaultField: {
+      name: AttrDefaultField.$type,
+      properties: {
+        value: {
+          name: AttrDefaultField.value,
+        },
+      },
+      superTypes: [AttributeField.$type],
+    },
+    AttrDerivedField: {
+      name: AttrDerivedField.$type,
+      properties: {
+        value: {
+          name: AttrDerivedField.value,
+        },
+      },
+      superTypes: [AttributeField.$type],
+    },
+    AttrNameField: {
+      name: AttrNameField.$type,
+      properties: {
+        value: {
+          name: AttrNameField.value,
+        },
+      },
+      superTypes: [AttributeField.$type],
+    },
+    AttrStaticField: {
+      name: AttrStaticField.$type,
+      properties: {
+        value: {
+          name: AttrStaticField.value,
+        },
+      },
+      superTypes: [AttributeField.$type],
+    },
+    AttrTypeField: {
+      name: AttrTypeField.$type,
+      properties: {
+        value: {
+          name: AttrTypeField.value,
+        },
+      },
+      superTypes: [AttributeField.$type],
+    },
+    AttrVisibilityField: {
+      name: AttrVisibilityField.$type,
+      properties: {
+        value: {
+          name: AttrVisibilityField.value,
+        },
+      },
+      superTypes: [AttributeField.$type],
+    },
+    AttributeDecl: {
+      name: AttributeDecl.$type,
+      properties: {
+        properties: {
+          name: AttributeDecl.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [],
+    },
+    AttributeField: {
+      name: AttributeField.$type,
+      properties: {},
+      superTypes: [],
+    },
+    AttributesProperty: {
+      name: AttributesProperty.$type,
+      properties: {
+        attributes: {
+          name: AttributesProperty.attributes,
+          defaultValue: [],
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    BusWidth: {
+      name: BusWidth.$type,
+      properties: {
+        lsb: {
+          name: BusWidth.lsb,
+        },
+        msb: {
+          name: BusWidth.msb,
+        },
+      },
+      superTypes: [],
+    },
+    CarrierProperty: {
+      name: CarrierProperty.$type,
+      properties: {
+        value: {
+          name: CarrierProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    ColorsProperty: {
+      name: ColorsProperty.$type,
+      properties: {
+        value: {
+          name: ColorsProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    ContainerBlock: {
+      name: ContainerBlock.$type,
+      properties: {
+        id: {
+          name: ContainerBlock.id,
+        },
+        label: {
+          name: ContainerBlock.label,
+        },
+        properties: {
+          name: ContainerBlock.properties,
+          defaultValue: [],
+        },
+        shape: {
+          name: ContainerBlock.shape,
+        },
+        statements: {
+          name: ContainerBlock.statements,
+          defaultValue: [],
+        },
+      },
+      superTypes: [DiagramStatement.$type],
+    },
+    ContainerLayoutProperty: {
+      name: ContainerLayoutProperty.$type,
+      properties: {
+        algorithm: {
+          name: ContainerLayoutProperty.algorithm,
+        },
+        spacing: {
+          name: ContainerLayoutProperty.spacing,
+        },
+      },
+      superTypes: [ContainerProperty.$type],
+    },
+    ContainerProperty: {
+      name: ContainerProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    ContainerStyleProperty: {
+      name: ContainerStyleProperty.$type,
+      properties: {
+        backgroundColor: {
+          name: ContainerStyleProperty.backgroundColor,
+        },
+        borderColor: {
+          name: ContainerStyleProperty.borderColor,
+        },
+        borderStyle: {
+          name: ContainerStyleProperty.borderStyle,
+        },
+        borderWidth: {
+          name: ContainerStyleProperty.borderWidth,
+        },
+        labelPosition: {
+          name: ContainerStyleProperty.labelPosition,
+        },
+        opacity: {
+          name: ContainerStyleProperty.opacity,
+        },
+        padding: {
+          name: ContainerStyleProperty.padding,
+        },
+      },
+      superTypes: [ContainerProperty.$type],
+    },
+    ContainerTypeProperty: {
+      name: ContainerTypeProperty.$type,
+      properties: {
+        type: {
+          name: ContainerTypeProperty.type,
+        },
+      },
+      superTypes: [ContainerProperty.$type],
+    },
+    DataArray: {
+      name: DataArray.$type,
+      properties: {
+        items: {
+          name: DataArray.items,
+          defaultValue: [],
+        },
+      },
+      superTypes: [],
+    },
+    DataItem: {
+      name: DataItem.$type,
+      properties: {},
+      superTypes: [],
+    },
+    DataObject: {
+      name: DataObject.$type,
+      properties: {
+        properties: {
+          name: DataObject.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [DataItem.$type],
+    },
+    DataObjectProperty: {
+      name: DataObjectProperty.$type,
+      properties: {
+        key: {
+          name: DataObjectProperty.key,
+        },
+        value: {
+          name: DataObjectProperty.value,
+        },
+      },
+      superTypes: [],
+    },
+    DataProperty: {
+      name: DataProperty.$type,
+      properties: {
+        items: {
+          name: DataProperty.items,
+          defaultValue: [],
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    DataValue: {
+      name: DataValue.$type,
+      properties: {
+        value: {
+          name: DataValue.value,
+        },
+      },
+      superTypes: [DataItem.$type],
+    },
+    DeceasedProperty: {
+      name: DeceasedProperty.$type,
+      properties: {
+        value: {
+          name: DeceasedProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    DiagramProfile: {
+      name: DiagramProfile.$type,
+      properties: {
+        name: {
+          name: DiagramProfile.name,
+        },
+        statements: {
+          name: DiagramProfile.statements,
+          defaultValue: [],
+        },
+      },
+      superTypes: [Profile.$type],
+    },
+    DiagramStatement: {
+      name: DiagramStatement.$type,
+      properties: {},
+      superTypes: [],
+    },
+    DigitalNetStatement: {
+      name: DigitalNetStatement.$type,
+      properties: {
+        names: {
+          name: DigitalNetStatement.names,
+          defaultValue: [],
+        },
+      },
+      superTypes: [DigitalStatement.$type],
+    },
+    DigitalProfile: {
+      name: DigitalProfile.$type,
+      properties: {
+        name: {
+          name: DigitalProfile.name,
+        },
+        statements: {
+          name: DigitalProfile.statements,
+          defaultValue: [],
+        },
+      },
+      superTypes: [Profile.$type],
+    },
+    DigitalStatement: {
+      name: DigitalStatement.$type,
+      properties: {},
+      superTypes: [],
+    },
+    DirectionDeclaration: {
+      name: DirectionDeclaration.$type,
+      properties: {
+        value: {
+          name: DirectionDeclaration.value,
+        },
+      },
+      superTypes: [DiagramStatement.$type],
+    },
+    Document: {
+      name: Document.$type,
+      properties: {
+        profiles: {
+          name: Document.profiles,
+          defaultValue: [],
+        },
+      },
+      superTypes: [],
+    },
+    EdgeConstraintsProperty: {
+      name: EdgeConstraintsProperty.$type,
+      properties: {
+        values: {
+          name: EdgeConstraintsProperty.values,
+          defaultValue: [],
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    EdgeDeclaration: {
+      name: EdgeDeclaration.$type,
+      properties: {
+        arrow: {
+          name: EdgeDeclaration.arrow,
+        },
+        from: {
+          name: EdgeDeclaration.from,
+        },
+        labeledArrow: {
+          name: EdgeDeclaration.labeledArrow,
+        },
+        properties: {
+          name: EdgeDeclaration.properties,
+          defaultValue: [],
+        },
+        to: {
+          name: EdgeDeclaration.to,
+        },
+      },
+      superTypes: [DiagramStatement.$type],
+    },
+    EdgeLabelProperty: {
+      name: EdgeLabelProperty.$type,
+      properties: {
+        label: {
+          name: EdgeLabelProperty.label,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    EdgeProperty: {
+      name: EdgeProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    EdgeTypeProperty: {
+      name: EdgeTypeProperty.$type,
+      properties: {
+        value: {
+          name: EdgeTypeProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    ElectricalStatement: {
+      name: ElectricalStatement.$type,
+      properties: {},
+      superTypes: [],
+    },
+    GenericTypesProperty: {
+      name: GenericTypesProperty.$type,
+      properties: {
+        types: {
+          name: GenericTypesProperty.types,
+          defaultValue: [],
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    GroupBlock: {
+      name: GroupBlock.$type,
+      properties: {
+        label: {
+          name: GroupBlock.label,
+        },
+        statements: {
+          name: GroupBlock.statements,
+          defaultValue: [],
+        },
+      },
+      superTypes: [DiagramStatement.$type],
+    },
+    IconProperty: {
+      name: IconProperty.$type,
+      properties: {
+        icon: {
+          name: IconProperty.icon,
+        },
+        provider: {
+          name: IconProperty.provider,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    InstMapProperty: {
+      name: InstMapProperty.$type,
+      properties: {
+        connections: {
+          name: InstMapProperty.connections,
+          defaultValue: [],
+        },
+      },
+      superTypes: [InstProperty.$type],
+    },
+    InstOfProperty: {
+      name: InstOfProperty.$type,
+      properties: {
+        module: {
+          name: InstOfProperty.module,
+        },
+      },
+      superTypes: [InstProperty.$type],
+    },
+    InstParamsProperty: {
+      name: InstParamsProperty.$type,
+      properties: {
+        params: {
+          name: InstParamsProperty.params,
+          defaultValue: [],
+        },
+      },
+      superTypes: [InstProperty.$type],
+    },
+    InstProperty: {
+      name: InstProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    InstStatement: {
+      name: InstStatement.$type,
+      properties: {
+        properties: {
+          name: InstStatement.properties,
+          defaultValue: [],
+        },
+        ref: {
+          name: InstStatement.ref,
+        },
+      },
+      superTypes: [DigitalStatement.$type],
+    },
+    LabelProperty: {
+      name: LabelProperty.$type,
+      properties: {
+        value: {
+          name: LabelProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    LegendPositionProperty: {
+      name: LegendPositionProperty.$type,
+      properties: {
+        value: {
+          name: LegendPositionProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    LineStyleProperty: {
+      name: LineStyleProperty.$type,
+      properties: {
+        value: {
+          name: LineStyleProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    LinkProperty: {
+      name: LinkProperty.$type,
+      properties: {
+        url: {
+          name: LinkProperty.url,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    MethodAbstractField: {
+      name: MethodAbstractField.$type,
+      properties: {
+        value: {
+          name: MethodAbstractField.value,
+        },
+      },
+      superTypes: [MethodField.$type],
+    },
+    MethodConstraintsField: {
+      name: MethodConstraintsField.$type,
+      properties: {
+        values: {
+          name: MethodConstraintsField.values,
+          defaultValue: [],
+        },
+      },
+      superTypes: [MethodField.$type],
+    },
+    MethodDecl: {
+      name: MethodDecl.$type,
+      properties: {
+        properties: {
+          name: MethodDecl.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [],
+    },
+    MethodField: {
+      name: MethodField.$type,
+      properties: {},
+      superTypes: [],
+    },
+    MethodNameField: {
+      name: MethodNameField.$type,
+      properties: {
+        value: {
+          name: MethodNameField.value,
+        },
+      },
+      superTypes: [MethodField.$type],
+    },
+    MethodParamDecl: {
+      name: MethodParamDecl.$type,
+      properties: {
+        properties: {
+          name: MethodParamDecl.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [],
+    },
+    MethodParamField: {
+      name: MethodParamField.$type,
+      properties: {},
+      superTypes: [],
+    },
+    MethodParamsField: {
+      name: MethodParamsField.$type,
+      properties: {
+        params: {
+          name: MethodParamsField.params,
+          defaultValue: [],
+        },
+      },
+      superTypes: [MethodField.$type],
+    },
+    MethodReturnTypeField: {
+      name: MethodReturnTypeField.$type,
+      properties: {
+        value: {
+          name: MethodReturnTypeField.value,
+        },
+      },
+      superTypes: [MethodField.$type],
+    },
+    MethodStaticField: {
+      name: MethodStaticField.$type,
+      properties: {
+        value: {
+          name: MethodStaticField.value,
+        },
+      },
+      superTypes: [MethodField.$type],
+    },
+    MethodVisibilityField: {
+      name: MethodVisibilityField.$type,
+      properties: {
+        value: {
+          name: MethodVisibilityField.value,
+        },
+      },
+      superTypes: [MethodField.$type],
+    },
+    MethodsProperty: {
+      name: MethodsProperty.$type,
+      properties: {
+        methods: {
+          name: MethodsProperty.methods,
+          defaultValue: [],
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    ModuleParamsProperty: {
+      name: ModuleParamsProperty.$type,
+      properties: {
+        params: {
+          name: ModuleParamsProperty.params,
+          defaultValue: [],
+        },
+      },
+      superTypes: [ModuleProperty.$type],
+    },
+    ModulePortsProperty: {
+      name: ModulePortsProperty.$type,
+      properties: {
+        ports: {
+          name: ModulePortsProperty.ports,
+          defaultValue: [],
+        },
+      },
+      superTypes: [ModuleProperty.$type],
+    },
+    ModuleProperty: {
+      name: ModuleProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    ModuleStatement: {
+      name: ModuleStatement.$type,
+      properties: {
+        name: {
+          name: ModuleStatement.name,
+        },
+        properties: {
+          name: ModuleStatement.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [DigitalStatement.$type],
+    },
+    MultiplicitySourceProperty: {
+      name: MultiplicitySourceProperty.$type,
+      properties: {
+        value: {
+          name: MultiplicitySourceProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    MultiplicityTargetProperty: {
+      name: MultiplicityTargetProperty.$type,
+      properties: {
+        value: {
+          name: MultiplicityTargetProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    NavigabilityProperty: {
+      name: NavigabilityProperty.$type,
+      properties: {
+        value: {
+          name: NavigabilityProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    NetDecl: {
+      name: NetDecl.$type,
+      properties: {
+        name: {
+          name: NetDecl.name,
+        },
+        width: {
+          name: NetDecl.width,
+        },
+      },
+      superTypes: [],
+    },
+    NetStatement: {
+      name: NetStatement.$type,
+      properties: {
+        names: {
+          name: NetStatement.names,
+          defaultValue: [],
+        },
+      },
+      superTypes: [ElectricalStatement.$type],
+    },
+    NodeProperty: {
+      name: NodeProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    NodeRef: {
+      name: NodeRef.$type,
+      properties: {
+        member: {
+          name: NodeRef.member,
+        },
+        node: {
+          name: NodeRef.node,
+        },
+      },
+      superTypes: [],
+    },
+    ParamDecl: {
+      name: ParamDecl.$type,
+      properties: {
+        name: {
+          name: ParamDecl.name,
+        },
+        value: {
+          name: ParamDecl.value,
+        },
+      },
+      superTypes: [],
+    },
+    ParamNameField: {
+      name: ParamNameField.$type,
+      properties: {
+        value: {
+          name: ParamNameField.value,
+        },
+      },
+      superTypes: [MethodParamField.$type],
+    },
+    ParamOverride: {
+      name: ParamOverride.$type,
+      properties: {
+        param: {
+          name: ParamOverride.param,
+        },
+        value: {
+          name: ParamOverride.value,
+        },
+      },
+      superTypes: [],
+    },
+    ParamTypeField: {
+      name: ParamTypeField.$type,
+      properties: {
+        value: {
+          name: ParamTypeField.value,
+        },
+      },
+      superTypes: [MethodParamField.$type],
+    },
+    PartGenericProperty: {
+      name: PartGenericProperty.$type,
+      properties: {
+        key: {
+          name: PartGenericProperty.key,
+        },
+        value: {
+          name: PartGenericProperty.value,
+        },
+      },
+      superTypes: [PartProperty.$type],
+    },
+    PartPinsProperty: {
+      name: PartPinsProperty.$type,
+      properties: {
+        pins: {
+          name: PartPinsProperty.pins,
+          defaultValue: [],
+        },
+      },
+      superTypes: [PartProperty.$type],
+    },
+    PartProperty: {
+      name: PartProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    PartSourceProperty: {
+      name: PartSourceProperty.$type,
+      properties: {
+        source: {
+          name: PartSourceProperty.source,
+        },
+      },
+      superTypes: [PartProperty.$type],
+    },
+    PartStatement: {
+      name: PartStatement.$type,
+      properties: {
+        properties: {
+          name: PartStatement.properties,
+          defaultValue: [],
+        },
+        ref: {
+          name: PartStatement.ref,
+        },
+      },
+      superTypes: [ElectricalStatement.$type],
+    },
+    PartTypeProperty: {
+      name: PartTypeProperty.$type,
+      properties: {
+        type: {
+          name: PartTypeProperty.type,
+        },
+      },
+      superTypes: [PartProperty.$type],
+    },
+    PartValueProperty: {
+      name: PartValueProperty.$type,
+      properties: {
+        value: {
+          name: PartValueProperty.value,
+        },
+      },
+      superTypes: [PartProperty.$type],
+    },
+    PortConnection: {
+      name: PortConnection.$type,
+      properties: {
+        net: {
+          name: PortConnection.net,
+        },
+        port: {
+          name: PortConnection.port,
+        },
+        range: {
+          name: PortConnection.range,
+        },
+      },
+      superTypes: [],
+    },
+    PortDecl: {
+      name: PortDecl.$type,
+      properties: {
+        name: {
+          name: PortDecl.name,
+        },
+        width: {
+          name: PortDecl.width,
+        },
+      },
+      superTypes: [],
+    },
+    Profile: {
+      name: Profile.$type,
+      properties: {},
+      superTypes: [],
+    },
+    RoleSourceProperty: {
+      name: RoleSourceProperty.$type,
+      properties: {
+        value: {
+          name: RoleSourceProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    RoleTargetProperty: {
+      name: RoleTargetProperty.$type,
+      properties: {
+        value: {
+          name: RoleTargetProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    RoutingDeclaration: {
+      name: RoutingDeclaration.$type,
+      properties: {
+        value: {
+          name: RoutingDeclaration.value,
+        },
+      },
+      superTypes: [DiagramStatement.$type],
+    },
+    RoutingProperty: {
+      name: RoutingProperty.$type,
+      properties: {
+        value: {
+          name: RoutingProperty.value,
+        },
+      },
+      superTypes: [EdgeProperty.$type],
+    },
+    SchematicProfile: {
+      name: SchematicProfile.$type,
+      properties: {
+        name: {
+          name: SchematicProfile.name,
+        },
+        statements: {
+          name: SchematicProfile.statements,
+          defaultValue: [],
+        },
+      },
+      superTypes: [Profile.$type],
+    },
+    SequenceActivateProperty: {
+      name: SequenceActivateProperty.$type,
+      properties: {
+        value: {
+          name: SequenceActivateProperty.value,
+        },
+      },
+      superTypes: [SequenceMessageProperty.$type],
+    },
+    SequenceAlternativeDecl: {
+      name: SequenceAlternativeDecl.$type,
+      properties: {
+        fromMsg: {
+          name: SequenceAlternativeDecl.fromMsg,
+        },
+        label: {
+          name: SequenceAlternativeDecl.label,
+        },
+        toMsg: {
+          name: SequenceAlternativeDecl.toMsg,
+        },
+      },
+      superTypes: [],
+    },
+    SequenceFragmentAlternativesProperty: {
+      name: SequenceFragmentAlternativesProperty.$type,
+      properties: {
+        alternatives: {
+          name: SequenceFragmentAlternativesProperty.alternatives,
+          defaultValue: [],
+        },
+      },
+      superTypes: [SequenceFragmentProperty.$type],
+    },
+    SequenceFragmentFromProperty: {
+      name: SequenceFragmentFromProperty.$type,
+      properties: {
+        from: {
+          name: SequenceFragmentFromProperty.from,
+        },
+      },
+      superTypes: [SequenceFragmentProperty.$type],
+    },
+    SequenceFragmentProperty: {
+      name: SequenceFragmentProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    SequenceFragmentStatement: {
+      name: SequenceFragmentStatement.$type,
+      properties: {
+        label: {
+          name: SequenceFragmentStatement.label,
+        },
+        properties: {
+          name: SequenceFragmentStatement.properties,
+          defaultValue: [],
+        },
+        type: {
+          name: SequenceFragmentStatement.type,
+        },
+      },
+      superTypes: [SequenceStatement.$type],
+    },
+    SequenceFragmentToProperty: {
+      name: SequenceFragmentToProperty.$type,
+      properties: {
+        to: {
+          name: SequenceFragmentToProperty.to,
+        },
+      },
+      superTypes: [SequenceFragmentProperty.$type],
+    },
+    SequenceFromProperty: {
+      name: SequenceFromProperty.$type,
+      properties: {
+        from: {
+          name: SequenceFromProperty.from,
+        },
+      },
+      superTypes: [SequenceMessageProperty.$type],
+    },
+    SequenceGuardProperty: {
+      name: SequenceGuardProperty.$type,
+      properties: {
+        value: {
+          name: SequenceGuardProperty.value,
+        },
+      },
+      superTypes: [SequenceMessageProperty.$type],
+    },
+    SequenceLabelProperty: {
+      name: SequenceLabelProperty.$type,
+      properties: {
+        label: {
+          name: SequenceLabelProperty.label,
+        },
+      },
+      superTypes: [SequenceMessageProperty.$type],
+    },
+    SequenceMessageProperty: {
+      name: SequenceMessageProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    SequenceMessageStatement: {
+      name: SequenceMessageStatement.$type,
+      properties: {
+        properties: {
+          name: SequenceMessageStatement.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [SequenceStatement.$type],
+    },
+    SequenceNoteParticipantsProperty: {
+      name: SequenceNoteParticipantsProperty.$type,
+      properties: {
+        participants: {
+          name: SequenceNoteParticipantsProperty.participants,
+          defaultValue: [],
+        },
+      },
+      superTypes: [SequenceNoteProperty.$type],
+    },
+    SequenceNotePositionProperty: {
+      name: SequenceNotePositionProperty.$type,
+      properties: {
+        position: {
+          name: SequenceNotePositionProperty.position,
+        },
+      },
+      superTypes: [SequenceNoteProperty.$type],
+    },
+    SequenceNoteProperty: {
+      name: SequenceNoteProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    SequenceNoteStatement: {
+      name: SequenceNoteStatement.$type,
+      properties: {
+        properties: {
+          name: SequenceNoteStatement.properties,
+          defaultValue: [],
+        },
+        text: {
+          name: SequenceNoteStatement.text,
+        },
+      },
+      superTypes: [SequenceStatement.$type],
+    },
+    SequenceParticipantStatement: {
+      name: SequenceParticipantStatement.$type,
+      properties: {
+        name: {
+          name: SequenceParticipantStatement.name,
+        },
+        type: {
+          name: SequenceParticipantStatement.type,
+        },
+      },
+      superTypes: [SequenceStatement.$type],
+    },
+    SequenceProfile: {
+      name: SequenceProfile.$type,
+      properties: {
+        name: {
+          name: SequenceProfile.name,
+        },
+        statements: {
+          name: SequenceProfile.statements,
+          defaultValue: [],
+        },
+      },
+      superTypes: [Profile.$type],
+    },
+    SequenceStatement: {
+      name: SequenceStatement.$type,
+      properties: {},
+      superTypes: [],
+    },
+    SequenceTimingProperty: {
+      name: SequenceTimingProperty.$type,
+      properties: {
+        value: {
+          name: SequenceTimingProperty.value,
+        },
+      },
+      superTypes: [SequenceMessageProperty.$type],
+    },
+    SequenceToProperty: {
+      name: SequenceToProperty.$type,
+      properties: {
+        to: {
+          name: SequenceToProperty.to,
+        },
+      },
+      superTypes: [SequenceMessageProperty.$type],
+    },
+    SequenceTypeProperty: {
+      name: SequenceTypeProperty.$type,
+      properties: {
+        type: {
+          name: SequenceTypeProperty.type,
+        },
+      },
+      superTypes: [SequenceMessageProperty.$type],
+    },
+    ShapeDeclaration: {
+      name: ShapeDeclaration.$type,
+      properties: {
+        id: {
+          name: ShapeDeclaration.id,
+        },
+        properties: {
+          name: ShapeDeclaration.properties,
+          defaultValue: [],
+        },
+        shape: {
+          name: ShapeDeclaration.shape,
+        },
+      },
+      superTypes: [DiagramStatement.$type],
+    },
+    ShowLegendProperty: {
+      name: ShowLegendProperty.$type,
+      properties: {
+        value: {
+          name: ShowLegendProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    StackedProperty: {
+      name: StackedProperty.$type,
+      properties: {
+        value: {
+          name: StackedProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    StereotypeProperty: {
+      name: StereotypeProperty.$type,
+      properties: {
+        value: {
+          name: StereotypeProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    StringArray: {
+      name: StringArray.$type,
+      properties: {
+        items: {
+          name: StringArray.items,
+          defaultValue: [],
+        },
+      },
+      superTypes: [],
+    },
+    StyleDeclaration: {
+      name: StyleDeclaration.$type,
+      properties: {
+        name: {
+          name: StyleDeclaration.name,
+        },
+        properties: {
+          name: StyleDeclaration.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [DiagramStatement.$type],
+    },
+    StyleProperty: {
+      name: StyleProperty.$type,
+      properties: {
+        key: {
+          name: StyleProperty.key,
+        },
+        value: {
+          name: StyleProperty.value,
+        },
+      },
+      superTypes: [],
+    },
+    StyleRefProperty: {
+      name: StyleRefProperty.$type,
+      properties: {
+        ref: {
+          name: StyleRefProperty.ref,
+          referenceType: StyleDeclaration.$type,
+        },
+      },
+      superTypes: [ContainerProperty.$type, NodeProperty.$type],
+    },
+    TitleProperty: {
+      name: TitleProperty.$type,
+      properties: {
+        value: {
+          name: TitleProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    TooltipProperty: {
+      name: TooltipProperty.$type,
+      properties: {
+        text: {
+          name: TooltipProperty.text,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    WardleyAnchorProperty: {
+      name: WardleyAnchorProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    WardleyAnchorStatement: {
+      name: WardleyAnchorStatement.$type,
+      properties: {
+        name: {
+          name: WardleyAnchorStatement.name,
+        },
+        properties: {
+          name: WardleyAnchorStatement.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [WardleyStatement.$type],
+    },
+    WardleyComponentProperty: {
+      name: WardleyComponentProperty.$type,
+      properties: {},
+      superTypes: [],
+    },
+    WardleyComponentStatement: {
+      name: WardleyComponentStatement.$type,
+      properties: {
+        name: {
+          name: WardleyComponentStatement.name,
+        },
+        properties: {
+          name: WardleyComponentStatement.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [WardleyStatement.$type],
+    },
+    WardleyDependencyStatement: {
+      name: WardleyDependencyStatement.$type,
+      properties: {
+        from: {
+          name: WardleyDependencyStatement.from,
+        },
+        to: {
+          name: WardleyDependencyStatement.to,
+        },
+      },
+      superTypes: [WardleyStatement.$type],
+    },
+    WardleyEvolutionProperty: {
+      name: WardleyEvolutionProperty.$type,
+      properties: {
+        value: {
+          name: WardleyEvolutionProperty.value,
+        },
+      },
+      superTypes: [WardleyAnchorProperty.$type, WardleyComponentProperty.$type],
+    },
+    WardleyEvolutionStatement: {
+      name: WardleyEvolutionStatement.$type,
+      properties: {
+        component: {
+          name: WardleyEvolutionStatement.component,
+        },
+        properties: {
+          name: WardleyEvolutionStatement.properties,
+          defaultValue: [],
+        },
+      },
+      superTypes: [WardleyStatement.$type],
+    },
+    WardleyInertiaProperty: {
+      name: WardleyInertiaProperty.$type,
+      properties: {
+        value: {
+          name: WardleyInertiaProperty.value,
+        },
+      },
+      superTypes: [WardleyComponentProperty.$type],
+    },
+    WardleyLabelProperty: {
+      name: WardleyLabelProperty.$type,
+      properties: {
+        value: {
+          name: WardleyLabelProperty.value,
+        },
+      },
+      superTypes: [WardleyComponentProperty.$type],
+    },
+    WardleyProfile: {
+      name: WardleyProfile.$type,
+      properties: {
+        name: {
+          name: WardleyProfile.name,
+        },
+        statements: {
+          name: WardleyProfile.statements,
+          defaultValue: [],
+        },
+      },
+      superTypes: [Profile.$type],
+    },
+    WardleyStatement: {
+      name: WardleyStatement.$type,
+      properties: {},
+      superTypes: [],
+    },
+    WardleyValueProperty: {
+      name: WardleyValueProperty.$type,
+      properties: {
+        value: {
+          name: WardleyValueProperty.value,
+        },
+      },
+      superTypes: [WardleyAnchorProperty.$type, WardleyComponentProperty.$type],
+    },
+    XLabelProperty: {
+      name: XLabelProperty.$type,
+      properties: {
+        value: {
+          name: XLabelProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+    YLabelProperty: {
+      name: YLabelProperty.$type,
+      properties: {
+        value: {
+          name: YLabelProperty.value,
+        },
+      },
+      superTypes: [NodeProperty.$type],
+    },
+  } as const satisfies langium.AstMetaData;
 }
 
 export const reflection = new RuniqAstReflection();

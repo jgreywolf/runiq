@@ -6,7 +6,13 @@
 
 import { describe, it, expect } from 'vitest';
 import { parse } from '../index.js';
-import type { SequenceProfile, SequenceParticipant, SequenceMessage, SequenceNote, SequenceFragment } from '@runiq/core';
+import type {
+  SequenceProfile,
+  SequenceParticipant,
+  SequenceMessage,
+  SequenceNote,
+  SequenceFragment,
+} from '@runiq/core';
 
 describe('Sequence Profile Parser', () => {
   describe('Basic Parsing', () => {
@@ -405,7 +411,7 @@ describe('Sequence Profile Parser', () => {
       expect(profile.participants).toHaveLength(4);
       expect(profile.messages).toHaveLength(6);
       expect(profile.notes).toHaveLength(1);
-      
+
       // Verify participant types
       expect(profile.participants[0].type).toBe('actor');
       expect(profile.participants[1].type).toBe('boundary');

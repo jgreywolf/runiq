@@ -351,7 +351,7 @@ function renderMessage(
   // Handle lost and found messages
   const isLostMessage = message.to === 'lost' || message.to === 'found';
   const isFoundMessage = message.from === 'lost' || message.from === 'found';
-  
+
   let fromX: number | undefined;
   let toX: number | undefined;
 

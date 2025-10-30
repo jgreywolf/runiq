@@ -22,7 +22,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('<svg');
       expect(result.svg).toContain('</svg>');
       expect(result.svg).toContain('Alice');
@@ -40,7 +40,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.warnings).toHaveLength(1);
       expect(result.warnings[0]).toContain('No participants');
     });
@@ -55,7 +55,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Authentication Flow');
       expect(result.svg).toContain('<title');
     });
@@ -78,7 +78,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Actor');
       expect(result.svg).toContain('Entity');
       expect(result.svg).toContain('Boundary');
@@ -96,7 +96,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('class="participant-box"');
       expect(result.svg).toContain('class="participant-text"');
     });
@@ -116,7 +116,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       // Should have 2 lifelines (dashed lines)
       const lifelineMatches = result.svg.match(/class="lifeline"/g);
       expect(lifelineMatches).toHaveLength(2);
@@ -132,7 +132,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('stroke-dasharray: 5,5');
     });
   });
@@ -147,13 +147,11 @@ describe('Sequence Diagram Renderer', () => {
           { id: 'a', name: 'A' },
           { id: 'b', name: 'B' },
         ],
-        messages: [
-          { from: 'a', to: 'b', label: 'Request', type: 'sync' },
-        ],
+        messages: [{ from: 'a', to: 'b', label: 'Request', type: 'sync' }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Request');
       expect(result.svg).toContain('class="message-line"');
       expect(result.svg).toContain('class="message-arrow"');
@@ -170,13 +168,11 @@ describe('Sequence Diagram Renderer', () => {
           { id: 'a', name: 'A' },
           { id: 'b', name: 'B' },
         ],
-        messages: [
-          { from: 'a', to: 'b', label: 'Event', type: 'async' },
-        ],
+        messages: [{ from: 'a', to: 'b', label: 'Event', type: 'async' }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Event');
       expect(result.svg).toContain('stroke-dasharray="5,5"');
     });
@@ -190,13 +186,11 @@ describe('Sequence Diagram Renderer', () => {
           { id: 'a', name: 'A' },
           { id: 'b', name: 'B' },
         ],
-        messages: [
-          { from: 'b', to: 'a', label: 'Response', type: 'return' },
-        ],
+        messages: [{ from: 'b', to: 'a', label: 'Response', type: 'return' }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Response');
       expect(result.svg).toContain('stroke-dasharray="5,5"');
       expect(result.svg).toContain('<polyline'); // Open arrow uses polyline
@@ -211,13 +205,11 @@ describe('Sequence Diagram Renderer', () => {
           { id: 'a', name: 'A' },
           { id: 'b', name: 'B' },
         ],
-        messages: [
-          { from: 'a', to: 'b', label: '<<create>>', type: 'create' },
-        ],
+        messages: [{ from: 'a', to: 'b', label: '<<create>>', type: 'create' }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('&lt;&lt;create&gt;&gt;'); // Escaped
     });
 
@@ -236,7 +228,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('&lt;&lt;destroy&gt;&gt;');
       expect(result.svg).toContain('stroke-dasharray="5,5"');
     });
@@ -250,13 +242,11 @@ describe('Sequence Diagram Renderer', () => {
           { id: 'a', name: 'A' },
           { id: 'b', name: 'B' },
         ],
-        messages: [
-          { from: 'a', to: 'b', label: 'Login Request' },
-        ],
+        messages: [{ from: 'a', to: 'b', label: 'Login Request' }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Login Request');
       expect(result.svg).toContain('class="message-text"');
     });
@@ -267,14 +257,14 @@ describe('Sequence Diagram Renderer', () => {
         astVersion: '1.0',
         title: 'Test',
         participants: [{ id: 'a', name: 'A' }],
-        messages: [
-          { from: 'a', to: 'unknown', label: 'Invalid' },
-        ],
+        messages: [{ from: 'a', to: 'unknown', label: 'Invalid' }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
-      expect(result.svg).toContain('<!-- Warning: Invalid participant reference');
+
+      expect(result.svg).toContain(
+        '<!-- Warning: Invalid participant reference'
+      );
     });
   });
 
@@ -288,13 +278,11 @@ describe('Sequence Diagram Renderer', () => {
           { id: 'a', name: 'A' },
           { id: 'b', name: 'B' },
         ],
-        messages: [
-          { from: 'a', to: 'b', label: 'Request', activate: true },
-        ],
+        messages: [{ from: 'a', to: 'b', label: 'Request', activate: true }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('class="activation-box"');
     });
 
@@ -307,13 +295,11 @@ describe('Sequence Diagram Renderer', () => {
           { id: 'a', name: 'A' },
           { id: 'b', name: 'B' },
         ],
-        messages: [
-          { from: 'a', to: 'b', label: 'Request', activate: false },
-        ],
+        messages: [{ from: 'a', to: 'b', label: 'Request', activate: false }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).not.toContain('class="activation-box"');
     });
   });
@@ -332,7 +318,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Important note');
       expect(result.svg).toContain('class="note-box"');
     });
@@ -344,13 +330,11 @@ describe('Sequence Diagram Renderer', () => {
         title: 'Test',
         participants: [{ id: 'a', name: 'A' }],
         messages: [],
-        notes: [
-          { text: 'Side note', position: 'right', participants: ['a'] },
-        ],
+        notes: [{ text: 'Side note', position: 'right', participants: ['a'] }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Side note');
     });
 
@@ -370,7 +354,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('Spanning note');
     });
 
@@ -387,8 +371,10 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
-      expect(result.svg).toContain('<!-- Warning: Invalid participant reference');
+
+      expect(result.svg).toContain(
+        '<!-- Warning: Invalid participant reference'
+      );
     });
 
     it('should render folded corner on notes', () => {
@@ -398,13 +384,11 @@ describe('Sequence Diagram Renderer', () => {
         title: 'Test',
         participants: [{ id: 'a', name: 'A' }],
         messages: [],
-        notes: [
-          { text: 'Note', position: 'left', participants: ['a'] },
-        ],
+        notes: [{ text: 'Note', position: 'left', participants: ['a'] }],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('<polyline'); // Folded corner
     });
   });
@@ -424,12 +408,17 @@ describe('Sequence Diagram Renderer', () => {
           { from: 'b', to: 'a', label: 'M2' },
         ],
         fragments: [
-          { type: 'loop', label: 'Retry', startAfterMessage: 0, endAfterMessage: 1 },
+          {
+            type: 'loop',
+            label: 'Retry',
+            startAfterMessage: 0,
+            endAfterMessage: 1,
+          },
         ],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('class="fragment-box"');
       expect(result.svg).toContain('loop');
       expect(result.svg).toContain('Retry');
@@ -444,9 +433,7 @@ describe('Sequence Diagram Renderer', () => {
           { id: 'a', name: 'A' },
           { id: 'b', name: 'B' },
         ],
-        messages: [
-          { from: 'a', to: 'b', label: 'M' },
-        ],
+        messages: [{ from: 'a', to: 'b', label: 'M' }],
         fragments: [
           { type: 'loop', startAfterMessage: 0, endAfterMessage: 0 },
           { type: 'alt', startAfterMessage: 0, endAfterMessage: 0 },
@@ -458,7 +445,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('loop');
       expect(result.svg).toContain('alt');
       expect(result.svg).toContain('opt');
@@ -496,7 +483,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('alt');
       expect(result.svg).toContain('Success');
       expect(result.svg).toContain('Failure');
@@ -514,12 +501,17 @@ describe('Sequence Diagram Renderer', () => {
         ],
         messages: [{ from: 'a', to: 'b', label: 'M' }],
         fragments: [
-          { type: 'loop', label: 'Test Label', startAfterMessage: 0, endAfterMessage: 0 },
+          {
+            type: 'loop',
+            label: 'Test Label',
+            startAfterMessage: 0,
+            endAfterMessage: 0,
+          },
         ],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('class="fragment-label-bg"');
       expect(result.svg).toContain('class="fragment-label-text"');
       expect(result.svg).toContain('Test Label');
@@ -537,7 +529,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile, { width: 1200 });
-      
+
       expect(result.svg).toContain('width="1200"');
     });
 
@@ -550,11 +542,11 @@ describe('Sequence Diagram Renderer', () => {
         messages: [],
       };
 
-      const result = renderSequenceDiagram(profile, { 
+      const result = renderSequenceDiagram(profile, {
         participantColor: '#FF0000',
         messageColor: '#00FF00',
       });
-      
+
       expect(result.svg).toContain('#FF0000');
       expect(result.svg).toContain('#00FF00');
     });
@@ -569,7 +561,7 @@ describe('Sequence Diagram Renderer', () => {
       };
 
       const result = renderSequenceDiagram(profile, { title: 'Custom Title' });
-      
+
       expect(result.svg).toContain('Custom Title');
     });
   });
@@ -580,16 +572,14 @@ describe('Sequence Diagram Renderer', () => {
         type: 'sequence',
         astVersion: '1.0',
         title: 'Test <>&"\'',
-        participants: [
-          { id: 'a', name: 'A&B' },
-        ],
+        participants: [{ id: 'a', name: 'A&B' }],
         messages: [
           { from: 'a', to: 'a', label: '<script>alert("xss")</script>' },
         ],
       };
 
       const result = renderSequenceDiagram(profile);
-      
+
       expect(result.svg).toContain('&lt;');
       expect(result.svg).toContain('&gt;');
       expect(result.svg).toContain('&amp;');
@@ -605,16 +595,12 @@ describe('Sequence Diagram Renderer', () => {
           type: 'sequence',
           astVersion: '1.0',
           title: 'Self Message Test',
-          participants: [
-            { id: 'obj', name: 'Object', type: 'entity' },
-          ],
-          messages: [
-            { from: 'obj', to: 'obj', label: 'self()', type: 'sync' },
-          ],
+          participants: [{ id: 'obj', name: 'Object', type: 'entity' }],
+          messages: [{ from: 'obj', to: 'obj', label: 'self()', type: 'sync' }],
         };
 
         const result = renderSequenceDiagram(profile);
-        
+
         expect(result.svg).toContain('self()');
         // Self-message should have a loop back to same participant
         expect(result.svg).toContain('class="message-line"');
@@ -627,16 +613,14 @@ describe('Sequence Diagram Renderer', () => {
           type: 'sequence',
           astVersion: '1.0',
           title: 'Lost Message Test',
-          participants: [
-            { id: 'client', name: 'Client', type: 'actor' },
-          ],
+          participants: [{ id: 'client', name: 'Client', type: 'actor' }],
           messages: [
             { from: 'client', to: 'lost', label: 'broadcast()', type: 'async' },
           ],
         };
 
         const result = renderSequenceDiagram(profile);
-        
+
         expect(result.svg).toContain('broadcast()');
         // Lost message should have a filled circle at the end
         expect(result.svg).toContain('class="lost-message-end"');
@@ -647,16 +631,14 @@ describe('Sequence Diagram Renderer', () => {
           type: 'sequence',
           astVersion: '1.0',
           title: 'Found Message Test',
-          participants: [
-            { id: 'server', name: 'Server', type: 'entity' },
-          ],
+          participants: [{ id: 'server', name: 'Server', type: 'entity' }],
           messages: [
             { from: 'found', to: 'server', label: 'interrupt', type: 'async' },
           ],
         };
 
         const result = renderSequenceDiagram(profile);
-        
+
         expect(result.svg).toContain('interrupt');
         // Found message should have a filled circle at the start
         expect(result.svg).toContain('class="found-message-start"');
@@ -674,18 +656,18 @@ describe('Sequence Diagram Renderer', () => {
             { id: 'b', name: 'B', type: 'entity' },
           ],
           messages: [
-            { 
-              from: 'a', 
-              to: 'b', 
-              label: 'execute', 
+            {
+              from: 'a',
+              to: 'b',
+              label: 'execute',
               type: 'sync',
-              guard: 'x > 0'
+              guard: 'x > 0',
             },
           ],
         };
 
         const result = renderSequenceDiagram(profile);
-        
+
         expect(result.svg).toContain('execute');
         expect(result.svg).toContain('[x &gt; 0]');
         expect(result.svg).toContain('class="message-guard"');
@@ -701,18 +683,18 @@ describe('Sequence Diagram Renderer', () => {
             { id: 'b', name: 'B', type: 'entity' },
           ],
           messages: [
-            { 
-              from: 'a', 
-              to: 'b', 
-              label: 'request', 
+            {
+              from: 'a',
+              to: 'b',
+              label: 'request',
               type: 'sync',
-              timing: 't < 5s'
+              timing: 't < 5s',
             },
           ],
         };
 
         const result = renderSequenceDiagram(profile);
-        
+
         expect(result.svg).toContain('request');
         expect(result.svg).toContain('{t &lt; 5s}');
         expect(result.svg).toContain('class="message-timing"');
@@ -728,19 +710,19 @@ describe('Sequence Diagram Renderer', () => {
             { id: 'b', name: 'B', type: 'entity' },
           ],
           messages: [
-            { 
-              from: 'a', 
-              to: 'b', 
-              label: 'criticalOp', 
+            {
+              from: 'a',
+              to: 'b',
+              label: 'criticalOp',
               type: 'sync',
               guard: 'authorized',
-              timing: 'deadline = 100ms'
+              timing: 'deadline = 100ms',
             },
           ],
         };
 
         const result = renderSequenceDiagram(profile);
-        
+
         expect(result.svg).toContain('criticalOp');
         expect(result.svg).toContain('[authorized]');
         expect(result.svg).toContain('{deadline = 100ms}');
@@ -758,21 +740,35 @@ describe('Sequence Diagram Renderer', () => {
             { id: 'server', name: 'Server', type: 'entity' },
           ],
           messages: [
-            { from: 'client', to: 'server', label: 'login', guard: 'credentials valid' },
+            {
+              from: 'client',
+              to: 'server',
+              label: 'login',
+              guard: 'credentials valid',
+            },
             { from: 'server', to: 'server', label: 'validate()' },
             { from: 'server', to: 'lost', label: 'audit log', type: 'async' },
             { from: 'found', to: 'client', label: 'timeout' },
           ],
           fragments: [
-            { type: 'opt', label: 'authentication', startAfterMessage: 0, endAfterMessage: 1 },
+            {
+              type: 'opt',
+              label: 'authentication',
+              startAfterMessage: 0,
+              endAfterMessage: 1,
+            },
           ],
           notes: [
-            { text: 'Security check', position: 'right', participants: ['server'] },
+            {
+              text: 'Security check',
+              position: 'right',
+              participants: ['server'],
+            },
           ],
         };
 
         const result = renderSequenceDiagram(profile);
-        
+
         expect(result.svg).toContain('login');
         expect(result.svg).toContain('[credentials valid]');
         expect(result.svg).toContain('validate()');

@@ -535,15 +535,17 @@ function convertSequenceProfile(
         if (Langium.isSequenceFromProperty(prop)) {
           const from = prop.from.replace(/^"|"$/g, '');
           // Preserve 'lost' and 'found' as-is for special message types
-          message.from = (from === 'lost' || from === 'found') 
-            ? from 
-            : from.toLowerCase().replace(/\s+/g, '_');
+          message.from =
+            from === 'lost' || from === 'found'
+              ? from
+              : from.toLowerCase().replace(/\s+/g, '_');
         } else if (Langium.isSequenceToProperty(prop)) {
           const to = prop.to.replace(/^"|"$/g, '');
           // Preserve 'lost' and 'found' as-is for special message types
-          message.to = (to === 'lost' || to === 'found') 
-            ? to 
-            : to.toLowerCase().replace(/\s+/g, '_');
+          message.to =
+            to === 'lost' || to === 'found'
+              ? to
+              : to.toLowerCase().replace(/\s+/g, '_');
         } else if (Langium.isSequenceLabelProperty(prop)) {
           message.label = prop.label.replace(/^"|"$/g, '');
         } else if (Langium.isSequenceTypeProperty(prop)) {
