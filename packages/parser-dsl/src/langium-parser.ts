@@ -1148,6 +1148,19 @@ function convertContainer(
       styleRef = prop.ref?.$refText;
     } else if (Langium.isContainerTypeProperty(prop)) {
       containerType = prop.type;
+    } else if (Langium.isContainerMetadataProperty(prop)) {
+      // Phase 1: Container metadata properties
+      if (prop.header) {
+        container.header = prop.header.replace(/^"|"$/g, '');
+      } else if (prop.icon) {
+        container.icon = prop.icon.replace(/^"|"$/g, '');
+      } else if (prop.badge) {
+        container.badge = prop.badge.replace(/^"|"$/g, '');
+      } else if (prop.collapsible !== undefined) {
+        container.collapsible = prop.collapsible === 'true';
+      } else if (prop.collapsed !== undefined) {
+        container.collapsed = prop.collapsed === 'true';
+      }
     } else if (Langium.isContainerStyleProperty(prop)) {
       if (prop.borderStyle) {
         containerStyle.borderStyle = prop.borderStyle;
@@ -1170,6 +1183,28 @@ function convertContainer(
           | 'bottom'
           | 'left'
           | 'right';
+      } else if (prop.shadow !== undefined) {
+        // Phase 1: Shadow
+        containerStyle.shadow = prop.shadow === 'true';
+      } else if (prop.depth !== undefined) {
+        // Phase 1: Depth
+        containerStyle.depth = parseFloat(prop.depth);
+      } else if (prop.headerPosition) {
+        // Phase 1: Header position
+        containerStyle.headerPosition = prop.headerPosition as
+          | 'top'
+          | 'bottom'
+          | 'left'
+          | 'right';
+      } else if (prop.headerBackgroundColor) {
+        // Phase 1: Header background color
+        containerStyle.headerBackgroundColor = prop.headerBackgroundColor.replace(/^"|"$/g, '');
+      } else if (prop.iconSize !== undefined) {
+        // Phase 1: Icon size
+        containerStyle.iconSize = parseFloat(prop.iconSize);
+      } else if (prop.iconColor) {
+        // Phase 1: Icon color
+        containerStyle.iconColor = prop.iconColor.replace(/^"|"$/g, '');
       }
     } else if (Langium.isContainerLayoutProperty(prop)) {
       if (prop.algorithm) {

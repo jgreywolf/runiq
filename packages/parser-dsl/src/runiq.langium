@@ -618,6 +618,7 @@ ContainerBlock:
 ContainerProperty:
     StyleRefProperty
     | ContainerTypeProperty
+    | ContainerMetadataProperty
     | ContainerStyleProperty
     | ContainerLayoutProperty;
 
@@ -627,6 +628,14 @@ ContainerTypeProperty:
 ContainerTypeValue returns string:
     'mindmap' | ID;
 
+// Phase 1: Container metadata properties (header, icon, badge, collapsible, collapsed)
+ContainerMetadataProperty:
+    'header:' header=STRING
+    | 'icon:' icon=STRING
+    | 'badge:' badge=STRING
+    | 'collapsible:' collapsible=BOOLEAN
+    | 'collapsed:' collapsed=BOOLEAN;
+
 ContainerStyleProperty:
     'borderStyle:' borderStyle=BorderStyleValue
     | 'borderColor:' borderColor=STRING
@@ -634,7 +643,13 @@ ContainerStyleProperty:
     | 'backgroundColor:' backgroundColor=STRING
     | 'opacity:' opacity=NUMBER
     | 'padding:' padding=NUMBER
-    | 'labelPosition:' labelPosition=LabelPositionValue;
+    | 'labelPosition:' labelPosition=LabelPositionValue
+    | 'shadow:' shadow=BOOLEAN
+    | 'depth:' depth=NUMBER
+    | 'headerPosition:' headerPosition=LabelPositionValue
+    | 'headerBackgroundColor:' headerBackgroundColor=STRING
+    | 'iconSize:' iconSize=NUMBER
+    | 'iconColor:' iconColor=STRING;
 
 ContainerLayoutProperty:
     'algorithm:' algorithm=LayoutAlgorithmValue

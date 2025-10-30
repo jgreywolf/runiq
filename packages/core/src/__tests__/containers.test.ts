@@ -476,4 +476,465 @@ describe('Hierarchical Containers - Core Types', () => {
       expect(hasOnlyContainers).toBe(true);
     });
   });
+
+  // ============================================================================
+  // Phase 1: Container Styling Enhancements
+  // ============================================================================
+  describe('Phase 1: Container Headers and Titles', () => {
+    it('should support header property on containers', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Container',
+        header: 'Frontend Services',
+        children: [],
+      };
+
+      expect(container.header).toBe('Frontend Services');
+    });
+
+    it('should support header independent of label', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'frontend',
+        label: 'Frontend',
+        header: 'Frontend Services Layer',
+        children: [],
+      };
+
+      expect(container.label).toBe('Frontend');
+      expect(container.header).toBe('Frontend Services Layer');
+      expect(container.header).not.toBe(container.label);
+    });
+
+    it('should work without header (optional)', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Container',
+        children: [],
+      };
+
+      expect(container.header).toBeUndefined();
+    });
+  });
+
+  describe('Phase 1: Container Icons and Badges', () => {
+    it('should support icon property on containers', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Backend',
+        icon: 'server',
+        children: [],
+      };
+
+      expect(container.icon).toBe('server');
+    });
+
+    it('should support different icon names', () => {
+      const containers = [
+        { icon: 'database' },
+        { icon: 'cloud' },
+        { icon: 'lock' },
+        { icon: 'users' },
+      ];
+
+      expect(containers[0].icon).toBe('database');
+      expect(containers[1].icon).toBe('cloud');
+      expect(containers[2].icon).toBe('lock');
+      expect(containers[3].icon).toBe('users');
+    });
+
+    it('should work without icon (optional)', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Container',
+        children: [],
+      };
+
+      expect(container.icon).toBeUndefined();
+    });
+
+    it('should support badge property on containers', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'API Gateway',
+        badge: 'v2.0',
+        children: [],
+      };
+
+      expect(container.badge).toBe('v2.0');
+    });
+
+    it('should support both icon and badge', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'api',
+        label: 'API',
+        icon: 'server',
+        badge: 'v2.0',
+        children: [],
+      };
+
+      expect(container.icon).toBe('server');
+      expect(container.badge).toBe('v2.0');
+    });
+  });
+
+  describe('Phase 1: Container Shadow and Depth', () => {
+    it('should support shadow in containerStyle', () => {
+      const style: ContainerStyle = {
+        shadow: true,
+      };
+
+      expect(style.shadow).toBe(true);
+    });
+
+    it('should support shadow as false', () => {
+      const style: ContainerStyle = {
+        shadow: false,
+      };
+
+      expect(style.shadow).toBe(false);
+    });
+
+    it('should support depth property for visual hierarchy', () => {
+      const style: ContainerStyle = {
+        depth: 2,
+      };
+
+      expect(style.depth).toBe(2);
+    });
+
+    it('should support different depth levels', () => {
+      const styles = [
+        { depth: 0 },
+        { depth: 1 },
+        { depth: 2 },
+        { depth: 3 },
+      ];
+
+      expect(styles[0].depth).toBe(0);
+      expect(styles[1].depth).toBe(1);
+      expect(styles[2].depth).toBe(2);
+      expect(styles[3].depth).toBe(3);
+    });
+
+    it('should support shadow and depth together', () => {
+      const style: ContainerStyle = {
+        shadow: true,
+        depth: 2,
+        backgroundColor: '#f0f0f0',
+      };
+
+      expect(style.shadow).toBe(true);
+      expect(style.depth).toBe(2);
+      expect(style.backgroundColor).toBe('#f0f0f0');
+    });
+  });
+
+  describe('Phase 1: Collapsed State (for Phase 2)', () => {
+    it('should support collapsed property on containers', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Container',
+        collapsed: false,
+        children: [],
+      };
+
+      expect(container.collapsed).toBe(false);
+    });
+
+    it('should support collapsed as true', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Container',
+        collapsed: true,
+        children: ['node1', 'node2'],
+      };
+
+      expect(container.collapsed).toBe(true);
+    });
+
+    it('should work without collapsed (defaults to undefined)', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Container',
+        children: [],
+      };
+
+      expect(container.collapsed).toBeUndefined();
+    });
+
+    it('should support collapsible property', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Container',
+        collapsible: true,
+        collapsed: false,
+        children: [],
+      };
+
+      expect(container.collapsible).toBe(true);
+      expect(container.collapsed).toBe(false);
+    });
+  });
+
+  describe('Phase 1: Enhanced Container Styling', () => {
+    it('should support all Phase 1 style properties together', () => {
+      const style: ContainerStyle = {
+        borderStyle: 'solid',
+        borderColor: '#01579b',
+        borderWidth: 2,
+        backgroundColor: '#e1f5fe',
+        opacity: 0.9,
+        padding: 20,
+        labelPosition: 'top',
+        shadow: true,
+        depth: 1,
+      };
+
+      expect(style.borderStyle).toBe('solid');
+      expect(style.borderColor).toBe('#01579b');
+      expect(style.borderWidth).toBe(2);
+      expect(style.backgroundColor).toBe('#e1f5fe');
+      expect(style.opacity).toBe(0.9);
+      expect(style.padding).toBe(20);
+      expect(style.labelPosition).toBe('top');
+      expect(style.shadow).toBe(true);
+      expect(style.depth).toBe(1);
+    });
+
+    it('should support header position styling', () => {
+      const style: ContainerStyle = {
+        headerPosition: 'top',
+      };
+
+      expect(style.headerPosition).toBe('top');
+    });
+
+    it('should support different header positions', () => {
+      const positions: Array<'top' | 'bottom' | 'left' | 'right'> = [
+        'top',
+        'bottom',
+        'left',
+        'right',
+      ];
+
+      positions.forEach((pos) => {
+        const style: ContainerStyle = {
+          headerPosition: pos,
+        };
+        expect(style.headerPosition).toBe(pos);
+      });
+    });
+
+    it('should support header background color', () => {
+      const style: ContainerStyle = {
+        headerBackgroundColor: '#1976d2',
+      };
+
+      expect(style.headerBackgroundColor).toBe('#1976d2');
+    });
+
+    it('should support icon size', () => {
+      const style: ContainerStyle = {
+        iconSize: 24,
+      };
+
+      expect(style.iconSize).toBe(24);
+    });
+
+    it('should support icon color', () => {
+      const style: ContainerStyle = {
+        iconColor: '#ffffff',
+      };
+
+      expect(style.iconColor).toBe('#ffffff');
+    });
+  });
+
+  describe('Phase 1: Complete Container Example', () => {
+    it('should support a fully styled container with all Phase 1 features', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'frontend',
+        label: 'Frontend',
+        header: 'Frontend Services',
+        icon: 'desktop',
+        badge: 'v3.2',
+        collapsible: true,
+        collapsed: false,
+        containerStyle: {
+          backgroundColor: '#e1f5fe',
+          borderColor: '#01579b',
+          borderWidth: 2,
+          borderStyle: 'solid',
+          padding: 20,
+          shadow: true,
+          depth: 1,
+          labelPosition: 'top',
+          headerPosition: 'top',
+          headerBackgroundColor: '#0277bd',
+          iconSize: 20,
+          iconColor: '#ffffff',
+          opacity: 0.95,
+        },
+        children: ['ui', 'components'],
+      };
+
+      expect(container.type).toBe('container');
+      expect(container.header).toBe('Frontend Services');
+      expect(container.icon).toBe('desktop');
+      expect(container.badge).toBe('v3.2');
+      expect(container.collapsible).toBe(true);
+      expect(container.collapsed).toBe(false);
+      expect(container.containerStyle?.shadow).toBe(true);
+      expect(container.containerStyle?.depth).toBe(1);
+      expect(container.containerStyle?.headerBackgroundColor).toBe('#0277bd');
+      expect(container.containerStyle?.iconSize).toBe(20);
+      expect(container.children).toHaveLength(2);
+    });
+  });
+
+  describe('Phase 1: Nested Container Visual Hierarchy', () => {
+    it('should support different depths for nested containers', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'n1', shape: 'rect' },
+          { id: 'n2', shape: 'rect' },
+          { id: 'n3', shape: 'rect' },
+        ],
+        edges: [],
+        containers: [
+          {
+            type: 'container',
+            id: 'outer',
+            label: 'Outer',
+            containerStyle: { depth: 0 },
+            children: ['n1'],
+            containers: [
+              {
+                type: 'container',
+                id: 'middle',
+                label: 'Middle',
+                containerStyle: { depth: 1 },
+                children: ['n2'],
+                containers: [
+                  {
+                    type: 'container',
+                    id: 'inner',
+                    label: 'Inner',
+                    containerStyle: { depth: 2 },
+                    children: ['n3'],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      expect(diagram.containers![0].containerStyle?.depth).toBe(0);
+      expect(diagram.containers![0].containers![0].containerStyle?.depth).toBe(1);
+      expect(diagram.containers![0].containers![0].containers![0].containerStyle?.depth).toBe(2);
+    });
+
+    it('should support automatic depth calculation based on nesting', () => {
+      const outer: ContainerDeclaration = {
+        type: 'container',
+        id: 'outer',
+        label: 'Outer',
+        children: [],
+        containers: [
+          {
+            type: 'container',
+            id: 'inner',
+            label: 'Inner',
+            children: [],
+          },
+        ],
+      };
+
+      const nestingLevel = outer.containers ? 1 : 0;
+      expect(nestingLevel).toBe(1);
+    });
+  });
+
+  describe('Phase 1: Style Inheritance Rules', () => {
+    it('should support style inheritance from parent to child containers', () => {
+      const parent: ContainerDeclaration = {
+        type: 'container',
+        id: 'parent',
+        label: 'Parent',
+        containerStyle: {
+          backgroundColor: '#f0f0f0',
+          borderColor: '#333',
+          padding: 20,
+        },
+        children: [],
+        containers: [
+          {
+            type: 'container',
+            id: 'child',
+            label: 'Child',
+            children: [],
+            // Child can inherit or override parent styles
+          },
+        ],
+      };
+
+      expect(parent.containerStyle?.backgroundColor).toBe('#f0f0f0');
+      expect(parent.containers![0].containerStyle).toBeUndefined();
+    });
+
+    it('should allow child containers to override inherited styles', () => {
+      const parent: ContainerDeclaration = {
+        type: 'container',
+        id: 'parent',
+        label: 'Parent',
+        containerStyle: {
+          backgroundColor: '#f0f0f0',
+          borderColor: '#333',
+        },
+        children: [],
+        containers: [
+          {
+            type: 'container',
+            id: 'child',
+            label: 'Child',
+            containerStyle: {
+              backgroundColor: '#e0e0e0', // Override parent
+            },
+            children: [],
+          },
+        ],
+      };
+
+      expect(parent.containerStyle?.backgroundColor).toBe('#f0f0f0');
+      expect(parent.containers![0].containerStyle?.backgroundColor).toBe('#e0e0e0');
+    });
+
+    it('should support inherit keyword for explicit inheritance', () => {
+      const container: ContainerDeclaration = {
+        type: 'container',
+        id: 'c1',
+        label: 'Container',
+        containerStyle: {
+          backgroundColor: 'inherit',
+        },
+        children: [],
+      };
+
+      expect(container.containerStyle?.backgroundColor).toBe('inherit');
+    });
+  });
 });

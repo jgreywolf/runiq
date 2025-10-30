@@ -100,7 +100,7 @@
 			// Start render timer
 			const startRender = performance.now();
 
-			// Handle schematic/circuit profiles (electrical, pneumatic, hydraulic)
+			// Handle schematic profiles (electrical, pneumatic, hydraulic)
 			if (
 				profile.type === 'electrical' ||
 				profile.type === 'pneumatic' ||
@@ -162,7 +162,7 @@
 			if (profile.type !== 'diagram') {
 				errors = [
 					`Profile type '${profile.type}' is not yet supported in the preview.`,
-					`Currently 'diagram', 'schematic', 'pneumatic', 'hydraulic', 'sequence', and 'wardley' profiles can be rendered.`
+					`Currently 'diagram', 'electric', 'pneumatic', 'hydraulic', 'sequence', and 'wardley' profiles can be rendered.`
 				];
 				svgOutput = '';
 				isRendering = false;

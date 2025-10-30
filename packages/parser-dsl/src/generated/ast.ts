@@ -59,6 +59,7 @@ export type RuniqKeywordNames =
     | "async"
     | "attributes:"
     | "backgroundColor:"
+    | "badge:"
     | "bar"
     | "bidirectional"
     | "biodegradable"
@@ -69,6 +70,8 @@ export type RuniqKeywordNames =
     | "boundary"
     | "break"
     | "carrier:"
+    | "collapsed:"
+    | "collapsible:"
     | "colors:"
     | "component"
     | "composition"
@@ -86,6 +89,7 @@ export type RuniqKeywordNames =
     | "degC"
     | "degF"
     | "dependency"
+    | "depth:"
     | "derived:"
     | "destroy"
     | "diagram"
@@ -108,9 +112,14 @@ export type RuniqKeywordNames =
     | "genericTypes:"
     | "group"
     | "guard:"
+    | "header:"
+    | "headerBackgroundColor:"
+    | "headerPosition:"
     | "hollow"
     | "hydraulic"
     | "icon:"
+    | "iconColor:"
+    | "iconSize:"
     | "inertia:"
     | "inst"
     | "kPa"
@@ -179,6 +188,7 @@ export type RuniqKeywordNames =
     | "routing:"
     | "schematic"
     | "sequence"
+    | "shadow:"
     | "shape"
     | "showLegend:"
     | "solid"
@@ -514,7 +524,30 @@ export function isContainerLayoutProperty(item: unknown): item is ContainerLayou
     return reflection.isInstance(item, ContainerLayoutProperty.$type);
 }
 
-export type ContainerProperty = ContainerLayoutProperty | ContainerStyleProperty | ContainerTypeProperty | StyleRefProperty;
+export interface ContainerMetadataProperty extends langium.AstNode {
+    readonly $container: ContainerBlock;
+    readonly $type: 'ContainerMetadataProperty';
+    badge?: string;
+    collapsed?: string;
+    collapsible?: string;
+    header?: string;
+    icon?: string;
+}
+
+export const ContainerMetadataProperty = {
+    $type: 'ContainerMetadataProperty',
+    badge: 'badge',
+    collapsed: 'collapsed',
+    collapsible: 'collapsible',
+    header: 'header',
+    icon: 'icon'
+} as const;
+
+export function isContainerMetadataProperty(item: unknown): item is ContainerMetadataProperty {
+    return reflection.isInstance(item, ContainerMetadataProperty.$type);
+}
+
+export type ContainerProperty = ContainerLayoutProperty | ContainerMetadataProperty | ContainerStyleProperty | ContainerTypeProperty | StyleRefProperty;
 
 export const ContainerProperty = {
     $type: 'ContainerProperty'
@@ -531,9 +564,15 @@ export interface ContainerStyleProperty extends langium.AstNode {
     borderColor?: string;
     borderStyle?: BorderStyleValue;
     borderWidth?: string;
+    depth?: string;
+    headerBackgroundColor?: string;
+    headerPosition?: LabelPositionValue;
+    iconColor?: string;
+    iconSize?: string;
     labelPosition?: LabelPositionValue;
     opacity?: string;
     padding?: string;
+    shadow?: string;
 }
 
 export const ContainerStyleProperty = {
@@ -542,9 +581,15 @@ export const ContainerStyleProperty = {
     borderColor: 'borderColor',
     borderStyle: 'borderStyle',
     borderWidth: 'borderWidth',
+    depth: 'depth',
+    headerBackgroundColor: 'headerBackgroundColor',
+    headerPosition: 'headerPosition',
+    iconColor: 'iconColor',
+    iconSize: 'iconSize',
     labelPosition: 'labelPosition',
     opacity: 'opacity',
-    padding: 'padding'
+    padding: 'padding',
+    shadow: 'shadow'
 } as const;
 
 export function isContainerStyleProperty(item: unknown): item is ContainerStyleProperty {
@@ -2590,6 +2635,7 @@ export type RuniqAstType = {
     ColorsProperty: ColorsProperty
     ContainerBlock: ContainerBlock
     ContainerLayoutProperty: ContainerLayoutProperty
+    ContainerMetadataProperty: ContainerMetadataProperty
     ContainerProperty: ContainerProperty
     ContainerStyleProperty: ContainerStyleProperty
     ContainerTypeProperty: ContainerTypeProperty
@@ -2909,6 +2955,27 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [ContainerProperty.$type]
         },
+        ContainerMetadataProperty: {
+            name: ContainerMetadataProperty.$type,
+            properties: {
+                badge: {
+                    name: ContainerMetadataProperty.badge
+                },
+                collapsed: {
+                    name: ContainerMetadataProperty.collapsed
+                },
+                collapsible: {
+                    name: ContainerMetadataProperty.collapsible
+                },
+                header: {
+                    name: ContainerMetadataProperty.header
+                },
+                icon: {
+                    name: ContainerMetadataProperty.icon
+                }
+            },
+            superTypes: [ContainerProperty.$type]
+        },
         ContainerProperty: {
             name: ContainerProperty.$type,
             properties: {
@@ -2930,6 +2997,21 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 borderWidth: {
                     name: ContainerStyleProperty.borderWidth
                 },
+                depth: {
+                    name: ContainerStyleProperty.depth
+                },
+                headerBackgroundColor: {
+                    name: ContainerStyleProperty.headerBackgroundColor
+                },
+                headerPosition: {
+                    name: ContainerStyleProperty.headerPosition
+                },
+                iconColor: {
+                    name: ContainerStyleProperty.iconColor
+                },
+                iconSize: {
+                    name: ContainerStyleProperty.iconSize
+                },
                 labelPosition: {
                     name: ContainerStyleProperty.labelPosition
                 },
@@ -2938,6 +3020,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 padding: {
                     name: ContainerStyleProperty.padding
+                },
+                shadow: {
+                    name: ContainerStyleProperty.shadow
                 }
             },
             superTypes: [ContainerProperty.$type]

@@ -94,6 +94,11 @@ export interface ContainerDeclaration {
   type: 'container';
   id?: string; // Optional - can be auto-generated from label
   label?: string;
+  header?: string; // Phase 1: Explicit header text (can differ from label)
+  icon?: string; // Phase 1: Icon reference (e.g., 'server', 'database')
+  badge?: string; // Phase 1: Badge text (e.g., version, status)
+  collapsible?: boolean; // Phase 1: Can this container be collapsed?
+  collapsed?: boolean; // Phase 1: Is this container currently collapsed?
   shape?: string; // Optional - reference to shape type (e.g., 'umlPackage', 'awsVpc')
   style?: string; // Reference to named style in DiagramAst.styles
   containerStyle?: ContainerStyle;
@@ -106,6 +111,7 @@ export interface ContainerDeclaration {
  * Visual styling specific to containers
  */
 export interface ContainerStyle {
+  // Basic styles (existing)
   borderStyle?: 'solid' | 'dashed' | 'dotted';
   borderColor?: string;
   borderWidth?: number;
@@ -113,6 +119,18 @@ export interface ContainerStyle {
   opacity?: number;
   padding?: number;
   labelPosition?: 'top' | 'bottom' | 'left' | 'right';
+  
+  // Phase 1: Shadow and depth
+  shadow?: boolean; // Enable drop shadow effect
+  depth?: number; // Visual depth level (0-3+, higher = more prominent)
+  
+  // Phase 1: Header styling
+  headerPosition?: 'top' | 'bottom' | 'left' | 'right';
+  headerBackgroundColor?: string;
+  
+  // Phase 1: Icon styling
+  iconSize?: number; // Icon size in pixels
+  iconColor?: string; // Icon color
 }
 
 /**
