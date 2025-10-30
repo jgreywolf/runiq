@@ -5,7 +5,11 @@ module.exports = {
     es2022: true,
     node: true,
   },
-  extends: ['eslint:recommended', '@typescript-eslint/recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended-type-checked',
+    'prettier',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
