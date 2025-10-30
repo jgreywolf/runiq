@@ -634,17 +634,17 @@ ContainerMetadataProperty:
     'header:' header=STRING
     | 'icon:' icon=STRING
     | 'badge:' badge=STRING
-    | 'collapsible:' collapsible=BOOLEAN
-    | 'collapsed:' collapsed=BOOLEAN
+    | 'collapsible:' collapsible=BooleanValue
+    | 'collapsed:' collapsed=BooleanValue
     | 'collapseMode:' collapseMode=CollapseModeValue
-    | 'collapseRedirectEdges:' collapseRedirectEdges=BOOLEAN
+    | 'collapseRedirectEdges:' collapseRedirectEdges=BooleanValue
     | 'collapseTransitionState:' collapseTransitionState=CollapseTransitionValue
     | 'collapseAnimationDuration:' collapseAnimationDuration=NUMBER
     | 'collapseAnimationEasing:' collapseAnimationEasing=CollapseEasingValue
     | 'collapseSummary:' collapseSummary=STRING
-    | 'collapseShowCount:' collapseShowCount=BOOLEAN
+    | 'collapseShowCount:' collapseShowCount=BooleanValue
     | 'collapseIcon:' collapseIcon=STRING
-    | 'collapsePersistState:' collapsePersistState=BOOLEAN
+    | 'collapsePersistState:' collapsePersistState=BooleanValue
     | 'collapseStateKey:' collapseStateKey=STRING
     | 'collapseKeyboardShortcut:' collapseKeyboardShortcut=STRING;
 
@@ -656,12 +656,36 @@ ContainerStyleProperty:
     | 'opacity:' opacity=NUMBER
     | 'padding:' padding=NUMBER
     | 'labelPosition:' labelPosition=LabelPositionValue
-    | 'shadow:' shadow=BOOLEAN
+    | 'shadow:' shadow=BooleanValue
     | 'depth:' depth=NUMBER
     | 'headerPosition:' headerPosition=LabelPositionValue
     | 'headerBackgroundColor:' headerBackgroundColor=STRING
     | 'iconSize:' iconSize=NUMBER
-    | 'iconColor:' iconColor=STRING;
+    | 'iconColor:' iconColor=STRING
+    | 'minWidth:' minWidth=NUMBER
+    | 'maxWidth:' maxWidth=NUMBER
+    | 'minHeight:' minHeight=NUMBER
+    | 'maxHeight:' maxHeight=NUMBER
+    | 'autoResize:' autoResize=AutoResizeValue
+    | 'paddingTop:' paddingTop=NUMBER
+    | 'paddingRight:' paddingRight=NUMBER
+    | 'paddingBottom:' paddingBottom=NUMBER
+    | 'paddingLeft:' paddingLeft=NUMBER
+    | 'margin:' margin=NUMBER
+    | 'marginTop:' marginTop=NUMBER
+    | 'marginRight:' marginRight=NUMBER
+    | 'marginBottom:' marginBottom=NUMBER
+    | 'marginLeft:' marginLeft=NUMBER
+    | 'alignContent:' alignContent=AlignContentValue
+    | 'verticalAlign:' verticalAlign=VerticalAlignValue
+    | 'distribution:' distribution=DistributionValue
+    | 'nodeSpacing:' nodeSpacing=NUMBER
+    | 'edgeRouting:' edgeRouting=EdgeRoutingValue
+    | 'edgeBundling:' edgeBundling=BooleanValue
+    | 'crossContainerEdgeOptimization:' crossContainerEdgeOptimization=BooleanValue
+    | 'layoutCache:' layoutCache=BooleanValue
+    | 'incrementalLayout:' incrementalLayout=BooleanValue
+    | 'layoutComplexity:' layoutComplexity=LayoutComplexityValue;
 
 ContainerLayoutProperty:
     'algorithm:' algorithm=LayoutAlgorithmValue
@@ -685,6 +709,28 @@ CollapseTransitionValue returns string:
 
 CollapseEasingValue returns string:
     'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+
+// Phase 3: Layout optimization value types
+AutoResizeValue returns string:
+    'true' | 'false' | 'fit-content' | 'fill-available';
+
+AlignContentValue returns string:
+    'left' | 'center' | 'right';
+
+VerticalAlignValue returns string:
+    'top' | 'middle' | 'bottom';
+
+DistributionValue returns string:
+    'space-evenly' | 'space-between' | 'space-around' | 'packed';
+
+EdgeRoutingValue returns string:
+    'container-aware' | 'orthogonal' | 'spline' | 'polyline';
+
+LayoutComplexityValue returns string:
+    'low' | 'medium' | 'high';
+
+BooleanValue returns string:
+    'true' | 'false';
 
 // Terminals
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;

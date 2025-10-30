@@ -145,6 +145,46 @@ export interface ContainerStyle {
   // Phase 1: Icon styling
   iconSize?: number; // Icon size in pixels
   iconColor?: string; // Icon color
+
+  // Phase 3: Size constraints
+  minWidth?: number; // Minimum container width in pixels
+  maxWidth?: number; // Maximum container width in pixels
+  minHeight?: number; // Minimum container height in pixels
+  maxHeight?: number; // Maximum container height in pixels
+
+  // Phase 3: Auto-resize behavior
+  autoResize?: boolean | 'fit-content' | 'fill-available'; // How container resizes to content
+
+  // Phase 3: Individual padding controls
+  paddingTop?: number; // Top padding in pixels
+  paddingRight?: number; // Right padding in pixels
+  paddingBottom?: number; // Bottom padding in pixels
+  paddingLeft?: number; // Left padding in pixels
+
+  // Phase 3: Margin controls
+  margin?: number; // Uniform margin in pixels
+  marginTop?: number; // Top margin in pixels
+  marginRight?: number; // Right margin in pixels
+  marginBottom?: number; // Bottom margin in pixels
+  marginLeft?: number; // Left margin in pixels
+
+  // Phase 3: Content alignment
+  alignContent?: 'left' | 'center' | 'right'; // Horizontal alignment of children
+  verticalAlign?: 'top' | 'middle' | 'bottom'; // Vertical alignment of children
+
+  // Phase 3: Child node distribution
+  distribution?: 'space-evenly' | 'space-between' | 'space-around' | 'packed'; // How children are distributed
+  nodeSpacing?: number; // Custom spacing between nodes in pixels
+
+  // Phase 3: Edge routing optimization
+  edgeRouting?: 'container-aware' | 'orthogonal' | 'spline' | 'polyline'; // Edge routing preference
+  edgeBundling?: boolean; // Bundle parallel edges together
+  crossContainerEdgeOptimization?: boolean; // Optimize edges crossing container boundaries
+
+  // Phase 3: Layout performance hints
+  layoutCache?: boolean; // Cache layout results for performance
+  incrementalLayout?: boolean; // Enable incremental layout updates
+  layoutComplexity?: 'low' | 'medium' | 'high'; // Hint for layout complexity
 }
 
 /**

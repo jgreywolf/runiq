@@ -1229,6 +1229,84 @@ function convertContainer(
       } else if (prop.iconColor) {
         // Phase 1: Icon color
         containerStyle.iconColor = prop.iconColor.replace(/^"|"$/g, '');
+      } else if (prop.minWidth !== undefined) {
+        // Phase 3: Min width
+        containerStyle.minWidth = parseFloat(prop.minWidth);
+      } else if (prop.maxWidth !== undefined) {
+        // Phase 3: Max width
+        containerStyle.maxWidth = parseFloat(prop.maxWidth);
+      } else if (prop.minHeight !== undefined) {
+        // Phase 3: Min height
+        containerStyle.minHeight = parseFloat(prop.minHeight);
+      } else if (prop.maxHeight !== undefined) {
+        // Phase 3: Max height
+        containerStyle.maxHeight = parseFloat(prop.maxHeight);
+      } else if (prop.autoResize) {
+        // Phase 3: Auto resize
+        if (prop.autoResize === 'true') {
+          containerStyle.autoResize = true;
+        } else if (prop.autoResize === 'false') {
+          containerStyle.autoResize = false;
+        } else {
+          containerStyle.autoResize = prop.autoResize as 'fit-content' | 'fill-available';
+        }
+      } else if (prop.paddingTop !== undefined) {
+        // Phase 3: Padding top
+        containerStyle.paddingTop = parseFloat(prop.paddingTop);
+      } else if (prop.paddingRight !== undefined) {
+        // Phase 3: Padding right
+        containerStyle.paddingRight = parseFloat(prop.paddingRight);
+      } else if (prop.paddingBottom !== undefined) {
+        // Phase 3: Padding bottom
+        containerStyle.paddingBottom = parseFloat(prop.paddingBottom);
+      } else if (prop.paddingLeft !== undefined) {
+        // Phase 3: Padding left
+        containerStyle.paddingLeft = parseFloat(prop.paddingLeft);
+      } else if (prop.margin !== undefined) {
+        // Phase 3: Margin
+        containerStyle.margin = parseFloat(prop.margin);
+      } else if (prop.marginTop !== undefined) {
+        // Phase 3: Margin top
+        containerStyle.marginTop = parseFloat(prop.marginTop);
+      } else if (prop.marginRight !== undefined) {
+        // Phase 3: Margin right
+        containerStyle.marginRight = parseFloat(prop.marginRight);
+      } else if (prop.marginBottom !== undefined) {
+        // Phase 3: Margin bottom
+        containerStyle.marginBottom = parseFloat(prop.marginBottom);
+      } else if (prop.marginLeft !== undefined) {
+        // Phase 3: Margin left
+        containerStyle.marginLeft = parseFloat(prop.marginLeft);
+      } else if (prop.alignContent) {
+        // Phase 3: Align content
+        containerStyle.alignContent = prop.alignContent as 'left' | 'center' | 'right';
+      } else if (prop.verticalAlign) {
+        // Phase 3: Vertical align
+        containerStyle.verticalAlign = prop.verticalAlign as 'top' | 'middle' | 'bottom';
+      } else if (prop.distribution) {
+        // Phase 3: Distribution
+        containerStyle.distribution = prop.distribution as 'space-evenly' | 'space-between' | 'space-around' | 'packed';
+      } else if (prop.nodeSpacing !== undefined) {
+        // Phase 3: Node spacing
+        containerStyle.nodeSpacing = parseFloat(prop.nodeSpacing);
+      } else if (prop.edgeRouting) {
+        // Phase 3: Edge routing
+        containerStyle.edgeRouting = prop.edgeRouting as 'container-aware' | 'orthogonal' | 'spline' | 'polyline';
+      } else if (prop.edgeBundling !== undefined) {
+        // Phase 3: Edge bundling
+        containerStyle.edgeBundling = prop.edgeBundling === 'true';
+      } else if (prop.crossContainerEdgeOptimization !== undefined) {
+        // Phase 3: Cross-container edge optimization
+        containerStyle.crossContainerEdgeOptimization = prop.crossContainerEdgeOptimization === 'true';
+      } else if (prop.layoutCache !== undefined) {
+        // Phase 3: Layout cache
+        containerStyle.layoutCache = prop.layoutCache === 'true';
+      } else if (prop.incrementalLayout !== undefined) {
+        // Phase 3: Incremental layout
+        containerStyle.incrementalLayout = prop.incrementalLayout === 'true';
+      } else if (prop.layoutComplexity) {
+        // Phase 3: Layout complexity
+        containerStyle.layoutComplexity = prop.layoutComplexity as 'low' | 'medium' | 'high';
       }
     } else if (Langium.isContainerLayoutProperty(prop)) {
       if (prop.algorithm) {

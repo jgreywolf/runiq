@@ -49,6 +49,7 @@ export type RuniqKeywordNames =
     | "affected:"
     | "aggregation"
     | "algorithm:"
+    | "alignContent:"
     | "alt"
     | "alternatives:"
     | "analysis"
@@ -58,6 +59,7 @@ export type RuniqKeywordNames =
     | "association"
     | "async"
     | "attributes:"
+    | "autoResize:"
     | "backgroundColor:"
     | "badge:"
     | "bar"
@@ -70,6 +72,7 @@ export type RuniqKeywordNames =
     | "boundary"
     | "break"
     | "carrier:"
+    | "center"
     | "collapseAnimationDuration:"
     | "collapseAnimationEasing:"
     | "collapseIcon:"
@@ -89,9 +92,11 @@ export type RuniqKeywordNames =
     | "composition"
     | "constraints:"
     | "container"
+    | "container-aware"
     | "control"
     | "create"
     | "critical"
+    | "crossContainerEdgeOptimization:"
     | "dashed"
     | "data:"
     | "database"
@@ -107,17 +112,23 @@ export type RuniqKeywordNames =
     | "diagram"
     | "digital"
     | "direction"
+    | "distribution:"
     | "dotted"
     | "double"
     | "ease-in"
     | "ease-in-out"
     | "ease-out"
+    | "edgeBundling:"
+    | "edgeRouting:"
     | "edgeType:"
     | "electrical"
     | "entity"
     | "evolution:"
     | "evolve"
     | "expanding"
+    | "false"
+    | "fill-available"
+    | "fit-content"
     | "flowRate"
     | "fluid"
     | "force"
@@ -132,17 +143,21 @@ export type RuniqKeywordNames =
     | "header:"
     | "headerBackgroundColor:"
     | "headerPosition:"
+    | "high"
     | "hollow"
     | "hydraulic"
     | "icon:"
     | "iconColor:"
     | "iconSize:"
+    | "incrementalLayout:"
     | "inertia:"
     | "inst"
     | "kPa"
     | "label:"
     | "labelPosition:"
     | "layered"
+    | "layoutCache:"
+    | "layoutComplexity:"
     | "left"
     | "legendPosition:"
     | "lineStyle:"
@@ -150,11 +165,23 @@ export type RuniqKeywordNames =
     | "link:"
     | "loop"
     | "lost"
+    | "low"
     | "map:"
+    | "margin:"
+    | "marginBottom:"
+    | "marginLeft:"
+    | "marginRight:"
+    | "marginTop:"
     | "max"
+    | "maxHeight:"
+    | "maxWidth:"
+    | "medium"
     | "message"
     | "methods:"
+    | "middle"
     | "min"
+    | "minHeight:"
+    | "minWidth:"
     | "mindmap"
     | "mineral"
     | "module"
@@ -165,6 +192,7 @@ export type RuniqKeywordNames =
     | "name:"
     | "navigability:"
     | "net"
+    | "nodeSpacing:"
     | "noise"
     | "none"
     | "note"
@@ -177,7 +205,12 @@ export type RuniqKeywordNames =
     | "orthogonal"
     | "over"
     | "package"
+    | "packed"
     | "padding:"
+    | "paddingBottom:"
+    | "paddingLeft:"
+    | "paddingRight:"
+    | "paddingTop:"
     | "par"
     | "params:"
     | "part"
@@ -213,7 +246,11 @@ export type RuniqKeywordNames =
     | "solid"
     | "source"
     | "source:"
+    | "space-around"
+    | "space-between"
+    | "space-evenly"
     | "spacing:"
+    | "spline"
     | "splines"
     | "stable"
     | "stacked:"
@@ -235,8 +272,10 @@ export type RuniqKeywordNames =
     | "tooltip:"
     | "top"
     | "tran"
+    | "true"
     | "type:"
     | "value:"
+    | "verticalAlign:"
     | "visibility:"
     | "wardley"
     | "water-glycol"
@@ -260,6 +299,12 @@ export const AffectedProperty = {
 
 export function isAffectedProperty(item: unknown): item is AffectedProperty {
     return reflection.isInstance(item, AffectedProperty.$type);
+}
+
+export type AlignContentValue = 'center' | 'left' | 'right';
+
+export function isAlignContentValue(item: unknown): item is AlignContentValue {
+    return item === 'left' || item === 'center' || item === 'right';
 }
 
 export type AnalysisKind = 'ac' | 'dc' | 'noise' | 'op' | 'tran';
@@ -451,6 +496,18 @@ export function isAttrVisibilityField(item: unknown): item is AttrVisibilityFiel
     return reflection.isInstance(item, AttrVisibilityField.$type);
 }
 
+export type AutoResizeValue = 'false' | 'fill-available' | 'fit-content' | 'true';
+
+export function isAutoResizeValue(item: unknown): item is AutoResizeValue {
+    return item === 'true' || item === 'false' || item === 'fit-content' || item === 'fill-available';
+}
+
+export type BooleanValue = 'false' | 'true';
+
+export function isBooleanValue(item: unknown): item is BooleanValue {
+    return item === 'true' || item === 'false';
+}
+
 export type BorderStyleValue = 'dashed' | 'dotted' | 'solid';
 
 export function isBorderStyleValue(item: unknown): item is BorderStyleValue {
@@ -568,17 +625,17 @@ export interface ContainerMetadataProperty extends langium.AstNode {
     badge?: string;
     collapseAnimationDuration?: string;
     collapseAnimationEasing?: CollapseEasingValue;
-    collapsed?: string;
+    collapsed?: BooleanValue;
     collapseIcon?: string;
     collapseKeyboardShortcut?: string;
     collapseMode?: CollapseModeValue;
-    collapsePersistState?: string;
-    collapseRedirectEdges?: string;
-    collapseShowCount?: string;
+    collapsePersistState?: BooleanValue;
+    collapseRedirectEdges?: BooleanValue;
+    collapseShowCount?: BooleanValue;
     collapseStateKey?: string;
     collapseSummary?: string;
     collapseTransitionState?: CollapseTransitionValue;
-    collapsible?: string;
+    collapsible?: BooleanValue;
     header?: string;
     icon?: string;
 }
@@ -620,36 +677,84 @@ export function isContainerProperty(item: unknown): item is ContainerProperty {
 export interface ContainerStyleProperty extends langium.AstNode {
     readonly $container: ContainerBlock;
     readonly $type: 'ContainerStyleProperty';
+    alignContent?: AlignContentValue;
+    autoResize?: AutoResizeValue;
     backgroundColor?: string;
     borderColor?: string;
     borderStyle?: BorderStyleValue;
     borderWidth?: string;
+    crossContainerEdgeOptimization?: BooleanValue;
     depth?: string;
+    distribution?: DistributionValue;
+    edgeBundling?: BooleanValue;
+    edgeRouting?: EdgeRoutingValue;
     headerBackgroundColor?: string;
     headerPosition?: LabelPositionValue;
     iconColor?: string;
     iconSize?: string;
+    incrementalLayout?: BooleanValue;
     labelPosition?: LabelPositionValue;
+    layoutCache?: BooleanValue;
+    layoutComplexity?: LayoutComplexityValue;
+    margin?: string;
+    marginBottom?: string;
+    marginLeft?: string;
+    marginRight?: string;
+    marginTop?: string;
+    maxHeight?: string;
+    maxWidth?: string;
+    minHeight?: string;
+    minWidth?: string;
+    nodeSpacing?: string;
     opacity?: string;
     padding?: string;
-    shadow?: string;
+    paddingBottom?: string;
+    paddingLeft?: string;
+    paddingRight?: string;
+    paddingTop?: string;
+    shadow?: BooleanValue;
+    verticalAlign?: VerticalAlignValue;
 }
 
 export const ContainerStyleProperty = {
     $type: 'ContainerStyleProperty',
+    alignContent: 'alignContent',
+    autoResize: 'autoResize',
     backgroundColor: 'backgroundColor',
     borderColor: 'borderColor',
     borderStyle: 'borderStyle',
     borderWidth: 'borderWidth',
+    crossContainerEdgeOptimization: 'crossContainerEdgeOptimization',
     depth: 'depth',
+    distribution: 'distribution',
+    edgeBundling: 'edgeBundling',
+    edgeRouting: 'edgeRouting',
     headerBackgroundColor: 'headerBackgroundColor',
     headerPosition: 'headerPosition',
     iconColor: 'iconColor',
     iconSize: 'iconSize',
+    incrementalLayout: 'incrementalLayout',
     labelPosition: 'labelPosition',
+    layoutCache: 'layoutCache',
+    layoutComplexity: 'layoutComplexity',
+    margin: 'margin',
+    marginBottom: 'marginBottom',
+    marginLeft: 'marginLeft',
+    marginRight: 'marginRight',
+    marginTop: 'marginTop',
+    maxHeight: 'maxHeight',
+    maxWidth: 'maxWidth',
+    minHeight: 'minHeight',
+    minWidth: 'minWidth',
+    nodeSpacing: 'nodeSpacing',
     opacity: 'opacity',
     padding: 'padding',
-    shadow: 'shadow'
+    paddingBottom: 'paddingBottom',
+    paddingLeft: 'paddingLeft',
+    paddingRight: 'paddingRight',
+    paddingTop: 'paddingTop',
+    shadow: 'shadow',
+    verticalAlign: 'verticalAlign'
 } as const;
 
 export function isContainerStyleProperty(item: unknown): item is ContainerStyleProperty {
@@ -869,6 +974,12 @@ export function isDirectionValue(item: unknown): item is DirectionValue {
     return item === 'LR' || item === 'RL' || item === 'TB' || item === 'BT';
 }
 
+export type DistributionValue = 'packed' | 'space-around' | 'space-between' | 'space-evenly';
+
+export function isDistributionValue(item: unknown): item is DistributionValue {
+    return item === 'space-evenly' || item === 'space-between' || item === 'space-around' || item === 'packed';
+}
+
 export interface Document extends langium.AstNode {
     readonly $type: 'Document';
     profiles: Array<Profile>;
@@ -944,6 +1055,12 @@ export const EdgeProperty = {
 
 export function isEdgeProperty(item: unknown): item is EdgeProperty {
     return reflection.isInstance(item, EdgeProperty.$type);
+}
+
+export type EdgeRoutingValue = 'container-aware' | 'orthogonal' | 'polyline' | 'spline';
+
+export function isEdgeRoutingValue(item: unknown): item is EdgeRoutingValue {
+    return item === 'container-aware' || item === 'orthogonal' || item === 'spline' || item === 'polyline';
 }
 
 export interface EdgeTypeProperty extends langium.AstNode {
@@ -1219,6 +1336,12 @@ export type LayoutAlgorithmValue = 'force' | 'layered' | 'mrtree' | 'radial' | '
 
 export function isLayoutAlgorithmValue(item: unknown): item is LayoutAlgorithmValue {
     return item === 'layered' || item === 'force' || item === 'stress' || item === 'radial' || item === 'mrtree';
+}
+
+export type LayoutComplexityValue = 'high' | 'low' | 'medium';
+
+export function isLayoutComplexityValue(item: unknown): item is LayoutComplexityValue {
+    return item === 'low' || item === 'medium' || item === 'high';
 }
 
 export interface LegendPositionProperty extends langium.AstNode {
@@ -2465,6 +2588,12 @@ export function isTooltipProperty(item: unknown): item is TooltipProperty {
     return reflection.isInstance(item, TooltipProperty.$type);
 }
 
+export type VerticalAlignValue = 'bottom' | 'middle' | 'top';
+
+export function isVerticalAlignValue(item: unknown): item is VerticalAlignValue {
+    return item === 'top' || item === 'middle' || item === 'bottom';
+}
+
 export type VisibilityValue = 'package' | 'private' | 'protected' | 'public';
 
 export function isVisibilityValue(item: unknown): item is VisibilityValue {
@@ -3078,6 +3207,12 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
         ContainerStyleProperty: {
             name: ContainerStyleProperty.$type,
             properties: {
+                alignContent: {
+                    name: ContainerStyleProperty.alignContent
+                },
+                autoResize: {
+                    name: ContainerStyleProperty.autoResize
+                },
                 backgroundColor: {
                     name: ContainerStyleProperty.backgroundColor
                 },
@@ -3090,8 +3225,20 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 borderWidth: {
                     name: ContainerStyleProperty.borderWidth
                 },
+                crossContainerEdgeOptimization: {
+                    name: ContainerStyleProperty.crossContainerEdgeOptimization
+                },
                 depth: {
                     name: ContainerStyleProperty.depth
+                },
+                distribution: {
+                    name: ContainerStyleProperty.distribution
+                },
+                edgeBundling: {
+                    name: ContainerStyleProperty.edgeBundling
+                },
+                edgeRouting: {
+                    name: ContainerStyleProperty.edgeRouting
                 },
                 headerBackgroundColor: {
                     name: ContainerStyleProperty.headerBackgroundColor
@@ -3105,8 +3252,47 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 iconSize: {
                     name: ContainerStyleProperty.iconSize
                 },
+                incrementalLayout: {
+                    name: ContainerStyleProperty.incrementalLayout
+                },
                 labelPosition: {
                     name: ContainerStyleProperty.labelPosition
+                },
+                layoutCache: {
+                    name: ContainerStyleProperty.layoutCache
+                },
+                layoutComplexity: {
+                    name: ContainerStyleProperty.layoutComplexity
+                },
+                margin: {
+                    name: ContainerStyleProperty.margin
+                },
+                marginBottom: {
+                    name: ContainerStyleProperty.marginBottom
+                },
+                marginLeft: {
+                    name: ContainerStyleProperty.marginLeft
+                },
+                marginRight: {
+                    name: ContainerStyleProperty.marginRight
+                },
+                marginTop: {
+                    name: ContainerStyleProperty.marginTop
+                },
+                maxHeight: {
+                    name: ContainerStyleProperty.maxHeight
+                },
+                maxWidth: {
+                    name: ContainerStyleProperty.maxWidth
+                },
+                minHeight: {
+                    name: ContainerStyleProperty.minHeight
+                },
+                minWidth: {
+                    name: ContainerStyleProperty.minWidth
+                },
+                nodeSpacing: {
+                    name: ContainerStyleProperty.nodeSpacing
                 },
                 opacity: {
                     name: ContainerStyleProperty.opacity
@@ -3114,8 +3300,23 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 padding: {
                     name: ContainerStyleProperty.padding
                 },
+                paddingBottom: {
+                    name: ContainerStyleProperty.paddingBottom
+                },
+                paddingLeft: {
+                    name: ContainerStyleProperty.paddingLeft
+                },
+                paddingRight: {
+                    name: ContainerStyleProperty.paddingRight
+                },
+                paddingTop: {
+                    name: ContainerStyleProperty.paddingTop
+                },
                 shadow: {
                     name: ContainerStyleProperty.shadow
+                },
+                verticalAlign: {
+                    name: ContainerStyleProperty.verticalAlign
                 }
             },
             superTypes: [ContainerProperty.$type]
