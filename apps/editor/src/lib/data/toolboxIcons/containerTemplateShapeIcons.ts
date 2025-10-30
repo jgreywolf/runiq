@@ -105,10 +105,13 @@ container "Section" collapseButtonVisible: true collapsed: false {
 			},
 			{
 				id: 'nested-containers',
-				label: 'Nested Containers',
-				code: `container "Outer" {
+				label: 'Nested Containers (Layout Pending)',
+				code: `// Note: Layout engine doesn't position nested containers yet
+container "Outer" {
+  shape outer1 as @rectangle label: "Outer Node"
+  
   container "Inner" {
-    shape node as @rectangle label: "Nested"
+    shape inner1 as @rectangle label: "Inner Node"
   }
 }
 `

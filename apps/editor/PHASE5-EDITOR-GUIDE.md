@@ -325,10 +325,21 @@ pnpm test:e2e
 - Validation warnings for missing references
 
 ⚠️ **Known Limitations:**
-- **Visual Controls Rendering**: Phase 4 visual controls (collapse buttons, resize handles, hover effects) are defined in the DSL but not yet rendered in SVG output. The syntax is valid and properties are parsed, but visual rendering requires SVG renderer implementation.
+
+**1. Nested Container Layout (High Priority Issue)**
+- **Status**: Syntax parses correctly, but layout engine doesn't position nested containers properly
+- **What Works**: Parser recognizes nested container structure
+- **What Doesn't Work**: Nested containers appear side-by-side instead of inside parent
+- **Why**: ELK layout adapter uses flat structure - needs recursive parent-relative positioning
+- **Workaround**: Use single-level containers for now
+- **Tracked**: See `packages/layout-base/src/elk-adapter.ts` line 43-47
+
+**2. Visual Controls Rendering**
+- **Status**: Phase 4 visual controls are parsed but not yet rendered in SVG output
 - Properties that affect visual rendering only:
   - `collapseButtonVisible`, `collapseButtonPosition`, `collapseButtonStyle`
   - `collapsed` state visualization
   - `resizable`, `resizeHandles`
   - `hoverHighlight`, `selectionHighlight`
-  - These will work once the SVG renderer is updated
+- **Why**: Syntax is valid and properties are stored, but SVG renderer needs implementation
+- These will work once the SVG renderer is updated
