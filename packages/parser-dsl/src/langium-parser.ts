@@ -10,7 +10,7 @@ import type {
   ContainerStyle,
   RuniqDocument,
   DiagramProfile,
-  SchematicProfile,
+  ElectricalProfile,
   DigitalProfile,
   WardleyProfile,
   WardleyComponent,
@@ -29,6 +29,12 @@ import type {
   ModuleAst,
   PortAst,
   InstanceAst,
+  PneumaticProfile,
+  HydraulicProfile,
+  PressureSpec,
+  FlowRateSpec,
+  FluidSpec,
+  TemperatureRange,
 } from '@runiq/core';
 import { EmptyFileSystem } from 'langium';
 import { createRuniqServices } from './langium-module.js';
@@ -193,14 +199,18 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
   for (const profile of document.profiles) {
     if (Langium.isDiagramProfile(profile)) {
       runiqDoc.profiles.push(convertDiagramProfile(profile));
-    } else if (Langium.isSchematicProfile(profile)) {
-      runiqDoc.profiles.push(convertSchematicProfile(profile));
+    } else if (Langium.isElectricalProfile(profile)) {
+      runiqDoc.profiles.push(convertElectricalProfile(profile));
     } else if (Langium.isDigitalProfile(profile)) {
       runiqDoc.profiles.push(convertDigitalProfile(profile));
     } else if (Langium.isWardleyProfile(profile)) {
       runiqDoc.profiles.push(convertWardleyProfile(profile));
     } else if (Langium.isSequenceProfile(profile)) {
       runiqDoc.profiles.push(convertSequenceProfile(profile));
+    } else if (Langium.isPneumaticProfile(profile)) {
+      runiqDoc.profiles.push(convertPneumaticProfile(profile));
+    } else if (Langium.isHydraulicProfile(profile)) {
+      runiqDoc.profiles.push(convertHydraulicProfile(profile));
     }
   }
 
@@ -235,13 +245,13 @@ function convertDiagramProfile(
 }
 
 /**
- * Convert SchematicProfile to core AST format
+ * Convert ElectricalProfile to core AST format
  */
-function convertSchematicProfile(
-  profile: Langium.SchematicProfile
-): SchematicProfile {
-  const schematicProfile: SchematicProfile = {
-    type: 'schematic',
+function convertElectricalProfile(
+  profile: Langium.ElectricalProfile
+): ElectricalProfile {
+  const electricalProfile: ElectricalProfile = {
+    type: 'electrical',
     name: profile.name.replace(/^"|"$/g, ''),
     nets: [],
     parts: [],
@@ -252,7 +262,7 @@ function convertSchematicProfile(
     if (Langium.isNetStatement(statement)) {
       // net IN, OUT, GND
       for (const netName of statement.names) {
-        schematicProfile.nets.push({ name: netName });
+        electricalProfile.nets.push({ name: netName });
       }
     } else if (Langium.isPartStatement(statement)) {
       // part R1 type:R value:10k pins:(IN,OUT)
@@ -296,19 +306,19 @@ function convertSchematicProfile(
         }
       }
 
-      schematicProfile.parts.push(part);
+      electricalProfile.parts.push(part);
     } else if (Langium.isAnalysisStatement(statement)) {
       // analysis tran "0 5m"
-      if (!schematicProfile.analyses) schematicProfile.analyses = [];
+      if (!electricalProfile.analyses) electricalProfile.analyses = [];
       const analysis: AnalysisAst = {
         kind: statement.kind as AnalysisAst['kind'],
         args: statement.args?.replace(/^"|"$/g, ''),
       };
-      schematicProfile.analyses.push(analysis);
+      electricalProfile.analyses.push(analysis);
     }
   }
 
-  return schematicProfile;
+  return electricalProfile;
 }
 
 /**
@@ -616,6 +626,201 @@ function convertSequenceProfile(
   }
 
   return sequenceProfile;
+}
+
+/**
+ * Convert PneumaticProfile to core AST format
+ */
+function convertPneumaticProfile(
+  profile: Langium.PneumaticProfile
+): PneumaticProfile {
+  const pneumaticProfile: PneumaticProfile = {
+    type: 'pneumatic',
+    name: profile.name.replace(/^"|"$/g, ''),
+    nets: [],
+    parts: [],
+  };
+
+  // Process pneumatic statements
+  for (const statement of profile.statements) {
+    if (Langium.isNetStatement(statement)) {
+      // net P, A, R
+      for (const netName of statement.names) {
+        pneumaticProfile.nets.push({ name: netName });
+      }
+    } else if (Langium.isPartStatement(statement)) {
+      // part CYL1 type:CYL_SA pins:(A,P,EXHAUST)
+      const part: PartAst = {
+        ref: statement.ref,
+        type: '',
+        pins: [],
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isPartTypeProperty(prop)) {
+          part.type = prop.type;
+        } else if (Langium.isPartValueProperty(prop)) {
+          if (!part.params) part.params = {};
+          let value = prop.value;
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
+            value = value.slice(1, -1);
+          }
+          part.params.value = value;
+        } else if (Langium.isPartPinsProperty(prop)) {
+          part.pins = prop.pins;
+        } else if (Langium.isPartGenericProperty(prop)) {
+          let value = prop.value;
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
+            value = value.slice(1, -1);
+          }
+          // Handle 'doc' property specially
+          if (prop.key === 'doc') {
+            part.doc = value as string;
+          } else {
+            if (!part.params) part.params = {};
+            part.params[prop.key] = value;
+          }
+        }
+      }
+
+      pneumaticProfile.parts.push(part);
+    } else if (Langium.isPressureStatement(statement)) {
+      // pressure 6 bar operating
+      const pressure: PressureSpec = {
+        value: parseFloat(statement.value),
+        unit: statement.unit as PressureSpec['unit'],
+      };
+      if (statement.type) {
+        pressure.type = statement.type as PressureSpec['type'];
+      }
+      pneumaticProfile.pressure = pressure;
+    } else if (Langium.isFlowRateStatement(statement)) {
+      // flowRate 100 L/min
+      const flowRate: FlowRateSpec = {
+        value: parseFloat(statement.value),
+        unit: statement.unit as FlowRateSpec['unit'],
+      };
+      pneumaticProfile.flowRate = flowRate;
+    }
+  }
+
+  return pneumaticProfile;
+}
+
+/**
+ * Convert HydraulicProfile to core AST format
+ */
+function convertHydraulicProfile(
+  profile: Langium.HydraulicProfile
+): HydraulicProfile {
+  const hydraulicProfile: HydraulicProfile = {
+    type: 'hydraulic',
+    name: profile.name.replace(/^"|"$/g, ''),
+    nets: [],
+    parts: [],
+  };
+
+  // Process hydraulic statements
+  for (const statement of profile.statements) {
+    if (Langium.isNetStatement(statement)) {
+      // net P, A, B, T
+      for (const netName of statement.names) {
+        hydraulicProfile.nets.push({ name: netName });
+      }
+    } else if (Langium.isPartStatement(statement)) {
+      // part PUMP1 type:PUMP_FIXED pins:(T,P) doc:"Fixed displacement pump"
+      const part: PartAst = {
+        ref: statement.ref,
+        type: '',
+        pins: [],
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isPartTypeProperty(prop)) {
+          part.type = prop.type;
+        } else if (Langium.isPartValueProperty(prop)) {
+          if (!part.params) part.params = {};
+          let value = prop.value;
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
+            value = value.slice(1, -1);
+          }
+          part.params.value = value;
+        } else if (Langium.isPartPinsProperty(prop)) {
+          part.pins = prop.pins;
+        } else if (Langium.isPartGenericProperty(prop)) {
+          let value = prop.value;
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
+            value = value.slice(1, -1);
+          }
+          // Handle 'doc' property specially
+          if (prop.key === 'doc') {
+            part.doc = value as string;
+          } else {
+            if (!part.params) part.params = {};
+            part.params[prop.key] = value;
+          }
+        }
+      }
+
+      hydraulicProfile.parts.push(part);
+    } else if (Langium.isPressureStatement(statement)) {
+      // pressure 200 bar max
+      const pressure: PressureSpec = {
+        value: parseFloat(statement.value),
+        unit: statement.unit as PressureSpec['unit'],
+      };
+      if (statement.type) {
+        pressure.type = statement.type as PressureSpec['type'];
+      }
+      hydraulicProfile.pressure = pressure;
+    } else if (Langium.isFlowRateStatement(statement)) {
+      // flowRate 50 L/min
+      const flowRate: FlowRateSpec = {
+        value: parseFloat(statement.value),
+        unit: statement.unit as FlowRateSpec['unit'],
+      };
+      hydraulicProfile.flowRate = flowRate;
+    } else if (Langium.isFluidStatement(statement)) {
+      // fluid mineral "ISO VG 46" temp:(10,60,C)
+      const fluid: FluidSpec = {
+        type: statement.type as FluidSpec['type'],
+      };
+      if (statement.viscosity) {
+        fluid.viscosity = statement.viscosity.replace(/^"|"$/g, '');
+      }
+      if (
+        statement.minTemp !== undefined &&
+        statement.maxTemp !== undefined &&
+        statement.tempUnit
+      ) {
+        const temperature: TemperatureRange = {
+          min: parseFloat(statement.minTemp),
+          max: parseFloat(statement.maxTemp),
+          unit: statement.tempUnit as TemperatureRange['unit'],
+        };
+        fluid.temperature = temperature;
+      }
+      hydraulicProfile.fluid = fluid;
+    }
+  }
+
+  return hydraulicProfile;
 }
 
 /**

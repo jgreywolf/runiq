@@ -1,0 +1,41 @@
+// Hydraulic Press Circuit
+// High-force hydraulic press with pressure intensifier
+hydraulic "Hydraulic Press System" {
+  net PUMP, HIGH_PRESS, CYLINDER_A, CYLINDER_B, TANK
+  
+  pressure 250 bar operating
+  flowRate 100 L/min
+  fluid phosphate-ester "Type IV" temp:(15, 80, C)
+  
+  // Components with pin connections
+  // Circuit: TANK -> PUMP -> FILTER -> INTENSIFIER -> HIGH_PRESS
+  // HIGH_PRESS -> VALVE_MAIN -> CYL_MAIN (with sequence control)
+  // Separate clamp cylinder circuit with lower pressure relief
+  
+  // Power supply
+  part RESERVOIR type:RESERVOIR pins:(TANK) doc:"50L hydraulic reservoir"
+  part PUMP_MAIN type:PUMP_FIX pins:(TANK,PUMP) doc:"Main hydraulic pump"
+  
+  // Pressure intensifier section
+  part INTENSIFIER type:ACC_HYD pins:(PUMP,HIGH_PRESS) doc:"Pressure intensifier 2:1 ratio"
+  part VALVE_CHARGE type:VALVE_CHECK pins:(PUMP,HIGH_PRESS) doc:"Intensifier charge valve"
+  
+  // Press cylinders
+  part CYL_MAIN type:CYL_HYD pins:(CYLINDER_A,CYLINDER_B) doc:"Main press cylinder 200mm bore"
+  part CYL_CLAMP type:CYL_HYD pins:(CYLINDER_A) doc:"Workpiece clamp cylinder"
+  
+  // Control valves
+  part VALVE_MAIN type:VALVE_4_3 pins:(HIGH_PRESS,CYLINDER_A,CYLINDER_B,TANK) doc:"Main cylinder control"
+  part VALVE_CLAMP type:VALVE_3_2 pins:(PUMP,CYLINDER_A,TANK) doc:"Clamp cylinder control"
+  part VALVE_SEQUENCE type:VALVE_3_2 pins:(CYLINDER_A,CYLINDER_B) doc:"Sequence valve"
+  
+  // Safety and monitoring
+  part RELIEF_MAIN type:VALVE_RELIEF pins:(HIGH_PRESS,TANK) doc:"Main relief at 250 bar"
+  part RELIEF_CLAMP type:VALVE_RELIEF pins:(CYLINDER_A,TANK) doc:"Clamp relief at 100 bar"
+  part GAUGE_MAIN type:GAUGE_PRESS pins:(HIGH_PRESS) doc:"Main pressure gauge"
+  part GAUGE_CLAMP type:GAUGE_PRESS pins:(CYLINDER_A) doc:"Clamp pressure gauge"
+  
+  // Filtration
+  part FILTER_PRESSURE type:FILTER pins:(PUMP,HIGH_PRESS) doc:"High pressure filter"
+  part FILTER_RETURN type:FILTER pins:(TANK) doc:"Return line filter"
+}

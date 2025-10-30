@@ -1,0 +1,18 @@
+// Single-Acting Cylinder Control
+// Basic pneumatic cylinder control with 3/2-way valve
+pneumatic "Single Cylinder Control Circuit" {
+  // Define nets
+  net SUPPLY, PILOT, PORT_A, EXHAUST
+  
+  // System specifications
+  pressure 6 bar operating
+  flowRate 500 L/min
+  
+  // Components with pin connections
+  // Circuit logic:
+  // - Button pressed: air flows SUPPLY -> VALVE -> PORT_A -> CYLINDER
+  // - Button released: spring returns piston, air exhausts to EXHAUST
+  part VALVE type:VALVE_3_2 pins:(SUPPLY,PORT_A,EXHAUST) doc:"3/2-way directional control valve"
+  part CYLINDER type:CYL_SA pins:(PORT_A) doc:"Single-acting spring return cylinder"
+  part BUTTON type:VALVE_3_2 pins:(PILOT) doc:"Manual push button valve"
+}

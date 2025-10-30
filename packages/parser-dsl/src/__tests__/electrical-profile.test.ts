@@ -15,10 +15,10 @@ schematic "RC Filter" {
     expect(result.document?.profiles).toHaveLength(1);
 
     const profile = result.document!.profiles[0];
-    expect(profile.type).toBe('schematic');
+    expect(profile.type).toBe('electrical');
     expect(profile.name).toBe('RC Filter');
 
-    if (profile.type === 'schematic') {
+    if (profile.type === 'electrical') {
       expect(profile.nets).toHaveLength(3);
       expect(profile.nets[0].name).toBe('IN');
       expect(profile.nets[1].name).toBe('OUT');
@@ -43,7 +43,7 @@ schematic "RC Lowpass" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'schematic') {
+    if (profile.type === 'electrical') {
       expect(profile.parts).toHaveLength(2);
 
       // Check R1
@@ -72,7 +72,7 @@ schematic "Test Circuit" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'schematic') {
+    if (profile.type === 'electrical') {
       expect(profile.parts).toHaveLength(1);
       expect(profile.parts[0].ref).toBe('V1');
       expect(profile.parts[0].type).toBe('V');
@@ -96,7 +96,7 @@ schematic "RC Filter" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'schematic') {
+    if (profile.type === 'electrical') {
       expect(profile.analyses).toBeDefined();
       expect(profile.analyses).toHaveLength(1);
       expect(profile.analyses![0].kind).toBe('tran');
@@ -119,7 +119,7 @@ schematic "Multi-Analysis" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'schematic') {
+    if (profile.type === 'electrical') {
       expect(profile.analyses).toHaveLength(3);
       expect(profile.analyses![0].kind).toBe('tran');
       expect(profile.analyses![1].kind).toBe('ac');

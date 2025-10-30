@@ -1,12 +1,24 @@
 /**
- * Electrical Schematic Renderer for Runiq
+ * Schematic Renderer for Runiq
  *
- * Converts SchematicProfile to SVG schematic diagrams with IEEE-standard symbols.
+ * Converts ElectricalProfile, PneumaticProfile, or HydraulicProfile to SVG diagrams
+ * with IEEE-standard and ISO 1219 symbols.
  * Uses automatic routing and placement for clean, professional-looking schematics.
  */
 
-import type { SchematicProfile, PartAst } from '@runiq/core';
+import type {
+  ElectricalProfile,
+  PneumaticProfile,
+  HydraulicProfile,
+  PartAst,
+} from '@runiq/core';
 import { getSymbol, type SymbolDefinition } from './symbols.js';
+
+// Union type for all profile types that can be rendered as schematics
+export type RenderableProfile =
+  | ElectricalProfile
+  | PneumaticProfile
+  | HydraulicProfile;
 
 export interface SchematicOptions {
   /** Grid size for component placement (default: 50) */
@@ -48,9 +60,10 @@ interface NetConnection {
 
 /**
  * Main schematic rendering function
+ * Supports electrical schematics, pneumatic circuits, and hydraulic circuits
  */
 export function renderSchematic(
-  profile: SchematicProfile | SchematicProfile,
+  profile: RenderableProfile,
   options: SchematicOptions = {}
 ): RenderResult {
   const warnings: string[] = [];
@@ -99,6 +112,9 @@ export function renderSchematic(
   // Render ground symbols
   svg += renderGroundSymbols(netMap, connections, gridSize);
 
+  // Render profile metadata (pressure, flow, fluid specs)
+  svg += renderProfileMetadata(profile, bounds);
+
   svg += '</svg>';
 
   return { svg, warnings };
@@ -106,10 +122,9 @@ export function renderSchematic(
 
 /**
  * Build map of nets to connected parts
+ * Works with electrical, pneumatic, and hydraulic profiles
  */
-function buildNetMap(
-  profile: SchematicProfile | SchematicProfile
-): Map<string, PartAst[]> {
+function buildNetMap(profile: RenderableProfile): Map<string, PartAst[]> {
   const netMap = new Map<string, PartAst[]>();
 
   for (const part of profile.parts) {
@@ -525,6 +540,55 @@ function renderGroundSymbols(
     const y = conn.terminal.y + 5;
 
     svg += gndSymbol.render(x, y);
+  }
+
+  svg += '</g>\n';
+  return svg;
+}
+
+/**
+ * Render profile-specific metadata (pressure, flow rate, fluid specs)
+ */
+function renderProfileMetadata(
+  profile: RenderableProfile,
+  bounds: { width: number; height: number; minX: number; minY: number }
+): string {
+  let svg = '<g class="profile-metadata">\n';
+
+  const startY = bounds.minY + bounds.height + 20;
+  const startX = bounds.minX + 10;
+  let currentY = startY;
+
+  // Render pressure specification
+  if ('pressure' in profile && profile.pressure) {
+    const { value, unit, type } = profile.pressure;
+    const typeStr = type ? ` (${type})` : '';
+    svg += `  <text x="${startX}" y="${currentY}" class="schematic-label">Pressure: ${value} ${unit}${typeStr}</text>\n`;
+    currentY += 18;
+  }
+
+  // Render flow rate specification
+  if ('flowRate' in profile && profile.flowRate) {
+    const { value, unit } = profile.flowRate;
+    svg += `  <text x="${startX}" y="${currentY}" class="schematic-label">Flow Rate: ${value} ${unit}</text>\n`;
+    currentY += 18;
+  }
+
+  // Render fluid specification (hydraulic only)
+  if ('fluid' in profile && profile.fluid) {
+    const { type, viscosity, temperature } = profile.fluid;
+    svg += `  <text x="${startX}" y="${currentY}" class="schematic-label">Fluid: ${type}`;
+    if (viscosity) {
+      svg += ` (${escapeXml(viscosity)})`;
+    }
+    svg += '</text>\n';
+    currentY += 18;
+
+    if (temperature) {
+      svg += `  <text x="${startX}" y="${currentY}" class="schematic-label">`;
+      svg += `Temp: ${temperature.min}°${temperature.unit} to ${temperature.max}°${temperature.unit}`;
+      svg += '</text>\n';
+    }
   }
 
   svg += '</g>\n';

@@ -85,7 +85,9 @@
 	}
 
 	// Handle new diagram creation with type selection
-	function handleNewDiagram(type: 'diagram' | 'schematic' | 'wardley' | 'sequence') {
+	function handleNewDiagram(
+		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence'
+	) {
 		let defaultContent: string;
 		let defaultName: string;
 
@@ -102,14 +104,42 @@
   message from:"System" to:"User" label:"Response" type:return
 `;
 			defaultName = 'Untitled Sequence';
-		} else if (type === 'schematic') {
-			defaultContent = `schematic "My Circuit" {
+		} else if (type === 'electrical') {
+			defaultContent = `electrical "My Circuit" {
   net VCC, GND
   
-  // Add your schematic components here
+  // Add your electrical components here
   // Example: part R1 type:R value:"1k" pins:(VCC,GND)
 }`;
-			defaultName = 'Untitled Schematic';
+			defaultName = 'Untitled Circuit';
+		} else if (type === 'pneumatic') {
+			defaultContent = `pneumatic "My Pneumatic Circuit" {
+  pressure 6 bar operating
+  flowRate 500 L/min
+  
+  net SUPPLY
+  net PORT_A
+  net PORT_B
+  
+  // Add your pneumatic components here
+  // Example: part C1 CYL_DA pins:(PORT_A,PORT_B) doc:"Cylinder"
+}`;
+			defaultName = 'Untitled Pneumatic';
+		} else if (type === 'hydraulic') {
+			defaultContent = `hydraulic "My Hydraulic Circuit" {
+  pressure 210 bar operating
+  flowRate 40 L/min
+  fluid mineral "ISO VG 46"
+  
+  net TANK
+  net PUMP
+  net PORT_A
+  net PORT_B
+  
+  // Add your hydraulic components here
+  // Example: part P1 PUMP_FIXED pins:(TANK,PUMP) doc:"Main pump"
+}`;
+			defaultName = 'Untitled Hydraulic';
 		} else if (type === 'wardley') {
 			defaultContent = `wardley "My Strategy Map" {
   // Define user needs at the top

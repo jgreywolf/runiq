@@ -1,0 +1,32 @@
+// Hydraulic Motor Speed Control
+// Variable displacement pump with motor speed control
+hydraulic "Motor Speed Control Circuit" {
+  net TANK, PUMP_OUT, PRESSURE, MOTOR_IN, MOTOR_OUT, RETURN
+  
+  pressure 180 bar operating
+  flowRate 60 L/min
+  fluid synthetic "ISO VG 46" temp:(5, 70, C)
+  
+  // Components with pin connections
+  // Circuit: TANK -> FILTER -> PUMP -> VALVE_DIR -> MOTOR -> RETURN -> FILTER -> TANK
+  // With pressure relief, compensator, and comprehensive instrumentation
+  
+  // Pump assembly
+  part RESERVOIR type:RESERVOIR pins:(TANK,RETURN) doc:"Main reservoir"
+  part PUMP type:PUMP_VAR pins:(TANK,PUMP_OUT) doc:"Variable displacement pump"
+  part COMPENSATOR type:VALVE_RELIEF pins:(PUMP_OUT) doc:"Load sensing compensator"
+  
+  // Motor circuit
+  part MOTOR type:MOTOR_HYD pins:(MOTOR_IN,MOTOR_OUT) doc:"Hydraulic motor"
+  part VALVE_DIR type:VALVE_4_3 pins:(PUMP_OUT,MOTOR_IN,MOTOR_OUT,RETURN) doc:"Directional control valve"
+  
+  // Protection and control
+  part RELIEF type:VALVE_RELIEF pins:(PRESSURE,RETURN) doc:"System relief valve"
+  part FILTER_SUCTION type:FILTER pins:(TANK,PUMP_OUT) doc:"Suction filter"
+  part FILTER_RETURN type:FILTER pins:(RETURN,TANK) doc:"Return line filter"
+  
+  // Instrumentation
+  part GAUGE_PUMP type:GAUGE_PRESS pins:(PUMP_OUT) doc:"Pump pressure"
+  part GAUGE_MOTOR type:GAUGE_PRESS pins:(MOTOR_IN) doc:"Motor pressure"
+  part FLOW_METER type:GAUGE_FLOW pins:(MOTOR_IN) doc:"Flow rate meter"
+}

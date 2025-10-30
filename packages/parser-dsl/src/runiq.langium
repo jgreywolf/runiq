@@ -3,14 +3,14 @@ grammar Runiq
 // ============================================================================
 // Entry point - Profile-based Runiq document
 // ============================================================================
-// A document can contain multiple profiles (diagram, schematic, digital)
+// A document can contain multiple profiles (diagram, electrical, pneumatic, hydraulic, etc.)
 // Each profile has its own grammar and semantics
 entry Document:
     profiles+=Profile*;
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | SchematicProfile | DigitalProfile | WardleyProfile | SequenceProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -29,14 +29,14 @@ DiagramStatement:
     | ContainerBlock;
 
 // ============================================================================
-// Schematic Profile (analog circuits)
+// Electrical Profile (analog circuits) - accepts both 'electrical' and 'schematic' keywords
 // ============================================================================
-SchematicProfile:
-    'schematic' name=STRING '{'
+ElectricalProfile:
+    ('electrical' | 'schematic') name=STRING '{'
         statements+=ElectricalStatement*
     '}';
 
-// Statements within schematic profile
+// Statements within electrical profile
 ElectricalStatement:
     NetStatement | PartStatement | AnalysisStatement;
 
@@ -136,6 +136,57 @@ DigitalNetStatement:
 
 NetDecl:
     name=ID ('[' width=BusWidth ']')?;
+
+// ============================================================================
+// Pneumatic Profile (ISO 1219-1 pneumatic circuits)
+// ============================================================================
+PneumaticProfile:
+    'pneumatic' name=STRING '{'
+        statements+=PneumaticStatement*
+    '}';
+
+// Statements within pneumatic profile
+PneumaticStatement:
+    NetStatement | PartStatement | PressureStatement | FlowRateStatement;
+
+// pressure 6 bar operating
+PressureStatement:
+    'pressure' value=NUMBER unit=PressureUnit type=PressureType?;
+
+PressureUnit returns string:
+    'bar' | 'psi' | 'kPa' | 'MPa';
+
+PressureType returns string:
+    'operating' | 'max' | 'min' | 'rated';
+
+// flowRate 100 L/min
+FlowRateStatement:
+    'flowRate' value=NUMBER unit=FlowRateUnit;
+
+FlowRateUnit returns string:
+    'L/min' | 'L/s' | 'CFM' | 'GPM' | 'm³/h';
+
+// ============================================================================
+// Hydraulic Profile (ISO 1219-2 hydraulic circuits)
+// ============================================================================
+HydraulicProfile:
+    'hydraulic' name=STRING '{'
+        statements+=HydraulicStatement*
+    '}';
+
+// Statements within hydraulic profile
+HydraulicStatement:
+    NetStatement | PartStatement | PressureStatement | FlowRateStatement | FluidStatement;
+
+// fluid mineral "ISO VG 46" temp:(10,60,C)
+FluidStatement:
+    'fluid' type=FluidType viscosity=STRING? ('temp:' '(' minTemp=NUMBER ',' maxTemp=NUMBER ',' tempUnit=TempUnit ')')?;
+
+FluidType returns string:
+    'mineral' | 'synthetic' | 'biodegradable' | 'water-glycol' | 'phosphate-ester';
+
+TempUnit returns string:
+    'degC' | 'degF' | 'K';
 
 // ============================================================================
 // Wardley Map Profile (strategic mapping)

@@ -276,11 +276,13 @@ export interface RuniqDocument {
  */
 export type Profile =
   | DiagramProfile
-  | SchematicProfile
+  | ElectricalProfile
   | DigitalProfile
   | BlockDiagramProfile
   | WardleyProfile
-  | SequenceProfile;
+  | SequenceProfile
+  | PneumaticProfile
+  | HydraulicProfile;
 
 /**
  * Visual diagram profile (existing Runiq diagrams)
@@ -302,13 +304,18 @@ export interface DiagramProfile {
  * Electrical/Analog circuit profile
  * Exports to SPICE, EDIF
  */
-export interface SchematicProfile {
-  type: 'schematic';
+export interface ElectricalProfile {
+  type: 'electrical';
   name: string;
   nets: NetAst[];
   parts: PartAst[];
   analyses?: AnalysisAst[];
 }
+
+/**
+ * @deprecated Use ElectricalProfile instead
+ */
+export type SchematicProfile = ElectricalProfile;
 
 /**
  * Digital circuit profile
@@ -333,6 +340,79 @@ export interface BlockDiagramProfile {
   nets: NetAst[]; // Signal paths
   parts: PartAst[]; // Transfer functions, gain blocks, operations
   feedbackLoops?: boolean; // Enable feedback loop routing
+}
+
+/**
+ * Pneumatic circuit profile
+ * For compressed air systems following ISO 1219-1 standard
+ * Supports cylinders, valves, FRL units, gauges
+ */
+export interface PneumaticProfile {
+  type: 'pneumatic';
+  name: string;
+  nets: NetAst[]; // Pneumatic lines/connections
+  parts: PartAst[]; // Components (cylinders, valves, etc.)
+  pressure?: PressureSpec; // Operating pressure specification
+  flowRate?: FlowRateSpec; // Flow rate specification
+}
+
+/**
+ * Hydraulic circuit profile
+ * For hydraulic power systems following ISO 1219-2 standard
+ * Supports pumps, motors, cylinders, valves, reservoirs
+ */
+export interface HydraulicProfile {
+  type: 'hydraulic';
+  name: string;
+  nets: NetAst[]; // Hydraulic lines/connections
+  parts: PartAst[]; // Components (pumps, cylinders, etc.)
+  pressure?: PressureSpec; // Operating pressure specification
+  flowRate?: FlowRateSpec; // Flow rate specification
+  fluid?: FluidSpec; // Hydraulic fluid specification
+}
+
+// ============================================================================
+// Pneumatic/Hydraulic Profile Types
+// ============================================================================
+
+/**
+ * Pressure specification for pneumatic/hydraulic systems
+ */
+export interface PressureSpec {
+  value: number; // Pressure value
+  unit: 'bar' | 'psi' | 'kPa' | 'MPa'; // Pressure unit
+  type?: 'operating' | 'max' | 'min' | 'rated'; // Pressure type
+}
+
+/**
+ * Flow rate specification for pneumatic/hydraulic systems
+ */
+export interface FlowRateSpec {
+  value: number; // Flow rate value
+  unit: 'L/min' | 'L/s' | 'CFM' | 'GPM' | 'm³/h'; // Flow rate unit (pneumatic uses L/min or CFM, hydraulic uses L/min or GPM)
+}
+
+/**
+ * Hydraulic fluid specification
+ */
+export interface FluidSpec {
+  type:
+    | 'mineral'
+    | 'synthetic'
+    | 'biodegradable'
+    | 'water-glycol'
+    | 'phosphate-ester'; // Fluid type
+  viscosity?: string; // Viscosity grade (e.g., "ISO VG 46", "10W-30")
+  temperature?: TemperatureRange; // Operating temperature range
+}
+
+/**
+ * Temperature range specification
+ */
+export interface TemperatureRange {
+  min: number; // Minimum temperature
+  max: number; // Maximum temperature
+  unit: 'C' | 'F' | 'K'; // Temperature unit
 }
 
 // ============================================================================

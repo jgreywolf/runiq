@@ -7,10 +7,12 @@
 	// Props
 	interface Props {
 		diagramName?: string;
-		lastSaved?: Date | null;
-		isDirty?: boolean;
-		onNewDiagram?: (type: 'diagram' | 'schematic' | 'wardley' | 'sequence') => void;
-		onExport?: (format: 'svg' | 'png') => void;
+	lastSaved?: Date | null;
+	isDirty?: boolean;
+	onNewDiagram?: (
+		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence'
+	) => void;
+	onExport?: (format: 'svg' | 'png') => void;
 	}
 
 	let {
@@ -33,12 +35,12 @@
 		showNewDiagramDialog = true;
 	}
 
-	function createDiagram(type: 'diagram' | 'schematic' | 'wardley' | 'sequence') {
-		showNewDiagramDialog = false;
-		onNewDiagram?.(type);
-	}
-
-	function handleExport(format: 'svg' | 'png') {
+function createDiagram(
+	type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence'
+) {
+	showNewDiagramDialog = false;
+	onNewDiagram?.(type);
+}	function handleExport(format: 'svg' | 'png') {
 		showExportMenu = false;
 		onExport?.(format);
 	}
@@ -381,7 +383,7 @@
 
 			<!-- Electrical Circuit Option -->
 			<button
-				onclick={() => createDiagram('schematic')}
+				onclick={() => createDiagram('electrical')}
 				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
 			>
 				<div class="flex items-center gap-3">
@@ -404,8 +406,70 @@
 						</svg>
 					</div>
 					<div>
-						<h3 class="font-semibold text-neutral-900">Schematics</h3>
-						<p class="text-sm text-neutral-600">Electrical circuit, logic gates, components</p>
+						<h3 class="font-semibold text-neutral-900">Electrical Schematic</h3>
+						<p class="text-sm text-neutral-600">Circuit diagrams, logic gates, components</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Pneumatic Circuit Option -->
+			<button
+				onclick={() => createDiagram('pneumatic')}
+				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-sky-400 hover:bg-sky-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-sky-600 transition-colors group-hover:bg-sky-200"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+							/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Pneumatic Circuit</h3>
+						<p class="text-sm text-neutral-600">Compressed air systems (ISO 1219-1)</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Hydraulic Circuit Option -->
+			<button
+				onclick={() => createDiagram('hydraulic')}
+				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-teal-400 hover:bg-teal-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 transition-colors group-hover:bg-teal-200"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+							/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Hydraulic Circuit</h3>
+						<p class="text-sm text-neutral-600">Fluid power systems (ISO 1219-1)</p>
 					</div>
 				</div>
 			</button>

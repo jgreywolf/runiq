@@ -1,0 +1,18 @@
+// Double-Acting Cylinder with 5/2-Way Valve
+// Complete extend/retract control
+pneumatic "Double-Acting Cylinder Circuit" {
+  net SUPPLY, PORT_A, PORT_B, EXHAUST_A, EXHAUST_B
+  
+  pressure 6 bar operating
+  flowRate 800 L/min
+  
+  // Main components with pin connections
+  // SUPPLY connects to VALVE which controls PORT_A and PORT_B for extend/retract
+  // Flow restrictors control speed, sensors monitor position
+  part VALVE type:VALVE_5_2 pins:(SUPPLY,PORT_A,PORT_B,EXHAUST_A,EXHAUST_B) doc:"5/2-way double solenoid valve"
+  part CYLINDER type:CYL_DA pins:(PORT_A,PORT_B) doc:"Double-acting cylinder"
+  part SENSOR_EXT type:SENSOR_PROX pins:(PORT_A) doc:"Extended position sensor"
+  part SENSOR_RET type:SENSOR_PROX pins:(PORT_B) doc:"Retracted position sensor"
+  part FLOW_A type:VALVE_CHECK pins:(PORT_A) doc:"Flow control valve port A"
+  part FLOW_B type:VALVE_CHECK pins:(PORT_B) doc:"Flow control valve port B"
+}

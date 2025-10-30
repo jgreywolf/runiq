@@ -1,0 +1,27 @@
+// Sequential Pneumatic Control
+// Two cylinders operating in sequence: A+ B+ B- A-
+pneumatic "Sequential Cylinder Control" {
+  net SUPPLY, A_EXTEND, A_RETRACT, B_EXTEND, B_RETRACT
+  net SENSOR_A0, SENSOR_A1, SENSOR_B0, SENSOR_B1
+  
+  pressure 6 bar operating
+  flowRate 1200 L/min
+  
+  // Sequence: START -> A extends -> B extends -> B retracts -> A retracts
+  // Sensors trigger next step in sequence
+  
+  // Start button
+  part START type:VALVE_3_2 pins:(SUPPLY) doc:"Start sequence button"
+  
+  // Cylinder A components
+  part VALVE_A type:VALVE_5_2 pins:(SUPPLY,A_EXTEND,A_RETRACT) doc:"Valve for cylinder A"
+  part CYL_A type:CYL_DA pins:(A_EXTEND,A_RETRACT) doc:"Cylinder A"
+  part SENS_A0 type:SENSOR_PROX pins:(SENSOR_A0) doc:"Cylinder A retracted"
+  part SENS_A1 type:SENSOR_PROX pins:(SENSOR_A1) doc:"Cylinder A extended"
+  
+  // Cylinder B components  
+  part VALVE_B type:VALVE_5_2 pins:(SUPPLY,B_EXTEND,B_RETRACT) doc:"Valve for cylinder B"
+  part CYL_B type:CYL_DA pins:(B_EXTEND,B_RETRACT) doc:"Cylinder B"
+  part SENS_B0 type:SENSOR_PROX pins:(SENSOR_B0) doc:"Cylinder B retracted"
+  part SENS_B1 type:SENSOR_PROX pins:(SENSOR_B1) doc:"Cylinder B extended"
+}

@@ -70,6 +70,32 @@ Design logic circuits with Verilog HDL export.
 - 4-bit ALU and 8-bit shift register examples
 - Export to Verilog for synthesis and simulation
 
+## Fluid Power Systems
+
+Design pneumatic and hydraulic circuits following ISO 1219-1 standards.
+
+### [Pneumatic Circuits](/examples/pneumatic-circuits)
+
+- Cylinders: Single-acting (spring return), double-acting
+- Valves: 3/2-way, 5/2-way, check valves
+- Air preparation: FRL units (filter, regulator, lubricator)
+- Flow control and speed regulation
+- Pressure specification (bar, psi, kPa, MPa)
+- Flow rate specification (L/min, CFM, m³/h)
+- **Visual Examples**: FRL unit, cylinder control, sequential A+B+B-A-
+- Applications: Factory automation, material handling, assembly
+
+### [Hydraulic Circuits](/examples/hydraulic-circuits)
+
+- Power generation: Fixed/variable pumps, reservoirs
+- Actuators: Hydraulic motors and cylinders
+- Valves: 4/3-way directional control, relief, reducing
+- Flow control and load sensing
+- Fluid specifications: Mineral, synthetic, biodegradable, fire-resistant
+- Temperature ranges and viscosity grades (ISO VG)
+- **Visual Examples**: Power unit, press system, motor control
+- Applications: Heavy machinery, presses, mobile equipment
+
 ## Medical & Genetics
 
 Professional pedigree charts following medical standards.
@@ -142,6 +168,16 @@ Strategic mapping tools for business analysis and decision-making.
   <a href="/examples/digital" class="example-card">
     <h3>🔢 Digital Logic</h3>
     <p>Gates & HDL export</p>
+  </a>
+  
+  <a href="/examples/pneumatic-circuits" class="example-card">
+    <h3>💨 Pneumatic</h3>
+    <p>Compressed air circuits (ISO 1219-1)</p>
+  </a>
+  
+  <a href="/examples/hydraulic-circuits" class="example-card">
+    <h3>🔧 Hydraulic</h3>
+    <p>Fluid power systems (ISO 1219-1)</p>
   </a>
   
   <a href="/examples/pedigree" class="example-card">

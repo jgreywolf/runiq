@@ -9,6 +9,8 @@ import { bpmnShapeIcons } from './toolboxIcons/bpmnShapeIcons';
 import { storageShapeIcons } from './toolboxIcons/storageShapeIcons';
 import { controlSystemsShapeIcons } from './toolboxIcons/controlSystemsShapeIcons';
 import { electricalShapeIcons } from './toolboxIcons/electricalShapeIcons';
+import { pneumaticShapeIcons } from './toolboxIcons/pneumaticShapeIcons';
+import { hydraulicShapeIcons } from './toolboxIcons/hydraulicShapeIcons';
 import { digitalComponentShapeIcons } from './toolboxIcons/digitalComponentShapeIcons';
 import { awsShapeIcons } from './toolboxIcons/awsShapeIcons';
 import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
@@ -45,6 +47,8 @@ export const shapeCategories: ShapeCategory[] = [
 	...quantumShapeIcons,
 	...specialShapeIcons,
 	...electricalShapeIcons,
+	...pneumaticShapeIcons,
+	...hydraulicShapeIcons,
 	...logicGateShapeIcons,
 	...digitalComponentShapeIcons
 ];
