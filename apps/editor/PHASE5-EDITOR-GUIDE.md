@@ -312,7 +312,7 @@ pnpm test:e2e
 - Parameter types (string, number, boolean, color)
 - Parser integration (62 tests)
 - Autocomplete support
-- Sample diagrams (8 samples)
+- Shape category snippets (12 insertable snippets)
 - Playwright E2E tests (18 tests)
 - Example .runiq files
 
@@ -323,3 +323,12 @@ pnpm test:e2e
 - Preset gallery with thumbnails
 - Template import/export
 - Validation warnings for missing references
+
+⚠️ **Known Limitations:**
+- **Visual Controls Rendering**: Phase 4 visual controls (collapse buttons, resize handles, hover effects) are defined in the DSL but not yet rendered in SVG output. The syntax is valid and properties are parsed, but visual rendering requires SVG renderer implementation.
+- Properties that affect visual rendering only:
+  - `collapseButtonVisible`, `collapseButtonPosition`, `collapseButtonStyle`
+  - `collapsed` state visualization
+  - `resizable`, `resizeHandles`
+  - `hoverHighlight`, `selectionHighlight`
+  - These will work once the SVG renderer is updated

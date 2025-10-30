@@ -11,14 +11,16 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
 				code: `container "Container Name" {
   shape node1 as @rectangle label: "Node 1"
   shape node2 as @rectangle label: "Node 2"
-}`
+}
+`
 			},
 			{
 				id: 'styled-container',
 				label: 'Styled Container',
 				code: `container "Styled" backgroundColor: "#e3f2fd" borderColor: "#2196f3" padding: 20 shadow: true {
   shape node as @rectangle label: "Content"
-}`
+}
+`
 			},
 			{
 				id: 'template-definition',
@@ -30,14 +32,16 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
   borderWidth: 2
   padding: 20
   shadow: true
-}`
+}
+`
 			},
 			{
 				id: 'template-usage',
 				label: 'Use Template',
 				code: `container "Service" templateId: "my-template" {
   shape api as @rectangle label: "API"
-}`
+}
+`
 			},
 			{
 				id: 'preset-definition',
@@ -47,14 +51,16 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
   padding: 15
   shadow: true
   borderWidth: 1
-}`
+}
+`
 			},
 			{
 				id: 'preset-usage',
 				label: 'Use Preset',
 				code: `container "Panel" preset: "card" {
   shape content as @rectangle label: "Content"
-}`
+}
+`
 			},
 			{
 				id: 'template-with-params',
@@ -67,7 +73,8 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
   ]
   backgroundColor: "#ffffff"
   padding: 15
-}`
+}
+`
 			},
 			{
 				id: 'container-inheritance',
@@ -75,22 +82,26 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
 				code: `container "Extended" extends: "BaseContainer" {
   borderColor: "#2196f3"
   shape child as @rectangle label: "Child"
-}`
+}
+`
 			},
 			{
 				id: 'combined-template-preset',
 				label: 'Template + Preset',
 				code: `container "Service" templateId: "microservice" preset: "card" {
   shape api as @server label: "API"
-}`
+}
+`
 			},
 			{
 				id: 'collapsible-container',
-				label: 'Collapsible Container',
-				code: `container "Section" collapseButtonVisible: true collapsed: false {
+				label: 'Collapsible Container (Syntax Only)',
+				code: `// Note: Visual rendering not yet implemented
+container "Section" collapseButtonVisible: true collapsed: false {
   shape item1 as @rectangle label: "Item 1"
   shape item2 as @rectangle label: "Item 2"
-}`
+}
+`
 			},
 			{
 				id: 'nested-containers',
@@ -99,7 +110,8 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
   container "Inner" {
     shape node as @rectangle label: "Nested"
   }
-}`
+}
+`
 			},
 			{
 				id: 'themed-presets',
@@ -117,7 +129,8 @@ preset "success" {
 preset "warning" {
   backgroundColor: "#fff3e0"
   borderColor: "#ff9800"
-}`
+}
+`
 			}
 		]
 	}
