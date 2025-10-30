@@ -8,6 +8,9 @@ import type {
   EdgeRouting,
   ContainerDeclaration,
   ContainerStyle,
+  ContainerTemplate,
+  TemplateParameter,
+  ContainerPreset,
   RuniqDocument,
   DiagramProfile,
   ElectricalProfile,
@@ -1111,6 +1114,16 @@ function processDialogStatement(
     const container = convertContainer(statement, declaredNodes, tempDiagram);
     if (!diagram.containers) diagram.containers = [];
     diagram.containers.push(container);
+  } else if (Langium.isTemplateBlock(statement)) {
+    // Phase 5: Template definitions
+    const template = convertTemplate(statement);
+    if (!diagram.templates) diagram.templates = [];
+    diagram.templates.push(template);
+  } else if (Langium.isPresetBlock(statement)) {
+    // Phase 5: Preset definitions
+    const preset = convertPreset(statement);
+    if (!diagram.presets) diagram.presets = [];
+    diagram.presets.push(preset);
   }
 }
 
@@ -1364,6 +1377,15 @@ function convertContainer(
       } else if (prop.depthIndicatorStyle) {
         // Phase 4: Depth indicator style
         containerStyle.depthIndicatorStyle = prop.depthIndicatorStyle as 'bar' | 'indent' | 'color';
+      } else if (prop.templateId) {
+        // Phase 5: Template reference
+        containerStyle.templateId = prop.templateId.replace(/^"|"$/g, '');
+      } else if (prop.extends) {
+        // Phase 5: Extends/inheritance
+        containerStyle.extends = prop.extends.replace(/^"|"$/g, '');
+      } else if (prop.preset) {
+        // Phase 5: Preset reference
+        containerStyle.preset = prop.preset.replace(/^"|"$/g, '');
       }
     } else if (Langium.isContainerLayoutProperty(prop)) {
       if (prop.algorithm) {
@@ -1575,3 +1597,135 @@ function convertContainer(
 
   return container;
 }
+
+/**
+ * Phase 5: Convert template definition
+ */
+function convertTemplate(block: Langium.TemplateBlock): ContainerTemplate {
+  const template: ContainerTemplate = {
+    id: block.id.replace(/^"|"$/g, ''),
+  };
+
+  // Extract label and description if present
+  if (block.label) {
+    template.label = block.label.replace(/^"|"$/g, '');
+  }
+  if (block.description) {
+    template.description = block.description.replace(/^"|"$/g, '');
+  }
+
+  // Extract parameters if present
+  if (block.parameters && block.parameters.length > 0) {
+    template.parameters = block.parameters.map((param: any) => {
+      const templateParam: TemplateParameter = {
+        name: param.name.replace(/^"|"$/g, ''),
+        type: param.type as 'string' | 'number' | 'boolean' | 'color',
+      };
+      
+      // Add default value if present
+      if (param.defaultValue !== undefined) {
+        if (param.type === 'string') {
+          templateParam.defaultValue = param.defaultValue.replace(/^"|"$/g, '');
+        } else if (param.type === 'number') {
+          templateParam.defaultValue = parseFloat(param.defaultValue);
+        } else if (param.type === 'boolean') {
+          templateParam.defaultValue = param.defaultValue === 'true';
+        } else if (param.type === 'color') {
+          templateParam.defaultValue = param.defaultValue.replace(/^"|"$/g, '');
+        }
+      }
+      
+      return templateParam;
+    });
+  }
+
+  // Extract children placeholders if present
+  if (block.children && block.children.length > 0) {
+    template.children = block.children.map((child: string) => child.replace(/^"|"$/g, ''));
+  }
+
+  // Extract container style properties
+  if (block.properties && block.properties.length > 0) {
+    const containerStyle: ContainerStyle = {};
+    
+    for (const prop of block.properties) {
+      // Reuse the same property parsing logic from convertContainer
+      if (Langium.isContainerStyleProperty(prop)) {
+        // Phase 1 properties
+        if (prop.backgroundColor) {
+          containerStyle.backgroundColor = prop.backgroundColor.replace(/^"|"$/g, '');
+        } else if (prop.borderColor) {
+          containerStyle.borderColor = prop.borderColor.replace(/^"|"$/g, '');
+        } else if (prop.borderWidth !== undefined) {
+          containerStyle.borderWidth = parseFloat(prop.borderWidth);
+        } else if (prop.borderStyle) {
+          containerStyle.borderStyle = prop.borderStyle as 'solid' | 'dashed' | 'dotted';
+        } else if (prop.padding !== undefined) {
+          containerStyle.padding = parseFloat(prop.padding);
+        } else if (prop.opacity !== undefined) {
+          containerStyle.opacity = parseFloat(prop.opacity);
+        } else if (prop.labelPosition) {
+          containerStyle.labelPosition = prop.labelPosition as 'top' | 'bottom' | 'left' | 'right';
+        } else if (prop.shadow !== undefined) {
+          containerStyle.shadow = prop.shadow === 'true';
+        } else if (prop.depth !== undefined) {
+          containerStyle.depth = parseFloat(prop.depth);
+        }
+        // Add more properties as needed for templates...
+      }
+    }
+    
+    if (Object.keys(containerStyle).length > 0) {
+      template.containerStyle = containerStyle;
+    }
+  }
+
+  return template;
+}
+
+/**
+ * Phase 5: Convert preset definition
+ */
+function convertPreset(block: Langium.PresetBlock): ContainerPreset {
+  const preset: ContainerPreset = {
+    id: block.id.replace(/^"|"$/g, ''),
+    style: {},
+  };
+
+  // Extract label if present
+  if (block.label) {
+    preset.label = block.label.replace(/^"|"$/g, '');
+  }
+
+  // Extract container style properties
+  if (block.properties && block.properties.length > 0) {
+    for (const prop of block.properties) {
+      if (Langium.isContainerStyleProperty(prop)) {
+        // Phase 1 properties
+        if (prop.backgroundColor) {
+          preset.style.backgroundColor = prop.backgroundColor.replace(/^"|"$/g, '');
+        } else if (prop.borderColor) {
+          preset.style.borderColor = prop.borderColor.replace(/^"|"$/g, '');
+        } else if (prop.borderWidth !== undefined) {
+          preset.style.borderWidth = parseFloat(prop.borderWidth);
+        } else if (prop.borderStyle) {
+          preset.style.borderStyle = prop.borderStyle as 'solid' | 'dashed' | 'dotted';
+        } else if (prop.padding !== undefined) {
+          preset.style.padding = parseFloat(prop.padding);
+        } else if (prop.opacity !== undefined) {
+          preset.style.opacity = parseFloat(prop.opacity);
+        } else if (prop.labelPosition) {
+          preset.style.labelPosition = prop.labelPosition as 'top' | 'bottom' | 'left' | 'right';
+        } else if (prop.shadow !== undefined) {
+          preset.style.shadow = prop.shadow === 'true';
+        } else if (prop.depth !== undefined) {
+          preset.style.depth = parseFloat(prop.depth);
+        }
+        // Can add more Phase 2-4 properties as needed for presets...
+      }
+    }
+  }
+
+  return preset;
+}
+

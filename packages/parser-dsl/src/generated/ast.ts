@@ -28,6 +28,7 @@ export type RuniqKeywordNames =
     | ".."
     | "/"
     | ":"
+    | "="
     | "@"
     | "BT"
     | "CFM"
@@ -64,6 +65,7 @@ export type RuniqKeywordNames =
     | "bar"
     | "bidirectional"
     | "biodegradable"
+    | "boolean"
     | "borderColor:"
     | "borderStyle:"
     | "borderWidth:"
@@ -75,6 +77,7 @@ export type RuniqKeywordNames =
     | "carrier:"
     | "center"
     | "childCountPosition:"
+    | "children:"
     | "collapseAnimationDuration:"
     | "collapseAnimationEasing:"
     | "collapseButtonColor:"
@@ -117,6 +120,7 @@ export type RuniqKeywordNames =
     | "depth:"
     | "depthIndicatorStyle:"
     | "derived:"
+    | "description:"
     | "destroy"
     | "diagram"
     | "digital"
@@ -136,6 +140,7 @@ export type RuniqKeywordNames =
     | "evolution:"
     | "evolve"
     | "expanding"
+    | "extends:"
     | "false"
     | "fill-available"
     | "fit-content"
@@ -216,6 +221,7 @@ export type RuniqKeywordNames =
     | "noise"
     | "none"
     | "note"
+    | "number"
     | "nw"
     | "of:"
     | "op"
@@ -233,6 +239,7 @@ export type RuniqKeywordNames =
     | "paddingRight:"
     | "paddingTop:"
     | "par"
+    | "parameters:"
     | "params:"
     | "part"
     | "partial"
@@ -244,6 +251,8 @@ export type RuniqKeywordNames =
     | "polyline"
     | "ports:"
     | "position:"
+    | "preset"
+    | "preset:"
     | "pressure"
     | "private"
     | "protected"
@@ -289,6 +298,7 @@ export type RuniqKeywordNames =
     | "stereotype:"
     | "straight"
     | "stress"
+    | "string"
     | "style"
     | "style:"
     | "sw"
@@ -296,6 +306,8 @@ export type RuniqKeywordNames =
     | "synthetic"
     | "target"
     | "temp:"
+    | "template"
+    | "templateId:"
     | "text"
     | "timing:"
     | "title:"
@@ -722,7 +734,7 @@ export function isContainerProperty(item: unknown): item is ContainerProperty {
 }
 
 export interface ContainerStyleProperty extends langium.AstNode {
-    readonly $container: ContainerBlock;
+    readonly $container: ContainerBlock | PresetBlock | TemplateBlock;
     readonly $type: 'ContainerStyleProperty';
     alignContent?: AlignContentValue;
     autoResize?: AutoResizeValue;
@@ -742,6 +754,7 @@ export interface ContainerStyleProperty extends langium.AstNode {
     distribution?: DistributionValue;
     edgeBundling?: BooleanValue;
     edgeRouting?: EdgeRoutingValue;
+    extends?: string;
     headerBackgroundColor?: string;
     headerPosition?: LabelPositionValue;
     hoverBorderColor?: string;
@@ -771,6 +784,7 @@ export interface ContainerStyleProperty extends langium.AstNode {
     paddingLeft?: string;
     paddingRight?: string;
     paddingTop?: string;
+    preset?: string;
     resizable?: BooleanValue;
     resizeHandles: Array<ResizeHandleValue>;
     selectionBorderColor?: string;
@@ -779,6 +793,7 @@ export interface ContainerStyleProperty extends langium.AstNode {
     shadow?: BooleanValue;
     showChildCount?: BooleanValue;
     showDepthIndicator?: BooleanValue;
+    templateId?: string;
     verticalAlign?: VerticalAlignValue;
 }
 
@@ -802,6 +817,7 @@ export const ContainerStyleProperty = {
     distribution: 'distribution',
     edgeBundling: 'edgeBundling',
     edgeRouting: 'edgeRouting',
+    extends: 'extends',
     headerBackgroundColor: 'headerBackgroundColor',
     headerPosition: 'headerPosition',
     hoverBorderColor: 'hoverBorderColor',
@@ -831,6 +847,7 @@ export const ContainerStyleProperty = {
     paddingLeft: 'paddingLeft',
     paddingRight: 'paddingRight',
     paddingTop: 'paddingTop',
+    preset: 'preset',
     resizable: 'resizable',
     resizeHandles: 'resizeHandles',
     selectionBorderColor: 'selectionBorderColor',
@@ -839,6 +856,7 @@ export const ContainerStyleProperty = {
     shadow: 'shadow',
     showChildCount: 'showChildCount',
     showDepthIndicator: 'showDepthIndicator',
+    templateId: 'templateId',
     verticalAlign: 'verticalAlign'
 } as const;
 
@@ -992,7 +1010,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration;
+export type DiagramStatement = ContainerBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -2054,6 +2072,25 @@ export function isPortDecl(item: unknown): item is PortDecl {
     return reflection.isInstance(item, PortDecl.$type);
 }
 
+export interface PresetBlock extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'PresetBlock';
+    id: string;
+    label?: string;
+    properties: Array<ContainerStyleProperty>;
+}
+
+export const PresetBlock = {
+    $type: 'PresetBlock',
+    id: 'id',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isPresetBlock(item: unknown): item is PresetBlock {
+    return reflection.isInstance(item, PresetBlock.$type);
+}
+
 export interface PressureStatement extends langium.AstNode {
     readonly $container: HydraulicProfile | PneumaticProfile;
     readonly $type: 'PressureStatement';
@@ -2649,6 +2686,56 @@ export function isStyleRefProperty(item: unknown): item is StyleRefProperty {
     return reflection.isInstance(item, StyleRefProperty.$type);
 }
 
+export interface TemplateBlock extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'TemplateBlock';
+    children: Array<string>;
+    description?: string;
+    id: string;
+    label?: string;
+    parameters: Array<TemplateParameter>;
+    properties: Array<ContainerStyleProperty>;
+}
+
+export const TemplateBlock = {
+    $type: 'TemplateBlock',
+    children: 'children',
+    description: 'description',
+    id: 'id',
+    label: 'label',
+    parameters: 'parameters',
+    properties: 'properties'
+} as const;
+
+export function isTemplateBlock(item: unknown): item is TemplateBlock {
+    return reflection.isInstance(item, TemplateBlock.$type);
+}
+
+export interface TemplateParameter extends langium.AstNode {
+    readonly $container: TemplateBlock;
+    readonly $type: 'TemplateParameter';
+    defaultValue?: BooleanValue | string;
+    name: string;
+    type: TemplateParameterType;
+}
+
+export const TemplateParameter = {
+    $type: 'TemplateParameter',
+    defaultValue: 'defaultValue',
+    name: 'name',
+    type: 'type'
+} as const;
+
+export function isTemplateParameter(item: unknown): item is TemplateParameter {
+    return reflection.isInstance(item, TemplateParameter.$type);
+}
+
+export type TemplateParameterType = 'boolean' | 'color' | 'number' | 'string';
+
+export function isTemplateParameterType(item: unknown): item is TemplateParameterType {
+    return item === 'string' || item === 'number' || item === 'boolean' || item === 'color';
+}
+
 export type TempUnit = 'K' | 'degC' | 'degF';
 
 export function isTempUnit(item: unknown): item is TempUnit {
@@ -3000,6 +3087,7 @@ export type RuniqAstType = {
     PneumaticStatement: PneumaticStatement
     PortConnection: PortConnection
     PortDecl: PortDecl
+    PresetBlock: PresetBlock
     PressureStatement: PressureStatement
     Profile: Profile
     RoleSourceProperty: RoleSourceProperty
@@ -3036,6 +3124,8 @@ export type RuniqAstType = {
     StyleDeclaration: StyleDeclaration
     StyleProperty: StyleProperty
     StyleRefProperty: StyleRefProperty
+    TemplateBlock: TemplateBlock
+    TemplateParameter: TemplateParameter
     TitleProperty: TitleProperty
     TooltipProperty: TooltipProperty
     WardleyAnchorProperty: WardleyAnchorProperty
@@ -3358,6 +3448,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 edgeRouting: {
                     name: ContainerStyleProperty.edgeRouting
                 },
+                extends: {
+                    name: ContainerStyleProperty.extends
+                },
                 headerBackgroundColor: {
                     name: ContainerStyleProperty.headerBackgroundColor
                 },
@@ -3445,6 +3538,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 paddingTop: {
                     name: ContainerStyleProperty.paddingTop
                 },
+                preset: {
+                    name: ContainerStyleProperty.preset
+                },
                 resizable: {
                     name: ContainerStyleProperty.resizable
                 },
@@ -3469,6 +3565,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 showDepthIndicator: {
                     name: ContainerStyleProperty.showDepthIndicator
+                },
+                templateId: {
+                    name: ContainerStyleProperty.templateId
                 },
                 verticalAlign: {
                     name: ContainerStyleProperty.verticalAlign
@@ -4233,6 +4332,22 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        PresetBlock: {
+            name: PresetBlock.$type,
+            properties: {
+                id: {
+                    name: PresetBlock.id
+                },
+                label: {
+                    name: PresetBlock.label
+                },
+                properties: {
+                    name: PresetBlock.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [DiagramStatement.$type]
+        },
         PressureStatement: {
             name: PressureStatement.$type,
             properties: {
@@ -4590,6 +4705,48 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [ContainerProperty.$type, NodeProperty.$type]
+        },
+        TemplateBlock: {
+            name: TemplateBlock.$type,
+            properties: {
+                children: {
+                    name: TemplateBlock.children,
+                    defaultValue: []
+                },
+                description: {
+                    name: TemplateBlock.description
+                },
+                id: {
+                    name: TemplateBlock.id
+                },
+                label: {
+                    name: TemplateBlock.label
+                },
+                parameters: {
+                    name: TemplateBlock.parameters,
+                    defaultValue: []
+                },
+                properties: {
+                    name: TemplateBlock.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [DiagramStatement.$type]
+        },
+        TemplateParameter: {
+            name: TemplateParameter.$type,
+            properties: {
+                defaultValue: {
+                    name: TemplateParameter.defaultValue
+                },
+                name: {
+                    name: TemplateParameter.name
+                },
+                type: {
+                    name: TemplateParameter.type
+                }
+            },
+            superTypes: []
         },
         TitleProperty: {
             name: TitleProperty.$type,

@@ -26,7 +26,9 @@ DiagramStatement:
     | ShapeDeclaration
     | EdgeDeclaration
     | GroupBlock
-    | ContainerBlock;
+    | ContainerBlock
+    | TemplateBlock
+    | PresetBlock;
 
 // ============================================================================
 // Electrical Profile (analog circuits) - accepts both 'electrical' and 'schematic' keywords
@@ -704,11 +706,43 @@ ContainerStyleProperty:
     | 'showChildCount:' showChildCount=BooleanValue
     | 'childCountPosition:' childCountPosition=ButtonPositionValue
     | 'showDepthIndicator:' showDepthIndicator=BooleanValue
-    | 'depthIndicatorStyle:' depthIndicatorStyle=DepthIndicatorStyleValue;
+    | 'depthIndicatorStyle:' depthIndicatorStyle=DepthIndicatorStyleValue
+    // Phase 5: Templates & Presets
+    | 'templateId:' templateId=STRING
+    | 'extends:' extends=STRING
+    | 'preset:' preset=STRING;
 
 ContainerLayoutProperty:
     'algorithm:' algorithm=LayoutAlgorithmValue
     | 'spacing:' spacing=NUMBER;
+
+// ============================================================================
+// Phase 5: Template & Preset Definitions
+// ============================================================================
+
+// template "name" { ... }
+TemplateBlock:
+    'template' id=STRING '{'
+        ('label:' label=STRING)?
+        ('description:' description=STRING)?
+        ('parameters:' '[' parameters+=TemplateParameter (',' parameters+=TemplateParameter)* ']')?
+        ('children:' '[' children+=STRING (',' children+=STRING)* ']')?
+        properties+=ContainerStyleProperty*
+    '}';
+
+TemplateParameter:
+    name=STRING ':' type=TemplateParameterType ('=' defaultValue=(STRING | NUMBER | BooleanValue))?;
+
+TemplateParameterType returns string:
+    'string' | 'number' | 'boolean' | 'color';
+
+// preset "name" { ... }
+PresetBlock:
+    'preset' id=STRING '{'
+        ('label:' label=STRING)?
+        properties+=ContainerStyleProperty*
+    '}';
+
 
 BorderStyleValue returns string:
     'solid' | 'dashed' | 'dotted';

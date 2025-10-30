@@ -24,6 +24,9 @@ export interface DiagramAst {
   edges: EdgeAst[];
   groups?: GroupAst[];
   containers?: ContainerDeclaration[];
+  // Phase 5: Templates & Presets
+  templates?: ContainerTemplate[]; // Container template definitions
+  presets?: ContainerPreset[]; // Style preset definitions
 }
 
 export interface NodeAst {
@@ -213,6 +216,45 @@ export interface ContainerStyle {
   childCountPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'; // Badge position
   showDepthIndicator?: boolean; // Show nesting depth visual indicator
   depthIndicatorStyle?: 'bar' | 'indent' | 'color'; // How to show depth
+
+  // Phase 5: Templates & Presets
+  templateId?: string; // Reference to a container template
+  extends?: string; // Inherit from another container or template
+  preset?: string; // Apply a named style preset ('card' | 'panel' | 'group' | 'section' | 'highlighted')
+}
+
+/**
+ * Container template definition - reusable container patterns with parameters
+ * Phase 5: Advanced Features
+ */
+export interface ContainerTemplate {
+  id: string; // Unique template identifier
+  label?: string; // Template display name
+  description?: string; // Template description
+  parameters?: TemplateParameter[]; // Template parameters
+  containerStyle?: ContainerStyle; // Default style for template
+  children?: string[]; // Placeholder for child nodes
+}
+
+/**
+ * Template parameter definition
+ * Phase 5: Advanced Features
+ */
+export interface TemplateParameter {
+  name: string; // Parameter name
+  type: 'string' | 'number' | 'boolean' | 'color'; // Parameter type
+  defaultValue?: string | number | boolean; // Default value
+  description?: string; // Parameter description
+}
+
+/**
+ * Container style preset definition
+ * Phase 5: Advanced Features
+ */
+export interface ContainerPreset {
+  id: string; // Preset identifier ('card', 'panel', 'group', etc.)
+  label?: string; // Display name
+  style: Partial<ContainerStyle>; // Style properties to apply
 }
 
 /**
@@ -398,6 +440,9 @@ export interface DiagramProfile {
   edges: EdgeAst[];
   groups?: GroupAst[];
   containers?: ContainerDeclaration[];
+  // Phase 5: Templates & Presets
+  templates?: ContainerTemplate[];
+  presets?: ContainerPreset[];
 }
 
 /**
