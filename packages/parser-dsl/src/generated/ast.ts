@@ -9,7 +9,6 @@ import * as langium from 'langium';
 export const RuniqTerminals = {
     LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/,
     ARROW: /->/,
-    BOOLEAN: /true|false/,
     SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
     ID: /[a-zA-Z_][a-zA-Z0-9_]*/,
     STRING: /"(?:[^"\\]|\\.)*"/,
@@ -289,7 +288,7 @@ export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
 export interface AffectedProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'AffectedProperty';
-    value: string;
+    value: BooleanValue;
 }
 
 export const AffectedProperty = {
@@ -384,7 +383,7 @@ export function isAttrDefaultField(item: unknown): item is AttrDefaultField {
 export interface AttrDerivedField extends langium.AstNode {
     readonly $container: AttributeDecl;
     readonly $type: 'AttrDerivedField';
-    value: string;
+    value: BooleanValue;
 }
 
 export const AttrDerivedField = {
@@ -454,7 +453,7 @@ export function isAttrNameField(item: unknown): item is AttrNameField {
 export interface AttrStaticField extends langium.AstNode {
     readonly $container: AttributeDecl;
     readonly $type: 'AttrStaticField';
-    value: string;
+    value: BooleanValue;
 }
 
 export const AttrStaticField = {
@@ -534,7 +533,7 @@ export function isBusWidth(item: unknown): item is BusWidth {
 export interface CarrierProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'CarrierProperty';
-    value: string;
+    value: BooleanValue;
 }
 
 export const CarrierProperty = {
@@ -872,7 +871,7 @@ export function isDataValue(item: unknown): item is DataValue {
 export interface DeceasedProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'DeceasedProperty';
-    value: string;
+    value: BooleanValue;
 }
 
 export const DeceasedProperty = {
@@ -1398,7 +1397,7 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
 export interface MethodAbstractField extends langium.AstNode {
     readonly $container: MethodDecl;
     readonly $type: 'MethodAbstractField';
-    value: string;
+    value: BooleanValue;
 }
 
 export const MethodAbstractField = {
@@ -1538,7 +1537,7 @@ export function isMethodsProperty(item: unknown): item is MethodsProperty {
 export interface MethodStaticField extends langium.AstNode {
     readonly $container: MethodDecl;
     readonly $type: 'MethodStaticField';
-    value: string;
+    value: BooleanValue;
 }
 
 export const MethodStaticField = {
@@ -2073,7 +2072,7 @@ export function isRoutingValue(item: unknown): item is RoutingValue {
 export interface SequenceActivateProperty extends langium.AstNode {
     readonly $container: SequenceMessageStatement;
     readonly $type: 'SequenceActivateProperty';
-    value: string;
+    value: BooleanValue;
 }
 
 export const SequenceActivateProperty = {
@@ -2446,7 +2445,7 @@ export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
 export interface ShowLegendProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'ShowLegendProperty';
-    value: string;
+    value: BooleanValue;
 }
 
 export const ShowLegendProperty = {
@@ -2461,7 +2460,7 @@ export function isShowLegendProperty(item: unknown): item is ShowLegendProperty 
 export interface StackedProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'StackedProperty';
-    value: string;
+    value: BooleanValue;
 }
 
 export const StackedProperty = {
@@ -2706,7 +2705,7 @@ export function isWardleyEvolutionStatement(item: unknown): item is WardleyEvolu
 export interface WardleyInertiaProperty extends langium.AstNode {
     readonly $container: WardleyComponentStatement;
     readonly $type: 'WardleyInertiaProperty';
-    value: string;
+    value: BooleanValue;
 }
 
 export const WardleyInertiaProperty = {

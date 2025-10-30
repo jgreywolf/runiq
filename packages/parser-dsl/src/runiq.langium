@@ -216,7 +216,7 @@ WardleyLabelProperty:
     'label:' value=STRING;
 
 WardleyInertiaProperty:
-    'inertia:' value=BOOLEAN;
+    'inertia:' value=BooleanValue;
 
 // anchor "User Need" at value:0.95
 WardleyAnchorStatement:
@@ -275,7 +275,7 @@ SequenceMessageType returns string:
     'sync' | 'async' | 'return' | 'create' | 'destroy';
 
 SequenceActivateProperty:
-    'activate:' value=BOOLEAN;
+    'activate:' value=BooleanValue;
 
 SequenceGuardProperty:
     'guard:' value=STRING;
@@ -399,13 +399,13 @@ TooltipProperty:
     'tooltip:' text=STRING;
 
 ShowLegendProperty:
-    'showLegend:' value=BOOLEAN;
+    'showLegend:' value=BooleanValue;
 
 LegendPositionProperty:
     'legendPosition:' value=STRING;
 
 StackedProperty:
-    'stacked:' value=BOOLEAN;
+    'stacked:' value=BooleanValue;
 
 ColorsProperty:
     'colors:' value=StringArray;
@@ -421,13 +421,13 @@ YLabelProperty:
 
 // Pedigree-specific properties
 AffectedProperty:
-    'affected:' value=BOOLEAN;
+    'affected:' value=BooleanValue;
 
 CarrierProperty:
-    'carrier:' value=BOOLEAN;
+    'carrier:' value=BooleanValue;
 
 DeceasedProperty:
-    'deceased:' value=BOOLEAN;
+    'deceased:' value=BooleanValue;
 
 // UML Class Diagram properties
 AttributesProperty:
@@ -455,10 +455,10 @@ AttrDefaultField:
     'default:' value=STRING;
 
 AttrStaticField:
-    'static:' value=BOOLEAN;
+    'static:' value=BooleanValue;
 
 AttrDerivedField:
-    'derived:' value=BOOLEAN;
+    'derived:' value=BooleanValue;
 
 AttrConstraintsField:
     'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
@@ -497,10 +497,10 @@ MethodVisibilityField:
     'visibility:' value=VisibilityValue;
 
 MethodAbstractField:
-    'abstract:' value=BOOLEAN;
+    'abstract:' value=BooleanValue;
 
 MethodStaticField:
-    'static:' value=BOOLEAN;
+    'static:' value=BooleanValue;
 
 MethodConstraintsField:
     'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
@@ -735,7 +735,6 @@ BooleanValue returns string:
 // Terminals
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal ARROW: '->';
-terminal BOOLEAN: /true|false/;
 terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
