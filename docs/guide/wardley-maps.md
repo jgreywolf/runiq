@@ -19,12 +19,12 @@ Wardley Maps are strategic planning tools that visualize the value chain and evo
 
 Components evolve through four stages:
 
-| Stage | Evolution Range | Characteristics |
-|-------|----------------|-----------------|
-| **Genesis** | 0.00 - 0.25 | Novel, uncertain, rapidly changing |
-| **Custom Built** | 0.25 - 0.50 | Bespoke solutions, competitive advantage |
-| **Product/Rental** | 0.50 - 0.75 | Standardized, off-the-shelf products |
-| **Commodity/Utility** | 0.75 - 1.00 | Ubiquitous, highly standardized, automated |
+| Stage                 | Evolution Range | Characteristics                            |
+| --------------------- | --------------- | ------------------------------------------ |
+| **Genesis**           | 0.00 - 0.25     | Novel, uncertain, rapidly changing         |
+| **Custom Built**      | 0.25 - 0.50     | Bespoke solutions, competitive advantage   |
+| **Product/Rental**    | 0.50 - 0.75     | Standardized, off-the-shelf products       |
+| **Commodity/Utility** | 0.75 - 1.00     | Ubiquitous, highly standardized, automated |
 
 ### Value Chain Position
 
@@ -194,7 +194,7 @@ wardley "Styled Map" {
 
   anchor "User" value: 0.95
 
-  component "Service" evolution: 0.7 value: 0.8 
+  component "Service" evolution: 0.7 value: 0.8
     style: { fill: "#10b981", stroke: "#059669" }
 }
 ```
@@ -245,16 +245,19 @@ wardley "Market Forces" {
 ## Strategic Patterns
 
 ### Industrialization
+
 - Components move right (toward commodity)
 - Enables new genesis activities
 - Drives efficiency and scale
 
 ### Componentization
+
 - Breaking monoliths into reusable parts
 - Creates markets for components
 - Enables ecosystem development
 
 ### Ecosystem Play
+
 - Commoditize complements
 - Build on commodity layers
 - Create switching costs higher up
@@ -264,18 +267,21 @@ wardley "Market Forces" {
 Simon Wardley's doctrine (best practices):
 
 **Phase I - Stop Self-Harm**
+
 - Know your users
 - Use appropriate methods
 - Think small (iterative)
 - Be transparent
 
 **Phase II - Become More Context Aware**
+
 - Understand what's happening
 - Use suitable methods
 - Challenge assumptions
 - Focus on user needs
 
 **Phase III - Better for Less**
+
 - Optimize flows
 - Think fast, inexpensive, simple
 - Manage inertia

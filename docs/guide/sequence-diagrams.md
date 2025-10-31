@@ -26,6 +26,7 @@ sequence "Message Flow" {
 ```
 
 **Stereotypes:**
+
 - `actor` - External user or system
 - `boundary` - User interface, API gateway
 - `control` - Business logic, controllers
@@ -34,14 +35,14 @@ sequence "Message Flow" {
 
 ### Message Types
 
-| Type | Syntax | Description | Arrow |
-|------|--------|-------------|-------|
-| Synchronous | `type:sync` | Blocking call, waits for response | Solid arrow →
- |
-| Asynchronous | `type:async` | Non-blocking, fire-and-forget | Open arrow → |
-| Return | `type:return` | Response message | Dashed arrow ← |
-| Create | `type:create` | Object instantiation | Solid arrow → |
-| Destroy | `type:destroy` | Object deletion | X symbol |
+| Type         | Syntax         | Description                       | Arrow          |
+| ------------ | -------------- | --------------------------------- | -------------- |
+| Synchronous  | `type:sync`    | Blocking call, waits for response | Solid arrow →  |
+|  |
+| Asynchronous | `type:async`   | Non-blocking, fire-and-forget     | Open arrow →   |
+| Return       | `type:return`  | Response message                  | Dashed arrow ← |
+| Create       | `type:create`  | Object instantiation              | Solid arrow →  |
+| Destroy      | `type:destroy` | Object deletion                   | X symbol       |
 
 ## Basic Sequence Diagram
 
@@ -217,7 +218,7 @@ sequence "API with Error Handling" {
   participant "Database" as database
 
   message from: "Client" to: "API" label: "Request" type: sync activate: true
-  
+
   try {
     message from: "API" to: "Database" label: "Query" type: sync
     message from: "Database" to: "API" label: "Result" type: return
@@ -242,7 +243,7 @@ sequence "Retry Pattern" {
 
   loop "Retry up to 3 times" {
     message from: "Service" to: "External API" label: "API call" type: sync
-    
+
     opt "If timeout" {
       message from: "Service" to: "Service" label: "Wait & retry" type: sync
     }
@@ -293,7 +294,7 @@ sequence "Styled Sequence" {
   participant "User" as actor style: { fill: "#dbeafe", stroke: "#3b82f6" }
   participant "System" as control style: { fill: "#d1fae5", stroke: "#10b981" }
 
-  message from: "User" to: "System" label: "Request" type: sync 
+  message from: "User" to: "System" label: "Request" type: sync
     style: { stroke: "#3b82f6", strokeWidth: 2 }
 }
 ```

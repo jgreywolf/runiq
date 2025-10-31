@@ -21,12 +21,12 @@ See the [Shape Reference - UML Shapes](/reference/shapes#_10-uml-shapes-22-shape
 
 ## Relationship Types
 
-| Relationship | Syntax | Description |
-|--------------|--------|-------------|
-| Association | `actor -> useCase` | Actor participates in use case |
-| Include | `useCaseA -> useCaseB` | Always includes behavior (required) |
-| Extend | `useCaseA -> useCaseB` | Conditionally extends behavior (optional) |
-| Generalization | `specificActor -> generalActor` | Actor inheritance |
+| Relationship   | Syntax                          | Description                               |
+| -------------- | ------------------------------- | ----------------------------------------- |
+| Association    | `actor -> useCase`              | Actor participates in use case            |
+| Include        | `useCaseA -> useCaseB`          | Always includes behavior (required)       |
+| Extend         | `useCaseA -> useCaseB`          | Conditionally extends behavior (optional) |
+| Generalization | `specificActor -> generalActor` | Actor inheritance                         |
 
 ## Simple Use Case Diagram
 
@@ -159,7 +159,7 @@ diagram "Healthcare System" {
   shape patient as @actor label: "Patient"
   shape doctor as @actor label: "Doctor"
   shape insurance as @actor label: "Insurance Provider"
-  
+
   shape system as @systemBoundary label: "Healthcare Portal" {
     shape bookAppointment as @ellipse label: "Book Appointment"
     shape viewRecords as @ellipse label: "View Medical Records"
@@ -178,7 +178,7 @@ diagram "Healthcare System" {
   checkInsurance -> insurance
   doctor -> submitClaim
   submitClaim -> insurance
-  
+
   note -> checkInsurance arrowType: none style: { strokeDasharray: "2,2" }
 }
 ```
@@ -192,7 +192,7 @@ diagram "Styled Use Case" {
   direction LR
 
   shape user as @actor label: "User" color: "#3b82f6"
-  
+
   shape system as @systemBoundary label: "System" fill: "#f0f9ff" stroke: "#3b82f6" {
     shape useCase1 as @ellipse label: "Primary Use Case" fill: "#dbeafe" stroke: "#2563eb"
     shape useCase2 as @ellipse label: "Extended Use Case" fill: "#fef3c7" stroke: "#f59e0b"
@@ -216,11 +216,13 @@ diagram "Styled Use Case" {
 ## Include vs Extend
 
 **Use «include» when:**
+
 - The behavior is always required
 - It's a mandatory step in the use case
 - Example: "Login" always includes "Authenticate"
 
 **Use «extend» when:**
+
 - The behavior is optional
 - It adds extra functionality under certain conditions
 - Example: "Place Order" optionally extends to "Apply Discount"

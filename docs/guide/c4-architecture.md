@@ -52,13 +52,13 @@ diagram "Banking System - Containers" {
   direction TB
 
   shape customer as @c4-person label: "Customer\n\n[Person]"
-  
+
   container banking as @systemBoundary label: "Internet Banking System" {
     shape web as @c4-container label: "Web Application\n\n[Container: React]\n\nDelivers static content"
     shape api as @c4-container label: "API Application\n\n[Container: Node.js]\n\nProvides banking API"
     shape db as @c4-container label: "Database\n\n[Container: PostgreSQL]\n\nStores user data"
   }
-  
+
   shape email as @c4-system label: "Email System\n\n[Software System]"
   shape mainframe as @c4-system label: "Mainframe\n\n[Software System]"
 
@@ -79,7 +79,7 @@ diagram "API Application - Components" {
   direction TB
 
   shape web as @c4-container label: "Web Application\n\n[Container]"
-  
+
   container api as @systemBoundary label: "API Application" {
     shape controller as @c4-component label: "Sign In Controller\n\n[Component: Express Controller]\n\nHandles authentication"
     shape security as @c4-component label: "Security Component\n\n[Component: Security Module]\n\nProvides auth logic"
@@ -181,6 +181,7 @@ diagram "Styled C4 Diagram" {
 ```
 
 **Standard C4 Colors:**
+
 - Person: `#08427b` (dark blue)
 - Internal System: `#1168bd` (blue)
 - External System: `#999999` (gray)
@@ -202,22 +203,26 @@ diagram "Styled C4 Diagram" {
 
 ### When to use each level:
 
-**Context (Level 1)**: 
+**Context (Level 1)**:
+
 - Stakeholder presentations
 - High-level system overview
 - External dependencies
 
 **Container (Level 2)**:
+
 - Technical architecture overview
 - Technology stack decisions
 - Deployment planning
 
 **Component (Level 3)**:
+
 - Detailed design discussions
 - Developer onboarding
 - Component responsibilities
 
 **Code (Level 4)**:
+
 - Use UML class diagrams instead
 - Implementation details
 - Code-level documentation

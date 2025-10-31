@@ -111,7 +111,7 @@ diagram "ECS Microservices" {
 
   container vpc as @awsVpc label: "VPC" {
     shape alb as @loadBalancer label: "ALB"
-    
+
     container ecs as @systemBoundary label: "ECS Cluster" {
       shape auth as @awsEc2 label: "Auth Service"
       shape api as @awsEc2 label: "API Service"
@@ -239,6 +239,7 @@ diagram "Styled AWS" {
 ```
 
 **AWS Service Colors:**
+
 - Compute (EC2, Lambda): Orange `#ff9900`
 - Storage (S3, EBS): Green `#569a31`
 - Database (RDS, DynamoDB): Blue `#3b48cc`
@@ -269,18 +270,21 @@ Consider these pillars when designing:
 ## Common Patterns
 
 ### High Availability
+
 - Multi-AZ RDS deployments
 - Auto Scaling Groups
 - Application Load Balancers
 - Route 53 health checks
 
 ### Security
+
 - VPC with public/private subnets
 - NAT Gateways for outbound traffic
 - Security Groups (firewall rules)
 - AWS WAF for web protection
 
 ### Scalability
+
 - Elastic Load Balancing
 - Auto Scaling
 - CloudFront CDN

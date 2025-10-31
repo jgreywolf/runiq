@@ -30,7 +30,7 @@ Simple pie chart showing proportions:
 diagram "Market Share Q4" {
   direction TB
 
-  shape chart as @pieChart label: "Market Share" 
+  shape chart as @pieChart label: "Market Share"
     data: {
       segments: [
         { label: "Product A", value: 45, fill: "#3b82f6" },
@@ -112,22 +112,22 @@ diagram "Product Comparison" {
   shape chart as @barChartVertical label: "Features by Product"
     data: {
       groups: [
-        { 
-          label: "Basic", 
+        {
+          label: "Basic",
           bars: [
             { series: "Features", value: 10, fill: "#3b82f6" },
             { series: "Integrations", value: 5, fill: "#10b981" }
           ]
         },
-        { 
-          label: "Pro", 
+        {
+          label: "Pro",
           bars: [
             { series: "Features", value: 25, fill: "#3b82f6" },
             { series: "Integrations", value: 15, fill: "#10b981" }
           ]
         },
-        { 
-          label: "Enterprise", 
+        {
+          label: "Enterprise",
           bars: [
             { series: "Features", value: 50, fill: "#3b82f6" },
             { series: "Integrations", value: 40, fill: "#10b981" }
@@ -240,7 +240,7 @@ diagram "Dashboard Overview" {
   direction TB
 
   shape title as @textBlock label: "Q4 Business Metrics"
-  
+
   container metrics as @systemBoundary label: "Key Performance Indicators" {
     shape revenue as @barChartVertical label: "Revenue"
     shape market as @pieChart label: "Market Share"

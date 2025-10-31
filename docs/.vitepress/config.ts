@@ -88,9 +88,7 @@ export default defineConfig({
         },
         {
           text: 'Electrical Profile',
-          items: [
-            { text: 'Electrical Circuits', link: '/guide/electrical' },
-          ],
+          items: [{ text: 'Electrical Circuits', link: '/guide/electrical' }],
         },
         {
           text: 'Digital Profile',
@@ -100,9 +98,7 @@ export default defineConfig({
         },
         {
           text: 'Wardley Profile',
-          items: [
-            { text: 'Wardley Maps', link: '/guide/wardley-maps' },
-          ],
+          items: [{ text: 'Wardley Maps', link: '/guide/wardley-maps' }],
         },
         {
           text: 'Sequence Profile',

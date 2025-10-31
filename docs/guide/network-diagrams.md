@@ -53,7 +53,7 @@ diagram "Three-Tier Architecture" {
 
   shape users as @cloud label: "Internet Users"
   shape lb as @loadBalancer label: "Load Balancer"
-  
+
   container webTier as @systemBoundary label: "Web Tier" {
     shape web1 as @server label: "Web Server 1"
     shape web2 as @server label: "Web Server 2"
@@ -94,14 +94,14 @@ diagram "DMZ Network" {
 
   shape internet as @cloud label: "Internet"
   shape outerFW as @firewall label: "External\nFirewall"
-  
+
   container dmz as @systemBoundary label: "DMZ" {
     shape webServer as @server label: "Web Server"
     shape emailServer as @server label: "Email Server"
   }
 
   shape innerFW as @firewall label: "Internal\nFirewall"
-  
+
   container internal as @systemBoundary label: "Internal Network" {
     shape appServer as @server label: "App Server"
     shape dbServer as @server label: "Database"
@@ -125,7 +125,7 @@ diagram "HA Infrastructure" {
   direction TB
 
   shape internet as @cloud label: "Internet"
-  
+
   container primary as @systemBoundary label: "Primary Data Center" {
     shape router1 as @router label: "Router 1"
     shape fw1 as @firewall label: "Firewall 1"
@@ -166,7 +166,7 @@ diagram "Remote Access VPN" {
   shape vpn as @cloud label: "VPN Gateway"
   shape fw as @firewall label: "Corporate\nFirewall"
   shape router as @router label: "Core Router"
-  
+
   container corp as @systemBoundary label: "Corporate Network" {
     shape fileServer as @storage label: "File Server"
     shape appServer as @server label: "App Server"
@@ -191,7 +191,7 @@ diagram "Microservices Network" {
   shape users as @cloud label: "Users"
   shape cdn as @cloud label: "CDN"
   shape gateway as @loadBalancer label: "API Gateway"
-  
+
   container services as @systemBoundary label: "Service Mesh" {
     shape auth as @server label: "Auth Service"
     shape user as @server label: "User Service"
@@ -257,17 +257,20 @@ diagram "Styled Network" {
 ## Common Patterns
 
 ### Edge/Core/Access
+
 - **Edge**: Internet-facing devices (routers, firewalls)
 - **Core**: High-speed backbone (core switches, routers)
 - **Access**: End-user devices (access switches, servers)
 
 ### Security Zones
+
 - **Internet**: External, untrusted
 - **DMZ**: Public-facing services
 - **Internal**: Corporate network
 - **Management**: Admin access only
 
 ### Redundancy
+
 - **Active/Active**: Both paths used simultaneously
 - **Active/Passive**: Backup path for failover
 - **N+1**: Extra capacity for redundancy
