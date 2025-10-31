@@ -19,6 +19,11 @@ export { forkShape } from './fork.js';
 export { joinShape } from './join.js';
 export { activityShape } from './activity.js';
 export {
+  objectNodeShape,
+  centralBufferShape,
+  dataStoreShape,
+} from './activity-object-nodes.js';
+export {
   historyShallowShape,
   historyDeepShape,
 } from './history-states.js';
