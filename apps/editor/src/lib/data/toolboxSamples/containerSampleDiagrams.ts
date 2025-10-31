@@ -8,7 +8,7 @@ export const containerSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Simple Container',
 				description: 'Basic container with shapes',
-				code: `diagram "Simple Container"
+				code: `diagram "Simple Container" {
 
 container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 {
   shape api as @hexagon label:"API"
@@ -20,13 +20,14 @@ container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#197
 }
 
 shape web as @roundedRectangle label:"Web Client"
-web -> api`
+web -> api
+  }`
 			},
 			{
 				name: 'Multi-Region Deployment',
 				description: 'Multiple containers for regions',
-				code: `diagram "Multi-Region"
-direction: TB
+				code: `diagram "Multi-Region" {
+direction TB
 
 container useast "US East" backgroundColor:"#e8f5e9" borderColor:"#388e3c" borderWidth:3 {
   shape lb1 as @rectangle label:"Load Balancer"
@@ -49,12 +50,13 @@ container uswest "US West" backgroundColor:"#fff8e1" borderColor:"#f57f17" borde
 shape cdn as @cloud label:"CDN"
 cdn -> lb1
 cdn -> lb2
-db1 -> db2 label:"Replication"`
+db1 -> db2 label:"Replication"
+}`
 			},
 			{
 				name: 'Microservices Architecture',
 				description: 'Containers for service boundaries',
-				code: `diagram "Microservices"
+				code: `diagram "Microservices" {
 
 container frontend "Frontend" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderWidth:2 {
   shape web as @roundedRectangle label:"Web UI"
@@ -80,7 +82,8 @@ gateway -> orders
 gateway -> payments
 orders -> db
 payments -> db
-auth -> cache`
+auth -> cache
+      }`
 			}
 		]
 	}

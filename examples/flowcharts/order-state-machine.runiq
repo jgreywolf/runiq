@@ -1,10 +1,11 @@
-diagram "Order State Machine" direction: LR
+diagram "Order State Machine" 
+direction LR
 
 shape New as @rounded label: "New Order"
 shape Pending as @rect label: "Pending Payment"
 shape Processing as @rect label: "Processing"
 shape Shipped as @rect label: "Shipped"
-shape Delivered as @hex label: "Delivered"
+shape Delivered as @hexagon label: "Delivered"
 shape Cancelled as @doc label: "Cancelled"
 shape Refunded as @doc label: "Refunded"
 

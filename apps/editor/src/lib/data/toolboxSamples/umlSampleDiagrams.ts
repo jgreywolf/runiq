@@ -8,12 +8,12 @@ export const umlSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Simple Use Case',
 				description: 'User authentication use case',
-				code: `diagram "Authentication Use Case"
+				code: `diagram "Authentication Use Case" {
 
 shape user as @actor label:"User"
 shape admin as @actor label:"Admin"
 
-container boundary "Auth System" as @systemBoundary {
+container "Auth System" as @systemBoundary {
   shape login as @ellipseWide label:"Login"
   shape register as @ellipseWide label:"Register"
   shape resetPwd as @ellipseWide label:"Reset Password"
@@ -22,12 +22,13 @@ container boundary "Auth System" as @systemBoundary {
 user -> login
 user -> register
 user -> resetPwd
-admin -> login`
+admin -> login
+}`
 			},
 			{
 				name: 'Class Diagram',
 				description: 'Simple class hierarchy with interface',
-				code: `diagram "Class Hierarchy"
+				code: `diagram "Class Hierarchy" {
 
 shape iShape as @interface label:"IShape"
 shape baseShape as @abstract label:"Shape"
@@ -40,12 +41,13 @@ iShape -> baseShape
 baseShape -> circle
 baseShape -> rectangle
 circle -> colors lineStyle:dashed
-note1 -> baseShape lineStyle:dashed`
+note1 -> baseShape lineStyle:dashed
+}`
 			},
 			{
 				name: 'Sequence Diagram',
 				description: 'User authentication flow',
-				code: `diagram "Authentication Sequence"
+				code: `diagram "Authentication Sequence" {
 
 shape user as @lifeline label:"User"
 shape ui as @lifeline label:"LoginUI"
@@ -57,12 +59,13 @@ ui -authenticate-> controller
 controller -validateUser-> db
 db -userData-> controller
 controller -token-> ui
-ui -showHome-> user`
+ui -showHome-> user
+}`
 			},
 			{
 				name: 'State Machine',
 				description: 'Order processing states',
-				code: `diagram "Order State Machine"
+				code: `diagram "Order State Machine" {
 
 shape initial as @initialState
 shape final as @finalState
@@ -82,12 +85,13 @@ processing -> fork1
 fork1 -> shipped
 shipped -> delivered
 delivered -> final
-cancelled -> final`
+cancelled -> final
+}`
 			},
 			{
 				name: 'Activity Diagram',
 				description: 'Online shopping process flow',
-				code: `diagram "Online Shopping Activity"
+				code: `diagram "Online Shopping Activity" {
 
 shape start as @initialState
 shape end as @finalState
@@ -125,7 +129,8 @@ fork1 -> updateInventory
 processPayment -> join1
 sendConfirm -> join1
 updateInventory -> join1
-join1 -> end`
+join1 -> end
+}`
 			}
 		]
 	}

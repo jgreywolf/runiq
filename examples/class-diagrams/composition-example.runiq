@@ -3,7 +3,7 @@
 // Parts cannot exist independently of the whole
 
 diagram "House-Room Composition" {
-  direction: TB
+  direction TB
   
   // Container (whole) - owns the parts
   shape House as @class label:"House"
@@ -43,7 +43,7 @@ diagram "House-Room Composition" {
 
 // Additional Composition Example: Car and Engine
 diagram "Car-Engine Composition" {
-  direction: LR
+  direction LR
   
   shape Car as @class label:"Car"
     attributes:[

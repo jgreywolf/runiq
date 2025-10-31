@@ -1,5 +1,5 @@
 diagram "Banking System - Container Diagram"
-direction: TB
+direction TB
 
 shape customer as @c4-person label:"Customer"
 

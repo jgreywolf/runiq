@@ -1,0 +1,13 @@
+// Test edge labels
+diagram "Edge Labels Test" {
+  
+  shape Login as @rounded label: "Login"
+  shape Validate as @rect label: "Validate"
+  shape Dashboard as @hexagon label: "Dashboard"
+  shape Error as @doc label: "Error"
+
+  Login -> Validate label: "submit credentials"
+  Validate -> Dashboard label: "success"
+  Validate -> Error label: "failure"
+  Error -> Login label: "retry"
+}

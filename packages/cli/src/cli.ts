@@ -370,7 +370,7 @@ function astToDsl(ast: any): string {
   if (ast.title) {
     dsl += `diagram "${ast.title}"`;
     if (ast.direction) {
-      dsl += ` direction: ${ast.direction}`;
+      dsl += ` direction ${ast.direction}`;
     }
     dsl += '\n\n';
   }

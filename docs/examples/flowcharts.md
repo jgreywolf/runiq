@@ -9,38 +9,40 @@ A complete user authentication process with validation, database lookup, and err
 ### DSL Code
 
 ```runiq
-diagram "User Authentication Flow" direction: TB
+diagram "User Authentication Flow" {
+  direction TB
 
-# Entry point
-shape Login as @rounded label: "User Login"
+  # Entry point
+  shape Login as @rounded label: "User Login"
 
-# Process steps
-shape ValidateInput as @rect label: "Validate Input"
-shape CheckDB as @cyl label: "Check Database"
-shape VerifyPassword as @rhombus label: "Password Correct?"
+  # Process steps
+  shape ValidateInput as @rect label: "Validate Input"
+  shape CheckDB as @cylinder label: "Check Database"
+  shape VerifyPassword as @rhombus label: "Password Correct?"
 
-# Success path
-shape GenerateToken as @rect label: "Generate JWT"
-shape Success as @hex label: "Success"
+  # Success path
+  shape GenerateToken as @rect label: "Generate JWT"
+  shape Success as @hexagon label: "Success"
 
-# Error paths
-shape InvalidInput as @doc label: "Invalid Input Error"
-shape WrongPassword as @doc label: "Wrong Password Error"
+  # Error paths
+  shape InvalidInput as @doc label: "Invalid Input Error"
+  shape WrongPassword as @doc label: "Wrong Password Error"
 
-# Connections
-Login -> ValidateInput
+  # Connections
+  Login -> ValidateInput
 
-# Validation branch
-ValidateInput[valid] -> CheckDB
-ValidateInput[invalid] -> InvalidInput
+  # Validation branch
+  ValidateInput -valid-> CheckDB
+  ValidateInput -invalid-> InvalidInput
 
-# Authentication branch
-CheckDB -> VerifyPassword
-VerifyPassword[yes] -> GenerateToken
-VerifyPassword[no] -> WrongPassword
+  # Authentication branch
+  CheckDB -> VerifyPassword
+  VerifyPassword -yes-> GenerateToken
+  VerifyPassword -no-> WrongPassword
 
-# Success
-GenerateToken -> Success
+  # Success
+  GenerateToken -> Success
+}
 ```
 
 ### Generated SVG
@@ -72,31 +74,33 @@ GenerateToken -> Success
 Group related components using containers:
 
 ```runiq
-diagram "Three-Tier Web App" direction: TB
+diagram "Three-Tier Web App" {
+  direction TB
 
-container "Frontend" fillColor: "#e3f2fd" {
-  shape Browser as @rect label: "Web Browser"
-  shape UI as @rect label: "React UI"
+  container "Frontend" fill: "#e3f2fd" {
+    shape Browser as @rect label: "Web Browser"
+    shape UI as @rect label: "React UI"
+  }
+
+  container "Backend" fill: "#fff3e0" {
+    shape API as @rect label: "REST API"
+    shape Auth as @rect label: "Auth Service"
+    shape Business as @rect label: "Business Logic"
+  }
+
+  container "Data Layer" fill: "#e8f5e9" {
+    shape DB as @cylinder label: "PostgreSQL"
+    shape Cache as @cylinder label: "Redis"
+  }
+
+  # Cross-container connections
+  Browser -> UI
+  UI -> API
+  API -> Auth
+  API -> Business
+  Business -> DB
+  Business -> Cache
 }
-
-container "Backend" fillColor: "#fff3e0" {
-  shape API as @rect label: "REST API"
-  shape Auth as @rect label: "Auth Service"
-  shape Business as @rect label: "Business Logic"
-}
-
-container "Data Layer" fillColor: "#e8f5e9" {
-  shape DB as @cyl label: "PostgreSQL"
-  shape Cache as @cyl label: "Redis"
-}
-
-# Cross-container connections
-Browser -> UI
-UI -> API
-API -> Auth
-API -> Business
-Business -> DB
-Business -> Cache
 ```
 
 ### Generated SVG
@@ -115,21 +119,23 @@ Business -> Cache
 A linear pipeline with conditional branching:
 
 ```runiq
-diagram "ETL Pipeline" direction: LR
+diagram "ETL Pipeline" {
+  direction LR
 
-shape Extract as @rect label: "Extract Data"
-shape Transform as @rect label: "Transform"
-shape Validate as @rhombus label: "Valid?"
-shape Load as @cyl label: "Load to DB"
-shape ErrorLog as @doc label: "Error Log"
-shape Archive as @hex label: "Archive"
+  shape Extract as @rect label: "Extract Data"
+  shape Transform as @rect label: "Transform"
+  shape Validate as @rhombus label: "Valid?"
+  shape Load as @cylinder label: "Load to DB"
+  shape ErrorLog as @doc label: "Error Log"
+  shape Archive as @hexagon label: "Archive"
 
-Extract -> Transform
-Transform -> Validate
-Validate[yes] -> Load
-Validate[no] -> ErrorLog
-Load -> Archive
-ErrorLog -> Archive
+  Extract -> Transform
+  Transform -> Validate
+  Validate -yes-> Load
+  Validate -no-> ErrorLog
+  Load -> Archive
+  ErrorLog -> Archive
+}
 ```
 
 ### Generated SVG
@@ -138,7 +144,7 @@ ErrorLog -> Archive
 
 **Use Case:** ETL (Extract, Transform, Load) process
 
-- Left-to-right flow (`direction: LR`)
+- Left-to-right flow (`direction LR`)
 - Validation decision point
 - Error handling path
 - Archive as final step for both success and errors
@@ -148,31 +154,33 @@ ErrorLog -> Archive
 Visualize algorithm logic with loops:
 
 ```runiq
-diagram "Bubble Sort Algorithm" direction: TB
+diagram "Bubble Sort Algorithm" {
+  direction TB
 
-shape Start as @rounded label: "Start"
-shape Init as @rect label: "i = 0"
-shape OuterCheck as @rhombus label: "i < n-1?"
-shape InnerInit as @rect label: "j = 0"
-shape InnerCheck as @rhombus label: "j < n-i-1?"
-shape Compare as @rhombus label: "arr[j] > arr[j+1]?"
-shape Swap as @rect label: "Swap"
-shape IncrementJ as @rect label: "j++"
-shape IncrementI as @rect label: "i++"
-shape End as @rounded label: "End"
+  shape Start as @rounded label: "Start"
+  shape Init as @rect label: "i = 0"
+  shape OuterCheck as @rhombus label: "i < n-1?"
+  shape InnerInit as @rect label: "j = 0"
+  shape InnerCheck as @rhombus label: "j < n-i-1?"
+  shape Compare as @rhombus label: "arr[j] > arr[j+1]?"
+  shape Swap as @rect label: "Swap"
+  shape IncrementJ as @rect label: "j++"
+  shape IncrementI as @rect label: "i++"
+  shape End as @rounded label: "End"
 
-Start -> Init
-Init -> OuterCheck
-OuterCheck[yes] -> InnerInit
-OuterCheck[no] -> End
-InnerInit -> InnerCheck
-InnerCheck[yes] -> Compare
-InnerCheck[no] -> IncrementI
-Compare[yes] -> Swap
-Compare[no] -> IncrementJ
-Swap -> IncrementJ
-IncrementJ -> InnerCheck
-IncrementI -> OuterCheck
+  Start -> Init
+  Init -> OuterCheck
+  OuterCheck -yes-> InnerInit
+  OuterCheck -no-> End
+  InnerInit -> InnerCheck
+  InnerCheck -yes-> Compare
+  InnerCheck -no-> IncrementI
+  Compare -yes-> Swap
+  Compare -no-> IncrementJ
+  Swap -> IncrementJ
+  IncrementJ -> InnerCheck
+  IncrementI -> OuterCheck
+}
 ```
 
 ### Generated SVG
@@ -191,29 +199,31 @@ IncrementI -> OuterCheck
 Model state transitions:
 
 ```runiq
-diagram "Order State Machine" direction: LR
+diagram "Order State Machine" {
+  direction LR
 
-shape New as @rounded label: "New Order"
-shape Pending as @rect label: "Pending Payment"
-shape Processing as @rect label: "Processing"
-shape Shipped as @rect label: "Shipped"
-shape Delivered as @hex label: "Delivered"
-shape Cancelled as @doc label: "Cancelled"
-shape Refunded as @doc label: "Refunded"
+  shape New as @rounded label: "New Order"
+  shape Pending as @rect label: "Pending Payment"
+  shape Processing as @rect label: "Processing"
+  shape Shipped as @rect label: "Shipped"
+  shape Delivered as @hexagon label: "Delivered"
+  shape Cancelled as @doc label: "Cancelled"
+  shape Refunded as @doc label: "Refunded"
 
-# Happy path
-New -> Pending label: "create"
-Pending -> Processing label: "pay"
-Processing -> Shipped label: "ship"
-Shipped -> Delivered label: "deliver"
+  # Happy path
+  New -> Pending label: "create"
+  Pending -> Processing label: "pay"
+  Processing -> Shipped label: "ship"
+  Shipped -> Delivered label: "deliver"
 
-# Cancellation paths
-New -> Cancelled label: "cancel"
-Pending -> Cancelled label: "cancel"
-Processing -> Cancelled label: "cancel"
+  # Cancellation paths
+  New -> Cancelled label: "cancel"
+  Pending -> Cancelled label: "cancel"
+  Processing -> Cancelled label: "cancel"
 
-# Refund path
-Delivered -> Refunded label: "refund"
+  # Refund path
+  Delivered -> Refunded label: "refund"
+}
 ```
 
 ### Generated SVG
@@ -251,8 +261,8 @@ Delivered -> Refunded label: "refund"
 Place labels on the source for conditional branches:
 
 ```runiq
-Decision[yes] -> Success
-Decision[no] -> Failure
+Decision -yes-> Success
+Decision -no-> Failure
 ```
 
 :::

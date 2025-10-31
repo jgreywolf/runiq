@@ -1,15 +1,15 @@
 # Test Marriage Edge Properties
 # Demonstrates lineStyle and arrowType for pedigree marriages
 diagram "Marriage Edge Test" {
-  direction:TB
+  direction TB
 
   # Generation I - Grandparents
-  shape grandfather as @pedigree-male label:"Grandfather"
-  shape grandmother as @pedigree-female label:"Grandmother"
+  shape grandfather as @pedigreeMale label:"Grandfather"
+  shape grandmother as @pedigreeFemale label:"Grandmother"
 
   # Generation II - Parents  
-  shape father as @pedigree-male label:"Father" affected:true
-  shape mother as @pedigree-female label:"Mother"
+  shape father as @pedigreeMale label:"Father" affected:true
+  shape mother as @pedigreeFemale label:"Mother"
 
   # Marriage lines (horizontal, no arrows)
   grandfather -> grandmother lineStyle:solid arrowType:none

@@ -2,27 +2,29 @@
 
 Medical and genetic family trees using standard pedigree notation.
 
+** Note: ** There are still some issues with edge placement that are being worked out
+
 ## Simple Three-Generation Pedigree
 
 A basic three-generation family tree showing affected individuals and carriers:
 
 ```runiq
 diagram "Simple Pedigree" {
-  direction:TB
+  direction TB
 
   # Generation I (Grandparents)
-  shape grandfather as @pedigree-male label:"Grandfather"
-  shape grandmother as @pedigree-female label:"Grandmother"
+  shape grandfather as @pedigreeMale label:"Grandfather"
+  shape grandmother as @pedigreeFemale label:"Grandmother"
 
   # Generation II (Parents)
-  shape father as @pedigree-male label:"Father" affected:true
-  shape mother as @pedigree-female label:"Mother"
-  shape uncle as @pedigree-male label:"Uncle" deceased:true
+  shape father as @pedigreeMale label:"Father" affected:true
+  shape mother as @pedigreeFemale label:"Mother"
+  shape uncle as @pedigreeMale label:"Uncle" deceased:true
 
   # Generation III (Children)
-  shape son1 as @pedigree-male label:"Son 1" affected:true
-  shape son2 as @pedigree-male label:"Son 2"
-  shape daughter as @pedigree-female label:"Daughter" carrier:true
+  shape son1 as @pedigreeMale label:"Son 1" affected:true
+  shape son2 as @pedigreeMale label:"Son 2"
+  shape daughter as @pedigreeFemale label:"Daughter" carrier:true
 
   # Marriages (no arrows)
   grandfather -> grandmother arrowType:none
@@ -56,23 +58,23 @@ Demonstrating a classic autosomal recessive pattern where both parents are carri
 
 ```runiq
 diagram "Genetic Trait Inheritance" {
-  direction:TB
+  direction TB
 
   # Generation I - Both carriers
-  shape i1 as @pedigree-male label:"I-1" carrier:true
-  shape i2 as @pedigree-female label:"I-2" carrier:true
+  shape i1 as @pedigreeMale label:"I-1" carrier:true
+  shape i2 as @pedigreeFemale label:"I-2" carrier:true
 
   # Generation II - Mix of affected, carrier, and normal
-  shape ii1 as @pedigree-female label:"II-1"
-  shape ii2 as @pedigree-male label:"II-2" carrier:true
-  shape ii3 as @pedigree-female label:"II-3" affected:true
-  shape ii4 as @pedigree-male label:"II-4" carrier:true
-  shape ii5 as @pedigree-female label:"II-5"
+  shape ii1 as @pedigreeFemale label:"II-1"
+  shape ii2 as @pedigreeMale label:"II-2" carrier:true
+  shape ii3 as @pedigreeFemale label:"II-3" affected:true
+  shape ii4 as @pedigreeMale label:"II-4" carrier:true
+  shape ii5 as @pedigreeFemale label:"II-5"
 
   # Generation III
-  shape iipartner as @pedigree-female label:"II-partner"
-  shape iii1 as @pedigree-male label:"III-1" carrier:true
-  shape iii2 as @pedigree-female label:"III-2"
+  shape iipartner as @pedigreeFemale label:"II-partner"
+  shape iii1 as @pedigreeMale label:"III-1" carrier:true
+  shape iii2 as @pedigreeFemale label:"III-2"
 
   # Marriages
   i1 -> i2 arrowType:none
@@ -111,14 +113,14 @@ Showing blood-related spouses (e.g., cousins) using double line notation:
 
 ```runiq
 diagram "Consanguinity" {
-  direction:TB
+  direction TB
 
   # Cousins who marry
-  shape cousin1 as @pedigree-male label:"Cousin 1"
-  shape cousin2 as @pedigree-female label:"Cousin 2"
+  shape cousin1 as @pedigreeMale label:"Cousin 1"
+  shape cousin2 as @pedigreeFemale label:"Cousin 2"
 
   # Child
-  shape child as @pedigree-male label:"Child" affected:true
+  shape child as @pedigreeMale label:"Child" affected:true
 
   # Consanguineous marriage (double line, no arrow)
   cousin1 -> cousin2 lineStyle:double arrowType:none
@@ -138,19 +140,19 @@ Tracking sequential marriages and half-siblings:
 
 ```runiq
 diagram "Multiple Marriages" {
-  direction:TB
+  direction TB
 
   # Person with two marriages
-  shape person as @pedigree-male label:"Father"
-  shape spouse1 as @pedigree-female label:"Wife 1" deceased:true
-  shape spouse2 as @pedigree-female label:"Wife 2"
+  shape person as @pedigreeMale label:"Father"
+  shape spouse1 as @pedigreeFemale label:"Wife 1" deceased:true
+  shape spouse2 as @pedigreeFemale label:"Wife 2"
 
   # Children from first marriage
-  shape child1 as @pedigree-male label:"Child 1"
-  shape child2 as @pedigree-female label:"Child 2"
+  shape child1 as @pedigreeMale label:"Child 1"
+  shape child2 as @pedigreeFemale label:"Child 2"
 
   # Children from second marriage
-  shape child3 as @pedigree-male label:"Child 3"
+  shape child3 as @pedigreeMale label:"Child 3"
 
   # Marriage relationships
   person -> spouse1 arrowType:none
@@ -180,14 +182,14 @@ When sex is unknown or not yet determined:
 
 ```runiq
 diagram "Unknown Sex" {
-  direction:TB
+  direction TB
 
   # Parents
-  shape parent1 as @pedigree-male label:"Parent 1"
-  shape parent2 as @pedigree-female label:"Parent 2"
+  shape parent1 as @pedigreeMale label:"Parent 1"
+  shape parent2 as @pedigreeFemale label:"Parent 2"
 
   # Unborn or sex unknown child
-  shape fetus as @pedigree-unknown label:"Fetus"
+  shape fetus as @pedigreeUnknown label:"Fetus"
 
   # Marriage
   parent1 -> parent2 arrowType:none
@@ -199,7 +201,7 @@ diagram "Unknown Sex" {
 ```
 
 **Diamond Symbol:**
-The `@pedigree-unknown` shape renders as a diamond, used for:
+The `@pedigreeUnknown` shape renders as a diamond, used for:
 
 - Unborn children (prenatal testing)
 - Miscarriages where sex unknown
@@ -211,16 +213,16 @@ All pedigree properties can be combined:
 
 ```runiq
 diagram "Combined Properties" {
-  direction:TB
+  direction TB
 
   # Deceased affected individual
-  shape patient as @pedigree-male label:"Patient" affected:true deceased:true
+  shape patient as @pedigreeMale label:"Patient" affected:true deceased:true
 
   # Deceased carrier
-  shape grandmother as @pedigree-female label:"Grandmother" carrier:true deceased:true
+  shape grandmother as @pedigreeFemale label:"Grandmother" carrier:true deceased:true
 
   # Normal living individual (default)
-  shape child as @pedigree-female label:"Child"
+  shape child as @pedigreeFemale label:"Child"
 }
 ```
 
@@ -237,8 +239,8 @@ diagram "Combined Properties" {
 Use Roman numerals for clarity:
 
 ```runiq
-shape i1 as @pedigree-male label:"I-1"     # Generation I, individual 1
-shape ii3 as @pedigree-female label:"II-3" # Generation II, individual 3
+shape i1 as @pedigreeMale label:"I-1"     # Generation I, individual 1
+shape ii3 as @pedigreeFemale label:"II-3" # Generation II, individual 3
 ```
 
 ### ID Naming
@@ -247,11 +249,11 @@ Keep IDs simple and lowercase:
 
 ```runiq
 # Good
-shape father as @pedigree-male
-shape iipartner as @pedigree-female
+shape father as @pedigreeMale
+shape iipartner as @pedigreeFemale
 
 # Avoid hyphens in IDs
-shape i-1 as @pedigree-male  # DON'T
+shape i-1 as @pedigreeMale  # DON'T
 ```
 
 ### Edge Order
@@ -273,7 +275,7 @@ Always use top-to-bottom for pedigree charts:
 
 ```runiq
 diagram "My Pedigree" {
-  direction:TB  # Required for proper pedigree layout
+  direction TB  # Required for proper pedigree layout
   # ...
 }
 ```
@@ -297,9 +299,9 @@ Runiq's pedigree implementation follows standard medical genetics notation:
 
 | Symbol                   | Meaning       | Runiq Syntax                      |
 | ------------------------ | ------------- | --------------------------------- |
-| □ (square)               | Male          | `@pedigree-male`                  |
-| ○ (circle)               | Female        | `@pedigree-female`                |
-| ◇ (diamond)              | Unknown sex   | `@pedigree-unknown`               |
+| □ (square)               | Male          | `@pedigreeMale`                   |
+| ○ (circle)               | Female        | `@pedigreeFemale`                 |
+| ◇ (diamond)              | Unknown sex   | `@pedigreeUnknown`                |
 | ■ (filled)               | Affected      | `affected:true`                   |
 | ▦ (half-filled)          | Carrier       | `carrier:true`                    |
 | ⌿ (diagonal line)        | Deceased      | `deceased:true`                   |

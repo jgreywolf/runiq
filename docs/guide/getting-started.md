@@ -14,26 +14,6 @@ This guide will help you get Runiq up and running in minutes.
 - **Node.js** >= 20.19 (or >= 22.12)
 - **pnpm** >= 8.15.0 (recommended) or npm
 
-### Install via pnpm (monorepo dev)
-
-```bash
-# Install pnpm globally if you haven't
-npm install -g pnpm
-
-# Clone the repository
-git clone https://github.com/jgreywolf/runiq.git
-cd runiq
-
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Run tests to verify
-pnpm test
-```
-
 ### Use in your web app (npm)
 
 If you just want to render diagrams in your own application, install the browser SDK:
@@ -52,19 +32,24 @@ const { svg } = await renderRuniqToSvg(text);
 document.querySelector('#out')!.innerHTML = svg;
 ```
 
-[Try the live web demo](/web-demo)
-
-### Install via npm (monorepo dev)
+### Install via pnpm (monorepo dev)
 
 ```bash
-# Clone and install
+# Install pnpm globally if you haven't
+npm install -g pnpm
+
+# Clone the repository
 git clone https://github.com/jgreywolf/runiq.git
 cd runiq
-npm install
 
-# Build and test
-npm run build
-npm test
+# Install dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Run tests to verify
+pnpm test
 ```
 
 ## Project Structure
@@ -97,18 +82,20 @@ Runiq/
 Create a file named `hello.runiq`:
 
 ```runiq
-diagram "Hello Runiq" direction: TB
+diagram "Hello Runiq" {
+  direction TB
 
-shape Start as @rounded label: "Start"
-shape Process as @rect label: "Process Data"
-shape Decision as @rhombus label: "Valid?"
-shape Success as @hex label: "Success"
-shape Error as @doc label: "Error"
+  shape Start as @rounded label: "Start"
+  shape Process as @rect label: "Process Data"
+  shape Decision as @rhombus label: "Valid?"
+  shape Success as @hexagon label: "Success"
+  shape Error as @doc label: "Error"
 
-Start -> Process
-Process -> Decision
-Decision[yes] -> Success
-Decision[no] -> Error
+  Start -> Process
+  Process -> Decision
+  Decision -yes-> Success
+  Decision -no-> Error
+}
 ```
 
 ### 2. Generate SVG (via CLI - coming soon)

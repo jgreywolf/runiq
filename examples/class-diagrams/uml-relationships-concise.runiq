@@ -2,7 +2,7 @@
 // Same functionality, ~50% less code using shorthand syntax
 
 diagram "University System" {
-  direction: TB
+  direction TB
   
   // Core entities with shorthand syntax
   shape University as @class label:"University"

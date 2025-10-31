@@ -65,6 +65,9 @@ export interface EdgeAst {
   stereotype?: string; // e.g., 'include', 'extend', 'uses' (rendered as <<stereotype>>)
   lineStyle?: 'solid' | 'dashed' | 'dotted' | 'double'; // Line appearance (double for consanguineous marriages)
   arrowType?: 'standard' | 'hollow' | 'open' | 'none'; // Arrow head style
+  bidirectional?: boolean; // Whether to show arrows on both ends (from <-> syntax)
+  strokeColor?: string; // Line color (e.g., '#2196f3', 'rgb(33, 150, 243)')
+  strokeWidth?: number; // Line thickness in pixels
   // UML Class Diagram relationship properties (Phase 1)
   edgeType?:
     | 'association'
@@ -382,6 +385,7 @@ export interface RoutedEdge {
   from: string;
   to: string;
   points: { x: number; y: number }[];
+  edgeIndex?: number; // Index in diagram.edges array to handle multiple edges between same nodes
 }
 
 export interface PositionedContainer {
@@ -464,11 +468,6 @@ export interface ElectricalProfile {
   parts: PartAst[];
   analyses?: AnalysisAst[];
 }
-
-/**
- * @deprecated Use ElectricalProfile instead
- */
-export type ElectricalProfile = ElectricalProfile;
 
 /**
  * Digital circuit profile

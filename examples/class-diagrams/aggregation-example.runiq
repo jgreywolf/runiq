@@ -3,7 +3,7 @@
 // Parts can exist independently of the whole
 
 diagram "Department-Employee Aggregation" {
-  direction: TB
+  direction TB
   
   // Container (whole)
   shape Department as @class label:"Department"

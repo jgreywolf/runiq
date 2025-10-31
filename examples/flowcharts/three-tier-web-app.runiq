@@ -1,4 +1,4 @@
-diagram "Three-Tier Web App" direction: TB
+diagram "Three-Tier Web App" direction TB
 
 container frontend "Frontend" backgroundColor:"#e3f2fd" {
   shape Browser as @rect label: "Web Browser"
@@ -12,8 +12,8 @@ container backend "Backend" backgroundColor:"#fff3e0" {
 }
 
 container datalayer "Data Layer" backgroundColor:"#e8f5e9" {
-  shape DB as @cyl label: "PostgreSQL"
-  shape Cache as @cyl label: "Redis"
+  shape DB as @cylinder label: "PostgreSQL"
+  shape Cache as @cylinder label: "Redis"
 }
 
 # Cross-container connections

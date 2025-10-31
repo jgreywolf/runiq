@@ -1,0 +1,11 @@
+// Test edge labels in TB (top-bottom) direction
+diagram "TB Direction Edge Labels Test" {
+  direction TB
+  
+  shape A as @rect label: "Node A"
+  shape B as @rect label: "Node B"
+  shape C as @rect label: "Node C"
+
+  A -> B label: "This is a very long edge label that should extend the canvas"
+  B -> C label: "Another quite long label here"
+}

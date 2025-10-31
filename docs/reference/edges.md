@@ -16,11 +16,11 @@ A -> B
 A -> B label:"success"
 
 # Conditional label on source node
-Decision[yes] -> Success
-Decision[no]  -> Failure
+Decision -yes-> Success
+Decision -no-> Failure
 
 # Properties on edges
-edge A -> B strokeColor:"#1565c0" lineStyle:dashed arrowType:open
+edge A -> B stroke:"#1565c0" lineStyle:dashed arrowType:open
 ```
 
 ## Line style
@@ -47,7 +47,7 @@ edge Notify -> Checkout stereotype:"<<extend>>" lineStyle:dashed arrowType:open
 ## Colors and thickness
 
 ```runiq
-edge A -> B strokeColor:"#2e7d32" strokeWidth:2
+edge A -> B stroke:"#2e7d32" strokeWidth:2
 ```
 
 ## Tips

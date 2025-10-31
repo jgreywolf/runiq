@@ -8,7 +8,7 @@ export const flowchartSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Simple Process Flow',
 				description: 'Basic process with decision',
-				code: `diagram "Process Flow"
+				code: `diagram "Process Flow" {
 
 shape start as @stadium label:"Start"
 shape process1 as @rectangle label:"Process Data"
@@ -20,12 +20,12 @@ start -> process1
 process1 -> decision
 decision -Yes-> process2
 decision -No-> end
-process2 -> end`
+process2 -> end}`
 			},
 			{
 				name: 'User Login Flow',
 				description: 'Authentication workflow with error handling',
-				code: `diagram "User Login"
+				code: `diagram "User Login" {
 
 shape start as @stadium label:"Start"
 shape input as @parallelogram label:"Enter Credentials"
@@ -42,12 +42,12 @@ validate -No-> checkAttempts
 checkAttempts -Yes-> input
 checkAttempts -No-> lockout
 success -> end
-lockout -> end`
+lockout -> end}`
 			},
 			{
 				name: 'Document Approval',
 				description: 'Multi-step approval process',
-				code: `diagram "Document Approval"
+				code: `diagram "Document Approval" {
 
 shape submit as @stadium label:"Submit"
 shape review as @rectangle label:"Manager Review"
@@ -66,12 +66,12 @@ director -> finalApproval
 finalApproval -Yes-> archive
 finalApproval -No-> reject
 archive -> end
-reject -> end`
+reject -> end}`
 			},
 			{
 				name: 'Data Processing Loop',
 				description: 'Iterative data processing with loop',
-				code: `diagram "Data Processing"
+				code: `diagram "Data Processing" {
 
 shape start as @stadium label:"Start"
 shape loadData as @parallelogram label:"Load Data"
@@ -85,7 +85,7 @@ loadData -> processRecord
 processRecord -> hasMore
 hasMore -Yes-> processRecord
 hasMore -No-> save
-save -> end`
+save -> end}`
 			}
 		]
 	}

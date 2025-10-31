@@ -1,5 +1,5 @@
 diagram "E-Commerce Platform - Microservices"
-direction: LR
+direction LR
 
 shape customer as @c4-person label:"Customer"
 shape admin as @c4-person label:"Admin"

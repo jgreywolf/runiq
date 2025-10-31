@@ -1,5 +1,5 @@
 diagram "Banking System - System Context"
-direction: TB
+direction TB
 
 shape customer as @c4-person label:"Customer"
 shape bankingSystem as @c4-system label:"Internet Banking\nSystem"

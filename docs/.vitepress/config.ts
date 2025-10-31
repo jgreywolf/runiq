@@ -29,6 +29,7 @@ export default defineConfig({
     nav: [
       { text: 'Playground', link: 'https://editor.runiq.org' },
       { text: 'Guide', link: '/guide/getting-started' },
+      { text: 'Gallery', link: '/examples/gallery' },
       { text: 'Examples', link: '/examples/' },
       { text: 'Reference', link: '/reference/shapes' },
       {
@@ -69,6 +70,10 @@ export default defineConfig({
             { text: 'Styling', link: '/guide/styling' },
             { text: 'Layout', link: '/guide/layout' },
           ],
+        },
+        {
+          text: 'Help',
+          items: [{ text: 'Troubleshooting', link: '/guide/troubleshooting' }],
         },
       ],
     },

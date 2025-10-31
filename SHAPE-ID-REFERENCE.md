@@ -59,7 +59,7 @@ The Runiq parser includes **smart shape validation** with typo detection:
 All of these are **valid and equivalent**:
 
 ```
-shape db1 as @cyl          # Canonical ID
+shape db1 as @cylinder          # Canonical ID
 shape db2 as @cylinder     # Alias
 shape db3 as @database     # Alias
 shape db4 as @db           # Alias
@@ -142,9 +142,9 @@ This document lists shapes where the **common name** differs from the **actual r
 
 **Pedigree Shapes that ARE correct:**
 
-- ✅ `@pedigree-male` - Male individual (square)
-- ✅ `@pedigree-female` - Female individual (circle)
-- ✅ `@pedigree-unknown` - Unknown gender (diamond)
+- ✅ `@pedigreeMale` - Male individual (square)
+- ✅ `@pedigreeFemale` - Female individual (circle)
+- ✅ `@pedigreeUnknown` - Unknown gender (diamond)
 
 ### Network Topology
 

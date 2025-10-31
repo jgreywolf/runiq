@@ -7,9 +7,12 @@ export function renderEdge(
   strict: boolean,
   warnings: string[]
 ): string {
-  const edgeAst = diagram.edges.find(
-    (e) => e.from === routed.from && e.to === routed.to
-  );
+  // Use edgeIndex if available to handle multiple edges between same nodes
+  const edgeAst =
+    routed.edgeIndex !== undefined
+      ? diagram.edges[routed.edgeIndex]
+      : diagram.edges.find((e) => e.from === routed.from && e.to === routed.to);
+
   if (!edgeAst) {
     warnings.push(
       `Edge ${routed.from} -> ${routed.to} not found in diagram AST`
@@ -26,8 +29,11 @@ export function renderEdge(
   }
 
   const style = edgeAst.style ? diagram.styles?.[edgeAst.style] || {} : {};
-  const stroke = (style as any).stroke || '#333';
-  const strokeWidth = (style as any).strokeWidth || 1;
+  // Inline properties override style properties
+  const stroke =
+    (edgeAst as any).strokeColor || (style as any).stroke || '#333';
+  const strokeWidth =
+    (edgeAst as any).strokeWidth || (style as any).strokeWidth || 1;
 
   // Determine line style
   const lineStyle = (edgeAst as any).lineStyle || 'solid';
@@ -55,14 +61,17 @@ export function renderEdge(
     : ` data-runiq-edge="${routed.from}-${routed.to}"`;
   let edgeMarkup = `<g${groupAttrs}>`;
 
-  // Determine arrow type
+  // Determine arrow type and bidirectionality
   const arrowType = (edgeAst as any).arrowType || 'standard';
   const edgeType = (edgeAst as any).edgeType; // UML relationship type
+  const isBidirectional = !!(edgeAst as any).bidirectional;
   const arrowId = `arrow-${edgeType || arrowType}-${routed.from}-${routed.to}`;
+  const arrowIdStart = `arrow-start-${edgeType || arrowType}-${routed.from}-${routed.to}`;
 
   // Define arrow marker based on type
   // For UML relationships, use edgeType to determine marker
   let useMarkerStart = false; // Diamonds go on the source (start) end
+  let useMarkerEnd = false; // Standard arrows go on the target (end) end
 
   if (
     edgeType === 'aggregation' ||
@@ -91,31 +100,59 @@ export function renderEdge(
       <marker id="${arrowId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="${stroke}" />
       </marker>`;
+      useMarkerEnd = true;
+
+      // For bidirectional arrows, create a reversed marker for the start
+      if (isBidirectional) {
+        edgeMarkup += `
+      <marker id="${arrowIdStart}" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="9,0 9,6 0,3" fill="${stroke}" />
+      </marker>`;
+        useMarkerStart = true;
+      }
     } else if (arrowType === 'hollow') {
       // Hollow triangle (generalization/inheritance)
       edgeMarkup += `
       <marker id="${arrowId}" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="white" stroke="${stroke}" stroke-width="1" />
       </marker>`;
+      useMarkerEnd = true;
+
+      // For bidirectional arrows, create a reversed marker for the start
+      if (isBidirectional) {
+        edgeMarkup += `
+      <marker id="${arrowIdStart}" markerWidth="12" markerHeight="12" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="9,0 9,6 0,3" fill="white" stroke="${stroke}" stroke-width="1" />
+      </marker>`;
+        useMarkerStart = true;
+      }
     } else if (arrowType === 'open') {
       // Open arrow (dependency)
       edgeMarkup += `
       <marker id="${arrowId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polyline points="0,0 9,3 0,6" fill="none" stroke="${stroke}" stroke-width="1" />
       </marker>`;
+      useMarkerEnd = true;
+
+      // For bidirectional arrows, create a reversed marker for the start
+      if (isBidirectional) {
+        edgeMarkup += `
+      <marker id="${arrowIdStart}" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polyline points="9,0 0,3 9,6" fill="none" stroke="${stroke}" stroke-width="1" />
+      </marker>`;
+        useMarkerStart = true;
+      }
     }
 
     edgeMarkup += `</defs>`;
   }
 
-  // Edge line with optional marker
-  const markerAttr = useMarkerStart
-    ? ` marker-start="url(#${arrowId})"`
-    : edgeType !== 'aggregation' &&
-        edgeType !== 'composition' &&
-        arrowType !== 'none'
-      ? ` marker-end="url(#${arrowId})"`
-      : '';
+  // Edge line with optional markers
+  const markerStartAttr = useMarkerStart
+    ? ` marker-start="url(#${isBidirectional ? arrowIdStart : arrowId})"`
+    : '';
+  const markerEndAttr = useMarkerEnd ? ` marker-end="url(#${arrowId})"` : '';
+  const markerAttr = markerStartAttr + markerEndAttr;
 
   // Render double line for consanguineous marriages
   if (isDoubleLine) {
@@ -166,8 +203,21 @@ export function renderEdge(
   }
 
   // Calculate midpoint for labels
-  const midIndex = Math.floor(points.length / 2);
-  const midPoint = points[midIndex];
+  // For edges with few points (straight lines), use geometric midpoint
+  // For edges with many points (orthogonal routing), use middle point
+  let midPoint: { x: number; y: number };
+
+  if (points.length === 2) {
+    // Straight line: calculate geometric midpoint between start and end
+    midPoint = {
+      x: (points[0].x + points[1].x) / 2,
+      y: (points[0].y + points[1].y) / 2,
+    };
+  } else {
+    // Multiple points: use middle point from routing
+    const midIndex = Math.floor(points.length / 2);
+    midPoint = points[midIndex];
+  }
 
   // Stereotype text (rendered above the line in guillemets)
   if ((edgeAst as any).stereotype) {
@@ -175,12 +225,12 @@ export function renderEdge(
     edgeMarkup += `<text x="${midPoint.x}" y="${midPoint.y - 15}" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">${escapeXml(stereotypeText)}</text>`;
   }
 
-  // Edge label (rendered below stereotype if both exist)
+  // Edge label (rendered centered on edge, or below stereotype if both exist)
   if ((edgeAst as any).label) {
     const labelY = (edgeAst as any).stereotype
-      ? midPoint.y - 5
-      : midPoint.y - 5;
-    edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" class="runiq-edge-text">${escapeXml((edgeAst as any).label)}</text>`;
+      ? midPoint.y + 10 // Below stereotype
+      : midPoint.y; // Centered on edge
+    edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">${escapeXml((edgeAst as any).label)}</text>`;
   }
 
   // UML Multiplicity labels (at endpoints)

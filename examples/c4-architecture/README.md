@@ -15,6 +15,7 @@ The C4 model (Context, Containers, Components, and Code) is a way to describe an
 **Level 1** - Shows how your system fits in the world with external actors and systems.
 
 Features:
+
 - `@c4-person` for external users (Customer)
 - `@c4-system` for software systems
 - Simple relationships showing system interactions
@@ -24,6 +25,7 @@ Features:
 **Level 2** - Shows the high-level technology choices and how containers communicate.
 
 Features:
+
 - Web container grouping related applications
 - `@c4-container` shapes with technology labels (`[React]`, `[Spring Boot]`)
 - Multi-line labels using `\n` separator
@@ -34,6 +36,7 @@ Features:
 **Level 3** - Shows components within a container.
 
 Features:
+
 - `@c4-component` for code modules/services
 - API container showing internal structure
 - Component interactions and dependencies
@@ -43,21 +46,22 @@ Features:
 **Practical example** - E-commerce platform with multiple layers.
 
 Features:
+
 - Three containers organized by architectural layer (Frontend, Backend, Data)
 - 9 microservices with technology stack labels
 - Color-coded containers using `backgroundColor` and `borderColor`
-- Horizontal layout (`direction: LR`)
+- Horizontal layout (`direction LR`)
 
 ## C4 Shapes
 
 Runiq provides 4 C4 shapes with the official color palette:
 
-| Shape | Description | Color | Usage |
-|-------|-------------|-------|-------|
-| `@c4-person` | External actor/user | Dark Blue (#08427B) | People, roles, personas |
-| `@c4-system` | Software system | Medium Blue (#1168BD) | High-level systems |
-| `@c4-container` | Application/Data store | Light Blue (#438DD5) | Web apps, APIs, databases |
-| `@c4-component` | Code module | Lightest Blue (#85BBF0) | Services, controllers, modules |
+| Shape           | Description            | Color                   | Usage                          |
+| --------------- | ---------------------- | ----------------------- | ------------------------------ |
+| `@c4-person`    | External actor/user    | Dark Blue (#08427B)     | People, roles, personas        |
+| `@c4-system`    | Software system        | Medium Blue (#1168BD)   | High-level systems             |
+| `@c4-container` | Application/Data store | Light Blue (#438DD5)    | Web apps, APIs, databases      |
+| `@c4-component` | Code module            | Lightest Blue (#85BBF0) | Services, controllers, modules |
 
 ## Usage Tips
 
@@ -83,9 +87,9 @@ api -Reads/Writes [SQL/TCP]-> db
 Group related elements with colored containers:
 
 ```runiq
-container backend "Backend Services" 
-  backgroundColor:"#e3f2fd" 
-  borderColor:"#1976d2" 
+container backend "Backend Services"
+  backgroundColor:"#e3f2fd"
+  borderColor:"#1976d2"
   borderWidth:2 {
   shape service1 as @c4-container label:"Service 1"
   shape service2 as @c4-container label:"Service 2"

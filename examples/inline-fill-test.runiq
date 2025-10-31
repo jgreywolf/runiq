@@ -1,0 +1,18 @@
+diagram "test_inline_fill" {
+
+// Test inline fill property (new short name) - NOTE: space after fill
+shape A fill: "#ffebee" label: "Using fill"
+
+// Test inline fill property (old long name - no space)
+shape B fill:"#e3f2fd" label:"Using fill"
+
+// Test stroke property - space after stroke
+shape C stroke: "#f44336" label: "Using stroke"
+
+// Test strokeColor property - no space
+shape D stroke:"#4caf50" label:"Using strokeColor"
+
+// Test both work the same
+A -> B
+C -> D
+}

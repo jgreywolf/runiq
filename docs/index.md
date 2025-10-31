@@ -60,7 +60,8 @@ features:
 ## Quick Example
 
 ```runiq
-diagram "Auth Flow" direction: LR
+diagram "Auth Flow"
+direction LR
 
 style default fill:#f7f7ff stroke:#444
 style decision fill:#fff7e6 stroke:#aa7700
@@ -68,11 +69,11 @@ style decision fill:#fff7e6 stroke:#aa7700
 shape User     as @actor   label:"Visitor"
 shape Landing  as @rounded label:"Landing Page"
 shape Check    as @rhombus label:"Signed up?" style:decision
-shape Welcome  as @hex     label:"Welcome"
+shape Welcome  as @hexagon     label:"Welcome"
 
 User -> Landing : visits
 Landing -> Check
-Check[yes] -> Welcome
+Check -yes-> Welcome
 Check[no]  -> Pricing : reads
 ```
 

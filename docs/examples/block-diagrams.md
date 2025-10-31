@@ -9,7 +9,7 @@ Classic proportional-integral-derivative controller with feedback.
 ### DSL Code
 
 ```runiq
-diagram "PID Controller"
+diagram "PID Controller" {
 
   shape ref as @box label: "Reference"
   shape sum as @junction label: "+/-"
@@ -22,6 +22,7 @@ diagram "PID Controller"
   pid -> plant label: "u(t)"
   plant -> output label: "y(t)"
   output -> sum label: "feedback"
+}
 ```
 
 ### Generated SVG
@@ -60,7 +61,8 @@ Generic feedback control system with forward and feedback paths.
 ### DSL Code
 
 ```runiq
-diagram "Feedback Control System" direction: LR
+diagram "Feedback Control System" {
+direction LR
 
   # Forward path
   shape input as @box label: "Input\nR(s)"
@@ -87,6 +89,7 @@ diagram "Feedback Control System" direction: LR
   # Feedback path
   output -> sensor
   sensor -> error label: "-"
+}
 ```
 
 ### Generated SVG
@@ -122,7 +125,8 @@ Series connection of multiple transfer functions.
 ### DSL Code
 
 ```runiq
-diagram "Multi-Stage Amplifier" direction: LR
+diagram "Multi-Stage Amplifier" {
+  direction LR
 
   shape input as @box label: "Input"
   shape stage1 as @transfer-fn label: "Stage 1\nA₁(s)"
@@ -134,6 +138,7 @@ diagram "Multi-Stage Amplifier" direction: LR
   stage1 -> stage2
   stage2 -> stage3
   stage3 -> output
+}
 ```
 
 ### Generated SVG
@@ -159,7 +164,8 @@ Modern control representation using state variables.
 ### DSL Code
 
 ```runiq
-diagram "State-Space System" direction: TB
+diagram "State-Space System" {
+  direction TB
 
   # Input
   shape u as @box label: "Input\nu(t)"
@@ -189,6 +195,7 @@ diagram "State-Space System" direction: TB
   u -> D
   D -> sum2 label: "+"
   sum2 -> y
+}
 ```
 
 ### Generated SVG
@@ -221,7 +228,8 @@ Multiple parallel signal paths that combine.
 ### DSL Code
 
 ```runiq
-diagram "Parallel PID Controller" direction: LR
+diagram "Parallel PID Controller" {
+  direction LR
 
   shape error as @box label: "Error\ne(t)"
 
@@ -239,6 +247,7 @@ diagram "Parallel PID Controller" direction: LR
   error -> Ki -> sum label: "+"
   error -> Kd -> sum label: "+"
   sum -> output
+}
 ```
 
 ### Generated SVG
@@ -300,7 +309,8 @@ shape comp as @transfer-fn label: "(s+z)/(s+p)"
 ### Motor Speed Control
 
 ```runiq
-diagram "DC Motor Speed Control" direction: LR
+diagram "DC Motor Speed Control" {
+  direction LR
 
   # Input
   shape ref as @box label: "Desired\nSpeed"
@@ -325,12 +335,14 @@ diagram "DC Motor Speed Control" direction: LR
   motor -> speed
   speed -> tacho
   tacho -> error label: "-"
+}
 ```
 
 ### Aircraft Pitch Control
 
 ```runiq
-diagram "Aircraft Pitch Control" direction: LR
+diagram "Aircraft Pitch Control" {
+  direction LR
 
   # Reference
   shape theta_ref as @box label: "θ_ref"
@@ -365,6 +377,7 @@ diagram "Aircraft Pitch Control" direction: LR
   aircraft -> theta
   theta -> gyro
   gyro -> error label: "-"
+}
 ```
 
 ## Export Options

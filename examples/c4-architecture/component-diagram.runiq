@@ -1,5 +1,5 @@
 diagram "API Application - Component Diagram"
-direction: TB
+direction TB
 
 shape webapp as @c4-container label:"Web Application"
 

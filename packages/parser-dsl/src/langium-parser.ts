@@ -840,6 +840,7 @@ function processDialogStatement(
     diagram.routing = statement.value as EdgeRouting;
   } else if (Langium.isStyleDeclaration(statement)) {
     const style: Style = {};
+
     for (const prop of statement.properties) {
       let value = prop.value;
       // Remove quotes from string values
@@ -850,7 +851,24 @@ function processDialogStatement(
       ) {
         value = value.slice(1, -1);
       }
-      style[prop.key] = value;
+
+      // Strip trailing colon from key (grammar includes colon in property names)
+      const key = prop.key.endsWith(':') ? prop.key.slice(0, -1) : prop.key;
+
+      // Special handling for lineStyle: convert to strokeDasharray
+      if (key === 'lineStyle') {
+        if (value === 'dashed') {
+          style['strokeDasharray'] = '5,5';
+        } else if (value === 'dotted') {
+          style['strokeDasharray'] = '2,2';
+        } else if (value === 'solid') {
+          style['strokeDasharray'] = 'none';
+        } else {
+          style['strokeDasharray'] = value;
+        }
+      } else {
+        style[key] = value;
+      }
     }
     if (!diagram.styles) {
       diagram.styles = {};
@@ -868,6 +886,36 @@ function processDialogStatement(
         node.label = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isStyleRefProperty(prop)) {
         node.style = prop.ref?.$refText;
+      } else if (Langium.isFillProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.fillColor = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isColorProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.textColor = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isStrokeProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.strokeColor = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isStrokeWidthProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.strokeWidth = parseFloat(prop.value);
+      } else if (Langium.isFontSizeProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.fontSize = parseFloat(prop.value);
+      } else if (Langium.isFontFamilyProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.fontFamily = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isTextAlignProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.textAlign = prop.value;
+      } else if (Langium.isFontWeightProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.fontWeight = parseFloat(prop.value);
+      } else if (Langium.isOpacityProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.opacity = parseFloat(prop.value);
+      } else if (Langium.isBorderRadiusProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.borderRadius = parseFloat(prop.value);
       } else if (Langium.isIconProperty(prop)) {
         node.icon = {
           provider: prop.provider,
@@ -1023,10 +1071,66 @@ function processDialogStatement(
     diagram.nodes.push(node);
     declaredNodes.add(node.id);
   } else if (Langium.isEdgeDeclaration(statement)) {
+    // Helper function to process edge properties
+    const processEdgeProperties = (edge: EdgeAst, properties: any[]) => {
+      for (const prop of properties) {
+        if (Langium.isEdgeLabelProperty(prop)) {
+          edge.label = prop.label.replace(/^"|"$/g, '');
+        } else if (Langium.isLineStyleProperty(prop)) {
+          edge.lineStyle = prop.value as
+            | 'solid'
+            | 'dashed'
+            | 'dotted'
+            | 'double';
+        } else if (Langium.isArrowTypeProperty(prop)) {
+          edge.arrowType = prop.value as
+            | 'standard'
+            | 'hollow'
+            | 'open'
+            | 'none';
+        } else if (Langium.isRoutingProperty(prop)) {
+          edge.routing = prop.value as EdgeRouting;
+        } else if (Langium.isMultiplicitySourceProperty(prop)) {
+          edge.multiplicitySource = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isMultiplicityTargetProperty(prop)) {
+          edge.multiplicityTarget = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isRoleSourceProperty(prop)) {
+          edge.roleSource = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isRoleTargetProperty(prop)) {
+          edge.roleTarget = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isEdgeTypeProperty(prop)) {
+          edge.edgeType = prop.value as
+            | 'association'
+            | 'aggregation'
+            | 'composition'
+            | 'dependency'
+            | 'generalization'
+            | 'realization';
+        } else if (Langium.isNavigabilityProperty(prop)) {
+          edge.navigability = prop.value as
+            | 'source'
+            | 'target'
+            | 'bidirectional'
+            | 'none';
+        } else if (Langium.isEdgeConstraintsProperty(prop)) {
+          edge.constraints = prop.values.map((v) => v.replace(/^"|"$/g, ''));
+        } else if (Langium.isStereotypeProperty(prop)) {
+          edge.stereotype = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isStrokeProperty(prop)) {
+          edge.strokeColor = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isStrokeWidthProperty(prop)) {
+          edge.strokeWidth = parseFloat(prop.value);
+        } else if (Langium.isStyleRefProperty(prop)) {
+          edge.style = prop.ref?.$refText;
+        }
+      }
+    };
+
     // Convert NodeRef to strings (supports member refs like Class.field)
     const fromId = nodeRefToString(statement.from);
     const toId = nodeRefToString(statement.to);
 
+    // Create first edge
     const edge: EdgeAst = {
       from: fromId,
       to: toId,
@@ -1036,42 +1140,44 @@ function processDialogStatement(
       edge.label = statement.labeledArrow.slice(1, -2);
     }
 
-    // Process edge properties
-    for (const prop of statement.properties) {
-      if (Langium.isLineStyleProperty(prop)) {
-        edge.lineStyle = prop.value as 'solid' | 'dashed' | 'dotted' | 'double';
-      } else if (Langium.isArrowTypeProperty(prop)) {
-        edge.arrowType = prop.value as 'standard' | 'hollow' | 'open' | 'none';
-      } else if (Langium.isRoutingProperty(prop)) {
-        edge.routing = prop.value as EdgeRouting;
-      } else if (Langium.isMultiplicitySourceProperty(prop)) {
-        edge.multiplicitySource = prop.value.replace(/^"|"$/g, '');
-      } else if (Langium.isMultiplicityTargetProperty(prop)) {
-        edge.multiplicityTarget = prop.value.replace(/^"|"$/g, '');
-      } else if (Langium.isRoleSourceProperty(prop)) {
-        edge.roleSource = prop.value.replace(/^"|"$/g, '');
-      } else if (Langium.isRoleTargetProperty(prop)) {
-        edge.roleTarget = prop.value.replace(/^"|"$/g, '');
-      } else if (Langium.isEdgeTypeProperty(prop)) {
-        edge.edgeType = prop.value as
-          | 'association'
-          | 'aggregation'
-          | 'composition'
-          | 'dependency'
-          | 'generalization'
-          | 'realization';
-      } else if (Langium.isNavigabilityProperty(prop)) {
-        edge.navigability = prop.value as
-          | 'source'
-          | 'target'
-          | 'bidirectional'
-          | 'none';
-      } else if (Langium.isEdgeConstraintsProperty(prop)) {
-        edge.constraints = prop.values.map((v) => v.replace(/^"|"$/g, ''));
-      }
+    // Check for bidirectional arrow
+    if (statement.bidirectionalArrow) {
+      edge.bidirectional = true;
     }
 
+    // Process edge properties
+    processEdgeProperties(edge, statement.properties);
+
     diagram.edges.push(edge);
+
+    // Handle chained edges: A -> B -> C becomes A -> B and B -> C
+    if (statement.chain && statement.chain.length > 0) {
+      let currentFrom = toId;
+
+      for (const chainSegment of statement.chain) {
+        const chainTo = nodeRefToString(chainSegment.to);
+
+        const chainedEdge: EdgeAst = {
+          from: currentFrom,
+          to: chainTo,
+        };
+
+        if (chainSegment.labeledArrow) {
+          chainedEdge.label = chainSegment.labeledArrow.slice(1, -2);
+        }
+
+        if (chainSegment.bidirectionalArrow) {
+          chainedEdge.bidirectional = true;
+        }
+
+        // Properties apply to all edges in the chain
+        processEdgeProperties(chainedEdge, statement.properties);
+
+        diagram.edges.push(chainedEdge);
+
+        currentFrom = chainTo;
+      }
+    }
 
     // Auto-create nodes if needed (for edges without explicit shape declarations)
     // Only create if it's a simple node reference (not a member reference)
@@ -1218,6 +1324,9 @@ function convertContainer(
         containerStyle.borderColor = prop.borderColor.replace(/^"|"$/g, '');
       } else if (prop.borderWidth !== undefined) {
         containerStyle.borderWidth = parseFloat(prop.borderWidth);
+      } else if (prop.fill) {
+        // Use fill as consistent alias for backgroundColor
+        containerStyle.backgroundColor = prop.fill.replace(/^"|"$/g, '');
       } else if (prop.backgroundColor) {
         containerStyle.backgroundColor = prop.backgroundColor.replace(
           /^"|"$/g,
@@ -1723,7 +1832,10 @@ function convertTemplate(block: Langium.TemplateBlock): ContainerTemplate {
       // Reuse the same property parsing logic from convertContainer
       if (Langium.isContainerStyleProperty(prop)) {
         // Phase 1 properties
-        if (prop.backgroundColor) {
+        if (prop.fill) {
+          // Use fill as consistent alias for backgroundColor
+          containerStyle.backgroundColor = prop.fill.replace(/^"|"$/g, '');
+        } else if (prop.backgroundColor) {
           containerStyle.backgroundColor = prop.backgroundColor.replace(
             /^"|"$/g,
             ''
@@ -1783,7 +1895,10 @@ function convertPreset(block: Langium.PresetBlock): ContainerPreset {
     for (const prop of block.properties) {
       if (Langium.isContainerStyleProperty(prop)) {
         // Phase 1 properties
-        if (prop.backgroundColor) {
+        if (prop.fill) {
+          // Use fill as consistent alias for backgroundColor
+          preset.style.backgroundColor = prop.fill.replace(/^"|"$/g, '');
+        } else if (prop.backgroundColor) {
           preset.style.backgroundColor = prop.backgroundColor.replace(
             /^"|"$/g,
             ''

@@ -8,7 +8,7 @@ export const controlSystemsSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Feedback Control Loop',
 				description: 'Classic feedback control system',
-				code: `diagram "Feedback Control"
+				code: `diagram "Feedback Control" {
 
 shape input as @circle label:"Input"
 shape sum as @summingJunction label:"+"
@@ -22,12 +22,13 @@ sum -> controller
 controller -> plant
 plant -> output
 output -> feedback
-feedback -> sum`
+feedback -> sum
+}`
 			},
 			{
 				name: 'Signal Processing Chain',
 				description: 'DSP filter chain',
-				code: `diagram "Signal Processing"
+				code: `diagram "Signal Processing" {
 
 shape input as @rectangle label:"Input"
 shape lpf as @transferFunction label:"LPF"
@@ -38,7 +39,8 @@ shape output as @rectangle label:"Output"
 input -> lpf
 lpf -> gain
 gain -> integrator
-integrator -> output`
+integrator -> output
+}`
 			}
 		]
 	}

@@ -9,7 +9,7 @@ Basic container with nested shapes.
 ### DSL Code
 
 ```runiq
-diagram "Simple Container Example" direction: TB
+diagram "Simple Container Example" direction TB
 
 container "Frontend" {
   shape UI as @rect label: "Web UI"
@@ -18,7 +18,7 @@ container "Frontend" {
 
 container "Backend" {
   shape API as @rect label: "REST API"
-  shape DB as @cyl label: "Database"
+  shape DB as @cylinder label: "Database"
 }
 
 # Cross-container edges
@@ -45,12 +45,12 @@ System context showing external actors and systems.
 ### DSL Code
 
 ```runiq
-diagram "C4 Context - Banking System" direction: TB
+diagram "C4 Context - Banking System" direction TB
 
 # Central system
 shape BankingSystem as @rect
   label: "Internet Banking\nSystem"
-  fillColor: "#1168bd"
+  fill: "#1168bd"
   textColor: "#ffffff"
 
 # External actors
@@ -60,10 +60,10 @@ actor Admin as @actor label: "Bank Staff"
 # External systems
 shape EmailSystem as @rect
   label: "Email System"
-  fillColor: "#999999"
+  fill: "#999999"
 shape MainframeSystem as @rect
   label: "Mainframe Banking\nSystem"
-  fillColor: "#999999"
+  fill: "#999999"
 
 # Relationships
 Customer -> BankingSystem label: "Views accounts,\nmakes payments"
@@ -86,36 +86,36 @@ Zooming into the system to show containers.
 ### DSL Code
 
 ```runiq
-diagram "C4 Container - Banking System" direction: TB
+diagram "C4 Container - Banking System" direction TB
 
 actor Customer as @actor label: "Personal Banking\nCustomer"
 
-container "Internet Banking System" fillColor: "#e3f2fd" {
+container "Internet Banking System" fill: "#e3f2fd" {
 
   shape WebApp as @rect
     label: "Web Application\n[JavaScript, React]"
-    fillColor: "#1168bd"
+    fill: "#1168bd"
     textColor: "#ffffff"
 
   shape API as @rect
     label: "API Application\n[Java, Spring Boot]"
-    fillColor: "#1168bd"
+    fill: "#1168bd"
     textColor: "#ffffff"
 
   shape DB as @cyl
     label: "Database\n[Oracle]"
-    fillColor: "#1168bd"
+    fill: "#1168bd"
     textColor: "#ffffff"
 }
 
 # External systems
 shape EmailSystem as @rect
   label: "Email System\n[Microsoft Exchange]"
-  fillColor: "#999999"
+  fill: "#999999"
 
 shape Mainframe as @rect
   label: "Mainframe System\n[IBM z/OS]"
-  fillColor: "#999999"
+  fill: "#999999"
 
 # Relationships
 Customer -> WebApp label: "Uses\n[HTTPS]"
@@ -141,31 +141,31 @@ Modern distributed system with multiple services.
 ### DSL Code
 
 ```runiq
-diagram "Microservices Architecture" direction: TB
+diagram "Microservices Architecture" direction TB
 
 # API Gateway
 shape Gateway as @rect
   label: "API Gateway\n[Nginx]"
-  fillColor: "#ff9800"
+  fill: "#ff9800"
   textColor: "#ffffff"
 
-container "User Services" fillColor: "#e3f2fd" {
+container "User Services" fill: "#e3f2fd" {
   shape Auth as @rect label: "Auth Service\n[Node.js]"
   shape User as @rect label: "User Service\n[Node.js]"
-  shape AuthDB as @cyl label: "Auth DB\n[MongoDB]"
-  shape UserDB as @cyl label: "User DB\n[PostgreSQL]"
+  shape AuthDB as @cylinder label: "Auth DB\n[MongoDB]"
+  shape UserDB as @cylinder label: "User DB\n[PostgreSQL]"
 }
 
-container "Business Services" fillColor: "#fff3e0" {
+container "Business Services" fill: "#fff3e0" {
   shape Order as @rect label: "Order Service\n[Java]"
   shape Payment as @rect label: "Payment Service\n[Java]"
   shape Inventory as @rect label: "Inventory Service\n[Go]"
-  shape OrderDB as @cyl label: "Order DB\n[PostgreSQL]"
-  shape PaymentDB as @cyl label: "Payment DB\n[PostgreSQL]"
-  shape InventoryDB as @cyl label: "Inventory DB\n[Redis]"
+  shape OrderDB as @cylinder label: "Order DB\n[PostgreSQL]"
+  shape PaymentDB as @cylinder label: "Payment DB\n[PostgreSQL]"
+  shape InventoryDB as @cylinder label: "Inventory DB\n[Redis]"
 }
 
-container "Infrastructure" fillColor: "#e8f5e9" {
+container "Infrastructure" fill: "#e8f5e9" {
   shape MessageBroker as @rect label: "Message Broker\n[RabbitMQ]"
   shape ServiceDiscovery as @rect label: "Service Discovery\n[Consul]"
 }
@@ -225,24 +225,24 @@ Classic web application structure.
 ### DSL Code
 
 ```runiq
-diagram "Three-Tier Web Application" direction: TB
+diagram "Three-Tier Web Application" direction TB
 
-container "Presentation Tier" fillColor: "#e3f2fd" {
+container "Presentation Tier" fill: "#e3f2fd" {
   shape Browser as @rect label: "Web Browser"
   shape WebServer as @rect label: "Web Server\n[Apache]"
   shape StaticContent as @doc label: "Static Assets"
 }
 
-container "Application Tier" fillColor: "#fff3e0" {
+container "Application Tier" fill: "#fff3e0" {
   shape AppServer1 as @rect label: "App Server 1\n[Tomcat]"
   shape AppServer2 as @rect label: "App Server 2\n[Tomcat]"
   shape LoadBalancer as @rect label: "Load Balancer\n[HAProxy]"
 }
 
-container "Data Tier" fillColor: "#e8f5e9" {
-  shape PrimaryDB as @cyl label: "Primary DB\n[MySQL]"
-  shape ReplicaDB as @cyl label: "Replica DB\n[MySQL]"
-  shape Cache as @cyl label: "Cache\n[Memcached]"
+container "Data Tier" fill: "#e8f5e9" {
+  shape PrimaryDB as @cylinder label: "Primary DB\n[MySQL]"
+  shape ReplicaDB as @cylinder label: "Replica DB\n[MySQL]"
+  shape Cache as @cylinder label: "Cache\n[Memcached]"
 }
 
 # Connections - Presentation to Application
@@ -266,24 +266,25 @@ Process flow with organizational boundaries.
 ### DSL Code
 
 ```runiq
-diagram "Purchase Order Process" direction: LR
+diagram "Purchase Order Process"
+direction LR
 
-container "Customer" fillColor: "#e3f2fd" {
+container "Customer" fill: "#e3f2fd" {
   shape C1 as @rounded label: "Start"
   shape C2 as @rect label: "Submit\nOrder"
   shape C3 as @rhombus label: "Approved?"
-  shape C4 as @hex label: "Receive\nGoods"
+  shape C4 as @hexagon label: "Receive\nGoods"
   shape C5 as @rounded label: "End"
 }
 
-container "Sales Department" fillColor: "#fff3e0" {
+container "Sales Department" fill: "#fff3e0" {
   shape S1 as @rect label: "Review\nOrder"
   shape S2 as @rect label: "Check\nInventory"
   shape S3 as @rect label: "Approve\nOrder"
   shape S4 as @doc label: "Generate\nInvoice"
 }
 
-container "Warehouse" fillColor: "#e8f5e9" {
+container "Warehouse" fill: "#e8f5e9" {
   shape W1 as @rect label: "Pick\nItems"
   shape W2 as @rect label: "Pack\nOrder"
   shape W3 as @rect label: "Ship\nGoods"
@@ -295,13 +296,13 @@ C2 -> S1
 S1 -> S2
 S2 -> S3
 S3 -> C3
-C3[yes] -> S4
+C3 -yes-> S4
 S4 -> W1
 W1 -> W2
 W2 -> W3
 W3 -> C4
 C4 -> C5
-C3[no] -> C5
+C3 -no-> C5
 ```
 
 ### Generated SVG
@@ -315,27 +316,27 @@ Geographic distribution with replication.
 ### DSL Code
 
 ```runiq
-diagram "Multi-Region Architecture" direction: TB
+diagram "Multi-Region Architecture" direction TB
 
-container "US East Region" fillColor: "#e3f2fd" {
+container "US East Region" fill: "#e3f2fd" {
   shape USLb as @rect label: "Load Balancer"
   shape USApp1 as @rect label: "App Server 1"
   shape USApp2 as @rect label: "App Server 2"
-  shape USDB as @cyl label: "Primary DB"
+  shape USDB as @cylinder label: "Primary DB"
 }
 
-container "EU West Region" fillColor: "#fff3e0" {
+container "EU West Region" fill: "#fff3e0" {
   shape EULb as @rect label: "Load Balancer"
   shape EUApp1 as @rect label: "App Server 1"
   shape EUApp2 as @rect label: "App Server 2"
-  shape EUDB as @cyl label: "Replica DB"
+  shape EUDB as @cylinder label: "Replica DB"
 }
 
-container "APAC Region" fillColor: "#e8f5e9" {
+container "APAC Region" fill: "#e8f5e9" {
   shape APLb as @rect label: "Load Balancer"
   shape APApp1 as @rect label: "App Server 1"
   shape APApp2 as @rect label: "App Server 2"
-  shape APDB as @cyl label: "Replica DB"
+  shape APDB as @cylinder label: "Replica DB"
 }
 
 # Global
@@ -377,15 +378,15 @@ USDB -> APDB label: "replicate"
 ### Background Colors
 
 ```runiq
-container "Frontend" fillColor: "#e3f2fd" {
+container "Frontend" fill: "#e3f2fd" {
   # Light blue background
 }
 
-container "Backend" fillColor: "#fff3e0" {
+container "Backend" fill: "#fff3e0" {
   # Light orange background
 }
 
-container "Database" fillColor: "#e8f5e9" {
+container "Database" fill: "#e8f5e9" {
   # Light green background
 }
 ```
@@ -394,7 +395,7 @@ container "Database" fillColor: "#e8f5e9" {
 
 ```runiq
 container "Secure Zone"
-  strokeColor: "#f44336"
+  stroke: "#f44336"
   strokeWidth: 3
   lineStyle: dashed {
   # Dashed red border

@@ -26,20 +26,22 @@ sequence "User Login" {
 
 Participants represent the actors or systems in your sequence:
 
-| Type | Purpose | Example |
-|------|---------|---------|
-| `actor` | Human user or external actor | User, Admin, Customer |
-| `entity` | Business entity or data object | Order, Account, Document |
-| `boundary` | System boundary (UI, API) | Web App, API Gateway, Mobile App |
-| `control` | Controller or service logic | Auth Service, Payment Service |
-| `database` | Database or data store | PostgreSQL, Redis, S3 |
+| Type       | Purpose                        | Example                          |
+| ---------- | ------------------------------ | -------------------------------- |
+| `actor`    | Human user or external actor   | User, Admin, Customer            |
+| `entity`   | Business entity or data object | Order, Account, Document         |
+| `boundary` | System boundary (UI, API)      | Web App, API Gateway, Mobile App |
+| `control`  | Controller or service logic    | Auth Service, Payment Service    |
+| `database` | Database or data store         | PostgreSQL, Redis, S3            |
 
 **Syntax:**
+
 ```runiq
 participant "Display Name" as type
 ```
 
 **Examples:**
+
 ```runiq
 participant "User" as actor
 participant "API Gateway" as boundary
@@ -51,20 +53,22 @@ participant "PostgreSQL" as database
 
 Messages represent interactions between participants:
 
-| Type | Arrow Style | Purpose |
-|------|-------------|---------|
-| `sync` | Solid `→` | Synchronous call (waits for response) |
-| `async` | Dashed `⇢` | Asynchronous message (fire and forget) |
-| `return` | Dashed open `↤` | Return value |
-| `create` | Any | Object creation |
-| `destroy` | Any | Object destruction |
+| Type      | Arrow Style     | Purpose                                |
+| --------- | --------------- | -------------------------------------- |
+| `sync`    | Solid `→`       | Synchronous call (waits for response)  |
+| `async`   | Dashed `⇢`      | Asynchronous message (fire and forget) |
+| `return`  | Dashed open `↤` | Return value                           |
+| `create`  | Any             | Object creation                        |
+| `destroy` | Any             | Object destruction                     |
 
 **Syntax:**
+
 ```runiq
 message from:"Source" to:"Target" label:"Message text" type:sync activate:true
 ```
 
 **Properties:**
+
 - `from:"name"` - Source participant (required)
 - `to:"name"` - Target participant (required)
 - `label:"text"` - Message description (required)
@@ -72,6 +76,7 @@ message from:"Source" to:"Target" label:"Message text" type:sync activate:true
 - `activate:true` - Show activation box on target (optional)
 
 **Examples:**
+
 ```runiq
 // Synchronous call with activation
 message from:"Client" to:"Server" label:"GET /users" type:sync activate:true
@@ -94,17 +99,20 @@ message from:"Service" to:"Service" label:"Validate data" type:sync
 Notes add explanatory text to your diagram:
 
 **Syntax:**
+
 ```runiq
 note "Note text" position:left participants:("ParticipantName")
 note "Spanning note" position:over participants:("P1","P2")
 ```
 
 **Position options:**
+
 - `left` - Left of participant
-- `right` - Right of participant  
+- `right` - Right of participant
 - `over` - Over one or more participants
 
 **Examples:**
+
 ```runiq
 note "Session stored in Redis" position:right participants:("Auth Service")
 note "Async processing" position:over participants:("Queue","Worker")
@@ -114,16 +122,17 @@ note "Async processing" position:over participants:("Queue","Worker")
 
 Fragments show control flow (loops, conditions, parallel execution):
 
-| Type | Purpose | Example Use Case |
-|------|---------|------------------|
-| `loop` | Repeated execution | Retry logic, polling |
-| `alt` | Alternative paths (if/else) | Success/failure handling |
-| `opt` | Optional execution | Cache check, optional step |
-| `par` | Parallel execution | Multiple async calls |
-| `critical` | Critical section | Mutex, transaction |
-| `break` | Break from loop | Early exit condition |
+| Type       | Purpose                     | Example Use Case           |
+| ---------- | --------------------------- | -------------------------- |
+| `loop`     | Repeated execution          | Retry logic, polling       |
+| `alt`      | Alternative paths (if/else) | Success/failure handling   |
+| `opt`      | Optional execution          | Cache check, optional step |
+| `par`      | Parallel execution          | Multiple async calls       |
+| `critical` | Critical section            | Mutex, transaction         |
+| `break`    | Break from loop             | Early exit condition       |
 
 **Syntax:**
+
 ```runiq
 // Simple fragment
 fragment loop "Condition" from:0 to:3
@@ -133,6 +142,7 @@ fragment alt "Decision" from:5 to:10 alternatives:("Success":5..7,"Failure":8..1
 ```
 
 **Properties:**
+
 - `type` - Fragment type (required)
 - `label` - Condition or description (optional)
 - `from:N` - Starting message index (required)
@@ -140,6 +150,7 @@ fragment alt "Decision" from:5 to:10 alternatives:("Success":5..7,"Failure":8..1
 - `alternatives:()` - For `alt` fragments, defines alternative paths
 
 **Examples:**
+
 ```runiq
 // Loop with retry
 fragment loop "Retry up to 3 times" from:2 to:5
@@ -190,12 +201,12 @@ sequence "API Request with Error Handling" {
   message from:"Service" to:"Cache" label:"Check cache" type:sync
 
   fragment alt "Cache Status" from:3 to:7 alternatives:("Cache Hit":3..4,"Cache Miss":5..6)
-  
+
   message from:"Cache" to:"Service" label:"Cache hit" type:return
   message from:"Service" to:"API Gateway" label:"200 OK" type:return
   message from:"Cache" to:"Service" label:"Cache miss" type:return
   message from:"Service" to:"API Gateway" label:"404 Not Found" type:return
-  
+
   message from:"API Gateway" to:"Client" label:"Response" type:return
 }
 ```
@@ -210,12 +221,12 @@ sequence "Event-Driven Async Processing" {
   participant "Notification Service" as control
 
   message from:"User Service" to:"Message Queue" label:"Publish user.created event" type:async
-  
+
   note "Services consume events asynchronously" position:over participants:("Message Queue")
 
   message from:"Message Queue" to:"Email Service" label:"user.created" type:async activate:true
   message from:"Email Service" to:"Email Service" label:"Send welcome email" type:sync
-  
+
   message from:"Message Queue" to:"Notification Service" label:"user.created" type:async activate:true
   message from:"Notification Service" to:"Notification Service" label:"Send push notification" type:sync
 }
@@ -250,32 +261,38 @@ sequence "API with Retry Logic" {
 ## Best Practices
 
 ### 1. Participant Naming
+
 - Use descriptive names that clearly identify roles
 - Group related participants (all databases, all services)
 - Use consistent naming across diagrams
 
 ### 2. Message Labels
+
 - Use action verbs: "Login", "Validate", "Query"
 - Be specific: "GET /users" better than "Request"
 - Include important parameters: "Retry (attempt 3/3)"
 
 ### 3. Activation Boxes
+
 - Use sparingly for important processing blocks
 - Shows when a participant is "active" or "processing"
 - Helps identify synchronous vs background processing
 
 ### 4. Notes
+
 - Clarify complex logic or business rules
 - Document assumptions or constraints
 - Add technical implementation details
 
 ### 5. Fragments
+
 - **Loop**: Always include iteration condition
 - **Alt**: Provide clear condition labels for each path
 - **Opt**: Explain when the optional step executes
 - Keep fragments small and focused
 
 ### 6. Message Order
+
 - Messages flow from top to bottom (time flows down)
 - Index fragments by message order (0-based)
 - Group related messages logically
@@ -285,13 +302,14 @@ sequence "API with Retry Logic" {
 ### Participant ID Generation
 
 Participant IDs are automatically generated from display names:
+
 - Convert to lowercase
 - Replace spaces with underscores
 - Remove special characters
 
 ```runiq
 participant "API Gateway"  // ID: api_gateway
-participant "Auth-Service" // ID: auth-service  
+participant "Auth-Service" // ID: auth-service
 participant "db_primary"   // ID: db_primary
 ```
 
@@ -320,6 +338,7 @@ fragment alt "Check" from:5 to:10 alternatives:("Success":5..7,"Failure":8..10)
 ## Rendering
 
 Sequence diagrams are rendered with:
+
 - **Participants** at the top with type-specific styling
 - **Lifelines** as vertical dashed lines
 - **Messages** with appropriate arrow styles
@@ -349,6 +368,7 @@ const result = renderSequenceDiagram(profile, options);
 ## Future Enhancements
 
 Planned features:
+
 - Nested fragments
 - Time constraints and timing marks
 - State invariants

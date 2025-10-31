@@ -40,7 +40,7 @@ describe('Mindmap Type Tests', () => {
     const dsl = `
       diagram "Test Mindmap" {
         container "Ideas" type:mindmap algorithm:radial spacing:80 {
-          shape central as @hex label:"Main Idea"
+          shape central as @hexagon label:"Main Idea"
           shape branch1 label:"Branch 1"
           
           central -> branch1

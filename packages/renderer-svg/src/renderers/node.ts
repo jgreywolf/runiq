@@ -24,8 +24,9 @@ export function renderNode(
 
   const style: any = nodeAst.style ? diagram.styles?.[nodeAst.style] || {} : {};
 
-  // Merge inline pedigree properties from node.data into style
+  // Merge inline properties from node.data into style
   if (nodeAst.data) {
+    // Pedigree properties
     if ((nodeAst.data as any).affected !== undefined) {
       (style as any).affected = (nodeAst.data as any).affected;
     }
@@ -34,6 +35,32 @@ export function renderNode(
     }
     if ((nodeAst.data as any).deceased !== undefined) {
       (style as any).deceased = (nodeAst.data as any).deceased;
+    }
+    // Inline styling properties
+    if ((nodeAst.data as any).fillColor !== undefined) {
+      (style as any).fill = (nodeAst.data as any).fillColor;
+    }
+    if ((nodeAst.data as any).textColor !== undefined) {
+      (style as any).color = (nodeAst.data as any).textColor;
+    }
+    if ((nodeAst.data as any).strokeColor !== undefined) {
+      (style as any).stroke = (nodeAst.data as any).strokeColor;
+    }
+    if ((nodeAst.data as any).strokeWidth !== undefined) {
+      (style as any).strokeWidth = (nodeAst.data as any).strokeWidth;
+    }
+    if ((nodeAst.data as any).fontSize !== undefined) {
+      (style as any).fontSize = (nodeAst.data as any).fontSize;
+    }
+    if ((nodeAst.data as any).fontFamily !== undefined) {
+      (style as any).fontFamily = (nodeAst.data as any).fontFamily;
+    }
+    if ((nodeAst.data as any).borderRadius !== undefined) {
+      (style as any).rx = (nodeAst.data as any).borderRadius;
+      (style as any).ry = (nodeAst.data as any).borderRadius;
+    }
+    if ((nodeAst.data as any).opacity !== undefined) {
+      (style as any).opacity = (nodeAst.data as any).opacity;
     }
   }
 
@@ -51,7 +78,12 @@ export function renderNode(
   }
 
   // Wrap in group with optional link
-  const groupAttrs = strict ? '' : ` data-runiq-node="${nodeAst.id}"`;
+  let groupAttrs = strict ? '' : ` data-runiq-node="${nodeAst.id}"`;
+
+  // Add opacity if specified
+  if ((style as any).opacity !== undefined) {
+    groupAttrs += ` opacity="${(style as any).opacity}"`;
+  }
 
   if ((nodeAst as any).link && !strict) {
     return `<a xlink:href="${escapeXml((nodeAst as any).link.href)}"${(nodeAst as any).link.target ? ` target="${(nodeAst as any).link.target}"` : ''}>

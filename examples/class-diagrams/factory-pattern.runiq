@@ -2,7 +2,7 @@
 // Demonstrates the Factory design pattern with product hierarchy
 
 diagram "Factory Pattern" {
-  direction: TB
+  direction TB
   
   // Product interface
   shape IButton as @class label:"IButton"

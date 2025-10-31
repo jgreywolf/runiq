@@ -150,7 +150,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     const measureText = createTextMeasurer();
 
-    // Convert direction: TB/LR -> DOWN/RIGHT
+    // Convert direction TB/LR -> DOWN/RIGHT
     const direction = this.convertDirection(
       opts.direction || diagram.direction || 'TB'
     );
@@ -298,7 +298,8 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Add edges between standalone nodes and container placeholders
     // For layout purposes, edges to/from container nodes connect to the container placeholder
-    for (const edge of diagram.edges) {
+    for (let edgeIndex = 0; edgeIndex < diagram.edges.length; edgeIndex++) {
+      const edge = diagram.edges[edgeIndex];
       // Extract node IDs from potentially member-level references
       // e.g., "Order.customerId" -> "Order"
       const fromNodeId = this.extractNodeId(edge.from);
@@ -315,7 +316,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
       if (!elkGraph.edges) elkGraph.edges = [];
       elkGraph.edges.push({
-        id: `${edge.from}->${edge.to}`, // Keep original IDs (including member refs) in the edge ID
+        id: `${edge.from}->${edge.to}#${edgeIndex}`, // Include index to distinguish multiple edges between same nodes
         sources: [fromId],
         targets: [toId],
       });
@@ -458,22 +459,105 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
     }
 
-    // Calculate overall diagram size
+    // Calculate overall diagram bounds (including negative space)
+    let minX = 0;
+    let minY = 0;
     let maxX = 0;
     let maxY = 0;
 
     for (const node of nodes) {
+      const nodeLeft = node.x;
       const nodeRight = node.x + node.width;
+      const nodeTop = node.y;
       const nodeBottom = node.y + node.height;
+
+      if (nodeLeft < minX) minX = nodeLeft;
       if (nodeRight > maxX) maxX = nodeRight;
+      if (nodeTop < minY) minY = nodeTop;
       if (nodeBottom > maxY) maxY = nodeBottom;
     }
 
     for (const container of containers) {
+      const containerLeft = container.x;
       const containerRight = container.x + container.width;
+      const containerTop = container.y;
       const containerBottom = container.y + container.height;
+
+      if (containerLeft < minX) minX = containerLeft;
       if (containerRight > maxX) maxX = containerRight;
+      if (containerTop < minY) minY = containerTop;
       if (containerBottom > maxY) maxY = containerBottom;
+    }
+
+    // Account for edge labels that may extend beyond nodes
+    for (const edge of edges) {
+      if (edge.points && edge.points.length > 0) {
+        // Find the midpoint of the edge (where label is typically placed)
+        const midIndex = Math.floor(edge.points.length / 2);
+        const midPoint = edge.points[midIndex];
+
+        // Find corresponding edge in diagram AST to get label
+        const edgeAst = diagram.edges.find(
+          (e) => e.from === edge.from && e.to === edge.to
+        );
+
+        if (edgeAst && (edgeAst as any).label) {
+          // Estimate label dimensions (average character width ~8px, height ~14px)
+          const labelText = (edgeAst as any).label as string;
+          const estimatedLabelWidth = labelText.length * 8;
+          const estimatedLabelHeight = 14;
+
+          // Edge labels are rendered centered on the edge with dominant-baseline="middle"
+          // (see edge.ts - labels at midPoint.y with vertical centering)
+          const labelCenterX = midPoint.x;
+          const labelCenterY = midPoint.y; // Centered on edge
+
+          // Calculate label bounding box
+          // With dominant-baseline="middle", the label extends equally above and below
+          const labelLeft = labelCenterX - estimatedLabelWidth / 2;
+          const labelRight = labelCenterX + estimatedLabelWidth / 2;
+          const labelTop = labelCenterY - estimatedLabelHeight / 2;
+          const labelBottom = labelCenterY + estimatedLabelHeight / 2;
+
+          // Extend bounds to include label
+          if (labelLeft < minX) minX = labelLeft;
+          if (labelRight > maxX) maxX = labelRight;
+          if (labelTop < minY) minY = labelTop;
+          if (labelBottom > maxY) maxY = labelBottom;
+        }
+      }
+    }
+
+    // If we have negative bounds, shift everything to start at 0
+    const offsetX = minX < 0 ? Math.abs(minX) : 0;
+    const offsetY = minY < 0 ? Math.abs(minY) : 0;
+
+    if (offsetX > 0 || offsetY > 0) {
+      // Shift all nodes
+      for (const node of nodes) {
+        node.x += offsetX;
+        node.y += offsetY;
+      }
+
+      // Shift all containers
+      for (const container of containers) {
+        container.x += offsetX;
+        container.y += offsetY;
+      }
+
+      // Shift all edge points
+      for (const edge of edges) {
+        if (edge.points) {
+          for (const point of edge.points) {
+            point.x += offsetX;
+            point.y += offsetY;
+          }
+        }
+      }
+
+      // Adjust max bounds
+      maxX += offsetX;
+      maxY += offsetY;
     }
 
     // Add padding
@@ -600,7 +684,8 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
 
       // Add edges within this container
-      for (const edge of diagram.edges) {
+      for (let edgeIndex = 0; edgeIndex < diagram.edges.length; edgeIndex++) {
+        const edge = diagram.edges[edgeIndex];
         // Extract node IDs from potentially member-level references
         const fromNodeId = this.extractNodeId(edge.from);
         const toNodeId = this.extractNodeId(edge.to);
@@ -610,7 +695,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           container.children.includes(toNodeId)
         ) {
           containerGraph.edges!.push({
-            id: `${edge.from}->${edge.to}`,
+            id: `${edge.from}->${edge.to}#${edgeIndex}`,
             sources: [fromNodeId],
             targets: [toNodeId],
           });
@@ -751,13 +836,14 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
 
       // Add internal edges
-      for (const edge of diagram.edges) {
+      for (let edgeIndex = 0; edgeIndex < diagram.edges.length; edgeIndex++) {
+        const edge = diagram.edges[edgeIndex];
         if (
           container.children.includes(edge.from) &&
           container.children.includes(edge.to)
         ) {
           containerGraph.edges!.push({
-            id: `${edge.from}->${edge.to}`,
+            id: `${edge.from}->${edge.to}#${edgeIndex}`,
             sources: [edge.from],
             targets: [edge.to],
           });
@@ -1177,15 +1263,28 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
       }
 
-      // Extract original from/to from edge ID (format: "from->to")
+      // Extract original from/to from edge ID (format: "from->to#index")
       const edgeParts = elkEdge.id.split('->');
       const from = edgeParts[0];
-      const to = edgeParts[1] || elkEdge.targets[0];
+      const toPart = edgeParts[1] || elkEdge.targets[0];
+
+      // Parse edge index if present
+      const indexMatch = toPart.match(/^(.+)#(\d+)$/);
+      let to: string;
+      let edgeIndex: number | undefined;
+
+      if (indexMatch) {
+        to = indexMatch[1];
+        edgeIndex = parseInt(indexMatch[2], 10);
+      } else {
+        to = toPart;
+      }
 
       edges.push({
         from,
         to,
         points,
+        edgeIndex,
       });
     }
   }

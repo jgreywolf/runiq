@@ -731,7 +731,7 @@ diagram process "Project Phases" template:horizontal-process
   step "Deploy"
 
 # Expands to:
-diagram flowchart "Project Phases" direction:LR
+diagram flowchart "Project Phases" direction LR
   node s1 as @rounded label:"Research"
   node s2 as @rounded label:"Design"
   node s3 as @rounded label:"Develop"

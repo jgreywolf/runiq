@@ -16,7 +16,7 @@ diagram "Name" {
 ### 2. Direction
 
 ```runiq
-direction:LR  // or RL, TB, BT (no space before colon)
+direction LR  // or RL, TB, BT (no space before colon)
 ```
 
 ### 3. Style Declarations
@@ -65,7 +65,7 @@ Examples:
 
 ```runiq
 container backend "Backend" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 {
-  shape api as @hex label:"API"
+  shape api as @hexagon label:"API"
 }
 
 container "Network" algorithm:force spacing:60 {
@@ -165,7 +165,7 @@ style badStyle padding: 10 opacity: 0.8 backgroundColor: "#fff"
 
 ```runiq
 diagram "Simple Flowchart" {
-  direction:LR
+  direction LR
 
   style default fill: "#f0f8ff" stroke: "#4682b4" fontSize: 14
   style highlight fill: "#fffacd" stroke: "#daa520"
@@ -183,11 +183,11 @@ diagram "Simple Flowchart" {
 
 ```runiq
 diagram "Microservices" {
-  direction:LR
+  direction LR
 
   container backend "Backend" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:3 {
-    shape api as @hex label:"API"
-    shape db as @cyl label:"Database"
+    shape api as @hexagon label:"API"
+    shape db as @cylinder label:"Database"
 
     api -> db
   }

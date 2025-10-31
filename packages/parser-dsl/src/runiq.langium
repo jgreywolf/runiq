@@ -16,7 +16,7 @@ Profile:
 // Visual Diagram Profile (existing functionality)
 // ============================================================================
 DiagramProfile:
-    'diagram' name=STRING ('{' statements+=DiagramStatement* '}' | statements+=DiagramStatement*);
+    'diagram' name=STRING '{' statements+=DiagramStatement* '}';
 
 // Statements within diagram profile
 DiagramStatement:
@@ -347,12 +347,16 @@ RoutingDeclaration:
 RoutingValue returns string:
     'orthogonal' | 'polyline' | 'splines' | 'straight';
 
-// style myStyle fill: "red" stroke: "blue"
+// style myStyle fill:"red" stroke:"blue" stroke:"#f00" fillColor:"#0f0"
 StyleDeclaration:
     'style' name=ID properties+=StyleProperty+;
 
 StyleProperty:
-    key=ID ':' value=(STRING | NUMBER | ID);
+    key=StylePropertyKey value=(STRING | NUMBER | ID);
+
+// Allow regular IDs plus property keywords that users might use in styles
+StylePropertyKey returns string:
+    ID ':' | 'fill:' | 'stroke:' | 'color:' | 'strokeWidth:' | 'fontSize:' | 'fontFamily:' | 'fontWeight:' | 'textAlign:' | 'opacity:' | 'borderRadius:' | 'lineStyle:';
 
 // shape node1 as @rounded label: "My Node" style: myStyle icon: fa/user link: "http://example.com"
 // shape node1 label: "My Node" (shape optional if inside type:mindmap container)
@@ -361,7 +365,7 @@ ShapeDeclaration:
 
 // Allow shape IDs, regular IDs, and certain keywords that are valid shape names
 ShapeIdentifier returns string:
-    SHAPE_ID | ID | 'actor' | 'entity' | 'boundary' | 'control' | 'database';
+    SHAPE_ID | ID | 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'note';
 
 NodeProperty:
     LabelProperty
@@ -383,7 +387,17 @@ NodeProperty:
     | AttributesProperty
     | MethodsProperty
     | GenericTypesProperty
-    | StereotypeProperty;
+    | StereotypeProperty
+    | FillProperty
+    | ColorProperty
+    | StrokeProperty
+    | StrokeWidthProperty
+    | FontSizeProperty
+    | FontFamilyProperty
+    | FontWeightProperty
+    | TextAlignProperty
+    | OpacityProperty
+    | BorderRadiusProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -513,6 +527,42 @@ GenericTypesProperty:
 StereotypeProperty:
     'stereotype:' value=STRING;
 
+// Inline styling properties for shapes
+FillProperty:
+    'fill:' value=STRING;
+
+ColorProperty:
+    'color:' value=STRING;
+
+StrokeProperty:
+    'stroke:' value=STRING;
+
+StrokeWidthProperty:
+    'strokeWidth:' value=NUMBER;
+
+FontSizeProperty:
+    'fontSize:' value=NUMBER;
+
+FontFamilyProperty:
+    'fontFamily:' value=STRING;
+
+TextAlignProperty:
+    'textAlign:' value=TextAlignValue;
+
+TextAlignValue returns string:
+    'left' | 'center' | 'right';
+
+FontWeightProperty:
+    'fontWeight:' value=NUMBER;
+
+OpacityProperty:
+    'opacity:' value=NUMBER;
+
+BorderRadiusProperty:
+    'borderRadius:' value=NUMBER;
+
+// ============================================================================
+
 StringArray:
     '[' (items+=STRING (',' items+=STRING)*)? ']';
 
@@ -537,9 +587,15 @@ DataArray:
 // node1 -> node2
 // node1 -label-> node2
 // node1 -> node2 lineStyle:double arrowType:none (for marriage edges)
+// node1 <-> node2 (bidirectional connection)
 // Class.field -> OtherClass.method (member-level connections)
+// A -> B -> C (chained edges)
 EdgeDeclaration:
-    from=NodeRef (arrow=ARROW | labeledArrow=LABELED_ARROW) to=NodeRef properties+=EdgeProperty*;
+    from=NodeRef (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW) to=NodeRef 
+    chain+=(EdgeChain)* properties+=EdgeProperty*;
+
+EdgeChain:
+    (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW) to=NodeRef;
 
 // Support both simple node references (node1) and member references (Class.field)
 NodeRef:
@@ -556,7 +612,11 @@ EdgeProperty:
     | EdgeTypeProperty
     | NavigabilityProperty
     | EdgeConstraintsProperty
-    | RoutingProperty;
+    | RoutingProperty
+    | StereotypeProperty
+    | StrokeProperty
+    | StrokeWidthProperty
+    | StyleRefProperty;
 
 EdgeLabelProperty:
     'label:' label=STRING;
@@ -587,7 +647,7 @@ RoleTargetProperty:
     'roleTarget:' value=STRING;
 
 EdgeTypeProperty:
-    'edgeType:' value=EdgeTypeValue;
+    ('edgeType:' | 'relationship:') value=EdgeTypeValue;
 
 EdgeTypeValue returns string:
     'association' | 'aggregation' | 'composition' | 'dependency' | 'generalization' | 'realization';
@@ -654,6 +714,7 @@ ContainerStyleProperty:
     'borderStyle:' borderStyle=BorderStyleValue
     | 'borderColor:' borderColor=STRING
     | 'borderWidth:' borderWidth=NUMBER
+    | 'fill:' fill=STRING
     | 'backgroundColor:' backgroundColor=STRING
     | 'opacity:' opacity=NUMBER
     | 'padding:' padding=NUMBER
@@ -800,6 +861,7 @@ DepthIndicatorStyleValue returns string:
 
 // Terminals
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
+terminal BIDIRECTIONAL_ARROW: '<->';
 terminal ARROW: '->';
 terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;

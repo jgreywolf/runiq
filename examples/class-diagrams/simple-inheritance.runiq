@@ -2,7 +2,7 @@
 // Demonstrates basic class inheritance with abstract base class
 
 diagram "Animal Hierarchy" {
-  direction: TB
+  direction TB
   
   // Abstract base class
   shape Animal as @class label:"Animal"

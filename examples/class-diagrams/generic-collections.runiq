@@ -2,7 +2,7 @@
 // Demonstrates generic type parameters with collections
 
 diagram "Generic Collections" {
-  direction: LR
+  direction LR
   
   // Simple generic class
   shape List as @class label:"List"

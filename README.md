@@ -226,7 +226,8 @@ See [docs/langium-migration.md](./docs/langium-migration.md) for migration detai
 ### Software Diagram - Basic Flowchart
 
 ```runiq
-diagram "Auth Flow" direction: LR
+diagram "Auth Flow"
+direction LR
 
 style default fill:#f7f7ff stroke:#444 font:Inter fontSize:14
 style decision fill:#fff7e6 stroke:#aa7700
@@ -234,11 +235,11 @@ style decision fill:#fff7e6 stroke:#aa7700
 shape User     as @actor   label:"Visitor" icon:fa/user
 shape Landing  as @rounded label:"Landing Page"
 shape Check    as @rhombus label:"Signed up?" style:decision
-shape Welcome  as @hex     label:"Welcome"
+shape Welcome  as @hexagon     label:"Welcome"
 
 User -> Landing : visits
 Landing -> Check
-Check[yes] -> Welcome
+Check -yes-> Welcome
 Check[no]  -> Pricing : reads
 ```
 
@@ -300,7 +301,7 @@ digital "Half Adder" {
 
 ```runiq
 diagram "Banking System - Context"
-direction: TB
+direction TB
 
 shape customer as @c4-person label:"Customer"
 shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
@@ -324,15 +325,16 @@ bankingSystem -Uses-> mainframe
 ### With Containers
 
 ```runiq
-diagram "Microservices" direction: LR
+diagram "Microservices"
+direction LR
 
 container backend "Backend Services"
   backgroundColor: "#f3e5f5"
   borderColor: "#7b1fa2"
   borderWidth: 3 {
-  shape auth as @hex label: "Auth Service"
-  shape api as @hex label: "API Gateway"
-  shape users as @hex label: "User Service"
+  shape auth as @hexagon label: "Auth Service"
+  shape api as @hexagon label: "API Gateway"
+  shape users as @hexagon label: "User Service"
 
   api -> auth
   api -> users
@@ -399,7 +401,7 @@ _SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq]
 
 ```runiq
 diagram "Domain Model" {
-  direction: TB
+  direction TB
 
   // Customer entity
   shape Customer as @class label:"Customer"

@@ -46,21 +46,23 @@ Containers group nodes visually and influence layout. Nested containers are supp
 ### Example (DSL)
 
 ```runiq
-diagram "Service" direction: LR
+diagram "Service" {
+	direction LR
 
-container Frontend {
-	shape UI as @rounded label: "UI"
-}
-
-container Backend {
-	shape API as @rect label: "API"
-	container DBLayer {
-		shape DB as @cyl label: "Database"
+	container "Frontend" {
+		shape UI as @rounded label: "UI"
 	}
-}
 
-UI -> API
-API -> DB
+	container "Backend" {
+		shape API as @rect label: "API"
+		container "DBLayer" {
+			shape DB as @cylinder label: "Database"
+		}
+	}
+
+	UI -> API
+	API -> DB
+}
 ```
 
 ## Tips

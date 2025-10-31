@@ -3,21 +3,21 @@
 
 diagram "Smith Family Tree" {
   // Generation I - Grandparents
-  shape grandpa as @pedigree-male label:"John Smith"
-  shape grandma as @pedigree-female label:"Mary Johnson"
+  shape grandpa as @pedigreeMale label:"John Smith"
+  shape grandma as @pedigreeFemale label:"Mary Johnson"
   
   // Generation II - Parents and Aunt/Uncle
-  shape dad as @pedigree-male label:"Robert Smith"
-  shape mom as @pedigree-female label:"Susan Davis"
-  shape uncle as @pedigree-male label:"James Smith"
-  shape aunt as @pedigree-female label:"Linda Brown"
+  shape dad as @pedigreeMale label:"Robert Smith"
+  shape mom as @pedigreeFemale label:"Susan Davis"
+  shape uncle as @pedigreeMale label:"James Smith"
+  shape aunt as @pedigreeFemale label:"Linda Brown"
   
   // Generation III - Children and Cousins
-  shape emily as @pedigree-female label:"Emily Smith"
-  shape michael as @pedigree-male label:"Michael Smith"
-  shape sarah as @pedigree-female label:"Sarah Smith"
-  shape david as @pedigree-male label:"David Smith"
-  shape jennifer as @pedigree-female label:"Jennifer Smith"
+  shape emily as @pedigreeFemale label:"Emily Smith"
+  shape michael as @pedigreeMale label:"Michael Smith"
+  shape sarah as @pedigreeFemale label:"Sarah Smith"
+  shape david as @pedigreeMale label:"David Smith"
+  shape jennifer as @pedigreeFemale label:"Jennifer Smith"
   
   // Marriages
   grandpa -> grandma
