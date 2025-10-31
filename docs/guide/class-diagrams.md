@@ -346,8 +346,8 @@ diagram "Styled Classes" {
       {name: "helperMethod" returnType: "void" visibility: public static: true}
     ]
 
-  derived -> base relationship: generalization style: { stroke: "#f59e0b", strokeWidth: 2 }
-  derived -> util relationship: dependency style: { strokeDasharray: "5,5" }
+  derived -> base relationship: generalization stroke: "#f59e0b" strokeWidth: 2
+  derived -> util relationship: dependency lineStyle: dashed
 }
 ```
 
@@ -416,9 +416,9 @@ diagram "Simple Generics" {
 diagram "Nested Generics" {
   shape complexList as @class label: "ComplexList"
     attributes: [
-      {name: "data" type: "List<Map<String,Integer>>" visibility: private}      // Fully nested
-      {name: "optional" type: "Optional<? extends Number>" visibility: private} // Bounded wildcards
-      {name: "func" type: "Function<T, R>" visibility: private}                 // Function types
+      {name: "data" type: "List<Map<String,Integer>>" visibility: private},      // Fully nested
+      {name: "optional" type: "Optional<? extends Number>" visibility: private}, // Bounded wildcards
+      {name: "func" type: "Function<T, R>" visibility: private}                  // Function types
     ]
 }
 ```
@@ -451,30 +451,63 @@ diagram "Language-Specific Generics" {
 
 ### Stereotypes
 
+Stereotypes are UML extension mechanisms shown with guillemets (« »). Runiq supports both single and multiple stereotypes:
+
+**Single Stereotype:**
+
+```runiq
+shape myInterface as @class label: "MyInterface"
+  stereotype: "interface"
+```
+
+**Multiple Stereotypes:**
+
+```runiq
+shape repository as @class label: "UserRepository"
+  stereotypes: ["entity", "persistent", "auditable"]
+```
+
+**Common UML Stereotypes:**
+
 ```runiq
 diagram "Stereotypes" {
   shape myInterface as @class label: "MyInterface"
-    stereotype: "«interface»"
+    stereotype: "interface"
 
   shape myAbstract as @class label: "MyAbstract"
-    stereotype: "«abstract»"
+    stereotype: "abstract"
 
   shape myUtility as @class label: "MyUtility"
-    stereotype: "«utility»"
+    stereotype: "utility"
 
   shape myEntity as @class label: "MyEntity"
-    stereotype: "«entity»"
+    stereotype: "entity"
 
   shape myBoundary as @class label: "MyBoundary"
-    stereotype: "«boundary»"
+    stereotype: "boundary"
 
   shape myControl as @class label: "MyControl"
-    stereotype: "«control»"
+    stereotype: "control"
 
   shape myEnum as @class label: "MyEnum"
-    stereotype: "«enumeration»"
+    stereotype: "enumeration"
+
+  # Multiple stereotypes for JPA entity
+  shape userEntity as @class label: "User"
+    stereotypes: ["entity", "persistent", "transactional"]
+    attributes: [
+      {name: "id" type: "Long" visibility: private},
+      {name: "username" type: "String" visibility: private}
+    ]
 }
 ```
+
+::: tip Stereotype Rendering
+
+- Single stereotypes: `stereotype: "entity"` → renders as `«entity»`
+- Multiple stereotypes: `stereotypes: ["entity", "persistent"]` → renders as `«entity» «persistent»`
+- Guillemets (« ») are added automatically - just provide the text
+  :::
 
 ### Display Behavior
 
@@ -512,9 +545,9 @@ diagram "With Constraints" {
       {name: "withdraw" params: [{name: "amount" type: "float"}] returnType: "bool" visibility: public constraints: ["amount > 0", "amount <= balance"]}
     ]
 
-  shape note as @note label: "{balance >= 0}"
+  shape noteShape as @note label: "{balance >= 0}"
 
-  note -> class arrowType: none style: { strokeDasharray: "2,2" }
+  noteShape -> class arrowType: none lineStyle: dotted
 }
 ```
 
@@ -553,8 +586,8 @@ diagram "Association Class" {
     ]
 
   student -> course relationship: association roleSource: "enrolls in" multiplicitySource: "*" multiplicityTarget: "*"
-  enrollment -> student arrowType: none style: { strokeDasharray: "2,2" }
-  enrollment -> course arrowType: none style: { strokeDasharray: "2,2" }
+  enrollment -> student arrowType: none lineStyle: dotted
+  enrollment -> course arrowType: none lineStyle: dotted
 }
 ```
 

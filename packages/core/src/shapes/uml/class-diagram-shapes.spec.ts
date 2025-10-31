@@ -58,16 +58,20 @@ describe('UML Class Diagram Shapes', () => {
 
     it('should render interface with stereotype and methods', () => {
       const ctx = createMockContext('IRepository', {
-        methods: ['save()', 'find()', 'delete()'],
+        methods: [
+          { name: 'save', returnType: 'void', visibility: 'public' },
+          { name: 'find', returnType: 'void', visibility: 'public' },
+          { name: 'delete', returnType: 'void', visibility: 'public' },
+        ],
       });
       const svg = interfaceShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('<rect');
       expect(svg).toContain('«interface»');
       expect(svg).toContain('IRepository');
-      expect(svg).toContain('save()');
-      expect(svg).toContain('find()');
-      expect(svg).toContain('delete()');
+      expect(svg).toContain('+ save(): void');
+      expect(svg).toContain('+ find(): void');
+      expect(svg).toContain('+ delete(): void');
     });
 
     it('should handle interface without methods', () => {
@@ -111,14 +115,14 @@ describe('UML Class Diagram Shapes', () => {
       expect(svg).toContain('Vehicle');
     });
 
-    it('should show {abstract} stereotype when specified', () => {
+    it('should show «abstract» stereotype when specified', () => {
       const ctx = createMockContext('Shape', {
         showStereotype: true,
         methods: ['draw()'],
       });
       const svg = abstractShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('{abstract}');
+      expect(svg).toContain('«abstract»');
       expect(svg).toContain('Shape');
     });
   });

@@ -525,7 +525,8 @@ GenericTypesProperty:
     'genericTypes:' '[' (types+=STRING (',' types+=STRING)*)? ']';
 
 StereotypeProperty:
-    'stereotype:' value=STRING;
+    'stereotype:' value=STRING
+    | 'stereotypes:' '[' values+=STRING (',' values+=STRING)* ']';
 
 // Inline styling properties for shapes
 FillProperty:

@@ -304,6 +304,7 @@ export type RuniqKeywordNames =
     | "standard"
     | "static:"
     | "stereotype:"
+    | "stereotypes:"
     | "straight"
     | "stress"
     | "string"
@@ -2753,12 +2754,14 @@ export function isStackedProperty(item: unknown): item is StackedProperty {
 export interface StereotypeProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration | ShapeDeclaration;
     readonly $type: 'StereotypeProperty';
-    value: string;
+    value?: string;
+    values: Array<string>;
 }
 
 export const StereotypeProperty = {
     $type: 'StereotypeProperty',
-    value: 'value'
+    value: 'value',
+    values: 'values'
 } as const;
 
 export function isStereotypeProperty(item: unknown): item is StereotypeProperty {
@@ -4959,6 +4962,10 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: StereotypeProperty.value
+                },
+                values: {
+                    name: StereotypeProperty.values,
+                    defaultValue: []
                 }
             },
             superTypes: [EdgeProperty.$type, NodeProperty.$type]

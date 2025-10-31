@@ -1,5 +1,66 @@
 import type { ShapeDefinition } from '../../types.js';
 
+interface AbstractAttribute {
+  name: string;
+  type?: string;
+  visibility?: 'public' | 'private' | 'protected' | 'package';
+  defaultValue?: string;
+  isStatic?: boolean;
+  isDerived?: boolean;
+  constraints?: string[];
+}
+
+interface MethodParameter {
+  name: string;
+  type: string;
+}
+
+interface AbstractMethod {
+  name: string;
+  params?: MethodParameter[];
+  returnType?: string;
+  visibility?: 'public' | 'private' | 'protected' | 'package';
+  isAbstract?: boolean;
+  isStatic?: boolean;
+  constraints?: string[];
+}
+
+function formatAttribute(attr: AbstractAttribute): string {
+  const visibility = getVisibilitySymbol(attr.visibility);
+  const derivedPrefix = attr.isDerived ? '/' : '';
+  let text = `${visibility} ${derivedPrefix}${attr.name}`;
+  if (attr.type) text += `: ${attr.type}`;
+  if (attr.defaultValue) text += ` = ${attr.defaultValue}`;
+  return text;
+}
+
+function formatMethod(method: AbstractMethod): string {
+  const visibility = getVisibilitySymbol(method.visibility);
+  const params = (method.params || [])
+    .map((p) => `${p.name}: ${p.type}`)
+    .join(', ');
+  let text = `${visibility} ${method.name}(${params})`;
+  if (method.returnType) text += `: ${method.returnType}`;
+  return text;
+}
+
+function getVisibilitySymbol(
+  visibility?: 'public' | 'private' | 'protected' | 'package'
+): string {
+  switch (visibility) {
+    case 'public':
+      return '+';
+    case 'private':
+      return '-';
+    case 'protected':
+      return '#';
+    case 'package':
+      return '~';
+    default:
+      return '+';
+  }
+}
+
 /**
  * UML Abstract Class shape
  * Displays abstract class with italicized name and optional {abstract} stereotype
@@ -12,25 +73,42 @@ export const abstractShape: ShapeDefinition = {
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
 
-    const attributes = (ctx.node.data?.attributes as string[]) || [];
-    const methods = (ctx.node.data?.methods as string[]) || [];
+    const attributes = (ctx.node.data?.attributes as AbstractAttribute[]) || [];
+    const methods = (ctx.node.data?.methods as AbstractMethod[]) || [];
+    const stereotypeRaw = ctx.node.data?.stereotype as
+      | string
+      | string[]
+      | undefined;
     const showStereotype = ctx.node.data?.showStereotype === true;
 
+    // Support custom stereotypes or default to {abstract} if showStereotype is true
+    const stereotypes = Array.isArray(stereotypeRaw)
+      ? stereotypeRaw
+      : stereotypeRaw
+        ? [stereotypeRaw]
+        : showStereotype
+          ? ['abstract']
+          : [];
+    const stereotypeText =
+      stereotypes.length > 0 ? stereotypes.map((s) => `«${s}»`).join(' ') : '';
+
     const nameSize = ctx.measureText(ctx.node.label || '', ctx.style);
-    const stereotypeSize = showStereotype
-      ? ctx.measureText('{abstract}', ctx.style)
+    const stereotypeSize = stereotypeText
+      ? ctx.measureText(stereotypeText, ctx.style)
       : { width: 0 };
 
     // Calculate width based on longest text
     let maxWidth = Math.max(nameSize.width, stereotypeSize.width);
 
     attributes.forEach((attr) => {
-      const attrSize = ctx.measureText(attr, ctx.style);
+      const attrText = formatAttribute(attr);
+      const attrSize = ctx.measureText(attrText, ctx.style);
       maxWidth = Math.max(maxWidth, attrSize.width);
     });
 
     methods.forEach((method) => {
-      const methodSize = ctx.measureText(method, ctx.style);
+      const methodText = formatMethod(method);
+      const methodSize = ctx.measureText(methodText, ctx.style);
       maxWidth = Math.max(maxWidth, methodSize.width);
     });
 
@@ -39,7 +117,7 @@ export const abstractShape: ShapeDefinition = {
     // Height calculation
     let height = padding; // top padding
 
-    if (showStereotype) {
+    if (stereotypeText) {
       height += lineHeight; // stereotype
     }
 
@@ -81,13 +159,30 @@ export const abstractShape: ShapeDefinition = {
 
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
-    const attributes = (ctx.node.data?.attributes as string[]) || [];
-    const methods = (ctx.node.data?.methods as string[]) || [];
+    const attributes = (ctx.node.data?.attributes as AbstractAttribute[]) || [];
+    const methods = (ctx.node.data?.methods as AbstractMethod[]) || [];
+    const stereotypeRaw = ctx.node.data?.stereotype as
+      | string
+      | string[]
+      | undefined;
     const showStereotype = ctx.node.data?.showStereotype === true;
+
+    // Support custom stereotypes or default to {abstract} if showStereotype is true
+    const stereotypes = Array.isArray(stereotypeRaw)
+      ? stereotypeRaw
+      : stereotypeRaw
+        ? [stereotypeRaw]
+        : showStereotype
+          ? ['abstract']
+          : [];
+    const stereotypeText =
+      stereotypes.length > 0 ? stereotypes.map((s) => `«${s}»`).join(' ') : '';
 
     const fill = ctx.style.fill || '#ffffff';
     const stroke = ctx.style.stroke || '#000000';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const fontFamily =
+      typeof ctx.style.fontFamily === 'string' ? ctx.style.fontFamily : 'Arial';
 
     let svg = `<g class="abstract-shape">`;
 
@@ -97,19 +192,19 @@ export const abstractShape: ShapeDefinition = {
 
     let currentY = y + padding + lineHeight * 0.7;
 
-    // Optional {abstract} stereotype
-    if (showStereotype) {
+    // Optional stereotype(s)
+    if (stereotypeText) {
       svg += `<text x="${x + w / 2}" y="${currentY}" `;
       svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-      svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-      svg += `{abstract}</text>`;
+      svg += `font-family="${fontFamily}" fill="${stroke}">`;
+      svg += `${stereotypeText}</text>`;
       currentY += lineHeight;
     }
 
     // Class name (italicized for abstract)
     svg += `<text x="${x + w / 2}" y="${currentY}" `;
     svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
+    svg += `font-family="${fontFamily}" `;
     svg += `font-style="italic" font-weight="bold" fill="${stroke}">`;
     svg += `${ctx.node.label || ''}</text>`;
     currentY += lineHeight * 0.3;
@@ -123,10 +218,11 @@ export const abstractShape: ShapeDefinition = {
 
       attributes.forEach((attr) => {
         currentY += lineHeight * 0.7;
+        const attrText = formatAttribute(attr);
         svg += `<text x="${x + padding}" y="${currentY}" `;
         svg += `font-size="${ctx.style.fontSize || 14}" `;
-        svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-        svg += `${attr}</text>`;
+        svg += `font-family="${fontFamily}" fill="${stroke}">`;
+        svg += `${attrText}</text>`;
         currentY += lineHeight * 0.3;
       });
     }
@@ -140,11 +236,12 @@ export const abstractShape: ShapeDefinition = {
 
       methods.forEach((method) => {
         currentY += lineHeight * 0.7;
+        const methodText = formatMethod(method);
         svg += `<text x="${x + padding}" y="${currentY}" `;
         svg += `font-size="${ctx.style.fontSize || 14}" `;
-        svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
+        svg += `font-family="${fontFamily}" `;
         svg += `font-style="italic" fill="${stroke}">`;
-        svg += `${method}</text>`;
+        svg += `${methodText}</text>`;
         currentY += lineHeight * 0.3;
       });
     }

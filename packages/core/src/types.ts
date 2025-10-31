@@ -62,7 +62,7 @@ export interface EdgeAst {
   data?: Record<string, unknown>;
   routing?: EdgeRouting; // Per-edge routing override
   // UML enhancements for use case diagrams and other notations
-  stereotype?: string; // e.g., 'include', 'extend', 'uses' (rendered as <<stereotype>>)
+  stereotype?: string | string[]; // e.g., 'include', 'extend', 'uses' (rendered as <<stereotype>>). Supports single or multiple stereotypes
   lineStyle?: 'solid' | 'dashed' | 'dotted' | 'double'; // Line appearance (double for consanguineous marriages)
   arrowType?: 'standard' | 'hollow' | 'open' | 'none'; // Arrow head style
   bidirectional?: boolean; // Whether to show arrows on both ends (from <-> syntax)

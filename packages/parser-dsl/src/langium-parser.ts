@@ -1027,9 +1027,17 @@ function processDialogStatement(
         if (!node.data) node.data = {};
         node.data.genericTypes = prop.types.map((t) => t.replace(/^"|"$/g, ''));
       } else if (Langium.isStereotypeProperty(prop)) {
-        // UML stereotype
+        // UML stereotype - supports single or multiple stereotypes
         if (!node.data) node.data = {};
-        node.data.stereotype = prop.value.replace(/^"|"$/g, '');
+        if (prop.values.length > 0) {
+          // Multiple stereotypes: stereotypes: ["entity", "persistent"]
+          node.data.stereotype = prop.values.map((v: string) =>
+            v.replace(/^"|"$/g, '')
+          );
+        } else if (prop.value) {
+          // Single stereotype: stereotype: "entity"
+          node.data.stereotype = prop.value.replace(/^"|"$/g, '');
+        }
       }
     }
 
@@ -1115,7 +1123,16 @@ function processDialogStatement(
         } else if (Langium.isEdgeConstraintsProperty(prop)) {
           edge.constraints = prop.values.map((v) => v.replace(/^"|"$/g, ''));
         } else if (Langium.isStereotypeProperty(prop)) {
-          edge.stereotype = prop.value.replace(/^"|"$/g, '');
+          // Edge stereotype - supports single or multiple stereotypes
+          if (prop.values.length > 0) {
+            // Multiple stereotypes: stereotypes: ["include", "extend"]
+            edge.stereotype = prop.values.map((v: string) =>
+              v.replace(/^"|"$/g, '')
+            );
+          } else if (prop.value) {
+            // Single stereotype: stereotype: "include"
+            edge.stereotype = prop.value.replace(/^"|"$/g, '');
+          }
         } else if (Langium.isStrokeProperty(prop)) {
           edge.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {
