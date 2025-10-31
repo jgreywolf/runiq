@@ -52,7 +52,12 @@ describe('Swimlane Shape', () => {
       const anchors = swimlaneShape.anchors?.(ctx);
 
       expect(anchors).toHaveLength(4);
-      expect(anchors!.map((a) => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors!.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
   });
 
@@ -63,7 +68,7 @@ describe('Swimlane Shape', () => {
 
       expect(svg).toContain('class="swimlane-shape"');
       expect(svg).toContain('<rect');
-      
+
       // Vertical swimlane has horizontal separator at y=40
       expect(svg).toContain('y1="40"');
       expect(svg).toContain('y2="40"');
@@ -93,7 +98,7 @@ describe('Swimlane Shape', () => {
       const svg = swimlaneShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('class="swimlane-shape"');
-      
+
       // Horizontal swimlane has vertical separator at x=100
       expect(svg).toContain('x1="100"');
       expect(svg).toContain('x2="100"');

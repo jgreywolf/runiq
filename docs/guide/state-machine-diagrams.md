@@ -25,7 +25,7 @@ State machine diagrams show the different states an object can be in and the tra
 - **Fork**: `@fork` - Parallel split (horizontal bar)
 - **Join**: `@join` - Parallel merge (horizontal bar)
 - **History (Shallow)**: `@history-shallow` - Restores direct substate (H)
-- **History (Deep)**: `@history-deep` - Restores nested substate (H*)
+- **History (Deep)**: `@history-deep` - Restores nested substate (H\*)
 - **Entry Point**: `@entry-point` - Composite state entry
 - **Exit Point**: `@exit-point` - Composite state exit
 - **Terminate**: `@terminate` - State machine termination (X in circle)
@@ -36,11 +36,11 @@ See the [Shape Reference - UML Shapes](/reference/shapes#_10-uml-shapes-22-shape
 
 UML 2.5 defines three types of behaviors for states:
 
-| Behavior   | Property     | Description                                 |
-| ---------- | ------------ | ------------------------------------------- |
-| Entry      | `entry:`     | Action executed when entering the state     |
-| Do         | `doActivity:` | Continuous activity while in the state      |
-| Exit       | `exit:`      | Action executed when leaving the state      |
+| Behavior | Property      | Description                             |
+| -------- | ------------- | --------------------------------------- |
+| Entry    | `entry:`      | Action executed when entering the state |
+| Do       | `doActivity:` | Continuous activity while in the state  |
+| Exit     | `exit:`       | Action executed when leaving the state  |
 
 ### Example: State with Behaviors
 
@@ -69,11 +69,11 @@ This renders as:
 
 UML transitions follow the pattern: **event [guard] / effect**
 
-| Component | Property  | Description                       | Example             |
-| --------- | --------- | --------------------------------- | ------------------- |
-| Event     | `event:`  | Trigger that causes transition    | "buttonPressed"     |
-| Guard     | `guard:`  | Boolean condition to check        | "[doorClosed]"      |
-| Effect    | `effect:` | Action executed during transition | "/ turnOnLight()"   |
+| Component | Property  | Description                       | Example           |
+| --------- | --------- | --------------------------------- | ----------------- |
+| Event     | `event:`  | Trigger that causes transition    | "buttonPressed"   |
+| Guard     | `guard:`  | Boolean condition to check        | "[doorClosed]"    |
+| Effect    | `effect:` | Action executed during transition | "/ turnOnLight()" |
 
 ### Example: Full Transition Syntax
 
@@ -81,7 +81,7 @@ UML transitions follow the pattern: **event [guard] / effect**
 diagram "Door Lock System" {
   shape locked as @state label: "Locked"
     entry: "engageLock()"
-  
+
   shape unlocked as @state label: "Unlocked"
     entry: "releaseLock()"
 
@@ -187,10 +187,10 @@ diagram "Choice Example" {
 
   start -> processing
   processing -> decision event: "completed"
-  
+
   decision -> fastPath label: "[priority == high]"
   decision -> slowPath label: "[priority == low]"
-  
+
   fastPath -> end
   slowPath -> end
 }
@@ -211,7 +211,7 @@ diagram "Junction Example" {
   shape term as @terminate
 
   processing -> junc effect: "/ checkStatus()"
-  
+
   junc -> retry label: "[retryCount < 3]"
   junc -> abort label: "[retryCount >= 3]"
   junc -> term label: "[fatalError]"
@@ -227,25 +227,25 @@ diagram "Parallel Processing" {
   shape start as @initialState
   shape ready as @state label: "Ready"
   shape split as @fork
-  
+
   shape task1 as @state label: "Task 1"
   shape task2 as @state label: "Task 2"
-  
+
   shape merge as @join
   shape complete as @state label: "Complete"
   shape end as @finalState
 
   start -> ready
   ready -> split event: "process"
-  
+
   # Parallel execution
   split -> task1
   split -> task2
-  
+
   # Synchronization
   task1 -> merge
   task2 -> merge
-  
+
   merge -> complete
   complete -> end
 }
@@ -265,23 +265,24 @@ diagram "History Example" {
   shape end as @finalState
 
   start -> running
-  
+
   # Pause remembers last state
   running -> paused event: "pause"
-  
+
   # Resume returns to remembered state (shallow)
   paused -> histShallow event: "resume"
   histShallow -> running
-  
+
   # Deep history for nested states
   paused -> histDeep event: "deepResume"
   histDeep -> running
-  
+
   running -> end event: "stop"
 }
 ```
 
 **Difference between Shallow and Deep History:**
+
 - **Shallow History** (`@history-shallow`): Returns to the most recently active **direct** substate
 - **Deep History** (`@history-deep`): Returns to the most recently active **nested** substate at any depth
 
@@ -409,25 +410,30 @@ diagram "Complete State Machine - Door Lock" {
 ## Best Practices
 
 ### 1. State Naming
+
 - Use **noun phrases** for state names: "Locked", "Processing", "Waiting"
 - Avoid verb phrases unless necessary: "StartingUp" is okay
 
 ### 2. Transition Labels
+
 - **Event names**: Use past tense or imperative: "buttonPressed", "timeout", "start"
 - **Guards**: Always use square brackets: `[condition]`
 - **Effects**: Always prefix with `/`: `/ action()`
 
 ### 3. State Behaviors
+
 - **Entry actions**: Setup, initialization, notifications
 - **Do activities**: Continuous operations that can be interrupted
 - **Exit actions**: Cleanup, resource release, logging
 
 ### 4. Pseudo-state Usage
+
 - Use **choice** for runtime decisions based on dynamic data
 - Use **junction** for static branching based on constants
 - Use **history** when substates need to be restored after interruption
 
 ### 5. Diagram Organization
+
 - Use `direction LR` for wide, flat state machines
 - Use `direction TB` for hierarchical state machines with many levels
 - Group related states visually with spacing or containers
@@ -436,30 +442,32 @@ diagram "Complete State Machine - Door Lock" {
 
 Runiq's state machine diagrams are compliant with UML 2.5:
 
-| Feature                | Support | Notes                                    |
-| ---------------------- | ------- | ---------------------------------------- |
-| States                 | ✅ Full | With entry/exit/doActivity               |
-| Initial/Final States   | ✅ Full | Standard UML notation                    |
-| Transitions            | ✅ Full | event [guard] / effect syntax            |
-| Choice Pseudo-state    | ✅ Full | Dynamic branching                        |
-| Junction Pseudo-state  | ✅ Full | Static branching                         |
-| Fork/Join              | ✅ Full | Parallel regions                         |
-| History (Shallow/Deep) | ✅ Full | State restoration                        |
-| Entry/Exit Points      | ✅ Full | Composite state boundaries               |
-| Terminate              | ✅ Full | State machine termination                |
+| Feature                | Support    | Notes                                   |
+| ---------------------- | ---------- | --------------------------------------- |
+| States                 | ✅ Full    | With entry/exit/doActivity              |
+| Initial/Final States   | ✅ Full    | Standard UML notation                   |
+| Transitions            | ✅ Full    | event [guard] / effect syntax           |
+| Choice Pseudo-state    | ✅ Full    | Dynamic branching                       |
+| Junction Pseudo-state  | ✅ Full    | Static branching                        |
+| Fork/Join              | ✅ Full    | Parallel regions                        |
+| History (Shallow/Deep) | ✅ Full    | State restoration                       |
+| Entry/Exit Points      | ✅ Full    | Composite state boundaries              |
+| Terminate              | ✅ Full    | State machine termination               |
 | Composite States       | ⚠️ Partial | Use containers (future: proper nesting) |
 
 ## Tips
 
 ::: tip State Behavior Format
 The behavior syntax automatically adds the UML format:
+
 - `entry: "action()"` renders as `entry / action()`
 - `doActivity: "task()"` renders as `do / task()`
 - `exit: "cleanup()"` renders as `exit / cleanup()`
-:::
+  :::
 
 ::: tip Transition Syntax
 You can use any combination of event, guard, and effect:
+
 ```runiq
 # Event only
 idle -> processing event: "start"
@@ -471,18 +479,21 @@ idle -> processing event: "start" guard: "[ready]"
 idle -> processing event: "start" effect: "/ initialize()"
 
 # All three
-idle -> processing 
+idle -> processing
   event: "start"
   guard: "[ready]"
   effect: "/ initialize()"
 ```
+
 :::
 
 ::: tip History Restoration
 When using history pseudo-states, they must have an outgoing transition to the default state (in case no history exists):
+
 ```runiq
 hist -> defaultState  # Required default transition
 ```
+
 :::
 
 ## Common Patterns

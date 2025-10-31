@@ -1,8 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  activityFinalShape,
-  flowFinalShape,
-} from './activity-final-nodes.js';
+import { activityFinalShape, flowFinalShape } from './activity-final-nodes.js';
 import type { ShapeRenderContext } from '../../types.js';
 
 // Mock shape context for testing
@@ -38,19 +35,19 @@ describe('Activity Final Node Shapes', () => {
       expect(bounds.height).toBe(24);
     });
 
-    it('should render bull\'s eye (outer circle + filled inner circle)', () => {
+    it("should render bull's eye (outer circle + filled inner circle)", () => {
       const ctx = createMockContext();
       const svg = activityFinalShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('<g class="activity-final-shape">');
-      
+
       // Should have two circles
       const circles = svg.match(/<circle/g);
       expect(circles).toHaveLength(2);
-      
+
       // Outer circle should be unfilled
       expect(svg).toContain('fill="none"');
-      
+
       // Inner circle should be filled
       expect(svg).toMatch(/fill="#000000"/);
     });
@@ -76,13 +73,18 @@ describe('Activity Final Node Shapes', () => {
       const anchors = activityFinalShape.anchors?.(ctx);
 
       expect(anchors).toHaveLength(4);
-      expect(anchors!.map((a) => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors!.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
 
     it('should use custom stroke color', () => {
       const ctx = createMockContext();
       ctx.style.stroke = '#ff0000';
-      
+
       const svg = activityFinalShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('stroke="#ff0000"');
@@ -117,14 +119,14 @@ describe('Activity Final Node Shapes', () => {
       const svg = flowFinalShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('<g class="flow-final-shape">');
-      
+
       // Should have one circle
       const circles = svg.match(/<circle/g);
       expect(circles).toHaveLength(1);
-      
+
       // Circle should be unfilled
       expect(svg).toContain('fill="none"');
-      
+
       // Should have two lines forming X
       const lines = svg.match(/<line/g);
       expect(lines).toHaveLength(2);
@@ -144,7 +146,7 @@ describe('Activity Final Node Shapes', () => {
       // Should have exactly 2 lines
       const lines = svg.match(/<line/g);
       expect(lines).toHaveLength(2);
-      
+
       // Lines should have x1, y1, x2, y2 attributes
       expect(svg).toMatch(/x1="/);
       expect(svg).toMatch(/y1="/);
@@ -157,13 +159,18 @@ describe('Activity Final Node Shapes', () => {
       const anchors = flowFinalShape.anchors?.(ctx);
 
       expect(anchors).toHaveLength(4);
-      expect(anchors!.map((a) => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors!.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
 
     it('should use custom stroke color', () => {
       const ctx = createMockContext();
       ctx.style.stroke = '#0000ff';
-      
+
       const svg = flowFinalShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('stroke="#0000ff"');
@@ -181,7 +188,7 @@ describe('Activity Final Node Shapes', () => {
     it('should apply custom stroke width', () => {
       const ctx = createMockContext();
       ctx.style.strokeWidth = 2;
-      
+
       const svg = flowFinalShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('stroke-width="2"');
@@ -189,16 +196,16 @@ describe('Activity Final Node Shapes', () => {
   });
 
   describe('Shape differences', () => {
-    it('should distinguish activity final (bull\'s eye) from flow final (X)', () => {
+    it("should distinguish activity final (bull's eye) from flow final (X)", () => {
       const ctx = createMockContext();
-      
+
       const activitySvg = activityFinalShape.render(ctx, { x: 0, y: 0 });
       const flowSvg = flowFinalShape.render(ctx, { x: 0, y: 0 });
 
       // Activity final has 2 circles, no lines
       expect((activitySvg.match(/<circle/g) || []).length).toBe(2);
       expect(activitySvg).not.toContain('<line');
-      
+
       // Flow final has 1 circle, 2 lines
       expect((flowSvg.match(/<circle/g) || []).length).toBe(1);
       expect((flowSvg.match(/<line/g) || []).length).toBe(2);
@@ -206,7 +213,7 @@ describe('Activity Final Node Shapes', () => {
 
     it('should have activity final larger than flow final', () => {
       const ctx = createMockContext();
-      
+
       const activityBounds = activityFinalShape.bounds(ctx);
       const flowBounds = flowFinalShape.bounds(ctx);
 
@@ -216,7 +223,7 @@ describe('Activity Final Node Shapes', () => {
 
     it('should have different CSS classes', () => {
       const ctx = createMockContext();
-      
+
       const activitySvg = activityFinalShape.render(ctx, { x: 0, y: 0 });
       const flowSvg = flowFinalShape.render(ctx, { x: 0, y: 0 });
 
@@ -229,7 +236,9 @@ describe('Activity Final Node Shapes', () => {
     it('activity final should represent termination of entire activity', () => {
       // Activity Final: All tokens are consumed, entire activity stops
       expect(activityFinalShape.id).toBe('activityFinal');
-      expect(activityFinalShape.bounds({} as ShapeRenderContext).width).toBe(24);
+      expect(activityFinalShape.bounds({} as ShapeRenderContext).width).toBe(
+        24
+      );
     });
 
     it('flow final should represent termination of single flow', () => {

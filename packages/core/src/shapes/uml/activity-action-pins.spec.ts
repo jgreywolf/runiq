@@ -223,7 +223,12 @@ describe('Activity Shape with Action Pins', () => {
       const anchors = activityShape.anchors?.(ctx);
 
       expect(anchors).toHaveLength(4);
-      expect(anchors!.map((a) => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors!.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
 
     it('should maintain anchor points with pins', () => {
@@ -235,7 +240,12 @@ describe('Activity Shape with Action Pins', () => {
 
       // Anchors should remain the same regardless of pins
       expect(anchors).toHaveLength(4);
-      expect(anchors!.map((a) => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors!.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
   });
 });

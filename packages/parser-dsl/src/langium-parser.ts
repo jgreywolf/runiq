@@ -1165,6 +1165,9 @@ function processDialogStatement(
         } else if (Langium.isEffectProperty(prop)) {
           // UML State Machine effect/action
           edge.effect = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isFlowTypeProperty(prop)) {
+          // UML Activity Diagram flow type
+          edge.flowType = prop.value as 'control' | 'object';
         } else if (Langium.isStrokeProperty(prop)) {
           edge.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {

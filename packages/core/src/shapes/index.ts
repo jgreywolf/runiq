@@ -169,6 +169,10 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.flowFinalShape);
   // Activity diagram swimlanes/partitions
   shapeRegistry.register(uml.swimlaneShape);
+  // Activity diagram signal actions
+  shapeRegistry.register(uml.sendSignalShape);
+  shapeRegistry.register(uml.receiveSignalShape);
+  shapeRegistry.register(uml.acceptEventShape);
   shapeRegistry.register(uml.componentShape);
   shapeRegistry.register(uml.artifactShape);
   shapeRegistry.register(uml.nodeShape);

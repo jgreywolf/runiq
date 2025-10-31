@@ -154,6 +154,7 @@ export type RuniqKeywordNames =
     | "fill:"
     | "fit-content"
     | "flowRate"
+    | "flowType:"
     | "fluid"
     | "fontFamily:"
     | "fontSize:"
@@ -236,6 +237,7 @@ export type RuniqKeywordNames =
     | "note"
     | "number"
     | "nw"
+    | "object"
     | "of:"
     | "op"
     | "opacity:"
@@ -1247,7 +1249,7 @@ export function isEdgeLabelProperty(item: unknown): item is EdgeLabelProperty {
     return reflection.isInstance(item, EdgeLabelProperty.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | EffectProperty | EventProperty | GuardProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty;
+export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | EffectProperty | EventProperty | FlowTypeProperty | GuardProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty;
 
 export const EdgeProperty = {
     $type: 'EdgeProperty'
@@ -1407,6 +1409,27 @@ export type FlowRateUnit = 'CFM' | 'GPM' | 'L/min' | 'L/s' | 'm³/h';
 
 export function isFlowRateUnit(item: unknown): item is FlowRateUnit {
     return item === 'L/min' || item === 'L/s' || item === 'CFM' || item === 'GPM' || item === 'm³/h';
+}
+
+export interface FlowTypeProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'FlowTypeProperty';
+    value: FlowTypeValue;
+}
+
+export const FlowTypeProperty = {
+    $type: 'FlowTypeProperty',
+    value: 'value'
+} as const;
+
+export function isFlowTypeProperty(item: unknown): item is FlowTypeProperty {
+    return reflection.isInstance(item, FlowTypeProperty.$type);
+}
+
+export type FlowTypeValue = 'control' | 'object';
+
+export function isFlowTypeValue(item: unknown): item is FlowTypeValue {
+    return item === 'control' || item === 'object';
 }
 
 export interface FluidStatement extends langium.AstNode {
@@ -3373,6 +3396,7 @@ export type RuniqAstType = {
     ExitProperty: ExitProperty
     FillProperty: FillProperty
     FlowRateStatement: FlowRateStatement
+    FlowTypeProperty: FlowTypeProperty
     FluidStatement: FluidStatement
     FontFamilyProperty: FontFamilyProperty
     FontSizeProperty: FontSizeProperty
@@ -4252,6 +4276,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [HydraulicStatement.$type, PneumaticStatement.$type]
+        },
+        FlowTypeProperty: {
+            name: FlowTypeProperty.$type,
+            properties: {
+                value: {
+                    name: FlowTypeProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
         },
         FluidStatement: {
             name: FluidStatement.$type,

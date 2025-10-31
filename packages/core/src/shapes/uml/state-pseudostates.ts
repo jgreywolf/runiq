@@ -119,7 +119,7 @@ export const exitPointShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#ffffff';
 
     let svg = `<g class="exit-point-shape">`;
-    
+
     // Circle
     svg += `<circle cx="${cx}" cy="${cy}" r="${r}" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
@@ -174,7 +174,7 @@ export const terminateShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#ffffff';
 
     let svg = `<g class="terminate-shape">`;
-    
+
     // Circle
     svg += `<circle cx="${cx}" cy="${cy}" r="${r}" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;

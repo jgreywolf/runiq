@@ -77,7 +77,8 @@ export const centralBufferShape: ShapeDefinition = {
     });
 
     const width = Math.max(nameSize.width, stereotypeSize.width) + padding * 2;
-    const height = nameSize.height + stereotypeSize.height + padding * 2 + stereotypePadding;
+    const height =
+      nameSize.height + stereotypeSize.height + padding * 2 + stereotypePadding;
 
     return { width: Math.max(width, 100), height: Math.max(height, 50) };
   },
@@ -148,7 +149,8 @@ export const dataStoreShape: ShapeDefinition = {
     });
 
     const width = Math.max(nameSize.width, stereotypeSize.width) + padding * 2;
-    const height = nameSize.height + stereotypeSize.height + padding * 2 + stereotypePadding;
+    const height =
+      nameSize.height + stereotypeSize.height + padding * 2 + stereotypePadding;
 
     return { width: Math.max(width, 100), height: Math.max(height, 50) };
   },
@@ -178,20 +180,37 @@ export const dataStoreShape: ShapeDefinition = {
     const fontSize = ctx.style.fontSize || 14;
     const fontFamily = ctx.style.font || 'Arial';
 
+    // Cylinder dimensions
+    const ellipseHeight = h * 0.15; // Height of the top/bottom ellipse
+    const cylinderHeight = h - ellipseHeight;
+
     let svg = `<g class="data-store-shape">`;
 
-    // Rectangle
-    svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" `;
+    // Draw cylinder shape (database icon)
+    // Top ellipse
+    svg += `<ellipse cx="${x + w / 2}" cy="${y + ellipseHeight / 2}" `;
+    svg += `rx="${w / 2}" ry="${ellipseHeight / 2}" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
-    // Stereotype (top)
-    svg += `<text x="${x + w / 2}" y="${y + fontSize}" `;
-    svg += `text-anchor="middle" font-size="${fontSize - 2}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `«datastore»</text>`;
+    // Cylinder body (rectangle)
+    svg += `<rect x="${x}" y="${y + ellipseHeight / 2}" width="${w}" height="${cylinderHeight}" `;
+    svg += `fill="${fill}" stroke="none" />`;
 
-    // Data store name (below stereotype)
-    svg += `<text x="${x + w / 2}" y="${y + fontSize * 2 + 4}" `;
+    // Left edge
+    svg += `<line x1="${x}" y1="${y + ellipseHeight / 2}" x2="${x}" y2="${y + ellipseHeight / 2 + cylinderHeight}" `;
+    svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    // Right edge
+    svg += `<line x1="${x + w}" y1="${y + ellipseHeight / 2}" x2="${x + w}" y2="${y + ellipseHeight / 2 + cylinderHeight}" `;
+    svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    // Bottom ellipse (only the visible arc)
+    svg += `<path d="M ${x} ${y + ellipseHeight / 2 + cylinderHeight} `;
+    svg += `Q ${x + w / 2} ${y + h + ellipseHeight / 2}, ${x + w} ${y + ellipseHeight / 2 + cylinderHeight}" `;
+    svg += `fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    // Data store name (centered in cylinder)
+    svg += `<text x="${x + w / 2}" y="${y + h / 2 + fontSize / 3}" `;
     svg += `text-anchor="middle" font-size="${fontSize}" `;
     svg += `font-family="${fontFamily}" fill="${stroke}">`;
     svg += `${ctx.node.label || 'DataStore'}</text>`;

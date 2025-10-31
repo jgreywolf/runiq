@@ -3,9 +3,12 @@ import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
 /**
  * UML Component shape - represents a modular part of a system with defined interfaces.
  * Rendered as a rectangle with two small rectangles on the left side (component symbol).
+ *
+ * Note: Shape ID is 'umlComponent' because 'component' is a reserved keyword
+ * in the Langium grammar for Wardley map component statements.
  */
 export const componentShape: ShapeDefinition = {
-  id: 'component',
+  id: 'umlComponent',
 
   bounds(ctx: ShapeRenderContext) {
     const padding = ctx.style.padding || 12;

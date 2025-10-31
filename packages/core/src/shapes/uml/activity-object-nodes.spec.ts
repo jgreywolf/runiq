@@ -66,7 +66,12 @@ describe('Activity Object Node Shapes', () => {
       const anchors = objectNodeShape.anchors?.(ctx);
 
       expect(anchors).toHaveLength(4);
-      expect(anchors!.map((a) => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors!.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
 
     it('should use default label when not provided', () => {
@@ -115,7 +120,12 @@ describe('Activity Object Node Shapes', () => {
       const anchors = centralBufferShape.anchors?.(ctx);
 
       expect(anchors).toHaveLength(4);
-      expect(anchors!.map((a) => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors!.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
 
     it('should use default label when not provided', () => {
@@ -172,7 +182,12 @@ describe('Activity Object Node Shapes', () => {
       const anchors = dataStoreShape.anchors?.(ctx);
 
       expect(anchors).toHaveLength(4);
-      expect(anchors!.map((a) => a.name)).toEqual(['top', 'right', 'bottom', 'left']);
+      expect(anchors!.map((a) => a.name)).toEqual([
+        'top',
+        'right',
+        'bottom',
+        'left',
+      ]);
     });
 
     it('should use default label when not provided', () => {
@@ -194,7 +209,7 @@ describe('Activity Object Node Shapes', () => {
       const ctx = createMockContext('StyledDB');
       ctx.style.fill = '#e0f7fa';
       ctx.style.stroke = '#0097a7';
-      
+
       const svg = dataStoreShape.render(ctx, { x: 10, y: 20 });
 
       expect(svg).toContain('fill="#e0f7fa"');
@@ -205,14 +220,14 @@ describe('Activity Object Node Shapes', () => {
   describe('Object Node Shape Differences', () => {
     it('should distinguish object node (plain) from stereotyped nodes', () => {
       const ctx = createMockContext('Data');
-      
+
       const objSvg = objectNodeShape.render(ctx, { x: 0, y: 0 });
       const bufferSvg = centralBufferShape.render(ctx, { x: 0, y: 0 });
       const storeSvg = dataStoreShape.render(ctx, { x: 0, y: 0 });
 
       // Object node has no stereotype
       expect(objSvg).not.toContain('«');
-      
+
       // Buffer and store have stereotypes
       expect(bufferSvg).toContain('«centralBuffer»');
       expect(storeSvg).toContain('«datastore»');
@@ -220,7 +235,7 @@ describe('Activity Object Node Shapes', () => {
 
     it('should have different heights due to stereotypes', () => {
       const ctx = createMockContext('Test');
-      
+
       const objBounds = objectNodeShape.bounds(ctx);
       const bufferBounds = centralBufferShape.bounds(ctx);
       const storeBounds = dataStoreShape.bounds(ctx);

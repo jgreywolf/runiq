@@ -642,7 +642,8 @@ EdgeProperty:
     | StyleRefProperty
     | EventProperty
     | GuardProperty
-    | EffectProperty;
+    | EffectProperty
+    | FlowTypeProperty;
 
 EdgeLabelProperty:
     'label:' label=STRING;
@@ -696,6 +697,13 @@ GuardProperty:
 
 EffectProperty:
     'effect:' value=STRING;
+
+// UML Activity Diagram Flow Properties
+FlowTypeProperty:
+    'flowType:' value=FlowTypeValue;
+
+FlowTypeValue returns string:
+    'control' | 'object';
 
 RoutingProperty:
     'routing:' value=RoutingValue;

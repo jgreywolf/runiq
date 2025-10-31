@@ -16,20 +16,26 @@ export const activityShape: ShapeDefinition = {
     // Calculate pin label sizes if present
     const inputPins = ctx.node.inputPins || [];
     const outputPins = ctx.node.outputPins || [];
-    
+
     let maxPinWidth = 0;
     let pinHeight = 0;
-    
+
     if (inputPins.length > 0 || outputPins.length > 0) {
       pinHeight = fontSize - 2; // Smaller font for pins
       const allPins = [...inputPins, ...outputPins];
       for (const pin of allPins) {
-        const pinSize = ctx.measureText(pin, { ...ctx.style, fontSize: pinHeight });
+        const pinSize = ctx.measureText(pin, {
+          ...ctx.style,
+          fontSize: pinHeight,
+        });
         maxPinWidth = Math.max(maxPinWidth, pinSize.width);
       }
     }
 
-    const width = Math.max(nameSize.width + padding * 2, maxPinWidth + padding * 2);
+    const width = Math.max(
+      nameSize.width + padding * 2,
+      maxPinWidth + padding * 2
+    );
     const height = nameSize.height + padding * 2;
 
     return { width: Math.max(width, 100), height: Math.max(height, 50) };
@@ -78,11 +84,11 @@ export const activityShape: ShapeDefinition = {
     inputPins.forEach((pin, i) => {
       const pinY = y + inputSpacing * (i + 1) - pinSize / 2;
       const pinX = x - pinSize / 2;
-      
+
       // Pin square
       svg += `<rect x="${pinX}" y="${pinY}" width="${pinSize}" height="${pinSize}" `;
       svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
-      
+
       // Pin label (left of the pin)
       svg += `<text x="${pinX - 4}" y="${pinY + pinSize / 2 + 3}" `;
       svg += `text-anchor="end" font-size="${pinFontSize}" `;
@@ -95,11 +101,11 @@ export const activityShape: ShapeDefinition = {
     outputPins.forEach((pin, i) => {
       const pinY = y + outputSpacing * (i + 1) - pinSize / 2;
       const pinX = x + w - pinSize / 2;
-      
+
       // Pin square
       svg += `<rect x="${pinX}" y="${pinY}" width="${pinSize}" height="${pinSize}" `;
       svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
-      
+
       // Pin label (right of the pin)
       svg += `<text x="${pinX + pinSize + 4}" y="${pinY + pinSize / 2 + 3}" `;
       svg += `text-anchor="start" font-size="${pinFontSize}" `;

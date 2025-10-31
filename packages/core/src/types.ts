@@ -94,6 +94,8 @@ export interface EdgeAst {
   event?: string; // Triggering event (e.g., "doorClosed")
   guard?: string; // Guard condition (e.g., "[doorLocked]")
   effect?: string; // Effect/action (e.g., "/ turnOnLight()")
+  // UML Activity Diagram flow properties
+  flowType?: 'control' | 'object'; // Type of flow: control flow (default) or object flow (data transfer)
 }
 
 export interface GroupAst {

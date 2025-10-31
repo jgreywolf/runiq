@@ -23,15 +23,9 @@ export {
   centralBufferShape,
   dataStoreShape,
 } from './activity-object-nodes.js';
-export {
-  activityFinalShape,
-  flowFinalShape,
-} from './activity-final-nodes.js';
+export { activityFinalShape, flowFinalShape } from './activity-final-nodes.js';
 export { swimlaneShape } from './swimlane.js';
-export {
-  historyShallowShape,
-  historyDeepShape,
-} from './history-states.js';
+export { historyShallowShape, historyDeepShape } from './history-states.js';
 export {
   junctionShape,
   entryPointShape,
@@ -41,14 +35,17 @@ export {
 export { componentShape } from './component.js';
 export { artifactShape } from './artifact.js';
 export { nodeShape } from './node.js';
+export {
+  sendSignalShape,
+  receiveSignalShape,
+  acceptEventShape,
+} from './activity-signal-shapes.js';
 
 // UML Component Additions
 export {
   portShape,
   moduleShape,
   templateShape,
-  sendSignalShape,
-  receiveSignalShape,
   historyShape,
   pinShape,
   assemblyShape,
