@@ -10,7 +10,7 @@ diagram "E-Commerce System Context (C4)" {
     
     shape web as @rounded label:"Web Application"
     shape mobile as @rounded label:"Mobile App"
-    shape api as @hex label:"API Backend"
+    shape api as @hexagon label:"API Backend"
     shape adminpanel as @rounded label:"Admin Panel"
     
     web -> api

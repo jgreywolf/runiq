@@ -12,9 +12,9 @@ diagram "Docker Compose Stack" {
   # Backend Network
   container backend "Backend Network" backgroundColor:"#e0f7fa" borderColor:"#00796b" borderStyle:solid borderWidth:2 {
     
-    shape api as @hex label:"fastapi"
+    shape api as @hexagon label:"fastapi"
     shape worker as @rect label:"celery-worker"
-    shape redis as @cyl label:"redis"
+    shape redis as @cylinder label:"redis"
     shape rabbitmq as @rect label:"rabbitmq"
     
     api -> redis
@@ -26,7 +26,7 @@ diagram "Docker Compose Stack" {
   # Storage Network
   container storage "Storage" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderStyle:solid borderWidth:2 {
     
-    shape postgres as @cyl label:"postgres"
+    shape postgres as @cylinder label:"postgres"
     shape pgbackup as @rect label:"pg-backup"
     shape volumes as @rect label:"shared-volumes"
     
@@ -34,7 +34,7 @@ diagram "Docker Compose Stack" {
   }
 
   # External
-  shape s3 as @hex label:"AWS S3"
+  shape s3 as @hexagon label:"AWS S3"
 
   # Cross-Network Connections
   app -> api

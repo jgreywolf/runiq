@@ -49,7 +49,7 @@ Below is a minimal browser-side demo that takes Runiq DSL text and renders it to
     <div class="row">
       <textarea id="src">
 diagram "My Diagram" {
-  direction: TB
+  direction TB
   style s1 fill: "#eef"
   shape A as @rectangle label:"Hello" style: s1
   shape B as @rectangle label:"World"

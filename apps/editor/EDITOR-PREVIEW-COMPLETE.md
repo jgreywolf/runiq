@@ -152,7 +152,8 @@ User types → CodeEditor → handleCodeChange() → code state
 ### 📝 Sample Code Pre-loaded
 
 ```runiq
-diagram "Sample Diagram" direction: LR
+diagram "Sample Diagram"
+direction LR
 
 style default fill:#f7f7ff stroke:#444 font:Inter fontSize:14
 

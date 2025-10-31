@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { parseRuniq, layoutRuniq, renderRuniqToSvg } from '../index.js';
 
 const sample = `diagram "My Diagram" {
-  direction: TB
+  direction TB
   style s1 fill: "#eef"
   shape A as @rectangle label:"Hello" style: s1
   shape B as @rectangle label:"World"

@@ -9,12 +9,13 @@ This page shows the core DSL constructs with concise examples and rendered outpu
 ## Diagram header
 
 ```runiq
-diagram "My Diagram" direction: LR
+diagram "My Diagram"
+direction LR
 ```
 
 Options:
 
-- direction: TB | LR | BT | RL
+- direction TB | LR | BT | RL
 - title: optional string (used by renderers)
 
 ## Shapes
@@ -33,7 +34,7 @@ shape DB      as @cylinder   label:"Database"
 ```runiq
 Start -> Action : begins
 Action -> Decide
-Decide[yes] -> DB : write
+Decide -yes-> DB : write
 Decide[no]  -> Note : warn
 ```
 
@@ -72,7 +73,8 @@ Nested containers are supported. See the Containers guide for layout details.
 ## Electrical profile
 
 ```runiq
-electrical "RC Filter" direction: LR
+electrical "RC Filter"
+direction LR
 
 shape V1 as @voltage-source label:"5V"
 shape R1 as @resistor       label:"1kΩ"
@@ -90,7 +92,8 @@ The electrical profile uses electrical circuit symbols and enables SPICE/Verilog
 ### Flowchart
 
 ```runiq
-diagram "Auth Flow" direction: LR
+diagram "Auth Flow"
+direction LR
 
 style default fill:#f7f7ff stroke:#444
 style decision fill:#fff7e6 stroke:#aa7700
@@ -98,12 +101,12 @@ style decision fill:#fff7e6 stroke:#aa7700
 shape User     as @actor   label:"Visitor"
 shape Landing  as @rounded label:"Landing Page"
 shape Check    as @rhombus label:"Signed up?" style:decision
-shape Welcome  as @hex     label:"Welcome"
+shape Welcome  as @hexagon     label:"Welcome"
 
 User -> Landing : visits
 Landing -> Check
-Check[yes] -> Welcome
-Check[no]  -> Landing : retry
+Check -yes-> Welcome
+Check -no-> Landing : retry
 ```
 
 <img src="/examples/auth-flow.svg" alt="Auth Flow" style="max-width: 700px;" />
@@ -111,7 +114,7 @@ Check[no]  -> Landing : retry
 ### Electrical (analog)
 
 ```runiq
-electrical "Voltage Divider" direction: TB
+electrical "Voltage Divider" direction TB
 
 shape V1 as @voltage-source label:"Vin"
 shape R1 as @resistor       label:"R1"

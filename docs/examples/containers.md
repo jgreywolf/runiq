@@ -9,7 +9,7 @@ Basic container with nested shapes.
 ### DSL Code
 
 ```runiq
-diagram "Simple Container Example" direction: TB
+diagram "Simple Container Example" direction TB
 
 container "Frontend" {
   shape UI as @rect label: "Web UI"
@@ -18,7 +18,7 @@ container "Frontend" {
 
 container "Backend" {
   shape API as @rect label: "REST API"
-  shape DB as @cyl label: "Database"
+  shape DB as @cylinder label: "Database"
 }
 
 # Cross-container edges
@@ -45,7 +45,7 @@ System context showing external actors and systems.
 ### DSL Code
 
 ```runiq
-diagram "C4 Context - Banking System" direction: TB
+diagram "C4 Context - Banking System" direction TB
 
 # Central system
 shape BankingSystem as @rect
@@ -86,7 +86,7 @@ Zooming into the system to show containers.
 ### DSL Code
 
 ```runiq
-diagram "C4 Container - Banking System" direction: TB
+diagram "C4 Container - Banking System" direction TB
 
 actor Customer as @actor label: "Personal Banking\nCustomer"
 
@@ -141,7 +141,7 @@ Modern distributed system with multiple services.
 ### DSL Code
 
 ```runiq
-diagram "Microservices Architecture" direction: TB
+diagram "Microservices Architecture" direction TB
 
 # API Gateway
 shape Gateway as @rect
@@ -152,17 +152,17 @@ shape Gateway as @rect
 container "User Services" fillColor: "#e3f2fd" {
   shape Auth as @rect label: "Auth Service\n[Node.js]"
   shape User as @rect label: "User Service\n[Node.js]"
-  shape AuthDB as @cyl label: "Auth DB\n[MongoDB]"
-  shape UserDB as @cyl label: "User DB\n[PostgreSQL]"
+  shape AuthDB as @cylinder label: "Auth DB\n[MongoDB]"
+  shape UserDB as @cylinder label: "User DB\n[PostgreSQL]"
 }
 
 container "Business Services" fillColor: "#fff3e0" {
   shape Order as @rect label: "Order Service\n[Java]"
   shape Payment as @rect label: "Payment Service\n[Java]"
   shape Inventory as @rect label: "Inventory Service\n[Go]"
-  shape OrderDB as @cyl label: "Order DB\n[PostgreSQL]"
-  shape PaymentDB as @cyl label: "Payment DB\n[PostgreSQL]"
-  shape InventoryDB as @cyl label: "Inventory DB\n[Redis]"
+  shape OrderDB as @cylinder label: "Order DB\n[PostgreSQL]"
+  shape PaymentDB as @cylinder label: "Payment DB\n[PostgreSQL]"
+  shape InventoryDB as @cylinder label: "Inventory DB\n[Redis]"
 }
 
 container "Infrastructure" fillColor: "#e8f5e9" {
@@ -225,7 +225,7 @@ Classic web application structure.
 ### DSL Code
 
 ```runiq
-diagram "Three-Tier Web Application" direction: TB
+diagram "Three-Tier Web Application" direction TB
 
 container "Presentation Tier" fillColor: "#e3f2fd" {
   shape Browser as @rect label: "Web Browser"
@@ -240,9 +240,9 @@ container "Application Tier" fillColor: "#fff3e0" {
 }
 
 container "Data Tier" fillColor: "#e8f5e9" {
-  shape PrimaryDB as @cyl label: "Primary DB\n[MySQL]"
-  shape ReplicaDB as @cyl label: "Replica DB\n[MySQL]"
-  shape Cache as @cyl label: "Cache\n[Memcached]"
+  shape PrimaryDB as @cylinder label: "Primary DB\n[MySQL]"
+  shape ReplicaDB as @cylinder label: "Replica DB\n[MySQL]"
+  shape Cache as @cylinder label: "Cache\n[Memcached]"
 }
 
 # Connections - Presentation to Application
@@ -266,13 +266,14 @@ Process flow with organizational boundaries.
 ### DSL Code
 
 ```runiq
-diagram "Purchase Order Process" direction: LR
+diagram "Purchase Order Process"
+direction LR
 
 container "Customer" fillColor: "#e3f2fd" {
   shape C1 as @rounded label: "Start"
   shape C2 as @rect label: "Submit\nOrder"
   shape C3 as @rhombus label: "Approved?"
-  shape C4 as @hex label: "Receive\nGoods"
+  shape C4 as @hexagon label: "Receive\nGoods"
   shape C5 as @rounded label: "End"
 }
 
@@ -295,13 +296,13 @@ C2 -> S1
 S1 -> S2
 S2 -> S3
 S3 -> C3
-C3[yes] -> S4
+C3 -yes-> S4
 S4 -> W1
 W1 -> W2
 W2 -> W3
 W3 -> C4
 C4 -> C5
-C3[no] -> C5
+C3 -no-> C5
 ```
 
 ### Generated SVG
@@ -315,27 +316,27 @@ Geographic distribution with replication.
 ### DSL Code
 
 ```runiq
-diagram "Multi-Region Architecture" direction: TB
+diagram "Multi-Region Architecture" direction TB
 
 container "US East Region" fillColor: "#e3f2fd" {
   shape USLb as @rect label: "Load Balancer"
   shape USApp1 as @rect label: "App Server 1"
   shape USApp2 as @rect label: "App Server 2"
-  shape USDB as @cyl label: "Primary DB"
+  shape USDB as @cylinder label: "Primary DB"
 }
 
 container "EU West Region" fillColor: "#fff3e0" {
   shape EULb as @rect label: "Load Balancer"
   shape EUApp1 as @rect label: "App Server 1"
   shape EUApp2 as @rect label: "App Server 2"
-  shape EUDB as @cyl label: "Replica DB"
+  shape EUDB as @cylinder label: "Replica DB"
 }
 
 container "APAC Region" fillColor: "#e8f5e9" {
   shape APLb as @rect label: "Load Balancer"
   shape APApp1 as @rect label: "App Server 1"
   shape APApp2 as @rect label: "App Server 2"
-  shape APDB as @cyl label: "Replica DB"
+  shape APDB as @cylinder label: "Replica DB"
 }
 
 # Global

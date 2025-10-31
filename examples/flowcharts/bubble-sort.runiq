@@ -1,4 +1,4 @@
-diagram "Bubble Sort Algorithm" direction: TB
+diagram "Bubble Sort Algorithm" direction TB
 
 shape Start as @rounded label: "Start"
 shape Init as @rect label: "i = 0"

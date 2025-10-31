@@ -2,7 +2,7 @@
 // Demonstrates member-level edge connections for database relationships
 
 diagram "E-Commerce Domain Model" {
-  direction: TB
+  direction TB
   
   // Customer entity
   shape Customer as @class label:"Customer"

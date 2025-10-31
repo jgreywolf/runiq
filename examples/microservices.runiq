@@ -9,10 +9,10 @@ diagram "Microservices Architecture" {
 
   # Backend Services
   container backend "Backend Services" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:3 {
-    shape auth as @hex label:"Auth Service"
-    shape api as @hex label:"API Gateway"
-    shape users as @hex label:"User Service"
-    shape orders as @hex label:"Order Service"
+    shape auth as @hexagon label:"Auth Service"
+    shape api as @hexagon label:"API Gateway"
+    shape users as @hexagon label:"User Service"
+    shape orders as @hexagon label:"Order Service"
     
     api -> auth
     api -> users
@@ -21,8 +21,8 @@ diagram "Microservices Architecture" {
 
   # Data Layer
   container data "Data Layer" backgroundColor:"#fff3e0" borderColor:"#f57c00" borderWidth:3 {
-    shape db as @cyl label:"PostgreSQL"
-    shape cache as @cyl label:"Redis"
+    shape db as @cylinder label:"PostgreSQL"
+    shape cache as @cylinder label:"Redis"
     shape queue as @rect label:"Message Queue"
   }
 

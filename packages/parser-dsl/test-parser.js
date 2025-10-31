@@ -2,7 +2,7 @@ import { parse } from './dist/index.js';
 
 const dsl = `
   diagram "flowchart"
-  direction: LR
+  direction LR
   
   style default fill: "#f0f0f0" stroke: "#333"
   style highlight fill: "#ffeb3b" stroke: "#f57c00"

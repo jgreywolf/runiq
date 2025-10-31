@@ -9,7 +9,7 @@ export const c4SampleDiagrams: SampleCategory[] = [
 				name: 'System Context',
 				description: 'C4 Level 1: Banking system context',
 				code: `diagram "Banking System - Context"
-direction: TB
+direction TB
 
 shape customer as @c4-person label:"Customer"
 shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
@@ -24,7 +24,7 @@ bankingSystem -> mainframe label:"Uses"`
 				name: 'Container Diagram',
 				description: 'C4 Level 2: System containers',
 				code: `diagram "Banking System - Containers"
-direction: TB
+direction TB
 
 shape customer as @c4-person label:"Customer"
 
@@ -45,7 +45,7 @@ api -> emailSystem label:"Sends emails [SMTP]"`
 				name: 'Component Diagram',
 				description: 'C4 Level 3: API components',
 				code: `diagram "API Application - Components"
-direction: TB
+direction TB
 
 shape webapp as @c4-container label:"Web Application"
 
@@ -68,7 +68,7 @@ accountComponent -> db label:"Reads/Writes"`
 				name: 'Microservices Architecture',
 				description: 'C4 Container view with multiple services',
 				code: `diagram "E-Commerce Platform"
-direction: LR
+direction LR
 
 shape customer as @c4-person label:"Customer"
 shape admin as @c4-person label:"Admin"

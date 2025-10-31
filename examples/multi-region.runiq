@@ -7,7 +7,7 @@ diagram "Multi-Region Deployment" {
     shape lb1 as @rect label:"Load Balancer"
     shape app1a as @rounded label:"App Server 1"
     shape app1b as @rounded label:"App Server 2"
-    shape db1 as @cyl label:"DB Primary"
+    shape db1 as @cylinder label:"DB Primary"
     
     lb1 -> app1a
     lb1 -> app1b
@@ -21,7 +21,7 @@ diagram "Multi-Region Deployment" {
     shape lb2 as @rect label:"Load Balancer"
     shape app2a as @rounded label:"App Server 1"
     shape app2b as @rounded label:"App Server 2"
-    shape db2 as @cyl label:"DB Replica"
+    shape db2 as @cylinder label:"DB Replica"
     
     lb2 -> app2a
     lb2 -> app2b
@@ -30,7 +30,7 @@ diagram "Multi-Region Deployment" {
   }
 
   # Global Services
-  shape cdn as @hex label:"CloudFront CDN"
+  shape cdn as @hexagon label:"CloudFront CDN"
   shape dns as @rhombus label:"Route 53 DNS"
   shape monitor as @rect label:"CloudWatch"
 

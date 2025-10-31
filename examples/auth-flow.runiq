@@ -8,7 +8,7 @@ diagram "Auth Flow" {
   shape User     as @actor   label:"Visitor" icon:fa/user
   shape Landing  as @rounded label:"Landing Page"
   shape Check    as @rhombus label:"Signed up?" style:decision
-  shape Welcome  as @hex     label:"Welcome"
+  shape Welcome  as @hexagon     label:"Welcome"
   shape Pricing  as @doc     label:"Pricing" icon:fa/dollar link:"/pricing" tooltip:"See pricing"
 
   User -visits-> Landing

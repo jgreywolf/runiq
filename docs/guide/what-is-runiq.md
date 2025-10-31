@@ -28,11 +28,12 @@ Runiq provides:
 ### 1. Human-Friendly DSL
 
 ```runiq
-diagram "My Process" direction: LR
+diagram "My Process"
+direction LR
 
 shape Start as @rounded label: "Start"
 shape Process as @rect label: "Process"
-shape End as @hex label: "End"
+shape End as @hexagon label: "End"
 
 Start -> Process -> End
 ```
@@ -120,8 +121,8 @@ Build complex architectures:
 
 ```runiq
 container "Backend Services" {
-  shape API as @hex label: "API"
-  shape DB as @cyl label: "Database"
+  shape API as @hexagon label: "API"
+  shape DB as @cylinder label: "Database"
   API -> DB
 }
 ```

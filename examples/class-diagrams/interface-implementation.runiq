@@ -2,7 +2,7 @@
 // Demonstrates interface definitions and implementation relationships
 
 diagram "Comparable Types" {
-  direction: TB
+  direction TB
   
   // Interface definition
   shape IComparable as @class label:"IComparable"

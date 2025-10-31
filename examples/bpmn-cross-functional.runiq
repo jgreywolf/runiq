@@ -1,6 +1,6 @@
 diagram "Cross-Functional Order Process"
 
-direction: TB
+direction TB
 
 # Customer swimlane - places order
 container customer "Customer" as @bpmnPool {

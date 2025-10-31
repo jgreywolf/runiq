@@ -15,7 +15,8 @@ Design control systems, signal chains, and feedback loops with readable syntax a
 ## Example
 
 ```runiq
-diagram "PI Controller" direction: LR
+diagram "PI Controller"
+direction LR
 
 shape Ref as @doc label: "Reference"
 shape Sum as @circle label: "+/−"  // summing junction
@@ -40,7 +41,7 @@ edge Y -.-> Sum strokeColor:#2e7d32 lineStyle:dotted
 
 ## Layout tips
 
-- Use `direction: LR` for left-to-right signal flow
+- Use `direction LR` for left-to-right signal flow
 - Increase `spacing` if feedback arcs collide with labels
 
 ## Export

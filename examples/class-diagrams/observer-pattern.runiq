@@ -2,7 +2,7 @@
 // Demonstrates the Observer design pattern with subject and observers
 
 diagram "Observer Pattern" {
-  direction: LR
+  direction LR
   
   // Subject interface
   shape ISubject as @class label:"ISubject"

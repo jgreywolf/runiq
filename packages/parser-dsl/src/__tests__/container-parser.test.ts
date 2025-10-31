@@ -186,7 +186,7 @@ describe('Container Parser', () => {
           
           container "Frontend" {
             shape UI as @rect label: "UI"
-            shape Cache as @cyl label: "Cache"
+            shape Cache as @cylinder label: "Cache"
             UI -> Cache
           }
           
@@ -194,7 +194,7 @@ describe('Container Parser', () => {
             shape API as @rect label: "API"
             
             container "Database" {
-              shape DB as @cyl label: "PostgreSQL"
+              shape DB as @cylinder label: "PostgreSQL"
             }
           }
           
@@ -409,7 +409,7 @@ describe('Container Parser', () => {
         
         container "System Boundary" style: system {
           shape WebApp as @rect label: "Web Application"
-          shape Database as @cyl label: "Database"
+          shape Database as @cylinder label: "Database"
           
           WebApp -> Database
         }
@@ -446,8 +446,8 @@ describe('Container Parser', () => {
           shape Backend as @rect label: "Backend Services"
           
           container "Data Layer" {
-            shape MainDB as @cyl label: "Main Database"
-            shape Cache as @cyl label: "Redis Cache"
+            shape MainDB as @cylinder label: "Main Database"
+            shape Cache as @cylinder label: "Redis Cache"
           }
         }
         

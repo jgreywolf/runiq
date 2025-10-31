@@ -9,7 +9,7 @@ export const pedigreeSampleDiagrams: SampleCategory[] = [
 				name: 'Family Tree',
 				description: 'Three generation family tree',
 				code: `diagram "Family Tree"
-direction: TB
+direction TB
 
 shape gf as @pedigreeMale label:"Grandfather"
 shape gm as @pedigreeFemale label:"Grandmother"

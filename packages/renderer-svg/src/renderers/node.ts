@@ -24,8 +24,9 @@ export function renderNode(
 
   const style: any = nodeAst.style ? diagram.styles?.[nodeAst.style] || {} : {};
 
-  // Merge inline pedigree properties from node.data into style
+  // Merge inline properties from node.data into style
   if (nodeAst.data) {
+    // Pedigree properties
     if ((nodeAst.data as any).affected !== undefined) {
       (style as any).affected = (nodeAst.data as any).affected;
     }
@@ -34,6 +35,25 @@ export function renderNode(
     }
     if ((nodeAst.data as any).deceased !== undefined) {
       (style as any).deceased = (nodeAst.data as any).deceased;
+    }
+    // Inline styling properties
+    if ((nodeAst.data as any).fillColor !== undefined) {
+      (style as any).fill = (nodeAst.data as any).fillColor;
+    }
+    if ((nodeAst.data as any).textColor !== undefined) {
+      (style as any).color = (nodeAst.data as any).textColor;
+    }
+    if ((nodeAst.data as any).strokeColor !== undefined) {
+      (style as any).stroke = (nodeAst.data as any).strokeColor;
+    }
+    if ((nodeAst.data as any).strokeWidth !== undefined) {
+      (style as any).strokeWidth = (nodeAst.data as any).strokeWidth;
+    }
+    if ((nodeAst.data as any).fontSize !== undefined) {
+      (style as any).fontSize = (nodeAst.data as any).fontSize;
+    }
+    if ((nodeAst.data as any).fontFamily !== undefined) {
+      (style as any).fontFamily = (nodeAst.data as any).fontFamily;
     }
   }
 

@@ -204,7 +204,7 @@ Classes automatically hide empty compartments:
 
 ## Layout Tips
 
-1. **Direction**: Use `direction: TB` (top-bottom) for inheritance hierarchies, `direction: LR` (left-right) for compositions
+1. **Direction**: Use `direction TB` (top-bottom) for inheritance hierarchies, `direction LR` (left-right) for compositions
 2. **Grouping**: Place related classes near each other in the source file
 3. **Member Edges**: Member-level connections help visualize specific field relationships without cluttering the diagram
 

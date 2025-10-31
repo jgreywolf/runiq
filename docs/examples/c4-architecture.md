@@ -66,7 +66,7 @@ Shows your system and how it fits in the world with external actors and systems.
 
 ```runiq
 diagram "Banking System - Context"
-direction: TB
+direction TB
 
 shape customer as @c4-person label:"Customer"
 shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
@@ -88,7 +88,7 @@ Shows the high-level technology choices and how containers communicate.
 
 ```runiq
 diagram "Banking System - Containers"
-direction: TB
+direction TB
 
 shape customer as @c4-person label:"Customer"
 
@@ -116,7 +116,7 @@ Shows components within a container.
 
 ```runiq
 diagram "API Application - Components"
-direction: TB
+direction TB
 
 shape webapp as @c4-container label:"Web Application"
 
@@ -146,7 +146,7 @@ Practical example showing multiple containers organized by layer.
 
 ```runiq
 diagram "E-Commerce Platform"
-direction: LR
+direction LR
 
 shape customer as @c4-person label:"Customer"
 shape admin as @c4-person label:"Admin"
@@ -240,7 +240,7 @@ For container boxes, use lighter complementary colors:
 4. **Technology on Arrows** - Add protocols/formats to relationship labels: `[HTTPS]`, `[SQL]`
 5. **Layer Your Containers** - Group containers by architectural layer (frontend, backend, data)
 6. **Consistent Colors** - Use the C4 color palette for professional-looking diagrams
-7. **Direction Matters** - Use `direction: TB` for vertical layouts, `direction: LR` for horizontal
+7. **Direction Matters** - Use `direction TB` for vertical layouts, `direction LR` for horizontal
 
 ## Known Limitations
 

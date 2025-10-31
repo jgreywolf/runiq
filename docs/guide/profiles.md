@@ -23,7 +23,8 @@ Most syntax is shared across profiles. The key differences are:
 To use the diagram profile (default):
 
 ```runiq
-diagram "Mixed Diagram" direction: LR
+diagram "Mixed Diagram"
+direction LR
 
 shape Start as @terminator label:"Start"
 shape Amp   as @amp        label:"Amplifier"
@@ -38,7 +39,8 @@ Amp   -> Box
 To use the electrical profile:
 
 ```runiq
-electrical "Simple RC" direction: LR
+electrical "Simple RC"
+direction LR
 
 shape V1 as @voltage-source label:"5V"
 shape R1 as @resistor       label:"1kΩ"

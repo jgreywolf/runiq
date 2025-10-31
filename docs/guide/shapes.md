@@ -9,7 +9,7 @@ Runiq provides a large catalog of shapes spanning flowcharts, UML, containers, c
 Common examples:
 
 ```runiq
-diagram "Mixing Shapes" direction: TB
+diagram "Mixing Shapes" direction TB
 
 shape User   as @actor    label:"Customer"
 shape Decide as @rhombus  label:"In trial?"
@@ -17,7 +17,7 @@ shape API    as @rect     label:"API"
 shape DB     as @cylinder label:"Database"
 
 User -> Decide
-Decide[yes] -> API -> DB
+Decide -yes-> API -> DB
 ```
 
 For the complete list of shapes and their IDs, see the [Shape Catalog](/reference/shapes).

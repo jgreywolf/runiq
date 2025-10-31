@@ -26,7 +26,7 @@ yarn add @runiq/web
 import { renderRuniqToSvg } from '@runiq/web';
 
 const text = `diagram "My Diagram" {
-  direction: TB
+  direction TB
   style s1 fill: "#eef"
   shape A as @rectangle label:"Hello" style: s1
   shape B as @rectangle label:"World"

@@ -150,7 +150,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     const measureText = createTextMeasurer();
 
-    // Convert direction: TB/LR -> DOWN/RIGHT
+    // Convert direction TB/LR -> DOWN/RIGHT
     const direction = this.convertDirection(
       opts.direction || diagram.direction || 'TB'
     );

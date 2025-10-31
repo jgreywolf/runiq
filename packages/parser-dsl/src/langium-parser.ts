@@ -840,6 +840,18 @@ function processDialogStatement(
     diagram.routing = statement.value as EdgeRouting;
   } else if (Langium.isStyleDeclaration(statement)) {
     const style: Style = {};
+
+    // Property name mappings: DSL names -> Renderer names
+    const propertyAliases: Record<string, string> = {
+      fillColor: 'fill',
+      textColor: 'color',
+      strokeColor: 'stroke',
+      strokeWidth: 'strokeWidth',
+      fontSize: 'fontSize',
+      fontFamily: 'fontFamily',
+      lineStyle: 'lineStyle', // Handled specially below
+    };
+
     for (const prop of statement.properties) {
       let value = prop.value;
       // Remove quotes from string values
@@ -850,7 +862,24 @@ function processDialogStatement(
       ) {
         value = value.slice(1, -1);
       }
-      style[prop.key] = value;
+
+      // Map DSL property names to renderer property names
+      const normalizedKey = propertyAliases[prop.key] || prop.key;
+
+      // Special handling for lineStyle: convert to strokeDasharray
+      if (normalizedKey === 'lineStyle') {
+        if (value === 'dashed') {
+          style['strokeDasharray'] = '5,5';
+        } else if (value === 'dotted') {
+          style['strokeDasharray'] = '2,2';
+        } else if (value === 'solid') {
+          style['strokeDasharray'] = 'none';
+        } else {
+          style['strokeDasharray'] = value;
+        }
+      } else {
+        style[normalizedKey] = value;
+      }
     }
     if (!diagram.styles) {
       diagram.styles = {};
@@ -868,6 +897,24 @@ function processDialogStatement(
         node.label = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isStyleRefProperty(prop)) {
         node.style = prop.ref?.$refText;
+      } else if (Langium.isFillColorProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.fillColor = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isTextColorProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.textColor = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isStrokeColorProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.strokeColor = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isStrokeWidthProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.strokeWidth = parseFloat(prop.value);
+      } else if (Langium.isFontSizeProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.fontSize = parseFloat(prop.value);
+      } else if (Langium.isFontFamilyProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.fontFamily = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isIconProperty(prop)) {
         node.icon = {
           provider: prop.provider,
@@ -1036,6 +1083,11 @@ function processDialogStatement(
       edge.label = statement.labeledArrow.slice(1, -2);
     }
 
+    // Check for bidirectional arrow
+    if (statement.bidirectionalArrow) {
+      edge.bidirectional = true;
+    }
+
     // Process edge properties
     for (const prop of statement.properties) {
       if (Langium.isLineStyleProperty(prop)) {
@@ -1068,6 +1120,14 @@ function processDialogStatement(
           | 'none';
       } else if (Langium.isEdgeConstraintsProperty(prop)) {
         edge.constraints = prop.values.map((v) => v.replace(/^"|"$/g, ''));
+      } else if (Langium.isStereotypeProperty(prop)) {
+        edge.stereotype = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isStrokeColorProperty(prop)) {
+        edge.strokeColor = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isStrokeWidthProperty(prop)) {
+        edge.strokeWidth = parseFloat(prop.value);
+      } else if (Langium.isStyleRefProperty(prop)) {
+        edge.style = prop.ref?.$refText;
       }
     }
 

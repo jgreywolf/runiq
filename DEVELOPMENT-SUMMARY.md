@@ -58,7 +58,7 @@ shapeRegistry.fromJSON(shapesJSON);
 
 ```typescript
 // All of these are equivalent:
-shape db1 as @cyl          // Canonical ID
+shape db1 as @cylinder          // Canonical ID
 shape db2 as @cylinder     // Alias
 shape db3 as @database     // Alias
 shape db4 as @db           // Alias

@@ -7,7 +7,7 @@ diagram "Cross-Container Edges Test" {
 
   container "Backend" {
     shape api as @server label:"API Service"
-    shape db as @cyl label:"Database"
+    shape db as @cylinder label:"Database"
     
     // Internal edge (should work)
     api -> db

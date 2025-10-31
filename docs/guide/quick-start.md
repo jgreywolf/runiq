@@ -11,19 +11,19 @@ We'll create an authentication flow diagram with multiple paths, decisions, and 
 Create `auth-flow.runiq`:
 
 ```runiq
-diagram "User Authentication Flow" direction: TB
+diagram "User Authentication Flow" direction TB
 
 # Entry point
 shape Login as @rounded label: "User Login"
 
 # Process steps
 shape ValidateInput as @rect label: "Validate Input"
-shape CheckDB as @cyl label: "Check Database"
+shape CheckDB as @cylinder label: "Check Database"
 shape VerifyPassword as @rhombus label: "Password Correct?"
 
 # Success path
 shape GenerateToken as @rect label: "Generate JWT"
-shape Success as @hex label: "Success"
+shape Success as @hexagon label: "Success"
 
 # Error paths
 shape InvalidInput as @doc label: "Invalid Input Error"
@@ -34,13 +34,13 @@ shape AccountLocked as @doc label: "Account Locked"
 Login -> ValidateInput
 
 # Validation branch
-ValidateInput[valid] -> CheckDB
-ValidateInput[invalid] -> InvalidInput
+ValidateInput -valid-> CheckDB
+ValidateInput -invalid-> InvalidInput
 
 # Authentication branch
 CheckDB -> VerifyPassword
-VerifyPassword[yes] -> GenerateToken
-VerifyPassword[no] -> WrongPassword
+VerifyPassword -yes-> GenerateToken
+VerifyPassword -no-> WrongPassword
 
 # Success
 GenerateToken -> Success
@@ -62,8 +62,8 @@ Common shapes:
 - `@rounded` - Rounded rectangle (start/end)
 - `@rect` - Rectangle (process)
 - `@rhombus` - Diamond (decision)
-- `@hex` - Hexagon (preparation)
-- `@cyl` - Cylinder (database)
+- `@hexagon` - Hexagon (preparation)
+- `@cylinder` - Cylinder (database)
 - `@doc` - Document (output)
 
 [See all 54 shapes →](/reference/shapes)
@@ -80,8 +80,8 @@ A -> B
 A -> B label: "success"
 
 # Conditional edge (on source)
-Decision[yes] -> Success
-Decision[no] -> Failure
+Decision -yes-> Success
+Decision -no-> Failure
 
 # Labeled edge
 A -> B label: "validates"
@@ -92,16 +92,16 @@ A -> B label: "validates"
 Let's group related shapes into containers:
 
 ```runiq
-diagram "User Authentication Flow" direction: TB
+diagram "User Authentication Flow" direction TB
 
 container "Client Layer" {
   shape Login as @rounded label: "User Login"
-  shape Success as @hex label: "Success"
+  shape Success as @hexagon label: "Success"
 }
 
 container "Server Layer" {
   shape ValidateInput as @rect label: "Validate Input"
-  shape CheckDB as @cyl label: "Check Database"
+  shape CheckDB as @cylinder label: "Check Database"
   shape VerifyPassword as @rhombus label: "Password Correct?"
   shape GenerateToken as @rect label: "Generate JWT"
 }
@@ -116,8 +116,8 @@ Login -> ValidateInput
 ValidateInput[valid] -> CheckDB
 ValidateInput[invalid] -> InvalidInput
 CheckDB -> VerifyPassword
-VerifyPassword[yes] -> GenerateToken
-VerifyPassword[no] -> WrongPassword
+VerifyPassword -yes-> GenerateToken
+VerifyPassword -no-> WrongPassword
 GenerateToken -> Success
 ```
 
@@ -126,7 +126,7 @@ GenerateToken -> Success
 ### Colors
 
 ```runiq
-shape Success as @hex label: "Success" fillColor: "#4caf50" textColor: "#fff"
+shape Success as @hexagon label: "Success" fillColor: "#4caf50" textColor: "#fff"
 shape Error as @doc label: "Error" fillColor: "#f44336" textColor: "#fff"
 ```
 
@@ -153,11 +153,12 @@ container "Client Layer" fillColor: "#e3f2fd" {
 For use case or architectural diagrams:
 
 ```runiq
-diagram "System Architecture" direction: LR
+diagram "System Architecture"
+direction LR
 
 shape Client as @rect label: "Client App"
 shape API as @rect label: "REST API"
-shape DB as @cyl label: "Database"
+shape DB as @cylinder label: "Database"
 
 # UML stereotypes
 edge Client -> API stereotype: "«uses»" lineStyle: dashed arrowType: open
@@ -216,7 +217,7 @@ runiq auth-flow.runiq -o auth-flow.svg
 ### 1. Flowchart with Loops
 
 ```runiq
-diagram "Process Loop" direction: TB
+diagram "Process Loop" direction TB
 
 shape Start as @rounded label: "Start"
 shape Process as @rect label: "Process Item"
@@ -225,14 +226,14 @@ shape End as @rounded label: "End"
 
 Start -> Process
 Process -> Check
-Check[yes] -> Process
-Check[no] -> End
+Check -yes-> Process
+Check -no-> End
 ```
 
 ### 2. Multi-tier Architecture
 
 ```runiq
-diagram "Three-Tier Architecture" direction: TB
+diagram "Three-Tier Architecture" direction TB
 
 container "Presentation" {
   shape UI as @rect label: "Web UI"
@@ -244,8 +245,8 @@ container "Business Logic" {
 }
 
 container "Data" {
-  shape DB as @cyl label: "Database"
-  shape Cache as @cyl label: "Redis"
+  shape DB as @cylinder label: "Database"
+  shape Cache as @cylinder label: "Redis"
 }
 
 UI -> API
@@ -257,12 +258,13 @@ API -> Cache
 ### 3. State Machine
 
 ```runiq
-diagram "Order State Machine" direction: LR
+diagram "Order State Machine"
+direction LR
 
 shape New as @rounded label: "New"
 shape Processing as @rect label: "Processing"
 shape Shipped as @rect label: "Shipped"
-shape Delivered as @hex label: "Delivered"
+shape Delivered as @hexagon label: "Delivered"
 shape Cancelled as @doc label: "Cancelled"
 
 New -> Processing label: "confirm"

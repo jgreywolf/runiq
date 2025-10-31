@@ -132,7 +132,7 @@ Added extensive console logging to track:
 ```runiq
 container platform "E-Commerce Platform" {
   shape web as @rounded label:"Web Application"
-  shape api as @hex label:"API Backend"
+  shape api as @hexagon label:"API Backend"
   web -> api  // Works correctly (internal edge)
 }
 

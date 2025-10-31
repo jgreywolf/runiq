@@ -60,7 +60,8 @@ Generic feedback control system with forward and feedback paths.
 ### DSL Code
 
 ```runiq
-diagram "Feedback Control System" direction: LR
+diagram "Feedback Control System"
+direction LR
 
   # Forward path
   shape input as @box label: "Input\nR(s)"
@@ -122,7 +123,8 @@ Series connection of multiple transfer functions.
 ### DSL Code
 
 ```runiq
-diagram "Multi-Stage Amplifier" direction: LR
+diagram "Multi-Stage Amplifier"
+direction LR
 
   shape input as @box label: "Input"
   shape stage1 as @transfer-fn label: "Stage 1\nA₁(s)"
@@ -159,7 +161,7 @@ Modern control representation using state variables.
 ### DSL Code
 
 ```runiq
-diagram "State-Space System" direction: TB
+diagram "State-Space System" direction TB
 
   # Input
   shape u as @box label: "Input\nu(t)"
@@ -221,7 +223,8 @@ Multiple parallel signal paths that combine.
 ### DSL Code
 
 ```runiq
-diagram "Parallel PID Controller" direction: LR
+diagram "Parallel PID Controller"
+direction LR
 
   shape error as @box label: "Error\ne(t)"
 
@@ -300,7 +303,7 @@ shape comp as @transfer-fn label: "(s+z)/(s+p)"
 ### Motor Speed Control
 
 ```runiq
-diagram "DC Motor Speed Control" direction: LR
+diagram "DC Motor Speed Control" direction LR
 
   # Input
   shape ref as @box label: "Desired\nSpeed"
@@ -330,7 +333,7 @@ diagram "DC Motor Speed Control" direction: LR
 ### Aircraft Pitch Control
 
 ```runiq
-diagram "Aircraft Pitch Control" direction: LR
+diagram "Aircraft Pitch Control" direction LR
 
   # Reference
   shape theta_ref as @box label: "θ_ref"

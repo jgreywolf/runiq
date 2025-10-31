@@ -147,7 +147,7 @@ Database and storage systems:
 **Example:**
 
 ```runiq
-shape MainDB as @cyl label: "PostgreSQL"
+shape MainDB as @cylinder label: "PostgreSQL"
 shape Cache as @internal-storage label: "Redis"
 ```
 

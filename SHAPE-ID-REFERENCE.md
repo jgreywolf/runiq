@@ -59,7 +59,7 @@ The Runiq parser includes **smart shape validation** with typo detection:
 All of these are **valid and equivalent**:
 
 ```
-shape db1 as @cyl          # Canonical ID
+shape db1 as @cylinder          # Canonical ID
 shape db2 as @cylinder     # Alias
 shape db3 as @database     # Alias
 shape db4 as @db           # Alias
