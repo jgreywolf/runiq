@@ -27,29 +27,30 @@ Simon Wardley's classic example showing a simple business value chain:
 ### DSL Code
 
 ```runiq
-wardley "Tea Shop"
+wardley "Tea Shop" {
 
-# Customer need
-anchor "Cup of Tea" value:0.9
+   # Customer need
+   anchor "Cup of Tea" value:0.9
 
-# Visible components
-component "Cup of Tea" evolution:0.8 value:0.9 label:"What customer sees"
-component "Tea" evolution:0.9 value:0.8
-component "Cup" evolution:1.0 value:0.7
-component "Hot Water" evolution:0.95 value:0.6
+   # Visible components
+   component "Cup of Tea" evolution:0.8 value:0.9 label:"What customer sees"
+   component "Tea" evolution:0.9 value:0.8
+   component "Cup" evolution:1.0 value:0.7
+   component "Hot Water" evolution:0.95 value:0.6
 
-# Infrastructure
-component "Water" evolution:1.0 value:0.3
-component "Kettle" evolution:0.9 value:0.4
-component "Power" evolution:1.0 value:0.1
+   # Infrastructure
+   component "Water" evolution:1.0 value:0.3
+   component "Kettle" evolution:0.9 value:0.4
+   component "Power" evolution:1.0 value:0.1
 
-# Dependencies showing value chain
-dependency from:"Cup of Tea" to:"Tea"
-dependency from:"Cup of Tea" to:"Cup"
-dependency from:"Cup of Tea" to:"Hot Water"
-dependency from:"Hot Water" to:"Water"
-dependency from:"Hot Water" to:"Kettle"
-dependency from:"Kettle" to:"Power"
+   # Dependencies showing value chain
+   dependency from:"Cup of Tea" to:"Tea"
+   dependency from:"Cup of Tea" to:"Cup"
+   dependency from:"Cup of Tea" to:"Hot Water"
+   dependency from:"Hot Water" to:"Water"
+   dependency from:"Hot Water" to:"Kettle"
+   dependency from:"Kettle" to:"Power"
+}
 ```
 
 ### Generated SVG
@@ -76,43 +77,44 @@ dependency from:"Kettle" to:"Power"
 Modern web application stack with strategic evolution indicators:
 
 ```runiq
-wardley "Web Application Stack"
+wardley "Web Application Stack" {
 
-# User anchor
-anchor "User Experience" value:0.95 evolution:0.7
+   # User anchor
+   anchor "User Experience" value:0.95 evolution:0.7
 
-# Frontend (visible)
-component "Web Interface" evolution:0.75 value:0.9 label:"User-facing"
-component "Mobile App" evolution:0.7 value:0.85 inertia:true
+   # Frontend (visible)
+   component "Web Interface" evolution:0.75 value:0.9 label:"User-facing"
+   component "Mobile App" evolution:0.7 value:0.85 inertia:true
 
-# Backend services
-component "API Gateway" evolution:0.65 value:0.7
-component "Business Logic" evolution:0.6 value:0.6
-component "Data Store" evolution:0.8 value:0.5
+   # Backend services
+   component "API Gateway" evolution:0.65 value:0.7
+   component "Business Logic" evolution:0.6 value:0.6
+   component "Data Store" evolution:0.8 value:0.5
 
-# Infrastructure
-component "Container Platform" evolution:0.7 value:0.35
-component "Cloud Compute" evolution:0.9 value:0.2
-component "Network" evolution:1.0 value:0.15
+   # Infrastructure
+   component "Container Platform" evolution:0.7 value:0.35
+   component "Cloud Compute" evolution:0.9 value:0.2
+   component "Network" evolution:1.0 value:0.15
 
-# Emerging technologies
-component "Serverless" evolution:0.5 value:0.4 label:"Emerging"
-component "Edge Computing" evolution:0.3 value:0.3
+   # Emerging technologies
+   component "Serverless" evolution:0.5 value:0.4 label:"Emerging"
+   component "Edge Computing" evolution:0.3 value:0.3
 
-# Dependencies
-dependency from:"Web Interface" to:"API Gateway"
-dependency from:"Mobile App" to:"API Gateway"
-dependency from:"API Gateway" to:"Business Logic"
-dependency from:"Business Logic" to:"Data Store"
-dependency from:"API Gateway" to:"Serverless"
-dependency from:"Data Store" to:"Container Platform"
-dependency from:"Container Platform" to:"Cloud Compute"
-dependency from:"Cloud Compute" to:"Network"
+   # Dependencies
+   dependency from:"Web Interface" to:"API Gateway"
+   dependency from:"Mobile App" to:"API Gateway"
+   dependency from:"API Gateway" to:"Business Logic"
+   dependency from:"Business Logic" to:"Data Store"
+   dependency from:"API Gateway" to:"Serverless"
+   dependency from:"Data Store" to:"Container Platform"
+   dependency from:"Container Platform" to:"Cloud Compute"
+   dependency from:"Cloud Compute" to:"Network"
 
-# Evolution indicators
-evolve "Mobile App" to evolution:0.85
-evolve "Serverless" to evolution:0.75
-evolve "Edge Computing" to evolution:0.6
+   # Evolution indicators
+   evolve "Mobile App" to evolution:0.85
+   evolve "Serverless" to evolution:0.75
+   evolve "Edge Computing" to evolution:0.6
+}
 ```
 
 ### Generated SVG
@@ -144,42 +146,43 @@ evolve "Edge Computing" to evolution:0.6
 Strategic mapping for digital transformation:
 
 ```runiq
-wardley "Digital Transformation Strategy"
+wardley "Digital Transformation Strategy" {
 
-# Customer need
-anchor "Customer Satisfaction" value:0.95
+   # Customer need
+   anchor "Customer Satisfaction" value:0.95
 
-# Customer-facing
-component "Customer Portal" evolution:0.6 value:0.9 label:"Differentiator"
-component "Mobile Experience" evolution:0.5 value:0.85 inertia:true
-component "Customer Data" evolution:0.7 value:0.75
+   # Customer-facing
+   component "Customer Portal" evolution:0.6 value:0.9 label:"Differentiator"
+   component "Mobile Experience" evolution:0.5 value:0.85 inertia:true
+   component "Customer Data" evolution:0.7 value:0.75
 
-# Core capabilities
-component "CRM System" evolution:0.75 value:0.65
-component "Analytics Platform" evolution:0.55 value:0.55 label:"Investment area"
-component "Integration Layer" evolution:0.65 value:0.45
+   # Core capabilities
+   component "CRM System" evolution:0.75 value:0.65
+   component "Analytics Platform" evolution:0.55 value:0.55 label:"Investment area"
+   component "Integration Layer" evolution:0.65 value:0.45
 
-# Commodity services
-component "Email Service" evolution:0.95 value:0.35
-component "Cloud Storage" evolution:0.9 value:0.25
-component "Compute Resources" evolution:1.0 value:0.15
+   # Commodity services
+   component "Email Service" evolution:0.95 value:0.35
+   component "Cloud Storage" evolution:0.9 value:0.25
+   component "Compute Resources" evolution:1.0 value:0.15
 
-# Legacy
-component "Legacy Database" evolution:0.85 value:0.5 inertia:true label:"Tech debt"
+   # Legacy
+   component "Legacy Database" evolution:0.85 value:0.5 inertia:true label:"Tech debt"
 
-dependency from:"Customer Portal" to:"CRM System"
-dependency from:"Mobile Experience" to:"Customer Data"
-dependency from:"Customer Data" to:"Analytics Platform"
-dependency from:"CRM System" to:"Integration Layer"
-dependency from:"CRM System" to:"Legacy Database"
-dependency from:"Analytics Platform" to:"Cloud Storage"
-dependency from:"Integration Layer" to:"Email Service"
-dependency from:"Integration Layer" to:"Compute Resources"
+   dependency from:"Customer Portal" to:"CRM System"
+   dependency from:"Mobile Experience" to:"Customer Data"
+   dependency from:"Customer Data" to:"Analytics Platform"
+   dependency from:"CRM System" to:"Integration Layer"
+   dependency from:"CRM System" to:"Legacy Database"
+   dependency from:"Analytics Platform" to:"Cloud Storage"
+   dependency from:"Integration Layer" to:"Email Service"
+   dependency from:"Integration Layer" to:"Compute Resources"
 
-# Strategic moves
-evolve "Mobile Experience" to evolution:0.8
-evolve "Analytics Platform" to evolution:0.75
-evolve "Legacy Database" to evolution:0.95 # Migrate to commodity
+   # Strategic moves
+   evolve "Mobile Experience" to evolution:0.8
+   evolve "Analytics Platform" to evolution:0.75
+   evolve "Legacy Database" to evolution:0.95 # Migrate to commodity
+}
 ```
 
 ### Strategic Analysis
@@ -205,40 +208,41 @@ evolve "Legacy Database" to evolution:0.95 # Migrate to commodity
 Mapping a product's evolution from genesis to commodity:
 
 ```runiq
-wardley "Product Evolution Map"
+wardley "Product Evolution Map" {
 
-anchor "Market Need" value:0.92
+   anchor "Market Need" value:0.92
 
-# Genesis - Novel innovation
-component "Novel Feature" evolution:0.15 value:0.85 label:"R&D phase"
-component "Prototype" evolution:0.2 value:0.75
+   # Genesis - Novel innovation
+   component "Novel Feature" evolution:0.15 value:0.85 label:"R&D phase"
+   component "Prototype" evolution:0.2 value:0.75
 
-# Custom Built
-component "MVP" evolution:0.35 value:0.8 label:"Custom solution"
-component "Beta Version" evolution:0.45 value:0.75
+   # Custom Built
+   component "MVP" evolution:0.35 value:0.8 label:"Custom solution"
+   component "Beta Version" evolution:0.45 value:0.75
 
-# Product
-component "Released Product" evolution:0.65 value:0.85 label:"Product phase"
-component "Feature Set" evolution:0.7 value:0.7
+   # Product
+   component "Released Product" evolution:0.65 value:0.85 label:"Product phase"
+   component "Feature Set" evolution:0.7 value:0.7
 
-# Commodity
-component "Standard Components" evolution:0.9 value:0.5
-component "Open Source Libs" evolution:0.95 value:0.4
-component "Cloud Services" evolution:1.0 value:0.3
+   # Commodity
+   component "Standard Components" evolution:0.9 value:0.5
+   component "Open Source Libs" evolution:0.95 value:0.4
+   component "Cloud Services" evolution:1.0 value:0.3
 
-dependency from:"Prototype" to:"Novel Feature"
-dependency from:"MVP" to:"Prototype"
-dependency from:"Beta Version" to:"MVP"
-dependency from:"Released Product" to:"Beta Version"
-dependency from:"Released Product" to:"Feature Set"
-dependency from:"Feature Set" to:"Standard Components"
-dependency from:"Standard Components" to:"Open Source Libs"
-dependency from:"Open Source Libs" to:"Cloud Services"
+   dependency from:"Prototype" to:"Novel Feature"
+   dependency from:"MVP" to:"Prototype"
+   dependency from:"Beta Version" to:"MVP"
+   dependency from:"Released Product" to:"Beta Version"
+   dependency from:"Released Product" to:"Feature Set"
+   dependency from:"Feature Set" to:"Standard Components"
+   dependency from:"Standard Components" to:"Open Source Libs"
+   dependency from:"Open Source Libs" to:"Cloud Services"
 
-# Evolution path
-evolve "Novel Feature" to evolution:0.5
-evolve "MVP" to evolution:0.65
-evolve "Standard Components" to evolution:1.0
+   # Evolution path
+   evolve "Novel Feature" to evolution:0.5
+   evolve "MVP" to evolution:0.65
+   evolve "Standard Components" to evolution:1.0
+}
 ```
 
 ### Product Lifecycle
@@ -272,7 +276,9 @@ evolve "Standard Components" to evolution:1.0
 ### Profile Declaration
 
 ```runiq
-wardley "Map Title"
+wardley "Map Title" {
+
+}
 ```
 
 ### Anchor (User Need)
@@ -478,35 +484,37 @@ runiq render business-strategy.runiq -o strategy.svg --width 1200 --height 800
 ### Minimal Example
 
 ```runiq
-wardley "Simple Map"
+wardley "Simple Map" {
 
-anchor "User Need" value:0.95
-component "Visible Service" evolution:0.7 value:0.85
-component "Infrastructure" evolution:0.95 value:0.3
-dependency from:"Visible Service" to:"Infrastructure"
+   anchor "User Need" value:0.95
+   component "Visible Service" evolution:0.7 value:0.85
+   component "Infrastructure" evolution:0.95 value:0.3
+   dependency from:"Visible Service" to:"Infrastructure"
+}
 ```
 
 ### Complete Example
 
 ```runiq
-wardley "Complete Map"
+wardley "Complete Map" {
 
-# User needs
-anchor "Customer Satisfaction" value:0.95
+   # User needs
+   anchor "Customer Satisfaction" value:0.95
 
-# User-facing
-component "App" evolution:0.6 value:0.9 label:"Mobile application"
-component "API" evolution:0.75 value:0.7
+   # User-facing
+   component "App" evolution:0.6 value:0.9 label:"Mobile application"
+   component "API" evolution:0.75 value:0.7
 
-# Infrastructure
-component "Database" evolution:0.85 value:0.5 inertia:true
-component "Cloud" evolution:1.0 value:0.2
+   # Infrastructure
+   component "Database" evolution:0.85 value:0.5 inertia:true
+   component "Cloud" evolution:1.0 value:0.2
 
-# Connections
-dependency from:"App" to:"API"
-dependency from:"API" to:"Database"
-dependency from:"Database" to:"Cloud"
+   # Connections
+   dependency from:"App" to:"API"
+   dependency from:"API" to:"Database"
+   dependency from:"Database" to:"Cloud"
 
-# Strategy
-evolve "Database" to evolution:0.95
+   # Strategy
+   evolve "Database" to evolution:0.95
+}
 ```

@@ -9,14 +9,15 @@ Customize the appearance of your diagrams with colors, fonts, line styles, and t
 Apply styles to all shapes and edges:
 
 ```runiq
-diagram "Styled Diagram"
+diagram "Styled Diagram" {
 
-style default fill:#f7f7ff stroke:#444 strokeWidth:2
-style default fontFamily:"Inter, sans-serif" fontSize:14
+  style default fill:"#f7f7ff" stroke:"#444" strokeWidth:2
+  style default2 fill:"#ef1" fontFamily:"Inter, sans-serif" fontSize:14
 
-shape A as @rect label: "Node A"
-shape B as @rect label: "Node B"
-A -> B
+  shape A as @rect label: "Node A" style:default
+  shape B as @rect label: "Node B" style:default2
+  A -> B
+}
 ```
 
 ### Named Styles
@@ -24,15 +25,16 @@ A -> B
 Define reusable named styles:
 
 ```runiq
-diagram "Named Styles"
+diagram "Named Styles" {
 
-style primary fill:#2196f3 stroke:#1565c0 color:#ffffff
-style accent fill:#ff9800 stroke:#f57c00 color:#ffffff
-style subtle fill:#f5f5f5 stroke:#9e9e9e color:#333333
+  style primary fill:"#2196f3" stroke:"#1565c0" color:"#ffffff"
+  style accent fill:"#ff9800" stroke:"#f57c00" color:"#ffffff"
+  style subtle fill:"#f5f5f5" stroke:"#9e9e9e" color:"#333333"
 
-shape Button as @rect label: "Submit" style:primary
-shape Warning as @rect label: "Cancel" style:accent
-shape Info as @rect label: "Help" style:subtle
+  shape Button as @rect label: "Submit" style:primary
+  shape Warning as @rect label: "Cancel" style:accent
+  shape Info as @rect label: "Help" style:subtle
+}
 ```
 
 ## Color Properties
@@ -40,14 +42,15 @@ shape Info as @rect label: "Help" style:subtle
 ### Shape Colors
 
 ```runiq
-diagram "Colors"
+diagram "Colors" {
 
-shape A as @rect
-  label: "Custom Colors"
-  fill: "#e3f2fd"         # Background color
-  stroke: "#2196f3"       # Border color
-  color: "#1565c0"        # Text color
-  strokeWidth: 2          # Border width
+  shape A as @rect
+    label: "Custom Colors"
+    fill: "#e3f2fd"         # Background color
+    stroke: "#2196f3"       # Border color
+    color: "#1565c0"        # Text color
+    strokeWidth: 2          # Border width
+}
 ```
 
 ### Hex, RGB, and Named Colors
@@ -73,19 +76,19 @@ color: "white"
 ### Font Properties
 
 ```runiq
-diagram "Typography"
+diagram "Typography" {
+  style default
+    fontFamily: "Inter, -apple-system, sans-serif"
+    fontSize: 14
+    fontWeight: 400
 
-style default
-  fontFamily: "Inter, -apple-system, sans-serif"
-  fontSize: 14
-  fontWeight: 400
+  style heading
+    fontSize: 18
+    fontWeight: 600
 
-style heading
-  fontSize: 18
-  fontWeight: 600
-
-shape Title as @rect label: "Heading" style:heading
-shape Body as @rect label: "Regular text"
+  shape Title as @rect label: "Heading" style:heading
+  shape Body as @rect label: "Regular text"
+}
 ```
 
 ### Text Alignment
@@ -105,30 +108,39 @@ shape Left as @rect
 ### Edge Styles
 
 ```runiq
-diagram "Line Styles"
+diagram "Line Styles" {
 
-shape A as @rect label: "A"
-shape B as @rect label: "B"
-shape C as @rect label: "C"
-shape D as @rect label: "D"
+  shape A as @rect label: "A"
+  shape B as @rect label: "B"
+  shape C as @rect label: "C"
+  shape D as @rect label: "D"
 
-# Line styles
-A -> B lineStyle: solid strokeColor: "#2196f3"
-A -> C lineStyle: dashed strokeColor: "#ff9800"
-A -> D lineStyle: dotted strokeColor: "#4caf50"
+  # Line styles
+  A -> B lineStyle: solid stroke: "#2196f3"
+  A -> C lineStyle: dashed stroke: "#ff9800"
+  A -> D lineStyle: dotted stroke: "#4caf50"
+}
 ```
 
 ### Line Width
 
 ```runiq
-# Thin line
-A -> B strokeWidth: 1
+diagram "Line Widths" {
 
-# Medium line (default)
-A -> B strokeWidth: 2
+  shape A as @rect label: "A"
+  shape B as @rect label: "B"
+  shape C as @rect label: "C"
+  shape D as @rect label: "D"
 
-# Thick line
-A -> B strokeWidth: 4
+  # Thin line
+  A -> B strokeWidth: 1
+
+  # Medium line (default)
+  B -> C strokeWidth: 2
+
+  # Thick line
+  C -> D strokeWidth: 4
+}
 ```
 
 ## Shape-Specific Styling
@@ -136,25 +148,26 @@ A -> B strokeWidth: 4
 ### Individual Shape Styles
 
 ```runiq
-diagram "Individual Styling"
+diagram "Individual Styling" {
 
-shape Start as @rounded
-  label: "Start"
-  fill: "#4caf50"
-  stroke: "#2e7d32"
-  color: "#ffffff"
+  shape Start as @rounded
+    label: "Start"
+    fill: "#4caf50"
+    stroke: "#2e7d32"
+    color: "#ffffff"
 
-shape Process as @rect
-  label: "Process"
-  fill: "#2196f3"
-  stroke: "#1565c0"
-  color: "#ffffff"
+  shape Process as @rect
+    label: "Process"
+    fill: "#2196f3"
+    stroke: "#1565c0"
+    color: "#ffffff"
 
-shape End as @rounded
-  label: "End"
-  fill: "#f44336"
-  stroke: "#c62828"
-  color: "#ffffff"
+  shape End as @rounded
+    label: "End"
+    fill: "#f44336"
+    stroke: "#c62828"
+    color: "#ffffff"
+}
 ```
 
 ## Theme Presets
@@ -172,67 +185,70 @@ style default
 ### Dark Theme
 
 ```runiq
-diagram "Dark Theme"
-direction LR
+diagram "Dark Theme" {
+  direction LR
 
-style default
-  fill: "#1e1e1e"
-  stroke: "#6e6e6e"
-  color: "#e0e0e0"
-  strokeWidth: 2
-  fontFamily: "Consolas, monospace"
+  style default
+    fill: "#1e1e1e"
+    stroke: "#6e6e6e"
+    color: "#e0e0e0"
+    strokeWidth: 2
+    fontFamily: "Consolas, monospace"
 
-style highlight
-  fill: "#2196f3"
-  stroke: "#1976d2"
-  color: "#ffffff"
+  style highlight
+    fill: "#2196f3"
+    stroke: "#1976d2"
+    color: "#ffffff"
 
-shape A as @rect label: "Dark Node"
-shape B as @rect label: "Highlight" style:highlight
-A -> B strokeColor: "#6e6e6e"
+  shape A as @rect label: "Dark Node"
+  shape B as @rect label: "Highlight" style:highlight
+  A -> B stroke: "#6e6e6e"
+}
 ```
 
 ### Pastel Theme
 
 ```runiq
-diagram "Pastel Theme"
+diagram "Pastel Theme"{
 
-style default
-  fill: "#f5f5f5"
-  stroke: "#999999"
-  strokeWidth: 1
+  style default
+    fill: "#f5f5f5"
+    stroke: "#999999"
+    strokeWidth: 1
 
-style success fill:#c8e6c9 stroke:#81c784
-style warning fill:#fff9c4 stroke:#fff176
-style error fill:#ffcdd2 stroke:#ef9a9a
-style info fill:#bbdefb stroke:#64b5f6
+  style success fill:"#c8e6c9" stroke:"#81c784"
+  style warning fill:"#fff9c4" stroke:"#fff176"
+  style error fill:"#ffcdd2" stroke:"#ef9a9a"
+  style info fill:"#bbdefb" stroke:"#64b5f6"
 
-shape OK as @hexagon label: "Success" style:success
-shape Wait as @rect label: "Processing" style:warning
-shape Fail as @doc label: "Error" style:error
-shape Help as @rounded label: "Info" style:info
+  shape OK as @hexagon label: "Success" style:success
+  shape Wait as @rect label: "Processing" style:warning
+  shape Fail as @doc label: "Error" style:error
+  shape Help as @rounded label: "Info" style:info
+}
 ```
 
 ### Professional Theme
 
 ```runiq
-diagram "Professional Theme"
+diagram "Professional Theme" {
 
-style default
-  fill: "#ffffff"
-  stroke: "#263238"
-  color: "#263238"
-  strokeWidth: 2
-  fontFamily: "Segoe UI, sans-serif"
-  fontSize: 13
+  style default
+    fill: "#ffffff"
+    stroke: "#263238"
+    color: "#263238"
+    strokeWidth: 2
+    fontFamily: "Segoe UI, sans-serif"
+    fontSize: 13
 
-style primary fill:#0d47a1 stroke:#01579b color:#ffffff
-style secondary fill:#37474f stroke:#263238 color:#ffffff
-style accent fill:#d84315 stroke:#bf360c color:#ffffff
+  style primary fill:"#0d47a1" stroke:"#01579b" color:"#ffffff"
+  style secondary fill:"#37474f" stroke:"#263238" color:"#ffffff"
+  style accent fill:"#d84315" stroke:"#bf360c" color:"#ffffff"
 
-shape Header as @rect label: "Header" style:primary
-shape Content as @rect label: "Content" style:secondary
-shape Action as @hexagon label: "Action" style:accent
+  shape Header as @rect label: "Header" style:primary
+  shape Content as @rect label: "Content" style:secondary
+  shape Action as @hexagon label: "Action" style:accent
+}
 ```
 
 ## Container Styling
@@ -240,37 +256,41 @@ shape Action as @hexagon label: "Action" style:accent
 ### Container Colors
 
 ```runiq
-diagram "Styled Containers"
+diagram "Styled Containers" {
 
-container "Frontend"
-  backgroundColor: "#fff3e0"
-  borderColor: "#ff9800"
-  borderWidth: 2
-  padding: 20
-{
-  shape UI as @rect label: "UI Component"
-}
+  container "Frontend"
+    backgroundColor: "#fff3e0"
+    borderColor: "#ff9800"
+    borderWidth: 2
+    padding: 20
+  {
+    shape UI as @rect label: "UI Component"
+  }
 
-container "Backend"
-  backgroundColor: "#e8f5e9"
-  borderColor: "#4caf50"
-  borderWidth: 2
-  padding: 20
-{
-  shape API as @rect label: "API Service"
+  container "Backend"
+    backgroundColor: "#e8f5e9"
+    borderColor: "#4caf50"
+    borderWidth: 2
+    padding: 20
+  {
+    shape API as @rect label: "API Service"
+  }
 }
 ```
 
 ### Container Shadows
 
 ```runiq
-container "Elevated Card"
-  backgroundColor: "#ffffff"
-  borderColor: "#e0e0e0"
-  shadow: true
-  padding: 25
-{
-  shape Content as @rect label: "Content"
+diagram "Styled Containers" {
+
+  container "Elevated Card"
+    backgroundColor: "#ffffff"
+    borderColor: "#e0e0e0"
+    shadow: true
+    padding: 25
+  {
+    shape Content as @rect label: "Content"
+  }
 }
 ```
 
@@ -292,22 +312,12 @@ shape Gradient as @rect
 ### Opacity
 
 ```runiq
-diagram "Opacity"
+diagram "Opacity" {
 
-shape Solid as @rect
-  label: "Solid"
-  fill: "#2196f3"
-  opacity: 1.0
-
-shape Semi as @rect
-  label: "Semi-Transparent"
-  fill: "#2196f3"
-  opacity: 0.5
-
-shape Light as @rect
-  label: "Very Transparent"
-  fill: "#2196f3"
-  opacity: 0.2
+  shape Solid as @rect label: "Solid" fill: "#2196f3" opacity: 1.0
+  shape Semi as @rect label: "Semi-Transparent" fill: "#e1f" opacity: 0.5
+  shape Light as @rect label: "Very Transparent" fill: "#2196f3" opacity: 0.2
+}
 ```
 
 ### Border Radius (Shape-Specific)
@@ -315,13 +325,15 @@ shape Light as @rect
 Some shapes support custom border radius:
 
 ```runiq
-shape Rounded as @rounded
-  label: "Rounded"
-  borderRadius: 10
+diagram "Custom Border" {
+  shape Rounded as @rounded
+    label: "Rounded"
+    borderRadius: 5
 
-shape VeryRounded as @rounded
-  label: "Very Rounded"
-  borderRadius: 20
+  shape VeryRounded as @rounded
+    label: "Very Rounded"
+    borderRadius: 30
+}
 ```
 
 ## Color Palettes
@@ -370,11 +382,11 @@ Pick 3-5 colors and stick to them throughout the diagram:
 
 ```runiq
 # Define your palette
-style primary fill:#2196f3 stroke:#1565c0
-style secondary fill:#4caf50 stroke:#2e7d32
-style accent fill:#ff9800 stroke:#f57c00
-style neutral fill:#9e9e9e stroke:#616161
-style danger fill:#f44336 stroke:#c62828
+style primary fill:"#2196f3" stroke:"#1565c0"
+style secondary fill:"#4caf50" stroke:"#2e7d32"
+style accent fill:"#ff9800" stroke:"#f57c00"
+style neutral fill:"#9e9e9e" stroke:"#616161"
+style danger fill:"#f44336" stroke:"#c62828"
 ```
 
 ### 2. **Adequate Contrast**
@@ -384,7 +396,7 @@ Ensure text is readable against backgrounds:
 ```runiq
 # Good contrast
 shape Good as @rect
-  fill: "#2196f3"   # Dark blue background
+  fill: "#2196f3"   // Dark blue background
   color: "#ffffff"  # White text ✅
 
 # Poor contrast (avoid)
@@ -398,10 +410,10 @@ shape Poor as @rect
 Use colors that match meaning:
 
 ```runiq
-style success fill:#4caf50 stroke:#2e7d32  # Green for success
-style error fill:#f44336 stroke:#c62828    # Red for errors
-style warning fill:#ff9800 stroke:#f57c00  # Orange for warnings
-style info fill:#2196f3 stroke:#1565c0     # Blue for info
+style success fill:"#4caf50" stroke:"#2e7d32"  # Green for success
+style error fill:"#f44336" stroke:"#c62828"    # Red for errors
+style warning fill:"#ff9800" stroke:"#f57c00"  # Orange for warnings
+style info fill:"#2196f3" stroke:"#1565c0"     # Blue for info
 ```
 
 ### 4. **Accessibility**
@@ -449,72 +461,75 @@ fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
 
 ### Edge Properties
 
-| Property      | Type                      | Default | Example                  |
-| ------------- | ------------------------- | ------- | ------------------------ |
-| `strokeColor` | color                     | #444    | `strokeColor: "#2196f3"` |
-| `strokeWidth` | number                    | 2       | `strokeWidth: 3`         |
-| `lineStyle`   | solid \| dashed \| dotted | solid   | `lineStyle: dashed`      |
+| Property      | Type                      | Default | Example             |
+| ------------- | ------------------------- | ------- | ------------------- |
+| `stroke`      | color                     | #444    | `stroke: "#2196f3"` |
+| `strokeWidth` | number                    | 2       | `strokeWidth: 3`    |
+| `lineStyle`   | solid \| dashed \| dotted | solid   | `lineStyle: dashed` |
 
 ### Container Properties
 
-| Property          | Type                      | Default     | Example                      |
-| ----------------- | ------------------------- | ----------- | ---------------------------- |
-| `backgroundColor` | color                     | transparent | `backgroundColor: "#e3f2fd"` |
-| `borderColor`     | color                     | #444        | `borderColor: "#2196f3"`     |
-| `borderWidth`     | number                    | 1           | `borderWidth: 2`             |
-| `borderStyle`     | solid \| dashed \| dotted | solid       | `borderStyle: dashed`        |
-| `shadow`          | boolean                   | false       | `shadow: true`               |
-| `opacity`         | number                    | 1.0         | `opacity: 0.9`               |
+| Property      | Type                      | Default     | Example                      |
+| ------------- | ------------------------- | ----------- | ---------------------------- |
+| `fill`        | color                     | transparent | `backgroundColor: "#e3f2fd"` |
+| `borderColor` | color                     | #444        | `borderColor: "#2196f3"`     |
+| `borderWidth` | number                    | 1           | `borderWidth: 2`             |
+| `borderStyle` | solid \| dashed \| dotted | solid       | `borderStyle: dashed`        |
+| `shadow`      | boolean                   | false       | `shadow: true`               |
+| `opacity`     | number                    | 1.0         | `opacity: 0.9`               |
 
 ## Examples
 
 ### Flowchart with Color Coding
 
 ```runiq
-diagram "Order Processing" direction TB
+diagram "Order Processing" {
+  direction TB
 
-style default fill:#f5f5f5 stroke:#616161
-style process fill:#2196f3 stroke:#1565c0 color:#ffffff
-style decision fill:#ff9800 stroke:#f57c00 color:#ffffff
-style success fill:#4caf50 stroke:#2e7d32 color:#ffffff
-style error fill:#f44336 stroke:#c62828 color:#ffffff
+  style default fill:"#f5f5f5" stroke:"#616161"
+  style process fill:"#2196f3" stroke:"#1565c0" color:"#ffffff"
+  style decision fill:"#ff9800" stroke:"#f57c00" color:"#ffffff"
+  style success fill:"#4caf50" stroke:"#2e7d32" color:"#ffffff"
+  style error fill:"#f44336" stroke:"#c62828" color:"#ffffff"
 
-shape Start as @rounded label: "Start" style:success
-shape Validate as @rect label: "Validate Order" style:process
-shape Check as @rhombus label: "Valid?" style:decision
-shape Process as @rect label: "Process Payment" style:process
-shape Complete as @hexagon label: "Complete" style:success
-shape Reject as @doc label: "Reject Order" style:error
+  shape Start as @rounded label: "Start" style:success
+  shape Validate as @rect label: "Validate Order" style:process
+  shape Check as @rhombus label: "Valid?" style:decision
+  shape Process as @rect label: "Process Payment" style:process
+  shape Complete as @hexagon label: "Complete" style:success
+  shape Reject as @doc label: "Reject Order" style:error
 
-Start -> Validate
-Validate -> Check
-Check -yes-> Process
-Check -no-> Reject
-Process -> Complete
+  Start -> Validate
+  Validate -> Check
+  Check -yes-> Process
+  Check -no-> Reject
+  Process -> Complete
+}
 ```
 
 ### System Architecture
 
 ```runiq
-diagram "Microservices"
+diagram "Microservices" {
 
-style default fontFamily:"Inter, sans-serif" fontSize:13
+  style default fontFamily:"Inter, sans-serif" fontSize:13
 
-container "Frontend" backgroundColor:"#fff3e0" borderColor:"#ff9800" {
-  shape React as @rect label: "React App"
-    fill:"#ffffff" stroke:"#ff9800"
-}
+  container "Frontend" backgroundColor:"#fff3e0" borderColor:"#ff9800" {
+    shape React as @rect label: "React App"
+      fill:"#ffffff" stroke:"#ff9800"
+  }
 
-container "Backend" backgroundColor:"#e8f5e9" borderColor:"#4caf50" {
-  shape API as @rect label: "API Gateway"
-    fill:"#ffffff" stroke:"#4caf50"
-  shape Auth as @rect label: "Auth Service"
-    fill:"#ffffff" stroke:"#4caf50"
-}
+  container "Backend" backgroundColor:"#e8f5e9" borderColor:"#4caf50" {
+    shape API as @rect label: "API Gateway"
+      fill:"#ffffff" stroke:"#4caf50"
+    shape Auth as @rect label: "Auth Service"
+      fill:"#ffffff" stroke:"#4caf50"
+  }
 
-container "Data" backgroundColor:"#f3e5f5" borderColor:"#9c27b0" {
-  shape DB as @cylinder label: "PostgreSQL"
-    fill:"#ffffff" stroke:"#9c27b0"
+  container "Data" backgroundColor:"#f3e5f5" borderColor:"#9c27b0" {
+    shape DB as @cylinder label: "PostgreSQL"
+      fill:"#ffffff" stroke:"#9c27b0"
+  }
 }
 ```
 

@@ -82,18 +82,20 @@ Runiq/
 Create a file named `hello.runiq`:
 
 ```runiq
-diagram "Hello Runiq" direction TB
+diagram "Hello Runiq" {
+  direction TB
 
-shape Start as @rounded label: "Start"
-shape Process as @rect label: "Process Data"
-shape Decision as @rhombus label: "Valid?"
-shape Success as @hexagon label: "Success"
-shape Error as @doc label: "Error"
+  shape Start as @rounded label: "Start"
+  shape Process as @rect label: "Process Data"
+  shape Decision as @rhombus label: "Valid?"
+  shape Success as @hexagon label: "Success"
+  shape Error as @doc label: "Error"
 
-Start -> Process
-Process -> Decision
-Decision -yes-> Success
-Decision -no-> Error
+  Start -> Process
+  Process -> Decision
+  Decision -yes-> Success
+  Decision -no-> Error
+}
 ```
 
 ### 2. Generate SVG (via CLI - coming soon)

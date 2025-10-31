@@ -15,28 +15,21 @@ Design control systems, signal chains, and feedback loops with readable syntax a
 ## Example
 
 ```runiq
-diagram "PI Controller"
-direction LR
+diagram "PI Controller" {
+  direction LR
 
-shape Ref as @doc label: "Reference"
-shape Sum as @circle label: "+/−"  // summing junction
-shape C as @rect label: "Controller (PI)"
-shape P as @rect label: "Plant"
-shape Y as @doc label: "Output"
+  shape Ref as @doc label: "Reference"
+  shape Sum as @circle label: "+/−"  // summing junction
+  shape C as @rect label: "Controller (PI)"
+  shape P as @rect label: "Plant"
+  shape Y as @doc label: "Output"
 
-Ref -> Sum
-Sum -> C
-C -> P
-P -> Y
-Y -.-> Sum label: "feedback" lineStyle: dotted
-```
-
-## Styling
-
-```runiq
-style default stroke:#444 fill:#f8f8ff
-edge C -> P strokeColor:#1565c0
-edge Y -.-> Sum strokeColor:#2e7d32 lineStyle:dotted
+  Ref -> Sum
+  Sum -> C
+  C -> P
+  P -> Y
+  Y -> Sum label: "feedback" lineStyle: dotted
+}
 ```
 
 ## Layout tips

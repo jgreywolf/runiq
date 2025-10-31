@@ -34,7 +34,7 @@ pneumatic "Circuit Name" {
   net NET1
   net NET2
 
-  part P1 CYL_DA pins:(NET1, NET2) doc:"Description"
+  part P1 type:CYL_DA pins:(NET1,NET2) doc:"Description"
 }
 ```
 
@@ -69,7 +69,7 @@ flowRate 30 m³/h        // Cubic meters per hour
 
 ### Parts (Components)
 
-Format: `part <ref> <type> pins:(<net1>, <net2>, ...) doc:"<description>"`
+Format: `part <ref> type:<type> pins:(<net1>,<net2>,...) doc:"<description>"`
 
 **Required:**
 
@@ -106,7 +106,7 @@ Nets represent air supply lines, pilot lines, and exhaust paths. Components conn
 **Example:**
 
 ```runiq
-part C1 CYL_DA pins:(PORT_A, PORT_B) doc:"Main cylinder"
+part C1 type:CYL_DA pins:(PORT_A,PORT_B) doc:"Main cylinder"
 ```
 
 ### Valves
@@ -120,7 +120,7 @@ part C1 CYL_DA pins:(PORT_A, PORT_B) doc:"Main cylinder"
 **Example:**
 
 ```runiq
-part V1 VALVE_52 pins:(SUPPLY, PORT_A, PORT_B, EXHAUST_A, EXHAUST_B)
+part V1 type:VALVE_52 pins:(SUPPLY,PORT_A,PORT_B,EXHAUST_A,EXHAUST_B)
 ```
 
 ### Air Preparation
@@ -135,9 +135,9 @@ part V1 VALVE_52 pins:(SUPPLY, PORT_A, PORT_B, EXHAUST_A, EXHAUST_B)
 **FRL Unit Example:**
 
 ```runiq
-part F1 FILTER pins:(SUPPLY, FILTERED)
-part R1 REGULATOR pins:(FILTERED, REGULATED)
-part L1 LUBRICATOR pins:(REGULATED, OUTPUT)
+part F1 type:FILTER pins:(SUPPLY,FILTERED)
+part R1 type:REGULATOR pins:(FILTERED,REGULATED)
+part L1 type:LUBRICATOR pins:(REGULATED,OUTPUT)
 ```
 
 ### Flow Control
@@ -168,9 +168,9 @@ pneumatic "Basic Cylinder" {
   net CYLINDER
   net EXHAUST
 
-  part AS AIR_SOURCE pins:(SUPPLY) doc:"Compressor"
-  part V1 VALVE_32 pins:(SUPPLY, CYLINDER, EXHAUST) doc:"Manual valve"
-  part C1 CYL_SA pins:(CYLINDER) doc:"Single-acting cylinder"
+  part AS type:AIR_SOURCE pins:(SUPPLY) doc:"Compressor"
+  part V1 type:VALVE_32 pins:(SUPPLY,CYLINDER,EXHAUST) doc:"Manual valve"
+  part C1 type:CYL_SA pins:(CYLINDER) doc:"Single-acting cylinder"
 }
 ```
 
@@ -193,11 +193,11 @@ pneumatic "Speed Control Cylinder" {
   net EXHAUST_A
   net EXHAUST_B
 
-  part V1 VALVE_52 pins:(SUPPLY, PORT_A, PORT_B, EXHAUST_A, EXHAUST_B)
+  part V1 type:VALVE_52 pins:(SUPPLY,PORT_A,PORT_B,EXHAUST_A,EXHAUST_B)
        doc:"5/2 double solenoid valve"
-  part FC1 FLOW_CONTROL pins:(PORT_A) doc:"Extend speed control"
-  part FC2 FLOW_CONTROL pins:(PORT_B) doc:"Retract speed control"
-  part C1 CYL_DA pins:(PORT_A, PORT_B) doc:"Double-acting cylinder"
+  part FC1 type:FLOW_CONTROL pins:(PORT_A) doc:"Extend speed control"
+  part FC2 type:FLOW_CONTROL pins:(PORT_B) doc:"Retract speed control"
+  part C1 type:CYL_DA pins:(PORT_A,PORT_B) doc:"Double-acting cylinder"
 }
 ```
 
@@ -223,11 +223,11 @@ pneumatic "FRL Unit" {
   net REGULATED
   net OUTPUT
 
-  part AS AIR_SOURCE pins:(RAW_AIR) doc:"Main compressor"
-  part F1 FILTER pins:(RAW_AIR, FILTERED) doc:"Air filter with drain"
-  part R1 REGULATOR pins:(FILTERED, REGULATED) doc:"Pressure regulator"
-  part G1 GAUGE_P pins:(REGULATED) doc:"Pressure gauge"
-  part L1 LUBRICATOR pins:(REGULATED, OUTPUT) doc:"Oil mist lubricator"
+  part AS type:AIR_SOURCE pins:(RAW_AIR) doc:"Main compressor"
+  part F1 type:FILTER pins:(RAW_AIR,FILTERED) doc:"Air filter with drain"
+  part R1 type:REGULATOR pins:(FILTERED,REGULATED) doc:"Pressure regulator"
+  part G1 type:GAUGE_P pins:(REGULATED) doc:"Pressure gauge"
+  part L1 type:LUBRICATOR pins:(REGULATED,OUTPUT) doc:"Oil mist lubricator"
 }
 ```
 
@@ -255,12 +255,12 @@ pneumatic "Sequential Control" {
   net B_RET
 
   // Cylinder A circuit
-  part VA VALVE_52 pins:(SUPPLY, A_EXT, A_RET) doc:"Valve A"
-  part CA CYL_DA pins:(A_EXT, A_RET) doc:"Cylinder A"
+  part VA type:VALVE_52 pins:(SUPPLY,A_EXT,A_RET) doc:"Valve A"
+  part CA type:CYL_DA pins:(A_EXT,A_RET) doc:"Cylinder A"
 
   // Cylinder B circuit
-  part VB VALVE_52 pins:(SUPPLY, B_EXT, B_RET) doc:"Valve B"
-  part CB CYL_DA pins:(B_EXT, B_RET) doc:"Cylinder B"
+  part VB type:VALVE_52 pins:(SUPPLY,B_EXT,B_RET) doc:"Valve B"
+  part CB type:CYL_DA pins:(B_EXT,B_RET) doc:"Cylinder B"
 }
 ```
 
@@ -288,9 +288,9 @@ pneumatic "Reciprocating Cylinder" {
   net PORT_A
   net PORT_B
 
-  part V1 VALVE_52 pins:(SUPPLY, PORT_A, PORT_B) doc:"Control valve"
-  part C1 CYL_DA pins:(PORT_A, PORT_B) doc:"Oscillating cylinder"
-  part FC1 FLOW_CONTROL pins:(PORT_A) doc:"Speed adjustment"
+  part V1 type:VALVE_52 pins:(SUPPLY,PORT_A,PORT_B) doc:"Control valve"
+  part C1 type:CYL_DA pins:(PORT_A,PORT_B) doc:"Oscillating cylinder"
+  part FC1 type:FLOW_CONTROL pins:(PORT_A) doc:"Speed adjustment"
 }
 ```
 
@@ -373,26 +373,26 @@ part G1, G2         // Gauges
 
 ```runiq
 // Restricts exhaust flow for smooth cylinder motion
-part V1 VALVE_52 pins:(SUPPLY, PORT_A, PORT_B, EXH_A, EXH_B)
-part FC1 FLOW_CONTROL pins:(EXH_A) doc:"Meter-out extend"
-part C1 CYL_DA pins:(PORT_A, PORT_B)
+part V1 type:VALVE_52 pins:(SUPPLY,PORT_A,PORT_B,EXH_A,EXH_B)
+part FC1 type:FLOW_CONTROL pins:(EXH_A) doc:"Meter-out extend"
+part C1 type:CYL_DA pins:(PORT_A,PORT_B)
 ```
 
 **Quick Exhaust:**
 
 ```runiq
 // Rapid cylinder retraction
-part V1 VALVE_32 pins:(SUPPLY, CYL_A, EXH)
-part QE EXHAUST pins:(CYL_A) doc:"Quick exhaust valve"
-part C1 CYL_SA pins:(CYL_A)
+part V1 type:VALVE_32 pins:(SUPPLY,CYL_A,EXH)
+part QE type:EXHAUST pins:(CYL_A) doc:"Quick exhaust valve"
+part C1 type:CYL_SA pins:(CYL_A)
 ```
 
 **Dual Pressure System:**
 
 ```runiq
 // High pressure for power, low pressure for control
-part R1 REGULATOR pins:(SUPPLY, HIGH_PRESS) doc:"Main pressure"
-part R2 REGULATOR pins:(HIGH_PRESS, LOW_PRESS) doc:"Pilot pressure"
+part R1 type:REGULATOR pins:(SUPPLY,HIGH_PRESS) doc:"Main pressure"
+part R2 type:REGULATOR pins:(HIGH_PRESS,LOW_PRESS) doc:"Pilot pressure"
 ```
 
 ## Pressure Unit Conversions

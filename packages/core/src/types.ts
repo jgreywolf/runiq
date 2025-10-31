@@ -385,6 +385,7 @@ export interface RoutedEdge {
   from: string;
   to: string;
   points: { x: number; y: number }[];
+  edgeIndex?: number; // Index in diagram.edges array to handle multiple edges between same nodes
 }
 
 export interface PositionedContainer {

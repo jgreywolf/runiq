@@ -1,4 +1,8 @@
-import type { DiagramAst, PositionedContainer, ContainerStyle } from '@runiq/core';
+import type {
+  DiagramAst,
+  PositionedContainer,
+  ContainerStyle,
+} from '@runiq/core';
 import { shapeRegistry, createTextMeasurer } from '@runiq/core';
 import { escapeXml } from './utils.js';
 import { resolveContainerStyle } from './style-resolver.js';
@@ -12,7 +16,7 @@ export function renderContainer(
 
   // Find container declaration in AST for styling
   const containerAst = findContainerInAst(diagram.containers, id);
-  
+
   // Resolve styles with Phase 5 template/preset/extends support
   let style: ContainerStyle = {};
   if (containerAst) {
@@ -42,6 +46,13 @@ export function renderContainer(
         fontSize: 14,
         ...style,
       };
+
+      // Convert borderStyle to strokeDasharray for shapes
+      if (style.borderStyle === 'dashed') {
+        shapeStyle.strokeDasharray = '5,5';
+      } else if (style.borderStyle === 'dotted') {
+        shapeStyle.strokeDasharray = '2,2';
+      }
 
       // Merge layout dimensions with any existing data
       const shapeData = {
@@ -101,8 +112,17 @@ function renderDefaultContainerBackground(
   const strokeWidth = style.borderWidth || 2;
   const rx = 8;
 
+  // Convert borderStyle to stroke-dasharray
+  let strokeDasharray = '';
+  if (style.borderStyle === 'dashed') {
+    strokeDasharray = ' stroke-dasharray="5,5"';
+  } else if (style.borderStyle === 'dotted') {
+    strokeDasharray = ' stroke-dasharray="2,2"';
+  }
+  // solid or undefined = no stroke-dasharray
+
   return `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
-    fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" rx="${rx}" />`;
+    fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" rx="${rx}"${strokeDasharray} />`;
 }
 
 function renderDefaultContainerLabel(

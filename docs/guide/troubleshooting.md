@@ -96,8 +96,9 @@ diagram "My Diagram"
 **Solution 2**: Try different layout algorithm
 
 ```runiq
-diagram "My Diagram"
+diagram "My Diagram" {
   algorithm: layered  # or: force, stress, tree, radial
+}
 ```
 
 ### Edges Crossing Unnecessarily

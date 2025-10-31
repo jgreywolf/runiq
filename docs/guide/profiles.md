@@ -7,7 +7,7 @@ title: Profiles
 Runiq supports four primary profiles:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, block diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
-- **electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
+- **Electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
 - **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
 
@@ -23,15 +23,16 @@ Most syntax is shared across profiles. The key differences are:
 To use the diagram profile (default):
 
 ```runiq
-diagram "Mixed Diagram"
-direction LR
+diagram "Mixed Diagram" {
+  direction LR
 
-shape Start as @terminator label:"Start"
-shape Amp   as @amp        label:"Amplifier"
-shape Box   as @rounded    label:"UI Screen"
+  shape Start as @terminator label:"Start"
+  shape Amp   as @gain       label:"Amplifier"
+  shape Box   as @rounded    label:"UI Screen"
 
-Start -> Amp
-Amp   -> Box
+  Start -> Amp
+  Amp   -> Box
+}
 ```
 
 ## electrical Profile
@@ -39,14 +40,14 @@ Amp   -> Box
 To use the electrical profile:
 
 ```runiq
-electrical "Simple RC"
-direction LR
+electrical"LED Circuit" {
+  net VCC, GND, N1
 
-shape V1 as @voltage-source label:"5V"
-shape R1 as @resistor       label:"1kΩ"
-shape C1 as @capacitor      label:"10µF"
-
-V1 -> R1 -> C1
+  part V1 type:V value:"5V" pins:(VCC,GND)
+  part R1 type:R value:"220" pins:(VCC,N1)
+  part D1 type:LED pins:(N1,GND)
+  part GND1 type:GND pins:(GND)
+}
 ```
 
 ## Wardley Profile
@@ -54,14 +55,15 @@ V1 -> R1 -> C1
 To use the Wardley profile for strategic mapping:
 
 ```runiq
-wardley "Strategic Map"
+wardley "Strategic Map"{
 
-anchor "User Need" value:0.95
+  anchor "User Need" value:0.95
 
-component "Visible Service" evolution:0.75 value:0.85
-component "Infrastructure" evolution:0.95 value:0.3
+  component "Visible Service" evolution:0.75 value:0.85
+  component "Infrastructure" evolution:0.95 value:0.3
 
-dependency from:"Visible Service" to:"Infrastructure"
+  dependency from:"Visible Service" to:"Infrastructure"
+}
 ```
 
 **Key Differences:**

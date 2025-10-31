@@ -98,14 +98,14 @@ export const sequenceSampleDiagrams: SampleCategory[] = [
   note "Object usage" position:over participants:("Manager", "Resource")
 
   message from:"Factory" to:"Resource" label:"execute()" type:sync activate:true
-  message from:"Resource" to:"Resource" label:"process()" type:self
+  message from:"Resource" to:"Resource" label:"process()" type:sync
   message from:"Resource" to:"Factory" label:"result" type:return
 
   note "Object destruction" position:over participants:("Manager", "Resource")
 
   message from:"Factory" to:"Manager" label:"cleanup()" type:sync
   message from:"Manager" to:"Resource" label:"<<destroy>>" type:sync
-      }{}`
+      }`
 			},
 			{
 				name: 'Loop and Conditional',

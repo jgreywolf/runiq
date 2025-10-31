@@ -214,11 +214,11 @@ shape Info as @note label: "Runs nightly"
 
 Medical/genetic family tree symbols following standard pedigree notation:
 
-| Shape            | Syntax              | Description                      |
-| ---------------- | ------------------- | -------------------------------- |
-| Pedigree Male    | `@pedigree-male`    | Male individual (square)         |
-| Pedigree Female  | `@pedigree-female`  | Female individual (circle)       |
-| Pedigree Unknown | `@pedigree-unknown` | Unknown sex individual (diamond) |
+| Shape            | Syntax             | Description                      |
+| ---------------- | ------------------ | -------------------------------- |
+| Pedigree Male    | `@pedigreeMale`    | Male individual (square)         |
+| Pedigree Female  | `@pedigreeFemale`  | Female individual (circle)       |
+| Pedigree Unknown | `@pedigreeUnknown` | Unknown sex individual (diamond) |
 
 **Properties:**
 
@@ -230,15 +230,15 @@ Medical/genetic family tree symbols following standard pedigree notation:
 
 ```runiq
 diagram "Family History" {
-  direction:TB
+  direction TB
 
   # Parents (both carriers)
-  shape father as @pedigree-male label:"Father" carrier:true
-  shape mother as @pedigree-female label:"Mother" carrier:true
+  shape father as @pedigreeMale label:"Father" carrier:true
+  shape mother as @pedigreeFemale label:"Mother" carrier:true
 
   # Children
-  shape son as @pedigree-male label:"Son" affected:true
-  shape daughter as @pedigree-female label:"Daughter"
+  shape son as @pedigreeMale label:"Son" affected:true
+  shape daughter as @pedigreeFemale label:"Daughter"
 
   # Marriage (no arrow)
   father -> mother arrowType:none
@@ -322,9 +322,9 @@ Complete table of all 57 shapes:
 <tr><td>Note</td><td><code>@note</code></td><td>Annotations</td><td>Note, comment</td></tr>
 <tr><td>Comment</td><td><code>@comment</code></td><td>Annotations</td><td>Comment block</td></tr>
 <tr><td>Callout</td><td><code>@callout</code></td><td>Annotations</td><td>Callout bubble</td></tr>
-<tr><td>Pedigree Male</td><td><code>@pedigree-male</code></td><td>Pedigree</td><td>Male individual (square)</td></tr>
-<tr><td>Pedigree Female</td><td><code>@pedigree-female</code></td><td>Pedigree</td><td>Female individual (circle)</td></tr>
-<tr><td>Pedigree Unknown</td><td><code>@pedigree-unknown</code></td><td>Pedigree</td><td>Unknown sex (diamond)</td></tr>
+<tr><td>Pedigree Male</td><td><code>@pedigreeMale</code></td><td>Pedigree</td><td>Male individual (square)</td></tr>
+<tr><td>Pedigree Female</td><td><code>@pedigreeFemale</code></td><td>Pedigree</td><td>Female individual (circle)</td></tr>
+<tr><td>Pedigree Unknown</td><td><code>@pedigreeUnknown</code></td><td>Pedigree</td><td>Unknown sex (diamond)</td></tr>
 </tbody>
 </table>
 
@@ -335,16 +335,16 @@ All shapes support these properties:
 ```runiq
 shape MyShape as @rect
   label: "Display Text"
-  fillColor: "#4caf50"
+  fill: "#4caf50"
   textColor: "#ffffff"
-  strokeColor: "#333333"
+  stroke: "#333333"
   strokeWidth: 2
   opacity: 0.9
 ```
 
 ### Color Properties
 
-- `fillColor` - Background color (hex or CSS color)
+- `fill` - Background color (hex or CSS color)
 - `textColor` - Label text color
 - `strokeColor` - Border color
 - `strokeWidth` - Border width in pixels

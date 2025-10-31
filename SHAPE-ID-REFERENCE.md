@@ -142,9 +142,9 @@ This document lists shapes where the **common name** differs from the **actual r
 
 **Pedigree Shapes that ARE correct:**
 
-- ✅ `@pedigree-male` - Male individual (square)
-- ✅ `@pedigree-female` - Female individual (circle)
-- ✅ `@pedigree-unknown` - Unknown gender (diamond)
+- ✅ `@pedigreeMale` - Male individual (square)
+- ✅ `@pedigreeFemale` - Female individual (circle)
+- ✅ `@pedigreeUnknown` - Unknown gender (diamond)
 
 ### Network Topology
 

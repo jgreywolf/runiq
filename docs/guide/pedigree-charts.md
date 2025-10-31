@@ -18,7 +18,7 @@ Runiq provides three pedigree shapes that automatically render according to stan
 ### Male Individual
 
 ```runiq
-shape father as @pedigree-male label:"Father"
+shape father as @pedigreeMale label:"Father"
 ```
 
 Renders as a square (40×40px) with black outline.
@@ -26,7 +26,7 @@ Renders as a square (40×40px) with black outline.
 ### Female Individual
 
 ```runiq
-shape mother as @pedigree-female label:"Mother"
+shape mother as @pedigreeFemale label:"Mother"
 ```
 
 Renders as a circle (38px diameter) with black outline.
@@ -34,7 +34,7 @@ Renders as a circle (38px diameter) with black outline.
 ### Unknown Sex
 
 ```runiq
-shape child as @pedigree-unknown label:"Unknown"
+shape child as @pedigreeUnknown label:"Unknown"
 ```
 
 Renders as a diamond (40×40px) with black outline.
@@ -48,7 +48,7 @@ Use inline properties to indicate genetic status:
 Black-filled symbol indicates the person has the trait/condition:
 
 ```runiq
-shape patient as @pedigree-male label:"Patient" affected:true
+shape patient as @pedigreeMale label:"Patient" affected:true
 ```
 
 ### Carrier Individual
@@ -56,7 +56,7 @@ shape patient as @pedigree-male label:"Patient" affected:true
 Half-filled symbol (vertical stripe pattern) indicates carrier status:
 
 ```runiq
-shape carrier as @pedigree-female label:"Carrier" carrier:true
+shape carrier as @pedigreeFemale label:"Carrier" carrier:true
 ```
 
 ### Normal Individual
@@ -64,7 +64,7 @@ shape carrier as @pedigree-female label:"Carrier" carrier:true
 White-filled symbol (default) indicates no trait/condition:
 
 ```runiq
-shape normal as @pedigree-male label:"Normal"
+shape normal as @pedigreeMale label:"Normal"
 ```
 
 ### Deceased Individual
@@ -72,7 +72,7 @@ shape normal as @pedigree-male label:"Normal"
 Diagonal line through symbol indicates deceased:
 
 ```runiq
-shape grandfather as @pedigree-male label:"Grandfather" deceased:true
+shape grandfather as @pedigreeMale label:"Grandfather" deceased:true
 ```
 
 ## Relationship Notation
@@ -108,19 +108,19 @@ Here's a three-generation pedigree showing autosomal recessive inheritance:
 
 ```runiq
 diagram "Genetic Trait Inheritance" {
-  direction:TB
+  direction TB
 
   # Generation I - Both carriers
-  shape i1 as @pedigree-male label:"I-1" carrier:true
-  shape i2 as @pedigree-female label:"I-2" carrier:true
+  shape i1 as @pedigreeMale label:"I-1" carrier:true
+  shape i2 as @pedigreeFemale label:"I-2" carrier:true
 
   # Generation II - Mix of affected, carrier, and normal
-  shape ii1 as @pedigree-female label:"II-1"
-  shape ii2 as @pedigree-male label:"II-2" carrier:true
-  shape ii3 as @pedigree-female label:"II-3" affected:true
+  shape ii1 as @pedigreeFemale label:"II-1"
+  shape ii2 as @pedigreeMale label:"II-2" carrier:true
+  shape ii3 as @pedigreeFemale label:"II-3" affected:true
 
   # Generation III
-  shape iii1 as @pedigree-male label:"III-1" carrier:true
+  shape iii1 as @pedigreeMale label:"III-1" carrier:true
 
   # Marriages
   i1 -> i2 arrowType:none
@@ -156,11 +156,11 @@ diagram "Genetic Trait Inheritance" {
 
 ### Layout Direction
 
-Always use `direction:TB` (top-to-bottom) for pedigree charts:
+Always use `direction TB` (top-to-bottom) for pedigree charts:
 
 ```runiq
 diagram "My Pedigree" {
-  direction:TB
+  direction TB
   # ... shapes and edges
 }
 ```
@@ -170,8 +170,8 @@ diagram "My Pedigree" {
 Use Roman numerals (I, II, III) for generation labels:
 
 ```runiq
-shape i1 as @pedigree-male label:"I-1"
-shape ii1 as @pedigree-female label:"II-1"
+shape i1 as @pedigreeMale label:"I-1"
+shape ii1 as @pedigreeFemale label:"II-1"
 ```
 
 ### Node IDs
@@ -180,12 +180,12 @@ Use short, lowercase IDs without special characters:
 
 ```runiq
 # Good
-shape i1 as @pedigree-male
-shape iipartner as @pedigree-female
+shape i1 as @pedigreeMale
+shape iipartner as @pedigreeFemale
 
 # Avoid
-shape I-1 as @pedigree-male  # Hyphens in IDs
-shape II_Partner as @pedigree-female  # Underscores
+shape I-1 as @pedigreeMale  # Hyphens in IDs
+shape II_Partner as @pedigreeFemale  # Underscores
 ```
 
 ### Marriage Edges First
@@ -209,9 +209,9 @@ grandmother -> father
 Show sequential marriages by creating separate marriage edges:
 
 ```runiq
-shape person as @pedigree-male label:"Person"
-shape spouse1 as @pedigree-female label:"Spouse 1" deceased:true
-shape spouse2 as @pedigree-female label:"Spouse 2"
+shape person as @pedigreeMale label:"Person"
+shape spouse1 as @pedigreeFemale label:"Spouse 1" deceased:true
+shape spouse2 as @pedigreeFemale label:"Spouse 2"
 
 person -> spouse1 arrowType:none
 person -> spouse2 arrowType:none
@@ -222,7 +222,7 @@ person -> spouse2 arrowType:none
 You can combine multiple properties on one individual:
 
 ```runiq
-shape patient as @pedigree-male label:"Patient" affected:true deceased:true
+shape patient as @pedigreeMale label:"Patient" affected:true deceased:true
 ```
 
 This renders a black-filled square with a diagonal line (affected and deceased).
@@ -268,7 +268,7 @@ These conventions are widely used in:
 
 ### Workarounds
 
-- Use `direction:TB` for best results
+- Use `direction TB` for best results
 - Order nodes in generation groups for clearer structure
 - Consider using containers with `algorithm:mrtree` for tree-like layout (experimental)
 

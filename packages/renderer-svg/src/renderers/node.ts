@@ -55,6 +55,13 @@ export function renderNode(
     if ((nodeAst.data as any).fontFamily !== undefined) {
       (style as any).fontFamily = (nodeAst.data as any).fontFamily;
     }
+    if ((nodeAst.data as any).borderRadius !== undefined) {
+      (style as any).rx = (nodeAst.data as any).borderRadius;
+      (style as any).ry = (nodeAst.data as any).borderRadius;
+    }
+    if ((nodeAst.data as any).opacity !== undefined) {
+      (style as any).opacity = (nodeAst.data as any).opacity;
+    }
   }
 
   let nodeMarkup = shapeImpl.render(
@@ -71,7 +78,12 @@ export function renderNode(
   }
 
   // Wrap in group with optional link
-  const groupAttrs = strict ? '' : ` data-runiq-node="${nodeAst.id}"`;
+  let groupAttrs = strict ? '' : ` data-runiq-node="${nodeAst.id}"`;
+
+  // Add opacity if specified
+  if ((style as any).opacity !== undefined) {
+    groupAttrs += ` opacity="${(style as any).opacity}"`;
+  }
 
   if ((nodeAst as any).link && !strict) {
     return `<a xlink:href="${escapeXml((nodeAst as any).link.href)}"${(nodeAst as any).link.target ? ` target="${(nodeAst as any).link.target}"` : ''}>

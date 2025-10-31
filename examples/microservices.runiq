@@ -1,5 +1,5 @@
 diagram "Microservices Architecture" {
-  direction:LR
+  direction LR
 
   # Frontend Layer
   container frontend "Frontend Layer" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 {

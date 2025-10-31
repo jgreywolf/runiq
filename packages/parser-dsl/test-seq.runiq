@@ -1,5 +1,0 @@
-sequence "Test" {
-  participant "User" as actor
-  participant "System" as entity
-  message from:"User" to:"System" label:"Hello" type:sync
-}

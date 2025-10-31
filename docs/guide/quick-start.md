@@ -11,39 +11,41 @@ We'll create an authentication flow diagram with multiple paths, decisions, and 
 Create `auth-flow.runiq`:
 
 ```runiq
-diagram "User Authentication Flow" direction TB
+diagram "User Authentication Flow" {
+  direction TB
 
-# Entry point
-shape Login as @rounded label: "User Login"
+  # Entry point
+  shape Login as @rounded label: "User Login"
 
-# Process steps
-shape ValidateInput as @rect label: "Validate Input"
-shape CheckDB as @cylinder label: "Check Database"
-shape VerifyPassword as @rhombus label: "Password Correct?"
+  # Process steps
+  shape ValidateInput as @rect label: "Validate Input"
+  shape CheckDB as @cylinder label: "Check Database"
+  shape VerifyPassword as @rhombus label: "Password Correct?"
 
-# Success path
-shape GenerateToken as @rect label: "Generate JWT"
-shape Success as @hexagon label: "Success"
+  # Success path
+  shape GenerateToken as @rect label: "Generate JWT"
+  shape Success as @hexagon label: "Success"
 
-# Error paths
-shape InvalidInput as @doc label: "Invalid Input Error"
-shape WrongPassword as @doc label: "Wrong Password Error"
-shape AccountLocked as @doc label: "Account Locked"
+  # Error paths
+  shape InvalidInput as @doc label: "Invalid Input Error"
+  shape WrongPassword as @doc label: "Wrong Password Error"
+  shape AccountLocked as @doc label: "Account Locked"
 
-# Connections
-Login -> ValidateInput
+  # Connections
+  Login -> ValidateInput
 
-# Validation branch
-ValidateInput -valid-> CheckDB
-ValidateInput -invalid-> InvalidInput
+  # Validation branch
+  ValidateInput -valid-> CheckDB
+  ValidateInput -invalid-> InvalidInput
 
-# Authentication branch
-CheckDB -> VerifyPassword
-VerifyPassword -yes-> GenerateToken
-VerifyPassword -no-> WrongPassword
+  # Authentication branch
+  CheckDB -> VerifyPassword
+  VerifyPassword -yes-> GenerateToken
+  VerifyPassword -no-> WrongPassword
 
-# Success
-GenerateToken -> Success
+  # Success
+  GenerateToken -> Success
+}
 ```
 
 ## Step 2: Understand the Syntax
@@ -73,18 +75,20 @@ Common shapes:
 Format: `<from> -> <to> [label]` or `<from>[label] -> <to>`
 
 ```runiq
-# Simple edge
-A -> B
+diagram "User Authentication Flow" {
+  # Simple edge
+  A -> B
 
-# Labeled edge
-A -> B label: "success"
+  # Labeled edge
+  A -> B label: "success"
 
-# Conditional edge (on source)
-Decision -yes-> Success
-Decision -no-> Failure
+  # Conditional edge (on source)
+  Decision -yes-> Success
+  Decision -no-> Failure
 
-# Labeled edge
-A -> B label: "validates"
+  # Labeled edge
+  A -> B label: "validates"
+}
 ```
 
 ## Step 3: Add Containers
@@ -92,33 +96,35 @@ A -> B label: "validates"
 Let's group related shapes into containers:
 
 ```runiq
-diagram "User Authentication Flow" direction TB
+diagram "User Authentication Flow" {
+  direction TB
 
-container "Client Layer" {
-  shape Login as @rounded label: "User Login"
-  shape Success as @hexagon label: "Success"
+  container "Client Layer" {
+    shape Login as @rounded label: "User Login"
+    shape Success as @hexagon label: "Success"
+  }
+
+  container "Server Layer" {
+    shape ValidateInput as @rect label: "Validate Input"
+    shape CheckDB as @cylinder label: "Check Database"
+    shape VerifyPassword as @rhombus label: "Password Correct?"
+    shape GenerateToken as @rect label: "Generate JWT"
+  }
+
+  container "Error Handling" {
+    shape InvalidInput as @doc label: "Invalid Input Error"
+    shape WrongPassword as @doc label: "Wrong Password Error"
+  }
+
+  # Cross-container connections
+  Login -> ValidateInput
+  ValidateInput -valid-> CheckDB
+  ValidateInput -invalid-> InvalidInput
+  CheckDB -> VerifyPassword
+  VerifyPassword -yes-> GenerateToken
+  VerifyPassword -no-> WrongPassword
+  GenerateToken -> Success
 }
-
-container "Server Layer" {
-  shape ValidateInput as @rect label: "Validate Input"
-  shape CheckDB as @cylinder label: "Check Database"
-  shape VerifyPassword as @rhombus label: "Password Correct?"
-  shape GenerateToken as @rect label: "Generate JWT"
-}
-
-container "Error Handling" {
-  shape InvalidInput as @doc label: "Invalid Input Error"
-  shape WrongPassword as @doc label: "Wrong Password Error"
-}
-
-# Cross-container connections
-Login -> ValidateInput
-ValidateInput[valid] -> CheckDB
-ValidateInput[invalid] -> InvalidInput
-CheckDB -> VerifyPassword
-VerifyPassword -yes-> GenerateToken
-VerifyPassword -no-> WrongPassword
-GenerateToken -> Success
 ```
 
 ## Step 4: Add Styling
@@ -126,25 +132,32 @@ GenerateToken -> Success
 ### Colors
 
 ```runiq
-shape Success as @hexagon label: "Success" fillColor: "#4caf50" textColor: "#fff"
-shape Error as @doc label: "Error" fillColor: "#f44336" textColor: "#fff"
+diagram "Colors" {
+  shape Success as @hexagon label: "Success" fill: "#4caf50" color: "#fff"
+  shape Error as @doc label: "Error" fill: "#f44336" color: "#fff"
+}
 ```
 
 ### Line Styles
 
 ```runiq
-# Dashed line for error paths
-ValidateInput[invalid] -> InvalidInput lineStyle: dashed strokeColor: "#f44336"
+diagram "Line styles" {
+  direction TB
+  # Dashed line for error paths
+  ValidateInput -invalid-> InvalidInput lineStyle: dashed stroke: "#f44336"
 
-# Dotted line for optional paths
-CheckDB -.-> AuditLog label: "log attempt"
+  # Dotted line for optional paths
+  CheckDB -> AuditLog label: "log attempt" lineStyle: dotted
+}
 ```
 
 ### Container Styling
 
 ```runiq
-container "Client Layer" fillColor: "#e3f2fd" {
-  # ... shapes
+diagram "Container styles" {
+  container "Client Layer" fill: "#e3f2fd" {
+    # ... shapes
+  }
 }
 ```
 
@@ -153,16 +166,17 @@ container "Client Layer" fillColor: "#e3f2fd" {
 For use case or architectural diagrams:
 
 ```runiq
-diagram "System Architecture"
-direction LR
+diagram "System Architecture" {
+  direction LR
 
-shape Client as @rect label: "Client App"
-shape API as @rect label: "REST API"
-shape DB as @cylinder label: "Database"
+  shape Client as @rect label: "Client App"
+  shape API as @rect label: "REST API"
+  shape DB as @cylinder label: "Database"
 
-# UML stereotypes
-edge Client -> API stereotype: "«uses»" lineStyle: dashed arrowType: open
-edge API -> DB stereotype: "«accesses»" lineStyle: solid arrowType: standard
+  # UML stereotypes
+  Client -> API stereotype: "«uses»" lineStyle: dashed arrowType: open
+  API -> DB stereotype: "«accesses»" lineStyle: solid arrowType: standard
+}
 ```
 
 ## Step 6: Generate Output
@@ -217,61 +231,66 @@ runiq auth-flow.runiq -o auth-flow.svg
 ### 1. Flowchart with Loops
 
 ```runiq
-diagram "Process Loop" direction TB
+diagram "Process Loop" {
+  direction TB
 
-shape Start as @rounded label: "Start"
-shape Process as @rect label: "Process Item"
-shape Check as @rhombus label: "More Items?"
-shape End as @rounded label: "End"
+  shape Start as @rounded label: "Start"
+  shape Process as @rect label: "Process Item"
+  shape Check as @rhombus label: "More Items?"
+  shape End as @rounded label: "End"
 
-Start -> Process
-Process -> Check
-Check -yes-> Process
-Check -no-> End
+  Start -> Process
+  Process -> Check
+  Check -yes-> Process
+  Check -no-> End
+}
 ```
 
 ### 2. Multi-tier Architecture
 
 ```runiq
-diagram "Three-Tier Architecture" direction TB
+diagram "Three-Tier Architecture" {
+  direction TB
 
-container "Presentation" {
-  shape UI as @rect label: "Web UI"
+  container "Presentation" {
+    shape UI as @rect label: "Web UI"
+  }
+
+  container "Business Logic" {
+    shape API as @rect label: "API Server"
+    shape Auth as @rect label: "Auth Service"
+  }
+
+  container "Data" {
+    shape DB as @cylinder label: "Database"
+    shape Cache as @cylinder label: "Redis"
+  }
+
+  UI -> API
+  API -> Auth
+  API -> DB
+  API -> Cache
 }
-
-container "Business Logic" {
-  shape API as @rect label: "API Server"
-  shape Auth as @rect label: "Auth Service"
-}
-
-container "Data" {
-  shape DB as @cylinder label: "Database"
-  shape Cache as @cylinder label: "Redis"
-}
-
-UI -> API
-API -> Auth
-API -> DB
-API -> Cache
 ```
 
 ### 3. State Machine
 
 ```runiq
-diagram "Order State Machine"
-direction LR
+diagram "Order State Machine" {
+  direction LR
 
-shape New as @rounded label: "New"
-shape Processing as @rect label: "Processing"
-shape Shipped as @rect label: "Shipped"
-shape Delivered as @hexagon label: "Delivered"
-shape Cancelled as @doc label: "Cancelled"
+  shape New as @rounded label: "New"
+  shape Processing as @rect label: "Processing"
+  shape Shipped as @rect label: "Shipped"
+  shape Delivered as @hexagon label: "Delivered"
+  shape Cancelled as @doc label: "Cancelled"
 
-New -> Processing label: "confirm"
-Processing -> Shipped label: "ship"
-Shipped -> Delivered label: "deliver"
-Processing -> Cancelled label: "cancel"
-New -> Cancelled label: "cancel"
+  New -> Processing label: "confirm"
+  Processing -> Shipped label: "ship"
+  Shipped -> Delivered label: "deliver"
+  Processing -> Cancelled label: "cancel"
+  New -> Cancelled label: "cancel"
+}
 ```
 
 ## Next Steps

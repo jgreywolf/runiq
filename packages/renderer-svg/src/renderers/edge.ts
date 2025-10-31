@@ -7,9 +7,12 @@ export function renderEdge(
   strict: boolean,
   warnings: string[]
 ): string {
-  const edgeAst = diagram.edges.find(
-    (e) => e.from === routed.from && e.to === routed.to
-  );
+  // Use edgeIndex if available to handle multiple edges between same nodes
+  const edgeAst =
+    routed.edgeIndex !== undefined
+      ? diagram.edges[routed.edgeIndex]
+      : diagram.edges.find((e) => e.from === routed.from && e.to === routed.to);
+
   if (!edgeAst) {
     warnings.push(
       `Edge ${routed.from} -> ${routed.to} not found in diagram AST`
@@ -200,8 +203,21 @@ export function renderEdge(
   }
 
   // Calculate midpoint for labels
-  const midIndex = Math.floor(points.length / 2);
-  const midPoint = points[midIndex];
+  // For edges with few points (straight lines), use geometric midpoint
+  // For edges with many points (orthogonal routing), use middle point
+  let midPoint: { x: number; y: number };
+
+  if (points.length === 2) {
+    // Straight line: calculate geometric midpoint between start and end
+    midPoint = {
+      x: (points[0].x + points[1].x) / 2,
+      y: (points[0].y + points[1].y) / 2,
+    };
+  } else {
+    // Multiple points: use middle point from routing
+    const midIndex = Math.floor(points.length / 2);
+    midPoint = points[midIndex];
+  }
 
   // Stereotype text (rendered above the line in guillemets)
   if ((edgeAst as any).stereotype) {
@@ -209,12 +225,12 @@ export function renderEdge(
     edgeMarkup += `<text x="${midPoint.x}" y="${midPoint.y - 15}" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">${escapeXml(stereotypeText)}</text>`;
   }
 
-  // Edge label (rendered below stereotype if both exist)
+  // Edge label (rendered centered on edge, or below stereotype if both exist)
   if ((edgeAst as any).label) {
     const labelY = (edgeAst as any).stereotype
-      ? midPoint.y - 5
-      : midPoint.y - 5;
-    edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" class="runiq-edge-text">${escapeXml((edgeAst as any).label)}</text>`;
+      ? midPoint.y + 10 // Below stereotype
+      : midPoint.y; // Centered on edge
+    edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">${escapeXml((edgeAst as any).label)}</text>`;
   }
 
   // UML Multiplicity labels (at endpoints)

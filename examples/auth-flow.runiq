@@ -1,5 +1,5 @@
 diagram "Auth Flow" {
-  direction:LR
+  direction LR
 
   style default fill: "#f7f7ff" stroke: "#444" font: "Inter" fontSize: 14
   style decision fill: "#fff7e6" stroke: "#aa7700"

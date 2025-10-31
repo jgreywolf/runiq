@@ -1,5 +1,5 @@
 diagram "Simple Example" {
-  direction:LR
+  direction LR
 
   style default fill: "#f0f8ff" stroke: "#4682b4" fontSize: 14
   style highlight fill: "#fffacd" stroke: "#daa520"

@@ -38,7 +38,7 @@ hydraulic "Circuit Name" {
   net NET1
   net NET2
 
-  part P1 PUMP_FIXED pins:(NET1, NET2) doc:"Fixed pump"
+  part P1 type: PUMP_FIXED pins:(NET1, NET2) doc:"Fixed pump"
 }
 ```
 
@@ -157,8 +157,8 @@ Nets represent hydraulic lines: pressure lines, return lines, and drain lines. C
 **Example:**
 
 ```runiq
-part T1 RESERVOIR pins:(TANK) doc:"100L reservoir"
-part P1 PUMP_FIXED pins:(TANK, PUMP_OUT) doc:"Fixed pump 40cc"
+part T1 type: RESERVOIR pins:(TANK) doc:"100L reservoir"
+part P1 type: PUMP_FIXED pins:(TANK, PUMP_OUT) doc:"Fixed pump 40cc"
 ```
 
 ### Actuators
@@ -171,8 +171,8 @@ part P1 PUMP_FIXED pins:(TANK, PUMP_OUT) doc:"Fixed pump 40cc"
 **Example:**
 
 ```runiq
-part M1 MOTOR_HYD pins:(PRESSURE, RETURN) doc:"Hydraulic motor 100cc"
-part C1 CYL_HYD pins:(PORT_A, PORT_B) doc:"Cylinder 80/50 x 500"
+part M1 type: MOTOR_HYD pins:(PRESSURE, RETURN) doc:"Hydraulic motor 100cc"
+part C1 type: CYL_HYD pins:(PORT_A, PORT_B) doc:"Cylinder 80/50 x 500"
 ```
 
 ### Directional Control Valves
@@ -191,7 +191,7 @@ part C1 CYL_HYD pins:(PORT_A, PORT_B) doc:"Cylinder 80/50 x 500"
 **Example:**
 
 ```runiq
-part V1 VALVE_43 pins:(PUMP, PORT_A, PORT_B, TANK)
+part V1 type: VALVE_43 pins:(PUMP, PORT_A, PORT_B, TANK)
      doc:"4/3 closed center"
 ```
 
@@ -205,8 +205,8 @@ part V1 VALVE_43 pins:(PUMP, PORT_A, PORT_B, TANK)
 **Example:**
 
 ```runiq
-part RV1 RELIEF_VALVE pins:(PUMP, TANK) doc:"Relief @ 210 bar"
-part RD1 REDUCING_VALVE pins:(MAIN, PILOT) doc:"Reduce to 30 bar"
+part RV1 type: RELIEF_VALVE pins:(PUMP, TANK) doc:"Relief @ 210 bar"
+part RD1 type: REDUCING_VALVE pins:(MAIN, PILOT) doc:"Reduce to 30 bar"
 ```
 
 ### Flow Control
@@ -219,8 +219,8 @@ part RD1 REDUCING_VALVE pins:(MAIN, PILOT) doc:"Reduce to 30 bar"
 **Example:**
 
 ```runiq
-part FC1 FLOW_CONTROL_HYD pins:(PORT_A) doc:"Meter-in speed control"
-part CV1 CHECK_VALVE_HYD pins:(PORT_B, RETURN) doc:"Free return flow"
+part FC1 type: FLOW_CONTROL_HYD pins:(PORT_A) doc:"Meter-in speed control"
+part CV1 type: CHECK_VALVE_HYD pins:(PORT_B, RETURN) doc:"Free return flow"
 ```
 
 ### Conditioning
@@ -233,8 +233,8 @@ part CV1 CHECK_VALVE_HYD pins:(PORT_B, RETURN) doc:"Free return flow"
 **Example:**
 
 ```runiq
-part F1 FILTER_HYD pins:(RETURN, TANK) doc:"Return filter 10µm"
-part AC1 ACCUMULATOR pins:(PUMP) doc:"Accumulator 5L, 210 bar"
+part F1 type: FILTER_HYD pins:(RETURN, TANK) doc:"Return filter 10µm"
+part AC1 type: ACCUMULATOR pins:(PUMP) doc:"Accumulator 5L, 210 bar"
 ```
 
 ### Instrumentation
@@ -246,7 +246,7 @@ part AC1 ACCUMULATOR pins:(PUMP) doc:"Accumulator 5L, 210 bar"
 **Example:**
 
 ```runiq
-part G1 GAUGE_P_HYD pins:(PUMP) doc:"Pressure gauge 0-250 bar"
+part G1 type: GAUGE_P_HYD pins:(PUMP) doc:"Pressure gauge 0-250 bar"
 ```
 
 ## Examples
@@ -265,10 +265,10 @@ hydraulic "Power Unit" {
   net PUMP_OUT
   net RETURN
 
-  part T1 RESERVOIR pins:(TANK, RETURN) doc:"100L reservoir"
-  part P1 PUMP_FIXED pins:(TANK, PUMP_OUT) doc:"Fixed pump 40cc"
-  part RV1 RELIEF_VALVE pins:(PUMP_OUT, RETURN) doc:"Relief @ 210 bar"
-  part F1 FILTER_HYD pins:(RETURN, TANK) doc:"Return filter 10µm"
+  part T1 type: RESERVOIR pins:(TANK, RETURN) doc:"100L reservoir"
+  part P1 type: PUMP_FIXED pins:(TANK, PUMP_OUT) doc:"Fixed pump 40cc"
+  part RV1 type: RELIEF_VALVE pins:(PUMP_OUT, RETURN) doc:"Relief @ 210 bar"
+  part F1 type: FILTER_HYD pins:(RETURN, TANK) doc:"Return filter 10µm"
 }
 ```
 
@@ -296,11 +296,11 @@ hydraulic "Cylinder Control" {
   net PORT_B
   net TANK
 
-  part V1 VALVE_43 pins:(PUMP, PORT_A, PORT_B, TANK)
+  part V1 type: VALVE_43 pins:(PUMP, PORT_A, PORT_B, TANK)
        doc:"4/3 closed center proportional valve"
-  part FC1 FLOW_CONTROL_HYD pins:(PORT_A) doc:"Extend speed control"
-  part FC2 FLOW_CONTROL_HYD pins:(PORT_B) doc:"Retract speed control"
-  part C1 CYL_HYD pins:(PORT_A, PORT_B) doc:"Double-acting cylinder"
+  part FC1 type: FLOW_CONTROL_HYD pins:(PORT_A) doc:"Extend speed control"
+  part FC2 type: FLOW_CONTROL_HYD pins:(PORT_B) doc:"Retract speed control"
+  part C1 type: CYL_HYD pins:(PORT_A, PORT_B) doc:"Double-acting cylinder"
 }
 ```
 
@@ -328,13 +328,13 @@ hydraulic "Motor Control" {
   net MOTOR_OUT
   net RETURN
 
-  part T1 RESERVOIR pins:(TANK, RETURN) doc:"Reservoir"
-  part P1 PUMP_VAR pins:(TANK, PUMP_OUT) doc:"Variable pump with LS"
-  part V1 VALVE_43 pins:(PUMP_OUT, MOTOR_IN, MOTOR_OUT, RETURN)
+  part T1 type: RESERVOIR pins:(TANK, RETURN) doc:"Reservoir"
+  part P1 type: PUMP_VAR pins:(TANK, PUMP_OUT) doc:"Variable pump with LS"
+  part V1 type: VALVE_43 pins:(PUMP_OUT, MOTOR_IN, MOTOR_OUT, RETURN)
        doc:"Directional valve"
-  part M1 MOTOR_HYD pins:(MOTOR_IN, MOTOR_OUT) doc:"Hydraulic motor"
-  part F1 FILTER_HYD pins:(RETURN, TANK) doc:"Suction filter"
-  part F2 FILTER_HYD pins:(MOTOR_OUT, RETURN) doc:"Return filter"
+  part M1 type: MOTOR_HYD pins:(MOTOR_IN, MOTOR_OUT) doc:"Hydraulic motor"
+  part F1 type: FILTER_HYD pins:(RETURN, TANK) doc:"Suction filter"
+  part F2 type: FILTER_HYD pins:(MOTOR_OUT, RETURN) doc:"Return filter"
 }
 ```
 
@@ -362,13 +362,13 @@ hydraulic "Hydraulic Press" {
   net HIGH_PRESS
   net CYL_A
 
-  part RES RESERVOIR pins:(TANK) doc:"Reservoir with cooling"
-  part P1 PUMP_FIXED pins:(TANK, PUMP) doc:"Main pump"
-  part INT ACCUMULATOR pins:(PUMP, HIGH_PRESS) doc:"Intensifier"
-  part V1 VALVE_43 pins:(HIGH_PRESS, CYL_A, TANK)
+  part RES type: RESERVOIR pins:(TANK) doc:"Reservoir with cooling"
+  part P1 type: PUMP_FIXED pins:(TANK, PUMP) doc:"Main pump"
+  part INT type: ACCUMULATOR pins:(PUMP, HIGH_PRESS) doc:"Intensifier"
+  part V1 type: VALVE_43 pins:(HIGH_PRESS, CYL_A, TANK)
        doc:"Main control valve"
-  part C1 CYL_HYD pins:(CYL_A) doc:"Press cylinder"
-  part RV1 RELIEF_VALVE pins:(HIGH_PRESS, TANK)
+  part C1 type: CYL_HYD pins:(CYL_A) doc:"Press cylinder"
+  part RV1 type: RELIEF_VALVE pins:(HIGH_PRESS, TANK)
        doc:"Relief @ 250 bar"
 }
 ```
@@ -403,13 +403,13 @@ hydraulic "Counterbalance" {
   net CYL_ROD
   net TANK
 
-  part V1 VALVE_43 pins:(PUMP, CYL_CAP, CYL_ROD, TANK)
+  part V1 type: VALVE_43 pins:(PUMP, CYL_CAP, CYL_ROD, TANK)
        doc:"Main valve"
-  part CB1 REDUCING_VALVE pins:(CYL_CAP, TANK)
+  part CB1 type: REDUCING_VALVE pins:(CYL_CAP, TANK)
        doc:"Counterbalance valve"
-  part PCV CHECK_VALVE_HYD pins:(PUMP, CYL_CAP)
+  part PCV type: CHECK_VALVE_HYD pins:(PUMP, CYL_CAP)
        doc:"Pilot-operated check"
-  part C1 CYL_HYD pins:(CYL_CAP, CYL_ROD)
+  part C1 type: CYL_HYD pins:(CYL_CAP, CYL_ROD)
        doc:"Vertical cylinder"
 }
 ```
@@ -602,8 +602,8 @@ hydraulic "Counterbalance" {
 
 ```runiq
 // Pump adjusts output to match demand
-part P1 PUMP_VAR pins:(TANK, PUMP) doc:"LS pump"
-part V1 VALVE_43 pins:(PUMP, A, B, TANK) doc:"LS valve"
+part P1 type: PUMP_VAR pins:(TANK, PUMP) doc:"LS pump"
+part V1 type: VALVE_43 pins:(PUMP, A, B, TANK) doc:"LS valve"
 // Pilot line from valve to pump (load signal)
 ```
 
@@ -611,18 +611,18 @@ part V1 VALVE_43 pins:(PUMP, A, B, TANK) doc:"LS valve"
 
 ```runiq
 // Faster extension by routing rod-side flow to cap side
-part V1 VALVE_43 pins:(PUMP, CAP, ROD, TANK) doc:"Regen valve"
-part CV1 CHECK_VALVE_HYD pins:(ROD, CAP) doc:"Regen path"
-part C1 CYL_HYD pins:(CAP, ROD) doc:"Cylinder"
+part V1 type: VALVE_43 pins:(PUMP, CAP, ROD, TANK) doc:"Regen valve"
+part CV1 type: CHECK_VALVE_HYD pins:(ROD, CAP) doc:"Regen path"
+part C1 type: CYL_HYD pins:(CAP, ROD) doc:"Cylinder"
 ```
 
 **Accumulator Circuit:**
 
 ```runiq
 // Energy storage for peak demand
-part P1 PUMP_FIXED pins:(TANK, PUMP) doc:"Small pump"
-part AC1 ACCUMULATOR pins:(PUMP) doc:"Stores energy"
-part PS1 REDUCING_VALVE pins:(PUMP) doc:"Charge pressure"
+part P1 type: PUMP_FIXED pins:(TANK, PUMP) doc:"Small pump"
+part AC1 type: ACCUMULATOR pins:(PUMP) doc:"Stores energy"
+part PS1 type: REDUCING_VALVE pins:(PUMP) doc:"Charge pressure"
 // Accumulator supplies high flow when needed
 ```
 

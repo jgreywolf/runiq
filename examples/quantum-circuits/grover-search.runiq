@@ -1,110 +1,68 @@
 # Grover's Search Algorithm (3 qubits)
 # Searches an unsorted database of 2^n=8 items in O(√n) time
-# Example: Finding a marked item in a list
 # Classical search: O(n) = 8 operations
 # Grover's search: O(√n) ≈ 2-3 operations
 
-graph TD
-    # Initial qubits (all in |0⟩ state)
-    q0["Qubit 0: |0⟩"]
-    q1["Qubit 1: |0⟩"]
-    q2["Qubit 2: |0⟩"]
-    
-    # Step 1: Create equal superposition of all states
-    H0_init[gate-h:H]
-    H1_init[gate-h:H]
-    H2_init[gate-h:H]
-    
-    barrier1[barrier]
-    
-    # Step 2: Oracle - marks the target state (say |101⟩)
-    # This is problem-specific, represented as a black box
-    oracle0[gate-z:Oracle]
-    oracle1[gate-z:Oracle]
-    oracle2[gate-z:Oracle]
-    
-    barrier2[barrier]
-    
-    # Step 3: Grover Diffusion Operator
-    # 3a: Apply H to all qubits
-    H0_diff[gate-h:H]
-    H1_diff[gate-h:H]
-    H2_diff[gate-h:H]
-    
-    # 3b: Apply X to all qubits
-    X0_diff[gate-x:X]
-    X1_diff[gate-x:X]
-    X2_diff[gate-x:X]
-    
-    # 3c: Multi-controlled Z gate (flips phase of |111⟩)
-    control0_diff[control-dot]
-    control1_diff[control-dot]
-    target2_diff[cnot-target]
-    
-    # 3d: Apply X to all qubits (undo step 3b)
-    X0_undo[gate-x:X]
-    X1_undo[gate-x:X]
-    X2_undo[gate-x:X]
-    
-    # 3e: Apply H to all qubits (undo step 3a)
-    H0_final[gate-h:H]
-    H1_final[gate-h:H]
-    H2_final[gate-h:H]
-    
-    barrier3[barrier]
-    
-    # Step 4: Measurement
-    M0[measurement:M]
-    M1[measurement:M]
-    M2[measurement:M]
-    
-    # Qubit 0 path
-    q0 --> H0_init
-    H0_init --> barrier1
-    barrier1 --> oracle0
-    oracle0 --> barrier2
-    barrier2 --> H0_diff
-    H0_diff --> X0_diff
-    X0_diff --> control0_diff
-    control0_diff --> X0_undo
-    X0_undo --> H0_final
-    H0_final --> barrier3
-    barrier3 --> M0
-    
-    # Qubit 1 path
-    q1 --> H1_init
-    H1_init --> oracle1
-    oracle1 --> H1_diff
-    H1_diff --> X1_diff
-    X1_diff --> control1_diff
-    control1_diff --> X1_undo
-    X1_undo --> H1_final
-    H1_final --> M1
-    
-    # Qubit 2 path
-    q2 --> H2_init
-    H2_init --> oracle2
-    oracle2 --> H2_diff
-    H2_diff --> X2_diff
-    X2_diff --> target2_diff
-    target2_diff --> X2_undo
-    X2_undo --> H2_final
-    H2_final --> M2
-    
-    # Multi-qubit connections
-    control0_diff -.-> control1_diff
-    control1_diff -.-> target2_diff
-    
-    # Result: After ~√8 ≈ 2-3 iterations, measurement will yield
-    # the marked state with high probability (>90%)
-    # For this example, measuring |101⟩ = 5 in decimal
-
-style H0_init fill:#e8f5e9,stroke:#000
-style H1_init fill:#e8f5e9,stroke:#000
-style H2_init fill:#e8f5e9,stroke:#000
-style oracle0 fill:#ffebee,stroke:#000
-style oracle1 fill:#ffebee,stroke:#000
-style oracle2 fill:#ffebee,stroke:#000
-style M0 fill:#e3f2fd,stroke:#000
-style M1 fill:#e3f2fd,stroke:#000
-style M2 fill:#e3f2fd,stroke:#000
+diagram "Grover's Search Algorithm" {
+  direction LR
+  
+  # Initial qubits (all in |0⟩ state)
+  shape q0 as @qubitWire label: "q0: |0⟩"
+  shape q1 as @qubitWire label: "q1: |0⟩"
+  shape q2 as @qubitWire label: "q2: |0⟩"
+  
+  # Step 1: Create equal superposition of all states
+  shape H0_init as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H1_init as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H2_init as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  
+  shape barrier1 as @barrier label: "|"
+  
+  # Step 2: Oracle (marks the target state |101⟩)
+  shape oracle0 as @rectangle label: "Oracle" fill: "#f3e5f5" stroke: "#000"
+  shape oracle1 as @rectangle label: "Oracle" fill: "#f3e5f5" stroke: "#000"
+  shape oracle2 as @rectangle label: "Oracle" fill: "#f3e5f5" stroke: "#000"
+  
+  shape barrier2 as @barrier label: "|"
+  
+  # Step 3: Grover Diffusion Operator
+  # 3a: Apply H to all qubits
+  shape H0_diff as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H1_diff as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H2_diff as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  
+  # 3b: Apply X to all qubits
+  shape X0_diff as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  shape X1_diff as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  shape X2_diff as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  
+  # 3c: Multi-controlled Z (Toffoli-style)
+  shape control0_diff as @controlDot label: "●" fill: "#000" stroke: "#000"
+  shape control1_diff as @controlDot label: "●" fill: "#000" stroke: "#000"
+  shape target2_diff as @gateZ label: "Z" fill: "#ffebee" stroke: "#000"
+  
+  # 3d: Apply X to all qubits (undo)
+  shape X0_undo as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  shape X1_undo as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  shape X2_undo as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  
+  # 3e: Apply H to all qubits (final)
+  shape H0_final as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H1_final as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H2_final as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  
+  shape barrier3 as @barrier label: "|"
+  
+  # Step 4: Measurement
+  shape M0 as @measurement label: "M0" fill: "#e3f2fd" stroke: "#000"
+  shape M1 as @measurement label: "M1" fill: "#e3f2fd" stroke: "#000"
+  shape M2 as @measurement label: "M2" fill: "#e3f2fd" stroke: "#000"
+  
+  # Circuit connections
+  q0 -> H0_init -> barrier1 -> oracle0 -> barrier2 -> H0_diff -> X0_diff -> control0_diff -> X0_undo -> H0_final -> barrier3 -> M0
+  q1 -> H1_init -> oracle1 -> H1_diff -> X1_diff -> control1_diff -> X1_undo -> H1_final -> M1
+  q2 -> H2_init -> oracle2 -> H2_diff -> X2_diff -> target2_diff -> X2_undo -> H2_final -> M2
+  
+  # Multi-qubit gate connections
+  control0_diff -> control1_diff -> target2_diff
+}

@@ -28,14 +28,15 @@ Runiq provides:
 ### 1. Human-Friendly DSL
 
 ```runiq
-diagram "My Process"
-direction LR
+diagram "My Process" {
+  direction LR
 
-shape Start as @rounded label: "Start"
-shape Process as @rect label: "Process"
-shape End as @hexagon label: "End"
+  shape Start as @rounded label: "Start"
+  shape Process as @rect label: "Process"
+  shape End as @hexagon label: "End"
 
-Start -> Process -> End
+  Start -> Process -> End
+}
 ```
 
 ### 2. Machine-Friendly JSON
@@ -108,11 +109,13 @@ document.getElementById('output')!.innerHTML = svg;
 Full support for UML stereotypes and line styles:
 
 ```runiq
-# Stereotypes
-edge A -> B stereotype: "include" lineStyle: dashed arrowType: open
+diagram "Stereotypes" {
 
-# Line styles: solid, dashed, dotted
-# Arrow types: standard, hollow, open, none
+  A -> B stereotype: "include" lineStyle: dashed arrowType: open
+
+  # Line styles: solid, dashed, dotted
+  # Arrow types: standard, hollow, open, none
+}
 ```
 
 ### 6. Hierarchical Containers
@@ -120,10 +123,12 @@ edge A -> B stereotype: "include" lineStyle: dashed arrowType: open
 Build complex architectures:
 
 ```runiq
-container "Backend Services" {
-  shape API as @hexagon label: "API"
-  shape DB as @cylinder label: "Database"
-  API -> DB
+diagram "Containers" {
+  container "Backend Services" {
+    shape API as @hexagon label: "API"
+    shape DB as @cylinder label: "Database"
+    API -> DB
+  }
 }
 ```
 
@@ -149,8 +154,10 @@ electrical "RC Filter" {
 
 ```runiq
 electrical "Half Adder" {
-  gate U1 type:XOR inputs:(A,B) output:SUM
-  gate U2 type:AND inputs:(A,B) output:CARRY
+  net A, B, SUM, CARRY
+
+  part U1 type:XOR pins:(A,B,SUM)
+  part U2 type:AND pins:(A,B,CARRY)
 }
 ```
 
@@ -159,12 +166,13 @@ electrical "Half Adder" {
 Control systems with export to LaTeX and Simulink:
 
 ```runiq
-diagram: block-diagram
-title: "PID Controller"
+diagram: block-diagram {
+  title: "PID Controller"
 
-shape Kp as @gain label: "Kp"
-shape Ki as @transferFunction label: "Ki/s"
-shape Kd as @transferFunction label: "Kd·s"
+  shape Kp as @gain label: "Kp"
+  shape Ki as @transferFunction label: "Ki/s"
+  shape Kd as @transferFunction label: "Kd·s"
+}
 ```
 
 ## Architecture

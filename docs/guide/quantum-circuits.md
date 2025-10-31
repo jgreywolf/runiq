@@ -25,21 +25,26 @@ Unlike classical circuits that process bits (0 or 1), quantum circuits process *
 ### Simple Bell State Circuit
 
 ```runiq
-graph TD
-    q0["Qubit 0: |0⟩"]
-    q1["Qubit 1: |0⟩"]
+diagram "Bell State Circuit" {
 
-    H0[gate-h:H]
-    control0[control-dot]
-    target1[cnot-target]
+    style H0 fill:"#e8f5e9" stroke:"#000"
+    style control0 fill:"#333" stroke:"#000"
+    style target1 fill:"#fff" stroke:"#000"
 
-    q0 --> H0 --> control0
-    q1 --> target1
-    control0 -.-> target1
+    shape q0 as @qubitWire label:"q0" style: H0
+    shape q1 as @qubitWire label:"q1" style: control0
+    shape h as @gateH label:"H"
+    shape cnot as @cnotTarget label:"⊕"
+    shape ctrl as @controlDot label:"●"
+    shape m0 as @measurement label:"M"
+    shape m1 as @measurement label:"M"
 
-style H0 fill:#e8f5e9,stroke:#000
-style control0 fill:#000,stroke:#000
-style target1 fill:#fff,stroke:#000
+    q0 -> h
+    h -> ctrl
+    ctrl -> m0
+    q1 -> cnot
+    cnot -> m1
+}
 ```
 
 **Result**: Creates entangled Bell state |Φ+⟩ = (|00⟩ + |11⟩)/√2
@@ -52,20 +57,20 @@ style target1 fill:#fff,stroke:#000
 
 #### Pauli Gates (Basis Gates)
 
-| Gate  | Shape ID | Size    | Description         | Color     |
-| ----- | -------- | ------- | ------------------- | --------- | --- | --------- |
-| **X** | `gate-x` | 20×20px | Bit flip (NOT gate) | Light red |
-| **Y** | `gate-y` | 20×20px | Bit + phase flip    | Light red |
-| **Z** | `gate-z` | 20×20px | Phase flip (        | 1⟩ → -    | 1⟩) | Light red |
+| Gate  | Shape ID | Size    | Description           | Color     |
+| ----- | -------- | ------- | --------------------- | --------- |
+| **X** | `gateX`  | 20×20px | Bit flip (NOT gate)   | Light red |
+| **Y** | `gateY`  | 20×20px | Bit + phase flip      | Light red |
+| **Z** | `gateZ`  | 20×20px | Phase flip (1⟩ → -1⟩) | Light red |
 
 **Usage**:
 
 ```runiq
-X_gate[gate-x:X]
-Y_gate[gate-y:Y]
-Z_gate[gate-z:Z]
-
-style X_gate fill:#ffebee,stroke:#000
+diagram "Pauli Gates" {
+  shape X_gate as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  shape Y_gate as @gateY label: "Y" fill: "#ffebee" stroke: "#000"
+  shape Z_gate as @gateZ label: "Z" fill: "#ffebee" stroke: "#000"
+}
 ```
 
 **Quantum Operations**:
@@ -80,13 +85,14 @@ style X_gate fill:#ffebee,stroke:#000
 
 | Gate  | Shape ID | Size    | Description                 | Color       |
 | ----- | -------- | ------- | --------------------------- | ----------- |
-| **H** | `gate-h` | 20×20px | Creates equal superposition | Light green |
+| **H** | `gateH`  | 20×20px | Creates equal superposition | Light green |
 
 **Usage**:
 
 ```runiq
-H_gate[gate-h:H]
-style H_gate fill:#e8f5e9,stroke:#000
+diagram "Hadamard Gate" {
+  shape H_gate as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+}
 ```
 
 **Quantum Operation**:
@@ -102,17 +108,16 @@ style H_gate fill:#e8f5e9,stroke:#000
 
 | Gate  | Shape ID | Size    | Description               | Color        |
 | ----- | -------- | ------- | ------------------------- | ------------ |
-| **S** | `gate-s` | 20×20px | Phase gate (π/2 rotation) | Light yellow |
-| **T** | `gate-t` | 20×20px | π/8 gate (π/4 rotation)   | Light yellow |
+| **S** | `gateS`  | 20×20px | Phase gate (π/2 rotation) | Light yellow |
+| **T** | `gateT`  | 20×20px | π/8 gate (π/4 rotation)   | Light yellow |
 
 **Usage**:
 
 ```runiq
-S_gate[gate-s:S]
-T_gate[gate-t:T]
-
-style S_gate fill:#fff9c4,stroke:#000
-style T_gate fill:#fff9c4,stroke:#000
+diagram "Phase Gates" {
+  shape S_gate as @gateS label: "S" fill: "#fff9c4" stroke: "#000"
+  shape T_gate as @gateT label: "T" fill: "#fff9c4" stroke: "#000"
+}
 ```
 
 **Quantum Operations**:
@@ -131,15 +136,16 @@ style T_gate fill:#fff9c4,stroke:#000
 
 #### Control Dot
 
-| Component | Shape ID      | Size  | Description                                  |
-| --------- | ------------- | ----- | -------------------------------------------- |
-| **●**     | `control-dot` | 8×8px | Marks control qubit in controlled operations |
+| Component | Shape ID     | Size  | Description                                  |
+| --------- | ------------ | ----- | -------------------------------------------- |
+| **●**     | `controlDot` | 8×8px | Marks control qubit in controlled operations |
 
 **Usage**:
 
 ```runiq
-control[control-dot]
-style control fill:#000,stroke:#000
+diagram "Control Dot" {
+  shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
+}
 ```
 
 **Function**: Indicates which qubit controls the operation. Gate only applies to target if control qubit is |1⟩.
@@ -148,20 +154,19 @@ style control fill:#000,stroke:#000
 
 #### CNOT Target
 
-| Component | Shape ID      | Size    | Description                        |
-| --------- | ------------- | ------- | ---------------------------------- |
-| **⊕**     | `cnot-target` | 16×16px | Target of controlled-NOT operation |
+| Component | Shape ID     | Size    | Description                        |
+| --------- | ------------ | ------- | ---------------------------------- |
+| **⊕**     | `cnotTarget` | 16×16px | Target of controlled-NOT operation |
 
 **Usage**:
 
 ```runiq
-target[cnot-target]
-control[control-dot]
+diagram "CNOT Gate" {
+  shape targetId as @cnotTarget label: "⊕" fill: "#fff" stroke: "#000"
+  shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
 
-control -.-> target  # Vertical connection
-
-style target fill:#fff,stroke:#000
-style control fill:#000,stroke:#000
+  controlId -> targetId
+}
 ```
 
 **CNOT Operation**:
@@ -176,18 +181,17 @@ style control fill:#000,stroke:#000
 
 | Component | Shape ID | Size    | Description                    |
 | --------- | -------- | ------- | ------------------------------ |
-| **✕**     | `swap-x` | 12×12px | Exchanges states of two qubits |
+| **✕**     | `swapX`  | 12×12px | Exchanges states of two qubits |
 
 **Usage**:
 
 ```runiq
-swap0[swap-x:⨉]
-swap2[swap-x:⨉]
+diagram "SWAP Gate" {
+  shape swap0 as @swapX label: "⨉" fill: "#fff" stroke: "#000"
+  shape swap2 as @swapX label: "⨉" fill: "#fff" stroke: "#000"
 
-swap0 -.-> swap2  # Vertical connection
-
-style swap0 fill:#fff,stroke:#000
-style swap2 fill:#fff,stroke:#000
+  swap0 -> swap2
+}
 ```
 
 **SWAP Operation**:
@@ -209,10 +213,10 @@ style swap2 fill:#fff,stroke:#000
 **Usage**:
 
 ```runiq
-M0[measurement:M0]
-M1[measurement:M1]
-
-style M0 fill:#e3f2fd,stroke:#000
+diagram "Measurement" {
+  shape M0 as @measurement label: "M0" fill: "#e3f2fd" stroke: "#000"
+  shape M1 as @measurement label: "M1" fill: "#e3f2fd" stroke: "#000"
+}
 ```
 
 **Measurement Operation**:
@@ -233,11 +237,15 @@ style M0 fill:#e3f2fd,stroke:#000
 **Usage**:
 
 ```runiq
-barrier1[barrier]
-barrier2[barrier]
+diagram "Barrier Example" {
+  shape barrier1 as @barrier label: "|"
+  shape barrier2 as @barrier label: "|"
+  shape q0 as @qubitWire label: "q0"
+  shape H0 as @gateH label: "H"
+  shape oracle as @rectangle label: "Oracle"
 
-q0 --> H0 --> barrier1 --> oracle
-q1 --> H1 --> barrier1 --> oracle
+  q0 -> H0 -> barrier1 -> oracle
+}
 ```
 
 **Purpose**:
@@ -251,9 +259,9 @@ q1 --> H1 --> barrier1 --> oracle
 
 #### Qubit Wire
 
-| Component | Shape ID     | Size   | Description                                  |
-| --------- | ------------ | ------ | -------------------------------------------- |
-| **—**     | `qubit-wire` | 50×1px | Horizontal line representing qubit evolution |
+| Component | Shape ID    | Size   | Description                                  |
+| --------- | ----------- | ------ | -------------------------------------------- |
+| **—**     | `qubitWire` | 50×1px | Horizontal line representing qubit evolution |
 
 **Usage**: Automatically rendered as connections between gates
 
@@ -272,20 +280,19 @@ q1 --> H1 --> barrier1 --> oracle
 Creates maximally entangled two-qubit states.
 
 ```runiq
-graph TD
-    q0["Qubit 0: |0⟩"]
-    q1["Qubit 1: |0⟩"]
+diagram "Entanglement" {
+    direction TB
 
-    H0[gate-h:H]
-    control[control-dot]
-    target[cnot-target]
+    shape q0 as @qubitWire label: "Qubit 0: |0⟩"
+    shape q1 as @qubitWire label: "Qubit 1: |0⟩"
+    shape H0 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+    shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
+    shape targetId as @cnotTarget label: "⊕" fill: "#fff" stroke: "#000"
 
-    q0 --> H0 --> control
-    q1 --> target
-    control -.-> target
-
-style H0 fill:#e8f5e9
-style control fill:#000
+    q0 -> H0 -> controlId
+    q1 -> targetId
+    controlId -> targetId
+}
 ```
 
 **Four Bell States**:
@@ -302,14 +309,20 @@ style control fill:#000
 Creates equal superposition of all basis states.
 
 ```runiq
-# 3-qubit equal superposition
-H0[gate-h:H]
-H1[gate-h:H]
-H2[gate-h:H]
+diagram "Superposition" {
+    direction LR
 
-q0 --> H0
-q1 --> H1
-q2 --> H2
+    shape q0 as @qubitWire label: "q0"
+    shape q1 as @qubitWire label: "q1"
+    shape q2 as @qubitWire label: "q2"
+    shape H0 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+    shape H1 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+    shape H2 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+
+    q0 -> H0
+    q1 -> H1
+    q2 -> H2
+}
 ```
 
 **Result**: |000⟩ → (|000⟩ + |001⟩ + |010⟩ + ... + |111⟩)/√8
@@ -327,14 +340,14 @@ q2 --> H2
 Apply gate to target only if control is |1⟩.
 
 ```runiq
-# Controlled-Z (CZ gate)
-control[control-dot]
-Z_gate[gate-z:Z]
+diagram "Controlled-Z Gate" {
+    direction LR
 
-control -.-> Z_gate
+    shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
+    shape Z_gate as @gateZ label: "Z" fill: "#ffebee" stroke: "#000"
 
-style control fill:#000
-style Z_gate fill:#ffebee
+    controlId -> Z_gate
+}
 ```
 
 **Common Controlled Gates**:
@@ -352,16 +365,20 @@ style Z_gate fill:#ffebee
 Control qubit acquires phase from controlled operation on target in superposition.
 
 ```runiq
-# Phase kickback example
-H_control[gate-h:H]
-control[control-dot]
-X_target[gate-x:X]
-target_init[gate-x:X]
+diagram "Phase Kickback" {
+    direction LR
 
-q0 --> H_control --> control
-q1 --> target_init --> X_target
+    shape q0 as @qubitWire label: "q0"
+    shape q1 as @qubitWire label: "q1"
+    shape H_control as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+    shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
+    shape target_init as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+    shape X_target as @gateX label: "X" fill: "#ffebee" stroke: "#000"
 
-control -.-> X_target
+    q0 -> H_control -> controlId
+    q1 -> target_init -> X_target
+    controlId -> X_target
+}
 ```
 
 **Key Insight**: Used in quantum algorithms (Grover, Shor) to mark states via phase.
@@ -373,17 +390,23 @@ control -.-> X_target
 Measure qubits and apply gates conditionally based on classical results.
 
 ```runiq
-M0[measurement:M0]
-M1[measurement:M1]
-X_gate[gate-x:X]
-Z_gate[gate-z:Z]
+diagram "Measurement + Classical Control" {
+    direction LR
 
-q0 --> M0
-q1 --> M1
-q2 --> X_gate --> Z_gate
+    shape q0 as @qubitWire label: "q0"
+    shape q1 as @qubitWire label: "q1"
+    shape q2 as @qubitWire label: "q2"
+    shape M0 as @measurement label: "M0" fill: "#e3f2fd" stroke: "#000"
+    shape M1 as @measurement label: "M1" fill: "#e3f2fd" stroke: "#000"
+    shape X_gate as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+    shape Z_gate as @gateZ label: "Z" fill: "#ffebee" stroke: "#000"
 
-M1 -.->|"if M1=1"| X_gate
-M0 -.->|"if M0=1"| Z_gate
+    q0 -> M0
+    q1 -> M1
+    q2 -> X_gate -> Z_gate
+    M1 -> X_gate label: "if M1=1"
+    M0 -> Z_gate label: "if M0=1"
+}
 ```
 
 **Use cases**:
@@ -401,14 +424,19 @@ M0 -.->|"if M0=1"| Z_gate
 ✅ **DO**: Order gates left-to-right (time sequence)
 
 ```runiq
-q0 --> H --> X --> Z --> M
+diagram "Gate Ordering" {
+    direction LR
+    shape q0 as @qubitWire label: "q0"
+    shape H as @gateH label: "H"
+    shape X as @gateX label: "X"
+    shape Z as @gateZ label: "Z"
+    shape M as @measurement label: "M"
+
+    q0 -> H -> X -> Z -> M
+}
 ```
 
-❌ **DON'T**: Place gates out of order
-
-```runiq
-q0 --> M --> H  # Measurement should be last!
-```
+❌ **DON'T**: Place gates out of order (measurement should be last)
 
 ---
 
@@ -417,17 +445,16 @@ q0 --> M --> H  # Measurement should be last!
 ✅ **DO**: Align multi-qubit gates vertically
 
 ```runiq
-control[control-dot]
-target[cnot-target]
+diagram "Vertical Alignment" {
+    direction TB
+    shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
+    shape targetId as @cnotTarget label: "⊕" fill: "#fff" stroke: "#000"
 
-control -.-> target  # Clear vertical connection
+    controlId -> targetId
+}
 ```
 
-❌ **DON'T**: Misalign control and target
-
-```runiq
-# Hard to see which qubits are connected
-```
+❌ **DON'T**: Misalign control and target (makes connections unclear)
 
 ---
 
@@ -436,16 +463,13 @@ control -.-> target  # Clear vertical connection
 ✅ **DO**: Use descriptive labels
 
 ```runiq
-H_init[gate-h:H]  # Initialization
-H_diff[gate-h:H]  # Diffusion operator
+diagram "Clear Labels" {
+    shape H_init as @gateH label: "H (init)" fill: "#e8f5e9" stroke: "#000"
+    shape H_diff as @gateH label: "H (diff)" fill: "#e8f5e9" stroke: "#000"
+}
 ```
 
-❌ **DON'T**: Use ambiguous labels
-
-```runiq
-H1[gate-h:H]
-H2[gate-h:H]  # Which is which?
-```
+❌ **DON'T**: Use ambiguous labels like H1, H2 without context
 
 ---
 
@@ -454,12 +478,19 @@ H2[gate-h:H]  # Which is which?
 ✅ **DO**: Mark algorithm phases
 
 ```runiq
-# Grover's algorithm
-barrier1[barrier]  # After initialization
-barrier2[barrier]  # After oracle
-barrier3[barrier]  # After diffusion
+diagram "Grover's Algorithm Phases" {
+    direction LR
+    shape q0 as @qubitWire label: "q0"
+    shape H_init as @gateH label: "H"
+    shape barrier1 as @barrier label: "|"
+    shape oracle as @rectangle label: "Oracle"
+    shape barrier2 as @barrier label: "|"
+    shape diffusion as @rectangle label: "Diffusion"
+    shape barrier3 as @barrier label: "|"
+    shape M as @measurement label: "M"
 
-q0 --> H_init --> barrier1 --> oracle --> barrier2 --> diffusion --> barrier3 --> M
+    q0 -> H_init -> barrier1 -> oracle -> barrier2 -> diffusion -> barrier3 -> M
+}
 ```
 
 ---
@@ -469,10 +500,12 @@ q0 --> H_init --> barrier1 --> oracle --> barrier2 --> diffusion --> barrier3 --
 ✅ **DO**: Use consistent colors
 
 ```runiq
-style H_gate fill:#e8f5e9  # Green for Hadamard
-style X_gate fill:#ffebee  # Red for Pauli gates
-style S_gate fill:#fff9c4  # Yellow for phase gates
-style M_gate fill:#e3f2fd  # Blue for measurement
+diagram "Color Coding" {
+    shape H_gate as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+    shape X_gate as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+    shape S_gate as @gateS label: "S" fill: "#fff9c4" stroke: "#000"
+    shape M_gate as @measurement label: "M" fill: "#e3f2fd" stroke: "#000"
+}
 ```
 
 **Suggested Color Scheme**:

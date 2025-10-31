@@ -1,5 +1,5 @@
 diagram "Multi-Region Deployment" {
-  direction:TB
+  direction TB
 
   # US East Region
   container useast "US East (Primary)" backgroundColor:"#e8f5e9" borderColor:"#388e3c" borderWidth:3 {

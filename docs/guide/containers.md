@@ -7,12 +7,13 @@ Containers group related shapes together, creating visual boundaries and hierarc
 ### Simple Container
 
 ```runiq
-diagram "Basic Container"
+diagram "Basic Container" {
 
-container "My Container" {
-  shape A as @rect label: "Node A"
-  shape B as @rect label: "Node B"
-  A -> B
+  container "My Container" {
+    shape A as @rect label: "Node A"
+    shape B as @rect label: "Node B"
+    A -> B
+  }
 }
 ```
 
@@ -21,42 +22,44 @@ container "My Container" {
 ### Background and Border
 
 ```runiq
-diagram "Styled Container"
+diagram "Styled Container" {
 
-container "Backend Services"
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
-  padding: 20
-{
-  shape API as @rect label: "API Server"
-  shape DB as @cylinder label: "Database"
-  API -> DB
+  container "Backend Services"
+    backgroundColor: "#e3f2fd"
+    borderColor: "#2196f3"
+    padding: 20
+  {
+    shape API as @rect label: "API Server"
+    shape DB as @cylinder label: "Database"
+    API -> DB
+  }
 }
 ```
 
 ## Multiple Containers
 
 ```runiq
-diagram "Microservices Architecture"
+diagram "Microservices Architecture" {
 
-container "Frontend" backgroundColor: "#fff3e0" {
-  shape UI as @rect label: "React App"
+  container "Frontend" backgroundColor: "#fff3e0" {
+    shape UI as @rect label: "React App"
+  }
+
+  container "Backend" backgroundColor: "#e8f5e9" {
+    shape API as @rect label: "REST API"
+    shape Queue as @rect label: "Message Queue"
+    API -> Queue
+  }
+
+  container "Data" backgroundColor: "#f3e5f5" {
+    shape DB as @cylinder label: "PostgreSQL"
+    shape Cache as @cylinder label: "Redis"
+  }
+
+  UI -> API label: "HTTP"
+  API -> DB label: "queries"
+  API -> Cache label: "cache"
 }
-
-container "Backend" backgroundColor: "#e8f5e9" {
-  shape API as @rect label: "REST API"
-  shape Queue as @rect label: "Message Queue"
-  API -> Queue
-}
-
-container "Data" backgroundColor: "#f3e5f5" {
-  shape DB as @cylinder label: "PostgreSQL"
-  shape Cache as @cylinder label: "Redis"
-}
-
-UI -> API label: "HTTP"
-API -> DB label: "queries"
-API -> Cache label: "cache"
 ```
 
 ## Nested Containers
@@ -68,15 +71,16 @@ For now, use multiple top-level containers with cross-container edges instead of
 :::
 
 ```runiq
-diagram "Container Hierarchy"
+diagram "Container Hierarchy" {
 
-container "Cloud Platform" {
-  container "Compute" {
-    shape VM1 as @rect label: "VM Instance"
-  }
+  container "Cloud Platform" {
+    container "Compute" {
+      shape VM1 as @rect label: "VM Instance"
+    }
 
-  container "Storage" {
-    shape S3 as @cylinder label: "Object Storage"
+    container "Storage" {
+      shape S3 as @cylinder label: "Object Storage"
+    }
   }
 }
 ```
@@ -86,24 +90,25 @@ container "Cloud Platform" {
 Edges can connect shapes across different containers:
 
 ```runiq
-diagram "Cross-Container Communication"
+diagram "Cross-Container Communication" {
 
-container "Client Tier" {
-  shape Browser as @rect label: "Web Browser"
+  container "Client Tier" {
+    shape Browser as @rect label: "Web Browser"
+  }
+
+  container "Application Tier" {
+    shape WebServer as @rect label: "Web Server"
+    shape AppServer as @rect label: "App Server"
+    WebServer -> AppServer
+  }
+
+  container "Data Tier" {
+    shape Database as @cylinder label: "MySQL"
+  }
+
+  Browser -> WebServer label: "HTTPS"
+  AppServer -> Database label: "SQL"
 }
-
-container "Application Tier" {
-  shape WebServer as @rect label: "Web Server"
-  shape AppServer as @rect label: "App Server"
-  WebServer -> AppServer
-}
-
-container "Data Tier" {
-  shape Database as @cylinder label: "MySQL"
-}
-
-Browser -> WebServer label: "HTTPS"
-AppServer -> Database label: "SQL"
 ```
 
 ## Container Properties
@@ -113,32 +118,36 @@ AppServer -> Database label: "SQL"
 Control the space inside the container:
 
 ```runiq
-container "Tight" padding: 10 {
-  shape A as @rect label: "A"
-}
+diagram "Container Spacing" {
+  container "Tight" padding: 10 {
+    shape A as @rect label: "A"
+  }
 
-container "Spacious" padding: 40 {
-  shape B as @rect label: "B"
+  container "Spacious" padding: 40 {
+    shape B as @rect label: "B"
+  }
 }
 ```
 
 ### Border Styles
 
 ```runiq
-container "Solid Border"
-  borderWidth: 2
-  borderStyle: solid
-  borderColor: "#2196f3"
-{
-  shape A as @rect label: "A"
-}
+diagram "Border Styles" {
+  container "Solid Border"
+    borderWidth: 2
+    borderStyle: solid
+    borderColor: "#2196f3"
+  {
+    shape A as @rect label: "A"
+  }
 
-container "Dashed Border"
-  borderWidth: 2
-  borderStyle: dashed
-  borderColor: "#ff9800"
-{
-  shape B as @rect label: "B"
+  container "Dashed Border"
+    borderWidth: 2
+    borderStyle: dashed
+    borderColor: "#ff9800"
+  {
+    shape B as @rect label: "B"
+  }
 }
 ```
 
@@ -147,11 +156,13 @@ container "Dashed Border"
 Add depth with shadows:
 
 ```runiq
-container "With Shadow"
+diagram "Shadows" {
+  container "With Shadow"
   backgroundColor: "#ffffff"
   shadow: true
-{
-  shape Service as @rect label: "Microservice"
+  {
+    shape Service as @rect label: "Microservice"
+  }
 }
 ```
 
@@ -162,21 +173,22 @@ container "With Shadow"
 Define reusable container styles:
 
 ```runiq
-diagram "Preset Containers"
+diagram "Preset Containers" {
 
-preset "card" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
-  padding: 20
-  shadow: true
-}
+  preset "card" {
+    backgroundColor: "#e3f2fd"
+    borderColor: "#2196f3"
+    padding: 20
+    shadow: true
+  }
 
-container "Service A" preset: "card" {
-  shape API as @rect label: "API"
-}
+  container "Service A" preset: "card" {
+    shape API as @rect label: "API"
+  }
 
-container "Service B" preset: "card" {
-  shape Worker as @rect label: "Worker"
+  container "Service B" preset: "card" {
+    shape Worker as @rect label: "Worker"
+  }
 }
 ```
 
@@ -185,22 +197,23 @@ container "Service B" preset: "card" {
 Templates allow parameterization:
 
 ```runiq
-diagram "Template Containers"
+diagram "Template Containers" {
 
-template "microservice" {
-  backgroundColor: "#e8f5e9"
-  borderColor: "#4caf50"
-  borderWidth: 2
-  padding: 15
-  resizable: true
-}
+  template "microservice" {
+    backgroundColor: "#e8f5e9"
+    borderColor: "#4caf50"
+    borderWidth: 2
+    padding: 15
+    resizable: true
+  }
 
-container "Auth Service" templateId: "microservice" {
-  shape Auth as @rect label: "Authentication"
-}
+  container "Auth Service" templateId: "microservice" {
+    shape Auth as @rect label: "Authentication"
+  }
 
-container "Payment Service" templateId: "microservice" {
-  shape Pay as @rect label: "Payment Gateway"
+  container "Payment Service" templateId: "microservice" {
+    shape Pay as @rect label: "Payment Gateway"
+  }
 }
 ```
 
@@ -209,20 +222,21 @@ container "Payment Service" templateId: "microservice" {
 Extend existing containers with `extends`:
 
 ```runiq
-diagram "Container Inheritance"
+diagram "Container Inheritance" {
 
-container "Base"
-  backgroundColor: "#f0f0f0"
-  padding: 15
-{
-  shape Common as @rect label: "Common Logic"
-}
+  container "Base"
+    backgroundColor: "#f0f0f0"
+    padding: 15
+  {
+    shape Common as @rect label: "Common Logic"
+  }
 
-container "Extended"
-  extends: "Base"
-  borderColor: "#2196f3"
-{
-  shape Specific as @rect label: "Specific Logic"
+  container "Extended"
+    extends: "Base"
+    borderColor: "#2196f3"
+  {
+    shape Specific as @rect label: "Specific Logic"
+  }
 }
 ```
 
@@ -233,30 +247,31 @@ You can combine presets, templates, extends, and inline styles. The precedence o
 **extends (lowest) → template → preset → inline (highest)**
 
 ```runiq
-diagram "Full Example"
+diagram "Full Example" {
 
-preset "card" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
-  padding: 20
-}
+  preset "card" {
+    backgroundColor: "#e3f2fd"
+    borderColor: "#2196f3"
+    padding: 20
+  }
 
-template "service" {
-  borderWidth: 2
-  resizable: true
-}
+  template "service" {
+    borderWidth: 2
+    resizable: true
+  }
 
-container "Base" backgroundColor: "#f0f0f0" padding: 15 {
-  shape base as @rect label: "Base Node"
-}
+  container "Base" backgroundColor: "#f0f0f0" padding: 15 {
+    shape base as @rect label: "Base Node"
+  }
 
-container "API Service"
-  extends: "Base"
-  templateId: "service"
-  preset: "card"
-  backgroundColor: "#fff3e0"
-{
-  shape api as @server label: "REST API"
+  container "API Service"
+    extends: "Base"
+    templateId: "service"
+    preset: "card"
+    backgroundColor: "#fff3e0"
+  {
+    shape api as @server label: "REST API"
+  }
 }
 ```
 
@@ -265,111 +280,115 @@ container "API Service"
 ### Software Architecture
 
 ```runiq
-diagram "3-Tier Architecture"
+diagram "3-Tier Architecture" {
 
-container "Presentation Layer" {
-  shape WebUI as @rect label: "Web UI"
-  shape MobileUI as @rect label: "Mobile App"
+  container "Presentation Layer" {
+    shape WebUI as @rect label: "Web UI"
+    shape MobileUI as @rect label: "Mobile App"
+  }
+
+  container "Business Logic Layer" {
+    shape API as @rect label: "API Gateway"
+    shape Services as @rect label: "Business Services"
+    API -> Services
+  }
+
+  container "Data Layer" {
+    shape SQL as @cylinder label: "SQL Database"
+    shape NoSQL as @cylinder label: "NoSQL Store"
+  }
+
+  WebUI -> API
+  MobileUI -> API
+  Services -> SQL
+  Services -> NoSQL
 }
-
-container "Business Logic Layer" {
-  shape API as @rect label: "API Gateway"
-  shape Services as @rect label: "Business Services"
-  API -> Services
-}
-
-container "Data Layer" {
-  shape SQL as @cylinder label: "SQL Database"
-  shape NoSQL as @cylinder label: "NoSQL Store"
-}
-
-WebUI -> API
-MobileUI -> API
-Services -> SQL
-Services -> NoSQL
 ```
 
 ### C4 Architecture Diagrams
 
 ```runiq
-diagram "C4 Container View"
+diagram "C4 Container View" {
 
-container "Web Application" {
-  shape SPA as @rect label: "Single-Page Application"
+  container "Web Application" {
+    shape SPA as @rect label: "Single-Page Application"
+  }
+
+  container "API Application" {
+    shape APIGateway as @rect label: "API Gateway"
+    shape AuthService as @rect label: "Auth Service"
+    shape UserService as @rect label: "User Service"
+  }
+
+  container "Database" {
+    shape UserDB as @cylinder label: "User Database"
+  }
+
+  SPA -> APIGateway label: "HTTPS/JSON"
+  APIGateway -> AuthService
+  APIGateway -> UserService
+  UserService -> UserDB
 }
-
-container "API Application" {
-  shape APIGateway as @rect label: "API Gateway"
-  shape AuthService as @rect label: "Auth Service"
-  shape UserService as @rect label: "User Service"
-}
-
-container "Database" {
-  shape UserDB as @cylinder label: "User Database"
-}
-
-SPA -> APIGateway label: "HTTPS/JSON"
-APIGateway -> AuthService
-APIGateway -> UserService
-UserService -> UserDB
 ```
 
 ### BPMN Process Diagrams
 
 ```runiq
-diagram "Order Process"
+diagram "Order Process" {
 
-container "Customer" {
-  shape Order as @rounded label: "Place Order"
-  shape Confirm as @hexagon label: "Receive Confirmation"
+  container "Customer" {
+    shape Order as @rounded label: "Place Order"
+    shape Confirm as @hexagon label: "Receive Confirmation"
+  }
+
+  container "System" {
+    shape Validate as @rect label: "Validate Order"
+    shape Process as @rect label: "Process Payment"
+    shape Ship as @rect label: "Ship Order"
+
+    Validate -> Process -> Ship
+  }
+
+  Order -> Validate
+  Ship -> Confirm
 }
-
-container "System" {
-  shape Validate as @rect label: "Validate Order"
-  shape Process as @rect label: "Process Payment"
-  shape Ship as @rect label: "Ship Order"
-
-  Validate -> Process -> Ship
-}
-
-Order -> Validate
-Ship -> Confirm
 ```
 
 ### Network Topology
 
 ```runiq
-diagram "Network Zones"
+diagram "Network Zones" {
 
-container "DMZ" backgroundColor: "#ffebee" {
-  shape Firewall as @rect label: "Firewall"
-  shape Proxy as @rect label: "Proxy Server"
+  container "DMZ" backgroundColor: "#ffebee" {
+    shape Firewall as @rect label: "Firewall"
+    shape Proxy as @rect label: "Proxy Server"
+  }
+
+  container "Internal Network" backgroundColor: "#e8f5e9" {
+    shape AppServer as @rect label: "App Server"
+    shape DBServer as @cylinder label: "DB Server"
+    AppServer -> DBServer
+  }
+
+  Firewall -> Proxy -> AppServer
 }
-
-container "Internal Network" backgroundColor: "#e8f5e9" {
-  shape AppServer as @rect label: "App Server"
-  shape DBServer as @cylinder label: "DB Server"
-  AppServer -> DBServer
-}
-
-Firewall -> Proxy -> AppServer
 ```
 
 ## Container Style Properties
 
-| Property          | Type                      | Default     | Example                      |
-| ----------------- | ------------------------- | ----------- | ---------------------------- |
-| `backgroundColor` | color                     | transparent | `backgroundColor: "#e3f2fd"` |
-| `borderColor`     | color                     | #444        | `borderColor: "#2196f3"`     |
-| `borderWidth`     | number                    | 1           | `borderWidth: 2`             |
-| `borderStyle`     | solid \| dashed \| dotted | solid       | `borderStyle: dashed`        |
-| `padding`         | number                    | 20          | `padding: 30`                |
-| `paddingTop`      | number                    | -           | `paddingTop: 10`             |
-| `paddingRight`    | number                    | -           | `paddingRight: 10`           |
-| `paddingBottom`   | number                    | -           | `paddingBottom: 10`          |
-| `paddingLeft`     | number                    | -           | `paddingLeft: 10`            |
-| `shadow`          | boolean                   | false       | `shadow: true`               |
-| `opacity`         | number                    | 1.0         | `opacity: 0.8`               |
+| Property        | Type                      | Default     | Example                      |
+| --------------- | ------------------------- | ----------- | ---------------------------- |
+| `fill`          | color                     | transparent | `backgroundColor: "#e3f2fd"` |
+| `borderColor`   | color                     | #444        | `borderColor: "#2196f3"`     |
+| `borderWidth`   | number                    | 1           | `borderWidth: 2`             |
+| `borderStyle`   | solid \| dashed \| dotted | solid       | `borderStyle: dashed`        |
+| `padding`       | number                    | 20          | `padding: 30`                |
+| `paddingTop`    | number                    | -           | `paddingTop: 10`             |
+| `paddingRight`  | number                    | -           | `paddingRight: 10`           |
+| `paddingBottom` | number                    | -           | `paddingBottom: 10`          |
+| `paddingLeft`   | number                    | -           | `paddingLeft: 10`            |
+| `shadow`        | boolean                   | false       | `shadow: true`               |
+| `opacity`       | number                    | 1.0         | `opacity: 0.8`               |
 
 ### Phase 5 Properties
 
