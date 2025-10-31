@@ -925,6 +925,46 @@
 			`;
 		}
 
+		// Special handling for very small shapes (entry/exit points)
+		// Render them larger in the toolbox for better visibility
+		if (shapeId === 'entryPoint' || shapeId === 'exitPoint') {
+			const isExit = shapeId === 'exitPoint';
+			const r = size * 0.35; // 35% of icon size
+			const cx = size / 2;
+			const cy = size / 2;
+
+			if (isExit) {
+				// Exit point: circle with X
+				const xSize = r * 0.6;
+				return `
+					<svg 
+						width="${size}" 
+						height="${size}" 
+						viewBox="0 0 ${size} ${size}"
+						xmlns="http://www.w3.org/2000/svg"
+						style="display: block;"
+					>
+						<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="#000" stroke-width="1.5" />
+						<line x1="${cx - xSize}" y1="${cy - xSize}" x2="${cx + xSize}" y2="${cy + xSize}" stroke="#000" stroke-width="1.2" />
+						<line x1="${cx + xSize}" y1="${cy - xSize}" x2="${cx - xSize}" y2="${cy + xSize}" stroke="#000" stroke-width="1.2" />
+					</svg>
+				`;
+			} else {
+				// Entry point: simple circle
+				return `
+					<svg 
+						width="${size}" 
+						height="${size}" 
+						viewBox="0 0 ${size} ${size}"
+						xmlns="http://www.w3.org/2000/svg"
+						style="display: block;"
+					>
+						<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="#000" stroke-width="1.5" />
+					</svg>
+				`;
+			}
+		}
+
 		if (!shape) return '';
 
 		const mockContext = createMockContext(shapeId);

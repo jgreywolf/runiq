@@ -44,6 +44,8 @@ export interface NodeAst {
   // UML Activity Diagram properties
   inputPins?: string[]; // Input pins for action nodes (e.g., ["order", "payment"])
   outputPins?: string[]; // Output pins for action nodes (e.g., ["receipt", "confirmation"])
+  // UML Sequence Diagram properties
+  stateInvariant?: string; // Constraint that must be true at this point (e.g., "balance >= 0")
   // Data used by data-driven shapes (charts etc.)
   // Known common fields are typed to improve DX while still allowing arbitrary extras
   data?:

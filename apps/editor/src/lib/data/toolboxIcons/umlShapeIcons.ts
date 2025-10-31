@@ -36,7 +36,11 @@ export const umlShapeIcons: ShapeCategory[] = [
 }`
 			},
 			// Sequence Diagrams
-			{ id: 'lifeline', label: 'Lifeline', code: 'shape id as @lifeline label:"Controller"' },
+			{
+				id: 'lifeline',
+				label: 'Lifeline',
+				code: 'shape id as @lifeline label:"Account" stateInvariant:"balance >= 0"'
+			},
 			{ id: 'activation', label: 'Activation', code: 'shape id as @activation' },
 			{
 				id: 'interactionFragment',

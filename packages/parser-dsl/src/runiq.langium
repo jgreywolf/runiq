@@ -402,7 +402,8 @@ NodeProperty:
     | ExitProperty
     | DoActivityProperty
     | InputPinsProperty
-    | OutputPinsProperty;
+    | OutputPinsProperty
+    | StateInvariantProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -466,6 +467,10 @@ InputPinsProperty:
 
 OutputPinsProperty:
     'outputPins:' value=StringArray;
+
+// UML Sequence Diagram properties
+StateInvariantProperty:
+    'stateInvariant:' value=STRING;
 
 // UML Class Diagram properties
 AttributesProperty:

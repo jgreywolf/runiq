@@ -1061,6 +1061,9 @@ function processDialogStatement(
             item.replace(/^"|"$/g, '')
           );
         }
+      } else if (Langium.isStateInvariantProperty(prop)) {
+        // UML Sequence Diagram state invariant
+        node.stateInvariant = prop.value.replace(/^"|"$/g, '');
       }
     }
 

@@ -311,6 +311,7 @@ export type RuniqKeywordNames =
     | "stable"
     | "stacked:"
     | "standard"
+    | "stateInvariant:"
     | "static:"
     | "stereotype:"
     | "stereotypes:"
@@ -2078,7 +2079,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -2901,6 +2902,21 @@ export function isStackedProperty(item: unknown): item is StackedProperty {
     return reflection.isInstance(item, StackedProperty.$type);
 }
 
+export interface StateInvariantProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'StateInvariantProperty';
+    value: string;
+}
+
+export const StateInvariantProperty = {
+    $type: 'StateInvariantProperty',
+    value: 'value'
+} as const;
+
+export function isStateInvariantProperty(item: unknown): item is StateInvariantProperty {
+    return reflection.isInstance(item, StateInvariantProperty.$type);
+}
+
 export interface StereotypeProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration | ShapeDeclaration;
     readonly $type: 'StereotypeProperty';
@@ -3489,6 +3505,7 @@ export type RuniqAstType = {
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     StackedProperty: StackedProperty
+    StateInvariantProperty: StateInvariantProperty
     StereotypeProperty: StereotypeProperty
     StringArray: StringArray
     StrokeProperty: StrokeProperty
@@ -5193,6 +5210,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: StackedProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        StateInvariantProperty: {
+            name: StateInvariantProperty.$type,
+            properties: {
+                value: {
+                    name: StateInvariantProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

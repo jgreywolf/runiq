@@ -48,7 +48,7 @@ export const entryPointShape: ShapeDefinition = {
   id: 'entry-point',
 
   bounds() {
-    const diameter = 12;
+    const diameter = 20;
     return { width: diameter, height: diameter };
   },
 
@@ -91,7 +91,7 @@ export const exitPointShape: ShapeDefinition = {
   id: 'exit-point',
 
   bounds() {
-    const diameter = 12;
+    const diameter = 20;
     return { width: diameter, height: diameter };
   },
 
