@@ -1,0 +1,67 @@
+# UML Activity Diagram - Swimlanes (Activity Partitions)
+# Demonstrates UML 2.5 swimlanes for organizing activities by responsibility
+
+diagram "Order Processing with Swimlanes" {
+  # Swimlanes organize activities by role/department
+  # Vertical orientation (default) - lanes side by side
+  
+  # Customer lane
+  shape customer as @swimlane label: "Customer" 
+    data: [{ orientation: "vertical" }]
+  
+  # Sales Department lane
+  shape sales as @swimlane label: "Sales Department"
+    data: [{ orientation: "vertical" }]
+  
+  # Warehouse lane
+  shape warehouse as @swimlane label: "Warehouse"
+    data: [{ orientation: "vertical" }]
+  
+  # Accounting lane
+  shape accounting as @swimlane label: "Accounting"
+    data: [{ orientation: "vertical" }]
+  
+  # Activities within each swimlane
+  # Customer activities
+  shape start as @initialState
+  shape browseProducts as @activity label: "Browse Products"
+  shape placeOrder as @activity label: "Place Order"
+  
+  # Sales activities
+  shape validateOrder as @activity label: "Validate Order"
+  shape checkInventory as @activity label: "Check Inventory"
+  shape orderDecision as @decision label: "In Stock?"
+  shape notifyCustomer as @activity label: "Notify Customer"
+  
+  # Warehouse activities
+  shape pickItems as @activity label: "Pick Items"
+  shape packOrder as @activity label: "Pack Order"
+  shape shipOrder as @activity label: "Ship Order"
+  
+  # Accounting activities
+  shape processPayment as @activity label: "Process Payment"
+  shape issueInvoice as @activity label: "Issue Invoice"
+  
+  # Final states
+  shape orderComplete as @activityFinal
+  shape orderCancelled as @flowFinal
+  
+  # Control flow
+  start -> browseProducts
+  browseProducts -> placeOrder
+  placeOrder -> validateOrder label: "«cross-lane»"
+  
+  validateOrder -> checkInventory
+  checkInventory -> orderDecision
+  
+  orderDecision -> pickItems label: "yes"
+  orderDecision -> notifyCustomer label: "no"
+  notifyCustomer -> orderCancelled
+  
+  pickItems -> packOrder
+  packOrder -> shipOrder
+  shipOrder -> processPayment label: "«cross-lane»"
+  
+  processPayment -> issueInvoice
+  issueInvoice -> orderComplete
+}

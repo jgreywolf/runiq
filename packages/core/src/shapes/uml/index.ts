@@ -27,6 +27,7 @@ export {
   activityFinalShape,
   flowFinalShape,
 } from './activity-final-nodes.js';
+export { swimlaneShape } from './swimlane.js';
 export {
   historyShallowShape,
   historyDeepShape,

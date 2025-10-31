@@ -301,6 +301,8 @@ export interface ContainerLayoutOptions {
   algorithm?: LayoutAlgorithm;
   direction?: Direction;
   spacing?: number;
+  // UML Activity Diagrams: Swimlane/partition orientation
+  orientation?: 'horizontal' | 'vertical'; // Swimlane orientation (UML 2.5 activity partitions)
 }
 
 export interface Style {
