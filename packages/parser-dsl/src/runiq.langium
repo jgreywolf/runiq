@@ -397,7 +397,10 @@ NodeProperty:
     | FontWeightProperty
     | TextAlignProperty
     | OpacityProperty
-    | BorderRadiusProperty;
+    | BorderRadiusProperty
+    | EntryProperty
+    | ExitProperty
+    | DoActivityProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -444,6 +447,16 @@ CarrierProperty:
 
 DeceasedProperty:
     'deceased:' value=BooleanValue;
+
+// UML State Machine properties
+EntryProperty:
+    'entry:' value=STRING;
+
+ExitProperty:
+    'exit:' value=STRING;
+
+DoActivityProperty:
+    'doActivity:' value=STRING;
 
 // UML Class Diagram properties
 AttributesProperty:
@@ -617,7 +630,10 @@ EdgeProperty:
     | StereotypeProperty
     | StrokeProperty
     | StrokeWidthProperty
-    | StyleRefProperty;
+    | StyleRefProperty
+    | EventProperty
+    | GuardProperty
+    | EffectProperty;
 
 EdgeLabelProperty:
     'label:' label=STRING;
@@ -661,6 +677,16 @@ NavigabilityDirection returns string:
 
 EdgeConstraintsProperty:
     'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
+
+// UML State Machine Transition Properties
+EventProperty:
+    'event:' value=STRING;
+
+GuardProperty:
+    'guard:' value=STRING;
+
+EffectProperty:
+    'effect:' value=STRING;
 
 RoutingProperty:
     'routing:' value=RoutingValue;

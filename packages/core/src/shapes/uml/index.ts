@@ -18,6 +18,16 @@ export { choiceShape } from './choice.js';
 export { forkShape } from './fork.js';
 export { joinShape } from './join.js';
 export { activityShape } from './activity.js';
+export {
+  historyShallowShape,
+  historyDeepShape,
+} from './history-states.js';
+export {
+  junctionShape,
+  entryPointShape,
+  exitPointShape,
+  terminateShape,
+} from './state-pseudostates.js';
 export { componentShape } from './component.js';
 export { artifactShape } from './artifact.js';
 export { nodeShape } from './node.js';

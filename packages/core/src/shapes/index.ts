@@ -163,6 +163,13 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.componentShape);
   shapeRegistry.register(uml.artifactShape);
   shapeRegistry.register(uml.nodeShape);
+  // State machine pseudo-states
+  shapeRegistry.register(uml.historyShallowShape);
+  shapeRegistry.register(uml.historyDeepShape);
+  shapeRegistry.register(uml.junctionShape);
+  shapeRegistry.register(uml.entryPointShape);
+  shapeRegistry.register(uml.exitPointShape);
+  shapeRegistry.register(uml.terminateShape);
 }
 
 export function registerPedigreeShapes(): void {

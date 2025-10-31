@@ -1038,6 +1038,15 @@ function processDialogStatement(
           // Single stereotype: stereotype: "entity"
           node.data.stereotype = prop.value.replace(/^"|"$/g, '');
         }
+      } else if (Langium.isEntryProperty(prop)) {
+        // UML State Machine entry action
+        node.entry = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isExitProperty(prop)) {
+        // UML State Machine exit action
+        node.exit = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isDoActivityProperty(prop)) {
+        // UML State Machine do activity
+        node.doActivity = prop.value.replace(/^"|"$/g, '');
       }
     }
 
@@ -1133,6 +1142,15 @@ function processDialogStatement(
             // Single stereotype: stereotype: "include"
             edge.stereotype = prop.value.replace(/^"|"$/g, '');
           }
+        } else if (Langium.isEventProperty(prop)) {
+          // UML State Machine event
+          edge.event = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isGuardProperty(prop)) {
+          // UML State Machine guard condition
+          edge.guard = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isEffectProperty(prop)) {
+          // UML State Machine effect/action
+          edge.effect = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeProperty(prop)) {
           edge.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {

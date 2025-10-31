@@ -1,0 +1,59 @@
+diagram "Enhanced State Machine - Door Lock System" {
+  direction LR
+
+  # Initial state
+  shape start as @initialState
+
+  # States with behaviors
+  shape idle as @state label: "Idle"
+    entry: "turnOffLight()"
+    doActivity: "monitorSensors()"
+    exit: "logStateChange()"
+
+  shape locked as @state label: "Locked"
+    entry: "engageLock()"
+    doActivity: "flashLED()"
+    exit: "disengageLock()"
+
+  shape unlocked as @state label: "Unlocked"
+    entry: "releaseLock()"
+    doActivity: "startTimer(10s)"
+    exit: "stopTimer()"
+
+  shape alarm as @state label: "Alarm"
+    entry: "soundAlarm()"
+    doActivity: "sendAlert()"
+    exit: "silenceAlarm()"
+
+  # Final state
+  shape end as @finalState
+
+  # Transitions with full UML syntax: event [guard] / effect
+  start -> idle
+
+  idle -> locked 
+    event: "lockButton"
+    guard: "[doorClosed]"
+    effect: "/ logLock()"
+
+  locked -> unlocked
+    event: "unlockButton"
+    guard: "[validKey]"
+    effect: "/ logUnlock()"
+
+  unlocked -> locked
+    event: "timeout"
+    effect: "/ autoLock()"
+
+  unlocked -> alarm
+    event: "forcedEntry"
+    effect: "/ triggerAlarm()"
+
+  alarm -> locked
+    event: "reset"
+    guard: "[adminCode]"
+    effect: "/ clearAlarm()"
+
+  locked -> end
+    event: "powerOff"
+}

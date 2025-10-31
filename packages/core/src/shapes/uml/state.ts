@@ -12,7 +12,22 @@ export const stateShape: ShapeDefinition = {
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
 
-    const activities = (ctx.node.data?.activities as string[]) || [];
+    // Build activities array from first-class properties or legacy data.activities
+    const activities: string[] = [];
+    if (ctx.node.entry) {
+      activities.push(`entry / ${ctx.node.entry}`);
+    }
+    if (ctx.node.doActivity) {
+      activities.push(`do / ${ctx.node.doActivity}`);
+    }
+    if (ctx.node.exit) {
+      activities.push(`exit / ${ctx.node.exit}`);
+    }
+    // Fallback to legacy data.activities if present
+    if (activities.length === 0 && ctx.node.data?.activities) {
+      activities.push(...(ctx.node.data.activities as string[]));
+    }
+
     const nameSize = ctx.measureText(ctx.node.label || '', ctx.style);
 
     // Calculate width based on longest text
@@ -57,7 +72,22 @@ export const stateShape: ShapeDefinition = {
 
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
-    const activities = (ctx.node.data?.activities as string[]) || [];
+
+    // Build activities array from first-class properties or legacy data.activities
+    const activities: string[] = [];
+    if (ctx.node.entry) {
+      activities.push(`entry / ${ctx.node.entry}`);
+    }
+    if (ctx.node.doActivity) {
+      activities.push(`do / ${ctx.node.doActivity}`);
+    }
+    if (ctx.node.exit) {
+      activities.push(`exit / ${ctx.node.exit}`);
+    }
+    // Fallback to legacy data.activities if present
+    if (activities.length === 0 && ctx.node.data?.activities) {
+      activities.push(...(ctx.node.data.activities as string[]));
+    }
 
     const fill = ctx.style.fill || '#ffffff';
     const stroke = ctx.style.stroke || '#000000';

@@ -129,6 +129,7 @@ export type RuniqKeywordNames =
     | "digital"
     | "direction"
     | "distribution:"
+    | "doActivity:"
     | "dotted"
     | "double"
     | "e"
@@ -138,10 +139,14 @@ export type RuniqKeywordNames =
     | "edgeBundling:"
     | "edgeRouting:"
     | "edgeType:"
+    | "effect:"
     | "electrical"
     | "entity"
+    | "entry:"
+    | "event:"
     | "evolution:"
     | "evolve"
+    | "exit:"
     | "expanding"
     | "extends:"
     | "false"
@@ -1133,6 +1138,21 @@ export function isDistributionValue(item: unknown): item is DistributionValue {
     return item === 'space-evenly' || item === 'space-between' || item === 'space-around' || item === 'packed';
 }
 
+export interface DoActivityProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'DoActivityProperty';
+    value: string;
+}
+
+export const DoActivityProperty = {
+    $type: 'DoActivityProperty',
+    value: 'value'
+} as const;
+
+export function isDoActivityProperty(item: unknown): item is DoActivityProperty {
+    return reflection.isInstance(item, DoActivityProperty.$type);
+}
+
 export interface Document extends langium.AstNode {
     readonly $type: 'Document';
     profiles: Array<Profile>;
@@ -1225,7 +1245,7 @@ export function isEdgeLabelProperty(item: unknown): item is EdgeLabelProperty {
     return reflection.isInstance(item, EdgeLabelProperty.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty;
+export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | EffectProperty | EventProperty | GuardProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty;
 
 export const EdgeProperty = {
     $type: 'EdgeProperty'
@@ -1262,6 +1282,21 @@ export function isEdgeTypeValue(item: unknown): item is EdgeTypeValue {
     return item === 'association' || item === 'aggregation' || item === 'composition' || item === 'dependency' || item === 'generalization' || item === 'realization';
 }
 
+export interface EffectProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'EffectProperty';
+    value: string;
+}
+
+export const EffectProperty = {
+    $type: 'EffectProperty',
+    value: 'value'
+} as const;
+
+export function isEffectProperty(item: unknown): item is EffectProperty {
+    return reflection.isInstance(item, EffectProperty.$type);
+}
+
 export interface ElectricalProfile extends langium.AstNode {
     readonly $container: Document;
     readonly $type: 'ElectricalProfile';
@@ -1287,6 +1322,51 @@ export const ElectricalStatement = {
 
 export function isElectricalStatement(item: unknown): item is ElectricalStatement {
     return reflection.isInstance(item, ElectricalStatement.$type);
+}
+
+export interface EntryProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'EntryProperty';
+    value: string;
+}
+
+export const EntryProperty = {
+    $type: 'EntryProperty',
+    value: 'value'
+} as const;
+
+export function isEntryProperty(item: unknown): item is EntryProperty {
+    return reflection.isInstance(item, EntryProperty.$type);
+}
+
+export interface EventProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'EventProperty';
+    value: string;
+}
+
+export const EventProperty = {
+    $type: 'EventProperty',
+    value: 'value'
+} as const;
+
+export function isEventProperty(item: unknown): item is EventProperty {
+    return reflection.isInstance(item, EventProperty.$type);
+}
+
+export interface ExitProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ExitProperty';
+    value: string;
+}
+
+export const ExitProperty = {
+    $type: 'ExitProperty',
+    value: 'value'
+} as const;
+
+export function isExitProperty(item: unknown): item is ExitProperty {
+    return reflection.isInstance(item, ExitProperty.$type);
 }
 
 export interface FillProperty extends langium.AstNode {
@@ -1431,6 +1511,21 @@ export const GroupBlock = {
 
 export function isGroupBlock(item: unknown): item is GroupBlock {
     return reflection.isInstance(item, GroupBlock.$type);
+}
+
+export interface GuardProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'GuardProperty';
+    value: string;
+}
+
+export const GuardProperty = {
+    $type: 'GuardProperty',
+    value: 'value'
+} as const;
+
+export function isGuardProperty(item: unknown): item is GuardProperty {
+    return reflection.isInstance(item, GuardProperty.$type);
 }
 
 export interface HydraulicProfile extends langium.AstNode {
@@ -1943,7 +2038,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | ShowLegendProperty | StackedProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | ShowLegendProperty | StackedProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -3230,6 +3325,7 @@ export type RuniqAstType = {
     DigitalProfile: DigitalProfile
     DigitalStatement: DigitalStatement
     DirectionDeclaration: DirectionDeclaration
+    DoActivityProperty: DoActivityProperty
     Document: Document
     EdgeChain: EdgeChain
     EdgeConstraintsProperty: EdgeConstraintsProperty
@@ -3237,8 +3333,12 @@ export type RuniqAstType = {
     EdgeLabelProperty: EdgeLabelProperty
     EdgeProperty: EdgeProperty
     EdgeTypeProperty: EdgeTypeProperty
+    EffectProperty: EffectProperty
     ElectricalProfile: ElectricalProfile
     ElectricalStatement: ElectricalStatement
+    EntryProperty: EntryProperty
+    EventProperty: EventProperty
+    ExitProperty: ExitProperty
     FillProperty: FillProperty
     FlowRateStatement: FlowRateStatement
     FluidStatement: FluidStatement
@@ -3247,6 +3347,7 @@ export type RuniqAstType = {
     FontWeightProperty: FontWeightProperty
     GenericTypesProperty: GenericTypesProperty
     GroupBlock: GroupBlock
+    GuardProperty: GuardProperty
     HydraulicProfile: HydraulicProfile
     HydraulicStatement: HydraulicStatement
     IconProperty: IconProperty
@@ -3942,6 +4043,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [DiagramStatement.$type]
         },
+        DoActivityProperty: {
+            name: DoActivityProperty.$type,
+            properties: {
+                value: {
+                    name: DoActivityProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         Document: {
             name: Document.$type,
             properties: {
@@ -4033,6 +4143,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [EdgeProperty.$type]
         },
+        EffectProperty: {
+            name: EffectProperty.$type,
+            properties: {
+                value: {
+                    name: EffectProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
         ElectricalProfile: {
             name: ElectricalProfile.$type,
             properties: {
@@ -4051,6 +4170,33 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
             },
             superTypes: []
+        },
+        EntryProperty: {
+            name: EntryProperty.$type,
+            properties: {
+                value: {
+                    name: EntryProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        EventProperty: {
+            name: EventProperty.$type,
+            properties: {
+                value: {
+                    name: EventProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
+        ExitProperty: {
+            name: ExitProperty.$type,
+            properties: {
+                value: {
+                    name: ExitProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         FillProperty: {
             name: FillProperty.$type,
@@ -4143,6 +4289,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [DiagramStatement.$type]
+        },
+        GuardProperty: {
+            name: GuardProperty.$type,
+            properties: {
+                value: {
+                    name: GuardProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
         },
         HydraulicProfile: {
             name: HydraulicProfile.$type,

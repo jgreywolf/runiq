@@ -37,6 +37,10 @@ export interface NodeAst {
   icon?: IconRef;
   link?: LinkRef;
   tooltip?: string;
+  // UML State Machine properties
+  entry?: string; // Entry action (e.g., "startTimer()")
+  exit?: string; // Exit action (e.g., "stopTimer()")
+  doActivity?: string; // Continuous activity (e.g., "playMusic()")
   // Data used by data-driven shapes (charts etc.)
   // Known common fields are typed to improve DX while still allowing arbitrary extras
   data?:
@@ -83,6 +87,10 @@ export interface EdgeAst {
   // UML Class Diagram Phase 3 properties
   navigability?: 'source' | 'target' | 'bidirectional' | 'none'; // Direction of navigation
   constraints?: string[]; // Constraints like 'ordered', 'unique', etc.
+  // UML State Machine transition properties
+  event?: string; // Triggering event (e.g., "doorClosed")
+  guard?: string; // Guard condition (e.g., "[doorLocked]")
+  effect?: string; // Effect/action (e.g., "/ turnOnLight()")
 }
 
 export interface GroupAst {
