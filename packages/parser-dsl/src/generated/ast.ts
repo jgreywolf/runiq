@@ -184,6 +184,7 @@ export type RuniqKeywordNames =
     | "incrementalLayout:"
     | "indent"
     | "inertia:"
+    | "inputPins:"
     | "inst"
     | "kPa"
     | "label:"
@@ -242,6 +243,7 @@ export type RuniqKeywordNames =
     | "operating"
     | "opt"
     | "orthogonal"
+    | "outputPins:"
     | "over"
     | "package"
     | "packed"
@@ -1572,6 +1574,21 @@ export function isIconProperty(item: unknown): item is IconProperty {
     return reflection.isInstance(item, IconProperty.$type);
 }
 
+export interface InputPinsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'InputPinsProperty';
+    value: StringArray;
+}
+
+export const InputPinsProperty = {
+    $type: 'InputPinsProperty',
+    value: 'value'
+} as const;
+
+export function isInputPinsProperty(item: unknown): item is InputPinsProperty {
+    return reflection.isInstance(item, InputPinsProperty.$type);
+}
+
 export interface InstMapProperty extends langium.AstNode {
     readonly $container: InstStatement;
     readonly $type: 'InstMapProperty';
@@ -2038,7 +2055,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | ShowLegendProperty | StackedProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -2078,6 +2095,21 @@ export const OpacityProperty = {
 
 export function isOpacityProperty(item: unknown): item is OpacityProperty {
     return reflection.isInstance(item, OpacityProperty.$type);
+}
+
+export interface OutputPinsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'OutputPinsProperty';
+    value: StringArray;
+}
+
+export const OutputPinsProperty = {
+    $type: 'OutputPinsProperty',
+    value: 'value'
+} as const;
+
+export function isOutputPinsProperty(item: unknown): item is OutputPinsProperty {
+    return reflection.isInstance(item, OutputPinsProperty.$type);
 }
 
 export interface ParamDecl extends langium.AstNode {
@@ -2864,7 +2896,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty;
+    readonly $container: ColorsProperty | InputPinsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -3351,6 +3383,7 @@ export type RuniqAstType = {
     HydraulicProfile: HydraulicProfile
     HydraulicStatement: HydraulicStatement
     IconProperty: IconProperty
+    InputPinsProperty: InputPinsProperty
     InstMapProperty: InstMapProperty
     InstOfProperty: InstOfProperty
     InstParamsProperty: InstParamsProperty
@@ -3384,6 +3417,7 @@ export type RuniqAstType = {
     NodeProperty: NodeProperty
     NodeRef: NodeRef
     OpacityProperty: OpacityProperty
+    OutputPinsProperty: OutputPinsProperty
     ParamDecl: ParamDecl
     ParamNameField: ParamNameField
     ParamOverride: ParamOverride
@@ -4330,6 +4364,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        InputPinsProperty: {
+            name: InputPinsProperty.$type,
+            properties: {
+                value: {
+                    name: InputPinsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         InstMapProperty: {
             name: InstMapProperty.$type,
             properties: {
@@ -4632,6 +4675,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: OpacityProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        OutputPinsProperty: {
+            name: OutputPinsProperty.$type,
+            properties: {
+                value: {
+                    name: OutputPinsProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

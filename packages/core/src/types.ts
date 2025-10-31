@@ -41,6 +41,9 @@ export interface NodeAst {
   entry?: string; // Entry action (e.g., "startTimer()")
   exit?: string; // Exit action (e.g., "stopTimer()")
   doActivity?: string; // Continuous activity (e.g., "playMusic()")
+  // UML Activity Diagram properties
+  inputPins?: string[]; // Input pins for action nodes (e.g., ["order", "payment"])
+  outputPins?: string[]; // Output pins for action nodes (e.g., ["receipt", "confirmation"])
   // Data used by data-driven shapes (charts etc.)
   // Known common fields are typed to improve DX while still allowing arbitrary extras
   data?:

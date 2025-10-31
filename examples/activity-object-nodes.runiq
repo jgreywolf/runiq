@@ -2,13 +2,13 @@ diagram "UML Activity Diagram - Object Nodes" {
   direction TB
 
   # Activity nodes
-  shape init as @activityInitial
+  shape init as @initialState
   shape readInput as @activity label: "Read User Input"
   shape validateData as @activity label: "Validate Data"
   shape processOrder as @activity label: "Process Order"
   shape saveToDb as @activity label: "Save to Database"
   shape sendConfirmation as @activity label: "Send Confirmation"
-  shape final as @activityFinal
+  shape final as @finalState
 
   # Object nodes - data flowing through activities
   shape userInput as @objectNode label: "User Input"

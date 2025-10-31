@@ -400,7 +400,9 @@ NodeProperty:
     | BorderRadiusProperty
     | EntryProperty
     | ExitProperty
-    | DoActivityProperty;
+    | DoActivityProperty
+    | InputPinsProperty
+    | OutputPinsProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -457,6 +459,13 @@ ExitProperty:
 
 DoActivityProperty:
     'doActivity:' value=STRING;
+
+// UML Activity Diagram properties
+InputPinsProperty:
+    'inputPins:' value=StringArray;
+
+OutputPinsProperty:
+    'outputPins:' value=StringArray;
 
 // UML Class Diagram properties
 AttributesProperty:

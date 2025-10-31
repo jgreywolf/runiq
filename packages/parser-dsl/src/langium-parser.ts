@@ -1047,6 +1047,20 @@ function processDialogStatement(
       } else if (Langium.isDoActivityProperty(prop)) {
         // UML State Machine do activity
         node.doActivity = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isInputPinsProperty(prop)) {
+        // UML Activity Diagram input pins
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.inputPins = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isOutputPinsProperty(prop)) {
+        // UML Activity Diagram output pins
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.outputPins = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
       }
     }
 
