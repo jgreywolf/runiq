@@ -24,6 +24,10 @@ export {
   dataStoreShape,
 } from './activity-object-nodes.js';
 export {
+  activityFinalShape,
+  flowFinalShape,
+} from './activity-final-nodes.js';
+export {
   historyShallowShape,
   historyDeepShape,
 } from './history-states.js';

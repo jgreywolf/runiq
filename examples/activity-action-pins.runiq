@@ -23,8 +23,8 @@ diagram "UML Activity Diagram - Action Pins" {
   shape logErrors as @activity label: "Log Errors"
     inputPins: ["errors"]
 
-  # Final node (TODO: Use @activityFinal when implemented - bull's eye circle)
-  shape end as @finalState
+  # Final node - bull's eye circle terminates entire activity
+  shape end as @activityFinal
 
   # Control flows
   start -> readOrder

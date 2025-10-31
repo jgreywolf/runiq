@@ -8,7 +8,7 @@ diagram "UML Activity Diagram - Object Nodes" {
   shape processOrder as @activity label: "Process Order"
   shape saveToDb as @activity label: "Save to Database"
   shape sendConfirmation as @activity label: "Send Confirmation"
-  shape final as @finalState
+  shape final as @activityFinal
 
   # Object nodes - data flowing through activities
   shape userInput as @objectNode label: "User Input"

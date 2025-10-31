@@ -164,6 +164,9 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.objectNodeShape);
   shapeRegistry.register(uml.centralBufferShape);
   shapeRegistry.register(uml.dataStoreShape);
+  // Activity diagram final nodes
+  shapeRegistry.register(uml.activityFinalShape);
+  shapeRegistry.register(uml.flowFinalShape);
   shapeRegistry.register(uml.componentShape);
   shapeRegistry.register(uml.artifactShape);
   shapeRegistry.register(uml.nodeShape);
