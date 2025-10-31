@@ -158,23 +158,21 @@ describe('Activity Object Node Shapes', () => {
       expect(bounds.height).toBeGreaterThanOrEqual(50);
     });
 
-    it('should render stereotype «datastore»', () => {
+    it('should render as cylinder with label', () => {
       const ctx = createMockContext('OrderDB');
       const svg = dataStoreShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('<g class="data-store-shape">');
-      expect(svg).toContain('«datastore»');
+      expect(svg).toContain('<ellipse'); // Cylinder shape
       expect(svg).toContain('OrderDB');
     });
 
-    it('should have stereotype text above label', () => {
+    it('should render label centered in cylinder', () => {
       const ctx = createMockContext('ProductDB');
       const svg = dataStoreShape.render(ctx, { x: 0, y: 0 });
 
-      const stereotypeIndex = svg.indexOf('«datastore»');
-      const labelIndex = svg.indexOf('ProductDB');
-
-      expect(stereotypeIndex).toBeLessThan(labelIndex);
+      expect(svg).toContain('ProductDB');
+      expect(svg).toContain('text-anchor="middle"');
     });
 
     it('should provide 4 anchor points', () => {
@@ -197,12 +195,12 @@ describe('Activity Object Node Shapes', () => {
       expect(svg).toContain('DataStore');
     });
 
-    it('should render stereotype with smaller font', () => {
+    it('should render cylinder shape with ellipses', () => {
       const ctx = createMockContext('Test');
       const svg = dataStoreShape.render(ctx, { x: 0, y: 0 });
 
-      // Stereotype should use fontSize - 2
-      expect(svg).toContain('font-size="12"'); // 14 - 2
+      // Cylinder should have ellipse elements
+      expect(svg).toContain('<ellipse');
     });
 
     it('should apply custom styling', () => {
@@ -228,9 +226,9 @@ describe('Activity Object Node Shapes', () => {
       // Object node has no stereotype
       expect(objSvg).not.toContain('«');
 
-      // Buffer and store have stereotypes
+      // Buffer has stereotype, store renders as cylinder
       expect(bufferSvg).toContain('«centralBuffer»');
-      expect(storeSvg).toContain('«datastore»');
+      expect(storeSvg).toContain('<ellipse'); // Cylinder shape
     });
 
     it('should have different heights due to stereotypes', () => {

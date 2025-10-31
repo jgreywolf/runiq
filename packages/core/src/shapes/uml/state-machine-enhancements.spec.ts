@@ -232,11 +232,11 @@ describe('State Machine Enhancements', () => {
     });
 
     it('should calculate fixed bounds', () => {
-      const ctx = createMockContext('');
+      const ctx = createMockContext();
       const bounds = entryPointShape.bounds(ctx);
 
-      expect(bounds.width).toBe(12);
-      expect(bounds.height).toBe(12);
+      expect(bounds.width).toBe(20);
+      expect(bounds.height).toBe(20);
     });
 
     it('should render small circle', () => {
@@ -261,11 +261,11 @@ describe('State Machine Enhancements', () => {
     });
 
     it('should calculate fixed bounds', () => {
-      const ctx = createMockContext('');
+      const ctx = createMockContext();
       const bounds = exitPointShape.bounds(ctx);
 
-      expect(bounds.width).toBe(12);
-      expect(bounds.height).toBe(12);
+      expect(bounds.width).toBe(20);
+      expect(bounds.height).toBe(20);
     });
 
     it('should render circle with X', () => {

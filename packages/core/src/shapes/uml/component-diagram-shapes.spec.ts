@@ -30,7 +30,7 @@ function createMockContext(
 describe('UML Component Diagram Shapes', () => {
   describe('component', () => {
     it('should have correct shape id', () => {
-      expect(componentShape.id).toBe('component');
+      expect(componentShape.id).toBe('umlComponent');
     });
 
     it('should calculate bounds with label', () => {
