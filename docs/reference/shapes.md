@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides **57 shapes** across 10 categories for building professional diagrams.
+Runiq provides **142+ shapes** across 17 categories for building professional diagrams.
 
 ## Quick Reference
 
@@ -22,195 +22,335 @@ Runiq provides **57 shapes** across 10 categories for building professional diag
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 57 shapes below ↓](#all-shapes)
+[See all 142+ shapes below ↓](#all-shapes)
+
+## Shape Categories by Profile
+
+Shapes are organized by their primary use case and profile. Most shapes work across profiles, but some are specialized for specific diagram types.
+
+---
 
 ## Categories
 
-### 1. Actors (8 shapes)
+### 1. Basic Shapes (19 shapes)
 
-User representations for use case diagrams:
+**Profile:** `diagram` (default)
 
-| Shape         | Syntax           | Description                |
-| ------------- | ---------------- | -------------------------- |
-| Actor         | `@actor`         | Classic stick figure actor |
-| Box Actor     | `@box-actor`     | Simplified box actor       |
-| Circle Actor  | `@circle-actor`  | Circle head with body      |
-| Rounded Actor | `@rounded-actor` | Rounded box actor          |
-| Square Actor  | `@square-actor`  | Square body actor          |
-| Tall Actor    | `@tall-actor`    | Tall proportions           |
-| Wide Actor    | `@wide-actor`    | Wide proportions           |
-| Custom Actor  | `@custom-actor`  | Configurable actor         |
+Fundamental geometric shapes for general-purpose diagramming:
 
-**Example:**
-
-```runiq
-shape User as @actor label: "Customer"
-shape Admin as @box-actor label: "Administrator"
-```
-
-### 2. Circles (10 shapes)
-
-Various circle styles and sizes:
-
-| Shape         | Syntax           | Description        |
-| ------------- | ---------------- | ------------------ |
-| Circle        | `@circle`        | Standard circle    |
-| Small Circle  | `@circle-sm`     | Small circle       |
-| Large Circle  | `@circle-lg`     | Large circle       |
-| XL Circle     | `@circle-xl`     | Extra large circle |
-| Double Circle | `@double-circle` | Concentric circles |
-| Filled Circle | `@filled-circle` | Solid filled       |
-| Dashed Circle | `@dashed-circle` | Dashed border      |
-| Dotted Circle | `@dotted-circle` | Dotted border      |
-| Thick Circle  | `@thick-circle`  | Thick border       |
-| Thin Circle   | `@thin-circle`   | Thin border        |
+| Shape             | Syntax              | Description               |
+| ----------------- | ------------------- | ------------------------- |
+| Rectangle         | `@rectangle`        | Standard rectangle        |
+| Rounded Rectangle | `@roundedRectangle` | Rounded corners rectangle |
+| Circle            | `@circle`           | Standard circle           |
+| Small Circle      | `@smallCircle`      | Smaller circle variant    |
+| Double Circle     | `@doubleCircle`     | Concentric circles        |
+| Framed Circle     | `@framedCircle`     | Circle with inner frame   |
+| Cross Circle      | `@crossCircle`      | Circle with cross         |
+| Filled Circle     | `@filledCircle`     | Solid filled circle       |
+| Ellipse Wide      | `@ellipseWide`      | Horizontal ellipse        |
+| Rhombus           | `@rhombus`          | Diamond shape             |
+| Hexagon           | `@hex`              | Six-sided polygon         |
+| Stadium           | `@stadium`          | Pill/capsule shape        |
+| Triangle          | `@triangle`         | Pointing up triangle      |
+| Flipped Triangle  | `@flippedTriangle`  | Pointing down triangle    |
+| Parallelogram     | `@parallelogram`    | Slanted rectangle         |
+| Trapezoid         | `@trapezoid`        | Trapezoid shape           |
+| Flipped Trapezoid | `@flippedTrapezoid` | Inverted trapezoid        |
+| Star              | `@star`             | Five-pointed star outline |
+| Star Filled       | `@starFilled`       | Five-pointed star filled  |
+| Octagon           | `@octagon`          | Eight-sided polygon       |
+| Plus              | `@plus`             | Plus/cross symbol         |
 
 **Example:**
 
 ```runiq
-shape Start as @circle label: "A"
-shape End as @double-circle label: "Z"
-```
-
-### 3. UML (2 shapes)
-
-UML-specific shapes:
-
-| Shape           | Syntax             | Description      |
-| --------------- | ------------------ | ---------------- |
-| Use Case Oval   | `@usecase`         | UML use case     |
-| System Boundary | `@system-boundary` | System container |
-
-**Example:**
-
-```runiq
-container "Banking System" as @system-boundary {
-  shape Login as @usecase label: "User Login"
+diagram "Basic Shapes" {
+  shape box as @rectangle label: "Process"
+  shape start as @roundedRectangle label: "Start"
+  shape decision as @rhombus label: "Check?"
+  shape state as @circle label: "A"
 }
 ```
 
-### 4. Data & Documents (7 shapes)
+### 2. Flowchart Shapes (14 shapes)
 
-Documents and data representations:
+**Profile:** `diagram` (default)
 
-| Shape          | Syntax         | Description        |
-| -------------- | -------------- | ------------------ |
-| Document       | `@doc`         | Single document    |
-| Multi-Document | `@multi-doc`   | Stack of documents |
-| Tape           | `@tape`        | Magnetic tape      |
-| Stored Data    | `@stored-data` | Data at rest       |
-| Display        | `@display`     | Screen/monitor     |
-| Note           | `@note`        | Annotation         |
-| Card           | `@card`        | Punch card         |
+Specialized flowchart symbols following ISO 5807 standard:
 
-**Example:**
-
-```runiq
-shape Report as @doc label: "Monthly Report"
-shape Archive as @tape label: "Backup"
-```
-
-### 5. Data I/O (6 shapes)
-
-Input and output operations:
-
-| Shape            | Syntax          | Description    |
-| ---------------- | --------------- | -------------- |
-| Parallelogram    | `@para`         | General I/O    |
-| Input            | `@input`        | Data input     |
-| Output           | `@output`       | Data output    |
-| Manual Input     | `@manual-input` | Keyboard entry |
-| Manual Operation | `@manual-op`    | Manual step    |
-| Prep             | `@prep`         | Preparation    |
+| Shape              | Syntax               | Description                    |
+| ------------------ | -------------------- | ------------------------------ |
+| Document           | `@document`          | Single document with wave base |
+| Lined Document     | `@linedDocument`     | Document with lines            |
+| Multi-Document     | `@multiDocument`     | Stack of documents             |
+| Tagged Document    | `@taggedDocument`    | Document with tag              |
+| Predefined Process | `@predefinedProcess` | Subprocess box                 |
+| Preparation Alt    | `@preparationAlt`    | Alternative preparation        |
+| Manual Input       | `@manualInput`       | Keyboard/manual entry          |
+| Decision Manual    | `@decisionManual`    | Manual decision diamond        |
+| Delay              | `@delay`             | Time delay symbol              |
+| Display            | `@display`           | Screen/monitor output          |
+| Off-Page Connector | `@offPageConnector`  | Continuation to another page   |
+| Card               | `@card`              | Punch card (legacy)            |
+| Paper Tape         | `@paperTape`         | Paper tape (legacy)            |
+| Lean Left          | `@leanLeft`          | Lean left parallelogram        |
 
 **Example:**
 
 ```runiq
-shape UserInput as @manual-input label: "Enter Data"
-shape Process as @rect label: "Validate"
-shape Result as @output label: "Display"
+diagram "Document Processing" {
+  shape input as @manualInput label: "Enter Data"
+  shape process as @predefinedProcess label: "Validate"
+  shape output as @document label: "Report"
+}
 ```
 
-### 6. Storage (6 shapes)
+### 3. Storage Shapes (7 shapes)
 
-Database and storage systems:
+**Profile:** `diagram` (default)
 
-| Shape            | Syntax              | Description           |
-| ---------------- | ------------------- | --------------------- |
-| Cylinder         | `@cyl`              | Database              |
-| Drum             | `@drum`             | Direct access storage |
-| Disk             | `@disk`             | Magnetic disk         |
-| Stored Data      | `@stored-data`      | Data at rest          |
-| Internal Storage | `@internal-storage` | RAM, registers        |
-| Sequential Data  | `@seq-data`         | Sequential access     |
+Database and data storage representations:
+
+| Shape              | Syntax               | Description               |
+| ------------------ | -------------------- | ------------------------- |
+| Cylinder           | `@cylinder`          | Database (vertical)       |
+| H-Cylinder         | `@hCylinder`         | Database (horizontal)     |
+| Disk Storage       | `@diskStorage`       | Magnetic disk             |
+| Stored Data        | `@storedData`        | Data at rest              |
+| Internal Storage   | `@internalStorage`   | RAM, cache, registers     |
+| Sequential Storage | `@sequentialStorage` | Sequential access storage |
+| Direct Storage     | `@directStorage`     | Direct access storage     |
 
 **Example:**
 
 ```runiq
-shape MainDB as @cylinder label: "PostgreSQL"
-shape Cache as @internal-storage label: "Redis"
+diagram "Data Architecture" {
+  shape db as @cylinder label: "PostgreSQL"
+  shape cache as @internalStorage label: "Redis"
+  shape archive as @sequentialStorage label: "S3"
+}
 ```
 
-### 7. Process (9 shapes)
+### 4. Rectangle Variants (7 shapes)
 
-Process and operation steps:
+**Profile:** `diagram` (default)
 
-| Shape             | Syntax        | Description          |
-| ----------------- | ------------- | -------------------- |
-| Rectangle         | `@rect`       | Process step         |
-| Rounded Rectangle | `@rounded`    | Terminal (start/end) |
-| Subroutine        | `@subroutine` | Predefined process   |
-| Subprocess        | `@subprocess` | Complex subprocess   |
-| Loop Limit        | `@loop-limit` | Loop bounds          |
-| Collate           | `@collate`    | Sorting, ordering    |
-| Sort              | `@sort`       | Sort operation       |
-| Merge             | `@merge`      | Merge operation      |
-| Extract           | `@extract`    | Extract data         |
+Specialized rectangle styles for emphasis and organization:
+
+| Shape             | Syntax              | Description                |
+| ----------------- | ------------------- | -------------------------- |
+| Framed Rectangle  | `@framedRectangle`  | Rectangle with inner frame |
+| Multi Rectangle   | `@multiRectangle`   | Stacked rectangles         |
+| Lined Rectangle   | `@linedRectangle`   | Rectangle with lines       |
+| Divided Rectangle | `@dividedRectangle` | Horizontally divided       |
+| Tagged Rectangle  | `@taggedRectangle`  | Rectangle with tag corner  |
+| Notched Rectangle | `@notchedRectangle` | Rectangle with notch       |
+| Notched Pentagon  | `@notchedPentagon`  | Pentagon with notch        |
 
 **Example:**
 
 ```runiq
-shape Start as @rounded label: "Start"
-shape Process as @rect label: "Process"
-shape Sub as @subroutine label: "Validate"
-shape End as @rounded label: "End"
+diagram "Emphasis Styles" {
+  shape normal as @rectangle label: "Standard"
+  shape framed as @framedRectangle label: "Important"
+  shape multi as @multiRectangle label: "Multiple"
+}
 ```
 
-### 8. Specialized (3 shapes)
+### 5. Control System Shapes (10 shapes)
 
-Special-purpose shapes:
+**Profile:** `diagram` (default)
 
-| Shape    | Syntax      | Description                    |
-| -------- | ----------- | ------------------------------ |
-| Cloud    | `@cloud`    | Cloud service, external system |
-| Delay    | `@delay`    | Time delay                     |
-| Off-page | `@off-page` | Off-page connector             |
+Block diagram elements for control systems and signal processing:
+
+| Shape             | Syntax              | Description                    |
+| ----------------- | ------------------- | ------------------------------ |
+| Transfer Function | `@transferFunction` | System transfer function block |
+| Gain              | `@gain`             | Amplifier/gain block           |
+| Integrator        | `@integrator`       | Integration block (1/s)        |
+| Differentiator    | `@differentiator`   | Differentiation block (s)      |
+| Time Delay        | `@timeDelay`        | Transport delay (e^-Ts)        |
+| Saturation        | `@saturation`       | Limiter/saturator              |
+| Summing Junction  | `@summingJunction`  | Adder/summer (Σ)               |
+| Multiply Junction | `@multiplyJunction` | Multiplier (×)                 |
+| Divide Junction   | `@divideJunction`   | Divider (÷)                    |
+| Compare Junction  | `@compareJunction`  | Comparator                     |
 
 **Example:**
 
 ```runiq
-shape AWS as @cloud label: "AWS S3"
-shape Wait as @delay label: "Wait 5 seconds"
+diagram "PID Controller" {
+  shape kp as @gain label: "Kp"
+  shape ki as @integrator label: "Ki/s"
+  shape kd as @differentiator label: "Kd·s"
+  shape sum as @summingJunction label: "Σ"
+}
 ```
 
-### 9. Annotations (3 shapes)
+::: tip Control Systems
+See the [Block Diagrams Guide](../guide/block-diagrams.md) for comprehensive documentation on control system diagrams with LaTeX and Simulink export.
+:::
 
-Comments and notes:
+### 6. Special Shapes (6 shapes)
 
-| Shape   | Syntax     | Description    |
-| ------- | ---------- | -------------- |
-| Note    | `@note`    | Annotation     |
-| Comment | `@comment` | Comment block  |
-| Callout | `@callout` | Callout bubble |
+**Profile:** `diagram` (default)
+
+Miscellaneous special-purpose shapes:
+
+| Shape          | Syntax           | Description             |
+| -------------- | ---------------- | ----------------------- |
+| Text Block     | `@textBlock`     | Plain text annotation   |
+| Brace Left     | `@braceLeft`     | Left curly brace        |
+| Brace Right    | `@braceRight`    | Right curly brace       |
+| Lightning Bolt | `@lightningBolt` | Electrical/power symbol |
+| Hourglass      | `@hourglass`     | Time/wait indicator     |
+| Fork Join      | `@forkJoin`      | Parallel sync bar       |
+| Or             | `@or`            | Logical OR symbol       |
 
 **Example:**
 
 ```runiq
-shape Step as @rect label: "Process"
-shape Info as @note label: "Runs nightly"
+diagram "Special Symbols" {
+  shape note as @textBlock label: "Plain text"
+  shape power as @lightningBolt label: "AC Power"
+}
 ```
 
-### 10. Pedigree (3 shapes)
+### 7. Chart Shapes (7 shapes)
+
+**Profile:** `diagram` (default)
+
+Data visualization and chart components:
+
+| Shape                | Syntax                | Description               |
+| -------------------- | --------------------- | ------------------------- |
+| Pie Chart            | `@pieChart`           | Circular pie chart        |
+| Bar Chart Vertical   | `@barChartVertical`   | Vertical bar chart        |
+| Bar Chart Horizontal | `@barChartHorizontal` | Horizontal bar chart      |
+| Pyramid              | `@pyramid`            | Pyramid/hierarchy chart   |
+| Venn 2               | `@venn2`              | Two-circle Venn diagram   |
+| Venn 3               | `@venn3`              | Three-circle Venn diagram |
+| Venn 4               | `@venn4`              | Four-circle Venn diagram  |
+
+**Example:**
+
+```runiq
+diagram "Data Visualization" {
+  shape sales as @barChartVertical label: "Q4 Sales"
+  shape market as @pieChart label: "Market Share"
+}
+```
+
+### 8. Network Shapes (7 shapes)
+
+**Profile:** `diagram` (default)
+
+Network topology and infrastructure components:
+
+| Shape         | Syntax          | Description            |
+| ------------- | --------------- | ---------------------- |
+| Server        | `@server`       | Server/computer        |
+| Router        | `@router`       | Network router         |
+| Switch        | `@switch`       | Network switch         |
+| Firewall      | `@firewall`     | Firewall device        |
+| Load Balancer | `@loadBalancer` | Load balancer          |
+| Cloud         | `@cloud`        | Cloud service          |
+| Storage       | `@storage`      | Network storage device |
+
+**Example:**
+
+```runiq
+diagram "Network Topology" {
+  shape web as @server label: "Web Server"
+  shape lb as @loadBalancer label: "Load Balancer"
+  shape fw as @firewall label: "Firewall"
+  shape cloud as @cloud label: "Internet"
+}
+```
+
+### 9. Quantum Circuit Shapes (12 shapes)
+
+**Profile:** `diagram` (default, but designed for quantum circuits)
+
+Quantum computing gate symbols following IBM Qiskit visual standard:
+
+| Shape       | Syntax         | Description                   |
+| ----------- | -------------- | ----------------------------- |
+| Gate X      | `@gateX`       | Pauli-X gate (NOT gate)       |
+| Gate Y      | `@gateY`       | Pauli-Y gate                  |
+| Gate Z      | `@gateZ`       | Pauli-Z gate                  |
+| Gate H      | `@gateH`       | Hadamard gate (superposition) |
+| Gate S      | `@gateS`       | S gate (phase π/2)            |
+| Gate T      | `@gateT`       | T gate (phase π/4)            |
+| Control Dot | `@controlDot`  | Control qubit indicator (●)   |
+| CNOT Target | `@cnotTarget`  | CNOT target indicator (⊕)     |
+| SWAP X      | `@swapX`       | SWAP gate symbol (⨉)          |
+| Measurement | `@measurement` | Measurement operator          |
+| Qubit Wire  | `@qubitWire`   | Horizontal qubit line         |
+| Barrier     | `@barrier`     | Circuit phase separator       |
+
+**Example:**
+
+```runiq
+diagram "Bell State" {
+  shape q0 as @qubitWire label: "q0"
+  shape H as @gateH label: "H"
+  shape control as @controlDot label: "●"
+  shape target as @cnotTarget label: "⊕"
+
+  q0 -> H -> control
+}
+```
+
+::: tip Quantum Circuits
+See the [Quantum Circuits Guide](../guide/quantum-circuits.md) for comprehensive documentation on quantum computing diagrams.
+:::
+
+### 10. UML Shapes (22 shapes)
+
+**Profile:** `diagram` (default)
+
+Unified Modeling Language (UML) diagram elements:
+
+| Shape           | Syntax            | Description                    |
+| --------------- | ----------------- | ------------------------------ |
+| Class           | `@class`          | UML class box                  |
+| Actor           | `@actor`          | Stick figure actor             |
+| System Boundary | `@systemBoundary` | Use case system boundary       |
+| Interface       | `@interface`      | Interface definition           |
+| Abstract        | `@abstract`       | Abstract class                 |
+| Enum            | `@enum`           | Enumeration type               |
+| Package         | `@package`        | Package/namespace              |
+| Note            | `@note`           | UML note/comment               |
+| Lifeline        | `@lifeline`       | Sequence diagram lifeline      |
+| Activation      | `@activation`     | Activation box                 |
+| Fragment        | `@fragment`       | Interaction fragment           |
+| Deletion        | `@deletion`       | Object deletion symbol         |
+| State           | `@state`          | State machine state            |
+| Initial State   | `@initialState`   | Starting state (filled circle) |
+| Final State     | `@finalState`     | Ending state (double circle)   |
+| Choice          | `@choice`         | Decision diamond               |
+| Fork            | `@fork`           | Fork/split bar                 |
+| Join            | `@join`           | Join/merge bar                 |
+| Activity        | `@activity`       | Activity box                   |
+| Component       | `@component`      | Component box                  |
+| Artifact        | `@artifact`       | Deployment artifact            |
+| Node            | `@node`           | Deployment node                |
+
+**Example:**
+
+```runiq
+diagram "Use Case Diagram" {
+  shape user as @actor label: "Customer"
+  shape login as @systemBoundary label: "Login"
+  shape db as @component label: "Database"
+}
+```
+
+### 11. Pedigree Shapes (3 shapes)
+
+**Profile:** `diagram` (default)
 
 Medical/genetic family tree symbols following standard pedigree notation:
 
@@ -220,7 +360,7 @@ Medical/genetic family tree symbols following standard pedigree notation:
 | Pedigree Female  | `@pedigreeFemale`  | Female individual (circle)       |
 | Pedigree Unknown | `@pedigreeUnknown` | Unknown sex individual (diamond) |
 
-**Properties:**
+**Special Properties:**
 
 - `affected:true` - Black fill (has genetic condition)
 - `carrier:true` - Half-fill pattern (carries one copy)
@@ -232,21 +372,13 @@ Medical/genetic family tree symbols following standard pedigree notation:
 diagram "Family History" {
   direction TB
 
-  # Parents (both carriers)
-  shape father as @pedigreeMale label:"Father" carrier:true
-  shape mother as @pedigreeFemale label:"Mother" carrier:true
+  shape father as @pedigreeMale label: "Father" carrier: true
+  shape mother as @pedigreeFemale label: "Mother" carrier: true
+  shape son as @pedigreeMale label: "Son" affected: true
+  shape daughter as @pedigreeFemale label: "Daughter"
 
-  # Children
-  shape son as @pedigreeMale label:"Son" affected:true
-  shape daughter as @pedigreeFemale label:"Daughter"
-
-  # Marriage (no arrow)
-  father -> mother arrowType:none
-
-  # Parent-child relationships
+  father -> mother arrowType: none
   father -> son
-  father -> daughter
-  mother -> son
   mother -> daughter
 }
 ```
@@ -255,78 +387,182 @@ diagram "Family History" {
 See the [Pedigree Charts Guide](../guide/pedigree-charts.md) for comprehensive documentation on creating medical family trees with inheritance patterns.
 :::
 
-## All Shapes
+### 12. C4 Architecture Shapes (4 shapes)
 
-Complete table of all 57 shapes:
+**Profile:** `diagram` (default)
 
-<table>
-<thead>
-<tr>
-<th>Shape</th>
-<th>Syntax</th>
-<th>Category</th>
-<th>Use Case</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>Actor</td><td><code>@actor</code></td><td>Actors</td><td>User, role in use case</td></tr>
-<tr><td>Box Actor</td><td><code>@box-actor</code></td><td>Actors</td><td>Simplified actor</td></tr>
-<tr><td>Circle Actor</td><td><code>@circle-actor</code></td><td>Actors</td><td>Alternative actor</td></tr>
-<tr><td>Rounded Actor</td><td><code>@rounded-actor</code></td><td>Actors</td><td>Rounded actor</td></tr>
-<tr><td>Square Actor</td><td><code>@square-actor</code></td><td>Actors</td><td>Square actor</td></tr>
-<tr><td>Tall Actor</td><td><code>@tall-actor</code></td><td>Actors</td><td>Tall proportions</td></tr>
-<tr><td>Wide Actor</td><td><code>@wide-actor</code></td><td>Actors</td><td>Wide proportions</td></tr>
-<tr><td>Custom Actor</td><td><code>@custom-actor</code></td><td>Actors</td><td>Configurable</td></tr>
-<tr><td>Circle</td><td><code>@circle</code></td><td>Circles</td><td>State, connector</td></tr>
-<tr><td>Small Circle</td><td><code>@circle-sm</code></td><td>Circles</td><td>Small state</td></tr>
-<tr><td>Large Circle</td><td><code>@circle-lg</code></td><td>Circles</td><td>Large state</td></tr>
-<tr><td>XL Circle</td><td><code>@circle-xl</code></td><td>Circles</td><td>Extra large state</td></tr>
-<tr><td>Double Circle</td><td><code>@double-circle</code></td><td>Circles</td><td>Final state, accept</td></tr>
-<tr><td>Filled Circle</td><td><code>@filled-circle</code></td><td>Circles</td><td>Initial state</td></tr>
-<tr><td>Dashed Circle</td><td><code>@dashed-circle</code></td><td>Circles</td><td>Optional state</td></tr>
-<tr><td>Dotted Circle</td><td><code>@dotted-circle</code></td><td>Circles</td><td>Tentative state</td></tr>
-<tr><td>Thick Circle</td><td><code>@thick-circle</code></td><td>Circles</td><td>Emphasized state</td></tr>
-<tr><td>Thin Circle</td><td><code>@thin-circle</code></td><td>Circles</td><td>De-emphasized state</td></tr>
-<tr><td>Use Case</td><td><code>@usecase</code></td><td>UML</td><td>UML use case</td></tr>
-<tr><td>System Boundary</td><td><code>@system-boundary</code></td><td>UML</td><td>System container</td></tr>
-<tr><td>Document</td><td><code>@doc</code></td><td>Data & Docs</td><td>Report, output</td></tr>
-<tr><td>Multi-Document</td><td><code>@multi-doc</code></td><td>Data & Docs</td><td>Multiple documents</td></tr>
-<tr><td>Tape</td><td><code>@tape</code></td><td>Data & Docs</td><td>Backup, archive</td></tr>
-<tr><td>Stored Data</td><td><code>@stored-data</code></td><td>Data & Docs</td><td>Data at rest</td></tr>
-<tr><td>Display</td><td><code>@display</code></td><td>Data & Docs</td><td>Screen, monitor</td></tr>
-<tr><td>Note</td><td><code>@note</code></td><td>Data & Docs</td><td>Annotation</td></tr>
-<tr><td>Card</td><td><code>@card</code></td><td>Data & Docs</td><td>Punch card</td></tr>
-<tr><td>Parallelogram</td><td><code>@para</code></td><td>Data I/O</td><td>General I/O</td></tr>
-<tr><td>Input</td><td><code>@input</code></td><td>Data I/O</td><td>Data input</td></tr>
-<tr><td>Output</td><td><code>@output</code></td><td>Data I/O</td><td>Data output</td></tr>
-<tr><td>Manual Input</td><td><code>@manual-input</code></td><td>Data I/O</td><td>Keyboard entry</td></tr>
-<tr><td>Manual Operation</td><td><code>@manual-op</code></td><td>Data I/O</td><td>Manual step</td></tr>
-<tr><td>Prep</td><td><code>@prep</code></td><td>Data I/O</td><td>Preparation</td></tr>
-<tr><td>Cylinder</td><td><code>@cyl</code></td><td>Storage</td><td>Database</td></tr>
-<tr><td>Drum</td><td><code>@drum</code></td><td>Storage</td><td>Direct access</td></tr>
-<tr><td>Disk</td><td><code>@disk</code></td><td>Storage</td><td>Magnetic disk</td></tr>
-<tr><td>Internal Storage</td><td><code>@internal-storage</code></td><td>Storage</td><td>RAM, cache</td></tr>
-<tr><td>Sequential Data</td><td><code>@seq-data</code></td><td>Storage</td><td>Sequential access</td></tr>
-<tr><td>Rectangle</td><td><code>@rect</code></td><td>Process</td><td>Process step</td></tr>
-<tr><td>Rounded Rectangle</td><td><code>@rounded</code></td><td>Process</td><td>Start, end</td></tr>
-<tr><td>Subroutine</td><td><code>@subroutine</code></td><td>Process</td><td>Predefined process</td></tr>
-<tr><td>Subprocess</td><td><code>@subprocess</code></td><td>Process</td><td>Complex subprocess</td></tr>
-<tr><td>Loop Limit</td><td><code>@loop-limit</code></td><td>Process</td><td>Loop bounds</td></tr>
-<tr><td>Collate</td><td><code>@collate</code></td><td>Process</td><td>Sort, order</td></tr>
-<tr><td>Sort</td><td><code>@sort</code></td><td>Process</td><td>Sort operation</td></tr>
-<tr><td>Merge</td><td><code>@merge</code></td><td>Process</td><td>Merge data</td></tr>
-<tr><td>Extract</td><td><code>@extract</code></td><td>Process</td><td>Extract data</td></tr>
-<tr><td>Cloud</td><td><code>@cloud</code></td><td>Specialized</td><td>Cloud service</td></tr>
-<tr><td>Delay</td><td><code>@delay</code></td><td>Specialized</td><td>Time delay</td></tr>
-<tr><td>Off-page</td><td><code>@off-page</code></td><td>Specialized</td><td>Off-page connector</td></tr>
-<tr><td>Note</td><td><code>@note</code></td><td>Annotations</td><td>Note, comment</td></tr>
-<tr><td>Comment</td><td><code>@comment</code></td><td>Annotations</td><td>Comment block</td></tr>
-<tr><td>Callout</td><td><code>@callout</code></td><td>Annotations</td><td>Callout bubble</td></tr>
-<tr><td>Pedigree Male</td><td><code>@pedigreeMale</code></td><td>Pedigree</td><td>Male individual (square)</td></tr>
-<tr><td>Pedigree Female</td><td><code>@pedigreeFemale</code></td><td>Pedigree</td><td>Female individual (circle)</td></tr>
-<tr><td>Pedigree Unknown</td><td><code>@pedigreeUnknown</code></td><td>Pedigree</td><td>Unknown sex (diamond)</td></tr>
-</tbody>
-</table>
+C4 model shapes for software architecture diagrams:
+
+| Shape        | Syntax          | Description                   |
+| ------------ | --------------- | ----------------------------- |
+| C4 Person    | `@c4-person`    | External person/user          |
+| C4 System    | `@c4-system`    | Software system               |
+| C4 Container | `@c4-container` | Application/service container |
+| C4 Component | `@c4-component` | Component within container    |
+
+**Example:**
+
+```runiq
+diagram "C4 System Context" {
+  shape user as @c4-person label: "Customer"
+  shape system as @c4-system label: "Banking System"
+  shape external as @c4-system label: "Email Service"
+
+  user -> system
+  system -> external
+}
+```
+
+### 13. BPMN Shapes (6 shapes)
+
+**Profile:** `diagram` (default)
+
+Business Process Model and Notation (BPMN) 2.0 elements:
+
+| Shape            | Syntax            | Description                  |
+| ---------------- | ----------------- | ---------------------------- |
+| BPMN Task        | `@bpmnTask`       | Process task/activity        |
+| BPMN Event       | `@bpmnEvent`      | Start/end/intermediate event |
+| BPMN Gateway     | `@bpmnGateway`    | Decision/merge gateway       |
+| BPMN Data Object | `@bpmnDataObject` | Data object/artifact         |
+| BPMN Message     | `@bpmnMessage`    | Message/communication        |
+| BPMN Pool        | `@bpmnPool`       | Process pool/participant     |
+
+**Example:**
+
+```runiq
+diagram "Order Process" {
+  shape start as @bpmnEvent label: "Order Received"
+  shape validate as @bpmnTask label: "Validate Order"
+  shape decide as @bpmnGateway label: "Valid?"
+  shape fulfill as @bpmnTask label: "Fulfill"
+
+  start -> validate -> decide -> fulfill
+}
+```
+
+### 14. AWS Shapes (6 shapes)
+
+**Profile:** `diagram` (default)
+
+Amazon Web Services infrastructure icons:
+
+| Shape           | Syntax           | Description           |
+| --------------- | ---------------- | --------------------- |
+| AWS EC2         | `@awsEc2`        | EC2 compute instance  |
+| AWS S3          | `@awsS3`         | S3 storage bucket     |
+| AWS Lambda      | `@awsLambda`     | Lambda function       |
+| AWS RDS         | `@awsRds`        | RDS database          |
+| AWS VPC         | `@awsVpc`        | Virtual Private Cloud |
+| AWS API Gateway | `@awsApiGateway` | API Gateway           |
+
+**Example:**
+
+```runiq
+diagram "AWS Architecture" {
+  shape web as @awsEc2 label: "Web Server"
+  shape lambda as @awsLambda label: "API"
+  shape db as @awsRds label: "PostgreSQL"
+  shape storage as @awsS3 label: "Assets"
+
+  web -> lambda -> db
+  web -> storage
+}
+```
+
+### 15. ERD Shapes (6 shapes)
+
+**Profile:** `diagram` (default)
+
+Entity-Relationship Diagram (ERD) symbols:
+
+| Shape                | Syntax                     | Description                  |
+| -------------------- | -------------------------- | ---------------------------- |
+| ERD Entity           | `@erdEntity`               | Strong entity (rectangle)    |
+| ERD Weak Entity      | `@erdWeakEntity`           | Weak entity (double rect)    |
+| ERD Relationship     | `@erdRelationship`         | Relationship (diamond)       |
+| ERD Attribute        | `@erdAttribute`            | Attribute (ellipse)          |
+| ERD Key Attribute    | `@erdKeyAttribute`         | Primary key (underlined)     |
+| ERD Multivalued Attr | `@erdMultivaluedAttribute` | Multivalued (double ellipse) |
+
+**Example:**
+
+```runiq
+diagram "Database Schema" {
+  shape user as @erdEntity label: "User"
+  shape order as @erdEntity label: "Order"
+  shape places as @erdRelationship label: "places"
+  shape userId as @erdKeyAttribute label: "user_id"
+
+  user -> places -> order
+  user -> userId
+}
+```
+
+### 16. Data Flow Diagram Shapes (6 shapes)
+
+**Profile:** `diagram` (default)
+
+Data Flow Diagram (DFD) symbols (Gane-Sarson notation):
+
+| Shape                  | Syntax                  | Description                 |
+| ---------------------- | ----------------------- | --------------------------- |
+| External Entity        | `@externalEntity`       | External entity (rectangle) |
+| External Entity Corner | `@externalEntityCorner` | Alternative corner style    |
+| Process Circle         | `@processCircle`        | Process (circle)            |
+| Data Store Line        | `@dataStoreLine`        | Data store (parallel lines) |
+| Data Store Left        | `@dataStoreLeft`        | Left-aligned data store     |
+| Data Store Open        | `@dataStoreOpen`        | Open-ended data store       |
+
+**Example:**
+
+```runiq
+diagram "Order Processing DFD" {
+  shape customer as @externalEntity label: "Customer"
+  shape process as @processCircle label: "1.0\nProcess Order"
+  shape db as @dataStoreLine label: "D1 Orders"
+
+  customer -> process
+  process -> db
+}
+```
+
+### 17. Electrical & Digital Shapes
+
+**Profiles:** `electrical`, `digital`, `pneumatic`, `hydraulic`
+
+Specialized schematic symbols for circuits. See dedicated guides:
+
+- **[Electrical Circuits Guide](../guide/electrical.md)** - Resistors, capacitors, transistors, op-amps, etc.
+- **[Digital Circuits Guide](../guide/digital-circuits.md)** - Logic gates, flip-flops, registers, etc.
+
+---
+
+## All Shapes by Category
+
+Complete listing organized by category:
+
+| Category           | Count | Common Uses                                    |
+| ------------------ | ----- | ---------------------------------------------- |
+| Basic Shapes       | 19    | General-purpose geometric shapes               |
+| Flowchart          | 14    | Process flows, ISO 5807 standard               |
+| Storage            | 7     | Databases, data persistence                    |
+| Rectangle Variants | 7     | Emphasis, organization, styling                |
+| Control Systems    | 10    | Block diagrams, signal processing              |
+| Special            | 6     | Miscellaneous symbols                          |
+| Charts             | 7     | Data visualization (pie, bar, Venn)            |
+| Network            | 7     | Infrastructure, topology diagrams              |
+| Quantum            | 12    | Quantum computing circuits                     |
+| UML                | 22    | Software modeling, class/sequence diagrams     |
+| Pedigree           | 3     | Medical family trees, genetics                 |
+| C4 Architecture    | 4     | Software architecture (C4 model)               |
+| BPMN               | 6     | Business process modeling                      |
+| AWS                | 6     | Amazon Web Services infrastructure             |
+| ERD                | 6     | Database entity-relationship diagrams          |
+| Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
+| Electrical/Digital | 40+   | Circuits (resistors, gates, transistors, etc.) |
+
+**Total: 142+ shapes** (excluding electrical/digital circuit components)
 
 ## Shape Properties
 

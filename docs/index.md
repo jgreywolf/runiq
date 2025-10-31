@@ -17,7 +17,9 @@ hero:
       link: /examples/
     - theme: alt
       text: Try Online
-      link: editor.runiq.org
+      link: https://editor.runiq.org
+      target: _blank
+      rel: noopener noreferrer
 
 features:
   - icon: 📝
@@ -29,8 +31,8 @@ features:
     details: Standards-compliant SVG with no HTML hacks. Embed-safe for PowerPoint, Keynote, Google Slides.
 
   - icon: 🔧
-    title: 54 Shapes Across 9 Categories
-    details: From flowcharts to UML diagrams, schematic circuits to block diagrams.
+    title: 142+ Shapes Across 17 Categories
+    details: From flowcharts to UML diagrams, quantum circuits to block diagrams, BPMN to AWS infrastructure.
 
   - icon: 🏗️
     title: Hierarchical Containers
@@ -113,12 +115,13 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 
 ## Recent Updates
 
-**October 17, 2025** - v0.1.0 Released! 🎉
+**October 31, 2025** - v0.1.0 Released! 🎉
 
-- ✅ 54 shapes across 9 categories
+- ✅ 142+ shapes across 17 categories
+- ✅ Quantum circuits, pedigree charts, BPMN, AWS, ERD, DFD support
 - ✅ UML relationship support (stereotypes, line styles, arrow types)
-- ✅ Use case diagrams with actors and system boundaries
 - ✅ Block diagrams with LaTeX and Simulink export
+- ✅ Electrical & digital circuits with SPICE/Verilog export
 - ✅ Hierarchical containers for complex architectures
 - ✅ 705+ tests passing
 

@@ -72,6 +72,57 @@ export default defineConfig({
           ],
         },
         {
+          text: 'Diagram Profile',
+          items: [
+            { text: 'Flowcharts', link: '/guide/flowcharts' },
+            { text: 'UML Class Diagrams', link: '/guide/class-diagrams' },
+            { text: 'Use Case Diagrams', link: '/guide/use-case-diagrams' },
+            { text: 'C4 Architecture', link: '/guide/c4-architecture' },
+            { text: 'Block Diagrams', link: '/guide/block-diagrams' },
+            { text: 'Network Diagrams', link: '/guide/network-diagrams' },
+            { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
+            { text: 'Charts & Graphs', link: '/guide/charts' },
+            { text: 'Pedigree Charts', link: '/guide/pedigree-charts' },
+            { text: 'Quantum Circuits', link: '/guide/quantum-circuits' },
+          ],
+        },
+        {
+          text: 'Electrical Profile',
+          items: [
+            { text: 'Electrical Circuits', link: '/guide/electrical' },
+          ],
+        },
+        {
+          text: 'Digital Profile',
+          items: [
+            { text: 'Digital Circuits', link: '/guide/digital-circuits' },
+          ],
+        },
+        {
+          text: 'Wardley Profile',
+          items: [
+            { text: 'Wardley Maps', link: '/guide/wardley-maps' },
+          ],
+        },
+        {
+          text: 'Sequence Profile',
+          items: [
+            { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
+          ],
+        },
+        {
+          text: 'Pneumatic Profile',
+          items: [
+            { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
+          ],
+        },
+        {
+          text: 'Hydraulic Profile',
+          items: [
+            { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },
+          ],
+        },
+        {
           text: 'Help',
           items: [{ text: 'Troubleshooting', link: '/guide/troubleshooting' }],
         },
