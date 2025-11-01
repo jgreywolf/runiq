@@ -54,7 +54,7 @@ describe('Mindmap Type Tests', () => {
 
     // Explicitly specified shape should override default
     const centralNode = result.diagram?.nodes.find((n) => n.id === 'central');
-    expect(centralNode?.shape).toBe('hex');
+    expect(centralNode?.shape).toBe('hexagon');
 
     // Second node still gets default
     const branch1 = result.diagram?.nodes.find((n) => n.id === 'branch1');

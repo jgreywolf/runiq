@@ -6,8 +6,9 @@ describe('Runiq Validator', () => {
     it('should warn about very long shape IDs', () => {
       const longId = 'A'.repeat(60);
       const dsl = `
-        diagram "test"
-        shape ${longId} as @rounded
+        diagram "test" {
+          shape ${longId} as @rounded
+        }
       `;
       const result = parse(dsl);
 
@@ -30,8 +31,9 @@ describe('Runiq Validator', () => {
 
       validShapes.forEach((shape) => {
         const dsl = `
-          diagram "test"
-          shape A as @${shape}
+          diagram "test" {
+            shape A as @${shape}
+          }
         `;
         const result = parse(dsl);
 
@@ -42,8 +44,9 @@ describe('Runiq Validator', () => {
 
     it('should handle unknown shape types gracefully', () => {
       const dsl = `
-        diagram "test"
-        shape A as @unknownShape
+        diagram "test" {
+          shape A as @unknownShape
+        }
       `;
       const result = parse(dsl);
 
@@ -56,9 +59,10 @@ describe('Runiq Validator', () => {
 
     it('should validate all shape properties', () => {
       const dsl = `
-        diagram "test"
-        style myStyle fill: "red"
-        shape A as @rounded label: "Valid Node" style: myStyle tooltip: "Tooltip text"
+        diagram "test" {
+          style myStyle fill: "red"
+          shape A as @rounded label: "Valid Node" style: myStyle tooltip: "Tooltip text"
+        }
       `;
       const result = parse(dsl);
 
@@ -74,9 +78,10 @@ describe('Runiq Validator', () => {
   describe('Edge Declaration Validation', () => {
     it('should warn about self-loops', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded
-        A -> A
+        diagram "test" {
+          shape A as @rounded
+          A -> A
+        }
       `;
       const result = parse(dsl);
 
@@ -89,10 +94,11 @@ describe('Runiq Validator', () => {
 
     it('should validate edge references', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded
-        shape B as @rounded
-        A -> B
+        diagram "test" {
+          shape A as @rounded
+          shape B as @rounded
+          A -> B
+        }
       `;
       const result = parse(dsl);
 
@@ -103,8 +109,9 @@ describe('Runiq Validator', () => {
 
     it('should allow edges between non-declared nodes', () => {
       const dsl = `
-        diagram "test"
-        A -> B
+        diagram "test" {
+          A -> B
+        }
       `;
       const result = parse(dsl);
 
@@ -116,8 +123,9 @@ describe('Runiq Validator', () => {
 
     it('should validate edge labels', () => {
       const dsl = `
-        diagram "test"
-        A -edgelabel-> B
+        diagram "test" {
+          A -edgelabel-> B
+        }
       `;
       const result = parse(dsl);
 
@@ -129,10 +137,11 @@ describe('Runiq Validator', () => {
 
     it('should validate edge properties', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded
-        shape B as @rounded
-        A -process-> B
+        diagram "test" {
+          shape A as @rounded
+          shape B as @rounded
+          A -process-> B
+        }
       `;
       const result = parse(dsl);
 
@@ -147,8 +156,9 @@ describe('Runiq Validator', () => {
   describe('Style Declaration Validation', () => {
     it('should validate style properties', () => {
       const dsl = `
-        diagram "test"
-        style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
+        diagram "test" {
+          style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
+        }
       `;
       const result = parse(dsl);
 
@@ -165,10 +175,11 @@ describe('Runiq Validator', () => {
 
     it('should handle multiple style declarations', () => {
       const dsl = `
-        diagram "test"
-        style style1 fill: "#aaa"
-        style style2 fill: "#bbb"
-        style style3 fill: "#ccc"
+        diagram "test" {
+          style style1 fill: "#aaa"
+          style style2 fill: "#bbb"
+          style style3 fill: "#ccc"
+        }
       `;
       const result = parse(dsl);
 
@@ -178,9 +189,10 @@ describe('Runiq Validator', () => {
 
     it('should allow style references in shapes', () => {
       const dsl = `
-        diagram "test"
-        style highlight fill: "#ffeb3b"
-        shape A as @rounded style: highlight
+        diagram "test" {
+          style highlight fill: "#ffeb3b"
+          shape A as @rounded style: highlight
+        }
       `;
       const result = parse(dsl);
 
@@ -193,11 +205,12 @@ describe('Runiq Validator', () => {
   describe('Group Declaration Validation', () => {
     it('should validate group with children', () => {
       const dsl = `
-        diagram "test"
-        group "Group Label" {
-          shape A as @rounded
-          shape B as @rounded
-          shape C as @rounded
+        diagram "test" {
+          group "Group Label" {
+            shape A as @rounded
+            shape B as @rounded
+            shape C as @rounded
+          }
         }
       `;
       const result = parse(dsl);
@@ -209,10 +222,11 @@ describe('Runiq Validator', () => {
 
     it('should allow groups with style', () => {
       const dsl = `
-        diagram "test"
-        style groupStyle fill: "#e0e0e0"
-        group "MyGroup" {
-          shape A as @rounded style: groupStyle
+        diagram "test" {
+          style groupStyle fill: "#e0e0e0"
+          group "MyGroup" {
+            shape A as @rounded style: groupStyle
+          }
         }
       `;
       const result = parse(dsl);
@@ -223,11 +237,12 @@ describe('Runiq Validator', () => {
 
     it('should handle nested groups (if supported)', () => {
       const dsl = `
-        diagram "test"
-        group "Outer" {
-          shape B as @rounded
-          group "Inner" {
-            shape A as @rounded
+        diagram "test" {
+          group "Outer" {
+            shape B as @rounded
+            group "Inner" {
+              shape A as @rounded
+            }
           }
         }
       `;
@@ -243,7 +258,7 @@ describe('Runiq Validator', () => {
       const validDirections = ['LR', 'RL', 'TB', 'BT'];
 
       validDirections.forEach((direction) => {
-        const dsl = `diagram "test"\ndirection ${direction}`;
+        const dsl = `diagram "test" { direction ${direction} }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -255,7 +270,7 @@ describe('Runiq Validator', () => {
       const invalidDirections = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'INVALID'];
 
       invalidDirections.forEach((direction) => {
-        const dsl = `diagram "test"\ndirection: ${direction}`;
+        const dsl = `diagram "test" { direction: ${direction} }`;
         const result = parse(dsl);
 
         // Should fail parsing
@@ -267,8 +282,9 @@ describe('Runiq Validator', () => {
   describe('Icon and Link Validation', () => {
     it('should validate icon structure', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded icon: fontawesome/user
+        diagram "test" {
+          shape A as @rounded icon: fontawesome/user
+        }
       `;
       const result = parse(dsl);
 
@@ -281,8 +297,9 @@ describe('Runiq Validator', () => {
 
     it('should validate link structure', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded link: "https://example.com"
+        diagram "test" {
+          shape A as @rounded link: "https://example.com"
+        }
       `;
       const result = parse(dsl);
 
@@ -294,8 +311,9 @@ describe('Runiq Validator', () => {
 
     it('should handle missing icon properties', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded icon: invalid
+        diagram "test" {
+          shape A as @rounded icon: invalid
+        }
       `;
       const result = parse(dsl);
 
@@ -309,21 +327,22 @@ describe('Runiq Validator', () => {
   describe('Complex Validation Scenarios', () => {
     it('should validate complete diagram structure', () => {
       const dsl = `
-        diagram "flowchart"
-        direction TB
-        
-        style default fill: "#f0f0f0" stroke: "#333"
-        style highlight fill: "#ffeb3b"
-        
-        shape A as @rounded label: "Start" style: highlight
-        shape B as @rounded label: "Process"
-        shape C as @rhombus label: "Decision"
-        shape D as @rounded label: "End"
-        
-        A -> B
-        B -> C
-        C -yes-> D
-        C -no-> B
+        diagram "flowchart" {
+          direction TB
+          
+          style default fill: "#f0f0f0" stroke: "#333"
+          style highlight fill: "#ffeb3b"
+          
+          shape A as @rounded label: "Start" style: highlight
+          shape B as @rounded label: "Process"
+          shape C as @rhombus label: "Decision"
+          shape D as @rounded label: "End"
+          
+          A -> B
+          B -> C
+          C -yes-> D
+          C -no-> B
+        }
       `;
       const result = parse(dsl);
 
@@ -356,10 +375,11 @@ describe('Runiq Validator', () => {
 
     it('should detect cyclic dependencies', () => {
       const dsl = `
-        diagram "test"
-        A -> B
-        B -> C
-        C -> A
+        diagram "test" {
+          A -> B
+          B -> C
+          C -> A
+        }
       `;
       const result = parse(dsl);
 
@@ -370,9 +390,10 @@ describe('Runiq Validator', () => {
 
     it('should handle disconnected subgraphs', () => {
       const dsl = `
-        diagram "test"
-        A -> B
-        C -> D
+        diagram "test" {
+          A -> B
+          C -> D
+        }
       `;
       const result = parse(dsl);
 
@@ -386,8 +407,9 @@ describe('Runiq Validator', () => {
   describe('Error Recovery', () => {
     it('should provide meaningful error for syntax errors', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded invalid syntax here
+        diagram "test" {
+          shape A as @rounded invalid syntax here
+        }
       `;
       const result = parse(dsl);
 
@@ -401,10 +423,11 @@ describe('Runiq Validator', () => {
 
     it('should handle partially valid diagrams', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded label: "Valid"
-        invalid line here
-        shape B as @rounded label: "Also Valid"
+        diagram "test" {
+          shape A as @rounded label: "Valid"
+          invalid line here
+          shape B as @rounded label: "Also Valid"
+        }
       `;
       const result = parse(dsl);
 
