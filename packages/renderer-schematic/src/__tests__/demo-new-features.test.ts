@@ -97,7 +97,7 @@ describe('Demo: New Features (Rotation + Orthogonal Routing)', () => {
     expect(rotations.length).toBeGreaterThanOrEqual(6);
 
     // Verify junction dots present (orthogonal routing creates junctions)
-    expect(result.svg).toContain('schematic-junction');
+    expect(result.svg).toContain('electrical-junction');
 
     // Verify MOSFETs rendered
     expect(result.svg).toContain('M1');
@@ -118,7 +118,7 @@ describe('Demo: New Features (Rotation + Orthogonal Routing)', () => {
       console.log(`   Features demonstrated:`);
       console.log(`   - Components with rotation: ${rotations.length}`);
       console.log(
-        `   - Junction dots: ${(result.svg.match(/schematic-junction/g) || []).length}`
+        `   - Junction dots: ${(result.svg.match(/electrical-junction/g) || []).length}`
       );
       console.log(`   - MOSFETs: 4 (2 PMOS + 2 NMOS)`);
       console.log(`   - Orthogonal routing: enabled`);

@@ -8,87 +8,87 @@
 
   <defs>
     <style type="text/css"><![CDATA[
-      .schematic-wire { stroke: #000000; stroke-width: 2; fill: none; }
-      .schematic-component { color: #000000; }
-      .schematic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
-      .schematic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
-      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+      .electrical-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .electrical-component { color: #000000; }
+      .electrical-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .electrical-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .electrical-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
     ]]></style>
   </defs>
-<g class="schematic-wires">
-  <path d="M 100,120 L 100,100" class="schematic-wire"/>
-  <text x="105" y="95" class="schematic-net-label">VCC</text>
-  <path d="M 100,100 L 555,100" class="schematic-wire"/>
-  <text x="560" y="95" class="schematic-net-label">VCC</text>
-  <path d="M 555,100 L 570,100" class="schematic-wire"/>
-  <text x="575" y="95" class="schematic-net-label">VCC</text>
-  <path d="M 570,130 L 570,100" class="schematic-wire"/>
-  <text x="575" y="95" class="schematic-net-label">VCC</text>
-  <path d="M 570,100 L 705,100" class="schematic-wire"/>
-  <text x="710" y="95" class="schematic-net-label">VCC</text>
-  <path d="M 705,100 L 720,100" class="schematic-wire"/>
-  <text x="725" y="95" class="schematic-net-label">VCC</text>
-  <path d="M 720,130 L 720,100" class="schematic-wire"/>
-  <text x="725" y="95" class="schematic-net-label">VCC</text>
-  <path d="M 240,120 L 240,150" class="schematic-wire"/>
-  <text x="245" y="145" class="schematic-net-label">CTRL_A</text>
-  <path d="M 240,150 L 520,150" class="schematic-wire"/>
-  <text x="525" y="145" class="schematic-net-label">CTRL_A</text>
-  <path d="M 520,130 L 520,150" class="schematic-wire"/>
-  <text x="525" y="145" class="schematic-net-label">CTRL_A</text>
-  <path d="M 520,150 L 820,150" class="schematic-wire"/>
-  <text x="825" y="145" class="schematic-net-label">CTRL_A</text>
-  <path d="M 820,130 L 820,150" class="schematic-wire"/>
-  <text x="825" y="145" class="schematic-net-label">CTRL_A</text>
-  <path d="M 380,120 L 380,150" class="schematic-wire"/>
-  <text x="385" y="145" class="schematic-net-label">CTRL_B</text>
-  <path d="M 380,150 L 670,150" class="schematic-wire"/>
-  <text x="675" y="145" class="schematic-net-label">CTRL_B</text>
-  <path d="M 670,130 L 670,150" class="schematic-wire"/>
-  <text x="675" y="145" class="schematic-net-label">CTRL_B</text>
-  <path d="M 670,150 L 970,150" class="schematic-wire"/>
-  <text x="975" y="145" class="schematic-net-label">CTRL_B</text>
-  <path d="M 970,130 L 970,150" class="schematic-wire"/>
-  <text x="975" y="145" class="schematic-net-label">CTRL_B</text>
-  <path d="M 555,160 L 555,100" class="schematic-wire"/>
-  <text x="560" y="95" class="schematic-net-label">MOTOR_P</text>
-  <path d="M 555,100 L 855,100" class="schematic-wire"/>
-  <text x="860" y="95" class="schematic-net-label">MOTOR_P</text>
-  <path d="M 855,100 L 1120,100" class="schematic-wire"/>
-  <text x="1125" y="95" class="schematic-net-label">MOTOR_P</text>
-  <path d="M 1120,112 L 1120,100" class="schematic-wire"/>
-  <text x="1125" y="95" class="schematic-net-label">MOTOR_P</text>
-  <path d="M 1120,100 L 1280,100" class="schematic-wire"/>
-  <text x="1285" y="95" class="schematic-net-label">MOTOR_P</text>
-  <path d="M 1280,110 L 1280,100" class="schematic-wire"/>
-  <text x="1285" y="95" class="schematic-net-label">MOTOR_P</text>
-  <path d="M 705,160 L 705,100" class="schematic-wire"/>
-  <text x="710" y="95" class="schematic-net-label">MOTOR_N</text>
-  <path d="M 705,100 L 1005,100" class="schematic-wire"/>
-  <text x="1010" y="95" class="schematic-net-label">MOTOR_N</text>
-  <path d="M 1005,100 L 1180,100" class="schematic-wire"/>
-  <text x="1185" y="95" class="schematic-net-label">MOTOR_N</text>
-  <path d="M 1180,112 L 1180,100" class="schematic-wire"/>
-  <text x="1185" y="95" class="schematic-net-label">MOTOR_N</text>
-  <path d="M 1180,100 L 1340,100" class="schematic-wire"/>
-  <text x="1345" y="95" class="schematic-net-label">MOTOR_N</text>
-  <path d="M 1340,110 L 1340,100" class="schematic-wire"/>
-  <text x="1345" y="95" class="schematic-net-label">MOTOR_N</text>
-  <g class="schematic-junctions">
-    <circle cx="100" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="570" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="240" cy="150" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="520" cy="150" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="380" cy="150" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="670" cy="150" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="555" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="1120" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="705" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
-    <circle cx="1180" cy="100" r="3" class="schematic-junction" fill="currentColor"/>
+<g class="electrical-wires">
+  <path d="M 100,120 L 100,100" class="electrical-wire"/>
+  <text x="105" y="95" class="electrical-net-label">VCC</text>
+  <path d="M 100,100 L 555,100" class="electrical-wire"/>
+  <text x="560" y="95" class="electrical-net-label">VCC</text>
+  <path d="M 555,100 L 570,100" class="electrical-wire"/>
+  <text x="575" y="95" class="electrical-net-label">VCC</text>
+  <path d="M 570,130 L 570,100" class="electrical-wire"/>
+  <text x="575" y="95" class="electrical-net-label">VCC</text>
+  <path d="M 570,100 L 705,100" class="electrical-wire"/>
+  <text x="710" y="95" class="electrical-net-label">VCC</text>
+  <path d="M 705,100 L 720,100" class="electrical-wire"/>
+  <text x="725" y="95" class="electrical-net-label">VCC</text>
+  <path d="M 720,130 L 720,100" class="electrical-wire"/>
+  <text x="725" y="95" class="electrical-net-label">VCC</text>
+  <path d="M 240,120 L 240,150" class="electrical-wire"/>
+  <text x="245" y="145" class="electrical-net-label">CTRL_A</text>
+  <path d="M 240,150 L 520,150" class="electrical-wire"/>
+  <text x="525" y="145" class="electrical-net-label">CTRL_A</text>
+  <path d="M 520,130 L 520,150" class="electrical-wire"/>
+  <text x="525" y="145" class="electrical-net-label">CTRL_A</text>
+  <path d="M 520,150 L 820,150" class="electrical-wire"/>
+  <text x="825" y="145" class="electrical-net-label">CTRL_A</text>
+  <path d="M 820,130 L 820,150" class="electrical-wire"/>
+  <text x="825" y="145" class="electrical-net-label">CTRL_A</text>
+  <path d="M 380,120 L 380,150" class="electrical-wire"/>
+  <text x="385" y="145" class="electrical-net-label">CTRL_B</text>
+  <path d="M 380,150 L 670,150" class="electrical-wire"/>
+  <text x="675" y="145" class="electrical-net-label">CTRL_B</text>
+  <path d="M 670,130 L 670,150" class="electrical-wire"/>
+  <text x="675" y="145" class="electrical-net-label">CTRL_B</text>
+  <path d="M 670,150 L 970,150" class="electrical-wire"/>
+  <text x="975" y="145" class="electrical-net-label">CTRL_B</text>
+  <path d="M 970,130 L 970,150" class="electrical-wire"/>
+  <text x="975" y="145" class="electrical-net-label">CTRL_B</text>
+  <path d="M 555,160 L 555,100" class="electrical-wire"/>
+  <text x="560" y="95" class="electrical-net-label">MOTOR_P</text>
+  <path d="M 555,100 L 855,100" class="electrical-wire"/>
+  <text x="860" y="95" class="electrical-net-label">MOTOR_P</text>
+  <path d="M 855,100 L 1120,100" class="electrical-wire"/>
+  <text x="1125" y="95" class="electrical-net-label">MOTOR_P</text>
+  <path d="M 1120,112 L 1120,100" class="electrical-wire"/>
+  <text x="1125" y="95" class="electrical-net-label">MOTOR_P</text>
+  <path d="M 1120,100 L 1280,100" class="electrical-wire"/>
+  <text x="1285" y="95" class="electrical-net-label">MOTOR_P</text>
+  <path d="M 1280,110 L 1280,100" class="electrical-wire"/>
+  <text x="1285" y="95" class="electrical-net-label">MOTOR_P</text>
+  <path d="M 705,160 L 705,100" class="electrical-wire"/>
+  <text x="710" y="95" class="electrical-net-label">MOTOR_N</text>
+  <path d="M 705,100 L 1005,100" class="electrical-wire"/>
+  <text x="1010" y="95" class="electrical-net-label">MOTOR_N</text>
+  <path d="M 1005,100 L 1180,100" class="electrical-wire"/>
+  <text x="1185" y="95" class="electrical-net-label">MOTOR_N</text>
+  <path d="M 1180,112 L 1180,100" class="electrical-wire"/>
+  <text x="1185" y="95" class="electrical-net-label">MOTOR_N</text>
+  <path d="M 1180,100 L 1340,100" class="electrical-wire"/>
+  <text x="1345" y="95" class="electrical-net-label">MOTOR_N</text>
+  <path d="M 1340,110 L 1340,100" class="electrical-wire"/>
+  <text x="1345" y="95" class="electrical-net-label">MOTOR_N</text>
+  <g class="electrical-junctions">
+    <circle cx="100" cy="100" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="570" cy="100" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="240" cy="150" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="520" cy="150" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="380" cy="150" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="670" cy="150" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="555" cy="100" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="1120" cy="100" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="705" cy="100" r="3" class="electrical-junction" fill="currentColor"/>
+    <circle cx="1180" cy="100" r="3" class="electrical-junction" fill="currentColor"/>
   </g>
 </g>
-<g class="schematic-components">
-  <g class="schematic-component" data-ref="V1">
+<g class="electrical-components">
+  <g class="electrical-component" data-ref="V1">
 
       <circle cx="120" cy="120" r="15" 
         stroke="currentColor" 
@@ -105,13 +105,13 @@
       <line x1="115" y1="120" x2="109" y2="120" 
         stroke="currentColor" stroke-width="1.5"/>
         <text x="120" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">V1</text>
     <text x="120" y="155" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">12</text>
   </g>
-  <g class="schematic-component" data-ref="V2">
+  <g class="electrical-component" data-ref="V2">
 
       <circle cx="260" cy="120" r="15" 
         stroke="currentColor" 
@@ -128,13 +128,13 @@
       <line x1="255" y1="120" x2="249" y2="120" 
         stroke="currentColor" stroke-width="1.5"/>
         <text x="260" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">V2</text>
     <text x="260" y="155" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">PULSE(0 5 0 1n 1n 100u 200u)</text>
   </g>
-  <g class="schematic-component" data-ref="V3">
+  <g class="electrical-component" data-ref="V3">
 
       <circle cx="400" cy="120" r="15" 
         stroke="currentColor" 
@@ -151,13 +151,13 @@
       <line x1="395" y1="120" x2="389" y2="120" 
         stroke="currentColor" stroke-width="1.5"/>
         <text x="400" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">V3</text>
     <text x="400" y="155" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">PULSE(0 5 100u 1n 1n 100u 200u)</text>
   </g>
-  <g class="schematic-component" data-ref="M1" transform="rotate(90 545 130)">
+  <g class="electrical-component" data-ref="M1" transform="rotate(90 545 130)">
 
       <!-- Gate with bubble (PMOS indicator) -->
       <line x1="520" y1="130" x2="525" y2="130" 
@@ -190,13 +190,13 @@
       <line x1="555" y1="130" x2="570" y2="130" 
         stroke="currentColor" stroke-width="2"/>
         <text x="545" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">M1</text>
     <text x="545" y="175" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">IRF9530</text>
   </g>
-  <g class="schematic-component" data-ref="M2" transform="rotate(90 695 130)">
+  <g class="electrical-component" data-ref="M2" transform="rotate(90 695 130)">
 
       <!-- Gate with bubble (PMOS indicator) -->
       <line x1="670" y1="130" x2="675" y2="130" 
@@ -229,13 +229,13 @@
       <line x1="705" y1="130" x2="720" y2="130" 
         stroke="currentColor" stroke-width="2"/>
         <text x="695" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">M2</text>
     <text x="695" y="175" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">IRF9530</text>
   </g>
-  <g class="schematic-component" data-ref="M3" transform="rotate(270 845 130)">
+  <g class="electrical-component" data-ref="M3" transform="rotate(270 845 130)">
 
       <!-- Gate -->
       <line x1="820" y1="130" x2="830" y2="130" 
@@ -266,13 +266,13 @@
       <line x1="855" y1="130" x2="870" y2="130" 
         stroke="currentColor" stroke-width="2"/>
         <text x="845" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">M3</text>
     <text x="845" y="175" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">IRF530</text>
   </g>
-  <g class="schematic-component" data-ref="M4" transform="rotate(270 995 130)">
+  <g class="electrical-component" data-ref="M4" transform="rotate(270 995 130)">
 
       <!-- Gate -->
       <line x1="970" y1="130" x2="980" y2="130" 
@@ -303,13 +303,13 @@
       <line x1="1005" y1="130" x2="1020" y2="130" 
         stroke="currentColor" stroke-width="2"/>
         <text x="995" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">M4</text>
     <text x="995" y="175" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">IRF530</text>
   </g>
-  <g class="schematic-component" data-ref="L1" transform="rotate(90 1150 112)">
+  <g class="electrical-component" data-ref="L1" transform="rotate(90 1150 112)">
 
       <path d="M 1120,112 
         a 6,6 0 0,1 12,0
@@ -321,13 +321,13 @@
         stroke-width="2" 
         fill="none"/>
         <text x="1150" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">L1</text>
     <text x="1150" y="139" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">10m</text>
   </g>
-  <g class="schematic-component" data-ref="R1" transform="rotate(90 1310 110)">
+  <g class="electrical-component" data-ref="R1" transform="rotate(90 1310 110)">
 
       <path d="M 1280,110 l 5,0 l 2.5,-5 l 5,10 l 5,-10 l 5,10 l 5,-10 l 5,10 l 2.5,-5 l 5,0" 
         stroke="currentColor" 
@@ -336,14 +336,14 @@
         stroke-linecap="round" 
         stroke-linejoin="round"/>
         <text x="1310" y="92" 
-        class="schematic-label" 
+        class="electrical-label" 
         text-anchor="middle">R1</text>
     <text x="1310" y="135" 
-          class="schematic-value" 
+          class="electrical-value" 
           text-anchor="middle">5</text>
   </g>
 </g>
-<g class="schematic-grounds">
+<g class="electrical-grounds">
 
       <line x1="140" y1="125.5" x2="140" y2="137.5" 
         stroke="currentColor" stroke-width="2"/>
@@ -408,4 +408,6 @@
       <line x1="1017" y1="155.5" x2="1023" y2="155.5" 
         stroke="currentColor" stroke-width="2"/>
     </g>
+<g class="profile-metadata">
+</g>
 </svg>
