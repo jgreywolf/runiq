@@ -5,11 +5,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Header Property', () => {
     it('should parse container with header property', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Frontend" header: "Frontend Services" {
           shape node1 as @rect label: "UI"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -21,11 +21,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with different header than label', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "API" header: "API Gateway Layer" {
           shape node1 as @rect label: "REST"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -37,11 +37,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container without header property', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Backend" {
           shape node1 as @rect label: "DB"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -53,11 +53,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Icon Property', () => {
     it('should parse container with icon property', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Backend" icon: "server" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -70,11 +70,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
       
       for (const iconName of icons) {
         const dsl = `
-          diagram "test"
+          diagram "test" {
           container "Container" icon: "${iconName}" {
             shape node1 as @rect label: "Node"
           }
-        `;
+        }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -85,11 +85,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container without icon', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Container" {
           shape node1 as @rect label: "Node"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -101,11 +101,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Badge Property', () => {
     it('should parse container with badge property', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "API Gateway" badge: "v2.0" {
           shape node1 as @rect label: "REST"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -118,11 +118,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
       
       for (const badgeText of badges) {
         const dsl = `
-          diagram "test"
+          diagram "test" {
           container "Service" badge: "${badgeText}" {
             shape node1 as @rect label: "Node"
           }
-        `;
+        }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -133,11 +133,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with both icon and badge', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "API" icon: "server" badge: "v2.0" {
           shape node1 as @rect label: "REST"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -150,11 +150,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Collapsible and Collapsed Properties', () => {
     it('should parse container with collapsible property', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapsible: true {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -164,11 +164,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with collapsible false', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapsible: false {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -178,11 +178,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with collapsed property', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapsed: true {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -192,11 +192,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with both collapsible and collapsed', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapsible: true collapsed: false {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -209,11 +209,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Shadow Style Property', () => {
     it('should parse container with shadow enabled', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" shadow: true {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -223,11 +223,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with shadow disabled', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" shadow: false {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -239,11 +239,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Depth Style Property', () => {
     it('should parse container with depth level', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" depth: 2 {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -256,11 +256,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
       
       for (const depthLevel of depths) {
         const dsl = `
-          diagram "test"
+          diagram "test" {
           container "Container" depth: ${depthLevel} {
             shape node1 as @rect label: "Node"
           }
-        `;
+        }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -271,11 +271,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with shadow and depth together', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" shadow: true depth: 2 {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -288,11 +288,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Header Style Properties', () => {
     it('should parse container with headerPosition', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" headerPosition: top {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -305,11 +305,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
       
       for (const position of positions) {
         const dsl = `
-          diagram "test"
+          diagram "test" {
           container "Container" headerPosition: ${position} {
             shape node1 as @rect label: "Node"
           }
-        `;
+        }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -320,11 +320,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with headerBackgroundColor', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" headerBackgroundColor: "#1976d2" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -336,11 +336,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Icon Style Properties', () => {
     it('should parse container with iconSize', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" iconSize: 24 {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -350,11 +350,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with iconColor', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" iconColor: "#ffffff" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -364,11 +364,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse container with both iconSize and iconColor', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" iconSize: 20 iconColor: "#ff0000" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -381,7 +381,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Complete Phase 1 Container', () => {
     it('should parse container with all Phase 1 features', () => {
       const dsl = `
-        diagram "Architecture"
+        diagram "Architecture" {
         container "Frontend" 
           header: "Frontend Services"
           icon: "desktop"
@@ -405,7 +405,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
           shape components as @rect label: "Components"
           ui -> components
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -442,7 +442,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Nested Containers with Phase 1 Features', () => {
     it('should parse nested containers with different depths', () => {
       const dsl = `
-        diagram "Architecture"
+        diagram "Architecture" {
         container "Outer" depth: 0 shadow: true {
           shape node1 as @rect label: "N1"
           
@@ -454,7 +454,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
             }
           }
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -475,7 +475,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse nested containers with header and icon', () => {
       const dsl = `
-        diagram "System"
+        diagram "System" {
         container "Backend" header: "Backend Layer" icon: "server" {
           shape api as @rect label: "API"
           
@@ -483,7 +483,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
             shape db as @rect label: "PostgreSQL"
           }
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -501,13 +501,13 @@ describe('Container Phase 1: Styling Enhancements', () => {
   describe('Backward Compatibility', () => {
     it('should parse containers without Phase 1 properties', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" {
           shape node1 as @rect label: "API"
           shape node2 as @rect label: "DB"
           node1 -> node2
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -522,14 +522,14 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse containers with only old style properties', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           backgroundColor: "#f0f0f0"
           borderColor: "#333"
           padding: 15 {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);

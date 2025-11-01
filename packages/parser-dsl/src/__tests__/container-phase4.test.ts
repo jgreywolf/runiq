@@ -4,10 +4,10 @@ import { parse } from '../langium-parser.js';
 describe('Container Phase 4: Visual Controls Parser Tests', () => {
   describe('Collapse Button Controls', () => {
     it('should parse collapseButtonVisible true', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonVisible: true {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -15,10 +15,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse collapseButtonVisible false', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonVisible: false {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -26,10 +26,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse collapseButtonPosition top-left', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonPosition: top-left {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -37,10 +37,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse collapseButtonPosition top-right', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonPosition: top-right {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -51,10 +51,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
       const positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
       
       for (const position of positions) {
-        const dsl = `diagram "test"
+        const dsl = `diagram "test" {
           container "Services" collapseButtonPosition: ${position} {
             shape node1 as @rect label: "API"
-          }`;
+          }}`;
         const result = parse(dsl);
         expect(result.success).toBe(true);
         const container = result.diagram?.containers?.[0];
@@ -63,10 +63,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse collapseButtonStyle icon', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonStyle: icon {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -74,10 +74,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse collapseButtonStyle text', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonStyle: text {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -85,10 +85,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse collapseButtonStyle icon-text', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonStyle: icon-text {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -96,10 +96,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse collapseButtonSize', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonSize: 28 {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -107,10 +107,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse collapseButtonColor', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonColor: "#1976d2" {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -118,10 +118,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse all collapse button properties together', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" collapseButtonVisible: true collapseButtonPosition: top-right collapseButtonStyle: icon-text collapseButtonSize: 28 collapseButtonColor: "#1976d2" {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -136,10 +136,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
 
   describe('Resize Controls', () => {
     it('should parse resizable true', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" resizable: true {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -147,10 +147,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse resizable false', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" resizable: false {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -158,10 +158,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse resizeHandles with cardinal directions', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" resizeHandles: [n, s, e, w] {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -169,10 +169,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse resizeHandles with diagonal directions', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" resizeHandles: [ne, nw, se, sw] {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -180,10 +180,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse resizeHandles with all directions', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" resizeHandles: [n, s, e, w, ne, nw, se, sw] {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -191,10 +191,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse minResizeWidth', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" minResizeWidth: 250 {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -202,10 +202,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse minResizeHeight', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" minResizeHeight: 180 {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -213,10 +213,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse all resize properties together', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" resizable: true resizeHandles: [se, sw, ne, nw] minResizeWidth: 300 minResizeHeight: 200 {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -230,10 +230,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
 
   describe('Interactive Feedback - Hover', () => {
     it('should parse hoverHighlight true', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" hoverHighlight: true {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -241,10 +241,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse hoverBorderColor', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" hoverBorderColor: "#4CAF50" {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -252,10 +252,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse hoverBorderWidth', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" hoverBorderWidth: 2 {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -263,10 +263,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse all hover properties together', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" hoverHighlight: true hoverBorderColor: "#FF5722" hoverBorderWidth: 3 {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -279,10 +279,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
 
   describe('Interactive Feedback - Selection', () => {
     it('should parse selectionHighlight true', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" selectionHighlight: true {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -290,10 +290,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse selectionBorderColor', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" selectionBorderColor: "#2196F3" {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -301,10 +301,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse selectionBorderWidth', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" selectionBorderWidth: 4 {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -312,10 +312,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse all selection properties together', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" selectionHighlight: true selectionBorderColor: "#9C27B0" selectionBorderWidth: 3 {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -328,10 +328,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
 
   describe('Visual Feedback Indicators', () => {
     it('should parse showChildCount true', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" showChildCount: true {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -339,10 +339,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse showChildCount false', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" showChildCount: false {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -353,10 +353,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
       const positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
       
       for (const position of positions) {
-        const dsl = `diagram "test"
+        const dsl = `diagram "test" {
           container "Services" childCountPosition: ${position} {
             shape node1 as @rect label: "API"
-          }`;
+          }}`;
         const result = parse(dsl);
         expect(result.success).toBe(true);
         const container = result.diagram?.containers?.[0];
@@ -365,10 +365,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse showDepthIndicator true', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" showDepthIndicator: true {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -376,10 +376,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse depthIndicatorStyle bar', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" depthIndicatorStyle: bar {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -387,10 +387,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse depthIndicatorStyle indent', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" depthIndicatorStyle: indent {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -398,10 +398,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse depthIndicatorStyle color', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" depthIndicatorStyle: color {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -409,10 +409,10 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
     });
 
     it('should parse all visual indicator properties together', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Services" showChildCount: true childCountPosition: top-right showDepthIndicator: true depthIndicatorStyle: bar {
           shape node1 as @rect label: "API"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
@@ -426,12 +426,12 @@ describe('Container Phase 4: Visual Controls Parser Tests', () => {
 
   describe('Complete Phase 4 Example', () => {
     it('should parse container with all Phase 4 visual control features', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
         container "Interactive" collapseButtonVisible: true collapseButtonPosition: top-right collapseButtonStyle: icon-text collapseButtonSize: 28 collapseButtonColor: "#1976d2" resizable: true resizeHandles: [se, sw, ne, nw] minResizeWidth: 300 minResizeHeight: 200 hoverHighlight: true hoverBorderColor: "#4CAF50" hoverBorderWidth: 2 selectionHighlight: true selectionBorderColor: "#2196F3" selectionBorderWidth: 3 showChildCount: true childCountPosition: top-left showDepthIndicator: true depthIndicatorStyle: bar {
           shape node1 as @rect label: "Node 1"
           shape node2 as @rect label: "Node 2"
           shape node3 as @rect label: "Node 3"
-        }`;
+        }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
