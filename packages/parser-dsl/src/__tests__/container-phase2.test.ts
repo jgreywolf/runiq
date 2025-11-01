@@ -5,13 +5,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Collapse Mode', () => {
     it('should parse collapseMode full', () => {
       const dsl = `
-        diagram "test"
+        diagram "test"{
         container "Services" 
           collapsed: true
           collapseMode: full {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -22,13 +22,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse collapseMode partial', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsed: true
           collapseMode: partial {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -40,13 +40,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Collapse Edge Redirection', () => {
     it('should parse collapseRedirectEdges true', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsed: true
           collapseRedirectEdges: true {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -56,11 +56,11 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse collapseRedirectEdges false', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapseRedirectEdges: false {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -72,11 +72,11 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Collapse Transition State', () => {
     it('should parse collapseTransitionState stable', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapseTransitionState: stable {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -86,11 +86,11 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse collapseTransitionState collapsing', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapseTransitionState: collapsing {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -100,11 +100,11 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse collapseTransitionState expanding', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapseTransitionState: expanding {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -116,11 +116,11 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Collapse Animation', () => {
     it('should parse collapseAnimationDuration', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapseAnimationDuration: 300 {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -130,14 +130,14 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse different animation durations', () => {
       const durations = [0, 150, 300, 500, 1000];
-      
+
       for (const duration of durations) {
         const dsl = `
-          diagram "test"
+          diagram "test" {
           container "Services" collapseAnimationDuration: ${duration} {
             shape node1 as @rect label: "API"
           }
-        `;
+        }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -148,11 +148,11 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse collapseAnimationEasing linear', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" collapseAnimationEasing: linear {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -162,14 +162,14 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse all easing functions', () => {
       const easings = ['linear', 'ease-in', 'ease-out', 'ease-in-out'];
-      
+
       for (const easing of easings) {
         const dsl = `
-          diagram "test"
+          diagram "test" {
           container "Services" collapseAnimationEasing: ${easing} {
             shape node1 as @rect label: "API"
           }
-        `;
+        }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -180,13 +180,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse both duration and easing together', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapseAnimationDuration: 300
           collapseAnimationEasing: ease-in-out {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -199,13 +199,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Collapse Visibility', () => {
     it('should parse collapseSummary', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsed: true
           collapseSummary: "5 services" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -215,14 +215,14 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse collapseShowCount', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsed: true
           collapseShowCount: true {
           shape node1 as @rect label: "API"
           shape node2 as @rect label: "DB"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -232,13 +232,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse collapseIcon', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsed: true
           collapseIcon: "chevron-right" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -248,7 +248,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse all visibility properties together', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsed: true
           collapseSummary: "12 services"
@@ -256,7 +256,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
           collapseIcon: "chevron-right" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -270,13 +270,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Collapse State Persistence', () => {
     it('should parse collapsePersistState', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsible: true
           collapsePersistState: true {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -286,13 +286,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse collapseStateKey', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsePersistState: true
           collapseStateKey: "diagram-services-c1" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -304,13 +304,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Keyboard Shortcuts', () => {
     it('should parse collapseKeyboardShortcut', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           collapsible: true
           collapseKeyboardShortcut: "Space" {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -320,14 +320,14 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse different keyboard shortcuts', () => {
       const shortcuts = ['Space', 'Enter', 'c', 'Ctrl+Space'];
-      
+
       for (const shortcut of shortcuts) {
         const dsl = `
-          diagram "test"
+          diagram "test" {
           container "Services" collapseKeyboardShortcut: "${shortcut}" {
             shape node1 as @rect label: "API"
           }
-        `;
+        }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -340,7 +340,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Complete Phase 2 Example', () => {
     it('should parse container with all Phase 2 collapse properties', () => {
       const dsl = `
-        diagram "Architecture"
+        diagram "Architecture" {
         container "Backend Services" 
           header: "Backend Layer"
           icon: "server"
@@ -362,12 +362,12 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
           shape api2 as @rect label: "API 2"
           api1 -> api2
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
       expect(result.diagram?.containers).toHaveLength(1);
-      
+
       const container = result.diagram?.containers?.[0];
       expect(container?.label).toBe('Backend Services');
       expect(container?.header).toBe('Backend Layer');
@@ -386,7 +386,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
       expect(container?.collapsePersistState).toBe(true);
       expect(container?.collapseStateKey).toBe('backend-services');
       expect(container?.collapseKeyboardShortcut).toBe('Space');
-      
+
       expect(container?.children).toHaveLength(2);
       expect(result.diagram?.edges).toHaveLength(1);
     });
@@ -395,7 +395,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Nested Containers with Collapse States', () => {
     it('should parse nested containers with independent collapse states', () => {
       const dsl = `
-        diagram "System"
+        diagram "System" {
         container "Outer" 
           collapsed: false
           collapseMode: partial {
@@ -412,19 +412,19 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
             shape node3 as @rect label: "N3"
           }
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
-      
+
       const outer = result.diagram?.containers?.[0];
       expect(outer?.collapsed).toBe(false);
       expect(outer?.collapseMode).toBe('partial');
-      
+
       const inner1 = outer?.containers?.[0];
       expect(inner1?.collapsed).toBe(true);
       expect(inner1?.collapseMode).toBe('full');
-      
+
       const inner2 = outer?.containers?.[1];
       expect(inner2?.collapsed).toBe(false);
     });
@@ -433,13 +433,13 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
   describe('Backward Compatibility', () => {
     it('should parse containers without Phase 2 properties', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" {
           shape node1 as @rect label: "API"
           shape node2 as @rect label: "DB"
           node1 -> node2
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -452,7 +452,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
 
     it('should parse containers with Phase 1 properties only', () => {
       const dsl = `
-        diagram "test"
+        diagram "test" {
         container "Services" 
           header: "Service Layer"
           icon: "server"
@@ -460,7 +460,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
           collapsed: false {
           shape node1 as @rect label: "API"
         }
-      `;
+      }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);

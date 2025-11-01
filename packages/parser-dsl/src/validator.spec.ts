@@ -28,12 +28,12 @@ describe('Shape Validation', () => {
   describe('Valid Shape IDs', () => {
     it('should accept valid shape IDs', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @rectangle
         shape B as @rhombus
         shape C as @cylinder
         shape D as @stadium
-      `;
+      }`;
       const doc = await parse(input);
       expect(doc.parseResult.lexerErrors).toHaveLength(0);
       expect(doc.parseResult.parserErrors).toHaveLength(0);
@@ -44,12 +44,12 @@ describe('Shape Validation', () => {
 
     it('should accept valid shape aliases', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @rect
         shape B as @diamond
         shape C as @db
         shape D as @pill
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors).toHaveLength(0);
@@ -57,10 +57,10 @@ describe('Shape Validation', () => {
 
     it('should accept shapes without @ prefix', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @rect
         shape B as @diamond
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors).toHaveLength(0);
@@ -70,9 +70,9 @@ describe('Shape Validation', () => {
   describe('Invalid Shape IDs', () => {
     it('should error on unknown shape ID', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @unknownshape
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
@@ -81,9 +81,9 @@ describe('Shape Validation', () => {
 
     it('should suggest corrections for typos', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @rectange
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
@@ -93,9 +93,9 @@ describe('Shape Validation', () => {
 
     it('should suggest multiple close matches', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @diamnd
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
@@ -105,9 +105,9 @@ describe('Shape Validation', () => {
 
     it('should handle completely invalid shape names', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @xyzabc123
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
@@ -118,9 +118,9 @@ describe('Shape Validation', () => {
   describe('Alias Hints', () => {
     it('should provide hints when using aliases', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @rect
-      `;
+      }`;
       const doc = await parse(input);
       const hints = doc.diagnostics?.filter((d) => d.severity === 4) ?? []; // Hint severity
       expect(hints.length).toBeGreaterThan(0);
@@ -130,9 +130,9 @@ describe('Shape Validation', () => {
 
     it('should not hint on canonical shape IDs', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @rectangle
-      `;
+      }`;
       const doc = await parse(input);
       const hints = doc.diagnostics?.filter((d) => d.severity === 4) ?? [];
       expect(hints).toHaveLength(0);
@@ -143,9 +143,9 @@ describe('Shape Validation', () => {
     it('should warn on very long shape IDs', async () => {
       const longId = 'A'.repeat(60);
       const input = `
-        diagram "test"
+        diagram "test" {
         shape ${longId} as @rectangle
-      `;
+      }`;
       const doc = await parse(input);
       const warnings = doc.diagnostics?.filter((d) => d.severity === 2) ?? []; // Warning severity
       expect(warnings.length).toBeGreaterThan(0);
@@ -154,9 +154,9 @@ describe('Shape Validation', () => {
 
     it('should not warn on reasonable length IDs', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape NormalLengthID as @rectangle
-      `;
+      }`;
       const doc = await parse(input);
       const warnings = doc.diagnostics?.filter((d) => d.severity === 2) ?? [];
       expect(warnings).toHaveLength(0);
@@ -177,9 +177,9 @@ describe('Shape Validation', () => {
     typos.forEach(({ typo, correct }) => {
       it(`should suggest "${correct}" for typo "${typo}"`, async () => {
         const input = `
-          diagram "test"
+          diagram "test" {
           shape A as @${typo}
-        `;
+        }`;
         const doc = await parse(input);
         const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
         expect(
@@ -196,9 +196,9 @@ describe('Shape Validation', () => {
   describe('Case Sensitivity', () => {
     it('should handle uppercase shape names', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @RECTANGLE
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       // Should suggest lowercase version
@@ -208,9 +208,9 @@ describe('Shape Validation', () => {
 
     it('should handle mixed case shape names', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @Rectangle
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       expect(errors.length).toBeGreaterThan(0);
@@ -221,9 +221,9 @@ describe('Shape Validation', () => {
   describe('Container Type Defaults', () => {
     it('should not validate shapes without explicit shape property', async () => {
       const input = `
-        diagram "test"
+        diagram "test" {
         shape A as @rectangle label: "Node without container"
-      `;
+      }`;
       const doc = await parse(input);
       const errors = doc.diagnostics?.filter((d) => d.severity === 1) ?? [];
       // Should pass - shape has explicit type

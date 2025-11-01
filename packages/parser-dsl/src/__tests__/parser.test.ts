@@ -5,7 +5,8 @@ describe('Langium Parser', () => {
   describe('Valid DSL Parsing', () => {
     it('should parse a minimal valid diagram', () => {
       const dsl = `
-        diagram "flowchart"
+        diagram "flowchart" {
+        }
       `;
       const result = parse(dsl);
 
@@ -17,8 +18,9 @@ describe('Langium Parser', () => {
 
     it('should parse diagram with direction', () => {
       const dsl = `
-        diagram "test"
-        direction LR
+        diagram "test" {
+          direction LR
+        }
       `;
       const result = parse(dsl);
 
@@ -30,7 +32,7 @@ describe('Langium Parser', () => {
       const directions = ['LR', 'RL', 'TB', 'BT'];
 
       directions.forEach((dir) => {
-        const dsl = `diagram "test"\ndirection ${dir}`;
+        const dsl = `diagram "test" { direction ${dir} }`;
         const result = parse(dsl);
 
         expect(result.success).toBe(true);
@@ -40,8 +42,9 @@ describe('Langium Parser', () => {
 
     it('should parse simple shape declaration', () => {
       const dsl = `
-        diagram "test"
-        shape MyNode as @rounded label: "My Node"
+        diagram "test" {
+          shape MyNode as @rounded label: "My Node"
+        }
       `;
       const result = parse(dsl);
 
@@ -54,9 +57,10 @@ describe('Langium Parser', () => {
 
     it('should parse shape with hyphenated shape ID', () => {
       const dsl = `
-        diagram "test"
-        shape Node1 as @lean-l label: "Lean Left"
-        shape Node2 as @lean-r label: "Lean Right"
+        diagram "test" {
+          shape Node1 as @lean-l label: "Lean Left"
+          shape Node2 as @lean-r label: "Lean Right"
+        }
       `;
       const result = parse(dsl);
 
@@ -68,8 +72,9 @@ describe('Langium Parser', () => {
 
     it('should parse cloud shape', () => {
       const dsl = `
-        diagram "test"
-        shape CloudNode as @cloud label: "Cloud Service"
+        diagram "test" {
+          shape CloudNode as @cloud label: "Cloud Service"
+        }
       `;
       const result = parse(dsl);
 
@@ -81,9 +86,10 @@ describe('Langium Parser', () => {
 
     it('should parse shape with all properties', () => {
       const dsl = `
-        diagram "test"
-        style myStyle fill: "red"
-        shape ComplexNode as @rhombus label: "Decision" style: myStyle tooltip: "Choose path"
+        diagram "test" {
+          style myStyle fill: "red"
+          shape ComplexNode as @rhombus label: "Decision" style: myStyle tooltip: "Choose path"
+        }
       `;
       const result = parse(dsl);
 
@@ -98,8 +104,9 @@ describe('Langium Parser', () => {
 
     it('should parse shape with icon', () => {
       const dsl = `
-        diagram "test"
-        shape UserNode as @rounded label: "User" icon: fa/user
+        diagram "test" {
+          shape UserNode as @rounded label: "User" icon: fa/user
+        }
       `;
       const result = parse(dsl);
 
@@ -113,8 +120,9 @@ describe('Langium Parser', () => {
 
     it('should parse shape with link', () => {
       const dsl = `
-        diagram "test"
-        shape LinkedNode as @rounded link: "https://example.com"
+        diagram "test" {
+          shape LinkedNode as @rounded link: "https://example.com"
+        }
       `;
       const result = parse(dsl);
 
@@ -127,10 +135,11 @@ describe('Langium Parser', () => {
 
     it('should parse simple edge', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded
-        shape B as @rounded
-        A -> B
+        diagram "test" {
+          shape A as @rounded
+          shape B as @rounded
+          A -> B
+        }
       `;
       const result = parse(dsl);
 
@@ -142,10 +151,11 @@ describe('Langium Parser', () => {
 
     it('should parse edge with label', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded
-        shape B as @rounded
-        A -success-> B
+        diagram "test" {
+          shape A as @rounded
+          shape B as @rounded
+          A -success-> B
+        }
       `;
       const result = parse(dsl);
 
@@ -164,8 +174,9 @@ describe('Langium Parser', () => {
 
     it('should parse edge without explicit shapes', () => {
       const dsl = `
-        diagram "test"
-        A -> B
+        diagram "test" {
+          A -> B
+        }
       `;
       const result = parse(dsl);
 
@@ -177,8 +188,9 @@ describe('Langium Parser', () => {
 
     it('should auto-create nodes referenced in edges', () => {
       const dsl = `
-        diagram "test"
-        A -> B
+        diagram "test" {
+          A -> B
+        }
       `;
       const result = parse(dsl);
 
@@ -194,8 +206,9 @@ describe('Langium Parser', () => {
 
     it('should parse style declaration', () => {
       const dsl = `
-        diagram "test"
-        style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2
+        diagram "test" {
+          style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2
+        }
       `;
       const result = parse(dsl);
 
@@ -210,10 +223,11 @@ describe('Langium Parser', () => {
 
     it('should parse group declaration', () => {
       const dsl = `
-        diagram "test"
-        group "My Group" {
-          shape A as @rounded
-          shape B as @rounded
+        diagram "test" {
+          group "My Group" {
+            shape A as @rounded
+            shape B as @rounded
+          }
         }
       `;
       const result = parse(dsl);
@@ -228,21 +242,22 @@ describe('Langium Parser', () => {
 
     it('should parse multiple statements', () => {
       const dsl = `
-        diagram "flowchart"
-        direction LR
-        
-        style default fill: "#f0f0f0" stroke: "#333"
-        style highlight fill: "#ffeb3b" stroke: "#f57c00"
-        
-        shape Start as @rounded label: "Start" style: highlight
-        shape Process as @rounded label: "Process"
-        shape End as @rounded label: "End"
-        
-        Start -> Process
-        Process -> End
-        
-        group "Main Flow" {
-          Start -> End
+        diagram "flowchart" {
+          direction LR
+          
+          style default fill: "#f0f0f0" stroke: "#333"
+          style highlight fill: "#ffeb3b" stroke: "#f57c00"
+          
+          shape Start as @rounded label: "Start" style: highlight
+          shape Process as @rounded label: "Process"
+          shape End as @rounded label: "End"
+          
+          Start -> Process
+          Process -> End
+          
+          group "Main Flow" {
+            Start -> End
+          }
         }
       `;
       const result = parse(dsl);
@@ -260,7 +275,7 @@ describe('Langium Parser', () => {
 
   describe('Edge Cases', () => {
     it('should handle empty diagram', () => {
-      const dsl = `diagram "test"`;
+      const dsl = `diagram "test" { }`;
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
@@ -270,9 +285,10 @@ describe('Langium Parser', () => {
 
     it('should handle edges without explicit shape declarations', () => {
       const dsl = `
-        diagram "test"
-        A -> B
-        B -> C
+        diagram "test" {
+          A -> B
+          B -> C
+        }
       `;
       const result = parse(dsl);
 
@@ -285,9 +301,10 @@ describe('Langium Parser', () => {
 
     it('should handle duplicate shape declarations', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded label: "First"
-        shape A as @rounded label: "Second"
+        diagram "test" {
+          shape A as @rounded label: "First"
+          shape A as @rounded label: "Second"
+        }
       `;
       const result = parse(dsl);
 
@@ -299,8 +316,9 @@ describe('Langium Parser', () => {
 
     it('should strip quotes from string values', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded label: "Test Label"
+        diagram "test" {
+          shape A as @rounded label: "Test Label"
+        }
       `;
       const result = parse(dsl);
 
@@ -311,8 +329,9 @@ describe('Langium Parser', () => {
 
     it('should handle special characters in labels', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded label: "Label with spaces & special chars!@#"
+        diagram "test" {
+          shape A as @rounded label: "Label with spaces & special chars!@#"
+        }
       `;
       const result = parse(dsl);
 
@@ -324,8 +343,9 @@ describe('Langium Parser', () => {
 
     it('should handle numeric values', () => {
       const dsl = `
-        diagram "test"
-        style myStyle strokeWidth: 3 fontSize: 16
+        diagram "test" {
+          style myStyle strokeWidth: 3 fontSize: 16
+        }
       `;
       const result = parse(dsl);
 
@@ -337,9 +357,10 @@ describe('Langium Parser', () => {
     });
 
     it('should handle whitespace variations', () => {
-      const dsl = `diagram "test"
+      const dsl = `diagram "test" {
 shape A as @rounded label: "A"
-A -> B`;
+A -> B
+}`;
       const result = parse(dsl);
 
       // Langium requires spaces around tokens for reliable parsing
@@ -387,8 +408,9 @@ A -> B`;
 
     it('should provide helpful error messages', () => {
       const dsl = `
-        diagram "test"
-        shape A as @rounded invalid_property: "value"
+        diagram "test" {
+          shape A as @rounded invalid_property: "value"
+        }
       `;
       const result = parse(dsl);
 
@@ -401,9 +423,10 @@ A -> B`;
 
     it('should handle unclosed braces', () => {
       const dsl = `
-        diagram "test"
-        group "Test" {
-          shape A as @rounded
+        diagram "test" {
+          group "Test" {
+            shape A as @rounded
+        }
       `;
       const result = parse(dsl);
 
@@ -413,8 +436,9 @@ A -> B`;
 
     it('should handle missing edge target', () => {
       const dsl = `
-        diagram "test"
-        A ->
+        diagram "test" {
+          A ->
+        }
       `;
       const result = parse(dsl);
 
@@ -426,9 +450,10 @@ A -> B`;
   describe('Comment Handling', () => {
     it('should ignore single-line comments', () => {
       const dsl = `
-        diagram "test"
-        // This is a comment
-        shape A as @rounded label: "A"
+        diagram "test" {
+          // This is a comment
+          shape A as @rounded label: "A"
+        }
       `;
       const result = parse(dsl);
 
@@ -438,12 +463,13 @@ A -> B`;
 
     it('should ignore multi-line comments', () => {
       const dsl = `
-        diagram "test"
-        /*
-         * Multi-line comment
-         * with multiple lines
-         */
-        shape A as @rounded label: "A"
+        diagram "test" {
+          /*
+           * Multi-line comment
+           * with multiple lines
+           */
+          shape A as @rounded label: "A"
+        }
       `;
       const result = parse(dsl);
 
@@ -453,9 +479,10 @@ A -> B`;
 
     it('should ignore hash comments', () => {
       const dsl = `
-        diagram "test"
-        # This is a hash comment
-        shape A as @rounded label: "A"
+        diagram "test" {
+          # This is a hash comment
+          shape A as @rounded label: "A"
+        }
       `;
       const result = parse(dsl);
 
@@ -467,24 +494,25 @@ A -> B`;
   describe('Complex Scenarios', () => {
     it('should parse a complete flowchart', () => {
       const dsl = `
-        diagram "flowchart"
-        direction TB
-        
-        style default fill: "#f0f0f0" stroke: "#333" strokeWidth: 2
-        style decision fill: "#fff7e6" stroke: "#aa7700"
-        style error fill: "#ffebee" stroke: "#c62828"
-        
-        shape Start as @rounded label: "User visits app"
-        shape CheckAuth as @rhombus label: "Authenticated?" style: decision
-        shape Login as @rounded label: "Show login page"
-        shape Dashboard as @rounded label: "Show dashboard"
-        shape Error as @rounded label: "Show error" style: error
-        
-        Start -> CheckAuth
-        CheckAuth -yes-> Dashboard
-        CheckAuth -no-> Login
-        Login -success-> Dashboard
-        Login -failure-> Error
+        diagram "flowchart" {
+          direction TB
+          
+          style default fill: "#f0f0f0" stroke: "#333" strokeWidth: 2
+          style decision fill: "#fff7e6" stroke: "#aa7700"
+          style error fill: "#ffebee" stroke: "#c62828"
+          
+          shape Start as @rounded label: "User visits app"
+          shape CheckAuth as @rhombus label: "Authenticated?" style: decision
+          shape Login as @rounded label: "Show login page"
+          shape Dashboard as @rounded label: "Show dashboard"
+          shape Error as @rounded label: "Show error" style: error
+          
+          Start -> CheckAuth
+          CheckAuth -yes-> Dashboard
+          CheckAuth -no-> Login
+          Login -success-> Dashboard
+          Login -failure-> Error
+        }
       `;
       const result = parse(dsl);
 
@@ -499,16 +527,16 @@ A -> B`;
 
     it('should parse sequence diagram elements', () => {
       const dsl = `
-        diagram "sequence"
-        
-        shape Client as @actor label: "Client"
-        shape API as @rounded label: "API Server"
-        shape DB as @rounded label: "Database"
-        
-        Client -request-> API
-        API -query-> DB
-        DB -result-> API
-        API -response-> Client
+        diagram "sequence" {
+          shape Client as @actor label: "Client"
+          shape API as @rounded label: "API Server"
+          shape DB as @rounded label: "Database"
+          
+          Client -request-> API
+          API -query-> DB
+          DB -result-> API
+          API -response-> Client
+        }
       `;
       const result = parse(dsl);
 
@@ -526,7 +554,7 @@ A -> B`;
   describe('Performance', () => {
     it('should parse large diagrams efficiently', () => {
       // Generate a large diagram
-      let dsl = 'diagram "test"\n';
+      let dsl = 'diagram "test" {\n';
       const nodeCount = 100;
 
       for (let i = 0; i < nodeCount; i++) {
@@ -536,6 +564,8 @@ A -> B`;
       for (let i = 0; i < nodeCount - 1; i++) {
         dsl += `Node${i} -> Node${i + 1}\n`;
       }
+
+      dsl += '}\n';
 
       const startTime = Date.now();
       const result = parse(dsl);

@@ -6,6 +6,8 @@ import {
   curlyBraceAnnotationShape,
   magneticTapeShape,
 } from './flowchart-additions.js';
+import { orShape } from '../special/or.js';
+import { summingJunctionShape } from '../control-systems/summingJunction.js';
 import type { ShapeRenderContext } from '../../types.js';
 
 function createMockContext(label = 'Test'): ShapeRenderContext {

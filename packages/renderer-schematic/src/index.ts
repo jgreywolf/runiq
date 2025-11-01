@@ -98,22 +98,36 @@ export function renderSchematic(
   // Calculate bounds
   const bounds = calculateBounds(positioned, wires);
 
+  // Determine CSS class prefix based on profile type
+  const classPrefix =
+    profile.type === 'electrical'
+      ? 'electrical'
+      : profile.type === 'pneumatic'
+        ? 'pneumatic'
+        : 'hydraulic';
+
   // Generate SVG
   let svg = generateSvgHeader(bounds, profile.name);
-  svg += generateStyles(wireColor, componentColor);
+  svg += generateStyles(wireColor, componentColor, classPrefix);
   svg += generateDefs();
 
   // Render wires (below components)
-  svg += renderWires(wires, showNetLabels);
+  svg += renderWires(wires, showNetLabels, classPrefix);
 
   // Render components
-  svg += renderComponents(positioned, showValues, showReferences, warnings);
+  svg += renderComponents(
+    positioned,
+    showValues,
+    showReferences,
+    warnings,
+    classPrefix
+  );
 
   // Render ground symbols
-  svg += renderGroundSymbols(netMap, connections, gridSize);
+  svg += renderGroundSymbols(netMap, connections, gridSize, classPrefix);
 
   // Render profile metadata (pressure, flow, fluid specs)
-  svg += renderProfileMetadata(profile, bounds);
+  svg += renderProfileMetadata(profile, bounds, classPrefix);
 
   svg += '</svg>';
 
@@ -372,15 +386,19 @@ function generateSvgHeader(
 /**
  * Generate CSS styles
  */
-function generateStyles(wireColor: string, componentColor: string): string {
+function generateStyles(
+  wireColor: string,
+  componentColor: string,
+  classPrefix: string
+): string {
   return `
   <defs>
     <style type="text/css"><![CDATA[
-      .schematic-wire { stroke: ${wireColor}; stroke-width: 2; fill: none; }
-      .schematic-component { color: ${componentColor}; }
-      .schematic-label { font-family: sans-serif; font-size: 12px; fill: ${componentColor}; }
-      .schematic-value { font-family: sans-serif; font-size: 10px; fill: ${componentColor}; }
-      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+      .${classPrefix}-wire { stroke: ${wireColor}; stroke-width: 2; fill: none; }
+      .${classPrefix}-component { color: ${componentColor}; }
+      .${classPrefix}-label { font-family: sans-serif; font-size: 12px; fill: ${componentColor}; }
+      .${classPrefix}-value { font-family: sans-serif; font-size: 10px; fill: ${componentColor}; }
+      .${classPrefix}-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
     ]]></style>
   </defs>
 `;
@@ -402,9 +420,10 @@ function renderWires(
     points: { x: number; y: number }[];
     junctions?: { x: number; y: number }[];
   }[],
-  showNetLabels: boolean
+  showNetLabels: boolean,
+  classPrefix: string
 ): string {
-  let svg = '<g class="schematic-wires">\n';
+  let svg = `<g class="${classPrefix}-wires">\n`;
 
   // Collect all junctions
   const allJunctions = new Map<string, { x: number; y: number }>();
@@ -416,13 +435,13 @@ function renderWires(
       .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x},${p.y}`)
       .join(' ');
 
-    svg += `  <path d="${pathData}" class="schematic-wire"/>\n`;
+    svg += `  <path d="${pathData}" class="${classPrefix}-wire"/>\n`;
 
     // Add net label at midpoint
     if (showNetLabels && wire.net !== 'GND') {
       const midIdx = Math.floor(wire.points.length / 2);
       const midPoint = wire.points[midIdx];
-      svg += `  <text x="${midPoint.x + 5}" y="${midPoint.y - 5}" class="schematic-net-label">${escapeXml(wire.net)}</text>\n`;
+      svg += `  <text x="${midPoint.x + 5}" y="${midPoint.y - 5}" class="${classPrefix}-net-label">${escapeXml(wire.net)}</text>\n`;
     }
 
     // Collect junctions from this wire
@@ -436,9 +455,9 @@ function renderWires(
 
   // Render junction dots
   if (allJunctions.size > 0) {
-    svg += '  <g class="schematic-junctions">\n';
+    svg += `  <g class="${classPrefix}-junctions">\n`;
     for (const junction of allJunctions.values()) {
-      svg += `    <circle cx="${junction.x}" cy="${junction.y}" r="3" class="schematic-junction" fill="currentColor"/>\n`;
+      svg += `    <circle cx="${junction.x}" cy="${junction.y}" r="3" class="${classPrefix}-junction" fill="currentColor"/>\n`;
     }
     svg += '  </g>\n';
   }
@@ -454,9 +473,10 @@ function renderComponents(
   positioned: PositionedComponent[],
   showValues: boolean,
   showReferences: boolean,
-  warnings: string[]
+  warnings: string[],
+  classPrefix: string
 ): string {
-  let svg = '<g class="schematic-components">\n';
+  let svg = `<g class="${classPrefix}-components">\n`;
 
   for (const comp of positioned) {
     // Get rotation angle (default to 0)
@@ -484,7 +504,7 @@ function renderComponents(
         ? ` transform="rotate(${actualRotation} ${centerX} ${centerY})"`
         : '';
 
-    svg += `  <g class="schematic-component" data-ref="${escapeXml(comp.part.ref)}"${transformAttr}>\n`;
+    svg += `  <g class="${classPrefix}-component" data-ref="${escapeXml(comp.part.ref)}"${transformAttr}>\n`;
     svg += comp.symbol.render(comp.x, comp.y);
 
     // Component reference (above)
@@ -492,7 +512,7 @@ function renderComponents(
       const labelX = comp.x + comp.symbol.width / 2;
       const labelY = comp.y - 8;
       svg += `    <text x="${labelX}" y="${labelY}" 
-        class="schematic-label" 
+        class="${classPrefix}-label" 
         text-anchor="middle">${escapeXml(comp.part.ref)}</text>\n`;
     }
 
@@ -508,7 +528,7 @@ function renderComponents(
         const valueX = comp.x + comp.symbol.width / 2;
         const valueY = comp.y + comp.symbol.height + 15;
         svg += `    <text x="${valueX}" y="${valueY}" 
-          class="schematic-value" 
+          class="${classPrefix}-value" 
           text-anchor="middle">${escapeXml(String(value))}</text>\n`;
       }
     }
@@ -526,9 +546,10 @@ function renderComponents(
 function renderGroundSymbols(
   _netMap: Map<string, PartAst[]>,
   connections: NetConnection[],
-  _gridSize: number
+  _gridSize: number,
+  classPrefix: string
 ): string {
-  let svg = '<g class="schematic-grounds">\n';
+  let svg = `<g class="${classPrefix}-grounds">\n`;
 
   const groundConnections = connections.filter((c) => c.net === 'GND');
 
@@ -551,7 +572,8 @@ function renderGroundSymbols(
  */
 function renderProfileMetadata(
   profile: RenderableProfile,
-  bounds: { width: number; height: number; minX: number; minY: number }
+  bounds: { width: number; height: number; minX: number; minY: number },
+  classPrefix: string
 ): string {
   let svg = '<g class="profile-metadata">\n';
 
@@ -563,21 +585,21 @@ function renderProfileMetadata(
   if ('pressure' in profile && profile.pressure) {
     const { value, unit, type } = profile.pressure;
     const typeStr = type ? ` (${type})` : '';
-    svg += `  <text x="${startX}" y="${currentY}" class="schematic-label">Pressure: ${value} ${unit}${typeStr}</text>\n`;
+    svg += `  <text x="${startX}" y="${currentY}" class="${classPrefix}-label">Pressure: ${value} ${unit}${typeStr}</text>\n`;
     currentY += 18;
   }
 
   // Render flow rate specification
   if ('flowRate' in profile && profile.flowRate) {
     const { value, unit } = profile.flowRate;
-    svg += `  <text x="${startX}" y="${currentY}" class="schematic-label">Flow Rate: ${value} ${unit}</text>\n`;
+    svg += `  <text x="${startX}" y="${currentY}" class="${classPrefix}-label">Flow Rate: ${value} ${unit}</text>\n`;
     currentY += 18;
   }
 
   // Render fluid specification (hydraulic only)
   if ('fluid' in profile && profile.fluid) {
     const { type, viscosity, temperature } = profile.fluid;
-    svg += `  <text x="${startX}" y="${currentY}" class="schematic-label">Fluid: ${type}`;
+    svg += `  <text x="${startX}" y="${currentY}" class="${classPrefix}-label">Fluid: ${type}`;
     if (viscosity) {
       svg += ` (${escapeXml(viscosity)})`;
     }
@@ -585,7 +607,7 @@ function renderProfileMetadata(
     currentY += 18;
 
     if (temperature) {
-      svg += `  <text x="${startX}" y="${currentY}" class="schematic-label">`;
+      svg += `  <text x="${startX}" y="${currentY}" class="${classPrefix}-label">`;
       svg += `Temp: ${temperature.min}°${temperature.unit} to ${temperature.max}°${temperature.unit}`;
       svg += '</text>\n';
     }
