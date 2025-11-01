@@ -53,6 +53,11 @@ export const umlShapeIcons: ShapeCategory[] = [
 				label: 'Continuation',
 				code: 'shape id as @continuation label:"ref LoginSuccess"'
 			},
+			{
+				id: 'timeObservation',
+				label: 'Time Observation',
+				code: 'shape id as @timeObservation label:"t < 100ms"'
+			},
 			// State Machine Diagrams
 			{ id: 'state', label: 'State', code: 'shape id as @state label:"Active"' },
 			{ id: 'initialState', label: 'Initial State', code: 'shape id as @initialState' },

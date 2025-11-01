@@ -12,6 +12,7 @@ export { activationShape } from './activation.js';
 export { fragmentShape } from './fragment.js';
 export { deletionShape } from './deletion.js';
 export { continuationShape } from './sequence-continuation.js';
+export { timeObservationShape } from './sequence-time-observation.js';
 export { stateShape } from './state.js';
 export { initialStateShape } from './initialState.js';
 export { finalStateShape } from './finalState.js';
