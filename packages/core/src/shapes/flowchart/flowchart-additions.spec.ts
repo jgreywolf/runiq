@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import {
   multiProcessShape,
-  orShape,
-  summingJunctionShape,
   curlyBraceAnnotationShape,
   magneticTapeShape,
 } from './flowchart-additions.js';
+import { orShape } from '../special/or.js';
+import { summingJunctionShape } from '../control-systems/summingJunction.js';
 import type { ShapeRenderContext } from '../../types.js';
 
 function createMockContext(label = 'Test'): ShapeRenderContext {
@@ -63,7 +63,7 @@ describe('Flowchart Additions', () => {
 
   describe('summingJunctionShape', () => {
     it('should have correct id', () => {
-      expect(summingJunctionShape.id).toBe('summing-junction');
+      expect(summingJunctionShape.id).toBe('summingJunction');
     });
 
     it('should render circle with + symbol inside', () => {
