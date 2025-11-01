@@ -99,9 +99,12 @@ export function renderSchematic(
   const bounds = calculateBounds(positioned, wires);
 
   // Determine CSS class prefix based on profile type
-  const classPrefix = profile.type === 'electrical' ? 'electrical' : 
-                     profile.type === 'pneumatic' ? 'pneumatic' : 
-                     'hydraulic';
+  const classPrefix =
+    profile.type === 'electrical'
+      ? 'electrical'
+      : profile.type === 'pneumatic'
+        ? 'pneumatic'
+        : 'hydraulic';
 
   // Generate SVG
   let svg = generateSvgHeader(bounds, profile.name);
@@ -112,7 +115,13 @@ export function renderSchematic(
   svg += renderWires(wires, showNetLabels, classPrefix);
 
   // Render components
-  svg += renderComponents(positioned, showValues, showReferences, warnings, classPrefix);
+  svg += renderComponents(
+    positioned,
+    showValues,
+    showReferences,
+    warnings,
+    classPrefix
+  );
 
   // Render ground symbols
   svg += renderGroundSymbols(netMap, connections, gridSize, classPrefix);
@@ -377,7 +386,11 @@ function generateSvgHeader(
 /**
  * Generate CSS styles
  */
-function generateStyles(wireColor: string, componentColor: string, classPrefix: string): string {
+function generateStyles(
+  wireColor: string,
+  componentColor: string,
+  classPrefix: string
+): string {
   return `
   <defs>
     <style type="text/css"><![CDATA[
