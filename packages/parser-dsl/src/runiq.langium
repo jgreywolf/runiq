@@ -252,7 +252,7 @@ SequenceParticipantStatement:
     'participant' name=STRING ('as' type=SequenceParticipantType)?;
 
 SequenceParticipantType returns string:
-    'actor' | 'entity' | 'boundary' | 'control' | 'database';
+    'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'continuation';
 
 // message from:"Actor" to:"Web Server" label:"HTTP Request" type:sync activate:true
 SequenceMessageStatement:

@@ -2720,6 +2720,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "database"
+          },
+          {
+            "$type": "Keyword",
+            "value": "continuation"
           }
         ]
       },

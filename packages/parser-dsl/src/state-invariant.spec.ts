@@ -85,7 +85,9 @@ describe('State Invariant Parsing', () => {
 
     expect(result.success).toBe(true);
     expect(result.diagram!.nodes).toHaveLength(3);
-    expect(result.diagram!.nodes[0].stateInvariant).toBe('balance >= minBalance');
+    expect(result.diagram!.nodes[0].stateInvariant).toBe(
+      'balance >= minBalance'
+    );
     expect(result.diagram!.nodes[1].stateInvariant).toBe('count <= maxValue');
     expect(result.diagram!.nodes[2].stateInvariant).toBe('age != 0');
   });
@@ -99,6 +101,8 @@ describe('State Invariant Parsing', () => {
 
     expect(result.success).toBe(true);
     expect(result.diagram!.nodes).toHaveLength(1);
-    expect(result.diagram!.nodes[0].stateInvariant).toBe('result = input1 + input2');
+    expect(result.diagram!.nodes[0].stateInvariant).toBe(
+      'result = input1 + input2'
+    );
   });
 });

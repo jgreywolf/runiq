@@ -109,625 +109,633 @@
 			};
 		}
 
-	// Special handling for multiRectangle to make offset more visible
-	if (shapeId === 'multiRectangle') {
-		return {
-			node: { id: '', label: '', data: { offset: 6, stackCount: 3 } },
-			style: {
-				padding: 2,
-				fill: '#f0f0f0',
-				stroke: '#333',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 20, height: 8 };
-			}
-		};
-	}
-
-	// Special handling for lightning bolt to make it more visible
-	if (shapeId === 'lightning') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 4,
-				fill: '#fbbf24',
-				stroke: '#000',
-				strokeWidth: 1.5,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
-
-	// Special handling for C4 shapes to show proper styling
-	if (shapeId === 'c4-person') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#08427B',
-				stroke: '#052E56',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
-
-	if (shapeId === 'c4-system') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 3,
-				fill: '#1168BD',
-				stroke: '#0B4884',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 7
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 30, height: 10 };
-			}
-		};
-	}
-
-	if (shapeId === 'c4-container') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 3,
-				fill: '#438DD5',
-				stroke: '#2E6295',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 28, height: 10 };
-			}
-		};
-	}
-
-	if (shapeId === 'c4-component') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#85BBF0',
-				stroke: '#5A9BD5',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 24, height: 8 };
-			}
-		};
-	}
-
-	// BPMN shapes with proper styling
-	if (shapeId === 'bpmnTask') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 28, height: 10 };
-			}
-		};
-	}
-
-	if (shapeId === 'bpmnEventStart' || shapeId === 'bpmnEventEnd' || shapeId === 'bpmnEventIntermediate') {
-		const eventType = shapeId.replace('bpmnEvent', '').toLowerCase();
-		return {
-			node: { id: '', label: '', shape: 'bpmnEvent', data: { values: [{ eventType }] } },
-			style: {
-				padding: 1,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
-
-	if (shapeId === 'bpmnGatewayExclusive' || shapeId === 'bpmnGatewayParallel' || shapeId === 'bpmnGatewayInclusive') {
-		const gatewayType = shapeId.replace('bpmnGateway', '').toLowerCase();
-		return {
-			node: { id: '', label: '', shape: 'bpmnGateway', data: { values: [{ gatewayType }] } },
-			style: {
-				padding: 1,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
-
-	if (shapeId === 'bpmnDataObject') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 18, height: 24 };
-			}
-		};
-	}
-
-	if (shapeId === 'bpmnMessage') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 24, height: 18 };
-			}
-		};
-	}
-
-	// Quantum circuit shapes - use thinner strokes for small circles
-	if (shapeId === 'controlDot') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 0,
-				fill: '#000',
-				stroke: 'none', // No stroke - solid filled circle
-				strokeWidth: 0,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
-
-	if (shapeId === 'cnotTarget') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 0,
-				fill: 'none',
-				stroke: '#000',
-				strokeWidth: 0.5, // Thinner stroke for icon
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
-
-	if (shapeId === 'pieChart') {
-		return {
-			node: { id: '', label: '', data: { width: 120, height: 40 } },
-			style: {
-				padding: 2,
-				fill: '#e6f3ff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
-
-	// Chart shapes with sample data for preview
-	if (shapeId === 'pieChart') {
-		return {
-			node: {
-				id: '',
-				label: '',
-				data: {
-					values: [
-						{ label: 'A', value: 30 },
-						{ label: 'B', value: 25 },
-						{ label: 'C', value: 20 }
-					],
-					showLegend: false
+		// Special handling for multiRectangle to make offset more visible
+		if (shapeId === 'multiRectangle') {
+			return {
+				node: { id: '', label: '', data: { offset: 6, stackCount: 3 } },
+				style: {
+					padding: 2,
+					fill: '#f0f0f0',
+					stroke: '#333',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 20, height: 8 };
 				}
-			},
-			style: {
-				padding: 2,
-				font: 'sans-serif',
-				fontSize: 5
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+			};
+		}
 
-	if (shapeId === 'barChartVertical') {
-		return {
-			node: {
-				id: '',
-				label: '',
-				data: {
-					values: [
-						{ label: 'A', value: 30 },
-						{ label: 'B', value: 45 },
-						{ label: 'C', value: 25 }
-					],
-					showLegend: false
+		// Special handling for lightning bolt to make it more visible
+		if (shapeId === 'lightning') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 4,
+					fill: '#fbbf24',
+					stroke: '#000',
+					strokeWidth: 1.5,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
 				}
-			},
-			style: {
-				padding: 2,
-				font: 'sans-serif',
-				fontSize: 5
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+			};
+		}
 
-	if (shapeId === 'barChartHorizontal') {
-		return {
-			node: {
-				id: '',
-				label: '',
-				data: {
-					values: [
-						{ label: 'A', value: 30 },
-						{ label: 'B', value: 45 },
-						{ label: 'C', value: 25 }
-					],
-					showLegend: false
+		// Special handling for C4 shapes to show proper styling
+		if (shapeId === 'c4-person') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#08427B',
+					stroke: '#052E56',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
 				}
-			},
-			style: {
-				padding: 2,
-				font: 'sans-serif',
-				fontSize: 5
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+			};
+		}
 
-	// AWS shapes with official AWS colors
-	if (shapeId === 'awsEc2') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#FF9900',
-				stroke: '#232F3E',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+		if (shapeId === 'c4-system') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 3,
+					fill: '#1168BD',
+					stroke: '#0B4884',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 7
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 30, height: 10 };
+				}
+			};
+		}
 
-	if (shapeId === 'awsS3') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#569A31',
-				stroke: '#232F3E',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+		if (shapeId === 'c4-container') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 3,
+					fill: '#438DD5',
+					stroke: '#2E6295',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 28, height: 10 };
+				}
+			};
+		}
 
-	if (shapeId === 'awsLambda') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#FF9900',
-				stroke: '#232F3E',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+		if (shapeId === 'c4-component') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#85BBF0',
+					stroke: '#5A9BD5',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 24, height: 8 };
+				}
+			};
+		}
 
-	if (shapeId === 'awsRds') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#3F5BE7',
-				stroke: '#232F3E',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+		// BPMN shapes with proper styling
+		if (shapeId === 'bpmnTask') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 28, height: 10 };
+				}
+			};
+		}
 
-	if (shapeId === 'awsVpc') {
-		return {
-			node: { id: '', label: '', data: { width: 80, height: 60 } },
-			style: {
-				padding: 2,
-				fill: '#E6F3FF',
-				stroke: '#147EB8',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+		if (
+			shapeId === 'bpmnEventStart' ||
+			shapeId === 'bpmnEventEnd' ||
+			shapeId === 'bpmnEventIntermediate'
+		) {
+			const eventType = shapeId.replace('bpmnEvent', '').toLowerCase();
+			return {
+				node: { id: '', label: '', shape: 'bpmnEvent', data: { values: [{ eventType }] } },
+				style: {
+					padding: 1,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	if (shapeId === 'awsApiGateway') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#945BB3',
-				stroke: '#232F3E',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
-			}
-		};
-	}
+		if (
+			shapeId === 'bpmnGatewayExclusive' ||
+			shapeId === 'bpmnGatewayParallel' ||
+			shapeId === 'bpmnGatewayInclusive'
+		) {
+			const gatewayType = shapeId.replace('bpmnGateway', '').toLowerCase();
+			return {
+				node: { id: '', label: '', shape: 'bpmnGateway', data: { values: [{ gatewayType }] } },
+				style: {
+					padding: 1,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	// ERD shapes
-	if (shapeId === 'erdEntity') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 30, height: 12 };
-			}
-		};
-	}
+		if (shapeId === 'bpmnDataObject') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 18, height: 24 };
+				}
+			};
+		}
 
-	if (shapeId === 'erdWeakEntity') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 30, height: 12 };
-			}
-		};
-	}
+		if (shapeId === 'bpmnMessage') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 24, height: 18 };
+				}
+			};
+		}
 
-	if (shapeId === 'erdRelationship') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 25, height: 12 };
-			}
-		};
-	}
+		// Quantum circuit shapes - use thinner strokes for small circles
+		if (shapeId === 'controlDot') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 0,
+					fill: '#000',
+					stroke: 'none', // No stroke - solid filled circle
+					strokeWidth: 0,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	if (shapeId === 'erdAttribute') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 25, height: 12 };
-			}
-		};
-	}
+		if (shapeId === 'cnotTarget') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 0,
+					fill: 'none',
+					stroke: '#000',
+					strokeWidth: 0.5, // Thinner stroke for icon
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	if (shapeId === 'erdKeyAttribute') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 25, height: 12 };
-			}
-		};
-	}
+		if (shapeId === 'pieChart') {
+			return {
+				node: { id: '', label: '', data: { width: 120, height: 40 } },
+				style: {
+					padding: 2,
+					fill: '#e6f3ff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	if (shapeId === 'erdMultiValuedAttribute') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#fff',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 25, height: 12 };
-			}
-		};
-	}
+		// Chart shapes with sample data for preview
+		if (shapeId === 'pieChart') {
+			return {
+				node: {
+					id: '',
+					label: '',
+					data: {
+						values: [
+							{ label: 'A', value: 30 },
+							{ label: 'B', value: 25 },
+							{ label: 'C', value: 20 }
+						],
+						showLegend: false
+					}
+				},
+				style: {
+					padding: 2,
+					font: 'sans-serif',
+					fontSize: 5
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	// Package (UML) shape - toolbox uses 'package', maps to 'umlPackage'
-	if (shapeId === 'package') {
-		return {
-			node: { id: '', label: 'Pkg', shape: 'umlPackage' },
-			style: {
-				padding: 4,
-				fill: '#ffe4b5', // Orange/moccasin color
-				stroke: '#333',
-				strokeWidth: 1,
-				color: '#000', // Black text
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 15, height: 8 };
-			}
-		};
-	}
+		if (shapeId === 'barChartVertical') {
+			return {
+				node: {
+					id: '',
+					label: '',
+					data: {
+						values: [
+							{ label: 'A', value: 30 },
+							{ label: 'B', value: 45 },
+							{ label: 'C', value: 25 }
+						],
+						showLegend: false
+					}
+				},
+				style: {
+					padding: 2,
+					font: 'sans-serif',
+					fontSize: 5
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	// Special handling for dividedRectangle - narrower for icon
-	if (shapeId === 'dividedRectangle') {
-		return {
-			node: { id: '', label: '', data: { minWidth: 32 } },
-			style: {
-				padding: 2,
-				fill: '#f0f0f0',
-				stroke: '#333',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 20, height: 8 };
-			}
-		};
-	}
+		if (shapeId === 'barChartHorizontal') {
+			return {
+				node: {
+					id: '',
+					label: '',
+					data: {
+						values: [
+							{ label: 'A', value: 30 },
+							{ label: 'B', value: 45 },
+							{ label: 'C', value: 25 }
+						],
+						showLegend: false
+					}
+				},
+				style: {
+					padding: 2,
+					font: 'sans-serif',
+					fontSize: 5
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	// Special handling for linedRectangle - shorter for icon
-	if (shapeId === 'linedRectangle') {
-		return {
-			node: { id: '', label: '', data: { minHeight: 28 } },
-			style: {
-				padding: 2,
-				fill: '#f0f0f0',
-				stroke: '#333',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 18, height: 8 };
-			}
-		};
-	}
+		// AWS shapes with official AWS colors
+		if (shapeId === 'awsEc2') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#FF9900',
+					stroke: '#232F3E',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	// Special handling for taggedRectangle - proper styling
-	if (shapeId === 'taggedRectangle') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 3,
-				fill: '#e0f2fe', // Light blue fill
-				stroke: '#0369a1', // Darker blue for outline and tag
-				strokeWidth: 1.5,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 20, height: 10 };
-			}
-		};
-	}
+		if (shapeId === 'awsS3') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#569A31',
+					stroke: '#232F3E',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	// Special handling for notchedRectangle - proper styling
-	if (shapeId === 'notchedRectangle') {
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 3,
-				fill: '#fef3c7', // Light yellow fill
-				stroke: '#d97706', // Amber for outline
-				strokeWidth: 1.5,
-				font: 'sans-serif',
-				fontSize: 6
-			},
-			measureText: (text: string, style: any) => {
-				return { width: 20, height: 10 };
-			}
-		};
-	}
+		if (shapeId === 'awsLambda') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#FF9900',
+					stroke: '#232F3E',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
 
-	// Shapes that need minimum bounds (won't render properly with no text)
+		if (shapeId === 'awsRds') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#3F5BE7',
+					stroke: '#232F3E',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
+
+		if (shapeId === 'awsVpc') {
+			return {
+				node: { id: '', label: '', data: { width: 80, height: 60 } },
+				style: {
+					padding: 2,
+					fill: '#E6F3FF',
+					stroke: '#147EB8',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
+
+		if (shapeId === 'awsApiGateway') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#945BB3',
+					stroke: '#232F3E',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 0, height: 0 };
+				}
+			};
+		}
+
+		// ERD shapes
+		if (shapeId === 'erdEntity') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 30, height: 12 };
+				}
+			};
+		}
+
+		if (shapeId === 'erdWeakEntity') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 30, height: 12 };
+				}
+			};
+		}
+
+		if (shapeId === 'erdRelationship') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 25, height: 12 };
+				}
+			};
+		}
+
+		if (shapeId === 'erdAttribute') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 25, height: 12 };
+				}
+			};
+		}
+
+		if (shapeId === 'erdKeyAttribute') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 25, height: 12 };
+				}
+			};
+		}
+
+		if (shapeId === 'erdMultiValuedAttribute') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 2,
+					fill: '#fff',
+					stroke: '#000',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 25, height: 12 };
+				}
+			};
+		}
+
+		// Package (UML) shape - toolbox uses 'package', maps to 'umlPackage'
+		if (shapeId === 'package') {
+			return {
+				node: { id: '', label: 'Pkg', shape: 'umlPackage' },
+				style: {
+					padding: 4,
+					fill: '#ffe4b5', // Orange/moccasin color
+					stroke: '#333',
+					strokeWidth: 1,
+					color: '#000', // Black text
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 15, height: 8 };
+				}
+			};
+		}
+
+		// Special handling for dividedRectangle - narrower for icon
+		if (shapeId === 'dividedRectangle') {
+			return {
+				node: { id: '', label: '', data: { minWidth: 32 } },
+				style: {
+					padding: 2,
+					fill: '#f0f0f0',
+					stroke: '#333',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 20, height: 8 };
+				}
+			};
+		}
+
+		// Special handling for linedRectangle - shorter for icon
+		if (shapeId === 'linedRectangle') {
+			return {
+				node: { id: '', label: '', data: { minHeight: 28 } },
+				style: {
+					padding: 2,
+					fill: '#f0f0f0',
+					stroke: '#333',
+					strokeWidth: 1,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 18, height: 8 };
+				}
+			};
+		}
+
+		// Special handling for taggedRectangle - proper styling
+		if (shapeId === 'taggedRectangle') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 3,
+					fill: '#e0f2fe', // Light blue fill
+					stroke: '#0369a1', // Darker blue for outline and tag
+					strokeWidth: 1.5,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 20, height: 10 };
+				}
+			};
+		}
+
+		// Special handling for notchedRectangle - proper styling
+		if (shapeId === 'notchedRectangle') {
+			return {
+				node: { id: '', label: '' },
+				style: {
+					padding: 3,
+					fill: '#fef3c7', // Light yellow fill
+					stroke: '#d97706', // Amber for outline
+					strokeWidth: 1.5,
+					font: 'sans-serif',
+					fontSize: 6
+				},
+				measureText: (text: string, style: any) => {
+					return { width: 20, height: 10 };
+				}
+			};
+		}
+
+		// Shapes that need minimum bounds (won't render properly with no text)
 		const needsMinBounds = [
 			'roundedRectangle',
 			'stadium',
@@ -972,7 +980,9 @@
 		const shapeContent = shape.render(mockContext as any, { x: 0, y: 0 });
 
 		// Chart shapes need larger display size in toolbox
-		const isChartShape = ['pieChart', 'barChartVertical', 'barChartHorizontal', 'pyramid'].includes(shapeId);
+		const isChartShape = ['pieChart', 'barChartVertical', 'barChartHorizontal', 'pyramid'].includes(
+			shapeId
+		);
 		const displaySize = isChartShape ? size * 3 : size;
 
 		return `

@@ -48,6 +48,11 @@ export const umlShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @interactionFragment label:"alt"'
 			},
 			{ id: 'deletion', label: 'Deletion', code: 'shape id as @deletion' },
+			{
+				id: 'continuation',
+				label: 'Continuation',
+				code: 'shape id as @continuation label:"ref LoginSuccess"'
+			},
 			// State Machine Diagrams
 			{ id: 'state', label: 'State', code: 'shape id as @state label:"Active"' },
 			{ id: 'initialState', label: 'Initial State', code: 'shape id as @initialState' },
@@ -76,7 +81,11 @@ export const umlShapeIcons: ShapeCategory[] = [
 				label: 'Swimlane',
 				code: 'shape id as @swimlane label:"Department" data:[{orientation:"vertical"}]'
 			},
-			{ id: 'sendSignal', label: 'Send Signal', code: 'shape id as @sendSignal label:"Send Email"' },
+			{
+				id: 'sendSignal',
+				label: 'Send Signal',
+				code: 'shape id as @sendSignal label:"Send Email"'
+			},
 			{
 				id: 'receiveSignal',
 				label: 'Receive Signal',

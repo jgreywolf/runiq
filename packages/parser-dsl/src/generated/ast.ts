@@ -107,6 +107,7 @@ export type RuniqKeywordNames =
     | "constraints:"
     | "container"
     | "container-aware"
+    | "continuation"
     | "control"
     | "create"
     | "critical"
@@ -2769,10 +2770,10 @@ export function isSequenceParticipantStatement(item: unknown): item is SequenceP
     return reflection.isInstance(item, SequenceParticipantStatement.$type);
 }
 
-export type SequenceParticipantType = 'actor' | 'boundary' | 'control' | 'database' | 'entity';
+export type SequenceParticipantType = 'actor' | 'boundary' | 'continuation' | 'control' | 'database' | 'entity';
 
 export function isSequenceParticipantType(item: unknown): item is SequenceParticipantType {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database';
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'continuation';
 }
 
 export interface SequenceProfile extends langium.AstNode {

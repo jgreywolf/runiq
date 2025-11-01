@@ -131,7 +131,10 @@ describe('Activity Signal Shapes', () => {
         ...mockContext,
         node: { id: 'test' },
       };
-      const svg = receiveSignalShape.render(contextWithoutLabel, { x: 0, y: 0 });
+      const svg = receiveSignalShape.render(contextWithoutLabel, {
+        x: 0,
+        y: 0,
+      });
       expect(svg).toContain('Receive');
     });
   });

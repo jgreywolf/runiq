@@ -153,6 +153,7 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.activationShape);
   shapeRegistry.register(uml.fragmentShape);
   shapeRegistry.register(uml.deletionShape);
+  shapeRegistry.register(uml.continuationShape);
   shapeRegistry.register(uml.stateShape);
   shapeRegistry.register(uml.initialStateShape);
   shapeRegistry.register(uml.finalStateShape);

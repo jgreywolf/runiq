@@ -733,7 +733,7 @@ export interface SequenceProfile {
 export interface SequenceParticipant {
   id: string; // Unique identifier (e.g., "user", "api", "db")
   name: string; // Display name (e.g., "User", "API Server", "Database")
-  type?: 'actor' | 'entity' | 'boundary' | 'control' | 'database'; // Participant type
+  type?: 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'continuation'; // Participant type
 }
 
 /**
