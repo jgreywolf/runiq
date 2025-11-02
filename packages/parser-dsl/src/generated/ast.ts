@@ -192,6 +192,7 @@ export type RuniqKeywordNames =
     | "historyDeep"
     | "historyShallow"
     | "hollow"
+    | "horizontal"
     | "hoverBorderColor:"
     | "hoverBorderWidth:"
     | "hoverHighlight:"
@@ -266,6 +267,7 @@ export type RuniqKeywordNames =
     | "open"
     | "operating"
     | "opt"
+    | "orientation:"
     | "orthogonal"
     | "outputPins:"
     | "over"
@@ -376,6 +378,7 @@ export type RuniqKeywordNames =
     | "true"
     | "type:"
     | "value:"
+    | "vertical"
     | "verticalAlign:"
     | "verticalFork"
     | "visibility:"
@@ -751,12 +754,14 @@ export interface ContainerLayoutProperty extends langium.AstNode {
     readonly $container: ContainerBlock;
     readonly $type: 'ContainerLayoutProperty';
     algorithm?: LayoutAlgorithmValue;
+    orientation?: OrientationValue;
     spacing?: string;
 }
 
 export const ContainerLayoutProperty = {
     $type: 'ContainerLayoutProperty',
     algorithm: 'algorithm',
+    orientation: 'orientation',
     spacing: 'spacing'
 } as const;
 
@@ -2156,6 +2161,12 @@ export const OpacityProperty = {
 
 export function isOpacityProperty(item: unknown): item is OpacityProperty {
     return reflection.isInstance(item, OpacityProperty.$type);
+}
+
+export type OrientationValue = 'horizontal' | 'vertical';
+
+export function isOrientationValue(item: unknown): item is OrientationValue {
+    return item === 'horizontal' || item === 'vertical';
 }
 
 export interface OutputPinsProperty extends langium.AstNode {
@@ -3893,6 +3904,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 algorithm: {
                     name: ContainerLayoutProperty.algorithm
+                },
+                orientation: {
+                    name: ContainerLayoutProperty.orientation
                 },
                 spacing: {
                     name: ContainerLayoutProperty.spacing

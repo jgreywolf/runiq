@@ -1358,7 +1358,7 @@ function convertContainer(
   let styleRef: string | undefined;
   let containerType: string | undefined;
   const containerStyle: ContainerStyle = {};
-  const layoutOptions: { algorithm?: string; spacing?: number } = {};
+  const layoutOptions: { algorithm?: string; spacing?: number; orientation?: 'horizontal' | 'vertical' } = {};
 
   for (const prop of block.properties) {
     if (Langium.isStyleRefProperty(prop)) {
@@ -1668,6 +1668,8 @@ function convertContainer(
         layoutOptions.algorithm = prop.algorithm;
       } else if (prop.spacing !== undefined) {
         layoutOptions.spacing = parseFloat(prop.spacing);
+      } else if (prop.orientation) {
+        layoutOptions.orientation = prop.orientation as 'horizontal' | 'vertical';
       }
     }
   }

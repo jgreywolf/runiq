@@ -857,7 +857,8 @@ ContainerStyleProperty:
 
 ContainerLayoutProperty:
     'algorithm:' algorithm=LayoutAlgorithmValue
-    | 'spacing:' spacing=NUMBER;
+    | 'spacing:' spacing=NUMBER
+    | 'orientation:' orientation=OrientationValue;
 
 // ============================================================================
 // Phase 5: Template & Preset Definitions
@@ -895,6 +896,9 @@ LabelPositionValue returns string:
 
 LayoutAlgorithmValue returns string:
     'layered' | 'force' | 'stress' | 'radial' | 'mrtree';
+
+OrientationValue returns string:
+    'horizontal' | 'vertical';
 
 // Phase 2: Collapse/expand value types
 CollapseModeValue returns string:
