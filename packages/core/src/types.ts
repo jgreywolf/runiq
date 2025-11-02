@@ -768,15 +768,16 @@ export interface SequenceNote {
 }
 
 /**
- * Combined fragment (loop, alt, opt, etc.)
+ * Combined fragment (loop, alt, opt, etc.) or interaction use (ref)
  */
 export interface SequenceFragment {
-  type: 'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break'; // Fragment type
+  type: 'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break' | 'ref'; // Fragment type
   label?: string; // Condition or description
   startAfterMessage: number; // Message index where fragment starts
   endAfterMessage: number; // Message index where fragment ends
   alternatives?: SequenceFragmentAlternative[]; // For alt fragments
   gates?: string[]; // Gate names - connection points at fragment boundaries (UML 2.5)
+  reference?: string; // For 'ref' fragments: name of the referenced sequence diagram (UML 2.5 interaction use)
 }
 
 /**

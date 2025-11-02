@@ -629,6 +629,9 @@ function convertSequenceProfile(
               gate.replace(/^"|"$/g, '')
             );
           }
+        } else if (Langium.isSequenceFragmentReferenceProperty(prop)) {
+          // UML 2.5 interaction use - reference to another sequence diagram
+          fragment.reference = prop.ref.replace(/^"|"$/g, '');
         }
       }
 

@@ -308,10 +308,10 @@ SequenceFragmentStatement:
     'fragment' type=SequenceFragmentType label=STRING properties+=SequenceFragmentProperty+;
 
 SequenceFragmentType returns string:
-    'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break';
+    'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break' | 'ref';
 
 SequenceFragmentProperty:
-    SequenceFragmentFromProperty | SequenceFragmentToProperty | SequenceFragmentAlternativesProperty | SequenceFragmentGatesProperty;
+    SequenceFragmentFromProperty | SequenceFragmentToProperty | SequenceFragmentAlternativesProperty | SequenceFragmentGatesProperty | SequenceFragmentReferenceProperty;
 
 SequenceFragmentFromProperty:
     'from:' from=NUMBER;
@@ -328,6 +328,10 @@ SequenceAlternativeDecl:
 // gates:["gateIn","gateOut"] - Connection points at fragment boundaries  
 SequenceFragmentGatesProperty:
     'gates:' '[' (gates+=STRING (',' gates+=STRING)*)? ']';
+
+// ref:"OtherSequence" - Reference to another sequence diagram (UML 2.5 interaction use)
+SequenceFragmentReferenceProperty:
+    'ref:' ref=STRING;
 
 // durationConstraint from:1 to:5 constraint:"< 100ms" - UML 2.5 duration constraints
 SequenceDurationConstraintStatement:

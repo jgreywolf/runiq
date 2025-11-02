@@ -285,6 +285,8 @@ export type RuniqKeywordNames =
     | "radial"
     | "rated"
     | "realization"
+    | "ref"
+    | "ref:"
     | "relationship:"
     | "resizable:"
     | "resizeHandles:"
@@ -2660,7 +2662,7 @@ export function isSequenceFragmentGatesProperty(item: unknown): item is Sequence
     return reflection.isInstance(item, SequenceFragmentGatesProperty.$type);
 }
 
-export type SequenceFragmentProperty = SequenceFragmentAlternativesProperty | SequenceFragmentFromProperty | SequenceFragmentGatesProperty | SequenceFragmentToProperty;
+export type SequenceFragmentProperty = SequenceFragmentAlternativesProperty | SequenceFragmentFromProperty | SequenceFragmentGatesProperty | SequenceFragmentReferenceProperty | SequenceFragmentToProperty;
 
 export const SequenceFragmentProperty = {
     $type: 'SequenceFragmentProperty'
@@ -2668,6 +2670,21 @@ export const SequenceFragmentProperty = {
 
 export function isSequenceFragmentProperty(item: unknown): item is SequenceFragmentProperty {
     return reflection.isInstance(item, SequenceFragmentProperty.$type);
+}
+
+export interface SequenceFragmentReferenceProperty extends langium.AstNode {
+    readonly $container: SequenceFragmentStatement;
+    readonly $type: 'SequenceFragmentReferenceProperty';
+    ref: string;
+}
+
+export const SequenceFragmentReferenceProperty = {
+    $type: 'SequenceFragmentReferenceProperty',
+    ref: 'ref'
+} as const;
+
+export function isSequenceFragmentReferenceProperty(item: unknown): item is SequenceFragmentReferenceProperty {
+    return reflection.isInstance(item, SequenceFragmentReferenceProperty.$type);
 }
 
 export interface SequenceFragmentStatement extends langium.AstNode {
@@ -2704,10 +2721,10 @@ export function isSequenceFragmentToProperty(item: unknown): item is SequenceFra
     return reflection.isInstance(item, SequenceFragmentToProperty.$type);
 }
 
-export type SequenceFragmentType = 'alt' | 'break' | 'critical' | 'loop' | 'opt' | 'par';
+export type SequenceFragmentType = 'alt' | 'break' | 'critical' | 'loop' | 'opt' | 'par' | 'ref';
 
 export function isSequenceFragmentType(item: unknown): item is SequenceFragmentType {
-    return item === 'loop' || item === 'alt' || item === 'opt' || item === 'par' || item === 'critical' || item === 'break';
+    return item === 'loop' || item === 'alt' || item === 'opt' || item === 'par' || item === 'critical' || item === 'break' || item === 'ref';
 }
 
 export interface SequenceFromProperty extends langium.AstNode {
@@ -3589,6 +3606,7 @@ export type RuniqAstType = {
     SequenceFragmentFromProperty: SequenceFragmentFromProperty
     SequenceFragmentGatesProperty: SequenceFragmentGatesProperty
     SequenceFragmentProperty: SequenceFragmentProperty
+    SequenceFragmentReferenceProperty: SequenceFragmentReferenceProperty
     SequenceFragmentStatement: SequenceFragmentStatement
     SequenceFragmentToProperty: SequenceFragmentToProperty
     SequenceFromProperty: SequenceFromProperty
@@ -5181,6 +5199,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
             },
             superTypes: []
+        },
+        SequenceFragmentReferenceProperty: {
+            name: SequenceFragmentReferenceProperty.$type,
+            properties: {
+                ref: {
+                    name: SequenceFragmentReferenceProperty.ref
+                }
+            },
+            superTypes: [SequenceFragmentProperty.$type]
         },
         SequenceFragmentStatement: {
             name: SequenceFragmentStatement.$type,
