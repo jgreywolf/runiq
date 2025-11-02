@@ -1,14 +1,15 @@
 # Sequence Diagram Advanced Features Guide
 
-This guide documents the UML 2.5 sequence diagram features implemented in Runiq: Gates, Duration Constraints, and Interaction Use (ref fragments).
+This guide documents the UML 2.5 sequence diagram features implemented in Runiq: Gates, Duration Constraints, Interaction Use (ref fragments), and State Invariants.
 
 ## Feature Overview
 
-These three features work together to create production-ready sequence diagrams:
+These features work together to create production-ready sequence diagrams:
 
 - **Gates**: Define connection points for fragment boundaries (data flow routing)
 - **Duration Constraints**: Specify timing requirements and SLAs
 - **Interaction Use (ref)**: Reference modular sub-sequences for reusability
+- **State Invariants**: Specify conditions that must be true at specific points in execution
 
 ## Syntax Rules
 
@@ -226,6 +227,65 @@ See the following complete examples:
 - **Constraints**: Stored as strings, no validation (allows flexibility)
 - **References**: String identifiers for other sequences (not validated at parse time)
 
+## 4. State Invariants
+
+State invariants specify conditions that must be true at a specific point during sequence execution. They're essential for documenting critical system properties and constraints.
+
+### Syntax
+
+```
+message from:"A" to:"B" label:"operation()" type:sync stateInvariant:"condition"
+```
+
+**Important**: State invariants are optional message properties that can be combined with other properties like `guard`, `timing`, and `type`.
+
+### Example
+
+```runiq
+sequence "Bank Transfer" {
+  participant "Account A" as database
+  participant "Account B" as database
+  participant "Transfer Service" as control
+  
+  // All messages first
+  message from:"Transfer Service" to:"Account A" label:"debit($500)" type:sync stateInvariant:"accountA.balance >= 500"
+  message from:"Account A" to:"Transfer Service" label:"debited" type:return stateInvariant:"accountA.balance >= 0"
+  message from:"Transfer Service" to:"Account B" label:"credit($500)" type:sync stateInvariant:"accountA.debited"
+  message from:"Account B" to:"Transfer Service" label:"credited" type:return stateInvariant:"accountB.balance >= 0"
+}
+```
+
+### Use Cases
+
+- **Financial Transactions**: Ensure account balances never go negative
+- **Authentication**: Verify user state at critical security checkpoints
+- **Resource Management**: Guarantee locks are held before accessing shared resources
+- **State Machines**: Document expected state transitions
+- **Concurrent Systems**: Enforce mutex properties and prevent race conditions
+
+### Supported Expression Formats
+
+State invariants are stored as strings and support any format:
+
+1. **Simple Boolean**: `"user.isAuthenticated"`, `"session.active"`
+2. **Comparisons**: `"balance >= 0"`, `"count > 0"`, `"status == 'active'"`
+3. **Logical Operators**: `"isValid && isActive"`, `"admin || manager"`
+4. **Dot Notation**: `"user.session.isValid"`, `"account.balance >= amount"`
+5. **Mathematical**: `"total - used >= 0"`, `"available >= requested"`
+6. **Complex**: `"(role == 'admin' || role == 'manager') && !suspended"`
+
+### Combining with Other Properties
+
+State invariants work seamlessly with guards and timing constraints:
+
+```runiq
+message from:"Client" to:"Server" label:"criticalOp()" 
+  type:sync 
+  guard:"authorized" 
+  timing:"< 100ms" 
+  stateInvariant:"system.ready && resources.available"
+```
+
 ## Testing
 
 All features have comprehensive test coverage:
@@ -233,8 +293,22 @@ All features have comprehensive test coverage:
 - `sequence-gates.spec.ts`: 9 tests
 - `sequence-duration-constraints.spec.ts`: 10 tests
 - `sequence-ref-fragments.spec.ts`: 10 tests
+- `sequence-state-invariants.spec.ts`: 10 tests
 
 Run tests: `cd packages/parser-dsl && pnpm test`
+
+## Example Files
+
+See the following complete examples:
+
+1. **`gates-example.runiq`**: API Gateway with conditional routing gates
+2. **`duration-constraints-example.runiq`**: E-commerce order processing with SLAs
+3. **`interaction-use-example.runiq`**: User registration with modular sub-sequences
+4. **`advanced-timing-example.runiq`**: Payment processing with all constraint formats
+5. **`combined-features-example.runiq`**: Microservices showing gates, constraints, and refs together
+6. **`state-invariants-auth.runiq`**: Authentication flow with security state checks
+7. **`state-invariants-transaction.runiq`**: Bank transfer with balance invariants
+8. **`state-invariants-locking.runiq`**: Resource locking with mutex properties
 
 ## UML 2.5 Compliance
 
@@ -243,9 +317,11 @@ These features align with UML 2.5 Sequence Diagram specification:
 - **Gates** (Section 17.4.5): Connection points for fragment boundaries
 - **Duration Constraints** (Section 17.4.6): Timing constraints between events
 - **Interaction Use** (Section 17.4.7): Reference to another interaction
+- **State Invariants** (Section 17.4.3): Conditions that must hold at a point in time
 
 ## Commits
 
 - Task 17 (Gates): Commit 676565d
 - Task 18 (Duration Constraints): Commit 9481d83
 - Task 19 (Interaction Use): Commit 82fafd1
+- Task 20 (State Invariants): Current implementation

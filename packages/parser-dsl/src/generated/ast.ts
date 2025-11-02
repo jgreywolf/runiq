@@ -2772,7 +2772,7 @@ export function isSequenceLabelProperty(item: unknown): item is SequenceLabelPro
     return reflection.isInstance(item, SequenceLabelProperty.$type);
 }
 
-export type SequenceMessageProperty = SequenceActivateProperty | SequenceFromProperty | SequenceGuardProperty | SequenceLabelProperty | SequenceTimingProperty | SequenceToProperty | SequenceTypeProperty;
+export type SequenceMessageProperty = SequenceActivateProperty | SequenceFromProperty | SequenceGuardProperty | SequenceLabelProperty | SequenceStateInvariantProperty | SequenceTimingProperty | SequenceToProperty | SequenceTypeProperty;
 
 export const SequenceMessageProperty = {
     $type: 'SequenceMessageProperty'
@@ -2904,6 +2904,21 @@ export const SequenceProfile = {
 
 export function isSequenceProfile(item: unknown): item is SequenceProfile {
     return reflection.isInstance(item, SequenceProfile.$type);
+}
+
+export interface SequenceStateInvariantProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceStateInvariantProperty';
+    value: string;
+}
+
+export const SequenceStateInvariantProperty = {
+    $type: 'SequenceStateInvariantProperty',
+    value: 'value'
+} as const;
+
+export function isSequenceStateInvariantProperty(item: unknown): item is SequenceStateInvariantProperty {
+    return reflection.isInstance(item, SequenceStateInvariantProperty.$type);
 }
 
 export type SequenceStatement = SequenceDurationConstraintStatement | SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
@@ -3620,6 +3635,7 @@ export type RuniqAstType = {
     SequenceNoteStatement: SequenceNoteStatement
     SequenceParticipantStatement: SequenceParticipantStatement
     SequenceProfile: SequenceProfile
+    SequenceStateInvariantProperty: SequenceStateInvariantProperty
     SequenceStatement: SequenceStatement
     SequenceTimingProperty: SequenceTimingProperty
     SequenceToProperty: SequenceToProperty
@@ -5339,6 +5355,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [Profile.$type]
+        },
+        SequenceStateInvariantProperty: {
+            name: SequenceStateInvariantProperty.$type,
+            properties: {
+                value: {
+                    name: SequenceStateInvariantProperty.value
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
         },
         SequenceStatement: {
             name: SequenceStatement.$type,

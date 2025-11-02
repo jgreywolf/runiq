@@ -570,6 +570,8 @@ function convertSequenceProfile(
           message.guard = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isSequenceTimingProperty(prop)) {
           message.timing = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isSequenceStateInvariantProperty(prop)) {
+          message.stateInvariant = prop.value.replace(/^"|"$/g, '');
         }
       }
 

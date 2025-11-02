@@ -756,6 +756,7 @@ export interface SequenceMessage {
   activate?: boolean; // Whether to show activation box on target
   guard?: string; // Guard condition (e.g., "[x > 0]")
   timing?: string; // Timing constraint (e.g., "{t < 5s}")
+  stateInvariant?: string; // State invariant - condition that must be true at this point (e.g., "user.isAuthenticated" or "balance >= 0")
 }
 
 /**

@@ -259,7 +259,7 @@ SequenceMessageStatement:
     'message' properties+=SequenceMessageProperty+;
 
 SequenceMessageProperty:
-    SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty | SequenceGuardProperty | SequenceTimingProperty;
+    SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty | SequenceGuardProperty | SequenceTimingProperty | SequenceStateInvariantProperty;
 
 SequenceFromProperty:
     'from:' (from=STRING | from='lost' | from='found');
@@ -284,6 +284,9 @@ SequenceGuardProperty:
 
 SequenceTimingProperty:
     'timing:' value=STRING;
+
+SequenceStateInvariantProperty:
+    'stateInvariant:' value=STRING;
 
 // note "This is a note" position:left participants:("Actor")
 // note "Spanning note" position:over participants:("Actor","Web Server")

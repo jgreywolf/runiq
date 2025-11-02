@@ -1,0 +1,35 @@
+// UML 2.5 State Invariants Example - Resource Locking
+// Demonstrates state invariants for concurrent resource access control
+
+sequence "Resource Locking with Invariants" {
+  participant "Process A" as control
+  participant "Process B" as control
+  participant "Lock Manager" as control
+  participant "Shared Resource" as database
+
+  // Process A requests lock
+  message from:"Process A" to:"Lock Manager" label:"requestLock(resource)" type:sync stateInvariant:"resource.lockCount == 0"
+  message from:"Lock Manager" to:"Process A" label:"lock granted" type:return stateInvariant:"resource.lockedBy == 'ProcessA' && resource.lockCount == 1"
+  
+  // Process A accesses resource - must hold lock
+  message from:"Process A" to:"Shared Resource" label:"read(data)" type:sync stateInvariant:"resource.lockedBy == 'ProcessA'"
+  message from:"Shared Resource" to:"Process A" label:"data value" type:return stateInvariant:"resource.consistent"
+  
+  // Process B tries to acquire lock - should wait or fail
+  message from:"Process B" to:"Lock Manager" label:"requestLock(resource)" type:sync stateInvariant:"resource.lockedBy == 'ProcessA'"
+  message from:"Lock Manager" to:"Process B" label:"lock denied (held by A)" type:return stateInvariant:"resource.lockCount == 1"
+  
+  // Process A writes to resource - still holding lock
+  message from:"Process A" to:"Shared Resource" label:"write(newData)" type:sync stateInvariant:"resource.lockedBy == 'ProcessA'"
+  message from:"Shared Resource" to:"Process A" label:"write successful" type:return stateInvariant:"resource.modified && resource.consistent"
+  
+  // Process A releases lock
+  message from:"Process A" to:"Lock Manager" label:"releaseLock(resource)" type:sync stateInvariant:"resource.lockedBy == 'ProcessA'"
+  message from:"Lock Manager" to:"Process A" label:"lock released" type:return stateInvariant:"resource.lockCount == 0 && resource.lockedBy == null"
+  
+  // Now Process B can acquire lock
+  message from:"Process B" to:"Lock Manager" label:"requestLock(resource)" type:sync stateInvariant:"resource.lockCount == 0"
+  message from:"Lock Manager" to:"Process B" label:"lock granted" type:return stateInvariant:"resource.lockedBy == 'ProcessB' && resource.lockCount == 1"
+  
+  note "State invariants enforce mutex properties and prevent race conditions" position:over participants:("Lock Manager")
+}
