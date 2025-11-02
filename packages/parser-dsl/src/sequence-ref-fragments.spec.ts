@@ -17,13 +17,15 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.fragments).toBeDefined();
     expect(seqProfile?.fragments).toHaveLength(1);
-    
+
     const fragment = seqProfile?.fragments?.[0];
     expect(fragment?.type).toBe('ref');
     expect(fragment?.label).toBe('Authentication');
@@ -53,16 +55,18 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.fragments).toHaveLength(2);
-    
+
     const fragment1 = seqProfile?.fragments?.[0];
     expect(fragment1?.type).toBe('ref');
     expect(fragment1?.reference).toBe('AuthFlow');
-    
+
     const fragment2 = seqProfile?.fragments?.[1];
     expect(fragment2?.type).toBe('ref');
     expect(fragment2?.reference).toBe('DataProcFlow');
@@ -83,10 +87,12 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     const fragment = seqProfile?.fragments?.[0];
     expect(fragment?.type).toBe('ref');
     expect(fragment?.reference).toBe('ValidationSequence');
@@ -121,18 +127,20 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.fragments).toHaveLength(3);
-    
+
     expect(seqProfile?.fragments?.[0].type).toBe('ref');
     expect(seqProfile?.fragments?.[0].reference).toBe('AuthSequence');
-    
+
     expect(seqProfile?.fragments?.[1].type).toBe('loop');
     expect(seqProfile?.fragments?.[1].reference).toBeUndefined();
-    
+
     expect(seqProfile?.fragments?.[2].type).toBe('alt');
     expect(seqProfile?.fragments?.[2].reference).toBeUndefined();
   });
@@ -152,10 +160,12 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     const fragment = seqProfile?.fragments?.[0];
     expect(fragment?.reference).toBe('CreditCardPaymentSequence');
     expect(fragment?.label).toBe('Credit Card Processing');
@@ -182,10 +192,12 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.fragments).toHaveLength(2);
     expect(seqProfile?.fragments?.[0].reference).toBe('InventorySequence');
     expect(seqProfile?.fragments?.[1].reference).toBe('PaymentSequence');
@@ -206,10 +218,12 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     const fragment = seqProfile?.fragments?.[0];
     expect(fragment?.gates).toBeUndefined();
     expect(fragment?.reference).toBe('SubProcessSequence');
@@ -232,10 +246,12 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     const fragment = seqProfile?.fragments?.[0];
     expect(fragment?.startAfterMessage).toBe(0);
     expect(fragment?.endAfterMessage).toBe(2);
@@ -257,10 +273,12 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     const fragment = seqProfile?.fragments?.[0];
     expect(fragment?.reference).toBe('Sub-Process_Flow.v2');
   });
@@ -282,15 +300,19 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.fragments).toHaveLength(1);
     expect(seqProfile?.fragments?.[0].type).toBe('ref');
     expect(seqProfile?.fragments?.[0].reference).toBe('BackendSequence');
-    
+
     expect(seqProfile?.durationConstraints).toHaveLength(1);
-    expect(seqProfile?.durationConstraints?.[0].constraint).toContain('including ref');
+    expect(seqProfile?.durationConstraints?.[0].constraint).toContain(
+      'including ref'
+    );
   });
 });

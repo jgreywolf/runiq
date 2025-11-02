@@ -18,14 +18,16 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
+
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
     expect(seqProfile).toBeDefined();
     expect(seqProfile?.fragments).toBeDefined();
     expect(seqProfile?.fragments).toHaveLength(1);
-    
+
     const fragment = seqProfile?.fragments?.[0];
     expect(fragment?.gates).toBeDefined();
     expect(fragment?.gates).toHaveLength(2);
@@ -48,11 +50,13 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
     const fragment = seqProfile?.fragments?.[0];
-    
+
     expect(fragment?.gates).toBeDefined();
     expect(fragment?.gates).toHaveLength(1);
     expect(fragment?.gates?.[0]).toBe('retryGate');
@@ -77,11 +81,13 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
     const fragment = seqProfile?.fragments?.[0];
-    
+
     expect(fragment?.gates).toBeDefined();
     expect(fragment?.gates).toHaveLength(4);
     expect(fragment?.gates).toContain('northGate');
@@ -105,11 +111,13 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
     const fragment = seqProfile?.fragments?.[0];
-    
+
     expect(fragment?.gates).toBeDefined();
     expect(fragment?.gates).toHaveLength(0);
   });
@@ -129,11 +137,13 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
     const fragment = seqProfile?.fragments?.[0];
-    
+
     expect(fragment?.gates).toBeUndefined();
   });
 
@@ -155,11 +165,13 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
     const fragment = seqProfile?.fragments?.[0];
-    
+
     expect(fragment?.gates).toBeDefined();
     expect(fragment?.gates).toHaveLength(2);
     expect(fragment?.alternatives).toBeDefined();
@@ -184,11 +196,13 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
     const fragment = seqProfile?.fragments?.[0];
-    
+
     expect(fragment?.gates).toBeDefined();
     expect(fragment?.gates).toHaveLength(3);
     expect(fragment?.gates).toContain('entry_point');
@@ -218,18 +232,20 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.fragments).toBeDefined();
     expect(seqProfile?.fragments).toHaveLength(2);
-    
+
     const fragment1 = seqProfile?.fragments?.[0];
     expect(fragment1?.gates).toHaveLength(2);
     expect(fragment1?.gates).toContain('loop_in');
     expect(fragment1?.gates).toContain('loop_out');
-    
+
     const fragment2 = seqProfile?.fragments?.[1];
     expect(fragment2?.gates).toHaveLength(1);
     expect(fragment2?.gates).toContain('alt_gate');
@@ -250,11 +266,13 @@ describe('Sequence Diagram Gates', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
     const fragment = seqProfile?.fragments?.[0];
-    
+
     expect(fragment?.gates).toBeDefined();
     expect(fragment?.gates).toHaveLength(3);
     expect(fragment?.gates).toContain('gate-1');

@@ -1,0 +1,44 @@
+// UML 2.5 Duration Constraints Example
+// Duration constraints specify timing requirements for sequences of messages
+
+sequence "E-Commerce Order Processing with SLAs" {
+  participant "Customer" as actor
+  participant "Web Frontend" as boundary
+  participant "Order Service" as control
+  participant "Inventory Service" as control
+  participant "Payment Gateway" as control
+  participant "Notification Service" as control
+
+  note "Performance SLAs ensure responsive user experience" position:over participants:("Web Frontend", "Order Service")
+
+  // Customer initiates order
+  message from:"Customer" to:"Web Frontend" label:"Place Order" type:sync
+  message from:"Web Frontend" to:"Order Service" label:"createOrder()" type:sync
+
+  // Inventory check
+  message from:"Order Service" to:"Inventory Service" label:"checkAvailability()" type:sync
+  message from:"Inventory Service" to:"Order Service" label:"available: true" type:return
+
+  // Payment processing
+  message from:"Order Service" to:"Payment Gateway" label:"processPayment()" type:sync
+  message from:"Payment Gateway" to:"Order Service" label:"payment confirmed" type:return
+
+  // Send confirmation
+  message from:"Order Service" to:"Notification Service" label:"sendConfirmation()" type:async
+  message from:"Notification Service" to:"Customer" label:"Order confirmation email" type:async
+
+  // Return to frontend
+  message from:"Order Service" to:"Web Frontend" label:"order created" type:return
+  message from:"Web Frontend" to:"Customer" label:"Success page" type:return
+
+  // Duration constraint: Inventory check must be fast
+  durationConstraint from:2 to:3 constraint:"< 100ms"
+
+  // Duration constraint: Payment processing SLA
+  durationConstraint from:4 to:5 constraint:"{500ms..2s}"
+
+  // Duration constraint: Total end-to-end response time (P99 SLA)
+  durationConstraint from:0 to:9 constraint:"< 3s total (P99)"
+
+  note "Multiple duration constraints can overlap to track different SLAs" position:right participants:("Order Service")
+}

@@ -1,0 +1,38 @@
+// Advanced Timing Constraints Example
+// Different constraint formats per UML 2.5 specification
+
+sequence "Payment Processing with Detailed Timing" {
+  participant "Customer" as actor
+  participant "Checkout" as boundary
+  participant "Payment Processor" as control
+  participant "Fraud Detection" as control
+  participant "Bank API" as control
+
+  note "Demonstrates various UML 2.5 timing constraint formats" position:over participants:("Payment Processor")
+
+  message from:"Customer" to:"Checkout" label:"Submit Payment" type:sync
+  message from:"Checkout" to:"Payment Processor" label:"processPayment()" type:sync
+  message from:"Payment Processor" to:"Fraud Detection" label:"analyzeFraud()" type:sync
+  message from:"Fraud Detection" to:"Payment Processor" label:"low risk" type:return
+  message from:"Payment Processor" to:"Bank API" label:"authorizeCharge()" type:sync
+  message from:"Bank API" to:"Payment Processor" label:"authorized" type:return
+  message from:"Payment Processor" to:"Checkout" label:"payment success" type:return
+  message from:"Checkout" to:"Customer" label:"Order confirmed" type:return
+
+  note "UML 2.5 supports multiple constraint notations for different use cases" position:right participants:("Payment Processor")
+
+  // Simple constraint (most common)
+  durationConstraint from:0 to:1 constraint:"< 500ms"
+
+  // UML interval notation {d..2d} means between d and 2*d milliseconds
+  durationConstraint from:2 to:3 constraint:"{d..2d}"
+
+  // Mathematical constraint {t < 5s}
+  durationConstraint from:4 to:5 constraint:"{t < 5s}"
+
+  // Range constraint with specific bounds
+  durationConstraint from:2 to:7 constraint:"{1s..3s}"
+
+  // Descriptive constraint with context
+  durationConstraint from:0 to:7 constraint:"Total payment flow < 5s (99th percentile)"
+}

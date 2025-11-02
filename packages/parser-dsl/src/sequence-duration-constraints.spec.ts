@@ -17,13 +17,15 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.durationConstraints).toBeDefined();
     expect(seqProfile?.durationConstraints).toHaveLength(1);
-    
+
     const constraint = seqProfile?.durationConstraints?.[0];
     expect(constraint?.fromMessage).toBe(0);
     expect(constraint?.toMessage).toBe(2);
@@ -49,23 +51,25 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.durationConstraints).toBeDefined();
     expect(seqProfile?.durationConstraints).toHaveLength(3);
-    
+
     const constraint1 = seqProfile?.durationConstraints?.[0];
     expect(constraint1?.fromMessage).toBe(0);
     expect(constraint1?.toMessage).toBe(1);
     expect(constraint1?.constraint).toBe('< 50ms');
-    
+
     const constraint2 = seqProfile?.durationConstraints?.[1];
     expect(constraint2?.fromMessage).toBe(1);
     expect(constraint2?.toMessage).toBe(3);
     expect(constraint2?.constraint).toBe('< 150ms');
-    
+
     const constraint3 = seqProfile?.durationConstraints?.[2];
     expect(constraint3?.fromMessage).toBe(0);
     expect(constraint3?.toMessage).toBe(3);
@@ -86,10 +90,12 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     const constraint = seqProfile?.durationConstraints?.[0];
     expect(constraint?.constraint).toBe('{d..2d}');
   });
@@ -114,10 +120,12 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.durationConstraints).toHaveLength(1);
     const constraint = seqProfile?.durationConstraints?.[0];
     expect(constraint?.fromMessage).toBe(0);
@@ -139,10 +147,12 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     const constraint = seqProfile?.durationConstraints?.[0];
     expect(constraint?.constraint).toBe('{t < 5s}');
   });
@@ -166,14 +176,22 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.durationConstraints).toHaveLength(3);
-    expect(seqProfile?.durationConstraints?.[0].constraint).toBe('Cache lookup < 10ms');
-    expect(seqProfile?.durationConstraints?.[1].constraint).toBe('Service call < 100ms');
-    expect(seqProfile?.durationConstraints?.[2].constraint).toBe('Total request < 150ms');
+    expect(seqProfile?.durationConstraints?.[0].constraint).toBe(
+      'Cache lookup < 10ms'
+    );
+    expect(seqProfile?.durationConstraints?.[1].constraint).toBe(
+      'Service call < 100ms'
+    );
+    expect(seqProfile?.durationConstraints?.[2].constraint).toBe(
+      'Total request < 150ms'
+    );
   });
 
   it('should handle sequence diagram without duration constraints', () => {
@@ -188,10 +206,12 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.durationConstraints).toBeUndefined();
   });
 
@@ -213,13 +233,15 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.fragments).toHaveLength(1);
     expect(seqProfile?.durationConstraints).toHaveLength(1);
-    
+
     const constraint = seqProfile?.durationConstraints?.[0];
     expect(constraint?.fromMessage).toBe(0);
     expect(constraint?.toMessage).toBe(2);
@@ -240,10 +262,12 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     const constraint = seqProfile?.durationConstraints?.[0];
     expect(constraint?.constraint).toBe('{100ms..500ms}');
   });
@@ -270,16 +294,20 @@ describe('Sequence Diagram Duration Constraints', () => {
     `;
 
     const result = parse(dsl);
-    
+
     expect(result.success).toBe(true);
-    const seqProfile = result.document?.profiles?.find(p => p.type === 'sequence');
-    
+    const seqProfile = result.document?.profiles?.find(
+      (p) => p.type === 'sequence'
+    );
+
     expect(seqProfile?.messages).toHaveLength(6);
     expect(seqProfile?.durationConstraints).toHaveLength(3);
-    
+
     // Verify all constraints are properly parsed
     expect(seqProfile?.durationConstraints?.[0].constraint).toContain('Auth');
-    expect(seqProfile?.durationConstraints?.[1].constraint).toContain('Service');
+    expect(seqProfile?.durationConstraints?.[1].constraint).toContain(
+      'Service'
+    );
     expect(seqProfile?.durationConstraints?.[2].constraint).toContain('Total');
   });
 });

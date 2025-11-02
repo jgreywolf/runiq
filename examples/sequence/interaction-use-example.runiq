@@ -1,0 +1,36 @@
+// UML 2.5 Interaction Use (ref) Example
+// Ref fragments reference other sequence diagrams for modularity
+
+sequence "User Registration Flow" {
+  participant "User" as actor
+  participant "Registration Page" as boundary
+  participant "User Service" as control
+  participant "Email Service" as control
+  participant "Database" as database
+
+  note "Main registration flow delegates to sub-processes" position:over participants:("Registration Page", "User Service")
+
+  // User submits registration form
+  message from:"User" to:"Registration Page" label:"Submit registration" type:sync
+  message from:"Registration Page" to:"User Service" label:"registerUser(email, password)" type:sync
+
+  // Reference to validation sequence diagram
+  fragment ref "Input Validation" from:2 to:3 ref:"ValidationSequence"
+  
+  message from:"User Service" to:"Database" label:"checkEmailExists()" type:sync
+
+  // Reference to authentication setup (could have gates for error handling)
+  fragment ref "Create Auth Credentials" from:4 to:5 ref:"AuthCredentialCreationSequence" gates:["authIn", "authSuccess", "authFail"]
+  
+  message from:"User Service" to:"Database" label:"insertUser()" type:sync
+
+  // Reference to email verification flow
+  fragment ref "Send Verification Email" from:6 to:7 ref:"EmailVerificationSequence"
+  
+  message from:"User Service" to:"Email Service" label:"sendWelcomeEmail()" type:async
+
+  message from:"User Service" to:"Registration Page" label:"registration success" type:return
+  message from:"Registration Page" to:"User" label:"Show success message" type:return
+
+  note "Ref fragments improve maintainability by reusing common sequences" position:right participants:("User Service")
+}
