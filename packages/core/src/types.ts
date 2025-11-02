@@ -46,6 +46,8 @@ export interface NodeAst {
   outputPins?: string[]; // Output pins for action nodes (e.g., ["receipt", "confirmation"])
   // UML Sequence Diagram properties
   stateInvariant?: string; // Constraint that must be true at this point (e.g., "balance >= 0")
+  // UML Use Case Diagram properties
+  extensionPoints?: string[]; // Extension points for use cases (e.g., ["Payment Failed", "Insufficient Funds"])
   // Data used by data-driven shapes (charts etc.)
   // Known common fields are typed to improve DX while still allowing arbitrary extras
   data?:

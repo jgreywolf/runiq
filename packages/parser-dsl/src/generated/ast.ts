@@ -46,6 +46,7 @@ export type RuniqKeywordNames =
     | "abstract:"
     | "ac"
     | "activate:"
+    | "activity"
     | "actor"
     | "affected:"
     | "aggregation"
@@ -78,6 +79,7 @@ export type RuniqKeywordNames =
     | "break"
     | "carrier:"
     | "center"
+    | "centralBuffer"
     | "childCountPosition:"
     | "children:"
     | "collapseAnimationDuration:"
@@ -114,6 +116,7 @@ export type RuniqKeywordNames =
     | "crossContainerEdgeOptimization:"
     | "dashed"
     | "data:"
+    | "dataStore"
     | "database"
     | "dc"
     | "deceased:"
@@ -132,7 +135,6 @@ export type RuniqKeywordNames =
     | "distribution:"
     | "doActivity:"
     | "dotted"
-    | "double"
     | "e"
     | "ease-in"
     | "ease-in-out"
@@ -150,6 +152,7 @@ export type RuniqKeywordNames =
     | "exit:"
     | "expanding"
     | "extends:"
+    | "extensionPoints:"
     | "false"
     | "fill-available"
     | "fill:"
@@ -196,6 +199,7 @@ export type RuniqKeywordNames =
     | "layoutComplexity:"
     | "left"
     | "legendPosition:"
+    | "lifeline"
     | "lineStyle:"
     | "linear"
     | "link:"
@@ -238,7 +242,7 @@ export type RuniqKeywordNames =
     | "note"
     | "number"
     | "nw"
-    | "object"
+    | "objectNode"
     | "of:"
     | "op"
     | "opacity:"
@@ -332,6 +336,7 @@ export type RuniqKeywordNames =
     | "templateId:"
     | "text"
     | "textAlign:"
+    | "timeObservation"
     | "timing:"
     | "title:"
     | "to"
@@ -1375,6 +1380,21 @@ export function isExitProperty(item: unknown): item is ExitProperty {
     return reflection.isInstance(item, ExitProperty.$type);
 }
 
+export interface ExtensionPointsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ExtensionPointsProperty';
+    value: StringArray;
+}
+
+export const ExtensionPointsProperty = {
+    $type: 'ExtensionPointsProperty',
+    value: 'value'
+} as const;
+
+export function isExtensionPointsProperty(item: unknown): item is ExtensionPointsProperty {
+    return reflection.isInstance(item, ExtensionPointsProperty.$type);
+}
+
 export interface FillProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'FillProperty';
@@ -1416,7 +1436,7 @@ export function isFlowRateUnit(item: unknown): item is FlowRateUnit {
 export interface FlowTypeProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration;
     readonly $type: 'FlowTypeProperty';
-    value: FlowTypeValue;
+    value: string;
 }
 
 export const FlowTypeProperty = {
@@ -1426,12 +1446,6 @@ export const FlowTypeProperty = {
 
 export function isFlowTypeProperty(item: unknown): item is FlowTypeProperty {
     return reflection.isInstance(item, FlowTypeProperty.$type);
-}
-
-export type FlowTypeValue = 'control' | 'object';
-
-export function isFlowTypeValue(item: unknown): item is FlowTypeValue {
-    return item === 'control' || item === 'object';
 }
 
 export interface FluidStatement extends langium.AstNode {
@@ -1737,7 +1751,7 @@ export function isLegendPositionProperty(item: unknown): item is LegendPositionP
 export interface LineStyleProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration;
     readonly $type: 'LineStyleProperty';
-    value: LineStyleValue;
+    value: string;
 }
 
 export const LineStyleProperty = {
@@ -1747,12 +1761,6 @@ export const LineStyleProperty = {
 
 export function isLineStyleProperty(item: unknown): item is LineStyleProperty {
     return reflection.isInstance(item, LineStyleProperty.$type);
-}
-
-export type LineStyleValue = 'dashed' | 'dotted' | 'double' | 'solid';
-
-export function isLineStyleValue(item: unknown): item is LineStyleValue {
-    return item === 'solid' || item === 'dashed' || item === 'dotted' || item === 'double';
 }
 
 export interface LinkProperty extends langium.AstNode {
@@ -2080,7 +2088,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -2867,10 +2875,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'actor' | 'boundary' | 'control' | 'database' | 'entity' | 'note' | string;
+export type ShapeIdentifier = 'activity' | 'actor' | 'boundary' | 'centralBuffer' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'lifeline' | 'note' | 'objectNode' | 'timeObservation' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -2936,7 +2944,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty | InputPinsProperty | OutputPinsProperty;
+    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -3411,6 +3419,7 @@ export type RuniqAstType = {
     EntryProperty: EntryProperty
     EventProperty: EventProperty
     ExitProperty: ExitProperty
+    ExtensionPointsProperty: ExtensionPointsProperty
     FillProperty: FillProperty
     FlowRateStatement: FlowRateStatement
     FlowTypeProperty: FlowTypeProperty
@@ -4270,6 +4279,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: ExitProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        ExtensionPointsProperty: {
+            name: ExtensionPointsProperty.$type,
+            properties: {
+                value: {
+                    name: ExtensionPointsProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

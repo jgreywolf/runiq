@@ -4,8 +4,10 @@ import { parse } from './langium-parser';
 describe('State Invariant Parsing', () => {
   it('should parse stateInvariant property on lifeline', () => {
     const dsl = `
-      shape user as @lifeline label:"User" stateInvariant:"authenticated = true"
-      shape account as @lifeline label:"Account" stateInvariant:"balance >= 0"
+      diagram "Test" {
+        shape user as @lifeline label:"User" stateInvariant:"authenticated = true"
+        shape account as @lifeline label:"Account" stateInvariant:"balance >= 0"
+      }
     `;
 
     const result = parse(dsl);
@@ -27,7 +29,9 @@ describe('State Invariant Parsing', () => {
 
   it('should parse complex boolean expressions in state invariants', () => {
     const dsl = `
-      shape order as @lifeline label:"Order" stateInvariant:"status = 'active' AND items.length > 0"
+      diagram "Test" {
+        shape order as @lifeline label:"Order" stateInvariant:"status = 'active' AND items.length > 0"
+      }
     `;
 
     const result = parse(dsl);
@@ -40,8 +44,10 @@ describe('State Invariant Parsing', () => {
 
   it('should parse OCL-style constraints', () => {
     const dsl = `
-      shape customer as @lifeline label:"Customer" stateInvariant:"self.age >= 18"
-      shape cart as @lifeline label:"Cart" stateInvariant:"self.items->size() > 0"
+      diagram "Test" {
+        shape customer as @lifeline label:"Customer" stateInvariant:"self.age >= 18"
+        shape cart as @lifeline label:"Cart" stateInvariant:"self.items->size() > 0"
+      }
     `;
 
     const result = parse(dsl);
@@ -58,8 +64,10 @@ describe('State Invariant Parsing', () => {
 
   it('should handle lifelines without state invariants', () => {
     const dsl = `
-      shape app as @lifeline label:"Application"
-      shape db as @lifeline label:"Database" stateInvariant:"connected = true"
+      diagram "Test" {
+        shape app as @lifeline label:"Application"
+        shape db as @lifeline label:"Database" stateInvariant:"connected = true"
+      }
     `;
 
     const result = parse(dsl);
@@ -76,9 +84,11 @@ describe('State Invariant Parsing', () => {
 
   it('should parse state invariants with comparison operators', () => {
     const dsl = `
-      shape account as @lifeline label:"Account" stateInvariant:"balance >= minBalance"
-      shape counter as @lifeline label:"Counter" stateInvariant:"count <= maxValue"
-      shape user as @lifeline label:"User" stateInvariant:"age != 0"
+      diagram "Test" {
+        shape account as @lifeline label:"Account" stateInvariant:"balance >= minBalance"
+        shape counter as @lifeline label:"Counter" stateInvariant:"count <= maxValue"
+        shape user as @lifeline label:"User" stateInvariant:"age != 0"
+      }
     `;
 
     const result = parse(dsl);
@@ -94,7 +104,9 @@ describe('State Invariant Parsing', () => {
 
   it('should parse state invariants with mathematical expressions', () => {
     const dsl = `
-      shape calc as @lifeline label:"Calculator" stateInvariant:"result = input1 + input2"
+      diagram "Test" {
+        shape calc as @lifeline label:"Calculator" stateInvariant:"result = input1 + input2"
+      }
     `;
 
     const result = parse(dsl);

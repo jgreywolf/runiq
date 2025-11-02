@@ -1064,6 +1064,13 @@ function processDialogStatement(
       } else if (Langium.isStateInvariantProperty(prop)) {
         // UML Sequence Diagram state invariant
         node.stateInvariant = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isExtensionPointsProperty(prop)) {
+        // UML Use Case Diagram extension points
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.extensionPoints = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
       }
     }
 

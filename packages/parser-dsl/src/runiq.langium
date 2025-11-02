@@ -365,7 +365,9 @@ ShapeDeclaration:
 
 // Allow shape IDs, regular IDs, and certain keywords that are valid shape names
 ShapeIdentifier returns string:
-    SHAPE_ID | ID | 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'note';
+    SHAPE_ID | ID | 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'note'
+    | 'lifeline' | 'continuation' | 'timeObservation' | 'activity'
+    | 'objectNode' | 'centralBuffer' | 'dataStore';
 
 NodeProperty:
     LabelProperty
@@ -403,7 +405,8 @@ NodeProperty:
     | DoActivityProperty
     | InputPinsProperty
     | OutputPinsProperty
-    | StateInvariantProperty;
+    | StateInvariantProperty
+    | ExtensionPointsProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -471,6 +474,10 @@ OutputPinsProperty:
 // UML Sequence Diagram properties
 StateInvariantProperty:
     'stateInvariant:' value=STRING;
+
+// UML Use Case Diagram properties
+ExtensionPointsProperty:
+    'extensionPoints:' value=StringArray;
 
 // UML Class Diagram properties
 AttributesProperty:
@@ -654,10 +661,7 @@ EdgeLabelProperty:
     'label:' label=STRING;
 
 LineStyleProperty:
-    'lineStyle:' value=LineStyleValue;
-
-LineStyleValue returns string:
-    'solid' | 'dashed' | 'dotted' | 'double';
+    'lineStyle:' value=STRING;
 
 ArrowTypeProperty:
     'arrowType:' value=ArrowTypeValue;
@@ -705,10 +709,7 @@ EffectProperty:
 
 // UML Activity Diagram Flow Properties
 FlowTypeProperty:
-    'flowType:' value=FlowTypeValue;
-
-FlowTypeValue returns string:
-    'control' | 'object';
+    'flowType:' value=STRING;
 
 RoutingProperty:
     'routing:' value=RoutingValue;
