@@ -1,0 +1,55 @@
+diagram "ATM Withdrawal - Extension Points" {
+  
+  // Actors
+  shape customer as @actor label:"Customer"
+  shape bank as @actor label:"Bank System"
+  shape cardNetwork as @actor label:"Card Network"
+  
+  // Primary Use Cases with Extension Points
+  shape insertCard as @ellipseWide label:"Insert Card"
+  
+  shape enterPIN as @ellipseWide label:"Enter PIN" extensionPoints:["Invalid PIN", "Card Locked", "PIN Attempts Exceeded"]
+  
+  shape selectWithdrawal as @ellipseWide label:"Select Withdrawal Amount" extensionPoints:["Insufficient Balance", "Daily Limit Exceeded", "ATM Cash Depleted"]
+  
+  shape dispenseCash as @ellipseWide label:"Dispense Cash" extensionPoints:["Dispenser Jam", "Communication Error"]
+  
+  shape printReceipt as @ellipseWide label:"Print Receipt" extensionPoints:["Printer Out of Paper"]
+  
+  shape ejectCard as @ellipseWide label:"Eject Card"
+  
+  // Extension Use Cases (error handling)
+  shape retryPIN as @ellipseWide label:"Retry PIN Entry"
+  shape contactSupport as @ellipseWide label:"Contact Customer Support"
+  shape selectLowerAmount as @ellipseWide label:"Select Lower Amount"
+  shape checkBalance as @ellipseWide label:"Check Account Balance"
+  shape cancelTransaction as @ellipseWide label:"Cancel Transaction"
+  shape skipReceipt as @ellipseWide label:"Skip Receipt"
+  
+  // Main flow
+  customer -> insertCard
+  insertCard -> enterPIN
+  enterPIN -> selectWithdrawal
+  selectWithdrawal -> dispenseCash
+  dispenseCash -> printReceipt
+  printReceipt -> ejectCard
+  
+  // System interactions
+  enterPIN -> cardNetwork stereotype:"include"
+  selectWithdrawal -> bank stereotype:"include"
+  dispenseCash -> bank stereotype:"include"
+  
+  // Extend relationships (error handling paths)
+  retryPIN -> enterPIN stereotype:"extend" label:"Invalid PIN"
+  contactSupport -> enterPIN stereotype:"extend" label:"Card Locked"
+  cancelTransaction -> enterPIN stereotype:"extend" label:"PIN Attempts Exceeded"
+  
+  selectLowerAmount -> selectWithdrawal stereotype:"extend" label:"Insufficient Balance"
+  checkBalance -> selectWithdrawal stereotype:"extend" label:"Daily Limit Exceeded"
+  cancelTransaction -> selectWithdrawal stereotype:"extend" label:"ATM Cash Depleted"
+  
+  cancelTransaction -> dispenseCash stereotype:"extend" label:"Dispenser Jam"
+  cancelTransaction -> dispenseCash stereotype:"extend" label:"Communication Error"
+  
+  skipReceipt -> printReceipt stereotype:"extend" label:"Printer Out of Paper"
+}

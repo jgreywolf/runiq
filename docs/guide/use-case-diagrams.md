@@ -183,6 +183,100 @@ diagram "Healthcare System" {
 }
 ```
 
+## Extension Points
+
+Extension points define specific locations in a use case where optional behavior can be added via extend relationships. They make explicit **where** and **under what conditions** extensions occur.
+
+### Why Use Extension Points?
+
+- **Clarity**: Shows exactly where optional behavior can be inserted
+- **Traceability**: Documents specific conditions for extensions
+- **UML 2.5 Compliance**: Follows standard UML notation
+- **Error Handling**: Ideal for documenting exception scenarios
+
+### Syntax
+
+```runiq
+shape useCaseName as @ellipseWide label:"Use Case" extensionPoints:["Extension 1", "Extension 2"]
+```
+
+### E-commerce Example with Extension Points
+
+```runiq
+diagram "E-commerce Checkout - Extension Points" {
+  
+  shape customer as @actor label:"Customer"
+  shape paymentGateway as @actor label:"Payment Gateway"
+  
+  // Use case with extension points for error handling
+  shape checkout as @ellipseWide label:"Checkout" extensionPoints:["Payment Failed", "Invalid Shipping Address", "Promo Code Invalid"]
+  
+  shape processPayment as @ellipseWide label:"Process Payment" extensionPoints:["Card Declined", "Insufficient Funds", "Gateway Timeout"]
+  
+  // Extension use cases handle specific error conditions
+  shape retryPayment as @ellipseWide label:"Retry Payment"
+  shape updateAddress as @ellipseWide label:"Update Shipping Address"
+  
+  // Main flow
+  customer -> checkout
+  checkout -> processPayment
+  processPayment -> paymentGateway stereotype:"include"
+  
+  // Extend relationships reference extension points
+  retryPayment -> processPayment stereotype:"extend" label:"Card Declined"
+  updateAddress -> checkout stereotype:"extend" label:"Invalid Shipping Address"
+}
+```
+
+### ATM Withdrawal Example
+
+```runiq
+diagram "ATM Withdrawal" {
+  
+  shape customer as @actor label:"Customer"
+  
+  // Primary use case with multiple extension points
+  shape enterPIN as @ellipseWide label:"Enter PIN" extensionPoints:["Invalid PIN", "Card Locked", "PIN Attempts Exceeded"]
+  
+  shape selectWithdrawal as @ellipseWide label:"Select Withdrawal Amount" extensionPoints:["Insufficient Balance", "Daily Limit Exceeded"]
+  
+  // Extension use cases
+  shape retryPIN as @ellipseWide label:"Retry PIN Entry"
+  shape contactSupport as @ellipseWide label:"Contact Customer Support"
+  shape selectLowerAmount as @ellipseWide label:"Select Lower Amount"
+  
+  // Main flow
+  customer -> enterPIN
+  enterPIN -> selectWithdrawal
+  
+  // Extend relationships map to specific extension points
+  retryPIN -> enterPIN stereotype:"extend" label:"Invalid PIN"
+  contactSupport -> enterPIN stereotype:"extend" label:"Card Locked"
+  selectLowerAmount -> selectWithdrawal stereotype:"extend" label:"Insufficient Balance"
+}
+```
+
+### Extension Points Best Practices
+
+1. **Be Specific**: Name extension points after specific conditions ("Card Declined", not "Error")
+2. **Error Scenarios**: Extension points are ideal for documenting exception handling
+3. **Match Labels**: Extend relationship labels should match extension point names
+4. **Limit Quantity**: 2-5 extension points per use case keeps diagrams readable
+5. **Alternative Flows**: Use for variations, not completely different functionality
+
+### When to Use Extension Points
+
+**Use extension points for:**
+- Error handling and exception scenarios
+- Optional features triggered by specific conditions
+- Alternative paths based on validation failures
+- Conditional behavior with clear trigger points
+
+**Don't use extension points for:**
+- Required functionality (use «include» instead)
+- General alternatives without specific conditions
+- Core behavior variations (consider separate use cases)
+
 ## Styling
 
 Customize use case diagram appearance:

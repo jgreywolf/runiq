@@ -1,0 +1,41 @@
+diagram "E-commerce Checkout - Extension Points" {
+  
+  // Actors
+  shape customer as @actor label:"Customer"
+  shape paymentGateway as @actor label:"Payment Gateway"
+  shape inventory as @actor label:"Inventory System"
+  
+  // Use Cases with Extension Points
+  shape browseProducts as @ellipseWide label:"Browse Products"
+  
+  shape addToCart as @ellipseWide label:"Add to Cart" extensionPoints:["Product Out of Stock", "Quantity Limit Exceeded"]
+  
+  shape checkout as @ellipseWide label:"Checkout" extensionPoints:["Payment Failed", "Invalid Shipping Address", "Promo Code Invalid"]
+  
+  shape processPayment as @ellipseWide label:"Process Payment" extensionPoints:["Card Declined", "Insufficient Funds", "Gateway Timeout"]
+  
+  shape confirmOrder as @ellipseWide label:"Confirm Order"
+  
+  // Extension Use Cases (handle error conditions)
+  shape handleOutOfStock as @ellipseWide label:"Handle Out of Stock"
+  shape retryPayment as @ellipseWide label:"Retry Payment"
+  shape updateAddress as @ellipseWide label:"Update Shipping Address"
+  shape applyAlternativePayment as @ellipseWide label:"Apply Alternative Payment"
+  
+  // Main flow relationships
+  customer -> browseProducts
+  customer -> addToCart
+  customer -> checkout
+  checkout -> processPayment
+  processPayment -> confirmOrder
+  
+  // Include relationships
+  checkout -> paymentGateway stereotype:"include"
+  processPayment -> inventory stereotype:"include"
+  
+  // Extend relationships (connect to extension points)
+  handleOutOfStock -> addToCart stereotype:"extend" label:"Product Out of Stock"
+  retryPayment -> processPayment stereotype:"extend" label:"Card Declined"
+  updateAddress -> checkout stereotype:"extend" label:"Invalid Shipping Address"
+  applyAlternativePayment -> processPayment stereotype:"extend" label:"Insufficient Funds"
+}
