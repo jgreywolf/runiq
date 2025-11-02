@@ -4,28 +4,28 @@
 
 diagram "Elevator Control System" {
   // Define states with behaviors
-  shape idle as @stateSimple 
+  shape idle as @state 
     label:"Idle" 
     entry:"stopMotor(); openDoors()" 
     exit:"closeDoors()"
 
-  shape moving as @stateSimple 
+  shape moving as @state 
     label:"Moving" 
     doActivity:"monitorSafety(); updatePosition()"
     exit:"stopMotor()"
 
-  shape doorOpen as @stateSimple 
+  shape doorOpen as @state 
     label:"Door Open" 
     entry:"activateDoorTimer()" 
     exit:"deactivateDoorTimer()"
 
-  shape emergency as @stateSimple 
+  shape emergency as @state 
     label:"Emergency Stop" 
     entry:"soundAlarm(); notifyMaintenance()" 
     exit:"resetAlarm()"
 
   // Initial and final states
-  shape initial as @initial
+  shape initial as @initialState
   shape final as @terminate
 
   // Transitions with event/guard/effect syntax

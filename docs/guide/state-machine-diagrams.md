@@ -544,28 +544,28 @@ A comprehensive example showing entry/exit actions with alarm integration:
 
 ```runiq
 diagram "Door Lock State Machine" {
-  
+
   shape initial as @initialState
-  
-  shape unlocked as @state 
-    label:"Unlocked" 
-    entry:"releaseLockBolt()" 
-    doActivity:"monitorDoor()" 
+
+  shape unlocked as @state
+    label:"Unlocked"
+    entry:"releaseLockBolt()"
+    doActivity:"monitorDoor()"
     exit:"stopMonitoring()"
-  
-  shape locked as @state 
-    label:"Locked" 
-    entry:"engageLockBolt() ; enableAlarm()" 
+
+  shape locked as @state
+    label:"Locked"
+    entry:"engageLockBolt() ; enableAlarm()"
     exit:"disableAlarm()"
-  
-  shape alarmed as @state 
-    label:"Alarmed" 
-    entry:"soundAlarm() ; notifySecurity()" 
-    doActivity:"flashLights()" 
+
+  shape alarmed as @state
+    label:"Alarmed"
+    entry:"soundAlarm() ; notifySecurity()"
+    doActivity:"flashLights()"
     exit:"silenceAlarm()"
-  
+
   shape final as @finalState
-  
+
   initial -> unlocked
   unlocked -> locked label:"lock"
   locked -> unlocked label:"unlock"
@@ -577,6 +577,7 @@ diagram "Door Lock State Machine" {
 ```
 
 **Key Features:**
+
 - Entry actions initialize state-specific behavior
 - DoActivity performs continuous monitoring
 - Exit actions clean up when leaving state
@@ -588,39 +589,39 @@ Complex timing and safety behaviors:
 
 ```runiq
 diagram "Traffic Light State Machine" {
-  
+
   shape initial as @initialState
-  
-  shape red as @state 
-    label:"Red" 
-    entry:"turnOnRed() ; startTimer(30)" 
-    doActivity:"enforceStop()" 
+
+  shape red as @state
+    label:"Red"
+    entry:"turnOnRed() ; startTimer(30)"
+    doActivity:"enforceStop()"
     exit:"turnOffRed() ; clearTimer()"
-  
-  shape yellow as @state 
-    label:"Yellow" 
-    entry:"turnOnYellow() ; startTimer(5)" 
-    doActivity:"warnDrivers()" 
+
+  shape yellow as @state
+    label:"Yellow"
+    entry:"turnOnYellow() ; startTimer(5)"
+    doActivity:"warnDrivers()"
     exit:"turnOffYellow()"
-  
-  shape green as @state 
-    label:"Green" 
-    entry:"turnOnGreen() ; startTimer(45)" 
-    doActivity:"allowTraffic()" 
+
+  shape green as @state
+    label:"Green"
+    entry:"turnOnGreen() ; startTimer(45)"
+    doActivity:"allowTraffic()"
     exit:"turnOffGreen()"
-  
-  shape pedestrianCrossing as @state 
-    label:"Pedestrian Crossing" 
-    entry:"activateCrosswalk() ; startTimer(15)" 
-    doActivity:"displayWalkSign()" 
+
+  shape pedestrianCrossing as @state
+    label:"Pedestrian Crossing"
+    entry:"activateCrosswalk() ; startTimer(15)"
+    doActivity:"displayWalkSign()"
     exit:"deactivateCrosswalk()"
-  
-  shape emergency as @state 
-    label:"Emergency Mode" 
-    entry:"flashAllRed() ; soundAlarm()" 
-    doActivity:"prioritizeEmergencyVehicle()" 
+
+  shape emergency as @state
+    label:"Emergency Mode"
+    entry:"flashAllRed() ; soundAlarm()"
+    doActivity:"prioritizeEmergencyVehicle()"
     exit:"resumeNormalOperation()"
-  
+
   initial -> red
   red -> green label:"timerExpired"
   green -> yellow label:"timerExpired"
@@ -634,6 +635,7 @@ diagram "Traffic Light State Machine" {
 ```
 
 **Key Features:**
+
 - Timer management in entry/exit actions
 - Continuous activities (doActivity) for monitoring
 - Emergency override transitions
@@ -660,6 +662,7 @@ diagram "Traffic Light State Machine" {
    - Logging state exit
 
 4. **Multiple Actions** - Separate with semicolons:
+
    ```runiq
    entry:"action1() ; action2() ; action3()"
    ```
@@ -717,16 +720,16 @@ diagram "ATM Withdrawal" {
   shape dispensing as @state label:"Dispensing"
   shape error as @state label:"Error"
 
-  idle -> verifying 
+  idle -> verifying
     event:"cardInserted"
     effect:"readCard(); startSession()"
 
-  verifying -> dispensing 
+  verifying -> dispensing
     event:"pinEntered"
     guard:"[pinValid && balance >= amount]"
     effect:"deductAmount(); logTransaction()"
 
-  verifying -> error 
+  verifying -> error
     event:"pinEntered"
     guard:"[!pinValid || attempts >= 3]"
     effect:"incrementAttempts(); showError()"
@@ -739,13 +742,13 @@ Guards support logical operators and comparisons:
 
 ```runiq
 diagram "Complex Guards" {
-  idle -> ready 
+  idle -> ready
     guard:"[temperature > 20 && temperature < 80 && pressure == nominal]"
-  
-  ready -> running 
+
+  ready -> running
     guard:"[fuel >= minFuel || batteryLevel > 0.5]"
-  
-  running -> emergency 
+
+  running -> emergency
     event:"alert"
     guard:"[errorCount >= threshold && !maintenanceMode]"
 }
@@ -757,7 +760,7 @@ Use semicolons to separate multiple actions:
 
 ```runiq
 diagram "Multiple Effects" {
-  processing -> complete 
+  processing -> complete
     event:"finished"
     effect:"saveResults(); notifyUser(); cleanup(); logCompletion()"
 }
@@ -769,12 +772,12 @@ Transitions can return to the same state (executes exit then entry):
 
 ```runiq
 diagram "Self-Transition" {
-  shape active as @state 
+  shape active as @state
     label:"Active"
     entry:"resetCounter()"
     exit:"saveState()"
 
-  active -> active 
+  active -> active
     event:"refresh"
     effect:"reloadData()"
 }

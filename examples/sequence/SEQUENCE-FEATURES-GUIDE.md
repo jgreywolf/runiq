@@ -22,12 +22,13 @@ Sequence diagrams must follow this specific order:
 3. **Duration Constraints** (must come last)
 
 **Example:**
+
 ```
 sequence "My Sequence" {
   // 1. Participants first
   participant user "User"
   participant api "API"
-  
+
   // 2. Messages, notes, fragments can be mixed
   user -> api: "request"
   note over api: "Processing"
@@ -35,7 +36,7 @@ sequence "My Sequence" {
     // ...
   }
   api -> user: "response"
-  
+
   // 3. Duration constraints last
   durationConstraint from:1 to:2 constraint:"< 100ms"
 }
@@ -60,13 +61,13 @@ sequence "API Gateway Routing" {
   participant client "Client"
   participant gateway "API Gateway"
   participant authSvc "Auth Service"
-  
+
   // First define the messages
   client -> gateway: "GET /profile"
   gateway -> authSvc: "validate(token)"
   authSvc -> gateway: "valid"
   gateway -> client: "200 OK"
-  
+
   // Then annotate them with a fragment showing gates
   fragment alt "Auth Check" from:1 to:3 gates:["request", "valid", "invalid"]
 }
@@ -118,7 +119,7 @@ sequence "E-Commerce Order Processing" {
   participant web "Web Server"
   participant db "Database"
   participant payment "Payment Gateway"
-  
+
   user -> web: "Place Order"
   web -> db: "Create Order Record"
   db -> web: "Order ID: 12345"
@@ -127,9 +128,9 @@ sequence "E-Commerce Order Processing" {
   web -> db: "Update Order Status"
   db -> web: "Success"
   web -> user: "Order Confirmed"
-  
+
   note right of web: "All timing constraints must meet P95 SLA targets"
-  
+
   // Duration constraints (must be at end)
   durationConstraint from:0 to:1 constraint:"< 100ms"
   durationConstraint from:3 to:4 constraint:"< 2000ms"
@@ -157,7 +158,7 @@ sequence "User Registration Flow" {
   participant app "App"
   participant auth "Auth Service"
   participant db "Database"
-  
+
   // First define all the messages
   user -> app: "Register"
   app -> auth: "Create Account"
@@ -165,7 +166,7 @@ sequence "User Registration Flow" {
   db -> auth: "Success"
   auth -> app: "Account Created"
   app -> user: "Welcome!"
-  
+
   // Then reference the email verification sub-sequence
   fragment ref "Email Verification" from:2 to:3 ref:"EmailVerificationSequence"
 }
@@ -188,7 +189,7 @@ sequence "Microservices Request Processing" {
   participant auth_service "Auth Service"
   participant product_service "Product Service"
   participant recommendation_engine "Recommendation Engine"
-  
+
   // Define all messages first
   mobile_app -> api_gateway: "GET /products"
   api_gateway -> auth_service: "validateJWT(token)"
@@ -197,11 +198,11 @@ sequence "Microservices Request Processing" {
   api_gateway -> recommendation_engine: "getRecommendations()"
   recommendation_engine -> api_gateway: "recommendations"
   api_gateway -> mobile_app: "200 OK"
-  
+
   // Then annotate with fragments
   fragment ref "JWT Validation" from:1 to:2 ref:"JWTValidationSequence" gates:["jwtIn", "validOut", "invalidOut"]
   fragment par "Fetch Data" from:2 to:5 gates:["parallelIn", "productGate", "recoGate", "mergeGate"]
-  
+
   // Finally add timing constraints
   durationConstraint from:1 to:2 constraint:"< 50ms"
   durationConstraint from:2 to:5 constraint:"< 200ms"
@@ -246,7 +247,7 @@ sequence "Bank Transfer" {
   participant "Account A" as database
   participant "Account B" as database
   participant "Transfer Service" as control
-  
+
   // All messages first
   message from:"Transfer Service" to:"Account A" label:"debit($500)" type:sync stateInvariant:"accountA.balance >= 500"
   message from:"Account A" to:"Transfer Service" label:"debited" type:return stateInvariant:"accountA.balance >= 0"
@@ -279,10 +280,10 @@ State invariants are stored as strings and support any format:
 State invariants work seamlessly with guards and timing constraints:
 
 ```runiq
-message from:"Client" to:"Server" label:"criticalOp()" 
-  type:sync 
-  guard:"authorized" 
-  timing:"< 100ms" 
+message from:"Client" to:"Server" label:"criticalOp()"
+  type:sync
+  guard:"authorized"
+  timing:"< 100ms"
   stateInvariant:"system.ready && resources.available"
 ```
 

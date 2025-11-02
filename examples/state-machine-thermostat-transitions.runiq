@@ -4,45 +4,45 @@
 
 diagram "Smart Thermostat Control" {
   // Temperature control modes
-  shape off as @stateSimple 
+  shape off as @state 
     label:"Off" 
     entry:"shutdownHVAC(); clearDisplay()"
 
-  shape idle as @stateSimple 
+  shape idle as @state 
     label:"Idle" 
     entry:"displayTemperature()" 
     doActivity:"monitorSensors(); checkSchedule()"
 
-  shape heating as @stateSimple 
+  shape heating as @state 
     label:"Heating" 
     entry:"activateHeater(); showHeatingIcon()"
     doActivity:"regulateTemperature(); monitorSafety()"
     exit:"deactivateHeater()"
 
-  shape cooling as @stateSimple 
+  shape cooling as @state 
     label:"Cooling" 
     entry:"activateAC(); showCoolingIcon()"
     doActivity:"regulateTemperature(); monitorHumidity()"
     exit:"deactivateAC()"
 
-  shape fan as @stateSimple 
+  shape fan as @state 
     label:"Fan Only" 
     entry:"activateFan(); showFanIcon()"
     doActivity:"circulateAir()"
     exit:"deactivateFan()"
 
-  shape away as @stateSimple 
+  shape away as @state 
     label:"Away Mode" 
     entry:"setEcoTemperature(); disableSchedule()"
     doActivity:"periodicCheck()"
 
-  shape maintenance as @stateSimple 
+  shape maintenance as @state 
     label:"Maintenance Mode" 
     entry:"lockControls(); runDiagnostics()"
     exit:"unlockControls()"
 
   // Initial state
-  shape initial as @initial
+  shape initial as @initialState
   initial -> off effect:"initialize(); loadSettings()"
 
   // Power control

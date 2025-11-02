@@ -45,8 +45,10 @@ export type RuniqKeywordNames =
     | "]"
     | "abstract:"
     | "ac"
+    | "acceptEvent"
     | "activate:"
     | "activity"
+    | "activityFinal"
     | "actor"
     | "affected:"
     | "aggregation"
@@ -57,7 +59,9 @@ export type RuniqKeywordNames =
     | "analysis"
     | "anchor"
     | "arrowType:"
+    | "artifact"
     | "as"
+    | "assembly"
     | "association"
     | "async"
     | "attributes:"
@@ -82,6 +86,7 @@ export type RuniqKeywordNames =
     | "centralBuffer"
     | "childCountPosition:"
     | "children:"
+    | "collaboration"
     | "collapseAnimationDuration:"
     | "collapseAnimationEasing:"
     | "collapseButtonColor:"
@@ -159,6 +164,7 @@ export type RuniqKeywordNames =
     | "fill-available"
     | "fill:"
     | "fit-content"
+    | "flowFinal"
     | "flowRate"
     | "flowType:"
     | "fluid"
@@ -168,6 +174,7 @@ export type RuniqKeywordNames =
     | "force"
     | "found"
     | "fragment"
+    | "frame"
     | "from:"
     | "full"
     | "gates:"
@@ -179,6 +186,7 @@ export type RuniqKeywordNames =
     | "headerBackgroundColor:"
     | "headerPosition:"
     | "high"
+    | "history"
     | "hollow"
     | "hoverBorderColor:"
     | "hoverBorderWidth:"
@@ -239,6 +247,7 @@ export type RuniqKeywordNames =
     | "navigability:"
     | "ne"
     | "net"
+    | "node"
     | "nodeSpacing:"
     | "noise"
     | "none"
@@ -270,9 +279,11 @@ export type RuniqKeywordNames =
     | "participant"
     | "participants:"
     | "phosphate-ester"
+    | "pin"
     | "pins:"
     | "pneumatic"
     | "polyline"
+    | "port"
     | "ports:"
     | "position:"
     | "preset"
@@ -280,14 +291,17 @@ export type RuniqKeywordNames =
     | "pressure"
     | "private"
     | "protected"
+    | "providedInterface"
     | "psi"
     | "public"
     | "radial"
     | "rated"
     | "realization"
+    | "receiveSignal"
     | "ref"
     | "ref:"
     | "relationship:"
+    | "requiredInterface"
     | "resizable:"
     | "resizeHandles:"
     | "return"
@@ -303,6 +317,7 @@ export type RuniqKeywordNames =
     | "selectionBorderColor:"
     | "selectionBorderWidth:"
     | "selectionHighlight:"
+    | "sendSignal"
     | "sequence"
     | "shadow:"
     | "shape"
@@ -332,6 +347,7 @@ export type RuniqKeywordNames =
     | "strokeWidth:"
     | "style"
     | "style:"
+    | "submachine"
     | "sw"
     | "sync"
     | "synthetic"
@@ -355,6 +371,7 @@ export type RuniqKeywordNames =
     | "type:"
     | "value:"
     | "verticalAlign:"
+    | "verticalFork"
     | "visibility:"
     | "w"
     | "wardley"
@@ -2995,10 +3012,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'activity' | 'actor' | 'boundary' | 'centralBuffer' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'lifeline' | 'note' | 'objectNode' | 'timeObservation' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'flowFinal' | 'frame' | 'history' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {

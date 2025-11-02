@@ -392,7 +392,7 @@ export const assemblyShape: ShapeDefinition = {
  * Provided Interface - Lollipop symbol (circle on stick)
  */
 export const providedInterfaceShape: ShapeDefinition = {
-  id: 'provided-interface',
+  id: 'providedInterface',
   bounds() {
     return {
       width: 30,
@@ -435,7 +435,7 @@ export const providedInterfaceShape: ShapeDefinition = {
  * Required Interface - Socket symbol (semicircle)
  */
 export const requiredInterfaceShape: ShapeDefinition = {
-  id: 'required-interface',
+  id: 'requiredInterface',
   bounds() {
     return {
       width: 30,

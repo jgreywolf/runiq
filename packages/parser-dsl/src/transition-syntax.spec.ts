@@ -120,7 +120,9 @@ describe('State Machine Transition Syntax (Event/Guard/Effect)', () => {
     expect(result.diagram?.edges).toHaveLength(2);
     const edge1 = result.diagram?.edges[0] as EdgeAst;
     const edge2 = result.diagram?.edges[1] as EdgeAst;
-    expect(edge1.guard).toBe('[temperature > 20 && temperature < 80 && pressure == nominal]');
+    expect(edge1.guard).toBe(
+      '[temperature > 20 && temperature < 80 && pressure == nominal]'
+    );
     expect(edge2.guard).toBe('[fuel >= minFuel || batteryLevel > 0.5]');
   });
 
@@ -168,7 +170,9 @@ describe('State Machine Transition Syntax (Event/Guard/Effect)', () => {
     expect(result.diagram?.edges).toHaveLength(8);
 
     // Verify specific transitions
-    const idleToVerifying = result.diagram?.edges.find((e: EdgeAst) => e.from === 'idle' && e.to === 'verifying');
+    const idleToVerifying = result.diagram?.edges.find(
+      (e: EdgeAst) => e.from === 'idle' && e.to === 'verifying'
+    );
     expect(idleToVerifying?.event).toBe('cardInserted');
 
     const verifyingToProcessing = result.diagram?.edges.find(
@@ -181,7 +185,9 @@ describe('State Machine Transition Syntax (Event/Guard/Effect)', () => {
     const processingToDispensing = result.diagram?.edges.find(
       (e: EdgeAst) => e.from === 'processing' && e.to === 'dispensing'
     );
-    expect(processingToDispensing?.guard).toBe('[balance >= amount && cashAvailable]');
+    expect(processingToDispensing?.guard).toBe(
+      '[balance >= amount && cashAvailable]'
+    );
     expect(processingToDispensing?.effect).toBe('deductAmount()');
   });
 });

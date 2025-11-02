@@ -4287,6 +4287,90 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "dataStore"
+          },
+          {
+            "$type": "Keyword",
+            "value": "component"
+          },
+          {
+            "$type": "Keyword",
+            "value": "artifact"
+          },
+          {
+            "$type": "Keyword",
+            "value": "node"
+          },
+          {
+            "$type": "Keyword",
+            "value": "port"
+          },
+          {
+            "$type": "Keyword",
+            "value": "module"
+          },
+          {
+            "$type": "Keyword",
+            "value": "template"
+          },
+          {
+            "$type": "Keyword",
+            "value": "history"
+          },
+          {
+            "$type": "Keyword",
+            "value": "pin"
+          },
+          {
+            "$type": "Keyword",
+            "value": "assembly"
+          },
+          {
+            "$type": "Keyword",
+            "value": "providedInterface"
+          },
+          {
+            "$type": "Keyword",
+            "value": "requiredInterface"
+          },
+          {
+            "$type": "Keyword",
+            "value": "frame"
+          },
+          {
+            "$type": "Keyword",
+            "value": "collaboration"
+          },
+          {
+            "$type": "Keyword",
+            "value": "submachine"
+          },
+          {
+            "$type": "Keyword",
+            "value": "loop"
+          },
+          {
+            "$type": "Keyword",
+            "value": "verticalFork"
+          },
+          {
+            "$type": "Keyword",
+            "value": "sendSignal"
+          },
+          {
+            "$type": "Keyword",
+            "value": "receiveSignal"
+          },
+          {
+            "$type": "Keyword",
+            "value": "acceptEvent"
+          },
+          {
+            "$type": "Keyword",
+            "value": "activityFinal"
+          },
+          {
+            "$type": "Keyword",
+            "value": "flowFinal"
           }
         ]
       },

@@ -394,7 +394,11 @@ ShapeDeclaration:
 ShapeIdentifier returns string:
     SHAPE_ID | ID | 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'note'
     | 'lifeline' | 'continuation' | 'timeObservation' | 'activity'
-    | 'objectNode' | 'centralBuffer' | 'dataStore';
+    | 'objectNode' | 'centralBuffer' | 'dataStore' | 'component' | 'artifact' | 'node'
+    | 'port' | 'module' | 'template' | 'history' | 'pin' | 'assembly'
+    | 'providedInterface' | 'requiredInterface' | 'frame' | 'collaboration'
+    | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
+    | 'activityFinal' | 'flowFinal';
 
 NodeProperty:
     LabelProperty

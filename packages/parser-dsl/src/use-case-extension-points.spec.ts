@@ -13,7 +13,7 @@ describe('Use Case Diagrams - Extension Points', () => {
 
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(1);
-    
+
     const useCase = result.diagram?.nodes[0];
     expect(useCase?.label).toBe('Checkout');
     expect(useCase?.extensionPoints).toEqual(['Payment Failed']);
@@ -50,16 +50,16 @@ describe('Use Case Diagrams - Extension Points', () => {
 
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(3);
-    
+
     const browse = result.diagram?.nodes[0];
     expect(browse?.extensionPoints).toBeUndefined();
-    
+
     const checkout = result.diagram?.nodes[1];
     expect(checkout?.extensionPoints).toEqual([
       'Payment Failed',
       'Insufficient Inventory',
     ]);
-    
+
     const payment = result.diagram?.nodes[2];
     expect(payment?.extensionPoints).toEqual(['Card Declined', 'Timeout']);
   });
@@ -172,13 +172,13 @@ describe('Use Case Diagrams - Extension Points', () => {
 
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(4);
-    
+
     const orderFood = result.diagram?.nodes.find((n) => n.id === 'orderFood');
     expect(orderFood?.extensionPoints).toEqual([
       'Item Unavailable',
       'Special Requests',
     ]);
-    
+
     const pay = result.diagram?.nodes.find((n) => n.id === 'pay');
     expect(pay?.extensionPoints).toEqual(['Split Check', 'Apply Discount']);
   });
@@ -196,7 +196,7 @@ describe('Use Case Diagrams - Extension Points', () => {
 
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(3);
-    
+
     expect(result.diagram?.nodes[0].extensionPoints).toBeUndefined();
     expect(result.diagram?.nodes[1].extensionPoints).toEqual([
       'Book Unavailable',

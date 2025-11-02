@@ -204,24 +204,24 @@ shape useCaseName as @ellipseWide label:"Use Case" extensionPoints:["Extension 1
 
 ```runiq
 diagram "E-commerce Checkout - Extension Points" {
-  
+
   shape customer as @actor label:"Customer"
   shape paymentGateway as @actor label:"Payment Gateway"
-  
+
   // Use case with extension points for error handling
   shape checkout as @ellipseWide label:"Checkout" extensionPoints:["Payment Failed", "Invalid Shipping Address", "Promo Code Invalid"]
-  
+
   shape processPayment as @ellipseWide label:"Process Payment" extensionPoints:["Card Declined", "Insufficient Funds", "Gateway Timeout"]
-  
+
   // Extension use cases handle specific error conditions
   shape retryPayment as @ellipseWide label:"Retry Payment"
   shape updateAddress as @ellipseWide label:"Update Shipping Address"
-  
+
   // Main flow
   customer -> checkout
   checkout -> processPayment
   processPayment -> paymentGateway stereotype:"include"
-  
+
   // Extend relationships reference extension points
   retryPayment -> processPayment stereotype:"extend" label:"Card Declined"
   updateAddress -> checkout stereotype:"extend" label:"Invalid Shipping Address"
@@ -232,23 +232,23 @@ diagram "E-commerce Checkout - Extension Points" {
 
 ```runiq
 diagram "ATM Withdrawal" {
-  
+
   shape customer as @actor label:"Customer"
-  
+
   // Primary use case with multiple extension points
   shape enterPIN as @ellipseWide label:"Enter PIN" extensionPoints:["Invalid PIN", "Card Locked", "PIN Attempts Exceeded"]
-  
+
   shape selectWithdrawal as @ellipseWide label:"Select Withdrawal Amount" extensionPoints:["Insufficient Balance", "Daily Limit Exceeded"]
-  
+
   // Extension use cases
   shape retryPIN as @ellipseWide label:"Retry PIN Entry"
   shape contactSupport as @ellipseWide label:"Contact Customer Support"
   shape selectLowerAmount as @ellipseWide label:"Select Lower Amount"
-  
+
   // Main flow
   customer -> enterPIN
   enterPIN -> selectWithdrawal
-  
+
   // Extend relationships map to specific extension points
   retryPIN -> enterPIN stereotype:"extend" label:"Invalid PIN"
   contactSupport -> enterPIN stereotype:"extend" label:"Card Locked"
@@ -267,12 +267,14 @@ diagram "ATM Withdrawal" {
 ### When to Use Extension Points
 
 **Use extension points for:**
+
 - Error handling and exception scenarios
 - Optional features triggered by specific conditions
 - Alternative paths based on validation failures
 - Conditional behavior with clear trigger points
 
 **Don't use extension points for:**
+
 - Required functionality (use «include» instead)
 - General alternatives without specific conditions
 - Core behavior variations (consider separate use cases)

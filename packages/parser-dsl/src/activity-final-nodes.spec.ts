@@ -19,7 +19,9 @@ describe('Activity Diagram Final Nodes', () => {
     expect(result.errors).toHaveLength(0);
     expect(result.diagram?.nodes).toHaveLength(3);
 
-    const doneNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'done');
+    const doneNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'done'
+    );
     expect(doneNode).toBeDefined();
     expect(doneNode?.shape).toBe('activityFinal');
   });
@@ -40,7 +42,9 @@ describe('Activity Diagram Final Nodes', () => {
     expect(result.errors).toHaveLength(0);
     expect(result.diagram?.nodes).toHaveLength(3);
 
-    const terminateNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'terminate');
+    const terminateNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'terminate'
+    );
     expect(terminateNode).toBeDefined();
     expect(terminateNode?.shape).toBe('flowFinal');
   });
@@ -63,8 +67,12 @@ describe('Activity Diagram Final Nodes', () => {
     expect(result.errors).toHaveLength(0);
     expect(result.diagram?.nodes).toHaveLength(4);
 
-    const cancelNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'cancel');
-    const completeNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'complete');
+    const cancelNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'cancel'
+    );
+    const completeNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'complete'
+    );
     expect(cancelNode?.shape).toBe('flowFinal');
     expect(completeNode?.shape).toBe('activityFinal');
   });
@@ -102,7 +110,7 @@ describe('Activity Diagram Final Nodes', () => {
     const endA = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'endA');
     const endB = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'endB');
     const endC = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'endC');
-    
+
     expect(endA?.shape).toBe('flowFinal');
     expect(endB?.shape).toBe('flowFinal');
     expect(endC?.shape).toBe('activityFinal');
@@ -132,9 +140,13 @@ describe('Activity Diagram Final Nodes', () => {
     expect(result.errors).toHaveLength(0);
     expect(result.diagram?.nodes).toHaveLength(7);
 
-    const errorEnd = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'errorEnd');
-    const complete = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'complete');
-    
+    const errorEnd = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'errorEnd'
+    );
+    const complete = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'complete'
+    );
+
     expect(errorEnd?.shape).toBe('flowFinal');
     expect(complete?.shape).toBe('activityFinal');
   });
@@ -161,9 +173,13 @@ describe('Activity Diagram Final Nodes', () => {
     expect(result.errors).toHaveLength(0);
     expect(result.diagram?.nodes).toHaveLength(6);
 
-    const earlyExit = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'earlyExit');
-    const complete = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'complete');
-    
+    const earlyExit = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'earlyExit'
+    );
+    const complete = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'complete'
+    );
+
     expect(earlyExit?.shape).toBe('flowFinal');
     expect(complete?.shape).toBe('activityFinal');
   });
@@ -200,9 +216,13 @@ describe('Activity Diagram Final Nodes', () => {
     // start, fork, join, 3 activities, 2 finals = 8 nodes
     expect(result.diagram?.nodes).toHaveLength(8);
 
-    const primaryDone = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'primaryDone');
-    const secondaryAbort = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'secondaryAbort');
-    
+    const primaryDone = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'primaryDone'
+    );
+    const secondaryAbort = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'secondaryAbort'
+    );
+
     expect(primaryDone?.shape).toBe('activityFinal');
     expect(secondaryAbort?.shape).toBe('flowFinal');
   });
@@ -229,9 +249,13 @@ describe('Activity Diagram Final Nodes', () => {
     expect(result.errors).toHaveLength(0);
     expect(result.diagram?.nodes).toHaveLength(6);
 
-    const cleanup = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'cleanup');
-    const success = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'success');
-    
+    const cleanup = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'cleanup'
+    );
+    const success = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'success'
+    );
+
     expect(cleanup?.shape).toBe('flowFinal');
     expect(success?.shape).toBe('activityFinal');
 
@@ -275,10 +299,16 @@ describe('Activity Diagram Final Nodes', () => {
     // start, validate, 2 choices, 2 processes, 3 finals = 9 nodes
     expect(result.diagram?.nodes).toHaveLength(9);
 
-    const errorA = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'errorA');
-    const errorB = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'errorB');
-    const success = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'success');
-    
+    const errorA = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'errorA'
+    );
+    const errorB = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'errorB'
+    );
+    const success = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'success'
+    );
+
     expect(errorA?.shape).toBe('flowFinal');
     expect(errorB?.shape).toBe('flowFinal');
     expect(success?.shape).toBe('activityFinal');
@@ -307,7 +337,7 @@ describe('Activity Diagram Final Nodes', () => {
 
     const abort = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'abort');
     const done = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'done');
-    
+
     expect(abort?.shape).toBe('flowFinal');
     expect(abort?.style).toBe('errorStyle');
     expect(done?.shape).toBe('activityFinal');

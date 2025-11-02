@@ -12,7 +12,7 @@ describe('Activity Diagram Signal Shapes', () => {
     const result = parse(dsl);
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(1);
-    
+
     const node = result.diagram?.nodes[0] as NodeAst;
     expect(node.id).toBe('sendMsg');
     expect(node.shape).toBe('sendSignal');
@@ -28,7 +28,7 @@ describe('Activity Diagram Signal Shapes', () => {
     const result = parse(dsl);
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(1);
-    
+
     const node = result.diagram?.nodes[0] as NodeAst;
     expect(node.id).toBe('receiveMsg');
     expect(node.shape).toBe('receiveSignal');
@@ -44,7 +44,7 @@ describe('Activity Diagram Signal Shapes', () => {
     const result = parse(dsl);
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(1);
-    
+
     const node = result.diagram?.nodes[0] as NodeAst;
     expect(node.id).toBe('waitForEvent');
     expect(node.shape).toBe('acceptEvent');
@@ -70,9 +70,13 @@ describe('Activity Diagram Signal Shapes', () => {
     expect(result.diagram?.edges).toHaveLength(3);
 
     // Verify signal shapes
-    const sendNode = result.diagram?.nodes.find((n: NodeAst) => n.id === 'send');
-    const receiveNode = result.diagram?.nodes.find((n: NodeAst) => n.id === 'receive');
-    
+    const sendNode = result.diagram?.nodes.find(
+      (n: NodeAst) => n.id === 'send'
+    );
+    const receiveNode = result.diagram?.nodes.find(
+      (n: NodeAst) => n.id === 'receive'
+    );
+
     expect(sendNode?.shape).toBe('sendSignal');
     expect(receiveNode?.shape).toBe('receiveSignal');
   });
@@ -104,9 +108,13 @@ describe('Activity Diagram Signal Shapes', () => {
     // Verify all signal types present
     const nodes = result.diagram?.nodes || [];
     const sendSignals = nodes.filter((n: NodeAst) => n.shape === 'sendSignal');
-    const receiveSignals = nodes.filter((n: NodeAst) => n.shape === 'receiveSignal');
-    const acceptEvents = nodes.filter((n: NodeAst) => n.shape === 'acceptEvent');
-    
+    const receiveSignals = nodes.filter(
+      (n: NodeAst) => n.shape === 'receiveSignal'
+    );
+    const acceptEvents = nodes.filter(
+      (n: NodeAst) => n.shape === 'acceptEvent'
+    );
+
     expect(sendSignals).toHaveLength(1);
     expect(receiveSignals).toHaveLength(1);
     expect(acceptEvents).toHaveLength(1);
@@ -202,7 +210,9 @@ describe('Activity Diagram Signal Shapes', () => {
 
     // Verify three accept events
     const nodes = result.diagram?.nodes || [];
-    const acceptEvents = nodes.filter((n: NodeAst) => n.shape === 'acceptEvent');
+    const acceptEvents = nodes.filter(
+      (n: NodeAst) => n.shape === 'acceptEvent'
+    );
     expect(acceptEvents).toHaveLength(3);
   });
 
@@ -231,8 +241,10 @@ describe('Activity Diagram Signal Shapes', () => {
 
     const nodes = result.diagram?.nodes || [];
     const sends = nodes.filter((n: NodeAst) => n.shape === 'sendSignal').length;
-    const receives = nodes.filter((n: NodeAst) => n.shape === 'receiveSignal').length;
-    
+    const receives = nodes.filter(
+      (n: NodeAst) => n.shape === 'receiveSignal'
+    ).length;
+
     expect(sends).toBe(2);
     expect(receives).toBe(1);
   });
@@ -249,10 +261,10 @@ describe('Activity Diagram Signal Shapes', () => {
     `;
     const result = parse(dsl);
     expect(result.success).toBe(true);
-    
+
     const nodes = result.diagram?.nodes || [];
     expect(nodes).toHaveLength(3);
-    
+
     // All nodes should have the style
     nodes.forEach((node: NodeAst) => {
       expect(node.style).toBe('signalStyle');

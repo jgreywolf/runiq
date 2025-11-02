@@ -12,7 +12,7 @@ describe('Activity Diagram Object Nodes', () => {
     const result = parse(dsl);
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(1);
-    
+
     const node = result.diagram?.nodes[0] as NodeAst;
     expect(node.id).toBe('order');
     expect(node.shape).toBe('objectNode');
@@ -28,7 +28,7 @@ describe('Activity Diagram Object Nodes', () => {
     const result = parse(dsl);
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(1);
-    
+
     const node = result.diagram?.nodes[0] as NodeAst;
     expect(node.id).toBe('buffer');
     expect(node.shape).toBe('centralBuffer');
@@ -44,7 +44,7 @@ describe('Activity Diagram Object Nodes', () => {
     const result = parse(dsl);
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes).toHaveLength(1);
-    
+
     const node = result.diagram?.nodes[0] as NodeAst;
     expect(node.id).toBe('db');
     expect(node.shape).toBe('dataStore');
@@ -87,13 +87,19 @@ describe('Activity Diagram Object Nodes', () => {
     expect(result.diagram?.edges).toHaveLength(6);
 
     // Verify object node types
-    const objectNode = result.diagram?.nodes.find((n: NodeAst) => n.id === 'orderInput');
+    const objectNode = result.diagram?.nodes.find(
+      (n: NodeAst) => n.id === 'orderInput'
+    );
     expect(objectNode?.shape).toBe('objectNode');
 
-    const bufferNode = result.diagram?.nodes.find((n: NodeAst) => n.id === 'orderQueue');
+    const bufferNode = result.diagram?.nodes.find(
+      (n: NodeAst) => n.id === 'orderQueue'
+    );
     expect(bufferNode?.shape).toBe('centralBuffer');
 
-    const storeNode = result.diagram?.nodes.find((n: NodeAst) => n.id === 'customerDB');
+    const storeNode = result.diagram?.nodes.find(
+      (n: NodeAst) => n.id === 'customerDB'
+    );
     expect(storeNode?.shape).toBe('dataStore');
   });
 
@@ -138,9 +144,13 @@ describe('Activity Diagram Object Nodes', () => {
     expect(result.success).toBe(true);
     expect(result.diagram?.edges).toHaveLength(4);
 
-    const controlFlows = result.diagram?.edges.filter((e) => e.flowType === 'control');
-    const objectFlows = result.diagram?.edges.filter((e) => e.flowType === 'object');
-    
+    const controlFlows = result.diagram?.edges.filter(
+      (e) => e.flowType === 'control'
+    );
+    const objectFlows = result.diagram?.edges.filter(
+      (e) => e.flowType === 'object'
+    );
+
     expect(controlFlows).toHaveLength(2);
     expect(objectFlows).toHaveLength(2);
   });
@@ -161,16 +171,21 @@ describe('Activity Diagram Object Nodes', () => {
 
     const edges = result.diagram?.edges || [];
     expect(edges).toHaveLength(2);
-    
+
     // Verify one edge from DB to action, one from action to DB
-    const readEdge = edges.find(e => e.from === 'customerDB' && e.to === 'readAction');
-    const writeEdge = edges.find(e => e.from === 'writeAction' && e.to === 'customerDB');
-    
+    const readEdge = edges.find(
+      (e) => e.from === 'customerDB' && e.to === 'readAction'
+    );
+    const writeEdge = edges.find(
+      (e) => e.from === 'writeAction' && e.to === 'customerDB'
+    );
+
     expect(readEdge).toBeDefined();
     expect(writeEdge).toBeDefined();
     expect(readEdge?.label).toBe('query result');
     expect(writeEdge?.label).toBe('update');
-  });  it('should parse central buffer with multiple inputs and outputs', () => {
+  });
+  it('should parse central buffer with multiple inputs and outputs', () => {
     const dsl = `
       diagram "Buffer Pattern" {
         shape producer1 as @activity label:"Producer 1"
@@ -192,9 +207,9 @@ describe('Activity Diagram Object Nodes', () => {
 
     // Verify buffer is central point
     const edges = result.diagram?.edges || [];
-    const toBuffer = edges.filter(e => e.to === 'buffer').length;
-    const fromBuffer = edges.filter(e => e.from === 'buffer').length;
-    
+    const toBuffer = edges.filter((e) => e.to === 'buffer').length;
+    const fromBuffer = edges.filter((e) => e.from === 'buffer').length;
+
     expect(toBuffer).toBe(2);
     expect(fromBuffer).toBe(2);
   });
@@ -260,7 +275,7 @@ describe('Activity Diagram Object Nodes', () => {
     const objectNodes = nodes.filter((n: NodeAst) => n.shape === 'objectNode');
     const buffers = nodes.filter((n: NodeAst) => n.shape === 'centralBuffer');
     const stores = nodes.filter((n: NodeAst) => n.shape === 'dataStore');
-    
+
     expect(objectNodes).toHaveLength(4);
     expect(buffers).toHaveLength(1);
     expect(stores).toHaveLength(2);
@@ -278,10 +293,10 @@ describe('Activity Diagram Object Nodes', () => {
     `;
     const result = parse(dsl);
     expect(result.success).toBe(true);
-    
+
     const nodes = result.diagram?.nodes || [];
     expect(nodes).toHaveLength(3);
-    
+
     // All nodes should have the style
     nodes.forEach((node: NodeAst) => {
       expect(node.style).toBe('dataStyle');

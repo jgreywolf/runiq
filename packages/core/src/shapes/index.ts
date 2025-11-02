@@ -178,6 +178,20 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.componentShape);
   shapeRegistry.register(uml.artifactShape);
   shapeRegistry.register(uml.nodeShape);
+  // Component diagram additions
+  shapeRegistry.register(uml.portShape);
+  shapeRegistry.register(uml.moduleShape);
+  shapeRegistry.register(uml.templateShape);
+  shapeRegistry.register(uml.historyShape);
+  shapeRegistry.register(uml.pinShape);
+  shapeRegistry.register(uml.assemblyShape);
+  shapeRegistry.register(uml.providedInterfaceShape);
+  shapeRegistry.register(uml.requiredInterfaceShape);
+  shapeRegistry.register(uml.frameShape);
+  shapeRegistry.register(uml.collaborationShape);
+  shapeRegistry.register(uml.submachineShape);
+  shapeRegistry.register(uml.loopShape);
+  shapeRegistry.register(uml.verticalForkShape);
   // State machine pseudo-states
   shapeRegistry.register(uml.historyShallowShape);
   shapeRegistry.register(uml.historyDeepShape);

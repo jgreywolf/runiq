@@ -4,45 +4,45 @@
 
 diagram "Order Processing System" {
   // Order lifecycle states
-  shape draft as @stateSimple 
+  shape draft as @state 
     label:"Draft" 
     entry:"initializeOrder(); assignOrderId()"
 
-  shape validating as @stateSimple 
+  shape validating as @state 
     label:"Validating" 
     doActivity:"validateItems(); checkInventory(); verifyCustomer()"
     entry:"startValidationTimer()"
     exit:"clearValidationTimer()"
 
-  shape pending as @stateSimple 
+  shape pending as @state 
     label:"Pending Payment" 
     entry:"calculateTotal(); generateInvoice()"
 
-  shape processing as @stateSimple 
+  shape processing as @state 
     label:"Processing" 
     entry:"reserveInventory(); lockPrices()"
     doActivity:"updateStatus()"
     exit:"releaseIfFailed()"
 
-  shape shipping as @stateSimple 
+  shape shipping as @state 
     label:"Shipping" 
     entry:"generateShippingLabel(); notifyWarehouse()"
     doActivity:"trackShipment()"
 
-  shape delivered as @stateSimple 
+  shape delivered as @state 
     label:"Delivered" 
     entry:"confirmDelivery(); sendThankYou()"
 
-  shape cancelled as @stateSimple 
+  shape cancelled as @state 
     label:"Cancelled" 
     entry:"refundPayment(); restockItems(); notifyCustomer()"
 
-  shape failed as @stateSimple 
+  shape failed as @state 
     label:"Failed" 
     entry:"logFailure(); alertSupport()"
 
   // Initial state
-  shape initial as @initial
+  shape initial as @initialState
   initial -> draft
 
   // Validation flow with complex guards

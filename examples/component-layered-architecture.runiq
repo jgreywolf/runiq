@@ -1,0 +1,84 @@
+// Layered Architecture with Component Diagrams
+// Demonstrates: modules, ports, templates, and vertical separation
+
+diagram "Three-Tier Architecture" {
+  // Presentation Layer
+  shape ui as @component label:"Web UI"
+  shape uiHttp as @port label:"HTTP 8080"
+  shape uiWs as @port label:"WebSocket"
+  
+  ui -> uiHttp
+  ui -> uiWs
+  
+  // Business Logic Layer with template
+  shape bizLogic as @template label:"ServiceLayer<T>"
+  shape userSvc as @module label:"UserService"
+  shape orderSvc as @module label:"OrderService"
+  shape paymentSvc as @module label:"PaymentService"
+  
+  // Service interfaces
+  shape iUserSvc as @providedInterface label:"IUserService"
+  shape iOrderSvc as @providedInterface label:"IOrderService"
+  shape iPaymentSvc as @providedInterface label:"IPaymentService"
+  
+  userSvc -> iUserSvc
+  orderSvc -> iOrderSvc
+  paymentSvc -> iPaymentSvc
+  
+  // Data Access Layer
+  shape dal as @component label:"Data Access"
+  shape dbPort as @port label:"DB 5432"
+  shape cachePort as @port label:"Cache"
+  
+  dal -> dbPort
+  dal -> cachePort
+  
+  // Repository pattern with template
+  shape userRepo as @template label:"Repository<User>"
+  shape orderRepo as @template label:"Repository<Order>"
+  shape paymentRepo as @template label:"Repository<Payment>"
+  
+  // Provided data interfaces
+  shape iUserData as @providedInterface label:"IUserData"
+  shape iOrderData as @providedInterface label:"IOrderData"
+  shape iPaymentData as @providedInterface label:"IPaymentData"
+  
+  userRepo -> iUserData
+  orderRepo -> iOrderData
+  paymentRepo -> iPaymentData
+  
+  // Required interfaces for services
+  shape needsUserData as @requiredInterface label:"IUserData"
+  shape needsOrderData as @requiredInterface label:"IOrderData"
+  shape needsPaymentData as @requiredInterface label:"IPaymentData"
+  
+  userSvc -> needsUserData
+  orderSvc -> needsOrderData
+  paymentSvc -> needsPaymentData
+  
+  // Assembly connectors between layers
+  shape userConn as @assembly
+  shape orderConn as @assembly
+  shape paymentConn as @assembly
+  
+  iUserData -> userConn
+  userConn -> needsUserData
+  
+  iOrderData -> orderConn
+  orderConn -> needsOrderData
+  
+  iPaymentData -> paymentConn
+  paymentConn -> needsPaymentData
+  
+  // Layer connections
+  bizLogic -> userSvc flowType:"control"
+  bizLogic -> orderSvc flowType:"control"
+  bizLogic -> paymentSvc flowType:"control"
+  
+  dal -> userRepo flowType:"control"
+  dal -> orderRepo flowType:"control"
+  dal -> paymentRepo flowType:"control"
+  
+  ui -> bizLogic flowType:"control"
+  bizLogic -> dal flowType:"control"
+}
