@@ -252,29 +252,17 @@ export class ElkLayoutEngine implements LayoutEngine {
 
         if (!elkGraph.children) elkGraph.children = [];
 
-        // Get anchor points from shape if available
-        const anchors = shapeImpl.anchors?.({
-          node,
-          style,
-          measureText,
-        });
-
         const elkNode: any = {
           id: node.id,
           width: bounds.width,
           height: bounds.height,
         };
 
-        // Add ports (anchor points) to the node for proper edge attachment
-        if (anchors && anchors.length > 0) {
-          elkNode.ports = anchors.map((anchor) => ({
-            id: `${node.id}_${anchor.name}`,
-            x: anchor.x,
-            y: anchor.y,
-            width: 1,
-            height: 1,
-          }));
-        }
+        // NOTE: We don't specify ports because:
+        // 1. We would need to tell ELK which port to use for each edge
+        // 2. ELK doesn't automatically choose the best port
+        // 3. For now, we let ELK route to node centers/boundaries
+        // 4. In the future, we could add post-processing to snap edges to anchors
 
         // Apply layer constraint for pedigree charts
         if (isPedigreeChart && nodeGenerations.has(node.id)) {
@@ -520,6 +508,9 @@ export class ElkLayoutEngine implements LayoutEngine {
     }
     const uniqueEdges = Array.from(edgeMap.values());
 
+    // Snap edge endpoints to shape anchor points for better visual accuracy
+    this.snapEdgesToAnchors(diagram, uniqueEdges, nodes, measureText);
+
     return { nodes, edges: uniqueEdges, size, containers };
   }
 
@@ -557,6 +548,240 @@ export class ElkLayoutEngine implements LayoutEngine {
         );
       }
     }
+  }
+
+  /**
+   * Snap edge endpoints to shape anchor points for better visual accuracy
+   */
+  private snapEdgesToAnchors(
+    diagram: DiagramAst,
+    edges: RoutedEdge[],
+    nodes: PositionedNode[],
+    measureText: ReturnType<typeof createTextMeasurer>
+  ): void {
+    for (const edge of edges) {
+      if (!edge.points || edge.points.length < 2) continue;
+
+      // Get source and target node IDs
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      // Find the nodes
+      const fromNode = nodes.find((n) => n.id === fromNodeId);
+      const toNode = nodes.find((n) => n.id === toNodeId);
+
+      if (!fromNode || !toNode) continue;
+
+      // Get the diagram node definitions to access shape info
+      const fromNodeDef = diagram.nodes.find((n) => n.id === fromNodeId);
+      const toNodeDef = diagram.nodes.find((n) => n.id === toNodeId);
+
+      if (!fromNodeDef || !toNodeDef) continue;
+
+      // Get shape implementations
+      const fromShape = shapeRegistry.get(fromNodeDef.shape);
+      const toShape = shapeRegistry.get(toNodeDef.shape);
+
+      if (!fromShape || !toShape) continue;
+
+      // Get styles
+      const fromStyle = fromNodeDef.style ? diagram.styles?.[fromNodeDef.style] || {} : {};
+      const toStyle = toNodeDef.style ? diagram.styles?.[toNodeDef.style] || {} : {};
+
+      // Snap first point (source) to fromNode's anchor
+      let newStartPoint: { x: number; y: number } | null = null;
+      let startAnchor: { x: number; y: number; name?: string } | null = null;
+      if (fromShape.anchors) {
+        const anchors = fromShape.anchors({
+          node: fromNodeDef,
+          style: fromStyle,
+          measureText,
+        });
+        const firstPoint = edge.points[0];
+        startAnchor = this.findNearestAnchor(
+          firstPoint,
+          anchors,
+          fromNode
+        );
+        if (startAnchor) {
+          newStartPoint = {
+            x: fromNode.x + startAnchor.x,
+            y: fromNode.y + startAnchor.y,
+          };
+        }
+      }
+
+      // Snap last point (target) to toNode's anchor
+      let newEndPoint: { x: number; y: number } | null = null;
+      let endAnchor: { x: number; y: number; name?: string } | null = null;
+      if (toShape.anchors) {
+        const anchors = toShape.anchors({
+          node: toNodeDef,
+          style: toStyle,
+          measureText,
+        });
+        const lastPoint = edge.points[edge.points.length - 1];
+        endAnchor = this.findNearestAnchor(
+          lastPoint,
+          anchors,
+          toNode
+        );
+        if (endAnchor) {
+          newEndPoint = {
+            x: toNode.x + endAnchor.x,
+            y: toNode.y + endAnchor.y,
+          };
+        }
+      }
+
+      // Apply the anchor snapping with orthogonal waypoints if needed
+      if (newStartPoint || newEndPoint) {
+        this.applyAnchorSnapping(
+          edge,
+          newStartPoint,
+          newEndPoint,
+          startAnchor,
+          endAnchor,
+          fromNode,
+          toNode
+        );
+      }
+    }
+  }
+
+  /**
+   * Find the nearest anchor point to a given position
+   */
+  private findNearestAnchor(
+    point: { x: number; y: number },
+    anchors: Array<{ x: number; y: number; name?: string }>,
+    node: PositionedNode
+  ): { x: number; y: number; name?: string } | null {
+    if (anchors.length === 0) return null;
+
+    let nearestAnchor = anchors[0];
+    let minDistance = Number.MAX_VALUE;
+
+    for (const anchor of anchors) {
+      const anchorX = node.x + anchor.x;
+      const anchorY = node.y + anchor.y;
+      const distance = Math.sqrt(
+        Math.pow(point.x - anchorX, 2) + Math.pow(point.y - anchorY, 2)
+      );
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestAnchor = anchor;
+      }
+    }
+
+    return nearestAnchor;
+  }
+
+  /**
+   * Apply anchor snapping to an edge while maintaining orthogonal routing.
+   * If the edge only has 2 points (straight line), insert intermediate waypoints
+   * to create right-angle bends based on the anchor directions.
+   */
+  private applyAnchorSnapping(
+    edge: RoutedEdge,
+    newStartPoint: { x: number; y: number } | null,
+    newEndPoint: { x: number; y: number } | null,
+    startAnchor: { x: number; y: number; name?: string } | null,
+    _endAnchor: { x: number; y: number; name?: string } | null,
+    _fromNode: PositionedNode,
+    _toNode: PositionedNode
+  ): void {
+    const oldStart = edge.points[0];
+    const oldEnd = edge.points[edge.points.length - 1];
+
+    // If edge has intermediate waypoints, update endpoints and fix first/last segments
+    if (edge.points.length > 2) {
+      if (newStartPoint && startAnchor?.name) {
+        edge.points[0] = newStartPoint;
+        // Fix the first segment to be orthogonal based on anchor direction
+        const startDir = this.getAnchorDirection(startAnchor.name);
+        if (startDir === 'horizontal') {
+          // First segment should be horizontal
+          edge.points[1] = { x: edge.points[1].x, y: newStartPoint.y };
+        } else if (startDir === 'vertical') {
+          // First segment should be vertical
+          edge.points[1] = { x: newStartPoint.x, y: edge.points[1].y };
+        }
+      }
+      if (newEndPoint) {
+        edge.points[edge.points.length - 1] = newEndPoint;
+        // TODO: Could also fix the last segment to arrive orthogonally at the end anchor
+      }
+      return;
+    }
+
+    // Edge only has 2 points (straight line) - need to add orthogonal waypoints
+    const start = newStartPoint || oldStart;
+    const end = newEndPoint || oldEnd;
+
+    // Determine initial direction based on start anchor name
+    const startDirection = this.getAnchorDirection(startAnchor?.name);
+
+    // Create orthogonal routing based on anchor directions
+    if (startDirection === 'horizontal') {
+      // Exit horizontally from start anchor
+      const midX = start.x + (end.x - start.x) * 0.5;
+      edge.points = [
+        start,
+        { x: midX, y: start.y }, // Horizontal segment
+        { x: midX, y: end.y },   // Vertical segment
+        end,
+      ];
+    } else if (startDirection === 'vertical') {
+      // Exit vertically from start anchor
+      const midY = start.y + (end.y - start.y) * 0.5;
+      edge.points = [
+        start,
+        { x: start.x, y: midY }, // Vertical segment
+        { x: end.x, y: midY },   // Horizontal segment
+        end,
+      ];
+    } else {
+      // No anchor info - fallback to distance-based logic
+      const dx = Math.abs(end.x - start.x);
+      const dy = Math.abs(end.y - start.y);
+
+      if (dx > dy) {
+        const midX = start.x + (end.x - start.x) * 0.5;
+        edge.points = [
+          start,
+          { x: midX, y: start.y },
+          { x: midX, y: end.y },
+          end,
+        ];
+      } else {
+        const midY = start.y + (end.y - start.y) * 0.5;
+        edge.points = [
+          start,
+          { x: start.x, y: midY },
+          { x: end.x, y: midY },
+          end,
+        ];
+      }
+    }
+  }
+
+  /**
+   * Determine the direction an edge should leave from an anchor based on its name.
+   * Returns 'horizontal' for left/right anchors, 'vertical' for top/bottom anchors.
+   */
+  private getAnchorDirection(anchorName?: string): 'horizontal' | 'vertical' | null {
+    if (!anchorName) return null;
+    
+    const name = anchorName.toLowerCase();
+    if (name === 'left' || name === 'right') {
+      return 'horizontal';
+    }
+    if (name === 'top' || name === 'bottom') {
+      return 'vertical';
+    }
+    return null;
   }
 
   /**
