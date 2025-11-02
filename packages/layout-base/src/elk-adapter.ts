@@ -325,17 +325,15 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Run ELK layout algorithm (with container placeholders)
     const laidOut = await this.elk.layout(elkGraph);
 
-    // Extract container placeholder positions
-    const containerPositions = new Map<string, { x: number; y: number }>();
-    for (const elkNode of laidOut.children || []) {
-      if (elkNode.id.startsWith('__container__')) {
-        const containerId = elkNode.id.replace('__container__', '');
-        containerPositions.set(containerId, {
-          x: elkNode.x || 0,
-          y: elkNode.y || 0,
-        });
-      }
-    }
+    // Calculate container positions based on orientation and siblings
+    // Instead of using ELK's placeholder positions (which overlap), arrange containers properly
+    const containerPositions = diagram.containers
+      ? this.arrangeSiblingContainers(
+          diagram.containers,
+          spacing,
+          containerPlaceholders
+        )
+      : new Map<string, { x: number; y: number }>();
 
     // Layout nodes within each container and position containers
     const nodes: PositionedNode[] = [];
@@ -349,6 +347,7 @@ export class ElkLayoutEngine implements LayoutEngine {
         measureText,
         nodeContainerMap,
         containerPositions,
+        containerPlaceholders,
         spacing,
         direction,
         nodes,
@@ -402,62 +401,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     this.extractEdges(topLevelEdges, nodes, edges);
 
     // Fix cross-container edges: Replace placeholder-based routing with actual node positions
-    for (const edge of diagram.edges) {
-      // Extract node IDs from potentially member-level references
-      const fromNodeId = this.extractNodeId(edge.from);
-      const toNodeId = this.extractNodeId(edge.to);
-
-      const fromContainer = nodeContainerMap.get(fromNodeId);
-      const toContainer = nodeContainerMap.get(toNodeId);
-
-      // Check if this edge crosses a container boundary
-      const isCrossContainer =
-        (fromContainer && !toContainer) || (!fromContainer && toContainer);
-
-      if (isCrossContainer) {
-        // Find the existing edge that was extracted (it will have wrong routing)
-        const existingEdgeIndex = edges.findIndex(
-          (e) => e.from === edge.from && e.to === edge.to
-        );
-
-        // Find actual node positions
-        const fromNode = nodes.find((n) => n.id === fromNodeId);
-        const toNode = nodes.find((n) => n.id === toNodeId);
-
-        if (fromNode && toNode) {
-          // Generate orthogonal (step) routing instead of straight lines
-          const fromCenterX = fromNode.x + fromNode.width / 2;
-          const fromCenterY = fromNode.y + fromNode.height / 2;
-          const toCenterX = toNode.x + toNode.width / 2;
-          const toCenterY = toNode.y + toNode.height / 2;
-
-          const newPoints = this.generateOrthogonalRouting(
-            fromCenterX,
-            fromCenterY,
-            toCenterX,
-            toCenterY,
-            direction
-          );
-
-          if (existingEdgeIndex >= 0) {
-            // Replace the edge with corrected routing
-            edges[existingEdgeIndex] = {
-              from: edge.from,
-              to: edge.to,
-              points: newPoints,
-            };
-            // routing fixed
-          } else {
-            // Edge wasn't extracted (Issue #10), add it manually
-            edges.push({
-              from: edge.from,
-              to: edge.to,
-              points: newPoints,
-            });
-          }
-        }
-      }
-    }
+    this.recalculateCrossContainerEdges(diagram, nodeContainerMap, nodes, edges, direction);
 
     // Calculate overall diagram bounds (including negative space)
     let minX = 0;
@@ -566,7 +510,15 @@ export class ElkLayoutEngine implements LayoutEngine {
       height: maxY + 20,
     };
 
-    return { nodes, edges, size, containers };
+    // Remove duplicate edges (keep only the last occurrence of each from->to pair)
+    const edgeMap = new Map<string, RoutedEdge>();
+    for (const edge of edges) {
+      const key = `${edge.from}->${edge.to}`;
+      edgeMap.set(key, edge);
+    }
+    const uniqueEdges = Array.from(edgeMap.values());
+
+    return { nodes, edges: uniqueEdges, size, containers };
   }
 
   /**
@@ -601,6 +553,321 @@ export class ElkLayoutEngine implements LayoutEngine {
           containerMap,
           container.id
         );
+      }
+    }
+  }
+
+  /**
+   * Calculate positions for sibling containers based on orientation
+   */
+  private arrangeSiblingContainers(
+    containers: ContainerDeclaration[],
+    spacing: number,
+    placeholders: Map<string, { width: number; height: number }>
+  ): Map<string, { x: number; y: number }> {
+    const positions = new Map<string, { x: number; y: number }>();
+    
+    // First pass: determine if we have swimlanes and calculate uniform dimensions
+    const hasHorizontalSwim = containers.some(c => c.layoutOptions?.orientation === 'horizontal');
+    const hasVerticalSwim = containers.some(c => c.layoutOptions?.orientation === 'vertical');
+    
+    let uniformWidth: number | undefined;
+    let uniformHeight: number | undefined;
+    
+    // For horizontal swimlanes: all should have same width (widest one)
+    if (hasHorizontalSwim) {
+      let maxWidth = 0;
+      for (const container of containers) {
+        if (container.layoutOptions?.orientation === 'horizontal') {
+          const placeholder = placeholders.get(container.id!);
+          const width = placeholder?.width || 400;
+          maxWidth = Math.max(maxWidth, width);
+        }
+      }
+      uniformWidth = maxWidth;
+    }
+    
+    // For vertical swimlanes: all should have same height (tallest one)
+    if (hasVerticalSwim) {
+      let maxHeight = 0;
+      for (const container of containers) {
+        if (container.layoutOptions?.orientation === 'vertical') {
+          const placeholder = placeholders.get(container.id!);
+          const height = placeholder?.height || 300;
+          maxHeight = Math.max(maxHeight, height);
+        }
+      }
+      uniformHeight = maxHeight;
+    }
+    
+    // Second pass: position containers with uniform dimensions
+    let currentX = 0;
+    let currentY = 0;
+    
+    for (const container of containers) {
+      const placeholder = placeholders.get(container.id!);
+      const orientation = container.layoutOptions?.orientation;
+      
+      // Use uniform dimensions for swimlanes, or individual dimensions otherwise
+      const width = (orientation === 'horizontal' && uniformWidth) 
+        ? uniformWidth 
+        : (placeholder?.width || 400);
+      const height = (orientation === 'vertical' && uniformHeight)
+        ? uniformHeight
+        : (placeholder?.height || 300);
+      
+      // Position this container
+      positions.set(container.id!, { x: currentX, y: currentY });
+      
+      // Store uniform dimensions back to placeholder for later use
+      placeholders.set(container.id!, { width, height });
+      
+      // Determine how to advance for next sibling
+      if (orientation === 'horizontal') {
+        // Horizontal orientation: stack vertically (swimlanes go top-to-bottom)
+        currentY += height + spacing;
+      } else if (orientation === 'vertical') {
+        // Vertical orientation: arrange side-by-side (swimlanes go left-to-right)
+        currentX += width + spacing;
+      } else {
+        // No orientation specified: default to stacking vertically
+        currentY += height + spacing;
+      }
+    }
+    
+    return positions;
+  }
+
+  /**
+   * Apply uniform dimensions to swimlanes after content layout
+   * All horizontal swimlanes get the same width (widest)
+   * All vertical swimlanes get the same height (tallest)
+   * Also recalculates positions to account for actual content sizes
+   * and adjusts child node/edge positions accordingly
+   */
+  private applyUniformSwimlaneDimensions(
+    containers: ContainerDeclaration[],
+    positionedContainers: PositionedContainer[],
+    nodes: PositionedNode[],
+    edges: RoutedEdge[],
+    direction: string
+  ): void {
+    // Find max dimensions for each orientation
+    let maxHorizontalWidth = 0;
+    let maxVerticalHeight = 0;
+    
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      const positioned = positionedContainers[i];
+      const orientation = container.layoutOptions?.orientation;
+      
+      if (orientation === 'horizontal') {
+        maxHorizontalWidth = Math.max(maxHorizontalWidth, positioned.width);
+      } else if (orientation === 'vertical') {
+        maxVerticalHeight = Math.max(maxVerticalHeight, positioned.height);
+      }
+    }
+    
+    // Apply uniform dimensions and recalculate positions
+    let currentX = 0;
+    let currentY = 0;
+    const spacing = 80; // Default spacing between swimlanes
+    
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      const positioned = positionedContainers[i];
+      const orientation = container.layoutOptions?.orientation;
+      
+      // Update position for sibling swimlanes (only at root level where x=0 or y=0)
+      if (orientation === 'horizontal' && positioned.x === 0) {
+        // Horizontal swimlanes: update Y position and track the delta
+        const oldY = positioned.y;
+        const newY = currentY;
+        const deltaY = newY - oldY;
+        
+        positioned.y = newY;
+        positioned.width = maxHorizontalWidth;
+        
+        // Adjust all nodes in this container
+        for (const node of nodes) {
+          // Check if node belongs to this container
+          if (container.children.includes(node.id)) {
+            node.y += deltaY;
+          }
+        }
+        
+        // Adjust internal edge points (both nodes in this container)
+        for (const edge of edges) {
+          const fromNodeInContainer = container.children.includes(this.extractNodeId(edge.from));
+          const toNodeInContainer = container.children.includes(this.extractNodeId(edge.to));
+          
+          if (fromNodeInContainer && toNodeInContainer) {
+            // Internal edge - adjust all points
+            for (const point of edge.points) {
+              point.y += deltaY;
+            }
+          }
+          // Cross-container edges will be recalculated after this function returns
+        }
+        
+        currentY += positioned.height + spacing;
+      } else if (orientation === 'vertical' && positioned.y === 0) {
+        // Vertical swimlanes: update X position and track the delta
+        const oldX = positioned.x;
+        const newX = currentX;
+        const deltaX = newX - oldX;
+        
+        positioned.x = newX;
+        positioned.height = maxVerticalHeight;
+        
+        // Adjust all nodes in this container
+        for (const node of nodes) {
+          if (container.children.includes(node.id)) {
+            node.x += deltaX;
+          }
+        }
+        
+        // Adjust internal edge points (both nodes in this container)
+        for (const edge of edges) {
+          const fromNodeInContainer = container.children.includes(this.extractNodeId(edge.from));
+          const toNodeInContainer = container.children.includes(this.extractNodeId(edge.to));
+          
+          if (fromNodeInContainer && toNodeInContainer) {
+            // Internal edge - adjust all points
+            for (const point of edge.points) {
+              point.x += deltaX;
+            }
+          }
+          // Cross-container edges will be recalculated after all containers are positioned
+        }
+        
+        currentX += positioned.width + spacing;
+      }
+    }
+    
+    // Regenerate cross-container edge routing with updated node positions
+    this.regenerateCrossContainerEdgeRouting(containers, nodes, edges, direction);
+  }
+
+  /**
+   * Regenerate routing for cross-container edges after node positions change
+   */
+  private regenerateCrossContainerEdgeRouting(
+    containers: ContainerDeclaration[],
+    nodes: PositionedNode[],
+    edges: RoutedEdge[],
+    direction: string
+  ): void {
+    // Build a map of which nodes are in which containers
+    const nodeContainerMap = new Map<string, string>();
+    for (const container of containers) {
+      for (const childId of container.children) {
+        nodeContainerMap.set(childId, container.id!);
+      }
+    }
+    
+    // Regenerate routing for cross-container edges
+    for (const edge of edges) {
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+      
+      const fromContainer = nodeContainerMap.get(fromNodeId);
+      const toContainer = nodeContainerMap.get(toNodeId);
+      
+      // Check if this is a cross-container edge
+      const isCrossContainer =
+        (fromContainer && toContainer && fromContainer !== toContainer) ||
+        (fromContainer && !toContainer) ||
+        (!fromContainer && toContainer);
+      
+      if (isCrossContainer) {
+        const fromNode = nodes.find((n) => n.id === fromNodeId);
+        const toNode = nodes.find((n) => n.id === toNodeId);
+        
+        if (fromNode && toNode) {
+          const fromCenterX = fromNode.x + fromNode.width / 2;
+          const fromCenterY = fromNode.y + fromNode.height / 2;
+          const toCenterX = toNode.x + toNode.width / 2;
+          const toCenterY = toNode.y + toNode.height / 2;
+          
+          edge.points = this.generateOrthogonalRouting(
+            fromCenterX,
+            fromCenterY,
+            toCenterX,
+            toCenterY,
+            direction
+          );
+        }
+      }
+    }
+  }
+
+  /**
+   * Recalculate cross-container edge routing based on current node positions
+   */
+  private recalculateCrossContainerEdges(
+    diagram: DiagramAst,
+    nodeContainerMap: Map<string, string>,
+    nodes: PositionedNode[],
+    edges: RoutedEdge[],
+    direction: string
+  ): void {
+    for (const edge of diagram.edges) {
+      // Extract node IDs from potentially member-level references
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      const fromContainer = nodeContainerMap.get(fromNodeId);
+      const toContainer = nodeContainerMap.get(toNodeId);
+
+      // Check if this edge crosses a container boundary
+      // Cross-container means: different containers OR one in container and one not
+      const isCrossContainer =
+        (fromContainer && !toContainer) || 
+        (!fromContainer && toContainer) ||
+        (fromContainer && toContainer && fromContainer !== toContainer);
+
+      if (isCrossContainer) {
+        // Find the existing edge that was extracted (it will have wrong routing)
+        const existingEdgeIndex = edges.findIndex(
+          (e) => e.from === edge.from && e.to === edge.to
+        );
+
+        // Find actual node positions
+        const fromNode = nodes.find((n) => n.id === fromNodeId);
+        const toNode = nodes.find((n) => n.id === toNodeId);
+
+        if (fromNode && toNode) {
+          // Generate orthogonal (step) routing instead of straight lines
+          const fromCenterX = fromNode.x + fromNode.width / 2;
+          const fromCenterY = fromNode.y + fromNode.height / 2;
+          const toCenterX = toNode.x + toNode.width / 2;
+          const toCenterY = toNode.y + toNode.height / 2;
+
+          const newPoints = this.generateOrthogonalRouting(
+            fromCenterX,
+            fromCenterY,
+            toCenterX,
+            toCenterY,
+            direction
+          );
+
+          if (existingEdgeIndex >= 0) {
+            // Replace the edge with corrected routing
+            edges[existingEdgeIndex] = {
+              from: edge.from,
+              to: edge.to,
+              points: newPoints,
+            };
+          } else {
+            // Edge wasn't extracted (Issue #10), add it manually
+            edges.push({
+              from: edge.from,
+              to: edge.to,
+              points: newPoints,
+            });
+          }
+        }
       }
     }
   }
@@ -763,6 +1030,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     measureText: ReturnType<typeof createTextMeasurer>,
     nodeContainerMap: Map<string, string>,
     containerPositions: Map<string, { x: number; y: number }>,
+    containerPlaceholders: Map<string, { width: number; height: number }>,
     spacing: number,
     direction: string,
     nodes: PositionedNode[],
@@ -889,9 +1157,19 @@ export class ElkLayoutEngine implements LayoutEngine {
 
           edges.push(...tempEdges);
 
-          // Calculate container size from laid out content
-          containerWidth = (laidOutContainer.width || 0) + padding * 2;
-          containerHeight = (laidOutContainer.height || 0) + padding * 2;
+          // Calculate content-based size from ELK layout
+          const contentWidth = (laidOutContainer.width || 0) + padding * 2;
+          const contentHeight = (laidOutContainer.height || 0) + padding * 2;
+          
+          // Update placeholder with actual content size
+          containerPlaceholders.set(container.id!, {
+            width: contentWidth,
+            height: contentHeight
+          });
+          
+          // For now, use content-based size (uniform sizing will be applied later)
+          containerWidth = contentWidth;
+          containerHeight = contentHeight;
         } catch (error) {
           // Fall back to default positioning if layout fails
         }
@@ -916,6 +1194,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
           nodeContainerMap,
           nestedPositions,
+          containerPlaceholders,
           spacing,
           direction,
           nodes,
@@ -956,12 +1235,16 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
 
         // Add padding on the far edge to mirror left/top padding
+        const orientation = container.layoutOptions?.orientation;
+        const minWidth = orientation ? 0 : 200;  // No minimum for swimlanes
+        const minHeight = orientation ? 0 : 150; // No minimum for swimlanes
+        
         const requiredWidth = Math.max(
-          200,
+          minWidth,
           contentRight - containerPos.x + padding
         );
         const requiredHeight = Math.max(
-          150,
+          minHeight,
           contentBottom - containerPos.y + padding
         );
 
@@ -979,6 +1262,9 @@ export class ElkLayoutEngine implements LayoutEngine {
         containers: nestedContainers.length > 0 ? nestedContainers : undefined,
       });
     }
+    
+    // Post-process: Apply uniform dimensions to swimlanes and adjust node/edge positions
+    this.applyUniformSwimlaneDimensions(containers, result, nodes, edges, direction);
   }
 
   /**
