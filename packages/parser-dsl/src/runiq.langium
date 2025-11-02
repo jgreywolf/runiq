@@ -244,7 +244,7 @@ SequenceProfile:
     '}';
 
 SequenceStatement:
-    SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement;
+    SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement | SequenceDurationConstraintStatement;
 
 // participant Actor as actor
 // participant "Web Server" as entity
@@ -328,6 +328,22 @@ SequenceAlternativeDecl:
 // gates:["gateIn","gateOut"] - Connection points at fragment boundaries  
 SequenceFragmentGatesProperty:
     'gates:' '[' (gates+=STRING (',' gates+=STRING)*)? ']';
+
+// durationConstraint from:1 to:5 constraint:"< 100ms" - UML 2.5 duration constraints
+SequenceDurationConstraintStatement:
+    'durationConstraint' properties+=SequenceDurationConstraintProperty+;
+
+SequenceDurationConstraintProperty:
+    SequenceDurationFromProperty | SequenceDurationToProperty | SequenceDurationConstraintValueProperty;
+
+SequenceDurationFromProperty:
+    'from:' from=NUMBER;
+
+SequenceDurationToProperty:
+    'to:' to=NUMBER;
+
+SequenceDurationConstraintValueProperty:
+    'constraint:' constraint=STRING;
 
 // ============================================================================
 // Diagram profile statements (existing grammar)

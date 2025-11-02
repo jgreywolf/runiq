@@ -26,6 +26,7 @@ import type {
   SequenceNote,
   SequenceFragment,
   SequenceFragmentAlternative,
+  SequenceDurationConstraint,
   NetAst,
   PartAst,
   AnalysisAst,
@@ -632,6 +633,29 @@ function convertSequenceProfile(
       }
 
       sequenceProfile.fragments.push(fragment);
+    } else if (Langium.isSequenceDurationConstraintStatement(statement)) {
+      // durationConstraint from:1 to:5 constraint:"< 100ms"
+      if (!sequenceProfile.durationConstraints) {
+        sequenceProfile.durationConstraints = [];
+      }
+
+      const durationConstraint: SequenceDurationConstraint = {
+        fromMessage: 0,
+        toMessage: 0,
+        constraint: '',
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isSequenceDurationFromProperty(prop)) {
+          durationConstraint.fromMessage = parseFloat(prop.from);
+        } else if (Langium.isSequenceDurationToProperty(prop)) {
+          durationConstraint.toMessage = parseFloat(prop.to);
+        } else if (Langium.isSequenceDurationConstraintValueProperty(prop)) {
+          durationConstraint.constraint = prop.constraint.replace(/^"|"$/g, '');
+        }
+      }
+
+      sequenceProfile.durationConstraints.push(durationConstraint);
     }
   }
 

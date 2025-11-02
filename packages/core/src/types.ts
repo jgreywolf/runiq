@@ -727,6 +727,7 @@ export interface SequenceProfile {
   messages: SequenceMessage[];
   notes?: SequenceNote[];
   fragments?: SequenceFragment[];
+  durationConstraints?: SequenceDurationConstraint[]; // UML 2.5 duration constraints spanning messages
 }
 
 /**
@@ -785,4 +786,14 @@ export interface SequenceFragmentAlternative {
   label: string; // Condition label (e.g., "[success]", "[error]")
   startAfterMessage: number; // Message index where alternative starts
   endAfterMessage: number; // Message index where alternative ends
+}
+
+/**
+ * Duration constraint spanning multiple messages (UML 2.5)
+ * Specifies timing requirements for a sequence of interactions
+ */
+export interface SequenceDurationConstraint {
+  fromMessage: number; // Starting message index (0-based)
+  toMessage: number; // Ending message index (0-based)
+  constraint: string; // Constraint expression (e.g., "< 100ms", "{d..2d}")
 }

@@ -106,6 +106,7 @@ export type RuniqKeywordNames =
     | "colors:"
     | "component"
     | "composition"
+    | "constraint:"
     | "constraints:"
     | "container"
     | "container-aware"
@@ -135,6 +136,7 @@ export type RuniqKeywordNames =
     | "distribution:"
     | "doActivity:"
     | "dotted"
+    | "durationConstraint"
     | "e"
     | "ease-in"
     | "ease-in-out"
@@ -2543,6 +2545,76 @@ export function isSequenceAlternativeDecl(item: unknown): item is SequenceAltern
     return reflection.isInstance(item, SequenceAlternativeDecl.$type);
 }
 
+export type SequenceDurationConstraintProperty = SequenceDurationConstraintValueProperty | SequenceDurationFromProperty | SequenceDurationToProperty;
+
+export const SequenceDurationConstraintProperty = {
+    $type: 'SequenceDurationConstraintProperty'
+} as const;
+
+export function isSequenceDurationConstraintProperty(item: unknown): item is SequenceDurationConstraintProperty {
+    return reflection.isInstance(item, SequenceDurationConstraintProperty.$type);
+}
+
+export interface SequenceDurationConstraintStatement extends langium.AstNode {
+    readonly $container: SequenceProfile;
+    readonly $type: 'SequenceDurationConstraintStatement';
+    properties: Array<SequenceDurationConstraintProperty>;
+}
+
+export const SequenceDurationConstraintStatement = {
+    $type: 'SequenceDurationConstraintStatement',
+    properties: 'properties'
+} as const;
+
+export function isSequenceDurationConstraintStatement(item: unknown): item is SequenceDurationConstraintStatement {
+    return reflection.isInstance(item, SequenceDurationConstraintStatement.$type);
+}
+
+export interface SequenceDurationConstraintValueProperty extends langium.AstNode {
+    readonly $container: SequenceDurationConstraintStatement;
+    readonly $type: 'SequenceDurationConstraintValueProperty';
+    constraint: string;
+}
+
+export const SequenceDurationConstraintValueProperty = {
+    $type: 'SequenceDurationConstraintValueProperty',
+    constraint: 'constraint'
+} as const;
+
+export function isSequenceDurationConstraintValueProperty(item: unknown): item is SequenceDurationConstraintValueProperty {
+    return reflection.isInstance(item, SequenceDurationConstraintValueProperty.$type);
+}
+
+export interface SequenceDurationFromProperty extends langium.AstNode {
+    readonly $container: SequenceDurationConstraintStatement;
+    readonly $type: 'SequenceDurationFromProperty';
+    from: string;
+}
+
+export const SequenceDurationFromProperty = {
+    $type: 'SequenceDurationFromProperty',
+    from: 'from'
+} as const;
+
+export function isSequenceDurationFromProperty(item: unknown): item is SequenceDurationFromProperty {
+    return reflection.isInstance(item, SequenceDurationFromProperty.$type);
+}
+
+export interface SequenceDurationToProperty extends langium.AstNode {
+    readonly $container: SequenceDurationConstraintStatement;
+    readonly $type: 'SequenceDurationToProperty';
+    to: string;
+}
+
+export const SequenceDurationToProperty = {
+    $type: 'SequenceDurationToProperty',
+    to: 'to'
+} as const;
+
+export function isSequenceDurationToProperty(item: unknown): item is SequenceDurationToProperty {
+    return reflection.isInstance(item, SequenceDurationToProperty.$type);
+}
+
 export interface SequenceFragmentAlternativesProperty extends langium.AstNode {
     readonly $container: SequenceFragmentStatement;
     readonly $type: 'SequenceFragmentAlternativesProperty';
@@ -2817,7 +2889,7 @@ export function isSequenceProfile(item: unknown): item is SequenceProfile {
     return reflection.isInstance(item, SequenceProfile.$type);
 }
 
-export type SequenceStatement = SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
+export type SequenceStatement = SequenceDurationConstraintStatement | SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
 
 export const SequenceStatement = {
     $type: 'SequenceStatement'
@@ -3508,6 +3580,11 @@ export type RuniqAstType = {
     RoutingProperty: RoutingProperty
     SequenceActivateProperty: SequenceActivateProperty
     SequenceAlternativeDecl: SequenceAlternativeDecl
+    SequenceDurationConstraintProperty: SequenceDurationConstraintProperty
+    SequenceDurationConstraintStatement: SequenceDurationConstraintStatement
+    SequenceDurationConstraintValueProperty: SequenceDurationConstraintValueProperty
+    SequenceDurationFromProperty: SequenceDurationFromProperty
+    SequenceDurationToProperty: SequenceDurationToProperty
     SequenceFragmentAlternativesProperty: SequenceFragmentAlternativesProperty
     SequenceFragmentFromProperty: SequenceFragmentFromProperty
     SequenceFragmentGatesProperty: SequenceFragmentGatesProperty
@@ -5026,6 +5103,49 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: []
+        },
+        SequenceDurationConstraintProperty: {
+            name: SequenceDurationConstraintProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        SequenceDurationConstraintStatement: {
+            name: SequenceDurationConstraintStatement.$type,
+            properties: {
+                properties: {
+                    name: SequenceDurationConstraintStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [SequenceStatement.$type]
+        },
+        SequenceDurationConstraintValueProperty: {
+            name: SequenceDurationConstraintValueProperty.$type,
+            properties: {
+                constraint: {
+                    name: SequenceDurationConstraintValueProperty.constraint
+                }
+            },
+            superTypes: [SequenceDurationConstraintProperty.$type]
+        },
+        SequenceDurationFromProperty: {
+            name: SequenceDurationFromProperty.$type,
+            properties: {
+                from: {
+                    name: SequenceDurationFromProperty.from
+                }
+            },
+            superTypes: [SequenceDurationConstraintProperty.$type]
+        },
+        SequenceDurationToProperty: {
+            name: SequenceDurationToProperty.$type,
+            properties: {
+                to: {
+                    name: SequenceDurationToProperty.to
+                }
+            },
+            superTypes: [SequenceDurationConstraintProperty.$type]
         },
         SequenceFragmentAlternativesProperty: {
             name: SequenceFragmentAlternativesProperty.$type,
