@@ -1,0 +1,111 @@
+// UML Activity Diagram: Microservices Request-Response Pattern
+// Demonstrates send/receive signal pairs for synchronous-style communication
+// Shows API gateway orchestrating multiple service calls
+
+diagram "Microservices API Orchestration" {
+  direction TB
+
+  // Start/end
+  shape start as @initialState
+  shape success as @finalState
+  shape error as @finalState
+
+  // API Gateway activities
+  shape receiveRequest as @activity label:"Receive API Request"
+  shape validateAuth as @activity label:"Validate Auth Token"
+  shape orchestrate as @activity label:"Orchestrate Services"
+  shape aggregateResults as @activity label:"Aggregate Results"
+  shape sendResponse as @activity label:"Send API Response"
+  shape logError as @activity label:"Log Error"
+
+  // Define signal style
+  style signalStyle fill: "#E3F2FD" stroke: "#1976D2" strokeWidth: 2
+
+  // Signal communication (request-response pairs)
+  shape sendAuthRequest as @sendSignal label:"Send Auth Request" style:signalStyle
+  shape receiveAuthResponse as @receiveSignal label:"Receive Auth Response" style:signalStyle
+
+  shape sendUserRequest as @sendSignal label:"Send User Request" style:signalStyle
+  shape receiveUserResponse as @receiveSignal label:"Receive User Data" style:signalStyle
+
+  shape sendOrderRequest as @sendSignal label:"Send Order Request" style:signalStyle
+  shape receiveOrderResponse as @receiveSignal label:"Receive Order Data" style:signalStyle
+
+  shape sendInventoryRequest as @sendSignal label:"Send Inventory Request" style:signalStyle
+  shape receiveInventoryResponse as @receiveSignal label:"Receive Inventory Data" style:signalStyle
+
+  // Parallel service calls
+  shape serviceFork as @fork
+  shape serviceJoin as @join
+
+  // Decision points
+  shape authCheck as @choice
+  shape errorCheck as @choice
+
+  // Object nodes
+  shape apiRequest as @objectNode label:"API Request"
+  shape authToken as @objectNode label:"Auth Token"
+  shape userData as @objectNode label:"User Data"
+  shape orderData as @objectNode label:"Order Data"
+  shape inventoryData as @objectNode label:"Inventory Data"
+  shape aggregatedData as @objectNode label:"Aggregated Response"
+
+  // Data stores
+  shape cacheStore as @dataStore label:"Response Cache"
+  shape logStore as @dataStore label:"Log Store"
+
+  // Start workflow
+  start -> receiveRequest flowType:"control"
+  receiveRequest -> apiRequest flowType:"object"
+
+  // Extract auth token
+  apiRequest -> authToken flowType:"object"
+
+  // Validate authentication
+  authToken -> validateAuth flowType:"object"
+  validateAuth -> sendAuthRequest flowType:"control"
+  sendAuthRequest -> receiveAuthResponse flowType:"control"
+  receiveAuthResponse -> authCheck flowType:"control"
+
+  // Auth failed path
+  authCheck -> logError label:"[unauthorized]" flowType:"control"
+  logError -> logStore flowType:"object"
+  logStore -> error flowType:"control"
+
+  // Auth success - parallel service calls
+  authCheck -> orchestrate label:"[authorized]" flowType:"control"
+  orchestrate -> serviceFork flowType:"control"
+
+  // Fork to three parallel service calls
+  serviceFork -> sendUserRequest flowType:"control"
+  serviceFork -> sendOrderRequest flowType:"control"
+  serviceFork -> sendInventoryRequest flowType:"control"
+
+  // User service request-response
+  sendUserRequest -> receiveUserResponse flowType:"control"
+  receiveUserResponse -> userData flowType:"object"
+
+  // Order service request-response
+  sendOrderRequest -> receiveOrderResponse flowType:"control"
+  receiveOrderResponse -> orderData flowType:"object"
+
+  // Inventory service request-response
+  sendInventoryRequest -> receiveInventoryResponse flowType:"control"
+  receiveInventoryResponse -> inventoryData flowType:"object"
+
+  // Join all responses
+  userData -> serviceJoin flowType:"control"
+  orderData -> serviceJoin flowType:"control"
+  inventoryData -> serviceJoin flowType:"control"
+
+  // Aggregate results
+  serviceJoin -> aggregateResults flowType:"control"
+  aggregateResults -> aggregatedData flowType:"object"
+
+  // Cache the response
+  aggregatedData -> cacheStore flowType:"object" label:"cache"
+
+  // Send response
+  aggregatedData -> sendResponse flowType:"object"
+  sendResponse -> success flowType:"control"
+}
