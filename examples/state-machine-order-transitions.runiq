@@ -1,0 +1,127 @@
+// UML State Machine: Order Processing System with Complex Guards
+// Demonstrates advanced guard conditions and multiple effect actions
+// Shows realistic business logic validation in state transitions
+
+diagram "Order Processing System" {
+  // Order lifecycle states
+  shape draft as @stateSimple 
+    label:"Draft" 
+    entry:"initializeOrder(); assignOrderId()"
+
+  shape validating as @stateSimple 
+    label:"Validating" 
+    doActivity:"validateItems(); checkInventory(); verifyCustomer()"
+    entry:"startValidationTimer()"
+    exit:"clearValidationTimer()"
+
+  shape pending as @stateSimple 
+    label:"Pending Payment" 
+    entry:"calculateTotal(); generateInvoice()"
+
+  shape processing as @stateSimple 
+    label:"Processing" 
+    entry:"reserveInventory(); lockPrices()"
+    doActivity:"updateStatus()"
+    exit:"releaseIfFailed()"
+
+  shape shipping as @stateSimple 
+    label:"Shipping" 
+    entry:"generateShippingLabel(); notifyWarehouse()"
+    doActivity:"trackShipment()"
+
+  shape delivered as @stateSimple 
+    label:"Delivered" 
+    entry:"confirmDelivery(); sendThankYou()"
+
+  shape cancelled as @stateSimple 
+    label:"Cancelled" 
+    entry:"refundPayment(); restockItems(); notifyCustomer()"
+
+  shape failed as @stateSimple 
+    label:"Failed" 
+    entry:"logFailure(); alertSupport()"
+
+  // Initial state
+  shape initial as @initial
+  initial -> draft
+
+  // Validation flow with complex guards
+  draft -> validating 
+    event:"submit" 
+    guard:"[itemCount > 0 && customerVerified && !processingLocked]" 
+    effect:"lockEditing(); logSubmission()"
+
+  draft -> failed 
+    event:"submit" 
+    guard:"[itemCount == 0 || !customerVerified]" 
+    effect:"showError('Invalid order'); logValidationError()"
+
+  // Validation outcomes
+  validating -> pending 
+    guard:"[allItemsAvailable && inventoryReserved && priceValid]" 
+    effect:"sendPaymentRequest(); startPaymentTimer()"
+
+  validating -> failed 
+    guard:"[!allItemsAvailable || inventoryCheckFailed]" 
+    effect:"notifyCustomer('Out of stock'); suggestAlternatives()"
+
+  validating -> draft 
+    guard:"[validationTimeout || customerRequestedChanges]" 
+    effect:"unlockEditing(); preserveChanges()"
+
+  // Payment scenarios
+  pending -> processing 
+    event:"paymentReceived" 
+    guard:"[paymentAmount >= totalAmount && paymentVerified]" 
+    effect:"confirmPayment(); deductInventory(); scheduleProcessing()"
+
+  pending -> cancelled 
+    event:"paymentTimeout" 
+    guard:"[elapsedTime > maxWaitTime]" 
+    effect:"releaseReservation(); sendReminderEmail()"
+
+  pending -> cancelled 
+    event:"customerCancelled" 
+    effect:"releaseReservation(); logCancellation()"
+
+  pending -> failed 
+    event:"paymentFailed" 
+    guard:"[retryCount >= maxRetries || fraudDetected]" 
+    effect:"flagAccount(); notifySecurityTeam()"
+
+  // Processing and fulfillment
+  processing -> shipping 
+    guard:"[itemsPicked && itemsPacked && labelGenerated]" 
+    effect:"handoffToCarrier(); updateTracking()"
+
+  processing -> failed 
+    guard:"[processingError || systemFailure]" 
+    effect:"initiateRefund(); alertManager(); createTicket()"
+
+  processing -> cancelled 
+    event:"urgentCancellation" 
+    guard:"[!shipped && cancellationAuthorized]" 
+    effect:"stopProcessing(); initiateRefund(); restockItems()"
+
+  // Shipping and delivery
+  shipping -> delivered 
+    event:"deliveryConfirmed" 
+    guard:"[signatureReceived || photoConfirmation || timeWindowExpired]" 
+    effect:"markComplete(); requestReview(); updateMetrics()"
+
+  shipping -> failed 
+    event:"deliveryFailed" 
+    guard:"[attemptCount >= maxDeliveryAttempts]" 
+    effect:"returnToSender(); issueRefund(); logIssue()"
+
+  shipping -> shipping 
+    event:"deliveryAttemptFailed" 
+    guard:"[attemptCount < maxDeliveryAttempts && customerReachable]" 
+    effect:"incrementAttempts(); scheduleRetry(); contactCustomer()"
+
+  // Error recovery
+  failed -> draft 
+    event:"retry" 
+    guard:"[errorResolved && retryAuthorized && timeoutNotExpired]" 
+    effect:"clearErrors(); resetState(); notifyRetry()"
+}

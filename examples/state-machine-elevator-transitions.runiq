@@ -1,0 +1,93 @@
+// UML State Machine: Elevator Control System with Full Transition Syntax
+// Demonstrates event, guard, and effect properties on transitions
+// UML 2.5 Standard: event [guard] / effect
+
+diagram "Elevator Control System" {
+  // Define states with behaviors
+  shape idle as @stateSimple 
+    label:"Idle" 
+    entry:"stopMotor(); openDoors()" 
+    exit:"closeDoors()"
+
+  shape moving as @stateSimple 
+    label:"Moving" 
+    doActivity:"monitorSafety(); updatePosition()"
+    exit:"stopMotor()"
+
+  shape doorOpen as @stateSimple 
+    label:"Door Open" 
+    entry:"activateDoorTimer()" 
+    exit:"deactivateDoorTimer()"
+
+  shape emergency as @stateSimple 
+    label:"Emergency Stop" 
+    entry:"soundAlarm(); notifyMaintenance()" 
+    exit:"resetAlarm()"
+
+  // Initial and final states
+  shape initial as @initial
+  shape final as @terminate
+
+  // Transitions with event/guard/effect syntax
+  
+  // Start: No event needed, automatic transition
+  initial -> idle
+
+  // Request received: Check if valid floor
+  idle -> moving 
+    event:"floorRequest" 
+    guard:"[requestedFloor != currentFloor && doorsClosed]" 
+    effect:"setTarget(requestedFloor); startMotor()"
+
+  // Invalid request: Stay idle
+  idle -> idle 
+    event:"floorRequest" 
+    guard:"[requestedFloor == currentFloor]" 
+    effect:"playTone('already-here')"
+
+  // Arrived at destination
+  moving -> idle 
+    event:"floorReached" 
+    guard:"[currentFloor == requestedFloor]" 
+    effect:"clearTarget(); logArrival()"
+
+  // Door operations from idle
+  idle -> doorOpen 
+    event:"openButton" 
+    effect:"recordUserInteraction()"
+
+  doorOpen -> idle 
+    event:"closeButton" 
+    effect:"recordUserInteraction()"
+
+  doorOpen -> idle 
+    event:"timeout" 
+    guard:"[timerExpired && !obstacleDetected]"
+
+  // Emergency scenarios
+  moving -> emergency 
+    event:"emergencyButton" 
+    effect:"engageBrakes(); logEmergency()"
+
+  idle -> emergency 
+    event:"systemFault" 
+    guard:"[faultSeverity >= CRITICAL]" 
+    effect:"lockElevator(); notifyOperator()"
+
+  doorOpen -> emergency 
+    event:"obstacleStuck" 
+    guard:"[obstructionTime > 30]" 
+    effect:"reverseDoors(); alertMaintenance()"
+
+  // Recovery from emergency
+  emergency -> idle 
+    event:"reset" 
+    guard:"[maintenanceAuthorized && systemChecked]" 
+    effect:"clearFaults(); enableOperation()"
+
+  // Shutdown
+  idle -> final 
+    event:"shutdown" 
+    guard:"[noActiveRequests && allDoorsSecure]" 
+    effect:"saveState(); powerDown()"
+}

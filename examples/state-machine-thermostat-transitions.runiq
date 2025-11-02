@@ -1,0 +1,168 @@
+// UML State Machine: Smart Home Thermostat with Event-Driven Control
+// Demonstrates event-driven state transitions with sensors and timers
+// Shows integration of external events and internal state behaviors
+
+diagram "Smart Thermostat Control" {
+  // Temperature control modes
+  shape off as @stateSimple 
+    label:"Off" 
+    entry:"shutdownHVAC(); clearDisplay()"
+
+  shape idle as @stateSimple 
+    label:"Idle" 
+    entry:"displayTemperature()" 
+    doActivity:"monitorSensors(); checkSchedule()"
+
+  shape heating as @stateSimple 
+    label:"Heating" 
+    entry:"activateHeater(); showHeatingIcon()"
+    doActivity:"regulateTemperature(); monitorSafety()"
+    exit:"deactivateHeater()"
+
+  shape cooling as @stateSimple 
+    label:"Cooling" 
+    entry:"activateAC(); showCoolingIcon()"
+    doActivity:"regulateTemperature(); monitorHumidity()"
+    exit:"deactivateAC()"
+
+  shape fan as @stateSimple 
+    label:"Fan Only" 
+    entry:"activateFan(); showFanIcon()"
+    doActivity:"circulateAir()"
+    exit:"deactivateFan()"
+
+  shape away as @stateSimple 
+    label:"Away Mode" 
+    entry:"setEcoTemperature(); disableSchedule()"
+    doActivity:"periodicCheck()"
+
+  shape maintenance as @stateSimple 
+    label:"Maintenance Mode" 
+    entry:"lockControls(); runDiagnostics()"
+    exit:"unlockControls()"
+
+  // Initial state
+  shape initial as @initial
+  initial -> off effect:"initialize(); loadSettings()"
+
+  // Power control
+  off -> idle 
+    event:"powerOn" 
+    effect:"restore(); displayWelcome()"
+
+  idle -> off 
+    event:"powerOff" 
+    guard:"[userConfirmed]" 
+    effect:"saveSettings(); shutdownGracefully()"
+
+  // Temperature regulation from idle
+  idle -> heating 
+    event:"temperatureReading" 
+    guard:"[currentTemp < targetTemp - tolerance && mode == HEAT]" 
+    effect:"startHeating(); logAction('heating-start')"
+
+  idle -> cooling 
+    event:"temperatureReading" 
+    guard:"[currentTemp > targetTemp + tolerance && mode == COOL]" 
+    effect:"startCooling(); logAction('cooling-start')"
+
+  idle -> fan 
+    event:"fanRequest" 
+    guard:"[mode == FAN_ONLY]" 
+    effect:"startFan(); setTimer('fan-timeout')"
+
+  // Return to idle when target reached
+  heating -> idle 
+    event:"temperatureReading" 
+    guard:"[currentTemp >= targetTemp]" 
+    effect:"logAction('target-reached'); notifyUser()"
+
+  cooling -> idle 
+    event:"temperatureReading" 
+    guard:"[currentTemp <= targetTemp]" 
+    effect:"logAction('target-reached'); notifyUser()"
+
+  fan -> idle 
+    event:"timeout" 
+    effect:"stopFan()"
+
+  // Mode switching while active
+  heating -> cooling 
+    event:"modeChange" 
+    guard:"[newMode == COOL && safeToSwitch]" 
+    effect:"waitForSafeTransition(); logModeChange()"
+
+  cooling -> heating 
+    event:"modeChange" 
+    guard:"[newMode == HEAT && safeToSwitch]" 
+    effect:"waitForSafeTransition(); logModeChange()"
+
+  // Settings adjustment during operation
+  heating -> heating 
+    event:"targetAdjusted" 
+    effect:"updateTarget(); recalculateRuntime()"
+
+  cooling -> cooling 
+    event:"targetAdjusted" 
+    effect:"updateTarget(); recalculateRuntime()"
+
+  // Away mode transitions
+  idle -> away 
+    event:"awayModeActivated" 
+    effect:"saveCurrentSettings(); applyEcoSettings()"
+
+  heating -> away 
+    event:"awayModeActivated" 
+    effect:"saveCurrentSettings(); shutdownHVAC(); applyEcoSettings()"
+
+  cooling -> away 
+    event:"awayModeActivated" 
+    effect:"saveCurrentSettings(); shutdownHVAC(); applyEcoSettings()"
+
+  away -> idle 
+    event:"awayModeDeactivated" 
+    guard:"[userPresenceDetected || scheduleResumed]" 
+    effect:"restoreSettings(); resumeNormalOperation()"
+
+  // Scheduled transitions
+  idle -> heating 
+    event:"scheduleTriggered" 
+    guard:"[scheduledMode == HEAT && currentTemp < scheduledTarget]" 
+    effect:"setTarget(scheduledTarget); logSchedule('heating')"
+
+  idle -> cooling 
+    event:"scheduleTriggered" 
+    guard:"[scheduledMode == COOL && currentTemp > scheduledTarget]" 
+    effect:"setTarget(scheduledTarget); logSchedule('cooling')"
+
+  away -> heating 
+    event:"scheduleTriggered" 
+    guard:"[scheduledMode == HEAT && awayModeOverride]" 
+    effect:"exitAwayMode(); setTarget(scheduledTarget)"
+
+  // Safety and maintenance
+  heating -> maintenance 
+    event:"systemFault" 
+    guard:"[faultType == CRITICAL || tempExceeded]" 
+    effect:"emergencyShutdown(); alertUser(); logFault()"
+
+  cooling -> maintenance 
+    event:"systemFault" 
+    guard:"[faultType == CRITICAL || pressureAbnormal]" 
+    effect:"emergencyShutdown(); alertUser(); logFault()"
+
+  maintenance -> idle 
+    event:"diagnosticsComplete" 
+    guard:"[allTestsPassed && technicianApproved]" 
+    effect:"clearFaults(); restoreOperation(); notifyUser('ready')"
+
+  // Filter maintenance reminder
+  idle -> maintenance 
+    event:"filterAlert" 
+    guard:"[filterLifeExpired && userRequested]" 
+    effect:"pauseOperation(); displayInstructions()"
+
+  maintenance -> idle 
+    event:"filterReplaced" 
+    effect:"resetFilterTimer(); resumeOperation()"
+}

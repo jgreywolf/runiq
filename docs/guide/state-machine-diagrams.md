@@ -668,6 +668,149 @@ diagram "Traffic Light State Machine" {
    - Good: `"startTimer(30)"`, `"count++"`
    - Avoid: Complex multi-line code
 
+## Advanced Transition Syntax
+
+UML 2.5 defines comprehensive transition syntax: **event [guard] / effect**
+
+All three components are optional, allowing flexible transition modeling.
+
+### Event-Only Transitions
+
+Simple trigger-based transitions:
+
+```runiq
+diagram "Event Example" {
+  idle -> active event:"buttonPressed"
+  active -> complete event:"taskFinished"
+}
+```
+
+### Guard-Only Transitions
+
+Conditional transitions without explicit events (evaluated continuously):
+
+```runiq
+diagram "Guard Example" {
+  processing -> complete guard:"[progress >= 100]"
+  waiting -> timeout guard:"[elapsedTime > maxWait]"
+}
+```
+
+### Effect-Only Transitions
+
+Actions without events or guards:
+
+```runiq
+diagram "Effect Example" {
+  start -> initialized effect:"loadConfig(); setupLogger()"
+}
+```
+
+### Combining Event, Guard, and Effect
+
+Full UML transition syntax:
+
+```runiq
+diagram "ATM Withdrawal" {
+  shape idle as @state label:"Idle"
+  shape verifying as @state label:"Verifying"
+  shape dispensing as @state label:"Dispensing"
+  shape error as @state label:"Error"
+
+  idle -> verifying 
+    event:"cardInserted"
+    effect:"readCard(); startSession()"
+
+  verifying -> dispensing 
+    event:"pinEntered"
+    guard:"[pinValid && balance >= amount]"
+    effect:"deductAmount(); logTransaction()"
+
+  verifying -> error 
+    event:"pinEntered"
+    guard:"[!pinValid || attempts >= 3]"
+    effect:"incrementAttempts(); showError()"
+}
+```
+
+### Complex Guard Conditions
+
+Guards support logical operators and comparisons:
+
+```runiq
+diagram "Complex Guards" {
+  idle -> ready 
+    guard:"[temperature > 20 && temperature < 80 && pressure == nominal]"
+  
+  ready -> running 
+    guard:"[fuel >= minFuel || batteryLevel > 0.5]"
+  
+  running -> emergency 
+    event:"alert"
+    guard:"[errorCount >= threshold && !maintenanceMode]"
+}
+```
+
+### Multiple Effect Actions
+
+Use semicolons to separate multiple actions:
+
+```runiq
+diagram "Multiple Effects" {
+  processing -> complete 
+    event:"finished"
+    effect:"saveResults(); notifyUser(); cleanup(); logCompletion()"
+}
+```
+
+### Self-Transitions
+
+Transitions can return to the same state (executes exit then entry):
+
+```runiq
+diagram "Self-Transition" {
+  shape active as @state 
+    label:"Active"
+    entry:"resetCounter()"
+    exit:"saveState()"
+
+  active -> active 
+    event:"refresh"
+    effect:"reloadData()"
+}
+```
+
+### Transition Best Practices
+
+1. **Events** - Name clearly what triggers the transition:
+   - Good: `"paymentReceived"`, `"timeout"`, `"userCancelled"`
+   - Avoid: Generic names like `"event1"`, `"trigger"`
+
+2. **Guards** - Always enclose in square brackets `[...]`:
+   - Include the brackets in the string: `guard:"[balance > 0]"`
+   - Use clear boolean expressions
+   - Keep conditions simple and testable
+
+3. **Effects** - Use imperative action names:
+   - Good: `"startTimer()"`, `"logError()"`, `"sendNotification()"`
+   - Show method calls with parentheses
+   - Separate multiple actions with semicolons
+
+4. **Completeness** - Use appropriate combinations:
+   - Simple trigger: event only
+   - Conditional: guard (with or without event)
+   - Action-required: always include effect
+   - Full syntax: all three for complex business logic
+
+5. **Documentation** - Comment complex transitions:
+   ```runiq
+   // Validate payment and authorize transaction
+   pending -> authorized
+     event:"paymentProcessed"
+     guard:"[amount <= creditLimit && !fraudDetected]"
+     effect:"reserveFunds(); sendConfirmation()"
+   ```
+
 ## Related Topics
 
 - [Class Diagrams](/guide/class-diagrams) - UML class modeling
