@@ -536,6 +536,138 @@ error -> hist event: "recovered"
 hist -> normal  # Default if no history
 ```
 
+## Complete Real-World Examples
+
+### Door Lock System
+
+A comprehensive example showing entry/exit actions with alarm integration:
+
+```runiq
+diagram "Door Lock State Machine" {
+  
+  shape initial as @initialState
+  
+  shape unlocked as @state 
+    label:"Unlocked" 
+    entry:"releaseLockBolt()" 
+    doActivity:"monitorDoor()" 
+    exit:"stopMonitoring()"
+  
+  shape locked as @state 
+    label:"Locked" 
+    entry:"engageLockBolt() ; enableAlarm()" 
+    exit:"disableAlarm()"
+  
+  shape alarmed as @state 
+    label:"Alarmed" 
+    entry:"soundAlarm() ; notifySecurity()" 
+    doActivity:"flashLights()" 
+    exit:"silenceAlarm()"
+  
+  shape final as @finalState
+  
+  initial -> unlocked
+  unlocked -> locked label:"lock"
+  locked -> unlocked label:"unlock"
+  unlocked -> alarmed label:"tamper"
+  locked -> alarmed label:"forceDetected"
+  alarmed -> locked label:"reset"
+  locked -> final label:"deactivate"
+}
+```
+
+**Key Features:**
+- Entry actions initialize state-specific behavior
+- DoActivity performs continuous monitoring
+- Exit actions clean up when leaving state
+- Multiple actions separated by semicolons
+
+### Traffic Light Controller
+
+Complex timing and safety behaviors:
+
+```runiq
+diagram "Traffic Light State Machine" {
+  
+  shape initial as @initialState
+  
+  shape red as @state 
+    label:"Red" 
+    entry:"turnOnRed() ; startTimer(30)" 
+    doActivity:"enforceStop()" 
+    exit:"turnOffRed() ; clearTimer()"
+  
+  shape yellow as @state 
+    label:"Yellow" 
+    entry:"turnOnYellow() ; startTimer(5)" 
+    doActivity:"warnDrivers()" 
+    exit:"turnOffYellow()"
+  
+  shape green as @state 
+    label:"Green" 
+    entry:"turnOnGreen() ; startTimer(45)" 
+    doActivity:"allowTraffic()" 
+    exit:"turnOffGreen()"
+  
+  shape pedestrianCrossing as @state 
+    label:"Pedestrian Crossing" 
+    entry:"activateCrosswalk() ; startTimer(15)" 
+    doActivity:"displayWalkSign()" 
+    exit:"deactivateCrosswalk()"
+  
+  shape emergency as @state 
+    label:"Emergency Mode" 
+    entry:"flashAllRed() ; soundAlarm()" 
+    doActivity:"prioritizeEmergencyVehicle()" 
+    exit:"resumeNormalOperation()"
+  
+  initial -> red
+  red -> green label:"timerExpired"
+  green -> yellow label:"timerExpired"
+  yellow -> red label:"timerExpired"
+  red -> pedestrianCrossing label:"pedestrianButton"
+  pedestrianCrossing -> green label:"timerExpired"
+  red -> emergency label:"emergencySignal"
+  green -> emergency label:"emergencySignal"
+  emergency -> red label:"emergencyCleared"
+}
+```
+
+**Key Features:**
+- Timer management in entry/exit actions
+- Continuous activities (doActivity) for monitoring
+- Emergency override transitions
+- Pedestrian crossing integration
+
+### Best Practices for State Behaviors
+
+1. **Entry Actions** - Use for:
+   - Resource initialization
+   - Starting timers
+   - Setting up monitoring
+   - Logging state entry
+
+2. **DoActivity** - Use for:
+   - Continuous operations (playing audio, monitoring sensors)
+   - Long-running tasks
+   - Background processing
+   - Activities that can be interrupted
+
+3. **Exit Actions** - Use for:
+   - Resource cleanup
+   - Stopping timers
+   - Releasing locks
+   - Logging state exit
+
+4. **Multiple Actions** - Separate with semicolons:
+   ```runiq
+   entry:"action1() ; action2() ; action3()"
+   ```
+
+5. **Action Syntax** - Keep actions as method calls:
+   - Good: `"startTimer(30)"`, `"count++"`
+   - Avoid: Complex multi-line code
+
 ## Related Topics
 
 - [Class Diagrams](/guide/class-diagrams) - UML class modeling

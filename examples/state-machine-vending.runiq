@@ -1,0 +1,74 @@
+diagram "Vending Machine State Machine" {
+  
+  // Initial and idle states
+  shape initial as @initialState
+  
+  shape idle as @state 
+    label:"Idle" 
+    entry:"displayWelcome()" 
+    doActivity:"showAdvertisement()"
+  
+  // Selection and payment
+  shape selecting as @state 
+    label:"Selecting Product" 
+    entry:"enableSelection()" 
+    doActivity:"highlightAvailable()" 
+    exit:"disableSelection()"
+  
+  shape processing as @state 
+    label:"Processing Payment" 
+    entry:"validateCard()" 
+    doActivity:"contactPaymentGateway()" 
+    exit:"finalizeTransaction()"
+  
+  // Dispensing with complex actions
+  shape dispensing as @state 
+    label:"Dispensing" 
+    entry:"openDispenser() ; releaseProduct()" 
+    doActivity:"checkDispenseComplete()" 
+    exit:"closeDispenser() ; updateInventory()"
+  
+  // Error handling states
+  shape outOfStock as @state 
+    label:"Out of Stock" 
+    entry:"displayOutOfStock() ; suggestAlternatives()" 
+    exit:"clearDisplay()"
+  
+  shape paymentFailed as @state 
+    label:"Payment Failed" 
+    entry:"displayError() ; returnCard()" 
+    doActivity:"waitForCustomerAction()" 
+    exit:"resetPayment()"
+  
+  shape dispenseFailed as @state 
+    label:"Dispense Failed" 
+    entry:"displayApology() ; initiateRefund()" 
+    exit:"notifyMaintenance()"
+  
+  // Maintenance
+  shape maintenance as @state 
+    label:"Maintenance Mode" 
+    entry:"lockAllControls() ; displayMaintenance()" 
+    exit:"unlockControls()"
+  
+  // Transitions
+  initial -> idle
+  
+  idle -> selecting label:"selectButton"
+  selecting -> processing label:"confirmSelection"
+  selecting -> outOfStock label:"[productUnavailable]"
+  selecting -> idle label:"cancel"
+  
+  processing -> dispensing label:"[paymentSuccess]"
+  processing -> paymentFailed label:"[paymentFailed]"
+  
+  dispensing -> idle label:"[success]"
+  dispensing -> dispenseFailed label:"[mechanicalError]"
+  
+  outOfStock -> idle label:"timeout"
+  paymentFailed -> idle label:"timeout"
+  dispenseFailed -> idle label:"acknowledged"
+  
+  idle -> maintenance label:"maintenanceKey"
+  maintenance -> idle label:"exitMaintenance"
+}
