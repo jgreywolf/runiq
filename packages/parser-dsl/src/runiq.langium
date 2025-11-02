@@ -311,7 +311,7 @@ SequenceFragmentType returns string:
     'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break';
 
 SequenceFragmentProperty:
-    SequenceFragmentFromProperty | SequenceFragmentToProperty | SequenceFragmentAlternativesProperty;
+    SequenceFragmentFromProperty | SequenceFragmentToProperty | SequenceFragmentAlternativesProperty | SequenceFragmentGatesProperty;
 
 SequenceFragmentFromProperty:
     'from:' from=NUMBER;
@@ -324,6 +324,10 @@ SequenceFragmentAlternativesProperty:
 
 SequenceAlternativeDecl:
     label=STRING ':' fromMsg=NUMBER '..' toMsg=NUMBER;
+
+// gates:["gateIn","gateOut"] - Connection points at fragment boundaries  
+SequenceFragmentGatesProperty:
+    'gates:' '[' (gates+=STRING (',' gates+=STRING)*)? ']';
 
 // ============================================================================
 // Diagram profile statements (existing grammar)

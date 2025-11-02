@@ -168,6 +168,7 @@ export type RuniqKeywordNames =
     | "fragment"
     | "from:"
     | "full"
+    | "gates:"
     | "generalization"
     | "genericTypes:"
     | "group"
@@ -2572,7 +2573,22 @@ export function isSequenceFragmentFromProperty(item: unknown): item is SequenceF
     return reflection.isInstance(item, SequenceFragmentFromProperty.$type);
 }
 
-export type SequenceFragmentProperty = SequenceFragmentAlternativesProperty | SequenceFragmentFromProperty | SequenceFragmentToProperty;
+export interface SequenceFragmentGatesProperty extends langium.AstNode {
+    readonly $container: SequenceFragmentStatement;
+    readonly $type: 'SequenceFragmentGatesProperty';
+    gates: Array<string>;
+}
+
+export const SequenceFragmentGatesProperty = {
+    $type: 'SequenceFragmentGatesProperty',
+    gates: 'gates'
+} as const;
+
+export function isSequenceFragmentGatesProperty(item: unknown): item is SequenceFragmentGatesProperty {
+    return reflection.isInstance(item, SequenceFragmentGatesProperty.$type);
+}
+
+export type SequenceFragmentProperty = SequenceFragmentAlternativesProperty | SequenceFragmentFromProperty | SequenceFragmentGatesProperty | SequenceFragmentToProperty;
 
 export const SequenceFragmentProperty = {
     $type: 'SequenceFragmentProperty'
@@ -3494,6 +3510,7 @@ export type RuniqAstType = {
     SequenceAlternativeDecl: SequenceAlternativeDecl
     SequenceFragmentAlternativesProperty: SequenceFragmentAlternativesProperty
     SequenceFragmentFromProperty: SequenceFragmentFromProperty
+    SequenceFragmentGatesProperty: SequenceFragmentGatesProperty
     SequenceFragmentProperty: SequenceFragmentProperty
     SequenceFragmentStatement: SequenceFragmentStatement
     SequenceFragmentToProperty: SequenceFragmentToProperty
@@ -5025,6 +5042,16 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 from: {
                     name: SequenceFragmentFromProperty.from
+                }
+            },
+            superTypes: [SequenceFragmentProperty.$type]
+        },
+        SequenceFragmentGatesProperty: {
+            name: SequenceFragmentGatesProperty.$type,
+            properties: {
+                gates: {
+                    name: SequenceFragmentGatesProperty.gates,
+                    defaultValue: []
                 }
             },
             superTypes: [SequenceFragmentProperty.$type]

@@ -775,6 +775,7 @@ export interface SequenceFragment {
   startAfterMessage: number; // Message index where fragment starts
   endAfterMessage: number; // Message index where fragment ends
   alternatives?: SequenceFragmentAlternative[]; // For alt fragments
+  gates?: string[]; // Gate names - connection points at fragment boundaries (UML 2.5)
 }
 
 /**

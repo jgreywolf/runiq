@@ -621,6 +621,13 @@ function convertSequenceProfile(
             };
             fragment.alternatives.push(alternative);
           }
+        } else if (Langium.isSequenceFragmentGatesProperty(prop)) {
+          // UML 2.5 gates - connection points at fragment boundaries
+          if (prop.gates) {
+            fragment.gates = prop.gates.map((gate) =>
+              gate.replace(/^"|"$/g, '')
+            );
+          }
         }
       }
 
