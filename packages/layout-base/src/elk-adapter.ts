@@ -327,6 +327,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Calculate container positions based on orientation and siblings
     // Instead of using ELK's placeholder positions (which overlap), arrange containers properly
+    const hasSwimlanes = diagram.containers?.some((c: ContainerDeclaration) => c.layoutOptions?.orientation) ?? false;
     const containerPositions = diagram.containers
       ? this.arrangeSiblingContainers(
           diagram.containers,
@@ -352,7 +353,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         direction,
         nodes,
         edges,
-        containers
+        containers,
+        hasSwimlanes
       );
     }
 
@@ -559,6 +561,8 @@ export class ElkLayoutEngine implements LayoutEngine {
 
   /**
    * Calculate positions for sibling containers based on orientation
+   * For swimlanes: Calculate initial positions with uniform dimensions
+   * For regular containers: Position at (0,0) - will be repositioned after layout
    */
   private arrangeSiblingContainers(
     containers: ContainerDeclaration[],
@@ -600,7 +604,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       uniformHeight = maxHeight;
     }
     
-    // Second pass: position containers with uniform dimensions
+    // Second pass: position containers
     let currentX = 0;
     let currentY = 0;
     
@@ -608,30 +612,28 @@ export class ElkLayoutEngine implements LayoutEngine {
       const placeholder = placeholders.get(container.id!);
       const orientation = container.layoutOptions?.orientation;
       
-      // Use uniform dimensions for swimlanes, or individual dimensions otherwise
-      const width = (orientation === 'horizontal' && uniformWidth) 
-        ? uniformWidth 
-        : (placeholder?.width || 400);
-      const height = (orientation === 'vertical' && uniformHeight)
-        ? uniformHeight
-        : (placeholder?.height || 300);
-      
-      // Position this container
-      positions.set(container.id!, { x: currentX, y: currentY });
-      
-      // Store uniform dimensions back to placeholder for later use
-      placeholders.set(container.id!, { width, height });
-      
-      // Determine how to advance for next sibling
-      if (orientation === 'horizontal') {
-        // Horizontal orientation: stack vertically (swimlanes go top-to-bottom)
-        currentY += height + spacing;
-      } else if (orientation === 'vertical') {
-        // Vertical orientation: arrange side-by-side (swimlanes go left-to-right)
-        currentX += width + spacing;
+      // For swimlanes: use uniform dimensions and arrange spatially
+      // For regular containers: position at (0,0) initially - will be repositioned after layout
+      if (orientation) {
+        // This is a swimlane - use uniform dimensions
+        const width = (orientation === 'horizontal' && uniformWidth) 
+          ? uniformWidth 
+          : (placeholder?.width || 400);
+        const height = (orientation === 'vertical' && uniformHeight)
+          ? uniformHeight
+          : (placeholder?.height || 300);
+        
+        positions.set(container.id!, { x: currentX, y: currentY });
+        placeholders.set(container.id!, { width, height });
+        
+        if (orientation === 'horizontal') {
+          currentY += height + spacing;
+        } else {
+          currentX += width + spacing;
+        }
       } else {
-        // No orientation specified: default to stacking vertically
-        currentY += height + spacing;
+        // Regular container - position at (0,0) for now
+        positions.set(container.id!, { x: 0, y: 0 });
       }
     }
     
@@ -747,6 +749,61 @@ export class ElkLayoutEngine implements LayoutEngine {
     
     // Regenerate cross-container edge routing with updated node positions
     this.regenerateCrossContainerEdgeRouting(containers, nodes, edges, direction);
+  }
+
+  /**
+   * Reposition regular (non-swimlane) containers to avoid overlap
+   * Stacks containers vertically based on their actual laid-out heights
+   */
+  private repositionRegularContainers(
+    containers: ContainerDeclaration[],
+    positionedContainers: PositionedContainer[],
+    nodes: PositionedNode[],
+    edges: RoutedEdge[],
+    spacing: number
+  ): void {
+    let currentY = 0;
+    
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      const positioned = positionedContainers[i];
+      
+      // Only reposition if this is NOT a swimlane
+      if (!container.layoutOptions?.orientation) {
+        const oldY = positioned.y;
+        const newY = currentY;
+        const deltaY = newY - oldY;
+        
+        // Update container position
+        positioned.y = newY;
+        
+        // Adjust all nodes in this container
+        for (const node of nodes) {
+          if (container.children.includes(node.id)) {
+            node.y += deltaY;
+          }
+        }
+        
+        // Adjust internal edge points
+        for (const edge of edges) {
+          const fromNodeInContainer = container.children.includes(this.extractNodeId(edge.from));
+          const toNodeInContainer = container.children.includes(this.extractNodeId(edge.to));
+          
+          if (fromNodeInContainer && toNodeInContainer) {
+            // Internal edge - adjust all points
+            for (const point of edge.points) {
+              point.y += deltaY;
+            }
+          }
+        }
+        
+        // Advance position for next container
+        currentY += positioned.height + spacing;
+      }
+    }
+    
+    // Regenerate cross-container edge routing with updated node positions
+    this.regenerateCrossContainerEdgeRouting(containers, nodes, edges, 'DOWN');
   }
 
   /**
@@ -1035,7 +1092,8 @@ export class ElkLayoutEngine implements LayoutEngine {
     direction: string,
     nodes: PositionedNode[],
     edges: RoutedEdge[],
-    result: PositionedContainer[]
+    result: PositionedContainer[],
+    hasSwimlanes: boolean
   ): Promise<void> {
     // layout containers and contents
     for (const container of containers) {
@@ -1178,15 +1236,12 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Handle nested containers recursively
       const nestedContainers: PositionedContainer[] = [];
       if (container.containers) {
-        // For nested containers, adjust their positions relative to parent
-        const nestedPositions = new Map<string, { x: number; y: number }>();
-        for (const [id, pos] of containerPositions.entries()) {
-          // Adjust nested container positions to be relative to this container
-          nestedPositions.set(id, {
-            x: pos.x - containerPos.x - padding,
-            y: pos.y - containerPos.y - padding,
-          });
-        }
+        // Calculate positions for nested sibling containers
+        const nestedPositions = this.arrangeSiblingContainers(
+          container.containers,
+          spacing,
+          containerPlaceholders
+        );
 
         await this.layoutContainersWithNodes(
           container.containers,
@@ -1199,7 +1254,8 @@ export class ElkLayoutEngine implements LayoutEngine {
           direction,
           nodes,
           edges,
-          nestedContainers
+          nestedContainers,
+          hasSwimlanes
         );
 
         // Adjust nested container positions back to absolute coordinates
@@ -1263,8 +1319,19 @@ export class ElkLayoutEngine implements LayoutEngine {
       });
     }
     
-    // Post-process: Apply uniform dimensions to swimlanes and adjust node/edge positions
-    this.applyUniformSwimlaneDimensions(containers, result, nodes, edges, direction);
+    // Post-process containers based on their type
+    const hasSwim = containers.some(c => c.layoutOptions?.orientation);
+    const hasRegular = containers.some(c => !c.layoutOptions?.orientation);
+    
+    if (hasSwim) {
+      // Apply uniform dimensions to swimlanes and adjust positions
+      this.applyUniformSwimlaneDimensions(containers, result, nodes, edges, direction);
+    }
+    
+    if (hasRegular) {
+      // Reposition regular containers to avoid overlap
+      this.repositionRegularContainers(containers, result, nodes, edges, spacing);
+    }
   }
 
   /**
