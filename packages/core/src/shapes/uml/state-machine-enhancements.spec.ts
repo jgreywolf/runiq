@@ -132,7 +132,7 @@ describe('State Machine Enhancements', () => {
 
   describe('historyShallowShape', () => {
     it('should have correct id', () => {
-      expect(historyShallowShape.id).toBe('history-shallow');
+      expect(historyShallowShape.id).toBe('historyShallow');
     });
 
     it('should calculate fixed bounds', () => {
@@ -149,7 +149,7 @@ describe('State Machine Enhancements', () => {
 
       expect(svg).toContain('<circle');
       expect(svg).toContain('>H</text>');
-      expect(svg).toContain('class="history-shallow-shape"');
+      expect(svg).toContain('class="historyShallow-shape"');
     });
 
     it('should provide 4 anchor points', () => {
@@ -168,7 +168,7 @@ describe('State Machine Enhancements', () => {
 
   describe('historyDeepShape', () => {
     it('should have correct id', () => {
-      expect(historyDeepShape.id).toBe('history-deep');
+      expect(historyDeepShape.id).toBe('historyDeep');
     });
 
     it('should calculate fixed bounds', () => {
@@ -185,7 +185,7 @@ describe('State Machine Enhancements', () => {
 
       expect(svg).toContain('<circle');
       expect(svg).toContain('>H*</text>');
-      expect(svg).toContain('class="history-deep-shape"');
+      expect(svg).toContain('class="historyDeep-shape"');
     });
 
     it('should provide 4 anchor points', () => {
@@ -228,7 +228,7 @@ describe('State Machine Enhancements', () => {
 
   describe('entryPointShape', () => {
     it('should have correct id', () => {
-      expect(entryPointShape.id).toBe('entry-point');
+      expect(entryPointShape.id).toBe('entryPoint');
     });
 
     it('should calculate fixed bounds', () => {
@@ -244,7 +244,7 @@ describe('State Machine Enhancements', () => {
       const svg = entryPointShape.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('<circle');
-      expect(svg).toContain('class="entry-point-shape"');
+      expect(svg).toContain('class="entryPoint-shape"');
     });
 
     it('should provide 4 anchor points', () => {
@@ -257,7 +257,7 @@ describe('State Machine Enhancements', () => {
 
   describe('exitPointShape', () => {
     it('should have correct id', () => {
-      expect(exitPointShape.id).toBe('exit-point');
+      expect(exitPointShape.id).toBe('exitPoint');
     });
 
     it('should calculate fixed bounds', () => {
@@ -274,7 +274,7 @@ describe('State Machine Enhancements', () => {
 
       expect(svg).toContain('<circle');
       expect(svg).toContain('<line'); // X mark
-      expect(svg).toContain('class="exit-point-shape"');
+      expect(svg).toContain('class="exitPoint-shape"');
     });
 
     it('should provide 4 anchor points', () => {

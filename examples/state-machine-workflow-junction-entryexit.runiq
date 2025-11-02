@@ -1,0 +1,52 @@
+// Complex Workflow with Junction and Entry/Exit Points
+// Demonstrates junction for decision points and entry/exit points for composite state boundaries
+
+diagram "Document Processing Workflow" {
+  // Entry point
+  shape start as @entryPoint label:"Start"
+  
+  // States
+  shape submitted as @state label:"Submitted"
+  shape validating as @state label:"Validating"
+  
+  // Junction pseudo-state for conditional branching
+  shape checkValid as @junction label:"Valid?"
+  
+  // Processing states
+  shape processing as @state label:"Processing"
+  shape review as @state label:"Manual Review"
+  
+  // Another junction for processing result
+  shape checkResult as @junction label:"Result?"
+  
+  // Exit points
+  shape approved as @exitPoint label:"Approved"
+  shape rejected as @exitPoint label:"Rejected"
+  
+  // Final state
+  shape complete as @state label:"Complete"
+  
+  // Workflow transitions
+  start -> submitted
+  submitted -> validating label:"validate"
+  validating -> checkValid
+  
+  // Junction branches based on validation
+  checkValid -> processing label:"valid"
+  checkValid -> rejected label:"invalid"
+  
+  // Processing flow
+  processing -> checkResult
+  
+  // Junction branches based on result
+  checkResult -> review label:"needs review"
+  checkResult -> approved label:"auto-approve"
+  
+  // Manual review outcomes
+  review -> approved label:"approved"
+  review -> rejected label:"rejected"
+  
+  // Exit points to completion
+  approved -> complete
+  rejected -> complete label:"archive"
+}

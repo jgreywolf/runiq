@@ -153,10 +153,12 @@ export type RuniqKeywordNames =
     | "electrical"
     | "entity"
     | "entry:"
+    | "entryPoint"
     | "event:"
     | "evolution:"
     | "evolve"
     | "exit:"
+    | "exitPoint"
     | "expanding"
     | "extends:"
     | "extensionPoints:"
@@ -187,6 +189,8 @@ export type RuniqKeywordNames =
     | "headerPosition:"
     | "high"
     | "history"
+    | "historyDeep"
+    | "historyShallow"
     | "hollow"
     | "hoverBorderColor:"
     | "hoverBorderWidth:"
@@ -202,6 +206,7 @@ export type RuniqKeywordNames =
     | "inertia:"
     | "inputPins:"
     | "inst"
+    | "junction"
     | "kPa"
     | "label:"
     | "labelPosition:"
@@ -355,6 +360,7 @@ export type RuniqKeywordNames =
     | "temp:"
     | "template"
     | "templateId:"
+    | "terminate"
     | "text"
     | "textAlign:"
     | "timeObservation"
@@ -3012,10 +3018,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'flowFinal' | 'frame' | 'history' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'timeObservation' | 'verticalFork' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'entryPoint' | 'exitPoint' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {

@@ -398,7 +398,8 @@ ShapeIdentifier returns string:
     | 'port' | 'module' | 'template' | 'history' | 'pin' | 'assembly'
     | 'providedInterface' | 'requiredInterface' | 'frame' | 'collaboration'
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
-    | 'activityFinal' | 'flowFinal';
+    | 'activityFinal' | 'flowFinal'
+    | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate';
 
 NodeProperty:
     LabelProperty

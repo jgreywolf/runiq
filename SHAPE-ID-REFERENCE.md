@@ -145,11 +145,11 @@ This document lists shapes where the **common name** differs from the **actual r
 - ✅ `@state` - Standard state (with entry/exit/doActivity support)
 - ✅ `@initialState` - Initial pseudo-state (filled circle)
 - ✅ `@finalState` - Final state (bull's eye)
-- ✅ `@history-shallow` - Shallow history pseudo-state (circle with H)
-- ✅ `@history-deep` - Deep history pseudo-state (circle with H\*)
+- ✅ `@historyShallow` - Shallow history pseudo-state (circle with H)
+- ✅ `@historyDeep` - Deep history pseudo-state (circle with H\*)
 - ✅ `@junction` - Junction pseudo-state (filled circle for decision points)
-- ✅ `@entry-point` - Entry point pseudo-state (circle on state boundary)
-- ✅ `@exit-point` - Exit point pseudo-state (circle with X on state boundary)
+- ✅ `@entryPoint` - Entry point pseudo-state (circle on state boundary)
+- ✅ `@exitPoint` - Exit point pseudo-state (circle with X on state boundary)
 - ✅ `@terminate` - Terminate pseudo-state (circle with X)
 
 **📖 See the [State Machine Diagrams Guide](./docs/guide/state-machine-diagrams.md) for complete UML 2.5 syntax and examples.**

@@ -4371,6 +4371,30 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "flowFinal"
+          },
+          {
+            "$type": "Keyword",
+            "value": "historyShallow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "historyDeep"
+          },
+          {
+            "$type": "Keyword",
+            "value": "junction"
+          },
+          {
+            "$type": "Keyword",
+            "value": "entryPoint"
+          },
+          {
+            "$type": "Keyword",
+            "value": "exitPoint"
+          },
+          {
+            "$type": "Keyword",
+            "value": "terminate"
           }
         ]
       },

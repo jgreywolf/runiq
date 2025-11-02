@@ -24,11 +24,11 @@ diagram "UML State Machine - Complete Features" {
   shape split as @fork
   shape merge as @join
   shape junc as @junction
-  shape hist as @history-shallow
-  shape histDeep as @history-deep
+  shape hist as @historyShallow
+  shape histDeep as @historyDeep
   shape term as @terminate
-  shape entryPt as @entry-point
-  shape exitPt as @exit-point
+  shape entryPt as @entryPoint
+  shape exitPt as @exitPoint
 
   # Final state
   shape end as @finalState

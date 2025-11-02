@@ -45,7 +45,7 @@ export const junctionShape: ShapeDefinition = {
  * Small circle on the boundary of a composite state
  */
 export const entryPointShape: ShapeDefinition = {
-  id: 'entry-point',
+  id: 'entryPoint',
 
   bounds() {
     const diameter = 20;
@@ -75,7 +75,7 @@ export const entryPointShape: ShapeDefinition = {
     const strokeWidth = ctx.style.strokeWidth || 1.5;
     const fill = ctx.style.fill || '#ffffff';
 
-    let svg = `<g class="entry-point-shape">`;
+    let svg = `<g class="entryPoint-shape">`;
     svg += `<circle cx="${cx}" cy="${cy}" r="${r}" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
     svg += `</g>`;
@@ -88,7 +88,7 @@ export const entryPointShape: ShapeDefinition = {
  * Small circle with X on the boundary of a composite state
  */
 export const exitPointShape: ShapeDefinition = {
-  id: 'exit-point',
+  id: 'exitPoint',
 
   bounds() {
     const diameter = 20;
@@ -118,7 +118,7 @@ export const exitPointShape: ShapeDefinition = {
     const strokeWidth = ctx.style.strokeWidth || 1.5;
     const fill = ctx.style.fill || '#ffffff';
 
-    let svg = `<g class="exit-point-shape">`;
+    let svg = `<g class="exitPoint-shape">`;
 
     // Circle
     svg += `<circle cx="${cx}" cy="${cy}" r="${r}" `;

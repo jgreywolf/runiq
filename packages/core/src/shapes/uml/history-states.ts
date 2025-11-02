@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../../types.js';
  * Returns to the most recently active direct substate
  */
 export const historyShallowShape: ShapeDefinition = {
-  id: 'history-shallow',
+  id: 'historyShallow',
 
   bounds() {
     const diameter = 30;
@@ -36,7 +36,7 @@ export const historyShallowShape: ShapeDefinition = {
     const strokeWidth = ctx.style.strokeWidth || 1.5;
     const fill = ctx.style.fill || '#ffffff';
 
-    let svg = `<g class="history-shallow-shape">`;
+    let svg = `<g class="historyShallow-shape">`;
 
     // Outer circle
     svg += `<circle cx="${cx}" cy="${cy}" r="${r}" `;
@@ -59,7 +59,7 @@ export const historyShallowShape: ShapeDefinition = {
  * Returns to the most recently active nested substate at any depth
  */
 export const historyDeepShape: ShapeDefinition = {
-  id: 'history-deep',
+  id: 'historyDeep',
 
   bounds() {
     const diameter = 30;
@@ -89,7 +89,7 @@ export const historyDeepShape: ShapeDefinition = {
     const strokeWidth = ctx.style.strokeWidth || 1.5;
     const fill = ctx.style.fill || '#ffffff';
 
-    let svg = `<g class="history-deep-shape">`;
+    let svg = `<g class="historyDeep-shape">`;
 
     // Outer circle
     svg += `<circle cx="${cx}" cy="${cy}" r="${r}" `;

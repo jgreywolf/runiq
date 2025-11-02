@@ -31,10 +31,10 @@ describe('Activity Diagram Final Nodes', () => {
       diagram "Flow Final Test" {
         shape start as @initialState
         shape process as @activity label:"Process"
-        shape terminate as @flowFinal
+        shape flowEnd as @flowFinal
         
         start -> process flowType:"control"
-        process -> terminate flowType:"control"
+        process -> flowEnd flowType:"control"
       }
     `;
 
@@ -42,11 +42,11 @@ describe('Activity Diagram Final Nodes', () => {
     expect(result.errors).toHaveLength(0);
     expect(result.diagram?.nodes).toHaveLength(3);
 
-    const terminateNode = result.diagram?.nodes?.find(
-      (n: NodeAst) => n.id === 'terminate'
+    const flowEndNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'flowEnd'
     );
-    expect(terminateNode).toBeDefined();
-    expect(terminateNode?.shape).toBe('flowFinal');
+    expect(flowEndNode).toBeDefined();
+    expect(flowEndNode?.shape).toBe('flowFinal');
   });
 
   it('should parse activity with both final node types', () => {

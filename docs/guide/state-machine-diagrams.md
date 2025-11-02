@@ -24,10 +24,10 @@ State machine diagrams show the different states an object can be in and the tra
 - **Junction**: `@junction` - Static conditional branch (filled circle)
 - **Fork**: `@fork` - Parallel split (horizontal bar)
 - **Join**: `@join` - Parallel merge (horizontal bar)
-- **History (Shallow)**: `@history-shallow` - Restores direct substate (H)
-- **History (Deep)**: `@history-deep` - Restores nested substate (H\*)
-- **Entry Point**: `@entry-point` - Composite state entry
-- **Exit Point**: `@exit-point` - Composite state exit
+- **History (Shallow)**: `@historyShallow` - Restores direct substate (H)
+- **History (Deep)**: `@historyDeep` - Restores nested substate (H\*)
+- **Entry Point**: `@entryPoint` - Composite state entry
+- **Exit Point**: `@exitPoint` - Composite state exit
 - **Terminate**: `@terminate` - State machine termination (X in circle)
 
 See the [Shape Reference - UML Shapes](/reference/shapes#_10-uml-shapes-22-shapes) for the complete list.
@@ -260,8 +260,8 @@ diagram "History Example" {
   shape start as @initialState
   shape running as @state label: "Running"
   shape paused as @state label: "Paused"
-  shape histShallow as @history-shallow
-  shape histDeep as @history-deep
+  shape histShallow as @historyShallow
+  shape histDeep as @historyDeep
   shape end as @finalState
 
   start -> running
@@ -283,8 +283,8 @@ diagram "History Example" {
 
 **Difference between Shallow and Deep History:**
 
-- **Shallow History** (`@history-shallow`): Returns to the most recently active **direct** substate
-- **Deep History** (`@history-deep`): Returns to the most recently active **nested** substate at any depth
+- **Shallow History** (`@historyShallow`): Returns to the most recently active **direct** substate
+- **Deep History** (`@historyDeep`): Returns to the most recently active **nested** substate at any depth
 
 ### Entry and Exit Points
 
@@ -293,8 +293,8 @@ Used with composite states (states containing substates):
 ```runiq
 diagram "Composite State Boundaries" {
   shape start as @initialState
-  shape entryPt as @entry-point
-  shape exitPt as @exit-point
+  shape entryPt as @entryPoint
+  shape exitPt as @exitPoint
   shape processing as @state label: "Processing"
   shape end as @finalState
 
@@ -354,7 +354,7 @@ diagram "Complete State Machine - Door Lock" {
 
   # Pseudo-states
   shape decision as @choice
-  shape hist as @history-shallow
+  shape hist as @historyShallow
   shape term as @terminate
 
   # Final state
@@ -529,7 +529,7 @@ waiting -> timeout event: "timerExpired"
 ```runiq
 shape normal as @state label: "Normal"
 shape error as @state label: "Error"
-shape hist as @history-shallow
+shape hist as @historyShallow
 
 normal -> error event: "error"
 error -> hist event: "recovered"
