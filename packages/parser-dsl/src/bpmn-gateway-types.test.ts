@@ -142,14 +142,18 @@ describe('BPMN Gateway Types', () => {
     }
     expect(result.success).toBe(true);
     expect(result.diagram?.nodes?.length).toBe(5);
-    
-    const checkOrder = result.diagram?.nodes?.find(n => n.id === 'checkOrder');
+
+    const checkOrder = result.diagram?.nodes?.find(
+      (n) => n.id === 'checkOrder'
+    );
     expect(checkOrder?.data?.gatewayType).toBe('exclusive');
-    
-    const parallelGw = result.diagram?.nodes?.find(n => n.id === 'parallelGw');
+
+    const parallelGw = result.diagram?.nodes?.find(
+      (n) => n.id === 'parallelGw'
+    );
     expect(parallelGw?.data?.gatewayType).toBe('parallel');
-    
-    const waitEvent = result.diagram?.nodes?.find(n => n.id === 'waitEvent');
+
+    const waitEvent = result.diagram?.nodes?.find((n) => n.id === 'waitEvent');
     expect(waitEvent?.data?.gatewayType).toBe('eventBased');
   });
 

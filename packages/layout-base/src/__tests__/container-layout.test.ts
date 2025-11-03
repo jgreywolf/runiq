@@ -640,7 +640,7 @@ describe('ElkLayoutEngine - Container Support', () => {
       // LR: nodes should be horizontally aligned (different x, same y)
       const tbYDiff = Math.abs(resultTB.nodes[0].y - resultTB.nodes[1].y);
       const lrXDiff = Math.abs(resultLR.nodes[0].x - resultLR.nodes[1].x);
-      
+
       expect(tbYDiff).toBeGreaterThan(100); // TB should have vertical separation
       expect(lrXDiff).toBeGreaterThan(100); // LR should have horizontal separation
     });
@@ -667,9 +667,13 @@ describe('ElkLayoutEngine - Container Support', () => {
       const resultLarge = await engine.layout(diagram, { spacing: 150 });
 
       // Larger spacing should produce larger distance between nodes
-      const distSmall = Math.abs(resultSmall.nodes[0].y - resultSmall.nodes[1].y);
-      const distLarge = Math.abs(resultLarge.nodes[0].y - resultLarge.nodes[1].y);
-      
+      const distSmall = Math.abs(
+        resultSmall.nodes[0].y - resultSmall.nodes[1].y
+      );
+      const distLarge = Math.abs(
+        resultLarge.nodes[0].y - resultLarge.nodes[1].y
+      );
+
       expect(distLarge).toBeGreaterThan(distSmall);
     });
   });

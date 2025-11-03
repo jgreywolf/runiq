@@ -4,7 +4,7 @@ export const electricalShapeIcons: ShapeCategory[] = [
 	{
 		id: 'electrical',
 		label: 'Electrical Components',
-		electricalOnly: true,
+		profiles: ['electrical'],
 		shapes: [
 			{ id: 'resistor', label: 'Resistor', code: 'part id type:R value:"1k" pins:(N1,N2)' },
 			{ id: 'capacitor', label: 'Capacitor', code: 'part id type:C value:"1u" pins:(N1,N2)' },

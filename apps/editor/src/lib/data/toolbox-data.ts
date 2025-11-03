@@ -29,7 +29,12 @@ export interface ShapeCategory {
 	id: string;
 	label: string;
 	shapes: Shape[];
-	electricalOnly?: boolean;
+	/**
+	 * Profile(s) this shape category belongs to.
+	 * Official profiles: diagram (default), sequence, wardley, electrical, digital, pneumatic, hydraulic
+	 * If undefined or contains 'diagram', category is shown in general diagram mode.
+	 */
+	profiles?: string[];
 }
 
 export const shapeCategories: ShapeCategory[] = [

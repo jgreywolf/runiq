@@ -15,14 +15,35 @@
 	let { onInsertShape, onInsertSample, currentCode = '' }: Props = $props();
 
 	// Detect profile type from current code
-	let isElectricalMode = $derived(currentCode.trim().startsWith('electrical'));
-	let isWardleyMode = $derived(currentCode.trim().startsWith('wardley'));
+	// Official profiles: diagram, sequence, wardley, electrical, digital, pneumatic, hydraulic
+	let currentProfile = $derived.by(() => {
+		const code = currentCode.trim();
+		if (code.startsWith('electrical') || code.startsWith('schematic')) return 'electrical';
+		if (code.startsWith('digital')) return 'digital';
+		if (code.startsWith('pneumatic')) return 'pneumatic';
+		if (code.startsWith('hydraulic')) return 'hydraulic';
+		if (code.startsWith('wardley')) return 'wardley';
+		if (code.startsWith('sequence')) return 'sequence';
+		return 'diagram'; // default
+	});
 
-	// Filter categories based on mode
+	// Convenience flags for UI
+	let isWardleyMode = $derived(currentProfile === 'wardley');
+	let isElectricalMode = $derived(currentProfile === 'electrical');
+	let isDigitalMode = $derived(currentProfile === 'digital');
+	let isPneumaticMode = $derived(currentProfile === 'pneumatic');
+	let isHydraulicMode = $derived(currentProfile === 'hydraulic');
+
+	// Filter categories based on current profile
 	let displayedCategories = $derived(
-		isElectricalMode
-			? shapeCategories.filter((cat) => cat.electricalOnly)
-			: shapeCategories.filter((cat) => !cat.electricalOnly)
+		shapeCategories.filter((cat) => {
+			// If category has no profiles defined, show in diagram mode only
+			if (!cat.profiles || cat.profiles.length === 0) {
+				return currentProfile === 'diagram' || currentProfile === 'sequence';
+			}
+			// Show if current profile matches any of the category's profiles
+			return cat.profiles.includes(currentProfile);
+		})
 	);
 
 	// Select appropriate samples
@@ -43,6 +64,18 @@
 		{#if isElectricalMode}
 			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
 				<p class="text-xs font-medium text-amber-900">⚡ Electrical Circuit Mode</p>
+			</div>
+		{:else if isDigitalMode}
+			<div class="border-b border-blue-200 bg-blue-50 px-4 py-2">
+				<p class="text-xs font-medium text-blue-900">🔌 Digital Circuit Mode</p>
+			</div>
+		{:else if isPneumaticMode}
+			<div class="border-b border-sky-200 bg-sky-50 px-4 py-2">
+				<p class="text-xs font-medium text-sky-900">💨 Pneumatic Circuit Mode</p>
+			</div>
+		{:else if isHydraulicMode}
+			<div class="border-b border-cyan-200 bg-cyan-50 px-4 py-2">
+				<p class="text-xs font-medium text-cyan-900">💧 Hydraulic Circuit Mode</p>
 			</div>
 		{:else if isWardleyMode}
 			<div class="border-b border-purple-200 bg-purple-50 px-4 py-2">
