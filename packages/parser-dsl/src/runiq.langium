@@ -438,10 +438,18 @@ NodeProperty:
     | InputPinsProperty
     | OutputPinsProperty
     | StateInvariantProperty
-    | ExtensionPointsProperty;
+    | ExtensionPointsProperty
+    | GatewayTypeProperty;
 
 LabelProperty:
     'label:' value=STRING;
+
+// BPMN Gateway property
+GatewayTypeProperty:
+    'gatewayType:' value=GatewayTypeValue;
+
+GatewayTypeValue returns string:
+    'exclusive' | 'xor' | 'parallel' | 'and' | 'inclusive' | 'or' | 'eventBased' | 'event' | 'complex';
 
 StyleRefProperty:
     'style:' ref=[StyleDeclaration:ID];

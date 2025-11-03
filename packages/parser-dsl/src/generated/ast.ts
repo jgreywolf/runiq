@@ -58,6 +58,7 @@ export type RuniqKeywordNames =
     | "alternatives:"
     | "analysis"
     | "anchor"
+    | "and"
     | "arrowType:"
     | "artifact"
     | "as"
@@ -109,6 +110,7 @@ export type RuniqKeywordNames =
     | "color"
     | "color:"
     | "colors:"
+    | "complex"
     | "component"
     | "composition"
     | "constraint:"
@@ -155,9 +157,12 @@ export type RuniqKeywordNames =
     | "entity"
     | "entry:"
     | "entryPoint"
+    | "event"
     | "event:"
+    | "eventBased"
     | "evolution:"
     | "evolve"
+    | "exclusive"
     | "exit:"
     | "exitPoint"
     | "expanding"
@@ -181,6 +186,7 @@ export type RuniqKeywordNames =
     | "from:"
     | "full"
     | "gates:"
+    | "gatewayType:"
     | "generalization"
     | "genericTypes:"
     | "group"
@@ -203,6 +209,7 @@ export type RuniqKeywordNames =
     | "icon:"
     | "iconColor:"
     | "iconSize:"
+    | "inclusive"
     | "incrementalLayout:"
     | "indent"
     | "inertia:"
@@ -268,6 +275,7 @@ export type RuniqKeywordNames =
     | "open"
     | "operating"
     | "opt"
+    | "or"
     | "orientation:"
     | "orthogonal"
     | "outputPins:"
@@ -280,6 +288,7 @@ export type RuniqKeywordNames =
     | "paddingRight:"
     | "paddingTop:"
     | "par"
+    | "parallel"
     | "parameters:"
     | "params:"
     | "part"
@@ -387,6 +396,7 @@ export type RuniqKeywordNames =
     | "wardley"
     | "water-glycol"
     | "xLabel:"
+    | "xor"
     | "yLabel:"
     | "{"
     | "}";
@@ -1558,6 +1568,27 @@ export function isFontWeightProperty(item: unknown): item is FontWeightProperty 
     return reflection.isInstance(item, FontWeightProperty.$type);
 }
 
+export interface GatewayTypeProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'GatewayTypeProperty';
+    value: GatewayTypeValue;
+}
+
+export const GatewayTypeProperty = {
+    $type: 'GatewayTypeProperty',
+    value: 'value'
+} as const;
+
+export function isGatewayTypeProperty(item: unknown): item is GatewayTypeProperty {
+    return reflection.isInstance(item, GatewayTypeProperty.$type);
+}
+
+export type GatewayTypeValue = 'and' | 'complex' | 'event' | 'eventBased' | 'exclusive' | 'inclusive' | 'or' | 'parallel' | 'xor';
+
+export function isGatewayTypeValue(item: unknown): item is GatewayTypeValue {
+    return item === 'exclusive' || item === 'xor' || item === 'parallel' || item === 'and' || item === 'inclusive' || item === 'or' || item === 'eventBased' || item === 'event' || item === 'complex';
+}
+
 export interface GenericTypesProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'GenericTypesProperty';
@@ -2124,7 +2155,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -3584,6 +3615,7 @@ export type RuniqAstType = {
     FontFamilyProperty: FontFamilyProperty
     FontSizeProperty: FontSizeProperty
     FontWeightProperty: FontWeightProperty
+    GatewayTypeProperty: GatewayTypeProperty
     GenericTypesProperty: GenericTypesProperty
     GroupBlock: GroupBlock
     GuardProperty: GuardProperty
@@ -4537,6 +4569,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: FontWeightProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        GatewayTypeProperty: {
+            name: GatewayTypeProperty.$type,
+            properties: {
+                value: {
+                    name: GatewayTypeProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

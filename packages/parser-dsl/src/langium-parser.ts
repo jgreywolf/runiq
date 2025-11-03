@@ -1107,6 +1107,10 @@ function processDialogStatement(
             item.replace(/^"|"$/g, '')
           );
         }
+      } else if (Langium.isGatewayTypeProperty(prop)) {
+        // BPMN Gateway type (exclusive, parallel, inclusive, eventBased, complex)
+        if (!node.data) node.data = {};
+        node.data.gatewayType = prop.value;
       }
     }
 
