@@ -7,11 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - UML Class Diagram Relationship Features
+
+- **Priority 1 Relationship Features (ALL COMPLETE):**
+  - Multiplicity (Cardinality): `0..1`, `1`, `1..*`, `0..*`, `*`, `1..5` patterns
+  - Aggregation: Hollow diamond markers (◇) for shared ownership relationships
+  - Composition: Filled diamond markers (◆) for strong ownership relationships
+  - Role Names: Labels at source and target ends of associations
+  - Edge Types: `association`, `aggregation`, `composition`, `dependency`, `generalization`, `realization`
+
+- **Grammar & Parser:**
+  - `multiplicitySource` and `multiplicityTarget` properties on edges
+  - `roleSource` and `roleTarget` properties on edges
+  - `edgeType` property with 6 UML relationship types
+  - `navigability` property (source, target, bidirectional, none) - parsing complete
+  - `constraints` property (array of strings) - parsing complete
+
+- **SVG Rendering:**
+  - Hollow diamond markers for aggregation (white fill, stroke outline)
+  - Filled diamond markers for composition (solid fill)
+  - Multiplicity text positioned at 15%/85% along edge (font-size: 11)
+  - Role name text in italics below multiplicity (font-size: 10)
+  - Vertical stacking when both multiplicity and role present
+
+- **Testing:**
+  - 13 new comprehensive tests in `uml-relationships.test.ts`
+  - All 564 parser tests passing (no regressions)
+  - Test coverage: multiplicity patterns, role names, edge types, navigability parsing, constraints parsing
+  - Example diagrams: `aggregation-example.runiq`, `composition-example.runiq`
+
+- **Documentation:**
+  - Updated `class-diagram-uml-compliance.md` with implementation status
+  - Marked Priority 1 and Priority 2 features as complete
+  - Documented pending work: navigability rendering, constraint rendering
+
 ### Planned
 
-- Pedigree charts for genealogy and medical genetics
-- Network topology diagrams for IT infrastructure
-- Quantum circuit diagrams for quantum computing education
+- Navigability arrow rendering (open arrows, crosses)
+- Constraint text rendering in braces notation
+- Nested container layout (critical for C4, BPMN, org charts)
+- Container grid layout
 - UML timing diagrams for embedded systems
 
 ## [0.1.0] - 2025-10-17

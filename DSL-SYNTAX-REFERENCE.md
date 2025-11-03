@@ -95,6 +95,41 @@ source -labeltext-> target
 source -> target lineStyle:solid arrowType:none
 ```
 
+**UML Class Diagram Relationships** (NEW! 🎉):
+
+```runiq
+// Multiplicity (Cardinality)
+Customer -> Order multiplicitySource:"1" multiplicityTarget:"0..*"
+
+// Aggregation (hollow diamond)
+Department -> Employee edgeType:aggregation multiplicitySource:"1" multiplicityTarget:"1..*"
+
+// Composition (filled diamond)
+House -> Room edgeType:composition multiplicitySource:"1" multiplicityTarget:"1..*"
+
+// Role names
+Company -> Person edgeType:association roleSource:"employer" roleTarget:"employee"
+
+// Complete example with all properties
+edge Customer -> Order
+  edgeType: association
+  multiplicitySource: "1"
+  multiplicityTarget: "0..*"
+  roleSource: "customer"
+  roleTarget: "order"
+  label: "places"
+  navigability: target
+  constraints: ["ordered"]
+```
+
+**Edge Types for UML**:
+- `association` - Standard association line
+- `aggregation` - Hollow diamond (◇) for shared ownership
+- `composition` - Filled diamond (◆) for strong ownership
+- `dependency` - Dashed line with arrow
+- `generalization` - Inheritance (hollow triangle arrow)
+- `realization` - Interface implementation (dashed line with hollow triangle)
+
 ### 7. Common Property Syntax
 
 #### Node Properties (no space before colon)
@@ -106,6 +141,19 @@ source -> target lineStyle:solid arrowType:none
 - `tooltip:"text"`
 - `data:[values]`
 - `showLegend:true`
+
+#### Edge Properties (no space before colon)
+
+- `lineStyle:solid` (or dashed, dotted)
+- `arrowType:standard` (or hollow, open, none)
+- `stereotype:"<<include>>"` (UML stereotypes)
+- `edgeType:association` (or aggregation, composition, dependency, generalization, realization)
+- `multiplicitySource:"1"` (cardinality at source end)
+- `multiplicityTarget:"0..*"` (cardinality at target end)
+- `roleSource:"employer"` (role name at source end)
+- `roleTarget:"employee"` (role name at target end)
+- `navigability:target` (or source, bidirectional, none)
+- `constraints:["ordered","unique"]` (UML constraints)
 
 #### Container Properties (no space before colon)
 

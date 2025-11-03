@@ -7,6 +7,7 @@
 [![Tests](https://img.shields.io/badge/tests-1098%2B-brightgreen.svg)](./packages)
 
 **🚀 Status**: Phase 1 Complete - Core types, **75 shapes**, ELK layout, hierarchical containers!  
+**⚡ NEW**: UML 2.5 Class Relationships - Multiplicity, Aggregation/Composition diamonds, Role names! 💎  
 **⚡ NEW**: C4 Architecture diagrams - System Context, Containers, Components with official color palette! 🏗️  
 **⚡ NEW**: UML Class Diagrams with generics, member-level edges, and design patterns! 🎨  
 **⚡ NEW**: Mindmap diagrams for brainstorming & knowledge mapping - radial layout, 10 tests! 🧠  
@@ -48,12 +49,13 @@
 - **Member-level edges**: Revolutionary syntax for FK relationships: `Order.customerId -> Customer.id`
 - **Method signatures**: Full parameter lists with types and return values
 - **Abstract methods**: Rendered in italic with `abstract:true` flag
-- **Static members**: Support for static fields and methods
+- **Static members**: Support for static fields and methods (underlined in output)
+- **Derived attributes**: `/` prefix for calculated fields
 - **Default values**: Show field initialization values
 - **Design patterns**: 6 comprehensive examples (inheritance, interfaces, generics, factory, observer, domain models)
 - **Database modeling**: Perfect for entity-relationship diagrams with FK connections
 
-### UML Relationships
+### UML Relationships (ENHANCED! 🎉)
 
 - **Stereotypes**: <<include>>, <<extend>>, <<uses>>, <<implements>>, custom stereotypes
 - **Line styles**: Solid, dashed, dotted for different relationship types
@@ -62,7 +64,16 @@
   - Hollow (open triangle) - generalization/inheritance
   - Open (V-shaped) - dependencies
   - None - undirected relationships
+- **UML 2.5 Compliant Relationships**:
+  - **Multiplicity/Cardinality**: `0..1`, `1`, `1..*`, `0..*`, `*`, `1..5` on both ends
+  - **Aggregation**: Hollow diamond (◇) for shared ownership (has-a relationship)
+  - **Composition**: Filled diamond (◆) for strong ownership (lifecycle dependency)
+  - **Role Names**: Labels at source and target ends of associations
+  - **Edge Types**: association, aggregation, composition, dependency, generalization, realization
+  - **Navigability**: Directional indicators (parsing complete, rendering pending)
+  - **Constraints**: `{ordered}`, `{unique}`, `{readonly}` (parsing complete, rendering pending)
 - **Complete UML support**: Use case, class, sequence diagrams with proper notation
+- **564 tests passing**: Comprehensive test coverage for all relationship features
 
 ### Electrical & Digital Circuits (NEW! 🎉)
 

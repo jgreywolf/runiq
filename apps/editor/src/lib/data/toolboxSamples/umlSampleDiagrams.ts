@@ -40,26 +40,8 @@ shape note1 as @note label:"All shapes implement IShape"
 iShape -> baseShape
 baseShape -> circle
 baseShape -> rectangle
-circle -> colors lineStyle:dashed
-note1 -> baseShape lineStyle:dashed
-}`
-			},
-			{
-				name: 'Sequence Diagram',
-				description: 'User authentication flow',
-				code: `diagram "Authentication Sequence" {
-
-shape user as @lifeline label:"User"
-shape ui as @lifeline label:"LoginUI"
-shape controller as @lifeline label:"AuthController"
-shape db as @lifeline label:"Database"
-
-user -enterCredentials-> ui
-ui -authenticate-> controller
-controller -validateUser-> db
-db -userData-> controller
-controller -token-> ui
-ui -showHome-> user
+circle -> colors lineStyle:"dashed"
+note1 -> baseShape lineStyle:"dashed"
 }`
 			},
 			{

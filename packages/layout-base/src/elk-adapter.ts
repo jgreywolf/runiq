@@ -315,7 +315,10 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Calculate container positions based on orientation and siblings
     // Instead of using ELK's placeholder positions (which overlap), arrange containers properly
-    const hasSwimlanes = diagram.containers?.some((c: ContainerDeclaration) => c.layoutOptions?.orientation) ?? false;
+    const hasSwimlanes =
+      diagram.containers?.some(
+        (c: ContainerDeclaration) => c.layoutOptions?.orientation
+      ) ?? false;
     const containerPositions = diagram.containers
       ? this.arrangeSiblingContainers(
           diagram.containers,
@@ -391,7 +394,13 @@ export class ElkLayoutEngine implements LayoutEngine {
     this.extractEdges(topLevelEdges, nodes, edges);
 
     // Fix cross-container edges: Replace placeholder-based routing with actual node positions
-    this.recalculateCrossContainerEdges(diagram, nodeContainerMap, nodes, edges, direction);
+    this.recalculateCrossContainerEdges(
+      diagram,
+      nodeContainerMap,
+      nodes,
+      edges,
+      direction
+    );
 
     // Calculate overall diagram bounds (including negative space)
     let minX = 0;
@@ -585,8 +594,12 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (!fromShape || !toShape) continue;
 
       // Get styles
-      const fromStyle = fromNodeDef.style ? diagram.styles?.[fromNodeDef.style] || {} : {};
-      const toStyle = toNodeDef.style ? diagram.styles?.[toNodeDef.style] || {} : {};
+      const fromStyle = fromNodeDef.style
+        ? diagram.styles?.[fromNodeDef.style] || {}
+        : {};
+      const toStyle = toNodeDef.style
+        ? diagram.styles?.[toNodeDef.style] || {}
+        : {};
 
       // Snap first point (source) to fromNode's anchor
       let newStartPoint: { x: number; y: number } | null = null;
@@ -598,11 +611,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const firstPoint = edge.points[0];
-        startAnchor = this.findNearestAnchor(
-          firstPoint,
-          anchors,
-          fromNode
-        );
+        startAnchor = this.findNearestAnchor(firstPoint, anchors, fromNode);
         if (startAnchor) {
           newStartPoint = {
             x: fromNode.x + startAnchor.x,
@@ -621,11 +630,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const lastPoint = edge.points[edge.points.length - 1];
-        endAnchor = this.findNearestAnchor(
-          lastPoint,
-          anchors,
-          toNode
-        );
+        endAnchor = this.findNearestAnchor(lastPoint, anchors, toNode);
         if (endAnchor) {
           newEndPoint = {
             x: toNode.x + endAnchor.x,
@@ -730,7 +735,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       edge.points = [
         start,
         { x: midX, y: start.y }, // Horizontal segment
-        { x: midX, y: end.y },   // Vertical segment
+        { x: midX, y: end.y }, // Vertical segment
         end,
       ];
     } else if (startDirection === 'vertical') {
@@ -739,7 +744,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       edge.points = [
         start,
         { x: start.x, y: midY }, // Vertical segment
-        { x: end.x, y: midY },   // Horizontal segment
+        { x: end.x, y: midY }, // Horizontal segment
         end,
       ];
     } else {
@@ -771,9 +776,11 @@ export class ElkLayoutEngine implements LayoutEngine {
    * Determine the direction an edge should leave from an anchor based on its name.
    * Returns 'horizontal' for left/right anchors, 'vertical' for top/bottom anchors.
    */
-  private getAnchorDirection(anchorName?: string): 'horizontal' | 'vertical' | null {
+  private getAnchorDirection(
+    anchorName?: string
+  ): 'horizontal' | 'vertical' | null {
     if (!anchorName) return null;
-    
+
     const name = anchorName.toLowerCase();
     if (name === 'left' || name === 'right') {
       return 'horizontal';
@@ -795,14 +802,18 @@ export class ElkLayoutEngine implements LayoutEngine {
     placeholders: Map<string, { width: number; height: number }>
   ): Map<string, { x: number; y: number }> {
     const positions = new Map<string, { x: number; y: number }>();
-    
+
     // First pass: determine if we have swimlanes and calculate uniform dimensions
-    const hasHorizontalSwim = containers.some(c => c.layoutOptions?.orientation === 'horizontal');
-    const hasVerticalSwim = containers.some(c => c.layoutOptions?.orientation === 'vertical');
-    
+    const hasHorizontalSwim = containers.some(
+      (c) => c.layoutOptions?.orientation === 'horizontal'
+    );
+    const hasVerticalSwim = containers.some(
+      (c) => c.layoutOptions?.orientation === 'vertical'
+    );
+
     let uniformWidth: number | undefined;
     let uniformHeight: number | undefined;
-    
+
     // For horizontal swimlanes: all should have same width (widest one)
     if (hasHorizontalSwim) {
       let maxWidth = 0;
@@ -815,7 +826,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
       uniformWidth = maxWidth;
     }
-    
+
     // For vertical swimlanes: all should have same height (tallest one)
     if (hasVerticalSwim) {
       let maxHeight = 0;
@@ -828,29 +839,31 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
       uniformHeight = maxHeight;
     }
-    
+
     // Second pass: position containers
     let currentX = 0;
     let currentY = 0;
-    
+
     for (const container of containers) {
       const placeholder = placeholders.get(container.id!);
       const orientation = container.layoutOptions?.orientation;
-      
+
       // For swimlanes: use uniform dimensions and arrange spatially
       // For regular containers: position at (0,0) initially - will be repositioned after layout
       if (orientation) {
         // This is a swimlane - use uniform dimensions
-        const width = (orientation === 'horizontal' && uniformWidth) 
-          ? uniformWidth 
-          : (placeholder?.width || 400);
-        const height = (orientation === 'vertical' && uniformHeight)
-          ? uniformHeight
-          : (placeholder?.height || 300);
-        
+        const width =
+          orientation === 'horizontal' && uniformWidth
+            ? uniformWidth
+            : placeholder?.width || 400;
+        const height =
+          orientation === 'vertical' && uniformHeight
+            ? uniformHeight
+            : placeholder?.height || 300;
+
         positions.set(container.id!, { x: currentX, y: currentY });
         placeholders.set(container.id!, { width, height });
-        
+
         if (orientation === 'horizontal') {
           currentY += height + spacing;
         } else {
@@ -861,7 +874,7 @@ export class ElkLayoutEngine implements LayoutEngine {
         positions.set(container.id!, { x: 0, y: 0 });
       }
     }
-    
+
     return positions;
   }
 
@@ -882,39 +895,39 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Find max dimensions for each orientation
     let maxHorizontalWidth = 0;
     let maxVerticalHeight = 0;
-    
+
     for (let i = 0; i < containers.length; i++) {
       const container = containers[i];
       const positioned = positionedContainers[i];
       const orientation = container.layoutOptions?.orientation;
-      
+
       if (orientation === 'horizontal') {
         maxHorizontalWidth = Math.max(maxHorizontalWidth, positioned.width);
       } else if (orientation === 'vertical') {
         maxVerticalHeight = Math.max(maxVerticalHeight, positioned.height);
       }
     }
-    
+
     // Apply uniform dimensions and recalculate positions
     let currentX = 0;
     let currentY = 0;
     const spacing = 80; // Default spacing between swimlanes
-    
+
     for (let i = 0; i < containers.length; i++) {
       const container = containers[i];
       const positioned = positionedContainers[i];
       const orientation = container.layoutOptions?.orientation;
-      
+
       // Update position for sibling swimlanes (only at root level where x=0 or y=0)
       if (orientation === 'horizontal' && positioned.x === 0) {
         // Horizontal swimlanes: update Y position and track the delta
         const oldY = positioned.y;
         const newY = currentY;
         const deltaY = newY - oldY;
-        
+
         positioned.y = newY;
         positioned.width = maxHorizontalWidth;
-        
+
         // Adjust all nodes in this container
         for (const node of nodes) {
           // Check if node belongs to this container
@@ -922,12 +935,16 @@ export class ElkLayoutEngine implements LayoutEngine {
             node.y += deltaY;
           }
         }
-        
+
         // Adjust internal edge points (both nodes in this container)
         for (const edge of edges) {
-          const fromNodeInContainer = container.children.includes(this.extractNodeId(edge.from));
-          const toNodeInContainer = container.children.includes(this.extractNodeId(edge.to));
-          
+          const fromNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.from)
+          );
+          const toNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.to)
+          );
+
           if (fromNodeInContainer && toNodeInContainer) {
             // Internal edge - adjust all points
             for (const point of edge.points) {
@@ -936,29 +953,33 @@ export class ElkLayoutEngine implements LayoutEngine {
           }
           // Cross-container edges will be recalculated after this function returns
         }
-        
+
         currentY += positioned.height + spacing;
       } else if (orientation === 'vertical' && positioned.y === 0) {
         // Vertical swimlanes: update X position and track the delta
         const oldX = positioned.x;
         const newX = currentX;
         const deltaX = newX - oldX;
-        
+
         positioned.x = newX;
         positioned.height = maxVerticalHeight;
-        
+
         // Adjust all nodes in this container
         for (const node of nodes) {
           if (container.children.includes(node.id)) {
             node.x += deltaX;
           }
         }
-        
+
         // Adjust internal edge points (both nodes in this container)
         for (const edge of edges) {
-          const fromNodeInContainer = container.children.includes(this.extractNodeId(edge.from));
-          const toNodeInContainer = container.children.includes(this.extractNodeId(edge.to));
-          
+          const fromNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.from)
+          );
+          const toNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.to)
+          );
+
           if (fromNodeInContainer && toNodeInContainer) {
             // Internal edge - adjust all points
             for (const point of edge.points) {
@@ -967,13 +988,18 @@ export class ElkLayoutEngine implements LayoutEngine {
           }
           // Cross-container edges will be recalculated after all containers are positioned
         }
-        
+
         currentX += positioned.width + spacing;
       }
     }
-    
+
     // Regenerate cross-container edge routing with updated node positions
-    this.regenerateCrossContainerEdgeRouting(containers, nodes, edges, direction);
+    this.regenerateCrossContainerEdgeRouting(
+      containers,
+      nodes,
+      edges,
+      direction
+    );
   }
 
   /**
@@ -988,32 +1014,36 @@ export class ElkLayoutEngine implements LayoutEngine {
     spacing: number
   ): void {
     let currentY = 0;
-    
+
     for (let i = 0; i < containers.length; i++) {
       const container = containers[i];
       const positioned = positionedContainers[i];
-      
+
       // Only reposition if this is NOT a swimlane
       if (!container.layoutOptions?.orientation) {
         const oldY = positioned.y;
         const newY = currentY;
         const deltaY = newY - oldY;
-        
+
         // Update container position
         positioned.y = newY;
-        
+
         // Adjust all nodes in this container
         for (const node of nodes) {
           if (container.children.includes(node.id)) {
             node.y += deltaY;
           }
         }
-        
+
         // Adjust internal edge points
         for (const edge of edges) {
-          const fromNodeInContainer = container.children.includes(this.extractNodeId(edge.from));
-          const toNodeInContainer = container.children.includes(this.extractNodeId(edge.to));
-          
+          const fromNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.from)
+          );
+          const toNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.to)
+          );
+
           if (fromNodeInContainer && toNodeInContainer) {
             // Internal edge - adjust all points
             for (const point of edge.points) {
@@ -1021,12 +1051,12 @@ export class ElkLayoutEngine implements LayoutEngine {
             }
           }
         }
-        
+
         // Advance position for next container
         currentY += positioned.height + spacing;
       }
     }
-    
+
     // Regenerate cross-container edge routing with updated node positions
     this.regenerateCrossContainerEdgeRouting(containers, nodes, edges, 'DOWN');
   }
@@ -1047,31 +1077,31 @@ export class ElkLayoutEngine implements LayoutEngine {
         nodeContainerMap.set(childId, container.id!);
       }
     }
-    
+
     // Regenerate routing for cross-container edges
     for (const edge of edges) {
       const fromNodeId = this.extractNodeId(edge.from);
       const toNodeId = this.extractNodeId(edge.to);
-      
+
       const fromContainer = nodeContainerMap.get(fromNodeId);
       const toContainer = nodeContainerMap.get(toNodeId);
-      
+
       // Check if this is a cross-container edge
       const isCrossContainer =
         (fromContainer && toContainer && fromContainer !== toContainer) ||
         (fromContainer && !toContainer) ||
         (!fromContainer && toContainer);
-      
+
       if (isCrossContainer) {
         const fromNode = nodes.find((n) => n.id === fromNodeId);
         const toNode = nodes.find((n) => n.id === toNodeId);
-        
+
         if (fromNode && toNode) {
           const fromCenterX = fromNode.x + fromNode.width / 2;
           const fromCenterY = fromNode.y + fromNode.height / 2;
           const toCenterX = toNode.x + toNode.width / 2;
           const toCenterY = toNode.y + toNode.height / 2;
-          
+
           edge.points = this.generateOrthogonalRouting(
             fromCenterX,
             fromCenterY,
@@ -1105,7 +1135,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Check if this edge crosses a container boundary
       // Cross-container means: different containers OR one in container and one not
       const isCrossContainer =
-        (fromContainer && !toContainer) || 
+        (fromContainer && !toContainer) ||
         (!fromContainer && toContainer) ||
         (fromContainer && toContainer && fromContainer !== toContainer);
 
@@ -1443,13 +1473,13 @@ export class ElkLayoutEngine implements LayoutEngine {
           // Calculate content-based size from ELK layout
           const contentWidth = (laidOutContainer.width || 0) + padding * 2;
           const contentHeight = (laidOutContainer.height || 0) + padding * 2;
-          
+
           // Update placeholder with actual content size
           containerPlaceholders.set(container.id!, {
             width: contentWidth,
-            height: contentHeight
+            height: contentHeight,
           });
-          
+
           // For now, use content-based size (uniform sizing will be applied later)
           containerWidth = contentWidth;
           containerHeight = contentHeight;
@@ -1517,9 +1547,9 @@ export class ElkLayoutEngine implements LayoutEngine {
 
         // Add padding on the far edge to mirror left/top padding
         const orientation = container.layoutOptions?.orientation;
-        const minWidth = orientation ? 0 : 200;  // No minimum for swimlanes
+        const minWidth = orientation ? 0 : 200; // No minimum for swimlanes
         const minHeight = orientation ? 0 : 150; // No minimum for swimlanes
-        
+
         const requiredWidth = Math.max(
           minWidth,
           contentRight - containerPos.x + padding
@@ -1543,19 +1573,31 @@ export class ElkLayoutEngine implements LayoutEngine {
         containers: nestedContainers.length > 0 ? nestedContainers : undefined,
       });
     }
-    
+
     // Post-process containers based on their type
-    const hasSwim = containers.some(c => c.layoutOptions?.orientation);
-    const hasRegular = containers.some(c => !c.layoutOptions?.orientation);
-    
+    const hasSwim = containers.some((c) => c.layoutOptions?.orientation);
+    const hasRegular = containers.some((c) => !c.layoutOptions?.orientation);
+
     if (hasSwim) {
       // Apply uniform dimensions to swimlanes and adjust positions
-      this.applyUniformSwimlaneDimensions(containers, result, nodes, edges, direction);
+      this.applyUniformSwimlaneDimensions(
+        containers,
+        result,
+        nodes,
+        edges,
+        direction
+      );
     }
-    
+
     if (hasRegular) {
       // Reposition regular containers to avoid overlap
-      this.repositionRegularContainers(containers, result, nodes, edges, spacing);
+      this.repositionRegularContainers(
+        containers,
+        result,
+        nodes,
+        edges,
+        spacing
+      );
     }
   }
 

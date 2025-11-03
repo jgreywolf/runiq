@@ -637,6 +637,15 @@ describe('ElkLayoutEngine - Container Support', () => {
       const resultTB = await engine.layout(diagram, { direction: 'TB' });
       const resultLR = await engine.layout(diagram, { direction: 'LR' });
 
+      console.log(
+        'TB nodes:',
+        resultTB.nodes.map((n) => ({ id: n.id, x: n.x, y: n.y }))
+      );
+      console.log(
+        'LR nodes:',
+        resultLR.nodes.map((n) => ({ id: n.id, x: n.x, y: n.y }))
+      );
+
       // Different directions should produce different layouts
       expect(resultTB.nodes[0].x).not.toBe(resultLR.nodes[0].x);
     });
