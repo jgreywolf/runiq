@@ -123,6 +123,7 @@ edge Customer -> Order
 ```
 
 **Edge Types for UML**:
+
 - `association` - Standard association line
 - `aggregation` - Hollow diamond (◇) for shared ownership
 - `composition` - Filled diamond (◆) for strong ownership

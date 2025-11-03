@@ -44,7 +44,7 @@ diagram "Comparable Types" {
     ]
   
   // Implementation relationships (dashed arrows typically)
-  Integer -> IComparable lineStyle:dashed
-  String -> IComparable lineStyle:dashed
-  Date -> IComparable lineStyle:dashed
+  Integer -> IComparable lineStyle:"dashed"
+  String -> IComparable lineStyle:"dashed"
+  Date -> IComparable lineStyle:"dashed"
 }

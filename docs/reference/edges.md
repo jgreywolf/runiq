@@ -20,7 +20,7 @@ Decision -yes-> Success
 Decision -no-> Failure
 
 # Properties on edges
-edge A -> B stroke:"#1565c0" lineStyle:dashed arrowType:open
+edge A -> B stroke:"#1565c0" lineStyle:"dashed" arrowType:open
 ```
 
 ## Line style
@@ -40,8 +40,8 @@ edge A -> B stroke:"#1565c0" lineStyle:dashed arrowType:open
 Add stereotype labels for include/extend patterns in use case diagrams:
 
 ```runiq
-edge Login -> TwoFactor stereotype:"<<include>>" lineStyle:dashed arrowType:open
-edge Notify -> Checkout stereotype:"<<extend>>" lineStyle:dashed arrowType:open
+edge Login -> TwoFactor stereotype:"<<include>>" lineStyle:"dashed" arrowType:open
+edge Notify -> Checkout stereotype:"<<extend>>" lineStyle:"dashed" arrowType:open
 ```
 
 ## Colors and thickness

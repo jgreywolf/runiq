@@ -14,11 +14,11 @@ diagram "Class Diagram - Relationship Showcase" {
   cat -> animal lineStyle:solid arrowType:hollow
   
   // Realization (implements interface) - dashed line, hollow arrow
-  animal -implements-> iAnimal lineStyle:dashed arrowType:hollow
+  animal -implements-> iAnimal lineStyle:"dashed" arrowType:hollow
   
   // Dependency - dashed line, open arrow
-  animalController -uses-> animalService lineStyle:dashed arrowType:open
-  animalController -creates-> animal lineStyle:dashed arrowType:open
+  animalController -uses-> animalService lineStyle:"dashed" arrowType:open
+  animalController -creates-> animal lineStyle:"dashed" arrowType:open
   
   // Association - solid line, standard arrow
   animalService -manages-> animal lineStyle:solid arrowType:standard

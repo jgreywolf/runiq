@@ -3,7 +3,6 @@ import { parse } from '../langium-parser.js';
 import type { EdgeAst } from '@runiq/core';
 
 describe('UML Class Diagram Relationships', () => {
-
   describe('Multiplicity and Role Names', () => {
     it('should parse multiplicitySource and multiplicityTarget', async () => {
       const input = `
@@ -19,7 +18,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(1);
-      
+
       const edge = result.diagram?.edges[0] as EdgeAst;
       expect(edge.multiplicitySource).toBe('1');
       expect(edge.multiplicityTarget).toBe('0..*');
@@ -39,7 +38,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(1);
-      
+
       const edge = result.diagram?.edges[0] as EdgeAst;
       expect(edge.roleSource).toBe('employer');
       expect(edge.roleTarget).toBe('employee');
@@ -63,7 +62,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(1);
-      
+
       const edge = result.diagram?.edges[0] as EdgeAst;
       expect(edge.edgeType).toBe('association');
       expect(edge.multiplicitySource).toBe('1');
@@ -116,7 +115,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(1);
-      
+
       const edge = result.diagram?.edges[0] as EdgeAst;
       expect(edge.edgeType).toBe('aggregation');
       expect(edge.multiplicitySource).toBe('1');
@@ -138,7 +137,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(1);
-      
+
       const edge = result.diagram?.edges[0] as EdgeAst;
       expect(edge.edgeType).toBe('composition');
       expect(edge.multiplicitySource).toBe('1');
@@ -159,7 +158,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(1);
-      
+
       const edge = result.diagram?.edges[0] as EdgeAst;
       expect(edge.edgeType).toBe('association');
       expect(edge.label).toBe('associates with');
@@ -185,7 +184,9 @@ describe('UML Class Diagram Relationships', () => {
         `;
 
         const result = await parse(input);
-        expect(result.errors, `Failed for edgeType: ${edgeType}`).toHaveLength(0);
+        expect(result.errors, `Failed for edgeType: ${edgeType}`).toHaveLength(
+          0
+        );
         const edge = result.diagram?.edges[0] as EdgeAst;
         expect(edge.edgeType).toBe(edgeType);
       }
@@ -227,7 +228,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(3);
-      
+
       // Verify aggregation
       const aggEdge = result.diagram?.edges[0] as EdgeAst;
       expect(aggEdge.from).toBe('Company');
@@ -237,7 +238,7 @@ describe('UML Class Diagram Relationships', () => {
       expect(aggEdge.multiplicityTarget).toBe('1..*');
       expect(aggEdge.roleSource).toBe('parent');
       expect(aggEdge.roleTarget).toBe('division');
-      
+
       // Verify composition
       const compEdge = result.diagram?.edges[1] as EdgeAst;
       expect(compEdge.from).toBe('Employee');
@@ -245,7 +246,7 @@ describe('UML Class Diagram Relationships', () => {
       expect(compEdge.edgeType).toBe('composition');
       expect(compEdge.multiplicitySource).toBe('1');
       expect(compEdge.multiplicityTarget).toBe('1');
-      
+
       // Verify association
       const assocEdge = result.diagram?.edges[2] as EdgeAst;
       expect(assocEdge.from).toBe('Department');
@@ -271,7 +272,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(1);
-      
+
       const edge = result.diagram?.edges[0] as EdgeAst;
       expect(edge.navigability).toBe('target');
     });
@@ -289,7 +290,10 @@ describe('UML Class Diagram Relationships', () => {
         `;
 
         const result = await parse(input);
-        expect(result.errors, `Failed for navigability: ${direction}`).toHaveLength(0);
+        expect(
+          result.errors,
+          `Failed for navigability: ${direction}`
+        ).toHaveLength(0);
         const edge = result.diagram?.edges[0] as EdgeAst;
         expect(edge.navigability).toBe(direction);
       }
@@ -310,7 +314,7 @@ describe('UML Class Diagram Relationships', () => {
       const result = await parse(input);
       expect(result.errors).toHaveLength(0);
       expect(result.diagram?.edges).toHaveLength(1);
-      
+
       const edge = result.diagram?.edges[0] as EdgeAst;
       expect(edge.constraints).toEqual(['ordered', 'unique']);
     });

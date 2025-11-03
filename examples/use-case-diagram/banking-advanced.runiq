@@ -39,18 +39,18 @@ diagram "Online Banking - Advanced Relationships" {
   
   // <<include>> relationships (dashed arrow, open head)
   // Required dependencies - base use case ALWAYS includes the included use case
-  login -include-> authenticate lineStyle:dashed arrowType:open
-  transfer -include-> authenticate lineStyle:dashed arrowType:open
-  transfer -include-> validateAccount lineStyle:dashed arrowType:open
-  transfer -include-> logTransaction lineStyle:dashed arrowType:open
-  deposit -include-> logTransaction lineStyle:dashed arrowType:open
-  withdraw -include-> logTransaction lineStyle:dashed arrowType:open
+  login -include-> authenticate lineStyle:"dashed" arrowType:open
+  transfer -include-> authenticate lineStyle:"dashed" arrowType:open
+  transfer -include-> validateAccount lineStyle:"dashed" arrowType:open
+  transfer -include-> logTransaction lineStyle:"dashed" arrowType:open
+  deposit -include-> logTransaction lineStyle:"dashed" arrowType:open
+  withdraw -include-> logTransaction lineStyle:"dashed" arrowType:open
   
   // <<extend>> relationships (dashed arrow, open head) 
   // Optional extensions - extending use case adds behavior to base use case
-  sendNotification -extend_on_success-> transfer lineStyle:dashed arrowType:open
-  sendNotification -extend-> deposit lineStyle:dashed arrowType:open
-  printReceipt -extend_optional-> withdraw lineStyle:dashed arrowType:open
+  sendNotification -extend_on_success-> transfer lineStyle:"dashed" arrowType:open
+  sendNotification -extend-> deposit lineStyle:"dashed" arrowType:open
+  printReceipt -extend_optional-> withdraw lineStyle:"dashed" arrowType:open
   
   // External system interaction (standard association)
   transfer -processes-> paymentGateway
