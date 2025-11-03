@@ -138,6 +138,7 @@ export type RuniqKeywordNames =
     | "diagram"
     | "digital"
     | "direction"
+    | "direction:"
     | "distribution:"
     | "doActivity:"
     | "dotted"
@@ -754,6 +755,7 @@ export interface ContainerLayoutProperty extends langium.AstNode {
     readonly $container: ContainerBlock;
     readonly $type: 'ContainerLayoutProperty';
     algorithm?: LayoutAlgorithmValue;
+    direction?: DirectionValue;
     orientation?: OrientationValue;
     spacing?: string;
 }
@@ -761,6 +763,7 @@ export interface ContainerLayoutProperty extends langium.AstNode {
 export const ContainerLayoutProperty = {
     $type: 'ContainerLayoutProperty',
     algorithm: 'algorithm',
+    direction: 'direction',
     orientation: 'orientation',
     spacing: 'spacing'
 } as const;
@@ -3904,6 +3907,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 algorithm: {
                     name: ContainerLayoutProperty.algorithm
+                },
+                direction: {
+                    name: ContainerLayoutProperty.direction
                 },
                 orientation: {
                     name: ContainerLayoutProperty.orientation

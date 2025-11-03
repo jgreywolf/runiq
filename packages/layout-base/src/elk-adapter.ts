@@ -8,27 +8,8 @@ import type {
   RoutedEdge,
   PositionedContainer,
   ContainerDeclaration,
-  EdgeRouting,
 } from '@runiq/core';
 import { shapeRegistry, createTextMeasurer } from '@runiq/core';
-
-/**
- * Map Runiq edge routing types to ELK edge routing algorithms
- */
-function mapRoutingToElk(routing?: EdgeRouting): string {
-  switch (routing) {
-    case 'straight':
-      return 'POLYLINE'; // ELK's POLYLINE creates straight connections
-    case 'orthogonal':
-      return 'ORTHOGONAL'; // Right-angle bends
-    case 'splines':
-      return 'SPLINES'; // Curved edges
-    case 'polyline':
-      return 'POLYLINE'; // Multi-segment straight lines
-    default:
-      return 'ORTHOGONAL'; // Default to orthogonal routing
-  }
-}
 
 /**
  * ELK (Eclipse Layout Kernel) layout engine adapter for Runiq.
@@ -130,8 +111,17 @@ export class ElkLayoutEngine implements LayoutEngine {
    * e.g., "Order.customerId" -> "Order", "Customer" -> "Customer"
    */
   private extractNodeId(reference: string): string {
+    // Strip member access (e.g., "obj.field" -> "obj")
     const dotIndex = reference.indexOf('.');
-    return dotIndex > 0 ? reference.substring(0, dotIndex) : reference;
+    let id = dotIndex > 0 ? reference.substring(0, dotIndex) : reference;
+    
+    // Strip edge index (e.g., "node#0" -> "node")
+    const hashIndex = id.indexOf('#');
+    if (hashIndex > 0) {
+      id = id.substring(0, hashIndex);
+    }
+    
+    return id;
   }
 
   async layout(
@@ -160,9 +150,6 @@ export class ElkLayoutEngine implements LayoutEngine {
     const baseSpacing = hasContainers ? 150 : 100; // Extra spacing for container diagrams
     const spacing = opts.spacing || baseSpacing;
 
-    // Get diagram-level routing preference (default: orthogonal)
-    const defaultRouting = mapRoutingToElk(diagram.routing);
-
     // Detect if this is a pedigree chart
     const isPedigreeChart = diagram.nodes.some(
       (n) => n.shape === 'pedigree-male' || n.shape === 'pedigree-female'
@@ -187,11 +174,21 @@ export class ElkLayoutEngine implements LayoutEngine {
             'elk.layered.spacing.nodeNodeBetweenLayers': (
               spacing * 1.5
             ).toString(), // Extra layer spacing for containers
-            'elk.edgeRouting': defaultRouting, // Use diagram-level routing preference
+            // Force pure orthogonal (right-angle) routing - no diagonals
+            'elk.edgeRouting': 'ORTHOGONAL',
+            'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
+            'elk.layered.northOrSouthPort': 'true', // Use north/south ports for better orthogonal routing
+            // Edge spacing to prevent overlap - increased for better separation
+            'elk.spacing.edgeEdge': '25', // Space between parallel edges
+            'elk.spacing.edgeNode': '35', // Space between edges and nodes
+            'elk.layered.spacing.edgeEdgeBetweenLayers': '25', // Space between edges crossing layers
+            'elk.layered.spacing.edgeNodeBetweenLayers': '35', // Space between edges and nodes across layers
             // Edge crossing minimization
             'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
             'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
             'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
+            // Improve edge separation
+            'elk.layered.thoroughness': '10', // Higher value = better edge routing (1-100)
           },
       children: [],
       edges: [],
@@ -296,6 +293,11 @@ export class ElkLayoutEngine implements LayoutEngine {
       const fromContainer = nodeContainerMap.get(fromNodeId);
       const toContainer = nodeContainerMap.get(toNodeId);
 
+      // Skip edges where BOTH nodes are inside containers (these will be handled in container layouts)
+      if (fromContainer && toContainer) {
+        continue;
+      }
+
       // Replace node IDs with container placeholder IDs if nodes are in containers
       const fromId = fromContainer
         ? `__container__${fromContainer}`
@@ -310,22 +312,74 @@ export class ElkLayoutEngine implements LayoutEngine {
       });
     }
 
-    // Run ELK layout algorithm (with container placeholders)
+    // PASS 1: Calculate actual container sizes by laying out their contents
+    // We do this BEFORE the top-level layout so ELK can position containers with accurate sizes
+    if (diagram.containers) {
+      await this.calculateContainerSizesRecursively(
+        diagram.containers,
+        diagram,
+        measureText,
+        containerPlaceholders,
+        spacing,
+        direction
+      );
+      
+      // Update placeholder nodes in elkGraph with actual sizes from PASS 1
+      for (const elkNode of elkGraph.children || []) {
+        if (elkNode.id.startsWith('__container__')) {
+          const containerId = elkNode.id.replace('__container__', '');
+          const actualSize = containerPlaceholders.get(containerId);
+          if (actualSize) {
+            elkNode.width = actualSize.width;
+            elkNode.height = actualSize.height;
+          }
+        }
+      }
+    }
+
+    // Run ELK layout algorithm (with updated container sizes)
+    // Now ELK can position containers correctly without overlap
     const laidOut = await this.elk.layout(elkGraph);
 
-    // Calculate container positions based on orientation and siblings
-    // Instead of using ELK's placeholder positions (which overlap), arrange containers properly
+    // PASS 2: Extract container positions from ELK layout results
+    // ELK has positioned container placeholders correctly relative to standalone nodes
+    // respecting the top-level direction (TB, LR, etc.) and actual container sizes
     const hasSwimlanes =
       diagram.containers?.some(
         (c: ContainerDeclaration) => c.layoutOptions?.orientation
       ) ?? false;
-    const containerPositions = diagram.containers
-      ? this.arrangeSiblingContainers(
+    
+    const containerPositions = new Map<string, { x: number; y: number }>();
+    if (diagram.containers) {
+      // For swimlanes OR vertical direction (TB/BT), use manual arrangement
+      // ELK's layered algorithm doesn't respect document order for vertical layouts
+      // and tends to position containers based on edge connections rather than sequence
+      const isVerticalDirection = direction === 'DOWN' || direction === 'UP';
+      
+      if (hasSwimlanes || isVerticalDirection) {
+        const manualPositions = this.arrangeSiblingContainers(
           diagram.containers,
           spacing,
-          containerPlaceholders
-        )
-      : new Map<string, { x: number; y: number }>();
+          containerPlaceholders,
+          direction
+        );
+        for (const [id, pos] of manualPositions.entries()) {
+          containerPositions.set(id, pos);
+        }
+      } else {
+        // For horizontal direction (LR/RL), use ELK layout positions
+        // ELK handles horizontal spacing well and respects actual container sizes
+        for (const elkNode of laidOut.children || []) {
+          if (elkNode.id.startsWith('__container__')) {
+            const containerId = elkNode.id.replace('__container__', '');
+            containerPositions.set(containerId, {
+              x: elkNode.x || 0,
+              y: elkNode.y || 0,
+            });
+          }
+        }
+      }
+    }
 
     // Layout nodes within each container and position containers
     const nodes: PositionedNode[] = [];
@@ -394,6 +448,8 @@ export class ElkLayoutEngine implements LayoutEngine {
     this.extractEdges(topLevelEdges, nodes, edges);
 
     // Fix cross-container edges: Replace placeholder-based routing with actual node positions
+    // NOTE: This must be called AFTER layoutContainersWithNodes so that all nodes (including
+    // those in containers) are in the nodes array
     this.recalculateCrossContainerEdges(
       diagram,
       nodeContainerMap,
@@ -794,12 +850,13 @@ export class ElkLayoutEngine implements LayoutEngine {
   /**
    * Calculate positions for sibling containers based on orientation
    * For swimlanes: Calculate initial positions with uniform dimensions
-   * For regular containers: Position at (0,0) - will be repositioned after layout
+   * For regular containers: Position sequentially based on direction
    */
   private arrangeSiblingContainers(
     containers: ContainerDeclaration[],
     spacing: number,
-    placeholders: Map<string, { width: number; height: number }>
+    placeholders: Map<string, { width: number; height: number }>,
+    direction?: string
   ): Map<string, { x: number; y: number }> {
     const positions = new Map<string, { x: number; y: number }>();
 
@@ -870,8 +927,21 @@ export class ElkLayoutEngine implements LayoutEngine {
           currentX += width + spacing;
         }
       } else {
-        // Regular container - position at (0,0) for now
-        positions.set(container.id!, { x: 0, y: 0 });
+        // Regular container - arrange based on direction
+        // After PASS 1 (calculateContainerSizesRecursively), placeholder contains REAL size from ELK layout
+        const width = placeholder?.width || 200;
+        const height = placeholder?.height || 150;
+        
+        positions.set(container.id!, { x: currentX, y: currentY });
+        
+        // Arrange containers based on direction
+        const isHorizontal = direction === 'RIGHT' || direction === 'LEFT';
+        if (isHorizontal) {
+          currentX += width + spacing;
+        } else {
+          // Vertical (DOWN/UP) or default
+          currentY += height + spacing;
+        }
       }
     }
 
@@ -890,7 +960,8 @@ export class ElkLayoutEngine implements LayoutEngine {
     positionedContainers: PositionedContainer[],
     nodes: PositionedNode[],
     edges: RoutedEdge[],
-    direction: string
+    direction: string,
+    nodeContainerMap: Map<string, string>
   ): void {
     // Find max dimensions for each orientation
     let maxHorizontalWidth = 0;
@@ -995,10 +1066,10 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Regenerate cross-container edge routing with updated node positions
     this.regenerateCrossContainerEdgeRouting(
-      containers,
       nodes,
       edges,
-      direction
+      direction,
+      nodeContainerMap
     );
   }
 
@@ -1006,77 +1077,17 @@ export class ElkLayoutEngine implements LayoutEngine {
    * Reposition regular (non-swimlane) containers to avoid overlap
    * Stacks containers vertically based on their actual laid-out heights
    */
-  private repositionRegularContainers(
-    containers: ContainerDeclaration[],
-    positionedContainers: PositionedContainer[],
-    nodes: PositionedNode[],
-    edges: RoutedEdge[],
-    spacing: number
-  ): void {
-    let currentY = 0;
-
-    for (let i = 0; i < containers.length; i++) {
-      const container = containers[i];
-      const positioned = positionedContainers[i];
-
-      // Only reposition if this is NOT a swimlane
-      if (!container.layoutOptions?.orientation) {
-        const oldY = positioned.y;
-        const newY = currentY;
-        const deltaY = newY - oldY;
-
-        // Update container position
-        positioned.y = newY;
-
-        // Adjust all nodes in this container
-        for (const node of nodes) {
-          if (container.children.includes(node.id)) {
-            node.y += deltaY;
-          }
-        }
-
-        // Adjust internal edge points
-        for (const edge of edges) {
-          const fromNodeInContainer = container.children.includes(
-            this.extractNodeId(edge.from)
-          );
-          const toNodeInContainer = container.children.includes(
-            this.extractNodeId(edge.to)
-          );
-
-          if (fromNodeInContainer && toNodeInContainer) {
-            // Internal edge - adjust all points
-            for (const point of edge.points) {
-              point.y += deltaY;
-            }
-          }
-        }
-
-        // Advance position for next container
-        currentY += positioned.height + spacing;
-      }
-    }
-
-    // Regenerate cross-container edge routing with updated node positions
-    this.regenerateCrossContainerEdgeRouting(containers, nodes, edges, 'DOWN');
-  }
-
   /**
    * Regenerate routing for cross-container edges after node positions change
    */
   private regenerateCrossContainerEdgeRouting(
-    containers: ContainerDeclaration[],
     nodes: PositionedNode[],
     edges: RoutedEdge[],
-    direction: string
+    direction: string,
+    nodeContainerMap: Map<string, string>
   ): void {
-    // Build a map of which nodes are in which containers
-    const nodeContainerMap = new Map<string, string>();
-    for (const container of containers) {
-      for (const childId of container.children) {
-        nodeContainerMap.set(childId, container.id!);
-      }
-    }
+    // Use the provided nodeContainerMap which was built recursively
+    // (no need to rebuild - it already contains all nested containers)
 
     // Regenerate routing for cross-container edges
     for (const edge of edges) {
@@ -1225,11 +1236,16 @@ export class ElkLayoutEngine implements LayoutEngine {
       const containerSpacing =
         container.layoutOptions?.spacing?.toString() || '50';
 
-      // Determine layout direction based on container shape
-      // BPMN pools should flow horizontally (left to right)
+      // Determine layout direction based on container options or shape
+      // Priority: container.layoutOptions.direction > container.shape override > default
       let direction = 'DOWN'; // Default: vertical
-      if (container.shape === 'bpmnPool') {
-        direction = 'RIGHT'; // Horizontal flow for BPMN pools
+      
+      if (container.layoutOptions?.direction) {
+        // Use explicit direction if specified
+        direction = this.mapDirectionToElk(container.layoutOptions.direction);
+      } else if (container.shape === 'bpmnPool') {
+        // BPMN pools default to horizontal flow
+        direction = 'RIGHT';
       }
 
       // Create a mini ELK graph for this container's contents
@@ -1334,7 +1350,192 @@ export class ElkLayoutEngine implements LayoutEngine {
   }
 
   /**
-   * Layout nodes within containers and position everything
+   * PASS 1: Calculate actual container sizes by laying out contents
+   * This runs BEFORE positioning to get accurate dimensions
+   */
+  private async calculateContainerSizesRecursively(
+    containers: ContainerDeclaration[],
+    diagram: DiagramAst,
+    measureText: ReturnType<typeof createTextMeasurer>,
+    containerPlaceholders: Map<string, { width: number; height: number }>,
+    spacing: number,
+    direction: string
+  ): Promise<void> {
+
+    for (const container of containers) {
+      const padding =
+        container.containerStyle?.padding !== undefined
+          ? container.containerStyle.padding
+          : 30;
+
+      // Step 1: Recursively calculate nested container sizes first (depth-first)
+      if (container.containers && container.containers.length > 0) {
+        await this.calculateContainerSizesRecursively(
+          container.containers,
+          diagram,
+          measureText,
+          containerPlaceholders,
+          spacing,
+          direction
+        );
+      }
+
+      // Step 2: Layout this container's direct children with ELK to get content size
+      const algorithm = this.mapAlgorithmToElk(
+        container.layoutOptions?.algorithm || 'layered'
+      );
+
+      // Determine container direction: explicit option > shape override > parent direction
+      let containerDirection = direction;
+      if (container.layoutOptions?.direction) {
+        containerDirection = this.mapDirectionToElk(container.layoutOptions.direction);
+      } else if (container.shape === 'bpmnPool') {
+        containerDirection = 'RIGHT';
+      }
+
+      const containerGraph: ElkNode = {
+        id: `container_${container.id}`,
+        layoutOptions: {
+          'elk.algorithm': algorithm,
+          'elk.direction': containerDirection,
+          'elk.spacing.nodeNode': spacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+          // Force pure orthogonal routing
+          'elk.edgeRouting': 'ORTHOGONAL',
+          'elk.layered.unnecessaryBendpoints': 'true',
+          'elk.layered.northOrSouthPort': 'true',
+          // Edge spacing to prevent overlap - increased for better separation
+          'elk.spacing.edgeEdge': '25',
+          'elk.spacing.edgeNode': '35',
+          'elk.layered.spacing.edgeEdgeBetweenLayers': '25',
+          'elk.layered.spacing.edgeNodeBetweenLayers': '35',
+          'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+          'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX',
+          'elk.layered.thoroughness': '10',
+        },
+        children: [],
+        edges: [],
+      };
+
+      // Add child nodes to graph
+      for (const childId of container.children) {
+        const node = diagram.nodes.find((n) => n.id === childId);
+        if (node) {
+          const shapeImpl = shapeRegistry.get(node.shape);
+          if (!shapeImpl) continue;
+
+          const style = node.style ? diagram.styles?.[node.style] || {} : {};
+          const bounds = shapeImpl.bounds({ node, style, measureText });
+
+          containerGraph.children!.push({
+            id: node.id,
+            width: bounds.width,
+            height: bounds.height,
+          });
+        }
+      }
+
+      // NOTE: We do NOT add placeholder nodes for nested containers in PASS 1
+      // because we manually position nested containers below direct children.
+      // Adding placeholders would cause ELK to lay out direct children differently
+      // in PASS 1 vs PASS 2, leading to incorrect container sizing.
+
+      // Add internal edges
+      for (let edgeIndex = 0; edgeIndex < diagram.edges.length; edgeIndex++) {
+        const edge = diagram.edges[edgeIndex];
+        if (
+          container.children.includes(edge.from) &&
+          container.children.includes(edge.to)
+        ) {
+          containerGraph.edges!.push({
+            id: `${edge.from}->${edge.to}#${edgeIndex}`,
+            sources: [edge.from],
+            targets: [edge.to],
+          });
+        }
+      }
+
+      // Step 3: Layout with ELK to get actual content dimensions
+      let contentWidth = 200; // Minimum defaults
+      let contentHeight = 150;
+      let directChildrenHeight = 0; // Track height of direct child shapes
+
+      if (containerGraph.children!.length > 0) {
+        try {
+          const laidOutContainer = await this.elk.layout(containerGraph);
+          contentWidth = (laidOutContainer.width || 0) + padding * 2;
+          contentHeight = (laidOutContainer.height || 0) + padding * 2;
+          
+          // Calculate the actual height used by direct child shapes (excluding placeholders)
+          for (const node of laidOutContainer.children || []) {
+            if (!node.id.startsWith('__nestedcontainer__')) {
+              const nodeBottom = (node.y || 0) + (node.height || 0);
+              directChildrenHeight = Math.max(directChildrenHeight, nodeBottom);
+            }
+          }
+        } catch (error) {
+          // Fall back to defaults if layout fails
+        }
+      }
+
+      // Step 4: If has nested containers, position them BELOW the direct child shapes
+      if (container.containers && container.containers.length > 0) {
+        // Start nested containers after the direct children, with spacing
+        const nestedStartY = directChildrenHeight > 0 ? directChildrenHeight + spacing : 0;
+        
+        // Arrange nested containers starting from nestedStartY
+        const tempPositions = this.arrangeSiblingContainers(
+          container.containers,
+          spacing,
+          containerPlaceholders
+        );
+
+        // Adjust Y positions to start after direct children
+        const adjustedPositions = new Map<string, { x: number; y: number }>();
+        for (const [id, pos] of tempPositions.entries()) {
+          adjustedPositions.set(id, {
+            x: pos.x,
+            y: pos.y + nestedStartY
+          });
+        }
+
+        // Calculate extent of nested containers with adjusted positions
+        let maxRight = 0;
+        let maxBottom = nestedStartY; // Start from where nested containers begin
+
+        for (const nested of container.containers) {
+          const nestedSize = containerPlaceholders.get(nested.id!);
+          const nestedPos = adjustedPositions.get(nested.id!);
+
+          if (nestedSize && nestedPos) {
+            maxRight = Math.max(maxRight, nestedPos.x + nestedSize.width);
+            maxBottom = Math.max(maxBottom, nestedPos.y + nestedSize.height);
+          }
+        }
+
+        // Add padding on all sides
+        const nestedContainerWidth = padding + maxRight + padding;
+        const nestedContainerHeight = padding + maxBottom + padding;
+        
+        // Use the larger of: content from direct children OR nested containers
+        contentWidth = Math.max(contentWidth, nestedContainerWidth);
+        contentHeight = Math.max(contentHeight, nestedContainerHeight);
+        
+        // Store adjusted positions for later use (we'll need to pass this to PASS 2)
+        // For now, we'll recalculate in PASS 2
+      }
+
+      // Step 5: Store the calculated size in placeholders
+      containerPlaceholders.set(container.id!, {
+        width: contentWidth,
+        height: contentHeight,
+      });
+    }
+  }
+
+  /**
+   * PASS 2: Layout nodes within containers and position everything
+   * This runs AFTER size calculation, using accurate dimensions
    */
   private async layoutContainersWithNodes(
     containers: ContainerDeclaration[],
@@ -1359,6 +1560,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           : 30;
 
       // Get container position from placeholder
+      // Note: This position is relative to the parent container's content area
       const containerPos = containerPositions.get(container.id!) || {
         x: 0,
         y: 0,
@@ -1370,10 +1572,11 @@ export class ElkLayoutEngine implements LayoutEngine {
         container.layoutOptions?.algorithm || 'layered'
       );
 
-      // Determine layout direction based on container shape
-      // BPMN pools should flow horizontally (left to right)
+      // Determine container direction: explicit option > shape override > parent direction
       let containerDirection = direction; // Default: use diagram direction
-      if (container.shape === 'bpmnPool') {
+      if (container.layoutOptions?.direction) {
+        containerDirection = this.mapDirectionToElk(container.layoutOptions.direction);
+      } else if (container.shape === 'bpmnPool') {
         containerDirection = 'RIGHT'; // Horizontal flow for BPMN pools
       }
 
@@ -1384,10 +1587,20 @@ export class ElkLayoutEngine implements LayoutEngine {
           'elk.direction': containerDirection, // Use container-specific direction
           'elk.spacing.nodeNode': spacing.toString(),
           'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
-          'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing for container edges
+          // Force pure orthogonal (right-angle) routing - no diagonals
+          'elk.edgeRouting': 'ORTHOGONAL',
+          // Orthogonal edge routing specific options
+          'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
+          'elk.layered.northOrSouthPort': 'true', // Use north/south ports for better orthogonal routing
+          // Edge spacing to prevent overlap - increased for better separation
+          'elk.spacing.edgeEdge': '25',
+          'elk.spacing.edgeNode': '35',
+          'elk.layered.spacing.edgeEdgeBetweenLayers': '25',
+          'elk.layered.spacing.edgeNodeBetweenLayers': '35',
           // Edge crossing minimization for container layouts
           'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
           'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX',
+          'elk.layered.thoroughness': '10', // Better edge routing
         },
         children: [],
         edges: [],
@@ -1431,9 +1644,10 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
       }
 
-      // Layout container contents
-      let containerWidth = 200;
-      let containerHeight = 150;
+      // Use container size from PASS 1 (already calculated by calculateContainerSizesRecursively)
+      const placeholder = containerPlaceholders.get(container.id!);
+      const containerWidth = placeholder?.width || 200;
+      const containerHeight = placeholder?.height || 150;
 
       if (containerGraph.children!.length > 0) {
         try {
@@ -1470,19 +1684,8 @@ export class ElkLayoutEngine implements LayoutEngine {
 
           edges.push(...tempEdges);
 
-          // Calculate content-based size from ELK layout
-          const contentWidth = (laidOutContainer.width || 0) + padding * 2;
-          const contentHeight = (laidOutContainer.height || 0) + padding * 2;
-
-          // Update placeholder with actual content size
-          containerPlaceholders.set(container.id!, {
-            width: contentWidth,
-            height: contentHeight,
-          });
-
-          // For now, use content-based size (uniform sizing will be applied later)
-          containerWidth = contentWidth;
-          containerHeight = contentHeight;
+          // DON'T update placeholder - it was already calculated in PASS 1!
+          // We're using the pre-calculated size from calculateContainerSizesRecursively
         } catch (error) {
           // Fall back to default positioning if layout fails
         }
@@ -1491,19 +1694,56 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Handle nested containers recursively
       const nestedContainers: PositionedContainer[] = [];
       if (container.containers) {
-        // Calculate positions for nested sibling containers
-        const nestedPositions = this.arrangeSiblingContainers(
+        // Calculate the height used by direct child shapes (if any)
+        let directChildrenHeight = 0;
+        if (containerGraph.children!.length > 0) {
+          try {
+            const laidOutContainer = await this.elk.layout(containerGraph);
+            for (const node of laidOutContainer.children || []) {
+              if (!node.id.startsWith('__nestedcontainer__')) {
+                const nodeBottom = (node.y || 0) + (node.height || 0);
+                directChildrenHeight = Math.max(directChildrenHeight, nodeBottom);
+              }
+            }
+          } catch (error) {
+            // Ignore errors, will use default positioning
+          }
+        }
+
+        // Position nested containers BELOW direct child shapes
+        const nestedStartY = directChildrenHeight > 0 ? directChildrenHeight + spacing : 0;
+
+        // Calculate positions for nested sibling containers (relative to this container's content area)
+        const tempPositions = this.arrangeSiblingContainers(
           container.containers,
           spacing,
           containerPlaceholders
         );
+
+        // Adjust positions to start after direct children
+        const nestedPositions = new Map<string, { x: number; y: number }>();
+        for (const [id, pos] of tempPositions.entries()) {
+          nestedPositions.set(id, {
+            x: pos.x,
+            y: pos.y + nestedStartY
+          });
+        }
+
+        // Convert relative positions to absolute by adding parent container's position + padding
+        const absoluteNestedPositions = new Map<string, { x: number; y: number }>();
+        for (const [id, pos] of nestedPositions.entries()) {
+          absoluteNestedPositions.set(id, {
+            x: containerPos.x + padding + pos.x,
+            y: containerPos.y + padding + pos.y
+          });
+        }
 
         await this.layoutContainersWithNodes(
           container.containers,
           diagram,
           measureText,
           nodeContainerMap,
-          nestedPositions,
+          absoluteNestedPositions,  // Pass absolute positions
           containerPlaceholders,
           spacing,
           direction,
@@ -1513,55 +1753,12 @@ export class ElkLayoutEngine implements LayoutEngine {
           hasSwimlanes
         );
 
-        // Adjust nested container positions back to absolute coordinates
-        for (const nested of nestedContainers) {
-          nested.x += containerPos.x + padding;
-          nested.y += containerPos.y + padding;
-        }
+        // No need to adjust positions after the fact - they're already absolute
       }
 
-      // Ensure this container's size encloses both its own laid-out nodes and any nested containers
-      if (containerGraph.children && containerGraph.children.length > 0) {
-        // Compute the right/bottom edges based on nodes we just added for this container
-        const childNodes = nodes.filter((n) =>
-          container.children.includes(n.id)
-        );
-
-        // Minimum content area starts at inner padding
-        let contentRight = containerPos.x + padding;
-        let contentBottom = containerPos.y + padding;
-
-        if (childNodes.length > 0) {
-          for (const n of childNodes) {
-            contentRight = Math.max(contentRight, n.x + n.width);
-            contentBottom = Math.max(contentBottom, n.y + n.height);
-          }
-        }
-
-        if (nestedContainers.length > 0) {
-          for (const nc of nestedContainers) {
-            contentRight = Math.max(contentRight, nc.x + nc.width);
-            contentBottom = Math.max(contentBottom, nc.y + nc.height);
-          }
-        }
-
-        // Add padding on the far edge to mirror left/top padding
-        const orientation = container.layoutOptions?.orientation;
-        const minWidth = orientation ? 0 : 200; // No minimum for swimlanes
-        const minHeight = orientation ? 0 : 150; // No minimum for swimlanes
-
-        const requiredWidth = Math.max(
-          minWidth,
-          contentRight - containerPos.x + padding
-        );
-        const requiredHeight = Math.max(
-          minHeight,
-          contentBottom - containerPos.y + padding
-        );
-
-        containerWidth = Math.max(containerWidth, requiredWidth);
-        containerHeight = Math.max(containerHeight, requiredHeight);
-      }
+      // Container size was already calculated in PASS 1 (calculateContainerSizesRecursively)
+      // Don't recalculate here - just use the pre-computed size from placeholders
+      // The PASS 1 calculation correctly handles nested container extents with relative positioning
 
       result.push({
         id: container.id || '',
@@ -1585,18 +1782,20 @@ export class ElkLayoutEngine implements LayoutEngine {
         result,
         nodes,
         edges,
-        direction
+        direction,
+        nodeContainerMap
       );
     }
 
     if (hasRegular) {
-      // Reposition regular containers to avoid overlap
-      this.repositionRegularContainers(
-        containers,
-        result,
+      // Regular containers are already properly positioned by arrangeSiblingContainers
+      // No need to reposition them - that would reset nested containers to y=0
+      // But we still need to regenerate cross-container edge routing
+      this.regenerateCrossContainerEdgeRouting(
         nodes,
         edges,
-        spacing
+        direction,
+        nodeContainerMap
       );
     }
   }
@@ -2058,6 +2257,25 @@ export class ElkLayoutEngine implements LayoutEngine {
         return 'org.eclipse.elk.mrtree';
       default:
         return 'layered'; // Default fallback
+    }
+  }
+
+  private mapDirectionToElk(direction: string): string {
+    switch (direction.toUpperCase()) {
+      case 'TB':
+      case 'DOWN':
+        return 'DOWN';
+      case 'BT':
+      case 'UP':
+        return 'UP';
+      case 'LR':
+      case 'RIGHT':
+        return 'RIGHT';
+      case 'RL':
+      case 'LEFT':
+        return 'LEFT';
+      default:
+        return 'DOWN'; // Default fallback
     }
   }
 

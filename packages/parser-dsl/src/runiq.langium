@@ -857,6 +857,7 @@ ContainerStyleProperty:
 
 ContainerLayoutProperty:
     'algorithm:' algorithm=LayoutAlgorithmValue
+    | 'direction:' direction=DirectionValue
     | 'spacing:' spacing=NUMBER
     | 'orientation:' orientation=OrientationValue;
 

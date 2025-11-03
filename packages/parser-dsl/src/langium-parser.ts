@@ -1360,6 +1360,7 @@ function convertContainer(
   const containerStyle: ContainerStyle = {};
   const layoutOptions: {
     algorithm?: string;
+    direction?: string;
     spacing?: number;
     orientation?: 'horizontal' | 'vertical';
   } = {};
@@ -1670,6 +1671,8 @@ function convertContainer(
     } else if (Langium.isContainerLayoutProperty(prop)) {
       if (prop.algorithm) {
         layoutOptions.algorithm = prop.algorithm;
+      } else if (prop.direction) {
+        layoutOptions.direction = prop.direction;
       } else if (prop.spacing !== undefined) {
         layoutOptions.spacing = parseFloat(prop.spacing);
       } else if (prop.orientation) {

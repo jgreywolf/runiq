@@ -41,7 +41,13 @@ const laidOut = await layoutDiagram(diagram, {
 
 ## Containers
 
-Containers group nodes visually and influence layout. Nested containers are supported. The adapter expands parent bounds to include nested containers so labels and content aren’t clipped.
+Containers group nodes visually and influence layout. Nested containers are supported. The adapter expands parent bounds to include nested containers so labels and content aren't clipped.
+
+## Container Layout
+
+:::tip Nested Container Support
+Nested containers are fully supported with automatic sizing and positioning! The layout engine uses a two-pass algorithm to calculate accurate container dimensions before positioning, ensuring containers never overlap.
+:::
 
 ### Example (DSL)
 

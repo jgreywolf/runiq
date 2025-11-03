@@ -1,0 +1,80 @@
+diagram "Nested Containers Demo" {
+  direction TB
+
+  // Example 1: Two-level nesting (Organization structure)
+  container org "Company" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+    shape ceo as @rounded label:"CEO"
+    
+    container engineering "Engineering Department" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" direction:LR {
+      shape cto as @rounded label:"CTO"
+      shape dev1 as @rounded label:"Developer 1"
+      shape dev2 as @rounded label:"Developer 2"
+      
+      cto -> dev1
+      cto -> dev2
+    }
+    
+    container sales "Sales Department" backgroundColor:"#fff3e0" borderColor:"#f57c00" {
+      shape vp as @rounded label:"VP Sales"
+      shape rep1 as @rounded label:"Sales Rep 1"
+      shape rep2 as @rounded label:"Sales Rep 2"
+      
+      vp -> rep1
+      vp -> rep2
+    }
+    
+    ceo -> cto
+    ceo -> vp
+  }
+
+  // Example 2: Three-level nesting (Cloud Infrastructure)
+  container cloud "Cloud Platform" backgroundColor:"#e8f5e9" borderColor:"#388e3c" borderWidth:3 {
+    shape lb as @hexagon label:"Load Balancer"
+    
+    container vpc "VPC Network" backgroundColor:"#e1f5fe" borderColor:"#0288d1" {
+      container publicSubnet "Public Subnet" backgroundColor:"#fff9c4" borderColor:"#fbc02d" {
+        shape web1 as @server label:"Web Server 1"
+        shape web2 as @server label:"Web Server 2"
+      }
+      
+      container privateSubnet "Private Subnet" backgroundColor:"#ffebee" borderColor:"#c62828" {
+        shape api as @hexagon label:"API Server"
+        shape db as @cylinder label:"Database"
+        
+        api -> db
+      }
+      
+      web1 -> api
+      web2 -> api
+    }
+    
+    lb -> web1
+    lb -> web2
+  }
+
+  // Example 3: C4 Container Diagram with nested data layer
+  container bankingSystem "Internet Banking System" backgroundColor:"#dceefb" borderColor:"#1168bd" borderWidth:3 padding:40 {
+    shape webapp as @rect label:"Web Application"
+    shape mobile as @rect label:"Mobile App"
+    shape apiGateway as @hexagon label:"API Gateway"
+    shape backend as @rect label:"Backend Services"
+    
+    container dataLayer "Data Layer" backgroundColor:"#f0f0f0" borderColor:"#666666" borderStyle:dashed {
+      shape mainDb as @cylinder label:"Main Database"
+      shape cache as @cylinder label:"Redis Cache"
+      
+      mainDb -> cache
+    }
+    
+    webapp -> apiGateway
+    mobile -> apiGateway
+    apiGateway -> backend
+    backend -> mainDb
+    backend -> cache
+  }
+
+  // External customer connects to system
+  shape customer as @actor label:"Customer"
+  customer -> webapp
+  customer -> mobile
+}

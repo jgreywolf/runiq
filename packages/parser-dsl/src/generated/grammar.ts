@@ -9930,6 +9930,27 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "elements": [
               {
                 "$type": "Keyword",
+                "value": "direction:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "direction",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@93"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
                 "value": "spacing:"
               },
               {
