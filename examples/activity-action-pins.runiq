@@ -1,0 +1,37 @@
+diagram "UML Activity Diagram - Action Pins" {
+  direction TB
+
+  # Initial node
+  shape start as @initialState
+
+  # Activity nodes with pins
+  shape readOrder as @activity label: "Read Order"
+    outputPins: ["order", "customer"]
+
+  shape validateOrder as @activity label: "Validate Order"
+    inputPins: ["order"]
+    outputPins: ["validOrder", "errors"]
+
+  shape processPayment as @activity label: "Process Payment"
+    inputPins: ["validOrder", "customer"]
+    outputPins: ["receipt", "status"]
+
+  shape sendConfirmation as @activity label: "Send Confirmation"
+    inputPins: ["receipt", "customer"]
+    outputPins: ["email"]
+
+  shape logErrors as @activity label: "Log Errors"
+    inputPins: ["errors"]
+
+  # Final node - bull's eye circle terminates entire activity
+  shape end as @activityFinal
+
+  # Control flows
+  start -> readOrder
+  readOrder -> validateOrder
+  validateOrder -> processPayment label: "[valid]"
+  validateOrder -> logErrors label: "[invalid]"
+  processPayment -> sendConfirmation
+  sendConfirmation -> end
+  logErrors -> end
+}

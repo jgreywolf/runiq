@@ -1,0 +1,45 @@
+# UML Activity Diagram - Final Node Types
+# Demonstrates the two types of final nodes in UML 2.5 activity diagrams
+
+diagram "Activity Final Nodes Demo" {
+  # Start
+  shape start as @initialState
+  
+  # Fork into parallel flows
+  shape fork as @fork
+  
+  # Flow 1 - Main processing path
+  shape mainTask as @activity label: "Main Task"
+  shape completeMain as @activityFinal  # Bull's eye: terminates entire activity
+  
+  # Flow 2 - Optional validation path
+  shape validate as @activity label: "Validate Input"
+  shape checkResult as @decision label: "Valid?"
+  shape handleError as @activity label: "Handle Error"
+  shape endFlow as @flowFinal  # Circle with X: terminates only this flow
+  
+  # Flow 3 - Logging path (continues even if flow 2 stops)
+  shape logActivity as @activity label: "Log Activity"
+  shape join as @join
+  
+  # Control flows
+  start -> fork
+  
+  # Flow 1: Main path
+  fork -> mainTask label: "flow1"
+  mainTask -> completeMain
+  
+  # Flow 2: Validation path with early termination
+  fork -> validate label: "flow2"
+  validate -> checkResult
+  checkResult -> handleError label: "invalid"
+  handleError -> endFlow  # This flow stops, but others continue
+  
+  # Flow 3: Logging continues
+  fork -> logActivity label: "flow3"
+  logActivity -> join
+  checkResult -> join label: "valid"
+  
+  # Note: If flow 2 hits @flowFinal, flows 1 and 3 continue
+  # But if flow 1 hits @activityFinal, ALL flows stop immediately
+}

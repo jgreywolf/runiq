@@ -77,8 +77,8 @@ diagram "Generic Collections" {
     ]
   
   // Implementation relationships
-  ArrayList -> List lineStyle:dashed
-  HashMap -> Map lineStyle:dashed
+  ArrayList -> List lineStyle:"dashed"
+  HashMap -> Map lineStyle:"dashed"
   
   // Composition relationships
   Repository -> Map

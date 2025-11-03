@@ -19,11 +19,12 @@ describe('Container Integration Tests', () => {
 
   it('should handle simple container from DSL to SVG', async () => {
     const dsl = `
-      diagram "Test Container"
-      container c1 "My Container" {
-        shape A as @rounded label: "Node A"
-        shape B as @rounded label: "Node B"
-        A -> B
+      diagram "Test Container" {
+        container c1 "My Container" {
+          shape A as @rounded label: "Node A"
+          shape B as @rounded label: "Node B"
+          A -> B
+        }
       }
     `;
 
@@ -51,16 +52,17 @@ describe('Container Integration Tests', () => {
 
   it('should handle multiple containers', async () => {
     const dsl = `
-      diagram "Multiple Containers"
-      container c1 "Container 1" {
-        shape A as @rounded label: "A"
+      diagram "Multiple Containers" {
+        container c1 "Container 1" {
+          shape A as @rounded label: "A"
+        }
+        container c2 "Container 2" {
+          shape B as @rounded label: "B"
+          shape C as @rounded label: "C"
+          B -> C
+        }
+        A -> B
       }
-      container c2 "Container 2" {
-        shape B as @rounded label: "B"
-        shape C as @rounded label: "C"
-        B -> C
-      }
-      A -> B
     `;
 
     const ast = parse(dsl);
@@ -77,12 +79,13 @@ describe('Container Integration Tests', () => {
 
   it('should handle container with custom styling', async () => {
     const dsl = `
-      diagram "Styled Container"
-      container c1 "Styled" 
-        backgroundColor: "#e0f0ff"
-        borderColor: "#0066cc"
-        borderWidth: 3 {
-        shape A as @rounded label: "A"
+      diagram "Styled Container" {
+        container c1 "Styled" 
+          backgroundColor: "#e0f0ff"
+          borderColor: "#0066cc"
+          borderWidth: 3 {
+          shape A as @rounded label: "A"
+        }
       }
     `;
 
@@ -100,10 +103,11 @@ describe('Container Integration Tests', () => {
 
   it('should handle empty container', async () => {
     const dsl = `
-      diagram "Empty Container"
-      container empty "Empty Box" {}
-      shape A as @rounded label: "A"
-      A -> A
+      diagram "Empty Container" {
+        container empty "Empty Box" {}
+        shape A as @rounded label: "A"
+        A -> A
+      }
     `;
 
     const ast = parse(dsl);

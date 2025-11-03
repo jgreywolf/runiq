@@ -26,6 +26,7 @@ import type {
   SequenceNote,
   SequenceFragment,
   SequenceFragmentAlternative,
+  SequenceDurationConstraint,
   NetAst,
   PartAst,
   AnalysisAst,
@@ -569,6 +570,8 @@ function convertSequenceProfile(
           message.guard = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isSequenceTimingProperty(prop)) {
           message.timing = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isSequenceStateInvariantProperty(prop)) {
+          message.stateInvariant = prop.value.replace(/^"|"$/g, '');
         }
       }
 
@@ -621,10 +624,43 @@ function convertSequenceProfile(
             };
             fragment.alternatives.push(alternative);
           }
+        } else if (Langium.isSequenceFragmentGatesProperty(prop)) {
+          // UML 2.5 gates - connection points at fragment boundaries
+          if (prop.gates) {
+            fragment.gates = prop.gates.map((gate) =>
+              gate.replace(/^"|"$/g, '')
+            );
+          }
+        } else if (Langium.isSequenceFragmentReferenceProperty(prop)) {
+          // UML 2.5 interaction use - reference to another sequence diagram
+          fragment.reference = prop.ref.replace(/^"|"$/g, '');
         }
       }
 
       sequenceProfile.fragments.push(fragment);
+    } else if (Langium.isSequenceDurationConstraintStatement(statement)) {
+      // durationConstraint from:1 to:5 constraint:"< 100ms"
+      if (!sequenceProfile.durationConstraints) {
+        sequenceProfile.durationConstraints = [];
+      }
+
+      const durationConstraint: SequenceDurationConstraint = {
+        fromMessage: 0,
+        toMessage: 0,
+        constraint: '',
+      };
+
+      for (const prop of statement.properties) {
+        if (Langium.isSequenceDurationFromProperty(prop)) {
+          durationConstraint.fromMessage = parseFloat(prop.from);
+        } else if (Langium.isSequenceDurationToProperty(prop)) {
+          durationConstraint.toMessage = parseFloat(prop.to);
+        } else if (Langium.isSequenceDurationConstraintValueProperty(prop)) {
+          durationConstraint.constraint = prop.constraint.replace(/^"|"$/g, '');
+        }
+      }
+
+      sequenceProfile.durationConstraints.push(durationConstraint);
     }
   }
 
@@ -1038,6 +1074,43 @@ function processDialogStatement(
           // Single stereotype: stereotype: "entity"
           node.data.stereotype = prop.value.replace(/^"|"$/g, '');
         }
+      } else if (Langium.isEntryProperty(prop)) {
+        // UML State Machine entry action
+        node.entry = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isExitProperty(prop)) {
+        // UML State Machine exit action
+        node.exit = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isDoActivityProperty(prop)) {
+        // UML State Machine do activity
+        node.doActivity = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isInputPinsProperty(prop)) {
+        // UML Activity Diagram input pins
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.inputPins = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isOutputPinsProperty(prop)) {
+        // UML Activity Diagram output pins
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.outputPins = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isStateInvariantProperty(prop)) {
+        // UML Sequence Diagram state invariant
+        node.stateInvariant = prop.value.replace(/^"|"$/g, '');
+      } else if (Langium.isExtensionPointsProperty(prop)) {
+        // UML Use Case Diagram extension points
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.extensionPoints = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isGatewayTypeProperty(prop)) {
+        // BPMN Gateway type (exclusive, parallel, inclusive, eventBased, complex)
+        if (!node.data) node.data = {};
+        node.data.gatewayType = prop.value;
       }
     }
 
@@ -1133,6 +1206,18 @@ function processDialogStatement(
             // Single stereotype: stereotype: "include"
             edge.stereotype = prop.value.replace(/^"|"$/g, '');
           }
+        } else if (Langium.isEventProperty(prop)) {
+          // UML State Machine event
+          edge.event = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isGuardProperty(prop)) {
+          // UML State Machine guard condition
+          edge.guard = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isEffectProperty(prop)) {
+          // UML State Machine effect/action
+          edge.effect = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isFlowTypeProperty(prop)) {
+          // UML Activity Diagram flow type
+          edge.flowType = prop.value as 'control' | 'object';
         } else if (Langium.isStrokeProperty(prop)) {
           edge.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {
@@ -1277,7 +1362,12 @@ function convertContainer(
   let styleRef: string | undefined;
   let containerType: string | undefined;
   const containerStyle: ContainerStyle = {};
-  const layoutOptions: { algorithm?: string; spacing?: number } = {};
+  const layoutOptions: {
+    algorithm?: string;
+    direction?: string;
+    spacing?: number;
+    orientation?: 'horizontal' | 'vertical';
+  } = {};
 
   for (const prop of block.properties) {
     if (Langium.isStyleRefProperty(prop)) {
@@ -1585,8 +1675,14 @@ function convertContainer(
     } else if (Langium.isContainerLayoutProperty(prop)) {
       if (prop.algorithm) {
         layoutOptions.algorithm = prop.algorithm;
+      } else if (prop.direction) {
+        layoutOptions.direction = prop.direction;
       } else if (prop.spacing !== undefined) {
         layoutOptions.spacing = parseFloat(prop.spacing);
+      } else if (prop.orientation) {
+        layoutOptions.orientation = prop.orientation as
+          | 'horizontal'
+          | 'vertical';
       }
     }
   }

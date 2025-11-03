@@ -1,0 +1,42 @@
+diagram "Container Direction Test" {
+  direction TB
+
+  // Container with default TB direction (inherits from diagram)
+  container vert "Vertical Flow" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+    shape a as @rounded label:"Step A"
+    shape b as @rounded label:"Step B"
+    shape c as @rounded label:"Step C"
+    
+    a -> b
+    b -> c
+  }
+
+  // Container with explicit LR direction (horizontal flow)
+  container horiz "Horizontal Flow" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:2 direction:LR {
+    shape x as @rounded label:"Step X"
+    shape y as @rounded label:"Step Y"
+    shape z as @rounded label:"Step Z"
+    
+    x -> y
+    y -> z
+  }
+
+  // Nested containers with different directions
+  container outer "Outer Container (TB)" backgroundColor:"#e8f5e9" borderColor:"#388e3c" borderWidth:3 direction:TB {
+    shape start as @hexagon label:"Start"
+    
+    container inner "Inner Container (LR)" backgroundColor:"#fff3e0" borderColor:"#f57c00" direction:LR {
+      shape p1 as @rounded label:"Process 1"
+      shape p2 as @rounded label:"Process 2"
+      shape p3 as @rounded label:"Process 3"
+      
+      p1 -> p2
+      p2 -> p3
+    }
+    
+    shape end as @hexagon label:"End"
+    
+    start -> p1
+    p3 -> end
+  }
+}

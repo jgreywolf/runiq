@@ -182,7 +182,7 @@ stereotype:"abstract"     // «abstract»
 DerivedClass -> BaseClass
 
 // Implementation (dashed arrow)
-ConcreteClass -> IInterface lineStyle:dashed
+ConcreteClass -> IInterface lineStyle:"dashed"
 
 // Association with label
 ClassA -label-> ClassB

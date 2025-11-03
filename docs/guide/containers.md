@@ -62,12 +62,15 @@ diagram "Microservices Architecture" {
 }
 ```
 
-## Nested Containers
+## Advanced Features
 
-::: warning Nested Layout Limitation
-The current layout engine (ELK) uses a flat structure. Nested containers are **parsed correctly** but **not positioned hierarchically** in the output. This is a known limitation documented in Phase 2 of hierarchical containers.
+:::tip Two-Pass Layout Algorithm
+Runiq uses a sophisticated two-pass layout algorithm for nested containers:
 
-For now, use multiple top-level containers with cross-container edges instead of nesting.
+1. **Pass 1 (Size Calculation)**: Recursively layouts all container contents to determine actual dimensions
+2. **Pass 2 (Positioning)**: Uses accurate sizes to position containers with proper spacing
+
+This ensures containers never overlap, even with deeply nested hierarchies (3+ levels).
 :::
 
 ```runiq

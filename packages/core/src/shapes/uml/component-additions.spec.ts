@@ -162,7 +162,7 @@ describe('UML Component Additions', () => {
 
   describe('providedInterfaceShape', () => {
     it('should have correct id', () => {
-      expect(providedInterfaceShape.id).toBe('provided-interface');
+      expect(providedInterfaceShape.id).toBe('providedInterface');
     });
 
     it('should render lollipop symbol (circle on stick)', () => {
@@ -177,7 +177,7 @@ describe('UML Component Additions', () => {
 
   describe('requiredInterfaceShape', () => {
     it('should have correct id', () => {
-      expect(requiredInterfaceShape.id).toBe('required-interface');
+      expect(requiredInterfaceShape.id).toBe('requiredInterface');
     });
 
     it('should render socket symbol (semicircle)', () => {

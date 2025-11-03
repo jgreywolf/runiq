@@ -153,6 +153,8 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.activationShape);
   shapeRegistry.register(uml.fragmentShape);
   shapeRegistry.register(uml.deletionShape);
+  shapeRegistry.register(uml.continuationShape);
+  shapeRegistry.register(uml.timeObservationShape);
   shapeRegistry.register(uml.stateShape);
   shapeRegistry.register(uml.initialStateShape);
   shapeRegistry.register(uml.finalStateShape);
@@ -160,9 +162,43 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.forkShape);
   shapeRegistry.register(uml.joinShape);
   shapeRegistry.register(uml.activityShape);
+  // Activity diagram object nodes
+  shapeRegistry.register(uml.objectNodeShape);
+  shapeRegistry.register(uml.centralBufferShape);
+  shapeRegistry.register(uml.dataStoreShape);
+  // Activity diagram final nodes
+  shapeRegistry.register(uml.activityFinalShape);
+  shapeRegistry.register(uml.flowFinalShape);
+  // Activity diagram swimlanes/partitions
+  shapeRegistry.register(uml.swimlaneShape);
+  // Activity diagram signal actions
+  shapeRegistry.register(uml.sendSignalShape);
+  shapeRegistry.register(uml.receiveSignalShape);
+  shapeRegistry.register(uml.acceptEventShape);
   shapeRegistry.register(uml.componentShape);
   shapeRegistry.register(uml.artifactShape);
   shapeRegistry.register(uml.nodeShape);
+  // Component diagram additions
+  shapeRegistry.register(uml.portShape);
+  shapeRegistry.register(uml.moduleShape);
+  shapeRegistry.register(uml.templateShape);
+  shapeRegistry.register(uml.historyShape);
+  shapeRegistry.register(uml.pinShape);
+  shapeRegistry.register(uml.assemblyShape);
+  shapeRegistry.register(uml.providedInterfaceShape);
+  shapeRegistry.register(uml.requiredInterfaceShape);
+  shapeRegistry.register(uml.frameShape);
+  shapeRegistry.register(uml.collaborationShape);
+  shapeRegistry.register(uml.submachineShape);
+  shapeRegistry.register(uml.loopShape);
+  shapeRegistry.register(uml.verticalForkShape);
+  // State machine pseudo-states
+  shapeRegistry.register(uml.historyShallowShape);
+  shapeRegistry.register(uml.historyDeepShape);
+  shapeRegistry.register(uml.junctionShape);
+  shapeRegistry.register(uml.entryPointShape);
+  shapeRegistry.register(uml.exitPointShape);
+  shapeRegistry.register(uml.terminateShape);
 }
 
 export function registerPedigreeShapes(): void {

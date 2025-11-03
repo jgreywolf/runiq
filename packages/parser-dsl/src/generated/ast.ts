@@ -45,7 +45,10 @@ export type RuniqKeywordNames =
     | "]"
     | "abstract:"
     | "ac"
+    | "acceptEvent"
     | "activate:"
+    | "activity"
+    | "activityFinal"
     | "actor"
     | "affected:"
     | "aggregation"
@@ -55,8 +58,11 @@ export type RuniqKeywordNames =
     | "alternatives:"
     | "analysis"
     | "anchor"
+    | "and"
     | "arrowType:"
+    | "artifact"
     | "as"
+    | "assembly"
     | "association"
     | "async"
     | "attributes:"
@@ -78,8 +84,10 @@ export type RuniqKeywordNames =
     | "break"
     | "carrier:"
     | "center"
+    | "centralBuffer"
     | "childCountPosition:"
     | "children:"
+    | "collaboration"
     | "collapseAnimationDuration:"
     | "collapseAnimationEasing:"
     | "collapseButtonColor:"
@@ -102,17 +110,21 @@ export type RuniqKeywordNames =
     | "color"
     | "color:"
     | "colors:"
+    | "complex"
     | "component"
     | "composition"
+    | "constraint:"
     | "constraints:"
     | "container"
     | "container-aware"
+    | "continuation"
     | "control"
     | "create"
     | "critical"
     | "crossContainerEdgeOptimization:"
     | "dashed"
     | "data:"
+    | "dataStore"
     | "database"
     | "dc"
     | "deceased:"
@@ -128,9 +140,11 @@ export type RuniqKeywordNames =
     | "diagram"
     | "digital"
     | "direction"
+    | "direction:"
     | "distribution:"
+    | "doActivity:"
     | "dotted"
-    | "double"
+    | "durationConstraint"
     | "e"
     | "ease-in"
     | "ease-in-out"
@@ -138,17 +152,29 @@ export type RuniqKeywordNames =
     | "edgeBundling:"
     | "edgeRouting:"
     | "edgeType:"
+    | "effect:"
     | "electrical"
     | "entity"
+    | "entry:"
+    | "entryPoint"
+    | "event"
+    | "event:"
+    | "eventBased"
     | "evolution:"
     | "evolve"
+    | "exclusive"
+    | "exit:"
+    | "exitPoint"
     | "expanding"
     | "extends:"
+    | "extensionPoints:"
     | "false"
     | "fill-available"
     | "fill:"
     | "fit-content"
+    | "flowFinal"
     | "flowRate"
+    | "flowType:"
     | "fluid"
     | "fontFamily:"
     | "fontSize:"
@@ -156,8 +182,11 @@ export type RuniqKeywordNames =
     | "force"
     | "found"
     | "fragment"
+    | "frame"
     | "from:"
     | "full"
+    | "gates:"
+    | "gatewayType:"
     | "generalization"
     | "genericTypes:"
     | "group"
@@ -166,7 +195,11 @@ export type RuniqKeywordNames =
     | "headerBackgroundColor:"
     | "headerPosition:"
     | "high"
+    | "history"
+    | "historyDeep"
+    | "historyShallow"
     | "hollow"
+    | "horizontal"
     | "hoverBorderColor:"
     | "hoverBorderWidth:"
     | "hoverHighlight:"
@@ -176,10 +209,13 @@ export type RuniqKeywordNames =
     | "icon:"
     | "iconColor:"
     | "iconSize:"
+    | "inclusive"
     | "incrementalLayout:"
     | "indent"
     | "inertia:"
+    | "inputPins:"
     | "inst"
+    | "junction"
     | "kPa"
     | "label:"
     | "labelPosition:"
@@ -188,6 +224,7 @@ export type RuniqKeywordNames =
     | "layoutComplexity:"
     | "left"
     | "legendPosition:"
+    | "lifeline"
     | "lineStyle:"
     | "linear"
     | "link:"
@@ -224,19 +261,24 @@ export type RuniqKeywordNames =
     | "navigability:"
     | "ne"
     | "net"
+    | "node"
     | "nodeSpacing:"
     | "noise"
     | "none"
     | "note"
     | "number"
     | "nw"
+    | "objectNode"
     | "of:"
     | "op"
     | "opacity:"
     | "open"
     | "operating"
     | "opt"
+    | "or"
+    | "orientation:"
     | "orthogonal"
+    | "outputPins:"
     | "over"
     | "package"
     | "packed"
@@ -246,6 +288,7 @@ export type RuniqKeywordNames =
     | "paddingRight:"
     | "paddingTop:"
     | "par"
+    | "parallel"
     | "parameters:"
     | "params:"
     | "part"
@@ -253,9 +296,11 @@ export type RuniqKeywordNames =
     | "participant"
     | "participants:"
     | "phosphate-ester"
+    | "pin"
     | "pins:"
     | "pneumatic"
     | "polyline"
+    | "port"
     | "ports:"
     | "position:"
     | "preset"
@@ -263,12 +308,17 @@ export type RuniqKeywordNames =
     | "pressure"
     | "private"
     | "protected"
+    | "providedInterface"
     | "psi"
     | "public"
     | "radial"
     | "rated"
     | "realization"
+    | "receiveSignal"
+    | "ref"
+    | "ref:"
     | "relationship:"
+    | "requiredInterface"
     | "resizable:"
     | "resizeHandles:"
     | "return"
@@ -284,6 +334,7 @@ export type RuniqKeywordNames =
     | "selectionBorderColor:"
     | "selectionBorderWidth:"
     | "selectionHighlight:"
+    | "sendSignal"
     | "sequence"
     | "shadow:"
     | "shape"
@@ -302,6 +353,7 @@ export type RuniqKeywordNames =
     | "stable"
     | "stacked:"
     | "standard"
+    | "stateInvariant:"
     | "static:"
     | "stereotype:"
     | "stereotypes:"
@@ -312,6 +364,7 @@ export type RuniqKeywordNames =
     | "strokeWidth:"
     | "style"
     | "style:"
+    | "submachine"
     | "sw"
     | "sync"
     | "synthetic"
@@ -319,8 +372,10 @@ export type RuniqKeywordNames =
     | "temp:"
     | "template"
     | "templateId:"
+    | "terminate"
     | "text"
     | "textAlign:"
+    | "timeObservation"
     | "timing:"
     | "title:"
     | "to"
@@ -333,12 +388,15 @@ export type RuniqKeywordNames =
     | "true"
     | "type:"
     | "value:"
+    | "vertical"
     | "verticalAlign:"
+    | "verticalFork"
     | "visibility:"
     | "w"
     | "wardley"
     | "water-glycol"
     | "xLabel:"
+    | "xor"
     | "yLabel:"
     | "{"
     | "}";
@@ -707,12 +765,16 @@ export interface ContainerLayoutProperty extends langium.AstNode {
     readonly $container: ContainerBlock;
     readonly $type: 'ContainerLayoutProperty';
     algorithm?: LayoutAlgorithmValue;
+    direction?: DirectionValue;
+    orientation?: OrientationValue;
     spacing?: string;
 }
 
 export const ContainerLayoutProperty = {
     $type: 'ContainerLayoutProperty',
     algorithm: 'algorithm',
+    direction: 'direction',
+    orientation: 'orientation',
     spacing: 'spacing'
 } as const;
 
@@ -1133,6 +1195,21 @@ export function isDistributionValue(item: unknown): item is DistributionValue {
     return item === 'space-evenly' || item === 'space-between' || item === 'space-around' || item === 'packed';
 }
 
+export interface DoActivityProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'DoActivityProperty';
+    value: string;
+}
+
+export const DoActivityProperty = {
+    $type: 'DoActivityProperty',
+    value: 'value'
+} as const;
+
+export function isDoActivityProperty(item: unknown): item is DoActivityProperty {
+    return reflection.isInstance(item, DoActivityProperty.$type);
+}
+
 export interface Document extends langium.AstNode {
     readonly $type: 'Document';
     profiles: Array<Profile>;
@@ -1225,7 +1302,7 @@ export function isEdgeLabelProperty(item: unknown): item is EdgeLabelProperty {
     return reflection.isInstance(item, EdgeLabelProperty.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty;
+export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | EffectProperty | EventProperty | FlowTypeProperty | GuardProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty;
 
 export const EdgeProperty = {
     $type: 'EdgeProperty'
@@ -1262,6 +1339,21 @@ export function isEdgeTypeValue(item: unknown): item is EdgeTypeValue {
     return item === 'association' || item === 'aggregation' || item === 'composition' || item === 'dependency' || item === 'generalization' || item === 'realization';
 }
 
+export interface EffectProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'EffectProperty';
+    value: string;
+}
+
+export const EffectProperty = {
+    $type: 'EffectProperty',
+    value: 'value'
+} as const;
+
+export function isEffectProperty(item: unknown): item is EffectProperty {
+    return reflection.isInstance(item, EffectProperty.$type);
+}
+
 export interface ElectricalProfile extends langium.AstNode {
     readonly $container: Document;
     readonly $type: 'ElectricalProfile';
@@ -1287,6 +1379,66 @@ export const ElectricalStatement = {
 
 export function isElectricalStatement(item: unknown): item is ElectricalStatement {
     return reflection.isInstance(item, ElectricalStatement.$type);
+}
+
+export interface EntryProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'EntryProperty';
+    value: string;
+}
+
+export const EntryProperty = {
+    $type: 'EntryProperty',
+    value: 'value'
+} as const;
+
+export function isEntryProperty(item: unknown): item is EntryProperty {
+    return reflection.isInstance(item, EntryProperty.$type);
+}
+
+export interface EventProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'EventProperty';
+    value: string;
+}
+
+export const EventProperty = {
+    $type: 'EventProperty',
+    value: 'value'
+} as const;
+
+export function isEventProperty(item: unknown): item is EventProperty {
+    return reflection.isInstance(item, EventProperty.$type);
+}
+
+export interface ExitProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ExitProperty';
+    value: string;
+}
+
+export const ExitProperty = {
+    $type: 'ExitProperty',
+    value: 'value'
+} as const;
+
+export function isExitProperty(item: unknown): item is ExitProperty {
+    return reflection.isInstance(item, ExitProperty.$type);
+}
+
+export interface ExtensionPointsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ExtensionPointsProperty';
+    value: StringArray;
+}
+
+export const ExtensionPointsProperty = {
+    $type: 'ExtensionPointsProperty',
+    value: 'value'
+} as const;
+
+export function isExtensionPointsProperty(item: unknown): item is ExtensionPointsProperty {
+    return reflection.isInstance(item, ExtensionPointsProperty.$type);
 }
 
 export interface FillProperty extends langium.AstNode {
@@ -1325,6 +1477,21 @@ export type FlowRateUnit = 'CFM' | 'GPM' | 'L/min' | 'L/s' | 'm³/h';
 
 export function isFlowRateUnit(item: unknown): item is FlowRateUnit {
     return item === 'L/min' || item === 'L/s' || item === 'CFM' || item === 'GPM' || item === 'm³/h';
+}
+
+export interface FlowTypeProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'FlowTypeProperty';
+    value: string;
+}
+
+export const FlowTypeProperty = {
+    $type: 'FlowTypeProperty',
+    value: 'value'
+} as const;
+
+export function isFlowTypeProperty(item: unknown): item is FlowTypeProperty {
+    return reflection.isInstance(item, FlowTypeProperty.$type);
 }
 
 export interface FluidStatement extends langium.AstNode {
@@ -1401,6 +1568,27 @@ export function isFontWeightProperty(item: unknown): item is FontWeightProperty 
     return reflection.isInstance(item, FontWeightProperty.$type);
 }
 
+export interface GatewayTypeProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'GatewayTypeProperty';
+    value: GatewayTypeValue;
+}
+
+export const GatewayTypeProperty = {
+    $type: 'GatewayTypeProperty',
+    value: 'value'
+} as const;
+
+export function isGatewayTypeProperty(item: unknown): item is GatewayTypeProperty {
+    return reflection.isInstance(item, GatewayTypeProperty.$type);
+}
+
+export type GatewayTypeValue = 'and' | 'complex' | 'event' | 'eventBased' | 'exclusive' | 'inclusive' | 'or' | 'parallel' | 'xor';
+
+export function isGatewayTypeValue(item: unknown): item is GatewayTypeValue {
+    return item === 'exclusive' || item === 'xor' || item === 'parallel' || item === 'and' || item === 'inclusive' || item === 'or' || item === 'eventBased' || item === 'event' || item === 'complex';
+}
+
 export interface GenericTypesProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'GenericTypesProperty';
@@ -1431,6 +1619,21 @@ export const GroupBlock = {
 
 export function isGroupBlock(item: unknown): item is GroupBlock {
     return reflection.isInstance(item, GroupBlock.$type);
+}
+
+export interface GuardProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'GuardProperty';
+    value: string;
+}
+
+export const GuardProperty = {
+    $type: 'GuardProperty',
+    value: 'value'
+} as const;
+
+export function isGuardProperty(item: unknown): item is GuardProperty {
+    return reflection.isInstance(item, GuardProperty.$type);
 }
 
 export interface HydraulicProfile extends langium.AstNode {
@@ -1475,6 +1678,21 @@ export const IconProperty = {
 
 export function isIconProperty(item: unknown): item is IconProperty {
     return reflection.isInstance(item, IconProperty.$type);
+}
+
+export interface InputPinsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'InputPinsProperty';
+    value: StringArray;
+}
+
+export const InputPinsProperty = {
+    $type: 'InputPinsProperty',
+    value: 'value'
+} as const;
+
+export function isInputPinsProperty(item: unknown): item is InputPinsProperty {
+    return reflection.isInstance(item, InputPinsProperty.$type);
 }
 
 export interface InstMapProperty extends langium.AstNode {
@@ -1600,7 +1818,7 @@ export function isLegendPositionProperty(item: unknown): item is LegendPositionP
 export interface LineStyleProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration;
     readonly $type: 'LineStyleProperty';
-    value: LineStyleValue;
+    value: string;
 }
 
 export const LineStyleProperty = {
@@ -1610,12 +1828,6 @@ export const LineStyleProperty = {
 
 export function isLineStyleProperty(item: unknown): item is LineStyleProperty {
     return reflection.isInstance(item, LineStyleProperty.$type);
-}
-
-export type LineStyleValue = 'dashed' | 'dotted' | 'double' | 'solid';
-
-export function isLineStyleValue(item: unknown): item is LineStyleValue {
-    return item === 'solid' || item === 'dashed' || item === 'dotted' || item === 'double';
 }
 
 export interface LinkProperty extends langium.AstNode {
@@ -1943,7 +2155,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GenericTypesProperty | IconProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | ShowLegendProperty | StackedProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -1983,6 +2195,27 @@ export const OpacityProperty = {
 
 export function isOpacityProperty(item: unknown): item is OpacityProperty {
     return reflection.isInstance(item, OpacityProperty.$type);
+}
+
+export type OrientationValue = 'horizontal' | 'vertical';
+
+export function isOrientationValue(item: unknown): item is OrientationValue {
+    return item === 'horizontal' || item === 'vertical';
+}
+
+export interface OutputPinsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'OutputPinsProperty';
+    value: StringArray;
+}
+
+export const OutputPinsProperty = {
+    $type: 'OutputPinsProperty',
+    value: 'value'
+} as const;
+
+export function isOutputPinsProperty(item: unknown): item is OutputPinsProperty {
+    return reflection.isInstance(item, OutputPinsProperty.$type);
 }
 
 export interface ParamDecl extends langium.AstNode {
@@ -2382,6 +2615,76 @@ export function isSequenceAlternativeDecl(item: unknown): item is SequenceAltern
     return reflection.isInstance(item, SequenceAlternativeDecl.$type);
 }
 
+export type SequenceDurationConstraintProperty = SequenceDurationConstraintValueProperty | SequenceDurationFromProperty | SequenceDurationToProperty;
+
+export const SequenceDurationConstraintProperty = {
+    $type: 'SequenceDurationConstraintProperty'
+} as const;
+
+export function isSequenceDurationConstraintProperty(item: unknown): item is SequenceDurationConstraintProperty {
+    return reflection.isInstance(item, SequenceDurationConstraintProperty.$type);
+}
+
+export interface SequenceDurationConstraintStatement extends langium.AstNode {
+    readonly $container: SequenceProfile;
+    readonly $type: 'SequenceDurationConstraintStatement';
+    properties: Array<SequenceDurationConstraintProperty>;
+}
+
+export const SequenceDurationConstraintStatement = {
+    $type: 'SequenceDurationConstraintStatement',
+    properties: 'properties'
+} as const;
+
+export function isSequenceDurationConstraintStatement(item: unknown): item is SequenceDurationConstraintStatement {
+    return reflection.isInstance(item, SequenceDurationConstraintStatement.$type);
+}
+
+export interface SequenceDurationConstraintValueProperty extends langium.AstNode {
+    readonly $container: SequenceDurationConstraintStatement;
+    readonly $type: 'SequenceDurationConstraintValueProperty';
+    constraint: string;
+}
+
+export const SequenceDurationConstraintValueProperty = {
+    $type: 'SequenceDurationConstraintValueProperty',
+    constraint: 'constraint'
+} as const;
+
+export function isSequenceDurationConstraintValueProperty(item: unknown): item is SequenceDurationConstraintValueProperty {
+    return reflection.isInstance(item, SequenceDurationConstraintValueProperty.$type);
+}
+
+export interface SequenceDurationFromProperty extends langium.AstNode {
+    readonly $container: SequenceDurationConstraintStatement;
+    readonly $type: 'SequenceDurationFromProperty';
+    from: string;
+}
+
+export const SequenceDurationFromProperty = {
+    $type: 'SequenceDurationFromProperty',
+    from: 'from'
+} as const;
+
+export function isSequenceDurationFromProperty(item: unknown): item is SequenceDurationFromProperty {
+    return reflection.isInstance(item, SequenceDurationFromProperty.$type);
+}
+
+export interface SequenceDurationToProperty extends langium.AstNode {
+    readonly $container: SequenceDurationConstraintStatement;
+    readonly $type: 'SequenceDurationToProperty';
+    to: string;
+}
+
+export const SequenceDurationToProperty = {
+    $type: 'SequenceDurationToProperty',
+    to: 'to'
+} as const;
+
+export function isSequenceDurationToProperty(item: unknown): item is SequenceDurationToProperty {
+    return reflection.isInstance(item, SequenceDurationToProperty.$type);
+}
+
 export interface SequenceFragmentAlternativesProperty extends langium.AstNode {
     readonly $container: SequenceFragmentStatement;
     readonly $type: 'SequenceFragmentAlternativesProperty';
@@ -2412,7 +2715,22 @@ export function isSequenceFragmentFromProperty(item: unknown): item is SequenceF
     return reflection.isInstance(item, SequenceFragmentFromProperty.$type);
 }
 
-export type SequenceFragmentProperty = SequenceFragmentAlternativesProperty | SequenceFragmentFromProperty | SequenceFragmentToProperty;
+export interface SequenceFragmentGatesProperty extends langium.AstNode {
+    readonly $container: SequenceFragmentStatement;
+    readonly $type: 'SequenceFragmentGatesProperty';
+    gates: Array<string>;
+}
+
+export const SequenceFragmentGatesProperty = {
+    $type: 'SequenceFragmentGatesProperty',
+    gates: 'gates'
+} as const;
+
+export function isSequenceFragmentGatesProperty(item: unknown): item is SequenceFragmentGatesProperty {
+    return reflection.isInstance(item, SequenceFragmentGatesProperty.$type);
+}
+
+export type SequenceFragmentProperty = SequenceFragmentAlternativesProperty | SequenceFragmentFromProperty | SequenceFragmentGatesProperty | SequenceFragmentReferenceProperty | SequenceFragmentToProperty;
 
 export const SequenceFragmentProperty = {
     $type: 'SequenceFragmentProperty'
@@ -2420,6 +2738,21 @@ export const SequenceFragmentProperty = {
 
 export function isSequenceFragmentProperty(item: unknown): item is SequenceFragmentProperty {
     return reflection.isInstance(item, SequenceFragmentProperty.$type);
+}
+
+export interface SequenceFragmentReferenceProperty extends langium.AstNode {
+    readonly $container: SequenceFragmentStatement;
+    readonly $type: 'SequenceFragmentReferenceProperty';
+    ref: string;
+}
+
+export const SequenceFragmentReferenceProperty = {
+    $type: 'SequenceFragmentReferenceProperty',
+    ref: 'ref'
+} as const;
+
+export function isSequenceFragmentReferenceProperty(item: unknown): item is SequenceFragmentReferenceProperty {
+    return reflection.isInstance(item, SequenceFragmentReferenceProperty.$type);
 }
 
 export interface SequenceFragmentStatement extends langium.AstNode {
@@ -2456,10 +2789,10 @@ export function isSequenceFragmentToProperty(item: unknown): item is SequenceFra
     return reflection.isInstance(item, SequenceFragmentToProperty.$type);
 }
 
-export type SequenceFragmentType = 'alt' | 'break' | 'critical' | 'loop' | 'opt' | 'par';
+export type SequenceFragmentType = 'alt' | 'break' | 'critical' | 'loop' | 'opt' | 'par' | 'ref';
 
 export function isSequenceFragmentType(item: unknown): item is SequenceFragmentType {
-    return item === 'loop' || item === 'alt' || item === 'opt' || item === 'par' || item === 'critical' || item === 'break';
+    return item === 'loop' || item === 'alt' || item === 'opt' || item === 'par' || item === 'critical' || item === 'break' || item === 'ref';
 }
 
 export interface SequenceFromProperty extends langium.AstNode {
@@ -2507,7 +2840,7 @@ export function isSequenceLabelProperty(item: unknown): item is SequenceLabelPro
     return reflection.isInstance(item, SequenceLabelProperty.$type);
 }
 
-export type SequenceMessageProperty = SequenceActivateProperty | SequenceFromProperty | SequenceGuardProperty | SequenceLabelProperty | SequenceTimingProperty | SequenceToProperty | SequenceTypeProperty;
+export type SequenceMessageProperty = SequenceActivateProperty | SequenceFromProperty | SequenceGuardProperty | SequenceLabelProperty | SequenceStateInvariantProperty | SequenceTimingProperty | SequenceToProperty | SequenceTypeProperty;
 
 export const SequenceMessageProperty = {
     $type: 'SequenceMessageProperty'
@@ -2618,10 +2951,10 @@ export function isSequenceParticipantStatement(item: unknown): item is SequenceP
     return reflection.isInstance(item, SequenceParticipantStatement.$type);
 }
 
-export type SequenceParticipantType = 'actor' | 'boundary' | 'control' | 'database' | 'entity';
+export type SequenceParticipantType = 'actor' | 'boundary' | 'continuation' | 'control' | 'database' | 'entity';
 
 export function isSequenceParticipantType(item: unknown): item is SequenceParticipantType {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database';
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'continuation';
 }
 
 export interface SequenceProfile extends langium.AstNode {
@@ -2641,7 +2974,22 @@ export function isSequenceProfile(item: unknown): item is SequenceProfile {
     return reflection.isInstance(item, SequenceProfile.$type);
 }
 
-export type SequenceStatement = SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
+export interface SequenceStateInvariantProperty extends langium.AstNode {
+    readonly $container: SequenceMessageStatement;
+    readonly $type: 'SequenceStateInvariantProperty';
+    value: string;
+}
+
+export const SequenceStateInvariantProperty = {
+    $type: 'SequenceStateInvariantProperty',
+    value: 'value'
+} as const;
+
+export function isSequenceStateInvariantProperty(item: unknown): item is SequenceStateInvariantProperty {
+    return reflection.isInstance(item, SequenceStateInvariantProperty.$type);
+}
+
+export type SequenceStatement = SequenceDurationConstraintStatement | SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
 
 export const SequenceStatement = {
     $type: 'SequenceStatement'
@@ -2715,10 +3063,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'actor' | 'boundary' | 'control' | 'database' | 'entity' | 'note' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'entryPoint' | 'exitPoint' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -2751,6 +3099,21 @@ export function isStackedProperty(item: unknown): item is StackedProperty {
     return reflection.isInstance(item, StackedProperty.$type);
 }
 
+export interface StateInvariantProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'StateInvariantProperty';
+    value: string;
+}
+
+export const StateInvariantProperty = {
+    $type: 'StateInvariantProperty',
+    value: 'value'
+} as const;
+
+export function isStateInvariantProperty(item: unknown): item is StateInvariantProperty {
+    return reflection.isInstance(item, StateInvariantProperty.$type);
+}
+
 export interface StereotypeProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration | ShapeDeclaration;
     readonly $type: 'StereotypeProperty';
@@ -2769,7 +3132,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty;
+    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -3230,6 +3593,7 @@ export type RuniqAstType = {
     DigitalProfile: DigitalProfile
     DigitalStatement: DigitalStatement
     DirectionDeclaration: DirectionDeclaration
+    DoActivityProperty: DoActivityProperty
     Document: Document
     EdgeChain: EdgeChain
     EdgeConstraintsProperty: EdgeConstraintsProperty
@@ -3237,19 +3601,28 @@ export type RuniqAstType = {
     EdgeLabelProperty: EdgeLabelProperty
     EdgeProperty: EdgeProperty
     EdgeTypeProperty: EdgeTypeProperty
+    EffectProperty: EffectProperty
     ElectricalProfile: ElectricalProfile
     ElectricalStatement: ElectricalStatement
+    EntryProperty: EntryProperty
+    EventProperty: EventProperty
+    ExitProperty: ExitProperty
+    ExtensionPointsProperty: ExtensionPointsProperty
     FillProperty: FillProperty
     FlowRateStatement: FlowRateStatement
+    FlowTypeProperty: FlowTypeProperty
     FluidStatement: FluidStatement
     FontFamilyProperty: FontFamilyProperty
     FontSizeProperty: FontSizeProperty
     FontWeightProperty: FontWeightProperty
+    GatewayTypeProperty: GatewayTypeProperty
     GenericTypesProperty: GenericTypesProperty
     GroupBlock: GroupBlock
+    GuardProperty: GuardProperty
     HydraulicProfile: HydraulicProfile
     HydraulicStatement: HydraulicStatement
     IconProperty: IconProperty
+    InputPinsProperty: InputPinsProperty
     InstMapProperty: InstMapProperty
     InstOfProperty: InstOfProperty
     InstParamsProperty: InstParamsProperty
@@ -3283,6 +3656,7 @@ export type RuniqAstType = {
     NodeProperty: NodeProperty
     NodeRef: NodeRef
     OpacityProperty: OpacityProperty
+    OutputPinsProperty: OutputPinsProperty
     ParamDecl: ParamDecl
     ParamNameField: ParamNameField
     ParamOverride: ParamOverride
@@ -3307,9 +3681,16 @@ export type RuniqAstType = {
     RoutingProperty: RoutingProperty
     SequenceActivateProperty: SequenceActivateProperty
     SequenceAlternativeDecl: SequenceAlternativeDecl
+    SequenceDurationConstraintProperty: SequenceDurationConstraintProperty
+    SequenceDurationConstraintStatement: SequenceDurationConstraintStatement
+    SequenceDurationConstraintValueProperty: SequenceDurationConstraintValueProperty
+    SequenceDurationFromProperty: SequenceDurationFromProperty
+    SequenceDurationToProperty: SequenceDurationToProperty
     SequenceFragmentAlternativesProperty: SequenceFragmentAlternativesProperty
     SequenceFragmentFromProperty: SequenceFragmentFromProperty
+    SequenceFragmentGatesProperty: SequenceFragmentGatesProperty
     SequenceFragmentProperty: SequenceFragmentProperty
+    SequenceFragmentReferenceProperty: SequenceFragmentReferenceProperty
     SequenceFragmentStatement: SequenceFragmentStatement
     SequenceFragmentToProperty: SequenceFragmentToProperty
     SequenceFromProperty: SequenceFromProperty
@@ -3323,6 +3704,7 @@ export type RuniqAstType = {
     SequenceNoteStatement: SequenceNoteStatement
     SequenceParticipantStatement: SequenceParticipantStatement
     SequenceProfile: SequenceProfile
+    SequenceStateInvariantProperty: SequenceStateInvariantProperty
     SequenceStatement: SequenceStatement
     SequenceTimingProperty: SequenceTimingProperty
     SequenceToProperty: SequenceToProperty
@@ -3330,6 +3712,7 @@ export type RuniqAstType = {
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     StackedProperty: StackedProperty
+    StateInvariantProperty: StateInvariantProperty
     StereotypeProperty: StereotypeProperty
     StringArray: StringArray
     StrokeProperty: StrokeProperty
@@ -3556,6 +3939,12 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 algorithm: {
                     name: ContainerLayoutProperty.algorithm
+                },
+                direction: {
+                    name: ContainerLayoutProperty.direction
+                },
+                orientation: {
+                    name: ContainerLayoutProperty.orientation
                 },
                 spacing: {
                     name: ContainerLayoutProperty.spacing
@@ -3942,6 +4331,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [DiagramStatement.$type]
         },
+        DoActivityProperty: {
+            name: DoActivityProperty.$type,
+            properties: {
+                value: {
+                    name: DoActivityProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         Document: {
             name: Document.$type,
             properties: {
@@ -4033,6 +4431,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [EdgeProperty.$type]
         },
+        EffectProperty: {
+            name: EffectProperty.$type,
+            properties: {
+                value: {
+                    name: EffectProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
         ElectricalProfile: {
             name: ElectricalProfile.$type,
             properties: {
@@ -4051,6 +4458,42 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
             },
             superTypes: []
+        },
+        EntryProperty: {
+            name: EntryProperty.$type,
+            properties: {
+                value: {
+                    name: EntryProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        EventProperty: {
+            name: EventProperty.$type,
+            properties: {
+                value: {
+                    name: EventProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
+        },
+        ExitProperty: {
+            name: ExitProperty.$type,
+            properties: {
+                value: {
+                    name: ExitProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        ExtensionPointsProperty: {
+            name: ExtensionPointsProperty.$type,
+            properties: {
+                value: {
+                    name: ExtensionPointsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         FillProperty: {
             name: FillProperty.$type,
@@ -4072,6 +4515,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [HydraulicStatement.$type, PneumaticStatement.$type]
+        },
+        FlowTypeProperty: {
+            name: FlowTypeProperty.$type,
+            properties: {
+                value: {
+                    name: FlowTypeProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
         },
         FluidStatement: {
             name: FluidStatement.$type,
@@ -4121,6 +4573,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        GatewayTypeProperty: {
+            name: GatewayTypeProperty.$type,
+            properties: {
+                value: {
+                    name: GatewayTypeProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         GenericTypesProperty: {
             name: GenericTypesProperty.$type,
             properties: {
@@ -4143,6 +4604,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [DiagramStatement.$type]
+        },
+        GuardProperty: {
+            name: GuardProperty.$type,
+            properties: {
+                value: {
+                    name: GuardProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
         },
         HydraulicProfile: {
             name: HydraulicProfile.$type,
@@ -4171,6 +4641,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 provider: {
                     name: IconProperty.provider
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        InputPinsProperty: {
+            name: InputPinsProperty.$type,
+            properties: {
+                value: {
+                    name: InputPinsProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]
@@ -4481,6 +4960,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        OutputPinsProperty: {
+            name: OutputPinsProperty.$type,
+            properties: {
+                value: {
+                    name: OutputPinsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         ParamDecl: {
             name: ParamDecl.$type,
             properties: {
@@ -4734,6 +5222,49 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        SequenceDurationConstraintProperty: {
+            name: SequenceDurationConstraintProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        SequenceDurationConstraintStatement: {
+            name: SequenceDurationConstraintStatement.$type,
+            properties: {
+                properties: {
+                    name: SequenceDurationConstraintStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [SequenceStatement.$type]
+        },
+        SequenceDurationConstraintValueProperty: {
+            name: SequenceDurationConstraintValueProperty.$type,
+            properties: {
+                constraint: {
+                    name: SequenceDurationConstraintValueProperty.constraint
+                }
+            },
+            superTypes: [SequenceDurationConstraintProperty.$type]
+        },
+        SequenceDurationFromProperty: {
+            name: SequenceDurationFromProperty.$type,
+            properties: {
+                from: {
+                    name: SequenceDurationFromProperty.from
+                }
+            },
+            superTypes: [SequenceDurationConstraintProperty.$type]
+        },
+        SequenceDurationToProperty: {
+            name: SequenceDurationToProperty.$type,
+            properties: {
+                to: {
+                    name: SequenceDurationToProperty.to
+                }
+            },
+            superTypes: [SequenceDurationConstraintProperty.$type]
+        },
         SequenceFragmentAlternativesProperty: {
             name: SequenceFragmentAlternativesProperty.$type,
             properties: {
@@ -4753,11 +5284,30 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [SequenceFragmentProperty.$type]
         },
+        SequenceFragmentGatesProperty: {
+            name: SequenceFragmentGatesProperty.$type,
+            properties: {
+                gates: {
+                    name: SequenceFragmentGatesProperty.gates,
+                    defaultValue: []
+                }
+            },
+            superTypes: [SequenceFragmentProperty.$type]
+        },
         SequenceFragmentProperty: {
             name: SequenceFragmentProperty.$type,
             properties: {
             },
             superTypes: []
+        },
+        SequenceFragmentReferenceProperty: {
+            name: SequenceFragmentReferenceProperty.$type,
+            properties: {
+                ref: {
+                    name: SequenceFragmentReferenceProperty.ref
+                }
+            },
+            superTypes: [SequenceFragmentProperty.$type]
         },
         SequenceFragmentStatement: {
             name: SequenceFragmentStatement.$type,
@@ -4890,6 +5440,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [Profile.$type]
         },
+        SequenceStateInvariantProperty: {
+            name: SequenceStateInvariantProperty.$type,
+            properties: {
+                value: {
+                    name: SequenceStateInvariantProperty.value
+                }
+            },
+            superTypes: [SequenceMessageProperty.$type]
+        },
         SequenceStatement: {
             name: SequenceStatement.$type,
             properties: {
@@ -4953,6 +5512,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: StackedProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        StateInvariantProperty: {
+            name: StateInvariantProperty.$type,
+            properties: {
+                value: {
+                    name: StateInvariantProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

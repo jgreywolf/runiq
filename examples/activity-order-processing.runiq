@@ -1,0 +1,97 @@
+// UML Activity Diagram: Order Processing Workflow
+// Demonstrates object nodes, central buffers, and data stores
+// Shows control flow and object flow distinction
+
+diagram "Order Processing Activity" {
+  direction TB
+
+  // Initial and final nodes
+  shape start as @initialState
+  shape end as @finalState
+
+  // Activities (actions)
+  shape receiveOrder as @activity label:"Receive Order"
+  shape validateCustomer as @activity label:"Validate Customer"
+  shape checkInventory as @activity label:"Check Inventory"
+  shape calculateTotal as @activity label:"Calculate Total"
+  shape processPayment as @activity label:"Process Payment"
+  shape packItems as @activity label:"Pack Items"
+  shape generateLabel as @activity label:"Generate Shipping Label"
+  shape shipOrder as @activity label:"Ship Order"
+  shape notifyCustomer as @activity label:"Notify Customer"
+
+  // Object nodes (data in flow)
+  shape rawOrder as @objectNode label:"Raw Order"
+  shape validatedOrder as @objectNode label:"Validated Order"
+  shape priceInfo as @objectNode label:"Price Info"
+  shape paymentToken as @objectNode label:"Payment Token"
+  shape packagedOrder as @objectNode label:"Packaged Order"
+  shape shippingLabel as @objectNode label:"Shipping Label"
+
+  // Central buffer (queue)
+  shape fulfillmentQueue as @centralBuffer label:"Fulfillment Queue"
+
+  // Data stores (databases)
+  shape customerDB as @dataStore label:"Customer DB"
+  shape inventoryDB as @dataStore label:"Inventory DB"
+  shape orderDB as @dataStore label:"Order DB"
+
+  // Decision points
+  shape customerValid as @choice
+  shape stockAvailable as @choice
+  shape paymentSuccess as @choice
+
+  // Control flow starts
+  start -> receiveOrder flowType:"control"
+
+  // Object flow: order data moves through process
+  receiveOrder -> rawOrder flowType:"object"
+  rawOrder -> validateCustomer flowType:"object"
+
+  // Database interaction
+  customerDB -> validateCustomer flowType:"object" label:"customer data"
+
+  // Decision: valid customer?
+  validateCustomer -> customerValid flowType:"control"
+  customerValid -> validatedOrder label:"[valid]" flowType:"object"
+  customerValid -> notifyCustomer label:"[invalid]" flowType:"control"
+
+  // Check inventory
+  validatedOrder -> checkInventory flowType:"object"
+  inventoryDB -> checkInventory flowType:"object" label:"stock levels"
+
+  // Decision: stock available?
+  checkInventory -> stockAvailable flowType:"control"
+  stockAvailable -> calculateTotal label:"[available]" flowType:"control"
+  stockAvailable -> notifyCustomer label:"[out of stock]" flowType:"control"
+
+  // Calculate price
+  validatedOrder -> calculateTotal flowType:"object"
+  calculateTotal -> priceInfo flowType:"object"
+
+  // Process payment
+  priceInfo -> processPayment flowType:"object"
+  processPayment -> paymentToken flowType:"object"
+
+  // Decision: payment successful?
+  processPayment -> paymentSuccess flowType:"control"
+  paymentSuccess -> fulfillmentQueue label:"[success]" flowType:"object"
+  paymentSuccess -> notifyCustomer label:"[failed]" flowType:"control"
+
+  // Fulfillment workflow (from queue)
+  fulfillmentQueue -> packItems flowType:"object"
+  packItems -> packagedOrder flowType:"object"
+  packagedOrder -> generateLabel flowType:"object"
+  generateLabel -> shippingLabel flowType:"object"
+  shippingLabel -> shipOrder flowType:"object"
+
+  // Save to order database
+  packagedOrder -> orderDB flowType:"object" label:"save"
+
+  // Update inventory
+  packItems -> inventoryDB flowType:"object" label:"decrement stock"
+
+  // Complete
+  shipOrder -> notifyCustomer flowType:"control"
+  notifyCustomer -> end flowType:"control"
+}

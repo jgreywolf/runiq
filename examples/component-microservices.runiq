@@ -1,0 +1,51 @@
+// Microservices Architecture with Component Diagrams
+// Demonstrates: ports, provided/required interfaces, and assembly connectors
+
+diagram "Microservices Architecture" {
+  // API Gateway with multiple ports
+  shape apiGateway as @component label:"API Gateway"
+  shape httpIn as @port label:"HTTP"
+  shape httpsIn as @port label:"HTTPS"
+  shape authOut as @port label:"Auth"
+  shape dataOut as @port label:"Data"
+  
+  apiGateway -> httpIn
+  apiGateway -> httpsIn
+  apiGateway -> authOut
+  apiGateway -> dataOut
+  
+  // Authentication Service with provided interface (lollipop)
+  shape authService as @component label:"Auth Service"
+  shape authInterface as @providedInterface label:"IAuth"
+  
+  authService -> authInterface
+  
+  // User Service with provided interface
+  shape userService as @component label:"User Service"
+  shape userInterface as @providedInterface label:"IUserData"
+  
+  userService -> userInterface
+  
+  // Client consuming services
+  shape webClient as @component label:"Web Client"
+  shape needsAuth as @requiredInterface label:"IAuth"
+  shape needsUser as @requiredInterface label:"IUserData"
+  
+  webClient -> needsAuth
+  webClient -> needsUser
+  
+  // Assembly connectors - connect provided to required
+  shape authConn as @assembly
+  shape userConn as @assembly
+  
+  authInterface -> authConn
+  authConn -> needsAuth
+  
+  userInterface -> userConn
+  userConn -> needsUser
+  
+  // Data flows through API Gateway
+  httpIn -> authOut flowType:"control"
+  authOut -> authInterface flowType:"control"
+  dataOut -> userInterface flowType:"control"
+}

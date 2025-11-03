@@ -68,10 +68,10 @@ diagram "Observer Pattern" {
     ]
   
   // Implementation relationships
-  WeatherStation -> ISubject lineStyle:dashed
-  CurrentConditionsDisplay -> IObserver lineStyle:dashed
-  StatisticsDisplay -> IObserver lineStyle:dashed
-  ForecastDisplay -> IObserver lineStyle:dashed
+  WeatherStation -> ISubject lineStyle:"dashed"
+  CurrentConditionsDisplay -> IObserver lineStyle:"dashed"
+  StatisticsDisplay -> IObserver lineStyle:"dashed"
+  ForecastDisplay -> IObserver lineStyle:"dashed"
   
   // Subject holds observers
   WeatherStation -> IObserver

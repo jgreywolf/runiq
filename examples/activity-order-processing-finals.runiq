@@ -1,0 +1,84 @@
+// UML Activity Diagram: Order Processing with Multiple Termination Points
+// Demonstrates activityFinal (complete termination) vs flowFinal (partial termination)
+// Shows how individual flows can terminate while others continue
+
+diagram "E-Commerce Order Processing" {
+  direction TB
+
+  // Start/end
+  shape start as @initialState
+  shape completedOrder as @activityFinal
+  
+  // Flow terminations (individual flow ends)
+  shape cancelledByUser as @flowFinal
+  shape outOfStock as @flowFinal
+  shape paymentDeclined as @flowFinal
+
+  // Activities
+  shape createOrder as @activity label:"Create Order"
+  shape checkInventory as @activity label:"Check Inventory"
+  shape reserveItems as @activity label:"Reserve Items"
+  shape processPayment as @activity label:"Process Payment"
+  shape sendConfirmation as @activity label:"Send Confirmation"
+  shape shipOrder as @activity label:"Ship Order"
+  shape notifyWarehouse as @activity label:"Notify Warehouse"
+
+  // Decision points
+  shape inventoryCheck as @choice
+  shape paymentCheck as @choice
+  shape cancellationCheck as @choice
+
+  // Parallel processing
+  shape parallelFork as @fork
+  shape parallelJoin as @join
+
+  // Object nodes
+  shape orderData as @objectNode label:"Order"
+  shape paymentInfo as @objectNode label:"Payment"
+  shape shippingInfo as @objectNode label:"Shipping Details"
+
+  // Main flow starts
+  start -> createOrder flowType:"control"
+  createOrder -> orderData flowType:"object"
+
+  // Check for user cancellation early
+  orderData -> cancellationCheck flowType:"control"
+  cancellationCheck -> cancelledByUser flowType:"control"  // Flow terminates if cancelled
+
+  // Continue to inventory check
+  cancellationCheck -> checkInventory flowType:"control"
+  checkInventory -> inventoryCheck flowType:"control"
+
+  // Out of stock path (flow terminates)
+  inventoryCheck -> outOfStock flowType:"control"
+
+  // In stock path continues
+  inventoryCheck -> reserveItems flowType:"control"
+  reserveItems -> processPayment flowType:"control"
+  processPayment -> paymentInfo flowType:"object"
+
+  // Payment validation
+  paymentInfo -> paymentCheck flowType:"control"
+  
+  // Payment declined (flow terminates)
+  paymentCheck -> paymentDeclined flowType:"control"
+
+  // Payment successful - parallel processing
+  paymentCheck -> parallelFork flowType:"control"
+
+  // Fork into parallel tasks
+  parallelFork -> sendConfirmation flowType:"control"
+  parallelFork -> shipOrder flowType:"control"
+  parallelFork -> notifyWarehouse flowType:"control"
+
+  // Confirmation email
+  sendConfirmation -> shippingInfo flowType:"object"
+
+  // Join parallel flows
+  shippingInfo -> parallelJoin flowType:"control"
+  shipOrder -> parallelJoin flowType:"control"
+  notifyWarehouse -> parallelJoin flowType:"control"
+
+  // Activity completes successfully (entire activity terminates)
+  parallelJoin -> completedOrder flowType:"control"
+}

@@ -4,9 +4,12 @@ import type { ShapeDefinition } from '../../types.js';
  * UML Interaction Fragment shape
  * Frame with operator label (alt, loop, opt, par, etc.)
  * Used in sequence diagrams to show control flow
+ *
+ * Note: Shape ID is 'interactionFragment' because 'fragment' is a reserved keyword
+ * in the Langium grammar for sequence diagram fragment statements.
  */
 export const fragmentShape: ShapeDefinition = {
-  id: 'fragment',
+  id: 'interactionFragment',
 
   bounds(ctx) {
     // Custom dimensions or defaults

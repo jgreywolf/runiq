@@ -121,7 +121,7 @@ describe('UML Sequence Diagram Shapes', () => {
 
   describe('fragmentShape', () => {
     it('should have correct id', () => {
-      expect(fragmentShape.id).toBe('fragment');
+      expect(fragmentShape.id).toBe('interactionFragment');
     });
 
     it('should calculate bounds for interaction fragment', () => {

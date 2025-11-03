@@ -1,0 +1,66 @@
+// Complete UML 2.5 State Machine Example: Door Lock System
+// Demonstrates all pseudo-states and state behaviors
+
+diagram "Door Lock State Machine" {
+  // Initial pseudo-state
+  shape start as @initialState
+
+  // Regular states with entry/exit/do behaviors
+  shape locked as @state label:"Locked" entry:"lockBolt()" exit:"logStateExit()"
+
+  shape unlocked as @state label:"Unlocked" entry:"unlockBolt()" doActivity:"monitorTimeout()" exit:"logStateExit()"
+
+  shape doorOpen as @state label:"Open" entry:"openDoor()" doActivity:"playOpenSound()" exit:"closeDoor()"
+
+  shape alarm as @state label:"Alarm" entry:"soundAlarm()" doActivity:"flashLights()" exit:"stopAlarm()"
+
+  // Junction pseudo-state for conditional branching
+  shape j1 as @junction
+
+  // Choice pseudo-state for dynamic decision
+  shape check as @choice label:"Validate?"
+
+  // History pseudo-states
+  shape hist as @historyShallow label:"Resume"
+  shape deepHist as @historyDeep label:"Deep Resume"
+
+  // Entry and exit points for composite states
+  shape entry1 as @entryPoint label:"Entry"
+  shape exit1 as @exitPoint label:"Exit"
+
+  // Terminate pseudo-state
+  shape term as @terminate label:"System Shutdown"
+
+  // Final state
+  shape final as @finalState
+
+  // Transitions with event, guard, and effect
+  start -> locked
+
+  locked -> unlocked event:"insertKey" guard:"[keyValid]" effect:"logUnlock()"
+
+  unlocked -> locked event:"timeout" effect:"logRelock()"
+
+  unlocked -> doorOpen event:"turnHandle" guard:"[permitted]"
+
+  doorOpen -> unlocked event:"closeDoor"
+
+  doorOpen -> alarm event:"forcedEntry" guard:"[!authorized]" effect:"notifySecurity()"
+
+  alarm -> j1 event:"reset"
+
+  j1 -> locked guard:"[adminReset]"
+
+  j1 -> unlocked guard:"[normalReset]"
+
+  // Using history to resume previous state
+  alarm -> hist event:"powerRestore"
+
+  hist -> locked
+
+  // Terminate on critical failure
+  alarm -> term event:"criticalFailure" effect:"shutdownSystem()"
+
+  // Normal completion
+  locked -> final event:"decommission"
+}

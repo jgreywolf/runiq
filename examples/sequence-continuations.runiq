@@ -1,0 +1,23 @@
+# Sequence Diagram with Continuations
+# UML 2.5: Continuations represent goto-like flow control between sequence fragments
+# Note: @continuation shapes demonstrate the hexagon shape for marking connection points
+
+sequence "Login Flow" {
+
+  participant "User" as actor
+  participant "AuthService" as control
+  participant "Database" as database
+
+  # Main authentication flow
+  message from:"User" to:"AuthService" label:"login()" type:sync
+  message from:"AuthService" to:"Database" label:"validateCredentials()" type:sync
+  message from:"Database" to:"AuthService" label:"valid" type:return
+  message from:"AuthService" to:"User" label:"sessionToken" type:return
+
+  note "On success: ref LoginSuccess" position:right participants:("AuthService")
+  note "On failure: ref LoginFailure" position:right participants:("AuthService")
+
+  # Continuation participants - hexagons marking jumps to other interaction fragments
+  participant "ref LoginSuccess" as continuation
+  participant "ref LoginFailure" as continuation
+}

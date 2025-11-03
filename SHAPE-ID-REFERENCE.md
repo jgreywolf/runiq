@@ -138,6 +138,22 @@ This document lists shapes where the **common name** differs from the **actual r
 - ✅ `@bar-chart-vertical` - Vertical bar chart
 - ✅ `@bar-chart-horizontal` - Horizontal bar chart
 
+### UML State Machine Shapes
+
+**State Machine Shapes that ARE correct:**
+
+- ✅ `@state` - Standard state (with entry/exit/doActivity support)
+- ✅ `@initialState` - Initial pseudo-state (filled circle)
+- ✅ `@finalState` - Final state (bull's eye)
+- ✅ `@historyShallow` - Shallow history pseudo-state (circle with H)
+- ✅ `@historyDeep` - Deep history pseudo-state (circle with H\*)
+- ✅ `@junction` - Junction pseudo-state (filled circle for decision points)
+- ✅ `@entryPoint` - Entry point pseudo-state (circle on state boundary)
+- ✅ `@exitPoint` - Exit point pseudo-state (circle with X on state boundary)
+- ✅ `@terminate` - Terminate pseudo-state (circle with X)
+
+**📖 See the [State Machine Diagrams Guide](./docs/guide/state-machine-diagrams.md) for complete UML 2.5 syntax and examples.**
+
 ### Pedigree/Genealogy
 
 **Pedigree Shapes that ARE correct:**

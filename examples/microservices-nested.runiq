@@ -1,0 +1,54 @@
+diagram "Microservices Architecture" {
+  direction TB
+
+  // Frontend Layer
+  container frontendLayer "Frontend Layer" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+    shape webUI as @browser label:"Web UI"
+    shape mobileUI as @rounded label:"Mobile UI"
+  }
+
+  // Backend Services with nested service groups
+  container backendLayer "Backend Services" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:2 padding:30 {
+    
+    container userServices "User Services" backgroundColor:"#fff3e0" borderColor:"#f57c00" {
+      shape authService as @hexagon label:"Auth Service"
+      shape userService as @hexagon label:"User Service"
+      
+      authService -> userService
+    }
+    
+    container businessServices "Business Services" backgroundColor:"#e8f5e9" borderColor:"#388e3c" {
+      shape orderService as @hexagon label:"Order Service"
+      shape paymentService as @hexagon label:"Payment Service"
+      shape inventoryService as @hexagon label:"Inventory Service"
+      
+      orderService -> paymentService
+      orderService -> inventoryService
+    }
+    
+    container notificationServices "Notification Services" backgroundColor:"#fce4ec" borderColor:"#c2185b" {
+      shape emailService as @hexagon label:"Email Service"
+      shape smsService as @hexagon label:"SMS Service"
+    }
+    
+    // Inter-service communication
+    orderService -> emailService
+    paymentService -> smsService
+  }
+
+  // Data Layer
+  container dataLayer "Data Layer" backgroundColor:"#eceff1" borderColor:"#455a64" borderStyle:dashed {
+    shape userDb as @cylinder label:"User DB"
+    shape orderDb as @cylinder label:"Order DB"
+    shape cache as @cache label:"Redis Cache"
+    
+    userDb -> cache
+    orderDb -> cache
+  }
+
+  // External connections
+  webUI -> authService
+  mobileUI -> authService
+  userService -> userDb
+  orderService -> orderDb
+}

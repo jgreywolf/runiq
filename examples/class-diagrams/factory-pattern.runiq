@@ -75,21 +75,21 @@ diagram "Factory Pattern" {
     ]
   
   // Product hierarchy
-  WindowsButton -> IButton lineStyle:dashed
-  MacButton -> IButton lineStyle:dashed
-  LinuxButton -> IButton lineStyle:dashed
+  WindowsButton -> IButton lineStyle:"dashed"
+  MacButton -> IButton lineStyle:"dashed"
+  LinuxButton -> IButton lineStyle:"dashed"
   
   // Factory hierarchy
-  WindowsFactory -> IButtonFactory lineStyle:dashed
-  MacFactory -> IButtonFactory lineStyle:dashed
-  LinuxFactory -> IButtonFactory lineStyle:dashed
+  WindowsFactory -> IButtonFactory lineStyle:"dashed"
+  MacFactory -> IButtonFactory lineStyle:"dashed"
+  LinuxFactory -> IButtonFactory lineStyle:"dashed"
   
   // Dependencies
   Application.factory -> IButtonFactory
   Application.button -> IButton
   
   // Factory creates products (dashed with label)
-  WindowsFactory -creates-> WindowsButton lineStyle:dashed
-  MacFactory -creates-> MacButton lineStyle:dashed
-  LinuxFactory -creates-> LinuxButton lineStyle:dashed
+  WindowsFactory -creates-> WindowsButton lineStyle:"dashed"
+  MacFactory -creates-> MacButton lineStyle:"dashed"
+  LinuxFactory -creates-> LinuxButton lineStyle:"dashed"
 }

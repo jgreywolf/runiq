@@ -92,7 +92,7 @@
 		let defaultName: string;
 
 		if (type === 'sequence') {
-			defaultContent = `sequence "My Sequence Diagram"
+			defaultContent = `sequence "My Sequence Diagram" {
 
   participant "User" as actor
   participant "System" as entity
@@ -102,6 +102,7 @@
   message from:"System" to:"Database" label:"Query" type:sync
   message from:"Database" to:"System" label:"Data" type:return
   message from:"System" to:"User" label:"Response" type:return
+	}
 `;
 			defaultName = 'Untitled Sequence';
 		} else if (type === 'electrical') {

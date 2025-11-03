@@ -1,0 +1,51 @@
+// Plugin Architecture with Component Diagrams
+// Demonstrates: modules, templates (generics), and interface segregation
+
+diagram "Plugin System Architecture" {
+  // Core module with template pattern
+  shape pluginMgr as @template label:"PluginManager<T>"
+  shape pluginApi as @module label:"Plugin API"
+  
+  // Plugin modules
+  shape authPlugin as @module label:"Authentication"
+  shape loggingPlugin as @module label:"Logging"
+  shape cachingPlugin as @module label:"Caching"
+  
+  // Interface segregation - separate interfaces for different concerns
+  shape iInit as @providedInterface label:"IInitializable"
+  shape iConfig as @providedInterface label:"IConfigurable"
+  shape iLifecycle as @providedInterface label:"ILifecycle"
+  
+  pluginApi -> iInit
+  pluginApi -> iConfig
+  pluginApi -> iLifecycle
+  
+  // Plugins require these interfaces
+  shape needsInit1 as @requiredInterface label:"IInitializable"
+  shape needsInit2 as @requiredInterface label:"IInitializable"
+  shape needsInit3 as @requiredInterface label:"IInitializable"
+  
+  authPlugin -> needsInit1
+  loggingPlugin -> needsInit2
+  cachingPlugin -> needsInit3
+  
+  // Assembly connectors
+  shape conn1 as @assembly
+  shape conn2 as @assembly
+  shape conn3 as @assembly
+  
+  iInit -> conn1
+  conn1 -> needsInit1
+  
+  iInit -> conn2
+  conn2 -> needsInit2
+  
+  iInit -> conn3
+  conn3 -> needsInit3
+  
+  // Core dependencies
+  pluginMgr -> pluginApi flowType:"control"
+  pluginApi -> authPlugin flowType:"control"
+  pluginApi -> loggingPlugin flowType:"control"
+  pluginApi -> cachingPlugin flowType:"control"
+}

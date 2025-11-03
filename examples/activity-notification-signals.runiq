@@ -1,0 +1,97 @@
+// UML Activity Diagram: Notification System with Signal Actions
+// Demonstrates send/receive signal shapes for asynchronous communication
+// Shows multi-channel notification broadcasting pattern
+
+diagram "Notification Broadcasting System" {
+  direction TB
+
+  // Start/end
+  shape start as @initialState
+  shape success as @finalState
+  shape failure as @finalState
+
+  // Activities
+  shape createNotification as @activity label:"Create Notification"
+  shape validateRecipients as @activity label:"Validate Recipients"
+  shape prepareContent as @activity label:"Prepare Content"
+  shape logNotification as @activity label:"Log Notification"
+  shape trackDelivery as @activity label:"Track Delivery Status"
+  shape updateMetrics as @activity label:"Update Metrics"
+
+  // Signal actions (pentagon shapes)
+  shape sendEmail as @sendSignal label:"Send Email"
+  shape sendSMS as @sendSignal label:"Send SMS"
+  shape sendPush as @sendSignal label:"Send Push Notification"
+  shape sendWebhook as @sendSignal label:"Send Webhook"
+
+  // Receive signals for acknowledgments
+  shape receiveEmailAck as @receiveSignal label:"Receive Email ACK"
+  shape receiveSMSAck as @receiveSignal label:"Receive SMS ACK"
+  shape receivePushAck as @receiveSignal label:"Receive Push ACK"
+  shape receiveWebhookAck as @receiveSignal label:"Receive Webhook ACK"
+
+  // Decision and parallel processing
+  shape validationCheck as @choice
+  shape broadcastFork as @fork
+  shape acknowledgmentJoin as @join
+
+  // Object nodes
+  shape notificationData as @objectNode label:"Notification Data"
+  shape validatedData as @objectNode label:"Validated Data"
+  shape formattedContent as @objectNode label:"Formatted Content"
+
+  // Data store
+  shape notificationDB as @dataStore label:"Notification DB"
+
+  // Workflow starts
+  start -> createNotification flowType:"control"
+  createNotification -> notificationData flowType:"object"
+
+  // Validation
+  notificationData -> validateRecipients flowType:"object"
+  validateRecipients -> validationCheck flowType:"control"
+
+  // Invalid recipients
+  validationCheck -> logNotification label:"[invalid]" flowType:"control"
+  logNotification -> failure flowType:"control"
+
+  // Valid recipients
+  validationCheck -> validatedData label:"[valid]" flowType:"object"
+
+  // Prepare content
+  validatedData -> prepareContent flowType:"object"
+  prepareContent -> formattedContent flowType:"object"
+
+  // Save to database
+  formattedContent -> notificationDB flowType:"object" label:"save"
+
+  // Parallel broadcast to all channels
+  formattedContent -> broadcastFork flowType:"control"
+
+  broadcastFork -> sendEmail flowType:"control"
+  broadcastFork -> sendSMS flowType:"control"
+  broadcastFork -> sendPush flowType:"control"
+  broadcastFork -> sendWebhook flowType:"control"
+
+  // Each send waits for acknowledgment
+  sendEmail -> receiveEmailAck
+  sendSMS -> receiveSMSAck
+  sendPush -> receivePushAck
+  sendWebhook -> receiveWebhookAck
+
+  // Join all acknowledgments
+  receiveEmailAck -> acknowledgmentJoin flowType:"control"
+  receiveSMSAck -> acknowledgmentJoin flowType:"control"
+  receivePushAck -> acknowledgmentJoin flowType:"control"
+  receiveWebhookAck -> acknowledgmentJoin flowType:"control"
+
+  // Track delivery
+  acknowledgmentJoin -> trackDelivery flowType:"control"
+
+  // Update database with delivery status
+  trackDelivery -> notificationDB flowType:"object" label:"update status"
+
+  // Update metrics and complete
+  trackDelivery -> updateMetrics flowType:"control"
+  updateMetrics -> success flowType:"control"
+}

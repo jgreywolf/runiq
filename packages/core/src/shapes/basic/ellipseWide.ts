@@ -9,18 +9,50 @@ export const ellipseWideShape: ShapeDefinition = {
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
+    const fontSize = ctx.style.fontSize || 14;
 
     // Use case ovals are typically ~1.8-2x wider than tall
     // Need extra room since text rectangle fits inside ellipse
-    const width = Math.max(
+    let width = Math.max(
       textSize.width * 1.5 + padding * 2,
       80 // minimum width
     );
 
-    const height = Math.max(
+    let height = Math.max(
       textSize.height * 1.5 + padding * 2,
       40 // minimum height
     );
+
+    // Add space for extension points if present
+    if (ctx.node.extensionPoints && ctx.node.extensionPoints.length > 0) {
+      // Measure extension points section
+      const epTitle = 'extension points';
+      const epTitleSize = ctx.measureText(epTitle, {
+        ...ctx.style,
+        fontSize: fontSize * 0.8,
+      });
+
+      // Find longest extension point
+      let maxEpWidth = epTitleSize.width;
+      for (const ep of ctx.node.extensionPoints) {
+        const epSize = ctx.measureText(ep, {
+          ...ctx.style,
+          fontSize: fontSize * 0.85,
+        });
+        maxEpWidth = Math.max(maxEpWidth, epSize.width);
+      }
+
+      // Ensure width accommodates extension points
+      width = Math.max(width, maxEpWidth * 1.4 + padding * 2);
+
+      // Add height for separator line + extension points
+      const epSectionHeight =
+        fontSize * 0.8 + // title
+        2 + // separator line
+        ctx.node.extensionPoints.length * fontSize * 1.2 + // extension points
+        padding; // extra spacing
+      height += epSectionHeight;
+    }
 
     return { width, height };
   },
@@ -49,15 +81,67 @@ export const ellipseWideShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const fontSize = ctx.style.fontSize || 14;
+    const font = ctx.style.font || 'sans-serif';
 
-    return `
+    let svg = `
       <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
     `;
+
+    // Render label and extension points if present
+    if (ctx.node.extensionPoints && ctx.node.extensionPoints.length > 0) {
+      // Calculate label position (upper portion)
+      const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
+      const labelY = cy - textSize.height;
+
+      svg += `
+        <text x="${cx}" y="${labelY}" text-anchor="middle" dominant-baseline="middle"
+              font-family="${font}" font-size="${fontSize}">
+          ${ctx.node.label || ctx.node.id}
+        </text>
+      `;
+
+      // Draw horizontal separator line
+      const lineY = cy - textSize.height / 2 + fontSize * 0.5;
+      const lineMargin = rx * 0.15; // 15% margin from edges
+      svg += `
+        <line x1="${cx - rx + lineMargin}" y1="${lineY}" 
+              x2="${cx + rx - lineMargin}" y2="${lineY}"
+              stroke="${stroke}" stroke-width="${strokeWidth * 0.5}" />
+      `;
+
+      // Draw "extension points" title
+      const epTitleY = lineY + fontSize * 0.9;
+      svg += `
+        <text x="${cx}" y="${epTitleY}" text-anchor="middle" 
+              font-family="${font}" font-size="${fontSize * 0.8}" 
+              font-style="italic" fill="${stroke}">
+          extension points
+        </text>
+      `;
+
+      // Draw each extension point
+      let epY = epTitleY + fontSize * 1.2;
+      for (const ep of ctx.node.extensionPoints) {
+        svg += `
+          <text x="${cx}" y="${epY}" text-anchor="middle"
+                font-family="${font}" font-size="${fontSize * 0.85}">
+            ${ep}
+          </text>
+        `;
+        epY += fontSize * 1.2;
+      }
+    } else {
+      // No extension points - center label
+      svg += `
+        <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
+              font-family="${font}" font-size="${fontSize}">
+          ${ctx.node.label || ctx.node.id}
+        </text>
+      `;
+    }
+
+    return svg;
   },
 };

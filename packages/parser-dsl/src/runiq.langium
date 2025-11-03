@@ -244,7 +244,7 @@ SequenceProfile:
     '}';
 
 SequenceStatement:
-    SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement;
+    SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement | SequenceDurationConstraintStatement;
 
 // participant Actor as actor
 // participant "Web Server" as entity
@@ -252,14 +252,14 @@ SequenceParticipantStatement:
     'participant' name=STRING ('as' type=SequenceParticipantType)?;
 
 SequenceParticipantType returns string:
-    'actor' | 'entity' | 'boundary' | 'control' | 'database';
+    'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'continuation';
 
 // message from:"Actor" to:"Web Server" label:"HTTP Request" type:sync activate:true
 SequenceMessageStatement:
     'message' properties+=SequenceMessageProperty+;
 
 SequenceMessageProperty:
-    SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty | SequenceGuardProperty | SequenceTimingProperty;
+    SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty | SequenceGuardProperty | SequenceTimingProperty | SequenceStateInvariantProperty;
 
 SequenceFromProperty:
     'from:' (from=STRING | from='lost' | from='found');
@@ -285,6 +285,9 @@ SequenceGuardProperty:
 SequenceTimingProperty:
     'timing:' value=STRING;
 
+SequenceStateInvariantProperty:
+    'stateInvariant:' value=STRING;
+
 // note "This is a note" position:left participants:("Actor")
 // note "Spanning note" position:over participants:("Actor","Web Server")
 SequenceNoteStatement:
@@ -308,10 +311,10 @@ SequenceFragmentStatement:
     'fragment' type=SequenceFragmentType label=STRING properties+=SequenceFragmentProperty+;
 
 SequenceFragmentType returns string:
-    'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break';
+    'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break' | 'ref';
 
 SequenceFragmentProperty:
-    SequenceFragmentFromProperty | SequenceFragmentToProperty | SequenceFragmentAlternativesProperty;
+    SequenceFragmentFromProperty | SequenceFragmentToProperty | SequenceFragmentAlternativesProperty | SequenceFragmentGatesProperty | SequenceFragmentReferenceProperty;
 
 SequenceFragmentFromProperty:
     'from:' from=NUMBER;
@@ -324,6 +327,30 @@ SequenceFragmentAlternativesProperty:
 
 SequenceAlternativeDecl:
     label=STRING ':' fromMsg=NUMBER '..' toMsg=NUMBER;
+
+// gates:["gateIn","gateOut"] - Connection points at fragment boundaries  
+SequenceFragmentGatesProperty:
+    'gates:' '[' (gates+=STRING (',' gates+=STRING)*)? ']';
+
+// ref:"OtherSequence" - Reference to another sequence diagram (UML 2.5 interaction use)
+SequenceFragmentReferenceProperty:
+    'ref:' ref=STRING;
+
+// durationConstraint from:1 to:5 constraint:"< 100ms" - UML 2.5 duration constraints
+SequenceDurationConstraintStatement:
+    'durationConstraint' properties+=SequenceDurationConstraintProperty+;
+
+SequenceDurationConstraintProperty:
+    SequenceDurationFromProperty | SequenceDurationToProperty | SequenceDurationConstraintValueProperty;
+
+SequenceDurationFromProperty:
+    'from:' from=NUMBER;
+
+SequenceDurationToProperty:
+    'to:' to=NUMBER;
+
+SequenceDurationConstraintValueProperty:
+    'constraint:' constraint=STRING;
 
 // ============================================================================
 // Diagram profile statements (existing grammar)
@@ -365,7 +392,14 @@ ShapeDeclaration:
 
 // Allow shape IDs, regular IDs, and certain keywords that are valid shape names
 ShapeIdentifier returns string:
-    SHAPE_ID | ID | 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'note';
+    SHAPE_ID | ID | 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'note'
+    | 'lifeline' | 'continuation' | 'timeObservation' | 'activity'
+    | 'objectNode' | 'centralBuffer' | 'dataStore' | 'component' | 'artifact' | 'node'
+    | 'port' | 'module' | 'template' | 'history' | 'pin' | 'assembly'
+    | 'providedInterface' | 'requiredInterface' | 'frame' | 'collaboration'
+    | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
+    | 'activityFinal' | 'flowFinal'
+    | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate';
 
 NodeProperty:
     LabelProperty
@@ -397,10 +431,25 @@ NodeProperty:
     | FontWeightProperty
     | TextAlignProperty
     | OpacityProperty
-    | BorderRadiusProperty;
+    | BorderRadiusProperty
+    | EntryProperty
+    | ExitProperty
+    | DoActivityProperty
+    | InputPinsProperty
+    | OutputPinsProperty
+    | StateInvariantProperty
+    | ExtensionPointsProperty
+    | GatewayTypeProperty;
 
 LabelProperty:
     'label:' value=STRING;
+
+// BPMN Gateway property
+GatewayTypeProperty:
+    'gatewayType:' value=GatewayTypeValue;
+
+GatewayTypeValue returns string:
+    'exclusive' | 'xor' | 'parallel' | 'and' | 'inclusive' | 'or' | 'eventBased' | 'event' | 'complex';
 
 StyleRefProperty:
     'style:' ref=[StyleDeclaration:ID];
@@ -444,6 +493,31 @@ CarrierProperty:
 
 DeceasedProperty:
     'deceased:' value=BooleanValue;
+
+// UML State Machine properties
+EntryProperty:
+    'entry:' value=STRING;
+
+ExitProperty:
+    'exit:' value=STRING;
+
+DoActivityProperty:
+    'doActivity:' value=STRING;
+
+// UML Activity Diagram properties
+InputPinsProperty:
+    'inputPins:' value=StringArray;
+
+OutputPinsProperty:
+    'outputPins:' value=StringArray;
+
+// UML Sequence Diagram properties
+StateInvariantProperty:
+    'stateInvariant:' value=STRING;
+
+// UML Use Case Diagram properties
+ExtensionPointsProperty:
+    'extensionPoints:' value=StringArray;
 
 // UML Class Diagram properties
 AttributesProperty:
@@ -617,16 +691,17 @@ EdgeProperty:
     | StereotypeProperty
     | StrokeProperty
     | StrokeWidthProperty
-    | StyleRefProperty;
+    | StyleRefProperty
+    | EventProperty
+    | GuardProperty
+    | EffectProperty
+    | FlowTypeProperty;
 
 EdgeLabelProperty:
     'label:' label=STRING;
 
 LineStyleProperty:
-    'lineStyle:' value=LineStyleValue;
-
-LineStyleValue returns string:
-    'solid' | 'dashed' | 'dotted' | 'double';
+    'lineStyle:' value=STRING;
 
 ArrowTypeProperty:
     'arrowType:' value=ArrowTypeValue;
@@ -661,6 +736,20 @@ NavigabilityDirection returns string:
 
 EdgeConstraintsProperty:
     'constraints:' '[' values+=STRING (',' values+=STRING)* ']';
+
+// UML State Machine Transition Properties
+EventProperty:
+    'event:' value=STRING;
+
+GuardProperty:
+    'guard:' value=STRING;
+
+EffectProperty:
+    'effect:' value=STRING;
+
+// UML Activity Diagram Flow Properties
+FlowTypeProperty:
+    'flowType:' value=STRING;
 
 RoutingProperty:
     'routing:' value=RoutingValue;
@@ -776,7 +865,9 @@ ContainerStyleProperty:
 
 ContainerLayoutProperty:
     'algorithm:' algorithm=LayoutAlgorithmValue
-    | 'spacing:' spacing=NUMBER;
+    | 'direction:' direction=DirectionValue
+    | 'spacing:' spacing=NUMBER
+    | 'orientation:' orientation=OrientationValue;
 
 // ============================================================================
 // Phase 5: Template & Preset Definitions
@@ -814,6 +905,9 @@ LabelPositionValue returns string:
 
 LayoutAlgorithmValue returns string:
     'layered' | 'force' | 'stress' | 'radial' | 'mrtree';
+
+OrientationValue returns string:
+    'horizontal' | 'vertical';
 
 // Phase 2: Collapse/expand value types
 CollapseModeValue returns string:

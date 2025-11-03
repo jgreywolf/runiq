@@ -13,23 +13,23 @@ diagram "Line Style and Arrow Type Showcase" {
   
   // Solid lines
   a -> b lineStyle:solid arrowType:standard
-  b -> c lineStyle:dashed arrowType:standard
+  b -> c lineStyle:"dashed" arrowType:standard
   c -> d lineStyle:dotted arrowType:standard
   
   // Hollow arrows (inheritance/generalization)
   d -> e lineStyle:solid arrowType:hollow
-  e -> f lineStyle:dashed arrowType:hollow
+  e -> f lineStyle:"dashed" arrowType:hollow
   
   // Open arrows (dependency)
   f -> g lineStyle:solid arrowType:open
-  g -> h lineStyle:dashed arrowType:open
+  g -> h lineStyle:"dashed" arrowType:open
   
   // No arrows (bidirectional or undirected)
   h -> i lineStyle:solid arrowType:none
-  i -> a lineStyle:dashed arrowType:none
+  i -> a lineStyle:"dashed" arrowType:none
   
   // With edge labels (stereotypes shown as labels)
-  a -includes-> d lineStyle:dashed arrowType:open
-  d -extends-> g lineStyle:dashed arrowType:open
-  f -uses-> i lineStyle:dashed arrowType:open
+  a -includes-> d lineStyle:"dashed" arrowType:open
+  d -extends-> g lineStyle:"dashed" arrowType:open
+  f -uses-> i lineStyle:"dashed" arrowType:open
 }

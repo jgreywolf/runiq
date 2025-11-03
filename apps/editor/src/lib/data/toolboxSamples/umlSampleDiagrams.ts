@@ -27,40 +27,100 @@ admin -> login
 			},
 			{
 				name: 'Class Diagram',
-				description: 'Simple class hierarchy with interface',
-				code: `diagram "Class Hierarchy" {
-
-shape iShape as @interface label:"IShape"
-shape baseShape as @abstract label:"Shape"
-shape circle as @class label:"Circle"
-shape rectangle as @class label:"Rectangle"
-shape colors as @enum label:"Color"
-shape note1 as @note label:"All shapes implement IShape"
-
-iShape -> baseShape
-baseShape -> circle
-baseShape -> rectangle
-circle -> colors lineStyle:dashed
-note1 -> baseShape lineStyle:dashed
-}`
-			},
-			{
-				name: 'Sequence Diagram',
-				description: 'User authentication flow',
-				code: `diagram "Authentication Sequence" {
-
-shape user as @lifeline label:"User"
-shape ui as @lifeline label:"LoginUI"
-shape controller as @lifeline label:"AuthController"
-shape db as @lifeline label:"Database"
-
-user -enterCredentials-> ui
-ui -authenticate-> controller
-controller -validateUser-> db
-db -userData-> controller
-controller -token-> ui
-ui -showHome-> user
-}`
+				description: 'Factory Pattern Example',
+				code: `diagram "Factory Pattern" {
+  direction TB
+  
+  // Product interface
+  shape IButton as @class label:"IButton"
+    stereotype:"interface"
+    methods:[
+      {name:"render" returnType:"void" visibility:public},
+      {name:"onClick" params:[{name:"handler" type:"EventHandler"}] returnType:"void" visibility:public}
+    ]
+  
+  // Concrete products
+  shape WindowsButton as @class label:"WindowsButton"
+    attributes:[
+      {name:"style" type:"WindowsStyle" visibility:private}
+    ]
+    methods:[
+      {name:"render" returnType:"void" visibility:public},
+      {name:"onClick" params:[{name:"handler" type:"EventHandler"}] returnType:"void" visibility:public}
+    ]
+  
+  shape MacButton as @class label:"MacButton"
+    attributes:[
+      {name:"theme" type:"MacTheme" visibility:private}
+    ]
+    methods:[
+      {name:"render" returnType:"void" visibility:public},
+      {name:"onClick" params:[{name:"handler" type:"EventHandler"}] returnType:"void" visibility:public}
+    ]
+  
+  shape LinuxButton as @class label:"LinuxButton"
+    attributes:[
+      {name:"desktop" type:"string" visibility:private}
+    ]
+    methods:[
+      {name:"render" returnType:"void" visibility:public},
+      {name:"onClick" params:[{name:"handler" type:"EventHandler"}] returnType:"void" visibility:public}
+    ]
+  
+  // Factory interface
+  shape IButtonFactory as @class label:"IButtonFactory"
+    stereotype:"interface"
+    methods:[
+      {name:"createButton" returnType:"IButton" visibility:public}
+    ]
+  
+  // Concrete factories
+  shape WindowsFactory as @class label:"WindowsFactory"
+    methods:[
+      {name:"createButton" returnType:"IButton" visibility:public}
+    ]
+  
+  shape MacFactory as @class label:"MacFactory"
+    methods:[
+      {name:"createButton" returnType:"IButton" visibility:public}
+    ]
+  
+  shape LinuxFactory as @class label:"LinuxFactory"
+    methods:[
+      {name:"createButton" returnType:"IButton" visibility:public}
+    ]
+  
+  // Client class
+  shape Application as @class label:"Application"
+    attributes:[
+      {name:"factory" type:"IButtonFactory" visibility:private},
+      {name:"button" type:"IButton" visibility:private}
+    ]
+    methods:[
+      {name:"initialize" params:[{name:"factory" type:"IButtonFactory"}] returnType:"void" visibility:public},
+      {name:"createUI" returnType:"void" visibility:public}
+    ]
+  
+  // Product hierarchy
+  WindowsButton -> IButton lineStyle:"dashed"
+  MacButton -> IButton lineStyle:"dashed"
+  LinuxButton -> IButton lineStyle:"dashed"
+  
+  // Factory hierarchy
+  WindowsFactory -> IButtonFactory lineStyle:"dashed"
+  MacFactory -> IButtonFactory lineStyle:"dashed"
+  LinuxFactory -> IButtonFactory lineStyle:"dashed"
+  
+  // Dependencies
+  Application.factory -> IButtonFactory
+  Application.button -> IButton
+  
+  // Factory creates products (dashed with label)
+  WindowsFactory -creates-> WindowsButton lineStyle:"dashed"
+  MacFactory -creates-> MacButton lineStyle:"dashed"
+  LinuxFactory -creates-> LinuxButton lineStyle:"dashed"
+}
+`
 			},
 			{
 				name: 'State Machine',

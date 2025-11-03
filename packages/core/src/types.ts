@@ -37,6 +37,17 @@ export interface NodeAst {
   icon?: IconRef;
   link?: LinkRef;
   tooltip?: string;
+  // UML State Machine properties
+  entry?: string; // Entry action (e.g., "startTimer()")
+  exit?: string; // Exit action (e.g., "stopTimer()")
+  doActivity?: string; // Continuous activity (e.g., "playMusic()")
+  // UML Activity Diagram properties
+  inputPins?: string[]; // Input pins for action nodes (e.g., ["order", "payment"])
+  outputPins?: string[]; // Output pins for action nodes (e.g., ["receipt", "confirmation"])
+  // UML Sequence Diagram properties
+  stateInvariant?: string; // Constraint that must be true at this point (e.g., "balance >= 0")
+  // UML Use Case Diagram properties
+  extensionPoints?: string[]; // Extension points for use cases (e.g., ["Payment Failed", "Insufficient Funds"])
   // Data used by data-driven shapes (charts etc.)
   // Known common fields are typed to improve DX while still allowing arbitrary extras
   data?:
@@ -83,6 +94,12 @@ export interface EdgeAst {
   // UML Class Diagram Phase 3 properties
   navigability?: 'source' | 'target' | 'bidirectional' | 'none'; // Direction of navigation
   constraints?: string[]; // Constraints like 'ordered', 'unique', etc.
+  // UML State Machine transition properties
+  event?: string; // Triggering event (e.g., "doorClosed")
+  guard?: string; // Guard condition (e.g., "[doorLocked]")
+  effect?: string; // Effect/action (e.g., "/ turnOnLight()")
+  // UML Activity Diagram flow properties
+  flowType?: 'control' | 'object'; // Type of flow: control flow (default) or object flow (data transfer)
 }
 
 export interface GroupAst {
@@ -290,6 +307,8 @@ export interface ContainerLayoutOptions {
   algorithm?: LayoutAlgorithm;
   direction?: Direction;
   spacing?: number;
+  // UML Activity Diagrams: Swimlane/partition orientation
+  orientation?: 'horizontal' | 'vertical'; // Swimlane orientation (UML 2.5 activity partitions)
 }
 
 export interface Style {
@@ -708,6 +727,7 @@ export interface SequenceProfile {
   messages: SequenceMessage[];
   notes?: SequenceNote[];
   fragments?: SequenceFragment[];
+  durationConstraints?: SequenceDurationConstraint[]; // UML 2.5 duration constraints spanning messages
 }
 
 /**
@@ -716,7 +736,13 @@ export interface SequenceProfile {
 export interface SequenceParticipant {
   id: string; // Unique identifier (e.g., "user", "api", "db")
   name: string; // Display name (e.g., "User", "API Server", "Database")
-  type?: 'actor' | 'entity' | 'boundary' | 'control' | 'database'; // Participant type
+  type?:
+    | 'actor'
+    | 'entity'
+    | 'boundary'
+    | 'control'
+    | 'database'
+    | 'continuation'; // Participant type
 }
 
 /**
@@ -730,6 +756,7 @@ export interface SequenceMessage {
   activate?: boolean; // Whether to show activation box on target
   guard?: string; // Guard condition (e.g., "[x > 0]")
   timing?: string; // Timing constraint (e.g., "{t < 5s}")
+  stateInvariant?: string; // State invariant - condition that must be true at this point (e.g., "user.isAuthenticated" or "balance >= 0")
 }
 
 /**
@@ -742,14 +769,16 @@ export interface SequenceNote {
 }
 
 /**
- * Combined fragment (loop, alt, opt, etc.)
+ * Combined fragment (loop, alt, opt, etc.) or interaction use (ref)
  */
 export interface SequenceFragment {
-  type: 'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break'; // Fragment type
+  type: 'loop' | 'alt' | 'opt' | 'par' | 'critical' | 'break' | 'ref'; // Fragment type
   label?: string; // Condition or description
   startAfterMessage: number; // Message index where fragment starts
   endAfterMessage: number; // Message index where fragment ends
   alternatives?: SequenceFragmentAlternative[]; // For alt fragments
+  gates?: string[]; // Gate names - connection points at fragment boundaries (UML 2.5)
+  reference?: string; // For 'ref' fragments: name of the referenced sequence diagram (UML 2.5 interaction use)
 }
 
 /**
@@ -759,4 +788,14 @@ export interface SequenceFragmentAlternative {
   label: string; // Condition label (e.g., "[success]", "[error]")
   startAfterMessage: number; // Message index where alternative starts
   endAfterMessage: number; // Message index where alternative ends
+}
+
+/**
+ * Duration constraint spanning multiple messages (UML 2.5)
+ * Specifies timing requirements for a sequence of interactions
+ */
+export interface SequenceDurationConstraint {
+  fromMessage: number; // Starting message index (0-based)
+  toMessage: number; // Ending message index (0-based)
+  constraint: string; // Constraint expression (e.g., "< 100ms", "{d..2d}")
 }

@@ -18,6 +18,8 @@ Please also review the following files for additional context on Runiq developme
     6. NO combining of phases in one response
     7. NO skipping of phases
     8. NO verbose explanations or commentary
+    9. DO not commit unless all tests are passing
+    10. All test failures must be fixed before proceeding to the next phase, even if they were not broken as a result of our work
 
 ### Test-Driven Development (TDD)
 
