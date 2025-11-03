@@ -39,8 +39,8 @@ features:
     details: Build complex architectures with nested containers. Perfect for C4, BPMN, and microservices diagrams.
 
   - icon: 🔗
-    title: UML Relationships
-    details: Stereotypes (`<<include>>`, `<<extend>>`), line styles (solid, dashed, dotted), arrow types (standard, hollow, open).
+    title: UML 2.5 Relationships
+    details: Multiplicity, role names, aggregation (◇) and composition (◆) diamonds. Stereotypes, line styles, arrow types. Full class diagram support.
 
   - icon: ⚡
     title: Professional Layouts
@@ -55,7 +55,7 @@ features:
     details: Control systems with transfer functions. Export to LaTeX/TikZ and Simulink.
 
   - icon: 🧪
-    title: 705+ Tests Passing
+    title: 1111+ Tests Passing
     details: Comprehensive test coverage with TDD approach. Production-ready quality.
 ---
 
