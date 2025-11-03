@@ -4,7 +4,7 @@
 	import ShapeBrowser from './ShapeBrowser.svelte';
 	import ToolboxSamples from './ToolboxSamples.svelte';
 	import { shapeCategories } from '$lib/data/toolbox-data';
-	import { sampleDiagrams, wardleySamples } from '$lib/data/sample-data';
+	import {sampleDiagrams} from '$lib/data/sample-data';
 
 	interface Props {
 		onInsertShape: (shapeCode: string) => void;
@@ -18,7 +18,7 @@
 	// Official profiles: diagram, sequence, wardley, electrical, digital, pneumatic, hydraulic
 	let currentProfile = $derived.by(() => {
 		const code = currentCode.trim();
-		if (code.startsWith('electrical') || code.startsWith('schematic')) return 'electrical';
+		if (code.startsWith('electrical')) return 'electrical';
 		if (code.startsWith('digital')) return 'digital';
 		if (code.startsWith('pneumatic')) return 'pneumatic';
 		if (code.startsWith('hydraulic')) return 'hydraulic';
@@ -33,23 +33,24 @@
 	let isDigitalMode = $derived(currentProfile === 'digital');
 	let isPneumaticMode = $derived(currentProfile === 'pneumatic');
 	let isHydraulicMode = $derived(currentProfile === 'hydraulic');
+	let isSequenceMode = $derived(currentProfile === 'sequence');
 
 	// Filter categories based on current profile
 	let displayedCategories = $derived(
 		shapeCategories.filter((cat) => {
 			// If category has no profiles defined, show in diagram mode only
 			if (!cat.profiles || cat.profiles.length === 0) {
-				return currentProfile === 'diagram' || currentProfile === 'sequence';
+				return currentProfile === 'diagram';
 			}
 			// Show if current profile matches any of the category's profiles
 			return cat.profiles.includes(currentProfile);
 		})
 	);
 
-	// Select appropriate samples
-	let displayedSamples = $derived(isWardleyMode ? wardleySamples : sampleDiagrams);
+	// All samples are always available - inserting a sample changes the profile
+	let displayedSamples = $derived(sampleDiagrams);
 
-	// Handler for inserting samples - use provided handler or fallback to shape handler
+	// Handler for inserting samples
 	function handleInsertSample(sampleCode: string) {
 		if (onInsertSample) {
 			onInsertSample(sampleCode);
@@ -61,7 +62,11 @@
 
 <Tooltip.Provider delayDuration={200}>
 	<div class="flex h-full flex-col">
-		{#if isElectricalMode}
+		{#if isSequenceMode}
+			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
+				<p class="text-xs font-medium text-amber-900">⚡ Sequence Diagram Mode</p>
+			</div>
+		{:else if isElectricalMode}
 			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
 				<p class="text-xs font-medium text-amber-900">⚡ Electrical Circuit Mode</p>
 			</div>
@@ -88,7 +93,6 @@
 				<Tabs.Trigger
 					value="shapes"
 					class="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:text-runiq-700 data-[state=active]:shadow-sm data-[state=inactive]:text-neutral-600 data-[state=inactive]:hover:text-neutral-900"
-					disabled={isWardleyMode}
 				>
 					Shapes
 				</Tabs.Trigger>
@@ -96,7 +100,7 @@
 					value="samples"
 					class="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:text-runiq-700 data-[state=active]:shadow-sm data-[state=inactive]:text-neutral-600 data-[state=inactive]:hover:text-neutral-900"
 				>
-					{isWardleyMode ? 'Templates' : 'Sample Diagrams'}
+					Sample Diagrams
 				</Tabs.Trigger>
 			</Tabs.List>
 
@@ -107,7 +111,7 @@
 					<div class="flex h-full items-center justify-center p-4 text-center">
 						<p class="text-sm text-neutral-500">
 							Wardley Maps use uniform components.<br />
-							See Templates for examples.
+							See Sample Diagrams for examples.
 						</p>
 					</div>
 				{/if}
