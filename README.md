@@ -479,9 +479,10 @@ diagram "Domain Model" {
 - [x] **SVG renderer functional** - Standards-compliant output
 - [x] **Hierarchical containers - Complete! 🎉**
   - Full DSL syntax support for containers with styling and layout options
-  - Nested containers (parser + renderer complete, layout 90%)
+  - Nested containers with **two-pass layout algorithm** ✅
+  - Deep nesting support (3+ levels) with automatic sizing ✅
   - Cross-container edges fully supported
-  - 148 container-related tests (95% passing)
+  - 148 container-related tests (100% passing)
   - [See Container Documentation →](./docs/containers.md)
 
 **Electrical Circuits (NEW!):**

@@ -40,6 +40,12 @@
 	let dragStartX = $state(0);
 	let dragStartY = $state(0);
 
+	// Mouse coordinates for troubleshooting
+	let mouseX = $state(0);
+	let mouseY = $state(0);
+	let svgMouseX = $state(0);
+	let svgMouseY = $state(0);
+
 	let svgContainer: HTMLDivElement;
 	let lastCode = '';
 
@@ -286,6 +292,15 @@
 	}
 
 	function handleMouseMove(e: MouseEvent) {
+		// Update mouse coordinates (screen space)
+		const rect = svgContainer.getBoundingClientRect();
+		mouseX = Math.round(e.clientX - rect.left);
+		mouseY = Math.round(e.clientY - rect.top);
+
+		// Calculate SVG space coordinates (accounting for pan and zoom)
+		svgMouseX = Math.round((mouseX - translateX) / scale);
+		svgMouseY = Math.round((mouseY - translateY) / scale);
+
 		if (isDragging) {
 			translateX = e.clientX - dragStartX;
 			translateY = e.clientY - dragStartY;
@@ -445,6 +460,19 @@
 		onwheel={handleWheel}
 		style="cursor: {isDragging ? 'grabbing' : 'grab'}"
 	>
+		<!-- Mouse Coordinates Display (Top-Left Corner) -->
+		{#if svgOutput}
+			<div
+				class="absolute left-2 top-2 z-10 rounded-md bg-black/75 px-3 py-2 font-mono text-xs text-white shadow-lg backdrop-blur-sm"
+			>
+				<div class="space-y-1">
+					<div class="text-neutral-300">Screen: x={mouseX}, y={mouseY}</div>
+					<div class="text-white">SVG: x={svgMouseX}, y={svgMouseY}</div>
+					<div class="text-neutral-400">Zoom: {(scale * 100).toFixed(0)}%</div>
+				</div>
+			</div>
+		{/if}
+
 		{#if errors.length > 0}
 			<!-- Error Overlay -->
 			<div class="absolute inset-0 flex items-center justify-center p-8">
