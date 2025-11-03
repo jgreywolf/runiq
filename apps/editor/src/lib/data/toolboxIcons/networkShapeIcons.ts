@@ -4,6 +4,7 @@ export const networkShapeIcons: ShapeCategory[] = [
 	{
 		id: 'network',
 		label: 'Network',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'server', label: 'Server', code: 'shape id as @server label:"Server"' },
 			{ id: 'router', label: 'Router', code: 'shape id as @router label:"Router"' },

@@ -4,6 +4,7 @@ export const erdShapeIcons: ShapeCategory[] = [
 	{
 		id: 'erd',
 		label: 'ERD (Entity Relationship)',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'erdEntity', label: 'Entity', code: 'shape id as @erdEntity label:"Customer"' },
 			{

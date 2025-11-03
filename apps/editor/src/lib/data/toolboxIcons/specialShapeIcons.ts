@@ -4,6 +4,7 @@ export const specialShapeIcons: ShapeCategory[] = [
 	{
 		id: 'special',
 		label: 'Special',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'textBlock', label: 'Text Block', code: 'shape id as @textBlock label:"Note"' },
 			{ id: 'braceLeft', label: 'Brace Left', code: 'shape id as @braceLeft label:""' },

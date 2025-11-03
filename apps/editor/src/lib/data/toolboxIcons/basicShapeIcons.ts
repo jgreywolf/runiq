@@ -4,6 +4,7 @@ export const basicShapeIcons: ShapeCategory[] = [
 	{
 		id: 'basic',
 		label: 'Basic Shapes',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'rectangle', label: 'Rectangle', code: 'shape id as @rectangle label:"Label"' },
 			{

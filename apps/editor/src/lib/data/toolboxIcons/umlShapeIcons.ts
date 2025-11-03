@@ -4,6 +4,7 @@ export const umlShapeIcons: ShapeCategory[] = [
 	{
 		id: 'uml',
 		label: 'UML',
+		profiles: ['diagram'],
 		shapes: [
 			// Class Diagrams
 			{ id: 'class', label: 'Class', code: 'shape id as @class label:"ClassName"' },

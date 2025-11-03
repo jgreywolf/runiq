@@ -4,6 +4,7 @@ export const quantumShapeIcons: ShapeCategory[] = [
 	{
 		id: 'quantum',
 		label: 'Quantum Circuits',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'gateX', label: 'X Gate (Pauli-X)', code: 'shape id as @gateX label:"X"' },
 			{ id: 'gateY', label: 'Y Gate (Pauli-Y)', code: 'shape id as @gateY label:"Y"' },

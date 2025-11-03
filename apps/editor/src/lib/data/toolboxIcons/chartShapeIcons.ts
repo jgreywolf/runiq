@@ -4,6 +4,7 @@ export const chartShapeIcons: ShapeCategory[] = [
 	{
 		id: 'charts',
 		label: 'Charts & Diagrams',
+		profiles: ['diagram'],
 		shapes: [
 			{
 				id: 'pieChart',
