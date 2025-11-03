@@ -1,11 +1,16 @@
 # Runiq Diagram Specification Coverage Analysis
 
-**Date:** October 31, 2025  
-**Status:** Launch Day Review
+**Date:** November 3, 2025  
+**Status:** Post-Launch Enhancement Review
 
 ## Executive Summary
 
 This document analyzes Runiq's coverage of industry-standard diagram specifications including UML 2.5, BPMN 2.0, C4 Model, and ISO standards. The goal is to identify gaps in syntax support and shape coverage to ensure spec-compliant diagram creation.
+
+**Recent Updates (Nov 3, 2025):**
+- ✅ State Machine Enhancements COMPLETE - 95% UML 2.5 coverage
+- ✅ Activity Diagram Enhancements COMPLETE - 100% shape coverage
+- ✅ BPMN Gateway Markers COMPLETE - Full BPMN 2.0 gateway compliance
 
 ---
 
@@ -809,9 +814,12 @@ All critical features are already implemented!
    - **Status:** All 6 shapes implemented and registered, 87 tests passing
    - **Coverage:** Shapes 100%, syntax extensions can wait
 
-3. **BPMN Gateway Markers** - Essential for BPMN compliance
-   - Add `gatewayType: exclusive|parallel|inclusive|eventBased|complex` property
-   - Render appropriate marker inside diamond
+3. ~~**BPMN Gateway Markers** - Essential for BPMN compliance~~ - ✅ **COMPLETE**
+   - ✅ Add `gatewayType: exclusive|parallel|inclusive|eventBased|complex` property
+   - ✅ Render appropriate marker inside diamond (X, +, O, pentagon, asterisk)
+   - ✅ Alias support (xor, and, or, event)
+   - **Status:** All 5 gateway types implemented with visual markers, 25 tests passing
+   - **Coverage:** BPMN 2.0 gateway compliance complete
 
 4. **Association Classes** - Common UML pattern
    - Add `associationClass` edge property or better linking syntax
