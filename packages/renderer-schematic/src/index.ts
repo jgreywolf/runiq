@@ -14,7 +14,7 @@ import type {
 } from '@runiq/core';
 import { getSymbol, type SymbolDefinition } from './symbols.js';
 
-// Re-export P&ID symbols and line types
+// Re-export P&ID symbols, line types, and tag system
 export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
 export {
   pidLineTypes,
@@ -26,6 +26,24 @@ export {
   renderDoubleLine,
   renderInsulationMarks,
 } from './pid-line-types.js';
+export {
+  type PIDTag,
+  parseTag,
+  validateTag,
+  createTag,
+  isFieldMounted,
+  getTagCategory,
+  generateSequentialTags,
+  getLoopNumber,
+  isSameLoop,
+  getLoopTags,
+  formatTagDisplay,
+  suggestTags,
+  isISACompliant,
+  measuredVariables,
+  readoutFunctions,
+  commonTagCombinations,
+} from './pid-tags.js';
 
 // Union type for all profile types that can be rendered as schematics
 export type RenderableProfile =
