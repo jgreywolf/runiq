@@ -128,7 +128,7 @@
 						<div class="space-y-2 p-2">
 							{#each category.samples as sample}
 								<button
-									class="w-full rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-200 hover:bg-runiq-50"
+									class="w-full rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-200 hover:bg-runiq-50 cursor-pointer"
 									onclick={() => onInsertSample(sample.code)}
 								>
 									<p class="text-sm font-medium text-neutral-900">{sample.name}</p>

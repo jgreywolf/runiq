@@ -138,7 +138,7 @@
 								{#each category.shapes as shape (shape.id)}
 									<Tooltip.Root>
 										<Tooltip.Trigger
-											class="group flex h-12 w-full flex-col items-center justify-center gap-0.5 rounded-md border border-transparent p-1 transition-all hover:border-runiq-300 hover:bg-runiq-50 hover:shadow-sm active:scale-95"
+											class="group flex h-12 w-full flex-col items-center justify-center gap-0.5 rounded-md border border-transparent p-1 transition-all hover:border-runiq-300 hover:bg-runiq-50 hover:shadow-sm active:scale-95 cursor-pointer"
 											onclick={() => insertShape(shape.code)}
 										>
 											<ShapeIcon shapeId={shape.id} size={24} />

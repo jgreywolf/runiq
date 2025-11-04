@@ -37,56 +37,44 @@
 
 	// Create a minimal render context for the icon
 	const createMockContext = (shapeId: string) => {
-		// Special handling for class shape to show structure
-		if (shapeId === 'class') {
-			return {
+		// Helper to create base context with common properties
+		const createBaseContext = (overrides: any = {}) => ({
+			node: { id: '', label: '', ...overrides.node },
+			style: {
+				padding: 2,
+				fill: '#cbd5e1',
+				stroke: '#000',
+				strokeWidth: 1,
+				font: 'sans-serif',
+				fontSize: 6,
+				...overrides.style
+			},
+			measureText: overrides.measureText || ((text: string, style: any) => ({ width: 0, height: 0 }))
+		});
+
+		// Helper for text measurement
+		const textMeasure = (width: number, height: number) => 
+			(text: string, style: any) => ({ width, height });
+
+		// Shape-specific configurations
+		const shapeConfigs: Record<string, any> = {
+			// Special data-driven shapes
+			class: {
 				node: {
-					id: '',
 					label: 'Class',
 					data: {
 						attributes: [{ name: 'attr', type: 'type', visibility: 'public' }],
 						methods: [{ name: 'method', returnType: 'void', visibility: 'public' }]
 					}
 				},
-				style: {
-					padding: 3,
-					fill: '#cbd5e1',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 7
-				},
-				measureText: (text: string, style: any) => {
-					const charWidth = 4;
-					return { width: text.length * charWidth, height: 8 };
-				}
-			};
-		}
-
-		// Special handling for actor to show stick figure
-		if (shapeId === 'actor') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 1,
-					fill: 'none',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		// Special handling for pyramid - requires data
-		if (shapeId === 'pyramid') {
-			return {
+				style: { padding: 3, fontSize: 7 },
+				measureText: (text: string) => ({ width: text.length * 4, height: 8 })
+			},
+			actor: {
+				style: { padding: 1, fill: 'none' }
+			},
+			pyramid: {
 				node: {
-					id: '',
-					label: '',
 					data: {
 						levels: [
 							{ label: 'Top', value: 50 },
@@ -95,279 +83,55 @@
 						]
 					}
 				},
-				style: {
-					padding: 2,
-					fill: '#cbd5e1',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 20, height: 8 };
-				}
-			};
-		}
-
-		// Special handling for multiRectangle to make offset more visible
-		if (shapeId === 'multiRectangle') {
-			return {
-				node: { id: '', label: '', data: { offset: 6, stackCount: 3 } },
-				style: {
-					padding: 2,
-					fill: '#f0f0f0',
-					stroke: '#333',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 20, height: 8 };
-				}
-			};
-		}
-
-		// Special handling for lightning bolt to make it more visible
-		if (shapeId === 'lightning') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 4,
-					fill: '#fbbf24',
-					stroke: '#000',
-					strokeWidth: 1.5,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		// Special handling for C4 shapes to show proper styling
-		if (shapeId === 'c4-person') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#08427B',
-					stroke: '#052E56',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'c4-system') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 3,
-					fill: '#1168BD',
-					stroke: '#0B4884',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 7
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 30, height: 10 };
-				}
-			};
-		}
-
-		if (shapeId === 'c4-container') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 3,
-					fill: '#438DD5',
-					stroke: '#2E6295',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 28, height: 10 };
-				}
-			};
-		}
-
-		if (shapeId === 'c4-component') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#85BBF0',
-					stroke: '#5A9BD5',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 24, height: 8 };
-				}
-			};
-		}
-
-		// BPMN shapes with proper styling
-		if (shapeId === 'bpmnTask') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 28, height: 10 };
-				}
-			};
-		}
-
-		if (
-			shapeId === 'bpmnEventStart' ||
-			shapeId === 'bpmnEventEnd' ||
-			shapeId === 'bpmnEventIntermediate'
-		) {
-			const eventType = shapeId.replace('bpmnEvent', '').toLowerCase();
-			return {
-				node: { id: '', label: '', shape: 'bpmnEvent', data: { values: [{ eventType }] } },
-				style: {
-					padding: 1,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (
-			shapeId === 'bpmnGatewayExclusive' ||
-			shapeId === 'bpmnGatewayParallel' ||
-			shapeId === 'bpmnGatewayInclusive'
-		) {
-			const gatewayType = shapeId.replace('bpmnGateway', '').toLowerCase();
-			return {
-				node: { id: '', label: '', shape: 'bpmnGateway', data: { values: [{ gatewayType }] } },
-				style: {
-					padding: 1,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'bpmnDataObject') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 18, height: 24 };
-				}
-			};
-		}
-
-		if (shapeId === 'bpmnMessage') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 24, height: 18 };
-				}
-			};
-		}
-
-		// Quantum circuit shapes - use thinner strokes for small circles
-		if (shapeId === 'controlDot') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 0,
-					fill: '#000',
-					stroke: 'none', // No stroke - solid filled circle
-					strokeWidth: 0,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'cnotTarget') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 0,
-					fill: 'none',
-					stroke: '#000',
-					strokeWidth: 0.5, // Thinner stroke for icon
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'pieChart') {
-			return {
-				node: { id: '', label: '', data: { width: 120, height: 40 } },
-				style: {
-					padding: 2,
-					fill: '#e6f3ff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		// Chart shapes with sample data for preview
-		if (shapeId === 'pieChart') {
-			return {
+				measureText: textMeasure(20, 8)
+			},
+			multiRectangle: {
+				node: { data: { offset: 6, stackCount: 3 } },
+				style: { fill: '#f0f0f0', stroke: '#333' },
+				measureText: textMeasure(20, 8)
+			},
+			lightning: {
+				style: { padding: 4, fill: '#fbbf24', strokeWidth: 1.5 }
+			},
+			// C4 shapes
+			'c4-person': {
+				style: { fill: '#08427B', stroke: '#052E56' }
+			},
+			'c4-system': {
+				style: { padding: 3, fill: '#1168BD', stroke: '#0B4884', fontSize: 7 },
+				measureText: textMeasure(30, 10)
+			},
+			'c4-container': {
+				style: { padding: 3, fill: '#438DD5', stroke: '#2E6295' },
+				measureText: textMeasure(28, 10)
+			},
+			'c4-component': {
+				style: { fill: '#85BBF0', stroke: '#5A9BD5' },
+				measureText: textMeasure(24, 8)
+			},
+			// BPMN shapes
+			bpmnTask: {
+				style: { fill: '#fff' },
+				measureText: textMeasure(28, 10)
+			},
+			bpmnDataObject: {
+				style: { fill: '#fff' },
+				measureText: textMeasure(18, 24)
+			},
+			bpmnMessage: {
+				style: { fill: '#fff' },
+				measureText: textMeasure(24, 18)
+			},
+			// Quantum shapes
+			controlDot: {
+				style: { padding: 0, fill: '#000', stroke: 'none', strokeWidth: 0 }
+			},
+			cnotTarget: {
+				style: { padding: 0, fill: 'none', strokeWidth: 0.5 }
+			},
+			// Chart shapes
+			pieChart: {
 				node: {
-					id: '',
-					label: '',
 					data: {
 						values: [
 							{ label: 'A', value: 30 },
@@ -377,434 +141,128 @@
 						showLegend: false
 					}
 				},
-				style: {
-					padding: 2,
-					font: 'sans-serif',
-					fontSize: 5
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'barChartVertical') {
-			return {
-				node: {
-					id: '',
-					label: '',
-					data: {
-						values: [
-							{ label: 'A', value: 30 },
-							{ label: 'B', value: 45 },
-							{ label: 'C', value: 25 }
-						],
-						showLegend: false
-					}
-				},
-				style: {
-					padding: 2,
-					font: 'sans-serif',
-					fontSize: 5
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'barChartHorizontal') {
-			return {
-				node: {
-					id: '',
-					label: '',
-					data: {
-						values: [
-							{ label: 'A', value: 30 },
-							{ label: 'B', value: 45 },
-							{ label: 'C', value: 25 }
-						],
-						showLegend: false
-					}
-				},
-				style: {
-					padding: 2,
-					font: 'sans-serif',
-					fontSize: 5
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		// AWS shapes with official AWS colors
-		if (shapeId === 'awsEc2') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#FF9900',
-					stroke: '#232F3E',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'awsS3') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#569A31',
-					stroke: '#232F3E',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'awsLambda') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#FF9900',
-					stroke: '#232F3E',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'awsRds') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#3F5BE7',
-					stroke: '#232F3E',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'awsVpc') {
-			return {
-				node: { id: '', label: '', data: { width: 80, height: 60 } },
-				style: {
-					padding: 2,
-					fill: '#E6F3FF',
-					stroke: '#147EB8',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		if (shapeId === 'awsApiGateway') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#945BB3',
-					stroke: '#232F3E',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 0, height: 0 };
-				}
-			};
-		}
-
-		// ERD shapes
-		if (shapeId === 'erdEntity') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 30, height: 12 };
-				}
-			};
-		}
-
-		if (shapeId === 'erdWeakEntity') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 30, height: 12 };
-				}
-			};
-		}
-
-		if (shapeId === 'erdRelationship') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 25, height: 12 };
-				}
-			};
-		}
-
-		if (shapeId === 'erdAttribute') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 25, height: 12 };
-				}
-			};
-		}
-
-		if (shapeId === 'erdKeyAttribute') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 25, height: 12 };
-				}
-			};
-		}
-
-		if (shapeId === 'erdMultiValuedAttribute') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#fff',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 25, height: 12 };
-				}
-			};
-		}
-
-		// Package (UML) shape - toolbox uses 'package', maps to 'umlPackage'
-		if (shapeId === 'package') {
-			return {
-				node: { id: '', label: 'Pkg', shape: 'umlPackage' },
-				style: {
-					padding: 4,
-					fill: '#ffe4b5', // Orange/moccasin color
-					stroke: '#333',
-					strokeWidth: 1,
-					color: '#000', // Black text
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 15, height: 8 };
-				}
-			};
-		}
-
-		// Special handling for dividedRectangle - narrower for icon
-		if (shapeId === 'dividedRectangle') {
-			return {
-				node: { id: '', label: '', data: { minWidth: 32 } },
-				style: {
-					padding: 2,
-					fill: '#f0f0f0',
-					stroke: '#333',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 20, height: 8 };
-				}
-			};
-		}
-
-		// Special handling for linedRectangle - shorter for icon
-		if (shapeId === 'linedRectangle') {
-			return {
-				node: { id: '', label: '', data: { minHeight: 28 } },
-				style: {
-					padding: 2,
-					fill: '#f0f0f0',
-					stroke: '#333',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 18, height: 8 };
-				}
-			};
-		}
-
-		// Special handling for taggedRectangle - proper styling
-		if (shapeId === 'taggedRectangle') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 3,
-					fill: '#e0f2fe', // Light blue fill
-					stroke: '#0369a1', // Darker blue for outline and tag
-					strokeWidth: 1.5,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 20, height: 10 };
-				}
-			};
-		}
-
-		// Special handling for notchedRectangle - proper styling
-		if (shapeId === 'notchedRectangle') {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 3,
-					fill: '#fef3c7', // Light yellow fill
-					stroke: '#d97706', // Amber for outline
-					strokeWidth: 1.5,
-					font: 'sans-serif',
-					fontSize: 6
-				},
-				measureText: (text: string, style: any) => {
-					return { width: 20, height: 10 };
-				}
-			};
-		}
-
-		// Shapes that need minimum bounds (won't render properly with no text)
-		const needsMinBounds = [
-			'roundedRectangle',
-			'stadium',
-			'trapezoid',
-			'flippedTriangle',
-			'integrator',
-			'pyramid',
-			'predefinedProcess',
-			'preparation',
-			'manualInput',
-			'document',
-			'delay',
-			'braceLeft',
-			'braceRight',
-			'flag'
-		];
-		if (needsMinBounds.includes(shapeId)) {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#cbd5e1',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 8
-				},
-				measureText: (text: string, style: any) => {
-					// Return minimum text size to ensure shape renders
-					return { width: 30, height: 12 };
-				}
-			};
-		}
-
-		// Shapes that are squashed and need wider bounds
-		const needsWiderBounds = ['parallelogram', 'trapezoid'];
-		if (needsWiderBounds.includes(shapeId)) {
-			return {
-				node: { id: '', label: '' },
-				style: {
-					padding: 2,
-					fill: '#cbd5e1',
-					stroke: '#000',
-					strokeWidth: 1,
-					font: 'sans-serif',
-					fontSize: 8
-				},
-				measureText: (text: string, style: any) => {
-					// Return wider text size for parallelogram and trapezoid
-					return { width: 40, height: 10 };
-				}
-			};
-		}
-
-		// Default context for other shapes
-		return {
-			node: { id: '', label: '' },
-			style: {
-				padding: 2,
-				fill: '#cbd5e1',
-				stroke: '#000',
-				strokeWidth: 1,
-				font: 'sans-serif',
-				fontSize: 8
+				style: { fontSize: 5 }
 			},
-			measureText: (text: string, style: any) => {
-				return { width: 0, height: 0 };
+			barChartVertical: {
+				node: {
+					data: {
+						values: [
+							{ label: 'A', value: 30 },
+							{ label: 'B', value: 45 },
+							{ label: 'C', value: 25 }
+						],
+						showLegend: false
+					}
+				},
+				style: { fontSize: 5 }
+			},
+			barChartHorizontal: {
+				node: {
+					data: {
+						values: [
+							{ label: 'A', value: 30 },
+							{ label: 'B', value: 45 },
+							{ label: 'C', value: 25 }
+						],
+						showLegend: false
+					}
+				},
+				style: { fontSize: 5 }
+			},
+			// AWS shapes - use lookup for colors
+			awsEc2: { style: { fill: '#FF9900', stroke: '#232F3E' } },
+			awsS3: { style: { fill: '#569A31', stroke: '#232F3E' } },
+			awsLambda: { style: { fill: '#FF9900', stroke: '#232F3E' } },
+			awsRds: { style: { fill: '#3F5BE7', stroke: '#232F3E' } },
+			awsVpc: {
+				node: { data: { width: 80, height: 60 } },
+				style: { fill: '#E6F3FF', stroke: '#147EB8' }
+			},
+			awsApiGateway: { style: { fill: '#945BB3', stroke: '#232F3E' } },
+			// Package shape
+			package: {
+				node: { label: 'Pkg', shape: 'umlPackage' },
+				style: { padding: 4, fill: '#ffe4b5', stroke: '#333', color: '#000' },
+				measureText: textMeasure(15, 8)
+			},
+			// Rectangle variants
+			dividedRectangle: {
+				node: { data: { minWidth: 32 } },
+				style: { fill: '#f0f0f0', stroke: '#333' },
+				measureText: textMeasure(20, 8)
+			},
+			linedRectangle: {
+				node: { data: { minHeight: 28 } },
+				style: { fill: '#f0f0f0', stroke: '#333' },
+				measureText: textMeasure(18, 8)
+			},
+			taggedRectangle: {
+				style: { padding: 3, fill: '#e0f2fe', stroke: '#0369a1', strokeWidth: 1.5 },
+				measureText: textMeasure(20, 10)
+			},
+			notchedRectangle: {
+				style: { padding: 3, fill: '#fef3c7', stroke: '#d97706', strokeWidth: 1.5 },
+				measureText: textMeasure(20, 10)
 			}
 		};
+
+		// ERD shapes - all use white fill and similar config
+		const erdShapes = ['erdEntity', 'erdWeakEntity', 'erdRelationship', 'erdAttribute', 'erdKeyAttribute', 'erdMultiValuedAttribute'];
+		erdShapes.forEach(shape => {
+			const width = shape.includes('Entity') ? 30 : 25;
+			shapeConfigs[shape] = {
+				style: { fill: '#fff' },
+				measureText: textMeasure(width, 12)
+			};
+		});
+
+		// BPMN events with dynamic eventType
+		if (shapeId.startsWith('bpmnEvent')) {
+			const eventType = shapeId.replace('bpmnEvent', '').toLowerCase();
+			return createBaseContext({
+				node: { shape: 'bpmnEvent', data: { values: [{ eventType }] } },
+				style: { padding: 1, fill: '#fff' }
+			});
+		}
+
+		// BPMN gateways with dynamic gatewayType
+		if (shapeId.startsWith('bpmnGateway')) {
+			const gatewayType = shapeId.replace('bpmnGateway', '').toLowerCase();
+			return createBaseContext({
+				node: { shape: 'bpmnGateway', data: { values: [{ gatewayType }] } },
+				style: { padding: 1, fill: '#fff' }
+			});
+		}
+
+		// Check for specific shape config
+		if (shapeConfigs[shapeId]) {
+			return createBaseContext(shapeConfigs[shapeId]);
+		}
+
+		// Shapes that need minimum bounds
+		const needsMinBounds = [
+			'roundedRectangle', 'stadium', 'trapezoid', 'flippedTriangle', 'integrator',
+			'pyramid', 'predefinedProcess', 'preparation', 'manualInput', 'document',
+			'delay', 'braceLeft', 'braceRight', 'flag'
+		];
+		if (needsMinBounds.includes(shapeId)) {
+			return createBaseContext({
+				style: { fontSize: 8 },
+				measureText: textMeasure(30, 12)
+			});
+		}
+
+		// Shapes that need wider bounds
+		const needsWiderBounds = ['parallelogram', 'trapezoid'];
+		if (needsWiderBounds.includes(shapeId)) {
+			return createBaseContext({
+				style: { fontSize: 8 },
+				measureText: textMeasure(40, 10)
+			});
+		}
+
+		// Default context
+		return createBaseContext({ style: { fontSize: 8 } });
 	};
 
 	// Render the shape

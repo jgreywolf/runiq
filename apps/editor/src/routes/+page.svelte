@@ -23,17 +23,30 @@
 	let lastSaved = $state<Date | null>(null);
 	let isDirty = $state(false);
 
+	// Auto-save configuration
+	const AUTO_SAVE_DELAY = 2000; // 2 seconds after last change
+	const AUTO_SAVE_KEY = 'runiq-autosave-code';
+
+	// Restore auto-saved code immediately (before component mounts)
+	// This must happen before the CodeEditor component initializes
+	const initialCode = (() => {
+		if (typeof window !== 'undefined') {
+			const autoSaved = localStorage.getItem(AUTO_SAVE_KEY);
+			if (autoSaved) {
+				console.log('Restored auto-saved code');
+				return autoSaved;
+			}
+		}
+		return '';
+	})();
+
 	// Editor state
-	let code = $state('');
+	let code = $state(initialCode);
 	let errors = $state<string[]>([]);
 	let layoutEngine = $state('elk');
 	let autoSaveTimeout: ReturnType<typeof setTimeout> | null = null;
 	let codeEditorRef: CodeEditor | null = null;
 	let previewRef: Preview | null = null;
-
-	// Auto-save configuration
-	const AUTO_SAVE_DELAY = 2000; // 2 seconds after last change
-	const AUTO_SAVE_KEY = 'runiq-autosave-code';
 
 	// Handle code changes with auto-save
 	function handleCodeChange(newCode: string) {
@@ -272,7 +285,7 @@
 		}
 	}
 
-	// Load panel sizes and auto-saved code from localStorage
+	// Load panel sizes from localStorage
 	onMount(() => {
 		// Load panel sizes
 		const saved = localStorage.getItem('runiq-panel-sizes');
@@ -285,14 +298,6 @@
 			} catch (e) {
 				console.warn('Failed to load panel sizes:', e);
 			}
-		}
-
-		// Restore auto-saved code
-		const autoSaved = localStorage.getItem(AUTO_SAVE_KEY);
-		if (autoSaved) {
-			code = autoSaved;
-			isDirty = false;
-			console.log('Restored auto-saved code');
 		}
 	});
 

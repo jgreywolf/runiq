@@ -106,69 +106,63 @@
 			// Start render timer
 			const startRender = performance.now();
 
-			// Handle schematic profiles (electrical, pneumatic, hydraulic)
-			if (
-				profile.type === 'electrical' ||
-				profile.type === 'pneumatic' ||
-				profile.type === 'hydraulic'
-			) {
-				const renderResult = renderSchematic(profile as any, {
+			// Declare renderResult variable
+			let renderResult: { svg: string; warnings: string[] };
+
+			// Handle different profile types
+			switch (profile.type) {
+			case 'electrical':
+			case 'pneumatic':
+			case 'hydraulic':
+				renderResult = renderSchematic(profile as any, {
 					gridSize: 50,
 					routing: 'orthogonal',
 					showNetLabels: true,
 					showValues: true,
 					showReferences: true
 				});
-
-				svgOutput = renderResult.svg;
-				warnings = renderResult.warnings;
-				renderTime = Math.round(performance.now() - startRender);
-				isRendering = false;
-				if (onparse) onparse(true, []);
-				return;
-			}
-
-			// Handle Wardley Map profiles
-			if (profile.type === 'wardley') {
-				const renderResult = renderWardleyMap(profile as any, {
+				break;
+			case 'wardley':
+				renderResult = renderWardleyMap(profile as any, {
 					width: 800,
 					height: 600,
 					showGrid: true,
 					showEvolutionLabels: true,
 					showValueLabels: true
 				});
-
-				svgOutput = renderResult.svg;
-				warnings = renderResult.warnings;
-				renderTime = Math.round(performance.now() - startRender);
-				isRendering = false;
-				if (onparse) onparse(true, []);
-				return;
-			}
-
-			// Handle Sequence Diagram profiles
-			if (profile.type === 'sequence') {
-				const renderResult = renderSequenceDiagram(profile as any, {
+				break;
+			case 'sequence':
+				renderResult = renderSequenceDiagram(profile as any, {
 					width: 800,
 					participantSpacing: 150,
-					messageSpacing: 60,
-					showActivations: true,
-					showReturns: true
+					messageSpacing: 60
 				});
+				break;				
+			case 'diagram': {
+				// Add astVersion for compatibility with DiagramAst
+				const diagram = {
+					...profile,
+					astVersion: parseResult.document.astVersion
+				};
+					
+				// Layout
+				const layoutEng = layoutRegistry.get(layoutEngine);
+				if (!layoutEng) {
+					errors = [`Unknown layout engine: ${layoutEngine}`];
+					isRendering = false;
+					return;
+				}
 
-				svgOutput = renderResult.svg;
-				warnings = renderResult.warnings;
-				renderTime = Math.round(performance.now() - startRender);
-				isRendering = false;
-				if (onparse) onparse(true, []);
-				return;
-			}
+				const layout = await layoutEng.layout(diagram);
 
-			// Handle diagram profiles
-			if (profile.type !== 'diagram') {
+				// Render
+				renderResult = renderSvg(diagram, layout, { strict: false });
+				break;
+				}
+			default:
 				errors = [
 					`Profile type '${profile.type}' is not yet supported in the preview.`,
-					`Currently 'diagram', 'electric', 'pneumatic', 'hydraulic', 'sequence', and 'wardley' profiles can be rendered.`
+					`Currently 'diagram', 'electrical', 'pneumatic', 'hydraulic', 'sequence', and 'wardley' profiles can be rendered.`
 				];
 				svgOutput = '';
 				isRendering = false;
@@ -176,45 +170,21 @@
 				return;
 			}
 
-			// Add astVersion for compatibility with DiagramAst
-			const diagram = {
-				...profile,
-				astVersion: parseResult.document.astVersion
-			};
-
-			// Debug: Log the nodes to see their shapes
-			console.log(
-				'Diagram nodes:',
-				JSON.stringify(
-					diagram.nodes.map((n) => ({ id: n.id, shape: n.shape, label: n.label })),
-					null,
-					2
-				)
-			);
-
-			// Layout
-			const layoutEng = layoutRegistry.get(layoutEngine);
-			if (!layoutEng) {
-				errors = [`Unknown layout engine: ${layoutEngine}`];
-				isRendering = false;
-				return;
-			}
-
-			const layout = await layoutEng.layout(diagram);
-
-			// Render
-			const renderResult = renderSvg(diagram, layout, { strict: false });
+			// Common post-render logic
 			svgOutput = renderResult.svg;
 			warnings = renderResult.warnings;
 			renderTime = Math.round(performance.now() - startRender);
-
 			isRendering = false;
-			if (onparse) onparse(true, []);
+			if (onparse) {
+				onparse(true, []);
+			}
 		} catch (error) {
 			errors = [error instanceof Error ? error.message : 'Unknown error'];
 			svgOutput = '';
 			isRendering = false;
-			if (onparse) onparse(false, errors);
+			if (onparse) {
+				onparse(false, errors);
+			}
 		}
 	}
 
