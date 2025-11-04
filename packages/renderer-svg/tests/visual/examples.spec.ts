@@ -171,25 +171,59 @@ test.describe('Visual Regression - Example Files', () => {
 	// 	await expect(svg).toHaveScreenshot('example-flowchart-decision-tree.png');
 	// });
 
-	// Skipped: Chart shapes not yet implemented
-	// test('should render charts/pie-chart-simple.runiq', async ({ page }) => {
-	// 	const dsl = readExampleFile('pie-chart-simple.runiq');
-	// 	await renderAndSetup(page, dsl);
-	// 	
-	// 	const svg = page.locator('svg[role="img"]').first();
-	// 	await expect(svg).toBeVisible();
-	// 	await expect(svg).toHaveScreenshot('example-pie-chart-simple.png');
-	// });
+	test('should render charts/pie-chart-simple.runiq', async ({ page }) => {
+		const dsl = readExampleFile('pie-chart-simple.runiq');
+		await renderAndSetup(page, dsl);
+		
+		const svg = page.locator('svg[role="img"]').first();
+		await expect(svg).toBeVisible();
+		await expect(svg).toHaveScreenshot('example-pie-chart-simple.png');
+	});
 
-	// Skipped: Chart shapes not yet implemented
-	// test('should render charts/bar-chart-vertical.runiq', async ({ page }) => {
-	// 	const dsl = readExampleFile('bar-chart-vertical.runiq');
-	// 	await renderAndSetup(page, dsl);
-	// 	
-	// 	const svg = page.locator('svg[role="img"]').first();
-	// 	await expect(svg).toBeVisible();
-	// 	await expect(svg).toHaveScreenshot('example-bar-chart-vertical.png');
-	// });
+	test('should render pie-chart-labeled.runiq', async ({ page }) => {
+		const dsl = readExampleFile('pie-chart-labeled.runiq');
+		await renderAndSetup(page, dsl);
+		
+		const svg = page.locator('svg[role="img"]').first();
+		await expect(svg).toBeVisible();
+		await expect(svg).toHaveScreenshot('example-pie-chart-labeled.png');
+	});
+
+	test('should render pie-chart-with-legend.runiq', async ({ page }) => {
+		const dsl = readExampleFile('pie-chart-with-legend.runiq');
+		await renderAndSetup(page, dsl);
+		
+		const svg = page.locator('svg[role="img"]').first();
+		await expect(svg).toBeVisible();
+		await expect(svg).toHaveScreenshot('example-pie-chart-with-legend.png');
+	});
+
+	test('should render charts/bar-chart-vertical.runiq', async ({ page }) => {
+		const dsl = readExampleFile('bar-chart-vertical.runiq');
+		await renderAndSetup(page, dsl);
+		
+		const svg = page.locator('svg[role="img"]').first();
+		await expect(svg).toBeVisible();
+		await expect(svg).toHaveScreenshot('example-bar-chart-vertical.png');
+	});
+
+	test('should render bar-chart-horizontal.runiq', async ({ page }) => {
+		const dsl = readExampleFile('bar-chart-horizontal.runiq');
+		await renderAndSetup(page, dsl);
+		
+		const svg = page.locator('svg[role="img"]').first();
+		await expect(svg).toBeVisible();
+		await expect(svg).toHaveScreenshot('example-bar-chart-horizontal.png');
+	});
+
+	test('should render bar-chart-grouped-vertical.runiq', async ({ page }) => {
+		const dsl = readExampleFile('bar-chart-grouped-vertical.runiq');
+		await renderAndSetup(page, dsl);
+		
+		const svg = page.locator('svg[role="img"]').first();
+		await expect(svg).toBeVisible();
+		await expect(svg).toHaveScreenshot('example-bar-chart-grouped-vertical.png');
+	});
 
 	test('should render component-microservices.runiq', async ({ page }) => {
 		const dsl = readExampleFile('component-microservices.runiq');

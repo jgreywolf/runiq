@@ -64,6 +64,11 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('system', 'c4System');
   shapeRegistry.registerAlias('container', 'c4Container');
   shapeRegistry.registerAlias('component', 'c4Component');
+
+  // Chart Shapes
+  shapeRegistry.registerAlias('pie-chart', 'pieChart');
+  shapeRegistry.registerAlias('bar-chart-vertical', 'barChartVertical');
+  shapeRegistry.registerAlias('bar-chart-horizontal', 'barChartHorizontal');
 }
 
 /**
