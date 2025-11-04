@@ -93,8 +93,7 @@ export const sequenceShapeIcons: ShapeCategory[] = [
 			{
 				id: 'fragmentAlt',
 				label: 'Alternative (alt)',
-				code:
-					'fragment alt "Condition" from:1 to:3 alternatives:("If true":1..2,"Else":2..3)'
+				code: 'fragment alt "Condition" from:1 to:3 alternatives:("If true":1..2,"Else":2..3)'
 			},
 			{
 				id: 'fragmentOpt',
@@ -166,8 +165,7 @@ export const sequenceShapeIcons: ShapeCategory[] = [
 			{
 				id: 'durationConstraint',
 				label: 'Duration Constraint',
-				code:
-					'duration from:1 to:3 constraint:"< 100ms" participants:("A","B") label:"Response Time"'
+				code: 'duration from:1 to:3 constraint:"< 100ms" participants:("A","B") label:"Response Time"'
 			}
 		]
 	}
