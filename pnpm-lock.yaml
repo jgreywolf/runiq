@@ -458,12 +458,24 @@ importers:
         specifier: workspace:*
         version: link:../parser-dsl
     devDependencies:
+      '@playwright/test':
+        specifier: ^1.55.1
+        version: 1.56.0
       '@runiq/core':
         specifier: workspace:*
         version: link:../core
+      '@runiq/icons-fontawesome':
+        specifier: workspace:^
+        version: link:../icons-fontawesome
+      '@runiq/layout-base':
+        specifier: workspace:^
+        version: link:../layout-base
       '@types/node':
         specifier: ^20.11.0
         version: 20.19.20
+      playwright:
+        specifier: ^1.55.1
+        version: 1.56.0
       tsup:
         specifier: ^8.0.2
         version: 8.5.0(typescript@5.9.3)

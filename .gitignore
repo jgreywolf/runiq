@@ -52,3 +52,7 @@ temp/
 
 # SvelteKit
 .svelte-kit
+
+# Playwright
+playwright-report/
+test-results/

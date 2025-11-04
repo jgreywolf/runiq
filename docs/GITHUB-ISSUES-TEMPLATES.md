@@ -73,23 +73,23 @@ diagram mindmap "Project Planning"
 #### Phase 3: Documentation (1 hour)
 
 - [x] Add mindmap example to examples/
-- [ ] Document radial layout in docs/guide/
-- [ ] Update README with mindmap support
+- [x] Document radial layout in docs/guide/
+- [x] Update README with mindmap support
 
 ### Testing Requirements
 
 - [x] Radial layout algorithm activation
 - [x] Center node positioning
 - [x] Branch distribution (360° layout)
-- [ ] Multi-level hierarchy
-- [ ] Edge routing in radial space
+- [x] Multi-level hierarchy
+- [x] Edge routing in radial space
 
 ### Acceptance Criteria
 
 - [x] `layout: radial` syntax works in DSL
 - [x] ELK radial algorithm produces circular layout
 - [x] At least 2 example mindmaps created
-- [ ] Documentation updated
+- [x] Documentation updated
 - [x] 5+ tests passing
 
 ### References

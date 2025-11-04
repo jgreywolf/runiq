@@ -20,6 +20,11 @@
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:ui": "playwright test --ui",
+    "test:visual:report": "playwright show-report",
+    "test:visual:serve": "node tests/visual/server.mjs",
     "lint": "eslint src/**/*.ts",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"
@@ -31,8 +36,12 @@
     "@runiq/parser-dsl": "workspace:*"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.1",
     "@runiq/core": "workspace:*",
+    "@runiq/icons-fontawesome": "workspace:^",
+    "@runiq/layout-base": "workspace:^",
     "@types/node": "^20.11.0",
+    "playwright": "^1.55.1",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
