@@ -42,7 +42,7 @@ Enable mindmap/mind map diagrams by activating ELK's radial layout algorithm. Th
 
 - ✅ ELK radial algorithm already available in layout engine
 - ✅ All necessary shapes exist (rounded rectangles, circles)
-- ❌ Radial layout not exposed in DSL/API
+- ✅ Radial layout not exposed in DSL/API
 
 ### Implementation Requirements
 
@@ -52,10 +52,10 @@ Enable mindmap/mind map diagrams by activating ELK's radial layout algorithm. Th
 
 #### Phase 1: Enable Radial Layout (2 hours)
 
-- [ ] Add `radial` option to layout algorithm enum
-- [ ] Expose radial configuration in ELK adapter
-- [ ] Test with existing shapes
-- [ ] 5-8 tests for radial layout
+- [x] Add `radial` option to layout algorithm enum
+- [x] Expose radial configuration in ELK adapter
+- [x] Test with existing shapes
+- [x] 5-8 tests for radial layout
 
 #### Phase 2: DSL Syntax (1 hour)
 
@@ -72,25 +72,25 @@ diagram mindmap "Project Planning"
 
 #### Phase 3: Documentation (1 hour)
 
-- [ ] Add mindmap example to examples/
+- [x] Add mindmap example to examples/
 - [ ] Document radial layout in docs/guide/
 - [ ] Update README with mindmap support
 
 ### Testing Requirements
 
-- [ ] Radial layout algorithm activation
-- [ ] Center node positioning
-- [ ] Branch distribution (360° layout)
+- [x] Radial layout algorithm activation
+- [x] Center node positioning
+- [x] Branch distribution (360° layout)
 - [ ] Multi-level hierarchy
 - [ ] Edge routing in radial space
 
 ### Acceptance Criteria
 
-- [ ] `layout: radial` syntax works in DSL
-- [ ] ELK radial algorithm produces circular layout
-- [ ] At least 2 example mindmaps created
+- [x] `layout: radial` syntax works in DSL
+- [x] ELK radial algorithm produces circular layout
+- [x] At least 2 example mindmaps created
 - [ ] Documentation updated
-- [ ] 5+ tests passing
+- [x] 5+ tests passing
 
 ### References
 

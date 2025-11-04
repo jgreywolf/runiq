@@ -247,11 +247,15 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
 
+        // Add extra width for icons
+        const hasIcon = !!(node as any).icon;
+        const iconPadding = hasIcon ? 30 : 0; // Extra space for icon (16px icon + padding)
+
         if (!elkGraph.children) elkGraph.children = [];
 
         const elkNode: any = {
           id: node.id,
-          width: bounds.width,
+          width: bounds.width + iconPadding,
           height: bounds.height,
         };
 
@@ -576,6 +580,9 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Snap edge endpoints to shape anchor points for better visual accuracy
     this.snapEdgesToAnchors(diagram, uniqueEdges, nodes, measureText);
 
+    // Simplify edges to straight lines for radial/mindmap layouts
+    this.simplifyRadialEdges(diagram, uniqueEdges);
+
     return { nodes, edges: uniqueEdges, size, containers };
   }
 
@@ -706,6 +713,47 @@ export class ElkLayoutEngine implements LayoutEngine {
           fromNode,
           toNode
         );
+      }
+    }
+  }
+
+  /**
+   * Simplify edges to straight lines for radial/mindmap layouts.
+   * Radial layouts look better with direct connections rather than orthogonal routing.
+   */
+  private simplifyRadialEdges(diagram: DiagramAst, edges: RoutedEdge[]): void {
+    // Check if any container uses radial algorithm
+    const hasRadialContainer = diagram.containers?.some(
+      (c) => c.layoutOptions?.algorithm === 'radial'
+    );
+
+    if (!hasRadialContainer) return;
+
+    // Build set of node IDs in radial containers
+    const radialNodeIds = new Set<string>();
+    if (diagram.containers) {
+      for (const container of diagram.containers) {
+        if (container.layoutOptions?.algorithm === 'radial') {
+          for (const childId of container.children) {
+            radialNodeIds.add(childId);
+          }
+        }
+      }
+    }
+
+    // Simplify edges between nodes in radial containers
+    for (const edge of edges) {
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      // Only simplify if both nodes are in radial containers
+      if (radialNodeIds.has(fromNodeId) && radialNodeIds.has(toNodeId)) {
+        // Keep only start and end points for straight line
+        if (edge.points.length > 2) {
+          const start = edge.points[0];
+          const end = edge.points[edge.points.length - 1];
+          edge.points = [start, end];
+        }
       }
     }
   }
@@ -1248,17 +1296,59 @@ export class ElkLayoutEngine implements LayoutEngine {
         direction = 'RIGHT';
       }
 
+      // For radial/mindmap layouts, use straight lines instead of orthogonal routing
+      const isRadialLayout = container.layoutOptions?.algorithm === 'radial';
+
       // Create a mini ELK graph for this container's contents
       const containerGraph: ElkNode = {
         id: `__container_internal__${container.id}`,
-        layoutOptions: {
-          'elk.algorithm': algorithm,
-          'elk.direction': direction,
-          'elk.spacing.nodeNode': containerSpacing,
-        },
+        layoutOptions: isRadialLayout
+          ? {
+              'elk.algorithm': algorithm,
+              'elk.direction': direction,
+              'elk.spacing.nodeNode': containerSpacing,
+              'elk.edgeRouting': 'POLYLINE', // Straight lines for mindmaps
+            }
+          : {
+              'elk.algorithm': algorithm,
+              'elk.direction': direction,
+              'elk.spacing.nodeNode': containerSpacing,
+            },
         children: [],
         edges: [],
       };
+
+      // For radial/mindmap layouts, calculate levels and apply level-based styling
+      if (isRadialLayout) {
+        // Create a sub-diagram with just this container's nodes and edges
+        const containerSubDiagram: DiagramAst = {
+          astVersion: diagram.astVersion || '1.0',
+          title: diagram.title,
+          nodes: diagram.nodes.filter((n) => container.children.includes(n.id)),
+          edges: diagram.edges.filter((e) => {
+            const fromNodeId = this.extractNodeId(e.from);
+            const toNodeId = this.extractNodeId(e.to);
+            return (
+              container.children.includes(fromNodeId) &&
+              container.children.includes(toNodeId)
+            );
+          }),
+          styles: diagram.styles,
+          direction: diagram.direction,
+        };
+
+        // Calculate mindmap levels
+        const nodeLevels = new Map<string, number>();
+        const rootNode = this.calculateMindmapLevels(
+          containerSubDiagram,
+          nodeLevels
+        );
+
+        // Apply level-based styling
+        if (rootNode) {
+          this.applyMindmapLevelStyling(containerSubDiagram, nodeLevels);
+        }
+      }
 
       // Add child nodes to container graph
       for (const childId of container.children) {
@@ -2479,6 +2569,308 @@ export class ElkLayoutEngine implements LayoutEngine {
             queue.push(childId);
           }
         }
+      }
+    }
+  }
+
+  /**
+   * Calculate mindmap levels using BFS from root node(s).
+   * Level 0 = root/central node (no incoming edges or explicitly marked)
+   * Level 1 = nodes directly connected to root
+   * Level 2 = nodes connected to level 1, etc.
+   *
+   * Stores level for each node in the provided Map.
+   */
+  private calculateMindmapLevels(
+    diagram: DiagramAst,
+    nodeLevels: Map<string, number>
+  ): string | null {
+    // Build adjacency list (directed graph)
+    const outgoing = new Map<string, Set<string>>();
+    const incoming = new Map<string, Set<string>>();
+
+    for (const node of diagram.nodes) {
+      outgoing.set(node.id, new Set());
+      incoming.set(node.id, new Set());
+    }
+
+    for (const edge of diagram.edges) {
+      outgoing.get(edge.from)?.add(edge.to);
+      incoming.get(edge.to)?.add(edge.from);
+    }
+
+    // Find root node(s) - nodes with no incoming edges
+    const roots: string[] = [];
+    for (const node of diagram.nodes) {
+      const incomingEdges = incoming.get(node.id);
+      if (!incomingEdges || incomingEdges.size === 0) {
+        roots.push(node.id);
+      }
+    }
+
+    // If no clear root (cyclic graph), use first circle node, or first node
+    let rootNode: string | null = null;
+    if (roots.length === 0) {
+      // Look for circle shape as central node
+      const circleNode = diagram.nodes.find(
+        (n) => n.shape === 'circle' || n.shape === 'circ'
+      );
+      rootNode = circleNode ? circleNode.id : diagram.nodes[0]?.id || null;
+    } else if (roots.length === 1) {
+      rootNode = roots[0];
+    } else {
+      // Multiple roots - prefer circle shape, otherwise first root
+      const circleRoot = roots.find((id) => {
+        const node = diagram.nodes.find((n) => n.id === id);
+        return node?.shape === 'circle' || node?.shape === 'circ';
+      });
+      rootNode = circleRoot || roots[0];
+    }
+
+    if (!rootNode) return null;
+
+    // BFS to calculate levels
+    const queue: Array<{ nodeId: string; level: number }> = [
+      { nodeId: rootNode, level: 0 },
+    ];
+    const visited = new Set<string>();
+
+    while (queue.length > 0) {
+      const { nodeId, level } = queue.shift()!;
+
+      if (visited.has(nodeId)) continue;
+      visited.add(nodeId);
+
+      nodeLevels.set(nodeId, level);
+
+      // Add all outgoing neighbors to queue with level + 1
+      const neighbors = outgoing.get(nodeId);
+      if (neighbors) {
+        for (const neighborId of neighbors) {
+          if (!visited.has(neighborId)) {
+            queue.push({ nodeId: neighborId, level: level + 1 });
+          }
+        }
+      }
+    }
+
+    return rootNode;
+  }
+
+  /**
+   * Apply level-based styling to nodes in a mindmap/radial diagram.
+   * Different levels get different visual treatments to show hierarchy.
+   * Includes automatic color theming for visual clarity.
+   */
+  private applyMindmapLevelStyling(
+    diagram: DiagramAst,
+    nodeLevels: Map<string, number>
+  ): void {
+    // Level-based style defaults with colors
+    const levelStyles = [
+      // Level 0 (root/central) - white with purple accent
+      {
+        fontSize: 16,
+        strokeWidth: 3,
+        padding: 16,
+        fillColor: '#ffffff',
+        strokeColor: '#8b5cf6',
+      },
+      // Level 1 (main branches) - vibrant colors cycling through palette
+      {
+        fontSize: 14,
+        strokeWidth: 2,
+        padding: 14,
+        // Will be assigned from color palette per branch
+      },
+      // Level 2 (sub-branches) - lighter tints of level 1 colors
+      {
+        fontSize: 12,
+        strokeWidth: 1,
+        padding: 12,
+        // Will be assigned based on parent's color
+      },
+      // Level 3+ (detail branches) - even lighter tints
+      {
+        fontSize: 11,
+        strokeWidth: 1,
+        padding: 10,
+        // Will be assigned based on parent's color
+      },
+    ];
+
+    // Color palette for level 1 branches (vibrant, distinct colors)
+    const level1ColorPalette = [
+      { fill: '#3b82f6', stroke: '#2563eb' }, // Blue
+      { fill: '#10b981', stroke: '#059669' }, // Green
+      { fill: '#f59e0b', stroke: '#d97706' }, // Amber
+      { fill: '#ec4899', stroke: '#db2777' }, // Pink
+      { fill: '#8b5cf6', stroke: '#7c3aed' }, // Purple
+      { fill: '#06b6d4', stroke: '#0891b2' }, // Cyan
+      { fill: '#ef4444', stroke: '#dc2626' }, // Red
+      { fill: '#84cc16', stroke: '#65a30d' }, // Lime
+    ];
+
+    // Map to track parent colors for inheritance
+    const nodeColors = new Map<string, { fill: string; stroke: string }>();
+
+    // Track which level 1 color index to use next
+    let level1ColorIndex = 0;
+
+    // First pass: assign colors to level 0 and level 1 nodes
+    for (const node of diagram.nodes) {
+      const level = nodeLevels.get(node.id);
+      if (level === undefined || level > 1) continue;
+
+      if (!node.data) node.data = {};
+
+      if (level === 0) {
+        // Central node - white with purple accent
+        if (node.data.fillColor === undefined) {
+          node.data.fillColor = levelStyles[0].fillColor;
+        }
+        if (node.data.strokeColor === undefined) {
+          node.data.strokeColor = levelStyles[0].strokeColor;
+        }
+        nodeColors.set(node.id, {
+          fill: node.data.fillColor as string,
+          stroke: node.data.strokeColor as string,
+        });
+      } else if (level === 1) {
+        // Main branch - assign from color palette
+        if (
+          node.data.fillColor === undefined &&
+          node.data.strokeColor === undefined
+        ) {
+          const colorPair =
+            level1ColorPalette[level1ColorIndex % level1ColorPalette.length];
+          node.data.fillColor = colorPair.fill;
+          node.data.strokeColor = colorPair.stroke;
+          nodeColors.set(node.id, colorPair);
+          level1ColorIndex++;
+        } else {
+          // Store explicitly set colors
+          nodeColors.set(node.id, {
+            fill: (node.data.fillColor as string) || '#3b82f6',
+            stroke: (node.data.strokeColor as string) || '#2563eb',
+          });
+        }
+      }
+    }
+
+    // Build parent map to inherit colors for level 2+
+    const nodeParent = new Map<string, string>();
+    for (const edge of diagram.edges) {
+      const fromLevel = nodeLevels.get(edge.from);
+      const toLevel = nodeLevels.get(edge.to);
+      if (
+        fromLevel !== undefined &&
+        toLevel !== undefined &&
+        toLevel > fromLevel
+      ) {
+        nodeParent.set(edge.to, edge.from);
+      }
+    }
+
+    // Helper to lighten a color
+    const lightenColor = (hex: string, percent: number): string => {
+      const num = parseInt(hex.replace('#', ''), 16);
+      const r = Math.min(
+        255,
+        Math.floor((num >> 16) + (255 - (num >> 16)) * percent)
+      );
+      const g = Math.min(
+        255,
+        Math.floor(
+          ((num >> 8) & 0x00ff) + (255 - ((num >> 8) & 0x00ff)) * percent
+        )
+      );
+      const b = Math.min(
+        255,
+        Math.floor((num & 0x0000ff) + (255 - (num & 0x0000ff)) * percent)
+      );
+      return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+    };
+
+    // Second pass: assign colors to level 2+ nodes based on parent
+    for (const node of diagram.nodes) {
+      const level = nodeLevels.get(node.id);
+      if (level === undefined || level <= 1) continue;
+
+      if (!node.data) node.data = {};
+
+      // Get style for this level (use level 3+ style for all levels >= 3)
+      const styleIndex = Math.min(level, levelStyles.length - 1);
+      const levelStyle = levelStyles[styleIndex];
+
+      // Apply base styling (fontSize, strokeWidth)
+      if (node.data.fontSize === undefined) {
+        node.data.fontSize = levelStyle.fontSize;
+      }
+      if (node.data.strokeWidth === undefined) {
+        node.data.strokeWidth = levelStyle.strokeWidth;
+      }
+
+      // Inherit and lighten color from parent if not explicitly set
+      if (
+        node.data.fillColor === undefined ||
+        node.data.strokeColor === undefined
+      ) {
+        const parentId = nodeParent.get(node.id);
+        const parentColor = parentId ? nodeColors.get(parentId) : null;
+
+        if (parentColor) {
+          // Lighten based on level depth
+          const lightenAmount = level === 2 ? 0.6 : 0.8;
+          const lightFill = lightenColor(parentColor.fill, lightenAmount);
+          const lightStroke = lightenColor(
+            parentColor.stroke,
+            lightenAmount * 0.5
+          );
+
+          if (node.data.fillColor === undefined) {
+            node.data.fillColor = lightFill;
+          }
+          if (node.data.strokeColor === undefined) {
+            node.data.strokeColor = lightStroke;
+          }
+
+          nodeColors.set(node.id, {
+            fill: node.data.fillColor as string,
+            stroke: node.data.strokeColor as string,
+          });
+        }
+      }
+
+      // Store level for potential renderer use
+      node.data.mindmapLevel = level;
+    }
+
+    // Third pass: ensure all level 0 and 1 nodes have mindmapLevel stored
+    for (const node of diagram.nodes) {
+      const level = nodeLevels.get(node.id);
+      if (level !== undefined && level <= 1) {
+        if (!node.data) node.data = {};
+        node.data.mindmapLevel = level;
+      }
+    }
+
+    // Fourth pass: apply thick edge styling for mindmap connections
+    // Edges should be visually prominent in mindmaps
+    // Mindmaps traditionally don't show arrows - just connecting lines
+    for (const edge of diagram.edges) {
+      // Only style if not already explicitly styled
+      if (edge.strokeWidth === undefined) {
+        // Apply thick stroke for mindmap edges (default is 1)
+        edge.strokeWidth = 2.5;
+      }
+      if (edge.strokeColor === undefined) {
+        // Use a neutral gray that works with all branch colors
+        edge.strokeColor = '#6b7280';
+      }
+      if (edge.arrowType === undefined) {
+        // Mindmaps traditionally don't use arrows
+        edge.arrowType = 'none';
       }
     }
   }

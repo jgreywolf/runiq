@@ -1740,6 +1740,33 @@ function convertContainer(
           node.label = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStyleRefProperty(prop)) {
           node.style = prop.ref?.$refText;
+        } else if (Langium.isFillProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.fillColor = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isColorProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.textColor = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isStrokeProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.strokeColor = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isStrokeWidthProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.strokeWidth = parseFloat(prop.value);
+        } else if (Langium.isFontSizeProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.fontSize = parseFloat(prop.value);
+        } else if (Langium.isFontFamilyProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.fontFamily = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isTextAlignProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.textAlign = prop.value;
+        } else if (Langium.isFontWeightProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.fontWeight = parseFloat(prop.value);
+        } else if (Langium.isOpacityProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.opacity = parseFloat(prop.value);
         } else if (Langium.isIconProperty(prop)) {
           node.icon = {
             provider: prop.provider,
