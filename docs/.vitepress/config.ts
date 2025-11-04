@@ -69,6 +69,7 @@ export default defineConfig({
             { text: 'Containers', link: '/guide/containers' },
             { text: 'Styling', link: '/guide/styling' },
             { text: 'Layout', link: '/guide/layout' },
+            { text: 'Inline Icons', link: '/guide/inline-icons' },
           ],
         },
         {

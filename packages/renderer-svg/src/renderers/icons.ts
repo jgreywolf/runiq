@@ -14,10 +14,17 @@ export function renderIcon(
   }
 
   const iconSize = 16;
-  const iconX = positioned.x + positioned.width - iconSize - 5;
-  const iconY = positioned.y + 5;
+  const padding = 12; // Padding to prevent text overlap
+  const iconX = positioned.x + positioned.width - iconSize - padding;
+  const iconY = positioned.y + 4; // Small padding from top edge
+
+  // Support custom icon color via iconColor property, otherwise use currentColor
+  const positionedWithData = positioned as PositionedNode & {
+    data?: { iconColor?: string };
+  };
+  const iconColor = positionedWithData.data?.iconColor || 'currentColor';
 
   return `<svg x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" viewBox="${iconData.viewBox}">
-    <path d="${iconData.d}" fill="currentColor" />
+    <path d="${iconData.d}" fill="${iconColor}" />
   </svg>`;
 }

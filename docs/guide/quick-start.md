@@ -161,7 +161,41 @@ diagram "Container styles" {
 }
 ```
 
-## Step 5: Use UML Stereotypes
+## Step 5: Add Icons
+
+Make your diagrams more visual with inline icons:
+
+```runiq
+diagram "Social Media Flow" {
+  direction TB
+
+  # Inline icons within labels
+  shape Login as @rounded label: "fa:fa-user Login"
+  shape Post as @rect label: "fa:fa-pen Create Post"
+  shape Share as @rhombus label: "fa:fa-share Share?"
+  shape Twitter as @rect label: "fa:fa-twitter Post to Twitter"
+  shape Facebook as @rect label: "fa:fa-facebook Post to Facebook"
+  shape Success as @hexagon label: "fa:fa-check Published!"
+
+  Login -> Post
+  Post -> Share
+  Share -yes-> Twitter
+  Share -yes-> Facebook
+  Twitter -> Success
+  Facebook -> Success
+}
+```
+
+You can also add corner icons:
+
+```runiq
+shape Server as @rect label: "Production Server" icon:fa/server
+shape DB as @cylinder label: "Database" icon:fa/database
+```
+
+[Learn more about icons →](/guide/inline-icons)
+
+## Step 6: Use UML Stereotypes
 
 For use case or architectural diagrams:
 
@@ -179,7 +213,7 @@ diagram "System Architecture" {
 }
 ```
 
-## Step 6: Generate Output
+## Step 7: Generate Output
 
 ### Using TypeScript API
 

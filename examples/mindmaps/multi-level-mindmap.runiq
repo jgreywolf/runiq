@@ -1,0 +1,83 @@
+// Multi-Level Hierarchical Mindmap
+// Demonstrates nested containers for deep hierarchies
+diagram "Software Development Lifecycle" {
+  
+  // Top level - main mindmap
+  container "SDLC" type:mindmap algorithm: radial spacing: 120 {
+    
+    // Central concept
+    shape central as @circle label: "Software\nDevelopment" 
+      fill:"#6366f1" stroke:"#4338ca" strokeWidth:3 icon:fa/code
+    
+    // Main phases
+    shape planning as @roundedRectangle label: "Planning" 
+      fill:"#10b981" stroke:"#059669" strokeWidth:2 icon:fa/calendar
+    shape design as @roundedRectangle label: "Design" 
+      fill:"#3b82f6" stroke:"#2563eb" strokeWidth:2 icon:fa/paintbrush
+    shape development as @roundedRectangle label: "Development" 
+      fill:"#f59e0b" stroke:"#d97706" strokeWidth:2 icon:fa/laptop
+    shape testing as @roundedRectangle label: "Testing" 
+      fill:"#ec4899" stroke:"#db2777" strokeWidth:2 icon:fa/flask
+    
+    central -> planning
+    central -> design
+    central -> development
+    central -> testing
+    
+    // Nested container for Planning details
+    container "PlanningDetails" algorithm: radial spacing: 60 {
+      shape requirements as @rectangle label: "Requirements" 
+        fill:"#d1fae5" stroke:"#059669" icon:fa/list
+      shape research as @rectangle label: "Research" 
+        fill:"#d1fae5" stroke:"#059669" icon:fa/search
+      shape feasibility as @rectangle label: "Feasibility" 
+        fill:"#d1fae5" stroke:"#059669" icon:fa/chart
+      
+      planning -> requirements
+      planning -> research
+      planning -> feasibility
+    }
+    
+    // Nested container for Design details
+    container "DesignDetails" algorithm: radial spacing: 60 {
+      shape architecture as @rectangle label: "Architecture" 
+        fill:"#dbeafe" stroke:"#2563eb" icon:fa/sitemap
+      shape uiux as @rectangle label: "UI/UX" 
+        fill:"#dbeafe" stroke:"#2563eb" icon:fa/palette
+      shape database as @rectangle label: "Database" 
+        fill:"#dbeafe" stroke:"#2563eb" icon:fa/server
+      
+      design -> architecture
+      design -> uiux
+      design -> database
+    }
+    
+    // Nested container for Development details
+    container "DevelopmentDetails" algorithm: radial spacing: 60 {
+      shape frontend as @rectangle label: "Frontend" 
+        fill:"#fef3c7" stroke:"#d97706" icon:fa/desktop
+      shape backend as @rectangle label: "Backend" 
+        fill:"#fef3c7" stroke:"#d97706" icon:fa/server
+      shape api as @rectangle label: "API" 
+        fill:"#fef3c7" stroke:"#d97706" icon:fa/code
+      
+      development -> frontend
+      development -> backend
+      development -> api
+    }
+    
+    // Nested container for Testing details
+    container "TestingDetails" algorithm: radial spacing: 60 {
+      shape unit as @rectangle label: "Unit Tests" 
+        fill:"#fce7f3" stroke:"#db2777" icon:fa/vial
+      shape integration as @rectangle label: "Integration" 
+        fill:"#fce7f3" stroke:"#db2777" icon:fa/gears
+      shape e2e as @rectangle label: "E2E Tests" 
+        fill:"#fce7f3" stroke:"#db2777" icon:fa/check
+      
+      testing -> unit
+      testing -> integration
+      testing -> e2e
+    }
+  }
+}

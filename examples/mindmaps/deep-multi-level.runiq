@@ -1,0 +1,73 @@
+// Deep Multi-Level Mindmap Example
+// Demonstrates automatic level detection up to 4 levels deep
+// Each level gets automatic styling (font size, stroke width)
+// Colors can still be customized per node
+diagram "Learning Path" {
+  
+  container "LearningMap" algorithm: radial spacing: 90 {
+    // Level 0: Central concept (auto: fontSize:16, strokeWidth:3)
+    shape central as @circle label: "Web Development" 
+      fill:"#8b5cf6" stroke:"#7c3aed" icon:fa/code
+    
+    // Level 1: Main topics (auto: fontSize:14, strokeWidth:2)
+    shape frontend as @roundedRectangle label: "Frontend" 
+      fill:"#3b82f6" stroke:"#2563eb" icon:fa/desktop
+    shape backend as @roundedRectangle label: "Backend" 
+      fill:"#10b981" stroke:"#059669" icon:fa/server
+    shape devops as @roundedRectangle label: "DevOps" 
+      fill:"#f59e0b" stroke:"#d97706" icon:fa/gears
+    
+    // Level 2: Sub-topics (auto: fontSize:12, strokeWidth:1)
+    shape html as @rectangle label: "HTML/CSS" fill:"#dbeafe" stroke:"#2563eb" icon:fa/paintbrush
+    shape javascript as @rectangle label: "JavaScript" fill:"#dbeafe" stroke:"#2563eb" icon:fa/js
+    shape frameworks as @rectangle label: "Frameworks" fill:"#dbeafe" stroke:"#2563eb" icon:fa/react
+    
+    shape nodejs as @rectangle label: "Node.js" fill:"#d1fae5" stroke:"#059669" icon:fa/code
+    shape databases as @rectangle label: "Databases" fill:"#d1fae5" stroke:"#059669" icon:fa/server
+    shape apis as @rectangle label: "APIs" fill:"#d1fae5" stroke:"#059669" icon:fa/code
+    
+    shape docker as @rectangle label: "Docker" fill:"#fef3c7" stroke:"#d97706" icon:fa/box
+    shape cicd as @rectangle label: "CI/CD" fill:"#fef3c7" stroke:"#d97706" icon:fa/gears
+    shape cloud as @rectangle label: "Cloud" fill:"#fef3c7" stroke:"#d97706" icon:fa/server
+    
+    // Level 3: Specific skills (auto: fontSize:12, strokeWidth:1)
+    shape react as @rectangle label: "React" fill:"#eff6ff" stroke:"#3b82f6"
+    shape vue as @rectangle label: "Vue" fill:"#eff6ff" stroke:"#3b82f6"
+    shape angular as @rectangle label: "Angular" fill:"#eff6ff" stroke:"#3b82f6"
+    
+    shape postgres as @rectangle label: "PostgreSQL" fill:"#ecfdf5" stroke:"#10b981"
+    shape mongodb as @rectangle label: "MongoDB" fill:"#ecfdf5" stroke:"#10b981"
+    
+    shape aws as @rectangle label: "AWS" fill:"#fffbeb" stroke:"#f59e0b"
+    shape azure as @rectangle label: "Azure" fill:"#fffbeb" stroke:"#f59e0b"
+    
+    // Level 0 -> Level 1
+    central -> frontend
+    central -> backend
+    central -> devops
+    
+    // Level 1 -> Level 2
+    frontend -> html
+    frontend -> javascript
+    frontend -> frameworks
+    
+    backend -> nodejs
+    backend -> databases
+    backend -> apis
+    
+    devops -> docker
+    devops -> cicd
+    devops -> cloud
+    
+    // Level 2 -> Level 3
+    frameworks -> react
+    frameworks -> vue
+    frameworks -> angular
+    
+    databases -> postgres
+    databases -> mongodb
+    
+    cloud -> aws
+    cloud -> azure
+  }
+}

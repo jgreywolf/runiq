@@ -1,0 +1,34 @@
+// Example: Inline Icon Syntax Test
+// This demonstrates the new inline icon syntax in labels
+// Syntax: provider:icon-name (e.g., "fa:fa-twitter for peace")
+
+diagram "Inline Icons Test" {
+  
+  container "Social Media" algorithm: radial spacing: 90 {
+    // Central node
+    shape central as @circle label: "fa:fa-rocket Launch Campaign"
+    
+    // Branch nodes with inline icons
+    shape twitter as @roundedRectangle label: "fa:fa-twitter Twitter Marketing"
+    shape facebook as @roundedRectangle label: "fa:fa-facebook Facebook Ads"
+    shape instagram as @roundedRectangle label: "fa:fa-instagram Instagram Stories"
+    shape linkedin as @roundedRectangle label: "fa:fa-linkedin Professional Network"
+    
+    // Sub-nodes
+    shape tweet as @rectangle label: "fa:fa-comment Daily Tweets"
+    shape hashtags as @rectangle label: "fa:fa-hashtag Trending Tags"
+    shape ads as @rectangle label: "fa:fa-dollar Sponsored Posts"
+    shape stories as @rectangle label: "fa:fa-image Visual Content"
+    
+    // Connections
+    central -> twitter
+    central -> facebook
+    central -> instagram
+    central -> linkedin
+    
+    twitter -> tweet
+    twitter -> hashtags
+    facebook -> ads
+    instagram -> stories
+  }
+}

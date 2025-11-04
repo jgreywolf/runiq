@@ -5,12 +5,12 @@ describe('icons-fontawesome', () => {
   describe('FontAwesomeProvider', () => {
     it('should have correct id', () => {
       const provider = new FontAwesomeProvider();
-      expect(provider.id).toBe('fontawesome');
+      expect(provider.id).toBe('fa');
     });
 
     it('should export singleton instance', () => {
       expect(fontAwesome).toBeInstanceOf(FontAwesomeProvider);
-      expect(fontAwesome.id).toBe('fontawesome');
+      expect(fontAwesome.id).toBe('fa');
     });
 
     it('should return icon path for user', () => {

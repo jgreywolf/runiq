@@ -19,6 +19,14 @@ export {
   type SequenceRenderResult,
 } from './sequence-renderer.js';
 
+// Re-export label utilities for inline icons
+export {
+  parseLabelWithIcons,
+  renderLabelWithIcons,
+  measureLabelWithIcons,
+  type LabelSegment,
+} from './renderers/label-with-icons.js';
+
 export interface RenderOptions {
   strict?: boolean; // strict SVG mode (no enhanced features)
   title?: string;
