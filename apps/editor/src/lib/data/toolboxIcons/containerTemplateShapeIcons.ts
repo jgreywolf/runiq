@@ -23,7 +23,7 @@ container "Container Name" {
 				code: `
 
 container "Styled" backgroundColor: "#e3f2fd" borderColor: "#2196f3" padding: 20 shadow: true {
-  shape node as @rectangle label: "Content"
+  shape content as @rectangle label: "Content"
 }
 `
 			},
