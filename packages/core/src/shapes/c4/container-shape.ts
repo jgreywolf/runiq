@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../../types.js';
  * Medium rounded rectangle with title and technology label
  */
 export const c4Container: ShapeDefinition = {
-  id: 'c4-container',
+  id: 'c4Container',
   bounds(ctx) {
     const labelSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 16;

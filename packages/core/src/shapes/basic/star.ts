@@ -90,7 +90,7 @@ export const starShape: ShapeDefinition = {
  * Used for ratings, favorites, highlights
  */
 export const starFilledShape: ShapeDefinition = {
-  id: 'star-filled',
+  id: 'starFilled',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

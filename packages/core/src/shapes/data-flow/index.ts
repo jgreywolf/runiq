@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../../types.js';
  * Used in Data Flow Diagrams (DFD)
  */
 export const externalEntityShape: ShapeDefinition = {
-  id: 'external-entity',
+  id: 'externalEntity',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -56,7 +56,7 @@ export const externalEntityShape: ShapeDefinition = {
  * Alternative representation with visual depth
  */
 export const externalEntityCornerShape: ShapeDefinition = {
-  id: 'external-entity-corner',
+  id: 'externalEntityCorner',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -118,7 +118,7 @@ export const externalEntityCornerShape: ShapeDefinition = {
  * Represents data transformation or processing
  */
 export const processCircleShape: ShapeDefinition = {
-  id: 'process-circle',
+  id: 'processCircle',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -176,7 +176,7 @@ export const processCircleShape: ShapeDefinition = {
  * Represents data at rest (files, databases)
  */
 export const dataStoreLineShape: ShapeDefinition = {
-  id: 'data-store-line',
+  id: 'dataStoreLine',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -230,7 +230,7 @@ export const dataStoreLineShape: ShapeDefinition = {
  * Alternative data store representation
  */
 export const dataStoreLeftShape: ShapeDefinition = {
-  id: 'data-store-left',
+  id: 'dataStoreLeft',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -285,7 +285,7 @@ export const dataStoreLeftShape: ShapeDefinition = {
  * File or open data store representation
  */
 export const dataStoreOpenShape: ShapeDefinition = {
-  id: 'data-store-open',
+  id: 'dataStoreOpen',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

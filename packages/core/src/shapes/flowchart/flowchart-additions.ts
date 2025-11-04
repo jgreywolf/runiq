@@ -4,7 +4,7 @@ import type { ShapeDefinition } from '../../types.js';
  * Multi-Process - Stacked rectangles to indicate multiple process instances
  */
 export const multiProcessShape: ShapeDefinition = {
-  id: 'multi-process',
+  id: 'multiProcess',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -66,7 +66,7 @@ export const multiProcessShape: ShapeDefinition = {
  * Curly Brace Annotation - Left curly brace with text
  */
 export const curlyBraceAnnotationShape: ShapeDefinition = {
-  id: 'curly-brace-annotation',
+  id: 'curlyBraceAnnotation',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 8;
@@ -123,7 +123,7 @@ export const curlyBraceAnnotationShape: ShapeDefinition = {
  * Magnetic Tape - Circle on top with triangular/trapezoidal bottom
  */
 export const magneticTapeShape: ShapeDefinition = {
-  id: 'magnetic-tape',
+  id: 'magneticTape',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

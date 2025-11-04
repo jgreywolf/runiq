@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../../types.js';
  * Smaller rectangle with title and component type
  */
 export const c4Component: ShapeDefinition = {
-  id: 'c4-component',
+  id: 'c4Component',
   bounds(ctx) {
     const labelSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;

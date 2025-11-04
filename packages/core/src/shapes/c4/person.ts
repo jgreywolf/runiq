@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../../types.js';
  * Styled as a rounded rectangle with icon/pictogram above label
  */
 export const c4Person: ShapeDefinition = {
-  id: 'c4-person',
+  id: 'c4Person',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 16;

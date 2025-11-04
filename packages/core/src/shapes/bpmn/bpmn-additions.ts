@@ -58,7 +58,7 @@ export const transactionShape: ShapeDefinition = {
  * Event Sub Process - Rounded rectangle with dashed border
  */
 export const eventSubProcessShape: ShapeDefinition = {
-  id: 'event-sub-process',
+  id: 'eventSubProcess',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -108,7 +108,7 @@ export const eventSubProcessShape: ShapeDefinition = {
  * Call Activity - Rounded rectangle with thick border
  */
 export const callActivityShape: ShapeDefinition = {
-  id: 'call-activity',
+  id: 'callActivity',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -157,7 +157,7 @@ export const callActivityShape: ShapeDefinition = {
  * Start Non-Interfering - Unfilled circle with dashed stroke
  */
 export const startNonInterferingShape: ShapeDefinition = {
-  id: 'start-non-interfering',
+  id: 'startNonInterfering',
   bounds() {
     return {
       width: 40,
@@ -198,7 +198,7 @@ export const startNonInterferingShape: ShapeDefinition = {
  * Intermediate Non-Interfering - Double unfilled circle with dashed stroke
  */
 export const intermediateNonInterferingShape: ShapeDefinition = {
-  id: 'intermediate-non-interfering',
+  id: 'intermediateNonInterfering',
   bounds() {
     return {
       width: 40,

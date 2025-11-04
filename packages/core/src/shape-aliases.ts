@@ -60,10 +60,10 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('activity', 'activity');
 
   // C4 Shapes
-  shapeRegistry.registerAlias('c4person', 'c4-person');
-  shapeRegistry.registerAlias('system', 'c4-system');
-  shapeRegistry.registerAlias('container', 'c4-container');
-  shapeRegistry.registerAlias('component', 'c4-component');
+  shapeRegistry.registerAlias('c4person', 'c4Person');
+  shapeRegistry.registerAlias('system', 'c4System');
+  shapeRegistry.registerAlias('container', 'c4Container');
+  shapeRegistry.registerAlias('component', 'c4Component');
 }
 
 /**

@@ -6,7 +6,7 @@ import type { ShapeDefinition } from '../../types.js';
  * Large rounded rectangle with title and optional description
  */
 export const c4System: ShapeDefinition = {
-  id: 'c4-system',
+  id: 'c4System',
   bounds(ctx) {
     const labelSize = ctx.measureText(ctx.node.label || ctx.node.id, {
       ...ctx.style,

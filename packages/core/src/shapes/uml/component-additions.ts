@@ -153,7 +153,7 @@ export const templateShape: ShapeDefinition = {
  * Send Signal - Pentagon pointing right (convex)
  */
 export const sendSignalShape: ShapeDefinition = {
-  id: 'send-signal',
+  id: 'sendSignal',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -211,7 +211,7 @@ export const sendSignalShape: ShapeDefinition = {
  * Receive Signal - Concave pentagon pointing left
  */
 export const receiveSignalShape: ShapeDefinition = {
-  id: 'receive-signal',
+  id: 'receiveSignal',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 12;
@@ -704,7 +704,7 @@ export const loopShape: ShapeDefinition = {
  * Vertical Fork - Vertical thick line for fork/join in activity diagrams
  */
 export const verticalForkShape: ShapeDefinition = {
-  id: 'vertical-fork',
+  id: 'verticalFork',
   bounds() {
     return {
       width: 6,
