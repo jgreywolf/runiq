@@ -464,6 +464,9 @@ importers:
       '@runiq/core':
         specifier: workspace:*
         version: link:../core
+      '@runiq/icons-fontawesome':
+        specifier: workspace:^
+        version: link:../icons-fontawesome
       '@runiq/layout-base':
         specifier: workspace:^
         version: link:../layout-base

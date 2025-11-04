@@ -41,6 +41,8 @@ Please also review the following files for additional context on Runiq developme
   - Shape implementations: 80%+
   - DSL parsing: 95%+
 - Run tests frequently during development: `pnpm test`
+- Ensure all tests pass before committing
+- Create appropriate playwright visual tests for rendering features
 
 ### Shape Implementation Pattern
 
@@ -72,6 +74,8 @@ When adding new shapes to `packages/core/src/shapes/`:
 - Comment complex algorithms
 
 ### Build & Test Commands
+
+Run all commands using the full path, instead of the relative path
 
 ```bash
 # Run all tests across workspace
