@@ -351,9 +351,9 @@ describe('P&ID Symbols - Instrumentation', () => {
 });
 
 describe('P&ID Symbol Library - Completeness', () => {
-  it('should export 32 symbols total', () => {
+  it('should export 50 symbols total', () => {
     const symbolCount = Object.keys(pidSymbols).length;
-    expect(symbolCount).toBe(32);
+    expect(symbolCount).toBe(50);
   });
 
   it('should have all vessel types', () => {
@@ -625,9 +625,9 @@ describe('P&ID Symbols - New Equipment', () => {
 });
 
 describe('P&ID Symbol Completeness', () => {
-  it('should have 32 total symbols', () => {
+  it('should have 50 total symbols', () => {
     const symbolCount = Object.keys(pidSymbols).length;
-    expect(symbolCount).toBe(32);
+    expect(symbolCount).toBe(50);
   });
 
   it('should have all vessel types', () => {
@@ -636,6 +636,8 @@ describe('P&ID Symbol Completeness', () => {
     expect(pidSymbols.storageTank).toBeDefined();
     expect(pidSymbols.reactor).toBeDefined();
     expect(pidSymbols.knockoutDrum).toBeDefined();
+    expect(pidSymbols.distillationColumn).toBeDefined();
+    expect(pidSymbols.filter).toBeDefined();
   });
 
   it('should have all pump and compressor types', () => {
@@ -643,6 +645,9 @@ describe('P&ID Symbol Completeness', () => {
     expect(pidSymbols.pumpPositiveDisplacement).toBeDefined();
     expect(pidSymbols.compressorCentrifugal).toBeDefined();
     expect(pidSymbols.compressorReciprocating).toBeDefined();
+    expect(pidSymbols.turbineSteam).toBeDefined();
+    expect(pidSymbols.fan).toBeDefined();
+    expect(pidSymbols.agitator).toBeDefined();
   });
 
   it('should have all valve types', () => {
@@ -655,6 +660,8 @@ describe('P&ID Symbol Completeness', () => {
     expect(pidSymbols.valveButterfly).toBeDefined();
     expect(pidSymbols.valveThreeWay).toBeDefined();
     expect(pidSymbols.valveNeedle).toBeDefined();
+    expect(pidSymbols.valvePlug).toBeDefined();
+    expect(pidSymbols.valveDiaphragm).toBeDefined();
   });
 
   it('should have all heat exchanger types', () => {
@@ -662,18 +669,210 @@ describe('P&ID Symbol Completeness', () => {
     expect(pidSymbols.airCooler).toBeDefined();
     expect(pidSymbols.heatExchangerPlate).toBeDefined();
     expect(pidSymbols.firedHeater).toBeDefined();
+    expect(pidSymbols.coolingTower).toBeDefined();
   });
 
   it('should have all instrument types', () => {
+    // Transmitters
     expect(pidSymbols.flowTransmitter).toBeDefined();
     expect(pidSymbols.temperatureTransmitter).toBeDefined();
     expect(pidSymbols.pressureTransmitter).toBeDefined();
     expect(pidSymbols.levelTransmitter).toBeDefined();
-    expect(pidSymbols.flowIndicatorController).toBeDefined();
     expect(pidSymbols.analyzerTransmitter).toBeDefined();
+    
+    // Indicators
+    expect(pidSymbols.flowIndicator).toBeDefined();
+    expect(pidSymbols.temperatureIndicator).toBeDefined();
     expect(pidSymbols.pressureIndicator).toBeDefined();
+    expect(pidSymbols.levelIndicator).toBeDefined();
+    
+    // Recorders
+    expect(pidSymbols.flowRecorder).toBeDefined();
+    expect(pidSymbols.pressureRecorder).toBeDefined();
+    expect(pidSymbols.temperatureRecorder).toBeDefined();
+    
+    // Controllers
+    expect(pidSymbols.flowController).toBeDefined();
+    expect(pidSymbols.pressureController).toBeDefined();
+    expect(pidSymbols.temperatureController).toBeDefined();
+    expect(pidSymbols.levelController).toBeDefined();
+    
+    // Indicator Controllers
+    expect(pidSymbols.flowIndicatorController).toBeDefined();
     expect(pidSymbols.temperatureIndicatorController).toBeDefined();
     expect(pidSymbols.levelIndicatorController).toBeDefined();
     expect(pidSymbols.pressureIndicatorController).toBeDefined();
+  });
+});
+
+describe('P&ID Symbols - Phase 2 Equipment', () => {
+  describe('distillationColumn', () => {
+    it('should have correct id and category', () => {
+      expect(pidSymbols.distillationColumn.id).toBe('COLUMN');
+      expect(pidSymbols.distillationColumn.category).toBe('vessel');
+    });
+
+    it('should have 4 terminals', () => {
+      expect(pidSymbols.distillationColumn.terminals).toHaveLength(4);
+      const terminalNames = pidSymbols.distillationColumn.terminals.map((t) => t.name);
+      expect(terminalNames).toContain('overhead');
+      expect(terminalNames).toContain('bottoms');
+      expect(terminalNames).toContain('feed');
+      expect(terminalNames).toContain('reflux');
+    });
+
+    it('should render with trays', () => {
+      const svg = pidSymbols.distillationColumn.render(0, 0);
+      expect(svg).toContain('Trays');
+    });
+  });
+
+  describe('filter', () => {
+    it('should have correct id and category', () => {
+      expect(pidSymbols.filter.id).toBe('FILTER');
+      expect(pidSymbols.filter.category).toBe('vessel');
+    });
+
+    it('should render with diamond shape', () => {
+      const svg = pidSymbols.filter.render(0, 0);
+      expect(svg).toContain('<path');
+    });
+  });
+
+  describe('coolingTower', () => {
+    it('should have correct id and category', () => {
+      expect(pidSymbols.coolingTower.id).toBe('COOLING_TOWER');
+      expect(pidSymbols.coolingTower.category).toBe('heatExchanger');
+    });
+
+    it('should have airOut, coldWaterOut, and hotWaterIn terminals', () => {
+      const terminalNames = pidSymbols.coolingTower.terminals.map((t) => t.name);
+      expect(terminalNames).toContain('airOut');
+      expect(terminalNames).toContain('coldWaterOut');
+      expect(terminalNames).toContain('hotWaterIn');
+    });
+  });
+
+  describe('turbineSteam', () => {
+    it('should have correct id and category', () => {
+      expect(pidSymbols.turbineSteam.id).toBe('TURBINE_STEAM');
+      expect(pidSymbols.turbineSteam.category).toBe('pump');
+    });
+
+    it('should have steamIn, exhaustOut, and shaft terminals', () => {
+      const terminalNames = pidSymbols.turbineSteam.terminals.map((t) => t.name);
+      expect(terminalNames).toContain('steamIn');
+      expect(terminalNames).toContain('exhaustOut');
+      expect(terminalNames).toContain('shaft');
+    });
+  });
+
+  describe('fan', () => {
+    it('should have correct id and category', () => {
+      expect(pidSymbols.fan.id).toBe('FAN');
+      expect(pidSymbols.fan.category).toBe('pump');
+    });
+
+    it('should render with circle body and blades', () => {
+      const svg = pidSymbols.fan.render(0, 0);
+      expect(svg).toContain('<circle');
+      expect(svg).toContain('blades');
+    });
+  });
+
+  describe('agitator', () => {
+    it('should have correct id and category', () => {
+      expect(pidSymbols.agitator.id).toBe('AGITATOR');
+      expect(pidSymbols.agitator.category).toBe('pump');
+    });
+
+    it('should render with motor and impeller', () => {
+      const svg = pidSymbols.agitator.render(0, 0);
+      expect(svg).toContain('Motor');
+      expect(svg).toContain('Impeller');
+    });
+  });
+
+  describe('valvePlug', () => {
+    it('should have correct id and category', () => {
+      expect(pidSymbols.valvePlug.id).toBe('VALVE_PLUG');
+      expect(pidSymbols.valvePlug.category).toBe('valve');
+    });
+
+    it('should render with rectangle body', () => {
+      const svg = pidSymbols.valvePlug.render(0, 0);
+      expect(svg).toContain('<rect');
+    });
+  });
+
+  describe('valveDiaphragm', () => {
+    it('should have correct id and category', () => {
+      expect(pidSymbols.valveDiaphragm.id).toBe('VALVE_DIAPHRAGM');
+      expect(pidSymbols.valveDiaphragm.category).toBe('valve');
+    });
+
+    it('should render with diaphragm curve', () => {
+      const svg = pidSymbols.valveDiaphragm.render(0, 0);
+      expect(svg).toContain('Diaphragm');
+    });
+  });
+
+  describe('new instrument indicators', () => {
+    it('flowIndicator should have correct id', () => {
+      expect(pidSymbols.flowIndicator.id).toBe('FI');
+      expect(pidSymbols.flowIndicator.category).toBe('instrument');
+    });
+
+    it('temperatureIndicator should have correct id', () => {
+      expect(pidSymbols.temperatureIndicator.id).toBe('TI');
+      expect(pidSymbols.temperatureIndicator.category).toBe('instrument');
+    });
+
+    it('levelIndicator should have correct id', () => {
+      expect(pidSymbols.levelIndicator.id).toBe('LI');
+      expect(pidSymbols.levelIndicator.category).toBe('instrument');
+    });
+  });
+
+  describe('new instrument recorders', () => {
+    it('flowRecorder should have correct id', () => {
+      expect(pidSymbols.flowRecorder.id).toBe('FR');
+      expect(pidSymbols.flowRecorder.category).toBe('instrument');
+    });
+
+    it('pressureRecorder should have correct id', () => {
+      expect(pidSymbols.pressureRecorder.id).toBe('PR');
+      expect(pidSymbols.pressureRecorder.category).toBe('instrument');
+    });
+
+    it('temperatureRecorder should have correct id', () => {
+      expect(pidSymbols.temperatureRecorder.id).toBe('TR');
+      expect(pidSymbols.temperatureRecorder.category).toBe('instrument');
+    });
+  });
+
+  describe('new instrument controllers', () => {
+    it('flowController should have correct id and terminals', () => {
+      expect(pidSymbols.flowController.id).toBe('FC');
+      expect(pidSymbols.flowController.category).toBe('instrument');
+      const terminalNames = pidSymbols.flowController.terminals.map((t) => t.name);
+      expect(terminalNames).toContain('process');
+      expect(terminalNames).toContain('output');
+    });
+
+    it('pressureController should have correct id', () => {
+      expect(pidSymbols.pressureController.id).toBe('PC');
+      expect(pidSymbols.pressureController.category).toBe('instrument');
+    });
+
+    it('temperatureController should have correct id', () => {
+      expect(pidSymbols.temperatureController.id).toBe('TC');
+      expect(pidSymbols.temperatureController.category).toBe('instrument');
+    });
+
+    it('levelController should have correct id', () => {
+      expect(pidSymbols.levelController.id).toBe('LC');
+      expect(pidSymbols.levelController.category).toBe('instrument');
+    });
   });
 });

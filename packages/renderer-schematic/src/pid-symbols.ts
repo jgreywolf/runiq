@@ -738,6 +738,123 @@ export const knockoutDrum = createPIDSymbol(
   }
 );
 
+/**
+ * Distillation Column
+ * Separates components by boiling point
+ */
+export const distillationColumn = createPIDSymbol(
+  'COLUMN',
+  70,
+  140,
+  'vessel',
+  [
+    { x: 35, y: 0, name: 'overhead' },
+    { x: 35, y: 140, name: 'bottoms' },
+    { x: 0, y: 50, name: 'feed' },
+    { x: 70, y: 30, name: 'reflux' },
+  ],
+  (cx, cy, label) => {
+    const w = 70;
+    const h = 140;
+    const left = cx - w / 2;
+    const top = cy - h / 2;
+
+    return `
+      <!-- Column body -->
+      <rect x="${left}" y="${top}" width="${w}" height="${h}" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Trays (horizontal lines) -->
+      <line x1="${left + 5}" y1="${top + 25}" x2="${left + w - 5}" y2="${top + 25}" 
+        stroke="currentColor" stroke-width="1"/>
+      <line x1="${left + 5}" y1="${top + 45}" x2="${left + w - 5}" y2="${top + 45}" 
+        stroke="currentColor" stroke-width="1"/>
+      <line x1="${left + 5}" y1="${top + 65}" x2="${left + w - 5}" y2="${top + 65}" 
+        stroke="currentColor" stroke-width="1"/>
+      <line x1="${left + 5}" y1="${top + 85}" x2="${left + w - 5}" y2="${top + 85}" 
+        stroke="currentColor" stroke-width="1"/>
+      <line x1="${left + 5}" y1="${top + 105}" x2="${left + w - 5}" y2="${top + 105}" 
+        stroke="currentColor" stroke-width="1"/>
+      ${label ? `<text x="${cx}" y="${cy + 5}" text-anchor="middle" font-size="11" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Filter / Strainer
+ * Removes solids from fluids
+ */
+export const filter = createPIDSymbol(
+  'FILTER',
+  60,
+  60,
+  'vessel',
+  [
+    { x: 0, y: 30, name: 'inlet' },
+    { x: 60, y: 30, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const size = 60;
+    const left = cx - size / 2;
+    const top = cy - size / 2;
+
+    return `
+      <!-- Filter body (diamond) -->
+      <path d="M ${cx},${top} L ${left + size},${cy} L ${cx},${top + size} L ${left},${cy} Z" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Filter media (cross-hatch pattern) -->
+      <line x1="${cx - 15}" y1="${cy - 15}" x2="${cx + 15}" y2="${cy + 15}" 
+        stroke="currentColor" stroke-width="1" opacity="0.6"/>
+      <line x1="${cx - 15}" y1="${cy + 15}" x2="${cx + 15}" y2="${cy - 15}" 
+        stroke="currentColor" stroke-width="1" opacity="0.6"/>
+      ${label ? `<text x="${cx}" y="${top + size + 15}" text-anchor="middle" font-size="10" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Cooling Tower
+ * Removes heat via evaporation
+ */
+export const coolingTower = createPIDSymbol(
+  'COOLING_TOWER',
+  70,
+  120,
+  'heatExchanger',
+  [
+    { x: 35, y: 0, name: 'airOut' },
+    { x: 10, y: 120, name: 'coldWaterOut' },
+    { x: 60, y: 40, name: 'hotWaterIn' },
+  ],
+  (cx, cy, label) => {
+    const w = 70;
+    const h = 120;
+    const left = cx - w / 2;
+    const top = cy - h / 2;
+
+    return `
+      <!-- Tower body (trapezoid) -->
+      <path d="M ${left + 10},${top} L ${left + w - 10},${top} L ${left + w},${top + h} L ${left},${top + h} Z" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Fill media (wavy lines) -->
+      <path d="M ${left + 15},${top + 50} Q ${left + 25},${top + 45} ${left + 35},${top + 50} Q ${left + 45},${top + 55} ${left + 55},${top + 50}" 
+        stroke="currentColor" stroke-width="1" fill="none"/>
+      <path d="M ${left + 15},${top + 65} Q ${left + 25},${top + 60} ${left + 35},${top + 65} Q ${left + 45},${top + 70} ${left + 55},${top + 65}" 
+        stroke="currentColor" stroke-width="1" fill="none"/>
+      <!-- Water droplets -->
+      <circle cx="${cx - 10}" cy="${top + 85}" r="2" fill="currentColor" opacity="0.5"/>
+      <circle cx="${cx + 5}" cy="${top + 90}" r="2" fill="currentColor" opacity="0.5"/>
+      <circle cx="${cx + 10}" cy="${top + 82}" r="2" fill="currentColor" opacity="0.5"/>
+      ${label ? `<text x="${cx}" y="${cy + 10}" text-anchor="middle" font-size="10" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
 // ============================================================================
 // ROTATING EQUIPMENT - COMPRESSORS
 // ============================================================================
@@ -812,6 +929,122 @@ export const compressorReciprocating = createPIDSymbol(
       <line x1="${cx + w / 2}" y1="${cy}" x2="${cx + 30}" y2="${cy}" 
         stroke="currentColor" stroke-width="2"/>
       ${label ? `<text x="${cx}" y="${cy + h / 2 + 15}" text-anchor="middle" font-size="10" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Steam Turbine
+ * Rotary engine powered by steam
+ */
+export const turbineSteam = createPIDSymbol(
+  'TURBINE_STEAM',
+  60,
+  50,
+  'pump',
+  [
+    { x: 0, y: 25, name: 'steamIn' },
+    { x: 60, y: 25, name: 'exhaustOut' },
+    { x: 30, y: 0, name: 'shaft' },
+  ],
+  (cx, cy, label) => {
+    const r = 22;
+
+    return `
+      <!-- Turbine body (circle with internal blades) -->
+      <circle cx="${cx}" cy="${cy}" r="${r}" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Turbine blades (radiating lines) -->
+      <line x1="${cx}" y1="${cy}" x2="${cx + 12}" y2="${cy - 12}" 
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy}" x2="${cx + 12}" y2="${cy + 12}" 
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy}" x2="${cx - 12}" y2="${cy}" 
+        stroke="currentColor" stroke-width="1.5"/>
+      <!-- Inlet/outlet lines -->
+      <line x1="${cx - 30}" y1="${cy}" x2="${cx - r}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + r}" y1="${cy}" x2="${cx + 30}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${cy + r + 15}" text-anchor="middle" font-size="10" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Fan / Blower
+ * Air moving device
+ */
+export const fan = createPIDSymbol(
+  'FAN',
+  60,
+  50,
+  'pump',
+  [
+    { x: 0, y: 25, name: 'inlet' },
+    { x: 60, y: 25, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const r = 22;
+
+    return `
+      <!-- Fan body (circle) -->
+      <circle cx="${cx}" cy="${cy}" r="${r}" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Fan blades (three curved lines) -->
+      <path d="M ${cx},${cy} Q ${cx + 8},${cy - 8} ${cx + 15},${cy - 5}" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M ${cx},${cy} Q ${cx + 5},${cy + 10} ${cx + 8},${cy + 15}" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M ${cx},${cy} Q ${cx - 10},${cy + 2} ${cx - 15},${cy}" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <!-- Center dot -->
+      <circle cx="${cx}" cy="${cy}" r="3" fill="currentColor"/>
+      <!-- Inlet/outlet lines -->
+      <line x1="${cx - 30}" y1="${cy}" x2="${cx - r}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + r}" y1="${cy}" x2="${cx + 30}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${cy + r + 15}" text-anchor="middle" font-size="10" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Agitator / Mixer
+ * Mixes fluids in vessels
+ */
+export const agitator = createPIDSymbol(
+  'AGITATOR',
+  50,
+  80,
+  'pump',
+  [
+    { x: 25, y: 0, name: 'drive' },
+    { x: 25, y: 80, name: 'impeller' },
+  ],
+  (cx, cy, label) => {
+    const h = 80;
+
+    return `
+      <!-- Motor/drive (rectangle at top) -->
+      <rect x="${cx - 15}" y="${cy - h / 2}" width="30" height="15" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Shaft (vertical line) -->
+      <line x1="${cx}" y1="${cy - h / 2 + 15}" x2="${cx}" y2="${cy + h / 2 - 15}" 
+        stroke="currentColor" stroke-width="2" stroke-dasharray="3,2"/>
+      <!-- Impeller (cross at bottom) -->
+      <line x1="${cx - 20}" y1="${cy + h / 2 - 10}" x2="${cx + 20}" y2="${cy + h / 2 - 10}" 
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx}" y1="${cy + h / 2 - 25}" x2="${cx}" y2="${cy + h / 2}" 
+        stroke="currentColor" stroke-width="2.5"/>
+      ${label ? `<text x="${cx + 25}" y="${cy}" text-anchor="start" font-size="10" fill="currentColor">${label}</text>` : ''}
     `;
   }
 );
@@ -928,6 +1161,84 @@ export const valveNeedle = createPIDSymbol(
       <line x1="${cx + r}" y1="${cy}" x2="${cx + 15}" y2="${cy}" 
         stroke="currentColor" stroke-width="2"/>
       ${label ? `<text x="${cx}" y="${cy + r + 12}" text-anchor="middle" font-size="9" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Plug Valve
+ * Quarter-turn valve with cylindrical plug
+ */
+export const valvePlug = createPIDSymbol(
+  'VALVE_PLUG',
+  30,
+  30,
+  'valve',
+  [
+    { x: 0, y: 15, name: 'inlet' },
+    { x: 30, y: 15, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const size = 12;
+
+    return `
+      <!-- Inlet line -->
+      <line x1="${cx - 15}" y1="${cy}" x2="${cx - size / 2}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Valve body (rectangle) -->
+      <rect x="${cx - size / 2}" y="${cy - size / 2}" width="${size}" height="${size}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Plug indicator (vertical line) -->
+      <line x1="${cx}" y1="${cy - size / 2 - 5}" x2="${cx}" y2="${cy + size / 2 + 5}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Outlet line -->
+      <line x1="${cx + size / 2}" y1="${cy}" x2="${cx + 15}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${cy + size / 2 + 15}" text-anchor="middle" font-size="9" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Diaphragm Valve
+ * Valve with flexible diaphragm
+ */
+export const valveDiaphragm = createPIDSymbol(
+  'VALVE_DIAPHRAGM',
+  30,
+  35,
+  'valve',
+  [
+    { x: 0, y: 17, name: 'inlet' },
+    { x: 30, y: 17, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const w = 20;
+    const h = 10;
+
+    return `
+      <!-- Inlet line -->
+      <line x1="${cx - 15}" y1="${cy}" x2="${cx - w / 2}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Valve body (rectangle) -->
+      <rect x="${cx - w / 2}" y="${cy - h / 2}" width="${w}" height="${h}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Diaphragm (curved line on top) -->
+      <path d="M ${cx - w / 2},${cy - h / 2} Q ${cx},${cy - h / 2 - 8} ${cx + w / 2},${cy - h / 2}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Actuator stem -->
+      <line x1="${cx}" y1="${cy - h / 2 - 8}" x2="${cx}" y2="${cy - h / 2 - 15}" 
+        stroke="currentColor" stroke-width="1.5"/>
+      <!-- Outlet line -->
+      <line x1="${cx + w / 2}" y1="${cy}" x2="${cx + 15}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${cy + h / 2 + 15}" text-anchor="middle" font-size="9" fill="currentColor">${label}</text>` : ''}
     `;
   }
 );
@@ -1112,6 +1423,168 @@ export const pressureIndicatorController = createPIDSymbol(
   }
 );
 
+/**
+ * Flow Indicator (FI)
+ */
+export const flowIndicator = createPIDSymbol(
+  'FI',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'process' }],
+  (cx, cy, label) => {
+    const tag = label || 'FI';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
+/**
+ * Temperature Indicator (TI)
+ */
+export const temperatureIndicator = createPIDSymbol(
+  'TI',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'process' }],
+  (cx, cy, label) => {
+    const tag = label || 'TI';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
+/**
+ * Level Indicator (LI)
+ */
+export const levelIndicator = createPIDSymbol(
+  'LI',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'process' }],
+  (cx, cy, label) => {
+    const tag = label || 'LI';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
+/**
+ * Flow Recorder (FR)
+ */
+export const flowRecorder = createPIDSymbol(
+  'FR',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'process' }],
+  (cx, cy, label) => {
+    const tag = label || 'FR';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted with recorder
+  }
+);
+
+/**
+ * Pressure Recorder (PR)
+ */
+export const pressureRecorder = createPIDSymbol(
+  'PR',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'process' }],
+  (cx, cy, label) => {
+    const tag = label || 'PR';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
+/**
+ * Temperature Recorder (TR)
+ */
+export const temperatureRecorder = createPIDSymbol(
+  'TR',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'process' }],
+  (cx, cy, label) => {
+    const tag = label || 'TR';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
+/**
+ * Pressure Controller (PC)
+ */
+export const pressureController = createPIDSymbol(
+  'PC',
+  40,
+  40,
+  'instrument',
+  [
+    { x: 20, y: 40, name: 'process' },
+    { x: 20, y: 0, name: 'output' },
+  ],
+  (cx, cy, label) => {
+    const tag = label || 'PC';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
+/**
+ * Temperature Controller (TC)
+ */
+export const temperatureController = createPIDSymbol(
+  'TC',
+  40,
+  40,
+  'instrument',
+  [
+    { x: 20, y: 40, name: 'process' },
+    { x: 20, y: 0, name: 'output' },
+  ],
+  (cx, cy, label) => {
+    const tag = label || 'TC';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
+/**
+ * Level Controller (LC)
+ */
+export const levelController = createPIDSymbol(
+  'LC',
+  40,
+  40,
+  'instrument',
+  [
+    { x: 20, y: 40, name: 'process' },
+    { x: 20, y: 0, name: 'output' },
+  ],
+  (cx, cy, label) => {
+    const tag = label || 'LC';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
+/**
+ * Flow Controller (FC)
+ */
+export const flowController = createPIDSymbol(
+  'FC',
+  40,
+  40,
+  'instrument',
+  [
+    { x: 20, y: 40, name: 'process' },
+    { x: 20, y: 0, name: 'output' },
+  ],
+  (cx, cy, label) => {
+    const tag = label || 'FC';
+    return instrumentBubble(cx, cy, tag, false); // Panel mounted
+  }
+);
+
 // ============================================================================
 // EXPORT ALL SYMBOLS
 // ============================================================================
@@ -1123,12 +1596,17 @@ export const pidSymbols = {
   storageTank,
   reactor,
   knockoutDrum,
+  distillationColumn,
+  filter,
   
-  // Pumps & Compressors
+  // Pumps, Compressors & Rotating Equipment
   pumpCentrifugal,
   pumpPositiveDisplacement,
   compressorCentrifugal,
   compressorReciprocating,
+  turbineSteam,
+  fan,
+  agitator,
   
   // Valves
   valveGate,
@@ -1140,21 +1618,42 @@ export const pidSymbols = {
   valveButterfly,
   valveThreeWay,
   valveNeedle,
+  valvePlug,
+  valveDiaphragm,
   
-  // Heat Exchangers
+  // Heat Exchangers & Cooling
   heatExchangerShellTube,
   airCooler,
   heatExchangerPlate,
   firedHeater,
+  coolingTower,
   
-  // Instrumentation
+  // Instrumentation - Transmitters
   flowTransmitter,
   temperatureTransmitter,
   pressureTransmitter,
   levelTransmitter,
-  flowIndicatorController,
   analyzerTransmitter,
+  
+  // Instrumentation - Indicators
+  flowIndicator,
+  temperatureIndicator,
   pressureIndicator,
+  levelIndicator,
+  
+  // Instrumentation - Recorders
+  flowRecorder,
+  pressureRecorder,
+  temperatureRecorder,
+  
+  // Instrumentation - Controllers
+  flowController,
+  pressureController,
+  temperatureController,
+  levelController,
+  
+  // Instrumentation - Indicator Controllers
+  flowIndicatorController,
   temperatureIndicatorController,
   levelIndicatorController,
   pressureIndicatorController,
