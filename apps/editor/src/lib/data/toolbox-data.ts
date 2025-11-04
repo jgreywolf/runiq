@@ -18,6 +18,7 @@ import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
 import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
 import { quantumShapeIcons } from './toolboxIcons/quantumShapeIcons';
 import { containerTemplateShapeIcons } from './toolboxIcons/containerTemplateShapeIcons';
+import { sequenceShapeIcons } from './toolboxIcons/sequenceShapeIcons';
 
 export interface Shape {
 	id: string;
@@ -29,7 +30,12 @@ export interface ShapeCategory {
 	id: string;
 	label: string;
 	shapes: Shape[];
-	electricalOnly?: boolean;
+	/**
+	 * Profile(s) this shape category belongs to.
+	 * Official profiles: diagram (default), sequence, wardley, electrical, digital, pneumatic, hydraulic
+	 * If undefined or contains 'diagram', category is shown in general diagram mode.
+	 */
+	profiles?: string[];
 }
 
 export const shapeCategories: ShapeCategory[] = [
@@ -37,6 +43,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...flowchartShapeIcons,
 	...containerTemplateShapeIcons,
 	...umlShapeIcons,
+	...sequenceShapeIcons,
 	...erdShapeIcons,
 	...storageShapeIcons,
 	...bpmnShapeIcons,

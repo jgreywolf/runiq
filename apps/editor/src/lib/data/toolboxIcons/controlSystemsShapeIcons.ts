@@ -4,6 +4,7 @@ export const controlSystemsShapeIcons: ShapeCategory[] = [
 	{
 		id: 'controlSystems',
 		label: 'Control Systems',
+		profiles: ['diagram'],
 		shapes: [
 			{
 				id: 'transferFunction',

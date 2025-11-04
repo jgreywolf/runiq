@@ -3,9 +3,7 @@ import { bpmnGatewayShape } from './gateway.js';
 import type { ShapeRenderContext } from '../../types.js';
 
 // Mock context helper
-function createMockContext(
-  gatewayType?: string
-): ShapeRenderContext {
+function createMockContext(gatewayType?: string): ShapeRenderContext {
   return {
     node: {
       id: 'gateway1',
@@ -39,7 +37,9 @@ describe('BPMN Gateway Shape - Markers', () => {
     expect(svg).toContain('<path'); // Diamond shape
     expect(svg).toContain('stroke-linecap="round"'); // X marker lines
     // X marker should have two diagonal lines
-    expect((svg.match(/stroke-linecap="round"/g) || []).length).toBeGreaterThanOrEqual(1);
+    expect(
+      (svg.match(/stroke-linecap="round"/g) || []).length
+    ).toBeGreaterThanOrEqual(1);
   });
 
   it('should render XOR gateway (alias for exclusive)', () => {
@@ -148,7 +148,7 @@ describe('BPMN Gateway Shape - Markers', () => {
     const ctx = createMockContext('parallel');
     ctx.style.fill = '#ffcc00';
     ctx.style.stroke = '#ff0000';
-    
+
     const svg = bpmnGatewayShape.render(ctx, { x: 0, y: 0 });
 
     expect(svg).toContain('fill="#ffcc00"');

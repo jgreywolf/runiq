@@ -4,6 +4,7 @@ export const containerTemplateShapeIcons: ShapeCategory[] = [
 	{
 		id: 'containers',
 		label: 'Containers & Templates',
+		profiles: ['diagram'],
 		shapes: [
 			{
 				id: 'basic-container',

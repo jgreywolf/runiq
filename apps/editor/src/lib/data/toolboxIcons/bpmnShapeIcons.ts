@@ -4,6 +4,7 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 	{
 		id: 'bpmn',
 		label: 'BPMN',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'bpmnTask', label: 'Task', code: 'shape id as @bpmnTask label:"Process Order"' },
 			{

@@ -4,6 +4,7 @@ export const flowchartShapeIcons: ShapeCategory[] = [
 	{
 		id: 'flowchart',
 		label: 'Flowchart',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'rectangle', label: 'Process', code: 'shape id as @rectangle label:"Process"' },
 			{ id: 'rhombus', label: 'Decision', code: 'shape id as @rhombus label:"Decision?"' },

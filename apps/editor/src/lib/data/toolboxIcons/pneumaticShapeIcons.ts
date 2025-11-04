@@ -4,7 +4,7 @@ export const pneumaticShapeIcons: ShapeCategory[] = [
 	{
 		id: 'pneumatic',
 		label: 'Pneumatic Components',
-		electricalOnly: true,
+		profiles: ['pneumatic'],
 		shapes: [
 			{
 				id: 'cylSingleActing',

@@ -8,6 +8,7 @@
 This document analyzes Runiq's coverage of industry-standard diagram specifications including UML 2.5, BPMN 2.0, C4 Model, and ISO standards. The goal is to identify gaps in syntax support and shape coverage to ensure spec-compliant diagram creation.
 
 **Recent Updates (Nov 3, 2025):**
+
 - ✅ State Machine Enhancements COMPLETE - 95% UML 2.5 coverage
 - ✅ Activity Diagram Enhancements COMPLETE - 100% shape coverage
 - ✅ BPMN Gateway Markers COMPLETE - Full BPMN 2.0 gateway compliance
@@ -205,16 +206,16 @@ diagram "Door Lock" {
     entry: "lockBolt()"
     exit: "logStateExit()"
   }
-  
+
   shape unlocked as @state label:"Unlocked" {
     entry: "unlockBolt()"
     doActivity: "monitorTimeout()"
     exit: "logStateExit()"
   }
-  
+
   shape hist as @historyShallow label:"Resume"
   shape j1 as @junction
-  
+
   edge locked -> unlocked {
     event: "insertKey"
     guard: "[keyValid]"
@@ -224,6 +225,7 @@ diagram "Door Lock" {
 ```
 
 #### Tests:
+
 - ✅ 60 tests passing for state machine shapes and enhancements
 - ✅ 30 tests passing for parser (pseudo-states, behaviors, transitions)
 - ✅ All shapes properly registered and rendering correctly

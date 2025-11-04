@@ -4,6 +4,7 @@ export const c4ShapeIcons: ShapeCategory[] = [
 	{
 		id: 'c4',
 		label: 'C4 Architecture',
+		profiles: ['diagram'],
 		shapes: [
 			{
 				id: 'c4-person',

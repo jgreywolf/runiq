@@ -23,17 +23,38 @@
 	let lastSaved = $state<Date | null>(null);
 	let isDirty = $state(false);
 
+	// Auto-save configuration
+	const AUTO_SAVE_DELAY = 2000; // 2 seconds after last change
+	const AUTO_SAVE_KEY = 'runiq-autosave-code';
+	const AUTO_SAVE_TIME_KEY = 'runiq-autosave-time';
+
+	// Restore auto-saved code immediately (before component mounts)
+	// This must happen before the CodeEditor component initializes
+	const { initialCode, initialLastSaved } = (() => {
+		if (typeof window !== 'undefined') {
+			const autoSaved = localStorage.getItem(AUTO_SAVE_KEY);
+			const autoSavedTime = localStorage.getItem(AUTO_SAVE_TIME_KEY);
+			if (autoSaved) {
+				console.log('Restored auto-saved code');
+				return {
+					initialCode: autoSaved,
+					initialLastSaved: autoSavedTime ? new Date(autoSavedTime) : new Date()
+				};
+			}
+		}
+		return { initialCode: '', initialLastSaved: null };
+	})();
+
 	// Editor state
-	let code = $state('');
+	let code = $state(initialCode);
 	let errors = $state<string[]>([]);
 	let layoutEngine = $state('elk');
 	let autoSaveTimeout: ReturnType<typeof setTimeout> | null = null;
 	let codeEditorRef: CodeEditor | null = null;
 	let previewRef: Preview | null = null;
 
-	// Auto-save configuration
-	const AUTO_SAVE_DELAY = 2000; // 2 seconds after last change
-	const AUTO_SAVE_KEY = 'runiq-autosave-code';
+	// Initialize lastSaved after state declaration
+	lastSaved = initialLastSaved;
 
 	// Handle code changes with auto-save
 	function handleCodeChange(newCode: string) {
@@ -48,8 +69,11 @@
 		// Set new auto-save timeout
 		autoSaveTimeout = setTimeout(() => {
 			try {
+				const now = new Date();
 				localStorage.setItem(AUTO_SAVE_KEY, code);
-				lastSaved = new Date();
+				localStorage.setItem(AUTO_SAVE_TIME_KEY, now.toISOString());
+				lastSaved = now;
+				isDirty = false;
 				console.log('Auto-saved at', lastSaved.toLocaleTimeString());
 			} catch (e) {
 				console.warn('Auto-save failed:', e);
@@ -169,8 +193,9 @@
 		diagramName = defaultName;
 		isDirty = false;
 
-		// Clear auto-saved content
+		// Clear auto-saved content and timestamp
 		localStorage.removeItem(AUTO_SAVE_KEY);
+		localStorage.removeItem(AUTO_SAVE_TIME_KEY);
 		lastSaved = null;
 
 		console.log(`New ${type} created`);
@@ -272,7 +297,7 @@
 		}
 	}
 
-	// Load panel sizes and auto-saved code from localStorage
+	// Load panel sizes from localStorage
 	onMount(() => {
 		// Load panel sizes
 		const saved = localStorage.getItem('runiq-panel-sizes');
@@ -285,14 +310,6 @@
 			} catch (e) {
 				console.warn('Failed to load panel sizes:', e);
 			}
-		}
-
-		// Restore auto-saved code
-		const autoSaved = localStorage.getItem(AUTO_SAVE_KEY);
-		if (autoSaved) {
-			code = autoSaved;
-			isDirty = false;
-			console.log('Restored auto-saved code');
 		}
 	});
 

@@ -4,6 +4,7 @@ export const storageShapeIcons: ShapeCategory[] = [
 	{
 		id: 'storage',
 		label: 'Data Storage',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'cylinder', label: 'Database', code: 'shape id as @cylinder label:"Database"' },
 			{

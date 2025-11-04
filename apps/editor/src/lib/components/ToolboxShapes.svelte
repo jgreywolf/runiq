@@ -1,20 +1,9 @@
 <script lang="ts">
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Tooltip from '$lib/components/ui/tooltip';
+	import type { ShapeCategory } from '$lib/data/toolbox-data';
 	import ShapeIcon from './ShapeIcon.svelte';
 
-	interface Shape {
-		id: string;
-		label: string;
-		code: string;
-	}
-
-	interface ShapeCategory {
-		id: string;
-		label: string;
-		shapes: Shape[];
-		electricalOnly?: boolean;
-	}
 
 	interface Props {
 		categories: ShapeCategory[];

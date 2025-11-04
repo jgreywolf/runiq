@@ -1,16 +1,21 @@
+import { activitySampleDiagrams } from './toolboxSamples/activitySampleDiagrams';
 import { c4SampleDiagrams } from './toolboxSamples/c4SampleDiagrams';
+import { chartSampleDiagrams } from './toolboxSamples/chartSampleDiagrams';
 import { containerSampleDiagrams } from './toolboxSamples/containerSampleDiagrams';
 import { controlSystemsSampleDiagrams } from './toolboxSamples/controlSystemsSampleDiagrams';
 import { digitalSampleDiagrams } from './toolboxSamples/digitalSampleDiagrams';
 import { electricalSampleDiagrams } from './toolboxSamples/electricalSampleDiagrams';
 import { flowchartSampleDiagrams } from './toolboxSamples/flowchartSampleDiagrams';
+import { hydraulicSampleDiagrams } from './toolboxSamples/hydraulicSampleDiagrams';
+import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
+import { mindmapSampleDiagrams } from './toolboxSamples/mindmapSampleDiagrams';
 import { networkSampleDiagrams } from './toolboxSamples/networkSampleDiagrams';
 import { pedigreeSampleDiagrams } from './toolboxSamples/pedigreeSampleDiagrams';
-import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
-import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
+import { pneumaticSampleDiagrams } from './toolboxSamples/pneumaticSampleDiagrams';
 import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
-import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
-import { chartSampleDiagrams } from './toolboxSamples/chartSampleDiagrams';
+import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
+import { stateMachineSampleDiagrams } from './toolboxSamples/stateMachineSampleDiagrams';
+import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
 import { wardleySampleDiagrams } from './toolboxSamples/wardleySampleDiagrams';
 
 export interface Sample {
@@ -29,7 +34,10 @@ export const sampleDiagrams: SampleCategory[] = [
 	...flowchartSampleDiagrams,
 	...containerSampleDiagrams,
 	...umlSampleDiagrams,
+	...activitySampleDiagrams,
+	...stateMachineSampleDiagrams,
 	...sequenceSampleDiagrams,
+	...mindmapSampleDiagrams,
 	...networkSampleDiagrams,
 	...c4SampleDiagrams,
 	...controlSystemsSampleDiagrams,
@@ -37,8 +45,9 @@ export const sampleDiagrams: SampleCategory[] = [
 	...chartSampleDiagrams,
 	...quantumSampleDiagrams,
 	...electricalSampleDiagrams,
+	...digitalSampleDiagrams,
 	...logicGateSampleDiagrams,
-	...digitalSampleDiagrams
+	...pneumaticSampleDiagrams,
+	...hydraulicSampleDiagrams,
+	...wardleySampleDiagrams
 ];
-
-export const wardleySamples: SampleCategory[] = [...wardleySampleDiagrams];

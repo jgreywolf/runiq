@@ -4,6 +4,7 @@ export const awsShapeIcons: ShapeCategory[] = [
 	{
 		id: 'aws',
 		label: 'AWS Cloud',
+		profiles: ['diagram'],
 		shapes: [
 			{ id: 'awsEc2', label: 'EC2 Instance', code: 'shape id as @awsEc2 label:"Web Server"' },
 			{ id: 'awsS3', label: 'S3 Bucket', code: 'shape id as @awsS3 label:"assets-bucket"' },
