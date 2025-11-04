@@ -54,7 +54,7 @@ describe('Star Shape (unfilled)', () => {
 
 describe('Star Filled Shape', () => {
   it('should have correct id', () => {
-    expect(starFilledShape.id).toBe('star-filled');
+    expect(starFilledShape.id).toBe('starFilled');
   });
 
   it('should render SVG with filled star', () => {

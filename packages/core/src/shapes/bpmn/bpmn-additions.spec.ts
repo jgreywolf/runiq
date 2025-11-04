@@ -48,7 +48,7 @@ describe('BPMN Additions', () => {
 
   describe('eventSubProcessShape', () => {
     it('should have correct id', () => {
-      expect(eventSubProcessShape.id).toBe('event-sub-process');
+      expect(eventSubProcessShape.id).toBe('eventSubProcess');
     });
 
     it('should render rectangle with rounded corners and dashed border', () => {
@@ -64,7 +64,7 @@ describe('BPMN Additions', () => {
 
   describe('callActivityShape', () => {
     it('should have correct id', () => {
-      expect(callActivityShape.id).toBe('call-activity');
+      expect(callActivityShape.id).toBe('callActivity');
     });
 
     it('should render rectangle with thick border', () => {
@@ -79,7 +79,7 @@ describe('BPMN Additions', () => {
 
   describe('startNonInterferingShape', () => {
     it('should have correct id', () => {
-      expect(startNonInterferingShape.id).toBe('start-non-interfering');
+      expect(startNonInterferingShape.id).toBe('startNonInterfering');
     });
 
     it('should render unfilled circle with dashed stroke', () => {
@@ -95,9 +95,7 @@ describe('BPMN Additions', () => {
 
   describe('intermediateNonInterferingShape', () => {
     it('should have correct id', () => {
-      expect(intermediateNonInterferingShape.id).toBe(
-        'intermediate-non-interfering'
-      );
+      expect(intermediateNonInterferingShape.id).toBe('intermediateNonInterfering');
     });
 
     it('should render double unfilled circle with dashed stroke', () => {

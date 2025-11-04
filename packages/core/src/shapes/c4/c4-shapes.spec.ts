@@ -7,7 +7,7 @@ describe('C4 Model Shapes', () => {
 
   describe('c4-person', () => {
     it('should have correct id', () => {
-      expect(c4Person.id).toBe('c4-person');
+      expect(c4Person.id).toBe('c4Person');
     });
 
     it('should calculate bounds with person icon space', () => {
@@ -54,7 +54,7 @@ describe('C4 Model Shapes', () => {
 
   describe('c4-system', () => {
     it('should have correct id', () => {
-      expect(c4System.id).toBe('c4-system');
+      expect(c4System.id).toBe('c4System');
     });
 
     it('should calculate bounds with minimum size', () => {
@@ -88,7 +88,7 @@ describe('C4 Model Shapes', () => {
 
   describe('c4-container', () => {
     it('should have correct id', () => {
-      expect(c4Container.id).toBe('c4-container');
+      expect(c4Container.id).toBe('c4Container');
     });
 
     it('should calculate bounds with technology label space', () => {
@@ -148,7 +148,7 @@ describe('C4 Model Shapes', () => {
 
   describe('c4-component', () => {
     it('should have correct id', () => {
-      expect(c4Component.id).toBe('c4-component');
+      expect(c4Component.id).toBe('c4Component');
     });
 
     it('should calculate bounds with minimum size', () => {

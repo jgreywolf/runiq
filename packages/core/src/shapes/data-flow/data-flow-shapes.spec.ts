@@ -39,7 +39,7 @@ function createMockContext(
 describe('Data Flow Shapes', () => {
   describe('externalEntityShape', () => {
     it('should have correct id', () => {
-      expect(externalEntityShape.id).toBe('external-entity');
+      expect(externalEntityShape.id).toBe('externalEntity');
     });
 
     it('should calculate bounds based on text', () => {
@@ -74,7 +74,7 @@ describe('Data Flow Shapes', () => {
 
   describe('externalEntityCornerShape', () => {
     it('should have correct id', () => {
-      expect(externalEntityCornerShape.id).toBe('external-entity-corner');
+      expect(externalEntityCornerShape.id).toBe('externalEntityCorner');
     });
 
     it('should render rectangle with corner overlap effect', () => {
@@ -89,7 +89,7 @@ describe('Data Flow Shapes', () => {
 
   describe('processCircleShape', () => {
     it('should have correct id', () => {
-      expect(processCircleShape.id).toBe('process-circle');
+      expect(processCircleShape.id).toBe('processCircle');
     });
 
     it('should calculate circular bounds', () => {
@@ -125,7 +125,7 @@ describe('Data Flow Shapes', () => {
 
   describe('dataStoreLineShape', () => {
     it('should have correct id', () => {
-      expect(dataStoreLineShape.id).toBe('data-store-line');
+      expect(dataStoreLineShape.id).toBe('dataStoreLine');
     });
 
     it('should calculate bounds', () => {
@@ -147,7 +147,7 @@ describe('Data Flow Shapes', () => {
 
   describe('dataStoreLeftShape', () => {
     it('should have correct id', () => {
-      expect(dataStoreLeftShape.id).toBe('data-store-left');
+      expect(dataStoreLeftShape.id).toBe('dataStoreLeft');
     });
 
     it('should render rectangle with double line on left', () => {
@@ -162,7 +162,7 @@ describe('Data Flow Shapes', () => {
 
   describe('dataStoreOpenShape', () => {
     it('should have correct id', () => {
-      expect(dataStoreOpenShape.id).toBe('data-store-open');
+      expect(dataStoreOpenShape.id).toBe('dataStoreOpen');
     });
 
     it('should render rectangle open on right side', () => {

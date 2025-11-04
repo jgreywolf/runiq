@@ -92,7 +92,7 @@ describe('UML Component Additions', () => {
 
   describe('sendSignalShape', () => {
     it('should have correct id', () => {
-      expect(sendSignalShape.id).toBe('send-signal');
+      expect(sendSignalShape.id).toBe('sendSignal');
     });
 
     it('should render pentagon pointing right', () => {
@@ -106,7 +106,7 @@ describe('UML Component Additions', () => {
 
   describe('receiveSignalShape', () => {
     it('should have correct id', () => {
-      expect(receiveSignalShape.id).toBe('receive-signal');
+      expect(receiveSignalShape.id).toBe('receiveSignal');
     });
 
     it('should render concave pentagon pointing left', () => {
@@ -252,7 +252,7 @@ describe('UML Component Additions', () => {
 
   describe('verticalForkShape', () => {
     it('should have correct id', () => {
-      expect(verticalForkShape.id).toBe('vertical-fork');
+      expect(verticalForkShape.id).toBe('verticalFork');
     });
 
     it('should render vertical thick line for fork/join', () => {

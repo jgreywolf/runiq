@@ -33,7 +33,7 @@ function createMockContext(label = 'Test'): ShapeRenderContext {
 describe('Flowchart Additions', () => {
   describe('multiProcessShape', () => {
     it('should have correct id', () => {
-      expect(multiProcessShape.id).toBe('multi-process');
+      expect(multiProcessShape.id).toBe('multiProcess');
     });
 
     it('should render stacked rectangles to indicate multiple instances', () => {
@@ -78,7 +78,7 @@ describe('Flowchart Additions', () => {
 
   describe('curlyBraceAnnotationShape', () => {
     it('should have correct id', () => {
-      expect(curlyBraceAnnotationShape.id).toBe('curly-brace-annotation');
+      expect(curlyBraceAnnotationShape.id).toBe('curlyBraceAnnotation');
     });
 
     it('should render curly brace with text', () => {
@@ -92,7 +92,7 @@ describe('Flowchart Additions', () => {
 
   describe('magneticTapeShape', () => {
     it('should have correct id', () => {
-      expect(magneticTapeShape.id).toBe('magnetic-tape');
+      expect(magneticTapeShape.id).toBe('magneticTape');
     });
 
     it('should render circle with triangular bottom', () => {
