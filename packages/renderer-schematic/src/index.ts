@@ -14,6 +14,19 @@ import type {
 } from '@runiq/core';
 import { getSymbol, type SymbolDefinition } from './symbols.js';
 
+// Re-export P&ID symbols and line types
+export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
+export {
+  pidLineTypes,
+  type PIDLineType,
+  type PIDLineTypeId,
+  getLineType,
+  getLineTypeStyle,
+  renderPIDLine,
+  renderDoubleLine,
+  renderInsulationMarks,
+} from './pid-line-types.js';
+
 // Union type for all profile types that can be rendered as schematics
 export type RenderableProfile =
   | ElectricalProfile
