@@ -2,8 +2,8 @@ diagram "Unity Feedback System" {
 
   shape r as @rect label:"R(s)"
   shape sum as @junction label:"+/-"
-  shape gc as @transfer-fn label:"5/(s+2)"
-  shape gp as @transfer-fn label:"(s+1)/(s^2+3s+2)"
+  shape gc as @transferFn label:"5/(s+2)"
+  shape gp as @transferFn label:"(s+1)/(s^2+3s+2)"
   shape y as @rect label:"Y(s)"
   shape h as @gain label:"H(s)=1"
 

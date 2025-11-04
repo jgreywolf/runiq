@@ -6,7 +6,7 @@ diagram "Force-Directed Network Topology" {
     shape server1 as @server label:"Web Server 1"
     shape server2 as @server label:"Web Server 2"
     shape server3 as @server label:"Web Server 3"
-    shape lb as @load-balancer label:"Load Balancer"
+    shape lb as @loadBalancer label:"Load Balancer"
     shape db1 as @database label:"Primary DB"
     shape db2 as @database label:"Replica DB"
     

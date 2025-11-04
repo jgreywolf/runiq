@@ -8,12 +8,12 @@ diagram "Banking System - Customer Use Cases" {
   // System boundary (contains use cases)
   container bank "Banking System" {
     // Use cases - the functionality provided by the system
-    shape login as @ellipse-wide label:"Login to Account"
-    shape viewBalance as @ellipse-wide label:"View Account Balance"
-    shape transfer as @ellipse-wide label:"Transfer Money"
-    shape deposit as @ellipse-wide label:"Deposit Funds"
-    shape withdraw as @ellipse-wide label:"Withdraw Funds"
-    shape generateReport as @ellipse-wide label:"Generate Transaction Report"
+    shape login as @ellipseWide label:"Login to Account"
+    shape viewBalance as @ellipseWide label:"View Account Balance"
+    shape transfer as @ellipseWide label:"Transfer Money"
+    shape deposit as @ellipseWide label:"Deposit Funds"
+    shape withdraw as @ellipseWide label:"Withdraw Funds"
+    shape generateReport as @ellipseWide label:"Generate Transaction Report"
   }
   
   // Customer interactions (associations)

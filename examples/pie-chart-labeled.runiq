@@ -1,5 +1,5 @@
 diagram "Quarterly Revenue" {
 
-  shape quarters as @pie-chart label:"Q1-Q4 2024" data:[{"label":"Q1","value":100},{"label":"Q2","value":150},{"label":"Q3","value":120},{"label":"Q4","value":180}]
+  shape quarters as @pieChart label:"Q1-Q4 2024" data:[{"label":"Q1","value":100},{"label":"Q2","value":150},{"label":"Q3","value":120},{"label":"Q4","value":180}]
 
 }

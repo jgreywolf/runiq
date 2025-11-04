@@ -5,9 +5,9 @@ diagram "Simple ATM Example" {
   
   // System boundary with use cases
   container atm "ATM System" {
-    shape withdraw as @ellipse-wide label:"Withdraw Cash"
-    shape checkBalance as @ellipse-wide label:"Check Balance"
-    shape printReceipt as @ellipse-wide label:"Print Receipt"
+    shape withdraw as @ellipseWide label:"Withdraw Cash"
+    shape checkBalance as @ellipseWide label:"Check Balance"
+    shape printReceipt as @ellipseWide label:"Print Receipt"
   }
   
   // Relationships

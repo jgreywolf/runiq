@@ -2,8 +2,8 @@ diagram "PID Controller" {
 
   shape ref as @rect label:"Reference"
   shape sum as @junction label:"+/-"
-  shape pid as @transfer-fn label:"PID"
-  shape plant as @transfer-fn label:"Plant\nG(s)"
+  shape pid as @transferFn label:"PID"
+  shape plant as @transferFn label:"Plant\nG(s)"
   shape output as @rect label:"Output"
 
   ref -r_t-> sum

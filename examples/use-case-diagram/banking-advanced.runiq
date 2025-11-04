@@ -10,20 +10,20 @@ diagram "Online Banking - Advanced Relationships" {
   // System boundary
   container banking "Online Banking System" {
     // Main use cases
-    shape login as @ellipse-wide label:"Login to Account"
-    shape viewBalance as @ellipse-wide label:"View Balance"
-    shape transfer as @ellipse-wide label:"Transfer Money"
-    shape deposit as @ellipse-wide label:"Deposit Funds"
-    shape withdraw as @ellipse-wide label:"Withdraw Funds"
+    shape login as @ellipseWide label:"Login to Account"
+    shape viewBalance as @ellipseWide label:"View Balance"
+    shape transfer as @ellipseWide label:"Transfer Money"
+    shape deposit as @ellipseWide label:"Deposit Funds"
+    shape withdraw as @ellipseWide label:"Withdraw Funds"
     
     // Included use cases (shared functionality)
-    shape authenticate as @ellipse-wide label:"Authenticate User"
-    shape validateAccount as @ellipse-wide label:"Validate Account"
-    shape logTransaction as @ellipse-wide label:"Log Transaction"
+    shape authenticate as @ellipseWide label:"Authenticate User"
+    shape validateAccount as @ellipseWide label:"Validate Account"
+    shape logTransaction as @ellipseWide label:"Log Transaction"
     
     // Extension use cases (optional features)
-    shape sendNotification as @ellipse-wide label:"Send Email Notification"
-    shape printReceipt as @ellipse-wide label:"Print Receipt"
+    shape sendNotification as @ellipseWide label:"Send Email Notification"
+    shape printReceipt as @ellipseWide label:"Print Receipt"
   }
   
   // Customer associations (standard solid arrows)

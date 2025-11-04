@@ -2,5 +2,5 @@
 // Testing colors: property with grouped bars
 
 diagram "Custom Colors Grouped Bars" {
-  shape chart1 as @bar-chart-vertical label:"Custom Colors Grouped Bars" colors:["#e53e3e","#38b2ac","#9f7aea"] data:[{"label":"Q1","values":[30,45,25]},{"label":"Q2","values":[35,50,30]},{"label":"Q3","values":[40,55,35]},{"label":"Q4","values":[45,60,40]}]
+  shape chart1 as @barChartVertical label:"Custom Colors Grouped Bars" colors:["#e53e3e","#38b2ac","#9f7aea"] data:[{"label":"Q1","values":[30,45,25]},{"label":"Q2","values":[35,50,30]},{"label":"Q3","values":[40,55,35]},{"label":"Q4","values":[45,60,40]}]
 }

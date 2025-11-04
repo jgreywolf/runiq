@@ -8,17 +8,17 @@ diagram "E-Commerce System" {
   // System boundary
   container ecommerce "E-Commerce Platform" {
     // Customer use cases
-    shape browse as @ellipse-wide label:"Browse Products"
-    shape search as @ellipse-wide label:"Search Catalog"
-    shape addToCart as @ellipse-wide label:"Add to Cart"
-    shape checkout as @ellipse-wide label:"Checkout"
-    shape payment as @ellipse-wide label:"Process Payment"
-    shape trackOrder as @ellipse-wide label:"Track Order"
+    shape browse as @ellipseWide label:"Browse Products"
+    shape search as @ellipseWide label:"Search Catalog"
+    shape addToCart as @ellipseWide label:"Add to Cart"
+    shape checkout as @ellipseWide label:"Checkout"
+    shape payment as @ellipseWide label:"Process Payment"
+    shape trackOrder as @ellipseWide label:"Track Order"
     
     // Admin use cases
-    shape manageProducts as @ellipse-wide label:"Manage Products"
-    shape viewReports as @ellipse-wide label:"View Sales Reports"
-    shape manageUsers as @ellipse-wide label:"Manage Users"
+    shape manageProducts as @ellipseWide label:"Manage Products"
+    shape viewReports as @ellipseWide label:"View Sales Reports"
+    shape manageUsers as @ellipseWide label:"Manage Users"
   }
   
   // Customer associations

@@ -2,5 +2,5 @@
 // Testing colors: property with string array
 
 diagram "Custom Colors Pie Chart" {
-  shape pie1 as @pie-chart label:"Custom Colors Pie" legendPosition:"bottom-right" colors:["#ff0000","#00ff00","#0000ff","#ffff00"] data:[{"label":"Red Slice","value":35},{"label":"Green Slice","value":28},{"label":"Blue Slice","value":22},{"label":"Yellow Slice","value":15}]
+  shape pie1 as @pieChart label:"Custom Colors Pie" legendPosition:"bottom-right" colors:["#ff0000","#00ff00","#0000ff","#ffff00"] data:[{"label":"Red Slice","value":35},{"label":"Green Slice","value":28},{"label":"Blue Slice","value":22},{"label":"Yellow Slice","value":15}]
 }

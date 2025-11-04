@@ -1,5 +1,5 @@
 diagram "Revenue Distribution with Legend" {
 
-  shape revenue as @pie-chart label:"Q1-Q4 2024 Revenue" data:[{"label":"North America","value":45},{"label":"Europe","value":30},{"label":"Asia Pacific","value":18},{"label":"Latin America","value":7}] showLegend:true
+  shape revenue as @pieChart label:"Q1-Q4 2024 Revenue" data:[{"label":"North America","value":45},{"label":"Europe","value":30},{"label":"Asia Pacific","value":18},{"label":"Latin America","value":7}] showLegend:true
 
 }

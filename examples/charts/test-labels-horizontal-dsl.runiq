@@ -2,5 +2,5 @@
 // Testing xLabel and yLabel with horizontal orientation
 
 diagram "Department Performance Metrics" {
-  shape chart1 as @bar-chart-horizontal label:"Department Performance" title:"2025 Efficiency Metrics" xLabel:"Score (%)" yLabel:"Department" colors:["#667eea","#764ba2","#f093fb"] data:[{"label":"Engineering","value":92},{"label":"Marketing","value":85},{"label":"Sales","value":88},{"label":"Operations","value":79}]
+  shape chart1 as @barChartHorizontal label:"Department Performance" title:"2025 Efficiency Metrics" xLabel:"Score (%)" yLabel:"Department" colors:["#667eea","#764ba2","#f093fb"] data:[{"label":"Engineering","value":92},{"label":"Marketing","value":85},{"label":"Sales","value":88},{"label":"Operations","value":79}]
 }

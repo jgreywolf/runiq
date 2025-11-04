@@ -1,8 +1,8 @@
 diagram "Cascaded Transfer Functions" {
 
   shape input as @rect label:"Input"
-  shape g1 as @transfer-fn label:"K/(s+1)"
-  shape g2 as @transfer-fn label:"10/(s+5)"
+  shape g1 as @transferFn label:"K/(s+1)"
+  shape g2 as @transferFn label:"10/(s+5)"
   shape g3 as @integrator label:"1/s"
   shape output as @rect label:"Output"
 

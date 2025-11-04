@@ -2,7 +2,7 @@ diagram "Cross-Container Edges Test" {
 
   // Test case 1: Edge between nodes in different containers
   container "Frontend" {
-    shape web as @curv-trap label:"Web App"
+    shape web as @curvTrap label:"Web App"
   }
 
   container "Backend" {

@@ -62,15 +62,15 @@ preset "compact" {
 
 // Dashboard sections using templates
 container "User Metrics" templateId: "dashboard-widget" preset: "primary" {
-  shape total as @bar-chart-vertical label: "Total Users: 1,250"
-  shape active as @bar-chart-vertical label: "Active: 987"
-  shape growth as @line-chart label: "+15% this month"
+  shape total as @barChartVertical label: "Total Users: 1,250"
+  shape active as @barChartVertical label: "Active: 987"
+  shape growth as @lineChart label: "+15% this month"
 }
 
 container "Revenue" templateId: "dashboard-widget" preset: "success" {
-  shape monthly as @bar-chart-vertical label: "Monthly Revenue"
-  shape ytd as @pie-chart label: "YTD: $2.4M"
-  shape trend as @line-chart label: "↑ Trending Up"
+  shape monthly as @barChartVertical label: "Monthly Revenue"
+  shape ytd as @pieChart label: "YTD: $2.4M"
+  shape trend as @lineChart label: "↑ Trending Up"
 }
 
 container "Alerts" templateId: "dashboard-widget" preset: "warning" {
@@ -81,9 +81,9 @@ container "Alerts" templateId: "dashboard-widget" preset: "warning" {
 
 // Chart section with template
 container "Analytics" templateId: "chart-container" preset: "compact" {
-  shape visits as @bar-chart-horizontal label: "Page Visits"
-  shape conversion as @pie-chart label: "Conversion Rate"
-  shape bounce as @line-chart label: "Bounce Rate"
+  shape visits as @barChartHorizontal label: "Page Visits"
+  shape conversion as @pieChart label: "Conversion Rate"
+  shape bounce as @lineChart label: "Bounce Rate"
 }
 
 // Container extending another with preset override
@@ -99,8 +99,8 @@ container "Advanced Metrics"
   preset: "success" 
   extends: "User Metrics"
   padding: 25 {
-  shape custom1 as @bar-chart-vertical label: "Custom Metric 1"
-  shape custom2 as @pie-chart label: "Custom Metric 2"
+  shape custom1 as @barChartVertical label: "Custom Metric 1"
+  shape custom2 as @pieChart label: "Custom Metric 2"
 }
 
 // Edges for data flow

@@ -1,5 +1,5 @@
 diagram "Quarterly Sales by Product - Grouped" {
 
-  shape sales as @bar-chart-vertical label:"Q1-Q4 Sales by Product Category" data:[{"label":"Q1","values":[120,85,95]},{"label":"Q2","values":[150,110,105]},{"label":"Q3","values":[135,95,115]},{"label":"Q4","values":[180,130,140]}]
+  shape sales as @barChartVertical label:"Q1-Q4 Sales by Product Category" data:[{"label":"Q1","values":[120,85,95]},{"label":"Q2","values":[150,110,105]},{"label":"Q3","values":[135,95,115]},{"label":"Q4","values":[180,130,140]}]
 
 }

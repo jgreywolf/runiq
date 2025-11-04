@@ -2,5 +2,5 @@
 // Pie chart with labeled segments, custom colors, and title
 
 diagram "Product Sales Distribution" {
-  shape pie1 as @pie-chart label:"Product Sales Distribution" title:"Q4 2025 Sales" colors:["#4299e1","#48bb78","#ed8936"] data:[{"label":"Product A","value":450},{"label":"Product B","value":320},{"label":"Product C","value":230}]
+  shape pie1 as @pieChart label:"Product Sales Distribution" title:"Q4 2025 Sales" colors:["#4299e1","#48bb78","#ed8936"] data:[{"label":"Product A","value":450},{"label":"Product B","value":320},{"label":"Product C","value":230}]
 }
