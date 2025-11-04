@@ -42,9 +42,6 @@ export default defineConfig({
 	],
 	
 	use: {
-		// Base URL for navigation
-		baseURL: 'http://localhost:3000',
-		
 		// Viewport size for screenshots
 		viewport: { width: 1280, height: 720 },
 		
@@ -87,12 +84,4 @@ export default defineConfig({
 		// }
 	],
 	
-	// Run local dev server before starting the tests
-	// We'll serve static SVG files for testing
-	webServer: process.env.CI ? undefined : {
-		command: 'pnpm run test:visual:serve',
-		port: 3000,
-		reuseExistingServer: !process.env.CI,
-		timeout: 120 * 1000
-	}
 });

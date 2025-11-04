@@ -1,12 +1,28 @@
 import { Page } from '@playwright/test';
 import { renderSvg } from '../../src/index.js';
 import { parse } from '@runiq/parser-dsl';
-import { layoutDiagram } from '@runiq/layout-base';
+import { ElkLayoutEngine } from '@runiq/layout-base';
+import { registerDefaultShapes, layoutRegistry, iconRegistry } from '@runiq/core';
+import { fontAwesome } from '@runiq/icons-fontawesome';
+
+// Initialize Runiq registries once
+let initialized = false;
+function initializeRuniq() {
+	if (!initialized) {
+		registerDefaultShapes();
+		layoutRegistry.register(new ElkLayoutEngine());
+		iconRegistry.register(fontAwesome);
+		initialized = true;
+	}
+}
 
 /**
  * Renders a Runiq diagram from DSL source code
  */
-export function renderDiagram(dslCode: string): string {
+export async function renderDiagram(dslCode: string): Promise<string> {
+	// Ensure registries are initialized
+	initializeRuniq();
+	
 	const parseResult = parse(dslCode);
 	
 	if (!parseResult.success || !parseResult.diagram) {
@@ -18,8 +34,9 @@ export function renderDiagram(dslCode: string): string {
 		throw new Error(`Failed to parse diagram: ${errorMessages}`);
 	}
 	
-	// Layout the diagram
-	const layout = layoutDiagram(parseResult.diagram);
+	// Layout the diagram using ELK
+	const layoutEngine = new ElkLayoutEngine();
+	const layout = await layoutEngine.layout(parseResult.diagram, {});
 	
 	// Render to SVG
 	const result = renderSvg(parseResult.diagram, layout);
@@ -30,8 +47,24 @@ export function renderDiagram(dslCode: string): string {
  * Sets up a test page with SVG content
  */
 export async function setupTestPage(page: Page, svgContent: string): Promise<void> {
-	const encodedSvg = encodeURIComponent(svgContent);
-	await page.goto(`/?svg=${encodedSvg}`);
+	// Directly set the SVG content in the page
+	const html = `
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { background: white; padding: 20px; }
+		svg { display: block; }
+	</style>
+</head>
+<body>
+	${svgContent}
+</body>
+</html>`;
+	
+	await page.setContent(html);
 	
 	// Wait for SVG to be rendered
 	await page.waitForSelector('svg', { timeout: 5000 });
@@ -44,7 +77,7 @@ export async function setupTestPage(page: Page, svgContent: string): Promise<voi
  * Renders a diagram and sets up the page
  */
 export async function renderAndSetup(page: Page, dslCode: string): Promise<void> {
-	const svg = renderDiagram(dslCode);
+	const svg = await renderDiagram(dslCode);
 	await setupTestPage(page, svg);
 }
 

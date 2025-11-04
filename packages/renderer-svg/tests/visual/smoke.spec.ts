@@ -27,7 +27,7 @@ test.describe('Visual Regression - Smoke Tests', () => {
 		const dsl = `diagram "test" {
   shape box1 as @rectangle label: "Box 1"
   shape box2 as @rectangle label: "Box 2"
-  edge box1 -> box2
+  box1 -connect-> box2
 }`;
 		await renderAndSetup(page, dsl);
 		
