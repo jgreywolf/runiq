@@ -830,7 +830,7 @@
 			`;
 		}
 
-		// For electrical components, use special text-based icons
+		// For electrical/digital components and sequence diagram elements, use special text-based icons
 		if (
 			[
 				'resistor',
@@ -868,11 +868,44 @@
 				'mux4to1',
 				'mux8to1',
 				'decoder2to4',
-				'decoder3to8'
+				'decoder3to8',
+				// Sequence diagram participants
+				'participantActor',
+				'participantEntity',
+				'participantBoundary',
+				'participantControl',
+				'participantDatabase',
+				'participantContinuation',
+				// Sequence diagram messages
+				'messageSync',
+				'messageAsync',
+				'messageReturn',
+				'messageCreate',
+				'messageDestroy',
+				'messageActivate',
+				'messageLost',
+				'messageFound',
+				// Sequence diagram fragments
+				'fragmentAlt',
+				'fragmentOpt',
+				'fragmentLoop',
+				'fragmentPar',
+				'fragmentBreak',
+				'fragmentCritical',
+				'fragmentNeg',
+				'fragmentRef',
+				// Sequence diagram annotations
+				'noteOver',
+				'noteLeft',
+				'noteRight',
+				'stateInvariant',
+				'timeObservation',
+				'durationConstraint'
 			].includes(shapeId)
 		) {
-			// Return a simple icon representation for electrical components
+			// Return a simple icon representation for electrical/digital components and sequence elements
 			const iconMap: Record<string, string> = {
+				// Electrical/Digital components
 				resistor: '─∿─', // Zigzag to match actual shape
 				capacitor: '─||─',
 				inductor: '─∿─',
@@ -908,7 +941,39 @@
 				mux4to1: 'M4',
 				mux8to1: 'M8',
 				decoder2to4: 'D24',
-				decoder3to8: 'D38'
+				decoder3to8: 'D38',
+				// Sequence diagram participants
+				participantActor: '👤',
+				participantEntity: '□',
+				participantBoundary: '○',
+				participantControl: '◎',
+				participantDatabase: '⬢',
+				participantContinuation: '⋯',
+				// Sequence diagram messages
+				messageSync: '─▶',
+				messageAsync: '╌▶',
+				messageReturn: '◀╌',
+				messageCreate: '─▶○',
+				messageDestroy: '─▶✕',
+				messageActivate: '▶▭',
+				messageLost: '─▶●',
+				messageFound: '●▶─',
+				// Sequence diagram fragments
+				fragmentAlt: '[alt]',
+				fragmentOpt: '[opt]',
+				fragmentLoop: '[loop]',
+				fragmentPar: '[par]',
+				fragmentBreak: '[brk]',
+				fragmentCritical: '[crit]',
+				fragmentNeg: '[neg]',
+				fragmentRef: '[ref]',
+				// Sequence diagram annotations
+				noteOver: '📝',
+				noteLeft: '◀📝',
+				noteRight: '📝▶',
+				stateInvariant: '{inv}',
+				timeObservation: '⏱',
+				durationConstraint: '⏱⟷'
 			};
 
 			const icon = iconMap[shapeId] || '─?─';
