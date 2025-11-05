@@ -6,14 +6,14 @@
 		open: boolean;
 		onOpenChange: (open: boolean) => void;
 		onCreateDiagram: (
-			type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence'
+			type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence' | 'pid'
 		) => void;
 	}
 
 	let { open = $bindable(), onOpenChange, onCreateDiagram }: Props = $props();
 
 	function createDiagram(
-		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence'
+		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence' | 'pid'
 	) {
 		open = false;
 		onCreateDiagram(type);
@@ -29,7 +29,7 @@
 			>
 		</Dialog.Header>
 
-		<div class="grid gap-4 py-4">
+		<div class="grid grid-cols-2 gap-4 py-4">
 			<!-- Regular Diagram Option -->
 			<button
 				onclick={() => createDiagram('diagram')}
@@ -212,6 +212,37 @@
 					<div>
 						<h3 class="font-semibold text-neutral-900">Wardley Map</h3>
 						<p class="text-sm text-neutral-600">Strategic mapping, evolution, value chain</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- P&ID Diagram Option -->
+			<button
+				onclick={() => createDiagram('pid')}
+				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50 cursor-pointer"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 transition-colors group-hover:bg-emerald-200"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+							/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">P&ID Diagram</h3>
+						<p class="text-sm text-neutral-600">Process diagrams (ISA-5.1 standard)</p>
 					</div>
 				</div>
 			</button>
