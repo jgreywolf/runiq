@@ -3709,7 +3709,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@275"
+                    "$ref": "#/rules@277"
                   },
                   "arguments": []
                 }
@@ -13220,7 +13220,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
       "name": "TAG",
       "definition": {
         "$type": "RegexToken",
-        "regex": "/[a-zA-Z][a-zA-Z0-9_-]*/",
+        "regex": "/[A-Z][A-Z0-9]*-[0-9]{1,4}[A-Z]?/",
         "parenthesized": false
       },
       "fragment": false,
@@ -13231,7 +13231,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
       "name": "SHAPE_ID",
       "definition": {
         "$type": "RegexToken",
-        "regex": "/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/",
+        "regex": "/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/",
         "parenthesized": false
       },
       "fragment": false,

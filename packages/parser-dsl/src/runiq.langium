@@ -344,7 +344,7 @@ PIDLineToProperty:
     'to:' to=ConnectionPoint;
 
 ConnectionPoint:
-    equipment=TAG ('.' port=TAG)?;
+    equipment=TAG ('.' port=ID)?;
 
 PIDLineSizeProperty:
     'size:' size=NUMBER ('unit:' unit=SizeUnit)?;
@@ -1168,8 +1168,8 @@ DepthIndicatorStyleValue returns string:
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal BIDIRECTIONAL_ARROW: '<->';
 terminal ARROW: '->';
-terminal TAG: /[a-zA-Z][a-zA-Z0-9_-]*/;  // P&ID tags like V-101, FT-205, etc (must be before ID/SHAPE_ID)
-terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
+terminal TAG: /[A-Z][A-Z0-9]*-[0-9]{1,4}[A-Z]?/;  // P&ID instrument/equipment tags like V-101, FT-205, PIC-301A (uppercase-number format, must come first)
+terminal SHAPE_ID: /[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;  // Shape IDs like circle-filled, must start with lowercase or underscore to avoid matching P&ID tags
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
 terminal NUMBER: /-?[0-9]+(\.[0-9]+)?/;

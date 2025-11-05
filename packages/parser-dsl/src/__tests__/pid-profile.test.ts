@@ -175,7 +175,7 @@ describe('P&ID Profile DSL Syntax', () => {
     it('should parse utility line', () => {
       const text = `
         pid "Process" {
-          line utility from:STEAM.header to:E-101.tubeIn size:2 unit:in material:CS
+          line utility from:STEAM-1.header to:E-101.tubeIn size:2 unit:in material:CS
         }
       `;
       const result = parse(text);
@@ -463,7 +463,7 @@ describe('P&ID Profile DSL Syntax', () => {
       for (const schedule of schedules) {
         const text = `
           pid "Test" {
-            line process from:A to:B schedule:${schedule}
+            line process from:V-101 to:P-102 schedule:${schedule}
           }
         `;
         const result = parse(text);
