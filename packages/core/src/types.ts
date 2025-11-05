@@ -455,7 +455,8 @@ export type Profile =
   | WardleyProfile
   | SequenceProfile
   | PneumaticProfile
-  | HydraulicProfile;
+  | HydraulicProfile
+  | PIDProfile;
 
 /**
  * Visual diagram profile (existing Runiq diagrams)
@@ -540,6 +541,82 @@ export interface HydraulicProfile {
   pressure?: PressureSpec; // Operating pressure specification
   flowRate?: FlowRateSpec; // Flow rate specification
   fluid?: FluidSpec; // Hydraulic fluid specification
+}
+
+/**
+ * P&ID (Piping and Instrumentation Diagram) profile
+ * For process engineering following ISA-5.1 standard
+ * Supports equipment, instruments, process lines, control loops
+ */
+export interface PIDProfile {
+  type: 'pid';
+  name: string;
+  equipment: PIDEquipment[]; // Process equipment (tanks, pumps, valves, etc.)
+  instruments: PIDInstrument[]; // Measurement and control instruments
+  lines: PIDLine[]; // Process, utility, signal, and electrical lines
+  loops: PIDLoop[]; // Control loops
+  processSpecs?: PIDProcessSpec; // Process specifications (fluid, pressure, temperature, etc.)
+}
+
+/**
+ * P&ID Equipment (vessels, pumps, valves, heat exchangers, etc.)
+ */
+export interface PIDEquipment {
+  tag: string; // ISA-5.1 tag (e.g., "TK-101", "P-205", "V-301")
+  type: string; // Equipment type (e.g., "storageTank", "pumpCentrifugal", "valveGate")
+  properties?: Record<string, unknown>; // Equipment-specific properties (volume, flowRate, etc.)
+}
+
+/**
+ * P&ID Instrument (transmitters, controllers, indicators, etc.)
+ */
+export interface PIDInstrument {
+  tag: string; // ISA-5.1 tag (e.g., "FT-101", "TIC-205", "PI-301")
+  type: string; // Instrument type (e.g., "flowTransmitter", "temperatureController")
+  properties?: Record<string, unknown>; // Instrument-specific properties (range, location, etc.)
+}
+
+/**
+ * P&ID Line (process, utility, signal, electrical, etc.)
+ */
+export interface PIDLine {
+  type: string; // Line type (e.g., "process", "utility", "signal", "electrical")
+  from: PIDConnectionPoint; // Source connection point
+  to: PIDConnectionPoint; // Destination connection point
+  properties?: Record<string, unknown>; // Line-specific properties (size, schedule, material, etc.)
+}
+
+/**
+ * P&ID Connection Point (equipment tag with optional port)
+ */
+export interface PIDConnectionPoint {
+  equipment: string; // Equipment tag (e.g., "TK-101", "FEED-1")
+  port?: string; // Optional port name (e.g., "inlet", "outlet", "discharge")
+}
+
+/**
+ * P&ID Control Loop
+ */
+export interface PIDLoop {
+  id: number; // Loop number (e.g., 101, 205)
+  controlledVariable: string; // Variable being controlled (e.g., "flow", "temperature")
+  setpoint?: number; // Setpoint value
+  unit?: string; // Setpoint unit
+  controller?: string; // Controller tag
+  mode?: string; // Control mode (e.g., "auto", "manual", "cascade")
+}
+
+/**
+ * P&ID Process Specifications
+ */
+export interface PIDProcessSpec {
+  fluid?: string; // Process fluid name
+  pressure?: number; // Operating pressure
+  pressureUnit?: string; // Pressure unit
+  temperature?: number; // Operating temperature
+  temperatureUnit?: string; // Temperature unit
+  flowRate?: number; // Flow rate
+  flowRateUnit?: string; // Flow rate unit
 }
 
 // ============================================================================
