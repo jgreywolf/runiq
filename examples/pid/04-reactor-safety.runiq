@@ -1,0 +1,121 @@
+// Reactor Safety System P&ID Example
+// Demonstrates reactor with comprehensive safety systems and interlocks
+
+pid "Batch Reactor with Safety Systems" {
+  // Main Reactor
+  equipment R-101 type:reactor volume:10000 unit:L material:SS316L rating:600#
+  
+  // Cooling Jacket
+  equipment J-101 type:jacket material:SS316L rating:600#
+  
+  // Feed Pumps
+  equipment P-101 type:pumpCentrifugal flowRate:30 unit:m³/h material:SS316L
+  equipment P-102 type:pumpCentrifugal flowRate:30 unit:m³/h material:SS316L
+  
+  // Transfer Pump
+  equipment P-103 type:pumpCentrifugal flowRate:50 unit:m³/h material:SS316L
+  
+  // Control Valves
+  equipment FCV-101 type:valveControl rating:600#
+  equipment FCV-102 type:valveControl rating:600#
+  equipment TCV-501 type:valveControl rating:300#
+  equipment XV-901 type:valveShutoff rating:600#
+  
+  // Safety Equipment
+  equipment PSV-801 type:valveSafetyRelief rating:600#
+  equipment RD-801 type:ruptureDisk rating:600#
+  
+  // Temperature Transmitters and Controllers
+  instrument TT-501 type:temperatureTransmitter range:(0,200) unit:degC loop:501 location:field
+  instrument TIC-501 type:temperatureIndicatorController range:(0,200) unit:degC loop:501 location:panel
+  instrument TT-502 type:temperatureTransmitter range:(0,200) unit:degC location:field
+  
+  // Temperature Alarms and Interlocks
+  instrument TAH-901 type:temperatureAlarmHigh range:(0,200) unit:degC location:panel
+  instrument TAHH-902 type:temperatureAlarmHighHigh range:(0,200) unit:degC location:panel
+  
+  // Pressure Transmitters and Controllers
+  instrument PT-601 type:pressureTransmitter range:(0,10) unit:bar loop:601 location:field
+  instrument PIC-601 type:pressureIndicatorController range:(0,10) unit:bar loop:601 location:panel
+  
+  // Pressure Alarms and Interlocks
+  instrument PAH-903 type:pressureAlarmHigh range:(0,10) unit:bar location:panel
+  instrument PAHH-904 type:pressureAlarmHighHigh range:(0,10) unit:bar location:panel
+  
+  // Level Transmitters and Controllers
+  instrument LT-401 type:levelTransmitter range:(0,100) unit:% loop:401 location:field
+  instrument LIC-401 type:levelIndicatorController range:(0,100) unit:% loop:401 location:panel
+  instrument LAH-905 type:levelAlarmHigh range:(0,100) unit:% location:panel
+  
+  // Flow Transmitters and Controllers
+  instrument FT-101 type:flowTransmitter range:(0,50) unit:m³/h loop:101 location:field
+  instrument FIC-101 type:flowIndicatorController range:(0,50) unit:m³/h loop:101 location:panel
+  instrument FT-102 type:flowTransmitter range:(0,50) unit:m³/h loop:102 location:field
+  instrument FIC-102 type:flowIndicatorController range:(0,50) unit:m³/h loop:102 location:panel
+  
+  // Agitator Speed Controller
+  instrument SC-701 type:speedController range:(0,500) unit:rpm loop:701 location:panel
+  
+  // Process Lines - Feeds
+  line process from:FEED-1.supply to:P-101.inlet size:2 unit:in schedule:XS material:SS316L
+  line process from:P-101.discharge to:FCV-101.inlet size:2 unit:in schedule:XS material:SS316L
+  line process from:FCV-101.outlet to:R-101.feedA size:2 unit:in schedule:XS material:SS316L
+  line process from:FEED-2.supply to:P-102.inlet size:2 unit:in schedule:XS material:SS316L
+  line process from:P-102.discharge to:FCV-102.inlet size:2 unit:in schedule:XS material:SS316L
+  line process from:FCV-102.outlet to:R-101.feedB size:2 unit:in schedule:XS material:SS316L
+  
+  // Process Lines - Product Transfer
+  line process from:R-101.discharge to:P-103.inlet size:4 unit:in schedule:XS material:SS316L
+  line process from:P-103.discharge to:XV-901.inlet size:4 unit:in schedule:XS material:SS316L
+  line process from:XV-901.outlet to:PRODUCT-1.tank size:4 unit:in schedule:XS material:SS316L
+  
+  // Utility Lines - Cooling Water
+  line utility from:CW-1.supply to:TCV-501.inlet size:4 unit:in schedule:STD material:CS
+  line utility from:TCV-501.outlet to:J-101.inlet size:4 unit:in schedule:STD material:CS
+  line utility from:J-101.outlet to:CW-1.returnLine size:4 unit:in schedule:STD material:CS
+  
+  // Safety Lines - Relief System
+  line process from:R-101.relief to:PSV-801.inlet size:3 unit:in schedule:XXS material:SS316L
+  line process from:PSV-801.outlet to:RD-801.inlet size:3 unit:in schedule:XXS material:SS316L
+  line process from:RD-801.outlet to:VENT-1.header size:4 unit:in schedule:XXS material:SS316L
+  
+  // Signal Lines - Temperature Control
+  line signal from:TT-501 to:TIC-501
+  line signal from:TIC-501 to:TCV-501
+  line signal from:TT-502 to:TAH-901
+  line signal from:TT-502 to:TAHH-902
+  
+  // Signal Lines - Pressure Control
+  line signal from:PT-601 to:PIC-601
+  line signal from:PT-601 to:PAH-903
+  line signal from:PT-601 to:PAHH-904
+  
+  // Signal Lines - Level Control
+  line signal from:LT-401 to:LIC-401
+  line signal from:LT-401 to:LAH-905
+  
+  // Signal Lines - Flow Control
+  line signal from:FT-101 to:FIC-101
+  line signal from:FIC-101 to:FCV-101
+  line signal from:FT-102 to:FIC-102
+  line signal from:FIC-102 to:FCV-102
+  
+  // Signal Lines - Safety Interlocks
+  line signal from:TAHH-902 to:XV-901
+  line signal from:PAHH-904 to:XV-901
+  line signal from:LAH-905 to:FCV-101
+  line signal from:LAH-905 to:FCV-102
+  
+  // Control Loops
+  loop 101 controlled_variable:flow setpoint:25 unit:m³/h controller:FIC-101 mode:auto
+  loop 102 controlled_variable:flow setpoint:25 unit:m³/h controller:FIC-102 mode:auto
+  loop 401 controlled_variable:level setpoint:70 unit:% controller:LIC-401 mode:auto
+  loop 501 controlled_variable:temperature setpoint:85 unit:degC controller:TIC-501 mode:auto
+  loop 601 controlled_variable:pressure setpoint:4 unit:bar controller:PIC-601 mode:auto
+  loop 701 controlled_variable:speed setpoint:300 unit:rpm controller:SC-701 mode:auto
+  
+  // Process Specifications
+  fluid biodegradable
+  pressure 4 bar operating
+  flowRate 50 m³/h
+}

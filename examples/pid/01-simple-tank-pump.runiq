@@ -1,0 +1,43 @@
+// Simple P&ID Example: Tank with Pump Transfer
+// Demonstrates basic equipment and process lines
+
+pid "Tank Pump Transfer" {
+  // Feed Tank
+  equipment TK-101 type:storageTank volume:5000 unit:L material:CS
+  
+  // Centrifugal Transfer Pump
+  equipment P-101 type:pumpCentrifugal flowRate:50 unit:m³/h material:SS316
+  
+  // Control Valve
+  equipment CV-101 type:valveControl rating:150#
+  
+  // Receiving Tank
+  equipment TK-102 type:storageTank volume:5000 unit:L material:CS
+  
+  // Flow Transmitter
+  instrument FT-101 type:flowTransmitter range:(0,100) unit:m³/h loop:101 location:field
+  
+  // Flow Indicator Controller
+  instrument FIC-101 type:flowIndicatorController range:(0,100) unit:m³/h loop:101 location:panel
+  
+  // Level Indicators
+  instrument LI-101 type:levelIndicator range:(0,100) unit:% location:local
+  instrument LI-102 type:levelIndicator range:(0,100) unit:% location:local
+  
+  // Process Lines
+  line process from:TK-101.outlet to:P-101.inlet size:3 unit:in schedule:SCH40 material:CS
+  line process from:P-101.discharge to:FT-101 size:2 unit:in schedule:SCH40 material:SS316
+  line process from:FT-101 to:CV-101.inlet size:2 unit:in schedule:SCH40 material:SS316
+  line process from:CV-101.outlet to:TK-102.inlet size:2 unit:in schedule:SCH40 material:SS316
+  
+  // Signal Lines
+  line signal from:FT-101 to:FIC-101
+  line signal from:FIC-101 to:CV-101
+  
+  // Control Loop
+  loop 101 controlled_variable:flow setpoint:50 unit:m³/h controller:FIC-101 mode:auto
+  
+  // Process Specifications
+  fluid water-glycol
+  pressure 3 bar operating
+}

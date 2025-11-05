@@ -110,12 +110,36 @@
 
 	// Handle new diagram creation with type selection
 	function handleNewDiagram(
-		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence'
+		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence' | 'pid'
 	) {
 		let defaultContent: string;
 		let defaultName: string;
 
-		if (type === 'sequence') {
+		if (type === 'pid') {
+			defaultContent = `pid "My P&ID" {
+  // Equipment
+  equipment TK-101 type:storageTank volume:5000 unit:L material:CS
+  equipment P-101 type:pumpCentrifugal flowRate:50 unit:m³/h material:SS316
+  
+  // Instruments
+  instrument FT-101 type:flowTransmitter range:(0,100) unit:m³/h location:field
+  instrument FIC-101 type:flowIndicatorController range:(0,100) unit:m³/h location:panel
+  
+  // Process Lines
+  line process from:TK-101.outlet to:P-101.inlet size:4 unit:in schedule:STD material:CS
+  
+  // Signal Lines
+  line signal from:FT-101 to:FIC-101
+  
+  // Control Loop
+  loop 101 controlled_variable:flow setpoint:50 unit:m³/h controller:FIC-101 mode:auto
+  
+  // Process Specifications
+  fluid "Water"
+  pressure 3 unit:bar
+}`;
+			defaultName = 'Untitled P&ID';
+		} else if (type === 'sequence') {
 			defaultContent = `sequence "My Sequence Diagram" {
 
   participant "User" as actor

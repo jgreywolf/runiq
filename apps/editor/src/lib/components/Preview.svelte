@@ -3,7 +3,7 @@
 	import { parse } from '@runiq/parser-dsl';
 	import { layoutRegistry } from '@runiq/core';
 	import { renderSvg, renderWardleyMap, renderSequenceDiagram } from '@runiq/renderer-svg';
-	import { renderSchematic } from '@runiq/renderer-schematic';
+	import { renderSchematic, renderPID } from '@runiq/renderer-schematic';
 	import { Badge } from '$lib/components/ui/badge';
 
 	// Props
@@ -51,6 +51,124 @@
 
 	// Debounce timer
 	let debounceTimer: ReturnType<typeof setTimeout>;
+
+	// Helper function to create P&ID preview SVG
+	function createPIDPreviewSvg(profile: any): string {
+		const equipmentCount = profile.equipment?.length || 0;
+		const instrumentCount = profile.instruments?.length || 0;
+		const lineCount = profile.lines?.length || 0;
+		const loopCount = profile.loops?.length || 0;
+		
+		let y = 40;
+		const lineHeight = 25;
+		
+		let content = `
+			<text x="20" y="${y}" font-size="20" font-weight="bold" fill="#059669">${profile.name || 'P&ID Diagram'}</text>
+		`;
+		y += 40;
+		
+		content += `<text x="20" y="${y}" font-size="14" fill="#666">✓ Parsed successfully</text>`;
+		y += lineHeight + 10;
+		
+		// Equipment summary
+		content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Equipment (${equipmentCount})</text>`;
+		y += lineHeight;
+		
+		if (profile.equipment && profile.equipment.length > 0) {
+			profile.equipment.slice(0, 10).forEach((eq: any) => {
+				const props = [];
+				if (eq.properties?.material) props.push(`material: ${eq.properties.material}`);
+				if (eq.properties?.volume) props.push(`volume: ${eq.properties.volume} ${eq.properties.volumeUnit || ''}`);
+				if (eq.properties?.flowRate) props.push(`flowRate: ${eq.properties.flowRate} ${eq.properties.flowRateUnit || ''}`);
+				const propsStr = props.length > 0 ? ` (${props.join(', ')})` : '';
+				content += `<text x="40" y="${y}" font-size="12" fill="#555">${eq.tag}: ${eq.type}${propsStr}</text>`;
+				y += lineHeight;
+			});
+			if (equipmentCount > 10) {
+				content += `<text x="40" y="${y}" font-size="12" fill="#999" font-style="italic">... and ${equipmentCount - 10} more</text>`;
+				y += lineHeight;
+			}
+		}
+		y += 10;
+		
+		// Instruments summary
+		content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Instruments (${instrumentCount})</text>`;
+		y += lineHeight;
+		
+		if (profile.instruments && profile.instruments.length > 0) {
+			profile.instruments.slice(0, 10).forEach((inst: any) => {
+				const props = [];
+				if (inst.properties?.rangeMin !== undefined && inst.properties?.rangeMax !== undefined) {
+					props.push(`range: ${inst.properties.rangeMin}-${inst.properties.rangeMax} ${inst.properties.rangeUnit || ''}`);
+				}
+				if (inst.properties?.location) props.push(`location: ${inst.properties.location}`);
+				if (inst.properties?.loop) props.push(`loop: ${inst.properties.loop}`);
+				const propsStr = props.length > 0 ? ` (${props.join(', ')})` : '';
+				content += `<text x="40" y="${y}" font-size="12" fill="#555">${inst.tag}: ${inst.type}${propsStr}</text>`;
+				y += lineHeight;
+			});
+			if (instrumentCount > 10) {
+				content += `<text x="40" y="${y}" font-size="12" fill="#999" font-style="italic">... and ${instrumentCount - 10} more</text>`;
+				y += lineHeight;
+			}
+		}
+		y += 10;
+		
+		// Lines summary
+		content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Lines (${lineCount})</text>`;
+		y += lineHeight;
+		
+		const lineTypes = profile.lines?.reduce((acc: any, line: any) => {
+			acc[line.type] = (acc[line.type] || 0) + 1;
+			return acc;
+		}, {}) || {};
+		
+		Object.entries(lineTypes).forEach(([type, count]) => {
+			content += `<text x="40" y="${y}" font-size="12" fill="#555">${type}: ${count}</text>`;
+			y += lineHeight;
+		});
+		y += 10;
+		
+		// Loops summary
+		content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Control Loops (${loopCount})</text>`;
+		y += lineHeight;
+		
+		if (profile.loops && profile.loops.length > 0) {
+			profile.loops.forEach((loop: any) => {
+				content += `<text x="40" y="${y}" font-size="12" fill="#555">Loop ${loop.id}: ${loop.controlledVariable} @ ${loop.setpoint} ${loop.unit || ''} (${loop.mode || 'manual'})</text>`;
+				y += lineHeight;
+			});
+		}
+		y += 10;
+		
+		// Process specs
+		if (profile.processSpecs) {
+			content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Process Specifications</text>`;
+			y += lineHeight;
+			
+			if (profile.processSpecs.fluid) {
+				content += `<text x="40" y="${y}" font-size="12" fill="#555">Fluid: ${profile.processSpecs.fluid}</text>`;
+				y += lineHeight;
+			}
+			if (profile.processSpecs.pressure) {
+				content += `<text x="40" y="${y}" font-size="12" fill="#555">Pressure: ${profile.processSpecs.pressure} ${profile.processSpecs.pressureUnit || ''}</text>`;
+				y += lineHeight;
+			}
+			if (profile.processSpecs.flowRate) {
+				content += `<text x="40" y="${y}" font-size="12" fill="#555">Flow Rate: ${profile.processSpecs.flowRate} ${profile.processSpecs.flowRateUnit || ''}</text>`;
+				y += lineHeight;
+			}
+		}
+		y += 20;
+		
+		// Note about full rendering
+		content += `<text x="20" y="${y}" font-size="12" fill="#059669" font-style="italic">Full P&ID rendering with symbols and lines coming soon!</text>`;
+		
+		return `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="${y + 40}" viewBox="0 0 800 ${y + 40}">
+			<rect width="800" height="${y + 40}" fill="#f9fafb"/>
+			${content}
+		</svg>`;
+	}
 
 	// Watch for code changes with debounce
 	$effect(() => {
@@ -137,7 +255,19 @@
 					participantSpacing: 150,
 					messageSpacing: 60
 				});
-				break;				
+				break;
+			case 'pid':
+				// P&ID rendering with ISA-5.1 symbols
+				renderResult = renderPID(profile as any, {
+					width: 1200,
+					height: 800,
+					gridSize: 50,
+					showGrid: false,
+					showTags: true,
+					showProperties: true,
+					spacing: 180
+				});
+				break;
 			case 'diagram': {
 				// Add astVersion for compatibility with DiagramAst
 				const diagram = {

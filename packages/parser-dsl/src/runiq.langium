@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -166,7 +166,7 @@ FlowRateStatement:
     'flowRate' value=NUMBER unit=FlowRateUnit;
 
 FlowRateUnit returns string:
-    'L/min' | 'L/s' | 'CFM' | 'GPM' | 'm³/h';
+    'kg/h' | 't/h' | 'L/min' | 'L/s' | 'm³/h' | 'CFM' | 'GPM' | 'gal/min' | 'bbl/day';
 
 // ============================================================================
 // Hydraulic Profile (ISO 1219-2 hydraulic circuits)
@@ -189,6 +189,223 @@ FluidType returns string:
 
 TempUnit returns string:
     'degC' | 'degF' | 'K';
+
+// ============================================================================
+// P&ID Profile (Piping & Instrumentation Diagrams) - ISA-5.1 standard
+// ============================================================================
+PIDProfile:
+    'pid' name=STRING '{'
+        statements+=PIDStatement*
+    '}';
+
+// Statements within P&ID profile
+PIDStatement:
+    PIDEquipmentStatement
+    | PIDInstrumentStatement
+    | PIDLineStatement
+    | PIDLoopStatement
+    | PressureStatement
+    | FlowRateStatement
+    | FluidStatement;
+
+// equipment V-101 type:vesselVertical volume:5000 unit:L material:SS316
+PIDEquipmentStatement:
+    'equipment' tag=TAG properties+=PIDEquipmentProperty+;
+
+PIDEquipmentProperty:
+    PIDEquipmentTypeProperty
+    | PIDVolumeProperty
+    | PIDFlowRateProperty
+    | PIDMaterialProperty
+    | PIDDimensionProperty
+    | PIDRatingProperty
+    | GenericPIDProperty;
+
+PIDEquipmentTypeProperty:
+    'type:' type=PIDEquipmentType;
+
+PIDEquipmentType returns string:
+    // Vessels
+    'vesselVertical' | 'vesselHorizontal' | 'storageTank' | 'reactor' | 'knockoutDrum'
+    | 'distillationColumn' | 'filter' | 'separator' | 'separatorHorizontal' | 'flashDrum' | 'refluxDrum' | 'cyclone'
+    // Rotating Equipment
+    | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'compressorCentrifugal' | 'compressorReciprocating'
+    | 'turbineSteam' | 'fan' | 'agitator'
+    // Valves
+    | 'valveGate' | 'valveGlobe' | 'valveBall' | 'valveCheck' | 'valveControl' | 'valveSafetyRelief'
+    | 'valveButterfly' | 'valveThreeWay' | 'valveNeedle' | 'valvePlug' | 'valveDiaphragm'
+    | 'valveAngle' | 'valvePinch' | 'valveShutoff'
+    // Heat Exchangers
+    | 'heatExchangerShellTube' | 'cooler' | 'airCooler' | 'heatExchangerPlate' | 'firedHeater'
+    | 'coolingTower' | 'condenser' | 'reboiler' | 'jacket'
+    // Safety Equipment
+    | 'ruptureDisk';
+
+PIDVolumeProperty:
+    'volume:' value=NUMBER 'unit:' unit=VolumeUnit;
+
+VolumeUnit returns string:
+    'L' | 'm³' | 'gal' | 'bbl' | 'ft³';
+
+PIDFlowRateProperty:
+    'flowRate:' value=NUMBER 'unit:' unit=FlowRateUnit;
+
+PIDMaterialProperty:
+    'material:' material=MaterialType;
+
+MaterialType returns string:
+    'CS' | 'SS304' | 'SS316' | 'SS316L' | 'Alloy20' | 'Hastelloy' | 'Monel' | 'Titanium' | 'PVC' | 'PP' | 'PTFE';
+
+PIDDimensionProperty:
+    'dimension:' value=NUMBER 'unit:' unit=DimensionUnit;
+
+DimensionUnit returns string:
+    'mm' | 'cm' | 'm' | 'in' | 'ft';
+
+PIDRatingProperty:
+    'rating:' rating=PressureRating;
+
+PressureRating returns string:
+    '150#' | '300#' | '600#' | '900#' | '1500#' | '2500#' | 'PN10' | 'PN16' | 'PN25' | 'PN40';
+
+// instrument FT-101 type:flowTransmitter range:(0,1000) unit:kg/h loop:101 location:field
+PIDInstrumentStatement:
+    'instrument' tag=TAG properties+=PIDInstrumentProperty+;
+
+PIDInstrumentProperty:
+    PIDInstrumentTypeProperty
+    | PIDRangeProperty
+    | PIDLoopRefProperty
+    | PIDLocationProperty
+    | PIDAccuracyProperty
+    | GenericPIDProperty;
+
+PIDInstrumentTypeProperty:
+    'type:' type=PIDInstrumentType;
+
+PIDInstrumentType returns string:
+    // Transmitters
+    'flowTransmitter' | 'temperatureTransmitter' | 'pressureTransmitter' | 'levelTransmitter'
+    | 'analyzerTransmitter' | 'phTransmitter' | 'conductivityTransmitter' | 'vibrationTransmitter'
+    // Indicators
+    | 'flowIndicator' | 'temperatureIndicator' | 'pressureIndicator' | 'levelIndicator'
+    // Controllers
+    | 'flowController' | 'temperatureController' | 'pressureController' | 'levelController' | 'speedController'
+    // Indicator Controllers
+    | 'flowIndicatorController' | 'temperatureIndicatorController' | 'levelIndicatorController'
+    | 'pressureIndicatorController'
+    // Switches
+    | 'flowSwitch' | 'levelSwitch' | 'pressureSwitch' | 'temperatureSwitch'
+    // Alarms
+    | 'temperatureAlarmHigh' | 'temperatureAlarmLow' | 'temperatureAlarmHighHigh' | 'temperatureAlarmLowLow'
+    | 'pressureAlarmHigh' | 'pressureAlarmLow' | 'pressureAlarmHighHigh' | 'pressureAlarmLowLow'
+    | 'levelAlarmHigh' | 'levelAlarmLow' | 'levelAlarmHighHigh' | 'levelAlarmLowLow'
+    | 'flowAlarmHigh' | 'flowAlarmLow'
+    // Recorders
+    | 'flowRecorder' | 'pressureRecorder' | 'temperatureRecorder';
+
+PIDRangeProperty:
+    'range:' '(' min=NUMBER ',' max=NUMBER ')' 'unit:' unit=MeasurementUnit;
+
+MeasurementUnit returns string:
+    'kg/h' | 't/h' | 'L/min' | 'm³/h' | 'degC' | 'degF' | 'bar' | 'psi' | 'kPa' | 'm' | 'mm' | '%' | 'rpm' | 'mm/s';
+
+PIDLoopRefProperty:
+    'loop:' loopNum=NUMBER;
+
+PIDLocationProperty:
+    'location:' location=InstrumentLocation;
+
+InstrumentLocation returns string:
+    'field' | 'panel' | 'local' | 'remote' | 'control_room';
+
+PIDAccuracyProperty:
+    'accuracy:' value=NUMBER 'unit:' unit=AccuracyUnit;
+
+AccuracyUnit returns string:
+    '%' | 'ppm' | 'units';
+
+// line process solid from:V-101.outlet to:P-101.inlet size:4 schedule:40 material:SS316
+PIDLineStatement:
+    'line' lineType=PIDLineType style=PIDLineStyle? properties+=PIDLineProperty+;
+
+PIDLineType returns string:
+    'process' | 'utility' | 'signal' | 'electrical' | 'pneumatic' | 'hydraulic' | 'data';
+
+PIDLineStyle returns string:
+    'solid' | 'dashed' | 'dotted' | 'double' | 'future';
+
+PIDLineProperty:
+    PIDLineFromProperty
+    | PIDLineToProperty
+    | PIDLineSizeProperty
+    | PIDLineScheduleProperty
+    | PIDLineMaterialProperty
+    | PIDLineInsulationProperty
+    | GenericPIDProperty;
+
+PIDLineFromProperty:
+    'from:' from=ConnectionPoint;
+
+PIDLineToProperty:
+    'to:' to=ConnectionPoint;
+
+ConnectionPoint:
+    equipment=TAG ('.' port=ID)?;
+
+PIDLineSizeProperty:
+    'size:' size=NUMBER ('unit:' unit=SizeUnit)?;
+
+SizeUnit returns string:
+    'in' | 'mm' | 'NPS' | 'DN';
+
+PIDLineScheduleProperty:
+    'schedule:' schedule=PipeSchedule;
+
+PipeSchedule returns string:
+    'SCH5' | 'SCH10' | 'SCH20' | 'SCH30' | 'STD' | 'SCH40' | 'SCH60' | 'XS' | 'SCH80' | 'SCH100' | 'SCH120' | 'SCH140' | 'SCH160' | 'XXS';
+
+PIDLineMaterialProperty:
+    'material:' material=MaterialType;
+
+PIDLineInsulationProperty:
+    'insulation:' type=InsulationType;
+
+InsulationType returns string:
+    'none' | 'thermal' | 'acoustic' | 'fireproof' | 'personnel_protection';
+
+// loop 101 controlled_variable:flow setpoint:1000 unit:kg/h controller:FIC-101
+PIDLoopStatement:
+    'loop' loopNum=NUMBER properties+=PIDLoopProperty+;
+
+PIDLoopProperty:
+    PIDControlledVariableProperty
+    | PIDSetpointProperty
+    | PIDControllerProperty
+    | PIDControlModeProperty
+    | GenericPIDProperty;
+
+PIDControlledVariableProperty:
+    'controlled_variable:' variable=ControlVariable;
+
+ControlVariable returns string:
+    'flow' | 'temperature' | 'pressure' | 'level' | 'composition' | 'ph' | 'conductivity' | 'speed';
+
+PIDSetpointProperty:
+    'setpoint:' value=NUMBER ('unit:' unit=MeasurementUnit)?;
+
+PIDControllerProperty:
+    'controller:' tag=TAG;
+
+PIDControlModeProperty:
+    'mode:' mode=ControlMode;
+
+ControlMode returns string:
+    'manual' | 'auto' | 'cascade' | 'ratio' | 'feedforward';
+
+// Generic property for extensibility
+GenericPIDProperty:
+    key=ID ':' value=(STRING | NUMBER | ID);
 
 // ============================================================================
 // Wardley Map Profile (strategic mapping)
@@ -958,7 +1175,8 @@ DepthIndicatorStyleValue returns string:
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal BIDIRECTIONAL_ARROW: '<->';
 terminal ARROW: '->';
-terminal SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;
+terminal TAG: /[A-Z][A-Z0-9]*-[0-9]{1,4}[A-Z]?/;  // P&ID instrument/equipment tags like V-101, FT-205, PIC-301A (uppercase-number format, must come first)
+terminal SHAPE_ID: /[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;  // Shape IDs like circle-filled, must start with lowercase or underscore to avoid matching P&ID tags
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
 terminal NUMBER: /-?[0-9]+(\.[0-9]+)?/;

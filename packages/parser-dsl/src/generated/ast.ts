@@ -10,7 +10,8 @@ export const RuniqTerminals = {
     LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/,
     BIDIRECTIONAL_ARROW: /<->/,
     ARROW: /->/,
-    SHAPE_ID: /[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
+    TAG: /[A-Z][A-Z0-9]*-[0-9]{1,4}[A-Z]?/,
+    SHAPE_ID: /[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
     ID: /[a-zA-Z_][a-zA-Z0-9_]*/,
     STRING: /"(?:[^"\\]|\\.)*"/,
     NUMBER: /-?[0-9]+(\.[0-9]+)?/,
@@ -22,41 +23,85 @@ export const RuniqTerminals = {
 export type RuniqTerminalNames = keyof typeof RuniqTerminals;
 
 export type RuniqKeywordNames =
+    | "%"
     | "("
     | ")"
     | ","
     | "."
     | ".."
     | "/"
+    | "150#"
+    | "1500#"
+    | "2500#"
+    | "300#"
+    | "600#"
+    | "900#"
     | ":"
     | "="
     | "@"
+    | "Alloy20"
     | "BT"
     | "CFM"
+    | "CS"
+    | "DN"
     | "GPM"
+    | "Hastelloy"
     | "K"
+    | "L"
     | "L/min"
     | "L/s"
     | "LR"
     | "MPa"
+    | "Monel"
+    | "NPS"
+    | "PN10"
+    | "PN16"
+    | "PN25"
+    | "PN40"
+    | "PP"
+    | "PTFE"
+    | "PVC"
     | "RL"
+    | "SCH10"
+    | "SCH100"
+    | "SCH120"
+    | "SCH140"
+    | "SCH160"
+    | "SCH20"
+    | "SCH30"
+    | "SCH40"
+    | "SCH5"
+    | "SCH60"
+    | "SCH80"
+    | "SS304"
+    | "SS316"
+    | "SS316L"
+    | "STD"
     | "TB"
+    | "Titanium"
+    | "XS"
+    | "XXS"
     | "["
     | "]"
     | "abstract:"
     | "ac"
     | "acceptEvent"
+    | "accuracy:"
+    | "acoustic"
     | "activate:"
     | "activity"
     | "activityFinal"
     | "actor"
     | "affected:"
     | "aggregation"
+    | "agitator"
+    | "airCooler"
     | "algorithm:"
     | "alignContent:"
     | "alt"
     | "alternatives:"
     | "analysis"
+    | "analyzerTransmitter"
     | "anchor"
     | "and"
     | "arrowType:"
@@ -66,10 +111,13 @@ export type RuniqKeywordNames =
     | "association"
     | "async"
     | "attributes:"
+    | "auto"
     | "autoResize:"
     | "backgroundColor:"
     | "badge:"
     | "bar"
+    | "bbl"
+    | "bbl/day"
     | "bidirectional"
     | "biodegradable"
     | "boolean"
@@ -83,10 +131,12 @@ export type RuniqKeywordNames =
     | "boundary"
     | "break"
     | "carrier:"
+    | "cascade"
     | "center"
     | "centralBuffer"
     | "childCountPosition:"
     | "children:"
+    | "cm"
     | "collaboration"
     | "collapseAnimationDuration:"
     | "collapseAnimationEasing:"
@@ -113,16 +163,28 @@ export type RuniqKeywordNames =
     | "complex"
     | "component"
     | "composition"
+    | "compressorCentrifugal"
+    | "compressorReciprocating"
+    | "condenser"
+    | "conductivity"
+    | "conductivityTransmitter"
     | "constraint:"
     | "constraints:"
     | "container"
     | "container-aware"
     | "continuation"
     | "control"
+    | "control_room"
+    | "controlled_variable:"
+    | "controller:"
+    | "cooler"
+    | "coolingTower"
     | "create"
     | "critical"
     | "crossContainerEdgeOptimization:"
+    | "cyclone"
     | "dashed"
+    | "data"
     | "data:"
     | "dataStore"
     | "database"
@@ -139,11 +201,14 @@ export type RuniqKeywordNames =
     | "destroy"
     | "diagram"
     | "digital"
+    | "dimension:"
     | "direction"
     | "direction:"
+    | "distillationColumn"
     | "distribution:"
     | "doActivity:"
     | "dotted"
+    | "double"
     | "durationConstraint"
     | "e"
     | "ease-in"
@@ -157,6 +222,7 @@ export type RuniqKeywordNames =
     | "entity"
     | "entry:"
     | "entryPoint"
+    | "equipment"
     | "event"
     | "event:"
     | "eventBased"
@@ -169,11 +235,28 @@ export type RuniqKeywordNames =
     | "extends:"
     | "extensionPoints:"
     | "false"
+    | "fan"
+    | "feedforward"
+    | "field"
     | "fill-available"
     | "fill:"
+    | "filter"
+    | "firedHeater"
+    | "fireproof"
     | "fit-content"
+    | "flashDrum"
+    | "flow"
+    | "flowAlarmHigh"
+    | "flowAlarmLow"
+    | "flowController"
     | "flowFinal"
+    | "flowIndicator"
+    | "flowIndicatorController"
     | "flowRate"
+    | "flowRate:"
+    | "flowRecorder"
+    | "flowSwitch"
+    | "flowTransmitter"
     | "flowType:"
     | "fluid"
     | "fontFamily:"
@@ -184,7 +267,12 @@ export type RuniqKeywordNames =
     | "fragment"
     | "frame"
     | "from:"
+    | "ft"
+    | "ft³"
     | "full"
+    | "future"
+    | "gal"
+    | "gal/min"
     | "gates:"
     | "gatewayType:"
     | "generalization"
@@ -194,6 +282,8 @@ export type RuniqKeywordNames =
     | "header:"
     | "headerBackgroundColor:"
     | "headerPosition:"
+    | "heatExchangerPlate"
+    | "heatExchangerShellTube"
     | "high"
     | "history"
     | "historyDeep"
@@ -209,14 +299,20 @@ export type RuniqKeywordNames =
     | "icon:"
     | "iconColor:"
     | "iconSize:"
+    | "in"
     | "inclusive"
     | "incrementalLayout:"
     | "indent"
     | "inertia:"
     | "inputPins:"
     | "inst"
+    | "instrument"
+    | "insulation:"
+    | "jacket"
     | "junction"
     | "kPa"
+    | "kg/h"
+    | "knockoutDrum"
     | "label:"
     | "labelPosition:"
     | "layered"
@@ -224,19 +320,36 @@ export type RuniqKeywordNames =
     | "layoutComplexity:"
     | "left"
     | "legendPosition:"
+    | "level"
+    | "levelAlarmHigh"
+    | "levelAlarmHighHigh"
+    | "levelAlarmLow"
+    | "levelAlarmLowLow"
+    | "levelController"
+    | "levelIndicator"
+    | "levelIndicatorController"
+    | "levelSwitch"
+    | "levelTransmitter"
     | "lifeline"
+    | "line"
     | "lineStyle:"
     | "linear"
     | "link:"
+    | "local"
+    | "location:"
     | "loop"
+    | "loop:"
     | "lost"
     | "low"
+    | "m"
+    | "manual"
     | "map:"
     | "margin:"
     | "marginBottom:"
     | "marginLeft:"
     | "marginRight:"
     | "marginTop:"
+    | "material:"
     | "max"
     | "maxHeight:"
     | "maxWidth:"
@@ -251,10 +364,14 @@ export type RuniqKeywordNames =
     | "minWidth:"
     | "mindmap"
     | "mineral"
+    | "mm"
+    | "mm/s"
+    | "mode:"
     | "module"
     | "mrtree"
     | "multiplicitySource:"
     | "multiplicityTarget:"
+    | "m³"
     | "m³/h"
     | "n"
     | "name:"
@@ -287,6 +404,7 @@ export type RuniqKeywordNames =
     | "paddingLeft:"
     | "paddingRight:"
     | "paddingTop:"
+    | "panel"
     | "par"
     | "parallel"
     | "parameters:"
@@ -295,7 +413,11 @@ export type RuniqKeywordNames =
     | "partial"
     | "participant"
     | "participants:"
+    | "personnel_protection"
+    | "ph"
+    | "phTransmitter"
     | "phosphate-ester"
+    | "pid"
     | "pin"
     | "pins:"
     | "pneumatic"
@@ -303,21 +425,42 @@ export type RuniqKeywordNames =
     | "port"
     | "ports:"
     | "position:"
+    | "ppm"
     | "preset"
     | "preset:"
     | "pressure"
+    | "pressureAlarmHigh"
+    | "pressureAlarmHighHigh"
+    | "pressureAlarmLow"
+    | "pressureAlarmLowLow"
+    | "pressureController"
+    | "pressureIndicator"
+    | "pressureIndicatorController"
+    | "pressureRecorder"
+    | "pressureSwitch"
+    | "pressureTransmitter"
     | "private"
+    | "process"
     | "protected"
     | "providedInterface"
     | "psi"
     | "public"
+    | "pumpCentrifugal"
+    | "pumpPositiveDisplacement"
     | "radial"
+    | "range:"
     | "rated"
+    | "rating:"
+    | "ratio"
+    | "reactor"
     | "realization"
+    | "reboiler"
     | "receiveSignal"
     | "ref"
     | "ref:"
+    | "refluxDrum"
     | "relationship:"
+    | "remote"
     | "requiredInterface"
     | "resizable:"
     | "resizeHandles:"
@@ -328,19 +471,27 @@ export type RuniqKeywordNames =
     | "roleTarget:"
     | "routing"
     | "routing:"
+    | "rpm"
+    | "ruptureDisk"
     | "s"
+    | "schedule:"
     | "schematic"
     | "se"
     | "selectionBorderColor:"
     | "selectionBorderWidth:"
     | "selectionHighlight:"
     | "sendSignal"
+    | "separator"
+    | "separatorHorizontal"
     | "sequence"
+    | "setpoint:"
     | "shadow:"
     | "shape"
     | "showChildCount:"
     | "showDepthIndicator:"
     | "showLegend:"
+    | "signal"
+    | "size:"
     | "solid"
     | "source"
     | "source:"
@@ -348,6 +499,8 @@ export type RuniqKeywordNames =
     | "space-between"
     | "space-evenly"
     | "spacing:"
+    | "speed"
+    | "speedController"
     | "spline"
     | "splines"
     | "stable"
@@ -357,6 +510,7 @@ export type RuniqKeywordNames =
     | "static:"
     | "stereotype:"
     | "stereotypes:"
+    | "storageTank"
     | "straight"
     | "stress"
     | "string"
@@ -368,13 +522,26 @@ export type RuniqKeywordNames =
     | "sw"
     | "sync"
     | "synthetic"
+    | "t/h"
     | "target"
     | "temp:"
+    | "temperature"
+    | "temperatureAlarmHigh"
+    | "temperatureAlarmHighHigh"
+    | "temperatureAlarmLow"
+    | "temperatureAlarmLowLow"
+    | "temperatureController"
+    | "temperatureIndicator"
+    | "temperatureIndicatorController"
+    | "temperatureRecorder"
+    | "temperatureSwitch"
+    | "temperatureTransmitter"
     | "template"
     | "templateId:"
     | "terminate"
     | "text"
     | "textAlign:"
+    | "thermal"
     | "timeObservation"
     | "timing:"
     | "title:"
@@ -386,12 +553,34 @@ export type RuniqKeywordNames =
     | "top-right"
     | "tran"
     | "true"
+    | "turbineSteam"
     | "type:"
+    | "unit:"
+    | "units"
+    | "utility"
     | "value:"
+    | "valveAngle"
+    | "valveBall"
+    | "valveButterfly"
+    | "valveCheck"
+    | "valveControl"
+    | "valveDiaphragm"
+    | "valveGate"
+    | "valveGlobe"
+    | "valveNeedle"
+    | "valvePinch"
+    | "valvePlug"
+    | "valveSafetyRelief"
+    | "valveShutoff"
+    | "valveThreeWay"
     | "vertical"
     | "verticalAlign:"
     | "verticalFork"
+    | "vesselHorizontal"
+    | "vesselVertical"
+    | "vibrationTransmitter"
     | "visibility:"
+    | "volume:"
     | "w"
     | "wardley"
     | "water-glycol"
@@ -402,6 +591,12 @@ export type RuniqKeywordNames =
     | "}";
 
 export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
+
+export type AccuracyUnit = '%' | 'ppm' | 'units';
+
+export function isAccuracyUnit(item: unknown): item is AccuracyUnit {
+    return item === '%' || item === 'ppm' || item === 'units';
+}
 
 export interface AffectedProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
@@ -738,6 +933,23 @@ export function isColorsProperty(item: unknown): item is ColorsProperty {
     return reflection.isInstance(item, ColorsProperty.$type);
 }
 
+export interface ConnectionPoint extends langium.AstNode {
+    readonly $container: PIDLineFromProperty | PIDLineToProperty;
+    readonly $type: 'ConnectionPoint';
+    equipment: string;
+    port?: string;
+}
+
+export const ConnectionPoint = {
+    $type: 'ConnectionPoint',
+    equipment: 'equipment',
+    port: 'port'
+} as const;
+
+export function isConnectionPoint(item: unknown): item is ConnectionPoint {
+    return reflection.isInstance(item, ConnectionPoint.$type);
+}
+
 export interface ContainerBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ContainerBlock';
@@ -991,6 +1203,18 @@ export function isContainerTypeValue(item: unknown): item is ContainerTypeValue 
     return item === 'mindmap' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
+export type ControlMode = 'auto' | 'cascade' | 'feedforward' | 'manual' | 'ratio';
+
+export function isControlMode(item: unknown): item is ControlMode {
+    return item === 'manual' || item === 'auto' || item === 'cascade' || item === 'ratio' || item === 'feedforward';
+}
+
+export type ControlVariable = 'composition' | 'conductivity' | 'flow' | 'level' | 'ph' | 'pressure' | 'speed' | 'temperature';
+
+export function isControlVariable(item: unknown): item is ControlVariable {
+    return item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed';
+}
+
 export interface DataArray extends langium.AstNode {
     readonly $container: DataObjectProperty;
     readonly $type: 'DataArray';
@@ -1166,6 +1390,12 @@ export const DigitalStatement = {
 
 export function isDigitalStatement(item: unknown): item is DigitalStatement {
     return reflection.isInstance(item, DigitalStatement.$type);
+}
+
+export type DimensionUnit = 'cm' | 'ft' | 'in' | 'm' | 'mm';
+
+export function isDimensionUnit(item: unknown): item is DimensionUnit {
+    return item === 'mm' || item === 'cm' || item === 'm' || item === 'in' || item === 'ft';
 }
 
 export interface DirectionDeclaration extends langium.AstNode {
@@ -1457,7 +1687,7 @@ export function isFillProperty(item: unknown): item is FillProperty {
 }
 
 export interface FlowRateStatement extends langium.AstNode {
-    readonly $container: HydraulicProfile | PneumaticProfile;
+    readonly $container: HydraulicProfile | PIDProfile | PneumaticProfile;
     readonly $type: 'FlowRateStatement';
     unit: FlowRateUnit;
     value: string;
@@ -1473,10 +1703,10 @@ export function isFlowRateStatement(item: unknown): item is FlowRateStatement {
     return reflection.isInstance(item, FlowRateStatement.$type);
 }
 
-export type FlowRateUnit = 'CFM' | 'GPM' | 'L/min' | 'L/s' | 'm³/h';
+export type FlowRateUnit = 'CFM' | 'GPM' | 'L/min' | 'L/s' | 'bbl/day' | 'gal/min' | 'kg/h' | 'm³/h' | 't/h';
 
 export function isFlowRateUnit(item: unknown): item is FlowRateUnit {
-    return item === 'L/min' || item === 'L/s' || item === 'CFM' || item === 'GPM' || item === 'm³/h';
+    return item === 'kg/h' || item === 't/h' || item === 'L/min' || item === 'L/s' || item === 'm³/h' || item === 'CFM' || item === 'GPM' || item === 'gal/min' || item === 'bbl/day';
 }
 
 export interface FlowTypeProperty extends langium.AstNode {
@@ -1495,7 +1725,7 @@ export function isFlowTypeProperty(item: unknown): item is FlowTypeProperty {
 }
 
 export interface FluidStatement extends langium.AstNode {
-    readonly $container: HydraulicProfile;
+    readonly $container: HydraulicProfile | PIDProfile;
     readonly $type: 'FluidStatement';
     maxTemp?: string;
     minTemp?: string;
@@ -1587,6 +1817,23 @@ export type GatewayTypeValue = 'and' | 'complex' | 'event' | 'eventBased' | 'exc
 
 export function isGatewayTypeValue(item: unknown): item is GatewayTypeValue {
     return item === 'exclusive' || item === 'xor' || item === 'parallel' || item === 'and' || item === 'inclusive' || item === 'or' || item === 'eventBased' || item === 'event' || item === 'complex';
+}
+
+export interface GenericPIDProperty extends langium.AstNode {
+    readonly $container: PIDEquipmentStatement | PIDInstrumentStatement | PIDLineStatement | PIDLoopStatement;
+    readonly $type: 'GenericPIDProperty';
+    key: string;
+    value: string;
+}
+
+export const GenericPIDProperty = {
+    $type: 'GenericPIDProperty',
+    key: 'key',
+    value: 'value'
+} as const;
+
+export function isGenericPIDProperty(item: unknown): item is GenericPIDProperty {
+    return reflection.isInstance(item, GenericPIDProperty.$type);
 }
 
 export interface GenericTypesProperty extends langium.AstNode {
@@ -1750,6 +1997,12 @@ export function isInstProperty(item: unknown): item is InstProperty {
     return reflection.isInstance(item, InstProperty.$type);
 }
 
+export type InstrumentLocation = 'control_room' | 'field' | 'local' | 'panel' | 'remote';
+
+export function isInstrumentLocation(item: unknown): item is InstrumentLocation {
+    return item === 'field' || item === 'panel' || item === 'local' || item === 'remote' || item === 'control_room';
+}
+
 export interface InstStatement extends langium.AstNode {
     readonly $container: DigitalProfile;
     readonly $type: 'InstStatement';
@@ -1765,6 +2018,12 @@ export const InstStatement = {
 
 export function isInstStatement(item: unknown): item is InstStatement {
     return reflection.isInstance(item, InstStatement.$type);
+}
+
+export type InsulationType = 'acoustic' | 'fireproof' | 'none' | 'personnel_protection' | 'thermal';
+
+export function isInsulationType(item: unknown): item is InsulationType {
+    return item === 'none' || item === 'thermal' || item === 'acoustic' || item === 'fireproof' || item === 'personnel_protection';
 }
 
 export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
@@ -1843,6 +2102,18 @@ export const LinkProperty = {
 
 export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
+}
+
+export type MaterialType = 'Alloy20' | 'CS' | 'Hastelloy' | 'Monel' | 'PP' | 'PTFE' | 'PVC' | 'SS304' | 'SS316' | 'SS316L' | 'Titanium';
+
+export function isMaterialType(item: unknown): item is MaterialType {
+    return item === 'CS' || item === 'SS304' || item === 'SS316' || item === 'SS316L' || item === 'Alloy20' || item === 'Hastelloy' || item === 'Monel' || item === 'Titanium' || item === 'PVC' || item === 'PP' || item === 'PTFE';
+}
+
+export type MeasurementUnit = '%' | 'L/min' | 'bar' | 'degC' | 'degF' | 'kPa' | 'kg/h' | 'm' | 'mm' | 'mm/s' | 'm³/h' | 'psi' | 'rpm' | 't/h';
+
+export function isMeasurementUnit(item: unknown): item is MeasurementUnit {
+    return item === 'kg/h' || item === 't/h' || item === 'L/min' || item === 'm³/h' || item === 'degC' || item === 'degF' || item === 'bar' || item === 'psi' || item === 'kPa' || item === 'm' || item === 'mm' || item === '%' || item === 'rpm' || item === 'mm/s';
 }
 
 export interface MethodAbstractField extends langium.AstNode {
@@ -2386,6 +2657,504 @@ export function isPartValueProperty(item: unknown): item is PartValueProperty {
     return reflection.isInstance(item, PartValueProperty.$type);
 }
 
+export interface PIDAccuracyProperty extends langium.AstNode {
+    readonly $container: PIDInstrumentStatement;
+    readonly $type: 'PIDAccuracyProperty';
+    unit: AccuracyUnit;
+    value: string;
+}
+
+export const PIDAccuracyProperty = {
+    $type: 'PIDAccuracyProperty',
+    unit: 'unit',
+    value: 'value'
+} as const;
+
+export function isPIDAccuracyProperty(item: unknown): item is PIDAccuracyProperty {
+    return reflection.isInstance(item, PIDAccuracyProperty.$type);
+}
+
+export interface PIDControlledVariableProperty extends langium.AstNode {
+    readonly $container: PIDLoopStatement;
+    readonly $type: 'PIDControlledVariableProperty';
+    variable: ControlVariable;
+}
+
+export const PIDControlledVariableProperty = {
+    $type: 'PIDControlledVariableProperty',
+    variable: 'variable'
+} as const;
+
+export function isPIDControlledVariableProperty(item: unknown): item is PIDControlledVariableProperty {
+    return reflection.isInstance(item, PIDControlledVariableProperty.$type);
+}
+
+export interface PIDControllerProperty extends langium.AstNode {
+    readonly $container: PIDLoopStatement;
+    readonly $type: 'PIDControllerProperty';
+    tag: string;
+}
+
+export const PIDControllerProperty = {
+    $type: 'PIDControllerProperty',
+    tag: 'tag'
+} as const;
+
+export function isPIDControllerProperty(item: unknown): item is PIDControllerProperty {
+    return reflection.isInstance(item, PIDControllerProperty.$type);
+}
+
+export interface PIDControlModeProperty extends langium.AstNode {
+    readonly $container: PIDLoopStatement;
+    readonly $type: 'PIDControlModeProperty';
+    mode: ControlMode;
+}
+
+export const PIDControlModeProperty = {
+    $type: 'PIDControlModeProperty',
+    mode: 'mode'
+} as const;
+
+export function isPIDControlModeProperty(item: unknown): item is PIDControlModeProperty {
+    return reflection.isInstance(item, PIDControlModeProperty.$type);
+}
+
+export interface PIDDimensionProperty extends langium.AstNode {
+    readonly $container: PIDEquipmentStatement;
+    readonly $type: 'PIDDimensionProperty';
+    unit: DimensionUnit;
+    value: string;
+}
+
+export const PIDDimensionProperty = {
+    $type: 'PIDDimensionProperty',
+    unit: 'unit',
+    value: 'value'
+} as const;
+
+export function isPIDDimensionProperty(item: unknown): item is PIDDimensionProperty {
+    return reflection.isInstance(item, PIDDimensionProperty.$type);
+}
+
+export type PIDEquipmentProperty = GenericPIDProperty | PIDDimensionProperty | PIDEquipmentTypeProperty | PIDFlowRateProperty | PIDMaterialProperty | PIDRatingProperty | PIDVolumeProperty;
+
+export const PIDEquipmentProperty = {
+    $type: 'PIDEquipmentProperty'
+} as const;
+
+export function isPIDEquipmentProperty(item: unknown): item is PIDEquipmentProperty {
+    return reflection.isInstance(item, PIDEquipmentProperty.$type);
+}
+
+export interface PIDEquipmentStatement extends langium.AstNode {
+    readonly $container: PIDProfile;
+    readonly $type: 'PIDEquipmentStatement';
+    properties: Array<PIDEquipmentProperty>;
+    tag: string;
+}
+
+export const PIDEquipmentStatement = {
+    $type: 'PIDEquipmentStatement',
+    properties: 'properties',
+    tag: 'tag'
+} as const;
+
+export function isPIDEquipmentStatement(item: unknown): item is PIDEquipmentStatement {
+    return reflection.isInstance(item, PIDEquipmentStatement.$type);
+}
+
+export type PIDEquipmentType = 'agitator' | 'airCooler' | 'compressorCentrifugal' | 'compressorReciprocating' | 'condenser' | 'cooler' | 'coolingTower' | 'cyclone' | 'distillationColumn' | 'fan' | 'filter' | 'firedHeater' | 'flashDrum' | 'heatExchangerPlate' | 'heatExchangerShellTube' | 'jacket' | 'knockoutDrum' | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'reactor' | 'reboiler' | 'refluxDrum' | 'ruptureDisk' | 'separator' | 'separatorHorizontal' | 'storageTank' | 'turbineSteam' | 'valveAngle' | 'valveBall' | 'valveButterfly' | 'valveCheck' | 'valveControl' | 'valveDiaphragm' | 'valveGate' | 'valveGlobe' | 'valveNeedle' | 'valvePinch' | 'valvePlug' | 'valveSafetyRelief' | 'valveShutoff' | 'valveThreeWay' | 'vesselHorizontal' | 'vesselVertical';
+
+export function isPIDEquipmentType(item: unknown): item is PIDEquipmentType {
+    return item === 'vesselVertical' || item === 'vesselHorizontal' || item === 'storageTank' || item === 'reactor' || item === 'knockoutDrum' || item === 'distillationColumn' || item === 'filter' || item === 'separator' || item === 'separatorHorizontal' || item === 'flashDrum' || item === 'refluxDrum' || item === 'cyclone' || item === 'pumpCentrifugal' || item === 'pumpPositiveDisplacement' || item === 'compressorCentrifugal' || item === 'compressorReciprocating' || item === 'turbineSteam' || item === 'fan' || item === 'agitator' || item === 'valveGate' || item === 'valveGlobe' || item === 'valveBall' || item === 'valveCheck' || item === 'valveControl' || item === 'valveSafetyRelief' || item === 'valveButterfly' || item === 'valveThreeWay' || item === 'valveNeedle' || item === 'valvePlug' || item === 'valveDiaphragm' || item === 'valveAngle' || item === 'valvePinch' || item === 'valveShutoff' || item === 'heatExchangerShellTube' || item === 'cooler' || item === 'airCooler' || item === 'heatExchangerPlate' || item === 'firedHeater' || item === 'coolingTower' || item === 'condenser' || item === 'reboiler' || item === 'jacket' || item === 'ruptureDisk';
+}
+
+export interface PIDEquipmentTypeProperty extends langium.AstNode {
+    readonly $container: PIDEquipmentStatement;
+    readonly $type: 'PIDEquipmentTypeProperty';
+    type: PIDEquipmentType;
+}
+
+export const PIDEquipmentTypeProperty = {
+    $type: 'PIDEquipmentTypeProperty',
+    type: 'type'
+} as const;
+
+export function isPIDEquipmentTypeProperty(item: unknown): item is PIDEquipmentTypeProperty {
+    return reflection.isInstance(item, PIDEquipmentTypeProperty.$type);
+}
+
+export interface PIDFlowRateProperty extends langium.AstNode {
+    readonly $container: PIDEquipmentStatement;
+    readonly $type: 'PIDFlowRateProperty';
+    unit: FlowRateUnit;
+    value: string;
+}
+
+export const PIDFlowRateProperty = {
+    $type: 'PIDFlowRateProperty',
+    unit: 'unit',
+    value: 'value'
+} as const;
+
+export function isPIDFlowRateProperty(item: unknown): item is PIDFlowRateProperty {
+    return reflection.isInstance(item, PIDFlowRateProperty.$type);
+}
+
+export type PIDInstrumentProperty = GenericPIDProperty | PIDAccuracyProperty | PIDInstrumentTypeProperty | PIDLocationProperty | PIDLoopRefProperty | PIDRangeProperty;
+
+export const PIDInstrumentProperty = {
+    $type: 'PIDInstrumentProperty'
+} as const;
+
+export function isPIDInstrumentProperty(item: unknown): item is PIDInstrumentProperty {
+    return reflection.isInstance(item, PIDInstrumentProperty.$type);
+}
+
+export interface PIDInstrumentStatement extends langium.AstNode {
+    readonly $container: PIDProfile;
+    readonly $type: 'PIDInstrumentStatement';
+    properties: Array<PIDInstrumentProperty>;
+    tag: string;
+}
+
+export const PIDInstrumentStatement = {
+    $type: 'PIDInstrumentStatement',
+    properties: 'properties',
+    tag: 'tag'
+} as const;
+
+export function isPIDInstrumentStatement(item: unknown): item is PIDInstrumentStatement {
+    return reflection.isInstance(item, PIDInstrumentStatement.$type);
+}
+
+export type PIDInstrumentType = 'analyzerTransmitter' | 'conductivityTransmitter' | 'flowAlarmHigh' | 'flowAlarmLow' | 'flowController' | 'flowIndicator' | 'flowIndicatorController' | 'flowRecorder' | 'flowSwitch' | 'flowTransmitter' | 'levelAlarmHigh' | 'levelAlarmHighHigh' | 'levelAlarmLow' | 'levelAlarmLowLow' | 'levelController' | 'levelIndicator' | 'levelIndicatorController' | 'levelSwitch' | 'levelTransmitter' | 'phTransmitter' | 'pressureAlarmHigh' | 'pressureAlarmHighHigh' | 'pressureAlarmLow' | 'pressureAlarmLowLow' | 'pressureController' | 'pressureIndicator' | 'pressureIndicatorController' | 'pressureRecorder' | 'pressureSwitch' | 'pressureTransmitter' | 'speedController' | 'temperatureAlarmHigh' | 'temperatureAlarmHighHigh' | 'temperatureAlarmLow' | 'temperatureAlarmLowLow' | 'temperatureController' | 'temperatureIndicator' | 'temperatureIndicatorController' | 'temperatureRecorder' | 'temperatureSwitch' | 'temperatureTransmitter' | 'vibrationTransmitter';
+
+export function isPIDInstrumentType(item: unknown): item is PIDInstrumentType {
+    return item === 'flowTransmitter' || item === 'temperatureTransmitter' || item === 'pressureTransmitter' || item === 'levelTransmitter' || item === 'analyzerTransmitter' || item === 'phTransmitter' || item === 'conductivityTransmitter' || item === 'vibrationTransmitter' || item === 'flowIndicator' || item === 'temperatureIndicator' || item === 'pressureIndicator' || item === 'levelIndicator' || item === 'flowController' || item === 'temperatureController' || item === 'pressureController' || item === 'levelController' || item === 'speedController' || item === 'flowIndicatorController' || item === 'temperatureIndicatorController' || item === 'levelIndicatorController' || item === 'pressureIndicatorController' || item === 'flowSwitch' || item === 'levelSwitch' || item === 'pressureSwitch' || item === 'temperatureSwitch' || item === 'temperatureAlarmHigh' || item === 'temperatureAlarmLow' || item === 'temperatureAlarmHighHigh' || item === 'temperatureAlarmLowLow' || item === 'pressureAlarmHigh' || item === 'pressureAlarmLow' || item === 'pressureAlarmHighHigh' || item === 'pressureAlarmLowLow' || item === 'levelAlarmHigh' || item === 'levelAlarmLow' || item === 'levelAlarmHighHigh' || item === 'levelAlarmLowLow' || item === 'flowAlarmHigh' || item === 'flowAlarmLow' || item === 'flowRecorder' || item === 'pressureRecorder' || item === 'temperatureRecorder';
+}
+
+export interface PIDInstrumentTypeProperty extends langium.AstNode {
+    readonly $container: PIDInstrumentStatement;
+    readonly $type: 'PIDInstrumentTypeProperty';
+    type: PIDInstrumentType;
+}
+
+export const PIDInstrumentTypeProperty = {
+    $type: 'PIDInstrumentTypeProperty',
+    type: 'type'
+} as const;
+
+export function isPIDInstrumentTypeProperty(item: unknown): item is PIDInstrumentTypeProperty {
+    return reflection.isInstance(item, PIDInstrumentTypeProperty.$type);
+}
+
+export interface PIDLineFromProperty extends langium.AstNode {
+    readonly $container: PIDLineStatement;
+    readonly $type: 'PIDLineFromProperty';
+    from: ConnectionPoint;
+}
+
+export const PIDLineFromProperty = {
+    $type: 'PIDLineFromProperty',
+    from: 'from'
+} as const;
+
+export function isPIDLineFromProperty(item: unknown): item is PIDLineFromProperty {
+    return reflection.isInstance(item, PIDLineFromProperty.$type);
+}
+
+export interface PIDLineInsulationProperty extends langium.AstNode {
+    readonly $container: PIDLineStatement;
+    readonly $type: 'PIDLineInsulationProperty';
+    type: InsulationType;
+}
+
+export const PIDLineInsulationProperty = {
+    $type: 'PIDLineInsulationProperty',
+    type: 'type'
+} as const;
+
+export function isPIDLineInsulationProperty(item: unknown): item is PIDLineInsulationProperty {
+    return reflection.isInstance(item, PIDLineInsulationProperty.$type);
+}
+
+export interface PIDLineMaterialProperty extends langium.AstNode {
+    readonly $container: PIDLineStatement;
+    readonly $type: 'PIDLineMaterialProperty';
+    material: MaterialType;
+}
+
+export const PIDLineMaterialProperty = {
+    $type: 'PIDLineMaterialProperty',
+    material: 'material'
+} as const;
+
+export function isPIDLineMaterialProperty(item: unknown): item is PIDLineMaterialProperty {
+    return reflection.isInstance(item, PIDLineMaterialProperty.$type);
+}
+
+export type PIDLineProperty = GenericPIDProperty | PIDLineFromProperty | PIDLineInsulationProperty | PIDLineMaterialProperty | PIDLineScheduleProperty | PIDLineSizeProperty | PIDLineToProperty;
+
+export const PIDLineProperty = {
+    $type: 'PIDLineProperty'
+} as const;
+
+export function isPIDLineProperty(item: unknown): item is PIDLineProperty {
+    return reflection.isInstance(item, PIDLineProperty.$type);
+}
+
+export interface PIDLineScheduleProperty extends langium.AstNode {
+    readonly $container: PIDLineStatement;
+    readonly $type: 'PIDLineScheduleProperty';
+    schedule: PipeSchedule;
+}
+
+export const PIDLineScheduleProperty = {
+    $type: 'PIDLineScheduleProperty',
+    schedule: 'schedule'
+} as const;
+
+export function isPIDLineScheduleProperty(item: unknown): item is PIDLineScheduleProperty {
+    return reflection.isInstance(item, PIDLineScheduleProperty.$type);
+}
+
+export interface PIDLineSizeProperty extends langium.AstNode {
+    readonly $container: PIDLineStatement;
+    readonly $type: 'PIDLineSizeProperty';
+    size: string;
+    unit?: SizeUnit;
+}
+
+export const PIDLineSizeProperty = {
+    $type: 'PIDLineSizeProperty',
+    size: 'size',
+    unit: 'unit'
+} as const;
+
+export function isPIDLineSizeProperty(item: unknown): item is PIDLineSizeProperty {
+    return reflection.isInstance(item, PIDLineSizeProperty.$type);
+}
+
+export interface PIDLineStatement extends langium.AstNode {
+    readonly $container: PIDProfile;
+    readonly $type: 'PIDLineStatement';
+    lineType: PIDLineType;
+    properties: Array<PIDLineProperty>;
+    style?: PIDLineStyle;
+}
+
+export const PIDLineStatement = {
+    $type: 'PIDLineStatement',
+    lineType: 'lineType',
+    properties: 'properties',
+    style: 'style'
+} as const;
+
+export function isPIDLineStatement(item: unknown): item is PIDLineStatement {
+    return reflection.isInstance(item, PIDLineStatement.$type);
+}
+
+export type PIDLineStyle = 'dashed' | 'dotted' | 'double' | 'future' | 'solid';
+
+export function isPIDLineStyle(item: unknown): item is PIDLineStyle {
+    return item === 'solid' || item === 'dashed' || item === 'dotted' || item === 'double' || item === 'future';
+}
+
+export interface PIDLineToProperty extends langium.AstNode {
+    readonly $container: PIDLineStatement;
+    readonly $type: 'PIDLineToProperty';
+    to: ConnectionPoint;
+}
+
+export const PIDLineToProperty = {
+    $type: 'PIDLineToProperty',
+    to: 'to'
+} as const;
+
+export function isPIDLineToProperty(item: unknown): item is PIDLineToProperty {
+    return reflection.isInstance(item, PIDLineToProperty.$type);
+}
+
+export type PIDLineType = 'data' | 'electrical' | 'hydraulic' | 'pneumatic' | 'process' | 'signal' | 'utility';
+
+export function isPIDLineType(item: unknown): item is PIDLineType {
+    return item === 'process' || item === 'utility' || item === 'signal' || item === 'electrical' || item === 'pneumatic' || item === 'hydraulic' || item === 'data';
+}
+
+export interface PIDLocationProperty extends langium.AstNode {
+    readonly $container: PIDInstrumentStatement;
+    readonly $type: 'PIDLocationProperty';
+    location: InstrumentLocation;
+}
+
+export const PIDLocationProperty = {
+    $type: 'PIDLocationProperty',
+    location: 'location'
+} as const;
+
+export function isPIDLocationProperty(item: unknown): item is PIDLocationProperty {
+    return reflection.isInstance(item, PIDLocationProperty.$type);
+}
+
+export type PIDLoopProperty = GenericPIDProperty | PIDControlModeProperty | PIDControlledVariableProperty | PIDControllerProperty | PIDSetpointProperty;
+
+export const PIDLoopProperty = {
+    $type: 'PIDLoopProperty'
+} as const;
+
+export function isPIDLoopProperty(item: unknown): item is PIDLoopProperty {
+    return reflection.isInstance(item, PIDLoopProperty.$type);
+}
+
+export interface PIDLoopRefProperty extends langium.AstNode {
+    readonly $container: PIDInstrumentStatement;
+    readonly $type: 'PIDLoopRefProperty';
+    loopNum: string;
+}
+
+export const PIDLoopRefProperty = {
+    $type: 'PIDLoopRefProperty',
+    loopNum: 'loopNum'
+} as const;
+
+export function isPIDLoopRefProperty(item: unknown): item is PIDLoopRefProperty {
+    return reflection.isInstance(item, PIDLoopRefProperty.$type);
+}
+
+export interface PIDLoopStatement extends langium.AstNode {
+    readonly $container: PIDProfile;
+    readonly $type: 'PIDLoopStatement';
+    loopNum: string;
+    properties: Array<PIDLoopProperty>;
+}
+
+export const PIDLoopStatement = {
+    $type: 'PIDLoopStatement',
+    loopNum: 'loopNum',
+    properties: 'properties'
+} as const;
+
+export function isPIDLoopStatement(item: unknown): item is PIDLoopStatement {
+    return reflection.isInstance(item, PIDLoopStatement.$type);
+}
+
+export interface PIDMaterialProperty extends langium.AstNode {
+    readonly $container: PIDEquipmentStatement;
+    readonly $type: 'PIDMaterialProperty';
+    material: MaterialType;
+}
+
+export const PIDMaterialProperty = {
+    $type: 'PIDMaterialProperty',
+    material: 'material'
+} as const;
+
+export function isPIDMaterialProperty(item: unknown): item is PIDMaterialProperty {
+    return reflection.isInstance(item, PIDMaterialProperty.$type);
+}
+
+export interface PIDProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'PIDProfile';
+    name: string;
+    statements: Array<PIDStatement>;
+}
+
+export const PIDProfile = {
+    $type: 'PIDProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isPIDProfile(item: unknown): item is PIDProfile {
+    return reflection.isInstance(item, PIDProfile.$type);
+}
+
+export interface PIDRangeProperty extends langium.AstNode {
+    readonly $container: PIDInstrumentStatement;
+    readonly $type: 'PIDRangeProperty';
+    max: string;
+    min: string;
+    unit: MeasurementUnit;
+}
+
+export const PIDRangeProperty = {
+    $type: 'PIDRangeProperty',
+    max: 'max',
+    min: 'min',
+    unit: 'unit'
+} as const;
+
+export function isPIDRangeProperty(item: unknown): item is PIDRangeProperty {
+    return reflection.isInstance(item, PIDRangeProperty.$type);
+}
+
+export interface PIDRatingProperty extends langium.AstNode {
+    readonly $container: PIDEquipmentStatement;
+    readonly $type: 'PIDRatingProperty';
+    rating: PressureRating;
+}
+
+export const PIDRatingProperty = {
+    $type: 'PIDRatingProperty',
+    rating: 'rating'
+} as const;
+
+export function isPIDRatingProperty(item: unknown): item is PIDRatingProperty {
+    return reflection.isInstance(item, PIDRatingProperty.$type);
+}
+
+export interface PIDSetpointProperty extends langium.AstNode {
+    readonly $container: PIDLoopStatement;
+    readonly $type: 'PIDSetpointProperty';
+    unit?: MeasurementUnit;
+    value: string;
+}
+
+export const PIDSetpointProperty = {
+    $type: 'PIDSetpointProperty',
+    unit: 'unit',
+    value: 'value'
+} as const;
+
+export function isPIDSetpointProperty(item: unknown): item is PIDSetpointProperty {
+    return reflection.isInstance(item, PIDSetpointProperty.$type);
+}
+
+export type PIDStatement = FlowRateStatement | FluidStatement | PIDEquipmentStatement | PIDInstrumentStatement | PIDLineStatement | PIDLoopStatement | PressureStatement;
+
+export const PIDStatement = {
+    $type: 'PIDStatement'
+} as const;
+
+export function isPIDStatement(item: unknown): item is PIDStatement {
+    return reflection.isInstance(item, PIDStatement.$type);
+}
+
+export interface PIDVolumeProperty extends langium.AstNode {
+    readonly $container: PIDEquipmentStatement;
+    readonly $type: 'PIDVolumeProperty';
+    unit: VolumeUnit;
+    value: string;
+}
+
+export const PIDVolumeProperty = {
+    $type: 'PIDVolumeProperty',
+    unit: 'unit',
+    value: 'value'
+} as const;
+
+export function isPIDVolumeProperty(item: unknown): item is PIDVolumeProperty {
+    return reflection.isInstance(item, PIDVolumeProperty.$type);
+}
+
+export type PipeSchedule = 'SCH10' | 'SCH100' | 'SCH120' | 'SCH140' | 'SCH160' | 'SCH20' | 'SCH30' | 'SCH40' | 'SCH5' | 'SCH60' | 'SCH80' | 'STD' | 'XS' | 'XXS';
+
+export function isPipeSchedule(item: unknown): item is PipeSchedule {
+    return item === 'SCH5' || item === 'SCH10' || item === 'SCH20' || item === 'SCH30' || item === 'STD' || item === 'SCH40' || item === 'SCH60' || item === 'XS' || item === 'SCH80' || item === 'SCH100' || item === 'SCH120' || item === 'SCH140' || item === 'SCH160' || item === 'XXS';
+}
+
 export interface PneumaticProfile extends langium.AstNode {
     readonly $container: Document;
     readonly $type: 'PneumaticProfile';
@@ -2468,8 +3237,14 @@ export function isPresetBlock(item: unknown): item is PresetBlock {
     return reflection.isInstance(item, PresetBlock.$type);
 }
 
+export type PressureRating = '150#' | '1500#' | '2500#' | '300#' | '600#' | '900#' | 'PN10' | 'PN16' | 'PN25' | 'PN40';
+
+export function isPressureRating(item: unknown): item is PressureRating {
+    return item === '150#' || item === '300#' || item === '600#' || item === '900#' || item === '1500#' || item === '2500#' || item === 'PN10' || item === 'PN16' || item === 'PN25' || item === 'PN40';
+}
+
 export interface PressureStatement extends langium.AstNode {
-    readonly $container: HydraulicProfile | PneumaticProfile;
+    readonly $container: HydraulicProfile | PIDProfile | PneumaticProfile;
     readonly $type: 'PressureStatement';
     type?: PressureType;
     unit: PressureUnit;
@@ -2499,7 +3274,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | HydraulicProfile | PneumaticProfile | SequenceProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -3066,7 +3841,7 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
 export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'entryPoint' | 'exitPoint' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -3082,6 +3857,12 @@ export const ShowLegendProperty = {
 
 export function isShowLegendProperty(item: unknown): item is ShowLegendProperty {
     return reflection.isInstance(item, ShowLegendProperty.$type);
+}
+
+export type SizeUnit = 'DN' | 'NPS' | 'in' | 'mm';
+
+export function isSizeUnit(item: unknown): item is SizeUnit {
+    return item === 'in' || item === 'mm' || item === 'NPS' || item === 'DN';
 }
 
 export interface StackedProperty extends langium.AstNode {
@@ -3350,6 +4131,12 @@ export function isVisibilityValue(item: unknown): item is VisibilityValue {
     return item === 'public' || item === 'private' || item === 'protected' || item === 'package';
 }
 
+export type VolumeUnit = 'L' | 'bbl' | 'ft³' | 'gal' | 'm³';
+
+export function isVolumeUnit(item: unknown): item is VolumeUnit {
+    return item === 'L' || item === 'm³' || item === 'gal' || item === 'bbl' || item === 'ft³';
+}
+
 export type WardleyAnchorProperty = WardleyEvolutionProperty | WardleyValueProperty;
 
 export const WardleyAnchorProperty = {
@@ -3574,6 +4361,7 @@ export type RuniqAstType = {
     CarrierProperty: CarrierProperty
     ColorProperty: ColorProperty
     ColorsProperty: ColorsProperty
+    ConnectionPoint: ConnectionPoint
     ContainerBlock: ContainerBlock
     ContainerLayoutProperty: ContainerLayoutProperty
     ContainerMetadataProperty: ContainerMetadataProperty
@@ -3616,6 +4404,7 @@ export type RuniqAstType = {
     FontSizeProperty: FontSizeProperty
     FontWeightProperty: FontWeightProperty
     GatewayTypeProperty: GatewayTypeProperty
+    GenericPIDProperty: GenericPIDProperty
     GenericTypesProperty: GenericTypesProperty
     GroupBlock: GroupBlock
     GuardProperty: GuardProperty
@@ -3657,6 +4446,37 @@ export type RuniqAstType = {
     NodeRef: NodeRef
     OpacityProperty: OpacityProperty
     OutputPinsProperty: OutputPinsProperty
+    PIDAccuracyProperty: PIDAccuracyProperty
+    PIDControlModeProperty: PIDControlModeProperty
+    PIDControlledVariableProperty: PIDControlledVariableProperty
+    PIDControllerProperty: PIDControllerProperty
+    PIDDimensionProperty: PIDDimensionProperty
+    PIDEquipmentProperty: PIDEquipmentProperty
+    PIDEquipmentStatement: PIDEquipmentStatement
+    PIDEquipmentTypeProperty: PIDEquipmentTypeProperty
+    PIDFlowRateProperty: PIDFlowRateProperty
+    PIDInstrumentProperty: PIDInstrumentProperty
+    PIDInstrumentStatement: PIDInstrumentStatement
+    PIDInstrumentTypeProperty: PIDInstrumentTypeProperty
+    PIDLineFromProperty: PIDLineFromProperty
+    PIDLineInsulationProperty: PIDLineInsulationProperty
+    PIDLineMaterialProperty: PIDLineMaterialProperty
+    PIDLineProperty: PIDLineProperty
+    PIDLineScheduleProperty: PIDLineScheduleProperty
+    PIDLineSizeProperty: PIDLineSizeProperty
+    PIDLineStatement: PIDLineStatement
+    PIDLineToProperty: PIDLineToProperty
+    PIDLocationProperty: PIDLocationProperty
+    PIDLoopProperty: PIDLoopProperty
+    PIDLoopRefProperty: PIDLoopRefProperty
+    PIDLoopStatement: PIDLoopStatement
+    PIDMaterialProperty: PIDMaterialProperty
+    PIDProfile: PIDProfile
+    PIDRangeProperty: PIDRangeProperty
+    PIDRatingProperty: PIDRatingProperty
+    PIDSetpointProperty: PIDSetpointProperty
+    PIDStatement: PIDStatement
+    PIDVolumeProperty: PIDVolumeProperty
     ParamDecl: ParamDecl
     ParamNameField: ParamNameField
     ParamOverride: ParamOverride
@@ -3910,6 +4730,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        ConnectionPoint: {
+            name: ConnectionPoint.$type,
+            properties: {
+                equipment: {
+                    name: ConnectionPoint.equipment
+                },
+                port: {
+                    name: ConnectionPoint.port
+                }
+            },
+            superTypes: []
         },
         ContainerBlock: {
             name: ContainerBlock.$type,
@@ -4514,7 +5346,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: FlowRateStatement.value
                 }
             },
-            superTypes: [HydraulicStatement.$type, PneumaticStatement.$type]
+            superTypes: [HydraulicStatement.$type, PIDStatement.$type, PneumaticStatement.$type]
         },
         FlowTypeProperty: {
             name: FlowTypeProperty.$type,
@@ -4544,7 +5376,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: FluidStatement.viscosity
                 }
             },
-            superTypes: [HydraulicStatement.$type]
+            superTypes: [HydraulicStatement.$type, PIDStatement.$type]
         },
         FontFamilyProperty: {
             name: FontFamilyProperty.$type,
@@ -4581,6 +5413,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        GenericPIDProperty: {
+            name: GenericPIDProperty.$type,
+            properties: {
+                key: {
+                    name: GenericPIDProperty.key
+                },
+                value: {
+                    name: GenericPIDProperty.value
+                }
+            },
+            superTypes: [PIDEquipmentProperty.$type, PIDInstrumentProperty.$type, PIDLineProperty.$type, PIDLoopProperty.$type]
         },
         GenericTypesProperty: {
             name: GenericTypesProperty.$type,
@@ -4969,6 +5813,317 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        PIDAccuracyProperty: {
+            name: PIDAccuracyProperty.$type,
+            properties: {
+                unit: {
+                    name: PIDAccuracyProperty.unit
+                },
+                value: {
+                    name: PIDAccuracyProperty.value
+                }
+            },
+            superTypes: [PIDInstrumentProperty.$type]
+        },
+        PIDControlModeProperty: {
+            name: PIDControlModeProperty.$type,
+            properties: {
+                mode: {
+                    name: PIDControlModeProperty.mode
+                }
+            },
+            superTypes: [PIDLoopProperty.$type]
+        },
+        PIDControlledVariableProperty: {
+            name: PIDControlledVariableProperty.$type,
+            properties: {
+                variable: {
+                    name: PIDControlledVariableProperty.variable
+                }
+            },
+            superTypes: [PIDLoopProperty.$type]
+        },
+        PIDControllerProperty: {
+            name: PIDControllerProperty.$type,
+            properties: {
+                tag: {
+                    name: PIDControllerProperty.tag
+                }
+            },
+            superTypes: [PIDLoopProperty.$type]
+        },
+        PIDDimensionProperty: {
+            name: PIDDimensionProperty.$type,
+            properties: {
+                unit: {
+                    name: PIDDimensionProperty.unit
+                },
+                value: {
+                    name: PIDDimensionProperty.value
+                }
+            },
+            superTypes: [PIDEquipmentProperty.$type]
+        },
+        PIDEquipmentProperty: {
+            name: PIDEquipmentProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        PIDEquipmentStatement: {
+            name: PIDEquipmentStatement.$type,
+            properties: {
+                properties: {
+                    name: PIDEquipmentStatement.properties,
+                    defaultValue: []
+                },
+                tag: {
+                    name: PIDEquipmentStatement.tag
+                }
+            },
+            superTypes: [PIDStatement.$type]
+        },
+        PIDEquipmentTypeProperty: {
+            name: PIDEquipmentTypeProperty.$type,
+            properties: {
+                type: {
+                    name: PIDEquipmentTypeProperty.type
+                }
+            },
+            superTypes: [PIDEquipmentProperty.$type]
+        },
+        PIDFlowRateProperty: {
+            name: PIDFlowRateProperty.$type,
+            properties: {
+                unit: {
+                    name: PIDFlowRateProperty.unit
+                },
+                value: {
+                    name: PIDFlowRateProperty.value
+                }
+            },
+            superTypes: [PIDEquipmentProperty.$type]
+        },
+        PIDInstrumentProperty: {
+            name: PIDInstrumentProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        PIDInstrumentStatement: {
+            name: PIDInstrumentStatement.$type,
+            properties: {
+                properties: {
+                    name: PIDInstrumentStatement.properties,
+                    defaultValue: []
+                },
+                tag: {
+                    name: PIDInstrumentStatement.tag
+                }
+            },
+            superTypes: [PIDStatement.$type]
+        },
+        PIDInstrumentTypeProperty: {
+            name: PIDInstrumentTypeProperty.$type,
+            properties: {
+                type: {
+                    name: PIDInstrumentTypeProperty.type
+                }
+            },
+            superTypes: [PIDInstrumentProperty.$type]
+        },
+        PIDLineFromProperty: {
+            name: PIDLineFromProperty.$type,
+            properties: {
+                from: {
+                    name: PIDLineFromProperty.from
+                }
+            },
+            superTypes: [PIDLineProperty.$type]
+        },
+        PIDLineInsulationProperty: {
+            name: PIDLineInsulationProperty.$type,
+            properties: {
+                type: {
+                    name: PIDLineInsulationProperty.type
+                }
+            },
+            superTypes: [PIDLineProperty.$type]
+        },
+        PIDLineMaterialProperty: {
+            name: PIDLineMaterialProperty.$type,
+            properties: {
+                material: {
+                    name: PIDLineMaterialProperty.material
+                }
+            },
+            superTypes: [PIDLineProperty.$type]
+        },
+        PIDLineProperty: {
+            name: PIDLineProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        PIDLineScheduleProperty: {
+            name: PIDLineScheduleProperty.$type,
+            properties: {
+                schedule: {
+                    name: PIDLineScheduleProperty.schedule
+                }
+            },
+            superTypes: [PIDLineProperty.$type]
+        },
+        PIDLineSizeProperty: {
+            name: PIDLineSizeProperty.$type,
+            properties: {
+                size: {
+                    name: PIDLineSizeProperty.size
+                },
+                unit: {
+                    name: PIDLineSizeProperty.unit
+                }
+            },
+            superTypes: [PIDLineProperty.$type]
+        },
+        PIDLineStatement: {
+            name: PIDLineStatement.$type,
+            properties: {
+                lineType: {
+                    name: PIDLineStatement.lineType
+                },
+                properties: {
+                    name: PIDLineStatement.properties,
+                    defaultValue: []
+                },
+                style: {
+                    name: PIDLineStatement.style
+                }
+            },
+            superTypes: [PIDStatement.$type]
+        },
+        PIDLineToProperty: {
+            name: PIDLineToProperty.$type,
+            properties: {
+                to: {
+                    name: PIDLineToProperty.to
+                }
+            },
+            superTypes: [PIDLineProperty.$type]
+        },
+        PIDLocationProperty: {
+            name: PIDLocationProperty.$type,
+            properties: {
+                location: {
+                    name: PIDLocationProperty.location
+                }
+            },
+            superTypes: [PIDInstrumentProperty.$type]
+        },
+        PIDLoopProperty: {
+            name: PIDLoopProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        PIDLoopRefProperty: {
+            name: PIDLoopRefProperty.$type,
+            properties: {
+                loopNum: {
+                    name: PIDLoopRefProperty.loopNum
+                }
+            },
+            superTypes: [PIDInstrumentProperty.$type]
+        },
+        PIDLoopStatement: {
+            name: PIDLoopStatement.$type,
+            properties: {
+                loopNum: {
+                    name: PIDLoopStatement.loopNum
+                },
+                properties: {
+                    name: PIDLoopStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [PIDStatement.$type]
+        },
+        PIDMaterialProperty: {
+            name: PIDMaterialProperty.$type,
+            properties: {
+                material: {
+                    name: PIDMaterialProperty.material
+                }
+            },
+            superTypes: [PIDEquipmentProperty.$type]
+        },
+        PIDProfile: {
+            name: PIDProfile.$type,
+            properties: {
+                name: {
+                    name: PIDProfile.name
+                },
+                statements: {
+                    name: PIDProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        PIDRangeProperty: {
+            name: PIDRangeProperty.$type,
+            properties: {
+                max: {
+                    name: PIDRangeProperty.max
+                },
+                min: {
+                    name: PIDRangeProperty.min
+                },
+                unit: {
+                    name: PIDRangeProperty.unit
+                }
+            },
+            superTypes: [PIDInstrumentProperty.$type]
+        },
+        PIDRatingProperty: {
+            name: PIDRatingProperty.$type,
+            properties: {
+                rating: {
+                    name: PIDRatingProperty.rating
+                }
+            },
+            superTypes: [PIDEquipmentProperty.$type]
+        },
+        PIDSetpointProperty: {
+            name: PIDSetpointProperty.$type,
+            properties: {
+                unit: {
+                    name: PIDSetpointProperty.unit
+                },
+                value: {
+                    name: PIDSetpointProperty.value
+                }
+            },
+            superTypes: [PIDLoopProperty.$type]
+        },
+        PIDStatement: {
+            name: PIDStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        PIDVolumeProperty: {
+            name: PIDVolumeProperty.$type,
+            properties: {
+                unit: {
+                    name: PIDVolumeProperty.unit
+                },
+                value: {
+                    name: PIDVolumeProperty.value
+                }
+            },
+            superTypes: [PIDEquipmentProperty.$type]
+        },
         ParamDecl: {
             name: ParamDecl.$type,
             properties: {
@@ -5154,7 +6309,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: PressureStatement.value
                 }
             },
-            superTypes: [HydraulicStatement.$type, PneumaticStatement.$type]
+            superTypes: [HydraulicStatement.$type, PIDStatement.$type, PneumaticStatement.$type]
         },
         Profile: {
             name: Profile.$type,

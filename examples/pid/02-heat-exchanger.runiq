@@ -1,0 +1,54 @@
+// Heat Exchanger P&ID Example
+// Demonstrates shell-and-tube heat exchanger with temperature control
+
+pid "Shell and Tube Heat Exchanger" {
+  // Shell and Tube Heat Exchanger
+  equipment E-101 type:heatExchangerShellTube material:SS316 rating:300#
+  
+  // Process Side Pump
+  equipment P-101 type:pumpCentrifugal flowRate:75 unit:m³/h material:CS
+  
+  // Cooling Water Pump
+  equipment P-102 type:pumpCentrifugal flowRate:100 unit:m³/h material:CS
+  
+  // Temperature Control Valve
+  equipment TCV-201 type:valveControl rating:150#
+  
+  // Temperature Transmitters
+  instrument TT-201 type:temperatureTransmitter range:(0,200) unit:degC loop:201 location:field
+  instrument TT-202 type:temperatureTransmitter range:(0,200) unit:degC loop:201 location:field
+  instrument TT-203 type:temperatureTransmitter range:(10,50) unit:degC location:field
+  
+  // Temperature Indicator Controller
+  instrument TIC-201 type:temperatureIndicatorController range:(0,200) unit:degC loop:201 location:panel
+  
+  // Flow Transmitters
+  instrument FT-101 type:flowTransmitter range:(0,150) unit:m³/h location:field
+  instrument FT-102 type:flowTransmitter range:(0,200) unit:m³/h location:field
+  
+  // Pressure Indicators
+  instrument PI-101 type:pressureIndicator range:(0,10) unit:bar location:local
+  instrument PI-102 type:pressureIndicator range:(0,5) unit:bar location:local
+  
+  // Process Lines - Hot Side
+  line process from:P-101.discharge to:E-101.tubeIn size:4 unit:in schedule:SCH40 material:CS
+  line process from:E-101.tubeOut to:TT-202 size:4 unit:in schedule:SCH40 material:CS
+  
+  // Cooling Water Lines
+  line utility from:CW-1.supply to:P-102.inlet size:6 unit:in schedule:STD material:CS
+  line utility from:P-102.discharge to:TCV-201.inlet size:4 unit:in schedule:STD material:CS
+  line utility from:TCV-201.outlet to:E-101.shellIn size:4 unit:in schedule:STD material:CS
+  line utility from:E-101.shellOut to:CW-1.returnLine size:6 unit:in schedule:STD material:CS
+  
+  // Signal Lines
+  line signal from:TT-201 to:TIC-201
+  line signal from:TIC-201 to:TCV-201
+  
+  // Control Loop
+  loop 201 controlled_variable:temperature setpoint:80 unit:degC controller:TIC-201 mode:auto
+  
+  // Process Specifications
+  fluid synthetic
+  pressure 8 bar operating
+  flowRate 75 m³/h
+}
