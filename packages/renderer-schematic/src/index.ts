@@ -14,7 +14,7 @@ import type {
 } from '@runiq/core';
 import { getSymbol, type SymbolDefinition } from './symbols.js';
 
-// Re-export P&ID symbols, line types, and tag system
+// Re-export P&ID symbols, line types, tag system, and renderer
 export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
 export {
   pidLineTypes,
@@ -26,6 +26,7 @@ export {
   renderDoubleLine,
   renderInsulationMarks,
 } from './pid-line-types.js';
+export { renderPID, type PIDRenderOptions, type PIDRenderResult } from './pid-renderer.js';
 export {
   type PIDTag,
   parseTag,
