@@ -16,7 +16,8 @@
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
 **⚡ NEW**: UML relationships - stereotypes (<<include>>, <<extend>>), line styles, arrow types!  
 **⚡ NEW**: Block diagram support for control systems & signal processing!  
-**⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!
+**⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!  
+**⚡ NEW**: P&ID (Piping & Instrumentation Diagrams) following ISA-5.1 standards! 🏭
 
 ## ✨ Features
 
@@ -136,6 +137,20 @@
 - **Security visualization**: Firewalls, DMZs, security zones
 - **Cloud integration**: Multi-cloud and hybrid architectures
 - **Enterprise ready**: Data centers, campus networks, branch offices
+
+### P&ID Diagrams (NEW! 🎉)
+
+- **ISA-5.1 compliant**: Industry-standard Piping & Instrumentation Diagrams
+- **64 equipment types**: Vessels, pumps, compressors, heat exchangers, valves, safety equipment
+- **27+ instrument types**: Transmitters, controllers, indicators, alarms following tag notation
+- **Complete tag notation**: FT-101, TIC-201, PAH-903 - standard ISA-5.1 naming
+- **Line types**: Process (solid), utility (blue), signal (dashed), electrical (dotted)
+- **Control loops**: Flow, temperature, pressure, level, composition, pH, speed control
+- **Safety systems**: PSVs, rupture disks, alarm systems (high/low/high-high/low-low)
+- **Material specifications**: 12 materials (CS, SS316, Hastelloy, PTFE, etc.)
+- **Pressure ratings**: ANSI (150#-2500#) and PN (PN10-PN40) classes
+- **Pipe schedules**: SCH10-SCH160, STD, XS, XXS
+- **5 example diagrams**: Tank/pump, heat exchanger, distillation, reactor safety, compressor
 
 ## 🚀 Quick Start
 
@@ -456,6 +471,54 @@ diagram "Domain Model" {
 - Generic collections
 - Design patterns (Factory, Observer)
 - Domain models with foreign keys
+
+### P&ID - Process Flow with Control (NEW! 🎉)
+
+```runiq
+pid "Simple Process Flow" {
+  // Equipment
+  equipment T-101 type:storageTank volume:1000 unit:L material:CS rating:150#
+  equipment P-101 type:pumpCentrifugal flowRate:50 unit:m³/h material:CS
+  equipment FCV-101 type:valveControl rating:150#
+  
+  // Instruments (ISA-5.1 notation)
+  instrument FT-101 type:flowTransmitter range:(0,100) unit:m³/h loop:101 location:field
+  instrument FIC-101 type:flowIndicatorController range:(0,100) unit:m³/h loop:101 location:panel
+  
+  // Process Lines
+  line process from:T-101.outlet to:P-101.inlet size:3 unit:in schedule:SCH40 material:CS
+  line process from:P-101.discharge to:FCV-101.inlet size:2 unit:in schedule:SCH40 material:CS
+  
+  // Signal Lines
+  line signal from:FT-101 to:FIC-101
+  line signal from:FIC-101 to:FCV-101
+  
+  // Control Loop
+  loop 101 controlled_variable:flow setpoint:40 unit:m³/h controller:FIC-101 mode:auto
+  
+  // Process Specifications
+  fluid organic
+  pressure 6 bar operating
+  flowRate 50 m³/h
+}
+```
+
+**This generates:**
+
+- 🏭 **ISA-5.1 compliant symbols** - Standard P&ID equipment and instrument notation
+- 🏷️ **Tag notation** - FT-101, FIC-101 following ISA standards
+- 📏 **Engineering specs** - Material (CS, SS316), ratings (150#, 300#), schedules (SCH40, SCH80)
+- 🔄 **Control loops** - Flow, temperature, pressure, level control with setpoints
+- 📊 **Line types** - Process (solid), utility (blue), signal (dashed), electrical (dotted)
+- 🛡️ **Safety systems** - PSVs, rupture disks, alarm systems (high/low/high-high/low-low)
+
+[See all P&ID examples →](./examples/pid/)
+
+- Simple tank and pump system
+- Heat exchanger with temperature control
+- Distillation column with multiple loops
+- Reactor with comprehensive safety systems
+- Two-stage compressor with anti-surge control
 
 ## 🎯 Current Status (October 2025)
 
