@@ -41,14 +41,16 @@ describe('P&ID Tag Numbering System', () => {
       const keys = Object.keys(commonTagCombinations);
       expect(keys.length).toBeGreaterThan(30);
       expect(commonTagCombinations.FT).toBe('Flow Transmitter');
-      expect(commonTagCombinations.TIC).toBe('Temperature Indicator Controller');
+      expect(commonTagCombinations.TIC).toBe(
+        'Temperature Indicator Controller'
+      );
     });
   });
 
   describe('parseTag function', () => {
     it('should parse basic flow transmitter tag', () => {
       const tag = parseTag('FT-101');
-      
+
       expect(tag).not.toBeNull();
       expect(tag?.fullTag).toBe('FT-101');
       expect(tag?.functionCode).toBe('FT');
@@ -60,7 +62,7 @@ describe('P&ID Tag Numbering System', () => {
 
     it('should parse temperature indicator controller', () => {
       const tag = parseTag('TIC-205');
-      
+
       expect(tag?.functionCode).toBe('TIC');
       expect(tag?.loopNumber).toBe('205');
       expect(tag?.measuredVariable).toBe('T');
@@ -69,7 +71,7 @@ describe('P&ID Tag Numbering System', () => {
 
     it('should parse alarm with high-high designation', () => {
       const tag = parseTag('PAHH-310');
-      
+
       expect(tag?.functionCode).toBe('PAHH');
       expect(tag?.loopNumber).toBe('310');
       expect(tag?.measuredVariable).toBe('P');
@@ -78,7 +80,7 @@ describe('P&ID Tag Numbering System', () => {
 
     it('should parse tag with suffix', () => {
       const tag = parseTag('FT-101A');
-      
+
       expect(tag?.functionCode).toBe('FT');
       expect(tag?.loopNumber).toBe('101');
       expect(tag?.suffix).toBe('A');
@@ -86,14 +88,14 @@ describe('P&ID Tag Numbering System', () => {
 
     it('should handle lowercase input', () => {
       const tag = parseTag('ft-101');
-      
+
       expect(tag?.fullTag).toBe('FT-101');
       expect(tag?.functionCode).toBe('FT');
     });
 
     it('should handle whitespace', () => {
       const tag = parseTag('  FT-101  ');
-      
+
       expect(tag?.fullTag).toBe('FT-101');
     });
 
@@ -106,20 +108,20 @@ describe('P&ID Tag Numbering System', () => {
 
     it('should handle single digit loop numbers', () => {
       const tag = parseTag('FT-1');
-      
+
       expect(tag?.loopNumber).toBe('1');
     });
 
     it('should handle four digit loop numbers', () => {
       const tag = parseTag('FT-9999');
-      
+
       expect(tag?.loopNumber).toBe('9999');
     });
 
     it('should get description for common tags', () => {
       const tag = parseTag('FT-101');
       expect(tag?.description).toBe('Flow Transmitter');
-      
+
       const tag2 = parseTag('TIC-205');
       expect(tag2?.description).toBe('Temperature Indicator Controller');
     });
@@ -273,7 +275,7 @@ describe('P&ID Tag Numbering System', () => {
   describe('generateSequentialTags function', () => {
     it('should generate multiple sequential tags', () => {
       const tags = generateSequentialTags('FT', 101, 3);
-      
+
       expect(tags).toHaveLength(3);
       expect(tags[0]).toBe('FT-101');
       expect(tags[1]).toBe('FT-102');
@@ -282,14 +284,14 @@ describe('P&ID Tag Numbering System', () => {
 
     it('should handle suffix in sequential tags', () => {
       const tags = generateSequentialTags('FT', 101, 2, 'A');
-      
+
       expect(tags[0]).toBe('FT-101A');
       expect(tags[1]).toBe('FT-102A');
     });
 
     it('should generate single tag when count is 1', () => {
       const tags = generateSequentialTags('TIC', 205, 1);
-      
+
       expect(tags).toHaveLength(1);
       expect(tags[0]).toBe('TIC-205');
     });
@@ -339,7 +341,7 @@ describe('P&ID Tag Numbering System', () => {
     it('should find all tags in a loop', () => {
       const allTags = ['FT-101', 'FI-101', 'FIC-101', 'TT-201', 'FT-102'];
       const loopTags = getLoopTags(allTags, 'FT-101');
-      
+
       expect(loopTags).toHaveLength(3);
       expect(loopTags).toContain('FT-101');
       expect(loopTags).toContain('FI-101');
@@ -349,7 +351,7 @@ describe('P&ID Tag Numbering System', () => {
     it('should exclude tags from different loops', () => {
       const allTags = ['FT-101', 'FT-102', 'TT-101'];
       const loopTags = getLoopTags(allTags, 'FT-101');
-      
+
       expect(loopTags).toHaveLength(1);
       expect(loopTags).toContain('FT-101');
     });
@@ -357,7 +359,7 @@ describe('P&ID Tag Numbering System', () => {
     it('should return empty array when no matches', () => {
       const allTags = ['TT-201', 'PT-301'];
       const loopTags = getLoopTags(allTags, 'FT-101');
-      
+
       expect(loopTags).toHaveLength(0);
     });
   });
@@ -387,17 +389,19 @@ describe('P&ID Tag Numbering System', () => {
   describe('suggestTags function', () => {
     it('should suggest tags starting with F', () => {
       const suggestions = suggestTags('F');
-      
+
       expect(suggestions.length).toBeGreaterThan(0);
-      expect(suggestions.some(s => s.includes('FT'))).toBe(true);
-      expect(suggestions.some(s => s.includes('FIC'))).toBe(true);
+      expect(suggestions.some((s) => s.includes('FT'))).toBe(true);
+      expect(suggestions.some((s) => s.includes('FIC'))).toBe(true);
     });
 
     it('should suggest specific tags for FT', () => {
       const suggestions = suggestTags('FT');
-      
-      expect(suggestions.some(s => s.startsWith('FT '))).toBe(true);
-      expect(suggestions.some(s => s.includes('Flow Transmitter'))).toBe(true);
+
+      expect(suggestions.some((s) => s.startsWith('FT '))).toBe(true);
+      expect(suggestions.some((s) => s.includes('Flow Transmitter'))).toBe(
+        true
+      );
     });
 
     it('should limit suggestions to 10', () => {
@@ -477,7 +481,8 @@ describe('P&ID Tag Numbering System', () => {
     });
 
     it('should handle all alphabet suffixes', () => {
-      for (let i = 65; i <= 90; i++) { // A-Z
+      for (let i = 65; i <= 90; i++) {
+        // A-Z
         const suffix = String.fromCharCode(i);
         const tagStr = `FT-101${suffix}`;
         expect(validateTag(tagStr)).toHaveLength(0);

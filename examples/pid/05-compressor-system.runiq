@@ -94,9 +94,9 @@ pid "Two-Stage Compressor System" {
   
   // Utility Lines - Cooling Water
   line utility from:CW-1.supply to:E-101.shellIn size:8 unit:in schedule:STD material:CS
-  line utility from:E-101.shellOut to:CW-1.return size:8 unit:in schedule:STD material:CS
+  line utility from:E-101.shellOut to:CW-1.returnLine size:8 unit:in schedule:STD material:CS
   line utility from:CW-1.supply to:E-102.shellIn size:6 unit:in schedule:STD material:CS
-  line utility from:E-102.shellOut to:CW-1.return size:6 unit:in schedule:STD material:CS
+  line utility from:E-102.shellOut to:CW-1.returnLine size:6 unit:in schedule:STD material:CS
   
   // Signal Lines - Pressure Control
   line signal from:PT-601 to:PIC-601

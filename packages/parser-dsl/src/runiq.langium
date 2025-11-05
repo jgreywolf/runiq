@@ -227,17 +227,19 @@ PIDEquipmentTypeProperty:
 PIDEquipmentType returns string:
     // Vessels
     'vesselVertical' | 'vesselHorizontal' | 'storageTank' | 'reactor' | 'knockoutDrum'
-    | 'distillationColumn' | 'filter' | 'separatorHorizontal' | 'flashDrum' | 'refluxDrum' | 'cyclone'
+    | 'distillationColumn' | 'filter' | 'separator' | 'separatorHorizontal' | 'flashDrum' | 'refluxDrum' | 'cyclone'
     // Rotating Equipment
     | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'compressorCentrifugal' | 'compressorReciprocating'
     | 'turbineSteam' | 'fan' | 'agitator'
     // Valves
     | 'valveGate' | 'valveGlobe' | 'valveBall' | 'valveCheck' | 'valveControl' | 'valveSafetyRelief'
     | 'valveButterfly' | 'valveThreeWay' | 'valveNeedle' | 'valvePlug' | 'valveDiaphragm'
-    | 'valveAngle' | 'valvePinch'
+    | 'valveAngle' | 'valvePinch' | 'valveShutoff'
     // Heat Exchangers
-    | 'heatExchangerShellTube' | 'airCooler' | 'heatExchangerPlate' | 'firedHeater'
-    | 'coolingTower' | 'condenser' | 'reboiler';
+    | 'heatExchangerShellTube' | 'cooler' | 'airCooler' | 'heatExchangerPlate' | 'firedHeater'
+    | 'coolingTower' | 'condenser' | 'reboiler' | 'jacket'
+    // Safety Equipment
+    | 'ruptureDisk';
 
 PIDVolumeProperty:
     'volume:' value=NUMBER 'unit:' unit=VolumeUnit;
@@ -284,16 +286,21 @@ PIDInstrumentTypeProperty:
 PIDInstrumentType returns string:
     // Transmitters
     'flowTransmitter' | 'temperatureTransmitter' | 'pressureTransmitter' | 'levelTransmitter'
-    | 'analyzerTransmitter' | 'phTransmitter' | 'conductivityTransmitter'
+    | 'analyzerTransmitter' | 'phTransmitter' | 'conductivityTransmitter' | 'vibrationTransmitter'
     // Indicators
     | 'flowIndicator' | 'temperatureIndicator' | 'pressureIndicator' | 'levelIndicator'
     // Controllers
-    | 'flowController' | 'temperatureController' | 'pressureController' | 'levelController'
+    | 'flowController' | 'temperatureController' | 'pressureController' | 'levelController' | 'speedController'
     // Indicator Controllers
     | 'flowIndicatorController' | 'temperatureIndicatorController' | 'levelIndicatorController'
     | 'pressureIndicatorController'
     // Switches
     | 'flowSwitch' | 'levelSwitch' | 'pressureSwitch' | 'temperatureSwitch'
+    // Alarms
+    | 'temperatureAlarmHigh' | 'temperatureAlarmLow' | 'temperatureAlarmHighHigh' | 'temperatureAlarmLowLow'
+    | 'pressureAlarmHigh' | 'pressureAlarmLow' | 'pressureAlarmHighHigh' | 'pressureAlarmLowLow'
+    | 'levelAlarmHigh' | 'levelAlarmLow' | 'levelAlarmHighHigh' | 'levelAlarmLowLow'
+    | 'flowAlarmHigh' | 'flowAlarmLow'
     // Recorders
     | 'flowRecorder' | 'pressureRecorder' | 'temperatureRecorder';
 
@@ -301,7 +308,7 @@ PIDRangeProperty:
     'range:' '(' min=NUMBER ',' max=NUMBER ')' 'unit:' unit=MeasurementUnit;
 
 MeasurementUnit returns string:
-    'kg/h' | 't/h' | 'L/min' | 'm³/h' | 'degC' | 'degF' | 'bar' | 'psi' | 'kPa' | 'm' | 'mm' | '%';
+    'kg/h' | 't/h' | 'L/min' | 'm³/h' | 'degC' | 'degF' | 'bar' | 'psi' | 'kPa' | 'm' | 'mm' | '%' | 'rpm' | 'mm/s';
 
 PIDLoopRefProperty:
     'loop:' loopNum=NUMBER;
@@ -382,7 +389,7 @@ PIDControlledVariableProperty:
     'controlled_variable:' variable=ControlVariable;
 
 ControlVariable returns string:
-    'flow' | 'temperature' | 'pressure' | 'level' | 'composition' | 'ph' | 'conductivity';
+    'flow' | 'temperature' | 'pressure' | 'level' | 'composition' | 'ph' | 'conductivity' | 'speed';
 
 PIDSetpointProperty:
     'setpoint:' value=NUMBER ('unit:' unit=MeasurementUnit)?;

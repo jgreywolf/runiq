@@ -177,6 +177,7 @@ export type RuniqKeywordNames =
     | "control_room"
     | "controlled_variable:"
     | "controller:"
+    | "cooler"
     | "coolingTower"
     | "create"
     | "critical"
@@ -245,6 +246,8 @@ export type RuniqKeywordNames =
     | "fit-content"
     | "flashDrum"
     | "flow"
+    | "flowAlarmHigh"
+    | "flowAlarmLow"
     | "flowController"
     | "flowFinal"
     | "flowIndicator"
@@ -305,6 +308,7 @@ export type RuniqKeywordNames =
     | "inst"
     | "instrument"
     | "insulation:"
+    | "jacket"
     | "junction"
     | "kPa"
     | "kg/h"
@@ -317,6 +321,10 @@ export type RuniqKeywordNames =
     | "left"
     | "legendPosition:"
     | "level"
+    | "levelAlarmHigh"
+    | "levelAlarmHighHigh"
+    | "levelAlarmLow"
+    | "levelAlarmLowLow"
     | "levelController"
     | "levelIndicator"
     | "levelIndicatorController"
@@ -357,6 +365,7 @@ export type RuniqKeywordNames =
     | "mindmap"
     | "mineral"
     | "mm"
+    | "mm/s"
     | "mode:"
     | "module"
     | "mrtree"
@@ -420,6 +429,10 @@ export type RuniqKeywordNames =
     | "preset"
     | "preset:"
     | "pressure"
+    | "pressureAlarmHigh"
+    | "pressureAlarmHighHigh"
+    | "pressureAlarmLow"
+    | "pressureAlarmLowLow"
     | "pressureController"
     | "pressureIndicator"
     | "pressureIndicatorController"
@@ -458,6 +471,8 @@ export type RuniqKeywordNames =
     | "roleTarget:"
     | "routing"
     | "routing:"
+    | "rpm"
+    | "ruptureDisk"
     | "s"
     | "schedule:"
     | "schematic"
@@ -466,6 +481,7 @@ export type RuniqKeywordNames =
     | "selectionBorderWidth:"
     | "selectionHighlight:"
     | "sendSignal"
+    | "separator"
     | "separatorHorizontal"
     | "sequence"
     | "setpoint:"
@@ -483,6 +499,8 @@ export type RuniqKeywordNames =
     | "space-between"
     | "space-evenly"
     | "spacing:"
+    | "speed"
+    | "speedController"
     | "spline"
     | "splines"
     | "stable"
@@ -508,6 +526,10 @@ export type RuniqKeywordNames =
     | "target"
     | "temp:"
     | "temperature"
+    | "temperatureAlarmHigh"
+    | "temperatureAlarmHighHigh"
+    | "temperatureAlarmLow"
+    | "temperatureAlarmLowLow"
     | "temperatureController"
     | "temperatureIndicator"
     | "temperatureIndicatorController"
@@ -549,12 +571,14 @@ export type RuniqKeywordNames =
     | "valvePinch"
     | "valvePlug"
     | "valveSafetyRelief"
+    | "valveShutoff"
     | "valveThreeWay"
     | "vertical"
     | "verticalAlign:"
     | "verticalFork"
     | "vesselHorizontal"
     | "vesselVertical"
+    | "vibrationTransmitter"
     | "visibility:"
     | "volume:"
     | "w"
@@ -1185,10 +1209,10 @@ export function isControlMode(item: unknown): item is ControlMode {
     return item === 'manual' || item === 'auto' || item === 'cascade' || item === 'ratio' || item === 'feedforward';
 }
 
-export type ControlVariable = 'composition' | 'conductivity' | 'flow' | 'level' | 'ph' | 'pressure' | 'temperature';
+export type ControlVariable = 'composition' | 'conductivity' | 'flow' | 'level' | 'ph' | 'pressure' | 'speed' | 'temperature';
 
 export function isControlVariable(item: unknown): item is ControlVariable {
-    return item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity';
+    return item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed';
 }
 
 export interface DataArray extends langium.AstNode {
@@ -2086,10 +2110,10 @@ export function isMaterialType(item: unknown): item is MaterialType {
     return item === 'CS' || item === 'SS304' || item === 'SS316' || item === 'SS316L' || item === 'Alloy20' || item === 'Hastelloy' || item === 'Monel' || item === 'Titanium' || item === 'PVC' || item === 'PP' || item === 'PTFE';
 }
 
-export type MeasurementUnit = '%' | 'L/min' | 'bar' | 'degC' | 'degF' | 'kPa' | 'kg/h' | 'm' | 'mm' | 'm³/h' | 'psi' | 't/h';
+export type MeasurementUnit = '%' | 'L/min' | 'bar' | 'degC' | 'degF' | 'kPa' | 'kg/h' | 'm' | 'mm' | 'mm/s' | 'm³/h' | 'psi' | 'rpm' | 't/h';
 
 export function isMeasurementUnit(item: unknown): item is MeasurementUnit {
-    return item === 'kg/h' || item === 't/h' || item === 'L/min' || item === 'm³/h' || item === 'degC' || item === 'degF' || item === 'bar' || item === 'psi' || item === 'kPa' || item === 'm' || item === 'mm' || item === '%';
+    return item === 'kg/h' || item === 't/h' || item === 'L/min' || item === 'm³/h' || item === 'degC' || item === 'degF' || item === 'bar' || item === 'psi' || item === 'kPa' || item === 'm' || item === 'mm' || item === '%' || item === 'rpm' || item === 'mm/s';
 }
 
 export interface MethodAbstractField extends langium.AstNode {
@@ -2739,10 +2763,10 @@ export function isPIDEquipmentStatement(item: unknown): item is PIDEquipmentStat
     return reflection.isInstance(item, PIDEquipmentStatement.$type);
 }
 
-export type PIDEquipmentType = 'agitator' | 'airCooler' | 'compressorCentrifugal' | 'compressorReciprocating' | 'condenser' | 'coolingTower' | 'cyclone' | 'distillationColumn' | 'fan' | 'filter' | 'firedHeater' | 'flashDrum' | 'heatExchangerPlate' | 'heatExchangerShellTube' | 'knockoutDrum' | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'reactor' | 'reboiler' | 'refluxDrum' | 'separatorHorizontal' | 'storageTank' | 'turbineSteam' | 'valveAngle' | 'valveBall' | 'valveButterfly' | 'valveCheck' | 'valveControl' | 'valveDiaphragm' | 'valveGate' | 'valveGlobe' | 'valveNeedle' | 'valvePinch' | 'valvePlug' | 'valveSafetyRelief' | 'valveThreeWay' | 'vesselHorizontal' | 'vesselVertical';
+export type PIDEquipmentType = 'agitator' | 'airCooler' | 'compressorCentrifugal' | 'compressorReciprocating' | 'condenser' | 'cooler' | 'coolingTower' | 'cyclone' | 'distillationColumn' | 'fan' | 'filter' | 'firedHeater' | 'flashDrum' | 'heatExchangerPlate' | 'heatExchangerShellTube' | 'jacket' | 'knockoutDrum' | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'reactor' | 'reboiler' | 'refluxDrum' | 'ruptureDisk' | 'separator' | 'separatorHorizontal' | 'storageTank' | 'turbineSteam' | 'valveAngle' | 'valveBall' | 'valveButterfly' | 'valveCheck' | 'valveControl' | 'valveDiaphragm' | 'valveGate' | 'valveGlobe' | 'valveNeedle' | 'valvePinch' | 'valvePlug' | 'valveSafetyRelief' | 'valveShutoff' | 'valveThreeWay' | 'vesselHorizontal' | 'vesselVertical';
 
 export function isPIDEquipmentType(item: unknown): item is PIDEquipmentType {
-    return item === 'vesselVertical' || item === 'vesselHorizontal' || item === 'storageTank' || item === 'reactor' || item === 'knockoutDrum' || item === 'distillationColumn' || item === 'filter' || item === 'separatorHorizontal' || item === 'flashDrum' || item === 'refluxDrum' || item === 'cyclone' || item === 'pumpCentrifugal' || item === 'pumpPositiveDisplacement' || item === 'compressorCentrifugal' || item === 'compressorReciprocating' || item === 'turbineSteam' || item === 'fan' || item === 'agitator' || item === 'valveGate' || item === 'valveGlobe' || item === 'valveBall' || item === 'valveCheck' || item === 'valveControl' || item === 'valveSafetyRelief' || item === 'valveButterfly' || item === 'valveThreeWay' || item === 'valveNeedle' || item === 'valvePlug' || item === 'valveDiaphragm' || item === 'valveAngle' || item === 'valvePinch' || item === 'heatExchangerShellTube' || item === 'airCooler' || item === 'heatExchangerPlate' || item === 'firedHeater' || item === 'coolingTower' || item === 'condenser' || item === 'reboiler';
+    return item === 'vesselVertical' || item === 'vesselHorizontal' || item === 'storageTank' || item === 'reactor' || item === 'knockoutDrum' || item === 'distillationColumn' || item === 'filter' || item === 'separator' || item === 'separatorHorizontal' || item === 'flashDrum' || item === 'refluxDrum' || item === 'cyclone' || item === 'pumpCentrifugal' || item === 'pumpPositiveDisplacement' || item === 'compressorCentrifugal' || item === 'compressorReciprocating' || item === 'turbineSteam' || item === 'fan' || item === 'agitator' || item === 'valveGate' || item === 'valveGlobe' || item === 'valveBall' || item === 'valveCheck' || item === 'valveControl' || item === 'valveSafetyRelief' || item === 'valveButterfly' || item === 'valveThreeWay' || item === 'valveNeedle' || item === 'valvePlug' || item === 'valveDiaphragm' || item === 'valveAngle' || item === 'valvePinch' || item === 'valveShutoff' || item === 'heatExchangerShellTube' || item === 'cooler' || item === 'airCooler' || item === 'heatExchangerPlate' || item === 'firedHeater' || item === 'coolingTower' || item === 'condenser' || item === 'reboiler' || item === 'jacket' || item === 'ruptureDisk';
 }
 
 export interface PIDEquipmentTypeProperty extends langium.AstNode {
@@ -2804,10 +2828,10 @@ export function isPIDInstrumentStatement(item: unknown): item is PIDInstrumentSt
     return reflection.isInstance(item, PIDInstrumentStatement.$type);
 }
 
-export type PIDInstrumentType = 'analyzerTransmitter' | 'conductivityTransmitter' | 'flowController' | 'flowIndicator' | 'flowIndicatorController' | 'flowRecorder' | 'flowSwitch' | 'flowTransmitter' | 'levelController' | 'levelIndicator' | 'levelIndicatorController' | 'levelSwitch' | 'levelTransmitter' | 'phTransmitter' | 'pressureController' | 'pressureIndicator' | 'pressureIndicatorController' | 'pressureRecorder' | 'pressureSwitch' | 'pressureTransmitter' | 'temperatureController' | 'temperatureIndicator' | 'temperatureIndicatorController' | 'temperatureRecorder' | 'temperatureSwitch' | 'temperatureTransmitter';
+export type PIDInstrumentType = 'analyzerTransmitter' | 'conductivityTransmitter' | 'flowAlarmHigh' | 'flowAlarmLow' | 'flowController' | 'flowIndicator' | 'flowIndicatorController' | 'flowRecorder' | 'flowSwitch' | 'flowTransmitter' | 'levelAlarmHigh' | 'levelAlarmHighHigh' | 'levelAlarmLow' | 'levelAlarmLowLow' | 'levelController' | 'levelIndicator' | 'levelIndicatorController' | 'levelSwitch' | 'levelTransmitter' | 'phTransmitter' | 'pressureAlarmHigh' | 'pressureAlarmHighHigh' | 'pressureAlarmLow' | 'pressureAlarmLowLow' | 'pressureController' | 'pressureIndicator' | 'pressureIndicatorController' | 'pressureRecorder' | 'pressureSwitch' | 'pressureTransmitter' | 'speedController' | 'temperatureAlarmHigh' | 'temperatureAlarmHighHigh' | 'temperatureAlarmLow' | 'temperatureAlarmLowLow' | 'temperatureController' | 'temperatureIndicator' | 'temperatureIndicatorController' | 'temperatureRecorder' | 'temperatureSwitch' | 'temperatureTransmitter' | 'vibrationTransmitter';
 
 export function isPIDInstrumentType(item: unknown): item is PIDInstrumentType {
-    return item === 'flowTransmitter' || item === 'temperatureTransmitter' || item === 'pressureTransmitter' || item === 'levelTransmitter' || item === 'analyzerTransmitter' || item === 'phTransmitter' || item === 'conductivityTransmitter' || item === 'flowIndicator' || item === 'temperatureIndicator' || item === 'pressureIndicator' || item === 'levelIndicator' || item === 'flowController' || item === 'temperatureController' || item === 'pressureController' || item === 'levelController' || item === 'flowIndicatorController' || item === 'temperatureIndicatorController' || item === 'levelIndicatorController' || item === 'pressureIndicatorController' || item === 'flowSwitch' || item === 'levelSwitch' || item === 'pressureSwitch' || item === 'temperatureSwitch' || item === 'flowRecorder' || item === 'pressureRecorder' || item === 'temperatureRecorder';
+    return item === 'flowTransmitter' || item === 'temperatureTransmitter' || item === 'pressureTransmitter' || item === 'levelTransmitter' || item === 'analyzerTransmitter' || item === 'phTransmitter' || item === 'conductivityTransmitter' || item === 'vibrationTransmitter' || item === 'flowIndicator' || item === 'temperatureIndicator' || item === 'pressureIndicator' || item === 'levelIndicator' || item === 'flowController' || item === 'temperatureController' || item === 'pressureController' || item === 'levelController' || item === 'speedController' || item === 'flowIndicatorController' || item === 'temperatureIndicatorController' || item === 'levelIndicatorController' || item === 'pressureIndicatorController' || item === 'flowSwitch' || item === 'levelSwitch' || item === 'pressureSwitch' || item === 'temperatureSwitch' || item === 'temperatureAlarmHigh' || item === 'temperatureAlarmLow' || item === 'temperatureAlarmHighHigh' || item === 'temperatureAlarmLowLow' || item === 'pressureAlarmHigh' || item === 'pressureAlarmLow' || item === 'pressureAlarmHighHigh' || item === 'pressureAlarmLowLow' || item === 'levelAlarmHigh' || item === 'levelAlarmLow' || item === 'levelAlarmHighHigh' || item === 'levelAlarmLowLow' || item === 'flowAlarmHigh' || item === 'flowAlarmLow' || item === 'flowRecorder' || item === 'pressureRecorder' || item === 'temperatureRecorder';
 }
 
 export interface PIDInstrumentTypeProperty extends langium.AstNode {

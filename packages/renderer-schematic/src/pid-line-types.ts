@@ -1,7 +1,7 @@
 /**
  * P&ID Line Types
  * Following ISA-5.1 and ISO 14617 standards for process diagrams
- * 
+ *
  * Line types represent different kinds of connections in P&IDs:
  * - Process lines: Material flow (liquids, gases, solids)
  * - Instrument signals: Measurement and control signals
@@ -9,7 +9,7 @@
  * - Pneumatic: Compressed air signals
  * - Hydraulic: Hydraulic fluid signals
  * - Software/Data: Digital communications
- * 
+ *
  * @module pid-line-types
  */
 
@@ -20,25 +20,31 @@
 export interface PIDLineType {
   /** Unique identifier for the line type */
   id: string;
-  
+
   /** Human-readable name */
   name: string;
-  
+
   /** Category of line */
-  category: 'process' | 'signal' | 'electrical' | 'pneumatic' | 'hydraulic' | 'data';
-  
+  category:
+    | 'process'
+    | 'signal'
+    | 'electrical'
+    | 'pneumatic'
+    | 'hydraulic'
+    | 'data';
+
   /** SVG stroke-dasharray pattern (empty for solid) */
   dashPattern: string;
-  
+
   /** Line width multiplier (1.0 = normal) */
   widthMultiplier: number;
-  
+
   /** Default color (can be overridden) */
   defaultColor?: string;
-  
+
   /** Whether this is a double line (for special cases) */
   isDoubleLine?: boolean;
-  
+
   /** Description of when to use this line type */
   description: string;
 }
@@ -53,8 +59,10 @@ export function getLineTypeStyle(
 ): string {
   const width = baseWidth * lineType.widthMultiplier;
   const strokeColor = color || lineType.defaultColor || 'currentColor';
-  const dashArray = lineType.dashPattern ? `stroke-dasharray="${lineType.dashPattern}"` : '';
-  
+  const dashArray = lineType.dashPattern
+    ? `stroke-dasharray="${lineType.dashPattern}"`
+    : '';
+
   return `stroke="${strokeColor}" stroke-width="${width}" ${dashArray} fill="none"`;
 }
 
@@ -74,12 +82,12 @@ export function renderDoubleLine(
   const dx = x2 - x1;
   const dy = y2 - y1;
   const length = Math.sqrt(dx * dx + dy * dy);
-  
+
   if (length === 0) return '';
-  
-  const perpX = (-dy / length) * separation / 2;
-  const perpY = (dx / length) * separation / 2;
-  
+
+  const perpX = ((-dy / length) * separation) / 2;
+  const perpY = ((dx / length) * separation) / 2;
+
   return `
     <line x1="${x1 + perpX}" y1="${y1 + perpY}" x2="${x2 + perpX}" y2="${y2 + perpY}" ${style}/>
     <line x1="${x1 - perpX}" y1="${y1 - perpY}" x2="${x2 - perpX}" y2="${y2 - perpY}" ${style}/>
@@ -318,21 +326,21 @@ export const pidLineTypes = {
   processLine,
   processFuture,
   utilityLine,
-  
+
   // Instrument Signals
   signalPneumatic,
   signalElectronic,
   signalHydraulic,
   signalSoftware,
-  
+
   // Electrical
   electrical,
   electricalSignal,
-  
+
   // Pneumatic/Hydraulic Supply
   pneumaticSupply,
   hydraulicSupply,
-  
+
   // Special Purpose
   mechanicalLink,
   insulatedLine,
@@ -362,11 +370,11 @@ export function renderPIDLine(
   color?: string
 ): string {
   const style = getLineTypeStyle(lineType, baseWidth, color);
-  
+
   if (lineType.isDoubleLine) {
     return renderDoubleLine(x1, y1, x2, y2, 4, style);
   }
-  
+
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" ${style}/>`;
 }
 
@@ -385,21 +393,21 @@ export function renderInsulationMarks(
   const dx = x2 - x1;
   const dy = y2 - y1;
   const length = Math.sqrt(dx * dx + dy * dy);
-  
+
   if (length === 0) return '';
-  
-  const perpX = (-dy / length) * markLength / 2;
-  const perpY = (dx / length) * markLength / 2;
-  
+
+  const perpX = ((-dy / length) * markLength) / 2;
+  const perpY = ((dx / length) * markLength) / 2;
+
   let marks = '';
   const numMarks = Math.floor(length / spacing);
-  
+
   for (let i = 1; i <= numMarks; i++) {
     const t = i / (numMarks + 1);
     const x = x1 + dx * t;
     const y = y1 + dy * t;
     marks += `<line x1="${x + perpX}" y1="${y + perpY}" x2="${x - perpX}" y2="${y - perpY}" stroke="currentColor" stroke-width="1"/>`;
   }
-  
+
   return marks;
 }

@@ -1,17 +1,17 @@
 /**
  * P&ID Tag Numbering System
  * Following ISA-5.1 (ANSI/ISA-5.1-2009) standard for instrumentation symbols and identification
- * 
+ *
  * Tag format: [Function][Loop][Suffix]
  * - Function: 1-4 letter code (e.g., FT, TIC, PAHH)
  * - Loop: Numeric identifier (e.g., 101, 205)
  * - Suffix: Optional letter (A, B, C for parallel instruments)
- * 
+ *
  * Examples:
  * - FT-101: Flow Transmitter, Loop 101
  * - TIC-205: Temperature Indicator Controller, Loop 205
  * - PAHH-310A: Pressure Alarm High High, Loop 310, Instrument A
- * 
+ *
  * @module pid-tags
  */
 
@@ -98,7 +98,7 @@ export const commonTagCombinations = {
   FT: 'Flow Transmitter',
   FV: 'Flow Valve (control)',
   FY: 'Flow Relay/Computer',
-  
+
   // Temperature
   TE: 'Temperature Element',
   TI: 'Temperature Indicator',
@@ -108,7 +108,7 @@ export const commonTagCombinations = {
   TV: 'Temperature Valve (control)',
   TW: 'Temperature Well',
   TY: 'Temperature Relay/Computer',
-  
+
   // Pressure
   PE: 'Pressure Element',
   PI: 'Pressure Indicator',
@@ -117,7 +117,7 @@ export const commonTagCombinations = {
   PT: 'Pressure Transmitter',
   PV: 'Pressure Valve (control)',
   PY: 'Pressure Relay/Computer',
-  
+
   // Level
   LE: 'Level Element',
   LI: 'Level Indicator',
@@ -127,14 +127,14 @@ export const commonTagCombinations = {
   LG: 'Level Gauge/Glass',
   LV: 'Level Valve (control)',
   LY: 'Level Relay/Computer',
-  
+
   // Analysis
   AI: 'Analysis Indicator',
   AIC: 'Analysis Indicator Controller',
   AIT: 'Analysis Indicating Transmitter',
   AT: 'Analysis Transmitter',
   AY: 'Analysis Relay/Computer',
-  
+
   // Alarms and Switches
   PAH: 'Pressure Alarm High',
   PAHH: 'Pressure Alarm High High',
@@ -154,17 +154,17 @@ export const commonTagCombinations = {
   FAL: 'Flow Alarm Low',
   FSH: 'Flow Switch High',
   FSL: 'Flow Switch Low',
-  
+
   // Control valves
   FCV: 'Flow Control Valve',
   TCV: 'Temperature Control Valve',
   PCV: 'Pressure Control Valve',
   LCV: 'Level Control Valve',
-  
+
   // Hand/Manual
   HV: 'Hand Valve',
   HIC: 'Hand Indicator Controller',
-  
+
   // Special
   XV: 'Solenoid Valve (on-off)',
   ZSH: 'Position Switch High',
@@ -183,28 +183,28 @@ export const commonTagCombinations = {
 export interface PIDTag {
   /** Full tag string (e.g., "FT-101A") */
   fullTag: string;
-  
+
   /** Function code (e.g., "FT") */
   functionCode: string;
-  
+
   /** Loop number (e.g., "101") */
   loopNumber: string;
-  
+
   /** Optional suffix (e.g., "A") */
   suffix?: string;
-  
+
   /** Measured variable (first letter) */
   measuredVariable: string;
-  
+
   /** Readout function (subsequent letters) */
   readoutFunction: string;
-  
+
   /** Human-readable description */
   description?: string;
-  
+
   /** Location/area code (optional) */
   location?: string;
-  
+
   /** Whether tag is field-mounted */
   fieldMounted?: boolean;
 }
@@ -216,29 +216,30 @@ export interface PIDTag {
 export function parseTag(tagString: string): PIDTag | null {
   // Remove whitespace and convert to uppercase
   const tag = tagString.trim().toUpperCase();
-  
+
   // Pattern: [Letters]-[Numbers][OptionalLetter]
   // Examples: FT-101, TIC-205, PAHH-310A
   const pattern = /^([A-Z]{1,4})-(\d{1,4})([A-Z])?$/;
   const match = tag.match(pattern);
-  
+
   if (!match) {
     return null;
   }
-  
+
   const functionCode = match[1];
   const loopNumber = match[2];
   const suffix = match[3];
-  
+
   // Extract measured variable (first letter)
   const measuredVariable = functionCode[0];
-  
+
   // Extract readout function (remaining letters)
   const readoutFunction = functionCode.slice(1);
-  
+
   // Get description if it's a common tag
-  const description = commonTagCombinations[functionCode as keyof typeof commonTagCombinations];
-  
+  const description =
+    commonTagCombinations[functionCode as keyof typeof commonTagCombinations];
+
   return {
     fullTag: tag,
     functionCode,
@@ -256,41 +257,47 @@ export function parseTag(tagString: string): PIDTag | null {
  */
 export function validateTag(tagString: string): string[] {
   const errors: string[] = [];
-  
+
   const parsed = parseTag(tagString);
   if (!parsed) {
-    errors.push('Invalid tag format. Expected format: [Function]-[Loop][Suffix] (e.g., FT-101, TIC-205A)');
+    errors.push(
+      'Invalid tag format. Expected format: [Function]-[Loop][Suffix] (e.g., FT-101, TIC-205A)'
+    );
     return errors;
   }
-  
+
   // Validate measured variable (first letter)
   if (!(parsed.measuredVariable in measuredVariables)) {
-    errors.push(`Invalid measured variable: ${parsed.measuredVariable}. See ISA-5.1 Table 1.`);
+    errors.push(
+      `Invalid measured variable: ${parsed.measuredVariable}. See ISA-5.1 Table 1.`
+    );
   }
-  
+
   // Validate readout function letters
   for (const letter of parsed.readoutFunction) {
     if (!(letter in readoutFunctions)) {
-      errors.push(`Invalid readout function letter: ${letter}. See ISA-5.1 Table 1.`);
+      errors.push(
+        `Invalid readout function letter: ${letter}. See ISA-5.1 Table 1.`
+      );
     }
   }
-  
+
   // Validate function code length
   if (parsed.functionCode.length > 4) {
     errors.push('Function code too long. Maximum 4 letters per ISA-5.1.');
   }
-  
+
   // Validate loop number
   const loopNum = parseInt(parsed.loopNumber, 10);
   if (isNaN(loopNum) || loopNum < 1 || loopNum > 9999) {
     errors.push('Loop number must be between 1 and 9999.');
   }
-  
+
   // Validate suffix (single letter only)
   if (parsed.suffix && parsed.suffix.length !== 1) {
     errors.push('Suffix must be a single letter (A-Z).');
   }
-  
+
   return errors;
 }
 
@@ -304,10 +311,13 @@ export function createTag(
   location?: string
 ): string {
   const func = functionCode.toUpperCase();
-  const loop = typeof loopNumber === 'number' ? loopNumber.toString().padStart(3, '0') : loopNumber;
+  const loop =
+    typeof loopNumber === 'number'
+      ? loopNumber.toString().padStart(3, '0')
+      : loopNumber;
   const suf = suffix ? suffix.toUpperCase() : '';
   const loc = location ? `(${location})` : '';
-  
+
   return `${func}-${loop}${suf}${loc}`;
 }
 
@@ -318,27 +328,27 @@ export function createTag(
  */
 export function isFieldMounted(tag: PIDTag): boolean {
   const func = tag.functionCode;
-  
+
   // Field-mounted indicators
   const fieldFunctions = ['T', 'E', 'I'];
-  
+
   // Panel-mounted functions
   const panelFunctions = ['C', 'R'];
-  
+
   // Check if it contains any panel function
   for (const letter of func) {
     if (panelFunctions.includes(letter)) {
       return false;
     }
   }
-  
+
   // Check if it contains field function
   for (const letter of func) {
     if (fieldFunctions.includes(letter)) {
       return true;
     }
   }
-  
+
   // Default to field-mounted for transmitters
   return func.includes('T');
 }
@@ -348,7 +358,7 @@ export function isFieldMounted(tag: PIDTag): boolean {
  */
 export function getTagCategory(tag: PIDTag): string {
   const var1 = tag.measuredVariable;
-  
+
   const categories: Record<string, string> = {
     F: 'Flow',
     T: 'Temperature',
@@ -363,7 +373,7 @@ export function getTagCategory(tag: PIDTag): string {
     Y: 'Event',
     Z: 'Position',
   };
-  
+
   return categories[var1] || 'Other';
 }
 
@@ -378,11 +388,11 @@ export function generateSequentialTags(
   suffix?: string
 ): string[] {
   const tags: string[] = [];
-  
+
   for (let i = 0; i < count; i++) {
     tags.push(createTag(functionCode, startLoop + i, suffix));
   }
-  
+
   return tags;
 }
 
@@ -392,7 +402,7 @@ export function generateSequentialTags(
 export function getLoopNumber(tagString: string): number | null {
   const parsed = parseTag(tagString);
   if (!parsed) return null;
-  
+
   return parseInt(parsed.loopNumber, 10);
 }
 
@@ -403,10 +413,13 @@ export function getLoopNumber(tagString: string): number | null {
 export function isSameLoop(tag1: string, tag2: string): boolean {
   const p1 = parseTag(tag1);
   const p2 = parseTag(tag2);
-  
+
   if (!p1 || !p2) return false;
-  
-  return p1.measuredVariable === p2.measuredVariable && p1.loopNumber === p2.loopNumber;
+
+  return (
+    p1.measuredVariable === p2.measuredVariable &&
+    p1.loopNumber === p2.loopNumber
+  );
 }
 
 /**
@@ -414,20 +427,23 @@ export function isSameLoop(tag1: string, tag2: string): boolean {
  * Returns array of tags that share the same measured variable and loop number
  */
 export function getLoopTags(tags: string[], referenceTag: string): string[] {
-  return tags.filter(tag => isSameLoop(tag, referenceTag));
+  return tags.filter((tag) => isSameLoop(tag, referenceTag));
 }
 
 /**
  * Format tag for display with optional description
  */
-export function formatTagDisplay(tagString: string, showDescription = true): string {
+export function formatTagDisplay(
+  tagString: string,
+  showDescription = true
+): string {
   const parsed = parseTag(tagString);
   if (!parsed) return tagString;
-  
+
   if (showDescription && parsed.description) {
     return `${parsed.fullTag} (${parsed.description})`;
   }
-  
+
   return parsed.fullTag;
 }
 
@@ -438,14 +454,14 @@ export function formatTagDisplay(tagString: string, showDescription = true): str
 export function suggestTags(partial: string): string[] {
   const upper = partial.toUpperCase();
   const suggestions: string[] = [];
-  
+
   // Match against common combinations
   for (const [code, description] of Object.entries(commonTagCombinations)) {
     if (code.startsWith(upper)) {
       suggestions.push(`${code} - ${description}`);
     }
   }
-  
+
   return suggestions.slice(0, 10); // Limit to 10 suggestions
 }
 

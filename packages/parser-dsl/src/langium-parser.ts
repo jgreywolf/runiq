@@ -911,7 +911,11 @@ function convertPIDProfile(profile: Langium.PIDProfile): PIDProfile {
           equipment.properties!.dimensionUnit = prop.unit;
         } else if (Langium.isGenericPIDProperty(prop)) {
           let value = prop.value;
-          if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
             value = value.slice(1, -1);
           }
           equipment.properties![prop.key] = value;
@@ -948,7 +952,11 @@ function convertPIDProfile(profile: Langium.PIDProfile): PIDProfile {
           }
         } else if (Langium.isGenericPIDProperty(prop)) {
           let value = prop.value;
-          if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
             value = value.slice(1, -1);
           }
           instrument.properties![prop.key] = value;
@@ -968,7 +976,7 @@ function convertPIDProfile(profile: Langium.PIDProfile): PIDProfile {
       // Extract properties
       // Note: lineType is directly on the statement, not in properties
       line.type = statement.lineType;
-      
+
       for (const prop of statement.properties) {
         if (Langium.isPIDLineFromProperty(prop)) {
           line.from.equipment = prop.from.equipment;
@@ -989,7 +997,11 @@ function convertPIDProfile(profile: Langium.PIDProfile): PIDProfile {
           line.properties!.insulation = prop.type;
         } else if (Langium.isGenericPIDProperty(prop)) {
           let value = prop.value;
-          if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+          if (
+            typeof value === 'string' &&
+            value.startsWith('"') &&
+            value.endsWith('"')
+          ) {
             value = value.slice(1, -1);
           }
           line.properties![prop.key] = value;
@@ -1031,7 +1043,10 @@ function convertPIDProfile(profile: Langium.PIDProfile): PIDProfile {
       // For P&ID, fluid statement has a type and optional viscosity
       pidProfile.processSpecs.fluid = statement.type;
       if (statement.viscosity) {
-        pidProfile.processSpecs.fluid = statement.viscosity.replace(/^"|"$/g, '');
+        pidProfile.processSpecs.fluid = statement.viscosity.replace(
+          /^"|"$/g,
+          ''
+        );
       }
     } else if (Langium.isPressureStatement(statement)) {
       // pressure 3 bar (note: 'unit' keyword is optional in some contexts)

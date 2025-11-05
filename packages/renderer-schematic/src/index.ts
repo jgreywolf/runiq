@@ -26,7 +26,11 @@ export {
   renderDoubleLine,
   renderInsulationMarks,
 } from './pid-line-types.js';
-export { renderPID, type PIDRenderOptions, type PIDRenderResult } from './pid-renderer.js';
+export {
+  renderPID,
+  type PIDRenderOptions,
+  type PIDRenderResult,
+} from './pid-renderer.js';
 export {
   type PIDTag,
   parseTag,

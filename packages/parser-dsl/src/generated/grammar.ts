@@ -2413,6 +2413,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
+            "value": "separator"
+          },
+          {
+            "$type": "Keyword",
             "value": "separatorHorizontal"
           },
           {
@@ -2509,7 +2513,15 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
+            "value": "valveShutoff"
+          },
+          {
+            "$type": "Keyword",
             "value": "heatExchangerShellTube"
+          },
+          {
+            "$type": "Keyword",
+            "value": "cooler"
           },
           {
             "$type": "Keyword",
@@ -2534,6 +2546,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "reboiler"
+          },
+          {
+            "$type": "Keyword",
+            "value": "jacket"
+          },
+          {
+            "$type": "Keyword",
+            "value": "ruptureDisk"
           }
         ]
       },
@@ -3065,6 +3085,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
+            "value": "vibrationTransmitter"
+          },
+          {
+            "$type": "Keyword",
             "value": "flowIndicator"
           },
           {
@@ -3097,6 +3121,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
+            "value": "speedController"
+          },
+          {
+            "$type": "Keyword",
             "value": "flowIndicatorController"
           },
           {
@@ -3126,6 +3154,62 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "temperatureSwitch"
+          },
+          {
+            "$type": "Keyword",
+            "value": "temperatureAlarmHigh"
+          },
+          {
+            "$type": "Keyword",
+            "value": "temperatureAlarmLow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "temperatureAlarmHighHigh"
+          },
+          {
+            "$type": "Keyword",
+            "value": "temperatureAlarmLowLow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "pressureAlarmHigh"
+          },
+          {
+            "$type": "Keyword",
+            "value": "pressureAlarmLow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "pressureAlarmHighHigh"
+          },
+          {
+            "$type": "Keyword",
+            "value": "pressureAlarmLowLow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "levelAlarmHigh"
+          },
+          {
+            "$type": "Keyword",
+            "value": "levelAlarmLow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "levelAlarmHighHigh"
+          },
+          {
+            "$type": "Keyword",
+            "value": "levelAlarmLowLow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "flowAlarmHigh"
+          },
+          {
+            "$type": "Keyword",
+            "value": "flowAlarmLow"
           },
           {
             "$type": "Keyword",
@@ -3267,6 +3351,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "%"
+          },
+          {
+            "$type": "Keyword",
+            "value": "rpm"
+          },
+          {
+            "$type": "Keyword",
+            "value": "mm/s"
           }
         ]
       },
@@ -4138,6 +4230,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "conductivity"
+          },
+          {
+            "$type": "Keyword",
+            "value": "speed"
           }
         ]
       },

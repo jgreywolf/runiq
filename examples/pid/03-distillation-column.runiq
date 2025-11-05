@@ -62,15 +62,15 @@ pid "Distillation Column" {
   line process from:D-101.distillate to:P-102.inlet size:3 unit:in schedule:SCH40 material:SS316
   line process from:P-102.discharge to:LCV-401.inlet size:3 unit:in schedule:SCH40 material:SS316
   line process from:C-101.bottoms to:E-101.tubeIn size:6 unit:in schedule:XS material:SS316
-  line process from:E-101.tubeOut to:C-101.reboiler size:6 unit:in schedule:XS material:SS316
+  line process from:E-101.tubeOut to:C-101.reboilerReturn size:6 unit:in schedule:XS material:SS316
   line process from:C-101.bottoms to:P-103.inlet size:4 unit:in schedule:XS material:SS316
   line process from:P-103.discharge to:LCV-402.inlet size:4 unit:in schedule:XS material:SS316
   
   // Utility Lines - Steam and Cooling Water
   line utility from:STEAM-1.header to:E-101.shellIn size:3 unit:in material:CS
-  line utility from:E-101.shellOut to:COND-1.return size:3 unit:in material:CS
+  line utility from:E-101.shellOut to:COND-1.returnLine size:3 unit:in material:CS
   line utility from:CW-1.supply to:E-102.shellIn size:8 unit:in schedule:STD material:CS
-  line utility from:E-102.shellOut to:CW-1.return size:8 unit:in schedule:STD material:CS
+  line utility from:E-102.shellOut to:CW-1.returnLine size:8 unit:in schedule:STD material:CS
   
   // Signal Lines - Temperature Control
   line signal from:TT-201 to:TIC-201
