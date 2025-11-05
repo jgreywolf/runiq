@@ -95,7 +95,9 @@ test.describe('P&ID Diagram Rendering', () => {
 		});
 	});
 
-	test.skip('02-heat-exchanger: Render shell-and-tube heat exchanger with control', async ({ page }) => {
+	test.skip('02-heat-exchanger: Render shell-and-tube heat exchanger with control', async ({
+		page
+	}) => {
 		await test.step('Load example code', async () => {
 			const pidCode = `pid "Shell and Tube Heat Exchanger" {
   equipment E-101 type:heatExchangerShellTube material:SS316 rating:300#
