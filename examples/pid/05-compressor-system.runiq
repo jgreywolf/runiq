@@ -1,0 +1,149 @@
+// Compressor System P&ID Example
+// Demonstrates two-stage compression with intercooling and anti-surge control
+
+pid "Two-Stage Compressor System" {
+  // Compressors
+  equipment K-101 type:compressorCentrifugal material:CS rating:600#
+  equipment K-102 type:compressorCentrifugal material:CS rating:900#
+  
+  // Intercooler
+  equipment E-101 type:cooler material:CS rating:600#
+  
+  // Aftercooler
+  equipment E-102 type:cooler material:CS rating:900#
+  
+  // Knockout Drums (Separators)
+  equipment D-101 type:separator volume:500 unit:L material:CS rating:600#
+  equipment D-102 type:separator volume:500 unit:L material:CS rating:900#
+  
+  // Drain Pumps
+  equipment P-101 type:pumpCentrifugal flowRate:5 unit:m³/h material:CS
+  equipment P-102 type:pumpCentrifugal flowRate:5 unit:m³/h material:CS
+  
+  // Control Valves
+  equipment PCV-601 type:valveControl rating:150#
+  equipment PCV-602 type:valveControl rating:600#
+  equipment PCV-603 type:valveControl rating:900#
+  equipment ASV-801 type:valveControl rating:600#
+  equipment ASV-802 type:valveControl rating:900#
+  
+  // Suction Pressure Transmitters and Controllers
+  instrument PT-601 type:pressureTransmitter range:(0,10) unit:bar loop:601 location:field
+  instrument PIC-601 type:pressureIndicatorController range:(0,10) unit:bar loop:601 location:panel
+  
+  // Interstage Pressure Transmitters and Controllers
+  instrument PT-602 type:pressureTransmitter range:(0,30) unit:bar loop:602 location:field
+  instrument PIC-602 type:pressureIndicatorController range:(0,30) unit:bar loop:602 location:panel
+  
+  // Discharge Pressure Transmitters and Controllers
+  instrument PT-603 type:pressureTransmitter range:(0,50) unit:bar loop:603 location:field
+  instrument PIC-603 type:pressureIndicatorController range:(0,50) unit:bar loop:603 location:panel
+  
+  // Flow Transmitters
+  instrument FT-101 type:flowTransmitter range:(0,10000) unit:m³/h location:field
+  instrument FT-102 type:flowTransmitter range:(0,10000) unit:m³/h location:field
+  instrument FT-103 type:flowTransmitter range:(0,10000) unit:m³/h location:field
+  
+  // Anti-Surge Controllers
+  instrument ASC-801 type:flowIndicatorController range:(0,10000) unit:m³/h loop:801 location:panel
+  instrument ASC-802 type:flowIndicatorController range:(0,10000) unit:m³/h loop:802 location:panel
+  
+  // Temperature Transmitters
+  instrument TT-501 type:temperatureTransmitter range:(0,200) unit:degC location:field
+  instrument TT-502 type:temperatureTransmitter range:(0,200) unit:degC location:field
+  instrument TT-503 type:temperatureTransmitter range:(0,200) unit:degC location:field
+  instrument TT-504 type:temperatureTransmitter range:(0,200) unit:degC location:field
+  
+  // Level Transmitters and Controllers
+  instrument LT-401 type:levelTransmitter range:(0,100) unit:% loop:401 location:field
+  instrument LIC-401 type:levelIndicatorController range:(0,100) unit:% loop:401 location:panel
+  instrument LT-402 type:levelTransmitter range:(0,100) unit:% loop:402 location:field
+  instrument LIC-402 type:levelIndicatorController range:(0,100) unit:% loop:402 location:panel
+  
+  // Speed Controllers
+  instrument SC-701 type:speedController range:(0,15000) unit:rpm loop:701 location:panel
+  instrument SC-702 type:speedController range:(0,15000) unit:rpm loop:702 location:panel
+  
+  // Vibration Monitors
+  instrument VT-901 type:vibrationTransmitter range:(0,50) unit:mm/s location:field
+  instrument VT-902 type:vibrationTransmitter range:(0,50) unit:mm/s location:field
+  
+  // Process Lines - Main Compression Path
+  line process from:FEED-1.supply to:PCV-601.inlet size:12 unit:in schedule:STD material:CS
+  line process from:PCV-601.outlet to:K-101.inlet size:12 unit:in schedule:STD material:CS
+  line process from:K-101.discharge to:E-101.tubeIn size:10 unit:in schedule:XS material:CS
+  line process from:E-101.tubeOut to:D-101.inlet size:10 unit:in schedule:XS material:CS
+  line process from:D-101.vapor to:PCV-602.inlet size:10 unit:in schedule:XS material:CS
+  line process from:PCV-602.outlet to:K-102.inlet size:10 unit:in schedule:XS material:CS
+  line process from:K-102.discharge to:E-102.tubeIn size:8 unit:in schedule:XXS material:CS
+  line process from:E-102.tubeOut to:D-102.inlet size:8 unit:in schedule:XXS material:CS
+  line process from:D-102.vapor to:PCV-603.inlet size:8 unit:in schedule:XXS material:CS
+  line process from:PCV-603.outlet to:DISCHARGE-1.header size:8 unit:in schedule:XXS material:CS
+  
+  // Anti-Surge Lines
+  line process from:K-101.discharge to:ASV-801.inlet size:6 unit:in schedule:XS material:CS
+  line process from:ASV-801.outlet to:K-101.inlet size:6 unit:in schedule:XS material:CS
+  line process from:K-102.discharge to:ASV-802.inlet size:4 unit:in schedule:XXS material:CS
+  line process from:ASV-802.outlet to:D-101.vapor size:4 unit:in schedule:XXS material:CS
+  
+  // Liquid Drain Lines
+  line process from:D-101.liquid to:P-101.inlet size:2 unit:in schedule:STD material:CS
+  line process from:P-101.discharge to:DRAIN-1.tank size:2 unit:in schedule:STD material:CS
+  line process from:D-102.liquid to:P-102.inlet size:2 unit:in schedule:STD material:CS
+  line process from:P-102.discharge to:DRAIN-1.tank size:2 unit:in schedule:STD material:CS
+  
+  // Utility Lines - Cooling Water
+  line utility from:CW-1.supply to:E-101.shellIn size:8 unit:in schedule:STD material:CS
+  line utility from:E-101.shellOut to:CW-1.return size:8 unit:in schedule:STD material:CS
+  line utility from:CW-1.supply to:E-102.shellIn size:6 unit:in schedule:STD material:CS
+  line utility from:E-102.shellOut to:CW-1.return size:6 unit:in schedule:STD material:CS
+  
+  // Signal Lines - Pressure Control
+  line signal from:PT-601 to:PIC-601
+  line signal from:PIC-601 to:PCV-601
+  line signal from:PT-602 to:PIC-602
+  line signal from:PIC-602 to:PCV-602
+  line signal from:PT-603 to:PIC-603
+  line signal from:PIC-603 to:PCV-603
+  
+  // Signal Lines - Anti-Surge Control
+  line signal from:FT-101 to:ASC-801
+  line signal from:PT-601 to:ASC-801
+  line signal from:ASC-801 to:ASV-801
+  line signal from:FT-102 to:ASC-802
+  line signal from:PT-602 to:ASC-802
+  line signal from:ASC-802 to:ASV-802
+  
+  // Signal Lines - Level Control
+  line signal from:LT-401 to:LIC-401
+  line signal from:LIC-401 to:P-101
+  line signal from:LT-402 to:LIC-402
+  line signal from:LIC-402 to:P-102
+  
+  // Signal Lines - Speed Control
+  line signal from:PIC-601 to:SC-701
+  line signal from:SC-701 to:K-101
+  line signal from:PIC-602 to:SC-702
+  line signal from:SC-702 to:K-102
+  
+  // Signal Lines - Vibration Monitoring
+  line signal from:VT-901 to:SC-701
+  line signal from:VT-902 to:SC-702
+  
+  // Control Loops
+  loop 601 controlled_variable:pressure setpoint:5 unit:bar controller:PIC-601 mode:auto
+  loop 602 controlled_variable:pressure setpoint:15 unit:bar controller:PIC-602 mode:auto
+  loop 603 controlled_variable:pressure setpoint:40 unit:bar controller:PIC-603 mode:auto
+  loop 401 controlled_variable:level setpoint:50 unit:% controller:LIC-401 mode:auto
+  loop 402 controlled_variable:level setpoint:50 unit:% controller:LIC-402 mode:auto
+  loop 701 controlled_variable:speed setpoint:12000 unit:rpm controller:SC-701 mode:cascade
+  loop 702 controlled_variable:speed setpoint:12000 unit:rpm controller:SC-702 mode:cascade
+  loop 801 controlled_variable:flow setpoint:3000 unit:m³/h controller:ASC-801 mode:auto
+  loop 802 controlled_variable:flow setpoint:3000 unit:m³/h controller:ASC-802 mode:auto
+  
+  // Process Specifications
+  fluid "Natural Gas"
+  pressure 40 unit:bar
+  temperature 40 unit:degC
+  flowRate 8000 unit:m³/h
+}

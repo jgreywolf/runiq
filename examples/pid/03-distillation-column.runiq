@@ -1,0 +1,101 @@
+// Distillation Column P&ID Example
+// Demonstrates complex distillation system with multiple control loops
+
+pid "Distillation Column" {
+  // Distillation Column
+  equipment C-101 type:distillationColumn material:SS316 rating:300#
+  
+  // Reboiler
+  equipment E-101 type:reboiler material:SS316 rating:300#
+  
+  // Condenser
+  equipment E-102 type:condenser material:SS316 rating:300#
+  
+  // Reflux Drum
+  equipment D-101 type:refluxDrum volume:2000 unit:L material:SS316
+  
+  // Reflux Pump
+  equipment P-101 type:pumpCentrifugal flowRate:30 unit:m³/h material:SS316
+  
+  // Product Pump
+  equipment P-102 type:pumpCentrifugal flowRate:20 unit:m³/h material:SS316
+  
+  // Bottoms Pump
+  equipment P-103 type:pumpCentrifugal flowRate:40 unit:m³/h material:SS316
+  
+  // Control Valves
+  equipment LCV-401 type:valveControl rating:300#
+  equipment LCV-402 type:valveControl rating:300#
+  equipment PCV-301 type:valveControl rating:300#
+  
+  // Temperature Transmitters (Column Profile)
+  instrument TT-201 type:temperatureTransmitter range:(50,250) unit:degC loop:201 location:field
+  instrument TT-202 type:temperatureTransmitter range:(50,250) unit:degC location:field
+  instrument TT-203 type:temperatureTransmitter range:(50,250) unit:degC location:field
+  instrument TT-204 type:temperatureTransmitter range:(50,250) unit:degC loop:204 location:field
+  
+  // Temperature Controllers
+  instrument TIC-201 type:temperatureIndicatorController range:(50,250) unit:degC loop:201 location:panel
+  instrument TIC-204 type:temperatureIndicatorController range:(50,250) unit:degC loop:204 location:panel
+  
+  // Pressure Transmitter and Controller
+  instrument PT-301 type:pressureTransmitter range:(0,5) unit:bar loop:301 location:field
+  instrument PIC-301 type:pressureIndicatorController range:(0,5) unit:bar loop:301 location:panel
+  
+  // Level Transmitters and Controllers
+  instrument LT-401 type:levelTransmitter range:(0,100) unit:% loop:401 location:field
+  instrument LIC-401 type:levelIndicatorController range:(0,100) unit:% loop:401 location:panel
+  instrument LT-402 type:levelTransmitter range:(0,100) unit:% loop:402 location:field
+  instrument LIC-402 type:levelIndicatorController range:(0,100) unit:% loop:402 location:panel
+  
+  // Flow Transmitters
+  instrument FT-101 type:flowTransmitter range:(0,150) unit:m³/h location:field
+  instrument FT-102 type:flowTransmitter range:(0,50) unit:m³/h location:field
+  instrument FT-103 type:flowTransmitter range:(0,30) unit:m³/h location:field
+  
+  // Process Lines - Feed and Products
+  line process from:FEED-1 to:C-101.feed size:4 unit:in schedule:XS material:SS316
+  line process from:C-101.overhead to:E-102.tubeIn size:6 unit:in schedule:SCH40 material:SS316
+  line process from:E-102.tubeOut to:D-101.inlet size:6 unit:in schedule:SCH40 material:SS316
+  line process from:D-101.outlet to:P-101.inlet size:4 unit:in schedule:SCH40 material:SS316
+  line process from:P-101.discharge to:C-101.reflux size:3 unit:in schedule:SCH40 material:SS316
+  line process from:D-101.distillate to:P-102.inlet size:3 unit:in schedule:SCH40 material:SS316
+  line process from:P-102.discharge to:LCV-401.inlet size:3 unit:in schedule:SCH40 material:SS316
+  line process from:C-101.bottoms to:E-101.tubeIn size:6 unit:in schedule:XS material:SS316
+  line process from:E-101.tubeOut to:C-101.reboiler size:6 unit:in schedule:XS material:SS316
+  line process from:C-101.bottoms to:P-103.inlet size:4 unit:in schedule:XS material:SS316
+  line process from:P-103.discharge to:LCV-402.inlet size:4 unit:in schedule:XS material:SS316
+  
+  // Utility Lines - Steam and Cooling Water
+  line utility from:STEAM-1.header to:E-101.shellIn size:3 unit:in material:CS
+  line utility from:E-101.shellOut to:COND-1.return size:3 unit:in material:CS
+  line utility from:CW-1.supply to:E-102.shellIn size:8 unit:in schedule:STD material:CS
+  line utility from:E-102.shellOut to:CW-1.return size:8 unit:in schedule:STD material:CS
+  
+  // Signal Lines - Temperature Control
+  line signal from:TT-201 to:TIC-201
+  line signal from:TIC-201 to:STEAM-1
+  line signal from:TT-204 to:TIC-204
+  
+  // Signal Lines - Pressure Control
+  line signal from:PT-301 to:PIC-301
+  line signal from:PIC-301 to:PCV-301
+  
+  // Signal Lines - Level Control
+  line signal from:LT-401 to:LIC-401
+  line signal from:LIC-401 to:LCV-401
+  line signal from:LT-402 to:LIC-402
+  line signal from:LIC-402 to:LCV-402
+  
+  // Control Loops
+  loop 201 controlled_variable:temperature setpoint:180 unit:degC controller:TIC-201 mode:auto
+  loop 204 controlled_variable:temperature setpoint:220 unit:degC controller:TIC-204 mode:auto
+  loop 301 controlled_variable:pressure setpoint:2.5 unit:bar controller:PIC-301 mode:auto
+  loop 401 controlled_variable:level setpoint:50 unit:% controller:LIC-401 mode:auto
+  loop 402 controlled_variable:level setpoint:50 unit:% controller:LIC-402 mode:auto
+  
+  // Process Specifications
+  fluid "Mixed Hydrocarbons"
+  pressure 2.5 unit:bar
+  flowRate 60 m³/h
+}
