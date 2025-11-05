@@ -115,8 +115,7 @@ pid "Batch Reactor with Safety Systems" {
   loop 701 controlled_variable:agitatorSpeed setpoint:300 unit:rpm controller:SC-701 mode:auto
   
   // Process Specifications
-  fluid "Organic Reaction Mixture"
-  pressure 4 unit:bar
-  temperature 85 unit:degC
-  flowRate 50 unit:m³/h
+  fluid biodegradable
+  pressure 4 bar operating
+  flowRate 50 m³/h
 }

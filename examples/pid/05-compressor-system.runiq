@@ -142,8 +142,7 @@ pid "Two-Stage Compressor System" {
   loop 802 controlled_variable:flow setpoint:3000 unit:m³/h controller:ASC-802 mode:auto
   
   // Process Specifications
-  fluid "Natural Gas"
-  pressure 40 unit:bar
-  temperature 40 unit:degC
-  flowRate 8000 unit:m³/h
+  fluid mineral
+  pressure 40 bar operating
+  flowRate 8000 m³/h
 }

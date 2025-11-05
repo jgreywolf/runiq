@@ -38,6 +38,6 @@ pid "Tank Pump Transfer" {
   loop 101 controlled_variable:flow setpoint:50 unit:m³/h controller:FIC-101 mode:auto
   
   // Process Specifications
-  fluid "Water"
-  pressure 3 unit:bar
+  fluid water-glycol
+  pressure 3 bar operating
 }

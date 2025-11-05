@@ -48,7 +48,7 @@ pid "Shell and Tube Heat Exchanger" {
   loop 201 controlled_variable:temperature setpoint:80 unit:degC controller:TIC-201 mode:auto
   
   // Process Specifications
-  fluid "Process Fluid"
-  pressure 8 unit:bar
+  fluid synthetic
+  pressure 8 bar operating
   flowRate 75 m³/h
 }

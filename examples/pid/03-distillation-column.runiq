@@ -95,7 +95,7 @@ pid "Distillation Column" {
   loop 402 controlled_variable:level setpoint:50 unit:% controller:LIC-402 mode:auto
   
   // Process Specifications
-  fluid "Mixed Hydrocarbons"
-  pressure 2.5 unit:bar
+  fluid mineral
+  pressure 2.5 bar operating
   flowRate 60 m³/h
 }
