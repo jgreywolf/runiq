@@ -179,13 +179,14 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 	test.describe('Template & Preset Syntax Validation', () => {
 		test('Should validate template definition syntax', async ({ page }) => {
 			await test.step('Enter template definition', async () => {
-				await page.locator('.cm-content').click();
-				await page.keyboard.type('diagram "Test"\n');
-				await page.keyboard.type('template "my-template" {\n');
-				await page.keyboard.type('  label: "My Template"\n');
-				await page.keyboard.type('  backgroundColor: "#e3f2fd"\n');
-				await page.keyboard.type('  padding: 20\n');
-				await page.keyboard.type('}');
+				const syntax = `diagram "Test" {
+  template "my-template" {
+    label: "My Template"
+    backgroundColor: "#e3f2fd"
+    padding: 20
+  }
+}`;
+				await page.locator('.cm-content').fill(syntax);
 			});
 
 			await test.step('Verify no syntax errors', async () => {
@@ -199,13 +200,14 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
 		test('Should validate preset definition syntax', async ({ page }) => {
 			await test.step('Enter preset definition', async () => {
-				await page.locator('.cm-content').click();
-				await page.keyboard.type('diagram "Test"\n');
-				await page.keyboard.type('preset "card" {\n');
-				await page.keyboard.type('  label: "Card Style"\n');
-				await page.keyboard.type('  padding: 15\n');
-				await page.keyboard.type('  shadow: true\n');
-				await page.keyboard.type('}');
+				const syntax = `diagram "Test" {
+  preset "card" {
+    label: "Card Style"
+    padding: 15
+    shadow: true
+  }
+}`;
+				await page.locator('.cm-content').fill(syntax);
 			});
 
 			await test.step('Verify no syntax errors', async () => {
@@ -217,14 +219,16 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
 		test('Should validate container with templateId', async ({ page }) => {
 			await test.step('Enter container with template reference', async () => {
-				await page.locator('.cm-content').click();
-				await page.keyboard.type('diagram "Test"\n');
-				await page.keyboard.type('template "service" {\n');
-				await page.keyboard.type('  backgroundColor: "#f0f0f0"\n');
-				await page.keyboard.type('}\n\n');
-				await page.keyboard.type('container "My Service" templateId: "service" {\n');
-				await page.keyboard.type('  shape api as @rectangle label: "API"\n');
-				await page.keyboard.type('}');
+				const syntax = `diagram "Test" {
+  template "service" {
+    backgroundColor: "#f0f0f0"
+  }
+
+  container "My Service" templateId: "service" {
+    shape api as @rectangle label: "API"
+  }
+}`;
+				await page.locator('.cm-content').fill(syntax);
 			});
 
 			await test.step('Verify no syntax errors', async () => {
@@ -236,14 +240,16 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
 		test('Should validate container with preset', async ({ page }) => {
 			await test.step('Enter container with preset reference', async () => {
-				await page.locator('.cm-content').click();
-				await page.keyboard.type('diagram "Test"\n');
-				await page.keyboard.type('preset "card" {\n');
-				await page.keyboard.type('  padding: 15\n');
-				await page.keyboard.type('}\n\n');
-				await page.keyboard.type('container "My Container" preset: "card" {\n');
-				await page.keyboard.type('  shape node as @rectangle label: "Node"\n');
-				await page.keyboard.type('}');
+				const syntax = `diagram "Test" {
+  preset "card" {
+    padding: 15
+  }
+
+  container "My Container" preset: "card" {
+    shape myNode as @rectangle label: "Node"
+  }
+}`;
+				await page.locator('.cm-content').fill(syntax);
 			});
 
 			await test.step('Verify no syntax errors', async () => {
@@ -259,18 +265,20 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 			await test.step('Enter complete diagram with templates and presets', async () => {
 				await page.locator('.cm-content').click();
 				await page.keyboard.type('diagram "Architecture"\n\n');
-				
+
 				await page.keyboard.type('template "microservice" {\n');
 				await page.keyboard.type('  backgroundColor: "#e3f2fd"\n');
 				await page.keyboard.type('  padding: 20\n');
 				await page.keyboard.type('}\n\n');
-				
+
 				await page.keyboard.type('preset "card" {\n');
 				await page.keyboard.type('  shadow: true\n');
 				await page.keyboard.type('  borderWidth: 1\n');
 				await page.keyboard.type('}\n\n');
-				
-				await page.keyboard.type('container "API Service" templateId: "microservice" preset: "card" {\n');
+
+				await page.keyboard.type(
+					'container "API Service" templateId: "microservice" preset: "card" {\n'
+				);
 				await page.keyboard.type('  shape api as @server label: "API Gateway"\n');
 				await page.keyboard.type('}');
 			});
@@ -286,18 +294,18 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 			await test.step('Enter diagram with inheritance', async () => {
 				await page.locator('.cm-content').click();
 				await page.keyboard.type('diagram "Inheritance"\n\n');
-				
+
 				await page.keyboard.type('container "Base" {\n');
 				await page.keyboard.type('  backgroundColor: "#f0f0f0"\n');
 				await page.keyboard.type('  padding: 20\n');
 				await page.keyboard.type('  shape base as @rectangle label: "Base"\n');
 				await page.keyboard.type('}\n\n');
-				
+
 				await page.keyboard.type('container "Extended" extends: "Base" {\n');
 				await page.keyboard.type('  borderColor: "#2196f3"\n');
 				await page.keyboard.type('  shape child as @rectangle label: "Child"\n');
 				await page.keyboard.type('}\n\n');
-				
+
 				await page.keyboard.type('base -> child');
 			});
 
