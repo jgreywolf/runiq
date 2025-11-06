@@ -1,4 +1,3 @@
-diagram "Sales Performance"{
-
+diagram "Sales Performance" {
   shape sales as @lineChart label:"Monthly Sales" data:[45, 52, 48, 61, 58, 65, 72, 68, 75, 80, 78, 85]
 }
