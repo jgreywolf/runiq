@@ -1530,6 +1530,36 @@ function processDialogStatement(
     const container = convertContainer(statement, declaredNodes, tempDiagram);
     if (!diagram.containers) diagram.containers = [];
     diagram.containers.push(container);
+  } else if (Langium.isDataSourceDeclaration(statement)) {
+    // Phase 2: Data source declarations
+    if (!(diagram as any).dataSources) (diagram as any).dataSources = [];
+    (diagram as any).dataSources.push({
+      format: statement.format.replace(/^"|"$/g, ''),
+      key: statement.key,
+      source: statement.source.replace(/^"|"$/g, ''),
+      options: statement.options?.map((opt) => {
+        let value: string | number | boolean = opt.value;
+        if (typeof value === 'string') {
+          // Strip quotes from strings
+          const unquoted = value.replace(/^"|"$/g, '');
+          // Convert boolean strings to actual booleans
+          if (unquoted === 'true') value = true;
+          else if (unquoted === 'false') value = false;
+          else value = unquoted;
+        }
+        return { name: opt.name, value };
+      }),
+    });
+  } else if (Langium.isDataTemplateBlock(statement)) {
+    // Phase 2: Data-driven template blocks
+    if (!(diagram as any).dataTemplates) (diagram as any).dataTemplates = [];
+    (diagram as any).dataTemplates.push({
+      id: statement.id.replace(/^"|"$/g, ''),
+      dataKey: statement.dataKey,
+      filter: statement.filter?.replace(/^"|"$/g, ''),
+      limit: statement.limit !== undefined ? Number(statement.limit) : undefined,
+      statements: statement.statements, // Keep raw statements for now
+    });
   } else if (Langium.isTemplateBlock(statement)) {
     // Phase 5: Template definitions
     const template = convertTemplate(statement);

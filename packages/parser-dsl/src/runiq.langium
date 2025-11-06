@@ -28,7 +28,9 @@ DiagramStatement:
     | GroupBlock
     | ContainerBlock
     | TemplateBlock
-    | PresetBlock;
+    | PresetBlock
+    | DataSourceDeclaration
+    | DataTemplateBlock;
 
 // ============================================================================
 // Electrical Profile (analog circuits) - accepts both 'electrical' and 'schematic' keywords
@@ -1087,7 +1089,88 @@ ContainerLayoutProperty:
     | 'orientation:' orientation=OrientationValue;
 
 // ============================================================================
-// Phase 5: Template & Preset Definitions
+// Phase 2: Data-Driven Rendering - Data Sources & Templates
+// ============================================================================
+
+// datasource "json" key:users from:"data/users.json"
+// datasource "csv" key:metrics from:"metrics.csv"
+DataSourceDeclaration:
+    'datasource' format=STRING 'key:' key=ID 'from:' source=STRING
+    ('options:' '{' options+=DataSourceOption (',' options+=DataSourceOption)* '}')?;
+
+DataSourceOption:
+    name=ID ':' value=(STRING | NUMBER | BooleanValue);
+
+// Data-driven template block: generates nodes/edges from data
+// template "userCard" from:users { ... }
+DataTemplateBlock:
+    'template' id=STRING 'from:' dataKey=ID '{'
+        ('filter:' filter=STRING)?
+        ('limit:' limit=NUMBER)?
+        statements+=TemplateStatement*
+    '}';
+
+TemplateStatement:
+    TemplateNodeDeclaration
+    | TemplateEdgeDeclaration
+    | ConditionalBlock
+    | LoopBlock;
+
+// Node with variable substitution: node ${item.id} shape:rect label:${item.name}
+TemplateNodeDeclaration:
+    'node' id=TemplateExpression properties+=TemplateNodeProperty*;
+
+TemplateNodeProperty:
+    'shape:' shape=ID
+    | 'label:' label=TemplateExpression
+    | 'fill:' fill=TemplateExpression
+    | 'stroke:' stroke=TemplateExpression
+    | 'style:' style=ID
+    | 'data:' '{' dataProps+=TemplateDataProperty (',' dataProps+=TemplateDataProperty)* '}';
+
+TemplateDataProperty:
+    key=TemplateIdentifier ':' value=TemplateExpression;
+
+// Edge with variable substitution: edge ${item.source} -> ${item.target}
+TemplateEdgeDeclaration:
+    'edge' from=TemplateExpression ARROW to=TemplateExpression properties+=TemplateEdgeProperty*;
+
+TemplateEdgeProperty:
+    'label:' label=TemplateExpression
+    | 'style:' style=ID
+    | 'when:' condition=TemplateExpression;
+
+// Conditional rendering: if ${item.active} { ... }
+ConditionalBlock:
+    'if' condition=TemplateExpression '{' statements+=TemplateStatement* '}';
+
+// Loop over data: for item in ${data.items} { ... }
+LoopBlock:
+    'for' variable=ID 'in' collection=TemplateExpression '{' statements+=TemplateStatement* '}';
+
+// Template expression: literal string, variable reference ${...}, or combination
+TemplateExpression:
+    parts+=TemplateExpressionPart+;
+
+TemplateExpressionPart:
+    TemplateLiteral | TemplateVariable;
+
+TemplateLiteral:
+    value=STRING;
+
+TemplateVariable:
+    '${' path=TemplateVariablePath '}';
+
+TemplateVariablePath:
+    segments+=TemplateIdentifier ('.' segments+=TemplateIdentifier)*;
+
+// Allow keywords as identifiers in template variable paths
+TemplateIdentifier returns string:
+    ID | 'data' | 'color' | 'header' | 'delimiter' | 'value' | 'type' | 'from' | 'to'
+    | 'label' | 'name' | 'id' | 'key' | 'format' | 'source' | 'filter' | 'limit';
+
+// ============================================================================
+// Phase 5: Template & Preset Definitions (Container Templates)
 // ============================================================================
 
 // template "name" { ... }
