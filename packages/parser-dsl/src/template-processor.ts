@@ -34,7 +34,8 @@ export type TemplateStatement =
   | TemplateNodeStatement
   | TemplateEdgeStatement
   | ConditionalStatement
-  | LoopStatement;
+  | LoopStatement
+  | TemplateCallStatement;
 
 /**
  * Template node declaration
@@ -75,6 +76,17 @@ export interface LoopStatement {
   variable: string;
   collection: TemplateExpression;
   statements: TemplateStatement[];
+}
+
+/**
+ * Template call statement (Phase 2.4)
+ * 
+ * Calls another template with optional parameters
+ */
+export interface TemplateCallStatement {
+  type: 'template-call';
+  templateId: string;
+  parameters?: Record<string, TemplateExpression>;
 }
 
 /**
@@ -238,6 +250,11 @@ function processStatements(
         edges.push(...result.edges);
         break;
       }
+      case 'template-call': {
+        // Template calls need template registry, handled separately
+        console.warn(`[Template ${context.templateId}] Template calls not yet supported in this context`);
+        break;
+      }
     }
   }
 
@@ -260,8 +277,16 @@ function processNodeStatement(
       return null;
     }
 
-    // Use default shape if not specified
-    const shape = statement.shape || 'rect';
+    // Evaluate shape (could be an expression)
+    let shape = 'rect'; // default
+    if (statement.shape) {
+      // Check if shape contains variable expression
+      if (statement.shape.includes('${')) {
+        shape = evaluateExpression(statement.shape, dataContext);
+      } else {
+        shape = statement.shape;
+      }
+    }
 
     // Evaluate all properties
     const properties: Record<string, unknown> = {};
@@ -450,6 +475,230 @@ function isTruthy(value: unknown): boolean {
 }
 
 /**
+ * Template registry for composition support
+ */
+export type TemplateRegistry = Map<string, DataTemplate>;
+
+/**
+ * Processing options with template registry
+ */
+export interface ProcessingOptions {
+  templateRegistry?: TemplateRegistry;
+}
+
+/**
+ * Process statements with template call support
+ */
+function processStatementsWithRegistry(
+  statements: TemplateStatement[],
+  dataContext: DataContext,
+  context: ProcessingContext,
+  options: ProcessingOptions
+): TemplateResult {
+  const nodes: ProcessedNode[] = [];
+  const edges: ProcessedEdge[] = [];
+
+  for (const statement of statements) {
+    switch (statement.type) {
+      case 'node': {
+        const node = processNodeStatement(statement, dataContext, context);
+        if (node) nodes.push(node);
+        break;
+      }
+      case 'edge': {
+        const edge = processEdgeStatement(statement, dataContext, context);
+        if (edge) edges.push(edge);
+        break;
+      }
+      case 'conditional': {
+        const result = processConditionalStatementWithRegistry(statement, dataContext, context, options);
+        nodes.push(...result.nodes);
+        edges.push(...result.edges);
+        break;
+      }
+      case 'loop': {
+        const result = processLoopStatementWithRegistry(statement, dataContext, context, options);
+        nodes.push(...result.nodes);
+        edges.push(...result.edges);
+        break;
+      }
+      case 'template-call': {
+        const result = processTemplateCall(statement, dataContext, context, options);
+        nodes.push(...result.nodes);
+        edges.push(...result.edges);
+        break;
+      }
+    }
+  }
+
+  return { nodes, edges };
+}
+
+/**
+ * Process a template call statement
+ * 
+ * Looks up the referenced template and processes it with merged context
+ */
+function processTemplateCall(
+  statement: TemplateCallStatement,
+  dataContext: DataContext,
+  context: ProcessingContext,
+  options: ProcessingOptions
+): TemplateResult {
+  if (!options.templateRegistry) {
+    console.warn(`[Template ${context.templateId}] No template registry available for template call`);
+    return { nodes: [], edges: [] };
+  }
+
+  const referencedTemplate = options.templateRegistry.get(statement.templateId);
+  if (!referencedTemplate) {
+    console.warn(`[Template ${context.templateId}] Template not found: ${statement.templateId}`);
+    return { nodes: [], edges: [] };
+  }
+
+  try {
+    // Evaluate parameters and merge into context
+    const callContext: DataContext = { ...dataContext };
+    if (statement.parameters) {
+      for (const [key, valueExpr] of Object.entries(statement.parameters)) {
+        callContext[key] = evaluateExpressionValue(valueExpr, dataContext);
+      }
+    }
+
+    // Process the referenced template's statements with the call context
+    return processStatementsWithRegistry(
+      referencedTemplate.statements,
+      callContext,
+      { templateId: statement.templateId, dataIndex: context.dataIndex },
+      options
+    );
+  } catch (error) {
+    console.error(`[Template ${context.templateId}] Error processing template call to ${statement.templateId}:`, error);
+    return { nodes: [], edges: [] };
+  }
+}
+
+/**
+ * Process conditional with registry support
+ */
+function processConditionalStatementWithRegistry(
+  statement: ConditionalStatement,
+  dataContext: DataContext,
+  context: ProcessingContext,
+  options: ProcessingOptions
+): TemplateResult {
+  try {
+    const conditionValue = evaluateExpressionValue(statement.condition, dataContext);
+    const isTrue = isTruthy(conditionValue);
+    
+    if (isTrue) {
+      return processStatementsWithRegistry(statement.statements, dataContext, context, options);
+    } else if (statement.elseStatements) {
+      return processStatementsWithRegistry(statement.elseStatements, dataContext, context, options);
+    }
+    
+    return { nodes: [], edges: [] };
+  } catch (error) {
+    console.error(`[Template ${context.templateId}] Error processing conditional:`, error);
+    return { nodes: [], edges: [] };
+  }
+}
+
+/**
+ * Process loop with registry support
+ */
+function processLoopStatementWithRegistry(
+  statement: LoopStatement,
+  dataContext: DataContext,
+  context: ProcessingContext,
+  options: ProcessingOptions
+): TemplateResult {
+  try {
+    const collectionValue = evaluateExpressionValue(statement.collection, dataContext);
+    
+    if (!Array.isArray(collectionValue)) {
+      console.warn(
+        `[Template ${context.templateId}] Loop collection is not an array at index ${context.dataIndex}`
+      );
+      return { nodes: [], edges: [] };
+    }
+    
+    const allNodes: ProcessedNode[] = [];
+    const allEdges: ProcessedEdge[] = [];
+    
+    collectionValue.forEach((loopItem: unknown, loopIndex: number) => {
+      const loopContext: DataContext = {
+        ...dataContext,
+        [statement.variable]: loopItem as Record<string, unknown>,
+        [`${statement.variable}_index`]: loopIndex,
+        [`${statement.variable}_first`]: loopIndex === 0,
+        [`${statement.variable}_last`]: loopIndex === collectionValue.length - 1,
+      };
+      
+      const result = processStatementsWithRegistry(statement.statements, loopContext, context, options);
+      allNodes.push(...result.nodes);
+      allEdges.push(...result.edges);
+    });
+    
+    return { nodes: allNodes, edges: allEdges };
+  } catch (error) {
+    console.error(`[Template ${context.templateId}] Error processing loop:`, error);
+    return { nodes: [], edges: [] };
+  }
+}
+
+/**
+ * Process a template with composition support
+ * 
+ * @param template Template definition
+ * @param data Data array to process
+ * @param options Processing options including template registry
+ */
+export function processTemplateWithComposition(
+  template: DataTemplate,
+  data: DataObject[],
+  options: ProcessingOptions = {}
+): TemplateResult {
+  const nodes: ProcessedNode[] = [];
+  const edges: ProcessedEdge[] = [];
+
+  // Apply filter if specified
+  let filteredData = data;
+  if (template.filter) {
+    filteredData = data.filter((item, index) => {
+      const filterContext: DataContext = { item, index, length: data.length };
+      try {
+        const result = evaluateExpressionValue(template.filter!, filterContext);
+        return isTruthy(result);
+      } catch (error) {
+        console.error(`[Template ${template.id}] Error evaluating filter for item ${index}:`, error);
+        return false;
+      }
+    });
+  }
+
+  // Apply limit if specified
+  if (template.limit !== undefined && template.limit > 0) {
+    filteredData = filteredData.slice(0, template.limit);
+  }
+
+  // Process each data item
+  filteredData.forEach((item, index) => {
+    const context: ProcessingContext = {
+      templateId: template.id,
+      dataIndex: index,
+    };
+
+    const dataContext: DataContext = { item };
+    const result = processStatementsWithRegistry(template.statements, dataContext, context, options);
+    nodes.push(...result.nodes);
+    edges.push(...result.edges);
+  });
+
+  return { nodes, edges };
+}
+
+/**
  * Apply multiple templates to their respective data sources
  * 
  * @param templates Array of templates to process
@@ -476,6 +725,10 @@ export function processTemplates(
   const allNodes: ProcessedNode[] = [];
   const allEdges: ProcessedEdge[] = [];
 
+  // Build template registry for composition
+  const registry: TemplateRegistry = new Map();
+  templates.forEach(template => registry.set(template.id, template));
+
   for (const template of templates) {
     const data = dataMap[template.dataKey];
     if (!data) {
@@ -483,7 +736,7 @@ export function processTemplates(
       continue;
     }
 
-    const result = processTemplate(template, data);
+    const result = processTemplateWithComposition(template, data, { templateRegistry: registry });
     allNodes.push(...result.nodes);
     allEdges.push(...result.edges);
   }
