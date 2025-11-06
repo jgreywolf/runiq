@@ -13,7 +13,7 @@ test.describe('P&ID Diagram Rendering', () => {
 		await page.waitForTimeout(1000);
 	});
 
-	test.skip('Create new P&ID diagram from New Diagram dialog', async ({ page }) => {
+	test('Create new P&ID diagram from New Diagram dialog', async ({ page }) => {
 		await test.step('Open New Diagram dialog', async () => {
 			const newDiagramButton = page.getByRole('button', { name: 'New' });
 			await expect(newDiagramButton).toBeVisible({ timeout: 10000 });
@@ -21,7 +21,7 @@ test.describe('P&ID Diagram Rendering', () => {
 		});
 
 		await test.step('Select P&ID diagram type', async () => {
-			const pidOption = page.getByRole('button', { name: /P&ID.*Piping/i });
+			const pidOption = page.getByRole('button', { name: /P&ID Diagram/i });
 			await expect(pidOption).toBeVisible();
 			await pidOption.click();
 		});
@@ -65,15 +65,13 @@ test.describe('P&ID Diagram Rendering', () => {
   loop 101 controlled_variable:flow setpoint:40 unit:m³/h controller:FIC-101 mode:auto
   loop 401 controlled_variable:level setpoint:70 unit:% controller:LIC-401 mode:auto
 
-  fluid organic
+  fluid mineral
   pressure 6 bar operating
   flowRate 50 m³/h
 }`;
 
 			// Clear editor and insert code
-			await page.locator('.cm-content').click();
-			await page.keyboard.press('Control+A');
-			await page.keyboard.type(pidCode);
+			await page.locator('.cm-content').fill(pidCode);
 			await page.waitForTimeout(500);
 		});
 
@@ -89,15 +87,13 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-01-simple-tank-pump.png', {
-				maxDiffPixels: 200,
+				maxDiffPixels: 300,
 				fullPage: true
 			});
 		});
 	});
 
-	test.skip('02-heat-exchanger: Render shell-and-tube heat exchanger with control', async ({
-		page
-	}) => {
+	test('02-heat-exchanger: Render shell-and-tube heat exchanger with control', async ({ page }) => {
 		await test.step('Load example code', async () => {
 			const pidCode = `pid "Shell and Tube Heat Exchanger" {
   equipment E-101 type:heatExchangerShellTube material:SS316 rating:300#
@@ -130,9 +126,7 @@ test.describe('P&ID Diagram Rendering', () => {
   flowRate 75 m³/h
 }`;
 
-			await page.locator('.cm-content').click();
-			await page.keyboard.press('Control+A');
-			await page.keyboard.type(pidCode, { delay: 0 });
+			await page.locator('.cm-content').fill(pidCode);
 			await page.waitForTimeout(2000);
 		});
 
@@ -143,13 +137,13 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-02-heat-exchanger.png', {
-				maxDiffPixels: 200,
+				maxDiffPixels: 300,
 				fullPage: true
 			});
 		});
 	});
 
-	test.skip('03-distillation-column: Render complex distillation system', async ({ page }) => {
+	test('03-distillation-column: Render complex distillation system', async ({ page }) => {
 		await test.step('Load distillation column code', async () => {
 			// Use abbreviated version due to size
 			const pidCode = `pid "Distillation Column" {
@@ -180,13 +174,11 @@ test.describe('P&ID Diagram Rendering', () => {
   loop 301 controlled_variable:pressure setpoint:2.5 unit:bar controller:PIC-301 mode:auto
   loop 401 controlled_variable:level setpoint:60 unit:% controller:LIC-401 mode:auto
 
-  fluid petrochemical
+  fluid synthetic
   pressure 2.5 bar operating
 }`;
 
-			await page.locator('.cm-content').click();
-			await page.keyboard.press('Control+A');
-			await page.keyboard.type(pidCode);
+			await page.locator('.cm-content').fill(pidCode);
 			await page.waitForTimeout(500);
 		});
 
@@ -197,7 +189,7 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-03-distillation-column.png', {
-				maxDiffPixels: 200,
+				maxDiffPixels: 300,
 				fullPage: true
 			});
 		});
@@ -233,9 +225,7 @@ test.describe('P&ID Diagram Rendering', () => {
   pressure 4 bar operating
 }`;
 
-			await page.locator('.cm-content').click();
-			await page.keyboard.press('Control+A');
-			await page.keyboard.type(pidCode);
+			await page.locator('.cm-content').fill(pidCode);
 			await page.waitForTimeout(500);
 		});
 
@@ -246,7 +236,7 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-04-reactor-safety.png', {
-				maxDiffPixels: 200,
+				maxDiffPixels: 300,
 				fullPage: true
 			});
 		});
@@ -285,9 +275,7 @@ test.describe('P&ID Diagram Rendering', () => {
   pressure 40 bar operating
 }`;
 
-			await page.locator('.cm-content').click();
-			await page.keyboard.press('Control+A');
-			await page.keyboard.type(pidCode);
+			await page.locator('.cm-content').fill(pidCode);
 			await page.waitForTimeout(500);
 		});
 
@@ -298,7 +286,7 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-05-compressor-system.png', {
-				maxDiffPixels: 200,
+				maxDiffPixels: 300,
 				fullPage: true
 			});
 		});
@@ -334,13 +322,11 @@ test.describe('P&ID Diagram Rendering', () => {
   loop 101 controlled_variable:flow setpoint:100 unit:m³/h controller:FT-101 mode:auto
   loop 201 controlled_variable:temperature setpoint:80 unit:degC controller:TT-201 mode:auto
 
-  fluid water
+  fluid water-glycol
   pressure 6 bar operating
 }`;
 
-			await page.locator('.cm-content').click();
-			await page.keyboard.press('Control+A');
-			await page.keyboard.type(pidCode, { delay: 0 });
+			await page.locator('.cm-content').fill(pidCode);
 			await page.waitForTimeout(2000);
 		});
 

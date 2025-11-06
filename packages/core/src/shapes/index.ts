@@ -109,6 +109,7 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.pieChart);
   shapeRegistry.register(charts.barChartVertical);
   shapeRegistry.register(charts.barChartHorizontal);
+  shapeRegistry.register(charts.lineChart);
   shapeRegistry.register(charts.pyramidShape);
   shapeRegistry.register(charts.venn2Shape);
   shapeRegistry.register(charts.venn3Shape);
