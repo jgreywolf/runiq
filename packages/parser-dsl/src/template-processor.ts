@@ -1,8 +1,10 @@
 /**
  * Template Processor Module
  * Phase 2.2: Variable Substitution Implementation
- * 
+ * Phase 3.3: Dynamic Shape Generator Integration
+ *
  * Processes data-driven templates to generate diagram elements (nodes, edges).
+ * Integrates with dynamic shape generator for auto-generating nodes/edges with style mapping.
  */
 
 import {
@@ -10,6 +12,15 @@ import {
   evaluateExpressionValue,
   type DataContext,
 } from './template-evaluator.js';
+import {
+  generateNodes,
+  generateEdges,
+  generateNodesAndEdges,
+  type NodeGenerationConfig,
+  type EdgeGenerationConfig,
+  type GeneratedNode,
+  type GeneratedEdge,
+} from './dynamic-shape-generator.js';
 
 /**
  * Generic data object (compatible with @runiq/core DataObject)
@@ -80,7 +91,7 @@ export interface LoopStatement {
 
 /**
  * Template call statement (Phase 2.4)
- * 
+ *
  * Calls another template with optional parameters
  */
 export interface TemplateCallStatement {
@@ -131,11 +142,11 @@ export interface ProcessingContext {
 
 /**
  * Process a data template against provided data array
- * 
+ *
  * @param template Template definition with statements
  * @param data Array of data objects to process
  * @returns Generated nodes and edges
- * 
+ *
  * @example
  * ```typescript
  * const template = {
@@ -180,12 +191,15 @@ export function processTemplate(
         index,
         length: data.length,
       };
-      
+
       try {
         const result = evaluateExpressionValue(template.filter!, filterContext);
         return isTruthy(result);
       } catch (error) {
-        console.error(`[Template ${template.id}] Error evaluating filter for item ${index}:`, error);
+        console.error(
+          `[Template ${template.id}] Error evaluating filter for item ${index}:`,
+          error
+        );
         return false;
       }
     });
@@ -239,7 +253,11 @@ function processStatements(
         break;
       }
       case 'conditional': {
-        const result = processConditionalStatement(statement, dataContext, context);
+        const result = processConditionalStatement(
+          statement,
+          dataContext,
+          context
+        );
         nodes.push(...result.nodes);
         edges.push(...result.edges);
         break;
@@ -252,7 +270,9 @@ function processStatements(
       }
       case 'template-call': {
         // Template calls need template registry, handled separately
-        console.warn(`[Template ${context.templateId}] Template calls not yet supported in this context`);
+        console.warn(
+          `[Template ${context.templateId}] Template calls not yet supported in this context`
+        );
         break;
       }
     }
@@ -273,7 +293,9 @@ function processNodeStatement(
     // Evaluate node ID (preserve type for numeric/string IDs)
     const id = evaluateExpressionValue(statement.id, dataContext);
     if (id === undefined || id === null) {
-      console.warn(`[Template ${context.templateId}] Node ID is undefined at index ${context.dataIndex}`);
+      console.warn(
+        `[Template ${context.templateId}] Node ID is undefined at index ${context.dataIndex}`
+      );
       return null;
     }
 
@@ -294,7 +316,12 @@ function processNodeStatement(
       for (const [key, valueExpr] of Object.entries(statement.properties)) {
         // For most properties, we want string values
         // Special handling for certain properties could be added here
-        if (key === 'fill' || key === 'stroke' || key === 'label' || key === 'text') {
+        if (
+          key === 'fill' ||
+          key === 'stroke' ||
+          key === 'label' ||
+          key === 'text'
+        ) {
           properties[key] = evaluateExpression(valueExpr, dataContext);
         } else {
           // For other properties, preserve type
@@ -309,7 +336,10 @@ function processNodeStatement(
       properties,
     };
   } catch (error) {
-    console.error(`[Template ${context.templateId}] Error processing node at index ${context.dataIndex}:`, error);
+    console.error(
+      `[Template ${context.templateId}] Error processing node at index ${context.dataIndex}:`,
+      error
+    );
     return null;
   }
 }
@@ -327,8 +357,15 @@ function processEdgeStatement(
     const from = evaluateExpressionValue(statement.from, dataContext);
     const to = evaluateExpressionValue(statement.to, dataContext);
 
-    if (from === undefined || from === null || to === undefined || to === null) {
-      console.warn(`[Template ${context.templateId}] Edge endpoints undefined at index ${context.dataIndex}`);
+    if (
+      from === undefined ||
+      from === null ||
+      to === undefined ||
+      to === null
+    ) {
+      console.warn(
+        `[Template ${context.templateId}] Edge endpoints undefined at index ${context.dataIndex}`
+      );
       return null;
     }
 
@@ -351,17 +388,20 @@ function processEdgeStatement(
       properties,
     };
   } catch (error) {
-    console.error(`[Template ${context.templateId}] Error processing edge at index ${context.dataIndex}:`, error);
+    console.error(
+      `[Template ${context.templateId}] Error processing edge at index ${context.dataIndex}:`,
+      error
+    );
     return null;
   }
 }
 
 /**
  * Process a conditional statement
- * 
+ *
  * Evaluates the condition expression and processes the statements if truthy.
  * Supports else blocks for false conditions.
- * 
+ *
  * @example
  * ```
  * if ${item.active} {
@@ -376,31 +416,37 @@ function processConditionalStatement(
 ): TemplateResult {
   try {
     // Evaluate condition expression
-    const conditionValue = evaluateExpressionValue(statement.condition, dataContext);
-    
+    const conditionValue = evaluateExpressionValue(
+      statement.condition,
+      dataContext
+    );
+
     // Check truthiness (JavaScript semantics)
     const isTrue = isTruthy(conditionValue);
-    
+
     // Process appropriate branch
     if (isTrue) {
       return processStatements(statement.statements, dataContext, context);
     } else if (statement.elseStatements) {
       return processStatements(statement.elseStatements, dataContext, context);
     }
-    
+
     return { nodes: [], edges: [] };
   } catch (error) {
-    console.error(`[Template ${context.templateId}] Error processing conditional at index ${context.dataIndex}:`, error);
+    console.error(
+      `[Template ${context.templateId}] Error processing conditional at index ${context.dataIndex}:`,
+      error
+    );
     return { nodes: [], edges: [] };
   }
 }
 
 /**
  * Process a loop statement
- * 
+ *
  * Evaluates the collection expression and iterates over each item,
  * processing the loop body with the loop variable in context.
- * 
+ *
  * @example
  * ```
  * for user in ${item.members} {
@@ -415,8 +461,11 @@ function processLoopStatement(
 ): TemplateResult {
   try {
     // Evaluate collection expression
-    const collectionValue = evaluateExpressionValue(statement.collection, dataContext);
-    
+    const collectionValue = evaluateExpressionValue(
+      statement.collection,
+      dataContext
+    );
+
     // Ensure we have an array
     if (!Array.isArray(collectionValue)) {
       console.warn(
@@ -425,10 +474,10 @@ function processLoopStatement(
       );
       return { nodes: [], edges: [] };
     }
-    
+
     const allNodes: ProcessedNode[] = [];
     const allEdges: ProcessedEdge[] = [];
-    
+
     // Iterate over collection
     collectionValue.forEach((loopItem: unknown, loopIndex: number) => {
       // Create new context with loop variable
@@ -437,39 +486,53 @@ function processLoopStatement(
         [statement.variable]: loopItem as Record<string, unknown>,
         [`${statement.variable}_index`]: loopIndex,
         [`${statement.variable}_first`]: loopIndex === 0,
-        [`${statement.variable}_last`]: loopIndex === collectionValue.length - 1,
+        [`${statement.variable}_last`]:
+          loopIndex === collectionValue.length - 1,
       };
-      
+
       // Process loop body
-      const result = processStatements(statement.statements, loopContext, context);
+      const result = processStatements(
+        statement.statements,
+        loopContext,
+        context
+      );
       allNodes.push(...result.nodes);
       allEdges.push(...result.edges);
     });
-    
+
     return { nodes: allNodes, edges: allEdges };
   } catch (error) {
-    console.error(`[Template ${context.templateId}] Error processing loop at index ${context.dataIndex}:`, error);
+    console.error(
+      `[Template ${context.templateId}] Error processing loop at index ${context.dataIndex}:`,
+      error
+    );
     return { nodes: [], edges: [] };
   }
 }
 
 /**
  * Determine truthiness of a value (JavaScript semantics)
- * 
+ *
  * Falsy values: false, 0, '', null, undefined, NaN
  * Truthy values: everything else (including empty arrays/objects)
  */
 function isTruthy(value: unknown): boolean {
   // Explicit false checks
-  if (value === false || value === 0 || value === '' || value === null || value === undefined) {
+  if (
+    value === false ||
+    value === 0 ||
+    value === '' ||
+    value === null ||
+    value === undefined
+  ) {
     return false;
   }
-  
+
   // NaN check
   if (typeof value === 'number' && isNaN(value)) {
     return false;
   }
-  
+
   // Everything else is truthy (including empty arrays/objects)
   return true;
 }
@@ -511,19 +574,34 @@ function processStatementsWithRegistry(
         break;
       }
       case 'conditional': {
-        const result = processConditionalStatementWithRegistry(statement, dataContext, context, options);
+        const result = processConditionalStatementWithRegistry(
+          statement,
+          dataContext,
+          context,
+          options
+        );
         nodes.push(...result.nodes);
         edges.push(...result.edges);
         break;
       }
       case 'loop': {
-        const result = processLoopStatementWithRegistry(statement, dataContext, context, options);
+        const result = processLoopStatementWithRegistry(
+          statement,
+          dataContext,
+          context,
+          options
+        );
         nodes.push(...result.nodes);
         edges.push(...result.edges);
         break;
       }
       case 'template-call': {
-        const result = processTemplateCall(statement, dataContext, context, options);
+        const result = processTemplateCall(
+          statement,
+          dataContext,
+          context,
+          options
+        );
         nodes.push(...result.nodes);
         edges.push(...result.edges);
         break;
@@ -536,7 +614,7 @@ function processStatementsWithRegistry(
 
 /**
  * Process a template call statement
- * 
+ *
  * Looks up the referenced template and processes it with merged context
  */
 function processTemplateCall(
@@ -546,13 +624,17 @@ function processTemplateCall(
   options: ProcessingOptions
 ): TemplateResult {
   if (!options.templateRegistry) {
-    console.warn(`[Template ${context.templateId}] No template registry available for template call`);
+    console.warn(
+      `[Template ${context.templateId}] No template registry available for template call`
+    );
     return { nodes: [], edges: [] };
   }
 
   const referencedTemplate = options.templateRegistry.get(statement.templateId);
   if (!referencedTemplate) {
-    console.warn(`[Template ${context.templateId}] Template not found: ${statement.templateId}`);
+    console.warn(
+      `[Template ${context.templateId}] Template not found: ${statement.templateId}`
+    );
     return { nodes: [], edges: [] };
   }
 
@@ -573,7 +655,10 @@ function processTemplateCall(
       options
     );
   } catch (error) {
-    console.error(`[Template ${context.templateId}] Error processing template call to ${statement.templateId}:`, error);
+    console.error(
+      `[Template ${context.templateId}] Error processing template call to ${statement.templateId}:`,
+      error
+    );
     return { nodes: [], edges: [] };
   }
 }
@@ -588,18 +673,34 @@ function processConditionalStatementWithRegistry(
   options: ProcessingOptions
 ): TemplateResult {
   try {
-    const conditionValue = evaluateExpressionValue(statement.condition, dataContext);
+    const conditionValue = evaluateExpressionValue(
+      statement.condition,
+      dataContext
+    );
     const isTrue = isTruthy(conditionValue);
-    
+
     if (isTrue) {
-      return processStatementsWithRegistry(statement.statements, dataContext, context, options);
+      return processStatementsWithRegistry(
+        statement.statements,
+        dataContext,
+        context,
+        options
+      );
     } else if (statement.elseStatements) {
-      return processStatementsWithRegistry(statement.elseStatements, dataContext, context, options);
+      return processStatementsWithRegistry(
+        statement.elseStatements,
+        dataContext,
+        context,
+        options
+      );
     }
-    
+
     return { nodes: [], edges: [] };
   } catch (error) {
-    console.error(`[Template ${context.templateId}] Error processing conditional:`, error);
+    console.error(
+      `[Template ${context.templateId}] Error processing conditional:`,
+      error
+    );
     return { nodes: [], edges: [] };
   }
 }
@@ -614,42 +715,54 @@ function processLoopStatementWithRegistry(
   options: ProcessingOptions
 ): TemplateResult {
   try {
-    const collectionValue = evaluateExpressionValue(statement.collection, dataContext);
-    
+    const collectionValue = evaluateExpressionValue(
+      statement.collection,
+      dataContext
+    );
+
     if (!Array.isArray(collectionValue)) {
       console.warn(
         `[Template ${context.templateId}] Loop collection is not an array at index ${context.dataIndex}`
       );
       return { nodes: [], edges: [] };
     }
-    
+
     const allNodes: ProcessedNode[] = [];
     const allEdges: ProcessedEdge[] = [];
-    
+
     collectionValue.forEach((loopItem: unknown, loopIndex: number) => {
       const loopContext: DataContext = {
         ...dataContext,
         [statement.variable]: loopItem as Record<string, unknown>,
         [`${statement.variable}_index`]: loopIndex,
         [`${statement.variable}_first`]: loopIndex === 0,
-        [`${statement.variable}_last`]: loopIndex === collectionValue.length - 1,
+        [`${statement.variable}_last`]:
+          loopIndex === collectionValue.length - 1,
       };
-      
-      const result = processStatementsWithRegistry(statement.statements, loopContext, context, options);
+
+      const result = processStatementsWithRegistry(
+        statement.statements,
+        loopContext,
+        context,
+        options
+      );
       allNodes.push(...result.nodes);
       allEdges.push(...result.edges);
     });
-    
+
     return { nodes: allNodes, edges: allEdges };
   } catch (error) {
-    console.error(`[Template ${context.templateId}] Error processing loop:`, error);
+    console.error(
+      `[Template ${context.templateId}] Error processing loop:`,
+      error
+    );
     return { nodes: [], edges: [] };
   }
 }
 
 /**
  * Process a template with composition support
- * 
+ *
  * @param template Template definition
  * @param data Data array to process
  * @param options Processing options including template registry
@@ -671,7 +784,10 @@ export function processTemplateWithComposition(
         const result = evaluateExpressionValue(template.filter!, filterContext);
         return isTruthy(result);
       } catch (error) {
-        console.error(`[Template ${template.id}] Error evaluating filter for item ${index}:`, error);
+        console.error(
+          `[Template ${template.id}] Error evaluating filter for item ${index}:`,
+          error
+        );
         return false;
       }
     });
@@ -690,7 +806,12 @@ export function processTemplateWithComposition(
     };
 
     const dataContext: DataContext = { item };
-    const result = processStatementsWithRegistry(template.statements, dataContext, context, options);
+    const result = processStatementsWithRegistry(
+      template.statements,
+      dataContext,
+      context,
+      options
+    );
     nodes.push(...result.nodes);
     edges.push(...result.edges);
   });
@@ -700,11 +821,11 @@ export function processTemplateWithComposition(
 
 /**
  * Apply multiple templates to their respective data sources
- * 
+ *
  * @param templates Array of templates to process
  * @param dataMap Map of dataKey to data arrays
  * @returns Combined result from all templates
- * 
+ *
  * @example
  * ```typescript
  * const templates = [
@@ -727,16 +848,20 @@ export function processTemplates(
 
   // Build template registry for composition
   const registry: TemplateRegistry = new Map();
-  templates.forEach(template => registry.set(template.id, template));
+  templates.forEach((template) => registry.set(template.id, template));
 
   for (const template of templates) {
     const data = dataMap[template.dataKey];
     if (!data) {
-      console.warn(`[Template ${template.id}] Data not found for key: ${template.dataKey}`);
+      console.warn(
+        `[Template ${template.id}] Data not found for key: ${template.dataKey}`
+      );
       continue;
     }
 
-    const result = processTemplateWithComposition(template, data, { templateRegistry: registry });
+    const result = processTemplateWithComposition(template, data, {
+      templateRegistry: registry,
+    });
     allNodes.push(...result.nodes);
     allEdges.push(...result.edges);
   }
@@ -746,3 +871,141 @@ export function processTemplates(
     edges: allEdges,
   };
 }
+
+// ============================================================================
+// Phase 3.3: Dynamic Shape Generation Integration
+// ============================================================================
+
+/**
+ * Process template with dynamic shape generation
+ * Combines template processing with auto-generated nodes/edges and style mapping
+ * 
+ * @example
+ * ```typescript
+ * const result = processTemplateWithGeneration(template, data, {
+ *   nodeConfig: {
+ *     shape: 'rect',
+ *     idField: 'id',
+ *     fieldMappings: { label: 'name' },
+ *     styleMappings: [{
+ *       property: 'fill',
+ *       field: 'status',
+ *       type: 'category',
+ *       categories: { active: 'green', inactive: 'gray' }
+ *     }]
+ *   }
+ * });
+ * ```
+ */
+export function processTemplateWithGeneration(
+  template: DataTemplate,
+  data: DataObject[],
+  options: {
+    nodeConfig?: NodeGenerationConfig;
+    edgeConfig?: EdgeGenerationConfig;
+    templateRegistry?: TemplateRegistry;
+  } = {}
+): TemplateResult {
+  // First, process the template normally
+  const templateResult = processTemplateWithComposition(template, data, {
+    templateRegistry: options.templateRegistry,
+  });
+
+  // Then, optionally generate additional nodes/edges
+  let generatedNodes: GeneratedNode[] = [];
+  let generatedEdges: GeneratedEdge[] = [];
+
+  if (options.nodeConfig) {
+    generatedNodes = generateNodes(data, options.nodeConfig);
+  }
+
+  if (options.edgeConfig) {
+    generatedEdges = generateEdges(data, options.edgeConfig);
+  }
+
+  // Convert generated nodes to template nodes format
+  const nodes = [
+    ...templateResult.nodes,
+    ...generatedNodes.map((gn) => ({
+      id: gn.id,
+      shape: gn.shape,
+      properties: gn.properties,
+    })),
+  ];
+
+  // Convert generated edges to template edges format
+  const edges = [
+    ...templateResult.edges,
+    ...generatedEdges.map((ge) => ({
+      from: ge.from,
+      to: ge.to,
+      type: ge.type,
+      properties: ge.properties,
+    })),
+  ];
+
+  return { nodes, edges };
+}
+
+/**
+ * Generate nodes and edges directly from relational data
+ * Useful for creating network diagrams from relationship data
+ * 
+ * @example
+ * ```typescript
+ * const data = [
+ *   { from: 'Alice', to: 'Bob', weight: 10 },
+ *   { from: 'Bob', to: 'Charlie', weight: 5 }
+ * ];
+ * 
+ * const result = generateDiagramFromRelationalData(data, {
+ *   nodeConfig: { shape: 'circle' },
+ *   edgeConfig: {
+ *     fromField: 'from',
+ *     toField: 'to',
+ *     fieldMappings: { label: 'weight' }
+ *   }
+ * });
+ * ```
+ */
+export function generateDiagramFromRelationalData(
+  data: DataObject[],
+  options: {
+    nodeConfig?: Omit<NodeGenerationConfig, 'idField'>;
+    edgeConfig: EdgeGenerationConfig;
+  }
+): TemplateResult {
+  const result = generateNodesAndEdges(data, {
+    nodeConfig: options.nodeConfig,
+    edgeConfig: options.edgeConfig,
+  });
+
+  // Convert to template format
+  const nodes = result.nodes.map((gn) => ({
+    id: gn.id,
+    shape: gn.shape,
+    properties: gn.properties,
+  }));
+
+  const edges = result.edges.map((ge) => ({
+    from: ge.from,
+    to: ge.to,
+    type: ge.type,
+    properties: ge.properties,
+  }));
+
+  return { nodes, edges };
+}
+
+/**
+ * Re-export dynamic shape generation functions for convenience
+ */
+export {
+  generateNodes,
+  generateEdges,
+  generateNodesAndEdges,
+  type NodeGenerationConfig,
+  type EdgeGenerationConfig,
+  type GeneratedNode,
+  type GeneratedEdge,
+} from './dynamic-shape-generator.js';
