@@ -353,7 +353,7 @@ PIDLineToProperty:
     'to:' to=ConnectionPoint;
 
 ConnectionPoint:
-    equipment=TAG ('.' port=ID)?;
+    equipment=TAG ('.' port=FlexibleID)?;
 
 PIDLineSizeProperty:
     'size:' size=NUMBER ('unit:' unit=SizeUnit)?;
@@ -607,7 +607,7 @@ StylePropertyKey returns string:
 // shape node1 as @rounded label: "My Node" style: myStyle icon: fa/user link: "http://example.com"
 // shape node1 label: "My Node" (shape optional if inside type:mindmap container)
 ShapeDeclaration:
-    'shape' id=ID ('as' '@' shape=ShapeIdentifier)? properties+=NodeProperty*;
+    'shape' id=FlexibleID ('as' '@' shape=ShapeIdentifier)? properties+=NodeProperty*;
 
 // Allow shape IDs, regular IDs, and certain keywords that are valid shape names
 ShapeIdentifier returns string:
@@ -617,8 +617,9 @@ ShapeIdentifier returns string:
     | 'port' | 'module' | 'template' | 'history' | 'pin' | 'assembly'
     | 'providedInterface' | 'requiredInterface' | 'frame' | 'collaboration'
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
-    | 'activityFinal' | 'flowFinal'
-    | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate';
+    | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
+    | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
+    | 'db' | 'pill';
 
 NodeProperty:
     LabelProperty
@@ -892,8 +893,9 @@ EdgeChain:
     (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW) to=NodeRef;
 
 // Support both simple node references (node1) and member references (Class.field)
+// Use FlexibleID to allow keywords like 'data', 'label', 'm' as node names
 NodeRef:
-    node=ID ('.' member=ID)?;
+    node=FlexibleID ('.' member=FlexibleID)?;
 
 EdgeProperty:
     EdgeLabelProperty
@@ -982,7 +984,7 @@ GroupBlock:
 // container "Label" { ... } with optional properties
 // Now supports: container id "Label" as @shapeName { ... }
 ContainerBlock:
-    'container' (id=ID)? label=STRING ('as' '@' shape=(SHAPE_ID | ID))? properties+=ContainerProperty* '{'
+    'container' (id=FlexibleID)? label=STRING ('as' '@' shape=(SHAPE_ID | FlexibleID))? properties+=ContainerProperty* '{'
         statements+=DiagramStatement*
     '}';
 
@@ -1163,6 +1165,21 @@ TemplateVariable:
 
 TemplateVariablePath:
     segments+=TemplateIdentifier ('.' segments+=TemplateIdentifier)*;
+
+// Allow keywords as identifiers in node/edge IDs and other contexts
+// This prevents conflicts when users want to use reserved property names as node IDs
+// Common words from examples: data, label, process, start, end, mobile, etc.
+FlexibleID returns string:
+    ID 
+    // Data-driven keywords
+    | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit' | 'template'
+    // Property keywords  
+    | 'label' | 'name' | 'id' | 'type' | 'value' | 'format' | 'color' | 'header' | 'delimiter'
+    // Control flow keywords
+    | 'for' | 'in' | 'if' | 'loop' | 'call'
+    // Common node names
+    | 'start' | 'end' | 'done' | 'process' | 'mobile' | 'm' | 'f' | 'step' | 'action'
+    | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue';
 
 // Allow keywords as identifiers in template variable paths
 TemplateIdentifier returns string:
