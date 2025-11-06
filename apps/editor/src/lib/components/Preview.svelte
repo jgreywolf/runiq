@@ -9,11 +9,12 @@
 	// Props
 	interface Props {
 		code: string;
+		dataContent?: string;
 		layoutEngine?: string;
 		onparse?: (success: boolean, errors: string[]) => void;
 	}
 
-	let { code = '', layoutEngine = 'elk', onparse }: Props = $props();
+	let { code = '', dataContent = '', layoutEngine = 'elk', onparse }: Props = $props();
 
 	let svgOutput = $state('');
 	let errors = $state<string[]>([]);
@@ -48,9 +49,80 @@
 
 	let svgContainer: HTMLDivElement;
 	let lastCode = '';
+	let lastDataContent = '';
 
 	// Debounce timer
 	let debounceTimer: ReturnType<typeof setTimeout>;
+
+	// Process data content and inject into DSL
+	function injectDataIntoCode(syntaxCode: string, data: string): string {
+		if (!data || !data.trim()) {
+			return syntaxCode; // No data to inject
+		}
+
+		const trimmedData = data.trim();
+		let dataBlocks: string[] = [];
+
+		// Detect format
+		const looksLikeJson = trimmedData.startsWith('{') || trimmedData.startsWith('[');
+
+		if (looksLikeJson) {
+			// Parse JSON and create data source blocks
+			try {
+				const parsed = JSON.parse(trimmedData);
+				
+				// If it's an object with named datasets
+				if (typeof parsed === 'object' && !Array.isArray(parsed)) {
+					for (const [name, dataset] of Object.entries(parsed)) {
+						dataBlocks.push(`data source:${name} ${JSON.stringify(dataset)}`);
+					}
+				} 
+				// If it's a single array, use default name
+				else if (Array.isArray(parsed)) {
+					dataBlocks.push(`data source:dataset ${JSON.stringify(parsed)}`);
+				}
+			} catch (e: any) {
+				console.error('Failed to parse JSON data:', e);
+				return syntaxCode; // Return original code if JSON is invalid
+			}
+		} else {
+			// Treat as CSV
+			const lines = trimmedData.split('\n').map(l => l.trim()).filter(l => l);
+			
+			if (lines.length > 0) {
+				// Parse CSV headers and rows
+				const headers = lines[0].split(',').map(h => h.trim());
+				const rows = lines.slice(1).map(line => {
+					const values = line.split(',').map(v => v.trim());
+					const obj: any = {};
+					headers.forEach((header, i) => {
+						// Try to parse as number if possible
+						const value = values[i];
+						obj[header] = isNaN(Number(value)) ? value : Number(value);
+					});
+					return obj;
+				});
+				
+				dataBlocks.push(`data source:dataset ${JSON.stringify(rows)}`);
+			}
+		}
+
+		// Inject data blocks at the beginning of the diagram
+		if (dataBlocks.length > 0) {
+			// Find the diagram declaration
+			const diagramMatch = syntaxCode.match(/(diagram|electrical|pneumatic|hydraulic|wardley|sequence|pid)\s+"([^"]+)"\s*{/);
+			
+			if (diagramMatch) {
+				const insertPos = diagramMatch.index! + diagramMatch[0].length;
+				const before = syntaxCode.substring(0, insertPos);
+				const after = syntaxCode.substring(insertPos);
+				
+				return before + '\n  ' + dataBlocks.join('\n  ') + '\n' + after;
+			}
+		}
+
+		return syntaxCode;
+	}
 
 	// Helper function to create P&ID preview SVG
 	function createPIDPreviewSvg(profile: any): string {
@@ -170,10 +242,11 @@
 		</svg>`;
 	}
 
-	// Watch for code changes with debounce
+	// Watch for code or data changes with debounce
 	$effect(() => {
-		if (code !== lastCode) {
+		if (code !== lastCode || dataContent !== lastDataContent) {
 			lastCode = code;
+			lastDataContent = dataContent;
 			clearTimeout(debounceTimer);
 			debounceTimer = setTimeout(() => {
 				renderDiagram(code);
@@ -199,8 +272,11 @@
 		try {
 			const startParse = performance.now();
 
+			// Inject data from Data tab (overrides any data source blocks in syntax)
+			const codeWithData = injectDataIntoCode(dslCode, dataContent);
+
 			// Parse DSL
-			const parseResult = parse(dslCode);
+			const parseResult = parse(codeWithData);
 			parseTime = Math.round(performance.now() - startParse);
 
 			if (!parseResult.success || !parseResult.document) {

@@ -472,7 +472,7 @@
 						<h2 class="text-sm font-semibold text-white">Preview</h2>
 					</div>
 					<div class="flex-1 overflow-hidden">
-						<Preview bind:this={previewRef} {code} {layoutEngine} onparse={handleParse} />
+						<Preview bind:this={previewRef} {code} {dataContent} {layoutEngine} onparse={handleParse} />
 					</div>
 				</div>
 			</Pane>
