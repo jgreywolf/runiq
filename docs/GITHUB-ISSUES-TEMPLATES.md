@@ -1200,7 +1200,7 @@ diagram c4-context "Banking System"
   BankingSystem -> EmailSystem label:"Sends emails via"
 
 # Level 2: Container
-diagram c4-container "Banking System"
+diagram c4Container "Banking System"
   container WebApp type:web label:"Web Application"
   container API type:api label:"API"
   container DB type:database label:"Database"
@@ -1209,7 +1209,7 @@ diagram c4-container "Banking System"
   API -> DB label:"Reads/Writes [SQL]"
 
 # Level 3: Component
-diagram c4-component "API Container"
+diagram c4Component "API Container"
   component LoginController
   component SecurityComponent
   component EmailComponent

@@ -49,12 +49,15 @@
 				fontSize: 6,
 				...overrides.style
 			},
-			measureText: overrides.measureText || ((text: string, style: any) => ({ width: 0, height: 0 }))
+			measureText:
+				overrides.measureText || ((text: string, style: any) => ({ width: 0, height: 0 }))
 		});
 
 		// Helper for text measurement
-		const textMeasure = (width: number, height: number) => 
-			(text: string, style: any) => ({ width, height });
+		const textMeasure = (width: number, height: number) => (text: string, style: any) => ({
+			width,
+			height
+		});
 
 		// Shape-specific configurations
 		const shapeConfigs: Record<string, any> = {
@@ -94,18 +97,18 @@
 				style: { padding: 4, fill: '#fbbf24', strokeWidth: 1.5 }
 			},
 			// C4 shapes
-			'c4-person': {
+			c4Person: {
 				style: { fill: '#08427B', stroke: '#052E56' }
 			},
-			'c4-system': {
+			c4System: {
 				style: { padding: 3, fill: '#1168BD', stroke: '#0B4884', fontSize: 7 },
 				measureText: textMeasure(30, 10)
 			},
-			'c4-container': {
+			c4Container: {
 				style: { padding: 3, fill: '#438DD5', stroke: '#2E6295' },
 				measureText: textMeasure(28, 10)
 			},
-			'c4-component': {
+			c4Component: {
 				style: { fill: '#85BBF0', stroke: '#5A9BD5' },
 				measureText: textMeasure(24, 8)
 			},
@@ -207,8 +210,15 @@
 		};
 
 		// ERD shapes - all use white fill and similar config
-		const erdShapes = ['erdEntity', 'erdWeakEntity', 'erdRelationship', 'erdAttribute', 'erdKeyAttribute', 'erdMultiValuedAttribute'];
-		erdShapes.forEach(shape => {
+		const erdShapes = [
+			'erdEntity',
+			'erdWeakEntity',
+			'erdRelationship',
+			'erdAttribute',
+			'erdKeyAttribute',
+			'erdMultiValuedAttribute'
+		];
+		erdShapes.forEach((shape) => {
 			const width = shape.includes('Entity') ? 30 : 25;
 			shapeConfigs[shape] = {
 				style: { fill: '#fff' },
@@ -241,9 +251,20 @@
 
 		// Shapes that need minimum bounds
 		const needsMinBounds = [
-			'roundedRectangle', 'stadium', 'trapezoid', 'flippedTriangle', 'integrator',
-			'pyramid', 'predefinedProcess', 'preparation', 'manualInput', 'document',
-			'delay', 'braceLeft', 'braceRight', 'flag'
+			'roundedRectangle',
+			'stadium',
+			'trapezoid',
+			'flippedTriangle',
+			'integrator',
+			'pyramid',
+			'predefinedProcess',
+			'preparation',
+			'manualInput',
+			'document',
+			'delay',
+			'braceLeft',
+			'braceRight',
+			'flag'
 		];
 		if (needsMinBounds.includes(shapeId)) {
 			return createBaseContext({

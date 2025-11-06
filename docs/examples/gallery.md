@@ -16,7 +16,7 @@ diagram "Banking System - System Context" {
   shape admin as @actor label: "Admin Staff" description: "Bank employees"
 
   // System
-  shape banking as @c4-system label: "Internet Banking System" description: "Allows customers to view info and make transactions"
+  shape banking as @c4System label: "Internet Banking System" description: "Allows customers to view info and make transactions"
 
   // External systems
   shape mainframe as @c4-ext-system label: "Mainframe" description: "Stores customer accounts"
@@ -41,19 +41,19 @@ diagram "E-Commerce Platform - Microservices" {
   direction TB
 
   container "Frontend Layer" backgroundColor: "#e3f2fd" borderColor: "#2196f3" {
-    shape web as @c4-container label: "Web App\nReact SPA"
-    shape mobile as @c4-container label: "Mobile App\niOS & Android"
+    shape web as @c4Container label: "Web App\nReact SPA"
+    shape mobile as @c4Container label: "Mobile App\niOS & Android"
   }
 
   container "API Gateway" backgroundColor: "#f3e5f5" borderColor: "#9c27b0" {
-    shape gateway as @c4-component label: "API Gateway\nKong"
+    shape gateway as @c4Component label: "API Gateway\nKong"
   }
 
   container "Services" backgroundColor: "#fff3e0" borderColor: "#ff9800" {
-    shape auth as @c4-component label: "Auth Service\nJWT tokens"
-    shape catalog as @c4-component label: "Catalog Service\nProduct data"
-    shape orders as @c4-component label: "Orders Service\nOrder processing"
-    shape payment as @c4-component label: "Payment Service\nPayment gateway"
+    shape auth as @c4Component label: "Auth Service\nJWT tokens"
+    shape catalog as @c4Component label: "Catalog Service\nProduct data"
+    shape orders as @c4Component label: "Orders Service\nOrder processing"
+    shape payment as @c4Component label: "Payment Service\nPayment gateway"
   }
 
   container "Data Layer" backgroundColor: "#e8f5e9" borderColor: "#4caf50" {

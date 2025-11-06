@@ -329,10 +329,10 @@ digital "Half Adder" {
 diagram "Banking System - Context"
 direction TB
 
-shape customer as @c4-person label:"Customer"
-shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
-shape emailSystem as @c4-system label:"Email System"
-shape mainframe as @c4-system label:"Mainframe\\nBanking System"
+shape customer as @c4Person label:"Customer"
+shape bankingSystem as @c4System label:"Internet Banking\\nSystem"
+shape emailSystem as @c4System label:"Email System"
+shape mainframe as @c4System label:"Mainframe\\nBanking System"
 
 customer -Uses-> bankingSystem
 bankingSystem -Sends emails-> emailSystem
