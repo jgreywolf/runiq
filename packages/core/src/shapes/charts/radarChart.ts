@@ -33,7 +33,7 @@ const DEFAULT_PALETTE = [
  */
 function normalizeData(
   data: any,
-  customColors?: string[],
+  customColors?: string[]
 ): { axes: RadarAxis[]; series: RadarSeries[] } {
   if (!data) {
     return { axes: [], series: [] };
@@ -42,10 +42,15 @@ function normalizeData(
   const colors = customColors || DEFAULT_PALETTE;
 
   // Format 1: Full structured data with axes and series
-  if (data.axes && Array.isArray(data.axes) && data.series && Array.isArray(data.series)) {
+  if (
+    data.axes &&
+    Array.isArray(data.axes) &&
+    data.series &&
+    Array.isArray(data.series)
+  ) {
     return {
       axes: data.axes.map((axis: any) =>
-        typeof axis === 'string' ? { label: axis } : axis,
+        typeof axis === 'string' ? { label: axis } : axis
       ),
       series: data.series.map((s: any, idx: number) => ({
         label: s.label || `Series ${idx + 1}`,
@@ -98,7 +103,7 @@ function normalizeData(
  */
 function calculateAxisMaxValues(
   axes: RadarAxis[],
-  series: RadarSeries[],
+  series: RadarSeries[]
 ): number[] {
   return axes.map((axis, idx) => {
     if (axis.max !== undefined) {
@@ -122,7 +127,7 @@ function polarToCartesian(
   centerX: number,
   centerY: number,
   radius: number,
-  angleInDegrees: number,
+  angleInDegrees: number
 ): { x: number; y: number } {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
   return {
@@ -138,13 +143,13 @@ function renderGrid(
   centerX: number,
   centerY: number,
   maxRadius: number,
-  levels: number,
+  levels: number
 ): string {
   const circles: string[] = [];
   for (let i = 1; i <= levels; i++) {
     const radius = (maxRadius * i) / levels;
     circles.push(
-      `<circle cx="${centerX}" cy="${centerY}" r="${radius}" fill="none" stroke="#e5e7eb" stroke-width="1"/>`,
+      `<circle cx="${centerX}" cy="${centerY}" r="${radius}" fill="none" stroke="#e5e7eb" stroke-width="1"/>`
     );
   }
   return circles.join('\n      ');
@@ -157,14 +162,14 @@ function renderAxes(
   centerX: number,
   centerY: number,
   maxRadius: number,
-  axisCount: number,
+  axisCount: number
 ): string {
   const lines: string[] = [];
   for (let i = 0; i < axisCount; i++) {
     const angle = (360 / axisCount) * i;
     const point = polarToCartesian(centerX, centerY, maxRadius, angle);
     lines.push(
-      `<line x1="${centerX}" y1="${centerY}" x2="${point.x}" y2="${point.y}" stroke="#d1d5db" stroke-width="1"/>`,
+      `<line x1="${centerX}" y1="${centerY}" x2="${point.x}" y2="${point.y}" stroke="#d1d5db" stroke-width="1"/>`
     );
   }
   return lines.join('\n      ');
@@ -178,14 +183,19 @@ function renderAxisLabels(
   centerY: number,
   maxRadius: number,
   axes: RadarAxis[],
-  labelOffset: number = 20,
+  labelOffset: number = 20
 ): string {
   const labels: string[] = [];
   const axisCount = axes.length;
 
   for (let i = 0; i < axisCount; i++) {
     const angle = (360 / axisCount) * i;
-    const point = polarToCartesian(centerX, centerY, maxRadius + labelOffset, angle);
+    const point = polarToCartesian(
+      centerX,
+      centerY,
+      maxRadius + labelOffset,
+      angle
+    );
 
     // Adjust text anchor based on position
     let anchor = 'middle';
@@ -193,7 +203,7 @@ function renderAxisLabels(
     else if (point.x > centerX + 5) anchor = 'start';
 
     labels.push(
-      `<text x="${point.x}" y="${point.y + 5}" text-anchor="${anchor}" font-size="12" fill="#374151">${axes[i].label}</text>`,
+      `<text x="${point.x}" y="${point.y + 5}" text-anchor="${anchor}" font-size="12" fill="#374151">${axes[i].label}</text>`
     );
   }
 
@@ -210,7 +220,7 @@ function renderSeries(
   series: RadarSeries,
   axisMaxValues: number[],
   axisCount: number,
-  opacity: number = 0.3,
+  opacity: number = 0.3
 ): string {
   const points: string[] = [];
 
@@ -240,7 +250,7 @@ function renderMarkers(
   maxRadius: number,
   series: RadarSeries,
   axisMaxValues: number[],
-  axisCount: number,
+  axisCount: number
 ): string {
   const markers: string[] = [];
 
@@ -253,7 +263,7 @@ function renderMarkers(
     const point = polarToCartesian(centerX, centerY, radius, angle);
 
     markers.push(
-      `<circle cx="${point.x}" cy="${point.y}" r="4" fill="${series.color || DEFAULT_PALETTE[0]}" stroke="white" stroke-width="1"/>`,
+      `<circle cx="${point.x}" cy="${point.y}" r="4" fill="${series.color || DEFAULT_PALETTE[0]}" stroke="white" stroke-width="1"/>`
     );
   }
 
@@ -266,7 +276,7 @@ function renderMarkers(
 function renderLegend(
   series: RadarSeries[],
   legendX: number,
-  legendY: number,
+  legendY: number
 ): string {
   const items: string[] = [];
   const lineHeight = 20;
@@ -317,7 +327,11 @@ export const radarChart: ShapeDefinition = {
     const { axes, series } = normalizeData(ctx.node.data, customColors);
 
     // Handle empty data
-    if (axes.length === 0 || series.length === 0 || series.every((s) => s.values.length === 0)) {
+    if (
+      axes.length === 0 ||
+      series.length === 0 ||
+      series.every((s) => s.values.length === 0)
+    ) {
       return `<text x="${position.x}" y="${position.y}" fill="#6b7280" font-size="14">No data</text>`;
     }
 
@@ -344,24 +358,61 @@ export const radarChart: ShapeDefinition = {
 
     // Grid circles
     if (showGrid) {
-      svg += '\n      ' + renderGrid(centerX - position.x, centerY - position.y, maxRadius, gridLevels);
+      svg +=
+        '\n      ' +
+        renderGrid(
+          centerX - position.x,
+          centerY - position.y,
+          maxRadius,
+          gridLevels
+        );
     }
 
     // Radial axes
-    svg += '\n      ' + renderAxes(centerX - position.x, centerY - position.y, maxRadius, axes.length);
+    svg +=
+      '\n      ' +
+      renderAxes(
+        centerX - position.x,
+        centerY - position.y,
+        maxRadius,
+        axes.length
+      );
 
     // Axis labels
-    svg += '\n      ' + renderAxisLabels(centerX - position.x, centerY - position.y, maxRadius, axes);
+    svg +=
+      '\n      ' +
+      renderAxisLabels(
+        centerX - position.x,
+        centerY - position.y,
+        maxRadius,
+        axes
+      );
 
     // Data series polygons
     series.forEach((s) => {
-      svg += renderSeries(centerX - position.x, centerY - position.y, maxRadius, s, axisMaxValues, axes.length);
+      svg += renderSeries(
+        centerX - position.x,
+        centerY - position.y,
+        maxRadius,
+        s,
+        axisMaxValues,
+        axes.length
+      );
     });
 
     // Data point markers
     if (showMarkers) {
       series.forEach((s) => {
-        svg += '\n      ' + renderMarkers(centerX - position.x, centerY - position.y, maxRadius, s, axisMaxValues, axes.length);
+        svg +=
+          '\n      ' +
+          renderMarkers(
+            centerX - position.x,
+            centerY - position.y,
+            maxRadius,
+            s,
+            axisMaxValues,
+            axes.length
+          );
       });
     }
 

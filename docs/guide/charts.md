@@ -19,8 +19,16 @@ Runiq provides specialized chart shapes for data visualization and conceptual di
 - **Venn 2**: `@venn2` - Two-circle Venn diagram
 - **Venn 3**: `@venn3` - Three-circle Venn diagram
 - **Venn 4**: `@venn4` - Four-circle Venn diagram
+- **Line Chart**: `@lineChart` - Time series and trend lines
+- **Radar Chart**: `@radarChart` - Multi-dimensional spider chart
 
 See the [Shape Reference - Chart Shapes](/reference/shapes#_7-chart-shapes-7-shapes) for the complete list.
+
+> **💡 DSL Simplification Note:** When using the Runiq DSL syntax, use simple data arrays for chart properties. Complex features like boolean toggles (`showGrid:true`), nested objects, or multi-series data work best with JSON import or programmatic generation. For basic charts, keep it simple:
+>
+> ```runiq
+> shape chart as @lineChart label:"Sales" data:[45, 52, 48, 61]
+> ```
 
 ## Pie Charts
 
@@ -351,6 +359,171 @@ Charts accept data in JSON format:
 }
 ```
 
+## Line Charts ⭐ NEW
+
+Line charts visualize trends over time with connected data points.
+
+### Basic Line Chart
+
+Simple time series data:
+
+```runiq
+diagram "Sales Performance" {
+  shape sales as @lineChart label:"Monthly Sales" data:[45, 52, 48, 61, 58, 65, 72, 68, 75, 80, 78, 85]
+}
+```
+
+### Features
+
+- **Auto-scaling axes** with 10% Y-axis padding
+- **Grid lines** (toggleable with `showGrid`)
+- **Data point markers** (toggleable with `showMarkers`)
+- **Multiple series support** with custom colors
+- **Legend** for multi-series charts (toggle with `showLegend`)
+
+### Data Formats
+
+**Simple array** (auto-indexed X values):
+
+```runiq
+data:[45, 52, 48, 61, 58, 65]
+```
+
+**Structured series** (for programmatic/JSON use):
+
+```json
+{
+  "series": [
+    {
+      "label": "Revenue",
+      "values": [45, 52, 48, 61],
+      "color": "#3b82f6"
+    }
+  ],
+  "showGrid": true,
+  "showMarkers": true,
+  "showLegend": true
+}
+```
+
+**Points with labels** (for programmatic/JSON use):
+
+```json
+{
+  "points": [
+    { "x": 0, "y": 72, "label": "Mon" },
+    { "x": 1, "y": 75, "label": "Tue" }
+  ]
+}
+```
+
+### Properties
+
+| Property      | Type         | Default         | Description                |
+| ------------- | ------------ | --------------- | -------------------------- |
+| `label`       | string       | -               | Chart title                |
+| `data`        | array/object | -               | Data values (required)     |
+| `showGrid`    | boolean      | true            | Show grid lines            |
+| `showMarkers` | boolean      | true            | Show data point markers    |
+| `showLegend`  | boolean      | false           | Show legend (multi-series) |
+| `colors`      | string[]     | default palette | Custom color array         |
+
+### Dimensions
+
+- Fixed size: 400×300 pixels
+- Legend adds 150px width when enabled
+- 4 anchor points: N, E, S, W
+
+## Radar Charts ⭐ NEW
+
+Radar (spider) charts display multi-dimensional data on radial axes.
+
+### Basic Radar Chart
+
+Simple skill assessment:
+
+```runiq
+diagram "Character Skills" {
+  shape skills as @radarChart label:"RPG Character Stats" data:[90, 70, 40, 50, 60]
+}
+```
+
+### Features
+
+- **Minimum 3 axes** required for valid radar chart
+- **Radial grid circles** (toggleable with `showGrid`, configurable levels)
+- **Data point markers** (toggleable with `showMarkers`)
+- **Multiple series overlay** with transparency
+- **Auto-scaling** or explicit max values per axis
+- **Legend** for comparing multiple datasets
+
+### Data Formats
+
+**Simple array** (auto-numbered axes):
+
+```runiq
+data:[90, 70, 40, 50, 60]
+```
+
+**Structured with axis labels** (for programmatic/JSON use):
+
+```json
+{
+  "axes": [
+    { "label": "Strength", "max": 100 },
+    { "label": "Dexterity", "max": 100 },
+    { "label": "Intelligence", "max": 100 }
+  ],
+  "series": [
+    {
+      "label": "Warrior",
+      "values": [90, 70, 40],
+      "color": "#ef4444"
+    }
+  ],
+  "showGrid": true,
+  "showMarkers": true,
+  "gridLevels": 5
+}
+```
+
+**Multiple series comparison** (for programmatic/JSON use):
+
+```json
+{
+  "axes": [{ "label": "Speed" }, { "label": "Power" }, { "label": "Defense" }],
+  "series": [
+    { "label": "Hero A", "values": [80, 90, 70], "color": "#3b82f6" },
+    { "label": "Hero B", "values": [60, 70, 95], "color": "#10b981" }
+  ],
+  "showLegend": true
+}
+```
+
+### Properties
+
+| Property      | Type         | Default         | Description                |
+| ------------- | ------------ | --------------- | -------------------------- |
+| `label`       | string       | -               | Chart title                |
+| `data`        | array/object | -               | Data values (required)     |
+| `showGrid`    | boolean      | true            | Show grid circles          |
+| `showMarkers` | boolean      | true            | Show data point markers    |
+| `showLegend`  | boolean      | false           | Show legend (multi-series) |
+| `gridLevels`  | number       | 4               | Number of grid circles     |
+| `colors`      | string[]     | default palette | Custom color array         |
+
+### Dimensions
+
+- Fixed size: 400×400 pixels
+- 4 anchor points: N, E, S, W
+
+### Use Cases
+
+- **Skill assessments** - Character stats, competency matrices
+- **Product comparisons** - Multi-attribute feature analysis
+- **Performance metrics** - System monitoring, KPIs
+- **Technology evaluation** - Framework comparisons, tech stack assessment
+
 ## Examples
 
 See the [examples/charts](https://github.com/jgreywolf/runiq/tree/main/examples/charts) directory for complete examples:
@@ -361,6 +534,15 @@ See the [examples/charts](https://github.com/jgreywolf/runiq/tree/main/examples/
 - Vertical bar chart
 - Horizontal bar chart
 - Grouped bar charts
+- **Line charts** ⭐ NEW
+  - Simple monthly sales
+  - Performance trends
+  - Temperature data with points
+- **Radar charts** ⭐ NEW
+  - Character skill stats
+  - System performance metrics
+  - Product quality scores
+  - Tech stack comparison
 - Venn diagrams (2, 3, 4 sets)
 
 ## Related

@@ -454,9 +454,7 @@ describe('radarChart', () => {
           type: 'radarChart',
           data: {
             axes: [{ label: 'A' }, { label: 'B' }, { label: 'C' }],
-            series: [
-              { label: 'S1', values: [80, 70, 90], color: '#9333ea' },
-            ],
+            series: [{ label: 'S1', values: [80, 70, 90], color: '#9333ea' }],
           },
         },
         styles: {},
@@ -657,4 +655,3 @@ describe('radarChart', () => {
     });
   });
 });
-

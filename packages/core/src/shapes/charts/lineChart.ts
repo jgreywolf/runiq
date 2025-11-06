@@ -79,19 +79,21 @@ function normalizeData(data: any, customColors?: string[]): LineSeries[] {
   if (data.series && Array.isArray(data.series)) {
     return data.series.map((series: any, seriesIndex: number) => {
       const points = Array.isArray(series.values)
-        ? series.values.map((value: any, pointIndex: number) => {
-            if (typeof value === 'number') {
-              return { x: pointIndex, y: value };
-            }
-            if (typeof value === 'object' && 'y' in value) {
-              return {
-                x: value.x ?? pointIndex,
-                y: value.y,
-                label: value.label,
-              };
-            }
-            return null;
-          }).filter((p: any): p is DataPoint => p !== null)
+        ? series.values
+            .map((value: any, pointIndex: number) => {
+              if (typeof value === 'number') {
+                return { x: pointIndex, y: value };
+              }
+              if (typeof value === 'object' && 'y' in value) {
+                return {
+                  x: value.x ?? pointIndex,
+                  y: value.y,
+                  label: value.label,
+                };
+              }
+              return null;
+            })
+            .filter((p: any): p is DataPoint => p !== null)
         : [];
 
       return {
@@ -108,19 +110,21 @@ function normalizeData(data: any, customColors?: string[]): LineSeries[] {
       {
         label: data.label || 'Series 1',
         color: data.color || getSeriesColor(0, customColors),
-        points: data.points.map((point: any, index: number) => {
-          if (typeof point === 'number') {
-            return { x: index, y: point };
-          }
-          if (typeof point === 'object' && 'y' in point) {
-            return {
-              x: point.x ?? index,
-              y: point.y,
-              label: point.label,
-            };
-          }
-          return null;
-        }).filter((p: any): p is DataPoint => p !== null),
+        points: data.points
+          .map((point: any, index: number) => {
+            if (typeof point === 'number') {
+              return { x: index, y: point };
+            }
+            if (typeof point === 'object' && 'y' in point) {
+              return {
+                x: point.x ?? index,
+                y: point.y,
+                label: point.label,
+              };
+            }
+            return null;
+          })
+          .filter((p: any): p is DataPoint => p !== null),
       },
     ];
   }
