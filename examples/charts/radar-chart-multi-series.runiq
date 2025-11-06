@@ -1,0 +1,4 @@
+diagram "Class Comparison" {
+
+  shape comparison as @radarChart label:"RPG Class Comparison" showLegend:true showGrid:true showMarkers:true gridLevels:4 data:{"axes":[{"label":"Strength"},{"label":"Dexterity"},{"label":"Intelligence"},{"label":"Wisdom"},{"label":"Charisma"},{"label":"Constitution"}],"series":[{"label":"Warrior","values":[90,70,40,50,60,85],"color":"#ef4444"},{"label":"Mage","values":[30,50,95,80,60,45],"color":"#3b82f6"},{"label":"Rogue","values":[60,95,50,40,75,55],"color":"#10b981"}]}
+}

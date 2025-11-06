@@ -1,0 +1,8 @@
+diagram "Technology Stack Assessment" {
+
+  shape frontend as @radarChart label:"Frontend Framework Comparison" showLegend:true showGrid:true showMarkers:true gridLevels:5 data:{"axes":[{"label":"Performance","max":10},{"label":"Developer Experience","max":10},{"label":"Ecosystem","max":10},{"label":"Learning Curve","max":10},{"label":"Community Support","max":10},{"label":"Bundle Size","max":10}],"series":[{"label":"React","values":[8,7,9,6,10,7],"color":"#61dafb"},{"label":"Vue","values":[8,9,7,8,8,9],"color":"#42b883"},{"label":"Svelte","values":[9,9,6,9,7,10],"color":"#ff3e00"}]}
+
+  shape backend as @radarChart label:"Backend Framework Comparison" showLegend:true showGrid:true showMarkers:true data:{"axes":[{"label":"Performance"},{"label":"Scalability"},{"label":"Security"},{"label":"Developer Experience"},{"label":"Community"}],"series":[{"label":"Node.js","values":[8,9,7,9,10],"color":"#68a063"},{"label":"Go","values":[10,10,9,7,8],"color":"#00add8"},{"label":"Python","values":[6,8,8,10,10],"color":"#3776ab"}]}
+
+  frontend -> backend
+}

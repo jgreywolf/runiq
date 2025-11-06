@@ -47,6 +47,20 @@ interface LineSeries {
 function normalizeData(data: any, customColors?: string[]): LineSeries[] {
   if (!data) return [];
 
+  // Handle object with values array (from DSL: data:[...])
+  if (data.values && Array.isArray(data.values)) {
+    return [
+      {
+        label: data.label || 'Series 1',
+        color: data.color || getSeriesColor(0, customColors),
+        points: data.values.map((value: number, index: number) => ({
+          x: index,
+          y: value,
+        })),
+      },
+    ];
+  }
+
   // Handle array of numbers (single series, auto-indexed x values)
   if (Array.isArray(data)) {
     return [

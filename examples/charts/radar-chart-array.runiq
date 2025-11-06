@@ -1,0 +1,4 @@
+diagram "Product Evaluation" {
+
+  shape product as @radarChart label:"Product Quality Metrics" data:[85, 92, 78, 88, 95, 82, 90]
+}
