@@ -1169,10 +1169,11 @@ TemplateVariablePath:
 // Allow keywords as identifiers in node/edge IDs and other contexts
 // This prevents conflicts when users want to use reserved property names as node IDs
 // Common words from examples: data, label, process, start, end, mobile, etc.
+// NOTE: 'template' and 'preset' are NOT included here as they are Phase 5 keywords
 FlexibleID returns string:
     ID 
-    // Data-driven keywords
-    | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit' | 'template'
+    // Data-driven keywords (excluding 'template' which is a Phase 5 keyword)
+    | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit'
     // Property keywords  
     | 'label' | 'name' | 'id' | 'type' | 'value' | 'format' | 'color' | 'header' | 'delimiter'
     // Control flow keywords
