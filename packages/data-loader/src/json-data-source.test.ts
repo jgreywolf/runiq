@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { JsonDataSource, loadJsonData } from '../json-data-source.js';
-import type { DataObject } from '../types.js';
+import { JsonDataSource, loadJsonData } from './json-data-source.js';
+import type { DataObject } from './types.js';
 
 describe('JsonDataSource', () => {
   const testDir = path.join(process.cwd(), '__test-data__');
@@ -215,7 +215,9 @@ describe('JsonDataSource', () => {
       const validation = shallowLoader.validate(deepData);
 
       expect(validation.valid).toBe(false);
-      expect(validation.errors.some((e) => e.message.includes('Nesting depth'))).toBe(true);
+      expect(
+        validation.errors.some((e) => e.message.includes('Nesting depth'))
+      ).toBe(true);
     });
 
     it('should detect circular references', () => {
@@ -225,7 +227,9 @@ describe('JsonDataSource', () => {
       const validation = loader.validate(circular);
 
       expect(validation.valid).toBe(false);
-      expect(validation.errors.some((e) => e.message.includes('Circular reference'))).toBe(true);
+      expect(
+        validation.errors.some((e) => e.message.includes('Circular reference'))
+      ).toBe(true);
     });
   });
 
@@ -254,7 +258,9 @@ describe('JsonDataSource', () => {
       const filePath = path.join(testDir, 'null-data.json');
       await fs.writeFile(filePath, 'null');
 
-      await expect(validatingLoader.load(filePath)).rejects.toThrow('JSON validation failed');
+      await expect(validatingLoader.load(filePath)).rejects.toThrow(
+        'JSON validation failed'
+      );
     });
   });
 

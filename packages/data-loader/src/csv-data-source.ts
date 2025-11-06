@@ -36,7 +36,10 @@ export class CsvDataSource implements DataSource {
     let csvContent: string;
 
     // Check if source looks like CSV data (contains newlines or commas)
-    if (source.includes('\n') || (source.includes(',') && !source.includes('/'))) {
+    if (
+      source.includes('\n') ||
+      (source.includes(',') && !source.includes('/'))
+    ) {
       csvContent = source;
     } else {
       // Load from file
@@ -86,7 +89,9 @@ export class CsvDataSource implements DataSource {
         if ('code' in error && error.code === 'ENOENT') {
           throw new Error(`File not found: ${filePath}`);
         }
-        throw new Error(`Failed to load CSV from ${filePath}: ${error.message}`);
+        throw new Error(
+          `Failed to load CSV from ${filePath}: ${error.message}`
+        );
       }
       throw error;
     }
@@ -157,7 +162,9 @@ export class CsvDataSource implements DataSource {
   /**
    * Infer column types from CSV data
    */
-  inferColumnTypes(data: DataObject[]): Record<string, 'string' | 'number' | 'boolean'> {
+  inferColumnTypes(
+    data: DataObject[]
+  ): Record<string, 'string' | 'number' | 'boolean'> {
     if (data.length === 0) {
       return {};
     }
@@ -177,7 +184,9 @@ export class CsvDataSource implements DataSource {
    * Infer type from array of values
    */
   private inferType(values: unknown[]): 'string' | 'number' | 'boolean' {
-    const nonNullValues = values.filter((v) => v !== null && v !== undefined && v !== '');
+    const nonNullValues = values.filter(
+      (v) => v !== null && v !== undefined && v !== ''
+    );
 
     if (nonNullValues.length === 0) {
       return 'string';
@@ -192,7 +201,9 @@ export class CsvDataSource implements DataSource {
     }
 
     // Check if all values are numbers
-    const allNumbers = nonNullValues.every((v) => typeof v === 'number' || !isNaN(Number(v)));
+    const allNumbers = nonNullValues.every(
+      (v) => typeof v === 'number' || !isNaN(Number(v))
+    );
     if (allNumbers) {
       return 'number';
     }

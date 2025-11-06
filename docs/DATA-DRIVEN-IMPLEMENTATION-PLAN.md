@@ -16,12 +16,14 @@ Implement a data-driven rendering system that allows diagrams to be generated fr
 Location: `packages/data-loader/`
 
 **Responsibilities:**
+
 - JSON data source loading and validation
 - CSV parsing and type inference
 - Schema validation and error handling
 - Support for nested/hierarchical data structures
 
 **Exports:**
+
 ```typescript
 interface DataSource {
   load(path: string): Promise<DataObject[]>;
@@ -35,11 +37,12 @@ class CsvDataSource implements DataSource { ... }
 ### Core Integration
 
 **packages/core/src/types/data.ts** - New types:
+
 ```typescript
 interface DataBinding {
-  source: string;           // Data source path
+  source: string; // Data source path
   format: 'json' | 'csv';
-  template?: string;        // Template name
+  template?: string; // Template name
 }
 
 interface TemplateExpression {
@@ -50,6 +53,7 @@ interface TemplateExpression {
 ```
 
 **packages/parser-dsl/src/runiq.langium** - Grammar extensions:
+
 ```langium
 // Data source declaration
 DataSource:
@@ -91,6 +95,7 @@ LoopBlock:
 ### Phase 1: Data Source Support (3-4 days)
 
 #### Day 1-2: JSON Data Loader
+
 - [ ] Create `packages/data-loader` package structure
 - [ ] Implement `JsonDataSource` class
 - [ ] Add validation using Zod or similar
@@ -99,6 +104,7 @@ LoopBlock:
 - [ ] Tests: 20+ test cases
 
 #### Day 2-3: CSV Data Loader
+
 - [ ] Implement `CsvDataSource` class using PapaParse
 - [ ] Type inference from CSV data
 - [ ] Header validation
@@ -106,12 +112,14 @@ LoopBlock:
 - [ ] Tests: 15+ test cases
 
 #### Day 3-4: Integration
+
 - [ ] Create data source registry in core
 - [ ] Integrate with parser (data declarations)
 - [ ] Add data loading to renderer pipeline
 - [ ] Integration tests: 10+ test cases
 
 **Deliverables:**
+
 - `packages/data-loader` package (35+ tests)
 - Data source types in core
 - Basic data loading functional
@@ -119,29 +127,34 @@ LoopBlock:
 ### Phase 2: Template System (3-4 days)
 
 #### Day 4-5: DSL Syntax
+
 - [ ] Extend Langium grammar for templates
 - [ ] Add `data` and `template` keywords
 - [ ] Parse variable expressions `${...}`
 - [ ] Parser tests: 25+ test cases
 
 #### Day 5-6: Variable Substitution
+
 - [ ] Implement expression evaluator
 - [ ] Support nested property access: `${data.address.city}`
 - [ ] Type coercion (string, number, boolean)
 - [ ] Tests: 20+ test cases
 
 #### Day 6-7: Conditionals & Loops
+
 - [ ] Implement `if` conditional blocks
 - [ ] Implement `for...in` loops over arrays
 - [ ] Support loop index/variables
 - [ ] Tests: 25+ test cases
 
 #### Day 7-8: Template Composition
+
 - [ ] Template reuse and nesting
 - [ ] Template parameters
 - [ ] Tests: 15+ test cases
 
 **Deliverables:**
+
 - Template syntax in grammar (85+ tests)
 - Expression evaluator
 - Template processor
@@ -150,24 +163,28 @@ LoopBlock:
 ### Phase 3: Dynamic Shape Generation (2-3 days)
 
 #### Day 8-9: Node Generation
+
 - [ ] Generate nodes from data rows
 - [ ] Auto-assign unique IDs
 - [ ] Map data fields to shape properties
 - [ ] Tests: 20+ test cases
 
 #### Day 9: Edge Generation & Style Mapping
+
 - [ ] Auto-generate edges from relationship fields
 - [ ] Map data values to styles (color, size, opacity)
 - [ ] Support thresholds and categories
 - [ ] Tests: 25+ test cases
 
 #### Day 10: Legend Generation
+
 - [ ] Auto-generate legends from data
 - [ ] Show color/size mappings
 - [ ] Position legends appropriately
 - [ ] Tests: 15+ test cases
 
 **Deliverables:**
+
 - Dynamic shape generation (60+ tests)
 - Style mapping system
 - Legend support
@@ -175,6 +192,7 @@ LoopBlock:
 ### Phase 4: Chart Support (3-4 days)
 
 #### Day 10-11: Pie Chart
+
 - [ ] Pie chart shape definition
 - [ ] Data binding for slices
 - [ ] Auto-calculate angles from values
@@ -184,6 +202,7 @@ LoopBlock:
 - [ ] **Closes Issue #10**
 
 #### Day 11-12: Bar/Column Chart
+
 - [ ] Bar chart shape definition
 - [ ] Vertical and horizontal orientations
 - [ ] Auto-scaling for axes
@@ -191,6 +210,7 @@ LoopBlock:
 - [ ] Tests: 20+ test cases
 
 #### Day 12: Line Chart
+
 - [ ] Line chart shape definition
 - [ ] Path generation from time series
 - [ ] Markers and data points
@@ -198,6 +218,7 @@ LoopBlock:
 - [ ] Tests: 15+ test cases
 
 #### Day 13: Radar Chart
+
 - [ ] Radar chart shape definition
 - [ ] Polygon generation from metrics
 - [ ] Axis spokes and labels
@@ -205,6 +226,7 @@ LoopBlock:
 - [ ] **Closes Issue #37**
 
 **Deliverables:**
+
 - 4 chart types (70+ tests)
 - Chart data binding system
 - Auto-scaling and axis generation
@@ -212,6 +234,7 @@ LoopBlock:
 ### Final Phase: Documentation & Integration (1 day)
 
 #### Day 14: Documentation & PR
+
 - [ ] Create `docs/guide/data-driven.md`
 - [ ] Document template syntax
 - [ ] Create 10+ example files
@@ -220,19 +243,20 @@ LoopBlock:
 - [ ] Update CHANGELOG.md
 
 **Deliverables:**
+
 - Complete documentation
 - Comprehensive examples
 - PR ready for review
 
 ## Test Coverage Goals
 
-| Package | Target Tests | Focus Areas |
-|---------|--------------|-------------|
-| data-loader | 35+ | JSON, CSV parsing, validation, errors |
-| parser-dsl | 85+ | Template syntax, expressions, control flow |
-| core (data) | 130+ | Node/edge generation, style mapping, legends, charts |
-| integration | 10+ | End-to-end data-driven diagrams |
-| **Total** | **260+** | Full feature coverage |
+| Package     | Target Tests | Focus Areas                                          |
+| ----------- | ------------ | ---------------------------------------------------- |
+| data-loader | 35+          | JSON, CSV parsing, validation, errors                |
+| parser-dsl  | 85+          | Template syntax, expressions, control flow           |
+| core (data) | 130+         | Node/edge generation, style mapping, legends, charts |
+| integration | 10+          | End-to-end data-driven diagrams                      |
+| **Total**   | **260+**     | Full feature coverage                                |
 
 ## Acceptance Criteria
 
@@ -249,12 +273,28 @@ LoopBlock:
 ### Data Source
 
 **sales-data.json:**
+
 ```json
 {
   "regions": [
-    { "id": "west", "name": "West Coast", "revenue": 450000, "color": "#1f77b4" },
-    { "id": "east", "name": "East Coast", "revenue": 380000, "color": "#ff7f0e" },
-    { "id": "central", "name": "Central", "revenue": 290000, "color": "#2ca02c" }
+    {
+      "id": "west",
+      "name": "West Coast",
+      "revenue": 450000,
+      "color": "#1f77b4"
+    },
+    {
+      "id": "east",
+      "name": "East Coast",
+      "revenue": 380000,
+      "color": "#ff7f0e"
+    },
+    {
+      "id": "central",
+      "name": "Central",
+      "revenue": 290000,
+      "color": "#2ca02c"
+    }
   ]
 }
 ```
@@ -264,10 +304,10 @@ LoopBlock:
 ```runiq
 diagram "Sales by Region" {
   data sales from:"sales-data.json"
-  
+
   template "region-nodes" from:sales {
     for region in ${regions} {
-      shape ${region.id} as @rectangle 
+      shape ${region.id} as @rectangle
         label:"${region.name}\n$${region.revenue}"
         fill:${region.color}
     }
@@ -280,7 +320,7 @@ diagram "Sales by Region" {
 ```runiq
 diagram "Revenue Distribution" {
   data sales from:"sales-data.json"
-  
+
   shape pie as @pie-chart
     data:sales.regions
     valueField:"revenue"
@@ -293,6 +333,7 @@ diagram "Revenue Distribution" {
 ## Related Issues
 
 This feature enables:
+
 - **Issue #10**: Pie Chart Support ✅
 - **Issue #15**: XY Chart / Scatter Plot (partial)
 - **Issue #16**: Gantt Chart (future)
@@ -302,10 +343,12 @@ This feature enables:
 ## Dependencies
 
 **New Dependencies:**
+
 - `papaparse` - CSV parsing
 - `zod` - Schema validation (optional, evaluate vs built-in validation)
 
 **Existing:**
+
 - All core packages
 - Langium parser
 - ELK layout

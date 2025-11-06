@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { CsvDataSource, loadCsvData } from '../csv-data-source.js';
+import { CsvDataSource, loadCsvData } from './csv-data-source.js';
 
 describe('CsvDataSource', () => {
   const testDir = path.join(process.cwd(), '__test-csv-data__');

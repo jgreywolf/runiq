@@ -73,7 +73,9 @@ export class JsonDataSource implements DataSource {
         if (error instanceof SyntaxError) {
           throw new Error(`Invalid JSON in file ${filePath}: ${error.message}`);
         }
-        throw new Error(`Failed to load JSON from ${filePath}: ${error.message}`);
+        throw new Error(
+          `Failed to load JSON from ${filePath}: ${error.message}`
+        );
       }
       throw error;
     }
