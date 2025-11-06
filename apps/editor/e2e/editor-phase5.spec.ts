@@ -291,14 +291,11 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 		test('Should handle container inheritance with extends', async ({ page }) => {
 			await test.step('Enter diagram with inheritance', async () => {
 				const syntax = `diagram "Inheritance" {
-  container "Base" {
-    backgroundColor: "#f0f0f0"
-    padding: 20
+  container "Base" backgroundColor: "#f0f0f0" padding: 20 {
     shape base as @rectangle label: "Base"
   }
 
-  container "Extended" extends: "Base" {
-    borderColor: "#2196f3"
+  container "Extended" extends: "Base" borderColor: "#2196f3" {
     shape child as @rectangle label: "Child"
   }
 
