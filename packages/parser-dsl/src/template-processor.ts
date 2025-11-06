@@ -159,11 +159,24 @@ export function processTemplate(
   const nodes: ProcessedNode[] = [];
   const edges: ProcessedEdge[] = [];
 
-  // Apply filter if specified (Phase 2.3 - placeholder for now)
+  // Apply filter if specified
   let filteredData = data;
   if (template.filter) {
-    // TODO: Implement filter evaluation in Phase 2.3
-    console.warn(`Filter not yet implemented: ${template.filter}`);
+    filteredData = data.filter((item, index) => {
+      const filterContext: DataContext = {
+        item,
+        index,
+        length: data.length,
+      };
+      
+      try {
+        const result = evaluateExpressionValue(template.filter!, filterContext);
+        return isTruthy(result);
+      } catch (error) {
+        console.error(`[Template ${template.id}] Error evaluating filter for item ${index}:`, error);
+        return false;
+      }
+    });
   }
 
   // Apply limit if specified
@@ -319,29 +332,121 @@ function processEdgeStatement(
 }
 
 /**
- * Process a conditional statement (Phase 2.3 - placeholder)
+ * Process a conditional statement
+ * 
+ * Evaluates the condition expression and processes the statements if truthy.
+ * Supports else blocks for false conditions.
+ * 
+ * @example
+ * ```
+ * if ${item.active} {
+ *   node ${item.id} shape:rect label:"Active: ${item.name}"
+ * }
+ * ```
  */
 function processConditionalStatement(
-  _statement: ConditionalStatement,
-  _dataContext: DataContext,
+  statement: ConditionalStatement,
+  dataContext: DataContext,
   context: ProcessingContext
 ): TemplateResult {
-  // TODO: Implement condition evaluation in Phase 2.3
-  console.warn(`[Template ${context.templateId}] Conditionals not yet implemented`);
-  return { nodes: [], edges: [] };
+  try {
+    // Evaluate condition expression
+    const conditionValue = evaluateExpressionValue(statement.condition, dataContext);
+    
+    // Check truthiness (JavaScript semantics)
+    const isTrue = isTruthy(conditionValue);
+    
+    // Process appropriate branch
+    if (isTrue) {
+      return processStatements(statement.statements, dataContext, context);
+    } else if (statement.elseStatements) {
+      return processStatements(statement.elseStatements, dataContext, context);
+    }
+    
+    return { nodes: [], edges: [] };
+  } catch (error) {
+    console.error(`[Template ${context.templateId}] Error processing conditional at index ${context.dataIndex}:`, error);
+    return { nodes: [], edges: [] };
+  }
 }
 
 /**
- * Process a loop statement (Phase 2.3 - placeholder)
+ * Process a loop statement
+ * 
+ * Evaluates the collection expression and iterates over each item,
+ * processing the loop body with the loop variable in context.
+ * 
+ * @example
+ * ```
+ * for user in ${item.members} {
+ *   node ${user.id} shape:circle label:${user.name}
+ * }
+ * ```
  */
 function processLoopStatement(
-  _statement: LoopStatement,
-  _dataContext: DataContext,
+  statement: LoopStatement,
+  dataContext: DataContext,
   context: ProcessingContext
 ): TemplateResult {
-  // TODO: Implement loop iteration in Phase 2.3
-  console.warn(`[Template ${context.templateId}] Loops not yet implemented`);
-  return { nodes: [], edges: [] };
+  try {
+    // Evaluate collection expression
+    const collectionValue = evaluateExpressionValue(statement.collection, dataContext);
+    
+    // Ensure we have an array
+    if (!Array.isArray(collectionValue)) {
+      console.warn(
+        `[Template ${context.templateId}] Loop collection is not an array at index ${context.dataIndex}:`,
+        collectionValue
+      );
+      return { nodes: [], edges: [] };
+    }
+    
+    const allNodes: ProcessedNode[] = [];
+    const allEdges: ProcessedEdge[] = [];
+    
+    // Iterate over collection
+    collectionValue.forEach((loopItem: unknown, loopIndex: number) => {
+      // Create new context with loop variable
+      const loopContext: DataContext = {
+        ...dataContext,
+        [statement.variable]: loopItem as Record<string, unknown>,
+        [`${statement.variable}_index`]: loopIndex,
+        [`${statement.variable}_first`]: loopIndex === 0,
+        [`${statement.variable}_last`]: loopIndex === collectionValue.length - 1,
+      };
+      
+      // Process loop body
+      const result = processStatements(statement.statements, loopContext, context);
+      allNodes.push(...result.nodes);
+      allEdges.push(...result.edges);
+    });
+    
+    return { nodes: allNodes, edges: allEdges };
+  } catch (error) {
+    console.error(`[Template ${context.templateId}] Error processing loop at index ${context.dataIndex}:`, error);
+    return { nodes: [], edges: [] };
+  }
+}
+
+/**
+ * Determine truthiness of a value (JavaScript semantics)
+ * 
+ * Falsy values: false, 0, '', null, undefined, NaN
+ * Truthy values: everything else (including empty arrays/objects)
+ */
+function isTruthy(value: unknown): boolean {
+  // Explicit false checks
+  if (value === false || value === 0 || value === '' || value === null || value === undefined) {
+    return false;
+  }
+  
+  // NaN check
+  if (typeof value === 'number' && isNaN(value)) {
+    return false;
+  }
+  
+  // Everything else is truthy (including empty arrays/objects)
+  return true;
 }
 
 /**
