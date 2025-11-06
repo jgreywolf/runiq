@@ -2,9 +2,11 @@
  * Template Processor Module
  * Phase 2.2: Variable Substitution Implementation
  * Phase 3.3: Dynamic Shape Generator Integration
+ * Phase 3.4: Legend Generation Integration
  *
  * Processes data-driven templates to generate diagram elements (nodes, edges).
  * Integrates with dynamic shape generator for auto-generating nodes/edges with style mapping.
+ * Supports automatic legend generation for visualizing style mappings.
  */
 
 import {
@@ -20,7 +22,13 @@ import {
   type EdgeGenerationConfig,
   type GeneratedNode,
   type GeneratedEdge,
+  type StyleMappingConfig,
 } from './dynamic-shape-generator.js';
+import {
+  generateLegendsFromMappings,
+  type Legend,
+  type LegendConfig,
+} from './legendGenerator.js';
 
 /**
  * Generic data object (compatible with @runiq/core DataObject)
@@ -130,6 +138,7 @@ export interface ProcessedEdge {
 export interface TemplateResult {
   nodes: ProcessedNode[];
   edges: ProcessedEdge[];
+  legends?: Legend[];
 }
 
 /**
@@ -879,7 +888,7 @@ export function processTemplates(
 /**
  * Process template with dynamic shape generation
  * Combines template processing with auto-generated nodes/edges and style mapping
- * 
+ *
  * @example
  * ```typescript
  * const result = processTemplateWithGeneration(template, data, {
@@ -904,6 +913,8 @@ export function processTemplateWithGeneration(
     nodeConfig?: NodeGenerationConfig;
     edgeConfig?: EdgeGenerationConfig;
     templateRegistry?: TemplateRegistry;
+    generateLegends?: boolean;
+    legendConfig?: LegendConfig;
   } = {}
 ): TemplateResult {
   // First, process the template normally
@@ -944,20 +955,35 @@ export function processTemplateWithGeneration(
     })),
   ];
 
-  return { nodes, edges };
+  // Optionally generate legends from style mappings
+  let legends: Legend[] | undefined;
+  if (options.generateLegends) {
+    const allMappings: StyleMappingConfig[] = [];
+    if (options.nodeConfig?.styleMappings) {
+      allMappings.push(...options.nodeConfig.styleMappings);
+    }
+    if (options.edgeConfig?.styleMappings) {
+      allMappings.push(...options.edgeConfig.styleMappings);
+    }
+    if (allMappings.length > 0) {
+      legends = generateLegendsFromMappings(allMappings, options.legendConfig || {});
+    }
+  }
+
+  return { nodes, edges, legends };
 }
 
 /**
  * Generate nodes and edges directly from relational data
  * Useful for creating network diagrams from relationship data
- * 
+ *
  * @example
  * ```typescript
  * const data = [
  *   { from: 'Alice', to: 'Bob', weight: 10 },
  *   { from: 'Bob', to: 'Charlie', weight: 5 }
  * ];
- * 
+ *
  * const result = generateDiagramFromRelationalData(data, {
  *   nodeConfig: { shape: 'circle' },
  *   edgeConfig: {
@@ -973,6 +999,8 @@ export function generateDiagramFromRelationalData(
   options: {
     nodeConfig?: Omit<NodeGenerationConfig, 'idField'>;
     edgeConfig: EdgeGenerationConfig;
+    generateLegends?: boolean;
+    legendConfig?: LegendConfig;
   }
 ): TemplateResult {
   const result = generateNodesAndEdges(data, {
@@ -994,7 +1022,22 @@ export function generateDiagramFromRelationalData(
     properties: ge.properties,
   }));
 
-  return { nodes, edges };
+  // Optionally generate legends from style mappings
+  let legends: Legend[] | undefined;
+  if (options.generateLegends) {
+    const allMappings: StyleMappingConfig[] = [];
+    if (options.nodeConfig?.styleMappings) {
+      allMappings.push(...options.nodeConfig.styleMappings);
+    }
+    if (options.edgeConfig.styleMappings) {
+      allMappings.push(...options.edgeConfig.styleMappings);
+    }
+    if (allMappings.length > 0) {
+      legends = generateLegendsFromMappings(allMappings, options.legendConfig || {});
+    }
+  }
+
+  return { nodes, edges, legends };
 }
 
 /**
@@ -1008,4 +1051,20 @@ export {
   type EdgeGenerationConfig,
   type GeneratedNode,
   type GeneratedEdge,
+  type StyleMappingConfig,
 } from './dynamic-shape-generator.js';
+
+/**
+ * Re-export legend generation functions for convenience
+ */
+export {
+  generateScaleLegend,
+  generateCategoryLegend,
+  generateThresholdLegend,
+  generateLegendsFromMappings,
+  renderLegendSVG,
+  type Legend,
+  type LegendEntry,
+  type LegendPosition,
+  type LegendConfig,
+} from './legendGenerator.js';
