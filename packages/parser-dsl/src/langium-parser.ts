@@ -1557,7 +1557,8 @@ function processDialogStatement(
       id: statement.id.replace(/^"|"$/g, ''),
       dataKey: statement.dataKey,
       filter: statement.filter?.replace(/^"|"$/g, ''),
-      limit: statement.limit !== undefined ? Number(statement.limit) : undefined,
+      limit:
+        statement.limit !== undefined ? Number(statement.limit) : undefined,
       statements: statement.statements, // Keep raw statements for now
     });
   } else if (Langium.isTemplateBlock(statement)) {

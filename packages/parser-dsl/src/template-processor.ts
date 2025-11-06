@@ -966,7 +966,10 @@ export function processTemplateWithGeneration(
       allMappings.push(...options.edgeConfig.styleMappings);
     }
     if (allMappings.length > 0) {
-      legends = generateLegendsFromMappings(allMappings, options.legendConfig || {});
+      legends = generateLegendsFromMappings(
+        allMappings,
+        options.legendConfig || {}
+      );
     }
   }
 
@@ -1033,7 +1036,10 @@ export function generateDiagramFromRelationalData(
       allMappings.push(...options.edgeConfig.styleMappings);
     }
     if (allMappings.length > 0) {
-      legends = generateLegendsFromMappings(allMappings, options.legendConfig || {});
+      legends = generateLegendsFromMappings(
+        allMappings,
+        options.legendConfig || {}
+      );
     }
   }
 

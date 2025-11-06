@@ -16,13 +16,13 @@ import { processTemplateWithGeneration } from '@runiq/parser-dsl';
 const template = {
   id: 'user-nodes',
   dataKey: 'users',
-  statements: []
+  statements: [],
 };
 
 const data = [
   { id: 'u1', name: 'Alice', status: 'active', score: 95 },
   { id: 'u2', name: 'Bob', status: 'inactive', score: 45 },
-  { id: 'u3', name: 'Charlie', status: 'active', score: 78 }
+  { id: 'u3', name: 'Charlie', status: 'active', score: 78 },
 ];
 
 const result = processTemplateWithGeneration(template, data, {
@@ -30,7 +30,7 @@ const result = processTemplateWithGeneration(template, data, {
     shape: 'rect',
     idField: 'id',
     fieldMappings: {
-      label: 'name'
+      label: 'name',
     },
     styleMappings: [
       {
@@ -39,8 +39,8 @@ const result = processTemplateWithGeneration(template, data, {
         type: 'category',
         categories: {
           active: 'green',
-          inactive: 'gray'
-        }
+          inactive: 'gray',
+        },
       },
       {
         property: 'opacity',
@@ -48,11 +48,11 @@ const result = processTemplateWithGeneration(template, data, {
         type: 'scale',
         scale: {
           domain: [0, 100],
-          range: ['0.3', '1.0']
-        }
-      }
-    ]
-  }
+          range: ['0.3', '1.0'],
+        },
+      },
+    ],
+  },
 });
 
 // result.nodes:
@@ -73,18 +73,18 @@ import { generateDiagramFromRelationalData } from '@runiq/parser-dsl';
 const connections = [
   { from: 'Alice', to: 'Bob', strength: 10 },
   { from: 'Bob', to: 'Charlie', strength: 5 },
-  { from: 'Charlie', to: 'Alice', strength: 8 }
+  { from: 'Charlie', to: 'Alice', strength: 8 },
 ];
 
 const result = generateDiagramFromRelationalData(connections, {
   nodeConfig: {
-    shape: 'circle'
+    shape: 'circle',
   },
   edgeConfig: {
     fromField: 'from',
     toField: 'to',
     fieldMappings: {
-      label: 'strength'
+      label: 'strength',
     },
     styleMappings: [
       {
@@ -93,11 +93,11 @@ const result = generateDiagramFromRelationalData(connections, {
         type: 'scale',
         scale: {
           domain: [0, 10],
-          range: ['1', '5']
-        }
-      }
-    ]
-  }
+          range: ['1', '5'],
+        },
+      },
+    ],
+  },
 });
 
 // result.nodes: [Alice, Bob, Charlie] (auto-extracted)
@@ -111,16 +111,18 @@ const result = generateDiagramFromRelationalData(connections, {
 Maps categorical values to specific styles:
 
 ```typescript
-styleMappings: [{
-  property: 'fill',
-  field: 'status',
-  type: 'category',
-  categories: {
-    active: 'green',
-    inactive: 'gray',
-    error: 'red'
-  }
-}]
+styleMappings: [
+  {
+    property: 'fill',
+    field: 'status',
+    type: 'category',
+    categories: {
+      active: 'green',
+      inactive: 'gray',
+      error: 'red',
+    },
+  },
+];
 ```
 
 ### Scale Mapping
@@ -128,28 +130,33 @@ styleMappings: [{
 Linear interpolation for numeric values:
 
 ```typescript
-styleMappings: [{
-  property: 'opacity',
-  field: 'score',
-  type: 'scale',
-  scale: {
-    domain: [0, 100],      // Input range
-    range: ['0.3', '1.0']  // Output range
-  }
-}]
+styleMappings: [
+  {
+    property: 'opacity',
+    field: 'score',
+    type: 'scale',
+    scale: {
+      domain: [0, 100], // Input range
+      range: ['0.3', '1.0'], // Output range
+    },
+  },
+];
 ```
 
 **Color scales:**
+
 ```typescript
-styleMappings: [{
-  property: 'fill',
-  field: 'temperature',
-  type: 'scale',
-  scale: {
-    domain: [0, 100],
-    range: ['#0000ff', '#ff0000']  // Blue to red gradient
-  }
-}]
+styleMappings: [
+  {
+    property: 'fill',
+    field: 'temperature',
+    type: 'scale',
+    scale: {
+      domain: [0, 100],
+      range: ['#0000ff', '#ff0000'], // Blue to red gradient
+    },
+  },
+];
 ```
 
 ### Threshold Mapping
@@ -157,16 +164,18 @@ styleMappings: [{
 Style based on threshold values:
 
 ```typescript
-styleMappings: [{
-  property: 'fill',
-  field: 'score',
-  type: 'threshold',
-  thresholds: [
-    { value: 80, style: 'green' },
-    { value: 60, style: 'yellow' },
-    { value: 0, style: 'red' }
-  ]
-}]
+styleMappings: [
+  {
+    property: 'fill',
+    field: 'score',
+    type: 'threshold',
+    thresholds: [
+      { value: 80, style: 'green' },
+      { value: 60, style: 'yellow' },
+      { value: 0, style: 'red' },
+    ],
+  },
+];
 ```
 
 ## Real-World Examples
@@ -177,7 +186,7 @@ styleMappings: [{
 const services = [
   { name: 'api', status: 'healthy', cpu: 45, memory: 60 },
   { name: 'db', status: 'healthy', cpu: 80, memory: 75 },
-  { name: 'cache', status: 'warning', cpu: 60, memory: 90 }
+  { name: 'cache', status: 'warning', cpu: 60, memory: 90 },
 ];
 
 const result = processTemplateWithGeneration(template, services, {
@@ -193,8 +202,8 @@ const result = processTemplateWithGeneration(template, services, {
         categories: {
           healthy: '#22c55e',
           warning: '#eab308',
-          error: '#ef4444'
-        }
+          error: '#ef4444',
+        },
       },
       {
         property: 'stroke',
@@ -203,11 +212,11 @@ const result = processTemplateWithGeneration(template, services, {
         thresholds: [
           { value: 80, style: 'red' },
           { value: 60, style: 'orange' },
-          { value: 0, style: 'green' }
-        ]
-      }
-    ]
-  }
+          { value: 0, style: 'green' },
+        ],
+      },
+    ],
+  },
 });
 ```
 
@@ -217,12 +226,12 @@ const result = processTemplateWithGeneration(template, services, {
 const friendships = [
   { user1: 'Alice', user2: 'Bob', since: 2020, interactions: 150 },
   { user1: 'Bob', user2: 'Charlie', since: 2021, interactions: 80 },
-  { user1: 'Alice', user2: 'Diana', since: 2019, interactions: 200 }
+  { user1: 'Alice', user2: 'Diana', since: 2019, interactions: 200 },
 ];
 
 const result = generateDiagramFromRelationalData(friendships, {
   nodeConfig: {
-    shape: 'circle'
+    shape: 'circle',
   },
   edgeConfig: {
     fromField: 'user1',
@@ -234,8 +243,8 @@ const result = generateDiagramFromRelationalData(friendships, {
         type: 'scale',
         scale: {
           domain: [0, 200],
-          range: ['1', '5']
-        }
+          range: ['1', '5'],
+        },
       },
       {
         property: 'stroke',
@@ -244,11 +253,11 @@ const result = generateDiagramFromRelationalData(friendships, {
         categories: {
           '2019': '#1e40af',
           '2020': '#3b82f6',
-          '2021': '#60a5fa'
-        }
-      }
-    ]
-  }
+          '2021': '#60a5fa',
+        },
+      },
+    ],
+  },
 });
 ```
 
@@ -259,7 +268,7 @@ const employees = [
   { id: 'ceo', name: 'Alice Chen', level: 1, department: 'Executive' },
   { id: 'cto', name: 'Bob Smith', level: 2, department: 'Engineering' },
   { id: 'dev1', name: 'Charlie Lee', level: 3, department: 'Engineering' },
-  { id: 'dev2', name: 'Diana Park', level: 3, department: 'Engineering' }
+  { id: 'dev2', name: 'Diana Park', level: 3, department: 'Engineering' },
 ];
 
 const result = processTemplateWithGeneration(template, employees, {
@@ -268,7 +277,7 @@ const result = processTemplateWithGeneration(template, employees, {
     shape: 'rect',
     fieldMappings: {
       label: 'name',
-      subtitle: 'department'
+      subtitle: 'department',
     },
     styleMappings: [
       {
@@ -276,13 +285,13 @@ const result = processTemplateWithGeneration(template, employees, {
         field: 'level',
         type: 'category',
         categories: {
-          '1': '#FFD700',  // Gold
-          '2': '#C0C0C0',  // Silver
-          '3': '#CD7F32'   // Bronze
-        }
-      }
-    ]
-  }
+          '1': '#FFD700', // Gold
+          '2': '#C0C0C0', // Silver
+          '3': '#CD7F32', // Bronze
+        },
+      },
+    ],
+  },
 });
 ```
 
@@ -298,19 +307,19 @@ const template = {
     {
       type: 'node',
       id: '${item.id}',
-      properties: [
-        { key: 'label', value: '${item.name}' }
-      ]
-    }
-  ]
+      properties: [{ key: 'label', value: '${item.name}' }],
+    },
+  ],
 };
 
 // This will process template statements AND generate additional styled nodes
 const result = processTemplateWithGeneration(template, data, {
   nodeConfig: {
     // Additional auto-generated nodes
-    styleMappings: [/* ... */]
-  }
+    styleMappings: [
+      /* ... */
+    ],
+  },
 });
 ```
 

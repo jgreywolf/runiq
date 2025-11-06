@@ -70,9 +70,7 @@ describe('Template Conditionals and Loops', () => {
         ],
       };
 
-      const data: DataObject[] = [
-        { id: 'u1', deleted: false },
-      ];
+      const data: DataObject[] = [{ id: 'u1', deleted: false }];
 
       const result = processTemplate(template, data);
 
@@ -147,8 +145,8 @@ describe('Template Conditionals and Loops', () => {
 
       const data: DataObject[] = [
         { id: 'u1', score: 100 }, // Truthy
-        { id: 'u2', score: 0 },   // Falsy
-        { id: 'u3', score: -5 },  // Truthy (negative numbers are truthy)
+        { id: 'u2', score: 0 }, // Falsy
+        { id: 'u3', score: -5 }, // Truthy (negative numbers are truthy)
       ];
 
       const result = processTemplate(template, data);
@@ -179,9 +177,9 @@ describe('Template Conditionals and Loops', () => {
       };
 
       const data: DataObject[] = [
-        { id: 'u1', status: 'active' },  // Truthy
-        { id: 'u2', status: '' },        // Falsy
-        { id: 'u3', status: null },      // Falsy
+        { id: 'u1', status: 'active' }, // Truthy
+        { id: 'u2', status: '' }, // Falsy
+        { id: 'u3', status: null }, // Falsy
       ];
 
       const result = processTemplate(template, data);
@@ -219,9 +217,9 @@ describe('Template Conditionals and Loops', () => {
       };
 
       const data: DataObject[] = [
-        { id: 'u1', active: true, premium: true },   // Both true
-        { id: 'u2', active: true, premium: false },  // Only outer true
-        { id: 'u3', active: false, premium: true },  // Only inner true
+        { id: 'u1', active: true, premium: true }, // Both true
+        { id: 'u2', active: true, premium: false }, // Only outer true
+        { id: 'u3', active: false, premium: true }, // Only inner true
       ];
 
       const result = processTemplate(template, data);
@@ -365,11 +363,7 @@ describe('Template Conditionals and Loops', () => {
 
       const data: DataObject[] = [
         {
-          steps: [
-            { id: 's1' },
-            { id: 's2' },
-            { id: 's3' },
-          ],
+          steps: [{ id: 's1' }, { id: 's2' }, { id: 's3' }],
         },
       ];
 
@@ -414,9 +408,7 @@ describe('Template Conditionals and Loops', () => {
         },
         {
           id: 'org2',
-          departments: [
-            { id: 'd3', name: 'Marketing' },
-          ],
+          departments: [{ id: 'd3', name: 'Marketing' }],
         },
       ];
 
@@ -487,9 +479,7 @@ describe('Template Conditionals and Loops', () => {
         ],
       };
 
-      const data: DataObject[] = [
-        { id: 'test', list: [] },
-      ];
+      const data: DataObject[] = [{ id: 'test', list: [] }];
 
       const result = processTemplate(template, data);
 
@@ -536,9 +526,7 @@ describe('Template Conditionals and Loops', () => {
               ],
             },
             {
-              cells: [
-                { id: 'c3', value: 'B1' },
-              ],
+              cells: [{ id: 'c3', value: 'B1' }],
             },
           ],
         },
@@ -653,11 +641,7 @@ describe('Template Conditionals and Loops', () => {
         ],
       };
 
-      const data: DataObject[] = [
-        { id: 'i0' },
-        { id: 'i1' },
-        { id: 'i2' },
-      ];
+      const data: DataObject[] = [{ id: 'i0' }, { id: 'i1' }, { id: 'i2' }];
 
       const result = processTemplate(template, data);
 
@@ -734,9 +718,7 @@ describe('Template Conditionals and Loops', () => {
         {
           id: 'team2',
           active: false,
-          members: [
-            { id: 'm3', name: 'Charlie' },
-          ],
+          members: [{ id: 'm3', name: 'Charlie' }],
         },
       ];
 
@@ -790,9 +772,7 @@ describe('Template Conditionals and Loops', () => {
           id: 'p2',
           status: 'active',
           hasIssues: true,
-          issues: [
-            { id: 'i3', title: 'Bug 3' },
-          ],
+          issues: [{ id: 'i3', title: 'Bug 3' }],
         },
       ];
 

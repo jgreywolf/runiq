@@ -1,0 +1,8 @@
+diagram "Activity Final Test" {
+  shape start as @initialState
+  shape process as @activity label:"Process"
+  shape done as @activityFinal
+  
+  start -> process flowType:"control"
+  process -> done flowType:"control"
+}

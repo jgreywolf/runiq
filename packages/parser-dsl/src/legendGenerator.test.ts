@@ -9,7 +9,7 @@ import {
   generateThresholdLegend,
   generateLegendsFromMappings,
   renderLegendSVG,
-  type LegendConfig
+  type LegendConfig,
 } from './legendGenerator.js';
 import type { StyleMappingConfig } from './dynamic-shape-generator.js';
 
@@ -22,8 +22,8 @@ describe('Legend Generator', () => {
         type: 'scale',
         scale: {
           domain: [0, 100],
-          range: ['0.3', '1.0']
-        }
+          range: ['0.3', '1.0'],
+        },
       };
 
       const legend = generateScaleLegend(mapping as any);
@@ -45,8 +45,8 @@ describe('Legend Generator', () => {
         type: 'scale',
         scale: {
           domain: [0, 100],
-          range: ['#0000ff', '#ff0000']
-        }
+          range: ['#0000ff', '#ff0000'],
+        },
       };
 
       const legend = generateScaleLegend(mapping as any);
@@ -64,14 +64,14 @@ describe('Legend Generator', () => {
         type: 'scale',
         scale: {
           domain: [0, 10],
-          range: ['1', '5']
-        }
+          range: ['1', '5'],
+        },
       };
 
       const config: LegendConfig = {
         steps: 3,
         position: 'top-left',
-        title: 'System Load'
+        title: 'System Load',
       };
 
       const legend = generateScaleLegend(mapping as any, config);
@@ -91,12 +91,12 @@ describe('Legend Generator', () => {
         type: 'scale',
         scale: {
           domain: [0, 1],
-          range: ['0', '1']
-        }
+          range: ['0', '1'],
+        },
       };
 
       const config: LegendConfig = {
-        steps: 3
+        steps: 3,
       };
 
       const legend = generateScaleLegend(mapping as any, config);
@@ -111,7 +111,7 @@ describe('Legend Generator', () => {
         property: 'fill',
         field: 'status',
         type: 'category',
-        categories: { active: 'green' }
+        categories: { active: 'green' },
       };
 
       expect(() => {
@@ -130,8 +130,8 @@ describe('Legend Generator', () => {
         categories: {
           active: 'green',
           inactive: 'gray',
-          error: 'red'
-        }
+          error: 'red',
+        },
       };
 
       const legend = generateCategoryLegend(mapping as any);
@@ -139,11 +139,11 @@ describe('Legend Generator', () => {
       expect(legend.type).toBe('category');
       expect(legend.title).toBe('status (fill)');
       expect(legend.entries).toHaveLength(3);
-      
-      const activeEntry = legend.entries.find(e => e.label === 'active');
+
+      const activeEntry = legend.entries.find((e) => e.label === 'active');
       expect(activeEntry?.style).toBe('green');
-      
-      const errorEntry = legend.entries.find(e => e.label === 'error');
+
+      const errorEntry = legend.entries.find((e) => e.label === 'error');
       expect(errorEntry?.style).toBe('red');
     });
 
@@ -155,13 +155,13 @@ describe('Legend Generator', () => {
         categories: {
           high: '#ff0000',
           medium: '#ffaa00',
-          low: '#00ff00'
-        }
+          low: '#00ff00',
+        },
       };
 
       const config: LegendConfig = {
         title: 'Task Priority',
-        position: 'top-right'
+        position: 'top-right',
       };
 
       const legend = generateCategoryLegend(mapping as any, config);
@@ -178,8 +178,8 @@ describe('Legend Generator', () => {
         type: 'scale',
         scale: {
           domain: [0, 100],
-          range: ['0.3', '1.0']
-        }
+          range: ['0.3', '1.0'],
+        },
       };
 
       expect(() => {
@@ -198,8 +198,8 @@ describe('Legend Generator', () => {
         thresholds: [
           { value: 80, style: 'green' },
           { value: 60, style: 'yellow' },
-          { value: 0, style: 'red' }
-        ]
+          { value: 0, style: 'red' },
+        ],
       };
 
       const legend = generateThresholdLegend(mapping as any);
@@ -207,7 +207,7 @@ describe('Legend Generator', () => {
       expect(legend.type).toBe('category'); // Displays like category
       expect(legend.title).toBe('score (fill)');
       expect(legend.entries).toHaveLength(3);
-      
+
       // Should be sorted descending
       expect(legend.entries[0].label).toBe('≥ 80');
       expect(legend.entries[0].style).toBe('green');
@@ -225,8 +225,8 @@ describe('Legend Generator', () => {
         thresholds: [
           { value: 0, style: 'blue' },
           { value: 100, style: 'red' },
-          { value: 50, style: 'orange' }
-        ]
+          { value: 50, style: 'orange' },
+        ],
       };
 
       const legend = generateThresholdLegend(mapping as any);
@@ -242,7 +242,7 @@ describe('Legend Generator', () => {
         property: 'fill',
         field: 'status',
         type: 'category',
-        categories: { active: 'green' }
+        categories: { active: 'green' },
       };
 
       expect(() => {
@@ -261,8 +261,8 @@ describe('Legend Generator', () => {
           type: 'category',
           categories: {
             active: 'green',
-            inactive: 'gray'
-          }
+            inactive: 'gray',
+          },
         },
         {
           property: 'opacity',
@@ -270,8 +270,8 @@ describe('Legend Generator', () => {
           type: 'scale',
           scale: {
             domain: [0, 100],
-            range: ['0.3', '1.0']
-          }
+            range: ['0.3', '1.0'],
+          },
         },
         {
           property: 'strokeWidth',
@@ -280,9 +280,9 @@ describe('Legend Generator', () => {
           thresholds: [
             { value: 8, style: '3' },
             { value: 5, style: '2' },
-            { value: 0, style: '1' }
-          ]
-        }
+            { value: 0, style: '1' },
+          ],
+        },
       ];
 
       const legends = generateLegendsFromMappings(mappings);
@@ -299,20 +299,20 @@ describe('Legend Generator', () => {
           property: 'fill',
           field: 'a',
           type: 'category',
-          categories: { x: 'red' }
+          categories: { x: 'red' },
         },
         {
           property: 'opacity',
           field: 'b',
           type: 'scale',
-          scale: { domain: [0, 1], range: ['0', '1'] }
+          scale: { domain: [0, 1], range: ['0', '1'] },
         },
         {
           property: 'strokeWidth',
           field: 'c',
           type: 'category',
-          categories: { y: 'blue' }
-        }
+          categories: { y: 'blue' },
+        },
       ];
 
       const legends = generateLegendsFromMappings(mappings);
@@ -328,12 +328,12 @@ describe('Legend Generator', () => {
           property: 'fill',
           field: 'status',
           type: 'category',
-          categories: { active: 'green' }
-        }
+          categories: { active: 'green' },
+        },
       ];
 
       const legends = generateLegendsFromMappings(mappings, {
-        position: 'top-center'
+        position: 'top-center',
       });
 
       expect(legends[0].position).toBe('top-center');
@@ -351,15 +351,21 @@ describe('Legend Generator', () => {
         property: 'fill',
         field: 'status',
         type: 'category',
-        categories: { active: 'green' }
+        categories: { active: 'green' },
       };
 
       const positions = [
-        'top-left', 'top-right', 'bottom-left', 'bottom-right',
-        'top-center', 'bottom-center', 'left-center', 'right-center'
+        'top-left',
+        'top-right',
+        'bottom-left',
+        'bottom-right',
+        'top-center',
+        'bottom-center',
+        'left-center',
+        'right-center',
       ] as const;
 
-      positions.forEach(position => {
+      positions.forEach((position) => {
         const legend = generateCategoryLegend(mapping as any, { position });
         expect(legend.bounds.width).toBeGreaterThan(0);
         expect(legend.bounds.height).toBeGreaterThan(0);
@@ -373,12 +379,12 @@ describe('Legend Generator', () => {
         property: 'fill',
         field: 'status',
         type: 'category',
-        categories: { active: 'green' }
+        categories: { active: 'green' },
       };
 
       const legend = generateCategoryLegend(mapping as any, {
         width: 300,
-        height: 250
+        height: 250,
       });
 
       expect(legend.bounds.width).toBe(300);
@@ -394,13 +400,13 @@ describe('Legend Generator', () => {
         type: 'scale',
         scale: {
           domain: [0, 100],
-          range: ['#0000ff', '#ff0000']
-        }
+          range: ['#0000ff', '#ff0000'],
+        },
       };
 
       const legend = generateScaleLegend(mapping as any, {
         title: 'Temperature Scale',
-        steps: 3
+        steps: 3,
       });
 
       const svg = renderLegendSVG(legend);
@@ -420,12 +426,12 @@ describe('Legend Generator', () => {
         categories: {
           active: '#22c55e',
           warning: '#eab308',
-          error: '#ef4444'
-        }
+          error: '#ef4444',
+        },
       };
 
       const legend = generateCategoryLegend(mapping as any, {
-        title: 'Status'
+        title: 'Status',
       });
 
       const svg = renderLegendSVG(legend);
@@ -444,7 +450,7 @@ describe('Legend Generator', () => {
         property: 'fill',
         field: 'status',
         type: 'category',
-        categories: { active: 'green' }
+        categories: { active: 'green' },
       };
 
       const legend = generateCategoryLegend(mapping as any);
@@ -459,7 +465,7 @@ describe('Legend Generator', () => {
         property: 'fill',
         field: 'status',
         type: 'category',
-        categories: { active: 'green' }
+        categories: { active: 'green' },
       };
 
       const legend = generateCategoryLegend(mapping as any);
@@ -475,8 +481,8 @@ describe('Legend Generator', () => {
         type: 'category',
         categories: {
           'error & warning': 'red',
-          'success > 90%': 'green'
-        }
+          'success > 90%': 'green',
+        },
       };
 
       const legend = generateCategoryLegend(mapping as any);
@@ -496,8 +502,8 @@ describe('Legend Generator', () => {
         thresholds: [
           { value: 80, style: 'green' },
           { value: 60, style: 'yellow' },
-          { value: 0, style: 'red' }
-        ]
+          { value: 0, style: 'red' },
+        ],
       };
 
       const legend = generateThresholdLegend(mapping as any);

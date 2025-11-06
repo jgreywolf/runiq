@@ -103,9 +103,7 @@ describe('Legend Integration', () => {
         statements: [],
       };
 
-      const data: DataObject[] = [
-        { id: 'n1', status: 'active' },
-      ];
+      const data: DataObject[] = [{ id: 'n1', status: 'active' }];
 
       const result = processTemplateWithGeneration(template, data, {
         nodeConfig: {
@@ -132,9 +130,7 @@ describe('Legend Integration', () => {
         statements: [],
       };
 
-      const data: DataObject[] = [
-        { id: 'i1', priority: 'high' },
-      ];
+      const data: DataObject[] = [{ id: 'i1', priority: 'high' }];
 
       const result = processTemplateWithGeneration(template, data, {
         nodeConfig: {
@@ -220,7 +216,7 @@ describe('Legend Integration', () => {
               thresholds: [
                 { value: 200, style: '#ef4444' }, // High latency = red
                 { value: 100, style: '#eab308' }, // Medium = yellow
-                { value: 0, style: '#22c55e' },   // Low = green
+                { value: 0, style: '#22c55e' }, // Low = green
               ],
             },
           ],
@@ -235,9 +231,7 @@ describe('Legend Integration', () => {
     });
 
     it('does not generate legends when not requested', () => {
-      const data: DataObject[] = [
-        { from: 'X', to: 'Y', weight: 5 },
-      ];
+      const data: DataObject[] = [{ from: 'X', to: 'Y', weight: 5 }];
 
       const result = generateDiagramFromRelationalData(data, {
         edgeConfig: {
@@ -354,13 +348,17 @@ describe('Legend Integration', () => {
       expect(result.legends).toHaveLength(2);
 
       // Health status legend (category)
-      const healthLegend = result.legends!.find((l) => l.title?.includes('health'));
+      const healthLegend = result.legends!.find((l) =>
+        l.title?.includes('health')
+      );
       expect(healthLegend).toBeDefined();
       expect(healthLegend!.type).toBe('category');
       expect(healthLegend!.entries).toHaveLength(3);
 
       // Memory threshold legend
-      const memoryLegend = result.legends!.find((l) => l.title?.includes('memory'));
+      const memoryLegend = result.legends!.find((l) =>
+        l.title?.includes('memory')
+      );
       expect(memoryLegend).toBeDefined();
       expect(memoryLegend!.type).toBe('category'); // Threshold displays as category
       expect(memoryLegend!.entries).toHaveLength(3);

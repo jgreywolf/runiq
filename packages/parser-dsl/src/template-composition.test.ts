@@ -59,7 +59,9 @@ describe('Template Composition', () => {
         { id: 'u2', name: 'Bob' },
       ];
 
-      const result = processTemplateWithComposition(mainTemplate, data, { templateRegistry: registry });
+      const result = processTemplateWithComposition(mainTemplate, data, {
+        templateRegistry: registry,
+      });
 
       expect(result.nodes).toHaveLength(2);
       expect(result.nodes[0].id).toBe('u1');
@@ -112,7 +114,9 @@ describe('Template Composition', () => {
         { id: 'u1', name: 'Alice', favoriteColor: 'blue' },
       ];
 
-      const result = processTemplateWithComposition(mainTemplate, data, { templateRegistry: registry });
+      const result = processTemplateWithComposition(mainTemplate, data, {
+        templateRegistry: registry,
+      });
 
       expect(result.nodes).toHaveLength(1);
       expect(result.nodes[0].properties.fill).toBe('blue');
@@ -173,7 +177,9 @@ describe('Template Composition', () => {
         },
       ];
 
-      const result = processTemplateWithComposition(teamTemplate, data, { templateRegistry: registry });
+      const result = processTemplateWithComposition(teamTemplate, data, {
+        templateRegistry: registry,
+      });
 
       expect(result.nodes).toHaveLength(2);
       expect(result.nodes[0].id).toBe('m1');
@@ -253,7 +259,9 @@ describe('Template Composition', () => {
         { id: 'u2', name: 'Bob', active: false },
       ];
 
-      const result = processTemplateWithComposition(mainTemplate, data, { templateRegistry: registry });
+      const result = processTemplateWithComposition(mainTemplate, data, {
+        templateRegistry: registry,
+      });
 
       expect(result.nodes).toHaveLength(2);
       expect(result.nodes[0].shape).toBe('star');
@@ -275,15 +283,13 @@ describe('Template Composition', () => {
         ],
       };
 
-      const registry: TemplateRegistry = new Map([
-        ['main', mainTemplate],
-      ]);
+      const registry: TemplateRegistry = new Map([['main', mainTemplate]]);
 
-      const data: DataObject[] = [
-        { id: 'u1' },
-      ];
+      const data: DataObject[] = [{ id: 'u1' }];
 
-      const result = processTemplateWithComposition(mainTemplate, data, { templateRegistry: registry });
+      const result = processTemplateWithComposition(mainTemplate, data, {
+        templateRegistry: registry,
+      });
 
       expect(result.nodes).toHaveLength(0); // No errors, just no nodes
     });
@@ -301,9 +307,7 @@ describe('Template Composition', () => {
         ],
       };
 
-      const data: DataObject[] = [
-        { id: 'u1' },
-      ];
+      const data: DataObject[] = [{ id: 'u1' }];
 
       const result = processTemplateWithComposition(mainTemplate, data); // No registry
 
@@ -364,11 +368,11 @@ describe('Template Composition', () => {
         ['outer', outer],
       ]);
 
-      const data: DataObject[] = [
-        { id: 'u1', name: 'Alice' },
-      ];
+      const data: DataObject[] = [{ id: 'u1', name: 'Alice' }];
 
-      const result = processTemplateWithComposition(outer, data, { templateRegistry: registry });
+      const result = processTemplateWithComposition(outer, data, {
+        templateRegistry: registry,
+      });
 
       expect(result.nodes).toHaveLength(1);
       expect(result.nodes[0].id).toBe('u1');
@@ -437,11 +441,11 @@ describe('Template Composition', () => {
         ['main', mainTemplate],
       ]);
 
-      const data: DataObject[] = [
-        { source: 'n1', target: 'n2' },
-      ];
+      const data: DataObject[] = [{ source: 'n1', target: 'n2' }];
 
-      const result = processTemplateWithComposition(mainTemplate, data, { templateRegistry: registry });
+      const result = processTemplateWithComposition(mainTemplate, data, {
+        templateRegistry: registry,
+      });
 
       expect(result.nodes).toHaveLength(2);
       expect(result.edges).toHaveLength(1);
@@ -505,9 +509,7 @@ describe('Template Composition', () => {
           { id: 'u1', name: 'Alice' },
           { id: 'u2', name: 'Bob' },
         ],
-        groupData: [
-          { id: 'g1', name: 'Team A' },
-        ],
+        groupData: [{ id: 'g1', name: 'Team A' }],
       };
 
       const result = processTemplates(templates, dataMap);
@@ -656,7 +658,9 @@ describe('Template Composition', () => {
         },
       ];
 
-      const result = processTemplateWithComposition(projectTemplate, data, { templateRegistry: registry });
+      const result = processTemplateWithComposition(projectTemplate, data, {
+        templateRegistry: registry,
+      });
 
       expect(result.nodes).toHaveLength(3);
       expect(result.nodes[0].shape).toBe('check');

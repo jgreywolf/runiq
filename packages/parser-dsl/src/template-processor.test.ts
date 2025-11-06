@@ -31,9 +31,7 @@ describe('Template Processor', () => {
         ],
       };
 
-      const data: DataObject[] = [
-        { id: 'u1', name: 'Alice' },
-      ];
+      const data: DataObject[] = [{ id: 'u1', name: 'Alice' }];
 
       const result = processTemplate(template, data);
 
@@ -276,9 +274,7 @@ describe('Template Processor', () => {
         ],
       };
 
-      const data: DataObject[] = [
-        { id: 'u1' },
-      ];
+      const data: DataObject[] = [{ id: 'u1' }];
 
       const result = processTemplate(template, data);
 
@@ -300,9 +296,7 @@ describe('Template Processor', () => {
         ],
       };
 
-      const data: DataObject[] = [
-        { id: 123 },
-      ];
+      const data: DataObject[] = [{ id: 123 }];
 
       const result = processTemplate(template, data);
 
@@ -326,9 +320,7 @@ describe('Template Processor', () => {
         ],
       };
 
-      const data: DataObject[] = [
-        { id: 'u1', name: 'Alice', age: 30 },
-      ];
+      const data: DataObject[] = [{ id: 'u1', name: 'Alice', age: 30 }];
 
       const result = processTemplate(template, data);
 
@@ -373,9 +365,7 @@ describe('Template Processor', () => {
           { id: 'u1', name: 'Alice' },
           { id: 'u2', name: 'Bob' },
         ],
-        edgeData: [
-          { from: 'u1', to: 'u2' },
-        ],
+        edgeData: [{ from: 'u1', to: 'u2' }],
       };
 
       const result = processTemplates(templates, dataMap);

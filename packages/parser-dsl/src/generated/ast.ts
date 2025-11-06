@@ -89,6 +89,7 @@ export type RuniqKeywordNames =
     | "acceptEvent"
     | "accuracy:"
     | "acoustic"
+    | "action"
     | "activate:"
     | "activity"
     | "activityFinal"
@@ -105,6 +106,7 @@ export type RuniqKeywordNames =
     | "analyzerTransmitter"
     | "anchor"
     | "and"
+    | "api"
     | "arrowType:"
     | "artifact"
     | "as"
@@ -131,6 +133,8 @@ export type RuniqKeywordNames =
     | "bottom-right"
     | "boundary"
     | "break"
+    | "cache"
+    | "call"
     | "carrier:"
     | "cascade"
     | "center"
@@ -169,6 +173,7 @@ export type RuniqKeywordNames =
     | "condenser"
     | "conductivity"
     | "conductivityTransmitter"
+    | "config"
     | "constraint:"
     | "constraints:"
     | "container"
@@ -190,6 +195,7 @@ export type RuniqKeywordNames =
     | "dataStore"
     | "database"
     | "datasource"
+    | "db"
     | "dc"
     | "deceased:"
     | "default:"
@@ -210,6 +216,7 @@ export type RuniqKeywordNames =
     | "distillationColumn"
     | "distribution:"
     | "doActivity:"
+    | "done"
     | "dotted"
     | "double"
     | "durationConstraint"
@@ -223,6 +230,7 @@ export type RuniqKeywordNames =
     | "edgeType:"
     | "effect:"
     | "electrical"
+    | "end"
     | "entity"
     | "entry:"
     | "entryPoint"
@@ -238,6 +246,7 @@ export type RuniqKeywordNames =
     | "expanding"
     | "extends:"
     | "extensionPoints:"
+    | "f"
     | "false"
     | "fan"
     | "feedforward"
@@ -246,6 +255,7 @@ export type RuniqKeywordNames =
     | "fill:"
     | "filter"
     | "filter:"
+    | "finalState"
     | "firedHeater"
     | "fireproof"
     | "fit-content"
@@ -315,6 +325,8 @@ export type RuniqKeywordNames =
     | "incrementalLayout:"
     | "indent"
     | "inertia:"
+    | "initialState"
+    | "input"
     | "inputPins:"
     | "inst"
     | "instrument"
@@ -382,6 +394,7 @@ export type RuniqKeywordNames =
     | "mineral"
     | "mm"
     | "mm/s"
+    | "mobile"
     | "mode:"
     | "module"
     | "mrtree"
@@ -413,6 +426,7 @@ export type RuniqKeywordNames =
     | "or"
     | "orientation:"
     | "orthogonal"
+    | "output"
     | "outputPins:"
     | "over"
     | "package"
@@ -436,6 +450,7 @@ export type RuniqKeywordNames =
     | "phTransmitter"
     | "phosphate-ester"
     | "pid"
+    | "pill"
     | "pin"
     | "pins:"
     | "pneumatic"
@@ -465,6 +480,7 @@ export type RuniqKeywordNames =
     | "public"
     | "pumpCentrifugal"
     | "pumpPositiveDisplacement"
+    | "queue"
     | "radial"
     | "range:"
     | "rated"
@@ -503,6 +519,7 @@ export type RuniqKeywordNames =
     | "separatorHorizontal"
     | "sequence"
     | "setpoint:"
+    | "settings"
     | "shadow:"
     | "shape"
     | "shape:"
@@ -525,8 +542,10 @@ export type RuniqKeywordNames =
     | "stable"
     | "stacked:"
     | "standard"
+    | "start"
     | "stateInvariant:"
     | "static:"
+    | "step"
     | "stereotype:"
     | "stereotypes:"
     | "storageTank"
@@ -976,7 +995,7 @@ export interface ConnectionPoint extends langium.AstNode {
     readonly $container: PIDLineFromProperty | PIDLineToProperty;
     readonly $type: 'ConnectionPoint';
     equipment: string;
-    port?: string;
+    port?: FlexibleID;
 }
 
 export const ConnectionPoint = {
@@ -992,10 +1011,10 @@ export function isConnectionPoint(item: unknown): item is ConnectionPoint {
 export interface ContainerBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ContainerBlock';
-    id?: string;
+    id?: FlexibleID;
     label: string;
     properties: Array<ContainerProperty>;
-    shape?: string;
+    shape?: FlexibleID | string;
     statements: Array<DiagramStatement>;
 }
 
@@ -1786,6 +1805,12 @@ export function isFillProperty(item: unknown): item is FillProperty {
     return reflection.isInstance(item, FillProperty.$type);
 }
 
+export type FlexibleID = 'action' | 'api' | 'cache' | 'call' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'limit' | 'loop' | 'm' | 'mobile' | 'name' | 'output' | 'process' | 'queue' | 'settings' | 'source' | 'start' | 'step' | 'to' | 'type' | 'value' | string;
+
+export function isFlexibleID(item: unknown): item is FlexibleID {
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+}
+
 export interface FlowRateStatement extends langium.AstNode {
     readonly $container: HydraulicProfile | PIDProfile | PneumaticProfile;
     readonly $type: 'FlowRateStatement';
@@ -2558,8 +2583,8 @@ export function isNodeProperty(item: unknown): item is NodeProperty {
 export interface NodeRef extends langium.AstNode {
     readonly $container: EdgeChain | EdgeDeclaration;
     readonly $type: 'NodeRef';
-    member?: string;
-    node: string;
+    member?: FlexibleID;
+    node: FlexibleID;
 }
 
 export const NodeRef = {
@@ -3941,7 +3966,7 @@ export function isSequenceTypeProperty(item: unknown): item is SequenceTypePrope
 export interface ShapeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ShapeDeclaration';
-    id: string;
+    id: FlexibleID;
     properties: Array<NodeProperty>;
     shape?: ShapeIdentifier;
 }
@@ -3957,10 +3982,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'entryPoint' | 'exitPoint' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {

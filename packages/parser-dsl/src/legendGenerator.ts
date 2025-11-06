@@ -1,9 +1,9 @@
 /**
  * Legend Generation for Data-Driven Diagrams
- * 
+ *
  * Generates legend components for visualizing style mappings (scales and categories).
  * Supports color gradients, size scales, and categorical mappings.
- * 
+ *
  * @module legendGenerator
  */
 
@@ -12,9 +12,15 @@ import type { StyleMappingConfig } from './dynamic-shape-generator.js';
 /**
  * Position for legend placement
  */
-export type LegendPosition = 
-  | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
-  | 'top-center' | 'bottom-center' | 'left-center' | 'right-center';
+export type LegendPosition =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'top-center'
+  | 'bottom-center'
+  | 'left-center'
+  | 'right-center';
 
 /**
  * Configuration for legend generation
@@ -81,7 +87,7 @@ export function generateScaleLegend(
     title,
     width = 200,
     height = 100,
-    steps = 5
+    steps = 5,
   } = config;
 
   const { domain, range } = mapping.scale;
@@ -93,7 +99,7 @@ export function generateScaleLegend(
   for (let i = 0; i < steps; i++) {
     const ratio = i / (steps - 1);
     const value = minDomain + ratio * (maxDomain - minDomain);
-    
+
     // Interpolate style value
     let style: string;
     if (isColorValue(minRange) && isColorValue(maxRange)) {
@@ -107,7 +113,7 @@ export function generateScaleLegend(
     entries.push({
       label: formatValue(value),
       value,
-      style
+      style,
     });
   }
 
@@ -116,7 +122,7 @@ export function generateScaleLegend(
     title: title || `${mapping.field} (${mapping.property})`,
     entries,
     position,
-    bounds: calculateBounds(position, width, height)
+    bounds: calculateBounds(position, width, height),
   };
 }
 
@@ -135,22 +141,24 @@ export function generateCategoryLegend(
     position = 'bottom-right',
     title,
     width = 200,
-    height = 150
+    height = 150,
   } = config;
 
   // Generate entry for each category
-  const entries: LegendEntry[] = Object.entries(mapping.categories).map(([value, style]) => ({
-    label: value,
-    value,
-    style
-  }));
+  const entries: LegendEntry[] = Object.entries(mapping.categories).map(
+    ([value, style]) => ({
+      label: value,
+      value,
+      style,
+    })
+  );
 
   return {
     type: 'category',
     title: title || `${mapping.field} (${mapping.property})`,
     entries,
     position,
-    bounds: calculateBounds(position, width, height)
+    bounds: calculateBounds(position, width, height),
   };
 }
 
@@ -169,23 +177,26 @@ export function generateThresholdLegend(
     position = 'bottom-right',
     title,
     width = 200,
-    height = 150
+    height = 150,
   } = config;
 
   // Sort thresholds descending (highest first)
-  const sortedThresholds = [...mapping.thresholds].sort((a, b) => b.value - a.value);
+  const sortedThresholds = [...mapping.thresholds].sort(
+    (a, b) => b.value - a.value
+  );
 
   // Generate entry for each threshold range
   const entries: LegendEntry[] = sortedThresholds.map((threshold, index) => {
     const prevThreshold = sortedThresholds[index - 1];
-    const label = index === 0
-      ? `≥ ${formatValue(threshold.value)}`
-      : `${formatValue(threshold.value)} - ${formatValue(prevThreshold.value)}`;
+    const label =
+      index === 0
+        ? `≥ ${formatValue(threshold.value)}`
+        : `${formatValue(threshold.value)} - ${formatValue(prevThreshold.value)}`;
 
     return {
       label,
       value: threshold.value,
-      style: threshold.style
+      style: threshold.style,
     };
   });
 
@@ -194,7 +205,7 @@ export function generateThresholdLegend(
     title: title || `${mapping.field} (${mapping.property})`,
     entries,
     position,
-    bounds: calculateBounds(position, width, height)
+    bounds: calculateBounds(position, width, height),
   };
 }
 
@@ -206,13 +217,13 @@ export function generateLegendsFromMappings(
   config: LegendConfig = {}
 ): Legend[] {
   const legends: Legend[] = [];
-  
+
   // Position legends in a grid
   const positions: LegendPosition[] = [
     'bottom-right',
     'bottom-left',
     'top-right',
-    'top-left'
+    'top-left',
   ];
 
   mappings.forEach((mapping, index) => {
@@ -220,11 +231,26 @@ export function generateLegendsFromMappings(
     const legendConfig = { ...config, position };
 
     if (mapping.type === 'scale') {
-      legends.push(generateScaleLegend(mapping as StyleMappingConfig & { type: 'scale' }, legendConfig));
+      legends.push(
+        generateScaleLegend(
+          mapping as StyleMappingConfig & { type: 'scale' },
+          legendConfig
+        )
+      );
     } else if (mapping.type === 'category') {
-      legends.push(generateCategoryLegend(mapping as StyleMappingConfig & { type: 'category' }, legendConfig));
+      legends.push(
+        generateCategoryLegend(
+          mapping as StyleMappingConfig & { type: 'category' },
+          legendConfig
+        )
+      );
     } else if (mapping.type === 'threshold') {
-      legends.push(generateThresholdLegend(mapping as StyleMappingConfig & { type: 'threshold' }, legendConfig));
+      legends.push(
+        generateThresholdLegend(
+          mapping as StyleMappingConfig & { type: 'threshold' },
+          legendConfig
+        )
+      );
     }
   });
 
@@ -293,7 +319,11 @@ function isColorValue(value: string): boolean {
 /**
  * Interpolate between two hex colors
  */
-function interpolateColor(color1: string, color2: string, ratio: number): string {
+function interpolateColor(
+  color1: string,
+  color2: string,
+  ratio: number
+): string {
   // Parse hex colors
   const r1 = parseInt(color1.slice(1, 3), 16);
   const g1 = parseInt(color1.slice(3, 5), 16);
@@ -319,7 +349,7 @@ function formatValue(value: number): string {
   if (Number.isInteger(value)) {
     return value.toString();
   }
-  
+
   // Show up to 2 decimal places, remove trailing zeros
   return value.toFixed(2).replace(/\.?0+$/, '');
 }
@@ -327,12 +357,15 @@ function formatValue(value: number): string {
 /**
  * Render legend as SVG string
  */
-export function renderLegendSVG(legend: Legend, config: LegendConfig = {}): string {
+export function renderLegendSVG(
+  legend: Legend,
+  config: LegendConfig = {}
+): string {
   const {
     padding = 10,
     fontSize = 12,
     showBorder = true,
-    backgroundColor = 'white'
+    backgroundColor = 'white',
   } = config;
 
   const { bounds, title, entries, type } = legend;

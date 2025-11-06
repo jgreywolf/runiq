@@ -263,24 +263,22 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 	test.describe('Complete Template & Preset Workflow', () => {
 		test('Should create and use template with preset combination', async ({ page }) => {
 			await test.step('Enter complete diagram with templates and presets', async () => {
-				await page.locator('.cm-content').click();
-				await page.keyboard.type('diagram "Architecture"\n\n');
+				const syntax = `diagram "Architecture" {
+  template "microservice" {
+    backgroundColor: "#e3f2fd"
+    padding: 20
+  }
 
-				await page.keyboard.type('template "microservice" {\n');
-				await page.keyboard.type('  backgroundColor: "#e3f2fd"\n');
-				await page.keyboard.type('  padding: 20\n');
-				await page.keyboard.type('}\n\n');
+  preset "card" {
+    shadow: true
+    borderWidth: 1
+  }
 
-				await page.keyboard.type('preset "card" {\n');
-				await page.keyboard.type('  shadow: true\n');
-				await page.keyboard.type('  borderWidth: 1\n');
-				await page.keyboard.type('}\n\n');
-
-				await page.keyboard.type(
-					'container "API Service" templateId: "microservice" preset: "card" {\n'
-				);
-				await page.keyboard.type('  shape api as @server label: "API Gateway"\n');
-				await page.keyboard.type('}');
+  container "API Service" templateId: "microservice" preset: "card" {
+    shape api as @server label: "API Gateway"
+  }
+}`;
+				await page.locator('.cm-content').fill(syntax);
 			});
 
 			await test.step('Verify diagram renders without errors', async () => {
@@ -292,21 +290,21 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
 		test('Should handle container inheritance with extends', async ({ page }) => {
 			await test.step('Enter diagram with inheritance', async () => {
-				await page.locator('.cm-content').click();
-				await page.keyboard.type('diagram "Inheritance"\n\n');
+				const syntax = `diagram "Inheritance" {
+  container "Base" {
+    backgroundColor: "#f0f0f0"
+    padding: 20
+    shape base as @rectangle label: "Base"
+  }
 
-				await page.keyboard.type('container "Base" {\n');
-				await page.keyboard.type('  backgroundColor: "#f0f0f0"\n');
-				await page.keyboard.type('  padding: 20\n');
-				await page.keyboard.type('  shape base as @rectangle label: "Base"\n');
-				await page.keyboard.type('}\n\n');
+  container "Extended" extends: "Base" {
+    borderColor: "#2196f3"
+    shape child as @rectangle label: "Child"
+  }
 
-				await page.keyboard.type('container "Extended" extends: "Base" {\n');
-				await page.keyboard.type('  borderColor: "#2196f3"\n');
-				await page.keyboard.type('  shape child as @rectangle label: "Child"\n');
-				await page.keyboard.type('}\n\n');
-
-				await page.keyboard.type('base -> child');
+  base -> child
+}`;
+				await page.locator('.cm-content').fill(syntax);
 			});
 
 			await test.step('Verify no errors with inheritance', async () => {
