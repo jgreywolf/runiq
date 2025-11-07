@@ -1,0 +1,17 @@
+// Line Chart with All Features
+// Demonstrates labels, per-point colors, and flipAxes together
+
+diagram "Full Featured Line Chart" {
+  shape trends as @lineChart
+    label:"Weekly Performance Trends"
+    data:[72, 75, 78, 82, 79, 85, 88]
+    labels:["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    colors:["#3b82f6", "#10b981", "#10b981", "#f59e0b", "#10b981", "#ef4444", "#ef4444"]
+  
+  shape horizontal as @lineChart
+    label:"Horizontal Performance View"
+    data:[85, 92, 78, 88, 95]
+    labels:["Speed", "Accuracy", "Efficiency", "Quality", "Reliability"]
+    colors:["#10b981", "#10b981", "#f59e0b", "#10b981", "#ef4444"]
+    flipAxes:true
+}

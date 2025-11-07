@@ -1,0 +1,9 @@
+// Radar Chart with Custom Labels Example
+// Displaying skill names instead of "Axis 1", "Axis 2", etc.
+
+diagram "Developer Skill Matrix" {
+  shape skills as @radarChart 
+    label:"Full Stack Developer Skills" 
+    data:[90, 85, 78, 82, 88, 75, 92]
+    labels:["JavaScript", "TypeScript", "React", "Node.js", "SQL", "Docker", "Git"]
+}

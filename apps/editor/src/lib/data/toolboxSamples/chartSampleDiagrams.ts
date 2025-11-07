@@ -10,7 +10,7 @@ export const chartSampleDiagrams: SampleCategory[] = [
 				description: 'Multiple chart types',
 				code: `diagram "Sales Dashboard" {
 shape pieChart as @pieChart label:"Market Share" data:[35,25,40]
-shape barVert as @barChartVertical label:"Quarterly Sales" data:[120,150,180,200]
+shape barVert as @barChart label:"Quarterly Sales" data:[120,150,180,200]
 shape pyramid as @pyramid label:"Sales Funnel" data:[{"label":"Leads","value":1000},{"label":"Qualified","value":500},{"label":"Closed","value":150}]
 }`
 			},

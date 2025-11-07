@@ -1,5 +1,5 @@
 diagram "Performance Metrics" {
 
-  shape metrics as @barChartVertical label:"Team Performance" data:[{"label":"Speed","value":85},{"label":"Quality","value":92},{"label":"Cost","value":78},{"label":"Satisfaction","value":88}]
+  shape metrics as @barChart label:"Team Performance" data:[{"label":"Speed","value":85},{"label":"Quality","value":92},{"label":"Cost","value":78},{"label":"Satisfaction","value":88}]
 
 }

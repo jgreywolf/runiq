@@ -2,5 +2,5 @@
 // Basic vertical bar chart with numeric values
 
 diagram "Monthly Sales" {
-  shape chart1 as @barChartVertical label:"Monthly Sales" data:[30,45,60,55,70]
+  shape chart1 as @barChart label:"Monthly Sales" data:[30,45,60,55,70]
 }

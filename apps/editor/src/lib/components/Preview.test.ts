@@ -5,7 +5,7 @@ describe('Data injection for charts', () => {
 		const testData = [
 			{ skill: 'JavaScript', level: 85 },
 			{ skill: 'TypeScript', level: 72 },
-			{ skill: 'React', level: 90 },
+			{ skill: 'React', level: 90 }
 		];
 
 		const firstObj = testData[0];
@@ -29,7 +29,7 @@ describe('Data injection for charts', () => {
 	it('should handle data with only numeric fields', () => {
 		const testData = [
 			{ q1: 100, q2: 120 },
-			{ q1: 110, q2: 130 },
+			{ q1: 110, q2: 130 }
 		];
 
 		const firstObj = testData[0];

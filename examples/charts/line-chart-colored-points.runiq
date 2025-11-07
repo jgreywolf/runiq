@@ -1,0 +1,10 @@
+// Line Chart with Per-Point Colors Example
+// Each data point has its own color for highlighting or categorization
+
+diagram "Temperature Trends with Alerts" {
+  shape temps as @lineChart 
+    label:"Daily Temperature (°F)" 
+    data:[68, 72, 75, 79, 82, 85, 78, 71, 69, 73]
+    labels:["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"]
+    colors:["#10b981", "#10b981", "#10b981", "#f59e0b", "#ef4444", "#ef4444", "#f59e0b", "#10b981", "#10b981", "#10b981"]
+}

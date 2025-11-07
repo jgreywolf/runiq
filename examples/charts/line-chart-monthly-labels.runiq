@@ -1,0 +1,9 @@
+// Line Chart with Custom Labels Example
+// Displaying meaningful month names instead of generic indices
+
+diagram "2024 Sales Performance" {
+  shape sales as @lineChart 
+    label:"Monthly Sales ($K)" 
+    data:[45, 52, 48, 61, 58, 67, 72, 68, 75, 80, 78, 85]
+    labels:["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+}

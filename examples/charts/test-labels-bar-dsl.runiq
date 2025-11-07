@@ -2,5 +2,5 @@
 // Testing title:, xLabel:, and yLabel: properties
 
 diagram "Quarterly Revenue with Labels" {
-  shape chart1 as @barChartVertical label:"Quarterly Revenue" title:"Company Performance 2025" xLabel:"Quarter" yLabel:"Revenue ($K)" colors:["#4299e1","#48bb78","#ed8936"] data:[{"label":"Q1","value":120},{"label":"Q2","value":150},{"label":"Q3","value":180},{"label":"Q4","value":200}]
+  shape chart1 as @barChart label:"Quarterly Revenue" title:"Company Performance 2025" xLabel:"Quarter" yLabel:"Revenue ($K)" colors:["#4299e1","#48bb78","#ed8936"] data:[{"label":"Q1","value":120},{"label":"Q2","value":150},{"label":"Q3","value":180},{"label":"Q4","value":200}]
 }

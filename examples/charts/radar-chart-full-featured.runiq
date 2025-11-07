@@ -1,0 +1,11 @@
+// Radar Chart with All Features
+// Demonstrates labels, per-point colors, and legend
+
+diagram "Full Featured Radar Chart" {
+  shape assessment as @radarChart
+    label:"Comprehensive Performance Review"
+    data:[88, 92, 85, 90, 78, 95, 82]
+    labels:["Quality", "Speed", "Reliability", "Security", "Scalability", "Usability", "Maintainability"]
+    colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A", "#98D8C8", "#F7DC6F", "#BB8FCE"]
+    showLegend:true
+}

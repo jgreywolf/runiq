@@ -46,11 +46,15 @@ function renderBarsVertical(
   customColors?: string[]
 ): string {
   const bounds = barChart.bounds(ctx);
-  const chartHeight = bounds.height - VERTICAL_MARGIN_TOP - VERTICAL_MARGIN_BOTTOM;
+  const chartHeight =
+    bounds.height - VERTICAL_MARGIN_TOP - VERTICAL_MARGIN_BOTTOM;
 
   const bars = data.map((item, index) => {
     const barHeight = (item.value / maxValue) * chartHeight;
-    const x = position.x + VERTICAL_BAR_SPACING + index * (VERTICAL_BAR_WIDTH + VERTICAL_BAR_SPACING);
+    const x =
+      position.x +
+      VERTICAL_BAR_SPACING +
+      index * (VERTICAL_BAR_WIDTH + VERTICAL_BAR_SPACING);
     const y = position.y + VERTICAL_MARGIN_TOP + (chartHeight - barHeight);
 
     const color = getBarColor(index, customColors);
@@ -87,13 +91,18 @@ function renderBarsHorizontal(
   customColors?: string[]
 ): string {
   const bounds = barChart.bounds(ctx);
-  const chartWidth = bounds.width - HORIZONTAL_MARGIN_LEFT - HORIZONTAL_MARGIN_RIGHT;
+  const chartWidth =
+    bounds.width - HORIZONTAL_MARGIN_LEFT - HORIZONTAL_MARGIN_RIGHT;
   const titleMargin = ctx.node.data?.title ? HORIZONTAL_MARGIN_TOP : 0;
 
   const bars = data.map((item, index) => {
     const barWidth = (item.value / maxValue) * chartWidth;
     const x = position.x + HORIZONTAL_MARGIN_LEFT;
-    const y = position.y + titleMargin + HORIZONTAL_BAR_SPACING + index * (HORIZONTAL_BAR_HEIGHT + HORIZONTAL_BAR_SPACING);
+    const y =
+      position.y +
+      titleMargin +
+      HORIZONTAL_BAR_SPACING +
+      index * (HORIZONTAL_BAR_HEIGHT + HORIZONTAL_BAR_SPACING);
 
     const color = getBarColor(index, customColors);
     const stroke = ctx.style?.stroke || '#333';
@@ -172,7 +181,8 @@ function renderGroupedBarsVertical(
   customColors?: string[]
 ): string {
   const bounds = barChart.bounds(ctx);
-  const chartHeight = bounds.height - VERTICAL_MARGIN_TOP - VERTICAL_MARGIN_BOTTOM;
+  const chartHeight =
+    bounds.height - VERTICAL_MARGIN_TOP - VERTICAL_MARGIN_BOTTOM;
 
   const elements: string[] = [];
   let currentX = position.x + VERTICAL_GROUP_SPACING;
@@ -184,7 +194,10 @@ function renderGroupedBarsVertical(
 
     group.values.forEach((value, seriesIndex) => {
       const barHeight = (value / maxValue) * chartHeight;
-      const x = currentX + seriesIndex * (VERTICAL_GROUPED_BAR_WIDTH + VERTICAL_GROUPED_BAR_SPACING);
+      const x =
+        currentX +
+        seriesIndex *
+          (VERTICAL_GROUPED_BAR_WIDTH + VERTICAL_GROUPED_BAR_SPACING);
       const y = position.y + VERTICAL_MARGIN_TOP + (chartHeight - barHeight);
 
       const color = getBarColor(seriesIndex, customColors);
@@ -225,7 +238,8 @@ function renderGroupedBarsHorizontal(
   customColors?: string[]
 ): string {
   const bounds = barChart.bounds(ctx);
-  const chartWidth = bounds.width - HORIZONTAL_MARGIN_LEFT - HORIZONTAL_MARGIN_RIGHT;
+  const chartWidth =
+    bounds.width - HORIZONTAL_MARGIN_LEFT - HORIZONTAL_MARGIN_RIGHT;
   const titleMargin = ctx.node.data?.title ? HORIZONTAL_MARGIN_TOP : 0;
 
   const elements: string[] = [];
@@ -239,7 +253,10 @@ function renderGroupedBarsHorizontal(
     group.values.forEach((value, seriesIndex) => {
       const barWidth = (value / maxValue) * chartWidth;
       const x = position.x + HORIZONTAL_MARGIN_LEFT;
-      const y = currentY + seriesIndex * (HORIZONTAL_GROUPED_BAR_HEIGHT + HORIZONTAL_GROUPED_BAR_SPACING);
+      const y =
+        currentY +
+        seriesIndex *
+          (HORIZONTAL_GROUPED_BAR_HEIGHT + HORIZONTAL_GROUPED_BAR_SPACING);
 
       const color = getBarColor(seriesIndex, customColors);
       const stroke = ctx.style?.stroke || '#333';
@@ -279,7 +296,8 @@ function renderStackedBarsVertical(
   customColors?: string[]
 ): string {
   const bounds = barChart.bounds(ctx);
-  const chartHeight = bounds.height - VERTICAL_MARGIN_TOP - VERTICAL_MARGIN_BOTTOM;
+  const chartHeight =
+    bounds.height - VERTICAL_MARGIN_TOP - VERTICAL_MARGIN_BOTTOM;
 
   const elements: string[] = [];
   let currentX = position.x + VERTICAL_BAR_SPACING;
@@ -305,7 +323,8 @@ function renderStackedBarsVertical(
     });
 
     const totalX = currentX + VERTICAL_BAR_WIDTH / 2;
-    const totalY = position.y + VERTICAL_MARGIN_TOP + (chartHeight - stackHeight) - 5;
+    const totalY =
+      position.y + VERTICAL_MARGIN_TOP + (chartHeight - stackHeight) - 5;
     elements.push(
       `<text x="${totalX}" y="${totalY}" text-anchor="middle" font-size="10" fill="#666">${total}</text>`
     );
@@ -333,7 +352,8 @@ function renderStackedBarsHorizontal(
   customColors?: string[]
 ): string {
   const bounds = barChart.bounds(ctx);
-  const chartWidth = bounds.width - HORIZONTAL_MARGIN_LEFT - HORIZONTAL_MARGIN_RIGHT;
+  const chartWidth =
+    bounds.width - HORIZONTAL_MARGIN_LEFT - HORIZONTAL_MARGIN_RIGHT;
   const titleMargin = ctx.node.data?.title ? HORIZONTAL_MARGIN_TOP : 0;
 
   const elements: string[] = [];
@@ -464,19 +484,34 @@ function calculateLegendPosition(
     case 'top-right':
       return { x: position.x + chartWidth + 10, y: position.y };
     case 'right':
-      return { x: position.x + chartWidth + 10, y: position.y + (chartHeight - legendHeight) / 2 };
+      return {
+        x: position.x + chartWidth + 10,
+        y: position.y + (chartHeight - legendHeight) / 2,
+      };
     case 'bottom-right':
-      return { x: position.x + chartWidth + 10, y: position.y + chartHeight - legendHeight };
+      return {
+        x: position.x + chartWidth + 10,
+        y: position.y + chartHeight - legendHeight,
+      };
     case 'bottom':
       return { x: position.x, y: position.y + chartHeight + 10 };
     case 'bottom-left':
-      return { x: position.x - legendWidth - 10, y: position.y + chartHeight - legendHeight };
+      return {
+        x: position.x - legendWidth - 10,
+        y: position.y + chartHeight - legendHeight,
+      };
     case 'left':
-      return { x: position.x - legendWidth - 10, y: position.y + (chartHeight - legendHeight) / 2 };
+      return {
+        x: position.x - legendWidth - 10,
+        y: position.y + (chartHeight - legendHeight) / 2,
+      };
     case 'top-left':
       return { x: position.x - legendWidth - 10, y: position.y };
     default:
-      return { x: position.x + chartWidth + 10, y: position.y + chartHeight - legendHeight };
+      return {
+        x: position.x + chartWidth + 10,
+        y: position.y + chartHeight - legendHeight,
+      };
   }
 }
 
@@ -529,7 +564,8 @@ export const barChart: ShapeDefinition = {
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     const flipAxes = ctx.node.data?.flipAxes === true;
     const showLegend = ctx.node.data?.showLegend === true;
-    const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
+    const legendPosition =
+      (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
 
     let baseWidth: number;
     let baseHeight: number;
@@ -550,7 +586,8 @@ export const barChart: ShapeDefinition = {
               (group.values.length - 1) * HORIZONTAL_GROUPED_BAR_SPACING;
             totalHeight += groupHeight + HORIZONTAL_GROUP_SPACING;
           });
-          baseHeight = totalHeight + (ctx.node.data?.title ? HORIZONTAL_MARGIN_TOP : 0);
+          baseHeight =
+            totalHeight + (ctx.node.data?.title ? HORIZONTAL_MARGIN_TOP : 0);
         }
       } else {
         const data = normalizeData(ctx.node.data);
@@ -571,7 +608,8 @@ export const barChart: ShapeDefinition = {
         baseWidth =
           groups.length === 0
             ? 200
-            : groups.length * (VERTICAL_BAR_WIDTH + VERTICAL_BAR_SPACING) + VERTICAL_BAR_SPACING;
+            : groups.length * (VERTICAL_BAR_WIDTH + VERTICAL_BAR_SPACING) +
+              VERTICAL_BAR_SPACING;
       } else if (isGroupedFormat(ctx.node.data)) {
         const groups = normalizeGroupedData(ctx.node.data);
         if (groups.length === 0) {
@@ -591,7 +629,8 @@ export const barChart: ShapeDefinition = {
         baseWidth =
           data.length === 0
             ? 200
-            : data.length * (VERTICAL_BAR_WIDTH + VERTICAL_BAR_SPACING) + VERTICAL_BAR_SPACING;
+            : data.length * (VERTICAL_BAR_WIDTH + VERTICAL_BAR_SPACING) +
+              VERTICAL_BAR_SPACING;
       }
     }
 
@@ -603,7 +642,10 @@ export const barChart: ShapeDefinition = {
       switch (legendPosition) {
         case 'top':
         case 'bottom':
-          return { width: baseWidth, height: baseHeight + horizontalLegendHeight + 10 };
+          return {
+            width: baseWidth,
+            height: baseHeight + horizontalLegendHeight + 10,
+          };
         case 'left':
         case 'top-left':
         case 'bottom-left':
@@ -639,12 +681,19 @@ export const barChart: ShapeDefinition = {
     const yLabel = ctx.node.data?.yLabel;
 
     const bounds = this.bounds(ctx);
-    const titleElement = title ? renderTitle(title as string, position, bounds.width) : '';
-    const xLabelElement = xLabel ? renderXLabel(xLabel as string, position, bounds.width, bounds.height) : '';
-    const yLabelElement = yLabel ? renderYLabel(yLabel as string, position, bounds.height) : '';
+    const titleElement = title
+      ? renderTitle(title as string, position, bounds.width)
+      : '';
+    const xLabelElement = xLabel
+      ? renderXLabel(xLabel as string, position, bounds.width, bounds.height)
+      : '';
+    const yLabelElement = yLabel
+      ? renderYLabel(yLabel as string, position, bounds.height)
+      : '';
 
     const showLegend = ctx.node.data?.showLegend === true;
-    const legendPosition = (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
+    const legendPosition =
+      (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
 
     // Stacked format
     if (isStackedFormat(ctx.node.data)) {
@@ -653,18 +702,35 @@ export const barChart: ShapeDefinition = {
         return renderEmptyState(ctx, position);
       }
 
-      const totals = groups.map((g) => g.values.reduce((sum, val) => sum + val, 0));
+      const totals = groups.map((g) =>
+        g.values.reduce((sum, val) => sum + val, 0)
+      );
       const maxTotal = Math.max(...totals);
 
       const bars = flipAxes
-        ? renderStackedBarsHorizontal(groups, maxTotal, ctx, position, customColors)
-        : renderStackedBarsVertical(groups, maxTotal, ctx, position, customColors);
+        ? renderStackedBarsHorizontal(
+            groups,
+            maxTotal,
+            ctx,
+            position,
+            customColors
+          )
+        : renderStackedBarsVertical(
+            groups,
+            maxTotal,
+            ctx,
+            position,
+            customColors
+          );
       const axis = renderAxis(ctx, position, flipAxes);
 
       let legendElement = '';
       if (showLegend && groups.length > 0 && groups[0].values.length > 0) {
         const seriesCount = groups[0].values.length;
-        const seriesLabels = Array.from({ length: seriesCount }, (_, i) => `Series ${i + 1}`);
+        const seriesLabels = Array.from(
+          { length: seriesCount },
+          (_, i) => `Series ${i + 1}`
+        );
         const legendPos = calculateLegendPosition(
           position,
           bounds.width,
@@ -674,9 +740,20 @@ export const barChart: ShapeDefinition = {
         );
 
         if (legendPosition === 'top' || legendPosition === 'bottom') {
-          legendElement = renderLegendHorizontal(seriesLabels, legendPos.x, legendPos.y, bounds.width, customColors);
+          legendElement = renderLegendHorizontal(
+            seriesLabels,
+            legendPos.x,
+            legendPos.y,
+            bounds.width,
+            customColors
+          );
         } else {
-          legendElement = renderLegend(seriesLabels, legendPos.x, legendPos.y, customColors);
+          legendElement = renderLegend(
+            seriesLabels,
+            legendPos.x,
+            legendPos.y,
+            customColors
+          );
         }
       }
 
@@ -694,14 +771,29 @@ export const barChart: ShapeDefinition = {
       const maxValue = Math.max(...allValues);
 
       const bars = flipAxes
-        ? renderGroupedBarsHorizontal(groups, maxValue, ctx, position, customColors)
-        : renderGroupedBarsVertical(groups, maxValue, ctx, position, customColors);
+        ? renderGroupedBarsHorizontal(
+            groups,
+            maxValue,
+            ctx,
+            position,
+            customColors
+          )
+        : renderGroupedBarsVertical(
+            groups,
+            maxValue,
+            ctx,
+            position,
+            customColors
+          );
       const axis = renderAxis(ctx, position, flipAxes);
 
       let legendElement = '';
       if (showLegend && groups.length > 0 && groups[0].values.length > 0) {
         const seriesCount = groups[0].values.length;
-        const seriesLabels = Array.from({ length: seriesCount }, (_, i) => `Series ${i + 1}`);
+        const seriesLabels = Array.from(
+          { length: seriesCount },
+          (_, i) => `Series ${i + 1}`
+        );
         const legendPos = calculateLegendPosition(
           position,
           bounds.width,
@@ -711,9 +803,20 @@ export const barChart: ShapeDefinition = {
         );
 
         if (legendPosition === 'top' || legendPosition === 'bottom') {
-          legendElement = renderLegendHorizontal(seriesLabels, legendPos.x, legendPos.y, bounds.width, customColors);
+          legendElement = renderLegendHorizontal(
+            seriesLabels,
+            legendPos.x,
+            legendPos.y,
+            bounds.width,
+            customColors
+          );
         } else {
-          legendElement = renderLegend(seriesLabels, legendPos.x, legendPos.y, customColors);
+          legendElement = renderLegend(
+            seriesLabels,
+            legendPos.x,
+            legendPos.y,
+            customColors
+          );
         }
       }
 

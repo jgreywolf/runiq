@@ -82,7 +82,7 @@ Bar charts can be displayed vertically (default) or horizontally using the `flip
 diagram "Quarterly Revenue" {
   direction TB
 
-  shape chart as @barChart 
+  shape chart as @barChart
     label:"Revenue ($M)"
     data:[120, 150, 180, 210]
     labels:["Q1", "Q2", "Q3", "Q4"]
@@ -98,7 +98,7 @@ Use `flipAxes:true` to create horizontal bars:
 diagram "Team Performance" {
   direction LR
 
-  shape chart as @barChart 
+  shape chart as @barChart
     label:"Tasks Completed"
     data:[85, 92, 78, 88]
     labels:["Frontend", "Backend", "DevOps", "QA"]
@@ -112,8 +112,8 @@ diagram "Team Performance" {
 For quick charts, use simple arrays (auto-generated labels):
 
 ```runiq
-shape sales as @barChart 
-  label:"Monthly Sales" 
+shape sales as @barChart
+  label:"Monthly Sales"
   data:[45, 52, 48, 61, 58, 67]
 ```
 
@@ -392,7 +392,7 @@ Best for data files and programmatic generation:
 
 Drag and drop JSON or CSV files into the editor to automatically populate charts with labels and values!
 
-## Line Charts ⭐ 
+## Line Charts ⭐
 
 Line charts visualize trends over time with connected data points. Supports custom labels, per-point colors, and axis flipping.
 
@@ -402,8 +402,8 @@ Simple time series data:
 
 ```runiq
 diagram "Sales Performance" {
-  shape sales as @lineChart 
-    label:"Monthly Sales" 
+  shape sales as @lineChart
+    label:"Monthly Sales"
     data:[45, 52, 48, 61, 58, 65, 72, 68, 75, 80, 78, 85]
 }
 ```
@@ -413,8 +413,8 @@ diagram "Sales Performance" {
 Display meaningful labels on the X-axis:
 
 ```runiq
-shape sales as @lineChart 
-  label:"2024 Sales" 
+shape sales as @lineChart
+  label:"2024 Sales"
   data:[45000, 52000, 48000, 61000, 58000, 67000]
   labels:["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
 ```
@@ -424,8 +424,8 @@ shape sales as @lineChart
 Color each data point individually:
 
 ```runiq
-shape trends as @lineChart 
-  label:"Temperature" 
+shape trends as @lineChart
+  label:"Temperature"
   data:[22, 24, 26, 28, 30, 29, 27]
   labels:["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
   colors:["#3b82f6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#f59e0b", "#10b981"]
@@ -436,7 +436,7 @@ shape trends as @lineChart
 Use `flipAxes:true` to create horizontal line charts:
 
 ```runiq
-shape performance as @lineChart 
+shape performance as @lineChart
   label:"Performance Metrics"
   data:[85, 92, 78, 88, 95]
   labels:["Speed", "Accuracy", "Efficiency", "Quality", "Reliability"]
@@ -496,16 +496,16 @@ colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
 
 ### Properties
 
-| Property      | Type         | Default         | Description                         |
-| ------------- | ------------ | --------------- | ----------------------------------- |
-| `label`       | string       | -               | Chart title                         |
-| `data`        | array/object | -               | Data values (required)              |
-| `labels`      | string[]     | auto-generated  | Custom X-axis labels ⭐ NEW         |
-| `colors`      | string[]     | default palette | Per-point marker colors ⭐ NEW      |
-| `flipAxes`    | boolean      | false           | Horizontal orientation ⭐ NEW       |
-| `showGrid`    | boolean      | true            | Show grid lines                     |
-| `showMarkers` | boolean      | true            | Show data point markers             |
-| `showLegend`  | boolean      | false           | Show legend (multi-series)          |
+| Property      | Type         | Default         | Description                    |
+| ------------- | ------------ | --------------- | ------------------------------ |
+| `label`       | string       | -               | Chart title                    |
+| `data`        | array/object | -               | Data values (required)         |
+| `labels`      | string[]     | auto-generated  | Custom X-axis labels ⭐ NEW    |
+| `colors`      | string[]     | default palette | Per-point marker colors ⭐ NEW |
+| `flipAxes`    | boolean      | false           | Horizontal orientation ⭐ NEW  |
+| `showGrid`    | boolean      | true            | Show grid lines                |
+| `showMarkers` | boolean      | true            | Show data point markers        |
+| `showLegend`  | boolean      | false           | Show legend (multi-series)     |
 
 ### Dimensions
 
@@ -523,8 +523,8 @@ Simple skill assessment:
 
 ```runiq
 diagram "Character Skills" {
-  shape skills as @radarChart 
-    label:"RPG Character Stats" 
+  shape skills as @radarChart
+    label:"RPG Character Stats"
     data:[90, 70, 40, 50, 60]
 }
 ```
@@ -534,8 +534,8 @@ diagram "Character Skills" {
 Display meaningful axis labels instead of generic "Axis 1", "Axis 2":
 
 ```runiq
-shape skills as @radarChart 
-  label:"Team Skills" 
+shape skills as @radarChart
+  label:"Team Skills"
   data:[85, 72, 90, 78, 82]
   labels:["JavaScript", "TypeScript", "React", "Node.js", "Testing"]
 ```
@@ -624,16 +624,16 @@ colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
 
 ### Properties
 
-| Property      | Type         | Default         | Description                      |
-| ------------- | ------------ | --------------- | -------------------------------- |
-| `label`       | string       | -               | Chart title                      |
-| `data`        | array/object | -               | Data values (required)           |
-| `labels`      | string[]     | auto-generated  | Custom axis labels ⭐ NEW        |
-| `colors`      | string[]     | default palette | Per-point marker colors ⭐ NEW   |
-| `showGrid`    | boolean      | true            | Show grid circles                |
-| `showMarkers` | boolean      | true            | Show data point markers          |
-| `showLegend`  | boolean      | false           | Show legend (multi-series)       |
-| `gridLevels`  | number       | 4               | Number of grid circles           |
+| Property      | Type         | Default         | Description                    |
+| ------------- | ------------ | --------------- | ------------------------------ |
+| `label`       | string       | -               | Chart title                    |
+| `data`        | array/object | -               | Data values (required)         |
+| `labels`      | string[]     | auto-generated  | Custom axis labels ⭐ NEW      |
+| `colors`      | string[]     | default palette | Per-point marker colors ⭐ NEW |
+| `showGrid`    | boolean      | true            | Show grid circles              |
+| `showMarkers` | boolean      | true            | Show data point markers        |
+| `showLegend`  | boolean      | false           | Show legend (multi-series)     |
+| `gridLevels`  | number       | 4               | Number of grid circles         |
 
 ### Dimensions
 

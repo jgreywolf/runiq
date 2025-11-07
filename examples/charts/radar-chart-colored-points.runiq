@@ -1,0 +1,11 @@
+// Radar Chart with Per-Point Colors Example
+// Each skill/metric has its own color for visual categorization
+
+diagram "Team Performance Assessment" {
+  shape performance as @radarChart
+    label:"Q4 Team Performance"
+    data:[92, 88, 85, 90, 78, 95]
+    labels:["Communication", "Technical Skills", "Leadership", "Problem Solving", "Time Management", "Collaboration"]
+    colors:["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"]
+    showLegend:true
+}
