@@ -13,21 +13,23 @@ Runiq provides specialized chart shapes for data visualization and conceptual di
 ## Key Shapes
 
 - **Pie Chart**: `@pieChart` - Circular sector chart
-- **Bar Chart Vertical**: `@barChartVertical` - Vertical bars
-- **Bar Chart Horizontal**: `@barChartHorizontal` - Horizontal bars
+- **Bar Chart**: `@barChart` - Vertical or horizontal bars (use `flipAxes:true` for horizontal)
+- **Line Chart**: `@lineChart` - Time series and trend lines
+- **Radar Chart**: `@radarChart` - Multi-dimensional spider chart
 - **Pyramid**: `@pyramid` - Hierarchical pyramid
 - **Venn 2**: `@venn2` - Two-circle Venn diagram
 - **Venn 3**: `@venn3` - Three-circle Venn diagram
 - **Venn 4**: `@venn4` - Four-circle Venn diagram
-- **Line Chart**: `@lineChart` - Time series and trend lines
-- **Radar Chart**: `@radarChart` - Multi-dimensional spider chart
 
 See the [Shape Reference - Chart Shapes](/reference/shapes#_7-chart-shapes-7-shapes) for the complete list.
 
+> **💡 Data-Driven Charts:** All charts now support data upload from JSON/CSV files in the editor! Simply drag and drop your data file, and the editor will automatically inject it into your chart with proper labels and values.
+>
 > **💡 DSL Simplification Note:** When using the Runiq DSL syntax, use simple data arrays for chart properties. Complex features like boolean toggles (`showGrid:true`), nested objects, or multi-series data work best with JSON import or programmatic generation. For basic charts, keep it simple:
 >
 > ```runiq
 > shape chart as @lineChart label:"Sales" data:[45, 52, 48, 61]
+> shape chart as @barChart label:"Revenue" data:[120, 150, 180] flipAxes:true
 > ```
 
 ## Pie Charts
@@ -72,74 +74,81 @@ diagram "Sales by Region" {
 
 ## Bar Charts
 
-Vertical bar chart:
+Bar charts can be displayed vertically (default) or horizontally using the `flipAxes` property.
+
+### Vertical Bar Chart (Default)
 
 ```runiq
 diagram "Quarterly Revenue" {
   direction TB
 
-  shape chart as @barChartVertical label: "Revenue ($M)"
-    data: {
-      bars: [
-        { label: "Q1", value: 120, fill: "#3b82f6" },
-        { label: "Q2", value: 150, fill: "#10b981" },
-        { label: "Q3", value: 180, fill: "#f59e0b" },
-        { label: "Q4", value: 210, fill: "#ef4444" }
-      ],
-      showValues: true
-    }
+  shape chart as @barChart 
+    label:"Revenue ($M)"
+    data:[120, 150, 180, 210]
+    labels:["Q1", "Q2", "Q3", "Q4"]
+    colors:["#3b82f6", "#10b981", "#f59e0b", "#ef4444"]
 }
 ```
 
-Horizontal bar chart:
+### Horizontal Bar Chart
+
+Use `flipAxes:true` to create horizontal bars:
 
 ```runiq
 diagram "Team Performance" {
   direction LR
 
-  shape chart as @barChartHorizontal label: "Tasks Completed"
-    data: {
-      bars: [
-        { label: "Frontend", value: 85, fill: "#3b82f6" },
-        { label: "Backend", value: 92, fill: "#10b981" },
-        { label: "DevOps", value: 78, fill: "#f59e0b" },
-        { label: "QA", value: 88, fill: "#8b5cf6" }
-      ],
-      showValues: true,
-      showGrid: true
-    }
+  shape chart as @barChart 
+    label:"Tasks Completed"
+    data:[85, 92, 78, 88]
+    labels:["Frontend", "Backend", "DevOps", "QA"]
+    colors:["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"]
+    flipAxes:true
 }
 ```
 
-Grouped bar chart:
+### Simple Array Format
+
+For quick charts, use simple arrays (auto-generated labels):
+
+```runiq
+shape sales as @barChart 
+  label:"Monthly Sales" 
+  data:[45, 52, 48, 61, 58, 67]
+```
+
+### With Custom Labels and Colors
+
+```runiq
+shape performance as @barChart
+  label:"Q4 Performance"
+  data:[88, 92, 85, 90]
+  labels:["Quality", "Speed", "Reliability", "Security"]
+  colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
+```
+
+### Grouped Bar Chart (Advanced)
+
+For complex multi-series data, use JSON format:
 
 ```runiq
 diagram "Product Comparison" {
   direction TB
 
-  shape chart as @barChartVertical label: "Features by Product"
+  shape chart as @barChart label: "Features by Product"
     data: {
       groups: [
         {
           label: "Basic",
-          bars: [
-            { series: "Features", value: 10, fill: "#3b82f6" },
-            { series: "Integrations", value: 5, fill: "#10b981" }
-          ]
+          values: [10, 5]
         },
         {
           label: "Pro",
-          bars: [
-            { series: "Features", value: 25, fill: "#3b82f6" },
-            { series: "Integrations", value: 15, fill: "#10b981" }
-          ]
+          values: [25, 15]
         },
         {
           label: "Enterprise",
-          bars: [
-            { series: "Features", value: 50, fill: "#3b82f6" },
-            { series: "Integrations", value: 40, fill: "#10b981" }
-          ]
+          values: [50, 40]
         }
       ],
       showLegend: true
@@ -250,9 +259,9 @@ diagram "Dashboard Overview" {
   shape title as @textBlock label: "Q4 Business Metrics"
 
   container metrics as @systemBoundary label: "Key Performance Indicators" {
-    shape revenue as @barChartVertical label: "Revenue"
-    shape market as @pieChart label: "Market Share"
-    shape conversion as @pyramid label: "Conversion Funnel"
+    shape revenue as @barChart label:"Revenue" data:[120, 150, 180, 210]
+    shape market as @pieChart label:"Market Share" data:[30, 20, 50]
+    shape conversion as @pyramid label:"Conversion Funnel"
   }
 
   shape analysis as @rectangle label: "Detailed Analysis Report"
@@ -323,45 +332,69 @@ diagram "Styled Charts" {
 
 ## Data Formats
 
-Charts accept data in JSON format:
+Charts accept data in multiple formats for flexibility:
+
+### Simple Arrays (Recommended for DSL)
+
+Most straightforward for inline definitions:
+
+```runiq
+# Just values - auto-generated labels
+data:[45, 52, 48, 61]
+
+# With custom labels
+data:[45, 52, 48, 61]
+labels:["Q1", "Q2", "Q3", "Q4"]
+
+# With colors per point
+data:[45, 52, 48, 61]
+labels:["Q1", "Q2", "Q3", "Q4"]
+colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
+```
+
+### JSON Format (Recommended for Uploads)
+
+Best for data files and programmatic generation:
 
 ```typescript
-// Pie Chart
-{
-  segments: Array<{ label: string, value: number, fill: string }>,
-  showLegend?: boolean,
-  showLabels?: boolean,
-  showPercentages?: boolean
-}
-
 // Bar Chart
 {
-  bars: Array<{ label: string, value: number, fill: string }>,
-  showValues?: boolean,
-  showGrid?: boolean,
-  orientation?: "vertical" | "horizontal"
+  values: [
+    { label: "A", value: 30 },
+    { label: "B", value: 45 }
+  ]
 }
 
-// Venn Diagram
+// Line Chart
 {
-  setA: { label: string, fill: string, opacity: number },
-  setB: { label: string, fill: string, opacity: number },
-  setC?: { label: string, fill: string, opacity: number },
-  setD?: { label: string, fill: string, opacity: number },
-  intersection?: { label: string, value?: string }
+  series: [{
+    label: "Revenue",
+    values: [45, 52, 48, 61],
+    color: "#3b82f6"
+  }]
 }
 
-// Pyramid
+// Radar Chart
 {
-  levels: Array<{ label: string, value: number, fill: string }>,
-  showLabels?: boolean,
-  showValues?: boolean
+  axes: [
+    { label: "Speed", max: 100 },
+    { label: "Power", max: 100 }
+  ],
+  series: [{
+    label: "Character",
+    values: [80, 90],
+    color: "#ef4444"
+  }]
 }
 ```
 
-## Line Charts ⭐ NEW
+### Data Upload (Editor Feature)
 
-Line charts visualize trends over time with connected data points.
+Drag and drop JSON or CSV files into the editor to automatically populate charts with labels and values!
+
+## Line Charts ⭐ 
+
+Line charts visualize trends over time with connected data points. Supports custom labels, per-point colors, and axis flipping.
 
 ### Basic Line Chart
 
@@ -369,8 +402,45 @@ Simple time series data:
 
 ```runiq
 diagram "Sales Performance" {
-  shape sales as @lineChart label:"Monthly Sales" data:[45, 52, 48, 61, 58, 65, 72, 68, 75, 80, 78, 85]
+  shape sales as @lineChart 
+    label:"Monthly Sales" 
+    data:[45, 52, 48, 61, 58, 65, 72, 68, 75, 80, 78, 85]
 }
+```
+
+### With Custom Labels
+
+Display meaningful labels on the X-axis:
+
+```runiq
+shape sales as @lineChart 
+  label:"2024 Sales" 
+  data:[45000, 52000, 48000, 61000, 58000, 67000]
+  labels:["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+```
+
+### With Per-Point Colors ⭐ NEW
+
+Color each data point individually:
+
+```runiq
+shape trends as @lineChart 
+  label:"Temperature" 
+  data:[22, 24, 26, 28, 30, 29, 27]
+  labels:["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  colors:["#3b82f6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#f59e0b", "#10b981"]
+```
+
+### Horizontal Line Chart ⭐ NEW
+
+Use `flipAxes:true` to create horizontal line charts:
+
+```runiq
+shape performance as @lineChart 
+  label:"Performance Metrics"
+  data:[85, 92, 78, 88, 95]
+  labels:["Speed", "Accuracy", "Efficiency", "Quality", "Reliability"]
+  flipAxes:true
 ```
 
 ### Features
@@ -378,7 +448,10 @@ diagram "Sales Performance" {
 - **Auto-scaling axes** with 10% Y-axis padding
 - **Grid lines** (toggleable with `showGrid`)
 - **Data point markers** (toggleable with `showMarkers`)
-- **Multiple series support** with custom colors
+- **Custom labels** via `labels:[]` array
+- **Per-point colors** via `colors:[]` array ⭐ NEW
+- **Horizontal orientation** via `flipAxes:true` ⭐ NEW
+- **Multiple series support** with custom colors (JSON format)
 - **Legend** for multi-series charts (toggle with `showLegend`)
 
 ### Data Formats
@@ -387,6 +460,21 @@ diagram "Sales Performance" {
 
 ```runiq
 data:[45, 52, 48, 61, 58, 65]
+```
+
+**With labels** (recommended):
+
+```runiq
+data:[45, 52, 48, 61]
+labels:["Q1", "Q2", "Q3", "Q4"]
+```
+
+**With colors per point** (NEW):
+
+```runiq
+data:[45, 52, 48, 61]
+labels:["Q1", "Q2", "Q3", "Q4"]
+colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
 ```
 
 **Structured series** (for programmatic/JSON use):
@@ -406,27 +494,18 @@ data:[45, 52, 48, 61, 58, 65]
 }
 ```
 
-**Points with labels** (for programmatic/JSON use):
-
-```json
-{
-  "points": [
-    { "x": 0, "y": 72, "label": "Mon" },
-    { "x": 1, "y": 75, "label": "Tue" }
-  ]
-}
-```
-
 ### Properties
 
-| Property      | Type         | Default         | Description                |
-| ------------- | ------------ | --------------- | -------------------------- |
-| `label`       | string       | -               | Chart title                |
-| `data`        | array/object | -               | Data values (required)     |
-| `showGrid`    | boolean      | true            | Show grid lines            |
-| `showMarkers` | boolean      | true            | Show data point markers    |
-| `showLegend`  | boolean      | false           | Show legend (multi-series) |
-| `colors`      | string[]     | default palette | Custom color array         |
+| Property      | Type         | Default         | Description                         |
+| ------------- | ------------ | --------------- | ----------------------------------- |
+| `label`       | string       | -               | Chart title                         |
+| `data`        | array/object | -               | Data values (required)              |
+| `labels`      | string[]     | auto-generated  | Custom X-axis labels ⭐ NEW         |
+| `colors`      | string[]     | default palette | Per-point marker colors ⭐ NEW      |
+| `flipAxes`    | boolean      | false           | Horizontal orientation ⭐ NEW       |
+| `showGrid`    | boolean      | true            | Show grid lines                     |
+| `showMarkers` | boolean      | true            | Show data point markers             |
+| `showLegend`  | boolean      | false           | Show legend (multi-series)          |
 
 ### Dimensions
 
@@ -434,9 +513,9 @@ data:[45, 52, 48, 61, 58, 65]
 - Legend adds 150px width when enabled
 - 4 anchor points: N, E, S, W
 
-## Radar Charts ⭐ NEW
+## Radar Charts ⭐
 
-Radar (spider) charts display multi-dimensional data on radial axes.
+Radar (spider) charts display multi-dimensional data on radial axes. Supports custom labels and per-point colors.
 
 ### Basic Radar Chart
 
@@ -444,8 +523,34 @@ Simple skill assessment:
 
 ```runiq
 diagram "Character Skills" {
-  shape skills as @radarChart label:"RPG Character Stats" data:[90, 70, 40, 50, 60]
+  shape skills as @radarChart 
+    label:"RPG Character Stats" 
+    data:[90, 70, 40, 50, 60]
 }
+```
+
+### With Custom Labels
+
+Display meaningful axis labels instead of generic "Axis 1", "Axis 2":
+
+```runiq
+shape skills as @radarChart 
+  label:"Team Skills" 
+  data:[85, 72, 90, 78, 82]
+  labels:["JavaScript", "TypeScript", "React", "Node.js", "Testing"]
+```
+
+### With Per-Point Colors ⭐ NEW
+
+Color each data point individually:
+
+```runiq
+shape performance as @radarChart
+  label:"Q1 Performance"
+  data:[88, 92, 85, 90]
+  labels:["Quality", "Speed", "Reliability", "Security"]
+  colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
+  showLegend:true
 ```
 
 ### Features
@@ -453,6 +558,8 @@ diagram "Character Skills" {
 - **Minimum 3 axes** required for valid radar chart
 - **Radial grid circles** (toggleable with `showGrid`, configurable levels)
 - **Data point markers** (toggleable with `showMarkers`)
+- **Custom axis labels** via `labels:[]` array ⭐ NEW
+- **Per-point colors** via `colors:[]` array ⭐ NEW
 - **Multiple series overlay** with transparency
 - **Auto-scaling** or explicit max values per axis
 - **Legend** for comparing multiple datasets
@@ -463,6 +570,21 @@ diagram "Character Skills" {
 
 ```runiq
 data:[90, 70, 40, 50, 60]
+```
+
+**With labels** (recommended):
+
+```runiq
+data:[90, 70, 40, 50, 60]
+labels:["Strength", "Dexterity", "Intelligence", "Wisdom", "Charisma"]
+```
+
+**With colors per point** (NEW):
+
+```runiq
+data:[88, 92, 85, 90]
+labels:["Quality", "Speed", "Reliability", "Security"]
+colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
 ```
 
 **Structured with axis labels** (for programmatic/JSON use):
@@ -502,15 +624,16 @@ data:[90, 70, 40, 50, 60]
 
 ### Properties
 
-| Property      | Type         | Default         | Description                |
-| ------------- | ------------ | --------------- | -------------------------- |
-| `label`       | string       | -               | Chart title                |
-| `data`        | array/object | -               | Data values (required)     |
-| `showGrid`    | boolean      | true            | Show grid circles          |
-| `showMarkers` | boolean      | true            | Show data point markers    |
-| `showLegend`  | boolean      | false           | Show legend (multi-series) |
-| `gridLevels`  | number       | 4               | Number of grid circles     |
-| `colors`      | string[]     | default palette | Custom color array         |
+| Property      | Type         | Default         | Description                      |
+| ------------- | ------------ | --------------- | -------------------------------- |
+| `label`       | string       | -               | Chart title                      |
+| `data`        | array/object | -               | Data values (required)           |
+| `labels`      | string[]     | auto-generated  | Custom axis labels ⭐ NEW        |
+| `colors`      | string[]     | default palette | Per-point marker colors ⭐ NEW   |
+| `showGrid`    | boolean      | true            | Show grid circles                |
+| `showMarkers` | boolean      | true            | Show data point markers          |
+| `showLegend`  | boolean      | false           | Show legend (multi-series)       |
+| `gridLevels`  | number       | 4               | Number of grid circles           |
 
 ### Dimensions
 
@@ -531,19 +654,24 @@ See the [examples/charts](https://github.com/jgreywolf/runiq/tree/main/examples/
 - Simple pie chart
 - Labeled pie chart
 - Pie chart with legend
-- Vertical bar chart
-- Horizontal bar chart
-- Grouped bar charts
-- **Line charts** ⭐ NEW
+- **Bar charts** ⭐ UPDATED
+  - Vertical bars (default)
+  - Horizontal bars (`flipAxes:true`)
+  - Grouped and stacked bars
+  - With custom labels and colors
+- **Line charts** ⭐ UPDATED
   - Simple monthly sales
-  - Performance trends
-  - Temperature data with points
-- **Radar charts** ⭐ NEW
-  - Character skill stats
+  - Performance trends with labels
+  - Per-point colors for highlighting
+  - Horizontal orientation (`flipAxes:true`)
+- **Radar charts** ⭐ UPDATED
+  - Character skill stats with labels
   - System performance metrics
+  - Per-point colored data points
   - Product quality scores
   - Tech stack comparison
 - Venn diagrams (2, 3, 4 sets)
+- Pyramids and funnels
 
 ## Related
 
