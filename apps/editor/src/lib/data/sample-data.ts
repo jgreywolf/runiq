@@ -15,6 +15,7 @@ import { pneumaticSampleDiagrams } from './toolboxSamples/pneumaticSampleDiagram
 import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
 import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
 import { stateMachineSampleDiagrams } from './toolboxSamples/stateMachineSampleDiagrams';
+import { templatePresetSampleDiagrams } from './toolboxSamples/templatePresetSampleDiagrams';
 import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
 import { wardleySampleDiagrams } from './toolboxSamples/wardleySampleDiagrams';
 
@@ -22,6 +23,7 @@ export interface Sample {
 	name: string;
 	description: string;
 	code: string;
+	data?: string; // Optional JSON or CSV data for data-driven diagrams
 }
 
 export interface SampleCategory {
@@ -33,6 +35,7 @@ export interface SampleCategory {
 export const sampleDiagrams: SampleCategory[] = [
 	...flowchartSampleDiagrams,
 	...containerSampleDiagrams,
+	...templatePresetSampleDiagrams,
 	...umlSampleDiagrams,
 	...activitySampleDiagrams,
 	...stateMachineSampleDiagrams,

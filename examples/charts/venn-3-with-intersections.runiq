@@ -1,0 +1,13 @@
+// Venn Diagram: Project Triangle with Intersection Labels
+// Demonstrates intersection labels for overlapping regions
+
+diagram "Project Triangle: Fast, Good, Cheap" {
+  
+  shape ProjectTriangle as @venn
+    label:"Quality Triangle"
+    data:[1, 1, 1]
+    labels:["Fast", "Good", "Cheap"]
+    colors:["#4CAF50", "#2196F3", "#FFC107"]
+    intersections:["Expensive", "Poor Quality", "Slow", "Impossible"]
+  
+}

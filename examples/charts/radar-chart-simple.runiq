@@ -1,0 +1,3 @@
+diagram "Character Skills" {
+  shape skills as @radarChart label:"RPG Character Stats" data:[90, 70, 40, 50, 60]
+}

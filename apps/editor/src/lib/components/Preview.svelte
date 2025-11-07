@@ -9,11 +9,12 @@
 	// Props
 	interface Props {
 		code: string;
+		dataContent?: string;
 		layoutEngine?: string;
 		onparse?: (success: boolean, errors: string[]) => void;
 	}
 
-	let { code = '', layoutEngine = 'elk', onparse }: Props = $props();
+	let { code = '', dataContent = '', layoutEngine = 'elk', onparse }: Props = $props();
 
 	let svgOutput = $state('');
 	let errors = $state<string[]>([]);
@@ -48,9 +49,169 @@
 
 	let svgContainer: HTMLDivElement;
 	let lastCode = '';
+	let lastDataContent = '';
 
 	// Debounce timer
 	let debounceTimer: ReturnType<typeof setTimeout>;
+
+	// Process data content and inject into DSL
+	function injectDataIntoCode(syntaxCode: string, data: string): string {
+		if (!data || !data.trim()) {
+			return syntaxCode; // No data to inject
+		}
+
+		const trimmedData = data.trim();
+
+		// Detect format
+		const looksLikeJson = trimmedData.startsWith('{') || trimmedData.startsWith('[');
+
+		let parsedData: any;
+
+		if (looksLikeJson) {
+			// Parse JSON
+			try {
+				parsedData = JSON.parse(trimmedData);
+			} catch (e: any) {
+				console.error('Failed to parse JSON data:', e);
+				return syntaxCode; // Return original code if JSON is invalid
+			}
+		} else {
+			// Treat as CSV - parse and convert to JSON
+			const lines = trimmedData
+				.split('\n')
+				.map((l) => l.trim())
+				.filter((l) => l);
+
+			if (lines.length > 0) {
+				// Parse CSV headers and rows
+				const headers = lines[0].split(',').map((h) => h.trim());
+				const rows = lines.slice(1).map((line) => {
+					const values = line.split(',').map((v) => v.trim());
+					const obj: any = {};
+					headers.forEach((header, i) => {
+						// Try to parse as number if possible
+						const value = values[i];
+						obj[header] = isNaN(Number(value)) ? value : Number(value);
+					});
+					return obj;
+				});
+
+				parsedData = { dataset: rows };
+			}
+		}
+
+		if (!parsedData) {
+			return syntaxCode;
+		}
+
+		// Inject data directly into chart shapes by adding/replacing data property
+		let modifiedCode = syntaxCode;
+
+		// Find all chart shapes (lineChart, radarChart, pieChart, barChart, etc.)
+		const chartShapePattern =
+			/shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChart|pyramidShape|venn\dShape)/g;
+
+		let match;
+		const replacements: Array<{ from: number; to: number; replacement: string }> = [];
+
+		while ((match = chartShapePattern.exec(syntaxCode)) !== null) {
+			const fullMatch = match[0];
+			const shapeId = match[1];
+			const shapeType = match[2];
+			const matchStart = match.index;
+
+			// Find the end of this shape declaration (either newline or next shape/edge/})
+			const afterMatch = syntaxCode.substring(matchStart + fullMatch.length);
+			const endMatch = afterMatch.match(/(?:\r?\n|$)/);
+			const lineEnd = endMatch
+				? matchStart + fullMatch.length + endMatch.index!
+				: syntaxCode.length;
+
+			const currentLine = syntaxCode.substring(matchStart, lineEnd);
+
+			// Extract existing properties
+			const propsMatch = currentLine.match(/as\s+@\w+\s+(.*)$/);
+			const existingProps = propsMatch ? propsMatch[1].trim() : '';
+
+			// Remove existing data: property if present
+			const withoutData = existingProps.replace(/\bdata:\[.*?\]|\bdata:\{.*?\}/g, '').trim();
+
+			// Determine which data to use
+			let dataToInject: any;
+
+			// If parsedData is an object with named datasets, try to find matching data
+			if (typeof parsedData === 'object' && !Array.isArray(parsedData)) {
+				// Check if there's a dataset with a matching name or use the first one
+				const dataKeys = Object.keys(parsedData);
+				if (dataKeys.length > 0) {
+					// Use first dataset
+					dataToInject = parsedData[dataKeys[0]];
+				}
+			} else {
+				dataToInject = parsedData;
+			}
+
+			if (!dataToInject) continue;
+
+			// For charts, extract both numeric values and labels from array of objects
+			let chartData: any;
+			let chartLabels: string[] | null = null;
+			
+			if (
+				Array.isArray(dataToInject) &&
+				dataToInject.length > 0 &&
+				typeof dataToInject[0] === 'object'
+			) {
+				const firstObj = dataToInject[0];
+				const keys = Object.keys(firstObj);
+				
+				// Find first numeric property for values
+				const numericKey = keys.find((k) => typeof firstObj[k] === 'number');
+				// Find first string property for labels
+				const labelKey = keys.find((k) => typeof firstObj[k] === 'string');
+				
+				if (numericKey) {
+					chartData = dataToInject.map((item: any) => item[numericKey]);
+					
+					// Extract labels if available
+					if (labelKey) {
+						chartLabels = dataToInject.map((item: any) => item[labelKey]);
+					}
+				} else {
+					chartData = dataToInject;
+				}
+			} else {
+				chartData = dataToInject;
+			}
+
+			// Build new shape declaration with data and labels
+			const dataStr = JSON.stringify(chartData);
+			let newProps = withoutData;
+			
+			// Add labels if we extracted them
+			if (chartLabels && chartLabels.length > 0) {
+				const labelsStr = JSON.stringify(chartLabels);
+				newProps = newProps ? `${newProps} labels:${labelsStr} data:${dataStr}` : `labels:${labelsStr} data:${dataStr}`;
+			} else {
+				newProps = newProps ? `${newProps} data:${dataStr}` : `data:${dataStr}`;
+			}
+			
+			const newShapeDecl = `shape ${shapeId} as @${shapeType} ${newProps}`;
+
+			replacements.push({
+				from: matchStart,
+				to: lineEnd,
+				replacement: newShapeDecl
+			});
+		}
+
+		// Apply replacements in reverse order to maintain positions
+		replacements.reverse().forEach(({ from, to, replacement }) => {
+			modifiedCode = modifiedCode.substring(0, from) + replacement + modifiedCode.substring(to);
+		});
+
+		return modifiedCode;
+	}
 
 	// Helper function to create P&ID preview SVG
 	function createPIDPreviewSvg(profile: any): string {
@@ -58,28 +219,30 @@
 		const instrumentCount = profile.instruments?.length || 0;
 		const lineCount = profile.lines?.length || 0;
 		const loopCount = profile.loops?.length || 0;
-		
+
 		let y = 40;
 		const lineHeight = 25;
-		
+
 		let content = `
 			<text x="20" y="${y}" font-size="20" font-weight="bold" fill="#059669">${profile.name || 'P&ID Diagram'}</text>
 		`;
 		y += 40;
-		
+
 		content += `<text x="20" y="${y}" font-size="14" fill="#666">✓ Parsed successfully</text>`;
 		y += lineHeight + 10;
-		
+
 		// Equipment summary
 		content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Equipment (${equipmentCount})</text>`;
 		y += lineHeight;
-		
+
 		if (profile.equipment && profile.equipment.length > 0) {
 			profile.equipment.slice(0, 10).forEach((eq: any) => {
 				const props = [];
 				if (eq.properties?.material) props.push(`material: ${eq.properties.material}`);
-				if (eq.properties?.volume) props.push(`volume: ${eq.properties.volume} ${eq.properties.volumeUnit || ''}`);
-				if (eq.properties?.flowRate) props.push(`flowRate: ${eq.properties.flowRate} ${eq.properties.flowRateUnit || ''}`);
+				if (eq.properties?.volume)
+					props.push(`volume: ${eq.properties.volume} ${eq.properties.volumeUnit || ''}`);
+				if (eq.properties?.flowRate)
+					props.push(`flowRate: ${eq.properties.flowRate} ${eq.properties.flowRateUnit || ''}`);
 				const propsStr = props.length > 0 ? ` (${props.join(', ')})` : '';
 				content += `<text x="40" y="${y}" font-size="12" fill="#555">${eq.tag}: ${eq.type}${propsStr}</text>`;
 				y += lineHeight;
@@ -90,16 +253,18 @@
 			}
 		}
 		y += 10;
-		
+
 		// Instruments summary
 		content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Instruments (${instrumentCount})</text>`;
 		y += lineHeight;
-		
+
 		if (profile.instruments && profile.instruments.length > 0) {
 			profile.instruments.slice(0, 10).forEach((inst: any) => {
 				const props = [];
 				if (inst.properties?.rangeMin !== undefined && inst.properties?.rangeMax !== undefined) {
-					props.push(`range: ${inst.properties.rangeMin}-${inst.properties.rangeMax} ${inst.properties.rangeUnit || ''}`);
+					props.push(
+						`range: ${inst.properties.rangeMin}-${inst.properties.rangeMax} ${inst.properties.rangeUnit || ''}`
+					);
 				}
 				if (inst.properties?.location) props.push(`location: ${inst.properties.location}`);
 				if (inst.properties?.loop) props.push(`loop: ${inst.properties.loop}`);
@@ -113,26 +278,27 @@
 			}
 		}
 		y += 10;
-		
+
 		// Lines summary
 		content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Lines (${lineCount})</text>`;
 		y += lineHeight;
-		
-		const lineTypes = profile.lines?.reduce((acc: any, line: any) => {
-			acc[line.type] = (acc[line.type] || 0) + 1;
-			return acc;
-		}, {}) || {};
-		
+
+		const lineTypes =
+			profile.lines?.reduce((acc: any, line: any) => {
+				acc[line.type] = (acc[line.type] || 0) + 1;
+				return acc;
+			}, {}) || {};
+
 		Object.entries(lineTypes).forEach(([type, count]) => {
 			content += `<text x="40" y="${y}" font-size="12" fill="#555">${type}: ${count}</text>`;
 			y += lineHeight;
 		});
 		y += 10;
-		
+
 		// Loops summary
 		content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Control Loops (${loopCount})</text>`;
 		y += lineHeight;
-		
+
 		if (profile.loops && profile.loops.length > 0) {
 			profile.loops.forEach((loop: any) => {
 				content += `<text x="40" y="${y}" font-size="12" fill="#555">Loop ${loop.id}: ${loop.controlledVariable} @ ${loop.setpoint} ${loop.unit || ''} (${loop.mode || 'manual'})</text>`;
@@ -140,12 +306,12 @@
 			});
 		}
 		y += 10;
-		
+
 		// Process specs
 		if (profile.processSpecs) {
 			content += `<text x="20" y="${y}" font-size="16" font-weight="bold" fill="#333">Process Specifications</text>`;
 			y += lineHeight;
-			
+
 			if (profile.processSpecs.fluid) {
 				content += `<text x="40" y="${y}" font-size="12" fill="#555">Fluid: ${profile.processSpecs.fluid}</text>`;
 				y += lineHeight;
@@ -160,20 +326,21 @@
 			}
 		}
 		y += 20;
-		
+
 		// Note about full rendering
 		content += `<text x="20" y="${y}" font-size="12" fill="#059669" font-style="italic">Full P&ID rendering with symbols and lines coming soon!</text>`;
-		
+
 		return `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="${y + 40}" viewBox="0 0 800 ${y + 40}">
 			<rect width="800" height="${y + 40}" fill="#f9fafb"/>
 			${content}
 		</svg>`;
 	}
 
-	// Watch for code changes with debounce
+	// Watch for code or data changes with debounce
 	$effect(() => {
-		if (code !== lastCode) {
+		if (code !== lastCode || dataContent !== lastDataContent) {
 			lastCode = code;
+			lastDataContent = dataContent;
 			clearTimeout(debounceTimer);
 			debounceTimer = setTimeout(() => {
 				renderDiagram(code);
@@ -199,8 +366,11 @@
 		try {
 			const startParse = performance.now();
 
+			// Inject data from Data tab (overrides any data source blocks in syntax)
+			const codeWithData = injectDataIntoCode(dslCode, dataContent);
+
 			// Parse DSL
-			const parseResult = parse(dslCode);
+			const parseResult = parse(codeWithData);
 			parseTime = Math.round(performance.now() - startParse);
 
 			if (!parseResult.success || !parseResult.document) {
@@ -229,75 +399,75 @@
 
 			// Handle different profile types
 			switch (profile.type) {
-			case 'electrical':
-			case 'pneumatic':
-			case 'hydraulic':
-				renderResult = renderSchematic(profile as any, {
-					gridSize: 50,
-					routing: 'orthogonal',
-					showNetLabels: true,
-					showValues: true,
-					showReferences: true
-				});
-				break;
-			case 'wardley':
-				renderResult = renderWardleyMap(profile as any, {
-					width: 800,
-					height: 600,
-					showGrid: true,
-					showEvolutionLabels: true,
-					showValueLabels: true
-				});
-				break;
-			case 'sequence':
-				renderResult = renderSequenceDiagram(profile as any, {
-					width: 800,
-					participantSpacing: 150,
-					messageSpacing: 60
-				});
-				break;
-			case 'pid':
-				// P&ID rendering with ISA-5.1 symbols
-				renderResult = renderPID(profile as any, {
-					width: 1200,
-					height: 800,
-					gridSize: 50,
-					showGrid: false,
-					showTags: true,
-					showProperties: true,
-					spacing: 180
-				});
-				break;
-			case 'diagram': {
-				// Add astVersion for compatibility with DiagramAst
-				const diagram = {
-					...profile,
-					astVersion: parseResult.document.astVersion
-				};
-					
-				// Layout
-				const layoutEng = layoutRegistry.get(layoutEngine);
-				if (!layoutEng) {
-					errors = [`Unknown layout engine: ${layoutEngine}`];
+				case 'electrical':
+				case 'pneumatic':
+				case 'hydraulic':
+					renderResult = renderSchematic(profile as any, {
+						gridSize: 50,
+						routing: 'orthogonal',
+						showNetLabels: true,
+						showValues: true,
+						showReferences: true
+					});
+					break;
+				case 'wardley':
+					renderResult = renderWardleyMap(profile as any, {
+						width: 800,
+						height: 600,
+						showGrid: true,
+						showEvolutionLabels: true,
+						showValueLabels: true
+					});
+					break;
+				case 'sequence':
+					renderResult = renderSequenceDiagram(profile as any, {
+						width: 800,
+						participantSpacing: 150,
+						messageSpacing: 60
+					});
+					break;
+				case 'pid':
+					// P&ID rendering with ISA-5.1 symbols
+					renderResult = renderPID(profile as any, {
+						width: 1200,
+						height: 800,
+						gridSize: 50,
+						showGrid: false,
+						showTags: true,
+						showProperties: true,
+						spacing: 180
+					});
+					break;
+				case 'diagram': {
+					// Add astVersion for compatibility with DiagramAst
+					const diagram = {
+						...profile,
+						astVersion: parseResult.document.astVersion
+					};
+
+					// Layout
+					const layoutEng = layoutRegistry.get(layoutEngine);
+					if (!layoutEng) {
+						errors = [`Unknown layout engine: ${layoutEngine}`];
+						isRendering = false;
+						return;
+					}
+
+					const layout = await layoutEng.layout(diagram);
+
+					// Render
+					renderResult = renderSvg(diagram, layout, { strict: false });
+					break;
+				}
+				default:
+					errors = [
+						`Profile type '${profile.type}' is not yet supported in the preview.`,
+						`Currently 'diagram', 'electrical', 'pneumatic', 'hydraulic', 'sequence', and 'wardley' profiles can be rendered.`
+					];
+					svgOutput = '';
 					isRendering = false;
+					if (onparse) onparse(false, errors);
 					return;
-				}
-
-				const layout = await layoutEng.layout(diagram);
-
-				// Render
-				renderResult = renderSvg(diagram, layout, { strict: false });
-				break;
-				}
-			default:
-				errors = [
-					`Profile type '${profile.type}' is not yet supported in the preview.`,
-					`Currently 'diagram', 'electrical', 'pneumatic', 'hydraulic', 'sequence', and 'wardley' profiles can be rendered.`
-				];
-				svgOutput = '';
-				isRendering = false;
-				if (onparse) onparse(false, errors);
-				return;
 			}
 
 			// Common post-render logic
@@ -563,7 +733,7 @@
 		<!-- Mouse Coordinates Display (Top-Left Corner) -->
 		{#if svgOutput}
 			<div
-				class="absolute left-2 top-2 z-10 rounded-md bg-black/75 px-3 py-2 font-mono text-xs text-white shadow-lg backdrop-blur-sm"
+				class="absolute top-2 left-2 z-10 rounded-md bg-black/75 px-3 py-2 font-mono text-xs text-white shadow-lg backdrop-blur-sm"
 			>
 				<div class="space-y-1">
 					<div class="text-neutral-300">Screen: x={mouseX}, y={mouseY}</div>

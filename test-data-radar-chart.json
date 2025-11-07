@@ -1,0 +1,9 @@
+{
+  "teamSkills": [
+    { "skill": "JavaScript", "level": 85 },
+    { "skill": "TypeScript", "level": 72 },
+    { "skill": "React", "level": 90 },
+    { "skill": "Node.js", "level": 68 },
+    { "skill": "Testing", "level": 78 }
+  ]
+}

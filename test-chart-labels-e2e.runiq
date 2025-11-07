@@ -1,0 +1,22 @@
+diagram "TestChartLabels" {
+
+# Test 1: Radar chart with custom labels
+shape skills as @radarChart 
+  label:"Team Skills" 
+  labels:["JavaScript","TypeScript","React","Node.js","Testing"]
+  data:[85,72,90,78,82]
+
+# Test 2: Line chart with month labels
+shape sales as @lineChart 
+  label:"Monthly Sales" 
+  labels:["Jan","Feb","Mar","Apr","May","Jun"]
+  data:[45000,52000,48000,61000,58000,67000]
+  
+# Test 3: Chart with all properties
+shape performance as @radarChart
+  label:"Q1 Performance"
+  labels:["Quality","Speed","Reliability","Security"]
+  data:[88,92,85,90]
+  colors:["#FF6B6B","#4ECDC4","#45B7D1","#FFA07A"]
+  showLegend:true
+}

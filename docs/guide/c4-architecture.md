@@ -17,10 +17,10 @@ The C4 model provides a hierarchical approach to documenting software architectu
 
 ## Key Shapes
 
-- **C4 Person**: `@c4-person` - Users or actors
-- **C4 System**: `@c4-system` - Software systems
-- **C4 Container**: `@c4-container` - Applications, databases, services
-- **C4 Component**: `@c4-component` - Components within containers
+- **C4 Person**: `@c4Person` - Users or actors
+- **C4 System**: `@c4System` - Software systems
+- **C4 Container**: `@c4Container` - Applications, databases, services
+- **C4 Component**: `@c4Component` - Components within containers
 
 See the [Shape Reference - C4 Shapes](/reference/shapes#_12-c4-architecture-shapes-4-shapes) for the complete list.
 
@@ -32,10 +32,10 @@ Shows the system under development and its relationships with users and other sy
 diagram "Banking System - Context" {
   direction TB
 
-  shape customer as @c4-person label: "Personal Banking\nCustomer\n\n[Person]\n\nA customer of the bank"
-  shape system as @c4-system label: "Internet Banking\nSystem\n\n[Software System]\n\nProvides banking services"
-  shape email as @c4-system label: "Email System\n\n[Software System]\n\nSends emails to customers"
-  shape mainframe as @c4-system label: "Mainframe Banking\nSystem\n\n[Software System]\n\nStores account data"
+  shape customer as @c4Person label: "Personal Banking\nCustomer\n\n[Person]\n\nA customer of the bank"
+  shape system as @c4System label: "Internet Banking\nSystem\n\n[Software System]\n\nProvides banking services"
+  shape email as @c4System label: "Email System\n\n[Software System]\n\nSends emails to customers"
+  shape mainframe as @c4System label: "Mainframe Banking\nSystem\n\n[Software System]\n\nStores account data"
 
   customer -> system label: "Uses"
   system -> email label: "Sends email using"
@@ -51,16 +51,16 @@ Shows the high-level technology choices and how containers communicate.
 diagram "Banking System - Containers" {
   direction TB
 
-  shape customer as @c4-person label: "Customer\n\n[Person]"
+  shape customer as @c4Person label: "Customer\n\n[Person]"
 
   container banking as @systemBoundary label: "Internet Banking System" {
-    shape web as @c4-container label: "Web Application\n\n[Container: React]\n\nDelivers static content"
-    shape api as @c4-container label: "API Application\n\n[Container: Node.js]\n\nProvides banking API"
-    shape db as @c4-container label: "Database\n\n[Container: PostgreSQL]\n\nStores user data"
+    shape web as @c4Container label: "Web Application\n\n[Container: React]\n\nDelivers static content"
+    shape api as @c4Container label: "API Application\n\n[Container: Node.js]\n\nProvides banking API"
+    shape db as @c4Container label: "Database\n\n[Container: PostgreSQL]\n\nStores user data"
   }
 
-  shape email as @c4-system label: "Email System\n\n[Software System]"
-  shape mainframe as @c4-system label: "Mainframe\n\n[Software System]"
+  shape email as @c4System label: "Email System\n\n[Software System]"
+  shape mainframe as @c4System label: "Mainframe\n\n[Software System]"
 
   customer -> web label: "Uses\n[HTTPS]"
   web -> api label: "Makes API calls\n[JSON/HTTPS]"
@@ -78,17 +78,17 @@ Shows components within a container and their interactions.
 diagram "API Application - Components" {
   direction TB
 
-  shape web as @c4-container label: "Web Application\n\n[Container]"
+  shape web as @c4Container label: "Web Application\n\n[Container]"
 
   container api as @systemBoundary label: "API Application" {
-    shape controller as @c4-component label: "Sign In Controller\n\n[Component: Express Controller]\n\nHandles authentication"
-    shape security as @c4-component label: "Security Component\n\n[Component: Security Module]\n\nProvides auth logic"
-    shape accountService as @c4-component label: "Account Service\n\n[Component: Service]\n\nBusiness logic"
-    shape repository as @c4-component label: "Account Repository\n\n[Component: Repository]\n\nData access"
+    shape controller as @c4Component label: "Sign In Controller\n\n[Component: Express Controller]\n\nHandles authentication"
+    shape security as @c4Component label: "Security Component\n\n[Component: Security Module]\n\nProvides auth logic"
+    shape accountService as @c4Component label: "Account Service\n\n[Component: Service]\n\nBusiness logic"
+    shape repository as @c4Component label: "Account Repository\n\n[Component: Repository]\n\nData access"
   }
 
-  shape db as @c4-container label: "Database\n\n[Container]"
-  shape mainframe as @c4-system label: "Mainframe\n\n[System]"
+  shape db as @c4Container label: "Database\n\n[Container]"
+  shape mainframe as @c4System label: "Mainframe\n\n[System]"
 
   web -> controller label: "Makes API calls\n[JSON/HTTPS]"
   controller -> security label: "Uses"
@@ -105,20 +105,20 @@ diagram "API Application - Components" {
 diagram "Microservices - Containers" {
   direction TB
 
-  shape user as @c4-person label: "User\n\n[Person]"
-  shape admin as @c4-person label: "Administrator\n\n[Person]"
+  shape user as @c4Person label: "User\n\n[Person]"
+  shape admin as @c4Person label: "Administrator\n\n[Person]"
 
   container system as @systemBoundary label: "E-commerce Platform" {
-    shape gateway as @c4-container label: "API Gateway\n\n[Container: Kong]\n\nRoutes requests"
-    shape auth as @c4-container label: "Auth Service\n\n[Container: Node.js]\n\nHandles authentication"
-    shape catalog as @c4-container label: "Product Catalog\n\n[Container: Java/Spring]\n\nManages products"
-    shape orders as @c4-container label: "Order Service\n\n[Container: Python/Flask]\n\nProcesses orders"
-    shape payments as @c4-container label: "Payment Service\n\n[Container: Node.js]\n\nHandles payments"
-    shape redis as @c4-container label: "Cache\n\n[Container: Redis]\n\nSession storage"
-    shape postgres as @c4-container label: "Database\n\n[Container: PostgreSQL]\n\nPersistent storage"
+    shape gateway as @c4Container label: "API Gateway\n\n[Container: Kong]\n\nRoutes requests"
+    shape auth as @c4Container label: "Auth Service\n\n[Container: Node.js]\n\nHandles authentication"
+    shape catalog as @c4Container label: "Product Catalog\n\n[Container: Java/Spring]\n\nManages products"
+    shape orders as @c4Container label: "Order Service\n\n[Container: Python/Flask]\n\nProcesses orders"
+    shape payments as @c4Container label: "Payment Service\n\n[Container: Node.js]\n\nHandles payments"
+    shape redis as @c4Container label: "Cache\n\n[Container: Redis]\n\nSession storage"
+    shape postgres as @c4Container label: "Database\n\n[Container: PostgreSQL]\n\nPersistent storage"
   }
 
-  shape stripe as @c4-system label: "Stripe\n\n[External System]\n\nPayment processing"
+  shape stripe as @c4System label: "Stripe\n\n[External System]\n\nPayment processing"
 
   user -> gateway label: "Uses [HTTPS]"
   admin -> gateway label: "Manages [HTTPS]"
@@ -139,16 +139,16 @@ diagram "Microservices - Containers" {
 diagram "AWS Deployment" {
   direction TB
 
-  shape users as @c4-person label: "Users\n\n[People]"
+  shape users as @c4Person label: "Users\n\n[People]"
 
   container aws as @systemBoundary label: "AWS Cloud" {
-    shape cloudfront as @c4-container label: "CloudFront\n\n[AWS Service]\n\nCDN"
-    shape alb as @c4-container label: "Application Load\nBalancer\n\n[AWS Service]\n\nLoad balancing"
-    shape web as @c4-container label: "Web Tier\n\n[EC2/ECS]\n\nWeb servers"
-    shape api as @c4-container label: "API Tier\n\n[EC2/ECS]\n\nApplication servers"
-    shape rds as @c4-container label: "Database\n\n[RDS PostgreSQL]\n\nRelational data"
-    shape s3 as @c4-container label: "Object Storage\n\n[S3]\n\nStatic assets"
-    shape elasticache as @c4-container label: "Cache\n\n[ElastiCache]\n\nRedis cluster"
+    shape cloudfront as @c4Container label: "CloudFront\n\n[AWS Service]\n\nCDN"
+    shape alb as @c4Container label: "Application Load\nBalancer\n\n[AWS Service]\n\nLoad balancing"
+    shape web as @c4Container label: "Web Tier\n\n[EC2/ECS]\n\nWeb servers"
+    shape api as @c4Container label: "API Tier\n\n[EC2/ECS]\n\nApplication servers"
+    shape rds as @c4Container label: "Database\n\n[RDS PostgreSQL]\n\nRelational data"
+    shape s3 as @c4Container label: "Object Storage\n\n[S3]\n\nStatic assets"
+    shape elasticache as @c4Container label: "Cache\n\n[ElastiCache]\n\nRedis cluster"
   }
 
   users -> cloudfront label: "Access [HTTPS]"
@@ -170,10 +170,10 @@ Apply C4 model color conventions:
 diagram "Styled C4 Diagram" {
   direction LR
 
-  shape person as @c4-person label: "User" fill: "#08427b" color: "#ffffff"
-  shape internalSystem as @c4-system label: "Internal System" fill: "#1168bd" color: "#ffffff"
-  shape externalSystem as @c4-system label: "External System" fill: "#999999" color: "#ffffff"
-  shape container as @c4-container label: "Container" fill: "#438dd5" color: "#ffffff"
+  shape person as @c4Person label: "User" fill: "#08427b" color: "#ffffff"
+  shape internalSystem as @c4System label: "Internal System" fill: "#1168bd" color: "#ffffff"
+  shape externalSystem as @c4System label: "External System" fill: "#999999" color: "#ffffff"
+  shape container as @c4Container label: "Container" fill: "#438dd5" color: "#ffffff"
 
   person -> internalSystem style: { stroke: "#707070", strokeWidth: 2 }
   internalSystem -> externalSystem style: { stroke: "#707070", strokeDasharray: "5,5" }

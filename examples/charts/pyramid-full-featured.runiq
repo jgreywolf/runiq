@@ -1,0 +1,10 @@
+// Full-Featured Pyramid Chart
+// Showcases all pyramid features: data-driven, custom labels, colors, values
+
+diagram "Maslow's Hierarchy" {
+  shape maslow as @pyramid
+    label:"Hierarchy of Needs"
+    data:[100, 80, 60, 40, 20]
+    labels:["Self-Actualization", "Esteem", "Love/Belonging", "Safety", "Physiological"]
+    colors:["#9B59B6", "#3498DB", "#2ECC71", "#F39C12", "#E74C3C"]
+}

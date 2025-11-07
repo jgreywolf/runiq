@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="282" height="362" 
+    viewBox="0 0 282 362"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Browser Market Share</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="market_share"><text x="137" y="27" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Browser Market Share 2024</text><path d="M 137,167 L 137,52 A 115,115 0 0,1 230.03695435311897,234.5953040136344 Z" fill="#4285F4" stroke="#333" stroke-width="2" />
+    <path d="M 137,167 L 230.03695435311897,234.5953040136344 A 115,115 0 0,1 53.168607846537654,245.72291718179918 Z" fill="#000000" stroke="#333" stroke-width="2" />
+    <path d="M 137,167 L 53.168607846537654,245.72291718179918 A 115,115 0 0,1 30.075704122851107,124.665676441262 Z" fill="#0078D7" stroke="#333" stroke-width="2" />
+    <path d="M 137,167 L 30.075704122851107,124.665676441262 A 115,115 0 0,1 88.0353814700166,62.944888966407774 Z" fill="#FF7139" stroke="#333" stroke-width="2" />
+    <path d="M 137,167 L 88.0353814700166,62.944888966407774 A 115,115 0 0,1 136.99999999999997,52 Z" fill="#9E9E9E" stroke="#333" stroke-width="2" />
+    <text x="208.7260251971636" y="134.45376477096647" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">35</text>
+    <text x="142.05463682210973" y="251.34115163847588" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">28</text>
+    <text x="57.92587631634055" y="186.08419582415078" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">18</text>
+    <text x="78.3180254925764" y="115.89395797274054" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">12</text>
+    <text x="119.43946906757827" y="92.43870066393085" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">7</text>
+    <g>
+      <rect x="12" y="302" width="12" height="12" fill="#4285F4" stroke="#333" stroke-width="1" />
+      <text x="30" y="312" font-size="11" fill="#333">Chrome</text>
+    </g>
+    <g>
+      <rect x="90" y="302" width="12" height="12" fill="#000000" stroke="#333" stroke-width="1" />
+      <text x="108" y="312" font-size="11" fill="#333">Safari</text>
+    </g>
+    <g>
+      <rect x="168" y="302" width="12" height="12" fill="#0078D7" stroke="#333" stroke-width="1" />
+      <text x="186" y="312" font-size="11" fill="#333">Edge</text>
+    </g>
+    <g>
+      <rect x="12" y="322" width="12" height="12" fill="#FF7139" stroke="#333" stroke-width="1" />
+      <text x="30" y="332" font-size="11" fill="#333">Firefox</text>
+    </g>
+    <g>
+      <rect x="95.5" y="322" width="12" height="12" fill="#9E9E9E" stroke="#333" stroke-width="1" />
+      <text x="113.5" y="332" font-size="11" fill="#333">Other</text>
+    </g></g></svg>

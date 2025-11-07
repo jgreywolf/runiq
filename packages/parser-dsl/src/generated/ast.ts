@@ -23,6 +23,7 @@ export const RuniqTerminals = {
 export type RuniqTerminalNames = keyof typeof RuniqTerminals;
 
 export type RuniqKeywordNames =
+    | "${"
     | "%"
     | "("
     | ")"
@@ -88,6 +89,7 @@ export type RuniqKeywordNames =
     | "acceptEvent"
     | "accuracy:"
     | "acoustic"
+    | "action"
     | "activate:"
     | "activity"
     | "activityFinal"
@@ -104,6 +106,7 @@ export type RuniqKeywordNames =
     | "analyzerTransmitter"
     | "anchor"
     | "and"
+    | "api"
     | "arrowType:"
     | "artifact"
     | "as"
@@ -130,6 +133,8 @@ export type RuniqKeywordNames =
     | "bottom-right"
     | "boundary"
     | "break"
+    | "cache"
+    | "call"
     | "carrier:"
     | "cascade"
     | "center"
@@ -168,6 +173,7 @@ export type RuniqKeywordNames =
     | "condenser"
     | "conductivity"
     | "conductivityTransmitter"
+    | "config"
     | "constraint:"
     | "constraints:"
     | "container"
@@ -188,11 +194,14 @@ export type RuniqKeywordNames =
     | "data:"
     | "dataStore"
     | "database"
+    | "datasource"
+    | "db"
     | "dc"
     | "deceased:"
     | "default:"
     | "degC"
     | "degF"
+    | "delimiter"
     | "dependency"
     | "depth:"
     | "depthIndicatorStyle:"
@@ -207,6 +216,7 @@ export type RuniqKeywordNames =
     | "distillationColumn"
     | "distribution:"
     | "doActivity:"
+    | "done"
     | "dotted"
     | "double"
     | "durationConstraint"
@@ -214,11 +224,13 @@ export type RuniqKeywordNames =
     | "ease-in"
     | "ease-in-out"
     | "ease-out"
+    | "edge"
     | "edgeBundling:"
     | "edgeRouting:"
     | "edgeType:"
     | "effect:"
     | "electrical"
+    | "end"
     | "entity"
     | "entry:"
     | "entryPoint"
@@ -234,6 +246,7 @@ export type RuniqKeywordNames =
     | "expanding"
     | "extends:"
     | "extensionPoints:"
+    | "f"
     | "false"
     | "fan"
     | "feedforward"
@@ -241,10 +254,13 @@ export type RuniqKeywordNames =
     | "fill-available"
     | "fill:"
     | "filter"
+    | "filter:"
+    | "finalState"
     | "firedHeater"
     | "fireproof"
     | "fit-content"
     | "flashDrum"
+    | "flipAxes:"
     | "flow"
     | "flowAlarmHigh"
     | "flowAlarmLow"
@@ -262,10 +278,13 @@ export type RuniqKeywordNames =
     | "fontFamily:"
     | "fontSize:"
     | "fontWeight:"
+    | "for"
     | "force"
+    | "format"
     | "found"
     | "fragment"
     | "frame"
+    | "from"
     | "from:"
     | "ft"
     | "ft³"
@@ -279,6 +298,7 @@ export type RuniqKeywordNames =
     | "genericTypes:"
     | "group"
     | "guard:"
+    | "header"
     | "header:"
     | "headerBackgroundColor:"
     | "headerPosition:"
@@ -299,22 +319,31 @@ export type RuniqKeywordNames =
     | "icon:"
     | "iconColor:"
     | "iconSize:"
+    | "id"
+    | "if"
     | "in"
     | "inclusive"
     | "incrementalLayout:"
     | "indent"
     | "inertia:"
+    | "initialState"
+    | "input"
     | "inputPins:"
     | "inst"
     | "instrument"
     | "insulation:"
+    | "intersections:"
     | "jacket"
     | "junction"
     | "kPa"
+    | "key"
+    | "key:"
     | "kg/h"
     | "knockoutDrum"
+    | "label"
     | "label:"
     | "labelPosition:"
+    | "labels:"
     | "layered"
     | "layoutCache:"
     | "layoutComplexity:"
@@ -331,6 +360,8 @@ export type RuniqKeywordNames =
     | "levelSwitch"
     | "levelTransmitter"
     | "lifeline"
+    | "limit"
+    | "limit:"
     | "line"
     | "lineStyle:"
     | "linear"
@@ -366,6 +397,7 @@ export type RuniqKeywordNames =
     | "mineral"
     | "mm"
     | "mm/s"
+    | "mobile"
     | "mode:"
     | "module"
     | "mrtree"
@@ -374,6 +406,7 @@ export type RuniqKeywordNames =
     | "m³"
     | "m³/h"
     | "n"
+    | "name"
     | "name:"
     | "navigability:"
     | "ne"
@@ -392,9 +425,11 @@ export type RuniqKeywordNames =
     | "open"
     | "operating"
     | "opt"
+    | "options:"
     | "or"
     | "orientation:"
     | "orthogonal"
+    | "output"
     | "outputPins:"
     | "over"
     | "package"
@@ -418,6 +453,7 @@ export type RuniqKeywordNames =
     | "phTransmitter"
     | "phosphate-ester"
     | "pid"
+    | "pill"
     | "pin"
     | "pins:"
     | "pneumatic"
@@ -447,6 +483,7 @@ export type RuniqKeywordNames =
     | "public"
     | "pumpCentrifugal"
     | "pumpPositiveDisplacement"
+    | "queue"
     | "radial"
     | "range:"
     | "rated"
@@ -485,8 +522,10 @@ export type RuniqKeywordNames =
     | "separatorHorizontal"
     | "sequence"
     | "setpoint:"
+    | "settings"
     | "shadow:"
     | "shape"
+    | "shape:"
     | "showChildCount:"
     | "showDepthIndicator:"
     | "showLegend:"
@@ -506,8 +545,10 @@ export type RuniqKeywordNames =
     | "stable"
     | "stacked:"
     | "standard"
+    | "start"
     | "stateInvariant:"
     | "static:"
+    | "step"
     | "stereotype:"
     | "stereotypes:"
     | "storageTank"
@@ -554,10 +595,12 @@ export type RuniqKeywordNames =
     | "tran"
     | "true"
     | "turbineSteam"
+    | "type"
     | "type:"
     | "unit:"
     | "units"
     | "utility"
+    | "value"
     | "value:"
     | "valveAngle"
     | "valveBall"
@@ -584,6 +627,7 @@ export type RuniqKeywordNames =
     | "w"
     | "wardley"
     | "water-glycol"
+    | "when:"
     | "xLabel:"
     | "xor"
     | "yLabel:"
@@ -933,11 +977,28 @@ export function isColorsProperty(item: unknown): item is ColorsProperty {
     return reflection.isInstance(item, ColorsProperty.$type);
 }
 
+export interface ConditionalBlock extends langium.AstNode {
+    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $type: 'ConditionalBlock';
+    condition: TemplateExpression;
+    statements: Array<TemplateStatement>;
+}
+
+export const ConditionalBlock = {
+    $type: 'ConditionalBlock',
+    condition: 'condition',
+    statements: 'statements'
+} as const;
+
+export function isConditionalBlock(item: unknown): item is ConditionalBlock {
+    return reflection.isInstance(item, ConditionalBlock.$type);
+}
+
 export interface ConnectionPoint extends langium.AstNode {
     readonly $container: PIDLineFromProperty | PIDLineToProperty;
     readonly $type: 'ConnectionPoint';
     equipment: string;
-    port?: string;
+    port?: FlexibleID;
 }
 
 export const ConnectionPoint = {
@@ -953,10 +1014,10 @@ export function isConnectionPoint(item: unknown): item is ConnectionPoint {
 export interface ContainerBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ContainerBlock';
-    id?: string;
+    id?: FlexibleID;
     label: string;
     properties: Array<ContainerProperty>;
-    shape?: string;
+    shape?: FlexibleID | string;
     statements: Array<DiagramStatement>;
 }
 
@@ -1287,6 +1348,67 @@ export function isDataProperty(item: unknown): item is DataProperty {
     return reflection.isInstance(item, DataProperty.$type);
 }
 
+export interface DataSourceDeclaration extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'DataSourceDeclaration';
+    format: string;
+    key: string;
+    options: Array<DataSourceOption>;
+    source: string;
+}
+
+export const DataSourceDeclaration = {
+    $type: 'DataSourceDeclaration',
+    format: 'format',
+    key: 'key',
+    options: 'options',
+    source: 'source'
+} as const;
+
+export function isDataSourceDeclaration(item: unknown): item is DataSourceDeclaration {
+    return reflection.isInstance(item, DataSourceDeclaration.$type);
+}
+
+export interface DataSourceOption extends langium.AstNode {
+    readonly $container: DataSourceDeclaration;
+    readonly $type: 'DataSourceOption';
+    name: string;
+    value: BooleanValue | string;
+}
+
+export const DataSourceOption = {
+    $type: 'DataSourceOption',
+    name: 'name',
+    value: 'value'
+} as const;
+
+export function isDataSourceOption(item: unknown): item is DataSourceOption {
+    return reflection.isInstance(item, DataSourceOption.$type);
+}
+
+export interface DataTemplateBlock extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'DataTemplateBlock';
+    dataKey: string;
+    filter?: string;
+    id: string;
+    limit?: string;
+    statements: Array<TemplateStatement>;
+}
+
+export const DataTemplateBlock = {
+    $type: 'DataTemplateBlock',
+    dataKey: 'dataKey',
+    filter: 'filter',
+    id: 'id',
+    limit: 'limit',
+    statements: 'statements'
+} as const;
+
+export function isDataTemplateBlock(item: unknown): item is DataTemplateBlock {
+    return reflection.isInstance(item, DataTemplateBlock.$type);
+}
+
 export interface DataValue extends langium.AstNode {
     readonly $container: DataProperty;
     readonly $type: 'DataValue';
@@ -1340,7 +1462,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
+export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DataTemplateBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -1686,6 +1808,27 @@ export function isFillProperty(item: unknown): item is FillProperty {
     return reflection.isInstance(item, FillProperty.$type);
 }
 
+export type FlexibleID = 'action' | 'api' | 'cache' | 'call' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'limit' | 'loop' | 'm' | 'mobile' | 'name' | 'output' | 'process' | 'queue' | 'settings' | 'source' | 'start' | 'step' | 'to' | 'type' | 'value' | string;
+
+export function isFlexibleID(item: unknown): item is FlexibleID {
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+}
+
+export interface FlipAxesProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'FlipAxesProperty';
+    value: BooleanValue;
+}
+
+export const FlipAxesProperty = {
+    $type: 'FlipAxesProperty',
+    value: 'value'
+} as const;
+
+export function isFlipAxesProperty(item: unknown): item is FlipAxesProperty {
+    return reflection.isInstance(item, FlipAxesProperty.$type);
+}
+
 export interface FlowRateStatement extends langium.AstNode {
     readonly $container: HydraulicProfile | PIDProfile | PneumaticProfile;
     readonly $type: 'FlowRateStatement';
@@ -2026,6 +2169,21 @@ export function isInsulationType(item: unknown): item is InsulationType {
     return item === 'none' || item === 'thermal' || item === 'acoustic' || item === 'fireproof' || item === 'personnel_protection';
 }
 
+export interface IntersectionsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'IntersectionsProperty';
+    value: StringArray;
+}
+
+export const IntersectionsProperty = {
+    $type: 'IntersectionsProperty',
+    value: 'value'
+} as const;
+
+export function isIntersectionsProperty(item: unknown): item is IntersectionsProperty {
+    return reflection.isInstance(item, IntersectionsProperty.$type);
+}
+
 export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
 
 export function isLabelPositionValue(item: unknown): item is LabelPositionValue {
@@ -2045,6 +2203,21 @@ export const LabelProperty = {
 
 export function isLabelProperty(item: unknown): item is LabelProperty {
     return reflection.isInstance(item, LabelProperty.$type);
+}
+
+export interface LabelsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'LabelsProperty';
+    value: StringArray;
+}
+
+export const LabelsProperty = {
+    $type: 'LabelsProperty',
+    value: 'value'
+} as const;
+
+export function isLabelsProperty(item: unknown): item is LabelsProperty {
+    return reflection.isInstance(item, LabelsProperty.$type);
 }
 
 export type LayoutAlgorithmValue = 'force' | 'layered' | 'mrtree' | 'radial' | 'stress';
@@ -2102,6 +2275,25 @@ export const LinkProperty = {
 
 export function isLinkProperty(item: unknown): item is LinkProperty {
     return reflection.isInstance(item, LinkProperty.$type);
+}
+
+export interface LoopBlock extends langium.AstNode {
+    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $type: 'LoopBlock';
+    collection: TemplateExpression;
+    statements: Array<TemplateStatement>;
+    variable: string;
+}
+
+export const LoopBlock = {
+    $type: 'LoopBlock',
+    collection: 'collection',
+    statements: 'statements',
+    variable: 'variable'
+} as const;
+
+export function isLoopBlock(item: unknown): item is LoopBlock {
+    return reflection.isInstance(item, LoopBlock.$type);
 }
 
 export type MaterialType = 'Alloy20' | 'CS' | 'Hastelloy' | 'Monel' | 'PP' | 'PTFE' | 'PVC' | 'SS304' | 'SS316' | 'SS316L' | 'Titanium';
@@ -2426,7 +2618,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -2439,8 +2631,8 @@ export function isNodeProperty(item: unknown): item is NodeProperty {
 export interface NodeRef extends langium.AstNode {
     readonly $container: EdgeChain | EdgeDeclaration;
     readonly $type: 'NodeRef';
-    member?: string;
-    node: string;
+    member?: FlexibleID;
+    node: FlexibleID;
 }
 
 export const NodeRef = {
@@ -3822,7 +4014,7 @@ export function isSequenceTypeProperty(item: unknown): item is SequenceTypePrope
 export interface ShapeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ShapeDeclaration';
-    id: string;
+    id: FlexibleID;
     properties: Array<NodeProperty>;
     shape?: ShapeIdentifier;
 }
@@ -3838,10 +4030,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'entity' | 'entryPoint' | 'exitPoint' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -3913,7 +4105,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | OutputPinsProperty;
+    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | IntersectionsProperty | LabelsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -4037,6 +4229,149 @@ export function isTemplateBlock(item: unknown): item is TemplateBlock {
     return reflection.isInstance(item, TemplateBlock.$type);
 }
 
+export interface TemplateDataProperty extends langium.AstNode {
+    readonly $container: TemplateNodeProperty;
+    readonly $type: 'TemplateDataProperty';
+    key: TemplateIdentifier;
+    value: TemplateExpression;
+}
+
+export const TemplateDataProperty = {
+    $type: 'TemplateDataProperty',
+    key: 'key',
+    value: 'value'
+} as const;
+
+export function isTemplateDataProperty(item: unknown): item is TemplateDataProperty {
+    return reflection.isInstance(item, TemplateDataProperty.$type);
+}
+
+export interface TemplateEdgeDeclaration extends langium.AstNode {
+    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $type: 'TemplateEdgeDeclaration';
+    from: TemplateExpression;
+    properties: Array<TemplateEdgeProperty>;
+    to: TemplateExpression;
+}
+
+export const TemplateEdgeDeclaration = {
+    $type: 'TemplateEdgeDeclaration',
+    from: 'from',
+    properties: 'properties',
+    to: 'to'
+} as const;
+
+export function isTemplateEdgeDeclaration(item: unknown): item is TemplateEdgeDeclaration {
+    return reflection.isInstance(item, TemplateEdgeDeclaration.$type);
+}
+
+export interface TemplateEdgeProperty extends langium.AstNode {
+    readonly $container: TemplateEdgeDeclaration;
+    readonly $type: 'TemplateEdgeProperty';
+    condition?: TemplateExpression;
+    label?: TemplateExpression;
+    style?: string;
+}
+
+export const TemplateEdgeProperty = {
+    $type: 'TemplateEdgeProperty',
+    condition: 'condition',
+    label: 'label',
+    style: 'style'
+} as const;
+
+export function isTemplateEdgeProperty(item: unknown): item is TemplateEdgeProperty {
+    return reflection.isInstance(item, TemplateEdgeProperty.$type);
+}
+
+export interface TemplateExpression extends langium.AstNode {
+    readonly $container: ConditionalBlock | LoopBlock | TemplateDataProperty | TemplateEdgeDeclaration | TemplateEdgeProperty | TemplateNodeDeclaration | TemplateNodeProperty;
+    readonly $type: 'TemplateExpression';
+    parts: Array<TemplateExpressionPart>;
+}
+
+export const TemplateExpression = {
+    $type: 'TemplateExpression',
+    parts: 'parts'
+} as const;
+
+export function isTemplateExpression(item: unknown): item is TemplateExpression {
+    return reflection.isInstance(item, TemplateExpression.$type);
+}
+
+export type TemplateExpressionPart = TemplateLiteral | TemplateVariable;
+
+export const TemplateExpressionPart = {
+    $type: 'TemplateExpressionPart'
+} as const;
+
+export function isTemplateExpressionPart(item: unknown): item is TemplateExpressionPart {
+    return reflection.isInstance(item, TemplateExpressionPart.$type);
+}
+
+export type TemplateIdentifier = 'color' | 'data' | 'delimiter' | 'filter' | 'format' | 'from' | 'header' | 'id' | 'key' | 'label' | 'limit' | 'name' | 'source' | 'to' | 'type' | 'value' | string;
+
+export function isTemplateIdentifier(item: unknown): item is TemplateIdentifier {
+    return item === 'data' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'value' || item === 'type' || item === 'from' || item === 'to' || item === 'label' || item === 'name' || item === 'id' || item === 'key' || item === 'format' || item === 'source' || item === 'filter' || item === 'limit' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+}
+
+export interface TemplateLiteral extends langium.AstNode {
+    readonly $container: TemplateExpression;
+    readonly $type: 'TemplateLiteral';
+    value: string;
+}
+
+export const TemplateLiteral = {
+    $type: 'TemplateLiteral',
+    value: 'value'
+} as const;
+
+export function isTemplateLiteral(item: unknown): item is TemplateLiteral {
+    return reflection.isInstance(item, TemplateLiteral.$type);
+}
+
+export interface TemplateNodeDeclaration extends langium.AstNode {
+    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $type: 'TemplateNodeDeclaration';
+    id: TemplateExpression;
+    properties: Array<TemplateNodeProperty>;
+}
+
+export const TemplateNodeDeclaration = {
+    $type: 'TemplateNodeDeclaration',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isTemplateNodeDeclaration(item: unknown): item is TemplateNodeDeclaration {
+    return reflection.isInstance(item, TemplateNodeDeclaration.$type);
+}
+
+export interface TemplateNodeProperty extends langium.AstNode {
+    readonly $container: TemplateNodeDeclaration;
+    readonly $type: 'TemplateNodeProperty';
+    dataProps: Array<TemplateDataProperty>;
+    fill?: TemplateExpression;
+    label?: TemplateExpression;
+    shape?: string;
+    stroke?: TemplateExpression;
+    style?: string;
+}
+
+export const TemplateNodeProperty = {
+    $type: 'TemplateNodeProperty',
+    dataProps: 'dataProps',
+    fill: 'fill',
+    label: 'label',
+    shape: 'shape',
+    stroke: 'stroke',
+    style: 'style'
+} as const;
+
+export function isTemplateNodeProperty(item: unknown): item is TemplateNodeProperty {
+    return reflection.isInstance(item, TemplateNodeProperty.$type);
+}
+
 export interface TemplateParameter extends langium.AstNode {
     readonly $container: TemplateBlock;
     readonly $type: 'TemplateParameter';
@@ -4060,6 +4395,46 @@ export type TemplateParameterType = 'boolean' | 'color' | 'number' | 'string';
 
 export function isTemplateParameterType(item: unknown): item is TemplateParameterType {
     return item === 'string' || item === 'number' || item === 'boolean' || item === 'color';
+}
+
+export type TemplateStatement = ConditionalBlock | LoopBlock | TemplateEdgeDeclaration | TemplateNodeDeclaration;
+
+export const TemplateStatement = {
+    $type: 'TemplateStatement'
+} as const;
+
+export function isTemplateStatement(item: unknown): item is TemplateStatement {
+    return reflection.isInstance(item, TemplateStatement.$type);
+}
+
+export interface TemplateVariable extends langium.AstNode {
+    readonly $container: TemplateExpression;
+    readonly $type: 'TemplateVariable';
+    path: TemplateVariablePath;
+}
+
+export const TemplateVariable = {
+    $type: 'TemplateVariable',
+    path: 'path'
+} as const;
+
+export function isTemplateVariable(item: unknown): item is TemplateVariable {
+    return reflection.isInstance(item, TemplateVariable.$type);
+}
+
+export interface TemplateVariablePath extends langium.AstNode {
+    readonly $container: TemplateVariable;
+    readonly $type: 'TemplateVariablePath';
+    segments: Array<TemplateIdentifier>;
+}
+
+export const TemplateVariablePath = {
+    $type: 'TemplateVariablePath',
+    segments: 'segments'
+} as const;
+
+export function isTemplateVariablePath(item: unknown): item is TemplateVariablePath {
+    return reflection.isInstance(item, TemplateVariablePath.$type);
 }
 
 export type TempUnit = 'K' | 'degC' | 'degF';
@@ -4361,6 +4736,7 @@ export type RuniqAstType = {
     CarrierProperty: CarrierProperty
     ColorProperty: ColorProperty
     ColorsProperty: ColorsProperty
+    ConditionalBlock: ConditionalBlock
     ConnectionPoint: ConnectionPoint
     ContainerBlock: ContainerBlock
     ContainerLayoutProperty: ContainerLayoutProperty
@@ -4373,6 +4749,9 @@ export type RuniqAstType = {
     DataObject: DataObject
     DataObjectProperty: DataObjectProperty
     DataProperty: DataProperty
+    DataSourceDeclaration: DataSourceDeclaration
+    DataSourceOption: DataSourceOption
+    DataTemplateBlock: DataTemplateBlock
     DataValue: DataValue
     DeceasedProperty: DeceasedProperty
     DiagramProfile: DiagramProfile
@@ -4397,6 +4776,7 @@ export type RuniqAstType = {
     ExitProperty: ExitProperty
     ExtensionPointsProperty: ExtensionPointsProperty
     FillProperty: FillProperty
+    FlipAxesProperty: FlipAxesProperty
     FlowRateStatement: FlowRateStatement
     FlowTypeProperty: FlowTypeProperty
     FluidStatement: FluidStatement
@@ -4417,10 +4797,13 @@ export type RuniqAstType = {
     InstParamsProperty: InstParamsProperty
     InstProperty: InstProperty
     InstStatement: InstStatement
+    IntersectionsProperty: IntersectionsProperty
     LabelProperty: LabelProperty
+    LabelsProperty: LabelsProperty
     LegendPositionProperty: LegendPositionProperty
     LineStyleProperty: LineStyleProperty
     LinkProperty: LinkProperty
+    LoopBlock: LoopBlock
     MethodAbstractField: MethodAbstractField
     MethodConstraintsField: MethodConstraintsField
     MethodDecl: MethodDecl
@@ -4541,7 +4924,18 @@ export type RuniqAstType = {
     StyleProperty: StyleProperty
     StyleRefProperty: StyleRefProperty
     TemplateBlock: TemplateBlock
+    TemplateDataProperty: TemplateDataProperty
+    TemplateEdgeDeclaration: TemplateEdgeDeclaration
+    TemplateEdgeProperty: TemplateEdgeProperty
+    TemplateExpression: TemplateExpression
+    TemplateExpressionPart: TemplateExpressionPart
+    TemplateLiteral: TemplateLiteral
+    TemplateNodeDeclaration: TemplateNodeDeclaration
+    TemplateNodeProperty: TemplateNodeProperty
     TemplateParameter: TemplateParameter
+    TemplateStatement: TemplateStatement
+    TemplateVariable: TemplateVariable
+    TemplateVariablePath: TemplateVariablePath
     TextAlignProperty: TextAlignProperty
     TitleProperty: TitleProperty
     TooltipProperty: TooltipProperty
@@ -4730,6 +5124,19 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        ConditionalBlock: {
+            name: ConditionalBlock.$type,
+            properties: {
+                condition: {
+                    name: ConditionalBlock.condition
+                },
+                statements: {
+                    name: ConditionalBlock.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TemplateStatement.$type]
         },
         ConnectionPoint: {
             name: ConnectionPoint.$type,
@@ -5088,6 +5495,59 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        DataSourceDeclaration: {
+            name: DataSourceDeclaration.$type,
+            properties: {
+                format: {
+                    name: DataSourceDeclaration.format
+                },
+                key: {
+                    name: DataSourceDeclaration.key
+                },
+                options: {
+                    name: DataSourceDeclaration.options,
+                    defaultValue: []
+                },
+                source: {
+                    name: DataSourceDeclaration.source
+                }
+            },
+            superTypes: [DiagramStatement.$type]
+        },
+        DataSourceOption: {
+            name: DataSourceOption.$type,
+            properties: {
+                name: {
+                    name: DataSourceOption.name
+                },
+                value: {
+                    name: DataSourceOption.value
+                }
+            },
+            superTypes: []
+        },
+        DataTemplateBlock: {
+            name: DataTemplateBlock.$type,
+            properties: {
+                dataKey: {
+                    name: DataTemplateBlock.dataKey
+                },
+                filter: {
+                    name: DataTemplateBlock.filter
+                },
+                id: {
+                    name: DataTemplateBlock.id
+                },
+                limit: {
+                    name: DataTemplateBlock.limit
+                },
+                statements: {
+                    name: DataTemplateBlock.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [DiagramStatement.$type]
+        },
         DataValue: {
             name: DataValue.$type,
             properties: {
@@ -5336,6 +5796,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        FlipAxesProperty: {
+            name: FlipAxesProperty.$type,
+            properties: {
+                value: {
+                    name: FlipAxesProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         FlowRateStatement: {
             name: FlowRateStatement.$type,
             properties: {
@@ -5546,11 +6015,29 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [DigitalStatement.$type]
         },
+        IntersectionsProperty: {
+            name: IntersectionsProperty.$type,
+            properties: {
+                value: {
+                    name: IntersectionsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         LabelProperty: {
             name: LabelProperty.$type,
             properties: {
                 value: {
                     name: LabelProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        LabelsProperty: {
+            name: LabelsProperty.$type,
+            properties: {
+                value: {
+                    name: LabelsProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]
@@ -5581,6 +6068,22 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        LoopBlock: {
+            name: LoopBlock.$type,
+            properties: {
+                collection: {
+                    name: LoopBlock.collection
+                },
+                statements: {
+                    name: LoopBlock.statements,
+                    defaultValue: []
+                },
+                variable: {
+                    name: LoopBlock.variable
+                }
+            },
+            superTypes: [TemplateStatement.$type]
         },
         MethodAbstractField: {
             name: MethodAbstractField.$type,
@@ -6783,6 +7286,112 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [DiagramStatement.$type]
         },
+        TemplateDataProperty: {
+            name: TemplateDataProperty.$type,
+            properties: {
+                key: {
+                    name: TemplateDataProperty.key
+                },
+                value: {
+                    name: TemplateDataProperty.value
+                }
+            },
+            superTypes: []
+        },
+        TemplateEdgeDeclaration: {
+            name: TemplateEdgeDeclaration.$type,
+            properties: {
+                from: {
+                    name: TemplateEdgeDeclaration.from
+                },
+                properties: {
+                    name: TemplateEdgeDeclaration.properties,
+                    defaultValue: []
+                },
+                to: {
+                    name: TemplateEdgeDeclaration.to
+                }
+            },
+            superTypes: [TemplateStatement.$type]
+        },
+        TemplateEdgeProperty: {
+            name: TemplateEdgeProperty.$type,
+            properties: {
+                condition: {
+                    name: TemplateEdgeProperty.condition
+                },
+                label: {
+                    name: TemplateEdgeProperty.label
+                },
+                style: {
+                    name: TemplateEdgeProperty.style
+                }
+            },
+            superTypes: []
+        },
+        TemplateExpression: {
+            name: TemplateExpression.$type,
+            properties: {
+                parts: {
+                    name: TemplateExpression.parts,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        TemplateExpressionPart: {
+            name: TemplateExpressionPart.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TemplateLiteral: {
+            name: TemplateLiteral.$type,
+            properties: {
+                value: {
+                    name: TemplateLiteral.value
+                }
+            },
+            superTypes: [TemplateExpressionPart.$type]
+        },
+        TemplateNodeDeclaration: {
+            name: TemplateNodeDeclaration.$type,
+            properties: {
+                id: {
+                    name: TemplateNodeDeclaration.id
+                },
+                properties: {
+                    name: TemplateNodeDeclaration.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TemplateStatement.$type]
+        },
+        TemplateNodeProperty: {
+            name: TemplateNodeProperty.$type,
+            properties: {
+                dataProps: {
+                    name: TemplateNodeProperty.dataProps,
+                    defaultValue: []
+                },
+                fill: {
+                    name: TemplateNodeProperty.fill
+                },
+                label: {
+                    name: TemplateNodeProperty.label
+                },
+                shape: {
+                    name: TemplateNodeProperty.shape
+                },
+                stroke: {
+                    name: TemplateNodeProperty.stroke
+                },
+                style: {
+                    name: TemplateNodeProperty.style
+                }
+            },
+            superTypes: []
+        },
         TemplateParameter: {
             name: TemplateParameter.$type,
             properties: {
@@ -6794,6 +7403,31 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 type: {
                     name: TemplateParameter.type
+                }
+            },
+            superTypes: []
+        },
+        TemplateStatement: {
+            name: TemplateStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TemplateVariable: {
+            name: TemplateVariable.$type,
+            properties: {
+                path: {
+                    name: TemplateVariable.path
+                }
+            },
+            superTypes: [TemplateExpressionPart.$type]
+        },
+        TemplateVariablePath: {
+            name: TemplateVariablePath.$type,
+            properties: {
+                segments: {
+                    name: TemplateVariablePath.segments,
+                    defaultValue: []
                 }
             },
             superTypes: []

@@ -1,16 +1,16 @@
 diagram "API Application - Component Diagram"
 direction TB
 
-shape webapp as @c4-container label:"Web Application"
+shape webapp as @c4Container label:"Web Application"
 
 container apiContainer "API Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
-  shape controller as @c4-component label:"REST Controller"
-  shape security as @c4-component label:"Security Component"
-  shape emailComponent as @c4-component label:"Email Component"
-  shape accountComponent as @c4-component label:"Account Component"
+  shape controller as @c4Component label:"REST Controller"
+  shape security as @c4Component label:"Security Component"
+  shape emailComponent as @c4Component label:"Email Component"
+  shape accountComponent as @c4Component label:"Account Component"
 }
 
-shape db as @c4-container label:"Database"
+shape db as @c4Container label:"Database"
 
 webapp -> controller label:"Makes API calls"
 controller -> security label:"Uses"

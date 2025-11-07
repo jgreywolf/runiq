@@ -393,20 +393,20 @@ See the [Pedigree Charts Guide](../guide/pedigree-charts.md) for comprehensive d
 
 C4 model shapes for software architecture diagrams:
 
-| Shape        | Syntax          | Description                   |
-| ------------ | --------------- | ----------------------------- |
-| C4 Person    | `@c4-person`    | External person/user          |
-| C4 System    | `@c4-system`    | Software system               |
-| C4 Container | `@c4-container` | Application/service container |
-| C4 Component | `@c4-component` | Component within container    |
+| Shape        | Syntax         | Description                   |
+| ------------ | -------------- | ----------------------------- |
+| C4 Person    | `@c4Person`    | External person/user          |
+| C4 System    | `@c4System`    | Software system               |
+| C4 Container | `@c4Container` | Application/service container |
+| C4 Component | `@c4Component` | Component within container    |
 
 **Example:**
 
 ```runiq
 diagram "C4 System Context" {
-  shape user as @c4-person label: "Customer"
-  shape system as @c4-system label: "Banking System"
-  shape external as @c4-system label: "Email Service"
+  shape user as @c4Person label: "Customer"
+  shape system as @c4System label: "Banking System"
+  shape external as @c4System label: "Email Service"
 
   user -> system
   system -> external

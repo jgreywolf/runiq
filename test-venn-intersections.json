@@ -1,0 +1,38 @@
+{
+  "astVersion": "1.0",
+  "title": "Project Triangle: Fast, Good, Cheap",
+  "direction": "TB",
+  "styles": {},
+  "nodes": [
+    {
+      "id": "ProjectTriangle",
+      "shape": "venn",
+      "label": "Quality Triangle",
+      "data": {
+        "values": [
+          1,
+          1,
+          1
+        ],
+        "labels": [
+          "Fast",
+          "Good",
+          "Cheap"
+        ],
+        "colors": [
+          "#4CAF50",
+          "#2196F3",
+          "#FFC107"
+        ],
+        "intersections": [
+          "Expensive",
+          "Poor Quality",
+          "Slow",
+          "Impossible"
+        ]
+      }
+    }
+  ],
+  "edges": [],
+  "groups": []
+}

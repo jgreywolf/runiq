@@ -1,4 +1,10 @@
-import type { ShapeDefinition, IconProvider, LayoutEngine } from './types.js';
+import type {
+  ShapeDefinition,
+  IconProvider,
+  LayoutEngine,
+  DataSource,
+  DataObject,
+} from './types.js';
 
 class ShapeRegistry {
   private shapes = new Map<string, ShapeDefinition>();
@@ -124,7 +130,62 @@ class LayoutRegistry {
   }
 }
 
+class DataSourceRegistry {
+  private sources = new Map<string, DataSource>();
+
+  /**
+   * Register a data source instance under a key.
+   * Keys are arbitrary identifiers (e.g., 'json', 'csv', 'myApi').
+   */
+  register(key: string, source: DataSource): void {
+    this.sources.set(key, source);
+  }
+
+  /**
+   * Retrieve a data source by key.
+   */
+  get(key: string): DataSource | undefined {
+    return this.sources.get(key);
+  }
+
+  /**
+   * Check if a data source key is registered.
+   */
+  has(key: string): boolean {
+    return this.sources.has(key);
+  }
+
+  /**
+   * List registered data source keys and formats.
+   */
+  list(): Array<{ key: string; format: string }> {
+    return Array.from(this.sources.entries()).map(([key, src]) => ({
+      key,
+      format: src.format,
+    }));
+  }
+
+  /**
+   * Convenience helper to resolve a data source and load data from a string (file path or inline contents).
+   */
+  async resolveAndLoad(key: string, source: string): Promise<DataObject[]> {
+    const loader = this.sources.get(key);
+    if (!loader) {
+      throw new Error(`Data source not registered: ${key}`);
+    }
+    return loader.load(source);
+  }
+
+  /**
+   * Clear all registered data sources (useful for tests).
+   */
+  clear(): void {
+    this.sources.clear();
+  }
+}
+
 // Global registries
 export const shapeRegistry = new ShapeRegistry();
 export const iconRegistry = new IconRegistry();
 export const layoutRegistry = new LayoutRegistry();
+export const dataSourceRegistry = new DataSourceRegistry();

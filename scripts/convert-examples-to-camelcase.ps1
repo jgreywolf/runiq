@@ -6,10 +6,10 @@ $ErrorActionPreference = "Stop"
 # Map of kebab-case to camelCase conversions
 $replacements = @{
     # C4 Shapes
-    '@c4-person' = '@c4Person'
-    '@c4-system' = '@c4System'
-    '@c4-container' = '@c4Container'
-    '@c4-component' = '@c4Component'
+    '@c4Person' = '@c4Person'
+    '@c4System' = '@c4System'
+    '@c4Container' = '@c4Container'
+    '@c4Component' = '@c4Component'
     
     # UML Shapes
     '@send-signal' = '@sendSignal'

@@ -36,21 +36,28 @@ export const pyramidShape: ShapeDefinition = {
   id: 'pyramid',
 
   bounds(ctx) {
-    const data = (ctx.node.data as any) || {};
+    const data = (ctx.node.data as unknown) || {};
+    const dataObj =
+      typeof data === 'object' && data !== null
+        ? (data as Record<string, unknown>)
+        : {};
+
     // Support multiple formats:
     // 1. data.levels (programmatic API)
     // 2. data.values (DSL parser output)
     // 3. data as array directly
-    const levels = Array.isArray(data.levels)
-      ? data.levels
-      : Array.isArray(data.values)
-        ? data.values
-        : Array.isArray(data)
-          ? data
-          : [];
+    let levelsCount = 3; // default
+
+    if (Array.isArray(dataObj.levels)) {
+      levelsCount = (dataObj.levels as unknown[]).length;
+    } else if (Array.isArray(dataObj.values)) {
+      levelsCount = (dataObj.values as unknown[]).length;
+    } else if (Array.isArray(data)) {
+      levelsCount = (data as unknown[]).length;
+    }
 
     // Default size or size based on number of levels
-    const levelCount = Math.max(levels.length, 3);
+    const levelCount = Math.max(levelsCount, 3);
     const levelHeight = 40;
     const minWidth = 250;
 
@@ -72,20 +79,56 @@ export const pyramidShape: ShapeDefinition = {
 
   render(ctx) {
     const bounds = this.bounds(ctx);
-    const data = (ctx.node.data as any) || {};
+    const data = (ctx.node.data as unknown) || {};
+
+    // Type guard for data
+    const dataObj =
+      typeof data === 'object' && data !== null
+        ? (data as Record<string, unknown>)
+        : {};
+
+    // Get custom labels if provided
+    const customLabels = Array.isArray(dataObj.labels)
+      ? (dataObj.labels as string[])
+      : undefined;
+
     // Support multiple formats:
     // 1. data.levels (programmatic API)
     // 2. data.values (DSL parser output)
     // 3. data as array directly
-    const levels: PyramidLevel[] = Array.isArray(data.levels)
-      ? data.levels
-      : Array.isArray(data.values)
-        ? data.values
-        : Array.isArray(data)
-          ? data
-          : [];
-    const colors = Array.isArray(data.colors) ? data.colors : DEFAULT_COLORS;
-    const showValues = data.showValues !== false; // Show by default
+    let levels: PyramidLevel[];
+
+    if (Array.isArray(dataObj.levels)) {
+      levels = dataObj.levels as PyramidLevel[];
+    } else if (Array.isArray(dataObj.values)) {
+      // Check if values are objects with label/value or just numbers
+      levels = (dataObj.values as unknown[]).map((item: unknown, i: number) => {
+        if (typeof item === 'number') {
+          return { label: customLabels?.[i] || `Level ${i + 1}`, value: item };
+        }
+        if (typeof item === 'object' && item !== null && 'value' in item) {
+          const objItem = item as { label?: string; value: number };
+          return {
+            label: objItem.label || customLabels?.[i] || `Level ${i + 1}`,
+            value: objItem.value,
+          };
+        }
+        return { label: `Level ${i + 1}`, value: 0 };
+      });
+    } else if (Array.isArray(data)) {
+      // Simple array of numbers
+      levels = (data as unknown[]).map((value: unknown, i: number) => ({
+        label: customLabels?.[i] || `Level ${i + 1}`,
+        value: typeof value === 'number' ? value : 0,
+      }));
+    } else {
+      levels = [];
+    }
+
+    const colors = Array.isArray(dataObj.colors)
+      ? (dataObj.colors as string[])
+      : DEFAULT_COLORS;
+    const showValues = dataObj.showValues !== false; // Show by default
 
     if (levels.length === 0) {
       // Return empty group if no data
@@ -99,7 +142,8 @@ export const pyramidShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#000000';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
-    const fontFamily = ctx.style.fontFamily || 'Arial';
+    const fontFamily =
+      typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
 
     const levelHeight = (bounds.height - 40) / levels.length;
     const maxWidth = bounds.width - 40; // Padding on sides

@@ -1,0 +1,10 @@
+// Horizontal Line Chart Example
+// Using flipAxes:true to create a horizontal orientation
+
+diagram "Performance Metrics Horizontal" {
+  shape metrics as @lineChart 
+    label:"System Performance Scores"
+    data:[85, 92, 78, 88, 95, 90]
+    labels:["CPU Usage", "Memory", "Disk I/O", "Network", "Response Time", "Throughput"]
+    flipAxes:true
+}

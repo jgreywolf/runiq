@@ -329,10 +329,10 @@ digital "Half Adder" {
 diagram "Banking System - Context"
 direction TB
 
-shape customer as @c4-person label:"Customer"
-shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
-shape emailSystem as @c4-system label:"Email System"
-shape mainframe as @c4-system label:"Mainframe\\nBanking System"
+shape customer as @c4Person label:"Customer"
+shape bankingSystem as @c4System label:"Internet Banking\\nSystem"
+shape emailSystem as @c4System label:"Email System"
+shape mainframe as @c4System label:"Mainframe\\nBanking System"
 
 customer -Uses-> bankingSystem
 bankingSystem -Sends emails-> emailSystem
@@ -480,22 +480,22 @@ pid "Simple Process Flow" {
   equipment T-101 type:storageTank volume:1000 unit:L material:CS rating:150#
   equipment P-101 type:pumpCentrifugal flowRate:50 unit:m³/h material:CS
   equipment FCV-101 type:valveControl rating:150#
-  
+
   // Instruments (ISA-5.1 notation)
   instrument FT-101 type:flowTransmitter range:(0,100) unit:m³/h loop:101 location:field
   instrument FIC-101 type:flowIndicatorController range:(0,100) unit:m³/h loop:101 location:panel
-  
+
   // Process Lines
   line process from:T-101.outlet to:P-101.inlet size:3 unit:in schedule:SCH40 material:CS
   line process from:P-101.discharge to:FCV-101.inlet size:2 unit:in schedule:SCH40 material:CS
-  
+
   // Signal Lines
   line signal from:FT-101 to:FIC-101
   line signal from:FIC-101 to:FCV-101
-  
+
   // Control Loop
   loop 101 controlled_variable:flow setpoint:40 unit:m³/h controller:FIC-101 mode:auto
-  
+
   // Process Specifications
   fluid organic
   pressure 6 bar operating

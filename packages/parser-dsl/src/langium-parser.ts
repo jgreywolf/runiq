@@ -1190,6 +1190,25 @@ function processDialogStatement(
             item.replace(/^"|"$/g, '')
           );
         }
+      } else if (Langium.isFlipAxesProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.flipAxes = prop.value === 'true';
+      } else if (Langium.isLabelsProperty(prop)) {
+        if (!node.data) node.data = {};
+        // Convert StringArray to array of strings
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.data.labels = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isIntersectionsProperty(prop)) {
+        if (!node.data) node.data = {};
+        // Convert StringArray to array of strings
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.data.intersections = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
       } else if (Langium.isAffectedProperty(prop)) {
         // Store pedigree properties in node.data for later merging into style
         if (!node.data) node.data = {};
@@ -1337,6 +1356,20 @@ function processDialogStatement(
         if (!node.data) node.data = {};
         if (prop.value && Langium.isStringArray(prop.value)) {
           node.data.colors = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isLabelsProperty(prop)) {
+        if (!node.data) node.data = {};
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.data.labels = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isIntersectionsProperty(prop)) {
+        if (!node.data) node.data = {};
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.data.intersections = prop.value.items.map((item) =>
             item.replace(/^"|"$/g, '')
           );
         }
@@ -1530,6 +1563,37 @@ function processDialogStatement(
     const container = convertContainer(statement, declaredNodes, tempDiagram);
     if (!diagram.containers) diagram.containers = [];
     diagram.containers.push(container);
+  } else if (Langium.isDataSourceDeclaration(statement)) {
+    // Phase 2: Data source declarations
+    if (!(diagram as any).dataSources) (diagram as any).dataSources = [];
+    (diagram as any).dataSources.push({
+      format: statement.format.replace(/^"|"$/g, ''),
+      key: statement.key,
+      source: statement.source.replace(/^"|"$/g, ''),
+      options: statement.options?.map((opt) => {
+        let value: string | number | boolean = opt.value;
+        if (typeof value === 'string') {
+          // Strip quotes from strings
+          const unquoted = value.replace(/^"|"$/g, '');
+          // Convert boolean strings to actual booleans
+          if (unquoted === 'true') value = true;
+          else if (unquoted === 'false') value = false;
+          else value = unquoted;
+        }
+        return { name: opt.name, value };
+      }),
+    });
+  } else if (Langium.isDataTemplateBlock(statement)) {
+    // Phase 2: Data-driven template blocks
+    if (!(diagram as any).dataTemplates) (diagram as any).dataTemplates = [];
+    (diagram as any).dataTemplates.push({
+      id: statement.id.replace(/^"|"$/g, ''),
+      dataKey: statement.dataKey,
+      filter: statement.filter?.replace(/^"|"$/g, ''),
+      limit:
+        statement.limit !== undefined ? Number(statement.limit) : undefined,
+      statements: statement.statements, // Keep raw statements for now
+    });
   } else if (Langium.isTemplateBlock(statement)) {
     // Phase 5: Template definitions
     const template = convertTemplate(statement);
@@ -2005,6 +2069,22 @@ function convertContainer(
               item.replace(/^"|"$/g, '')
             );
           }
+        } else if (Langium.isLabelsProperty(prop)) {
+          if (!node.data) node.data = {};
+          // Convert StringArray to array of strings
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.labels = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
+          }
+        } else if (Langium.isIntersectionsProperty(prop)) {
+          if (!node.data) node.data = {};
+          // Convert StringArray to array of strings
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.intersections = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
+          }
         } else if (Langium.isAffectedProperty(prop)) {
           // Store pedigree properties in node.data for later merging into style
           if (!node.data) node.data = {};
@@ -2040,6 +2120,20 @@ function convertContainer(
         } else if (Langium.isTitleProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.title = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isLabelsProperty(prop)) {
+          if (!node.data) node.data = {};
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.labels = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
+          }
+        } else if (Langium.isIntersectionsProperty(prop)) {
+          if (!node.data) node.data = {};
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.intersections = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
+          }
         } else if (Langium.isXLabelProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.xLabel = prop.value.replace(/^"|"$/g, '');

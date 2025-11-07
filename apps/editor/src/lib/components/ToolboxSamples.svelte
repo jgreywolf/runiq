@@ -6,6 +6,7 @@
 		name: string;
 		description: string;
 		code: string;
+		data?: string;
 	}
 
 	interface SampleCategory {
@@ -16,7 +17,7 @@
 
 	interface Props {
 		categories: SampleCategory[];
-		onInsertSample: (sampleCode: string) => void;
+		onInsertSample: (sampleCode: string, sampleData?: string) => void;
 	}
 
 	let { categories, onInsertSample }: Props = $props();
@@ -43,9 +44,7 @@
 	});
 
 	// Total samples count
-	let totalSamples = $derived(
-		filteredCategories.reduce((sum, cat) => sum + cat.samples.length, 0)
-	);
+	let totalSamples = $derived(filteredCategories.reduce((sum, cat) => sum + cat.samples.length, 0));
 
 	// Auto-expand categories when searching
 	$effect(() => {
@@ -71,17 +70,17 @@
 	<!-- Search bar -->
 	<div class="border-b border-neutral-200 p-3">
 		<div class="relative">
-			<Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
+			<Search class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
 			<input
 				type="text"
 				bind:value={searchQuery}
 				placeholder="Search samples..."
-				class="w-full rounded-md border border-neutral-300 py-2 pl-9 pr-9 text-sm focus:border-runiq-500 focus:outline-none focus:ring-1 focus:ring-runiq-500"
+				class="w-full rounded-md border border-neutral-300 py-2 pr-9 pl-9 text-sm focus:border-runiq-500 focus:ring-1 focus:ring-runiq-500 focus:outline-none"
 			/>
 			{#if searchQuery}
 				<button
 					onclick={clearSearch}
-					class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+					class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
 				>
 					<X class="h-4 w-4" />
 				</button>
@@ -128,11 +127,14 @@
 						<div class="space-y-2 p-2">
 							{#each category.samples as sample}
 								<button
-									class="w-full rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-200 hover:bg-runiq-50 cursor-pointer"
-									onclick={() => onInsertSample(sample.code)}
+									class="w-full cursor-pointer rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-200 hover:bg-runiq-50"
+									onclick={() => onInsertSample(sample.code, sample.data)}
 								>
 									<p class="text-sm font-medium text-neutral-900">{sample.name}</p>
 									<p class="mt-1 text-xs text-neutral-600">{sample.description}</p>
+									{#if sample.data}
+										<p class="mt-1 text-xs font-medium text-runiq-600">📊 Includes sample data</p>
+									{/if}
 								</button>
 							{/each}
 						</div>

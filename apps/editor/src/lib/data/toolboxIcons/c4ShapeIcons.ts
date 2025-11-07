@@ -7,24 +7,24 @@ export const c4ShapeIcons: ShapeCategory[] = [
 		profiles: ['diagram'],
 		shapes: [
 			{
-				id: 'c4-person',
+				id: 'c4Person',
 				label: 'Person',
-				code: 'shape id as @c4-person label:"User"'
+				code: 'shape id as @c4Person label:"User"'
 			},
 			{
-				id: 'c4-system',
+				id: 'c4System',
 				label: 'Software System',
-				code: 'shape id as @c4-system label:"System Name"'
+				code: 'shape id as @c4System label:"System Name"'
 			},
 			{
-				id: 'c4-container',
+				id: 'c4Container',
 				label: 'Container',
-				code: 'shape id as @c4-container label:"Web App\\n[React, TypeScript]"'
+				code: 'shape id as @c4Container label:"Web App\\n[React, TypeScript]"'
 			},
 			{
-				id: 'c4-component',
+				id: 'c4Component',
 				label: 'Component',
-				code: 'shape id as @c4-component label:"Controller"'
+				code: 'shape id as @c4Component label:"Controller"'
 			}
 		]
 	}

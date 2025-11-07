@@ -1,0 +1,3 @@
+diagram "Temperature Trend" {
+  shape temp as @lineChart label:"Daily Temperature (°F)" data:[72, 75, 78, 76, 79, 82, 80]
+}

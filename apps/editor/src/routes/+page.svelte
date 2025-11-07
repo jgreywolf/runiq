@@ -4,7 +4,9 @@
 	import Header from '$lib/components/Header.svelte';
 	import Toolbox from '$lib/components/Toolbox.svelte';
 	import CodeEditor from '$lib/components/CodeEditor.svelte';
+	import DataEditor from '$lib/components/DataEditor.svelte';
 	import Preview from '$lib/components/Preview.svelte';
+	import * as Tabs from '$lib/components/ui/tabs';
 	import { registerDefaultShapes, layoutRegistry, iconRegistry } from '@runiq/core';
 	import { ElkLayoutEngine } from '@runiq/layout-base';
 	import { fontAwesome } from '@runiq/icons-fontawesome';
@@ -47,10 +49,14 @@
 
 	// Editor state
 	let code = $state(initialCode);
+	let dataContent = $state('');
+	let dataErrors = $state<string[]>([]);
+	let activeTab = $state('syntax');
 	let errors = $state<string[]>([]);
 	let layoutEngine = $state('elk');
 	let autoSaveTimeout: ReturnType<typeof setTimeout> | null = null;
 	let codeEditorRef: CodeEditor | null = null;
+	let dataEditorRef: DataEditor | null = null;
 	let previewRef: Preview | null = null;
 
 	// Initialize lastSaved after state declaration
@@ -87,6 +93,18 @@
 		console.log('Editor errors:', editorErrors);
 	}
 
+	// Handle data editor changes
+	function handleDataChange(newData: string) {
+		dataContent = newData;
+		// Note: Data changes don't affect isDirty/auto-save since they're separate
+	}
+
+	// Handle data editor errors
+	function handleDataErrors(errors: string[]) {
+		dataErrors = errors;
+		console.log('Data errors:', errors);
+	}
+
 	// Handle parse results from preview
 	function handleParse(success: boolean, parseErrors: string[]) {
 		errors = parseErrors;
@@ -100,11 +118,22 @@
 	}
 
 	// Handle sample diagram insertion - replaces all content
-	function handleInsertSample(sampleCode: string) {
+	function handleInsertSample(sampleCode: string, sampleData?: string) {
 		if (codeEditorRef) {
 			codeEditorRef.setValue(sampleCode);
 		}
 		code = sampleCode;
+
+		// Load sample data if provided
+		if (sampleData && dataEditorRef) {
+			dataEditorRef.setValue(sampleData);
+			dataContent = sampleData;
+		} else if (dataEditorRef) {
+			// Clear data if no sample data
+			dataEditorRef.setValue('');
+			dataContent = '';
+		}
+
 		isDirty = true;
 	}
 
@@ -403,15 +432,33 @@
 			>
 				<div class="flex h-full flex-col bg-white">
 					<div class="border-b border-runiq-200 bg-runiq-500 px-4 py-3">
-						<h2 class="text-sm font-semibold text-white">Code Editor</h2>
+						<h2 class="text-sm font-semibold text-white">Editor</h2>
 					</div>
-					<div class="flex-1 overflow-hidden">
-						<CodeEditor
-							bind:this={codeEditorRef}
-							value={code}
-							onchange={handleCodeChange}
-							onerror={handleEditorErrors}
-						/>
+					<div class="flex flex-1 flex-col overflow-hidden">
+						<Tabs.Root bind:value={activeTab} class="flex flex-1 flex-col">
+							<Tabs.List class="border-b border-neutral-200 bg-neutral-50 px-2">
+								<Tabs.Trigger value="syntax" class="px-4 py-2 text-sm font-medium">
+									Syntax
+								</Tabs.Trigger>
+								<Tabs.Trigger value="data" class="px-4 py-2 text-sm font-medium">Data</Tabs.Trigger>
+							</Tabs.List>
+							<Tabs.Content value="syntax" class="flex-1 overflow-hidden">
+								<CodeEditor
+									bind:this={codeEditorRef}
+									value={code}
+									onchange={handleCodeChange}
+									onerror={handleEditorErrors}
+								/>
+							</Tabs.Content>
+							<Tabs.Content value="data" class="flex-1 overflow-hidden">
+								<DataEditor
+									bind:this={dataEditorRef}
+									value={dataContent}
+									onchange={handleDataChange}
+									onerror={handleDataErrors}
+								/>
+							</Tabs.Content>
+						</Tabs.Root>
 					</div>
 				</div>
 			</Pane>
@@ -434,7 +481,13 @@
 						<h2 class="text-sm font-semibold text-white">Preview</h2>
 					</div>
 					<div class="flex-1 overflow-hidden">
-						<Preview bind:this={previewRef} {code} {layoutEngine} onparse={handleParse} />
+						<Preview
+							bind:this={previewRef}
+							{code}
+							{dataContent}
+							{layoutEngine}
+							onparse={handleParse}
+						/>
 					</div>
 				</div>
 			</Pane>

@@ -134,9 +134,28 @@ This document lists shapes where the **common name** differs from the **actual r
 
 **Chart Shapes that ARE correct:**
 
-- ✅ `@pie-chart` - Pie chart
-- ✅ `@bar-chart-vertical` - Vertical bar chart
-- ✅ `@bar-chart-horizontal` - Horizontal bar chart
+- ✅ `@pieChart` - Pie chart with labeled slices
+- ✅ `@barChartVertical` - Vertical bar chart
+- ✅ `@barChartHorizontal` - Horizontal bar chart
+- ✅ `@lineChart` - Line chart with time series data (NEW!)
+- ✅ `@radarChart` - Radar/spider chart with multi-axis metrics (NEW!)
+- ✅ `@pyramid` - Pyramid chart for hierarchical data
+- ✅ `@venn2` - 2-circle Venn diagram
+- ✅ `@venn3` - 3-circle Venn diagram
+- ✅ `@venn4` - 4-circle Venn diagram
+
+**Chart Data Formats:**
+
+All charts accept data via the `data` property. Simple arrays work for basic charts:
+
+```runiq
+shape sales as @lineChart label:"Monthly Sales" data:[45, 52, 48, 61, 58, 65]
+shape skills as @radarChart label:"Skills" data:[90, 70, 40, 50, 60]
+```
+
+For complex features (multi-series, custom colors, toggles), use JSON or programmatic generation.
+
+**📖 See the [Charts Guide](./docs/guide/charts.md) for complete syntax and examples.**
 
 ### UML State Machine Shapes
 

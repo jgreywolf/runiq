@@ -117,7 +117,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -186,28 +186,35 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@220"
+              "$ref": "#/rules@223"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@242"
+              "$ref": "#/rules@245"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@243"
+              "$ref": "#/rules@246"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@250"
+              "$ref": "#/rules@271"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@274"
             },
             "arguments": []
           },
@@ -215,6 +222,13 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "$type": "RuleCall",
             "rule": {
               "$ref": "#/rules@253"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@255"
             },
             "arguments": []
           }
@@ -250,7 +264,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -332,7 +346,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -351,7 +365,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@298"
                   },
                   "arguments": []
                 }
@@ -382,7 +396,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -470,7 +484,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -501,21 +515,21 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@298"
                   },
                   "arguments": []
                 }
@@ -545,7 +559,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -577,7 +591,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -596,7 +610,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@298"
                   },
                   "arguments": []
                 }
@@ -627,7 +641,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -646,21 +660,21 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@298"
                   },
                   "arguments": []
                 }
@@ -702,7 +716,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             },
@@ -764,7 +778,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -846,7 +860,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1025,7 +1039,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1075,7 +1089,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -1091,7 +1105,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -1115,7 +1129,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1134,14 +1148,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -1171,7 +1185,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1245,7 +1259,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1385,7 +1399,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1401,7 +1415,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1451,7 +1465,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1470,14 +1484,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -1553,7 +1567,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -1607,7 +1621,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -1696,7 +1710,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -1807,7 +1821,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -1896,7 +1910,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -2004,7 +2018,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             },
@@ -2028,7 +2042,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -2044,7 +2058,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -2153,7 +2167,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -2263,7 +2277,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@275"
+                "$ref": "#/rules@296"
               },
               "arguments": []
             }
@@ -2578,7 +2592,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -2655,7 +2669,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -2784,7 +2798,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -2942,7 +2956,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@275"
+                "$ref": "#/rules@296"
               },
               "arguments": []
             }
@@ -3250,7 +3264,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -3266,7 +3280,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -3383,7 +3397,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -3472,7 +3486,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -3782,7 +3796,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@275"
+                "$ref": "#/rules@296"
               },
               "arguments": []
             }
@@ -3801,7 +3815,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@269"
                   },
                   "arguments": []
                 }
@@ -3832,7 +3846,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -4097,7 +4111,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -4258,7 +4272,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -4308,7 +4322,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@275"
+                "$ref": "#/rules@296"
               },
               "arguments": []
             }
@@ -4393,7 +4407,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -4412,21 +4426,21 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@298"
                   },
                   "arguments": []
                 }
@@ -4456,7 +4470,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -4545,7 +4559,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -4626,7 +4640,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -4654,7 +4668,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -4682,7 +4696,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -4710,7 +4724,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -4738,7 +4752,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -4809,7 +4823,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -4825,7 +4839,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -4853,7 +4867,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -4898,7 +4912,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -4994,7 +5008,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5181,7 +5195,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -5232,7 +5246,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -5280,7 +5294,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5369,7 +5383,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -5397,7 +5411,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5425,7 +5439,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5453,7 +5467,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5481,7 +5495,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5605,7 +5619,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5624,7 +5638,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -5671,7 +5685,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5800,7 +5814,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -5828,7 +5842,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -5910,7 +5924,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -5926,7 +5940,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -5942,7 +5956,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -5977,7 +5991,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -5996,7 +6010,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@278"
+                        "$ref": "#/rules@299"
                       },
                       "arguments": []
                     }
@@ -6034,7 +6048,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -6124,7 +6138,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -6152,7 +6166,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -6180,7 +6194,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -6322,7 +6336,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -6374,21 +6388,21 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@298"
                   },
                   "arguments": []
                 }
@@ -6414,7 +6428,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@277"
+                  "$ref": "#/rules@298"
                 },
                 "arguments": []
               },
@@ -6491,7 +6505,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@269"
               },
               "arguments": []
             }
@@ -6551,14 +6565,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@276"
+              "$ref": "#/rules@297"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@277"
+              "$ref": "#/rules@298"
             },
             "arguments": []
           },
@@ -6700,6 +6714,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
+            "value": "initialState"
+          },
+          {
+            "$type": "Keyword",
+            "value": "finalState"
+          },
+          {
+            "$type": "Keyword",
             "value": "historyShallow"
           },
           {
@@ -6721,6 +6743,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "terminate"
+          },
+          {
+            "$type": "Keyword",
+            "value": "db"
+          },
+          {
+            "$type": "Keyword",
+            "value": "pill"
           }
         ]
       },
@@ -6772,7 +6802,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@214"
+              "$ref": "#/rules@217"
             },
             "arguments": []
           },
@@ -6849,35 +6879,35 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@175"
+              "$ref": "#/rules@168"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@186"
+              "$ref": "#/rules@169"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@200"
+              "$ref": "#/rules@170"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@201"
+              "$ref": "#/rules@178"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@202"
+              "$ref": "#/rules@189"
             },
             "arguments": []
           },
@@ -6919,6 +6949,20 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
+              "$ref": "#/rules@208"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@209"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
               "$ref": "#/rules@210"
             },
             "arguments": []
@@ -6926,7 +6970,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@208"
+              "$ref": "#/rules@213"
             },
             "arguments": []
           },
@@ -6940,28 +6984,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@212"
+              "$ref": "#/rules@214"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@168"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@169"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@170"
+              "$ref": "#/rules@215"
             },
             "arguments": []
           },
@@ -6996,6 +7026,27 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
+              "$ref": "#/rules@175"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@176"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@177"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
               "$ref": "#/rules@152"
             },
             "arguments": []
@@ -7023,7 +7074,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7133,7 +7184,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
               "terminal": {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@277"
+                  "$ref": "#/rules@298"
                 },
                 "arguments": []
               },
@@ -7164,7 +7215,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -7180,7 +7231,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@298"
               },
               "arguments": []
             }
@@ -7208,7 +7259,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7236,7 +7287,35 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "LabelsProperty",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "labels:"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@216"
               },
               "arguments": []
             }
@@ -7264,7 +7343,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -7292,7 +7371,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7320,7 +7399,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -7348,7 +7427,63 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@213"
+                "$ref": "#/rules@216"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "IntersectionsProperty",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "intersections:"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@216"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "FlipAxesProperty",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "flipAxes:"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -7376,7 +7511,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7404,7 +7539,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7432,7 +7567,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7460,7 +7595,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -7488,7 +7623,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -7516,7 +7651,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -7544,7 +7679,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7572,7 +7707,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7600,7 +7735,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7628,7 +7763,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@213"
+                "$ref": "#/rules@216"
               },
               "arguments": []
             }
@@ -7656,7 +7791,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@213"
+                "$ref": "#/rules@216"
               },
               "arguments": []
             }
@@ -7684,7 +7819,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7712,7 +7847,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@213"
+                "$ref": "#/rules@216"
               },
               "arguments": []
             }
@@ -7747,7 +7882,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@176"
+                    "$ref": "#/rules@179"
                   },
                   "arguments": []
                 }
@@ -7766,7 +7901,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@176"
+                        "$ref": "#/rules@179"
                       },
                       "arguments": []
                     }
@@ -7804,7 +7939,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@177"
+                "$ref": "#/rules@180"
               },
               "arguments": []
             },
@@ -7829,21 +7964,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@178"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@179"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@180"
+              "$ref": "#/rules@181"
             },
             "arguments": []
           },
@@ -7864,14 +7985,28 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@184"
+              "$ref": "#/rules@185"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@185"
+              "$ref": "#/rules@186"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@187"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@188"
             },
             "arguments": []
           }
@@ -7898,7 +8033,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7926,7 +8061,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -7954,7 +8089,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@181"
+                "$ref": "#/rules@184"
               },
               "arguments": []
             }
@@ -8011,7 +8146,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8039,7 +8174,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -8067,7 +8202,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -8099,7 +8234,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8118,7 +8253,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -8160,7 +8295,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@187"
+                    "$ref": "#/rules@190"
                   },
                   "arguments": []
                 }
@@ -8179,7 +8314,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@187"
+                        "$ref": "#/rules@190"
                       },
                       "arguments": []
                     }
@@ -8217,7 +8352,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@188"
+                "$ref": "#/rules@191"
               },
               "arguments": []
             },
@@ -8242,35 +8377,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@189"
+              "$ref": "#/rules@192"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@190"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@195"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@196"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@197"
+              "$ref": "#/rules@193"
             },
             "arguments": []
           },
@@ -8285,6 +8399,27 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "$type": "RuleCall",
             "rule": {
               "$ref": "#/rules@199"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@200"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@201"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@202"
             },
             "arguments": []
           }
@@ -8311,7 +8446,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8346,7 +8481,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@191"
+                    "$ref": "#/rules@194"
                   },
                   "arguments": []
                 }
@@ -8365,7 +8500,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@191"
+                        "$ref": "#/rules@194"
                       },
                       "arguments": []
                     }
@@ -8403,7 +8538,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@192"
+                "$ref": "#/rules@195"
               },
               "arguments": []
             },
@@ -8428,14 +8563,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@193"
+              "$ref": "#/rules@196"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@194"
+              "$ref": "#/rules@197"
             },
             "arguments": []
           }
@@ -8462,7 +8597,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8490,7 +8625,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8518,7 +8653,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8546,7 +8681,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@181"
+                "$ref": "#/rules@184"
               },
               "arguments": []
             }
@@ -8574,7 +8709,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -8602,7 +8737,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@267"
+                "$ref": "#/rules@288"
               },
               "arguments": []
             }
@@ -8634,7 +8769,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8653,7 +8788,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -8695,7 +8830,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -8714,7 +8849,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@278"
+                        "$ref": "#/rules@299"
                       },
                       "arguments": []
                     }
@@ -8755,7 +8890,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -8780,7 +8915,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -8799,7 +8934,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@278"
+                        "$ref": "#/rules@299"
                       },
                       "arguments": []
                     }
@@ -8836,7 +8971,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8864,7 +8999,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8892,7 +9027,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -8920,7 +9055,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -8948,7 +9083,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -8976,7 +9111,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -9004,7 +9139,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@209"
+                "$ref": "#/rules@212"
               },
               "arguments": []
             }
@@ -9057,7 +9192,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -9085,7 +9220,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -9113,7 +9248,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@279"
+                "$ref": "#/rules@300"
               },
               "arguments": []
             }
@@ -9144,7 +9279,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -9163,7 +9298,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@278"
+                        "$ref": "#/rules@299"
                       },
                       "arguments": []
                     }
@@ -9208,7 +9343,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@215"
+                    "$ref": "#/rules@218"
                   },
                   "arguments": []
                 }
@@ -9227,7 +9362,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@215"
+                        "$ref": "#/rules@218"
                       },
                       "arguments": []
                     }
@@ -9257,14 +9392,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@217"
+              "$ref": "#/rules@220"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@216"
+              "$ref": "#/rules@219"
             },
             "arguments": []
           }
@@ -9284,7 +9419,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
         "terminal": {
           "$type": "RuleCall",
           "rule": {
-            "$ref": "#/rules@279"
+            "$ref": "#/rules@300"
           },
           "arguments": []
         }
@@ -9310,7 +9445,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@218"
+                "$ref": "#/rules@221"
               },
               "arguments": []
             }
@@ -9329,7 +9464,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@218"
+                    "$ref": "#/rules@221"
                   },
                   "arguments": []
                 }
@@ -9363,14 +9498,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@298"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -9391,21 +9526,21 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@219"
+                    "$ref": "#/rules@222"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 },
                 {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -9438,7 +9573,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -9457,7 +9592,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@279"
+                        "$ref": "#/rules@300"
                       },
                       "arguments": []
                     }
@@ -9491,7 +9626,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@222"
+                "$ref": "#/rules@225"
               },
               "arguments": []
             }
@@ -9506,7 +9641,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@274"
+                    "$ref": "#/rules@295"
                   },
                   "arguments": []
                 }
@@ -9518,7 +9653,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@273"
+                    "$ref": "#/rules@294"
                   },
                   "arguments": []
                 }
@@ -9530,7 +9665,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@272"
+                    "$ref": "#/rules@293"
                   },
                   "arguments": []
                 }
@@ -9544,7 +9679,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@222"
+                "$ref": "#/rules@225"
               },
               "arguments": []
             }
@@ -9556,7 +9691,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@221"
+                "$ref": "#/rules@224"
               },
               "arguments": []
             },
@@ -9569,7 +9704,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@223"
+                "$ref": "#/rules@226"
               },
               "arguments": []
             },
@@ -9597,7 +9732,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@274"
+                    "$ref": "#/rules@295"
                   },
                   "arguments": []
                 }
@@ -9609,7 +9744,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@273"
+                    "$ref": "#/rules@294"
                   },
                   "arguments": []
                 }
@@ -9621,7 +9756,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@272"
+                    "$ref": "#/rules@293"
                   },
                   "arguments": []
                 }
@@ -9635,7 +9770,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@222"
+                "$ref": "#/rules@225"
               },
               "arguments": []
             }
@@ -9659,7 +9794,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@269"
               },
               "arguments": []
             }
@@ -9678,7 +9813,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@277"
+                    "$ref": "#/rules@269"
                   },
                   "arguments": []
                 }
@@ -9701,21 +9836,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@224"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@225"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@226"
+              "$ref": "#/rules@227"
             },
             "arguments": []
           },
@@ -9736,13 +9857,6 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@230"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
               "$ref": "#/rules@231"
             },
             "arguments": []
@@ -9757,6 +9871,13 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
+              "$ref": "#/rules@233"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
               "$ref": "#/rules@234"
             },
             "arguments": []
@@ -9764,42 +9885,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@236"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@241"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@201"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@204"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@205"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@154"
+              "$ref": "#/rules@235"
             },
             "arguments": []
           },
@@ -9813,13 +9899,6 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@238"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
               "$ref": "#/rules@239"
             },
             "arguments": []
@@ -9827,7 +9906,63 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
+              "$ref": "#/rules@244"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@204"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@207"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@208"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@154"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
               "$ref": "#/rules@240"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@241"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@242"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@243"
             },
             "arguments": []
           }
@@ -9854,7 +9989,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -9882,7 +10017,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -9910,7 +10045,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@227"
+                "$ref": "#/rules@230"
               },
               "arguments": []
             }
@@ -9967,7 +10102,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -9995,7 +10130,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10023,7 +10158,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10051,7 +10186,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10088,7 +10223,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@233"
+                "$ref": "#/rules@236"
               },
               "arguments": []
             }
@@ -10153,7 +10288,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@235"
+                "$ref": "#/rules@238"
               },
               "arguments": []
             }
@@ -10214,7 +10349,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10233,7 +10368,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -10268,7 +10403,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10296,7 +10431,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10324,7 +10459,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10352,7 +10487,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10408,7 +10543,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10457,7 +10592,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@277"
+                "$ref": "#/rules@269"
               },
               "arguments": []
             },
@@ -10470,7 +10605,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -10496,14 +10631,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@276"
+                        "$ref": "#/rules@297"
                       },
                       "arguments": []
                     },
                     {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@277"
+                        "$ref": "#/rules@269"
                       },
                       "arguments": []
                     }
@@ -10520,7 +10655,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@244"
+                "$ref": "#/rules@247"
               },
               "arguments": []
             },
@@ -10569,20 +10704,6 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@245"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@247"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
               "$ref": "#/rules@248"
             },
             "arguments": []
@@ -10590,7 +10711,21 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@249"
+              "$ref": "#/rules@250"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@251"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@252"
             },
             "arguments": []
           }
@@ -10617,7 +10752,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@246"
+                "$ref": "#/rules@249"
               },
               "arguments": []
             }
@@ -10642,7 +10777,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@277"
+              "$ref": "#/rules@298"
             },
             "arguments": []
           }
@@ -10672,7 +10807,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -10693,7 +10828,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -10714,7 +10849,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -10735,7 +10870,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -10756,7 +10891,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -10777,7 +10912,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@258"
+                    "$ref": "#/rules@279"
                   },
                   "arguments": []
                 }
@@ -10798,7 +10933,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -10819,7 +10954,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@259"
+                    "$ref": "#/rules@280"
                   },
                   "arguments": []
                 }
@@ -10840,7 +10975,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -10861,7 +10996,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@260"
+                    "$ref": "#/rules@281"
                   },
                   "arguments": []
                 }
@@ -10882,7 +11017,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -10903,7 +11038,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -10924,7 +11059,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -10945,7 +11080,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -10966,7 +11101,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -10987,7 +11122,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -11020,7 +11155,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@254"
+                    "$ref": "#/rules@275"
                   },
                   "arguments": []
                 }
@@ -11041,7 +11176,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -11062,7 +11197,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11083,7 +11218,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -11104,7 +11239,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -11125,7 +11260,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11146,7 +11281,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11167,7 +11302,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@255"
+                    "$ref": "#/rules@276"
                   },
                   "arguments": []
                 }
@@ -11188,7 +11323,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -11209,7 +11344,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11230,7 +11365,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@255"
+                    "$ref": "#/rules@276"
                   },
                   "arguments": []
                 }
@@ -11251,7 +11386,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -11272,7 +11407,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11293,7 +11428,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -11314,7 +11449,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11335,7 +11470,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11356,7 +11491,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11377,7 +11512,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11398,7 +11533,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@261"
+                    "$ref": "#/rules@282"
                   },
                   "arguments": []
                 }
@@ -11419,7 +11554,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11440,7 +11575,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11461,7 +11596,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11482,7 +11617,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11503,7 +11638,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11524,7 +11659,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11545,7 +11680,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11566,7 +11701,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11587,7 +11722,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11608,7 +11743,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@262"
+                    "$ref": "#/rules@283"
                   },
                   "arguments": []
                 }
@@ -11629,7 +11764,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@263"
+                    "$ref": "#/rules@284"
                   },
                   "arguments": []
                 }
@@ -11650,7 +11785,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@264"
+                    "$ref": "#/rules@285"
                   },
                   "arguments": []
                 }
@@ -11671,7 +11806,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11692,7 +11827,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@265"
+                    "$ref": "#/rules@286"
                   },
                   "arguments": []
                 }
@@ -11713,7 +11848,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -11734,7 +11869,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -11755,7 +11890,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -11776,7 +11911,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -11797,7 +11932,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@266"
+                    "$ref": "#/rules@287"
                   },
                   "arguments": []
                 }
@@ -11818,7 +11953,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -11839,7 +11974,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@268"
+                    "$ref": "#/rules@289"
                   },
                   "arguments": []
                 }
@@ -11860,7 +11995,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@269"
+                    "$ref": "#/rules@290"
                   },
                   "arguments": []
                 }
@@ -11881,7 +12016,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -11902,7 +12037,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -11923,7 +12058,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -11951,7 +12086,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@270"
+                        "$ref": "#/rules@291"
                       },
                       "arguments": []
                     }
@@ -11970,7 +12105,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                         "terminal": {
                           "$type": "RuleCall",
                           "rule": {
-                            "$ref": "#/rules@270"
+                            "$ref": "#/rules@291"
                           },
                           "arguments": []
                         }
@@ -12001,7 +12136,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -12022,7 +12157,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -12043,7 +12178,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -12064,7 +12199,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12085,7 +12220,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -12106,7 +12241,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -12127,7 +12262,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12148,7 +12283,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -12169,7 +12304,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -12190,7 +12325,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@268"
+                    "$ref": "#/rules@289"
                   },
                   "arguments": []
                 }
@@ -12211,7 +12346,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@267"
+                    "$ref": "#/rules@288"
                   },
                   "arguments": []
                 }
@@ -12232,7 +12367,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@271"
+                    "$ref": "#/rules@292"
                   },
                   "arguments": []
                 }
@@ -12253,7 +12388,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12274,7 +12409,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12295,7 +12430,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12328,7 +12463,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@256"
+                    "$ref": "#/rules@277"
                   },
                   "arguments": []
                 }
@@ -12370,7 +12505,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@279"
+                    "$ref": "#/rules@300"
                   },
                   "arguments": []
                 }
@@ -12391,12 +12526,1229 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@257"
+                    "$ref": "#/rules@278"
                   },
                   "arguments": []
                 }
               }
             ]
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "DataSourceDeclaration",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "datasource"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "format",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@299"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "key:"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "key",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@298"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "from:"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "source",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@299"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "options:"
+              },
+              {
+                "$type": "Keyword",
+                "value": "{"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "options",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@254"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Group",
+                "elements": [
+                  {
+                    "$type": "Keyword",
+                    "value": ","
+                  },
+                  {
+                    "$type": "Assignment",
+                    "feature": "options",
+                    "operator": "+=",
+                    "terminal": {
+                      "$type": "RuleCall",
+                      "rule": {
+                        "$ref": "#/rules@254"
+                      },
+                      "arguments": []
+                    }
+                  }
+                ],
+                "cardinality": "*"
+              },
+              {
+                "$type": "Keyword",
+                "value": "}"
+              }
+            ],
+            "cardinality": "?"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "DataSourceOption",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "name",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@298"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "Alternatives",
+              "elements": [
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@299"
+                  },
+                  "arguments": []
+                },
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@300"
+                  },
+                  "arguments": []
+                },
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@288"
+                  },
+                  "arguments": []
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "DataTemplateBlock",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "template"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "id",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@299"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "from:"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "dataKey",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@298"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "{"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "filter:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "filter",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@299"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "limit:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "limit",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@300"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "statements",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@256"
+              },
+              "arguments": []
+            },
+            "cardinality": "*"
+          },
+          {
+            "$type": "Keyword",
+            "value": "}"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateStatement",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@257"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@260"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@262"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@263"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateNodeDeclaration",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "node"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "id",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@264"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "properties",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@258"
+              },
+              "arguments": []
+            },
+            "cardinality": "*"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateNodeProperty",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "shape:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "shape",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@298"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "label:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "label",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@264"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "fill:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "fill",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@264"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "stroke:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "stroke",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@264"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "style:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "style",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@298"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "data:"
+              },
+              {
+                "$type": "Keyword",
+                "value": "{"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "dataProps",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@259"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "Group",
+                "elements": [
+                  {
+                    "$type": "Keyword",
+                    "value": ","
+                  },
+                  {
+                    "$type": "Assignment",
+                    "feature": "dataProps",
+                    "operator": "+=",
+                    "terminal": {
+                      "$type": "RuleCall",
+                      "rule": {
+                        "$ref": "#/rules@259"
+                      },
+                      "arguments": []
+                    }
+                  }
+                ],
+                "cardinality": "*"
+              },
+              {
+                "$type": "Keyword",
+                "value": "}"
+              }
+            ]
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateDataProperty",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "key",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@270"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@264"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateEdgeDeclaration",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "edge"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "from",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@264"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@295"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "Assignment",
+            "feature": "to",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@264"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "properties",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@261"
+              },
+              "arguments": []
+            },
+            "cardinality": "*"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateEdgeProperty",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "label:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "label",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@264"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "style:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "style",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@298"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "when:"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "condition",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@264"
+                  },
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "ConditionalBlock",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "if"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "condition",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@264"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "{"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "statements",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@256"
+              },
+              "arguments": []
+            },
+            "cardinality": "*"
+          },
+          {
+            "$type": "Keyword",
+            "value": "}"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "LoopBlock",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "for"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "variable",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@298"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "in"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "collection",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@264"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "{"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "statements",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@256"
+              },
+              "arguments": []
+            },
+            "cardinality": "*"
+          },
+          {
+            "$type": "Keyword",
+            "value": "}"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateExpression",
+      "definition": {
+        "$type": "Assignment",
+        "feature": "parts",
+        "operator": "+=",
+        "terminal": {
+          "$type": "RuleCall",
+          "rule": {
+            "$ref": "#/rules@265"
+          },
+          "arguments": []
+        },
+        "cardinality": "+"
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateExpressionPart",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@266"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@267"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateLiteral",
+      "definition": {
+        "$type": "Assignment",
+        "feature": "value",
+        "operator": "=",
+        "terminal": {
+          "$type": "RuleCall",
+          "rule": {
+            "$ref": "#/rules@299"
+          },
+          "arguments": []
+        }
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateVariable",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "\${"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "path",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@268"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Keyword",
+            "value": "}"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateVariablePath",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Assignment",
+            "feature": "segments",
+            "operator": "+=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@270"
+              },
+              "arguments": []
+            }
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "."
+              },
+              {
+                "$type": "Assignment",
+                "feature": "segments",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@270"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "cardinality": "*"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "FlexibleID",
+      "dataType": "string",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@298"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "Keyword",
+            "value": "data"
+          },
+          {
+            "$type": "Keyword",
+            "value": "from"
+          },
+          {
+            "$type": "Keyword",
+            "value": "to"
+          },
+          {
+            "$type": "Keyword",
+            "value": "key"
+          },
+          {
+            "$type": "Keyword",
+            "value": "source"
+          },
+          {
+            "$type": "Keyword",
+            "value": "filter"
+          },
+          {
+            "$type": "Keyword",
+            "value": "limit"
+          },
+          {
+            "$type": "Keyword",
+            "value": "label"
+          },
+          {
+            "$type": "Keyword",
+            "value": "name"
+          },
+          {
+            "$type": "Keyword",
+            "value": "id"
+          },
+          {
+            "$type": "Keyword",
+            "value": "type"
+          },
+          {
+            "$type": "Keyword",
+            "value": "value"
+          },
+          {
+            "$type": "Keyword",
+            "value": "format"
+          },
+          {
+            "$type": "Keyword",
+            "value": "color"
+          },
+          {
+            "$type": "Keyword",
+            "value": "header"
+          },
+          {
+            "$type": "Keyword",
+            "value": "delimiter"
+          },
+          {
+            "$type": "Keyword",
+            "value": "for"
+          },
+          {
+            "$type": "Keyword",
+            "value": "in"
+          },
+          {
+            "$type": "Keyword",
+            "value": "if"
+          },
+          {
+            "$type": "Keyword",
+            "value": "loop"
+          },
+          {
+            "$type": "Keyword",
+            "value": "call"
+          },
+          {
+            "$type": "Keyword",
+            "value": "start"
+          },
+          {
+            "$type": "Keyword",
+            "value": "end"
+          },
+          {
+            "$type": "Keyword",
+            "value": "done"
+          },
+          {
+            "$type": "Keyword",
+            "value": "process"
+          },
+          {
+            "$type": "Keyword",
+            "value": "mobile"
+          },
+          {
+            "$type": "Keyword",
+            "value": "m"
+          },
+          {
+            "$type": "Keyword",
+            "value": "f"
+          },
+          {
+            "$type": "Keyword",
+            "value": "step"
+          },
+          {
+            "$type": "Keyword",
+            "value": "action"
+          },
+          {
+            "$type": "Keyword",
+            "value": "input"
+          },
+          {
+            "$type": "Keyword",
+            "value": "output"
+          },
+          {
+            "$type": "Keyword",
+            "value": "config"
+          },
+          {
+            "$type": "Keyword",
+            "value": "settings"
+          },
+          {
+            "$type": "Keyword",
+            "value": "api"
+          },
+          {
+            "$type": "Keyword",
+            "value": "db"
+          },
+          {
+            "$type": "Keyword",
+            "value": "cache"
+          },
+          {
+            "$type": "Keyword",
+            "value": "queue"
+          }
+        ]
+      },
+      "entry": false,
+      "fragment": false,
+      "parameters": []
+    },
+    {
+      "$type": "ParserRule",
+      "name": "TemplateIdentifier",
+      "dataType": "string",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@298"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "Keyword",
+            "value": "data"
+          },
+          {
+            "$type": "Keyword",
+            "value": "color"
+          },
+          {
+            "$type": "Keyword",
+            "value": "header"
+          },
+          {
+            "$type": "Keyword",
+            "value": "delimiter"
+          },
+          {
+            "$type": "Keyword",
+            "value": "value"
+          },
+          {
+            "$type": "Keyword",
+            "value": "type"
+          },
+          {
+            "$type": "Keyword",
+            "value": "from"
+          },
+          {
+            "$type": "Keyword",
+            "value": "to"
+          },
+          {
+            "$type": "Keyword",
+            "value": "label"
+          },
+          {
+            "$type": "Keyword",
+            "value": "name"
+          },
+          {
+            "$type": "Keyword",
+            "value": "id"
+          },
+          {
+            "$type": "Keyword",
+            "value": "key"
+          },
+          {
+            "$type": "Keyword",
+            "value": "format"
+          },
+          {
+            "$type": "Keyword",
+            "value": "source"
+          },
+          {
+            "$type": "Keyword",
+            "value": "filter"
+          },
+          {
+            "$type": "Keyword",
+            "value": "limit"
           }
         ]
       },
@@ -12421,7 +13773,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -12444,7 +13796,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12466,7 +13818,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12492,7 +13844,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@251"
+                    "$ref": "#/rules@272"
                   },
                   "arguments": []
                 }
@@ -12511,7 +13863,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@251"
+                        "$ref": "#/rules@272"
                       },
                       "arguments": []
                     }
@@ -12544,7 +13896,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12563,7 +13915,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@278"
+                        "$ref": "#/rules@299"
                       },
                       "arguments": []
                     }
@@ -12585,7 +13937,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@248"
+                "$ref": "#/rules@251"
               },
               "arguments": []
             },
@@ -12614,7 +13966,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -12630,7 +13982,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@252"
+                "$ref": "#/rules@273"
               },
               "arguments": []
             }
@@ -12652,21 +14004,21 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                     {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@278"
+                        "$ref": "#/rules@299"
                       },
                       "arguments": []
                     },
                     {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@279"
+                        "$ref": "#/rules@300"
                       },
                       "arguments": []
                     },
                     {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@267"
+                        "$ref": "#/rules@288"
                       },
                       "arguments": []
                     }
@@ -12728,7 +14080,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@278"
+                "$ref": "#/rules@299"
               },
               "arguments": []
             }
@@ -12751,7 +14103,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@278"
+                    "$ref": "#/rules@299"
                   },
                   "arguments": []
                 }
@@ -12766,7 +14118,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@248"
+                "$ref": "#/rules@251"
               },
               "arguments": []
             },

@@ -1,0 +1,7 @@
+// Multi-series radar charts with complex data structures
+// are better suited for JSON or programmatic generation
+// This example shows a simple single-series radar chart
+
+diagram "Performance Metrics" {
+  shape metrics as @radarChart label:"System Performance" data:[90, 70, 40, 50, 60, 85]
+}

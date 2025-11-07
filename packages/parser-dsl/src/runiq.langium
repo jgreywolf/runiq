@@ -28,7 +28,9 @@ DiagramStatement:
     | GroupBlock
     | ContainerBlock
     | TemplateBlock
-    | PresetBlock;
+    | PresetBlock
+    | DataSourceDeclaration
+    | DataTemplateBlock;
 
 // ============================================================================
 // Electrical Profile (analog circuits) - accepts both 'electrical' and 'schematic' keywords
@@ -351,7 +353,7 @@ PIDLineToProperty:
     'to:' to=ConnectionPoint;
 
 ConnectionPoint:
-    equipment=TAG ('.' port=ID)?;
+    equipment=TAG ('.' port=FlexibleID)?;
 
 PIDLineSizeProperty:
     'size:' size=NUMBER ('unit:' unit=SizeUnit)?;
@@ -605,7 +607,7 @@ StylePropertyKey returns string:
 // shape node1 as @rounded label: "My Node" style: myStyle icon: fa/user link: "http://example.com"
 // shape node1 label: "My Node" (shape optional if inside type:mindmap container)
 ShapeDeclaration:
-    'shape' id=ID ('as' '@' shape=ShapeIdentifier)? properties+=NodeProperty*;
+    'shape' id=FlexibleID ('as' '@' shape=ShapeIdentifier)? properties+=NodeProperty*;
 
 // Allow shape IDs, regular IDs, and certain keywords that are valid shape names
 ShapeIdentifier returns string:
@@ -615,8 +617,9 @@ ShapeIdentifier returns string:
     | 'port' | 'module' | 'template' | 'history' | 'pin' | 'assembly'
     | 'providedInterface' | 'requiredInterface' | 'frame' | 'collaboration'
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
-    | 'activityFinal' | 'flowFinal'
-    | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate';
+    | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
+    | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
+    | 'db' | 'pill';
 
 NodeProperty:
     LabelProperty
@@ -625,10 +628,13 @@ NodeProperty:
     | LinkProperty
     | TooltipProperty
     | DataProperty
+    | LabelsProperty
     | ShowLegendProperty
     | LegendPositionProperty
     | StackedProperty
     | ColorsProperty
+    | IntersectionsProperty
+    | FlipAxesProperty
     | TitleProperty
     | XLabelProperty
     | YLabelProperty
@@ -680,6 +686,9 @@ LinkProperty:
 TooltipProperty:
     'tooltip:' text=STRING;
 
+LabelsProperty:
+    'labels:' value=StringArray;
+
 ShowLegendProperty:
     'showLegend:' value=BooleanValue;
 
@@ -691,6 +700,12 @@ StackedProperty:
 
 ColorsProperty:
     'colors:' value=StringArray;
+
+IntersectionsProperty:
+    'intersections:' value=StringArray;
+
+FlipAxesProperty:
+    'flipAxes:' value=BooleanValue;
 
 TitleProperty:
     'title:' value=STRING;
@@ -890,8 +905,9 @@ EdgeChain:
     (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW) to=NodeRef;
 
 // Support both simple node references (node1) and member references (Class.field)
+// Use FlexibleID to allow keywords like 'data', 'label', 'm' as node names
 NodeRef:
-    node=ID ('.' member=ID)?;
+    node=FlexibleID ('.' member=FlexibleID)?;
 
 EdgeProperty:
     EdgeLabelProperty
@@ -980,7 +996,7 @@ GroupBlock:
 // container "Label" { ... } with optional properties
 // Now supports: container id "Label" as @shapeName { ... }
 ContainerBlock:
-    'container' (id=ID)? label=STRING ('as' '@' shape=(SHAPE_ID | ID))? properties+=ContainerProperty* '{'
+    'container' (id=FlexibleID)? label=STRING ('as' '@' shape=(SHAPE_ID | FlexibleID))? properties+=ContainerProperty* '{'
         statements+=DiagramStatement*
     '}';
 
@@ -1087,7 +1103,104 @@ ContainerLayoutProperty:
     | 'orientation:' orientation=OrientationValue;
 
 // ============================================================================
-// Phase 5: Template & Preset Definitions
+// Phase 2: Data-Driven Rendering - Data Sources & Templates
+// ============================================================================
+
+// datasource "json" key:users from:"data/users.json"
+// datasource "csv" key:metrics from:"metrics.csv"
+DataSourceDeclaration:
+    'datasource' format=STRING 'key:' key=ID 'from:' source=STRING
+    ('options:' '{' options+=DataSourceOption (',' options+=DataSourceOption)* '}')?;
+
+DataSourceOption:
+    name=ID ':' value=(STRING | NUMBER | BooleanValue);
+
+// Data-driven template block: generates nodes/edges from data
+// template "userCard" from:users { ... }
+DataTemplateBlock:
+    'template' id=STRING 'from:' dataKey=ID '{'
+        ('filter:' filter=STRING)?
+        ('limit:' limit=NUMBER)?
+        statements+=TemplateStatement*
+    '}';
+
+TemplateStatement:
+    TemplateNodeDeclaration
+    | TemplateEdgeDeclaration
+    | ConditionalBlock
+    | LoopBlock;
+
+// Node with variable substitution: node ${item.id} shape:rect label:${item.name}
+TemplateNodeDeclaration:
+    'node' id=TemplateExpression properties+=TemplateNodeProperty*;
+
+TemplateNodeProperty:
+    'shape:' shape=ID
+    | 'label:' label=TemplateExpression
+    | 'fill:' fill=TemplateExpression
+    | 'stroke:' stroke=TemplateExpression
+    | 'style:' style=ID
+    | 'data:' '{' dataProps+=TemplateDataProperty (',' dataProps+=TemplateDataProperty)* '}';
+
+TemplateDataProperty:
+    key=TemplateIdentifier ':' value=TemplateExpression;
+
+// Edge with variable substitution: edge ${item.source} -> ${item.target}
+TemplateEdgeDeclaration:
+    'edge' from=TemplateExpression ARROW to=TemplateExpression properties+=TemplateEdgeProperty*;
+
+TemplateEdgeProperty:
+    'label:' label=TemplateExpression
+    | 'style:' style=ID
+    | 'when:' condition=TemplateExpression;
+
+// Conditional rendering: if ${item.active} { ... }
+ConditionalBlock:
+    'if' condition=TemplateExpression '{' statements+=TemplateStatement* '}';
+
+// Loop over data: for item in ${data.items} { ... }
+LoopBlock:
+    'for' variable=ID 'in' collection=TemplateExpression '{' statements+=TemplateStatement* '}';
+
+// Template expression: literal string, variable reference ${...}, or combination
+TemplateExpression:
+    parts+=TemplateExpressionPart+;
+
+TemplateExpressionPart:
+    TemplateLiteral | TemplateVariable;
+
+TemplateLiteral:
+    value=STRING;
+
+TemplateVariable:
+    '${' path=TemplateVariablePath '}';
+
+TemplateVariablePath:
+    segments+=TemplateIdentifier ('.' segments+=TemplateIdentifier)*;
+
+// Allow keywords as identifiers in node/edge IDs and other contexts
+// This prevents conflicts when users want to use reserved property names as node IDs
+// Common words from examples: data, label, process, start, end, mobile, etc.
+// NOTE: 'template' and 'preset' are NOT included here as they are Phase 5 keywords
+FlexibleID returns string:
+    ID 
+    // Data-driven keywords (excluding 'template' which is a Phase 5 keyword)
+    | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit'
+    // Property keywords  
+    | 'label' | 'name' | 'id' | 'type' | 'value' | 'format' | 'color' | 'header' | 'delimiter'
+    // Control flow keywords
+    | 'for' | 'in' | 'if' | 'loop' | 'call'
+    // Common node names
+    | 'start' | 'end' | 'done' | 'process' | 'mobile' | 'm' | 'f' | 'step' | 'action'
+    | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue';
+
+// Allow keywords as identifiers in template variable paths
+TemplateIdentifier returns string:
+    ID | 'data' | 'color' | 'header' | 'delimiter' | 'value' | 'type' | 'from' | 'to'
+    | 'label' | 'name' | 'id' | 'key' | 'format' | 'source' | 'filter' | 'limit';
+
+// ============================================================================
+// Phase 5: Template & Preset Definitions (Container Templates)
 // ============================================================================
 
 // template "name" { ... }

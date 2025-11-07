@@ -5,14 +5,14 @@ import { createTextMeasurer } from '../../text-measurement/index.js';
 describe('C4 Model Shapes', () => {
   const measureText = createTextMeasurer();
 
-  describe('c4-person', () => {
+  describe('c4Person', () => {
     it('should have correct id', () => {
       expect(c4Person.id).toBe('c4Person');
     });
 
     it('should calculate bounds with person icon space', () => {
       const bounds = c4Person.bounds({
-        node: { id: 'user', shape: 'c4-person', label: 'Customer' },
+        node: { id: 'user', shape: 'c4Person', label: 'Customer' },
         style: {},
         measureText,
       });
@@ -24,7 +24,7 @@ describe('C4 Model Shapes', () => {
     it('should render SVG with person icon and label', () => {
       const svg = c4Person.render(
         {
-          node: { id: 'user', shape: 'c4-person', label: 'Customer' },
+          node: { id: 'user', shape: 'c4Person', label: 'Customer' },
           style: {},
           measureText,
         },
@@ -41,7 +41,7 @@ describe('C4 Model Shapes', () => {
     it('should use custom fill color from style', () => {
       const svg = c4Person.render(
         {
-          node: { id: 'user', shape: 'c4-person', label: 'Admin' },
+          node: { id: 'user', shape: 'c4Person', label: 'Admin' },
           style: { fill: '#ff0000' },
           measureText,
         },
@@ -52,14 +52,14 @@ describe('C4 Model Shapes', () => {
     });
   });
 
-  describe('c4-system', () => {
+  describe('c4System', () => {
     it('should have correct id', () => {
       expect(c4System.id).toBe('c4System');
     });
 
     it('should calculate bounds with minimum size', () => {
       const bounds = c4System.bounds({
-        node: { id: 'sys', shape: 'c4-system', label: 'Banking System' },
+        node: { id: 'sys', shape: 'c4System', label: 'Banking System' },
         style: {},
         measureText,
       });
@@ -71,7 +71,7 @@ describe('C4 Model Shapes', () => {
     it('should render SVG with system styling', () => {
       const svg = c4System.render(
         {
-          node: { id: 'sys', shape: 'c4-system', label: 'Banking System' },
+          node: { id: 'sys', shape: 'c4System', label: 'Banking System' },
           style: {},
           measureText,
         },
@@ -86,7 +86,7 @@ describe('C4 Model Shapes', () => {
     });
   });
 
-  describe('c4-container', () => {
+  describe('c4Container', () => {
     it('should have correct id', () => {
       expect(c4Container.id).toBe('c4Container');
     });
@@ -95,7 +95,7 @@ describe('C4 Model Shapes', () => {
       const bounds = c4Container.bounds({
         node: {
           id: 'web',
-          shape: 'c4-container',
+          shape: 'c4Container',
           label: 'Web Application\\n[React, TypeScript]',
         },
         style: {},
@@ -111,7 +111,7 @@ describe('C4 Model Shapes', () => {
         {
           node: {
             id: 'web',
-            shape: 'c4-container',
+            shape: 'c4Container',
             label: 'Web Application\\n[React, TypeScript]',
           },
           style: {},
@@ -132,7 +132,7 @@ describe('C4 Model Shapes', () => {
         {
           node: {
             id: 'db',
-            shape: 'c4-container',
+            shape: 'c4Container',
             label: 'Database',
           },
           style: {},
@@ -146,7 +146,7 @@ describe('C4 Model Shapes', () => {
     });
   });
 
-  describe('c4-component', () => {
+  describe('c4Component', () => {
     it('should have correct id', () => {
       expect(c4Component.id).toBe('c4Component');
     });
@@ -155,7 +155,7 @@ describe('C4 Model Shapes', () => {
       const bounds = c4Component.bounds({
         node: {
           id: 'controller',
-          shape: 'c4-component',
+          shape: 'c4Component',
           label: 'Auth Controller',
         },
         style: {},
@@ -171,7 +171,7 @@ describe('C4 Model Shapes', () => {
         {
           node: {
             id: 'controller',
-            shape: 'c4-component',
+            shape: 'c4Component',
             label: 'Auth Controller',
           },
           style: {},
