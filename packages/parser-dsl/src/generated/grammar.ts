@@ -14301,15 +14301,15 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
-            "value": "ease-in"
+            "value": "easeIn"
           },
           {
             "$type": "Keyword",
-            "value": "ease-out"
+            "value": "easeOut"
           },
           {
             "$type": "Keyword",
-            "value": "ease-in-out"
+            "value": "easeInOut"
           }
         ]
       },

@@ -1676,9 +1676,9 @@ function convertContainer(
       } else if (prop.collapseAnimationEasing) {
         container.collapseAnimationEasing = prop.collapseAnimationEasing as
           | 'linear'
-          | 'ease-in'
-          | 'ease-out'
-          | 'ease-in-out';
+          | 'easeIn'
+          | 'easeOut'
+          | 'easeInOut';
       } else if (prop.collapseSummary) {
         container.collapseSummary = prop.collapseSummary.replace(/^"|"$/g, '');
       } else if (prop.collapseShowCount !== undefined) {

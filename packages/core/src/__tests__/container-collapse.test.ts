@@ -344,19 +344,19 @@ describe('Container Phase 2: Collapse/Expand Functionality', () => {
         id: 'c1',
         label: 'Services',
         collapsible: true,
-        collapseAnimationEasing: 'ease-in-out',
+        collapseAnimationEasing: 'easeInOut',
         children: ['node1'],
       };
 
-      expect(container.collapseAnimationEasing).toBe('ease-in-out');
+      expect(container.collapseAnimationEasing).toBe('easeInOut');
     });
 
     it('should support different easing functions', () => {
-      const easings: Array<'linear' | 'ease-in' | 'ease-out' | 'ease-in-out'> = [
+      const easings: Array<'linear' | 'easeIn' | 'easeOut' | 'easeInOut'> = [
         'linear',
-        'ease-in',
-        'ease-out',
-        'ease-in-out',
+        'easeIn',
+        'easeOut',
+        'easeInOut',
       ];
 
       easings.forEach((easing) => {
@@ -495,7 +495,7 @@ describe('Container Phase 2: Collapse/Expand Functionality', () => {
         collapseRedirectEdges: true,
         collapseTransitionState: 'stable',
         collapseAnimationDuration: 300,
-        collapseAnimationEasing: 'ease-in-out',
+        collapseAnimationEasing: 'easeInOut',
         collapseSummary: '12 services',
         collapseShowCount: true,
         collapseIcon: 'chevron-right',
@@ -520,7 +520,7 @@ describe('Container Phase 2: Collapse/Expand Functionality', () => {
       expect(container.collapseRedirectEdges).toBe(true);
       expect(container.collapseTransitionState).toBe('stable');
       expect(container.collapseAnimationDuration).toBe(300);
-      expect(container.collapseAnimationEasing).toBe('ease-in-out');
+      expect(container.collapseAnimationEasing).toBe('easeInOut');
       expect(container.collapseSummary).toBe('12 services');
       expect(container.collapseShowCount).toBe(true);
       expect(container.collapseIcon).toBe('chevron-right');

@@ -221,9 +221,9 @@ export type RuniqKeywordNames =
     | "double"
     | "durationConstraint"
     | "e"
-    | "ease-in"
-    | "ease-in-out"
-    | "ease-out"
+    | "easeIn"
+    | "easeInOut"
+    | "easeOut"
     | "edge"
     | "edgeBundling:"
     | "edgeRouting:"
@@ -929,10 +929,10 @@ export function isCarrierProperty(item: unknown): item is CarrierProperty {
     return reflection.isInstance(item, CarrierProperty.$type);
 }
 
-export type CollapseEasingValue = 'ease-in' | 'ease-in-out' | 'ease-out' | 'linear';
+export type CollapseEasingValue = 'easeIn' | 'easeInOut' | 'easeOut' | 'linear';
 
 export function isCollapseEasingValue(item: unknown): item is CollapseEasingValue {
-    return item === 'linear' || item === 'ease-in' || item === 'ease-out' || item === 'ease-in-out';
+    return item === 'linear' || item === 'easeIn' || item === 'easeOut' || item === 'easeInOut';
 }
 
 export type CollapseModeValue = 'full' | 'partial';

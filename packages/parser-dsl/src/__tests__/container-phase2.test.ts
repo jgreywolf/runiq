@@ -161,7 +161,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
     });
 
     it('should parse all easing functions', () => {
-      const easings = ['linear', 'ease-in', 'ease-out', 'ease-in-out'];
+      const easings = ['linear', 'easeIn', 'easeOut', 'easeInOut'];
 
       for (const easing of easings) {
         const dsl = `
@@ -183,7 +183,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
         diagram "test" {
         container "Services" 
           collapseAnimationDuration: 300
-          collapseAnimationEasing: ease-in-out {
+          collapseAnimationEasing: easeInOut {
           shape node1 as @rect label: "API"
         }
       }`;
@@ -192,7 +192,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
       expect(container?.collapseAnimationDuration).toBe(300);
-      expect(container?.collapseAnimationEasing).toBe('ease-in-out');
+      expect(container?.collapseAnimationEasing).toBe('easeInOut');
     });
   });
 
@@ -351,7 +351,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
           collapseRedirectEdges: true
           collapseTransitionState: stable
           collapseAnimationDuration: 300
-          collapseAnimationEasing: ease-in-out
+          collapseAnimationEasing: easeInOut
           collapseSummary: "12 services"
           collapseShowCount: true
           collapseIcon: "chevron-right"
@@ -379,7 +379,7 @@ describe('Container Phase 2: Collapse/Expand Parser Tests', () => {
       expect(container?.collapseRedirectEdges).toBe(true);
       expect(container?.collapseTransitionState).toBe('stable');
       expect(container?.collapseAnimationDuration).toBe(300);
-      expect(container?.collapseAnimationEasing).toBe('ease-in-out');
+      expect(container?.collapseAnimationEasing).toBe('easeInOut');
       expect(container?.collapseSummary).toBe('12 services');
       expect(container?.collapseShowCount).toBe(true);
       expect(container?.collapseIcon).toBe('chevron-right');
