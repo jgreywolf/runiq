@@ -32,45 +32,102 @@ See the [Shape Reference - Chart Shapes](/reference/shapes#_7-chart-shapes-7-sha
 > shape chart as @barChart label:"Revenue" data:[120, 150, 180] flipAxes:true
 > ```
 
-## Pie Charts
+## Pie Charts ⭐
 
-Simple pie chart showing proportions:
+Pie charts visualize proportional data as colored slices. Supports custom labels, colors, legends, and titles.
+
+### Basic Pie Chart
+
+Simple proportional data with auto-generated labels:
 
 ```runiq
-diagram "Market Share Q4" {
-  direction TB
-
-  shape chart as @pieChart label: "Market Share"
-    data: {
-      segments: [
-        { label: "Product A", value: 45, fill: "#3b82f6" },
-        { label: "Product B", value: 30, fill: "#10b981" },
-        { label: "Product C", value: 15, fill: "#f59e0b" },
-        { label: "Others", value: 10, fill: "#6b7280" }
-      ]
-    }
+diagram "Market Share" {
+  shape chart as @pieChart 
+    label:"Browser Market"
+    data:[45, 30, 15, 10]
 }
 ```
 
-With legend:
+### With Custom Labels ⭐ NEW
+
+Display meaningful slice labels instead of generic "Slice 1", "Slice 2":
 
 ```runiq
-diagram "Sales by Region" {
-  direction LR
-
-  shape chart as @pieChart label: "Regional Sales"
-    data: {
-      segments: [
-        { label: "North America", value: 40, fill: "#3b82f6" },
-        { label: "Europe", value: 35, fill: "#10b981" },
-        { label: "Asia Pacific", value: 20, fill: "#f59e0b" },
-        { label: "Other", value: 5, fill: "#6b7280" }
-      ],
-      showLegend: true,
-      showLabels: true
-    }
+diagram "Budget Breakdown" {
+  shape budget as @pieChart 
+    label:"Monthly Budget" 
+    data:[30, 25, 20, 15, 10]
+    labels:["Rent", "Food", "Transport", "Entertainment", "Savings"]
 }
 ```
+
+### With Custom Colors ⭐ NEW
+
+Color each slice individually:
+
+```runiq
+shape sales as @pieChart 
+  label:"Sales by Product"
+  data:[35, 28, 18, 12, 7]
+  labels:["Chrome", "Safari", "Edge", "Firefox", "Other"]
+  colors:["#4285F4", "#000000", "#0078D7", "#FF7139", "#9E9E9E"]
+```
+
+### Full-Featured with Legend
+
+```runiq
+shape market_share as @pieChart
+  label:"Browser Market Share 2024"
+  data:[35, 28, 18, 12, 7]
+  labels:["Chrome", "Safari", "Edge", "Firefox", "Other"]
+  colors:["#4285F4", "#000000", "#0078D7", "#FF7139", "#9E9E9E"]
+  showLegend:true
+  legendPosition:"bottom"
+```
+
+### Features
+
+- **Auto-percentage calculation** from raw values
+- **Legend support** (right, left, top, bottom positions)
+- **Custom labels** via `labels:[]` array ⭐ NEW
+- **Custom colors** via `colors:[]` array ⭐ NEW
+- **Value filtering** (auto-removes zero/negative values)
+
+### Data Formats
+
+**Simple array** (use with `labels:[]`):
+
+```runiq
+data:[30, 45, 25]
+labels:["Category A", "Category B", "Category C"]
+```
+
+**Object format** (labels in data):
+
+```runiq
+data:[
+  { label: "Product A", value: 45 },
+  { label: "Product B", value: 30 },
+  { label: "Product C", value: 15 }
+]
+```
+
+### Properties
+
+| Property          | Type         | Default   | Description                          |
+| ----------------- | ------------ | --------- | ------------------------------------ |
+| `label`           | string       | -         | Chart title (displayed above chart)  |
+| `data`            | array/object | -         | Slice values (required)              |
+| `labels`          | string[]     | generated | Custom slice labels ⭐ NEW           |
+| `colors`          | string[]     | palette   | Custom slice colors                  |
+| `showLegend`      | boolean      | false     | Show legend                          |
+| `legendPosition`  | string       | "right"   | Legend placement (right/left/top/bottom) |
+
+### Dimensions
+
+- Fixed size: 400×300 pixels
+- Legend adds space based on position
+- 4 anchor points: N, E, S, W
 
 ## Bar Charts
 
@@ -205,48 +262,102 @@ diagram "Team Responsibilities" {
 }
 ```
 
-## Pyramids
+## Pyramids ⭐
 
-Hierarchical pyramid:
+Pyramid charts visualize hierarchical data or conversion funnels with progressively larger/smaller levels. Supports custom labels, colors, and value display.
+
+### Basic Pyramid
+
+Simple hierarchy with auto-generated labels:
 
 ```runiq
-diagram "Organizational Hierarchy" {
-  direction TB
-
-  shape pyramid as @pyramid label: "Company Structure"
-    data: {
-      levels: [
-        { label: "Executive", value: 5, fill: "#dc2626" },
-        { label: "Directors", value: 15, fill: "#f59e0b" },
-        { label: "Managers", value: 50, fill: "#3b82f6" },
-        { label: "Individual Contributors", value: 200, fill: "#10b981" }
-      ],
-      showLabels: true,
-      showValues: true
-    }
+diagram "Company Hierarchy" {
+  shape org as @pyramid 
+    label:"Organization Structure"
+    data:[5, 15, 50, 200]
 }
 ```
 
-Process funnel:
+### With Custom Labels ⭐ NEW
+
+Display meaningful level names instead of generic "Level 1", "Level 2":
 
 ```runiq
 diagram "Sales Funnel" {
-  direction TB
-
-  shape funnel as @pyramid label: "Lead to Customer"
-    data: {
-      levels: [
-        { label: "Leads", value: 1000, fill: "#3b82f6", percentage: "100%" },
-        { label: "Qualified", value: 500, fill: "#10b981", percentage: "50%" },
-        { label: "Proposals", value: 200, fill: "#f59e0b", percentage: "20%" },
-        { label: "Customers", value: 50, fill: "#ef4444", percentage: "5%" }
-      ],
-      showLabels: true,
-      showValues: true,
-      showPercentages: true
-    }
+  shape sales_funnel as @pyramid
+    label:"Conversion Funnel"
+    data:[100, 75, 50, 30, 15]
+    labels:["Website Visitors", "Product Views", "Add to Cart", "Checkout", "Purchase"]
 }
 ```
+
+### With Custom Colors ⭐ NEW
+
+Color each level individually:
+
+```runiq
+shape maslow as @pyramid
+  label:"Hierarchy of Needs"
+  data:[100, 80, 60, 40, 20]
+  labels:["Self-Actualization", "Esteem", "Love/Belonging", "Safety", "Physiological"]
+  colors:["#9B59B6", "#3498DB", "#2ECC71", "#F39C12", "#E74C3C"]
+```
+
+### Full-Featured
+
+```runiq
+diagram "Marketing Funnel" {
+  shape funnel as @pyramid
+    label:"Lead to Customer"
+    data:[1000, 500, 200, 50]
+    labels:["Leads", "Qualified", "Proposals", "Customers"]
+    colors:["#3b82f6", "#10b981", "#f59e0b", "#ef4444"]
+}
+```
+
+### Features
+
+- **Progressive sizing** based on values
+- **Value display** (toggleable with `showValues`)
+- **Custom labels** via `labels:[]` array ⭐ NEW
+- **Custom colors** via `colors:[]` array ⭐ NEW
+- **Automatic scaling** to fit container
+
+### Data Formats
+
+**Simple array** (use with `labels:[]`):
+
+```runiq
+data:[100, 200, 300, 400]
+labels:["Top", "Mid-Top", "Mid-Bottom", "Bottom"]
+```
+
+**Object format** (labels in data):
+
+```runiq
+data:[
+  { label: "Executive", value: 5 },
+  { label: "Directors", value: 15 },
+  { label: "Managers", value: 50 },
+  { label: "Staff", value: 200 }
+]
+```
+
+### Properties
+
+| Property     | Type         | Default   | Description                     |
+| ------------ | ------------ | --------- | ------------------------------- |
+| `label`      | string       | -         | Chart title                     |
+| `data`       | array/object | -         | Level values (required)         |
+| `labels`     | string[]     | generated | Custom level labels ⭐ NEW      |
+| `colors`     | string[]     | palette   | Custom level colors             |
+| `showValues` | boolean      | true      | Display numeric values on levels|
+
+### Dimensions
+
+- Dynamic width based on level count (min 250px)
+- Height: 40px per level + 40px padding
+- 4 anchor points: N, E, S, W
 
 ## Integration with Diagrams
 

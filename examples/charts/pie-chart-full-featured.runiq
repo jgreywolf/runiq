@@ -1,0 +1,12 @@
+// Full-Featured Pie Chart
+// Showcases all pie chart features: data-driven, custom labels, colors, legend
+
+diagram "Browser Market Share" {
+  shape market_share as @pieChart
+    label:"Browser Market Share 2024"
+    data:[35, 28, 18, 12, 7]
+    labels:["Chrome", "Safari", "Edge", "Firefox", "Other"]
+    colors:["#4285F4", "#000000", "#0078D7", "#FF7139", "#9E9E9E"]
+    showLegend:true
+    legendPosition:"bottom"
+}
