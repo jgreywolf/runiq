@@ -383,7 +383,8 @@ export const pieChart: ShapeDefinition = {
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
     const size = 250;
-    const titleHeight = ctx.node.label ? 30 : 0; // Space for title
+    const title = ctx.node.label; // Title from node label only
+    const titleHeight = title ? 30 : 0; // Space for title
     const legendPosition =
       (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
     const showLegend = ctx.node.data?.showLegend !== false;
@@ -424,8 +425,7 @@ export const pieChart: ShapeDefinition = {
     const data = normalizeData(ctx.node.data, customLabels);
     const slices = calculateSlices(data);
 
-    // Get title from node label if provided (render at top of chart area)
-    const title = ctx.node.label;
+    // Render title element (already defined at top of function)
     const titleElement = title ? renderTitle(title, cx, position.y) : '';
 
     // Render slices

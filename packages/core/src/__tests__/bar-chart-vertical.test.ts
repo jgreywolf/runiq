@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { barChartVertical } from '../shapes/charts/barChartVertical.js';
+import { barChart } from '../shapes/charts/barChart.js';
 import type { ShapeRenderContext, NodeAst } from '../types.js';
 
-// Helper to create render context
+// Helper to create render context for vertical bar chart
 function createContext(data: any, style?: any): ShapeRenderContext {
   const node: NodeAst = {
     id: 'test',
-    shape: 'bar-chart-vertical',
-    data,
+    shape: 'bar-chart',
+    data: { ...data, flipAxes: false }, // flipAxes: false for vertical (default)
   };
   return {
     node,
@@ -19,12 +19,12 @@ function createContext(data: any, style?: any): ShapeRenderContext {
 describe('Bar Chart Vertical Shape', () => {
   describe('Shape Properties', () => {
     it('should have correct shape ID', () => {
-      expect(barChartVertical.id).toBe('barChartVertical');
+      expect(barChart.id).toBe('barChart');
     });
 
     it('should calculate bounds based on number of bars', () => {
       const ctx = createContext({ values: [30, 45, 25, 60] });
-      const bounds = barChartVertical.bounds(ctx);
+      const bounds = barChart.bounds(ctx);
 
       // 4 bars * (60 width + 20 spacing) + 20 spacing = 340
       expect(bounds.width).toBe(340);
@@ -33,7 +33,7 @@ describe('Bar Chart Vertical Shape', () => {
 
     it('should handle empty data with minimum size', () => {
       const ctx = createContext({ values: [] });
-      const bounds = barChartVertical.bounds(ctx);
+      const bounds = barChart.bounds(ctx);
       expect(bounds.width).toBe(200); // minimum width
       expect(bounds.height).toBe(300);
     });
@@ -42,10 +42,10 @@ describe('Bar Chart Vertical Shape', () => {
   describe('Anchor Points', () => {
     it('should define 4 anchor points (n, e, s, w)', () => {
       const ctx = createContext({ values: [30, 45, 25] });
-      const anchors = barChartVertical.anchors!(ctx);
+      const anchors = barChart.anchors!(ctx);
       expect(anchors).toHaveLength(4);
 
-      const bounds = barChartVertical.bounds(ctx);
+      const bounds = barChart.bounds(ctx);
       expect(anchors[0]).toEqual({ x: bounds.width / 2, y: 0, name: 'n' }); // north
       expect(anchors[1]).toEqual({
         x: bounds.width,
@@ -64,7 +64,7 @@ describe('Bar Chart Vertical Shape', () => {
   describe('Data Normalization', () => {
     it('should handle simple numeric array', () => {
       const ctx = createContext({ values: [30, 45, 25] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('rect'); // bars rendered
     });
 
@@ -75,14 +75,14 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', value: 150 },
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('Q1');
       expect(svg).toContain('Q2');
     });
 
     it('should filter out negative and zero values', () => {
       const ctx = createContext({ values: [30, -10, 0, 45, 25] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should only render 3 bars (30, 45, 25)
       const rectCount = (svg.match(/<rect/g) || []).length;
@@ -93,7 +93,7 @@ describe('Bar Chart Vertical Shape', () => {
   describe('Bar Rendering', () => {
     it('should scale bar heights proportionally to max value', () => {
       const ctx = createContext({ values: [50, 100, 25] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should contain bar elements
       expect(svg).toContain('<rect');
@@ -102,7 +102,7 @@ describe('Bar Chart Vertical Shape', () => {
 
     it('should render bars with correct spacing', () => {
       const ctx = createContext({ values: [30, 45, 25] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Check that bars are positioned with spacing
       expect(svg).toContain('x="20"'); // first bar at x=20 (spacing)
@@ -111,7 +111,7 @@ describe('Bar Chart Vertical Shape', () => {
 
     it('should use color palette for bars', () => {
       const ctx = createContext({ values: [30, 45, 25] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Check that colors from palette are used
       expect(svg).toContain('fill="#4299e1"'); // first color (blue)
@@ -126,7 +126,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'B', value: 45 },
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Check for axis line
       expect(svg).toContain('<line'); // x-axis
@@ -139,14 +139,14 @@ describe('Bar Chart Vertical Shape', () => {
 
     it('should handle single bar', () => {
       const ctx = createContext({ values: [100] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('<rect');
       expect(svg).toContain('Bar 1'); // default label
     });
 
     it('should render empty state for no data', () => {
       const ctx = createContext({ values: [] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('No data');
     });
   });
@@ -154,30 +154,30 @@ describe('Bar Chart Vertical Shape', () => {
   describe('Edge Cases', () => {
     it('should handle missing data property', () => {
       const ctx = createContext(undefined);
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('No data');
     });
 
     it('should handle large number of bars', () => {
       const values = Array(20).fill(50);
       const ctx = createContext({ values });
-      const bounds = barChartVertical.bounds(ctx);
+      const bounds = barChart.bounds(ctx);
       expect(bounds.width).toBe(20 * 80 + 20); // 20 bars * (60 + 20) + 20
 
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('<rect');
     });
 
     it('should handle very large values', () => {
       const ctx = createContext({ values: [1000000, 2000000, 1500000] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('<rect');
       // Should scale proportionally regardless of absolute values
     });
 
     it('should handle decimal values', () => {
       const ctx = createContext({ values: [10.5, 20.75, 15.25] });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('<rect');
     });
   });
@@ -188,7 +188,7 @@ describe('Bar Chart Vertical Shape', () => {
         { values: [30, 45] },
         { stroke: '#000', strokeWidth: 3 }
       );
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
       expect(svg).toContain('stroke="#000"');
       expect(svg).toContain('stroke-width="3"');
     });
@@ -202,7 +202,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [35, 50, 30] },
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should render 6 bars total (2 groups * 3 series)
       const rectCount = (svg.match(/<rect/g) || []).length;
@@ -216,7 +216,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [35, 50, 30] },
         ],
       });
-      const bounds = barChartVertical.bounds(ctx);
+      const bounds = barChart.bounds(ctx);
 
       // 2 groups * (3 bars * 20 width + 2*5 spacing within group + 20 group spacing) + 20 initial spacing
       // Simpler: 2 groups * 80 + 20 = 180
@@ -230,7 +230,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [35, 50, 30] },
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should have at least 3 different colors (for 3 series)
       expect(svg).toContain('#4299e1'); // blue (series 1)
@@ -245,7 +245,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [35, 50] },
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('Q1');
       expect(svg).toContain('Q2');
@@ -258,7 +258,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [35, 50, 25] }, // 3 series
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should render 5 bars total (2 + 3)
       const rectCount = (svg.match(/<rect/g) || []).length;
@@ -272,7 +272,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [50, 60] },
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // All bars should scale to max value of 100
       expect(svg).toContain('<rect');
@@ -283,7 +283,7 @@ describe('Bar Chart Vertical Shape', () => {
       const ctx = createContext({
         values: [{ label: 'Total', values: [30, 45, 60] }],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       const rectCount = (svg.match(/<rect/g) || []).length;
       expect(rectCount).toBe(3);
@@ -293,7 +293,7 @@ describe('Bar Chart Vertical Shape', () => {
       const ctx = createContext({
         values: [{ label: 'Q1', values: [] }],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toBeDefined();
       expect(svg).toContain('No data available');
@@ -302,13 +302,13 @@ describe('Bar Chart Vertical Shape', () => {
     it('should detect grouped format vs simple format', () => {
       // Simple format
       const simpleCtx = createContext({ values: [30, 45, 25] });
-      const simpleSvg = barChartVertical.render(simpleCtx, { x: 0, y: 0 });
+      const simpleSvg = barChart.render(simpleCtx, { x: 0, y: 0 });
 
       // Grouped format
       const groupedCtx = createContext({
         values: [{ label: 'Q1', values: [30, 45] }],
       });
-      const groupedSvg = barChartVertical.render(groupedCtx, { x: 0, y: 0 });
+      const groupedSvg = barChart.render(groupedCtx, { x: 0, y: 0 });
 
       // Both should render successfully but differently
       expect(simpleSvg).toContain('<rect');
@@ -324,7 +324,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [35, 50, 30] },
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('Q1');
       expect(svg).toContain('Q2');
@@ -340,7 +340,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [40, 25, 10] }, // total 75
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should render rectangles for each segment
       const rectCount = (svg.match(/<rect/g) || []).length;
@@ -360,7 +360,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q3', values: [35, 30, 20] },
         ],
       });
-      const bounds = barChartVertical.bounds(ctx);
+      const bounds = barChart.bounds(ctx);
 
       // 3 groups * (60 width + 20 spacing) + 20 spacing = 260
       expect(bounds.width).toBe(260);
@@ -372,7 +372,7 @@ describe('Bar Chart Vertical Shape', () => {
         stacked: true,
         values: [{ label: 'Q1', values: [30, 20, 15] }],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should use default color palette
       expect(svg).toContain('fill="#4299e1"'); // first series (blue)
@@ -387,7 +387,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q1', values: [30, 20, 10] }, // total 60
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Parse SVG to check y positions
       // Bottom segment (30) should start at bottom
@@ -408,7 +408,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [40, 25] },
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should have labels at bottom of each stack
       expect(svg).toContain('Q1');
@@ -424,7 +424,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [40, 25] }, // 2 series
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should render all segments
       const rectCount = (svg.match(/<rect/g) || []).length;
@@ -439,7 +439,7 @@ describe('Bar Chart Vertical Shape', () => {
           { label: 'Q2', values: [40, 30, 20] }, // total 90 (max)
         ],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Q2 stack should reach full height
       // Q1 stack should be proportionally shorter
@@ -455,7 +455,7 @@ describe('Bar Chart Vertical Shape', () => {
         stacked: true,
         values: [{ label: 'Total', values: [40, 30, 20, 10] }],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       const rectCount = (svg.match(/<rect/g) || []).length;
       expect(rectCount).toBe(4); // 4 segments in stack
@@ -467,7 +467,7 @@ describe('Bar Chart Vertical Shape', () => {
         stacked: true,
         values: [],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('No data available');
     });
@@ -481,8 +481,8 @@ describe('Bar Chart Vertical Shape', () => {
         values: [{ label: 'Q1', values: [30, 20] }],
       });
 
-      const stackedSvg = barChartVertical.render(stackedCtx, { x: 0, y: 0 });
-      const groupedSvg = barChartVertical.render(groupedCtx, { x: 0, y: 0 });
+      const stackedSvg = barChart.render(stackedCtx, { x: 0, y: 0 });
+      const groupedSvg = barChart.render(groupedCtx, { x: 0, y: 0 });
 
       // Both should render but with different layouts
       expect(stackedSvg).toContain('<rect');
@@ -499,7 +499,7 @@ describe('Bar Chart Vertical Shape', () => {
         values: [30, 45, 25],
         colors: ['#ff0000', '#00ff00', '#0000ff'],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should use custom colors
       expect(svg).toContain('fill="#ff0000"');
@@ -512,7 +512,7 @@ describe('Bar Chart Vertical Shape', () => {
         values: [{ label: 'Q1', values: [30, 20] }],
         colors: ['#ff0000', '#00ff00'],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should use custom colors for series
       expect(svg).toContain('fill="#ff0000"');
@@ -525,7 +525,7 @@ describe('Bar Chart Vertical Shape', () => {
         values: [{ label: 'Q1', values: [30, 20, 15] }],
         colors: ['#ff0000', '#00ff00', '#0000ff'],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should use custom colors for segments
       expect(svg).toContain('fill="#ff0000"');
@@ -537,7 +537,7 @@ describe('Bar Chart Vertical Shape', () => {
       const ctx = createContext({
         values: [30, 45, 25],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should use default palette
       expect(svg).toContain('fill="#4299e1"');
@@ -550,7 +550,7 @@ describe('Bar Chart Vertical Shape', () => {
         values: [30, 45, 25],
         title: 'Sales by Quarter',
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('Sales by Quarter');
     });
@@ -560,7 +560,7 @@ describe('Bar Chart Vertical Shape', () => {
         values: [30, 45, 25],
         xLabel: 'Quarters',
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('Quarters');
     });
@@ -570,7 +570,7 @@ describe('Bar Chart Vertical Shape', () => {
         values: [30, 45, 25],
         yLabel: 'Revenue ($K)',
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('Revenue ($K)');
     });
@@ -582,7 +582,7 @@ describe('Bar Chart Vertical Shape', () => {
         xLabel: 'Quarters',
         yLabel: 'Revenue ($K)',
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('Quarterly Revenue');
       expect(svg).toContain('Quarters');
@@ -593,7 +593,7 @@ describe('Bar Chart Vertical Shape', () => {
       const ctx = createContext({
         values: [30, 45, 25],
       });
-      const svg = barChartVertical.render(ctx, { x: 0, y: 0 });
+      const svg = barChart.render(ctx, { x: 0, y: 0 });
 
       // Should have bars and axis
       expect(svg).toContain('<rect');

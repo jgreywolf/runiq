@@ -28,7 +28,18 @@ describe('Pie Chart Shape', () => {
   });
 
   it('should calculate default bounds (250x250 without legend)', () => {
-    const bounds = pieChart.bounds(ctx({ showLegend: false }));
+    // Create context without label to test base size
+    const node: NodeAst = {
+      id: 'test',
+      shape: 'pie-chart',
+      data: { showLegend: false },
+    };
+    const context: ShapeRenderContext = {
+      node,
+      style: {},
+      measureText: (text: string) => ({ width: text.length * 8, height: 14 }),
+    };
+    const bounds = pieChart.bounds(context);
     expect(bounds).toEqual({ width: 250, height: 250 });
   });
 
@@ -252,10 +263,17 @@ describe('Pie Chart Shape', () => {
 
   describe('Title Support', () => {
     it('should render title when provided', () => {
-      const context = ctx({
-        values: [30, 25, 20],
-        title: 'Sales by Region',
-      });
+      const node: NodeAst = {
+        id: 'test',
+        shape: 'pie-chart',
+        label: 'Sales by Region',
+        data: { values: [30, 25, 20] },
+      };
+      const context: ShapeRenderContext = {
+        node,
+        style: {},
+        measureText: (text: string) => ({ width: text.length * 8, height: 14 }),
+      };
       const svg = pieChart.render(context, { x: 0, y: 0 });
 
       // Should contain the title text
@@ -264,9 +282,16 @@ describe('Pie Chart Shape', () => {
     });
 
     it('should not render title when not provided', () => {
-      const context = ctx({
-        values: [30, 25, 20],
-      });
+      const node: NodeAst = {
+        id: 'test',
+        shape: 'pie-chart',
+        data: { values: [30, 25, 20] },
+      };
+      const context: ShapeRenderContext = {
+        node,
+        style: {},
+        measureText: (text: string) => ({ width: text.length * 8, height: 14 }),
+      };
       const svg = pieChart.render(context, { x: 0, y: 0 });
 
       // Should only have slice paths, no title
@@ -277,10 +302,17 @@ describe('Pie Chart Shape', () => {
     });
 
     it('should position title above pie chart', () => {
-      const context = ctx({
-        values: [30, 25, 20],
-        title: 'Test Chart',
-      });
+      const node: NodeAst = {
+        id: 'test',
+        shape: 'pie-chart',
+        label: 'Test Chart',
+        data: { values: [30, 25, 20] },
+      };
+      const context: ShapeRenderContext = {
+        node,
+        style: {},
+        measureText: (text: string) => ({ width: text.length * 8, height: 14 }),
+      };
       const svg = pieChart.render(context, { x: 0, y: 0 });
 
       // Title should be near top (y coordinate close to 0)
@@ -290,14 +322,23 @@ describe('Pie Chart Shape', () => {
     });
 
     it('should work with title and legend together', () => {
-      const context = ctx({
-        values: [
-          { label: 'A', value: 30 },
-          { label: 'B', value: 25 },
-        ],
-        title: 'Chart with Legend',
-        showLegend: true,
-      });
+      const node: NodeAst = {
+        id: 'test',
+        shape: 'pie-chart',
+        label: 'Chart with Legend',
+        data: {
+          values: [
+            { label: 'A', value: 30 },
+            { label: 'B', value: 25 },
+          ],
+          showLegend: true,
+        },
+      };
+      const context: ShapeRenderContext = {
+        node,
+        style: {},
+        measureText: (text: string) => ({ width: text.length * 8, height: 14 }),
+      };
       const svg = pieChart.render(context, { x: 0, y: 0 });
 
       // Should have both title and legend
