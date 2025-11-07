@@ -332,6 +332,7 @@ export type RuniqKeywordNames =
     | "inst"
     | "instrument"
     | "insulation:"
+    | "intersections:"
     | "jacket"
     | "junction"
     | "kPa"
@@ -2168,6 +2169,21 @@ export function isInsulationType(item: unknown): item is InsulationType {
     return item === 'none' || item === 'thermal' || item === 'acoustic' || item === 'fireproof' || item === 'personnel_protection';
 }
 
+export interface IntersectionsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'IntersectionsProperty';
+    value: StringArray;
+}
+
+export const IntersectionsProperty = {
+    $type: 'IntersectionsProperty',
+    value: 'value'
+} as const;
+
+export function isIntersectionsProperty(item: unknown): item is IntersectionsProperty {
+    return reflection.isInstance(item, IntersectionsProperty.$type);
+}
+
 export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
 
 export function isLabelPositionValue(item: unknown): item is LabelPositionValue {
@@ -2602,7 +2618,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -4089,7 +4105,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | LabelsProperty | OutputPinsProperty;
+    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | IntersectionsProperty | LabelsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -4781,6 +4797,7 @@ export type RuniqAstType = {
     InstParamsProperty: InstParamsProperty
     InstProperty: InstProperty
     InstStatement: InstStatement
+    IntersectionsProperty: IntersectionsProperty
     LabelProperty: LabelProperty
     LabelsProperty: LabelsProperty
     LegendPositionProperty: LegendPositionProperty
@@ -5997,6 +6014,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [DigitalStatement.$type]
+        },
+        IntersectionsProperty: {
+            name: IntersectionsProperty.$type,
+            properties: {
+                value: {
+                    name: IntersectionsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         LabelProperty: {
             name: LabelProperty.$type,

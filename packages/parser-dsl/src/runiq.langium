@@ -633,6 +633,7 @@ NodeProperty:
     | LegendPositionProperty
     | StackedProperty
     | ColorsProperty
+    | IntersectionsProperty
     | FlipAxesProperty
     | TitleProperty
     | XLabelProperty
@@ -699,6 +700,9 @@ StackedProperty:
 
 ColorsProperty:
     'colors:' value=StringArray;
+
+IntersectionsProperty:
+    'intersections:' value=StringArray;
 
 FlipAxesProperty:
     'flipAxes:' value=BooleanValue;

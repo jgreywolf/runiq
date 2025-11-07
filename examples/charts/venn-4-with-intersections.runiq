@@ -1,0 +1,27 @@
+// Venn Diagram: Developer Skills with Intersections
+// NOTE: 4-circle Venn diagrams with 11 intersection labels are very crowded
+// and the current positioning algorithm doesn't handle them well.
+// Consider using 2 or 3 circles for clearer intersection labels.
+
+diagram "Full Stack Developer Skills" {
+  
+  shape DevSkills as @venn
+    label:"Technology Skills"
+    data:[1, 1, 1, 1]
+    labels:["Frontend", "Backend", "DevOps", "Database"]
+    colors:["#FF6B6B", "#4ECDC4", "#95E1D3", "#F38181"]
+    // intersections:[
+    //   "Web Apps",      // AB: Frontend + Backend
+    //   "JAMstack",      // AC: Frontend + DevOps
+    //   "PWAs",          // AD: Frontend + Database
+    //   "APIs",          // BC: Backend + DevOps
+    //   "Data APIs",     // BD: Backend + Database
+    //   "Data Ops",      // CD: DevOps + Database
+    //   "Modern Web",    // ABC: Frontend + Backend + DevOps
+    //   "Mobile Apps",   // ABD: Frontend + Backend + Database
+    //   "Cloud Native",  // ACD: Frontend + DevOps + Database
+    //   "Data Platform", // BCD: Backend + DevOps + Database
+    //   "Full Stack"     // ABCD: All skills combined
+    // ]
+  
+}
