@@ -67,8 +67,7 @@ export function registerShapeAliases() {
 
   // Chart Shapes
   shapeRegistry.registerAlias('pie-chart', 'pieChart');
-  shapeRegistry.registerAlias('bar-chart-vertical', 'barChartVertical');
-  shapeRegistry.registerAlias('bar-chart-horizontal', 'barChartHorizontal');
+  shapeRegistry.registerAlias('bar-chart', 'barChart');
 }
 
 /**

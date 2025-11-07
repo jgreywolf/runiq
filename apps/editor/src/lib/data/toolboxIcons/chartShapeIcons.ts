@@ -22,14 +22,9 @@ export const chartShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @pieChart label:"Sales" data:[30,20,50]'
 			},
 			{
-				id: 'barChartVertical',
-				label: 'Bar Chart (Vertical)',
-				code: 'shape id as @barChartVertical label:"Data" data:[10,20,15]'
-			},
-			{
-				id: 'barChartHorizontal',
-				label: 'Bar Chart (Horizontal)',
-				code: 'shape id as @barChartHorizontal label:"Data" data:[10,20,15]'
+				id: 'barChart',
+				label: 'Bar Chart',
+				code: 'shape id as @barChart label:"Data" data:[10,20,15]'
 			},
 			{
 				id: 'venn2',

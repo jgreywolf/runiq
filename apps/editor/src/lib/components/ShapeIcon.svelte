@@ -176,20 +176,7 @@
 				},
 				style: { fontSize: 5 }
 			},
-			barChartVertical: {
-				node: {
-					data: {
-						values: [
-							{ label: 'A', value: 30 },
-							{ label: 'B', value: 45 },
-							{ label: 'C', value: 25 }
-						],
-						showLegend: false
-					}
-				},
-				style: { fontSize: 5 }
-			},
-			barChartHorizontal: {
+			barChart: {
 				node: {
 					data: {
 						values: [
@@ -554,7 +541,7 @@
 		const shapeContent = shape.render(mockContext as any, { x: 0, y: 0 });
 
 		// Chart shapes need larger display size in toolbox
-		const isChartShape = ['pieChart', 'barChartVertical', 'barChartHorizontal', 'pyramid'].includes(
+		const isChartShape = ['pieChart', 'barChart', 'pyramid'].includes(
 			shapeId
 		);
 		const displaySize = isChartShape ? size * 3 : size;

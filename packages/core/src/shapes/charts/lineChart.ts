@@ -30,6 +30,7 @@ interface DataPoint {
   x: number;
   y: number;
   label?: string;
+  color?: string; // Optional per-point color
 }
 
 /**
@@ -44,7 +45,11 @@ interface LineSeries {
 /**
  * Normalize data from various formats
  */
-function normalizeData(data: any, customColors?: string[]): LineSeries[] {
+function normalizeData(
+  data: any,
+  customColors?: string[],
+  customLabels?: string[]
+): LineSeries[] {
   if (!data) return [];
 
   // Handle object with values array (from DSL: data:[...])
@@ -56,6 +61,8 @@ function normalizeData(data: any, customColors?: string[]): LineSeries[] {
         points: data.values.map((value: number, index: number) => ({
           x: index,
           y: value,
+          label: customLabels?.[index],
+          color: customColors?.[index], // Per-point color if provided
         })),
       },
     ];
@@ -70,6 +77,8 @@ function normalizeData(data: any, customColors?: string[]): LineSeries[] {
         points: data.map((value: number, index: number) => ({
           x: index,
           y: value,
+          label: customLabels?.[index],
+          color: customColors?.[index], // Per-point color if provided
         })),
       },
     ];
@@ -174,17 +183,28 @@ function generatePath(
   minY: number,
   maxY: number,
   chartWidth: number,
-  chartHeight: number
+  chartHeight: number,
+  flipAxes: boolean = false
 ): string {
   if (points.length === 0) return '';
 
   const xRange = maxX - minX || 1;
   const yRange = maxY - minY || 1;
 
-  const scaledPoints = points.map((p) => ({
-    x: ((p.x - minX) / xRange) * chartWidth,
-    y: chartHeight - ((p.y - minY) / yRange) * chartHeight, // Flip Y axis
-  }));
+  const scaledPoints = points.map((p) => {
+    if (flipAxes) {
+      // Swap x and y when flipping
+      return {
+        x: ((p.y - minY) / yRange) * chartWidth,
+        y: chartHeight - ((p.x - minX) / xRange) * chartHeight,
+      };
+    } else {
+      return {
+        x: ((p.x - minX) / xRange) * chartWidth,
+        y: chartHeight - ((p.y - minY) / yRange) * chartHeight,
+      };
+    }
+  });
 
   const pathSegments = scaledPoints.map((p, i) => {
     const command = i === 0 ? 'M' : 'L';
@@ -202,25 +222,45 @@ function renderGrid(
   maxY: number,
   chartWidth: number,
   chartHeight: number,
+  flipAxes: boolean = false,
   gridColor: string = '#e5e7eb'
 ): string {
   const yRange = maxY - minY || 1;
   const numLines = 5;
   const lines: string[] = [];
 
-  for (let i = 0; i <= numLines; i++) {
-    const y = (i / numLines) * chartHeight;
-    const value = maxY - (i / numLines) * yRange;
+  if (flipAxes) {
+    // When flipped, show vertical grid lines with labels on bottom (X-axis)
+    for (let i = 0; i <= numLines; i++) {
+      const x = (i / numLines) * chartWidth;
+      const value = minY + (i / numLines) * yRange;
 
-    // Grid line
-    lines.push(
-      `<line x1="0" y1="${y}" x2="${chartWidth}" y2="${y}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4,4" />`
-    );
+      // Grid line (vertical)
+      lines.push(
+        `<line x1="${x}" y1="0" x2="${x}" y2="${chartHeight}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4,4" />`
+      );
 
-    // Y-axis label
-    lines.push(
-      `<text x="-10" y="${y + 4}" text-anchor="end" font-size="10" fill="#6b7280">${value.toFixed(1)}</text>`
-    );
+      // X-axis label (below the chart)
+      lines.push(
+        `<text x="${x}" y="${chartHeight + 15}" text-anchor="middle" font-size="10" fill="#6b7280">${value.toFixed(0)}</text>`
+      );
+    }
+  } else {
+    // Normal: horizontal grid lines with labels on left (Y-axis)
+    for (let i = 0; i <= numLines; i++) {
+      const y = (i / numLines) * chartHeight;
+      const value = maxY - (i / numLines) * yRange;
+
+      // Grid line (horizontal)
+      lines.push(
+        `<line x1="0" y1="${y}" x2="${chartWidth}" y2="${y}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4,4" />`
+      );
+
+      // Y-axis label (left of chart)
+      lines.push(
+        `<text x="-10" y="${y + 4}" text-anchor="end" font-size="10" fill="#6b7280">${value.toFixed(1)}</text>`
+      );
+    }
   }
 
   return lines.join('\n');
@@ -237,16 +277,26 @@ function renderMarkers(
   maxY: number,
   chartWidth: number,
   chartHeight: number,
-  color: string
+  color: string,
+  flipAxes: boolean = false
 ): string {
   const xRange = maxX - minX || 1;
   const yRange = maxY - minY || 1;
 
   return points
     .map((p) => {
-      const x = ((p.x - minX) / xRange) * chartWidth;
-      const y = chartHeight - ((p.y - minY) / yRange) * chartHeight;
-      return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="4" fill="${color}" stroke="white" stroke-width="2" />`;
+      let x: number, y: number;
+      if (flipAxes) {
+        // Swap x and y when flipping
+        x = ((p.y - minY) / yRange) * chartWidth;
+        y = chartHeight - ((p.x - minX) / xRange) * chartHeight;
+      } else {
+        x = ((p.x - minX) / xRange) * chartWidth;
+        y = chartHeight - ((p.y - minY) / yRange) * chartHeight;
+      }
+      // Use point-specific color if available, otherwise use series color
+      const pointColor = p.color || color;
+      return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="4" fill="${pointColor}" stroke="white" stroke-width="2" />`;
     })
     .join('\n');
 }
@@ -271,6 +321,57 @@ function renderLegend(
   });
 
   return `<g class="legend">${items.join('\n')}</g>`;
+}
+
+/**
+ * Render X-axis labels
+ */
+function renderXAxisLabels(
+  series: LineSeries[],
+  minX: number,
+  maxX: number,
+  chartWidth: number,
+  chartHeight: number
+): string {
+  if (series.length === 0 || series[0].points.length === 0) return '';
+
+  const xRange = maxX - minX || 1;
+  const points = series[0].points; // Use first series for labels
+
+  return points
+    .map((p) => {
+      if (!p.label) return ''; // Skip if no label
+      const x = ((p.x - minX) / xRange) * chartWidth;
+      const y = chartHeight + 15; // Position below X-axis
+      return `<text x="${x.toFixed(2)}" y="${y}" text-anchor="middle" font-size="10" fill="#6b7280">${p.label}</text>`;
+    })
+    .filter(Boolean)
+    .join('\n');
+}
+
+/**
+ * Render Y-axis labels (used when axes are flipped)
+ */
+function renderYAxisLabels(
+  series: LineSeries[],
+  minX: number,
+  maxX: number,
+  chartHeight: number
+): string {
+  if (series.length === 0 || series[0].points.length === 0) return '';
+
+  const xRange = maxX - minX || 1;
+  const points = series[0].points; // Use first series for labels
+
+  return points
+    .map((p) => {
+      if (!p.label) return ''; // Skip if no label
+      const y = chartHeight - ((p.x - minX) / xRange) * chartHeight;
+      const x = -10; // Position to the left of Y-axis
+      return `<text x="${x}" y="${y.toFixed(2)}" text-anchor="end" font-size="10" fill="#6b7280">${p.label}</text>`;
+    })
+    .filter(Boolean)
+    .join('\n');
 }
 
 /**
@@ -311,10 +412,12 @@ export const lineChart: ShapeDefinition = {
     const showGrid = ctx.node.data?.showGrid ?? true;
     const showMarkers = ctx.node.data?.showMarkers ?? true;
     const showLegend = ctx.node.data?.showLegend ?? false;
+    const flipAxes = ctx.node.data?.flipAxes === true; // Default false
     const customColors = ctx.node.data?.colors as string[] | undefined;
+    const customLabels = ctx.node.data?.labels as string[] | undefined;
 
     // Normalize data
-    const series = normalizeData(ctx.node.data, customColors);
+    const series = normalizeData(ctx.node.data, customColors, customLabels);
 
     if (series.length === 0 || series.every((s) => s.points.length === 0)) {
       return `<text x="${position.x}" y="${position.y}" fill="#6b7280" font-size="14">No data</text>`;
@@ -330,7 +433,9 @@ export const lineChart: ShapeDefinition = {
 
     // Generate SVG elements
     const grid = showGrid
-      ? renderGrid(minY, maxY, chartWidth, chartHeight)
+      ? flipAxes
+        ? renderGrid(minY, maxY, chartWidth, chartHeight, flipAxes)
+        : renderGrid(minY, maxY, chartWidth, chartHeight, flipAxes)
       : '';
 
     const lines = series
@@ -342,7 +447,8 @@ export const lineChart: ShapeDefinition = {
           minY,
           maxY,
           chartWidth,
-          chartHeight
+          chartHeight,
+          flipAxes
         );
         return `<path d="${path}" stroke="${s.color}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />`;
       })
@@ -359,7 +465,8 @@ export const lineChart: ShapeDefinition = {
               maxY,
               chartWidth,
               chartHeight,
-              s.color
+              s.color,
+              flipAxes
             )
           )
           .join('\n')
@@ -369,11 +476,19 @@ export const lineChart: ShapeDefinition = {
       ? renderLegend(series, width - 140, padding.top)
       : '';
 
-    // X-axis
-    const xAxis = `<line x1="0" y1="${chartHeight}" x2="${chartWidth}" y2="${chartHeight}" stroke="#374151" stroke-width="2" />`;
+    // Axis labels - use Y-axis labels when flipped, X-axis labels when normal
+    const axisLabels = flipAxes
+      ? renderYAxisLabels(series, minX, maxX, chartHeight)
+      : renderXAxisLabels(series, minX, maxX, chartWidth, chartHeight);
 
-    // Y-axis
-    const yAxis = `<line x1="0" y1="0" x2="0" y2="${chartHeight}" stroke="#374151" stroke-width="2" />`;
+    // Axes - swap when flipped
+    const xAxis = flipAxes
+      ? `<line x1="0" y1="0" x2="0" y2="${chartHeight}" stroke="#374151" stroke-width="2" />`
+      : `<line x1="0" y1="${chartHeight}" x2="${chartWidth}" y2="${chartHeight}" stroke="#374151" stroke-width="2" />`;
+
+    const yAxis = flipAxes
+      ? `<line x1="0" y1="${chartHeight}" x2="${chartWidth}" y2="${chartHeight}" stroke="#374151" stroke-width="2" />`
+      : `<line x1="0" y1="0" x2="0" y2="${chartHeight}" stroke="#374151" stroke-width="2" />`;
 
     // Title
     const title = ctx.node.label
@@ -386,6 +501,7 @@ export const lineChart: ShapeDefinition = {
         ${grid}
         ${xAxis}
         ${yAxis}
+        ${axisLabels}
         ${lines}
         ${markers}
         ${legend}

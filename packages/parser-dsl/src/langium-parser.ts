@@ -1190,6 +1190,17 @@ function processDialogStatement(
             item.replace(/^"|"$/g, '')
           );
         }
+      } else if (Langium.isFlipAxesProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.flipAxes = prop.value === 'true';
+      } else if (Langium.isLabelsProperty(prop)) {
+        if (!node.data) node.data = {};
+        // Convert StringArray to array of strings
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.data.labels = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
       } else if (Langium.isAffectedProperty(prop)) {
         // Store pedigree properties in node.data for later merging into style
         if (!node.data) node.data = {};
@@ -1337,6 +1348,13 @@ function processDialogStatement(
         if (!node.data) node.data = {};
         if (prop.value && Langium.isStringArray(prop.value)) {
           node.data.colors = prop.value.items.map((item) =>
+            item.replace(/^"|"$/g, '')
+          );
+        }
+      } else if (Langium.isLabelsProperty(prop)) {
+        if (!node.data) node.data = {};
+        if (prop.value && Langium.isStringArray(prop.value)) {
+          node.data.labels = prop.value.items.map((item) =>
             item.replace(/^"|"$/g, '')
           );
         }
@@ -2036,6 +2054,14 @@ function convertContainer(
               item.replace(/^"|"$/g, '')
             );
           }
+        } else if (Langium.isLabelsProperty(prop)) {
+          if (!node.data) node.data = {};
+          // Convert StringArray to array of strings
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.labels = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
+          }
         } else if (Langium.isAffectedProperty(prop)) {
           // Store pedigree properties in node.data for later merging into style
           if (!node.data) node.data = {};
@@ -2071,6 +2097,13 @@ function convertContainer(
         } else if (Langium.isTitleProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.title = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isLabelsProperty(prop)) {
+          if (!node.data) node.data = {};
+          if (prop.value && Langium.isStringArray(prop.value)) {
+            node.data.labels = prop.value.items.map((item) =>
+              item.replace(/^"|"$/g, '')
+            );
+          }
         } else if (Langium.isXLabelProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.xLabel = prop.value.replace(/^"|"$/g, '');

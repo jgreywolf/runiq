@@ -260,6 +260,7 @@ export type RuniqKeywordNames =
     | "fireproof"
     | "fit-content"
     | "flashDrum"
+    | "flipAxes:"
     | "flow"
     | "flowAlarmHigh"
     | "flowAlarmLow"
@@ -341,6 +342,7 @@ export type RuniqKeywordNames =
     | "label"
     | "label:"
     | "labelPosition:"
+    | "labels:"
     | "layered"
     | "layoutCache:"
     | "layoutComplexity:"
@@ -1811,6 +1813,21 @@ export function isFlexibleID(item: unknown): item is FlexibleID {
     return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
+export interface FlipAxesProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'FlipAxesProperty';
+    value: BooleanValue;
+}
+
+export const FlipAxesProperty = {
+    $type: 'FlipAxesProperty',
+    value: 'value'
+} as const;
+
+export function isFlipAxesProperty(item: unknown): item is FlipAxesProperty {
+    return reflection.isInstance(item, FlipAxesProperty.$type);
+}
+
 export interface FlowRateStatement extends langium.AstNode {
     readonly $container: HydraulicProfile | PIDProfile | PneumaticProfile;
     readonly $type: 'FlowRateStatement';
@@ -2170,6 +2187,21 @@ export const LabelProperty = {
 
 export function isLabelProperty(item: unknown): item is LabelProperty {
     return reflection.isInstance(item, LabelProperty.$type);
+}
+
+export interface LabelsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'LabelsProperty';
+    value: StringArray;
+}
+
+export const LabelsProperty = {
+    $type: 'LabelsProperty',
+    value: 'value'
+} as const;
+
+export function isLabelsProperty(item: unknown): item is LabelsProperty {
+    return reflection.isInstance(item, LabelsProperty.$type);
 }
 
 export type LayoutAlgorithmValue = 'force' | 'layered' | 'mrtree' | 'radial' | 'stress';
@@ -2570,7 +2602,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -4057,7 +4089,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | OutputPinsProperty;
+    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | LabelsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -4728,6 +4760,7 @@ export type RuniqAstType = {
     ExitProperty: ExitProperty
     ExtensionPointsProperty: ExtensionPointsProperty
     FillProperty: FillProperty
+    FlipAxesProperty: FlipAxesProperty
     FlowRateStatement: FlowRateStatement
     FlowTypeProperty: FlowTypeProperty
     FluidStatement: FluidStatement
@@ -4749,6 +4782,7 @@ export type RuniqAstType = {
     InstProperty: InstProperty
     InstStatement: InstStatement
     LabelProperty: LabelProperty
+    LabelsProperty: LabelsProperty
     LegendPositionProperty: LegendPositionProperty
     LineStyleProperty: LineStyleProperty
     LinkProperty: LinkProperty
@@ -5745,6 +5779,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        FlipAxesProperty: {
+            name: FlipAxesProperty.$type,
+            properties: {
+                value: {
+                    name: FlipAxesProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         FlowRateStatement: {
             name: FlowRateStatement.$type,
             properties: {
@@ -5960,6 +6003,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: LabelProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        LabelsProperty: {
+            name: LabelsProperty.$type,
+            properties: {
+                value: {
+                    name: LabelsProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

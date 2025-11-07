@@ -1,7 +1,6 @@
 // Chart Shapes
 export { pieChart } from './pieChart.js';
-export { barChartVertical } from './barChartVertical.js';
-export { barChartHorizontal } from './barChartHorizontal.js';
+export { barChart } from './barChart.js';
 export { lineChart } from './lineChart.js';
 export { radarChart } from './radarChart.js';
 export { pyramidShape } from './pyramid.js';

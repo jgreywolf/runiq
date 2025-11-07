@@ -107,8 +107,7 @@ export function registerSpecialShapes(): void {
 
 export function registerChartShapes(): void {
   shapeRegistry.register(charts.pieChart);
-  shapeRegistry.register(charts.barChartVertical);
-  shapeRegistry.register(charts.barChartHorizontal);
+  shapeRegistry.register(charts.barChart);
   shapeRegistry.register(charts.lineChart);
   shapeRegistry.register(charts.radarChart);
   shapeRegistry.register(charts.pyramidShape);

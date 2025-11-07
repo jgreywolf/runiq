@@ -628,10 +628,12 @@ NodeProperty:
     | LinkProperty
     | TooltipProperty
     | DataProperty
+    | LabelsProperty
     | ShowLegendProperty
     | LegendPositionProperty
     | StackedProperty
     | ColorsProperty
+    | FlipAxesProperty
     | TitleProperty
     | XLabelProperty
     | YLabelProperty
@@ -683,6 +685,9 @@ LinkProperty:
 TooltipProperty:
     'tooltip:' text=STRING;
 
+LabelsProperty:
+    'labels:' value=StringArray;
+
 ShowLegendProperty:
     'showLegend:' value=BooleanValue;
 
@@ -694,6 +699,9 @@ StackedProperty:
 
 ColorsProperty:
     'colors:' value=StringArray;
+
+FlipAxesProperty:
+    'flipAxes:' value=BooleanValue;
 
 TitleProperty:
     'title:' value=STRING;

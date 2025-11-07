@@ -33,7 +33,8 @@ const DEFAULT_PALETTE = [
  */
 function normalizeData(
   data: any,
-  customColors?: string[]
+  customColors?: string[],
+  customLabels?: string[]
 ): { axes: RadarAxis[]; series: RadarSeries[] } {
   if (!data) {
     return { axes: [], series: [] };
@@ -60,10 +61,10 @@ function normalizeData(
     };
   }
 
-  // Format 2: Simple array of values (single series)
+  // Format 2: Simple array of values (single series) - use custom labels if provided
   if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'number') {
     const axes = data.map((_: number, idx: number) => ({
-      label: `Axis ${idx + 1}`,
+      label: customLabels?.[idx] || `Axis ${idx + 1}`,
     }));
     return {
       axes,
@@ -80,7 +81,8 @@ function normalizeData(
   // Format 3: Object with just values (single series)
   if (data.values && Array.isArray(data.values)) {
     const axes = data.values.map((_: number, idx: number) => ({
-      label: data.axes?.[idx]?.label || `Axis ${idx + 1}`,
+      label:
+        customLabels?.[idx] || data.axes?.[idx]?.label || `Axis ${idx + 1}`,
     }));
     return {
       axes,
@@ -250,7 +252,8 @@ function renderMarkers(
   maxRadius: number,
   series: RadarSeries,
   axisMaxValues: number[],
-  axisCount: number
+  axisCount: number,
+  customColors?: string[]
 ): string {
   const markers: string[] = [];
 
@@ -262,8 +265,11 @@ function renderMarkers(
     const angle = (360 / axisCount) * i;
     const point = polarToCartesian(centerX, centerY, radius, angle);
 
+    // Use per-point color if available, otherwise use series color
+    const markerColor = customColors?.[i] || series.color || DEFAULT_PALETTE[0];
+
     markers.push(
-      `<circle cx="${point.x}" cy="${point.y}" r="4" fill="${series.color || DEFAULT_PALETTE[0]}" stroke="white" stroke-width="1"/>`
+      `<circle cx="${point.x}" cy="${point.y}" r="4" fill="${markerColor}" stroke="white" stroke-width="1"/>`
     );
   }
 
@@ -319,12 +325,17 @@ export const radarChart: ShapeDefinition = {
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
     const customColors = ctx.node.data?.colors as string[] | undefined;
+    const customLabels = ctx.node.data?.labels as string[] | undefined;
     const showGrid = ctx.node.data?.showGrid !== false; // Default true
     const showMarkers = ctx.node.data?.showMarkers !== false; // Default true
     const showLegend = ctx.node.data?.showLegend === true; // Default false
     const gridLevels = (ctx.node.data?.gridLevels as number) || 4;
 
-    const { axes, series } = normalizeData(ctx.node.data, customColors);
+    const { axes, series } = normalizeData(
+      ctx.node.data,
+      customColors,
+      customLabels
+    );
 
     // Handle empty data
     if (
@@ -411,7 +422,8 @@ export const radarChart: ShapeDefinition = {
             maxRadius,
             s,
             axisMaxValues,
-            axes.length
+            axes.length,
+            customColors
           );
       });
     }

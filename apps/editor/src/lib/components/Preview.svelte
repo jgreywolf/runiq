@@ -109,7 +109,7 @@
 
 		// Find all chart shapes (lineChart, radarChart, pieChart, barChart, etc.)
 		const chartShapePattern =
-			/shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChartVertical|barChartHorizontal|pyramidShape|venn\dShape)/g;
+			/shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChart|pyramidShape|venn\dShape)/g;
 
 		let match;
 		const replacements: Array<{ from: number; to: number; replacement: string }> = [];
@@ -153,19 +153,30 @@
 
 			if (!dataToInject) continue;
 
-			// For charts, inject simple array of values if data is array of objects
-			// The DSL parser doesn't support complex nested structures, so we extract just the values
+			// For charts, extract both numeric values and labels from array of objects
 			let chartData: any;
+			let chartLabels: string[] | null = null;
+			
 			if (
 				Array.isArray(dataToInject) &&
 				dataToInject.length > 0 &&
 				typeof dataToInject[0] === 'object'
 			) {
-				// Extract values from first numeric property
 				const firstObj = dataToInject[0];
-				const numericKey = Object.keys(firstObj).find((k) => typeof firstObj[k] === 'number');
+				const keys = Object.keys(firstObj);
+				
+				// Find first numeric property for values
+				const numericKey = keys.find((k) => typeof firstObj[k] === 'number');
+				// Find first string property for labels
+				const labelKey = keys.find((k) => typeof firstObj[k] === 'string');
+				
 				if (numericKey) {
 					chartData = dataToInject.map((item: any) => item[numericKey]);
+					
+					// Extract labels if available
+					if (labelKey) {
+						chartLabels = dataToInject.map((item: any) => item[labelKey]);
+					}
 				} else {
 					chartData = dataToInject;
 				}
@@ -173,9 +184,18 @@
 				chartData = dataToInject;
 			}
 
-			// Build new shape declaration with data
+			// Build new shape declaration with data and labels
 			const dataStr = JSON.stringify(chartData);
-			const newProps = withoutData ? `${withoutData} data:${dataStr}` : `data:${dataStr}`;
+			let newProps = withoutData;
+			
+			// Add labels if we extracted them
+			if (chartLabels && chartLabels.length > 0) {
+				const labelsStr = JSON.stringify(chartLabels);
+				newProps = newProps ? `${newProps} labels:${labelsStr} data:${dataStr}` : `labels:${labelsStr} data:${dataStr}`;
+			} else {
+				newProps = newProps ? `${newProps} data:${dataStr}` : `data:${dataStr}`;
+			}
+			
 			const newShapeDecl = `shape ${shapeId} as @${shapeType} ${newProps}`;
 
 			replacements.push({
