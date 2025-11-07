@@ -154,6 +154,7 @@
 			if (!dataToInject) continue;
 
 			// For charts, inject simple array of values if data is array of objects
+			// The DSL parser doesn't support complex nested structures, so we extract just the values
 			let chartData: any;
 			if (
 				Array.isArray(dataToInject) &&
