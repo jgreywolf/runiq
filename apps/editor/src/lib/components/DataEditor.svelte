@@ -32,7 +32,7 @@
 
 		// Detect if it's JSON
 		const looksLikeJson = text.startsWith('{') || text.startsWith('[');
-		
+
 		// Detect if it has CSV-like content (commas, no braces)
 		const hasCommas = text.includes(',');
 		const hasBraces = text.includes('{') || text.includes('[');
@@ -52,10 +52,10 @@
 			}
 		} else if (hasCommas && !hasBraces) {
 			// Looks like CSV - basic validation
-			const lines = text.split('\n').filter(l => l.trim());
+			const lines = text.split('\n').filter((l) => l.trim());
 			if (lines.length > 0) {
 				const firstLineCommas = (lines[0].match(/,/g) || []).length;
-				
+
 				// Check if all lines have roughly the same number of commas
 				for (let i = 1; i < lines.length; i++) {
 					const lineCommas = (lines[i].match(/,/g) || []).length;
@@ -76,7 +76,8 @@
 				from: 0,
 				to: text.length,
 				severity: 'error',
-				message: 'Mixed JSON and CSV content detected. Please use either JSON or CSV format, not both.'
+				message:
+					'Mixed JSON and CSV content detected. Please use either JSON or CSV format, not both.'
 			});
 		}
 
@@ -104,8 +105,8 @@
 						if (onerror) {
 							const diagnostics = dataFormatLinter(update.view);
 							const errors = diagnostics
-								.filter(d => d.severity === 'error')
-								.map(d => d.message);
+								.filter((d) => d.severity === 'error')
+								.map((d) => d.message);
 							onerror(errors);
 						}
 					}
@@ -155,7 +156,7 @@
 	function handleFileUpload(event: Event) {
 		const target = event.target as HTMLInputElement;
 		const file = target.files?.[0];
-		
+
 		if (!file) return;
 
 		// Check file extension
@@ -170,10 +171,10 @@
 		}
 
 		const reader = new FileReader();
-		
+
 		reader.onload = (e) => {
 			const content = e.target?.result as string;
-			
+
 			if (isJson) {
 				// Validate JSON
 				try {
@@ -188,7 +189,7 @@
 				setValue(content);
 				if (onchange) onchange(content);
 			}
-			
+
 			target.value = ''; // Reset input for next upload
 		};
 
@@ -211,7 +212,7 @@
 		<button
 			type="button"
 			onclick={triggerFileUpload}
-			class="inline-flex items-center gap-2 rounded-md bg-runiq-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-runiq-600 focus:outline-none focus:ring-2 focus:ring-runiq-500 focus:ring-offset-2"
+			class="inline-flex items-center gap-2 rounded-md bg-runiq-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-runiq-600 focus:ring-2 focus:ring-runiq-500 focus:ring-offset-2 focus:outline-none"
 		>
 			<Upload class="h-4 w-4" />
 			Upload JSON/CSV

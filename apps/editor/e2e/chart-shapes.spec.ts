@@ -10,8 +10,9 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 		await page.goto('/');
 		// Wait for editor to be ready
 		await page.waitForSelector('.cm-editor', { state: 'visible' });
-		// Clear editor
-		await page.locator('.cm-content').click();
+		// Clear the Syntax tab editor
+		const syntaxEditor = page.locator('[data-value="syntax"] .cm-content');
+		await syntaxEditor.click();
 		await page.keyboard.press('Control+A');
 		await page.keyboard.press('Delete');
 	});

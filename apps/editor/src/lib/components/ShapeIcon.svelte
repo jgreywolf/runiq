@@ -133,6 +133,36 @@
 				style: { padding: 0, fill: 'none', strokeWidth: 0.5 }
 			},
 			// Chart shapes
+			lineChart: {
+				node: {
+					data: {
+						values: [
+							{ label: 'A', value: 20 },
+							{ label: 'B', value: 45 },
+							{ label: 'C', value: 30 },
+							{ label: 'D', value: 60 },
+							{ label: 'E', value: 50 }
+						],
+						showLegend: false
+					}
+				},
+				style: { fontSize: 5 }
+			},
+			radarChart: {
+				node: {
+					data: {
+						values: [
+							{ label: 'A', value: 80 },
+							{ label: 'B', value: 65 },
+							{ label: 'C', value: 90 },
+							{ label: 'D', value: 70 },
+							{ label: 'E', value: 75 }
+						],
+						showLegend: false
+					}
+				},
+				style: { fontSize: 5 }
+			},
 			pieChart: {
 				node: {
 					data: {

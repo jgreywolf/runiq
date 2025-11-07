@@ -33,10 +33,10 @@
 					{#each category.shapes as shape}
 						<Tooltip.Root>
 							<Tooltip.Trigger
-								class="flex h-10 w-10 items-center justify-center rounded-md border border-transparent transition-colors hover:border-runiq-200 hover:bg-runiq-50 hover:text-runiq-700"
+								class="flex h-14 w-14 items-center justify-center rounded-md border border-transparent transition-colors hover:border-runiq-200 hover:bg-runiq-50 hover:text-runiq-700"
 								onclick={() => insertShape(shape.code)}
 							>
-								<ShapeIcon shapeId={shape.id} size={20} />
+								<ShapeIcon shapeId={shape.id} size={32} />
 							</Tooltip.Trigger>
 							<Tooltip.Content
 								side="top"

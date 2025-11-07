@@ -3,7 +3,13 @@
  * Tests visual rendering and parsing of all P&ID example diagrams
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+// Helper to get the syntax editor (not the data editor)
+function getSyntaxEditor(page: Page) {
+	// Make sure we're on the syntax tab first, then get its editor
+	return page.locator('[data-value="syntax"] .cm-content');
+}
 
 test.describe('P&ID Diagram Rendering', () => {
 	test.beforeEach(async ({ page }) => {
@@ -27,7 +33,7 @@ test.describe('P&ID Diagram Rendering', () => {
 		});
 
 		await test.step('Verify P&ID template inserted', async () => {
-			const editorContent = await page.locator('.cm-content').textContent();
+			const editorContent = await getSyntaxEditor(page).textContent();
 			expect(editorContent).toContain('pid "');
 			expect(editorContent).toContain('equipment');
 			expect(editorContent).toContain('instrument');
@@ -71,7 +77,7 @@ test.describe('P&ID Diagram Rendering', () => {
 }`;
 
 			// Clear editor and insert code
-			await page.locator('.cm-content').fill(pidCode);
+			await getSyntaxEditor(page).fill(pidCode);
 			await page.waitForTimeout(500);
 		});
 
@@ -126,7 +132,7 @@ test.describe('P&ID Diagram Rendering', () => {
   flowRate 75 m³/h
 }`;
 
-			await page.locator('.cm-content').fill(pidCode);
+			await getSyntaxEditor(page).fill(pidCode);
 			await page.waitForTimeout(2000);
 		});
 
@@ -178,7 +184,7 @@ test.describe('P&ID Diagram Rendering', () => {
   pressure 2.5 bar operating
 }`;
 
-			await page.locator('.cm-content').fill(pidCode);
+			await getSyntaxEditor(page).fill(pidCode);
 			await page.waitForTimeout(500);
 		});
 
@@ -225,7 +231,7 @@ test.describe('P&ID Diagram Rendering', () => {
   pressure 4 bar operating
 }`;
 
-			await page.locator('.cm-content').fill(pidCode);
+			await getSyntaxEditor(page).fill(pidCode);
 			await page.waitForTimeout(500);
 		});
 
@@ -275,7 +281,7 @@ test.describe('P&ID Diagram Rendering', () => {
   pressure 40 bar operating
 }`;
 
-			await page.locator('.cm-content').fill(pidCode);
+			await getSyntaxEditor(page).fill(pidCode);
 			await page.waitForTimeout(500);
 		});
 
@@ -326,7 +332,7 @@ test.describe('P&ID Diagram Rendering', () => {
   pressure 6 bar operating
 }`;
 
-			await page.locator('.cm-content').fill(pidCode);
+			await getSyntaxEditor(page).fill(pidCode);
 			await page.waitForTimeout(2000);
 		});
 

@@ -23,6 +23,7 @@ export interface Sample {
 	name: string;
 	description: string;
 	code: string;
+	data?: string; // Optional JSON or CSV data for data-driven diagrams
 }
 
 export interface SampleCategory {

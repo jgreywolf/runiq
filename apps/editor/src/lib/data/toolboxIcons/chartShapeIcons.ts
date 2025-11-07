@@ -7,6 +7,16 @@ export const chartShapeIcons: ShapeCategory[] = [
 		profiles: ['diagram'],
 		shapes: [
 			{
+				id: 'lineChart',
+				label: 'Line Chart',
+				code: 'shape id as @lineChart label:"Trend" data:[45,52,48,61,58,67,72]'
+			},
+			{
+				id: 'radarChart',
+				label: 'Radar Chart',
+				code: 'shape id as @radarChart label:"Skills" data:[85,72,90,68,78]'
+			},
+			{
 				id: 'pieChart',
 				label: 'Pie Chart',
 				code: 'shape id as @pieChart label:"Sales" data:[30,20,50]'

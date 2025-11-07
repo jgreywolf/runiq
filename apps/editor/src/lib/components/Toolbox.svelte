@@ -4,11 +4,11 @@
 	import ShapeBrowser from './ShapeBrowser.svelte';
 	import ToolboxSamples from './ToolboxSamples.svelte';
 	import { shapeCategories } from '$lib/data/toolbox-data';
-	import {sampleDiagrams} from '$lib/data/sample-data';
+	import { sampleDiagrams } from '$lib/data/sample-data';
 
 	interface Props {
 		onInsertShape: (shapeCode: string) => void;
-		onInsertSample?: (sampleCode: string) => void;
+		onInsertSample?: (sampleCode: string, sampleData?: string) => void;
 		currentCode?: string;
 	}
 
@@ -51,9 +51,9 @@
 	let displayedSamples = $derived(sampleDiagrams);
 
 	// Handler for inserting samples
-	function handleInsertSample(sampleCode: string) {
+	function handleInsertSample(sampleCode: string, sampleData?: string) {
 		if (onInsertSample) {
-			onInsertSample(sampleCode);
+			onInsertSample(sampleCode, sampleData);
 		} else {
 			onInsertShape(sampleCode);
 		}

@@ -3,7 +3,13 @@
  * Tests editor integration for template/preset creation, autocomplete, and usage
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+// Helper to get the syntax editor (not the data editor)
+function getSyntaxEditor(page: Page) {
+	// Make sure we're on the syntax tab first, then get its editor
+	return page.locator('[data-value="syntax"] .cm-content');
+}
 
 test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 	test.beforeEach(async ({ page }) => {
@@ -37,7 +43,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 			});
 
 			await test.step('Verify code contains template syntax', async () => {
-				const editorContent = await page.locator('.cm-content').textContent();
+				const editorContent = await getSyntaxEditor(page).textContent();
 				expect(editorContent).toContain('template "service-template"');
 				expect(editorContent).toContain('templateId: "service-template"');
 			});
@@ -54,7 +60,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 			});
 
 			await test.step('Verify code contains preset syntax', async () => {
-				const editorContent = await page.locator('.cm-content').textContent();
+				const editorContent = await getSyntaxEditor(page).textContent();
 				expect(editorContent).toContain('preset "card"');
 				expect(editorContent).toContain('preset: "card"');
 			});
@@ -71,7 +77,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 			});
 
 			await test.step('Verify code contains both template and preset', async () => {
-				const editorContent = await page.locator('.cm-content').textContent();
+				const editorContent = await getSyntaxEditor(page).textContent();
 				expect(editorContent).toContain('template "microservice"');
 				expect(editorContent).toContain('preset "highlighted"');
 				expect(editorContent).toContain('templateId: "microservice"');
@@ -90,7 +96,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 			});
 
 			await test.step('Verify code contains extends syntax', async () => {
-				const editorContent = await page.locator('.cm-content').textContent();
+				const editorContent = await getSyntaxEditor(page).textContent();
 				expect(editorContent).toContain('extends: "Base Container"');
 			});
 		});
@@ -99,7 +105,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 	test.describe('Template & Preset Autocomplete', () => {
 		test('Should autocomplete "template" keyword', async ({ page }) => {
 			await test.step('Type template keyword', async () => {
-				await page.locator('.cm-content').click();
+				await getSyntaxEditor(page).click();
 				await page.keyboard.type('temp');
 				// Trigger autocomplete
 				await page.keyboard.press('Control+Space');
@@ -115,7 +121,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
 		test('Should autocomplete "preset" keyword', async ({ page }) => {
 			await test.step('Type preset keyword', async () => {
-				await page.locator('.cm-content').click();
+				await getSyntaxEditor(page).click();
 				await page.keyboard.type('pres');
 				await page.keyboard.press('Control+Space');
 			});
@@ -129,7 +135,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
 		test('Should autocomplete "templateId:" property', async ({ page }) => {
 			await test.step('Type templateId property', async () => {
-				await page.locator('.cm-content').click();
+				await getSyntaxEditor(page).click();
 				await page.keyboard.type('container "Test" {');
 				await page.keyboard.press('Enter');
 				await page.keyboard.type('  templa');
@@ -145,7 +151,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
 		test('Should autocomplete "extends:" property', async ({ page }) => {
 			await test.step('Type extends property', async () => {
-				await page.locator('.cm-content').click();
+				await getSyntaxEditor(page).click();
 				await page.keyboard.type('container "Test" {');
 				await page.keyboard.press('Enter');
 				await page.keyboard.type('  exte');
@@ -161,7 +167,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
 		test('Should autocomplete container style properties', async ({ page }) => {
 			await test.step('Type style property', async () => {
-				await page.locator('.cm-content').click();
+				await getSyntaxEditor(page).click();
 				await page.keyboard.type('container "Test" {');
 				await page.keyboard.press('Enter');
 				await page.keyboard.type('  backgr');
@@ -186,7 +192,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
     padding: 20
   }
 }`;
-				await page.locator('.cm-content').fill(syntax);
+				await getSyntaxEditor(page).fill(syntax);
 			});
 
 			await test.step('Verify no syntax errors', async () => {
@@ -207,7 +213,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
     shadow: true
   }
 }`;
-				await page.locator('.cm-content').fill(syntax);
+				await getSyntaxEditor(page).fill(syntax);
 			});
 
 			await test.step('Verify no syntax errors', async () => {
@@ -228,7 +234,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
     shape api as @rectangle label: "API"
   }
 }`;
-				await page.locator('.cm-content').fill(syntax);
+				await getSyntaxEditor(page).fill(syntax);
 			});
 
 			await test.step('Verify no syntax errors', async () => {
@@ -249,7 +255,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
     shape myNode as @rectangle label: "Node"
   }
 }`;
-				await page.locator('.cm-content').fill(syntax);
+				await getSyntaxEditor(page).fill(syntax);
 			});
 
 			await test.step('Verify no syntax errors', async () => {
@@ -278,7 +284,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
     shape api as @server label: "API Gateway"
   }
 }`;
-				await page.locator('.cm-content').fill(syntax);
+				await getSyntaxEditor(page).fill(syntax);
 			});
 
 			await test.step('Verify diagram renders without errors', async () => {
@@ -301,7 +307,7 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
   base -> child
 }`;
-				await page.locator('.cm-content').fill(syntax);
+				await getSyntaxEditor(page).fill(syntax);
 			});
 
 			await test.step('Verify no errors with inheritance', async () => {
