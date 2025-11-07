@@ -46,7 +46,12 @@ function normalizeData(data: unknown, customLabels?: string[]): DataItem[] {
   }
 
   // Format 2: Object with values array
-  if (!data || typeof data !== 'object' || !('values' in data) || !Array.isArray(data.values)) {
+  if (
+    !data ||
+    typeof data !== 'object' ||
+    !('values' in data) ||
+    !Array.isArray(data.values)
+  ) {
     return [];
   }
 
@@ -58,7 +63,10 @@ function normalizeData(data: unknown, customLabels?: string[]): DataItem[] {
       if (typeof item === 'object' && item !== null && 'value' in item) {
         const objItem = item as { label?: string; value: unknown };
         const value = typeof objItem.value === 'number' ? objItem.value : 0;
-        return { label: objItem.label || customLabels?.[i] || `Slice ${i + 1}`, value };
+        return {
+          label: objItem.label || customLabels?.[i] || `Slice ${i + 1}`,
+          value,
+        };
       }
       return null;
     })
@@ -343,7 +351,10 @@ export const pieChart: ShapeDefinition = {
       switch (legendPosition) {
         case 'top':
         case 'bottom':
-          return { width: size, height: size + horizontalLegendHeight + titleHeight + 10 };
+          return {
+            width: size,
+            height: size + horizontalLegendHeight + titleHeight + 10,
+          };
         case 'left':
         case 'top-left':
         case 'bottom-left':

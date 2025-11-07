@@ -16,6 +16,7 @@ JSON files should contain an array of objects with consistent keys:
 ```
 
 The editor will:
+
 - Use the first numeric column as chart data
 - Use the first string column as labels (if present)
 - Automatically inject both into your chart shape
@@ -31,6 +32,7 @@ Product B,150
 ```
 
 The editor will:
+
 - Parse the CSV headers
 - Use the first numeric column as chart data
 - Use the first string column as labels (if present)
@@ -53,6 +55,7 @@ The editor will:
 ## Usage in Editor
 
 1. Create a chart shape in your diagram:
+
    ```runiq
    diagram "My Chart" {
      shape chart as @lineChart label:"Sales Data"
@@ -62,18 +65,19 @@ The editor will:
 2. Drag and drop a data file onto the editor
 
 3. The editor will automatically inject data and labels:
+
    ```runiq
-   shape chart as @lineChart 
-     label:"Sales Data" 
-     data:[45000, 52000, 48000, ...] 
+   shape chart as @lineChart
+     label:"Sales Data"
+     data:[45000, 52000, 48000, ...]
      labels:["January", "February", "March", ...]
    ```
 
 4. Customize with additional properties:
    ```runiq
-   shape chart as @lineChart 
-     label:"Sales Data" 
-     data:[45000, 52000, 48000, ...] 
+   shape chart as @lineChart
+     label:"Sales Data"
+     data:[45000, 52000, 48000, ...]
      labels:["January", "February", "March", ...]
      colors:["#3b82f6", "#10b981", ...]
      flipAxes:true
@@ -82,20 +86,24 @@ The editor will:
 ## Chart Type Recommendations
 
 ### Line Charts
+
 - Best for: Time series, trends over time
 - Use with: monthly-sales.json, annual-trends.csv
 
 ### Bar Charts
+
 - Best for: Categorical comparisons
 - Use with: team-performance.json, quarterly-revenue.json
 
 ### Radar Charts
+
 - Best for: Multi-dimensional assessments
 - Use with: skill-matrix.csv, product-comparison.csv
 
 ## Creating Your Own Data Files
 
 ### JSON Format
+
 ```json
 [
   { "category": "A", "value": 10 },
@@ -104,6 +112,7 @@ The editor will:
 ```
 
 ### CSV Format
+
 ```csv
 Category,Value
 A,10
@@ -111,6 +120,7 @@ B,20
 ```
 
 **Tips:**
+
 - Keep numeric values in one column for simple charts
 - Use descriptive column names
 - Ensure consistent data types within columns

@@ -42,7 +42,7 @@ Simple proportional data with auto-generated labels:
 
 ```runiq
 diagram "Market Share" {
-  shape chart as @pieChart 
+  shape chart as @pieChart
     label:"Browser Market"
     data:[45, 30, 15, 10]
 }
@@ -54,8 +54,8 @@ Display meaningful slice labels instead of generic "Slice 1", "Slice 2":
 
 ```runiq
 diagram "Budget Breakdown" {
-  shape budget as @pieChart 
-    label:"Monthly Budget" 
+  shape budget as @pieChart
+    label:"Monthly Budget"
     data:[30, 25, 20, 15, 10]
     labels:["Rent", "Food", "Transport", "Entertainment", "Savings"]
 }
@@ -66,7 +66,7 @@ diagram "Budget Breakdown" {
 Color each slice individually:
 
 ```runiq
-shape sales as @pieChart 
+shape sales as @pieChart
   label:"Sales by Product"
   data:[35, 28, 18, 12, 7]
   labels:["Chrome", "Safari", "Edge", "Firefox", "Other"]
@@ -114,14 +114,14 @@ data:[
 
 ### Properties
 
-| Property          | Type         | Default   | Description                          |
-| ----------------- | ------------ | --------- | ------------------------------------ |
-| `label`           | string       | -         | Chart title (displayed above chart)  |
-| `data`            | array/object | -         | Slice values (required)              |
-| `labels`          | string[]     | generated | Custom slice labels ⭐ NEW           |
-| `colors`          | string[]     | palette   | Custom slice colors                  |
-| `showLegend`      | boolean      | false     | Show legend                          |
-| `legendPosition`  | string       | "right"   | Legend placement (right/left/top/bottom) |
+| Property         | Type         | Default   | Description                              |
+| ---------------- | ------------ | --------- | ---------------------------------------- |
+| `label`          | string       | -         | Chart title (displayed above chart)      |
+| `data`           | array/object | -         | Slice values (required)                  |
+| `labels`         | string[]     | generated | Custom slice labels ⭐ NEW               |
+| `colors`         | string[]     | palette   | Custom slice colors                      |
+| `showLegend`     | boolean      | false     | Show legend                              |
+| `legendPosition` | string       | "right"   | Legend placement (right/left/top/bottom) |
 
 ### Dimensions
 
@@ -272,7 +272,7 @@ Simple hierarchy with auto-generated labels:
 
 ```runiq
 diagram "Company Hierarchy" {
-  shape org as @pyramid 
+  shape org as @pyramid
     label:"Organization Structure"
     data:[5, 15, 50, 200]
 }
@@ -345,13 +345,13 @@ data:[
 
 ### Properties
 
-| Property     | Type         | Default   | Description                     |
-| ------------ | ------------ | --------- | ------------------------------- |
-| `label`      | string       | -         | Chart title                     |
-| `data`       | array/object | -         | Level values (required)         |
-| `labels`     | string[]     | generated | Custom level labels ⭐ NEW      |
-| `colors`     | string[]     | palette   | Custom level colors             |
-| `showValues` | boolean      | true      | Display numeric values on levels|
+| Property     | Type         | Default   | Description                      |
+| ------------ | ------------ | --------- | -------------------------------- |
+| `label`      | string       | -         | Chart title                      |
+| `data`       | array/object | -         | Level values (required)          |
+| `labels`     | string[]     | generated | Custom level labels ⭐ NEW       |
+| `colors`     | string[]     | palette   | Custom level colors              |
+| `showValues` | boolean      | true      | Display numeric values on levels |
 
 ### Dimensions
 

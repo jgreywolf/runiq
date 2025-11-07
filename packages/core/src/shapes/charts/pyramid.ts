@@ -37,14 +37,17 @@ export const pyramidShape: ShapeDefinition = {
 
   bounds(ctx) {
     const data = (ctx.node.data as unknown) || {};
-    const dataObj = typeof data === 'object' && data !== null ? data as Record<string, unknown> : {};
-    
+    const dataObj =
+      typeof data === 'object' && data !== null
+        ? (data as Record<string, unknown>)
+        : {};
+
     // Support multiple formats:
     // 1. data.levels (programmatic API)
     // 2. data.values (DSL parser output)
     // 3. data as array directly
     let levelsCount = 3; // default
-    
+
     if (Array.isArray(dataObj.levels)) {
       levelsCount = (dataObj.levels as unknown[]).length;
     } else if (Array.isArray(dataObj.values)) {
@@ -77,19 +80,24 @@ export const pyramidShape: ShapeDefinition = {
   render(ctx) {
     const bounds = this.bounds(ctx);
     const data = (ctx.node.data as unknown) || {};
-    
+
     // Type guard for data
-    const dataObj = typeof data === 'object' && data !== null ? data as Record<string, unknown> : {};
-    
+    const dataObj =
+      typeof data === 'object' && data !== null
+        ? (data as Record<string, unknown>)
+        : {};
+
     // Get custom labels if provided
-    const customLabels = Array.isArray(dataObj.labels) ? (dataObj.labels as string[]) : undefined;
-    
+    const customLabels = Array.isArray(dataObj.labels)
+      ? (dataObj.labels as string[])
+      : undefined;
+
     // Support multiple formats:
     // 1. data.levels (programmatic API)
     // 2. data.values (DSL parser output)
     // 3. data as array directly
     let levels: PyramidLevel[];
-    
+
     if (Array.isArray(dataObj.levels)) {
       levels = dataObj.levels as PyramidLevel[];
     } else if (Array.isArray(dataObj.values)) {
@@ -100,9 +108,9 @@ export const pyramidShape: ShapeDefinition = {
         }
         if (typeof item === 'object' && item !== null && 'value' in item) {
           const objItem = item as { label?: string; value: number };
-          return { 
-            label: objItem.label || customLabels?.[i] || `Level ${i + 1}`, 
-            value: objItem.value 
+          return {
+            label: objItem.label || customLabels?.[i] || `Level ${i + 1}`,
+            value: objItem.value,
           };
         }
         return { label: `Level ${i + 1}`, value: 0 };
@@ -116,8 +124,10 @@ export const pyramidShape: ShapeDefinition = {
     } else {
       levels = [];
     }
-    
-    const colors = Array.isArray(dataObj.colors) ? (dataObj.colors as string[]) : DEFAULT_COLORS;
+
+    const colors = Array.isArray(dataObj.colors)
+      ? (dataObj.colors as string[])
+      : DEFAULT_COLORS;
     const showValues = dataObj.showValues !== false; // Show by default
 
     if (levels.length === 0) {
@@ -132,7 +142,8 @@ export const pyramidShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#000000';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
-    const fontFamily = typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
+    const fontFamily =
+      typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
 
     const levelHeight = (bounds.height - 40) / levels.length;
     const maxWidth = bounds.width - 40; // Padding on sides

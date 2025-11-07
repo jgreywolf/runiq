@@ -111,9 +111,10 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.lineChart);
   shapeRegistry.register(charts.radarChart);
   shapeRegistry.register(charts.pyramidShape);
-  shapeRegistry.register(charts.venn2Shape);
-  shapeRegistry.register(charts.venn3Shape);
-  shapeRegistry.register(charts.venn4Shape);
+  shapeRegistry.register(charts.vennShape); // Unified venn diagram
+  shapeRegistry.register(charts.venn2Shape); // Legacy
+  shapeRegistry.register(charts.venn3Shape); // Legacy
+  shapeRegistry.register(charts.venn4Shape); // Legacy
 }
 
 export function registerNetworkShapes(): void {
