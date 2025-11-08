@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { resolveContainerStyle } from '../renderers/style-resolver.js';
+import { resolveContainerStyle } from './renderers/style-resolver.js';
 import type {
   DiagramAst,
   ContainerDeclaration,

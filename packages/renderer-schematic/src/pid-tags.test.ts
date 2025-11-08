@@ -15,7 +15,7 @@ import {
   measuredVariables,
   readoutFunctions,
   commonTagCombinations,
-} from '../pid-tags';
+} from './pid-tags';
 
 describe('P&ID Tag Numbering System', () => {
   describe('ISA-5.1 Reference Tables', () => {

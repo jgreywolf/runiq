@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { renderSchematic } from '../index.js';
+import { renderSchematic } from './index.js';
 import type { PneumaticProfile, HydraulicProfile } from '@runiq/core';
 
 describe('Pneumatic/Hydraulic Integration Tests', () => {

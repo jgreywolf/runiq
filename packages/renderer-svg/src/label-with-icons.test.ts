@@ -3,7 +3,7 @@ import {
   parseLabelWithIcons,
   renderLabelWithIcons,
   measureLabelWithIcons,
-} from '../renderers/label-with-icons.js';
+} from './renderers/label-with-icons.js';
 import { iconRegistry, type IconProvider } from '@runiq/core';
 
 describe('Label with Icons', () => {

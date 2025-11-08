@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { renderSequenceDiagram } from '../sequence-renderer.js';
+import { renderSequenceDiagram } from './sequence-renderer.js';
 import type { SequenceProfile } from '@runiq/core';
 
 describe('Sequence Diagram Renderer', () => {

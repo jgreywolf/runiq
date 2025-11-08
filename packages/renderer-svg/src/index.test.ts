@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { renderSvg } from '../index.js';
+import { renderSvg } from './index.js';
 import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
 import { shapeRegistry, iconRegistry } from '@runiq/core';
 

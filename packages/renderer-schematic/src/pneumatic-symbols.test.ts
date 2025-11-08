@@ -34,7 +34,7 @@ import {
   reservoir,
   accumulator,
   pressureGaugeHydraulic,
-} from '../symbols.js';
+} from './symbols.js';
 
 describe('ISO 1219-1 Pneumatic Symbols', () => {
   describe('cylinderSingleActing', () => {

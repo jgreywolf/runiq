@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { renderSchematic } from '../index.js';
+import { renderSchematic } from './index.js';
 import type { ElectricalProfile } from '@runiq/core';
 import { writeFileSync } from 'fs';
 import { join } from 'path';

@@ -6,7 +6,7 @@ import {
   renderPIDLine,
   renderDoubleLine,
   renderInsulationMarks,
-} from '../pid-line-types';
+} from './pid-line-types';
 
 describe('P&ID Line Types', () => {
   describe('Line Type Library - Completeness', () => {

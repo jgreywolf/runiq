@@ -6,7 +6,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { pidSymbols } from '../pid-symbols.js';
+import { pidSymbols } from './pid-symbols.js';
 
 describe('P&ID Symbols - Vessels & Tanks', () => {
   describe('vesselVertical', () => {

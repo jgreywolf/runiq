@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { renderWardleyMap } from '../wardley-renderer.js';
+import { renderWardleyMap } from './wardley-renderer.js';
 import type { WardleyProfile } from '@runiq/core';
 
 describe('Wardley Map Renderer', () => {
