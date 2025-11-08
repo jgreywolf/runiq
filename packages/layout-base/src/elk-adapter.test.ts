@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { ElkLayoutEngine } from '../elk-adapter.js';
+import { ElkLayoutEngine } from './elk-adapter.js';
 import type { DiagramAst } from '@runiq/core';
 import { shapeRegistry } from '@runiq/core';
 

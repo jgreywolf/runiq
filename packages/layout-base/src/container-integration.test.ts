@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { parse } from '@runiq/parser-dsl';
-import { ElkLayoutEngine } from '../elk-adapter.js';
+import { ElkLayoutEngine } from './elk-adapter.js';
 import { renderSvg } from '@runiq/renderer-svg';
 import { shapeRegistry } from '@runiq/core';
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { astToJson, jsonToAst, roundTrip } from '../index.js';
+import { astToJson, jsonToAst, roundTrip } from './index.js';
 import type { DiagramAst } from '@runiq/core';
 
 describe('io-json', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseRuniq, layoutRuniq, renderRuniqToSvg } from '../index.js';
+import { parseRuniq, layoutRuniq, renderRuniqToSvg } from './index.js';
 
 const sample = `diagram "My Diagram" {
   direction TB
