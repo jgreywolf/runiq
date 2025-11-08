@@ -316,7 +316,6 @@ Common shapes:
 - `@server` - Server icon
 - `@service` - Service icon
 - `@database` - Database icon
-- `@cache` - Cache icon
 - `@browser` - Browser icon
 
 Block diagram shapes:

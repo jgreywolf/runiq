@@ -171,7 +171,7 @@
 			// UML shapes
 			{ label: '@class', type: 'type', detail: 'UML Class' },
 			{ label: '@actor', type: 'type', detail: 'UML Actor' },
-			{ label: '@system-boundary', type: 'type', detail: 'System boundary' },
+			{ label: '@systemBoundary', type: 'type', detail: 'System boundary' },
 			// Network shapes
 			{ label: '@server', type: 'type', detail: 'Server' },
 			{ label: '@router', type: 'type', detail: 'Router' },
@@ -184,9 +184,10 @@
 			{ label: '@integrator', type: 'type', detail: 'Integrator' },
 			{ label: '@summing-junction', type: 'type', detail: 'Summing junction' },
 			// Chart shapes
-			{ label: '@pie-chart', type: 'type', detail: 'Pie chart' },
-			{ label: '@bar-chart-vertical', type: 'type', detail: 'Vertical bar chart' },
-			{ label: '@bar-chart-horizontal', type: 'type', detail: 'Horizontal bar chart' },
+			{ label: '@pieChart', type: 'type', detail: 'Pie chart' },
+			{ label: '@barChart', type: 'type', detail: 'Bar chart' },
+			{ label: '@radarChart', type: 'type', detail: 'Horizontal bar chart' },
+			{ label: '@lineChart', type: 'type', detail: 'Line chart' },
 			// UML properties
 			{ label: 'attributes:', type: 'property', detail: 'Class attributes array' },
 			{ label: 'methods:', type: 'property', detail: 'Class methods array' },

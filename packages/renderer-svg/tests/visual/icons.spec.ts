@@ -207,13 +207,13 @@ diagram "Data Flow Icons" {
 	test('should render security icons', async ({ page }) => {
 		const dsl = `
 diagram "Security Icons" {
-  shape authNode as @rounded label:"Auth" icon:fa/key
-  shape firewallNode as @rounded label:"Firewall" icon:fa/shield
-  shape encryptNode as @rounded label:"Encrypt" icon:fa/lock
-  shape monitorNode as @rounded label:"Monitor" icon:fa/eye
+  shape authNode as @rounded label:"Auth" icon:fa/user
+  shape certNode as @rounded label:"Certificate" icon:fa/certificate
+  shape encryptNode as @rounded label:"Encrypt" icon:fa/lightbulb
+  shape monitorNode as @rounded label:"Monitor" icon:fa/search
   
-  authNode -to-> firewallNode
-  firewallNode -to-> encryptNode
+  authNode -to-> certNode
+  certNode -to-> encryptNode
   encryptNode -to-> monitorNode
 }`;
 		await renderAndSetup(page, dsl);

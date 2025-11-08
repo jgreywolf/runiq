@@ -16,7 +16,7 @@ diagram "Container with Internal Edges Test" {
   container "Force Network" algorithm:force {
     shape web as @server label:"Web Server"
     shape app as @service label:"App Server"
-    shape cache as @cache label:"Redis"
+    shape cache as @cylinder label:"Redis"
     
     web -> app
     app -> cache

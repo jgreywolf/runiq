@@ -25,7 +25,7 @@ diagram "Force-Directed Network Topology" {
     shape api as @server label:"API Gateway"
     shape service1 as @service label:"Auth Service"
     shape service2 as @service label:"Data Service"
-    shape cache as @cache label:"Redis Cache"
+    shape cache as @cylinder label:"Redis Cache"
     
     api -> service1
     api -> service2
