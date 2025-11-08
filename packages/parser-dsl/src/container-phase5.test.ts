@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { parse } from '../langium-parser.js';
+import { parse } from './langium-parser.js';
 
 describe('Phase 5: Container Templates & Presets', () => {
   describe('Template Definitions', () => {

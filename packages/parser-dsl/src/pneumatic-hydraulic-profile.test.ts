@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parse } from '../langium-parser.js';
+import { parse } from './langium-parser.js';
 
 describe('Pneumatic Profile Parsing', () => {
   it('should parse a simple pneumatic profile with nets', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parse } from '../langium-parser.js';
+import { parse } from './langium-parser.js';
 
 describe('P&ID Profile DSL Syntax', () => {
   describe('Basic P&ID Profile', () => {

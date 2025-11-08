@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { parse } from '../index.js';
+import { parse } from './index.js';
 import type {
   SequenceProfile,
   SequenceParticipant,

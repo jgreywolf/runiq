@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parse } from '../langium-parser.js';
+import { parse } from './langium-parser.js';
 
 describe('Container Phase 4: Visual Controls Parser Tests', () => {
   describe('Collapse Button Controls', () => {
