@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toVerilog } from '../index.js';
+import { toVerilog } from './index.js';
 import type { DigitalProfile } from '@runiq/core';
 
 describe('Verilog Exporter', () => {

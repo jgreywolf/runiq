@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { toSimulink } from '../index.js';
+import { toLatex } from './index.js';
 import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
 
-describe('Simulink MDL Exporter', () => {
+describe('LaTeX/TikZ Exporter', () => {
   describe('Basic Export', () => {
-    it('should export empty diagram with Model structure', () => {
+    it('should export empty diagram with document structure', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
         nodes: [],
@@ -17,21 +17,24 @@ describe('Simulink MDL Exporter', () => {
         size: { width: 100, height: 100 },
       };
 
-      const result = toSimulink(diagram, layout);
+      const result = toLatex(diagram, layout);
 
-      expect(result.mdl).toContain('Model {');
-      expect(result.mdl).toContain('Name\t\t"untitled"');
-      expect(result.mdl).toContain('System {');
-      expect(result.mdl).toContain('}');
+      expect(result.latex).toContain('\\documentclass');
+      expect(result.latex).toContain('\\usepackage{tikz}');
+      expect(result.latex).toContain(
+        '\\usetikzlibrary{positioning,shapes.geometric,arrows.meta,calc}'
+      );
+      expect(result.latex).toContain('\\begin{tikzpicture}');
+      expect(result.latex).toContain('\\end{tikzpicture}');
       expect(result.warnings).toEqual([]);
     });
   });
 
   describe('Transfer Function Blocks', () => {
-    it('should export transfer function block', () => {
+    it('should export transfer function with proper TikZ syntax', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [{ id: 'tf1', shape: 'transfer-fn', label: '1/(s+1)' }],
+        nodes: [{ id: 'tf1', shape: 'transfer-fn', label: 'K/(s+1)' }],
         edges: [],
       };
 
@@ -41,19 +44,17 @@ describe('Simulink MDL Exporter', () => {
         size: { width: 200, height: 120 },
       };
 
-      const result = toSimulink(diagram, layout);
+      const result = toLatex(diagram, layout);
 
-      expect(result.mdl).toContain('Block {');
-      expect(result.mdl).toContain('BlockType\t\t"TransferFcn"');
-      expect(result.mdl).toContain('Name\t\t"tf1"');
-      expect(result.mdl).toContain('Numerator\t\t"[1]"');
-      expect(result.mdl).toContain('Denominator\t\t"[1 1]"');
-      expect(result.mdl).toContain('Position\t\t[100, 50, 180, 110]');
+      expect(result.latex).toContain('\\node[block]');
+      expect(result.latex).toContain('(tf1)');
+      expect(result.latex).toContain('at (2.54cm,1.27cm)'); // 100px, 50px converted to cm
+      expect(result.latex).toContain('\\frac{K}{s+1}'); // Fraction converted
     });
   });
 
   describe('Gain Blocks', () => {
-    it('should export gain block', () => {
+    it('should export gain block with triangle shape', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
         nodes: [{ id: 'g1', shape: 'gain', label: 'K=10' }],
@@ -66,19 +67,19 @@ describe('Simulink MDL Exporter', () => {
         size: { width: 150, height: 100 },
       };
 
-      const result = toSimulink(diagram, layout);
+      const result = toLatex(diagram, layout);
 
-      expect(result.mdl).toContain('BlockType\t\t"Gain"');
-      expect(result.mdl).toContain('Name\t\t"g1"');
-      expect(result.mdl).toContain('Gain\t\t"10"');
+      expect(result.latex).toContain('\\node[gain]');
+      expect(result.latex).toContain('(g1)');
+      expect(result.latex).toContain('$K=10$');
     });
   });
 
-  describe('Integrator Blocks', () => {
-    it('should export integrator block', () => {
+  describe('Integration Blocks', () => {
+    it('should export integrator block with blue fill', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [{ id: 'int1', shape: 'integrator' }],
+        nodes: [{ id: 'int1', shape: 'integrator', label: '1/s' }],
         edges: [],
       };
 
@@ -88,44 +89,43 @@ describe('Simulink MDL Exporter', () => {
         size: { width: 80, height: 60 },
       };
 
-      const result = toSimulink(diagram, layout);
+      const result = toLatex(diagram, layout);
 
-      expect(result.mdl).toContain('BlockType\t\t"Integrator"');
-      expect(result.mdl).toContain('Name\t\t"int1"');
+      expect(result.latex).toContain('\\node[block,fill=blue!10]');
+      expect(result.latex).toContain('\\frac{1}{s}');
     });
   });
 
   describe('Summing Junctions', () => {
-    it('should export sum block with operators', () => {
+    it('should export compare junction with operators', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
-        nodes: [{ id: 'sum1', shape: 'compare-junction', label: '+-' }],
+        nodes: [{ id: 'cmp1', shape: 'compare-junction', label: '+-' }],
         edges: [],
       };
 
       const layout: LaidOutDiagram = {
-        nodes: [{ id: 'sum1', x: 50, y: 50, width: 40, height: 40 }],
+        nodes: [{ id: 'cmp1', x: 50, y: 50, width: 40, height: 40 }],
         edges: [],
         size: { width: 100, height: 100 },
       };
 
-      const result = toSimulink(diagram, layout);
+      const result = toLatex(diagram, layout);
 
-      expect(result.mdl).toContain('BlockType\t\t"Sum"');
-      expect(result.mdl).toContain('Name\t\t"sum1"');
-      expect(result.mdl).toContain('Inputs\t\t"+-"');
+      expect(result.latex).toContain('\\node[sum]');
+      expect(result.latex).toContain('(cmp1)');
     });
   });
 
   describe('Connections', () => {
-    it('should export lines (connections)', () => {
+    it('should export edges as arrows', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
         nodes: [
           { id: 'A', shape: 'gain', label: 'K1' },
           { id: 'B', shape: 'transfer-fn', label: 'G(s)' },
         ],
-        edges: [{ from: 'A', to: 'B' }],
+        edges: [{ from: 'A', to: 'B', label: 'signal' }],
       };
 
       const layout: LaidOutDiagram = {
@@ -146,18 +146,18 @@ describe('Simulink MDL Exporter', () => {
         size: { width: 200, height: 150 },
       };
 
-      const result = toSimulink(diagram, layout);
+      const result = toLatex(diagram, layout);
 
-      expect(result.mdl).toContain('Line {');
-      expect(result.mdl).toContain('SrcBlock\t\t"A"');
-      expect(result.mdl).toContain('DstBlock\t\t"B"');
-      expect(result.mdl).toContain('SrcPort\t\t1');
-      expect(result.mdl).toContain('DstPort\t\t1');
+      expect(result.latex).toContain('\\draw[->,>=Stealth]');
+      expect(result.latex).toContain('(A)');
+      expect(result.latex).toContain('(B)');
+      expect(result.latex).toContain('node[above]');
+      expect(result.latex).toContain('{$signal$}');
     });
   });
 
   describe('Complete Systems', () => {
-    it('should export feedback control system', () => {
+    it('should export control system diagram', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
         nodes: [
@@ -166,8 +166,8 @@ describe('Simulink MDL Exporter', () => {
           { id: 'plant', shape: 'transfer-fn', label: 'G(s)' },
         ],
         edges: [
-          { from: 'sum', to: 'controller' },
-          { from: 'controller', to: 'plant' },
+          { from: 'sum', to: 'controller', label: 'e(t)' },
+          { from: 'controller', to: 'plant', label: 'u(t)' },
         ],
       };
 
@@ -198,10 +198,10 @@ describe('Simulink MDL Exporter', () => {
         size: { width: 350, height: 200 },
       };
 
-      const result = toSimulink(diagram, layout);
+      const result = toLatex(diagram, layout);
 
-      expect(result.mdl).toContain('BlockType\t\t"TransferFcn"'); // transfer functions
-      expect(result.mdl).toContain('BlockType\t\t"Sum"'); // summing junction
+      expect(result.latex).toContain('\\node[block]'); // transfer functions
+      expect(result.latex).toContain('\\node[sum]'); // junction
       expect(result.warnings.length).toBe(0);
     });
   });
@@ -220,11 +220,11 @@ describe('Simulink MDL Exporter', () => {
         size: { width: 80, height: 60 },
       };
 
-      const result = toSimulink(diagram, layout);
+      const result = toLatex(diagram, layout);
 
-      expect(
-        result.warnings.some((w: string) => w.includes('Unsupported shape'))
-      ).toBe(true);
+      expect(result.warnings.some((w: string) => w.includes('shape'))).toBe(
+        true
+      );
     });
   });
 });

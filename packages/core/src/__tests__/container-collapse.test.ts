@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type {
-  DiagramAst,
-  ContainerDeclaration,
-} from '../types.js';
+import type { DiagramAst, ContainerDeclaration } from '../types.js';
 
 describe('Container Phase 2: Collapse/Expand Functionality', () => {
   describe('Collapse State Management', () => {
@@ -252,9 +249,7 @@ describe('Container Phase 2: Collapse/Expand Functionality', () => {
           { id: 'external', shape: 'rect' },
           { id: 'internal', shape: 'rect' },
         ],
-        edges: [
-          { from: 'external', to: 'internal' },
-        ],
+        edges: [{ from: 'external', to: 'internal' }],
         containers: [
           {
             type: 'container',
@@ -545,7 +540,7 @@ describe('Container Phase 2: Collapse/Expand Functionality', () => {
 
     it('should support different keyboard shortcuts', () => {
       const shortcuts = ['Space', 'Enter', 'c', 'Ctrl+Space'];
-      
+
       shortcuts.forEach((shortcut) => {
         const container: ContainerDeclaration = {
           type: 'container',
