@@ -1247,7 +1247,7 @@ CollapseTransitionValue returns string:
     'stable' | 'collapsing' | 'expanding';
 
 CollapseEasingValue returns string:
-    'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+    'linear' | 'easeIn' | 'easeOut' | 'easeInOut';
 
 // Phase 3: Layout optimization value types
 AutoResizeValue returns string:

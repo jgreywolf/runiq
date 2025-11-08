@@ -183,7 +183,7 @@ export interface ContainerDeclaration {
   collapseRedirectEdges?: boolean; // Redirect edges to collapsed container
   collapseTransitionState?: 'stable' | 'collapsing' | 'expanding'; // Animation state
   collapseAnimationDuration?: number; // Animation duration in milliseconds
-  collapseAnimationEasing?: 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out'; // Easing function
+  collapseAnimationEasing?: 'linear' | 'easeIn' | 'easeOut' | 'easeInOut'; // Easing function
   collapseSummary?: string; // Summary text shown when collapsed
   collapseShowCount?: boolean; // Show child count badge when collapsed
   collapseIcon?: string; // Icon for collapse indicator

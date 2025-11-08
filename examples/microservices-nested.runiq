@@ -40,7 +40,7 @@ diagram "Microservices Architecture" {
   container dataLayer "Data Layer" backgroundColor:"#eceff1" borderColor:"#455a64" borderStyle:dashed {
     shape userDb as @cylinder label:"User DB"
     shape orderDb as @cylinder label:"Order DB"
-    shape cache as @cache label:"Redis Cache"
+    shape cache as @cylinder label:"Redis Cache"
     
     userDb -> cache
     orderDb -> cache

@@ -19,8 +19,8 @@ diagram "Banking System - System Context" {
   shape banking as @c4System label: "Internet Banking System" description: "Allows customers to view info and make transactions"
 
   // External systems
-  shape mainframe as @c4-ext-system label: "Mainframe" description: "Stores customer accounts"
-  shape email as @c4-ext-system label: "Email System" description: "Sends emails to customers"
+  shape mainframe as @c4System label: "Mainframe" description: "Stores customer accounts"
+  shape email as @c4System label: "Email System" description: "Sends emails to customers"
 
   // Relationships
   customer -> banking label: "Views balances, makes payments"

@@ -97,6 +97,7 @@ pnpm -r build
 - **packages/parser-dsl**: Langium-based DSL parser
 - **packages/layout-base**: ELK layout engine (replaced Dagre Oct 2025)
 - **packages/renderer-svg**: SVG rendering engine
+- **packages/schematic**: Rendering engine specifically for electrical schematics
 - **packages/io-json**: JSON import/export
 - **packages/icons-fontawesome**: Icon library integration
 - **packages/cli**: Command-line interface
