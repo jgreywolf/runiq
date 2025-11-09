@@ -109,7 +109,10 @@ export default defineConfig({
             { text: 'UML Class Diagrams', link: '/guide/class-diagrams' },
             { text: 'Component Diagrams', link: '/guide/component-diagrams' },
             { text: 'ERD Diagrams', link: '/guide/erd-diagrams' },
-            { text: 'State Machine Diagrams', link: '/guide/state-machine-diagrams' },
+            {
+              text: 'State Machine Diagrams',
+              link: '/guide/state-machine-diagrams',
+            },
             { text: 'Activity Diagrams', link: '/guide/activity-diagrams' },
             { text: 'BPMN Diagrams', link: '/guide/bpmn-diagrams' },
             { text: 'Use Case Diagrams', link: '/guide/use-case-diagrams' },
@@ -156,9 +159,7 @@ export default defineConfig({
         },
         {
           text: 'PID Profile',
-          items: [
-            { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
-          ],
+          items: [{ text: 'P&ID Diagrams', link: '/guide/pid-diagrams' }],
         },
         {
           text: 'Help',

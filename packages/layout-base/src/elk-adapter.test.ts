@@ -553,4 +553,3 @@ describe('ElkLayoutEngine', () => {
     });
   });
 });
-

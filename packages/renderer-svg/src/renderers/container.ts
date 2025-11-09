@@ -34,7 +34,7 @@ export function renderContainer(
     if (shapeDefinition) {
       // Use the shape's render function for the container background
       const measureText = createTextMeasurer();
-      
+
       // Build shape style object compatible with Style interface
       const shapeStyle: Record<string, unknown> = {
         // Only set fill if explicitly provided, otherwise let shape use its default
