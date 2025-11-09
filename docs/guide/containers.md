@@ -1,3 +1,9 @@
+---
+title: Containers
+description: Organize diagrams with containers, templates, presets, and inheritance for consistent styling and theming.
+lastUpdated: 2025-01-09
+---
+
 # Containers
 
 Containers group related shapes together, creating visual boundaries and hierarchical structures in your diagrams.
@@ -460,7 +466,7 @@ Due to layout engine limitations, use flat structure with multiple containers in
 
 ## See Also
 
-- [Phase 5 Editor Guide](/apps/editor/PHASE5-EDITOR-GUIDE.md) - Templates & Presets usage
+- [Templates & Presets Reference](/reference/templates) - Container templates and presets documentation
 - [Styling](/guide/styling) - Customize appearance
 - [Layout](/guide/layout) - Control diagram layout
 - [Examples: Containers](/examples/containers) - Real-world examples

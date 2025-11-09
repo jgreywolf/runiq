@@ -2,6 +2,12 @@
 title: Use Case Diagrams
 ---
 
+---
+title: Use Case Diagrams
+description: Model system functionality with UML use case diagrams including actors, use cases, relationships, and system boundaries.
+lastUpdated: 2025-01-09
+---
+
 # Use Case Diagrams
 
 Create UML use case diagrams to capture functional requirements and actor interactions with Runiq's diagram profile.

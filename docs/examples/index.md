@@ -14,6 +14,35 @@ Build architecture diagrams, UML models, and process flows.
 - Multi-container architectures
 - **Visual Examples**: Auth flow, ETL pipeline, bubble sort
 
+### [State Machine Diagrams](/examples/state-machines)
+
+- UML statecharts modeling object lifecycles
+- Entry/exit actions and do-activities
+- Event-driven transitions with guards
+- Composite states and history states
+- **Examples**: Traffic light, door lock, vending machine, media player
+- Applications: UI states, device controllers, protocol implementations
+
+### [Activity Diagrams](/examples/activity-diagrams)
+
+- UML activity diagrams for workflow modeling
+- Action pins and object nodes
+- Swimlanes (horizontal and vertical)
+- Signal events and time events
+- Fork/join, decision/merge nodes
+- **Examples**: Order processing, CI/CD pipeline, microservices communication
+- Applications: Business processes, data pipelines, parallel workflows
+
+### [BPMN Diagrams](/examples/bpmn-diagrams)
+
+- Business Process Model and Notation (BPMN 2.0)
+- Pools, lanes, and nested containers
+- Event types (start, intermediate, end)
+- Gateway types (exclusive, parallel, inclusive)
+- Message flows between participants
+- **Examples**: Order fulfillment, purchase order process, cross-functional workflows
+- Applications: Business process automation, enterprise workflows
+
 ### [Use Case Diagrams](/examples/use-case)
 
 - UML actor interactions
@@ -73,6 +102,16 @@ Design logic circuits with Verilog HDL export.
 ## Fluid Power Systems
 
 Design pneumatic and hydraulic circuits following ISO 1219-1 standards.
+
+### [P&ID Diagrams](/examples/pid-diagrams)
+
+- Piping & Instrumentation Diagrams (P&ID) following ISA-5.1
+- Equipment: Tanks, pumps, compressors, heat exchangers, separators
+- Instruments: Transmitters (pressure, temperature, level, flow)
+- Control loops: PID control, cascade control, anti-surge
+- Safety systems: PSVs, interlocks, emergency shutdown
+- **Examples**: Tank-pump transfer, heat exchanger control, 3-phase separator, compressor package
+- Applications: Oil & gas, chemical processing, power generation
 
 ### [Pneumatic Circuits](/examples/pneumatic-circuits)
 
@@ -145,6 +184,21 @@ Strategic mapping tools for business analysis and decision-making.
     <p>Process flows and decision logic</p>
   </a>
   
+  <a href="/examples/state-machines" class="example-card">
+    <h3>🔀 State Machines</h3>
+    <p>UML statecharts & object lifecycles</p>
+  </a>
+  
+  <a href="/examples/activity-diagrams" class="example-card">
+    <h3>📊 Activity Diagrams</h3>
+    <p>UML workflows & business processes</p>
+  </a>
+  
+  <a href="/examples/bpmn-diagrams" class="example-card">
+    <h3>🔁 BPMN</h3>
+    <p>Business process notation</p>
+  </a>
+  
   <a href="/examples/use-case" class="example-card">
     <h3>👤 Use Case</h3>
     <p>UML actor interactions</p>
@@ -168,6 +222,11 @@ Strategic mapping tools for business analysis and decision-making.
   <a href="/examples/digital" class="example-card">
     <h3>🔢 Digital Logic</h3>
     <p>Gates & HDL export</p>
+  </a>
+  
+  <a href="/examples/pid-diagrams" class="example-card">
+    <h3>🏭 P&ID Diagrams</h3>
+    <p>Process instrumentation (ISA-5.1)</p>
   </a>
   
   <a href="/examples/pneumatic-circuits" class="example-card">

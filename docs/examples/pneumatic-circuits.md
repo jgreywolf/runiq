@@ -414,9 +414,9 @@ part R2 type:REGULATOR pins:(HIGH_PRESS,LOW_PRESS) doc:"Pilot pressure"
 
 ## Related Documentation
 
-- [ISO 1219 Symbol Reference](../ISO-1219-SYMBOL-REFERENCE.md)
+- [Pneumatic Circuits Guide](/guide/pneumatic-circuits)
 - [Hydraulic Circuits](./hydraulic-circuits.md)
-- [Example Files](../../examples/pneumatic/)
+- [Example Files - GitHub](https://github.com/jgreywolf/runiq/tree/main/examples/pneumatic)
 
 ## Troubleshooting
 

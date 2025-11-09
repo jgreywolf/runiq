@@ -2,7 +2,13 @@
 title: Layout
 ---
 
-# Layout
+---
+title: Layout & Direction
+description: Control diagram layout with automatic ELK algorithms, manual positioning, direction options (TB/LR/BT/RL), and node separation settings.
+lastUpdated: 2025-01-09
+---
+
+# Layout & Direction
 
 Runiq uses ELK (Eclipse Layout Kernel) under the hood for automatic layout. You can tune algorithms, directions, spacing, and container behavior.
 

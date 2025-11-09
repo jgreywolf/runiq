@@ -1,3 +1,9 @@
+---
+title: Styling Guide
+description: Customize diagram appearance with colors, borders, fonts, fills, gradients, and theming for shapes, edges, and containers.
+lastUpdated: 2025-01-09
+---
+
 # Styling
 
 Customize the appearance of your diagrams with colors, fonts, line styles, and themes.

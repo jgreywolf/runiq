@@ -1,3 +1,9 @@
+---
+title: Quantum Circuits
+description: Design quantum circuits with qubits, gates, measurements, and barriers following IBM Qiskit visual standards for quantum computing.
+lastUpdated: 2025-01-09
+---
+
 # Quantum Circuits Guide
 
 **Status**: Production Ready  

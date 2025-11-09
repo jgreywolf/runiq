@@ -1,5 +1,7 @@
 ---
 title: Charts & Graphs
+description: Create data visualizations with bar charts, line charts, pie charts, radar charts, Venn diagrams, and force-directed network graphs.
+lastUpdated: 2025-01-09
 ---
 
 # Charts & Graphs

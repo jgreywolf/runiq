@@ -81,7 +81,7 @@ diagram "Banking System - Context" {
 
 ### Generated SVG
 
-![C4 System Context](/examples/c4System-context.svg)
+![C4 System Context](/examples/c4-system-context.svg)
 
 ### Level 2: Container Diagram
 
@@ -110,7 +110,7 @@ diagram "Banking System - Containers" {
 
 ### Generated SVG
 
-![C4 Container Diagram](/examples/c4Container.svg)
+![C4 Container Diagram](/examples/c4-container.svg)
 
 ### Level 3: Component Diagram
 
@@ -141,7 +141,7 @@ diagram "API Application - Components" {
 
 ### Generated SVG
 
-![C4 Component Diagram](/examples/c4Component.svg)
+![C4 Component Diagram](/examples/c4-component.svg)
 
 ### Microservices Architecture
 
@@ -275,6 +275,6 @@ These limitations are being addressed - see the roadmap for updates.
 
 **Next Steps:**
 
-- [Container Guide](./containers.md) - Learn more about containers
-- [Shape Reference](../reference/shapes.md) - All available shapes
-- [UML Diagrams](./uml.md) - For Level 4 (Code) diagrams
+- [Container Guide](/guide/containers) - Learn more about containers
+- [Shape Reference](/reference/shapes) - All available shapes
+- [UML Class Diagrams](/guide/class-diagrams) - For Level 4 (Code) diagrams

@@ -1,8 +1,10 @@
 ---
-title: Inline Icons in Labels
+title: Inline Icons
+description: Embed FontAwesome icons directly in shape labels with simple syntax for enhanced visual communication.
+lastUpdated: 2025-01-09
 ---
 
-# Inline Icons in Labels
+# Inline Icons
 
 Runiq supports embedding icons directly within label text using a simple, intuitive syntax inspired by Mermaid. This allows you to add visual context without needing separate `icon:` properties.
 
