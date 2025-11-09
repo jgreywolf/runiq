@@ -2,6 +2,12 @@
 title: Wardley Maps
 ---
 
+---
+title: Wardley Maps
+description: Create strategic Wardley maps for technology and business strategy with evolution axes and component positioning.
+lastUpdated: 2025-01-09
+---
+
 # Wardley Maps
 
 Create strategic Wardley Maps to visualize business landscapes, technology evolution, and competitive positioning with Runiq's Wardley profile.

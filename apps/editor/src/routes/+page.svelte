@@ -2,10 +2,12 @@
 	import { onMount } from 'svelte';
 	import { PaneGroup, Pane, PaneResizer } from 'paneforge';
 	import Header from '$lib/components/Header.svelte';
+	import WelcomeBanner from '$lib/components/WelcomeBanner.svelte';
 	import Toolbox from '$lib/components/Toolbox.svelte';
 	import CodeEditor from '$lib/components/CodeEditor.svelte';
 	import DataEditor from '$lib/components/DataEditor.svelte';
 	import Preview from '$lib/components/Preview.svelte';
+	import EmptyPreview from '$lib/components/EmptyPreview.svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { registerDefaultShapes, layoutRegistry, iconRegistry } from '@runiq/core';
 	import { ElkLayoutEngine } from '@runiq/layout-base';
@@ -389,6 +391,9 @@
 		onExport={handleExport}
 	/>
 
+	<!-- Welcome Banner (dismissible) -->
+	<WelcomeBanner />
+
 	<!-- Main Content: Three-Panel Layout -->
 	<div class="flex-1 overflow-hidden">
 		<PaneGroup direction="horizontal" class="flex h-full">
@@ -481,13 +486,17 @@
 						<h2 class="text-sm font-semibold text-white">Preview</h2>
 					</div>
 					<div class="flex-1 overflow-hidden">
-						<Preview
-							bind:this={previewRef}
-							{code}
-							{dataContent}
-							{layoutEngine}
-							onparse={handleParse}
-						/>
+						{#if code.trim() === ''}
+							<EmptyPreview />
+						{:else}
+							<Preview
+								bind:this={previewRef}
+								{code}
+								{dataContent}
+								{layoutEngine}
+								onparse={handleParse}
+							/>
+						{/if}
 					</div>
 				</div>
 			</Pane>

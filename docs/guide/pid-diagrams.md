@@ -1,3 +1,9 @@
+---
+title: P&ID Diagrams
+description: Create ISA-5.1 compliant piping and instrumentation diagrams for process engineering with equipment, piping, instrumentation, and control loops.
+lastUpdated: 2025-01-09
+---
+
 # P&ID Diagrams (Piping & Instrumentation Diagrams)
 
 ## Overview
@@ -473,8 +479,8 @@ P&ID diagrams are rendered with:
 ## See Also
 
 - [Profile Types](profiles.md) - Overview of all diagram types
-- [Examples](../examples/pid/) - Complete P&ID examples
-- [DSL Syntax Reference](../reference/syntax.md) - Complete syntax reference
+- [Examples](/examples/pid-diagrams) - Complete P&ID examples
+- [DSL Syntax Reference](/reference/dsl) - Complete syntax reference
 
 ## Standards Compliance
 

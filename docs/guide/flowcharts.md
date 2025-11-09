@@ -1,5 +1,7 @@
 ---
 title: Flowcharts
+description: Create flowcharts with process steps, decisions, loops, and connectors for algorithm visualization and process documentation.
+lastUpdated: 2025-01-09
 ---
 
 # Flowcharts

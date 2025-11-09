@@ -2,6 +2,12 @@
 title: AWS Diagrams
 ---
 
+---
+title: AWS Architecture Diagrams
+description: Create AWS cloud architecture diagrams with VPCs, subnets, security groups, and AWS service icons.
+lastUpdated: 2025-01-09
+---
+
 # AWS Architecture Diagrams
 
 Create Amazon Web Services infrastructure diagrams with Runiq's diagram profile.

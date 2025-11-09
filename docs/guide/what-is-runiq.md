@@ -1,3 +1,9 @@
+---
+title: What is Runiq?
+description: Learn about Runiq, the text-based diagramming tool that combines the simplicity of Markdown with the power of visual design.
+lastUpdated: 2025-01-09
+---
+
 # What is Runiq?
 
 Runiq is a **diagram-as-code** tool that lets you create beautiful, standards-compliant diagrams using plain text.

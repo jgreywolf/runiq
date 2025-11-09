@@ -8,10 +8,10 @@ UML use case diagrams showing actors interacting with system functionality.
 
 ### UML Relationship Stereotypes
 
-- **<<include>>** - Required dependency (dashed arrow, open head)
-- **<<extend>>** - Optional extension (dashed arrow, open head)
-- **<<uses>>** - Dependency (dashed arrow, open head)
-- **<<implements>>** - Interface realization (dashed arrow, hollow head)
+- **`<<include>>`** - Required dependency (dashed arrow, open head)
+- **`<<extend>>`** - Optional extension (dashed arrow, open head)
+- **`<<uses>>`** - Dependency (dashed arrow, open head)
+- **`<<implements>>`** - Interface realization (dashed arrow, hollow head)
 
 ### Line Styles
 
@@ -62,8 +62,8 @@ runiq banking.runiq -o banking.svg
 
 Advanced banking system demonstrating:
 
-- **<<include>>** relationships for shared functionality
-- **<<extend>>** relationships for optional features
+- **`<<include>>`** relationships for shared functionality
+- **`<<extend>>`** relationships for optional features
 - All three UML use case relationship types
 - Proper stereotype notation
 
@@ -143,7 +143,7 @@ ellipse-wide PlaceOrder "Place Order"
 Customer -> PlaceOrder
 ```
 
-### <<include>> Relationship
+### `<<include>>` Relationship
 
 Required dependency - base use case ALWAYS includes the other:
 
@@ -154,7 +154,7 @@ ellipse-wide ValidatePayment "Validate Payment"
 Checkout -> ValidatePayment stereotype: "include" lineStyle: dashed arrowType: open
 ```
 
-### <<extend>> Relationship
+### `<<extend>>` Relationship
 
 Optional extension - extending use case adds behavior to base:
 
@@ -217,8 +217,8 @@ Child -> Parent lineStyle: solid arrowType: hollow
 
 4. **Relationships**:
    - **Association**: Actor uses functionality (solid line)
-   - **Include**: One use case always includes another (dashed arrow with <<include>>)
-   - **Extend**: Optional extension of use case (dashed arrow with <<extend>>)
+   - **Include**: One use case always includes another (dashed arrow with `<<include>>`)
+   - **Extend**: Optional extension of use case (dashed arrow with `<<extend>>`)
    - **Generalization**: Actor/use case specialization (solid arrow)
 
 ### Tips
@@ -269,7 +269,7 @@ system-boundary Sys "My System" {
 Customer -> PlaceOrder lineStyle: solid arrowType: standard
 ```
 
-### <<include>> (Use Case Dependency)
+### `<<include>>` (Use Case Dependency)
 
 **Visual**: Dashed line with open arrow  
 **Syntax**: `BaseUseCase -> IncludedUseCase stereotype: "include" lineStyle: dashed arrowType: open`  
@@ -280,7 +280,7 @@ Customer -> PlaceOrder lineStyle: solid arrowType: standard
 Checkout -> ValidatePayment stereotype: "include" lineStyle: dashed arrowType: open
 ```
 
-### <<extend>> (Use Case Extension)
+### `<<extend>>` (Use Case Extension)
 
 **Visual**: Dashed line with open arrow  
 **Syntax**: `ExtendingUseCase -> BaseUseCase stereotype: "extend" lineStyle: dashed arrowType: open`  

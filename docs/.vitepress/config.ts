@@ -1,12 +1,15 @@
 import { defineConfig } from 'vitepress';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Runiq',
   description:
     'A markdown-friendly diagram DSL with JSON twin that compiles to standards-compliant SVG',
-  // Temporarily ignore dead links to allow publishing while stubs are added
-  ignoreDeadLinks: true,
 
   // Base URL (adjust for GitHub Pages if needed)
   // base: '/runiq/',
@@ -51,6 +54,30 @@ export default defineConfig({
     ],
 
     sidebar: {
+      '/reference/': [
+        {
+          text: 'Reference',
+          items: [
+            { text: 'Shapes', link: '/reference/shapes' },
+            { text: 'Edges', link: '/reference/edges' },
+            { text: 'DSL Syntax', link: '/reference/dsl' },
+            { text: 'JSON Format', link: '/reference/json-format' },
+            { text: 'Data-Driven Diagrams', link: '/reference/data-driven' },
+            { text: 'Templates & Presets', link: '/reference/templates' },
+            { text: 'Export Formats', link: '/reference/export' },
+            { text: 'CLI Reference', link: '/reference/cli' },
+            { text: 'Inline Icons', link: '/reference/inline-icons' },
+          ],
+        },
+        {
+          text: 'API Reference',
+          items: [
+            { text: 'Parser API', link: '/reference/api/parser' },
+            { text: 'Renderer API', link: '/reference/api/renderer' },
+            { text: 'Layout API', link: '/reference/api/layout' },
+          ],
+        },
+      ],
       '/guide/': [
         {
           text: 'Introduction',
@@ -77,6 +104,11 @@ export default defineConfig({
           items: [
             { text: 'Flowcharts', link: '/guide/flowcharts' },
             { text: 'UML Class Diagrams', link: '/guide/class-diagrams' },
+            { text: 'Component Diagrams', link: '/guide/component-diagrams' },
+            { text: 'ERD Diagrams', link: '/guide/erd-diagrams' },
+            { text: 'State Machine Diagrams', link: '/guide/state-machine-diagrams' },
+            { text: 'Activity Diagrams', link: '/guide/activity-diagrams' },
+            { text: 'BPMN Diagrams', link: '/guide/bpmn-diagrams' },
             { text: 'Use Case Diagrams', link: '/guide/use-case-diagrams' },
             { text: 'C4 Architecture', link: '/guide/c4-architecture' },
             { text: 'Block Diagrams', link: '/guide/block-diagrams' },
@@ -120,6 +152,12 @@ export default defineConfig({
           ],
         },
         {
+          text: 'PID Profile',
+          items: [
+            { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
+          ],
+        },
+        {
           text: 'Help',
           items: [{ text: 'Troubleshooting', link: '/guide/troubleshooting' }],
         },
@@ -159,13 +197,22 @@ export default defineConfig({
       dark: 'github-dark',
     },
     lineNumbers: true,
-  },
-  // Map custom languages to built-ins for basic highlighting
-  // https://vitepress.dev/guide/markdown#highlight
-  // @ts-ignore
-  async shikiSetup(shiki) {
-    shiki.addAlias?.({ lang: 'runiq', name: 'yaml' });
-    shiki.addAlias?.({ lang: 'spice', name: 'ini' });
-    shiki.addAlias?.({ lang: 'langium', name: 'bnf' });
+    async shikiSetup(shiki) {
+      // Load custom Runiq grammar
+      const runiqGrammar = JSON.parse(
+        readFileSync(
+          resolve(
+            __dirname,
+            '../../packages/parser-dsl/syntaxes/runiq.tmLanguage.json'
+          ),
+          'utf-8'
+        )
+      );
+      // Add id field for Shiki v1.x
+      await shiki.loadLanguage({
+        ...runiqGrammar,
+        id: 'runiq',
+      });
+    },
   },
 });

@@ -1,3 +1,9 @@
+---
+title: Quick Start
+description: Create a complete diagram from scratch in 5 minutes with step-by-step tutorial from concept to export.
+lastUpdated: 2025-01-09
+---
+
 # Quick Start
 
 Let's create a complete diagram from scratch in 5 minutes!

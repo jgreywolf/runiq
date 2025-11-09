@@ -306,12 +306,8 @@ Explore additional examples organized by category:
 - [Flowcharts](/examples/flowcharts) - Decision trees, processes, algorithms
 - [Electrical Circuits](/examples/electrical) - Analog circuits, schematics
 - [Digital Circuits](/examples/digital) - Logic gates, digital systems
-- [Class Diagrams](/examples/class-diagrams) - UML class diagrams, relationships
-- [Sequence Diagrams](/examples/sequence) - Interactions, message flows
-- [Charts](/examples/charts) - Pie charts, bar charts, data visualization
-- [Mindmaps](/examples/mindmaps) - Hierarchical concepts, idea maps
+- [Sequence Diagrams](/examples/sequence-diagrams) - Interactions, message flows
 - [Pedigree](/examples/pedigree) - Family trees, genealogy
-- [Quantum Circuits](/examples/quantum) - Quantum gates, circuits
 
 ## Contributing Examples
 

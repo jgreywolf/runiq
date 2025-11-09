@@ -1,5 +1,7 @@
 ---
 title: Shapes Overview
+description: Comprehensive reference of all 52+ built-in shapes organized by category with syntax examples.
+lastUpdated: 2025-01-09
 ---
 
 # Shapes Overview

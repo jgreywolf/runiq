@@ -1,15 +1,20 @@
 ---
 title: Profiles
+description: Understand Runiq's 8 diagram profiles - Diagram, Electrical, Digital, Wardley, Sequence, Pneumatic, Hydraulic, and P&ID with specialized syntax and rendering.
+lastUpdated: 2025-01-09
 ---
 
-# Profiles: Diagram, Schematic, Wardley, Sequence, and P&ID
+# Profiles: Diagram, Electrical, Digital, Wardley, Sequence, Pneumatic, Hydraulic, and P&ID
 
-Runiq supports five primary profiles:
+Runiq supports eight primary profiles:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, block diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **Electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
+- **Digital profile**: Digital logic circuits with standard gate symbols (AND, OR, NOT, NAND, NOR, XOR, etc.). Supports HDL export to Verilog.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
 - **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
+- **Pneumatic profile**: Pneumatic circuits following ISO 1219-1 standards with cylinders, valves, FRL units, and compressed air components.
+- **Hydraulic profile**: Hydraulic circuits following ISO 1219-2 standards with pumps, motors, valves, and fluid power components.
 - **P&ID profile**: Piping & Instrumentation Diagrams following ISA-5.1 standards for process engineering and industrial systems.
 
 Most syntax is shared across profiles. The key differences are:
@@ -18,6 +23,119 @@ Most syntax is shared across profiles. The key differences are:
 - Positioning system (auto-layout vs. manual coordinates)
 - Exporters available (SPICE/Verilog for electrical, SVG for all)
 - Layout defaults (e.g., orthogonal wiring for electrical)
+
+## Profile Comparison Table
+
+Here's a comprehensive comparison of all 8 profiles to help you choose the right one for your project:
+
+| Feature                  | Diagram        | Electrical     | Digital        | Wardley        | Sequence       | Pneumatic      | Hydraulic      | P&ID           |
+| ------------------------ | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- |
+| **Primary Use Case**     | General purpose, flowcharts, UML, architecture | Circuit design, analog electronics | Logic circuits, digital design | Strategic mapping, technology evolution | Object interactions, API flows | Compressed air systems | Fluid power systems | Process engineering, industrial plants |
+| **Rendering Style**      | Vector shapes, auto-layout | IEEE schematic symbols | Logic gate symbols | 2D axis plot | Sequence notation | ISO 1219-1 symbols | ISO 1219-2 symbols | ISA-5.1 symbols |
+| **Layout System**        | Auto (ELK), manual | Orthogonal, schematic | Auto-layout | Manual 2D positioning | Vertical timeline | Schematic layout | Schematic layout | Process flow layout |
+| **Shapes Available**     | 52+ (all categories) | Resistors, caps, inductors, sources, diodes, transistors, ICs | Logic gates, flip-flops, mux, decoders | Components, pipelines | Actors, lifelines, fragments | Cylinders, valves, FRL, sensors | Pumps, motors, valves, cylinders, accumulators | Equipment, pipes, instruments, valves |
+| **Export Formats**       | SVG, PNG, PDF | SPICE netlist, SVG | Verilog HDL, SVG | SVG | SVG | SVG | SVG | SVG |
+| **Simulation Support**   | No | Yes (LTspice, ngspice) | Yes (Icarus, ModelSim) | No | No | Manual analysis | Manual analysis | Process simulation |
+| **Standards Compliance** | None (flexible) | IEEE 315 | ANSI Y32.14 | Wardley mapping methodology | UML 2.5 | ISO 1219-1:2012 | ISO 1219-2:2012 | ISA-5.1-2009 |
+| **Key Syntax**           | `shape`, `@shape_id` | `part`, `net`, `pins:()` | `module`, `instance`, `input/output` | `anchor`, `component`, `pipeline` | `participant`, `lifeline`, `message` | `equipment`, `line`, `actuator:` | `equipment`, `line`, `fluid:` | `equipment`, `pipe`, `instrument:` |
+| **Direction Control**    | TB, LR, BT, RL | Auto (schematic) | Auto (logic) | Manual coords | Vertical (fixed) | Schematic flow | Schematic flow | Process flow |
+| **Edge Styling**         | Arrows, labels, dashed | Wires, nets, connections | Wires, bus notation | Evolution arrows | Messages, sync/async | Air/pilot lines | Pressure/return lines | Process/instrument lines |
+| **Typical Users**        | Software developers, architects, business analysts | Electrical engineers, electronics hobbyists | Digital designers, FPGA engineers | CTOs, product strategists, consultants | Software developers, API designers | Automation engineers, mechatronics | Hydraulic engineers, mobile equipment designers | Process engineers, chemical plant designers |
+| **Learning Curve**       | Easy (familiar shapes) | Medium (circuit knowledge) | Medium-Hard (logic design) | Medium (strategy concepts) | Easy-Medium (UML basics) | Medium (pneumatic principles) | Medium-Hard (hydraulic principles) | Hard (process engineering) |
+| **Documentation**        | [Getting Started](/guide/getting-started) | [Electrical Guide](/guide/electrical) | [Digital Guide](/guide/digital-circuits) | [Wardley Maps](/guide/wardley-maps) | [Sequence Guide](/guide/sequence-diagrams) | [Pneumatic Guide](/guide/pneumatic-circuits) | [Hydraulic Guide](/guide/hydraulic-circuits) | [P&ID Guide](/guide/pid-diagrams) |
+| **Example Files**        | [Examples](/examples/) | [examples/electrical](https://github.com/jgreywolf/runiq/tree/main/examples/electrical) | [examples/digital](https://github.com/jgreywolf/runiq/tree/main/examples/digital) | [examples/wardley](https://github.com/jgreywolf/runiq/tree/main/examples/wardley) | [examples/sequence](https://github.com/jgreywolf/runiq/tree/main/examples/sequence) | [examples/pneumatic](https://github.com/jgreywolf/runiq/tree/main/examples/pneumatic) | [examples/hydraulic](https://github.com/jgreywolf/runiq/tree/main/examples/hydraulic) | [examples/pid](/examples/pid-diagrams) |
+| **Export Capabilities**  | Standard graphics | Circuit netlists | HDL synthesis | Strategic visualization | Collaboration docs | System documentation | System documentation | Plant documentation |
+| **Typical Complexity**   | Simple to complex | Medium circuits | Small to medium | Strategic level | API/system level | Machine level | Machine/system level | Plant level |
+| **Real-Time Updates**    | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) |
+| **Collaborative**        | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) |
+
+### Quick Selection Guide
+
+**Choose Diagram Profile** when:
+- Creating general-purpose diagrams (flowcharts, org charts, mind maps)
+- Modeling software architecture (C4, component diagrams)
+- Designing UML class diagrams, state machines, activity diagrams
+- Visualizing data flows, pipelines, or business processes
+- You need maximum flexibility and variety of shapes
+
+**Choose Electrical Profile** when:
+- Designing analog circuits (amplifiers, filters, power supplies)
+- Creating schematics for PCB design
+- Simulating circuits with SPICE (LTspice, ngspice, Xyce)
+- Documenting electronic prototypes
+- Teaching electronics fundamentals
+
+**Choose Digital Profile** when:
+- Designing combinational logic (gates, mux, decoders)
+- Creating sequential circuits (flip-flops, registers, counters)
+- Exporting to Verilog for FPGA/ASIC implementation
+- Simulating logic with digital simulators (Icarus Verilog, ModelSim)
+- Teaching digital logic design
+
+**Choose Wardley Profile** when:
+- Analyzing business strategy and technology positioning
+- Planning product evolution and market movement
+- Communicating technology decisions to executives
+- Identifying build vs. buy decisions
+- Understanding competitive landscape
+
+**Choose Sequence Profile** when:
+- Documenting API interactions and protocols
+- Modeling authentication/authorization flows
+- Designing distributed system communication
+- Creating UML sequence diagrams for software documentation
+- Explaining time-ordered interactions between components
+
+**Choose Pneumatic Profile** when:
+- Designing automation systems with compressed air
+- Specifying pneumatic cylinders, valves, and FRL units
+- Documenting ISO 1219-1 compliant circuits
+- Working on robotics, pick-and-place, or packaging machinery
+- Teaching pneumatic fundamentals
+
+**Choose Hydraulic Profile** when:
+- Designing fluid power systems for heavy machinery
+- Specifying pumps, motors, cylinders, and valves
+- Documenting ISO 1219-2 compliant circuits
+- Working on construction equipment, presses, or mobile machinery
+- Calculating forces, flows, and pressures
+
+**Choose P&ID Profile** when:
+- Designing process plants (chemical, oil & gas, pharmaceutical)
+- Creating ISA-5.1 compliant instrumentation diagrams
+- Specifying piping, equipment, and control loops
+- Documenting industrial process flows
+- Teaching process engineering
+
+### Profile Interoperability
+
+While profiles are specialized, you can **reference multiple profiles** in a single project:
+
+```runiq
+# Main diagram with embedded specialized components
+diagram "System Overview" {
+  container "Control Logic" {
+    # Reference to digital circuit
+    ref: "./digital/controller.runiq"
+  }
+
+  container "Hydraulic System" {
+    # Reference to hydraulic circuit
+    ref: "./hydraulic/actuators.runiq"
+  }
+
+  container "Instrumentation" {
+    # Reference to P&ID
+    ref: "./pid/sensors.runiq"
+  }
+}
+```
+
+This allows you to:
+- Maintain specialized subsystems in their native profiles
+- Combine high-level architecture (diagram profile) with technical details (electrical/hydraulic/P&ID)
+- Export each subsystem appropriately (SPICE, Verilog, SVG)
+- Keep documentation modular and maintainable
 
 ## Diagram Profile (Default)
 
@@ -50,6 +168,90 @@ electrical"LED Circuit" {
   part GND1 type:GND pins:(GND)
 }
 ```
+
+## Digital Profile
+
+To use the digital profile for logic circuits:
+
+```runiq
+digital "CMOS Inverter" {
+  module inv {
+    input A
+    output Y
+
+    instance pmos type:pmos width:2 pins:(Y,A,VDD,VDD)
+    instance nmos type:nmos width:1 pins:(Y,A,GND,GND)
+  }
+}
+```
+
+**Key Differences:**
+
+- Module-based hierarchy with inputs/outputs
+- Digital logic gates: AND, OR, NOT, NAND, NOR, XOR, XNOR
+- Sequential elements: flip-flops, latches, registers
+- Memory components: RAM, ROM
+- Supports Verilog HDL export
+- Rendered with standard logic symbols
+
+See [Digital Circuits Guide](/guide/digital-circuits) for detailed documentation.
+
+## Pneumatic Profile
+
+To use the pneumatic profile for compressed air circuits:
+
+```runiq
+pneumatic "Double-Acting Cylinder" {
+  equipment C1 type:cylinderDoubleActing bore:63 stroke:100 unit:mm
+  equipment V1 type:valve5Way2Position actuator:solenoid
+  equipment FRL1 type:frlUnit pressure:6 unit:bar
+
+  line air from:FRL1.outlet to:V1.inlet size:8 unit:mm
+  line air from:V1.outletA to:C1.portA size:6 unit:mm
+  line air from:V1.outletB to:C1.portB size:6 unit:mm
+}
+```
+
+**Key Differences:**
+
+- ISO 1219-1 compliant symbols
+- Cylinders (single/double acting), valves, FRL units
+- Pressure and flow specifications
+- Air line sizing
+- Actuator types (manual, solenoid, pilot, spring)
+
+See [Pneumatic Circuits Guide](/guide/pneumatic-circuits) for detailed documentation.
+
+## Hydraulic Profile
+
+To use the hydraulic profile for fluid power circuits:
+
+```runiq
+hydraulic "Simple Hydraulic Press" {
+  equipment P1 type:pumpFixed displacement:10 unit:cc/rev pressure:210 unit:bar
+  equipment C1 type:cylinderDoubleActing bore:80 stroke:200 unit:mm force:10 unit:kN
+  equipment V1 type:valve4Way3Position actuator:lever center:closed
+
+  line hydraulic from:P1.discharge to:V1.inlet size:1/2 unit:in schedule:SCH40
+  line hydraulic from:V1.outletA to:C1.portA size:3/8 unit:in schedule:SCH40
+  line hydraulic from:V1.outletB to:C1.portB size:3/8 unit:in schedule:SCH40
+  line return from:V1.tank to:P1.inlet size:1 unit:in schedule:SCH40
+
+  fluid hydraulicOil viscosity:46 unit:cSt
+  pressure 210 bar operating
+}
+```
+
+**Key Differences:**
+
+- ISO 1219-2 compliant symbols
+- Pumps, motors, valves, cylinders, accumulators
+- Fluid properties (type, viscosity, temperature)
+- Pressure ratings and flow rates
+- Line sizing and schedules
+- Force and torque calculations
+
+See [Hydraulic Circuits Guide](/guide/hydraulic-circuits) for detailed documentation.
 
 ## Wardley Profile
 
@@ -153,7 +355,7 @@ pid "Simple Process Flow" {
 - Material of construction, pressure ratings, pipe schedules
 - Alarm systems with high/low/high-high/low-low variants
 
-See [P&ID Diagrams Guide](/guide/pid-diagrams) and [P&ID Examples](/examples/pid/) for detailed documentation.
+See [P&ID Diagrams Guide](/guide/pid-diagrams) and [P&ID Examples](/examples/pid-diagrams) for detailed documentation.
 
 ---
 

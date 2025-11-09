@@ -1,5 +1,7 @@
 ---
 title: Electrical Circuits
+description: Design electrical circuits with resistors, capacitors, inductors, voltage sources, and export to SPICE netlists for simulation.
+lastUpdated: 2025-01-09
 ---
 
 # Electrical Circuits

@@ -1,3 +1,9 @@
+---
+title: Getting Started
+description: Get Runiq up and running in minutes with installation, basic usage, and next steps.
+lastUpdated: 2025-01-09
+---
+
 # Getting Started
 
 <div style="text-align:center; margin: 1.5rem 0;">
