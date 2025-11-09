@@ -135,14 +135,18 @@ This document lists shapes where the **common name** differs from the **actual r
 **Chart Shapes that ARE correct:**
 
 - ✅ `@pieChart` - Pie chart with labeled slices
-- ✅ `@barChartVertical` - Vertical bar chart
-- ✅ `@barChartHorizontal` - Horizontal bar chart
-- ✅ `@lineChart` - Line chart with time series data (NEW!)
-- ✅ `@radarChart` - Radar/spider chart with multi-axis metrics (NEW!)
+- ✅ `@barChart` - Unified bar chart (use `flipAxes: true` for horizontal)
+- ✅ `@barChartVertical` - Vertical bar chart (deprecated, use @barChart)
+- ✅ `@barChartHorizontal` - Horizontal bar chart (deprecated, use @barChart with flipAxes)
+- ✅ `@lineChart` - Line chart with time series data
+- ✅ `@radarChart` - Radar/spider chart with multi-axis metrics
+- ✅ `@sankeyChart` - Sankey diagram with flow-proportional edges (NEW!)
+- ✅ `@sankeyNode` - Individual node in Sankey diagrams (NEW!)
 - ✅ `@pyramid` - Pyramid chart for hierarchical data
 - ✅ `@venn2` - 2-circle Venn diagram
 - ✅ `@venn3` - 3-circle Venn diagram
 - ✅ `@venn4` - 4-circle Venn diagram
+- ✅ `@venn` - Unified Venn diagram (auto-detects 2/3/4 circles)
 
 **Chart Data Formats:**
 
@@ -153,9 +157,24 @@ shape sales as @lineChart label:"Monthly Sales" data:[45, 52, 48, 61, 58, 65]
 shape skills as @radarChart label:"Skills" data:[90, 70, 40, 50, 60]
 ```
 
+For Sankey diagrams, use structured data with nodes and links:
+
+```runiq
+shape energy as @sankeyChart data:[{
+  nodes: [
+    { id: "A", label: "Source", color: "#3498db" },
+    { id: "B", label: "Target" }
+  ],
+  links: [
+    { source: "A", target: "B", value: 100 }
+  ]
+}]
+```
+
 For complex features (multi-series, custom colors, toggles), use JSON or programmatic generation.
 
-**📖 See the [Charts Guide](./docs/guide/charts.md) for complete syntax and examples.**
+**📖 See the [Charts Guide](./docs/guide/charts.md) and [Sankey Guide](./docs/guide/sankey-diagrams.md) for complete syntax and examples.**
+
 
 ### UML State Machine Shapes
 

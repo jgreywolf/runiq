@@ -1,0 +1,25 @@
+{
+  "nodes": [
+    { "id": "Coal", "label": "Coal", "color": "#8B4513" },
+    { "id": "Gas", "label": "Natural Gas", "color": "#4682B4" },
+    { "id": "Solar", "label": "Solar", "color": "#FFD700" },
+    { "id": "Wind", "label": "Wind", "color": "#87CEEB" },
+    { "id": "Power", "label": "Power Plant", "color": "#DC143C" },
+    { "id": "Grid", "label": "Grid", "color": "#32CD32" },
+    { "id": "Residential", "label": "Residential", "color": "#FF69B4" },
+    { "id": "Commercial", "label": "Commercial", "color": "#9370DB" },
+    { "id": "Industrial", "label": "Industrial", "color": "#FF8C00" }
+  ],
+  "links": [
+    { "source": "Coal", "target": "Power", "value": 300, "color": "#8B4513" },
+    { "source": "Gas", "target": "Power", "value": 200, "color": "#4682B4" },
+    { "source": "Solar", "target": "Grid", "value": 100, "color": "#FFD700" },
+    { "source": "Wind", "target": "Grid", "value": 80, "color": "#87CEEB" },
+    { "source": "Power", "target": "Grid", "value": 480, "color": "#DC143C" },
+    { "source": "Grid", "target": "Residential", "value": 250, "color": "#FF69B4" },
+    { "source": "Grid", "target": "Commercial", "value": 180, "color": "#9370DB" },
+    { "source": "Grid", "target": "Industrial", "value": 230, "color": "#FF8C00" }
+  ],
+  "width": 1000,
+  "height": 600
+}
