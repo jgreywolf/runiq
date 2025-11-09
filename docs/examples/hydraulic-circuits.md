@@ -657,9 +657,9 @@ part PS1 type: REDUCING_VALVE pins:(PUMP) doc:"Charge pressure"
 
 ## Related Documentation
 
-- [ISO 1219 Symbol Reference](../ISO-1219-SYMBOL-REFERENCE.md)
+- [Hydraulic Circuits Guide](/guide/hydraulic-circuits)
 - [Pneumatic Circuits](./pneumatic-circuits.md)
-- [Example Files](../../examples/hydraulic/)
+- [Example Files - GitHub](https://github.com/jgreywolf/runiq/tree/main/examples/hydraulic)
 
 ## Troubleshooting
 

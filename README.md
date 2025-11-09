@@ -14,7 +14,7 @@
 **⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️  
 **⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬  
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
-**⚡ NEW**: UML relationships - stereotypes (<<include>>, <<extend>>), line styles, arrow types!  
+**⚡ NEW**: UML relationships - stereotypes (`<<include>>`, `<<extend>>`), line styles, arrow types!  
 **⚡ NEW**: Block diagram support for control systems & signal processing!  
 **⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!  
 **⚡ NEW**: P&ID (Piping & Instrumentation Diagrams) following ISA-5.1 standards! 🏭
@@ -58,7 +58,7 @@
 
 ### UML Relationships (ENHANCED! 🎉)
 
-- **Stereotypes**: <<include>>, <<extend>>, <<uses>>, <<implements>>, custom stereotypes
+- **Stereotypes**: `<<include>>`, `<<extend>>`, `<<uses>>`, `<<implements>>`, custom stereotypes
 - **Line styles**: Solid, dashed, dotted for different relationship types
 - **Arrow types**:
   - Standard (filled) - associations
@@ -271,7 +271,7 @@ Check[no]  -> Pricing : reads
 
 **Output:**
 
-![Auth Flow Diagram](./examples/auth-flow.svg)
+![Auth Flow Diagram](./docs/public/examples/auth-flow.svg)
 
 [See full example →](./examples/auth-flow.runiq)
 
@@ -398,11 +398,11 @@ Customer -> Withdraw
 Customer -> Deposit
 Staff -> CheckBalance
 
-# <<include>> - Required dependency (dashed, open arrow)
+# `<<include>>` - Required dependency (dashed, open arrow)
 Withdraw -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
 Deposit -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
 
-# <<extend>> - Optional extension (dashed, open arrow)
+# `<<extend>>` - Optional extension (dashed, open arrow)
 PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open
 ```
 
@@ -412,7 +412,7 @@ PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open
 - ⭕ **Use case ovals** - Horizontal ellipses for system functionality
 - 📦 **System boundaries** - Dotted rectangles grouping related use cases
 - 🔗 **Associations** - Connections showing actor-use case relationships
-- 📋 **Stereotypes** - <<include>>, <<extend>> with proper UML notation
+- 📋 **Stereotypes** - `<<include>>`, `<<extend>>` with proper UML notation
 
 _SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq](./examples/use-case-diagram/banking-advanced.runiq)_
 

@@ -1,3 +1,9 @@
+---
+title: Edges & Connections
+description: Connect shapes with arrows, lines, and edges using flexible syntax with anchors, labels, and styling.
+lastUpdated: 2025-01-09
+---
+
 # Edges & Connections
 
 Edges connect shapes to show relationships, data flow, and dependencies in your diagrams.

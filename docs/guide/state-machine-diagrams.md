@@ -2,7 +2,13 @@
 title: UML State Machine Diagrams
 ---
 
-# UML State Machine Diagrams
+---
+title: State Machine Diagrams
+description: Model state-dependent behavior with UML state machines including states, transitions, guards, actions, composite states, and history.
+lastUpdated: 2025-01-09
+---
+
+# State Machine Diagrams
 
 Create UML 2.5 compliant state machine diagrams to model the behavior of objects and systems with Runiq's comprehensive state machine support.
 

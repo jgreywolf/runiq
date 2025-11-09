@@ -2,6 +2,12 @@
 title: Block Diagrams
 ---
 
+---
+title: Block Diagrams
+description: Create hierarchical block diagrams for system architecture, signal flow, and functional decomposition.
+lastUpdated: 2025-01-09
+---
+
 # Block Diagrams
 
 Design control systems, signal chains, and feedback loops with readable syntax and clean SVG output. Export to LaTeX/TikZ or Simulink MDL (planned) for further analysis.

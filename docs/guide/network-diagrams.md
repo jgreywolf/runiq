@@ -1,5 +1,7 @@
 ---
 title: Network Diagrams
+description: Design network topologies with servers, routers, switches, firewalls, and cloud infrastructure using specialized icons.
+lastUpdated: 2025-01-09
 ---
 
 # Network Diagrams

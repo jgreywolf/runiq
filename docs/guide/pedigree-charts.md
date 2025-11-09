@@ -1,3 +1,9 @@
+---
+title: Pedigree Charts
+description: Create family pedigree charts for genetic analysis with standard symbols for males, females, affected individuals, and inheritance patterns.
+lastUpdated: 2025-01-09
+---
+
 # Pedigree Charts
 
 Pedigree charts (family trees) are specialized diagrams used in genetics and genealogy to track inheritance patterns of traits and genetic conditions across generations. Runiq provides dedicated shapes and properties that follow medical/genetics standards for pedigree notation.

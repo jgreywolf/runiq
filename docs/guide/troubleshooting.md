@@ -1,3 +1,9 @@
+---
+title: Troubleshooting
+description: Common issues and solutions for parsing errors, rendering problems, installation issues, and export troubleshooting.
+lastUpdated: 2025-01-09
+---
+
 # Troubleshooting
 
 Common issues and solutions when working with Runiq.
@@ -420,7 +426,7 @@ console.log('AST:', JSON.stringify(parseResult.document, null, 2));
 If none of these solutions work:
 
 1. ✅ Check that you're using latest version: `pnpm list @runiq/*`
-2. ✅ Review [Changelog](/CHANGELOG) for breaking changes
+2. ✅ Review [Changelog](https://github.com/jgreywolf/runiq/blob/main/CHANGELOG.md) for breaking changes
 3. ✅ Try the [online playground](https://editor.runiq.org) - does it work there?
 4. ✅ Check browser console for JavaScript errors
 5. ✅ Search GitHub issues for similar problems

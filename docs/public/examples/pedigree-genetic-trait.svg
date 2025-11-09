@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="555.3333333333334" height="552" 
+    viewBox="0 0 555.3333333333334 552"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Genetic Trait Inheritance</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="i1-i2"><path d="M 501.5238095238096 52 L 501.5238095238096 82 L 165.33333333333331 82 L 165.33333333333331 132" fill="none" stroke="#333" stroke-width="1" /></g><g data-runiq-edge="ii2-iipartner"><path d="M 512 292 L 512 312 L 408.6666666666667 312 L 408.6666666666667 372" fill="none" stroke="#333" stroke-width="1" /></g><g data-runiq-edge="i1-ii1"><defs>
+      <marker id="arrow-standard-i1-ii1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 495.80952380952385 52 L 495.80952380952385 72 L 134.33333333333331 72 L 134.33333333333331 192 L 145.33333333333331 192 L 145.33333333333334 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii1)" /></g><g data-runiq-edge="i1-ii2"><defs>
+      <marker id="arrow-standard-i1-ii2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 518.6666666666667 52 L 518.6666666666667 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii2)" /></g><g data-runiq-edge="i1-ii3"><defs>
+      <marker id="arrow-standard-i1-ii3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 490.09523809523813 52 L 490.09523809523813 62 L 25.333333333333314 62 L 25.333333333333336 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii3)" /></g><g data-runiq-edge="i1-ii4"><defs>
+      <marker id="arrow-standard-i1-ii4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 512.952380952381 52 L 512.952380952381 102 L 398.6666666666667 102 L 398.6666666666667 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii4)" /></g><g data-runiq-edge="i1-ii5"><defs>
+      <marker id="arrow-standard-i1-ii5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 507.23809523809524 52 L 507.23809523809524 92 L 278.6666666666667 92 L 278.6666666666667 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii5)" /></g><g data-runiq-edge="i2-ii1"><defs>
+      <marker id="arrow-standard-i2-ii1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 158.66666666666666 172 L 158.66666666666666 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii1)" /></g><g data-runiq-edge="i2-ii2"><defs>
+      <marker id="arrow-standard-i2-ii2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 178.66666666666663 172 L 178.66666666666663 182 L 505.33333333333337 182 L 505.3333333333333 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii2)" /></g><g data-runiq-edge="i2-ii3"><defs>
+      <marker id="arrow-standard-i2-ii3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 151.99999999999997 172 L 152 182 L 38.666666666666686 182 L 38.66666666666667 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii3)" /></g><g data-runiq-edge="i2-ii4"><defs>
+      <marker id="arrow-standard-i2-ii4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 171.99999999999997 172 L 172 192 L 385.33333333333337 192 L 385.3333333333333 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii4)" /></g><g data-runiq-edge="i2-ii5"><defs>
+      <marker id="arrow-standard-i2-ii5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 165.33333333333331 172 L 165.33333333333331 202 L 265.33333333333337 202 L 265.33333333333337 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii5)" /></g><g data-runiq-edge="ii2-iii1"><defs>
+      <marker id="arrow-standard-ii2-iii1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 502 292 L 502 302 L 377.6666666666667 302 L 377.6666666666667 422 L 388.6666666666667 422 L 388.6666666666667 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-ii2-iii1)" /></g><g data-runiq-edge="ii2-iii2"><defs>
+      <marker id="arrow-standard-ii2-iii2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 522 292 L 522 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-ii2-iii2)" /></g><g data-runiq-edge="iipartner-iii1"><defs>
+      <marker id="arrow-standard-iipartner-iii1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 402 412 L 402.00000000000006 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-iipartner-iii1)" /></g><g data-runiq-edge="iipartner-iii2"><defs>
+      <marker id="arrow-standard-iipartner-iii2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 415.33333333333337 412 L 415.33333333333337 422 L 508.6666666666667 422 L 508.6666666666667 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-iipartner-iii2)" /></g><g data-runiq-node="i1"><rect x="484.3809523809524" y="12" width="40" height="40"
+                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="504.3809523809524" y="67"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">I-1</text></g><g data-runiq-node="i2"><circle cx="165.33333333333331" cy="152" r="19"
+                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="165.33333333333331" y="187"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">I-2</text></g><g data-runiq-node="ii1"><circle cx="152" cy="272" r="19"
+                fill="#fff" stroke="#000" stroke-width="2"/><text x="152" y="307"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">II-1</text></g><g data-runiq-node="ii2"><rect x="492" y="252" width="40" height="40"
+                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="512" y="307"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">II-2</text></g><g data-runiq-node="ii3"><circle cx="32" cy="272" r="19"
+                fill="#000" stroke="#000" stroke-width="2"/><text x="32" y="307"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">II-3</text></g><g data-runiq-node="ii4"><rect x="372" y="252" width="40" height="40"
+                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="392" y="307"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">II-4</text></g><g data-runiq-node="ii5"><circle cx="272" cy="272" r="19"
+                fill="#fff" stroke="#000" stroke-width="2"/><text x="272" y="307"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">II-5</text></g><g data-runiq-node="iipartner"><circle cx="408.6666666666667" cy="392" r="19"
+                fill="#fff" stroke="#000" stroke-width="2"/><text x="408.6666666666667" y="427"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">II-partner</text></g><g data-runiq-node="iii1"><rect x="375.33333333333337" y="492" width="40" height="40"
+                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="395.33333333333337" y="547"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">III-1</text></g><g data-runiq-node="iii2"><circle cx="515.3333333333334" cy="512" r="19"
+                fill="#fff" stroke="#000" stroke-width="2"/><text x="515.3333333333334" y="547"
+                 text-anchor="middle" font-size="12" font-family="sans-serif">III-2</text></g></svg>

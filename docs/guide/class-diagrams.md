@@ -1,5 +1,7 @@
 ---
 title: UML Class Diagrams
+description: Model object-oriented system structures with classes, interfaces, relationships, visibility, multiplicities, and generalization hierarchies.
+lastUpdated: 2025-01-09
 ---
 
 # UML Class Diagrams
