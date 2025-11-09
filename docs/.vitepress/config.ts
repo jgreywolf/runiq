@@ -11,6 +11,9 @@ export default defineConfig({
   description:
     'A markdown-friendly diagram DSL with JSON twin that compiles to standards-compliant SVG',
 
+  // Enable clean URLs (no .html extension needed)
+  cleanUrls: true,
+
   // Base URL (adjust for GitHub Pages if needed)
   // base: '/runiq/',
 
