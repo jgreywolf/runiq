@@ -2,7 +2,6 @@ import type { DiagramAst, PositionedNode } from '@runiq/core';
 import { shapeRegistry, createTextMeasurer } from '@runiq/core';
 import { escapeXml } from './utils.js';
 import { renderIcon } from './icons.js';
-import { parseLabelWithIcons } from './label-with-icons.js';
 
 export function renderNode(
   positioned: PositionedNode,

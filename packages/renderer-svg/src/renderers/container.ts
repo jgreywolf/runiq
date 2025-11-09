@@ -34,7 +34,9 @@ export function renderContainer(
     if (shapeDefinition) {
       // Use the shape's render function for the container background
       const measureText = createTextMeasurer();
-      const shapeStyle = {
+      
+      // Build shape style object compatible with Style interface
+      const shapeStyle: Record<string, unknown> = {
         // Only set fill if explicitly provided, otherwise let shape use its default
         ...(style.backgroundColor && {
           fill: style.backgroundColor,
@@ -54,9 +56,8 @@ export function renderContainer(
         shapeStyle.strokeDasharray = '2,2';
       }
 
-      // Merge layout dimensions with any existing data
-      const shapeData = {
-        ...(containerAst.data || {}),
+      // Merge layout dimensions - containers don't have a data property
+      const shapeData: Record<string, unknown> = {
         width,
         height,
       };

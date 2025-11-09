@@ -1,6 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ElkLayoutEngine } from './elk-adapter.js';
-import type { DiagramAst } from '@runiq/core';
+import type {
+  DiagramAst,
+  ShapeRenderContext,
+  PositionedNode,
+  RoutedEdge,
+} from '@runiq/core';
 import { shapeRegistry } from '@runiq/core';
 
 describe('ElkLayoutEngine', () => {
@@ -12,29 +17,29 @@ describe('ElkLayoutEngine', () => {
     // Register mock shapes for testing
     shapeRegistry.register({
       id: 'rounded',
-      bounds: (_ctx) => ({ width: 100, height: 60 }),
-      render: (_ctx, position) =>
+      bounds: (_ctx: ShapeRenderContext) => ({ width: 100, height: 60 }),
+      render: (_ctx: ShapeRenderContext, position: { x: number; y: number }) =>
         `<rect x="${position.x}" y="${position.y}" width="100" height="60" rx="8" />`,
     });
 
     shapeRegistry.register({
       id: 'rect',
-      bounds: (_ctx) => ({ width: 120, height: 60 }),
-      render: (_ctx, position) =>
+      bounds: (_ctx: ShapeRenderContext) => ({ width: 120, height: 60 }),
+      render: (_ctx: ShapeRenderContext, position: { x: number; y: number }) =>
         `<rect x="${position.x}" y="${position.y}" width="120" height="60" />`,
     });
 
     shapeRegistry.register({
       id: 'circle',
-      bounds: (_ctx) => ({ width: 80, height: 80 }),
-      render: (_ctx, position) =>
+      bounds: (_ctx: ShapeRenderContext) => ({ width: 80, height: 80 }),
+      render: (_ctx: ShapeRenderContext, position: { x: number; y: number }) =>
         `<circle cx="${position.x + 40}" cy="${position.y + 40}" r="40" />`,
     });
 
     shapeRegistry.register({
       id: 'rhombus',
-      bounds: (_ctx) => ({ width: 100, height: 100 }),
-      render: (_ctx, position) =>
+      bounds: (_ctx: ShapeRenderContext) => ({ width: 100, height: 100 }),
+      render: (_ctx: ShapeRenderContext, position: { x: number; y: number }) =>
         `<polygon points="${position.x + 50},${position.y} ${position.x + 100},${position.y + 50} ${position.x + 50},${position.y + 100} ${position.x},${position.y + 50}" />`,
     });
   });
@@ -88,7 +93,7 @@ describe('ElkLayoutEngine', () => {
       expect(result.edges[0].points.length).toBeGreaterThanOrEqual(2);
 
       // All nodes should have valid positions
-      result.nodes.forEach((node) => {
+      result.nodes.forEach((node: PositionedNode) => {
         expect(node.x).toBeGreaterThanOrEqual(0);
         expect(node.y).toBeGreaterThanOrEqual(0);
         expect(node.width).toBeGreaterThan(0);
@@ -116,7 +121,7 @@ describe('ElkLayoutEngine', () => {
       expect(result.edges).toHaveLength(2);
 
       // All nodes should have valid positions
-      result.nodes.forEach((node) => {
+      result.nodes.forEach((node: PositionedNode) => {
         expect(node.x).toBeDefined();
         expect(node.y).toBeDefined();
         expect(node.width).toBeGreaterThan(0);
@@ -151,9 +156,9 @@ describe('ElkLayoutEngine', () => {
       expect(result.edges).toHaveLength(6);
 
       // All edges should have proper routing
-      result.edges.forEach((edge) => {
+      result.edges.forEach((edge: RoutedEdge) => {
         expect(edge.points.length).toBeGreaterThanOrEqual(2);
-        edge.points.forEach((point) => {
+        edge.points.forEach((point: { x: number; y: number }) => {
           expect(point.x).toBeDefined();
           expect(point.y).toBeDefined();
         });
@@ -175,8 +180,8 @@ describe('ElkLayoutEngine', () => {
 
       const result = await engine.layout(diagram);
 
-      const nodeA = result.nodes.find((n) => n.id === 'A')!;
-      const nodeB = result.nodes.find((n) => n.id === 'B')!;
+      const nodeA = result.nodes.find((n: PositionedNode) => n.id === 'A')!;
+      const nodeB = result.nodes.find((n: PositionedNode) => n.id === 'B')!;
 
       // In DOWN layout, B should be below A (greater y)
       expect(nodeB.y).toBeGreaterThan(nodeA.y);
@@ -195,8 +200,8 @@ describe('ElkLayoutEngine', () => {
 
       const result = await engine.layout(diagram);
 
-      const nodeA = result.nodes.find((n) => n.id === 'A')!;
-      const nodeB = result.nodes.find((n) => n.id === 'B')!;
+      const nodeA = result.nodes.find((n: PositionedNode) => n.id === 'A')!;
+      const nodeB = result.nodes.find((n: PositionedNode) => n.id === 'B')!;
 
       // In RIGHT layout, B should be to the right of A (greater x)
       expect(nodeB.x).toBeGreaterThan(nodeA.x);
@@ -215,8 +220,8 @@ describe('ElkLayoutEngine', () => {
 
       const result = await engine.layout(diagram, { direction: 'LR' });
 
-      const nodeA = result.nodes.find((n) => n.id === 'A')!;
-      const nodeB = result.nodes.find((n) => n.id === 'B')!;
+      const nodeA = result.nodes.find((n: PositionedNode) => n.id === 'A')!;
+      const nodeB = result.nodes.find((n: PositionedNode) => n.id === 'B')!;
 
       // Options should override diagram direction
       expect(nodeB.x).toBeGreaterThan(nodeA.x);
@@ -234,8 +239,8 @@ describe('ElkLayoutEngine', () => {
 
       const result = await engine.layout(diagram);
 
-      const nodeA = result.nodes.find((n) => n.id === 'A')!;
-      const nodeB = result.nodes.find((n) => n.id === 'B')!;
+      const nodeA = result.nodes.find((n: PositionedNode) => n.id === 'A')!;
+      const nodeB = result.nodes.find((n: PositionedNode) => n.id === 'B')!;
 
       // Default DOWN layout: B should be below A
       expect(nodeB.y).toBeGreaterThan(nodeA.y);
@@ -256,10 +261,10 @@ describe('ElkLayoutEngine', () => {
       const result1 = await engine.layout(diagram, { spacing: 50 });
       const result2 = await engine.layout(diagram, { spacing: 150 });
 
-      const nodeA1 = result1.nodes.find((n) => n.id === 'A')!;
-      const nodeB1 = result1.nodes.find((n) => n.id === 'B')!;
-      const nodeA2 = result2.nodes.find((n) => n.id === 'A')!;
-      const nodeB2 = result2.nodes.find((n) => n.id === 'B')!;
+      const nodeA1 = result1.nodes.find((n: PositionedNode) => n.id === 'A')!;
+      const nodeB1 = result1.nodes.find((n: PositionedNode) => n.id === 'B')!;
+      const nodeA2 = result2.nodes.find((n: PositionedNode) => n.id === 'A')!;
+      const nodeB2 = result2.nodes.find((n: PositionedNode) => n.id === 'B')!;
 
       // Larger spacing should increase distance between nodes
       const distance1 = Math.abs(nodeB1.y - nodeA1.y);
@@ -303,7 +308,7 @@ describe('ElkLayoutEngine', () => {
       const result = await engine.layout(diagram);
 
       // Each edge should have routing points
-      result.edges.forEach((edge) => {
+      result.edges.forEach((edge: RoutedEdge) => {
         expect(edge.points).toBeDefined();
         expect(edge.points.length).toBeGreaterThanOrEqual(2);
       });
@@ -378,9 +383,9 @@ describe('ElkLayoutEngine', () => {
 
       const result = await engine.layout(diagram);
 
-      const nodeA = result.nodes.find((n) => n.id === 'A')!;
-      const nodeB = result.nodes.find((n) => n.id === 'B')!;
-      const nodeC = result.nodes.find((n) => n.id === 'C')!;
+      const nodeA = result.nodes.find((n: PositionedNode) => n.id === 'A')!;
+      const nodeB = result.nodes.find((n: PositionedNode) => n.id === 'B')!;
+      const nodeC = result.nodes.find((n: PositionedNode) => n.id === 'C')!;
 
       expect(nodeA.width).toBe(80);
       expect(nodeA.height).toBe(80);
@@ -434,7 +439,7 @@ describe('ElkLayoutEngine', () => {
       expect(result.edges).toHaveLength(0);
 
       // All nodes should still have valid positions
-      result.nodes.forEach((node) => {
+      result.nodes.forEach((node: PositionedNode) => {
         expect(node.x).toBeGreaterThanOrEqual(0);
         expect(node.y).toBeGreaterThanOrEqual(0);
       });
@@ -548,3 +553,4 @@ describe('ElkLayoutEngine', () => {
     });
   });
 });
+

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ElkLayoutEngine } from './elk-adapter.js';
-import type { DiagramAst } from '@runiq/core';
+import type { DiagramAst, ShapeRenderContext } from '@runiq/core';
 import { shapeRegistry } from '@runiq/core';
 
 describe('ElkLayoutEngine - Container Support', () => {
@@ -12,22 +12,22 @@ describe('ElkLayoutEngine - Container Support', () => {
     // Register test shapes
     shapeRegistry.register({
       id: 'rounded',
-      bounds: (_ctx) => ({ width: 100, height: 60 }),
-      render: (_ctx, position) =>
+      bounds: (_ctx: ShapeRenderContext) => ({ width: 100, height: 60 }),
+      render: (_ctx: ShapeRenderContext, position: { x: number; y: number }) =>
         `<rect x="${position.x}" y="${position.y}" width="100" height="60" rx="8" />`,
     });
 
     shapeRegistry.register({
       id: 'rect',
-      bounds: (_ctx) => ({ width: 120, height: 60 }),
-      render: (_ctx, position) =>
+      bounds: (_ctx: ShapeRenderContext) => ({ width: 120, height: 60 }),
+      render: (_ctx: ShapeRenderContext, position: { x: number; y: number }) =>
         `<rect x="${position.x}" y="${position.y}" width="120" height="60" />`,
     });
 
     shapeRegistry.register({
       id: 'actor',
-      bounds: (_ctx) => ({ width: 80, height: 100 }),
-      render: (_ctx, position) =>
+      bounds: (_ctx: ShapeRenderContext) => ({ width: 80, height: 100 }),
+      render: (_ctx: ShapeRenderContext, position: { x: number; y: number }) =>
         `<g><circle cx="${position.x + 40}" cy="${position.y + 20}" r="15"/></g>`,
     });
 
