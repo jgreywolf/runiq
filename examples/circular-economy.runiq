@@ -1,0 +1,21 @@
+// Circular Economy Flow
+// Demonstrates circular layout for cyclic processes
+
+diagram "Circular Economy" {
+  container "Product Lifecycle" algorithm: circular spacing: 100 {
+    shape design as @rect label: "Design"
+    shape production as @rect label: "Production"
+    shape distribution as @rect label: "Distribution"
+    shape use as @rect label: "Use"
+    shape collection as @rect label: "Collection"
+    shape recycling as @rect label: "Recycling"
+    
+    // Circular flow
+    design -> production label: "Manufacture"
+    production -> distribution label: "Deliver"
+    distribution -> use label: "Sell"
+    use -> collection label: "Collect"
+    collection -> recycling label: "Process"
+    recycling -> design label: "Reuse Materials"
+  }
+}

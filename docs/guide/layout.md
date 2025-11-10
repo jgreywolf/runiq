@@ -3,9 +3,11 @@ title: Layout
 ---
 
 ---
+
 title: Layout & Direction
 description: Control diagram layout with automatic ELK algorithms, manual positioning, direction options (TB/LR/BT/RL), and node separation settings.
 lastUpdated: 2025-01-09
+
 ---
 
 # Layout & Direction
@@ -29,11 +31,28 @@ const laidOut = await layoutDiagram(diagram, {
 
 ## Algorithms
 
-- layered (default): Hierarchical layered layout (great for flowcharts)
-- force: Force-directed (organic)
-- stress: Stress-minimization (multi-dimensional scaling-like)
-- tree: Tree layout (radial trees supported by ELK too)
-- radial: Radial variants (depending on ELK config)
+ELK supports multiple layout algorithms:
+
+- **layered** (default): Hierarchical layout - ideal for flowcharts, processes, decision trees
+- **force**: Force-directed layout - networks, organic graphs, social networks ([Force-Directed Networks Guide](./force-directed-networks.md))
+- **stress**: Stress minimization - similarity graphs, multi-dimensional scaling
+- **radial**: Radial tree layout - hierarchies with central focus
+- **mrtree**: Multi-root tree layout - forests and disconnected trees
+
+### Example
+
+```runiq
+diagram "Network" {
+  container "Cluster" algorithm: force spacing: 120 {
+    shape a as @circle label:"A"
+    shape b as @circle label:"B"
+    shape c as @circle label:"C"
+    edge a -> b
+    edge b -> c
+    edge c -> a
+  }
+}
+```
 
 ## Directions
 

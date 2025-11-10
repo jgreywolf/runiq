@@ -115,6 +115,8 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.venn2Shape); // Legacy
   shapeRegistry.register(charts.venn3Shape); // Legacy
   shapeRegistry.register(charts.venn4Shape); // Legacy
+  shapeRegistry.register(charts.sankeyChart);
+  shapeRegistry.register(charts.sankeyNode);
 }
 
 export function registerNetworkShapes(): void {

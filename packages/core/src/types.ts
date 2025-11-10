@@ -155,6 +155,8 @@ export interface EdgeAst {
   effect?: string; // Effect/action (e.g., "/ turnOnLight()")
   // UML Activity Diagram flow properties
   flowType?: 'control' | 'object'; // Type of flow: control flow (default) or object flow (data transfer)
+  // Graph theory properties
+  weight?: number; // Edge weight for weighted graphs (cost, distance, capacity, etc.)
 }
 
 export interface GroupAst {
@@ -347,13 +349,15 @@ export interface ContainerPreset {
  * - stress: Stress-minimization layout (minimize edge lengths)
  * - radial: Radial tree layout (good for org charts, mind maps)
  * - mrtree: Multi-rooted tree layout (good for forests)
+ * - circular: Circular/cycle layout (good for circular workflows, lifecycles)
  */
 export type LayoutAlgorithm =
   | 'layered'
   | 'force'
   | 'stress'
   | 'radial'
-  | 'mrtree';
+  | 'mrtree'
+  | 'circular';
 
 /**
  * Layout options that can be specified per container
@@ -511,7 +515,8 @@ export type Profile =
   | SequenceProfile
   | PneumaticProfile
   | HydraulicProfile
-  | PIDProfile;
+  | PIDProfile
+  | TimelineProfile;
 
 /**
  * Visual diagram profile (existing Runiq diagrams)
@@ -931,3 +936,46 @@ export interface SequenceDurationConstraint {
   toMessage: number; // Ending message index (0-based)
   constraint: string; // Constraint expression (e.g., "< 100ms", "{d..2d}")
 }
+
+// ============================================================================
+// Timeline Profile Types
+// ============================================================================
+
+/**
+ * Timeline diagram profile for showing events in chronological order
+ * Useful for project timelines, historical events, roadmaps, milestones
+ */
+export interface TimelineProfile {
+  type: 'timeline';
+  astVersion: string;
+  title: string;
+  orientation?: 'horizontal' | 'vertical'; // Default: horizontal
+  events: TimelineEvent[];
+  periods?: TimelinePeriod[]; // Optional time periods/eras
+}
+
+/**
+ * Event on a timeline
+ */
+export interface TimelineEvent {
+  id: string; // Unique identifier
+  date: string; // Date/time (ISO 8601 format or relative like "Q1 2024")
+  label: string; // Event title
+  description?: string; // Detailed description
+  icon?: string; // Optional icon name
+  color?: string; // Optional color for marker
+  position?: 'top' | 'bottom' | 'left' | 'right'; // Label position (default: alternating)
+}
+
+/**
+ * Time period/era on a timeline (background shading)
+ */
+export interface TimelinePeriod {
+  id: string;
+  startDate: string;
+  endDate: string;
+  label: string;
+  color?: string; // Background color
+  opacity?: number; // Default: 0.1
+}
+

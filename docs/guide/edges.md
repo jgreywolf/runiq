@@ -335,6 +335,7 @@ direction LR
 | Property       | Type                                                                                     | Default | Example                       |
 | -------------- | ---------------------------------------------------------------------------------------- | ------- | ----------------------------- |
 | `label`        | string                                                                                   | -       | `label: "submit"`             |
+| `weight`       | number                                                                                   | -       | `weight: 10`                  |
 | `lineStyle`    | solid \| dashed \| dotted                                                                | solid   | `lineStyle: dashed`           |
 | `stroke`       | color                                                                                    | #444    | `stroke: "#2196f3"`           |
 | `strokeWidth`  | number                                                                                   | 2       | `strokeWidth: 3`              |
@@ -342,9 +343,30 @@ direction LR
 | `stereotype`   | string                                                                                   | -       | `stereotype: "<<include>>"`   |
 | `navigability` | source \| target \| bidirectional \| none                                                | -       | `navigability: bidirectional` |
 
+### Weighted Edges
+
+Use the `weight` property for weighted graphs (costs, distances, capacities):
+
+```runiq
+diagram "Weighted Network" {
+  container "Network" algorithm: force {
+    shape a as @circle label:"A"
+    shape b as @circle label:"B"
+    shape c as @circle label:"C"
+
+    a -> b weight: 10 label:"10 mi"
+    b -> c weight: 5 label:"5 mi"
+    a -> c weight: 15 label:"15 mi"
+  }
+}
+```
+
+See [Weighted Graphs Guide](./weighted-graphs.md) for more examples and use cases.
+
 ## See Also
 
 - [Shapes Overview](/guide/shapes) - Available shape types
 - [Styling](/guide/styling) - Customize appearance
 - [Layout](/guide/layout) - Control diagram layout
+- [Weighted Graphs](/guide/weighted-graphs) - Weighted graph examples
 - [Edge Reference](/reference/edges) - Complete edge syntax reference

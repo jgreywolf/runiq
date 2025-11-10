@@ -227,11 +227,36 @@
 	</div>
 
 	<!-- Editor -->
-	<div bind:this={editorContainer} class="flex-1"></div>
+	<div bind:this={editorContainer} class="editor-container"></div>
 </div>
 
 <style>
-	:global(.cm-editor) {
+	.editor-container {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		position: relative;
+	}
+
+	:global(.editor-container .cm-editor) {
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	:global(.editor-container .cm-scroller) {
+		overflow: auto !important;
+		flex: 1 1 0;
+		min-height: 0;
+	}
+
+	:global(.editor-container .cm-content) {
+		min-height: 0;
 	}
 </style>

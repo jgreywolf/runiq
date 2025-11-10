@@ -4,6 +4,7 @@ export * from './registries.js';
 export * from './text-measurement/index.js';
 export * from './shapes/index.js';
 export * from './shape-aliases.js';
+export * from './graph-metrics.js';
 export {
   validateDiagramType,
   listDiagramTypes,

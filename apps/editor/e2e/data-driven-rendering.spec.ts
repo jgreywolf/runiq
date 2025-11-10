@@ -33,7 +33,7 @@ template "userCard" from:users {
     label: "\${user.name}"
     subtitle: "\${user.role}"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -71,7 +71,7 @@ template "edges" from:connections {
   edge "\${conn.from}" -> "\${conn.to}"
     label: "\${conn.protocol}"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -108,7 +108,7 @@ template "serverNodes" from:servers {
       error: "#ef4444"
     }
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -142,7 +142,7 @@ template "components" from:components {
     }
     label: "\${comp.name}"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -177,7 +177,7 @@ template "loadServers" from:servers {
     fill: "#3b82f6"
     opacity: @scale(server.load, 0, 100, 0.3, 1.0)
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -210,7 +210,7 @@ template "tempSensors" from:sensors {
     subtitle: "\${sensor.temp}°C"
     fill: @scale(sensor.temp, 0, 100, "#0000ff", "#ff0000")
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -250,7 +250,7 @@ template "links" from:links {
     label: "\${link.bandwidth} Mbps"
     strokeWidth: @scale(link.bandwidth, 0, 100, 1, 5)
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -288,7 +288,7 @@ template "scores" from:students {
       0: "#ef4444"
     }
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -337,7 +337,7 @@ template "services" from:services {
       medium: 1
     }
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -371,7 +371,7 @@ template "activeUsers" from:users filter: user.active {
       user: "#3b82f6"
     }
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -409,7 +409,7 @@ template "services" from:services {
 }
 
 legend for fill:status position:bottom-right title:"Service Status"`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -443,7 +443,7 @@ template "zones" from:zones {
 }
 
 legend for fill:temp position:bottom-right title:"Temperature (°C)" steps:5`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {

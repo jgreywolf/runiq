@@ -1,0 +1,22 @@
+{
+  "nodes": [
+    { "id": "RawMat", "label": "Raw Materials" },
+    { "id": "Proc1", "label": "Processing A" },
+    { "id": "Proc2", "label": "Processing B" },
+    { "id": "Assembly", "label": "Assembly" },
+    { "id": "QA", "label": "Quality Check" },
+    { "id": "Shipping", "label": "Shipping" },
+    { "id": "Waste", "label": "Waste/Recycling" }
+  ],
+  "links": [
+    { "source": "RawMat", "target": "Proc1", "value": 1000 },
+    { "source": "RawMat", "target": "Proc2", "value": 800 },
+    { "source": "Proc1", "target": "Assembly", "value": 900 },
+    { "source": "Proc1", "target": "Waste", "value": 100 },
+    { "source": "Proc2", "target": "Assembly", "value": 700 },
+    { "source": "Proc2", "target": "Waste", "value": 100 },
+    { "source": "Assembly", "target": "QA", "value": 1600 },
+    { "source": "QA", "target": "Shipping", "value": 1500 },
+    { "source": "QA", "target": "Waste", "value": 100 }
+  ]
+}

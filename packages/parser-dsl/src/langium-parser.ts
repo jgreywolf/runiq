@@ -44,6 +44,9 @@ import type {
   FlowRateSpec,
   FluidSpec,
   TemperatureRange,
+  TimelineProfile,
+  TimelineEvent,
+  TimelinePeriod,
 } from '@runiq/core';
 import { EmptyFileSystem } from 'langium';
 import { createRuniqServices } from './langium-module.js';
@@ -222,6 +225,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertHydraulicProfile(profile));
     } else if (Langium.isPIDProfile(profile)) {
       runiqDoc.profiles.push(convertPIDProfile(profile));
+    } else if (Langium.isTimelineProfile(profile)) {
+      runiqDoc.profiles.push(convertTimelineProfile(profile));
     }
   }
 
@@ -1071,6 +1076,82 @@ function convertPIDProfile(profile: Langium.PIDProfile): PIDProfile {
 }
 
 /**
+ * Convert Langium Timeline Profile to core Timeline Profile
+ */
+function convertTimelineProfile(
+  profile: Langium.TimelineProfile
+): TimelineProfile {
+  const timelineProfile: TimelineProfile = {
+    type: 'timeline',
+    astVersion: '1.0.0',
+    title: profile.name.replace(/^"|"$/g, ''),
+    orientation: 'horizontal', // Default value
+    events: [],
+    periods: [],
+  };
+
+  // Process timeline statements
+  for (const statement of profile.statements) {
+    if (Langium.isTimelineEventStatement(statement)) {
+      // event E1 date:"2024-01-15" label:"Kickoff" description:"..." icon:"rocket" color:"#0066cc"
+      const event: Partial<TimelineEvent> = {
+        id: statement.id,
+      };
+
+      // Extract properties from the properties array
+      for (const prop of statement.properties) {
+        if (Langium.isTimelineDateProperty(prop)) {
+          event.date = prop.date.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineLabelProperty(prop)) {
+          event.label = prop.label.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineDescriptionProperty(prop)) {
+          event.description = prop.description.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineIconProperty(prop)) {
+          event.icon = prop.icon.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineColorProperty(prop)) {
+          event.color = prop.color.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelinePositionProperty(prop)) {
+          event.position = prop.position as 'top' | 'bottom';
+        }
+      }
+
+      timelineProfile.events.push(event as TimelineEvent);
+    } else if (Langium.isTimelinePeriodStatement(statement)) {
+      // period P1 startDate:"2024-01-15" endDate:"2024-02-15" label:"Planning" color:"#e0e0e0" opacity:0.3
+      const period: Partial<TimelinePeriod> = {
+        id: statement.id,
+      };
+
+      // Extract properties
+      for (const prop of statement.properties) {
+        if (Langium.isTimelineStartDateProperty(prop)) {
+          period.startDate = prop.startDate.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineEndDateProperty(prop)) {
+          period.endDate = prop.endDate.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineLabelProperty(prop)) {
+          period.label = prop.label.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineColorProperty(prop)) {
+          period.color = prop.color.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineOpacityProperty(prop)) {
+          period.opacity = parseFloat(prop.opacity);
+        }
+      }
+
+      if (timelineProfile.periods) {
+        timelineProfile.periods.push(period as TimelinePeriod);
+      }
+    } else if (Langium.isTimelineOrientationStatement(statement)) {
+      // orientation horizontal | vertical
+      timelineProfile.orientation = statement.orientation as
+        | 'horizontal'
+        | 'vertical';
+    }
+  }
+
+  return timelineProfile;
+}
+
+/**
  * Process a single diagram statement (extracted for reuse)
  */
 function processDialogStatement(
@@ -1219,6 +1300,16 @@ function processDialogStatement(
       } else if (Langium.isDeceasedProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.deceased = prop.value === 'true';
+      } else if (Langium.isShowMetricsProperty(prop)) {
+        // Graph metrics visualization properties
+        if (!node.data) node.data = {};
+        node.data.showMetrics = prop.value === 'true';
+      } else if (Langium.isMetricTypeProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.metricType = prop.value;
+      } else if (Langium.isMetricPositionProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.metricPosition = prop.value;
       } else if (Langium.isAttributesProperty(prop)) {
         // UML Class diagram attributes
         if (!node.data) node.data = {};
@@ -1394,7 +1485,10 @@ function processDialogStatement(
     declaredNodes.add(node.id);
   } else if (Langium.isEdgeDeclaration(statement)) {
     // Helper function to process edge properties
-    const processEdgeProperties = (edge: EdgeAst, properties: any[]) => {
+    const processEdgeProperties = (
+      edge: EdgeAst,
+      properties: Langium.EdgeProperty[]
+    ) => {
       for (const prop of properties) {
         if (Langium.isEdgeLabelProperty(prop)) {
           edge.label = prop.label.replace(/^"|"$/g, '');
@@ -1459,6 +1553,9 @@ function processDialogStatement(
         } else if (Langium.isFlowTypeProperty(prop)) {
           // UML Activity Diagram flow type
           edge.flowType = prop.value as 'control' | 'object';
+        } else if (Langium.isWeightProperty(prop)) {
+          // Graph theory edge weight
+          edge.weight = parseFloat(String(prop.value));
         } else if (Langium.isStrokeProperty(prop)) {
           edge.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {
@@ -2095,6 +2192,16 @@ function convertContainer(
         } else if (Langium.isDeceasedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.deceased = prop.value === 'true';
+        } else if (Langium.isShowMetricsProperty(prop)) {
+          // Graph metrics visualization properties
+          if (!node.data) node.data = {};
+          node.data.showMetrics = prop.value === 'true';
+        } else if (Langium.isMetricTypeProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.metricType = prop.value;
+        } else if (Langium.isMetricPositionProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.metricPosition = prop.value;
         }
       }
 
@@ -2164,9 +2271,17 @@ function convertContainer(
         }
       }
 
-      // Process edge properties
+      // Check for bidirectional arrow
+      if (statement.bidirectionalArrow) {
+        edge.bidirectional = true;
+      }
+
+      // Process edge properties using the shared helper function (defined earlier in processDialogStatement)
+      // Note: We need to duplicate the processEdgeProperties logic here since it's defined in the outer scope
       for (const prop of statement.properties) {
-        if (Langium.isLineStyleProperty(prop)) {
+        if (Langium.isEdgeLabelProperty(prop)) {
+          edge.label = prop.label.replace(/^"|"$/g, '');
+        } else if (Langium.isLineStyleProperty(prop)) {
           edge.lineStyle = prop.value as
             | 'solid'
             | 'dashed'
@@ -2178,6 +2293,56 @@ function convertContainer(
             | 'hollow'
             | 'open'
             | 'none';
+        } else if (Langium.isRoutingProperty(prop)) {
+          edge.routing = prop.value as EdgeRouting;
+        } else if (Langium.isMultiplicitySourceProperty(prop)) {
+          edge.multiplicitySource = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isMultiplicityTargetProperty(prop)) {
+          edge.multiplicityTarget = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isRoleSourceProperty(prop)) {
+          edge.roleSource = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isRoleTargetProperty(prop)) {
+          edge.roleTarget = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isEdgeTypeProperty(prop)) {
+          edge.edgeType = prop.value as
+            | 'association'
+            | 'aggregation'
+            | 'composition'
+            | 'dependency'
+            | 'generalization'
+            | 'realization';
+        } else if (Langium.isNavigabilityProperty(prop)) {
+          edge.navigability = prop.value as
+            | 'source'
+            | 'target'
+            | 'bidirectional'
+            | 'none';
+        } else if (Langium.isEdgeConstraintsProperty(prop)) {
+          edge.constraints = prop.values.map((v) => v.replace(/^"|"$/g, ''));
+        } else if (Langium.isStereotypeProperty(prop)) {
+          if (prop.values.length > 0) {
+            edge.stereotype = prop.values.map((v: string) =>
+              v.replace(/^"|"$/g, '')
+            );
+          } else if (prop.value) {
+            edge.stereotype = prop.value.replace(/^"|"$/g, '');
+          }
+        } else if (Langium.isEventProperty(prop)) {
+          edge.event = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isGuardProperty(prop)) {
+          edge.guard = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isEffectProperty(prop)) {
+          edge.effect = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isFlowTypeProperty(prop)) {
+          edge.flowType = prop.value as 'control' | 'object';
+        } else if (Langium.isWeightProperty(prop)) {
+          edge.weight = parseFloat(String(prop.value));
+        } else if (Langium.isStrokeProperty(prop)) {
+          edge.strokeColor = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isStrokeWidthProperty(prop)) {
+          edge.strokeWidth = parseFloat(prop.value);
+        } else if (Langium.isStyleRefProperty(prop)) {
+          edge.style = prop.ref?.$refText;
         }
       }
 

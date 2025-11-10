@@ -6,14 +6,30 @@
 		open: boolean;
 		onOpenChange: (open: boolean) => void;
 		onCreateDiagram: (
-			type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence' | 'pid'
+			type:
+				| 'diagram'
+				| 'electrical'
+				| 'pneumatic'
+				| 'hydraulic'
+				| 'wardley'
+				| 'sequence'
+				| 'timeline'
+				| 'pid'
 		) => void;
 	}
 
 	let { open = $bindable(), onOpenChange, onCreateDiagram }: Props = $props();
 
 	function createDiagram(
-		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence' | 'pid'
+		type:
+			| 'diagram'
+			| 'electrical'
+			| 'pneumatic'
+			| 'hydraulic'
+			| 'wardley'
+			| 'sequence'
+			| 'timeline'
+			| 'pid'
 	) {
 		open = false;
 		onCreateDiagram(type);
@@ -33,7 +49,7 @@
 			<!-- Regular Diagram Option -->
 			<button
 				onclick={() => createDiagram('diagram')}
-				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50 cursor-pointer"
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
@@ -64,7 +80,7 @@
 			<!-- Sequence Diagram Option -->
 			<button
 				onclick={() => createDiagram('sequence')}
-				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-blue-400 hover:bg-blue-50 cursor-pointer"
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-blue-400 hover:bg-blue-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
@@ -92,10 +108,41 @@
 				</div>
 			</button>
 
+			<!-- Timeline Diagram Option -->
+			<button
+				onclick={() => createDiagram('timeline')}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-indigo-400 hover:bg-indigo-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 transition-colors group-hover:bg-indigo-200"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Timeline</h3>
+						<p class="text-sm text-neutral-600">Chronological events, milestones, periods</p>
+					</div>
+				</div>
+			</button>
+
 			<!-- Electrical Circuit Option -->
 			<button
 				onclick={() => createDiagram('electrical')}
-				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50 cursor-pointer"
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
@@ -126,7 +173,7 @@
 			<!-- Pneumatic Circuit Option -->
 			<button
 				onclick={() => createDiagram('pneumatic')}
-				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-sky-400 hover:bg-sky-50 cursor-pointer"
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-sky-400 hover:bg-sky-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
@@ -157,7 +204,7 @@
 			<!-- Hydraulic Circuit Option -->
 			<button
 				onclick={() => createDiagram('hydraulic')}
-				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-teal-400 hover:bg-teal-50 cursor-pointer"
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-teal-400 hover:bg-teal-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
@@ -188,7 +235,7 @@
 			<!-- Wardley Map Option -->
 			<button
 				onclick={() => createDiagram('wardley')}
-				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-purple-400 hover:bg-purple-50 cursor-pointer"
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-purple-400 hover:bg-purple-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
@@ -219,7 +266,7 @@
 			<!-- P&ID Diagram Option -->
 			<button
 				onclick={() => createDiagram('pid')}
-				class="group flex flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50 cursor-pointer"
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50"
 			>
 				<div class="flex items-center gap-3">
 					<div

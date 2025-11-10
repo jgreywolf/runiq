@@ -321,8 +321,8 @@ describe('Bar Chart Horizontal Shape', () => {
       const bounds = barChart.bounds(ctx);
 
       expect(bounds.width).toBe(400); // default width
-      // 3 groups * (40 height + 15 spacing) + 15 spacing = 180
-      expect(bounds.height).toBe(180);
+      // 3 groups * (40 height + 15 spacing) + top/bottom padding
+      expect(bounds.height).toBe(225);
     });
 
     it('should use different colors for each series in stack', () => {

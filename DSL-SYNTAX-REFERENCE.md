@@ -142,6 +142,9 @@ edge Customer -> Order
 - `tooltip:"text"`
 - `data:[values]`
 - `showLegend:true`
+- `showMetrics:true` - Display graph metric badge
+- `metricType:degree` - Metric to display (degree, betweenness, closeness, clustering)
+- `metricPosition:top-right` - Badge position (top-right, top-left, bottom-right, bottom-left)
 
 #### Edge Properties (no space before colon)
 
@@ -254,6 +257,30 @@ diagram "Sales Chart" {
   shape sales as @pie-chart label:"Q1-Q4 Sales" data:[{"label":"Q1","value":100},{"label":"Q2","value":150}] showLegend:true
 }
 ```
+
+### Graph Metrics Example
+
+```runiq
+diagram "Social Network Analysis" {
+
+  // Display degree centrality (number of connections)
+  shape alice as @person label:"Alice" showMetrics:true
+  shape bob as @person label:"Bob" showMetrics:true metricType:degree
+
+  // Display betweenness centrality (bridge nodes)
+  shape charlie as @person label:"Charlie" showMetrics:true metricType:betweenness
+
+  // Display closeness centrality (central position)
+  shape diana as @person label:"Diana" showMetrics:true metricType:closeness metricPosition:top-left
+
+  alice -> bob
+  alice -> charlie
+  bob -> diana
+  charlie -> diana
+}
+```
+
+See [Graph Metrics Reference](docs/reference/graph-metrics.md) for detailed information on metric types and visualization.
 
 ## Common Mistakes
 

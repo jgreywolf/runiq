@@ -515,7 +515,7 @@ describe('Container Phase 2: Collapse/Expand Functionality', () => {
       expect(container.collapseRedirectEdges).toBe(true);
       expect(container.collapseTransitionState).toBe('stable');
       expect(container.collapseAnimationDuration).toBe(300);
-      expect(container.collapseAnimationEasing).toBe('ease-in-out');
+      expect(container.collapseAnimationEasing).toBe('easeInOut');
       expect(container.collapseSummary).toBe('12 services');
       expect(container.collapseShowCount).toBe(true);
       expect(container.collapseIcon).toBe('chevron-right');

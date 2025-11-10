@@ -1,0 +1,15 @@
+// Simple test without new DSL properties
+// Just test that metrics are calculated
+
+diagram "Simple Network" {
+  shape a as @circle label: "A"
+  shape b as @circle label: "B"
+  shape c as @circle label: "C"
+  shape d as @circle label: "D"
+
+  a -> b
+  a -> c
+  b -> c
+  b -> d
+  c -> d
+}

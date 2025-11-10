@@ -146,6 +146,12 @@ export default defineConfig({
           ],
         },
         {
+          text: 'Timeline Profile',
+          items: [
+            { text: 'Timeline Diagrams', link: '/guide/timeline-diagrams' },
+          ],
+        },
+        {
           text: 'Pneumatic Profile',
           items: [
             { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },

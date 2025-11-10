@@ -16,6 +16,7 @@ import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
 import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
 import { stateMachineSampleDiagrams } from './toolboxSamples/stateMachineSampleDiagrams';
 import { templatePresetSampleDiagrams } from './toolboxSamples/templatePresetSampleDiagrams';
+import { timelineSampleDiagrams } from './toolboxSamples/timelineSampleDiagrams';
 import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
 import { wardleySampleDiagrams } from './toolboxSamples/wardleySampleDiagrams';
 
@@ -40,6 +41,7 @@ export const sampleDiagrams: SampleCategory[] = [
 	...activitySampleDiagrams,
 	...stateMachineSampleDiagrams,
 	...sequenceSampleDiagrams,
+	...timelineSampleDiagrams,
 	...mindmapSampleDiagrams,
 	...networkSampleDiagrams,
 	...c4SampleDiagrams,
