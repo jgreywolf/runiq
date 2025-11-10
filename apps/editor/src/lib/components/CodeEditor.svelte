@@ -389,21 +389,36 @@
 	}
 </script>
 
-<div class="flex h-full w-full flex-col" bind:this={editorContainer}></div>
+<div class="editor-container" bind:this={editorContainer}></div>
 
 <style>
-	:global(.cm-editor) {
+	.editor-container {
+		width: 100%;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
+		overflow: hidden;
+		position: relative;
 	}
 
-	:global(.cm-scroller) {
+	:global(.editor-container .cm-editor) {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	:global(.editor-container .cm-scroller) {
 		overflow: auto !important;
-		flex: 1;
+		flex: 1 1 0;
+		min-height: 0;
 	}
 
-	:global(.cm-content) {
+	:global(.editor-container .cm-content) {
 		min-height: 0;
 	}
 </style>
