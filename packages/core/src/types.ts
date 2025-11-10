@@ -155,6 +155,8 @@ export interface EdgeAst {
   effect?: string; // Effect/action (e.g., "/ turnOnLight()")
   // UML Activity Diagram flow properties
   flowType?: 'control' | 'object'; // Type of flow: control flow (default) or object flow (data transfer)
+  // Graph theory properties
+  weight?: number; // Edge weight for weighted graphs (cost, distance, capacity, etc.)
 }
 
 export interface GroupAst {

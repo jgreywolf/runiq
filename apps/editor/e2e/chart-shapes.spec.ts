@@ -23,7 +23,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Monthly Sales" {
   shape sales as @lineChart label:"Monthly Sales (2024)" data:[45, 52, 48, 61, 58, 65, 72, 68, 75, 80, 78, 85]
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -43,7 +43,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "System Performance" {
   shape perf as @lineChart label:"System Performance Trend" data:[65, 68, 72, 70, 75, 78, 82, 80, 85, 88, 86, 90]
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -63,7 +63,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Weekly Temperature" {
   shape temp as @lineChart label:"Weekly Temperature (°F)" data:[72, 75, 78, 76, 79, 82, 80]
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -85,7 +85,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "RPG Character" {
   shape skills as @radarChart label:"Warrior Stats" data:[90, 70, 40, 50, 60]
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -105,7 +105,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "System Metrics" {
   shape metrics as @radarChart label:"System Performance" data:[80, 90, 70, 85, 75, 88]
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -125,7 +125,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Product Quality" {
   shape quality as @radarChart label:"Quality Assessment" data:[85, 92, 78, 88, 95, 82, 90]
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -148,7 +148,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
   
   edge frontend -> backend label:"API"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -173,7 +173,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
   
   edge trend -> metrics label:"analysis"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Wait for rendering', async () => {
@@ -195,7 +195,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Energy Flow" {
   shape energy as @sankeyChart label:"Energy Distribution"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Switch to Data tab and enter data', async () => {
@@ -236,7 +236,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Manufacturing" {
   shape materials as @sankeyChart label:"Production Material Flow"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Switch to Data tab and enter data', async () => {
@@ -286,7 +286,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Water Mixing" {
   shape flows as @sankeyChart label:"Hot & Cold Water Mixing"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Switch to Data tab and enter data', async () => {
@@ -325,7 +325,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Conversion Funnel" {
   shape funnel as @sankeyChart label:"E-commerce Conversion Flow"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Switch to Data tab and enter data', async () => {
@@ -375,7 +375,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Budget Flow" {
   shape budget as @sankeyChart label:"Annual Budget Allocation"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Switch to Data tab and enter data', async () => {
@@ -424,7 +424,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Single Node Test" {
   shape single as @sankeyChart label:"Single Node"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Switch to Data tab and enter data', async () => {
@@ -458,7 +458,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 				const dsl = `diagram "Energy Grid" {
   shape energy as @sankeyChart label:"Energy Distribution Network"
 }`;
-				await page.locator('.cm-content').fill(dsl);
+				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
 
 			await test.step('Switch to Data tab and enter data', async () => {

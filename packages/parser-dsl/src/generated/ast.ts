@@ -627,6 +627,7 @@ export type RuniqKeywordNames =
     | "w"
     | "wardley"
     | "water-glycol"
+    | "weight:"
     | "when:"
     | "xLabel:"
     | "xor"
@@ -1654,7 +1655,7 @@ export function isEdgeLabelProperty(item: unknown): item is EdgeLabelProperty {
     return reflection.isInstance(item, EdgeLabelProperty.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | EffectProperty | EventProperty | FlowTypeProperty | GuardProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty;
+export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | EffectProperty | EventProperty | FlowTypeProperty | GuardProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | WeightProperty;
 
 export const EdgeProperty = {
     $type: 'EdgeProperty'
@@ -4687,6 +4688,21 @@ export function isWardleyValueProperty(item: unknown): item is WardleyValuePrope
     return reflection.isInstance(item, WardleyValueProperty.$type);
 }
 
+export interface WeightProperty extends langium.AstNode {
+    readonly $container: EdgeDeclaration;
+    readonly $type: 'WeightProperty';
+    value: string;
+}
+
+export const WeightProperty = {
+    $type: 'WeightProperty',
+    value: 'value'
+} as const;
+
+export function isWeightProperty(item: unknown): item is WeightProperty {
+    return reflection.isInstance(item, WeightProperty.$type);
+}
+
 export interface XLabelProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'XLabelProperty';
@@ -4951,6 +4967,7 @@ export type RuniqAstType = {
     WardleyProfile: WardleyProfile
     WardleyStatement: WardleyStatement
     WardleyValueProperty: WardleyValueProperty
+    WeightProperty: WeightProperty
     XLabelProperty: XLabelProperty
     YLabelProperty: YLabelProperty
 }
@@ -7576,6 +7593,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [WardleyAnchorProperty.$type, WardleyComponentProperty.$type]
+        },
+        WeightProperty: {
+            name: WeightProperty.$type,
+            properties: {
+                value: {
+                    name: WeightProperty.value
+                }
+            },
+            superTypes: [EdgeProperty.$type]
         },
         XLabelProperty: {
             name: XLabelProperty.$type,

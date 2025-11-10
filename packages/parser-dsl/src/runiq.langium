@@ -928,10 +928,14 @@ EdgeProperty:
     | EventProperty
     | GuardProperty
     | EffectProperty
-    | FlowTypeProperty;
+    | FlowTypeProperty
+    | WeightProperty;
 
 EdgeLabelProperty:
     'label:' label=STRING;
+
+WeightProperty:
+    'weight:' value=NUMBER;
 
 LineStyleProperty:
     'lineStyle:' value=STRING;

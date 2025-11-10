@@ -1394,7 +1394,10 @@ function processDialogStatement(
     declaredNodes.add(node.id);
   } else if (Langium.isEdgeDeclaration(statement)) {
     // Helper function to process edge properties
-    const processEdgeProperties = (edge: EdgeAst, properties: any[]) => {
+    const processEdgeProperties = (
+      edge: EdgeAst,
+      properties: Langium.EdgeProperty[]
+    ) => {
       for (const prop of properties) {
         if (Langium.isEdgeLabelProperty(prop)) {
           edge.label = prop.label.replace(/^"|"$/g, '');
@@ -1459,6 +1462,9 @@ function processDialogStatement(
         } else if (Langium.isFlowTypeProperty(prop)) {
           // UML Activity Diagram flow type
           edge.flowType = prop.value as 'control' | 'object';
+        } else if (Langium.isWeightProperty(prop)) {
+          // Graph theory edge weight
+          edge.weight = parseFloat(String(prop.value));
         } else if (Langium.isStrokeProperty(prop)) {
           edge.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {
@@ -2164,9 +2170,17 @@ function convertContainer(
         }
       }
 
-      // Process edge properties
+      // Check for bidirectional arrow
+      if (statement.bidirectionalArrow) {
+        edge.bidirectional = true;
+      }
+
+      // Process edge properties using the shared helper function (defined earlier in processDialogStatement)
+      // Note: We need to duplicate the processEdgeProperties logic here since it's defined in the outer scope
       for (const prop of statement.properties) {
-        if (Langium.isLineStyleProperty(prop)) {
+        if (Langium.isEdgeLabelProperty(prop)) {
+          edge.label = prop.label.replace(/^"|"$/g, '');
+        } else if (Langium.isLineStyleProperty(prop)) {
           edge.lineStyle = prop.value as
             | 'solid'
             | 'dashed'
@@ -2178,6 +2192,56 @@ function convertContainer(
             | 'hollow'
             | 'open'
             | 'none';
+        } else if (Langium.isRoutingProperty(prop)) {
+          edge.routing = prop.value as EdgeRouting;
+        } else if (Langium.isMultiplicitySourceProperty(prop)) {
+          edge.multiplicitySource = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isMultiplicityTargetProperty(prop)) {
+          edge.multiplicityTarget = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isRoleSourceProperty(prop)) {
+          edge.roleSource = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isRoleTargetProperty(prop)) {
+          edge.roleTarget = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isEdgeTypeProperty(prop)) {
+          edge.edgeType = prop.value as
+            | 'association'
+            | 'aggregation'
+            | 'composition'
+            | 'dependency'
+            | 'generalization'
+            | 'realization';
+        } else if (Langium.isNavigabilityProperty(prop)) {
+          edge.navigability = prop.value as
+            | 'source'
+            | 'target'
+            | 'bidirectional'
+            | 'none';
+        } else if (Langium.isEdgeConstraintsProperty(prop)) {
+          edge.constraints = prop.values.map((v) => v.replace(/^"|"$/g, ''));
+        } else if (Langium.isStereotypeProperty(prop)) {
+          if (prop.values.length > 0) {
+            edge.stereotype = prop.values.map((v: string) =>
+              v.replace(/^"|"$/g, '')
+            );
+          } else if (prop.value) {
+            edge.stereotype = prop.value.replace(/^"|"$/g, '');
+          }
+        } else if (Langium.isEventProperty(prop)) {
+          edge.event = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isGuardProperty(prop)) {
+          edge.guard = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isEffectProperty(prop)) {
+          edge.effect = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isFlowTypeProperty(prop)) {
+          edge.flowType = prop.value as 'control' | 'object';
+        } else if (Langium.isWeightProperty(prop)) {
+          edge.weight = parseFloat(String(prop.value));
+        } else if (Langium.isStrokeProperty(prop)) {
+          edge.strokeColor = prop.value.replace(/^"|"$/g, '');
+        } else if (Langium.isStrokeWidthProperty(prop)) {
+          edge.strokeWidth = parseFloat(prop.value);
+        } else if (Langium.isStyleRefProperty(prop)) {
+          edge.style = prop.ref?.$refText;
         }
       }
 
