@@ -349,13 +349,15 @@ export interface ContainerPreset {
  * - stress: Stress-minimization layout (minimize edge lengths)
  * - radial: Radial tree layout (good for org charts, mind maps)
  * - mrtree: Multi-rooted tree layout (good for forests)
+ * - circular: Circular/cycle layout (good for circular workflows, lifecycles)
  */
 export type LayoutAlgorithm =
   | 'layered'
   | 'force'
   | 'stress'
   | 'radial'
-  | 'mrtree';
+  | 'mrtree'
+  | 'circular';
 
 /**
  * Layout options that can be specified per container

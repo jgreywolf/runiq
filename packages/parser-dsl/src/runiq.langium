@@ -1257,7 +1257,7 @@ LabelPositionValue returns string:
     'top' | 'bottom' | 'left' | 'right';
 
 LayoutAlgorithmValue returns string:
-    'layered' | 'force' | 'stress' | 'radial' | 'mrtree';
+    'layered' | 'force' | 'stress' | 'radial' | 'mrtree' | 'circular';
 
 OrientationValue returns string:
     'horizontal' | 'vertical';

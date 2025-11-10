@@ -10,6 +10,7 @@ import type {
   ContainerDeclaration,
 } from '@runiq/core';
 import { shapeRegistry, createTextMeasurer } from '@runiq/core';
+import { circularLayout } from './circular-layout.js';
 
 /**
  * ELK (Eclipse Layout Kernel) layout engine adapter for Runiq.
@@ -135,6 +136,57 @@ export class ElkLayoutEngine implements LayoutEngine {
         edges: [],
         size: { width: 0, height: 0 },
         containers: [],
+      };
+    }
+
+    // Check if any container uses circular algorithm
+    const hasCircularContainer = diagram.containers?.some(
+      (c) => c.layoutOptions?.algorithm === 'circular'
+    );
+
+    // If circular algorithm detected, delegate to custom circular layout
+    if (
+      hasCircularContainer &&
+      diagram.containers &&
+      diagram.containers.length === 1
+    ) {
+      // For single circular container, extract its contents and layout
+      const container = diagram.containers[0];
+      const containerId = container.id || `container-${Date.now()}`;
+
+      const containerDiagram: DiagramAst = {
+        astVersion: diagram.astVersion || '1.0',
+        title: diagram.title,
+        nodes: diagram.nodes.filter((n) => container.children.includes(n.id)),
+        edges: diagram.edges.filter((e) => {
+          const fromId = this.extractNodeId(e.from);
+          const toId = this.extractNodeId(e.to);
+          return (
+            container.children.includes(fromId) &&
+            container.children.includes(toId)
+          );
+        }),
+        styles: diagram.styles,
+        direction: diagram.direction,
+      };
+
+      const result = circularLayout(containerDiagram, {
+        spacing: container.layoutOptions?.spacing || opts.spacing,
+      });
+
+      // Wrap result in container
+      return {
+        ...result,
+        containers: [
+          {
+            id: containerId,
+            label: container.label,
+            x: 0,
+            y: 0,
+            width: result.size.width,
+            height: result.size.height,
+          },
+        ],
       };
     }
 
@@ -2356,6 +2408,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         return 'org.eclipse.elk.radial';
       case 'mrtree':
         return 'org.eclipse.elk.mrtree';
+      case 'circular':
+        return 'circular'; // Custom algorithm, handled separately
       default:
         return 'layered'; // Default fallback
     }

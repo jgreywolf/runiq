@@ -142,6 +142,7 @@ export type RuniqKeywordNames =
     | "centralBuffer"
     | "childCountPosition:"
     | "children:"
+    | "circular"
     | "closeness"
     | "clustering"
     | "cm"
@@ -2228,10 +2229,10 @@ export function isLabelsProperty(item: unknown): item is LabelsProperty {
     return reflection.isInstance(item, LabelsProperty.$type);
 }
 
-export type LayoutAlgorithmValue = 'force' | 'layered' | 'mrtree' | 'radial' | 'stress';
+export type LayoutAlgorithmValue = 'circular' | 'force' | 'layered' | 'mrtree' | 'radial' | 'stress';
 
 export function isLayoutAlgorithmValue(item: unknown): item is LayoutAlgorithmValue {
-    return item === 'layered' || item === 'force' || item === 'stress' || item === 'radial' || item === 'mrtree';
+    return item === 'layered' || item === 'force' || item === 'stress' || item === 'radial' || item === 'mrtree' || item === 'circular';
 }
 
 export type LayoutComplexityValue = 'high' | 'low' | 'medium';

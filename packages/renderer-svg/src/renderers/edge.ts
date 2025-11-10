@@ -30,10 +30,15 @@ export function renderEdge(
 
   const style = edgeAst.style ? diagram.styles?.[edgeAst.style] || {} : {};
   // Inline properties override style properties
+  // Check routed edge data first (set by layout algorithms), then edgeAst data, then style
   const stroke =
     (edgeAst as any).strokeColor || (style as any).stroke || '#333';
   const strokeWidth =
-    (edgeAst as any).strokeWidth || (style as any).strokeWidth || 1;
+    (routed as any).data?.strokeWidth ||
+    (edgeAst.data as any)?.strokeWidth ||
+    (edgeAst as any).strokeWidth ||
+    (style as any).strokeWidth ||
+    1;
 
   // Determine line style
   const lineStyle = (edgeAst as any).lineStyle || 'solid';
@@ -52,8 +57,17 @@ export function renderEdge(
   // Create path
   const start = points[0];
   let pathData = `M ${start.x} ${start.y}`;
-  for (let i = 1; i < points.length; i++) {
-    pathData += ` L ${points[i].x} ${points[i].y}`;
+
+  // If we have exactly 3 points, treat the middle one as a Bezier control point
+  if (points.length === 3) {
+    const control = points[1];
+    const end = points[2];
+    pathData += ` Q ${control.x} ${control.y} ${end.x} ${end.y}`;
+  } else {
+    // Otherwise, use straight line segments
+    for (let i = 1; i < points.length; i++) {
+      pathData += ` L ${points[i].x} ${points[i].y}`;
+    }
   }
 
   const groupAttrs = strict
