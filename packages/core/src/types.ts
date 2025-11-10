@@ -515,7 +515,8 @@ export type Profile =
   | SequenceProfile
   | PneumaticProfile
   | HydraulicProfile
-  | PIDProfile;
+  | PIDProfile
+  | TimelineProfile;
 
 /**
  * Visual diagram profile (existing Runiq diagrams)
@@ -935,3 +936,46 @@ export interface SequenceDurationConstraint {
   toMessage: number; // Ending message index (0-based)
   constraint: string; // Constraint expression (e.g., "< 100ms", "{d..2d}")
 }
+
+// ============================================================================
+// Timeline Profile Types
+// ============================================================================
+
+/**
+ * Timeline diagram profile for showing events in chronological order
+ * Useful for project timelines, historical events, roadmaps, milestones
+ */
+export interface TimelineProfile {
+  type: 'timeline';
+  astVersion: string;
+  title: string;
+  orientation?: 'horizontal' | 'vertical'; // Default: horizontal
+  events: TimelineEvent[];
+  periods?: TimelinePeriod[]; // Optional time periods/eras
+}
+
+/**
+ * Event on a timeline
+ */
+export interface TimelineEvent {
+  id: string; // Unique identifier
+  date: string; // Date/time (ISO 8601 format or relative like "Q1 2024")
+  label: string; // Event title
+  description?: string; // Detailed description
+  icon?: string; // Optional icon name
+  color?: string; // Optional color for marker
+  position?: 'top' | 'bottom' | 'left' | 'right'; // Label position (default: alternating)
+}
+
+/**
+ * Time period/era on a timeline (background shading)
+ */
+export interface TimelinePeriod {
+  id: string;
+  startDate: string;
+  endDate: string;
+  label: string;
+  color?: string; // Background color
+  opacity?: number; // Default: 0.1
+}
+

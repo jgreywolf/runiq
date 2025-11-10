@@ -79,13 +79,31 @@ export function renderEdge(
   const arrowType = (edgeAst as any).arrowType || 'standard';
   const edgeType = (edgeAst as any).edgeType; // UML relationship type
   const isBidirectional = !!(edgeAst as any).bidirectional;
+  const navigability = (edgeAst as any).navigability; // UML navigability direction
   const arrowId = `arrow-${edgeType || arrowType}-${routed.from}-${routed.to}`;
   const arrowIdStart = `arrow-start-${edgeType || arrowType}-${routed.from}-${routed.to}`;
+  const navArrowId = `nav-arrow-${routed.from}-${routed.to}`;
+  const navArrowIdStart = `nav-arrow-start-${routed.from}-${routed.to}`;
 
   // Define arrow marker based on type
   // For UML relationships, use edgeType to determine marker
   let useMarkerStart = false; // Diamonds go on the source (start) end
   let useMarkerEnd = false; // Standard arrows go on the target (end) end
+  let useNavMarkerStart = false; // Navigability arrows at source
+  let useNavMarkerEnd = false; // Navigability arrows at target
+
+  // Handle navigability arrows (small open arrows indicating navigation direction)
+  if (navigability) {
+    if (navigability === 'source') {
+      useNavMarkerStart = true;
+    } else if (navigability === 'target') {
+      useNavMarkerEnd = true;
+    } else if (navigability === 'bidirectional') {
+      useNavMarkerStart = true;
+      useNavMarkerEnd = true;
+    }
+    // 'none' means no navigability arrows
+  }
 
   if (
     edgeType === 'aggregation' ||
@@ -161,11 +179,35 @@ export function renderEdge(
     edgeMarkup += `</defs>`;
   }
 
+  // Add navigability arrow markers if needed (small open arrows)
+  if (useNavMarkerStart || useNavMarkerEnd) {
+    edgeMarkup += `<defs>`;
+    if (useNavMarkerEnd) {
+      edgeMarkup += `
+      <marker id="${navArrowId}" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+        <polyline points="0,0 6,3 0,6" fill="none" stroke="${stroke}" stroke-width="1.5" />
+      </marker>`;
+    }
+    if (useNavMarkerStart) {
+      edgeMarkup += `
+      <marker id="${navArrowIdStart}" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto">
+        <polyline points="6,0 0,3 6,6" fill="none" stroke="${stroke}" stroke-width="1.5" />
+      </marker>`;
+    }
+    edgeMarkup += `</defs>`;
+  }
+
   // Edge line with optional markers
   const markerStartAttr = useMarkerStart
     ? ` marker-start="url(#${isBidirectional ? arrowIdStart : arrowId})"`
+    : useNavMarkerStart
+    ? ` marker-start="url(#${navArrowIdStart})"`
     : '';
-  const markerEndAttr = useMarkerEnd ? ` marker-end="url(#${arrowId})"` : '';
+  const markerEndAttr = useMarkerEnd
+    ? ` marker-end="url(#${arrowId})"`
+    : useNavMarkerEnd
+    ? ` marker-end="url(#${navArrowId})"`
+    : '';
   const markerAttr = markerStartAttr + markerEndAttr;
 
   // Render double line for consanguineous marriages
@@ -245,6 +287,18 @@ export function renderEdge(
       ? midPoint.y + 10 // Below stereotype
       : midPoint.y; // Centered on edge
     edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">${escapeXml((edgeAst as any).label)}</text>`;
+  }
+
+  // UML Constraints (rendered below the label/edge in braces)
+  if ((edgeAst as any).constraints && (edgeAst as any).constraints.length > 0) {
+    const constraints = (edgeAst as any).constraints as string[];
+    const constraintText = `{${constraints.join(', ')}}`;
+    const constraintY = (edgeAst as any).label
+      ? midPoint.y + 15 // Below label
+      : (edgeAst as any).stereotype
+      ? midPoint.y + 25 // Below stereotype
+      : midPoint.y + 10; // Below edge
+    edgeMarkup += `<text x="${midPoint.x}" y="${constraintY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">${escapeXml(constraintText)}</text>`;
   }
 
   // UML Multiplicity labels (at endpoints)

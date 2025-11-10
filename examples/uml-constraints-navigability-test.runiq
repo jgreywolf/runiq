@@ -1,0 +1,20 @@
+// UML Constraints and Navigability Test
+// Testing rendering of constraints and navigability indicators
+
+diagram "UML Constraints & Navigability" {
+  // Class nodes
+  shape Order as @class label: "Order"
+  shape LineItem as @class label: "LineItem"
+  shape Product as @class label: "Product"
+  shape Customer as @class label: "Customer"
+  
+  // Test constraints
+  Order -> LineItem edgeType: composition multiplicityTarget: "1..*" label: "items" constraints: ["ordered"]
+  
+  LineItem -> Product edgeType: association multiplicityTarget: "1" label: "product" constraints: ["unique", "readonly"]
+  
+  // Test navigability
+  Customer -> Order edgeType: association multiplicityTarget: "0..*" navigability: target label: "orders"
+  
+  Order -> Customer edgeType: association multiplicitySource: "1" navigability: bidirectional label: "customer"
+}
