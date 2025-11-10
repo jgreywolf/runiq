@@ -195,6 +195,31 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 				await getSyntaxEditor(page).fill(syntax);
 			});
 
+			await test.step('Verify no syntax errors', async () => {
+				await page.waitForTimeout(1000);
+				const errorGutter = page.locator('.cm-lint-marker-error');
+				const count = await errorGutter.count();
+				if (count > 0) {
+					// If marker exists, check it's empty (no actual error)
+					const hasContent = await errorGutter.first().textContent();
+					expect(hasContent?.trim()).toBe('');
+				}
+			});
+		});
+	});
+
+	test('Should validate preset definition syntax', async ({ page }) => {
+		await test.step('Enter preset definition', async () => {
+			const syntax = `diagram "Test" {
+  preset "card" {
+    label: "Card Style"
+    padding: 15
+    shadow: true
+  }
+}`;
+			await getSyntaxEditor(page).fill(syntax);
+		});
+
 		await test.step('Verify no syntax errors', async () => {
 			await page.waitForTimeout(1000);
 			const errorGutter = page.locator('.cm-lint-marker-error');
@@ -206,35 +231,10 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 			}
 		});
 	});
-		});
 
-		test('Should validate preset definition syntax', async ({ page }) => {
-			await test.step('Enter preset definition', async () => {
-				const syntax = `diagram "Test" {
-  preset "card" {
-    label: "Card Style"
-    padding: 15
-    shadow: true
-  }
-}`;
-				await getSyntaxEditor(page).fill(syntax);
-			});
-
-		await test.step('Verify no syntax errors', async () => {
-			await page.waitForTimeout(1000);
-			const errorGutter = page.locator('.cm-lint-marker-error');
-			const count = await errorGutter.count();
-			if (count > 0) {
-				// If marker exists, check it's empty (no actual error)
-				const hasContent = await errorGutter.first().textContent();
-				expect(hasContent?.trim()).toBe('');
-			}
-		});
-		});
-
-		test('Should validate container with templateId', async ({ page }) => {
-			await test.step('Enter container with template reference', async () => {
-				const syntax = `diagram "Test" {
+	test('Should validate container with templateId', async ({ page }) => {
+		await test.step('Enter container with template reference', async () => {
+			const syntax = `diagram "Test" {
   template "service" {
     backgroundColor: "#f0f0f0"
   }
@@ -243,8 +243,8 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
     shape api as @rectangle label: "API"
   }
 }`;
-				await getSyntaxEditor(page).fill(syntax);
-			});
+			await getSyntaxEditor(page).fill(syntax);
+		});
 
 		await test.step('Verify no syntax errors', async () => {
 			await page.waitForTimeout(1000);
@@ -256,11 +256,11 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 				expect(hasContent?.trim()).toBe('');
 			}
 		});
-		});
+	});
 
-		test('Should validate container with preset', async ({ page }) => {
-			await test.step('Enter container with preset reference', async () => {
-				const syntax = `diagram "Test" {
+	test('Should validate container with preset', async ({ page }) => {
+		await test.step('Enter container with preset reference', async () => {
+			const syntax = `diagram "Test" {
   preset "card" {
     padding: 15
   }
@@ -269,8 +269,8 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
     shape myNode as @rectangle label: "Node"
   }
 }`;
-				await getSyntaxEditor(page).fill(syntax);
-			});
+			await getSyntaxEditor(page).fill(syntax);
+		});
 
 		await test.step('Verify no syntax errors', async () => {
 			await page.waitForTimeout(1000);
@@ -302,19 +302,19 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
     shape api as @server label: "API Gateway"
   }
 }`;
-			await getSyntaxEditor(page).fill(syntax);
-		});
+				await getSyntaxEditor(page).fill(syntax);
+			});
 
 			await test.step('Verify diagram renders without errors', async () => {
-			await page.waitForTimeout(1500);
-			const errorGutter = page.locator('.cm-lint-marker-error');
-			const count = await errorGutter.count();
-			if (count > 0) {
-				// If marker exists, check it's empty (no actual error)
-				const hasContent = await errorGutter.first().textContent();
-				expect(hasContent?.trim()).toBe('');
-			}
-		});
+				await page.waitForTimeout(1500);
+				const errorGutter = page.locator('.cm-lint-marker-error');
+				const count = await errorGutter.count();
+				if (count > 0) {
+					// If marker exists, check it's empty (no actual error)
+					const hasContent = await errorGutter.first().textContent();
+					expect(hasContent?.trim()).toBe('');
+				}
+			});
 		});
 
 		test('Should handle container inheritance with extends', async ({ page }) => {
@@ -330,20 +330,19 @@ test.describe('Phase 5: Templates & Presets Editor Integration', () => {
 
   base -> child
 }`;
-			await getSyntaxEditor(page).fill(syntax);
-		});
+				await getSyntaxEditor(page).fill(syntax);
+			});
 
 			await test.step('Verify no errors with inheritance', async () => {
-			await page.waitForTimeout(1500);
-			const errorGutter = page.locator('.cm-lint-marker-error');
-			const count = await errorGutter.count();
-			if (count > 0) {
-			// If marker exists, check it's empty (no actual error)
-			const hasContent = await errorGutter.first().textContent();
-			expect(hasContent?.trim()).toBe('');
-		}
-	});
+				await page.waitForTimeout(1500);
+				const errorGutter = page.locator('.cm-lint-marker-error');
+				const count = await errorGutter.count();
+				if (count > 0) {
+					// If marker exists, check it's empty (no actual error)
+					const hasContent = await errorGutter.first().textContent();
+					expect(hasContent?.trim()).toBe('');
+				}
+			});
 		});
 	});
 });
-

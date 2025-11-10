@@ -4,6 +4,7 @@ import { renderContainer } from './renderers/container.js';
 import { renderEdge } from './renderers/edge.js';
 import { renderNode } from './renderers/node.js';
 import { renderDefs } from './renderers/defs.js';
+import { calculateGraphMetrics } from '@runiq/core';
 
 // Re-export Wardley renderer
 export {
@@ -46,6 +47,9 @@ export function renderSvg(
   const warnings: string[] = [];
   const { strict = false } = options;
 
+  // Calculate graph metrics if diagram has edges (network analysis)
+  const graphMetrics = diagram.edges.length > 0 ? calculateGraphMetrics(diagram) : null;
+
   // SVG header
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
     width="${layout.size.width}" height="${layout.size.height}" 
@@ -77,7 +81,7 @@ export function renderSvg(
 
   // Render nodes (on top of everything)
   for (const node of layout.nodes) {
-    svg += renderNode(node, diagram, strict, warnings);
+    svg += renderNode(node, diagram, strict, warnings, graphMetrics);
   }
 
   svg += '</svg>';

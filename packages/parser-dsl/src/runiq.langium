@@ -662,7 +662,10 @@ NodeProperty:
     | OutputPinsProperty
     | StateInvariantProperty
     | ExtensionPointsProperty
-    | GatewayTypeProperty;
+    | GatewayTypeProperty
+    | ShowMetricsProperty
+    | MetricTypeProperty
+    | MetricPositionProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -725,6 +728,22 @@ CarrierProperty:
 
 DeceasedProperty:
     'deceased:' value=BooleanValue;
+
+// Graph Metrics Visualization properties
+ShowMetricsProperty:
+    'showMetrics:' value=BooleanValue;
+
+MetricTypeProperty:
+    'metricType:' value=MetricTypeValue;
+
+MetricTypeValue returns string:
+    'degree' | 'betweenness' | 'closeness' | 'clustering';
+
+MetricPositionProperty:
+    'metricPosition:' value=MetricPositionValue;
+
+MetricPositionValue returns string:
+    'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
 
 // UML State Machine properties
 EntryProperty:

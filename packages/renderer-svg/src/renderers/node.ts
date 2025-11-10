@@ -1,5 +1,5 @@
-import type { DiagramAst, PositionedNode } from '@runiq/core';
-import { shapeRegistry, createTextMeasurer } from '@runiq/core';
+import type { DiagramAst, PositionedNode, GraphMetrics } from '@runiq/core';
+import { shapeRegistry, createTextMeasurer, type NodeMetrics } from '@runiq/core';
 import { escapeXml } from './utils.js';
 import { renderIcon } from './icons.js';
 
@@ -7,7 +7,8 @@ export function renderNode(
   positioned: PositionedNode,
   diagram: DiagramAst,
   strict: boolean,
-  warnings: string[]
+  warnings: string[],
+  graphMetrics: GraphMetrics | null = null
 ): string {
   const nodeAst = diagram.nodes.find((n) => n.id === positioned.id);
   if (!nodeAst) {
@@ -77,6 +78,16 @@ export function renderNode(
     }
   }
 
+  // Add metric badge if enabled and metrics available
+  if (graphMetrics && (nodeAst.data as any)?.showMetrics) {
+    const nodeMetrics = graphMetrics.nodes.find(m => m.nodeId === positioned.id);
+    if (nodeMetrics) {
+      const metricType = (nodeAst.data as any).metricType || 'degree';
+      const metricPosition = (nodeAst.data as any).metricPosition || 'top-right';
+      nodeMarkup += renderMetricBadge(nodeMetrics, positioned, metricType, metricPosition);
+    }
+  }
+
   // Wrap in group with optional link
   let groupAttrs = strict ? '' : ` data-runiq-node="${nodeAst.id}"`;
 
@@ -103,5 +114,91 @@ function renderFallbackNode(positioned: PositionedNode, node: any): string {
           text-anchor="middle" dominant-baseline="middle" class="runiq-node-text">
       ${escapeXml(node.label || node.id)}
     </text>
+  `;
+}
+
+/**
+ * Render metric badge for a node
+ * @param metrics - Node metrics to display
+ * @param positioned - Node position and dimensions
+ * @param metricType - Which metric to display (degree, betweenness, closeness, clustering)
+ * @param position - Badge position (top-right, top-left, bottom-right, bottom-left)
+ * @returns SVG markup for metric badge
+ */
+export function renderMetricBadge(
+  metrics: NodeMetrics,
+  positioned: PositionedNode,
+  metricType: 'degree' | 'betweenness' | 'closeness' | 'clustering' = 'degree',
+  position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right'
+): string {
+  const { x, y, width, height } = positioned;
+
+  // Determine which metric value to display
+  let value: string;
+  let label: string;
+  switch (metricType) {
+    case 'degree':
+      value = metrics.degree.toString();
+      label = 'D';
+      break;
+    case 'betweenness':
+      value = metrics.betweenness.toFixed(2);
+      label = 'B';
+      break;
+    case 'closeness':
+      value = metrics.closeness.toFixed(2);
+      label = 'C';
+      break;
+    case 'clustering':
+      value = metrics.clustering.toFixed(2);
+      label = 'CC';
+      break;
+  }
+
+  // Badge dimensions
+  const badgeWidth = 32;
+  const badgeHeight = 18;
+  const fontSize = 10;
+  const offset = 4;
+
+  // Calculate badge position
+  let badgeX: number;
+  let badgeY: number;
+
+  switch (position) {
+    case 'top-right':
+      badgeX = x + width - badgeWidth + offset;
+      badgeY = y - offset;
+      break;
+    case 'top-left':
+      badgeX = x - offset;
+      badgeY = y - offset;
+      break;
+    case 'bottom-right':
+      badgeX = x + width - badgeWidth + offset;
+      badgeY = y + height - badgeHeight + offset;
+      break;
+    case 'bottom-left':
+      badgeX = x - offset;
+      badgeY = y + height - badgeHeight + offset;
+      break;
+  }
+
+  const textX = badgeX + badgeWidth / 2;
+  const textY = badgeY + badgeHeight / 2;
+
+  return `
+    <g class="runiq-metric-badge">
+      <rect x="${badgeX}" y="${badgeY}" 
+            width="${badgeWidth}" height="${badgeHeight}" 
+            fill="#ffffff" stroke="#2196f3" stroke-width="1.5" 
+            rx="3" opacity="0.95" />
+      <text x="${textX}" y="${textY}" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="${fontSize}" 
+            font-weight="600" fill="#2196f3">
+        ${label}:${value}
+      </text>
+    </g>
   `;
 }

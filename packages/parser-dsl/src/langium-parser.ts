@@ -1219,6 +1219,16 @@ function processDialogStatement(
       } else if (Langium.isDeceasedProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.deceased = prop.value === 'true';
+      } else if (Langium.isShowMetricsProperty(prop)) {
+        // Graph metrics visualization properties
+        if (!node.data) node.data = {};
+        node.data.showMetrics = prop.value === 'true';
+      } else if (Langium.isMetricTypeProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.metricType = prop.value;
+      } else if (Langium.isMetricPositionProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.metricPosition = prop.value;
       } else if (Langium.isAttributesProperty(prop)) {
         // UML Class diagram attributes
         if (!node.data) node.data = {};
@@ -2101,6 +2111,16 @@ function convertContainer(
         } else if (Langium.isDeceasedProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.deceased = prop.value === 'true';
+        } else if (Langium.isShowMetricsProperty(prop)) {
+          // Graph metrics visualization properties
+          if (!node.data) node.data = {};
+          node.data.showMetrics = prop.value === 'true';
+        } else if (Langium.isMetricTypeProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.metricType = prop.value;
+        } else if (Langium.isMetricPositionProperty(prop)) {
+          if (!node.data) node.data = {};
+          node.data.metricPosition = prop.value;
         }
       }
 

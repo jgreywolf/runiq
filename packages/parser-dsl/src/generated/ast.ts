@@ -121,6 +121,7 @@ export type RuniqKeywordNames =
     | "bar"
     | "bbl"
     | "bbl/day"
+    | "betweenness"
     | "bidirectional"
     | "biodegradable"
     | "boolean"
@@ -141,6 +142,8 @@ export type RuniqKeywordNames =
     | "centralBuffer"
     | "childCountPosition:"
     | "children:"
+    | "closeness"
+    | "clustering"
     | "cm"
     | "collaboration"
     | "collapseAnimationDuration:"
@@ -201,6 +204,7 @@ export type RuniqKeywordNames =
     | "default:"
     | "degC"
     | "degF"
+    | "degree"
     | "delimiter"
     | "dependency"
     | "depth:"
@@ -387,6 +391,8 @@ export type RuniqKeywordNames =
     | "medium"
     | "message"
     | "methods:"
+    | "metricPosition:"
+    | "metricType:"
     | "middle"
     | "min"
     | "minHeight:"
@@ -529,6 +535,7 @@ export type RuniqKeywordNames =
     | "showChildCount:"
     | "showDepthIndicator:"
     | "showLegend:"
+    | "showMetrics:"
     | "signal"
     | "size:"
     | "solid"
@@ -2479,6 +2486,48 @@ export function isMethodVisibilityField(item: unknown): item is MethodVisibility
     return reflection.isInstance(item, MethodVisibilityField.$type);
 }
 
+export interface MetricPositionProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'MetricPositionProperty';
+    value: MetricPositionValue;
+}
+
+export const MetricPositionProperty = {
+    $type: 'MetricPositionProperty',
+    value: 'value'
+} as const;
+
+export function isMetricPositionProperty(item: unknown): item is MetricPositionProperty {
+    return reflection.isInstance(item, MetricPositionProperty.$type);
+}
+
+export type MetricPositionValue = 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+
+export function isMetricPositionValue(item: unknown): item is MetricPositionValue {
+    return item === 'top-right' || item === 'top-left' || item === 'bottom-right' || item === 'bottom-left';
+}
+
+export interface MetricTypeProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'MetricTypeProperty';
+    value: MetricTypeValue;
+}
+
+export const MetricTypeProperty = {
+    $type: 'MetricTypeProperty',
+    value: 'value'
+} as const;
+
+export function isMetricTypeProperty(item: unknown): item is MetricTypeProperty {
+    return reflection.isInstance(item, MetricTypeProperty.$type);
+}
+
+export type MetricTypeValue = 'betweenness' | 'closeness' | 'clustering' | 'degree';
+
+export function isMetricTypeValue(item: unknown): item is MetricTypeValue {
+    return item === 'degree' || item === 'betweenness' || item === 'closeness' || item === 'clustering';
+}
+
 export interface ModuleParamsProperty extends langium.AstNode {
     readonly $container: ModuleStatement;
     readonly $type: 'ModuleParamsProperty';
@@ -2619,7 +2668,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | ShowMetricsProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -4052,6 +4101,21 @@ export function isShowLegendProperty(item: unknown): item is ShowLegendProperty 
     return reflection.isInstance(item, ShowLegendProperty.$type);
 }
 
+export interface ShowMetricsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ShowMetricsProperty';
+    value: BooleanValue;
+}
+
+export const ShowMetricsProperty = {
+    $type: 'ShowMetricsProperty',
+    value: 'value'
+} as const;
+
+export function isShowMetricsProperty(item: unknown): item is ShowMetricsProperty {
+    return reflection.isInstance(item, ShowMetricsProperty.$type);
+}
+
 export type SizeUnit = 'DN' | 'NPS' | 'in' | 'mm';
 
 export function isSizeUnit(item: unknown): item is SizeUnit {
@@ -4832,6 +4896,8 @@ export type RuniqAstType = {
     MethodStaticField: MethodStaticField
     MethodVisibilityField: MethodVisibilityField
     MethodsProperty: MethodsProperty
+    MetricPositionProperty: MetricPositionProperty
+    MetricTypeProperty: MetricTypeProperty
     ModuleParamsProperty: ModuleParamsProperty
     ModulePortsProperty: ModulePortsProperty
     ModuleProperty: ModuleProperty
@@ -4930,6 +4996,7 @@ export type RuniqAstType = {
     SequenceTypeProperty: SequenceTypeProperty
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
+    ShowMetricsProperty: ShowMetricsProperty
     StackedProperty: StackedProperty
     StateInvariantProperty: StateInvariantProperty
     StereotypeProperty: StereotypeProperty
@@ -6209,6 +6276,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        MetricPositionProperty: {
+            name: MetricPositionProperty.$type,
+            properties: {
+                value: {
+                    name: MetricPositionProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        MetricTypeProperty: {
+            name: MetricTypeProperty.$type,
+            properties: {
+                value: {
+                    name: MetricTypeProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         ModuleParamsProperty: {
             name: ModuleParamsProperty.$type,
             properties: {
@@ -7178,6 +7263,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: ShowLegendProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        ShowMetricsProperty: {
+            name: ShowMetricsProperty.$type,
+            properties: {
+                value: {
+                    name: ShowMetricsProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

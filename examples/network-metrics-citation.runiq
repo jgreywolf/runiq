@@ -1,0 +1,28 @@
+// Citation Network with Betweenness Centrality
+// Shows papers and citations with betweenness metric
+// Identifies papers that connect different research clusters
+
+diagram "Citation Network" {
+  shape paper1 as @document label: "Paper 1\n(Foundational)" showMetrics: true metricType: betweenness
+  shape paper2 as @document label: "Paper 2" showMetrics: true metricType: betweenness
+  shape paper3 as @document label: "Paper 3" showMetrics: true metricType: betweenness
+  shape paper4 as @document label: "Paper 4\n(Bridge)" showMetrics: true metricType: betweenness
+  shape paper5 as @document label: "Paper 5" showMetrics: true metricType: betweenness
+  shape paper6 as @document label: "Paper 6" showMetrics: true metricType: betweenness
+  shape paper7 as @document label: "Paper 7" showMetrics: true metricType: betweenness
+
+  // Early cluster
+  paper1 -> paper2 label: "cites"
+  paper1 -> paper3 label: "cites"
+  paper2 -> paper3 label: "cites"
+
+  // Bridge paper connects clusters
+  paper2 -> paper4 label: "cites"
+  paper3 -> paper4 label: "cites"
+
+  // Later cluster
+  paper4 -> paper5 label: "cites"
+  paper4 -> paper6 label: "cites"
+  paper5 -> paper7 label: "cites"
+  paper6 -> paper7 label: "cites"
+}
