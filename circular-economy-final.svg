@@ -1,75 +1,75 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="563.8770709783828" height="560.1690497626037" 
-    viewBox="0 0 563.8770709783828 560.1690497626037"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Circular Economy</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="product-lifecycle"><rect x="0" y="0" width="563.8770709783828" height="560.1690497626037" 
+    width="643.8770709783828" height="640.1690497626037" 
+    viewBox="0 0 643.8770709783828 640.1690497626037"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Circular Economy</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="product-lifecycle"><rect x="0" y="0" width="643.8770709783828" height="640.1690497626037" 
     fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Product Lifecycle</text></g><g data-runiq-edge="design-production"><defs>
       <marker id="arrow-standard-design-production" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 341.9385354891914 99.99999999999997 Q 477.39055088163093 88.66545326595207 523.8770709783828 205.04226244065086" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-design-production)" /><text x="477.39055088163093" y="88.66545326595207" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Manufacture</text></g><g data-runiq-edge="production-distribution"><defs>
+      </marker></defs><path d="M 381.9385354891914 139.99999999999997 Q 517.3905508816309 128.66545326595207 563.8770709783828 245.04226244065086" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-design-production)" /><text x="517.3905508816309" y="128.66545326595207" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Manufacture</text></g><g data-runiq-edge="production-distribution"><defs>
       <marker id="arrow-standard-production-distribution" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 523.8770709783828 205.04226244065086 Q 579.557772178304 311.1987762933435 523.8770709783828 415.12678732195275" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-production-distribution)" /><text x="579.557772178304" y="311.1987762933435" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Deliver</text></g><g data-runiq-edge="distribution-use"><defs>
+      </marker></defs><path d="M 563.8770709783828 245.04226244065086 Q 619.557772178304 351.1987762933435 563.8770709783828 455.12678732195275" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-production-distribution)" /><text x="619.557772178304" y="351.1987762933435" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Deliver</text></g><g data-runiq-edge="distribution-use"><defs>
       <marker id="arrow-standard-distribution-use" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 523.8770709783828 415.12678732195275 Q 463.8203745565097 517.7067109368803 341.9385354891914 520.1690497626037" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-distribution-use)" /><text x="463.8203745565097" y="517.7067109368803" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Sell</text></g><g data-runiq-edge="use-collection"><defs>
+      </marker></defs><path d="M 563.8770709783828 455.12678732195275 Q 503.8203745565097 557.7067109368803 381.9385354891914 560.1690497626037" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-distribution-use)" /><text x="503.8203745565097" y="557.7067109368803" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Sell</text></g><g data-runiq-edge="use-collection"><defs>
       <marker id="arrow-standard-use-collection" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 341.9385354891914 520.1690497626037 Q 217.16916538057527 539.3834646079623 160.00000000000003 415.12678732195286" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-use-collection)" /><text x="217.16916538057527" y="539.3834646079623" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Collect</text></g><g data-runiq-edge="collection-recycling"><defs>
+      </marker></defs><path d="M 381.9385354891914 560.1690497626037 Q 257.16916538057524 579.3834646079623 200.00000000000003 455.12678732195286" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-use-collection)" /><text x="257.16916538057524" y="579.3834646079623" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Collect</text></g><g data-runiq-edge="collection-recycling"><defs>
       <marker id="arrow-standard-collection-recycling" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 160.00000000000003 415.12678732195286 Q 87.42085421626942 307.9598273881 160.00000000000003 205.04226244065086" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-collection-recycling)" /><text x="87.42085421626942" y="307.9598273881" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Process</text></g><g data-runiq-edge="recycling-design"><defs>
+      </marker></defs><path d="M 200.00000000000003 455.12678732195286 Q 127.42085421626942 347.9598273881 200.00000000000003 245.04226244065086" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-collection-recycling)" /><text x="127.42085421626942" y="347.9598273881" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Process</text></g><g data-runiq-edge="recycling-design"><defs>
       <marker id="arrow-standard-recycling-design" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 160.00000000000003 205.04226244065086 Q 211.8832716168814 87.42378504873457 341.9385354891914 99.99999999999997" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-recycling-design)" /><text x="211.8832716168814" y="87.42378504873457" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Reuse Materials</text></g><g data-runiq-node="design">
-      <rect x="281.9385354891914" y="69.99999999999997" width="74.4" height="40.8"
+      </marker></defs><path d="M 200.00000000000003 245.04226244065086 Q 251.8832716168814 127.42378504873457 381.9385354891914 139.99999999999997" fill="none" stroke="#333" stroke-width="5" marker-end="url(#arrow-standard-recycling-design)" /><text x="251.8832716168814" y="127.42378504873457" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Reuse Materials</text></g><g data-runiq-node="design">
+      <rect x="321.9385354891914" y="109.99999999999997" width="74.4" height="40.8"
             fill="#f0f0f0" stroke="#333" stroke-width="1" />
       
-      <text x="319.1385354891914" y="90.39999999999998" 
+      <text x="359.1385354891914" y="130.39999999999998" 
             text-anchor="middle" dominant-baseline="middle"
             font-family="sans-serif" font-size="14">
         Design
       </text>
     </g><g data-runiq-node="production">
-      <rect x="463.8770709783828" y="175.04226244065086" width="108" height="40.8"
+      <rect x="503.8770709783828" y="215.04226244065086" width="108" height="40.8"
             fill="#f0f0f0" stroke="#333" stroke-width="1" />
       
-      <text x="517.8770709783828" y="195.44226244065086" 
+      <text x="557.8770709783828" y="235.44226244065086" 
             text-anchor="middle" dominant-baseline="middle"
             font-family="sans-serif" font-size="14">
         Production
       </text>
     </g><g data-runiq-node="distribution">
-      <rect x="463.8770709783828" y="385.12678732195275" width="124.80000000000001" height="40.8"
+      <rect x="503.8770709783828" y="425.12678732195275" width="124.80000000000001" height="40.8"
             fill="#f0f0f0" stroke="#333" stroke-width="1" />
       
-      <text x="526.2770709783828" y="405.5267873219527" 
+      <text x="566.2770709783828" y="445.5267873219527" 
             text-anchor="middle" dominant-baseline="middle"
             font-family="sans-serif" font-size="14">
         Distribution
       </text>
     </g><g data-runiq-node="use">
-      <rect x="281.9385354891914" y="490.16904976260366" width="49.2" height="40.8"
+      <rect x="321.9385354891914" y="530.1690497626037" width="49.2" height="40.8"
             fill="#f0f0f0" stroke="#333" stroke-width="1" />
       
-      <text x="306.5385354891914" y="510.56904976260364" 
+      <text x="346.5385354891914" y="550.5690497626036" 
             text-anchor="middle" dominant-baseline="middle"
             font-family="sans-serif" font-size="14">
         Use
       </text>
     </g><g data-runiq-node="collection">
-      <rect x="100.00000000000003" y="385.12678732195286" width="108" height="40.8"
+      <rect x="140.00000000000003" y="425.12678732195286" width="108" height="40.8"
             fill="#f0f0f0" stroke="#333" stroke-width="1" />
       
-      <text x="154.00000000000003" y="405.52678732195284" 
+      <text x="194.00000000000003" y="445.52678732195284" 
             text-anchor="middle" dominant-baseline="middle"
             font-family="sans-serif" font-size="14">
         Collection
       </text>
     </g><g data-runiq-node="recycling">
-      <rect x="100.00000000000003" y="175.04226244065086" width="99.60000000000001" height="40.8"
+      <rect x="140.00000000000003" y="215.04226244065086" width="99.60000000000001" height="40.8"
             fill="#f0f0f0" stroke="#333" stroke-width="1" />
       
-      <text x="149.80000000000004" y="195.44226244065086" 
+      <text x="189.80000000000004" y="235.44226244065086" 
             text-anchor="middle" dominant-baseline="middle"
             font-family="sans-serif" font-size="14">
         Recycling

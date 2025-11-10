@@ -111,7 +111,7 @@ export function circularLayout(
   const maxY = Math.max(...ys);
 
   // Calculate offset to ensure all coordinates are positive with padding
-  const padding = 40;
+  const padding = 80; // Increased padding to accommodate longer text labels
   const offsetX = -minX + nodeWidth / 2 + padding;
   const offsetY = -minY + nodeHeight / 2 + padding;
 
@@ -194,6 +194,8 @@ export function circularLayout(
   });
 
   // Calculate final diagram size
+  // Account for node dimensions positioned at their centers
+  // Nodes extend nodeWidth/2 on each side, nodeHeight/2 on each side
   const diagramWidth = maxX - minX + nodeWidth + 2 * padding;
   const diagramHeight = maxY - minY + nodeHeight + 2 * padding;
 
