@@ -164,7 +164,7 @@ test.describe('Graph Metrics Visualization', () => {
 		await diagramContainer.waitFor({ state: 'visible' });
 
 		const svgContent = await diagramContainer.locator('svg').textContent();
-		
+
 		// Verify all metric types are present
 		expect(svgContent).toContain('D:'); // Degree
 		expect(svgContent).toContain('B:'); // Betweenness

@@ -48,7 +48,8 @@ export function renderSvg(
   const { strict = false } = options;
 
   // Calculate graph metrics if diagram has edges (network analysis)
-  const graphMetrics = diagram.edges.length > 0 ? calculateGraphMetrics(diagram) : null;
+  const graphMetrics =
+    diagram.edges.length > 0 ? calculateGraphMetrics(diagram) : null;
 
   // SVG header
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 

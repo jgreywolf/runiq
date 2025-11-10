@@ -1,5 +1,9 @@
 import type { DiagramAst, PositionedNode, GraphMetrics } from '@runiq/core';
-import { shapeRegistry, createTextMeasurer, type NodeMetrics } from '@runiq/core';
+import {
+  shapeRegistry,
+  createTextMeasurer,
+  type NodeMetrics,
+} from '@runiq/core';
 import { escapeXml } from './utils.js';
 import { renderIcon } from './icons.js';
 
@@ -80,11 +84,19 @@ export function renderNode(
 
   // Add metric badge if enabled and metrics available
   if (graphMetrics && (nodeAst.data as any)?.showMetrics) {
-    const nodeMetrics = graphMetrics.nodes.find(m => m.nodeId === positioned.id);
+    const nodeMetrics = graphMetrics.nodes.find(
+      (m) => m.nodeId === positioned.id
+    );
     if (nodeMetrics) {
       const metricType = (nodeAst.data as any).metricType || 'degree';
-      const metricPosition = (nodeAst.data as any).metricPosition || 'top-right';
-      nodeMarkup += renderMetricBadge(nodeMetrics, positioned, metricType, metricPosition);
+      const metricPosition =
+        (nodeAst.data as any).metricPosition || 'top-right';
+      nodeMarkup += renderMetricBadge(
+        nodeMetrics,
+        positioned,
+        metricType,
+        metricPosition
+      );
     }
   }
 
@@ -129,7 +141,11 @@ export function renderMetricBadge(
   metrics: NodeMetrics,
   positioned: PositionedNode,
   metricType: 'degree' | 'betweenness' | 'closeness' | 'clustering' = 'degree',
-  position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right'
+  position:
+    | 'top-right'
+    | 'top-left'
+    | 'bottom-right'
+    | 'bottom-left' = 'top-right'
 ): string {
   const { x, y, width, height } = positioned;
 

@@ -262,17 +262,17 @@ diagram "Sales Chart" {
 
 ```runiq
 diagram "Social Network Analysis" {
-  
+
   // Display degree centrality (number of connections)
   shape alice as @person label:"Alice" showMetrics:true
   shape bob as @person label:"Bob" showMetrics:true metricType:degree
-  
+
   // Display betweenness centrality (bridge nodes)
   shape charlie as @person label:"Charlie" showMetrics:true metricType:betweenness
-  
+
   // Display closeness centrality (central position)
   shape diana as @person label:"Diana" showMetrics:true metricType:closeness metricPosition:top-left
-  
+
   alice -> bob
   alice -> charlie
   bob -> diana

@@ -22,6 +22,7 @@ Runiq automatically calculates graph theory metrics for diagrams with edges (net
 - `degree`: Total connections (in + out for directed, unique neighbors for undirected)
 
 **Use cases**:
+
 - Identifying popular or influential nodes
 - Finding hubs in social networks
 - Detecting highly connected infrastructure components
@@ -31,6 +32,7 @@ Runiq automatically calculates graph theory metrics for diagrams with edges (net
 **What it measures**: Fraction of shortest paths passing through a node (0-1)
 
 **Use cases**:
+
 - Identifying bridge nodes between communities
 - Finding bottlenecks in networks
 - Detecting critical connection points
@@ -40,6 +42,7 @@ Runiq automatically calculates graph theory metrics for diagrams with edges (net
 **What it measures**: Inverse of average distance to all other nodes (0-1)
 
 **Use cases**:
+
 - Finding nodes with best overall connectivity
 - Optimizing placement of distribution centers
 - Identifying influential positions in communication networks
@@ -49,6 +52,7 @@ Runiq automatically calculates graph theory metrics for diagrams with edges (net
 **What it measures**: How interconnected a node's neighbors are (0-1)
 
 **Use cases**:
+
 - Detecting tightly-knit communities
 - Identifying cliques or clusters
 - Measuring local network density
@@ -64,12 +68,12 @@ const diagram = {
   nodes: [
     { id: 'A', shape: 'circle' },
     { id: 'B', shape: 'circle' },
-    { id: 'C', shape: 'circle' }
+    { id: 'C', shape: 'circle' },
   ],
   edges: [
     { from: 'A', to: 'B' },
-    { from: 'B', to: 'C' }
-  ]
+    { from: 'B', to: 'C' },
+  ],
 };
 
 const metrics = calculateGraphMetrics(diagram);
@@ -79,7 +83,7 @@ console.log(`Average degree: ${metrics.averageDegree.toFixed(2)}`);
 console.log(`Is connected: ${metrics.isConnected}`);
 
 // Per-node metrics
-metrics.nodes.forEach(node => {
+metrics.nodes.forEach((node) => {
   console.log(`${node.nodeId}:`);
   console.log(`  Degree: ${node.degree}`);
   console.log(`  Betweenness: ${node.betweenness.toFixed(3)}`);
@@ -91,10 +95,10 @@ metrics.nodes.forEach(node => {
 ### Helper Functions
 
 ```typescript
-import { 
-  findHubNodes, 
-  findBridgeNodes, 
-  findPeripheralNodes 
+import {
+  findHubNodes,
+  findBridgeNodes,
+  findPeripheralNodes,
 } from '@runiq/core';
 
 // Find most connected nodes (top 20% by degree)
@@ -115,8 +119,8 @@ Display metrics as badges on nodes using three properties:
 
 ```runiq
 diagram "Network with Metrics" {
-  shape node1 as @circle label: "Node 1" 
-    showMetrics: true 
+  shape node1 as @circle label: "Node 1"
+    showMetrics: true
     metricType: degree
     metricPosition: top-right
 
@@ -124,7 +128,7 @@ diagram "Network with Metrics" {
     showMetrics: true
     metricType: betweenness
     metricPosition: top-left
-  
+
   node1 -> node2
 }
 ```
@@ -150,12 +154,13 @@ shape myNode as @circle label: "Node" showMetrics: true
 Which metric to display on the badge.
 
 ```runiq
-shape myNode as @circle label: "Node" 
-  showMetrics: true 
+shape myNode as @circle label: "Node"
+  showMetrics: true
   metricType: betweenness
 ```
 
 **Badge Labels**:
+
 - `D:` - Degree (shows integer count)
 - `B:` - Betweenness (shows 0.00 - 1.00)
 - `C:` - Closeness (shows 0.00 - 1.00)
@@ -183,7 +188,7 @@ diagram "Social Network" {
   shape alice as @person label: "Alice" showMetrics: true
   shape bob as @person label: "Bob" showMetrics: true
   shape charlie as @person label: "Charlie" showMetrics: true
-  
+
   alice -> bob label: "friends"
   alice -> charlie label: "friends"
   bob -> charlie label: "friends"
@@ -196,13 +201,13 @@ Result: Alice shows `D:2`, Bob shows `D:2`, Charlie shows `D:2`
 
 ```runiq
 diagram "Citation Network" {
-  shape paper1 as @document label: "Paper 1" 
+  shape paper1 as @document label: "Paper 1"
     showMetrics: true metricType: betweenness
-  shape paper2 as @document label: "Paper 2 (Bridge)" 
+  shape paper2 as @document label: "Paper 2 (Bridge)"
     showMetrics: true metricType: betweenness
-  shape paper3 as @document label: "Paper 3" 
+  shape paper3 as @document label: "Paper 3"
     showMetrics: true metricType: betweenness
-  
+
   paper1 -> paper2 label: "cites"
   paper2 -> paper3 label: "cites"
 }
@@ -214,13 +219,13 @@ Result: Paper 2 (bridge node) has higher betweenness value
 
 ```runiq
 diagram "Server Infrastructure" {
-  shape lb as @server label: "Load Balancer" 
+  shape lb as @server label: "Load Balancer"
     showMetrics: true metricType: closeness
-  shape web as @server label: "Web Server" 
+  shape web as @server label: "Web Server"
     showMetrics: true metricType: closeness
-  shape db as @database label: "Database" 
+  shape db as @database label: "Database"
     showMetrics: true metricType: closeness
-  
+
   lb -> web
   web -> db
 }
@@ -233,6 +238,7 @@ Result: Web server (central position) has highest closeness value
 ### Degree Calculation
 
 Simple count of edges connected to each node:
+
 - **In-degree**: Count incoming edges
 - **Out-degree**: Count outgoing edges
 - **Total degree**: Sum (for directed graphs) or unique neighbors (for undirected)
@@ -242,6 +248,7 @@ Time complexity: O(E) where E is number of edges
 ### Betweenness Calculation
 
 Uses Brandes' algorithm for efficient all-pairs shortest paths:
+
 1. For each node, compute shortest paths to all other nodes (BFS/Dijkstra)
 2. Count how many shortest paths pass through each node
 3. Normalize by total possible paths
@@ -251,6 +258,7 @@ Time complexity: O(VE) for unweighted graphs, O(VE + V²log V) for weighted
 ### Closeness Calculation
 
 Measures average distance from node to all others:
+
 1. Compute shortest paths from node to all reachable nodes
 2. Calculate average distance
 3. Take inverse (closer = higher value)
@@ -261,6 +269,7 @@ Time complexity: O(VE) for unweighted graphs
 ### Clustering Coefficient
 
 Measures local density around a node:
+
 1. Count actual connections between neighbors
 2. Compare to maximum possible connections
 3. Ratio gives clustering coefficient (0-1)
@@ -276,7 +285,7 @@ diagram "Weighted Network" {
   shape a as @circle label: "A" showMetrics: true metricType: closeness
   shape b as @circle label: "B" showMetrics: true metricType: closeness
   shape c as @circle label: "C" showMetrics: true metricType: closeness
-  
+
   a -> b weight: 1
   b -> c weight: 10
   a -> c weight: 2
@@ -309,15 +318,15 @@ Closeness considers weighted path distances: A→C direct (weight 2) is shorter 
 ```runiq
 // Mix metrics for different insights
 diagram "Mixed Analysis" {
-  shape hub as @circle label: "Hub" 
+  shape hub as @circle label: "Hub"
     showMetrics: true metricType: degree
-  
-  shape bridge as @circle label: "Bridge" 
+
+  shape bridge as @circle label: "Bridge"
     showMetrics: true metricType: betweenness
-  
-  shape center as @circle label: "Center" 
+
+  shape center as @circle label: "Center"
     showMetrics: true metricType: closeness
-  
+
   hub -> bridge
   bridge -> center
 }
@@ -330,13 +339,13 @@ Don't show metrics on every node - highlight only interesting ones:
 ```runiq
 diagram "Selective Metrics" {
   // Show metrics on important nodes
-  shape server as @server label: "Main Server" 
+  shape server as @server label: "Main Server"
     showMetrics: true metricType: closeness
-  
+
   // Don't show on leaf nodes
   shape client1 as @rectangle label: "Client 1"
   shape client2 as @rectangle label: "Client 2"
-  
+
   client1 -> server
   client2 -> server
 }
