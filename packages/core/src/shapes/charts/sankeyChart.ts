@@ -45,7 +45,9 @@ export const sankeyNode: ShapeDefinition = {
         ctx.style.strokeWidth) ||
       2;
     const opacity =
-      (ctx.style && typeof ctx.style.opacity === 'number' && ctx.style.opacity) ||
+      (ctx.style &&
+        typeof ctx.style.opacity === 'number' &&
+        ctx.style.opacity) ||
       0.8;
     const fontFamily =
       (ctx.style &&
@@ -53,7 +55,9 @@ export const sankeyNode: ShapeDefinition = {
         ctx.style.fontFamily) ||
       'sans-serif';
     const fontSize =
-      (ctx.style && typeof ctx.style.fontSize === 'number' && ctx.style.fontSize) ||
+      (ctx.style &&
+        typeof ctx.style.fontSize === 'number' &&
+        ctx.style.fontSize) ||
       14;
 
     // Sankey nodes are typically rectangles with rounded corners
@@ -87,9 +91,27 @@ export const sankeyChart: ShapeDefinition = {
   id: 'sankeyChart',
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
+    // Normalize data access - handle both direct and nested formats
+    let sankeyData = ctx.node.data;
+
+    // If data is wrapped with shape ID key (from data panel), unwrap it
+    if (sankeyData && typeof sankeyData === 'object') {
+      const keys = Object.keys(sankeyData);
+      if (keys.length === 1 && !sankeyData.nodes && !sankeyData.links) {
+        const potentialData = sankeyData[keys[0]];
+        if (
+          potentialData &&
+          typeof potentialData === 'object' &&
+          ('nodes' in potentialData || 'links' in potentialData)
+        ) {
+          sankeyData = potentialData;
+        }
+      }
+    }
+
     // Fixed dimensions for Sankey chart
-    const width = (ctx.node.data?.width as number) || 800;
-    const height = (ctx.node.data?.height as number) || 600;
+    const width = (sankeyData?.width as number) || 800;
+    const height = (sankeyData?.height as number) || 600;
     return { width, height };
   },
 
@@ -104,10 +126,29 @@ export const sankeyChart: ShapeDefinition = {
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
-    const nodes = ctx.node.data?.nodes as
+    // Normalize data access - handle both direct and nested formats
+    let sankeyData = ctx.node.data;
+
+    // If data is wrapped with shape ID key (from data panel), unwrap it
+    if (sankeyData && typeof sankeyData === 'object') {
+      // Check if this is a wrapped format: { shapeId: { nodes: [...], links: [...] } }
+      const keys = Object.keys(sankeyData);
+      if (keys.length === 1 && !sankeyData.nodes && !sankeyData.links) {
+        const potentialData = sankeyData[keys[0]];
+        if (
+          potentialData &&
+          typeof potentialData === 'object' &&
+          ('nodes' in potentialData || 'links' in potentialData)
+        ) {
+          sankeyData = potentialData;
+        }
+      }
+    }
+
+    const nodes = sankeyData?.nodes as
       | Array<{ id: string; label?: string; color?: string }>
       | undefined;
-    const links = ctx.node.data?.links as
+    const links = sankeyData?.links as
       | Array<{ source: string; target: string; value: number; color?: string }>
       | undefined;
 
@@ -302,10 +343,7 @@ function calculateNodePositions(
 
     for (const nodeId of layerNodes) {
       const nodeValue = values.get(nodeId) || 0;
-      const nodeHeight = Math.max(
-        (nodeValue / maxValue) * (height * 0.6),
-        30
-      );
+      const nodeHeight = Math.max((nodeValue / maxValue) * (height * 0.6), 30);
 
       positions.set(nodeId, {
         x: layer * layerWidth,
@@ -325,8 +363,16 @@ function calculateNodePositions(
  * Render flow paths between nodes with variable widths
  */
 function renderFlows(
-  links: Array<{ source: string; target: string; value: number; color?: string }>,
-  positions: Map<string, { x: number; y: number; width: number; height: number }>,
+  links: Array<{
+    source: string;
+    target: string;
+    value: number;
+    color?: string;
+  }>,
+  positions: Map<
+    string,
+    { x: number; y: number; width: number; height: number }
+  >,
   offsetX: number,
   offsetY: number
 ): string {
@@ -370,7 +416,10 @@ function renderFlows(
  */
 function renderNodes(
   nodes: Array<{ id: string; label?: string; color?: string }>,
-  positions: Map<string, { x: number; y: number; width: number; height: number }>,
+  positions: Map<
+    string,
+    { x: number; y: number; width: number; height: number }
+  >,
   values: Map<string, number>,
   offsetX: number,
   offsetY: number

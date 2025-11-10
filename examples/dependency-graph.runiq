@@ -1,0 +1,114 @@
+// Software Dependency Graph
+// Visualizes package dependencies with force-directed layout
+
+diagram "Package Dependencies" {
+  container "Packages" algorithm: force spacing: 110 {
+    // Core infrastructure (few dependencies)
+    shape types as @package label:"@core/types"
+    shape utils as @package label:"@core/utils"
+    shape config as @package label:"@core/config"
+    
+    // Mid-level libraries
+    shape auth as @package label:"@lib/auth"
+    shape api as @package label:"@lib/api"
+    shape db as @package label:"@lib/database"
+    shape cache as @package label:"@lib/cache"
+    
+    // UI components
+    shape uiCore as @package label:"@ui/core"
+    shape uiIcons as @package label:"@ui/icons"
+    shape uiForms as @package label:"@ui/forms"
+    
+    // Applications
+    shape webApp as @package label:"web-app"
+    shape mobileApp as @package label:"mobile-app"
+    shape cli as @package label:"cli"
+    
+    // Core dependencies (everything needs these)
+    auth -> types
+    api -> types
+    db -> types
+    cache -> types
+    uiCore -> types
+    uiForms -> types
+    
+    auth -> utils
+    api -> utils
+    db -> utils
+    uiCore -> utils
+    
+    auth -> config
+    api -> config
+    db -> config
+    
+    // Library dependencies
+    api -> auth label:"requires"
+    api -> db label:"queries"
+    api -> cache label:"caches"
+    db -> cache label:"uses"
+    
+    // UI dependencies
+    uiForms -> uiCore label:"extends"
+    uiForms -> uiIcons label:"uses"
+    uiIcons -> uiCore
+    
+    // App dependencies
+    webApp -> api label:"calls"
+    webApp -> uiForms label:"displays"
+    webApp -> auth label:"authenticates"
+    
+    mobileApp -> api
+    mobileApp -> auth
+    mobileApp -> uiCore
+    
+    cli -> api
+    cli -> utils
+    cli -> config
+  }
+}
+
+// With circular dependency detection
+diagram "Dependency Issues" {
+  container "Problem Packages" algorithm: force spacing: 100 {
+    shape a as @package label:"package-a"
+    shape b as @package label:"package-b"
+    shape c as @package label:"package-c"
+    shape d as @package label:"package-d"
+    
+    // Circular dependency (bad!)
+    a -> b
+    b -> c
+    c -> a style:"stroke: red; stroke-width: 3"
+    
+    // Good dependency
+    d -> a
+  }
+}
+
+// Layered architecture (no cycles)
+diagram "Clean Architecture" {
+  container "Layers" algorithm: force spacing: 120 {
+    // Layer 1: Domain (no dependencies)
+    shape domain as @hexagon label:"Domain\nLayer" style:"fill: #4285f4"
+    
+    // Layer 2: Application (depends on domain)
+    shape appService as @rect label:"Application\nServices" style:"fill: #34a853"
+    shape appRepo as @rect label:"Repositories" style:"fill: #34a853"
+    
+    // Layer 3: Infrastructure (depends on application)
+    shape infDb as @cylinder label:"Database" style:"fill: #fbbc04"
+    shape infApi as @cylinder label:"External API" style:"fill: #fbbc04"
+    
+    // Layer 4: Presentation (depends on application)
+    shape presWeb as @monitor label:"Web UI" style:"fill: #ea4335"
+    shape presApi as @monitor label:"REST API" style:"fill: #ea4335"
+    
+    // Dependency flow (one direction only)
+    appService -> domain
+    appRepo -> domain
+    infDb -> appRepo
+    infApi -> appService
+    presWeb -> appService
+    presApi -> appService
+  }
+}

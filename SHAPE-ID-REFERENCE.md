@@ -175,7 +175,6 @@ For complex features (multi-series, custom colors, toggles), use JSON or program
 
 **📖 See the [Charts Guide](./docs/guide/charts.md) and [Sankey Guide](./docs/guide/sankey-diagrams.md) for complete syntax and examples.**
 
-
 ### UML State Machine Shapes
 
 **State Machine Shapes that ARE correct:**

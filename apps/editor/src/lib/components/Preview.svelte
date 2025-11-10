@@ -107,9 +107,9 @@
 		// Inject data directly into chart shapes by adding/replacing data property
 		let modifiedCode = syntaxCode;
 
-		// Find all chart shapes (lineChart, radarChart, pieChart, barChart, etc.)
+		// Find all chart shapes (lineChart, radarChart, pieChart, barChart, sankeyChart, etc.)
 		const chartShapePattern =
-			/shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChart|pyramidShape|venn\dShape)/g;
+			/shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChart|pyramidShape|venn\dShape|sankeyChart)/g;
 
 		let match;
 		const replacements: Array<{ from: number; to: number; replacement: string }> = [];
@@ -119,6 +119,11 @@
 			const shapeId = match[1];
 			const shapeType = match[2];
 			const matchStart = match.index;
+
+			// Skip data injection for sankeyChart - it uses a different mechanism
+			if (shapeType === 'sankeyChart') {
+				continue;
+			}
 
 			// Find the end of this shape declaration (either newline or next shape/edge/})
 			const afterMatch = syntaxCode.substring(matchStart + fullMatch.length);
@@ -156,7 +161,7 @@
 			// For charts, extract both numeric values and labels from array of objects
 			let chartData: any;
 			let chartLabels: string[] | null = null;
-			
+
 			if (
 				Array.isArray(dataToInject) &&
 				dataToInject.length > 0 &&
@@ -164,15 +169,15 @@
 			) {
 				const firstObj = dataToInject[0];
 				const keys = Object.keys(firstObj);
-				
+
 				// Find first numeric property for values
 				const numericKey = keys.find((k) => typeof firstObj[k] === 'number');
 				// Find first string property for labels
 				const labelKey = keys.find((k) => typeof firstObj[k] === 'string');
-				
+
 				if (numericKey) {
 					chartData = dataToInject.map((item: any) => item[numericKey]);
-					
+
 					// Extract labels if available
 					if (labelKey) {
 						chartLabels = dataToInject.map((item: any) => item[labelKey]);
@@ -187,15 +192,17 @@
 			// Build new shape declaration with data and labels
 			const dataStr = JSON.stringify(chartData);
 			let newProps = withoutData;
-			
+
 			// Add labels if we extracted them
 			if (chartLabels && chartLabels.length > 0) {
 				const labelsStr = JSON.stringify(chartLabels);
-				newProps = newProps ? `${newProps} labels:${labelsStr} data:${dataStr}` : `labels:${labelsStr} data:${dataStr}`;
+				newProps = newProps
+					? `${newProps} labels:${labelsStr} data:${dataStr}`
+					: `labels:${labelsStr} data:${dataStr}`;
 			} else {
 				newProps = newProps ? `${newProps} data:${dataStr}` : `data:${dataStr}`;
 			}
-			
+
 			const newShapeDecl = `shape ${shapeId} as @${shapeType} ${newProps}`;
 
 			replacements.push({
@@ -389,6 +396,27 @@
 				isRendering = false;
 				if (onparse) onparse(false, errors);
 				return;
+			}
+
+			// Inject Sankey chart data from data panel (after parsing, directly into AST)
+			if (profile.type === 'diagram' && dataContent) {
+				try {
+					const data = JSON.parse(dataContent);
+					// Find sankeyChart shapes and inject their data
+					if (profile.nodes) {
+						for (const node of profile.nodes) {
+							if (node.shape === 'sankeyChart') {
+								// Use first available data key (Sankey data is usually the only dataset)
+								const dataKeys = Object.keys(data);
+								if (dataKeys.length > 0) {
+									node.data = data[dataKeys[0]];
+								}
+							}
+						}
+					}
+				} catch (e) {
+					// Ignore JSON parse errors for Sankey injection
+				}
 			}
 
 			// Start render timer

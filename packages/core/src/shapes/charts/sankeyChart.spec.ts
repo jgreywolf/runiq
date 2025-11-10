@@ -300,12 +300,7 @@ describe('sankeyChart', () => {
           id: 'chart1',
           type: 'sankeyChart',
           data: {
-            nodes: [
-              { id: 'A' },
-              { id: 'B' },
-              { id: 'C' },
-              { id: 'D' },
-            ],
+            nodes: [{ id: 'A' }, { id: 'B' }, { id: 'C' }, { id: 'D' }],
             links: [
               { source: 'A', target: 'C', value: 100 }, // Large flow
               { source: 'B', target: 'D', value: 10 }, // Small flow
@@ -328,11 +323,7 @@ describe('sankeyChart', () => {
           id: 'chart1',
           type: 'sankeyChart',
           data: {
-            nodes: [
-              { id: 'A' },
-              { id: 'B' },
-              { id: 'C' },
-            ],
+            nodes: [{ id: 'A' }, { id: 'B' }, { id: 'C' }],
             links: [
               { source: 'A', target: 'B', value: 100 },
               { source: 'B', target: 'C', value: 80 },
@@ -373,12 +364,7 @@ describe('sankeyChart', () => {
           id: 'chart1',
           type: 'sankeyChart',
           data: {
-            nodes: [
-              { id: 'A' },
-              { id: 'B' },
-              { id: 'C' },
-              { id: 'D' },
-            ],
+            nodes: [{ id: 'A' }, { id: 'B' }, { id: 'C' }, { id: 'D' }],
             links: [
               { source: 'A', target: 'B', value: 100 },
               // C and D are disconnected

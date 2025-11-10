@@ -188,4 +188,318 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 			});
 		});
 	});
+
+	test.describe('Sankey Diagrams', () => {
+		test('09-sankey-simple: Basic energy flow', async ({ page }) => {
+			await test.step('Enter simple Sankey diagram', async () => {
+				const dsl = `diagram "Energy Flow" {
+  shape energy as @sankeyChart label:"Energy Distribution"
+}`;
+				await page.locator('.cm-content').fill(dsl);
+			});
+
+			await test.step('Switch to Data tab and enter data', async () => {
+				await page.click('[data-value="data"]');
+				const dataEditor = page.locator('[data-value="data"] .cm-content');
+				const data = `{
+  "energy": {
+    "nodes": [
+      { "id": "Coal", "label": "Coal Power", "color": "#8B4513" },
+      { "id": "Solar", "label": "Solar Energy", "color": "#FFD700" },
+      { "id": "Grid", "label": "Power Grid", "color": "#32CD32" },
+      { "id": "Homes", "label": "Residential", "color": "#FF69B4" }
+    ],
+    "links": [
+      { "source": "Coal", "target": "Grid", "value": 300 },
+      { "source": "Solar", "target": "Grid", "value": 100 },
+      { "source": "Grid", "target": "Homes", "value": 380 }
+    ]
+  }
+}`;
+				await dataEditor.fill(data);
+			});
+
+			await test.step('Wait for rendering', async () => {
+				await page.waitForTimeout(2000);
+			});
+
+			await test.step('Take screenshot for visual regression', async () => {
+				await expect(page).toHaveScreenshot('phase4-09-sankey-simple.png', {
+					maxDiffPixels: 300,
+					fullPage: true
+				});
+			});
+		});
+
+		test('10-sankey-material-flow: Manufacturing material flow', async ({ page }) => {
+			await test.step('Enter material flow Sankey diagram', async () => {
+				const dsl = `diagram "Manufacturing" {
+  shape materials as @sankeyChart label:"Production Material Flow"
+}`;
+				await page.locator('.cm-content').fill(dsl);
+			});
+
+			await test.step('Switch to Data tab and enter data', async () => {
+				await page.click('[data-value="data"]');
+				const dataEditor = page.locator('[data-value="data"] .cm-content');
+				const data = `{
+  "materials": {
+    "nodes": [
+      { "id": "RawMat", "label": "Raw Materials" },
+      { "id": "Proc1", "label": "Processing A" },
+      { "id": "Proc2", "label": "Processing B" },
+      { "id": "Assembly", "label": "Assembly" },
+      { "id": "QA", "label": "Quality Check" },
+      { "id": "Shipping", "label": "Shipping" },
+      { "id": "Waste", "label": "Waste/Recycling" }
+    ],
+    "links": [
+      { "source": "RawMat", "target": "Proc1", "value": 1000 },
+      { "source": "RawMat", "target": "Proc2", "value": 800 },
+      { "source": "Proc1", "target": "Assembly", "value": 900 },
+      { "source": "Proc1", "target": "Waste", "value": 100 },
+      { "source": "Proc2", "target": "Assembly", "value": 700 },
+      { "source": "Proc2", "target": "Waste", "value": 100 },
+      { "source": "Assembly", "target": "QA", "value": 1600 },
+      { "source": "QA", "target": "Shipping", "value": 1500 },
+      { "source": "QA", "target": "Waste", "value": 100 }
+    ]
+  }
+}`;
+				await dataEditor.fill(data);
+			});
+
+			await test.step('Wait for rendering', async () => {
+				await page.waitForTimeout(2000);
+			});
+
+			await test.step('Take screenshot for visual regression', async () => {
+				await expect(page).toHaveScreenshot('phase4-10-sankey-material-flow.png', {
+					maxDiffPixels: 300,
+					fullPage: true
+				});
+			});
+		});
+
+		test('11-sankey-colored-flows: Hot and cold water mixing', async ({ page }) => {
+			await test.step('Enter colored flows Sankey diagram', async () => {
+				const dsl = `diagram "Water Mixing" {
+  shape flows as @sankeyChart label:"Hot & Cold Water Mixing"
+}`;
+				await page.locator('.cm-content').fill(dsl);
+			});
+
+			await test.step('Switch to Data tab and enter data', async () => {
+				await page.click('[data-value="data"]');
+				const dataEditor = page.locator('[data-value="data"] .cm-content');
+				const data = `{
+  "flows": {
+    "nodes": [
+      { "id": "Hot", "label": "Hot Water", "color": "#e74c3c" },
+      { "id": "Cold", "label": "Cold Water", "color": "#3498db" },
+      { "id": "Mixed", "label": "Mixed Output", "color": "#9b59b6" }
+    ],
+    "links": [
+      { "source": "Hot", "target": "Mixed", "value": 60, "color": "#e74c3c" },
+      { "source": "Cold", "target": "Mixed", "value": 40, "color": "#3498db" }
+    ]
+  }
+}`;
+				await dataEditor.fill(data);
+			});
+
+			await test.step('Wait for rendering', async () => {
+				await page.waitForTimeout(2000);
+			});
+
+			await test.step('Take screenshot for visual regression', async () => {
+				await expect(page).toHaveScreenshot('phase4-11-sankey-colored-flows.png', {
+					maxDiffPixels: 300,
+					fullPage: true
+				});
+			});
+		});
+
+		test('12-sankey-conversion-funnel: E-commerce conversion flow', async ({ page }) => {
+			await test.step('Enter conversion funnel Sankey diagram', async () => {
+				const dsl = `diagram "Conversion Funnel" {
+  shape funnel as @sankeyChart label:"E-commerce Conversion Flow"
+}`;
+				await page.locator('.cm-content').fill(dsl);
+			});
+
+			await test.step('Switch to Data tab and enter data', async () => {
+				await page.click('[data-value="data"]');
+				const dataEditor = page.locator('[data-value="data"] .cm-content');
+				const data = `{
+  "funnel": {
+    "nodes": [
+      { "id": "Visitors", "label": "Website Visitors" },
+      { "id": "Landing", "label": "Landing Page" },
+      { "id": "Product", "label": "Product Page" },
+      { "id": "Cart", "label": "Shopping Cart" },
+      { "id": "Checkout", "label": "Checkout" },
+      { "id": "Purchase", "label": "Purchase Complete" },
+      { "id": "Bounce", "label": "Bounced" }
+    ],
+    "links": [
+      { "source": "Visitors", "target": "Landing", "value": 10000 },
+      { "source": "Landing", "target": "Product", "value": 6000 },
+      { "source": "Landing", "target": "Bounce", "value": 4000 },
+      { "source": "Product", "target": "Cart", "value": 3000 },
+      { "source": "Product", "target": "Bounce", "value": 3000 },
+      { "source": "Cart", "target": "Checkout", "value": 1500 },
+      { "source": "Cart", "target": "Bounce", "value": 1500 },
+      { "source": "Checkout", "target": "Purchase", "value": 1200 },
+      { "source": "Checkout", "target": "Bounce", "value": 300 }
+    ]
+  }
+}`;
+				await dataEditor.fill(data);
+			});
+
+			await test.step('Wait for rendering', async () => {
+				await page.waitForTimeout(2000);
+			});
+
+			await test.step('Take screenshot for visual regression', async () => {
+				await expect(page).toHaveScreenshot('phase4-12-sankey-conversion-funnel.png', {
+					maxDiffPixels: 300,
+					fullPage: true
+				});
+			});
+		});
+
+		test('13-sankey-budget-allocation: Budget distribution', async ({ page }) => {
+			await test.step('Enter budget allocation Sankey diagram', async () => {
+				const dsl = `diagram "Budget Flow" {
+  shape budget as @sankeyChart label:"Annual Budget Allocation"
+}`;
+				await page.locator('.cm-content').fill(dsl);
+			});
+
+			await test.step('Switch to Data tab and enter data', async () => {
+				await page.click('[data-value="data"]');
+				const dataEditor = page.locator('[data-value="data"] .cm-content');
+				const data = `{
+  "budget": {
+    "nodes": [
+      { "id": "Revenue", "label": "Total Revenue" },
+      { "id": "OpEx", "label": "Operating Expenses" },
+      { "id": "CapEx", "label": "Capital Expenses" },
+      { "id": "Engineering", "label": "Engineering" },
+      { "id": "Marketing", "label": "Marketing" },
+      { "id": "Sales", "label": "Sales" },
+      { "id": "Infrastructure", "label": "Infrastructure" },
+      { "id": "RnD", "label": "R&D Projects" }
+    ],
+    "links": [
+      { "source": "Revenue", "target": "OpEx", "value": 5000000 },
+      { "source": "Revenue", "target": "CapEx", "value": 2000000 },
+      { "source": "OpEx", "target": "Engineering", "value": 2000000 },
+      { "source": "OpEx", "target": "Marketing", "value": 1500000 },
+      { "source": "OpEx", "target": "Sales", "value": 1500000 },
+      { "source": "CapEx", "target": "Infrastructure", "value": 1200000 },
+      { "source": "CapEx", "target": "RnD", "value": 800000 }
+    ]
+  }
+}`;
+				await dataEditor.fill(data);
+			});
+
+			await test.step('Wait for rendering', async () => {
+				await page.waitForTimeout(2000);
+			});
+
+			await test.step('Take screenshot for visual regression', async () => {
+				await expect(page).toHaveScreenshot('phase4-13-sankey-budget-allocation.png', {
+					maxDiffPixels: 300,
+					fullPage: true
+				});
+			});
+		});
+
+		test('14-sankey-single-node: Edge case - single node', async ({ page }) => {
+			await test.step('Enter single node Sankey diagram', async () => {
+				const dsl = `diagram "Single Node Test" {
+  shape single as @sankeyChart label:"Single Node"
+}`;
+				await page.locator('.cm-content').fill(dsl);
+			});
+
+			await test.step('Switch to Data tab and enter data', async () => {
+				await page.click('[data-value="data"]');
+				const dataEditor = page.locator('[data-value="data"] .cm-content');
+				const data = `{
+  "single": {
+    "nodes": [
+      { "id": "Only", "label": "Single Node", "color": "#3498db" }
+    ],
+    "links": []
+  }
+}`;
+				await dataEditor.fill(data);
+			});
+
+			await test.step('Wait for rendering', async () => {
+				await page.waitForTimeout(2000);
+			});
+
+			await test.step('Take screenshot for visual regression', async () => {
+				await expect(page).toHaveScreenshot('phase4-14-sankey-single-node.png', {
+					maxDiffPixels: 300,
+					fullPage: true
+				});
+			});
+		});
+
+		test('15-sankey-complex-energy-grid: Multi-layer energy distribution', async ({ page }) => {
+			await test.step('Enter complex energy grid Sankey diagram', async () => {
+				const dsl = `diagram "Energy Grid" {
+  shape energy as @sankeyChart label:"Energy Distribution Network"
+}`;
+				await page.locator('.cm-content').fill(dsl);
+			});
+
+			await test.step('Switch to Data tab and enter data', async () => {
+				await page.click('[data-value="data"]');
+				const dataEditor = page.locator('[data-value="data"] .cm-content');
+				const data = `{
+  "energy": {
+    "nodes": [
+      { "id": "Coal", "label": "Coal", "color": "#8B4513" },
+      { "id": "Gas", "label": "Natural Gas", "color": "#4682B4" },
+      { "id": "Solar", "label": "Solar", "color": "#FFD700" },
+      { "id": "Wind", "label": "Wind", "color": "#87CEEB" },
+      { "id": "Power", "label": "Power Plant", "color": "#DC143C" },
+      { "id": "Grid", "label": "Grid", "color": "#32CD32" },
+      { "id": "Residential", "label": "Residential", "color": "#FF69B4" },
+      { "id": "Industrial", "label": "Industrial", "color": "#FF8C00" }
+    ],
+    "links": [
+      { "source": "Coal", "target": "Power", "value": 300 },
+      { "source": "Gas", "target": "Power", "value": 200 },
+      { "source": "Solar", "target": "Grid", "value": 100 },
+      { "source": "Wind", "target": "Grid", "value": 80 },
+      { "source": "Power", "target": "Grid", "value": 480 },
+      { "source": "Grid", "target": "Residential", "value": 250 },
+      { "source": "Grid", "target": "Industrial", "value": 310 }
+    ]
+  }
+}`;
+				await dataEditor.fill(data);
+			});
+
+			await test.step('Wait for rendering', async () => {
+				await page.waitForTimeout(2000);
+			});
+
+			await test.step('Take screenshot for visual regression', async () => {
+				await expect(page).toHaveScreenshot('phase4-15-sankey-complex-energy-grid.png', {
+					maxDiffPixels: 300,
+					fullPage: true
+				});
+			});
+		});
+	});
 });

@@ -1,0 +1,90 @@
+// Social Network with Natural Communities
+// Shows how force layout reveals friendship clusters automatically
+
+diagram "Friend Network" {
+  container "Friends" algorithm: force spacing: 130 {
+    // Tech Community - tightly connected group
+    shape alice as @actor label:"Alice\n(Engineer)"
+    shape bob as @actor label:"Bob\n(Developer)"
+    shape carol as @actor label:"Carol\n(Designer)"
+    shape dan as @actor label:"Dan\n(Product)"
+    
+    // Sports Community - another tight group
+    shape eve as @actor label:"Eve\n(Runner)"
+    shape frank as @actor label:"Frank\n(Cyclist)"
+    shape grace as @actor label:"Grace\n(Swimmer)"
+    
+    // Art Community - smaller group
+    shape henry as @actor label:"Henry\n(Painter)"
+    shape iris as @actor label:"Iris\n(Sculptor)"
+    
+    // Bridge Members - connect communities
+    shape jack as @actor label:"Jack\n(Polymath)"
+    shape kate as @actor label:"Kate\n(Social)"
+    
+    // Tech friendships (dense cluster)
+    alice -> bob
+    alice -> carol
+    alice -> dan
+    bob -> carol
+    bob -> dan
+    carol -> dan
+    
+    // Sports friendships (dense cluster)
+    eve -> frank
+    eve -> grace
+    frank -> grace
+    
+    // Art friendships
+    henry -> iris
+    
+    // Bridge connections (sparse between clusters)
+    alice -> jack label:"project"
+    bob -> jack
+    eve -> kate label:"gym"
+    frank -> kate
+    henry -> kate label:"gallery"
+    jack -> kate label:"friends"
+    dan -> kate
+  }
+}
+
+// With colored communities
+diagram "Colored Communities" {
+  container "Social Network" algorithm: force spacing: 140 {
+    // Tech (blue)
+    shape t1 as @circle label:"T1" style:"fill: #4285f4"
+    shape t2 as @circle label:"T2" style:"fill: #4285f4"
+    shape t3 as @circle label:"T3" style:"fill: #4285f4"
+    
+    // Business (green)
+    shape b1 as @circle label:"B1" style:"fill: #34a853"
+    shape b2 as @circle label:"B2" style:"fill: #34a853"
+    shape b3 as @circle label:"B3" style:"fill: #34a853"
+    
+    // Creative (red)
+    shape c1 as @circle label:"C1" style:"fill: #ea4335"
+    shape c2 as @circle label:"C2" style:"fill: #ea4335"
+    shape c3 as @circle label:"C3" style:"fill: #ea4335"
+    
+    // Connectors (yellow)
+    shape x1 as @circle label:"X1" style:"fill: #fbbc04"
+    shape x2 as @circle label:"X2" style:"fill: #fbbc04"
+    
+    // Intra-community edges (strong)
+    t1 -> t2
+    t2 -> t3
+    t1 -> t3
+    b1 -> b2
+    b2 -> b3
+    b1 -> b3
+    c1 -> c2
+    c2 -> c3
+    
+    // Inter-community bridges (weak)
+    t2 -> x1
+    b2 -> x1
+    c2 -> x2
+    x1 -> x2
+  }
+}

@@ -16,9 +16,24 @@
     { "source": "Solar", "target": "Grid", "value": 100, "color": "#FFD700" },
     { "source": "Wind", "target": "Grid", "value": 80, "color": "#87CEEB" },
     { "source": "Power", "target": "Grid", "value": 480, "color": "#DC143C" },
-    { "source": "Grid", "target": "Residential", "value": 250, "color": "#FF69B4" },
-    { "source": "Grid", "target": "Commercial", "value": 180, "color": "#9370DB" },
-    { "source": "Grid", "target": "Industrial", "value": 230, "color": "#FF8C00" }
+    {
+      "source": "Grid",
+      "target": "Residential",
+      "value": 250,
+      "color": "#FF69B4"
+    },
+    {
+      "source": "Grid",
+      "target": "Commercial",
+      "value": 180,
+      "color": "#9370DB"
+    },
+    {
+      "source": "Grid",
+      "target": "Industrial",
+      "value": 230,
+      "color": "#FF8C00"
+    }
   ],
   "width": 1000,
   "height": 600
