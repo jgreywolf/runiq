@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -570,6 +570,69 @@ SequenceDurationToProperty:
 
 SequenceDurationConstraintValueProperty:
     'constraint:' constraint=STRING;
+
+// ============================================================================
+// Timeline Profile - Chronological events and milestones
+// ============================================================================
+
+TimelineProfile:
+    'timeline' name=STRING '{'
+        statements+=TimelineStatement*
+    '}';
+
+TimelineStatement:
+    TimelineEventStatement | TimelinePeriodStatement | TimelineOrientationStatement;
+
+// event kickoff date:"2024-01-15" label:"Project Kickoff" description:"Initial meeting" icon:"flag" color:"#3b82f6"
+TimelineEventStatement:
+    'event' id=ID properties+=TimelineEventProperty+;
+
+TimelineEventProperty:
+    TimelineDateProperty | TimelineLabelProperty | TimelineDescriptionProperty | TimelineIconProperty | TimelineColorProperty | TimelinePositionProperty;
+
+TimelineDateProperty:
+    'date:' date=STRING;
+
+TimelineLabelProperty:
+    'label:' label=STRING;
+
+TimelineDescriptionProperty:
+    'description:' description=STRING;
+
+TimelineIconProperty:
+    'icon:' icon=STRING;
+
+TimelineColorProperty:
+    'color:' color=STRING;
+
+TimelinePositionProperty:
+    'position:' position=TimelinePosition;
+
+TimelinePosition returns string:
+    'top' | 'bottom' | 'left' | 'right';
+
+// period planning startDate:"2024-01-15" endDate:"2024-02-28" label:"Planning Phase" color:"#e0e7ff"
+TimelinePeriodStatement:
+    'period' id=ID properties+=TimelinePeriodProperty+;
+
+TimelinePeriodProperty:
+    TimelineStartDateProperty | TimelineEndDateProperty | TimelineLabelProperty | TimelineColorProperty | TimelineOpacityProperty;
+
+TimelineStartDateProperty:
+    'startDate:' startDate=STRING;
+
+TimelineEndDateProperty:
+    'endDate:' endDate=STRING;
+
+TimelineOpacityProperty:
+    'opacity:' opacity=NUMBER;
+
+// Optional: orientation horizontal (default) or vertical
+TimelineOrientationStatement:
+    'orientation' orientation=TimelineOrientation;
+
+TimelineOrientation returns string:
+    'horizontal' | 'vertical';
 
 // ============================================================================
 // Diagram profile statements (existing grammar)

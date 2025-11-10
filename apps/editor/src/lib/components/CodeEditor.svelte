@@ -389,14 +389,21 @@
 	}
 </script>
 
-<div class="h-full w-full overflow-hidden" bind:this={editorContainer}></div>
+<div class="flex h-full w-full flex-col" bind:this={editorContainer}></div>
 
 <style>
 	:global(.cm-editor) {
 		height: 100%;
+		display: flex;
+		flex-direction: column;
 	}
 
 	:global(.cm-scroller) {
-		overflow: auto;
+		overflow: auto !important;
+		flex: 1;
+	}
+
+	:global(.cm-content) {
+		min-height: 0;
 	}
 </style>

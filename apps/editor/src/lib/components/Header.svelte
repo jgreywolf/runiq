@@ -11,7 +11,15 @@
 		lastSaved?: Date | null;
 		isDirty?: boolean;
 		onNewDiagram?: (
-			type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence' | 'pid'
+			type:
+				| 'diagram'
+				| 'electrical'
+				| 'pneumatic'
+				| 'hydraulic'
+				| 'wardley'
+				| 'sequence'
+				| 'timeline'
+				| 'pid'
 		) => void;
 		onExport?: (format: 'svg' | 'png') => void;
 	}
@@ -36,7 +44,15 @@
 	}
 
 	function createDiagram(
-		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence' | 'pid'
+		type:
+			| 'diagram'
+			| 'electrical'
+			| 'pneumatic'
+			| 'hydraulic'
+			| 'wardley'
+			| 'sequence'
+			| 'timeline'
+			| 'pid'
 	) {
 		onNewDiagram?.(type);
 	}

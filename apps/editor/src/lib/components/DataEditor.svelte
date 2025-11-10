@@ -233,5 +233,16 @@
 <style>
 	:global(.cm-editor) {
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	:global(.cm-scroller) {
+		overflow: auto !important;
+		flex: 1;
+	}
+
+	:global(.cm-content) {
+		min-height: 0;
 	}
 </style>

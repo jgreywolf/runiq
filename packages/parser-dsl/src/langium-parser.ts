@@ -44,6 +44,9 @@ import type {
   FlowRateSpec,
   FluidSpec,
   TemperatureRange,
+  TimelineProfile,
+  TimelineEvent,
+  TimelinePeriod,
 } from '@runiq/core';
 import { EmptyFileSystem } from 'langium';
 import { createRuniqServices } from './langium-module.js';
@@ -222,6 +225,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertHydraulicProfile(profile));
     } else if (Langium.isPIDProfile(profile)) {
       runiqDoc.profiles.push(convertPIDProfile(profile));
+    } else if (Langium.isTimelineProfile(profile)) {
+      runiqDoc.profiles.push(convertTimelineProfile(profile));
     }
   }
 
@@ -1068,6 +1073,82 @@ function convertPIDProfile(profile: Langium.PIDProfile): PIDProfile {
   }
 
   return pidProfile;
+}
+
+/**
+ * Convert Langium Timeline Profile to core Timeline Profile
+ */
+function convertTimelineProfile(
+  profile: Langium.TimelineProfile
+): TimelineProfile {
+  const timelineProfile: TimelineProfile = {
+    type: 'timeline',
+    astVersion: '1.0.0',
+    title: profile.name.replace(/^"|"$/g, ''),
+    orientation: 'horizontal', // Default value
+    events: [],
+    periods: [],
+  };
+
+  // Process timeline statements
+  for (const statement of profile.statements) {
+    if (Langium.isTimelineEventStatement(statement)) {
+      // event E1 date:"2024-01-15" label:"Kickoff" description:"..." icon:"rocket" color:"#0066cc"
+      const event: Partial<TimelineEvent> = {
+        id: statement.id,
+      };
+
+      // Extract properties from the properties array
+      for (const prop of statement.properties) {
+        if (Langium.isTimelineDateProperty(prop)) {
+          event.date = prop.date.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineLabelProperty(prop)) {
+          event.label = prop.label.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineDescriptionProperty(prop)) {
+          event.description = prop.description.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineIconProperty(prop)) {
+          event.icon = prop.icon.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineColorProperty(prop)) {
+          event.color = prop.color.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelinePositionProperty(prop)) {
+          event.position = prop.position as 'top' | 'bottom';
+        }
+      }
+
+      timelineProfile.events.push(event as TimelineEvent);
+    } else if (Langium.isTimelinePeriodStatement(statement)) {
+      // period P1 startDate:"2024-01-15" endDate:"2024-02-15" label:"Planning" color:"#e0e0e0" opacity:0.3
+      const period: Partial<TimelinePeriod> = {
+        id: statement.id,
+      };
+
+      // Extract properties
+      for (const prop of statement.properties) {
+        if (Langium.isTimelineStartDateProperty(prop)) {
+          period.startDate = prop.startDate.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineEndDateProperty(prop)) {
+          period.endDate = prop.endDate.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineLabelProperty(prop)) {
+          period.label = prop.label.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineColorProperty(prop)) {
+          period.color = prop.color.replace(/^"|"$/g, '');
+        } else if (Langium.isTimelineOpacityProperty(prop)) {
+          period.opacity = parseFloat(prop.opacity);
+        }
+      }
+
+      if (timelineProfile.periods) {
+        timelineProfile.periods.push(period as TimelinePeriod);
+      }
+    } else if (Langium.isTimelineOrientationStatement(statement)) {
+      // orientation horizontal | vertical
+      timelineProfile.orientation = statement.orientation as
+        | 'horizontal'
+        | 'vertical';
+    }
+  }
+
+  return timelineProfile;
 }
 
 /**

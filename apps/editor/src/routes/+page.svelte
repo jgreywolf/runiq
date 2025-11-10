@@ -141,7 +141,15 @@
 
 	// Handle new diagram creation with type selection
 	function handleNewDiagram(
-		type: 'diagram' | 'electrical' | 'pneumatic' | 'hydraulic' | 'wardley' | 'sequence' | 'pid'
+		type:
+			| 'diagram'
+			| 'electrical'
+			| 'pneumatic'
+			| 'hydraulic'
+			| 'wardley'
+			| 'sequence'
+			| 'timeline'
+			| 'pid'
 	) {
 		let defaultContent: string;
 		let defaultName: string;
@@ -184,6 +192,43 @@
 	}
 `;
 			defaultName = 'Untitled Sequence';
+		} else if (type === 'timeline') {
+			defaultContent = `timeline "My Timeline" {
+  // Events with dates and descriptions
+  event start date:"2024-01-01" label:"Project Start" 
+    description:"Project kickoff meeting" 
+    color:"#3B82F6"
+  
+  event milestone1 date:"2024-03-15" label:"First Milestone" 
+    description:"Initial release" 
+    icon:"rocket" 
+    color:"#10B981"
+  
+  event milestone2 date:"2024-06-01" label:"Second Milestone" 
+    description:"Feature complete" 
+    color:"#F59E0B"
+  
+  event complete date:"2024-09-01" label:"Project Complete" 
+    description:"Final delivery" 
+    icon:"star" 
+    color:"#EF4444"
+  
+  // Optional: Define periods
+  period phase1 startDate:"2024-01-01" endDate:"2024-03-15" 
+    label:"Phase 1" 
+    color:"#DBEAFE" 
+    opacity:0.3
+  
+  period phase2 startDate:"2024-03-15" endDate:"2024-09-01" 
+    label:"Phase 2" 
+    color:"#D1FAE5" 
+    opacity:0.3
+  
+  // Timeline orientation (horizontal or vertical)
+  orientation horizontal
+}
+`;
+			defaultName = 'Untitled Timeline';
 		} else if (type === 'electrical') {
 			defaultContent = `electrical "My Circuit" {
   net VCC, GND

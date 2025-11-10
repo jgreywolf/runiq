@@ -164,6 +164,23 @@ Strategic mapping tools for business analysis and decision-making.
 - **Visual Examples**: Tea shop, technology evolution, business strategy
 - Export to SVG for presentations and documentation
 
+## Timelines & Chronology
+
+Visualize events and milestones over time.
+
+### [Timeline Diagrams](/examples/timeline-diagrams)
+
+- Chronological event visualization
+- Project roadmaps and milestones
+- Company history and growth phases
+- Product release schedules
+- Career progression tracking
+- Horizontal or vertical orientation
+- Period backgrounds with opacity
+- Custom colors and icons
+- **Visual Examples**: Software project, company history, product releases, career journey
+- Applications: Project planning, historical narratives, version tracking
+
 ---
 
 ## Coming Soon
@@ -247,6 +264,11 @@ Strategic mapping tools for business analysis and decision-making.
   <a href="/examples/wardley-maps" class="example-card">
     <h3>📊 Wardley Maps</h3>
     <p>Strategic evolution mapping</p>
+  </a>
+  
+  <a href="/examples/timeline-diagrams" class="example-card">
+    <h3>⏱️ Timelines</h3>
+    <p>Chronological events & milestones</p>
   </a>
 </div>
 

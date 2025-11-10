@@ -2,7 +2,12 @@
 	import { onMount } from 'svelte';
 	import { parse } from '@runiq/parser-dsl';
 	import { layoutRegistry } from '@runiq/core';
-	import { renderSvg, renderWardleyMap, renderSequenceDiagram } from '@runiq/renderer-svg';
+	import {
+		renderSvg,
+		renderWardleyMap,
+		renderSequenceDiagram,
+		renderTimeline
+	} from '@runiq/renderer-svg';
 	import { renderSchematic, renderPID } from '@runiq/renderer-schematic';
 	import { Badge } from '$lib/components/ui/badge';
 
@@ -454,6 +459,16 @@
 						messageSpacing: 60
 					});
 					break;
+				case 'timeline':
+					renderResult = renderTimeline(profile as any, {
+						width: 1600,
+						height: 500,
+						padding: 100,
+						showDates: true,
+						labelFontSize: 13,
+						dateFontSize: 11
+					});
+					break;
 				case 'pid':
 					// P&ID rendering with ISA-5.1 symbols
 					renderResult = renderPID(profile as any, {
@@ -490,7 +505,7 @@
 				default:
 					errors = [
 						`Profile type '${profile.type}' is not yet supported in the preview.`,
-						`Currently 'diagram', 'electrical', 'pneumatic', 'hydraulic', 'sequence', and 'wardley' profiles can be rendered.`
+						`Currently 'diagram', 'electrical', 'pneumatic', 'hydraulic', 'sequence', 'timeline', 'wardley', and 'pid' profiles can be rendered.`
 					];
 					svgOutput = '';
 					isRendering = false;

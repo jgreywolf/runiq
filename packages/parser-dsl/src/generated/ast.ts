@@ -199,6 +199,7 @@ export type RuniqKeywordNames =
     | "dataStore"
     | "database"
     | "datasource"
+    | "date:"
     | "db"
     | "dc"
     | "deceased:"
@@ -236,6 +237,7 @@ export type RuniqKeywordNames =
     | "effect:"
     | "electrical"
     | "end"
+    | "endDate:"
     | "entity"
     | "entry:"
     | "entryPoint"
@@ -434,6 +436,7 @@ export type RuniqKeywordNames =
     | "opt"
     | "options:"
     | "or"
+    | "orientation"
     | "orientation:"
     | "orthogonal"
     | "output"
@@ -455,6 +458,7 @@ export type RuniqKeywordNames =
     | "partial"
     | "participant"
     | "participants:"
+    | "period"
     | "personnel_protection"
     | "ph"
     | "phTransmitter"
@@ -554,6 +558,7 @@ export type RuniqKeywordNames =
     | "stacked:"
     | "standard"
     | "start"
+    | "startDate:"
     | "stateInvariant:"
     | "static:"
     | "step"
@@ -592,6 +597,7 @@ export type RuniqKeywordNames =
     | "textAlign:"
     | "thermal"
     | "timeObservation"
+    | "timeline"
     | "timing:"
     | "title:"
     | "to"
@@ -3517,7 +3523,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | TimelineProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -4530,6 +4536,249 @@ export function isTextAlignValue(item: unknown): item is TextAlignValue {
     return item === 'left' || item === 'center' || item === 'right';
 }
 
+export interface TimelineColorProperty extends langium.AstNode {
+    readonly $container: TimelineEventStatement | TimelinePeriodStatement;
+    readonly $type: 'TimelineColorProperty';
+    color: string;
+}
+
+export const TimelineColorProperty = {
+    $type: 'TimelineColorProperty',
+    color: 'color'
+} as const;
+
+export function isTimelineColorProperty(item: unknown): item is TimelineColorProperty {
+    return reflection.isInstance(item, TimelineColorProperty.$type);
+}
+
+export interface TimelineDateProperty extends langium.AstNode {
+    readonly $container: TimelineEventStatement;
+    readonly $type: 'TimelineDateProperty';
+    date: string;
+}
+
+export const TimelineDateProperty = {
+    $type: 'TimelineDateProperty',
+    date: 'date'
+} as const;
+
+export function isTimelineDateProperty(item: unknown): item is TimelineDateProperty {
+    return reflection.isInstance(item, TimelineDateProperty.$type);
+}
+
+export interface TimelineDescriptionProperty extends langium.AstNode {
+    readonly $container: TimelineEventStatement;
+    readonly $type: 'TimelineDescriptionProperty';
+    description: string;
+}
+
+export const TimelineDescriptionProperty = {
+    $type: 'TimelineDescriptionProperty',
+    description: 'description'
+} as const;
+
+export function isTimelineDescriptionProperty(item: unknown): item is TimelineDescriptionProperty {
+    return reflection.isInstance(item, TimelineDescriptionProperty.$type);
+}
+
+export interface TimelineEndDateProperty extends langium.AstNode {
+    readonly $container: TimelinePeriodStatement;
+    readonly $type: 'TimelineEndDateProperty';
+    endDate: string;
+}
+
+export const TimelineEndDateProperty = {
+    $type: 'TimelineEndDateProperty',
+    endDate: 'endDate'
+} as const;
+
+export function isTimelineEndDateProperty(item: unknown): item is TimelineEndDateProperty {
+    return reflection.isInstance(item, TimelineEndDateProperty.$type);
+}
+
+export type TimelineEventProperty = TimelineColorProperty | TimelineDateProperty | TimelineDescriptionProperty | TimelineIconProperty | TimelineLabelProperty | TimelinePositionProperty;
+
+export const TimelineEventProperty = {
+    $type: 'TimelineEventProperty'
+} as const;
+
+export function isTimelineEventProperty(item: unknown): item is TimelineEventProperty {
+    return reflection.isInstance(item, TimelineEventProperty.$type);
+}
+
+export interface TimelineEventStatement extends langium.AstNode {
+    readonly $container: TimelineProfile;
+    readonly $type: 'TimelineEventStatement';
+    id: string;
+    properties: Array<TimelineEventProperty>;
+}
+
+export const TimelineEventStatement = {
+    $type: 'TimelineEventStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isTimelineEventStatement(item: unknown): item is TimelineEventStatement {
+    return reflection.isInstance(item, TimelineEventStatement.$type);
+}
+
+export interface TimelineIconProperty extends langium.AstNode {
+    readonly $container: TimelineEventStatement;
+    readonly $type: 'TimelineIconProperty';
+    icon: string;
+}
+
+export const TimelineIconProperty = {
+    $type: 'TimelineIconProperty',
+    icon: 'icon'
+} as const;
+
+export function isTimelineIconProperty(item: unknown): item is TimelineIconProperty {
+    return reflection.isInstance(item, TimelineIconProperty.$type);
+}
+
+export interface TimelineLabelProperty extends langium.AstNode {
+    readonly $container: TimelineEventStatement | TimelinePeriodStatement;
+    readonly $type: 'TimelineLabelProperty';
+    label: string;
+}
+
+export const TimelineLabelProperty = {
+    $type: 'TimelineLabelProperty',
+    label: 'label'
+} as const;
+
+export function isTimelineLabelProperty(item: unknown): item is TimelineLabelProperty {
+    return reflection.isInstance(item, TimelineLabelProperty.$type);
+}
+
+export interface TimelineOpacityProperty extends langium.AstNode {
+    readonly $container: TimelinePeriodStatement;
+    readonly $type: 'TimelineOpacityProperty';
+    opacity: string;
+}
+
+export const TimelineOpacityProperty = {
+    $type: 'TimelineOpacityProperty',
+    opacity: 'opacity'
+} as const;
+
+export function isTimelineOpacityProperty(item: unknown): item is TimelineOpacityProperty {
+    return reflection.isInstance(item, TimelineOpacityProperty.$type);
+}
+
+export type TimelineOrientation = 'horizontal' | 'vertical';
+
+export function isTimelineOrientation(item: unknown): item is TimelineOrientation {
+    return item === 'horizontal' || item === 'vertical';
+}
+
+export interface TimelineOrientationStatement extends langium.AstNode {
+    readonly $container: TimelineProfile;
+    readonly $type: 'TimelineOrientationStatement';
+    orientation: TimelineOrientation;
+}
+
+export const TimelineOrientationStatement = {
+    $type: 'TimelineOrientationStatement',
+    orientation: 'orientation'
+} as const;
+
+export function isTimelineOrientationStatement(item: unknown): item is TimelineOrientationStatement {
+    return reflection.isInstance(item, TimelineOrientationStatement.$type);
+}
+
+export type TimelinePeriodProperty = TimelineColorProperty | TimelineEndDateProperty | TimelineLabelProperty | TimelineOpacityProperty | TimelineStartDateProperty;
+
+export const TimelinePeriodProperty = {
+    $type: 'TimelinePeriodProperty'
+} as const;
+
+export function isTimelinePeriodProperty(item: unknown): item is TimelinePeriodProperty {
+    return reflection.isInstance(item, TimelinePeriodProperty.$type);
+}
+
+export interface TimelinePeriodStatement extends langium.AstNode {
+    readonly $container: TimelineProfile;
+    readonly $type: 'TimelinePeriodStatement';
+    id: string;
+    properties: Array<TimelinePeriodProperty>;
+}
+
+export const TimelinePeriodStatement = {
+    $type: 'TimelinePeriodStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isTimelinePeriodStatement(item: unknown): item is TimelinePeriodStatement {
+    return reflection.isInstance(item, TimelinePeriodStatement.$type);
+}
+
+export type TimelinePosition = 'bottom' | 'left' | 'right' | 'top';
+
+export function isTimelinePosition(item: unknown): item is TimelinePosition {
+    return item === 'top' || item === 'bottom' || item === 'left' || item === 'right';
+}
+
+export interface TimelinePositionProperty extends langium.AstNode {
+    readonly $container: TimelineEventStatement;
+    readonly $type: 'TimelinePositionProperty';
+    position: TimelinePosition;
+}
+
+export const TimelinePositionProperty = {
+    $type: 'TimelinePositionProperty',
+    position: 'position'
+} as const;
+
+export function isTimelinePositionProperty(item: unknown): item is TimelinePositionProperty {
+    return reflection.isInstance(item, TimelinePositionProperty.$type);
+}
+
+export interface TimelineProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'TimelineProfile';
+    name: string;
+    statements: Array<TimelineStatement>;
+}
+
+export const TimelineProfile = {
+    $type: 'TimelineProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isTimelineProfile(item: unknown): item is TimelineProfile {
+    return reflection.isInstance(item, TimelineProfile.$type);
+}
+
+export interface TimelineStartDateProperty extends langium.AstNode {
+    readonly $container: TimelinePeriodStatement;
+    readonly $type: 'TimelineStartDateProperty';
+    startDate: string;
+}
+
+export const TimelineStartDateProperty = {
+    $type: 'TimelineStartDateProperty',
+    startDate: 'startDate'
+} as const;
+
+export function isTimelineStartDateProperty(item: unknown): item is TimelineStartDateProperty {
+    return reflection.isInstance(item, TimelineStartDateProperty.$type);
+}
+
+export type TimelineStatement = TimelineEventStatement | TimelineOrientationStatement | TimelinePeriodStatement;
+
+export const TimelineStatement = {
+    $type: 'TimelineStatement'
+} as const;
+
+export function isTimelineStatement(item: unknown): item is TimelineStatement {
+    return reflection.isInstance(item, TimelineStatement.$type);
+}
+
 export interface TitleProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'TitleProperty';
@@ -5021,6 +5270,22 @@ export type RuniqAstType = {
     TemplateVariable: TemplateVariable
     TemplateVariablePath: TemplateVariablePath
     TextAlignProperty: TextAlignProperty
+    TimelineColorProperty: TimelineColorProperty
+    TimelineDateProperty: TimelineDateProperty
+    TimelineDescriptionProperty: TimelineDescriptionProperty
+    TimelineEndDateProperty: TimelineEndDateProperty
+    TimelineEventProperty: TimelineEventProperty
+    TimelineEventStatement: TimelineEventStatement
+    TimelineIconProperty: TimelineIconProperty
+    TimelineLabelProperty: TimelineLabelProperty
+    TimelineOpacityProperty: TimelineOpacityProperty
+    TimelineOrientationStatement: TimelineOrientationStatement
+    TimelinePeriodProperty: TimelinePeriodProperty
+    TimelinePeriodStatement: TimelinePeriodStatement
+    TimelinePositionProperty: TimelinePositionProperty
+    TimelineProfile: TimelineProfile
+    TimelineStartDateProperty: TimelineStartDateProperty
+    TimelineStatement: TimelineStatement
     TitleProperty: TitleProperty
     TooltipProperty: TooltipProperty
     WardleyAnchorProperty: WardleyAnchorProperty
@@ -7552,6 +7817,153 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        TimelineColorProperty: {
+            name: TimelineColorProperty.$type,
+            properties: {
+                color: {
+                    name: TimelineColorProperty.color
+                }
+            },
+            superTypes: [TimelineEventProperty.$type, TimelinePeriodProperty.$type]
+        },
+        TimelineDateProperty: {
+            name: TimelineDateProperty.$type,
+            properties: {
+                date: {
+                    name: TimelineDateProperty.date
+                }
+            },
+            superTypes: [TimelineEventProperty.$type]
+        },
+        TimelineDescriptionProperty: {
+            name: TimelineDescriptionProperty.$type,
+            properties: {
+                description: {
+                    name: TimelineDescriptionProperty.description
+                }
+            },
+            superTypes: [TimelineEventProperty.$type]
+        },
+        TimelineEndDateProperty: {
+            name: TimelineEndDateProperty.$type,
+            properties: {
+                endDate: {
+                    name: TimelineEndDateProperty.endDate
+                }
+            },
+            superTypes: [TimelinePeriodProperty.$type]
+        },
+        TimelineEventProperty: {
+            name: TimelineEventProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineEventStatement: {
+            name: TimelineEventStatement.$type,
+            properties: {
+                id: {
+                    name: TimelineEventStatement.id
+                },
+                properties: {
+                    name: TimelineEventStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TimelineStatement.$type]
+        },
+        TimelineIconProperty: {
+            name: TimelineIconProperty.$type,
+            properties: {
+                icon: {
+                    name: TimelineIconProperty.icon
+                }
+            },
+            superTypes: [TimelineEventProperty.$type]
+        },
+        TimelineLabelProperty: {
+            name: TimelineLabelProperty.$type,
+            properties: {
+                label: {
+                    name: TimelineLabelProperty.label
+                }
+            },
+            superTypes: [TimelineEventProperty.$type, TimelinePeriodProperty.$type]
+        },
+        TimelineOpacityProperty: {
+            name: TimelineOpacityProperty.$type,
+            properties: {
+                opacity: {
+                    name: TimelineOpacityProperty.opacity
+                }
+            },
+            superTypes: [TimelinePeriodProperty.$type]
+        },
+        TimelineOrientationStatement: {
+            name: TimelineOrientationStatement.$type,
+            properties: {
+                orientation: {
+                    name: TimelineOrientationStatement.orientation
+                }
+            },
+            superTypes: [TimelineStatement.$type]
+        },
+        TimelinePeriodProperty: {
+            name: TimelinePeriodProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelinePeriodStatement: {
+            name: TimelinePeriodStatement.$type,
+            properties: {
+                id: {
+                    name: TimelinePeriodStatement.id
+                },
+                properties: {
+                    name: TimelinePeriodStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TimelineStatement.$type]
+        },
+        TimelinePositionProperty: {
+            name: TimelinePositionProperty.$type,
+            properties: {
+                position: {
+                    name: TimelinePositionProperty.position
+                }
+            },
+            superTypes: [TimelineEventProperty.$type]
+        },
+        TimelineProfile: {
+            name: TimelineProfile.$type,
+            properties: {
+                name: {
+                    name: TimelineProfile.name
+                },
+                statements: {
+                    name: TimelineProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        TimelineStartDateProperty: {
+            name: TimelineStartDateProperty.$type,
+            properties: {
+                startDate: {
+                    name: TimelineStartDateProperty.startDate
+                }
+            },
+            superTypes: [TimelinePeriodProperty.$type]
+        },
+        TimelineStatement: {
+            name: TimelineStatement.$type,
+            properties: {
+            },
+            superTypes: []
         },
         TitleProperty: {
             name: TitleProperty.$type,

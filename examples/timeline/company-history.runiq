@@ -1,0 +1,91 @@
+// Company History Timeline
+// Chronicles the major milestones of a technology company
+
+timeline "TechCorp Journey: 20 Years of Innovation" {
+  // Company founding and early years
+  event founding date:"2004-03-15" label:"Company Founded" 
+    description:"Three engineers start TechCorp in a garage" 
+    icon:"rocket" 
+    color:"#10B981"
+  
+  event firstProduct date:"2005-06-20" label:"First Product Launch" 
+    description:"Cloud storage platform v1.0 released"
+    color:"#3B82F6"
+  
+  event series_a date:"2006-09-10" label:"Series A Funding" 
+    description:"$5M raised from venture capital" 
+    icon:"dollar"
+    color:"#F59E0B"
+  
+  // Growth phase
+  event team100 date:"2008-01-15" label:"Team Reaches 100" 
+    description:"Hiring milestone achieved"
+    color:"#8B5CF6"
+  
+  event expansion date:"2009-04-01" label:"European Expansion" 
+    description:"First international office in London"
+    icon:"globe"
+    color:"#3B82F6"
+  
+  event acquisition1 date:"2010-11-20" label:"First Acquisition" 
+    description:"Acquired DataSync Technologies" 
+    color:"#F59E0B"
+  
+  // Maturity and public offering
+  event ipo date:"2012-05-15" label:"Initial Public Offering" 
+    description:"Listed on NASDAQ, raised $200M" 
+    icon:"chart"
+    color:"#10B981"
+  
+  event innovation date:"2014-08-30" label:"AI Platform Launch" 
+    description:"Revolutionary machine learning tools"
+    color:"#8B5CF6"
+  
+  event global date:"2016-03-10" label:"Global Leader" 
+    description:"#1 market position worldwide"
+    icon:"trophy"
+    color:"#F59E0B"
+  
+  event billion date:"2018-12-01" label:"$1B Revenue" 
+    description:"Annual revenue milestone"
+    color:"#10B981"
+  
+  // Recent achievements
+  event sustainability date:"2020-06-05" label:"Carbon Neutral" 
+    description:"100% renewable energy operations"
+    icon:"leaf"
+    color:"#10B981"
+  
+  event innovation2 date:"2022-09-15" label:"Quantum Computing Lab" 
+    description:"New R&D facility opens"
+    color:"#8B5CF6"
+  
+  event present date:"2024-11-10" label:"20th Anniversary" 
+    description:"Celebrating two decades of innovation" 
+    icon:"star"
+    color:"#EF4444"
+  
+  // Define major business periods
+  period startup startDate:"2004-03-15" endDate:"2008-01-01" 
+    label:"Startup Phase" 
+    color:"#FEF3C7" 
+    opacity:0.4
+  
+  period growth startDate:"2008-01-01" endDate:"2012-05-15" 
+    label:"Growth & Expansion" 
+    color:"#DBEAFE" 
+    opacity:0.4
+  
+  period publicCompany startDate:"2012-05-15" endDate:"2020-01-01" 
+    label:"Public Company Era" 
+    color:"#E0E7FF" 
+    opacity:0.4
+  
+  period mature startDate:"2020-01-01" endDate:"2024-11-10" 
+    label:"Market Leader" 
+    color:"#D1FAE5" 
+    opacity:0.4
+  
+  // Timeline orientation
+  orientation horizontal
+}

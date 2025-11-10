@@ -20,6 +20,13 @@ export {
   type SequenceRenderResult,
 } from './sequence-renderer.js';
 
+// Re-export Timeline renderer
+export {
+  renderTimeline,
+  type TimelineRenderOptions,
+  type TimelineRenderResult,
+} from './timeline-renderer.js';
+
 // Re-export label utilities for inline icons
 export {
   parseLabelWithIcons,
