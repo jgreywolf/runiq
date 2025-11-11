@@ -157,6 +157,9 @@ export interface EdgeAst {
   flowType?: 'control' | 'object'; // Type of flow: control flow (default) or object flow (data transfer)
   // Graph theory properties
   weight?: number; // Edge weight for weighted graphs (cost, distance, capacity, etc.)
+  // Edge anchor/port properties - control which side of node the edge connects to
+  anchorFrom?: 'north' | 'south' | 'east' | 'west'; // Exit side from source node (top, bottom, right, left)
+  anchorTo?: 'north' | 'south' | 'east' | 'west'; // Entry side to target node (top, bottom, right, left)
 }
 
 export interface GroupAst {

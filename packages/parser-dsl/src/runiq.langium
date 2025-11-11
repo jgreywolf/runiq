@@ -975,16 +975,18 @@ DataArray:
 
 // node1 -> node2
 // node1 -label-> node2
-// node1 -> node2 lineStyle:double arrowType:none (for marriage edges)
+// node1 -east-> node2 (exit from east side)
+// node1 -north->south node2 (exit north, enter south)
+// node1 -east-"label"->west node2 (anchors with label)
 // node1 <-> node2 (bidirectional connection)
 // Class.field -> OtherClass.method (member-level connections)
 // A -> B -> C (chained edges)
 EdgeDeclaration:
-    from=NodeRef (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW) to=NodeRef 
+    from=NodeRef (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW | anchoredArrow=ANCHORED_ARROW) to=NodeRef
     chain+=(EdgeChain)* properties+=EdgeProperty*;
 
 EdgeChain:
-    (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW) to=NodeRef;
+    (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW | anchoredArrow=ANCHORED_ARROW) to=NodeRef;
 
 // Support both simple node references (node1) and member references (Class.field)
 // Use FlexibleID to allow keywords like 'data', 'label', 'm' as node names
@@ -1371,6 +1373,8 @@ DepthIndicatorStyleValue returns string:
     'bar' | 'indent' | 'color';
 
 // Terminals
+// Note: Order matters! More specific patterns must come first
+terminal ANCHORED_ARROW: /-(north|south|east|west)(-"[^"]*")?->(north|south|east|west)?/;
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal BIDIRECTIONAL_ARROW: '<->';
 terminal ARROW: '->';

@@ -7,6 +7,7 @@
 import * as langium from 'langium';
 
 export const RuniqTerminals = {
+    ANCHORED_ARROW: /-(north|south|east|west)(-"[^"]*")?->(north|south|east|west)?/,
     LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/,
     BIDIRECTIONAL_ARROW: /<->/,
     ARROW: /->/,
@@ -1594,6 +1595,7 @@ export function isDocument(item: unknown): item is Document {
 export interface EdgeChain extends langium.AstNode {
     readonly $container: EdgeDeclaration;
     readonly $type: 'EdgeChain';
+    anchoredArrow?: string;
     arrow?: string;
     bidirectionalArrow?: string;
     labeledArrow?: string;
@@ -1602,6 +1604,7 @@ export interface EdgeChain extends langium.AstNode {
 
 export const EdgeChain = {
     $type: 'EdgeChain',
+    anchoredArrow: 'anchoredArrow',
     arrow: 'arrow',
     bidirectionalArrow: 'bidirectionalArrow',
     labeledArrow: 'labeledArrow',
@@ -1630,6 +1633,7 @@ export function isEdgeConstraintsProperty(item: unknown): item is EdgeConstraint
 export interface EdgeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'EdgeDeclaration';
+    anchoredArrow?: string;
     arrow?: string;
     bidirectionalArrow?: string;
     chain: Array<EdgeChain>;
@@ -1641,6 +1645,7 @@ export interface EdgeDeclaration extends langium.AstNode {
 
 export const EdgeDeclaration = {
     $type: 'EdgeDeclaration',
+    anchoredArrow: 'anchoredArrow',
     arrow: 'arrow',
     bidirectionalArrow: 'bidirectionalArrow',
     chain: 'chain',
@@ -5995,6 +6000,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
         EdgeChain: {
             name: EdgeChain.$type,
             properties: {
+                anchoredArrow: {
+                    name: EdgeChain.anchoredArrow
+                },
                 arrow: {
                     name: EdgeChain.arrow
                 },
@@ -6023,6 +6031,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
         EdgeDeclaration: {
             name: EdgeDeclaration.$type,
             properties: {
+                anchoredArrow: {
+                    name: EdgeDeclaration.anchoredArrow
+                },
                 arrow: {
                     name: EdgeDeclaration.arrow
                 },

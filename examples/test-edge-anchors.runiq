@@ -1,0 +1,20 @@
+diagram "Edge Anchor Test" {
+  direction TB
+
+  // Simple test: specify exit side only
+  shape A as @rounded label:"Node A"
+  shape B as @rounded label:"Node B"
+  shape C as @rounded label:"Node C"
+  shape D as @rounded label:"Node D"
+
+  // Exit from specific sides
+  A -east-> B
+  A -south-> C
+
+  // Specify both exit and entry sides
+  B -south->north D
+  C -east->west D
+
+  // With labels
+  A -north-"goes up"-> D
+}

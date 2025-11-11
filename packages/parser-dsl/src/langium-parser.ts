@@ -64,6 +64,29 @@ function nodeRefToString(ref: Langium.NodeRef): string {
 }
 
 /**
+ * Parse anchored arrow terminal to extract anchor sides and optional label
+ * Matches patterns like: -east->, -north->south, -east-"label"->west
+ */
+function parseAnchoredArrow(anchoredArrow: string): {
+  anchorFrom?: 'north' | 'south' | 'east' | 'west';
+  anchorTo?: 'north' | 'south' | 'east' | 'west';
+  label?: string;
+} {
+  // Pattern: -(north|south|east|west)(-"[^"]*")?->(north|south|east|west)?
+  const match = anchoredArrow.match(/^-(north|south|east|west)(?:-"([^"]*)")?->(?:(north|south|east|west))?$/);
+
+  if (!match) {
+    return {};
+  }
+
+  return {
+    anchorFrom: match[1] as 'north' | 'south' | 'east' | 'west',
+    anchorTo: match[3] as 'north' | 'south' | 'east' | 'west' | undefined,
+    label: match[2] || undefined,
+  };
+}
+
+/**
  * Convert Langium DataProperty to core data format
  */
 function convertDataProperty(
@@ -1580,6 +1603,20 @@ function processDialogStatement(
       edge.label = statement.labeledArrow.slice(1, -2);
     }
 
+    // Check for anchored arrow (e.g., -east->, -north->south, -east-"label"->west)
+    if (statement.anchoredArrow) {
+      const parsed = parseAnchoredArrow(statement.anchoredArrow);
+      if (parsed.anchorFrom) {
+        edge.anchorFrom = parsed.anchorFrom;
+      }
+      if (parsed.anchorTo) {
+        edge.anchorTo = parsed.anchorTo;
+      }
+      if (parsed.label) {
+        edge.label = parsed.label;
+      }
+    }
+
     // Check for bidirectional arrow
     if (statement.bidirectionalArrow) {
       edge.bidirectional = true;
@@ -1604,6 +1641,20 @@ function processDialogStatement(
 
         if (chainSegment.labeledArrow) {
           chainedEdge.label = chainSegment.labeledArrow.slice(1, -2);
+        }
+
+        // Check for anchored arrow in chain
+        if (chainSegment.anchoredArrow) {
+          const parsed = parseAnchoredArrow(chainSegment.anchoredArrow);
+          if (parsed.anchorFrom) {
+            chainedEdge.anchorFrom = parsed.anchorFrom;
+          }
+          if (parsed.anchorTo) {
+            chainedEdge.anchorTo = parsed.anchorTo;
+          }
+          if (parsed.label) {
+            chainedEdge.label = parsed.label;
+          }
         }
 
         if (chainSegment.bidirectionalArrow) {

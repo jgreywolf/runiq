@@ -1,6 +1,7 @@
 import ELK, { ElkNode, ElkExtendedEdge } from 'elkjs/lib/elk.bundled.js';
 import type {
   DiagramAst,
+  EdgeAst,
   LayoutEngine,
   LayoutOptions,
   LaidOutDiagram,
@@ -65,15 +66,58 @@ export class ElkLayoutEngine implements LayoutEngine {
   }
 
   /**
+   * Create standard ports for a node (north, south, east, west)
+   * These allow edge anchor constraints to work with ELK
+   */
+  private createNodePorts(nodeWidth: number, nodeHeight: number) {
+    return [
+      {
+        id: 'north',
+        x: nodeWidth / 2,
+        y: 0,
+        width: 1,
+        height: 1,
+        layoutOptions: { 'port.side': 'NORTH' },
+      },
+      {
+        id: 'south',
+        x: nodeWidth / 2,
+        y: nodeHeight,
+        width: 1,
+        height: 1,
+        layoutOptions: { 'port.side': 'SOUTH' },
+      },
+      {
+        id: 'east',
+        x: nodeWidth,
+        y: nodeHeight / 2,
+        width: 1,
+        height: 1,
+        layoutOptions: { 'port.side': 'EAST' },
+      },
+      {
+        id: 'west',
+        x: 0,
+        y: nodeHeight / 2,
+        width: 1,
+        height: 1,
+        layoutOptions: { 'port.side': 'WEST' },
+      },
+    ];
+  }
+
+  /**
    * Generate orthogonal (step) routing between two points.
    * Creates a path with right-angle bends using horizontal and vertical segments.
+   * Adds clearance from start/end points for better visual separation.
    */
   private generateOrthogonalRouting(
     fromX: number,
     fromY: number,
     toX: number,
     toY: number,
-    direction: string
+    direction: string,
+    clearance: number = 20 // Minimum distance before turning
   ): { x: number; y: number }[] {
     const points: { x: number; y: number }[] = [];
 
@@ -83,18 +127,30 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Determine routing based on layout direction
     if (direction === 'DOWN' || direction === 'UP') {
       // Vertical layout: prefer vertical-horizontal-vertical routing
-      const midY = (fromY + toY) / 2;
 
-      // Go down/up to midpoint
+      // Add clearance from start point
+      const fromClearY = direction === 'DOWN' ? fromY + clearance : fromY - clearance;
+      const toClearY = direction === 'DOWN' ? toY - clearance : toY + clearance;
+
+      // Calculate midpoint between clearance points
+      const midY = (fromClearY + toClearY) / 2;
+
+      // Go down/up with clearance
       points.push({ x: fromX, y: midY });
 
       // Go horizontal to target X
       points.push({ x: toX, y: midY });
     } else {
       // Horizontal layout: prefer horizontal-vertical-horizontal routing
-      const midX = (fromX + toX) / 2;
 
-      // Go right/left to midpoint
+      // Add clearance from start point
+      const fromClearX = direction === 'RIGHT' ? fromX + clearance : fromX - clearance;
+      const toClearX = direction === 'RIGHT' ? toX - clearance : toX + clearance;
+
+      // Calculate midpoint between clearance points
+      const midX = (fromClearX + toClearX) / 2;
+
+      // Go right/left with clearance
       points.push({ x: midX, y: fromY });
 
       // Go vertical to target Y
@@ -103,6 +159,155 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // End point
     points.push({ x: toX, y: toY });
+
+    return points;
+  }
+
+  /**
+   * Calculate anchor position on a node based on anchor side specification
+   */
+  private calculateAnchorPoint(
+    node: PositionedNode,
+    anchor: 'north' | 'south' | 'east' | 'west'
+  ): { x: number; y: number } {
+    switch (anchor) {
+      case 'north':
+        return { x: node.x + node.width / 2, y: node.y };
+      case 'south':
+        return { x: node.x + node.width / 2, y: node.y + node.height };
+      case 'east':
+        return { x: node.x + node.width, y: node.y + node.height / 2 };
+      case 'west':
+        return { x: node.x, y: node.y + node.height / 2 };
+    }
+  }
+
+  /**
+   * Calculate edge route using anchor specifications
+   * Creates orthogonal routing that respects exit/entry directions
+   */
+  private calculateAnchoredEdgeRoute(
+    fromNode: PositionedNode,
+    toNode: PositionedNode,
+    edge: EdgeAst,
+    _direction: string
+  ): { x: number; y: number }[] {
+    const clearance = 20;
+    const points: { x: number; y: number }[] = [];
+
+    // Calculate start point and exit direction
+    const startAnchor = edge.anchorFrom || 'south'; // Default based on layout direction
+    const startPoint = this.calculateAnchorPoint(fromNode, startAnchor);
+    points.push(startPoint);
+
+    // Calculate end point and entry direction
+    const endAnchor = edge.anchorTo || 'north';
+    const endPoint = this.calculateAnchorPoint(toNode, endAnchor);
+
+    // Pre-check if we need a detour to avoid going the wrong direction first
+    const needsHorizontalDetour =
+      (startAnchor === 'east' && endAnchor === 'west' && startPoint.x > endPoint.x) ||
+      (startAnchor === 'west' && endAnchor === 'east' && startPoint.x < endPoint.x);
+
+    const needsVerticalDetour =
+      (startAnchor === 'south' && endAnchor === 'north' && startPoint.y > endPoint.y) ||
+      (startAnchor === 'north' && endAnchor === 'south' && startPoint.y < endPoint.y);
+
+    // Create intermediate routing points based on anchor directions
+    if (
+      (startAnchor === 'east' || startAnchor === 'west') &&
+      (endAnchor === 'east' || endAnchor === 'west')
+    ) {
+      // Horizontal to horizontal routing
+      if (needsHorizontalDetour) {
+        // Route around vertically: exit with clearance, turn perpendicular, detour around
+        const exitPoint = startAnchor === 'east'
+          ? { x: startPoint.x + clearance, y: startPoint.y }
+          : { x: startPoint.x - clearance, y: startPoint.y };
+        const entryPoint = endAnchor === 'east'
+          ? { x: endPoint.x + clearance, y: endPoint.y }
+          : { x: endPoint.x - clearance, y: endPoint.y };
+
+        points.push(exitPoint);
+        // Go down to detour level
+        const detourY = Math.max(fromNode.y + fromNode.height, toNode.y + toNode.height) + clearance;
+        points.push({ x: exitPoint.x, y: detourY });
+        points.push({ x: entryPoint.x, y: detourY });
+        points.push(entryPoint);
+      } else {
+        // Normal case: exit with clearance, route through midpoint
+        const exitPoint = startAnchor === 'east'
+          ? { x: startPoint.x + clearance, y: startPoint.y }
+          : { x: startPoint.x - clearance, y: startPoint.y };
+        const entryPoint = endAnchor === 'east'
+          ? { x: endPoint.x + clearance, y: endPoint.y }
+          : { x: endPoint.x - clearance, y: endPoint.y };
+
+        points.push(exitPoint);
+        const midX = (exitPoint.x + entryPoint.x) / 2;
+        points.push({ x: midX, y: exitPoint.y });
+        points.push({ x: midX, y: entryPoint.y });
+        points.push(entryPoint);
+      }
+    } else if (
+      (startAnchor === 'north' || startAnchor === 'south') &&
+      (endAnchor === 'north' || endAnchor === 'south')
+    ) {
+      // Vertical to vertical routing
+      if (needsVerticalDetour) {
+        // Route around horizontally: exit with clearance, turn perpendicular, detour around
+        const exitPoint = startAnchor === 'south'
+          ? { x: startPoint.x, y: startPoint.y + clearance }
+          : { x: startPoint.x, y: startPoint.y - clearance };
+        const entryPoint = endAnchor === 'south'
+          ? { x: endPoint.x, y: endPoint.y + clearance }
+          : { x: endPoint.x, y: endPoint.y - clearance };
+
+        points.push(exitPoint);
+        // Go right to detour level
+        const detourX = Math.max(fromNode.x + fromNode.width, toNode.x + toNode.width) + clearance;
+        points.push({ x: detourX, y: exitPoint.y });
+        points.push({ x: detourX, y: entryPoint.y });
+        points.push(entryPoint);
+      } else {
+        // Normal case: exit with clearance, create V-H-V path
+        const exitPoint = startAnchor === 'south'
+          ? { x: startPoint.x, y: startPoint.y + clearance }
+          : { x: startPoint.x, y: startPoint.y - clearance };
+        const entryPoint = endAnchor === 'south'
+          ? { x: endPoint.x, y: endPoint.y + clearance }
+          : { x: endPoint.x, y: endPoint.y - clearance };
+
+        points.push(exitPoint);
+        points.push({ x: entryPoint.x, y: exitPoint.y });
+        points.push(entryPoint);
+      }
+    } else {
+      // Mixed directions: create L-shaped path with clearance
+      const exitPoint =
+        startAnchor === 'east' ? { x: startPoint.x + clearance, y: startPoint.y } :
+        startAnchor === 'west' ? { x: startPoint.x - clearance, y: startPoint.y } :
+        startAnchor === 'south' ? { x: startPoint.x, y: startPoint.y + clearance } :
+        { x: startPoint.x, y: startPoint.y - clearance };
+
+      const entryPoint =
+        endAnchor === 'east' ? { x: endPoint.x + clearance, y: endPoint.y } :
+        endAnchor === 'west' ? { x: endPoint.x - clearance, y: endPoint.y } :
+        endAnchor === 'south' ? { x: endPoint.x, y: endPoint.y + clearance } :
+        { x: endPoint.x, y: endPoint.y - clearance };
+
+      points.push(exitPoint);
+      if (startAnchor === 'east' || startAnchor === 'west') {
+        // Exit horizontally, then turn vertical
+        points.push({ x: entryPoint.x, y: exitPoint.y });
+      } else {
+        // Exit vertically, then turn horizontal
+        points.push({ x: exitPoint.x, y: entryPoint.y });
+      }
+      points.push(entryPoint);
+    }
+
+    points.push(endPoint);
 
     return points;
   }
@@ -207,6 +412,11 @@ export class ElkLayoutEngine implements LayoutEngine {
       (n) => n.shape === 'pedigree-male' || n.shape === 'pedigree-female'
     );
 
+    // Check if any edges have anchor constraints - if so, we need to allow all port sides
+    const hasAnchorConstraints = diagram.edges.some(
+      (e: EdgeAst) => e.anchorFrom || e.anchorTo
+    );
+
     // Build ELK graph structure with hierarchyHandling for containers
     const elkGraph: ElkNode = {
       id: 'root',
@@ -217,7 +427,8 @@ export class ElkLayoutEngine implements LayoutEngine {
             'elk.direction': direction,
             'elk.spacing.nodeNode': '80',
             'elk.mrtree.searchOrder': 'DFS',
-            'elk.edgeRouting': 'POLYLINE',
+            'elk.edgeRouting': 'ORTHOGONAL', // Use orthogonal routing (right-angles only, no diagonals)
+            'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
           }
         : {
             'elk.algorithm': 'layered',
@@ -229,7 +440,11 @@ export class ElkLayoutEngine implements LayoutEngine {
             // Force pure orthogonal (right-angle) routing - no diagonals
             'elk.edgeRouting': 'ORTHOGONAL',
             'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
-            'elk.layered.northOrSouthPort': 'true', // Use north/south ports for better orthogonal routing
+            // IMPORTANT: Only restrict to north/south ports if no anchor constraints specified
+            // Otherwise, allow all port sides (north/south/east/west) for explicit anchor control
+            ...(hasAnchorConstraints ? {} : { 'elk.layered.northOrSouthPort': 'true' }),
+            // Port constraints - respect port sides when ports are specified
+            'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints (north/south/east/west)
             // Edge spacing to prevent overlap - increased for better separation
             'elk.spacing.edgeEdge': '25', // Space between parallel edges
             'elk.spacing.edgeNode': '35', // Space between edges and nodes
@@ -284,6 +499,17 @@ export class ElkLayoutEngine implements LayoutEngine {
       this.calculatePedigreeGenerations(diagram, nodeGenerations, spousePairs);
     }
 
+    // Determine which nodes need ports (nodes that have edges with anchor constraints)
+    const nodesNeedingPorts = new Set<string>();
+    for (const edge of diagram.edges) {
+      if (edge.anchorFrom || edge.anchorTo) {
+        const fromNodeId = this.extractNodeId(edge.from);
+        const toNodeId = this.extractNodeId(edge.to);
+        if (edge.anchorFrom) nodesNeedingPorts.add(fromNodeId);
+        if (edge.anchorTo) nodesNeedingPorts.add(toNodeId);
+      }
+    }
+
     // Add standalone nodes (not in any container)
     for (const node of diagram.nodes) {
       if (!nodeContainerMap.has(node.id)) {
@@ -311,11 +537,16 @@ export class ElkLayoutEngine implements LayoutEngine {
           height: bounds.height,
         };
 
-        // NOTE: We don't specify ports because:
-        // 1. We would need to tell ELK which port to use for each edge
-        // 2. ELK doesn't automatically choose the best port
-        // 3. For now, we let ELK route to node centers/boundaries
-        // 4. In the future, we could add post-processing to snap edges to anchors
+        // Add ports if this node has edges with anchor constraints
+        if (nodesNeedingPorts.has(node.id)) {
+          elkNode.ports = this.createNodePorts(
+            bounds.width + iconPadding,
+            bounds.height
+          );
+          // CRITICAL: Set port constraints on the node itself
+          elkNode.layoutOptions = elkNode.layoutOptions || {};
+          elkNode.layoutOptions['elk.portConstraints'] = 'FIXED_SIDE';
+        }
 
         // Apply layer constraint for pedigree charts
         if (isPedigreeChart && nodeGenerations.has(node.id)) {
@@ -325,12 +556,11 @@ export class ElkLayoutEngine implements LayoutEngine {
           const spouse = spousePairs.get(node.id);
           const basePosition = spouse && node.id < spouse ? 0 : spouse ? 1 : 0;
 
-          elkNode.layoutOptions = {
-            'elk.layered.layering.layer': generation,
-            'elk.layered.crossingMinimization.semiInteractive': 'true',
-            'elk.layered.nodePlacement.bk.fixedAlignment': 'BALANCED',
-            'elk.priority': (generation * 100 + basePosition).toString(),
-          };
+          elkNode.layoutOptions = elkNode.layoutOptions || {};
+          elkNode.layoutOptions['elk.layered.layering.layer'] = generation;
+          elkNode.layoutOptions['elk.layered.crossingMinimization.semiInteractive'] = 'true';
+          elkNode.layoutOptions['elk.layered.nodePlacement.bk.fixedAlignment'] = 'BALANCED';
+          elkNode.layoutOptions['elk.priority'] = (generation * 100 + basePosition).toString();
         }
 
         elkGraph.children.push(elkNode);
@@ -361,11 +591,23 @@ export class ElkLayoutEngine implements LayoutEngine {
       const toId = toContainer ? `__container__${toContainer}` : toNodeId;
 
       if (!elkGraph.edges) elkGraph.edges = [];
-      elkGraph.edges.push({
+      const elkEdge: any = {
         id: `${edge.from}->${edge.to}#${edgeIndex}`, // Include index to distinguish multiple edges between same nodes
         sources: [fromId],
         targets: [toId],
-      });
+      };
+
+      // Add port constraints if edge has anchor specifications
+      if (edge.anchorFrom && !fromContainer) {
+        // Only add sourcePort if not connecting to container (containers don't have ports)
+        elkEdge.sourcePort = edge.anchorFrom;
+      }
+      if (edge.anchorTo && !toContainer) {
+        // Only add targetPort if not connecting to container
+        elkEdge.targetPort = edge.anchorTo;
+      }
+
+      elkGraph.edges.push(elkEdge);
     }
 
     // PASS 1: Calculate actual container sizes by laying out their contents
@@ -501,7 +743,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
     );
 
-    this.extractEdges(topLevelEdges, nodes, edges);
+    this.extractEdges(topLevelEdges, nodes, edges, diagram, direction);
 
     // Fix cross-container edges: Replace placeholder-based routing with actual node positions
     // NOTE: This must be called AFTER layoutContainersWithNodes so that all nodes (including
@@ -1359,12 +1601,14 @@ export class ElkLayoutEngine implements LayoutEngine {
               'elk.algorithm': algorithm,
               'elk.direction': direction,
               'elk.spacing.nodeNode': containerSpacing,
-              'elk.edgeRouting': 'POLYLINE', // Straight lines for mindmaps
+              'elk.edgeRouting': 'ORTHOGONAL', // Use orthogonal routing (right-angles only, no diagonals)
+              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
             }
           : {
               'elk.algorithm': algorithm,
               'elk.direction': direction,
               'elk.spacing.nodeNode': containerSpacing,
+              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
             },
         children: [],
         edges: [],
@@ -1402,6 +1646,20 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
       }
 
+      // Determine which container nodes need ports (nodes with anchor constraints)
+      const containerNodesNeedingPorts = new Set<string>();
+      for (const edge of diagram.edges) {
+        const fromNodeId = this.extractNodeId(edge.from);
+        const toNodeId = this.extractNodeId(edge.to);
+        if (
+          container.children.includes(fromNodeId) &&
+          container.children.includes(toNodeId)
+        ) {
+          if (edge.anchorFrom) containerNodesNeedingPorts.add(fromNodeId);
+          if (edge.anchorTo) containerNodesNeedingPorts.add(toNodeId);
+        }
+      }
+
       // Add child nodes to container graph
       for (const childId of container.children) {
         const node = diagram.nodes.find((n) => n.id === childId);
@@ -1412,11 +1670,25 @@ export class ElkLayoutEngine implements LayoutEngine {
           const style = node.style ? diagram.styles?.[node.style] || {} : {};
           const bounds = shapeImpl.bounds({ node, style, measureText });
 
-          containerGraph.children!.push({
+          const containerNode: any = {
             id: node.id,
             width: bounds.width,
             height: bounds.height,
-          });
+          };
+
+          // Add ports if this node has edges with anchor constraints
+          if (containerNodesNeedingPorts.has(node.id)) {
+            containerNode.ports = this.createNodePorts(
+              bounds.width,
+              bounds.height
+            );
+            // CRITICAL: Set port constraints on the node itself
+            containerNode.layoutOptions = {
+              'elk.portConstraints': 'FIXED_SIDE',
+            };
+          }
+
+          containerGraph.children!.push(containerNode);
         }
       }
 
@@ -1431,11 +1703,21 @@ export class ElkLayoutEngine implements LayoutEngine {
           container.children.includes(fromNodeId) &&
           container.children.includes(toNodeId)
         ) {
-          containerGraph.edges!.push({
+          const containerEdge: any = {
             id: `${edge.from}->${edge.to}#${edgeIndex}`,
             sources: [fromNodeId],
             targets: [toNodeId],
-          });
+          };
+
+          // Add port constraints if edge has anchor specifications
+          if (edge.anchorFrom) {
+            containerEdge.sourcePort = edge.anchorFrom;
+          }
+          if (edge.anchorTo) {
+            containerEdge.targetPort = edge.anchorTo;
+          }
+
+          containerGraph.edges!.push(containerEdge);
         }
       }
 
@@ -1816,7 +2098,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           // edges laid out within container
 
           const tempEdges: RoutedEdge[] = [];
-          this.extractEdges(laidOutContainer.edges || [], nodes, tempEdges);
+          this.extractEdges(laidOutContainer.edges || [], nodes, tempEdges, diagram, direction);
 
           // adjust edge points relative to container
 
@@ -2192,48 +2474,12 @@ export class ElkLayoutEngine implements LayoutEngine {
   private extractEdges(
     elkEdges: ElkExtendedEdge[],
     nodes: PositionedNode[],
-    edges: RoutedEdge[]
+    edges: RoutedEdge[],
+    diagram?: DiagramAst,
+    direction?: string
   ): void {
     for (const elkEdge of elkEdges) {
-      const points: { x: number; y: number }[] = [];
-
-      // ELK provides edge sections with start/end points and optional bend points
-      if (elkEdge.sections && elkEdge.sections.length > 0) {
-        for (const section of elkEdge.sections) {
-          // Start point
-          points.push({
-            x: section.startPoint.x,
-            y: section.startPoint.y,
-          });
-
-          // Bend points (intermediate routing points)
-          if (section.bendPoints) {
-            for (const bp of section.bendPoints) {
-              points.push({ x: bp.x, y: bp.y });
-            }
-          }
-
-          // End point
-          points.push({
-            x: section.endPoint.x,
-            y: section.endPoint.y,
-          });
-        }
-      } else {
-        // Fallback: straight line between node centers
-        const fromNode = nodes.find((n) => n.id === elkEdge.sources[0]);
-        const toNode = nodes.find((n) => n.id === elkEdge.targets[0]);
-
-        if (fromNode && toNode) {
-          points.push(
-            {
-              x: fromNode.x + fromNode.width / 2,
-              y: fromNode.y + fromNode.height / 2,
-            },
-            { x: toNode.x + toNode.width / 2, y: toNode.y + toNode.height / 2 }
-          );
-        }
-      }
+      let points: { x: number; y: number }[] = [];
 
       // Extract original from/to from edge ID (format: "from->to#index")
       const edgeParts = elkEdge.id.split('->');
@@ -2250,6 +2496,66 @@ export class ElkLayoutEngine implements LayoutEngine {
         edgeIndex = parseInt(indexMatch[2], 10);
       } else {
         to = toPart;
+      }
+
+      // Find the original edge AST to check for anchor specifications
+      const originalEdge = diagram?.edges[edgeIndex ?? 0];
+      const hasAnchors = originalEdge?.anchorFrom || originalEdge?.anchorTo;
+
+      // If edge has anchor specifications, calculate custom routing
+      if (hasAnchors && diagram) {
+        const fromNode = nodes.find((n) => n.id === this.extractNodeId(from));
+        const toNode = nodes.find((n) => n.id === this.extractNodeId(to));
+
+        if (fromNode && toNode && originalEdge) {
+          points = this.calculateAnchoredEdgeRoute(
+            fromNode,
+            toNode,
+            originalEdge,
+            direction || 'DOWN'
+          );
+        }
+      }
+
+      // If no custom routing was calculated, use ELK's routing
+      if (points.length === 0) {
+        // ELK provides edge sections with start/end points and optional bend points
+        if (elkEdge.sections && elkEdge.sections.length > 0) {
+          for (const section of elkEdge.sections) {
+            // Start point
+            points.push({
+              x: section.startPoint.x,
+              y: section.startPoint.y,
+            });
+
+            // Bend points (intermediate routing points)
+            if (section.bendPoints) {
+              for (const bp of section.bendPoints) {
+                points.push({ x: bp.x, y: bp.y });
+              }
+            }
+
+            // End point
+            points.push({
+              x: section.endPoint.x,
+              y: section.endPoint.y,
+            });
+          }
+        } else {
+          // Fallback: straight line between node centers
+          const fromNode = nodes.find((n) => n.id === elkEdge.sources[0]);
+          const toNode = nodes.find((n) => n.id === elkEdge.targets[0]);
+
+          if (fromNode && toNode) {
+            points.push(
+              {
+                x: fromNode.x + fromNode.width / 2,
+                y: fromNode.y + fromNode.height / 2,
+              },
+              { x: toNode.x + toNode.width / 2, y: toNode.y + toNode.height / 2 }
+            );
+          }
+        }
       }
 
       edges.push({
