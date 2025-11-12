@@ -73,7 +73,9 @@ function parseAnchoredArrow(anchoredArrow: string): {
   label?: string;
 } {
   // Pattern: -(north|south|east|west)(-"[^"]*")?->(north|south|east|west)?
-  const match = anchoredArrow.match(/^-(north|south|east|west)(?:-"([^"]*)")?->(?:(north|south|east|west))?$/);
+  const match = anchoredArrow.match(
+    /^-(north|south|east|west)(?:-"([^"]*)")?->(?:(north|south|east|west))?$/
+  );
 
   if (!match) {
     return {};

@@ -1,0 +1,65 @@
+/**
+ * @runiq/glyphsets
+ *
+ * Pre-built diagram patterns (GlyphSets) for Runiq - SmartArt-style templates
+ */
+
+// Export types
+export type {
+  GlyphSetDefinition,
+  GlyphSetParameter,
+  GlyphSetGenerator,
+  GlyphSetCategory,
+} from './types.js';
+
+export { GlyphSetError } from './types.js';
+
+// Export registry
+export { GlyphSetRegistry, glyphsetRegistry } from './registry.js';
+
+// Import glyphsets
+import { horizontalProcessGlyphSet } from './process/horizontal-process.js';
+import { verticalProcessGlyphSet } from './process/vertical-process.js';
+import { cycleGlyphSet } from './process/cycle.js';
+import { pyramidGlyphSet } from './hierarchy/pyramid.js';
+import { matrixGlyphSet } from './comparison/matrix.js';
+import { vennGlyphSet } from './comparison/venn.js';
+import { funnelGlyphSet } from './visualization/funnel.js';
+import { eventsGlyphSet } from './visualization/events.js';
+import { basicListGlyphSet } from './list/basicList.js';
+
+// Auto-register built-in glyphsets
+import { glyphsetRegistry } from './registry.js';
+
+// Process glyphsets
+glyphsetRegistry.register(horizontalProcessGlyphSet);
+glyphsetRegistry.register(verticalProcessGlyphSet);
+glyphsetRegistry.register(cycleGlyphSet);
+
+// Hierarchy glyphsets
+glyphsetRegistry.register(pyramidGlyphSet);
+
+// Comparison glyphsets
+glyphsetRegistry.register(matrixGlyphSet);
+glyphsetRegistry.register(vennGlyphSet);
+
+// Visualization glyphsets
+glyphsetRegistry.register(funnelGlyphSet);
+glyphsetRegistry.register(eventsGlyphSet);
+
+// List glyphsets
+glyphsetRegistry.register(basicListGlyphSet);
+
+// Export individual glyphsets (for direct import if needed)
+export { horizontalProcessGlyphSet } from './process/horizontal-process.js';
+export { verticalProcessGlyphSet } from './process/vertical-process.js';
+export { cycleGlyphSet } from './process/cycle.js';
+export { pyramidGlyphSet } from './hierarchy/pyramid.js';
+export { matrixGlyphSet } from './comparison/matrix.js';
+export { vennGlyphSet } from './comparison/venn.js';
+export { funnelGlyphSet } from './visualization/funnel.js';
+export { eventsGlyphSet } from './visualization/events.js';
+export { basicListGlyphSet } from './list/basicList.js';
+
+// Export themes
+export { COLOR_THEMES, getThemeColor, type ColorTheme } from './themes.js';

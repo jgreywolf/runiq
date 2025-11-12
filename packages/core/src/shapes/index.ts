@@ -117,6 +117,8 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.venn4Shape); // Legacy
   shapeRegistry.register(charts.sankeyChart);
   shapeRegistry.register(charts.sankeyNode);
+  shapeRegistry.register(charts.processBoxShape); // SmartArt-style process box
+  shapeRegistry.register(charts.cycleShape); // Circular cycle diagram
 }
 
 export function registerNetworkShapes(): void {

@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@runiq/core": "workspace:*",
+    "@runiq/glyphsets": "workspace:*",
     "langium": "^4.1.0"
   },
   "devDependencies": {

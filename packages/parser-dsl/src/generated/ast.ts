@@ -143,6 +143,7 @@ export type RuniqKeywordNames =
     | "centralBuffer"
     | "childCountPosition:"
     | "children:"
+    | "circle"
     | "circular"
     | "closeness"
     | "clustering"
@@ -304,6 +305,7 @@ export type RuniqKeywordNames =
     | "gatewayType:"
     | "generalization"
     | "genericTypes:"
+    | "glyphset"
     | "group"
     | "guard:"
     | "header"
@@ -341,6 +343,7 @@ export type RuniqKeywordNames =
     | "instrument"
     | "insulation:"
     | "intersections:"
+    | "item"
     | "jacket"
     | "junction"
     | "kPa"
@@ -495,6 +498,7 @@ export type RuniqKeywordNames =
     | "public"
     | "pumpCentrifugal"
     | "pumpPositiveDisplacement"
+    | "quadrant"
     | "queue"
     | "radial"
     | "range:"
@@ -557,6 +561,7 @@ export type RuniqKeywordNames =
     | "splines"
     | "stable"
     | "stacked:"
+    | "stage"
     | "standard"
     | "start"
     | "startDate:"
@@ -1478,7 +1483,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DataTemplateBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
+export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DataTemplateBlock | DirectionDeclaration | EdgeDeclaration | GlyphSetItemStatement | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -2012,6 +2017,40 @@ export const GenericTypesProperty = {
 
 export function isGenericTypesProperty(item: unknown): item is GenericTypesProperty {
     return reflection.isInstance(item, GenericTypesProperty.$type);
+}
+
+export interface GlyphSetItemStatement extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GlyphSetProfile | GroupBlock;
+    readonly $type: 'GlyphSetItemStatement';
+    label: string;
+}
+
+export const GlyphSetItemStatement = {
+    $type: 'GlyphSetItemStatement',
+    label: 'label'
+} as const;
+
+export function isGlyphSetItemStatement(item: unknown): item is GlyphSetItemStatement {
+    return reflection.isInstance(item, GlyphSetItemStatement.$type);
+}
+
+export interface GlyphSetProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'GlyphSetProfile';
+    glyphsetType: string;
+    items: Array<GlyphSetItemStatement>;
+    name: string;
+}
+
+export const GlyphSetProfile = {
+    $type: 'GlyphSetProfile',
+    glyphsetType: 'glyphsetType',
+    items: 'items',
+    name: 'name'
+} as const;
+
+export function isGlyphSetProfile(item: unknown): item is GlyphSetProfile {
+    return reflection.isInstance(item, GlyphSetProfile.$type);
 }
 
 export interface GroupBlock extends langium.AstNode {
@@ -3528,7 +3567,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | TimelineProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GlyphSetProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | TimelineProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -5121,6 +5160,8 @@ export type RuniqAstType = {
     GatewayTypeProperty: GatewayTypeProperty
     GenericPIDProperty: GenericPIDProperty
     GenericTypesProperty: GenericTypesProperty
+    GlyphSetItemStatement: GlyphSetItemStatement
+    GlyphSetProfile: GlyphSetProfile
     GroupBlock: GroupBlock
     GuardProperty: GuardProperty
     HydraulicProfile: HydraulicProfile
@@ -6265,6 +6306,31 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        GlyphSetItemStatement: {
+            name: GlyphSetItemStatement.$type,
+            properties: {
+                label: {
+                    name: GlyphSetItemStatement.label
+                }
+            },
+            superTypes: [DiagramStatement.$type]
+        },
+        GlyphSetProfile: {
+            name: GlyphSetProfile.$type,
+            properties: {
+                glyphsetType: {
+                    name: GlyphSetProfile.glyphsetType
+                },
+                items: {
+                    name: GlyphSetProfile.items,
+                    defaultValue: []
+                },
+                name: {
+                    name: GlyphSetProfile.name
+                }
+            },
+            superTypes: [Profile.$type]
         },
         GroupBlock: {
             name: GroupBlock.$type,
