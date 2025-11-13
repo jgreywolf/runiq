@@ -659,7 +659,8 @@ GlyphSetNestedItem:
     keyword=GlyphSetKeyword label=STRING '{' children+=GlyphSetItemStatement* '}';
 
 GlyphSetKeyword returns string:
-    'step' | 'item' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'person' | 'node' | 'group';
+    'step' | 'item' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'person' | 'node' | 'group' | 'side';
+
 
 // ============================================================================
 // Diagram profile statements (existing grammar)

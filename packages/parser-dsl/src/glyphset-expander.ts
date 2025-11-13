@@ -42,6 +42,7 @@ function extractGlyphSetParams(
   const events: string[] = [];
   const quadrants: string[][] = [];
   const circles: string[] = [];
+  const sides: string[] = [];
   const persons: HierarchicalNode[] = [];
   const nodes: HierarchicalNode[] = [];
 
@@ -92,6 +93,9 @@ function extractGlyphSetParams(
         case 'circle':
           circles.push(label);
           break;
+        case 'side':
+          sides.push(label);
+          break;
       }
     }
   }
@@ -104,6 +108,7 @@ function extractGlyphSetParams(
   if (events.length > 0) params.events = events;
   if (quadrants.length > 0) params.quadrants = quadrants;
   if (circles.length > 0) params.circles = circles;
+  if (sides.length > 0) params.sides = sides;
 
   // Handle hierarchical structures
   if (persons.length > 0) {

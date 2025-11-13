@@ -548,6 +548,7 @@ export type RuniqKeywordNames =
     | "showDepthIndicator:"
     | "showLegend:"
     | "showMetrics:"
+    | "side"
     | "signal"
     | "size:"
     | "solid"
@@ -2031,10 +2032,10 @@ export function isGlyphSetItemStatement(item: unknown): item is GlyphSetItemStat
     return reflection.isInstance(item, GlyphSetItemStatement.$type);
 }
 
-export type GlyphSetKeyword = 'circle' | 'event' | 'group' | 'item' | 'level' | 'node' | 'person' | 'quadrant' | 'stage' | 'step';
+export type GlyphSetKeyword = 'circle' | 'event' | 'group' | 'item' | 'level' | 'node' | 'person' | 'quadrant' | 'side' | 'stage' | 'step';
 
 export function isGlyphSetKeyword(item: unknown): item is GlyphSetKeyword {
-    return item === 'step' || item === 'item' || item === 'level' || item === 'stage' || item === 'event' || item === 'quadrant' || item === 'circle' || item === 'person' || item === 'node' || item === 'group';
+    return item === 'step' || item === 'item' || item === 'level' || item === 'stage' || item === 'event' || item === 'quadrant' || item === 'circle' || item === 'person' || item === 'node' || item === 'group' || item === 'side';
 }
 
 export interface GlyphSetNestedItem extends langium.AstNode {

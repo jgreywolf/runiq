@@ -1,0 +1,7 @@
+// Balance Glyphset Example: Cost-Benefit Analysis
+// Use case: Comparing costs against benefits for a business decision
+
+glyphset balance professional {
+  side "Costs: Initial Investment, Training, Maintenance"
+  side "Benefits: Productivity, ROI, Scalability"
+}

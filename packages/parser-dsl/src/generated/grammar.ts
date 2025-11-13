@@ -7072,6 +7072,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "group"
+          },
+          {
+            "$type": "Keyword",
+            "value": "side"
           }
         ]
       },
