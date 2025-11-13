@@ -14,3 +14,6 @@ export { cycleShape } from './cycleShape.js'; // Circular cycle diagram
 export { target } from './target.js'; // Target/bullseye diagram (concentric circles)
 export { balance } from './balance.js'; // Balance scale diagram (comparison)
 export { opposing } from './opposing.js'; // Opposing/conflict diagram
+export { converging } from './converging.js'; // Converging sources diagram
+export { diverging } from './diverging.js'; // Diverging branches diagram
+export { cluster } from './cluster.js'; // Cluster diagram (radial hub-and-spoke)

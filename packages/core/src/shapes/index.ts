@@ -120,8 +120,11 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.processBoxShape); // SmartArt-style process box
   shapeRegistry.register(charts.cycleShape); // Circular cycle diagram
   shapeRegistry.register(charts.target); // Target/bullseye diagram (concentric circles)
-  shapeRegistry.register(charts.balance); // Balance scale diagram (comparison)
-  shapeRegistry.register(charts.opposing); // Opposing/conflict diagram
+  shapeRegistry.register(charts.balance); // Balance scale diagram
+  shapeRegistry.register(charts.opposing); // Opposing forces diagram
+  shapeRegistry.register(charts.converging); // Converging sources diagram
+  shapeRegistry.register(charts.diverging); // Diverging branches diagram
+  shapeRegistry.register(charts.cluster); // Cluster diagram (radial hub-and-spoke)
 }
 
 export function registerNetworkShapes(): void {

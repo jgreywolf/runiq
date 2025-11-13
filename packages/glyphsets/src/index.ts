@@ -33,6 +33,9 @@ import { basicListGlyphSet } from './list/basicList.js';
 import { targetGlyphSet } from './relationship/target.js';
 import { balanceGlyphSet } from './relationship/balance.js';
 import { opposingGlyphSet } from './relationship/opposing.js';
+import { convergingGlyphSet } from './relationship/converging.js';
+import { divergingGlyphSet } from './relationship/diverging.js';
+import { clusterGlyphSet } from './relationship/cluster.js';
 
 // Auto-register built-in glyphsets
 import { glyphsetRegistry } from './registry.js';
@@ -56,6 +59,9 @@ glyphsetRegistry.register(vennGlyphSet);
 glyphsetRegistry.register(targetGlyphSet);
 glyphsetRegistry.register(balanceGlyphSet);
 glyphsetRegistry.register(opposingGlyphSet);
+glyphsetRegistry.register(convergingGlyphSet);
+glyphsetRegistry.register(divergingGlyphSet);
+glyphsetRegistry.register(clusterGlyphSet);
 
 // Visualization glyphsets
 glyphsetRegistry.register(funnelGlyphSet);
@@ -77,6 +83,9 @@ export { vennGlyphSet } from './comparison/venn.js';
 export { targetGlyphSet } from './relationship/target.js';
 export { balanceGlyphSet } from './relationship/balance.js';
 export { opposingGlyphSet } from './relationship/opposing.js';
+export { convergingGlyphSet } from './relationship/converging.js';
+export { divergingGlyphSet } from './relationship/diverging.js';
+export { clusterGlyphSet } from './relationship/cluster.js';
 export { funnelGlyphSet } from './visualization/funnel.js';
 export { eventsGlyphSet } from './visualization/events.js';
 export { basicListGlyphSet } from './list/basicList.js';

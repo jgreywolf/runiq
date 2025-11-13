@@ -1,0 +1,15 @@
+// Cluster Glyphset Example: Topic Clustering
+//
+// Shows a central concept with related subtopics.
+// Demonstrates 8-item cluster pattern (maximum).
+
+glyphset cluster "Machine Learning" {
+  item "Supervised Learning"
+  item "Unsupervised Learning"
+  item "Reinforcement Learning"
+  item "Deep Learning"
+  item "Neural Networks"
+  item "Natural Language"
+  item "Computer Vision"
+  item "Data Processing"
+}

@@ -1,0 +1,11 @@
+// Converging Glyphset Example: Data Aggregation
+//
+// Multiple data sources feeding into a central data warehouse.
+// Demonstrates 4-source converging pattern.
+
+glyphset converging "Data Aggregation Flow" {
+  item "Customer Database"
+  item "Sales Records"
+  item "Analytics Events"
+  item "Third-Party APIs"
+}
