@@ -219,7 +219,9 @@ export const balance: ShapeDefinition = {
 
     // Right label (multi-line)
     const rightStartY =
-      rightPlateY + plateHeight / 2 - (rightLines.length - 1) * (lineHeight / 2);
+      rightPlateY +
+      plateHeight / 2 -
+      (rightLines.length - 1) * (lineHeight / 2);
     rightLines.forEach((line, i) => {
       parts.push(`
         <text 
