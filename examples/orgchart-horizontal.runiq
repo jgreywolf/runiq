@@ -1,0 +1,22 @@
+// Horizontal Organization Chart
+// Left-to-right hierarchy - better for wide organizations
+
+glyphset horizontalOrgChart "Wide Organization" {
+  person "Head of Product" {
+    person "Platform Team" {
+      person "Backend Lead"
+      person "DevOps Lead"
+      person "API Developer"
+    }
+    person "Features Team" {
+      person "Frontend Lead"
+      person "Mobile Lead"
+      person "UI Developer"
+    }
+    person "Growth Team" {
+      person "Analytics Lead"
+      person "A/B Testing"
+    }
+  }
+}
+

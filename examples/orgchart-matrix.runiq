@@ -1,0 +1,24 @@
+// Matrix Organization Chart
+// Note: Matrix org chart currently requires JSON-style parameters
+// This example shows the structure but may need future DSL enhancements
+
+// For now, use the simpler orgChart for hierarchical structures
+// Matrix functionality will be enhanced in a future update
+
+glyphset orgChart "Cross-Functional Teams" {
+  person "Jane Smith - CEO" {
+    person "VP Engineering" {
+      person "Alice Johnson - Backend Dev"
+      person "Bob Chen - Frontend Dev"
+      person "Carol Davis - DevOps"
+    }
+    person "VP Product" {
+      person "Dan Wilson - Product Manager"
+      person "Eve Martinez - UX Designer"
+    }
+    person "VP Marketing" {
+      person "Frank Lee - Marketing Lead"
+    }
+  }
+}
+

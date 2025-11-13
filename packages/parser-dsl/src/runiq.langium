@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -633,6 +633,29 @@ TimelineOrientationStatement:
 
 TimelineOrientation returns string:
     'horizontal' | 'vertical';
+
+// ============================================================================
+// GlyphSet Profile - SmartArt-style diagram templates
+// ============================================================================
+
+GlyphSetProfile:
+    'glyphset' glyphsetType=ID name=STRING '{'
+        items+=GlyphSetItemStatement*
+    '}';
+
+GlyphSetItemStatement:
+    GlyphSetSimpleItem | GlyphSetNestedItem;
+
+// Simple flat items: step "Label", level "Label", etc.
+GlyphSetSimpleItem:
+    keyword=GlyphSetKeyword label=STRING;
+
+// Nested items with children: person "Name" { person "Child1" person "Child2" }
+GlyphSetNestedItem:
+    keyword=GlyphSetKeyword label=STRING '{' children+=GlyphSetItemStatement* '}';
+
+GlyphSetKeyword returns string:
+    'step' | 'item' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'person' | 'node' | 'group';
 
 // ============================================================================
 // Diagram profile statements (existing grammar)

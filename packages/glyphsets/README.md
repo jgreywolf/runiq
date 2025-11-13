@@ -25,14 +25,14 @@ const processGlyphSet = glyphsetRegistry.get('horizontal-process');
 
 // Generate a diagram
 const diagram = processGlyphSet.generator({
-  steps: ['Research', 'Design', 'Develop', 'Test', 'Deploy']
+  steps: ['Research', 'Design', 'Develop', 'Test', 'Deploy'],
 });
 ```
 
 ### In Runiq DSL
 
 ```runiq
-diagram "My Process" glyphset:horizontal-process {
+glyphset horizontalProcess "Process Phases" {
   step "Research"
   step "Design"
   step "Develop"
@@ -44,11 +44,12 @@ diagram "My Process" glyphset:horizontal-process {
 ## Available GlyphSets
 
 ### Process (3 glyphsets)
-- **`horizontal-process`** - Linear left-to-right process (2-10 steps)
+
+- **`horizontalProcess`** - Linear left-to-right process (2-10 steps)
   - Parameters: `steps`, `shape`, `useContainers`
   - Example: Software development lifecycle, user journey
 
-- **`vertical-process`** - Top-to-bottom process (2-10 steps)
+- **`verticalProcess`** - Top-to-bottom process (2-10 steps)
   - Parameters: `steps`, `shape`
   - Example: Project phases, waterfall methodology
 
@@ -57,11 +58,13 @@ diagram "My Process" glyphset:horizontal-process {
   - Example: PDCA cycle, iterative development
 
 ### Hierarchy (1 glyphset)
+
 - **`pyramid`** - Hierarchical pyramid structure (3-7 levels)
   - Parameters: `levels`, `shape`, `showConnections`
   - Example: Maslow's hierarchy, organizational levels
 
 ### Comparison (2 glyphsets)
+
 - **`matrix`** - 2x2 comparison matrix (exactly 4 quadrants)
   - Parameters: `quadrants`, `horizontalAxis`, `verticalAxis`
   - Example: SWOT analysis, Eisenhower matrix
@@ -71,6 +74,7 @@ diagram "My Process" glyphset:horizontal-process {
   - Example: Feature overlap, skill sets
 
 ### Visualization (2 glyphsets)
+
 - **`funnel`** - Funnel visualization for conversion stages (3-7 stages)
   - Parameters: `stages`, `shape`
   - Example: Sales funnel, user conversion
@@ -80,6 +84,7 @@ diagram "My Process" glyphset:horizontal-process {
   - Example: Project roadmap, historical events
 
 ### Coming Soon
+
 - `chevron` - Chevron progression
 - `hierarchy` - Tree hierarchy
 - `org-chart` - Organization chart

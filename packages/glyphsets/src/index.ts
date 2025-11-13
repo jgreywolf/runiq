@@ -22,6 +22,9 @@ import { horizontalProcessGlyphSet } from './process/horizontal-process.js';
 import { verticalProcessGlyphSet } from './process/vertical-process.js';
 import { cycleGlyphSet } from './process/cycle.js';
 import { pyramidGlyphSet } from './hierarchy/pyramid.js';
+import { orgChartGlyphSet } from './hierarchy/orgChart.js';
+import { horizontalOrgChartGlyphSet } from './hierarchy/horizontalOrgChart.js';
+import { matrixOrgChartGlyphSet } from './hierarchy/matrixOrgChart.js';
 import { matrixGlyphSet } from './comparison/matrix.js';
 import { vennGlyphSet } from './comparison/venn.js';
 import { funnelGlyphSet } from './visualization/funnel.js';
@@ -38,6 +41,9 @@ glyphsetRegistry.register(cycleGlyphSet);
 
 // Hierarchy glyphsets
 glyphsetRegistry.register(pyramidGlyphSet);
+glyphsetRegistry.register(orgChartGlyphSet);
+glyphsetRegistry.register(horizontalOrgChartGlyphSet);
+glyphsetRegistry.register(matrixOrgChartGlyphSet);
 
 // Comparison glyphsets
 glyphsetRegistry.register(matrixGlyphSet);
@@ -55,6 +61,9 @@ export { horizontalProcessGlyphSet } from './process/horizontal-process.js';
 export { verticalProcessGlyphSet } from './process/vertical-process.js';
 export { cycleGlyphSet } from './process/cycle.js';
 export { pyramidGlyphSet } from './hierarchy/pyramid.js';
+export { orgChartGlyphSet } from './hierarchy/orgChart.js';
+export { horizontalOrgChartGlyphSet } from './hierarchy/horizontalOrgChart.js';
+export { matrixOrgChartGlyphSet } from './hierarchy/matrixOrgChart.js';
 export { matrixGlyphSet } from './comparison/matrix.js';
 export { vennGlyphSet } from './comparison/venn.js';
 export { funnelGlyphSet } from './visualization/funnel.js';

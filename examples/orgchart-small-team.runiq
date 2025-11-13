@@ -1,0 +1,14 @@
+// Simple Small Team
+// Minimal hierarchy for small organizations
+
+glyphset orgChart "Small Agency" {
+  person "Owner" {
+    person "Creative Director" {
+      person "Designer 1"
+      person "Designer 2"
+    }
+    person "Account Manager" {
+      person "Account Exec"
+    }
+  }
+}

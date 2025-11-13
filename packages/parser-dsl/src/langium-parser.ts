@@ -51,6 +51,7 @@ import type {
 import { EmptyFileSystem } from 'langium';
 import { createRuniqServices } from './langium-module.js';
 import * as Langium from './generated/ast.js';
+import { isGlyphSetProfile, expandGlyphSet } from './glyphset-expander.js';
 
 /**
  * Convert NodeRef to string representation
@@ -252,6 +253,14 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertPIDProfile(profile));
     } else if (Langium.isTimelineProfile(profile)) {
       runiqDoc.profiles.push(convertTimelineProfile(profile));
+    } else if (isGlyphSetProfile(profile)) {
+      // Expand glyphset to diagram profile
+      const expandedDiagram = expandGlyphSet(profile);
+      runiqDoc.profiles.push({
+        type: 'diagram',
+        name: profile.name.replace(/^"|"$/g, ''),
+        ...expandedDiagram,
+      });
     }
   }
 

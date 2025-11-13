@@ -463,6 +463,7 @@ export type RuniqKeywordNames =
     | "participant"
     | "participants:"
     | "period"
+    | "person"
     | "personnel_protection"
     | "ph"
     | "phTransmitter"
@@ -1483,7 +1484,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DataTemplateBlock | DirectionDeclaration | EdgeDeclaration | GlyphSetItemStatement | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
+export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DataTemplateBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -2019,19 +2020,39 @@ export function isGenericTypesProperty(item: unknown): item is GenericTypesPrope
     return reflection.isInstance(item, GenericTypesProperty.$type);
 }
 
-export interface GlyphSetItemStatement extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GlyphSetProfile | GroupBlock;
-    readonly $type: 'GlyphSetItemStatement';
-    label: string;
-}
+export type GlyphSetItemStatement = GlyphSetNestedItem | GlyphSetSimpleItem;
 
 export const GlyphSetItemStatement = {
-    $type: 'GlyphSetItemStatement',
-    label: 'label'
+    $type: 'GlyphSetItemStatement'
 } as const;
 
 export function isGlyphSetItemStatement(item: unknown): item is GlyphSetItemStatement {
     return reflection.isInstance(item, GlyphSetItemStatement.$type);
+}
+
+export type GlyphSetKeyword = 'circle' | 'event' | 'group' | 'item' | 'level' | 'node' | 'person' | 'quadrant' | 'stage' | 'step';
+
+export function isGlyphSetKeyword(item: unknown): item is GlyphSetKeyword {
+    return item === 'step' || item === 'item' || item === 'level' || item === 'stage' || item === 'event' || item === 'quadrant' || item === 'circle' || item === 'person' || item === 'node' || item === 'group';
+}
+
+export interface GlyphSetNestedItem extends langium.AstNode {
+    readonly $container: GlyphSetNestedItem | GlyphSetProfile;
+    readonly $type: 'GlyphSetNestedItem';
+    children: Array<GlyphSetItemStatement>;
+    keyword: GlyphSetKeyword;
+    label: string;
+}
+
+export const GlyphSetNestedItem = {
+    $type: 'GlyphSetNestedItem',
+    children: 'children',
+    keyword: 'keyword',
+    label: 'label'
+} as const;
+
+export function isGlyphSetNestedItem(item: unknown): item is GlyphSetNestedItem {
+    return reflection.isInstance(item, GlyphSetNestedItem.$type);
 }
 
 export interface GlyphSetProfile extends langium.AstNode {
@@ -2051,6 +2072,23 @@ export const GlyphSetProfile = {
 
 export function isGlyphSetProfile(item: unknown): item is GlyphSetProfile {
     return reflection.isInstance(item, GlyphSetProfile.$type);
+}
+
+export interface GlyphSetSimpleItem extends langium.AstNode {
+    readonly $container: GlyphSetNestedItem | GlyphSetProfile;
+    readonly $type: 'GlyphSetSimpleItem';
+    keyword: GlyphSetKeyword;
+    label: string;
+}
+
+export const GlyphSetSimpleItem = {
+    $type: 'GlyphSetSimpleItem',
+    keyword: 'keyword',
+    label: 'label'
+} as const;
+
+export function isGlyphSetSimpleItem(item: unknown): item is GlyphSetSimpleItem {
+    return reflection.isInstance(item, GlyphSetSimpleItem.$type);
 }
 
 export interface GroupBlock extends langium.AstNode {
@@ -5161,7 +5199,9 @@ export type RuniqAstType = {
     GenericPIDProperty: GenericPIDProperty
     GenericTypesProperty: GenericTypesProperty
     GlyphSetItemStatement: GlyphSetItemStatement
+    GlyphSetNestedItem: GlyphSetNestedItem
     GlyphSetProfile: GlyphSetProfile
+    GlyphSetSimpleItem: GlyphSetSimpleItem
     GroupBlock: GroupBlock
     GuardProperty: GuardProperty
     HydraulicProfile: HydraulicProfile
@@ -6310,11 +6350,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
         GlyphSetItemStatement: {
             name: GlyphSetItemStatement.$type,
             properties: {
+            },
+            superTypes: []
+        },
+        GlyphSetNestedItem: {
+            name: GlyphSetNestedItem.$type,
+            properties: {
+                children: {
+                    name: GlyphSetNestedItem.children,
+                    defaultValue: []
+                },
+                keyword: {
+                    name: GlyphSetNestedItem.keyword
+                },
                 label: {
-                    name: GlyphSetItemStatement.label
+                    name: GlyphSetNestedItem.label
                 }
             },
-            superTypes: [DiagramStatement.$type]
+            superTypes: [GlyphSetItemStatement.$type]
         },
         GlyphSetProfile: {
             name: GlyphSetProfile.$type,
@@ -6331,6 +6384,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [Profile.$type]
+        },
+        GlyphSetSimpleItem: {
+            name: GlyphSetSimpleItem.$type,
+            properties: {
+                keyword: {
+                    name: GlyphSetSimpleItem.keyword
+                },
+                label: {
+                    name: GlyphSetSimpleItem.label
+                }
+            },
+            superTypes: [GlyphSetItemStatement.$type]
         },
         GroupBlock: {
             name: GroupBlock.$type,

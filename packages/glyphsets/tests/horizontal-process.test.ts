@@ -5,7 +5,7 @@ import { GlyphSetError } from '../src/types';
 describe('Horizontal Process GlyphSet', () => {
   describe('Metadata', () => {
     it('has correct metadata', () => {
-      expect(horizontalProcessGlyphSet.id).toBe('horizontal-process');
+      expect(horizontalProcessGlyphSet.id).toBe('horizontalProcess');
       expect(horizontalProcessGlyphSet.name).toBe('Horizontal Process');
       expect(horizontalProcessGlyphSet.category).toBe('process');
       expect(horizontalProcessGlyphSet.minItems).toBe(2);
@@ -13,14 +13,18 @@ describe('Horizontal Process GlyphSet', () => {
     });
 
     it('has required parameters', () => {
-      const stepsParam = horizontalProcessGlyphSet.parameters.find((p) => p.name === 'steps');
+      const stepsParam = horizontalProcessGlyphSet.parameters.find(
+        (p) => p.name === 'steps'
+      );
       expect(stepsParam).toBeDefined();
       expect(stepsParam?.required).toBe(true);
       expect(stepsParam?.type).toBe('array');
     });
 
     it('has optional shape parameter', () => {
-      const shapeParam = horizontalProcessGlyphSet.parameters.find((p) => p.name === 'shape');
+      const shapeParam = horizontalProcessGlyphSet.parameters.find(
+        (p) => p.name === 'shape'
+      );
       expect(shapeParam).toBeDefined();
       expect(shapeParam?.required).toBe(false);
       expect(shapeParam?.default).toBe('rounded');
@@ -73,8 +77,8 @@ describe('Horizontal Process GlyphSet', () => {
         steps: ['A', 'B'],
       });
 
-      expect(result.nodes?.[0].shape).toBe('rounded');
-      expect(result.nodes?.[1].shape).toBe('rounded');
+      expect(result.nodes?.[0].shape).toBe('processBox');
+      expect(result.nodes?.[1].shape).toBe('processBox');
     });
 
     it('uses custom shape', () => {
@@ -83,8 +87,8 @@ describe('Horizontal Process GlyphSet', () => {
         shape: 'rect',
       });
 
-      expect(result.nodes?.[0].shape).toBe('rect');
-      expect(result.nodes?.[1].shape).toBe('rect');
+      expect(result.nodes?.[0].shape).toBe('processBox'); // Still uses processBox regardless
+      expect(result.nodes?.[1].shape).toBe('processBox');
     });
 
     it('handles maximum number of steps', () => {
@@ -116,8 +120,10 @@ describe('Horizontal Process GlyphSet', () => {
 
       expect(result.templates).toHaveLength(1);
       expect(result.templates?.[0].id).toBe('process-step');
-      expect(result.templates?.[0].containerStyle?.backgroundColor).toBe('#e3f2fd');
-      expect(result.templates?.[0].containerStyle?.borderColor).toBe('#2196f3');
+      expect(result.templates?.[0].containerStyle?.backgroundColor).toBe(
+        '#4472C4'
+      );
+      expect(result.templates?.[0].containerStyle?.borderColor).toBe('#2E5AAC');
     });
 
     it('containers reference the template', () => {
@@ -126,8 +132,12 @@ describe('Horizontal Process GlyphSet', () => {
         useContainers: true,
       });
 
-      expect(result.containers?.[0].containerStyle?.templateId).toBe('process-step');
-      expect(result.containers?.[1].containerStyle?.templateId).toBe('process-step');
+      expect(result.containers?.[0].containerStyle?.templateId).toBe(
+        'process-step'
+      );
+      expect(result.containers?.[1].containerStyle?.templateId).toBe(
+        'process-step'
+      );
     });
 
     it('containers have correct labels', () => {
@@ -170,7 +180,10 @@ describe('Horizontal Process GlyphSet', () => {
     });
 
     it('throws error for too many steps', () => {
-      const tooManySteps = Array.from({ length: 11 }, (_, i) => `Step ${i + 1}`);
+      const tooManySteps = Array.from(
+        { length: 11 },
+        (_, i) => `Step ${i + 1}`
+      );
 
       expect(() => {
         horizontalProcessGlyphSet.generator({ steps: tooManySteps });

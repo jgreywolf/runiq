@@ -1,0 +1,24 @@
+// Co-Founders Example
+// Multiple root nodes at the same level
+
+glyphset orgChart "Leadership" {
+  person "Alex Rivera - Co-Founder & CEO" {
+    person "Engineering Team" {
+      person "Tech Lead"
+      person "Senior Dev"
+      person "Junior Dev"
+    }
+  }
+  person "Morgan Blake - Co-Founder & CTO" {
+    person "Product Team" {
+      person "Product Manager"
+      person "Designer"
+    }
+  }
+  person "Sam Taylor - Co-Founder & COO" {
+    person "Operations" {
+      person "HR Manager"
+      person "Office Manager"
+    }
+  }
+}

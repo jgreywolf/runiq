@@ -7,7 +7,7 @@ import {
   matrixGlyphSet,
   vennGlyphSet,
   funnelGlyphSet,
-  timelineGlyphSet,
+  eventsGlyphSet,
 } from '../src/index';
 import { GlyphSetError } from '../src/types';
 
@@ -16,14 +16,14 @@ describe('All GlyphSets', () => {
     it('registers all glyphsets on import', () => {
       const allIds = glyphsetRegistry.getAllIds();
 
-      expect(allIds).toContain('horizontal-process');
-      expect(allIds).toContain('vertical-process');
+      expect(allIds).toContain('horizontalProcess');
+      expect(allIds).toContain('verticalProcess');
       expect(allIds).toContain('cycle');
       expect(allIds).toContain('pyramid');
       expect(allIds).toContain('matrix');
       expect(allIds).toContain('venn');
       expect(allIds).toContain('funnel');
-      expect(allIds).toContain('timeline');
+      expect(allIds).toContain('events');
       expect(allIds.length).toBeGreaterThanOrEqual(8);
     });
 
@@ -64,9 +64,10 @@ describe('All GlyphSets', () => {
         steps: ['Plan', 'Do', 'Check', 'Act'],
       });
 
-      expect(result.nodes).toHaveLength(4);
-      expect(result.edges).toHaveLength(4); // Including cycle back
-      expect(result.edges?.[3]).toMatchObject({ from: 'step4', to: 'step1' });
+      // Cycle glyphset creates a single node with cycle shape
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes?.[0].shape).toBe('cycle');
+      expect(result.nodes?.[0].data).toHaveProperty('steps');
     });
 
     it('requires minimum 3 steps for meaningful cycle', () => {
@@ -79,8 +80,8 @@ describe('All GlyphSets', () => {
       const steps = Array.from({ length: 8 }, (_, i) => `Step ${i + 1}`);
       const result = cycleGlyphSet.generator({ steps });
 
-      expect(result.nodes).toHaveLength(8);
-      expect(result.edges).toHaveLength(8);
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes?.[0].data).toHaveProperty('steps');
     });
   });
 
@@ -91,17 +92,19 @@ describe('All GlyphSets', () => {
       });
 
       expect(result.direction).toBe('TB');
-      expect(result.nodes).toHaveLength(3);
-      expect(result.edges).toHaveLength(2); // Connections between levels
+      // Pyramid glyphset creates a single node with pyramid shape
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes?.[0].shape).toBe('pyramid');
+      expect(result.edges).toHaveLength(0); // No edges - self-contained shape
     });
 
-    it('respects showConnections parameter', () => {
+    it('respects showValues parameter', () => {
       const result = pyramidGlyphSet.generator({
         levels: ['Level 1', 'Level 2', 'Level 3'],
-        showConnections: false,
+        showValues: true,
       });
 
-      expect(result.edges).toHaveLength(0);
+      expect(result.nodes?.[0].data).toHaveProperty('showValues', true);
     });
 
     it('validates minimum levels', () => {
@@ -135,7 +138,9 @@ describe('All GlyphSets', () => {
         quadrants: ['Q1', 'Q2', 'Q3', 'Q4'],
       });
 
-      const colors = result.containers?.map((c) => c.containerStyle?.backgroundColor);
+      const colors = result.containers?.map(
+        (c) => c.containerStyle?.backgroundColor
+      );
       const uniqueColors = new Set(colors);
       expect(uniqueColors.size).toBe(4); // Each quadrant has unique color
     });
@@ -159,9 +164,10 @@ describe('All GlyphSets', () => {
         circles: ['Set A', 'Set B'],
       });
 
-      expect(result.nodes?.length).toBeGreaterThanOrEqual(2);
-      expect(result.nodes?.[0].shape).toBe('circle');
-      expect(result.nodes?.[1].shape).toBe('circle');
+      // Venn glyphset creates a single node with venn shape
+      expect(result.nodes?.length).toBe(1);
+      expect(result.nodes?.[0].shape).toBe('venn');
+      expect(result.nodes?.[0].data).toHaveProperty('labels');
     });
 
     it('generates 3-circle venn diagram', () => {
@@ -169,27 +175,27 @@ describe('All GlyphSets', () => {
         circles: ['Essential', 'Valuable', 'Delightful'],
       });
 
-      expect(result.nodes?.length).toBeGreaterThanOrEqual(3);
+      expect(result.nodes?.length).toBe(1);
+      expect(result.nodes?.[0].shape).toBe('venn');
     });
 
-    it('adds intersection node when showIntersection is true', () => {
+    it('generates 4-circle venn diagram', () => {
       const result = vennGlyphSet.generator({
-        circles: ['A', 'B'],
-        showIntersection: true,
+        circles: ['A', 'B', 'C', 'D'],
       });
 
-      expect(result.nodes?.length).toBe(3); // 2 circles + 1 intersection
-      expect(result.nodes?.[2].id).toBe('intersection');
+      expect(result.nodes?.length).toBe(1);
+      expect(result.nodes?.[0].data).toHaveProperty('labels');
     });
 
     it('validates circle count', () => {
       expect(() => {
         vennGlyphSet.generator({ circles: ['Only One'] });
-      }).toThrow('2 or 3 circles');
+      }).toThrow('2, 3, or 4 circles');
 
       expect(() => {
-        vennGlyphSet.generator({ circles: ['A', 'B', 'C', 'D'] });
-      }).toThrow('2 or 3 circles');
+        vennGlyphSet.generator({ circles: ['A', 'B', 'C', 'D', 'E'] });
+      }).toThrow('2, 3, or 4 circles');
     });
   });
 
@@ -200,16 +206,18 @@ describe('All GlyphSets', () => {
       });
 
       expect(result.direction).toBe('TB');
-      expect(result.nodes).toHaveLength(4);
-      expect(result.edges).toHaveLength(3);
+      // Funnel glyphset creates a single node using pyramid shape
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes?.[0].shape).toBe('pyramid');
+      expect(result.edges).toHaveLength(0); // No edges - self-contained shape
     });
 
-    it('uses trapezoid shape by default', () => {
+    it('uses pyramid shape for funnel visualization', () => {
       const result = funnelGlyphSet.generator({
         stages: ['Top', 'Middle', 'Bottom'],
       });
 
-      expect(result.nodes?.[0].shape).toBe('trapezoid');
+      expect(result.nodes?.[0].shape).toBe('pyramid');
     });
 
     it('validates minimum stages', () => {
@@ -219,9 +227,9 @@ describe('All GlyphSets', () => {
     });
   });
 
-  describe('Timeline', () => {
-    it('generates horizontal timeline', () => {
-      const result = timelineGlyphSet.generator({
+  describe('Events', () => {
+    it('generates horizontal event sequence', () => {
+      const result = eventsGlyphSet.generator({
         events: ['Q1', 'Q2', 'Q3', 'Q4'],
       });
 
@@ -231,7 +239,7 @@ describe('All GlyphSets', () => {
     });
 
     it('respects showConnections parameter', () => {
-      const result = timelineGlyphSet.generator({
+      const result = eventsGlyphSet.generator({
         events: ['Event 1', 'Event 2', 'Event 3'],
         showConnections: false,
       });
@@ -241,13 +249,13 @@ describe('All GlyphSets', () => {
 
     it('validates minimum events', () => {
       expect(() => {
-        timelineGlyphSet.generator({ events: ['Only One'] });
+        eventsGlyphSet.generator({ events: ['Only One'] });
       }).toThrow('at least 2 events');
     });
 
     it('handles maximum events', () => {
       const events = Array.from({ length: 10 }, (_, i) => `Event ${i + 1}`);
-      const result = timelineGlyphSet.generator({ events });
+      const result = eventsGlyphSet.generator({ events });
 
       expect(result.nodes).toHaveLength(10);
     });
@@ -261,7 +269,7 @@ describe('All GlyphSets', () => {
       matrixGlyphSet,
       vennGlyphSet,
       funnelGlyphSet,
-      timelineGlyphSet,
+      eventsGlyphSet,
     ];
 
     it('all glyphsets have required metadata', () => {
@@ -276,7 +284,12 @@ describe('All GlyphSets', () => {
     });
 
     it('all glyphsets have valid categories', () => {
-      const validCategories = ['process', 'hierarchy', 'comparison', 'visualization'];
+      const validCategories = [
+        'process',
+        'hierarchy',
+        'comparison',
+        'visualization',
+      ];
 
       allGlyphSets.forEach((glyphset) => {
         expect(validCategories).toContain(glyphset.category);
