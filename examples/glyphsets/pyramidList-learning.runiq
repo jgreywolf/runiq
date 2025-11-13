@@ -1,0 +1,23 @@
+// Pyramid List Example - Learning Path
+// Educational progression with topic details
+
+glyphset pyramidList "Web Development Learning Path" {
+  level "Foundation" {
+    item "HTML & CSS Basics"
+    item "JavaScript Fundamentals"
+    item "Version Control (Git)"
+  }
+  level "Intermediate" {
+    item "React Framework"
+    item "State Management"
+    item "API Integration"
+    item "Responsive Design"
+  }
+  level "Advanced" {
+    item "Performance Optimization"
+    item "Testing Strategies"
+    item "CI/CD Pipeline"
+    item "Cloud Deployment"
+    item "Security Best Practices"
+  }
+}

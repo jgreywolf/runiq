@@ -1,0 +1,10 @@
+// Funnel using 'stage' keyword (alias to invertedPyramid)
+glyphset funnel {
+  stage "Awareness"
+  stage "Interest"
+  stage "Consideration"
+  stage "Intent"
+  stage "Purchase"
+  
+  theme "professional"
+}

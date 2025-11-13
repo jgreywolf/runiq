@@ -1,0 +1,27 @@
+// Segmented Pyramid Example - Product Strategy
+// Pyramid with subdivided levels showing strategy breakdown
+
+glyphset segmentedPyramid "Product Strategy" {
+  level "Vision" {
+    item "Mission"
+    item "Goals"
+  }
+  level "Strategy" {
+    item "Marketing"
+    item "Sales"
+    item "Product"
+  }
+  level "Tactics" {
+    item "Campaigns"
+    item "Channels"
+    item "Features"
+    item "Pricing"
+  }
+  level "Execution" {
+    item "Team A"
+    item "Team B"
+    item "Team C"
+    item "Team D"
+    item "Team E"
+  }
+}

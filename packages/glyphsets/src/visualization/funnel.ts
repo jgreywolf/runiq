@@ -1,15 +1,16 @@
-import type { DiagramAst, NodeAst, EdgeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { invertedPyramidGlyphSet } from '../hierarchy/invertedPyramid.js';
 
 /**
- * Funnel GlyphSet
+ * Funnel GlyphSet (Alias for Inverted Pyramid)
  *
  * Generates a funnel visualization showing progressive filtering or conversion.
+ * This is an alias for invertedPyramid with 'stage' keyword support.
  * Similar to PowerPoint SmartArt "Basic Funnel" pattern.
  *
  * @example
  * ```runiq
- * diagram "Sales Funnel" glyphset:funnel {
+ * glyphset funnel "Sales Funnel" {
  *   stage "Awareness (1000)"
  *   stage "Interest (500)"
  *   stage "Consideration (200)"
@@ -21,78 +22,69 @@ export const funnelGlyphSet: GlyphSetDefinition = {
   id: 'funnel',
   name: 'Funnel',
   category: 'visualization',
-  description: 'Funnel visualization showing progressive filtering or conversion stages',
+  description:
+    'Funnel visualization showing progressive filtering or conversion stages (alias for invertedPyramid)',
 
   parameters: [
     {
       name: 'stages',
       type: 'array',
       required: true,
-      description: 'Array of stage labels (typically with quantities)',
+      description:
+        'Array of stage labels (supports both "stage" and "level" keywords)',
     },
     {
-      name: 'shape',
+      name: 'theme',
       type: 'string',
       required: false,
-      default: 'trapezoid',
-      description: 'Shape for each stage',
+      default: 'professional',
+      description: 'Color theme: professional, colorful, warm, cool, vibrant',
     },
   ],
 
   minItems: 3,
-  maxItems: 7,
+  maxItems: 8,
 
-  tags: ['funnel', 'conversion', 'stages', 'filter', 'pipeline'],
+  tags: [
+    'funnel',
+    'conversion',
+    'stages',
+    'filter',
+    'pipeline',
+    'inverted',
+    'pyramid',
+  ],
 
   generator: (params) => {
+    // Map 'stages' parameter to 'levels' for invertedPyramid compatibility
     const stages = params.stages as string[] | undefined;
-    const shape = (params.shape as string | undefined) || 'trapezoid';
+    const levels = params.levels as string[] | undefined;
 
-    // Validation
-    if (!stages || !Array.isArray(stages)) {
-      throw new GlyphSetError('funnel', 'stages', 'Parameter "stages" must be an array of strings');
-    }
+    // Use stages if provided, otherwise use levels
+    const levelsArray = stages || levels;
 
-    if (stages.length < 3) {
+    if (!levelsArray || !Array.isArray(levelsArray)) {
       throw new GlyphSetError(
         'funnel',
         'stages',
-        'Funnel requires at least 3 stages to show progression'
+        'Parameter "stages" (or "levels") must be an array of strings'
       );
     }
 
-    if (stages.length > 7) {
-      throw new GlyphSetError(
-        'funnel',
-        'stages',
-        'Funnel supports maximum 7 stages (for readability)'
-      );
+    // Delegate to invertedPyramid generator with mapped parameters
+    const invertedParams = {
+      ...params,
+      levels: levelsArray,
+    };
+
+    // Use the invertedPyramid generator
+    const result = invertedPyramidGlyphSet.generator(invertedParams);
+
+    // Update node ID to reflect funnel
+    if (result.nodes && result.nodes.length > 0) {
+      result.nodes[0].id = 'funnel';
     }
 
-    // Generate a single node using the pyramid shape (which looks like a funnel!)
-    // The pyramid shape has the perfect narrowing trapezoid visual for funnels
-    const funnelData = {
-      levels: stages.map((label, i) => ({
-        label,
-        value: stages.length - i, // Descending values (top = widest, bottom = narrowest)
-      })),
-      showValues: false,
-    };
-
-    const nodes: NodeAst[] = [
-      {
-        id: 'funnel',
-        shape: 'pyramid', // Use pyramid shape - it's perfect for funnels!
-        label: '',
-        data: funnelData,
-      },
-    ];
-
-    return {
-      astVersion: '1.0',
-      direction: 'TB',
-      nodes,
-      edges: [], // No edges - pyramid shape is self-contained
-    };
+    return result;
   },
 };

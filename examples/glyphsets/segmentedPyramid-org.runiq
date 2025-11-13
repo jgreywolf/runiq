@@ -1,0 +1,28 @@
+// Segmented Pyramid Example - Organization Structure
+// Organizational layers with department breakdown
+
+glyphset segmentedPyramid "Organization Structure" {
+  level "Executive" {
+    item "CEO"
+  }
+  level "Leadership" {
+    item "VP Engineering"
+    item "VP Product"
+    item "VP Sales"
+  }
+  level "Management" {
+    item "Backend"
+    item "Frontend"
+    item "Mobile"
+    item "Design"
+    item "Marketing"
+    item "Support"
+  }
+  level "Individual Contributors" {
+    item "Engineers"
+    item "Designers"
+    item "Marketers"
+    item "Sales Reps"
+    item "Support Staff"
+  }
+}

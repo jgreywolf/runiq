@@ -1,0 +1,21 @@
+// Pyramid List Example - Feature Priority
+// Pyramid with detailed feature list for each priority level
+
+glyphset pyramidList "Feature Priority" {
+  level "Must Have" {
+    item "User Authentication"
+    item "Data Persistence"
+    item "Core Workflow"
+  }
+  level "Should Have" {
+    item "Email Notifications"
+    item "Search Functionality"
+    item "Export to CSV"
+  }
+  level "Nice to Have" {
+    item "Dark Mode"
+    item "Keyboard Shortcuts"
+    item "Analytics Dashboard"
+    item "Mobile App"
+  }
+}

@@ -1,0 +1,27 @@
+// Segmented Pyramid Example - Skills Development
+// Learning progression with topic breakdown
+
+glyphset segmentedPyramid "Developer Skills Pyramid" {
+  level "Expert" {
+    item "Architecture"
+    item "Leadership"
+  }
+  level "Advanced" {
+    item "System Design"
+    item "Performance"
+    item "Security"
+  }
+  level "Intermediate" {
+    item "Frameworks"
+    item "Databases"
+    item "APIs"
+    item "Testing"
+  }
+  level "Foundation" {
+    item "HTML"
+    item "CSS"
+    item "JavaScript"
+    item "Git"
+    item "Algorithms"
+  }
+}

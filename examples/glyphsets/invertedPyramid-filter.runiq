@@ -1,0 +1,10 @@
+// Inverted Pyramid Example - Content Filtering
+// Information refinement process
+
+glyphset invertedPyramid "Data Quality Funnel" {
+  level "Raw Data Collected"
+  level "Data Validation"
+  level "Quality Checks"
+  level "Processed Data"
+  level "High Quality Insights"
+}

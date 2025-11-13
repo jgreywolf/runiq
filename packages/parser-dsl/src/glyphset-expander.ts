@@ -38,6 +38,11 @@ function extractGlyphSetParams(
   const steps: string[] = [];
   const items: string[] = [];
   const levels: string[] = [];
+  const levelsWithItems: Array<{
+    label: string;
+    items?: string[];
+    segments?: string[];
+  }> = [];
   const stages: string[] = [];
   const events: string[] = [];
   const quadrants: string[] = [];
@@ -54,12 +59,46 @@ function extractGlyphSetParams(
       const nestedItem = stmt as Langium.GlyphSetNestedItem;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       const keyword = nestedItem.keyword;
-      const nested = extractNestedItem(nestedItem);
 
-      if (keyword === 'person') {
-        persons.push(nested);
-      } else if (keyword === 'node') {
-        nodes.push(nested);
+      // Handle hierarchical structures (person, node)
+      if (keyword === 'person' || keyword === 'node') {
+        const nested = extractNestedItem(nestedItem);
+        if (keyword === 'person') {
+          persons.push(nested);
+        } else if (keyword === 'node') {
+          nodes.push(nested);
+        }
+      }
+      // Handle level/stage/step with nested items (for pyramidList, segmentedPyramid, etc.)
+      else if (
+        keyword === 'level' ||
+        keyword === 'stage' ||
+        keyword === 'step'
+      ) {
+        const label = nestedItem.label.replace(/^"|"$/g, '');
+        const childItems: string[] = [];
+
+        // Extract child items (use 'item' keyword for all children)
+        for (const child of nestedItem.children) {
+          if (Langium.isGlyphSetSimpleItem(child)) {
+            const childLabel = child.label.replace(/^"|"$/g, '');
+            childItems.push(childLabel);
+          }
+        }
+
+        // Add to levelsWithItems array
+        // Use 'items' property for pyramidList, 'segments' for segmentedPyramid
+        // The glyphset generator will handle both
+        const levelObj: {
+          label: string;
+          items?: string[];
+          segments?: string[];
+        } = { label };
+        if (childItems.length > 0) {
+          levelObj.items = childItems;
+          levelObj.segments = childItems; // Also set segments for compatibility
+        }
+        levelsWithItems.push(levelObj);
       }
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     } else if (Langium.isGlyphSetSimpleItem(stmt)) {
@@ -103,7 +142,14 @@ function extractGlyphSetParams(
   // Map arrays to parameters based on what was collected
   if (steps.length > 0) params.steps = steps;
   if (items.length > 0) params.items = items;
-  if (levels.length > 0) params.levels = levels;
+
+  // If we have levelsWithItems (nested structure), use that; otherwise use simple levels
+  if (levelsWithItems.length > 0) {
+    params.levels = levelsWithItems;
+  } else if (levels.length > 0) {
+    params.levels = levels;
+  }
+
   if (stages.length > 0) params.stages = stages;
   if (events.length > 0) params.events = events;
   if (quadrants.length > 0) params.quadrants = quadrants;

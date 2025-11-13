@@ -262,13 +262,13 @@ This document compares Microsoft SmartArt graphics capabilities with Runiq's Gly
 🔴 **Major Gap** - Most relationship types missing:
 
 - ✅ Basic Venn diagram covered
-- ❌ Target/bullseye diagrams
-- ❌ Balance/scale diagrams
+- ✅ Target/bullseye diagrams
+- ✅ Balance/scale diagrams
 - ❌ Radial relationship diagrams
-- ❌ Converging/diverging patterns
-- ❌ Opposing ideas (left vs right)
-- ❌ Plus/minus comparisons
-- ❌ Puzzle pieces
+- ✅ Converging/diverging patterns
+- ✅ Opposing ideas (left vs right)
+- ✅ Plus/minus comparisons
+- ✅ Puzzle pieces
 - ❌ Gear relationships
 
 **Recommendation**: Add 12-15 relationship variants (HIGH PRIORITY):
@@ -313,16 +313,9 @@ This document compares Microsoft SmartArt graphics capabilities with Runiq's Gly
 🟡 **Good Coverage**:
 
 - ✅ Basic 2x2 matrix covered
-- ❌ 3x3 or larger matrices
-- ❌ Titled matrix (with category headers)
-- ❌ Segmented matrix (subdivided cells)
-
-**Recommendation**: Add 3-4 matrix variants:
-
-1. `matrix3x3` - nine quadrants
-2. `titledMatrix` - row/column headers
-3. `segmentedMatrix` - sub-cells
-4. `priorityMatrix` - with urgency/importance indicators
+- ✅ 3x3 or larger matrices
+- ✅ Titled matrix (with category headers)
+- ✅ Segmented matrix (subdivided cells)
 
 ---
 

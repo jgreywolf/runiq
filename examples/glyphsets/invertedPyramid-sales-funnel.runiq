@@ -1,0 +1,10 @@
+// Inverted Pyramid Example - Sales Funnel
+// Upside-down pyramid showing conversion funnel
+
+glyphset invertedPyramid "Sales Funnel" {
+  level "Website Visitors"
+  level "Qualified Leads"
+  level "Demos Scheduled"
+  level "Proposals Sent"
+  level "Closed Deals"
+}

@@ -111,6 +111,9 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.lineChart);
   shapeRegistry.register(charts.radarChart);
   shapeRegistry.register(charts.pyramidShape);
+  shapeRegistry.register(charts.invertedPyramidShape); // Inverted pyramid (funnel)
+  shapeRegistry.register(charts.segmentedPyramidShape); // Pyramid with subdivided levels
+  shapeRegistry.register(charts.pyramidListShape); // Pyramid with list items
   shapeRegistry.register(charts.vennShape); // Unified venn diagram
   shapeRegistry.register(charts.venn2Shape); // Legacy
   shapeRegistry.register(charts.venn3Shape); // Legacy
