@@ -1,7 +1,7 @@
 // Balance Glyphset Example: Option Comparison
 // Use case: Comparing two competing solutions
 
-glyphset balance cool {
+glyphset balance "cool" {
   side "Option A: Cloud-Based, Subscription Model, Auto-Updates"
   side "Option B: On-Premise, One-Time Cost, Full Control"
 }

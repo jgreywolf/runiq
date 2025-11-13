@@ -1,7 +1,7 @@
 // Balance Glyphset Example: Risk/Reward Assessment
 // Use case: Evaluating investment opportunities
 
-glyphset balance vibrant {
+glyphset balance "vibrant" {
   side "Risk: Market Volatility, Regulatory Changes"
   side "Reward: High Returns, Market Leadership"
 }

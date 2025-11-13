@@ -13,3 +13,4 @@ export { processBoxShape } from './processBox.js'; // SmartArt-style process box
 export { cycleShape } from './cycleShape.js'; // Circular cycle diagram
 export { target } from './target.js'; // Target/bullseye diagram (concentric circles)
 export { balance } from './balance.js'; // Balance scale diagram (comparison)
+export { opposing } from './opposing.js'; // Opposing/conflict diagram

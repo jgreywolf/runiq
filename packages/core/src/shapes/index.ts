@@ -121,6 +121,7 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.cycleShape); // Circular cycle diagram
   shapeRegistry.register(charts.target); // Target/bullseye diagram (concentric circles)
   shapeRegistry.register(charts.balance); // Balance scale diagram (comparison)
+  shapeRegistry.register(charts.opposing); // Opposing/conflict diagram
 }
 
 export function registerNetworkShapes(): void {

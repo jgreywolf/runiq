@@ -1,0 +1,9 @@
+// Opposing Glyphset Example: Four Competing Philosophies
+// Use case: Square of opposition in philosophy
+
+glyphset opposing "cool" {
+  item "Idealism"
+  item "Realism"
+  item "Pragmatism"
+  item "Skepticism"
+}

@@ -32,6 +32,7 @@ import { eventsGlyphSet } from './visualization/events.js';
 import { basicListGlyphSet } from './list/basicList.js';
 import { targetGlyphSet } from './relationship/target.js';
 import { balanceGlyphSet } from './relationship/balance.js';
+import { opposingGlyphSet } from './relationship/opposing.js';
 
 // Auto-register built-in glyphsets
 import { glyphsetRegistry } from './registry.js';
@@ -54,6 +55,7 @@ glyphsetRegistry.register(vennGlyphSet);
 // Relationship glyphsets
 glyphsetRegistry.register(targetGlyphSet);
 glyphsetRegistry.register(balanceGlyphSet);
+glyphsetRegistry.register(opposingGlyphSet);
 
 // Visualization glyphsets
 glyphsetRegistry.register(funnelGlyphSet);
@@ -74,6 +76,7 @@ export { matrixGlyphSet } from './comparison/matrix.js';
 export { vennGlyphSet } from './comparison/venn.js';
 export { targetGlyphSet } from './relationship/target.js';
 export { balanceGlyphSet } from './relationship/balance.js';
+export { opposingGlyphSet } from './relationship/opposing.js';
 export { funnelGlyphSet } from './visualization/funnel.js';
 export { eventsGlyphSet } from './visualization/events.js';
 export { basicListGlyphSet } from './list/basicList.js';

@@ -1,7 +1,7 @@
 // Balance Glyphset Example: Pros/Cons Analysis
 // Use case: Weighing advantages and disadvantages of a decision
 
-glyphset balance colorful {
+glyphset balance "colorful" {
   side "Pros: Flexibility, Cost Savings, Innovation"
   side "Cons: Security Risk, Complexity, Vendor Lock-in"
 }

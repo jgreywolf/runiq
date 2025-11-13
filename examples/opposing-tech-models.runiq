@@ -1,0 +1,8 @@
+// Opposing Glyphset Example: Technology Licensing Models
+// Use case: Competing software development approaches
+
+glyphset opposing "warm" {
+  item "Open Source"
+  item "Proprietary"
+  item "Hybrid Model"
+}

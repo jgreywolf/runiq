@@ -1,7 +1,7 @@
 // Balance Glyphset Example: Advantages vs Disadvantages
 // Use case: Comparing technology options
 
-glyphset balance warm {
+glyphset balance "warm" {
   side "Advantages: Easy to Use, Well Documented, Large Community"
   side "Disadvantages: Licensing Costs, Limited Flexibility, Steep Curve"
 }
