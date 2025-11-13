@@ -640,7 +640,7 @@ TimelineOrientation returns string:
 
 GlyphSetProfile:
     'glyphset' glyphsetType=GlyphSetType name=STRING '{'
-        items+=GlyphSetItemStatement*
+        items+=(GlyphSetItemStatement | GlyphSetParameter)*
     '}';
 
 // Allow both IDs and certain keywords as glyphset types
@@ -657,6 +657,13 @@ GlyphSetSimpleItem:
 // Nested items with children: person "Name" { person "Child1" person "Child2" }
 GlyphSetNestedItem:
     keyword=GlyphSetKeyword label=STRING '{' children+=GlyphSetItemStatement* '}';
+
+// Parameter assignments: direction "LR", theme "professional", columns 3, shape "circle"
+GlyphSetParameter:
+    name=GlyphSetParameterName value=(STRING | NUMBER);
+
+GlyphSetParameterName returns string:
+    'direction' | 'theme' | 'columns' | 'shape' | 'showValues';
 
 GlyphSetKeyword returns string:
     'step' | 'item' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'person' | 'node' | 'group' | 'side';

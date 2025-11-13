@@ -1,0 +1,22 @@
+// Nested List - Learning Path
+glyphset nestedList "Web Development Path" {
+  level "Fundamentals" {
+    item "HTML & CSS"
+    item "JavaScript basics"
+    item "Git version control"
+  }
+  level "Frontend" {
+    item "React or Vue"
+    item "TypeScript"
+    item "State management"
+  }
+  level "Backend" {
+    item "Node.js & Express"
+    item "Databases"
+    item "APIs & REST"
+  }
+  level "DevOps" {
+    item "Docker"
+    item "CI/CD pipelines"
+  }
+}

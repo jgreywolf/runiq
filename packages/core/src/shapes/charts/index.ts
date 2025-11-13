@@ -25,3 +25,9 @@ export { plusMinus } from './plusMinus.js'; // Plus/minus diagram (pros vs cons)
 export { matrix3x3 } from './matrix3x3.js'; // 3x3 matrix (nine quadrants)
 export { titledMatrix } from './titledMatrix.js'; // Matrix with row/column headers
 export { segmentedMatrix } from './segmentedMatrix.js'; // Matrix with subdivided quadrants
+export { columnListShape } from './columnList.js'; // Multi-column list with equal-width columns
+export { nestedListShape } from './nestedList.js'; // Hierarchical list with indented sub-items
+export { chevronListShape } from './chevronList.js'; // Chevron/arrow list showing progression
+export { numberedChevronListShape } from './numberedChevronList.js'; // Numbered chevron list with descriptions
+export { horizontalListShape } from './horizontalList.js'; // Horizontal list with equal-width boxes
+export { increasingListShape } from './increasingList.js'; // List with progressively larger items

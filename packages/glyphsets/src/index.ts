@@ -36,6 +36,13 @@ import { segmentedMatrixGlyphSet } from './comparison/segmentedMatrix.js';
 import { funnelGlyphSet } from './visualization/funnel.js';
 import { eventsGlyphSet } from './visualization/events.js';
 import { basicListGlyphSet } from './list/basicList.js';
+import { horizontalListGlyphSet } from './list/horizontalList.js';
+import { chevronListGlyphSet } from './list/chevronList.js';
+import { numberedChevronListGlyphSet } from './list/numberedChevronList.js';
+import { nestedListGlyphSet } from './list/nestedList.js';
+import { columnListGlyphSet } from './list/columnList.js';
+import { increasingListGlyphSet } from './list/increasingList.js';
+import { alternatingListGlyphSet } from './list/alternatingList.js';
 import { targetGlyphSet } from './relationship/target.js';
 import { balanceGlyphSet } from './relationship/balance.js';
 import { opposingGlyphSet } from './relationship/opposing.js';
@@ -85,6 +92,13 @@ glyphsetRegistry.register(eventsGlyphSet);
 
 // List glyphsets
 glyphsetRegistry.register(basicListGlyphSet);
+glyphsetRegistry.register(horizontalListGlyphSet);
+glyphsetRegistry.register(chevronListGlyphSet);
+glyphsetRegistry.register(numberedChevronListGlyphSet);
+glyphsetRegistry.register(nestedListGlyphSet);
+glyphsetRegistry.register(columnListGlyphSet);
+glyphsetRegistry.register(increasingListGlyphSet);
+glyphsetRegistry.register(alternatingListGlyphSet);
 
 // Export individual glyphsets (for direct import if needed)
 export { horizontalProcessGlyphSet } from './process/horizontal-process.js';
@@ -113,6 +127,13 @@ export { plusMinusGlyphSet } from './relationship/plusMinus.js';
 export { funnelGlyphSet } from './visualization/funnel.js';
 export { eventsGlyphSet } from './visualization/events.js';
 export { basicListGlyphSet } from './list/basicList.js';
+export { horizontalListGlyphSet } from './list/horizontalList.js';
+export { chevronListGlyphSet } from './list/chevronList.js';
+export { numberedChevronListGlyphSet } from './list/numberedChevronList.js';
+export { nestedListGlyphSet } from './list/nestedList.js';
+export { columnListGlyphSet } from './list/columnList.js';
+export { increasingListGlyphSet } from './list/increasingList.js';
+export { alternatingListGlyphSet } from './list/alternatingList.js';
 
 // Export themes
 export { COLOR_THEMES, getThemeColor, type ColorTheme } from './themes.js';

@@ -1,0 +1,7 @@
+// Alternating List - Development Timeline
+glyphset alternatingList "Development Timeline" {
+  item "Q1: Planning & Design"
+  item "Q2: Core Development"
+  item "Q3: Testing & Refinement"
+  item "Q4: Launch & Marketing"
+}

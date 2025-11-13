@@ -172,6 +172,7 @@ export type RuniqKeywordNames =
     | "color"
     | "color:"
     | "colors:"
+    | "columns"
     | "complex"
     | "component"
     | "composition"
@@ -548,6 +549,7 @@ export type RuniqKeywordNames =
     | "showDepthIndicator:"
     | "showLegend:"
     | "showMetrics:"
+    | "showValues"
     | "side"
     | "signal"
     | "size:"
@@ -604,6 +606,7 @@ export type RuniqKeywordNames =
     | "terminate"
     | "text"
     | "textAlign:"
+    | "theme"
     | "thermal"
     | "timeObservation"
     | "timeline"
@@ -2057,11 +2060,34 @@ export function isGlyphSetNestedItem(item: unknown): item is GlyphSetNestedItem 
     return reflection.isInstance(item, GlyphSetNestedItem.$type);
 }
 
+export interface GlyphSetParameter extends langium.AstNode {
+    readonly $container: GlyphSetProfile;
+    readonly $type: 'GlyphSetParameter';
+    name: GlyphSetParameterName;
+    value: string;
+}
+
+export const GlyphSetParameter = {
+    $type: 'GlyphSetParameter',
+    name: 'name',
+    value: 'value'
+} as const;
+
+export function isGlyphSetParameter(item: unknown): item is GlyphSetParameter {
+    return reflection.isInstance(item, GlyphSetParameter.$type);
+}
+
+export type GlyphSetParameterName = 'columns' | 'direction' | 'shape' | 'showValues' | 'theme';
+
+export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
+    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues';
+}
+
 export interface GlyphSetProfile extends langium.AstNode {
     readonly $container: Document;
     readonly $type: 'GlyphSetProfile';
     glyphsetType: GlyphSetType;
-    items: Array<GlyphSetItemStatement>;
+    items: Array<GlyphSetItemStatement | GlyphSetParameter>;
     name: string;
 }
 
@@ -5208,6 +5234,7 @@ export type RuniqAstType = {
     GenericTypesProperty: GenericTypesProperty
     GlyphSetItemStatement: GlyphSetItemStatement
     GlyphSetNestedItem: GlyphSetNestedItem
+    GlyphSetParameter: GlyphSetParameter
     GlyphSetProfile: GlyphSetProfile
     GlyphSetSimpleItem: GlyphSetSimpleItem
     GroupBlock: GroupBlock
@@ -6376,6 +6403,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [GlyphSetItemStatement.$type]
+        },
+        GlyphSetParameter: {
+            name: GlyphSetParameter.$type,
+            properties: {
+                name: {
+                    name: GlyphSetParameter.name
+                },
+                value: {
+                    name: GlyphSetParameter.value
+                }
+            },
+            superTypes: []
         },
         GlyphSetProfile: {
             name: GlyphSetProfile.$type,

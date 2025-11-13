@@ -1,0 +1,17 @@
+// Nested List - Product Features
+glyphset nestedList "Product Features" {
+  level "Core Features" {
+    item "Fast performance"
+    item "Easy to use"
+    item "Secure"
+  }
+  level "Advanced Features" {
+    item "Plugin system"
+    item "Custom themes"
+    item "API integration"
+  }
+  level "Enterprise Features" {
+    item "SSO authentication"
+    item "Audit logging"
+  }
+}

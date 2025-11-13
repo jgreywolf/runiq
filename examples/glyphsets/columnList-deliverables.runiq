@@ -1,0 +1,14 @@
+// Column List - Project Deliverables (3 columns)
+glyphset columnList "Project Deliverables" {
+  item "Requirements Doc"
+  item "Architecture Diagram"
+  item "API Specification"
+  item "UI Mockups"
+  item "Database Schema"
+  item "Test Plans"
+  item "User Guides"
+  item "Deployment Guide"
+  item "Security Audit"
+  
+  columns 3
+}

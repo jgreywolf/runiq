@@ -28,11 +28,11 @@ export function isGlyphSetProfile(
 }
 
 /**
- * Extract parameters from glyphset items
+ * Extract parameters from glyphset items and parameters
  */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 function extractGlyphSetParams(
-  statements: Langium.GlyphSetItemStatement[]
+  statements: Array<Langium.GlyphSetItemStatement | Langium.GlyphSetParameter>
 ): Record<string, unknown> {
   const params: Record<string, unknown> = {};
   const steps: string[] = [];
@@ -52,6 +52,19 @@ function extractGlyphSetParams(
   const nodes: HierarchicalNode[] = [];
 
   for (const stmt of statements) {
+    // Check if it's a parameter assignment
+    if (Langium.isGlyphSetParameter(stmt)) {
+      const param = stmt as Langium.GlyphSetParameter;
+      const name = param.name;
+      const value =
+        typeof param.value === 'string'
+          ? param.value.replace(/^"|"$/g, '') // Remove quotes from strings
+          : param.value; // Keep numbers as-is
+
+      params[name] = value;
+      continue;
+    }
+
     // Check if it's a nested item or simple item
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
     if (Langium.isGlyphSetNestedItem(stmt)) {

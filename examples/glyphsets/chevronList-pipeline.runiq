@@ -1,0 +1,8 @@
+// Chevron List - Sales Pipeline (Vertical)
+glyphset chevronList "Sales Pipeline" {
+  item "Prospecting"
+  item "Qualification"
+  item "Proposal"
+  item "Negotiation"
+  item "Closing"
+}

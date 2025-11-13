@@ -37,6 +37,7 @@ export function registerBasicShapes(): void {
   shapeRegistry.register(basic.triangleShape);
   shapeRegistry.register(basic.flippedTriangleShape);
   shapeRegistry.register(basic.parallelogramShape);
+  shapeRegistry.register(basic.chevronShape);
   shapeRegistry.register(basic.trapezoidShape);
   shapeRegistry.register(basic.flippedTrapezoidShape);
   shapeRegistry.register(basic.starShape);
@@ -133,6 +134,12 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.matrix3x3); // 3x3 matrix (nine quadrants)
   shapeRegistry.register(charts.titledMatrix); // Matrix with headers
   shapeRegistry.register(charts.segmentedMatrix); // Segmented matrix
+  shapeRegistry.register(charts.columnListShape); // Multi-column list
+  shapeRegistry.register(charts.nestedListShape); // Nested/indented list
+  shapeRegistry.register(charts.chevronListShape); // Chevron/arrow list
+  shapeRegistry.register(charts.numberedChevronListShape); // Numbered chevron list
+  shapeRegistry.register(charts.horizontalListShape); // Horizontal list
+  shapeRegistry.register(charts.increasingListShape); // Increasing size list
 }
 
 export function registerNetworkShapes(): void {
