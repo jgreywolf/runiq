@@ -663,7 +663,7 @@ GlyphSetParameter:
     name=GlyphSetParameterName value=(STRING | NUMBER);
 
 GlyphSetParameterName returns string:
-    'direction' | 'theme' | 'columns' | 'shape' | 'showValues';
+    'direction' | 'theme' | 'columns' | 'shape' | 'showValues' | 'mergePoint' | 'result';
 
 GlyphSetKeyword returns string:
     'step' | 'item' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'person' | 'node' | 'group' | 'side';

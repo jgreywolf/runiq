@@ -398,6 +398,7 @@ export type RuniqKeywordNames =
     | "maxHeight:"
     | "maxWidth:"
     | "medium"
+    | "mergePoint"
     | "message"
     | "methods:"
     | "metricPosition:"
@@ -520,6 +521,7 @@ export type RuniqKeywordNames =
     | "requiredInterface"
     | "resizable:"
     | "resizeHandles:"
+    | "result"
     | "return"
     | "returnType:"
     | "right"
@@ -2077,10 +2079,10 @@ export function isGlyphSetParameter(item: unknown): item is GlyphSetParameter {
     return reflection.isInstance(item, GlyphSetParameter.$type);
 }
 
-export type GlyphSetParameterName = 'columns' | 'direction' | 'shape' | 'showValues' | 'theme';
+export type GlyphSetParameterName = 'columns' | 'direction' | 'mergePoint' | 'result' | 'shape' | 'showValues' | 'theme';
 
 export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
-    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues';
+    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues' || item === 'mergePoint' || item === 'result';
 }
 
 export interface GlyphSetProfile extends langium.AstNode {

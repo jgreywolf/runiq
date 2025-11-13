@@ -140,6 +140,13 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.numberedChevronListShape); // Numbered chevron list
   shapeRegistry.register(charts.horizontalListShape); // Horizontal list
   shapeRegistry.register(charts.increasingListShape); // Increasing size list
+  shapeRegistry.register(charts.alternatingProcessShape); // Alternating process
+  shapeRegistry.register(charts.stepProcessShape); // Step process
+  shapeRegistry.register(charts.equationProcessShape); // Equation process
+  shapeRegistry.register(charts.continuousBlockProcessShape); // Continuous block process
+  shapeRegistry.register(charts.phasedProcessShape); // Phased process
+  shapeRegistry.register(charts.detailedProcessShape); // Detailed process with substeps
+  shapeRegistry.register(charts.groupedProcessShape); // Grouped parallel process
 }
 
 export function registerNetworkShapes(): void {

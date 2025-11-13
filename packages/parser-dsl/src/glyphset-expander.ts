@@ -50,6 +50,7 @@ function extractGlyphSetParams(
   const sides: string[] = [];
   const persons: HierarchicalNode[] = [];
   const nodes: HierarchicalNode[] = [];
+  const groups: Array<{ name: string; items: string[] }> = [];
 
   for (const stmt of statements) {
     // Check if it's a parameter assignment
@@ -81,6 +82,21 @@ function extractGlyphSetParams(
         } else if (keyword === 'node') {
           nodes.push(nested);
         }
+      }
+      // Handle group with nested items (for groupedProcess)
+      else if (keyword === 'group') {
+        const groupName = nestedItem.label.replace(/^"|"$/g, '');
+        const groupItems: string[] = [];
+
+        // Extract child items
+        for (const child of nestedItem.children) {
+          if (Langium.isGlyphSetSimpleItem(child)) {
+            const childLabel = child.label.replace(/^"|"$/g, '');
+            groupItems.push(childLabel);
+          }
+        }
+
+        groups.push({ name: groupName, items: groupItems });
       }
       // Handle level/stage/step with nested items (for pyramidList, segmentedPyramid, etc.)
       else if (
@@ -200,6 +216,9 @@ function extractGlyphSetParams(
   if (nodes.length > 0) {
     // Keep as array for consistency
     params.nodes = nodes;
+  }
+  if (groups.length > 0) {
+    params.groups = groups;
   }
 
   return params;

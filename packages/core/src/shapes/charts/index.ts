@@ -31,3 +31,10 @@ export { chevronListShape } from './chevronList.js'; // Chevron/arrow list showi
 export { numberedChevronListShape } from './numberedChevronList.js'; // Numbered chevron list with descriptions
 export { horizontalListShape } from './horizontalList.js'; // Horizontal list with equal-width boxes
 export { increasingListShape } from './increasingList.js'; // List with progressively larger items
+export { alternatingProcessShape } from './alternatingProcess.js'; // Zigzag alternating process flow
+export { stepProcessShape } from './stepProcess.js'; // Staircase step progression
+export { equationProcessShape } from './equationProcess.js'; // Equation-style A + B = C process
+export { continuousBlockProcessShape } from './continuousBlockProcess.js'; // Connected blocks with arrows
+export { phasedProcessShape } from './phasedProcess.js'; // Phased process with milestone markers
+export { detailedProcessShape } from './detailedProcess.js'; // Process with main steps and substeps
+export { groupedProcessShape } from './groupedProcess.js'; // Parallel streams converging to merge point
