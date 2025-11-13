@@ -119,6 +119,7 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.sankeyNode);
   shapeRegistry.register(charts.processBoxShape); // SmartArt-style process box
   shapeRegistry.register(charts.cycleShape); // Circular cycle diagram
+  shapeRegistry.register(charts.target); // Target/bullseye diagram (concentric circles)
 }
 
 export function registerNetworkShapes(): void {

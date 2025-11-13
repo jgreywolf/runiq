@@ -11,3 +11,4 @@ export { venn4Shape } from './venn4.js'; // Legacy - use vennShape instead
 export { sankeyChart, sankeyNode } from './sankeyChart.js';
 export { processBoxShape } from './processBox.js'; // SmartArt-style process box
 export { cycleShape } from './cycleShape.js'; // Circular cycle diagram
+export { target } from './target.js'; // Target/bullseye diagram (concentric circles)

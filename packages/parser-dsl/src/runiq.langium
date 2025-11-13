@@ -639,9 +639,13 @@ TimelineOrientation returns string:
 // ============================================================================
 
 GlyphSetProfile:
-    'glyphset' glyphsetType=ID name=STRING '{'
+    'glyphset' glyphsetType=GlyphSetType name=STRING '{'
         items+=GlyphSetItemStatement*
     '}';
+
+// Allow both IDs and certain keywords as glyphset types
+GlyphSetType returns string:
+    ID | 'target' | 'source' | 'balance';
 
 GlyphSetItemStatement:
     GlyphSetSimpleItem | GlyphSetNestedItem;

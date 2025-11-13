@@ -24,7 +24,13 @@ export type GlyphSetGenerator = (params: Record<string, unknown>) => DiagramAst;
 /**
  * GlyphSet category
  */
-export type GlyphSetCategory = 'process' | 'hierarchy' | 'comparison' | 'visualization' | 'list';
+export type GlyphSetCategory =
+  | 'process'
+  | 'hierarchy'
+  | 'comparison'
+  | 'visualization'
+  | 'list'
+  | 'relationship';
 
 /**
  * Complete GlyphSet definition

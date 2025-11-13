@@ -30,6 +30,7 @@ import { vennGlyphSet } from './comparison/venn.js';
 import { funnelGlyphSet } from './visualization/funnel.js';
 import { eventsGlyphSet } from './visualization/events.js';
 import { basicListGlyphSet } from './list/basicList.js';
+import { targetGlyphSet } from './relationship/target.js';
 
 // Auto-register built-in glyphsets
 import { glyphsetRegistry } from './registry.js';
@@ -49,6 +50,9 @@ glyphsetRegistry.register(matrixOrgChartGlyphSet);
 glyphsetRegistry.register(matrixGlyphSet);
 glyphsetRegistry.register(vennGlyphSet);
 
+// Relationship glyphsets
+glyphsetRegistry.register(targetGlyphSet);
+
 // Visualization glyphsets
 glyphsetRegistry.register(funnelGlyphSet);
 glyphsetRegistry.register(eventsGlyphSet);
@@ -66,6 +70,7 @@ export { horizontalOrgChartGlyphSet } from './hierarchy/horizontalOrgChart.js';
 export { matrixOrgChartGlyphSet } from './hierarchy/matrixOrgChart.js';
 export { matrixGlyphSet } from './comparison/matrix.js';
 export { vennGlyphSet } from './comparison/venn.js';
+export { targetGlyphSet } from './relationship/target.js';
 export { funnelGlyphSet } from './visualization/funnel.js';
 export { eventsGlyphSet } from './visualization/events.js';
 export { basicListGlyphSet } from './list/basicList.js';

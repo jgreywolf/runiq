@@ -1,0 +1,8 @@
+// Target Diagram - Priority Levels
+// Concentric circles showing nested priorities (bullseye pattern)
+
+glyphset target "Product Priorities" {
+  circle "Core Features"
+  circle "Key Features"
+  circle "Nice to Have"
+}

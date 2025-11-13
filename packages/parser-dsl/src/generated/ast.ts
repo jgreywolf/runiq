@@ -119,6 +119,7 @@ export type RuniqKeywordNames =
     | "autoResize:"
     | "backgroundColor:"
     | "badge:"
+    | "balance"
     | "bar"
     | "bbl"
     | "bbl/day"
@@ -2058,7 +2059,7 @@ export function isGlyphSetNestedItem(item: unknown): item is GlyphSetNestedItem 
 export interface GlyphSetProfile extends langium.AstNode {
     readonly $container: Document;
     readonly $type: 'GlyphSetProfile';
-    glyphsetType: string;
+    glyphsetType: GlyphSetType;
     items: Array<GlyphSetItemStatement>;
     name: string;
 }
@@ -2089,6 +2090,12 @@ export const GlyphSetSimpleItem = {
 
 export function isGlyphSetSimpleItem(item: unknown): item is GlyphSetSimpleItem {
     return reflection.isInstance(item, GlyphSetSimpleItem.$type);
+}
+
+export type GlyphSetType = 'balance' | 'source' | 'target' | string;
+
+export function isGlyphSetType(item: unknown): item is GlyphSetType {
+    return item === 'target' || item === 'source' || item === 'balance' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface GroupBlock extends langium.AstNode {
