@@ -1,0 +1,6 @@
+glyphset segmentedMatrix "Market Segments" {
+  quadrant "Enterprise\nPremium"
+  quadrant "Enterprise\nStandard"
+  quadrant "SMB\nPremium"
+  quadrant "SMB\nStandard"
+}

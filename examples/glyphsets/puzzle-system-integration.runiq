@@ -1,0 +1,11 @@
+// Puzzle Glyphset Example: System Integration
+//
+// Shows how different system components fit together.
+// Demonstrates 4-piece puzzle pattern (2x2 grid).
+
+glyphset puzzle "System Architecture" {
+  item "Frontend UI"
+  item "Backend API"
+  item "Database"
+  item "Authentication"
+}

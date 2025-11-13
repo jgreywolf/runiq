@@ -40,7 +40,7 @@ function extractGlyphSetParams(
   const levels: string[] = [];
   const stages: string[] = [];
   const events: string[] = [];
-  const quadrants: string[][] = [];
+  const quadrants: string[] = [];
   const circles: string[] = [];
   const sides: string[] = [];
   const persons: HierarchicalNode[] = [];
@@ -88,7 +88,7 @@ function extractGlyphSetParams(
           events.push(label);
           break;
         case 'quadrant':
-          quadrants.push([label]);
+          quadrants.push(label);
           break;
         case 'circle':
           circles.push(label);
@@ -109,6 +109,29 @@ function extractGlyphSetParams(
   if (quadrants.length > 0) params.quadrants = quadrants;
   if (circles.length > 0) params.circles = circles;
   if (sides.length > 0) params.sides = sides;
+
+  // Fallback: If only 'item' was used, map it to the appropriate parameter
+  // This allows users to use 'item' as a universal keyword
+  if (items.length > 0) {
+    if (steps.length === 0 && levels.length === 0 && stages.length === 0) {
+      // Could be steps, levels, or stages - set all as fallback
+      if (!params.steps) params.steps = items;
+      if (!params.levels) params.levels = items;
+      if (!params.stages) params.stages = items;
+    }
+    if (quadrants.length === 0) {
+      params.quadrants = items;
+    }
+    if (circles.length === 0) {
+      params.circles = items;
+    }
+    if (sides.length === 0) {
+      params.sides = items;
+    }
+    if (events.length === 0) {
+      params.events = items;
+    }
+  }
 
   // Handle hierarchical structures
   if (persons.length > 0) {

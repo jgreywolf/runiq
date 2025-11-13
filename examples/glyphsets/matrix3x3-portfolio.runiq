@@ -1,0 +1,11 @@
+glyphset matrix3x3 "BCG Product Portfolio" {
+  quadrant "Low Growth\nLow Share"
+  quadrant "Low Growth\nMed Share"
+  quadrant "Low Growth\nHigh Share"
+  quadrant "Med Growth\nLow Share"
+  quadrant "Med Growth\nMed Share"
+  quadrant "Med Growth\nHigh Share"
+  quadrant "High Growth\nLow Share"
+  quadrant "High Growth\nMed Share"
+  quadrant "High Growth\nHigh Share"
+}

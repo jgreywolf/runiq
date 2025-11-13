@@ -1,0 +1,6 @@
+glyphset segmentedMatrix "Eisenhower Matrix" {
+  quadrant "Do First"
+  quadrant "Schedule"
+  quadrant "Delegate"
+  quadrant "Eliminate"
+}

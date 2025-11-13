@@ -710,7 +710,7 @@ ShapeIdentifier returns string:
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
     | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
     | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
-    | 'db' | 'pill';
+    | 'db' | 'pill' | 'circle';
 
 NodeProperty:
     LabelProperty

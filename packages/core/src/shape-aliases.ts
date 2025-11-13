@@ -10,6 +10,7 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('box', 'rectangle');
   shapeRegistry.registerAlias('square', 'rectangle');
   shapeRegistry.registerAlias('rounded', 'roundedRectangle');
+  shapeRegistry.registerAlias('circ', 'circle');
   shapeRegistry.registerAlias('diamond', 'rhombus');
   shapeRegistry.registerAlias('decision', 'rhombus');
   shapeRegistry.registerAlias('pill', 'stadium');

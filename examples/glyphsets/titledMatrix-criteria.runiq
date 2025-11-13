@@ -1,0 +1,11 @@
+glyphset titledMatrix "Vendor Evaluation (3x3)" {
+  quadrant "$$"
+  quadrant "$$$"
+  quadrant "$"
+  quadrant "Good"
+  quadrant "Excellent"
+  quadrant "Fair"
+  quadrant "24/7"
+  quadrant "Business Hrs"
+  quadrant "24/7"
+}

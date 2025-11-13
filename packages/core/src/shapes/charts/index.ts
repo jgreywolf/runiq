@@ -17,3 +17,8 @@ export { opposing } from './opposing.js'; // Opposing/conflict diagram
 export { converging } from './converging.js'; // Converging sources diagram
 export { diverging } from './diverging.js'; // Diverging branches diagram
 export { cluster } from './cluster.js'; // Cluster diagram (radial hub-and-spoke)
+export { puzzle } from './puzzle.js'; // Puzzle pieces diagram (interlocking components)
+export { plusMinus } from './plusMinus.js'; // Plus/minus diagram (pros vs cons)
+export { matrix3x3 } from './matrix3x3.js'; // 3x3 matrix (nine quadrants)
+export { titledMatrix } from './titledMatrix.js'; // Matrix with row/column headers
+export { segmentedMatrix } from './segmentedMatrix.js'; // Matrix with subdivided quadrants

@@ -125,6 +125,11 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.converging); // Converging sources diagram
   shapeRegistry.register(charts.diverging); // Diverging branches diagram
   shapeRegistry.register(charts.cluster); // Cluster diagram (radial hub-and-spoke)
+  shapeRegistry.register(charts.puzzle); // Puzzle pieces diagram
+  shapeRegistry.register(charts.plusMinus); // Plus/minus diagram (pros vs cons)
+  shapeRegistry.register(charts.matrix3x3); // 3x3 matrix (nine quadrants)
+  shapeRegistry.register(charts.titledMatrix); // Matrix with headers
+  shapeRegistry.register(charts.segmentedMatrix); // Segmented matrix
 }
 
 export function registerNetworkShapes(): void {

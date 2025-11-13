@@ -27,6 +27,9 @@ import { horizontalOrgChartGlyphSet } from './hierarchy/horizontalOrgChart.js';
 import { matrixOrgChartGlyphSet } from './hierarchy/matrixOrgChart.js';
 import { matrixGlyphSet } from './comparison/matrix.js';
 import { vennGlyphSet } from './comparison/venn.js';
+import { matrix3x3GlyphSet } from './comparison/matrix3x3.js';
+import { titledMatrixGlyphSet } from './comparison/titledMatrix.js';
+import { segmentedMatrixGlyphSet } from './comparison/segmentedMatrix.js';
 import { funnelGlyphSet } from './visualization/funnel.js';
 import { eventsGlyphSet } from './visualization/events.js';
 import { basicListGlyphSet } from './list/basicList.js';
@@ -36,6 +39,8 @@ import { opposingGlyphSet } from './relationship/opposing.js';
 import { convergingGlyphSet } from './relationship/converging.js';
 import { divergingGlyphSet } from './relationship/diverging.js';
 import { clusterGlyphSet } from './relationship/cluster.js';
+import { puzzleGlyphSet } from './relationship/puzzle.js';
+import { plusMinusGlyphSet } from './relationship/plusMinus.js';
 
 // Auto-register built-in glyphsets
 import { glyphsetRegistry } from './registry.js';
@@ -54,6 +59,9 @@ glyphsetRegistry.register(matrixOrgChartGlyphSet);
 // Comparison glyphsets
 glyphsetRegistry.register(matrixGlyphSet);
 glyphsetRegistry.register(vennGlyphSet);
+glyphsetRegistry.register(matrix3x3GlyphSet);
+glyphsetRegistry.register(titledMatrixGlyphSet);
+glyphsetRegistry.register(segmentedMatrixGlyphSet);
 
 // Relationship glyphsets
 glyphsetRegistry.register(targetGlyphSet);
@@ -62,6 +70,8 @@ glyphsetRegistry.register(opposingGlyphSet);
 glyphsetRegistry.register(convergingGlyphSet);
 glyphsetRegistry.register(divergingGlyphSet);
 glyphsetRegistry.register(clusterGlyphSet);
+glyphsetRegistry.register(puzzleGlyphSet);
+glyphsetRegistry.register(plusMinusGlyphSet);
 
 // Visualization glyphsets
 glyphsetRegistry.register(funnelGlyphSet);
@@ -80,12 +90,17 @@ export { horizontalOrgChartGlyphSet } from './hierarchy/horizontalOrgChart.js';
 export { matrixOrgChartGlyphSet } from './hierarchy/matrixOrgChart.js';
 export { matrixGlyphSet } from './comparison/matrix.js';
 export { vennGlyphSet } from './comparison/venn.js';
+export { matrix3x3GlyphSet } from './comparison/matrix3x3.js';
+export { titledMatrixGlyphSet } from './comparison/titledMatrix.js';
+export { segmentedMatrixGlyphSet } from './comparison/segmentedMatrix.js';
 export { targetGlyphSet } from './relationship/target.js';
 export { balanceGlyphSet } from './relationship/balance.js';
 export { opposingGlyphSet } from './relationship/opposing.js';
 export { convergingGlyphSet } from './relationship/converging.js';
 export { divergingGlyphSet } from './relationship/diverging.js';
 export { clusterGlyphSet } from './relationship/cluster.js';
+export { puzzleGlyphSet } from './relationship/puzzle.js';
+export { plusMinusGlyphSet } from './relationship/plusMinus.js';
 export { funnelGlyphSet } from './visualization/funnel.js';
 export { eventsGlyphSet } from './visualization/events.js';
 export { basicListGlyphSet } from './list/basicList.js';
