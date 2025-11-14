@@ -192,40 +192,75 @@ diagram "Friend Network" {
 Package dependencies forming a network.
 
 ```runiq
-diagram "Dependencies" {
-  container "Packages" algorithm: force spacing: 100 {
-    // Core packages
-    shape core as @package label:"core"
-    shape utils as @package label:"utils"
-    shape types as @package label:"types"
+// Software Dependency Graph
+// Visualizes package dependencies with force-directed layout
 
-    // Feature packages
-    shape auth as @package label:"auth"
-    shape api as @package label:"api"
-    shape ui as @package label:"ui"
+diagram "Package Dependencies" {
+  container "Packages" algorithm: force spacing: 110 {
+    // Core infrastructure (few dependencies)
+    shape types as @rect label:"@core/types"
+    shape utils as @rect label:"@core/utils"
+    shape config as @rect label:"@core/config"
 
-    // App packages
-    shape web as @package label:"web-app"
-    shape mobile as @package label:"mobile-app"
-    shape cli as @package label:"cli"
+    // Mid-level libraries
+    shape auth as @rect label:"@lib/auth"
+    shape api as @rect label:"@lib/api"
+    shape db as @rect label:"@lib/database"
+    shape cache as @rect label:"@lib/cache"
 
-    // Dependencies
-    core -> types
-    utils -> types
-    auth -> core
+    // UI components
+    shape uiCore as @rect label:"@ui/core"
+    shape uiIcons as @rect label:"@ui/icons"
+    shape uiForms as @rect label:"@ui/forms"
+
+    // Applications
+    shape webApp as @rect label:"web-app"
+    shape mobileApp as @rect label:"mobile-app"
+    shape cli as @rect label:"cli"
+
+    // Core dependencies (everything needs these)
+    auth -> types
+    api -> types
+    db -> types
+    cache -> types
+    uiCore -> types
+    uiForms -> types
+
     auth -> utils
-    api -> core
-    api -> auth
-    ui -> types
-    ui -> utils
-    web -> api
-    web -> ui
-    mobile -> api
-    mobile -> ui
-    cli -> core
+    api -> utils
+    db -> utils
+    uiCore -> utils
+
+    auth -> config
+    api -> config
+    db -> config
+
+    // Library dependencies
+    api -> auth label:"requires"
+    api -> db label:"queries"
+    api -> cache label:"caches"
+    db -> cache label:"uses"
+
+    // UI dependencies
+    uiForms -> uiCore label:"extends"
+    uiForms -> uiIcons label:"uses"
+    uiIcons -> uiCore
+
+    // App dependencies
+    webApp -> api label:"calls"
+    webApp -> uiForms label:"displays"
+    webApp -> auth label:"authenticates"
+
+    mobileApp -> api
+    mobileApp -> auth
+    mobileApp -> uiCore
+
+    cli -> api
     cli -> utils
+    cli -> config
   }
 }
+
 ```
 
 ### Example 5: Medium Network (25 nodes)

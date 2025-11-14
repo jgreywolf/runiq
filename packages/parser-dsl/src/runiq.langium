@@ -670,7 +670,7 @@ GlyphSetParameterName returns string:
     'direction' | 'theme' | 'columns' | 'shape' | 'showValues' | 'mergePoint' | 'result' | 'showPercentages' | 'centerLabel';
 
 GlyphSetKeyword returns string:
-    'step' | 'item' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'person' | 'node' | 'group' | 'side';
+    'step' | 'item' | 'person' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'node' | 'group' | 'side';
 
 
 // ============================================================================
@@ -721,7 +721,7 @@ ShapeIdentifier returns string:
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
     | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
     | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
-    | 'db' | 'pill' | 'circle';
+    | 'db' | 'pill' | 'circle' | 'person';
 
 NodeProperty:
     LabelProperty

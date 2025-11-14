@@ -7243,6 +7243,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
+            "value": "person"
+          },
+          {
+            "$type": "Keyword",
             "value": "level"
           },
           {
@@ -7260,10 +7264,6 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "circle"
-          },
-          {
-            "$type": "Keyword",
-            "value": "person"
           },
           {
             "$type": "Keyword",
@@ -7833,6 +7833,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "circle"
+          },
+          {
+            "$type": "Keyword",
+            "value": "person"
           }
         ]
       },

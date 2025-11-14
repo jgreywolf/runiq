@@ -86,10 +86,10 @@ function extractGlyphSetParams(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       const keyword = nestedItem.keyword;
 
-      // Handle hierarchical structures (person, node)
-      if (keyword === 'person' || keyword === 'node') {
+      // Handle hierarchical structures (item, person, node)
+      if (keyword === 'item' || keyword === 'person' || keyword === 'node') {
         const nested = extractNestedItem(nestedItem);
-        if (keyword === 'person') {
+        if (keyword === 'item' || keyword === 'person') {
           persons.push(nested);
         } else if (keyword === 'node') {
           nodes.push(nested);
@@ -250,8 +250,8 @@ function extractGlyphSetParams(
     params.structure = persons;
   }
   if (nodes.length > 0) {
-    // Keep as array for consistency
-    params.nodes = nodes;
+    // orgChart uses 'node' keyword and expects 'structure' parameter
+    params.structure = nodes;
   }
   if (groups.length > 0) {
     params.groups = groups;
@@ -283,8 +283,12 @@ function extractNestedItem(item: Langium.GlyphSetNestedItem): HierarchicalNode {
   // Build node with appropriate children property
   const node: HierarchicalNode = { name: label };
   if (children.length > 0) {
-    // Use 'reports' for person keyword, 'children' for others
-    if (item.keyword === 'person') {
+    // Use 'reports' for item/person/node keywords (orgChart), 'children' for others
+    if (
+      item.keyword === 'item' ||
+      item.keyword === 'person' ||
+      item.keyword === 'node'
+    ) {
       node.reports = children;
     } else {
       node.children = children;
