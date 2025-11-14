@@ -1,4 +1,10 @@
-import type { DiagramAst, NodeAst, EdgeAst, ContainerDeclaration, ContainerTemplate } from '@runiq/core';
+import type {
+  DiagramAst,
+  NodeAst,
+  EdgeAst,
+  ContainerDeclaration,
+  ContainerTemplate,
+} from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
@@ -52,14 +58,16 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
       type: 'string',
       required: false,
       default: 'horizontal',
-      description: 'Process orientation: "horizontal" (left-to-right) or "vertical" (top-to-bottom)',
+      description:
+        'Process orientation: "horizontal" (left-to-right) or "vertical" (top-to-bottom)',
     },
     {
       name: 'theme',
       type: 'string',
       required: false,
       default: 'colorful',
-      description: 'Color theme (colorful, monochrome, vibrant, warm, cool, professional)',
+      description:
+        'Color theme (colorful, monochrome, vibrant, warm, cool, professional)',
     },
     {
       name: 'shape',
@@ -80,15 +88,24 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
   minItems: 2,
   maxItems: 10,
 
-  tags: ['process', 'workflow', 'sequential', 'linear', 'horizontal', 'vertical'],
+  tags: [
+    'process',
+    'workflow',
+    'sequential',
+    'linear',
+    'horizontal',
+    'vertical',
+  ],
 
   generator: (params) => {
     // Extract and validate parameters
     const steps = params.steps as string[] | undefined;
-    const orientation = (params.orientation as string | undefined) || 'horizontal';
+    const orientation =
+      (params.orientation as string | undefined) || 'horizontal';
     const theme = (params.theme as ColorTheme | undefined) || 'colorful';
     const shape = (params.shape as string | undefined) || 'rounded';
-    const useContainers = (params.useContainers as boolean | undefined) ?? false;
+    const useContainers =
+      (params.useContainers as boolean | undefined) ?? false;
 
     // Validation
     if (!steps || !Array.isArray(steps)) {
@@ -176,7 +193,10 @@ function generateWithNodes(
  * Generate diagram using containers with template styling
  * This creates SmartArt-style visual appearance
  */
-function generateWithContainers(steps: string[], direction: 'TB' | 'LR'): DiagramAst {
+function generateWithContainers(
+  steps: string[],
+  direction: 'TB' | 'LR'
+): DiagramAst {
   // Define a container template for process steps with SmartArt-inspired styling
   const templates: ContainerTemplate[] = [
     {
