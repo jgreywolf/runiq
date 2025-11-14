@@ -7,6 +7,10 @@ import type {
 } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
+import {
+  validateArrayParameter,
+  validateStringParameter,
+} from '../utils/validation.js';
 
 /**
  * Basic Process GlyphSet
@@ -98,7 +102,7 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
   ],
 
   generator: (params) => {
-    // Extract and validate parameters
+    // Extract parameters
     const steps = params.steps as string[] | undefined;
     const orientation =
       (params.orientation as string | undefined) || 'horizontal';
@@ -107,38 +111,17 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
     const useContainers =
       (params.useContainers as boolean | undefined) ?? false;
 
-    // Validation
-    if (!steps || !Array.isArray(steps)) {
-      throw new GlyphSetError(
-        'basicProcess',
-        'steps',
-        'Parameter "steps" must be an array of strings'
-      );
-    }
+    // Validation using utilities
+    validateArrayParameter('basicProcess', 'steps', steps, {
+      minItems: 2,
+      maxItems: 10,
+      itemType: 'string',
+    });
 
-    if (steps.length < 2) {
-      throw new GlyphSetError(
-        'basicProcess',
-        'steps',
-        'Basic process requires at least 2 steps'
-      );
-    }
-
-    if (steps.length > 10) {
-      throw new GlyphSetError(
-        'basicProcess',
-        'steps',
-        'Basic process supports maximum 10 steps (for readability)'
-      );
-    }
-
-    if (orientation !== 'horizontal' && orientation !== 'vertical') {
-      throw new GlyphSetError(
-        'basicProcess',
-        'orientation',
-        'Parameter "orientation" must be "horizontal" or "vertical"'
-      );
-    }
+    validateStringParameter('basicProcess', 'orientation', orientation, [
+      'horizontal',
+      'vertical',
+    ]);
 
     // Determine direction based on orientation
     const direction = orientation === 'vertical' ? 'TB' : 'LR';

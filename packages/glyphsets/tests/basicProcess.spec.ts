@@ -201,7 +201,7 @@ describe('BasicProcess GlyphSet', () => {
           steps: ['Step 1', 'Step 2'],
           orientation: 'diagonal',
         });
-      }).toThrow('must be "horizontal" or "vertical"');
+      }).toThrow('must be one of: horizontal, vertical');
     });
 
     it('should accept valid orientation values', () => {
