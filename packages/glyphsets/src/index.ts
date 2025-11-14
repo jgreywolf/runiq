@@ -17,6 +17,18 @@ export { GlyphSetError } from './types.js';
 // Export registry
 export { GlyphSetRegistry, glyphsetRegistry } from './registry.js';
 
+// Export image utilities
+export type { ImageItem, RenderImageOptions } from './utils/image.js';
+export {
+  isValidImageUrl,
+  getImageUrl,
+  renderImage,
+  renderCircularClipPath,
+  renderRoundedRectClipPath,
+  validateImageItem,
+  PLACEHOLDER_IMAGE,
+} from './utils/image.js';
+
 // Import glyphsets
 import { horizontalProcessGlyphSet } from './process/horizontal-process.js';
 import { verticalProcessGlyphSet } from './process/vertical-process.js';
@@ -28,6 +40,7 @@ import { continuousBlockProcessGlyphSet } from './process/continuousBlockProcess
 import { phasedProcessGlyphSet } from './process/phasedProcess.js';
 import { detailedProcessGlyphSet } from './process/detailedProcess.js';
 import { groupedProcessGlyphSet } from './process/groupedProcess.js';
+import { pictureProcessGlyphSet } from './process/pictureProcess.js';
 import { radialCycleGlyphSet } from './process/radialCycle.js';
 import { gearCycleGlyphSet } from './process/gearCycle.js';
 import { segmentedCycleGlyphSet } from './process/segmentedCycle.js';
@@ -47,6 +60,8 @@ import { matrix3x3GlyphSet } from './comparison/matrix3x3.js';
 import { titledMatrixGlyphSet } from './comparison/titledMatrix.js';
 import { segmentedMatrixGlyphSet } from './comparison/segmentedMatrix.js';
 import { funnelGlyphSet } from './visualization/funnel.js';
+import { pictureGridGlyphSet } from './visualization/pictureGrid.js';
+import { pictureCalloutGlyphSet } from './visualization/pictureCallout.js';
 import { eventsGlyphSet } from './visualization/events.js';
 import { basicListGlyphSet } from './list/basicList.js';
 import { horizontalListGlyphSet } from './list/horizontalList.js';
@@ -56,6 +71,9 @@ import { nestedListGlyphSet } from './list/nestedList.js';
 import { columnListGlyphSet } from './list/columnList.js';
 import { increasingListGlyphSet } from './list/increasingList.js';
 import { alternatingListGlyphSet } from './list/alternatingList.js';
+import { pictureListGlyphSet } from './list/pictureList.js';
+import { pictureBlocksGlyphSet } from './list/pictureBlocks.js';
+import { framedPictureGlyphSet } from './list/framedPicture.js';
 import { targetGlyphSet } from './relationship/target.js';
 import { balanceGlyphSet } from './relationship/balance.js';
 import { opposingGlyphSet } from './relationship/opposing.js';
@@ -79,6 +97,7 @@ glyphsetRegistry.register(continuousBlockProcessGlyphSet);
 glyphsetRegistry.register(phasedProcessGlyphSet);
 glyphsetRegistry.register(detailedProcessGlyphSet);
 glyphsetRegistry.register(groupedProcessGlyphSet);
+glyphsetRegistry.register(pictureProcessGlyphSet);
 glyphsetRegistry.register(radialCycleGlyphSet);
 glyphsetRegistry.register(gearCycleGlyphSet);
 glyphsetRegistry.register(segmentedCycleGlyphSet);
@@ -114,6 +133,8 @@ glyphsetRegistry.register(plusMinusGlyphSet);
 
 // Visualization glyphsets
 glyphsetRegistry.register(funnelGlyphSet);
+glyphsetRegistry.register(pictureGridGlyphSet);
+glyphsetRegistry.register(pictureCalloutGlyphSet);
 glyphsetRegistry.register(eventsGlyphSet);
 
 // List glyphsets
@@ -125,6 +146,9 @@ glyphsetRegistry.register(nestedListGlyphSet);
 glyphsetRegistry.register(columnListGlyphSet);
 glyphsetRegistry.register(increasingListGlyphSet);
 glyphsetRegistry.register(alternatingListGlyphSet);
+glyphsetRegistry.register(pictureListGlyphSet);
+glyphsetRegistry.register(pictureBlocksGlyphSet);
+glyphsetRegistry.register(framedPictureGlyphSet);
 
 // Export individual glyphsets (for direct import if needed)
 export { horizontalProcessGlyphSet } from './process/horizontal-process.js';
@@ -137,6 +161,7 @@ export { continuousBlockProcessGlyphSet } from './process/continuousBlockProcess
 export { phasedProcessGlyphSet } from './process/phasedProcess.js';
 export { detailedProcessGlyphSet } from './process/detailedProcess.js';
 export { groupedProcessGlyphSet } from './process/groupedProcess.js';
+export { pictureProcessGlyphSet } from './process/pictureProcess.js';
 export { radialCycleGlyphSet } from './process/radialCycle.js';
 export { gearCycleGlyphSet } from './process/gearCycle.js';
 export { segmentedCycleGlyphSet } from './process/segmentedCycle.js';
@@ -164,6 +189,8 @@ export { clusterGlyphSet } from './relationship/cluster.js';
 export { puzzleGlyphSet } from './relationship/puzzle.js';
 export { plusMinusGlyphSet } from './relationship/plusMinus.js';
 export { funnelGlyphSet } from './visualization/funnel.js';
+export { pictureGridGlyphSet } from './visualization/pictureGrid.js';
+export { pictureCalloutGlyphSet } from './visualization/pictureCallout.js';
 export { eventsGlyphSet } from './visualization/events.js';
 export { basicListGlyphSet } from './list/basicList.js';
 export { horizontalListGlyphSet } from './list/horizontalList.js';
@@ -173,6 +200,9 @@ export { nestedListGlyphSet } from './list/nestedList.js';
 export { columnListGlyphSet } from './list/columnList.js';
 export { increasingListGlyphSet } from './list/increasingList.js';
 export { alternatingListGlyphSet } from './list/alternatingList.js';
+export { pictureListGlyphSet } from './list/pictureList.js';
+export { pictureBlocksGlyphSet } from './list/pictureBlocks.js';
+export { framedPictureGlyphSet } from './list/framedPicture.js';
 
 // Export themes
 export { COLOR_THEMES, getThemeColor, type ColorTheme } from './themes.js';

@@ -74,7 +74,12 @@ export const segmentedMatrixGlyphSet: GlyphSetDefinition = {
     'nested',
   ],
   generator: (params) => {
-    const quadrants = params.quadrants as string[] | undefined;
+    const quadrants = params.quadrants as
+      | (
+          | string
+          | { label: string; color?: string; segments?: { label: string }[] }
+        )[]
+      | undefined;
     const segments = (params.segments as string[] | undefined) || [];
     const xAxis = (params.xAxis as string | undefined) || '';
     const yAxis = (params.yAxis as string | undefined) || '';
@@ -90,14 +95,29 @@ export const segmentedMatrixGlyphSet: GlyphSetDefinition = {
 
     // Create matrix data structure
     const matrixData = {
-      quadrants: quadrants.map((label, index) => ({
-        label,
-        color: getThemeColor(theme, index),
-        segments:
-          segments.length > 0
-            ? segments.filter((_, i) => Math.floor(i / 2) === index).slice(0, 4)
-            : [],
-      })),
+      quadrants: quadrants.map((item, index) => {
+        if (typeof item === 'string') {
+          return {
+            label: item,
+            color: getThemeColor(theme, index),
+            segments:
+              segments.length > 0
+                ? segments
+                    .filter((_, i) => Math.floor(i / 2) === index)
+                    .slice(0, 4)
+                : [],
+          };
+        }
+        // Filter out empty labels and limit to 4 segments per quadrant
+        const filteredSegments = (item.segments || [])
+          .filter((seg) => seg.label && seg.label.trim() !== '')
+          .slice(0, 4);
+        return {
+          label: item.label,
+          color: item.color || getThemeColor(theme, index),
+          segments: filteredSegments,
+        };
+      }),
       xAxis,
       yAxis,
     };

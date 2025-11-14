@@ -217,6 +217,7 @@ export type RuniqKeywordNames =
     | "depth:"
     | "depthIndicatorStyle:"
     | "derived:"
+    | "description"
     | "description:"
     | "destroy"
     | "diagram"
@@ -334,6 +335,7 @@ export type RuniqKeywordNames =
     | "iconSize:"
     | "id"
     | "if"
+    | "image"
     | "in"
     | "inclusive"
     | "incrementalLayout:"
@@ -2029,7 +2031,28 @@ export function isGenericTypesProperty(item: unknown): item is GenericTypesPrope
     return reflection.isInstance(item, GenericTypesProperty.$type);
 }
 
-export type GlyphSetItemStatement = GlyphSetNestedItem | GlyphSetSimpleItem;
+export interface GlyphSetImageItem extends langium.AstNode {
+    readonly $container: GlyphSetNestedItem | GlyphSetProfile;
+    readonly $type: 'GlyphSetImageItem';
+    description?: string;
+    keyword: 'image';
+    label?: string;
+    url: string;
+}
+
+export const GlyphSetImageItem = {
+    $type: 'GlyphSetImageItem',
+    description: 'description',
+    keyword: 'keyword',
+    label: 'label',
+    url: 'url'
+} as const;
+
+export function isGlyphSetImageItem(item: unknown): item is GlyphSetImageItem {
+    return reflection.isInstance(item, GlyphSetImageItem.$type);
+}
+
+export type GlyphSetItemStatement = GlyphSetImageItem | GlyphSetNestedItem | GlyphSetSimpleItem;
 
 export const GlyphSetItemStatement = {
     $type: 'GlyphSetItemStatement'
@@ -5236,6 +5259,7 @@ export type RuniqAstType = {
     GatewayTypeProperty: GatewayTypeProperty
     GenericPIDProperty: GenericPIDProperty
     GenericTypesProperty: GenericTypesProperty
+    GlyphSetImageItem: GlyphSetImageItem
     GlyphSetItemStatement: GlyphSetItemStatement
     GlyphSetNestedItem: GlyphSetNestedItem
     GlyphSetParameter: GlyphSetParameter
@@ -6385,6 +6409,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        GlyphSetImageItem: {
+            name: GlyphSetImageItem.$type,
+            properties: {
+                description: {
+                    name: GlyphSetImageItem.description
+                },
+                keyword: {
+                    name: GlyphSetImageItem.keyword
+                },
+                label: {
+                    name: GlyphSetImageItem.label
+                },
+                url: {
+                    name: GlyphSetImageItem.url
+                }
+            },
+            superTypes: [GlyphSetItemStatement.$type]
         },
         GlyphSetItemStatement: {
             name: GlyphSetItemStatement.$type,

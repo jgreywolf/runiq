@@ -1,0 +1,19 @@
+/*
+ * Picture Grid Example
+ * Demonstrates a responsive grid layout for image galleries
+ */
+
+
+  glyphset pictureGrid "Featured Products" {
+    theme "colorful"
+    columns 3
+    
+    // Using pravatar.cc for test images (random faces)
+    image "https://i.pravatar.cc/300?img=1" label "Product A"
+    image "https://i.pravatar.cc/300?img=2" label "Product B"
+    image "https://i.pravatar.cc/300?img=3" label "Product C"
+    image "https://i.pravatar.cc/300?img=4" label "Product D"
+    image "https://i.pravatar.cc/300?img=5" label "Product E"
+    image "https://i.pravatar.cc/300?img=6" label "Product F"
+  }
+

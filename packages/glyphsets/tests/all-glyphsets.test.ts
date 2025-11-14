@@ -206,24 +206,24 @@ describe('All GlyphSets', () => {
       });
 
       expect(result.direction).toBe('TB');
-      // Funnel glyphset creates a single node using pyramid shape
+      // Funnel glyphset creates a single node using invertedPyramid shape
       expect(result.nodes).toHaveLength(1);
-      expect(result.nodes?.[0].shape).toBe('pyramid');
+      expect(result.nodes?.[0].shape).toBe('invertedPyramid');
       expect(result.edges).toHaveLength(0); // No edges - self-contained shape
     });
 
-    it('uses pyramid shape for funnel visualization', () => {
+    it('uses invertedPyramid shape for funnel visualization', () => {
       const result = funnelGlyphSet.generator({
         stages: ['Top', 'Middle', 'Bottom'],
       });
 
-      expect(result.nodes?.[0].shape).toBe('pyramid');
+      expect(result.nodes?.[0].shape).toBe('invertedPyramid');
     });
 
     it('validates minimum stages', () => {
       expect(() => {
         funnelGlyphSet.generator({ stages: ['A', 'B'] });
-      }).toThrow('at least 3 stages');
+      }).toThrow('Inverted pyramid requires at least 3');
     });
   });
 

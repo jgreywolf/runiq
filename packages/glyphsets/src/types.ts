@@ -7,7 +7,7 @@ export interface GlyphSetParameter {
   /** Parameter name (e.g., "steps", "items") */
   name: string;
   /** Parameter type */
-  type: 'string' | 'number' | 'array' | 'boolean';
+  type: 'string' | 'number' | 'array' | 'boolean' | 'image' | 'url';
   /** Whether this parameter is required */
   required: boolean;
   /** Default value if not provided */

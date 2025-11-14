@@ -141,6 +141,12 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.horizontalListShape); // Horizontal list
   shapeRegistry.register(charts.increasingListShape); // Increasing size list
   shapeRegistry.register(charts.alternatingListShape); // Alternating list (zigzag layout)
+  shapeRegistry.register(charts.pictureListShape); // Picture list with images
+  shapeRegistry.register(charts.pictureGridShape); // Picture grid with square cells
+  shapeRegistry.register(charts.pictureProcessShape); // Picture process with step images
+  shapeRegistry.register(charts.pictureCalloutShape); // Picture with callout annotations
+  shapeRegistry.register(charts.pictureBlocksShape); // Alternating picture blocks
+  shapeRegistry.register(charts.framedPictureShape); // Pictures with decorative frames
   shapeRegistry.register(charts.alternatingProcessShape); // Alternating process
   shapeRegistry.register(charts.stepProcessShape); // Step process
   shapeRegistry.register(charts.equationProcessShape); // Equation process

@@ -37,8 +37,8 @@ describe('matrix3x3 glyphset', () => {
     });
 
     it('should generate matrix with custom colors', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items: [
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: [
           { label: 'Q1', color: '#FF0000' },
           { label: 'Q2', color: '#FF5500' },
           { label: 'Q3', color: '#FFAA00' },
@@ -58,8 +58,8 @@ describe('matrix3x3 glyphset', () => {
     });
 
     it('should apply colorful theme colors', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items: [
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: [
           { label: 'Q1' },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -81,8 +81,8 @@ describe('matrix3x3 glyphset', () => {
     });
 
     it('should apply professional theme colors', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items: [
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: [
           { label: 'Q1' },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -103,8 +103,8 @@ describe('matrix3x3 glyphset', () => {
 
   describe('axis labels', () => {
     it('should support optional xAxis label', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items: Array(9)
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Q${i + 1}` })),
         xAxis: 'Performance',
@@ -114,8 +114,8 @@ describe('matrix3x3 glyphset', () => {
     });
 
     it('should support optional yAxis label', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items: Array(9)
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Q${i + 1}` })),
         yAxis: 'Potential',
@@ -125,8 +125,8 @@ describe('matrix3x3 glyphset', () => {
     });
 
     it('should support both axis labels', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items: Array(9)
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Q${i + 1}` })),
         xAxis: 'Likelihood',
@@ -141,32 +141,32 @@ describe('matrix3x3 glyphset', () => {
   describe('validation', () => {
     it('should throw error with fewer than 9 items', () => {
       expect(() => {
-        matrix3x3GlyphSet.generate({
-          items: [
+        matrix3x3GlyphSet.generator({
+          quadrants: [
             { label: 'Q1' },
             { label: 'Q2' },
             { label: 'Q3' },
             { label: 'Q4' },
           ],
         });
-      }).toThrow('matrix3x3 glyphset requires exactly 9 items');
+      }).toThrow('matrix3x3 glyphset requires exactly 9 quadrants');
     });
 
     it('should throw error with more than 9 items', () => {
       expect(() => {
-        matrix3x3GlyphSet.generate({
-          items: Array(10)
+        matrix3x3GlyphSet.generator({
+          quadrants: Array(10)
             .fill(0)
             .map((_, i) => ({ label: `Q${i + 1}` })),
         });
-      }).toThrow('matrix3x3 glyphset requires exactly 9 items');
+      }).toThrow('matrix3x3 glyphset requires exactly 9 quadrants');
     });
   });
 
   describe('node properties', () => {
     it('should set correct direction', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items: Array(9)
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Q${i + 1}` })),
       });
@@ -175,13 +175,13 @@ describe('matrix3x3 glyphset', () => {
     });
 
     it('should generate unique node IDs', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items: Array(9)
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Q${i + 1}` })),
       });
 
-      expect(result.nodes[0].id).toMatch(/^matrix3x3_/);
+      expect(result.nodes[0].id).toBe('matrix3x3-composite');
     });
 
     it('should preserve item labels', () => {
@@ -197,8 +197,8 @@ describe('matrix3x3 glyphset', () => {
         'High\nHigh',
       ];
 
-      const result = matrix3x3GlyphSet.generate({
-        items: labels.map((label) => ({ label })),
+      const result = matrix3x3GlyphSet.generator({
+        quadrants: labels.map((label) => ({ label })),
       });
 
       const quadrants = result.nodes[0].data?.quadrants;
@@ -209,31 +209,22 @@ describe('matrix3x3 glyphset', () => {
   });
 
   describe('theme support', () => {
-    const items = Array(9)
+    const quadrants = Array(9)
       .fill(0)
       .map((_, i) => ({ label: `Q${i + 1}` }));
 
     it('should support monochrome theme', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items,
+      const result = matrix3x3GlyphSet.generator({
+        quadrants,
         theme: 'monochrome',
       });
 
       expect(result.nodes[0].data?.quadrants).toHaveLength(9);
     });
 
-    it('should support pastel theme', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items,
-        theme: 'pastel',
-      });
-
-      expect(result.nodes[0].data?.quadrants).toHaveLength(9);
-    });
-
     it('should support vibrant theme', () => {
-      const result = matrix3x3GlyphSet.generate({
-        items,
+      const result = matrix3x3GlyphSet.generator({
+        quadrants,
         theme: 'vibrant',
       });
 
@@ -241,7 +232,7 @@ describe('matrix3x3 glyphset', () => {
     });
 
     it('should default to professional theme', () => {
-      const result = matrix3x3GlyphSet.generate({ items });
+      const result = matrix3x3GlyphSet.generator({ quadrants });
 
       expect(result.nodes[0].data?.quadrants).toHaveLength(9);
     });

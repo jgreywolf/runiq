@@ -32,6 +32,12 @@ export { numberedChevronListShape } from './numberedChevronList.js'; // Numbered
 export { horizontalListShape } from './horizontalList.js'; // Horizontal list with equal-width boxes
 export { increasingListShape } from './increasingList.js'; // List with progressively larger items
 export { alternatingListShape } from './alternatingList.js'; // Zigzag alternating list (no arrows)
+export { pictureListShape } from './pictureList.js'; // Picture list with circular images
+export { pictureGridShape } from './pictureGrid.js'; // Picture grid with square cells
+export { pictureProcessShape } from './pictureProcess.js'; // Picture process with step images
+export { pictureCalloutShape } from './pictureCallout.js'; // Picture with callout annotations
+export { pictureBlocksShape } from './pictureBlocks.js'; // Alternating picture blocks
+export { framedPictureShape } from './framedPicture.js'; // Pictures with decorative frames
 export { alternatingProcessShape } from './alternatingProcess.js'; // Zigzag alternating process flow
 export { stepProcessShape } from './stepProcess.js'; // Staircase step progression
 export { equationProcessShape } from './equationProcess.js'; // Equation-style A + B = C process

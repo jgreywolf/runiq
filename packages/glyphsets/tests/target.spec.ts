@@ -56,20 +56,20 @@ describe('targetGlyphSet', () => {
         circles: ['Core', 'Extended'],
       }) as DiagramAst;
 
-      expect(result.nodes).toHaveLength(2);
+      expect(result.nodes).toHaveLength(1);
       expect(result.edges).toHaveLength(0); // No edges in concentric circles
+      expect(result.nodes[0].shape).toBe('target');
 
-      // Check nodes
-      const core = result.nodes.find((n) => n.label === 'Core');
-      const extended = result.nodes.find((n) => n.label === 'Extended');
-
-      expect(core).toBeDefined();
-      expect(extended).toBeDefined();
+      // Check composite data structure
+      const circles = result.nodes[0].data?.circles;
+      expect(circles).toHaveLength(2);
+      expect(circles[0].label).toBe('Core');
+      expect(circles[1].label).toBe('Extended');
 
       // Inner circle should be smaller
-      expect(core?.data?.size).toBeLessThan(extended?.data?.size || 0);
-      expect(core?.data?.level).toBe(0);
-      expect(extended?.data?.level).toBe(1);
+      expect(circles[0].size).toBeLessThan(circles[1].size);
+      expect(circles[0].level).toBe(0);
+      expect(circles[1].level).toBe(1);
     });
 
     it('should generate 3-circle target (typical use case)', () => {
@@ -77,37 +77,35 @@ describe('targetGlyphSet', () => {
         circles: ['Core Product', 'Key Features', 'Nice to Have'],
       }) as DiagramAst;
 
-      expect(result.nodes).toHaveLength(3);
-      expect(result.nodes[0].label).toBe('Core Product');
-      expect(result.nodes[1].label).toBe('Key Features');
-      expect(result.nodes[2].label).toBe('Nice to Have');
+      expect(result.nodes).toHaveLength(1);
+      const circles = result.nodes[0].data?.circles;
+      expect(circles).toHaveLength(3);
+      expect(circles[0].label).toBe('Core Product');
+      expect(circles[1].label).toBe('Key Features');
+      expect(circles[2].label).toBe('Nice to Have');
 
       // Check concentric sizing (innermost is smallest)
-      const sizes = result.nodes.map((n) => n.data?.size || 0);
-      expect(sizes[0]).toBeLessThan(sizes[1]);
-      expect(sizes[1]).toBeLessThan(sizes[2]);
+      expect(circles[0].size).toBeLessThan(circles[1].size);
+      expect(circles[1].size).toBeLessThan(circles[2].size);
     });
 
-    it('should use circle shape for all nodes', () => {
+    it('should use target shape for composite node', () => {
       const result = targetGlyphSet.generator({
         circles: ['Inner', 'Middle', 'Outer'],
       }) as DiagramAst;
 
-      result.nodes.forEach((node) => {
-        expect(node.shape).toBe('circle');
-      });
+      expect(result.nodes[0].shape).toBe('target');
+      expect(result.nodes[0].data?.circles).toHaveLength(3);
     });
 
-    it('should position all circles at origin (overlapping)', () => {
+    it('should generate composite target structure', () => {
       const result = targetGlyphSet.generator({
         circles: ['A', 'B', 'C'],
       }) as DiagramAst;
 
-      // All circles should be at same position (concentric)
-      result.nodes.forEach((node) => {
-        expect(node.data?.x).toBe(0);
-        expect(node.data?.y).toBe(0);
-      });
+      // Should be a single composite node
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes[0].data?.circles).toHaveLength(3);
     });
   });
 
@@ -117,9 +115,10 @@ describe('targetGlyphSet', () => {
         circles: ['Core', 'Mid', 'Outer'],
       }) as DiagramAst;
 
-      result.nodes.forEach((node) => {
-        expect(node.data?.color).toBeDefined();
-        expect(typeof node.data?.color).toBe('string');
+      const circles = result.nodes[0].data?.circles;
+      circles.forEach((circle: any) => {
+        expect(circle.color).toBeDefined();
+        expect(typeof circle.color).toBe('string');
       });
     });
 
@@ -129,8 +128,9 @@ describe('targetGlyphSet', () => {
         theme: 'vibrant',
       }) as DiagramAst;
 
-      const colors = result.nodes.map((n) => n.data?.color);
-      expect(colors.every((c) => c)).toBe(true);
+      const circles = result.nodes[0].data?.circles;
+      const colors = circles.map((c: any) => c.color);
+      expect(colors.every((c: any) => c)).toBe(true);
     });
 
     it('should use progressively lighter colors from center outward', () => {
@@ -139,7 +139,8 @@ describe('targetGlyphSet', () => {
       }) as DiagramAst;
 
       // Colors should be defined and different per level
-      const levels = result.nodes.map((n) => n.data?.level);
+      const circles = result.nodes[0].data?.circles;
+      const levels = circles.map((c: any) => c.level);
       expect(levels).toEqual([0, 1, 2]);
     });
   });
@@ -158,7 +159,8 @@ describe('targetGlyphSet', () => {
         circles: ['A', 'B', 'C', 'D'],
       }) as DiagramAst;
 
-      const sizes = result.nodes.map((n) => n.data?.size || 0);
+      const circles = result.nodes[0].data?.circles;
+      const sizes = circles.map((c: any) => c.size);
 
       // Each circle should be larger than the previous
       for (let i = 1; i < sizes.length; i++) {
@@ -183,9 +185,10 @@ describe('targetGlyphSet', () => {
         theme: 'warm',
       }) as DiagramAst;
 
-      expect(result.nodes).toHaveLength(3);
-      expect(result.nodes[0].label).toBe('Critical Goals');
-      expect(result.nodes[2].label).toBe('Stretch Goals');
+      expect(result.nodes).toHaveLength(1);
+      const circles = result.nodes[0].data?.circles;
+      expect(circles[0].label).toBe('Critical Goals');
+      expect(circles[2].label).toBe('Stretch Goals');
     });
 
     it('should generate market segmentation target', () => {
@@ -199,7 +202,8 @@ describe('targetGlyphSet', () => {
         theme: 'professional',
       }) as DiagramAst;
 
-      expect(result.nodes).toHaveLength(4);
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes[0].data?.circles).toHaveLength(4);
     });
 
     it('should generate product roadmap target', () => {
@@ -207,8 +211,9 @@ describe('targetGlyphSet', () => {
         circles: ['MVP', 'V1 Features', 'V2 Features', 'Future Vision'],
       }) as DiagramAst;
 
-      expect(result.nodes).toHaveLength(4);
-      expect(result.nodes.every((n) => n.shape === 'circle')).toBe(true);
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes[0].shape).toBe('target');
+      expect(result.nodes[0].data?.circles).toHaveLength(4);
     });
 
     it('should generate influence diagram', () => {
@@ -220,8 +225,9 @@ describe('targetGlyphSet', () => {
         ],
       }) as DiagramAst;
 
-      expect(result.nodes).toHaveLength(3);
-      const sizes = result.nodes.map((n) => n.data?.size || 0);
+      expect(result.nodes).toHaveLength(1);
+      const circles = result.nodes[0].data?.circles;
+      const sizes = circles.map((c: any) => c.size);
       expect(sizes[0]).toBeLessThan(sizes[1]);
       expect(sizes[1]).toBeLessThan(sizes[2]);
     });

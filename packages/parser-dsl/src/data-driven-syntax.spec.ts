@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { parse } from './langium-parser.js';
+import { DiagramProfile, Profile } from '@runiq/core';
 
 describe('Data-Driven Syntax', () => {
   describe('DataSourceDeclaration', () => {
@@ -92,10 +93,10 @@ describe('Data-Driven Syntax', () => {
       expect(result.success).toBe(true);
       expect(result.errors).toHaveLength(0);
 
-      const profile = result.document!.profiles[0] as any;
-      expect(profile.dataTemplates).toHaveLength(1);
+      const profile = result.document!.profiles[0] as DiagramProfile;
+      expect(profile.templates).toHaveLength(1);
 
-      const template = profile.dataTemplates[0];
+      const template = profile.templates[0];
       expect(template.id).toBe('userCard');
       expect(template.dataKey).toBe('users');
       expect(template.statements).toHaveLength(1);
@@ -304,6 +305,12 @@ describe('Data-Driven Syntax', () => {
         }
       `;
       const result = parse(input);
+      if (result.errors && result.errors.length > 0) {
+        console.log(
+          'Nested property errors:',
+          result.errors.map((e) => e.message)
+        );
+      }
       expect(result.errors).toHaveLength(0);
     });
 
@@ -316,6 +323,12 @@ describe('Data-Driven Syntax', () => {
         }
       `;
       const result = parse(input);
+      if (result.errors && result.errors.length > 0) {
+        console.log(
+          'Mixed literal errors:',
+          result.errors.map((e) => e.message)
+        );
+      }
       expect(result.errors).toHaveLength(0);
     });
   });

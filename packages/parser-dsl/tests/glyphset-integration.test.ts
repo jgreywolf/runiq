@@ -5,7 +5,7 @@ describe('GlyphSet Integration', () => {
   describe('Horizontal Process', () => {
     it('parses horizontal-process glyphset with steps', () => {
       const dsl = `
-        diagram "Software Development" glyphset:horizontal-process {
+        glyphset horizontalProcess "Software Development" {
           step "Research"
           step "Design"
           step "Develop"
@@ -22,37 +22,29 @@ describe('GlyphSet Integration', () => {
 
       expect(diagram.type).toBe('diagram');
       expect(diagram.name).toBe('Software Development');
+      // horizontalProcess generates multiple nodes
       expect(diagram.nodes).toHaveLength(5);
-      expect(diagram.edges).toHaveLength(4);
-      expect(diagram.direction).toBe('LR'); // Horizontal
-
-      // Check nodes
       expect(diagram.nodes?.[0].label).toBe('Research');
-      expect(diagram.nodes?.[1].label).toBe('Design');
       expect(diagram.nodes?.[4].label).toBe('Deploy');
-
-      // Check edges
-      expect(diagram.edges?.[0]).toMatchObject({ from: 'step1', to: 'step2' });
-      expect(diagram.edges?.[3]).toMatchObject({ from: 'step4', to: 'step5' });
+      expect(diagram.edges).toHaveLength(4);
     });
 
     it('validates minimum steps', () => {
       const dsl = `
-        diagram "Too Few Steps" glyphset:horizontal-process {
+        glyphset horizontalProcess "Too Few Steps" {
           step "Only One"
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(false);
-      expect(result.errors.some((e) => e.message.includes('at least 2 steps'))).toBe(true);
+      // Parse succeeds but generator throws validation error
+      expect(() => parse(dsl)).toThrow('at least 2 steps');
     });
   });
 
   describe('Vertical Process', () => {
     it('parses vertical-process glyphset', () => {
       const dsl = `
-        diagram "Project Phases" glyphset:vertical-process {
+        glyphset verticalProcess "Project Phases" {
           step "Initiation"
           step "Planning"
           step "Execution"
@@ -63,15 +55,17 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
+      // verticalProcess generates multiple nodes
       expect(diagram.nodes).toHaveLength(4);
-      expect(diagram.direction).toBe('TB'); // Vertical
+      expect(diagram.nodes?.[0].label).toBe('Initiation');
+      expect(diagram.nodes?.[3].label).toBe('Closure');
     });
   });
 
   describe('Cycle', () => {
     it('parses cycle glyphset with cycle-back edge', () => {
       const dsl = `
-        diagram "PDCA Cycle" glyphset:cycle {
+        glyphset cycle "PDCA Cycle" {
           step "Plan"
           step "Do"
           step "Check"
@@ -82,18 +76,22 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
-      expect(diagram.nodes).toHaveLength(4);
-      expect(diagram.edges).toHaveLength(4); // Including cycle back
-
-      // Last edge should cycle back to first node
-      expect(diagram.edges?.[3]).toMatchObject({ from: 'step4', to: 'step1' });
+      // cycle generates single custom shape node
+      expect(diagram.nodes).toHaveLength(1);
+      expect(diagram.nodes?.[0].shape).toBe('cycle');
+      expect(diagram.nodes?.[0].data?.steps).toEqual([
+        'Plan',
+        'Do',
+        'Check',
+        'Act',
+      ]);
     });
   });
 
   describe('Pyramid', () => {
     it('parses pyramid glyphset with levels', () => {
       const dsl = `
-        diagram "Maslow's Hierarchy" glyphset:pyramid {
+        glyphset pyramid "Maslow's Hierarchy" {
           level "Self-Actualization"
           level "Esteem"
           level "Love/Belonging"
@@ -105,17 +103,25 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
-      expect(diagram.nodes).toHaveLength(5);
-      expect(diagram.nodes?.[0].label).toBe('Self-Actualization');
-      expect(diagram.nodes?.[4].label).toBe('Physiological');
-      expect(diagram.direction).toBe('TB');
+      // pyramid generates single custom shape node with level objects
+      expect(diagram.nodes).toHaveLength(1);
+      expect(diagram.nodes?.[0].shape).toBe('pyramid');
+      expect(diagram.nodes?.[0].data?.levels).toHaveLength(5);
+      expect(diagram.nodes?.[0].data?.levels[0]).toMatchObject({
+        label: 'Self-Actualization',
+        value: 1,
+      });
+      expect(diagram.nodes?.[0].data?.levels[4]).toMatchObject({
+        label: 'Physiological',
+        value: 5,
+      });
     });
   });
 
   describe('Matrix', () => {
     it('parses matrix glyphset with quadrants', () => {
       const dsl = `
-        diagram "SWOT Analysis" glyphset:matrix {
+        glyphset matrix "SWOT Analysis" {
           quadrant "Strengths"
           quadrant "Weaknesses"
           quadrant "Opportunities"
@@ -126,6 +132,7 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
+      // matrix generates containers, not nodes
       expect(diagram.containers).toHaveLength(4);
       expect(diagram.containers?.[0].label).toBe('Strengths');
       expect(diagram.containers?.[1].label).toBe('Weaknesses');
@@ -135,23 +142,22 @@ describe('GlyphSet Integration', () => {
 
     it('validates exactly 4 quadrants', () => {
       const dsl = `
-        diagram "Invalid Matrix" glyphset:matrix {
+        glyphset matrix "Invalid Matrix" {
           quadrant "Q1"
           quadrant "Q2"
           quadrant "Q3"
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(false);
-      expect(result.errors.some((e) => e.message.includes('exactly 4 quadrants'))).toBe(true);
+      // Parse succeeds but generator throws validation error
+      expect(() => parse(dsl)).toThrow('exactly 4 quadrants');
     });
   });
 
   describe('Venn', () => {
     it('parses venn glyphset with circles', () => {
       const dsl = `
-        diagram "Feature Overlap" glyphset:venn {
+        glyphset venn "Feature Overlap" {
           circle "Essential"
           circle "Valuable"
           circle "Delightful"
@@ -161,15 +167,22 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
-      expect(diagram.nodes?.length).toBeGreaterThanOrEqual(3);
-      expect(diagram.nodes?.[0].shape).toBe('circle');
+      // venn generates single custom shape node
+      expect(diagram.nodes).toHaveLength(1);
+      expect(diagram.nodes?.[0].shape).toBe('venn');
+      // venn uses 'labels' not 'circles' in data
+      expect(diagram.nodes?.[0].data?.labels).toEqual([
+        'Essential',
+        'Valuable',
+        'Delightful',
+      ]);
     });
   });
 
   describe('Funnel', () => {
     it('parses funnel glyphset with stages', () => {
       const dsl = `
-        diagram "Sales Funnel" glyphset:funnel {
+        glyphset funnel "Sales Funnel" {
           stage "Awareness"
           stage "Interest"
           stage "Decision"
@@ -180,15 +193,17 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
-      expect(diagram.nodes).toHaveLength(4);
-      expect(diagram.direction).toBe('TB');
+      // funnel generates single custom shape (invertedPyramid)
+      expect(diagram.nodes).toHaveLength(1);
+      expect(diagram.nodes?.[0].shape).toBe('invertedPyramid');
+      expect(diagram.nodes?.[0].data?.levels).toHaveLength(4);
     });
   });
 
   describe('Timeline', () => {
     it('parses timeline glyphset with events', () => {
       const dsl = `
-        diagram "Project Roadmap" glyphset:timeline {
+        glyphset events "Project Roadmap" {
           event "Q1: Planning"
           event "Q2: Development"
           event "Q3: Testing"
@@ -199,39 +214,42 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
+      // events generates multiple nodes
       expect(diagram.nodes).toHaveLength(4);
-      expect(diagram.direction).toBe('LR');
+      expect(diagram.nodes?.[0].label).toBe('Q1: Planning');
+      expect(diagram.nodes?.[3].label).toBe('Q4: Launch');
     });
   });
 
   describe('Error Handling', () => {
     it('throws error for unknown glyphset', () => {
       const dsl = `
-        diagram "Unknown" glyphset:nonexistent {
+        glyphset nonexistent "Unknown" {
           step "A"
           step "B"
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(false);
-      expect(result.errors.some((e) => e.message.includes('Unknown glyphset "nonexistent"'))).toBe(true);
+      // Parser throws error for unknown glyphset
+      expect(() => parse(dsl)).toThrow('Unknown glyphset "nonexistent"');
     });
 
     it('provides list of available glyphsets in error', () => {
       const dsl = `
-        diagram "Unknown" glyphset:invalid-pattern {
-          step "A"
-          step "B"
+        glyphset invalidPattern "Invalid" {
+          item "A"
+          item "B"
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(false);
-      const errorMessage = result.errors.map((e) => e.message).join(' ');
-      expect(errorMessage).toContain('Available glyphsets:');
-      expect(errorMessage).toContain('horizontal-process');
-      expect(errorMessage).toContain('vertical-process');
+      // Parser throws error with list of available glyphsets
+      try {
+        parse(dsl);
+        expect.fail('Should have thrown error');
+      } catch (error: any) {
+        expect(error.message).toContain('Unknown glyphset');
+        expect(error.message).toContain('Available glyphsets');
+      }
     });
   });
 

@@ -7,6 +7,7 @@
 
 import type { DiagramAst } from '@runiq/core';
 import { glyphsetRegistry, GlyphSetError } from '@runiq/glyphsets';
+import type { ImageItem } from '@runiq/glyphsets';
 import * as Langium from './generated/ast.js';
 
 // Define hierarchical node types
@@ -51,6 +52,7 @@ function extractGlyphSetParams(
   const persons: HierarchicalNode[] = [];
   const nodes: HierarchicalNode[] = [];
   const groups: Array<{ name: string; items: string[] }> = [];
+  const images: Array<string | ImageItem> = [];
 
   for (const stmt of statements) {
     // Check if it's a parameter assignment
@@ -140,6 +142,22 @@ function extractGlyphSetParams(
         levelsWithItems.push(levelObj);
       }
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    } else if (Langium.isGlyphSetImageItem(stmt)) {
+      // Handle image items with url, label, and description
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const imageItem = stmt as Langium.GlyphSetImageItem;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const url = imageItem.url.replace(/^"|"$/g, ''); // Remove quotes
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const label = imageItem.label?.replace(/^"|"$/g, '') ?? url;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const description = imageItem.description?.replace(/^"|"$/g, '');
+
+      images.push({
+        image: url,
+        label,
+        ...(description && { description }),
+      });
     } else if (Langium.isGlyphSetSimpleItem(stmt)) {
       // Handle flat/simple items
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -194,6 +212,11 @@ function extractGlyphSetParams(
   if (quadrants.length > 0) params.quadrants = quadrants;
   if (circles.length > 0) params.circles = circles;
   if (sides.length > 0) params.sides = sides;
+  if (images.length > 0) {
+    params.images = images;
+    // Picture glyphsets expect 'items' parameter
+    if (!params.items) params.items = images;
+  }
 
   // Fallback: If only 'item' was used, map it to the appropriate parameter
   // This allows users to use 'item' as a universal keyword

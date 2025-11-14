@@ -69,7 +69,9 @@ export const matrix3x3GlyphSet: GlyphSetDefinition = {
     '3x3',
   ],
   generator: (params) => {
-    const quadrants = params.quadrants as string[] | undefined;
+    const quadrants = params.quadrants as
+      | (string | { label: string; color?: string })[]
+      | undefined;
     const xAxis = (params.xAxis as string | undefined) || '';
     const yAxis = (params.yAxis as string | undefined) || '';
     const theme = (params.theme as ColorTheme | undefined) || 'professional';
@@ -84,10 +86,18 @@ export const matrix3x3GlyphSet: GlyphSetDefinition = {
 
     // Create matrix data structure
     const matrixData = {
-      quadrants: quadrants.map((label, index) => ({
-        label,
-        color: getThemeColor(theme, index),
-      })),
+      quadrants: quadrants.map((item, index) => {
+        if (typeof item === 'string') {
+          return {
+            label: item,
+            color: getThemeColor(theme, index),
+          };
+        }
+        return {
+          label: item.label,
+          color: item.color || getThemeColor(theme, index),
+        };
+      }),
       xAxis,
       yAxis,
     };

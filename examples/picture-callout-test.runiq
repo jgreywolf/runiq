@@ -1,0 +1,15 @@
+/*
+ * Picture Callout Example
+ * Demonstrates a central image with callout annotations
+ */
+
+  glyphset pictureCallout "Smart Watch" {
+    theme "professional"
+    image "https://i.pravatar.cc/400?img=20"
+    
+    callout "Water Resistant" position "top"
+    callout "Heart Rate Monitor" position "right"
+    callout "Long Battery Life" position "bottom"
+    callout "GPS Tracking" position "left"
+  }
+

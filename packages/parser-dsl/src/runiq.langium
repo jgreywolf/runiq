@@ -648,7 +648,11 @@ GlyphSetType returns string:
     ID | 'target' | 'source' | 'balance';
 
 GlyphSetItemStatement:
-    GlyphSetSimpleItem | GlyphSetNestedItem;
+    GlyphSetImageItem | GlyphSetSimpleItem | GlyphSetNestedItem;
+
+// Image items with optional label and description: image "url" label "text" description "text"
+GlyphSetImageItem:
+    keyword='image' url=STRING ('label' label=STRING)? ('description' description=STRING)?;
 
 // Simple flat items: step "Label", level "Label", etc.
 GlyphSetSimpleItem:

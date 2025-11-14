@@ -26,8 +26,8 @@ describe('segmentedMatrix glyphset', () => {
 
   describe('generation without segments', () => {
     it('should generate basic 2x2 matrix without segments', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Quadrant 1' },
           { label: 'Quadrant 2' },
           { label: 'Quadrant 3' },
@@ -42,8 +42,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should apply default theme colors', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1' },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -61,8 +61,8 @@ describe('segmentedMatrix glyphset', () => {
 
   describe('generation with segments', () => {
     it('should generate matrix with segments in all quadrants', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           {
             label: 'Q1',
             segments: [{ label: 'Task 1' }, { label: 'Task 2' }],
@@ -90,8 +90,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should limit segments to 4 per quadrant', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           {
             label: 'Q1',
             segments: [
@@ -116,8 +116,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should handle empty segments array', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1', segments: [] },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -130,8 +130,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should filter out segments without labels', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           {
             label: 'Q1',
             segments: [
@@ -155,8 +155,8 @@ describe('segmentedMatrix glyphset', () => {
 
   describe('axis labels', () => {
     it('should support optional xAxis label', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1' },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -169,8 +169,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should support optional yAxis label', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1' },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -183,8 +183,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should support both axis labels', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1' },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -201,8 +201,8 @@ describe('segmentedMatrix glyphset', () => {
 
   describe('custom colors', () => {
     it('should apply custom colors to quadrants', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1', color: '#EF5350' },
           { label: 'Q2', color: '#42A5F5' },
           { label: 'Q3', color: '#FFB74D' },
@@ -218,8 +218,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should mix custom and theme colors', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1', color: '#FF0000' },
           { label: 'Q2' },
           { label: 'Q3', color: '#00FF00' },
@@ -239,16 +239,16 @@ describe('segmentedMatrix glyphset', () => {
   describe('validation', () => {
     it('should throw error with fewer than 4 items', () => {
       expect(() => {
-        segmentedMatrixGlyphSet.generate({
-          items: [{ label: 'Q1' }, { label: 'Q2' }],
+        segmentedMatrixGlyphSet.generator({
+          quadrants: [{ label: 'Q1' }, { label: 'Q2' }],
         });
-      }).toThrow('segmentedMatrix glyphset requires exactly 4 items');
+      }).toThrow('segmentedMatrix glyphset requires exactly 4');
     });
 
     it('should throw error with more than 4 items', () => {
       expect(() => {
-        segmentedMatrixGlyphSet.generate({
-          items: [
+        segmentedMatrixGlyphSet.generator({
+          quadrants: [
             { label: 'Q1' },
             { label: 'Q2' },
             { label: 'Q3' },
@@ -256,14 +256,14 @@ describe('segmentedMatrix glyphset', () => {
             { label: 'Q5' },
           ],
         });
-      }).toThrow('segmentedMatrix glyphset requires exactly 4 items');
+      }).toThrow('segmentedMatrix glyphset requires exactly 4');
     });
   });
 
   describe('node properties', () => {
     it('should set correct direction', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1' },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -275,8 +275,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should generate unique node IDs', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Q1' },
           { label: 'Q2' },
           { label: 'Q3' },
@@ -284,14 +284,14 @@ describe('segmentedMatrix glyphset', () => {
         ],
       });
 
-      expect(result.nodes[0].id).toMatch(/^segmentedMatrix_/);
+      expect(result.nodes[0].id).toBe('segmentedMatrix-composite');
     });
 
     it('should preserve item labels', () => {
       const labels = ['Do First', 'Schedule', 'Delegate', 'Eliminate'];
 
-      const result = segmentedMatrixGlyphSet.generate({
-        items: labels.map((label) => ({ label })),
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: labels.map((label) => ({ label })),
       });
 
       const quadrants = result.nodes[0].data?.quadrants;
@@ -301,8 +301,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should preserve segment labels', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items: [
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants: [
           {
             label: 'Q1',
             segments: [
@@ -325,7 +325,7 @@ describe('segmentedMatrix glyphset', () => {
   });
 
   describe('theme support', () => {
-    const items = [
+    const quadrants = [
       { label: 'Q1' },
       { label: 'Q2' },
       { label: 'Q3' },
@@ -333,8 +333,8 @@ describe('segmentedMatrix glyphset', () => {
     ];
 
     it('should support professional theme', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items,
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants,
         theme: 'professional',
       });
 
@@ -342,8 +342,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should support colorful theme', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items,
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants,
         theme: 'colorful',
       });
 
@@ -351,8 +351,8 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should support monochrome theme', () => {
-      const result = segmentedMatrixGlyphSet.generate({
-        items,
+      const result = segmentedMatrixGlyphSet.generator({
+        quadrants,
         theme: 'monochrome',
       });
 
@@ -360,7 +360,7 @@ describe('segmentedMatrix glyphset', () => {
     });
 
     it('should default to professional theme', () => {
-      const result = segmentedMatrixGlyphSet.generate({ items });
+      const result = segmentedMatrixGlyphSet.generator({ quadrants });
 
       expect(result.nodes[0].data?.quadrants).toHaveLength(4);
     });

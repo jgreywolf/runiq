@@ -69,7 +69,9 @@ export const titledMatrixGlyphSet: GlyphSetDefinition = {
     'structured',
   ],
   generator: (params) => {
-    const quadrants = params.quadrants as string[] | undefined;
+    const quadrants = params.quadrants as
+      | (string | { label: string; color?: string })[]
+      | undefined;
     const columnHeaders = (params.columnHeaders as string[] | undefined) || [];
     const rowHeaders = (params.rowHeaders as string[] | undefined) || [];
     const theme = (params.theme as ColorTheme | undefined) || 'professional';
@@ -96,10 +98,18 @@ export const titledMatrixGlyphSet: GlyphSetDefinition = {
 
     // Create matrix data structure
     const matrixData = {
-      quadrants: quadrants.map((label, index) => ({
-        label,
-        color: getThemeColor(theme, index),
-      })),
+      quadrants: quadrants.map((item, index) => {
+        if (typeof item === 'string') {
+          return {
+            label: item,
+            color: getThemeColor(theme, index),
+          };
+        }
+        return {
+          label: item.label,
+          color: item.color || getThemeColor(theme, index),
+        };
+      }),
       columnHeaders: cols,
       rowHeaders: rows,
       size,

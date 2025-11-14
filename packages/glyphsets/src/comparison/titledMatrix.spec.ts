@@ -26,8 +26,8 @@ describe('titledMatrix glyphset', () => {
 
   describe('2x2 matrix generation', () => {
     it('should generate 2x2 matrix with 4 items', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1' },
           { label: 'Cell 2' },
           { label: 'Cell 3' },
@@ -42,8 +42,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should generate default column headers for 2x2', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1' },
           { label: 'Cell 2' },
           { label: 'Cell 3' },
@@ -55,8 +55,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should generate default row headers for 2x2', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1' },
           { label: 'Cell 2' },
           { label: 'Cell 3' },
@@ -68,8 +68,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should support custom column headers', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1' },
           { label: 'Cell 2' },
           { label: 'Cell 3' },
@@ -82,8 +82,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should support custom row headers', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1' },
           { label: 'Cell 2' },
           { label: 'Cell 3' },
@@ -98,8 +98,8 @@ describe('titledMatrix glyphset', () => {
 
   describe('3x3 matrix generation', () => {
     it('should generate 3x3 matrix with 9 items', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: Array(9)
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Cell ${i + 1}` })),
       });
@@ -111,8 +111,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should generate default column headers for 3x3', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: Array(9)
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Cell ${i + 1}` })),
       });
@@ -125,8 +125,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should generate default row headers for 3x3', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: Array(9)
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Cell ${i + 1}` })),
       });
@@ -139,8 +139,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should support custom column headers for 3x3', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: Array(9)
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Cell ${i + 1}` })),
         columnHeaders: ['Vendor A', 'Vendor B', 'Vendor C'],
@@ -154,8 +154,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should support custom row headers for 3x3', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: Array(9)
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: Array(9)
           .fill(0)
           .map((_, i) => ({ label: `Cell ${i + 1}` })),
         rowHeaders: ['Price', 'Quality', 'Support'],
@@ -171,8 +171,8 @@ describe('titledMatrix glyphset', () => {
 
   describe('custom colors', () => {
     it('should apply custom colors to 2x2 matrix', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1', color: '#FF0000' },
           { label: 'Cell 2', color: '#00FF00' },
           { label: 'Cell 3', color: '#0000FF' },
@@ -188,8 +188,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should apply theme colors when no custom colors', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1' },
           { label: 'Cell 2' },
           { label: 'Cell 3' },
@@ -208,26 +208,26 @@ describe('titledMatrix glyphset', () => {
   describe('validation', () => {
     it('should throw error with fewer than 4 items', () => {
       expect(() => {
-        titledMatrixGlyphSet.generate({
-          items: [{ label: 'Cell 1' }, { label: 'Cell 2' }],
+        titledMatrixGlyphSet.generator({
+          quadrants: [{ label: 'Q1' }, { label: 'Q2' }],
         });
-      }).toThrow('titledMatrix glyphset requires 4 or 9 items');
+      }).toThrow('4 or 9 quadrants');
     });
 
     it('should throw error with more than 9 items', () => {
       expect(() => {
-        titledMatrixGlyphSet.generate({
-          items: Array(10)
+        titledMatrixGlyphSet.generator({
+          quadrants: Array(10)
             .fill(0)
-            .map((_, i) => ({ label: `Cell ${i + 1}` })),
+            .map((_, i) => ({ label: `Q${i + 1}` })),
         });
-      }).toThrow('titledMatrix glyphset requires 4 or 9 items');
+      }).toThrow('4 or 9 quadrants');
     });
 
     it('should throw error with invalid item count', () => {
       expect(() => {
-        titledMatrixGlyphSet.generate({
-          items: [
+        titledMatrixGlyphSet.generator({
+          quadrants: [
             { label: 'Cell 1' },
             { label: 'Cell 2' },
             { label: 'Cell 3' },
@@ -235,14 +235,14 @@ describe('titledMatrix glyphset', () => {
             { label: 'Cell 5' },
           ],
         });
-      }).toThrow('titledMatrix glyphset requires 4 or 9 items');
+      }).toThrow('4 or 9 quadrants');
     });
   });
 
   describe('node properties', () => {
     it('should set correct direction', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1' },
           { label: 'Cell 2' },
           { label: 'Cell 3' },
@@ -254,8 +254,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should generate unique node IDs', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items: [
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: [
           { label: 'Cell 1' },
           { label: 'Cell 2' },
           { label: 'Cell 3' },
@@ -263,14 +263,14 @@ describe('titledMatrix glyphset', () => {
         ],
       });
 
-      expect(result.nodes[0].id).toMatch(/^titledMatrix_/);
+      expect(result.nodes[0].id).toBe('titledMatrix-composite');
     });
 
     it('should preserve item labels', () => {
       const labels = ['10 GB', '100 GB', '5 Users', 'Unlimited'];
 
-      const result = titledMatrixGlyphSet.generate({
-        items: labels.map((label) => ({ label })),
+      const result = titledMatrixGlyphSet.generator({
+        quadrants: labels.map((label) => ({ label })),
       });
 
       const quadrants = result.nodes[0].data?.quadrants;
@@ -281,7 +281,7 @@ describe('titledMatrix glyphset', () => {
   });
 
   describe('theme support', () => {
-    const items = [
+    const quadrants = [
       { label: 'Cell 1' },
       { label: 'Cell 2' },
       { label: 'Cell 3' },
@@ -289,8 +289,8 @@ describe('titledMatrix glyphset', () => {
     ];
 
     it('should support professional theme', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items,
+      const result = titledMatrixGlyphSet.generator({
+        quadrants,
         theme: 'professional',
       });
 
@@ -298,8 +298,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should support colorful theme', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items,
+      const result = titledMatrixGlyphSet.generator({
+        quadrants,
         theme: 'colorful',
       });
 
@@ -307,8 +307,8 @@ describe('titledMatrix glyphset', () => {
     });
 
     it('should support monochrome theme', () => {
-      const result = titledMatrixGlyphSet.generate({
-        items,
+      const result = titledMatrixGlyphSet.generator({
+        quadrants,
         theme: 'monochrome',
       });
 
