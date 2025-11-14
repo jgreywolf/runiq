@@ -30,14 +30,16 @@ describe('Validation Utilities', () => {
     });
 
     it('should throw if empty by default', () => {
-      expect(() =>
-        validateArrayParameter('testGlyphset', 'items', [])
-      ).toThrow(GlyphSetError);
+      expect(() => validateArrayParameter('testGlyphset', 'items', [])).toThrow(
+        GlyphSetError
+      );
     });
 
     it('should allow empty if allowEmpty is true', () => {
       expect(() =>
-        validateArrayParameter('testGlyphset', 'items', [], { allowEmpty: true })
+        validateArrayParameter('testGlyphset', 'items', [], {
+          allowEmpty: true,
+        })
       ).not.toThrow();
     });
 

@@ -11,6 +11,7 @@ import {
   validateArrayParameter,
   validateStringParameter,
 } from '../utils/validation.js';
+import { extractCommonParams, extractArrayParam } from '../utils/parameters.js';
 
 /**
  * Basic Process GlyphSet
@@ -102,14 +103,15 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
   ],
 
   generator: (params) => {
-    // Extract parameters
-    const steps = params.steps as string[] | undefined;
-    const orientation =
-      (params.orientation as string | undefined) || 'horizontal';
-    const theme = (params.theme as ColorTheme | undefined) || 'colorful';
-    const shape = (params.shape as string | undefined) || 'rounded';
-    const useContainers =
-      (params.useContainers as boolean | undefined) ?? false;
+    // Extract parameters using utilities
+    const steps = extractArrayParam<string>(params, 'steps');
+    const { theme, shape, useContainers, orientation } = extractCommonParams(
+      params,
+      {
+        shape: 'rounded',
+        orientation: 'horizontal',
+      }
+    );
 
     // Validation using utilities
     validateArrayParameter('basicProcess', 'steps', steps, {
