@@ -73,6 +73,13 @@ export default defineConfig({
           ],
         },
         {
+          text: 'Glyphsets Reference',
+          items: [
+            { text: 'All Glyphsets', link: '/reference/glyphsets' },
+            { text: 'Glyphset Themes', link: '/reference/glyphset-themes' },
+          ],
+        },
+        {
           text: 'API Reference',
           items: [
             { text: 'Parser API', link: '/reference/api/parser' },
@@ -100,6 +107,18 @@ export default defineConfig({
             { text: 'Styling', link: '/guide/styling' },
             { text: 'Layout', link: '/guide/layout' },
             { text: 'Inline Icons', link: '/guide/inline-icons' },
+          ],
+        },
+        {
+          text: 'Glyphsets (Smart Art)',
+          items: [
+            { text: 'What are Glyphsets?', link: '/guide/glyphsets' },
+            { text: 'Process Glyphsets', link: '/guide/glyphsets-process' },
+            { text: 'List Glyphsets', link: '/guide/glyphsets-list' },
+            { text: 'Comparison Glyphsets', link: '/guide/glyphsets-comparison' },
+            { text: 'Visualization Glyphsets', link: '/guide/glyphsets-visualization' },
+            { text: 'Hierarchy Glyphsets', link: '/guide/glyphsets-hierarchy' },
+            { text: 'Relationship Glyphsets', link: '/guide/glyphsets-relationship' },
           ],
         },
         {

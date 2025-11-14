@@ -34,6 +34,10 @@ features:
     title: 142+ Shapes Across 17 Categories
     details: From flowcharts to UML diagrams, quantum circuits to block diagrams, BPMN to AWS infrastructure.
 
+  - icon: ✨
+    title: 60+ Smart Art Glyphsets
+    details: Quick diagram templates like MS PowerPoint SmartArt. Process flows, org charts, matrices, timelines - ready to use with 9 professional themes.
+
   - icon: 🏗️
     title: Hierarchical Containers
     details: Build complex architectures with nested containers. Perfect for C4, BPMN, and microservices diagrams.

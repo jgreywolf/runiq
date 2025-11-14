@@ -83,6 +83,62 @@ Runiq/
 
 ## Your First Diagram
 
+Runiq offers two ways to create diagrams:
+
+1. **Glyphsets (Smart Art)** - Pre-built templates for quick diagrams
+2. **Diagram Profile** - Full control with custom shapes and connections
+
+### Quick Start with Glyphsets
+
+Glyphsets are the fastest way to create professional diagrams. Just provide your data:
+
+```runiq
+glyphset basicProcess "Development Workflow" {
+  step "Requirements"
+  step "Design"
+  step "Implementation"
+  step "Testing"
+  step "Deployment"
+  
+  theme "professional"
+  orientation "horizontal"
+}
+```
+
+That's it! Runiq generates a complete process flow diagram automatically.
+
+**More glyphset examples:**
+
+```runiq
+// Organization chart
+glyphset orgChart "Company Structure" {
+  person "CEO" {
+    person "CTO" {
+      person "Dev Team Lead"
+      person "QA Manager"
+    }
+    person "CFO"
+  }
+}
+
+// Comparison matrix
+glyphset matrix "Feature Comparison" {
+  quadrant "High Priority / Easy" label: "Quick Wins"
+  quadrant "High Priority / Hard" label: "Strategic"
+  quadrant "Low Priority / Easy" label: "Nice to Have"
+  quadrant "Low Priority / Hard" label: "Avoid"
+  
+  horizontalAxis "Priority"
+  verticalAxis "Difficulty"
+}
+```
+
+[Learn more about glyphsets →](/guide/glyphsets)
+
+### Full Control with Diagram Profile
+
+For detailed diagrams with custom layouts, use the diagram profile:
+
 ### 1. Create a `.runiq` file
 
 Create a file named `hello.runiq`:

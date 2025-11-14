@@ -77,7 +77,7 @@ Runiq uses the **Eclipse Layout Kernel (ELK)** with 5 algorithms:
 
 ### 4. Rich Shape Library
 
-**75+ shapes** across many categories:
+**142+ shapes** across 17 categories:
 
 - **Actors** (8) - User representations for use case diagrams
 - **Circles** (10) - Various circle styles and sizes
@@ -88,8 +88,52 @@ Runiq uses the **Eclipse Layout Kernel (ELK)** with 5 algorithms:
 - **Process** (9) - Rectangles, subroutines, loops
 - **Specialized** (3) - Cloud, delay, off-page connector
 - **Annotations** (3) - Comments and notes
+- **Electrical** (30+) - Resistors, capacitors, transistors
+- **Digital Logic** (15+) - Gates, flip-flops, multiplexers
+- **And more** - AWS, quantum gates, pneumatic, hydraulic
 
 [View all shapes →](/reference/shapes)
+
+### 5. Smart Art Glyphsets (60+)
+
+**Glyphsets** are pre-built diagram templates similar to **PowerPoint SmartArt**. Perfect for quick visualizations without manual layout:
+
+```runiq
+glyphset basicProcess "Development Pipeline" {
+  step "Plan"
+  step "Code"
+  step "Test"
+  step "Deploy"
+  step "Monitor"
+  
+  theme "ocean"
+  orientation "horizontal"
+}
+```
+
+Produces a professional horizontal process flow instantly!
+
+**6 categories** of glyphsets:
+- **Process** (17) - Linear flows, cycles, alternating, stepped
+- **List** (6) - Basic lists, picture lists, framed items
+- **Hierarchy** (1) - Organization charts, pyramids
+- **Comparison** (4) - Matrices, Venn diagrams, balances
+- **Visualization** (8) - Funnels, timelines, picture grids
+- **Relationship** (24) - Convergence, divergence, clusters, targets
+
+**When to use glyphsets:**
+- ✅ Quick diagrams and presentations
+- ✅ Standard patterns (process flows, org charts)
+- ✅ Data-driven visualizations
+- ✅ Consistency across documents
+
+**When to use diagram profiles:**
+- ✅ Detailed technical diagrams
+- ✅ Custom layouts and connections
+- ✅ Complex relationships
+- ✅ Fine-grained control
+
+[Learn more about glyphsets →](/guide/glyphsets)
 
 ### 9. Web SDK for browsers
 
