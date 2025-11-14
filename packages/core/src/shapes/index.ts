@@ -147,6 +147,12 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.phasedProcessShape); // Phased process
   shapeRegistry.register(charts.detailedProcessShape); // Detailed process with substeps
   shapeRegistry.register(charts.groupedProcessShape); // Grouped parallel process
+  shapeRegistry.register(charts.radialCycleShape); // Radial cycle with center hub
+  shapeRegistry.register(charts.gearCycleShape); // Gear cycle (interlocking)
+  shapeRegistry.register(charts.segmentedCycleShape); // Segmented cycle (pie chart style)
+  shapeRegistry.register(charts.blockCycleShape); // Block cycle (rectangles in circle)
+  shapeRegistry.register(charts.spiralCycleShape); // Spiral cycle (growth progression)
+  shapeRegistry.register(charts.orbitCycleShape); // Orbit cycle (planetary style)
 }
 
 export function registerNetworkShapes(): void {

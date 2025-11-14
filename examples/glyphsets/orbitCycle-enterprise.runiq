@@ -1,0 +1,13 @@
+// Orbit Cycle - Enterprise Ecosystem
+// Shows systems orbiting around core platform
+
+glyphset orbitCycle "Enterprise Ecosystem" {
+  item "CRM"
+  item "ERP"
+  item "Analytics"
+  item "Marketing"
+  item "HR System"
+  item "Finance"
+  
+  centerLabel "Core Platform"
+}

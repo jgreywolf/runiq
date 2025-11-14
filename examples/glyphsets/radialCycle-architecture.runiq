@@ -1,0 +1,13 @@
+// Radial Cycle - Technical Architecture
+// Shows how architectural components relate to core platform
+
+glyphset radialCycle "Technical Architecture" {
+  item "Authentication"
+  item "API Gateway"
+  item "Database"
+  item "Cache Layer"
+  item "Message Queue"
+  item "Storage"
+  
+  centerLabel "Platform Core"
+}

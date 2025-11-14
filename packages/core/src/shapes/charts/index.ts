@@ -38,3 +38,9 @@ export { continuousBlockProcessShape } from './continuousBlockProcess.js'; // Co
 export { phasedProcessShape } from './phasedProcess.js'; // Phased process with milestone markers
 export { detailedProcessShape } from './detailedProcess.js'; // Process with main steps and substeps
 export { groupedProcessShape } from './groupedProcess.js'; // Parallel streams converging to merge point
+export { radialCycleShape } from './radialCycle.js'; // Center hub with radiating spokes
+export { gearCycleShape } from './gearCycle.js'; // Interlocking gears showing interconnected processes
+export { segmentedCycleShape } from './segmentedCycle.js'; // Pie chart segments in circular arrangement
+export { blockCycleShape } from './blockCycle.js'; // Rectangular blocks arranged in circle
+export { spiralCycleShape } from './spiralCycle.js'; // Spiral progression showing growth/evolution
+export { orbitCycleShape } from './orbitCycle.js'; // Planetary orbit style with central core

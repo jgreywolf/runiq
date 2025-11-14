@@ -658,12 +658,12 @@ GlyphSetSimpleItem:
 GlyphSetNestedItem:
     keyword=GlyphSetKeyword label=STRING '{' children+=GlyphSetItemStatement* '}';
 
-// Parameter assignments: direction "LR", theme "professional", columns 3, shape "circle"
+// Parameter assignments: direction "LR", theme "professional", columns 3, shape "circle", showPercentages true
 GlyphSetParameter:
-    name=GlyphSetParameterName value=(STRING | NUMBER);
+    name=GlyphSetParameterName value=(STRING | NUMBER | BooleanValue);
 
 GlyphSetParameterName returns string:
-    'direction' | 'theme' | 'columns' | 'shape' | 'showValues' | 'mergePoint' | 'result';
+    'direction' | 'theme' | 'columns' | 'shape' | 'showValues' | 'mergePoint' | 'result' | 'showPercentages' | 'centerLabel';
 
 GlyphSetKeyword returns string:
     'step' | 'item' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'person' | 'node' | 'group' | 'side';
@@ -1415,6 +1415,7 @@ terminal BIDIRECTIONAL_ARROW: '<->';
 terminal ARROW: '->';
 terminal TAG: /[A-Z][A-Z0-9]*-[0-9]{1,4}[A-Z]?/;  // P&ID instrument/equipment tags like V-101, FT-205, PIC-301A (uppercase-number format, must come first)
 terminal SHAPE_ID: /[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;  // Shape IDs like circle-filled, must start with lowercase or underscore to avoid matching P&ID tags
+terminal BOOLEAN: /true|false/;  // Must come before ID to prevent 'true'/'false' from being matched as identifiers
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
 terminal NUMBER: /-?[0-9]+(\.[0-9]+)?/;

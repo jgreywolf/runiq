@@ -57,10 +57,20 @@ function extractGlyphSetParams(
     if (Langium.isGlyphSetParameter(stmt)) {
       const param = stmt as Langium.GlyphSetParameter;
       const name = param.name;
-      const value =
-        typeof param.value === 'string'
-          ? param.value.replace(/^"|"$/g, '') // Remove quotes from strings
-          : param.value; // Keep numbers as-is
+      let value: string | number | boolean;
+
+      if (typeof param.value === 'string') {
+        const strValue = param.value;
+        // Check if it's a quoted string and remove quotes
+        if (strValue.startsWith('"') && strValue.endsWith('"')) {
+          value = strValue.replace(/^"|"$/g, '');
+        } else {
+          // BooleanValue literals 'true' and 'false' come as strings
+          value = strValue;
+        }
+      } else {
+        value = param.value; // Keep numbers as-is
+      }
 
       params[name] = value;
       continue;

@@ -141,6 +141,7 @@ export type RuniqKeywordNames =
     | "carrier:"
     | "cascade"
     | "center"
+    | "centerLabel"
     | "centralBuffer"
     | "childCountPosition:"
     | "children:"
@@ -551,6 +552,7 @@ export type RuniqKeywordNames =
     | "showDepthIndicator:"
     | "showLegend:"
     | "showMetrics:"
+    | "showPercentages"
     | "showValues"
     | "side"
     | "signal"
@@ -2066,7 +2068,7 @@ export interface GlyphSetParameter extends langium.AstNode {
     readonly $container: GlyphSetProfile;
     readonly $type: 'GlyphSetParameter';
     name: GlyphSetParameterName;
-    value: string;
+    value: BooleanValue | string;
 }
 
 export const GlyphSetParameter = {
@@ -2079,10 +2081,10 @@ export function isGlyphSetParameter(item: unknown): item is GlyphSetParameter {
     return reflection.isInstance(item, GlyphSetParameter.$type);
 }
 
-export type GlyphSetParameterName = 'columns' | 'direction' | 'mergePoint' | 'result' | 'shape' | 'showValues' | 'theme';
+export type GlyphSetParameterName = 'centerLabel' | 'columns' | 'direction' | 'mergePoint' | 'result' | 'shape' | 'showPercentages' | 'showValues' | 'theme';
 
 export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
-    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues' || item === 'mergePoint' || item === 'result';
+    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues' || item === 'mergePoint' || item === 'result' || item === 'showPercentages' || item === 'centerLabel';
 }
 
 export interface GlyphSetProfile extends langium.AstNode {

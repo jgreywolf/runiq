@@ -28,6 +28,12 @@ import { continuousBlockProcessGlyphSet } from './process/continuousBlockProcess
 import { phasedProcessGlyphSet } from './process/phasedProcess.js';
 import { detailedProcessGlyphSet } from './process/detailedProcess.js';
 import { groupedProcessGlyphSet } from './process/groupedProcess.js';
+import { radialCycleGlyphSet } from './process/radialCycle.js';
+import { gearCycleGlyphSet } from './process/gearCycle.js';
+import { segmentedCycleGlyphSet } from './process/segmentedCycle.js';
+import { blockCycleGlyphSet } from './process/blockCycle.js';
+import { spiralCycleGlyphSet } from './process/spiralCycle.js';
+import { orbitCycleGlyphSet } from './process/orbitCycle.js';
 import { pyramidGlyphSet } from './hierarchy/pyramid.js';
 import { invertedPyramidGlyphSet } from './hierarchy/invertedPyramid.js';
 import { segmentedPyramidGlyphSet } from './hierarchy/segmentedPyramid.js';
@@ -73,6 +79,12 @@ glyphsetRegistry.register(continuousBlockProcessGlyphSet);
 glyphsetRegistry.register(phasedProcessGlyphSet);
 glyphsetRegistry.register(detailedProcessGlyphSet);
 glyphsetRegistry.register(groupedProcessGlyphSet);
+glyphsetRegistry.register(radialCycleGlyphSet);
+glyphsetRegistry.register(gearCycleGlyphSet);
+glyphsetRegistry.register(segmentedCycleGlyphSet);
+glyphsetRegistry.register(blockCycleGlyphSet);
+glyphsetRegistry.register(spiralCycleGlyphSet);
+glyphsetRegistry.register(orbitCycleGlyphSet);
 
 // Hierarchy glyphsets
 glyphsetRegistry.register(pyramidGlyphSet);
@@ -125,6 +137,12 @@ export { continuousBlockProcessGlyphSet } from './process/continuousBlockProcess
 export { phasedProcessGlyphSet } from './process/phasedProcess.js';
 export { detailedProcessGlyphSet } from './process/detailedProcess.js';
 export { groupedProcessGlyphSet } from './process/groupedProcess.js';
+export { radialCycleGlyphSet } from './process/radialCycle.js';
+export { gearCycleGlyphSet } from './process/gearCycle.js';
+export { segmentedCycleGlyphSet } from './process/segmentedCycle.js';
+export { blockCycleGlyphSet } from './process/blockCycle.js';
+export { spiralCycleGlyphSet } from './process/spiralCycle.js';
+export { orbitCycleGlyphSet } from './process/orbitCycle.js';
 export { pyramidGlyphSet } from './hierarchy/pyramid.js';
 export { invertedPyramidGlyphSet } from './hierarchy/invertedPyramid.js';
 export { segmentedPyramidGlyphSet } from './hierarchy/segmentedPyramid.js';

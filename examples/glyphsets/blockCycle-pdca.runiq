@@ -1,0 +1,9 @@
+// Block Cycle - PDCA (Plan-Do-Check-Act)
+// Shows continuous improvement cycle
+
+glyphset blockCycle "PDCA Continuous Improvement" {
+  item "Plan"
+  item "Do"
+  item "Check"
+  item "Act"
+}
