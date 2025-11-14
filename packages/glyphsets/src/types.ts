@@ -36,9 +36,9 @@ export type GlyphSetCategory =
  * Complete GlyphSet definition
  */
 export interface GlyphSetDefinition {
-  /** Unique identifier (e.g., "horizontal-process") */
+  /** Unique identifier (e.g., "basicProcess") */
   id: string;
-  /** Display name (e.g., "Horizontal Process") */
+  /** Display name (e.g., "Basic Process") */
   name: string;
   /** Category for organization */
   category: GlyphSetCategory;

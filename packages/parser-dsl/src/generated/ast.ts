@@ -2105,10 +2105,10 @@ export function isGlyphSetParameter(item: unknown): item is GlyphSetParameter {
     return reflection.isInstance(item, GlyphSetParameter.$type);
 }
 
-export type GlyphSetParameterName = 'centerLabel' | 'columns' | 'direction' | 'mergePoint' | 'result' | 'shape' | 'showPercentages' | 'showValues' | 'theme';
+export type GlyphSetParameterName = 'centerLabel' | 'columns' | 'direction' | 'mergePoint' | 'orientation' | 'result' | 'shape' | 'showPercentages' | 'showValues' | 'theme';
 
 export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
-    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues' || item === 'mergePoint' || item === 'result' || item === 'showPercentages' || item === 'centerLabel';
+    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues' || item === 'mergePoint' || item === 'result' || item === 'showPercentages' || item === 'centerLabel' || item === 'orientation';
 }
 
 export interface GlyphSetProfile extends langium.AstNode {

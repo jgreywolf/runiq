@@ -149,7 +149,7 @@ function extractGlyphSetParams(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       const url = imageItem.url.replace(/^"|"$/g, ''); // Remove quotes
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      const label = imageItem.label?.replace(/^"|"$/g, '') ?? url;
+      const label = imageItem.label?.replace(/^"|"$/g, '') ?? 'No label';
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       const description = imageItem.description?.replace(/^"|"$/g, '');
 

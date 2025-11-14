@@ -21,23 +21,23 @@ Pre-built diagram patterns (GlyphSets) for Runiq - SmartArt-style templates.
 import { glyphsetRegistry } from '@runiq/glyphsets';
 
 // Get a glyphset
-const processGlyphSet = glyphsetRegistry.get('horizontal-process');
+const processGlyphSet = glyphsetRegistry.get('basicProcess');
 
 // Generate a diagram
 const diagram = processGlyphSet.generator({
   steps: ['Research', 'Design', 'Develop', 'Test', 'Deploy'],
+  orientation: 'horizontal',
+  theme: 'colorful',
 });
 ```
 
 ### In Runiq DSL
 
 ```runiq
-glyphset horizontalProcess "Process Phases" {
-  step "Research"
-  step "Design"
-  step "Develop"
-  step "Test"
-  step "Deploy"
+glyphset basicProcess "Process Phases" {
+  steps: ["Research", "Design", "Develop", "Test", "Deploy"]
+  orientation: "horizontal"
+  theme: "colorful"
 }
 ```
 
@@ -45,17 +45,9 @@ glyphset horizontalProcess "Process Phases" {
 
 ### Process (3 glyphsets)
 
-- **`horizontalProcess`** - Linear left-to-right process (2-10 steps)
-  - Parameters: `steps`, `shape`, `useContainers`
-  - Example: Software development lifecycle, user journey
-
-- **`verticalProcess`** - Top-to-bottom process (2-10 steps)
-  - Parameters: `steps`, `shape`
-  - Example: Project phases, waterfall methodology
-
-- **`cycle`** - Circular process flow (3-8 steps)
-  - Parameters: `steps`, `shape`
-  - Example: PDCA cycle, iterative development
+- **`basicProcess`** - Linear process with horizontal or vertical orientation (2-10 steps)
+  - Parameters: `steps` (array), `orientation` ("horizontal" or "vertical"), `theme`, `shape`, `useContainers`
+- **`alternatingProcess`** - Staggered process (2-8 steps)
 
 ### Hierarchy (1 glyphset)
 

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { glyphsetRegistry } from '../src/registry';
 import {
-  verticalProcessGlyphSet,
+  basicProcessGlyphSet,
   cycleGlyphSet,
   pyramidGlyphSet,
   matrixGlyphSet,
@@ -16,15 +16,14 @@ describe('All GlyphSets', () => {
     it('registers all glyphsets on import', () => {
       const allIds = glyphsetRegistry.getAllIds();
 
-      expect(allIds).toContain('horizontalProcess');
-      expect(allIds).toContain('verticalProcess');
+      expect(allIds).toContain('basicProcess');
       expect(allIds).toContain('cycle');
       expect(allIds).toContain('pyramid');
       expect(allIds).toContain('matrix');
       expect(allIds).toContain('venn');
       expect(allIds).toContain('funnel');
       expect(allIds).toContain('events');
-      expect(allIds.length).toBeGreaterThanOrEqual(8);
+      expect(allIds.length).toBeGreaterThanOrEqual(7);
     });
 
     it('lists glyphsets by category', () => {
@@ -40,10 +39,21 @@ describe('All GlyphSets', () => {
     });
   });
 
-  describe('Vertical Process', () => {
-    it('generates top-to-bottom process', () => {
-      const result = verticalProcessGlyphSet.generator({
+  describe('Basic Process', () => {
+    it('generates horizontal process by default', () => {
+      const result = basicProcessGlyphSet.generator({
         steps: ['Start', 'Process', 'End'],
+      });
+
+      expect(result.direction).toBe('LR');
+      expect(result.nodes).toHaveLength(3);
+      expect(result.edges).toHaveLength(2);
+    });
+
+    it('generates vertical process with orientation parameter', () => {
+      const result = basicProcessGlyphSet.generator({
+        steps: ['Start', 'Process', 'End'],
+        orientation: 'vertical',
       });
 
       expect(result.direction).toBe('TB');
@@ -53,7 +63,7 @@ describe('All GlyphSets', () => {
 
     it('validates minimum steps', () => {
       expect(() => {
-        verticalProcessGlyphSet.generator({ steps: ['Only One'] });
+        basicProcessGlyphSet.generator({ steps: ['Only One'] });
       }).toThrow(GlyphSetError);
     });
   });
@@ -263,7 +273,7 @@ describe('All GlyphSets', () => {
 
   describe('Metadata Consistency', () => {
     const allGlyphSets = [
-      verticalProcessGlyphSet,
+      basicProcessGlyphSet,
       cycleGlyphSet,
       pyramidGlyphSet,
       matrixGlyphSet,

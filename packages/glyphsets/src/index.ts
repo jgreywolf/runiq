@@ -31,8 +31,6 @@ export {
 
 // Import glyphsets
 import { basicProcessGlyphSet } from './process/basicProcess.js';
-import { horizontalProcessGlyphSet } from './process/horizontal-process.js';
-import { verticalProcessGlyphSet } from './process/vertical-process.js';
 import { cycleGlyphSet } from './process/cycle.js';
 import { alternatingProcessGlyphSet } from './process/alternatingProcess.js';
 import { stepProcessGlyphSet } from './process/stepProcess.js';
@@ -88,9 +86,7 @@ import { plusMinusGlyphSet } from './relationship/plusMinus.js';
 import { glyphsetRegistry } from './registry.js';
 
 // Process glyphsets
-glyphsetRegistry.register(basicProcessGlyphSet); // New unified process glyphset
-glyphsetRegistry.register(horizontalProcessGlyphSet); // Deprecated: use basicProcess with orientation:"horizontal"
-glyphsetRegistry.register(verticalProcessGlyphSet); // Deprecated: use basicProcess with orientation:"vertical"
+glyphsetRegistry.register(basicProcessGlyphSet);
 glyphsetRegistry.register(cycleGlyphSet);
 glyphsetRegistry.register(alternatingProcessGlyphSet);
 glyphsetRegistry.register(stepProcessGlyphSet);
@@ -153,8 +149,7 @@ glyphsetRegistry.register(pictureBlocksGlyphSet);
 glyphsetRegistry.register(framedPictureGlyphSet);
 
 // Export individual glyphsets (for direct import if needed)
-export { horizontalProcessGlyphSet } from './process/horizontal-process.js';
-export { verticalProcessGlyphSet } from './process/vertical-process.js';
+export { basicProcessGlyphSet } from './process/basicProcess.js';
 export { cycleGlyphSet } from './process/cycle.js';
 export { alternatingProcessGlyphSet } from './process/alternatingProcess.js';
 export { stepProcessGlyphSet } from './process/stepProcess.js';

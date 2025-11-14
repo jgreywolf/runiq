@@ -2,15 +2,17 @@ import { describe, it, expect } from 'vitest';
 import { parse } from '../src/index';
 
 describe('GlyphSet Integration', () => {
-  describe('Horizontal Process', () => {
-    it('parses horizontal-process glyphset with steps', () => {
+  describe('Basic Process', () => {
+    it('parses horizontal process glyphset with steps', () => {
       const dsl = `
-        glyphset horizontalProcess "Software Development" {
+        glyphset basicProcess "Software Development" {
           step "Research"
           step "Design"
           step "Develop"
           step "Test"
           step "Deploy"
+
+          orientation "horizontal"
         }
       `;
 
@@ -29,36 +31,38 @@ describe('GlyphSet Integration', () => {
       expect(diagram.edges).toHaveLength(4);
     });
 
+    describe('Vertical Process', () => {
+      it('parses vertical process glyphset', () => {
+        const dsl = `
+        glyphset basicProcess "Project Phases" {
+          step "Initiation"
+          step "Planning"
+          step "Execution"
+          step "Closure"
+
+          orientation "vertical"
+        }
+      `;
+
+        const result = parse(dsl);
+        const diagram = result.document?.profiles[0]!;
+
+        // verticalProcess generates multiple nodes
+        expect(diagram.nodes).toHaveLength(4);
+        expect(diagram.nodes?.[0].label).toBe('Initiation');
+        expect(diagram.nodes?.[3].label).toBe('Closure');
+      });
+    });
+
     it('validates minimum steps', () => {
       const dsl = `
-        glyphset horizontalProcess "Too Few Steps" {
+        glyphset basicProcess "Too Few Steps" {
           step "Only One"
         }
       `;
 
       // Parse succeeds but generator throws validation error
       expect(() => parse(dsl)).toThrow('at least 2 steps');
-    });
-  });
-
-  describe('Vertical Process', () => {
-    it('parses vertical-process glyphset', () => {
-      const dsl = `
-        glyphset verticalProcess "Project Phases" {
-          step "Initiation"
-          step "Planning"
-          step "Execution"
-          step "Closure"
-        }
-      `;
-
-      const result = parse(dsl);
-      const diagram = result.document?.profiles[0]!;
-
-      // verticalProcess generates multiple nodes
-      expect(diagram.nodes).toHaveLength(4);
-      expect(diagram.nodes?.[0].label).toBe('Initiation');
-      expect(diagram.nodes?.[3].label).toBe('Closure');
     });
   });
 

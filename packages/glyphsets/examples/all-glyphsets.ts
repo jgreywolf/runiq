@@ -23,26 +23,31 @@ categories.forEach((category) => {
     console.log(`\n✨ ${glyphset.name} (${glyphset.id})`);
     console.log(`   ${glyphset.description}`);
     console.log(`   Items: ${glyphset.minItems}-${glyphset.maxItems}`);
-    console.log(`   Parameters: ${glyphset.parameters.map((p) => p.name).join(', ')}`);
+    console.log(
+      `   Parameters: ${glyphset.parameters.map((p) => p.name).join(', ')}`
+    );
 
     // Show example
     console.log(`   Example:`);
     try {
       let result;
       switch (glyphset.id) {
-        case 'horizontal-process':
-        case 'vertical-process':
+        case 'basicProcess':
           result = glyphset.generator({
             steps: ['Step 1', 'Step 2', 'Step 3'],
           });
-          console.log(`     → Generated ${result.nodes?.length} nodes, ${result.edges?.length} edges`);
+          console.log(
+            `     → Generated ${result.nodes?.length} nodes, ${result.edges?.length} edges`
+          );
           break;
 
         case 'cycle':
           result = glyphset.generator({
             steps: ['Plan', 'Do', 'Check', 'Act'],
           });
-          console.log(`     → Generated ${result.nodes?.length} nodes (cyclic)`);
+          console.log(
+            `     → Generated ${result.nodes?.length} nodes (cyclic)`
+          );
           break;
 
         case 'pyramid':
@@ -56,7 +61,9 @@ categories.forEach((category) => {
           result = glyphset.generator({
             quadrants: ['Q1', 'Q2', 'Q3', 'Q4'],
           });
-          console.log(`     → Generated ${result.containers?.length} quadrants`);
+          console.log(
+            `     → Generated ${result.containers?.length} quadrants`
+          );
           break;
 
         case 'venn':
@@ -89,10 +96,18 @@ categories.forEach((category) => {
 // Summary statistics
 console.log('\n\n📊 SUMMARY');
 console.log('─'.repeat(50));
-console.log(`Process glyphsets:      ${glyphsetRegistry.list('process').length}`);
-console.log(`Hierarchy glyphsets:    ${glyphsetRegistry.list('hierarchy').length}`);
-console.log(`Comparison glyphsets:   ${glyphsetRegistry.list('comparison').length}`);
-console.log(`Visualization glyphsets: ${glyphsetRegistry.list('visualization').length}`);
+console.log(
+  `Process glyphsets:      ${glyphsetRegistry.list('process').length}`
+);
+console.log(
+  `Hierarchy glyphsets:    ${glyphsetRegistry.list('hierarchy').length}`
+);
+console.log(
+  `Comparison glyphsets:   ${glyphsetRegistry.list('comparison').length}`
+);
+console.log(
+  `Visualization glyphsets: ${glyphsetRegistry.list('visualization').length}`
+);
 console.log(`\nTotal:                  ${allGlyphSets.length}`);
 
 // Show all IDs
