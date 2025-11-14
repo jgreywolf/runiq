@@ -293,6 +293,7 @@ export type RuniqKeywordNames =
     | "fontWeight:"
     | "for"
     | "force"
+    | "foreach"
     | "format"
     | "found"
     | "fragment"
@@ -1011,7 +1012,7 @@ export function isColorsProperty(item: unknown): item is ColorsProperty {
 }
 
 export interface ConditionalBlock extends langium.AstNode {
-    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $container: ConditionalBlock | ForEachBlock | LoopBlock;
     readonly $type: 'ConditionalBlock';
     condition: TemplateExpression;
     statements: Array<TemplateStatement>;
@@ -1419,29 +1420,6 @@ export function isDataSourceOption(item: unknown): item is DataSourceOption {
     return reflection.isInstance(item, DataSourceOption.$type);
 }
 
-export interface DataTemplateBlock extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'DataTemplateBlock';
-    dataKey: string;
-    filter?: string;
-    id: string;
-    limit?: string;
-    statements: Array<TemplateStatement>;
-}
-
-export const DataTemplateBlock = {
-    $type: 'DataTemplateBlock',
-    dataKey: 'dataKey',
-    filter: 'filter',
-    id: 'id',
-    limit: 'limit',
-    statements: 'statements'
-} as const;
-
-export function isDataTemplateBlock(item: unknown): item is DataTemplateBlock {
-    return reflection.isInstance(item, DataTemplateBlock.$type);
-}
-
 export interface DataValue extends langium.AstNode {
     readonly $container: DataProperty;
     readonly $type: 'DataValue';
@@ -1495,7 +1473,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DataTemplateBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
+export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -1978,6 +1956,29 @@ export function isFontWeightProperty(item: unknown): item is FontWeightProperty 
     return reflection.isInstance(item, FontWeightProperty.$type);
 }
 
+export interface ForEachBlock extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'ForEachBlock';
+    dataKey: string;
+    filter?: string;
+    id: string;
+    limit?: string;
+    statements: Array<TemplateStatement>;
+}
+
+export const ForEachBlock = {
+    $type: 'ForEachBlock',
+    dataKey: 'dataKey',
+    filter: 'filter',
+    id: 'id',
+    limit: 'limit',
+    statements: 'statements'
+} as const;
+
+export function isForEachBlock(item: unknown): item is ForEachBlock {
+    return reflection.isInstance(item, ForEachBlock.$type);
+}
+
 export interface GatewayTypeProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'GatewayTypeProperty';
@@ -2436,7 +2437,7 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
 }
 
 export interface LoopBlock extends langium.AstNode {
-    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $container: ConditionalBlock | ForEachBlock | LoopBlock;
     readonly $type: 'LoopBlock';
     collection: TemplateExpression;
     statements: Array<TemplateStatement>;
@@ -4462,7 +4463,7 @@ export function isTemplateDataProperty(item: unknown): item is TemplateDataPrope
 }
 
 export interface TemplateEdgeDeclaration extends langium.AstNode {
-    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $container: ConditionalBlock | ForEachBlock | LoopBlock;
     readonly $type: 'TemplateEdgeDeclaration';
     from: TemplateExpression;
     properties: Array<TemplateEdgeProperty>;
@@ -4524,10 +4525,10 @@ export function isTemplateExpressionPart(item: unknown): item is TemplateExpress
     return reflection.isInstance(item, TemplateExpressionPart.$type);
 }
 
-export type TemplateIdentifier = 'color' | 'data' | 'delimiter' | 'filter' | 'format' | 'from' | 'header' | 'id' | 'key' | 'label' | 'limit' | 'name' | 'source' | 'to' | 'type' | 'value' | string;
+export type TemplateIdentifier = 'color' | 'data' | 'delimiter' | 'filter' | 'format' | 'from' | 'header' | 'id' | 'item' | 'key' | 'label' | 'limit' | 'name' | 'source' | 'to' | 'type' | 'value' | string;
 
 export function isTemplateIdentifier(item: unknown): item is TemplateIdentifier {
-    return item === 'data' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'value' || item === 'type' || item === 'from' || item === 'to' || item === 'label' || item === 'name' || item === 'id' || item === 'key' || item === 'format' || item === 'source' || item === 'filter' || item === 'limit' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'value' || item === 'type' || item === 'from' || item === 'to' || item === 'label' || item === 'name' || item === 'id' || item === 'key' || item === 'format' || item === 'source' || item === 'filter' || item === 'limit' || item === 'item' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface TemplateLiteral extends langium.AstNode {
@@ -4546,7 +4547,7 @@ export function isTemplateLiteral(item: unknown): item is TemplateLiteral {
 }
 
 export interface TemplateNodeDeclaration extends langium.AstNode {
-    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $container: ConditionalBlock | ForEachBlock | LoopBlock;
     readonly $type: 'TemplateNodeDeclaration';
     id: TemplateExpression;
     properties: Array<TemplateNodeProperty>;
@@ -5224,7 +5225,6 @@ export type RuniqAstType = {
     DataProperty: DataProperty
     DataSourceDeclaration: DataSourceDeclaration
     DataSourceOption: DataSourceOption
-    DataTemplateBlock: DataTemplateBlock
     DataValue: DataValue
     DeceasedProperty: DeceasedProperty
     DiagramProfile: DiagramProfile
@@ -5256,6 +5256,7 @@ export type RuniqAstType = {
     FontFamilyProperty: FontFamilyProperty
     FontSizeProperty: FontSizeProperty
     FontWeightProperty: FontWeightProperty
+    ForEachBlock: ForEachBlock
     GatewayTypeProperty: GatewayTypeProperty
     GenericPIDProperty: GenericPIDProperty
     GenericTypesProperty: GenericTypesProperty
@@ -6025,28 +6026,6 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
-        DataTemplateBlock: {
-            name: DataTemplateBlock.$type,
-            properties: {
-                dataKey: {
-                    name: DataTemplateBlock.dataKey
-                },
-                filter: {
-                    name: DataTemplateBlock.filter
-                },
-                id: {
-                    name: DataTemplateBlock.id
-                },
-                limit: {
-                    name: DataTemplateBlock.limit
-                },
-                statements: {
-                    name: DataTemplateBlock.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
         DataValue: {
             name: DataValue.$type,
             properties: {
@@ -6378,6 +6357,28 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        ForEachBlock: {
+            name: ForEachBlock.$type,
+            properties: {
+                dataKey: {
+                    name: ForEachBlock.dataKey
+                },
+                filter: {
+                    name: ForEachBlock.filter
+                },
+                id: {
+                    name: ForEachBlock.id
+                },
+                limit: {
+                    name: ForEachBlock.limit
+                },
+                statements: {
+                    name: ForEachBlock.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [DiagramStatement.$type]
         },
         GatewayTypeProperty: {
             name: GatewayTypeProperty.$type,

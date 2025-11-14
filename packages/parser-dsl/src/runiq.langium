@@ -30,7 +30,7 @@ DiagramStatement:
     | TemplateBlock
     | PresetBlock
     | DataSourceDeclaration
-    | DataTemplateBlock;
+    | ForEachBlock;
 
 // ============================================================================
 // Electrical Profile (analog circuits) - accepts both 'electrical' and 'schematic' keywords
@@ -1242,10 +1242,10 @@ DataSourceDeclaration:
 DataSourceOption:
     name=ID ':' value=(STRING | NUMBER | BooleanValue);
 
-// Data-driven template block: generates nodes/edges from data
-// template "userCard" from:users { ... }
-DataTemplateBlock:
-    'template' id=STRING 'from:' dataKey=ID '{'
+// Data-driven ForEach block: generates nodes/edges from data
+// foreach "userCard" from:users { ... }
+ForEachBlock:
+    'foreach' id=STRING 'from:' dataKey=ID '{'
         ('filter:' filter=STRING)?
         ('limit:' limit=NUMBER)?
         statements+=TemplateStatement*
@@ -1324,7 +1324,7 @@ FlexibleID returns string:
 // Allow keywords as identifiers in template variable paths
 TemplateIdentifier returns string:
     ID | 'data' | 'color' | 'header' | 'delimiter' | 'value' | 'type' | 'from' | 'to'
-    | 'label' | 'name' | 'id' | 'key' | 'format' | 'source' | 'filter' | 'limit';
+    | 'label' | 'name' | 'id' | 'key' | 'format' | 'source' | 'filter' | 'limit' | 'item';
 
 // ============================================================================
 // Phase 5: Template & Preset Definitions (Container Templates)

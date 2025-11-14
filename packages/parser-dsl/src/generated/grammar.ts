@@ -14016,13 +14016,13 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
     },
     {
       "$type": "ParserRule",
-      "name": "DataTemplateBlock",
+      "name": "ForEachBlock",
       "definition": {
         "$type": "Group",
         "elements": [
           {
             "$type": "Keyword",
-            "value": "template"
+            "value": "foreach"
           },
           {
             "$type": "Assignment",
@@ -15053,6 +15053,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "limit"
+          },
+          {
+            "$type": "Keyword",
+            "value": "item"
           }
         ]
       },

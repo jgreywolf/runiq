@@ -1742,8 +1742,8 @@ function processDialogStatement(
         return { name: opt.name, value };
       }),
     });
-  } else if (Langium.isDataTemplateBlock(statement)) {
-    // Phase 2: Data-driven template blocks
+  } else if (Langium.isForEachBlock(statement)) {
+    // Phase 2: Data-driven foreach blocks
     if (!(diagram as any).dataTemplates) (diagram as any).dataTemplates = [];
     (diagram as any).dataTemplates.push({
       id: statement.id.replace(/^"|"$/g, ''),

@@ -1,6 +1,0 @@
-glyphset cycle "PDCA Cycle" {
-  step "Plan"
-  step "Do"
-  step "Check"
-  step "Act"
-}
