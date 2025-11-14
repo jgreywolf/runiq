@@ -65,6 +65,10 @@ export function validateArrayParameter(
   }
 }
 
+export interface StringValidationOptions {
+  allowedValues?: string[];
+}
+
 /**
  * Validates that a parameter is a string with optional allowed values
  */
@@ -72,7 +76,7 @@ export function validateStringParameter(
   glyphsetId: string,
   paramName: string,
   value: unknown,
-  allowedValues?: string[]
+  options: StringValidationOptions = {}
 ): asserts value is string {
   if (typeof value !== 'string') {
     throw new GlyphSetError(
@@ -82,11 +86,11 @@ export function validateStringParameter(
     );
   }
 
-  if (allowedValues && !allowedValues.includes(value)) {
+  if (options.allowedValues && !options.allowedValues.includes(value)) {
     throw new GlyphSetError(
       glyphsetId,
       paramName,
-      `Parameter "${paramName}" must be one of: ${allowedValues.join(', ')}`
+      `Parameter "${paramName}" must be one of: ${options.allowedValues.join(', ')}`
     );
   }
 }

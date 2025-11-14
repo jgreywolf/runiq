@@ -1,5 +1,7 @@
 import type { NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { validateArrayParameter } from '../utils/validation.js';
+import { extractStringParam } from '../utils/parameters.js';
 
 /**
  * Alternating Process GlyphSet
@@ -49,32 +51,14 @@ export const alternatingProcessGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
-    const theme = params.theme as string | undefined;
+    const theme = extractStringParam(params, 'theme');
 
-    // Validation
-    if (!items || !Array.isArray(items)) {
-      throw new GlyphSetError(
-        'alternatingProcess',
-        'items',
-        'Parameter "items" must be an array of strings'
-      );
-    }
-
-    if (items.length < 3) {
-      throw new GlyphSetError(
-        'alternatingProcess',
-        'items',
-        'Alternating process requires at least 3 steps'
-      );
-    }
-
-    if (items.length > 8) {
-      throw new GlyphSetError(
-        'alternatingProcess',
-        'items',
-        'Alternating process supports maximum 8 steps (for readability)'
-      );
-    }
+    // Validation - validateArrayParameter checks both required and array constraints
+    validateArrayParameter('alternatingProcess', 'items', items, {
+      minItems: 3,
+      maxItems: 8,
+      itemType: 'string',
+    });
 
     // Create a single node that will render the entire alternating process
     const nodes: NodeAst[] = [

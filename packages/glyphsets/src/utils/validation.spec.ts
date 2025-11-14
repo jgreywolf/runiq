@@ -99,17 +99,15 @@ describe('Validation Utilities', () => {
 
     it('should validate allowed values', () => {
       expect(() =>
-        validateStringParameter('testGlyphset', 'theme', 'colorful', [
-          'colorful',
-          'monochrome',
-        ])
+        validateStringParameter('testGlyphset', 'theme', 'colorful', {
+          allowedValues: ['colorful', 'monochrome'],
+        })
       ).not.toThrow();
 
       expect(() =>
-        validateStringParameter('testGlyphset', 'theme', 'invalid', [
-          'colorful',
-          'monochrome',
-        ])
+        validateStringParameter('testGlyphset', 'theme', 'invalid', {
+          allowedValues: ['colorful', 'monochrome'],
+        })
       ).toThrow(GlyphSetError);
     });
   });

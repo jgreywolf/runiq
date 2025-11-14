@@ -1,5 +1,7 @@
 import type { DiagramAst, NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { validateArrayParameter } from '../utils/validation.js';
+import { extractStringParam } from '../utils/parameters.js';
 
 /**
  * Cycle GlyphSet
@@ -47,32 +49,14 @@ export const cycleGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const steps = params.steps as string[] | undefined;
-    const theme = params.theme as string | undefined;
+    const theme = extractStringParam(params, 'theme');
 
-    // Validation
-    if (!steps || !Array.isArray(steps)) {
-      throw new GlyphSetError(
-        'cycle',
-        'steps',
-        'Parameter "steps" must be an array of strings'
-      );
-    }
-
-    if (steps.length < 3) {
-      throw new GlyphSetError(
-        'cycle',
-        'steps',
-        'Cycle requires at least 3 steps to form a meaningful cycle'
-      );
-    }
-
-    if (steps.length > 8) {
-      throw new GlyphSetError(
-        'cycle',
-        'steps',
-        'Cycle supports maximum 8 steps (for readability)'
-      );
-    }
+    // Validation - validateArrayParameter checks both required and array constraints
+    validateArrayParameter('cycle', 'steps', steps, {
+      minItems: 3,
+      maxItems: 8,
+      itemType: 'string',
+    });
 
     // Generate a single node using the cycle shape
     // The cycle shape renders steps in a circular arrangement internally

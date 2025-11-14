@@ -1,5 +1,7 @@
 import type { NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { validateArrayParameter, validateStringParameter } from '../utils/validation.js';
+import { extractStringParam } from '../utils/parameters.js';
 
 interface DetailedProcessStep {
   main: string;
@@ -64,33 +66,15 @@ export const detailedProcessGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const rawItems = params.items as string[] | undefined;
-    const direction = (params.direction as string) || 'LR';
-    const theme = params.theme as string | undefined;
+    const direction = extractStringParam(params, 'direction', 'LR');
+    const theme = extractStringParam(params, 'theme');
 
-    // Validation
-    if (!rawItems || !Array.isArray(rawItems)) {
-      throw new GlyphSetError(
-        'detailedProcess',
-        'items',
-        'Parameter "items" must be an array of strings'
-      );
-    }
-
-    if (rawItems.length < 2) {
-      throw new GlyphSetError(
-        'detailedProcess',
-        'items',
-        'Detailed process requires at least 2 main steps'
-      );
-    }
-
-    if (rawItems.length > 5) {
-      throw new GlyphSetError(
-        'detailedProcess',
-        'items',
-        'Detailed process supports maximum 5 main steps (for readability)'
-      );
-    }
+    // Validation - validateArrayParameter checks both required and array constraints
+    validateArrayParameter('detailedProcess', 'items', rawItems, {
+      minItems: 2,
+      maxItems: 5,
+      itemType: 'string',
+    });
 
     // Parse items into main step and substeps
     const items: DetailedProcessStep[] = [];
@@ -111,13 +95,9 @@ export const detailedProcessGlyphSet: GlyphSetDefinition = {
       });
     }
 
-    if (direction !== 'LR' && direction !== 'TB') {
-      throw new GlyphSetError(
-        'detailedProcess',
-        'direction',
-        'Direction must be "LR" (horizontal) or "TB" (vertical)'
-      );
-    }
+    validateStringParameter('detailedProcess', 'direction', direction, {
+      allowedValues: ['LR', 'TB'],
+    });
 
     // Create a single node that will render the entire detailed process
     const nodes: NodeAst[] = [

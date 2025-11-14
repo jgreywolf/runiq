@@ -1,6 +1,9 @@
 import type { NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
+import { validateArrayParameter } from '../utils/validation.js';
+import { extractStringParam } from '../utils/parameters.js';
+import { generateLinearProcess } from '../utils/generators.js';
 
 /**
  * Basic List GlyphSet
@@ -47,48 +50,26 @@ export const basicListGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
-    const theme = (params.theme as ColorTheme | undefined) || 'professional';
+    const theme = extractStringParam(params, 'theme', 'professional') as ColorTheme;
 
-    // Validation
-    if (!items || !Array.isArray(items)) {
-      throw new GlyphSetError(
-        'basicList',
-        'items',
-        'Parameter "items" must be an array of strings'
-      );
-    }
+    // Validation - validateArrayParameter checks both required and array constraints
+    validateArrayParameter('basicList', 'items', items, {
+      minItems: 2,
+      maxItems: 10,
+      itemType: 'string',
+    });
 
-    if (items.length < 2) {
-      throw new GlyphSetError(
-        'basicList',
-        'items',
-        'Basic list requires at least 2 items'
-      );
-    }
-
-    if (items.length > 10) {
-      throw new GlyphSetError(
-        'basicList',
-        'items',
-        'Basic list supports maximum 10 items (for readability)'
-      );
-    }
-
-    // Generate nodes with SmartArt-style processBox shape
-    const nodes: NodeAst[] = items.map((label, i) => ({
-      id: `item${i + 1}`,
+    // Generate using linear process utility (no edges for list)
+    const result = generateLinearProcess(items, {
       shape: 'processBox',
-      label,
-      data: {
-        color: getThemeColor(theme, i),
-      },
-    }));
-
-    return {
-      astVersion: '1.0',
+      theme,
       direction: 'TB', // Top-to-bottom for list
-      nodes,
-      edges: [], // No connections - just a list
-    };
+      idPrefix: 'item',
+    });
+
+    // Remove edges - lists don't have connections
+    result.edges = [];
+
+    return result;
   },
 };

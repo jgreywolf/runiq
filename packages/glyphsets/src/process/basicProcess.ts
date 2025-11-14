@@ -12,6 +12,7 @@ import {
   validateStringParameter,
 } from '../utils/validation.js';
 import { extractCommonParams, extractArrayParam } from '../utils/parameters.js';
+import { generateLinearProcess } from '../utils/generators.js';
 
 /**
  * Basic Process GlyphSet
@@ -120,59 +121,27 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
       itemType: 'string',
     });
 
-    validateStringParameter('basicProcess', 'orientation', orientation, [
-      'horizontal',
-      'vertical',
-    ]);
+    validateStringParameter('basicProcess', 'orientation', orientation, {
+      allowedValues: ['horizontal', 'vertical'],
+    });
 
     // Determine direction based on orientation
     const direction = orientation === 'vertical' ? 'TB' : 'LR';
 
     // Generate using simple nodes (default - works better with ELK)
     if (!useContainers) {
-      return generateWithNodes(steps, shape, theme, direction);
+      return generateLinearProcess(steps, {
+        shape: 'processBox',
+        theme,
+        direction,
+        idPrefix: 'step',
+      });
     }
 
     // Generate using containers with styling (opt-in)
     return generateWithContainers(steps, direction);
   },
 };
-
-/**
- * Generate diagram using simple nodes
- */
-function generateWithNodes(
-  steps: string[],
-  shape: string,
-  theme: ColorTheme,
-  direction: 'TB' | 'LR'
-): DiagramAst {
-  // Generate nodes with SmartArt-style processBox shape and themed colors
-  const nodes: NodeAst[] = steps.map((label, i) => ({
-    id: `step${i + 1}`,
-    shape: 'processBox', // Use SmartArt-style processBox!
-    label,
-    data: {
-      color: getThemeColor(theme, i), // Apply theme color
-    },
-  }));
-
-  // Generate edges (sequential connections)
-  const edges: EdgeAst[] = [];
-  for (let i = 0; i < steps.length - 1; i++) {
-    edges.push({
-      from: `step${i + 1}`,
-      to: `step${i + 2}`,
-    });
-  }
-
-  return {
-    astVersion: '1.0',
-    direction,
-    nodes,
-    edges,
-  };
-}
 
 /**
  * Generate diagram using containers with template styling

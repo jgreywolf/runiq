@@ -1,6 +1,9 @@
 import type { DiagramAst, NodeAst, EdgeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
+import { validateArrayParameter } from '../utils/validation.js';
+import { extractStringParam, extractBooleanParam } from '../utils/parameters.js';
+import { generateLinearProcess } from '../utils/generators.js';
 
 /**
  * Events GlyphSet
@@ -62,62 +65,30 @@ export const eventsGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const events = params.events as string[] | undefined;
-    const shape = (params.shape as string | undefined) || 'rounded';
-    const showConnections =
-      (params.showConnections as boolean | undefined) ?? true;
-    const theme = (params.theme as ColorTheme | undefined) || 'professional';
+    const shape = extractStringParam(params, 'shape', 'rounded');
+    const showConnections = extractBooleanParam(params, 'showConnections', true);
+    const theme = extractStringParam(params, 'theme', 'professional') as ColorTheme;
 
-    // Validation
-    if (!events || !Array.isArray(events)) {
-      throw new GlyphSetError(
-        'events',
-        'events',
-        'Parameter "events" must be an array of strings'
-      );
-    }
+    // Validation - validateArrayParameter checks both required and array constraints
+    validateArrayParameter('events', 'events', events, {
+      minItems: 2,
+      maxItems: 10,
+      itemType: 'string',
+    });
 
-    if (events.length < 2) {
-      throw new GlyphSetError(
-        'events',
-        'events',
-        'Events requires at least 2 events'
-      );
-    }
-
-    if (events.length > 10) {
-      throw new GlyphSetError(
-        'events',
-        'events',
-        'Events supports maximum 10 events (for readability)'
-      );
-    }
-
-    // Generate event nodes with SmartArt-style processBox shape
-    const nodes: NodeAst[] = events.map((label, i) => ({
-      id: `event${i + 1}`,
+    // Generate using linear process utility
+    const result = generateLinearProcess(events, {
       shape: 'processBox', // Use SmartArt-style processBox!
-      label,
-      data: {
-        color: getThemeColor(theme, i),
-      },
-    }));
+      theme,
+      direction: 'LR', // Left-to-right for timeline
+      idPrefix: 'event',
+    });
 
-    // Generate connections if requested
-    const edges: EdgeAst[] = [];
-    if (showConnections) {
-      for (let i = 0; i < events.length - 1; i++) {
-        edges.push({
-          from: `event${i + 1}`,
-          to: `event${i + 2}`,
-        });
-      }
+    // Remove edges if connections not requested
+    if (!showConnections) {
+      result.edges = [];
     }
 
-    return {
-      astVersion: '1.0',
-      direction: 'LR', // Left-to-right for timeline
-      nodes,
-      edges,
-    };
+    return result;
   },
 };

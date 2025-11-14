@@ -1,5 +1,7 @@
 import type { NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { validateArrayParameter } from '../utils/validation.js';
+import { extractStringParam } from '../utils/parameters.js';
 
 /**
  * Step Process GlyphSet
@@ -58,33 +60,15 @@ export const stepProcessGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
-    const direction = (params.direction as string) || 'up';
-    const theme = params.theme as string | undefined;
+    const direction = extractStringParam(params, 'direction', 'up');
+    const theme = extractStringParam(params, 'theme');
 
-    // Validation
-    if (!items || !Array.isArray(items)) {
-      throw new GlyphSetError(
-        'stepProcess',
-        'items',
-        'Parameter "items" must be an array of strings'
-      );
-    }
-
-    if (items.length < 3) {
-      throw new GlyphSetError(
-        'stepProcess',
-        'items',
-        'Step process requires at least 3 steps'
-      );
-    }
-
-    if (items.length > 8) {
-      throw new GlyphSetError(
-        'stepProcess',
-        'items',
-        'Step process supports maximum 8 steps (for readability)'
-      );
-    }
+    // Validation - validateArrayParameter checks both required and array constraints
+    validateArrayParameter('stepProcess', 'items', items, {
+      minItems: 3,
+      maxItems: 8,
+      itemType: 'string',
+    });
 
     // Create a single node that will render the entire step process
     const nodes: NodeAst[] = [
