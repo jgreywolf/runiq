@@ -2,7 +2,8 @@
 // Multiple root nodes at the same level
 
 glyphset orgChart "Leadership" {
-  person "Alex Rivera - Co-Founder & CEO" {
+    theme "forest"
+person "Alex Rivera - Co-Founder & CEO" {
     person "Engineering Team" {
       person "Tech Lead"
       person "Senior Dev"

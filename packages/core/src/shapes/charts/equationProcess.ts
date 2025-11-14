@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Equation Process Shape - A + B + C = Result
@@ -64,9 +68,12 @@ export const equationProcessShape: ShapeDefinition = {
     const operatorWidth = 40;
     const resultWidth = 120;
 
-    const fill = ctx.style.fill || '#4472C4';
-    const resultFill = '#5B9BD5'; // Slightly different shade for result
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const resultFill = theme.colors[1] || '#5B9BD5'; // Use second theme color for result
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
@@ -76,12 +83,15 @@ export const equationProcessShape: ShapeDefinition = {
 
     // Render input items with + operators
     for (let i = 0; i < inputs.length; i++) {
+      // Use theme color for each input
+      const inputFill = ctx.style.fill || getThemeColor(theme, i);
+
       // Draw input box
       svg += `
         <rect x="${currentX}" y="${y}" 
               width="${itemWidth}" height="${itemHeight}"
               rx="6" ry="6"
-              fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+              fill="${inputFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
         
         <text x="${currentX + itemWidth / 2}" y="${y + itemHeight / 2}" 
               text-anchor="middle" dominant-baseline="middle"

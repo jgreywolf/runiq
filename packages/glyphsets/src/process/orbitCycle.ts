@@ -43,6 +43,13 @@ export const orbitCycleGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Label for the central core (default: "Core")',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -61,6 +68,7 @@ export const orbitCycleGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const items = params.items as string[] | undefined;
     const centerLabel = (params.centerLabel as string) || 'Core';
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -96,6 +104,7 @@ export const orbitCycleGlyphSet: GlyphSetDefinition = {
         data: {
           items,
           centerLabel,
+          theme,
         },
       },
     ];

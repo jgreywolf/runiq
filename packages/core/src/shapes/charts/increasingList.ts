@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Increasing List Shape - Items progressively increase in size
@@ -111,8 +115,11 @@ export const increasingListShape: ShapeDefinition = {
     const baseSize = minBaseSize;
     const maxSize = baseSize * 2.0;
 
-    const fill = ctx.style.fill || '#4472C4';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const font = ctx.style.font || 'sans-serif';
 
@@ -125,6 +132,9 @@ export const increasingListShape: ShapeDefinition = {
       const size = baseSize * scale;
       const itemY = y + (maxSize - size) / 2; // Center vertically
 
+      // Use theme color for each item
+      const itemFill = ctx.style.fill || getThemeColor(theme, i);
+
       // Calculate opacity (lighter at start, darker at end)
       const opacity = 0.6 + (i / (items.length - 1)) * 0.4; // 0.6 to 1.0
 
@@ -135,7 +145,7 @@ export const increasingListShape: ShapeDefinition = {
 
         svg += `
           <circle cx="${centerX}" cy="${centerY}" r="${radius}"
-                  fill="${fill}" fill-opacity="${opacity}"
+                  fill="${itemFill}" fill-opacity="${opacity}"
                   stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${centerX}" y="${centerY}" 
@@ -155,7 +165,7 @@ export const increasingListShape: ShapeDefinition = {
           <rect x="${currentX}" y="${boxY}" 
                 width="${boxWidth}" height="${boxHeight}"
                 rx="${boxHeight * 0.15}" ry="${boxHeight * 0.15}"
-                fill="${fill}" fill-opacity="${opacity}"
+                fill="${itemFill}" fill-opacity="${opacity}"
                 stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${currentX + boxWidth / 2}" y="${boxY + boxHeight / 2}" 

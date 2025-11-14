@@ -1,9 +1,9 @@
-// Spiral Cycle - Capability Maturity Model
-// Shows evolving maturity levels
+// Spiral Cycle - Forest Theme
+// Shows evolving maturity levels with nature-inspired colors
 
 glyphset spiralCycle "Capability Maturity Model" {
-    theme "forest"
-item "Initial"
+  theme "forest"
+  item "Initial"
   item "Managed"
   item "Defined"
   item "Quantified"

@@ -4,7 +4,8 @@
 // Demonstrates unbalanced comparison (3 pros, 2 cons).
 
 glyphset plusMinus "Remote Work Analysis" {
-  item "Flexibility"
+    theme "forest"
+item "Flexibility"
   item "No Commute"
   item "Lower Costs"
   item "Isolation"

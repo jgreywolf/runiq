@@ -41,6 +41,13 @@ export const numberedChevronListGlyphSet: GlyphSetDefinition = {
       description:
         'Color scheme: multi (different colors per item, default) or single (one color)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -59,6 +66,7 @@ export const numberedChevronListGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const items = params.items as string[] | undefined;
     const colorScheme = (params.colorScheme as string) || 'multi';
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -103,6 +111,7 @@ export const numberedChevronListGlyphSet: GlyphSetDefinition = {
         data: {
           items: parsedItems,
           colorScheme,
+          theme,
         },
       },
     ];

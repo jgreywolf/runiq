@@ -1,5 +1,6 @@
 import type { NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import type { ColorTheme } from '../themes.js';
 
 /**
  * Alternating List GlyphSet
@@ -31,6 +32,13 @@ export const alternatingListGlyphSet: GlyphSetDefinition = {
       required: true,
       description: 'Array of list items (minimum 3 items)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -40,6 +48,7 @@ export const alternatingListGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
+    const theme = (params.theme as ColorTheme | undefined) || 'professional';
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -66,28 +75,24 @@ export const alternatingListGlyphSet: GlyphSetDefinition = {
       );
     }
 
-    // Generate nodes with alternating position information
-    // Even indices (0, 2, 4...) go left, odd indices (1, 3, 5...) go right
-    const nodes: NodeAst[] = items.map((label, i) => {
-      const position = i % 2 === 0 ? 'left' : 'right';
-
-      return {
-        id: `item${i + 1}`,
-        shape: 'processBox',
-        label,
+    // Generate a single node that will render the entire alternating list
+    // Similar to alternatingProcess but without connecting arrows
+    const nodes: NodeAst[] = [
+      {
+        id: 'alternatingList',
+        shape: 'alternatingList',
+        label: '',
         data: {
-          position,
-          index: i,
-          total: items.length,
+          items,
+          theme,
         },
-      };
-    });
+      },
+    ];
 
     return {
       astVersion: '1.0',
-      direction: 'TB', // Top-to-bottom with alternating left/right
       nodes,
-      edges: [], // No connections - just a list
+      edges: [],
     };
   },
 };

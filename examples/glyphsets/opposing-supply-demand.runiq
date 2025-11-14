@@ -2,6 +2,7 @@
 // Use case: Economic forces in opposition
 
 glyphset opposing "professional" {
-  item "Supply"
+    theme "forest"
+item "Supply"
   item "Demand"
 }

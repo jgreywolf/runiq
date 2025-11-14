@@ -2,7 +2,8 @@
 // Funnel showing candidate filtering process
 
 glyphset invertedPyramid "Hiring Pipeline" {
-  level "Applications Received"
+    theme "forest"
+level "Applications Received"
   level "Resume Screening"
   level "Phone Interviews"
   level "Technical Interviews"

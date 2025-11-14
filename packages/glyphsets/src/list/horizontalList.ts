@@ -1,4 +1,4 @@
-import type { DiagramAst, NodeAst } from '@runiq/core';
+import type { NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**
@@ -31,6 +31,13 @@ export const horizontalListGlyphSet: GlyphSetDefinition = {
       required: true,
       description: 'Array of list items (minimum 2 items)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -40,6 +47,7 @@ export const horizontalListGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -72,7 +80,7 @@ export const horizontalListGlyphSet: GlyphSetDefinition = {
         id: 'horizontalList',
         shape: 'horizontalList',
         label: '',
-        data: { items },
+        data: { items, theme },
       },
     ];
 

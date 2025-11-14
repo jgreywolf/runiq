@@ -39,6 +39,13 @@ export const columnListGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Number of columns (2 or 3, default: 2)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 4,
@@ -49,6 +56,7 @@ export const columnListGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const items = params.items as string[] | undefined;
     const columns = (params.columns as number) || 2;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -93,6 +101,7 @@ export const columnListGlyphSet: GlyphSetDefinition = {
         data: {
           items,
           columns,
+          theme,
         },
       },
     ];

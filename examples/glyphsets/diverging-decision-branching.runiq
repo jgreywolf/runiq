@@ -4,7 +4,8 @@
 // Demonstrates 3-destination diverging pattern.
 
 glyphset diverging "Decision Flow" {
-  item "Success"
+    theme "forest"
+item "Success"
   item "Error"
   item "Retry"
 }

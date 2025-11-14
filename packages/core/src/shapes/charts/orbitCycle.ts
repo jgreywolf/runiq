@@ -1,8 +1,13 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface OrbitCycleData {
   items: string[];
   centerLabel?: string;
+  theme?: string;
 }
 
 /**
@@ -54,27 +59,26 @@ export const orbitCycleShape: ShapeDefinition = {
     const centerY = y + bounds.height / 2;
     const itemCount = items.length;
 
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Get theme colors
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 12;
     const font = ctx.style.font || 'sans-serif';
 
     // Core (sun) parameters
-    const coreRadius = 60; // Increased from 50
-    const coreFill = '#FFC000'; // Gold for central core
+    const coreRadius = 60;
+    const coreFill = theme.colors[1] || '#FFC000'; // Second theme color for core
 
     // Orbit parameters - multiple orbits for multiple items
     const maxOrbits = 3;
-    const orbitRadii = [110, 170, 230]; // Increased spacing
+    const orbitRadii = [110, 170, 230];
     const itemsPerOrbit = Math.ceil(itemCount / maxOrbits);
 
     // Orbital item (planet) parameters
-    const planetRadius = 45; // Increased from 30 for more padding
-    const planetColors = [
-      '#5B9BD5', // Blue
-      '#70AD47', // Green
-      '#7030A0', // Purple
-    ];
+    const planetRadius = 45;
 
     let svg = '';
 
@@ -99,7 +103,7 @@ export const orbitCycleShape: ShapeDefinition = {
       orbitIndex++
     ) {
       const orbitRadius = orbitRadii[orbitIndex];
-      const orbitColor = planetColors[orbitIndex % planetColors.length];
+      const orbitColor = getThemeColor(theme, orbitIndex);
 
       // Draw orbit path (ellipse)
       svg += `

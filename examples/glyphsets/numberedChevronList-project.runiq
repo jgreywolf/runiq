@@ -1,6 +1,7 @@
 // Numbered Chevron List - Process Steps with Descriptions
 glyphset numberedChevronList "Project Phases" {
-  item "Planning|Define project scope and objectives"
+    theme "forest"
+item "Planning|Define project scope and objectives"
   item "Design|Create detailed technical specifications"
   item "Development|Build and implement the solution"
   item "Testing|Validate functionality and performance"

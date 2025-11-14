@@ -31,6 +31,7 @@ export { chevronListShape } from './chevronList.js'; // Chevron/arrow list showi
 export { numberedChevronListShape } from './numberedChevronList.js'; // Numbered chevron list with descriptions
 export { horizontalListShape } from './horizontalList.js'; // Horizontal list with equal-width boxes
 export { increasingListShape } from './increasingList.js'; // List with progressively larger items
+export { alternatingListShape } from './alternatingList.js'; // Zigzag alternating list (no arrows)
 export { alternatingProcessShape } from './alternatingProcess.js'; // Zigzag alternating process flow
 export { stepProcessShape } from './stepProcess.js'; // Staircase step progression
 export { equationProcessShape } from './equationProcess.js'; // Equation-style A + B = C process

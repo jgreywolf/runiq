@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface DetailedProcessStep {
   main: string;
@@ -86,9 +90,12 @@ export const detailedProcessShape: ShapeDefinition = {
     const horizontalSpacing = 60;
     const verticalSpacing = 20;
 
-    const mainFill = ctx.style.fill || '#4472C4';
-    const mainStroke = ctx.style.stroke || '#2E5AAC';
-    const substepFill = '#A5C8ED'; // Lighter blue for substeps
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const mainStroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
+    const substepFill = theme.colors[4] || '#A5C8ED'; // Use 5th theme color for substeps
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
@@ -100,6 +107,9 @@ export const detailedProcessShape: ShapeDefinition = {
       for (let i = 0; i < items.length; i++) {
         const mainX = x + i * (mainWidth + horizontalSpacing);
         const mainY = y;
+
+        // Use theme color for each main step
+        const mainFill = ctx.style.fill || getThemeColor(theme, i);
 
         // Draw main step box
         svg += `
@@ -179,6 +189,9 @@ export const detailedProcessShape: ShapeDefinition = {
       for (let i = 0; i < items.length; i++) {
         const mainX = x;
         const mainY = y + i * (mainHeight + verticalSpacing * 3);
+
+        // Use theme color for each main step
+        const mainFill = ctx.style.fill || getThemeColor(theme, i);
 
         // Draw main step box
         svg += `

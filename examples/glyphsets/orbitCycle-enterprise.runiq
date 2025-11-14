@@ -2,7 +2,8 @@
 // Shows systems orbiting around core platform
 
 glyphset orbitCycle "Enterprise Ecosystem" {
-  item "CRM"
+    theme "forest"
+item "CRM"
   item "ERP"
   item "Analytics"
   item "Marketing"

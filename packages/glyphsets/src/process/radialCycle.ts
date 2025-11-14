@@ -42,6 +42,13 @@ export const radialCycleGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Label for the center hub (default: "Center")',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -52,6 +59,7 @@ export const radialCycleGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const items = params.items as string[] | undefined;
     const centerLabel = (params.centerLabel as string) || 'Center';
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -87,6 +95,7 @@ export const radialCycleGlyphSet: GlyphSetDefinition = {
         data: {
           items,
           centerLabel,
+          theme,
         },
       },
     ];

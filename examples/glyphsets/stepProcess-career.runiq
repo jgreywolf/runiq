@@ -1,6 +1,7 @@
 // Step Process - Career Growth Path
 glyphset stepProcess "Career Progression" {
-  item "Junior Developer"
+    theme "forest"
+item "Junior Developer"
   item "Mid-Level Developer"
   item "Senior Developer"
   item "Tech Lead"

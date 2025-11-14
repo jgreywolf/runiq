@@ -2,7 +2,8 @@
 // Shows how architectural components relate to core platform
 
 glyphset radialCycle "Technical Architecture" {
-  item "Authentication"
+    theme "forest"
+item "Authentication"
   item "API Gateway"
   item "Database"
   item "Cache Layer"

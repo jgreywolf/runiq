@@ -198,6 +198,9 @@ function extractGlyphSetParams(
   // Fallback: If only 'item' was used, map it to the appropriate parameter
   // This allows users to use 'item' as a universal keyword
   if (items.length > 0) {
+    // Always set items parameter
+    if (!params.items) params.items = items;
+
     if (steps.length === 0 && levels.length === 0 && stages.length === 0) {
       // Could be steps, levels, or stages - set all as fallback
       if (!params.steps) params.steps = items;

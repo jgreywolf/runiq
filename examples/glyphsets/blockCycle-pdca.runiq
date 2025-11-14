@@ -2,7 +2,8 @@
 // Shows continuous improvement cycle
 
 glyphset blockCycle "PDCA Continuous Improvement" {
-  item "Plan"
+    theme "forest"
+item "Plan"
   item "Do"
   item "Check"
   item "Act"

@@ -4,7 +4,8 @@
 // Demonstrates 5-source converging pattern (maximum).
 
 glyphset converging "Investment Decision Factors" {
-  item "Market Analysis"
+    theme "forest"
+item "Market Analysis"
   item "Financial Data"
   item "Risk Assessment"
   item "Industry Trends"

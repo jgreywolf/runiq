@@ -4,7 +4,8 @@
 // Demonstrates 8-item cluster pattern (maximum).
 
 glyphset cluster "Machine Learning" {
-  item "Supervised Learning"
+    theme "forest"
+item "Supervised Learning"
   item "Unsupervised Learning"
   item "Reinforcement Learning"
   item "Deep Learning"

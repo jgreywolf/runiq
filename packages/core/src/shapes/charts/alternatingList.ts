@@ -5,39 +5,39 @@ import {
 } from '../../themes/glyphset-themes.js';
 
 /**
- * Horizontal List Shape - Left-to-right list with equal-width boxes
- * Renders items horizontally with consistent spacing and sizing.
+ * Alternating List Shape - Zigzag list pattern (without arrows)
+ * Items alternate left/right creating a dynamic visual flow.
  */
-export const horizontalListShape: ShapeDefinition = {
-  id: 'horizontalList',
+export const alternatingListShape: ShapeDefinition = {
+  id: 'alternatingList',
 
   bounds(ctx) {
     const items = (ctx.node.data?.items as string[]) || [];
 
     if (items.length === 0) {
-      return { width: 200, height: 100 };
+      return { width: 300, height: 100 };
     }
 
-    const padding = 12;
-    const itemHeight = 50;
-    const itemSpacing = 16;
+    const padding = 20;
+    const itemHeight = 60;
+    const horizontalGap = 40; // Reduced from 100
+    const verticalSpacing = 40;
 
-    // Calculate max text width
-    let maxWidth = 0;
+    // Calculate max width needed for any item
+    let maxItemWidth = 160; // minimum width
     for (const item of items) {
       const textSize = ctx.measureText(item, ctx.style);
-      maxWidth = Math.max(maxWidth, textSize.width + padding * 2);
+      const neededWidth = textSize.width + padding * 2;
+      maxItemWidth = Math.max(maxItemWidth, neededWidth);
     }
 
-    // Use equal width for all items
-    const itemWidth = Math.max(maxWidth, 100); // Min 100px
-
-    const totalWidth =
-      itemWidth * items.length + itemSpacing * (items.length - 1);
+    const totalWidth = maxItemWidth * 2 + horizontalGap;
+    const totalHeight =
+      items.length * (itemHeight + verticalSpacing) - verticalSpacing;
 
     return {
       width: totalWidth,
-      height: itemHeight,
+      height: totalHeight,
     };
   },
 
@@ -67,57 +67,59 @@ export const horizontalListShape: ShapeDefinition = {
               </text>`;
     }
 
-    const padding = 12;
-    const itemHeight = 50;
-    const itemSpacing = 16;
+    const padding = 20;
+    const itemHeight = 60;
+    const horizontalGap = 40;
+    const verticalSpacing = 40;
 
-    // Calculate equal item width
-    let maxWidth = 0;
+    // Calculate max width needed for any item (same as bounds calculation)
+    let itemWidth = 160; // minimum width
     for (const item of items) {
       const textSize = ctx.measureText(item, ctx.style);
-      maxWidth = Math.max(maxWidth, textSize.width + padding * 2);
+      const neededWidth = textSize.width + padding * 2;
+      itemWidth = Math.max(itemWidth, neededWidth);
     }
-    const itemWidth = Math.max(maxWidth, 100);
 
     // Theme support
     const themeId = (ctx.node.data?.theme as string) || 'professional';
     const theme = getGlyphsetTheme(themeId);
 
-    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
-    const strokeWidth = ctx.style.strokeWidth || 0;
+    const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
-    const font = ctx.style.font || 'Arial, sans-serif';
+    const font = ctx.style.font || 'sans-serif';
 
     let svg = '';
+    let currentY = y;
 
     // Render each item
     for (let i = 0; i < items.length; i++) {
-      const itemX = x + i * (itemWidth + itemSpacing);
+      const isLeft = i % 2 === 0;
 
-      // Use theme color for each item
-      const itemFill = ctx.style.fill || getThemeColor(theme, i);
+      // Calculate item position
+      const itemX = isLeft ? x : x + itemWidth + horizontalGap;
+      const itemY = currentY;
 
-      // Use processBox style (gradient boxes)
+      // Alternate between dark (0-3) and light (4-7) theme colors
+      const colorIndex = isLeft ? Math.floor(i / 2) : Math.floor(i / 2) + 4;
+      const itemFill = ctx.style.fill || getThemeColor(theme, colorIndex);
+      const itemStroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
+
+      // Draw rounded rectangle for item
       svg += `
-        <defs>
-          <linearGradient id="processGradient-hlist-${i}" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:${itemFill};stop-opacity:1" />
-            <stop offset="100%" style="stop-color:${itemFill};stop-opacity:0.8" />
-          </linearGradient>
-        </defs>
-        <rect x="${itemX}" y="${y}" 
+        <rect x="${itemX}" y="${itemY}" 
               width="${itemWidth}" height="${itemHeight}"
-              rx="4" ry="4" 
-              fill="url(#processGradient-hlist-${i})" 
-              stroke="${stroke}" stroke-width="${strokeWidth}" />
+              rx="8" ry="8"
+              fill="${itemFill}" stroke="${itemStroke}" stroke-width="${strokeWidth}" />
         
-        <text x="${itemX + itemWidth / 2}" y="${y + itemHeight / 2}" 
+        <text x="${itemX + itemWidth / 2}" y="${itemY + itemHeight / 2}" 
               text-anchor="middle" dominant-baseline="middle"
               font-family="${font}" font-size="${fontSize}" 
               font-weight="600" fill="#FFFFFF">
           ${items[i]}
         </text>
       `;
+
+      currentY += itemHeight + verticalSpacing;
     }
 
     return svg;

@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Column List Shape - Multi-column list with equal-width columns
@@ -103,8 +107,11 @@ export const columnListShape: ShapeDefinition = {
     }
     const equalColumnWidth = Math.max(...columnWidths);
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
@@ -122,12 +129,15 @@ export const columnListShape: ShapeDefinition = {
         const itemY = y + row * (itemHeight + rowSpacing);
         const itemText = items[index];
 
+        // Use theme color for each item
+        const itemFill = ctx.style.fill || getThemeColor(theme, index);
+
         // Render rounded rectangle for item
         svg += `
           <rect x="${colX}" y="${itemY}" 
                 width="${equalColumnWidth}" height="${itemHeight}"
                 rx="8" ry="8" 
-                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+                fill="${itemFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${colX + equalColumnWidth / 2}" y="${itemY + itemHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"

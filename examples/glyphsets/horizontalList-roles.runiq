@@ -1,6 +1,7 @@
 // Horizontal List - Team Roles
 glyphset horizontalList "Core Team" {
-  item "Product Manager"
+    theme "forest"
+item "Product Manager"
   item "Tech Lead"
   item "Designer"
   item "Developers"

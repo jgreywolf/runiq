@@ -1,5 +1,6 @@
 glyphset titledMatrix "Vendor Evaluation (3x3)" {
-  quadrant "$$"
+    theme "forest"
+quadrant "$$"
   quadrant "$$$"
   quadrant "$"
   quadrant "Good"

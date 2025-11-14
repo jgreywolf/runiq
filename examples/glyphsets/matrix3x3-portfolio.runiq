@@ -1,5 +1,6 @@
 glyphset matrix3x3 "BCG Product Portfolio" {
-  quadrant "Low Growth\nLow Share"
+    theme "forest"
+quadrant "Low Growth\nLow Share"
   quadrant "Low Growth\nMed Share"
   quadrant "Low Growth\nHigh Share"
   quadrant "Med Growth\nLow Share"

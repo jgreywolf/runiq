@@ -1,7 +1,12 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface GearCycleData {
   items: string[];
+  theme?: string;
 }
 
 /**
@@ -56,8 +61,12 @@ export const gearCycleShape: ShapeDefinition = {
               </text>`;
     }
 
-    const fill = ctx.style.fill || '#5B9BD5';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Get theme colors
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const fill = ctx.style.fill || theme.colors[0];
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 12;
     const font = ctx.style.font || 'sans-serif';
@@ -119,15 +128,6 @@ export const gearCycleShape: ShapeDefinition = {
     const toothAngle = (2 * Math.PI) / teethCount;
     const verticalOffset = gearRadius * 0.4; // Height difference for alternating gears
 
-    const colors = [
-      '#5B9BD5',
-      '#70AD47',
-      '#FFC000',
-      '#C55A11',
-      '#7030A0',
-      '#44546A',
-    ];
-
     // Draw gears and flow arrows
     for (let i = 0; i < itemCount; i++) {
       const gearX = startX + i * spacing;
@@ -136,7 +136,7 @@ export const gearCycleShape: ShapeDefinition = {
         i % 2 === 0 ? centerY + verticalOffset : centerY - verticalOffset;
       // Alternate rotation to mesh: even gears aligned, odd gears offset
       const rotation = i % 2 === 0 ? 0 : toothAngle / 2;
-      const gearFill = colors[i % colors.length];
+      const gearFill = getThemeColor(theme, i);
 
       // Draw gear
       svg += `

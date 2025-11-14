@@ -2,7 +2,8 @@
 // Pyramid with detailed feature list for each priority level
 
 glyphset pyramidList "Feature Priority" {
-  level "Must Have" {
+    theme "forest"
+level "Must Have" {
     item "User Authentication"
     item "Data Persistence"
     item "Core Workflow"

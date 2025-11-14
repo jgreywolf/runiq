@@ -2,6 +2,7 @@
 // Use case: Evaluating investment opportunities
 
 glyphset balance "vibrant" {
-  side "Risk: Market Volatility, Regulatory Changes"
+    theme "forest"
+side "Risk: Market Volatility, Regulatory Changes"
   side "Reward: High Returns, Market Leadership"
 }

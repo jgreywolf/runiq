@@ -39,6 +39,13 @@ export const pyramidGlyphSet: GlyphSetDefinition = {
       default: false,
       description: 'Show numeric values on levels',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -49,10 +56,15 @@ export const pyramidGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const levels = params.levels as string[] | undefined;
     const showValues = (params.showValues as boolean | undefined) ?? false;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!levels || !Array.isArray(levels)) {
-      throw new GlyphSetError('pyramid', 'levels', 'Parameter "levels" must be an array of strings');
+      throw new GlyphSetError(
+        'pyramid',
+        'levels',
+        'Parameter "levels" must be an array of strings'
+      );
     }
 
     if (levels.length < 3) {
@@ -80,6 +92,7 @@ export const pyramidGlyphSet: GlyphSetDefinition = {
         value: i + 1, // Ascending values (top = 1 (narrow), bottom = n (wide))
       })),
       showValues,
+      theme,
     };
 
     const nodes: NodeAst[] = [

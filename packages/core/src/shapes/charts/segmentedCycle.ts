@@ -1,8 +1,13 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface SegmentedCycleData {
   items: string[];
   showPercentages?: boolean;
+  theme?: string;
 }
 
 /**
@@ -53,19 +58,14 @@ export const segmentedCycleShape: ShapeDefinition = {
     const centerX = x + bounds.width / 2;
     const centerY = y + bounds.height / 2;
     const radius = 150;
+
+    // Get theme colors
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 13;
     const font = ctx.style.font || 'sans-serif';
-
-    // Color palette for segments
-    const colors = [
-      '#5B9BD5', // Blue
-      '#70AD47', // Green
-      '#FFC000', // Gold
-      '#C55A11', // Orange
-      '#7030A0', // Purple
-      '#44546A', // Dark blue
-    ];
 
     const itemCount = items.length;
     const anglePerItem = (2 * Math.PI) / itemCount;
@@ -99,7 +99,7 @@ export const segmentedCycleShape: ShapeDefinition = {
       const endAngle = (i + 1) * anglePerItem - Math.PI / 2;
       const midAngle = (startAngle + endAngle) / 2;
 
-      const segmentColor = colors[i % colors.length];
+      const segmentColor = getThemeColor(theme, i);
       const path = createPieSlice(
         centerX,
         centerY,

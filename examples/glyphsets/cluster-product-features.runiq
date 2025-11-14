@@ -4,7 +4,8 @@
 // Demonstrates 4-item cluster pattern.
 
 glyphset cluster "Product Features" {
-  item "Fast Performance"
+    theme "forest"
+item "Fast Performance"
   item "Secure"
   item "Scalable"
   item "Easy to Use"

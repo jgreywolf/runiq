@@ -1,4 +1,5 @@
 glyphset titledMatrix "RACI Matrix" {
+    theme "forest"
   quadrant "Accountable"
   quadrant "Informed"
   quadrant "Responsible"

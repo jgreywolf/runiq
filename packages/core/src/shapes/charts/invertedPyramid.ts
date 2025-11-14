@@ -1,23 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
-
-/**
- * Theme-based color palettes
- */
-const THEMES: Record<string, string[]> = {
-  professional: ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'],
-  colorful: ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6'],
-  warm: ['#dc2626', '#ea580c', '#d97706', '#ca8a04', '#a16207'],
-  cool: ['#0891b2', '#0284c7', '#2563eb', '#4f46e5', '#7c3aed'],
-  vibrant: ['#db2777', '#dc2626', '#ea580c', '#ca8a04', '#16a34a'],
-};
-
-/**
- * Get color for a level based on theme
- */
-function getThemeColor(theme: string, index: number): string {
-  const colors = THEMES[theme] || THEMES.professional;
-  return colors[index % colors.length];
-}
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Wrap text to fit within a given width
@@ -116,7 +101,8 @@ export const invertedPyramidShape: ShapeDefinition = {
       return '';
     }
 
-    const theme = (dataObj.theme as string) || 'professional';
+    const themeId = (dataObj.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
     const showValues = dataObj.showValues !== false;
 
     // Find max value for scaling (top is widest)

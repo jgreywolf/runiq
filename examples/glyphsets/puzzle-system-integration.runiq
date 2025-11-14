@@ -4,7 +4,8 @@
 // Demonstrates 4-piece puzzle pattern (2x2 grid).
 
 glyphset puzzle "System Architecture" {
-  item "Frontend UI"
+    theme "forest"
+item "Frontend UI"
   item "Backend API"
   item "Database"
   item "Authentication"

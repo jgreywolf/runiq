@@ -1,5 +1,6 @@
 glyphset matrix3x3 "Risk Assessment Matrix" {
-  quadrant "Low Impact\nRare"
+    theme "forest"
+quadrant "Low Impact\nRare"
   quadrant "Low Impact\nPossible"
   quadrant "Low Impact\nLikely"
   quadrant "Med Impact\nRare"

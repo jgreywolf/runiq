@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface ChevronItem {
   label: string;
@@ -91,17 +95,9 @@ export const numberedChevronListShape: ShapeDefinition = {
     const font = ctx.style.font || 'sans-serif';
     const strokeWidth = 2;
 
-    // Color schemes
-    const colorPalette = [
-      { fill: '#2E5AAC', dark: '#1F3D73' }, // Dark blue
-      { fill: '#D97D2C', dark: '#A35B1A' }, // Orange
-      { fill: '#5BA9D1', dark: '#3B7A9C' }, // Light blue
-      { fill: '#9DBB6B', dark: '#6D8A4B' }, // Green
-      { fill: '#E85D5D', dark: '#B83D3D' }, // Red
-      { fill: '#9B7BB5', dark: '#6B4B85' }, // Purple
-      { fill: '#F4A460', dark: '#C47430' }, // Sandy brown
-      { fill: '#6B9B9B', dark: '#4B6B6B' }, // Teal
-    ];
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
 
     const hasDescriptions = items.some((item) => item.description);
 
@@ -113,11 +109,11 @@ export const numberedChevronListShape: ShapeDefinition = {
       const item = items[i];
       const number = (i + 1).toString().padStart(2, '0'); // 01, 02, 03...
 
-      // Choose color
-      const color =
-        colorScheme === 'single'
-          ? colorPalette[0]
-          : colorPalette[i % colorPalette.length];
+      // Use theme colors
+      const fillColor =
+        ctx.style.fill ||
+        getThemeColor(theme, colorScheme === 'single' ? 0 : i);
+      const darkColor = theme.accentColor || '#1F3D73';
 
       // Draw chevron with number
       const chevronX = x;
@@ -138,8 +134,8 @@ export const numberedChevronListShape: ShapeDefinition = {
       svg += `
         <defs>
           <linearGradient id="chevronGrad${i}" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:${color.fill};stop-opacity:1" />
-            <stop offset="100%" style="stop-color:${color.dark};stop-opacity:1" />
+            <stop offset="0%" style="stop-color:${fillColor};stop-opacity:1" />
+            <stop offset="100%" style="stop-color:${darkColor};stop-opacity:1" />
           </linearGradient>
         </defs>
       `;
@@ -147,7 +143,7 @@ export const numberedChevronListShape: ShapeDefinition = {
       svg += `
         <polygon points="${chevronPoints}"
                  fill="url(#chevronGrad${i})"
-                 stroke="${color.dark}" stroke-width="${strokeWidth}" />
+                 stroke="${darkColor}" stroke-width="${strokeWidth}" />
         
         <text x="${chevronX + chevronWidth / 2}" y="${chevronY + chevronH / 2}" 
               text-anchor="middle" dominant-baseline="middle"

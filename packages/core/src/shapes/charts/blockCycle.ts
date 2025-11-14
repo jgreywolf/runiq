@@ -1,7 +1,12 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface BlockCycleData {
   items: string[];
+  theme?: string;
 }
 
 /**
@@ -63,21 +68,15 @@ export const blockCycleShape: ShapeDefinition = {
     const itemCount = items.length;
     const radius = (itemCount * blockWidth) / (2 * Math.PI) + 50;
 
-    const fill = ctx.style.fill || '#5B9BD5';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Get theme colors
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const fill = ctx.style.fill || theme.colors[0];
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 13;
     const font = ctx.style.font || 'sans-serif';
-
-    // Color palette for blocks
-    const colors = [
-      '#5B9BD5', // Blue
-      '#70AD47', // Green
-      '#FFC000', // Gold
-      '#C55A11', // Orange
-      '#7030A0', // Purple
-      '#44546A', // Dark blue
-    ];
 
     let svg = '';
 
@@ -102,7 +101,7 @@ export const blockCycleShape: ShapeDefinition = {
       const nextBlockCenterX = centerX + Math.cos(nextAngle) * radius;
       const nextBlockCenterY = centerY + Math.sin(nextAngle) * radius;
 
-      const blockColor = colors[i % colors.length];
+      const blockColor = getThemeColor(theme, i);
 
       // Draw block
       svg += `

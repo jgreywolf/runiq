@@ -54,6 +54,13 @@ export const groupedProcessGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Label for the convergence point (default: "Result")',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -64,6 +71,7 @@ export const groupedProcessGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const groups = params.groups as ProcessGroup[] | undefined;
     const mergePoint = (params.mergePoint as string) || 'Result';
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!groups || !Array.isArray(groups)) {
@@ -124,6 +132,7 @@ export const groupedProcessGlyphSet: GlyphSetDefinition = {
         data: {
           groups,
           mergePoint,
+          theme,
         },
       },
     ];

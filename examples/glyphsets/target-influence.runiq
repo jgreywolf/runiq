@@ -2,7 +2,8 @@
 // Shows direct to minimal influence areas
 
 glyphset target "Influence Mapping" {
-  circle "Direct Influence"
+    theme "forest"
+circle "Direct Influence"
   circle "Moderate Influence"
   circle "Minimal Influence"
 }

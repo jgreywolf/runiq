@@ -2,7 +2,8 @@
 // Project breakdown with deliverables per phase
 
 glyphset pyramidList "Project Lifecycle" {
-  level "Initiation" {
+    theme "forest"
+level "Initiation" {
     item "Project Charter"
     item "Stakeholder Identification"
   }

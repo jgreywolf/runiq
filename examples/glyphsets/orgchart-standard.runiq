@@ -2,7 +2,8 @@
 // Top-down hierarchy with CEO and reporting structure
 
 glyphset orgChart "Tech Company Org Chart" {
-  person "Sarah Chen - CEO" {
+    theme "forest"
+person "Sarah Chen - CEO" {
     person "Michael Torres - VP Engineering" {
       person "Alex Kim - Dev Manager" {
         person "Jordan Lee - Senior Developer"

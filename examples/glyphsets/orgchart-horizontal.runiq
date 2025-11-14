@@ -2,7 +2,8 @@
 // Left-to-right hierarchy - better for wide organizations
 
 glyphset horizontalOrgChart "Wide Organization" {
-  person "Head of Product" {
+    theme "forest"
+person "Head of Product" {
     person "Platform Team" {
       person "Backend Lead"
       person "DevOps Lead"

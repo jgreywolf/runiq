@@ -2,7 +2,8 @@
 // This tests the fallback functionality
 
 glyphset matrix3x3 "Universal Item Test" {
-  item "Q1"
+    theme "forest"
+item "Q1"
   item "Q2"
   item "Q3"
   item "Q4"

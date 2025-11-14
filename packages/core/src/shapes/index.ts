@@ -140,6 +140,7 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.numberedChevronListShape); // Numbered chevron list
   shapeRegistry.register(charts.horizontalListShape); // Horizontal list
   shapeRegistry.register(charts.increasingListShape); // Increasing size list
+  shapeRegistry.register(charts.alternatingListShape); // Alternating list (zigzag layout)
   shapeRegistry.register(charts.alternatingProcessShape); // Alternating process
   shapeRegistry.register(charts.stepProcessShape); // Step process
   shapeRegistry.register(charts.equationProcessShape); // Equation process

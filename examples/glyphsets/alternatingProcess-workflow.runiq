@@ -1,6 +1,7 @@
 // Alternating Process - Development Workflow
 glyphset alternatingProcess "Agile Development" {
-  item "Sprint Planning"
+    theme "forest"
+item "Sprint Planning"
   item "Development"
   item "Code Review"
   item "Testing"

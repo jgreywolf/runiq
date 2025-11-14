@@ -33,6 +33,13 @@ export const equationProcessGlyphSet: GlyphSetDefinition = {
       required: true,
       description: 'Array of items (minimum 3: at least 2 inputs + 1 result)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -42,6 +49,7 @@ export const equationProcessGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -81,6 +89,7 @@ export const equationProcessGlyphSet: GlyphSetDefinition = {
         data: {
           inputs,
           result,
+          theme,
         },
       },
     ];

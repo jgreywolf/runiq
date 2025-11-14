@@ -2,7 +2,8 @@
 // Upside-down pyramid showing conversion funnel
 
 glyphset invertedPyramid "Sales Funnel" {
-  level "Website Visitors"
+    theme "forest"
+level "Website Visitors"
   level "Qualified Leads"
   level "Demos Scheduled"
   level "Proposals Sent"

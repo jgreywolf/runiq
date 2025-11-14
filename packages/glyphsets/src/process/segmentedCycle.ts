@@ -42,6 +42,13 @@ export const segmentedCycleGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Show percentage for each segment (default: true)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -52,6 +59,7 @@ export const segmentedCycleGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const items = params.items as string[] | undefined;
     const showPercentages = (params.showPercentages as boolean) ?? true;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -87,6 +95,7 @@ export const segmentedCycleGlyphSet: GlyphSetDefinition = {
         data: {
           items,
           showPercentages,
+          theme,
         },
       },
     ];

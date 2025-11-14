@@ -38,6 +38,13 @@ export const increasingListGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Shape type: circle (default) or box',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -48,6 +55,7 @@ export const increasingListGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const items = params.items as string[] | undefined;
     const shapeType = (params.shape as string) || 'circle';
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -91,6 +99,7 @@ export const increasingListGlyphSet: GlyphSetDefinition = {
         data: {
           items,
           shape: shapeType,
+          theme,
         },
       },
     ];

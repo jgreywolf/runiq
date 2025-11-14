@@ -33,6 +33,13 @@ export const alternatingProcessGlyphSet: GlyphSetDefinition = {
       required: true,
       description: 'Array of process steps (minimum 3 steps)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -42,6 +49,7 @@ export const alternatingProcessGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -76,6 +84,7 @@ export const alternatingProcessGlyphSet: GlyphSetDefinition = {
         label: '',
         data: {
           items,
+          theme,
         },
       },
     ];

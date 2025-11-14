@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Chevron List Shape - Progressive list with chevron arrows
@@ -89,8 +93,11 @@ export const chevronListShape: ShapeDefinition = {
     const chevronSpacing = 8;
     const arrowSize = 20;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
@@ -101,9 +108,13 @@ export const chevronListShape: ShapeDefinition = {
       // Horizontal layout - chevrons side by side
       let currentX = x;
 
-      for (const item of items) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
         const textSize = ctx.measureText(item, ctx.style);
         const chevronWidth = textSize.width + padding * 2 + arrowSize;
+
+        // Use theme color for each chevron
+        const chevronFill = ctx.style.fill || getThemeColor(theme, i);
 
         // Draw chevron (rectangle with arrow point on right)
         const points = [
@@ -116,7 +127,7 @@ export const chevronListShape: ShapeDefinition = {
 
         svg += `
           <polygon points="${points}" 
-                   fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+                   fill="${chevronFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${currentX + (chevronWidth - arrowSize / 2) / 2}" y="${y + chevronHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"
@@ -135,6 +146,9 @@ export const chevronListShape: ShapeDefinition = {
         const chevronWidth = textSize.width + padding * 2 + arrowSize;
         const currentY = y + i * (chevronHeight + chevronSpacing);
 
+        // Use theme color for each chevron
+        const chevronFill = ctx.style.fill || getThemeColor(theme, i);
+
         // Draw chevron (rectangle with arrow point on right)
         const points = [
           `${x},${currentY}`, // top left
@@ -146,7 +160,7 @@ export const chevronListShape: ShapeDefinition = {
 
         svg += `
           <polygon points="${points}" 
-                   fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+                   fill="${chevronFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${x + (chevronWidth - arrowSize / 2) / 2}" y="${currentY + chevronHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"

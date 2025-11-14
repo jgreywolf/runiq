@@ -1,5 +1,6 @@
 import type { DiagramAst, NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
  * Venn Diagram GlyphSet
@@ -21,7 +22,8 @@ export const vennGlyphSet: GlyphSetDefinition = {
   id: 'venn',
   name: 'Venn Diagram',
   category: 'comparison',
-  description: 'Venn diagram with overlapping circles to show relationships and intersections',
+  description:
+    'Venn diagram with overlapping circles to show relationships and intersections',
 
   parameters: [
     {
@@ -29,6 +31,13 @@ export const vennGlyphSet: GlyphSetDefinition = {
       type: 'array',
       required: true,
       description: 'Array of circle labels (2, 3, or 4 circles)',
+    },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      default: 'professional',
+      description: 'Color theme for circles',
     },
   ],
 
@@ -39,6 +48,7 @@ export const vennGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const circles = params.circles as string[] | undefined;
+    const theme = (params.theme as ColorTheme | undefined) || 'professional';
 
     // Validation
     if (!circles || !Array.isArray(circles)) {
@@ -61,7 +71,7 @@ export const vennGlyphSet: GlyphSetDefinition = {
     // The venn shape automatically determines 2, 3, or 4 circle layout
     const vennData = {
       labels: circles,
-      // The shape will auto-detect the number of circles from labels length
+      colors: circles.map((_, index) => getThemeColor(theme, index)),
     };
 
     const nodes: NodeAst[] = [

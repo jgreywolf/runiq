@@ -6,7 +6,8 @@
 // Matrix functionality will be enhanced in a future update
 
 glyphset orgChart "Cross-Functional Teams" {
-  person "Jane Smith - CEO" {
+    theme "forest"
+person "Jane Smith - CEO" {
     person "VP Engineering" {
       person "Alice Johnson - Backend Dev"
       person "Bob Chen - Frontend Dev"

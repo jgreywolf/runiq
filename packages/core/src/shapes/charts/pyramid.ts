@@ -1,18 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
-
-/**
- * Default color palette for pyramid levels
- */
-const DEFAULT_COLORS = [
-  '#4299e1', // blue
-  '#48bb78', // green
-  '#ed8936', // orange
-  '#9f7aea', // purple
-  '#f56565', // red
-  '#38b2ac', // teal
-  '#ed64a6', // pink
-  '#ecc94b', // yellow
-];
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Level data structure
@@ -125,9 +115,13 @@ export const pyramidShape: ShapeDefinition = {
       levels = [];
     }
 
+    // Theme support
+    const themeId = (dataObj.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
     const colors = Array.isArray(dataObj.colors)
       ? (dataObj.colors as string[])
-      : DEFAULT_COLORS;
+      : null; // Use null to indicate theme colors should be used
     const showValues = dataObj.showValues !== false; // Show by default
 
     if (levels.length === 0) {
@@ -175,10 +169,10 @@ export const pyramidShape: ShapeDefinition = {
       // Trapezoid polygon
       const points = `${topLeft},${topY} ${topRight},${topY} ${bottomRight},${bottomY} ${bottomLeft},${bottomY}`;
 
-      // Get color for this level
-      const color =
-        colors[index % colors.length] ||
-        DEFAULT_COLORS[index % DEFAULT_COLORS.length];
+      // Get color for this level (custom colors, theme colors, or fallback)
+      const color = colors
+        ? colors[index % colors.length]
+        : getThemeColor(theme, index);
 
       // Render trapezoid
       svg += `<polygon points="${points}" `;

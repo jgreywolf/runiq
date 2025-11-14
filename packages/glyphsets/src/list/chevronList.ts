@@ -40,6 +40,13 @@ export const chevronListGlyphSet: GlyphSetDefinition = {
       description:
         'Layout direction: TB (vertical, default) or LR (horizontal)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -50,6 +57,7 @@ export const chevronListGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const items = params.items as string[] | undefined;
     const direction = (params.direction as string) || 'TB';
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -93,6 +101,7 @@ export const chevronListGlyphSet: GlyphSetDefinition = {
         data: {
           items,
           direction,
+          theme,
         },
       },
     ];

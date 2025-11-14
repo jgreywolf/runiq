@@ -2,7 +2,8 @@
 // Shows core to emerging market segments
 
 glyphset target "Market Segmentation" {
-  circle "Core Market"
+    theme "forest"
+circle "Core Market"
   circle "Secondary Market"
   circle "Emerging Market"
   circle "Future Opportunities"

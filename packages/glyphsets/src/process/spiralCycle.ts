@@ -35,6 +35,13 @@ export const spiralCycleGlyphSet: GlyphSetDefinition = {
       required: true,
       description: 'Array of stage labels along the spiral (minimum 3 stages)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -52,6 +59,7 @@ export const spiralCycleGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -86,6 +94,7 @@ export const spiralCycleGlyphSet: GlyphSetDefinition = {
         label: '',
         data: {
           items,
+          theme,
         },
       },
     ];

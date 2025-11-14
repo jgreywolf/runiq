@@ -4,7 +4,8 @@
 // Demonstrates 6-item cluster pattern.
 
 glyphset cluster "Development Team" {
-  item "Frontend Developer"
+    theme "forest"
+item "Frontend Developer"
   item "Backend Developer"
   item "UI/UX Designer"
   item "QA Engineer"

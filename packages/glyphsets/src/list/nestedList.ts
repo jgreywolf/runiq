@@ -35,6 +35,13 @@ export const nestedListGlyphSet: GlyphSetDefinition = {
       required: true,
       description: 'Array of level objects with label and optional items array',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -46,6 +53,7 @@ export const nestedListGlyphSet: GlyphSetDefinition = {
     const levels = params.levels as
       | Array<{ label: string; items?: string[] }>
       | undefined;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!levels || !Array.isArray(levels)) {
@@ -111,7 +119,7 @@ export const nestedListGlyphSet: GlyphSetDefinition = {
         id: 'nestedList',
         shape: 'nestedList',
         label: '',
-        data: { items },
+        data: { items, theme },
       },
     ];
 

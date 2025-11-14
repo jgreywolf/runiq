@@ -1,5 +1,6 @@
 glyphset matrix3x3 "9-Box Talent Assessment" {
-  quadrant "Low Pot\nLow Perf"
+    theme "forest"
+quadrant "Low Pot\nLow Perf"
   quadrant "Low Pot\nMed Perf"
   quadrant "Low Pot\nHigh Perf"
   quadrant "Med Pot\nLow Perf"

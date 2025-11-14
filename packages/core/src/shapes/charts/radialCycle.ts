@@ -1,8 +1,13 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface RadialCycleData {
   items: string[];
   centerLabel?: string;
+  theme?: string;
 }
 
 /**
@@ -63,9 +68,13 @@ export const radialCycleShape: ShapeDefinition = {
     const itemWidth = 100;
     const itemHeight = 60;
 
-    const fill = ctx.style.fill || '#5B9BD5';
-    const stroke = ctx.style.stroke || '#2E5AAC';
-    const centerFill = '#70AD47'; // Green for center
+    // Get theme colors
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const fill = ctx.style.fill || theme.colors[0];
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
+    const centerFill = theme.colors[1] || '#70AD47'; // Use second theme color for center
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 13;
     const font = ctx.style.font || 'sans-serif';
@@ -106,11 +115,14 @@ export const radialCycleShape: ShapeDefinition = {
       const itemX = centerX + Math.cos(angle) * itemRadius - itemWidth / 2;
       const itemY = centerY + Math.sin(angle) * itemRadius - itemHeight / 2;
 
+      // Get color from theme for each item
+      const itemColor = getThemeColor(theme, i);
+
       svg += `
         <rect x="${itemX}" y="${itemY}" 
               width="${itemWidth}" height="${itemHeight}"
               rx="6" ry="6"
-              fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+              fill="${itemColor}" stroke="${stroke}" stroke-width="${strokeWidth}" />
         
         <text x="${itemX + itemWidth / 2}" y="${itemY + itemHeight / 2}" 
               text-anchor="middle" dominant-baseline="middle"

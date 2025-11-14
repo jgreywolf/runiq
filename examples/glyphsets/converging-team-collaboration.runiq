@@ -4,7 +4,8 @@
 // Demonstrates 3-source converging pattern.
 
 glyphset converging "Team Collaboration" {
-  item "Development Team"
+    theme "forest"
+item "Development Team"
   item "Design Team"
   item "Product Management"
 }

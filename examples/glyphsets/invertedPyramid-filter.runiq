@@ -2,7 +2,8 @@
 // Information refinement process
 
 glyphset invertedPyramid "Data Quality Funnel" {
-  level "Raw Data Collected"
+    theme "forest"
+level "Raw Data Collected"
   level "Data Validation"
   level "Quality Checks"
   level "Processed Data"

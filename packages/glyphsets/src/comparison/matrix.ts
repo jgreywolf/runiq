@@ -1,5 +1,6 @@
 import type { DiagramAst, NodeAst, ContainerDeclaration } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
  * Matrix GlyphSet
@@ -21,14 +22,16 @@ export const matrixGlyphSet: GlyphSetDefinition = {
   id: 'matrix',
   name: 'Matrix (2x2)',
   category: 'comparison',
-  description: '2x2 comparison matrix for analyzing four items across two dimensions',
+  description:
+    '2x2 comparison matrix for analyzing four items across two dimensions',
 
   parameters: [
     {
       name: 'quadrants',
       type: 'array',
       required: true,
-      description: 'Array of 4 quadrant labels [top-left, top-right, bottom-left, bottom-right]',
+      description:
+        'Array of 4 quadrant labels [top-left, top-right, bottom-left, bottom-right]',
     },
     {
       name: 'horizontalAxis',
@@ -42,6 +45,13 @@ export const matrixGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Label for vertical axis',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      default: 'professional',
+      description: 'Color theme for quadrants',
+    },
   ],
 
   minItems: 4,
@@ -53,6 +63,7 @@ export const matrixGlyphSet: GlyphSetDefinition = {
     const quadrants = params.quadrants as string[] | undefined;
     const horizontalAxis = params.horizontalAxis as string | undefined;
     const verticalAxis = params.verticalAxis as string | undefined;
+    const theme = (params.theme as ColorTheme | undefined) || 'professional';
 
     // Validation
     if (!quadrants || !Array.isArray(quadrants)) {
@@ -71,57 +82,26 @@ export const matrixGlyphSet: GlyphSetDefinition = {
       );
     }
 
+    // Helper to lighten color for background
+    const lightenColor = (color: string): string => {
+      return color + '20'; // Add 20% opacity
+    };
+
     // Generate containers for each quadrant
-    const containers: ContainerDeclaration[] = [
-      {
+    const containers: ContainerDeclaration[] = quadrants.map(
+      (label, index) => ({
         type: 'container' as const,
-        id: 'quadrant1',
-        label: quadrants[0],
+        id: `quadrant${index + 1}`,
+        label,
         children: [],
         containerStyle: {
-          backgroundColor: '#e3f2fd',
-          borderColor: '#2196f3',
+          backgroundColor: lightenColor(getThemeColor(theme, index)),
+          borderColor: getThemeColor(theme, index),
           borderWidth: 2,
           padding: 20,
         },
-      },
-      {
-        type: 'container' as const,
-        id: 'quadrant2',
-        label: quadrants[1],
-        children: [],
-        containerStyle: {
-          backgroundColor: '#e8f5e9',
-          borderColor: '#4caf50',
-          borderWidth: 2,
-          padding: 20,
-        },
-      },
-      {
-        type: 'container' as const,
-        id: 'quadrant3',
-        label: quadrants[2],
-        children: [],
-        containerStyle: {
-          backgroundColor: '#fff3e0',
-          borderColor: '#ff9800',
-          borderWidth: 2,
-          padding: 20,
-        },
-      },
-      {
-        type: 'container' as const,
-        id: 'quadrant4',
-        label: quadrants[3],
-        children: [],
-        containerStyle: {
-          backgroundColor: '#ffebee',
-          borderColor: '#f44336',
-          borderWidth: 2,
-          padding: 20,
-        },
-      },
-    ];
+      })
+    );
 
     // Add axis labels as nodes if provided
     const nodes: NodeAst[] = [];

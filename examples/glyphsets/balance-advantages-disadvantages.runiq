@@ -2,6 +2,7 @@
 // Use case: Comparing technology options
 
 glyphset balance "warm" {
-  side "Advantages: Easy to Use, Well Documented, Large Community"
+    theme "forest"
+side "Advantages: Easy to Use, Well Documented, Large Community"
   side "Disadvantages: Licensing Costs, Limited Flexibility, Steep Curve"
 }

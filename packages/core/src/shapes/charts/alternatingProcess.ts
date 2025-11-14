@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Alternating Process Shape - Zigzag flow pattern
@@ -60,8 +64,11 @@ export const alternatingProcessShape: ShapeDefinition = {
     const horizontalGap = 100;
     const verticalSpacing = 40;
 
-    const fill = ctx.style.fill || '#4472C4';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
@@ -77,12 +84,16 @@ export const alternatingProcessShape: ShapeDefinition = {
       const stepX = isLeft ? x : x + stepWidth + horizontalGap;
       const stepY = currentY;
 
+      // Use theme color for each step
+      const stepFill = ctx.style.fill || getThemeColor(theme, i);
+      const stepStroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
+
       // Draw rounded rectangle for step
       svg += `
         <rect x="${stepX}" y="${stepY}" 
               width="${stepWidth}" height="${stepHeight}"
               rx="8" ry="8"
-              fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+              fill="${stepFill}" stroke="${stepStroke}" stroke-width="${strokeWidth}" />
         
         <text x="${stepX + stepWidth / 2}" y="${stepY + stepHeight / 2}" 
               text-anchor="middle" dominant-baseline="middle"

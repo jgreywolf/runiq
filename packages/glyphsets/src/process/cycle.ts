@@ -31,6 +31,13 @@ export const cycleGlyphSet: GlyphSetDefinition = {
       required: true,
       description: 'Array of step labels (minimum 3 steps)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -40,10 +47,15 @@ export const cycleGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const steps = params.steps as string[] | undefined;
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!steps || !Array.isArray(steps)) {
-      throw new GlyphSetError('cycle', 'steps', 'Parameter "steps" must be an array of strings');
+      throw new GlyphSetError(
+        'cycle',
+        'steps',
+        'Parameter "steps" must be an array of strings'
+      );
     }
 
     if (steps.length < 3) {
@@ -66,6 +78,7 @@ export const cycleGlyphSet: GlyphSetDefinition = {
     // The cycle shape renders steps in a circular arrangement internally
     const cycleData = {
       steps,
+      theme,
     };
 
     const nodes: NodeAst[] = [

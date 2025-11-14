@@ -1,5 +1,6 @@
-import type { DiagramAst, NodeAst } from '@runiq/core';
+import type { NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
  * Basic List GlyphSet
@@ -30,6 +31,13 @@ export const basicListGlyphSet: GlyphSetDefinition = {
       required: true,
       description: 'Array of list items (minimum 2 items)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -39,10 +47,15 @@ export const basicListGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
+    const theme = (params.theme as ColorTheme | undefined) || 'professional';
 
     // Validation
     if (!items || !Array.isArray(items)) {
-      throw new GlyphSetError('basicList', 'items', 'Parameter "items" must be an array of strings');
+      throw new GlyphSetError(
+        'basicList',
+        'items',
+        'Parameter "items" must be an array of strings'
+      );
     }
 
     if (items.length < 2) {
@@ -66,6 +79,9 @@ export const basicListGlyphSet: GlyphSetDefinition = {
       id: `item${i + 1}`,
       shape: 'processBox',
       label,
+      data: {
+        color: getThemeColor(theme, i),
+      },
     }));
 
     return {

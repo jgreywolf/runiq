@@ -2,7 +2,8 @@
 // Minimal hierarchy for small organizations
 
 glyphset orgChart "Small Agency" {
-  person "Owner" {
+    theme "forest"
+person "Owner" {
     person "Creative Director" {
       person "Designer 1"
       person "Designer 2"

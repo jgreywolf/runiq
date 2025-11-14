@@ -1,4 +1,8 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * 3x3 Matrix Shape

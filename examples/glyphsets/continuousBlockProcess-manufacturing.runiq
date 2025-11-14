@@ -1,6 +1,7 @@
 // Continuous Block Process - Manufacturing Flow
 glyphset continuousBlockProcess "Production Line" {
-  item "Raw Materials"
+    theme "forest"
+item "Raw Materials"
   item "Processing"
   item "Assembly"
   item "Quality Check"

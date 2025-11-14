@@ -2,7 +2,8 @@
 // Educational progression with topic details
 
 glyphset pyramidList "Web Development Learning Path" {
-  level "Foundation" {
+    theme "forest"
+level "Foundation" {
     item "HTML & CSS Basics"
     item "JavaScript Fundamentals"
     item "Version Control (Git)"

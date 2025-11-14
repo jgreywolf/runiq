@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Step Process Shape - Staircase pattern
@@ -60,8 +64,11 @@ export const stepProcessShape: ShapeDefinition = {
     const horizontalOffset = 100; // Match bounds
     const verticalOffset = 70; // Match bounds
 
-    const fill = ctx.style.fill || '#4472C4';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
@@ -77,6 +84,9 @@ export const stepProcessShape: ShapeDefinition = {
           ? y + bounds.height - stepHeight - i * verticalOffset
           : y + i * verticalOffset;
 
+      // Use theme color for each step
+      const stepFill = ctx.style.fill || getThemeColor(theme, i);
+
       // Create gradient effect for depth
       const opacity = 0.7 + (i / items.length) * 0.3; // Darker as you progress
 
@@ -84,7 +94,7 @@ export const stepProcessShape: ShapeDefinition = {
         <rect x="${stepX}" y="${stepY}" 
               width="${stepWidth}" height="${stepHeight}"
               rx="6" ry="6"
-              fill="${fill}" fill-opacity="${opacity}"
+              fill="${stepFill}" fill-opacity="${opacity}"
               stroke="${stroke}" stroke-width="${strokeWidth}" />
         
         <text x="${stepX + stepWidth / 2}" y="${stepY + stepHeight / 2}" 

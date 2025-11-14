@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Continuous Block Process Shape - Connected blocks with arrows
@@ -68,8 +72,11 @@ export const continuousBlockProcessShape: ShapeDefinition = {
     const blockHeight = 60;
     const arrowLength = 40;
 
-    const fill = ctx.style.fill || '#4472C4';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
@@ -80,12 +87,15 @@ export const continuousBlockProcessShape: ShapeDefinition = {
       let currentX = x;
 
       for (let i = 0; i < items.length; i++) {
+        // Use theme color for each block
+        const blockFill = ctx.style.fill || getThemeColor(theme, i);
+
         // Draw block
         svg += `
           <rect x="${currentX}" y="${y}" 
                 width="${blockWidth}" height="${blockHeight}"
                 rx="4" ry="4"
-                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+                fill="${blockFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${currentX + blockWidth / 2}" y="${y + blockHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"
@@ -123,12 +133,15 @@ export const continuousBlockProcessShape: ShapeDefinition = {
       let currentY = y;
 
       for (let i = 0; i < items.length; i++) {
+        // Use theme color for each block
+        const blockFill = ctx.style.fill || getThemeColor(theme, i);
+
         // Draw block
         svg += `
           <rect x="${x}" y="${currentY}" 
                 width="${blockWidth}" height="${blockHeight}"
                 rx="4" ry="4"
-                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+                fill="${blockFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${x + blockWidth / 2}" y="${currentY + blockHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"

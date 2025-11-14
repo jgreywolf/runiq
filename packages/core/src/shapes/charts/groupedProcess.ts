@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface GroupedProcessData {
   groups: Array<{ name: string; items: string[] }>;
@@ -75,12 +79,15 @@ export const groupedProcessShape: ShapeDefinition = {
     const mergeWidth = 140;
     const mergeHeight = 70;
 
-    const fill = ctx.style.fill || '#5B9BD5';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 13;
     const font = ctx.style.font || 'sans-serif';
-    const mergeFill = '#70AD47'; // Green for merge point
+    const mergeFill = theme.colors[2] || '#70AD47'; // Use 3rd theme color for merge point
 
     // Find max items to calculate merge point position
     const maxItems = Math.max(...groups.map((g) => g.items.length));
@@ -94,6 +101,9 @@ export const groupedProcessShape: ShapeDefinition = {
     for (let groupIdx = 0; groupIdx < groups.length; groupIdx++) {
       const group = groups[groupIdx];
       const groupY = y + 30 + groupIdx * (itemHeight + groupSpacing);
+
+      // Use theme color for this group
+      const groupFill = ctx.style.fill || getThemeColor(theme, groupIdx);
 
       // Draw group label
       svg += `
@@ -112,7 +122,7 @@ export const groupedProcessShape: ShapeDefinition = {
           <rect x="${itemX}" y="${groupY}" 
                 width="${itemWidth}" height="${itemHeight}"
                 rx="4" ry="4"
-                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+                fill="${groupFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${itemX + itemWidth / 2}" y="${groupY + itemHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"

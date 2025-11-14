@@ -1,5 +1,6 @@
 glyphset segmentedMatrix "Project Classification" {
-  quadrant "High Value\nLow Complexity"
+    theme "forest"
+quadrant "High Value\nLow Complexity"
   quadrant "High Value\nHigh Complexity"
   quadrant "Low Value\nLow Complexity"
   quadrant "Low Value\nHigh Complexity"

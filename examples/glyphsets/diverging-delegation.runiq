@@ -4,7 +4,8 @@
 // Demonstrates 4-destination diverging pattern.
 
 glyphset diverging "Project Delegation" {
-  item "Frontend Team"
+    theme "forest"
+item "Frontend Team"
   item "Backend Team"
   item "QA Team"
   item "DevOps Team"

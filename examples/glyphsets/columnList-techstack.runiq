@@ -1,6 +1,7 @@
 // Column List - Tech Stack (2 columns)
 glyphset columnList "Our Tech Stack" {
-  item "TypeScript"
+    theme "forest"
+item "TypeScript"
   item "React"
   item "Node.js"
   item "PostgreSQL"

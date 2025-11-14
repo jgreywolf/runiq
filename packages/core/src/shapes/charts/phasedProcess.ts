@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface PhasedProcessData {
   items: string[];
@@ -76,12 +80,15 @@ export const phasedProcessShape: ShapeDefinition = {
     const milestoneSize = 30;
     const spacing = 40;
 
-    const fill = ctx.style.fill || '#5B9BD5';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
-    const milestoneFill = '#FFC000'; // Gold/yellow for milestones
+    const milestoneFill = theme.colors[3] || '#FFC000'; // Use 4th theme color for milestones
 
     let svg = '';
 
@@ -91,12 +98,15 @@ export const phasedProcessShape: ShapeDefinition = {
       const phaseY = y;
 
       for (let i = 0; i < items.length; i++) {
+        // Use theme color for each phase
+        const phaseFill = ctx.style.fill || getThemeColor(theme, i);
+
         // Draw phase box
         svg += `
           <rect x="${currentX}" y="${phaseY}" 
                 width="${phaseWidth}" height="${phaseHeight}"
                 rx="6" ry="6"
-                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+                fill="${phaseFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${currentX + phaseWidth / 2}" y="${phaseY + phaseHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"
@@ -141,12 +151,15 @@ export const phasedProcessShape: ShapeDefinition = {
       const phaseX = x;
 
       for (let i = 0; i < items.length; i++) {
+        // Use theme color for each phase
+        const phaseFill = ctx.style.fill || getThemeColor(theme, i);
+
         // Draw phase box
         svg += `
           <rect x="${phaseX}" y="${currentY}" 
                 width="${phaseWidth}" height="${phaseHeight}"
                 rx="6" ry="6"
-                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+                fill="${phaseFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
           <text x="${phaseX + phaseWidth / 2}" y="${currentY + phaseHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"

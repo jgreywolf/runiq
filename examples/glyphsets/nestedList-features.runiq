@@ -1,6 +1,7 @@
 // Nested List - Product Features
 glyphset nestedList "Product Features" {
-  level "Core Features" {
+    theme "forest"
+level "Core Features" {
     item "Fast performance"
     item "Easy to use"
     item "Secure"

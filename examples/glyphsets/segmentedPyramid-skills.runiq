@@ -2,7 +2,8 @@
 // Learning progression with topic breakdown
 
 glyphset segmentedPyramid "Developer Skills Pyramid" {
-  level "Expert" {
+    theme "forest"
+level "Expert" {
     item "Architecture"
     item "Leadership"
   }

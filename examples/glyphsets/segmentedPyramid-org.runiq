@@ -2,7 +2,8 @@
 // Organizational layers with department breakdown
 
 glyphset segmentedPyramid "Organization Structure" {
-  level "Executive" {
+    theme "forest"
+level "Executive" {
     item "CEO"
   }
   level "Leadership" {

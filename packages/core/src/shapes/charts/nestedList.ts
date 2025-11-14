@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface NestedItem {
   label: string;
@@ -79,7 +83,12 @@ export const nestedListShape: ShapeDefinition = {
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
 
+    // Theme support
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
     let svg = '';
+    let parentIndex = 0; // Track parent items for theme colors
 
     // Render each item with proper indentation
     for (let i = 0; i < items.length; i++) {
@@ -88,22 +97,25 @@ export const nestedListShape: ShapeDefinition = {
       const indentOffset = item.indent * indentWidth;
 
       if (item.isLevel) {
-        // Parent level - use processBox style (blue gradient)
+        // Parent level - use theme color
         const textSize = ctx.measureText(item.label, ctx.style);
         const boxWidth = textSize.width + padding * 2;
+
+        const levelFill = ctx.style.fill || getThemeColor(theme, parentIndex);
+        parentIndex++; // Increment for next parent
 
         svg += `
           <defs>
             <linearGradient id="processGradient-nested-${i}" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style="stop-color:#4472C4;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#4472C4;stop-opacity:0.8" />
+              <stop offset="0%" style="stop-color:${levelFill};stop-opacity:1" />
+              <stop offset="100%" style="stop-color:${levelFill};stop-opacity:0.8" />
             </linearGradient>
           </defs>
           <rect x="${x + indentOffset}" y="${itemY}" 
                 width="${boxWidth}" height="${itemHeight}"
                 rx="4" ry="4" 
                 fill="url(#processGradient-nested-${i})" 
-                stroke="#2E5AAC" stroke-width="0" />
+                stroke="${theme.accentColor || '#2E5AAC'}" stroke-width="0" />
           
           <text x="${x + indentOffset + boxWidth / 2}" y="${itemY + itemHeight / 2}" 
                 text-anchor="middle" dominant-baseline="middle"

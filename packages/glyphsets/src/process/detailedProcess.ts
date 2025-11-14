@@ -48,6 +48,13 @@ export const detailedProcessGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Layout direction: "LR" (horizontal) or "TB" (vertical)',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 2,
@@ -58,6 +65,7 @@ export const detailedProcessGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const rawItems = params.items as string[] | undefined;
     const direction = (params.direction as string) || 'LR';
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!rawItems || !Array.isArray(rawItems)) {
@@ -120,6 +128,7 @@ export const detailedProcessGlyphSet: GlyphSetDefinition = {
         data: {
           items,
           direction,
+          theme,
         },
       },
     ];

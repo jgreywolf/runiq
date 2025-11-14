@@ -1,5 +1,6 @@
 import type { DiagramAst, NodeAst, EdgeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
  * Events GlyphSet
@@ -45,6 +46,13 @@ export const eventsGlyphSet: GlyphSetDefinition = {
       default: true,
       description: 'Show connections between events',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      default: 'professional',
+      description: 'Color theme for events',
+    },
   ],
 
   minItems: 2,
@@ -55,7 +63,9 @@ export const eventsGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const events = params.events as string[] | undefined;
     const shape = (params.shape as string | undefined) || 'rounded';
-    const showConnections = (params.showConnections as boolean | undefined) ?? true;
+    const showConnections =
+      (params.showConnections as boolean | undefined) ?? true;
+    const theme = (params.theme as ColorTheme | undefined) || 'professional';
 
     // Validation
     if (!events || !Array.isArray(events)) {
@@ -67,7 +77,11 @@ export const eventsGlyphSet: GlyphSetDefinition = {
     }
 
     if (events.length < 2) {
-      throw new GlyphSetError('events', 'events', 'Events requires at least 2 events');
+      throw new GlyphSetError(
+        'events',
+        'events',
+        'Events requires at least 2 events'
+      );
     }
 
     if (events.length > 10) {
@@ -83,6 +97,9 @@ export const eventsGlyphSet: GlyphSetDefinition = {
       id: `event${i + 1}`,
       shape: 'processBox', // Use SmartArt-style processBox!
       label,
+      data: {
+        color: getThemeColor(theme, i),
+      },
     }));
 
     // Generate connections if requested

@@ -1,6 +1,7 @@
 // Chevron List - Customer Journey (Horizontal)
 glyphset chevronList "Customer Journey" {
-  item "Awareness"
+    theme "forest"
+item "Awareness"
   item "Consideration"
   item "Decision"
   item "Purchase"

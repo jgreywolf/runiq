@@ -2,7 +2,8 @@
 // Use case: Circular opposition (game theory)
 
 glyphset opposing "vibrant" {
-  item "Rock"
+    theme "forest"
+item "Rock"
   item "Paper"
   item "Scissors"
 }

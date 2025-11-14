@@ -42,6 +42,13 @@ export const stepProcessGlyphSet: GlyphSetDefinition = {
       required: false,
       description: 'Step direction: up (default) or down',
     },
+    {
+      name: 'theme',
+      type: 'string',
+      required: false,
+      description:
+        'Color theme (professional, forest, sunset, ocean, monochrome)',
+    },
   ],
 
   minItems: 3,
@@ -52,6 +59,7 @@ export const stepProcessGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const items = params.items as string[] | undefined;
     const direction = (params.direction as string) || 'up';
+    const theme = params.theme as string | undefined;
 
     // Validation
     if (!items || !Array.isArray(items)) {
@@ -87,6 +95,7 @@ export const stepProcessGlyphSet: GlyphSetDefinition = {
         data: {
           items,
           direction,
+          theme,
         },
       },
     ];

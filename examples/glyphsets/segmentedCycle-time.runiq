@@ -2,7 +2,8 @@
 // Shows how work time is distributed across activities
 
 glyphset segmentedCycle "Weekly Time Distribution" {
-  item "Development"
+    theme "forest"
+item "Development"
   item "Meetings"
   item "Code Review"
   item "Planning"

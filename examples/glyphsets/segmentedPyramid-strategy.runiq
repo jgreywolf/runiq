@@ -2,7 +2,8 @@
 // Pyramid with subdivided levels showing strategy breakdown
 
 glyphset segmentedPyramid "Product Strategy" {
-  level "Vision" {
+    theme "forest"
+level "Vision" {
     item "Mission"
     item "Goals"
   }

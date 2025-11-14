@@ -1,6 +1,7 @@
 // Nested List - Learning Path
 glyphset nestedList "Web Development Path" {
-  level "Fundamentals" {
+    theme "forest"
+level "Fundamentals" {
     item "HTML & CSS"
     item "JavaScript basics"
     item "Git version control"

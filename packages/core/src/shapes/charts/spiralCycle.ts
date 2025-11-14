@@ -1,7 +1,12 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 interface SpiralCycleData {
   items: string[];
+  theme?: string;
 }
 
 /**
@@ -56,8 +61,12 @@ export const spiralCycleShape: ShapeDefinition = {
     const centerY = y + bounds.height / 2;
     const itemCount = items.length;
 
-    const fill = ctx.style.fill || '#5B9BD5';
-    const stroke = ctx.style.stroke || '#2E5AAC';
+    // Get theme colors
+    const themeId = (ctx.node.data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const fill = ctx.style.fill || theme.colors[0];
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const strokeWidth = ctx.style.strokeWidth || 2;
     const fontSize = ctx.style.fontSize || 12;
     const font = ctx.style.font || 'sans-serif';
@@ -68,16 +77,6 @@ export const spiralCycleShape: ShapeDefinition = {
     const turnsPerItem = 0.75; // 3/4 turn per item
     const boxWidth = 90;
     const boxHeight = 50;
-
-    // Color gradient for growth
-    const colors = [
-      '#5B9BD5', // Blue
-      '#6BA3DC', // Lighter blue
-      '#7CABE3', // Even lighter
-      '#8CB3EA', // Lighter still
-      '#9DBBF1', // Very light blue
-      '#ADC3F8', // Almost white blue
-    ];
 
     let svg = '';
 
@@ -112,12 +111,8 @@ export const spiralCycleShape: ShapeDefinition = {
       const itemX = centerX + Math.cos(angle) * radius - boxWidth / 2;
       const itemY = centerY + Math.sin(angle) * radius - boxHeight / 2;
 
-      // Color gets lighter as it moves outward (showing growth)
-      const colorIndex = Math.min(
-        Math.floor((i / itemCount) * colors.length),
-        colors.length - 1
-      );
-      const itemColor = colors[colorIndex];
+      // Get color from theme (cycles through theme colors)
+      const itemColor = getThemeColor(theme, i);
 
       // Draw box
       svg += `
@@ -142,14 +137,14 @@ export const spiralCycleShape: ShapeDefinition = {
         // Build a smooth path following the spiral between items
         let pathD = '';
         const pathSteps = 20; // Number of points along the spiral arc
-        
+
         for (let step = 0; step <= pathSteps; step++) {
           const t = step / pathSteps;
           const spiralAngle = angle + t * (nextAngle - angle);
           const spiralRadius = radius + t * (nextRadius - radius);
           const px = centerX + Math.cos(spiralAngle) * spiralRadius;
           const py = centerY + Math.sin(spiralAngle) * spiralRadius;
-          
+
           if (step === 0) {
             pathD = `M ${px} ${py}`;
           } else {

@@ -64,6 +64,42 @@ export const COLOR_THEMES = {
     '#1A237E', // Indigo
   ],
 
+  // Forest/nature greens
+  forest: [
+    '#2E7D32', // Forest Green
+    '#43A047', // Medium Green
+    '#66BB6A', // Light Green
+    '#81C784', // Pale Green
+    '#1B5E20', // Dark Green
+    '#388E3C', // Green
+    '#4CAF50', // Bright Green
+    '#A5D6A7', // Very Light Green
+  ],
+
+  // Sunset/warm oranges and reds
+  sunset: [
+    '#FF6F00', // Dark Orange
+    '#FF8F00', // Orange
+    '#FFA726', // Light Orange
+    '#FFB74D', // Pale Orange
+    '#F57C00', // Burnt Orange
+    '#FB8C00', // Medium Orange
+    '#FFA000', // Amber
+    '#FFD54F', // Light Amber
+  ],
+
+  // Ocean/water blues
+  ocean: [
+    '#006064', // Deep Ocean
+    '#00838F', // Dark Cyan
+    '#00ACC1', // Cyan
+    '#26C6DA', // Light Cyan
+    '#004D40', // Teal
+    '#00796B', // Dark Teal
+    '#00897B', // Teal
+    '#80CBC4', // Light Teal
+  ],
+
   // Professional gray-blue
   professional: [
     '#546E7A',

@@ -1,6 +1,7 @@
 // Grouped Process - Parallel Streams Converging
 glyphset groupedProcess "Cross-Functional Project" {
-  group "Design Team" {
+    theme "forest"
+group "Design Team" {
     item "User Research"
     item "UI Design"
   }

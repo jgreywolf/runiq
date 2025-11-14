@@ -1,4 +1,8 @@
 import type { ShapeDefinition } from '../../types.js';
+import {
+  getGlyphsetTheme,
+  getThemeColor,
+} from '../../themes/glyphset-themes.js';
 
 /**
  * Cycle Shape - Circular arrangement of process steps
@@ -38,7 +42,9 @@ export const cycleShape: ShapeDefinition = {
   },
 
   render(ctx, position) {
-    const data = ctx.node.data as { steps?: string[] } | undefined;
+    const data = ctx.node.data as
+      | { steps?: string[]; theme?: string }
+      | undefined;
     const steps = data?.steps || ['Step 1', 'Step 2', 'Step 3'];
 
     const bounds = this.bounds(ctx);
@@ -46,10 +52,14 @@ export const cycleShape: ShapeDefinition = {
     const centerY = position.y + bounds.height / 2;
     const radius = (bounds.width - 80) / 2;
 
-    const stroke = ctx.style.stroke || '#2E5AAC';
-    const fill = ctx.style.fill || '#4472C4';
+    // Theme support
+    const themeId = (data?.theme as string) || 'professional';
+    const theme = getGlyphsetTheme(themeId);
+
+    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
     const fontSize = ctx.style.fontSize || 13;
-    const fontFamily = typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
+    const fontFamily =
+      typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
 
     const boxWidth = 100;
     const boxHeight = 50;
@@ -98,14 +108,17 @@ export const cycleShape: ShapeDefinition = {
       const x = pos.x - boxWidth / 2;
       const y = pos.y - boxHeight / 2;
 
+      // Use theme color for each step
+      const stepFill = ctx.style.fill || getThemeColor(theme, i);
+
       // Shadow
       svg += `<rect x="${x + 2}" y="${y + 2}" width="${boxWidth}" height="${boxHeight}" `;
       svg += `rx="${cornerRadius}" fill="#000000" fill-opacity="0.15" />`;
 
       // Gradient
       svg += `<linearGradient id="cycleGrad-${ctx.node.id}-${i}" x1="0%" y1="0%" x2="0%" y2="100%">`;
-      svg += `<stop offset="0%" style="stop-color:${fill};stop-opacity:1" />`;
-      svg += `<stop offset="100%" style="stop-color:${fill};stop-opacity:0.8" />`;
+      svg += `<stop offset="0%" style="stop-color:${stepFill};stop-opacity:1" />`;
+      svg += `<stop offset="100%" style="stop-color:${stepFill};stop-opacity:0.8" />`;
       svg += `</linearGradient>`;
 
       // Box

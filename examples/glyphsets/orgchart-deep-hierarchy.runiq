@@ -2,7 +2,8 @@
 // 5 levels showing organizational depth
 
 glyphset orgChart "Enterprise Organization" {
-  person "CEO" {
+    theme "forest"
+person "CEO" {
     person "CTO" {
       person "VP Engineering" {
         person "Engineering Manager" {
