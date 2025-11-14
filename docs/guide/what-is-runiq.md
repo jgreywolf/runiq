@@ -105,7 +105,7 @@ glyphset basicProcess "Development Pipeline" {
   step "Test"
   step "Deploy"
   step "Monitor"
-  
+
   theme "ocean"
   orientation "horizontal"
 }
@@ -114,6 +114,7 @@ glyphset basicProcess "Development Pipeline" {
 Produces a professional horizontal process flow instantly!
 
 **6 categories** of glyphsets:
+
 - **Process** (17) - Linear flows, cycles, alternating, stepped
 - **List** (6) - Basic lists, picture lists, framed items
 - **Hierarchy** (1) - Organization charts, pyramids
@@ -122,12 +123,14 @@ Produces a professional horizontal process flow instantly!
 - **Relationship** (24) - Convergence, divergence, clusters, targets
 
 **When to use glyphsets:**
+
 - ✅ Quick diagrams and presentations
 - ✅ Standard patterns (process flows, org charts)
 - ✅ Data-driven visualizations
 - ✅ Consistency across documents
 
 **When to use diagram profiles:**
+
 - ✅ Detailed technical diagrams
 - ✅ Custom layouts and connections
 - ✅ Complex relationships

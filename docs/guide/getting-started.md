@@ -99,7 +99,7 @@ glyphset basicProcess "Development Workflow" {
   step "Implementation"
   step "Testing"
   step "Deployment"
-  
+
   theme "professional"
   orientation "horizontal"
 }
@@ -127,7 +127,7 @@ glyphset matrix "Feature Comparison" {
   quadrant "High Priority / Hard" label: "Strategic"
   quadrant "Low Priority / Easy" label: "Nice to Have"
   quadrant "Low Priority / Hard" label: "Avoid"
-  
+
   horizontalAxis "Priority"
   verticalAxis "Difficulty"
 }

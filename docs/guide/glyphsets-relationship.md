@@ -15,6 +15,7 @@ Relationship glyphsets visualize how concepts connect, converge, diverge, or rel
 Multiple inputs converging to a single output.
 
 **Parameters:**
+
 - `outer` (3-8 items) - Outer items
 - `inner` (1 item) - Central convergence point
 - `theme` - Color theme
@@ -28,7 +29,7 @@ glyphset converging "Sales Funnel" {
   outer "Social Media"
   outer "Referrals"
   inner "Qualified Leads"
-  
+
   theme "professional"
 }
 ```
@@ -38,6 +39,7 @@ glyphset converging "Sales Funnel" {
 Single input diverging to multiple outputs.
 
 **Parameters:**
+
 - `inner` (1 item) - Central source
 - `outer` (3-8 items) - Diverging outputs
 - `theme` - Color theme
@@ -51,7 +53,7 @@ glyphset diverging "Content Distribution" {
   outer "Twitter"
   outer "Newsletter"
   outer "Medium"
-  
+
   theme "ocean"
 }
 ```
@@ -63,6 +65,7 @@ glyphset diverging "Content Distribution" {
 Two-sided balance scale showing trade-offs.
 
 **Parameters:**
+
 - `left` (1-3 items) - Left side items
 - `right` (1-3 items) - Right side items
 - `theme` - Color theme
@@ -76,7 +79,7 @@ glyphset balance "Work-Life Balance" {
   right "Family Time"
   right "Health"
   right "Hobbies"
-  
+
   theme "forest"
 }
 ```
@@ -86,6 +89,7 @@ glyphset balance "Work-Life Balance" {
 Opposing forces or contrasting concepts.
 
 **Parameters:**
+
 - `left` (1-3 items) - Left opposition
 - `right` (1-3 items) - Right opposition
 - `theme` - Color theme
@@ -100,7 +104,7 @@ glyphset opposing "Tech Stack Choice" {
   right "Monolith"
   right "Simplicity"
   right "Speed"
-  
+
   theme "sunset"
 }
 ```
@@ -110,6 +114,7 @@ glyphset opposing "Tech Stack Choice" {
 Pros and cons comparison.
 
 **Parameters:**
+
 - `plus` (1-5 items) - Positive aspects
 - `minus` (1-5 items) - Negative aspects
 - `theme` - Color theme
@@ -124,7 +129,7 @@ glyphset plusMinus "Remote Work" {
   minus "Isolation"
   minus "Communication Challenges"
   minus "Work-Life Boundaries"
-  
+
   theme "monochrome"
 }
 ```
@@ -136,6 +141,7 @@ glyphset plusMinus "Remote Work" {
 Grouped clusters of related items.
 
 **Parameters:**
+
 - `cluster` (2-4 clusters) - Item groups
 - `theme` - Color theme
 
@@ -158,7 +164,7 @@ glyphset cluster "Skill Categories" {
     item "Kubernetes"
     item "AWS"
   }
-  
+
   theme "professional"
 }
 ```
@@ -168,6 +174,7 @@ glyphset cluster "Skill Categories" {
 Interlocking puzzle pieces showing how parts fit together.
 
 **Parameters:**
+
 - `piece` (2-6 pieces) - Puzzle pieces
 - `theme` - Color theme
 
@@ -179,7 +186,7 @@ glyphset puzzle "Solution Components" {
   piece "Application"
   piece "Data"
   piece "Security"
-  
+
   theme "ocean"
 }
 ```
@@ -191,6 +198,7 @@ glyphset puzzle "Solution Components" {
 Concentric target/bullseye pattern.
 
 **Parameters:**
+
 - `ring` (2-5 rings, outer to inner) - Target rings
 - `theme` - Color theme
 
@@ -202,7 +210,7 @@ glyphset target "Market Segmentation" {
   ring "Target Market"
   ring "Core Customers"
   ring "Key Accounts"
-  
+
   theme "sunset"
 }
 ```
@@ -229,6 +237,7 @@ glyphset target "Market Segmentation" {
 ### When to Use Diagram Profiles Instead
 
 Switch to diagram profiles for:
+
 - Complex network topologies
 - Detailed relationship types (UML associations)
 - Multi-directional flows

@@ -170,17 +170,17 @@ glyphset orgChart "Team Structure" {
 
 ## Theme Selection Guide
 
-| Theme | Mood | Use Cases |
-|-------|------|-----------|
-| **colorful** | Diverse, balanced | General presentations, mixed content |
-| **professional** | Formal, corporate | Business docs, reports, formal presentations |
-| **monochrome** | Minimalist, focused | Clean designs, emphasis on structure |
-| **vibrant** | Energetic, modern | Creative work, marketing, youth content |
-| **warm** | Friendly, approachable | Communications, emotional topics |
-| **cool** | Calm, analytical | Technology, innovation, data analysis |
-| **forest** | Natural, organic | Environmental, growth, sustainability |
-| **sunset** | Dynamic, energetic | Creative, passion, warmth |
-| **ocean** | Trustworthy, stable | Maritime, technology, calm |
+| Theme            | Mood                   | Use Cases                                    |
+| ---------------- | ---------------------- | -------------------------------------------- |
+| **colorful**     | Diverse, balanced      | General presentations, mixed content         |
+| **professional** | Formal, corporate      | Business docs, reports, formal presentations |
+| **monochrome**   | Minimalist, focused    | Clean designs, emphasis on structure         |
+| **vibrant**      | Energetic, modern      | Creative work, marketing, youth content      |
+| **warm**         | Friendly, approachable | Communications, emotional topics             |
+| **cool**         | Calm, analytical       | Technology, innovation, data analysis        |
+| **forest**       | Natural, organic       | Environmental, growth, sustainability        |
+| **sunset**       | Dynamic, energetic     | Creative, passion, warmth                    |
+| **ocean**        | Trustworthy, stable    | Maritime, technology, calm                   |
 
 ## Tips
 
@@ -193,6 +193,7 @@ glyphset orgChart "Team Structure" {
 ## Color Accessibility
 
 All theme colors have been chosen to ensure:
+
 - Sufficient contrast between text and backgrounds
 - Distinguishable differences between adjacent colors
 - Compatibility with common forms of color blindness

@@ -15,6 +15,7 @@ List glyphsets create organized, styled lists perfect for features, benefits, ke
 Simple vertical list with styled boxes.
 
 **Parameters:**
+
 - `item` (array, 2-10 items) - List items
 - `theme` - Color theme
 
@@ -26,7 +27,7 @@ glyphset basicList "Key Features" {
   item "Easy to Use"
   item "Highly Scalable"
   item "Open Source"
-  
+
   theme "professional"
 }
 ```
@@ -36,6 +37,7 @@ glyphset basicList "Key Features" {
 List items with images or icons.
 
 **Parameters:**
+
 - `item` (array, 2-8 items) - Items with optional images
 - `orientation` - "vertical" (default) or "horizontal"
 - `theme` - Color theme
@@ -48,7 +50,7 @@ glyphset pictureList "Team Members" {
   item "Bob - Lead Developer"
   item "Carol - Designer"
   item "Dave - QA Engineer"
-  
+
   orientation "vertical"
   theme "forest"
 }
@@ -59,6 +61,7 @@ glyphset pictureList "Team Members" {
 Picture with decorative frame and label.
 
 **Parameters:**
+
 - `image` - Image reference
 - `label` - Caption text
 - `theme` - Color theme
@@ -78,6 +81,7 @@ glyphset framedPicture "Product Screenshot" {
 Grid of picture blocks with labels.
 
 **Parameters:**
+
 - `block` (array, 2-9 blocks) - Picture blocks
 - `columns` - Grid columns (default: 3)
 - `theme` - Color theme
@@ -90,7 +94,7 @@ glyphset pictureBlocks "Product Gallery" {
   block "Feature 2"
   block "Feature 3"
   block "Feature 4"
-  
+
   columns 2
   theme "sunset"
 }

@@ -10,44 +10,44 @@ Complete reference for all **60+ glyphsets** available in Runiq.
 
 ## Quick Reference Table
 
-| Glyphset | Category | Min Items | Max Items | Description |
-|----------|----------|-----------|-----------|-------------|
-| `basicProcess` | Process | 2 | 10 | Linear horizontal/vertical process |
-| `cycle` | Process | 3 | 8 | Circular process cycle |
-| `spiralCycle` | Process | 3 | 8 | Spiral evolution pattern |
-| `radialCycle` | Process | 3 | 8 | Radial spoke pattern |
-| `blockCycle` | Process | 3 | 6 | Block-based cycle |
-| `orbitCycle` | Process | 3 | 8 | Orbital hierarchy |
-| `gearCycle` | Process | 2 | 5 | Interlocking gears |
-| `segmentedCycle` | Process | 3 | 8 | Segmented circular cycle |
-| `alternatingProcess` | Process | 3 | 8 | Zigzag S-curve flow |
-| `stepProcess` | Process | 3 | 8 | Diagonal stair-step |
-| `detailedProcess` | Process | 2 | 5 | Process with substeps |
-| `phasedProcess` | Process | 2 | 6 | Distinct phase milestones |
-| `groupedProcess` | Process | 2 | 4 | Grouped workstreams |
-| `continuousBlockProcess` | Process | 3 | 8 | Connected block flow |
-| `equationProcess` | Process | 3 | 5 | Equation-style process |
-| `pictureProcess` | Visualization | 3 | 6 | Process with central image |
-| `basicList` | List | 2 | 10 | Simple vertical list |
-| `pictureList` | List | 2 | 8 | List with pictures |
-| `framedPicture` | List | 1 | 1 | Framed picture with label |
-| `pictureBlocks` | List | 2 | 9 | Grid of picture blocks |
-| `orgChart` | Hierarchy | 1 | ∞ | Organization chart |
-| `matrix` | Comparison | 4 | 4 | 2×2 matrix |
-| `matrix3x3` | Comparison | 9 | 9 | 3×3 matrix |
-| `segmentedMatrix` | Comparison | 2 | 4 | Multi-section matrix |
-| `titledMatrix` | Comparison | 2 | 4 | Matrix with row/col titles |
-| `pictureGrid` | Visualization | 2 | 9 | Grid of images |
-| `pictureCallout` | Visualization | 3 | 7 | Image with callouts |
-| `events` | Visualization | 2 | 10 | Timeline/event sequence |
-| `converging` | Relationship | 4 | 9 | Many to one convergence |
-| `diverging` | Relationship | 4 | 9 | One to many divergence |
-| `balance` | Relationship | 2 | 6 | Two-sided balance |
-| `opposing` | Relationship | 2 | 6 | Opposing forces |
-| `plusMinus` | Relationship | 2 | 10 | Pros and cons |
-| `cluster` | Relationship | 2 | 4 | Grouped clusters |
-| `puzzle` | Relationship | 2 | 6 | Interlocking pieces |
-| `target` | Relationship | 2 | 5 | Concentric rings |
+| Glyphset                 | Category      | Min Items | Max Items | Description                        |
+| ------------------------ | ------------- | --------- | --------- | ---------------------------------- |
+| `basicProcess`           | Process       | 2         | 10        | Linear horizontal/vertical process |
+| `cycle`                  | Process       | 3         | 8         | Circular process cycle             |
+| `spiralCycle`            | Process       | 3         | 8         | Spiral evolution pattern           |
+| `radialCycle`            | Process       | 3         | 8         | Radial spoke pattern               |
+| `blockCycle`             | Process       | 3         | 6         | Block-based cycle                  |
+| `orbitCycle`             | Process       | 3         | 8         | Orbital hierarchy                  |
+| `gearCycle`              | Process       | 2         | 5         | Interlocking gears                 |
+| `segmentedCycle`         | Process       | 3         | 8         | Segmented circular cycle           |
+| `alternatingProcess`     | Process       | 3         | 8         | Zigzag S-curve flow                |
+| `stepProcess`            | Process       | 3         | 8         | Diagonal stair-step                |
+| `detailedProcess`        | Process       | 2         | 5         | Process with substeps              |
+| `phasedProcess`          | Process       | 2         | 6         | Distinct phase milestones          |
+| `groupedProcess`         | Process       | 2         | 4         | Grouped workstreams                |
+| `continuousBlockProcess` | Process       | 3         | 8         | Connected block flow               |
+| `equationProcess`        | Process       | 3         | 5         | Equation-style process             |
+| `pictureProcess`         | Visualization | 3         | 6         | Process with central image         |
+| `basicList`              | List          | 2         | 10        | Simple vertical list               |
+| `pictureList`            | List          | 2         | 8         | List with pictures                 |
+| `framedPicture`          | List          | 1         | 1         | Framed picture with label          |
+| `pictureBlocks`          | List          | 2         | 9         | Grid of picture blocks             |
+| `orgChart`               | Hierarchy     | 1         | ∞         | Organization chart                 |
+| `matrix`                 | Comparison    | 4         | 4         | 2×2 matrix                         |
+| `matrix3x3`              | Comparison    | 9         | 9         | 3×3 matrix                         |
+| `segmentedMatrix`        | Comparison    | 2         | 4         | Multi-section matrix               |
+| `titledMatrix`           | Comparison    | 2         | 4         | Matrix with row/col titles         |
+| `pictureGrid`            | Visualization | 2         | 9         | Grid of images                     |
+| `pictureCallout`         | Visualization | 3         | 7         | Image with callouts                |
+| `events`                 | Visualization | 2         | 10        | Timeline/event sequence            |
+| `converging`             | Relationship  | 4         | 9         | Many to one convergence            |
+| `diverging`              | Relationship  | 4         | 9         | One to many divergence             |
+| `balance`                | Relationship  | 2         | 6         | Two-sided balance                  |
+| `opposing`               | Relationship  | 2         | 6         | Opposing forces                    |
+| `plusMinus`              | Relationship  | 2         | 10        | Pros and cons                      |
+| `cluster`                | Relationship  | 2         | 4         | Grouped clusters                   |
+| `puzzle`                 | Relationship  | 2         | 6         | Interlocking pieces                |
+| `target`                 | Relationship  | 2         | 5         | Concentric rings                   |
 
 ## Common Parameters
 
@@ -92,6 +92,7 @@ Linear flows, cycles, and sequential processes.
 [View Process Glyphsets Guide →](/guide/glyphsets-process)
 
 **Linear:**
+
 - `basicProcess` - Simple linear process
 - `alternatingProcess` - Zigzag pattern
 - `stepProcess` - Stair-step progression
@@ -102,6 +103,7 @@ Linear flows, cycles, and sequential processes.
 - `equationProcess` - Equation-style
 
 **Cyclic:**
+
 - `cycle` - Basic circular cycle
 - `spiralCycle` - Spiral evolution
 - `radialCycle` - Radial/spoke
@@ -111,6 +113,7 @@ Linear flows, cycles, and sequential processes.
 - `segmentedCycle` - Segmented cycle
 
 **Hybrid:**
+
 - `pictureProcess` - Process with central image
 
 ### List (6 glyphsets)
@@ -161,19 +164,23 @@ Connections and relationships between concepts.
 [View Relationship Glyphsets Guide →](/guide/glyphsets-relationship)
 
 **Convergence/Divergence:**
+
 - `converging` - Many to one
 - `diverging` - One to many
 
 **Balance/Opposition:**
+
 - `balance` - Two-sided balance
 - `opposing` - Opposing forces
 - `plusMinus` - Pros and cons
 
 **Grouping:**
+
 - `cluster` - Grouped clusters
 - `puzzle` - Interlocking pieces
 
 **Targeting:**
+
 - `target` - Concentric rings
 
 ## Usage Examples
@@ -186,7 +193,7 @@ glyphset basicProcess "Development Pipeline" {
   step "Code"
   step "Test"
   step "Deploy"
-  
+
   orientation "horizontal"
   theme "professional"
 }
@@ -205,7 +212,7 @@ glyphset orgChart "Team" {
       person "QA Engineer"
     }
   }
-  
+
   theme "ocean"
 }
 ```
@@ -218,7 +225,7 @@ glyphset matrix "Eisenhower Matrix" {
   quadrant "Schedule" label: "Important"
   quadrant "Delegate" label: "Urgent"
   quadrant "Eliminate" label: "Neither"
-  
+
   horizontalAxis "Urgency"
   verticalAxis "Importance"
   theme "sunset"
@@ -234,7 +241,7 @@ glyphset converging "Lead Sources" {
   outer "Email"
   outer "Referrals"
   inner "Qualified Leads"
-  
+
   theme "forest"
 }
 ```

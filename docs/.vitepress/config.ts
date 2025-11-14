@@ -115,10 +115,19 @@ export default defineConfig({
             { text: 'What are Glyphsets?', link: '/guide/glyphsets' },
             { text: 'Process Glyphsets', link: '/guide/glyphsets-process' },
             { text: 'List Glyphsets', link: '/guide/glyphsets-list' },
-            { text: 'Comparison Glyphsets', link: '/guide/glyphsets-comparison' },
-            { text: 'Visualization Glyphsets', link: '/guide/glyphsets-visualization' },
+            {
+              text: 'Comparison Glyphsets',
+              link: '/guide/glyphsets-comparison',
+            },
+            {
+              text: 'Visualization Glyphsets',
+              link: '/guide/glyphsets-visualization',
+            },
             { text: 'Hierarchy Glyphsets', link: '/guide/glyphsets-hierarchy' },
-            { text: 'Relationship Glyphsets', link: '/guide/glyphsets-relationship' },
+            {
+              text: 'Relationship Glyphsets',
+              link: '/guide/glyphsets-relationship',
+            },
           ],
         },
         {

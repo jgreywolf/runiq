@@ -15,6 +15,7 @@ Process glyphsets visualize sequential workflows, cycles, and step-by-step proce
 Simple linear process flow with horizontal or vertical orientation.
 
 **Parameters:**
+
 - `step` (array, 2-10 items) - Process steps
 - `orientation` - "horizontal" (default) or "vertical"
 - `theme` - Color theme
@@ -29,7 +30,7 @@ glyphset basicProcess "Software Release Process" {
   step "Testing"
   step "Staging"
   step "Production"
-  
+
   orientation "horizontal"
   theme "professional"
 }
@@ -40,6 +41,7 @@ glyphset basicProcess "Software Release Process" {
 Diagonal stair-step pattern showing progression or growth.
 
 **Parameters:**
+
 - `item` (array, 3-8 items) - Steps to display
 - `direction` - "up" (default) or "down"
 - `theme` - Color theme
@@ -52,7 +54,7 @@ glyphset stepProcess "Career Growth" {
   item "Senior Developer"
   item "Tech Lead"
   item "Engineering Manager"
-  
+
   direction "up"
   theme "forest"
 }
@@ -63,6 +65,7 @@ glyphset stepProcess "Career Growth" {
 Zigzag S-curve flow showing back-and-forth progression.
 
 **Parameters:**
+
 - `item` (array, 3-8 items) - Process items
 - `theme` - Color theme
 
@@ -75,7 +78,7 @@ glyphset alternatingProcess "Design Iteration" {
   item "Feedback"
   item "Refine"
   item "Deliver"
-  
+
   theme "sunset"
 }
 ```
@@ -85,6 +88,7 @@ glyphset alternatingProcess "Design Iteration" {
 Process with main steps and substeps beneath each.
 
 **Parameters:**
+
 - `item` (array, 2-5 items) - Format: "Main | Sub1 | Sub2 | ..."
 - `direction` - "LR" (horizontal, default) or "TB" (vertical)
 - `theme` - Color theme
@@ -97,7 +101,7 @@ glyphset detailedProcess "Product Launch" {
   item "Development | Design | Build | Test"
   item "Marketing | Campaign | Social Media | PR"
   item "Launch | Release | Monitor | Support"
-  
+
   direction "LR"
   theme "ocean"
 }
@@ -112,6 +116,7 @@ Circular process flows showing iterative or continuous processes.
 Basic circular process where steps flow in a cycle.
 
 **Parameters:**
+
 - `step` (array, 3-8 items) - Cycle steps
 - `theme` - Color theme
 
@@ -123,7 +128,7 @@ glyphset cycle "PDCA Cycle" {
   step "Do"
   step "Check"
   step "Act"
-  
+
   theme "professional"
 }
 ```
@@ -133,6 +138,7 @@ glyphset cycle "PDCA Cycle" {
 Spiral pattern showing evolution or progressive refinement.
 
 **Parameters:**
+
 - `item` (array, 3-8 items) - Spiral stages
 - `theme` - Color theme
 
@@ -145,7 +151,7 @@ glyphset spiralCycle "Product Evolution" {
   item "v1.0"
   item "v2.0"
   item "Enterprise"
-  
+
   theme "sunset"
 }
 ```
@@ -155,6 +161,7 @@ glyphset spiralCycle "Product Evolution" {
 Radial/spoke pattern with center hub.
 
 **Parameters:**
+
 - `item` (array, 3-8 items) - Radial items
 - `theme` - Color theme
 
@@ -167,7 +174,7 @@ glyphset radialCycle "Ecosystem" {
   item "Integrations"
   item "Marketplace"
   item "Community"
-  
+
   theme "ocean"
 }
 ```
@@ -177,6 +184,7 @@ glyphset radialCycle "Ecosystem" {
 Block-based circular cycle with distinct sections.
 
 **Parameters:**
+
 - `item` (array, 3-6 items) - Block sections
 - `theme` - Color theme
 
@@ -188,7 +196,7 @@ glyphset blockCycle "Business Quarters" {
   item "Q2: Execution"
   item "Q3: Optimization"
   item "Q4: Review"
-  
+
   theme "professional"
 }
 ```
@@ -198,6 +206,7 @@ glyphset blockCycle "Business Quarters" {
 Orbital pattern showing hierarchical relationships.
 
 **Parameters:**
+
 - `item` (array, 3-8 items) - Orbital elements
 - `theme` - Color theme
 
@@ -210,7 +219,7 @@ glyphset orbitCycle "Service Architecture" {
   item "Microservices"
   item "Load Balancer"
   item "CDN"
-  
+
   theme "forest"
 }
 ```
@@ -220,6 +229,7 @@ glyphset orbitCycle "Service Architecture" {
 Interlocking gears showing interconnected processes.
 
 **Parameters:**
+
 - `item` (array, 2-5 items) - Gear components
 - `theme` - Color theme
 
@@ -230,7 +240,7 @@ glyphset gearCycle "DevOps Pipeline" {
   item "Development"
   item "Testing"
   item "Deployment"
-  
+
   theme "monochrome"
 }
 ```
@@ -240,6 +250,7 @@ glyphset gearCycle "DevOps Pipeline" {
 Cycle with segmented sections and labels.
 
 **Parameters:**
+
 - `item` (array, 3-8 items) - Segment labels
 - `theme` - Color theme
 
@@ -253,7 +264,7 @@ glyphset segmentedCycle "Agile Sprint" {
   item "Testing"
   item "Review"
   item "Retrospective"
-  
+
   theme "ocean"
 }
 ```
@@ -265,6 +276,7 @@ glyphset segmentedCycle "Agile Sprint" {
 Process with distinct phases and milestones.
 
 **Parameters:**
+
 - `phase` (array, 2-6 phases) - Process phases
 - `theme` - Color theme
 
@@ -277,7 +289,7 @@ glyphset phasedProcess "Project Phases" {
   phase "Execution"
   phase "Monitoring"
   phase "Closure"
-  
+
   theme "professional"
 }
 ```
@@ -287,6 +299,7 @@ glyphset phasedProcess "Project Phases" {
 Process grouped into categories or workstreams.
 
 **Parameters:**
+
 - `group` (array, 2-4 groups) - Process groups
 - `theme` - Color theme
 
@@ -297,7 +310,7 @@ glyphset groupedProcess "Development Streams" {
   group "Frontend Team"
   group "Backend Team"
   group "DevOps Team"
-  
+
   theme "forest"
 }
 ```
@@ -307,6 +320,7 @@ glyphset groupedProcess "Development Streams" {
 Continuous flow with connected blocks.
 
 **Parameters:**
+
 - `block` (array, 3-8 blocks) - Process blocks
 - `theme` - Color theme
 
@@ -320,7 +334,7 @@ glyphset continuousBlockProcess "Value Stream" {
   block "Test"
   block "Deploy"
   block "Monitor"
-  
+
   theme "sunset"
 }
 ```
@@ -330,6 +344,7 @@ glyphset continuousBlockProcess "Value Stream" {
 Mathematical or logical equation-style process.
 
 **Parameters:**
+
 - `element` (array, 3-5 elements) - Equation elements
 - `theme` - Color theme
 
@@ -341,7 +356,7 @@ glyphset equationProcess "Success Formula" {
   element "Process"
   element "Technology"
   element "Results"
-  
+
   theme "ocean"
 }
 ```
@@ -368,6 +383,7 @@ glyphset equationProcess "Success Formula" {
 ### When to Use Diagram Profiles Instead
 
 Switch to diagram profiles when you need:
+
 - Custom decision points and branches
 - BPMN notation (events, gateways, pools)
 - Complex swimlanes with multiple actors

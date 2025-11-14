@@ -15,6 +15,7 @@ Visualization glyphsets create engaging presentation graphics with pictures, tim
 Grid layout of images with labels.
 
 **Parameters:**
+
 - `item` (array, 2-9 items) - Grid items
 - `columns` - Grid columns (default: 3)
 - `theme` - Color theme
@@ -29,7 +30,7 @@ glyphset pictureGrid "Product Features" {
   item "Reliability"
   item "Analytics"
   item "Support"
-  
+
   columns 3
   theme "professional"
 }
@@ -40,6 +41,7 @@ glyphset pictureGrid "Product Features" {
 Central image with callout boxes.
 
 **Parameters:**
+
 - `image` - Central image
 - `callout` (2-6 callouts) - Callout labels
 - `theme` - Color theme
@@ -53,7 +55,7 @@ glyphset pictureCallout "Product Overview" {
   callout "Feature 2"
   callout "Feature 3"
   callout "Feature 4"
-  
+
   theme "ocean"
 }
 ```
@@ -63,6 +65,7 @@ glyphset pictureCallout "Product Overview" {
 Process flow with central picture.
 
 **Parameters:**
+
 - `image` - Central image
 - `step` (3-6 steps) - Process steps around image
 - `theme` - Color theme
@@ -76,7 +79,7 @@ glyphset pictureProcess "Development Cycle" {
   step "Build"
   step "Test"
   step "Deploy"
-  
+
   theme "forest"
 }
 ```
@@ -86,6 +89,7 @@ glyphset pictureProcess "Development Cycle" {
 Horizontal sequence of events (timeline).
 
 **Parameters:**
+
 - `event` (2-10 events) - Timeline events
 - `showConnections` - Show connecting lines (default: true)
 - `theme` - Color theme
@@ -98,7 +102,7 @@ glyphset events "Project Milestones" {
   event "Alpha - Mar 15"
   event "Beta - Jun 1"
   event "Launch - Sep 1"
-  
+
   showConnections true
   theme "sunset"
 }

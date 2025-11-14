@@ -19,15 +19,16 @@ Glyphsets provide ready-to-use diagram patterns that automatically handle:
 
 ## When to Use Glyphsets vs Diagram Profiles
 
-| Feature | Glyphsets (Smart Art) | Diagram Profiles |
-|---------|----------------------|------------------|
-| **Speed** | ⚡ Very fast - just add data | 🐢 Slower - manual layout |
-| **Customization** | 🎨 Themed, limited options | 🛠️ Full control over everything |
-| **Use Case** | Quick presentations, standard patterns | Detailed technical diagrams |
-| **Learning Curve** | 📚 Easy - minimal syntax | 📖 Moderate - more options |
-| **Examples** | Process flows, org charts, matrices | UML diagrams, circuits, architecture |
+| Feature            | Glyphsets (Smart Art)                  | Diagram Profiles                     |
+| ------------------ | -------------------------------------- | ------------------------------------ |
+| **Speed**          | ⚡ Very fast - just add data           | 🐢 Slower - manual layout            |
+| **Customization**  | 🎨 Themed, limited options             | 🛠️ Full control over everything      |
+| **Use Case**       | Quick presentations, standard patterns | Detailed technical diagrams          |
+| **Learning Curve** | 📚 Easy - minimal syntax               | 📖 Moderate - more options           |
+| **Examples**       | Process flows, org charts, matrices    | UML diagrams, circuits, architecture |
 
 ### Choose Glyphsets When You Need:
+
 - Quick presentations and reports
 - Standard visualization patterns
 - Data-driven diagrams
@@ -35,6 +36,7 @@ Glyphsets provide ready-to-use diagram patterns that automatically handle:
 - Minimal setup time
 
 ### Choose Diagram Profiles When You Need:
+
 - Complex technical diagrams (UML, BPMN, circuits)
 - Custom node positioning and relationships
 - Fine-grained control over styling
@@ -58,7 +60,7 @@ glyphset basicProcess "Software Development" {
   step "Code"
   step "Test"
   step "Deploy"
-  
+
   theme "ocean"
   orientation "horizontal"
 }
@@ -160,7 +162,7 @@ glyphset basicProcess "Onboarding Steps" {
   step "Interview"
   step "Offer"
   step "Start Date"
-  
+
   theme "forest"
   orientation "horizontal"
 }
@@ -191,7 +193,7 @@ glyphset matrix "Priority Matrix" {
   quadrant "Schedule" label: "Important, Not Urgent"
   quadrant "Delegate" label: "Urgent, Not Important"
   quadrant "Eliminate" label: "Neither"
-  
+
   horizontalAxis "Urgency"
   verticalAxis "Importance"
 }
@@ -205,7 +207,7 @@ glyphset converging "Sales Funnel" {
   outer "Email Signups"
   outer "Free Trial Users"
   inner "Paying Customers"
-  
+
   theme "sunset"
 }
 ```
@@ -225,7 +227,7 @@ glyphset basicProcess "Themed Process" {
   step "A"
   step "B"
   step "C"
-  
+
   theme "sunset"  // Try: professional, forest, sunset, ocean, monochrome
 }
 ```
@@ -237,6 +239,7 @@ glyphset basicProcess "Themed Process" {
 ### 1. Keep It Simple
 
 Glyphsets work best with focused content:
+
 - ✅ 3-7 items for most glyphsets
 - ✅ Clear, concise labels
 - ✅ Single concept per diagram
@@ -244,6 +247,7 @@ Glyphsets work best with focused content:
 ### 2. Choose the Right Pattern
 
 Match the glyphset to your message:
+
 - **Sequential flow** → `basicProcess`, `cycle`
 - **Hierarchy** → `orgChart`, `pyramid`
 - **Comparison** → `matrix`, `balance`
@@ -256,6 +260,7 @@ Stick to one theme across related diagrams for visual consistency.
 ### 4. When to Switch to Diagram Profiles
 
 Use diagram profiles instead when you need:
+
 - Complex custom connections
 - Technical notation (UML, BPMN, circuits)
 - Precise positioning control

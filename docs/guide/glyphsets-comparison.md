@@ -15,6 +15,7 @@ Comparison glyphsets help visualize contrasts, trade-offs, and multi-dimensional
 2×2 comparison matrix (4 quadrants).
 
 **Parameters:**
+
 - `quadrant` (exactly 4) - Quadrant labels
 - `horizontalAxis` - X-axis label
 - `verticalAxis` - Y-axis label
@@ -28,7 +29,7 @@ glyphset matrix "Priority Matrix" {
   quadrant "Schedule" label: "Important, Not Urgent"
   quadrant "Delegate" label: "Urgent, Not Important"
   quadrant "Eliminate" label: "Neither"
-  
+
   horizontalAxis "Urgency"
   verticalAxis "Importance"
   theme "professional"
@@ -36,6 +37,7 @@ glyphset matrix "Priority Matrix" {
 ```
 
 **Common Use Cases:**
+
 - Eisenhower matrix (priorities)
 - SWOT analysis
 - Risk assessment
@@ -46,6 +48,7 @@ glyphset matrix "Priority Matrix" {
 3×3 comparison grid (9 cells).
 
 **Parameters:**
+
 - `cell` (exactly 9) - Cell labels (left-to-right, top-to-bottom)
 - `horizontalAxis` - X-axis label
 - `verticalAxis` - Y-axis label
@@ -64,7 +67,7 @@ glyphset matrix3x3 "Risk Matrix" {
   cell "High/Low"
   cell "High/Med"
   cell "High/High"
-  
+
   horizontalAxis "Probability"
   verticalAxis "Impact"
   theme "sunset"
@@ -76,6 +79,7 @@ glyphset matrix3x3 "Risk Matrix" {
 Matrix with multiple sections and subsections.
 
 **Parameters:**
+
 - `section` (2-4 sections) - Major sections
 - `subsection` - Items within sections
 - `theme` - Color theme
@@ -92,7 +96,7 @@ glyphset segmentedMatrix "Product Roadmap" {
     subsection "Feature C"
     subsection "Feature D"
   }
-  
+
   theme "ocean"
 }
 ```
@@ -102,6 +106,7 @@ glyphset segmentedMatrix "Product Roadmap" {
 Matrix with titled rows/columns.
 
 **Parameters:**
+
 - `row` (2-4 rows) - Row titles
 - `column` (2-4 columns) - Column titles
 - `theme` - Color theme
@@ -113,11 +118,11 @@ glyphset titledMatrix "Feature Comparison" {
   row "Basic Plan"
   row "Pro Plan"
   row "Enterprise Plan"
-  
+
   column "Users"
   column "Storage"
   column "Support"
-  
+
   theme "forest"
 }
 ```
@@ -141,6 +146,7 @@ glyphset titledMatrix "Feature Comparison" {
 ### When to Use Diagram Profiles Instead
 
 Switch to diagram profiles for:
+
 - Complex decision trees
 - Multi-level hierarchies
 - Detailed flowcharts with conditions

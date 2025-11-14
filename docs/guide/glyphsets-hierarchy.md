@@ -15,6 +15,7 @@ Hierarchy glyphsets visualize organizational structures, reporting relationships
 Organization chart with nested reporting relationships.
 
 **Parameters:**
+
 - `person` (nested) - Organizational hierarchy
 - `theme` - Color theme
 
@@ -43,12 +44,13 @@ glyphset orgChart "Company Structure" {
       person "Content Lead"
     }
   }
-  
+
   theme "professional"
 }
 ```
 
 **Features:**
+
 - Unlimited depth (recommend 3-5 levels)
 - Automatic layout and spacing
 - Clear reporting lines
@@ -59,6 +61,7 @@ glyphset orgChart "Company Structure" {
 Hierarchical pyramid structure.
 
 **Example Use Cases:**
+
 - Maslow's hierarchy of needs
 - Food pyramid
 - Organizational levels
@@ -76,6 +79,7 @@ Hierarchical pyramid structure.
 ### When to Use Diagram Profiles Instead
 
 Switch to diagram profiles for:
+
 - Matrix organizations (multiple reporting lines)
 - Complex relationships (not strictly hierarchical)
 - Detailed annotations per person
