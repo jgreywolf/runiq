@@ -81,6 +81,16 @@ import { divergingGlyphSet } from './relationship/diverging.js';
 import { clusterGlyphSet } from './relationship/cluster.js';
 import { puzzleGlyphSet } from './relationship/puzzle.js';
 import { plusMinusGlyphSet } from './relationship/plusMinus.js';
+import { counterbalanceGlyphSet } from './relationship/counterbalance.js';
+import { equationGlyphSet } from './relationship/equation.js';
+import { interconnectedGlyphSet } from './relationship/interconnected.js';
+import { hubGlyphSet } from './relationship/hub.js';
+import { steppedVennGlyphSet } from './comparison/steppedVenn.js';
+import { linearVennGlyphSet } from './comparison/linearVenn.js';
+import { circleHierarchyGlyphSet } from './hierarchy/circleHierarchy.js';
+import { labeledHierarchyGlyphSet } from './hierarchy/labeledHierarchy.js';
+import { tableHierarchyGlyphSet } from './hierarchy/tableHierarchy.js';
+import { teamHierarchyGlyphSet } from './hierarchy/teamHierarchy.js';
 
 // Auto-register built-in glyphsets
 import { glyphsetRegistry } from './registry.js';
@@ -111,6 +121,10 @@ glyphsetRegistry.register(pyramidListGlyphSet);
 glyphsetRegistry.register(orgChartGlyphSet);
 glyphsetRegistry.register(horizontalOrgChartGlyphSet);
 glyphsetRegistry.register(matrixOrgChartGlyphSet);
+glyphsetRegistry.register(circleHierarchyGlyphSet);
+glyphsetRegistry.register(labeledHierarchyGlyphSet);
+glyphsetRegistry.register(tableHierarchyGlyphSet);
+glyphsetRegistry.register(teamHierarchyGlyphSet);
 
 // Comparison glyphsets
 glyphsetRegistry.register(matrixGlyphSet);
@@ -118,6 +132,8 @@ glyphsetRegistry.register(vennGlyphSet);
 glyphsetRegistry.register(matrix3x3GlyphSet);
 glyphsetRegistry.register(titledMatrixGlyphSet);
 glyphsetRegistry.register(segmentedMatrixGlyphSet);
+glyphsetRegistry.register(steppedVennGlyphSet);
+glyphsetRegistry.register(linearVennGlyphSet);
 
 // Relationship glyphsets
 glyphsetRegistry.register(targetGlyphSet);
@@ -128,6 +144,10 @@ glyphsetRegistry.register(divergingGlyphSet);
 glyphsetRegistry.register(clusterGlyphSet);
 glyphsetRegistry.register(puzzleGlyphSet);
 glyphsetRegistry.register(plusMinusGlyphSet);
+glyphsetRegistry.register(counterbalanceGlyphSet);
+glyphsetRegistry.register(equationGlyphSet);
+glyphsetRegistry.register(interconnectedGlyphSet);
+glyphsetRegistry.register(hubGlyphSet);
 
 // Visualization glyphsets
 glyphsetRegistry.register(funnelGlyphSet);
@@ -172,11 +192,17 @@ export { pyramidListGlyphSet } from './hierarchy/pyramidList.js';
 export { orgChartGlyphSet } from './hierarchy/orgChart.js';
 export { horizontalOrgChartGlyphSet } from './hierarchy/horizontalOrgChart.js';
 export { matrixOrgChartGlyphSet } from './hierarchy/matrixOrgChart.js';
+export { circleHierarchyGlyphSet } from './hierarchy/circleHierarchy.js';
+export { labeledHierarchyGlyphSet } from './hierarchy/labeledHierarchy.js';
+export { tableHierarchyGlyphSet } from './hierarchy/tableHierarchy.js';
+export { teamHierarchyGlyphSet } from './hierarchy/teamHierarchy.js';
 export { matrixGlyphSet } from './comparison/matrix.js';
 export { vennGlyphSet } from './comparison/venn.js';
 export { matrix3x3GlyphSet } from './comparison/matrix3x3.js';
 export { titledMatrixGlyphSet } from './comparison/titledMatrix.js';
 export { segmentedMatrixGlyphSet } from './comparison/segmentedMatrix.js';
+export { steppedVennGlyphSet } from './comparison/steppedVenn.js';
+export { linearVennGlyphSet } from './comparison/linearVenn.js';
 export { targetGlyphSet } from './relationship/target.js';
 export { balanceGlyphSet } from './relationship/balance.js';
 export { opposingGlyphSet } from './relationship/opposing.js';
@@ -185,6 +211,10 @@ export { divergingGlyphSet } from './relationship/diverging.js';
 export { clusterGlyphSet } from './relationship/cluster.js';
 export { puzzleGlyphSet } from './relationship/puzzle.js';
 export { plusMinusGlyphSet } from './relationship/plusMinus.js';
+export { counterbalanceGlyphSet } from './relationship/counterbalance.js';
+export { equationGlyphSet } from './relationship/equation.js';
+export { interconnectedGlyphSet } from './relationship/interconnected.js';
+export { hubGlyphSet } from './relationship/hub.js';
 export { funnelGlyphSet } from './visualization/funnel.js';
 export { pictureGridGlyphSet } from './visualization/pictureGrid.js';
 export { pictureCalloutGlyphSet } from './visualization/pictureCallout.js';

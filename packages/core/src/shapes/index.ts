@@ -160,6 +160,18 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.blockCycleShape); // Block cycle (rectangles in circle)
   shapeRegistry.register(charts.spiralCycleShape); // Spiral cycle (growth progression)
   shapeRegistry.register(charts.orbitCycleShape); // Orbit cycle (planetary style)
+
+  // New glyphset shapes
+  shapeRegistry.register(charts.steppedVenn); // Stepped Venn (3D stacked circles)
+  shapeRegistry.register(charts.linearVenn); // Linear Venn (horizontal overlap)
+  shapeRegistry.register(charts.counterbalance); // Counterbalance (tilted scale)
+  shapeRegistry.register(charts.equation); // Equation (A + B = C)
+  shapeRegistry.register(charts.interconnected); // Interconnected (mesh network)
+  shapeRegistry.register(charts.hub); // Hub (radial hub-and-spoke)
+  shapeRegistry.register(charts.circleHierarchy); // Circle Hierarchy (concentric circles)
+  shapeRegistry.register(charts.labeledHierarchy); // Labeled Hierarchy (tree with edge labels)
+  shapeRegistry.register(charts.tableHierarchy); // Table Hierarchy (tabular rows)
+  shapeRegistry.register(charts.teamHierarchy); // Team Hierarchy (team containers)
 }
 
 export function registerNetworkShapes(): void {

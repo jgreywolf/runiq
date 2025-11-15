@@ -1,0 +1,8 @@
+// Stepped Venn - 3D stacked Venn circles with vertical offset
+// Shows overlapping concepts with depth perception
+
+glyphset steppedVenn "Product Strategy" {
+  circle "Market Need"
+  circle "Our Capability"
+  circle "Competitive Edge"
+}

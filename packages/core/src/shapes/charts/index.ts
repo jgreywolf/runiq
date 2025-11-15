@@ -51,3 +51,13 @@ export { segmentedCycleShape } from './segmentedCycle.js'; // Pie chart segments
 export { blockCycleShape } from './blockCycle.js'; // Rectangular blocks arranged in circle
 export { spiralCycleShape } from './spiralCycle.js'; // Spiral progression showing growth/evolution
 export { orbitCycleShape } from './orbitCycle.js'; // Planetary orbit style with central core
+export { steppedVenn } from './steppedVenn.js'; // 3D stacked Venn circles with vertical offset
+export { linearVenn } from './linearVenn.js'; // Horizontal overlapping Venn circles
+export { counterbalance } from './counterbalance.js'; // Weighted balance scale with tilt
+export { equation } from './equation.js'; // A + B = C relationship formula
+export { interconnected } from './interconnected.js'; // Mesh network with all-to-all connections
+export { hub } from './hub.js'; // Hub-and-spoke radial diagram
+export { circleHierarchy } from './circleHierarchy.js'; // Concentric circles hierarchy
+export { labeledHierarchy } from './labeledHierarchy.js'; // Tree structure with edge labels
+export { tableHierarchy } from './tableHierarchy.js'; // Tabular rows with hierarchical connections
+export { teamHierarchy } from './teamHierarchy.js'; // Grouped teams with leader and members

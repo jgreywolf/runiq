@@ -656,21 +656,23 @@ GlyphSetImageItem:
 
 // Simple flat items: step "Label", level "Label", etc.
 GlyphSetSimpleItem:
-    keyword=GlyphSetKeyword label=STRING;
+    keyword=GlyphSetKeyword label=STRING relationship=ID?;
 
 // Nested items with children: person "Name" { person "Child1" person "Child2" }
 GlyphSetNestedItem:
-    keyword=GlyphSetKeyword label=STRING '{' children+=GlyphSetItemStatement* '}';
+    keyword=GlyphSetKeyword label=STRING relationship=ID? '{' children+=GlyphSetItemStatement* '}';
 
 // Parameter assignments: direction "LR", theme "professional", columns 3, shape "circle", showPercentages true
 GlyphSetParameter:
     name=GlyphSetParameterName value=(STRING | NUMBER | BooleanValue);
 
 GlyphSetParameterName returns string:
-    'direction' | 'theme' | 'columns' | 'shape' | 'showValues' | 'mergePoint' | 'result' | 'showPercentages' | 'centerLabel' | 'orientation';
+    'direction' | 'theme' | 'columns' | 'shape' | 'showValues' | 'mergePoint' | 'result' | 'showPercentages' | 'centerLabel' | 'orientation'
+    | 'leftWeight' | 'rightWeight' | 'operator' | 'overlap' | 'showAllConnections' | 'bidirectional' | 'showConnections' | 'layout' | 'relationship';
 
 GlyphSetKeyword returns string:
-    'step' | 'item' | 'person' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'node' | 'group' | 'side';
+    'step' | 'item' | 'person' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'node' | 'group' | 'side'
+    | 'left' | 'right' | 'input' | 'output' | 'center' | 'spoke' | 'team' | 'root' | 'child' | 'leader' | 'member';
 
 
 // ============================================================================

@@ -54,6 +54,19 @@ function extractGlyphSetParams(
   const groups: Array<{ name: string; items: string[] }> = [];
   const images: Array<string | ImageItem> = [];
 
+  // New keyword arrays for additional glyphsets
+  const roots: string[] = [];
+  const children: string[] = [];
+  const centers: string[] = [];
+  const spokes: string[] = [];
+  const teams: string[] = [];
+  const leaders: string[] = [];
+  const members: string[] = [];
+  const inputs: string[] = [];
+  const outputs: string[] = [];
+  const lefts: string[] = [];
+  const rights: string[] = [];
+
   for (const stmt of statements) {
     // Check if it's a parameter assignment
     if (Langium.isGlyphSetParameter(stmt)) {
@@ -93,6 +106,15 @@ function extractGlyphSetParams(
           persons.push(nested);
         } else if (keyword === 'node') {
           nodes.push(nested);
+        }
+      }
+      // Handle nested root/child hierarchies
+      else if (keyword === 'root' || keyword === 'child') {
+        const nested = extractNestedHierarchyItem(nestedItem);
+        if (keyword === 'root') {
+          roots.push(nested);
+        } else {
+          children.push(nested);
         }
       }
       // Handle group with nested items (for groupedProcess)
@@ -165,7 +187,9 @@ function extractGlyphSetParams(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       const keyword = simpleItem.keyword;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      const label = simpleItem.label.replace(/^"|"$/g, ''); // Remove quotes
+      const label = simpleItem.label.replace(/^"|"/g, ''); // Remove quotes
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      const relationship = simpleItem.relationship || '';
 
       switch (keyword) {
         case 'step':
@@ -174,8 +198,15 @@ function extractGlyphSetParams(
         case 'item':
           items.push(label);
           break;
+        case 'node':
+          items.push(label);
+          break;
         case 'level':
-          levels.push(label);
+          if (relationship) {
+            levels.push(`${label}:${relationship}`);
+          } else {
+            levels.push(label);
+          }
           break;
         case 'stage':
           stages.push(label);
@@ -191,6 +222,43 @@ function extractGlyphSetParams(
           break;
         case 'side':
           sides.push(label);
+          break;
+        case 'root':
+          roots.push(label);
+          break;
+        case 'child':
+          if (relationship) {
+            children.push(`${label}:${relationship}`);
+          } else {
+            children.push(label);
+          }
+          break;
+        case 'center':
+          centers.push(label);
+          break;
+        case 'spoke':
+          spokes.push(label);
+          break;
+        case 'team':
+          teams.push(label);
+          break;
+        case 'leader':
+          leaders.push(label);
+          break;
+        case 'member':
+          members.push(label);
+          break;
+        case 'input':
+          inputs.push(label);
+          break;
+        case 'output':
+          outputs.push(label);
+          break;
+        case 'left':
+          lefts.push(label);
+          break;
+        case 'right':
+          rights.push(label);
           break;
       }
     }
@@ -217,6 +285,19 @@ function extractGlyphSetParams(
     // Picture glyphsets expect 'items' parameter
     if (!params.items) params.items = images;
   }
+
+  // Add new keyword parameters
+  if (roots.length > 0) params.roots = roots;
+  if (children.length > 0) params.children = children;
+  if (centers.length > 0) params.centers = centers;
+  if (spokes.length > 0) params.spokes = spokes;
+  if (teams.length > 0) params.teams = teams;
+  if (leaders.length > 0) params.leaders = leaders;
+  if (members.length > 0) params.members = members;
+  if (inputs.length > 0) params.inputs = inputs;
+  if (outputs.length > 0) params.outputs = outputs;
+  if (lefts.length > 0) params.lefts = lefts;
+  if (rights.length > 0) params.rights = rights;
 
   // Fallback: If only 'item' was used, map it to the appropriate parameter
   // This allows users to use 'item' as a universal keyword
@@ -258,6 +339,42 @@ function extractGlyphSetParams(
   }
 
   return params;
+}
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
+
+/**
+ * Extract nested hierarchy item (root/child) with optional relationship
+ */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
+function extractNestedHierarchyItem(item: Langium.GlyphSetNestedItem): any {
+  const label = item.label.replace(/^"|"$/g, ''); // Remove quotes
+  const relationship = item.relationship || '';
+  const children: any[] = [];
+
+  // Process all children recursively
+  for (const child of item.children) {
+    if (Langium.isGlyphSetNestedItem(child)) {
+      children.push(extractNestedHierarchyItem(child));
+    } else if (Langium.isGlyphSetSimpleItem(child)) {
+      const childLabel = child.label.replace(/^"|"$/g, '');
+      const childRelationship = child.relationship || '';
+      const childStr = childRelationship
+        ? `${childLabel}:${childRelationship}`
+        : childLabel;
+      children.push(childStr);
+    }
+  }
+
+  // If no children, return string (backward compatible)
+  if (children.length === 0) {
+    return relationship ? `${label}:${relationship}` : label;
+  }
+
+  // Return object with children
+  const node: any = { label };
+  if (relationship) node.relationship = relationship;
+  if (children.length > 0) node.children = children;
+  return node;
 }
 /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 

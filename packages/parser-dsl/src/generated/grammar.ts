@@ -7058,6 +7058,19 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
               },
               "arguments": []
             }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "relationship",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@333"
+              },
+              "arguments": []
+            },
+            "cardinality": "?"
           }
         ]
       },
@@ -7094,6 +7107,19 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
               },
               "arguments": []
             }
+          },
+          {
+            "$type": "Assignment",
+            "feature": "relationship",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@333"
+              },
+              "arguments": []
+            },
+            "cardinality": "?"
           },
           {
             "$type": "Keyword",
@@ -7223,6 +7249,42 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "orientation"
+          },
+          {
+            "$type": "Keyword",
+            "value": "leftWeight"
+          },
+          {
+            "$type": "Keyword",
+            "value": "rightWeight"
+          },
+          {
+            "$type": "Keyword",
+            "value": "operator"
+          },
+          {
+            "$type": "Keyword",
+            "value": "overlap"
+          },
+          {
+            "$type": "Keyword",
+            "value": "showAllConnections"
+          },
+          {
+            "$type": "Keyword",
+            "value": "bidirectional"
+          },
+          {
+            "$type": "Keyword",
+            "value": "showConnections"
+          },
+          {
+            "$type": "Keyword",
+            "value": "layout"
+          },
+          {
+            "$type": "Keyword",
+            "value": "relationship"
           }
         ]
       },
@@ -7280,6 +7342,50 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "side"
+          },
+          {
+            "$type": "Keyword",
+            "value": "left"
+          },
+          {
+            "$type": "Keyword",
+            "value": "right"
+          },
+          {
+            "$type": "Keyword",
+            "value": "input"
+          },
+          {
+            "$type": "Keyword",
+            "value": "output"
+          },
+          {
+            "$type": "Keyword",
+            "value": "center"
+          },
+          {
+            "$type": "Keyword",
+            "value": "spoke"
+          },
+          {
+            "$type": "Keyword",
+            "value": "team"
+          },
+          {
+            "$type": "Keyword",
+            "value": "root"
+          },
+          {
+            "$type": "Keyword",
+            "value": "child"
+          },
+          {
+            "$type": "Keyword",
+            "value": "leader"
+          },
+          {
+            "$type": "Keyword",
+            "value": "member"
           }
         ]
       },

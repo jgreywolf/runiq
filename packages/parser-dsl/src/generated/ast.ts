@@ -143,6 +143,7 @@ export type RuniqKeywordNames =
     | "center"
     | "centerLabel"
     | "centralBuffer"
+    | "child"
     | "childCountPosition:"
     | "children:"
     | "circle"
@@ -362,9 +363,12 @@ export type RuniqKeywordNames =
     | "labelPosition:"
     | "labels:"
     | "layered"
+    | "layout"
     | "layoutCache:"
     | "layoutComplexity:"
+    | "leader"
     | "left"
+    | "leftWeight"
     | "legendPosition:"
     | "level"
     | "levelAlarmHigh"
@@ -402,6 +406,7 @@ export type RuniqKeywordNames =
     | "maxHeight:"
     | "maxWidth:"
     | "medium"
+    | "member"
     | "mergePoint"
     | "message"
     | "methods:"
@@ -444,6 +449,7 @@ export type RuniqKeywordNames =
     | "opacity:"
     | "open"
     | "operating"
+    | "operator"
     | "opt"
     | "options:"
     | "or"
@@ -453,6 +459,7 @@ export type RuniqKeywordNames =
     | "output"
     | "outputPins:"
     | "over"
+    | "overlap"
     | "package"
     | "packed"
     | "padding:"
@@ -520,6 +527,7 @@ export type RuniqKeywordNames =
     | "ref"
     | "ref:"
     | "refluxDrum"
+    | "relationship"
     | "relationship:"
     | "remote"
     | "requiredInterface"
@@ -529,8 +537,10 @@ export type RuniqKeywordNames =
     | "return"
     | "returnType:"
     | "right"
+    | "rightWeight"
     | "roleSource:"
     | "roleTarget:"
+    | "root"
     | "routing"
     | "routing:"
     | "rpm"
@@ -551,7 +561,9 @@ export type RuniqKeywordNames =
     | "shadow:"
     | "shape"
     | "shape:"
+    | "showAllConnections"
     | "showChildCount:"
+    | "showConnections"
     | "showDepthIndicator:"
     | "showLegend:"
     | "showMetrics:"
@@ -571,6 +583,7 @@ export type RuniqKeywordNames =
     | "speedController"
     | "spline"
     | "splines"
+    | "spoke"
     | "stable"
     | "stacked:"
     | "stage"
@@ -596,6 +609,7 @@ export type RuniqKeywordNames =
     | "synthetic"
     | "t/h"
     | "target"
+    | "team"
     | "temp:"
     | "temperature"
     | "temperatureAlarmHigh"
@@ -2063,10 +2077,10 @@ export function isGlyphSetItemStatement(item: unknown): item is GlyphSetItemStat
     return reflection.isInstance(item, GlyphSetItemStatement.$type);
 }
 
-export type GlyphSetKeyword = 'circle' | 'event' | 'group' | 'item' | 'level' | 'node' | 'person' | 'quadrant' | 'side' | 'stage' | 'step';
+export type GlyphSetKeyword = 'center' | 'child' | 'circle' | 'event' | 'group' | 'input' | 'item' | 'leader' | 'left' | 'level' | 'member' | 'node' | 'output' | 'person' | 'quadrant' | 'right' | 'root' | 'side' | 'spoke' | 'stage' | 'step' | 'team';
 
 export function isGlyphSetKeyword(item: unknown): item is GlyphSetKeyword {
-    return item === 'step' || item === 'item' || item === 'person' || item === 'level' || item === 'stage' || item === 'event' || item === 'quadrant' || item === 'circle' || item === 'node' || item === 'group' || item === 'side';
+    return item === 'step' || item === 'item' || item === 'person' || item === 'level' || item === 'stage' || item === 'event' || item === 'quadrant' || item === 'circle' || item === 'node' || item === 'group' || item === 'side' || item === 'left' || item === 'right' || item === 'input' || item === 'output' || item === 'center' || item === 'spoke' || item === 'team' || item === 'root' || item === 'child' || item === 'leader' || item === 'member';
 }
 
 export interface GlyphSetNestedItem extends langium.AstNode {
@@ -2075,13 +2089,15 @@ export interface GlyphSetNestedItem extends langium.AstNode {
     children: Array<GlyphSetItemStatement>;
     keyword: GlyphSetKeyword;
     label: string;
+    relationship?: string;
 }
 
 export const GlyphSetNestedItem = {
     $type: 'GlyphSetNestedItem',
     children: 'children',
     keyword: 'keyword',
-    label: 'label'
+    label: 'label',
+    relationship: 'relationship'
 } as const;
 
 export function isGlyphSetNestedItem(item: unknown): item is GlyphSetNestedItem {
@@ -2105,10 +2121,10 @@ export function isGlyphSetParameter(item: unknown): item is GlyphSetParameter {
     return reflection.isInstance(item, GlyphSetParameter.$type);
 }
 
-export type GlyphSetParameterName = 'centerLabel' | 'columns' | 'direction' | 'mergePoint' | 'orientation' | 'result' | 'shape' | 'showPercentages' | 'showValues' | 'theme';
+export type GlyphSetParameterName = 'bidirectional' | 'centerLabel' | 'columns' | 'direction' | 'layout' | 'leftWeight' | 'mergePoint' | 'operator' | 'orientation' | 'overlap' | 'relationship' | 'result' | 'rightWeight' | 'shape' | 'showAllConnections' | 'showConnections' | 'showPercentages' | 'showValues' | 'theme';
 
 export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
-    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues' || item === 'mergePoint' || item === 'result' || item === 'showPercentages' || item === 'centerLabel' || item === 'orientation';
+    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues' || item === 'mergePoint' || item === 'result' || item === 'showPercentages' || item === 'centerLabel' || item === 'orientation' || item === 'leftWeight' || item === 'rightWeight' || item === 'operator' || item === 'overlap' || item === 'showAllConnections' || item === 'bidirectional' || item === 'showConnections' || item === 'layout' || item === 'relationship';
 }
 
 export interface GlyphSetProfile extends langium.AstNode {
@@ -2135,12 +2151,14 @@ export interface GlyphSetSimpleItem extends langium.AstNode {
     readonly $type: 'GlyphSetSimpleItem';
     keyword: GlyphSetKeyword;
     label: string;
+    relationship?: string;
 }
 
 export const GlyphSetSimpleItem = {
     $type: 'GlyphSetSimpleItem',
     keyword: 'keyword',
-    label: 'label'
+    label: 'label',
+    relationship: 'relationship'
 } as const;
 
 export function isGlyphSetSimpleItem(item: unknown): item is GlyphSetSimpleItem {
@@ -6447,6 +6465,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 label: {
                     name: GlyphSetNestedItem.label
+                },
+                relationship: {
+                    name: GlyphSetNestedItem.relationship
                 }
             },
             superTypes: [GlyphSetItemStatement.$type]
@@ -6487,6 +6508,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 label: {
                     name: GlyphSetSimpleItem.label
+                },
+                relationship: {
+                    name: GlyphSetSimpleItem.relationship
                 }
             },
             superTypes: [GlyphSetItemStatement.$type]
