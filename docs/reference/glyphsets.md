@@ -1,12 +1,12 @@
 ---
 title: All Glyphsets Reference
-description: Complete reference of all 60+ glyphsets with parameters and examples
+description: Complete reference of all 70+ glyphsets with parameters and examples
 lastUpdated: 2025-01-14
 ---
 
 # All Glyphsets Reference
 
-Complete reference for all **60+ glyphsets** available in Runiq.
+Complete reference for all **70+ glyphsets** available in Runiq.
 
 ## Quick Reference Table
 
@@ -48,6 +48,16 @@ Complete reference for all **60+ glyphsets** available in Runiq.
 | `cluster`                | Relationship  | 2         | 4         | Grouped clusters                   |
 | `puzzle`                 | Relationship  | 2         | 6         | Interlocking pieces                |
 | `target`                 | Relationship  | 2         | 5         | Concentric rings                   |
+| `counterbalance`         | Relationship  | 2         | 2         | Balance scale comparison           |
+| `equation`               | Relationship  | 2         | 5         | A+B=C mathematical format          |
+| `interconnected`         | Relationship  | 3         | 8         | Circular mesh network              |
+| `hub`                    | Relationship  | 3         | 12        | Central hub with radial spokes     |
+| `steppedVenn`            | Comparison    | 3         | 3         | 3D stacked circles                 |
+| `linearVenn`             | Comparison    | 2         | 6         | Horizontal overlapping circles     |
+| `circleHierarchy`        | Hierarchy     | 2         | 10        | Concentric circle hierarchy        |
+| `labeledHierarchy`       | Hierarchy     | 3         | 20        | Tree with labeled edges            |
+| `tableHierarchy`         | Hierarchy     | 3         | 15        | Tabular hierarchical rows          |
+| `teamHierarchy`          | Hierarchy     | 4         | 20        | Team containers with members       |
 
 ## Common Parameters
 
@@ -127,15 +137,19 @@ Organized lists and styled collections.
 - `framedPicture` - Framed single picture
 - `pictureBlocks` - Grid of picture blocks
 
-### Hierarchy (1 glyphset)
+### Hierarchy (5 glyphsets)
 
 Organizational structures.
 
 [View Hierarchy Glyphsets Guide →](/guide/glyphsets-hierarchy)
 
 - `orgChart` - Organization chart with unlimited nesting
+- `circleHierarchy` - Concentric circle hierarchy
+- `labeledHierarchy` - Tree with labeled edges (supports nesting)
+- `tableHierarchy` - Tabular hierarchical rows
+- `teamHierarchy` - Team containers with members
 
-### Comparison (4 glyphsets)
+### Comparison (6 glyphsets)
 
 Matrices and comparative analysis.
 
@@ -145,6 +159,8 @@ Matrices and comparative analysis.
 - `matrix3x3` - 3×3 grid (9 cells)
 - `segmentedMatrix` - Multi-section matrix
 - `titledMatrix` - Matrix with titles
+- `steppedVenn` - 3D stacked circles (3 items only)
+- `linearVenn` - Horizontal overlapping circles (2-6 items)
 
 ### Visualization (8 glyphsets)
 
@@ -157,7 +173,7 @@ Data visualization and presentation graphics.
 - `pictureProcess` - Process with central image
 - `events` - Timeline/event sequence
 
-### Relationship (24 glyphsets)
+### Relationship (28 glyphsets)
 
 Connections and relationships between concepts.
 
@@ -182,6 +198,16 @@ Connections and relationships between concepts.
 **Targeting:**
 
 - `target` - Concentric rings
+
+**Networks:**
+
+- `hub` - Central hub with radial spokes (3-12 items)
+- `interconnected` - Circular mesh network (3-8 items)
+
+**Comparison:**
+
+- `counterbalance` - Balance scale comparison (2 items)
+- `equation` - A+B=C mathematical format (2-5 items)
 
 ## Usage Examples
 
@@ -243,6 +269,184 @@ glyphset converging "Lead Sources" {
   inner "Qualified Leads"
 
   theme "forest"
+}
+```
+
+### Stepped Venn Diagram
+
+Three-dimensional stacked circles creating a pyramid effect.
+
+```runiq
+glyphset steppedVenn "Market Segments" {
+  circle "Enterprise"
+  circle "Mid-Market"
+  circle "SMB"
+
+  theme "vibrant"
+}
+```
+
+### Linear Venn Diagram
+
+Horizontal overlapping circles showing intersections.
+
+```runiq
+glyphset linearVenn "Product Features" {
+  circle "Basic"
+  circle "Standard"
+  circle "Premium"
+  circle "Enterprise"
+
+  theme "professional"
+}
+```
+
+### Counterbalance Diagram
+
+Balance scale showing comparison between two concepts.
+
+```runiq
+glyphset counterbalance "Cost vs Value" {
+  side "Low Cost"
+  side "High Value"
+
+  theme "cool"
+}
+```
+
+### Equation Diagram
+
+Mathematical equation format (A + B = C or similar).
+
+```runiq
+glyphset equation "Revenue Model" {
+  input "Product Sales"
+  input "Subscriptions"
+  output "Total Revenue"
+
+  theme "warm"
+}
+```
+
+### Interconnected Network
+
+Circular mesh network showing all-to-all connections.
+
+```runiq
+glyphset interconnected "Microservices" {
+  node "API Gateway"
+  node "Auth Service"
+  node "User Service"
+  node "Payment Service"
+  node "Analytics"
+
+  theme "ocean"
+}
+```
+
+### Hub Diagram
+
+Central hub with radial spokes (star topology).
+
+```runiq
+glyphset hub "Distribution Network" {
+  center "Warehouse"
+  spoke "Store A"
+  spoke "Store B"
+  spoke "Store C"
+  spoke "Store D"
+
+  theme "forest"
+}
+```
+
+### Circle Hierarchy
+
+Concentric circles showing hierarchical layers.
+
+```runiq
+glyphset circleHierarchy "System Layers" {
+  root "Core"
+  child "Business Logic"
+  child "API Layer"
+  child "UI Layer"
+
+  theme "professional"
+}
+```
+
+### Labeled Hierarchy
+
+Tree structure with labeled edges showing relationships. Supports nested hierarchies.
+
+```runiq
+glyphset labeledHierarchy "Team Structure" {
+  root "Engineering Manager" {
+    child "Tech Lead" oversees {
+      child "Senior Engineer" mentors {
+        child "Junior Engineer"
+      }
+    }
+    child "QA Lead" manages {
+      child "QA Engineer"
+    }
+  }
+
+  theme "vibrant"
+}
+```
+
+**Flat syntax (no nesting):**
+
+```runiq
+glyphset labeledHierarchy "Simple Reporting" {
+  root "CEO"
+  child "CTO" reports_to
+  child "CFO" reports_to
+  child "CMO" reports_to
+
+  theme "cool"
+}
+```
+
+### Table Hierarchy
+
+Tabular rows grouped by hierarchical categories.
+
+```runiq
+glyphset tableHierarchy "System Architecture" {
+  level "Controller A" Presentation
+  level "Controller B" Presentation
+  level "Service A" BusinessLogic
+  level "Service B" BusinessLogic
+  level "Repository 1" DataAccess
+  level "Repository 2" DataAccess
+
+  theme "monochrome"
+}
+```
+
+### Team Hierarchy
+
+Team containers with leaders and members.
+
+```runiq
+glyphset teamHierarchy "Project Teams" {
+  team "Frontend"
+  leader "Sarah Chen"
+  member "Alice"
+  member "Bob"
+
+  team "Backend"
+  leader "Mike Johnson"
+  member "Charlie"
+  member "Diana"
+
+  team "DevOps"
+  leader "Emma Wilson"
+  member "Frank"
+
+  theme "sunset"
 }
 ```
 
