@@ -280,7 +280,7 @@ diagram "Social Network Analysis" {
 }
 ```
 
-See [Graph Metrics Reference](docs/reference/graph-metrics.md) for detailed information on metric types and visualization.
+See [Graph Metrics Reference](./reference/graph-metrics.md) for detailed information on metric types and visualization.
 
 ## Common Mistakes
 

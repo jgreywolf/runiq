@@ -178,7 +178,7 @@ Weighted edges enable graph analysis algorithms:
 - **Network Flow**: Calculate maximum flow capacity
 - **Centrality Metrics**: Identify important nodes based on weighted paths
 
-See [Graph Metrics](./graph-metrics.md) for computing and visualizing graph metrics with weighted edges.
+See [Graph Metrics](../reference/graph-metrics.md) for computing and visualizing graph metrics with weighted edges.
 
 ## Best Practices
 
@@ -216,5 +216,5 @@ container "Layers" algorithm: layered {
 
 - [Edges Guide](./edges.md) - All edge properties and syntax
 - [Force-Directed Networks](./force-directed-networks.md) - Network visualization
-- [Graph Metrics](./graph-metrics.md) - Compute graph metrics with weights
+- [Graph Metrics](../reference/graph-metrics.md) - Compute graph metrics with weights
 - [Layout Guide](./layout.md) - Layout algorithm options
