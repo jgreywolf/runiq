@@ -184,7 +184,7 @@ export const numberedChevronListShape: ShapeDefinition = {
                 text-anchor="start" dominant-baseline="middle"
                 font-family="${font}" font-size="${fontSize}" 
                 fill="#333333">
-            ${truncateText(item.description, 60)}
+            ${item.description}
           </text>
         `;
       }

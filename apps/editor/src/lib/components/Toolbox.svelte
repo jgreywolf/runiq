@@ -1,8 +1,10 @@
 <script lang="ts">
 	import * as Tabs from '$lib/components/ui/tabs';
 	import * as Tooltip from '$lib/components/ui/tooltip';
+	import { Button } from '$lib/components/ui/button';
+	import { FileText } from 'lucide-svelte';
 	import ShapeBrowser from './ShapeBrowser.svelte';
-	import ToolboxSamples from './ToolboxSamples.svelte';
+	import SampleBrowserDialog from './SampleBrowserDialog.svelte';
 	import { shapeCategories } from '$lib/data/toolbox-data';
 	import { sampleDiagrams } from '$lib/data/sample-data';
 
@@ -13,6 +15,8 @@
 	}
 
 	let { onInsertShape, onInsertSample, currentCode = '' }: Props = $props();
+
+	let showSampleDialog = $state(false);
 
 	// Detect profile type from current code
 	// Official profiles: diagram, sequence, wardley, electrical, digital, pneumatic, hydraulic
@@ -58,6 +62,10 @@
 			onInsertShape(sampleCode);
 		}
 	}
+
+	function openSampleBrowser() {
+		showSampleDialog = true;
+	}
 </script>
 
 <Tooltip.Provider delayDuration={200}>
@@ -88,44 +96,45 @@
 			</div>
 		{/if}
 
-		<Tabs.Root value={isWardleyMode ? 'samples' : 'shapes'} class="flex h-full flex-col">
-			<Tabs.List class="m-2 grid w-auto grid-cols-2 gap-1 rounded-lg bg-neutral-100 p-1">
-				<Tabs.Trigger
-					value="shapes"
-					class="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:text-runiq-700 data-[state=active]:shadow-sm data-[state=inactive]:text-neutral-600 data-[state=inactive]:hover:text-neutral-900"
-				>
-					Shapes
-				</Tabs.Trigger>
-				<Tabs.Trigger
-					value="samples"
-					class="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:text-runiq-700 data-[state=active]:shadow-sm data-[state=inactive]:text-neutral-600 data-[state=inactive]:hover:text-neutral-900"
-				>
-					Sample Diagrams
-				</Tabs.Trigger>
-			</Tabs.List>
+		<!-- Sample Browser Button -->
+		<div class="border-b border-neutral-200 p-3">
+			<Button
+				onclick={openSampleBrowser}
+				class="w-full justify-start gap-2 bg-gradient-to-r from-runiq-500 to-runiq-600 text-white hover:from-runiq-600 hover:to-runiq-700"
+			>
+				<FileText class="h-4 w-4" />
+				Browse Sample Diagrams
+			</Button>
+		</div>
 
-			<Tabs.Content value="shapes" class="flex-1 overflow-auto">
-				{#if !isWardleyMode}
-					<ShapeBrowser categories={displayedCategories} {onInsertShape} />
-				{:else}
-					<div class="flex h-full items-center justify-center p-4 text-center">
-						<p class="text-sm text-neutral-500">
-							Wardley Maps use uniform components.<br />
-							See Sample Diagrams for examples.
-						</p>
-					</div>
-				{/if}
-			</Tabs.Content>
-
-			<Tabs.Content value="samples" class="flex-1 overflow-auto">
-				<ToolboxSamples categories={displayedSamples} onInsertSample={handleInsertSample} />
-			</Tabs.Content>
-		</Tabs.Root>
+		<!-- Shape Browser -->
+		<div class="flex-1 overflow-auto">
+			{#if !isWardleyMode}
+				<ShapeBrowser categories={displayedCategories} {onInsertShape} />
+			{:else}
+				<div class="flex h-full items-center justify-center p-4 text-center">
+					<p class="text-sm text-neutral-500">
+						Wardley Maps use uniform components.<br />
+						See Sample Diagrams for examples.
+					</p>
+				</div>
+			{/if}
+		</div>
 
 		<div class="mt-auto border-t border-neutral-200 bg-neutral-50 p-3">
 			<p class="text-xs text-neutral-500">
-				{isWardleyMode ? 'Click a template to insert' : 'Click a shape to insert it at the cursor'}
+				{isWardleyMode
+					? 'Use Sample Diagrams for templates'
+					: 'Click a shape to insert it at the cursor'}
 			</p>
 		</div>
 	</div>
 </Tooltip.Provider>
+
+<!-- Sample Browser Dialog -->
+<SampleBrowserDialog
+	bind:open={showSampleDialog}
+	onOpenChange={(open) => (showSampleDialog = open)}
+	categories={displayedSamples}
+	onInsertSample={handleInsertSample}
+/>

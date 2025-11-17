@@ -20,8 +20,8 @@ export const alternatingListShape: ShapeDefinition = {
 
     const padding = 20;
     const itemHeight = 60;
-    const horizontalGap = 40; // Reduced from 100
-    const verticalSpacing = 40;
+    const horizontalGap = 10; // Reduced from 100
+    const verticalSpacing = 10;
 
     // Calculate max width needed for any item
     let maxItemWidth = 160; // minimum width
@@ -31,7 +31,8 @@ export const alternatingListShape: ShapeDefinition = {
       maxItemWidth = Math.max(maxItemWidth, neededWidth);
     }
 
-    const totalWidth = maxItemWidth * 2 + horizontalGap;
+    // temporary hack to fix width calculation
+    const totalWidth = maxItemWidth * 2 + horizontalGap * 4;
     const totalHeight =
       items.length * (itemHeight + verticalSpacing) - verticalSpacing;
 
@@ -70,7 +71,7 @@ export const alternatingListShape: ShapeDefinition = {
     const padding = 20;
     const itemHeight = 60;
     const horizontalGap = 40;
-    const verticalSpacing = 40;
+    const verticalSpacing = 20;
 
     // Calculate max width needed for any item (same as bounds calculation)
     let itemWidth = 160; // minimum width
@@ -119,7 +120,8 @@ export const alternatingListShape: ShapeDefinition = {
         </text>
       `;
 
-      currentY += itemHeight + verticalSpacing;
+      // temporary hack to fix vertical spacing
+      currentY += itemHeight + verticalSpacing * 0.5;
     }
 
     return svg;

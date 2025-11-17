@@ -19,6 +19,7 @@ import { templatePresetSampleDiagrams } from './toolboxSamples/templatePresetSam
 import { timelineSampleDiagrams } from './toolboxSamples/timelineSampleDiagrams';
 import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
 import { wardleySampleDiagrams } from './toolboxSamples/wardleySampleDiagrams';
+import { glyphsetSampleDiagrams } from './toolboxSamples/glyphsetSampleDiagrams';
 
 export interface Sample {
 	name: string;
@@ -54,5 +55,6 @@ export const sampleDiagrams: SampleCategory[] = [
 	...logicGateSampleDiagrams,
 	...pneumaticSampleDiagrams,
 	...hydraulicSampleDiagrams,
-	...wardleySampleDiagrams
+	...wardleySampleDiagrams,
+	...glyphsetSampleDiagrams
 ];
