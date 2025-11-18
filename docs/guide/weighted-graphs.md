@@ -23,11 +23,11 @@ diagram "Road Network" {
     shape boston as @circle label:"Boston"
     shape nyc as @circle label:"New York"
     shape philly as @circle label:"Philadelphia"
-    shape dc as @circle label:"Washington DC"
+    shape waDC as @circle label:"Washington DC"
 
     boston -> nyc weight: 215 label:"215 mi"
     nyc -> philly weight: 95 label:"95 mi"
-    philly -> dc weight: 140 label:"140 mi"
+    philly -> waDC weight: 140 label:"140 mi"
     boston -> philly weight: 310 label:"310 mi"
   }
 }
@@ -212,7 +212,40 @@ container "Layers" algorithm: layered {
 }
 ```
 
-## See Also
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Gephi          | Cytoscape      | yEd            | NetworkX       |
+| ---------------------------- | -------------- | -------------- | -------------- | ----------- | -------------- | -------------- | -------------- | -------------- |
+| **Weighted edges**           | ✅             | ⚠️ Labels only | ⚠️ Labels only | ✅          | ✅             | ✅             | ✅             | ✅             |
+| **Edge labels**              | ✅             | ✅             | ✅             | ✅          | ✅             | ✅             | ✅             | ✅             |
+| **Shortest path**            | ⚠️ Planned     | ❌             | ❌             | ❌          | ✅             | ✅             | ✅             | ✅             |
+| **Network metrics**          | ✅             | ❌             | ❌             | ❌          | ✅             | ✅             | ✅             | ✅             |
+| **Force-directed layout**    | ✅             | ✅             | ✅             | ⚠️ Limited  | ✅             | ✅             | ✅             | ✅             |
+| **Custom styling**           | ✅             | ⚠️ Limited     | ⚠️ Limited     | ✅          | ✅             | ✅             | ✅             | ⚠️ Via code    |
+| **Interactive analysis**     | ❌             | ❌             | ❌             | ✅          | ✅             | ✅             | ✅             | ⚠️ Via Jupyter |
+| **Large graphs**             | ⚠️ Medium      | ⚠️ Small       | ⚠️ Small       | ⚠️ Medium   | ✅             | ✅             | ✅             | ✅             |
+| **Statistical analysis**     | ❌             | ❌             | ❌             | ❌          | ✅             | ✅             | ⚠️ Limited     | ✅             |
+| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌             | ❌             | ❌             | ⚠️ Python      |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌             | ⚠️ XGMML       | ⚠️ GraphML     | ✅             |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple       | Multiple       | Multiple       | Multiple       |
+| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌             | ❌             | ❌             | ⚠️ Via code    |
+| **Learning curve**           | Low            | Low            | Medium         | Low         | Medium         | Medium         | Medium         | High           |
+| **Cost**                     | Free           | Free           | Free           | Paid        | Free           | Free           | Free           | Free           |
+| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Cross-platform | Cross-platform | Cross-platform | Python         |
+
+**Key Advantages of Runiq:**
+
+- **Documentation-First**: Perfect for documenting weighted networks in technical docs
+- **Version Control**: Track network topology changes over time in Git
+- **Unified DSL**: Consistent syntax with other diagram types
+- **Lightweight**: Quick visualization without heavy analysis tools
+
+**When to Use Alternatives:**
+
+- **Gephi/Cytoscape**: Large-scale network analysis with advanced metrics and clustering
+- **yEd**: Complex graph layout customization with drag-and-drop editing
+- **NetworkX**: Programmatic graph analysis in Python with full algorithm library
+- **Lucidchart**: Real-time collaboration on network diagrams with stakeholders\n\n## See Also
 
 - [Edges Guide](./edges.md) - All edge properties and syntax
 - [Force-Directed Networks](./force-directed-networks.md) - Network visualization

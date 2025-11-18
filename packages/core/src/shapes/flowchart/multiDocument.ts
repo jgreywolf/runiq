@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Multi document (stacked) - Multiple offset documents
@@ -75,10 +76,7 @@ export const multiDocumentShape: ShapeDefinition = {
     const textX = x + docWidth / 2;
     const textY = y + docHeight / 2;
 
-    svg += `  <text x="${textX}" y="${textY}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-    ${ctx.node.label || ctx.node.id}
-  </text>\n`;
+    svg += renderShapeLabel(ctx, ctx.node.label || ctx.node.id, textX, textY);
     svg += '</g>';
 
     return svg;

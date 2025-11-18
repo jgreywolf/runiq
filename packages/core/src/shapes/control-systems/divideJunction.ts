@@ -2,7 +2,7 @@ import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Divide Junction - Circle with ÷ sign
- * Used for division operations in block diagrams
+ * Used for division operations in Control system diagrams
  */
 export const divideJunctionShape: ShapeDefinition = {
   id: 'divideJunction',

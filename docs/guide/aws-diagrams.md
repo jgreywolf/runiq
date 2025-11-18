@@ -3,9 +3,11 @@ title: AWS Diagrams
 ---
 
 ---
+
 title: AWS Architecture Diagrams
 description: Create AWS cloud architecture diagrams with VPCs, subnets, security groups, and AWS service icons.
 lastUpdated: 2025-01-09
+
 ---
 
 # AWS Architecture Diagrams
@@ -34,10 +36,12 @@ diagram "Simple Web App" {
   direction TB
 
   shape user as @actor label: "User"
-  shape vpc as @awsVpc label: "VPC" {
+
+  container vpc "VPC" as @awsVpc {
     shape ec2 as @awsEc2 label: "EC2\nWeb Server"
     shape rds as @awsRds label: "RDS\nPostgreSQL"
   }
+
   shape s3 as @awsS3 label: "S3\nStatic Assets"
 
   user -> ec2 label: "HTTPS"
@@ -76,18 +80,18 @@ diagram "Three-Tier AWS" {
   shape users as @cloud label: "Internet Users"
   shape route53 as @cloud label: "Route 53\nDNS"
 
-  container vpc as @awsVpc label: "VPC (10.0.0.0/16)" {
-    container public as @systemBoundary label: "Public Subnet" {
+  container vpc "VPC (10.0.0.0/16)" as @awsVpc {
+    container publicSub "Public Subnet" as @systemBoundary {
       shape alb as @loadBalancer label: "Application\nLoad Balancer"
       shape nat as @router label: "NAT Gateway"
     }
 
-    container private1 as @systemBoundary label: "Private Subnet (App)" {
+    container private1 "Private Subnet (App)" as @systemBoundary {
       shape ec2_1 as @awsEc2 label: "EC2\nApp Server 1"
       shape ec2_2 as @awsEc2 label: "EC2\nApp Server 2"
     }
 
-    container private2 as @systemBoundary label: "Private Subnet (Data)" {
+    container private2 "Private Subnet (Data)" as @systemBoundary {
       shape rds as @awsRds label: "RDS\nPrimary"
       shape rds_replica as @awsRds label: "RDS\nRead Replica"
     }
@@ -115,10 +119,10 @@ diagram "ECS Microservices" {
   shape users as @cloud label: "Users"
   shape cloudfront as @cloud label: "CloudFront\nCDN"
 
-  container vpc as @awsVpc label: "VPC" {
+  container vpc "VPC" as @awsVpc {
     shape alb as @loadBalancer label: "ALB"
 
-    container ecs as @systemBoundary label: "ECS Cluster" {
+    container ecs "ECS Cluster" as @systemBoundary {
       shape auth as @awsEc2 label: "Auth Service"
       shape api as @awsEc2 label: "API Service"
       shape worker as @awsEc2 label: "Worker Service"
@@ -178,13 +182,13 @@ diagram "Multi-Region AWS" {
   shape users as @cloud label: "Global Users"
   shape route53 as @cloud label: "Route 53\nGeoDNS"
 
-  container usEast as @awsVpc label: "us-east-1 (Primary)" {
+  container usEast "us-east-1 (Primary)" as @awsVpc {
     shape ec2East as @awsEc2 label: "EC2"
     shape rdsEast as @awsRds label: "RDS Primary"
     shape s3East as @awsS3 label: "S3"
   }
 
-  container usWest as @awsVpc label: "us-west-2 (DR)" {
+  container usWest "us-west-2 (DR)" as @awsVpc {
     shape ec2West as @awsEc2 label: "EC2"
     shape rdsWest as @awsRds label: "RDS Standby"
     shape s3West as @awsS3 label: "S3"
@@ -236,11 +240,11 @@ diagram "Styled AWS" {
 
   shape compute as @awsEc2 label: "EC2" fill: "#ff9900" color: "#ffffff"
   shape storage as @awsS3 label: "S3" fill: "#569a31" color: "#ffffff"
-  shape database as @awsRds label: "RDS" fill: "#3b48cc" color: "#ffffff"
+  shape db as @awsRds label: "RDS" fill: "#3b48cc" color: "#ffffff"
   shape lambda as @awsLambda label: "Lambda" fill: "#ff9900" color: "#ffffff"
 
-  compute -> database style: { stroke: "#232f3e", strokeWidth: 2 }
-  compute -> storage style: { stroke: "#232f3e", strokeWidth: 2 }
+  compute -> db stroke: "#4caf50" strokeWidth: 2
+  compute -> storage stroke: "#232f3e" strokeWidth: 2
 }
 ```
 
@@ -295,6 +299,35 @@ Consider these pillars when designing:
 - Auto Scaling
 - CloudFront CDN
 - DynamoDB on-demand
+
+## Comparison with Other Tools
+
+How do Runiq AWS diagrams compare to other cloud diagramming tools?
+
+| Feature                  | Runiq | Mermaid         | PlantUML | Cloudcraft | Lucidchart | Draw.io |
+| ------------------------ | ----- | --------------- | -------- | ---------- | ---------- | ------- |
+| **Text-Based DSL**       | ✅    | ⚠️ Architecture | ✅       | ❌         | ❌         | ❌      |
+| **AWS Service Icons**    | ✅    | ⚠️ via plugin   | ✅       | ✅         | ✅         | ✅      |
+| **VPC Containers**       | ✅    | ❌ via group    | ✅       | ✅         | ✅         | ✅      |
+| **Auto-Layout**          | ✅    | ✅              | ✅       | ❌         | ❌         | ❌      |
+| **Version Control**      | ✅    | ✅              | ✅       | ❌         | ❌         | ❌      |
+| **Multi-Region Support** | ✅    | ❌              | ✅       | ✅         | ✅         | ✅      |
+| **Security Groups**      | ✅    | ❌              | ✅       | ✅         | ✅         | ✅      |
+| **Cost Integration**     | ❌    | ❌              | ❌       | ✅         | ❌         | ❌      |
+| **3D Visualization**     | ❌    | ❌              | ❌       | ✅         | ❌         | ❌      |
+| **Integrated with UML**  | ✅    | ❌              | ✅       | ❌         | ✅         | ❌      |
+| **Offline Mode**         | ✅    | ✅              | ✅       | ❌         | ❌         | ✅      |
+| **Free/Open Source**     | ✅    | ✅              | ✅       | ❌         | ❌         | ✅      |
+| **Learning Curve**       | Low   | Low             | Med      | Low        | Med        | Low     |
+
+**Why choose Runiq for AWS diagrams?**
+
+- **Version control friendly** - Text-based DSL works with Git
+- **Unified language** - Same syntax for AWS, UML, BPMN, and other diagram types
+- **Auto-layout** - No manual positioning of shapes
+- **Documentation as code** - Keep architecture diagrams with your IaC
+- **Quick prototyping** - Rapidly sketch architecture ideas
+- **Integration** - Combine AWS diagrams with sequence diagrams, ERDs, etc.
 
 ## Examples
 

@@ -1,7 +1,7 @@
 // Equation Process - Success Formula
 glyphset equationProcess "Business Success" {
-    theme "forest"
-item "Great Product"
+  theme "forest"
+  item "Great Product"
   item "Strong Team"
   item "Market Timing"
   item "Success"

@@ -24,13 +24,14 @@ Comparison glyphsets help visualize contrasts, trade-offs, and multi-dimensional
 **Example:**
 
 ```runiq
-glyphset matrix "Priority Matrix" {
-  quadrant "Do First" label: "Urgent & Important"
-  quadrant "Schedule" label: "Important, Not Urgent"
-  quadrant "Delegate" label: "Urgent, Not Important"
-  quadrant "Eliminate" label: "Neither"
+glyphset matrix "Eisenhower Matrix" {
+  theme "professional"
+  quadrant "Do First: Urgent & Important"
+  quadrant "Schedule: Important, Not Urgent"
+  quadrant "Delegate: Urgent, Not Important"
+  quadrant "Eliminate: Neither"
 
-  horizontalAxis "Urgency"
+   horizontalAxis "Urgency"
   verticalAxis "Importance"
   theme "professional"
 }

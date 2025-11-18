@@ -136,12 +136,17 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
-      // matrix generates containers, not nodes
-      expect(diagram.containers).toHaveLength(4);
-      expect(diagram.containers?.[0].label).toBe('Strengths');
-      expect(diagram.containers?.[1].label).toBe('Weaknesses');
-      expect(diagram.containers?.[2].label).toBe('Opportunities');
-      expect(diagram.containers?.[3].label).toBe('Threats');
+      // matrix now generates a single composite node, not containers
+      expect(diagram.nodes).toHaveLength(1);
+      expect(diagram.nodes?.[0].shape).toBe('matrix');
+      expect(diagram.nodes?.[0].data).toHaveProperty('quadrants');
+
+      const quadrants = diagram.nodes?.[0].data?.quadrants as any[];
+      expect(quadrants).toHaveLength(4);
+      expect(quadrants[0].label).toBe('Strengths');
+      expect(quadrants[1].label).toBe('Weaknesses');
+      expect(quadrants[2].label).toBe('Opportunities');
+      expect(quadrants[3].label).toBe('Threats');
     });
 
     it('validates exactly 4 quadrants', () => {

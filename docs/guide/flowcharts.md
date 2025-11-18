@@ -158,9 +158,37 @@ diagram "Styled Flowchart" {
 5. **Consistent styling** - Use color coding for different types of operations
 6. **Document inputs/outputs** - Use `@parallelogram` or `@document` shapes
 
+## Comparison with Other Tools
+
+| Feature                      | Runiq                       | Mermaid      | PlantUML     | Lucidchart         | Draw.io        | Visio              |
+| ---------------------------- | --------------------------- | ------------ | ------------ | ------------------ | -------------- | ------------------ |
+| **Text-Based DSL**           | ✅ Yes                      | ✅ Yes       | ✅ Yes       | ❌ No (GUI)        | ❌ No (GUI)    | ❌ No (GUI)        |
+| **Version Control Friendly** | ✅ Yes                      | ✅ Yes       | ✅ Yes       | ⚠️ Limited         | ⚠️ Limited     | ❌ No              |
+| **ISO 5807 Compliance**      | ✅ Full standard shapes     | ⚠️ Basic     | ⚠️ Basic     | ✅ Yes             | ✅ Yes         | ✅ Yes             |
+| **Auto-Layout**              | ✅ ELK (Hierarchical)       | ✅ Dagre     | ✅ GraphViz  | ✅ Manual+Auto     | ✅ Manual+Auto | ✅ Manual+Auto     |
+| **14+ Flowchart Shapes**     | ✅ Yes (Document, Display+) | ❌ Limited   | ⚠️ 8 shapes  | ✅ 20+             | ✅ 20+         | ✅ 30+             |
+| **Custom Styling**           | ✅ Per-shape & global       | ⚠️ Themes    | ⚠️ Limited   | ✅ Full control    | ✅ Full        | ✅ Full            |
+| **Edge Labels**              | ✅ Yes/No + custom text     | ✅ Yes       | ✅ Yes       | ✅ Yes             | ✅ Yes         | ✅ Yes             |
+| **Conditional Branching**    | ✅ Clear decision syntax    | ✅ Yes       | ✅ Yes       | ✅ Manual          | ✅ Manual      | ✅ Manual          |
+| **Subprocesses**             | ✅ Via containers/profiles  | ⚠️ Subgraphs | ⚠️ Boxes     | ✅ Yes             | ✅ Yes         | ✅ Yes             |
+| **Export Formats**           | ✅ SVG, PNG, PDF            | ✅ SVG, PNG  | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many        | ✅ Many            |
+| **Collaboration**            | ✅ Git-based                | ✅ Git-based | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud       | ❌ Desktop-based   |
+| **Learning Curve**           | ⚠️ Moderate (DSL)           | ✅ Low       | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low         | ⚠️ Moderate        |
+| **Real-Time Collaboration**  | ⚠️ Via Git                  | ⚠️ Via tools | ⚠️ Via tools | ✅ Yes             | ✅ Yes         | ⚠️ SharePoint only |
+| **Open Source**              | ✅ MIT License              | ✅ MIT       | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0  | ❌ Commercial only |
+
+**Runiq Advantages:**
+
+- **Unified language** for flowcharts, sequence, class, BPMN, and 15+ diagram types
+- **ISO 5807 compliance** with all standard flowchart symbols
+- **Advanced shapes** like `@multiDocument`, `@display`, `@delay`, `@offPageConnector`
+- **ELK layout engine** for superior hierarchical layouts
+- **Version control native** - perfect for CI/CD pipelines
+- **Profile system** for diagram-specific conventions (flowchart, bpmn, sequence, etc.)
+
 ## Examples
 
-See the [examples/flowcharts](https://github.com/jgreywolf/runiq/tree/main/examples/flowcharts) directory for more complete examples:
+See the [examples/flowcharts](../examples/flowcharts) directory for more complete examples:
 
 - Bubble sort algorithm
 - ETL pipeline

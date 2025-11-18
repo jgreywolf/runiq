@@ -22,6 +22,7 @@ export { diverging } from './diverging.js'; // Diverging branches diagram
 export { cluster } from './cluster.js'; // Cluster diagram (radial hub-and-spoke)
 export { puzzle } from './puzzle.js'; // Puzzle pieces diagram (interlocking components)
 export { plusMinus } from './plusMinus.js'; // Plus/minus diagram (pros vs cons)
+export { matrix } from './matrix.js'; // 2x2 matrix (four quadrants)
 export { matrix3x3 } from './matrix3x3.js'; // 3x3 matrix (nine quadrants)
 export { titledMatrix } from './titledMatrix.js'; // Matrix with row/column headers
 export { segmentedMatrix } from './segmentedMatrix.js'; // Matrix with subdivided quadrants
@@ -61,3 +62,6 @@ export { circleHierarchy } from './circleHierarchy.js'; // Concentric circles hi
 export { labeledHierarchy } from './labeledHierarchy.js'; // Tree structure with edge labels
 export { tableHierarchy } from './tableHierarchy.js'; // Tabular rows with hierarchical connections
 export { teamHierarchy } from './teamHierarchy.js'; // Grouped teams with leader and members
+export { orgChart } from './orgChart.js'; // Vertical organization chart
+export { horizontalOrgChart } from './horizontalOrgChart.js'; // Horizontal organization chart
+export { matrixOrgChart } from './matrixOrgChart.js'; // Matrix organization with dual reporting

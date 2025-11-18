@@ -23,16 +23,17 @@ Grid layout of images with labels.
 **Example:**
 
 ```runiq
-glyphset pictureGrid "Product Features" {
-  item "Speed"
-  item "Security"
-  item "Scalability"
-  item "Reliability"
-  item "Analytics"
-  item "Support"
-
+glyphset pictureGrid "Featured Products" {
+  theme "colorful"
   columns 3
-  theme "professional"
+
+  // Using pravatar.cc for test images (random faces)
+  image "https://i.pravatar.cc/300?img=1" label "Product A"
+  image "https://i.pravatar.cc/300?img=2" label "Product B"
+  image "https://i.pravatar.cc/300?img=3" label "Product C"
+  image "https://i.pravatar.cc/300?img=4" label "Product D"
+  image "https://i.pravatar.cc/300?img=5" label "Product E"
+  image "https://i.pravatar.cc/300?img=6" label "Product F"
 }
 ```
 
@@ -43,20 +44,20 @@ Central image with callout boxes.
 **Parameters:**
 
 - `image` - Central image
-- `callout` (2-6 callouts) - Callout labels
+- `callout` (2-6 callouts) - Callout labels, with positioning info (topSide, bottomSide, leftSide, rightSide)
 - `theme` - Color theme
 
 **Example:**
 
 ```runiq
-glyphset pictureCallout "Product Overview" {
-  image "product.png"
-  callout "Feature 1"
-  callout "Feature 2"
-  callout "Feature 3"
-  callout "Feature 4"
+glyphset pictureCallout "Smart Watch" {
+  theme "professional"
+  image "https://i.pravatar.cc/400?img=20"
 
-  theme "ocean"
+  callout "Water Resistant" topSide
+  callout "Heart Rate Monitor" rightSide
+  callout "Long Battery Life" bottomSide
+  callout "GPS Tracking" leftSide
 }
 ```
 
@@ -73,14 +74,15 @@ Process flow with central picture.
 **Example:**
 
 ```runiq
-glyphset pictureProcess "Development Cycle" {
-  image "logo.png"
-  step "Plan"
-  step "Build"
-  step "Test"
-  step "Deploy"
+glyphset pictureProcess "Baking Process" {
+  theme "colorful"
+  direction "horizontal"
 
-  theme "forest"
+  // Using pravatar.cc for test images
+  image "https://i.pravatar.cc/200?img=11" label "Gather Ingredients"
+  image "https://i.pravatar.cc/200?img=12" label "Mix Thoroughly"
+  image "https://i.pravatar.cc/200?img=13" label "Bake at 350°F"
+  image "https://i.pravatar.cc/200?img=14" label "Cool & Serve"
 }
 ```
 

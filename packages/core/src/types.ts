@@ -403,6 +403,23 @@ export interface ShapeRenderContext {
     text: string,
     style: Style
   ) => { width: number; height: number };
+  /**
+   * Optional label renderer that supports inline icons.
+   * If not provided, shapes should render plain text labels.
+   * Injected by renderer-svg package to enable icon syntax like "fa:fa-star Label"
+   */
+  renderLabel?: (
+    label: string,
+    x: number,
+    y: number,
+    style: {
+      fontSize?: number;
+      fontFamily?: string;
+      fill?: string;
+      textAnchor?: 'start' | 'middle' | 'end';
+      dominantBaseline?: string;
+    }
+  ) => string;
 }
 
 /**
@@ -981,4 +998,3 @@ export interface TimelinePeriod {
   color?: string; // Background color
   opacity?: number; // Default: 0.1
 }
-

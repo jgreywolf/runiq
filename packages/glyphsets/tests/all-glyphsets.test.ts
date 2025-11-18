@@ -130,11 +130,17 @@ describe('All GlyphSets', () => {
         quadrants: ['Strengths', 'Weaknesses', 'Opportunities', 'Threats'],
       });
 
-      expect(result.containers).toHaveLength(4);
-      expect(result.containers?.[0].label).toBe('Strengths');
-      expect(result.containers?.[1].label).toBe('Weaknesses');
-      expect(result.containers?.[2].label).toBe('Opportunities');
-      expect(result.containers?.[3].label).toBe('Threats');
+      // Matrix now uses a single composite node with data
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes?.[0].shape).toBe('matrix');
+      expect(result.nodes?.[0].data).toHaveProperty('quadrants');
+
+      const quadrants = result.nodes?.[0].data?.quadrants as any[];
+      expect(quadrants).toHaveLength(4);
+      expect(quadrants[0].label).toBe('Strengths');
+      expect(quadrants[1].label).toBe('Weaknesses');
+      expect(quadrants[2].label).toBe('Opportunities');
+      expect(quadrants[3].label).toBe('Threats');
     });
 
     it('requires exactly 4 quadrants', () => {
@@ -148,9 +154,8 @@ describe('All GlyphSets', () => {
         quadrants: ['Q1', 'Q2', 'Q3', 'Q4'],
       });
 
-      const colors = result.containers?.map(
-        (c) => c.containerStyle?.backgroundColor
-      );
+      const quadrants = result.nodes?.[0].data?.quadrants as any[];
+      const colors = quadrants?.map((q) => q.color);
       const uniqueColors = new Set(colors);
       expect(uniqueColors.size).toBe(4); // Each quadrant has unique color
     });
@@ -162,12 +167,12 @@ describe('All GlyphSets', () => {
         verticalAxis: 'Importance',
       });
 
-      expect(result.nodes).toHaveLength(2);
-      expect(result.nodes?.[0].label).toBe('Urgency');
-      expect(result.nodes?.[1].label).toBe('Importance');
+      // Axis labels are now stored in the data, not as separate nodes
+      expect(result.nodes).toHaveLength(1);
+      expect(result.nodes?.[0].data?.horizontalAxis).toBe('Urgency');
+      expect(result.nodes?.[0].data?.verticalAxis).toBe('Importance');
     });
   });
-
   describe('Venn', () => {
     it('generates 2-circle venn diagram', () => {
       const result = vennGlyphSet.generator({

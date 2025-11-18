@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Off-page connector - Pentagon pointing down (home plate shape)
@@ -37,6 +38,7 @@ export const offPageConnectorShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
 
     // Home plate pentagon pointing down
     const points = [
@@ -50,11 +52,7 @@ export const offPageConnectorShape: ShapeDefinition = {
     return `
       <polygon points="${points}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + w / 2}" y="${y + h * 0.4}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + w / 2, y + h * 0.4)}
     `;
   },
 };

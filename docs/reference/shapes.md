@@ -162,7 +162,7 @@ diagram "Emphasis Styles" {
 
 **Profile:** `diagram` (default)
 
-Block diagram elements for control systems and signal processing:
+Control system diagram elements for control systems and signal processing:
 
 | Shape             | Syntax              | Description                    |
 | ----------------- | ------------------- | ------------------------------ |
@@ -189,7 +189,7 @@ diagram "PID Controller" {
 ```
 
 ::: tip Control Systems
-See the [Block Diagrams Guide](../guide/block-diagrams.md) for comprehensive documentation on control system diagrams with LaTeX and Simulink export.
+See the [Control system Diagrams Guide](../guide/control-diagrams.md) for comprehensive documentation on control system diagrams with LaTeX and Simulink export.
 :::
 
 ### 6. Special Shapes (6 shapes)
@@ -548,7 +548,7 @@ Complete listing organized by category:
 | Flowchart          | 14    | Process flows, ISO 5807 standard               |
 | Storage            | 7     | Databases, data persistence                    |
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
-| Control Systems    | 10    | Block diagrams, signal processing              |
+| Control Systems    | 10    | Control system diagrams, signal processing     |
 | Special            | 6     | Miscellaneous symbols                          |
 | Charts             | 7     | Data visualization (pie, bar, Venn)            |
 | Network            | 7     | Infrastructure, topology diagrams              |

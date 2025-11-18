@@ -48,10 +48,10 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'Circular process flow',
 				code: `glyphset cycle "PDCA Cycle" {
   theme "cool"
-  step "Plan"
-  step "Do"
-  step "Check"
-  step "Act"
+  item "Plan"
+  item "Do"
+  item "Check"
+  item "Act"
 }`
 			},
 			{
@@ -185,11 +185,10 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'Equation-style process',
 				code: `glyphset equationProcess "Success Formula" {
   theme "vibrant"
-  operator "+"
-  input "Talent"
-  input "Process"
-  input "Technology"
-  output "Innovation"
+  item "Talent"
+  item "Process"
+  item "Technology"
+  item "Innovation"
 }`
 			}
 		]
@@ -234,13 +233,19 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 			},
 			{
 				name: 'Matrix Org Chart',
-				description: 'Matrix organization structure',
-				code: `glyphset matrixOrgChart "Matrix Team" {
-  theme "sunset"
+				description: 'Matrix organization with functional and project teams',
+				code: `glyphset matrixOrgChart "Cross-Functional Teams" {
+  theme "forest"
   person "CEO" {
-    person "Engineering Manager"
-    person "Product Manager"
-    person "Design Manager"
+    person "VP Engineering" {
+      person "Backend Dev"
+      person "Frontend Dev"
+      person "DevOps Engineer"
+    }
+    person "VP Product" {
+      person "Product Manager"
+      person "UX Designer"
+    }
   }
 }`
 			},
@@ -473,11 +478,11 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'Many-to-one convergence',
 				code: `glyphset converging "Data Aggregation" {
   theme "ocean"
-  outer "Database A"
-  outer "Database B"
-  outer "API Feed"
-  outer "File Import"
-  inner "Data Warehouse"
+  item "Database A"
+  item "Database B"
+  item "API Feed"
+  item "File Import"
+  target "Data Warehouse"
 }`
 			},
 			{
@@ -485,11 +490,11 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'One-to-many divergence',
 				code: `glyphset diverging "Content Distribution" {
   theme "sunset"
-  inner "Content Management"
-  outer "Website"
-  outer "Mobile App"
-  outer "Email"
-  outer "Social Media"
+  source "Content Management"
+  item "Website"
+  item "Mobile App"
+  item "Email"
+  item "Social Media"
 }`
 			},
 			{
@@ -519,11 +524,11 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'Pros and cons',
 				code: `glyphset plusMinus "Cloud Migration" {
   theme "professional"
-  pro "Scalability"
-  pro "Cost Efficiency"
-  pro "Global Reach"
-  con "Migration Complexity"
-  con "Learning Curve"
+  item "Scalability"
+  item "Cost Efficiency"
+  item "Global Reach"
+  item "Migration Complexity"
+  item "Learning Curve"
 }`
 			},
 			{
@@ -531,9 +536,12 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'Grouped clusters',
 				code: `glyphset cluster "Product Features" {
   theme "vibrant"
-  cluster "Core" items: ["Authentication", "Data Storage", "API"]
-  cluster "Advanced" items: ["Analytics", "ML Integration"]
-  cluster "Premium" items: ["White Label", "SLA"]
+  center "Core Platform"
+  item "Authentication"
+  item "Data Storage"
+  item "API Gateway"
+  item "Analytics"
+  item "ML Integration"
 }`
 			},
 			{
@@ -541,10 +549,10 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'Interlocking pieces',
 				code: `glyphset puzzle "System Integration" {
   theme "forest"
-  piece "CRM System"
-  piece "Marketing Platform"
-  piece "Analytics Tool"
-  piece "Payment Gateway"
+  item "CRM System"
+  item "Marketing Platform"
+  item "Analytics Tool"
+  item "Payment Gateway"
 }`
 			},
 			{
@@ -552,10 +560,10 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'Concentric rings',
 				code: `glyphset target "Market Priorities" {
   theme "sunset"
-  ring "Core Market"
-  ring "Adjacent Market"
-  ring "New Market"
-  ring "Future Opportunities"
+  item "Core Market"
+  item "Adjacent Market"
+  item "New Market"
+  item "Future Opportunities"
 }`
 			},
 			{

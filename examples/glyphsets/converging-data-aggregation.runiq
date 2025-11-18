@@ -4,8 +4,8 @@
 // Demonstrates 4-source converging pattern.
 
 glyphset converging "Data Aggregation Flow" {
-    theme "forest"
-item "Customer Database"
+  theme "forest"
+  item "Customer Database"
   item "Sales Records"
   item "Analytics Events"
   item "Third-Party APIs"

@@ -2,8 +2,8 @@
 // Use case: Square of opposition in philosophy
 
 glyphset opposing "cool" {
-    theme "forest"
-item "Idealism"
+  theme "forest"
+  item "Idealism"
   item "Realism"
   item "Pragmatism"
   item "Skepticism"

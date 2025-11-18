@@ -8,7 +8,7 @@ lastUpdated: 2025-01-09
 
 Runiq supports eight primary profiles:
 
-- **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, block diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
+- **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, Control system diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **Electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 - **Digital profile**: Digital logic circuits with standard gate symbols (AND, OR, NOT, NAND, NOR, XOR, etc.). Supports HDL export to Verilog.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
@@ -28,30 +28,31 @@ Most syntax is shared across profiles. The key differences are:
 
 Here's a comprehensive comparison of all 8 profiles to help you choose the right one for your project:
 
-| Feature                  | Diagram        | Electrical     | Digital        | Wardley        | Sequence       | Pneumatic      | Hydraulic      | P&ID           |
-| ------------------------ | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- |
-| **Primary Use Case**     | General purpose, flowcharts, UML, architecture | Circuit design, analog electronics | Logic circuits, digital design | Strategic mapping, technology evolution | Object interactions, API flows | Compressed air systems | Fluid power systems | Process engineering, industrial plants |
-| **Rendering Style**      | Vector shapes, auto-layout | IEEE schematic symbols | Logic gate symbols | 2D axis plot | Sequence notation | ISO 1219-1 symbols | ISO 1219-2 symbols | ISA-5.1 symbols |
-| **Layout System**        | Auto (ELK), manual | Orthogonal, schematic | Auto-layout | Manual 2D positioning | Vertical timeline | Schematic layout | Schematic layout | Process flow layout |
-| **Shapes Available**     | 52+ (all categories) | Resistors, caps, inductors, sources, diodes, transistors, ICs | Logic gates, flip-flops, mux, decoders | Components, pipelines | Actors, lifelines, fragments | Cylinders, valves, FRL, sensors | Pumps, motors, valves, cylinders, accumulators | Equipment, pipes, instruments, valves |
-| **Export Formats**       | SVG, PNG, PDF | SPICE netlist, SVG | Verilog HDL, SVG | SVG | SVG | SVG | SVG | SVG |
-| **Simulation Support**   | No | Yes (LTspice, ngspice) | Yes (Icarus, ModelSim) | No | No | Manual analysis | Manual analysis | Process simulation |
-| **Standards Compliance** | None (flexible) | IEEE 315 | ANSI Y32.14 | Wardley mapping methodology | UML 2.5 | ISO 1219-1:2012 | ISO 1219-2:2012 | ISA-5.1-2009 |
-| **Key Syntax**           | `shape`, `@shape_id` | `part`, `net`, `pins:()` | `module`, `instance`, `input/output` | `anchor`, `component`, `pipeline` | `participant`, `lifeline`, `message` | `equipment`, `line`, `actuator:` | `equipment`, `line`, `fluid:` | `equipment`, `pipe`, `instrument:` |
-| **Direction Control**    | TB, LR, BT, RL | Auto (schematic) | Auto (logic) | Manual coords | Vertical (fixed) | Schematic flow | Schematic flow | Process flow |
-| **Edge Styling**         | Arrows, labels, dashed | Wires, nets, connections | Wires, bus notation | Evolution arrows | Messages, sync/async | Air/pilot lines | Pressure/return lines | Process/instrument lines |
-| **Typical Users**        | Software developers, architects, business analysts | Electrical engineers, electronics hobbyists | Digital designers, FPGA engineers | CTOs, product strategists, consultants | Software developers, API designers | Automation engineers, mechatronics | Hydraulic engineers, mobile equipment designers | Process engineers, chemical plant designers |
-| **Learning Curve**       | Easy (familiar shapes) | Medium (circuit knowledge) | Medium-Hard (logic design) | Medium (strategy concepts) | Easy-Medium (UML basics) | Medium (pneumatic principles) | Medium-Hard (hydraulic principles) | Hard (process engineering) |
-| **Documentation**        | [Getting Started](/guide/getting-started) | [Electrical Guide](/guide/electrical) | [Digital Guide](/guide/digital-circuits) | [Wardley Maps](/guide/wardley-maps) | [Sequence Guide](/guide/sequence-diagrams) | [Pneumatic Guide](/guide/pneumatic-circuits) | [Hydraulic Guide](/guide/hydraulic-circuits) | [P&ID Guide](/guide/pid-diagrams) |
-| **Example Files**        | [Examples](/examples/) | [examples/electrical](https://github.com/jgreywolf/runiq/tree/main/examples/electrical) | [examples/digital](https://github.com/jgreywolf/runiq/tree/main/examples/digital) | [examples/wardley](https://github.com/jgreywolf/runiq/tree/main/examples/wardley) | [examples/sequence](https://github.com/jgreywolf/runiq/tree/main/examples/sequence) | [examples/pneumatic](https://github.com/jgreywolf/runiq/tree/main/examples/pneumatic) | [examples/hydraulic](https://github.com/jgreywolf/runiq/tree/main/examples/hydraulic) | [examples/pid](/examples/pid-diagrams) |
-| **Export Capabilities**  | Standard graphics | Circuit netlists | HDL synthesis | Strategic visualization | Collaboration docs | System documentation | System documentation | Plant documentation |
-| **Typical Complexity**   | Simple to complex | Medium circuits | Small to medium | Strategic level | API/system level | Machine level | Machine/system level | Plant level |
-| **Real-Time Updates**    | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) | Yes (editor) |
-| **Collaborative**        | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) | Yes (text-based) |
+| Feature                  | Diagram                                            | Electrical                                                                              | Digital                                                                           | Wardley                                                                           | Sequence                                                                            | Pneumatic                                                                             | Hydraulic                                                                             | P&ID                                        |
+| ------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------- |
+| **Primary Use Case**     | General purpose, flowcharts, UML, architecture     | Circuit design, analog electronics                                                      | Logic circuits, digital design                                                    | Strategic mapping, technology evolution                                           | Object interactions, API flows                                                      | Compressed air systems                                                                | Fluid power systems                                                                   | Process engineering, industrial plants      |
+| **Rendering Style**      | Vector shapes, auto-layout                         | IEEE schematic symbols                                                                  | Logic gate symbols                                                                | 2D axis plot                                                                      | Sequence notation                                                                   | ISO 1219-1 symbols                                                                    | ISO 1219-2 symbols                                                                    | ISA-5.1 symbols                             |
+| **Layout System**        | Auto (ELK), manual                                 | Orthogonal, schematic                                                                   | Auto-layout                                                                       | Manual 2D positioning                                                             | Vertical timeline                                                                   | Schematic layout                                                                      | Schematic layout                                                                      | Process flow layout                         |
+| **Shapes Available**     | 52+ (all categories)                               | Resistors, caps, inductors, sources, diodes, transistors, ICs                           | Logic gates, flip-flops, mux, decoders                                            | Components, pipelines                                                             | Actors, lifelines, fragments                                                        | Cylinders, valves, FRL, sensors                                                       | Pumps, motors, valves, cylinders, accumulators                                        | Equipment, pipes, instruments, valves       |
+| **Export Formats**       | SVG, PNG, PDF                                      | SPICE netlist, SVG                                                                      | Verilog HDL, SVG                                                                  | SVG                                                                               | SVG                                                                                 | SVG                                                                                   | SVG                                                                                   | SVG                                         |
+| **Simulation Support**   | No                                                 | Yes (LTspice, ngspice)                                                                  | Yes (Icarus, ModelSim)                                                            | No                                                                                | No                                                                                  | Manual analysis                                                                       | Manual analysis                                                                       | Process simulation                          |
+| **Standards Compliance** | None (flexible)                                    | IEEE 315                                                                                | ANSI Y32.14                                                                       | Wardley mapping methodology                                                       | UML 2.5                                                                             | ISO 1219-1:2012                                                                       | ISO 1219-2:2012                                                                       | ISA-5.1-2009                                |
+| **Key Syntax**           | `shape`, `@shape_id`                               | `part`, `net`, `pins:()`                                                                | `module`, `instance`, `input/output`                                              | `anchor`, `component`, `pipeline`                                                 | `participant`, `lifeline`, `message`                                                | `equipment`, `line`, `actuator:`                                                      | `equipment`, `line`, `fluid:`                                                         | `equipment`, `pipe`, `instrument:`          |
+| **Direction Control**    | TB, LR, BT, RL                                     | Auto (schematic)                                                                        | Auto (logic)                                                                      | Manual coords                                                                     | Vertical (fixed)                                                                    | Schematic flow                                                                        | Schematic flow                                                                        | Process flow                                |
+| **Edge Styling**         | Arrows, labels, dashed                             | Wires, nets, connections                                                                | Wires, bus notation                                                               | Evolution arrows                                                                  | Messages, sync/async                                                                | Air/pilot lines                                                                       | Pressure/return lines                                                                 | Process/instrument lines                    |
+| **Typical Users**        | Software developers, architects, business analysts | Electrical engineers, electronics hobbyists                                             | Digital designers, FPGA engineers                                                 | CTOs, product strategists, consultants                                            | Software developers, API designers                                                  | Automation engineers, mechatronics                                                    | Hydraulic engineers, mobile equipment designers                                       | Process engineers, chemical plant designers |
+| **Learning Curve**       | Easy (familiar shapes)                             | Medium (circuit knowledge)                                                              | Medium-Hard (logic design)                                                        | Medium (strategy concepts)                                                        | Easy-Medium (UML basics)                                                            | Medium (pneumatic principles)                                                         | Medium-Hard (hydraulic principles)                                                    | Hard (process engineering)                  |
+| **Documentation**        | [Getting Started](/guide/getting-started)          | [Electrical Guide](/guide/electrical)                                                   | [Digital Guide](/guide/digital-circuits)                                          | [Wardley Maps](/guide/wardley-maps)                                               | [Sequence Guide](/guide/sequence-diagrams)                                          | [Pneumatic Guide](/guide/pneumatic-circuits)                                          | [Hydraulic Guide](/guide/hydraulic-circuits)                                          | [P&ID Guide](/guide/pid-diagrams)           |
+| **Example Files**        | [Examples](/examples/)                             | [examples/electrical](https://github.com/jgreywolf/runiq/tree/main/examples/electrical) | [examples/digital](https://github.com/jgreywolf/runiq/tree/main/examples/digital) | [examples/wardley](https://github.com/jgreywolf/runiq/tree/main/examples/wardley) | [examples/sequence](https://github.com/jgreywolf/runiq/tree/main/examples/sequence) | [examples/pneumatic](https://github.com/jgreywolf/runiq/tree/main/examples/pneumatic) | [examples/hydraulic](https://github.com/jgreywolf/runiq/tree/main/examples/hydraulic) | [examples/pid](/examples/pid-diagrams)      |
+| **Export Capabilities**  | Standard graphics                                  | Circuit netlists                                                                        | HDL synthesis                                                                     | Strategic visualization                                                           | Collaboration docs                                                                  | System documentation                                                                  | System documentation                                                                  | Plant documentation                         |
+| **Typical Complexity**   | Simple to complex                                  | Medium circuits                                                                         | Small to medium                                                                   | Strategic level                                                                   | API/system level                                                                    | Machine level                                                                         | Machine/system level                                                                  | Plant level                                 |
+| **Real-Time Updates**    | Yes (editor)                                       | Yes (editor)                                                                            | Yes (editor)                                                                      | Yes (editor)                                                                      | Yes (editor)                                                                        | Yes (editor)                                                                          | Yes (editor)                                                                          | Yes (editor)                                |
+| **Collaborative**        | Yes (text-based)                                   | Yes (text-based)                                                                        | Yes (text-based)                                                                  | Yes (text-based)                                                                  | Yes (text-based)                                                                    | Yes (text-based)                                                                      | Yes (text-based)                                                                      | Yes (text-based)                            |
 
 ### Quick Selection Guide
 
 **Choose Diagram Profile** when:
+
 - Creating general-purpose diagrams (flowcharts, org charts, mind maps)
 - Modeling software architecture (C4, component diagrams)
 - Designing UML class diagrams, state machines, activity diagrams
@@ -59,6 +60,7 @@ Here's a comprehensive comparison of all 8 profiles to help you choose the right
 - You need maximum flexibility and variety of shapes
 
 **Choose Electrical Profile** when:
+
 - Designing analog circuits (amplifiers, filters, power supplies)
 - Creating schematics for PCB design
 - Simulating circuits with SPICE (LTspice, ngspice, Xyce)
@@ -66,6 +68,7 @@ Here's a comprehensive comparison of all 8 profiles to help you choose the right
 - Teaching electronics fundamentals
 
 **Choose Digital Profile** when:
+
 - Designing combinational logic (gates, mux, decoders)
 - Creating sequential circuits (flip-flops, registers, counters)
 - Exporting to Verilog for FPGA/ASIC implementation
@@ -73,6 +76,7 @@ Here's a comprehensive comparison of all 8 profiles to help you choose the right
 - Teaching digital logic design
 
 **Choose Wardley Profile** when:
+
 - Analyzing business strategy and technology positioning
 - Planning product evolution and market movement
 - Communicating technology decisions to executives
@@ -80,6 +84,7 @@ Here's a comprehensive comparison of all 8 profiles to help you choose the right
 - Understanding competitive landscape
 
 **Choose Sequence Profile** when:
+
 - Documenting API interactions and protocols
 - Modeling authentication/authorization flows
 - Designing distributed system communication
@@ -87,6 +92,7 @@ Here's a comprehensive comparison of all 8 profiles to help you choose the right
 - Explaining time-ordered interactions between components
 
 **Choose Pneumatic Profile** when:
+
 - Designing automation systems with compressed air
 - Specifying pneumatic cylinders, valves, and FRL units
 - Documenting ISO 1219-1 compliant circuits
@@ -94,6 +100,7 @@ Here's a comprehensive comparison of all 8 profiles to help you choose the right
 - Teaching pneumatic fundamentals
 
 **Choose Hydraulic Profile** when:
+
 - Designing fluid power systems for heavy machinery
 - Specifying pumps, motors, cylinders, and valves
 - Documenting ISO 1219-2 compliant circuits
@@ -101,6 +108,7 @@ Here's a comprehensive comparison of all 8 profiles to help you choose the right
 - Calculating forces, flows, and pressures
 
 **Choose P&ID Profile** when:
+
 - Designing process plants (chemical, oil & gas, pharmaceutical)
 - Creating ISA-5.1 compliant instrumentation diagrams
 - Specifying piping, equipment, and control loops
@@ -132,6 +140,7 @@ diagram "System Overview" {
 ```
 
 This allows you to:
+
 - Maintain specialized subsystems in their native profiles
 - Combine high-level architecture (diagram profile) with technical details (electrical/hydraulic/P&ID)
 - Export each subsystem appropriately (SPICE, Verilog, SVG)

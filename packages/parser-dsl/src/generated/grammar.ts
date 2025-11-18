@@ -6912,6 +6912,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "balance"
+          },
+          {
+            "$type": "Keyword",
+            "value": "events"
           }
         ]
       },
@@ -7212,63 +7216,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
         "elements": [
           {
             "$type": "Keyword",
-            "value": "direction"
-          },
-          {
-            "$type": "Keyword",
-            "value": "theme"
-          },
-          {
-            "$type": "Keyword",
-            "value": "columns"
-          },
-          {
-            "$type": "Keyword",
-            "value": "shape"
-          },
-          {
-            "$type": "Keyword",
-            "value": "showValues"
-          },
-          {
-            "$type": "Keyword",
-            "value": "mergePoint"
-          },
-          {
-            "$type": "Keyword",
-            "value": "result"
-          },
-          {
-            "$type": "Keyword",
-            "value": "showPercentages"
-          },
-          {
-            "$type": "Keyword",
-            "value": "centerLabel"
-          },
-          {
-            "$type": "Keyword",
-            "value": "orientation"
-          },
-          {
-            "$type": "Keyword",
-            "value": "leftWeight"
-          },
-          {
-            "$type": "Keyword",
-            "value": "rightWeight"
-          },
-          {
-            "$type": "Keyword",
-            "value": "operator"
-          },
-          {
-            "$type": "Keyword",
-            "value": "overlap"
-          },
-          {
-            "$type": "Keyword",
-            "value": "showAllConnections"
+            "value": "alternating"
           },
           {
             "$type": "Keyword",
@@ -7276,7 +7224,63 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
-            "value": "showConnections"
+            "value": "callouts"
+          },
+          {
+            "$type": "Keyword",
+            "value": "center"
+          },
+          {
+            "$type": "Keyword",
+            "value": "centerLabel"
+          },
+          {
+            "$type": "Keyword",
+            "value": "circles"
+          },
+          {
+            "$type": "Keyword",
+            "value": "colorScheme"
+          },
+          {
+            "$type": "Keyword",
+            "value": "columnHeaders"
+          },
+          {
+            "$type": "Keyword",
+            "value": "columns"
+          },
+          {
+            "$type": "Keyword",
+            "value": "direction"
+          },
+          {
+            "$type": "Keyword",
+            "value": "events"
+          },
+          {
+            "$type": "Keyword",
+            "value": "frameStyle"
+          },
+          {
+            "$type": "Keyword",
+            "value": "groups"
+          },
+          {
+            "$type": "Keyword",
+            "value": "horizontalAxis"
+          },
+          {
+            "$type": "Keyword",
+            "value": "image"
+          },
+          {
+            "$type": "Keyword",
+            "value": "images"
+          },
+          {
+            "$type": "Keyword",
+            "value": "items"
           },
           {
             "$type": "Keyword",
@@ -7284,7 +7288,119 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
+            "value": "leftWeight"
+          },
+          {
+            "$type": "Keyword",
+            "value": "levels"
+          },
+          {
+            "$type": "Keyword",
+            "value": "mergePoint"
+          },
+          {
+            "$type": "Keyword",
+            "value": "operator"
+          },
+          {
+            "$type": "Keyword",
+            "value": "orientation"
+          },
+          {
+            "$type": "Keyword",
+            "value": "overlap"
+          },
+          {
+            "$type": "Keyword",
+            "value": "quadrants"
+          },
+          {
+            "$type": "Keyword",
             "value": "relationship"
+          },
+          {
+            "$type": "Keyword",
+            "value": "result"
+          },
+          {
+            "$type": "Keyword",
+            "value": "rightWeight"
+          },
+          {
+            "$type": "Keyword",
+            "value": "rowHeaders"
+          },
+          {
+            "$type": "Keyword",
+            "value": "segments"
+          },
+          {
+            "$type": "Keyword",
+            "value": "shape"
+          },
+          {
+            "$type": "Keyword",
+            "value": "showAllConnections"
+          },
+          {
+            "$type": "Keyword",
+            "value": "showConnections"
+          },
+          {
+            "$type": "Keyword",
+            "value": "showDottedLines"
+          },
+          {
+            "$type": "Keyword",
+            "value": "showPercentages"
+          },
+          {
+            "$type": "Keyword",
+            "value": "showValues"
+          },
+          {
+            "$type": "Keyword",
+            "value": "sides"
+          },
+          {
+            "$type": "Keyword",
+            "value": "source"
+          },
+          {
+            "$type": "Keyword",
+            "value": "stages"
+          },
+          {
+            "$type": "Keyword",
+            "value": "steps"
+          },
+          {
+            "$type": "Keyword",
+            "value": "structure"
+          },
+          {
+            "$type": "Keyword",
+            "value": "target"
+          },
+          {
+            "$type": "Keyword",
+            "value": "theme"
+          },
+          {
+            "$type": "Keyword",
+            "value": "useContainers"
+          },
+          {
+            "$type": "Keyword",
+            "value": "verticalAxis"
+          },
+          {
+            "$type": "Keyword",
+            "value": "xAxis"
+          },
+          {
+            "$type": "Keyword",
+            "value": "yAxis"
           }
         ]
       },
@@ -7386,6 +7502,10 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "member"
+          },
+          {
+            "$type": "Keyword",
+            "value": "callout"
           }
         ]
       },
@@ -15083,6 +15203,66 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "queue"
+          },
+          {
+            "$type": "Keyword",
+            "value": "root"
+          },
+          {
+            "$type": "Keyword",
+            "value": "child"
+          },
+          {
+            "$type": "Keyword",
+            "value": "branch"
+          },
+          {
+            "$type": "Keyword",
+            "value": "leaf"
+          },
+          {
+            "$type": "Keyword",
+            "value": "node"
+          },
+          {
+            "$type": "Keyword",
+            "value": "center"
+          },
+          {
+            "$type": "Keyword",
+            "value": "central"
+          },
+          {
+            "$type": "Keyword",
+            "value": "hub"
+          },
+          {
+            "$type": "Keyword",
+            "value": "left"
+          },
+          {
+            "$type": "Keyword",
+            "value": "right"
+          },
+          {
+            "$type": "Keyword",
+            "value": "team"
+          },
+          {
+            "$type": "Keyword",
+            "value": "leader"
+          },
+          {
+            "$type": "Keyword",
+            "value": "member"
+          },
+          {
+            "$type": "Keyword",
+            "value": "detail"
+          },
+          {
+            "$type": "Keyword",
+            "value": "spoke"
           }
         ]
       },

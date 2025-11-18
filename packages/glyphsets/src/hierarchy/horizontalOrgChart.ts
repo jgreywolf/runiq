@@ -1,32 +1,29 @@
-import type { NodeAst, EdgeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import type { GlyphSetDefinition } from '../types.js';
+import { GlyphSetError } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
  * Horizontal Organization Chart GlyphSet
  *
  * Generates a left-to-right hierarchical tree structure.
- * Similar to PowerPoint SmartArt "Horizontal Organization Chart" pattern.
- *
- * Better for:
- * - Wide organizations (many direct reports)
- * - Process-oriented views
- * - Presenting on wide screens
- * - Showing progression/seniority left-to-right
+ * Uses a custom composite shape to render the entire org chart with themed colors.
  *
  * @example
  * ```runiq
  * diagram "Engineering Team" glyphset:horizontalOrgChart {
- *   node "CTO" {
- *     node "Backend Team" {
- *       node "Senior Dev"
- *       node "Junior Dev"
- *     }
- *     node "Frontend Team" {
- *       node "UI Lead"
- *       node "Designer"
- *     }
+ *   structure: {
+ *     name: "CTO"
+ *     reports: [
+ *       { name: "Backend Team", reports: [
+ *         { name: "Senior Dev" }
+ *         { name: "Junior Dev" }
+ *       ]}
+ *       { name: "Frontend Team", reports: [
+ *         { name: "UI Lead" }
+ *       ]}
+ *     ]
  *   }
+ *   theme: "professional"
  * }
  * ```
  */
@@ -35,7 +32,7 @@ export const horizontalOrgChartGlyphSet: GlyphSetDefinition = {
   name: 'Horizontal Organization Chart',
   category: 'hierarchy',
   description:
-    'Left-to-right hierarchical tree structure for wide organizations',
+    'Hierarchical tree structure showing reporting relationships (left-to-right)',
 
   parameters: [
     {
@@ -49,10 +46,10 @@ export const horizontalOrgChartGlyphSet: GlyphSetDefinition = {
       type: 'string',
       required: false,
       default: 'professional',
-      description: 'Color theme for the org chart',
+      description: 'Color theme',
     },
     {
-      name: 'shape',
+      name: 'nodeShape',
       type: 'string',
       required: false,
       default: 'rounded',
@@ -63,80 +60,52 @@ export const horizontalOrgChartGlyphSet: GlyphSetDefinition = {
   minItems: 2,
   maxItems: 50,
 
-  tags: ['hierarchy', 'org-chart', 'horizontal', 'left-to-right', 'tree'],
+  tags: [
+    'hierarchy',
+    'org-chart',
+    'organization',
+    'horizontal',
+    'left-to-right',
+  ],
 
   generator: (params) => {
-    const structure = params.structure as OrgNode[] | undefined;
+    // Handle structure as array (from DSL) or single object
+    let structure: OrgNode | undefined;
+    if (Array.isArray(params.structure)) {
+      if (params.structure.length === 0) {
+        throw new GlyphSetError(
+          'horizontalOrgChart',
+          'structure',
+          'Horizontal org chart requires at least one root node with a name'
+        );
+      }
+      structure = params.structure[0] as OrgNode;
+    } else {
+      structure = params.structure as OrgNode | undefined;
+    }
+    
     const theme = (params.theme as ColorTheme | undefined) || 'professional';
-    const shape = (params.shape as string | undefined) || 'rounded';
+    const nodeShape = (params.nodeShape as string | undefined) || 'rounded';
 
     // Validation
-    if (!structure || !Array.isArray(structure)) {
+    if (!structure || typeof structure !== 'object') {
       throw new GlyphSetError(
         'horizontalOrgChart',
         'structure',
-        'Parameter "structure" must be a hierarchical array of org nodes'
+        'Parameter "structure" must be a hierarchical org node object'
       );
     }
 
-    if (structure.length === 0) {
+    if (!structure.name) {
       throw new GlyphSetError(
         'horizontalOrgChart',
         'structure',
-        'Horizontal org chart requires at least one root node'
+        'Horizontal org chart requires at least one root node with a name'
       );
     }
 
-    // Generate nodes and edges
-    const nodes: NodeAst[] = [];
-    const edges: EdgeAst[] = [];
-    let nodeCount = 0;
-
-    /**
-     * Recursively process org structure
-     */
-    function processNode(
-      orgNode: OrgNode,
-      parentId: string | null,
-      level: number
-    ): void {
-      nodeCount++;
-      const nodeId = `person${nodeCount}`;
-
-      // Create node
-      nodes.push({
-        id: nodeId,
-        shape,
-        label: orgNode.name,
-        data: {
-          color: getThemeColor(theme, level),
-          role: orgNode.role,
-          level,
-        },
-      });
-
-      // Create edge from parent
-      if (parentId) {
-        edges.push({
-          from: parentId,
-          to: nodeId,
-        });
-      }
-
-      // Process reports
-      if (orgNode.reports && Array.isArray(orgNode.reports)) {
-        for (const report of orgNode.reports) {
-          processNode(report, nodeId, level + 1);
-        }
-      }
-    }
-
-    // Process root nodes
-    for (const rootNode of structure) {
-      processNode(rootNode, null, 0);
-    }
-
-    // Validate
+    // Count nodes for validation
+    const nodeCount = countNodes(structure);
     if (nodeCount < 2) {
       throw new GlyphSetError(
         'horizontalOrgChart',
@@ -153,14 +122,41 @@ export const horizontalOrgChartGlyphSet: GlyphSetDefinition = {
       );
     }
 
+    // Generate theme colors
+    const colors = [0, 1, 2, 3, 4, 5].map((idx) => getThemeColor(theme, idx));
+
     return {
       astVersion: '1.0',
-      direction: 'LR', // Left-to-right for horizontal layout
-      nodes,
-      edges,
+      direction: 'LR',
+      nodes: [
+        {
+          id: 'horizontalOrgChart',
+          shape: 'horizontalOrgChart',
+          label: '',
+          data: {
+            hierarchy: structure,
+            colors,
+            nodeShape,
+          },
+        },
+      ],
+      edges: [],
     };
   },
 };
+
+/**
+ * Count total nodes in hierarchy
+ */
+function countNodes(node: OrgNode): number {
+  let count = 1;
+  if (node.reports && Array.isArray(node.reports)) {
+    for (const report of node.reports) {
+      count += countNodes(report);
+    }
+  }
+  return count;
+}
 
 /**
  * Organization node structure

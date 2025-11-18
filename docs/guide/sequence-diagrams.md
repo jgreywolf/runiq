@@ -77,10 +77,10 @@ sequence "Order Processing" {
 
   message from: "Customer" to: "Order Service" label: "Place order" type: sync activate: true
   message from: "Order Service" to: "Payment Service" label: "Process payment" type: sync activate: true
-  message from: "Payment Service" to: "Order Service" label: "Payment confirmed" type: return deactivate: true
+  message from: "Payment Service" to: "Order Service" label: "Payment confirmed" type: return activate: false
   message from: "Order Service" to: "Inventory" label: "Reserve items" type: sync
   message from: "Inventory" to: "Order Service" label: "Reserved" type: return
-  message from: "Order Service" to: "Customer" label: "Order confirmed" type: return deactivate: true
+  message from: "Order Service" to: "Customer" label: "Order confirmed" type: return activate: false
 }
 ```
 
@@ -98,7 +98,7 @@ sequence "Async Messaging" {
   message from: "Producer" to: "Message Queue" label: "Publish event" type: async
   message from: "Message Queue" to: "Consumer" label: "Event delivered" type: async activate: true
   message from: "Consumer" to: "Database" label: "Store data" type: sync
-  message from: "Database" to: "Consumer" label: "Success" type: return deactivate: true
+  message from: "Database" to: "Consumer" label: "Success" type: return activate: false
 }
 ```
 
@@ -151,14 +151,16 @@ sequence "Authentication with Validation" {
 
   message from: "User" to: "System" label: "Login" type: sync
 
-  alt "Valid credentials" {
-    message from: "System" to: "Database" label: "Check user" type: sync
-    message from: "Database" to: "System" label: "User found" type: return
-    message from: "System" to: "User" label: "Success" type: return
-  }
-  else "Invalid credentials" {
-    message from: "System" to: "User" label: "Error" type: return
-  }
+  fragment alt "Credential Validation" from: 1 to: 5
+  alternatives: ("Valid credentials": 1..3, "Invalid credentials": 4..5)
+
+  // Valid credentials path (messages 1-3)
+  message from: "System" to: "Database" label: "Check user" type: sync
+  message from: "Database" to: "System" label: "User found" type: return
+  message from: "System" to: "User" label: "Success" type: return
+
+  // Invalid credentials path (messages 4-5)
+  message from: "System" to: "User" label: "Error" type: return
 }
 ```
 
@@ -172,11 +174,11 @@ sequence "Batch Processing" {
   participant "Processor" as control
   participant "Database" as database
 
-  loop "For each item" times: 100 {
-    message from: "Scheduler" to: "Processor" label: "Process item" type: sync activate: true
-    message from: "Processor" to: "Database" label: "Save result" type: sync
-    message from: "Database" to: "Processor" label: "Saved" type: return deactivate: true
-  }
+  fragment loop "For each item" from: 0 to: 2
+
+  message from: "Scheduler" to: "Processor" label: "Process item" type: sync activate: true
+  message from: "Processor" to: "Database" label: "Save result" type: sync
+  message from: "Database" to: "Processor" label: "Saved" type: return activate: false
 }
 ```
 
@@ -194,20 +196,16 @@ sequence "Parallel API Calls" {
 
   message from: "Client" to: "Gateway" label: "Request" type: sync activate: true
 
-  par {
-    message from: "Gateway" to: "Service A" label: "Fetch data" type: async
-    message from: "Service A" to: "Gateway" label: "Data A" type: return
-  }
-  and {
-    message from: "Gateway" to: "Service B" label: "Fetch data" type: async
-    message from: "Service B" to: "Gateway" label: "Data B" type: return
-  }
-  and {
-    message from: "Gateway" to: "Service C" label: "Fetch data" type: async
-    message from: "Service C" to: "Gateway" label: "Data C" type: return
-  }
+  fragment par "Concurrent API Calls" from: 1 to: 6
 
-  message from: "Gateway" to: "Client" label: "Combined result" type: return deactivate: true
+  message from: "Gateway" to: "Service A" label: "Fetch data" type: async
+  message from: "Service A" to: "Gateway" label: "Data A" type: return
+  message from: "Gateway" to: "Service B" label: "Fetch data" type: async
+  message from: "Service B" to: "Gateway" label: "Data B" type: return
+  message from: "Gateway" to: "Service C" label: "Fetch data" type: async
+  message from: "Service C" to: "Gateway" label: "Data C" type: return
+
+  message from: "Gateway" to: "Client" label: "Combined result" type: return activate: false
 }
 ```
 
@@ -221,15 +219,14 @@ sequence "API with Error Handling" {
 
   message from: "Client" to: "API" label: "Request" type: sync activate: true
 
-  try {
-    message from: "API" to: "Database" label: "Query" type: sync
-    message from: "Database" to: "API" label: "Result" type: return
-    message from: "API" to: "Client" label: "Success" type: return deactivate: true
-  }
-  catch "Database Error" {
-    message from: "API" to: "API" label: "Log error" type: sync
-    message from: "API" to: "Client" label: "500 Error" type: return deactivate: true
-  }
+  fragment alt "Error Handling" from: 1 to: 5
+    alternatives: ("Success": 1..3, "Database Error": 4..5)
+
+  message from: "API" to: "Database" label: "Query" type: sync
+  message from: "Database" to: "API" label: "Result" type: return
+  message from: "API" to: "Client" label: "Success" type: return activate: false
+  message from: "API" to: "API" label: "Log error" type: sync
+  message from: "API" to: "Client" label: "500 Error" type: return activate: false
 }
 ```
 
@@ -243,16 +240,13 @@ sequence "Retry Pattern" {
 
   message from: "Client" to: "Service" label: "Request" type: sync activate: true
 
-  loop "Retry up to 3 times" {
-    message from: "Service" to: "External API" label: "API call" type: sync
+  fragment loop "Retry up to 3 times" from: 1 to: 3
 
-    opt "If timeout" {
-      message from: "Service" to: "Service" label: "Wait & retry" type: sync
-    }
-  }
-
+  message from: "Service" to: "External API" label: "API call" type: sync
+  message from: "Service" to: "Service" label: "Wait & retry" type: sync
   message from: "External API" to: "Service" label: "Response" type: return
-  message from: "Service" to: "Client" label: "Result" type: return deactivate: true
+
+  message from: "Service" to: "Client" label: "Result" type: return activate: false
 }
 ```
 
@@ -272,7 +266,7 @@ sequence "OAuth 2.0 Authorization Code Flow" {
   message from: "Auth Server" to: "User" label: "Authorization code" type: return
   message from: "User" to: "Client App" label: "Code" type: sync
   message from: "Client App" to: "Auth Server" label: "Exchange code for token" type: sync activate: true
-  message from: "Auth Server" to: "Client App" label: "Access token" type: return deactivate: true
+  message from: "Auth Server" to: "Client App" label: "Access token" type: return activate: false
   message from: "Client App" to: "Resource Server" label: "API request + token" type: sync
   message from: "Resource Server" to: "Client App" label: "Protected resource" type: return
   message from: "Client App" to: "User" label: "Display data" type: return
@@ -586,25 +580,7 @@ sequence "Microservices Request with All Features" {
 
 ## Styling
 
-Customize sequence diagram appearance:
-
-```runiq
-sequence "Styled Sequence" {
-  style: {
-    participantBackground: "#f0f9ff",
-    participantBorder: "#3b82f6",
-    activationBackground: "#dbeafe",
-    messageColor: "#1e40af",
-    messageFont: "Arial, sans-serif"
-  }
-
-  participant "User" as actor style: { fill: "#dbeafe", stroke: "#3b82f6" }
-  participant "System" as control style: { fill: "#d1fae5", stroke: "#10b981" }
-
-  message from: "User" to: "System" label: "Request" type: sync
-    style: { stroke: "#3b82f6", strokeWidth: 2 }
-}
-```
+> **Note**: Custom styling for sequence diagrams is not yet implemented in the current version. The sequence profile focuses on UML 2.5 semantic features (fragments, gates, constraints, state invariants). Styling support is planned for a future release.
 
 ## Best Practices
 
@@ -634,6 +610,39 @@ sequence "Numbered Messages" {
 }
 ```
 
+## Comparison with Other Tools
+
+| Feature                      | Runiq                         | Mermaid      | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
+| ---------------------------- | ----------------------------- | ------------ | ------------ | ------------------ | ------------- | -------------------- |
+| **Basic Support**            | ✅                            | ✅           | ✅           | ✅                 | ✅            | ✅                   |
+| **UML 2.5 Compliance**       | ✅                            | ⚠️ Basic     | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
+| **Version Control Friendly** | ✅                            | ✅           | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌ No                |
+| **Participant Stereotypes**  | ✅ 5 types (actor, boundary+) | ❌ Limited   | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Combined Fragments**       | ✅ 12 operators (alt, loop+)  | ⚠️ 4 types   | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Activation Boxes**         | ✅ Auto-managed               | ✅           | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
+| **Message Types**            | ✅ 5 types (sync, async+)     | ⚠️ 3 types   | ✅           | ✅ Manual styling  | ✅ Manual     | ✅                   |
+| **Interaction Use (ref)**    | ✅                            | ❌ No        | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **State Invariants**         | ✅                            | ❌ No        | ✅           | ❌ No              | ❌ No         | ✅                   |
+| **Duration Constraints**     | ✅                            | ❌ No        | ⚠️ Via notes | ❌ No              | ❌ No         | ✅                   |
+| **Gates (Messages)**         | ✅                            | ❌ No        | ❌ No        | ❌ No              | ❌ No         | ✅                   |
+| **Styling**                  | ❌                            | ✅           | ✅           | ⚠️ Manual          | ⚠️ Manual     | ❌                   |
+| **Text-Based DSL**           | ✅                            | ✅           | ✅           | ❌ No (GUI)        | ❌ No (GUI)   | ⚠️ Hybrid            |
+| **Auto-Layout**              | ✅                            | ✅           | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Export Formats**           | ✅ SVG, PNG, PDF              | ✅ SVG, PNG  | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
+| **Collaboration**            | ✅ Git-based                  | ✅ Git-based | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
+| **Learning Curve**           | ⚠️ Moderate (DSL)             | ✅ Low       | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
+| **Open Source**              | ✅ MIT License                | ✅ MIT       | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
+
+**Runiq Advantages:**
+
+- **UML 2.5 compliant** with all advanced features (gates, invariants, duration constraints)
+- **Unified language** for sequence, class, use case, state machine, and 15+ diagram types
+- **Combined fragments** with 12 operators (`alt`, `opt`, `loop`, `par`, `critical`, `neg`, `assert`, `ignore`, `consider`, `strict`, `seq`, `break`)
+- **Interaction use** for modular sub-sequences
+- **Version control native** - perfect for API documentation in repositories
+- **Clear message syntax** with 5 distinct types
+- **Profile system** for diagram-specific conventions
+
 ## Examples
 
 See the [examples/sequence](https://github.com/jgreywolf/runiq/tree/main/examples/sequence) directory for complete examples:
@@ -656,6 +665,42 @@ See the [examples/sequence](https://github.com/jgreywolf/runiq/tree/main/example
 - `state-invariants-transaction.runiq` - Bank transfer with balance invariants
 - `state-invariants-locking.runiq` - Resource locking with mutex properties
 - `combined-features-example.runiq` - Microservices showing gates, constraints, refs, and invariants together
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Enterprise Architect | Visual Paradigm | WebSequenceDiagrams |
+| ---------------------------- | -------------- | -------------- | -------------- | ----------- | -------------------- | --------------- | ------------------- |
+| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ✅                  |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial           | ⚠️ Partial      | ✅                  |
+| **UML 2.5 compliance**       | ✅             | ⚠️ Partial     | ✅             | ⚠️ Basic    | ✅                   | ✅              | ⚠️ Basic            |
+| **Combined fragments**       | ✅ 12 types    | ⚠️ 4 types     | ✅             | ⚠️ Limited  | ✅                   | ✅              | ⚠️ Limited          |
+| **Interaction use**          | ✅             | ❌             | ✅             | ❌          | ✅                   | ✅              | ❌                  |
+| **Duration constraints**     | ✅             | ❌             | ⚠️ Limited     | ❌          | ✅                   | ✅              | ❌                  |
+| **State invariants**         | ✅             | ❌             | ⚠️ Limited     | ❌          | ✅                   | ✅              | ❌                  |
+| **Gates**                    | ✅             | ❌             | ❌             | ❌          | ✅                   | ✅              | ❌                  |
+| **Continuations**            | ✅             | ❌             | ❌             | ❌          | ✅                   | ✅              | ❌                  |
+| **Message types**            | ✅ 5 types     | ⚠️ 3 types     | ✅             | ⚠️ Basic    | ✅                   | ✅              | ⚠️ 3 types          |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ✅                  |
+| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ✅                   | ✅              | ❌                  |
+| **Model integration**        | ❌             | ❌             | ❌             | ⚠️ Limited  | ✅                   | ✅              | ❌                  |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple             | Multiple        | PNG                 |
+| **Learning curve**           | Low            | Low            | Medium         | Low         | High                 | High            | Low                 |
+| **Cost**                     | Free           | Free           | Free           | Paid        | Paid                 | Paid            | Free/Paid           |
+| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows/Mac          | Cross-platform  | Web                 |
+
+**Key Advantages of Runiq:**
+
+- **Full UML 2.5**: Complete support for advanced features (gates, invariants, constraints)
+- **Version Control**: Perfect for API documentation in Git repositories
+- **Unified Language**: Consistent syntax with other UML diagram types
+- **Clear Syntax**: Readable message and fragment notation
+
+**When to Use Alternatives:**
+
+- **Enterprise Architect/Visual Paradigm**: Full UML modeling with code generation and reverse engineering
+- **Mermaid**: Quick sequence diagrams in existing markdown documentation
+- **PlantUML**: Established tool with extensive UML support
+- **WebSequenceDiagrams**: Simple web-based tool for basic sequences
 
 ## Related
 

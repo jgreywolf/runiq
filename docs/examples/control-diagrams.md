@@ -1,4 +1,4 @@
-# Block Diagram Examples
+# Control system Diagram Examples
 
 Control system diagrams with transfer functions, feedback loops, and export to LaTeX/Simulink.
 
@@ -266,7 +266,7 @@ $$H(s) = H_1(s) + H_2(s) + H_3(s)$$
 PID example:
 $$C(s) = K_p + \frac{K_i}{s} + K_d s$$
 
-## Block Diagram Elements
+## Control system Diagram Elements
 
 Runiq provides specialized shapes for control systems:
 
@@ -488,9 +488,9 @@ feedback -> sum label: "-"
 
 ## Download Examples
 
-All example `.runiq` files are available in the [GitHub repository](https://github.com/jgreywolf/runiq/tree/main/examples/block-diagrams).
+All example `.runiq` files are available in the [GitHub repository](https://github.com/jgreywolf/runiq/tree/main/examples/control-diagrams).
 
 ```bash
 git clone https://github.com/jgreywolf/runiq.git
-cd runiq/examples/block-diagrams
+cd runiq/examples/control-diagrams
 ```

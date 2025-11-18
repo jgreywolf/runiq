@@ -4,8 +4,8 @@
 // Demonstrates 5-destination diverging pattern (maximum).
 
 glyphset diverging "Notification Channels" {
-    theme "forest"
-item "Email"
+  theme "forest"
+  item "Email"
   item "SMS"
   item "Push Notification"
   item "In-App Alert"

@@ -284,11 +284,11 @@ Process with distinct phases and milestones.
 
 ```runiq
 glyphset phasedProcess "Project Phases" {
-  phase "Initiation"
-  phase "Planning"
-  phase "Execution"
-  phase "Monitoring"
-  phase "Closure"
+  item "Initiation"
+  item "Planning"
+  item "Execution"
+  item "Monitoring"
+  item "Closure"
 
   theme "professional"
 }
@@ -306,13 +306,26 @@ Process grouped into categories or workstreams.
 **Example:**
 
 ```runiq
-glyphset groupedProcess "Development Streams" {
-  group "Frontend Team"
-  group "Backend Team"
-  group "DevOps Team"
-
+// Grouped Process - Parallel Streams Converging
+glyphset groupedProcess "Cross-Functional Project" {
   theme "forest"
+  group "Design Team" {
+    item "User Research"
+    item "UI Design"
+  }
+  group "Engineering" {
+    item "Architecture"
+    item "Backend API"
+    item "Frontend"
+  }
+  group "QA" {
+    item "Test Strategy"
+    item "Automation"
+  }
+
+  mergePoint "Product Launch"
 }
+
 ```
 
 ### continuousBlockProcess
@@ -327,16 +340,19 @@ Continuous flow with connected blocks.
 **Example:**
 
 ```runiq
-glyphset continuousBlockProcess "Value Stream" {
-  block "Ideation"
-  block "Design"
-  block "Build"
-  block "Test"
-  block "Deploy"
-  block "Monitor"
+// Continuous Block Process - Manufacturing Flow
+glyphset continuousBlockProcess "Production Line" {
+  theme "forest"
+  item "Raw Materials"
+  item "Processing"
+  item "Assembly"
+  item "Quality Check"
+  item "Packaging"
+  item "Shipping"
 
-  theme "sunset"
+  direction "LR"
 }
+
 ```
 
 ### equationProcess
@@ -351,14 +367,15 @@ Mathematical or logical equation-style process.
 **Example:**
 
 ```runiq
-glyphset equationProcess "Success Formula" {
-  element "Talent"
-  element "Process"
-  element "Technology"
-  element "Results"
-
-  theme "ocean"
+// Equation Process - Success Formula
+glyphset equationProcess "Business Success" {
+  theme "forest"
+  item "Great Product"
+  item "Strong Team"
+  item "Market Timing"
+  item "Success"
 }
+
 ```
 
 ## Tips for Process Glyphsets

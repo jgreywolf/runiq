@@ -69,6 +69,42 @@ digital "4-bit Counter" {
 | **Mixed Analog**      | ✅ Yes               | ❌ No (digital only)     |
 | **Export**            | SPICE, Verilog       | Verilog (hierarchical)   |
 
+## Comparison with Other Tools
+
+| Feature                      | Runiq                 | Mermaid        | PlantUML       | Lucidchart  | Logisim        | Digital        | Quartus       | Vivado        |
+| ---------------------------- | --------------------- | -------------- | -------------- | ----------- | -------------- | -------------- | ------------- | ------------- |
+| **Basic Support**            | ✅                    | ❌             | ❌             | ✅          | ✅             | ❌             | ✅            | ✅            |
+| **Gate-level design**        | ✅                    | ❌             | ❌             | ✅          | ✅             | ✅             | ✅            | ✅            |
+| **Hierarchical modules**     | ✅                    | ❌             | ❌             | ⚠️ Manual   | ✅             | ✅             | ✅            | ✅            |
+| **Interactive simulation**   | ❌                    | ❌             | ❌             | ❌          | ✅             | ✅             | ✅            | ✅            |
+| **Timing analysis**          | ❌                    | ❌             | ❌             | ❌          | ⚠️ Basic       | ⚠️ Basic       | ✅            | ✅            |
+| **FPGA synthesis**           | ❌                    | ❌             | ❌             | ❌          | ❌             | ❌             | ✅            | ✅            |
+| **HDL export**               | ✅ Verilog            | ❌             | ❌             | ❌          | ⚠️ VHDL        | ⚠️ VHDL        | ✅            | ✅            |
+| **Standard libraries**       | ✅                    | ❌             | ❌             | ⚠️ Basic    | ✅             | ✅             | ✅            | ✅            |
+| **Automatic layout**         | ✅                    | ✅             | ✅             | ❌          | ❌             | ⚠️ Auto-route  | ❌            | ❌            |
+| **Documentation generation** | ✅                    | ✅             | ✅             | ⚠️ Partial  | ❌             | ❌             | ⚠️ Partial    | ⚠️ Partial    |
+| **Multi-profile support**    | ✅ Electrical/Digital | ❌             | ❌             | ✅          | ❌             | ❌             | ❌            | ❌            |
+| **Export formats**           | SVG, PNG              | SVG, PNG       | SVG, PNG       | Multiple    | Image          | Image          | PDF, Image    | PDF, Image    |
+| **Text-based DSL**           | ✅                    | ✅             | ✅             | ❌          | ❌             | ❌             | ⚠️ TCL        | ⚠️ XDC        |
+| **Version control friendly** | ✅                    | ✅             | ✅             | ❌          | ❌             | ❌             | ⚠️ Partial    | ⚠️ Partial    |
+| **Learning curve**           | Low                   | Low            | Medium         | Low         | Medium         | Low            | High          | High          |
+| **Cost**                     | Free                  | Free           | Free           | Paid        | Free           | Free           | Paid          | Paid          |
+| **Platform**                 | Cross-platform        | Cross-platform | Cross-platform | Web/Desktop | Cross-platform | Cross-platform | Windows/Linux | Windows/Linux |
+
+**Key Advantages of Runiq:**
+
+- **Dual Profiles**: Switch between electrical (gate-level) and digital (hierarchical) views
+- **Version Control**: Text-based format integrates seamlessly with Git
+- **Documentation**: Natural fit for technical documentation and papers
+- **Hierarchical Design**: Clean module instantiation and reuse
+
+**When to Use Alternatives:**
+
+- **Logisim/Digital**: Interactive circuit design and simulation for education
+- **Quartus/Vivado**: Professional FPGA development with synthesis and implementation
+- **Lucidchart**: Real-time collaboration with non-technical stakeholders
+- **Mermaid/PlantUML**: Simple logic diagrams in existing documentation
+
 ## Examples
 
 ### Example 1: Full Adder (Electrical Profile)
@@ -287,18 +323,19 @@ Runiq supports all standard logic gates with IEEE distinctive shapes.
 
 #### 2-Input Gates
 
-| Gate Type | Part Type | Symbol | Description | Logic Function |
-|-----------|-----------|--------|-------------|----------------|
-| **AND** | `type:AND` | Flat-left, curved-right | All inputs high → output high | $Y = A \cdot B$ |
-| **OR** | `type:OR` | Curved-both-sides | Any input high → output high | $Y = A + B$ |
-| **NOT** | `type:NOT` | Triangle with bubble | Inverts input | $Y = \overline{A}$ |
-| **XOR** | `type:XOR` | OR with extra input curve | Odd parity | $Y = A \oplus B$ |
-| **NAND** | `type:NAND` | AND with output bubble | NOT-AND | $Y = \overline{A \cdot B}$ |
-| **NOR** | `type:NOR` | OR with output bubble | NOT-OR | $Y = \overline{A + B}$ |
-| **XNOR** | `type:XNOR` | XOR with output bubble | Even parity | $Y = \overline{A \oplus B}$ |
-| **BUFFER** | `type:BUFFER` | Triangle without bubble | Non-inverting buffer | $Y = A$ |
+| Gate Type  | Part Type     | Symbol                    | Description                   | Logic Function              |
+| ---------- | ------------- | ------------------------- | ----------------------------- | --------------------------- |
+| **AND**    | `type:AND`    | Flat-left, curved-right   | All inputs high → output high | $Y = A \cdot B$             |
+| **OR**     | `type:OR`     | Curved-both-sides         | Any input high → output high  | $Y = A + B$                 |
+| **NOT**    | `type:NOT`    | Triangle with bubble      | Inverts input                 | $Y = \overline{A}$          |
+| **XOR**    | `type:XOR`    | OR with extra input curve | Odd parity                    | $Y = A \oplus B$            |
+| **NAND**   | `type:NAND`   | AND with output bubble    | NOT-AND                       | $Y = \overline{A \cdot B}$  |
+| **NOR**    | `type:NOR`    | OR with output bubble     | NOT-OR                        | $Y = \overline{A + B}$      |
+| **XNOR**   | `type:XNOR`   | XOR with output bubble    | Even parity                   | $Y = \overline{A \oplus B}$ |
+| **BUFFER** | `type:BUFFER` | Triangle without bubble   | Non-inverting buffer          | $Y = A$                     |
 
 **Example - 2-Input Gates:**
+
 ```runiq
 electrical "Basic Gates" {
   net A, B, Y_AND, Y_OR, Y_XOR, Y_NAND, Y_NOR, Y_XNOR
@@ -314,14 +351,15 @@ electrical "Basic Gates" {
 
 #### 3-Input Gates
 
-| Gate Type | Part Type | Inputs | Description |
-|-----------|-----------|--------|-------------|
-| **AND3** | `type:AND3` | A, B, C | 3-input AND gate (80×50px, wider) |
-| **OR3** | `type:OR3` | A, B, C | 3-input OR gate (curved shape) |
-| **NAND3** | `type:NAND3` | A, B, C | 3-input NAND (AND3 with bubble) |
-| **NOR3** | `type:NOR3` | A, B, C | 3-input NOR (OR3 with bubble) |
+| Gate Type | Part Type    | Inputs  | Description                       |
+| --------- | ------------ | ------- | --------------------------------- |
+| **AND3**  | `type:AND3`  | A, B, C | 3-input AND gate (80×50px, wider) |
+| **OR3**   | `type:OR3`   | A, B, C | 3-input OR gate (curved shape)    |
+| **NAND3** | `type:NAND3` | A, B, C | 3-input NAND (AND3 with bubble)   |
+| **NOR3**  | `type:NOR3`  | A, B, C | 3-input NOR (OR3 with bubble)     |
 
 **Example - 3-Input Gates:**
+
 ```runiq
 electrical "3-Input Logic" {
   net A, B, C, Y_AND3, Y_OR3, Y_NAND3, Y_NOR3
@@ -339,13 +377,14 @@ electrical "3-Input Logic" {
 
 Flip-flops store 1 bit of state, triggered by clock edges.
 
-| Type | Part Type | Size | Description | Inputs | Outputs |
-|------|-----------|------|-------------|--------|---------|
-| **D Flip-Flop** | `type:DFF` | 80×60px | Data flip-flop, output follows D on clock edge | D, CLK | Q, Q̄ |
-| **JK Flip-Flop** | `type:JKFF` | 80×70px | Universal flip-flop (set, reset, toggle) | J, K, CLK | Q, Q̄ |
-| **T Flip-Flop** | `type:TFF` | 80×60px | Toggle flip-flop, changes state on clock edge | T, CLK | Q, Q̄ |
+| Type             | Part Type   | Size    | Description                                    | Inputs    | Outputs |
+| ---------------- | ----------- | ------- | ---------------------------------------------- | --------- | ------- |
+| **D Flip-Flop**  | `type:DFF`  | 80×60px | Data flip-flop, output follows D on clock edge | D, CLK    | Q, Q̄    |
+| **JK Flip-Flop** | `type:JKFF` | 80×70px | Universal flip-flop (set, reset, toggle)       | J, K, CLK | Q, Q̄    |
+| **T Flip-Flop**  | `type:TFF`  | 80×60px | Toggle flip-flop, changes state on clock edge  | T, CLK    | Q, Q̄    |
 
 **Example - D Flip-Flop:**
+
 ```runiq
 electrical "D Flip-Flop" {
   net D, CLK, RST, Q, QB
@@ -357,13 +396,14 @@ electrical "D Flip-Flop" {
 
 **DFF Truth Table:**
 
-| CLK | D | Q(next) |
-|-----|---|---------|
-| ↑   | 0 | 0       |
-| ↑   | 1 | 1       |
-| ↓   | X | Q(prev) |
+| CLK | D   | Q(next) |
+| --- | --- | ------- |
+| ↑   | 0   | 0       |
+| ↑   | 1   | 1       |
+| ↓   | X   | Q(prev) |
 
 **Example - JK Flip-Flop:**
+
 ```runiq
 electrical "JK Flip-Flop" {
   net J, K, CLK, Q, QB
@@ -374,14 +414,15 @@ electrical "JK Flip-Flop" {
 
 **JKFF Truth Table:**
 
-| J | K | Q(next) | Operation |
-|---|---|---------|-----------|
-| 0 | 0 | Q(prev) | No change |
-| 0 | 1 | 0       | Reset     |
-| 1 | 0 | 1       | Set       |
-| 1 | 1 | Q̄(prev) | Toggle    |
+| J   | K   | Q(next) | Operation |
+| --- | --- | ------- | --------- |
+| 0   | 0   | Q(prev) | No change |
+| 0   | 1   | 0       | Reset     |
+| 1   | 0   | 1       | Set       |
+| 1   | 1   | Q̄(prev) | Toggle    |
 
 **Example - T Flip-Flop:**
+
 ```runiq
 electrical "T Flip-Flop Counter" {
   net T, CLK, Q0, Q1, Q2, Q3
@@ -398,12 +439,13 @@ electrical "T Flip-Flop Counter" {
 
 Multi-bit storage elements with clock and enable.
 
-| Type | Part Type | Size | Description | Inputs | Outputs |
-|------|-----------|------|-------------|--------|---------|
-| **4-bit Register** | `type:REG4` | 100×80px | 4-bit parallel register | D0-D3, CLK, EN | Q0-Q3 |
-| **8-bit Register** | `type:REG8` | 120×100px | 8-bit parallel register | D0-D7, CLK, EN | Q0-Q7 |
+| Type               | Part Type   | Size      | Description             | Inputs         | Outputs |
+| ------------------ | ----------- | --------- | ----------------------- | -------------- | ------- |
+| **4-bit Register** | `type:REG4` | 100×80px  | 4-bit parallel register | D0-D3, CLK, EN | Q0-Q3   |
+| **8-bit Register** | `type:REG8` | 120×100px | 8-bit parallel register | D0-D7, CLK, EN | Q0-Q7   |
 
 **Example - 8-bit Register with Enable:**
+
 ```runiq
 electrical "8-bit Register" {
   net CLK, EN
@@ -415,6 +457,7 @@ electrical "8-bit Register" {
 ```
 
 **Example - Shift Register:**
+
 ```runiq
 electrical "8-bit Shift Register" {
   net CLK, SHIFT_EN, SERIAL_IN, SERIAL_OUT
@@ -429,7 +472,7 @@ electrical "8-bit Shift Register" {
   part FF5 type:DFF pins:(D4,CLK,D5)
   part FF6 type:DFF pins:(D5,CLK,D6)
   part FF7 type:DFF pins:(D6,CLK,D7)
-  
+
   // Serial output from last stage
   net SERIAL_OUT
   part BUF type:BUFFER pins:(D7,SERIAL_OUT)
@@ -442,12 +485,13 @@ electrical "8-bit Shift Register" {
 
 Select one of multiple inputs based on select lines.
 
-| Type | Part Type | Size | Description | Inputs | Outputs |
-|------|-----------|------|-------------|--------|---------|
-| **4-to-1 Mux** | `type:MUX41` | 60×80px | 4 data inputs, 2 select bits | D0-D3, S0-S1 | Y |
-| **8-to-1 Mux** | `type:MUX81` | 70×120px | 8 data inputs, 3 select bits | D0-D7, S0-S2 | Y |
+| Type           | Part Type    | Size     | Description                  | Inputs       | Outputs |
+| -------------- | ------------ | -------- | ---------------------------- | ------------ | ------- |
+| **4-to-1 Mux** | `type:MUX41` | 60×80px  | 4 data inputs, 2 select bits | D0-D3, S0-S1 | Y       |
+| **8-to-1 Mux** | `type:MUX81` | 70×120px | 8 data inputs, 3 select bits | D0-D7, S0-S2 | Y       |
 
 **Example - 4-to-1 Multiplexer:**
+
 ```runiq
 electrical "4-to-1 Multiplexer" {
   net D0, D1, D2, D3, S0, S1, Y
@@ -458,14 +502,15 @@ electrical "4-to-1 Multiplexer" {
 
 **MUX41 Truth Table:**
 
-| S1 | S0 | Y  |
-|----|----|----|
-| 0  | 0  | D0 |
-| 0  | 1  | D1 |
-| 1  | 0  | D2 |
-| 1  | 1  | D3 |
+| S1  | S0  | Y   |
+| --- | --- | --- |
+| 0   | 0   | D0  |
+| 0   | 1   | D1  |
+| 1   | 0   | D2  |
+| 1   | 1   | D3  |
 
 **Example - 8-to-1 Multiplexer:**
+
 ```runiq
 electrical "8-to-1 Multiplexer" {
   net D0, D1, D2, D3, D4, D5, D6, D7
@@ -479,12 +524,13 @@ electrical "8-to-1 Multiplexer" {
 
 Convert binary address to one-hot output.
 
-| Type | Part Type | Size | Description | Inputs | Outputs |
-|------|-----------|------|-------------|--------|---------|
-| **2-to-4 Decoder** | `type:DEC24` | 60×70px | 2 address bits → 4 outputs | A0-A1, EN | Y0-Y3 |
-| **3-to-8 Decoder** | `type:DEC38` | 70×110px | 3 address bits → 8 outputs | A0-A2, EN | Y0-Y7 |
+| Type               | Part Type    | Size     | Description                | Inputs    | Outputs |
+| ------------------ | ------------ | -------- | -------------------------- | --------- | ------- |
+| **2-to-4 Decoder** | `type:DEC24` | 60×70px  | 2 address bits → 4 outputs | A0-A1, EN | Y0-Y3   |
+| **3-to-8 Decoder** | `type:DEC38` | 70×110px | 3 address bits → 8 outputs | A0-A2, EN | Y0-Y7   |
 
 **Example - 2-to-4 Decoder:**
+
 ```runiq
 electrical "2-to-4 Decoder" {
   net A0, A1, EN, Y0, Y1, Y2, Y3
@@ -495,14 +541,15 @@ electrical "2-to-4 Decoder" {
 
 **DEC24 Truth Table (EN=1):**
 
-| A1 | A0 | Y3 | Y2 | Y1 | Y0 |
-|----|----|----|----|----|----|
-| 0  | 0  | 0  | 0  | 0  | 1  |
-| 0  | 1  | 0  | 0  | 1  | 0  |
-| 1  | 0  | 0  | 1  | 0  | 0  |
-| 1  | 1  | 1  | 0  | 0  | 0  |
+| A1  | A0  | Y3  | Y2  | Y1  | Y0  |
+| --- | --- | --- | --- | --- | --- |
+| 0   | 0   | 0   | 0   | 0   | 1   |
+| 0   | 1   | 0   | 0   | 1   | 0   |
+| 1   | 0   | 0   | 1   | 0   | 0   |
+| 1   | 1   | 1   | 0   | 0   | 0   |
 
 **Example - 3-to-8 Decoder:**
+
 ```runiq
 electrical "3-to-8 Decoder with Enable" {
   net A0, A1, A2, EN, Y0, Y1, Y2, Y3, Y4, Y5, Y6, Y7
@@ -544,6 +591,7 @@ electrical "4-bit Synchronous Counter" {
 ```
 
 **Behavior:**
+
 - Counts from 0000 to 1111 (0 to 15)
 - Wraps to 0000 after 1111
 - Synchronous: all flip-flops triggered by same clock
@@ -581,6 +629,7 @@ electrical "8-bit Shift Register with Parallel Load" {
 ```
 
 **Operations:**
+
 - **LOAD=1**: Parallel load D0-D7 into Q0-Q7
 - **SHIFT=1**: Shift right, SERIAL_IN enters Q0
 - **LOAD=0, SHIFT=0**: Hold current value
@@ -621,6 +670,7 @@ electrical "Traffic Light Controller" {
 ```
 
 **State Machine:**
+
 1. **State 0**: NS Green, EW Red (30s)
 2. **State 1**: NS Yellow, EW Red (5s)
 3. **State 2**: NS Red, EW Green (30s)
@@ -636,6 +686,7 @@ Both profiles export to **synthesizable Verilog HDL** for FPGA/ASIC implementati
 Electrical circuits export to **gate-level Verilog** with primitive gate instantiations.
 
 **Runiq DSL:**
+
 ```runiq
 electrical "Half Adder" {
   net A, B, SUM, CARRY
@@ -646,6 +697,7 @@ electrical "Half Adder" {
 ```
 
 **Generated Verilog:**
+
 ```verilog
 // Half Adder
 // Generated by Runiq
@@ -664,6 +716,7 @@ endmodule
 ```
 
 **Features:**
+
 - **Primitive gates**: `and`, `or`, `not`, `xor`, `nand`, `nor`, `xnor`
 - **Direct mapping**: Each `part` becomes a gate instantiation
 - **IEEE Std 1364**: Compliant Verilog-2001 syntax
@@ -674,6 +727,7 @@ endmodule
 Digital profiles export to **hierarchical Verilog** with module definitions and port mapping.
 
 **Runiq DSL:**
+
 ```runiq
 digital "4-bit Counter" {
   module Counter ports:(clk, reset, enable, count[3:0]) params:(WIDTH:4)
@@ -686,6 +740,7 @@ digital "4-bit Counter" {
 ```
 
 **Generated Verilog:**
+
 ```verilog
 // 4-bit Counter
 // Generated by Runiq
@@ -723,6 +778,7 @@ endmodule
 ```
 
 **Features:**
+
 - **Hierarchical design**: Nested module instantiations
 - **Bus notation**: `[7:0]` becomes `[7:0]` in Verilog
 - **Parameters**: `#(parameter WIDTH = 8)` declarations
@@ -770,6 +826,7 @@ console.log(`Warnings: ${verilogResult.warnings.length}`);
 ### Simulation with Icarus Verilog
 
 **Step 1: Create testbench**
+
 ```verilog
 `timescale 1ns/1ps
 
@@ -801,6 +858,7 @@ endmodule
 ```
 
 **Step 2: Compile and simulate**
+
 ```bash
 # Compile with Icarus Verilog
 iverilog -o half_adder.vvp half_adder.v tb_half_adder.v
@@ -872,19 +930,19 @@ The `@runiq/export-verilog` package supports various options:
 ```typescript
 const verilogResult = toVerilog(profile, {
   // Output format
-  indentSize: 2,                // Spaces per indent level
-  lineWidth: 80,                // Max line width before wrapping
-  
+  indentSize: 2, // Spaces per indent level
+  lineWidth: 80, // Max line width before wrapping
+
   // Module naming
-  modulePrefix: 'runiq_',       // Prefix for generated modules
-  
+  modulePrefix: 'runiq_', // Prefix for generated modules
+
   // Comments
-  includeComments: true,        // Include DSL comments
-  includeTimestamp: true,       // Add generation timestamp
-  
+  includeComments: true, // Include DSL comments
+  includeTimestamp: true, // Add generation timestamp
+
   // Code style
-  declareWires: true,           // Explicit wire declarations
-  useParameterizedWidth: false  // Use parameters for bus widths
+  declareWires: true, // Explicit wire declarations
+  useParameterizedWidth: false, // Use parameters for bus widths
 });
 ```
 
@@ -905,6 +963,7 @@ electrical "Full Adder" {
 ```
 
 **Exports to:**
+
 ```verilog
 module full_adder(
   input wire A, B, CIN,
@@ -939,6 +998,7 @@ digital "N-bit Counter" {
 ```
 
 **Exports to:**
+
 ```verilog
 module Counter
 #(
@@ -977,18 +1037,22 @@ endmodule
 ### Troubleshooting
 
 **Issue: "Identifier not declared"**
+
 - Ensure all nets are declared in `net` statements
 - Check for typos in pin names
 
 **Issue: "Multiple drivers for wire"**
+
 - A net can have only one driver
 - Use tri-state logic or multiplexers for multiple sources
 
 **Issue: "Incorrect port connection"**
+
 - Verify port names match module definition
 - Check bus widths match (`[7:0]` to `[7:0]`)
 
 **Issue: "Synthesis failure"**
+
 - Avoid using Verilog keywords as net names
 - Ensure all paths have defined logic levels
 - Check for combinational loops

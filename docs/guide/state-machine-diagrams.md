@@ -3,9 +3,11 @@ title: UML State Machine Diagrams
 ---
 
 ---
+
 title: State Machine Diagrams
 description: Model state-dependent behavior with UML state machines including states, transitions, guards, actions, composite states, and history.
 lastUpdated: 2025-01-09
+
 ---
 
 # State Machine Diagrams
@@ -819,6 +821,44 @@ diagram "Self-Transition" {
      guard:"[amount <= creditLimit && !fraudDetected]"
      effect:"reserveFunds(); sendConfirmation()"
    ```
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Enterprise Architect | Visual Paradigm | Yakindu        | MATLAB Stateflow |
+| ---------------------------- | -------------- | -------------- | -------------- | ----------- | -------------------- | --------------- | -------------- | ---------------- |
+| **Basic Support**            | ✅             | ✅             | ✅             | ⚠️ Basic    | ✅                   | ✅              | ✅             | ✅               |
+| **UML 2.5 compliance**       | ✅             | ⚠️ Basic       | ✅             | ⚠️ Basic    | ✅                   | ✅              | ✅             | ⚠️ Stateflow     |
+| **State behaviors**          | ✅             | ❌             | ✅             | ⚠️ Limited  | ✅                   | ✅              | ✅             | ✅               |
+| **Composite states**         | ✅             | ❌             | ✅             | ✅          | ✅                   | ✅              | ✅             | ✅               |
+| **Pseudo-states**            | ✅ 9 types     | ⚠️ 2 types     | ✅             | ⚠️ Limited  | ✅                   | ✅              | ✅             | ✅               |
+| **History states**           | ✅             | ❌             | ✅             | ⚠️ Manual   | ✅                   | ✅              | ✅             | ✅               |
+| **Fork/Join**                | ✅             | ❌             | ✅             | ⚠️ Manual   | ✅                   | ✅              | ✅             | ✅               |
+| **Guards**                   | ✅             | ❌             | ✅             | ⚠️ Labels   | ✅                   | ✅              | ✅             | ✅               |
+| **Effects/Actions**          | ✅             | ❌             | ✅             | ⚠️ Labels   | ✅                   | ✅              | ✅             | ✅               |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ⚠️ Partial     | ❌               |
+| **Code generation**          | ❌             | ❌             | ❌             | ❌          | ✅                   | ✅              | ✅             | ✅               |
+| **Simulation**               | ❌             | ❌             | ❌             | ❌          | ⚠️ Limited           | ⚠️ Limited      | ✅             | ✅               |
+| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ✅             | ❌               |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial           | ⚠️ Partial      | ✅             | ⚠️ Partial       |
+| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ✅                   | ✅              | ✅             | ⚠️ Partial       |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple             | Multiple        | Multiple       | Multiple         |
+| **Learning curve**           | Low            | Low            | Medium         | Low         | High                 | High            | Medium         | High             |
+| **Cost**                     | Free           | Free           | Free           | Paid        | Paid                 | Paid            | Free/Paid      | Paid             |
+| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows/Mac          | Cross-platform  | Cross-platform | Windows/Mac      |
+
+**Key Advantages of Runiq:**
+
+- **Full UML 2.5**: Complete pseudo-state support (choice, junction, fork, join, history, terminate)
+- **Version Control**: Track state machine evolution in Git with system code
+- **Unified Language**: Consistent syntax with other UML diagrams
+- **Clear Syntax**: Readable state behaviors and transition guards
+
+**When to Use Alternatives:**
+
+- **Yakindu/MATLAB Stateflow**: Code generation and simulation for embedded systems
+- **Enterprise Architect/Visual Paradigm**: Full UML modeling with round-trip engineering
+- **PlantUML**: Established tool with extensive UML and documentation support
+- **Lucidchart**: Real-time collaboration for requirements and design sessions
 
 ## Related Topics
 

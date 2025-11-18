@@ -23,15 +23,14 @@ Multiple inputs converging to a single output.
 **Example:**
 
 ```runiq
-glyphset converging "Sales Funnel" {
-  outer "Website Visitors"
-  outer "Email Campaign"
-  outer "Social Media"
-  outer "Referrals"
-  inner "Qualified Leads"
-
-  theme "professional"
+glyphset converging "Data Aggregation Flow" {
+  theme "forest"
+  item "Customer Database"
+  item "Sales Records"
+  item "Analytics Events"
+  item "Third-Party APIs"
 }
+
 ```
 
 ### diverging
@@ -47,14 +46,13 @@ Single input diverging to multiple outputs.
 **Example:**
 
 ```runiq
-glyphset diverging "Content Distribution" {
-  inner "Blog Post"
-  outer "LinkedIn"
-  outer "Twitter"
-  outer "Newsletter"
-  outer "Medium"
-
-  theme "ocean"
+glyphset diverging "Notification Channels" {
+  theme "forest"
+  item "Email"
+  item "SMS"
+  item "Push Notification"
+  item "In-App Alert"
+  item "Webhook"
 }
 ```
 
@@ -73,14 +71,10 @@ Two-sided balance scale showing trade-offs.
 **Example:**
 
 ```runiq
-glyphset balance "Work-Life Balance" {
-  left "Career Growth"
-  left "Income"
-  right "Family Time"
-  right "Health"
-  right "Hobbies"
-
+glyphset balance "professional" {
   theme "forest"
+  side "Costs: Initial Investment, Training, Maintenance"
+  side "Benefits: Productivity, ROI, Scalability"
 }
 ```
 
@@ -97,15 +91,11 @@ Opposing forces or contrasting concepts.
 **Example:**
 
 ```runiq
-glyphset opposing "Tech Stack Choice" {
-  left "Microservices"
-  left "Flexibility"
-  left "Scalability"
-  right "Monolith"
-  right "Simplicity"
-  right "Speed"
-
-  theme "sunset"
+glyphset opposing "Tech Stack" {
+  theme "forest"
+  item "Open Source"
+  item "Proprietary"
+  item "Hybrid Model"
 }
 ```
 
@@ -122,15 +112,13 @@ Pros and cons comparison.
 **Example:**
 
 ```runiq
-glyphset plusMinus "Remote Work" {
-  plus "Flexibility"
-  plus "No Commute"
-  plus "Cost Savings"
-  minus "Isolation"
-  minus "Communication Challenges"
-  minus "Work-Life Boundaries"
-
-  theme "monochrome"
+glyphset plusMinus "Remote Work Analysis" {
+  theme "forest"
+  item "Flexibility"
+  item "No Commute"
+  item "Lower Costs"
+  item "Isolation"
+  item "Communication Challenges"
 }
 ```
 
@@ -148,24 +136,14 @@ Grouped clusters of related items.
 **Example:**
 
 ```runiq
-glyphset cluster "Skill Categories" {
-  cluster "Frontend" {
-    item "React"
-    item "TypeScript"
-    item "CSS"
-  }
-  cluster "Backend" {
-    item "Node.js"
-    item "PostgreSQL"
-    item "Redis"
-  }
-  cluster "DevOps" {
-    item "Docker"
-    item "Kubernetes"
-    item "AWS"
-  }
-
-  theme "professional"
+glyphset cluster "Development Team" {
+  theme "forest"
+  item "Frontend Developer"
+  item "Backend Developer"
+  item "UI/UX Designer"
+  item "QA Engineer"
+  item "DevOps Engineer"
+  item "Product Owner"
 }
 ```
 
@@ -181,13 +159,14 @@ Interlocking puzzle pieces showing how parts fit together.
 **Example:**
 
 ```runiq
-glyphset puzzle "Solution Components" {
-  piece "Infrastructure"
-  piece "Application"
-  piece "Data"
-  piece "Security"
-
-  theme "ocean"
+glyphset puzzle "Development Team" {
+  theme "forest"
+  item "Planning"
+  item "Design"
+  item "Development"
+  item "Testing"
+  item "Deployment"
+  item "Maintenance"
 }
 ```
 
@@ -205,13 +184,11 @@ Concentric target/bullseye pattern.
 **Example:**
 
 ```runiq
-glyphset target "Market Segmentation" {
-  ring "Total Market"
-  ring "Target Market"
-  ring "Core Customers"
-  ring "Key Accounts"
-
-  theme "sunset"
+glyphset target "Product Priorities" {
+  theme "forest"
+  circle "Core Features"
+  circle "Key Features"
+  circle "Nice to Have"
 }
 ```
 

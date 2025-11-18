@@ -131,6 +131,7 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.cluster); // Cluster diagram (radial hub-and-spoke)
   shapeRegistry.register(charts.puzzle); // Puzzle pieces diagram
   shapeRegistry.register(charts.plusMinus); // Plus/minus diagram (pros vs cons)
+  shapeRegistry.register(charts.matrix); // 2x2 matrix (four quadrants)
   shapeRegistry.register(charts.matrix3x3); // 3x3 matrix (nine quadrants)
   shapeRegistry.register(charts.titledMatrix); // Matrix with headers
   shapeRegistry.register(charts.segmentedMatrix); // Segmented matrix
@@ -172,6 +173,9 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.labeledHierarchy); // Labeled Hierarchy (tree with edge labels)
   shapeRegistry.register(charts.tableHierarchy); // Table Hierarchy (tabular rows)
   shapeRegistry.register(charts.teamHierarchy); // Team Hierarchy (team containers)
+  shapeRegistry.register(charts.orgChart); // Organization Chart (vertical tree)
+  shapeRegistry.register(charts.horizontalOrgChart); // Horizontal Org Chart (left-to-right)
+  shapeRegistry.register(charts.matrixOrgChart); // Matrix Org Chart (dual reporting)
 }
 
 export function registerNetworkShapes(): void {

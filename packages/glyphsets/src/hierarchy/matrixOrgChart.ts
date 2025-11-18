@@ -1,5 +1,5 @@
-import type { NodeAst, EdgeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import type { GlyphSetDefinition } from '../types.js';
+import { GlyphSetError } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
@@ -7,17 +7,13 @@ import { getThemeColor, type ColorTheme } from '../themes.js';
  *
  * Generates an organization chart with dual reporting relationships.
  * Shows both functional and project-based reporting lines.
- *
- * Use cases:
- * - Matrix organizations
- * - Dotted-line reporting
- * - Cross-functional teams
- * - Shared resources
+ * Uses a custom composite shape to render the entire matrix with themed colors.
  *
  * @example
  * ```runiq
  * diagram "Matrix Organization" glyphset:matrixOrgChart {
- *   node "CEO" {
+ *   structure: {
+ *     ceo: "CEO"
  *     functional: [
  *       { name: "VP Engineering", reports: ["Dev Lead", "QA Lead"] }
  *       { name: "VP Product", reports: ["PM Lead", "Designer"] }
@@ -27,6 +23,7 @@ import { getThemeColor, type ColorTheme } from '../themes.js';
  *       { name: "Project Beta", team: ["QA Lead", "Designer"] }
  *     ]
  *   }
+ *   theme: "professional"
  * }
  * ```
  */
@@ -72,20 +69,34 @@ export const matrixOrgChartGlyphSet: GlyphSetDefinition = {
   ],
 
   generator: (params) => {
-    const structure = params.structure as MatrixStructure | undefined;
-    const theme = (params.theme as ColorTheme | undefined) || 'professional';
-    const showDottedLines =
-      (params.showDottedLines as boolean | undefined) ?? true;
-
-    // Validation
-    if (!structure || typeof structure !== 'object') {
+    // Handle structure as array (from DSL) or MatrixStructure object
+    let structure: MatrixStructure;
+    if (Array.isArray(params.structure)) {
+      if (params.structure.length === 0) {
+        throw new GlyphSetError(
+          'matrixOrgChart',
+          'structure',
+          'Matrix org chart requires a CEO/root node'
+        );
+      }
+      // Convert hierarchical OrgNode to MatrixStructure
+      const rootNode = params.structure[0] as OrgNode;
+      structure = convertToMatrixStructure(rootNode);
+    } else if (params.structure && typeof params.structure === 'object') {
+      structure = params.structure as MatrixStructure;
+    } else {
       throw new GlyphSetError(
         'matrixOrgChart',
         'structure',
         'Parameter "structure" must be a matrix organization structure'
       );
     }
+    
+    const theme = (params.theme as ColorTheme | undefined) || 'professional';
+    const showDottedLines =
+      (params.showDottedLines as boolean | undefined) ?? true;
 
+    // Validation
     if (!structure.ceo) {
       throw new GlyphSetError(
         'matrixOrgChart',
@@ -94,124 +105,18 @@ export const matrixOrgChartGlyphSet: GlyphSetDefinition = {
       );
     }
 
-    const nodes: NodeAst[] = [];
-    const edges: EdgeAst[] = [];
-    const nodeIdMap = new Map<string, string>(); // name -> nodeId
-    let nodeCount = 0;
-
-    // Helper to get or create node ID
-    function getNodeId(name: string): string {
-      if (!nodeIdMap.has(name)) {
-        nodeCount++;
-        nodeIdMap.set(name, `person${nodeCount}`);
-      }
-      return nodeIdMap.get(name)!;
-    }
-
-    // Create CEO node
-    const ceoId = getNodeId(structure.ceo);
-    nodes.push({
-      id: ceoId,
-      shape: 'rect',
-      label: structure.ceo,
-      data: {
-        color: getThemeColor(theme, 0),
-        level: 0,
-        type: 'executive',
-      },
-    });
-
-    // Create functional hierarchy
-    if (structure.functional && Array.isArray(structure.functional)) {
-      structure.functional.forEach((func, funcIndex) => {
-        const funcId = getNodeId(func.name);
-
-        nodes.push({
-          id: funcId,
-          shape: 'rounded',
-          label: func.name,
-          data: {
-            color: getThemeColor(theme, 1),
-            level: 1,
-            type: 'functional',
-          },
-        });
-
-        // Functional reporting line (solid)
-        edges.push({
-          from: ceoId,
-          to: funcId,
-        });
-
-        // Direct reports
-        if (func.reports && Array.isArray(func.reports)) {
-          func.reports.forEach((reportName) => {
-            const reportId = getNodeId(reportName);
-
-            // Create node if doesn't exist
-            if (!nodes.find((n) => n.id === reportId)) {
-              nodes.push({
-                id: reportId,
-                shape: 'rect',
-                label: reportName,
-                data: {
-                  color: getThemeColor(theme, 2 + funcIndex),
-                  level: 2,
-                  type: 'employee',
-                },
-              });
-            }
-
-            // Functional reporting line (solid)
-            edges.push({
-              from: funcId,
-              to: reportId,
-            });
-          });
-        }
+    // Count nodes
+    let nodeCount = 1; // CEO
+    if (structure.functional) {
+      nodeCount += structure.functional.length;
+      structure.functional.forEach((func) => {
+        nodeCount += func.reports?.length || 0;
       });
     }
-
-    // Create project relationships
-    if (structure.projects && Array.isArray(structure.projects)) {
-      structure.projects.forEach((project) => {
-        const projectId = getNodeId(project.name);
-
-        // Project node
-        nodes.push({
-          id: projectId,
-          shape: 'hexagon',
-          label: project.name,
-          data: {
-            color: '#9C27B0', // Purple for projects
-            type: 'project',
-          },
-        });
-
-        // Project reports to CEO (dotted if enabled)
-        edges.push({
-          from: ceoId,
-          to: projectId,
-          style: showDottedLines ? 'dashed' : 'solid',
-        });
-
-        // Team members assigned to project (dotted)
-        if (project.team && Array.isArray(project.team)) {
-          project.team.forEach((memberName) => {
-            const memberId = getNodeId(memberName);
-
-            // Cross-functional assignment (dotted line)
-            edges.push({
-              from: projectId,
-              to: memberId,
-              style: showDottedLines ? 'dashed' : 'solid',
-            });
-          });
-        }
-      });
+    if (structure.projects) {
+      nodeCount += structure.projects.length;
     }
 
-    // Validate
     if (nodeCount < 3) {
       throw new GlyphSetError(
         'matrixOrgChart',
@@ -228,11 +133,25 @@ export const matrixOrgChartGlyphSet: GlyphSetDefinition = {
       );
     }
 
+    // Generate theme colors
+    const colors = [0, 1, 2, 3, 4, 5].map((idx) => getThemeColor(theme, idx));
+
     return {
       astVersion: '1.0',
       direction: 'TB',
-      nodes,
-      edges,
+      nodes: [
+        {
+          id: 'matrixOrgChart',
+          shape: 'matrixOrgChart',
+          label: '',
+          data: {
+            structure,
+            colors,
+            showDottedLines,
+          },
+        },
+      ],
+      edges: [],
     };
   },
 };
@@ -248,9 +167,37 @@ interface MatrixStructure {
     name: string;
     reports?: string[];
   }>;
-  /** Project teams */
+  /** Project teams (cross-functional) */
   projects?: Array<{
     name: string;
     team?: string[];
   }>;
+}
+
+/**
+ * Hierarchical org node (for DSL input)
+ */
+interface OrgNode {
+  name: string;
+  role?: string;
+  reports?: OrgNode[];
+}
+
+/**
+ * Convert hierarchical OrgNode structure to MatrixStructure
+ * Treats top-level reports as functional departments
+ */
+function convertToMatrixStructure(root: OrgNode): MatrixStructure {
+  const structure: MatrixStructure = {
+    ceo: root.name,
+  };
+
+  if (root.reports && root.reports.length > 0) {
+    structure.functional = root.reports.map((dept) => ({
+      name: dept.name,
+      reports: dept.reports?.map((emp) => emp.name) || [],
+    }));
+  }
+
+  return structure;
 }

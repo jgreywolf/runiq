@@ -73,14 +73,14 @@ For a complete list of aliases, see: `packages/core/src/shape-aliases.ts`
 
 This document lists shapes where the **common name** differs from the **actual registered ID** in the shape registry. Use this when you encounter "Unknown shape" errors.
 
-### Block Diagrams & Control Systems
+### Control system Diagrams & Control Systems
 
 | ❌ Common Name (WRONG) | ✅ Registered ID (CORRECT) | Description                           |
 | ---------------------- | -------------------------- | ------------------------------------- |
 | `@box`                 | `@rect`                    | Input/output signals, reference boxes |
 | `@small-circle`        | `@sm-circ`                 | Small circles for split/join points   |
 
-**Block Diagram Shapes that ARE correct:**
+**Control system Diagram Shapes that ARE correct:**
 
 - ✅ `@junction` - Summing junction (+/-)
 - ✅ `@transfer-fn` - Transfer function blocks

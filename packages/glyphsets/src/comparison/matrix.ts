@@ -1,4 +1,4 @@
-import type { DiagramAst, NodeAst, ContainerDeclaration } from '@runiq/core';
+import type { DiagramAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
@@ -60,7 +60,9 @@ export const matrixGlyphSet: GlyphSetDefinition = {
   tags: ['matrix', 'comparison', 'quadrant', 'swot', '2x2'],
 
   generator: (params) => {
-    const quadrants = params.quadrants as string[] | undefined;
+    const quadrants = params.quadrants as
+      | (string | { label: string; color?: string })[]
+      | undefined;
     const horizontalAxis = params.horizontalAxis as string | undefined;
     const verticalAxis = params.verticalAxis as string | undefined;
     const theme = (params.theme as ColorTheme | undefined) || 'professional';
@@ -82,49 +84,39 @@ export const matrixGlyphSet: GlyphSetDefinition = {
       );
     }
 
-    // Helper to lighten color for background
-    const lightenColor = (color: string): string => {
-      return color + '20'; // Add 20% opacity
+    // Create matrix data structure
+    const matrixData = {
+      quadrants: quadrants.map((item, index) => {
+        if (typeof item === 'string') {
+          return {
+            label: item,
+            color: getThemeColor(theme, index),
+          };
+        }
+        return {
+          label: item.label,
+          color: item.color || getThemeColor(theme, index),
+        };
+      }),
+      horizontalAxis: horizontalAxis || '',
+      verticalAxis: verticalAxis || '',
     };
 
-    // Generate containers for each quadrant
-    const containers: ContainerDeclaration[] = quadrants.map(
-      (label, index) => ({
-        type: 'container' as const,
-        id: `quadrant${index + 1}`,
-        label,
-        children: [],
-        containerStyle: {
-          backgroundColor: lightenColor(getThemeColor(theme, index)),
-          borderColor: getThemeColor(theme, index),
-          borderWidth: 2,
-          padding: 20,
-        },
-      })
-    );
+    // Create a single composite node that renders the entire matrix
+    const compositeNode = {
+      id: 'matrix-composite',
+      shape: 'matrix',
+      label: '2x2 Matrix',
+      data: matrixData,
+    };
 
-    // Add axis labels as nodes if provided
-    const nodes: NodeAst[] = [];
-    if (horizontalAxis) {
-      nodes.push({
-        id: 'h-axis',
-        shape: 'rect',
-        label: horizontalAxis,
-      });
-    }
-    if (verticalAxis) {
-      nodes.push({
-        id: 'v-axis',
-        shape: 'rect',
-        label: verticalAxis,
-      });
-    }
-
-    return {
+    const ast: DiagramAst = {
       astVersion: '1.0',
-      nodes,
+      direction: 'LR',
+      nodes: [compositeNode],
       edges: [],
-      containers,
     };
+
+    return ast;
   },
 };

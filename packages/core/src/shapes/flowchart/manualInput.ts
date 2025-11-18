@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Manual Input - Sloped rectangle for manual data entry
@@ -38,6 +39,7 @@ export const manualInputShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
 
     // Sloped top rectangle
     const points = [
@@ -51,11 +53,7 @@ export const manualInputShape: ShapeDefinition = {
       <polygon points="${points}" 
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2 + slope / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2 + slope / 2)}
     `;
   },
 };

@@ -645,7 +645,7 @@ GlyphSetProfile:
 
 // Allow both IDs and certain keywords as glyphset types
 GlyphSetType returns string:
-    ID | 'target' | 'source' | 'balance';
+    ID | 'target' | 'source' | 'balance' | 'events';
 
 GlyphSetItemStatement:
     GlyphSetImageItem | GlyphSetSimpleItem | GlyphSetNestedItem;
@@ -667,12 +667,17 @@ GlyphSetParameter:
     name=GlyphSetParameterName value=(STRING | NUMBER | BooleanValue);
 
 GlyphSetParameterName returns string:
-    'direction' | 'theme' | 'columns' | 'shape' | 'showValues' | 'mergePoint' | 'result' | 'showPercentages' | 'centerLabel' | 'orientation'
-    | 'leftWeight' | 'rightWeight' | 'operator' | 'overlap' | 'showAllConnections' | 'bidirectional' | 'showConnections' | 'layout' | 'relationship';
+    'alternating' | 'bidirectional' | 'callouts' | 'center' | 'centerLabel' | 'circles' | 'colorScheme' | 'columnHeaders' | 'columns'
+    | 'direction' | 'events' | 'frameStyle' | 'groups' | 'horizontalAxis' | 'image' | 'images' | 'items'
+    | 'layout' | 'leftWeight' | 'levels' | 'mergePoint' | 'operator' | 'orientation' | 'overlap'
+    | 'quadrants' | 'relationship' | 'result' | 'rightWeight' | 'rowHeaders'
+    | 'segments' | 'shape' | 'showAllConnections' | 'showConnections' | 'showDottedLines' | 'showPercentages' | 'showValues' | 'sides' | 'source'
+    | 'stages' | 'steps' | 'structure' | 'target' | 'theme' | 'useContainers' | 'verticalAxis' | 'xAxis' | 'yAxis';
 
 GlyphSetKeyword returns string:
     'step' | 'item' | 'person' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'node' | 'group' | 'side'
-    | 'left' | 'right' | 'input' | 'output' | 'center' | 'spoke' | 'team' | 'root' | 'child' | 'leader' | 'member';
+    | 'left' | 'right' | 'input' | 'output' | 'center' | 'spoke' | 'team' | 'root' | 'child' | 'leader' | 'member'
+    | 'callout';
 
 
 // ============================================================================
@@ -1321,7 +1326,10 @@ FlexibleID returns string:
     | 'for' | 'in' | 'if' | 'loop' | 'call'
     // Common node names
     | 'start' | 'end' | 'done' | 'process' | 'mobile' | 'm' | 'f' | 'step' | 'action'
-    | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue';
+    | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue'
+    // Common mindmap/hierarchy node names
+    | 'root' | 'child' | 'branch' | 'leaf' | 'node' | 'center' | 'central' | 'hub'
+    | 'left' | 'right' | 'team' | 'leader' | 'member' | 'detail' | 'spoke';
 
 // Allow keywords as identifiers in template variable paths
 TemplateIdentifier returns string:

@@ -67,6 +67,9 @@ function extractGlyphSetParams(
   const lefts: string[] = [];
   const rights: string[] = [];
 
+  // Callouts for pictureCallout glyphset
+  const callouts: Array<{ label: string; position?: string }> = [];
+
   for (const stmt of statements) {
     // Check if it's a parameter assignment
     if (Langium.isGlyphSetParameter(stmt)) {
@@ -260,6 +263,29 @@ function extractGlyphSetParams(
         case 'right':
           rights.push(label);
           break;
+        case 'callout':
+          {
+            // Normalize position: map common variations to expected values
+            let position = relationship;
+            if (position) {
+              const positionMap: Record<string, string> = {
+                topSide: 'top',
+                rightSide: 'right',
+                bottomSide: 'bottom',
+                leftSide: 'left',
+                top: 'top',
+                right: 'right',
+                bottom: 'bottom',
+                left: 'left',
+              };
+              position = positionMap[position] || position;
+            }
+            callouts.push({
+              label,
+              ...(position && { position }),
+            });
+          }
+          break;
       }
     }
   }
@@ -284,6 +310,10 @@ function extractGlyphSetParams(
     params.images = images;
     // Picture glyphsets expect 'items' parameter
     if (!params.items) params.items = images;
+    // pictureCallout expects singular 'image' parameter
+    if (images.length === 1 && !params.image) {
+      params.image = images[0];
+    }
   }
 
   // Add new keyword parameters
@@ -298,6 +328,7 @@ function extractGlyphSetParams(
   if (outputs.length > 0) params.outputs = outputs;
   if (lefts.length > 0) params.lefts = lefts;
   if (rights.length > 0) params.rights = rights;
+  if (callouts.length > 0) params.callouts = callouts;
 
   // Fallback: If only 'item' was used, map it to the appropriate parameter
   // This allows users to use 'item' as a universal keyword

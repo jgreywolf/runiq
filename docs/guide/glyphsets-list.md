@@ -46,14 +46,17 @@ List items with images or icons.
 
 ```runiq
 glyphset pictureList "Team Members" {
-  item "Alice - Product Manager"
-  item "Bob - Lead Developer"
-  item "Carol - Designer"
-  item "Dave - QA Engineer"
+  theme "professional"
+  orientation "horizontal"
 
-  orientation "vertical"
-  theme "forest"
+  image "https://i.pravatar.cc/150?img=1"
+  image "https://i.pravatar.cc/150?img=2"
+  image "https://i.pravatar.cc/150?img=3"
+
+  // Data URLs are also supported for inline images
+  image "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%234CAF50'/%3E%3C/svg%3E"
 }
+
 ```
 
 ### framedPicture
@@ -89,15 +92,13 @@ Grid of picture blocks with labels.
 **Example:**
 
 ```runiq
-glyphset pictureBlocks "Product Gallery" {
-  block "Feature 1"
-  block "Feature 2"
-  block "Feature 3"
-  block "Feature 4"
+ glyphset pictureBlocks "Key Benefits" {
+    theme "professional"
 
-  columns 2
-  theme "sunset"
-}
+    image "https://i.pravatar.cc/300?img=25" label "Premium Quality" description "Crafted from finest materials for lasting durability"
+    image "https://i.pravatar.cc/300?img=26" label "Smart Technology" description "Integrated sensors and AI for optimal performance"
+    image "https://i.pravatar.cc/300?img=27" label "Eco-Friendly" description "Sustainable design with minimal environmental impact"
+  }
 ```
 
 ## Tips for List Glyphsets

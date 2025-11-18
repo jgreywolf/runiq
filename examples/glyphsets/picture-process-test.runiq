@@ -1,16 +1,16 @@
 /*
- * Picture Process Example
- * Demonstrates a step-by-step process flow with images
- */
+* Picture Process Example
+* Demonstrates a step-by-step process flow with images
+*/
 
-  glyphset pictureProcess "Baking Process" {
-    theme "colorful"
-    direction "horizontal"
-    
-    // Using pravatar.cc for test images
-    image "https://i.pravatar.cc/200?img=11" label "Gather Ingredients"
-    image "https://i.pravatar.cc/200?img=12" label "Mix Thoroughly"
-    image "https://i.pravatar.cc/200?img=13" label "Bake at 350°F"
-    image "https://i.pravatar.cc/200?img=14" label "Cool & Serve"
-  }
+glyphset pictureProcess "Baking Process" {
+  theme "colorful"
+  direction "horizontal"
+  
+  // Using pravatar.cc for test images
+  image "https://i.pravatar.cc/200?img=11" label "Gather Ingredients"
+  image "https://i.pravatar.cc/200?img=12" label "Mix Thoroughly"
+  image "https://i.pravatar.cc/200?img=13" label "Bake at 350°F"
+  image "https://i.pravatar.cc/200?img=14" label "Cool & Serve"
+}
 

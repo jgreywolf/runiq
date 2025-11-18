@@ -32,7 +32,7 @@ features:
 
   - icon: 🔧
     title: 142+ Shapes Across 17 Categories
-    details: From flowcharts to UML diagrams, quantum circuits to block diagrams, BPMN to AWS infrastructure.
+    details: From flowcharts to UML diagrams, quantum circuits to Control system diagrams, BPMN to AWS infrastructure.
 
   - icon: ✨
     title: 60+ Smart Art Glyphsets
@@ -55,7 +55,7 @@ features:
     details: SPICE netlist and Verilog HDL export. IEEE-standard schematic rendering.
 
   - icon: 📊
-    title: Block Diagrams
+    title: Control system Diagrams
     details: Control systems with transfer functions. Export to LaTeX/TikZ and Simulink.
 
   - icon: 🧪
@@ -124,7 +124,7 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 - ✅ 142+ shapes across 17 categories
 - ✅ Quantum circuits, pedigree charts, BPMN, AWS, ERD, DFD support
 - ✅ UML relationship support (stereotypes, line styles, arrow types)
-- ✅ Block diagrams with LaTeX and Simulink export
+- ✅ Control system diagrams with LaTeX and Simulink export
 - ✅ Electrical & digital circuits with SPICE/Verilog export
 - ✅ Hierarchical containers for complex architectures
 - ✅ 705+ tests passing

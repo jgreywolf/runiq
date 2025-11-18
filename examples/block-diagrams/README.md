@@ -1,12 +1,12 @@
-# Block Diagram Examples
+# Control system Diagram Examples
 
 Control system and signal processing block diagrams created with Runiq.
 
 > **📸 Visual Outputs:** SVG visualizations are coming soon! For now, you can view the `.runiq` source files below. To generate SVGs, run through the Runiq CLI or renderer.
 
-## What are Block Diagrams?
+## What are Control system Diagrams?
 
-Block diagrams are used in control systems, signal processing, and systems engineering to represent the flow of signals and control through a system. Each block represents a mathematical operation or transfer function.
+Control system diagrams are used in control systems, signal processing, and systems engineering to represent the flow of signals and control through a system. Each block represents a mathematical operation or transfer function.
 
 ## Features Demonstrated
 

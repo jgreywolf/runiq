@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Choice shape
@@ -50,10 +51,17 @@ export const choiceShape: ShapeDefinition = {
 
     // Optional label (guard condition)
     if (ctx.node.label) {
-      svg += `<text x="${x + w / 2}" y="${y + h / 2 + 5}" `;
-      svg += `text-anchor="middle" font-size="${(ctx.style.fontSize || 14) * 0.8}" `;
-      svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-      svg += `${ctx.node.label}</text>`;
+      const labelStyle = {
+        ...ctx.style,
+        fontSize: (ctx.style.fontSize || 14) * 0.8,
+      };
+      const labelCtx = { ...ctx, style: labelStyle };
+      svg += renderShapeLabel(
+        labelCtx,
+        ctx.node.label,
+        x + w / 2,
+        y + h / 2 + 5
+      );
     }
 
     svg += `</g>`;

@@ -3,9 +3,11 @@ title: Wardley Maps
 ---
 
 ---
+
 title: Wardley Maps
 description: Create strategic Wardley maps for technology and business strategy with evolution axes and component positioning.
 lastUpdated: 2025-01-09
+
 ---
 
 # Wardley Maps
@@ -103,33 +105,30 @@ wardley "Software Development Stack" {
 
 ## Strategic Gameplay
 
-Use inertia, movement, and notes to show strategic moves:
+Use inertia and evolution properties to show strategic moves:
 
 ```runiq
 wardley "Cloud Migration Strategy" {
   anchor "Business Services" value: 0.95
 
-  component "Legacy System" evolution: 0.3 value: 0.7 inertia: 16
+  component "Legacy System" evolution: 0.3 value: 0.7 inertia: true
   component "Modernized App" evolution: 0.6 value: 0.7
-  component "On-Premise Servers" evolution: 0.4 value: 0.3 inertia: 12
+  component "On-Premise Servers" evolution: 0.4 value: 0.3 inertia: true
   component "Cloud Platform" evolution: 0.9 value: 0.3
 
-  evolve "Legacy System" to: "Modernized App" label: "Rewrite"
-  evolve "On-Premise Servers" to: "Cloud Platform" label: "Lift & Shift"
+  evolve "Legacy System" to evolution: 0.6
+  evolve "On-Premise Servers" to evolution: 0.9
 
   dependency from: "Business Services" to: "Legacy System"
   dependency from: "Business Services" to: "Modernized App"
   dependency from: "Legacy System" to: "On-Premise Servers"
   dependency from: "Modernized App" to: "Cloud Platform"
-
-  note "High inertia - difficult to change" at: "Legacy System"
-  note "Target state - 18 months" at: "Modernized App"
 }
 ```
 
 ## Competitive Landscape
 
-Show multiple players and their positions:
+Show multiple players and their positions using labels:
 
 ```runiq
 wardley "Market Analysis - Streaming Services" {
@@ -150,15 +149,12 @@ wardley "Market Analysis - Streaming Services" {
   dependency from: "Streaming Platform" to: "CDN"
   dependency from: "Streaming Platform" to: "Encoding"
   dependency from: "CDN" to: "Broadband"
-
-  ecosystem "Content Providers" at: { evolution: 0.5, value: 0.6 }
-  ecosystem "ISPs" at: { evolution: 0.95, value: 0.25 }
 }
 ```
 
-## Doctrine and Climate Patterns
+## Enterprise Architecture
 
-Add strategic principles and patterns:
+Map technology stack evolution:
 
 ```runiq
 wardley "Enterprise Architecture" {
@@ -177,65 +173,23 @@ wardley "Enterprise Architecture" {
   dependency from: "Microservices" to: "Containers"
   dependency from: "Containers" to: "Orchestration"
   dependency from: "Orchestration" to: "Cloud Platform"
-
-  pattern "ILC" at: { evolution: 0.3, value: 0.5 } label: "Innovation-Leverage-Commodity"
-  annotation "Use appropriate methods\nfor evolution stage" at: { evolution: 0.5, value: 0.95 }
 }
 ```
 
-## Styling
+> **Note**: Custom styling for Wardley maps is not yet implemented. The current version supports basic positioning and dependencies.
 
-Customize Wardley Map appearance:
+## Supported Features
 
-```runiq
-wardley "Styled Map" {
-  style: {
-    background: "#f8fafc",
-    gridColor: "#e2e8f0",
-    componentColor: "#3b82f6",
-    dependencyColor: "#64748b",
-    evolutionLabels: true,
-    valueChainLabels: true
-  }
+The current Wardley profile supports:
 
-  anchor "User" value: 0.95
+- **Components**: `component "Name" evolution: X value: Y`
+- **Anchors**: `anchor "User Need" value: Y`
+- **Dependencies**: `dependency from: "A" to: "B"`
+- **Evolution**: `evolve "Component" to evolution: X`
+- **Inertia**: `inertia: true` property on components
+- **Labels**: `label: "Text"` property on components
 
-  component "Service" evolution: 0.7 value: 0.8
-    style: { fill: "#10b981", stroke: "#059669" }
-}
-```
-
-## Advanced Features
-
-### Pipelines
-
-Show multiple components moving together:
-
-```runiq
-wardley "Platform Evolution" {
-  pipeline "Data Platform" {
-    component "Custom ETL" evolution: 0.3 value: 0.5
-    component "Data Lake" evolution: 0.5 value: 0.4
-    component "Analytics" evolution: 0.4 value: 0.6
-  }
-
-  evolve pipeline: "Data Platform" to: 0.7 timeframe: "2 years"
-}
-```
-
-### Market Signals
-
-Indicate external forces:
-
-```runiq
-wardley "Market Forces" {
-  component "Legacy Tech" evolution: 0.3 value: 0.5
-  component "Emerging Tech" evolution: 0.4 value: 0.5
-
-  market_signal "Regulation" affects: "Legacy Tech" impact: "increases inertia"
-  market_signal "Open Source" affects: "Emerging Tech" impact: "accelerates evolution"
-}
-```
+> **Note**: Advanced features like `pipeline`, `market_signal`, `ecosystem`, `pattern`, `annotation`, and `note` are not yet implemented.
 
 ## Best Practices
 
@@ -300,6 +254,43 @@ See the [examples/wardley](https://github.com/jgreywolf/runiq/tree/main/examples
 - Tea shop example
 - Technology evolution
 - Strategic gameplay
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid | PlantUML | Lucidchart  | OnlineWardleyMaps | MapScript  | Wardley Maps Canvas |
+| ---------------------------- | -------------- | ------- | -------- | ----------- | ----------------- | ---------- | ------------------- |
+| **Basic support**            | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Evolution axis**           | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Value chain**              | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Component positioning**    | ✅             | ❌      | ❌       | ✅          | ✅                | ✅         | ✅                  |
+| **Dependencies**             | ✅             | ❌      | ❌       | ✅          | ✅                | ✅         | ✅                  |
+| **Anchors**                  | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Annotations**              | ✅             | ❌      | ❌       | ✅          | ✅                | ✅         | ✅                  |
+| **Movement indicators**      | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Pipeline stages**          | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Text-based DSL**           | ✅             | ❌      | ❌       | ❌          | ⚠️ Partial        | ✅         | ❌                  |
+| **Version control friendly** | ✅             | ❌      | ❌       | ⚠️ Partial  | ⚠️ Partial        | ✅         | ❌                  |
+| **Automatic layout**         | ⚠️ Partial     | ❌      | ❌       | ❌          | ❌                | ❌         | ❌                  |
+| **Documentation generation** | ✅             | ❌      | ❌       | ⚠️ Partial  | ⚠️ Partial        | ⚠️ Partial | ❌                  |
+| **Export formats**           | SVG, PNG       | ❌      | ❌       | Multiple    | PNG, SVG          | SVG        | PNG                 |
+| **Interactive editing**      | ❌             | ❌      | ❌       | ✅          | ✅                | ❌         | ✅                  |
+| **Learning curve**           | Low            | ❌      | ❌       | Low         | Medium            | Low        | Medium              |
+| **Cost**                     | Free           | ❌      | ❌       | Paid        | Free              | Free       | Free                |
+| **Platform**                 | Cross-platform | ❌      | ❌       | Web/Desktop | Web               | CLI/Code   | Web                 |
+
+**Key Advantages of Runiq:**
+
+- **Version Control**: Track strategic evolution over time in Git
+- **Unified Language**: Use with other diagram types in same repository
+- **Documentation**: Natural fit for strategy documents and ADRs
+- **Profile System**: Dedicated Wardley profile with proper terminology
+
+**When to Use Alternatives:**
+
+- **OnlineWardleyMaps**: De facto standard tool in Wardley Maps community
+- **MapScript**: Python-based automation and batch processing
+- **Wardley Maps Canvas**: Quick sketching and iteration for workshops
+- **Lucidchart**: Collaborative strategic planning sessions
 
 ## Related
 

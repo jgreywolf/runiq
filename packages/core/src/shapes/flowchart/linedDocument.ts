@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Lined document - Document with horizontal lines inside
@@ -55,6 +56,7 @@ export const linedDocumentShape: ShapeDefinition = {
     const lineY1 = y + bounds.height * 0.33;
     const lineY2 = y + bounds.height * 0.67;
     const lineMargin = 8;
+    const label = ctx.node.label || ctx.node.id;
 
     return `
       <path d="${docPath}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
@@ -64,11 +66,7 @@ export const linedDocumentShape: ShapeDefinition = {
       <line x1="${x + lineMargin}" y1="${lineY2}" x2="${x + bounds.width - lineMargin}" y2="${lineY2}"
             stroke="${stroke}" stroke-width="${strokeWidth * 0.5}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };

@@ -102,6 +102,7 @@ export type RuniqKeywordNames =
     | "algorithm:"
     | "alignContent:"
     | "alt"
+    | "alternating"
     | "alternatives:"
     | "analysis"
     | "analyzerTransmitter"
@@ -135,18 +136,23 @@ export type RuniqKeywordNames =
     | "bottom-left"
     | "bottom-right"
     | "boundary"
+    | "branch"
     | "break"
     | "cache"
     | "call"
+    | "callout"
+    | "callouts"
     | "carrier:"
     | "cascade"
     | "center"
     | "centerLabel"
+    | "central"
     | "centralBuffer"
     | "child"
     | "childCountPosition:"
     | "children:"
     | "circle"
+    | "circles"
     | "circular"
     | "closeness"
     | "clustering"
@@ -173,7 +179,9 @@ export type RuniqKeywordNames =
     | "collapsing"
     | "color"
     | "color:"
+    | "colorScheme"
     | "colors:"
+    | "columnHeaders"
     | "columns"
     | "complex"
     | "component"
@@ -221,6 +229,7 @@ export type RuniqKeywordNames =
     | "description"
     | "description:"
     | "destroy"
+    | "detail"
     | "diagram"
     | "digital"
     | "dimension:"
@@ -252,6 +261,7 @@ export type RuniqKeywordNames =
     | "event"
     | "event:"
     | "eventBased"
+    | "events"
     | "evolution:"
     | "evolve"
     | "exclusive"
@@ -299,6 +309,7 @@ export type RuniqKeywordNames =
     | "found"
     | "fragment"
     | "frame"
+    | "frameStyle"
     | "from"
     | "from:"
     | "ft"
@@ -313,6 +324,7 @@ export type RuniqKeywordNames =
     | "genericTypes:"
     | "glyphset"
     | "group"
+    | "groups"
     | "guard:"
     | "header"
     | "header:"
@@ -326,9 +338,11 @@ export type RuniqKeywordNames =
     | "historyShallow"
     | "hollow"
     | "horizontal"
+    | "horizontalAxis"
     | "hoverBorderColor:"
     | "hoverBorderWidth:"
     | "hoverHighlight:"
+    | "hub"
     | "hydraulic"
     | "icon"
     | "icon-text"
@@ -338,6 +352,7 @@ export type RuniqKeywordNames =
     | "id"
     | "if"
     | "image"
+    | "images"
     | "in"
     | "inclusive"
     | "incrementalLayout:"
@@ -351,6 +366,7 @@ export type RuniqKeywordNames =
     | "insulation:"
     | "intersections:"
     | "item"
+    | "items"
     | "jacket"
     | "junction"
     | "kPa"
@@ -367,6 +383,7 @@ export type RuniqKeywordNames =
     | "layoutCache:"
     | "layoutComplexity:"
     | "leader"
+    | "leaf"
     | "left"
     | "leftWeight"
     | "legendPosition:"
@@ -380,6 +397,7 @@ export type RuniqKeywordNames =
     | "levelIndicatorController"
     | "levelSwitch"
     | "levelTransmitter"
+    | "levels"
     | "lifeline"
     | "limit"
     | "limit:"
@@ -514,6 +532,7 @@ export type RuniqKeywordNames =
     | "pumpCentrifugal"
     | "pumpPositiveDisplacement"
     | "quadrant"
+    | "quadrants"
     | "queue"
     | "radial"
     | "range:"
@@ -543,12 +562,14 @@ export type RuniqKeywordNames =
     | "root"
     | "routing"
     | "routing:"
+    | "rowHeaders"
     | "rpm"
     | "ruptureDisk"
     | "s"
     | "schedule:"
     | "schematic"
     | "se"
+    | "segments"
     | "selectionBorderColor:"
     | "selectionBorderWidth:"
     | "selectionHighlight:"
@@ -565,11 +586,13 @@ export type RuniqKeywordNames =
     | "showChildCount:"
     | "showConnections"
     | "showDepthIndicator:"
+    | "showDottedLines"
     | "showLegend:"
     | "showMetrics:"
     | "showPercentages"
     | "showValues"
     | "side"
+    | "sides"
     | "signal"
     | "size:"
     | "solid"
@@ -587,12 +610,14 @@ export type RuniqKeywordNames =
     | "stable"
     | "stacked:"
     | "stage"
+    | "stages"
     | "standard"
     | "start"
     | "startDate:"
     | "stateInvariant:"
     | "static:"
     | "step"
+    | "steps"
     | "stereotype:"
     | "stereotypes:"
     | "storageTank"
@@ -601,6 +626,7 @@ export type RuniqKeywordNames =
     | "string"
     | "stroke:"
     | "strokeWidth:"
+    | "structure"
     | "style"
     | "style:"
     | "submachine"
@@ -646,6 +672,7 @@ export type RuniqKeywordNames =
     | "type:"
     | "unit:"
     | "units"
+    | "useContainers"
     | "utility"
     | "value"
     | "value:"
@@ -665,6 +692,7 @@ export type RuniqKeywordNames =
     | "valveThreeWay"
     | "vertical"
     | "verticalAlign:"
+    | "verticalAxis"
     | "verticalFork"
     | "vesselHorizontal"
     | "vesselVertical"
@@ -676,8 +704,10 @@ export type RuniqKeywordNames =
     | "water-glycol"
     | "weight:"
     | "when:"
+    | "xAxis"
     | "xLabel:"
     | "xor"
+    | "yAxis"
     | "yLabel:"
     | "{"
     | "}";
@@ -1837,10 +1867,10 @@ export function isFillProperty(item: unknown): item is FillProperty {
     return reflection.isInstance(item, FillProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'cache' | 'call' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'limit' | 'loop' | 'm' | 'mobile' | 'name' | 'output' | 'process' | 'queue' | 'settings' | 'source' | 'start' | 'step' | 'to' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'spoke' | 'start' | 'step' | 'team' | 'to' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -2077,10 +2107,10 @@ export function isGlyphSetItemStatement(item: unknown): item is GlyphSetItemStat
     return reflection.isInstance(item, GlyphSetItemStatement.$type);
 }
 
-export type GlyphSetKeyword = 'center' | 'child' | 'circle' | 'event' | 'group' | 'input' | 'item' | 'leader' | 'left' | 'level' | 'member' | 'node' | 'output' | 'person' | 'quadrant' | 'right' | 'root' | 'side' | 'spoke' | 'stage' | 'step' | 'team';
+export type GlyphSetKeyword = 'callout' | 'center' | 'child' | 'circle' | 'event' | 'group' | 'input' | 'item' | 'leader' | 'left' | 'level' | 'member' | 'node' | 'output' | 'person' | 'quadrant' | 'right' | 'root' | 'side' | 'spoke' | 'stage' | 'step' | 'team';
 
 export function isGlyphSetKeyword(item: unknown): item is GlyphSetKeyword {
-    return item === 'step' || item === 'item' || item === 'person' || item === 'level' || item === 'stage' || item === 'event' || item === 'quadrant' || item === 'circle' || item === 'node' || item === 'group' || item === 'side' || item === 'left' || item === 'right' || item === 'input' || item === 'output' || item === 'center' || item === 'spoke' || item === 'team' || item === 'root' || item === 'child' || item === 'leader' || item === 'member';
+    return item === 'step' || item === 'item' || item === 'person' || item === 'level' || item === 'stage' || item === 'event' || item === 'quadrant' || item === 'circle' || item === 'node' || item === 'group' || item === 'side' || item === 'left' || item === 'right' || item === 'input' || item === 'output' || item === 'center' || item === 'spoke' || item === 'team' || item === 'root' || item === 'child' || item === 'leader' || item === 'member' || item === 'callout';
 }
 
 export interface GlyphSetNestedItem extends langium.AstNode {
@@ -2121,10 +2151,10 @@ export function isGlyphSetParameter(item: unknown): item is GlyphSetParameter {
     return reflection.isInstance(item, GlyphSetParameter.$type);
 }
 
-export type GlyphSetParameterName = 'bidirectional' | 'centerLabel' | 'columns' | 'direction' | 'layout' | 'leftWeight' | 'mergePoint' | 'operator' | 'orientation' | 'overlap' | 'relationship' | 'result' | 'rightWeight' | 'shape' | 'showAllConnections' | 'showConnections' | 'showPercentages' | 'showValues' | 'theme';
+export type GlyphSetParameterName = 'alternating' | 'bidirectional' | 'callouts' | 'center' | 'centerLabel' | 'circles' | 'colorScheme' | 'columnHeaders' | 'columns' | 'direction' | 'events' | 'frameStyle' | 'groups' | 'horizontalAxis' | 'image' | 'images' | 'items' | 'layout' | 'leftWeight' | 'levels' | 'mergePoint' | 'operator' | 'orientation' | 'overlap' | 'quadrants' | 'relationship' | 'result' | 'rightWeight' | 'rowHeaders' | 'segments' | 'shape' | 'showAllConnections' | 'showConnections' | 'showDottedLines' | 'showPercentages' | 'showValues' | 'sides' | 'source' | 'stages' | 'steps' | 'structure' | 'target' | 'theme' | 'useContainers' | 'verticalAxis' | 'xAxis' | 'yAxis';
 
 export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
-    return item === 'direction' || item === 'theme' || item === 'columns' || item === 'shape' || item === 'showValues' || item === 'mergePoint' || item === 'result' || item === 'showPercentages' || item === 'centerLabel' || item === 'orientation' || item === 'leftWeight' || item === 'rightWeight' || item === 'operator' || item === 'overlap' || item === 'showAllConnections' || item === 'bidirectional' || item === 'showConnections' || item === 'layout' || item === 'relationship';
+    return item === 'alternating' || item === 'bidirectional' || item === 'callouts' || item === 'center' || item === 'centerLabel' || item === 'circles' || item === 'colorScheme' || item === 'columnHeaders' || item === 'columns' || item === 'direction' || item === 'events' || item === 'frameStyle' || item === 'groups' || item === 'horizontalAxis' || item === 'image' || item === 'images' || item === 'items' || item === 'layout' || item === 'leftWeight' || item === 'levels' || item === 'mergePoint' || item === 'operator' || item === 'orientation' || item === 'overlap' || item === 'quadrants' || item === 'relationship' || item === 'result' || item === 'rightWeight' || item === 'rowHeaders' || item === 'segments' || item === 'shape' || item === 'showAllConnections' || item === 'showConnections' || item === 'showDottedLines' || item === 'showPercentages' || item === 'showValues' || item === 'sides' || item === 'source' || item === 'stages' || item === 'steps' || item === 'structure' || item === 'target' || item === 'theme' || item === 'useContainers' || item === 'verticalAxis' || item === 'xAxis' || item === 'yAxis';
 }
 
 export interface GlyphSetProfile extends langium.AstNode {
@@ -2165,10 +2195,10 @@ export function isGlyphSetSimpleItem(item: unknown): item is GlyphSetSimpleItem 
     return reflection.isInstance(item, GlyphSetSimpleItem.$type);
 }
 
-export type GlyphSetType = 'balance' | 'source' | 'target' | string;
+export type GlyphSetType = 'balance' | 'events' | 'source' | 'target' | string;
 
 export function isGlyphSetType(item: unknown): item is GlyphSetType {
-    return item === 'target' || item === 'source' || item === 'balance' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'target' || item === 'source' || item === 'balance' || item === 'events' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface GroupBlock extends langium.AstNode {

@@ -6,6 +6,7 @@ import {
 } from '@runiq/core';
 import { escapeXml } from './utils.js';
 import { renderIcon } from './icons.js';
+import { renderLabelWithIcons } from './label-with-icons.js';
 
 export function renderNode(
   positioned: PositionedNode,
@@ -69,8 +70,24 @@ export function renderNode(
     }
   }
 
+  // Create label renderer function that supports inline icons
+  const renderLabel = (
+    label: string,
+    x: number,
+    y: number,
+    labelStyle: {
+      fontSize?: number;
+      fontFamily?: string;
+      fill?: string;
+      textAnchor?: 'start' | 'middle' | 'end';
+      dominantBaseline?: string;
+    }
+  ) => {
+    return renderLabelWithIcons(label, x, y, labelStyle, warnings);
+  };
+
   let nodeMarkup = shapeImpl.render(
-    { node: nodeAst as any, style, measureText },
+    { node: nodeAst as any, style, measureText, renderLabel },
     { x: positioned.x, y: positioned.y }
   );
 

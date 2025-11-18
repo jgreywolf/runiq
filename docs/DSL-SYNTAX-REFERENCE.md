@@ -345,7 +345,7 @@ Common shapes:
 - `@database` - Database icon
 - `@browser` - Browser icon
 
-Block diagram shapes:
+Control system diagram shapes:
 
 - `@box` - Simple box
 - `@gain` - Gain block

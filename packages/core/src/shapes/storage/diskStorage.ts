@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Disk storage - flattened cylinder for disk/platter storage
@@ -44,8 +45,7 @@ export const diskStorageShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
-    const font = ctx.style.font || 'sans-serif';
-    const fontSize = ctx.style.fontSize || 14;
+    const label = ctx.node.label || '';
 
     const cx = x + w / 2;
     const cy = y + h / 2;
@@ -70,11 +70,7 @@ export const diskStorageShape: ShapeDefinition = {
         <path d="M ${x},${y + h - ry} Q ${cx},${y + h + ry} ${x + w},${y + h - ry}"
               fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
         
-        <text x="${cx}" y="${cy}"
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize}">
-          ${ctx.node.label || ''}
-        </text>
+        ${renderShapeLabel(ctx, label, cx, cy)}
       </g>
     `;
   },

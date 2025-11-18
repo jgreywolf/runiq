@@ -1,9 +1,9 @@
 // Opposing Glyphset Example: Technology Licensing Models
 // Use case: Competing software development approaches
 
-glyphset opposing "warm" {
-    theme "forest"
-item "Open Source"
+glyphset opposing "Tech Stack" {
+  theme "forest"
+  item "Open Source"
   item "Proprietary"
   item "Hybrid Model"
 }

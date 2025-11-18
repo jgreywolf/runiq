@@ -274,12 +274,3 @@ Decision -no-> Failure
 - [Shape Reference →](/reference/shapes) - All 54 shapes
 
 ---
-
-## Download Examples
-
-All example `.runiq` files are available in the [GitHub repository](https://github.com/jgreywolf/runiq/tree/main/examples).
-
-```bash
-git clone https://github.com/jgreywolf/runiq.git
-cd runiq/examples
-```

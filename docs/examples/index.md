@@ -14,6 +14,35 @@ Build architecture diagrams, UML models, and process flows.
 - Multi-container architectures
 - **Visual Examples**: Auth flow, ETL pipeline, bubble sort
 
+### [Mindmap Diagrams](/examples/mindmap-diagrams)
+
+- Radial layout for visual thinking
+- Automatic shape assignment with `type:mindmap`
+- Hierarchical project breakdown
+- Learning roadmaps and knowledge mapping
+- **Examples**: Simple mindmap, project planning, learning roadmap, business strategy
+
+### [Venn Diagrams](/examples/venn-diagrams)
+
+- Set overlap analysis (2-circle and 3-circle)
+- Automatic region calculations
+- Market segmentation and skill assessment
+- **Examples**: Market overlap, developer skills, customer segments, feature adoption
+
+### [Pyramid Diagrams](/examples/pyramid-diagrams)
+
+- Hierarchical stacked visualizations
+- Proportional width scaling from data
+- Organizational charts and sales funnels
+- **Examples**: Maslow's hierarchy, org structure, sales funnel, learning levels
+
+### [Data Flow Diagrams](/examples/dfd-diagrams)
+
+- Gane-Sarson notation for system analysis
+- Processes, data stores, external entities
+- Requirements documentation and integration planning
+- **Examples**: Order processing, library system, user registration, payment integration
+
 ### [State Machine Diagrams](/examples/state-machines)
 
 - UML statecharts modeling object lifecycles
@@ -63,7 +92,7 @@ Build architecture diagrams, UML models, and process flows.
 
 Design control loops and signal processing.
 
-### [Block Diagrams](/examples/block-diagrams)
+### [Control system Diagrams](/examples/control-diagrams)
 
 - PID controllers with feedback
 - Multi-stage transfer functions
@@ -226,8 +255,8 @@ Visualize events and milestones over time.
     <p>C4 architecture diagrams</p>
   </a>
   
-  <a href="/examples/block-diagrams" class="example-card">
-    <h3>🎛️ Block Diagrams</h3>
+  <a href="/examples/control-diagrams" class="example-card">
+    <h3>🎛️ Control system Diagrams</h3>
     <p>Control systems & signal flow</p>
   </a>
   

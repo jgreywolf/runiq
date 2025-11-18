@@ -267,6 +267,35 @@ Use diagram profiles instead when you need:
 - Mixed shape types
 - Detailed annotations
 
+## Comparison with Other Tools
+
+| Feature              | Runiq Glyphsets | PowerPoint SmartArt | Mermaid     | PlantUML       | Lucidchart    |
+| -------------------- | --------------- | ------------------- | ----------- | -------------- | ------------- |
+| **Template library** | ✅ 60+ types    | ✅ 200+ types       | ❌ No       | ❌ No          | ✅ 100+ types |
+| **Custom themes**    | ✅ 9 themes     | ✅ Many themes      | ⚠️ Limited  | ⚠️ Colors only | ✅ Yes        |
+| **Data-driven**      | ✅ JSON support | ⚠️ Excel link       | ❌ No       | ❌ No          | ⚠️ CSV import |
+| **Version control**  | ✅ Git-friendly | ❌ Binary files     | ✅ Yes      | ✅ Yes         | ❌ Cloud      |
+| **Programmatic API** | ✅ Full SDK     | ⚠️ VBA/COM          | ❌ No       | ❌ No          | ⚠️ API        |
+| **Text-based**       | ✅ DSL+JSON     | ❌ GUI              | ✅ Yes      | ✅ Yes         | ❌ GUI        |
+| **Auto-layout**      | ✅ ELK engine   | ✅ Built-in         | ⚠️ Limited  | ✅ Yes         | ⚠️ Assisted   |
+| **Pure SVG output**  | ✅ Yes          | ⚠️ Export only      | ✅ Yes      | ✅ Yes         | ✅ Export     |
+| **Learning curve**   | 📚 Easy         | 📚 Easy             | 📖 Moderate | 📖 Moderate    | 📚 Easy       |
+
+**Runiq Advantages:**
+
+- ✅ **Text-based workflow** - Perfect for developers, version control, CI/CD
+- ✅ **Programmatic generation** - Create diagrams from databases, APIs, computed data
+- ✅ **Dual format** - Both human-friendly DSL and machine-friendly JSON
+- ✅ **PowerPoint familiarity** - Same mental model as SmartArt
+- ✅ **Professional output** - Clean, accessible SVG graphics
+
+**When to use PowerPoint SmartArt instead:**
+
+- Need more template variety (200+ vs 60+)
+- Working exclusively in Microsoft Office
+- Prefer GUI-based editing
+- Don't need version control or programmatic generation
+
 ## Next Steps
 
 - [Process Glyphsets →](/guide/glyphsets-process)
