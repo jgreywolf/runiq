@@ -83,7 +83,7 @@ export const horizontalOrgChartGlyphSet: GlyphSetDefinition = {
     } else {
       structure = params.structure as OrgNode | undefined;
     }
-    
+
     const theme = (params.theme as ColorTheme | undefined) || 'professional';
     const nodeShape = (params.nodeShape as string | undefined) || 'rounded';
 

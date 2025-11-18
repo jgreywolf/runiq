@@ -91,7 +91,7 @@ export const matrixOrgChartGlyphSet: GlyphSetDefinition = {
         'Parameter "structure" must be a matrix organization structure'
       );
     }
-    
+
     const theme = (params.theme as ColorTheme | undefined) || 'professional';
     const showDottedLines =
       (params.showDottedLines as boolean | undefined) ?? true;

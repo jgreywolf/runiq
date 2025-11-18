@@ -68,10 +68,10 @@ export const orgChart: ShapeDefinition = {
     // Calculate all node positions first
     const { width: treeWidth } = calculateTreeDimensions(data.hierarchy, 0);
     const positions = new Map<OrgNode, { x: number; y: number }>();
-    
+
     // Position nodes relative to (0, 0), then we'll offset by position
     calculateNodePositions(data.hierarchy, treeWidth / 2, 0, 0, positions);
-    
+
     // Find the actual bounds of all positioned nodes
     let minX = Infinity;
     let minY = Infinity;
@@ -79,7 +79,7 @@ export const orgChart: ShapeDefinition = {
       minX = Math.min(minX, pos.x);
       minY = Math.min(minY, pos.y);
     });
-    
+
     // Offset to ensure all nodes are within bounds starting at position
     const offsetX = position.x - minX;
     const offsetY = position.y - minY;
@@ -164,9 +164,9 @@ function calculateNodePositions(
     node.reports.forEach((child, idx) => {
       const childWidth = childDimensions[idx].width;
       childCenterX += childWidth / 2;
-      
+
       calculateNodePositions(child, childCenterX, childY, level + 1, positions);
-      
+
       childCenterX += childWidth / 2 + HORIZONTAL_SPACING;
     });
   }

@@ -60,12 +60,12 @@ export const matrixOrgChart: ShapeDefinition = {
       );
       totalOrgWidth += funcWidth;
     });
-    
+
     // Add spacing between functional groups
     if (funcCount > 1) {
       totalOrgWidth += (funcCount - 1) * HORIZONTAL_SPACING;
     }
-    
+
     // Ensure CEO can fit at top
     totalOrgWidth = Math.max(totalOrgWidth, NODE_WIDTH);
 
@@ -76,7 +76,9 @@ export const matrixOrgChart: ShapeDefinition = {
     const height =
       NODE_HEIGHT + // CEO
       (funcCount > 0 ? VERTICAL_SPACING + NODE_HEIGHT : 0) + // Functions
-      (structure.functional?.some(f => f.reports && f.reports.length > 0) ? VERTICAL_SPACING + NODE_HEIGHT : 0); // Employees
+      (structure.functional?.some((f) => f.reports && f.reports.length > 0)
+        ? VERTICAL_SPACING + NODE_HEIGHT
+        : 0); // Employees
 
     return { width, height };
   },
@@ -115,7 +117,7 @@ export const matrixOrgChart: ShapeDefinition = {
       funcWidth: number;
       employeeCount: number;
     }> = [];
-    
+
     let currentX = position.x;
     structure.functional?.forEach((func) => {
       const employeeCount = func.reports?.length || 0;
@@ -123,21 +125,24 @@ export const matrixOrgChart: ShapeDefinition = {
         NODE_WIDTH,
         employeeCount * (NODE_WIDTH + HORIZONTAL_SPACING) - HORIZONTAL_SPACING
       );
-      
+
       functionalLayouts.push({
         funcX: currentX,
         funcWidth,
         employeeCount,
       });
-      
+
       currentX += funcWidth + HORIZONTAL_SPACING;
     });
 
     // Calculate total org width and CEO position
-    const totalOrgWidth = currentX - position.x - (functionalLayouts.length > 0 ? HORIZONTAL_SPACING : 0);
+    const totalOrgWidth =
+      currentX -
+      position.x -
+      (functionalLayouts.length > 0 ? HORIZONTAL_SPACING : 0);
     const ceoX = position.x + totalOrgWidth / 2 - NODE_WIDTH / 2;
     const ceoY = position.y;
-    
+
     // Render CEO
     svg += renderNodeBox(
       ceoX,
@@ -157,7 +162,7 @@ export const matrixOrgChart: ShapeDefinition = {
 
       structure.functional.forEach((func, funcIndex) => {
         const layout = functionalLayouts[funcIndex];
-        
+
         // Center function node within its allocated width
         const funcX = layout.funcX + layout.funcWidth / 2 - NODE_WIDTH / 2;
         const funcCenterX = funcX + NODE_WIDTH / 2;
@@ -179,8 +184,10 @@ export const matrixOrgChart: ShapeDefinition = {
         if (func.reports && func.reports.length > 0) {
           const employeeY = funcY + NODE_HEIGHT + VERTICAL_SPACING;
           const totalEmployeeWidth =
-            func.reports.length * (NODE_WIDTH + HORIZONTAL_SPACING) - HORIZONTAL_SPACING;
-          let employeeX = layout.funcX + layout.funcWidth / 2 - totalEmployeeWidth / 2;
+            func.reports.length * (NODE_WIDTH + HORIZONTAL_SPACING) -
+            HORIZONTAL_SPACING;
+          let employeeX =
+            layout.funcX + layout.funcWidth / 2 - totalEmployeeWidth / 2;
 
           func.reports.forEach((empName) => {
             const empCenterX = employeeX + NODE_WIDTH / 2;
