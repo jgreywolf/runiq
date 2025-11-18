@@ -4,7 +4,7 @@ export * from './registries.js';
 export * from './text-measurement/index.js';
 export * from './shapes/index.js';
 export * from './shape-aliases.js';
-export * from './graph-metrics.js';
+export * from './shapes/graph-metrics.js';
 export * from './themes/glyphset-themes.js';
 export {
   validateDiagramType,
@@ -14,7 +14,7 @@ export {
   type DiagramTypeConstraints,
   type DiagramValidationResult,
   type DiagramValidationError,
-} from './validation.js';
+} from './validation/validation.js';
 export {
   validateContainer,
   detectCircularReferences,

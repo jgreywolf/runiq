@@ -1,5 +1,4 @@
 import { shapeRegistry } from '../registries.js';
-import type { ShapeDefinition } from '../types.js';
 import { registerShapeAliases } from '../shape-aliases.js';
 
 // Import from category folders
@@ -19,6 +18,7 @@ import * as bpmn from './bpmn/index.js';
 import * as aws from './aws/index.js';
 import * as erd from './erd/index.js';
 import * as dataFlow from './data-flow/index.js';
+import * as glyphsets from './glyphsets/index.js';
 
 // Selective registration functions for tree-shaking
 export function registerBasicShapes(): void {
@@ -111,71 +111,69 @@ export function registerChartShapes(): void {
   shapeRegistry.register(charts.barChart);
   shapeRegistry.register(charts.lineChart);
   shapeRegistry.register(charts.radarChart);
-  shapeRegistry.register(charts.pyramidShape);
-  shapeRegistry.register(charts.invertedPyramidShape); // Inverted pyramid (funnel)
-  shapeRegistry.register(charts.segmentedPyramidShape); // Pyramid with subdivided levels
-  shapeRegistry.register(charts.pyramidListShape); // Pyramid with list items
   shapeRegistry.register(charts.vennShape); // Unified venn diagram
-  shapeRegistry.register(charts.venn2Shape); // Legacy
-  shapeRegistry.register(charts.venn3Shape); // Legacy
-  shapeRegistry.register(charts.venn4Shape); // Legacy
   shapeRegistry.register(charts.sankeyChart);
   shapeRegistry.register(charts.sankeyNode);
-  shapeRegistry.register(charts.processBoxShape); // SmartArt-style process box
-  shapeRegistry.register(charts.cycleShape); // Circular cycle diagram
-  shapeRegistry.register(charts.target); // Target/bullseye diagram (concentric circles)
-  shapeRegistry.register(charts.balance); // Balance scale diagram
-  shapeRegistry.register(charts.opposing); // Opposing forces diagram
-  shapeRegistry.register(charts.converging); // Converging sources diagram
-  shapeRegistry.register(charts.diverging); // Diverging branches diagram
-  shapeRegistry.register(charts.cluster); // Cluster diagram (radial hub-and-spoke)
-  shapeRegistry.register(charts.puzzle); // Puzzle pieces diagram
-  shapeRegistry.register(charts.plusMinus); // Plus/minus diagram (pros vs cons)
-  shapeRegistry.register(charts.matrix); // 2x2 matrix (four quadrants)
-  shapeRegistry.register(charts.matrix3x3); // 3x3 matrix (nine quadrants)
-  shapeRegistry.register(charts.titledMatrix); // Matrix with headers
-  shapeRegistry.register(charts.segmentedMatrix); // Segmented matrix
-  shapeRegistry.register(charts.columnListShape); // Multi-column list
-  shapeRegistry.register(charts.nestedListShape); // Nested/indented list
-  shapeRegistry.register(charts.chevronListShape); // Chevron/arrow list
-  shapeRegistry.register(charts.numberedChevronListShape); // Numbered chevron list
-  shapeRegistry.register(charts.horizontalListShape); // Horizontal list
-  shapeRegistry.register(charts.increasingListShape); // Increasing size list
-  shapeRegistry.register(charts.alternatingListShape); // Alternating list (zigzag layout)
-  shapeRegistry.register(charts.pictureListShape); // Picture list with images
-  shapeRegistry.register(charts.pictureGridShape); // Picture grid with square cells
-  shapeRegistry.register(charts.pictureProcessShape); // Picture process with step images
-  shapeRegistry.register(charts.pictureCalloutShape); // Picture with callout annotations
-  shapeRegistry.register(charts.pictureBlocksShape); // Alternating picture blocks
-  shapeRegistry.register(charts.framedPictureShape); // Pictures with decorative frames
-  shapeRegistry.register(charts.alternatingProcessShape); // Alternating process
-  shapeRegistry.register(charts.stepProcessShape); // Step process
-  shapeRegistry.register(charts.equationProcessShape); // Equation process
-  shapeRegistry.register(charts.continuousBlockProcessShape); // Continuous block process
-  shapeRegistry.register(charts.phasedProcessShape); // Phased process
-  shapeRegistry.register(charts.detailedProcessShape); // Detailed process with substeps
-  shapeRegistry.register(charts.groupedProcessShape); // Grouped parallel process
-  shapeRegistry.register(charts.radialCycleShape); // Radial cycle with center hub
-  shapeRegistry.register(charts.gearCycleShape); // Gear cycle (interlocking)
-  shapeRegistry.register(charts.segmentedCycleShape); // Segmented cycle (pie chart style)
-  shapeRegistry.register(charts.blockCycleShape); // Block cycle (rectangles in circle)
-  shapeRegistry.register(charts.spiralCycleShape); // Spiral cycle (growth progression)
-  shapeRegistry.register(charts.orbitCycleShape); // Orbit cycle (planetary style)
+}
 
-  // New glyphset shapes
-  shapeRegistry.register(charts.steppedVenn); // Stepped Venn (3D stacked circles)
-  shapeRegistry.register(charts.linearVenn); // Linear Venn (horizontal overlap)
-  shapeRegistry.register(charts.counterbalance); // Counterbalance (tilted scale)
-  shapeRegistry.register(charts.equation); // Equation (A + B = C)
-  shapeRegistry.register(charts.interconnected); // Interconnected (mesh network)
-  shapeRegistry.register(charts.hub); // Hub (radial hub-and-spoke)
-  shapeRegistry.register(charts.circleHierarchy); // Circle Hierarchy (concentric circles)
-  shapeRegistry.register(charts.labeledHierarchy); // Labeled Hierarchy (tree with edge labels)
-  shapeRegistry.register(charts.tableHierarchy); // Table Hierarchy (tabular rows)
-  shapeRegistry.register(charts.teamHierarchy); // Team Hierarchy (team containers)
-  shapeRegistry.register(charts.orgChart); // Organization Chart (vertical tree)
-  shapeRegistry.register(charts.horizontalOrgChart); // Horizontal Org Chart (left-to-right)
-  shapeRegistry.register(charts.matrixOrgChart); // Matrix Org Chart (dual reporting)
+export function registerGlyphsets(): void {
+  shapeRegistry.register(glyphsets.pyramidShape);
+  shapeRegistry.register(glyphsets.invertedPyramidShape); // Inverted pyramid (funnel)
+  shapeRegistry.register(glyphsets.segmentedPyramidShape); // Pyramid with subdivided levels
+  shapeRegistry.register(glyphsets.pyramidListShape); // Pyramid with list items
+  shapeRegistry.register(glyphsets.processBoxShape); // SmartArt-style process box
+  shapeRegistry.register(glyphsets.cycleShape); // Circular cycle diagram
+  shapeRegistry.register(glyphsets.target); // Target/bullseye diagram (concentric circles)
+  shapeRegistry.register(glyphsets.balance); // Balance scale diagram
+  shapeRegistry.register(glyphsets.opposing); // Opposing forces diagram
+  shapeRegistry.register(glyphsets.converging); // Converging sources diagram
+  shapeRegistry.register(glyphsets.diverging); // Diverging branches diagram
+  shapeRegistry.register(glyphsets.cluster); // Cluster diagram (radial hub-and-spoke)
+  shapeRegistry.register(glyphsets.puzzle); // Puzzle pieces diagram
+  shapeRegistry.register(glyphsets.plusMinus); // Plus/minus diagram (pros vs cons)
+  shapeRegistry.register(glyphsets.matrix); // 2x2 matrix (four quadrants)
+  shapeRegistry.register(glyphsets.matrix3x3); // 3x3 matrix (nine quadrants)
+  shapeRegistry.register(glyphsets.titledMatrix); // Matrix with headers
+  shapeRegistry.register(glyphsets.segmentedMatrix); // Segmented matrix
+  shapeRegistry.register(glyphsets.columnListShape); // Multi-column list
+  shapeRegistry.register(glyphsets.nestedListShape); // Nested/indented list
+  shapeRegistry.register(glyphsets.chevronListShape); // Chevron/arrow list
+  shapeRegistry.register(glyphsets.numberedChevronListShape); // Numbered chevron list
+  shapeRegistry.register(glyphsets.horizontalListShape); // Horizontal list
+  shapeRegistry.register(glyphsets.increasingListShape); // Increasing size list
+  shapeRegistry.register(glyphsets.alternatingListShape); // Alternating list (zigzag layout)
+  shapeRegistry.register(glyphsets.pictureListShape); // Picture list with images
+  shapeRegistry.register(glyphsets.pictureGridShape); // Picture grid with square cells
+  shapeRegistry.register(glyphsets.pictureProcessShape); // Picture process with step images
+  shapeRegistry.register(glyphsets.pictureCalloutShape); // Picture with callout annotations
+  shapeRegistry.register(glyphsets.pictureBlocksShape); // Alternating picture blocks
+  shapeRegistry.register(glyphsets.framedPictureShape); // Pictures with decorative frames
+  shapeRegistry.register(glyphsets.alternatingProcessShape); // Alternating process
+  shapeRegistry.register(glyphsets.stepProcessShape); // Step process
+  shapeRegistry.register(glyphsets.equationProcessShape); // Equation process
+  shapeRegistry.register(glyphsets.continuousBlockProcessShape); // Continuous block process
+  shapeRegistry.register(glyphsets.phasedProcessShape); // Phased process
+  shapeRegistry.register(glyphsets.detailedProcessShape); // Detailed process with substeps
+  shapeRegistry.register(glyphsets.groupedProcessShape); // Grouped parallel process
+  shapeRegistry.register(glyphsets.radialCycleShape); // Radial cycle with center hub
+  shapeRegistry.register(glyphsets.gearCycleShape); // Gear cycle (interlocking)
+  shapeRegistry.register(glyphsets.segmentedCycleShape); // Segmented cycle (pie chart style)
+  shapeRegistry.register(glyphsets.blockCycleShape); // Block cycle (rectangles in circle)
+  shapeRegistry.register(glyphsets.spiralCycleShape); // Spiral cycle (growth progression)
+  shapeRegistry.register(glyphsets.orbitCycleShape); // Orbit cycle (planetary style)
+  shapeRegistry.register(glyphsets.steppedVenn); // Stepped Venn (3D stacked circles)
+  shapeRegistry.register(glyphsets.linearVenn); // Linear Venn (horizontal overlap)
+  shapeRegistry.register(glyphsets.counterbalance); // Counterbalance (tilted scale)
+  shapeRegistry.register(glyphsets.equation); // Equation (A + B = C)
+  shapeRegistry.register(glyphsets.interconnected); // Interconnected (mesh network)
+  shapeRegistry.register(glyphsets.hub); // Hub (radial hub-and-spoke)
+  shapeRegistry.register(glyphsets.circleHierarchy); // Circle Hierarchy (concentric circles)
+  shapeRegistry.register(glyphsets.labeledHierarchy); // Labeled Hierarchy (tree with edge labels)
+  shapeRegistry.register(glyphsets.tableHierarchy); // Table Hierarchy (tabular rows)
+  shapeRegistry.register(glyphsets.teamHierarchy); // Team Hierarchy (team containers)
+  shapeRegistry.register(glyphsets.orgChart); // Organization Chart (vertical tree)
+  shapeRegistry.register(glyphsets.horizontalOrgChart); // Horizontal Org Chart (left-to-right)
+  shapeRegistry.register(glyphsets.matrixOrgChart); // Matrix Org Chart (dual reporting)
 }
 
 export function registerNetworkShapes(): void {
@@ -335,6 +333,7 @@ export function registerDefaultShapes(): void {
   registerAWSShapes();
   registerERDShapes();
   registerDataFlowShapes();
+  registerGlyphsets();
 
   // Register all common aliases
   registerShapeAliases();

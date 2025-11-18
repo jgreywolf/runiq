@@ -23,7 +23,7 @@
 	let editorSize = $state(40);
 	let previewSize = $state(40);
 
-	let diagramName = $state('Untitled Diagram');
+	let diagramName = $state('New Diagram');
 	let lastSaved = $state<Date | null>(null);
 	let isDirty = $state(false);
 
