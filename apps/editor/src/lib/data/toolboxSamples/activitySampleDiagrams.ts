@@ -79,17 +79,17 @@ diagram "Swimlane Process" {
   direction TB
 
   // Swimlanes (containers)
-  container customer label:"Customer" {
+  container customer "Customer" {
     shape placeOrder as @activity label:"Place Order"
     shape receiveConfirmation as @activity label:"Receive Confirmation"
   }
 
-  container warehouse label:"Warehouse" {
+  container warehouse "Warehouse" {
     shape checkStock as @activity label:"Check Stock"
     shape packItems as @activity label:"Pack Items"
   }
 
-  container shipping label:"Shipping" {
+  container shipping "Shipping" {
     shape shipOrder as @activity label:"Ship Order"
   }
 

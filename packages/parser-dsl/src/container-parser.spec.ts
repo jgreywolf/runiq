@@ -433,13 +433,13 @@ describe('Container Parser', () => {
         diagram "Banking System - System Context" {
         direction TB
         
-        style person fill: "#08427B"
-        style system fill: "#1168BD"
-        style external fill: "#999999"
+        style personStyle fill: "#08427B"
+        style systemStyle fill: "#1168BD"
+        style externalStyle fill: "#999999"
         
-        shape Customer as @actor label: "Personal Banking Customer" style: person
+        shape Customer as @actor label: "Personal Banking Customer" style: personStyle
         
-        container "Internet Banking System" style: system {
+        container "Internet Banking System" style: systemStyle {
           shape WebApp as @rect label: "Web Application"
           shape MobileApp as @rect label: "Mobile App"
           shape API as @rect label: "API Gateway"
@@ -451,8 +451,8 @@ describe('Container Parser', () => {
           }
         }
         
-        shape EmailSystem as @rect label: "Email System" style: external
-        shape MainframeSystem as @rect label: "Mainframe Banking System" style: external
+        shape EmailSystem as @rect label: "Email System" style: externalStyle
+        shape MainframeSystem as @rect label: "Mainframe Banking System" style: externalStyle
         
         Customer -> WebApp
         Customer -> MobileApp

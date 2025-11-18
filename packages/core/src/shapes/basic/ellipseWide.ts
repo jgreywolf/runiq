@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Ellipse (Wide/Horizontal) - Oval shape for UML use cases
@@ -83,6 +84,7 @@ export const ellipseWideShape: ShapeDefinition = {
     const strokeWidth = ctx.style.strokeWidth || 1;
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
+    const label = ctx.node.label || ctx.node.id;
 
     let svg = `
       <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"
@@ -92,15 +94,10 @@ export const ellipseWideShape: ShapeDefinition = {
     // Render label and extension points if present
     if (ctx.node.extensionPoints && ctx.node.extensionPoints.length > 0) {
       // Calculate label position (upper portion)
-      const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
+      const textSize = ctx.measureText(label, ctx.style);
       const labelY = cy - textSize.height;
 
-      svg += `
-        <text x="${cx}" y="${labelY}" text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize}">
-          ${ctx.node.label || ctx.node.id}
-        </text>
-      `;
+      svg += renderShapeLabel(ctx, label, cx, labelY);
 
       // Draw horizontal separator line
       const lineY = cy - textSize.height / 2 + fontSize * 0.5;
@@ -134,12 +131,7 @@ export const ellipseWideShape: ShapeDefinition = {
       }
     } else {
       // No extension points - center label
-      svg += `
-        <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize}">
-          ${ctx.node.label || ctx.node.id}
-        </text>
-      `;
+      svg += renderShapeLabel(ctx, label, cx, cy);
     }
 
     return svg;

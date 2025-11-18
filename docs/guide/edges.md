@@ -64,9 +64,9 @@ diagram "Line Styles"{
   shape C as @rect label: "C"
   shape D as @rect label: "D"
 
-  A -> B lineStyle: solid
-  A -> C lineStyle: dashed
-  A -> D lineStyle: dotted
+  A -> B lineStyle: "solid"
+  A -> C lineStyle: "dashed"
+  A -> D lineStyle: "dotted"
 }
 ```
 
@@ -87,7 +87,7 @@ diagram "Arrow Types" {
 
   A -> B  # Standard arrow // default
   A -> C arrowType: hollow // Hollow arrow
-  B -> C arrowType: open   // Open arrow
+  B -> D arrowType: open   // Open arrow
 }
 ```
 
@@ -101,7 +101,7 @@ diagram "Colored Edges" {
   shape C as @rect label: "C"
 
   A -> B stroke: "#2196f3"
-  A -> C stroke: "#4caf50" lineStyle: dashed
+  A -> C stroke: "#4caf50" lineStyle: "dashed"
 }
 ```
 
@@ -189,7 +189,7 @@ diagram "Feedback System" {
   Input -> Controller
   Controller -> Plant
   Plant -> Output
-  Output -> Controller label: "feedback" lineStyle: dashed
+  Output -> Controller label: "feedback" lineStyle: "dashed"
 }
 ```
 

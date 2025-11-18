@@ -1,0 +1,10 @@
+// Horizontal List - Team Roles
+glyphset horizontalList "Core Team" {
+    theme "forest"
+item "Product Manager"
+  item "Tech Lead"
+  item "Designer"
+  item "Developers"
+  item "QA Engineer"
+  item "DevOps"
+}

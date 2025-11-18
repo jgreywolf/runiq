@@ -1,0 +1,29 @@
+// Pyramid List Example - Project Phases
+// Project breakdown with deliverables per phase
+
+glyphset pyramidList "Project Lifecycle" {
+    theme "forest"
+level "Initiation" {
+    item "Project Charter"
+    item "Stakeholder Identification"
+  }
+  level "Planning" {
+    item "Requirements Gathering"
+    item "Project Schedule"
+    item "Resource Allocation"
+    item "Risk Assessment"
+  }
+  level "Execution" {
+    item "Development Sprints"
+    item "Quality Assurance"
+    item "Documentation"
+    item "Stakeholder Communication"
+    item "Change Management"
+  }
+  level "Closure" {
+    item "Final Deliverable"
+    item "Project Review"
+    item "Lessons Learned"
+    item "Team Celebration"
+  }
+}

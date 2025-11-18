@@ -14,5 +14,6 @@ export { stadiumShape } from './stadium.js';
 export { triangleShape } from './triangle.js';
 export { flippedTriangleShape } from './flippedTriangle.js';
 export { parallelogramShape } from './parallelogram.js';
+export { chevronShape } from './chevron.js';
 export { trapezoidShape, flippedTrapezoidShape } from './trapezoid.js';
 export { starShape, starFilledShape, octagonShape, plusShape } from './star.js';

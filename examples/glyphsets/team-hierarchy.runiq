@@ -1,0 +1,17 @@
+// Team Hierarchy - Grouped teams with leader and members
+// Shows organizational structure with team containers
+
+glyphset teamHierarchy "Department Structure" {
+  theme "vibrant"
+  team "Engineering Manager"
+  member "Backend Developer 1"
+  member "Backend Developer 2"
+  member "Frontend Developer"
+  team "Product Manager"
+  member "UX Designer"
+  member "Product Analyst"
+  team "QA Lead"
+  member "QA Engineer 1"
+  member "QA Engineer 2"
+  member "QA Engineer 3"
+}

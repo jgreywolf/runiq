@@ -1,0 +1,13 @@
+// Diverging Glyphset Example: Message Broadcasting
+//
+// Single notification service broadcasting to multiple channels.
+// Demonstrates 5-destination diverging pattern (maximum).
+
+glyphset diverging "Notification Channels" {
+  theme "forest"
+  item "Email"
+  item "SMS"
+  item "Push Notification"
+  item "In-App Alert"
+  item "Webhook"
+}

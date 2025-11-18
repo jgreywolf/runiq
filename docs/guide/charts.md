@@ -19,9 +19,7 @@ Runiq provides specialized chart shapes for data visualization and conceptual di
 - **Line Chart**: `@lineChart` - Time series and trend lines
 - **Radar Chart**: `@radarChart` - Multi-dimensional spider chart
 - **Pyramid**: `@pyramid` - Hierarchical pyramid
-- **Venn 2**: `@venn2` - Two-circle Venn diagram
-- **Venn 3**: `@venn3` - Three-circle Venn diagram
-- **Venn 4**: `@venn4` - Four-circle Venn diagram
+- **Venn 2**: `@venn` - Two-circle Venn diagram
 
 See the [Shape Reference - Chart Shapes](/reference/shapes#_7-chart-shapes-7-shapes) for the complete list.
 
@@ -139,8 +137,6 @@ Bar charts can be displayed vertically (default) or horizontally using the `flip
 
 ```runiq
 diagram "Quarterly Revenue" {
-  direction TB
-
   shape chart as @barChart
     label:"Revenue ($M)"
     data:[120, 150, 180, 210]
@@ -155,8 +151,6 @@ Use `flipAxes:true` to create horizontal bars:
 
 ```runiq
 diagram "Team Performance" {
-  direction LR
-
   shape chart as @barChart
     label:"Tasks Completed"
     data:[85, 92, 78, 88]
@@ -191,28 +185,16 @@ shape performance as @barChart
 For complex multi-series data, use JSON format:
 
 ```runiq
-diagram "Product Comparison" {
-  direction TB
+diagram "Quarterly Sales by Product - Grouped" {
 
-  shape chart as @barChart label: "Features by Product"
-    data: {
-      groups: [
-        {
-          label: "Basic",
-          values: [10, 5]
-        },
-        {
-          label: "Pro",
-          values: [25, 15]
-        },
-        {
-          label: "Enterprise",
-          values: [50, 40]
-        }
-      ],
-      showLegend: true
-    }
+  shape sales as @barChart label:"Q1-Q4 Sales by Product Category" data:[
+    {"label":"Q1","values":[120,85,95]},
+    {"label":"Q2","values":[150,110,105]},
+    {"label":"Q3","values":[135,95,115]},
+    {"label":"Q4","values":[180,130,140]}
+  ]
 }
+
 ```
 
 ## Venn Diagrams
@@ -392,26 +374,18 @@ Customize chart appearance:
 diagram "Styled Charts" {
   direction LR
 
-  shape chart1 as @pieChart label: "Modern Style"
-    fill: "#ffffff"
-    stroke: "#3b82f6"
-    strokeWidth: 2
-    data: {
-      segments: [
-        { value: 60, fill: "#3b82f6" },
-        { value: 40, fill: "#10b981" }
-      ]
-    }
+  shape chart1 as @pieChart
+    label:"Modern Pie"
+    data:[60, 40]
+    labels:["A", "B"]
+    colors:["#3b82f6", "#10b981"]
+    stroke:"#3b82f6"
+    strokeWidth:2
 
-  shape chart2 as @barChartVertical label: "Gradient Style"
-    fill: "#f0f9ff"
-    stroke: "#1e40af"
-    data: {
-      bars: [
-        { value: 30, fill: "linear-gradient(#3b82f6, #1e40af)" },
-        { value: 50, fill: "linear-gradient(#10b981, #059669)" }
-      ]
-    }
+  shape chart2 as @barChart
+    label:"Revenue"
+    data:[30, 50, 70]
+    colors:["#3b82f6", "#10b981", "#ed8936"]
 }
 ```
 
@@ -760,6 +734,38 @@ colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
 - **Performance metrics** - System monitoring, KPIs
 - **Technology evaluation** - Framework comparisons, tech stack assessment
 
+## Comparison with Other Tools
+
+How do Runiq charts compare to other diagramming tools?
+
+| Feature                  | Runiq | Mermaid | PlantUML | Lucidchart | Draw.io | D3.js |
+| ------------------------ | ----- | ------- | -------- | ---------- | ------- | ----- |
+| **Pie Charts**           | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
+| **Bar Charts**           | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
+| **Line Charts**          | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
+| **Radar Charts**         | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
+| **Venn Diagrams**        | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
+| **Pyramids**             | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
+| **Declarative DSL**      | ✅    | ✅      | ✅       | ❌         | ❌      | ❌    |
+| **Custom Labels**        | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
+| **Per-Point Colors**     | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
+| **Horizontal Bars**      | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
+| **Horizontal Lines**     | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
+| **CSV/JSON Import**      | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
+| **Multi-Series**         | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
+| **Integrated Diagrams**  | ✅    | ✅      | ✅       | ✅         | ✅      | ❌    |
+| **No JavaScript Needed** | ✅    | ✅      | ✅       | ✅         | ✅      | ❌    |
+| **Learning Curve**       | Low   | Low     | Med      | Med        | Low     | High  |
+
+**Why choose Runiq for charts?**
+
+- **Unified language** - Charts use the same DSL as all other diagram types
+- **Seamless integration** - Combine charts with flowcharts, architecture diagrams, etc.
+- **Simple syntax** - No complex configuration objects or API calls
+- **Data flexibility** - Simple arrays for DSL, complex objects for JSON imports
+- **Modern features** - Per-point colors, axis flipping, custom labels out of the box
+- **Extensible** - Add custom chart types via the shape system
+
 ## Examples
 
 See the [examples/charts](https://github.com/jgreywolf/runiq/tree/main/examples/charts) directory for complete examples:
@@ -789,6 +795,9 @@ See the [examples/charts](https://github.com/jgreywolf/runiq/tree/main/examples/
 ## Related
 
 - [Shape Reference - Chart Shapes](/reference/shapes#_7-chart-shapes-7-shapes)
+- [Venn Diagrams](/guide/venn-diagrams) - Detailed guide with set theory examples
+- [Pyramid Diagrams](/guide/pyramid-diagrams) - Hierarchies and conversion funnels
+- [Sankey Diagrams](/guide/sankey-diagrams) - Flow and energy diagrams
 - [Styling](/guide/styling)
 - [Containers](/guide/containers)
 

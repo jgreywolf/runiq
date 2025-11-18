@@ -169,37 +169,16 @@ diagram "Container styles" {
 
 ## Step 5: Add Icons
 
-Make your diagrams more visual with inline icons:
+Make your diagrams more visual with icons:
 
 ```runiq
 diagram "Social Media Flow" {
   direction TB
 
-  # Inline icons within labels
-  shape Login as @rounded label: "fa:fa-user Login"
-  shape Post as @rect label: "fa:fa-pen Create Post"
-  shape Share as @rhombus label: "fa:fa-share Share?"
-  shape Twitter as @rect label: "fa:fa-twitter Post to Twitter"
-  shape Facebook as @rect label: "fa:fa-facebook Post to Facebook"
-  shape Success as @hexagon label: "fa:fa-check Published!"
-
-  Login -> Post
-  Post -> Share
-  Share -yes-> Twitter
-  Share -yes-> Facebook
-  Twitter -> Success
-  Facebook -> Success
+  shape Server as @rect label: "Production Server" icon:fa/server
+  shape DB as @cylinder label: "Database" icon:fa/database
 }
 ```
-
-You can also add corner icons:
-
-```runiq
-shape Server as @rect label: "Production Server" icon:fa/server
-shape DB as @cylinder label: "Database" icon:fa/database
-```
-
-[Learn more about icons →](/guide/inline-icons)
 
 ## Step 6: Use UML Stereotypes
 
@@ -339,7 +318,7 @@ Now that you've created your first diagram:
 
 1. **Explore Examples** - See [complete examples →](/examples/)
 2. **Learn All Shapes** - Browse the [shape reference →](/reference/shapes)
-3. **Advanced Features** - Try [electrical circuits →](/guide/electrical) or [block diagrams →](/guide/block-diagrams)
+3. **Advanced Features** - Try [electrical circuits →](/guide/electrical) or [Control system diagrams →](/guide/control-diagrams)
 4. **API Deep Dive** - Read the [full API docs →](/reference/api/core)
 
 ## Tips & Tricks

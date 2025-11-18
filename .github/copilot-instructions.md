@@ -6,7 +6,6 @@ Please also review the following files for additional context on Runiq developme
 .github\svelte-instructions.md
 .github\general-typescript-instructions.md
 .github\remember-prompt.md
-.github\suggest-github-copilot-instructions.md
 
 ### ABSOLUTE MANDATORY RULES:
 

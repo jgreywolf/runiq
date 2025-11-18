@@ -1,0 +1,14 @@
+// Column List - Tech Stack (2 columns)
+glyphset columnList "Our Tech Stack" {
+    theme "forest"
+item "TypeScript"
+  item "React"
+  item "Node.js"
+  item "PostgreSQL"
+  item "Redis"
+  item "Docker"
+  item "Kubernetes"
+  item "AWS"
+  
+  columns 2
+}

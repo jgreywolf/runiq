@@ -1,0 +1,28 @@
+// Deep Hierarchy Example
+// 5 levels showing organizational depth
+
+glyphset orgChart "Enterprise Organization" {
+    theme "forest"
+person "CEO" {
+    person "CTO" {
+      person "VP Engineering" {
+        person "Engineering Manager" {
+          person "Team Lead" {
+            person "Senior Engineer"
+            person "Engineer"
+            person "Junior Engineer"
+          }
+        }
+        person "QA Manager" {
+          person "QA Lead"
+        }
+      }
+    }
+    person "CFO" {
+      person "Finance Manager" {
+        person "Accountant"
+      }
+    }
+  }
+}
+

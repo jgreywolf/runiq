@@ -1,0 +1,15 @@
+/*
+ * Picture Blocks Example
+ * Demonstrates alternating image and text blocks in magazine layout
+ */
+
+
+  glyphset pictureBlocks "Key Benefits" {
+    theme "professional"
+    alternating true
+    
+    image "https://i.pravatar.cc/300?img=25" label "Premium Quality" description "Crafted from finest materials for lasting durability"
+    image "https://i.pravatar.cc/300?img=26" label "Smart Technology" description "Integrated sensors and AI for optimal performance"
+    image "https://i.pravatar.cc/300?img=27" label "Eco-Friendly" description "Sustainable design with minimal environmental impact"
+  }
+

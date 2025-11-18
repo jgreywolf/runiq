@@ -764,3 +764,39 @@ interface SankeyData {
   height?: number; // Chart height (default: 600)
 }
 ```
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid        | PlantUML | Lucidchart  | SankeyMATIC | D3.js Sankey | RAWGraphs  | Google Charts |
+| ---------------------------- | -------------- | -------------- | -------- | ----------- | ----------- | ------------ | ---------- | ------------- |
+| **Basic Support**            | ✅             | ✅             | ❌       | ✅          | ✅          | ✅           | ✅         | ✅            |
+| **Flow proportions**         | ✅             | ⚠️ Limited     | ❌       | ✅          | ✅          | ✅           | ✅         | ✅            |
+| **Multi-level flows**        | ✅             | ❌             | ❌       | ✅          | ✅          | ✅           | ✅         | ✅            |
+| **Custom node colors**       | ✅             | ⚠️ Limited     | ❌       | ✅          | ✅          | ✅           | ✅         | ⚠️ Limited    |
+| **Flow labels**              | ✅             | ❌             | ❌       | ✅          | ✅          | ✅           | ✅         | ✅            |
+| **Interactive features**     | ❌             | ❌             | ❌       | ✅          | ❌          | ✅           | ⚠️ Limited | ✅            |
+| **Data import**              | ✅ JSON        | ❌             | ❌       | ✅ CSV      | ✅ Text     | ✅ JSON      | ✅ CSV     | ✅ CSV        |
+| **Circular flows**           | ✅             | ❌             | ❌       | ✅          | ✅          | ✅           | ⚠️ Limited | ❌            |
+| **Documentation generation** | ✅             | ✅             | ❌       | ⚠️ Partial  | ❌          | ❌           | ❌         | ❌            |
+| **Energy diagrams**          | ✅             | ❌             | ❌       | ✅          | ✅          | ✅           | ✅         | ✅            |
+| **Text-based DSL**           | ✅             | ✅             | ❌       | ❌          | ✅          | ⚠️ JSON      | ❌         | ⚠️ JSON       |
+| **Version control friendly** | ✅             | ✅             | ❌       | ⚠️ Partial  | ⚠️ Partial  | ✅           | ❌         | ❌            |
+| **Automatic layout**         | ✅             | ✅             | ❌       | ❌          | ✅          | ✅           | ✅         | ✅            |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | ❌       | Multiple    | PNG, SVG    | SVG          | PNG, SVG   | PNG, SVG      |
+| **Learning curve**           | Low            | Low            | ❌       | Low         | Very Low    | High         | Low        | Medium        |
+| **Cost**                     | Free           | Free           | ❌       | Paid        | Free        | Free         | Free       | Free          |
+| **Platform**                 | Cross-platform | Cross-platform | ❌       | Web/Desktop | Web         | Web/Code     | Web        | Web           |
+
+**Key Advantages of Runiq:**
+
+- **Version Control**: Track flow changes over time in Git
+- **Data-Driven**: Generate from process data, energy meters, or analytics
+- **Documentation**: Natural integration with technical documentation
+- **Programmatic**: Easy to automate from databases or APIs
+
+**When to Use Alternatives:**
+
+- **SankeyMATIC**: Quick, simple web-based Sankey generation for one-off diagrams
+- **D3.js Sankey**: Custom interactive web visualizations with full control
+- **RAWGraphs**: Rapid exploratory data visualization from CSV files
+- **Lucidchart**: Real-time collaboration with stakeholders on process flows

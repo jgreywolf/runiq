@@ -1,0 +1,8 @@
+// Opposing Glyphset Example: Traditional vs Innovative
+// Use case: Showing tension between traditional and modern approaches
+
+glyphset opposing "colorful" {
+    theme "forest"
+item "Traditional Methods"
+  item "Innovative Solutions"
+}

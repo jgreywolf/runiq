@@ -3,9 +3,11 @@ title: C4 Architecture
 ---
 
 ---
+
 title: C4 Architecture Diagrams
 description: Create C4 model architecture diagrams showing system context, containers, components, and code with automatic hierarchy.
 lastUpdated: 2025-01-09
+
 ---
 
 # C4 Architecture Diagrams
@@ -57,22 +59,23 @@ Shows the high-level technology choices and how containers communicate.
 diagram "Banking System - Containers" {
   direction TB
 
-  shape customer as @c4Person label: "Customer\n\n[Person]"
+  shape customer as @c4Person label:"Customer"
 
-  container banking as @systemBoundary label: "Internet Banking System" {
-    shape web as @c4Container label: "Web Application\n\n[Container: React]\n\nDelivers static content"
-    shape api as @c4Container label: "API Application\n\n[Container: Node.js]\n\nProvides banking API"
-    shape db as @c4Container label: "Database\n\n[Container: PostgreSQL]\n\nStores user data"
+  container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+    shape webapp as @c4Container label:"Single-Page App
+[JavaScript, React]"
+    shape api as @c4Container label:"API Application
+[Java, Spring Boot]"
+    shape db as @c4Container label:"Database
+[Oracle]"
   }
 
-  shape email as @c4System label: "Email System\n\n[Software System]"
-  shape mainframe as @c4System label: "Mainframe\n\n[Software System]"
+  shape emailSystem as @c4System label:"Email System"
 
-  customer -> web label: "Uses\n[HTTPS]"
-  web -> api label: "Makes API calls\n[JSON/HTTPS]"
-  api -> db label: "Reads/Writes\n[SQL/TCP]"
-  api -> email label: "Sends email\n[SMTP]"
-  api -> mainframe label: "Uses\n[XML/HTTPS]"
+  customer -> webapp label:"Uses [HTTPS]"
+  webapp -> api label:"API calls [JSON/HTTPS]"
+  api -> db label:"Reads/Writes [SQL/TCP]"
+  api -> emailSystem label:"Sends emails [SMTP]"
 }
 ```
 
@@ -84,70 +87,87 @@ Shows components within a container and their interactions.
 diagram "API Application - Components" {
   direction TB
 
-  shape web as @c4Container label: "Web Application\n\n[Container]"
+  shape webapp as @c4Container label:"Web Application"
 
-  container api as @systemBoundary label: "API Application" {
-    shape controller as @c4Component label: "Sign In Controller\n\n[Component: Express Controller]\n\nHandles authentication"
-    shape security as @c4Component label: "Security Component\n\n[Component: Security Module]\n\nProvides auth logic"
-    shape accountService as @c4Component label: "Account Service\n\n[Component: Service]\n\nBusiness logic"
-    shape repository as @c4Component label: "Account Repository\n\n[Component: Repository]\n\nData access"
+  container apiContainer "API Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+    shape controller as @c4Component label:"REST Controller"
+    shape security as @c4Component label:"Security Component"
+    shape emailComponent as @c4Component label:"Email Component"
+    shape accountComponent as @c4Component label:"Account Component"
   }
 
-  shape db as @c4Container label: "Database\n\n[Container]"
-  shape mainframe as @c4System label: "Mainframe\n\n[System]"
+  shape db as @c4Container label:"Database"
 
-  web -> controller label: "Makes API calls\n[JSON/HTTPS]"
-  controller -> security label: "Uses"
-  controller -> accountService label: "Uses"
-  accountService -> repository label: "Uses"
-  repository -> db label: "Reads/Writes\n[SQL/TCP]"
-  accountService -> mainframe label: "Makes API calls\n[XML/HTTPS]"
+  webapp -> controller label:"Makes API calls"
+  controller -> security label:"Uses"
+  controller -> emailComponent label:"Uses"
+  controller -> accountComponent label:"Uses"
+  accountComponent -> db label:"Reads/Writes"
 }
 ```
 
 ## Microservices Architecture
 
 ```runiq
-diagram "Microservices - Containers" {
-  direction TB
+diagram "E-Commerce Platform" {
+  direction LR
 
-  shape user as @c4Person label: "User\n\n[Person]"
-  shape admin as @c4Person label: "Administrator\n\n[Person]"
+  shape customer as @c4Person label:"Customer"
+  shape admin as @c4Person label:"Admin"
 
-  container system as @systemBoundary label: "E-commerce Platform" {
-    shape gateway as @c4Container label: "API Gateway\n\n[Container: Kong]\n\nRoutes requests"
-    shape auth as @c4Container label: "Auth Service\n\n[Container: Node.js]\n\nHandles authentication"
-    shape catalog as @c4Container label: "Product Catalog\n\n[Container: Java/Spring]\n\nManages products"
-    shape orders as @c4Container label: "Order Service\n\n[Container: Python/Flask]\n\nProcesses orders"
-    shape payments as @c4Container label: "Payment Service\n\n[Container: Node.js]\n\nHandles payments"
-    shape redis as @c4Container label: "Cache\n\n[Container: Redis]\n\nSession storage"
-    shape postgres as @c4Container label: "Database\n\n[Container: PostgreSQL]\n\nPersistent storage"
+  container frontend "Frontend" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderWidth:2 {
+    shape web as @c4Container label:"Web UI
+[React]"
+    shape mobile as @c4Container label:"Mobile App
+[Flutter]"
   }
 
-  shape stripe as @c4System label: "Stripe\n\n[External System]\n\nPayment processing"
+  container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+    shape gateway as @c4Container label:"API Gateway
+[Node.js]"
+    shape auth as @c4Container label:"Auth Service
+[Java]"
+    shape catalog as @c4Container label:"Catalog Service
+[Python]"
+    shape orders as @c4Container label:"Orders Service
+[Go]"
+  }
 
-  user -> gateway label: "Uses [HTTPS]"
-  admin -> gateway label: "Manages [HTTPS]"
-  gateway -> auth label: "Authenticates [HTTP]"
-  gateway -> catalog label: "Queries [HTTP]"
-  gateway -> orders label: "Creates [HTTP]"
-  auth -> redis label: "Stores sessions"
-  catalog -> postgres label: "Reads/Writes [SQL]"
-  orders -> postgres label: "Reads/Writes [SQL]"
-  orders -> payments label: "Requests payment [HTTP]"
-  payments -> stripe label: "Processes [HTTPS]"
+  container data "Data Layer" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:2 {
+    shape userDb as @c4Container label:"User DB
+[PostgreSQL]"
+    shape catalogDb as @c4Container label:"Catalog DB
+[MongoDB]"
+    shape cache as @c4Container label:"Cache
+[Redis]"
+  }
+
+  customer -> web label:"Uses"
+  customer -> mobile label:"Uses"
+  admin -> web label:"Manages"
+
+  web -> gateway label:"API Calls"
+  mobile -> gateway label:"API Calls"
+
+  gateway -> auth label:"Authenticates"
+  gateway -> catalog label:"Fetches Products"
+  gateway -> orders label:"Places Orders"
+
+  auth -> userDb label:"Reads/Writes"
+  catalog -> catalogDb label:"Reads"
+  orders -> cache label:"Writes"
 }
 ```
 
 ## Cloud Infrastructure
 
 ```runiq
-diagram "AWS Deployment" {
+ddiagram "AWS Deployment" {
   direction TB
 
   shape users as @c4Person label: "Users\n\n[People]"
 
-  container aws as @systemBoundary label: "AWS Cloud" {
+  container aws "AWS Cloud" {
     shape cloudfront as @c4Container label: "CloudFront\n\n[AWS Service]\n\nCDN"
     shape alb as @c4Container label: "Application Load\nBalancer\n\n[AWS Service]\n\nLoad balancing"
     shape web as @c4Container label: "Web Tier\n\n[EC2/ECS]\n\nWeb servers"
@@ -176,13 +196,13 @@ Apply C4 model color conventions:
 diagram "Styled C4 Diagram" {
   direction LR
 
-  shape person as @c4Person label: "User" fill: "#08427b" color: "#ffffff"
+  shape personShape as @c4Person label: "User" fill: "#08427b" color: "#ffffff"
   shape internalSystem as @c4System label: "Internal System" fill: "#1168bd" color: "#ffffff"
   shape externalSystem as @c4System label: "External System" fill: "#999999" color: "#ffffff"
-  shape container as @c4Container label: "Container" fill: "#438dd5" color: "#ffffff"
+  shape containerShape as @c4Container label: "Container" fill: "#438dd5" color: "#ffffff"
 
-  person -> internalSystem style: { stroke: "#707070", strokeWidth: 2 }
-  internalSystem -> externalSystem style: { stroke: "#707070", strokeDasharray: "5,5" }
+  personShape -> internalSystem stroke: "#707070" strokeWidth: 2
+  internalSystem -> externalSystem stroke: "#707070" lineStyle: "dashed"
 }
 ```
 
@@ -193,6 +213,44 @@ diagram "Styled C4 Diagram" {
 - External System: `#999999` (gray)
 - Container: `#438dd5` (light blue)
 - Component: `#85bbf0` (lighter blue)
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq                      | Mermaid        | PlantUML       | Lucidchart         | Draw.io       | Structurizr     |
+| ---------------------------- | -------------------------- | -------------- | -------------- | ------------------ | ------------- | --------------- |
+| **Text-Based DSL**           | ✅                         | ⚠️ C4 plugin   | ✅ C4-PlantUML | ❌ No (GUI)        | ❌ No (GUI)   | ✅              |
+| **Version Control Friendly** | ✅                         | ✅             | ✅             | ⚠️ Limited         | ⚠️ Limited    | ✅              |
+| **C4 Model Support**         | ✅ Native shapes           | ⚠️ Via plugin  | ✅             | ⚠️ Manual shapes   | ⚠️ Manual     | ✅              |
+| **All 4 Levels**             | ✅ Context to Code         | ⚠️ Limited     | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
+| **Person Shape**             | ✅ `@c4Person`             | ⚠️ Basic       | ✅             | ⚠️ Manual styling  | ⚠️ Manual     | ✅              |
+| **System Boundaries**        | ✅ Via containers          | ⚠️             | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
+| **Technology Labels**        | ✅ `[Tech Stack]` notation | ⚠️ Manual text | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
+| **Relationship Labels**      | ✅ Protocol/description    | ✅             | ✅             | ✅                 | ✅            | ✅              |
+| **Color Coding**             | ✅ Internal/external       | ⚠️ Manual      | ✅ Auto        | ✅ Manual          | ✅ Manual     | ✅ Auto         |
+| **Auto-Layout**              | ✅ ELK (Hierarchical)      | ✅ Dagre       | ✅ GraphViz    | ⚠️ Manual          | ⚠️ Manual     | ✅ GraphViz     |
+| **Unified with UML**         | ✅ Same DSL as class/seq   | ❌ Separate    | ✅ Same syntax | ❌ Different tools | ❌ Different  | ❌ C4-only      |
+| **Export Formats**           | ✅ SVG, PNG, PDF           | ✅ SVG, PNG    | ✅ PNG, SVG    | ✅ Many formats    | ✅ Many       | ✅ Many         |
+| **Collaboration**            | ✅ Git-based               | ✅ Git-based   | ✅ Git-based   | ✅ Cloud (Paid)    | ✅ Cloud      | ✅ Cloud (Paid) |
+| **Learning Curve**           | ⚠️ Moderate (DSL)          | ✅ Low         | ⚠️ Moderate    | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate     |
+| **Open Source**              | ✅ MIT License             | ✅ MIT         | ✅ Apache 2.0  | ❌ Commercial only | ✅ Apache 2.0 | ⚠️ Freemium     |
+
+**Runiq Advantages:**
+
+- **C4 native shapes** - Dedicated `@c4Person`, `@c4System`, `@c4Container`, `@c4Component`
+- **Unified language** - Use same DSL for C4, UML, flowcharts, BPMN, and 15+ diagram types
+- **Technology annotations** - Built-in support for `[Technology Stack]` labels
+- **System boundaries** - Use containers with custom styling
+- **Color coding** - Automatic or manual differentiation of internal/external systems
+- **Version control native** - Perfect for architecture documentation in repositories
+- **ELK layout engine** - Superior hierarchical layouts for context and container diagrams
+- **Profile system** - Consistent with other diagram types
+
+**Use Structurizr when:**
+
+- You need the official C4 tooling with Simon Brown's endorsement
+- Workspace management for large enterprise architectures
+- ADR (Architecture Decision Records) integration
+- Multiple related diagrams with shared model
 
 ## Best Practices
 

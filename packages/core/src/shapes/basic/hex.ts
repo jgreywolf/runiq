@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 export const hexShape: ShapeDefinition = {
   id: 'hexagon',
@@ -35,6 +36,7 @@ export const hexShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
 
     // Hexagon points
     const points = [
@@ -50,10 +52,7 @@ export const hexShape: ShapeDefinition = {
       <polygon points="${points}" 
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy)}
     `;
   },
 };

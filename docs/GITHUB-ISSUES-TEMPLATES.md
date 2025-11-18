@@ -27,370 +27,17 @@
 
 ---
 
-## TIER 1: QUICK WINS (1-3 days each)
-
-### Issue 1: Enable Mindmap Support (ELK Radial Layout)
-
-````markdown
-## 🎯 Feature: Mindmap Diagram Support
-
-### Description
-
-Enable mindmap/mind map diagrams by activating ELK's radial layout algorithm. This is a **configuration-only change** requiring minimal implementation effort.
-
-### Current Status
-
-- ✅ ELK radial algorithm already available in layout engine
-- ✅ All necessary shapes exist (rounded rectangles, circles)
-- ✅ Radial layout not exposed in DSL/API
-
-### Implementation Requirements
-
-**Effort:** Hours (not days!)  
-**Priority:** High (immediate win)  
-**Complexity:** Very Low
-
-#### Phase 1: Enable Radial Layout (2 hours)
-
-- [x] Add `radial` option to layout algorithm enum
-- [x] Expose radial configuration in ELK adapter
-- [x] Test with existing shapes
-- [x] 5-8 tests for radial layout
-
-#### Phase 2: DSL Syntax (1 hour)
-
-```runiq
-diagram mindmap "Project Planning"
-  layout: radial
-  node Root { shape: rounded, label: "Project" }
-  node Branch1 { shape: rounded, label: "Research" }
-  node Branch2 { shape: rounded, label: "Design" }
-  edge Root -> Branch1
-  edge Root -> Branch2
-```
-````
-
-#### Phase 3: Documentation (1 hour)
-
-- [x] Add mindmap example to examples/
-- [x] Document radial layout in docs/guide/
-- [x] Update README with mindmap support
-
-### Testing Requirements
-
-- [x] Radial layout algorithm activation
-- [x] Center node positioning
-- [x] Branch distribution (360° layout)
-- [x] Multi-level hierarchy
-- [x] Edge routing in radial space
-
-### Acceptance Criteria
-
-- [x] `layout: radial` syntax works in DSL
-- [x] ELK radial algorithm produces circular layout
-- [x] At least 2 example mindmaps created
-- [x] Documentation updated
-- [x] 5+ tests passing
-
-### References
-
-- ELK Radial Layout: https://www.eclipse.org/elk/reference/algorithms/org-eclipse-elk-radial.html
-- Current layout implementation: `packages/layout-base/src/elk-adapter.ts`
-
-### Estimated Effort
-
-**Total: 4 hours** (configuration + docs + tests)
-
-````
-
----
-
-### Issue 2: Enable Circular Flow Diagrams (ELK Radial)
-
-```markdown
-## 🎯 Feature: Circular Flow Diagram Support
-
-### Description
-Enable circular flow diagrams by activating ELK's radial layout with directional flow indicators.
-
-### Current Status
-- ✅ ELK radial algorithm available
-- ✅ Arrow shapes and edge rendering exist
-- ❌ Circular layout not exposed
-
-### Implementation Requirements
-
-**Effort:** Hours
-**Priority:** Medium
-**Complexity:** Very Low
-
-#### Phase 1: Radial Layout (same as Mindmap - 2 hours)
-- [ ] Enable radial layout option
-- [ ] Configure for circular node arrangement
-- [ ] Add circular edge routing
-
-#### Phase 2: Flow Indicators (2 hours)
-- [ ] Add curved arrow rendering for circular flows
-- [ ] Add flow direction indicators
-- [ ] Support both clockwise/counter-clockwise
-
-#### Phase 3: Examples (2 hours)
-```runiq
-diagram circular-flow "Circular Economy"
-  layout: radial
-  node Production { shape: rounded }
-  node Consumption { shape: rounded }
-  node Recycling { shape: rounded }
-  edge Production -> Consumption
-  edge Consumption -> Recycling
-  edge Recycling -> Production
-````
-
-### Testing Requirements
-
-- [ ] Circular node arrangement
-- [ ] Curved edge routing
-- [ ] Flow direction consistency
-- [ ] Multiple nodes (3-12 nodes)
-
-### Acceptance Criteria
-
-- [ ] Nodes arranged in circle
-- [ ] Edges follow circular path
-- [ ] Flow direction clear
-- [ ] 2+ example diagrams
-- [ ] 5+ tests passing
-
-### Estimated Effort
-
-**Total: 6 hours** (radial + flow indicators + examples)
-
-````
-
----
-
-### Issue 3: Enable Graph Theory / Network Analysis
-
-```markdown
-## 🎯 Feature: Graph Theory & Network Analysis Support
-
-### Description
-Enable graph theory visualizations by activating ELK's force-directed layout and adding graph metrics display.
-
-### Current Status
-- ✅ ELK force algorithm available
-- ✅ Node and edge shapes exist
-- ❌ Force layout not exposed
-- ❌ Graph metrics not calculated/displayed
-
-### Implementation Requirements
-
-**Effort:** 1-2 days
-**Priority:** Medium
-**Complexity:** Low
-
-#### Phase 1: Force-Directed Layout (4 hours)
-- [ ] Expose ELK force algorithm in layout options
-- [ ] Configure force parameters (attraction, repulsion)
-- [ ] Test with various graph sizes
-
-#### Phase 2: Graph Metrics (4 hours)
-- [ ] Add node degree calculation
-- [ ] Add edge weight support
-- [ ] Add centrality indicators (optional)
-- [ ] Display metrics as node/edge labels
-
-#### Phase 3: DSL Syntax (2 hours)
-```runiq
-diagram graph "Social Network"
-  layout: force
-  node A { shape: circle }
-  node B { shape: circle }
-  node C { shape: circle }
-  edge A -> B { weight: 5 }
-  edge B -> C { weight: 3 }
-  edge C -> A { weight: 2 }
-````
-
-### Testing Requirements
-
-- [ ] Force algorithm activation
-- [ ] Node repulsion/attraction
-- [ ] Edge weight rendering
-- [ ] Stable layout convergence
-- [ ] Various graph sizes (5, 10, 20, 50 nodes)
-
-### Acceptance Criteria
-
-- [ ] `layout: force` works
-- [ ] Nodes distributed evenly
-- [ ] Connected components grouped
-- [ ] Edge weights displayed
-- [ ] 2+ example graphs
-- [ ] 8+ tests passing
-
-### Estimated Effort
-
-**Total: 10-12 hours** (1.5 days)
-
-````
-
----
-
-### Issue 4: Pneumatic/Hydraulic Circuit Diagrams
-
-```markdown
-## 🎯 Feature: Pneumatic & Hydraulic Circuit Diagrams
-
-### Description
-Add support for pneumatic and hydraulic circuit diagrams using ISO 1219 standard symbols. **Reuses 95% of electrical circuit architecture!**
-
-### Current Status
-- ✅ Electrical circuit profile exists (node-edge-net model)
-- ✅ Orthogonal routing implemented
-- ✅ Schematic renderer working
-- ❌ Pneumatic/hydraulic symbol library missing
-
-### Implementation Requirements
-
-**Effort:** 2-3 days
-**Priority:** High (Industrial value $$$$)
-**Complexity:** Low (architecture reuse!)
-
-#### Phase 1: Symbol Library (1 day)
-**Pneumatic Symbols (12 symbols):**
-- [ ] Single-acting cylinder
-- [ ] Double-acting cylinder
-- [ ] 3/2-way valve
-- [ ] 5/2-way valve
-- [ ] Air source
-- [ ] Pressure regulator
-- [ ] Filter
-- [ ] Lubricator
-- [ ] Flow control valve
-- [ ] Check valve
-- [ ] Exhaust
-- [ ] Pressure gauge
-
-**Hydraulic Symbols (13 symbols):**
-- [ ] Hydraulic pump (fixed displacement)
-- [ ] Hydraulic pump (variable displacement)
-- [ ] Hydraulic motor
-- [ ] Hydraulic cylinder
-- [ ] Directional control valve (4/3)
-- [ ] Pressure relief valve
-- [ ] Pressure reducing valve
-- [ ] Flow control valve
-- [ ] Check valve
-- [ ] Filter
-- [ ] Reservoir/tank
-- [ ] Accumulator
-- [ ] Pressure gauge
-
-#### Phase 2: Profile Type (4 hours)
-```typescript
-interface PneumaticProfile {
-  type: 'pneumatic' | 'hydraulic';
-  name: string;
-  nets: NetAst[];  // Air/fluid lines
-  parts: PartAst[]; // Valves, cylinders, etc.
-  params?: {
-    pressure?: string;  // "6 bar", "100 psi"
-    flow?: string;      // "10 L/min"
-  };
-}
-````
-
-#### Phase 3: Renderer Integration (4 hours)
-
-- [ ] Add pneumatic symbols to schematic renderer
-- [ ] ISO 1219-1 compliance (pneumatic)
-- [ ] ISO 1219-2 compliance (hydraulic)
-- [ ] Reuse orthogonal routing from electrical
-
-#### Phase 4: Examples (4 hours)
-
-- [ ] Pick-and-place pneumatic circuit
-- [ ] Press control hydraulic circuit
-- [ ] Robot gripper pneumatic
-- [ ] Dual cylinder control
-- [ ] README with circuit explanations
-
-#### Phase 5: Tests (4 hours)
-
-- [ ] Symbol rendering (25 tests)
-- [ ] Net/part parsing (10 tests)
-- [ ] Circuit validation (5 tests)
-- [ ] Export format (optional)
-
-### DSL Syntax Example
-
-```runiq
-circuit pneumatic "Dual Cylinder Control"
-  pressure: "6 bar"
-
-  part V1 type:VALVE_52 label:"Valve 1"
-  part C1 type:CYL_DA label:"Cylinder 1"
-  part V2 type:VALVE_52 label:"Valve 2"
-  part C2 type:CYL_DA label:"Cylinder 2"
-  part FRL type:FRL_UNIT label:"Filter-Regulator-Lubricator"
-
-  net P  # Pressure supply
-  net A1 # Cylinder 1 extend
-  net B1 # Cylinder 1 retract
-  net EXHAUST
-
-  connect FRL.out -> V1.P
-  connect V1.A -> C1.A
-  connect V1.B -> C1.B
-```
-
-### Testing Requirements
-
-- [ ] All 25 symbols render correctly
-- [ ] Orthogonal routing works
-- [ ] Junction dots at intersections
-- [ ] Pressure/flow parameters display
-- [ ] Circuit validation
-
-### Acceptance Criteria
-
-- [ ] 25 pneumatic/hydraulic symbols implemented
-- [ ] ISO 1219 standard compliance
-- [ ] Reuses electrical schematic renderer
-- [ ] 4+ example circuits
-- [ ] 40+ tests passing
-- [ ] Documentation guide created
-
-### Industry Standards
-
-- ISO 1219-1:2012 (Pneumatic symbols)
-- ISO 1219-2:2012 (Hydraulic symbols)
-- DIN ISO 1219 (German standard)
-
-### Market Comparison
-
-- FluidSim (Festo): $500+ license
-- Automation Studio (Famic): $2000+ license
-- **Runiq: Open source!** 🎉
-
-### Estimated Effort
-
-**Total: 2-3 days** (symbol library + integration + tests)
-
-````
-
----
-
 ### Issue 5: Kinematic Diagrams (Robotics/Mechanisms)
 
-```markdown
+````markdown
 ## 🎯 Feature: Kinematic Diagram Support
 
 ### Description
+
 Add kinematic diagram support for robotics and mechanism design. Shows motion relationships and linkages using topological (not geometric) approach.
 
 ### Current Status
+
 - ✅ Node-edge model fits perfectly
 - ✅ Layout algorithms available
 - ❌ Kinematic-specific shapes missing
@@ -402,7 +49,9 @@ Add kinematic diagram support for robotics and mechanism design. Shows motion re
 **Complexity:** Low-Medium
 
 #### Phase 1: Joint Shapes (1 day)
+
 **20-25 Symbols:**
+
 - [ ] Revolute joint (pin/hinge)
 - [ ] Prismatic joint (slider)
 - [ ] Spherical joint (ball)
@@ -412,12 +61,14 @@ Add kinematic diagram support for robotics and mechanism design. Shows motion re
 - [ ] Planar joint
 
 #### Phase 2: Link Shapes (4 hours)
+
 - [ ] Binary link (2 connections)
 - [ ] Ternary link (3 connections)
 - [ ] Quaternary link (4 connections)
 - [ ] Ground/fixed link
 
 #### Phase 3: Actuators & End Effectors (4 hours)
+
 - [ ] Linear actuator
 - [ ] Rotary motor
 - [ ] Gripper (parallel jaw)
@@ -429,6 +80,7 @@ Add kinematic diagram support for robotics and mechanism design. Shows motion re
 - [ ] Gear
 
 #### Phase 4: DSL Syntax (2 hours)
+
 ```runiq
 diagram kinematic "4-Bar Linkage"
   node Ground { type: fixed-link }
@@ -442,6 +94,7 @@ diagram kinematic "4-Bar Linkage"
   joint J4 { type: revolute } connects Link3, Ground
 
   actuator Motor at J1
+```
 ````
 
 #### Phase 5: Examples (4 hours)

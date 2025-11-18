@@ -1,0 +1,11 @@
+// Spiral Cycle - Capability Maturity Model
+// Shows evolving maturity levels
+
+glyphset spiralCycle "Capability Maturity Model" {
+    theme "forest"
+item "Initial"
+  item "Managed"
+  item "Defined"
+  item "Quantified"
+  item "Optimizing"
+}

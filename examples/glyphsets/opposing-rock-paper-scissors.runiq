@@ -1,0 +1,9 @@
+// Opposing Glyphset Example: Rock-Paper-Scissors
+// Use case: Circular opposition (game theory)
+
+glyphset opposing "vibrant" {
+    theme "forest"
+item "Rock"
+  item "Paper"
+  item "Scissors"
+}

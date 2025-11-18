@@ -354,7 +354,7 @@ ngspice rc-filter.cir
 ## Next Steps
 
 - [Digital Circuits →](/examples/digital) - Logic gates and HDL export
-- [Block Diagrams →](/examples/block-diagrams) - Control systems
+- [Control system Diagrams →](/examples/control-diagrams) - Control systems
 - [Reference →](/reference/shapes) - All electrical symbols
 
 ---

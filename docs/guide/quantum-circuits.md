@@ -675,6 +675,42 @@ A: No hard limit, but readability decreases beyond 5-6 qubits. For large circuit
 - Using circuit folding
 - Focusing on key algorithmic sections
 
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid | PlantUML | Lucidchart  | IBM Qiskit | Cirq       | Q# QDK | Quirk       |
+| ---------------------------- | -------------- | ------- | -------- | ----------- | ---------- | ---------- | ------ | ----------- |
+| **Basic Support**            | ✅             | ❌      | ❌       | ⚠️ Custom   | ✅         | ✅         | ✅     | ✅          |
+| **Quantum gates**            | ✅             | ❌      | ❌       | ⚠️ Custom   | ✅         | ✅         | ✅     | ✅          |
+| **Multi-qubit gates**        | ✅             | ❌      | ❌       | ⚠️ Custom   | ✅         | ✅         | ✅     | ✅          |
+| **Measurement**              | ✅             | ❌      | ❌       | ⚠️ Custom   | ✅         | ✅         | ✅     | ✅          |
+| **Barriers**                 | ✅             | ❌      | ❌       | ❌          | ✅         | ✅         | ❌     | ❌          |
+| **Circuit simulation**       | ❌             | ❌      | ❌       | ❌          | ✅         | ✅         | ✅     | ✅          |
+| **Hardware execution**       | ❌             | ❌      | ❌       | ❌          | ✅         | ✅         | ✅     | ❌          |
+| **Visual editing**           | ❌             | ❌      | ❌       | ✅          | ⚠️ Jupyter | ⚠️ Jupyter | ❌     | ✅          |
+| **Automatic layout**         | ✅             | ❌      | ❌       | ❌          | ✅         | ✅         | ✅     | ✅          |
+| **Documentation generation** | ✅             | ❌      | ❌       | ⚠️ Partial  | ✅         | ✅         | ✅     | ❌          |
+| **Algorithm library**        | ❌             | ❌      | ❌       | ❌          | ✅         | ✅         | ✅     | ⚠️ Examples |
+| **Text-based DSL**           | ✅             | ❌      | ❌       | ❌          | ✅ Python  | ✅ Python  | ✅ Q#  | ❌          |
+| **Version control friendly** | ✅             | ❌      | ❌       | ⚠️ Partial  | ✅         | ✅         | ✅     | ❌          |
+| **Export formats**           | SVG, PNG       | ❌      | ❌       | Multiple    | Multiple   | Multiple   | Image  | PNG         |
+| **Learning curve**           | Low            | ❌      | ❌       | Low         | High       | High       | High   | Very Low    |
+| **Cost**                     | Free           | ❌      | ❌       | Paid        | Free       | Free       | Free   | Free        |
+| **Platform**                 | Cross-platform | ❌      | ❌       | Web/Desktop | Python     | Python     | .NET   | Web         |
+
+**Key Advantages of Runiq:**
+
+- **Documentation-First**: Perfect for quantum algorithm documentation and papers
+- **Version Control**: Track quantum circuit evolution in Git
+- **Qiskit-Compatible**: Visual style matches IBM Qiskit standard
+- **Lightweight**: Quick visualization without quantum computing frameworks
+
+**When to Use Alternatives:**
+
+- **IBM Qiskit/Cirq**: Full quantum programming with simulation and hardware execution
+- **Q# QDK**: Microsoft's quantum development with Visual Studio integration
+- **Quirk**: Interactive drag-and-drop quantum circuit sandbox for education
+- **Lucidchart**: Real-time collaboration on quantum algorithm concepts
+
 ---
 
 **Last Updated**: October 17, 2025  

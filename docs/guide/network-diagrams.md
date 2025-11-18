@@ -285,6 +285,41 @@ See the examples directory for network diagram samples:
 - `docker-stack.runiq` - Container networking
 - `microservices.runiq` - Service mesh architecture
 
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Visio       | Draw.io     | NetBrain   | Diagrams.net |
+| ---------------------------- | -------------- | -------------- | -------------- | ----------- | ----------- | ----------- | ---------- | ------------ |
+| **Network topology**         | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅          | ✅          | ✅         | ✅           |
+| **Infrastructure icons**     | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
+| **Layered architecture**     | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ⚠️ Basic   | ✅           |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ❌          | ⚠️ Smart    | ❌         | ⚠️ Smart     |
+| **Custom shapes**            | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ⚠️ Limited | ✅           |
+| **Live network discovery**   | ❌             | ❌             | ❌             | ❌          | ❌          | ❌          | ✅         | ❌           |
+| **IP addressing**            | ✅ Via labels  | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
+| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial  | ⚠️ Partial  | ✅         | ⚠️ Partial   |
+| **Cloud provider symbols**   | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
+| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌          | ❌          | ❌         | ⚠️ XML       |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌          | ⚠️ Partial  | ❌         | ⚠️ Partial   |
+| **Learning curve**           | Low            | Low            | Medium         | Low         | Medium      | Low         | High       | Low          |
+| **Real-time collaboration**  | ✅ Via Git     | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple    | Multiple    | PDF, Image | Multiple     |
+| **Cost**                     | Free           | Free           | Free           | Paid        | Paid        | Free        | Paid       | Free         |
+| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows/Mac | Web/Desktop | Windows    | Web/Desktop  |
+
+**Key Advantages of Runiq:**
+
+- **Infrastructure as Code**: Perfect for documenting network architectures alongside IaC
+- **Version Control**: Track network changes over time with Git
+- **Automation**: Generate diagrams from network inventory systems
+- **Cloud-Native**: Strong support for AWS, Azure, GCP symbols
+
+**When to Use Alternatives:**
+
+- **NetBrain**: Live network discovery and automated documentation from production networks
+- **Visio**: Enterprise standard with extensive template libraries
+- **Draw.io**: Free collaborative editing with less technical users
+- **Lucidchart**: Real-time collaboration with built-in presentation mode
+
 ## Related
 
 - [Shape Reference - Network Shapes](/reference/shapes#_8-network-shapes-7-shapes)

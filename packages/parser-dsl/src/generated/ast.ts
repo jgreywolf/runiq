@@ -7,6 +7,7 @@
 import * as langium from 'langium';
 
 export const RuniqTerminals = {
+    ANCHORED_ARROW: /-(north|south|east|west)(-"[^"]*")?->(north|south|east|west)?/,
     LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/,
     BIDIRECTIONAL_ARROW: /<->/,
     ARROW: /->/,
@@ -101,6 +102,7 @@ export type RuniqKeywordNames =
     | "algorithm:"
     | "alignContent:"
     | "alt"
+    | "alternating"
     | "alternatives:"
     | "analysis"
     | "analyzerTransmitter"
@@ -118,6 +120,7 @@ export type RuniqKeywordNames =
     | "autoResize:"
     | "backgroundColor:"
     | "badge:"
+    | "balance"
     | "bar"
     | "bbl"
     | "bbl/day"
@@ -133,15 +136,23 @@ export type RuniqKeywordNames =
     | "bottom-left"
     | "bottom-right"
     | "boundary"
+    | "branch"
     | "break"
     | "cache"
     | "call"
+    | "callout"
+    | "callouts"
     | "carrier:"
     | "cascade"
     | "center"
+    | "centerLabel"
+    | "central"
     | "centralBuffer"
+    | "child"
     | "childCountPosition:"
     | "children:"
+    | "circle"
+    | "circles"
     | "circular"
     | "closeness"
     | "clustering"
@@ -168,7 +179,10 @@ export type RuniqKeywordNames =
     | "collapsing"
     | "color"
     | "color:"
+    | "colorScheme"
     | "colors:"
+    | "columnHeaders"
+    | "columns"
     | "complex"
     | "component"
     | "composition"
@@ -212,8 +226,10 @@ export type RuniqKeywordNames =
     | "depth:"
     | "depthIndicatorStyle:"
     | "derived:"
+    | "description"
     | "description:"
     | "destroy"
+    | "detail"
     | "diagram"
     | "digital"
     | "dimension:"
@@ -245,6 +261,7 @@ export type RuniqKeywordNames =
     | "event"
     | "event:"
     | "eventBased"
+    | "events"
     | "evolution:"
     | "evolve"
     | "exclusive"
@@ -287,10 +304,12 @@ export type RuniqKeywordNames =
     | "fontWeight:"
     | "for"
     | "force"
+    | "foreach"
     | "format"
     | "found"
     | "fragment"
     | "frame"
+    | "frameStyle"
     | "from"
     | "from:"
     | "ft"
@@ -303,7 +322,9 @@ export type RuniqKeywordNames =
     | "gatewayType:"
     | "generalization"
     | "genericTypes:"
+    | "glyphset"
     | "group"
+    | "groups"
     | "guard:"
     | "header"
     | "header:"
@@ -317,9 +338,11 @@ export type RuniqKeywordNames =
     | "historyShallow"
     | "hollow"
     | "horizontal"
+    | "horizontalAxis"
     | "hoverBorderColor:"
     | "hoverBorderWidth:"
     | "hoverHighlight:"
+    | "hub"
     | "hydraulic"
     | "icon"
     | "icon-text"
@@ -328,6 +351,8 @@ export type RuniqKeywordNames =
     | "iconSize:"
     | "id"
     | "if"
+    | "image"
+    | "images"
     | "in"
     | "inclusive"
     | "incrementalLayout:"
@@ -340,6 +365,8 @@ export type RuniqKeywordNames =
     | "instrument"
     | "insulation:"
     | "intersections:"
+    | "item"
+    | "items"
     | "jacket"
     | "junction"
     | "kPa"
@@ -352,9 +379,13 @@ export type RuniqKeywordNames =
     | "labelPosition:"
     | "labels:"
     | "layered"
+    | "layout"
     | "layoutCache:"
     | "layoutComplexity:"
+    | "leader"
+    | "leaf"
     | "left"
+    | "leftWeight"
     | "legendPosition:"
     | "level"
     | "levelAlarmHigh"
@@ -366,6 +397,7 @@ export type RuniqKeywordNames =
     | "levelIndicatorController"
     | "levelSwitch"
     | "levelTransmitter"
+    | "levels"
     | "lifeline"
     | "limit"
     | "limit:"
@@ -392,6 +424,8 @@ export type RuniqKeywordNames =
     | "maxHeight:"
     | "maxWidth:"
     | "medium"
+    | "member"
+    | "mergePoint"
     | "message"
     | "methods:"
     | "metricPosition:"
@@ -433,6 +467,7 @@ export type RuniqKeywordNames =
     | "opacity:"
     | "open"
     | "operating"
+    | "operator"
     | "opt"
     | "options:"
     | "or"
@@ -442,6 +477,7 @@ export type RuniqKeywordNames =
     | "output"
     | "outputPins:"
     | "over"
+    | "overlap"
     | "package"
     | "packed"
     | "padding:"
@@ -459,6 +495,7 @@ export type RuniqKeywordNames =
     | "participant"
     | "participants:"
     | "period"
+    | "person"
     | "personnel_protection"
     | "ph"
     | "phTransmitter"
@@ -494,6 +531,8 @@ export type RuniqKeywordNames =
     | "public"
     | "pumpCentrifugal"
     | "pumpPositiveDisplacement"
+    | "quadrant"
+    | "quadrants"
     | "queue"
     | "radial"
     | "range:"
@@ -507,24 +546,30 @@ export type RuniqKeywordNames =
     | "ref"
     | "ref:"
     | "refluxDrum"
+    | "relationship"
     | "relationship:"
     | "remote"
     | "requiredInterface"
     | "resizable:"
     | "resizeHandles:"
+    | "result"
     | "return"
     | "returnType:"
     | "right"
+    | "rightWeight"
     | "roleSource:"
     | "roleTarget:"
+    | "root"
     | "routing"
     | "routing:"
+    | "rowHeaders"
     | "rpm"
     | "ruptureDisk"
     | "s"
     | "schedule:"
     | "schematic"
     | "se"
+    | "segments"
     | "selectionBorderColor:"
     | "selectionBorderWidth:"
     | "selectionHighlight:"
@@ -537,10 +582,17 @@ export type RuniqKeywordNames =
     | "shadow:"
     | "shape"
     | "shape:"
+    | "showAllConnections"
     | "showChildCount:"
+    | "showConnections"
     | "showDepthIndicator:"
+    | "showDottedLines"
     | "showLegend:"
     | "showMetrics:"
+    | "showPercentages"
+    | "showValues"
+    | "side"
+    | "sides"
     | "signal"
     | "size:"
     | "solid"
@@ -554,14 +606,18 @@ export type RuniqKeywordNames =
     | "speedController"
     | "spline"
     | "splines"
+    | "spoke"
     | "stable"
     | "stacked:"
+    | "stage"
+    | "stages"
     | "standard"
     | "start"
     | "startDate:"
     | "stateInvariant:"
     | "static:"
     | "step"
+    | "steps"
     | "stereotype:"
     | "stereotypes:"
     | "storageTank"
@@ -570,6 +626,7 @@ export type RuniqKeywordNames =
     | "string"
     | "stroke:"
     | "strokeWidth:"
+    | "structure"
     | "style"
     | "style:"
     | "submachine"
@@ -578,6 +635,7 @@ export type RuniqKeywordNames =
     | "synthetic"
     | "t/h"
     | "target"
+    | "team"
     | "temp:"
     | "temperature"
     | "temperatureAlarmHigh"
@@ -595,6 +653,7 @@ export type RuniqKeywordNames =
     | "terminate"
     | "text"
     | "textAlign:"
+    | "theme"
     | "thermal"
     | "timeObservation"
     | "timeline"
@@ -613,6 +672,7 @@ export type RuniqKeywordNames =
     | "type:"
     | "unit:"
     | "units"
+    | "useContainers"
     | "utility"
     | "value"
     | "value:"
@@ -632,6 +692,7 @@ export type RuniqKeywordNames =
     | "valveThreeWay"
     | "vertical"
     | "verticalAlign:"
+    | "verticalAxis"
     | "verticalFork"
     | "vesselHorizontal"
     | "vesselVertical"
@@ -643,8 +704,10 @@ export type RuniqKeywordNames =
     | "water-glycol"
     | "weight:"
     | "when:"
+    | "xAxis"
     | "xLabel:"
     | "xor"
+    | "yAxis"
     | "yLabel:"
     | "{"
     | "}";
@@ -993,7 +1056,7 @@ export function isColorsProperty(item: unknown): item is ColorsProperty {
 }
 
 export interface ConditionalBlock extends langium.AstNode {
-    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $container: ConditionalBlock | ForEachBlock | LoopBlock;
     readonly $type: 'ConditionalBlock';
     condition: TemplateExpression;
     statements: Array<TemplateStatement>;
@@ -1401,29 +1464,6 @@ export function isDataSourceOption(item: unknown): item is DataSourceOption {
     return reflection.isInstance(item, DataSourceOption.$type);
 }
 
-export interface DataTemplateBlock extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
-    readonly $type: 'DataTemplateBlock';
-    dataKey: string;
-    filter?: string;
-    id: string;
-    limit?: string;
-    statements: Array<TemplateStatement>;
-}
-
-export const DataTemplateBlock = {
-    $type: 'DataTemplateBlock',
-    dataKey: 'dataKey',
-    filter: 'filter',
-    id: 'id',
-    limit: 'limit',
-    statements: 'statements'
-} as const;
-
-export function isDataTemplateBlock(item: unknown): item is DataTemplateBlock {
-    return reflection.isInstance(item, DataTemplateBlock.$type);
-}
-
 export interface DataValue extends langium.AstNode {
     readonly $container: DataProperty;
     readonly $type: 'DataValue';
@@ -1477,7 +1517,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DataTemplateBlock | DirectionDeclaration | EdgeDeclaration | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
+export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -1594,6 +1634,7 @@ export function isDocument(item: unknown): item is Document {
 export interface EdgeChain extends langium.AstNode {
     readonly $container: EdgeDeclaration;
     readonly $type: 'EdgeChain';
+    anchoredArrow?: string;
     arrow?: string;
     bidirectionalArrow?: string;
     labeledArrow?: string;
@@ -1602,6 +1643,7 @@ export interface EdgeChain extends langium.AstNode {
 
 export const EdgeChain = {
     $type: 'EdgeChain',
+    anchoredArrow: 'anchoredArrow',
     arrow: 'arrow',
     bidirectionalArrow: 'bidirectionalArrow',
     labeledArrow: 'labeledArrow',
@@ -1630,6 +1672,7 @@ export function isEdgeConstraintsProperty(item: unknown): item is EdgeConstraint
 export interface EdgeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'EdgeDeclaration';
+    anchoredArrow?: string;
     arrow?: string;
     bidirectionalArrow?: string;
     chain: Array<EdgeChain>;
@@ -1641,6 +1684,7 @@ export interface EdgeDeclaration extends langium.AstNode {
 
 export const EdgeDeclaration = {
     $type: 'EdgeDeclaration',
+    anchoredArrow: 'anchoredArrow',
     arrow: 'arrow',
     bidirectionalArrow: 'bidirectionalArrow',
     chain: 'chain',
@@ -1823,10 +1867,10 @@ export function isFillProperty(item: unknown): item is FillProperty {
     return reflection.isInstance(item, FillProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'cache' | 'call' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'limit' | 'loop' | 'm' | 'mobile' | 'name' | 'output' | 'process' | 'queue' | 'settings' | 'source' | 'start' | 'step' | 'to' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'spoke' | 'start' | 'step' | 'team' | 'to' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -1956,6 +2000,29 @@ export function isFontWeightProperty(item: unknown): item is FontWeightProperty 
     return reflection.isInstance(item, FontWeightProperty.$type);
 }
 
+export interface ForEachBlock extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'ForEachBlock';
+    dataKey: string;
+    filter?: string;
+    id: string;
+    limit?: string;
+    statements: Array<TemplateStatement>;
+}
+
+export const ForEachBlock = {
+    $type: 'ForEachBlock',
+    dataKey: 'dataKey',
+    filter: 'filter',
+    id: 'id',
+    limit: 'limit',
+    statements: 'statements'
+} as const;
+
+export function isForEachBlock(item: unknown): item is ForEachBlock {
+    return reflection.isInstance(item, ForEachBlock.$type);
+}
+
 export interface GatewayTypeProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'GatewayTypeProperty';
@@ -2007,6 +2074,131 @@ export const GenericTypesProperty = {
 
 export function isGenericTypesProperty(item: unknown): item is GenericTypesProperty {
     return reflection.isInstance(item, GenericTypesProperty.$type);
+}
+
+export interface GlyphSetImageItem extends langium.AstNode {
+    readonly $container: GlyphSetNestedItem | GlyphSetProfile;
+    readonly $type: 'GlyphSetImageItem';
+    description?: string;
+    keyword: 'image';
+    label?: string;
+    url: string;
+}
+
+export const GlyphSetImageItem = {
+    $type: 'GlyphSetImageItem',
+    description: 'description',
+    keyword: 'keyword',
+    label: 'label',
+    url: 'url'
+} as const;
+
+export function isGlyphSetImageItem(item: unknown): item is GlyphSetImageItem {
+    return reflection.isInstance(item, GlyphSetImageItem.$type);
+}
+
+export type GlyphSetItemStatement = GlyphSetImageItem | GlyphSetNestedItem | GlyphSetSimpleItem;
+
+export const GlyphSetItemStatement = {
+    $type: 'GlyphSetItemStatement'
+} as const;
+
+export function isGlyphSetItemStatement(item: unknown): item is GlyphSetItemStatement {
+    return reflection.isInstance(item, GlyphSetItemStatement.$type);
+}
+
+export type GlyphSetKeyword = 'callout' | 'center' | 'child' | 'circle' | 'event' | 'group' | 'input' | 'item' | 'leader' | 'left' | 'level' | 'member' | 'node' | 'output' | 'person' | 'quadrant' | 'right' | 'root' | 'side' | 'spoke' | 'stage' | 'step' | 'team';
+
+export function isGlyphSetKeyword(item: unknown): item is GlyphSetKeyword {
+    return item === 'step' || item === 'item' || item === 'person' || item === 'level' || item === 'stage' || item === 'event' || item === 'quadrant' || item === 'circle' || item === 'node' || item === 'group' || item === 'side' || item === 'left' || item === 'right' || item === 'input' || item === 'output' || item === 'center' || item === 'spoke' || item === 'team' || item === 'root' || item === 'child' || item === 'leader' || item === 'member' || item === 'callout';
+}
+
+export interface GlyphSetNestedItem extends langium.AstNode {
+    readonly $container: GlyphSetNestedItem | GlyphSetProfile;
+    readonly $type: 'GlyphSetNestedItem';
+    children: Array<GlyphSetItemStatement>;
+    keyword: GlyphSetKeyword;
+    label: string;
+    relationship?: string;
+}
+
+export const GlyphSetNestedItem = {
+    $type: 'GlyphSetNestedItem',
+    children: 'children',
+    keyword: 'keyword',
+    label: 'label',
+    relationship: 'relationship'
+} as const;
+
+export function isGlyphSetNestedItem(item: unknown): item is GlyphSetNestedItem {
+    return reflection.isInstance(item, GlyphSetNestedItem.$type);
+}
+
+export interface GlyphSetParameter extends langium.AstNode {
+    readonly $container: GlyphSetProfile;
+    readonly $type: 'GlyphSetParameter';
+    name: GlyphSetParameterName;
+    value: BooleanValue | string;
+}
+
+export const GlyphSetParameter = {
+    $type: 'GlyphSetParameter',
+    name: 'name',
+    value: 'value'
+} as const;
+
+export function isGlyphSetParameter(item: unknown): item is GlyphSetParameter {
+    return reflection.isInstance(item, GlyphSetParameter.$type);
+}
+
+export type GlyphSetParameterName = 'alternating' | 'bidirectional' | 'callouts' | 'center' | 'centerLabel' | 'circles' | 'colorScheme' | 'columnHeaders' | 'columns' | 'direction' | 'events' | 'frameStyle' | 'groups' | 'horizontalAxis' | 'image' | 'images' | 'items' | 'layout' | 'leftWeight' | 'levels' | 'mergePoint' | 'operator' | 'orientation' | 'overlap' | 'quadrants' | 'relationship' | 'result' | 'rightWeight' | 'rowHeaders' | 'segments' | 'shape' | 'showAllConnections' | 'showConnections' | 'showDottedLines' | 'showPercentages' | 'showValues' | 'sides' | 'source' | 'stages' | 'steps' | 'structure' | 'target' | 'theme' | 'useContainers' | 'verticalAxis' | 'xAxis' | 'yAxis';
+
+export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
+    return item === 'alternating' || item === 'bidirectional' || item === 'callouts' || item === 'center' || item === 'centerLabel' || item === 'circles' || item === 'colorScheme' || item === 'columnHeaders' || item === 'columns' || item === 'direction' || item === 'events' || item === 'frameStyle' || item === 'groups' || item === 'horizontalAxis' || item === 'image' || item === 'images' || item === 'items' || item === 'layout' || item === 'leftWeight' || item === 'levels' || item === 'mergePoint' || item === 'operator' || item === 'orientation' || item === 'overlap' || item === 'quadrants' || item === 'relationship' || item === 'result' || item === 'rightWeight' || item === 'rowHeaders' || item === 'segments' || item === 'shape' || item === 'showAllConnections' || item === 'showConnections' || item === 'showDottedLines' || item === 'showPercentages' || item === 'showValues' || item === 'sides' || item === 'source' || item === 'stages' || item === 'steps' || item === 'structure' || item === 'target' || item === 'theme' || item === 'useContainers' || item === 'verticalAxis' || item === 'xAxis' || item === 'yAxis';
+}
+
+export interface GlyphSetProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'GlyphSetProfile';
+    glyphsetType: GlyphSetType;
+    items: Array<GlyphSetItemStatement | GlyphSetParameter>;
+    name: string;
+}
+
+export const GlyphSetProfile = {
+    $type: 'GlyphSetProfile',
+    glyphsetType: 'glyphsetType',
+    items: 'items',
+    name: 'name'
+} as const;
+
+export function isGlyphSetProfile(item: unknown): item is GlyphSetProfile {
+    return reflection.isInstance(item, GlyphSetProfile.$type);
+}
+
+export interface GlyphSetSimpleItem extends langium.AstNode {
+    readonly $container: GlyphSetNestedItem | GlyphSetProfile;
+    readonly $type: 'GlyphSetSimpleItem';
+    keyword: GlyphSetKeyword;
+    label: string;
+    relationship?: string;
+}
+
+export const GlyphSetSimpleItem = {
+    $type: 'GlyphSetSimpleItem',
+    keyword: 'keyword',
+    label: 'label',
+    relationship: 'relationship'
+} as const;
+
+export function isGlyphSetSimpleItem(item: unknown): item is GlyphSetSimpleItem {
+    return reflection.isInstance(item, GlyphSetSimpleItem.$type);
+}
+
+export type GlyphSetType = 'balance' | 'events' | 'source' | 'target' | string;
+
+export function isGlyphSetType(item: unknown): item is GlyphSetType {
+    return item === 'target' || item === 'source' || item === 'balance' || item === 'events' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface GroupBlock extends langium.AstNode {
@@ -2293,7 +2485,7 @@ export function isLinkProperty(item: unknown): item is LinkProperty {
 }
 
 export interface LoopBlock extends langium.AstNode {
-    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $container: ConditionalBlock | ForEachBlock | LoopBlock;
     readonly $type: 'LoopBlock';
     collection: TemplateExpression;
     statements: Array<TemplateStatement>;
@@ -3523,7 +3715,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | TimelineProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GlyphSetProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | TimelineProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -4087,10 +4279,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -4319,7 +4511,7 @@ export function isTemplateDataProperty(item: unknown): item is TemplateDataPrope
 }
 
 export interface TemplateEdgeDeclaration extends langium.AstNode {
-    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $container: ConditionalBlock | ForEachBlock | LoopBlock;
     readonly $type: 'TemplateEdgeDeclaration';
     from: TemplateExpression;
     properties: Array<TemplateEdgeProperty>;
@@ -4381,10 +4573,10 @@ export function isTemplateExpressionPart(item: unknown): item is TemplateExpress
     return reflection.isInstance(item, TemplateExpressionPart.$type);
 }
 
-export type TemplateIdentifier = 'color' | 'data' | 'delimiter' | 'filter' | 'format' | 'from' | 'header' | 'id' | 'key' | 'label' | 'limit' | 'name' | 'source' | 'to' | 'type' | 'value' | string;
+export type TemplateIdentifier = 'color' | 'data' | 'delimiter' | 'filter' | 'format' | 'from' | 'header' | 'id' | 'item' | 'key' | 'label' | 'limit' | 'name' | 'source' | 'to' | 'type' | 'value' | string;
 
 export function isTemplateIdentifier(item: unknown): item is TemplateIdentifier {
-    return item === 'data' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'value' || item === 'type' || item === 'from' || item === 'to' || item === 'label' || item === 'name' || item === 'id' || item === 'key' || item === 'format' || item === 'source' || item === 'filter' || item === 'limit' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'value' || item === 'type' || item === 'from' || item === 'to' || item === 'label' || item === 'name' || item === 'id' || item === 'key' || item === 'format' || item === 'source' || item === 'filter' || item === 'limit' || item === 'item' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface TemplateLiteral extends langium.AstNode {
@@ -4403,7 +4595,7 @@ export function isTemplateLiteral(item: unknown): item is TemplateLiteral {
 }
 
 export interface TemplateNodeDeclaration extends langium.AstNode {
-    readonly $container: ConditionalBlock | DataTemplateBlock | LoopBlock;
+    readonly $container: ConditionalBlock | ForEachBlock | LoopBlock;
     readonly $type: 'TemplateNodeDeclaration';
     id: TemplateExpression;
     properties: Array<TemplateNodeProperty>;
@@ -5081,7 +5273,6 @@ export type RuniqAstType = {
     DataProperty: DataProperty
     DataSourceDeclaration: DataSourceDeclaration
     DataSourceOption: DataSourceOption
-    DataTemplateBlock: DataTemplateBlock
     DataValue: DataValue
     DeceasedProperty: DeceasedProperty
     DiagramProfile: DiagramProfile
@@ -5113,9 +5304,16 @@ export type RuniqAstType = {
     FontFamilyProperty: FontFamilyProperty
     FontSizeProperty: FontSizeProperty
     FontWeightProperty: FontWeightProperty
+    ForEachBlock: ForEachBlock
     GatewayTypeProperty: GatewayTypeProperty
     GenericPIDProperty: GenericPIDProperty
     GenericTypesProperty: GenericTypesProperty
+    GlyphSetImageItem: GlyphSetImageItem
+    GlyphSetItemStatement: GlyphSetItemStatement
+    GlyphSetNestedItem: GlyphSetNestedItem
+    GlyphSetParameter: GlyphSetParameter
+    GlyphSetProfile: GlyphSetProfile
+    GlyphSetSimpleItem: GlyphSetSimpleItem
     GroupBlock: GroupBlock
     GuardProperty: GuardProperty
     HydraulicProfile: HydraulicProfile
@@ -5876,28 +6074,6 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
-        DataTemplateBlock: {
-            name: DataTemplateBlock.$type,
-            properties: {
-                dataKey: {
-                    name: DataTemplateBlock.dataKey
-                },
-                filter: {
-                    name: DataTemplateBlock.filter
-                },
-                id: {
-                    name: DataTemplateBlock.id
-                },
-                limit: {
-                    name: DataTemplateBlock.limit
-                },
-                statements: {
-                    name: DataTemplateBlock.statements,
-                    defaultValue: []
-                }
-            },
-            superTypes: [DiagramStatement.$type]
-        },
         DataValue: {
             name: DataValue.$type,
             properties: {
@@ -5995,6 +6171,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
         EdgeChain: {
             name: EdgeChain.$type,
             properties: {
+                anchoredArrow: {
+                    name: EdgeChain.anchoredArrow
+                },
                 arrow: {
                     name: EdgeChain.arrow
                 },
@@ -6023,6 +6202,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
         EdgeDeclaration: {
             name: EdgeDeclaration.$type,
             properties: {
+                anchoredArrow: {
+                    name: EdgeDeclaration.anchoredArrow
+                },
                 arrow: {
                     name: EdgeDeclaration.arrow
                 },
@@ -6224,6 +6406,28 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        ForEachBlock: {
+            name: ForEachBlock.$type,
+            properties: {
+                dataKey: {
+                    name: ForEachBlock.dataKey
+                },
+                filter: {
+                    name: ForEachBlock.filter
+                },
+                id: {
+                    name: ForEachBlock.id
+                },
+                limit: {
+                    name: ForEachBlock.limit
+                },
+                statements: {
+                    name: ForEachBlock.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [DiagramStatement.$type]
+        },
         GatewayTypeProperty: {
             name: GatewayTypeProperty.$type,
             properties: {
@@ -6254,6 +6458,92 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        GlyphSetImageItem: {
+            name: GlyphSetImageItem.$type,
+            properties: {
+                description: {
+                    name: GlyphSetImageItem.description
+                },
+                keyword: {
+                    name: GlyphSetImageItem.keyword
+                },
+                label: {
+                    name: GlyphSetImageItem.label
+                },
+                url: {
+                    name: GlyphSetImageItem.url
+                }
+            },
+            superTypes: [GlyphSetItemStatement.$type]
+        },
+        GlyphSetItemStatement: {
+            name: GlyphSetItemStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        GlyphSetNestedItem: {
+            name: GlyphSetNestedItem.$type,
+            properties: {
+                children: {
+                    name: GlyphSetNestedItem.children,
+                    defaultValue: []
+                },
+                keyword: {
+                    name: GlyphSetNestedItem.keyword
+                },
+                label: {
+                    name: GlyphSetNestedItem.label
+                },
+                relationship: {
+                    name: GlyphSetNestedItem.relationship
+                }
+            },
+            superTypes: [GlyphSetItemStatement.$type]
+        },
+        GlyphSetParameter: {
+            name: GlyphSetParameter.$type,
+            properties: {
+                name: {
+                    name: GlyphSetParameter.name
+                },
+                value: {
+                    name: GlyphSetParameter.value
+                }
+            },
+            superTypes: []
+        },
+        GlyphSetProfile: {
+            name: GlyphSetProfile.$type,
+            properties: {
+                glyphsetType: {
+                    name: GlyphSetProfile.glyphsetType
+                },
+                items: {
+                    name: GlyphSetProfile.items,
+                    defaultValue: []
+                },
+                name: {
+                    name: GlyphSetProfile.name
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        GlyphSetSimpleItem: {
+            name: GlyphSetSimpleItem.$type,
+            properties: {
+                keyword: {
+                    name: GlyphSetSimpleItem.keyword
+                },
+                label: {
+                    name: GlyphSetSimpleItem.label
+                },
+                relationship: {
+                    name: GlyphSetSimpleItem.relationship
+                }
+            },
+            superTypes: [GlyphSetItemStatement.$type]
         },
         GroupBlock: {
             name: GroupBlock.$type,

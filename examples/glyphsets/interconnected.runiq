@@ -1,0 +1,12 @@
+// Interconnected - Mesh network with all-to-all connections
+// Shows complex interdependencies between elements
+
+glyphset interconnected "Ecosystem Partners" {
+  theme "warm"
+  showAllConnections true
+  node "Technology Partners"
+  node "Distribution Partners"
+  node "Integration Partners"
+  node "Service Partners"
+  node "Content Partners"
+}

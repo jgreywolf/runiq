@@ -353,6 +353,6 @@ diagram "Selective Metrics" {
 
 ## See Also
 
-- [Edge Weights](./edge-weights.md) - Edge weight syntax for weighted graphs
-- [Network Layouts](./layouts.md) - Layout algorithms for network diagrams
+- [Edge Weights](./edges.md) - Edge weight syntax for weighted graphs
+- [Network Layouts](../guide/layout.md) - Layout algorithms for network diagrams
 - [DSL Syntax Reference](../DSL-SYNTAX-REFERENCE.md) - Complete syntax reference

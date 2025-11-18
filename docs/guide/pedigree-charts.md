@@ -287,6 +287,41 @@ See the `examples/pedigree/` directory for complete examples:
 - `test-consanguinity.runiq` - Consanguineous marriage example
 - `test-marriage-edges.runiq` - Marriage edge notation
 
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid           | PlantUML          | Lucidchart  | GenoPro    | Progeny | Family Tree Maker |
+| ---------------------------- | -------------- | ----------------- | ----------------- | ----------- | ---------- | ------- | ----------------- |
+| **Basic Pedigree Format**    | ✅             | ⚠️ via Flowcharts | ⚠️ via Flowcharts | ⚠️          | ✅         | ✅      | ✅                |
+| **Genetic trait markers**    | ✅             | ❌                | ❌                | ⚠️ Manual   | ✅         | ✅      | ❌                |
+| **Medical symbols**          | ✅             | ❌                | ❌                | ⚠️ Custom   | ✅         | ✅      | ❌                |
+| **Consanguinity**            | ✅             | ❌                | ❌                | ⚠️ Manual   | ✅         | ✅      | ❌                |
+| **Carrier notation**         | ✅             | ❌                | ❌                | ⚠️ Manual   | ✅         | ✅      | ❌                |
+| **Deceased markers**         | ✅             | ❌                | ❌                | ✅          | ✅         | ✅      | ✅                |
+| **Adoption notation**        | ✅             | ❌                | ❌                | ⚠️ Manual   | ✅         | ✅      | ✅                |
+| **Automatic layout**         | ✅             | ✅                | ✅                | ⚠️ Partial  | ✅         | ✅      | ✅                |
+| **Multi-generation**         | ✅             | ⚠️ Limited        | ⚠️ Limited        | ✅          | ✅         | ✅      | ✅                |
+| **Export formats**           | SVG, PNG       | SVG, PNG          | SVG, PNG          | Multiple    | PDF, Image | PDF     | Multiple          |
+| **Medical genetics**         | ✅             | ❌                | ❌                | ❌          | ✅         | ✅      | ❌                |
+| **Text-based DSL**           | ✅             | ✅                | ✅                | ❌          | ❌         | ❌      | ❌                |
+| **Version control friendly** | ✅             | ✅                | ✅                | ❌          | ⚠️ Partial | ❌      | ❌                |
+| **Learning curve**           | Low            | Low               | Medium            | Low         | Medium     | Medium  | Low               |
+| **Cost**                     | Free           | Free              | Free              | Paid        | Paid       | Paid    | Paid              |
+| **Platform**                 | Cross-platform | Cross-platform    | Cross-platform    | Web/Desktop | Windows    | Windows | Multi-platform    |
+
+**Key Advantages of Runiq:**
+
+- **Medical Genetics**: Proper symbols for affected, carrier, and deceased individuals
+- **Version Control**: Text format works seamlessly with Git
+- **Standards Compliant**: Follows medical pedigree conventions
+- **Programmatic**: Easy to generate from genetic databases
+
+**When to Use Alternatives:**
+
+- **GenoPro/Progeny**: Professional genetic counseling with extensive medical features
+- **Family Tree Maker**: General genealogy research with historical records
+- **Lucidchart**: Collaborative editing with non-technical users
+- **Mermaid/PlantUML**: Simple family trees without genetic notation
+
 ## See Also
 
 - [Shapes Reference](../reference/shapes.md) - Complete shape documentation

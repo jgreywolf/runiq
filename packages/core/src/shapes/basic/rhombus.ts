@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 export const rhombusShape: ShapeDefinition = {
   id: 'rhombus',
@@ -44,14 +45,13 @@ export const rhombusShape: ShapeDefinition = {
       `${x},${cy}`, // left
     ].join(' ');
 
+    const label = ctx.node.label || ctx.node.id;
+
     return `
-      <polygon points="${points}" 
+      <polygon points="${points}"
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy)}
     `;
   },
 };

@@ -1,0 +1,12 @@
+// Cluster Glyphset Example: Product Features
+//
+// Shows a product with its key features arranged radially.
+// Demonstrates 4-item cluster pattern.
+
+glyphset cluster "Product Features" {
+  theme "forest"
+  item "Fast Performance"
+  item "Secure"
+  item "Scalable"
+  item "Easy to Use"
+}

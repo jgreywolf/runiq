@@ -8,6 +8,7 @@
  */
 
 import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 // ============================================================================
 // Server Shape (Rack-mount appearance)
@@ -40,7 +41,7 @@ export const serverShape: ShapeDefinition = {
 
     // Label
     if (label) {
-      svg += `<text x="${x + 30}" y="${y + 45}" text-anchor="middle" font-size="10" fill="#000">${label}</text>`;
+      svg += renderShapeLabel(ctx, label, x + 30, y + 45);
     }
 
     svg += `</g>`;
@@ -84,7 +85,7 @@ export const routerShape: ShapeDefinition = {
 
     // Label
     if (label) {
-      svg += `<text x="${x + 30}" y="${y + 33}" text-anchor="middle" font-size="9" fill="#000">${label}</text>`;
+      svg += renderShapeLabel(ctx, label, x + 30, y + 33);
     }
 
     svg += `</g>`;
@@ -126,7 +127,7 @@ export const switchShape: ShapeDefinition = {
 
     // Label
     if (label) {
-      svg += `<text x="${x + 30}" y="${y + 22}" text-anchor="middle" font-size="9" fill="#000">${label}</text>`;
+      svg += renderShapeLabel(ctx, label, x + 30, y + 22);
     }
 
     svg += `</g>`;
@@ -178,7 +179,7 @@ export const firewallShape: ShapeDefinition = {
 
     // Label
     if (label) {
-      svg += `<text x="${x + 30}" y="${y + 50}" text-anchor="middle" font-size="8" fill="#000">${label}</text>`;
+      svg += renderShapeLabel(ctx, label, x + 30, y + 50);
     }
 
     svg += `</g>`;
@@ -222,7 +223,7 @@ export const loadBalancerShape: ShapeDefinition = {
 
     // Label
     if (label) {
-      svg += `<text x="${x + 35}" y="${y + 26}" text-anchor="middle" font-size="8" fill="#000">${label}</text>`;
+      svg += renderShapeLabel(ctx, label, x + 35, y + 26);
     }
 
     svg += `</g>`;

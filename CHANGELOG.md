@@ -68,16 +68,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 31 tests for edge enhancements (20 core + 11 renderer)
   - 3 advanced example files showcasing all UML relationships
 
-### Added - Block Diagram Export Packages
+### Added - Control system Diagram Export Packages
 
 - **LaTeX/TikZ Export (`@runiq/export-latex`):**
-  - Export block diagrams to LaTeX/TikZ format
+  - Export Control system diagrams to LaTeX/TikZ format
   - Transfer function conversion with proper fraction notation
   - Academic paper integration
   - 8 tests
 
 - **Simulink MDL Export (`@runiq/export-simulink`):**
-  - Export block diagrams to MATLAB Simulink format
+  - Export Control system diagrams to MATLAB Simulink format
   - Transfer function blocks with proper notation
   - Control system modeling integration
   - 8 tests
@@ -151,7 +151,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.7] - 2025-10-14
 
-### Added - Block Diagrams
+### Added - Control system Diagrams
 
 - **Control System Blocks:**
   - Transfer function shape with Laplace notation
@@ -164,7 +164,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Multiply junction (×)
   - Divide junction (÷)
   - Compare junction (comparator)
-  - 5 example block diagrams (PID, feedback, cascade, feedforward, state-space)
+  - 5 example Control system diagrams (PID, feedback, cascade, feedforward, state-space)
 
 ## [0.0.6] - 2025-10-14
 

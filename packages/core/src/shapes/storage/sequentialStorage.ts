@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Sequential access storage - Curved rectangle (rounded on left side only)
@@ -38,6 +39,7 @@ export const sequentialStorageShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
 
     // Half-stadium: curved left side, straight right side
     const path = [
@@ -52,11 +54,7 @@ export const sequentialStorageShape: ShapeDefinition = {
     return `
       <path d="${path}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + w / 2}" y="${y + h / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + w / 2, y + h / 2)}
     `;
   },
 };

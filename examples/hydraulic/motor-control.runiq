@@ -5,7 +5,7 @@ hydraulic "Motor Speed Control Circuit" {
   
   pressure 180 bar operating
   flowRate 60 L/min
-  fluid synthetic "ISO VG 46" temp:(5, 70, C)
+  fluid synthetic "ISO VG 46" temp:(5, 70, degC)
   
   // Components with pin connections
   // Circuit: TANK -> FILTER -> PUMP -> VALVE_DIR -> MOTOR -> RETURN -> FILTER -> TANK

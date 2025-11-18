@@ -2,7 +2,7 @@ import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Compare Junction - Circle with comparison operator
- * Used for comparison operations in block diagrams (=, >, <, ≥, ≤)
+ * Used for comparison operations in Control system diagrams (=, >, <, ≥, ≤)
  */
 export const compareJunctionShape: ShapeDefinition = {
   id: 'compareJunction',

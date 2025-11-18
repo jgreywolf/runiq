@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -30,7 +30,7 @@ DiagramStatement:
     | TemplateBlock
     | PresetBlock
     | DataSourceDeclaration
-    | DataTemplateBlock;
+    | ForEachBlock;
 
 // ============================================================================
 // Electrical Profile (analog circuits) - accepts both 'electrical' and 'schematic' keywords
@@ -635,6 +635,52 @@ TimelineOrientation returns string:
     'horizontal' | 'vertical';
 
 // ============================================================================
+// GlyphSet Profile - SmartArt-style diagram templates
+// ============================================================================
+
+GlyphSetProfile:
+    'glyphset' glyphsetType=GlyphSetType name=STRING '{'
+        items+=(GlyphSetItemStatement | GlyphSetParameter)*
+    '}';
+
+// Allow both IDs and certain keywords as glyphset types
+GlyphSetType returns string:
+    ID | 'target' | 'source' | 'balance' | 'events';
+
+GlyphSetItemStatement:
+    GlyphSetImageItem | GlyphSetSimpleItem | GlyphSetNestedItem;
+
+// Image items with optional label and description: image "url" label "text" description "text"
+GlyphSetImageItem:
+    keyword='image' url=STRING ('label' label=STRING)? ('description' description=STRING)?;
+
+// Simple flat items: step "Label", level "Label", etc.
+GlyphSetSimpleItem:
+    keyword=GlyphSetKeyword label=STRING relationship=ID?;
+
+// Nested items with children: person "Name" { person "Child1" person "Child2" }
+GlyphSetNestedItem:
+    keyword=GlyphSetKeyword label=STRING relationship=ID? '{' children+=GlyphSetItemStatement* '}';
+
+// Parameter assignments: direction "LR", theme "professional", columns 3, shape "circle", showPercentages true
+GlyphSetParameter:
+    name=GlyphSetParameterName value=(STRING | NUMBER | BooleanValue);
+
+GlyphSetParameterName returns string:
+    'alternating' | 'bidirectional' | 'callouts' | 'center' | 'centerLabel' | 'circles' | 'colorScheme' | 'columnHeaders' | 'columns'
+    | 'direction' | 'events' | 'frameStyle' | 'groups' | 'horizontalAxis' | 'image' | 'images' | 'items'
+    | 'layout' | 'leftWeight' | 'levels' | 'mergePoint' | 'operator' | 'orientation' | 'overlap'
+    | 'quadrants' | 'relationship' | 'result' | 'rightWeight' | 'rowHeaders'
+    | 'segments' | 'shape' | 'showAllConnections' | 'showConnections' | 'showDottedLines' | 'showPercentages' | 'showValues' | 'sides' | 'source'
+    | 'stages' | 'steps' | 'structure' | 'target' | 'theme' | 'useContainers' | 'verticalAxis' | 'xAxis' | 'yAxis';
+
+GlyphSetKeyword returns string:
+    'step' | 'item' | 'person' | 'level' | 'stage' | 'event' | 'quadrant' | 'circle' | 'node' | 'group' | 'side'
+    | 'left' | 'right' | 'input' | 'output' | 'center' | 'spoke' | 'team' | 'root' | 'child' | 'leader' | 'member'
+    | 'callout';
+
+
+// ============================================================================
 // Diagram profile statements (existing grammar)
 // ============================================================================
 
@@ -682,7 +728,7 @@ ShapeIdentifier returns string:
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
     | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
     | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
-    | 'db' | 'pill';
+    | 'db' | 'pill' | 'circle' | 'person';
 
 NodeProperty:
     LabelProperty
@@ -975,16 +1021,18 @@ DataArray:
 
 // node1 -> node2
 // node1 -label-> node2
-// node1 -> node2 lineStyle:double arrowType:none (for marriage edges)
+// node1 -east-> node2 (exit from east side)
+// node1 -north->south node2 (exit north, enter south)
+// node1 -east-"label"->west node2 (anchors with label)
 // node1 <-> node2 (bidirectional connection)
 // Class.field -> OtherClass.method (member-level connections)
 // A -> B -> C (chained edges)
 EdgeDeclaration:
-    from=NodeRef (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW) to=NodeRef 
+    from=NodeRef (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW | anchoredArrow=ANCHORED_ARROW) to=NodeRef
     chain+=(EdgeChain)* properties+=EdgeProperty*;
 
 EdgeChain:
-    (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW) to=NodeRef;
+    (arrow=ARROW | bidirectionalArrow=BIDIRECTIONAL_ARROW | labeledArrow=LABELED_ARROW | anchoredArrow=ANCHORED_ARROW) to=NodeRef;
 
 // Support both simple node references (node1) and member references (Class.field)
 // Use FlexibleID to allow keywords like 'data', 'label', 'm' as node names
@@ -1201,10 +1249,10 @@ DataSourceDeclaration:
 DataSourceOption:
     name=ID ':' value=(STRING | NUMBER | BooleanValue);
 
-// Data-driven template block: generates nodes/edges from data
-// template "userCard" from:users { ... }
-DataTemplateBlock:
-    'template' id=STRING 'from:' dataKey=ID '{'
+// Data-driven ForEach block: generates nodes/edges from data
+// foreach "userCard" from:users { ... }
+ForEachBlock:
+    'foreach' id=STRING 'from:' dataKey=ID '{'
         ('filter:' filter=STRING)?
         ('limit:' limit=NUMBER)?
         statements+=TemplateStatement*
@@ -1278,12 +1326,15 @@ FlexibleID returns string:
     | 'for' | 'in' | 'if' | 'loop' | 'call'
     // Common node names
     | 'start' | 'end' | 'done' | 'process' | 'mobile' | 'm' | 'f' | 'step' | 'action'
-    | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue';
+    | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue'
+    // Common mindmap/hierarchy node names
+    | 'root' | 'child' | 'branch' | 'leaf' | 'node' | 'center' | 'central' | 'hub'
+    | 'left' | 'right' | 'team' | 'leader' | 'member' | 'detail' | 'spoke';
 
 // Allow keywords as identifiers in template variable paths
 TemplateIdentifier returns string:
     ID | 'data' | 'color' | 'header' | 'delimiter' | 'value' | 'type' | 'from' | 'to'
-    | 'label' | 'name' | 'id' | 'key' | 'format' | 'source' | 'filter' | 'limit';
+    | 'label' | 'name' | 'id' | 'key' | 'format' | 'source' | 'filter' | 'limit' | 'item';
 
 // ============================================================================
 // Phase 5: Template & Preset Definitions (Container Templates)
@@ -1371,11 +1422,14 @@ DepthIndicatorStyleValue returns string:
     'bar' | 'indent' | 'color';
 
 // Terminals
+// Note: Order matters! More specific patterns must come first
+terminal ANCHORED_ARROW: /-(north|south|east|west)(-"[^"]*")?->(north|south|east|west)?/;
 terminal LABELED_ARROW: /-[a-zA-Z_][a-zA-Z0-9_-]*->/;
 terminal BIDIRECTIONAL_ARROW: '<->';
 terminal ARROW: '->';
 terminal TAG: /[A-Z][A-Z0-9]*-[0-9]{1,4}[A-Z]?/;  // P&ID instrument/equipment tags like V-101, FT-205, PIC-301A (uppercase-number format, must come first)
 terminal SHAPE_ID: /[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;  // Shape IDs like circle-filled, must start with lowercase or underscore to avoid matching P&ID tags
+terminal BOOLEAN: /true|false/;  // Must come before ID to prevent 'true'/'false' from being matched as identifiers
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
 terminal NUMBER: /-?[0-9]+(\.[0-9]+)?/;

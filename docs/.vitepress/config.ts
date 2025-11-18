@@ -64,12 +64,18 @@ export default defineConfig({
             { text: 'Shapes', link: '/reference/shapes' },
             { text: 'Edges', link: '/reference/edges' },
             { text: 'DSL Syntax', link: '/reference/dsl' },
-            { text: 'JSON Format', link: '/reference/json-format' },
+            { text: 'JSON Format', link: '/reference/json' },
             { text: 'Data-Driven Diagrams', link: '/reference/data-driven' },
             { text: 'Templates & Presets', link: '/reference/templates' },
             { text: 'Export Formats', link: '/reference/export' },
             { text: 'CLI Reference', link: '/reference/cli' },
-            { text: 'Inline Icons', link: '/reference/inline-icons' },
+          ],
+        },
+        {
+          text: 'Glyphsets Reference',
+          items: [
+            { text: 'All Glyphsets', link: '/reference/glyphsets' },
+            { text: 'Glyphset Themes', link: '/reference/glyphset-themes' },
           ],
         },
         {
@@ -99,13 +105,39 @@ export default defineConfig({
             { text: 'Containers', link: '/guide/containers' },
             { text: 'Styling', link: '/guide/styling' },
             { text: 'Layout', link: '/guide/layout' },
-            { text: 'Inline Icons', link: '/guide/inline-icons' },
+            { text: 'Reserved Keywords', link: '/guide/reserved-keywords' },
+            { text: 'Web SDK Integration', link: '/guide/web-sdk' },
+          ],
+        },
+        {
+          text: 'Glyphsets (Smart Art)',
+          items: [
+            { text: 'What are Glyphsets?', link: '/guide/glyphsets' },
+            { text: 'Process Glyphsets', link: '/guide/glyphsets-process' },
+            { text: 'List Glyphsets', link: '/guide/glyphsets-list' },
+            {
+              text: 'Comparison Glyphsets',
+              link: '/guide/glyphsets-comparison',
+            },
+            {
+              text: 'Visualization Glyphsets',
+              link: '/guide/glyphsets-visualization',
+            },
+            { text: 'Hierarchy Glyphsets', link: '/guide/glyphsets-hierarchy' },
+            {
+              text: 'Relationship Glyphsets',
+              link: '/guide/glyphsets-relationship',
+            },
           ],
         },
         {
           text: 'Diagram Profile',
           items: [
             { text: 'Flowcharts', link: '/guide/flowcharts' },
+            { text: 'Mindmap Diagrams', link: '/guide/mindmap-diagrams' },
+            { text: 'Venn Diagrams', link: '/guide/venn-diagrams' },
+            { text: 'Pyramid Diagrams', link: '/guide/pyramid-diagrams' },
+            { text: 'Data Flow Diagrams', link: '/guide/dfd-diagrams' },
             { text: 'UML Class Diagrams', link: '/guide/class-diagrams' },
             { text: 'Component Diagrams', link: '/guide/component-diagrams' },
             { text: 'ERD Diagrams', link: '/guide/erd-diagrams' },
@@ -117,7 +149,10 @@ export default defineConfig({
             { text: 'BPMN Diagrams', link: '/guide/bpmn-diagrams' },
             { text: 'Use Case Diagrams', link: '/guide/use-case-diagrams' },
             { text: 'C4 Architecture', link: '/guide/c4-architecture' },
-            { text: 'Block Diagrams', link: '/guide/block-diagrams' },
+            {
+              text: 'Control system Diagrams',
+              link: '/guide/control-diagrams',
+            },
             { text: 'Network Diagrams', link: '/guide/network-diagrams' },
             { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
             { text: 'Charts & Graphs', link: '/guide/charts' },

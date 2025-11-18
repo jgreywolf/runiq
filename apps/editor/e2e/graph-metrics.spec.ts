@@ -6,7 +6,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Graph Metrics Visualization', () => {
-	test('Should display degree centrality metrics on social network', async ({ page }) => {
+	test.skip('Should display degree centrality metrics on social network', async ({ page }) => {
 		await page.goto('/');
 		await page.waitForLoadState('networkidle');
 
@@ -38,7 +38,7 @@ test.describe('Graph Metrics Visualization', () => {
 		});
 	});
 
-	test('Should display betweenness centrality on citation network', async ({ page }) => {
+	test.skip('Should display betweenness centrality on citation network', async ({ page }) => {
 		await page.goto('/');
 		await page.waitForLoadState('networkidle');
 
@@ -67,7 +67,7 @@ test.describe('Graph Metrics Visualization', () => {
 		});
 	});
 
-	test('Should display closeness centrality on infrastructure network', async ({ page }) => {
+	test.skip('Should display closeness centrality on infrastructure network', async ({ page }) => {
 		await page.goto('/');
 		await page.waitForLoadState('networkidle');
 

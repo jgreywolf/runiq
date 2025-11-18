@@ -1,6 +1,7 @@
 import ELK, { ElkNode, ElkExtendedEdge } from 'elkjs/lib/elk.bundled.js';
 import type {
   DiagramAst,
+  EdgeAst,
   LayoutEngine,
   LayoutOptions,
   LaidOutDiagram,
@@ -62,6 +63,47 @@ export class ElkLayoutEngine implements LayoutEngine {
       workerUrl?: string;
     }) => ElkApi;
     this.elk = new ElkCtor({ workerUrl: undefined });
+  }
+
+  /**
+   * Create standard ports for a node (north, south, east, west)
+   * These allow edge anchor constraints to work with ELK
+   */
+  private createNodePorts(nodeWidth: number, nodeHeight: number) {
+    return [
+      {
+        id: 'north',
+        x: nodeWidth / 2,
+        y: 0,
+        width: 1,
+        height: 1,
+        properties: { 'port.side': 'NORTH' },
+      },
+      {
+        id: 'south',
+        x: nodeWidth / 2,
+        y: nodeHeight,
+        width: 1,
+        height: 1,
+        properties: { 'port.side': 'SOUTH' },
+      },
+      {
+        id: 'east',
+        x: nodeWidth,
+        y: nodeHeight / 2,
+        width: 1,
+        height: 1,
+        properties: { 'port.side': 'EAST' },
+      },
+      {
+        id: 'west',
+        x: 0,
+        y: nodeHeight / 2,
+        width: 1,
+        height: 1,
+        properties: { 'port.side': 'WEST' },
+      },
+    ];
   }
 
   /**
@@ -207,6 +249,11 @@ export class ElkLayoutEngine implements LayoutEngine {
       (n) => n.shape === 'pedigree-male' || n.shape === 'pedigree-female'
     );
 
+    // Check if any edges have anchor constraints - if so, we need to allow all port sides
+    const hasAnchorConstraints = diagram.edges.some(
+      (e: EdgeAst) => e.anchorFrom || e.anchorTo
+    );
+
     // Build ELK graph structure with hierarchyHandling for containers
     const elkGraph: ElkNode = {
       id: 'root',
@@ -217,7 +264,8 @@ export class ElkLayoutEngine implements LayoutEngine {
             'elk.direction': direction,
             'elk.spacing.nodeNode': '80',
             'elk.mrtree.searchOrder': 'DFS',
-            'elk.edgeRouting': 'POLYLINE',
+            'elk.edgeRouting': 'ORTHOGONAL', // Use orthogonal routing (right-angles only, no diagonals)
+            'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
           }
         : {
             'elk.algorithm': 'layered',
@@ -229,7 +277,13 @@ export class ElkLayoutEngine implements LayoutEngine {
             // Force pure orthogonal (right-angle) routing - no diagonals
             'elk.edgeRouting': 'ORTHOGONAL',
             'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
-            'elk.layered.northOrSouthPort': 'true', // Use north/south ports for better orthogonal routing
+            // IMPORTANT: Only restrict to north/south ports if no anchor constraints specified
+            // Otherwise, allow all port sides (north/south/east/west) for explicit anchor control
+            ...(hasAnchorConstraints
+              ? {}
+              : { 'elk.layered.northOrSouthPort': 'true' }),
+            // Port constraints - respect port sides when ports are specified
+            'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints (north/south/east/west)
             // Edge spacing to prevent overlap - increased for better separation
             'elk.spacing.edgeEdge': '25', // Space between parallel edges
             'elk.spacing.edgeNode': '35', // Space between edges and nodes
@@ -284,6 +338,17 @@ export class ElkLayoutEngine implements LayoutEngine {
       this.calculatePedigreeGenerations(diagram, nodeGenerations, spousePairs);
     }
 
+    // Determine which nodes need ports (nodes that have edges with anchor constraints)
+    const nodesNeedingPorts = new Set<string>();
+    for (const edge of diagram.edges) {
+      if (edge.anchorFrom || edge.anchorTo) {
+        const fromNodeId = this.extractNodeId(edge.from);
+        const toNodeId = this.extractNodeId(edge.to);
+        if (edge.anchorFrom) nodesNeedingPorts.add(fromNodeId);
+        if (edge.anchorTo) nodesNeedingPorts.add(toNodeId);
+      }
+    }
+
     // Add standalone nodes (not in any container)
     for (const node of diagram.nodes) {
       if (!nodeContainerMap.has(node.id)) {
@@ -311,11 +376,16 @@ export class ElkLayoutEngine implements LayoutEngine {
           height: bounds.height,
         };
 
-        // NOTE: We don't specify ports because:
-        // 1. We would need to tell ELK which port to use for each edge
-        // 2. ELK doesn't automatically choose the best port
-        // 3. For now, we let ELK route to node centers/boundaries
-        // 4. In the future, we could add post-processing to snap edges to anchors
+        // Add ports if this node has edges with anchor constraints
+        if (nodesNeedingPorts.has(node.id)) {
+          elkNode.ports = this.createNodePorts(
+            bounds.width + iconPadding,
+            bounds.height
+          );
+          // CRITICAL: Set port constraints on the node itself
+          elkNode.layoutOptions = elkNode.layoutOptions || {};
+          elkNode.layoutOptions['elk.portConstraints'] = 'FIXED_SIDE';
+        }
 
         // Apply layer constraint for pedigree charts
         if (isPedigreeChart && nodeGenerations.has(node.id)) {
@@ -325,12 +395,17 @@ export class ElkLayoutEngine implements LayoutEngine {
           const spouse = spousePairs.get(node.id);
           const basePosition = spouse && node.id < spouse ? 0 : spouse ? 1 : 0;
 
-          elkNode.layoutOptions = {
-            'elk.layered.layering.layer': generation,
-            'elk.layered.crossingMinimization.semiInteractive': 'true',
-            'elk.layered.nodePlacement.bk.fixedAlignment': 'BALANCED',
-            'elk.priority': (generation * 100 + basePosition).toString(),
-          };
+          elkNode.layoutOptions = elkNode.layoutOptions || {};
+          elkNode.layoutOptions['elk.layered.layering.layer'] = generation;
+          elkNode.layoutOptions[
+            'elk.layered.crossingMinimization.semiInteractive'
+          ] = 'true';
+          elkNode.layoutOptions['elk.layered.nodePlacement.bk.fixedAlignment'] =
+            'BALANCED';
+          elkNode.layoutOptions['elk.priority'] = (
+            generation * 100 +
+            basePosition
+          ).toString();
         }
 
         elkGraph.children.push(elkNode);
@@ -361,11 +436,23 @@ export class ElkLayoutEngine implements LayoutEngine {
       const toId = toContainer ? `__container__${toContainer}` : toNodeId;
 
       if (!elkGraph.edges) elkGraph.edges = [];
-      elkGraph.edges.push({
+      const elkEdge: any = {
         id: `${edge.from}->${edge.to}#${edgeIndex}`, // Include index to distinguish multiple edges between same nodes
         sources: [fromId],
         targets: [toId],
-      });
+      };
+
+      // Add port constraints if edge has anchor specifications
+      if (edge.anchorFrom && !fromContainer) {
+        // Only add sourcePort if not connecting to container (containers don't have ports)
+        elkEdge.sourcePort = edge.anchorFrom;
+      }
+      if (edge.anchorTo && !toContainer) {
+        // Only add targetPort if not connecting to container
+        elkEdge.targetPort = edge.anchorTo;
+      }
+
+      elkGraph.edges.push(elkEdge);
     }
 
     // PASS 1: Calculate actual container sizes by laying out their contents
@@ -1359,12 +1446,14 @@ export class ElkLayoutEngine implements LayoutEngine {
               'elk.algorithm': algorithm,
               'elk.direction': direction,
               'elk.spacing.nodeNode': containerSpacing,
-              'elk.edgeRouting': 'POLYLINE', // Straight lines for mindmaps
+              'elk.edgeRouting': 'ORTHOGONAL', // Use orthogonal routing (right-angles only, no diagonals)
+              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
             }
           : {
               'elk.algorithm': algorithm,
               'elk.direction': direction,
               'elk.spacing.nodeNode': containerSpacing,
+              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
             },
         children: [],
         edges: [],
@@ -1402,6 +1491,20 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
       }
 
+      // Determine which container nodes need ports (nodes with anchor constraints)
+      const containerNodesNeedingPorts = new Set<string>();
+      for (const edge of diagram.edges) {
+        const fromNodeId = this.extractNodeId(edge.from);
+        const toNodeId = this.extractNodeId(edge.to);
+        if (
+          container.children.includes(fromNodeId) &&
+          container.children.includes(toNodeId)
+        ) {
+          if (edge.anchorFrom) containerNodesNeedingPorts.add(fromNodeId);
+          if (edge.anchorTo) containerNodesNeedingPorts.add(toNodeId);
+        }
+      }
+
       // Add child nodes to container graph
       for (const childId of container.children) {
         const node = diagram.nodes.find((n) => n.id === childId);
@@ -1412,11 +1515,25 @@ export class ElkLayoutEngine implements LayoutEngine {
           const style = node.style ? diagram.styles?.[node.style] || {} : {};
           const bounds = shapeImpl.bounds({ node, style, measureText });
 
-          containerGraph.children!.push({
+          const containerNode: any = {
             id: node.id,
             width: bounds.width,
             height: bounds.height,
-          });
+          };
+
+          // Add ports if this node has edges with anchor constraints
+          if (containerNodesNeedingPorts.has(node.id)) {
+            containerNode.ports = this.createNodePorts(
+              bounds.width,
+              bounds.height
+            );
+            // CRITICAL: Set port constraints on the node itself
+            containerNode.layoutOptions = {
+              'elk.portConstraints': 'FIXED_SIDE',
+            };
+          }
+
+          containerGraph.children!.push(containerNode);
         }
       }
 
@@ -1431,11 +1548,21 @@ export class ElkLayoutEngine implements LayoutEngine {
           container.children.includes(fromNodeId) &&
           container.children.includes(toNodeId)
         ) {
-          containerGraph.edges!.push({
+          const containerEdge: any = {
             id: `${edge.from}->${edge.to}#${edgeIndex}`,
             sources: [fromNodeId],
             targets: [toNodeId],
-          });
+          };
+
+          // Add port constraints if edge has anchor specifications
+          if (edge.anchorFrom) {
+            containerEdge.sourcePort = edge.anchorFrom;
+          }
+          if (edge.anchorTo) {
+            containerEdge.targetPort = edge.anchorTo;
+          }
+
+          containerGraph.edges!.push(containerEdge);
         }
       }
 

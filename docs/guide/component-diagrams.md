@@ -13,10 +13,10 @@ Component diagrams show the organization and dependencies among software compone
 ```runiq
 diagram "Simple Component Diagram" {
   shape webServer as @component label:"Web Server"
-  shape database as @component label:"Database"
+  shape db as @component label:"Database"
   shape cache as @component label:"Cache"
-  
-  webServer -> database
+
+  webServer -> db
   webServer -> cache
 }
 ```
@@ -30,19 +30,20 @@ Components represent modular parts of a system with well-defined interfaces. In 
 ```runiq
 diagram "Component with Interfaces" {
   shape service as @component label:"Payment Service"
-  
+
   # Provided interface (lollipop notation)
   shape iPayment as @providedInterface label:"IPayment"
-  
+
   # Required interface (socket notation)
   shape needsDb as @requiredInterface label:"IDatabase"
-  
+
   service -> iPayment
   service -> needsDb
 }
 ```
 
 **Component Shape**:
+
 - Rectangle with two small rectangles (tabs) on the left side
 - Represents a replaceable, encapsulated unit of functionality
 - Can have multiple provided and required interfaces
@@ -60,13 +61,14 @@ diagram "Provided Interface Example" {
   shape authService as @component label:"Auth Service"
   shape iAuth as @providedInterface label:"IAuthentication"
   shape iAuthorization as @providedInterface label:"IAuthorization"
-  
+
   authService -> iAuth
   authService -> iAuthorization
 }
 ```
 
 **Provided Interface**:
+
 - **Symbol**: Circle (lollipop) on a line
 - **Purpose**: Interface that component implements and exposes
 - **UML Notation**: Exported interface
@@ -80,13 +82,14 @@ diagram "Required Interface Example" {
   shape webApp as @component label:"Web Application"
   shape needsAuth as @requiredInterface label:"IAuthentication"
   shape needsDb as @requiredInterface label:"IDatabase"
-  
+
   webApp -> needsAuth
   webApp -> needsDb
 }
 ```
 
 **Required Interface**:
+
 - **Symbol**: Semicircle (socket)
 - **Purpose**: Interface that component depends on
 - **UML Notation**: Imported interface
@@ -100,14 +103,14 @@ diagram "Assembly Connector Pattern" {
   # Provider component
   shape dbService as @component label:"DB Service"
   shape providesDb as @providedInterface label:"IDatabase"
-  
-  # Consumer component  
+
+  # Consumer component
   shape webApp as @component label:"Web App"
   shape needsDb as @requiredInterface label:"IDatabase"
-  
+
   # Assembly connector (lollipop fits into socket)
   shape connector as @assembly
-  
+
   # Connections
   dbService -> providesDb
   webApp -> needsDb
@@ -117,6 +120,7 @@ diagram "Assembly Connector Pattern" {
 ```
 
 **Assembly Connector**:
+
 - Visually connects lollipop (provided) to socket (required)
 - Represents dependency satisfaction at design time
 - Shows which component provides the required interface
@@ -130,12 +134,12 @@ Ports represent interaction points on a component's boundary. They're small squa
 ```runiq
 diagram "Component with Ports" {
   shape apiGateway as @component label:"API Gateway"
-  
+
   # Ports for different protocols
   shape httpPort as @port label:"HTTP 8080"
   shape httpsPort as @port label:"HTTPS 443"
   shape wsPort as @port label:"WebSocket"
-  
+
   apiGateway -> httpPort
   apiGateway -> httpsPort
   apiGateway -> wsPort
@@ -143,6 +147,7 @@ diagram "Component with Ports" {
 ```
 
 **Port Uses**:
+
 - Protocol endpoints (HTTP, HTTPS, WebSocket)
 - Message queue connections
 - Database connection points
@@ -161,7 +166,7 @@ diagram "Module Organization" {
   shape core as @module label:"Core Module"
   shape plugins as @module label:"Plugin Module"
   shape utilities as @module label:"Utilities"
-  
+
   plugins -> core
   utilities -> core
 }
@@ -177,14 +182,15 @@ diagram "Generic Repository Pattern" {
   shape userRepo as @template label:"Repository<User>"
   shape orderRepo as @template label:"Repository<Order>"
   shape productRepo as @template label:"Repository<Product>"
-  
-  userRepo -> repository relationship:"realization"
-  orderRepo -> repository relationship:"realization"
-  productRepo -> repository relationship:"realization"
+
+  userRepo -> repository relationship:realization
+  orderRepo -> repository relationship:realization
+  productRepo -> repository relationship:realization
 }
 ```
 
 **Template Uses**:
+
 - Generic data structures (List\<T\>, Map\<K,V\>)
 - Repository pattern implementations
 - Service layer abstractions
@@ -203,52 +209,52 @@ diagram "Three-Tier Architecture" {
   # Presentation Layer
   shape ui as @component label:"Web UI"
   shape httpPort as @port label:"HTTP 8080"
-  
+
   ui -> httpPort
-  
+
   # Business Logic Layer
   shape userService as @module label:"User Service"
   shape orderService as @module label:"Order Service"
-  
+
   shape iUserService as @providedInterface label:"IUserService"
   shape iOrderService as @providedInterface label:"IOrderService"
-  
+
   userService -> iUserService
   orderService -> iOrderService
-  
+
   # Data Access Layer
   shape dataAccess as @component label:"Data Access"
   shape dbPort as @port label:"Database 5432"
-  
+
   dataAccess -> dbPort
-  
+
   # Repository pattern
   shape userRepo as @template label:"Repository<User>"
   shape orderRepo as @template label:"Repository<Order>"
-  
+
   shape iUserData as @providedInterface label:"IUserData"
   shape iOrderData as @providedInterface label:"IOrderData"
-  
+
   userRepo -> iUserData
   orderRepo -> iOrderData
-  
+
   # Service requirements
   shape needsUserData as @requiredInterface label:"IUserData"
   shape needsOrderData as @requiredInterface label:"IOrderData"
-  
+
   userService -> needsUserData
   orderService -> needsOrderData
-  
+
   # Assembly connectors
   shape userConnector as @assembly
   shape orderConnector as @assembly
-  
+
   iUserData -> userConnector
   userConnector -> needsUserData
-  
+
   iOrderData -> orderConnector
   orderConnector -> needsOrderData
-  
+
   # Layer dependencies
   ui -> iUserService
   ui -> iOrderService
@@ -277,48 +283,48 @@ diagram "Microservices with API Gateway" {
   shape apiGateway as @component label:"API Gateway"
   shape httpIn as @port label:"HTTP"
   shape httpsIn as @port label:"HTTPS"
-  
+
   apiGateway -> httpIn
   apiGateway -> httpsIn
-  
+
   # Authentication Service
   shape authService as @component label:"Auth Service"
   shape providesAuth as @providedInterface label:"IAuth"
-  
+
   authService -> providesAuth
-  
+
   # User Service
   shape userService as @component label:"User Service"
   shape providesUser as @providedInterface label:"IUserAPI"
-  
+
   userService -> providesUser
-  
+
   # Order Service
   shape orderService as @component label:"Order Service"
   shape providesOrder as @providedInterface label:"IOrderAPI"
   shape needsUser as @requiredInterface label:"IUserAPI"
   shape needsPayment as @requiredInterface label:"IPayment"
-  
+
   orderService -> providesOrder
   orderService -> needsUser
   orderService -> needsPayment
-  
+
   # Payment Service
   shape paymentService as @component label:"Payment Service"
   shape providesPayment as @providedInterface label:"IPayment"
-  
+
   paymentService -> providesPayment
-  
+
   # Assembly connectors
   shape userConnector as @assembly
   shape paymentConnector as @assembly
-  
+
   providesUser -> userConnector
   userConnector -> needsUser
-  
+
   providesPayment -> paymentConnector
   paymentConnector -> needsPayment
-  
+
   # Gateway routes to services
   apiGateway -> providesAuth
   apiGateway -> providesUser
@@ -346,46 +352,46 @@ diagram "Plugin System Architecture" {
   # Core plugin manager (generic)
   shape pluginManager as @template label:"PluginManager<T>"
   shape pluginAPI as @module label:"Plugin API"
-  
+
   pluginManager -> pluginAPI flowType:"control"
-  
+
   # Interface segregation - multiple small interfaces
   shape iInitializable as @providedInterface label:"IInitializable"
   shape iConfigurable as @providedInterface label:"IConfigurable"
   shape iLifecycle as @providedInterface label:"ILifecycle"
-  
+
   pluginAPI -> iInitializable
   pluginAPI -> iConfigurable
   pluginAPI -> iLifecycle
-  
+
   # Plugin modules
   shape authPlugin as @module label:"Authentication Plugin"
   shape loggingPlugin as @module label:"Logging Plugin"
   shape cachingPlugin as @module label:"Caching Plugin"
-  
+
   # Plugins require initialization
   shape needsInit1 as @requiredInterface label:"IInitializable"
   shape needsInit2 as @requiredInterface label:"IInitializable"
   shape needsInit3 as @requiredInterface label:"IInitializable"
-  
+
   authPlugin -> needsInit1
   loggingPlugin -> needsInit2
   cachingPlugin -> needsInit3
-  
+
   # Assembly connectors (one interface, many consumers)
   shape conn1 as @assembly
   shape conn2 as @assembly
   shape conn3 as @assembly
-  
+
   iInitializable -> conn1
   conn1 -> needsInit1
-  
+
   iInitializable -> conn2
   conn2 -> needsInit2
-  
+
   iInitializable -> conn3
   conn3 -> needsInit3
-  
+
   # Plugin registration
   pluginAPI -> authPlugin flowType:"control"
   pluginAPI -> loggingPlugin flowType:"control"
@@ -412,10 +418,10 @@ Standard dependency between components.
 diagram "Component Dependencies" {
   shape frontend as @component label:"Frontend"
   shape backend as @component label:"Backend"
-  shape database as @component label:"Database"
-  
-  frontend -> backend relationship:"dependency"
-  backend -> database relationship:"dependency"
+  shape db as @component label:"Database"
+
+  frontend -> backend relationship: dependency
+  backend -> db relationship:dependency
 }
 ```
 
@@ -430,10 +436,10 @@ diagram "Interface Realization" {
     methods:[
       {name:"execute" returnType:"void" visibility:public}
     ]
-  
+
   shape serviceImpl as @component label:"ServiceImpl"
-  
-  serviceImpl -> iService relationship:"realization" lineStyle:"dashed"
+
+  serviceImpl -> iService relationship:realization lineStyle:"dashed"
 }
 ```
 
@@ -445,8 +451,8 @@ General association between components.
 diagram "Component Association" {
   shape client as @component label:"Client"
   shape server as @component label:"Server"
-  
-  client -> server relationship:"association" label:"connects to"
+
+  client -> server relationship:association label:"connects to"
 }
 ```
 
@@ -463,13 +469,14 @@ diagram "Deployment Artifacts" {
   shape webapp as @component label:"Web Application"
   shape warFile as @artifact label:"webapp.war"
   shape jarLib as @artifact label:"commons.jar"
-  
-  webapp -> warFile relationship:"dependency"
-  warFile -> jarLib relationship:"dependency"
+
+  webapp -> warFile relationship:dependency
+  warFile -> jarLib relationship:dependency
 }
 ```
 
 **Artifact Shape**:
+
 - Rectangle with folded corner (document icon)
 - Represents physical file or deployment unit
 
@@ -482,41 +489,42 @@ diagram "Deployment Topology" {
   shape webServer as @node label:"Web Server"
   shape appServer as @node label:"App Server"
   shape dbServer as @node label:"DB Server"
-  
+
   webServer -> appServer
   appServer -> dbServer
 }
 ```
 
 **Node Shape**:
+
 - 3D cube/box
 - Represents physical device or execution environment
-
----
 
 ## Best Practices
 
 ### Interface Design
 
 1. **Interface Segregation**: Multiple small, focused interfaces
+
    ```runiq
    # Good: Separate interfaces
    shape iRead as @providedInterface label:"IReadUser"
    shape iWrite as @providedInterface label:"IWriteUser"
-   
+
    # Avoid: One large interface with everything
    ```
 
 2. **Lollipop and Socket**: Always pair provided with required
+
    ```runiq
    # Provider
    shape dbService as @component label:"DB Service"
    shape provides as @providedInterface label:"IDatabase"
-   
+
    # Consumer
    shape appService as @component label:"App Service"
    shape requires as @requiredInterface label:"IDatabase"
-   
+
    # Connect with assembly
    shape conn as @assembly
    provides -> conn -> requires
@@ -548,12 +556,14 @@ diagram "Deployment Topology" {
 ### Template Usage
 
 1. **Generic Collections**: Use templates for reusable patterns
+
    ```runiq
    shape repository as @template label:"Repository<T>"
    shape service as @template label:"Service<T>"
    ```
 
 2. **Type Parameters**: Show concrete instantiations
+
    ```runiq
    shape userRepo as @template label:"Repository<User>"
    shape orderRepo as @template label:"Repository<Order>"
@@ -567,6 +577,7 @@ diagram "Deployment Topology" {
 ### Port Best Practices
 
 1. **Protocol Specification**: Include protocol in port label
+
    ```runiq
    shape httpPort as @port label:"HTTP 8080"
    shape dbPort as @port label:"PostgreSQL 5432"
@@ -574,12 +585,13 @@ diagram "Deployment Topology" {
    ```
 
 2. **Multiple Ports**: Show all external connection points
+
    ```runiq
    shape apiGateway as @component label:"API Gateway"
    shape http as @port label:"HTTP"
    shape https as @port label:"HTTPS"
    shape grpc as @port label:"gRPC"
-   
+
    apiGateway -> http
    apiGateway -> https
    apiGateway -> grpc
@@ -594,6 +606,7 @@ diagram "Deployment Topology" {
 **When to use**: Traditional n-tier applications
 
 **Structure**:
+
 - Presentation → Business Logic → Data Access
 - Each layer exposes interfaces to layer above
 - Clear separation of concerns
@@ -603,6 +616,7 @@ diagram "Deployment Topology" {
 **When to use**: Distributed systems, cloud-native apps
 
 **Structure**:
+
 - Independent services with REST/gRPC APIs
 - API Gateway for routing
 - Service mesh for communication
@@ -612,6 +626,7 @@ diagram "Deployment Topology" {
 **When to use**: Extensible applications, modular systems
 
 **Structure**:
+
 - Core with plugin interfaces
 - Plugins implement standard interfaces
 - Dynamic loading and configuration
@@ -621,6 +636,7 @@ diagram "Deployment Topology" {
 **When to use**: Domain-driven design, testability focus
 
 **Structure**:
+
 - Core business logic in center
 - Ports (interfaces) around perimeter
 - Adapters (implementations) outside
@@ -629,104 +645,27 @@ diagram "Deployment Topology" {
 
 ## Shape Reference
 
-| Shape | ID | Purpose | Symbol |
-|-------|-----|---------|--------|
-| Component | `@component` | Modular software unit | Rectangle with tabs |
-| Provided Interface | `@providedInterface` | Exported interface | Circle (lollipop) |
-| Required Interface | `@requiredInterface` | Imported interface | Semicircle (socket) |
-| Port | `@port` | Connection point | Small square |
-| Module | `@module` | Deployable unit | Rectangle with «module» |
-| Template | `@template` | Generic component | Rectangle with dashed corner |
-| Assembly | `@assembly` | Interface connector | Small circle |
-| Artifact | `@artifact` | Physical file | Rectangle with folded corner |
-| Node | `@node` | Hardware device | 3D cube |
+| Shape              | ID                   | Purpose               | Symbol                       |
+| ------------------ | -------------------- | --------------------- | ---------------------------- |
+| Component          | `@component`         | Modular software unit | Rectangle with tabs          |
+| Provided Interface | `@providedInterface` | Exported interface    | Circle (lollipop)            |
+| Required Interface | `@requiredInterface` | Imported interface    | Semicircle (socket)          |
+| Port               | `@port`              | Connection point      | Small square                 |
+| Module             | `@module`            | Deployable unit       | Rectangle with «module»      |
+| Template           | `@template`          | Generic component     | Rectangle with dashed corner |
+| Assembly           | `@assembly`          | Interface connector   | Small circle                 |
+| Artifact           | `@artifact`          | Physical file         | Rectangle with folded corner |
+| Node               | `@node`              | Hardware device       | 3D cube                      |
 
 ---
 
 ## Relationships
 
-| Relationship | Usage | Line Style |
-|-------------|-------|------------|
-| Dependency | Component uses another | Dashed arrow |
-| Realization | Implements interface | Dashed arrow |
-| Association | General connection | Solid line |
-
----
-
-## Related Resources
-
-- [UML 2.5 Specification](https://www.omg.org/spec/UML/) - Official component diagram notation
-- [C4 Architecture](/guide/c4-architecture) - Context, Container, Component, Code
-- [Class Diagrams](/guide/class-diagrams) - Detailed class-level design
-
----
-
-## Common Patterns Summary
-
-### Repository Pattern with Interfaces
-
-```runiq
-diagram "Repository Pattern" {
-  shape service as @component label:"User Service"
-  shape needsRepo as @requiredInterface label:"IUserRepository"
-  
-  shape repo as @component label:"User Repository"
-  shape providesRepo as @providedInterface label:"IUserRepository"
-  
-  shape connector as @assembly
-  
-  service -> needsRepo
-  repo -> providesRepo
-  providesRepo -> connector -> needsRepo
-}
-```
-
-### Service Layer with Multiple Interfaces
-
-```runiq
-diagram "Service Interfaces" {
-  shape service as @component label:"Order Service"
-  
-  # Multiple provided interfaces (API segregation)
-  shape iCreate as @providedInterface label:"ICreateOrder"
-  shape iQuery as @providedInterface label:"IQueryOrder"
-  shape iUpdate as @providedInterface label:"IUpdateOrder"
-  
-  service -> iCreate
-  service -> iQuery
-  service -> iUpdate
-  
-  # Multiple required interfaces (dependencies)
-  shape needsUser as @requiredInterface label:"IUserService"
-  shape needsPayment as @requiredInterface label:"IPaymentService"
-  
-  service -> needsUser
-  service -> needsPayment
-}
-```
-
-### Component with Ports and Interfaces
-
-```runiq
-diagram "Full Component Specification" {
-  shape apiService as @component label:"API Service"
-  
-  # Ports (physical connections)
-  shape httpPort as @port label:"HTTP 8080"
-  shape dbPort as @port label:"Database"
-  
-  apiService -> httpPort
-  apiService -> dbPort
-  
-  # Provided interfaces (what it offers)
-  shape iREST as @providedInterface label:"REST API"
-  apiService -> iREST
-  
-  # Required interfaces (what it needs)
-  shape needsCache as @requiredInterface label:"ICache"
-  apiService -> needsCache
-}
-```
+| Relationship | Usage                  | Line Style   |
+| ------------ | ---------------------- | ------------ |
+| Dependency   | Component uses another | Dashed arrow |
+| Realization  | Implements interface   | Dashed arrow |
+| Association  | General connection     | Solid line   |
 
 ---
 
@@ -740,3 +679,46 @@ diagram "Full Component Specification" {
 6. **Consistent Naming**: Use naming conventions (I prefix for interfaces)
 7. **Document Ports**: Include protocol and port number in labels
 8. **Use Templates**: For generic or reusable components
+
+---
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq                      | Mermaid | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
+| ---------------------------- | -------------------------- | ------- | ------------ | ------------------ | ------------- | -------------------- |
+| **Text-Based DSL**           | ✅                         | ❌      | ✅           | ❌(GUI)            | ❌(GUI)       | ⚠️ Hybrid            |
+| **UML 2.5 Compliance**       | ✅                         | ❌      | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
+| **Version Control Friendly** | ✅                         | ❌      | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌                   |
+| **Provided Interfaces**      | ✅ Lollipop notation       | ❌      | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
+| **Required Interfaces**      | ✅ Socket notation         | ❌      | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
+| **Ports**                    | ✅ Named port support      | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Assembly Connectors**      | ✅ Ball-and-socket pattern | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Dependencies**             | ✅ Dashed arrows           | ❌      | ✅           | ✅ Manual styling  | ✅ Manual     | ✅                   |
+| **Delegation Connectors**    | ✅ Internal wiring syntax  | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Subsystems/Packages**      | ✅ Via containers          | ❌      | ✅           | ✅                 | ✅            | ✅                   |
+| **Artifacts (JARs, WARs)**   | ✅ `@artifact` shape       | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Nodes (Servers)**          | ✅ `@node` 3D cube         | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Auto-Layout**              | ✅ ELK (Layered)           | ❌      | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Export Formats**           | ✅ SVG, PNG, PDF           | ❌      | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
+| **Collaboration**            | ✅ Git-based               | ❌      | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
+| **Learning Curve**           | ⚠️ Moderate (DSL)          | ❌      | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
+| **Open Source**              | ✅ MIT License             | ✅ MIT  | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
+
+**Runiq Advantages:**
+
+- **UML 2.5 compliant** with full component diagram notation
+- **Unified language** for component, class, sequence, and 15+ diagram types
+- **Proper interface notation** with lollipop (provided) and socket (required)
+- **Assembly connectors** for ball-and-socket interface connections
+- **Ports** for internal component structure
+- **Version control native** - perfect for architecture documentation in repositories
+- **ELK layout engine** for superior layered layouts
+- **Profile system** for diagram-specific conventions
+
+---
+
+## Related Resources
+
+- [UML 2.5 Specification](https://www.omg.org/spec/UML/) - Official component diagram notation
+- [C4 Architecture](/guide/c4-architecture) - Context, Container, Component, Code
+- [Class Diagrams](/guide/class-diagrams) - Detailed class-level design

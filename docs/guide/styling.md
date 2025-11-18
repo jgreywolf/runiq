@@ -302,19 +302,6 @@ diagram "Styled Containers" {
 
 ## Advanced Styling
 
-### Gradient Fills (Future)
-
-::: warning Not Yet Implemented
-SVG gradient fills are not yet supported but are planned for a future release.
-:::
-
-```runiq
-# Planned syntax:
-shape Gradient as @rect
-  label: "Gradient"
-  fill: "linear-gradient(#2196f3, #1565c0)"
-```
-
 ### Opacity
 
 ```runiq
@@ -340,6 +327,19 @@ diagram "Custom Border" {
     label: "Very Rounded"
     borderRadius: 30
 }
+```
+
+### Gradient Fills (Future)
+
+::: warning Not Yet Implemented
+SVG gradient fills are not yet supported but are planned for a future release.
+:::
+
+```runiq
+# Planned syntax:
+shape Gradient as @rect
+  label: "Gradient"
+  fill: "linear-gradient(#2196f3, #1565c0)"
 ```
 
 ## Color Palettes
@@ -493,15 +493,15 @@ diagram "Order Processing" {
   direction TB
 
   style default fill:"#f5f5f5" stroke:"#616161"
-  style process fill:"#2196f3" stroke:"#1565c0" color:"#ffffff"
+  style processStyle fill:"#2196f3" stroke:"#1565c0" color:"#ffffff"
   style decision fill:"#ff9800" stroke:"#f57c00" color:"#ffffff"
   style success fill:"#4caf50" stroke:"#2e7d32" color:"#ffffff"
   style error fill:"#f44336" stroke:"#c62828" color:"#ffffff"
 
   shape Start as @rounded label: "Start" style:success
-  shape Validate as @rect label: "Validate Order" style:process
+  shape Validate as @rect label: "Validate Order" style:processStyle
   shape Check as @rhombus label: "Valid?" style:decision
-  shape Process as @rect label: "Process Payment" style:process
+  shape Process as @rect label: "Process Payment" style:processStyle
   shape Complete as @hexagon label: "Complete" style:success
   shape Reject as @doc label: "Reject Order" style:error
 

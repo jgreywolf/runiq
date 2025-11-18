@@ -1,0 +1,8 @@
+// Balance Glyphset Example: Risk/Reward Assessment
+// Use case: Evaluating investment opportunities
+
+glyphset balance "vibrant" {
+    theme "forest"
+side "Risk: Market Volatility, Regulatory Changes"
+  side "Reward: High Returns, Market Leadership"
+}

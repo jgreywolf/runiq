@@ -455,7 +455,7 @@ Always verify your designs with:
 ## Next Steps
 
 - [Electrical Circuits →](/examples/electrical) - Analog schematics with SPICE
-- [Block Diagrams →](/examples/block-diagrams) - System-level design
+- [Control system Diagrams →](/examples/control-diagrams) - System-level design
 - [Reference →](/reference/shapes) - All digital symbols
 
 ---

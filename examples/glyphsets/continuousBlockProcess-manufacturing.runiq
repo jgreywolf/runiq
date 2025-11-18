@@ -1,0 +1,12 @@
+// Continuous Block Process - Manufacturing Flow
+glyphset continuousBlockProcess "Production Line" {
+  theme "forest"
+  item "Raw Materials"
+  item "Processing"
+  item "Assembly"
+  item "Quality Check"
+  item "Packaging"
+  item "Shipping"
+  
+  direction "LR"
+}

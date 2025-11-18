@@ -1,0 +1,11 @@
+// Increasing List - Impact Scale (Box)
+glyphset increasingList "Impact Scale" {
+    theme "forest"
+item "Low Impact"
+  item "Medium Impact"
+  item "High Impact"
+  item "Critical Impact"
+  item "Business Critical"
+  
+  shape "box"
+}

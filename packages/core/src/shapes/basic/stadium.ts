@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Stadium - Pill-shaped box for start/end points
@@ -36,6 +37,7 @@ export const stadiumShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
 
     // Stadium is a rectangle with semicircular ends (rx = height/2)
     const rx = bounds.height / 2;
@@ -44,11 +46,7 @@ export const stadiumShape: ShapeDefinition = {
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             rx="${rx}" ry="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };

@@ -464,6 +464,42 @@ Due to layout engine limitations, use flat structure with multiple containers in
 2. **Visual Controls**: Collapse buttons and resize handles not rendered yet (Phase 4)
 3. **Container Shape**: Custom container shapes not yet supported
 
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Draw.io     | C4-PlantUML    | Structurizr   |
+| ---------------------------- | -------------- | -------------- | -------------- | ----------- | ----------- | -------------- | ------------- |
+| **Visual grouping**          | ✅             | ⚠️ Subgraphs   | ⚠️ Rectangles  | ✅          | ✅          | ✅             | ✅            |
+| **Nested containers**        | ✅             | ⚠️ Limited     | ⚠️ Limited     | ✅          | ✅          | ✅             | ✅            |
+| **Templates**                | ✅             | ❌             | ❌             | ⚠️ Custom   | ⚠️ Custom   | ❌             | ⚠️ Workspaces |
+| **Presets**                  | ✅             | ❌             | ❌             | ❌          | ❌          | ❌             | ❌            |
+| **Style inheritance**        | ✅             | ❌             | ❌             | ⚠️ Manual   | ⚠️ Manual   | ⚠️ Partial     | ⚠️ Themes     |
+| **Background colors**        | ✅             | ⚠️ Limited     | ✅             | ✅          | ✅          | ✅             | ✅            |
+| **Border styling**           | ✅             | ⚠️ Limited     | ✅             | ✅          | ✅          | ✅             | ✅            |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Smart    | ✅             | ✅            |
+| **Cross-container edges**    | ✅             | ✅             | ✅             | ✅          | ✅          | ✅             | ✅            |
+| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial  | ✅             | ✅            |
+| **C4 model support**         | ⚠️ Manual      | ❌             | ⚠️ Via C4      | ⚠️ Manual   | ⚠️ Manual   | ✅             | ✅            |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple    | SVG, PNG       | Multiple      |
+| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌          | ✅             | ✅            |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial  | ✅             | ✅            |
+| **Learning curve**           | Low            | Low            | Medium         | Low         | Low         | Medium         | Medium        |
+| **Cost**                     | Free           | Free           | Free           | Paid        | Free        | Free           | Free/Paid     |
+| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Web/Desktop | Cross-platform | Web/CLI       |
+
+**Key Advantages of Runiq:**
+
+- **Templates & Presets**: Reusable container configurations with inheritance
+- **Unified DSL**: Containers work seamlessly with all diagram types
+- **Version Control**: Track architectural boundaries in Git
+- **Style Inheritance**: Automatic style propagation to child elements
+
+**When to Use Alternatives:**
+
+- **Structurizr**: Dedicated C4 model tooling with workspaces and ADR integration
+- **C4-PlantUML**: C4 architecture diagrams with PlantUML ecosystem
+- **Draw.io**: Drag-and-drop editing with extensive shape libraries
+- **Lucidchart**: Real-time collaboration with stakeholders
+
 ## See Also
 
 - [Templates & Presets Reference](/reference/templates) - Container templates and presets documentation

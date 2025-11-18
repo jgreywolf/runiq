@@ -3,9 +3,11 @@ title: Use Case Diagrams
 ---
 
 ---
+
 title: Use Case Diagrams
 description: Model system functionality with UML use case diagrams including actors, use cases, relationships, and system boundaries.
 lastUpdated: 2025-01-09
+
 ---
 
 # Use Case Diagrams
@@ -20,7 +22,7 @@ Use case diagrams show the relationships between actors (users, external systems
 
 - **Actor**: `@actor` - Stick figure representing user or external system
 - **System Boundary**: `@systemBoundary` - Container showing system scope
-- **Use Case**: `@ellipse` or `@systemBoundary` - System functionality
+- **Use Case**: `@ellipseWide` or `@systemBoundary` - System functionality
 - **Note**: `@note` - Additional documentation
 
 See the [Shape Reference - UML Shapes](/reference/shapes#_10-uml-shapes-22-shapes) for the complete list.
@@ -41,11 +43,11 @@ diagram "Banking System" {
   direction LR
 
   shape customer as @actor label: "Customer"
-  shape system as @systemBoundary label: "Banking System" {
-    shape login as @ellipse label: "Login"
-    shape viewBalance as @ellipse label: "View Balance"
-    shape transfer as @ellipse label: "Transfer Money"
-    shape withdraw as @ellipse label: "Withdraw Cash"
+   container banking "Online Banking System" {
+    shape login as @ellipseWide label: "Login"
+    shape viewBalance as @ellipseWide label: "View Balance"
+    shape transfer as @ellipseWide label: "Transfer Money"
+    shape withdraw as @ellipseWide label: "Withdraw Cash"
   }
 
   customer -> login
@@ -65,14 +67,14 @@ diagram "E-commerce Platform" {
   shape admin as @actor label: "Administrator"
   shape payment as @actor label: "Payment Gateway"
 
-  shape system as @systemBoundary label: "E-commerce System" {
-    shape browse as @ellipse label: "Browse Products"
-    shape search as @ellipse label: "Search"
-    shape addCart as @ellipse label: "Add to Cart"
-    shape checkout as @ellipse label: "Checkout"
-    shape processPayment as @ellipse label: "Process Payment"
-    shape manageOrders as @ellipse label: "Manage Orders"
-    shape manageProducts as @ellipse label: "Manage Products"
+  container system "E-commerce System" {
+    shape browse as @ellipseWide label: "Browse Products"
+    shape search as @ellipseWide label: "Search"
+    shape addCart as @ellipseWide label: "Add to Cart"
+    shape checkout as @ellipseWide label: "Checkout"
+    shape processPayment as @ellipseWide label: "Process Payment"
+    shape manageOrders as @ellipseWide label: "Manage Orders"
+    shape manageProducts as @ellipseWide label: "Manage Products"
   }
 
   customer -> browse
@@ -96,9 +98,9 @@ diagram "Login System" {
   direction LR
 
   shape user as @actor label: "User"
-  shape login as @ellipse label: "Login"
-  shape authenticate as @ellipse label: "Authenticate"
-  shape validateCredentials as @ellipse label: "Validate Credentials"
+  shape login as @ellipseWide label: "Login"
+  shape authenticate as @ellipseWide label: "Authenticate"
+  shape validateCredentials as @ellipseWide label: "Validate Credentials"
 
   user -> login
   login -> authenticate label: "«include»" relationship: dependency
@@ -115,13 +117,13 @@ diagram "Order System" {
   direction TB
 
   shape customer as @actor label: "Customer"
-  shape placeOrder as @ellipse label: "Place Order"
-  shape applyDiscount as @ellipse label: "Apply Discount Code"
-  shape giftWrap as @ellipse label: "Add Gift Wrapping"
+  shape placeOrder as @ellipseWide label: "Place Order"
+  shape applyDiscount as @ellipseWide label: "Apply Discount Code"
+  shape giftWrap as @ellipseWide label: "Add Gift Wrapping"
 
   customer -> placeOrder
-  applyDiscount -> placeOrder label: "«extend»" relationship: dependency style: { strokeDasharray: "5,5" }
-  giftWrap -> placeOrder label: "«extend»" relationship: dependency style: { strokeDasharray: "5,5" }
+  applyDiscount -> placeOrder label: "«extend»" relationship: dependency lineStyle: "dashed"
+  giftWrap -> placeOrder label: "«extend»" relationship: dependency lineStyle: "dashed"
 }
 ```
 
@@ -134,23 +136,23 @@ diagram "User Roles" {
   direction TB
 
   shape user as @actor label: "User"
-  shape member as @actor label: "Member"
+  shape rmember as @actor label: "Member"
   shape admin as @actor label: "Admin"
   shape superAdmin as @actor label: "Super Admin"
 
-  shape system as @systemBoundary label: "System" {
-    shape login as @ellipse label: "Login"
-    shape viewContent as @ellipse label: "View Content"
-    shape editContent as @ellipse label: "Edit Content"
-    shape manageUsers as @ellipse label: "Manage Users"
+  container system "System" {
+    shape login as @ellipseWide label: "Login"
+    shape viewContent as @ellipseWide label: "View Content"
+    shape editContent as @ellipseWide label: "Edit Content"
+    shape manageUsers as @ellipseWide label: "Manage Users"
   }
 
-  member -> user relationship: generalization
-  admin -> member relationship: generalization
+  rmember -> user relationship: generalization
+  admin -> rmember relationship: generalization
   superAdmin -> admin relationship: generalization
 
   user -> login
-  member -> viewContent
+  rmember -> viewContent
   admin -> editContent
   superAdmin -> manageUsers
 }
@@ -166,12 +168,12 @@ diagram "Healthcare System" {
   shape doctor as @actor label: "Doctor"
   shape insurance as @actor label: "Insurance Provider"
 
-  shape system as @systemBoundary label: "Healthcare Portal" {
-    shape bookAppointment as @ellipse label: "Book Appointment"
-    shape viewRecords as @ellipse label: "View Medical Records"
-    shape prescribe as @ellipse label: "Prescribe Medication"
-    shape checkInsurance as @ellipse label: "Check Insurance"
-    shape submitClaim as @ellipse label: "Submit Claim"
+  container system "Healthcare Portal" {
+    shape bookAppointment as @ellipseWide label: "Book Appointment"
+    shape viewRecords as @ellipseWide label: "View Medical Records"
+    shape prescribe as @ellipseWide label: "Prescribe Medication"
+    shape checkInsurance as @ellipseWide label: "Check Insurance"
+    shape submitClaim as @ellipseWide label: "Submit Claim"
   }
 
   shape note as @note label: "Insurance check is\nautomatically included\nin booking process"
@@ -185,7 +187,7 @@ diagram "Healthcare System" {
   doctor -> submitClaim
   submitClaim -> insurance
 
-  note -> checkInsurance arrowType: none style: { strokeDasharray: "2,2" }
+  note -> checkInsurance arrowType: none style lineStyle: "dashed"
 }
 ```
 
@@ -295,13 +297,13 @@ diagram "Styled Use Case" {
 
   shape user as @actor label: "User" color: "#3b82f6"
 
-  shape system as @systemBoundary label: "System" fill: "#f0f9ff" stroke: "#3b82f6" {
-    shape useCase1 as @ellipse label: "Primary Use Case" fill: "#dbeafe" stroke: "#2563eb"
-    shape useCase2 as @ellipse label: "Extended Use Case" fill: "#fef3c7" stroke: "#f59e0b"
+  container system "System" fill: "#f0f9ff" borderColor: "#3b82f6" {
+    shape useCase1 as @ellipseWide label: "Primary Use Case" fill: "#dbeafe" stroke: "#2563eb"
+    shape useCase2 as @ellipseWide label: "Extended Use Case" fill: "#fef3c7" stroke: "#f59e0b"
   }
 
-  user -> useCase1 style: { stroke: "#3b82f6", strokeWidth: 2 }
-  useCase2 -> useCase1 label: "«extend»" relationship: dependency style: { stroke: "#f59e0b", strokeDasharray: "5,5" }
+  user -> useCase1 stroke: "#3b82f6" strokeWidth: 2
+  useCase2 -> useCase1 label: "«extend»" relationship: dependency stroke: "#f59e0b" lineStyle: "dashed"
 }
 ```
 
@@ -337,6 +339,43 @@ See the [examples/use-case-diagram](https://github.com/jgreywolf/runiq/tree/main
 - Advanced banking with relationships
 - E-commerce platform
 - Class relationship use cases
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Visual Paradigm | Enterprise Architect | StarUML        |
+| ---------------------------- | -------------- | -------------- | -------------- | ----------- | --------------- | -------------------- | -------------- |
+| **Basic support**            | ✅             | ✅             | ✅             | ✅          | ✅              | ✅                   | ✅             |
+| **UML compliance**           | ✅             | ❌             | ✅             | ⚠️ Basic    | ✅              | ✅                   | ✅             |
+| **Actor-use case**           | ✅             | ❌             | ✅             | ✅          | ✅              | ✅                   | ✅             |
+| **Include/Extend**           | ✅             | ❌             | ✅             | ✅          | ✅              | ✅                   | ✅             |
+| **Generalization**           | ✅             | ❌             | ✅             | ✅          | ✅              | ✅                   | ✅             |
+| **System boundaries**        | ✅             | ❌             | ✅             | ✅          | ✅              | ✅                   | ✅             |
+| **Custom actors**            | ✅             | ❌             | ✅             | ✅          | ✅              | ✅                   | ✅             |
+| **Model integration**        | ❌             | ❌             | ❌             | ⚠️ Limited  | ✅              | ✅                   | ✅             |
+| **Requirements tracing**     | ❌             | ❌             | ❌             | ⚠️ Limited  | ✅              | ✅                   | ⚠️ Limited     |
+| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial      | ⚠️ Partial           | ⚠️ Partial     |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial      | ⚠️ Partial           | ❌             |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial      | ⚠️ Partial           | ⚠️ Partial     |
+| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ✅              | ✅                   | ⚠️ Partial     |
+| **Interactive editing**      | ❌             | ❌             | ❌             | ✅          | ✅              | ✅                   | ✅             |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple        | Multiple             | Multiple       |
+| **Learning curve**           | Low            | Low            | Medium         | Low         | High            | High                 | Medium         |
+| **Cost**                     | Free           | Free           | Free           | Paid        | Paid            | Paid                 | Free/Paid      |
+| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Cross-platform  | Windows              | Cross-platform |
+
+**Key Advantages of Runiq:**
+
+- **UML Compliant**: Proper stereotypes for «include» and «extend» relationships
+- **Version Control**: Track requirements evolution in Git with product code
+- **Unified Language**: Consistent syntax with other UML diagrams
+- **Clear Syntax**: Simple actor and use case notation
+
+**When to Use Alternatives:**
+
+- **Visual Paradigm/Enterprise Architect**: Full requirements management and traceability
+- **PlantUML**: Established tool with extensive UML and documentation support
+- **Lucidchart**: Real-time collaboration for requirements gathering workshops
+- **StarUML**: Desktop UML modeling with model validation
 
 ## Related
 

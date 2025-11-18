@@ -15,6 +15,7 @@ Activity diagrams are part of the **Diagram Profile** and support all UML 2.5 ac
 ## Overview
 
 Activity diagrams are ideal for:
+
 - **Business Process Modeling** - Order fulfillment, approval workflows
 - **Algorithm Visualization** - Data pipelines, decision trees
 - **Parallel Processing** - Fork/join, concurrent activities
@@ -67,9 +68,10 @@ shape flowEnd as @flowFinal       # Terminates one flow only
 ```
 
 ::: info Final Node Types
+
 - **Activity Final** (`@activityFinal`) terminates the entire activity and all concurrent flows
 - **Flow Final** (`@flowFinal`) terminates only one specific flow path while others continue
-:::
+  :::
 
 ### Decision Nodes
 
@@ -108,7 +110,7 @@ diagram "Action Pins Example" {
   direction TB
 
   shape start as @initialState
-  
+
   # Activity with output pins
   shape readOrder as @activity label: "Read Order"
     outputPins: ["order", "customer"]
@@ -133,11 +135,12 @@ diagram "Action Pins Example" {
 ```
 
 ::: tip When to Use Action Pins
+
 - Complex data transformations with multiple inputs/outputs
 - Type-safe data flow modeling
 - Integration with structured analysis tools
 - Detailed data dependency tracking
-:::
+  :::
 
 ## Object Nodes
 
@@ -162,12 +165,12 @@ diagram "Object Flow Example" {
   # Object nodes for data
   shape userInput as @objectNode label: "User Input"
   shape processedData as @objectNode label: "Processed Data"
-  
+
   # Central buffer for queuing
   shape dataQueue as @centralBuffer label: "Data Queue"
-  
+
   # Data store for persistence
-  shape database as @dataStore label: "Database"
+  shape dataStoreShape as @dataStore label: "Database"
 
   # Control flow
   init -> readInput
@@ -181,15 +184,16 @@ diagram "Object Flow Example" {
   processData -> processedData label: "«output»"
   processedData -> dataQueue label: "enqueue"
   dataQueue -> saveData label: "dequeue"
-  saveData -> database label: "store"
+  saveData -> dataStoreShape label: "store"
 }
 ```
 
 ::: info Object Flow vs Control Flow
+
 - **Control Flow** (solid arrow) - Sequencing of activities
 - **Object Flow** (dashed arrow) - Movement of data between activities
 - Use `label: "«input»"` or `label: "«output»"` to annotate data direction
-:::
+  :::
 
 ## Swimlanes
 
@@ -200,24 +204,24 @@ Swimlanes organize activities by role, department, or system component.
 ```runiq
 diagram "Horizontal Swimlanes" {
   direction TB
-  
+
   container "Customer" fill: "#e3f2fd" {
     shape c1 as @initialState
     shape c2 as @activity label: "Place Order"
     shape c3 as @activity label: "Receive Confirmation"
     shape c4 as @activityFinal
   }
-  
+
   container "Sales" fill: "#fff3e0" {
     shape s1 as @activity label: "Review Order"
     shape s2 as @activity label: "Approve Order"
   }
-  
+
   container "Warehouse" fill: "#e8f5e9" {
     shape w1 as @activity label: "Pick Items"
     shape w2 as @activity label: "Ship Order"
   }
-  
+
   # Cross-lane flows
   c1 -> c2
   c2 -> s1
@@ -236,45 +240,46 @@ For side-by-side comparisons, use `orientation: vertical`:
 ```runiq
 diagram "Vertical Swimlanes" {
   direction TB
-  
+
   container "Frontend Team" orientation: vertical fill: "#e3f2fd" {
     shape fe1 as @initialState
     shape fe2 as @activity label: "Design UI"
     shape fe3 as @activity label: "Implement"
     shape fe4 as @activity label: "Test"
   }
-  
+
   container "Backend Team" orientation: vertical fill: "#fff3e0" {
     shape be1 as @initialState
     shape be2 as @activity label: "Design API"
     shape be3 as @activity label: "Implement"
     shape be4 as @activity label: "Test"
   }
-  
+
   container "DevOps" orientation: vertical fill: "#e8f5e9" {
     shape ops1 as @activity label: "Deploy"
     shape ops2 as @activityFinal
   }
-  
+
   # Parallel flows
   fe1 -> fe2
   fe2 -> fe3
   fe3 -> fe4
   fe4 -> ops1
-  
+
   be1 -> be2
   be2 -> be3
   be3 -> be4
   be4 -> ops1
-  
+
   ops1 -> ops2
 }
 ```
 
 ::: tip Swimlane Orientation
+
 - **Horizontal** (default) - Activities flow within horizontal bands (good for sequential handoffs)
 - **Vertical** (`orientation: vertical`) - Activities flow within vertical columns (good for parallel teams)
-:::
+  :::
 
 ### Nested Swimlanes
 
@@ -286,7 +291,7 @@ container "Engineering Department" {
     shape dev1 as @activity label: "Write Code"
     shape dev2 as @activity label: "Review Code"
   }
-  
+
   container "QA Team" {
     shape qa1 as @activity label: "Test"
     shape qa2 as @activity label: "Report Bugs"
@@ -310,16 +315,16 @@ diagram "Signal Communication" {
 
   shape start as @initialState
   shape process as @activity label: "Process Order"
-  
+
   # Send notification to external system
   shape notify as @sendSignal label: "Send Email"
-  
+
   # Wait for external confirmation
   shape waitConfirm as @receiveSignal label: "Wait for Approval"
-  
+
   # Accept event with timeout handling
   shape waitPayment as @acceptEvent label: "Wait for Payment"
-  
+
   shape complete as @activity label: "Complete Order"
   shape timeout as @activity label: "Cancel Order"
   shape end as @activityFinal
@@ -336,10 +341,11 @@ diagram "Signal Communication" {
 ```
 
 ::: warning Signal vs Object Flow
+
 - **Signals** are for asynchronous, event-based communication
 - **Object Flows** are for direct data passing between activities
 - Use signals when timing is uncertain or external systems are involved
-:::
+  :::
 
 ## Flow Types
 
@@ -384,10 +390,10 @@ diagram "E-Commerce Order Processing" {
     shape validateOrder as @activity label: "Validate Order"
       inputPins: ["order", "customer"]
       outputPins: ["validOrder", "errors"]
-    
+
     shape checkInventory as @activity label: "Check Inventory"
     shape reserveItems as @activity label: "Reserve Items"
-    
+
     shape inventoryCheck as @diamond
   }
 
@@ -401,7 +407,7 @@ diagram "E-Commerce Order Processing" {
     shape pickItems as @activity label: "Pick Items"
     shape packOrder as @activity label: "Pack Order"
     shape shipOrder as @activity label: "Ship Order"
-    
+
     shape sendNotification as @sendSignal label: "Send Tracking Email"
   }
 
@@ -535,17 +541,52 @@ logError -> end
 Customize appearance with fill colors, borders, and padding:
 
 ```runiq
-container "Production System" 
-  fill: "#ffebee" 
-  border: "2px solid #c62828" 
+container "Production System"
+  fill: "#ffebee"
+  borderColor: "#c62828"
   padding: 30 {
-  
-  shape criticalProcess as @activity 
+
+  shape criticalProcess as @activity
     label: "Critical Process"
     fill: "#ef5350"
     color: "white"
 }
 ```
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq                              | Mermaid  | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
+| ---------------------------- | ---------------------------------- | -------- | ------------ | ------------------ | ------------- | -------------------- |
+| **Text-Based DSL**           | ✅                                 | ❌       | ✅           | ❌ (GUI)           | ❌ (GUI)      | ⚠️ Hybrid            |
+| **UML 2.5 Compliance**       | ✅                                 | ❌       | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
+| **Version Control Friendly** | ✅                                 | N/A      | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌                   |
+| **Action Pins**              | ✅ Input/output pins               | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Object Nodes**             | ✅ Data flow support               | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Central Buffers**          | ✅ `@centralBuffer`                | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Data Stores**              | ✅ `@dataStore`                    | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Swimlanes**                | ✅ Horizontal & vertical           | ❌       | ✅           | ✅                 | ✅            | ✅                   |
+| **Fork/Join Nodes**          | ✅ Parallel flow notation          | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Send/Receive Signals**     | ✅ `@sendSignal`, `@receiveSignal` | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Conditional Nodes**        | ✅ `@diamond` decision             | ⚠️ Basic | ✅           | ✅                 | ✅            | ✅                   |
+| **Final Nodes**              | ✅ Activity & flow final           | ⚠️ Basic | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Expansion Regions**        | ✅ Container-based                 | ❌       | ✅           | ❌                 | ❌            | ✅                   |
+| **Auto-Layout**              | ✅ ELK (Layered)                   | N/A      | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Export Formats**           | ✅ SVG, PNG, PDF                   | N/A      | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
+| **Collaboration**            | ✅ Git-based                       | N/A      | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
+| **Learning Curve**           | ⚠️ Moderate (DSL)                  | N/A      | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
+| **Open Source**              | ✅ MIT License                     | ✅ MIT   | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
+
+**Runiq Advantages:**
+
+- **UML 2.5 compliant** with all activity diagram elements
+- **Unified language** for activity, sequence, class, state machine, and 15+ diagram types
+- **Advanced data flow** with action pins, object nodes, central buffers, data stores
+- **Swimlanes** for cross-functional workflows (horizontal and vertical)
+- **Fork/join nodes** for parallel processing
+- **Send/receive signals** for asynchronous communication
+- **Version control native** - perfect for process documentation in repositories
+- **ELK layout engine** for superior layered layouts
+- **Profile system** for diagram-specific conventions
 
 ## See Also
 

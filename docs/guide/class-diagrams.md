@@ -97,7 +97,7 @@ Support for generics including nested types:
 diagram "Domain Model" {
   direction TB
 
-  shape person as @class label: "Person"
+  shape personClass as @class label: "Person"
     attributes: [
       {name: "name" type: "string" visibility: private},
       {name: "age" type: "int" visibility: private}
@@ -122,8 +122,8 @@ diagram "Domain Model" {
       {name: "teach" returnType: "void" visibility: public}
     ]
 
-  student -> person relationship: generalization
-  teacher -> person relationship: generalization
+  student -> personClass relationship: generalization
+  teacher -> personClass relationship: generalization
 }
 ```
 
@@ -139,7 +139,7 @@ diagram "Interface Pattern" {
       {name: "draw" returnType: "void" visibility: public abstract: true}
     ]
 
-  shape circle as @class label: "Circle"
+  shape circleClass as @class label: "Circle"
     attributes: [
       {name: "radius" type: "float" visibility: private}
     ]
@@ -156,7 +156,7 @@ diagram "Interface Pattern" {
       {name: "draw" returnType: "void" visibility: public}
     ]
 
-  circle -> drawable relationship: realization
+  circleClass -> drawable relationship: realization
   rectangle -> drawable relationship: realization
 }
 ```
@@ -349,7 +349,7 @@ diagram "Styled Classes" {
     ]
 
   derived -> base relationship: generalization stroke: "#f59e0b" strokeWidth: 2
-  derived -> util relationship: dependency lineStyle: dashed
+  derived -> util relationship: dependency lineStyle: "dashed"
 }
 ```
 
@@ -549,7 +549,7 @@ diagram "With Constraints" {
 
   shape noteShape as @note label: "{balance >= 0}"
 
-  noteShape -> class arrowType: none lineStyle: dotted
+  noteShape -> class arrowType: none lineStyle: "dotted"
 }
 ```
 
@@ -588,10 +588,43 @@ diagram "Association Class" {
     ]
 
   student -> course relationship: association roleSource: "enrolls in" multiplicitySource: "*" multiplicityTarget: "*"
-  enrollment -> student arrowType: none lineStyle: dotted
-  enrollment -> course arrowType: none lineStyle: dotted
+  enrollment -> student arrowType: none lineStyle: "dotted"
+  enrollment -> course arrowType: none lineStyle: "dotted"
 }
 ```
+
+## Comparison with Other Tools
+
+| Feature                       | Runiq             | Mermaid      | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
+| ----------------------------- | ----------------- | ------------ | ------------ | ------------------ | ------------- | -------------------- |
+| **Text-Based DSL**            | ✅                | ✅           | ✅           | ❌ No (GUI)        | ❌ No (GUI)   | ⚠️ Hybrid            |
+| **UML 2.5 Compliance**        | ✅                | ⚠️ Basic     | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
+| **Version Control Friendly**  | ✅                | ✅           | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌ No                |
+| **Relationship Types**        | ✅                | ⚠️ 4 types   | ✅           | ✅ Manual styling  | ✅ Manual     | ✅                   |
+| **Visibility Modifiers**      | ✅                | ✅           | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
+| **Generic Types**             | ✅                | ✅ Limited   | ✅           | ⚠️ Manual text     | ⚠️ Manual     | ✅                   |
+| **Abstract/Static Modifiers** | ✅                | ✅           | ✅           | ⚠️ Manual styling  | ⚠️ Manual     | ✅                   |
+| **Stereotypes**               | ✅                | ✅ Limited   | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Multiplicity**              | ✅                | ⚠️ Basic     | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
+| **Composition/Aggregation**   | ✅                | ✅           | ✅           | ✅                 | ✅            | ✅                   |
+| **Packages/Namespaces**       | ✅ Via containers | ✅           | ✅           | ✅                 | ✅            | ✅                   |
+| **Association Classes**       | ✅                | ✅           | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Auto-Layout**               | ✅                | ✅           | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Export Formats**            | ✅                | ✅ SVG, PNG  | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
+| **Collaboration**             | ✅ Git-based      | ✅ Git-based | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
+| **Learning Curve**            | ⚠️ Moderate (DSL) | ✅ Low       | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
+| **Open Source**               | ✅ MIT License    | ✅ MIT       | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
+
+**Runiq Advantages:**
+
+- **UML 2.5 compliant** with full relationship type support
+- **Unified language** for class, sequence, use case, state machine, and 15+ diagram types
+- **Structured attribute/method syntax** with visibility, modifiers, generics
+- **Generic type parameters** displayed clearly (e.g., `List<T>`, `Map<K,V>`)
+- **Version control native** - perfect for documenting APIs in repositories
+- **ELK layout engine** for superior layered layouts
+- **Association classes** with proper dotted-line notation
+- **Profile system** for diagram-specific conventions
 
 ## Examples
 

@@ -178,7 +178,7 @@
 			{ label: '@switch', type: 'type', detail: 'Network switch' },
 			{ label: '@firewall', type: 'type', detail: 'Firewall' },
 			{ label: '@cloud', type: 'type', detail: 'Cloud' },
-			// Block diagram shapes
+			// Control system diagram shapes
 			{ label: '@transferFunction', type: 'type', detail: 'Transfer function' },
 			{ label: '@gain', type: 'type', detail: 'Gain block' },
 			{ label: '@integrator', type: 'type', detail: 'Integrator' },

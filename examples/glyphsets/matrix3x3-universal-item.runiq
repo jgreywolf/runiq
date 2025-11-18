@@ -1,0 +1,15 @@
+// Matrix 3x3 using universal 'item' keyword
+// This tests the fallback functionality
+
+glyphset matrix3x3 "Universal Item Test" {
+    theme "forest"
+item "Q1"
+  item "Q2"
+  item "Q3"
+  item "Q4"
+  item "Q5"
+  item "Q6"
+  item "Q7"
+  item "Q8"
+  item "Q9"
+}

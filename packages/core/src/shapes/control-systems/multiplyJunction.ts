@@ -2,7 +2,7 @@ import type { ShapeDefinition } from '../../types.js';
 
 /**
  * Multiply Junction - Circle with × sign
- * Used for multiplication operations in block diagrams
+ * Used for multiplication operations in Control system diagrams
  */
 export const multiplyJunctionShape: ShapeDefinition = {
   id: 'multiplyJunction',

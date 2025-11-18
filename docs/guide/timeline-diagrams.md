@@ -314,8 +314,8 @@ Periods can overlap to show concurrent phases:
 
 ```runiq
 timeline "Overlapping Phases" {
-  event start date:"2024-01-01" label:"Start"
-  event end date:"2024-12-31" label:"End"
+  event startDate date:"2024-01-01" label:"Start"
+  event endDate date:"2024-12-31" label:"End"
 
   period development startDate:"2024-01-01" endDate:"2024-10-01"
     label:"Development"
@@ -359,13 +359,50 @@ timeline "Overlapping Phases" {
 - Beta/Alpha phases
 - Deprecation schedules
 
+## Examples
+
+See the [Timeline Examples](/examples/timeline-diagrams) page for more complete examples and use cases.
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Office Timeline | Preceden     | Toggl Plan | Aeon Timeline |
+| ---------------------------- | -------------- | -------------- | -------------- | ----------- | --------------- | ------------ | ---------- | ------------- |
+| **Basic support**            | ✅             | ✅             | ✅             | ✅          | ✅              | ✅           | ✅         | ✅            |
+| **Horizontal timelines**     | ✅             | ✅             | ✅             | ✅          | ✅              | ✅           | ✅         | ✅            |
+| **Vertical timelines**       | ✅             | ❌             | ❌             | ✅          | ❌              | ❌           | ❌         | ❌            |
+| **Multiple swimlanes**       | ✅             | ❌             | ❌             | ✅          | ✅              | ⚠️ Limited   | ✅         | ✅            |
+| **Date/time support**        | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅              | ✅           | ✅         | ✅            |
+| **Milestone markers**        | ✅             | ✅             | ✅             | ✅          | ✅              | ✅           | ✅         | ✅            |
+| **Dependency arrows**        | ✅             | ❌             | ❌             | ✅          | ⚠️ Limited      | ⚠️ Limited   | ✅         | ✅            |
+| **Custom styling**           | ✅             | ⚠️ Limited     | ⚠️ Limited     | ✅          | ✅              | ✅           | ⚠️ Limited | ✅            |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Templates    | ⚠️ Templates | ❌         | ⚠️ Partial    |
+| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌              | ❌           | ❌         | ❌            |
+| **Gantt chart view**         | ⚠️ Separate    | ✅             | ✅             | ✅          | ✅              | ⚠️ Limited   | ✅         | ⚠️ Limited    |
+| **Interactive editing**      | ❌             | ❌             | ❌             | ✅          | ✅              | ✅           | ✅         | ✅            |
+| **Text-based DSL**           | ✅             | ✅             | ⚠️ Limited     | ❌          | ❌              | ❌           | ❌         | ❌            |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌              | ❌           | ❌         | ⚠️ Partial    |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | PowerPoint      | PDF, Image   | PDF        | Multiple      |
+| **Learning curve**           | Low            | Low            | Medium         | Low         | Very Low        | Very Low     | Low        | Medium        |
+| **Cost**                     | Free           | Free           | Free           | Paid        | Paid            | Paid         | Paid       | Paid          |
+| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows         | Web          | Web        | Windows/Mac   |
+
+**Key Advantages of Runiq:**
+
+- **Version Control**: Track timeline evolution in Git alongside project changes
+- **Flexible Layouts**: Both horizontal and vertical timeline support
+- **Documentation**: Natural integration with technical and project documentation
+- **Programmatic**: Generate timelines from project management data or logs
+
+**When to Use Alternatives:**
+
+- **Office Timeline**: PowerPoint integration for executive presentations
+- **Preceden**: Simple web-based historical or educational timelines
+- **Toggl Plan**: Project planning with team collaboration and resource management
+- **Aeon Timeline**: Complex multi-era timelines for creative writing and research
+
 ## See Also
 
 - [Sequence Diagrams](/guide/sequence-diagrams) - For interaction timelines
 - [Activity Diagrams](/guide/activity-diagrams) - For process flows
 - [State Machine Diagrams](/guide/state-machine-diagrams) - For state transitions
 - [Charts & Graphs](/guide/charts) - For data visualization
-
-## Examples
-
-See the [Timeline Examples](/examples/timeline-diagrams) page for more complete examples and use cases.

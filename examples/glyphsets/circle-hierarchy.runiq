@@ -1,0 +1,17 @@
+// Circle Hierarchy - Concentric circles hierarchy
+// Shows hierarchical levels as nested circles with decreasing node sizes
+
+glyphset circleHierarchy "Knowledge Domains" {
+  theme "forest"
+  root "Core Competency"
+  child "Domain 1: Technology"
+  child "Domain 2: Business"
+  child "Domain 3: Design"
+  child "Skill 1A: Backend Development"
+  child "Skill 1B: Frontend Development"
+  child "Skill 1C: DevOps"
+  child "Skill 2A: Strategy"
+  child "Skill 2B: Operations"
+  child "Skill 3A: UX Research"
+  child "Skill 3B: Visual Design"
+}

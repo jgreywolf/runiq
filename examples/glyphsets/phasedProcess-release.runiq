@@ -1,0 +1,11 @@
+// Phased Process - Project Phases with Milestones
+glyphset phasedProcess "Software Release Cycle" {
+    theme "forest"
+item "Planning"
+  item "Development"
+  item "Testing"
+  item "Deployment"
+  item "Monitoring"
+  
+  direction "LR"
+}

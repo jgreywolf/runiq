@@ -157,6 +157,9 @@ export interface EdgeAst {
   flowType?: 'control' | 'object'; // Type of flow: control flow (default) or object flow (data transfer)
   // Graph theory properties
   weight?: number; // Edge weight for weighted graphs (cost, distance, capacity, etc.)
+  // Edge anchor/port properties - control which side of node the edge connects to
+  anchorFrom?: 'north' | 'south' | 'east' | 'west'; // Exit side from source node (top, bottom, right, left)
+  anchorTo?: 'north' | 'south' | 'east' | 'west'; // Entry side to target node (top, bottom, right, left)
 }
 
 export interface GroupAst {
@@ -400,6 +403,23 @@ export interface ShapeRenderContext {
     text: string,
     style: Style
   ) => { width: number; height: number };
+  /**
+   * Optional label renderer that supports inline icons.
+   * If not provided, shapes should render plain text labels.
+   * Injected by renderer-svg package to enable icon syntax like "fa:fa-star Label"
+   */
+  renderLabel?: (
+    label: string,
+    x: number,
+    y: number,
+    style: {
+      fontSize?: number;
+      fontFamily?: string;
+      fill?: string;
+      textAnchor?: 'start' | 'middle' | 'end';
+      dominantBaseline?: string;
+    }
+  ) => string;
 }
 
 /**
@@ -978,4 +998,3 @@ export interface TimelinePeriod {
   color?: string; // Background color
   opacity?: number; // Default: 0.1
 }
-

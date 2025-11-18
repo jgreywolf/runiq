@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Filled circle - Solid dark circle with contrasting text
@@ -47,16 +48,17 @@ export const filledCircleShape: ShapeDefinition = {
     const strokeWidth = ctx.style.strokeWidth || 1;
     // Use stroke color as fill for dark filled effect
     const fillColor = stroke;
+    const label = ctx.node.label || ctx.node.id;
+
+    // Override text color to white for dark background
+    const labelStyle = { ...ctx.style, color: '#fff' };
+    const labelCtx = { ...ctx, style: labelStyle };
 
     return `
       <circle cx="${cx}" cy="${cy}" r="${r}"
               fill="${fillColor}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}"
-            fill="#fff">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(labelCtx, label, cx, cy)}
     `;
   },
 };

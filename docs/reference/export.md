@@ -6,14 +6,15 @@ Export Runiq diagrams to various external formats for simulation, synthesis, aca
 
 Runiq supports four export formats, each targeting specific domains:
 
-| Format | Domain | Use Cases | Package |
-|--------|--------|-----------|---------|
-| **SPICE** | Analog circuits | Simulation in LTspice/ngspice/PSpice | `@runiq/export-spice` |
-| **Verilog HDL** | Digital circuits | Synthesis with Vivado/Quartus/Yosys | `@runiq/export-verilog` |
-| **LaTeX/TikZ** | Block diagrams | Academic papers and presentations | `@runiq/export-latex` |
-| **Simulink MDL** | Control systems | MATLAB/Simulink simulation | `@runiq/export-simulink` |
+| Format           | Domain                  | Use Cases                            | Package                  |
+| ---------------- | ----------------------- | ------------------------------------ | ------------------------ |
+| **SPICE**        | Analog circuits         | Simulation in LTspice/ngspice/PSpice | `@runiq/export-spice`    |
+| **Verilog HDL**  | Digital circuits        | Synthesis with Vivado/Quartus/Yosys  | `@runiq/export-verilog`  |
+| **LaTeX/TikZ**   | Control system diagrams | Academic papers and presentations    | `@runiq/export-latex`    |
+| **Simulink MDL** | Control systems         | MATLAB/Simulink simulation           | `@runiq/export-simulink` |
 
 All export formats are accessible via:
+
 - **CLI**: `runiq diagram.runiq --export <format> -o output.ext`
 - **TypeScript API**: `import { toSpice, toVerilog, toLatex, toSimulink } from '@runiq/export-*'`
 
@@ -34,16 +35,16 @@ Export electrical circuits to SPICE netlist format for analog circuit simulation
 
 The SPICE exporter supports all passive and active components:
 
-| Component | SPICE Type | Syntax Example |
-|-----------|-----------|----------------|
-| Resistor | `R` | `R1 IN OUT 10k` |
-| Capacitor | `C` | `C1 OUT GND 1n` |
-| Inductor | `L` | `L1 A B 10m` |
-| Voltage Source | `V` | `V1 IN 0 DC 5` |
-| Current Source | `I` | `I1 N1 0 1m` |
-| Diode | `D` | `D1 ANODE CATHODE 1N4148` |
-| BJT Transistor | `Q` | `Q1 C B E Q2N2222` |
-| MOSFET | `M` | `M1 D G S B NMOS` |
+| Component      | SPICE Type | Syntax Example            |
+| -------------- | ---------- | ------------------------- |
+| Resistor       | `R`        | `R1 IN OUT 10k`           |
+| Capacitor      | `C`        | `C1 OUT GND 1n`           |
+| Inductor       | `L`        | `L1 A B 10m`              |
+| Voltage Source | `V`        | `V1 IN 0 DC 5`            |
+| Current Source | `I`        | `I1 N1 0 1m`              |
+| Diode          | `D`        | `D1 ANODE CATHODE 1N4148` |
+| BJT Transistor | `Q`        | `Q1 C B E Q2N2222`        |
+| MOSFET         | `M`        | `M1 D G S B NMOS`         |
 
 ### Analysis Types
 
@@ -97,14 +98,19 @@ const profile: ElectricalProfile = {
   name: 'RC Filter',
   nets: [{ name: 'IN' }, { name: 'OUT' }, { name: 'GND' }],
   parts: [
-    { ref: 'V1', type: 'V', params: { source: 'SIN(0 1 1k)' }, pins: ['IN', 'GND'] },
+    {
+      ref: 'V1',
+      type: 'V',
+      params: { source: 'SIN(0 1 1k)' },
+      pins: ['IN', 'GND'],
+    },
     { ref: 'R1', type: 'R', params: { value: '10k' }, pins: ['IN', 'OUT'] },
-    { ref: 'C1', type: 'C', params: { value: '1n' }, pins: ['OUT', 'GND'] }
+    { ref: 'C1', type: 'C', params: { value: '1n' }, pins: ['OUT', 'GND'] },
   ],
   analyses: [
     { kind: 'tran', args: '0 5m' },
-    { kind: 'ac', args: 'dec 10 1 100k' }
-  ]
+    { kind: 'ac', args: 'dec 10 1 100k' },
+  ],
 };
 
 const spice = toSpice(profile);
@@ -123,11 +129,12 @@ console.log(spice);
 
 ```typescript
 const spice = toSpice(profile, {
-  flavor: 'ngspice' // or 'pspice', 'ltspice'
+  flavor: 'ngspice', // or 'pspice', 'ltspice'
 });
 ```
 
 **Flavors:**
+
 - `ngspice` - Open-source SPICE (default)
 - `pspice` - Cadence PSpice format
 - `ltspice` - Linear Technology LTspice format
@@ -135,6 +142,7 @@ const spice = toSpice(profile, {
 ### Ground Normalization
 
 The exporter automatically normalizes ground references:
+
 - `GND`, `gnd`, `Gnd` → `0`
 - `VSS`, `vss` → `0`
 
@@ -142,17 +150,17 @@ The exporter automatically normalizes ground references:
 
 SPICE standard suffixes are supported:
 
-| Suffix | Multiplier | Example |
-|--------|-----------|---------|
-| `T` | 10¹² | `1T` = 1000000000000 |
-| `G` | 10⁹ | `1G` = 1000000000 |
-| `MEG` | 10⁶ | `1MEG` = 1000000 |
-| `k` | 10³ | `10k` = 10000 |
-| `m` | 10⁻³ | `1m` = 0.001 |
-| `u` | 10⁻⁶ | `1u` = 0.000001 |
-| `n` | 10⁻⁹ | `1n` = 0.000000001 |
-| `p` | 10⁻¹² | `1p` = 0.000000000001 |
-| `f` | 10⁻¹⁵ | `1f` = 0.000000000000001 |
+| Suffix | Multiplier | Example                  |
+| ------ | ---------- | ------------------------ |
+| `T`    | 10¹²       | `1T` = 1000000000000     |
+| `G`    | 10⁹        | `1G` = 1000000000        |
+| `MEG`  | 10⁶        | `1MEG` = 1000000         |
+| `k`    | 10³        | `10k` = 10000            |
+| `m`    | 10⁻³       | `1m` = 0.001             |
+| `u`    | 10⁻⁶       | `1u` = 0.000001          |
+| `n`    | 10⁻⁹       | `1n` = 0.000000001       |
+| `p`    | 10⁻¹²      | `1p` = 0.000000000001    |
+| `f`    | 10⁻¹⁵      | `1f` = 0.000000000000001 |
 
 ### Complete Example: Op-Amp Circuit
 
@@ -222,21 +230,21 @@ Export digital circuits to Verilog HDL for synthesis and simulation with FPGA/AS
 
 All standard logic gates and components are supported:
 
-| Component | Description | Verilog Primitive |
-|-----------|-------------|-------------------|
-| `AND2`, `AND3` | 2/3-input AND gate | `and` |
-| `OR2`, `OR3` | 2/3-input OR gate | `or` |
-| `NOT` | Inverter | `not` |
-| `XOR2` | XOR gate | `xor` |
-| `NAND2`, `NAND3` | NAND gate | `nand` |
-| `NOR2`, `NOR3` | NOR gate | `nor` |
-| `XNOR2` | XNOR gate | `xnor` |
-| `BUFFER` | Buffer | `buf` |
-| `DFF` | D flip-flop | `always @(posedge)` |
-| `JKFF` | JK flip-flop | Sequential logic |
-| `TFF` | T flip-flop | Sequential logic |
-| `MUX41`, `MUX81` | Multiplexers | Conditional logic |
-| `DEC24`, `DEC38` | Decoders | Case statement |
+| Component        | Description        | Verilog Primitive   |
+| ---------------- | ------------------ | ------------------- |
+| `AND2`, `AND3`   | 2/3-input AND gate | `and`               |
+| `OR2`, `OR3`     | 2/3-input OR gate  | `or`                |
+| `NOT`            | Inverter           | `not`               |
+| `XOR2`           | XOR gate           | `xor`               |
+| `NAND2`, `NAND3` | NAND gate          | `nand`              |
+| `NOR2`, `NOR3`   | NOR gate           | `nor`               |
+| `XNOR2`          | XNOR gate          | `xnor`              |
+| `BUFFER`         | Buffer             | `buf`               |
+| `DFF`            | D flip-flop        | `always @(posedge)` |
+| `JKFF`           | JK flip-flop       | Sequential logic    |
+| `TFF`            | T flip-flop        | Sequential logic    |
+| `MUX41`, `MUX81` | Multiplexers       | Conditional logic   |
+| `DEC24`, `DEC38` | Decoders           | Case statement      |
 
 ### CLI Usage
 
@@ -261,20 +269,18 @@ import type { DigitalProfile } from '@runiq/core';
 const counter: DigitalProfile = {
   type: 'digital',
   name: 'Counter4bit',
-  modules: [{
-    name: 'Counter4bit',
-    ports: [
-      { name: 'clk', dir: 'input' },
-      { name: 'reset', dir: 'input' },
-      { name: 'count', dir: 'output', width: 4 }
-    ]
-  }],
+  modules: [
+    {
+      name: 'Counter4bit',
+      ports: [
+        { name: 'clk', dir: 'input' },
+        { name: 'reset', dir: 'input' },
+        { name: 'count', dir: 'output', width: 4 },
+      ],
+    },
+  ],
   instances: [],
-  nets: [
-    { name: 'clk' },
-    { name: 'reset' },
-    { name: 'count', width: 4 }
-  ]
+  nets: [{ name: 'clk' }, { name: 'reset' }, { name: 'count', width: 4 }],
 };
 
 const result = toVerilog(counter);
@@ -286,8 +292,8 @@ console.log('Warnings:', result.warnings);
 
 ```typescript
 interface VerilogResult {
-  verilog: string;      // Generated Verilog code
-  warnings: string[];   // Validation warnings
+  verilog: string; // Generated Verilog code
+  warnings: string[]; // Validation warnings
 }
 ```
 
@@ -457,19 +463,20 @@ yosys -p "read_verilog counter.v; synth -top Counter4bit; stat"
 
 ```typescript
 const result = toVerilog(profile, {
-  indentSize: 2,                 // Spaces per indent level
-  lineWidth: 80,                 // Max line width
-  modulePrefix: 'runiq_',        // Module name prefix
-  includeComments: true,         // Include DSL comments
-  includeTimestamp: true,        // Add generation timestamp
-  declareWires: true,            // Explicit wire declarations
-  useParameterizedWidth: false   // Use parameters for bus widths
+  indentSize: 2, // Spaces per indent level
+  lineWidth: 80, // Max line width
+  modulePrefix: 'runiq_', // Module name prefix
+  includeComments: true, // Include DSL comments
+  includeTimestamp: true, // Add generation timestamp
+  declareWires: true, // Explicit wire declarations
+  useParameterizedWidth: false, // Use parameters for bus widths
 });
 ```
 
 ### Validation Warnings
 
 The exporter validates:
+
 - **Undeclared nets** - All port/instance connections must reference declared nets
 - **Port mismatches** - Instance ports must match module definitions
 - **Bus width conflicts** - Multi-bit connections must have matching widths
@@ -478,7 +485,7 @@ The exporter validates:
 
 ## LaTeX/TikZ Export
 
-Export block diagrams to LaTeX/TikZ format for academic papers and presentations.
+Export Control system diagrams to LaTeX/TikZ format for academic papers and presentations.
 
 ### Use Cases
 
@@ -492,17 +499,17 @@ Export block diagrams to LaTeX/TikZ format for academic papers and presentations
 
 The LaTeX exporter handles all block diagram shapes:
 
-| Shape | TikZ Style | Description |
-|-------|-----------|-------------|
-| `transfer-fn` | `block` (rectangle) | Transfer function with $\frac{num}{den}$ |
-| `gain` | `gain` (triangle) | Amplifier/gain block |
-| `integrator` | `block` (blue) | Integration $\frac{1}{s}$ |
-| `differentiator` | `block` (orange) | Differentiation $s$ |
-| `time-delay` | `block` (pink) | Time delay $e^{-sT}$ |
-| `saturation` | `block` (yellow) | Saturation limiter |
-| `compare-junction` | `sum` (circle) | Summing junction ⊕ |
-| `multiply-junction` | `multiply` (circle) | Multiplication ⊗ |
-| `divide-junction` | `divide` (circle) | Division ⊘ |
+| Shape               | TikZ Style          | Description                              |
+| ------------------- | ------------------- | ---------------------------------------- |
+| `transfer-fn`       | `block` (rectangle) | Transfer function with $\frac{num}{den}$ |
+| `gain`              | `gain` (triangle)   | Amplifier/gain block                     |
+| `integrator`        | `block` (blue)      | Integration $\frac{1}{s}$                |
+| `differentiator`    | `block` (orange)    | Differentiation $s$                      |
+| `time-delay`        | `block` (pink)      | Time delay $e^{-sT}$                     |
+| `saturation`        | `block` (yellow)    | Saturation limiter                       |
+| `compare-junction`  | `sum` (circle)      | Summing junction ⊕                       |
+| `multiply-junction` | `multiply` (circle) | Multiplication ⊗                         |
+| `divide-junction`   | `divide` (circle)   | Division ⊘                               |
 
 ### CLI Usage
 
@@ -524,10 +531,14 @@ import { toLatex } from '@runiq/export-latex';
 import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
 
 // Diagram from parser
-const diagram: DiagramAst = { /* ... */ };
+const diagram: DiagramAst = {
+  /* ... */
+};
 
 // Layout from ELK layout engine
-const layout: LaidOutDiagram = { /* ... */ };
+const layout: LaidOutDiagram = {
+  /* ... */
+};
 
 // Export to LaTeX
 const result = toLatex(diagram, layout);
@@ -546,8 +557,8 @@ if (result.warnings.length > 0) {
 
 ```typescript
 interface LatexResult {
-  latex: string;        // Complete LaTeX document
-  warnings: string[];   // Conversion warnings
+  latex: string; // Complete LaTeX document
+  warnings: string[]; // Conversion warnings
 }
 ```
 
@@ -576,7 +587,7 @@ The exporter produces a standalone LaTeX document:
   \node[block] (tf1) at (2.54cm,1.27cm) {$\frac{K}{s+1}$};
   \node[gain] (g1) at (5.08cm,1.27cm) {$K=10$};
   \node[sum] (sum1) at (7.62cm,1.27cm) {$+$};
-  
+
   % Edges
   \draw[->,>=Stealth] (tf1) -- (g1) node[midway,above] {$x(s)$};
   \draw[->,>=Stealth] (g1) -- (sum1);
@@ -588,12 +599,12 @@ The exporter produces a standalone LaTeX document:
 
 The exporter automatically converts transfer functions to LaTeX fractions:
 
-| Input Label | LaTeX Output |
-|-------------|--------------|
-| `"1/(s+1)"` | `$\frac{1}{s+1}$` |
-| `"K/(s^2+2s+1)"` | `$\frac{K}{s^2+2s+1}$` |
+| Input Label          | LaTeX Output             |
+| -------------------- | ------------------------ |
+| `"1/(s+1)"`          | `$\frac{1}{s+1}$`        |
+| `"K/(s^2+2s+1)"`     | `$\frac{K}{s^2+2s+1}$`   |
 | `"(s+1)/(s^2+3s+2)"` | `$\frac{s+1}{s^2+3s+2}$` |
-| `"1/s"` | `$\frac{1}{s}$` |
+| `"1/s"`              | `$\frac{1}{s}$`          |
 
 ### Example: PID Controller
 
@@ -646,7 +657,7 @@ edge output -> error label:"-" style:dashed
   \node[sum] (sum) at (6,0) {$+$};
   \node[block] (plant) at (8,0) {$\frac{1}{s+1}$};
   \node[block] (output) at (10,0) {$y(t)$};
-  
+
   \draw[->,>=Stealth] (setpoint) -- (error);
   \draw[->,>=Stealth] (error) -- (Kp);
   \draw[->,>=Stealth] (error) -- (Ki);
@@ -700,22 +711,22 @@ The PID controller architecture is shown in Figure~\ref{fig:pid}.
 
 LaTeX special characters are automatically escaped:
 
-| Character | LaTeX Escaped |
-|-----------|---------------|
-| `\` | `\textbackslash{}` |
-| `{` | `\{` |
-| `}` | `\}` |
-| `_` | `\_` |
-| `^` | `\textasciicircum{}` |
-| `#` | `\#` |
-| `&` | `\&` |
-| `%` | `\%` |
+| Character | LaTeX Escaped        |
+| --------- | -------------------- |
+| `\`       | `\textbackslash{}`   |
+| `{`       | `\{`                 |
+| `}`       | `\}`                 |
+| `_`       | `\_`                 |
+| `^`       | `\textasciicircum{}` |
+| `#`       | `\#`                 |
+| `&`       | `\&`                 |
+| `%`       | `\%`                 |
 
 ---
 
 ## Simulink MDL Export
 
-Export block diagrams to Simulink MDL format for MATLAB/Simulink simulation.
+Export Control system diagrams to Simulink MDL format for MATLAB/Simulink simulation.
 
 ### Use Cases
 
@@ -727,17 +738,17 @@ Export block diagrams to Simulink MDL format for MATLAB/Simulink simulation.
 
 ### Supported Simulink Blocks
 
-| Runiq Shape | Simulink Block | Description |
-|-------------|----------------|-------------|
-| `transfer-fn` | `TransferFcn` | Transfer function (numerator/denominator) |
-| `gain` | `Gain` | Amplifier/gain block |
-| `integrator` | `Integrator` | Integration block (1/s) |
-| `differentiator` | `Derivative` | Differentiation block (s) |
-| `time-delay` | `TransportDelay` | Time delay block |
-| `saturation` | `Saturate` | Saturation with upper/lower limits |
-| `compare-junction` | `Sum` | Summing junction with +/- inputs |
-| `multiply-junction` | `Product` | Multiplication block (⊗) |
-| `divide-junction` | `Product` | Division block (÷) |
+| Runiq Shape         | Simulink Block   | Description                               |
+| ------------------- | ---------------- | ----------------------------------------- |
+| `transfer-fn`       | `TransferFcn`    | Transfer function (numerator/denominator) |
+| `gain`              | `Gain`           | Amplifier/gain block                      |
+| `integrator`        | `Integrator`     | Integration block (1/s)                   |
+| `differentiator`    | `Derivative`     | Differentiation block (s)                 |
+| `time-delay`        | `TransportDelay` | Time delay block                          |
+| `saturation`        | `Saturate`       | Saturation with upper/lower limits        |
+| `compare-junction`  | `Sum`            | Summing junction with +/- inputs          |
+| `multiply-junction` | `Product`        | Multiplication block (⊗)                  |
+| `divide-junction`   | `Product`        | Division block (÷)                        |
 
 ### CLI Usage
 
@@ -756,10 +767,14 @@ import { toSimulink } from '@runiq/export-simulink';
 import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
 
 // Diagram from parser
-const diagram: DiagramAst = { /* ... */ };
+const diagram: DiagramAst = {
+  /* ... */
+};
 
 // Layout from ELK layout engine
-const layout: LaidOutDiagram = { /* ... */ };
+const layout: LaidOutDiagram = {
+  /* ... */
+};
 
 // Export to Simulink MDL
 const result = toSimulink(diagram, layout);
@@ -778,8 +793,8 @@ if (result.warnings.length > 0) {
 
 ```typescript
 interface SimulinkResult {
-  mdl: string;          // Complete MDL file content
-  warnings: string[];   // Conversion warnings
+  mdl: string; // Complete MDL file content
+  warnings: string[]; // Conversion warnings
 }
 ```
 
@@ -792,11 +807,11 @@ Model {
   Name		"control_system"
   Version		"7.6"
   SavedCharacterEncoding	"UTF-8"
-  
+
   System {
     Name		"control_system"
     Location		[0, 0, 1024, 768]
-    
+
     Block {
       BlockType		"TransferFcn"
       Name		"Plant"
@@ -805,7 +820,7 @@ Model {
       Position		[200, 100, 280, 160]
       SID		"1"
     }
-    
+
     Block {
       BlockType		"Gain"
       Name		"Controller"
@@ -813,7 +828,7 @@ Model {
       Position		[100, 100, 180, 140]
       SID		"2"
     }
-    
+
     Line {
       SrcBlock		"Controller"
       SrcPort		1
@@ -828,12 +843,12 @@ Model {
 
 The exporter automatically parses transfer functions from labels:
 
-| Input Label | Numerator | Denominator |
-|-------------|-----------|-------------|
-| `"1/(s+1)"` | `[1]` | `[1 1]` |
-| `"5/(s^2+3s+2)"` | `[5]` | `[1 3 2]` |
-| `"(s+2)/(s^2+5s+6)"` | `[1 2]` | `[1 5 6]` |
-| `"K/(s+1)"` | `[K]` | `[1 1]` |
+| Input Label          | Numerator | Denominator |
+| -------------------- | --------- | ----------- |
+| `"1/(s+1)"`          | `[1]`     | `[1 1]`     |
+| `"5/(s^2+3s+2)"`     | `[5]`     | `[1 3 2]`   |
+| `"(s+2)/(s^2+5s+6)"` | `[1 2]`   | `[1 5 6]`   |
+| `"K/(s+1)"`          | `[K]`     | `[1 1]`     |
 
 **Polynomial Format:** Coefficients in descending order of powers of $s$.
 
@@ -861,11 +876,11 @@ Model {
   Name		"second_order_system"
   Version		"7.6"
   SavedCharacterEncoding	"UTF-8"
-  
+
   System {
     Name		"second_order_system"
     Location		[0, 0, 800, 600]
-    
+
     Block {
       BlockType		"Inport"
       Name		"input"
@@ -873,7 +888,7 @@ Model {
       Port		"1"
       SID		"1"
     }
-    
+
     Block {
       BlockType		"TransferFcn"
       Name		"plant"
@@ -882,7 +897,7 @@ Model {
       Position		[150, 90, 230, 130]
       SID		"2"
     }
-    
+
     Block {
       BlockType		"Outport"
       Name		"output"
@@ -890,14 +905,14 @@ Model {
       Port		"1"
       SID		"3"
     }
-    
+
     Line {
       SrcBlock		"input"
       SrcPort		1
       DstBlock		"plant"
       DstPort		1
     }
-    
+
     Line {
       SrcBlock		"plant"
       SrcPort		1
@@ -973,11 +988,11 @@ Model {
   Name		"pid_controller"
   Version		"7.6"
   SavedCharacterEncoding	"UTF-8"
-  
+
   System {
     Name		"pid_controller"
     Location		[0, 0, 1024, 768]
-    
+
     Block {
       BlockType		"Inport"
       Name		"ref"
@@ -985,7 +1000,7 @@ Model {
       Port		"1"
       SID		"1"
     }
-    
+
     Block {
       BlockType		"Sum"
       Name		"error"
@@ -993,7 +1008,7 @@ Model {
       Position		[130, 195, 150, 225]
       SID		"2"
     }
-    
+
     Block {
       BlockType		"Gain"
       Name		"Kp"
@@ -1001,7 +1016,7 @@ Model {
       Position		[200, 150, 240, 180]
       SID		"3"
     }
-    
+
     Block {
       BlockType		"Integrator"
       Name		"Ki"
@@ -1009,14 +1024,14 @@ Model {
       Position		[200, 200, 240, 230]
       SID		"4"
     }
-    
+
     Block {
       BlockType		"Derivative"
       Name		"Kd"
       Position		[200, 250, 240, 280]
       SID		"5"
     }
-    
+
     Block {
       BlockType		"Sum"
       Name		"pid_sum"
@@ -1024,7 +1039,7 @@ Model {
       Position		[290, 195, 310, 225]
       SID		"6"
     }
-    
+
     Block {
       BlockType		"TransferFcn"
       Name		"plant"
@@ -1033,7 +1048,7 @@ Model {
       Position		[360, 190, 440, 230]
       SID		"7"
     }
-    
+
     Block {
       BlockType		"Outport"
       Name		"output"
@@ -1041,14 +1056,14 @@ Model {
       Port		"1"
       SID		"8"
     }
-    
+
     Line {
       SrcBlock		"ref"
       SrcPort		1
       DstBlock		"error"
       DstPort		1
     }
-    
+
     Line {
       SrcBlock		"error"
       SrcPort		1
@@ -1056,14 +1071,14 @@ Model {
       DstPort		1
       Points		[0, -30]
     }
-    
+
     Line {
       SrcBlock		"error"
       SrcPort		1
       DstBlock		"Ki"
       DstPort		1
     }
-    
+
     Line {
       SrcBlock		"error"
       SrcPort		1
@@ -1071,42 +1086,42 @@ Model {
       DstPort		1
       Points		[0, 30]
     }
-    
+
     Line {
       SrcBlock		"Kp"
       SrcPort		1
       DstBlock		"pid_sum"
       DstPort		1
     }
-    
+
     Line {
       SrcBlock		"Ki"
       SrcPort		1
       DstBlock		"pid_sum"
       DstPort		2
     }
-    
+
     Line {
       SrcBlock		"Kd"
       SrcPort		1
       DstBlock		"pid_sum"
       DstPort		3
     }
-    
+
     Line {
       SrcBlock		"pid_sum"
       SrcPort		1
       DstBlock		"plant"
       DstPort		1
     }
-    
+
     Line {
       SrcBlock		"plant"
       SrcPort		1
       DstBlock		"output"
       DstPort		1
     }
-    
+
     Line {
       SrcBlock		"output"
       SrcPort		1
@@ -1169,45 +1184,57 @@ Model {
 ### SPICE Issues
 
 **Problem:** "Unknown subcircuit model"
+
 - **Solution:** Include `.lib` file or define subcircuit in netlist
 
 **Problem:** "Singular matrix error"
+
 - **Solution:** Add small resistances to floating nodes
 
 **Problem:** "Time step too small"
+
 - **Solution:** Increase `reltol` or adjust transient analysis step size
 
 ### Verilog Issues
 
 **Problem:** "Undeclared identifier"
+
 - **Solution:** Declare all wires/nets used in instances
 
 **Problem:** "Port size mismatch"
+
 - **Solution:** Ensure bus widths match between instances and modules
 
 **Problem:** "Syntax error near ';'"
+
 - **Solution:** Check for missing commas in port/parameter lists
 
 ### LaTeX Issues
 
 **Problem:** "Undefined control sequence"
+
 - **Solution:** Load required TikZ libraries (`\usetikzlibrary{...}`)
 
 **Problem:** "Missing $ inserted"
+
 - **Solution:** Wrap math expressions in `$...$` or `\(...\)`
 
 **Problem:** "Dimension too large"
+
 - **Solution:** Scale coordinates (`[scale=0.5]` in TikZ options)
 
 ### Simulink Issues
 
 **Problem:** "Unable to open system"
+
 - **Solution:** Check MDL file encoding (UTF-8) and MATLAB version
 
 **Problem:** "Unconnected input port"
+
 - **Solution:** Connect all block inputs or set initial conditions
 
 **Problem:** "Algebraic loop detected"
+
 - **Solution:** Add unit delay or integrate signal in feedback path
 
 ---
@@ -1216,7 +1243,7 @@ Model {
 
 - [Digital Circuits Guide](/guide/digital-circuits) - Digital circuit design patterns
 - [Electrical Circuits Guide](/guide/electrical) - Analog circuit design patterns
-- [Block Diagrams Guide](/guide/block-diagrams) - Control system design
+- [Control system Diagrams Guide](/guide/control-diagrams) - Control system design
 - [CLI Reference](/reference/cli) - Command-line export options
 - [Shapes Reference](/reference/shapes) - All available shape IDs
 
@@ -1276,10 +1303,7 @@ interface VerilogOptions {
 ```typescript
 import { toLatex } from '@runiq/export-latex';
 
-function toLatex(
-  diagram: DiagramAst,
-  layout: LaidOutDiagram
-): LatexResult;
+function toLatex(diagram: DiagramAst, layout: LaidOutDiagram): LatexResult;
 
 interface LatexResult {
   latex: string;
@@ -1309,5 +1333,5 @@ interface SimulinkResult {
 
 - [Electrical Examples](/examples/electrical) - RC filters, op-amps, power supplies
 - [Digital Examples](/examples/digital) - Counters, ALUs, state machines
-- [Block Diagram Examples](/examples/block-diagrams) - PID controllers, filters
+- [Control system Diagram Examples](/examples/control-diagrams) - PID controllers, filters
 - [GitHub Repository](https://github.com/jgreywolf/runiq/tree/main/examples) - All example files

@@ -15,7 +15,7 @@
 **⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬  
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
 **⚡ NEW**: UML relationships - stereotypes (`<<include>>`, `<<extend>>`), line styles, arrow types!  
-**⚡ NEW**: Block diagram support for control systems & signal processing!  
+**⚡ NEW**: Control system support for control systems & signal processing!  
 **⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!  
 **⚡ NEW**: P&ID (Piping & Instrumentation Diagrams) following ISA-5.1 standards! 🏭
 
@@ -86,14 +86,14 @@
 - **Complete workflow**: Design → Simulate → Visualize from single source
 - **Version control friendly**: Track circuit changes like code
 
-### Block Diagrams & Control Systems (NEW! 🎉)
+### Control System Diagrams (NEW! 🎉)
 
 - **Control system blocks**: Transfer functions, gain blocks, integrators, differentiators
 - **Signal operations**: Summing junctions (+), multiply (×), divide (÷), compare
 - **Standard notation**: Laplace domain (s), time delays (e^-sT), saturation blocks
 - **Feedback loops**: Model closed-loop control systems with feedback paths
 - **Engineering applications**: PID controllers, state-space models, signal processing
-- **5 example diagrams**: Ready-to-use templates in `examples/block-diagrams/`
+- **5 example diagrams**: Ready-to-use templates in `examples/control-diagrams/`
 
 ### Mindmap Diagrams (NEW! 🎉)
 
@@ -195,7 +195,7 @@ pnpm dev
 | [`@runiq/export-verilog`](./packages/export-verilog)         | Verilog HDL generator (digital)      | 15 ✅ |
 | [`@runiq/renderer-schematic`](./packages/renderer-schematic) | IEEE-standard schematic SVG renderer | 46 ✅ |
 
-### Block Diagram Export Packages (NEW! 🎉)
+### Control system Diagram Export Packages (NEW! 🎉)
 
 | Package                                                | Description                                  | Tests |
 | ------------------------------------------------------ | -------------------------------------------- | ----- |
@@ -528,7 +528,7 @@ pid "Simple Process Flow" {
 
 - [x] **61 shapes implemented** (52 flowchart/diagram + 9 block diagram shapes! 🎉)
   - Flowchart: Actors, circles, data/documents, data I/O, storage, process, specialized, annotations
-  - Block Diagrams: Transfer functions, gain, integrator, differentiator, delay, saturation, junctions
+  - Control system Diagrams: Transfer functions, gain, integrator, differentiator, delay, saturation, junctions
 - [x] **UML Class Diagrams** - Complete! 🎉
   - 3-compartment rendering (name, attributes, methods)
   - Generic type support (single, multiple, nested, bounded)
@@ -573,7 +573,7 @@ pid "Simple Process Flow" {
 - [x] **Hierarchical Containers** - ALL PHASES COMPLETE! 🎉
 - [x] **UML Relationships** - Stereotypes, line styles, arrow types complete
 - [x] **Use Case Diagrams** - Actors, use cases, system boundaries
-- [x] **Block Diagrams** - Control systems with LaTeX/Simulink export
+- [x] **Control system Diagrams** - Control systems with LaTeX/Simulink export
 - [ ] **Pedigree Charts** - NEXT UP! Family trees for genealogy & genetics
 
 **Research & Planning:**
@@ -617,7 +617,7 @@ See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) f
 - [Hierarchical Containers Design](./docs/hierarchical-containers-design.md) - Complete Phase 1-5 plan
 - [Containers Guide](./docs/containers.md) - Complete container usage documentation
 - [Use Case Diagram Guide](./examples/use-case-diagram/README.md) - UML use case documentation
-- [Block Diagram Examples](./examples/block-diagrams/README.md) - Control systems guide
+- [Control system Diagram Examples](./examples/control-diagrams/README.md) - Control systems guide
 - [Dagre to ELK Migration](./docs/dagre-to-elk-migration.md)
 - [Langium Migration Guide](./docs/langium-migration.md)
 

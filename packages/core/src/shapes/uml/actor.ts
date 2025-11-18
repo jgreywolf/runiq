@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 export const actorShape: ShapeDefinition = {
   id: 'user',
@@ -37,6 +38,7 @@ export const actorShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
 
     return `
       <!-- Actor head -->
@@ -48,10 +50,7 @@ export const actorShape: ShapeDefinition = {
             rx="5" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
       <!-- Label -->
-      <text x="${cx}" y="${textY}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, textY)}
     `;
   },
 };
