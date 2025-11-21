@@ -1,25 +1,27 @@
-diagram "Bubble Sort Algorithm" direction TB
+diagram "Bubble Sort Algorithm" {
+  direction TB
 
-shape Start as @rounded label: "Start"
-shape Init as @rect label: "i = 0"
-shape OuterCheck as @rhombus label: "i < n-1?"
-shape InnerInit as @rect label: "j = 0"
-shape InnerCheck as @rhombus label: "j < n-i-1?"
-shape Compare as @rhombus label: "arr[j] > arr[j+1]?"
-shape Swap as @rect label: "Swap"
-shape IncrementJ as @rect label: "j++"
-shape IncrementI as @rect label: "i++"
-shape End as @rounded label: "End"
+  shape Start as @rounded label: "Start"
+  shape Init as @rect label: "i = 0"
+  shape OuterCheck as @rhombus label: "i < n-1?"
+  shape InnerInit as @rect label: "j = 0"
+  shape InnerCheck as @rhombus label: "j < n-i-1?"
+  shape Compare as @rhombus label: "arr[j] > arr[j+1]?"
+  shape Swap as @rect label: "Swap"
+  shape IncrementJ as @rect label: "j++"
+  shape IncrementI as @rect label: "i++"
+  shape End as @rounded label: "End"
 
-Start -> Init
-Init -> OuterCheck
-OuterCheck -> InnerInit label: "yes"
-OuterCheck -> End label: "no"
-InnerInit -> InnerCheck
-InnerCheck -> Compare label: "yes"
-InnerCheck -> IncrementI label: "no"
-Compare -> Swap label: "yes"
-Compare -> IncrementJ label: "no"
-Swap -> IncrementJ
-IncrementJ -> InnerCheck
-IncrementI -> OuterCheck
+  Start -> Init
+  Init -> OuterCheck
+  OuterCheck -> InnerInit label: "yes"
+  OuterCheck -> End label: "no"
+  InnerInit -> InnerCheck
+  InnerCheck -> Compare label: "yes"
+  InnerCheck -> IncrementI label: "no"
+  Compare -> Swap label: "yes"
+  Compare -> IncrementJ label: "no"
+  Swap -> IncrementJ
+  IncrementJ -> InnerCheck
+  IncrementI -> OuterCheck
+}

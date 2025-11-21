@@ -22,12 +22,12 @@ export const digitalComponentShapeIcons: ShapeCategory[] = [
 			{
 				id: 'mux4to1',
 				label: '4-to-1 Mux',
-				code: 'part id type:MUX4 pins:(D0,D1,D2,D3,S0,S1,Y)'
+				code: 'part id type:MUX41 pins:(D0,D1,D2,D3,S0,S1,Y)'
 			},
 			{
 				id: 'mux8to1',
 				label: '8-to-1 Mux',
-				code: 'part id type:MUX8 pins:(D0,D1,D2,D3,D4,D5,D6,D7,S0,S1,S2,Y)'
+				code: 'part id type:MUX81 pins:(D0,D1,D2,D3,D4,D5,D6,D7,S0,S1,S2,Y)'
 			},
 			{
 				id: 'decoder2to4',

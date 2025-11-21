@@ -8,7 +8,8 @@
       "Bash(pnpm install:*)",
       "Bash(pnpm build:*)",
       "Bash(pnpm test:*)",
-      "Bash(node dist/index.js:*)"
+      "Bash(node dist/index.js:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

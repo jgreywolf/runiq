@@ -1,21 +1,23 @@
 ---
 title: Profiles
-description: Understand Runiq's 8 diagram profiles - Diagram, Electrical, Digital, Wardley, Sequence, Pneumatic, Hydraulic, and P&ID with specialized syntax and rendering.
-lastUpdated: 2025-01-09
+description: Understand Runiq's 10 diagram profiles - Diagram, Electrical, Digital, Wardley, Sequence, Timeline, Pneumatic, Hydraulic, P&ID, and GlyphSet with specialized syntax and rendering.
+lastUpdated: 2025-01-20
 ---
 
-# Profiles: Diagram, Electrical, Digital, Wardley, Sequence, Pneumatic, Hydraulic, and P&ID
+# Profiles
 
-Runiq supports eight primary profiles:
+Runiq supports **10 primary profiles** for different diagramming needs:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, Control system diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **Electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 - **Digital profile**: Digital logic circuits with standard gate symbols (AND, OR, NOT, NAND, NOR, XOR, etc.). Supports HDL export to Verilog.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
 - **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
+- **Timeline profile**: Timeline diagrams and Gantt-style visualizations for project planning, roadmaps, and chronological events.
 - **Pneumatic profile**: Pneumatic circuits following ISO 1219-1 standards with cylinders, valves, FRL units, and compressed air components.
 - **Hydraulic profile**: Hydraulic circuits following ISO 1219-2 standards with pumps, motors, valves, and fluid power components.
 - **P&ID profile**: Piping & Instrumentation Diagrams following ISA-5.1 standards for process engineering and industrial systems.
+- **GlyphSet profile**: SmartArt-style pre-built diagram templates (pyramids, matrices, cycles, org charts) with 61 glyphsets across 6 categories.
 
 Most syntax is shared across profiles. The key differences are:
 
@@ -26,7 +28,13 @@ Most syntax is shared across profiles. The key differences are:
 
 ## Profile Comparison Table
 
-Here's a comprehensive comparison of all 8 profiles to help you choose the right one for your project:
+Here's a comprehensive comparison of the 8 primary profiles to help you choose the right one for your project:
+
+::: tip Additional Profiles
+**Timeline** and **GlyphSet** profiles are also available:
+- **Timeline Profile**: See [Timeline Diagrams Guide](/guide/timeline-diagrams)
+- **GlyphSet Profile**: See [Glyphsets Guide](/guide/glyphsets) - 61 SmartArt-style templates
+:::
 
 | Feature                  | Diagram                                            | Electrical                                                                              | Digital                                                                           | Wardley                                                                           | Sequence                                                                            | Pneumatic                                                                             | Hydraulic                                                                             | P&ID                                        |
 | ------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------- |
@@ -117,34 +125,57 @@ Here's a comprehensive comparison of all 8 profiles to help you choose the right
 
 ### Profile Interoperability
 
-While profiles are specialized, you can **reference multiple profiles** in a single project:
+::: warning Planned Feature
+Cross-profile file references are not yet implemented. The `ref:` syntax shown below is a planned feature for future releases.
+:::
+
+While profiles are specialized, you can organize multi-profile projects using separate files and manual composition. Each profile diagram should be in its own `.runiq` file:
+
+**File Structure:**
+```
+project/
+  ├── main-architecture.runiq        # High-level diagram profile
+  ├── digital/
+  │   └── controller.runiq           # Digital profile circuit
+  ├── hydraulic/
+  │   └── actuators.runiq            # Hydraulic profile circuit
+  └── pid/
+      └── sensors.runiq              # P&ID profile diagram
+```
+
+**Current Workflow:**
+1. Create separate `.runiq` files for each profile
+2. Render each file independently to SVG
+3. Compose SVGs in documentation or presentations
+4. Reference diagrams via hyperlinks or embedded images
+
+**Planned Feature (Not Yet Available):**
+
+In future releases, you will be able to reference external files directly:
 
 ```runiq
-# Main diagram with embedded specialized components
+# FUTURE SYNTAX - NOT YET IMPLEMENTED
 diagram "System Overview" {
   container "Control Logic" {
-    # Reference to digital circuit
     ref: "./digital/controller.runiq"
   }
 
   container "Hydraulic System" {
-    # Reference to hydraulic circuit
     ref: "./hydraulic/actuators.runiq"
-  }
-
-  container "Instrumentation" {
-    # Reference to P&ID
-    ref: "./pid/sensors.runiq"
   }
 }
 ```
 
-This allows you to:
+This will allow you to:
 
 - Maintain specialized subsystems in their native profiles
 - Combine high-level architecture (diagram profile) with technical details (electrical/hydraulic/P&ID)
 - Export each subsystem appropriately (SPICE, Verilog, SVG)
 - Keep documentation modular and maintainable
+
+::: tip Current Alternative
+For now, use the **container** feature to group related shapes within a single diagram, or maintain separate diagram files and compose them manually in your documentation.
+:::
 
 ## Diagram Profile (Default)
 
@@ -314,6 +345,31 @@ sequence "User Login" {
 - Messages instead of edges: `message from:"A" to:"B" label:"Text" type:sync`
 - Supports fragments for control flow: `fragment loop "Retry" from:0 to:3`
 - Rendered with lifelines, activation boxes, and UML-style arrows
+- **UML 2.5 Interaction Use:** Supports `ref` fragments to reference other sequence diagrams by name
+
+**Sequence Diagram References (Interaction Use):**
+
+You can reference other sequence diagrams using UML 2.5 interaction use syntax:
+
+```runiq
+sequence "User Registration Flow" {
+  participant "User" as actor
+  participant "System" as control
+
+  message from:"User" to:"System" label:"Submit form" type:sync
+
+  # Reference another sequence diagram (UML Interaction Use)
+  fragment ref "Input Validation" from:2 to:3 ref:"ValidationSequence"
+
+  fragment ref "Create Credentials" from:4 to:5 ref:"AuthSequence"
+
+  message from:"System" to:"User" label:"Success" type:return
+}
+```
+
+::: tip Sequence-Specific References
+The `ref:` syntax works in Sequence profiles for UML Interaction Use, referencing other sequence diagram names (not file paths). This is different from the planned cross-profile file references mentioned above.
+:::
 
 See [Sequence Diagrams Examples](/examples/sequence-diagrams) for detailed documentation.
 

@@ -1,5 +1,4 @@
-// FRL Unit (Filter-Regulator-Lubricator)
-// Common pneumatic air preparation system
+
 pneumatic "FRL Air Preparation Unit" {
   // Define nets (air lines)
   net SUPPLY, FILTERED, REGULATED, LUBRICATED, OUTPUT
@@ -10,9 +9,10 @@ pneumatic "FRL Air Preparation Unit" {
   
   // Components with pin connections
   // Air flows: SUPPLY -> FILTER -> REGULATOR -> LUBRICATOR -> VALVE -> OUTPUT
-  part FILTER type:FILTER_AIR pins:(SUPPLY,FILTERED) doc:"Removes particulates from compressed air"
-  part REGULATOR type:REGULATOR_PRESS pins:(FILTERED,REGULATED) doc:"Maintains constant output pressure"
-  part GAUGE type:GAUGE_PRESS pins:(REGULATED) doc:"Pressure monitoring"
+  part FILTER type:FILTER pins:(SUPPLY,FILTERED) doc:"Removes particulates from compressed air"
+  
+  part REGULATOR type:REGULATOR pins:(FILTERED,REGULATED) doc:"Maintains constant output pressure"
+  part GAUGE type:GAUGE_P pins:(REGULATED) doc:"Pressure monitoring"
   part LUBRICATOR type:LUBRICATOR pins:(REGULATED,LUBRICATED) doc:"Adds oil mist for lubrication"
-  part VALVE type:VALVE_3_2 pins:(LUBRICATED,OUTPUT) doc:"Manual shutoff valve"
+  part VALVE type:VALVE_32 pins:(LUBRICATED,OUTPUT) doc:"Manual shutoff valve"
 }

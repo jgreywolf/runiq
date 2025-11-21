@@ -6,19 +6,19 @@ diagram "Inline Icons Test" {
   
   container "Social Media" algorithm: radial spacing: 90 {
     // Central node
-    shape central as @circle label: "fa:fa-rocket Launch Campaign"
+    shape central label: "fa:fa-rocket Launch Campaign"
     
     // Branch nodes with inline icons
-    shape twitter as @roundedRectangle label: "fa:fa-twitter Twitter Marketing"
-    shape facebook as @roundedRectangle label: "fa:fa-facebook Facebook Ads"
-    shape instagram as @roundedRectangle label: "fa:fa-instagram Instagram Stories"
-    shape linkedin as @roundedRectangle label: "fa:fa-linkedin Professional Network"
+    shape twitter label: "fa:fa-twitter Twitter Marketing"
+    shape facebook label: "fa:fa-facebook Facebook Ads"
+    shape instagram label: "fa:fa-instagram Instagram Stories"
+    shape linkedin label: "fa:fa-linkedin Professional Network"
     
     // Sub-nodes
-    shape tweet as @rectangle label: "fa:fa-comment Daily Tweets"
-    shape hashtags as @rectangle label: "fa:fa-hashtag Trending Tags"
-    shape ads as @rectangle label: "fa:fa-dollar Sponsored Posts"
-    shape stories as @rectangle label: "fa:fa-image Visual Content"
+    shape tweet label: "fa:fa-comment Daily Tweets"
+    shape hashtags label: "fa:fa-hashtag Trending Tags"
+    shape ads label: "fa:fa-dollar Sponsored Posts"
+    shape stories label: "fa:fa-image Visual Content"
     
     // Connections
     central -> twitter

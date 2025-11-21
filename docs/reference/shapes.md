@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides **142+ shapes** across 17 categories for building professional diagrams.
+Runiq provides **249 shapes** across 17 categories for building professional diagrams.
 
 ## Quick Reference
 

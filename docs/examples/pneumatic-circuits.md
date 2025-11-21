@@ -149,9 +149,18 @@ part L1 type:LUBRICATOR pins:(REGULATED,OUTPUT)
 
 ### Instrumentation
 
-| Symbol      | Type           | Description              | Pins |
-| ----------- | -------------- | ------------------------ | ---- |
-| **GAUGE_P** | Pressure Gauge | Displays system pressure | 1    |
+| Symbol          | Type           | Description                          | Pins |
+| --------------- | -------------- | ------------------------------------ | ---- |
+| **GAUGE_P**     | Pressure Gauge | Displays system pressure             | 1    |
+| **SENSOR_PROX** | Proximity Sensor | Non-contact position detection     | 1    |
+| **SENSOR_PRESS** | Pressure Sensor | Electronic pressure measurement    | 1    |
+
+**Sensor Usage Example:**
+
+```runiq
+part SENS_EXT type:SENSOR_PROX pins:(SENSOR_SIGNAL) doc:"Cylinder extended sensor"
+part PRESS_MON type:SENSOR_PRESS pins:(PRESSURE_LINE) doc:"Line pressure monitor"
+```
 
 ## Examples
 

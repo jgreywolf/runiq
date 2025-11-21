@@ -2,6 +2,25 @@
 
 Weighted graphs assign numeric values (weights) to edges, representing costs, distances, capacities, or other metrics. Runiq supports weighted edges through the `weight` property.
 
+## Current Capabilities & Limitations
+
+::: tip What Works
+- ✅ **Parsing & Storage**: Weights are fully parsed and stored in the diagram AST
+- ✅ **Graph Metrics**: Weights are used internally for shortest path, betweenness centrality, and other graph analysis algorithms
+- ✅ **Data Model**: Weights integrate seamlessly with the type system and validation
+:::
+
+::: warning Known Limitations
+- ⚠️ **Layout Engine**: Weights are **not** currently passed to ELK layout engine and do not affect node positioning or edge routing
+- ⚠️ **Visualization**: Weights are **not** automatically displayed on edges (you must manually add labels)
+- ⚠️ **API Access**: Internal graph algorithms are not yet exposed as user-facing APIs
+:::
+
+**Workaround**: Manually duplicate weight values in edge labels to make them visible:
+```runiq
+A -> B weight: 10 label: "10 mi"  # Weight for metrics + label for display
+```
+
 ## Syntax
 
 Add the `weight` property to any edge:
@@ -171,14 +190,17 @@ Unweighted edges have `undefined` weight and won't participate in shortest path 
 
 ## Graph Algorithms
 
-Weighted edges enable graph analysis algorithms:
+Weighted edges enable graph analysis algorithms internally:
 
 - **Shortest Path**: Find minimum-cost routes between nodes
 - **Minimum Spanning Tree**: Connect all nodes with minimum total weight
-- **Network Flow**: Calculate maximum flow capacity
-- **Centrality Metrics**: Identify important nodes based on weighted paths
+- **Centrality Metrics**: Identify important nodes based on weighted paths (betweenness, closeness)
 
-See [Graph Metrics](../reference/graph-metrics.md) for computing and visualizing graph metrics with weighted edges.
+::: info Internal Use
+Edge weights are currently used internally for graph metrics calculations (shortest path, betweenness centrality). These algorithms are not yet exposed as user-facing APIs but may be in future releases.
+:::
+
+See [Graph Metrics](../reference/graph-metrics.md) for more details on graph analysis.
 
 ## Best Practices
 
@@ -190,25 +212,23 @@ See [Graph Metrics](../reference/graph-metrics.md) for computing and visualizing
 
 ## Integration with Layouts
 
-Weights work with all layout algorithms:
+::: warning Current Limitation
+Edge weights are currently **not** passed to the layout engine. Weights are parsed and stored but do not affect node positioning or edge routing. This is a known limitation that may be addressed in future releases.
+:::
+
+You can still use weights for documentation and metrics purposes:
 
 ```runiq
-# Force-directed layout (weights can influence attraction)
+# Weights are parsed and available for metrics, but don't affect layout
 container "Force Network" algorithm: force {
-  a -> b weight: 10
-  b -> c weight: 5
+  a -> b weight: 10 label: "10 mi"
+  b -> c weight: 5 label: "5 mi"
 }
 
-# Hierarchical layout (weights for routing cost)
-container "Hierarchy" algorithm: elk direction: down {
-  a -> b weight: 100
-  b -> c weight: 50
-}
-
-# Layered layout (weights for edge cost)
-container "Layers" algorithm: layered {
-  a -> b weight: 10
-  b -> c weight: 20
+# Weights don't influence hierarchical positioning
+container "Hierarchy" algorithm: layered {
+  a -> b weight: 100 label: "high cost"
+  b -> c weight: 50 label: "medium cost"
 }
 ```
 

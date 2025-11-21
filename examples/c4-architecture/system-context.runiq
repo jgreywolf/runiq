@@ -1,11 +1,12 @@
-diagram "Banking System - System Context"
-direction TB
+diagram "Banking System - System Context" {
+  direction TB
 
-shape customer as @c4Person label:"Customer"
-shape bankingSystem as @c4System label:"Internet Banking\nSystem"
-shape emailSystem as @c4System label:"Email System"
-shape mainframe as @c4System label:"Mainframe\nBanking System"
+  shape customer as @c4Person label:"Customer"
+  shape bankingSystem as @c4System label:"Internet Banking\nSystem"
+  shape emailSystem as @c4System label:"Email System"
+  shape mainframe as @c4System label:"Mainframe\nBanking System"
 
-customer -> bankingSystem label:"Uses"
-bankingSystem -> emailSystem label:"Sends emails"
-bankingSystem -> mainframe label:"Uses"
+  customer -> bankingSystem label:"Uses"
+  bankingSystem -> emailSystem label:"Sends emails"
+  bankingSystem -> mainframe label:"Uses"
+}

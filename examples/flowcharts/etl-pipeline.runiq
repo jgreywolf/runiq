@@ -1,16 +1,17 @@
-diagram "ETL Pipeline" 
-direction LR
+diagram "ETL Pipeline" {
+  direction LR
 
-shape Extract as @rect label: "Extract Data"
-shape Transform as @rect label: "Transform"
-shape Validate as @rhombus label: "Valid?"
-shape Load as @cylinder label: "Load to DB"
-shape ErrorLog as @doc label: "Error Log"
-shape Archive as @hexagon label: "Archive"
+  shape Extract as @rect label: "Extract Data"
+  shape Transform as @rect label: "Transform"
+  shape Validate as @rhombus label: "Valid?"
+  shape Load as @cylinder label: "Load to DB"
+  shape ErrorLog as @doc label: "Error Log"
+  shape Archive as @hexagon label: "Archive"
 
-Extract -> Transform
-Transform -> Validate
-Validate -> Load label: "yes"
-Validate -> ErrorLog label: "no"
-Load -> Archive
-ErrorLog -> Archive
+  Extract -> Transform
+  Transform -> Validate
+  Validate -> Load label: "yes"
+  Validate -> ErrorLog label: "no"
+  Load -> Archive
+  ErrorLog -> Archive
+}

@@ -34,7 +34,7 @@ export const digitalSampleDiagrams: SampleCategory[] = [
 				code: `electrical"4-to-1 Multiplexer" {
   net D0, D1, D2, D3, S0, S1, Y, GND
 
-  part MUX1 type:MUX4 pins:(D0,D1,D2,D3,S0,S1,Y)
+  part MUX1 type:MUX41 pins:(D0,D1,D2,D3,S0,S1,Y)
   part GND1 type:GND pins:(GND)
 }`
 			}

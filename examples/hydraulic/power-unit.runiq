@@ -1,19 +1,18 @@
-// Hydraulic Power Unit
-// Basic hydraulic system with pump, reservoir, and relief valve
+
 hydraulic "Hydraulic Power Unit" {
   net TANK, PUMP_OUT, PRESSURE, RELIEF, RETURN
   
   // System specifications
   pressure 210 bar operating
   flowRate 40 L/min
-  fluid mineral "ISO VG 46" temp:(10, 60, C)
+  fluid mineral "ISO VG 46" temp:(10, 60, degC)
   
   // Main components with pin connections
   // Flow path: TANK -> PUMP -> PUMP_OUT (with RELIEF protection) -> RETURN -> FILTER -> TANK
   part TANK_RES type:RESERVOIR pins:(TANK,RETURN) doc:"Hydraulic fluid reservoir"
-  part PUMP type:PUMP_FIX pins:(TANK,PUMP_OUT) doc:"Fixed displacement pump"
-  part MOTOR type:MOTOR_ELECTRIC pins:(PUMP_OUT) doc:"Electric drive motor"
-  part RELIEF type:VALVE_RELIEF pins:(PUMP_OUT,RELIEF,RETURN) doc:"Pressure relief valve at 210 bar"
+  part PUMP type:PUMP_FIXED pins:(TANK,PUMP_OUT) doc:"Fixed displacement pump"
+  part MOTOR type:MOTOR_HYD pins:(PUMP_OUT) doc:"Electric drive motor"
+  part RELIEF type:RELIEF_VALVE pins:(PUMP_OUT,RELIEF,RETURN) doc:"Pressure relief valve at 210 bar"
   part FILTER type:FILTER pins:(RETURN,TANK) doc:"Return line filter"
-  part GAUGE type:GAUGE_PRESS pins:(PRESSURE) doc:"System pressure gauge"
+  part GAUGE type:GAUGE_P_HYD pins:(RELIEF) doc:"System pressure gauge"
 }

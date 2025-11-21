@@ -94,19 +94,20 @@ Heavy-duty press circuit featuring:
 ### Component Types
 
 - `RESERVOIR` - Hydraulic fluid reservoir/tank
-- `PUMP_FIX` - Fixed displacement pump
+- `PUMP_FIXED` - Fixed displacement pump
 - `PUMP_VAR` - Variable displacement pump
 - `MOTOR_HYD` - Hydraulic motor
-- `MOTOR_ELECTRIC` - Electric motor (pump drive)
 - `CYL_HYD` - Double-acting hydraulic cylinder
-- `VALVE_4_3` - 4-port, 3-position valve
-- `VALVE_3_2` - 3-port, 2-position valve
-- `VALVE_RELIEF` - Pressure relief valve
-- `VALVE_CHECK` - Check valve / flow control
-- `ACC_HYD` - Hydraulic accumulator / intensifier
+- `VALVE_43` - 4-port, 3-position valve
+- `VALVE_32` - 3-port, 2-position valve
+- `RELIEF_VALVE` - Pressure relief valve
+- `CHECK_VALVE` - Check valve / flow control
+- `ACCUMULATOR` - Hydraulic accumulator / intensifier
 - `FILTER` - Hydraulic filter
-- `GAUGE_PRESS` - Pressure gauge
-- `GAUGE_FLOW` - Flow meter
+- `GAUGE_P_HYD` - Pressure gauge
+- `FLOW_CONTROL_HYD` - Flow meter
+- `SENSOR_PROX` - Proximity sensor
+- `SENSOR_PRESS` - Pressure Sensor
 
 ### Fluid Types
 

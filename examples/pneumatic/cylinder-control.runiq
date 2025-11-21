@@ -12,7 +12,7 @@ pneumatic "Single Cylinder Control Circuit" {
   // Circuit logic:
   // - Button pressed: air flows SUPPLY -> VALVE -> PORT_A -> CYLINDER
   // - Button released: spring returns piston, air exhausts to EXHAUST
-  part VALVE type:VALVE_3_2 pins:(SUPPLY,PORT_A,EXHAUST) doc:"3/2-way directional control valve"
+  part VALVE type:VALVE_32 pins:(SUPPLY,PORT_A,EXHAUST) doc:"3/2-way directional control valve"
   part CYLINDER type:CYL_SA pins:(PORT_A) doc:"Single-acting spring return cylinder"
-  part BUTTON type:VALVE_3_2 pins:(PILOT) doc:"Manual push button valve"
+  part BUTTON type:VALVE_32 pins:(PILOT) doc:"Manual push button valve"
 }

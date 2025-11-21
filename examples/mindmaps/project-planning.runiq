@@ -16,24 +16,24 @@ diagram "Hierarchical Mindmap" {
     shape testing label:"Testing"
     
     // Level 2 - Research subtasks - explicit @rect for differentiation
-    shape surveys as @rect label:"User Surveys"
-    shape competitors as @rect label:"Competitor Analysis"
-    shape analytics as @rect label:"Analytics Review"
+    shape surveys  label:"User Surveys"
+    shape competitors  label:"Competitor Analysis"
+    shape analytics  label:"Analytics Review"
     
     // Level 2 - Design subtasks
-    shape wireframes as @rect label:"Wireframes"
-    shape mockups as @rect label:"Mockups"
-    shape prototype as @rect label:"Prototype"
+    shape wireframes  label:"Wireframes"
+    shape mockups  label:"Mockups"
+    shape prototype  label:"Prototype"
     
     // Level 2 - Development subtasks
-    shape frontend as @rect label:"Frontend"
-    shape backend as @rect label:"Backend"
-    shape database as @rect label:"Database"
+    shape frontend  label:"Frontend"
+    shape backend  label:"Backend"
+    shape db  label:"Database"
     
     // Level 2 - Testing subtasks
-    shape unit_tests as @rect label:"Unit Tests"
-    shape integration as @rect label:"Integration"
-    shape user_testing as @rect label:"User Testing"
+    shape unit_tests  label:"Unit Tests"
+    shape integration  label:"Integration"
+    shape user_testing  label:"User Testing"
     
     // Main connections
     main -> research
@@ -54,7 +54,7 @@ diagram "Hierarchical Mindmap" {
     // Development connections
     development -> frontend
     development -> backend
-    development -> database
+    development -> db
     
     // Testing connections
     testing -> unit_tests

@@ -10,7 +10,7 @@ import { hydraulicSampleDiagrams } from './toolboxSamples/hydraulicSampleDiagram
 import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
 import { mindmapSampleDiagrams } from './toolboxSamples/mindmapSampleDiagrams';
 import { networkSampleDiagrams } from './toolboxSamples/networkSampleDiagrams';
-import { pedigreeSampleDiagrams } from './toolboxSamples/pedigreeSampleDiagrams';
+//import { pedigreeSampleDiagrams } from './toolboxSamples/pedigreeSampleDiagrams';
 import { pneumaticSampleDiagrams } from './toolboxSamples/pneumaticSampleDiagrams';
 import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
 import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
@@ -47,7 +47,7 @@ export const sampleDiagrams: SampleCategory[] = [
 	...networkSampleDiagrams,
 	...c4SampleDiagrams,
 	...controlSystemsSampleDiagrams,
-	...pedigreeSampleDiagrams,
+	//...pedigreeSampleDiagrams,
 	...chartSampleDiagrams,
 	...quantumSampleDiagrams,
 	...electricalSampleDiagrams,

@@ -571,7 +571,7 @@ container "Production System"
 | **Final Nodes**              | ✅ Activity & flow final           | ⚠️ Basic | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
 | **Expansion Regions**        | ✅ Container-based                 | ❌       | ✅           | ❌                 | ❌            | ✅                   |
 | **Auto-Layout**              | ✅ ELK (Layered)                   | N/A      | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Export Formats**           | ✅ SVG, PNG, PDF                   | N/A      | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
+| **Export Formats**           | ✅ SVG (PNG/PDF via conversion)    | N/A      | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
 | **Collaboration**            | ✅ Git-based                       | N/A      | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
 | **Learning Curve**           | ⚠️ Moderate (DSL)                  | N/A      | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
 | **Open Source**              | ✅ MIT License                     | ✅ MIT   | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |

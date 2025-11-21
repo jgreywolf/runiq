@@ -1,70 +1,75 @@
 # Hemophilia Pedigree
 # Classic X-linked recessive inheritance pattern
 # Shows affected males and carrier females
-diagram pedigree
+diagram "Hemophilia Pedigree" {
 
 # Generation I
-I-1: pedigree-male "I-1"
-I-2: pedigree-female "I-2" { carrier: true }
+shape I1 as @pedigreeMale label:"I1"
+shape I2 as @pedigreeFemale label:"I2"  carrier: true
 
 # Generation II
-II-1: pedigree-female "II-1" { carrier: true }
-II-2: pedigree-male "II-2" { affected: true, deceased: true }
-II-3: pedigree-female "II-3" { carrier: true }
-II-4: pedigree-male "II-4"
-II-5: pedigree-female "II-5"
+shape II1 as @pedigreeMale label:"II1" affected: true deceased: true
+shape II2 as @pedigreeFemale label:"II2" carrier: true
+
+shape II3 as @pedigreeFemale carrier: true
+shape II4 as @pedigreeMale
+shape II5 as @pedigreeFemale carrier: true
+
 
 # Generation II spouses
-II-1-spouse: pedigree-male "Spouse"
-II-3-spouse: pedigree-male "Spouse"
-II-5-spouse: pedigree-male "Spouse"
+shape II1Spouse as @pedigreeFemale label:"Spouse"
+shape II2Spouse as @pedigreeMale label:"Spouse"
+shape II3Spouse as @pedigreeMale label:"Spouse"
+shape II5Spouse as @pedigreeMale label:"Spouse"
 
 # Generation III
-III-1: pedigree-female "III-1" { carrier: true }
-III-2: pedigree-male "III-2"
-III-3: pedigree-male "III-3" { affected: true }
-III-4: pedigree-female "III-4"
-III-5: pedigree-male "III-5" { affected: true }
-III-6: pedigree-female "III-6" { carrier: true }
-III-7: pedigree-male "III-7"
-III-8: pedigree-female "III-8"
+shape III1 as @pedigreeFemale carrier: true
+shape III2 as @pedigreeMale
+shape III3 as @pedigreeMale affected: true
+shape III4 as @pedigreeFemale
+shape III5 as @pedigreeMale affected: true
+shape III6 as @pedigreeFemale carrier: true
+shape III7 as @pedigreeMale
+shape III8 as @pedigreeFemale
+
 
 # Marriage relationships (Generation I)
-I-1 -> I-2
+I1 -> I2
 
 # Marriage relationships (Generation II)
-II-1 -> II-1-spouse
-II-3 -> II-3-spouse
-II-5 -> II-5-spouse
+II1 -> II1Spouse
+II3 -> II3Spouse
+II5 -> II5Spouse
 
 # Parent-child (Generation I -> II)
-I-1 -> II-1
-I-1 -> II-2
-I-1 -> II-3
-I-1 -> II-4
-I-1 -> II-5
-I-2 -> II-1
-I-2 -> II-2
-I-2 -> II-3
-I-2 -> II-4
-I-2 -> II-5
+I1 -> II1
+I1 -> II2
+I1 -> II3
+I1 -> II4
+I1 -> II5
+I2 -> II1
+I2 -> II2
+I2 -> II3
+I2 -> II4
+I2 -> II5
 
 # Parent-child (Generation II -> III)
-II-1 -> III-1
-II-1 -> III-2
-II-1-spouse -> III-1
-II-1-spouse -> III-2
+II1 -> III1
+II1 -> III2
+II1Spouse -> III1
+II1Spouse -> III2
 
-II-3 -> III-3
-II-3 -> III-4
-II-3-spouse -> III-3
-II-3-spouse -> III-4
+II3 -> III3
+II3 -> III4
+II3Spouse -> III3
+II3Spouse -> III4
 
-II-5 -> III-5
-II-5 -> III-6
-II-5 -> III-7
-II-5 -> III-8
-II-5-spouse -> III-5
-II-5-spouse -> III-6
-II-5-spouse -> III-7
-II-5-spouse -> III-8
+II5 -> III5
+II5 -> III6
+II5 -> III7
+II5 -> III8
+II5Spouse -> III5
+II5Spouse -> III6
+II5Spouse -> III7
+II5Spouse -> III8
+}

@@ -81,9 +81,12 @@ Value,82,87`
 			{
 				name: 'Venn Diagram',
 				description: 'Set relationships',
-				code: `diagram "Feature Comparison" {
-
-shape venn as @venn2 label:"Products" data:[{"setA":100,"setB":80,"intersection":30,"labelA":"Product A","labelB":"Product B"}]
+				code: `diagram "Skills Overlap" {
+  shape skills as @venn
+    label:"Programming vs Design"
+    data:[1, 1]
+    labels:["Frontend", "Backend"]
+    colors:["#4299e1", "#48bb78"]
 }`
 			}
 		]

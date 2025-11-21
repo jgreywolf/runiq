@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="292" height="642" 
+    viewBox="0 0 292 642"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">BPMN Nested Pools</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="customerPool"><rect x="12" y="12" width="200" height="150" 
+    fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8" /><text x="22" y="32" class="runiq-container-label">Customer</text></g><g data-runiq-container="companyPool"><rect x="12" y="182" width="260" height="440" 
+    fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="8" /><text x="22" y="202" class="runiq-container-label">Company</text><g data-runiq-container="salesDept"><rect x="42" y="212" width="200" height="150" 
+    fill="#fff9c4" stroke="#f57c00" stroke-width="2" rx="8" /><text x="52" y="232" class="runiq-container-label">Sales Department</text></g><g data-runiq-container="fulfillmentDept"><rect x="42" y="442" width="200" height="150" 
+    fill="#e8f5e9" stroke="#388e3c" stroke-width="2" rx="8" /><text x="52" y="462" class="runiq-container-label">Fulfillment Department</text></g></g></svg>

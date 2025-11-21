@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="220" height="400" 
+    viewBox="0 0 220 400"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Force-Directed Network Topology</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="network-cluster"><rect x="0" y="0" width="200" height="150" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Network Cluster</text></g><g data-runiq-container="traditional-hierarchy"><rect x="0" y="230" width="200" height="150" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="250" class="runiq-container-label">Traditional Hierarchy</text></g></svg>

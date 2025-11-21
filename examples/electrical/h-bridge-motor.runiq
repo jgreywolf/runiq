@@ -9,15 +9,15 @@ electrical "H-Bridge Motor Driver" {
   part V3 type:V source:"PULSE(0 5 100u 1n 1n 100u 200u)" pins:(CTRL_B,GND)
   
   # H-Bridge: High-side MOSFETs (PMOS)
-  part M1 type:M_PMOS model:"IRF9530" w:"50u" l:"2u" rotation:90 pins:(MOTOR_P,CTRL_A,VCC,VCC)
-  part M2 type:M_PMOS model:"IRF9530" w:"50u" l:"2u" rotation:90 pins:(MOTOR_N,CTRL_B,VCC,VCC)
+  part M1 type:M_PMOS model:"IRF9530" rotation:90 pins:(MOTOR_P,CTRL_A,VCC,VCC)
+  part M2 type:M_PMOS model:"IRF9530" rotation:90 pins:(MOTOR_N,CTRL_B,VCC,VCC)
   
   # H-Bridge: Low-side MOSFETs (NMOS)
-  part M3 type:M_NMOS model:"IRF530" w:"100u" l:"2u" rotation:270 pins:(MOTOR_P,CTRL_A,GND,GND)
-  part M4 type:M_NMOS model:"IRF530" w:"100u" l:"2u" rotation:270 pins:(MOTOR_N,CTRL_B,GND,GND)
+  part M3 type:M_NMOS model:"IRF530" rotation:270 pins:(MOTOR_P,CTRL_A,GND,GND)
+  part M4 type:M_NMOS model:"IRF530" rotation:270 pins:(MOTOR_N,CTRL_B,GND,GND)
   
   # Motor (represented as inductor with resistance)
-  part L1 type:L value:"10m" rotation:90 pins:(MOTOR_P,MOTOR_N)
+  part L1 type:Inductor value:"10m" rotation:90 pins:(MOTOR_P,MOTOR_N)
   part R1 type:R value:"5" rotation:90 pins:(MOTOR_P,MOTOR_N)
   
   # Transient analysis

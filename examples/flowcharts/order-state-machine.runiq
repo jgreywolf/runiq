@@ -1,24 +1,25 @@
-diagram "Order State Machine" 
-direction LR
+diagram "Order State Machine" {
+  direction LR
 
-shape New as @rounded label: "New Order"
-shape Pending as @rect label: "Pending Payment"
-shape Processing as @rect label: "Processing"
-shape Shipped as @rect label: "Shipped"
-shape Delivered as @hexagon label: "Delivered"
-shape Cancelled as @doc label: "Cancelled"
-shape Refunded as @doc label: "Refunded"
+  shape New as @rounded label: "New Order"
+  shape Pending as @rect label: "Pending Payment"
+  shape Processing as @rect label: "Processing"
+  shape Shipped as @rect label: "Shipped"
+  shape Delivered as @hexagon label: "Delivered"
+  shape Cancelled as @doc label: "Cancelled"
+  shape Refunded as @doc label: "Refunded"
 
-# Happy path
-New -> Pending label: "create"
-Pending -> Processing label: "pay"
-Processing -> Shipped label: "ship"
-Shipped -> Delivered label: "deliver"
+  # Happy path
+  New -> Pending label: "create"
+  Pending -> Processing label: "pay"
+  Processing -> Shipped label: "ship"
+  Shipped -> Delivered label: "deliver"
 
-# Cancellation paths
-New -> Cancelled label: "cancel"
-Pending -> Cancelled label: "cancel"
-Processing -> Cancelled label: "cancel"
+  # Cancellation paths
+  New -> Cancelled label: "cancel"
+  Pending -> Cancelled label: "cancel"
+  Processing -> Cancelled label: "cancel"
 
-# Refund path
-Delivered -> Refunded label: "refund"
+  # Refund path
+  Delivered -> Refunded label: "refund"
+}

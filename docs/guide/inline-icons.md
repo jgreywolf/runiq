@@ -8,6 +8,30 @@ lastUpdated: 2025-01-09
 
 Runiq supports embedding icons directly within label text using a simple, intuitive syntax inspired by Mermaid. This allows you to add visual context without needing separate `icon:` properties.
 
+## Shape Compatibility
+
+::: tip Currently Supported Shapes (53 of 142 shapes)
+Inline icon support is currently available for:
+- ✅ **Basic shapes** (18): rectangle, circle, hexagon, rhombus, stadium, triangle, etc.
+- ✅ **Flowchart shapes** (13): document, delay, display, manual input, card, etc.
+- ✅ **Storage shapes** (7): cylinder, diskStorage, tapeStorage, etc.
+- ✅ **Network shapes** (6): cloud, server, router, switch, firewall, loadBalancer
+- ✅ **Rect-variants** (7): taggedRectangle, notchedRectangle, framedRectangle, etc.
+- ⏳ **UML shapes** (2 of ~50): actor, choice only
+:::
+
+::: warning Not Yet Supported
+Inline icons are not yet implemented for:
+- ❌ Most UML shapes (class, note, state, activity, interface, etc.)
+- ❌ Chart shapes (pieChart, barChart, lineChart, sankeyChart, etc.)
+- ❌ Control system shapes (transfer-fn, gain, integrator, etc.)
+- ❌ Specialized shapes (AWS, BPMN, quantum, pedigree)
+
+For these shapes, icons will not render. Use the corner `icon:` property instead (see below), or wait for future updates.
+:::
+
+**Rollout Status**: ~37% of shapes complete. Additional shapes are being updated progressively.
+
 ## Quick Example
 
 ```runiq

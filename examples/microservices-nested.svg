@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="280" height="1150" 
+    viewBox="0 0 280 1150"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Microservices Architecture</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="frontendLayer"><rect x="0" y="0" width="200" height="150" 
+    fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Frontend Layer</text></g><g data-runiq-container="backendLayer"><rect x="0" y="230" width="260" height="670" 
+    fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="8" /><text x="10" y="250" class="runiq-container-label">Backend Services</text><g data-runiq-container="userServices"><rect x="30" y="260" width="200" height="150" 
+    fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="8" /><text x="40" y="280" class="runiq-container-label">User Services</text></g><g data-runiq-container="businessServices"><rect x="30" y="490" width="200" height="150" 
+    fill="#e8f5e9" stroke="#388e3c" stroke-width="2" rx="8" /><text x="40" y="510" class="runiq-container-label">Business Services</text></g><g data-runiq-container="notificationServices"><rect x="30" y="720" width="200" height="150" 
+    fill="#fce4ec" stroke="#c2185b" stroke-width="2" rx="8" /><text x="40" y="740" class="runiq-container-label">Notification Services</text></g></g><g data-runiq-container="dataLayer"><rect x="0" y="980" width="200" height="150" 
+    fill="#eceff1" stroke="#455a64" stroke-width="2" rx="8" stroke-dasharray="5,5" /><text x="10" y="1000" class="runiq-container-label">Data Layer</text></g></svg>

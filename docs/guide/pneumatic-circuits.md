@@ -139,14 +139,18 @@ pneumatic "Circuit Name" {
 
 ### Sensors and Switches
 
-| Component        | Symbol ID           | Description                    | Output Type      |
-| ---------------- | ------------------- | ------------------------------ | ---------------- |
-| Limit Switch     | `@limit_switch`     | Detects cylinder position      | NO/NC mechanical |
-| Reed Switch      | `@reed_switch`      | Magnetic position sensing      | NO/NC reed       |
-| Proximity Sensor | `@proximity_sensor` | Non-contact position detection | NPN/PNP 3-wire   |
-| Pressure Sensor  | `@pressure_sensor`  | Analog pressure measurement    | 4-20 mA, 0-10V   |
-| Vacuum Switch    | `@vacuum_switch`    | Detects vacuum level           | -1 to 0 bar      |
-| Flow Sensor      | `@flow_sensor`      | Measures flow rate             | Pulse output     |
+| Component        | Symbol ID         | Part Type      | Description                    | Output Type      |
+| ---------------- | ----------------- | -------------- | ------------------------------ | ---------------- |
+| Limit Switch     | `@limit_switch`   | N/A            | Detects cylinder position      | NO/NC mechanical |
+| Reed Switch      | `@reed_switch`    | N/A            | Magnetic position sensing      | NO/NC reed       |
+| Proximity Sensor | `@prox_sensor`    | `SENSOR_PROX`  | Non-contact position detection | NPN/PNP 3-wire   |
+| Pressure Sensor  | `@pressure_sensor`| `SENSOR_PRESS` | Analog pressure measurement    | 4-20 mA, 0-10V   |
+| Vacuum Switch    | `@vacuum_switch`  | N/A            | Detects vacuum level           | -1 to 0 bar      |
+| Flow Sensor      | `@flow_sensor`    | N/A            | Measures flow rate             | Pulse output     |
+
+**Available Sensor Types:**
+- `SENSOR_PROX` - Proximity sensor for detecting cylinder position (extended/retracted). Compact rectangular design with sensing indicator.
+- `SENSOR_PRESS` - Pressure sensor for electronic pressure measurement and monitoring. Outputs analog signal proportional to pressure.
 
 ### Vacuum Components
 
@@ -534,22 +538,28 @@ pneumatic "Reciprocating Cylinder" {
 
 ## Sequencing Circuit
 
-Multiple cylinders in sequence:
+Multiple cylinders in sequence with position sensing:
 
 ```runiq
 pneumatic "Sequential Operation A+ B+ B- A-" {
-  net SUPPLY, CTRL_A, CTRL_B
+  net SUPPLY, CTRL_A, CTRL_B, SENSOR_A0, SENSOR_A1, SENSOR_B0, SENSOR_B1
 
   pressure 6 bar operating
+  flowRate 1200 L/min
 
   part filterPart type:FILTER pins:(SUPPLY,SUPPLY) doc:"Air Filter"
   part regulatorPart type:REGULATOR pins:(SUPPLY,CTRL_A,CTRL_B) doc:"Pressure Regulator"
+
   part valveA type:VALVE_52 pins:(CTRL_A) doc:"Valve A - 5/2 Way"
   part cylinderA type:CYL_DA pins:(CTRL_A) doc:"Cylinder A"
+  part sensA0 type:SENSOR_PROX pins:(SENSOR_A0) doc:"Cylinder A retracted"
+  part sensA1 type:SENSOR_PROX pins:(SENSOR_A1) doc:"Cylinder A extended"
+
   part valveB type:VALVE_52 pins:(CTRL_B) doc:"Valve B - 5/2 Way"
   part cylinderB type:CYL_DA pins:(CTRL_B) doc:"Cylinder B"
-  part checkA type:CHECK_VALVE pins:(CTRL_A) doc:"A Position Sensing"
-  part checkB type:CHECK_VALVE pins:(CTRL_B) doc:"B Position Sensing"
+  part sensB0 type:SENSOR_PROX pins:(SENSOR_B0) doc:"Cylinder B retracted"
+  part sensB1 type:SENSOR_PROX pins:(SENSOR_B1) doc:"Cylinder B extended"
+
   part gauge type:GAUGE_P pins:(SUPPLY) doc:"System Pressure"
 }
 ```

@@ -1,24 +1,25 @@
-diagram "BPMN Pool Container Example"
+diagram "BPMN Pool Container Example"{
 
-# Pool as a container with shapes inside
-container pool1 "Customer" as @bpmnPool {
-  shape start as @bpmnEvent label:"Start" data:[{"eventType":"start"}]
-  shape task1 as @bpmnTask label:"Place Order"
-  shape task2 as @bpmnTask label:"Make Payment"
-  shape end as @bpmnEvent label:"End" data:[{"eventType":"end"}]
-  
-  start -> task1
-  task1 -> task2
-  task2 -> end
+  # Pool as a container with shapes inside
+  container pool1 "Customer" as @bpmnPool {
+    shape start as @bpmnEvent label:"Start" data:[{"eventType":"start"}]
+    shape task1 as @bpmnTask label:"Place Order"
+    shape task2 as @bpmnTask label:"Make Payment"
+    shape end as @bpmnEvent label:"End" data:[{"eventType":"end"}]
+    
+    start -> task1
+    task1 -> task2
+    task2 -> end
+  }
+
+  # Another pool
+  container pool2 "System" as @bpmnPool {
+    shape process as @bpmnTask label:"Process Order"
+    shape notify as @bpmnTask label:"Send Confirmation"
+    
+    process -> notify
+  }
+
+  # Connection between pools
+  task1 -> process label:"Order Data"
 }
-
-# Another pool
-container pool2 "System" as @bpmnPool {
-  shape process as @bpmnTask label:"Process Order"
-  shape notify as @bpmnTask label:"Send Confirmation"
-  
-  process -> notify
-}
-
-# Connection between pools
-shape task1 -> process label:"Order Data"

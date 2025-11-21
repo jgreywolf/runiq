@@ -12,7 +12,8 @@ import type {
   HydraulicProfile,
   PartAst,
 } from '@runiq/core';
-import { getSymbol, type SymbolDefinition } from './symbols.js';
+import { getSymbol } from './symbolRegistry.ts';
+import { SymbolDefinition } from './symbol.ts';
 
 // Re-export P&ID symbols, line types, tag system, and renderer
 export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
@@ -287,7 +288,7 @@ function routeWires(
     junctions?: { x: number; y: number }[];
   }[] = [];
 
-  for (const [netName, _parts] of netMap.entries()) {
+  for (const [netName] of netMap.entries()) {
     if (netName === 'GND') continue; // Ground handled separately
 
     const terminals = connections.filter((c) => c.net === netName);

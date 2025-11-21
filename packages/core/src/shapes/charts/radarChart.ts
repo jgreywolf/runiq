@@ -107,6 +107,27 @@ function calculateAxisMaxValues(
   axes: RadarAxis[],
   series: RadarSeries[]
 ): number[] {
+  // Check if any axis has an explicit max value
+  const hasExplicitMax = axes.some((axis) => axis.max !== undefined);
+
+  // If no explicit max values are set, use a shared global max
+  // This is important for simple array data like [90, 85, 78, 82, 88]
+  // to avoid normalizing each value independently (which would make them all equal to 1.0)
+  if (!hasExplicitMax) {
+    // Find the global maximum across all values in all series
+    let globalMax = 0;
+    for (const s of series) {
+      for (const value of s.values) {
+        if (value > globalMax) {
+          globalMax = value;
+        }
+      }
+    }
+    // Return the same max for all axes
+    return axes.map(() => globalMax || 1);
+  }
+
+  // If explicit max values exist, use per-axis calculation (original behavior)
   return axes.map((axis, idx) => {
     if (axis.max !== undefined) {
       return axis.max;

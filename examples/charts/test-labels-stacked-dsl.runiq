@@ -2,5 +2,5 @@
 // Testing title, xLabel, yLabel with stacked bars
 
 diagram "Revenue Breakdown by Category" {
-  shape chart1 as @barChartVertical label:"Revenue Breakdown" title:"Revenue by Category - 2025" xLabel:"Month" yLabel:"Revenue ($K)" stacked:true showLegend:true colors:["#f56565","#48bb78","#4299e1"] data:[{"label":"Jan","values":[50,30,20]},{"label":"Feb","values":[55,35,25]},{"label":"Mar","values":[60,40,30]},{"label":"Apr","values":[65,45,35]}]
+  shape chart1 as @barChart label:"Revenue Breakdown" title:"Revenue by Category - 2025" xLabel:"Month" yLabel:"Revenue ($K)" stacked:true showLegend:true colors:["#f56565","#48bb78","#4299e1"] data:[{"label":"Jan","values":[50,30,20]},{"label":"Feb","values":[55,35,25]},{"label":"Mar","values":[60,40,30]},{"label":"Apr","values":[65,45,35]}]
 }

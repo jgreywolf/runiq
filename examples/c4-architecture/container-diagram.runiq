@@ -1,17 +1,18 @@
-diagram "Banking System - Container Diagram"
-direction TB
+diagram "Banking System - Container Diagram" {
+  direction TB
 
-shape customer as @c4Person label:"Customer"
+  shape customer as @c4Person label:"Customer"
 
-container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
-  shape webapp as @c4Container label:"Single-Page App\n[JavaScript, React]"
-  shape api as @c4Container label:"API Application\n[Java, Spring Boot]"
-  shape db as @c4Container label:"Database\n[Oracle]"
+  container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+    shape webapp as @c4Container label:"Single-Page App\n[JavaScript, React]"
+    shape api as @c4Container label:"API Application\n[Java, Spring Boot]"
+    shape db as @c4Container label:"Database\n[Oracle]"
+  }
+
+  shape emailSystem as @c4System label:"Email System"
+
+  customer -> webapp label:"Uses [HTTPS]"
+  webapp -> api label:"API calls [JSON/HTTPS]"
+  api -> db label:"Reads/Writes [SQL/TCP]"
+  api -> emailSystem label:"Sends emails [SMTP]"
 }
-
-shape emailSystem as @c4System label:"Email System"
-
-customer -> webapp label:"Uses [HTTPS]"
-webapp -> api label:"API calls [JSON/HTTPS]"
-api -> db label:"Reads/Writes [SQL/TCP]"
-api -> emailSystem label:"Sends emails [SMTP]"

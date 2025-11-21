@@ -653,5 +653,41 @@ describe('radarChart', () => {
 
       expect(svg).toContain('translate(100, 50)');
     });
+
+    it('should not normalize to all-equal values for simple array with different values', () => {
+      const ctx: ShapeRenderContext = {
+        node: {
+          id: 'radar1',
+          type: 'radarChart',
+          data: [90, 85, 78, 82, 88],
+        },
+        styles: {},
+      };
+
+      const svg = radarChart.render(ctx, { x: 0, y: 0 });
+
+      // Extract polygon points to verify they're not all at max radius
+      const polygonMatch = svg.match(/points="([^"]+)"/);
+      expect(polygonMatch).toBeTruthy();
+
+      if (polygonMatch) {
+        const points = polygonMatch[1].split(' ');
+        const distances: number[] = [];
+
+        // Calculate distance from center for each point
+        const centerX = 200; // width/2
+        const centerY = 200; // height/2
+
+        for (const pointStr of points) {
+          const [x, y] = pointStr.split(',').map(Number);
+          const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+          distances.push(distance);
+        }
+
+        // Verify that not all distances are equal (which would create a regular polygon)
+        const uniqueDistances = new Set(distances.map(d => Math.round(d)));
+        expect(uniqueDistances.size).toBeGreaterThan(1);
+      }
+    });
   });
 });

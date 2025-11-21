@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Tests](https://img.shields.io/badge/tests-1098%2B-brightgreen.svg)](./packages)
 
-**🚀 Status**: Phase 1 Complete - Core types, **75 shapes**, ELK layout, hierarchical containers!  
+**🚀 Status**: Phase 1 Complete - Core types, **249 shapes**, ELK layout, hierarchical containers!  
 **⚡ NEW**: UML 2.5 Class Relationships - Multiplicity, Aggregation/Composition diamonds, Role names! 💎  
 **⚡ NEW**: C4 Architecture diagrams - System Context, Containers, Components with official color palette! 🏗️  
 **⚡ NEW**: UML Class Diagrams with generics, member-level edges, and design patterns! 🎨  
@@ -668,20 +668,31 @@ Contributions are welcome! This project follows **Test-Driven Development (TDD)*
 
 See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for detailed development guidelines.
 
-## 📊 Shape Library (57 Total)
+## 📊 Shape Library (249 Total)
 
-| Category        | Count | Shapes                                                                                          |
-| --------------- | ----- | ----------------------------------------------------------------------------------------------- |
-| **Actors**      | 8     | actor, actor-circle, actor-rect, person, group, role, agent, system-actor                       |
-| **Circles**     | 10    | circle (5 sizes), dashed, dotted, thick, ellipse (wide/tall)                                    |
-| **UML**         | 2     | ellipse-wide (use cases), system-boundary (system container)                                    |
-| **Data & Docs** | 7     | document, document-multiple, stored-data, tape, card, note, paper                               |
-| **Data I/O**    | 6     | data, input, output, manual-input, display, stored-data                                         |
-| **Storage**     | 6     | database, cylinder, internal-storage, magnetic-disk, magnetic-tape, direct-access               |
-| **Process**     | 9     | process, rect, subroutine, predefined, preparation, manual, manual-operation, loop-limit, merge |
-| **Specialized** | 3     | cloud, delay, off-page-connector                                                                |
-| **Annotations** | 3     | annotation-left, annotation-right, comment                                                      |
-| **Pedigree**    | 3     | pedigree-male (square), pedigree-female (circle), pedigree-unknown (diamond)                    |
+Runiq provides **249 professional shapes** across 17 categories:
+
+| Category          | Count | Description                                                   |
+| ----------------- | ----- | ------------------------------------------------------------- |
+| **Basic**         | 22    | Geometric shapes (rectangles, circles, polygons)              |
+| **Flowchart**     | 14    | ISO 5807 flowchart symbols                                    |
+| **Storage**       | 7     | Database, cylinder, disk storage                              |
+| **Rect Variants** | 7     | Specialized rectangles (framed, tagged, notched)              |
+| **Control**       | 10    | Transfer functions, gain, integrator, summing junctions       |
+| **Special**       | 7     | Text blocks, braces, lightning, hourglass                     |
+| **Charts**        | 7     | Pie, bar, line, radar, venn, sankey                           |
+| **Glyphsets**     | 58    | SmartArt-style templates (pyramid, matrix, cycle, org charts) |
+| **Network**       | 7     | Server, router, switch, firewall, cloud                       |
+| **Quantum**       | 12    | Quantum gates (X, Y, Z, H, S, T, CNOT, SWAP)                  |
+| **UML**           | 54    | Class, state, activity, sequence, component diagrams          |
+| **Pedigree**      | 3     | Medical genetics symbols (male, female, unknown)              |
+| **C4**            | 4     | C4 architecture (person, system, container, component)        |
+| **BPMN**          | 6     | Business process modeling notation                            |
+| **AWS**           | 6     | AWS service shapes (EC2, S3, Lambda, RDS, VPC, API Gateway)   |
+| **ERD**           | 6     | Entity-relationship diagram shapes                            |
+| **Data Flow**     | 6     | DFD shapes (external entity, process, data store)             |
+
+See [Shape Reference](/docs/reference/shapes.md) for complete catalog with examples.
 
 ## 🎨 Supported Diagram Types
 

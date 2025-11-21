@@ -13,14 +13,14 @@ export const hydraulicSampleDiagrams: SampleCategory[] = [
   
   pressure 210 bar operating
   flowRate 40 L/min
-  fluid mineral "ISO VG 46" temp:(10, 60, C)
+  fluid mineral "ISO VG 46" temp:(10, 60, degC)
   
   part TANK_RES type:RESERVOIR pins:(TANK,RETURN) doc:"Reservoir"
-  part PUMP type:PUMP_FIX pins:(TANK,PUMP_OUT) doc:"Fixed pump"
-  part MOTOR type:MOTOR_ELECTRIC pins:(PUMP_OUT) doc:"Drive motor"
-  part RELIEF type:VALVE_RELIEF pins:(PUMP_OUT,RELIEF,RETURN) doc:"Relief valve 210 bar"
+  part PUMP type:PUMP_FIXED pins:(TANK,PUMP_OUT) doc:"Fixed pump"
+  part MOTOR type:MOTOR_HYD pins:(PUMP_OUT) doc:"Drive motor"
+  part RELIEF type:RELIEF_VALVE pins:(PUMP_OUT,RELIEF,RETURN) doc:"Relief valve 210 bar"
   part FILTER type:FILTER pins:(RETURN,TANK) doc:"Return filter"
-  part GAUGE type:GAUGE_PRESS pins:(PRESSURE) doc:"Pressure gauge"
+  part GAUGE type:GAUGE_P pins:(PRESSURE) doc:"Pressure gauge"
 }`
 			},
 			{
@@ -33,12 +33,12 @@ export const hydraulicSampleDiagrams: SampleCategory[] = [
   flowRate 30 L/min
   fluid mineral "ISO VG 32"
   
-  part VALVE type:VALVE_4_3 pins:(PUMP,PORT_A,PORT_B,TANK) doc:"4/3-way valve"
+  part VALVE type:VALVE_43 pins:(PUMP,PORT_A,PORT_B,TANK) doc:"4/3-way valve"
   part CYLINDER type:CYL_HYD pins:(PORT_A,PORT_B) doc:"Hydraulic cylinder"
-  part PILOT_A type:VALVE_3_2 pins:(PORT_A) doc:"Extend pilot"
-  part PILOT_B type:VALVE_3_2 pins:(PORT_B) doc:"Retract pilot"
-  part BALANCE type:VALVE_CHECK pins:(PORT_A,PORT_B) doc:"Counterbalance"
-  part FLOW_CTRL type:VALVE_CHECK pins:(PORT_A) doc:"Flow control"
+  part PILOT_A type:VALVE_32 pins:(PORT_A) doc:"Extend pilot"
+  part PILOT_B type:VALVE_32 pins:(PORT_B) doc:"Retract pilot"
+  part BALANCE type:CHECK_VALVE pins:(PORT_A,PORT_B) doc:"Counterbalance"
+  part FLOW_CTRL type:CHECK_VALVE pins:(PORT_A) doc:"Flow control"
 }`
 			},
 			{
@@ -52,10 +52,10 @@ export const hydraulicSampleDiagrams: SampleCategory[] = [
   fluid mineral "ISO VG 46"
   
   part PUMP_V type:PUMP_VAR pins:(TANK,PUMP) doc:"Variable pump"
-  part VALVE type:VALVE_4_3 pins:(PUMP,MOTOR_IN,MOTOR_OUT,TANK) doc:"Directional valve"
+  part VALVE type:VALVE_43 pins:(PUMP,MOTOR_IN,MOTOR_OUT,TANK) doc:"Directional valve"
   part MOTOR type:MOTOR_HYD pins:(MOTOR_IN,MOTOR_OUT) doc:"Hydraulic motor"
-  part FLOW type:VALVE_CHECK pins:(MOTOR_IN) doc:"Flow control"
-  part RELIEF type:VALVE_RELIEF pins:(PUMP,TANK) doc:"System relief"
+  part FLOW type:CHECK_VALVE pins:(MOTOR_IN) doc:"Flow control"
+  part RELIEF type:RELIEF_VALVE pins:(PUMP,TANK) doc:"System relief"
 }`
 			},
 			{
@@ -69,11 +69,11 @@ export const hydraulicSampleDiagrams: SampleCategory[] = [
   flowRate 80 L/min
   fluid mineral "ISO VG 68"
   
-  part PUMP_MAIN type:PUMP_FIX pins:(TANK,SUPPLY) doc:"Main pump"
-  part VALVE_SEQ type:VALVE_4_3 pins:(SUPPLY,FAST,SLOW,RETURN) doc:"Sequence valve"
+  part PUMP_MAIN type:PUMP_FIXED pins:(TANK,SUPPLY) doc:"Main pump"
+  part VALVE_SEQ type:VALVE_43 pins:(SUPPLY,FAST,SLOW,RETURN) doc:"Sequence valve"
   part CYL_PRESS type:CYL_HYD pins:(PRESS,RETURN) doc:"Press cylinder"
-  part RELIEF_SYS type:VALVE_RELIEF pins:(SUPPLY,TANK) doc:"System relief 250 bar"
-  part RELIEF_PRESS type:VALVE_RELIEF pins:(PRESS,RETURN) doc:"Press relief 200 bar"
+  part RELIEF_SYS type:RELIEF_VALVE pins:(SUPPLY,TANK) doc:"System relief 250 bar"
+  part RELIEF_PRESS type:RELIEF_VALVE pins:(PRESS,RETURN) doc:"Press relief 200 bar"
   part PRESS_SENS type:SENSOR_PRESS pins:(PRESS) doc:"Pressure sensor"
   part POS_SENS type:SENSOR_PROX pins:(PRESS) doc:"Position sensor"
 }`

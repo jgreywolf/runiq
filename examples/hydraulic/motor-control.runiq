@@ -14,19 +14,19 @@ hydraulic "Motor Speed Control Circuit" {
   // Pump assembly
   part RESERVOIR type:RESERVOIR pins:(TANK,RETURN) doc:"Main reservoir"
   part PUMP type:PUMP_VAR pins:(TANK,PUMP_OUT) doc:"Variable displacement pump"
-  part COMPENSATOR type:VALVE_RELIEF pins:(PUMP_OUT) doc:"Load sensing compensator"
+  part COMPENSATOR type:RELIEF_VALVE pins:(PUMP_OUT) doc:"Load sensing compensator"
   
   // Motor circuit
   part MOTOR type:MOTOR_HYD pins:(MOTOR_IN,MOTOR_OUT) doc:"Hydraulic motor"
-  part VALVE_DIR type:VALVE_4_3 pins:(PUMP_OUT,MOTOR_IN,MOTOR_OUT,RETURN) doc:"Directional control valve"
+  part VALVE_DIR type:VALVE_43 pins:(PUMP_OUT,MOTOR_IN,MOTOR_OUT,RETURN) doc:"Directional control valve"
   
   // Protection and control
-  part RELIEF type:VALVE_RELIEF pins:(PRESSURE,RETURN) doc:"System relief valve"
+  part RELIEF type:RELIEF_VALVE pins:(PRESSURE,RETURN) doc:"System relief valve"
   part FILTER_SUCTION type:FILTER pins:(TANK,PUMP_OUT) doc:"Suction filter"
   part FILTER_RETURN type:FILTER pins:(RETURN,TANK) doc:"Return line filter"
   
   // Instrumentation
-  part GAUGE_PUMP type:GAUGE_PRESS pins:(PUMP_OUT) doc:"Pump pressure"
-  part GAUGE_MOTOR type:GAUGE_PRESS pins:(MOTOR_IN) doc:"Motor pressure"
-  part FLOW_METER type:GAUGE_FLOW pins:(MOTOR_IN) doc:"Flow rate meter"
+  part GAUGE_PUMP type:GAUGE_P_HYD pins:(PUMP_OUT) doc:"Pump pressure"
+  part GAUGE_MOTOR type:GAUGE_P_HYD pins:(MOTOR_IN) doc:"Motor pressure"
+  part FLOW_METER type:FLOW_CONTROL_HYD pins:(MOTOR_IN) doc:"Flow rate meter"
 }

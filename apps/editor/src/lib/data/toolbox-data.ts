@@ -1,7 +1,7 @@
 import { basicShapeIcons } from './toolboxIcons/basicShapeIcons';
 import { flowchartShapeIcons } from './toolboxIcons/flowchartShapeIcons';
 import { logicGateShapeIcons } from './toolboxIcons/logicGateShapeIcons';
-import { pedigreeShapeIcons } from './toolboxIcons/pedigreeShapeIcons';
+// import { pedigreeShapeIcons } from './toolboxIcons/pedigreeShapeIcons';
 import { specialShapeIcons } from './toolboxIcons/specialShapeIcons';
 import { umlShapeIcons } from './toolboxIcons/umlShapeIcons';
 import { c4ShapeIcons } from './toolboxIcons/c4ShapeIcons';
@@ -51,7 +51,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...controlSystemsShapeIcons,
 	...awsShapeIcons,
 	...networkShapeIcons,
-	...pedigreeShapeIcons,
+	//...pedigreeShapeIcons,
 	...chartShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,

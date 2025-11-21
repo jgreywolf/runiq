@@ -1,5 +1,0 @@
-diagram "Simple Pie Chart Example" {
-
-  shape revenue as @pieChart label:"Revenue Distribution" data:[30, 45, 25]
-
-}

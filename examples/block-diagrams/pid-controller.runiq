@@ -1,14 +1,14 @@
 diagram "PID Controller" {
 
-  shape ref as @rect label:"Reference"
+  shape refs as @rect label:"Reference"
   shape sum as @junction label:"+/-"
-  shape pid as @transferFn label:"PID"
-  shape plant as @transferFn label:"Plant\nG(s)"
+  shape pids as @transferFunction label:"PID"
+  shape plant as @transferFunction label:"Plant\nG(s)"
   shape output as @rect label:"Output"
 
-  ref -r_t-> sum
-  sum -e_t-> pid
-  pid -u_t-> plant
+  refs -r_t-> sum
+  sum -e_t-> pids
+  pids -u_t-> plant
   plant -y_t-> output
   output -feedback-> sum
 
