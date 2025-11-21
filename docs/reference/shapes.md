@@ -348,7 +348,7 @@ diagram "Use Case Diagram" {
 }
 ```
 
-### 11. Pedigree Shapes (3 shapes)
+<!-- ### 11. Pedigree Shapes (3 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -385,7 +385,7 @@ diagram "Family History" {
 
 ::: tip Pedigree Charts
 See the [Pedigree Charts Guide](../guide/pedigree-charts.md) for comprehensive documentation on creating medical family trees with inheritance patterns.
-:::
+::: -->
 
 ### 12. C4 Architecture Shapes (4 shapes)
 

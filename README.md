@@ -11,8 +11,10 @@
 **⚡ NEW**: C4 Architecture diagrams - System Context, Containers, Components with official color palette! 🏗️  
 **⚡ NEW**: UML Class Diagrams with generics, member-level edges, and design patterns! 🎨  
 **⚡ NEW**: Mindmap diagrams for brainstorming & knowledge mapping - radial layout, 10 tests! 🧠  
-**⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️  
-**⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬  
+**⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️
+
+<!-- **⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬   -->
+
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
 **⚡ NEW**: UML relationships - stereotypes (`<<include>>`, `<<extend>>`), line styles, arrow types!  
 **⚡ NEW**: Control system support for control systems & signal processing!  
@@ -107,7 +109,7 @@
 - **Flexible spacing**: Control node distance for clarity
 - **4 example diagrams**: Simple brainstorming, project planning, learning roadmap, business strategy
 
-### Pedigree Charts (NEW! 🎉)
+<!-- ### Pedigree Charts (NEW! 🎉)
 
 - **Medical genetics notation**: Standard symbols for genealogy and clinical genetics
 - **Gender-specific shapes**: Male (square), female (circle), unknown sex (diamond)
@@ -116,7 +118,7 @@
 - **Relationship types**: Marriage (horizontal line, no arrow), consanguinity (double line)
 - **Property-based syntax**: Inline `affected:true`, `carrier:true`, `deceased:true`
 - **Standards compliant**: Follows medical/genetics pedigree conventions
-- **5 example diagrams**: Inheritance patterns, consanguinity, multi-generation families
+- **5 example diagrams**: Inheritance patterns, consanguinity, multi-generation families -->
 
 ### Quantum Circuits (NEW! 🎉)
 
@@ -591,15 +593,7 @@ See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) f
 
 1. **Pedigree Charts** (IN PROGRESS) - Family trees, medical genetics, genealogy
 2. **Network Topology** (NEXT) - IT infrastructure, cloud architecture
-3. **Quantum Circuits** (FUTURE) - Quantum computing, quantum algorithms
-4. **UML Timing Diagrams** (FUTURE) - Real-time systems, protocol timing
-
-**High Priority - Layout & Rendering:**
-
-1. **Alternative Layout Algorithms** - Enable ELK's force/radial/stress for all diagram types
-2. **Data-Driven Rendering** - Charts with actual data values (pie, bar, XY)
-3. **Swim Lanes/Zones** - BPMN lane partitioning with role-based organization
-4. **Time-Based Layouts** - Gantt charts, project timelines, roadmaps
+3. **UML Timing Diagrams** (FUTURE) - Real-time systems, protocol timing
 
 **Medium Priority - Electrical/Digital:**
 
@@ -608,18 +602,6 @@ See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) f
 3. **Component Rotation** - 90°/180°/270° orientation for circuits
 4. **Digital Simulation** - Integrate with Icarus Verilog or similar tools
 5. **PCB Export** - KiCad footprint mapping for PCB design
-
-## 📚 Documentation
-
-- [Layout Research & ELK Migration](./docs/layout-research-2025.md)
-- [Diagram Type Support Analysis](./docs/diagram-type-support.md) - 45 diagram types evaluated
-- [New Diagram Types Research](./docs/new-diagram-types-research.md) - 🆕 Feasibility analysis for pedigree, quantum, network, timing, SmartArt
-- [Hierarchical Containers Design](./docs/hierarchical-containers-design.md) - Complete Phase 1-5 plan
-- [Containers Guide](./docs/containers.md) - Complete container usage documentation
-- [Use Case Diagram Guide](./examples/use-case-diagram/README.md) - UML use case documentation
-- [Control system Diagram Examples](./examples/control-diagrams/README.md) - Control systems guide
-- [Dagre to ELK Migration](./docs/dagre-to-elk-migration.md)
-- [Langium Migration Guide](./docs/langium-migration.md)
 
 ## 🧪 Testing
 
@@ -720,14 +702,14 @@ See [Shape Reference](/docs/reference/shapes.md) for complete catalog with examp
 | ✅     | Digital logic       | Grammar ready, Verilog export coming soon |
 | 🟡     | Mixed-signal        | Analog + digital in same circuit (future) |
 
-### Medical & Genetics (NEW!)
+<!-- ### Medical & Genetics (NEW!)
 
 | Status | Type            | Notes                                          |
 | ------ | --------------- | ---------------------------------------------- |
 | ✅     | Pedigree charts | Male/female/unknown shapes, genetic markers 🎉 |
 | ✅     | Inheritance     | Affected, carrier, normal status               |
 | ✅     | Relationships   | Marriage, consanguinity (double line)          |
-| ✅     | Vital status    | Deceased marker (diagonal line)                |
+| ✅     | Vital status    | Deceased marker (diagonal line)                | -->
 
 ## 🚀 What Makes Runiq Unique?
 

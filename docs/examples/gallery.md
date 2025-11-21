@@ -307,7 +307,7 @@ Explore additional examples organized by category:
 - [Electrical Circuits](/examples/electrical) - Analog circuits, schematics
 - [Digital Circuits](/examples/digital) - Logic gates, digital systems
 - [Sequence Diagrams](/examples/sequence-diagrams) - Interactions, message flows
-- [Pedigree](/examples/pedigree) - Family trees, genealogy
+<!-- - [Pedigree](/examples/pedigree) - Family trees, genealogy -->
 
 ## Contributing Examples
 

@@ -122,7 +122,7 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 **October 31, 2025** - v0.1.0 Released! 🎉
 
 - ✅ 142+ shapes across 17 categories
-- ✅ Quantum circuits, pedigree charts, BPMN, AWS, ERD, DFD support
+- ✅ Quantum circuits, <!-- pedigree charts, --> BPMN, AWS, ERD, DFD support
 - ✅ UML relationship support (stereotypes, line styles, arrow types)
 - ✅ Control system diagrams with LaTeX and Simulink export
 - ✅ Electrical & digital circuits with SPICE/Verilog export

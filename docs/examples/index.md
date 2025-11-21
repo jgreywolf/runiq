@@ -164,7 +164,7 @@ Design pneumatic and hydraulic circuits following ISO 1219-1 standards.
 - **Visual Examples**: Power unit, press system, motor control
 - Applications: Heavy machinery, presses, mobile equipment
 
-## Medical & Genetics
+<!-- ## Medical & Genetics
 
 Professional pedigree charts following medical standards.
 
@@ -176,7 +176,7 @@ Professional pedigree charts following medical standards.
 - Marriage relationships (horizontal line, no arrow)
 - Consanguineous marriages (double line)
 - Three-generation families, autosomal inheritance patterns
-- **Visual Examples**: Genetic trait inheritance, consanguinity
+- **Visual Examples**: Genetic trait inheritance, consanguinity -->
 
 ## Strategy & Planning
 
@@ -284,12 +284,12 @@ Visualize events and milestones over time.
     <h3>🔧 Hydraulic</h3>
     <p>Fluid power systems (ISO 1219-1)</p>
   </a>
-  
-  <a href="/examples/pedigree" class="example-card">
+
+  <!-- <a href="/examples/pedigree" class="example-card">
     <h3>🧬 Pedigree Charts</h3>
     <p>Medical family trees</p>
-  </a>
-  
+  </a> -->
+
   <a href="/examples/wardley-maps" class="example-card">
     <h3>📊 Wardley Maps</h3>
     <p>Strategic evolution mapping</p>

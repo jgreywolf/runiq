@@ -25,7 +25,7 @@ Inline icons are not yet implemented for:
 - ❌ Most UML shapes (class, note, state, activity, interface, etc.)
 - ❌ Chart shapes (pieChart, barChart, lineChart, sankeyChart, etc.)
 - ❌ Control system shapes (transfer-fn, gain, integrator, etc.)
-- ❌ Specialized shapes (AWS, BPMN, quantum, pedigree)
+- ❌ Specialized shapes (AWS, BPMN, quantum<!-- , pedigree -->)
 
 For these shapes, icons will not render. Use the corner `icon:` property instead (see below), or wait for future updates.
 :::
