@@ -223,5 +223,9 @@ Switch to diagram profiles for:
 ## Next Steps
 
 - [Process Glyphsets →](/guide/glyphsets-process)
+- [List Glyphsets →](/guide/glyphsets-list)
 - [Comparison Glyphsets →](/guide/glyphsets-comparison)
-- [View All Glyphsets →](/guide/glyphsets)
+- [Visualization Glyphsets →](/guide/glyphsets-visualization)
+- [Hierarchy Glyphsets →](/guide/glyphsets-hierarchy)
+- [Glyphset Themes Reference →](/reference/glyphset-themes)
+- [Try the Online Editor →](https://editor.runiq.org)

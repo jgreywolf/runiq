@@ -359,15 +359,12 @@ timeline "Overlapping Phases" {
 - Beta/Alpha phases
 - Deprecation schedules
 
-## Examples
-
-See the [Timeline Examples](/examples/timeline-diagrams) page for more complete examples and use cases.
-
 ## Comparison with Other Tools
 
 | Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Office Timeline | Preceden     | Toggl Plan | Aeon Timeline |
 | ---------------------------- | -------------- | -------------- | -------------- | ----------- | --------------- | ------------ | ---------- | ------------- |
-| **Basic support**            | ✅             | ✅             | ✅             | ✅          | ✅              | ✅           | ✅         | ✅            |
+| **Text-based DSL**           | ✅             | ✅             | ⚠️ Limited     | ❌          | ❌              | ❌           | ❌         | ❌            |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌              | ❌           | ❌         | ⚠️ Partial    |
 | **Horizontal timelines**     | ✅             | ✅             | ✅             | ✅          | ✅              | ✅           | ✅         | ✅            |
 | **Vertical timelines**       | ✅             | ❌             | ❌             | ✅          | ❌              | ❌           | ❌         | ❌            |
 | **Multiple swimlanes**       | ✅             | ❌             | ❌             | ✅          | ✅              | ⚠️ Limited   | ✅         | ✅            |
@@ -375,12 +372,10 @@ See the [Timeline Examples](/examples/timeline-diagrams) page for more complete 
 | **Milestone markers**        | ✅             | ✅             | ✅             | ✅          | ✅              | ✅           | ✅         | ✅            |
 | **Dependency arrows**        | ✅             | ❌             | ❌             | ✅          | ⚠️ Limited      | ⚠️ Limited   | ✅         | ✅            |
 | **Custom styling**           | ✅             | ⚠️ Limited     | ⚠️ Limited     | ✅          | ✅              | ✅           | ⚠️ Limited | ✅            |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Templates    | ⚠️ Templates | ❌         | ⚠️ Partial    |
 | **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌              | ❌           | ❌         | ❌            |
 | **Gantt chart view**         | ⚠️ Separate    | ✅             | ✅             | ✅          | ✅              | ⚠️ Limited   | ✅         | ⚠️ Limited    |
 | **Interactive editing**      | ❌             | ❌             | ❌             | ✅          | ✅              | ✅           | ✅         | ✅            |
-| **Text-based DSL**           | ✅             | ✅             | ⚠️ Limited     | ❌          | ❌              | ❌           | ❌         | ❌            |
-| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌              | ❌           | ❌         | ⚠️ Partial    |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Templates    | ⚠️ Templates | ❌         | ⚠️ Partial    |
 | **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | PowerPoint      | PDF, Image   | PDF        | Multiple      |
 | **Learning curve**           | Low            | Low            | Medium         | Low         | Very Low        | Very Low     | Low        | Medium        |
 | **Cost**                     | Free           | Free           | Free           | Paid        | Paid            | Paid         | Paid       | Paid          |
@@ -399,6 +394,10 @@ See the [Timeline Examples](/examples/timeline-diagrams) page for more complete 
 - **Preceden**: Simple web-based historical or educational timelines
 - **Toggl Plan**: Project planning with team collaboration and resource management
 - **Aeon Timeline**: Complex multi-era timelines for creative writing and research
+
+## Examples
+
+See the [Timeline Examples](/examples/timeline-diagrams) page for more complete examples and use cases.
 
 ## See Also
 

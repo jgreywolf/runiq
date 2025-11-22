@@ -367,29 +367,6 @@ diagram "User Registration" {
 }
 ```
 
-## Comparison with Other Tools
-
-| Feature                    | Runiq       | Mermaid    | PlantUML   | Visio     | Lucidchart  |
-| -------------------------- | ----------- | ---------- | ---------- | --------- | ----------- |
-| **Gane-Sarson notation**   | ✅ Full     | ⚠️ Basic   | ❌ No      | ✅ Yes    | ✅ Yes      |
-| **Text-based**             | ✅ DSL+JSON | ✅ Yes     | ✅ Yes     | ❌ GUI    | ❌ GUI      |
-| **Auto-layout**            | ✅ ELK      | ⚠️ Limited | ✅ Yes     | ❌ Manual | ⚠️ Assisted |
-| **Data stores (3 types)**  | ✅ Yes      | ❌ No      | ❌ No      | ✅ Yes    | ✅ Yes      |
-| **Edge labels**            | ✅ Full     | ✅ Yes     | ✅ Yes     | ✅ Yes    | ✅ Yes      |
-| **Custom styling**         | ✅ CSS-like | ⚠️ Limited | ⚠️ Limited | ✅ Full   | ✅ Full     |
-| **Version control**        | ✅ Git      | ✅ Yes     | ✅ Yes     | ❌ Binary | ❌ Cloud    |
-| **Programmatic API**       | ✅ Yes      | ❌ No      | ❌ No      | ⚠️ VBA    | ❌ No       |
-| **SVG export**             | ✅ Pure SVG | ✅ Yes     | ✅ Yes     | ✅ Yes    | ✅ Yes      |
-| **Hierarchical numbering** | ✅ Manual   | ❌ No      | ❌ No      | ✅ Yes    | ✅ Yes      |
-
-**Runiq Advantages:**
-
-- ✅ **Complete Gane-Sarson** - All standard DFD shape variations
-- ✅ **Text-based workflow** - Perfect for version control and CI/CD
-- ✅ **Automatic layout** - Eclipse Layout Kernel handles positioning
-- ✅ **Programmatic generation** - Create DFDs from database schemas
-- ✅ **Clean SVG output** - Professional, accessible diagrams
-
 ## DFD Notation Reference
 
 ### Shape Summary
@@ -408,6 +385,34 @@ diagram "User Registration" {
 ❌ **Control flows** (DFDs show data, not control logic)
 ❌ **Physical implementation** (don't show "MySQL" or "POST request")
 ❌ **Mixed levels** (keep abstraction consistent)
+
+## Comparison with Other Tools
+
+| Feature                      | Runiq             | Mermaid       | PlantUML     | Visio           | Lucidchart      |
+| ---------------------------- | ----------------- | ------------- | ------------ | --------------- | --------------- |
+| **Text-Based DSL**           | ✅                | ✅            | ✅           | ❌              | ❌              |
+| **Version Control Friendly** | ✅                | ✅            | ✅           | ⚠️ Limited      | ❌              |
+| **Automatic Layout**         | ✅ ELK            | ✅ Dagre, ELK | ✅ GraphViz  | ✅+Auto         | ❌              |
+| **Gane-Sarson notation**     | ✅ Full           | ⚠️ Basic      | ❌ No        | ✅ Yes          | ✅ Yes          |
+| **Text-based**               | ✅ DSL+JSON       | ✅ Yes        | ✅ Yes       | ❌ GUI          | ❌ GUI          |
+| **Auto-layout**              | ✅ ELK            | ⚠️ Limited    | ✅ Yes       | ❌ Manual       | ⚠️ Assisted     |
+| **Data stores (3 types)**    | ✅ Yes            | ❌ No         | ❌ No        | ✅ Yes          | ✅ Yes          |
+| **Edge labels**              | ✅ Full           | ✅ Yes        | ✅ Yes       | ✅ Yes          | ✅ Yes          |
+| **Custom styling**           | ✅ CSS-like       | ⚠️ Limited    | ⚠️ Limited   | ✅ Full         | ✅ Full         |
+| **Hierarchical numbering**   | ✅ Manual         | ❌ No         | ❌ No        | ✅ Yes          | ✅ Yes          |
+| **Export Formats**           | ✅ SVG, PNG       | ✅ SVG, PNG   | ✅ PNG, SVG  | ✅ Many         | ✅ Many         |
+| **Collaboration**            | ✅ Git-based      | ✅ Git-based  | ✅ Git-based | ✅ Cloud (Paid) | ✅ Cloud (Paid) |
+| **Learning Curve**           | ⚠️ Moderate (DSL) | ✅ Low        | ⚠️ Moderate  | ✅ Low (GUI)    | ✅ Low (GUI)    |
+| **Real-Time Collaboration**  | ⚠️ Via Git        | ⚠️ Via tools  | ⚠️ Via tools | ✅              | ✅              |
+| **Open Source**              | ✅ MIT License    | ✅ MIT        | ✅ GPL       | ❌              | ❌              |
+
+**Runiq Advantages:**
+
+- ✅ **Complete Gane-Sarson** - All standard DFD shape variations
+- ✅ **Text-based workflow** - Perfect for version control and CI/CD
+- ✅ **Automatic layout** - Eclipse Layout Kernel handles positioning
+- ✅ **Programmatic generation** - Create DFDs from database schemas
+- ✅ **Clean SVG output** - Professional, accessible diagrams
 
 ## Related Documentation
 

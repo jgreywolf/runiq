@@ -130,4 +130,8 @@ glyphset events "Project Milestones" {
 
 - [Process Glyphsets →](/guide/glyphsets-process)
 - [List Glyphsets →](/guide/glyphsets-list)
-- [View All Glyphsets →](/guide/glyphsets)
+- [Comparison Glyphsets →](/guide/glyphsets-comparison)
+- [Hierarchy Glyphsets →](/guide/glyphsets-hierarchy)
+- [Relationship Glyphsets →](/guide/glyphsets-relationship)
+- [Glyphset Themes Reference →](/reference/glyphset-themes)
+- [Try the Online Editor →](https://editor.runiq.org)

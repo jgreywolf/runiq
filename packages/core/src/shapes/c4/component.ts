@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderMultilineText } from '../../types.js';
 
 /**
  * C4 Model: Component
@@ -42,18 +43,27 @@ export const c4Component: ShapeDefinition = {
     const textColor = ctx.style.textColor || '#000000'; // Dark text for lighter background
     const rx = ctx.style.rx || 6;
 
+    const labelSvg: string = renderMultilineText(
+      ctx.node.label || ctx.node.id,
+      x + bounds.width / 2,
+      y + bounds.height / 2,
+      {
+        textAnchor: 'middle' as const,
+        dominantBaseline: 'middle',
+        fontFamily: (ctx.style.font || 'sans-serif') as string,
+        fontSize: (ctx.style.fontSize || 13) as number,
+        fill: textColor as string,
+        fontWeight: '600' as string,
+      }
+    );
+
     return `
       <!-- C4 Component -->
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             rx="${rx}" ry="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
+
       <!-- Label -->
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 13}"
-            fill="${textColor}" font-weight="600">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${labelSvg}
     `;
   },
 };

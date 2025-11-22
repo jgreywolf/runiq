@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderMultilineText } from '../../types.js';
 
 /**
  * C4 Model: Person
@@ -46,25 +47,34 @@ export const c4Person: ShapeDefinition = {
     const iconY = y + 20;
     const labelY = y + 45;
 
+    const labelSvg: string = renderMultilineText(
+      ctx.node.label || ctx.node.id,
+      x + bounds.width / 2,
+      labelY,
+      {
+        textAnchor: 'middle' as const,
+        dominantBaseline: 'middle',
+        fontFamily: (ctx.style.font || 'sans-serif') as string,
+        fontSize: (ctx.style.fontSize || 14) as number,
+        fill: textColor as string,
+        fontWeight: 'bold' as string,
+      }
+    );
+
     return `
       <!-- C4 Person Container -->
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             rx="${rx}" ry="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
+
       <!-- Person Icon (simple stick figure) -->
       <circle cx="${iconX}" cy="${iconY}" r="6" fill="${textColor}" />
       <line x1="${iconX}" y1="${iconY + 6}" x2="${iconX}" y2="${iconY + 14}" stroke="${textColor}" stroke-width="2" />
       <line x1="${iconX - 8}" y1="${iconY + 10}" x2="${iconX + 8}" y2="${iconY + 10}" stroke="${textColor}" stroke-width="2" />
       <line x1="${iconX}" y1="${iconY + 14}" x2="${iconX - 6}" y2="${iconY + 22}" stroke="${textColor}" stroke-width="2" />
       <line x1="${iconX}" y1="${iconY + 14}" x2="${iconX + 6}" y2="${iconY + 22}" stroke="${textColor}" stroke-width="2" />
-      
+
       <!-- Label -->
-      <text x="${x + bounds.width / 2}" y="${labelY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}"
-            fill="${textColor}" font-weight="bold">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${labelSvg}
     `;
   },
 };

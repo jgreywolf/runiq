@@ -1,13 +1,7 @@
 ---
 title: Use Case Diagrams
----
-
----
-
-title: Use Case Diagrams
 description: Model system functionality with UML use case diagrams including actors, use cases, relationships, and system boundaries.
 lastUpdated: 2025-01-09
-
 ---
 
 # Use Case Diagrams
@@ -176,7 +170,7 @@ diagram "Healthcare System" {
     shape submitClaim as @ellipseWide label: "Submit Claim"
   }
 
-  shape note as @note label: "Insurance check is\nautomatically included\nin booking process"
+  shape insNote as @note label: "Insurance check is\nautomatically included\nin booking process"
 
   patient -> bookAppointment
   patient -> viewRecords
@@ -187,7 +181,7 @@ diagram "Healthcare System" {
   doctor -> submitClaim
   submitClaim -> insurance
 
-  note -> checkInsurance arrowType: none style lineStyle: "dashed"
+  insNote -> checkInsurance arrowType: none lineStyle: "dashed"
 }
 ```
 
@@ -331,15 +325,6 @@ diagram "Styled Use Case" {
 - It adds extra functionality under certain conditions
 - Example: "Place Order" optionally extends to "Apply Discount"
 
-## Examples
-
-See the [examples/use-case-diagram](https://github.com/jgreywolf/runiq/tree/main/examples/use-case-diagram) directory for complete examples:
-
-- Simple banking system
-- Advanced banking with relationships
-- E-commerce platform
-- Class relationship use cases
-
 ## Comparison with Other Tools
 
 | Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Visual Paradigm | Enterprise Architect | StarUML        |
@@ -376,6 +361,15 @@ See the [examples/use-case-diagram](https://github.com/jgreywolf/runiq/tree/main
 - **PlantUML**: Established tool with extensive UML and documentation support
 - **Lucidchart**: Real-time collaboration for requirements gathering workshops
 - **StarUML**: Desktop UML modeling with model validation
+
+## Examples
+
+See the [use-case](examples/use-case) directory for complete examples:
+
+- Simple banking system
+- Advanced banking with relationships
+- E-commerce platform
+- Class relationship use cases
 
 ## Related
 

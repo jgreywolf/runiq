@@ -8,49 +8,6 @@ lastUpdated: 2025-11-17
 
 Venn diagrams visualize logical relationships between sets, showing overlaps and intersections. Runiq provides a unified Venn diagram shape that automatically adapts to 2, 3, or 4 circles based on your data.
 
-## Quick Start
-
-### Two-Circle Venn Diagram
-
-```runiq
-diagram "Skills Overlap" {
-  shape overlapChart as @venn
-    label:"Skills Overlap"
-    data:[60, 40]
-    labels:["Frontend", "Backend"]
-}
-```
-
-**Output**: Two overlapping circles showing Frontend and Backend skill areas with automatic overlap visualization.
-
-### Three-Circle Venn Diagram
-
-```runiq
-diagram "Technology Stack" {
-  shape stack as @venn
-    label:"Technology Stack"
-    data:[50, 45, 40]
-    labels:["JavaScript", "Python", "Go"]
-    colors:["#4299e1", "#48bb78", "#ed8936"]
-}
-```
-
-**Output**: Three overlapping circles in a triangular arrangement showing relationships between three programming languages.
-
-### Four-Circle Venn Diagram
-
-```runiq
-diagram "Platform Coverage" {
-  shape coverage as @venn
-    label:"Platform Coverage"
-    data:[35, 30, 40, 32]
-    labels:["Web", "Mobile", "Desktop", "Cloud"]
-    colors:["#4299e1", "#48bb78", "#ed8936", "#9f7aea"]
-}
-```
-
-**Output**: Four overlapping circles in a 2x2 grid showing relationships across multiple platforms.
-
 ## The Venn Shape
 
 | Shape   | Description                                      | Supported Configurations         |
@@ -58,10 +15,6 @@ diagram "Platform Coverage" {
 | `@venn` | Unified Venn diagram (auto-detects circle count) | 2, 3, or 4 circles based on data |
 
 The shape automatically determines the number of circles based on the length of your `data` array:
-
-- 2 elements → 2-circle Venn
-- 3 elements → 3-circle Venn
-- 4 elements → 4-circle Venn
 
 ## Core Features
 
@@ -278,56 +231,6 @@ shape disproportionate as @venn
   labels:["Tiny", "Large", "Huge"]
 ```
 
-## Advanced Examples
-
-### Market Segmentation with Detailed Intersections
-
-```runiq
-diagram "Market Analysis" {
-  shape market as @venn
-    label:"Customer Segments"
-    data:[1200, 950, 800]
-    labels:["Enterprise", "Mid-Market", "SMB"]
-    colors:["#2c5aa0", "#4299e1", "#60a5fa"]
-    intersections:["Enterprise+Mid", "Enterprise+SMB", "Mid+SMB", "All Segments"]
-    fontSize:15
-    strokeWidth:2.5
-}
-```
-
-### Technology Stack Analysis
-
-```runiq
-diagram "Tech Stack" {
-  shape stack as @venn
-    label:"Development Technologies"
-    data:[80, 75, 70, 65]
-    labels:["Languages", "Frameworks", "Tools", "Cloud"]
-    colors:["#4299e1", "#48bb78", "#ed8936", "#9f7aea"]
-    stroke:"#2d3748"
-    strokeWidth:2
-    fontSize:14
-    fontFamily:"Inter, sans-serif"
-}
-```
-
-### Skill Overlap with Custom Styling
-
-```runiq
-diagram "Skills Matrix" {
-  shape skills as @venn
-    label:"Developer Competencies"
-    data:[90, 85, 80]
-    labels:["Frontend", "Backend", "Database"]
-    colors:["#f56565", "#4299e1", "#48bb78"]
-    intersections:["Full Stack Web", "API Dev", "Data Layer", "Complete Stack"]
-    stroke:"#1a202c"
-    strokeWidth:3
-    fontSize:16
-    fontFamily:"Roboto, sans-serif"
-}
-```
-
 ## Reference
 
 ### Data Properties
@@ -402,24 +305,24 @@ See the [Venn Diagram Examples](/examples/venn-diagrams) page for more complete 
 
 ## Comparison with Other Tools
 
-| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Creately   | SmartDraw    | Canva     | Venny      |
-| ---------------------------- | -------------- | -------------- | -------------- | ----------- | ---------- | ------------ | --------- | ---------- |
-| **2-circle Venn**            | ✅             | ❌             | ❌             | ✅          | ✅         | ✅           | ✅        | ✅         |
-| **3-circle Venn**            | ✅             | ❌             | ❌             | ✅          | ✅         | ✅           | ✅        | ✅         |
-| **4-circle Venn**            | ✅             | ❌             | ❌             | ✅          | ⚠️ Limited | ✅           | ✅        | ✅         |
-| **5+ circle Venn**           | ❌             | ❌             | ❌             | ✅          | ⚠️ Limited | ✅           | ✅        | ✅         |
-| **Data-driven values**       | ✅             | ❌             | ❌             | ⚠️ Manual   | ⚠️ Manual  | ⚠️ Manual    | ⚠️ Manual | ✅         |
-| **Intersection labels**      | ✅             | ❌             | ❌             | ✅          | ✅         | ✅           | ✅        | ✅         |
-| **Custom colors**            | ✅             | ❌             | ❌             | ✅          | ✅         | ✅           | ✅        | ⚠️ Limited |
-| **Statistical analysis**     | ❌             | ❌             | ❌             | ❌          | ❌         | ❌           | ❌        | ✅         |
-| **Text-based DSL**           | ✅             | ❌             | ❌             | ❌          | ❌         | ❌           | ❌        | ⚠️ CSV     |
-| **Version control friendly** | ✅             | ❌             | ❌             | ⚠️ Partial  | ❌         | ❌           | ❌        | ⚠️ Partial |
-| **Auto-layout**              | ✅             | ❌             | ❌             | ❌          | ❌         | ⚠️ Templates | ❌        | ✅         |
-| **Documentation generation** | ✅             | ❌             | ❌             | ⚠️ Partial  | ❌         | ❌           | ❌        | ❌         |
-| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | PDF, Image | PDF, Image   | Multiple  | PNG, SVG   |
-| **Learning curve**           | Low            | Low            | Medium         | Low         | Low        | Low          | Very Low  | Very Low   |
-| **Cost**                     | Free           | Free           | Free           | Paid        | Free/Paid  | Paid         | Free/Paid | Free       |
-| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Web        | Windows/Mac  | Web       | Web        |
+| Feature                      | Runiq          | Mermaid | PlantUML | Lucidchart  | Creately   | SmartDraw    | Canva     | Venny      |
+| ---------------------------- | -------------- | ------- | -------- | ----------- | ---------- | ------------ | --------- | ---------- |
+| **2-circle Venn**            | ✅             | ❌      | ❌       | ✅          | ✅         | ✅           | ✅        | ✅         |
+| **3-circle Venn**            | ✅             | ❌      | ❌       | ✅          | ✅         | ✅           | ✅        | ✅         |
+| **4-circle Venn**            | ✅             | ❌      | ❌       | ✅          | ⚠️ Limited | ✅           | ✅        | ✅         |
+| **5+ circle Venn**           | ❌             | ❌      | ❌       | ✅          | ⚠️ Limited | ✅           | ✅        | ✅         |
+| **Data-driven values**       | ✅             | ❌      | ❌       | ⚠️ Manual   | ⚠️ Manual  | ⚠️ Manual    | ⚠️ Manual | ✅         |
+| **Intersection labels**      | ✅             | ❌      | ❌       | ✅          | ✅         | ✅           | ✅        | ✅         |
+| **Custom colors**            | ✅             | ❌      | ❌       | ✅          | ✅         | ✅           | ✅        | ⚠️ Limited |
+| **Statistical analysis**     | ❌             | ❌      | ❌       | ❌          | ❌         | ❌           | ❌        | ✅         |
+| **Text-based DSL**           | ✅             | ❌      | ❌       | ❌          | ❌         | ❌           | ❌        | ⚠️ CSV     |
+| **Version control friendly** | ✅             | ❌      | ❌       | ⚠️ Partial  | ❌         | ❌           | ❌        | ⚠️ Partial |
+| **Auto-layout**              | ✅             | ❌      | ❌       | ❌          | ❌         | ⚠️ Templates | ❌        | ✅         |
+| **Documentation generation** | ✅             | ❌      | ❌       | ⚠️ Partial  | ❌         | ❌           | ❌        | ❌         |
+| **Export formats**           | SVG, PNG       | ❌      | ❌       | Multiple    | PDF, Image | PDF, Image   | Multiple  | PNG, SVG   |
+| **Learning curve**           | Low            | ❌      | ❌       | Low         | Low        | Low          | Very Low  | Very Low   |
+| **Cost**                     | Free           | ❌      | ❌       | Paid        | Free/Paid  | Paid         | Free/Paid | Free       |
+| **Platform**                 | Cross-platform | ❌      | ❌       | Web/Desktop | Web        | Windows/Mac  | Web       | Web        |
 
 **Key Advantages of Runiq:**
 

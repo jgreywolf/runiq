@@ -203,7 +203,7 @@ Swimlanes organize activities by role, department, or system component.
 
 ```runiq
 diagram "Horizontal Swimlanes" {
-  direction TB
+  direction LR
 
   container "Customer" fill: "#e3f2fd" {
     shape c1 as @initialState
@@ -555,26 +555,26 @@ container "Production System"
 
 ## Comparison with Other Tools
 
-| Feature                      | Runiq                              | Mermaid  | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
-| ---------------------------- | ---------------------------------- | -------- | ------------ | ------------------ | ------------- | -------------------- |
-| **Text-Based DSL**           | ✅                                 | ❌       | ✅           | ❌ (GUI)           | ❌ (GUI)      | ⚠️ Hybrid            |
-| **UML 2.5 Compliance**       | ✅                                 | ❌       | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
-| **Version Control Friendly** | ✅                                 | N/A      | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌                   |
-| **Action Pins**              | ✅ Input/output pins               | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Object Nodes**             | ✅ Data flow support               | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Central Buffers**          | ✅ `@centralBuffer`                | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Data Stores**              | ✅ `@dataStore`                    | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Swimlanes**                | ✅ Horizontal & vertical           | ❌       | ✅           | ✅                 | ✅            | ✅                   |
-| **Fork/Join Nodes**          | ✅ Parallel flow notation          | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Send/Receive Signals**     | ✅ `@sendSignal`, `@receiveSignal` | ❌       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Conditional Nodes**        | ✅ `@diamond` decision             | ⚠️ Basic | ✅           | ✅                 | ✅            | ✅                   |
-| **Final Nodes**              | ✅ Activity & flow final           | ⚠️ Basic | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Expansion Regions**        | ✅ Container-based                 | ❌       | ✅           | ❌                 | ❌            | ✅                   |
-| **Auto-Layout**              | ✅ ELK (Layered)                   | N/A      | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Export Formats**           | ✅ SVG (PNG/PDF via conversion)    | N/A      | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
-| **Collaboration**            | ✅ Git-based                       | N/A      | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
-| **Learning Curve**           | ⚠️ Moderate (DSL)                  | N/A      | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
-| **Open Source**              | ✅ MIT License                     | ✅ MIT   | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
+| Feature                      | Runiq                              | Mermaid | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
+| ---------------------------- | ---------------------------------- | ------- | ------------ | ------------------ | ------------- | -------------------- |
+| **Text-Based DSL**           | ✅                                 | ❌      | ✅           | ❌ (GUI)           | ❌ (GUI)      | ⚠️ Hybrid            |
+| **Version Control Friendly** | ✅                                 | N/A     | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌                   |
+| **Automatic Layout**         | ✅ ELK (Layered)                   | N/A     | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **UML 2.5 Compliance**       | ✅                                 | ❌      | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
+| **Action Pins**              | ✅ Input/output pins               | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Object Nodes**             | ✅ Data flow support               | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Central Buffers**          | ✅ `@centralBuffer`                | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Data Stores**              | ✅ `@dataStore`                    | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Swimlanes**                | ✅ Horizontal & vertical           | ❌      | ✅           | ✅                 | ✅            | ✅                   |
+| **Fork/Join Nodes**          | ✅ Parallel flow notation          | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Send/Receive Signals**     | ✅ `@sendSignal`, `@receiveSignal` | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Conditional Nodes**        | ✅ `@diamond` decision             | ❌      | ✅           | ✅                 | ✅            | ✅                   |
+| **Final Nodes**              | ✅ Activity & flow final           | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Expansion Regions**        | ✅ Container-based                 | ❌      | ✅           | ❌                 | ❌            | ✅                   |
+| **Export Formats**           | ✅ SVG (PNG/PDF via conversion)    | N/A     | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
+| **Collaboration**            | ✅ Git-based                       | N/A     | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
+| **Learning Curve**           | ⚠️ Moderate (DSL)                  | N/A     | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
+| **Open Source**              | ✅ MIT License                     | ✅ MIT  | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
 
 **Runiq Advantages:**
 

@@ -310,10 +310,10 @@ diagram "Strategic Planning" {
 ```runiq
 diagram "Tech Stack" {
   container "Technologies" type:mindmap algorithm:radial {
-    shape stack label:"fa/code: Our Stack"
-    shape frontend label:"fa/desktop: Frontend"
-    shape backend label:"fa/server: Backend"
-    shape data label:"fa/database: Data"
+    shape stack label:"Our Stack" icon: fa/code
+    shape frontend label:"Frontend" icon: fa/desktop
+    shape backend label:"Backend" icon: fa/server
+    shape data label:"Data" icon: fa/database
 
     stack -> frontend
     stack -> backend
@@ -347,23 +347,24 @@ Mindmaps scale well with proper structure:
 
 ## Comparison with Other Tools
 
-| Feature                | Runiq            | Mermaid    | PlantUML        | MindMup    | XMind  |
-| ---------------------- | ---------------- | ---------- | --------------- | ---------- | ------ |
-| **Mixed shapes**       | ✅ Full support  | ⚠️ Limited | ⚠️ Circles only | ⚠️ Limited | ✅ Yes |
-| **Hierarchical edges** | ✅ Explicit      | ✅ Yes     | ⚠️ Auto-only    | ✅ Yes     | ✅ Yes |
-| **Version control**    | ✅ Git-friendly  | ✅ Yes     | ✅ Yes          | ❌ No      | ❌ No  |
-| **Programmable**       | ✅ Yes (SDK)     | ⚠️ Limited | ❌ No           | ❌ No      | ❌ No  |
-| **Custom styling**     | ✅ Full CSS-like | ⚠️ Limited | ⚠️ Colors only  | ✅ Yes     | ✅ Yes |
-| **Container support**  | ✅ Yes           | ❌ No      | ❌ No           | ❌ No      | ❌ No  |
-| **Text-based**         | ✅ Yes           | ✅ Yes     | ✅ Yes          | ❌ No      | ❌ No  |
-| **Auto-layout**        | ✅ Radial (ELK)  | ⚠️ Limited | ✅ Yes          | ✅ Yes     | ✅ Yes |
-| **SVG export**         | ✅ Pure SVG      | ✅ Yes     | ✅ Yes          | ✅ Yes     | ✅ Yes |
+| Feature                      | Runiq             | Mermaid      | PlantUML        | MindMup         | XMind    |
+| ---------------------------- | ----------------- | ------------ | --------------- | --------------- | -------- |
+| **Text-Based DSL**           | ✅                | ✅           | ✅              | ❌              | ❌       |
+| **Version control friendly** | ✅ Git-friendly   | ✅           | ✅              | ❌              | ❌       |
+| **Auto-layout**              | ✅                | ✅           | ✅              | ✅              | ✅       |
+| **Mixed shapes**             | ✅                | ⚠️ Limited   | ⚠️ Circles only | ⚠️ Limited      | ✅       |
+| **Hierarchical edges**       | ✅                | ✅           | ⚠️ Auto-only    | ✅              | ✅       |
+| **Custom styling**           | ✅ Full CSS-like  | ⚠️ Limited   | ⚠️ Colors only  | ✅              | ✅       |
+| **Container support**        | ✅                | ❌           | ❌              | ❌              | ❌       |
+| **Export formats**           | SVG, PNG          | SVG, PNG     | SVG             | ✅              | ✅       |
+| **Collaboration**            | ✅ Git-based      | ✅ Git-based | ✅ Git-based    | ✅ Cloud (Paid) | ✅ Cloud |
+| **Learning Curve**           | ⚠️ Moderate (DSL) | ✅ Low       | ⚠️ Moderate     | ✅ Low (GUI)    | ✅ Low   |
+| **Real-Time Collaboration**  | ⚠️ Via Git        | ⚠️ Via tools | ⚠️ Via tools    | ✅              | ✅       |
+| **Open Source**              | ✅ MIT License    | ✅ MIT       | ✅ GPL          | ❌              | ❌       |
 
 ## Examples
 
-Explore complete mindmap examples with full code:
-
-**[View Mindmap Examples →](/examples/mindmap-diagrams)**
+See the [View Mindmap Examples →](/examples/mindmap-diagrams) directory for more complete examples:
 
 Includes:
 
@@ -372,7 +373,7 @@ Includes:
 - Educational knowledge map with styling (21 nodes)
 - Strategic planning with mixed shapes (21 nodes)
 
-## Related Documentation
+## Related
 
 - [Layout Algorithms](/guide/layout) - Understanding radial layout
 - [Containers](/guide/containers) - Container properties and styling

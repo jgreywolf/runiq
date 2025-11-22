@@ -739,6 +739,7 @@ NodeProperty:
     | DataProperty
     | LabelsProperty
     | ShowLegendProperty
+    | ShowValuesProperty
     | LegendPositionProperty
     | StackedProperty
     | ColorsProperty
@@ -803,6 +804,9 @@ LabelsProperty:
 
 ShowLegendProperty:
     'showLegend:' value=BooleanValue;
+
+ShowValuesProperty:
+    'showValues:' value=BooleanValue;
 
 LegendPositionProperty:
     'legendPosition:' value=STRING;

@@ -1,6 +1,18 @@
 import type { ShapeDefinition } from '../../types.js';
 
 /**
+ * Escape XML special characters to prevent HTML injection
+ */
+function escapeXml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+/**
  * Port - Small square representing a connection point on a component
  */
 export const portShape: ShapeDefinition = {
@@ -133,17 +145,17 @@ export const templateShape: ShapeDefinition = {
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
+
       <!-- Dashed corner for template parameter -->
       <path d="M ${x + bounds.width - cornerSize} ${y}
                L ${x + bounds.width} ${y}
                L ${x + bounds.width} ${y + cornerSize}"
             fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="3,2" />
-      
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
+
+      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}"
             text-anchor="middle" dominant-baseline="middle"
             font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
+        ${escapeXml(ctx.node.label || ctx.node.id)}
       </text>
     `;
   },

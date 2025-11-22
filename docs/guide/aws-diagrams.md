@@ -1,13 +1,7 @@
 ---
-title: AWS Diagrams
----
-
----
-
 title: AWS Architecture Diagrams
 description: Create AWS cloud architecture diagrams with VPCs, subnets, security groups, and AWS service icons.
 lastUpdated: 2025-01-09
-
 ---
 
 # AWS Architecture Diagrams
@@ -304,21 +298,22 @@ Consider these pillars when designing:
 
 How do Runiq AWS diagrams compare to other cloud diagramming tools?
 
-| Feature                  | Runiq | Mermaid         | PlantUML | Cloudcraft | Lucidchart | Draw.io |
-| ------------------------ | ----- | --------------- | -------- | ---------- | ---------- | ------- |
-| **Text-Based DSL**       | ✅    | ⚠️ Architecture | ✅       | ❌         | ❌         | ❌      |
-| **AWS Service Icons**    | ✅    | ⚠️ via plugin   | ✅       | ✅         | ✅         | ✅      |
-| **VPC Containers**       | ✅    | ❌ via group    | ✅       | ✅         | ✅         | ✅      |
-| **Auto-Layout**          | ✅    | ✅              | ✅       | ❌         | ❌         | ❌      |
-| **Version Control**      | ✅    | ✅              | ✅       | ❌         | ❌         | ❌      |
-| **Multi-Region Support** | ✅    | ❌              | ✅       | ✅         | ✅         | ✅      |
-| **Security Groups**      | ✅    | ❌              | ✅       | ✅         | ✅         | ✅      |
-| **Cost Integration**     | ❌    | ❌              | ❌       | ✅         | ❌         | ❌      |
-| **3D Visualization**     | ❌    | ❌              | ❌       | ✅         | ❌         | ❌      |
-| **Integrated with UML**  | ✅    | ❌              | ✅       | ❌         | ✅         | ❌      |
-| **Offline Mode**         | ✅    | ✅              | ✅       | ❌         | ❌         | ✅      |
-| **Free/Open Source**     | ✅    | ✅              | ✅       | ❌         | ❌         | ✅      |
-| **Learning Curve**       | Low   | Low             | Med      | Low        | Med        | Low     |
+| Feature                      | Runiq | Mermaid         | PlantUML | Cloudcraft | Lucidchart | Draw.io |
+| ---------------------------- | ----- | --------------- | -------- | ---------- | ---------- | ------- |
+| **Text-Based DSL**           | ✅    | ✅              | ✅       | ❌         | ❌         | ❌      |
+| **Version Control Friendly** | ✅    | ✅              | ✅       | ❌         | ❌         | ❌      |
+| **Basic Support**            | ✅    | ⚠️ Architecture | ✅       | ✅         | ✅         | ✅      |
+| **AWS Service Icons**        | ✅    | ⚠️ via plugin   | ✅       | ✅         | ✅         | ✅      |
+| **VPC Containers**           | ✅    | ❌ via group    | ✅       | ✅         | ✅         | ✅      |
+| **Multi-Region Support**     | ✅    | ❌              | ✅       | ✅         | ✅         | ✅      |
+| **Security Groups**          | ✅    | ❌              | ✅       | ✅         | ✅         | ✅      |
+| **Cost Integration**         | ❌    | ❌              | ❌       | ✅         | ❌         | ❌      |
+| **3D Visualization**         | ❌    | ❌              | ❌       | ✅         | ❌         | ❌      |
+| **Integrated with UML**      | ✅    | ❌              | ✅       | ❌         | ✅         | ❌      |
+| **Offline Mode**             | ✅    | ✅              | ✅       | ❌         | ❌         | ✅      |
+| **Auto-Layout**              | ✅    | ✅              | ✅       | ❌         | ❌         | ❌      |
+| **Free/Open Source**         | ✅    | ✅              | ✅       | ❌         | ❌         | ✅      |
+| **Learning Curve**           | Low   | Low             | Med      | Low        | Med        | Low     |
 
 **Why choose Runiq for AWS diagrams?**
 
@@ -328,14 +323,6 @@ How do Runiq AWS diagrams compare to other cloud diagramming tools?
 - **Documentation as code** - Keep architecture diagrams with your IaC
 - **Quick prototyping** - Rapidly sketch architecture ideas
 - **Integration** - Combine AWS diagrams with sequence diagrams, ERDs, etc.
-
-## Examples
-
-See the examples directory for AWS architecture samples:
-
-- `aws-vpc-example.runiq` - VPC networking
-- `multi-region.runiq` - Multi-region deployment
-- `microservices.runiq` - ECS microservices
 
 ## Related
 

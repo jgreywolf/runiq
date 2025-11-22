@@ -608,16 +608,17 @@ How do Runiq ERD diagrams compare to other database modeling tools?
 
 | Feature                 | Runiq | Mermaid | PlantUML | Lucidchart | Draw.io | dbdiagram.io | MySQL Workbench |
 | ----------------------- | ----- | ------- | -------- | ---------- | ------- | ------------ | --------------- |
-| **Text-Based DSL**      | ✅    | ✅      | ✅       | ❌         | ❌      | ✅           | ❌              |
+| **Basic Support**       | ✅    | ✅      | ✅       | ✅         | ✅      | ✅           | ✅              |
 | **Chen Notation**       | ✅    | ❌      | ✅       | ✅         | ✅      | ❌           | ❌              |
 | **Crow's Foot**         | ❌    | ✅      | ✅       | ✅         | ✅      | ✅           | ✅              |
 | **Weak Entities**       | ✅    | ❌      | ✅       | ✅         | ✅      | ❌           | ❌              |
 | **Multi-Attributes**    | ✅    | ❌      | ✅       | ✅         | ✅      | ❌           | ❌              |
-| **Auto-Layout**         | ✅    | ✅      | ✅       | ❌         | ❌      | ✅           | ❌              |
-| **Version Control**     | ✅    | ✅      | ✅       | ❌         | ❌      | ✅           | ❌              |
 | **SQL Generation**      | ❌    | ❌      | ❌       | ❌         | ❌      | ✅           | ✅              |
 | **Reverse Engineering** | ❌    | ❌      | ❌       | ❌         | ❌      | ❌           | ✅              |
 | **Integrated w/ UML**   | ✅    | ✅      | ✅       | ✅         | ❌      | ❌           | ❌              |
+| **Text-Based DSL**      | ✅    | ✅      | ✅       | ❌         | ❌      | ✅           | ❌              |
+| **Auto-Layout**         | ✅    | ✅      | ✅       | ❌         | ❌      | ✅           | ❌              |
+| **Version Control**     | ✅    | ✅      | ✅       | ❌         | ❌      | ✅           | ❌              |
 | **Free/Open Source**    | ✅    | ✅      | ✅       | ❌         | ✅      | ✅           | ✅              |
 | **Learning Curve**      | Low   | Low     | Med      | Med        | Low     | Low          | Med             |
 

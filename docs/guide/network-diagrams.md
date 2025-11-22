@@ -56,13 +56,13 @@ diagram "Three-Tier Architecture" {
   shape users as @cloud label: "Internet Users"
   shape lb as @loadBalancer label: "Load Balancer"
 
-  container webTier as @systemBoundary label: "Web Tier" {
+  container webTier "Web Tier" {
     shape web1 as @server label: "Web Server 1"
     shape web2 as @server label: "Web Server 2"
     shape web3 as @server label: "Web Server 3"
   }
 
-  container appTier as @systemBoundary label: "Application Tier" {
+  container appTier "Application Tier" {
     shape app1 as @server label: "App Server 1"
     shape app2 as @server label: "App Server 2"
   }
@@ -277,29 +277,21 @@ diagram "Styled Network" {
 - **Active/Passive**: Backup path for failover
 - **N+1**: Extra capacity for redundancy
 
-## Examples
-
-See the examples directory for network diagram samples:
-
-- `multi-region.runiq` - Multi-region deployment
-- `docker-stack.runiq` - Container networking
-- `microservices.runiq` - Service mesh architecture
-
 ## Comparison with Other Tools
 
 | Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Visio       | Draw.io     | NetBrain   | Diagrams.net |
 | ---------------------------- | -------------- | -------------- | -------------- | ----------- | ----------- | ----------- | ---------- | ------------ |
+| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌          | ❌          | ❌         | ⚠️ XML       |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌          | ⚠️ Partial  | ❌         | ⚠️ Partial   |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ❌          | ⚠️ Smart    | ❌         | ⚠️ Smart     |
 | **Network topology**         | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅          | ✅          | ✅         | ✅           |
 | **Infrastructure icons**     | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
 | **Layered architecture**     | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ⚠️ Basic   | ✅           |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ❌          | ⚠️ Smart    | ❌         | ⚠️ Smart     |
 | **Custom shapes**            | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ⚠️ Limited | ✅           |
 | **Live network discovery**   | ❌             | ❌             | ❌             | ❌          | ❌          | ❌          | ✅         | ❌           |
 | **IP addressing**            | ✅ Via labels  | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
 | **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial  | ⚠️ Partial  | ✅         | ⚠️ Partial   |
 | **Cloud provider symbols**   | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
-| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌          | ❌          | ❌         | ⚠️ XML       |
-| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌          | ⚠️ Partial  | ❌         | ⚠️ Partial   |
 | **Learning curve**           | Low            | Low            | Medium         | Low         | Medium      | Low         | High       | Low          |
 | **Real-time collaboration**  | ✅ Via Git     | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
 | **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple    | Multiple    | PDF, Image | Multiple     |

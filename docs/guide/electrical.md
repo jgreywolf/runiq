@@ -61,6 +61,7 @@ Standard SPICE suffixes: f, p, n, u, m, k, Meg, G
 | ---------------------------- | ------------------------- | ------- | -------- | ------------------ | ------------- | ---------------- | ---------------- |
 | **Text-Based DSL**           | ✅                        | ❌      | ❌       | ❌(GUI)            | ❌(GUI)       | ⚠️ Netlist only  | ❌(GUI)          |
 | **Version Control Friendly** | ✅                        | ❌      | ❌       | ⚠️ Limited         | ⚠️ Limited    | ⚠️ Netlist only  | ⚠️ Complex files |
+| **Automatic Layout**         | ✅ ELK                    | ❌      | ❌       | ⚠️ Manual          | ⚠️ Manual     | ⚠️ Manual        | ⚠️ Manual        |
 | **IEEE Standard Symbols**    | ✅                        | ❌      | ❌       | ✅                 | ✅            | ✅               | ✅               |
 | **SPICE Export**             | ✅ Native netlist         | ❌      | ❌       | ❌                 | ❌            | ✅               | ✅               |
 | **Circuit Simulation**       | ⚠️ Via SPICE export       | ❌      | ❌       | ❌                 | ❌            | ✅ Built-in      | ⚠️ Via ngspice   |
@@ -69,7 +70,6 @@ Standard SPICE suffixes: f, p, n, u, m, k, Meg, G
 | **Net Naming**               | ✅ Descriptive names      | ❌      | ❌       | ✅ Manual          | ✅ Manual     | ✅ Node numbers  | ✅ Net names     |
 | **PCB Design**               | ❌                        | ❌      | ❌       | ⚠️ Basic           | ⚠️ Basic      | ❌               | ✅ support       |
 | **Schematic Capture**        | ✅ Text-based             | ❌      | ❌       | ✅ GUI             | ✅ GUI        | ✅ GUI           | ✅ GUI           |
-| **Auto-Layout**              | ✅ ELK                    | ❌      | ❌       | ⚠️ Manual          | ⚠️ Manual     | ⚠️ Manual        | ⚠️ Manual        |
 | **Export Formats**           | ✅ SVG, PNG, SPICE        | ❌      | ❌       | ✅ Many formats    | ✅ Many       | ✅ PNG, PDF      | ✅ Many          |
 | **Collaboration**            | ✅ Git-based              | ❌      | ❌       | ✅ Cloud (Paid)    | ✅ Cloud      | ❌ Desktop-based | ✅ Git-friendly  |
 | **Learning Curve**           | ⚠️ Moderate (DSL)         | ❌      | ❌       | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate      | ❌ High          |

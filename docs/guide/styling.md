@@ -122,9 +122,9 @@ diagram "Line Styles" {
   shape D as @rect label: "D"
 
   # Line styles
-  A -> B lineStyle: solid stroke: "#2196f3"
-  A -> C lineStyle: dashed stroke: "#ff9800"
-  A -> D lineStyle: dotted stroke: "#4caf50"
+  A -> B lineStyle: "solid" stroke: "#2196f3"
+  A -> C lineStyle: "dashed" stroke: "#ff9800"
+  A -> D lineStyle: "dotted" stroke: "#4caf50"
 }
 ```
 
@@ -467,11 +467,11 @@ fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
 
 ### Edge Properties
 
-| Property      | Type                      | Default | Example             |
-| ------------- | ------------------------- | ------- | ------------------- |
-| `stroke`      | color                     | #444    | `stroke: "#2196f3"` |
-| `strokeWidth` | number                    | 2       | `strokeWidth: 3`    |
-| `lineStyle`   | solid \| dashed \| dotted | solid   | `lineStyle: dashed` |
+| Property      | Type                               | Default | Example               |
+| ------------- | ---------------------------------- | ------- | --------------------- |
+| `stroke`      | color                              | #444    | `stroke: "#2196f3"`   |
+| `strokeWidth` | number                             | 2       | `strokeWidth: 3`      |
+| `lineStyle`   | (string) solid \| dashed \| dotted | solid   | `lineStyle: "dashed"` |
 
 ### Container Properties
 

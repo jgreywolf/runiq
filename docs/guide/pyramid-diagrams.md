@@ -53,7 +53,7 @@ Pyramids excel at:
 ### Basic Structure
 
 ```typescript
-// Data is provided as an array of level objects
+// Data is provided as an array of objects
 [
   {
     label: string;    // Text displayed in the level
@@ -204,14 +204,14 @@ shape pyramid as @pyramid
 
 ```runiq
 // ✅ Good: Smallest to largest (top to bottom)
-levels: [
+data: [
   {"label": "Top Tier", "value": 10},
   {"label": "Middle Tier", "value": 50},
   {"label": "Base Tier", "value": 100}
 ]
 
 // ❌ Bad: Random ordering loses pyramid meaning
-levels: [
+data: [
   {"label": "Middle", "value": 50},
   {"label": "Top", "value": 10},
   {"label": "Base", "value": 100}
@@ -252,20 +252,18 @@ colors:["#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe"]
 
 ```runiq
 // ✅ Good: Enable showValues for concrete numbers
-data:{
-  "levels": [...],
-  "showValues": true
-}
+data:[
+  ...
+  ]
+  showValues: true
 
 // ⚠️ Optional: Hide values for qualitative hierarchies
-data:{
-  "levels": [
+data:[
     {"label": "High Priority", "value": 100},
     {"label": "Medium Priority", "value": 60},
     {"label": "Low Priority", "value": 30}
-  ],
-  "showValues": false
-}
+  ]
+  showValues: false
 ```
 
 ## Use Cases
@@ -436,38 +434,25 @@ For best visual proportions:
 
 ```runiq
 // ✅ Good: Clear proportional differences
-levels: [
+[
   {"label": "Top", "value": 10},
   {"label": "Middle", "value": 50},
   {"label": "Bottom", "value": 100}
 ]
 
 // ⚠️ Acceptable: Large ratio still works
-levels: [
+[
   {"label": "Top", "value": 1},
   {"label": "Bottom", "value": 100}
 ]
 
 // ❌ Poor: Values too similar, pyramid looks flat
-levels: [
+[
   {"label": "Top", "value": 95},
   {"label": "Middle", "value": 98},
   {"label": "Bottom", "value": 100}
 ]
 ```
-
-## Examples
-
-Explore complete pyramid diagram examples:
-
-**[View Pyramid Examples →](/examples/pyramid-diagrams)**
-
-Includes:
-
-- Maslow's Hierarchy of Needs (psychology)
-- Organizational structure (business)
-- Sales funnel (marketing)
-- Learning progression (education)
 
 ## Comparison with Other Tools
 
@@ -504,6 +489,19 @@ Includes:
 - **SmartDraw**: Extensive template library for business users
 - **Lucidchart**: Real-time collaboration with stakeholders
 - **Mermaid/PlantUML**: Simple hierarchies in existing markdown documentation
+
+## Examples
+
+Explore complete pyramid diagram examples:
+
+**[View Pyramid Examples →](/examples/pyramid-diagrams)**
+
+Includes:
+
+- Maslow's Hierarchy of Needs (psychology)
+- Organizational structure (business)
+- Sales funnel (marketing)
+- Learning progression (education)
 
 ## Related Documentation
 

@@ -1,13 +1,7 @@
 ---
-title: UML State Machine Diagrams
----
-
----
-
 title: State Machine Diagrams
 description: Model state-dependent behavior with UML state machines including states, transitions, guards, actions, composite states, and history.
 lastUpdated: 2025-01-09
-
 ---
 
 # State Machine Diagrams
@@ -835,11 +829,11 @@ diagram "Self-Transition" {
 | **Fork/Join**                | ✅             | ❌             | ✅             | ⚠️ Manual   | ✅                   | ✅              | ✅             | ✅               |
 | **Guards**                   | ✅             | ❌             | ✅             | ⚠️ Labels   | ✅                   | ✅              | ✅             | ✅               |
 | **Effects/Actions**          | ✅             | ❌             | ✅             | ⚠️ Labels   | ✅                   | ✅              | ✅             | ✅               |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ⚠️ Partial     | ❌               |
 | **Code generation**          | ❌             | ❌             | ❌             | ❌          | ✅                   | ✅              | ✅             | ✅               |
 | **Simulation**               | ❌             | ❌             | ❌             | ❌          | ⚠️ Limited           | ⚠️ Limited      | ✅             | ✅               |
 | **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ✅             | ❌               |
 | **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial           | ⚠️ Partial      | ✅             | ⚠️ Partial       |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ⚠️ Partial     | ❌               |
 | **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ✅                   | ✅              | ✅             | ⚠️ Partial       |
 | **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple             | Multiple        | Multiple       | Multiple         |
 | **Learning curve**           | Low            | Low            | Medium         | Low         | High                 | High            | Medium         | High             |

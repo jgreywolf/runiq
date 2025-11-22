@@ -1,13 +1,7 @@
 ---
 title: Wardley Maps
----
-
----
-
-title: Wardley Maps
 description: Create strategic Wardley maps for technology and business strategy with evolution axes and component positioning.
 lastUpdated: 2025-01-09
-
 ---
 
 # Wardley Maps
@@ -247,36 +241,27 @@ Simon Wardley's doctrine (best practices):
 - Manage inertia
 - Use ecosystems
 
-## Examples
-
-See the [examples/wardley](https://github.com/jgreywolf/runiq/tree/main/examples/wardley) directory for complete examples:
-
-- Tea shop example
-- Technology evolution
-- Strategic gameplay
-
 ## Comparison with Other Tools
 
-| Feature                      | Runiq          | Mermaid | PlantUML | Lucidchart  | OnlineWardleyMaps | MapScript  | Wardley Maps Canvas |
-| ---------------------------- | -------------- | ------- | -------- | ----------- | ----------------- | ---------- | ------------------- |
-| **Basic support**            | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
-| **Evolution axis**           | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
-| **Value chain**              | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
-| **Component positioning**    | ✅             | ❌      | ❌       | ✅          | ✅                | ✅         | ✅                  |
-| **Dependencies**             | ✅             | ❌      | ❌       | ✅          | ✅                | ✅         | ✅                  |
-| **Anchors**                  | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
-| **Annotations**              | ✅             | ❌      | ❌       | ✅          | ✅                | ✅         | ✅                  |
-| **Movement indicators**      | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
-| **Pipeline stages**          | ✅             | ❌      | ❌       | ⚠️ Manual   | ✅                | ✅         | ✅                  |
-| **Text-based DSL**           | ✅             | ❌      | ❌       | ❌          | ⚠️ Partial        | ✅         | ❌                  |
-| **Version control friendly** | ✅             | ❌      | ❌       | ⚠️ Partial  | ⚠️ Partial        | ✅         | ❌                  |
-| **Automatic layout**         | ⚠️ Partial     | ❌      | ❌       | ❌          | ❌                | ❌         | ❌                  |
-| **Documentation generation** | ✅             | ❌      | ❌       | ⚠️ Partial  | ⚠️ Partial        | ⚠️ Partial | ❌                  |
-| **Export formats**           | SVG, PNG       | ❌      | ❌       | Multiple    | PNG, SVG          | SVG        | PNG                 |
-| **Interactive editing**      | ❌             | ❌      | ❌       | ✅          | ✅                | ❌         | ✅                  |
-| **Learning curve**           | Low            | ❌      | ❌       | Low         | Medium            | Low        | Medium              |
-| **Cost**                     | Free           | ❌      | ❌       | Paid        | Free              | Free       | Free                |
-| **Platform**                 | Cross-platform | ❌      | ❌       | Web/Desktop | Web               | CLI/Code   | Web                 |
+| Feature                      | Runiq          | Lucidchart  | OnlineWardleyMaps | MapScript  | Wardley Maps Canvas |
+| ---------------------------- | -------------- | ----------- | ----------------- | ---------- | ------------------- |
+| **Text-based DSL**           | ✅             | ❌          | ⚠️ Partial        | ✅         | ❌                  |
+| **Version control friendly** | ✅             | ⚠️ Partial  | ⚠️ Partial        | ✅         | ❌                  |
+| **Evolution axis**           | ✅             | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Value chain**              | ✅             | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Component positioning**    | ✅             | ✅          | ✅                | ✅         | ✅                  |
+| **Dependencies**             | ✅             | ✅          | ✅                | ✅         | ✅                  |
+| **Anchors**                  | ✅             | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Annotations**              | ✅             | ✅          | ✅                | ✅         | ✅                  |
+| **Movement indicators**      | ✅             | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Pipeline stages**          | ✅             | ⚠️ Manual   | ✅                | ✅         | ✅                  |
+| **Automatic layout**         | ⚠️ Partial     | ❌          | ❌                | ❌         | ❌                  |
+| **Documentation generation** | ✅             | ⚠️ Partial  | ⚠️ Partial        | ⚠️ Partial | ❌                  |
+| **Export formats**           | SVG, PNG       | Multiple    | PNG, SVG          | SVG        | PNG                 |
+| **Interactive editing**      | ❌             | ✅          | ✅                | ❌         | ✅                  |
+| **Learning curve**           | Low            | Low         | Medium            | Low        | Medium              |
+| **Cost**                     | Free           | Paid        | Free              | Free       | Free                |
+| **Platform**                 | Cross-platform | Web/Desktop | Web               | CLI/Code   | Web                 |
 
 **Key Advantages of Runiq:**
 
@@ -291,6 +276,14 @@ See the [examples/wardley](https://github.com/jgreywolf/runiq/tree/main/examples
 - **MapScript**: Python-based automation and batch processing
 - **Wardley Maps Canvas**: Quick sketching and iteration for workshops
 - **Lucidchart**: Collaborative strategic planning sessions
+
+## Examples
+
+See the [examples/wardley](/examples/wardley) directory for complete examples:
+
+- Tea shop example
+- Technology evolution
+- Strategic gameplay
 
 ## Related
 

@@ -336,7 +336,7 @@ direction LR
 | -------------- | ---------------------------------------------------------------------------------------- | ------- | ----------------------------- |
 | `label`        | string                                                                                   | -       | `label: "submit"`             |
 | `weight`       | number                                                                                   | -       | `weight: 10`                  |
-| `lineStyle`    | solid \| dashed \| dotted                                                                | solid   | `lineStyle: dashed`           |
+| `lineStyle`    | solid \| dashed \| dotted                                                                | solid   | `lineStyle: "dashed"`         |
 | `stroke`       | color                                                                                    | #444    | `stroke: "#2196f3"`           |
 | `strokeWidth`  | number                                                                                   | 2       | `strokeWidth: 3`              |
 | `relationship` | association \| aggregation \| composition \| dependency \| generalization \| realization | -       | `relationship: composition`   |

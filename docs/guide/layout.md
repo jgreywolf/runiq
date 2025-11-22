@@ -1,13 +1,7 @@
 ---
-title: Layout
----
-
----
-
 title: Layout & Direction
 description: Control diagram layout with automatic ELK algorithms, manual positioning, direction options (TB/LR/BT/RL), and node separation settings.
 lastUpdated: 2025-01-09
-
 ---
 
 # Layout & Direction
@@ -47,9 +41,9 @@ diagram "Network" {
     shape a as @circle label:"A"
     shape b as @circle label:"B"
     shape c as @circle label:"C"
-    edge a -> b
-    edge b -> c
-    edge c -> a
+    a -> b
+    b -> c
+    c -> a
   }
 }
 ```

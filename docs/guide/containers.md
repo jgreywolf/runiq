@@ -344,6 +344,7 @@ diagram "C4 Container View" {
 
 ```runiq
 diagram "Order Process" {
+  direction LR
 
   container "Customer" {
     shape Order as @rounded label: "Place Order"
@@ -367,6 +368,7 @@ diagram "Order Process" {
 
 ```runiq
 diagram "Network Zones" {
+  direction LR
 
   container "DMZ" backgroundColor: "#ffebee" {
     shape Firewall as @rect label: "Firewall"
@@ -466,25 +468,19 @@ Due to layout engine limitations, use flat structure with multiple containers in
 
 ## Comparison with Other Tools
 
-| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Draw.io     | C4-PlantUML    | Structurizr   |
-| ---------------------------- | -------------- | -------------- | -------------- | ----------- | ----------- | -------------- | ------------- |
-| **Visual grouping**          | ✅             | ⚠️ Subgraphs   | ⚠️ Rectangles  | ✅          | ✅          | ✅             | ✅            |
-| **Nested containers**        | ✅             | ⚠️ Limited     | ⚠️ Limited     | ✅          | ✅          | ✅             | ✅            |
-| **Templates**                | ✅             | ❌             | ❌             | ⚠️ Custom   | ⚠️ Custom   | ❌             | ⚠️ Workspaces |
-| **Presets**                  | ✅             | ❌             | ❌             | ❌          | ❌          | ❌             | ❌            |
-| **Style inheritance**        | ✅             | ❌             | ❌             | ⚠️ Manual   | ⚠️ Manual   | ⚠️ Partial     | ⚠️ Themes     |
-| **Background colors**        | ✅             | ⚠️ Limited     | ✅             | ✅          | ✅          | ✅             | ✅            |
-| **Border styling**           | ✅             | ⚠️ Limited     | ✅             | ✅          | ✅          | ✅             | ✅            |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Smart    | ✅             | ✅            |
-| **Cross-container edges**    | ✅             | ✅             | ✅             | ✅          | ✅          | ✅             | ✅            |
-| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial  | ✅             | ✅            |
-| **C4 model support**         | ⚠️ Manual      | ❌             | ⚠️ Via C4      | ⚠️ Manual   | ⚠️ Manual   | ✅             | ✅            |
-| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple    | SVG, PNG       | Multiple      |
-| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌          | ✅             | ✅            |
-| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial  | ✅             | ✅            |
-| **Learning curve**           | Low            | Low            | Medium         | Low         | Low         | Medium         | Medium        |
-| **Cost**                     | Free           | Free           | Free           | Paid        | Free        | Free           | Free/Paid     |
-| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Web/Desktop | Cross-platform | Web/CLI       |
+| Feature                      | Runiq     | Mermaid      | PlantUML      | Lucidchart | Draw.io    | C4-PlantUML | Structurizr   |
+| ---------------------------- | --------- | ------------ | ------------- | ---------- | ---------- | ----------- | ------------- |
+| **Visual grouping**          | ✅        | ⚠️ Subgraphs | ⚠️ Rectangles | ✅         | ✅         | ✅          | ✅            |
+| **Nested containers**        | ✅        | ⚠️ Limited   | ⚠️ Limited    | ✅         | ✅         | ✅          | ✅            |
+| **Templates**                | ✅        | ❌           | ❌            | ⚠️ Custom  | ⚠️ Custom  | ❌          | ⚠️ Workspaces |
+| **Presets**                  | ✅        | ❌           | ❌            | ❌         | ❌         | ❌          | ❌            |
+| **Style inheritance**        | ✅        | ❌           | ❌            | ⚠️ Manual  | ⚠️ Manual  | ⚠️ Partial  | ⚠️ Themes     |
+| **Background colors**        | ✅        | ⚠️ Limited   | ✅            | ✅         | ✅         | ✅          | ✅            |
+| **Border styling**           | ✅        | ⚠️ Limited   | ✅            | ✅         | ✅         | ✅          | ✅            |
+| **Automatic layout**         | ✅        | ✅           | ✅            | ❌         | ⚠️ Smart   | ✅          | ✅            |
+| **Cross-container edges**    | ✅        | ✅           | ✅            | ✅         | ✅         | ✅          | ✅            |
+| **Documentation generation** | ✅        | ✅           | ✅            | ⚠️ Partial | ⚠️ Partial | ✅          | ✅            |
+| **C4 model support**         | ⚠️ Manual | ❌           | ⚠️ Via C4     | ⚠️ Manual  | ⚠️ Manual  | ✅          | ✅            |
 
 **Key Advantages of Runiq:**
 

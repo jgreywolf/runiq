@@ -8,7 +8,7 @@ Add a `theme` parameter to your glyphset definition:
 
 ```runiq
 glyphset spiralCycle "My Diagram" {
-  theme forest
+  theme "forest"
   item "Step 1"
   item "Step 2"
   item "Step 3"
@@ -17,7 +17,15 @@ glyphset spiralCycle "My Diagram" {
 
 ## Available Themes
 
-### colorful (default)
+### professional (default)
+
+Professional gray-blue palette for business and technical diagrams.
+
+- **Colors**: Gray-blue gradient (#546E7A → #90A4AE)
+- **Best for**: Business presentations, technical documentation, corporate materials
+- **Example**: `theme professional`
+
+### colorful
 
 Classic Office color palette with blues, oranges, and complementary colors.
 
@@ -25,13 +33,29 @@ Classic Office color palette with blues, oranges, and complementary colors.
 - **Best for**: General presentations, diverse content, eye-catching diagrams
 - **Example**: `theme colorful`
 
-### professional
+### forest
 
-Professional gray-blue palette for business and technical diagrams.
+Natural greens and earth tones inspired by nature.
 
-- **Colors**: Gray-blue gradient (#546E7A → #90A4AE)
-- **Best for**: Business presentations, technical documentation, corporate materials
-- **Example**: `theme professional`
+- **Colors**: Forest Green (#2E7D32), Medium Green (#43A047), Light Green (#66BB6A), Pale Green (#81C784)
+- **Best for**: Environmental topics, growth concepts, organic processes, sustainability
+- **Example**: `theme forest`
+
+### sunset
+
+Warm oranges and ambers inspired by sunset colors.
+
+- **Colors**: Dark Orange (#FF6F00), Orange (#FF8F00), Light Orange (#FFA726), Amber (#FFA000)
+- **Best for**: Creative projects, energy, passion, warmth, dynamic content
+- **Example**: `theme sunset`
+
+### ocean
+
+Cool blues and teals inspired by the sea.
+
+- **Colors**: Deep Ocean (#006064), Cyan (#00ACC1), Teal (#00897B), Light Teal (#80CBC4)
+- **Best for**: Technology, trust, calm, stability, maritime themes
+- **Example**: `theme ocean`
 
 ### monochrome
 
@@ -65,37 +89,13 @@ Cool spectrum with cyans, blues, and purples.
 - **Best for**: Technology, innovation, calm, analytical content
 - **Example**: `theme cool`
 
-### forest
-
-Natural greens and earth tones inspired by nature.
-
-- **Colors**: Forest Green (#2E7D32), Medium Green (#43A047), Light Green (#66BB6A), Pale Green (#81C784)
-- **Best for**: Environmental topics, growth concepts, organic processes, sustainability
-- **Example**: `theme forest`
-
-### sunset
-
-Warm oranges and ambers inspired by sunset colors.
-
-- **Colors**: Dark Orange (#FF6F00), Orange (#FF8F00), Light Orange (#FFA726), Amber (#FFA000)
-- **Best for**: Creative projects, energy, passion, warmth, dynamic content
-- **Example**: `theme sunset`
-
-### ocean
-
-Cool blues and teals inspired by the sea.
-
-- **Colors**: Deep Ocean (#006064), Cyan (#00ACC1), Teal (#00897B), Light Teal (#80CBC4)
-- **Best for**: Technology, trust, calm, stability, maritime themes
-- **Example**: `theme ocean`
-
 ## Examples
 
 ### Spiral Cycle with Forest Theme
 
 ```runiq
 glyphset spiralCycle "Growth Journey" {
-  theme forest
+  theme "forest"
   item "Seed"
   item "Sprout"
   item "Sapling"
@@ -108,7 +108,7 @@ glyphset spiralCycle "Growth Journey" {
 
 ```runiq
 glyphset basicProcess "Creative Workflow" {
-  theme vibrant
+  theme "vibrant"
   step "Ideate"
   step "Design"
   step "Build"
@@ -120,7 +120,7 @@ glyphset basicProcess "Creative Workflow" {
 
 ```runiq
 glyphset radialCycle "Innovation Cycle" {
-  theme sunset
+  theme "sunset"
   item "Research"
   item "Prototype"
   item "Test"
@@ -133,7 +133,7 @@ glyphset radialCycle "Innovation Cycle" {
 
 ```runiq
 glyphset orbitCycle "Tech Ecosystem" {
-  theme ocean
+  theme "ocean"
   item "Core Platform"
   item "Services"
   item "APIs"
@@ -147,7 +147,7 @@ glyphset orbitCycle "Tech Ecosystem" {
 
 ```runiq
 glyphset matrix "Strategy Matrix" {
-  theme cool
+  theme "cool"
   quadrant "Invest"
   quadrant "Experiment"
   quadrant "Optimize"
@@ -159,7 +159,7 @@ glyphset matrix "Strategy Matrix" {
 
 ```runiq
 glyphset orgChart "Team Structure" {
-  theme professional
+  theme "professional"
   person "CEO" {
     person "CTO"
     person "CFO"
@@ -198,17 +198,6 @@ All theme colors have been chosen to ensure:
 - Distinguishable differences between adjacent colors
 - Compatibility with common forms of color blindness
 - Professional appearance in both digital and print formats
-
-## Theme Support by Glyphset
-
-Currently, the following glyphsets support themes:
-
-- ✅ spiralCycle
-- 🔄 radialCycle (coming soon)
-- 🔄 gearCycle (coming soon)
-- 🔄 segmentedCycle (coming soon)
-- 🔄 blockCycle (coming soon)
-- 🔄 orbitCycle (coming soon)
 
 ## Future Enhancements
 

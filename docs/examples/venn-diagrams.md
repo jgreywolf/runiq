@@ -49,10 +49,8 @@ diagram "Product Adoption" {
     labels:["Product A", "Product B"]
     colors:["#2b6cb0", "#2f855a"]
     intersections:["Both Products"]
-    style:{
-      fontSize: 15
-      strokeWidth: 2.5
-    }
+    fontSize: 15
+    strokeWidth: 2.5
 }
 ```
 
@@ -85,11 +83,9 @@ diagram "Subscription Plans" {
     labels:["Basic", "Pro", "Enterprise"]
     colors:["#cbd5e0", "#4299e1", "#2c5aa0"]
     intersections:["Basic+Pro", "Basic+Ent", "Pro+Ent", "All Plans"]
-    style:{
-      fontSize: 14
-      stroke: "#2d3748"
-      strokeWidth: 2
-    }
+    fontSize: 14
+    stroke: "#2d3748"
+    strokeWidth: 2
 }
 ```
 
@@ -105,11 +101,9 @@ diagram "Team Roles" {
     labels:["Engineering", "Product", "Design"]
     colors:["#4299e1", "#48bb78", "#ed8936"]
     intersections:["Eng+Prod", "Eng+Design", "Prod+Design", "Full Team"]
-    style:{
-      fontSize: 16
-      font: "Inter, sans-serif"
-      strokeWidth: 2.5
-    }
+    fontSize: 16
+    fontFamily: "Inter, sans-serif"
+    strokeWidth: 2.5
 }
 ```
 
@@ -138,10 +132,8 @@ diagram "Tech Domains" {
     data:[250, 220, 280, 200]
     labels:["Frontend", "Backend", "Database", "DevOps"]
     colors:["#f56565", "#4299e1", "#48bb78", "#ed8936"]
-    style:{
-      fontSize: 13
-      strokeWidth: 2
-    }
+    fontSize: 13
+    strokeWidth: 2
 }
 ```
 
@@ -157,12 +149,10 @@ diagram "Styled Venn" {
     labels:["Design", "Development", "Marketing"]
     colors:["#e53e3e", "#3182ce", "#38a169"]
     intersections:["Design+Dev", "Design+Mkt", "Dev+Mkt", "All Three"]
-    style:{
-      fontSize: 18
-      font: "Georgia, serif"
-      stroke: "#1a202c"
-      strokeWidth: 3
-    }
+    fontSize: 18
+    fontFamily: "Georgia, serif"
+    stroke: "#1a202c"
+    strokeWidth: 3
 }
 ```
 
@@ -178,12 +168,10 @@ diagram "Project Status" {
     labels:["Blocked", "In Progress", "Complete"]
     colors:["#f56565", "#ed8936", "#48bb78"]
     intersections:["Review", "Testing", "Final Review", "All Clear"]
-    style:{
-      fontSize: 14
-      stroke: "#2d3748"
-      strokeWidth: 2
-      font: "Roboto, sans-serif"
-    }
+    fontSize: 14
+    stroke: "#2d3748"
+    strokeWidth: 2
+    fontFamily: "Roboto, sans-serif"
 }
 ```
 
@@ -212,11 +200,9 @@ diagram "Job Requirements" {
     labels:["Frontend Engineer", "Backend Engineer", "Full Stack Engineer"]
     colors:["#f56565", "#4299e1", "#48bb78"]
     intersections:["FE+BE", "FE+FS", "BE+FS", "Universal Skills"]
-    style:{
-      fontSize: 15
-      strokeWidth: 2.5
-      font: "Inter, sans-serif"
-    }
+    fontSize: 15
+    strokeWidth: 2.5
+    fontFamily: "Inter, sans-serif"
 }
 ```
 
@@ -224,17 +210,15 @@ diagram "Job Requirements" {
 
 ```runiq
 diagram "Customer Segments" {
-  shape segments as @venn
+  shape markets as @venn
     label:"Customer Distribution"
     data:[2000, 1500, 1200]
     labels:["Enterprise", "Mid-Market", "SMB"]
     colors:["#2c5aa0", "#4299e1", "#60a5fa"]
     intersections:["Ent+Mid", "Ent+SMB", "Mid+SMB", "All Segments"]
-    style:{
-      fontSize: 16
-      stroke: "#1a365d"
-      strokeWidth: 3
-    }
+    fontSize: 16
+    stroke: "#1a365d"
+    strokeWidth: 3
 }
 ```
 
@@ -247,11 +231,9 @@ diagram "Service Portfolio" {
     data:[100, 120, 90, 80]
     labels:["Consulting", "Development", "Support", "Training"]
     colors:["#5a67d8", "#48bb78", "#ed8936", "#9f7aea"]
-    style:{
-      fontSize: 14
-      stroke: "#2d3748"
-      strokeWidth: 2
-    }
+    fontSize: 14
+    stroke: "#2d3748"
+    strokeWidth: 2
 }
 ```
 
@@ -265,11 +247,8 @@ Alternative data format with inline labels:
 diagram "Object Format Example" {
   shape objectFormat as @venn
     label:"Browser Market Share"
-    data:[
-      {label: "Chrome", value: 65},
-      {label: "Safari", value: 18},
-      {label: "Edge", value: 5}
-    ]
+    data:[65, 18, 5]
+    labels:["Chrome", "Safari", "Edge"]
     colors:["#4285f4", "#006cff", "#0078d4"]
     intersections:["Chrome+Safari", "Chrome+Edge", "Safari+Edge", "All Browsers"]
 }
@@ -298,12 +277,10 @@ diagram "Maximum Detail" {
     data:[1000, 900, 850, 800]
     labels:["Frontend", "Backend", "Mobile", "Cloud"]
     colors:["#f56565", "#4299e1", "#48bb78", "#ed8936"]
-    style:{
-      stroke: "#1a202c"
-      strokeWidth: 3
-      fontSize: 16
-      font: "Inter, -apple-system, sans-serif"
-    }
+    stroke: "#1a202c"
+    strokeWidth: 3
+    fontSize: 16
+    fontFamily: "Inter, -apple-system, sans-serif"
 }
 ```
 

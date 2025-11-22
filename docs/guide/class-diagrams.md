@@ -598,13 +598,13 @@ diagram "Association Class" {
 | Feature                       | Runiq             | Mermaid      | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
 | ----------------------------- | ----------------- | ------------ | ------------ | ------------------ | ------------- | -------------------- |
 | **Text-Based DSL**            | ✅                | ✅           | ✅           | ❌ No (GUI)        | ❌ No (GUI)   | ⚠️ Hybrid            |
-| **UML 2.5 Compliance**        | ✅                | ⚠️ Basic     | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
 | **Version Control Friendly**  | ✅                | ✅           | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌ No                |
+| **UML 2.5 Compliance**        | ✅                | ⚠️ Basic     | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
 | **Relationship Types**        | ✅                | ⚠️ 4 types   | ✅           | ✅ Manual styling  | ✅ Manual     | ✅                   |
 | **Visibility Modifiers**      | ✅                | ✅           | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
-| **Generic Types**             | ✅                | ✅ Limited   | ✅           | ⚠️ Manual text     | ⚠️ Manual     | ✅                   |
+| **Generic Types**             | ✅                | ⚠️ Limited   | ✅           | ⚠️ Manual text     | ⚠️ Manual     | ✅                   |
 | **Abstract/Static Modifiers** | ✅                | ✅           | ✅           | ⚠️ Manual styling  | ⚠️ Manual     | ✅                   |
-| **Stereotypes**               | ✅                | ✅ Limited   | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Stereotypes**               | ✅                | ⚠️ Limited   | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
 | **Multiplicity**              | ✅                | ⚠️ Basic     | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
 | **Composition/Aggregation**   | ✅                | ✅           | ✅           | ✅                 | ✅            | ✅                   |
 | **Packages/Namespaces**       | ✅ Via containers | ✅           | ✅           | ✅                 | ✅            | ✅                   |
@@ -628,7 +628,7 @@ diagram "Association Class" {
 
 ## Examples
 
-See the [examples/class-diagrams](https://github.com/jgreywolf/runiq/tree/main/examples/class-diagrams) directory for complete examples:
+See the [class diagram examples](/examples/class-diagrams) directory for complete examples:
 
 - Simple inheritance
 - Interface implementation

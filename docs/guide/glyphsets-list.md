@@ -73,7 +73,8 @@ Picture with decorative frame and label.
 
 ```runiq
 glyphset framedPicture "Product Screenshot" {
-  image "dashboard.png"
+  image "https://i.pravatar.cc/150?img=1"
+  image "https://i.pravatar.cc/150?img=2"
   label "Beautiful Dashboard Interface"
   theme "ocean"
 }
@@ -120,4 +121,8 @@ Grid of picture blocks with labels.
 
 - [Process Glyphsets →](/guide/glyphsets-process)
 - [Comparison Glyphsets →](/guide/glyphsets-comparison)
-- [View All Glyphsets →](/guide/glyphsets)
+- [Visualization Glyphsets →](/guide/glyphsets-visualization)
+- [Hierarchy Glyphsets →](/guide/glyphsets-hierarchy)
+- [Relationship Glyphsets →](/guide/glyphsets-relationship)
+- [Glyphset Themes Reference →](/reference/glyphset-themes)
+- [Try the Online Editor →](https://editor.runiq.org)

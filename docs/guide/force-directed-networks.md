@@ -131,7 +131,8 @@ diagram "Hybrid Network" {
 Use multiple containers to show distinct communities:
 
 ```runiq
-diagram "Communities" direction: LR {
+diagram "Communities" {
+  direction LR
   container "Cluster A" algorithm: force spacing: 90 {
     shape a1 as @circle label:"A1"
     shape a2 as @circle label:"A2"
@@ -149,7 +150,7 @@ diagram "Communities" direction: LR {
   }
 
   // Bridge between clusters
-  edge a2 -> b1 label:"connection"
+  a2 -> b1 label:"connection"
 }
 ```
 

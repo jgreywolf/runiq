@@ -124,10 +124,10 @@ Basic circular process where steps flow in a cycle.
 
 ```runiq
 glyphset cycle "PDCA Cycle" {
-  step "Plan"
-  step "Do"
-  step "Check"
-  step "Act"
+  item "Plan"
+  item "Do"
+  item "Check"
+  item "Act"
 
   theme "professional"
 }
@@ -412,5 +412,7 @@ Switch to diagram profiles when you need:
 - [List Glyphsets →](/guide/glyphsets-list)
 - [Comparison Glyphsets →](/guide/glyphsets-comparison)
 - [Visualization Glyphsets →](/guide/glyphsets-visualization)
-- [View All Glyphsets →](/guide/glyphsets)
-- [Glyphset Themes →](/reference/glyphset-themes)
+- [Hierarchy Glyphsets →](/guide/glyphsets-hierarchy)
+- [Relationship Glyphsets →](/guide/glyphsets-relationship)
+- [Glyphset Themes Reference →](/reference/glyphset-themes)
+- [Try the Online Editor →](https://editor.runiq.org)

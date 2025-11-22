@@ -145,7 +145,7 @@ diagram "Styled Flowchart" {
 
   start -> process
   process -> decision
-  decision -> end label: "Done" style: { stroke: "#10b981", strokeWidth: 2 }
+  decision -> end label: "Done" stroke: "#10b981" strokeWidth: 2
 }
 ```
 
@@ -160,22 +160,22 @@ diagram "Styled Flowchart" {
 
 ## Comparison with Other Tools
 
-| Feature                      | Runiq                       | Mermaid      | PlantUML     | Lucidchart         | Draw.io        | Visio              |
-| ---------------------------- | --------------------------- | ------------ | ------------ | ------------------ | -------------- | ------------------ |
-| **Text-Based DSL**           | ✅ Yes                      | ✅ Yes       | ✅ Yes       | ❌ No (GUI)        | ❌ No (GUI)    | ❌ No (GUI)        |
-| **Version Control Friendly** | ✅ Yes                      | ✅ Yes       | ✅ Yes       | ⚠️ Limited         | ⚠️ Limited     | ❌ No              |
-| **ISO 5807 Compliance**      | ✅ Full standard shapes     | ⚠️ Basic     | ⚠️ Basic     | ✅ Yes             | ✅ Yes         | ✅ Yes             |
-| **Auto-Layout**              | ✅ ELK (Hierarchical)       | ✅ Dagre     | ✅ GraphViz  | ✅ Manual+Auto     | ✅ Manual+Auto | ✅ Manual+Auto     |
-| **14+ Flowchart Shapes**     | ✅ Yes (Document, Display+) | ❌ Limited   | ⚠️ 8 shapes  | ✅ 20+             | ✅ 20+         | ✅ 30+             |
-| **Custom Styling**           | ✅ Per-shape & global       | ⚠️ Themes    | ⚠️ Limited   | ✅ Full control    | ✅ Full        | ✅ Full            |
-| **Edge Labels**              | ✅ Yes/No + custom text     | ✅ Yes       | ✅ Yes       | ✅ Yes             | ✅ Yes         | ✅ Yes             |
-| **Conditional Branching**    | ✅ Clear decision syntax    | ✅ Yes       | ✅ Yes       | ✅ Manual          | ✅ Manual      | ✅ Manual          |
-| **Subprocesses**             | ✅ Via containers/profiles  | ⚠️ Subgraphs | ⚠️ Boxes     | ✅ Yes             | ✅ Yes         | ✅ Yes             |
-| **Export Formats**           | ✅ SVG, PNG, PDF            | ✅ SVG, PNG  | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many        | ✅ Many            |
-| **Collaboration**            | ✅ Git-based                | ✅ Git-based | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud       | ❌ Desktop-based   |
-| **Learning Curve**           | ⚠️ Moderate (DSL)           | ✅ Low       | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low         | ⚠️ Moderate        |
-| **Real-Time Collaboration**  | ⚠️ Via Git                  | ⚠️ Via tools | ⚠️ Via tools | ✅ Yes             | ✅ Yes         | ⚠️ SharePoint only |
-| **Open Source**              | ✅ MIT License              | ✅ MIT       | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0  | ❌ Commercial only |
+| Feature                      | Runiq             | Mermaid       | PlantUML     | Lucidchart      | Draw.io       | Visio              |
+| ---------------------------- | ----------------- | ------------- | ------------ | --------------- | ------------- | ------------------ |
+| **Text-Based DSL**           | ✅                | ✅            | ✅           | ❌              | ❌            | ❌                 |
+| **Version Control Friendly** | ✅                | ✅            | ✅           | ⚠️ Limited      | ⚠️ Limited    | ❌                 |
+| **Automatic Layout**         | ✅ ELK            | ✅ Dagre, ELK | ✅ GraphViz  | ✅+Auto         | ✅+Auto       | ✅+Auto            |
+| **ISO 5807 Compliance**      | ✅                | ⚠️ Basic      | ⚠️ Basic     | ✅              | ✅            | ✅                 |
+| **14+ Flowchart Shapes**     | ✅                | ✅            | ⚠️ 8 shapes  | ✅ 20+          | ✅ 20+        | ✅ 30+             |
+| **Custom Styling**           | ✅                | ✅            | ⚠️ Limited   | ✅              | ✅            | ✅                 |
+| **Edge Labels**              | ✅                | ✅            | ✅           | ✅              | ✅            | ✅                 |
+| **Conditional Branching**    | ✅                | ✅            | ✅           | ✅              | ✅            | ✅                 |
+| **Subprocesses**             | ✅                | ✅            | ⚠️ Boxes     | ✅              | ✅            | ✅                 |
+| **Export Formats**           | ✅ SVG, PNG       | ✅ SVG, PNG   | ✅ PNG, SVG  | ✅ Many         | ✅ Many       | ✅ Many            |
+| **Collaboration**            | ✅ Git-based      | ✅ Git-based  | ✅ Git-based | ✅ Cloud (Paid) | ✅ Cloud      | ❌ Desktop-based   |
+| **Learning Curve**           | ⚠️ Moderate (DSL) | ✅ Low        | ⚠️ Moderate  | ✅ Low (GUI)    | ✅ Low        | ⚠️ Moderate        |
+| **Real-Time Collaboration**  | ⚠️ Via Git        | ⚠️ Via tools  | ⚠️ Via tools | ✅              | ✅            | ⚠️ SharePoint only |
+| **Open Source**              | ✅ MIT License    | ✅ MIT        | ✅ GPL       | ❌              | ✅ Apache 2.0 | ❌                 |
 
 **Runiq Advantages:**
 

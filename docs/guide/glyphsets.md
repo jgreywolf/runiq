@@ -70,14 +70,34 @@ glyphset basicProcess "Software Development" {
 
 Most glyphsets support these parameters:
 
-| Parameter | Type | Description | Default |
-|-----------|------|-------------|---------||
-| `theme` | string | Color theme (colorful, professional, monochrome, vibrant, warm, cool, forest, sunset, ocean) | `colorful` |
-| `orientation` | string | Layout direction (horizontal, vertical) | varies by glyphset |
-| `shape` | string | Node shape override | varies by glyphset |
-| `direction` | string | Layout flow direction (LR, RL, TB, BT) | varies by glyphset |
+| Parameter     | Type   | Description                                                                                  | Default            |
+| ------------- | ------ | -------------------------------------------------------------------------------------------- | ------------------ |
+| `theme`       | string | Color theme (colorful, professional, monochrome, vibrant, warm, cool, forest, sunset, ocean) | `colorful`         |
+| `orientation` | string | Layout direction (horizontal, vertical)                                                      | varies by glyphset |
+| `shape`       | string | Node shape override                                                                          | varies by glyphset |
+| `direction`   | string | Layout flow direction (LR, RL, TB, BT)                                                       | varies by glyphset |
 
-[View all themes →](/reference/glyphset-themes)
+## Themes
+
+All glyphsets support 5 built-in themes:
+
+- **professional** (default) - Blue business tones
+- **forest** - Natural greens
+- **sunset** - Warm oranges and reds
+- **ocean** - Cool blues and teals
+- **monochrome** - Sophisticated grays
+
+```runiq
+glyphset basicProcess "Themed Process" {
+  step "A"
+  step "B"
+  step "C"
+
+  theme "sunset"  // Try: professional, forest, sunset, ocean, monochrome
+}
+```
+
+[Learn more about themes →](/reference/glyphset-themes)
 
 ## Available Glyphset Categories
 
@@ -152,88 +172,6 @@ Show connections and relationships between concepts.
 
 [View Relationship Glyphsets →](/guide/glyphsets-relationship)
 
-## Quick Examples
-
-### Process Flow
-
-```runiq
-glyphset basicProcess "Onboarding Steps" {
-  step "Application"
-  step "Interview"
-  step "Offer"
-  step "Start Date"
-
-  theme "forest"
-  orientation "horizontal"
-}
-```
-
-### Organization Chart
-
-```runiq
-glyphset orgChart "Team Structure" {
-  person "Engineering Manager" {
-    person "Frontend Lead" {
-      person "Developer 1"
-      person "Developer 2"
-    }
-    person "Backend Lead" {
-      person "Developer 3"
-      person "Developer 4"
-    }
-  }
-}
-```
-
-### Comparison Matrix
-
-```runiq
-glyphset matrix "Priority Matrix" {
-  quadrant "Do First" label: "Urgent & Important"
-  quadrant "Schedule" label: "Important, Not Urgent"
-  quadrant "Delegate" label: "Urgent, Not Important"
-  quadrant "Eliminate" label: "Neither"
-
-  horizontalAxis "Urgency"
-  verticalAxis "Importance"
-}
-```
-
-### Convergence Diagram
-
-```runiq
-glyphset converging "Sales Funnel" {
-  outer "Website Visitors"
-  outer "Email Signups"
-  outer "Free Trial Users"
-  inner "Paying Customers"
-
-  theme "sunset"
-}
-```
-
-## Themes
-
-All glyphsets support 5 built-in themes:
-
-- **professional** (default) - Blue business tones
-- **forest** - Natural greens
-- **sunset** - Warm oranges and reds
-- **ocean** - Cool blues and teals
-- **monochrome** - Sophisticated grays
-
-```runiq
-glyphset basicProcess "Themed Process" {
-  step "A"
-  step "B"
-  step "C"
-
-  theme "sunset"  // Try: professional, forest, sunset, ocean, monochrome
-}
-```
-
-[Learn more about themes →](/reference/glyphset-themes)
-
 ## Tips and Best Practices
 
 ### 1. Keep It Simple
@@ -269,17 +207,17 @@ Use diagram profiles instead when you need:
 
 ## Comparison with Other Tools
 
-| Feature              | Runiq Glyphsets | PowerPoint SmartArt | Mermaid     | PlantUML       | Lucidchart    |
-| -------------------- | --------------- | ------------------- | ----------- | -------------- | ------------- |
-| **Template library** | ✅ 60+ types    | ✅ 200+ types       | ❌ No       | ❌ No          | ✅ 100+ types |
-| **Custom themes**    | ✅ 9 themes     | ✅ Many themes      | ⚠️ Limited  | ⚠️ Colors only | ✅ Yes        |
-| **Data-driven**      | ✅ JSON support | ⚠️ Excel link       | ❌ No       | ❌ No          | ⚠️ CSV import |
-| **Version control**  | ✅ Git-friendly | ❌ Binary files     | ✅ Yes      | ✅ Yes         | ❌ Cloud      |
-| **Programmatic API** | ✅ Full SDK     | ⚠️ VBA/COM          | ❌ No       | ❌ No          | ⚠️ API        |
-| **Text-based**       | ✅ DSL+JSON     | ❌ GUI              | ✅ Yes      | ✅ Yes         | ❌ GUI        |
-| **Auto-layout**      | ✅ ELK engine   | ✅ Built-in         | ⚠️ Limited  | ✅ Yes         | ⚠️ Assisted   |
-| **Pure SVG output**  | ✅ Yes          | ⚠️ Export only      | ✅ Yes      | ✅ Yes         | ✅ Export     |
-| **Learning curve**   | 📚 Easy         | 📚 Easy             | 📖 Moderate | 📖 Moderate    | 📚 Easy       |
+| Feature                      | Runiq Glyphsets | PowerPoint SmartArt | Mermaid     | PlantUML       | Lucidchart    |
+| ---------------------------- | --------------- | ------------------- | ----------- | -------------- | ------------- |
+| **Text-based DSL**           | ✅ DSL+JSON     | ❌ GUI              | ✅ Yes      | ✅ Yes         | ❌ GUI        |
+| **Version control friendly** | ✅ Git-friendly | ❌ Binary files     | ✅ Yes      | ✅ Yes         | ❌ Cloud      |
+| **Template library**         | ✅ 60+ types    | ✅ 200+ types       | ❌ No       | ❌ No          | ✅ 100+ types |
+| **Custom themes**            | ✅ 9 themes     | ✅ Many themes      | ⚠️ Limited  | ⚠️ Colors only | ✅ Yes        |
+| **Data-driven**              | ✅ JSON support | ⚠️ Excel link       | ❌ No       | ❌ No          | ⚠️ CSV import |
+| **Programmatic API**         | ✅ Full SDK     | ⚠️ VBA/COM          | ❌ No       | ❌ No          | ⚠️ API        |
+| **Automatic layout**         | ✅ ELK engine   | ✅ Built-in         | ⚠️ Limited  | ✅ Yes         | ⚠️ Assisted   |
+| **Pure SVG output**          | ✅ Yes          | ⚠️ Export only      | ✅ Yes      | ✅ Yes         | ✅ Export     |
+| **Learning curve**           | 📚 Easy         | 📚 Easy             | 📖 Moderate | 📖 Moderate    | 📚 Easy       |
 
 **Runiq Advantages:**
 

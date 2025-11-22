@@ -37,28 +37,111 @@ export const bpmnEventShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#000000';
 
     // Get event type from data (handles parser's { values: [...] } format)
-    const eventType = getDataProperty<string>(
-      ctx.node.data,
-      'eventType',
-      'start'
-    );
+    const eventType =
+      getDataProperty<string>(ctx.node.data, 'eventType', 'start') || 'start';
 
     let svg = '';
+    let icon = ''; // Icon to render inside the circle
 
-    if (eventType === 'start') {
-      // Start event: single thin circle (1px stroke)
-      svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 1}" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
-    } else if (eventType === 'end') {
-      // End event: single VERY thick circle (5px stroke - very bold and obvious)
+    // Determine circle style based on event type category
+    const isEndEvent = eventType === 'end' || eventType.startsWith('end-');
+    const isIntermediateEvent =
+      eventType === 'intermediate' || eventType.startsWith('intermediate-');
+
+    if (isEndEvent) {
+      // End event: single thick circle (5px stroke)
       svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 2.5}" fill="${fill}" stroke="${stroke}" stroke-width="5"/>`;
-    } else if (eventType === 'intermediate') {
-      // Intermediate event: double circles - outer and prominent inner circle
+    } else if (isIntermediateEvent) {
+      // Intermediate event: double circles
       svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 1}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
       svg += `<circle cx="${cx}" cy="${cy}" r="${radius - 5}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
     } else {
-      // Default: same as start
+      // Start event: single thin circle (1px stroke)
       svg = `<circle cx="${cx}" cy="${cy}" r="${radius - 1}" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
     }
+
+    // Extract the base event type (remove start-/intermediate-/end- prefix)
+    const baseEventType = eventType
+      .replace(/^start-/, '')
+      .replace(/^intermediate-/, '')
+      .replace(/^end-/, '');
+
+    // Add icons for specific event types (BPMN 2.0 standard icons)
+    const iconSize = 12; // Icon dimensions
+
+    switch (baseEventType) {
+      case 'timer':
+        // Timer: Clock icon (circle with clock hands)
+        icon = `
+          <circle cx="${cx}" cy="${cy}" r="${iconSize / 2}" fill="none" stroke="${stroke}" stroke-width="1"/>
+          <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - iconSize / 3}" stroke="${stroke}" stroke-width="1"/>
+          <line x1="${cx}" y1="${cy}" x2="${cx + iconSize / 4}" y2="${cy - iconSize / 5}" stroke="${stroke}" stroke-width="1"/>`;
+        break;
+
+      case 'message':
+        // Message: Envelope icon
+        icon = `
+          <rect x="${cx - iconSize / 2}" y="${cy - iconSize / 3}" width="${iconSize}" height="${iconSize * 0.66}" fill="none" stroke="${stroke}" stroke-width="1"/>
+          <path d="M ${cx - iconSize / 2} ${cy - iconSize / 3} L ${cx} ${cy} L ${cx + iconSize / 2} ${cy - iconSize / 3}" fill="none" stroke="${stroke}" stroke-width="1"/>`;
+        break;
+
+      case 'error':
+        // Error: Lightning bolt icon
+        icon = `
+          <path d="M ${cx - 2} ${cy - iconSize / 2} L ${cx - 5} ${cy} L ${cx + 2} ${cy} L ${cx - 1} ${cy + iconSize / 2} L ${cx + 5} ${cy - 2} L ${cx - 2} ${cy - 2} Z"
+                fill="${stroke}" stroke="none"/>`;
+        break;
+
+      case 'conditional':
+        // Conditional: Document/list icon (horizontal lines)
+        icon = `
+          <line x1="${cx - iconSize / 2}" y1="${cy - iconSize / 3}" x2="${cx + iconSize / 2}" y2="${cy - iconSize / 3}" stroke="${stroke}" stroke-width="1"/>
+          <line x1="${cx - iconSize / 2}" y1="${cy}" x2="${cx + iconSize / 2}" y2="${cy}" stroke="${stroke}" stroke-width="1"/>
+          <line x1="${cx - iconSize / 2}" y1="${cy + iconSize / 3}" x2="${cx + iconSize / 2}" y2="${cy + iconSize / 3}" stroke="${stroke}" stroke-width="1"/>`;
+        break;
+
+      case 'signal':
+        // Signal: Triangle pointing up
+        icon = `
+          <path d="M ${cx} ${cy - iconSize / 2} L ${cx + iconSize / 2} ${cy + iconSize / 2} L ${cx - iconSize / 2} ${cy + iconSize / 2} Z"
+                fill="none" stroke="${stroke}" stroke-width="1"/>`;
+        break;
+
+      case 'escalation':
+        // Escalation: Upward pointing arrow/chevron
+        icon = `
+          <path d="M ${cx} ${cy - iconSize / 2} L ${cx + iconSize / 2} ${cy + iconSize / 3} L ${cx + iconSize / 4} ${cy + iconSize / 3} L ${cx} ${cy - iconSize / 4} L ${cx - iconSize / 4} ${cy + iconSize / 3} L ${cx - iconSize / 2} ${cy + iconSize / 3} Z"
+                fill="none" stroke="${stroke}" stroke-width="1"/>`;
+        break;
+
+      case 'compensation':
+        // Compensation: Double triangles pointing left
+        icon = `
+          <path d="M ${cx} ${cy - iconSize / 2} L ${cx - iconSize / 3} ${cy} L ${cx} ${cy + iconSize / 2} Z" fill="none" stroke="${stroke}" stroke-width="1"/>
+          <path d="M ${cx + iconSize / 3} ${cy - iconSize / 2} L ${cx} ${cy} L ${cx + iconSize / 3} ${cy + iconSize / 2} Z" fill="none" stroke="${stroke}" stroke-width="1"/>`;
+        break;
+
+      case 'cancel':
+        // Cancel: X icon
+        icon = `
+          <line x1="${cx - iconSize / 2}" y1="${cy - iconSize / 2}" x2="${cx + iconSize / 2}" y2="${cy + iconSize / 2}" stroke="${stroke}" stroke-width="1.5"/>
+          <line x1="${cx + iconSize / 2}" y1="${cy - iconSize / 2}" x2="${cx - iconSize / 2}" y2="${cy + iconSize / 2}" stroke="${stroke}" stroke-width="1.5"/>`;
+        break;
+
+      case 'link':
+        // Link: Arrow icon
+        icon = `
+          <line x1="${cx - iconSize / 2}" y1="${cy}" x2="${cx + iconSize / 3}" y2="${cy}" stroke="${stroke}" stroke-width="1.5"/>
+          <path d="M ${cx + iconSize / 3} ${cy} L ${cx} ${cy - iconSize / 3} M ${cx + iconSize / 3} ${cy} L ${cx} ${cy + iconSize / 3}" stroke="${stroke}" stroke-width="1.5" fill="none"/>`;
+        break;
+
+      case 'terminate':
+        // Terminate: Filled circle
+        icon = `<circle cx="${cx}" cy="${cy}" r="${iconSize / 2}" fill="${stroke}"/>`;
+        break;
+    }
+
+    svg += icon;
 
     // Optional label below the event
     if (ctx.node.label) {

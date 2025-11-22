@@ -87,10 +87,10 @@ diagram "UML Activity Diagram - Object Nodes" {
   shape userInput as @objectNode label: "User Input"
   shape validatedData as @objectNode label: "Validated Data"
   shape orderData as @objectNode label: "Order Data"
-  
+
   # Central buffer - temporary storage
   shape orderQueue as @centralBuffer label: "Order Queue"
-  
+
   # Data store - persistent storage
   shape database as @dataStore label: "Order Database"
   shape customerDb as @dataStore label: "Customer DB"
@@ -106,14 +106,14 @@ diagram "UML Activity Diagram - Object Nodes" {
   # Object flows (data flows between activities and object nodes)
   readInput -> userInput label: "«output»"
   userInput -> validateData label: "«input»"
-  
+
   validateData -> validatedData label: "«output»"
   validatedData -> processOrder label: "«input»"
-  
+
   processOrder -> orderData label: "«output»"
   orderData -> orderQueue label: "enqueue"
   orderQueue -> saveToDb label: "dequeue"
-  
+
   saveToDb -> database label: "store"
   customerDb -> processOrder label: "read"
 }
@@ -149,7 +149,7 @@ diagram "Order Fulfillment - Horizontal Swimlanes" {
     shape browseProducts as @activity label: "Browse Products"
     shape placeOrder as @activity label: "Place Order"
     shape receiveShipment as @activity label: "Receive Shipment"
-    
+
     browseProducts -> placeOrder
   }
 
@@ -157,7 +157,7 @@ diagram "Order Fulfillment - Horizontal Swimlanes" {
     shape validateOrder as @activity label: "Validate Order"
     shape processPayment as @activity label: "Process Payment"
     shape createInvoice as @activity label: "Create Invoice"
-    
+
     validateOrder -> processPayment
     processPayment -> createInvoice
   }
@@ -166,7 +166,7 @@ diagram "Order Fulfillment - Horizontal Swimlanes" {
     shape pickItems as @activity label: "Pick Items"
     shape packOrder as @activity label: "Pack Order"
     shape shipOrder as @activity label: "Ship Order"
-    
+
     pickItems -> packOrder
     packOrder -> shipOrder
   }
@@ -208,7 +208,7 @@ diagram "CI/CD Release Pipeline" {
     shape writeCode as @activity label: "Write Code"
     shape runLocalTests as @activity label: "Run Local Tests"
     shape commitCode as @activity label: "Commit to Repo"
-    
+
     init -> writeCode
     writeCode -> runLocalTests
     runLocalTests -> commitCode
@@ -220,7 +220,7 @@ diagram "CI/CD Release Pipeline" {
     shape runTests as @activity label: "Run Test Suite"
     shape buildArtifact as @activity label: "Build Artifact"
     shape decision as @decision label: "Tests Pass?"
-    
+
     detectChange -> runBuild
     runBuild -> runTests
     runTests -> decision
@@ -231,7 +231,7 @@ diagram "CI/CD Release Pipeline" {
     shape deployToQA as @activity label: "Deploy to QA"
     shape runE2ETests as @activity label: "Run E2E Tests"
     shape approveRelease as @activity label: "Approve Release"
-    
+
     deployToQA -> runE2ETests
     runE2ETests -> approveRelease
   }
@@ -240,7 +240,7 @@ diagram "CI/CD Release Pipeline" {
     shape deployProduction as @activity label: "Deploy to Prod"
     shape monitorHealth as @activity label: "Monitor Health"
     shape final as @activityFinal
-    
+
     deployProduction -> monitorHealth
     monitorHealth -> final
   }
@@ -280,29 +280,29 @@ diagram "Microservices with Signals" {
   direction TB
 
   shape start as @initialState
-  
+
   # Order Service activities
   shape receiveOrder as @activity label: "Receive Order"
   shape validateOrder as @activity label: "Validate Order"
-  
+
   # Send signal to inventory
-  shape sendInventoryCheck as @sendSignal label: "«signal»\nCheckInventory"
-  
+  shape sendInventoryCheck as @acceptEvent label: "«signal»\nCheckInventory"
+
   # Accept signal from inventory
-  shape receiveInventoryResult as @acceptSignal label: "«signal»\nInventoryConfirmed"
-  
+  shape receiveInventoryResult as @acceptEvent label: "«signal»\nInventoryConfirmed"
+
   # Send signal to payment
   shape sendPaymentRequest as @sendSignal label: "«signal»\nProcessPayment"
-  
+
   # Time event - wait for payment response
-  shape waitForPayment as @acceptTimeEvent label: "«time event»\nwait(30s)"
-  
+  shape waitForPayment as @timeObservation label: "«time event»\nwait(30s)"
+
   # Accept signal from payment
-  shape receivePaymentResult as @acceptSignal label: "«signal»\nPaymentCompleted"
-  
+  shape receivePaymentResult as @acceptEvent label: "«signal»\nPaymentCompleted"
+
   shape confirmOrder as @activity label: "Confirm Order"
   shape cancelOrder as @activity label: "Cancel Order"
-  
+
   shape end as @activityFinal
 
   # Main flow
@@ -324,21 +324,22 @@ diagram "Microservices with Signals" {
 ### Key Features
 
 - **Send Signals**: `@sendSignal` broadcasts events to other services
-- **Accept Signals**: `@acceptSignal` waits for external signals
-- **Time Events**: `@acceptTimeEvent` waits for timeout or deadline
+- **Accept Signals**: `@acceptEvent` waits for external signals
+- **Time Events**: `@timeObservation` waits for timeout or deadline
 - **Asynchronous Communication**: Microservices interact via signals
 
 ### Signal Types
 
-| Shape Type | Purpose | Example |
-|------------|---------|---------|
-| `@sendSignal` | Broadcast signal | Notify inventory service |
-| `@acceptSignal` | Wait for signal | Receive payment confirmation |
-| `@acceptTimeEvent` | Wait for time | Timeout after 30 seconds |
+| Shape Type         | Purpose          | Example                      |
+| ------------------ | ---------------- | ---------------------------- |
+| `@sendSignal`      | Broadcast signal | Notify inventory service     |
+| `@acceptEvent`     | Wait for signal  | Receive payment confirmation |
+| `@timeObservation` | Wait for time    | Timeout after 30 seconds     |
 
 ### Microservices Pattern
 
 This example demonstrates:
+
 - **Event-Driven Architecture**: Services communicate via signals
 - **Timeout Handling**: Time events ensure responsiveness
 - **Saga Pattern**: Distributed transaction with compensating actions (cancel order)
@@ -356,27 +357,27 @@ diagram "Order Processing with Final Nodes" {
   direction TB
 
   shape start as @initialState
-  
+
   # Parallel processing - fork
   shape fork as @fork
-  
+
   # Order processing branch
   shape validateOrder as @activity label: "Validate Order"
   shape processPayment as @activity label: "Process Payment"
   shape orderFlowFinal as @flowFinal label: "Order Complete"
-  
+
   # Notification branch
   shape sendEmailNotification as @activity label: "Send Email"
   shape sendSMSNotification as @activity label: "Send SMS"
   shape notificationFlowFinal as @flowFinal label: "Notifications Sent"
-  
+
   # Logging branch (always runs)
   shape logTransaction as @activity label: "Log Transaction"
   shape auditCompliance as @activity label: "Audit Compliance"
-  
+
   # Join all branches
   shape join as @join
-  
+
   # Activity final - terminates everything
   shape activityEnd as @activityFinal
 
@@ -385,19 +386,19 @@ diagram "Order Processing with Final Nodes" {
   fork -> validateOrder label: "order branch"
   fork -> sendEmailNotification label: "notification branch"
   fork -> logTransaction label: "logging branch"
-  
+
   # Order branch - ends with flow final
   validateOrder -> processPayment
   processPayment -> orderFlowFinal
-  
+
   # Notification branch - ends with flow final
   sendEmailNotification -> sendSMSNotification
   sendSMSNotification -> notificationFlowFinal
-  
+
   # Logging branch - continues to join
   logTransaction -> auditCompliance
   auditCompliance -> join
-  
+
   # Join and terminate
   join -> activityEnd
 }
@@ -412,10 +413,10 @@ diagram "Order Processing with Final Nodes" {
 
 ### Final Node Comparison
 
-| Node Type | Symbol | Effect | Use Case |
-|-----------|--------|--------|----------|
+| Node Type      | Symbol         | Effect               | Use Case           |
+| -------------- | -------------- | -------------------- | ------------------ |
 | Activity Final | ⊙ (bull's-eye) | Ends entire activity | Process completion |
-| Flow Final | ⊗ (circle-X) | Ends single flow | Branch termination |
+| Flow Final     | ⊗ (circle-X)   | Ends single flow     | Branch termination |
 
 ### When to Use Each
 
@@ -436,44 +437,44 @@ diagram "User Authentication Flow" {
 
   shape start as @initialState
   shape enterCredentials as @activity label: "Enter Credentials"
-  
+
   # Decision node
   shape checkAuth as @decision label: "Valid?"
-  
+
   shape loadProfile as @activity label: "Load User Profile"
   shape checkRole as @decision label: "Has Admin Role?"
-  
+
   shape showAdminPanel as @activity label: "Show Admin Panel"
   shape showUserPanel as @activity label: "Show User Panel"
-  
+
   # Merge nodes
   shape merge1 as @merge
-  
+
   shape logSuccess as @activity label: "Log Success"
   shape showError as @activity label: "Show Error"
   shape logFailure as @activity label: "Log Failure"
-  
+
   shape end as @activityFinal
 
   # Main flow
   start -> enterCredentials
   enterCredentials -> checkAuth
-  
+
   # Auth decision
   checkAuth -> loadProfile label: "[valid]"
   checkAuth -> showError label: "[invalid]"
-  
+
   # Role decision
   loadProfile -> checkRole
   checkRole -> showAdminPanel label: "[yes]"
   checkRole -> showUserPanel label: "[no]"
-  
+
   # Merge successful paths
   showAdminPanel -> merge1
   showUserPanel -> merge1
   merge1 -> logSuccess
   logSuccess -> end
-  
+
   # Error path
   showError -> logFailure
   logFailure -> end
@@ -496,12 +497,6 @@ diagram "User Authentication Flow" {
 
 ---
 
-## Related Resources
-
-- [Activity Diagrams Guide](/guide/activity-diagrams) - Complete syntax reference
-- [UML Activity Specification](https://www.omg.org/spec/UML/) - Official UML 2.5 specification
-- [Diagram Profile](/guide/profiles#diagram-profile) - Overview of diagram capabilities
-
 ## Best Practices
 
 ### Activity Organization
@@ -513,7 +508,7 @@ diagram "User Authentication Flow" {
 ### Control Flow
 
 - **Initial State**: Always start with `@initialState`
-- **Final Nodes**: 
+- **Final Nodes**:
   - Use `@activityFinal` to end entire process
   - Use `@flowFinal` to end parallel branches early
 - **Guard Conditions**: Make conditions mutually exclusive and complete
@@ -535,3 +530,9 @@ diagram "User Authentication Flow" {
 - **Fork**: Split into concurrent branches with `@fork`
 - **Join**: Synchronize branches with `@join`
 - **Flow Finals**: Allow some branches to complete early
+
+## Related Resources
+
+- [Activity Diagrams Guide](/guide/activity-diagrams) - Complete syntax reference
+- [UML Activity Specification](https://www.omg.org/spec/UML/) - Official UML 2.5 specification
+- [Diagram Profile](/guide/profiles#diagram-profile) - Overview of diagram capabilities

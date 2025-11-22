@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderMultilineText, escapeXml } from '../../types.js';
 
 /**
  * Transfer Function Block
@@ -53,40 +54,43 @@ export const transferFunctionShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const fractionBarLength = bounds.width * 0.7;
 
+    let contentSvg: string;
+    if (denominator) {
+      const numSvg = renderMultilineText(numerator, cx, cy - 8, {
+        textAnchor: 'middle',
+        dominantBaseline: 'middle',
+        fontFamily: ctx.style.font || 'sans-serif',
+        fontSize: (ctx.style.fontSize || 14) - 2,
+      });
+      const denSvg = renderMultilineText(denominator, cx, cy + 12, {
+        textAnchor: 'middle',
+        dominantBaseline: 'middle',
+        fontFamily: ctx.style.font || 'sans-serif',
+        fontSize: (ctx.style.fontSize || 14) - 2,
+      });
+      contentSvg = `
+        ${numSvg}
+
+        <line x1="${cx - fractionBarLength / 2}" y1="${cy}"
+              x2="${cx + fractionBarLength / 2}" y2="${cy}"
+              stroke="${stroke}" stroke-width="${strokeWidth}" />
+
+        ${denSvg}
+      `;
+    } else {
+      contentSvg = renderMultilineText(numerator, cx, cy, {
+        textAnchor: 'middle',
+        dominantBaseline: 'middle',
+        fontFamily: ctx.style.font || 'sans-serif',
+        fontSize: ctx.style.fontSize || 14,
+      });
+    }
+
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      ${
-        denominator
-          ? `
-        <text x="${cx}" y="${cy - 8}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${ctx.style.font || 'sans-serif'}" 
-              font-size="${(ctx.style.fontSize || 14) - 2}">
-          ${numerator}
-        </text>
-        
-        <line x1="${cx - fractionBarLength / 2}" y1="${cy}" 
-              x2="${cx + fractionBarLength / 2}" y2="${cy}"
-              stroke="${stroke}" stroke-width="${strokeWidth}" />
-        
-        <text x="${cx}" y="${cy + 12}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${ctx.style.font || 'sans-serif'}" 
-              font-size="${(ctx.style.fontSize || 14) - 2}">
-          ${denominator}
-        </text>
-      `
-          : `
-        <text x="${cx}" y="${cy}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${ctx.style.font || 'sans-serif'}" 
-              font-size="${ctx.style.fontSize || 14}">
-          ${numerator}
-        </text>
-      `
-      }
+
+      ${contentSvg}
     `;
   },
 };

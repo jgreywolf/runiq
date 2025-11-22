@@ -9,15 +9,15 @@ lastUpdated: 2025-01-20
 Runiq supports **10 primary profiles** for different diagramming needs:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, Control system diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
+- **GlyphSet profile**: SmartArt-style pre-built diagram templates (pyramids, matrices, cycles, org charts) with 61 glyphsets across 6 categories.
+- **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
+- **Timeline profile**: Timeline diagrams and Gantt-style visualizations for project planning, roadmaps, and chronological events.
 - **Electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 - **Digital profile**: Digital logic circuits with standard gate symbols (AND, OR, NOT, NAND, NOR, XOR, etc.). Supports HDL export to Verilog.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
-- **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
-- **Timeline profile**: Timeline diagrams and Gantt-style visualizations for project planning, roadmaps, and chronological events.
 - **Pneumatic profile**: Pneumatic circuits following ISO 1219-1 standards with cylinders, valves, FRL units, and compressed air components.
 - **Hydraulic profile**: Hydraulic circuits following ISO 1219-2 standards with pumps, motors, valves, and fluid power components.
 - **P&ID profile**: Piping & Instrumentation Diagrams following ISA-5.1 standards for process engineering and industrial systems.
-- **GlyphSet profile**: SmartArt-style pre-built diagram templates (pyramids, matrices, cycles, org charts) with 61 glyphsets across 6 categories.
 
 Most syntax is shared across profiles. The key differences are:
 
@@ -32,9 +32,10 @@ Here's a comprehensive comparison of the 8 primary profiles to help you choose t
 
 ::: tip Additional Profiles
 **Timeline** and **GlyphSet** profiles are also available:
+
 - **Timeline Profile**: See [Timeline Diagrams Guide](/guide/timeline-diagrams)
 - **GlyphSet Profile**: See [Glyphsets Guide](/guide/glyphsets) - 61 SmartArt-style templates
-:::
+  :::
 
 | Feature                  | Diagram                                            | Electrical                                                                              | Digital                                                                           | Wardley                                                                           | Sequence                                                                            | Pneumatic                                                                             | Hydraulic                                                                             | P&ID                                        |
 | ------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------- |
@@ -66,6 +67,14 @@ Here's a comprehensive comparison of the 8 primary profiles to help you choose t
 - Designing UML class diagrams, state machines, activity diagrams
 - Visualizing data flows, pipelines, or business processes
 - You need maximum flexibility and variety of shapes
+
+**Choose Glyphsets Profile** when:
+
+- Quick presentations and reports
+- Standard visualization patterns
+- Data-driven diagrams
+- Consistency across multiple diagrams
+- Minimal setup time
 
 **Choose Electrical Profile** when:
 
@@ -132,6 +141,7 @@ Cross-profile file references are not yet implemented. The `ref:` syntax shown b
 While profiles are specialized, you can organize multi-profile projects using separate files and manual composition. Each profile diagram should be in its own `.runiq` file:
 
 **File Structure:**
+
 ```
 project/
   ├── main-architecture.runiq        # High-level diagram profile
@@ -144,6 +154,7 @@ project/
 ```
 
 **Current Workflow:**
+
 1. Create separate `.runiq` files for each profile
 2. Render each file independently to SVG
 3. Compose SVGs in documentation or presentations
@@ -194,129 +205,21 @@ diagram "Mixed Diagram" {
 }
 ```
 
-## electrical Profile
+## Glyphset Profile
 
-To use the electrical profile:
-
-```runiq
-electrical"LED Circuit" {
-  net VCC, GND, N1
-
-  part V1 type:V value:"5V" pins:(VCC,GND)
-  part R1 type:R value:"220" pins:(VCC,N1)
-  part D1 type:LED pins:(N1,GND)
-  part GND1 type:GND pins:(GND)
-}
-```
-
-## Digital Profile
-
-To use the digital profile for logic circuits:
+To use the glyphset profile:
 
 ```runiq
-digital "CMOS Inverter" {
-  module inv {
-    input A
-    output Y
+glyphset basicProcess "Onboarding Steps" {
+  step "Application"
+  step "Interview"
+  step "Offer"
+  step "Start Date"
 
-    instance pmos type:pmos width:2 pins:(Y,A,VDD,VDD)
-    instance nmos type:nmos width:1 pins:(Y,A,GND,GND)
-  }
+  theme "forest"
+  orientation "horizontal"
 }
 ```
-
-**Key Differences:**
-
-- Module-based hierarchy with inputs/outputs
-- Digital logic gates: AND, OR, NOT, NAND, NOR, XOR, XNOR
-- Sequential elements: flip-flops, latches, registers
-- Memory components: RAM, ROM
-- Supports Verilog HDL export
-- Rendered with standard logic symbols
-
-See [Digital Circuits Guide](/guide/digital-circuits) for detailed documentation.
-
-## Pneumatic Profile
-
-To use the pneumatic profile for compressed air circuits:
-
-```runiq
-pneumatic "Double-Acting Cylinder" {
-  equipment C1 type:cylinderDoubleActing bore:63 stroke:100 unit:mm
-  equipment V1 type:valve5Way2Position actuator:solenoid
-  equipment FRL1 type:frlUnit pressure:6 unit:bar
-
-  line air from:FRL1.outlet to:V1.inlet size:8 unit:mm
-  line air from:V1.outletA to:C1.portA size:6 unit:mm
-  line air from:V1.outletB to:C1.portB size:6 unit:mm
-}
-```
-
-**Key Differences:**
-
-- ISO 1219-1 compliant symbols
-- Cylinders (single/double acting), valves, FRL units
-- Pressure and flow specifications
-- Air line sizing
-- Actuator types (manual, solenoid, pilot, spring)
-
-See [Pneumatic Circuits Guide](/guide/pneumatic-circuits) for detailed documentation.
-
-## Hydraulic Profile
-
-To use the hydraulic profile for fluid power circuits:
-
-```runiq
-hydraulic "Simple Hydraulic Press" {
-  equipment P1 type:pumpFixed displacement:10 unit:cc/rev pressure:210 unit:bar
-  equipment C1 type:cylinderDoubleActing bore:80 stroke:200 unit:mm force:10 unit:kN
-  equipment V1 type:valve4Way3Position actuator:lever center:closed
-
-  line hydraulic from:P1.discharge to:V1.inlet size:1/2 unit:in schedule:SCH40
-  line hydraulic from:V1.outletA to:C1.portA size:3/8 unit:in schedule:SCH40
-  line hydraulic from:V1.outletB to:C1.portB size:3/8 unit:in schedule:SCH40
-  line return from:V1.tank to:P1.inlet size:1 unit:in schedule:SCH40
-
-  fluid hydraulicOil viscosity:46 unit:cSt
-  pressure 210 bar operating
-}
-```
-
-**Key Differences:**
-
-- ISO 1219-2 compliant symbols
-- Pumps, motors, valves, cylinders, accumulators
-- Fluid properties (type, viscosity, temperature)
-- Pressure ratings and flow rates
-- Line sizing and schedules
-- Force and torque calculations
-
-See [Hydraulic Circuits Guide](/guide/hydraulic-circuits) for detailed documentation.
-
-## Wardley Profile
-
-To use the Wardley profile for strategic mapping:
-
-```runiq
-wardley "Strategic Map"{
-
-  anchor "User Need" value:0.95
-
-  component "Visible Service" evolution:0.75 value:0.85
-  component "Infrastructure" evolution:0.95 value:0.3
-
-  dependency from:"Visible Service" to:"Infrastructure"
-}
-```
-
-**Key Differences:**
-
-- Uses 2D coordinate system (evolution: 0-1, value: 0-1)
-- Manual positioning (no auto-layout)
-- Different syntax: `component`, `dependency`, `anchor`, `evolve`
-- Rendered with strategic mapping visuals (grid, axes, evolution arrows)
-
-See [Wardley Maps Examples](/examples/wardley-maps) for detailed documentation.
 
 ## Sequence Profile
 
@@ -373,6 +276,137 @@ The `ref:` syntax works in Sequence profiles for UML Interaction Use, referencin
 
 See [Sequence Diagrams Examples](/examples/sequence-diagrams) for detailed documentation.
 
+## Electrical Profile
+
+To use the electrical profile:
+
+```runiq
+electrical"LED Circuit" {
+  net VCC, GND, N1
+
+  part V1 type:V value:"5V" pins:(VCC,GND)
+  part R1 type:R value:"220" pins:(VCC,N1)
+  part D1 type:LED pins:(N1,GND)
+  part GND1 type:GND pins:(GND)
+}
+```
+
+## Digital Profile
+
+To use the digital profile for logic circuits:
+
+```runiq
+digital "CMOS Inverter" {
+  module inv {
+    input A
+    output Y
+
+    instance pmos type:pmos width:2 pins:(Y,A,VDD,VDD)
+    instance nmos type:nmos width:1 pins:(Y,A,GND,GND)
+  }
+}
+```
+
+**Key Differences:**
+
+- Module-based hierarchy with inputs/outputs
+- Digital logic gates: AND, OR, NOT, NAND, NOR, XOR, XNOR
+- Sequential elements: flip-flops, latches, registers
+- Memory components: RAM, ROM
+- Supports Verilog HDL export
+- Rendered with standard logic symbols
+
+See [Digital Circuits Guide](/guide/digital-circuits) for detailed documentation.
+
+## Pneumatic Profile
+
+To use the pneumatic profile for compressed air circuits:
+
+```runiq
+pneumatic "Double-Acting Cylinder Circuit" {
+  net SUPPLY, PORT_A, PORT_B, EXHAUST_A, EXHAUST_B
+
+  pressure 6 bar operating
+  flowRate 800 L/min
+
+  part VALVE type:VALVE_52 pins:(SUPPLY,PORT_A,PORT_B,EXHAUST_A,EXHAUST_B) doc:"5/2-way valve"
+  part CYLINDER type:CYL_DA pins:(PORT_A,PORT_B) doc:"Double-acting cylinder"
+  part SENSOR_EXT type:SENSOR_PROX pins:(PORT_A) doc:"Extended sensor"
+  part SENSOR_RET type:SENSOR_PROX pins:(PORT_B) doc:"Retracted sensor"
+  part FLOW_A type:CHECK_VALVE pins:(PORT_A) doc:"Flow control A"
+  part FLOW_B type:CHECK_VALVE pins:(PORT_B) doc:"Flow control B"
+}
+```
+
+**Key Differences:**
+
+- ISO 1219-1 compliant symbols
+- Cylinders (single/double acting), valves, FRL units
+- Pressure and flow specifications
+- Air line sizing
+- Actuator types (manual, solenoid, pilot, spring)
+
+See [Pneumatic Circuits Guide](/guide/pneumatic-circuits) for detailed documentation.
+
+## Hydraulic Profile
+
+To use the hydraulic profile for fluid power circuits:
+
+```runiq
+hydraulic "Hydraulic Press System" {
+  net SUPPLY, FAST, SLOW, PRESS, RETURN, TANK
+
+  pressure 250 bar max
+  pressure 200 bar operating
+  flowRate 80 L/min
+  fluid mineral "ISO VG 68"
+
+  part PUMP_MAIN type:PUMP_FIXED pins:(TANK,SUPPLY) doc:"Main pump"
+  part VALVE_SEQ type:VALVE_43 pins:(SUPPLY,FAST,SLOW,RETURN) doc:"Sequence valve"
+  part CYL_PRESS type:CYL_HYD pins:(PRESS,RETURN) doc:"Press cylinder"
+  part RELIEF_SYS type:RELIEF_VALVE pins:(SUPPLY,TANK) doc:"System relief 250 bar"
+  part RELIEF_PRESS type:RELIEF_VALVE pins:(PRESS,RETURN) doc:"Press relief 200 bar"
+  part PRESS_SENS type:SENSOR_PRESS pins:(PRESS) doc:"Pressure sensor"
+  part POS_SENS type:SENSOR_PROX pins:(PRESS) doc:"Position sensor"
+}
+```
+
+**Key Differences:**
+
+- ISO 1219-2 compliant symbols
+- Pumps, motors, valves, cylinders, accumulators
+- Fluid properties (type, viscosity, temperature)
+- Pressure ratings and flow rates
+- Line sizing and schedules
+- Force and torque calculations
+
+See [Hydraulic Circuits Guide](/guide/hydraulic-circuits) for detailed documentation.
+
+## Wardley Profile
+
+To use the Wardley profile for strategic mapping:
+
+```runiq
+wardley "Strategic Map"{
+
+  anchor "User Need" value:0.95
+
+  component "Visible Service" evolution:0.75 value:0.85
+  component "Infrastructure" evolution:0.95 value:0.3
+
+  dependency from:"Visible Service" to:"Infrastructure"
+}
+```
+
+**Key Differences:**
+
+- Uses 2D coordinate system (evolution: 0-1, value: 0-1)
+- Manual positioning (no auto-layout)
+- Different syntax: `component`, `dependency`, `anchor`, `evolve`
+- Rendered with strategic mapping visuals (grid, axes, evolution arrows)
+
+See [Wardley Maps Examples](/examples/wardley-maps) for detailed documentation.
+
 ## P&ID Profile
 
 To use the P&ID profile for process engineering diagrams:
@@ -404,7 +438,7 @@ pid "Simple Process Flow" {
   loop 401 controlled_variable:level setpoint:70 unit:% controller:LIC-401 mode:auto
 
   // Process Specifications
-  fluid organic
+  fluid mineral
   pressure 6 bar operating
   flowRate 50 m³/h
 }

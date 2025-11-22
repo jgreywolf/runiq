@@ -143,6 +143,27 @@ function convertDataProperty(
 }
 
 /**
+ * Unescape a string value from the parser (remove quotes and process escape sequences)
+ */
+function unescapeString(value: string): string {
+  // Remove surrounding quotes
+  let str = value.replace(/^"|"$/g, '');
+
+  // Process escape sequences
+  str = str
+    .replace(/\\n/g, '\n')    // Newline
+    .replace(/\\r/g, '\r')    // Carriage return
+    .replace(/\\t/g, '\t')    // Tab
+    .replace(/\\b/g, '\b')    // Backspace
+    .replace(/\\f/g, '\f')    // Form feed
+    .replace(/\\'/g, "'")     // Single quote
+    .replace(/\\"/g, '"')     // Double quote
+    .replace(/\\\\/g, '\\');  // Backslash (must be last)
+
+  return str;
+}
+
+/**
  * Parse result type
  */
 export interface ParseResult {
@@ -505,7 +526,7 @@ function convertWardleyProfile(
         } else if (Langium.isWardleyValueProperty(prop)) {
           component.value = parseFloat(prop.value);
         } else if (Langium.isWardleyLabelProperty(prop)) {
-          component.label = prop.value.replace(/^"|"$/g, '');
+          component.label = unescapeString(prop.value);
         } else if (Langium.isWardleyInertiaProperty(prop)) {
           component.inertia = prop.value === 'true';
         }
@@ -607,7 +628,7 @@ function convertSequenceProfile(
               ? to
               : to.toLowerCase().replace(/\s+/g, '_');
         } else if (Langium.isSequenceLabelProperty(prop)) {
-          message.label = prop.label.replace(/^"|"$/g, '');
+          message.label = unescapeString(prop.label);
         } else if (Langium.isSequenceTypeProperty(prop)) {
           message.type = prop.type as SequenceMessage['type'];
         } else if (Langium.isSequenceActivateProperty(prop)) {
@@ -1137,7 +1158,7 @@ function convertTimelineProfile(
         if (Langium.isTimelineDateProperty(prop)) {
           event.date = prop.date.replace(/^"|"$/g, '');
         } else if (Langium.isTimelineLabelProperty(prop)) {
-          event.label = prop.label.replace(/^"|"$/g, '');
+          event.label = unescapeString(prop.label);
         } else if (Langium.isTimelineDescriptionProperty(prop)) {
           event.description = prop.description.replace(/^"|"$/g, '');
         } else if (Langium.isTimelineIconProperty(prop)) {
@@ -1163,7 +1184,7 @@ function convertTimelineProfile(
         } else if (Langium.isTimelineEndDateProperty(prop)) {
           period.endDate = prop.endDate.replace(/^"|"$/g, '');
         } else if (Langium.isTimelineLabelProperty(prop)) {
-          period.label = prop.label.replace(/^"|"$/g, '');
+          period.label = unescapeString(prop.label);
         } else if (Langium.isTimelineColorProperty(prop)) {
           period.color = prop.color.replace(/^"|"$/g, '');
         } else if (Langium.isTimelineOpacityProperty(prop)) {
@@ -1242,7 +1263,7 @@ function processDialogStatement(
     // Process node properties
     for (const prop of statement.properties) {
       if (Langium.isLabelProperty(prop)) {
-        node.label = prop.value.replace(/^"|"$/g, '');
+        node.label = unescapeString(prop.value);
       } else if (Langium.isStyleRefProperty(prop)) {
         node.style = prop.ref?.$refText;
       } else if (Langium.isFillProperty(prop)) {
@@ -1291,6 +1312,9 @@ function processDialogStatement(
       } else if (Langium.isShowLegendProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.showLegend = prop.value === 'true';
+      } else if (Langium.isShowValuesProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.showValues = prop.value === 'true';
       } else if (Langium.isLegendPositionProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
@@ -1466,11 +1490,14 @@ function processDialogStatement(
       }
     }
 
-    // Second pass: ensure showLegend, stacked, colors, title, and labels are set after DataProperty
+    // Second pass: ensure showLegend, showValues, stacked, colors, title, and labels are set after DataProperty
     for (const prop of statement.properties) {
       if (Langium.isShowLegendProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.showLegend = prop.value === 'true';
+      } else if (Langium.isShowValuesProperty(prop)) {
+        if (!node.data) node.data = {};
+        node.data.showValues = prop.value === 'true';
       } else if (Langium.isLegendPositionProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.legendPosition = prop.value.replace(/^"|"$/g, '');
@@ -1525,7 +1552,7 @@ function processDialogStatement(
     ) => {
       for (const prop of properties) {
         if (Langium.isEdgeLabelProperty(prop)) {
-          edge.label = prop.label.replace(/^"|"$/g, '');
+          edge.label = unescapeString(prop.label);
         } else if (Langium.isLineStyleProperty(prop)) {
           edge.lineStyle = prop.value as
             | 'solid'
@@ -2168,7 +2195,7 @@ function convertContainer(
       // Process node properties
       for (const prop of statement.properties) {
         if (Langium.isLabelProperty(prop)) {
-          node.label = prop.value.replace(/^"|"$/g, '');
+          node.label = unescapeString(prop.value);
         } else if (Langium.isStyleRefProperty(prop)) {
           node.style = prop.ref?.$refText;
         } else if (Langium.isFillProperty(prop)) {
@@ -2342,7 +2369,7 @@ function convertContainer(
       // Note: We need to duplicate the processEdgeProperties logic here since it's defined in the outer scope
       for (const prop of statement.properties) {
         if (Langium.isEdgeLabelProperty(prop)) {
-          edge.label = prop.label.replace(/^"|"$/g, '');
+          edge.label = unescapeString(prop.label);
         } else if (Langium.isLineStyleProperty(prop)) {
           edge.lineStyle = prop.value as
             | 'solid'

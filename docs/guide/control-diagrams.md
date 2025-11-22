@@ -1,11 +1,7 @@
 ---
 title: Control Systems Diagrams
----
-
-title: Control Systems Diagrams
 description: Create hierarchical block diagrams for system architecture, signal flow, and functional decomposition.
 lastUpdated: 2025-01-09
-
 ---
 
 # Control Systems
@@ -34,7 +30,7 @@ diagram "PI Controller" {
   Sum -> C
   C -> P
   P -> Y
-  Y -> Sum label: "feedback" lineStyle: dotted
+  Y -> Sum label: "feedback" lineStyle: "dotted"
 }
 ```
 
@@ -49,13 +45,13 @@ diagram "PI Controller" {
 | ---------------------------- | -------------- | -------------- | -------------- | ----------- | --------------- | ---------- | -------------- | -------------- |
 | **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ⚠️ MDL          | ❌         | ⚠️ XML         | ✅             |
 | **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial      | ❌         | ⚠️ Partial     | ✅             |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Limited      | ❌         | ⚠️ Limited     | ⚠️ Limited     |
 | **Block diagrams**           | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅              | ✅         | ✅             | ✅             |
 | **Signal flow**              | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅              | ✅         | ✅             | ✅             |
 | **Feedback loops**           | ✅             | ⚠️ Manual      | ⚠️ Manual      | ✅          | ✅              | ✅         | ✅             | ✅             |
 | **Control blocks**           | ✅             | ❌             | ❌             | ⚠️ Manual   | ✅              | ✅         | ✅             | ✅             |
 | **Simulation**               | ❌             | ❌             | ❌             | ❌          | ✅              | ✅         | ✅             | ✅             |
 | **Transfer functions**       | ⚠️ Labels      | ❌             | ❌             | ⚠️ Labels   | ✅              | ✅         | ✅             | ✅             |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Limited      | ❌         | ⚠️ Limited     | ⚠️ Limited     |
 | **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial      | ⚠️ Partial | ❌             | ✅             |
 | **Code generation**          | ❌             | ❌             | ❌             | ❌          | ✅              | ✅         | ⚠️ Limited     | ✅             |
 | **Real-time execution**      | ❌             | ❌             | ❌             | ❌          | ✅              | ✅         | ✅             | ✅             |
@@ -77,6 +73,10 @@ diagram "PI Controller" {
 - **LabVIEW**: Hardware integration and real-time control with data acquisition
 - **Modelica**: Open-standard modeling for multi-domain physical systems
 - **Lucidchart**: Real-time collaboration with control engineers
+
+## Examples
+
+See the [examples/control-diagrams](../examples/control-diagrams) directory for more complete examples
 
 ## Export
 

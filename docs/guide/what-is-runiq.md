@@ -164,7 +164,7 @@ Full support for UML stereotypes and line styles:
 ```runiq
 diagram "Stereotypes" {
 
-  A -> B stereotype: "include" lineStyle: dashed arrowType: open
+  A -> B stereotype: "include" lineStyle: "dashed" arrowType: open
 
   # Line styles: solid, dashed, dotted
   # Arrow types: standard, hollow, open, none

@@ -139,16 +139,17 @@ pneumatic "Circuit Name" {
 
 ### Sensors and Switches
 
-| Component        | Symbol ID         | Part Type      | Description                    | Output Type      |
-| ---------------- | ----------------- | -------------- | ------------------------------ | ---------------- |
-| Limit Switch     | `@limit_switch`   | N/A            | Detects cylinder position      | NO/NC mechanical |
-| Reed Switch      | `@reed_switch`    | N/A            | Magnetic position sensing      | NO/NC reed       |
-| Proximity Sensor | `@prox_sensor`    | `SENSOR_PROX`  | Non-contact position detection | NPN/PNP 3-wire   |
-| Pressure Sensor  | `@pressure_sensor`| `SENSOR_PRESS` | Analog pressure measurement    | 4-20 mA, 0-10V   |
-| Vacuum Switch    | `@vacuum_switch`  | N/A            | Detects vacuum level           | -1 to 0 bar      |
-| Flow Sensor      | `@flow_sensor`    | N/A            | Measures flow rate             | Pulse output     |
+| Component        | Symbol ID          | Part Type      | Description                    | Output Type      |
+| ---------------- | ------------------ | -------------- | ------------------------------ | ---------------- |
+| Limit Switch     | `@limit_switch`    | N/A            | Detects cylinder position      | NO/NC mechanical |
+| Reed Switch      | `@reed_switch`     | N/A            | Magnetic position sensing      | NO/NC reed       |
+| Proximity Sensor | `@prox_sensor`     | `SENSOR_PROX`  | Non-contact position detection | NPN/PNP 3-wire   |
+| Pressure Sensor  | `@pressure_sensor` | `SENSOR_PRESS` | Analog pressure measurement    | 4-20 mA, 0-10V   |
+| Vacuum Switch    | `@vacuum_switch`   | N/A            | Detects vacuum level           | -1 to 0 bar      |
+| Flow Sensor      | `@flow_sensor`     | N/A            | Measures flow rate             | Pulse output     |
 
 **Available Sensor Types:**
+
 - `SENSOR_PROX` - Proximity sensor for detecting cylinder position (extended/retracted). Compact rectangular design with sensing indicator.
 - `SENSOR_PRESS` - Pressure sensor for electronic pressure measurement and monitoring. Outputs analog signal proportional to pressure.
 
@@ -682,30 +683,25 @@ pneumatic "Styled Circuit" {
 | Chattering          | Contaminated air, pressure too low | Check filter, increase pressure |
 | Won't hold position | Valve leaking, cylinder seal bad   | Replace valve/seals             |
 
-## Examples
-
-See the [examples/pneumatic](https://github.com/jgreywolf/runiq/tree/main/examples/pneumatic) directory for complete examples.
-
 ## Comparison with Other Tools
 
-| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | FluidSIM   | Automation Studio | Festo FluidDraw |
-| ---------------------------- | -------------- | -------------- | -------------- | ----------- | ---------- | ----------------- | --------------- |
-| **Basic Support**            | ✅             | ❌             | ❌             | ✅          | ✅         | ✅                | ✅              |
-| **ISO 1219-1 symbols**       | ✅             | ❌             | ❌             | ⚠️ Custom   | ✅         | ✅                | ✅              |
-| **Interactive simulation**   | ❌             | ❌             | ❌             | ❌          | ✅         | ✅                | ✅              |
-| **Pressure calculation**     | ❌             | ❌             | ❌             | ❌          | ✅         | ✅                | ✅              |
-| **Component libraries**      | ✅             | ❌             | ❌             | ⚠️ Basic    | ✅         | ✅                | ✅              |
-| **Custom components**        | ✅             | ❌             | ❌             | ✅          | ⚠️ Limited | ⚠️ Limited        | ⚠️ Limited      |
-| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial | ⚠️ Partial        | ⚠️ Partial      |
-| **Multi-circuit projects**   | ✅             | ❌             | ❌             | ✅          | ✅         | ✅                | ✅              |
-| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌         | ❌                | ❌              |
-| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌         | ❌                | ❌              |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ❌         | ❌                | ❌              |
-| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | PDF, Image | PDF, Image        | PDF, DXF        |
-| **Real-time collaboration**  | ✅ Via Git     | ❌             | ❌             | ✅          | ❌         | ❌                | ❌              |
-| **Learning curve**           | Low            | Low            | Medium         | Low         | Medium     | Medium            | Low             |
-| **Cost**                     | Free           | Free           | Free           | Paid        | Paid       | Paid              | Free            |
-| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows    | Windows           | Windows         |
+| Feature                      | Runiq          | Lucidchart  | FluidSIM   | Automation Studio | Festo FluidDraw |
+| ---------------------------- | -------------- | ----------- | ---------- | ----------------- | --------------- |
+| **Text-based DSL**           | ✅             | ❌          | ❌         | ❌                | ❌              |
+| **Version control friendly** | ✅             | ⚠️ Partial  | ❌         | ❌                | ❌              |
+| **Automatic layout**         | ✅             | ❌          | ❌         | ❌                | ❌              |
+| **ISO 1219-1 symbols**       | ✅             | ⚠️ Custom   | ✅         | ✅                | ✅              |
+| **Interactive simulation**   | ❌             | ❌          | ✅         | ✅                | ✅              |
+| **Pressure calculation**     | ❌             | ❌          | ✅         | ✅                | ✅              |
+| **Component libraries**      | ✅             | ⚠️ Basic    | ✅         | ✅                | ✅              |
+| **Custom components**        | ✅             | ✅          | ⚠️ Limited | ⚠️ Limited        | ⚠️ Limited      |
+| **Documentation generation** | ✅             | ⚠️ Partial  | ⚠️ Partial | ⚠️ Partial        | ⚠️ Partial      |
+| **Multi-circuit projects**   | ✅             | ✅          | ✅         | ✅                | ✅              |
+| **Export formats**           | SVG, PNG       | Multiple    | PDF, Image | PDF, Image        | PDF, DXF        |
+| **Real-time collaboration**  | ✅ Via Git     | ✅          | ❌         | ❌                | ❌              |
+| **Learning curve**           | Low            | Low         | Medium     | Medium            | Low             |
+| **Cost**                     | Free           | Paid        | Paid       | Paid              | Free            |
+| **Platform**                 | Cross-platform | Web/Desktop | Windows    | Windows           | Windows         |
 
 **Key Advantages of Runiq:**
 
@@ -720,6 +716,10 @@ See the [examples/pneumatic](https://github.com/jgreywolf/runiq/tree/main/exampl
 - **Festo FluidDraw**: Educational purposes with interactive training modules
 - **Lucidchart**: Real-time collaboration with non-technical stakeholders
 - **Mermaid/PlantUML**: Simple pneumatic concepts in existing markdown docs
+
+## Examples
+
+See the [examples/pneumatic](/examples/pneumatic) directory for complete examples.
 
 ## Related
 

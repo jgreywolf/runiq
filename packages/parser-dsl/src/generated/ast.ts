@@ -591,6 +591,7 @@ export type RuniqKeywordNames =
     | "showMetrics:"
     | "showPercentages"
     | "showValues"
+    | "showValues:"
     | "side"
     | "sides"
     | "signal"
@@ -2867,7 +2868,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | ShowMetricsProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -4315,6 +4316,21 @@ export function isShowMetricsProperty(item: unknown): item is ShowMetricsPropert
     return reflection.isInstance(item, ShowMetricsProperty.$type);
 }
 
+export interface ShowValuesProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ShowValuesProperty';
+    value: BooleanValue;
+}
+
+export const ShowValuesProperty = {
+    $type: 'ShowValuesProperty',
+    value: 'value'
+} as const;
+
+export function isShowValuesProperty(item: unknown): item is ShowValuesProperty {
+    return reflection.isInstance(item, ShowValuesProperty.$type);
+}
+
 export type SizeUnit = 'DN' | 'NPS' | 'in' | 'mm';
 
 export function isSizeUnit(item: unknown): item is SizeUnit {
@@ -5445,6 +5461,7 @@ export type RuniqAstType = {
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     ShowMetricsProperty: ShowMetricsProperty
+    ShowValuesProperty: ShowValuesProperty
     StackedProperty: StackedProperty
     StateInvariantProperty: StateInvariantProperty
     StereotypeProperty: StereotypeProperty
@@ -7828,6 +7845,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: ShowMetricsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        ShowValuesProperty: {
+            name: ShowValuesProperty.$type,
+            properties: {
+                value: {
+                    name: ShowValuesProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

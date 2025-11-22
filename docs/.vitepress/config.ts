@@ -57,36 +57,6 @@ export default defineConfig({
     ],
 
     sidebar: {
-      '/reference/': [
-        {
-          text: 'Reference',
-          items: [
-            { text: 'Shapes', link: '/reference/shapes' },
-            { text: 'Edges', link: '/reference/edges' },
-            { text: 'DSL Syntax', link: '/reference/dsl' },
-            { text: 'JSON Format', link: '/reference/json' },
-            { text: 'Data-Driven Diagrams', link: '/reference/data-driven' },
-            { text: 'Templates & Presets', link: '/reference/templates' },
-            { text: 'Export Formats', link: '/reference/export' },
-            { text: 'CLI Reference', link: '/reference/cli' },
-          ],
-        },
-        {
-          text: 'Glyphsets Reference',
-          items: [
-            { text: 'All Glyphsets', link: '/reference/glyphsets' },
-            { text: 'Glyphset Themes', link: '/reference/glyphset-themes' },
-          ],
-        },
-        {
-          text: 'API Reference',
-          items: [
-            { text: 'Parser API', link: '/reference/api/parser' },
-            { text: 'Renderer API', link: '/reference/api/renderer' },
-            { text: 'Layout API', link: '/reference/api/layout' },
-          ],
-        },
-      ],
       '/guide/': [
         {
           text: 'Introduction',
@@ -156,55 +126,56 @@ export default defineConfig({
             { text: 'Network Diagrams', link: '/guide/network-diagrams' },
             { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
             { text: 'Charts & Graphs', link: '/guide/charts' },
-            { text: 'Pedigree Charts', link: '/guide/pedigree-charts' },
+            //{ text: 'Pedigree Charts', link: '/guide/pedigree-charts' },
             { text: 'Quantum Circuits', link: '/guide/quantum-circuits' },
           ],
         },
         {
-          text: 'Electrical Profile',
-          items: [{ text: 'Electrical Circuits', link: '/guide/electrical' }],
-        },
-        {
-          text: 'Digital Profile',
+          text: 'Specialized Profiles',
           items: [
+            { text: 'Electrical Circuits', link: '/guide/electrical' },
             { text: 'Digital Circuits', link: '/guide/digital-circuits' },
-          ],
-        },
-        {
-          text: 'Wardley Profile',
-          items: [{ text: 'Wardley Maps', link: '/guide/wardley-maps' }],
-        },
-        {
-          text: 'Sequence Profile',
-          items: [
+            { text: 'Wardley Maps', link: '/guide/wardley-maps' },
             { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
-          ],
-        },
-        {
-          text: 'Timeline Profile',
-          items: [
             { text: 'Timeline Diagrams', link: '/guide/timeline-diagrams' },
-          ],
-        },
-        {
-          text: 'Pneumatic Profile',
-          items: [
             { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
-          ],
-        },
-        {
-          text: 'Hydraulic Profile',
-          items: [
             { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },
+            { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
           ],
-        },
-        {
-          text: 'PID Profile',
-          items: [{ text: 'P&ID Diagrams', link: '/guide/pid-diagrams' }],
         },
         {
           text: 'Help',
           items: [{ text: 'Troubleshooting', link: '/guide/troubleshooting' }],
+        },
+      ],
+      '/reference/': [
+        {
+          text: 'Reference',
+          items: [
+            { text: 'Shapes', link: '/reference/shapes' },
+            { text: 'Edges', link: '/reference/edges' },
+            { text: 'DSL Syntax', link: '/reference/dsl' },
+            { text: 'JSON Format', link: '/reference/json' },
+            // { text: 'Data-Driven Diagrams', link: '/reference/data-driven' },
+            { text: 'Templates & Presets', link: '/reference/templates' },
+            { text: 'Export Formats', link: '/reference/export' },
+            { text: 'CLI Reference', link: '/reference/cli' },
+          ],
+        },
+        {
+          text: 'Glyphsets Reference',
+          items: [
+            { text: 'All Glyphsets', link: '/reference/glyphsets' },
+            { text: 'Glyphset Themes', link: '/reference/glyphset-themes' },
+          ],
+        },
+        {
+          text: 'API Reference',
+          items: [
+            { text: 'Parser API', link: '/reference/api/parser' },
+            { text: 'Renderer API', link: '/reference/api/renderer' },
+            { text: 'Layout API', link: '/reference/api/layout' },
+          ],
         },
       ],
     },

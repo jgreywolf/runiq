@@ -150,10 +150,10 @@ diagram "Colors" {
 diagram "Line styles" {
   direction TB
   # Dashed line for error paths
-  ValidateInput -invalid-> InvalidInput lineStyle: dashed stroke: "#f44336"
+  ValidateInput -invalid-> InvalidInput lineStyle: "dashed" stroke: "#f44336"
 
   # Dotted line for optional paths
-  CheckDB -> AuditLog label: "log attempt" lineStyle: dotted
+  CheckDB -> AuditLog label: "log attempt" lineStyle: "dotted"
 }
 ```
 
@@ -193,8 +193,8 @@ diagram "System Architecture" {
   shape DB as @cylinder label: "Database"
 
   # UML stereotypes
-  Client -> API stereotype: "«uses»" lineStyle: dashed arrowType: open
-  API -> DB stereotype: "«accesses»" lineStyle: solid arrowType: standard
+  Client -> API stereotype: "«uses»" lineStyle: "dashed" arrowType: open
+  API -> DB stereotype: "«accesses»" lineStyle: "solid" arrowType: standard
 }
 ```
 
@@ -360,3 +360,8 @@ test('auth flow parses correctly', () => {
 ---
 
 **Congratulations!** 🎉 You've created your first Runiq diagram. Now go build something amazing!
+
+## Related
+
+- [Reserved Keywords](/guide/reserved-keywords)
+- [Shape list](/guide/shapes)

@@ -687,8 +687,9 @@ diagram "Deployment Topology" {
 | Feature                      | Runiq                      | Mermaid | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
 | ---------------------------- | -------------------------- | ------- | ------------ | ------------------ | ------------- | -------------------- |
 | **Text-Based DSL**           | ✅                         | ❌      | ✅           | ❌(GUI)            | ❌(GUI)       | ⚠️ Hybrid            |
-| **UML 2.5 Compliance**       | ✅                         | ❌      | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
 | **Version Control Friendly** | ✅                         | ❌      | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌                   |
+| **Automatic Layout**         | ✅ ELK (Layered)           | ❌      | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **UML 2.5 Compliance**       | ✅                         | ❌      | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
 | **Provided Interfaces**      | ✅ Lollipop notation       | ❌      | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
 | **Required Interfaces**      | ✅ Socket notation         | ❌      | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
 | **Ports**                    | ✅ Named port support      | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
@@ -698,7 +699,6 @@ diagram "Deployment Topology" {
 | **Subsystems/Packages**      | ✅ Via containers          | ❌      | ✅           | ✅                 | ✅            | ✅                   |
 | **Artifacts (JARs, WARs)**   | ✅ `@artifact` shape       | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
 | **Nodes (Servers)**          | ✅ `@node` 3D cube         | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Auto-Layout**              | ✅ ELK (Layered)           | ❌      | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
 | **Export Formats**           | ✅ SVG, PNG, PDF           | ❌      | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
 | **Collaboration**            | ✅ Git-based               | ❌      | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
 | **Learning Curve**           | ⚠️ Moderate (DSL)          | ❌      | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |

@@ -59,15 +59,15 @@ glyphset matrix "Eisenhower Matrix" {
 
 ```runiq
 glyphset matrix3x3 "Risk Matrix" {
-  cell "Low/Low"
-  cell "Low/Med"
-  cell "Low/High"
-  cell "Med/Low"
-  cell "Med/Med"
-  cell "Med/High"
-  cell "High/Low"
-  cell "High/Med"
-  cell "High/High"
+  quadrant "Low/Low"
+  quadrant "Low/Med"
+  quadrant "Low/High"
+  quadrant "Med/Low"
+  quadrant "Med/Med"
+  quadrant "Med/High"
+  quadrant "High/Low"
+  quadrant "High/Med"
+  quadrant "High/High"
 
   horizontalAxis "Probability"
   verticalAxis "Impact"
@@ -88,18 +88,14 @@ Matrix with multiple sections and subsections.
 **Example:**
 
 ```runiq
-glyphset segmentedMatrix "Product Roadmap" {
-  section "Q1" {
-    subsection "Feature A"
-    subsection "Feature B"
-  }
-  section "Q2" {
-    subsection "Feature C"
-    subsection "Feature D"
-  }
-
-  theme "ocean"
+glyphset segmentedMatrix "Market Segments" {
+   theme "forest"
+  quadrant "Enterprise\nPremium"
+  quadrant "Enterprise\nStandard"
+  quadrant "SMB\nPremium"
+  quadrant "SMB\nStandard"
 }
+
 ```
 
 ### titledMatrix
@@ -115,16 +111,17 @@ Matrix with titled rows/columns.
 **Example:**
 
 ```runiq
-glyphset titledMatrix "Feature Comparison" {
-  row "Basic Plan"
-  row "Pro Plan"
-  row "Enterprise Plan"
-
-  column "Users"
-  column "Storage"
-  column "Support"
-
-  theme "forest"
+glyphset titledMatrix "Vendor Evaluation (3x3)" {
+   theme "forest"
+  quadrant "$$"
+  quadrant "$$$"
+  quadrant "$"
+  quadrant "Good"
+  quadrant "Excellent"
+  quadrant "Fair"
+  quadrant "24/7"
+  quadrant "Business Hrs"
+  quadrant "24/7"
 }
 ```
 
@@ -155,5 +152,9 @@ Switch to diagram profiles for:
 ## Next Steps
 
 - [Process Glyphsets →](/guide/glyphsets-process)
+- [List Glyphsets →](/guide/glyphsets-list)
+- [Visualization Glyphsets →](/guide/glyphsets-visualization)
+- [Hierarchy Glyphsets →](/guide/glyphsets-hierarchy)
 - [Relationship Glyphsets →](/guide/glyphsets-relationship)
-- [View All Glyphsets →](/guide/glyphsets)
+- [Glyphset Themes Reference →](/reference/glyphset-themes)
+- [Try the Online Editor →](https://editor.runiq.org)

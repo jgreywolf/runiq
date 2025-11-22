@@ -9,8 +9,9 @@ This page shows the core DSL constructs with concise examples and rendered outpu
 ## Diagram header
 
 ```runiq
-diagram "My Diagram"
-direction LR
+diagram "My Diagram" {
+  direction LR
+}
 ```
 
 Options:
@@ -73,14 +74,14 @@ Nested containers are supported. See the Containers guide for layout details.
 ## Electrical profile
 
 ```runiq
-electrical "RC Filter"
-direction LR
+electrical"LED Circuit" {
+  net VCC, GND, N1
 
-shape V1 as @voltage-source label:"5V"
-shape R1 as @resistor       label:"1kΩ"
-shape C1 as @capacitor      label:"10µF"
-
-V1 -> R1 -> C1
+  part V1 type:V value:"5V" pins:(VCC,GND)
+  part R1 type:R value:"220" pins:(VCC,N1)
+  part D1 type:LED pins:(N1,GND)
+  part GND1 type:GND pins:(GND)
+}
 ```
 
 The electrical profile uses electrical circuit symbols and enables SPICE/Verilog export.
@@ -92,21 +93,22 @@ The electrical profile uses electrical circuit symbols and enables SPICE/Verilog
 ### Flowchart
 
 ```runiq
-diagram "Auth Flow"
-direction LR
+diagram "Auth Flow" {
+  direction LR
 
-style default fill:#f7f7ff stroke:#444
-style decision fill:#fff7e6 stroke:#aa7700
+  style default fill:"#f7f7ff" stroke:"#444"
+  style decisionStyle fill:"#fff7e6" stroke:"#aa7700"
 
-shape User     as @actor   label:"Visitor"
-shape Landing  as @rounded label:"Landing Page"
-shape Check    as @rhombus label:"Signed up?" style:decision
-shape Welcome  as @hexagon     label:"Welcome"
+  shape User     as @actor   label:"Visitor"
+  shape Landing  as @rounded label:"Landing Page"
+  shape Check    as @rhombus label:"Signed up?" style:decisionStyle
+  shape Welcome  as @hexagon     label:"Welcome"
 
-User -> Landing : visits
-Landing -> Check
-Check -yes-> Welcome
-Check -no-> Landing : retry
+  User -> Landing
+  Landing -> Check
+  Check -yes-> Welcome
+  Check -no-> Landing
+}
 ```
 
 <img src="/examples/auth-flow.svg" alt="Auth Flow" style="max-width: 700px;" />
@@ -114,13 +116,13 @@ Check -no-> Landing : retry
 ### Electrical (analog)
 
 ```runiq
-electrical "Voltage Divider" direction TB
+electrical"Voltage Divider" {
+  net VCC, VOUT, GND
 
-shape V1 as @voltage-source label:"Vin"
-shape R1 as @resistor       label:"R1"
-shape R2 as @resistor       label:"R2"
-
-V1 -> R1 -> R2
+  part V1 type:V value:"12V" pins:(VCC,GND)
+  part R1 type:R value:"10k" pins:(VCC,VOUT)
+  part R2 type:R value:"10k" pins:(VOUT,GND)
+}
 ```
 
 <img src="/examples/voltage-divider.svg" alt="Voltage Divider" style="max-width: 700px;" />

@@ -1,13 +1,7 @@
 ---
-title: C4 Architecture
----
-
----
-
 title: C4 Architecture Diagrams
 description: Create C4 model architecture diagrams showing system context, containers, components, and code with automatic hierarchy.
 lastUpdated: 2025-01-09
-
 ---
 
 # C4 Architecture Diagrams
@@ -162,7 +156,7 @@ diagram "E-Commerce Platform" {
 ## Cloud Infrastructure
 
 ```runiq
-ddiagram "AWS Deployment" {
+diagram "AWS Deployment" {
   direction TB
 
   shape users as @c4Person label: "Users\n\n[People]"
@@ -214,55 +208,6 @@ diagram "Styled C4 Diagram" {
 - Container: `#438dd5` (light blue)
 - Component: `#85bbf0` (lighter blue)
 
-## Comparison with Other Tools
-
-| Feature                      | Runiq                      | Mermaid        | PlantUML       | Lucidchart         | Draw.io       | Structurizr     |
-| ---------------------------- | -------------------------- | -------------- | -------------- | ------------------ | ------------- | --------------- |
-| **Text-Based DSL**           | ✅                         | ⚠️ C4 plugin   | ✅ C4-PlantUML | ❌ No (GUI)        | ❌ No (GUI)   | ✅              |
-| **Version Control Friendly** | ✅                         | ✅             | ✅             | ⚠️ Limited         | ⚠️ Limited    | ✅              |
-| **C4 Model Support**         | ✅ Native shapes           | ⚠️ Via plugin  | ✅             | ⚠️ Manual shapes   | ⚠️ Manual     | ✅              |
-| **All 4 Levels**             | ✅ Context to Code         | ⚠️ Limited     | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
-| **Person Shape**             | ✅ `@c4Person`             | ⚠️ Basic       | ✅             | ⚠️ Manual styling  | ⚠️ Manual     | ✅              |
-| **System Boundaries**        | ✅ Via containers          | ⚠️             | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
-| **Technology Labels**        | ✅ `[Tech Stack]` notation | ⚠️ Manual text | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
-| **Relationship Labels**      | ✅ Protocol/description    | ✅             | ✅             | ✅                 | ✅            | ✅              |
-| **Color Coding**             | ✅ Internal/external       | ⚠️ Manual      | ✅ Auto        | ✅ Manual          | ✅ Manual     | ✅ Auto         |
-| **Auto-Layout**              | ✅ ELK (Hierarchical)      | ✅ Dagre       | ✅ GraphViz    | ⚠️ Manual          | ⚠️ Manual     | ✅ GraphViz     |
-| **Unified with UML**         | ✅ Same DSL as class/seq   | ❌ Separate    | ✅ Same syntax | ❌ Different tools | ❌ Different  | ❌ C4-only      |
-| **Export Formats**           | ✅ SVG, PNG, PDF           | ✅ SVG, PNG    | ✅ PNG, SVG    | ✅ Many formats    | ✅ Many       | ✅ Many         |
-| **Collaboration**            | ✅ Git-based               | ✅ Git-based   | ✅ Git-based   | ✅ Cloud (Paid)    | ✅ Cloud      | ✅ Cloud (Paid) |
-| **Learning Curve**           | ⚠️ Moderate (DSL)          | ✅ Low         | ⚠️ Moderate    | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate     |
-| **Open Source**              | ✅ MIT License             | ✅ MIT         | ✅ Apache 2.0  | ❌ Commercial only | ✅ Apache 2.0 | ⚠️ Freemium     |
-
-**Runiq Advantages:**
-
-- **C4 native shapes** - Dedicated `@c4Person`, `@c4System`, `@c4Container`, `@c4Component`
-- **Unified language** - Use same DSL for C4, UML, flowcharts, BPMN, and 15+ diagram types
-- **Technology annotations** - Built-in support for `[Technology Stack]` labels
-- **System boundaries** - Use containers with custom styling
-- **Color coding** - Automatic or manual differentiation of internal/external systems
-- **Version control native** - Perfect for architecture documentation in repositories
-- **ELK layout engine** - Superior hierarchical layouts for context and container diagrams
-- **Profile system** - Consistent with other diagram types
-
-**Use Structurizr when:**
-
-- You need the official C4 tooling with Simon Brown's endorsement
-- Workspace management for large enterprise architectures
-- ADR (Architecture Decision Records) integration
-- Multiple related diagrams with shared model
-
-## Best Practices
-
-1. **Use consistent notation** - Follow C4 model conventions for shape types
-2. **Add context** - Include technology choices in brackets [Container: Node.js]
-3. **Show protocols** - Label edges with communication protocols [HTTPS], [SQL]
-4. **Layer abstractions** - Create separate diagrams for each level
-5. **Use containers** - Group related elements with systemBoundary
-6. **Color code** - Internal (blue) vs external (gray) systems
-7. **Keep it simple** - Each diagram should fit on one page
-8. **Add descriptions** - Brief explanation of each element's responsibility
-
 ## Diagram Levels
 
 ### When to use each level:
@@ -291,14 +236,54 @@ diagram "Styled C4 Diagram" {
 - Implementation details
 - Code-level documentation
 
-## Examples
+## Best Practices
 
-See the [examples/c4-architecture](https://github.com/jgreywolf/runiq/tree/main/examples/c4-architecture) directory for complete examples:
+1. **Use consistent notation** - Follow C4 model conventions for shape types
+2. **Add context** - Include technology choices in brackets [Container: Node.js]
+3. **Show protocols** - Label edges with communication protocols [HTTPS], [SQL]
+4. **Layer abstractions** - Create separate diagrams for each level
+5. **Use containers** - Group related elements with systemBoundary
+6. **Color code** - Internal (blue) vs external (gray) systems
+7. **Keep it simple** - Each diagram should fit on one page
+8. **Add descriptions** - Brief explanation of each element's responsibility
 
-- System context diagram
-- Container diagram
-- Component diagram
-- Microservices architecture
+## Comparison with Other Tools
+
+| Feature                      | Runiq                      | Mermaid        | PlantUML       | Lucidchart         | Draw.io       | Structurizr     |
+| ---------------------------- | -------------------------- | -------------- | -------------- | ------------------ | ------------- | --------------- |
+| **Text-Based DSL**           | ✅                         | ⚠️ C4 plugin   | ✅ C4-PlantUML | ❌ No (GUI)        | ❌ No (GUI)   | ✅              |
+| **Version Control Friendly** | ✅                         | ✅             | ✅             | ⚠️ Limited         | ⚠️ Limited    | ✅              |
+| **C4 Model Support**         | ✅ Native shapes           | ✅             | ✅             | ⚠️ Manual shapes   | ⚠️ Manual     | ✅              |
+| **All 4 Levels**             | ✅ Context to Code         | ⚠️ Limited     | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
+| **Person Shape**             | ✅ `@c4Person`             | ⚠️ Basic       | ✅             | ⚠️ Manual styling  | ⚠️ Manual     | ✅              |
+| **System Boundaries**        | ✅ Via containers          | ⚠️             | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
+| **Technology Labels**        | ✅ `[Tech Stack]` notation | ⚠️ Manual text | ✅             | ✅ Manual          | ✅ Manual     | ✅              |
+| **Relationship Labels**      | ✅ Protocol/description    | ✅             | ✅             | ✅                 | ✅            | ✅              |
+| **Color Coding**             | ✅ Internal/external       | ⚠️ Manual      | ✅ Auto        | ✅ Manual          | ✅ Manual     | ✅ Auto         |
+| **Unified with UML**         | ✅ Same DSL as class/seq   | ❌ Separate    | ✅ Same syntax | ❌ Different tools | ❌ Different  | ❌ C4-only      |
+| **Auto-Layout**              | ✅ ELK (Hierarchical)      | ✅ Dagre       | ✅ GraphViz    | ⚠️ Manual          | ⚠️ Manual     | ✅ GraphViz     |
+| **Export Formats**           | ✅ SVG, PNG, PDF           | ✅ SVG, PNG    | ✅ PNG, SVG    | ✅ Many formats    | ✅ Many       | ✅ Many         |
+| **Collaboration**            | ✅ Git-based               | ✅ Git-based   | ✅ Git-based   | ✅ Cloud (Paid)    | ✅ Cloud      | ✅ Cloud (Paid) |
+| **Learning Curve**           | ⚠️ Moderate (DSL)          | ✅ Low         | ⚠️ Moderate    | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate     |
+| **Open Source**              | ✅ MIT License             | ✅ MIT         | ✅ Apache 2.0  | ❌ Commercial only | ✅ Apache 2.0 | ⚠️ Freemium     |
+
+**Runiq Advantages:**
+
+- **C4 native shapes** - Dedicated `@c4Person`, `@c4System`, `@c4Container`, `@c4Component`
+- **Unified language** - Use same DSL for C4, UML, flowcharts, BPMN, and 15+ diagram types
+- **Technology annotations** - Built-in support for `[Technology Stack]` labels
+- **System boundaries** - Use containers with custom styling
+- **Color coding** - Automatic or manual differentiation of internal/external systems
+- **Version control native** - Perfect for architecture documentation in repositories
+- **ELK layout engine** - Superior hierarchical layouts for context and container diagrams
+- **Profile system** - Consistent with other diagram types
+
+**Use Structurizr when:**
+
+- You need the official C4 tooling with Simon Brown's endorsement
+- Workspace management for large enterprise architectures
+- ADR (Architecture Decision Records) integration
+- Multiple related diagrams with shared model
 
 ## Related
 

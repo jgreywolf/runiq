@@ -92,13 +92,13 @@ hydraulic "Circuit Name" {
 
 | Valve Type         | Symbol ID             | Configuration  | Description                            | Flow Capacity |
 | ------------------ | --------------------- | -------------- | -------------------------------------- | ------------- |
-| 2/2 Valve          | `@valve_2_2`          | 2 ports, 2 pos | Simple shut-off                        | 10-500 L/min  |
-| 3/2 Valve          | `@valve_3_2`          | 3 ports, 2 pos | Single-acting cylinder control         | 10-300 L/min  |
-| 4/2 Valve          | `@valve_4_2`          | 4 ports, 2 pos | Double-acting, no center position      | 20-800 L/min  |
-| 4/3 Closed Center  | `@valve_4_3_closed`   | 4 ports, 3 pos | All ports blocked in center            | 20-1000 L/min |
-| 4/3 Open Center    | `@valve_4_3_open`     | 4 ports, 3 pos | P→T in center (unloads pump)           | 20-1000 L/min |
-| 4/3 Tandem Center  | `@valve_4_3_tandem`   | 4 ports, 3 pos | P→T, A/B blocked (holds load)          | 20-1000 L/min |
-| 4/3 Float Center   | `@valve_4_3_float`    | 4 ports, 3 pos | A/B→T, P blocked (free float)          | 20-1000 L/min |
+| 2/2 Valve          | `@valve_22`           | 2 ports, 2 pos | Simple shut-off                        | 10-500 L/min  |
+| 3/2 Valve          | `@valve_32`           | 3 ports, 2 pos | Single-acting cylinder control         | 10-300 L/min  |
+| 4/2 Valve          | `@valve_42`           | 4 ports, 2 pos | Double-acting, no center position      | 20-800 L/min  |
+| 4/3 Closed Center  | `@valve_43_closed`    | 4 ports, 3 pos | All ports blocked in center            | 20-1000 L/min |
+| 4/3 Open Center    | `@valve_43_open`      | 4 ports, 3 pos | P→T in center (unloads pump)           | 20-1000 L/min |
+| 4/3 Tandem Center  | `@valve_43_tandem`    | 4 ports, 3 pos | P→T, A/B blocked (holds load)          | 20-1000 L/min |
+| 4/3 Float Center   | `@valve_43_float`     | 4 ports, 3 pos | A/B→T, P blocked (free float)          | 20-1000 L/min |
 | Proportional Valve | `@valve_proportional` | Variable       | Electronic infinitely variable control | 10-600 L/min  |
 | Servo Valve        | `@valve_servo`        | Variable       | High precision, closed-loop control    | 1-200 L/min   |
 
@@ -509,31 +509,31 @@ hydraulic "Excavator Hydraulic System - 20 Ton Class" {
   part TANK type:RESERVOIR pins:(T) doc:"200L hydraulic reservoir"
   part PUMP_MAIN type:PUMP_PISTON pins:(T,P) doc:"Tandem load-sensing pump"
   part PUMP_PILOT type:PUMP_GEAR pins:(T,P_pilot) doc:"Pilot pressure pump"
-  part RELIEF type:VALVE_RELIEF pins:(P,T) doc:"Main relief valve 350 bar"
+  part RELIEF type:RELIEF_VALVE pins:(P,T) doc:"Main relief valve 350 bar"
 
   // Boom circuit
-  part VALVE_BOOM type:VALVE_4_3 pins:(P,A_BOOM,B_BOOM,T) doc:"Boom control valve"
+  part VALVE_BOOM type:VALVE_43 pins:(P,A_BOOM,B_BOOM,T) doc:"Boom control valve"
   part CYL_BOOM type:CYL_HYD pins:(A_BOOM,B_BOOM) doc:"Boom cylinder 160mm"
-  part CB_BOOM type:VALVE_CHECK pins:(A_BOOM,B_BOOM) doc:"Boom counterbalance"
+  part CB_BOOM type:CHECK_VALVE pins:(A_BOOM,B_BOOM) doc:"Boom counterbalance"
 
   // Arm circuit
-  part VALVE_ARM type:VALVE_4_3 pins:(P,A_ARM,B_ARM,T) doc:"Arm control valve"
+  part VALVE_ARM type:VALVE_43 pins:(P,A_ARM,B_ARM,T) doc:"Arm control valve"
   part CYL_ARM type:CYL_HYD pins:(A_ARM,B_ARM) doc:"Arm cylinder 140mm"
-  part CB_ARM type:VALVE_CHECK pins:(A_ARM,B_ARM) doc:"Arm counterbalance"
+  part CB_ARM type:CHECK_VALVE pins:(A_ARM,B_ARM) doc:"Arm counterbalance"
 
   // Bucket circuit
-  part VALVE_BUCKET type:VALVE_4_3 pins:(P,A_BUCKET,B_BUCKET,T) doc:"Bucket control"
+  part VALVE_BUCKET type:VALVE_43 pins:(P,A_BUCKET,B_BUCKET,T) doc:"Bucket control"
   part CYL_BUCKET type:CYL_HYD pins:(A_BUCKET,B_BUCKET) doc:"Bucket cylinder"
 
   // Swing motor
-  part VALVE_SWING type:VALVE_4_3 pins:(P,A_SWING,B_SWING,T) doc:"Swing control"
+  part VALVE_SWING type:VALVE_43 pins:(P,A_SWING,B_SWING,T) doc:"Swing control"
   part MOTOR_SWING type:MOTOR_HYD pins:(A_SWING,B_SWING) doc:"Swing motor"
 
   // Travel motors
-  part VALVE_LEFT type:VALVE_4_3 pins:(P,A_LEFT,B_LEFT,T) doc:"Left travel"
+  part VALVE_LEFT type:VALVE_43 pins:(P,A_LEFT,B_LEFT,T) doc:"Left travel"
   part MOTOR_LEFT type:MOTOR_HYD pins:(A_LEFT,B_LEFT) doc:"Left track motor"
 
-  part VALVE_RIGHT type:VALVE_4_3 pins:(P,A_RIGHT,B_RIGHT,T) doc:"Right travel"
+  part VALVE_RIGHT type:VALVE_43 pins:(P,A_RIGHT,B_RIGHT,T) doc:"Right travel"
   part MOTOR_RIGHT type:MOTOR_HYD pins:(A_RIGHT,B_RIGHT) doc:"Right track motor"
 }
 ```
@@ -807,12 +807,12 @@ hydraulic "Cylinder Position Control" {
   // Components with pin connections
   // PUMP -> VALVE controls PORT_A/PORT_B for extend/retract -> TANK
   // Flow control and counterbalance provide speed/load control
-  part VALVE type:VALVE_4_3 pins:(PUMP,PORT_A,PORT_B,TANK) doc:"4/3-way proportional valve, closed center"
+  part VALVE type:VALVE_43 pins:(PUMP,PORT_A,PORT_B,TANK) doc:"4/3-way proportional valve, closed center"
   part CYLINDER type:CYL_HYD pins:(PORT_A,PORT_B) doc:"Double-acting hydraulic cylinder"
-  part PILOT_A type:VALVE_3_2 pins:(PORT_A) doc:"Extend pilot control"
-  part PILOT_B type:VALVE_3_2 pins:(PORT_B) doc:"Retract pilot control"
-  part BALANCE type:VALVE_CHECK pins:(PORT_A,PORT_B) doc:"Counterbalance valve"
-  part FLOW_CTRL type:VALVE_CHECK pins:(PORT_A) doc:"Meter-in flow control"
+  part PILOT_A type:VALVE_32 pins:(PORT_A) doc:"Extend pilot control"
+  part PILOT_B type:VALVE_32 pins:(PORT_B) doc:"Retract pilot control"
+  part BALANCE type:CHECK_VALVE pins:(PORT_A,PORT_B) doc:"Counterbalance valve"
+  part FLOW_CTRL type:CHECK_VALVE pins:(PORT_A) doc:"Meter-in flow control"
 }
 ```
 
@@ -833,20 +833,20 @@ hydraulic "Motor Speed Control Circuit" {
   // Pump assembly
   part RESERVOIR type:RESERVOIR pins:(TANK,RETURN) doc:"Main reservoir"
   part PUMP type:PUMP_VAR pins:(TANK,PUMP_OUT) doc:"Variable displacement pump"
-  part COMPENSATOR type:VALVE_RELIEF pins:(PUMP_OUT) doc:"Load sensing compensator"
+  part COMPENSATOR type:RELIEF_VALVE pins:(PUMP_OUT) doc:"Load sensing compensator"
 
   // Motor circuit
   part MOTOR type:MOTOR_HYD pins:(MOTOR_IN,MOTOR_OUT) doc:"Hydraulic motor"
-  part VALVE_DIR type:VALVE_4_3 pins:(PUMP_OUT,MOTOR_IN,MOTOR_OUT,RETURN) doc:"Directional control valve"
+  part VALVE_DIR type:VALVE_43 pins:(PUMP_OUT,MOTOR_IN,MOTOR_OUT,RETURN) doc:"Directional control valve"
 
   // Protection and control
-  part RELIEF type:VALVE_RELIEF pins:(PRESSURE,RETURN) doc:"System relief valve"
+  part RELIEF type:RELIEF_VALVE pins:(PRESSURE,RETURN) doc:"System relief valve"
   part FILTER_SUCTION type:FILTER pins:(TANK,PUMP_OUT) doc:"Suction filter"
   part FILTER_RETURN type:FILTER pins:(RETURN,TANK) doc:"Return line filter"
 
   // Instrumentation
-  part GAUGE_PUMP type:GAUGE_PRESS pins:(PUMP_OUT) doc:"Pump pressure"
-  part GAUGE_MOTOR type:GAUGE_PRESS pins:(MOTOR_IN) doc:"Motor pressure"
+  part GAUGE_PUMP type:GAUGE_P pins:(PUMP_OUT) doc:"Pump pressure"
+  part GAUGE_MOTOR type:GAUGE_P pins:(MOTOR_IN) doc:"Motor pressure"
   part FLOW_METER type:GAUGE_FLOW pins:(MOTOR_IN) doc:"Flow rate meter"
 }
 ```
@@ -865,13 +865,13 @@ hydraulic "Counterbalance - Vertical Load" {
 
   // Power supply
   part TANK type:RESERVOIR pins:(T) doc:"Hydraulic reservoir"
-  part PUMP type:PUMP_FIX pins:(T,P) doc:"Fixed displacement pump"
-  part RELIEF type:VALVE_RELIEF pins:(P,T) doc:"Main relief valve 200 bar"
+  part PUMP type:PUMP_FIXED pins:(T,P) doc:"Fixed displacement pump"
+  part RELIEF type:RELIEF_VALVE pins:(P,T) doc:"Main relief valve 200 bar"
 
   // Control and actuation
-  part VALVE type:VALVE_4_3 pins:(P,A,B,T) doc:"Directional control valve"
+  part VALVE type:VALVE_43 pins:(P,A,B,T) doc:"Directional control valve"
   part CYLINDER type:CYL_HYD pins:(A,B) doc:"Vertical cylinder"
-  part CB_VALVE type:VALVE_CHECK pins:(A,T) doc:"Counterbalance valve 120 bar"
+  part CB_VALVE type:CHECK_VALVE pins:(A,T) doc:"Counterbalance valve 120 bar"
 }
 ```
 
@@ -889,13 +889,13 @@ hydraulic "Accumulator Circuit" {
 
   // Power supply with accumulator
   part TANK type:RESERVOIR pins:(T) doc:"Hydraulic reservoir"
-  part PUMP type:PUMP_FIX pins:(T,P) doc:"Fixed displacement pump"
-  part RELIEF type:VALVE_RELIEF pins:(P,T) doc:"Main relief 200 bar"
+  part PUMP type:PUMP_FIXED pins:(T,P) doc:"Fixed displacement pump"
+  part RELIEF type:RELIEF_VALVE pins:(P,T) doc:"Main relief 200 bar"
   part ACC type:ACC_HYD pins:(P_ACC) doc:"Bladder accumulator 10L"
-  part ISO_VALVE type:VALVE_2_2 pins:(P,P_ACC) doc:"Isolation valve"
+  part ISO_VALVE type:VALVE_22 pins:(P,P_ACC) doc:"Isolation valve"
 
   // Actuation
-  part VALVE type:VALVE_4_3 pins:(P_ACC,A,B,T) doc:"Fast-acting control"
+  part VALVE type:VALVE_43 pins:(P_ACC,A,B,T) doc:"Fast-acting control"
   part CYLINDER type:CYL_HYD pins:(A,B) doc:"High-speed cylinder"
 }
 ```
@@ -914,13 +914,13 @@ hydraulic "Regenerative Circuit" {
 
   // Power supply
   part TANK type:RESERVOIR pins:(T) doc:"Hydraulic reservoir"
-  part PUMP type:PUMP_FIX pins:(T,P) doc:"Fixed displacement pump"
-  part RELIEF type:VALVE_RELIEF pins:(P,T) doc:"Main relief valve"
+  part PUMP type:PUMP_FIXED pins:(T,P) doc:"Fixed displacement pump"
+  part RELIEF type:RELIEF_VALVE pins:(P,T) doc:"Main relief valve"
 
   // Regenerative circuit
-  part VALVE type:VALVE_4_3 pins:(P,A,B,T) doc:"Tandem center valve"
+  part VALVE type:VALVE_43 pins:(P,A,B,T) doc:"Tandem center valve"
   part CYLINDER type:CYL_HYD pins:(A,B) doc:"2:1 area ratio cylinder"
-  part REGEN type:VALVE_CHECK pins:(B,A) doc:"Regeneration check valve"
+  part REGEN type:CHECK_VALVE pins:(B,A) doc:"Regeneration check valve"
 }
 ```
 
@@ -938,17 +938,17 @@ hydraulic "Dual-Pressure Circuit" {
 
   // Power supply
   part TANK type:RESERVOIR pins:(T) doc:"Hydraulic reservoir"
-  part PUMP type:PUMP_FIX pins:(T,P) doc:"Fixed displacement pump"
-  part RELIEF_MAIN type:VALVE_RELIEF pins:(P,T) doc:"Main relief 200 bar"
+  part PUMP type:PUMP_FIXED pins:(T,P) doc:"Fixed displacement pump"
+  part RELIEF_MAIN type:RELIEF_VALVE pins:(P,T) doc:"Main relief 200 bar"
 
   // High-pressure circuit
-  part VALVE_CLAMP type:VALVE_4_3 pins:(P,A_CLAMP,B_CLAMP,T) doc:"Clamp control"
+  part VALVE_CLAMP type:VALVE_43 pins:(P,A_CLAMP,B_CLAMP,T) doc:"Clamp control"
   part CYL_CLAMP type:CYL_HYD pins:(A_CLAMP,B_CLAMP) doc:"Clamp cylinder"
 
   // Reduced-pressure circuit
   part REDUCER type:VALVE_PRESS pins:(P,P_LOW) doc:"Pressure reducer 100 bar"
-  part RELIEF_LOW type:VALVE_RELIEF pins:(P_LOW,T) doc:"Secondary relief 110 bar"
-  part VALVE_FEED type:VALVE_4_3 pins:(P_LOW,A_FEED,B_FEED,T) doc:"Feed control"
+  part RELIEF_LOW type:RELIEF_VALVE pins:(P_LOW,T) doc:"Secondary relief 110 bar"
+  part VALVE_FEED type:VALVE_43 pins:(P_LOW,A_FEED,B_FEED,T) doc:"Feed control"
   part CYL_FEED type:CYL_HYD pins:(A_FEED,B_FEED) doc:"Feed cylinder"
 }
 ```
@@ -967,11 +967,11 @@ hydraulic "Sequence Valve Circuit" {
 
   // Power supply
   part TANK type:RESERVOIR pins:(T) doc:"Hydraulic reservoir"
-  part PUMP type:PUMP_FIX pins:(T,P) doc:"Fixed displacement pump"
-  part RELIEF type:VALVE_RELIEF pins:(P,T) doc:"Main relief 200 bar"
+  part PUMP type:PUMP_FIXED pins:(T,P) doc:"Fixed displacement pump"
+  part RELIEF type:RELIEF_VALVE pins:(P,T) doc:"Main relief 200 bar"
 
   // Control
-  part VALVE type:VALVE_4_3 pins:(P,A1,B1,T) doc:"Main control valve"
+  part VALVE type:VALVE_43 pins:(P,A1,B1,T) doc:"Main control valve"
 
   // Primary circuit
   part CYL_1 type:CYL_HYD pins:(A1,B1) doc:"Clamp cylinder"
@@ -997,7 +997,7 @@ hydraulic "Proportional Valve Control" {
   // Power supply
   part TANK type:RESERVOIR pins:(T) doc:"Hydraulic reservoir"
   part PUMP type:PUMP_VAR pins:(T,P) doc:"Variable displacement pump"
-  part RELIEF type:VALVE_RELIEF pins:(P,T) doc:"Main relief valve"
+  part RELIEF type:RELIEF_VALVE pins:(P,T) doc:"Main relief valve"
 
   // Proportional control
   part PROP_VALVE type:VALVE_PROP pins:(P,A,B,T) doc:"Proportional 4-way valve"
@@ -1100,22 +1100,18 @@ P (kW) = Pressure (bar) × Flow (L/min) ÷ 600
 - Change filters per schedule
 - Maintain fluid cleanliness (ISO 4406)
 
-## Examples
-
-See the [examples/hydraulic](https://github.com/jgreywolf/runiq/tree/main/examples/hydraulic) directory for complete examples.
-
 ## Comparison with Other Tools
 
 | Feature                       | Runiq          | FluidSIM   | Automation Studio | MATLAB/Simulink Simscape | Festo FluidDraw | Hydraulic Schematic |
 | ----------------------------- | -------------- | ---------- | ----------------- | ------------------------ | --------------- | ------------------- |
 | **Text-based DSL**            | ✅             | ❌         | ❌                | ❌                       | ❌              | ❌                  |
 | **Version control friendly**  | ✅             | ❌         | ❌                | ⚠️ Partial               | ❌              | ❌                  |
+| **Automatic layout**          | ✅             | ❌         | ❌                | ⚠️ Partial               | ❌              | ❌                  |
 | **ISO 1219-1 symbols**        | ✅             | ✅         | ✅                | ✅                       | ✅              | ✅                  |
 | **Interactive simulation**    | ❌             | ✅         | ✅                | ✅                       | ✅              | ❌                  |
 | **Pressure/flow calculation** | ❌             | ✅         | ✅                | ✅                       | ✅              | ❌                  |
 | **Component libraries**       | ✅             | ✅         | ✅                | ✅                       | ✅              | ⚠️ Basic            |
 | **Custom components**         | ✅             | ⚠️ Limited | ⚠️ Limited        | ✅                       | ⚠️ Limited      | ❌                  |
-| **Automatic layout**          | ✅             | ❌         | ❌                | ⚠️ Partial               | ❌              | ❌                  |
 | **Documentation generation**  | ✅             | ⚠️ Partial | ⚠️ Partial        | ✅                       | ⚠️ Partial      | ❌                  |
 | **Multi-circuit projects**    | ✅             | ✅         | ✅                | ✅                       | ✅              | ⚠️ Limited          |
 | **Export formats**            | SVG, PNG       | PDF, Image | PDF, Image        | Multiple                 | PDF, DXF        | PDF, Image          |
@@ -1138,6 +1134,10 @@ See the [examples/hydraulic](https://github.com/jgreywolf/runiq/tree/main/exampl
 - **MATLAB Simscape**: Complex dynamic analysis and control system design
 - **Festo FluidDraw**: Training and educational purposes with interactive learning
 - **Traditional CAD**: Detailed mechanical integration and manufacturing drawings
+
+## Examples
+
+See the [examples/hydraulic](/examples/hydraulic) directory for complete examples.
 
 ## Related
 

@@ -15,17 +15,15 @@ Classic psychological model showing human needs from basic to advanced.
 diagram "Psychological Needs" {
   shape maslow as @pyramid
     label:"Maslow's Hierarchy of Needs"
-    data:{
-      "levels": [
+    data:[
         {"label": "Self-Actualization", "value": 10},
         {"label": "Esteem", "value": 30},
         {"label": "Love & Belonging", "value": 50},
         {"label": "Safety Needs", "value": 70},
         {"label": "Physiological Needs", "value": 100}
-      ],
-      "colors": ["#9f7aea", "#ed8936", "#48bb78", "#4299e1", "#f56565"],
-      "showValues": true
-    }
+      ]
+      colors: ["#9f7aea", "#ed8936", "#48bb78", "#4299e1", "#f56565"]
+      showValues: true
 }
 ```
 
@@ -45,16 +43,14 @@ Company hierarchy showing employee distribution across levels.
 diagram "Company Hierarchy" {
   shape organization as @pyramid
     label:"Employee Distribution"
-    data:{
-      "levels": [
+    data:[
         {"label": "CEO", "value": 1},
         {"label": "VP & Directors", "value": 5},
         {"label": "Senior Managers", "value": 15},
         {"label": "Team Leads", "value": 45},
         {"label": "Individual Contributors", "value": 180}
-      ],
-      "showValues": true
-    }
+      ]
+      showValues: true
 }
 ```
 
@@ -73,17 +69,15 @@ Lead conversion pipeline from visitors to customers.
 diagram "Lead Conversion" {
   shape sales as @pyramid
     label:"Sales Pipeline"
-    data:{
-      "levels": [
+    data:[
         {"label": "Closed Deals", "value": 15},
         {"label": "Negotiations", "value": 45},
         {"label": "Qualified Leads", "value": 120},
         {"label": "Marketing Leads", "value": 300},
         {"label": "Total Visitors", "value": 1000}
-      ],
-      "colors": ["#22c55e", "#84cc16", "#eab308", "#f97316", "#ef4444"],
-      "showValues": true
-    }
+      ]
+      colors: ["#22c55e", "#84cc16", "#eab308", "#f97316", "#ef4444"]
+      showValues: true
 }
 ```
 
@@ -103,18 +97,16 @@ Bloom's Taxonomy showing cognitive skill levels.
 diagram "Learning Levels" {
   shape bloom as @pyramid
     label:"Bloom's Taxonomy"
-    data:{
-      "levels": [
+    data: [
         {"label": "Create", "value": 10},
         {"label": "Evaluate", "value": 20},
         {"label": "Analyze", "value": 35},
         {"label": "Apply", "value": 50},
         {"label": "Understand", "value": 75},
         {"label": "Remember", "value": 100}
-      ],
-      "colors": ["#9f7aea", "#ed8936", "#ecc94b", "#48bb78", "#4299e1", "#38b2ac"],
-      "showValues": true
-    }
+      ]
+      colors: ["#9f7aea", "#ed8936", "#ecc94b", "#48bb78", "#4299e1", "#38b2ac"]
+      showValues: true
 }
 ```
 
@@ -135,16 +127,14 @@ Nutritional guidelines showing recommended food group proportions.
 diagram "Nutritional Guidelines" {
   shape food as @pyramid
     label:"Daily Nutrition Guide"
-    data:{
-      "levels": [
+    data:[
         {"label": "Fats & Sweets (Use Sparingly)", "value": 5},
         {"label": "Dairy & Protein", "value": 20},
         {"label": "Vegetables & Fruits", "value": 40},
         {"label": "Grains & Cereals", "value": 50}
-      ],
-      "colors": ["#fbbf24", "#3b82f6", "#22c55e", "#92400e"],
-      "showValues": true
-    }
+      ]
+      colors: ["#fbbf24", "#3b82f6", "#22c55e", "#92400e"]
+      showValues: true
 }
 ```
 
@@ -163,15 +153,13 @@ Customer tier distribution by value.
 diagram "Customer Tiers" {
   shape market as @pyramid
     label:"Customer Value Segments"
-    data:{
-      "levels": [
+    data: [
         {"label": "Premium (Lifetime Value $10K+)", "value": 500},
         {"label": "Standard ($1K-$10K)", "value": 2000},
         {"label": "Basic ($0-$1K)", "value": 8000}
-      ],
-      "colors": ["#f59e0b", "#3b82f6", "#6b7280"],
-      "showValues": true
-    }
+      ]
+      colors: ["#f59e0b", "#3b82f6", "#6b7280"]
+      showValues: true
 }
 ```
 

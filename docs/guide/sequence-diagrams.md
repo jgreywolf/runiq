@@ -643,29 +643,6 @@ sequence "Numbered Messages" {
 - **Clear message syntax** with 5 distinct types
 - **Profile system** for diagram-specific conventions
 
-## Examples
-
-See the [examples/sequence](https://github.com/jgreywolf/runiq/tree/main/examples/sequence) directory for complete examples:
-
-**Basic Examples:**
-
-- `auth-flow.runiq` - Authentication flow
-- `api-error-handling.runiq` - API error handling
-- `async-messaging.runiq` - Async messaging
-- `object-lifecycle.runiq` - Object lifecycle
-- `retry-loop.runiq` - Retry loops
-
-**Advanced Features (UML 2.5):**
-
-- `gates-example.runiq` - API Gateway with conditional routing gates
-- `duration-constraints-example.runiq` - E-commerce order processing with SLAs
-- `interaction-use-example.runiq` - User registration with modular sub-sequences
-- `advanced-timing-example.runiq` - Payment processing with timing constraints
-- `state-invariants-auth.runiq` - Authentication flow with security state checks
-- `state-invariants-transaction.runiq` - Bank transfer with balance invariants
-- `state-invariants-locking.runiq` - Resource locking with mutex properties
-- `combined-features-example.runiq` - Microservices showing gates, constraints, refs, and invariants together
-
 ## Comparison with Other Tools
 
 | Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Enterprise Architect | Visual Paradigm | WebSequenceDiagrams |
@@ -680,9 +657,9 @@ See the [examples/sequence](https://github.com/jgreywolf/runiq/tree/main/example
 | **Gates**                    | ✅             | ❌             | ❌             | ❌          | ✅                   | ✅              | ❌                  |
 | **Continuations**            | ✅             | ❌             | ❌             | ❌          | ✅                   | ✅              | ❌                  |
 | **Message types**            | ✅ 5 types     | ⚠️ 3 types     | ✅             | ⚠️ Basic    | ✅                   | ✅              | ⚠️ 3 types          |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ✅                  |
 | **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ✅                   | ✅              | ❌                  |
 | **Model integration**        | ❌             | ❌             | ❌             | ⚠️ Limited  | ✅                   | ✅              | ❌                  |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ✅                  |
 | **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple             | Multiple        | PNG                 |
 | **Learning curve**           | Low            | Low            | Medium         | Low         | High                 | High            | Low                 |
 | **Cost**                     | Free           | Free           | Free           | Paid        | Paid                 | Paid            | Free/Paid           |
@@ -701,6 +678,10 @@ See the [examples/sequence](https://github.com/jgreywolf/runiq/tree/main/example
 - **Mermaid**: Quick sequence diagrams in existing markdown documentation
 - **PlantUML**: Established tool with extensive UML support
 - **WebSequenceDiagrams**: Simple web-based tool for basic sequences
+
+## Examples
+
+See the [examples/sequence](/examples/sequence) directory for complete examples:
 
 ## Related
 

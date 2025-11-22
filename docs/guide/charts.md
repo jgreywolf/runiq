@@ -66,23 +66,27 @@ diagram "Budget Breakdown" {
 Color each slice individually:
 
 ```runiq
-shape sales as @pieChart
+diagram "Product Sales" {
+  shape sales as @pieChart
   label:"Sales by Product"
   data:[35, 28, 18, 12, 7]
   labels:["Chrome", "Safari", "Edge", "Firefox", "Other"]
   colors:["#4285F4", "#000000", "#0078D7", "#FF7139", "#9E9E9E"]
+}
 ```
 
 ### Full-Featured with Legend
 
 ```runiq
-shape market_share as @pieChart
+diagram "Market Share" {
+  shape market_share as @pieChart
   label:"Browser Market Share 2024"
   data:[35, 28, 18, 12, 7]
   labels:["Chrome", "Safari", "Edge", "Firefox", "Other"]
   colors:["#4285F4", "#000000", "#0078D7", "#FF7139", "#9E9E9E"]
   showLegend:true
   legendPosition:"bottom"
+}
 ```
 
 ### Features
@@ -92,25 +96,6 @@ shape market_share as @pieChart
 - **Custom labels** via `labels:[]` array ⭐ NEW
 - **Custom colors** via `colors:[]` array ⭐ NEW
 - **Value filtering** (auto-removes zero/negative values)
-
-### Data Formats
-
-**Simple array** (use with `labels:[]`):
-
-```runiq
-data:[30, 45, 25]
-labels:["Category A", "Category B", "Category C"]
-```
-
-**Object format** (labels in data):
-
-```runiq
-data:[
-  { label: "Product A", value: 45 },
-  { label: "Product B", value: 30 },
-  { label: "Product C", value: 15 }
-]
-```
 
 ### Properties
 
@@ -196,152 +181,6 @@ diagram "Quarterly Sales by Product - Grouped" {
 }
 
 ```
-
-## Venn Diagrams
-
-Two-set Venn diagram:
-
-```runiq
-diagram "Skills Overlap" {
-  direction TB
-
-  shape venn as @venn2 label: "Developer Skills"
-    data: {
-      setA: { label: "Frontend", fill: "#3b82f6", opacity: 0.5 },
-      setB: { label: "Backend", fill: "#10b981", opacity: 0.5 },
-      intersection: { label: "Full Stack", value: "30%" }
-    }
-}
-```
-
-Three-set Venn diagram:
-
-```runiq
-diagram "Project Requirements" {
-  direction TB
-
-  shape venn as @venn3 label: "Feasibility Analysis"
-    data: {
-      setA: { label: "Desirable", fill: "#3b82f6", opacity: 0.4 },
-      setB: { label: "Viable", fill: "#10b981", opacity: 0.4 },
-      setC: { label: "Feasible", fill: "#f59e0b", opacity: 0.4 },
-      center: { label: "Sweet Spot", fill: "#ef4444" }
-    }
-}
-```
-
-Four-set Venn diagram:
-
-```runiq
-diagram "Team Responsibilities" {
-  direction TB
-
-  shape venn as @venn4 label: "Department Overlap"
-    data: {
-      setA: { label: "Engineering", fill: "#3b82f6", opacity: 0.3 },
-      setB: { label: "Product", fill: "#10b981", opacity: 0.3 },
-      setC: { label: "Design", fill: "#f59e0b", opacity: 0.3 },
-      setD: { label: "Marketing", fill: "#8b5cf6", opacity: 0.3 }
-    }
-}
-```
-
-## Pyramids ⭐
-
-Pyramid charts visualize hierarchical data or conversion funnels with progressively larger/smaller levels. Supports custom labels, colors, and value display.
-
-### Basic Pyramid
-
-Simple hierarchy with auto-generated labels:
-
-```runiq
-diagram "Company Hierarchy" {
-  shape org as @pyramid
-    label:"Organization Structure"
-    data:[5, 15, 50, 200]
-}
-```
-
-### With Custom Labels ⭐ NEW
-
-Display meaningful level names instead of generic "Level 1", "Level 2":
-
-```runiq
-diagram "Sales Funnel" {
-  shape sales_funnel as @pyramid
-    label:"Conversion Funnel"
-    data:[100, 75, 50, 30, 15]
-    labels:["Website Visitors", "Product Views", "Add to Cart", "Checkout", "Purchase"]
-}
-```
-
-### With Custom Colors ⭐ NEW
-
-Color each level individually:
-
-```runiq
-shape maslow as @pyramid
-  label:"Hierarchy of Needs"
-  data:[100, 80, 60, 40, 20]
-  labels:["Self-Actualization", "Esteem", "Love/Belonging", "Safety", "Physiological"]
-  colors:["#9B59B6", "#3498DB", "#2ECC71", "#F39C12", "#E74C3C"]
-```
-
-### Full-Featured
-
-```runiq
-diagram "Marketing Funnel" {
-  shape funnel as @pyramid
-    label:"Lead to Customer"
-    data:[1000, 500, 200, 50]
-    labels:["Leads", "Qualified", "Proposals", "Customers"]
-    colors:["#3b82f6", "#10b981", "#f59e0b", "#ef4444"]
-}
-```
-
-### Features
-
-- **Progressive sizing** based on values
-- **Value display** (toggleable with `showValues`)
-- **Custom labels** via `labels:[]` array ⭐ NEW
-- **Custom colors** via `colors:[]` array ⭐ NEW
-- **Automatic scaling** to fit container
-
-### Data Formats
-
-**Simple array** (use with `labels:[]`):
-
-```runiq
-data:[100, 200, 300, 400]
-labels:["Top", "Mid-Top", "Mid-Bottom", "Bottom"]
-```
-
-**Object format** (labels in data):
-
-```runiq
-data:[
-  { label: "Executive", value: 5 },
-  { label: "Directors", value: 15 },
-  { label: "Managers", value: 50 },
-  { label: "Staff", value: 200 }
-]
-```
-
-### Properties
-
-| Property     | Type         | Default   | Description                      |
-| ------------ | ------------ | --------- | -------------------------------- |
-| `label`      | string       | -         | Chart title                      |
-| `data`       | array/object | -         | Level values (required)          |
-| `labels`     | string[]     | generated | Custom level labels ⭐ NEW       |
-| `colors`     | string[]     | palette   | Custom level colors              |
-| `showValues` | boolean      | true      | Display numeric values on levels |
-
-### Dimensions
-
-- Dynamic width based on level count (min 250px)
-- Height: 40px per level + 40px padding
-- 4 anchor points: N, E, S, W
 
 ## Integration with Diagrams
 
@@ -738,24 +577,23 @@ colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A"]
 
 How do Runiq charts compare to other diagramming tools?
 
-| Feature                  | Runiq | Mermaid | PlantUML | Lucidchart | Draw.io | D3.js |
-| ------------------------ | ----- | ------- | -------- | ---------- | ------- | ----- |
-| **Pie Charts**           | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
-| **Bar Charts**           | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
-| **Line Charts**          | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
-| **Radar Charts**         | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
-| **Venn Diagrams**        | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
-| **Pyramids**             | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
-| **Declarative DSL**      | ✅    | ✅      | ✅       | ❌         | ❌      | ❌    |
-| **Custom Labels**        | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
-| **Per-Point Colors**     | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
-| **Horizontal Bars**      | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
-| **Horizontal Lines**     | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
-| **CSV/JSON Import**      | ✅    | ❌      | ❌       | ✅         | ✅      | ✅    |
-| **Multi-Series**         | ✅    | ✅      | ❌       | ✅         | ✅      | ✅    |
-| **Integrated Diagrams**  | ✅    | ✅      | ✅       | ✅         | ✅      | ❌    |
-| **No JavaScript Needed** | ✅    | ✅      | ✅       | ✅         | ✅      | ❌    |
-| **Learning Curve**       | Low   | Low     | Med      | Med        | Low     | High  |
+| Feature                      | Runiq | Mermaid | Lucidchart | Draw.io | D3.js |
+| ---------------------------- | ----- | ------- | ---------- | ------- | ----- |
+| **Text-Based DSL**           | ✅    | ✅      | ❌         | ❌      | ❌    |
+| **Version Control Friendly** | ✅    | ✅      | ✅         | ❌      | ❌    |
+| **Pie Charts**               | ✅    | ✅      | ✅         | ✅      | ✅    |
+| **Bar Charts**               | ✅    | ❌      | ✅         | ✅      | ✅    |
+| **Line Charts**              | ✅    | ✅      | ✅         | ✅      | ✅    |
+| **Radar Charts**             | ✅    | ✅      | ✅         | ✅      | ✅    |
+| **Venn Diagrams**            | ✅    | ❌      | ✅         | ✅      | ✅    |
+| **Pyramids**                 | ✅    | ❌      | ✅         | ✅      | ✅    |
+| **Custom Labels**            | ✅    | ✅      | ✅         | ✅      | ✅    |
+| **Per-Point Colors**         | ✅    | ❌      | ✅         | ✅      | ✅    |
+| **CSV/JSON Import**          | ✅    | ❌      | ✅         | ✅      | ✅    |
+| **Multi-Series**             | ✅    | ✅      | ✅         | ✅      | ✅    |
+| **Integrated Diagrams**      | ✅    | ✅      | ✅         | ✅      | ❌    |
+| **Auto-Layout**              | ✅    | ✅      | ✅         | ❌      | ❌    |
+| **Learning Curve**           | Low   | Low     | Med        | Low     | High  |
 
 **Why choose Runiq for charts?**
 
@@ -768,29 +606,7 @@ How do Runiq charts compare to other diagramming tools?
 
 ## Examples
 
-See the [examples/charts](https://github.com/jgreywolf/runiq/tree/main/examples/charts) directory for complete examples:
-
-- Simple pie chart
-- Labeled pie chart
-- Pie chart with legend
-- **Bar charts** ⭐ UPDATED
-  - Vertical bars (default)
-  - Horizontal bars (`flipAxes:true`)
-  - Grouped and stacked bars
-  - With custom labels and colors
-- **Line charts** ⭐ UPDATED
-  - Simple monthly sales
-  - Performance trends with labels
-  - Per-point colors for highlighting
-  - Horizontal orientation (`flipAxes:true`)
-- **Radar charts** ⭐ UPDATED
-  - Character skill stats with labels
-  - System performance metrics
-  - Per-point colored data points
-  - Product quality scores
-  - Tech stack comparison
-- Venn diagrams (2, 3, 4 sets)
-- Pyramids and funnels
+See the [Charts examples](/examples/chart-diagrams) for more
 
 ## Related
 

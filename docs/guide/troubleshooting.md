@@ -10,26 +10,6 @@ Common issues and solutions when working with Runiq.
 
 ## Parser Errors
 
-### Error: "Expecting token of type 'EOF' but found '{'"
-
-**Cause**: Runiq uses a flat grammar structure. `diagram` declarations don't use braces.
-
-❌ **Incorrect:**
-
-```runiq
-diagram "My Diagram" {
-  shape A as @rect label: "Node"
-}
-```
-
-✅ **Correct:**
-
-```runiq
-diagram "My Diagram"
-
-shape A as @rect label: "Node"
-```
-
 ### Error: "Expecting '}' but found 'backgroundColor:'"
 
 **Cause**: Container style properties must be **before** the opening `{`, not inside the container body.
@@ -91,15 +71,15 @@ container "My Container" backgroundColor: "#e3f2fd" borderColor: "#2196f3" paddi
 
 **Cause**: Insufficient spacing or wrong layout algorithm.
 
-**Solution 1**: Increase spacing
+<!-- **Solution 1**: Increase spacing
 
 ```runiq
 diagram "My Diagram"
   direction TB
   spacing: 100    # Default is 80
-```
+``` -->
 
-**Solution 2**: Try different layout algorithm
+**Solution**: Try different layout algorithm
 
 ```runiq
 diagram "My Diagram" {

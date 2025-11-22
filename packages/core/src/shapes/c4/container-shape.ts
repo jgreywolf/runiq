@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types.js';
+import { renderMultilineText, escapeXml } from '../../types.js';
 
 /**
  * C4 Model: Container
@@ -55,32 +56,35 @@ export const c4Container: ShapeDefinition = {
     const titleY = y + bounds.height / 2 - (technology ? 8 : 0);
     const techY = y + bounds.height / 2 + 12;
 
+    const titleSvg: string = renderMultilineText(title, x + bounds.width / 2, titleY, {
+      textAnchor: 'middle' as const,
+      dominantBaseline: 'middle',
+      fontFamily: (ctx.style.font || 'sans-serif') as string,
+      fontSize: (ctx.style.fontSize || 14) as number,
+      fill: textColor as string,
+      fontWeight: 'bold' as string,
+    });
+
+    const techSvg: string = technology
+      ? renderMultilineText(technology, x + bounds.width / 2, techY, {
+          textAnchor: 'middle' as const,
+          dominantBaseline: 'middle',
+          fontFamily: (ctx.style.font || 'sans-serif') as string,
+          fontSize: ((ctx.style.fontSize || 14) - 2) as number,
+          fill: textColor as string,
+          fontStyle: 'italic' as string,
+        })
+      : '';
+
     return `
       <!-- C4 Container -->
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             rx="${rx}" ry="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
+
       <!-- Title -->
-      <text x="${x + bounds.width / 2}" y="${titleY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}"
-            fill="${textColor}" font-weight="bold">
-        ${title}
-      </text>
-      
-      ${
-        technology
-          ? `
-      <!-- Technology Label -->
-      <text x="${x + bounds.width / 2}" y="${techY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${(ctx.style.fontSize || 14) - 2}"
-            fill="${textColor}" font-style="italic">
-        ${technology}
-      </text>
-      `
-          : ''
-      }
+      ${titleSvg}
+
+      ${technology ? `<!-- Technology Label -->\n      ${techSvg}` : ''}
     `;
   },
 };

@@ -514,7 +514,9 @@ P&ID diagrams are rendered with:
 
 | Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | SmartPlant P&ID | AutoCAD P&ID | MS Visio   | AVEVA Diagrams |
 | ---------------------------- | -------------- | -------------- | -------------- | ----------- | --------------- | ------------ | ---------- | -------------- |
-| **Basic Support**            | ✅             | ❌             | ❌             | ✅          | ✅              | ✅           | ✅         | ✅             |
+| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌              | ❌           | ❌         | ⚠️ Scripting   |
+| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Database     | ⚠️ Partial   | ❌         | ⚠️ Database    |
+| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ❌              | ❌           | ❌         | ❌             |
 | **ISA-5.1 symbols**          | ✅             | ❌             | ❌             | ⚠️ Custom   | ✅              | ✅           | ⚠️ Custom  | ✅             |
 | **Equipment symbols**        | ✅             | ❌             | ❌             | ✅          | ✅              | ✅           | ✅         | ✅             |
 | **Instrument tagging**       | ✅             | ❌             | ❌             | ✅          | ✅              | ✅           | ✅         | ✅             |
@@ -524,9 +526,6 @@ P&ID diagrams are rendered with:
 | **Documentation generation** | ✅             | ❌             | ❌             | ⚠️ Partial  | ✅              | ⚠️ Partial   | ⚠️ Partial | ✅             |
 | **3D integration**           | ❌             | ❌             | ❌             | ❌          | ✅              | ✅           | ❌         | ✅             |
 | **Material tracking**        | ✅             | ❌             | ❌             | ⚠️ Manual   | ✅              | ✅           | ⚠️ Manual  | ✅             |
-| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌              | ❌           | ❌         | ⚠️ Scripting   |
-| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Database     | ⚠️ Partial   | ❌         | ⚠️ Database    |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ❌              | ❌           | ❌         | ❌             |
 | **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | DWG, PDF        | DWG, PDF     | Multiple   | Multiple       |
 | **Learning curve**           | Low            | Low            | Medium         | Low         | High            | High         | Medium     | High           |
 | **Cost**                     | Free           | Free           | Free           | Paid        | Enterprise      | Enterprise   | Paid       | Enterprise     |

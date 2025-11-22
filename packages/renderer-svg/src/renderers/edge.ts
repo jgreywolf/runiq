@@ -1,5 +1,5 @@
 import type { DiagramAst, RoutedEdge } from '@runiq/core';
-import { escapeXml } from './utils.js';
+import { escapeXml, renderMultilineText } from './utils.js';
 
 export function renderEdge(
   routed: RoutedEdge,
@@ -281,20 +281,47 @@ export function renderEdge(
     edgeMarkup += `<text x="${midPoint.x}" y="${midPoint.y - 15}" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">${escapeXml(stereotypeText)}</text>`;
   }
 
+  // State machine transition label: event [guard] / effect
+  // Build UML transition label if event, guard, or effect are present
+  let transitionLabel = '';
+  const event = (edgeAst as any).event;
+  const guard = (edgeAst as any).guard;
+  const effect = (edgeAst as any).effect;
+
+  if (event || guard || effect) {
+    if (event) {
+      transitionLabel += event;
+    }
+    if (guard) {
+      transitionLabel += ` ${guard}`;
+    }
+    if (effect) {
+      // Add slash prefix if not already present
+      const effectText = effect.startsWith('/') ? effect : `/ ${effect}`;
+      transitionLabel += ` ${effectText}`;
+    }
+  }
+
   // Edge label (rendered centered on edge, or below stereotype if both exist)
-  if ((edgeAst as any).label) {
+  // Use transition label if present, otherwise use explicit label
+  const displayLabel = transitionLabel || (edgeAst as any).label;
+  if (displayLabel) {
     const labelY = (edgeAst as any).stereotype
       ? midPoint.y + 10 // Below stereotype
       : midPoint.y; // Centered on edge
-    edgeMarkup += `<text x="${midPoint.x}" y="${labelY}" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">${escapeXml((edgeAst as any).label)}</text>`;
+    edgeMarkup += renderMultilineText(displayLabel, midPoint.x, labelY, {
+      textAnchor: 'middle',
+      dominantBaseline: 'middle',
+      className: 'runiq-edge-text',
+    });
   }
 
   // UML Constraints (rendered below the label/edge in braces)
   if ((edgeAst as any).constraints && (edgeAst as any).constraints.length > 0) {
     const constraints = (edgeAst as any).constraints as string[];
     const constraintText = `{${constraints.join(', ')}}`;
-    const constraintY = (edgeAst as any).label
-      ? midPoint.y + 15 // Below label
+    const constraintY = displayLabel
+      ? midPoint.y + 15 // Below label (whether it's a transition label or explicit label)
       : (edgeAst as any).stereotype
       ? midPoint.y + 25 // Below stereotype
       : midPoint.y + 10; // Below edge
