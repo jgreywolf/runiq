@@ -279,7 +279,7 @@ Simon Wardley's doctrine (best practices):
 
 ## Examples
 
-See the [examples/wardley](/examples/wardley) directory for complete examples:
+See the [examples/wardley](/examples/wardley-maps) directory for complete examples:
 
 - Tea shop example
 - Technology evolution

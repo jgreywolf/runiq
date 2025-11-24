@@ -65,28 +65,28 @@ Runiq provides **55 ISO 1219-1 compliant pneumatic components** organized into t
 
 ### Air Preparation Components
 
-| Component          | Type ID        | Description                            | Typical Spec        |
-| ------------------ | -------------- | -------------------------------------- | ------------------- |
-| Air Source         | `AIR_SOURCE`   | Compressed air supply                  | 6-10 bar            |
-| Air Compressor     | `COMPRESSOR`   | Generates compressed air               | 10-500 CFM          |
-| Air Filter         | `FILTER`       | Removes particles (5-40 micron)        | 5 micron standard   |
-| Pressure Regulator | `REGULATOR`    | Controls downstream pressure           | 0-12 bar            |
-| Lubricator         | `LUBRICATOR`   | Adds oil mist for lubrication          | 1-3 drops/m³        |
-| FRL Unit           | `FRL`          | Combined filter, regulator, lubricator | 4-8 bar working     |
-| Air Dryer          | `AIR_DRYER`    | Removes moisture                       | -40°C pressure dew  |
-| Pressure Gauge     | `GAUGE_P`      | Visual pressure indication             | 0-10 bar typical    |
+| Component          | Type ID      | Description                            | Typical Spec       |
+| ------------------ | ------------ | -------------------------------------- | ------------------ |
+| Air Source         | `AIR_SOURCE` | Compressed air supply                  | 6-10 bar           |
+| Air Compressor     | `COMPRESSOR` | Generates compressed air               | 10-500 CFM         |
+| Air Filter         | `FILTER`     | Removes particles (5-40 micron)        | 5 micron standard  |
+| Pressure Regulator | `REGULATOR`  | Controls downstream pressure           | 0-12 bar           |
+| Lubricator         | `LUBRICATOR` | Adds oil mist for lubrication          | 1-3 drops/m³       |
+| FRL Unit           | `FRL`        | Combined filter, regulator, lubricator | 4-8 bar working    |
+| Air Dryer          | `AIR_DRYER`  | Removes moisture                       | -40°C pressure dew |
+| Pressure Gauge     | `GAUGE_P`    | Visual pressure indication             | 0-10 bar typical   |
 
 ### Directional Control Valves
 
-| Valve Type           | Type ID               | Ports/Positions | Actuation Options                         |
-| -------------------- | --------------------- | --------------- | ----------------------------------------- |
-| 2/2 Valve            | `VALVE_22_P`          | 2 ports, 2 pos  | Manual, solenoid, pilot, spring return    |
-| 3/2 Valve            | `VALVE_32`            | 3 ports, 2 pos  | Normally closed, various actuation        |
-| 4/2 Valve            | `VALVE_42_P`          | 4 ports, 2 pos  | Double solenoid, pilot, detented          |
-| 5/2 Valve            | `VALVE_52`            | 5 ports, 2 pos  | Standard cylinder control                 |
-| 5/3 Valve (Closed)   | `VALVE_53_CLOSED`     | 5 ports, 3 pos  | All ports blocked in center               |
-| 5/3 Valve (Exhaust)  | `VALVE_53_EXHAUST`    | 5 ports, 3 pos  | Pressure blocked, A/B exhausted in center |
-| 5/3 Valve (Pressure) | `VALVE_53_PRESSURE`   | 5 ports, 3 pos  | All ports pressurized in center           |
+| Valve Type           | Type ID             | Ports/Positions | Actuation Options                         |
+| -------------------- | ------------------- | --------------- | ----------------------------------------- |
+| 2/2 Valve            | `VALVE_22_P`        | 2 ports, 2 pos  | Manual, solenoid, pilot, spring return    |
+| 3/2 Valve            | `VALVE_32`          | 3 ports, 2 pos  | Normally closed, various actuation        |
+| 4/2 Valve            | `VALVE_42_P`        | 4 ports, 2 pos  | Double solenoid, pilot, detented          |
+| 5/2 Valve            | `VALVE_52`          | 5 ports, 2 pos  | Standard cylinder control                 |
+| 5/3 Valve (Closed)   | `VALVE_53_CLOSED`   | 5 ports, 3 pos  | All ports blocked in center               |
+| 5/3 Valve (Exhaust)  | `VALVE_53_EXHAUST`  | 5 ports, 3 pos  | Pressure blocked, A/B exhausted in center |
+| 5/3 Valve (Pressure) | `VALVE_53_PRESSURE` | 5 ports, 3 pos  | All ports pressurized in center           |
 
 **Actuation Types:**
 
@@ -98,28 +98,28 @@ Runiq provides **55 ISO 1219-1 compliant pneumatic components** organized into t
 
 ### Flow Control Valves
 
-| Component           | Type ID         | Description                              | Use Case          |
-| ------------------- | --------------- | ---------------------------------------- | ----------------- |
-| Flow Control        | `FLOW_CONTROL`  | Regulates flow rate                      | Speed control     |
-| Throttle Valve      | `THROTTLE`      | Restricts flow in both directions        | Speed control     |
-| Quick Exhaust Valve | `QUICK_EXHAUST` | Rapid exhaust close to cylinder          | Fast retraction   |
-| Check Valve         | `CHECK_VALVE`   | Allows flow in one direction             | Prevent backflow  |
-| Exhaust Port        | `EXHAUST`       | Exhaust to atmosphere                    | Venting           |
-| Muffler             | `MUFFLER`       | Reduces exhaust noise                    | Noise reduction   |
+| Component           | Type ID         | Description                       | Use Case         |
+| ------------------- | --------------- | --------------------------------- | ---------------- |
+| Flow Control        | `FLOW_CONTROL`  | Regulates flow rate               | Speed control    |
+| Throttle Valve      | `THROTTLE`      | Restricts flow in both directions | Speed control    |
+| Quick Exhaust Valve | `QUICK_EXHAUST` | Rapid exhaust close to cylinder   | Fast retraction  |
+| Check Valve         | `CHECK_VALVE`   | Allows flow in one direction      | Prevent backflow |
+| Exhaust Port        | `EXHAUST`       | Exhaust to atmosphere             | Venting          |
+| Muffler             | `MUFFLER`       | Reduces exhaust noise             | Noise reduction  |
 
 ### Pneumatic Actuators
 
-| Actuator Type          | Type ID             | Description                          | Force/Torque Range   |
-| ---------------------- | ------------------- | ------------------------------------ | -------------------- |
-| Single-Acting Cylinder | `CYL_SA`            | Spring return, push or pull          | 10-5000 N @ 6 bar    |
-| Double-Acting Cylinder | `CYL_DA`            | Powered both directions              | 20-10000 N @ 6 bar   |
-| Rodless Cylinder       | `CYL_RODLESS`       | Magnetic or cable coupling           | Long stroke (1-10 m) |
-| Telescopic Cylinder    | `CYL_TELESCOPIC_P`  | Multi-stage for compact installation | 2-5 stages           |
-| Rotary Actuator        | `ROTARY_ACTUATOR`   | Limited rotation (90°, 180°, 270°)   | 1-1000 Nm            |
-| Pneumatic Motor        | `MOTOR_PNEUMATIC`   | Continuous rotation                  | 0.1-20 kW            |
-| Parallel Gripper       | `GRIPPER_PARALLEL`  | Two-jaw parallel grip                | 50-2000 N grip       |
-| Angular Gripper        | `GRIPPER_ANGULAR`   | Pivoting jaw grip                    | 20-500 N grip        |
-| Vacuum Gripper         | `GRIPPER_VACUUM`    | Suction cup handling                 | -0.8 bar vacuum      |
+| Actuator Type          | Type ID            | Description                          | Force/Torque Range   |
+| ---------------------- | ------------------ | ------------------------------------ | -------------------- |
+| Single-Acting Cylinder | `CYL_SA`           | Spring return, push or pull          | 10-5000 N @ 6 bar    |
+| Double-Acting Cylinder | `CYL_DA`           | Powered both directions              | 20-10000 N @ 6 bar   |
+| Rodless Cylinder       | `CYL_RODLESS`      | Magnetic or cable coupling           | Long stroke (1-10 m) |
+| Telescopic Cylinder    | `CYL_TELESCOPIC_P` | Multi-stage for compact installation | 2-5 stages           |
+| Rotary Actuator        | `ROTARY_ACTUATOR`  | Limited rotation (90°, 180°, 270°)   | 1-1000 Nm            |
+| Pneumatic Motor        | `MOTOR_PNEUMATIC`  | Continuous rotation                  | 0.1-20 kW            |
+| Parallel Gripper       | `GRIPPER_PARALLEL` | Two-jaw parallel grip                | 50-2000 N grip       |
+| Angular Gripper        | `GRIPPER_ANGULAR`  | Pivoting jaw grip                    | 20-500 N grip        |
+| Vacuum Gripper         | `GRIPPER_VACUUM`   | Suction cup handling                 | -0.8 bar vacuum      |
 
 ### Sensors and Gauges
 
@@ -132,15 +132,15 @@ Runiq provides **55 ISO 1219-1 compliant pneumatic components** organized into t
 
 ### Vacuum Components
 
-| Component         | Type ID             | Description                        | Specification      |
-| ----------------- | ------------------- | ---------------------------------- | ------------------ |
-| Venturi Generator | `VACUUM_GENERATOR`  | Creates vacuum from compressed air | -85 kPa max        |
-| Vacuum Pump       | `VACUUM_PUMP`       | Electric vacuum pump               | 20-200 L/min       |
-| Vacuum Reservoir  | `VACUUM_RESERVOIR`  | Stores vacuum                      | 1-50 L             |
-| Suction Cup       | `SUCTION_CUP`       | Vacuum gripper pad                 | 10-200 mm diameter |
-| Vacuum Filter     | `VACUUM_FILTER`     | Protects generator from particles  | 40 micron          |
-| Vacuum Switch     | `VACUUM_SWITCH`     | Confirms sufficient vacuum         | -0.5 bar setpoint  |
-| Blow-Off Valve    | `BLOW_OFF`          | Releases vacuum quickly            | Quick release      |
+| Component         | Type ID            | Description                        | Specification      |
+| ----------------- | ------------------ | ---------------------------------- | ------------------ |
+| Venturi Generator | `VACUUM_GENERATOR` | Creates vacuum from compressed air | -85 kPa max        |
+| Vacuum Pump       | `VACUUM_PUMP`      | Electric vacuum pump               | 20-200 L/min       |
+| Vacuum Reservoir  | `VACUUM_RESERVOIR` | Stores vacuum                      | 1-50 L             |
+| Suction Cup       | `SUCTION_CUP`      | Vacuum gripper pad                 | 10-200 mm diameter |
+| Vacuum Filter     | `VACUUM_FILTER`    | Protects generator from particles  | 40 micron          |
+| Vacuum Switch     | `VACUUM_SWITCH`    | Confirms sufficient vacuum         | -0.5 bar setpoint  |
+| Blow-Off Valve    | `BLOW_OFF`         | Releases vacuum quickly            | Quick release      |
 
 ## Cylinder Sizing Guidelines
 
@@ -683,7 +683,7 @@ pneumatic "Styled Circuit" {
 
 ## Examples
 
-See the [examples/pneumatic](/examples/pneumatic) directory for complete examples.
+See the [examples/pneumatic](/examples/pneumatic-circuits) directory for complete examples.
 
 ## Related
 

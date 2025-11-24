@@ -681,7 +681,7 @@ sequence "Numbered Messages" {
 
 ## Examples
 
-See the [examples/sequence](/examples/sequence) directory for complete examples:
+See the [examples/sequence](/examples/sequence-diagrams) directory for complete examples:
 
 ## Related
 

@@ -1137,7 +1137,7 @@ P (kW) = Pressure (bar) × Flow (L/min) ÷ 600
 
 ## Examples
 
-See the [examples/hydraulic](/examples/hydraulic) directory for complete examples.
+See the [examples/hydraulic](/examples/hydraulic-circuits) directory for complete examples.
 
 ## Related
 

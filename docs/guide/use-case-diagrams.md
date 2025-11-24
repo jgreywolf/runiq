@@ -364,7 +364,7 @@ diagram "Styled Use Case" {
 
 ## Examples
 
-See the [use-case](examples/use-case) directory for complete examples:
+See the [use-case](/examples/use-case) directory for complete examples:
 
 - Simple banking system
 - Advanced banking with relationships
