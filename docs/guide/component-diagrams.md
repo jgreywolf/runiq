@@ -684,25 +684,25 @@ diagram "Deployment Topology" {
 
 ## Comparison with Other Tools
 
-| Feature                      | Runiq                      | Mermaid | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
-| ---------------------------- | -------------------------- | ------- | ------------ | ------------------ | ------------- | -------------------- |
-| **Text-Based DSL**           | ✅                         | ❌      | ✅           | ❌(GUI)            | ❌(GUI)       | ⚠️ Hybrid            |
-| **Version Control Friendly** | ✅                         | ❌      | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌                   |
-| **Automatic Layout**         | ✅ ELK (Layered)           | ❌      | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **UML 2.5 Compliance**       | ✅                         | ❌      | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
-| **Provided Interfaces**      | ✅ Lollipop notation       | ❌      | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
-| **Required Interfaces**      | ✅ Socket notation         | ❌      | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
-| **Ports**                    | ✅ Named port support      | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Assembly Connectors**      | ✅ Ball-and-socket pattern | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Dependencies**             | ✅ Dashed arrows           | ❌      | ✅           | ✅ Manual styling  | ✅ Manual     | ✅                   |
-| **Delegation Connectors**    | ✅ Internal wiring syntax  | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Subsystems/Packages**      | ✅ Via containers          | ❌      | ✅           | ✅                 | ✅            | ✅                   |
-| **Artifacts (JARs, WARs)**   | ✅ `@artifact` shape       | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Nodes (Servers)**          | ✅ `@node` 3D cube         | ❌      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Export Formats**           | ✅ SVG, PNG, PDF           | ❌      | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
-| **Collaboration**            | ✅ Git-based               | ❌      | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
-| **Learning Curve**           | ⚠️ Moderate (DSL)          | ❌      | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
-| **Open Source**              | ✅ MIT License             | ✅ MIT  | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
+| Feature                      | Runiq                      | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
+| ---------------------------- | -------------------------- | ------------ | ------------------ | ------------- | -------------------- |
+| **Text-Based DSL**           | ✅                         | ✅           | ❌(GUI)            | ❌(GUI)       | ⚠️ Hybrid            |
+| **Version Control Friendly** | ✅                         | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌                   |
+| **Automatic Layout**         | ✅ ELK (Layered)           | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **UML 2.5 Compliance**       | ✅                         | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
+| **Provided Interfaces**      | ✅ Lollipop notation       | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
+| **Required Interfaces**      | ✅ Socket notation         | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
+| **Ports**                    | ✅ Named port support      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Assembly Connectors**      | ✅ Ball-and-socket pattern | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Dependencies**             | ✅ Dashed arrows           | ✅           | ✅ Manual styling  | ✅ Manual     | ✅                   |
+| **Delegation Connectors**    | ✅ Internal wiring syntax  | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Subsystems/Packages**      | ✅ Via containers          | ✅           | ✅                 | ✅            | ✅                   |
+| **Artifacts (JARs, WARs)**   | ✅ `@artifact` shape       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Nodes (Servers)**          | ✅ `@node` 3D cube         | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
+| **Export Formats**           | ✅ SVG, PNG, PDF           | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
+| **Collaboration**            | ✅ Git-based               | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
+| **Learning Curve**           | ⚠️ Moderate (DSL)          | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
+| **Open Source**              | ✅ MIT License             | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
 
 **Runiq Advantages:**
 

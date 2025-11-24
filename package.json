@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "build": "pnpm -r build",
+    "build:packages": "pnpm --filter './packages/**' build",
     "dev": "pnpm --filter runiq-editor dev",
     "dev:editor": "pnpm --filter runiq-editor dev",
     "docs:dev": "vitepress dev docs",

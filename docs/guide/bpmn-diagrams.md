@@ -633,20 +633,20 @@ errorEvent -> handleError
 
 How do Runiq BPMN diagrams compare to other business process modeling tools?
 
-| Feature                      | Runiq | Mermaid | PlantUML | Lucidchart | Draw.io | Camunda Modeler | Bizagi |
-| ---------------------------- | ----- | ------- | -------- | ---------- | ------- | --------------- | ------ |
-| **Text-Based DSL**           | ✅    | ❌      | ✅       | ❌         | ❌      | ❌              | ❌     |
-| **Version Control Friendly** | ✅    | ❌      | ✅       | ❌         | ❌      | ✅              | ❌     |
-| **Automatic Layout**         | ✅    | ❌      | ✅       | ❌         | ❌      | ❌              | ❌     |
-| **BPMN 2.0 Core**            | ✅    | ❌      | ✅       | ✅         | ✅      | ✅              | ✅     |
-| **Pools & Lanes**            | ✅    | ❌      | ✅       | ✅         | ✅      | ✅              | ✅     |
-| **Message Flows**            | ✅    | ❌      | ✅       | ✅         | ✅      | ✅              | ✅     |
-| **Events (Timer/Error)**     | ✅    | ❌      | ✅       | ✅         | ✅      | ✅              | ✅     |
-| **Process Execution**        | ❌    | ❌      | ❌       | ❌         | ❌      | ✅              | ✅     |
-| **Integrated w/ UML**        | ✅    | ❌      | ✅       | ✅         | ❌      | ❌              | ❌     |
-| **Collaboration**            | ✅    | ❌      | ❌       | ✅         | ❌      | ✅              | ✅     |
-| **Free/Open Source**         | ✅    | ❌      | ✅       | ❌         | ✅      | ✅              | ❌     |
-| **Learning Curve**           | Low   | ❌      | Med      | Med        | Low     | Med             | Med    |
+| Feature                      | Runiq | PlantUML | Lucidchart | Draw.io | Camunda Modeler | Bizagi |
+| ---------------------------- | ----- | -------- | ---------- | ------- | --------------- | ------ |
+| **Text-Based DSL**           | ✅    | ✅       | ❌         | ❌      | ❌              | ❌     |
+| **Version Control Friendly** | ✅    | ✅       | ❌         | ❌      | ✅              | ❌     |
+| **Automatic Layout**         | ✅    | ✅       | ❌         | ❌      | ❌              | ❌     |
+| **BPMN 2.0 Core**            | ✅    | ✅       | ✅         | ✅      | ✅              | ✅     |
+| **Pools & Lanes**            | ✅    | ✅       | ✅         | ✅      | ✅              | ✅     |
+| **Message Flows**            | ✅    | ✅       | ✅         | ✅      | ✅              | ✅     |
+| **Events (Timer/Error)**     | ✅    | ✅       | ✅         | ✅      | ✅              | ✅     |
+| **Process Execution**        | ❌    | ❌       | ❌         | ❌      | ✅              | ✅     |
+| **Integrated w/ UML**        | ✅    | ✅       | ✅         | ❌      | ❌              | ❌     |
+| **Collaboration**            | ✅    | ❌       | ✅         | ❌      | ✅              | ✅     |
+| **Free/Open Source**         | ✅    | ✅       | ❌         | ✅      | ✅              | ❌     |
+| **Learning Curve**           | Low   | Med      | Med        | Low     | Med             | Med    |
 
 **Why choose Runiq for BPMN?**
 

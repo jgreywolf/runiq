@@ -54,36 +54,39 @@ pneumatic "Circuit Name" {
 
 ## Complete Component Catalog
 
+Runiq provides **55 ISO 1219-1 compliant pneumatic components** organized into the following categories:
+
+- **Air Preparation**: 8 components for air supply, filtering, regulation, and conditioning
+- **Directional Control Valves**: 7 valve types (2/2 through 5/3 configurations)
+- **Flow Control**: 6 components for flow regulation and exhaust
+- **Actuators**: 9 cylinder, motor, and gripper types
+- **Sensors & Gauges**: 4 measurement and detection components
+- **Vacuum System**: 7 specialized vacuum components
+
 ### Air Preparation Components
 
-| Component          | Symbol ID            | Description                            | Typical Spec        |
-| ------------------ | -------------------- | -------------------------------------- | ------------------- |
-| Air Compressor     | `@compressor`        | Generates compressed air               | 10-500 CFM          |
-| Air Filter         | `@air_filter`        | Removes particles (5-40 micron)        | 5 micron standard   |
-| Pressure Regulator | `@regulator`         | Controls downstream pressure           | 0-12 bar            |
-| Lubricator         | `@lubricator`        | Adds oil mist for lubrication          | 1-3 drops/m³        |
-| FRL Unit           | `@frl`               | Combined filter, regulator, lubricator | 4-8 bar working     |
-| Air Dryer          | `@air_dryer`         | Removes moisture                       | -40°C pressure dew  |
-| Air Receiver       | `@air_tank`          | Stores compressed air                  | 50-5000 L           |
-| Pressure Switch    | `@pressure_switch`   | Monitors pressure levels               | Adjustable setpoint |
-| Pressure Gauge     | `@pressure_gauge`    | Visual pressure indication             | 0-10 bar typical    |
-| Water Separator    | `@water_separator`   | Removes condensate                     | 99% separation      |
-| Aftercooler        | `@aftercooler`       | Cools air to remove moisture           | 5-10°C approach     |
-| Coalescing Filter  | `@coalescing_filter` | Removes oil and water aerosols         | 0.01 micron         |
-| Activated Carbon   | `@carbon_filter`     | Removes oil vapor and odors            | 0.003 ppm oil vapor |
+| Component          | Type ID        | Description                            | Typical Spec        |
+| ------------------ | -------------- | -------------------------------------- | ------------------- |
+| Air Source         | `AIR_SOURCE`   | Compressed air supply                  | 6-10 bar            |
+| Air Compressor     | `COMPRESSOR`   | Generates compressed air               | 10-500 CFM          |
+| Air Filter         | `FILTER`       | Removes particles (5-40 micron)        | 5 micron standard   |
+| Pressure Regulator | `REGULATOR`    | Controls downstream pressure           | 0-12 bar            |
+| Lubricator         | `LUBRICATOR`   | Adds oil mist for lubrication          | 1-3 drops/m³        |
+| FRL Unit           | `FRL`          | Combined filter, regulator, lubricator | 4-8 bar working     |
+| Air Dryer          | `AIR_DRYER`    | Removes moisture                       | -40°C pressure dew  |
+| Pressure Gauge     | `GAUGE_P`      | Visual pressure indication             | 0-10 bar typical    |
 
 ### Directional Control Valves
 
-| Valve Type           | Symbol ID             | Ports/Positions | Actuation Options                         |
+| Valve Type           | Type ID               | Ports/Positions | Actuation Options                         |
 | -------------------- | --------------------- | --------------- | ----------------------------------------- |
-| 2/2 Valve            | `@valve_2_2`          | 2 ports, 2 pos  | Manual, solenoid, pilot, spring return    |
-| 3/2 Valve (NC)       | `@valve_3_2_nc`       | 3 ports, 2 pos  | Normally closed, various actuation        |
-| 3/2 Valve (NO)       | `@valve_3_2_no`       | 3 ports, 2 pos  | Normally open, various actuation          |
-| 4/2 Valve            | `@valve_4_2`          | 4 ports, 2 pos  | Double solenoid, pilot, detented          |
-| 5/2 Valve            | `@valve_5_2`          | 5 ports, 2 pos  | Standard cylinder control                 |
-| 5/3 Valve (Closed)   | `@valve_5_3_closed`   | 5 ports, 3 pos  | All ports blocked in center               |
-| 5/3 Valve (Exhaust)  | `@valve_5_3_exhaust`  | 5 ports, 3 pos  | Pressure blocked, A/B exhausted in center |
-| 5/3 Valve (Pressure) | `@valve_5_3_pressure` | 5 ports, 3 pos  | All ports pressurized in center           |
+| 2/2 Valve            | `VALVE_22_P`          | 2 ports, 2 pos  | Manual, solenoid, pilot, spring return    |
+| 3/2 Valve            | `VALVE_32`            | 3 ports, 2 pos  | Normally closed, various actuation        |
+| 4/2 Valve            | `VALVE_42_P`          | 4 ports, 2 pos  | Double solenoid, pilot, detented          |
+| 5/2 Valve            | `VALVE_52`            | 5 ports, 2 pos  | Standard cylinder control                 |
+| 5/3 Valve (Closed)   | `VALVE_53_CLOSED`     | 5 ports, 3 pos  | All ports blocked in center               |
+| 5/3 Valve (Exhaust)  | `VALVE_53_EXHAUST`    | 5 ports, 3 pos  | Pressure blocked, A/B exhausted in center |
+| 5/3 Valve (Pressure) | `VALVE_53_PRESSURE`   | 5 ports, 3 pos  | All ports pressurized in center           |
 
 **Actuation Types:**
 
@@ -95,88 +98,49 @@ pneumatic "Circuit Name" {
 
 ### Flow Control Valves
 
-| Component            | Symbol ID          | Description                              | Use Case          |
-| -------------------- | ------------------ | ---------------------------------------- | ----------------- |
-| Throttle Valve       | `@throttle`        | Restricts flow in both directions        | Speed control     |
-| Meter-In             | `@meter_in`        | Controls flow to actuator                | Extend speed      |
-| Meter-Out            | `@meter_out`       | Controls flow from actuator              | Retract speed     |
-| One-Way Flow Control | `@flow_control_1w` | Flow control one direction, free reverse | Controlled extend |
-| Quick Exhaust Valve  | `@quick_exhaust`   | Rapid exhaust close to cylinder          | Fast retraction   |
-| Pressure Compensated | `@flow_pc`         | Constant flow despite pressure variation | Consistent speed  |
-| Needle Valve         | `@needle_valve`    | Fine adjustment of flow                  | Precision tuning  |
-
-### Pressure Control Valves
-
-| Component         | Symbol ID           | Description                     | Setting Range       |
-| ----------------- | ------------------- | ------------------------------- | ------------------- |
-| Relief Valve      | `@relief_valve`     | Limits maximum pressure         | 0-12 bar            |
-| Pressure Reducing | `@pressure_reducer` | Lowers downstream pressure      | 1-8 bar             |
-| Sequence Valve    | `@sequence_valve`   | Triggers action at set pressure | Adjustable setpoint |
-| Pressure Switch   | `@pressure_switch`  | Electrical output at threshold  | NO/NC contacts      |
-
-### Check Valves
-
-| Component            | Symbol ID        | Description                          | Cracking Pressure  |
-| -------------------- | ---------------- | ------------------------------------ | ------------------ |
-| Standard Check Valve | `@check_valve`   | Allows flow in one direction         | 0.05-0.5 bar       |
-| Pilot-Operated Check | `@pilot_check`   | Opens reverse flow with pilot signal | Locked until pilot |
-| Shuttle Valve (OR)   | `@shuttle_valve` | Selects higher of two pressures      | Logic element      |
-| Two-Pressure Valve   | `@two_pressure`  | Requires both inputs (AND logic)     | Logic element      |
+| Component           | Type ID         | Description                              | Use Case          |
+| ------------------- | --------------- | ---------------------------------------- | ----------------- |
+| Flow Control        | `FLOW_CONTROL`  | Regulates flow rate                      | Speed control     |
+| Throttle Valve      | `THROTTLE`      | Restricts flow in both directions        | Speed control     |
+| Quick Exhaust Valve | `QUICK_EXHAUST` | Rapid exhaust close to cylinder          | Fast retraction   |
+| Check Valve         | `CHECK_VALVE`   | Allows flow in one direction             | Prevent backflow  |
+| Exhaust Port        | `EXHAUST`       | Exhaust to atmosphere                    | Venting           |
+| Muffler             | `MUFFLER`       | Reduces exhaust noise                    | Noise reduction   |
 
 ### Pneumatic Actuators
 
-| Actuator Type          | Symbol ID              | Description                          | Force/Torque Range   |
-| ---------------------- | ---------------------- | ------------------------------------ | -------------------- |
-| Single-Acting Cylinder | `@cylinder_single`     | Spring return, push or pull          | 10-5000 N @ 6 bar    |
-| Double-Acting Cylinder | `@cylinder_double`     | Powered both directions              | 20-10000 N @ 6 bar   |
-| Rodless Cylinder       | `@cylinder_rodless`    | Magnetic or cable coupling           | Long stroke (1-10 m) |
-| Telescopic Cylinder    | `@cylinder_telescopic` | Multi-stage for compact installation | 2-5 stages           |
-| Rotary Actuator        | `@rotary_actuator`     | Limited rotation (90°, 180°, 270°)   | 1-1000 Nm            |
-| Pneumatic Motor        | `@motor_pneumatic`     | Continuous rotation                  | 0.1-20 kW            |
-| Parallel Gripper       | `@gripper_parallel`    | Two-jaw parallel grip                | 50-2000 N grip       |
-| Angular Gripper        | `@gripper_angular`     | Pivoting jaw grip                    | 20-500 N grip        |
-| Vacuum Gripper         | `@vacuum_gripper`      | Suction cup handling                 | -0.8 bar vacuum      |
+| Actuator Type          | Type ID             | Description                          | Force/Torque Range   |
+| ---------------------- | ------------------- | ------------------------------------ | -------------------- |
+| Single-Acting Cylinder | `CYL_SA`            | Spring return, push or pull          | 10-5000 N @ 6 bar    |
+| Double-Acting Cylinder | `CYL_DA`            | Powered both directions              | 20-10000 N @ 6 bar   |
+| Rodless Cylinder       | `CYL_RODLESS`       | Magnetic or cable coupling           | Long stroke (1-10 m) |
+| Telescopic Cylinder    | `CYL_TELESCOPIC_P`  | Multi-stage for compact installation | 2-5 stages           |
+| Rotary Actuator        | `ROTARY_ACTUATOR`   | Limited rotation (90°, 180°, 270°)   | 1-1000 Nm            |
+| Pneumatic Motor        | `MOTOR_PNEUMATIC`   | Continuous rotation                  | 0.1-20 kW            |
+| Parallel Gripper       | `GRIPPER_PARALLEL`  | Two-jaw parallel grip                | 50-2000 N grip       |
+| Angular Gripper        | `GRIPPER_ANGULAR`   | Pivoting jaw grip                    | 20-500 N grip        |
+| Vacuum Gripper         | `GRIPPER_VACUUM`    | Suction cup handling                 | -0.8 bar vacuum      |
 
-### Sensors and Switches
+### Sensors and Gauges
 
-| Component        | Symbol ID          | Part Type      | Description                    | Output Type      |
-| ---------------- | ------------------ | -------------- | ------------------------------ | ---------------- |
-| Limit Switch     | `@limit_switch`    | N/A            | Detects cylinder position      | NO/NC mechanical |
-| Reed Switch      | `@reed_switch`     | N/A            | Magnetic position sensing      | NO/NC reed       |
-| Proximity Sensor | `@prox_sensor`     | `SENSOR_PROX`  | Non-contact position detection | NPN/PNP 3-wire   |
-| Pressure Sensor  | `@pressure_sensor` | `SENSOR_PRESS` | Analog pressure measurement    | 4-20 mA, 0-10V   |
-| Vacuum Switch    | `@vacuum_switch`   | N/A            | Detects vacuum level           | -1 to 0 bar      |
-| Flow Sensor      | `@flow_sensor`     | N/A            | Measures flow rate             | Pulse output     |
-
-**Available Sensor Types:**
-
-- `SENSOR_PROX` - Proximity sensor for detecting cylinder position (extended/retracted). Compact rectangular design with sensing indicator.
-- `SENSOR_PRESS` - Pressure sensor for electronic pressure measurement and monitoring. Outputs analog signal proportional to pressure.
+| Component        | Type ID        | Description                    | Output Type      |
+| ---------------- | -------------- | ------------------------------ | ---------------- |
+| Proximity Sensor | `SENSOR_PROX`  | Non-contact position detection | NPN/PNP 3-wire   |
+| Pressure Sensor  | `SENSOR_PRESS` | Analog pressure measurement    | 4-20 mA, 0-10V   |
+| Flow Sensor      | `FLOW_SENSOR`  | Measures flow rate             | Pulse output     |
+| Pressure Gauge   | `GAUGE_P`      | Visual pressure indication     | 0-10 bar typical |
 
 ### Vacuum Components
 
-| Component         | Symbol ID           | Description                        | Specification      |
+| Component         | Type ID             | Description                        | Specification      |
 | ----------------- | ------------------- | ---------------------------------- | ------------------ |
-| Venturi Generator | `@vacuum_generator` | Creates vacuum from compressed air | -85 kPa max        |
-| Vacuum Pump       | `@vacuum_pump`      | Electric vacuum pump               | 20-200 L/min       |
-| Vacuum Reservoir  | `@vacuum_reservoir` | Stores vacuum                      | 1-50 L             |
-| Suction Cup       | `@suction_cup`      | Vacuum gripper pad                 | 10-200 mm diameter |
-| Vacuum Filter     | `@vacuum_filter`    | Protects generator from particles  | 40 micron          |
-| Vacuum Switch     | `@vacuum_switch`    | Confirms sufficient vacuum         | -0.5 bar setpoint  |
-| Blow-Off Valve    | `@blow_off`         | Releases vacuum quickly            | Quick release      |
-
-### Accessories
-
-| Component            | Symbol ID         | Description              | Specification         |
-| -------------------- | ----------------- | ------------------------ | --------------------- |
-| Muffler              | `@muffler`        | Reduces exhaust noise    | -20 to -40 dB         |
-| Silencer             | `@silencer`       | Inline noise reduction   | -15 dB                |
-| Air Nozzle           | `@air_nozzle`     | Focused air blast        | Various patterns      |
-| Air Knife            | `@air_knife`      | Continuous air curtain   | 100-500 mm wide       |
-| Manual Valve         | `@manual_valve`   | Hand-operated isolation  | Ball, butterfly       |
-| Safety Coupling      | `@quick_coupling` | Quick connect/disconnect | Push-to-connect       |
-| Pressure Intensifier | `@intensifier`    | Boosts pressure locally  | 2:1 to 8:1 ratio      |
-| Air Counter          | `@counter`        | Counts cycles            | Mechanical/electronic |
+| Venturi Generator | `VACUUM_GENERATOR`  | Creates vacuum from compressed air | -85 kPa max        |
+| Vacuum Pump       | `VACUUM_PUMP`       | Electric vacuum pump               | 20-200 L/min       |
+| Vacuum Reservoir  | `VACUUM_RESERVOIR`  | Stores vacuum                      | 1-50 L             |
+| Suction Cup       | `SUCTION_CUP`       | Vacuum gripper pad                 | 10-200 mm diameter |
+| Vacuum Filter     | `VACUUM_FILTER`     | Protects generator from particles  | 40 micron          |
+| Vacuum Switch     | `VACUUM_SWITCH`     | Confirms sufficient vacuum         | -0.5 bar setpoint  |
+| Blow-Off Valve    | `BLOW_OFF`          | Releases vacuum quickly            | Quick release      |
 
 ## Cylinder Sizing Guidelines
 
@@ -321,7 +285,7 @@ pneumatic "Automotive Door Installation Fixture" {
   part filterPart type:FILTER pins:(SUPPLY,SUPPLY) doc:"Air Filter"
   part regulatorPart type:REGULATOR pins:(SUPPLY,SUPPLY) doc:"Pressure Regulator"
   part lubricatorPart type:LUBRICATOR pins:(SUPPLY,CTRL) doc:"Lubricator"
-  part valve_lift type:valve_52 pins:(LIFT_LINE) doc:"Lift Valve"
+  part valve_lift type:VALVE_52 pins:(LIFT_LINE) doc:"Lift Valve"
   part cylinder_lift_left type:CYL_DA pins:(LIFT_LINE) doc:"Left Lift Cylinder"
   part cylinder_lift_right type:CYL_DA pins:(LIFT_LINE) doc:"Right Lift Cylinder"
   part valve_clamp type:VALVE_52 pins:(CLAMP_LINE) doc:"Clamp Valve"

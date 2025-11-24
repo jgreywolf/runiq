@@ -1,6 +1,6 @@
 /**
- * Tests for ISO 1219 Pneumatic & Hydraulic Symbols
- * Following ISO 1219-1:2012 (Pneumatic) and ISO 1219-2:2012 (Hydraulic)
+ * Tests for ISO 1219 Pneumatic
+ * Following ISO 1219-1:2012 (Pneumatic)
  *
  * @vitest
  */

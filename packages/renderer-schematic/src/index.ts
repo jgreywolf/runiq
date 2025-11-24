@@ -132,8 +132,8 @@ export function renderSchematic(
   // Route wires between components (with routing mode)
   const wires = routeWires(netMap, connections, gridSize, routing);
 
-  // Calculate bounds
-  const bounds = calculateBounds(positioned, wires);
+  // Calculate bounds (including space for metadata)
+  const bounds = calculateBounds(positioned, wires, profile);
 
   // Determine CSS class prefix based on profile type
   const classPrefix =
@@ -371,7 +371,8 @@ function routeWires(
  */
 function calculateBounds(
   positioned: PositionedComponent[],
-  wires: { net: string; points: { x: number; y: number }[] }[]
+  wires: { net: string; points: { x: number; y: number }[] }[],
+  profile: RenderableProfile
 ): { width: number; height: number; minX: number; minY: number } {
   let minX = Infinity;
   let minY = Infinity;
@@ -394,10 +395,19 @@ function calculateBounds(
     }
   }
 
+  // Calculate metadata height (for hydraulic/pneumatic profiles)
+  let metadataHeight = 0;
+  if ('pressure' in profile && profile.pressure) metadataHeight += 18;
+  if ('flowRate' in profile && profile.flowRate) metadataHeight += 18;
+  if ('fluid' in profile && profile.fluid) {
+    metadataHeight += 18; // Fluid type line
+    if (profile.fluid.temperature) metadataHeight += 18; // Temperature line
+  }
+
   const padding = 40;
   return {
     width: maxX - minX + padding * 2,
-    height: maxY - minY + padding * 2,
+    height: maxY - minY + padding * 2 + metadataHeight + 20, // Add metadata space + margin
     minX: minX - padding,
     minY: minY - padding,
   };

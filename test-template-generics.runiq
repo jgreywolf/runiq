@@ -1,0 +1,11 @@
+// Test template shape with generic type parameters
+diagram "Generic Repository Pattern" {
+  shape repository as @template label:"Repository<T>"
+  shape userRepo as @template label:"Repository<User>"
+  shape orderRepo as @template label:"Repository<Order>"
+  shape productRepo as @template label:"Repository<Product>"
+
+  userRepo -> repository relationship:realization
+  orderRepo -> repository relationship:realization
+  productRepo -> repository relationship:realization
+}

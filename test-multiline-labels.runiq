@@ -1,0 +1,18 @@
+// Test multiline labels with \n escape sequence
+diagram "Multiline Label Test" {
+  direction LR
+
+  # Test shape labels with \n
+  shape a as @rect label:"Line 1\nLine 2\nLine 3"
+  shape b as @c4System label:"Internet Banking\nSystem"
+  shape c as @c4Person label:"John\nDoe"
+
+  # Test edge labels with \n
+  a -> b label:"Edge with\nmultiple lines"
+  b -> c label:"Another\nmultiline\nedge"
+
+  # BPMN event with multiline label
+  shape event as @bpmnEvent
+    label:"Message\nReceived"
+    data:[{"eventType":"start"}]
+}

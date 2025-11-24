@@ -57,23 +57,23 @@ Standard SPICE suffixes: f, p, n, u, m, k, Meg, G
 
 ## Comparison with Other Tools
 
-| Feature                      | Runiq                     | Mermaid | PlantUML | Lucidchart         | Draw.io       | LTspice          | KiCad            |
-| ---------------------------- | ------------------------- | ------- | -------- | ------------------ | ------------- | ---------------- | ---------------- |
-| **Text-Based DSL**           | ✅                        | ❌      | ❌       | ❌(GUI)            | ❌(GUI)       | ⚠️ Netlist only  | ❌(GUI)          |
-| **Version Control Friendly** | ✅                        | ❌      | ❌       | ⚠️ Limited         | ⚠️ Limited    | ⚠️ Netlist only  | ⚠️ Complex files |
-| **Automatic Layout**         | ✅ ELK                    | ❌      | ❌       | ⚠️ Manual          | ⚠️ Manual     | ⚠️ Manual        | ⚠️ Manual        |
-| **IEEE Standard Symbols**    | ✅                        | ❌      | ❌       | ✅                 | ✅            | ✅               | ✅               |
-| **SPICE Export**             | ✅ Native netlist         | ❌      | ❌       | ❌                 | ❌            | ✅               | ✅               |
-| **Circuit Simulation**       | ⚠️ Via SPICE export       | ❌      | ❌       | ❌                 | ❌            | ✅ Built-in      | ⚠️ Via ngspice   |
-| **Component Library**        | ✅ R, L, C, V, I, D, Q, M | ❌      | ❌       | ✅ Extensive       | ✅ Extensive  | ✅ Extensive     | ✅ Massive       |
-| **Analysis Types**           | ✅ op, tran, ac, dc       | ❌      | ❌       | ❌                 | ❌            | ✅ All types     | ✅ All types     |
-| **Net Naming**               | ✅ Descriptive names      | ❌      | ❌       | ✅ Manual          | ✅ Manual     | ✅ Node numbers  | ✅ Net names     |
-| **PCB Design**               | ❌                        | ❌      | ❌       | ⚠️ Basic           | ⚠️ Basic      | ❌               | ✅ support       |
-| **Schematic Capture**        | ✅ Text-based             | ❌      | ❌       | ✅ GUI             | ✅ GUI        | ✅ GUI           | ✅ GUI           |
-| **Export Formats**           | ✅ SVG, PNG, SPICE        | ❌      | ❌       | ✅ Many formats    | ✅ Many       | ✅ PNG, PDF      | ✅ Many          |
-| **Collaboration**            | ✅ Git-based              | ❌      | ❌       | ✅ Cloud (Paid)    | ✅ Cloud      | ❌ Desktop-based | ✅ Git-friendly  |
-| **Learning Curve**           | ⚠️ Moderate (DSL)         | ❌      | ❌       | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate      | ❌ High          |
-| **Open Source**              | ✅ MIT License            | ✅ MIT  | ✅ GPL   | ❌ Commercial only | ✅ Apache 2.0 | ⚠️ Freeware      | ✅ GPL           |
+| Feature                      | Runiq                     | Lucidchart         | Draw.io       | LTspice          | KiCad            |
+| ---------------------------- | ------------------------- | ------------------ | ------------- | ---------------- | ---------------- |
+| **Text-Based DSL**           | ✅                        | ❌(GUI)            | ❌(GUI)       | ⚠️ Netlist only  | ❌(GUI)          |
+| **Version Control Friendly** | ✅                        | ⚠️ Limited         | ⚠️ Limited    | ⚠️ Netlist only  | ⚠️ Complex files |
+| **Automatic Layout**         | ✅ ELK                    | ⚠️ Manual          | ⚠️ Manual     | ⚠️ Manual        | ⚠️ Manual        |
+| **IEEE Standard Symbols**    | ✅                        | ✅                 | ✅            | ✅               | ✅               |
+| **SPICE Export**             | ✅ Native netlist         | ❌                 | ❌            | ✅               | ✅               |
+| **Circuit Simulation**       | ⚠️ Via SPICE export       | ❌                 | ❌            | ✅ Built-in      | ⚠️ Via ngspice   |
+| **Component Library**        | ✅ R, L, C, V, I, D, Q, M | ✅ Extensive       | ✅ Extensive  | ✅ Extensive     | ✅ Massive       |
+| **Analysis Types**           | ✅ op, tran, ac, dc       | ❌                 | ❌            | ✅ All types     | ✅ All types     |
+| **Net Naming**               | ✅ Descriptive names      | ✅ Manual          | ✅ Manual     | ✅ Node numbers  | ✅ Net names     |
+| **PCB Design**               | ❌                        | ⚠️ Basic           | ⚠️ Basic      | ❌               | ✅ Full support  |
+| **Schematic Capture**        | ✅ Text-based             | ✅ GUI             | ✅ GUI        | ✅ GUI           | ✅ GUI           |
+| **Export Formats**           | ✅ SVG, PNG, SPICE        | ✅ Many formats    | ✅ Many       | ✅ PNG, PDF      | ✅ Many          |
+| **Collaboration**            | ✅ Git-based              | ✅ Cloud (Paid)    | ✅ Cloud      | ❌ Desktop-based | ✅ Git-friendly  |
+| **Learning Curve**           | ⚠️ Moderate (DSL)         | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate      | ❌ High          |
+| **Open Source**              | ✅ MIT License            | ❌ Commercial only | ✅ Apache 2.0 | ⚠️ Freeware      | ✅ GPL           |
 
 **Runiq Advantages:**
 
