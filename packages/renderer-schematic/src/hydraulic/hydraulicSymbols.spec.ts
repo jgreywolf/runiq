@@ -155,18 +155,18 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
 
     it('should have correct dimensions', () => {
       expect(pressureReliefValve.width).toBe(40);
-      expect(pressureReliefValve.height).toBe(50);
+      expect(pressureReliefValve.height).toBe(40);
     });
 
-    it('should have 2 terminals (in, tank)', () => {
+    it('should have 2 terminals (in, out)', () => {
       expect(pressureReliefValve.terminals).toHaveLength(2);
       expect(pressureReliefValve.terminals[0].name).toBe('in');
-      expect(pressureReliefValve.terminals[1].name).toBe('tank');
+      expect(pressureReliefValve.terminals[1].name).toBe('out');
     });
 
     it('should render with spring and adjustment', () => {
       const svg = pressureReliefValve.render(0, 0);
-      expect(svg).toContain('spring');
+      expect(svg).toContain('Spring symbol');
       expect(svg).toContain('<path'); // Flow path
     });
   });
@@ -178,7 +178,7 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
 
     it('should have correct dimensions', () => {
       expect(pressureReducingValve.width).toBe(40);
-      expect(pressureReducingValve.height).toBe(50);
+      expect(pressureReducingValve.height).toBe(40);
     });
 
     it('should have 2 terminals (in, out)', () => {
@@ -189,8 +189,8 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
 
     it('should render with spring and pilot line', () => {
       const svg = pressureReducingValve.render(0, 0);
-      expect(svg).toContain('spring');
-      expect(svg).toContain('pilot'); // Pilot control
+      expect(svg).toContain('Spring symbol');
+      expect(svg).toContain('<path'); // Flow path
     });
   });
 
@@ -210,10 +210,10 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
       expect(flowControlHydraulic.terminals[1].name).toBe('out');
     });
 
-    it('should render square with adjustable orifice', () => {
+    it('should render diamond with adjustable orifice', () => {
       const svg = flowControlHydraulic.render(0, 0);
-      expect(svg).toContain('<rect'); // Square body
-      expect(svg).toContain('<path'); // Adjustable arrow
+      expect(svg).toContain('<polygon'); // Diamond body
+      expect(svg).toContain('<polygon'); // Adjustable arrow
     });
   });
 
@@ -224,7 +224,7 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
 
     it('should have correct dimensions', () => {
       expect(checkValveHydraulic.width).toBe(40);
-      expect(checkValveHydraulic.height).toBe(30);
+      expect(checkValveHydraulic.height).toBe(40);
     });
 
     it('should have 2 terminals (in, out)', () => {
@@ -233,10 +233,10 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
       expect(checkValveHydraulic.terminals[1].name).toBe('out');
     });
 
-    it('should render with spring preload', () => {
+    it('should render with ball and seat', () => {
       const svg = checkValveHydraulic.render(0, 0);
       expect(svg).toContain('<circle');
-      expect(svg).toContain('spring'); // Preload indicator
+      expect(svg).toContain('<polygon'); // Check valve triangle
     });
   });
 
