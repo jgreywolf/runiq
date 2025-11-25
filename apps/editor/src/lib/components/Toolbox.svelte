@@ -28,6 +28,7 @@
 		if (code.startsWith('hydraulic')) return 'hydraulic';
 		if (code.startsWith('wardley')) return 'wardley';
 		if (code.startsWith('sequence')) return 'sequence';
+		if (code.startsWith('glyphset')) return 'glyphset';
 		return 'diagram'; // default
 	});
 
@@ -38,6 +39,7 @@
 	let isPneumaticMode = $derived(currentProfile === 'pneumatic');
 	let isHydraulicMode = $derived(currentProfile === 'hydraulic');
 	let isSequenceMode = $derived(currentProfile === 'sequence');
+	let isGlyphsetMode = $derived(currentProfile === 'glyphset');
 
 	// Filter categories based on current profile
 	let displayedCategories = $derived(
@@ -70,6 +72,11 @@
 
 <Tooltip.Provider delayDuration={200}>
 	<div class="flex h-full flex-col">
+		{#if isGlyphsetMode}
+			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
+				<p class="text-xs font-medium text-amber-900">🔣 Glyph Set Mode</p>
+			</div>
+		{/if}
 		{#if isSequenceMode}
 			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
 				<p class="text-xs font-medium text-amber-900">⚡ Sequence Diagram Mode</p>

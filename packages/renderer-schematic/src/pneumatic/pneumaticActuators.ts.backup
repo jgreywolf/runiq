@@ -3,7 +3,6 @@
 // ============================================================================
 
 import { createSymbol } from '../symbol.ts';
-import { renderConnectionLine } from '../symbol-utils.ts';
 
 /**
  * Single-Acting Cylinder (spring return)
@@ -29,7 +28,8 @@ export const cylinderSingleActing = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- piston rod line -->
-      ${renderConnectionLine(left, cy, left + 10, cy, { strokeWidth: 2 })}
+      <line x1="${left}" y1="${cy}" x2="${left + 10}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Port A circle -->
       <circle cx="${cx}" cy="${bottom}" r="2" fill="currentColor"/>
@@ -69,7 +69,8 @@ export const cylinderDoubleActing = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- piston rod line -->
-      ${renderConnectionLine(left, cy, left + 10, cy, { strokeWidth: 2 })}
+      <line x1="${left}" y1="${cy}" x2="${left + 10}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Port A circle (left) -->
       <circle cx="${cx - 10}" cy="${bottom}" r="2" fill="currentColor"/>
@@ -146,7 +147,8 @@ export const cylinderTelescopic = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Inner rod -->
-      ${renderConnectionLine(left, cy, left + 15, cy, { strokeWidth: 2 })}
+      <line x1="${left}" y1="${cy}" x2="${left + 15}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Port A circle -->
       <circle cx="${cx}" cy="${bottom}" r="2" fill="currentColor"/>
@@ -191,7 +193,8 @@ export const rotaryActuator = createSymbol(
         fill="currentColor"/>
 
       <!-- Output shaft -->
-      ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 5}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Port connections -->
       <circle cx="${cx - 15}" cy="${cy + radius + 5}" r="2" fill="currentColor"/>
@@ -232,7 +235,8 @@ export const motorPneumatic = createSymbol(
         fill="currentColor"/>
 
       <!-- Output shaft -->
-      ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 5}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Port connections -->
       <circle cx="${cx - 15}" cy="${cy + radius + 5}" r="2" fill="currentColor"/>
@@ -281,10 +285,12 @@ export const gripperParallel = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Movement arrows -->
-      ${renderConnectionLine(cx - 12, cy, cx - 8, cy, { strokeWidth: 1.5 })}
+      <line x1="${cx - 12}" y1="${cy}" x2="${cx - 8}" y2="${cy}"
+        stroke="currentColor" stroke-width="1.5" stroke-dasharray="2,2"/>
       <polygon points="${cx - 8},${cy} ${cx - 11},${cy - 2} ${cx - 11},${cy + 2}"
         fill="currentColor"/>
-      ${renderConnectionLine(cx + 12, cy, cx + 8, cy, { strokeWidth: 1.5 })}
+      <line x1="${cx + 12}" y1="${cy}" x2="${cx + 8}" y2="${cy}"
+        stroke="currentColor" stroke-width="1.5" stroke-dasharray="2,2"/>
       <polygon points="${cx + 8},${cy} ${cx + 11},${cy - 2} ${cx + 11},${cy + 2}"
         fill="currentColor"/>
 
@@ -314,14 +320,18 @@ export const gripperAngular = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Left jaw (angled) -->
-      ${renderConnectionLine(cx - width / 2, cy - height / 4, cx - width / 2 - 10, cy + height / 2, { strokeWidth: 3 })}
+      <line x1="${cx - width / 2}" y1="${cy - height / 4}"
+            x2="${cx - width / 2 - 10}" y2="${cy + height / 2}"
+        stroke="currentColor" stroke-width="3"/>
       <polygon points="${cx - width / 2 - 10},${cy + height / 2}
                        ${cx - width / 2 - 15},${cy + height / 2 - 5}
                        ${cx - width / 2 - 12},${cy + height / 2 + 3}"
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Right jaw (angled) -->
-      ${renderConnectionLine(cx + width / 2, cy - height / 4, cx + width / 2 + 10, cy + height / 2, { strokeWidth: 3 })}
+      <line x1="${cx + width / 2}" y1="${cy - height / 4}"
+            x2="${cx + width / 2 + 10}" y2="${cy + height / 2}"
+        stroke="currentColor" stroke-width="3"/>
       <polygon points="${cx + width / 2 + 10},${cy + height / 2}
                        ${cx + width / 2 + 15},${cy + height / 2 - 5}
                        ${cx + width / 2 + 12},${cy + height / 2 + 3}"
@@ -368,7 +378,8 @@ export const gripperVacuum = createSymbol(
         text-anchor="middle" fill="currentColor">V</text>
 
       <!-- Connection line -->
-      ${renderConnectionLine(cx, cy - radius - 10, cx, cy - radius - 15, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - radius - 10}" x2="${cx}" y2="${cy - radius - 15}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );

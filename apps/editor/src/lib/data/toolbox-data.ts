@@ -43,7 +43,6 @@ export const shapeCategories: ShapeCategory[] = [
 	...flowchartShapeIcons,
 	...containerTemplateShapeIcons,
 	...umlShapeIcons,
-	...sequenceShapeIcons,
 	...erdShapeIcons,
 	...storageShapeIcons,
 	...bpmnShapeIcons,
@@ -55,9 +54,10 @@ export const shapeCategories: ShapeCategory[] = [
 	...chartShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,
+	...sequenceShapeIcons,
 	...electricalShapeIcons,
-	...pneumaticShapeIcons,
-	...hydraulicShapeIcons,
 	...logicGateShapeIcons,
-	...digitalComponentShapeIcons
+	...digitalComponentShapeIcons,
+	...pneumaticShapeIcons,
+	...hydraulicShapeIcons
 ];

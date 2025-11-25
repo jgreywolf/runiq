@@ -6,7 +6,6 @@
  */
 
 import { createSymbol } from './symbol.ts';
-import { renderConnectionLine, renderCircleBody } from './symbol-utils.ts';
 
 /**
  * Resistor (IEEE style - zigzag)
@@ -51,10 +50,14 @@ export const capacitor = createSymbol(
     const plateRight = cx + 3;
 
     return `
-      ${renderConnectionLine(left, cy, plateLeft, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(plateLeft, cy - 10, plateLeft, cy + 10, { strokeWidth: 2 })}
-      ${renderConnectionLine(plateRight, cy - 10, plateRight, cy + 10, { strokeWidth: 2 })}
-      ${renderConnectionLine(plateRight, cy, right, cy, { strokeWidth: 2 })}
+      <line x1="${left}" y1="${cy}" x2="${plateLeft}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${plateLeft}" y1="${cy - 10}" x2="${plateLeft}" y2="${cy + 10}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${plateRight}" y1="${cy - 10}" x2="${plateRight}" y2="${cy + 10}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${plateRight}" y1="${cy}" x2="${right}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -107,14 +110,20 @@ export const voltageSource = createSymbol(
     const right = cx + 20;
 
     return `
-      ${renderCircleBody(cx, cy, radius, { strokeWidth: 2 })}
-      ${renderConnectionLine(left, cy, cx - radius, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + radius, cy, right, cy, { strokeWidth: 2 })}
-      <text x="${cx - 6}" y="${cy + 4}"
-        font-family="sans-serif"
-        font-size="12"
+      <circle cx="${cx}" cy="${cy}" r="${radius}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <line x1="${left}" y1="${cy}" x2="${cx - radius}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${right}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="${cx - 6}" y="${cy + 4}" 
+        font-family="sans-serif" 
+        font-size="12" 
         fill="currentColor">+</text>
-      ${renderConnectionLine(cx - radius + 10, cy, cx - radius + 4, cy, { strokeWidth: 1.5 })}
+      <line x1="${cx - radius + 10}" y1="${cy}" x2="${cx - radius + 4}" y2="${cy}" 
+        stroke="currentColor" stroke-width="1.5"/>
     `;
   }
 );
@@ -136,11 +145,17 @@ export const currentSource = createSymbol(
     const right = cx + 20;
 
     return `
-      ${renderCircleBody(cx, cy, radius, { strokeWidth: 2 })}
-      ${renderConnectionLine(left, cy, cx - radius, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + radius, cy, right, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx, cy - 8, cx, cy + 8, { strokeWidth: 1.5 })}
-      <path d="M ${cx},${cy - 8} l -3,3 l 6,0 z"
+      <circle cx="${cx}" cy="${cy}" r="${radius}" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <line x1="${left}" y1="${cy}" x2="${cx - radius}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${right}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${cy - 8}" x2="${cx}" y2="${cy + 8}" 
+        stroke="currentColor" stroke-width="1.5"/>
+      <path d="M ${cx},${cy - 8} l -3,3 l 6,0 z" 
         fill="currentColor"/>
     `;
   }
@@ -156,10 +171,14 @@ export const ground = createSymbol(
   [{ x: 15, y: 0, name: 'terminal' }],
   (cx, cy) => {
     return `
-      ${renderConnectionLine(cx, cy - 12, cx, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx - 10, cy, cx + 10, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx - 6, cy + 4, cx + 6, cy + 4, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx - 3, cy + 8, cx + 3, cy + 8, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - 12}" x2="${cx}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx - 10}" y1="${cy}" x2="${cx + 10}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx - 6}" y1="${cy + 4}" x2="${cx + 6}" y2="${cy + 4}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx - 3}" y1="${cy + 8}" x2="${cx + 3}" y2="${cy + 8}" 
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -180,13 +199,16 @@ export const diode = createSymbol(
     const right = cx + 20;
 
     return `
-      ${renderConnectionLine(left, cy, cx - 8, cy, { strokeWidth: 2 })}
-      <path d="M ${cx - 8},${cy - 8} l 0,16 l 16,-8 z"
-        fill="currentColor"
-        stroke="currentColor"
+      <line x1="${left}" y1="${cy}" x2="${cx - 8}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M ${cx - 8},${cy - 8} l 0,16 l 16,-8 z" 
+        fill="currentColor" 
+        stroke="currentColor" 
         stroke-width="1"/>
-      ${renderConnectionLine(cx + 8, cy - 8, cx + 8, cy + 8, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + 8, cy, right, cy, { strokeWidth: 2 })}
+      <line x1="${cx + 8}" y1="${cy - 8}" x2="${cx + 8}" y2="${cy + 8}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + 8}" y1="${cy}" x2="${right}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -207,13 +229,16 @@ export const led = createSymbol(
     const right = cx + 20;
 
     return `
-      ${renderConnectionLine(left, cy, cx - 8, cy, { strokeWidth: 2 })}
-      <path d="M ${cx - 8},${cy - 8} l 0,16 l 16,-8 z"
-        fill="white"
-        stroke="currentColor"
+      <line x1="${left}" y1="${cy}" x2="${cx - 8}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M ${cx - 8},${cy - 8} l 0,16 l 16,-8 z" 
+        fill="white" 
+        stroke="currentColor" 
         stroke-width="2"/>
-      ${renderConnectionLine(cx + 8, cy - 8, cx + 8, cy + 8, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + 8, cy, right, cy, { strokeWidth: 2 })}
+      <line x1="${cx + 8}" y1="${cy - 8}" x2="${cx + 8}" y2="${cy + 8}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + 8}" y1="${cy}" x2="${right}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
       <!-- Light rays -->
       <path d="M ${cx + 5},${cy - 12} l 3,-3" stroke="currentColor" stroke-width="1"/>
       <path d="M ${cx + 8},${cy - 12} l 3,-4" stroke="currentColor" stroke-width="1"/>
@@ -255,15 +280,20 @@ export const npnTransistor = createSymbol(
 
     return `
       <!-- Base connection -->
-      ${renderConnectionLine(baseX, cy, verticalLine, cy, { strokeWidth: 2 })}
+      <line x1="${baseX}" y1="${cy}" x2="${verticalLine}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
       <!-- Vertical base line -->
-      ${renderConnectionLine(verticalLine, cy - 15, verticalLine, cy + 15, { strokeWidth: 3 })}
+      <line x1="${verticalLine}" y1="${cy - 15}" x2="${verticalLine}" y2="${cy + 15}" 
+        stroke="currentColor" stroke-width="3"/>
       <!-- Collector -->
-      ${renderConnectionLine(verticalLine, cy - 10, cx, cy - 30, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx, cy - 30, cx, cy - 30, { strokeWidth: 2 })}
+      <line x1="${verticalLine}" y1="${cy - 10}" x2="${cx}" y2="${cy - 30}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${cy - 30}" x2="${cx}" y2="${cy - 30}" 
+        stroke="currentColor" stroke-width="2"/>
       <!-- Emitter with arrow -->
-      ${renderConnectionLine(verticalLine, cy + 10, cx, cy + 30, { strokeWidth: 2 })}
-      <path d="M ${cx - 3},${cy + 25} l 3,5 l -6,0 z"
+      <line x1="${verticalLine}" y1="${cy + 10}" x2="${cx}" y2="${cy + 30}" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M ${cx - 3},${cy + 25} l 3,5 l -6,0 z" 
         fill="currentColor"/>
     `;
   }

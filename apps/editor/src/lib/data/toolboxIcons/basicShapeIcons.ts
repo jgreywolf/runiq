@@ -18,26 +18,7 @@ export const basicShapeIcons: ShapeCategory[] = [
 				label: 'Small Circle',
 				code: 'shape id as @smallCircle label:"Label"'
 			},
-			{
-				id: 'doubleCircle',
-				label: 'Double Circle',
-				code: 'shape id as @doubleCircle label:"Label"'
-			},
-			{
-				id: 'framedCircle',
-				label: 'Framed Circle',
-				code: 'shape id as @framedCircle label:"Label"'
-			},
-			{
-				id: 'crossCircle',
-				label: 'Cross Circle',
-				code: 'shape id as @crossCircle label:"Label"'
-			},
-			{
-				id: 'filledCircle',
-				label: 'Filled Circle',
-				code: 'shape id as @filledCircle label:"Label"'
-			},
+			{ id: 'cylinder', label: 'Database', code: 'shape id as @cylinder label:"Database"' },
 			{ id: 'ellipseWide', label: 'Ellipse', code: 'shape id as @ellipseWide label:"Label"' },
 			{ id: 'rhombus', label: 'Diamond', code: 'shape id as @rhombus label:"Label"' },
 			{ id: 'hexagon', label: 'Hexagon', code: 'shape id as @hexagon label:"Label"' },

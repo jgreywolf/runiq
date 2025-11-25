@@ -3,7 +3,6 @@
 // ============================================================================
 
 import { createSymbol } from '../symbol.ts';
-import { renderConnectionLine } from '../symbol-utils.ts';
 
 /**
  * Hydraulic Motor
@@ -31,12 +30,15 @@ export const motorHydraulic = createSymbol(
         stroke="currentColor" stroke-width="1.5" fill="none"/>
 
       <!-- shaft line extending from center -->
-      ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 7, { strokeWidth: 3 })}
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
       <text x="${cx + 12}" y="${cy - radius - 5}" font-size="7" fill="currentColor">shaft</text>
 
       <!-- Connection lines -->
-      ${renderConnectionLine(cx - radius - 7, cy, cx - radius, cy, { strokeWidth: 2.5 })}
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 7, cy, { strokeWidth: 2.5 })}
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
     `;
   }
 );
@@ -73,11 +75,14 @@ export const motorGear = createSymbol(
       <path d="M ${cx - radius - 3},${cy} l 3,2 l 0,-2 l 0,-2 l -3,2" fill="currentColor"/>
 
       <!-- shaft line extending from center -->
-      ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 7, { strokeWidth: 3 })}
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
 
       <!-- Connection lines -->
-      ${renderConnectionLine(cx - radius - 7, cy, cx - radius, cy, { strokeWidth: 2.5 })}
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 7, cy, { strokeWidth: 2.5 })}
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
     `;
   }
 );
@@ -114,11 +119,14 @@ export const motorVane = createSymbol(
         stroke="currentColor" stroke-width="1.5"/>
 
       <!-- shaft line extending from center -->
-      ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 7, { strokeWidth: 3 })}
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
 
       <!-- Connection lines -->
-      ${renderConnectionLine(cx - radius - 7, cy, cx - radius, cy, { strokeWidth: 2.5 })}
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 7, cy, { strokeWidth: 2.5 })}
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
     `;
   }
 );
@@ -157,11 +165,14 @@ export const motorPistonAxial = createSymbol(
         stroke="currentColor" stroke-width="1.5"/>
 
       <!-- shaft line extending from center -->
-      ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 7, { strokeWidth: 3 })}
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
 
       <!-- Connection lines -->
-      ${renderConnectionLine(cx - radius - 7, cy, cx - radius, cy, { strokeWidth: 2.5 })}
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 7, cy, { strokeWidth: 2.5 })}
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
     `;
   }
 );
@@ -203,11 +214,14 @@ export const motorPistonRadial = createSymbol(
       <circle cx="${cx}" cy="${cy}" r="2" fill="currentColor"/>
 
       <!-- shaft line extending from center -->
-      ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 7, { strokeWidth: 3 })}
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
 
       <!-- Connection lines -->
-      ${renderConnectionLine(cx - radius - 7, cy, cx - radius, cy, { strokeWidth: 2.5 })}
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 7, cy, { strokeWidth: 2.5 })}
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
     `;
   }
 );
@@ -242,11 +256,14 @@ export const motorOrbit = createSymbol(
         stroke="currentColor" stroke-width="1.5" fill="none"/>
 
       <!-- shaft line extending from center -->
-      ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 7, { strokeWidth: 3 })}
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
 
       <!-- Connection lines -->
-      ${renderConnectionLine(cx - radius - 7, cy, cx - radius, cy, { strokeWidth: 2.5 })}
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 7, cy, { strokeWidth: 2.5 })}
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
     `;
   }
 );

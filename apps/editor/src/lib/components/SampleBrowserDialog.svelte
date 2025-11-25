@@ -30,7 +30,7 @@
 			description: 'Flowcharts, containers, templates',
 			color: 'runiq',
 			icon: 'diagram',
-			categoryIds: ['flowcharts', 'containers', 'templates', 'network', 'c4']
+			categoryIds: ['flowcharts', 'containers', 'templatesPresets', 'templates', 'network', 'c4', 'controlSystems']
 		},
 		{
 			id: 'glyphsets',
@@ -53,11 +53,11 @@
 			description: 'Activity, state, sequence, use case',
 			color: 'blue',
 			icon: 'uml',
-			categoryIds: ['uml', 'activity', 'stateMachine', 'sequence']
+			categoryIds: ['class', 'uml', 'activity', 'stateMachine', 'sequence']
 		},
 		{
 			id: 'technical',
-			label: 'Technical Systems',
+			label: 'Technical Schematics',
 			description: 'Electrical, pneumatic, hydraulic',
 			color: 'amber',
 			icon: 'circuit',

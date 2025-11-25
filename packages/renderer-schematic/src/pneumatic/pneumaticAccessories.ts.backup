@@ -3,7 +3,6 @@
 // ============================================================================
 
 import { createSymbol } from '../symbol.ts';
-import { renderConnectionLine } from '../symbol-utils.ts';
 
 // ============================================================================
 // Air Source & Preparation
@@ -31,7 +30,8 @@ export const airSource = createSymbol(
         stroke="currentColor" stroke-width="2" fill="currentColor"/>
 
       <!-- Output line -->
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 10, cy, { strokeWidth: 2 })}
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 10}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -64,8 +64,10 @@ export const pressureRegulator = createSymbol(
         fill="currentColor"/>
 
       <!-- Input/output lines -->
-      ${renderConnectionLine(cx, cy - height / 2 - 5, cx, cy - height / 2, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx, cy + height / 2, cx, cy + height / 2 + 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - height / 2 - 5}" x2="${cx}" y2="${cy - height / 2}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${cy + height / 2}" x2="${cx}" y2="${cy + height / 2 + 5}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -103,8 +105,10 @@ export const filterPneumatic = createSymbol(
       <circle cx="${cx + 5}" cy="${cy + height / 2 - 5}" r="1.5" fill="currentColor"/>
 
       <!-- Input/output lines -->
-      ${renderConnectionLine(cx, cy - height / 2 - 5, cx, cy - height / 2, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx, cy + height / 2, cx, cy + height / 2 + 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - height / 2 - 5}" x2="${cx}" y2="${cy - height / 2}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${cy + height / 2}" x2="${cx}" y2="${cy + height / 2 + 5}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -145,8 +149,10 @@ export const lubricator = createSymbol(
       <circle cx="${cx}" cy="${cy + 5}" r="2" stroke="currentColor" stroke-width="1" fill="currentColor"/>
 
       <!-- Input/output lines -->
-      ${renderConnectionLine(cx, cy - height / 2 - 5, cx, cy - height / 2, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx, cy + height / 2, cx, cy + height / 2 + 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - height / 2 - 5}" x2="${cx}" y2="${cy - height / 2}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${cy + height / 2}" x2="${cx}" y2="${cy + height / 2 + 5}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -256,12 +262,14 @@ export const compressor = createSymbol(
         text-anchor="middle" fill="currentColor">C</text>
 
       <!-- Inlet arrow -->
-      ${renderConnectionLine(cx - radius - 5, cy, cx - radius, cy, { strokeWidth: 2 })}
+      <line x1="${cx - radius - 5}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${cx - radius},${cy} ${cx - radius - 4},${cy - 3} ${cx - radius - 4},${cy + 3}"
         fill="currentColor"/>
 
       <!-- Outlet line -->
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 5, cy, { strokeWidth: 2 })}
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 5}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -303,8 +311,10 @@ export const flowControlPneumatic = createSymbol(
         fill="currentColor"/>
 
       <!-- Input/output lines -->
-      ${renderConnectionLine(cx - width / 2 - 5, cy, cx - width / 2, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + width / 2, cy, cx + width / 2 + 5, cy, { strokeWidth: 2 })}
+      <line x1="${cx - width / 2 - 5}" y1="${cy}" x2="${cx - width / 2}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + width / 2}" y1="${cy}" x2="${cx + width / 2 + 5}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -334,8 +344,10 @@ export const checkValvePneumatic = createSymbol(
         stroke="currentColor" stroke-width="2"/>
 
       <!-- Input/output lines -->
-      ${renderConnectionLine(cx - size / 2 - 5, cy, cx - size / 2, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + size / 2, cy, cx + size / 2 + 5, cy, { strokeWidth: 2 })}
+      <line x1="${cx - size / 2 - 5}" y1="${cy}" x2="${cx - size / 2}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + size / 2}" y1="${cy}" x2="${cx + size / 2 + 5}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -396,13 +408,18 @@ export const quickExhaust = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Exhaust ports (three lines radiating) -->
-      ${renderConnectionLine(cx - 10, cy, cx - radius, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + 5, cy - 8, cx + 12, cy - 12, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + 5, cy + 8, cx + 12, cy + 12, { strokeWidth: 2 })}
+      <line x1="${cx - 10}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + 5}" y1="${cy - 8}" x2="${cx + 12}" y2="${cy - 12}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + 5}" y1="${cy + 8}" x2="${cx + 12}" y2="${cy + 12}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Connections -->
-      ${renderConnectionLine(cx, cy - radius - 5, cx, cy - radius, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx, cy + radius, cx, cy + radius + 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - radius - 5}" x2="${cx}" y2="${cy - radius}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${cy + radius}" x2="${cx}" y2="${cy + radius + 5}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -427,12 +444,16 @@ export const exhaustPneumatic = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Exhaust indicator lines (3 short lines) -->
-      ${renderConnectionLine(cx - 10, cy - 15, cx - 5, cy - 13, { strokeWidth: 1.5 })}
-      ${renderConnectionLine(cx, cy - 17, cx, cy - 12, { strokeWidth: 1.5 })}
-      ${renderConnectionLine(cx + 10, cy - 15, cx + 5, cy - 13, { strokeWidth: 1.5 })}
+      <line x1="${cx - 10}" y1="${cy - 15}" x2="${cx - 5}" y2="${cy - 13}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy - 17}" x2="${cx}" y2="${cy - 12}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx + 10}" y1="${cy - 15}" x2="${cx + 5}" y2="${cy - 13}"
+        stroke="currentColor" stroke-width="1.5"/>
 
       <!-- Connection line -->
-      ${renderConnectionLine(cx, cy, cx, cy + 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy + 5}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -457,12 +478,20 @@ export const muffler = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Sound absorption pattern (horizontal lines) -->
-      ${[-8, -4, 0, 4, 8].map(offset =>
-        renderConnectionLine(cx - width / 2, cy + offset, cx + width / 2, cy + offset, { strokeWidth: 1 })
-      ).join('\n      ')}
+      <line x1="${cx - width / 2}" y1="${cy - 8}" x2="${cx + width / 2}" y2="${cy - 8}"
+        stroke="currentColor" stroke-width="1"/>
+      <line x1="${cx - width / 2}" y1="${cy - 4}" x2="${cx + width / 2}" y2="${cy - 4}"
+        stroke="currentColor" stroke-width="1"/>
+      <line x1="${cx - width / 2}" y1="${cy}" x2="${cx + width / 2}" y2="${cy}"
+        stroke="currentColor" stroke-width="1"/>
+      <line x1="${cx - width / 2}" y1="${cy + 4}" x2="${cx + width / 2}" y2="${cy + 4}"
+        stroke="currentColor" stroke-width="1"/>
+      <line x1="${cx - width / 2}" y1="${cy + 8}" x2="${cx + width / 2}" y2="${cy + 8}"
+        stroke="currentColor" stroke-width="1"/>
 
       <!-- Connection line -->
-      ${renderConnectionLine(cx, cy + height / 2, cx, cy + height / 2 + 10, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy + height / 2}" x2="${cx}" y2="${cy + height / 2 + 10}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Label -->
       <text x="${cx}" y="${cy - height / 2 - 5}" font-size="7" text-anchor="middle" fill="currentColor">MUFFLER</text>
@@ -496,7 +525,8 @@ export const pressureGaugePneumatic = createSymbol(
         text-anchor="middle" fill="currentColor">P</text>
 
       <!-- Connection line -->
-      ${renderConnectionLine(cx, cy + radius, cx, cy + radius + 3, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy + radius}" x2="${cx}" y2="${cy + radius + 3}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -522,11 +552,14 @@ export const proximitySensor = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Sensing indicator (+ symbol) -->
-      ${renderConnectionLine(cx - 3, cy, cx + 3, cy, { strokeWidth: 1.5 })}
-      ${renderConnectionLine(cx, cy - 3, cx, cy + 3, { strokeWidth: 1.5 })}
+      <line x1="${cx - 3}" y1="${cy}" x2="${cx + 3}" y2="${cy}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy - 3}" x2="${cx}" y2="${cy + 3}"
+        stroke="currentColor" stroke-width="1.5"/>
 
       <!-- Connection line -->
-      ${renderConnectionLine(cx, cy + height / 2, cx, cy + height / 2 + 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy + height / 2}" x2="${cx}" y2="${cy + height / 2 + 5}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Label -->
       <text x="${cx}" y="${cy - height / 2 - 3}" font-size="7"
@@ -562,7 +595,8 @@ export const pressureSensor = createSymbol(
         stroke="currentColor" stroke-width="1" fill="currentColor"/>
 
       <!-- Connection line -->
-      ${renderConnectionLine(cx, cy + radius, cx, cy + radius + 3, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy + radius}" x2="${cx}" y2="${cy + radius + 3}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Label -->
       <text x="${cx}" y="${cy - radius - 3}" font-size="6"
@@ -602,8 +636,10 @@ export const flowSensor = createSymbol(
         fill="currentColor"/>
 
       <!-- Input/output lines -->
-      ${renderConnectionLine(cx - radius - 5, cy, cx - radius, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 5, cy, { strokeWidth: 2 })}
+      <line x1="${cx - radius - 5}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 5}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );

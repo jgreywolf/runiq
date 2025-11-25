@@ -3,7 +3,6 @@
 // ============================================================================
 
 import { createSymbol } from '../symbol.ts';
-import { renderCircleBody, renderConnectionLine } from '../symbol-utils.ts';
 
 /**
  * Venturi Vacuum Generator - Creates vacuum from compressed air
@@ -36,13 +35,16 @@ export const vacuumGenerator = createSymbol(
       <!-- Vacuum port (top) -->
       <rect x="${cx - 3}" y="${cy - height / 2 - 8}" width="6" height="8"
         stroke="currentColor" stroke-width="2" fill="white"/>
-      ${renderConnectionLine(cx, cy - height / 2 - 8, cx, cy - height / 2 - 13, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - height / 2 - 8}" x2="${cx}" y2="${cy - height / 2 - 13}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Air inlet -->
-      ${renderConnectionLine(cx - width / 2 - 5, cy, cx - width / 2, cy, { strokeWidth: 2 })}
+      <line x1="${cx - width / 2 - 5}" y1="${cy}" x2="${cx - width / 2}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Exhaust outlet -->
-      ${renderConnectionLine(cx + width / 2, cy, cx + width / 2 + 5, cy, { strokeWidth: 2 })}
+      <line x1="${cx + width / 2}" y1="${cy}" x2="${cx + width / 2 + 5}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Label -->
       <text x="${cx}" y="${cy + height / 2 + 12}" font-size="7" text-anchor="middle" fill="currentColor">VENTURI</text>
@@ -64,17 +66,20 @@ export const vacuumPump = createSymbol(
 
     return `
       <!-- Pump body (circle) -->
-      ${renderCircleBody(cx, cy, radius, { strokeWidth: 2 })}
+      <circle cx="${cx}" cy="${cy}" r="${radius}"
+        stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- V label -->
       <text x="${cx}" y="${cy + 6}" font-size="14" font-weight="bold"
         text-anchor="middle" fill="currentColor">V</text>
 
       <!-- Vacuum indicator (minus sign) -->
-      ${renderConnectionLine(cx - 8, cy - 8, cx + 8, cy - 8, { strokeWidth: 2 })}
+      <line x1="${cx - 8}" y1="${cy - 8}" x2="${cx + 8}" y2="${cy - 8}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Output line -->
-      ${renderConnectionLine(cx + radius, cy, cx + radius + 5, cy, { strokeWidth: 2 })}
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 5}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Label -->
       <text x="${cx}" y="${cy + radius + 12}" font-size="7" text-anchor="middle" fill="currentColor">PUMP</text>
@@ -105,8 +110,10 @@ export const vacuumReservoir = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Vacuum indicator (minus signs) -->
-      ${renderConnectionLine(cx - 8, cy - 5, cx + 8, cy - 5, { strokeWidth: 1.5 })}
-      ${renderConnectionLine(cx - 8, cy + 5, cx + 8, cy + 5, { strokeWidth: 1.5 })}
+      <line x1="${cx - 8}" y1="${cy - 5}" x2="${cx + 8}" y2="${cy - 5}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx - 8}" y1="${cy + 5}" x2="${cx + 8}" y2="${cy + 5}"
+        stroke="currentColor" stroke-width="1.5"/>
 
       <!-- Label -->
       <text x="${cx}" y="${cy - height / 2 - 5}" font-size="7" text-anchor="middle" fill="currentColor">VAC TANK</text>
@@ -145,7 +152,8 @@ export const suctionCup = createSymbol(
         text-anchor="middle" fill="currentColor">V</text>
 
       <!-- Connection line -->
-      ${renderConnectionLine(cx, cy - radius - 10, cx, cy - radius - 15, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - radius - 10}" x2="${cx}" y2="${cy - radius - 15}"
+        stroke="currentColor" stroke-width="2"/>
     `;
   }
 );
@@ -181,7 +189,8 @@ export const vacuumFilter = createSymbol(
         stroke="currentColor" stroke-width="1.5" fill="none"/>
 
       <!-- Vacuum indicator (minus sign) -->
-      ${renderConnectionLine(cx - 6, cy + height / 2 - 5, cx + 6, cy + height / 2 - 5, { strokeWidth: 1.5 })}
+      <line x1="${cx - 6}" y1="${cy + height / 2 - 5}" x2="${cx + 6}" y2="${cy + height / 2 - 5}"
+        stroke="currentColor" stroke-width="1.5"/>
 
       <!-- Label -->
       <text x="${cx}" y="${cy - height / 2 - 5}" font-size="7" text-anchor="middle" fill="currentColor">VAC FILTER</text>
@@ -206,19 +215,23 @@ export const vacuumSwitch = createSymbol(
 
     return `
       <!-- Circle body -->
-      ${renderCircleBody(cx, cy, radius, { strokeWidth: 2 })}
+      <circle cx="${cx}" cy="${cy}" r="${radius}"
+        stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Switch symbol (lever) -->
-      ${renderConnectionLine(cx - 6, cy, cx + 2, cy - 6, { strokeWidth: 2 })}
+      <line x1="${cx - 6}" y1="${cy}" x2="${cx + 2}" y2="${cy - 6}"
+        stroke="currentColor" stroke-width="2"/>
       <circle cx="${cx + 2}" cy="${cy - 6}" r="2" fill="currentColor"/>
 
       <!-- V label with minus -->
       <text x="${cx}" y="${cy + 10}" font-size="8" font-weight="bold"
         text-anchor="middle" fill="currentColor">V</text>
-      ${renderConnectionLine(cx - 4, cy - 6, cx + 4, cy - 6, { strokeWidth: 1 })}
+      <line x1="${cx - 4}" y1="${cy - 6}" x2="${cx + 4}" y2="${cy - 6}"
+        stroke="currentColor" stroke-width="1"/>
 
       <!-- Connections -->
-      ${renderConnectionLine(cx, cy + radius, cx, cy + radius + 8, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy + radius}" x2="${cx}" y2="${cy + radius + 8}"
+        stroke="currentColor" stroke-width="2"/>
       <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 8}"
         stroke="currentColor" stroke-width="1.5" stroke-dasharray="2,2"/>
     `;
@@ -248,19 +261,24 @@ export const blowOffValve = createSymbol(
         stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Valve poppet (closed position) -->
-      ${renderCircleBody(cx, cy - 5, 5, { strokeWidth: 2 })}
+      <circle cx="${cx}" cy="${cy - 5}" r="5"
+        stroke="currentColor" stroke-width="2" fill="white"/>
 
       <!-- Blow-off indicator (burst arrows) -->
-      ${renderConnectionLine(cx - 8, cy + 8, cx - 12, cy + 12, { strokeWidth: 2 })}
+      <line x1="${cx - 8}" y1="${cy + 8}" x2="${cx - 12}" y2="${cy + 12}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${cx - 12},${cy + 12} ${cx - 10},${cy + 10} ${cx - 14},${cy + 10}"
         fill="currentColor"/>
-      ${renderConnectionLine(cx + 8, cy + 8, cx + 12, cy + 12, { strokeWidth: 2 })}
+      <line x1="${cx + 8}" y1="${cy + 8}" x2="${cx + 12}" y2="${cy + 12}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${cx + 12},${cy + 12} ${cx + 10},${cy + 10} ${cx + 14},${cy + 10}"
         fill="currentColor"/>
 
       <!-- Connections -->
-      ${renderConnectionLine(cx, cy - height / 2 - 5, cx, cy - height / 2, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx, cy + height / 2, cx, cy + height / 2 + 5, { strokeWidth: 2 })}
+      <line x1="${cx}" y1="${cy - height / 2 - 5}" x2="${cx}" y2="${cy - height / 2}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx}" y1="${cy + height / 2}" x2="${cx}" y2="${cy + height / 2 + 5}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Label -->
       <text x="${cx}" y="${cy - height / 2 - 8}" font-size="7" text-anchor="middle" fill="currentColor">BLOW-OFF</text>

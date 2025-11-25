@@ -3,7 +3,6 @@
 // ============================================================================
 
 import { createSymbol } from '../symbol.ts';
-import { renderConnectionLine, renderPortCircle } from '../symbol-utils.ts';
 
 /**
  * 2/2-Way Valve (2 ports, 2 positions)
@@ -33,21 +32,27 @@ export const valve22Way = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- Flow arrows in left position (blocked) -->
-      ${renderConnectionLine(left + 10, top + 15, left + 10, top + 35, { strokeWidth: 2 })}
-      ${renderConnectionLine(left + 5, top + 40, left + 10, top + 35, { strokeWidth: 2 })}
-      ${renderConnectionLine(left + 15, top + 40, left + 10, top + 35, { strokeWidth: 2 })}
+      <line x1="${left + 10}" y1="${top + 15}" x2="${left + 10}" y2="${top + 35}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left + 5}" y1="${top + 40}" x2="${left + 10}" y2="${top + 35}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left + 15}" y1="${top + 40}" x2="${left + 10}" y2="${top + 35}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Flow arrows in right position (open) -->
-      ${renderConnectionLine(cx + 10, top + 10, cx + 10, bottom - 10, { strokeWidth: 2 })}
+      <line x1="${cx + 10}" y1="${top + 10}" x2="${cx + 10}" y2="${bottom - 10}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${cx + 10},${bottom - 10} ${cx + 6},${bottom - 16} ${cx + 14},${bottom - 16}"
         fill="currentColor"/>
 
       <!-- Port P connection -->
-      ${renderConnectionLine(left + 5, bottom, left + 5, bottom + 5, { strokeWidth: 2 })}
+      <line x1="${left + 5}" y1="${bottom}" x2="${left + 5}" y2="${bottom + 5}"
+        stroke="currentColor" stroke-width="2"/>
       <circle cx="${left + 5}" cy="${bottom + 5}" r="2" fill="currentColor"/>
 
       <!-- Port A connection -->
-      ${renderConnectionLine(left + 15, bottom, left + 15, bottom + 5, { strokeWidth: 2 })}
+      <line x1="${left + 15}" y1="${bottom}" x2="${left + 15}" y2="${bottom + 5}"
+        stroke="currentColor" stroke-width="2"/>
       <circle cx="${left + 15}" cy="${bottom + 5}" r="2" fill="currentColor"/>
     `;
   }
@@ -82,12 +87,14 @@ export const valve32Way = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- Flow arrows in left position (P->A) -->
-      ${renderConnectionLine(left + 5, bottom - 10, left + 10, top + 10, { strokeWidth: 2 })}
+      <line x1="${left + 5}" y1="${bottom - 10}" x2="${left + 10}" y2="${top + 10}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${left + 10},${top + 10} ${left + 8},${top + 15} ${left + 12},${top + 15}"
         fill="currentColor"/>
 
       <!-- Flow arrows in right position (A->R) -->
-      ${renderConnectionLine(cx + 10, top + 10, cx + 15, bottom - 10, { strokeWidth: 2 })}
+      <line x1="${cx + 10}" y1="${top + 10}" x2="${cx + 15}" y2="${bottom - 10}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${cx + 15},${bottom - 10} ${cx + 13},${bottom - 15} ${cx + 17},${bottom - 15}"
         fill="currentColor"/>
 
@@ -133,16 +140,20 @@ export const valve42Way = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- Flow paths in left position (P->A, B->R) -->
-      ${renderConnectionLine(left + 4, bottom - 5, left + 8, top + 5, { strokeWidth: 2 })}
+      <line x1="${left + 4}" y1="${bottom - 5}" x2="${left + 8}" y2="${top + 5}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${left + 8},${top + 5} ${left + 6},${top + 10} ${left + 10},${top + 10}"
         fill="currentColor"/>
-      ${renderConnectionLine(left + 12, bottom - 5, left + 16, top + 5, { strokeWidth: 2 })}
+      <line x1="${left + 12}" y1="${bottom - 5}" x2="${left + 16}" y2="${top + 5}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${left + 16},${top + 5} ${left + 14},${top + 10} ${left + 18},${top + 10}"
         fill="currentColor"/>
 
       <!-- Flow paths in right position (P->B, A->R) -->
-      ${renderConnectionLine(cx + 4, bottom - 5, cx + 16, top + 5, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + 8, bottom - 5, cx + 4, top + 5, { strokeWidth: 2 })}
+      <line x1="${cx + 4}" y1="${bottom - 5}" x2="${cx + 16}" y2="${top + 5}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + 8}" y1="${bottom - 5}" x2="${cx + 4}" y2="${top + 5}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Port connections -->
       <circle cx="${left + 2}" cy="${bottom + 5}" r="2" fill="currentColor"/>
@@ -184,16 +195,20 @@ export const valve52Way = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- Flow paths in left position -->
-      ${renderConnectionLine(left + 4, bottom - 5, left + 10, top + 5, { strokeWidth: 2 })}
+      <line x1="${left + 4}" y1="${bottom - 5}" x2="${left + 10}" y2="${top + 5}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${left + 10},${top + 5} ${left + 8},${top + 10} ${left + 12},${top + 10}"
         fill="currentColor"/>
-      ${renderConnectionLine(left + 15, bottom - 5, left + 21, top + 5, { strokeWidth: 2 })}
+      <line x1="${left + 15}" y1="${bottom - 5}" x2="${left + 21}" y2="${top + 5}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${left + 21},${top + 5} ${left + 19},${top + 10} ${left + 23},${top + 10}"
         fill="currentColor"/>
 
       <!-- Flow paths in right position -->
-      ${renderConnectionLine(cx + 4, bottom - 5, cx + 16, top + 5, { strokeWidth: 2 })}
-      ${renderConnectionLine(cx + 10, bottom - 5, cx + 4, top + 5, { strokeWidth: 2 })}
+      <line x1="${cx + 4}" y1="${bottom - 5}" x2="${cx + 16}" y2="${top + 5}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + 10}" y1="${bottom - 5}" x2="${cx + 4}" y2="${top + 5}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Port connections -->
       <circle cx="${left + 2}" cy="${bottom + 5}" r="2" fill="currentColor"/>
@@ -239,10 +254,14 @@ export const valve53ClosedCenter = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- All ports closed in center (X marks) -->
-      ${renderConnectionLine(left + 22, top + 20, left + 28, top + 30, { strokeWidth: 2 })}
-      ${renderConnectionLine(left + 28, top + 20, left + 22, top + 30, { strokeWidth: 2 })}
-      ${renderConnectionLine(left + 32, top + 20, left + 38, top + 30, { strokeWidth: 2 })}
-      ${renderConnectionLine(left + 38, top + 20, left + 32, top + 30, { strokeWidth: 2 })}
+      <line x1="${left + 22}" y1="${top + 20}" x2="${left + 28}" y2="${top + 30}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left + 28}" y1="${top + 20}" x2="${left + 22}" y2="${top + 30}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left + 32}" y1="${top + 20}" x2="${left + 38}" y2="${top + 30}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left + 38}" y1="${top + 20}" x2="${left + 32}" y2="${top + 30}"
+        stroke="currentColor" stroke-width="2"/>
 
       <!-- Port connections -->
       <circle cx="${left + 4}" cy="${bottom + 5}" r="2" fill="currentColor"/>
@@ -288,10 +307,12 @@ export const valve53ExhaustCenter = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- Exhaust arrows in center position -->
-      ${renderConnectionLine(left + 25, bottom - 10, left + 25, top + 10, { strokeWidth: 2 })}
+      <line x1="${left + 25}" y1="${bottom - 10}" x2="${left + 25}" y2="${top + 10}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${left + 25},${top + 10} ${left + 22},${top + 15} ${left + 28},${top + 15}"
         fill="currentColor"/>
-      ${renderConnectionLine(left + 35, bottom - 10, left + 35, top + 10, { strokeWidth: 2 })}
+      <line x1="${left + 35}" y1="${bottom - 10}" x2="${left + 35}" y2="${top + 10}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${left + 35},${top + 10} ${left + 32},${top + 15} ${left + 38},${top + 15}"
         fill="currentColor"/>
 
@@ -339,8 +360,10 @@ export const valve53PressureCenter = createSymbol(
         stroke="currentColor" stroke-width="2" fill="none"/>
 
       <!-- Pressure distribution in center -->
-      ${renderConnectionLine(left + 24, bottom - 5, left + 30, cy, { strokeWidth: 2 })}
-      ${renderConnectionLine(left + 30, cy, left + 36, bottom - 5, { strokeWidth: 2 })}
+      <line x1="${left + 24}" y1="${bottom - 5}" x2="${left + 30}" y2="${cy}"
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${left + 30}" y1="${cy}" x2="${left + 36}" y2="${bottom - 5}"
+        stroke="currentColor" stroke-width="2"/>
       <polygon points="${left + 30},${cy - 3} ${left + 27},${cy + 2} ${left + 33},${cy + 2}"
         fill="currentColor"/>
 

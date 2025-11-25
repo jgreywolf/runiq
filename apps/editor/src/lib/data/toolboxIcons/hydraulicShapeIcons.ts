@@ -3,7 +3,7 @@ import type { ShapeCategory } from '../toolbox-data';
 export const hydraulicShapeIcons: ShapeCategory[] = [
 	{
 		id: 'hydraulic',
-		label: 'Hydraulic Components',
+		label: 'Basic',
 		profiles: ['hydraulic'],
 		shapes: [
 			{
@@ -11,6 +11,23 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				label: 'Reservoir (Tank)',
 				code: 'part T1 type:RESERVOIR pins:(RETURN,SUCTION) doc:"Hydraulic reservoir"'
 			},
+			{
+				id: 'accumulator',
+				label: 'Accumulator',
+				code: 'part AC1 type:ACCUMULATOR pins:(PORT) doc:"Hydraulic accumulator"'
+			},
+			{
+				id: 'gaugePHyd',
+				label: 'Pressure Gauge',
+				code: 'part G1 type:GAUGE_P_HYD pins:(SENSE) doc:"Pressure gauge"'
+			}
+		]
+	},
+	{
+		id: 'hydraulic-pumps',
+		label: 'Pumps',
+		profiles: ['hydraulic'],
+		shapes: [
 			{
 				id: 'pumpFixed',
 				label: 'Fixed Displacement Pump',
@@ -55,7 +72,14 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				id: 'pumpPistonVar',
 				label: 'Variable Piston Pump',
 				code: 'part P1 type:PUMP_PISTON_VAR pins:(INLET,OUTLET) doc:"Variable piston pump"'
-			},
+			}
+		]
+	},
+	{
+		id: 'hydraulic-motors',
+		label: 'Hydraulic Motors',
+		profiles: ['hydraulic'],
+		shapes: [
 			{
 				id: 'motorHyd',
 				label: 'Hydraulic Motor',
@@ -85,47 +109,14 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				id: 'motorOrbit',
 				label: 'Orbit Motor',
 				code: 'part M1 type:MOTOR_ORBIT pins:(INLET,OUTLET) doc:"Orbit motor"'
-			},
-			{
-				id: 'cylinderHyd',
-				label: 'Hydraulic Cylinder',
-				code: 'part C1 type:CYL_HYD pins:(PORT_A,PORT_B) doc:"Hydraulic cylinder"'
-			},
-			{
-				id: 'cylinderSingleRod',
-				label: 'Single Rod Cylinder',
-				code: 'part C1 type:CYL_SINGLE_ROD pins:(PISTON,PORT_A,PORT_B) doc:"Single rod cylinder"'
-			},
-			{
-				id: 'cylinderDoubleRod',
-				label: 'Double Rod Cylinder',
-				code: 'part C1 type:CYL_DOUBLE_ROD pins:(ROD_LEFT,ROD_RIGHT,PORT_A,PORT_B) doc:"Double rod cylinder"'
-			},
-			{
-				id: 'cylinderTelescopic',
-				label: 'Telescopic Cylinder',
-				code: 'part C1 type:CYL_TELESCOPIC pins:(PISTON,PORT_A,PORT_B) doc:"Telescopic cylinder"'
-			},
-			{
-				id: 'cylinderMill',
-				label: 'Mill Cylinder',
-				code: 'part C1 type:CYL_MILL pins:(PISTON,PORT_A,PORT_B) doc:"Heavy duty mill cylinder"'
-			},
-			{
-				id: 'cylinderTieRod',
-				label: 'Tie-Rod Cylinder',
-				code: 'part C1 type:CYL_TIE_ROD pins:(PISTON,PORT_A,PORT_B) doc:"Tie-rod cylinder"'
-			},
-			{
-				id: 'cylinderWelded',
-				label: 'Welded Cylinder',
-				code: 'part C1 type:CYL_WELDED pins:(PISTON,PORT_A,PORT_B) doc:"Welded cylinder"'
-			},
-			{
-				id: 'cylinderFeedback',
-				label: 'Position Feedback Cylinder',
-				code: 'part C1 type:CYL_FEEDBACK pins:(PISTON,PORT_A,PORT_B,FEEDBACK) doc:"Cylinder with position sensor"'
-			},
+			}
+		]
+	},
+	{
+		id: 'hydraulic-valves',
+		label: 'Hydraulic Valves',
+		profiles: ['hydraulic'],
+		shapes: [
 			{
 				id: 'valve22',
 				label: '2/2-Way Valve',
@@ -197,22 +188,6 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				code: 'part CV1 type:CHECK_VALVE_HYD pins:(INLET,OUTLET) doc:"One-way valve"'
 			},
 			{
-				id: 'filterHyd',
-				label: 'Hydraulic Filter',
-				code: 'part F1 type:FILTER_HYD pins:(INLET,OUTLET) doc:"Hydraulic filter"'
-			},
-			{
-				id: 'accumulator',
-				label: 'Accumulator',
-				code: 'part AC1 type:ACCUMULATOR pins:(PORT) doc:"Hydraulic accumulator"'
-			},
-			{
-				id: 'gaugePHyd',
-				label: 'Pressure Gauge',
-				code: 'part G1 type:GAUGE_P_HYD pins:(SENSE) doc:"Pressure gauge"'
-			},
-			// Phase 2: Pressure Control Valves
-			{
 				id: 'reliefValveDirect',
 				label: 'Direct Relief Valve',
 				code: 'part RV1 type:RELIEF_DIRECT pins:(INLET,TANK) doc:"Direct-acting relief valve"'
@@ -242,7 +217,6 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				label: 'Brake Valve',
 				code: 'part BV1 type:BRAKE_VALVE pins:(MOTOR_A,VALVE_A,PILOT_B) doc:"Motor brake valve"'
 			},
-			// Phase 2: Flow Control Valves
 			{
 				id: 'throttleValve',
 				label: 'Throttle Valve',
@@ -273,7 +247,6 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				label: 'Flow Divider',
 				code: 'part FD1 type:FLOW_DIVIDER pins:(INLET,OUTLET_A,OUTLET_B) doc:"Equal flow divider"'
 			},
-			// Phase 2: Check Valves
 			{
 				id: 'checkValvePilot',
 				label: 'Pilot Check Valve',
@@ -288,50 +261,19 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				id: 'checkValvePilotOpen',
 				label: 'Pilot-to-Open Check',
 				code: 'part PO1 type:CHECK_PILOT_OPEN pins:(INLET,OUTLET,PILOT) doc:"Pilot to open check valve"'
-			},
-			// Phase 2: Rotary Actuators
+			}
+		]
+	},
+	{
+		id: 'hydraulic-filters',
+		label: 'Hydraulic Filters',
+		profiles: ['hydraulic'],
+		shapes: [
 			{
-				id: 'rotaryVane',
-				label: 'Vane Rotary Actuator',
-				code: 'part RA1 type:ROTARY_VANE pins:(PORT_A,PORT_B,SHAFT) doc:"Vane rotary actuator"'
+				id: 'filterHyd',
+				label: 'Hydraulic Filter',
+				code: 'part F1 type:FILTER_HYD pins:(INLET,OUTLET) doc:"Hydraulic filter"'
 			},
-			{
-				id: 'rotaryPiston',
-				label: 'Piston Rotary Actuator',
-				code: 'part RA1 type:ROTARY_PISTON pins:(PORT_A,PORT_B,SHAFT) doc:"Piston rotary actuator"'
-			},
-			{
-				id: 'rackPinion',
-				label: 'Rack & Pinion',
-				code: 'part RP1 type:RACK_PINION pins:(PORT_A,PORT_B,SHAFT) doc:"Rack and pinion actuator"'
-			},
-			{
-				id: 'helicalActuator',
-				label: 'Helical Actuator',
-				code: 'part HA1 type:HELICAL_ACTUATOR pins:(PORT_IN,SHAFT) doc:"Helical rotary actuator"'
-			},
-			// Phase 2: Accumulators
-			{
-				id: 'accumulatorBladder',
-				label: 'Bladder Accumulator',
-				code: 'part AB1 type:ACCUMULATOR_BLADDER pins:(PORT) doc:"Bladder-type accumulator"'
-			},
-			{
-				id: 'accumulatorPiston',
-				label: 'Piston Accumulator',
-				code: 'part AP1 type:ACCUMULATOR_PISTON pins:(PORT) doc:"Piston-type accumulator"'
-			},
-			{
-				id: 'accumulatorDiaphragm',
-				label: 'Diaphragm Accumulator',
-				code: 'part AD1 type:ACCUMULATOR_DIAPHRAGM pins:(PORT) doc:"Diaphragm accumulator"'
-			},
-			{
-				id: 'accumulatorWeight',
-				label: 'Weight-Loaded Accumulator',
-				code: 'part AW1 type:ACCUMULATOR_WEIGHT pins:(PORT) doc:"Weight-loaded accumulator"'
-			},
-			// Phase 3: Filters
 			{
 				id: 'filterSuction',
 				label: 'Suction Filter',
@@ -361,8 +303,115 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				id: 'filterSpinOn',
 				label: 'Spin-On Filter',
 				code: 'part FSO1 type:FILTER_SPIN_ON pins:(INLET,OUTLET) doc:"Spin-on cartridge filter"'
+			}
+		]
+	},
+	{
+		id: 'hydraulic-cylinders',
+		label: 'Hydraulic Cylinders',
+		profiles: ['hydraulic'],
+		shapes: [
+			{
+				id: 'cylinderHyd',
+				label: 'Hydraulic Cylinder',
+				code: 'part C1 type:CYL_HYD pins:(PORT_A,PORT_B) doc:"Hydraulic cylinder"'
 			},
-			// Phase 3: Heat Exchangers
+			{
+				id: 'cylinderSingleRod',
+				label: 'Single Rod Cylinder',
+				code: 'part C1 type:CYL_SINGLE_ROD pins:(PISTON,PORT_A,PORT_B) doc:"Single rod cylinder"'
+			},
+			{
+				id: 'cylinderDoubleRod',
+				label: 'Double Rod Cylinder',
+				code: 'part C1 type:CYL_DOUBLE_ROD pins:(ROD_LEFT,ROD_RIGHT,PORT_A,PORT_B) doc:"Double rod cylinder"'
+			},
+			{
+				id: 'cylinderTelescopic',
+				label: 'Telescopic Cylinder',
+				code: 'part C1 type:CYL_TELESCOPIC pins:(PISTON,PORT_A,PORT_B) doc:"Telescopic cylinder"'
+			},
+			{
+				id: 'cylinderMill',
+				label: 'Mill Cylinder',
+				code: 'part C1 type:CYL_MILL pins:(PISTON,PORT_A,PORT_B) doc:"Heavy duty mill cylinder"'
+			},
+			{
+				id: 'cylinderTieRod',
+				label: 'Tie-Rod Cylinder',
+				code: 'part C1 type:CYL_TIE_ROD pins:(PISTON,PORT_A,PORT_B) doc:"Tie-rod cylinder"'
+			},
+			{
+				id: 'cylinderWelded',
+				label: 'Welded Cylinder',
+				code: 'part C1 type:CYL_WELDED pins:(PISTON,PORT_A,PORT_B) doc:"Welded cylinder"'
+			},
+			{
+				id: 'cylinderFeedback',
+				label: 'Position Feedback Cylinder',
+				code: 'part C1 type:CYL_FEEDBACK pins:(PISTON,PORT_A,PORT_B,FEEDBACK) doc:"Cylinder with position sensor"'
+			}
+		]
+	},
+	{
+		id: 'hydraulic-actuators',
+		label: 'Hydraulic Actuators',
+		profiles: ['hydraulic'],
+		shapes: [
+			{
+				id: 'rotaryVane',
+				label: 'Vane Rotary Actuator',
+				code: 'part RA1 type:ROTARY_VANE pins:(PORT_A,PORT_B,SHAFT) doc:"Vane rotary actuator"'
+			},
+			{
+				id: 'rotaryPiston',
+				label: 'Piston Rotary Actuator',
+				code: 'part RA1 type:ROTARY_PISTON pins:(PORT_A,PORT_B,SHAFT) doc:"Piston rotary actuator"'
+			},
+			{
+				id: 'rackPinion',
+				label: 'Rack & Pinion',
+				code: 'part RP1 type:RACK_PINION pins:(PORT_A,PORT_B,SHAFT) doc:"Rack and pinion actuator"'
+			},
+			{
+				id: 'helicalActuator',
+				label: 'Helical Actuator',
+				code: 'part HA1 type:HELICAL_ACTUATOR pins:(PORT_IN,SHAFT) doc:"Helical rotary actuator"'
+			}
+		]
+	},
+	{
+		id: 'hydraulic-accumulator',
+		label: 'Hydraulic Accumulators',
+		profiles: ['hydraulic'],
+		shapes: [
+			{
+				id: 'accumulatorBladder',
+				label: 'Bladder Accumulator',
+				code: 'part AB1 type:ACCUMULATOR_BLADDER pins:(PORT) doc:"Bladder-type accumulator"'
+			},
+			{
+				id: 'accumulatorPiston',
+				label: 'Piston Accumulator',
+				code: 'part AP1 type:ACCUMULATOR_PISTON pins:(PORT) doc:"Piston-type accumulator"'
+			},
+			{
+				id: 'accumulatorDiaphragm',
+				label: 'Diaphragm Accumulator',
+				code: 'part AD1 type:ACCUMULATOR_DIAPHRAGM pins:(PORT) doc:"Diaphragm accumulator"'
+			},
+			{
+				id: 'accumulatorWeight',
+				label: 'Weight-Loaded Accumulator',
+				code: 'part AW1 type:ACCUMULATOR_WEIGHT pins:(PORT) doc:"Weight-loaded accumulator"'
+			}
+		]
+	},
+	{
+		id: 'hydraulic-coolers',
+		label: 'Heat Exchangers',
+		profiles: ['hydraulic'],
+		shapes: [
 			{
 				id: 'coolerAir',
 				label: 'Air Cooler',
@@ -382,8 +431,14 @@ export const hydraulicShapeIcons: ShapeCategory[] = [
 				id: 'coolerOilWater',
 				label: 'Oil-to-Water Cooler',
 				code: 'part COW1 type:COOLER_OIL_WATER pins:(OIL_IN,OIL_OUT,WATER_IN,WATER_OUT) doc:"Shell and tube cooler"'
-			},
-			// Phase 3: Manifolds
+			}
+		]
+	},
+	{
+		id: 'hydraulic-manifolds',
+		label: 'Hydraulic Manifolds',
+		profiles: ['hydraulic'],
+		shapes: [
 			{
 				id: 'manifoldSandwich',
 				label: 'Sandwich Manifold',

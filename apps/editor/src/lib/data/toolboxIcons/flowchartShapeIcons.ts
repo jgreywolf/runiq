@@ -76,6 +76,26 @@ export const flowchartShapeIcons: ShapeCategory[] = [
 				id: 'offPageConnector',
 				label: 'Off-Page Connector',
 				code: 'shape id as @offPageConnector label:"A"'
+			},
+			{
+				id: 'doubleCircle',
+				label: 'Double Circle',
+				code: 'shape id as @doubleCircle label:"Label"'
+			},
+			{
+				id: 'framedCircle',
+				label: 'Framed Circle',
+				code: 'shape id as @framedCircle label:"Label"'
+			},
+			{
+				id: 'crossCircle',
+				label: 'Cross Circle',
+				code: 'shape id as @crossCircle label:"Label"'
+			},
+			{
+				id: 'filledCircle',
+				label: 'Filled Circle',
+				code: 'shape id as @filledCircle label:"Label"'
 			}
 		]
 	}

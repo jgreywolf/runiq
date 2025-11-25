@@ -1,4 +1,5 @@
 import { activitySampleDiagrams } from './toolboxSamples/activitySampleDiagrams';
+import { classSampleDiagrams } from './toolboxSamples/classSampleDiagrams';
 import { c4SampleDiagrams } from './toolboxSamples/c4SampleDiagrams';
 import { chartSampleDiagrams } from './toolboxSamples/chartSampleDiagrams';
 import { containerSampleDiagrams } from './toolboxSamples/containerSampleDiagrams';
@@ -36,6 +37,7 @@ export interface SampleCategory {
 
 export const sampleDiagrams: SampleCategory[] = [
 	...flowchartSampleDiagrams,
+	...classSampleDiagrams,
 	...containerSampleDiagrams,
 	...templatePresetSampleDiagrams,
 	...umlSampleDiagrams,
