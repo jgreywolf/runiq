@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BookOpen, FileText, Lightbulb } from 'lucide-svelte';
+	import Icon from '@iconify/svelte';
 
 	function openDocs() {
 		window.open('https://www.runiq.org/guide/getting-started', '_blank');
@@ -36,7 +36,7 @@
 				onclick={openQuickStart}
 				class="inline-flex items-center justify-center gap-2 rounded-lg bg-runiq-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-runiq-600"
 			>
-				<Lightbulb class="h-4 w-4" />
+				<Icon icon="lucide:lightbulb" width="16" height="16" />
 				5-Minute Quick Start
 			</button>
 
@@ -45,14 +45,14 @@
 					onclick={openDocs}
 					class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
 				>
-					<BookOpen class="h-4 w-4" />
+					<Icon icon="lucide:book-open" width="16" height="16" />
 					Documentation
 				</button>
 				<button
 					onclick={openExamples}
 					class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
 				>
-					<FileText class="h-4 w-4" />
+					<Icon icon="lucide:file-text" width="16" height="16" />
 					Examples
 				</button>
 			</div>

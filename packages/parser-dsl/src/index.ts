@@ -1,5 +1,5 @@
 // Export Langium parser
-export { parse, type ParseResult } from './langium-parser.js';
+export { parse, type ParseResult, type NodeLocation } from './langium-parser.js';
 
 // Export Langium services for LSP integration
 export { createRuniqServices, type RuniqServices } from './langium-module.js';

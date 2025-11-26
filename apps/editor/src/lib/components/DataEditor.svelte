@@ -5,7 +5,7 @@
 	import { json, jsonParseLinter } from '@codemirror/lang-json';
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic } from '@codemirror/lint';
-	import { Upload } from 'lucide-svelte';
+	import Icon from '@iconify/svelte';
 
 	// Props
 	interface Props {

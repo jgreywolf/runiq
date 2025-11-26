@@ -92,6 +92,7 @@ export interface NodeAst {
   icon?: IconRef;
   link?: LinkRef;
   tooltip?: string;
+  position?: { x: number; y: number }; // Manual position (overrides layout engine)
   // UML State Machine properties
   entry?: string; // Entry action (e.g., "startTimer()")
   exit?: string; // Exit action (e.g., "stopTimer()")

@@ -70,9 +70,12 @@ export function renderEdge(
     }
   }
 
+  const edgeId = routed.edgeIndex !== undefined
+    ? `${routed.from}-${routed.to}-${routed.edgeIndex}`
+    : `${routed.from}-${routed.to}`;
   const groupAttrs = strict
     ? ''
-    : ` data-runiq-edge="${routed.from}-${routed.to}"`;
+    : ` data-runiq-edge="${edgeId}" data-edge-id="${edgeId}" data-edge-from="${routed.from}" data-edge-to="${routed.to}"`;
   let edgeMarkup = `<g${groupAttrs}>`;
 
   // Determine arrow type and bidirectionality
@@ -210,6 +213,10 @@ export function renderEdge(
     : '';
   const markerAttr = markerStartAttr + markerEndAttr;
 
+  // Add invisible wider path for better click/hover detection
+  const hitAreaWidth = 12; // Wider hit area for easier selection
+  edgeMarkup += `<path d="${pathData}" fill="none" stroke="transparent" stroke-width="${hitAreaWidth}" pointer-events="stroke" />`;
+
   // Render double line for consanguineous marriages
   if (isDoubleLine) {
     // Parallel lines with small offset (3px apart)
@@ -234,8 +241,8 @@ export function renderEdge(
           .slice(1)
           .map((p) => ` L ${p.x} ${p.y + offset}`)
           .join('');
-      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
-      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
+      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
     } else {
       // Offset horizontally for vertical lines
       const offsetPath1 =
@@ -250,12 +257,12 @@ export function renderEdge(
           .slice(1)
           .map((p) => ` L ${p.x + offset} ${p.y}`)
           .join('');
-      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
-      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
+      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
     }
   } else {
     // Single line (standard)
-    edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+    edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
   }
 
   // Calculate midpoint for labels

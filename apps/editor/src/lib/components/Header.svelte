@@ -4,23 +4,13 @@
 	import ExportButton from './ExportButton.svelte';
 	import SettingsButton from './SettingsButton.svelte';
 	import HelpMenu from './HelpMenu.svelte';
+	import type { ProfileName } from '$lib/types';
 
-	// Props
 	interface Props {
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
-		onNewDiagram?: (
-			type:
-				| 'diagram'
-				| 'electrical'
-				| 'pneumatic'
-				| 'hydraulic'
-				| 'wardley'
-				| 'sequence'
-				| 'timeline'
-				| 'pid'
-		) => void;
+		onNewDiagram?: (type: ProfileName) => void;
 		onExport?: (format: 'svg' | 'png') => void;
 	}
 
@@ -43,17 +33,7 @@
 		showNewDiagramDialog = true;
 	}
 
-	function createDiagram(
-		type:
-			| 'diagram'
-			| 'electrical'
-			| 'pneumatic'
-			| 'hydraulic'
-			| 'wardley'
-			| 'sequence'
-			| 'timeline'
-			| 'pid'
-	) {
+	function createDiagram(type: ProfileName) {
 		onNewDiagram?.(type);
 	}
 

@@ -732,6 +732,7 @@ ShapeIdentifier returns string:
 
 NodeProperty:
     LabelProperty
+    | PositionProperty
     | StyleRefProperty
     | IconProperty
     | LinkProperty
@@ -779,6 +780,9 @@ NodeProperty:
 
 LabelProperty:
     'label:' value=STRING;
+
+PositionProperty:
+    'position:' '(' x=NUMBER ',' y=NUMBER ')';
 
 // BPMN Gateway property
 GatewayTypeProperty:

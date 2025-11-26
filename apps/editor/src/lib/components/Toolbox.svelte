@@ -2,7 +2,7 @@
 	import * as Tabs from '$lib/components/ui/tabs';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { Button } from '$lib/components/ui/button';
-	import { FileText } from 'lucide-svelte';
+	import Icon from '@iconify/svelte';
 	import ShapeBrowser from './ShapeBrowser.svelte';
 	import SampleBrowserDialog from './SampleBrowserDialog.svelte';
 	import { shapeCategories } from '$lib/data/toolbox-data';
@@ -109,7 +109,7 @@
 				onclick={openSampleBrowser}
 				class="w-full justify-start gap-2 bg-gradient-to-r from-runiq-500 to-runiq-600 text-white hover:from-runiq-600 hover:to-runiq-700"
 			>
-				<FileText class="h-4 w-4" />
+				<Icon icon="lucide:file-text" width="16" height="16" />
 				Browse Sample Diagrams
 			</Button>
 		</div>

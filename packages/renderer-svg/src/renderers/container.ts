@@ -24,7 +24,9 @@ export function renderContainer(
     style = resolveContainerStyle(containerAst, diagram);
   }
 
-  const groupAttrs = strict ? '' : ` data-runiq-container="${id}"`;
+  const groupAttrs = strict
+    ? ''
+    : ` data-runiq-container="${id}" data-container-id="${id}"`;
 
   let markup = `<g${groupAttrs}>`;
 

@@ -2868,7 +2868,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -3658,6 +3658,23 @@ export const PortDecl = {
 
 export function isPortDecl(item: unknown): item is PortDecl {
     return reflection.isInstance(item, PortDecl.$type);
+}
+
+export interface PositionProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'PositionProperty';
+    x: string;
+    y: string;
+}
+
+export const PositionProperty = {
+    $type: 'PositionProperty',
+    x: 'x',
+    y: 'y'
+} as const;
+
+export function isPositionProperty(item: unknown): item is PositionProperty {
+    return reflection.isInstance(item, PositionProperty.$type);
 }
 
 export interface PresetBlock extends langium.AstNode {
@@ -5421,6 +5438,7 @@ export type RuniqAstType = {
     PneumaticStatement: PneumaticStatement
     PortConnection: PortConnection
     PortDecl: PortDecl
+    PositionProperty: PositionProperty
     PresetBlock: PresetBlock
     PressureStatement: PressureStatement
     Profile: Profile
@@ -7457,6 +7475,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: []
+        },
+        PositionProperty: {
+            name: PositionProperty.$type,
+            properties: {
+                x: {
+                    name: PositionProperty.x
+                },
+                y: {
+                    name: PositionProperty.y
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         PresetBlock: {
             name: PresetBlock.$type,

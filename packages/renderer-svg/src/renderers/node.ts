@@ -118,7 +118,9 @@ export function renderNode(
   }
 
   // Wrap in group with optional link
-  let groupAttrs = strict ? '' : ` data-runiq-node="${nodeAst.id}"`;
+  let groupAttrs = strict
+    ? ''
+    : ` data-runiq-node="${nodeAst.id}" data-node-id="${nodeAst.id}" data-node-shape="${nodeAst.shape}"`;
 
   // Add opacity if specified
   if ((style as any).opacity !== undefined) {

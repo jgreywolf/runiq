@@ -164,6 +164,17 @@ function unescapeString(value: string): string {
 }
 
 /**
+ * Location information for a node in the source code
+ */
+export interface NodeLocation {
+  nodeId: string;
+  startLine: number;
+  startColumn: number;
+  endLine: number;
+  endColumn: number;
+}
+
+/**
  * Parse result type
  */
 export interface ParseResult {
@@ -171,6 +182,80 @@ export interface ParseResult {
   document?: RuniqDocument;
   diagram?: DiagramAst; // Backwards compatibility - points to first diagram profile
   errors: string[];
+  nodeLocations?: Map<string, NodeLocation>; // Map from node ID to source location
+}
+
+/**
+ * Extract node locations from the Langium CST
+ * Returns a map from node ID to source location
+ */
+function extractNodeLocations(document: Langium.Document): Map<string, NodeLocation> {
+  const locations = new Map<string, NodeLocation>();
+
+  // Process each profile
+  for (const profile of document.profiles) {
+    // Only extract locations for diagram profiles for now
+    if (Langium.isDiagramProfile(profile)) {
+      for (const statement of profile.statements) {
+        // Extract edge declarations - nodes are referenced in edges
+        if (Langium.isEdgeDeclaration(statement)) {
+          // Extract source node location from the 'from' NodeRef
+          if (statement.from?.$cstNode?.range) {
+            const sourceNodeId = nodeRefToString(statement.from);
+            const fromRange = statement.from.$cstNode.range;
+
+            if (!locations.has(sourceNodeId)) {
+              locations.set(sourceNodeId, {
+                nodeId: sourceNodeId,
+                startLine: fromRange.start.line + 1,
+                startColumn: fromRange.start.character + 1,
+                endLine: fromRange.end.line + 1,
+                endColumn: fromRange.end.character + 1,
+              });
+            }
+          }
+
+          // Extract target node location from the 'to' NodeRef (or chain)
+          if (statement.to?.$cstNode?.range) {
+            const targetNodeId = nodeRefToString(statement.to);
+            const toRange = statement.to.$cstNode.range;
+
+            if (!locations.has(targetNodeId)) {
+              locations.set(targetNodeId, {
+                nodeId: targetNodeId,
+                startLine: toRange.start.line + 1,
+                startColumn: toRange.start.character + 1,
+                endLine: toRange.end.line + 1,
+                endColumn: toRange.end.character + 1,
+              });
+            }
+          }
+
+          // Handle edge chains (A -> B -> C)
+          if (statement.chain && statement.chain.length > 0) {
+            for (const chainItem of statement.chain) {
+              if (chainItem.to?.$cstNode?.range) {
+                const chainNodeId = nodeRefToString(chainItem.to);
+                const chainRange = chainItem.to.$cstNode.range;
+
+                if (!locations.has(chainNodeId)) {
+                  locations.set(chainNodeId, {
+                    nodeId: chainNodeId,
+                    startLine: chainRange.start.line + 1,
+                    startColumn: chainRange.start.character + 1,
+                    endLine: chainRange.end.line + 1,
+                    endColumn: chainRange.end.character + 1,
+                  });
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return locations;
 }
 
 /**
@@ -221,6 +306,9 @@ export function parse(text: string): ParseResult {
   const document = parseResult.value as Langium.Document;
   const runiqDocument = convertToRuniqDocument(document);
 
+  // Extract node locations from CST
+  const nodeLocations = extractNodeLocations(document);
+
   // Backwards compatibility: expose first diagram profile as 'diagram'
   const firstDiagramProfile = runiqDocument.profiles.find(
     (p) => p.type === 'diagram'
@@ -242,6 +330,7 @@ export function parse(text: string): ParseResult {
     document: runiqDocument,
     diagram, // Backwards compatibility
     errors: [],
+    nodeLocations,
   };
 }
 
@@ -1264,6 +1353,11 @@ function processDialogStatement(
     for (const prop of statement.properties) {
       if (Langium.isLabelProperty(prop)) {
         node.label = unescapeString(prop.value);
+      } else if (Langium.isPositionProperty(prop)) {
+        node.position = {
+          x: parseFloat(prop.x),
+          y: parseFloat(prop.y),
+        };
       } else if (Langium.isStyleRefProperty(prop)) {
         node.style = prop.ref?.$refText;
       } else if (Langium.isFillProperty(prop)) {
