@@ -30,7 +30,15 @@
 			description: 'Flowcharts, containers, templates',
 			color: 'runiq',
 			icon: 'diagram',
-			categoryIds: ['flowcharts', 'containers', 'templatesPresets', 'templates', 'network', 'c4', 'controlSystems']
+			categoryIds: [
+				'flowcharts',
+				'containers',
+				'templatesPresets',
+				'templates',
+				'network',
+				'c4',
+				'controlSystems'
+			]
 		},
 		{
 			id: 'glyphsets',
@@ -193,9 +201,14 @@
 				<!-- Back button and search -->
 				<div class="flex items-center gap-3">
 					<Button variant="outline" size="sm" onclick={goBack}>← Back</Button>
-						<div class="relative flex-1">
-							<Icon icon="lucide:search" width="16" height="16" class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400" />
-							<input
+					<div class="relative flex-1">
+						<Icon
+							icon="lucide:search"
+							width="16"
+							height="16"
+							class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400"
+						/>
+						<input
 							type="text"
 							bind:value={searchQuery}
 							placeholder="Search samples..."
@@ -206,7 +219,7 @@
 								onclick={() => (searchQuery = '')}
 								class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
 							>
-								<X class="h-4 w-4" />
+								<Icon icon="lucide:x" class="h-4 w-4" />
 							</button>
 						{/if}
 					</div>
@@ -214,10 +227,10 @@
 
 				<!-- Sample categories -->
 				<div class="max-h-[500px] space-y-4 overflow-auto">
-						{#if filteredCategories.length === 0}
-							<div class="flex flex-col items-center justify-center py-12 text-center">
-								<Icon icon="lucide:file-text" width="48" height="48" class="mb-3 text-neutral-300" />
-								<p class="text-sm text-neutral-600">No samples found</p>
+					{#if filteredCategories.length === 0}
+						<div class="flex flex-col items-center justify-center py-12 text-center">
+							<Icon icon="lucide:file-text" width="48" height="48" class="mb-3 text-neutral-300" />
+							<p class="text-sm text-neutral-600">No samples found</p>
 							<p class="mt-1 text-xs text-neutral-500">Try a different search term</p>
 						</div>
 					{:else}

@@ -181,11 +181,11 @@ describe('Activity Diagram Swimlanes (Task 29)', () => {
 
   it('should parse swimlanes with styling', () => {
     const dsl = `diagram "Styled Swimlanes" {
-      container "Frontend" orientation: vertical fill: "#e3f2fd" padding: 20 {
+      container "Frontend" orientation: vertical fillColor: "#e3f2fd" padding: 20 {
         shape ui as @rect label: "UI"
       }
       
-      container "Backend" orientation: vertical fill: "#fff3e0" padding: 20 {
+      container "Backend" orientation: vertical fillColor: "#fff3e0" padding: 20 {
         shape api as @rect label: "API"
       }
       
@@ -196,9 +196,9 @@ describe('Activity Diagram Swimlanes (Task 29)', () => {
     expect(result.errors).toHaveLength(0);
     
     expect(result.diagram?.containers).toHaveLength(2);
-    expect(result.diagram?.containers?.[0].containerStyle?.backgroundColor).toBe('#e3f2fd');
+    expect(result.diagram?.containers?.[0].containerStyle?.fillColor).toBe('#e3f2fd');
     expect(result.diagram?.containers?.[0].containerStyle?.padding).toBe(20);
-    expect(result.diagram?.containers?.[1].containerStyle?.backgroundColor).toBe('#fff3e0');
+    expect(result.diagram?.containers?.[1].containerStyle?.fillColor).toBe('#fff3e0');
   });
 
   it('should parse nested swimlanes (sub-partitions)', () => {

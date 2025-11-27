@@ -100,8 +100,8 @@ diagram "Colored Edges" {
   shape B as @rect label: "B"
   shape C as @rect label: "C"
 
-  A -> B stroke: "#2196f3"
-  A -> C stroke: "#4caf50" lineStyle: "dashed"
+  A -> B strokeColor: "#2196f3"
+  A -> C strokeColor: "#4caf50" lineStyle: "dashed"
 }
 ```
 
@@ -239,8 +239,8 @@ Login -> Authenticate label: "submit credentials"
 ```runiq
 diagram "Styled Edges" {
   // Define styles for edge types
-  style error_edge stroke:"#d32f2f" lineStyle:"dashed"
-  style success_edge stroke:"#388e3c"
+  style error_edge strokeColor:"#d32f2f" lineStyle:"dashed"
+  style success_edge strokeColor:"#388e3c"
 
   shape A as @rectangle label:"Label"
   shape B as @rectangle label:"B"
@@ -337,7 +337,7 @@ direction LR
 | `label`        | string                                                                                   | -       | `label: "submit"`             |
 | `weight`       | number                                                                                   | -       | `weight: 10`                  |
 | `lineStyle`    | solid \| dashed \| dotted                                                                | solid   | `lineStyle: "dashed"`         |
-| `stroke`       | color                                                                                    | #444    | `stroke: "#2196f3"`           |
+| `stroke`       | color                                                                                    | #444    | `strokeColor: "#2196f3"`      |
 | `strokeWidth`  | number                                                                                   | 2       | `strokeWidth: 3`              |
 | `relationship` | association \| aggregation \| composition \| dependency \| generalization \| realization | -       | `relationship: composition`   |
 | `stereotype`   | string                                                                                   | -       | `stereotype: "<<include>>"`   |

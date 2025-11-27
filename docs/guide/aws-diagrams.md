@@ -237,8 +237,8 @@ diagram "Styled AWS" {
   shape db as @awsRds label: "RDS" fill: "#3b48cc" color: "#ffffff"
   shape lambda as @awsLambda label: "Lambda" fill: "#ff9900" color: "#ffffff"
 
-  compute -> db stroke: "#4caf50" strokeWidth: 2
-  compute -> storage stroke: "#232f3e" strokeWidth: 2
+  compute -> db strokeColor: "#4caf50" strokeWidth: 2
+  compute -> storage strokeColor: "#232f3e" strokeWidth: 2
 }
 ```
 

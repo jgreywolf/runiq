@@ -10,6 +10,7 @@
 	} from '@runiq/renderer-svg';
 	import { renderSchematic, renderPID } from '@runiq/renderer-schematic';
 	import { Badge } from '$lib/components/ui/badge';
+	import Icon from '@iconify/svelte';
 
 	// Props
 	interface Props {
@@ -46,7 +47,18 @@
 	// Selection state
 	let selectedNodeId = $state<string | null>(null);
 	let selectedEdgeId = $state<string | null>(null);
+	let selectedNodeIds = $state<Set<string>>(new Set());
+	let selectedEdgeIds = $state<Set<string>>(new Set());
 	let hoveredElementId = $state<string | null>(null);
+
+	// Lasso selection state
+	let lassoStartX = $state(0);
+	let lassoStartY = $state(0);
+	let lassoEndX = $state(0);
+	let lassoEndY = $state(0);
+	let isLassoActive = $state(false);
+	let isLassoPending = $state(false);
+	const LASSO_THRESHOLD = 5; // pixels to drag before activating lasso
 
 	// Edge creation state (Shift+Click workflow)
 	let edgeCreationMode = $state(false);
@@ -70,10 +82,74 @@
 	// Node locations from parser (for code highlighting)
 	let nodeLocations = $state<Map<string, NodeLocation>>(new Map());
 
+	// Store the parsed profile for accessing node/edge properties
+	let currentProfile = $state<any>(null);
+
+	// Clipboard state for copy/paste
+	interface ClipboardItem {
+		type: 'node' | 'edge';
+		id: string;
+		data: any;
+	}
+	let clipboard = $state<ClipboardItem[]>([]);
+
 	// Effect to select all text when editing starts
 	$effect(() => {
 		if (editInputElement && (editingNodeId || editingEdgeId)) {
 			editInputElement.select();
+		}
+	});
+
+	// Effect to load style values when selection changes
+	$effect(() => {
+		const elementId = selectedNodeId || selectedEdgeId;
+		if (!elementId || !currentProfile) {
+			return;
+		}
+
+		// Find the element in the profile
+		let element: any = null;
+
+		// Try to find as a node
+		if (currentProfile.nodes) {
+			element = currentProfile.nodes.find((n: any) => n.id === elementId);
+		}
+
+		// If not found, try to find as an edge
+		if (!element && currentProfile.edges) {
+			element = currentProfile.edges.find((e: any) => {
+				// Edge ID might be "from-to" format
+				const edgeId = `${e.from}-${e.to}`;
+				return edgeId === elementId || e.id === elementId;
+			});
+		}
+
+		if (element) {
+			// Load current style values from node.data or edge properties
+			// For nodes, properties are in node.data: fillColor, textColor, strokeColor, strokeWidth, fontSize
+			// For edges, properties are directly on edge: strokeColor, strokeWidth
+			if (element.data) {
+				// Node properties
+				styleBackground = element.data.fillColor || '';
+				styleStroke = element.data.strokeColor || '';
+				styleFontSize = element.data.fontSize ? String(element.data.fontSize) : '';
+				styleFontColor = element.data.textColor || '';
+				styleShadow = element.data.shadow === true || element.data.shadow === 'true';
+			} else {
+				// Edge properties (directly on edge)
+				styleBackground = '';
+				styleStroke = element.strokeColor || '';
+				styleFontSize = '';
+				styleFontColor = '';
+				styleShadow = false;
+			}
+		} else {
+			// Reset to defaults if element not found
+			styleBackground = '';
+			styleStroke = '';
+			styleFontSize = '';
+			styleFontColor = '';
+			styleShadow = false;
 		}
 	});
 
@@ -306,6 +382,9 @@
 				return;
 			}
 
+			// Store the profile for accessing node/edge properties
+			currentProfile = profile;
+
 			// Inject Sankey chart data (same as Preview.svelte)
 			if (profile.type === 'diagram' && dataContent) {
 				try {
@@ -512,6 +591,52 @@
 		const edgeId = target.getAttribute('data-edge-id');
 		const mouseEvent = event as MouseEvent;
 
+		// Handle Ctrl+Click for multi-select
+		if ((mouseEvent.ctrlKey || mouseEvent.metaKey) && !mouseEvent.shiftKey) {
+			if (nodeId) {
+				const newSet = new Set(selectedNodeIds);
+
+				// If we have a single selected node, add it to multi-select first
+				if (selectedNodeId && selectedNodeIds.size === 0) {
+					newSet.add(selectedNodeId);
+				}
+
+				if (newSet.has(nodeId)) {
+					newSet.delete(nodeId);
+				} else {
+					newSet.add(nodeId);
+				}
+
+				// Clear single selection
+				selectedNodeId = null;
+				selectedEdgeId = null;
+
+				selectedNodeIds = newSet;
+				updateMultiSelection();
+			} else if (edgeId) {
+				const newSet = new Set(selectedEdgeIds);
+
+				// If we have a single selected edge, add it to multi-select first
+				if (selectedEdgeId && selectedEdgeIds.size === 0) {
+					newSet.add(selectedEdgeId);
+				}
+
+				if (newSet.has(edgeId)) {
+					newSet.delete(edgeId);
+				} else {
+					newSet.add(edgeId);
+				}
+
+				// Clear single selection
+				selectedNodeId = null;
+				selectedEdgeId = null;
+
+				selectedEdgeIds = newSet;
+				updateMultiSelection();
+			}
+			return;
+		}
+
 		// Handle Shift+Click for edge creation (nodes only)
 		if (mouseEvent.shiftKey && nodeId) {
 			if (!edgeCreationMode) {
@@ -536,7 +661,7 @@
 			return;
 		}
 
-		// Normal selection behavior (no Shift key)
+		// Normal selection behavior (no modifiers)
 		clearSelection();
 
 		if (nodeId) {
@@ -552,6 +677,35 @@
 		}
 	}
 
+	// Update visual styling for multi-selected elements
+	function updateMultiSelection() {
+		if (!svgContainer) return;
+
+		const svgElement = svgContainer.querySelector('svg');
+		if (!svgElement) return;
+
+		// Clear all selection classes first (both single and multi)
+		svgElement.querySelectorAll('.runiq-selected, .runiq-multi-selected').forEach((el) => {
+			el.classList.remove('runiq-selected', 'runiq-multi-selected');
+		});
+
+		// Add multi-selection class to selected nodes
+		selectedNodeIds.forEach((nodeId) => {
+			const nodeElement = svgElement.querySelector(`[data-node-id="${nodeId}"]`);
+			if (nodeElement) {
+				nodeElement.classList.add('runiq-multi-selected');
+			}
+		});
+
+		// Add multi-selection class to selected edges
+		selectedEdgeIds.forEach((edgeId) => {
+			const edgeElement = svgElement.querySelector(`[data-edge-id="${edgeId}"]`);
+			if (edgeElement) {
+				edgeElement.classList.add('runiq-multi-selected');
+			}
+		});
+	}
+
 	// Cancel edge creation mode
 	function cancelEdgeCreation() {
 		edgeCreationMode = false;
@@ -564,20 +718,22 @@
 		const elementId = selectedNodeId || selectedEdgeId;
 		if (!elementId || !onedit) return;
 
-		// Map the style property to the DSL property name
+		// Map the UI property to the DSL property name
+		// For nodes: fillColor, textColor, strokeColor, strokeWidth, fontSize
+		// For edges: strokeColor, strokeWidth
 		let dslProperty: string;
 		switch (property) {
 			case 'background':
-				dslProperty = 'fill';
+				dslProperty = 'fillColor'; // background color
 				break;
 			case 'stroke':
-				dslProperty = 'stroke';
+				dslProperty = 'strokeColor'; // border/stroke color
 				break;
 			case 'fontSize':
 				dslProperty = 'fontSize';
 				break;
 			case 'fontColor':
-				dslProperty = 'fontColor';
+				dslProperty = 'textColor'; // text color
 				break;
 			case 'shadow':
 				dslProperty = 'shadow';
@@ -637,18 +793,29 @@
 		if (!svgElement) return;
 
 		// Remove selection class from all elements
-		svgElement.querySelectorAll('.runiq-selected').forEach((el) => {
-			el.classList.remove('runiq-selected');
+		svgElement.querySelectorAll('.runiq-selected, .runiq-multi-selected').forEach((el) => {
+			el.classList.remove('runiq-selected', 'runiq-multi-selected');
 		});
 
 		selectedNodeId = null;
 		selectedEdgeId = null;
+		selectedNodeIds = new Set();
+		selectedEdgeIds = new Set();
 	}
 
 	// Handle canvas click (deselect)
 	function handleCanvasClick(event: MouseEvent) {
 		// Only deselect if clicking on the canvas itself, not on an element
 		if (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'svg') {
+			// If we're in multi-select mode (have multiple items selected), only clear if NOT holding Ctrl
+			const hasMultiSelection = selectedNodeIds.size > 1 || selectedEdgeIds.size > 1 ||
+			                          (selectedNodeIds.size === 1 && selectedEdgeIds.size === 1);
+
+			if (hasMultiSelection && (event.ctrlKey || event.metaKey)) {
+				// Don't clear multi-selection when Ctrl+clicking empty space
+				return;
+			}
+
 			clearSelection();
 			cancelEdgeCreation(); // Cancel edge creation if clicking on empty canvas
 			if (onselect) onselect(null, null);
@@ -657,6 +824,9 @@
 
 	// Handle keyboard events for the canvas
 	function handleCanvasKeyDown(event: KeyboardEvent) {
+		// Don't intercept if we're editing text
+		if (editingNodeId || editingEdgeId) return;
+
 		if (event.key === 'Escape') {
 			// Cancel edge creation mode
 			if (edgeCreationMode) {
@@ -664,12 +834,173 @@
 				event.preventDefault();
 			}
 		} else if (event.key === 'Delete' || event.key === 'Backspace') {
-			// Delete selected element
-			if ((selectedNodeId || selectedEdgeId) && ondelete) {
+			// Delete selected elements (single or multi)
+			if (selectedNodeIds.size > 0 || selectedEdgeIds.size > 0) {
+				// Delete all multi-selected items
+				selectedNodeIds.forEach((nodeId) => {
+					if (ondelete) ondelete(nodeId, null);
+				});
+				selectedEdgeIds.forEach((edgeId) => {
+					if (ondelete) ondelete(null, edgeId);
+				});
+				clearSelection();
+				event.preventDefault();
+			} else if ((selectedNodeId || selectedEdgeId) && ondelete) {
+				// Delete single selected item
 				ondelete(selectedNodeId, selectedEdgeId);
 				clearSelection();
 				event.preventDefault();
 			}
+		} else if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
+			// Copy selected elements
+			handleCopy();
+			event.preventDefault();
+		} else if ((event.ctrlKey || event.metaKey) && event.key === 'v') {
+			// Paste clipboard contents
+			handlePaste();
+			event.preventDefault();
+		} else if ((event.ctrlKey || event.metaKey) && event.key === 'x') {
+			// Cut selected elements
+			handleCut();
+			event.preventDefault();
+		} else if ((event.ctrlKey || event.metaKey) && event.key === 'a') {
+			// Select all elements
+			handleSelectAll();
+			event.preventDefault();
+		}
+	}
+
+	// Copy selected elements to clipboard
+	function handleCopy() {
+		if (!svgContainer) return;
+
+		const svgElement = svgContainer.querySelector('svg');
+		if (!svgElement) return;
+
+		clipboard = [];
+
+		// Copy multi-selected items
+		if (selectedNodeIds.size > 0 || selectedEdgeIds.size > 0) {
+			selectedNodeIds.forEach((nodeId) => {
+				const element = svgElement.querySelector(`[data-node-id="${nodeId}"]`);
+				if (element) {
+					clipboard.push({
+						type: 'node',
+						id: nodeId,
+						data: extractElementData(element, 'node')
+					});
+				}
+			});
+
+			selectedEdgeIds.forEach((edgeId) => {
+				const element = svgElement.querySelector(`[data-edge-id="${edgeId}"]`);
+				if (element) {
+					clipboard.push({
+						type: 'edge',
+						id: edgeId,
+						data: extractElementData(element, 'edge')
+					});
+				}
+			});
+		}
+		// Copy single selected item
+		else if (selectedNodeId) {
+			const element = svgElement.querySelector(`[data-node-id="${selectedNodeId}"]`);
+			if (element) {
+				clipboard.push({
+					type: 'node',
+					id: selectedNodeId,
+					data: extractElementData(element, 'node')
+				});
+			}
+		} else if (selectedEdgeId) {
+			const element = svgElement.querySelector(`[data-edge-id="${selectedEdgeId}"]`);
+			if (element) {
+				clipboard.push({
+					type: 'edge',
+					id: selectedEdgeId,
+					data: extractElementData(element, 'edge')
+				});
+			}
+		}
+	}
+
+	// Cut selected elements (copy + delete)
+	function handleCut() {
+		handleCopy();
+
+		// Delete after copying
+		if (selectedNodeIds.size > 0 || selectedEdgeIds.size > 0) {
+			selectedNodeIds.forEach((nodeId) => {
+				if (ondelete) ondelete(nodeId, null);
+			});
+			selectedEdgeIds.forEach((edgeId) => {
+				if (ondelete) ondelete(null, edgeId);
+			});
+		} else if (selectedNodeId || selectedEdgeId) {
+			if (ondelete) ondelete(selectedNodeId, selectedEdgeId);
+		}
+
+		clearSelection();
+	}
+
+	// Paste clipboard contents
+	function handlePaste() {
+		if (clipboard.length === 0 || !oninsertshape) return;
+
+		// Generate DSL code for pasted elements with new IDs
+		clipboard.forEach((item, index) => {
+			const newId = `${item.id}_copy_${Date.now()}_${index}`;
+			const shapeCode = generateShapeCode(item, newId);
+			if (shapeCode && oninsertshape) {
+				oninsertshape(shapeCode);
+			}
+		});
+	}
+
+	// Select all elements in the diagram
+	function handleSelectAll() {
+		if (!svgContainer) return;
+
+		const svgElement = svgContainer.querySelector('svg');
+		if (!svgElement) return;
+
+		const newSelectedNodes = new Set<string>();
+		const newSelectedEdges = new Set<string>();
+
+		svgElement.querySelectorAll('[data-node-id]').forEach((element) => {
+			const nodeId = element.getAttribute('data-node-id');
+			if (nodeId) newSelectedNodes.add(nodeId);
+		});
+
+		svgElement.querySelectorAll('[data-edge-id]').forEach((element) => {
+			const edgeId = element.getAttribute('data-edge-id');
+			if (edgeId) newSelectedEdges.add(edgeId);
+		});
+
+		selectedNodeIds = newSelectedNodes;
+		selectedEdgeIds = newSelectedEdges;
+		updateMultiSelection();
+	}
+
+	// Extract element data from SVG element
+	function extractElementData(element: Element, type: 'node' | 'edge'): any {
+		// This is a simplified version - in a real implementation,
+		// you would extract all the node/edge properties from the AST
+		return {
+			id: element.getAttribute(`data-${type}-id`),
+			// Additional properties would be extracted here
+		};
+	}
+
+	// Generate DSL code for a clipboard item
+	function generateShapeCode(item: ClipboardItem, newId: string): string {
+		// This is a simplified version - in a real implementation,
+		// you would generate proper DSL syntax based on the element's properties
+		if (item.type === 'node') {
+			return `shape ${newId} as @rectangle label:"Copy of ${item.id}"`;
+		} else {
+			return `edge ${item.id} -> ${newId}`;
 		}
 	}
 
@@ -756,15 +1087,35 @@
 		scale = Math.min(scaleX, scaleY, 5);
 	}
 
-	// Pan controls (same as Preview.svelte)
+	// Pan controls and lasso selection
 	function handleMouseDown(e: MouseEvent) {
-		// Don't start panning if we're editing
+		// Don't start panning/lasso if we're editing
 		if (editingNodeId || editingEdgeId) return;
 
+		// Don't start lasso/pan if clicking on an element (let the element click handler deal with it)
+		const target = e.target as HTMLElement;
+		if (target.closest('[data-node-id], [data-edge-id]')) {
+			return;
+		}
+
 		if (e.button === 0) {
-			isDragging = true;
-			dragStartX = e.clientX - translateX;
-			dragStartY = e.clientY - translateY;
+			const rect = svgContainer.getBoundingClientRect();
+			const clientX = e.clientX - rect.left;
+			const clientY = e.clientY - rect.top;
+
+			// Ctrl+Drag for lasso selection (pending until drag threshold)
+			if (e.ctrlKey || e.metaKey) {
+				isLassoPending = true;
+				lassoStartX = clientX;
+				lassoStartY = clientY;
+				lassoEndX = clientX;
+				lassoEndY = clientY;
+			} else {
+				// Regular panning
+				isDragging = true;
+				dragStartX = e.clientX - translateX;
+				dragStartY = e.clientY - translateY;
+			}
 		}
 	}
 
@@ -776,7 +1127,23 @@
 		svgMouseX = Math.round((mouseX - translateX) / scale);
 		svgMouseY = Math.round((mouseY - translateY) / scale);
 
-		if (isDragging) {
+		if (isLassoPending) {
+			// Check if we've dragged far enough to activate lasso
+			const dx = mouseX - lassoStartX;
+			const dy = mouseY - lassoStartY;
+			const distance = Math.sqrt(dx * dx + dy * dy);
+
+			if (distance > LASSO_THRESHOLD) {
+				isLassoPending = false;
+				isLassoActive = true;
+			}
+		}
+
+		if (isLassoActive) {
+			// Update lasso rectangle
+			lassoEndX = mouseX;
+			lassoEndY = mouseY;
+		} else if (isDragging) {
 			// Handle canvas panning
 			translateX = e.clientX - dragStartX;
 			translateY = e.clientY - dragStartY;
@@ -784,7 +1151,65 @@
 	}
 
 	function handleMouseUp() {
+		if (isLassoActive) {
+			// Complete lasso selection
+			selectElementsInLasso();
+			isLassoActive = false;
+		}
+		isLassoPending = false;
 		isDragging = false;
+	}
+
+	// Select all elements within the lasso rectangle
+	function selectElementsInLasso() {
+		if (!svgContainer) return;
+
+		const svgElement = svgContainer.querySelector('svg');
+		if (!svgElement) return;
+
+		// Calculate lasso bounds in screen coordinates
+		const minX = Math.min(lassoStartX, lassoEndX);
+		const maxX = Math.max(lassoStartX, lassoEndX);
+		const minY = Math.min(lassoStartY, lassoEndY);
+		const maxY = Math.max(lassoStartY, lassoEndY);
+
+		const newSelectedNodes = new Set<string>();
+		const newSelectedEdges = new Set<string>();
+
+		// Check all interactive elements
+		const elements = svgElement.querySelectorAll('[data-node-id], [data-edge-id]');
+		elements.forEach((element) => {
+			const bbox = (element as SVGGraphicsElement).getBBox();
+			const svgRect = svgElement.getBoundingClientRect();
+			const containerRect = svgContainer.getBoundingClientRect();
+
+			// Transform SVG coordinates to screen coordinates
+			const elemX = (bbox.x * scale) + translateX;
+			const elemY = (bbox.y * scale) + translateY;
+			const elemWidth = bbox.width * scale;
+			const elemHeight = bbox.height * scale;
+
+			// Check if element intersects with lasso
+			if (
+				elemX < maxX &&
+				elemX + elemWidth > minX &&
+				elemY < maxY &&
+				elemY + elemHeight > minY
+			) {
+				const nodeId = element.getAttribute('data-node-id');
+				const edgeId = element.getAttribute('data-edge-id');
+
+				if (nodeId) newSelectedNodes.add(nodeId);
+				if (edgeId) newSelectedEdges.add(edgeId);
+			}
+		});
+
+		// Update selection
+		selectedNodeIds = newSelectedNodes;
+		selectedEdgeIds = newSelectedEdges;
+
+		// Update visual selection
+		updateMultiSelection();
 	}
 
 	function handleWheel(e: WheelEvent) {
@@ -841,6 +1266,11 @@
 		stroke-width: 3 !important;
 	}
 
+	/* Make edges clickable with cursor feedback */
+	:global([data-edge-id]) {
+		cursor: pointer;
+	}
+
 	:global(.runiq-selected) {
 		filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.8));
 		border-color: #3b82f6;
@@ -862,6 +1292,63 @@
 		}
 	}
 
+	/* Multi-selection styling */
+	:global(.runiq-multi-selected) {
+		filter: drop-shadow(0 0 3px rgba(168, 85, 247, 0.7));
+		stroke: #a855f7;
+		stroke-width: 2;
+	}
+
+	/* Floating toolbar at top center */
+	.floating-toolbar {
+		position: absolute;
+		top: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 1000;
+		display: flex;
+		gap: 8px;
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 8px;
+		padding: 8px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+
+	.toolbar-button {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 8px 16px;
+		background: white;
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		font-size: 14px;
+		font-weight: 500;
+		color: #374151;
+		cursor: pointer;
+		transition: all 0.15s;
+	}
+
+	.toolbar-button:hover {
+		background: #f9fafb;
+		border-color: #3b82f6;
+		color: #3b82f6;
+	}
+
+	.toolbar-button:active {
+		transform: scale(0.98);
+	}
+
+	/* Lasso selection rectangle */
+	.lasso-rectangle {
+		position: absolute;
+		border: 2px dashed #3b82f6;
+		background: rgba(59, 130, 246, 0.1);
+		pointer-events: none;
+		z-index: 999;
+	}
+
 	.edit-input {
 		position: absolute;
 		z-index: 1000;
@@ -872,6 +1359,107 @@
 		font-size: 14px;
 		background: white;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	/* Style Panel */
+	.style-panel {
+		position: absolute;
+		top: 60px;
+		right: 20px;
+		width: 280px;
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 8px;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+		z-index: 1000;
+		overflow: hidden;
+	}
+
+	.style-panel-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 12px 16px;
+		border-bottom: 1px solid #e5e7eb;
+		background: #f9fafb;
+	}
+
+	.style-panel-body {
+		padding: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.style-field {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.style-field label {
+		flex: 0 0 80px;
+		font-size: 13px;
+		font-weight: 500;
+		color: #374151;
+	}
+
+	.style-color-input {
+		width: 40px;
+		height: 32px;
+		border: 1px solid #d1d5db;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	.style-text-input {
+		flex: 1;
+		padding: 6px 8px;
+		border: 1px solid #d1d5db;
+		border-radius: 4px;
+		font-size: 13px;
+		font-family: monospace;
+	}
+
+	.style-text-input:focus {
+		outline: none;
+		border-color: #3b82f6;
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+	}
+
+	.style-number-input {
+		width: 80px;
+		padding: 6px 8px;
+		border: 1px solid #d1d5db;
+		border-radius: 4px;
+		font-size: 13px;
+	}
+
+	.style-number-input:focus {
+		outline: none;
+		border-color: #3b82f6;
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+	}
+
+	.style-checkbox {
+		width: 18px;
+		height: 18px;
+		cursor: pointer;
+	}
+
+	.close-button {
+		padding: 4px;
+		border-radius: 4px;
+		background: transparent;
+		border: none;
+		color: #6b7280;
+		cursor: pointer;
+		transition: all 0.15s;
+	}
+
+	.close-button:hover {
+		background: #f3f4f6;
+		color: #374151;
 	}
 </style>
 
@@ -944,7 +1532,19 @@
 				</span>
 			{/if}
 
-			{#if selectedNodeId}
+			{#if selectedNodeIds.size > 0 || selectedEdgeIds.size > 0}
+				<Badge variant="outline" class="gap-1 bg-purple-50 border-purple-300 text-purple-700">
+					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+						/>
+					</svg>
+					Multi-Select: {selectedNodeIds.size + selectedEdgeIds.size} items
+				</Badge>
+			{:else if selectedNodeId}
 				<Badge variant="outline" class="gap-1">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path
@@ -956,16 +1556,6 @@
 					</svg>
 					Selected: {selectedNodeId}
 				</Badge>
-				<button
-					onclick={() => (showStylePanel = !showStylePanel)}
-					class="px-2 py-1 text-xs font-medium text-neutral-700 bg-white hover:bg-neutral-100 border border-neutral-300 rounded transition-colors"
-					title="Style"
-				>
-					<svg class="h-3 w-3 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-					</svg>
-					Style
-				</button>
 			{:else if selectedEdgeId}
 				<Badge variant="outline" class="gap-1">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -978,16 +1568,13 @@
 					</svg>
 					Selected: {selectedEdgeId}
 				</Badge>
-				<button
-					onclick={() => (showStylePanel = !showStylePanel)}
-					class="px-2 py-1 text-xs font-medium text-neutral-700 bg-white hover:bg-neutral-100 border border-neutral-300 rounded transition-colors"
-					title="Style"
-				>
-					<svg class="h-3 w-3 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-					</svg>
-					Style
-				</button>
+			{/if}
+
+			<!-- Multi-select help hint -->
+			{#if !selectedNodeId && !selectedEdgeId && selectedNodeIds.size === 0 && selectedEdgeIds.size === 0}
+				<span class="text-xs text-neutral-400 italic">
+					Tip: Ctrl+Click to multi-select, Ctrl+Drag for lasso
+				</span>
 			{/if}
 		</div>
 
@@ -1063,6 +1650,28 @@
 		tabindex="0"
 		style="cursor: {isDragging ? 'grabbing' : (editingNodeId || editingEdgeId) ? 'default' : 'grab'}; outline: none;"
 	>
+		<!-- Floating Toolbar at Top Center -->
+		{#if selectedNodeId || selectedEdgeId}
+			<div class="floating-toolbar">
+				<button
+					onclick={() => (showStylePanel = !showStylePanel)}
+					class="toolbar-button"
+					title="Edit Style (colors, fonts, effects)"
+				>
+					<Icon icon="lucide:palette" class="size-4" />
+					<span>Style</span>
+				</button>
+			</div>
+		{/if}
+
+		<!-- Lasso Selection Rectangle -->
+		{#if isLassoActive}
+			<div
+				class="lasso-rectangle"
+				style="left: {Math.min(lassoStartX, lassoEndX)}px; top: {Math.min(lassoStartY, lassoEndY)}px; width: {Math.abs(lassoEndX - lassoStartX)}px; height: {Math.abs(lassoEndY - lassoStartY)}px;"
+			></div>
+		{/if}
+
 		<!-- Label Edit Input -->
 		{#if (editingNodeId || editingEdgeId) && editInputPosition}
 			<input

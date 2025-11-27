@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Accordion as AccordionPrimitive } from 'bits-ui';
-	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
+	import Icon from '@iconify/svelte';
 	import { cn, type WithoutChild } from '$lib/utils';
 
 	let {
@@ -25,7 +25,8 @@
 		{...restProps}
 	>
 		{@render children?.()}
-		<ChevronDownIcon
+		<Icon
+			icon="lucide:chevron-down"
 			class="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200"
 		/>
 	</AccordionPrimitive.Trigger>

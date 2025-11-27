@@ -328,14 +328,14 @@ diagram "Styled Classes" {
   shape base as @abstract label: "BaseClass"
     stereotype: "«abstract»"
     fill: "#fef3c7"
-    stroke: "#f59e0b"
+    strokeColor: "#f59e0b"
     methods: [
       {name: "abstractMethod" returnType: "void" visibility: public abstract: true}
     ]
 
   shape derived as @class label: "DerivedClass"
     fill: "#dbeafe"
-    stroke: "#3b82f6"
+    strokeColor: "#3b82f6"
     methods: [
       {name: "abstractMethod" returnType: "void" visibility: public}
     ]
@@ -343,12 +343,12 @@ diagram "Styled Classes" {
   shape util as @class label: "Helper"
     stereotype: "«utility»"
     fill: "#d1fae5"
-    stroke: "#10b981"
+    strokeColor: "#10b981"
     methods: [
       {name: "helperMethod" returnType: "void" visibility: public static: true}
     ]
 
-  derived -> base relationship: generalization stroke: "#f59e0b" strokeWidth: 2
+  derived -> base relationship: generalization strokeColor: "#f59e0b" strokeWidth: 2
   derived -> util relationship: dependency lineStyle: "dashed"
 }
 ```

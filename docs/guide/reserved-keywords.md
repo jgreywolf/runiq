@@ -215,7 +215,7 @@ edge myNode -> server label: "HTTP Request" style: dashed
 **Usage**:
 
 ```runiq
-container "Backend Services" backgroundColor: "#e3f2fd" padding: 20 {
+container "Backend Services" fillColor: "#e3f2fd" padding: 20 {
   shape api as @server label: "REST API"
   shape db as @cylinder label: "Database"
   api -> db
@@ -245,7 +245,7 @@ group backend [api, db, cache]
 ```runiq
 style highlight {
   fill: "#ffeb3b"
-  stroke: "#f57c00"
+  strokeColor: "#f57c00"
   strokeWidth: 3
 }
 
@@ -266,8 +266,8 @@ template "microservice" {
     "serviceName": string = "Service",
     "replicas": number = 3
   ]
-  backgroundColor: "#e8f5e9"
-  borderColor: "#4caf50"
+  fillColor: "#e8f5e9"
+  strokeColor: "#4caf50"
   padding: 15
 }
 
@@ -286,8 +286,8 @@ container "Auth Service" templateId: "microservice" {
 
 ```runiq
 preset "card" {
-  backgroundColor: "#ffffff"
-  borderColor: "#dee2e6"
+  fillColor: "#ffffff"
+  strokeColor: "#dee2e6"
   padding: 15
   shadow: true
 }
@@ -959,11 +959,11 @@ b --> a label: "Response"
 **Usage**:
 
 ```runiq
-container "Base" backgroundColor: "#f0f0f0" padding: 20 {
+container "Base" fillColor: "#f0f0f0" padding: 20 {
   shape base as @rectangle label: "Base"
 }
 
-container "Extended" extends: "Base" borderColor: "#2196f3" {
+container "Extended" extends: "Base" strokeColor: "#2196f3" {
   shape extended as @rectangle label: "Extended"
 }
 ```
@@ -978,7 +978,7 @@ container "Extended" extends: "Base" borderColor: "#2196f3" {
 
 ```runiq
 template "service" {
-  backgroundColor: "#e3f2fd"
+  fillColor: "#e3f2fd"
   padding: 20
 }
 
@@ -993,9 +993,9 @@ These are reserved as container properties (not available in generic `style` blo
 
 - `padding` - Internal padding (use `margin` in styles)
 - `borderStyle` - Border style (use `lineStyle` for edges)
-- `borderColor` - Border color
+- `strokeColor` - Border color
 - `borderWidth` - Border width
-- `backgroundColor` - Background color
+- `fillColor` - Background color
 - `opacity` - Container opacity (use `fillOpacity`/`strokeOpacity` in styles)
 - `shadow` - Drop shadow effect
 - `resizable` - User-resizable flag
@@ -1095,7 +1095,7 @@ shape node as @rectangle label:"Text" color:"#ff0000"
 # Style properties - WITH SPACE
 style myStyle {
   fill: "#ff0000"
-  stroke: "#000000"
+  strokeColor: "#000000"
 }
 ```
 

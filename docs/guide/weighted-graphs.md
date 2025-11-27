@@ -5,18 +5,21 @@ Weighted graphs assign numeric values (weights) to edges, representing costs, di
 ## Current Capabilities & Limitations
 
 ::: tip What Works
+
 - ✅ **Parsing & Storage**: Weights are fully parsed and stored in the diagram AST
 - ✅ **Graph Metrics**: Weights are used internally for shortest path, betweenness centrality, and other graph analysis algorithms
 - ✅ **Data Model**: Weights integrate seamlessly with the type system and validation
-:::
+  :::
 
 ::: warning Known Limitations
+
 - ⚠️ **Layout Engine**: Weights are **not** currently passed to ELK layout engine and do not affect node positioning or edge routing
 - ⚠️ **Visualization**: Weights are **not** automatically displayed on edges (you must manually add labels)
 - ⚠️ **API Access**: Internal graph algorithms are not yet exposed as user-facing APIs
-:::
+  :::
 
 **Workaround**: Manually duplicate weight values in edge labels to make them visible:
+
 ```runiq
 A -> B weight: 10 label: "10 mi"  # Weight for metrics + label for display
 ```
@@ -126,9 +129,9 @@ a -> c weight: 50 strokeWidth: 3
 a -> d weight: 25 strokeWidth: 2
 
 # Color intensity = cost/priority
-a -> b weight: 10 stroke: "#ff0000" strokeWidth: 3  # High cost (red, thick)
-a -> c weight: 5 stroke: "#ffa500" strokeWidth: 2   # Medium cost (orange)
-a -> d weight: 1 stroke: "#00ff00" strokeWidth: 1   # Low cost (green, thin)
+a -> b weight: 10 strokeColor: "#ff0000" strokeWidth: 3  # High cost (red, thick)
+a -> c weight: 5 strokeColor: "#ffa500" strokeWidth: 2   # Medium cost (orange)
+a -> d weight: 1 strokeColor: "#00ff00" strokeWidth: 1   # Low cost (green, thin)
 ```
 
 ### Labels

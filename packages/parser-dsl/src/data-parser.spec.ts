@@ -169,7 +169,7 @@ describe('Data Property Parser', () => {
     it('should parse data with style and icon', () => {
       const dsl = `
         diagram "Test" {
-          style myStyle fill: "#fff"
+          style myStyle fillColor: "#fff"
           shape chart6 as @pie-chart 
             label: "Revenue" 
             style: myStyle 

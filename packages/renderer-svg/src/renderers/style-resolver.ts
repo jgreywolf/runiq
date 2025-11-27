@@ -1,6 +1,6 @@
 /**
  * Style Resolution System for Phase 5 Templates & Presets
- * 
+ *
  * Implements the property resolution order:
  * 1. Template styles (from templateId)
  * 2. Preset styles (from preset)
@@ -17,13 +17,13 @@ import type {
 /**
  * Resolve final container styles with proper precedence
  * Works with converted DiagramAst (core format), not Langium AST
- * 
+ *
  * Precedence order (lowest to highest):
  * 1. Extended container's fully resolved styles (from extends)
  * 2. Template styles (from templateId)
- * 3. Preset styles (from preset)  
+ * 3. Preset styles (from preset)
  * 4. Inline styles (highest priority)
- * 
+ *
  * Note: Extends applies the FULL resolved style chain of the base container FIRST,
  * then the current container's template/preset/inline can override specific properties.
  */
@@ -34,10 +34,13 @@ export function resolveContainerStyle(
   let resolvedStyle: ContainerStyle = {};
 
   const containerStyle = container.containerStyle;
-  
+
   // 1. Apply extended container's FULL resolved styles first (lowest priority)
   if (containerStyle?.extends) {
-    const baseContainer = findContainerById(diagram.containers, containerStyle.extends);
+    const baseContainer = findContainerById(
+      diagram.containers,
+      containerStyle.extends
+    );
     if (baseContainer) {
       // Recursively resolve the base container's complete style
       const baseStyle = resolveContainerStyle(baseContainer, diagram);
@@ -47,7 +50,9 @@ export function resolveContainerStyle(
 
   // 2. Apply template styles if templateId exists
   if (containerStyle?.templateId && diagram.templates) {
-    const template = diagram.templates.find((t) => t.id === containerStyle.templateId);
+    const template = diagram.templates.find(
+      (t) => t.id === containerStyle.templateId
+    );
     if (template?.containerStyle) {
       resolvedStyle = { ...resolvedStyle, ...template.containerStyle };
     }
@@ -65,7 +70,12 @@ export function resolveContainerStyle(
   if (containerStyle) {
     // Spread all properties except the reference properties
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { templateId, preset, extends: extendsRef, ...inlineStyles } = containerStyle;
+    const {
+      templateId,
+      preset,
+      extends: extendsRef,
+      ...inlineStyles
+    } = containerStyle;
     resolvedStyle = { ...resolvedStyle, ...inlineStyles };
   }
 

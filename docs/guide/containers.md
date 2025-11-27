@@ -31,8 +31,8 @@ diagram "Basic Container" {
 diagram "Styled Container" {
 
   container "Backend Services"
-    backgroundColor: "#e3f2fd"
-    borderColor: "#2196f3"
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
     padding: 20
   {
     shape API as @rect label: "API Server"
@@ -42,22 +42,30 @@ diagram "Styled Container" {
 }
 ```
 
+:::tip Unified Property Names
+Runiq uses consistent property names across all element types:
+- `fillColor:` for background color (shapes, containers)
+- `strokeColor:` for border/stroke color (shapes, edges, containers)
+- `strokeWidth:` for border/stroke width (shapes, edges, containers)
+- `textColor:` for text color (shapes)
+:::
+
 ## Multiple Containers
 
 ```runiq
 diagram "Microservices Architecture" {
 
-  container "Frontend" backgroundColor: "#fff3e0" {
+  container "Frontend" fillColor: "#fff3e0" {
     shape UI as @rect label: "React App"
   }
 
-  container "Backend" backgroundColor: "#e8f5e9" {
+  container "Backend" fillColor: "#e8f5e9" {
     shape API as @rect label: "REST API"
     shape Queue as @rect label: "Message Queue"
     API -> Queue
   }
 
-  container "Data" backgroundColor: "#f3e5f5" {
+  container "Data" fillColor: "#f3e5f5" {
     shape DB as @cylinder label: "PostgreSQL"
     shape Cache as @cylinder label: "Redis"
   }
@@ -143,17 +151,17 @@ diagram "Container Spacing" {
 ```runiq
 diagram "Border Styles" {
   container "Solid Border"
-    borderWidth: 2
+    strokeWidth: 2
     borderStyle: solid
-    borderColor: "#2196f3"
+    strokeColor: "#2196f3"
   {
     shape A as @rect label: "A"
   }
 
   container "Dashed Border"
-    borderWidth: 2
+    strokeWidth: 2
     borderStyle: dashed
-    borderColor: "#ff9800"
+    strokeColor: "#ff9800"
   {
     shape B as @rect label: "B"
   }
@@ -167,7 +175,7 @@ Add depth with shadows:
 ```runiq
 diagram "Shadows" {
   container "With Shadow"
-  backgroundColor: "#ffffff"
+  fillColor: "#ffffff"
   shadow: true
   {
     shape Service as @rect label: "Microservice"
@@ -185,8 +193,8 @@ Define reusable container styles:
 diagram "Preset Containers" {
 
   preset "card" {
-    backgroundColor: "#e3f2fd"
-    borderColor: "#2196f3"
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
     padding: 20
     shadow: true
   }
@@ -209,9 +217,9 @@ Templates allow parameterization:
 diagram "Template Containers" {
 
   template "microservice" {
-    backgroundColor: "#e8f5e9"
-    borderColor: "#4caf50"
-    borderWidth: 2
+    fillColor: "#e8f5e9"
+    strokeColor: "#4caf50"
+    strokeWidth: 2
     padding: 15
     resizable: true
   }
@@ -234,7 +242,7 @@ Extend existing containers with `extends`:
 diagram "Container Inheritance" {
 
   container "Base"
-    backgroundColor: "#f0f0f0"
+    fillColor: "#f0f0f0"
     padding: 15
   {
     shape Common as @rect label: "Common Logic"
@@ -242,7 +250,7 @@ diagram "Container Inheritance" {
 
   container "Extended"
     extends: "Base"
-    borderColor: "#2196f3"
+    strokeColor: "#2196f3"
   {
     shape Specific as @rect label: "Specific Logic"
   }
@@ -259,17 +267,17 @@ You can combine presets, templates, extends, and inline styles. The precedence o
 diagram "Full Example" {
 
   preset "card" {
-    backgroundColor: "#e3f2fd"
-    borderColor: "#2196f3"
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
     padding: 20
   }
 
   template "service" {
-    borderWidth: 2
+    strokeWidth: 2
     resizable: true
   }
 
-  container "Base" backgroundColor: "#f0f0f0" padding: 15 {
+  container "Base" fillColor: "#f0f0f0" padding: 15 {
     shape base as @rect label: "Base Node"
   }
 
@@ -277,7 +285,7 @@ diagram "Full Example" {
     extends: "Base"
     templateId: "service"
     preset: "card"
-    backgroundColor: "#fff3e0"
+    fillColor: "#fff3e0"
   {
     shape api as @server label: "REST API"
   }
@@ -370,12 +378,12 @@ diagram "Order Process" {
 diagram "Network Zones" {
   direction LR
 
-  container "DMZ" backgroundColor: "#ffebee" {
+  container "DMZ" fill: "#ffebee" {
     shape Firewall as @rect label: "Firewall"
     shape Proxy as @rect label: "Proxy Server"
   }
 
-  container "Internal Network" backgroundColor: "#e8f5e9" {
+  container "Internal Network" fill: "#e8f5e9" {
     shape AppServer as @rect label: "App Server"
     shape DBServer as @cylinder label: "DB Server"
     AppServer -> DBServer
@@ -387,19 +395,19 @@ diagram "Network Zones" {
 
 ## Container Style Properties
 
-| Property        | Type                      | Default     | Example                      |
-| --------------- | ------------------------- | ----------- | ---------------------------- |
-| `fill`          | color                     | transparent | `backgroundColor: "#e3f2fd"` |
-| `borderColor`   | color                     | #444        | `borderColor: "#2196f3"`     |
-| `borderWidth`   | number                    | 1           | `borderWidth: 2`             |
-| `borderStyle`   | solid \| dashed \| dotted | solid       | `borderStyle: dashed`        |
-| `padding`       | number                    | 20          | `padding: 30`                |
-| `paddingTop`    | number                    | -           | `paddingTop: 10`             |
-| `paddingRight`  | number                    | -           | `paddingRight: 10`           |
-| `paddingBottom` | number                    | -           | `paddingBottom: 10`          |
-| `paddingLeft`   | number                    | -           | `paddingLeft: 10`            |
-| `shadow`        | boolean                   | false       | `shadow: true`               |
-| `opacity`       | number                    | 1.0         | `opacity: 0.8`               |
+| Property        | Type                      | Default     | Example                    |
+| --------------- | ------------------------- | ----------- | -------------------------- |
+| `fillColor`     | color                     | transparent | `fillColor: "#e3f2fd"`     |
+| `strokeColor`   | color                     | #444        | `strokeColor: "#2196f3"`   |
+| `strokeWidth`   | number                    | 1           | `strokeWidth: 2`           |
+| `borderStyle`   | solid \| dashed \| dotted | solid       | `borderStyle: dashed`      |
+| `padding`       | number                    | 20          | `padding: 30`              |
+| `paddingTop`    | number                    | -           | `paddingTop: 10`           |
+| `paddingRight`  | number                    | -           | `paddingRight: 10`         |
+| `paddingBottom` | number                    | -           | `paddingBottom: 10`        |
+| `paddingLeft`   | number                    | -           | `paddingLeft: 10`          |
+| `shadow`        | boolean                   | false       | `shadow: true`             |
+| `opacity`       | number                    | 1.0         | `opacity: 0.8`             |
 
 ### Phase 5 Properties
 
@@ -432,18 +440,18 @@ Define presets for common patterns:
 
 ```runiq
 preset "frontend" {
-  backgroundColor: "#fff3e0"
-  borderColor: "#ff9800"
+  fillColor: "#fff3e0"
+  strokeColor: "#ff9800"
 }
 
 preset "backend" {
-  backgroundColor: "#e8f5e9"
-  borderColor: "#4caf50"
+  fillColor: "#e8f5e9"
+  strokeColor: "#4caf50"
 }
 
 preset "database" {
-  backgroundColor: "#f3e5f5"
-  borderColor: "#9c27b0"
+  fillColor: "#f3e5f5"
+  strokeColor: "#9c27b0"
 }
 ```
 

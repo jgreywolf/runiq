@@ -293,6 +293,100 @@
 				// Fallback if editor ref is not available
 				code = newCode;
 			}
+		} else if (['fillColor', 'strokeColor', 'fontSize', 'textColor', 'shadow'].includes(property)) {
+			// Handle style properties (fillColor, strokeColor, fontSize, textColor, shadow)
+			let shapeOrEdgeLineIndex = -1;
+
+			// First try to find as a shape
+			for (let i = 0; i < lines.length; i++) {
+				const line = lines[i];
+				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}\\s+as\\s+@\\w+`);
+				if (shapeRegex.test(line)) {
+					shapeOrEdgeLineIndex = i;
+					break;
+				}
+			}
+
+			// If not found as shape, try to find as edge
+			if (shapeOrEdgeLineIndex === -1) {
+				const edgeParts = nodeOrEdgeId.split('-');
+				if (edgeParts.length >= 2) {
+					const fromNode = edgeParts[0];
+					const toNode = edgeParts[1];
+
+					for (let i = 0; i < lines.length; i++) {
+						const line = lines[i];
+						const edgeRegex = new RegExp(`^\\s*${fromNode}\\s+(-\\w*->|->)\\s+${toNode}(?:\\s|$)`);
+						if (edgeRegex.test(line)) {
+							shapeOrEdgeLineIndex = i;
+							break;
+						}
+					}
+				}
+			}
+
+			if (shapeOrEdgeLineIndex === -1) {
+				console.warn('Could not find shape or edge declaration for:', nodeOrEdgeId);
+				return;
+			}
+
+			const line = lines[shapeOrEdgeLineIndex];
+
+			// Check if the property already exists
+			const propertyRegex = new RegExp(`${property}:\\s*[^\\s]+`);
+			const hasProperty = propertyRegex.test(line);
+
+			let updatedLine: string;
+			if (hasProperty) {
+				// Replace existing property value
+				// Handle both quoted strings (for colors) and unquoted values (for numbers/booleans)
+				if (property === 'fontSize') {
+					// fontSize is a number without quotes
+					updatedLine = line.replace(
+						new RegExp(`${property}:\\s*\\d+`),
+						`${property}:${value}`
+					);
+				} else if (property === 'shadow') {
+					// shadow is a boolean without quotes
+					updatedLine = line.replace(
+						new RegExp(`${property}:\\s*(true|false)`),
+						`${property}:${value}`
+					);
+				} else {
+					// fill, stroke, color are strings with quotes
+					updatedLine = line.replace(
+						new RegExp(`${property}:\\s*"[^"]*"`),
+						`${property}:"${value}"`
+					);
+				}
+			} else {
+				// Add new property at the end of the line
+				if (property === 'fontSize') {
+					updatedLine = line.trim() + ` ${property}:${value}`;
+				} else if (property === 'shadow') {
+					updatedLine = line.trim() + ` ${property}:${value}`;
+				} else {
+					updatedLine = line.trim() + ` ${property}:"${value}"`;
+				}
+			}
+
+			lines[shapeOrEdgeLineIndex] = updatedLine;
+			const newCode = lines.join('\n');
+
+			// Mark this as a programmatic change to prevent adding to history
+			isProgrammaticChange = true;
+
+			// Update the code editor
+			if (codeEditorRef) {
+				codeEditorRef.setValue(newCode);
+			} else {
+				code = newCode;
+			}
+
+			// Reset the flag after a small delay
+			setTimeout(() => {
+				isProgrammaticChange = false;
+			}, 50);
 		} else {
 			console.warn('Unsupported property for editing:', property);
 		}

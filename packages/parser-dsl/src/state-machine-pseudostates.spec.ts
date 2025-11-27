@@ -15,7 +15,9 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(2);
 
-    const historyNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'mediaPlayer');
+    const historyNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'mediaPlayer'
+    );
     expect(historyNode).toBeDefined();
     expect(historyNode?.shape).toBe('historyShallow');
     expect(historyNode?.label).toBe('Resume Playback');
@@ -33,7 +35,9 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(2);
 
-    const deepHistoryNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'deepHistory');
+    const deepHistoryNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'deepHistory'
+    );
     expect(deepHistoryNode).toBeDefined();
     expect(deepHistoryNode?.shape).toBe('historyDeep');
     expect(deepHistoryNode?.label).toBe('Deep Resume');
@@ -52,7 +56,9 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(3);
 
-    const junctionNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'j1');
+    const junctionNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'j1'
+    );
     expect(junctionNode).toBeDefined();
     expect(junctionNode?.shape).toBe('junction');
     expect(junctionNode?.label).toBe('Decision Point');
@@ -70,7 +76,9 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(2);
 
-    const entryNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'entry1');
+    const entryNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'entry1'
+    );
     expect(entryNode).toBeDefined();
     expect(entryNode?.shape).toBe('entryPoint');
     expect(entryNode?.label).toBe('Main Entry');
@@ -88,7 +96,9 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(2);
 
-    const exitNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'exit1');
+    const exitNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'exit1'
+    );
     expect(exitNode).toBeDefined();
     expect(exitNode?.shape).toBe('exitPoint');
     expect(exitNode?.label).toBe('Exit to Outer');
@@ -106,7 +116,9 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(2);
 
-    const terminateNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'term1');
+    const terminateNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'term1'
+    );
     expect(terminateNode).toBeDefined();
     expect(terminateNode?.shape).toBe('terminate');
     expect(terminateNode?.label).toBe('Abort');
@@ -136,16 +148,24 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(7);
 
-    const entryNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'mainEntry');
+    const entryNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'mainEntry'
+    );
     expect(entryNode?.shape).toBe('entryPoint');
 
-    const junctionNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'validate');
+    const junctionNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'validate'
+    );
     expect(junctionNode?.shape).toBe('junction');
 
-    const successExit = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'success');
+    const successExit = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'success'
+    );
     expect(successExit?.shape).toBe('exitPoint');
 
-    const failureExit = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'failure');
+    const failureExit = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'failure'
+    );
     expect(failureExit?.shape).toBe('exitPoint');
 
     expect(result.diagram?.edges?.length).toBe(6);
@@ -176,10 +196,14 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(6);
 
-    const historyNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'resumeState');
+    const historyNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'resumeState'
+    );
     expect(historyNode?.shape).toBe('historyShallow');
 
-    const containerNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'activeContainer');
+    const containerNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'activeContainer'
+    );
     expect(containerNode).toBeDefined();
 
     expect(result.diagram?.edges?.length).toBe(8);
@@ -210,10 +234,14 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(7);
 
-    const junctionNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'checkError');
+    const junctionNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'checkError'
+    );
     expect(junctionNode?.shape).toBe('junction');
 
-    const terminateNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'abort');
+    const terminateNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'abort'
+    );
     expect(terminateNode?.shape).toBe('terminate');
 
     expect(result.diagram?.edges?.length).toBe(7);
@@ -222,11 +250,11 @@ describe('State Machine Pseudo-states Parser', () => {
   test('should parse styled pseudo-states', () => {
     const dsl = `
       diagram "Styled State Machine" {
-        style historyStyle fill: "#ffddaa" stroke: "#ff8800"
-        style junctionStyle fill: "#000000"
-        style entryStyle fill: "#ffffff" stroke: "#0000ff"
-        style exitStyle fill: "#ffffff" stroke: "#ff0000"
-        style terminateStyle fill: "#ffcccc" stroke: "#cc0000"
+        style historyStyle fillColor: "#ffddaa" strokeColor: "#ff8800"
+        style junctionStyle fillColor: "#000000"
+        style entryStyle fillColor: "#ffffff" strokeColor: "#0000ff"
+        style exitStyle fillColor: "#ffffff" strokeColor: "#ff0000"
+        style terminateStyle fillColor: "#ffcccc" strokeColor: "#cc0000"
 
         shape h1 as @historyShallow label:"Resume" style:historyStyle
         shape j1 as @junction label:"Decision" style:junctionStyle
@@ -240,19 +268,27 @@ describe('State Machine Pseudo-states Parser', () => {
     expect(result.errors.length).toBe(0);
     expect(result.diagram?.nodes?.length).toBe(5);
 
-    const historyNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'h1');
+    const historyNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'h1'
+    );
     expect(historyNode?.shape).toBe('historyShallow');
 
-    const junctionNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'j1');
+    const junctionNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'j1'
+    );
     expect(junctionNode?.shape).toBe('junction');
 
-    const entryNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'e1');
+    const entryNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'e1'
+    );
     expect(entryNode?.shape).toBe('entryPoint');
 
     const exitNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 'x1');
     expect(exitNode?.shape).toBe('exitPoint');
 
-    const terminateNode = result.diagram?.nodes?.find((n: NodeAst) => n.id === 't1');
+    const terminateNode = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 't1'
+    );
     expect(terminateNode?.shape).toBe('terminate');
   });
 });

@@ -556,7 +556,7 @@ describe('ElkLayoutEngine - Container Support', () => {
             children: ['WebApp', 'MobileApp', 'API', 'Backend'],
             containerStyle: {
               borderStyle: 'solid',
-              borderColor: '#1168bd',
+              strokeColor: '#1168bd',
               padding: 30,
             },
             containers: [
@@ -567,7 +567,7 @@ describe('ElkLayoutEngine - Container Support', () => {
                 children: ['DB', 'Cache'],
                 containerStyle: {
                   borderStyle: 'dashed',
-                  backgroundColor: '#f0f0f0',
+                  fillColor: '#f0f0f0',
                 },
               },
             ],

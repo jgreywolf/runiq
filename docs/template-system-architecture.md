@@ -13,6 +13,7 @@
 ### Why "GlyphSets"?
 
 The name "GlyphSets" was chosen to:
+
 - **Avoid confusion** with existing Runiq features (Container Templates, Data-Driven Templates)
 - **Embed branding** around the "glyph" concept central to Runiq
 - **Describe functionality** - sets of glyphs arranged in meaningful patterns
@@ -30,23 +31,23 @@ GlyphSets are defined as **parameterized diagram generators** that take user inp
 
 ```typescript
 interface GlyphSetDefinition {
-  id: string;                    // e.g., "horizontal-process"
-  name: string;                  // e.g., "Horizontal Process"
-  category: string;              // e.g., "process", "hierarchy", "comparison"
-  description: string;           // Help text for users
+  id: string; // e.g., "horizontal-process"
+  name: string; // e.g., "Horizontal Process"
+  category: string; // e.g., "process", "hierarchy", "comparison"
+  description: string; // Help text for users
 
   parameters: GlyphSetParameter[]; // What inputs does the glyphset need?
-  generator: GlyphSetGenerator;    // Function that creates the diagram
+  generator: GlyphSetGenerator; // Function that creates the diagram
 
   // Metadata
-  tags?: string[];               // Searchability
-  preview?: string;              // SVG/image preview path
-  minItems?: number;             // Minimum items needed
-  maxItems?: number;             // Maximum items supported
+  tags?: string[]; // Searchability
+  preview?: string; // SVG/image preview path
+  minItems?: number; // Minimum items needed
+  maxItems?: number; // Maximum items supported
 }
 
 interface GlyphSetParameter {
-  name: string;                  // e.g., "steps", "items", "title"
+  name: string; // e.g., "steps", "items", "title"
   type: 'string' | 'number' | 'array' | 'boolean';
   required: boolean;
   default?: any;
@@ -63,6 +64,7 @@ type GlyphSetGenerator = (params: Record<string, any>) => DiagramAst;
 GlyphSets will be stored in two ways:
 
 #### Option A: JavaScript/TypeScript Modules (Recommended)
+
 **Location:** `packages/glyphsets/src/`
 
 ```
@@ -89,15 +91,18 @@ packages/glyphsets/
 **Package Name:** `@runiq/glyphsets`
 
 **Pros:**
+
 - Type-safe GlyphSet definitions
 - Can use full TypeScript/JavaScript logic
 - Easy testing
 - Tree-shakeable (only include glyphsets you use)
 
 #### Option B: JSON/YAML Configuration Files
+
 **Location:** `packages/glyphsets/definitions/`
 
 **Pros:**
+
 - Human-readable
 - Easy for non-developers to create
 - Could support user-created glyphsets
@@ -111,6 +116,7 @@ packages/glyphsets/
 Users invoke GlyphSets through a special DSL syntax:
 
 #### Syntax Option 1: GlyphSet Property (Recommended)
+
 ```runiq
 diagram "My Process" glyphset:horizontal-process {
   step "Research"
@@ -122,6 +128,7 @@ diagram "My Process" glyphset:horizontal-process {
 ```
 
 #### Syntax Option 2: GlyphSet Keyword (More Explicit)
+
 ```runiq
 glyphset horizontal-process "My Process" {
   step "Research"
@@ -133,6 +140,7 @@ glyphset horizontal-process "My Process" {
 ```
 
 #### Syntax Option 3: From Clause (Declarative)
+
 ```runiq
 diagram "My Process" from glyphset horizontal-process {
   items: ["Research", "Design", "Develop", "Test", "Deploy"]
@@ -164,12 +172,14 @@ Normal layout/render pipeline
 #### Expansion Timing Options:
 
 **Option A: Parse-time expansion** (Recommended)
+
 - GlyphSet expanded during parsing
 - Results in standard DiagramAst
 - Transparent to layout/render engines
 - Easier to debug (see expanded output)
 
 **Option B: Pre-processing**
+
 - GlyphSets expanded before parsing
 - Generate text DSL, then parse
 - Could allow glyphset chaining
@@ -247,9 +257,7 @@ export class GlyphSetRegistry {
 
   list(category?: string): GlyphSetDefinition[] {
     const all = Array.from(this.glyphsets.values());
-    return category
-      ? all.filter(g => g.category === category)
-      : all;
+    return category ? all.filter((g) => g.category === category) : all;
   }
 }
 
@@ -286,15 +294,15 @@ export const horizontalProcessGlyphSet: GlyphSetDefinition = {
       name: 'steps',
       type: 'array',
       required: true,
-      description: 'Array of step labels'
+      description: 'Array of step labels',
     },
     {
       name: 'shape',
       type: 'string',
       required: false,
       default: 'rounded',
-      description: 'Shape for each step'
-    }
+      description: 'Shape for each step',
+    },
   ],
 
   minItems: 2,
@@ -323,13 +331,13 @@ export const horizontalProcessGlyphSet: GlyphSetDefinition = {
     // Return complete diagram AST
     return {
       astVersion: '1.0',
-      direction: 'LR',  // Left-to-right
+      direction: 'LR', // Left-to-right
       nodes,
       edges,
       groups: [],
       styles: {},
     };
-  }
+  },
 };
 ```
 
@@ -350,24 +358,26 @@ export const horizontalProcessGlyphSet: GlyphSetDefinition = {
       name: 'steps',
       type: 'array',
       required: true,
-      description: 'Array of step labels'
-    }
+      description: 'Array of step labels',
+    },
   ],
 
   generator: (params) => {
     const steps = params.steps as string[];
 
     // Define a container template for process steps
-    const templates = [{
-      id: 'process-step',
-      containerStyle: {
-        backgroundColor: '#e3f2fd',
-        borderColor: '#2196f3',
-        borderWidth: 2,
-        padding: 15,
-        shadow: true
-      }
-    }];
+    const templates = [
+      {
+        id: 'process-step',
+        containerStyle: {
+          fillColor: '#e3f2fd',
+          strokeColor: '#2196f3',
+          borderWidth: 2,
+          padding: 15,
+          shadow: true,
+        },
+      },
+    ];
 
     // Generate containers using the template
     const containers = steps.map((label, i) => ({
@@ -376,8 +386,8 @@ export const horizontalProcessGlyphSet: GlyphSetDefinition = {
       label,
       children: [],
       containerStyle: {
-        templateId: 'process-step'  // ✅ Reuse container template!
-      }
+        templateId: 'process-step', // ✅ Reuse container template!
+      },
     }));
 
     // Connect containers with edges
@@ -395,9 +405,9 @@ export const horizontalProcessGlyphSet: GlyphSetDefinition = {
       nodes: [],
       edges,
       containers,
-      templates,  // Include container templates
+      templates, // Include container templates
     };
-  }
+  },
 };
 ```
 
@@ -490,7 +500,7 @@ import { horizontalProcessGlyphSet } from '../src/process/horizontal-process';
 describe('Horizontal Process GlyphSet', () => {
   it('generates diagram with 3 steps', () => {
     const result = horizontalProcessGlyphSet.generator({
-      steps: ['Start', 'Middle', 'End']
+      steps: ['Start', 'Middle', 'End'],
     });
 
     expect(result.nodes).toHaveLength(3);
@@ -507,7 +517,7 @@ describe('Horizontal Process GlyphSet', () => {
   it('uses custom shape', () => {
     const result = horizontalProcessGlyphSet.generator({
       steps: ['A', 'B'],
-      shape: 'rect'
+      shape: 'rect',
     });
 
     expect(result.nodes[0].shape).toBe('rect');
@@ -521,13 +531,13 @@ describe('Horizontal Process GlyphSet', () => {
 
 #### Distinction from Container Templates
 
-| Feature | Container Templates (Existing) | GlyphSets (New) |
-|---------|-------------------------------|-----------------|
-| **Purpose** | Style reuse for containers | Pre-built diagram patterns |
-| **Scope** | Single container styling | Complete multi-node diagrams |
-| **DSL Syntax** | `template "name" { ... }` | `glyphset:horizontal-process` |
-| **Defined In** | Diagram AST | `@runiq/glyphsets` package |
-| **Referenced Via** | `templateId: "name"` | `glyphset:` property |
+| Feature            | Container Templates (Existing) | GlyphSets (New)               |
+| ------------------ | ------------------------------ | ----------------------------- |
+| **Purpose**        | Style reuse for containers     | Pre-built diagram patterns    |
+| **Scope**          | Single container styling       | Complete multi-node diagrams  |
+| **DSL Syntax**     | `template "name" { ... }`      | `glyphset:horizontal-process` |
+| **Defined In**     | Diagram AST                    | `@runiq/glyphsets` package    |
+| **Referenced Via** | `templateId: "name"`           | `glyphset:` property          |
 
 #### Integration with Container Templates
 
@@ -545,29 +555,32 @@ const diagram = {
 
 #### Distinction from Data-Driven Templates
 
-| Feature | Data-Driven Templates (Existing) | GlyphSets (New) |
-|---------|----------------------------------|-----------------|
-| **Purpose** | Generate diagrams from data sources | Generate diagrams from user input |
-| **DSL Syntax** | `template "name" from:datasource { ... }` | `glyphset:horizontal-process { ... }` |
-| **Data Source** | External (CSV, JSON, API) | Inline (DSL body) |
-| **Use Case** | Dynamic data visualization | Quick diagram scaffolding |
+| Feature         | Data-Driven Templates (Existing)          | GlyphSets (New)                       |
+| --------------- | ----------------------------------------- | ------------------------------------- |
+| **Purpose**     | Generate diagrams from data sources       | Generate diagrams from user input     |
+| **DSL Syntax**  | `template "name" from:datasource { ... }` | `glyphset:horizontal-process { ... }` |
+| **Data Source** | External (CSV, JSON, API)                 | Inline (DSL body)                     |
+| **Use Case**    | Dynamic data visualization                | Quick diagram scaffolding             |
 
 ---
 
 ### 11. Future Enhancements
 
 #### Phase 2: Advanced Features
+
 - **GlyphSet composition**: GlyphSets that use other glyphsets
 - **Conditional logic**: Different layouts based on item count
 - **Style presets**: Color schemes, fonts per glyphset
 - **Custom layouts**: GlyphSet-specific layout algorithms
 
 #### Phase 3: User Extensions
+
 - **JSON glyphset definitions**: Allow users to create glyphsets
 - **GlyphSet marketplace**: Share community glyphsets
 - **Visual glyphset builder**: GUI for creating glyphsets
 
 #### Phase 4: Smart GlyphSets
+
 - **Data binding**: Connect glyphsets to data sources (CSV, JSON, APIs)
 - **Auto-layout optimization**: AI-assisted glyphset selection
 - **Responsive glyphsets**: Adapt based on item count/complexity
@@ -577,6 +590,7 @@ const diagram = {
 ## Implementation Plan
 
 ### Milestone 1: Core Infrastructure (Day 1)
+
 1. ✅ Create `@runiq/glyphsets` package structure
 2. ✅ Define TypeScript interfaces (`GlyphSetDefinition`, `GlyphSetParameter`, etc.)
 3. ✅ Implement `GlyphSetRegistry` class
@@ -584,6 +598,7 @@ const diagram = {
 5. Write infrastructure tests
 
 ### Milestone 2: Initial GlyphSets (Day 2)
+
 1. Implement 5 essential glyphsets:
    - `horizontal-process` - Linear left-to-right process
    - `vertical-process` - Top-to-bottom process
@@ -594,12 +609,14 @@ const diagram = {
 3. Add integration with container templates
 
 ### Milestone 3: DSL Integration (Day 2-3)
+
 1. Update Langium grammar with `glyphset:` property
 2. Implement `extractGlyphSetParams` function
 3. Error handling and validation (`GlyphSetError`)
 4. Integration tests with parser
 
 ### Milestone 4: Documentation & Examples (Day 3)
+
 1. GlyphSet gallery in docs
 2. Usage guide (`/reference/glyphsets.md`)
 3. Example diagrams for each glyphset
@@ -678,11 +695,11 @@ Adding a third "template" meaning would create confusion.
 
 ### Alternative Names Considered
 
-| Name | Pros | Cons | Decision |
-|------|------|------|----------|
-| **Diagram Patterns** | Clear, descriptive | Generic | ❌ Not branded |
-| **SmartArt Patterns** | Familiar to Office users | Trademarked | ❌ Legal issues |
-| **Quick Starts** | User-friendly | Vague purpose | ❌ Too generic |
-| **Diagram Presets** | Consistent with UI | "Preset" already used | ❌ Confusing |
-| **Layout Templates** | Descriptive | Uses "template" | ❌ Name collision |
-| **GlyphSets** | Unique, branded, clear | New term to learn | ✅ **CHOSEN** |
+| Name                  | Pros                     | Cons                  | Decision          |
+| --------------------- | ------------------------ | --------------------- | ----------------- |
+| **Diagram Patterns**  | Clear, descriptive       | Generic               | ❌ Not branded    |
+| **SmartArt Patterns** | Familiar to Office users | Trademarked           | ❌ Legal issues   |
+| **Quick Starts**      | User-friendly            | Vague purpose         | ❌ Too generic    |
+| **Diagram Presets**   | Consistent with UI       | "Preset" already used | ❌ Confusing      |
+| **Layout Templates**  | Descriptive              | Uses "template"       | ❌ Name collision |
+| **GlyphSets**         | Unique, branded, clear   | New term to learn     | ✅ **CHOSEN**     |

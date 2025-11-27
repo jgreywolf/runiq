@@ -12,51 +12,51 @@ diagram "Grover's Search Algorithm" {
   shape q2 as @qubitWire label: "q2: |0⟩"
   
   # Step 1: Create equal superposition of all states
-  shape H0_init as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-  shape H1_init as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-  shape H2_init as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H0_init as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H1_init as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H2_init as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
   
   shape barrier1 as @barrier label: "|"
   
   # Step 2: Oracle (marks the target state |101⟩)
-  shape oracle0 as @rectangle label: "Oracle" fill: "#f3e5f5" stroke: "#000"
-  shape oracle1 as @rectangle label: "Oracle" fill: "#f3e5f5" stroke: "#000"
-  shape oracle2 as @rectangle label: "Oracle" fill: "#f3e5f5" stroke: "#000"
+  shape oracle0 as @rectangle label: "Oracle" fill: "#f3e5f5" strokeColor: "#000"
+  shape oracle1 as @rectangle label: "Oracle" fill: "#f3e5f5" strokeColor: "#000"
+  shape oracle2 as @rectangle label: "Oracle" fill: "#f3e5f5" strokeColor: "#000"
   
   shape barrier2 as @barrier label: "|"
   
   # Step 3: Grover Diffusion Operator
   # 3a: Apply H to all qubits
-  shape H0_diff as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-  shape H1_diff as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-  shape H2_diff as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H0_diff as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H1_diff as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H2_diff as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
   
   # 3b: Apply X to all qubits
-  shape X0_diff as @gateX label: "X" fill: "#ffebee" stroke: "#000"
-  shape X1_diff as @gateX label: "X" fill: "#ffebee" stroke: "#000"
-  shape X2_diff as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  shape X0_diff as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape X1_diff as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape X2_diff as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
   
   # 3c: Multi-controlled Z (Toffoli-style)
-  shape control0_diff as @controlDot label: "●" fill: "#000" stroke: "#000"
-  shape control1_diff as @controlDot label: "●" fill: "#000" stroke: "#000"
-  shape target2_diff as @gateZ label: "Z" fill: "#ffebee" stroke: "#000"
+  shape control0_diff as @controlDot label: "●" fill: "#000" strokeColor: "#000"
+  shape control1_diff as @controlDot label: "●" fill: "#000" strokeColor: "#000"
+  shape target2_diff as @gateZ label: "Z" fill: "#ffebee" strokeColor: "#000"
   
   # 3d: Apply X to all qubits (undo)
-  shape X0_undo as @gateX label: "X" fill: "#ffebee" stroke: "#000"
-  shape X1_undo as @gateX label: "X" fill: "#ffebee" stroke: "#000"
-  shape X2_undo as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+  shape X0_undo as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape X1_undo as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape X2_undo as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
   
   # 3e: Apply H to all qubits (final)
-  shape H0_final as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-  shape H1_final as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-  shape H2_final as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H0_final as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H1_final as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H2_final as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
   
   shape barrier3 as @barrier label: "|"
   
   # Step 4: Measurement
-  shape M0 as @measurement label: "M0" fill: "#e3f2fd" stroke: "#000"
-  shape M1 as @measurement label: "M1" fill: "#e3f2fd" stroke: "#000"
-  shape M2 as @measurement label: "M2" fill: "#e3f2fd" stroke: "#000"
+  shape M0 as @measurement label: "M0" fill: "#e3f2fd" strokeColor: "#000"
+  shape M1 as @measurement label: "M1" fill: "#e3f2fd" strokeColor: "#000"
+  shape M2 as @measurement label: "M2" fill: "#e3f2fd" strokeColor: "#000"
   
   # Circuit connections
   q0 -> H0_init -> barrier1 -> oracle0 -> barrier2 -> H0_diff -> X0_diff -> control0_diff -> X0_undo -> H0_final -> barrier3 -> M0

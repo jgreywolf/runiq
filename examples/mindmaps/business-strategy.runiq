@@ -4,12 +4,12 @@
 
 diagram "Business Strategy 2025" {
   
-  style goal fill:"#4caf50" stroke:"#2e7d32" strokeWidth:3
-  style strategy fill:"#2196f3" stroke:"#1565c0" strokeWidth:2
-  style tactic fill:"#ff9800" stroke:"#e65100"
-  style metric fill:"#9c27b0" stroke:"#6a1b9a"
+  style goal fill:"#4caf50" strokeColor:"#2e7d32" strokeWidth:3
+  style strategy fill:"#2196f3" strokeColor:"#1565c0" strokeWidth:2
+  style tactic fill:"#ff9800" strokeColor:"#e65100"
+  style metric fill:"#9c27b0" strokeColor:"#6a1b9a"
   
-  container "StrategyMap" type:mindmap algorithm:radial spacing:110 backgroundColor:"#eceff1" borderColor:"#546e7a" borderWidth:3 {
+  container "StrategyMap" type:mindmap algorithm:radial spacing:110 fillColor:"#eceff1" strokeColor:"#546e7a" borderWidth:3 {
     
     // Central goal - auto @circ (perfect for central idea!)
     shape goal label:"Market Leadership" style:goal

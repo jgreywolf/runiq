@@ -211,9 +211,9 @@ export interface ContainerDeclaration {
 export interface ContainerStyle {
   // Basic styles (existing)
   borderStyle?: 'solid' | 'dashed' | 'dotted';
-  borderColor?: string;
-  borderWidth?: number;
-  backgroundColor?: string;
+  strokeColor?: string;
+  strokeWidth?: number;
+  fillColor?: string;
   opacity?: number;
   padding?: number;
   labelPosition?: 'top' | 'bottom' | 'left' | 'right';
@@ -1081,7 +1081,7 @@ export interface TimelineEvent {
   label: string; // Event title
   description?: string; // Detailed description
   icon?: string; // Optional icon name
-  color?: string; // Optional color for marker
+  fillColor?: string; // Optional color for event marker
   position?: 'top' | 'bottom' | 'left' | 'right'; // Label position (default: alternating)
 }
 
@@ -1093,6 +1093,6 @@ export interface TimelinePeriod {
   startDate: string;
   endDate: string;
   label: string;
-  color?: string; // Background color
+  fillColor?: string; // Background color for period shading
   opacity?: number; // Default: 0.1
 }

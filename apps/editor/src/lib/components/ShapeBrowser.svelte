@@ -77,7 +77,12 @@
 	<!-- Search Bar -->
 	<div class="border-b border-neutral-200 bg-white p-3">
 		<div class="relative">
-			<Icon icon="lucide:search" width="16" height="16" class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400" />
+			<Icon
+				icon="lucide:search"
+				width="16"
+				height="16"
+				class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400"
+			/>
 			<input
 				type="text"
 				bind:value={searchQuery}
@@ -149,7 +154,7 @@
 										<Tooltip.Trigger
 											draggable="true"
 											ondragstart={(e) => handleDragStart(e, shape.code)}
-											class="group flex h-12 w-full flex-col items-center justify-center gap-0.5 rounded-md border border-transparent p-1 transition-all hover:border-runiq-300 hover:bg-runiq-50 hover:shadow-sm active:scale-95 cursor-grab active:cursor-grabbing"
+											class="group flex h-12 w-full cursor-grab flex-col items-center justify-center gap-0.5 rounded-md border border-transparent p-1 transition-all hover:border-runiq-300 hover:bg-runiq-50 hover:shadow-sm active:scale-95 active:cursor-grabbing"
 											onclick={() => insertShape(shape.code)}
 										>
 											<ShapeIcon shapeId={shape.id} size={24} />
@@ -168,7 +173,9 @@
 											<div class="space-y-1">
 												<p class="text-xs font-semibold">{shape.label}</p>
 												<p class="font-mono text-xs text-neutral-500">@{shape.id}</p>
-												<p class="text-xs text-neutral-400 italic">Click to insert or drag to canvas</p>
+												<p class="text-xs text-neutral-400 italic">
+													Click to insert or drag to canvas
+												</p>
 											</div>
 										</Tooltip.Content>
 									</Tooltip.Root>

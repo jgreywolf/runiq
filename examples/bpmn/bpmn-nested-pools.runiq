@@ -2,7 +2,7 @@ diagram "BPMN Nested Pools" {
   direction LR
 
   // Customer swimlane
-  container customerPool "Customer" backgroundColor:"#e3f2fd" borderColor:"#1976d2" {
+  container customerPool "Customer" fillColor:"#e3f2fd" strokeColor:"#1976d2" {
     shape start as @circle label:"Order Product"
     shape review as @rounded label:"Review Order"
     shape pay as @rounded label:"Make Payment"
@@ -12,9 +12,9 @@ diagram "BPMN Nested Pools" {
   }
 
   // Company swimlane with nested departments
-  container companyPool "Company" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" {
+  container companyPool "Company" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" {
     
-    container salesDept "Sales Department" backgroundColor:"#fff9c4" borderColor:"#f57c00" {
+    container salesDept "Sales Department" fillColor:"#fff9c4" strokeColor:"#f57c00" {
       shape receiveOrder as @rounded label:"Receive Order"
       shape validateOrder as @rhombus label:"Valid?"
       shape confirmOrder as @rounded label:"Confirm Order"
@@ -23,7 +23,7 @@ diagram "BPMN Nested Pools" {
       validateOrder -> confirmOrder
     }
     
-    container fulfillmentDept "Fulfillment Department" backgroundColor:"#e8f5e9" borderColor:"#388e3c" {
+    container fulfillmentDept "Fulfillment Department" fillColor:"#e8f5e9" strokeColor:"#388e3c" {
       shape pickItems as @rounded label:"Pick Items"
       shape packItems as @rounded label:"Pack Order"
       shape shipOrder as @rounded label:"Ship Order"

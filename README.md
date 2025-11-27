@@ -257,8 +257,8 @@ See [docs/langium-migration.md](./docs/langium-migration.md) for migration detai
 diagram "Auth Flow"
 direction LR
 
-style default fill:#f7f7ff stroke:#444 font:Inter fontSize:14
-style decision fill:#fff7e6 stroke:#aa7700
+style default fill:#f7f7ff strokeColor:#444 font:Inter fontSize:14
+style decision fill:#fff7e6 strokeColor:#aa7700
 
 shape User     as @actor   label:"Visitor" icon:fa/user
 shape Landing  as @rounded label:"Landing Page"
@@ -357,8 +357,8 @@ diagram "Microservices"
 direction LR
 
 container backend "Backend Services"
-  backgroundColor: "#f3e5f5"
-  borderColor: "#7b1fa2"
+  fillColor: "#f3e5f5"
+  strokeColor: "#7b1fa2"
   borderWidth: 3 {
   shape auth as @hexagon label: "Auth Service"
   shape api as @hexagon label: "API Gateway"

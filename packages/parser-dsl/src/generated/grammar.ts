@@ -6516,7 +6516,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
         "elements": [
           {
             "$type": "Keyword",
-            "value": "color:"
+            "value": "textColor:"
           },
           {
             "$type": "Assignment",
@@ -7748,15 +7748,15 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
-            "value": "fill:"
+            "value": "fillColor:"
           },
           {
             "$type": "Keyword",
-            "value": "stroke:"
+            "value": "strokeColor:"
           },
           {
             "$type": "Keyword",
-            "value": "color:"
+            "value": "textColor:"
           },
           {
             "$type": "Keyword",
@@ -10529,13 +10529,13 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
     },
     {
       "$type": "ParserRule",
-      "name": "FillProperty",
+      "name": "FillColorProperty",
       "definition": {
         "$type": "Group",
         "elements": [
           {
             "$type": "Keyword",
-            "value": "fill:"
+            "value": "fillColor:"
           },
           {
             "$type": "Assignment",
@@ -10557,13 +10557,13 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
     },
     {
       "$type": "ParserRule",
-      "name": "ColorProperty",
+      "name": "TextColorProperty",
       "definition": {
         "$type": "Group",
         "elements": [
           {
             "$type": "Keyword",
-            "value": "color:"
+            "value": "textColor:"
           },
           {
             "$type": "Assignment",
@@ -10585,13 +10585,13 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
     },
     {
       "$type": "ParserRule",
-      "name": "StrokeProperty",
+      "name": "StrokeColorProperty",
       "definition": {
         "$type": "Group",
         "elements": [
           {
             "$type": "Keyword",
-            "value": "stroke:"
+            "value": "strokeColor:"
           },
           {
             "$type": "Assignment",
@@ -12799,11 +12799,11 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "elements": [
               {
                 "$type": "Keyword",
-                "value": "borderColor:"
+                "value": "strokeColor:"
               },
               {
                 "$type": "Assignment",
-                "feature": "borderColor",
+                "feature": "strokeColor",
                 "operator": "=",
                 "terminal": {
                   "$type": "RuleCall",
@@ -12820,11 +12820,11 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "elements": [
               {
                 "$type": "Keyword",
-                "value": "borderWidth:"
+                "value": "strokeWidth:"
               },
               {
                 "$type": "Assignment",
-                "feature": "borderWidth",
+                "feature": "strokeWidth",
                 "operator": "=",
                 "terminal": {
                   "$type": "RuleCall",
@@ -12841,32 +12841,11 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "elements": [
               {
                 "$type": "Keyword",
-                "value": "fill:"
+                "value": "fillColor:"
               },
               {
                 "$type": "Assignment",
-                "feature": "fill",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@336"
-                  },
-                  "arguments": []
-                }
-              }
-            ]
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "backgroundColor:"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "backgroundColor",
+                "feature": "fillColor",
                 "operator": "=",
                 "terminal": {
                   "$type": "RuleCall",
@@ -14585,11 +14564,11 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "elements": [
               {
                 "$type": "Keyword",
-                "value": "fill:"
+                "value": "fillColor:"
               },
               {
                 "$type": "Assignment",
-                "feature": "fill",
+                "feature": "fillColor",
                 "operator": "=",
                 "terminal": {
                   "$type": "RuleCall",
@@ -14606,11 +14585,11 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "elements": [
               {
                 "$type": "Keyword",
-                "value": "stroke:"
+                "value": "strokeColor:"
               },
               {
                 "$type": "Assignment",
-                "feature": "stroke",
+                "feature": "strokeColor",
                 "operator": "=",
                 "terminal": {
                   "$type": "RuleCall",

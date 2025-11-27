@@ -57,7 +57,7 @@ describe('Phase 5: Container Templates & Presets', () => {
       const template: ContainerTemplate = {
         id: 'highlighted-section',
         containerStyle: {
-          backgroundColor: '#fff3cd',
+          fillColor: '#fff3cd',
           borderColor: '#ffc107',
           borderWidth: 2,
           padding: 20,
@@ -65,7 +65,7 @@ describe('Phase 5: Container Templates & Presets', () => {
         },
       };
 
-      expect(template.containerStyle?.backgroundColor).toBe('#fff3cd');
+      expect(template.containerStyle?.fillColor).toBe('#fff3cd');
       expect(template.containerStyle?.borderWidth).toBe(2);
       expect(template.containerStyle?.shadow).toBe(true);
     });
@@ -78,7 +78,11 @@ describe('Phase 5: Container Templates & Presets', () => {
       };
 
       expect(template.children).toHaveLength(3);
-      expect(template.children).toEqual(['left-node', 'center-node', 'right-node']);
+      expect(template.children).toEqual([
+        'left-node',
+        'center-node',
+        'right-node',
+      ]);
     });
 
     it('should support all parameter types', () => {
@@ -117,7 +121,7 @@ describe('Phase 5: Container Templates & Presets', () => {
           { name: 'collapsible', type: 'boolean', defaultValue: true },
         ],
         containerStyle: {
-          backgroundColor: '#ffffff',
+          fillColor: '#ffffff',
           borderColor: '#dee2e6',
           borderWidth: 1,
           borderStyle: 'solid',
@@ -181,13 +185,13 @@ describe('Phase 5: Container Templates & Presets', () => {
         children: [],
         containerStyle: {
           templateId: 'service-template',
-          backgroundColor: '#custom-color', // Override template default
+          fillColor: '#custom-color', // Override template default
           padding: 25, // Override template default
         },
       };
 
       expect(container.containerStyle?.templateId).toBe('service-template');
-      expect(container.containerStyle?.backgroundColor).toBe('#custom-color');
+      expect(container.containerStyle?.fillColor).toBe('#custom-color');
       expect(container.containerStyle?.padding).toBe(25);
     });
 
@@ -247,7 +251,9 @@ describe('Phase 5: Container Templates & Presets', () => {
       ];
 
       expect(containers).toHaveLength(3);
-      expect(containers.every((c) => c.containerStyle?.templateId === 'microservice')).toBe(true);
+      expect(
+        containers.every((c) => c.containerStyle?.templateId === 'microservice')
+      ).toBe(true);
     });
 
     it('should support nested containers with different templates', () => {
@@ -269,7 +275,9 @@ describe('Phase 5: Container Templates & Presets', () => {
       };
 
       expect(parent.containerStyle?.templateId).toBe('system-boundary');
-      expect(parent.containers?.[0].containerStyle?.templateId).toBe('subsystem-panel');
+      expect(parent.containers?.[0].containerStyle?.templateId).toBe(
+        'subsystem-panel'
+      );
     });
 
     it('should support template with all Phase 1-4 styles', () => {
@@ -283,7 +291,7 @@ describe('Phase 5: Container Templates & Presets', () => {
         containerStyle: {
           templateId: 'premium-widget',
           // Phase 1
-          backgroundColor: '#f8f9fa',
+          fillColor: '#f8f9fa',
           borderColor: '#dee2e6',
           borderWidth: 2,
           padding: 20,
@@ -311,7 +319,7 @@ describe('Phase 5: Container Templates & Presets', () => {
         id: 'card',
         label: 'Card Style',
         style: {
-          backgroundColor: '#ffffff',
+          fillColor: '#ffffff',
           borderColor: '#dee2e6',
           borderWidth: 1,
           padding: 15,
@@ -328,12 +336,12 @@ describe('Phase 5: Container Templates & Presets', () => {
       const preset: ContainerPreset = {
         id: 'highlighted',
         style: {
-          backgroundColor: '#fff3cd',
+          fillColor: '#fff3cd',
           borderColor: '#ffc107',
         },
       };
 
-      expect(preset.style.backgroundColor).toBe('#fff3cd');
+      expect(preset.style.fillColor).toBe('#fff3cd');
       expect(preset.style.padding).toBeUndefined();
     });
 
@@ -359,12 +367,12 @@ describe('Phase 5: Container Templates & Presets', () => {
         children: [],
         containerStyle: {
           preset: 'card',
-          backgroundColor: '#e3f2fd', // Override preset
+          fillColor: '#e3f2fd', // Override preset
         },
       };
 
       expect(container.containerStyle?.preset).toBe('card');
-      expect(container.containerStyle?.backgroundColor).toBe('#e3f2fd');
+      expect(container.containerStyle?.fillColor).toBe('#e3f2fd');
     });
 
     it('should support multiple preset definitions', () => {
@@ -413,7 +421,7 @@ describe('Phase 5: Container Templates & Presets', () => {
         label: 'Interactive Widget',
         style: {
           // Phase 1
-          backgroundColor: '#f8f9fa',
+          fillColor: '#f8f9fa',
           padding: 20,
           shadow: true,
           // Phase 3
@@ -425,7 +433,7 @@ describe('Phase 5: Container Templates & Presets', () => {
         },
       };
 
-      expect(preset.style.backgroundColor).toBe('#f8f9fa');
+      expect(preset.style.fillColor).toBe('#f8f9fa');
       expect(preset.style.autoResize).toBe('fit-content');
       expect(preset.style.hoverHighlight).toBe(true);
     });
@@ -454,13 +462,13 @@ describe('Phase 5: Container Templates & Presets', () => {
         children: [],
         containerStyle: {
           extends: 'base-style',
-          backgroundColor: '#custom', // Override
+          fillColor: '#custom', // Override
           padding: 30, // Override
         },
       };
 
       expect(container.containerStyle?.extends).toBe('base-style');
-      expect(container.containerStyle?.backgroundColor).toBe('#custom');
+      expect(container.containerStyle?.fillColor).toBe('#custom');
     });
 
     it('should support extends referencing another container', () => {
@@ -470,7 +478,7 @@ describe('Phase 5: Container Templates & Presets', () => {
         label: 'Base Container',
         children: [],
         containerStyle: {
-          backgroundColor: '#f0f0f0',
+          fillColor: '#f0f0f0',
           padding: 20,
         },
       };
@@ -482,13 +490,13 @@ describe('Phase 5: Container Templates & Presets', () => {
         children: [],
         containerStyle: {
           extends: 'base',
-          borderColor: '#3498db', // Add new property
+          strokeColor: '#3498db', // Add new property
         },
       };
 
-      expect(baseContainer.containerStyle?.backgroundColor).toBe('#f0f0f0');
+      expect(baseContainer.containerStyle?.fillColor).toBe('#f0f0f0');
       expect(derivedContainer.containerStyle?.extends).toBe('base');
-      expect(derivedContainer.containerStyle?.borderColor).toBe('#3498db');
+      expect(derivedContainer.containerStyle?.strokeColor).toBe('#3498db');
     });
 
     it('should support extends referencing a template', () => {
@@ -604,7 +612,9 @@ describe('Phase 5: Container Templates & Presets', () => {
 
       expect(diagram.templates).toHaveLength(1);
       expect(diagram.presets).toHaveLength(1);
-      expect(diagram.containers?.[0].containerStyle?.templateId).toBe('template1');
+      expect(diagram.containers?.[0].containerStyle?.templateId).toBe(
+        'template1'
+      );
       expect(diagram.containers?.[0].containerStyle?.preset).toBe('preset1');
     });
 
@@ -676,7 +686,7 @@ describe('Phase 5: Container Templates & Presets', () => {
               { name: 'replicas', type: 'number', defaultValue: 3 },
             ],
             containerStyle: {
-              backgroundColor: '#e3f2fd',
+              fillColor: '#e3f2fd',
               borderColor: '#2196f3',
               borderWidth: 2,
               padding: 20,
@@ -687,7 +697,7 @@ describe('Phase 5: Container Templates & Presets', () => {
             id: 'database',
             label: 'Database Container',
             containerStyle: {
-              backgroundColor: '#fff3e0',
+              fillColor: '#fff3e0',
               borderColor: '#ff9800',
               borderWidth: 2,
               padding: 15,
@@ -708,7 +718,7 @@ describe('Phase 5: Container Templates & Presets', () => {
             id: 'highlighted',
             label: 'Highlighted Section',
             style: {
-              backgroundColor: '#fff3cd',
+              fillColor: '#fff3cd',
               borderColor: '#ffc107',
               borderWidth: 2,
             },
@@ -744,17 +754,23 @@ describe('Phase 5: Container Templates & Presets', () => {
       expect(diagram.templates).toHaveLength(2);
       expect(diagram.templates?.[0].id).toBe('microservice');
       expect(diagram.templates?.[0].parameters).toHaveLength(2);
-      expect(diagram.templates?.[1].containerStyle?.backgroundColor).toBe('#fff3e0');
+      expect(diagram.templates?.[1].containerStyle?.fillColor).toBe(
+        '#fff3e0'
+      );
 
       // Verify presets
       expect(diagram.presets).toHaveLength(2);
       expect(diagram.presets?.[0].style.shadow).toBe(true);
 
       // Verify containers using templates and presets
-      expect(diagram.containers?.[0].containerStyle?.templateId).toBe('microservice');
+      expect(diagram.containers?.[0].containerStyle?.templateId).toBe(
+        'microservice'
+      );
       expect(diagram.containers?.[0].containerStyle?.preset).toBe('card');
       expect(diagram.containers?.[1].containerStyle?.extends).toBe('services');
-      expect(diagram.containers?.[1].containerStyle?.preset).toBe('highlighted');
+      expect(diagram.containers?.[1].containerStyle?.preset).toBe(
+        'highlighted'
+      );
 
       // Verify structure
       expect(diagram.nodes).toHaveLength(3);

@@ -55,7 +55,7 @@ diagram "Banking System - Containers" {
 
   shape customer as @c4Person label:"Customer"
 
-  container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container web "Web Container" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:2 {
     shape webapp as @c4Container label:"Single-Page App
 [JavaScript, React]"
     shape api as @c4Container label:"API Application
@@ -83,7 +83,7 @@ diagram "API Application - Components" {
 
   shape webapp as @c4Container label:"Web Application"
 
-  container apiContainer "API Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container apiContainer "API Container" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:2 {
     shape controller as @c4Component label:"REST Controller"
     shape security as @c4Component label:"Security Component"
     shape emailComponent as @c4Component label:"Email Component"
@@ -109,14 +109,14 @@ diagram "E-Commerce Platform" {
   shape customer as @c4Person label:"Customer"
   shape admin as @c4Person label:"Admin"
 
-  container frontend "Frontend" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderWidth:2 {
+  container frontend "Frontend" fillColor:"#fce4ec" strokeColor:"#c2185b" borderWidth:2 {
     shape web as @c4Container label:"Web UI
 [React]"
     shape mobile as @c4Container label:"Mobile App
 [Flutter]"
   }
 
-  container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container backend "Backend Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:2 {
     shape gateway as @c4Container label:"API Gateway
 [Node.js]"
     shape auth as @c4Container label:"Auth Service
@@ -127,7 +127,7 @@ diagram "E-Commerce Platform" {
 [Go]"
   }
 
-  container data "Data Layer" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:2 {
+  container data "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" borderWidth:2 {
     shape userDb as @c4Container label:"User DB
 [PostgreSQL]"
     shape catalogDb as @c4Container label:"Catalog DB
@@ -195,8 +195,8 @@ diagram "Styled C4 Diagram" {
   shape externalSystem as @c4System label: "External System" fill: "#999999" color: "#ffffff"
   shape containerShape as @c4Container label: "Container" fill: "#438dd5" color: "#ffffff"
 
-  personShape -> internalSystem stroke: "#707070" strokeWidth: 2
-  internalSystem -> externalSystem stroke: "#707070" lineStyle: "dashed"
+  personShape -> internalSystem strokeColor: "#707070" strokeWidth: 2
+  internalSystem -> externalSystem strokeColor: "#707070" lineStyle: "dashed"
 }
 ```
 

@@ -60,7 +60,7 @@ describe('Runiq Validator', () => {
     it('should validate all shape properties', () => {
       const dsl = `
         diagram "test" {
-          style myStyle fill: "red"
+          style myStyle fillColor: "red"
           shape A as @rounded label: "Valid Node" style: myStyle tooltip: "Tooltip text"
         }
       `;
@@ -157,7 +157,7 @@ describe('Runiq Validator', () => {
     it('should validate style properties', () => {
       const dsl = `
         diagram "test" {
-          style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
+          style myStyle fillColor: "#ff0000" strokeColor: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
         }
       `;
       const result = parse(dsl);
@@ -165,8 +165,8 @@ describe('Runiq Validator', () => {
       expect(result.success).toBe(true);
       // Note: Numbers are parsed as strings currently
       expect(result.diagram?.styles?.myStyle).toEqual({
-        fill: '#ff0000',
-        stroke: '#000000',
+        fillColor: '#ff0000',
+        strokeColor: '#000000',
         strokeWidth: '2',
         fontSize: '14',
         fontFamily: 'Arial', // Quotes are stripped
@@ -176,9 +176,9 @@ describe('Runiq Validator', () => {
     it('should handle multiple style declarations', () => {
       const dsl = `
         diagram "test" {
-          style style1 fill: "#aaa"
-          style style2 fill: "#bbb"
-          style style3 fill: "#ccc"
+          style style1 fillColor: "#aaa"
+          style style2 fillColor: "#bbb"
+          style style3 fillColor: "#ccc"
         }
       `;
       const result = parse(dsl);
@@ -190,7 +190,7 @@ describe('Runiq Validator', () => {
     it('should allow style references in shapes', () => {
       const dsl = `
         diagram "test" {
-          style highlight fill: "#ffeb3b"
+          style highlight fillColor: "#ffeb3b"
           shape A as @rounded style: highlight
         }
       `;
@@ -223,7 +223,7 @@ describe('Runiq Validator', () => {
     it('should allow groups with style', () => {
       const dsl = `
         diagram "test" {
-          style groupStyle fill: "#e0e0e0"
+          style groupStyle fillColor: "#e0e0e0"
           group "MyGroup" {
             shape A as @rounded style: groupStyle
           }
@@ -330,8 +330,8 @@ describe('Runiq Validator', () => {
         diagram "flowchart" {
           direction TB
           
-          style default fill: "#f0f0f0" stroke: "#333"
-          style highlight fill: "#ffeb3b"
+          style default fillColor: "#f0f0f0" strokeColor: "#333"
+          style highlight fillColor: "#ffeb3b"
           
           shape A as @rounded label: "Start" style: highlight
           shape B as @rounded label: "Process"

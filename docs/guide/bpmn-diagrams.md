@@ -519,7 +519,7 @@ diagram "Styled BPMN Process" {
 
   container "Sales Process" as @bpmnPool
     fill: "#e3f2fd"
-    borderColor: "#1976d2"
+    strokeColor: "#1976d2"
     borderWidth: 2
     borderStyle: dashed {
 
@@ -529,7 +529,7 @@ diagram "Styled BPMN Process" {
 
     shape task as @bpmnTask label: "Process Lead"
       fill: "#fff9c4"
-      stroke: "#f57c00"
+      strokeColor: "#f57c00"
       strokeWidth: 2
 
     shape end as @bpmnEvent label: "End"

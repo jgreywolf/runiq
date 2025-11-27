@@ -67,10 +67,10 @@ export const nodeShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const backgroundColor =
-      (ctx.node.data?.backgroundColor as string) || '#e8f5e9';
-    const borderColor = (ctx.node.data?.borderColor as string) || '#388e3c';
-    const borderWidth = (ctx.node.data?.borderWidth as number) || 2;
+    const fillColor =
+      (ctx.node.data?.fillColor as string) || '#e8f5e9';
+    const strokeColor = (ctx.node.data?.strokeColor as string) || '#388e3c';
+    const strokeWidth = (ctx.node.data?.strokeWidth as number) || 2;
 
     const depthOffset = 16; // 3D depth
     const mainWidth = bounds.width - depthOffset;
@@ -104,12 +104,12 @@ export const nodeShape: ShapeDefinition = {
 		`.trim();
 
     // Calculate darker colors for 3D effect
-    const darkerBg = darkenColor(backgroundColor, 0.85);
-    const darkestBg = darkenColor(backgroundColor, 0.7);
+    const darkerBg = darkenColor(fillColor, 0.85);
+    const darkestBg = darkenColor(fillColor, 0.7);
 
-    const front = `<path d="${frontPath}" fill="${backgroundColor}" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
-    const top = `<path d="${topPath}" fill="${darkerBg}" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
-    const right = `<path d="${rightPath}" fill="${darkestBg}" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
+    const front = `<path d="${frontPath}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
+    const top = `<path d="${topPath}" fill="${darkerBg}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
+    const right = `<path d="${rightPath}" fill="${darkestBg}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
 
     // Stereotype text (top of front face)
     const fontSize = ctx.style.fontSize || 14;

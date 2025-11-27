@@ -22,7 +22,7 @@
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger
-		class="inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 cursor-pointer"
+		class="inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-md px-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100"
 		title="Help & Documentation"
 	>
 		<Icon icon="lucide:help-circle" width="16" height="16" />
@@ -31,7 +31,7 @@
 	<DropdownMenu.Content align="end" class="w-56">
 		<DropdownMenu.Label>Help & Resources</DropdownMenu.Label>
 		<DropdownMenu.Separator />
-		
+
 		<DropdownMenu.Item onclick={openDocs} class="cursor-pointer">
 			<Icon icon="lucide:book-open" width="16" height="16" class="mr-2" />
 			<span>Documentation</span>

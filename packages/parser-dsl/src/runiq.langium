@@ -583,7 +583,7 @@ TimelineProfile:
 TimelineStatement:
     TimelineEventStatement | TimelinePeriodStatement | TimelineOrientationStatement;
 
-// event kickoff date:"2024-01-15" label:"Project Kickoff" description:"Initial meeting" icon:"flag" color:"#3b82f6"
+// event kickoff date:"2024-01-15" label:"Project Kickoff" description:"Initial meeting" icon:"flag" textColor:"#3b82f6"
 TimelineEventStatement:
     'event' id=ID properties+=TimelineEventProperty+;
 
@@ -603,7 +603,7 @@ TimelineIconProperty:
     'icon:' icon=STRING;
 
 TimelineColorProperty:
-    'color:' color=STRING;
+    'textColor:' color=STRING;
 
 TimelinePositionProperty:
     'position:' position=TimelinePosition;
@@ -611,7 +611,7 @@ TimelinePositionProperty:
 TimelinePosition returns string:
     'top' | 'bottom' | 'left' | 'right';
 
-// period planning startDate:"2024-01-15" endDate:"2024-02-28" label:"Planning Phase" color:"#e0e7ff"
+// period planning startDate:"2024-01-15" endDate:"2024-02-28" label:"Planning Phase" textColor:"#e0e7ff"
 TimelinePeriodStatement:
     'period' id=ID properties+=TimelinePeriodProperty+;
 
@@ -702,7 +702,7 @@ RoutingDeclaration:
 RoutingValue returns string:
     'orthogonal' | 'polyline' | 'splines' | 'straight';
 
-// style myStyle fill:"red" stroke:"blue" stroke:"#f00" fillColor:"#0f0"
+// style myStyle fillColor:"red" strokeColor:"blue" textColor:"#333"
 StyleDeclaration:
     'style' name=ID properties+=StyleProperty+;
 
@@ -711,7 +711,7 @@ StyleProperty:
 
 // Allow regular IDs plus property keywords that users might use in styles
 StylePropertyKey returns string:
-    ID ':' | 'fill:' | 'stroke:' | 'color:' | 'strokeWidth:' | 'fontSize:' | 'fontFamily:' | 'fontWeight:' | 'textAlign:' | 'opacity:' | 'borderRadius:' | 'lineStyle:';
+    ID ':' | 'fillColor:' | 'strokeColor:' | 'textColor:' | 'strokeWidth:' | 'fontSize:' | 'fontFamily:' | 'fontWeight:' | 'textAlign:' | 'opacity:' | 'borderRadius:' | 'lineStyle:';
 
 // shape node1 as @rounded label: "My Node" style: myStyle icon: fa/user link: "http://example.com"
 // shape node1 label: "My Node" (shape optional if inside type:mindmap container)
@@ -756,9 +756,9 @@ NodeProperty:
     | MethodsProperty
     | GenericTypesProperty
     | StereotypeProperty
-    | FillProperty
-    | ColorProperty
-    | StrokeProperty
+    | FillColorProperty
+    | TextColorProperty
+    | StrokeColorProperty
     | StrokeWidthProperty
     | FontSizeProperty
     | FontFamilyProperty
@@ -971,14 +971,14 @@ StereotypeProperty:
     | 'stereotypes:' '[' values+=STRING (',' values+=STRING)* ']';
 
 // Inline styling properties for shapes
-FillProperty:
-    'fill:' value=STRING;
+FillColorProperty:
+    'fillColor:' value=STRING;
 
-ColorProperty:
-    'color:' value=STRING;
+TextColorProperty:
+    'textColor:' value=STRING;
 
-StrokeProperty:
-    'stroke:' value=STRING;
+StrokeColorProperty:
+    'strokeColor:' value=STRING;
 
 StrokeWidthProperty:
     'strokeWidth:' value=NUMBER;
@@ -1060,7 +1060,7 @@ EdgeProperty:
     | EdgeConstraintsProperty
     | RoutingProperty
     | StereotypeProperty
-    | StrokeProperty
+    | StrokeColorProperty
     | StrokeWidthProperty
     | StyleRefProperty
     | EventProperty
@@ -1177,10 +1177,9 @@ ContainerMetadataProperty:
 
 ContainerStyleProperty:
     'borderStyle:' borderStyle=BorderStyleValue
-    | 'borderColor:' borderColor=STRING
-    | 'borderWidth:' borderWidth=NUMBER
-    | 'fill:' fill=STRING
-    | 'backgroundColor:' backgroundColor=STRING
+    | 'strokeColor:' strokeColor=STRING
+    | 'strokeWidth:' strokeWidth=NUMBER
+    | 'fillColor:' fillColor=STRING
     | 'opacity:' opacity=NUMBER
     | 'padding:' padding=NUMBER
     | 'labelPosition:' labelPosition=LabelPositionValue
@@ -1279,8 +1278,8 @@ TemplateNodeDeclaration:
 TemplateNodeProperty:
     'shape:' shape=ID
     | 'label:' label=TemplateExpression
-    | 'fill:' fill=TemplateExpression
-    | 'stroke:' stroke=TemplateExpression
+    | 'fillColor:' fillColor=TemplateExpression
+    | 'strokeColor:' strokeColor=TemplateExpression
     | 'style:' style=ID
     | 'data:' '{' dataProps+=TemplateDataProperty (',' dataProps+=TemplateDataProperty)* '}';
 

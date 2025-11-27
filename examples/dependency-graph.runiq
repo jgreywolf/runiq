@@ -79,7 +79,7 @@ diagram "Dependency Issues" {
     // Circular dependency (bad!)
     a -> b
     b -> c
-    c -> a style:"stroke: red; stroke-width: 3"
+    c -> a style:"strokeColor: red; stroke-width: 3"
     
     // Good dependency
     d -> a

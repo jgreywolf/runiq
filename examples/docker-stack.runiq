@@ -1,7 +1,7 @@
 diagram "Docker Compose Stack" {
 
   # Web Network
-  container webnet "Web Network" backgroundColor:"#f5f5f5" borderColor:"#424242" borderStyle:solid borderWidth:2 {
+  container webnet "Web Network" fillColor:"#f5f5f5" strokeColor:"#424242" borderStyle:solid borderWidth:2 {
     
     shape nginx as @rect label:"nginx"
     shape app as @rounded label:"node-app"
@@ -10,7 +10,7 @@ diagram "Docker Compose Stack" {
   }
 
   # Backend Network
-  container backend "Backend Network" backgroundColor:"#e0f7fa" borderColor:"#00796b" borderStyle:solid borderWidth:2 {
+  container backend "Backend Network" fillColor:"#e0f7fa" strokeColor:"#00796b" borderStyle:solid borderWidth:2 {
     
     shape api as @hexagon label:"fastapi"
     shape worker as @rect label:"celery-worker"
@@ -24,7 +24,7 @@ diagram "Docker Compose Stack" {
   }
 
   # Storage Network
-  container storage "Storage" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderStyle:solid borderWidth:2 {
+  container storage "Storage" fillColor:"#fce4ec" strokeColor:"#c2185b" borderStyle:solid borderWidth:2 {
     
     shape postgres as @cylinder label:"postgres"
     shape pgbackup as @rect label:"pg-backup"

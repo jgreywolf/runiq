@@ -22,7 +22,7 @@ container "Container Name" {
 				label: 'Styled Container',
 				code: `
 
-container "Styled" backgroundColor: "#e3f2fd" borderColor: "#2196f3" padding: 20 shadow: true {
+container "Styled" fillColor: "#e3f2fd" strokeColor: "#2196f3" padding: 20 shadow: true {
   shape content as @rectangle label: "Content"
 }
 `
@@ -33,8 +33,8 @@ container "Styled" backgroundColor: "#e3f2fd" borderColor: "#2196f3" padding: 20
 				code: `
 
 template "my-template" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
   borderWidth: 2
   padding: 20
   shadow: true
@@ -50,7 +50,7 @@ template "my-template" {
     "width": number = 300,
     "enabled": boolean = true
   ]
-  backgroundColor: "#ffffff"
+  fillColor: "#ffffff"
   padding: 15
 }
 `
@@ -70,8 +70,8 @@ container "Service" templateId: "my-template" {
 				label: 'Preset Definition',
 				code: `
 preset "card" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
   padding: 15
   shadow: true
   borderWidth: 1
@@ -90,18 +90,18 @@ preset "card" {
 				id: 'themed-presets',
 				label: 'Themed Presets',
 				code: `preset "primary" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
 }
 
 preset "success" {
-  backgroundColor: "#e8f5e9"
-  borderColor: "#4caf50"
+  fillColor: "#e8f5e9"
+  strokeColor: "#4caf50"
 }
 
 preset "warning" {
-  backgroundColor: "#fff3e0"
-  borderColor: "#ff9800"
+  fillColor: "#fff3e0"
+  strokeColor: "#ff9800"
 }
 `
 			},
@@ -109,7 +109,7 @@ preset "warning" {
 			{
 				id: 'container-inheritance',
 				label: 'Container Inheritance',
-				code: `container "Extended" extends: "BaseContainer" borderColor: "#2196f3" {
+				code: `container "Extended" extends: "BaseContainer" strokeColor: "#2196f3" {
   shape child as @rectangle label: "Child"
 }
 `

@@ -80,8 +80,8 @@ describe('Template Composition', () => {
             shape: '${shape}',
             properties: {
               label: '${label}',
-              fill: '${color}',
-              stroke: '${borderColor}',
+              fillColor: '${color}',
+              strokeColor: '${borderColor}',
             },
           } as TemplateNodeStatement,
         ],
@@ -119,8 +119,8 @@ describe('Template Composition', () => {
       });
 
       expect(result.nodes).toHaveLength(1);
-      expect(result.nodes[0].properties.fill).toBe('blue');
-      expect(result.nodes[0].properties.stroke).toBe('black');
+      expect(result.nodes[0].properties.fillColor).toBe('blue');
+      expect(result.nodes[0].properties.strokeColor).toBe('black');
       expect(result.nodes[0].properties.label).toBe('User: Alice');
     });
 
@@ -594,7 +594,7 @@ describe('Template Composition', () => {
             shape: '${shape}',
             properties: {
               label: '${label}',
-              fill: '${color}',
+              fillColor: '${color}',
             },
           } as TemplateNodeStatement,
         ],
@@ -664,9 +664,9 @@ describe('Template Composition', () => {
 
       expect(result.nodes).toHaveLength(3);
       expect(result.nodes[0].shape).toBe('check');
-      expect(result.nodes[0].properties.fill).toBe('green');
+      expect(result.nodes[0].properties.fillColor).toBe('green');
       expect(result.nodes[1].shape).toBe('rect');
-      expect(result.nodes[1].properties.fill).toBe('yellow');
+      expect(result.nodes[1].properties.fillColor).toBe('yellow');
       expect(result.nodes[2].shape).toBe('check');
     });
   });

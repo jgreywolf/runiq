@@ -84,7 +84,7 @@ shape colors as @venn
   data:[100, 100, 100]
   labels:["Red", "Blue", "Yellow"]
   colors:["#ff0000", "#0000ff", "#ffff00"]
-  stroke:"#000"
+  strokeColor:"#000"
   strokeWidth:3
   fontSize:16
   fontFamily:"Georgia, serif"

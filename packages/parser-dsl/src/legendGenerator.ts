@@ -43,7 +43,7 @@ export interface LegendConfig {
   /** Show border around legend */
   showBorder?: boolean;
   /** Background color */
-  backgroundColor?: string;
+  fillColor?: string;
 }
 
 /**
@@ -365,7 +365,7 @@ export function renderLegendSVG(
     padding = 10,
     fontSize = 12,
     showBorder = true,
-    backgroundColor = 'white',
+    fillColor = 'white',
   } = config;
 
   const { bounds, title, entries, type } = legend;
@@ -379,7 +379,7 @@ export function renderLegendSVG(
   let svg = `<g class="legend" transform="translate(${x}, ${y})">`;
 
   // Background
-  svg += `<rect x="0" y="0" width="${width}" height="${height}" fill="${backgroundColor}" `;
+  svg += `<rect x="0" y="0" width="${width}" height="${height}" fill="${fillColor}" `;
   if (showBorder) {
     svg += `stroke="black" stroke-width="1" `;
   }

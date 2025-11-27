@@ -543,7 +543,7 @@ Customize appearance with fill colors, borders, and padding:
 ```runiq
 container "Production System"
   fill: "#ffebee"
-  borderColor: "#c62828"
+  strokeColor: "#c62828"
   padding: 30 {
 
   shape criticalProcess as @activity

@@ -150,7 +150,7 @@ diagram "Colors" {
 diagram "Line styles" {
   direction TB
   # Dashed line for error paths
-  ValidateInput -invalid-> InvalidInput lineStyle: "dashed" stroke: "#f44336"
+  ValidateInput -invalid-> InvalidInput lineStyle: "dashed" strokeColor: "#f44336"
 
   # Dotted line for optional paths
   CheckDB -> AuditLog label: "log attempt" lineStyle: "dotted"

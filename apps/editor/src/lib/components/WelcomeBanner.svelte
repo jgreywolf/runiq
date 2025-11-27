@@ -36,9 +36,7 @@
 				<Icon icon="lucide:book-open" width="16" height="16" />
 			</div>
 			<div class="flex flex-col">
-				<p class="text-sm font-semibold text-neutral-800">
-					Welcome to Runiq! 👋
-				</p>
+				<p class="text-sm font-semibold text-neutral-800">Welcome to Runiq! 👋</p>
 				<p class="text-xs text-neutral-600">
 					New to diagramming with code? Check out our documentation to get started.
 				</p>

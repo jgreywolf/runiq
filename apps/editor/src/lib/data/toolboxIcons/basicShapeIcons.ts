@@ -43,7 +43,7 @@ export const basicShapeIcons: ShapeCategory[] = [
 			{
 				id: 'container',
 				label: 'Container',
-				code: `container id "Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+				code: `container id "Container" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:2 {
   // Add shapes here
   shape s1 as @rectangle label:"Shape"
 }`

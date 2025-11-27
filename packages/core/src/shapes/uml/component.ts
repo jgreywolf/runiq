@@ -41,9 +41,9 @@ export const componentShape: ShapeDefinition = {
     const { x, y } = position;
 
     const backgroundColor =
-      (ctx.node.data?.backgroundColor as string) || '#ffffff';
-    const borderColor = (ctx.node.data?.borderColor as string) || '#333333';
-    const borderWidth = (ctx.node.data?.borderWidth as number) || 2;
+      (ctx.node.data?.fillColor as string) || '#ffffff';
+    const borderColor = (ctx.node.data?.strokeColor as string) || '#333333';
+    const borderWidth = (ctx.node.data?.strokeWidth as number) || 2;
 
     const symbolSize = 16; // Width of component symbol rectangles
     const symbolHeight = 8; // Height of component symbol rectangles

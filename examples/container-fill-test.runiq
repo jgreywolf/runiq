@@ -7,7 +7,7 @@ container "Backend Services" fill:"#e3f2fd" {
 }
 
 // Test that backgroundColor still works (backward compatibility)
-container "Frontend" backgroundColor:"#fff3e0" {
+container "Frontend" fillColor:"#fff3e0" {
   shape WebApp
   shape MobileApp
 }

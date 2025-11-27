@@ -149,7 +149,7 @@ describe('Data-Driven Syntax', () => {
       const input = `
         diagram "test" {
           foreach "card" from:mydata {
-            node \${item.id} shape:rect label:\${item.name} fill:\${item.color} stroke:"black"
+            node \${item.id} shape:rect label:\${item.name} fillColor:\${item.color} strokeColor:"black"
           }
         }
       `;
@@ -309,10 +309,7 @@ describe('Data-Driven Syntax', () => {
       `;
       const result = parse(input);
       if (result.errors && result.errors.length > 0) {
-        console.log(
-          'Nested property errors:',
-          result.errors.map((e) => e.message)
-        );
+        console.log('Nested property errors:', result.errors);
       }
       expect(result.errors).toHaveLength(0);
     });
@@ -327,10 +324,7 @@ describe('Data-Driven Syntax', () => {
       `;
       const result = parse(input);
       if (result.errors && result.errors.length > 0) {
-        console.log(
-          'Mixed literal errors:',
-          result.errors.map((e) => e.message)
-        );
+        console.log('Mixed literal errors:', result.errors);
       }
       expect(result.errors).toHaveLength(0);
     });

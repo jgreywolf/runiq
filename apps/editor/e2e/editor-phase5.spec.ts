@@ -192,7 +192,7 @@ test.describe.skip('Phase 5: Templates & Presets Editor Integration', () => {
 			await test.step('Verify backgroundColor in autocomplete', async () => {
 				await page.waitForSelector('.cm-tooltip-autocomplete', { state: 'visible' });
 				const autocompleteText = await page.locator('.cm-tooltip-autocomplete').textContent();
-				expect(autocompleteText).toContain('backgroundColor:');
+				expect(autocompleteText).toContain('fillColor:');
 			});
 		});
 	});
@@ -203,7 +203,7 @@ test.describe.skip('Phase 5: Templates & Presets Editor Integration', () => {
 				const syntax = `diagram "Test" {
   template "my-template" {
     label: "My Template"
-    backgroundColor: "#e3f2fd"
+    fillColor: "#e3f2fd"
     padding: 20
   }
 }`;
@@ -251,7 +251,7 @@ test.describe.skip('Phase 5: Templates & Presets Editor Integration', () => {
 		await test.step('Enter container with template reference', async () => {
 			const syntax = `diagram "Test" {
   template "service" {
-    backgroundColor: "#f0f0f0"
+    fillColor: "#f0f0f0"
   }
 
   container "My Service" templateId: "service" {
@@ -304,7 +304,7 @@ test.describe.skip('Phase 5: Templates & Presets Editor Integration', () => {
 			await test.step('Enter complete diagram with templates and presets', async () => {
 				const syntax = `diagram "Architecture" {
   template "microservice" {
-    backgroundColor: "#e3f2fd"
+    fillColor: "#e3f2fd"
     padding: 20
   }
 
@@ -335,11 +335,11 @@ test.describe.skip('Phase 5: Templates & Presets Editor Integration', () => {
 		test('Should handle container inheritance with extends', async ({ page }) => {
 			await test.step('Enter diagram with inheritance', async () => {
 				const syntax = `diagram "Inheritance" {
-  container "Base" backgroundColor: "#f0f0f0" padding: 20 {
+  container "Base" fillColor: "#f0f0f0" padding: 20 {
     shape base as @rectangle label: "Base"
   }
 
-  container "Extended" extends: "Base" borderColor: "#2196f3" {
+  container "Extended" extends: "Base" strokeColor: "#2196f3" {
     shape child as @rectangle label: "Child"
   }
 

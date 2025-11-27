@@ -198,7 +198,7 @@ function renderHorizontalTimeline(
     const x1 = dateToX(periodStartDate);
     const x2 = dateToX(periodEndDate);
     const periodWidth = x2 - x1;
-    const periodColor = period.color || defaultPeriodColor;
+    const periodColor = period.fillColor || defaultPeriodColor;
     const periodOpacity = period.opacity ?? defaultPeriodOpacity;
 
     // Period background rectangle
@@ -238,7 +238,7 @@ function renderHorizontalTimeline(
   events.forEach((event, index) => {
     const eventDate = new Date(event.date);
     const x = dateToX(eventDate);
-    const eventColor = event.color || defaultEventColor;
+    const eventColor = event.fillColor || defaultEventColor;
 
     // Alternating label positions (top/bottom) unless specified
     const isTop =
@@ -358,7 +358,7 @@ function renderVerticalTimeline(
     const y1 = dateToY(periodStartDate);
     const y2 = dateToY(periodEndDate);
     const periodHeight = y2 - y1;
-    const periodColor = period.color || defaultPeriodColor;
+    const periodColor = period.fillColor || defaultPeriodColor;
     const periodOpacity = period.opacity ?? defaultPeriodOpacity;
 
     // Period background rectangle
@@ -399,7 +399,7 @@ function renderVerticalTimeline(
   events.forEach((event, index) => {
     const eventDate = new Date(event.date);
     const y = dateToY(eventDate);
-    const eventColor = event.color || defaultEventColor;
+    const eventColor = event.fillColor || defaultEventColor;
 
     // Alternating label positions (left/right) unless specified
     const isLeft =

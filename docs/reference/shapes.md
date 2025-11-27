@@ -573,7 +573,7 @@ shape MyShape as @rect
   label: "Display Text"
   fill: "#4caf50"
   textColor: "#ffffff"
-  stroke: "#333333"
+  strokeColor: "#333333"
   strokeWidth: 2
   opacity: 0.9
 ```

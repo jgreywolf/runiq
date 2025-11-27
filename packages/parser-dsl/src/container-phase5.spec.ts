@@ -13,7 +13,7 @@ describe('Phase 5: Container Templates & Presets', () => {
       const dsl = `diagram "test" {
         template "card-template" {
           label: "Card Template"
-          backgroundColor: "#ffffff"
+          fillColor: "#ffffff"
           padding: 15
         }}`;
       const result = parse(dsl);
@@ -107,18 +107,18 @@ describe('Phase 5: Container Templates & Presets', () => {
     it('should parse template with style properties', () => {
       const dsl = `diagram "test" {
         template "styled" {
-          backgroundColor: "#e3f2fd"
-          borderColor: "#2196f3"
-          borderWidth: 2
+          fillColor: "#e3f2fd"
+          strokeColor: "#2196f3"
+          strokeWidth: 2
           padding: 20
           shadow: true
         }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const style = result.diagram?.templates?.[0].containerStyle;
-      expect(style?.backgroundColor).toBe('#e3f2fd');
-      expect(style?.borderColor).toBe('#2196f3');
-      expect(style?.borderWidth).toBe(2);
+      expect(style?.fillColor).toBe('#e3f2fd');
+      expect(style?.strokeColor).toBe('#2196f3');
+      expect(style?.strokeWidth).toBe(2);
       expect(style?.padding).toBe(20);
       expect(style?.shadow).toBe(true);
     });
@@ -130,7 +130,7 @@ describe('Phase 5: Container Templates & Presets', () => {
           description: "Has all features"
           parameters: ["title": string = "Title"]
           children: ["node1", "node2"]
-          backgroundColor: "#ffffff"
+          fillColor: "#ffffff"
           padding: 15
         }}`;
       const result = parse(dsl);
@@ -141,7 +141,7 @@ describe('Phase 5: Container Templates & Presets', () => {
       expect(template?.description).toBe('Has all features');
       expect(template?.parameters).toHaveLength(1);
       expect(template?.children).toHaveLength(2);
-      expect(template?.containerStyle?.backgroundColor).toBe('#ffffff');
+      expect(template?.containerStyle?.fillColor).toBe('#ffffff');
     });
   });
 
@@ -185,7 +185,7 @@ describe('Phase 5: Container Templates & Presets', () => {
     it('should parse template and container using it', () => {
       const dsl = `diagram "test" {
         template "service" {
-          backgroundColor: "#e3f2fd"
+          fillColor: "#e3f2fd"
           padding: 20
         }
         container "API" templateId: "service" {
@@ -202,21 +202,21 @@ describe('Phase 5: Container Templates & Presets', () => {
 
     it('should parse container with template and style overrides', () => {
       const dsl = `diagram "test" {
-        container "Custom" templateId: "card" backgroundColor: "#custom" padding: 30 {
+        container "Custom" templateId: "card" fillColor: "#custom" padding: 30 {
           shape node1 as @rect label: "Node"
         }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
       expect(container?.containerStyle?.templateId).toBe('card');
-      expect(container?.containerStyle?.backgroundColor).toBe('#custom');
+      expect(container?.containerStyle?.fillColor).toBe('#custom');
       expect(container?.containerStyle?.padding).toBe(30);
     });
 
     it('should parse multiple containers using same template', () => {
       const dsl = `diagram "test" {
         template "service" {
-          backgroundColor: "#f0f0f0"
+          fillColor: "#f0f0f0"
         }
         container "Service1" templateId: "service" {
           shape n1 as @rect label: "S1"
@@ -255,30 +255,30 @@ describe('Phase 5: Container Templates & Presets', () => {
       const dsl = `diagram "test" {
         preset "highlighted" {
           label: "Highlighted Section"
-          backgroundColor: "#fff3cd"
+          fillColor: "#fff3cd"
         }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const preset = result.diagram?.presets?.[0];
       expect(preset?.label).toBe('Highlighted Section');
-      expect(preset?.style.backgroundColor).toBe('#fff3cd');
+      expect(preset?.style.fillColor).toBe('#fff3cd');
     });
 
     it('should parse preset with multiple style properties', () => {
       const dsl = `diagram "test" {
         preset "panel" {
-          backgroundColor: "#f8f9fa"
-          borderColor: "#dee2e6"
-          borderWidth: 1
+          fillColor: "#f8f9fa"
+          strokeColor: "#dee2e6"
+          strokeWidth: 1
           padding: 20
           shadow: true
         }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const style = result.diagram?.presets?.[0].style;
-      expect(style?.backgroundColor).toBe('#f8f9fa');
-      expect(style?.borderColor).toBe('#dee2e6');
-      expect(style?.borderWidth).toBe(1);
+      expect(style?.fillColor).toBe('#f8f9fa');
+      expect(style?.strokeColor).toBe('#dee2e6');
+      expect(style?.strokeWidth).toBe(1);
       expect(style?.padding).toBe(20);
       expect(style?.shadow).toBe(true);
     });
@@ -317,21 +317,21 @@ describe('Phase 5: Container Templates & Presets', () => {
 
     it('should parse container with preset and overrides', () => {
       const dsl = `diagram "test" {
-        container "Custom" preset: "card" backgroundColor: "#e3f2fd" {
+        container "Custom" preset: "card" fillColor: "#e3f2fd" {
           shape node1 as @rect label: "Node"
         }}`;
       const result = parse(dsl);
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
       expect(container?.containerStyle?.preset).toBe('card');
-      expect(container?.containerStyle?.backgroundColor).toBe('#e3f2fd');
+      expect(container?.containerStyle?.fillColor).toBe('#e3f2fd');
     });
 
     it('should parse preset definition and usage together', () => {
       const dsl = `diagram "test" {
         preset "highlighted" {
-          backgroundColor: "#fff3cd"
-          borderColor: "#ffc107"
+          fillColor: "#fff3cd"
+          strokeColor: "#ffc107"
         }
         container "Important" preset: "highlighted" {
           shape node1 as @rect label: "Node"
@@ -386,7 +386,7 @@ describe('Phase 5: Container Templates & Presets', () => {
 
     it('should parse container with all Phase 5 features and overrides', () => {
       const dsl = `diagram "test" {
-        container "Complete" templateId: "widget" preset: "card" extends: "base" backgroundColor: "#custom" padding: 25 {
+        container "Complete" templateId: "widget" preset: "card" extends: "base" fillColor: "#custom" padding: 25 {
           shape node1 as @rect label: "Node"
         }}`;
       const result = parse(dsl);
@@ -395,7 +395,7 @@ describe('Phase 5: Container Templates & Presets', () => {
       expect(style?.templateId).toBe('widget');
       expect(style?.preset).toBe('card');
       expect(style?.extends).toBe('base');
-      expect(style?.backgroundColor).toBe('#custom');
+      expect(style?.fillColor).toBe('#custom');
       expect(style?.padding).toBe(25);
     });
   });
@@ -404,7 +404,7 @@ describe('Phase 5: Container Templates & Presets', () => {
     it('should parse diagram with templates, presets, and containers', () => {
       const dsl = `diagram "Architecture" {
         template "microservice" {
-          backgroundColor: "#e3f2fd"
+          fillColor: "#e3f2fd"
           padding: 20
         }
         

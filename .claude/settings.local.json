@@ -10,7 +10,9 @@
       "Bash(pnpm test:*)",
       "Bash(node dist/index.js:*)",
       "Bash(node:*)",
-      "Bash(pnpm langium:generate:*)"
+      "Bash(pnpm langium:generate:*)",
+      "Bash(pnpm run langium:generate:*)",
+      "Bash(pnpm run build:*)"
     ],
     "deny": [],
     "ask": []

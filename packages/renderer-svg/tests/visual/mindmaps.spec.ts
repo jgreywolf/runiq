@@ -2,8 +2,10 @@ import { test, expect } from '@playwright/test';
 import { renderAndSetup } from './utils';
 
 test.describe('Visual Regression - Mindmap Tests', () => {
-	test('should render a simple mindmap with automatic styling', async ({ page }) => {
-		const dsl = `
+  test('should render a simple mindmap with automatic styling', async ({
+    page,
+  }) => {
+    const dsl = `
 diagram "Simple Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:70 {
     shape main label:"Main Topic"
@@ -16,15 +18,17 @@ diagram "Simple Mindmap" {
     main -to-> idea3
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-simple.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with hierarchical levels (3 levels)', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-simple.png');
+  });
+
+  test('should render mindmap with hierarchical levels (3 levels)', async ({
+    page,
+  }) => {
+    const dsl = `
 diagram "Hierarchical Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:80 {
     shape root label:"Root"
@@ -46,15 +50,15 @@ diagram "Hierarchical Mindmap" {
     branch2 -to-> leaf4
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-hierarchical.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with explicit shapes', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-hierarchical.png');
+  });
+
+  test('should render mindmap with explicit shapes', async ({ page }) => {
+    const dsl = `
 diagram "Mindmap with Shapes" {
   container "Mindmap" type:mindmap algorithm:radial spacing:90 {
     shape hub as @circle label:"Central"
@@ -69,36 +73,36 @@ diagram "Mindmap with Shapes" {
     node2 -to-> detail2
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-explicit-shapes.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with custom colors', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-explicit-shapes.png');
+  });
+
+  test('should render mindmap with custom colors', async ({ page }) => {
+    const dsl = `
 diagram "Colored Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:85 {
-    shape core as @circle label:"Core" fill:"#6366f1" stroke:"#4338ca" strokeWidth:3
-    shape topic1 as @roundedRectangle label:"Topic 1" fill:"#10b981" stroke:"#059669" strokeWidth:2
-    shape topic2 as @roundedRectangle label:"Topic 2" fill:"#3b82f6" stroke:"#2563eb" strokeWidth:2
-    shape topic3 as @roundedRectangle label:"Topic 3" fill:"#f59e0b" stroke:"#d97706" strokeWidth:2
+    shape core as @circle label:"Core" fill:"#6366f1" strokeColor:"#4338ca" strokeWidth:3
+    shape topic1 as @roundedRectangle label:"Topic 1" fill:"#10b981" strokeColor:"#059669" strokeWidth:2
+    shape topic2 as @roundedRectangle label:"Topic 2" fill:"#3b82f6" strokeColor:"#2563eb" strokeWidth:2
+    shape topic3 as @roundedRectangle label:"Topic 3" fill:"#f59e0b" strokeColor:"#d97706" strokeWidth:2
     
     core -to-> topic1
     core -to-> topic2
     core -to-> topic3
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-colored.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with radial layout', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-colored.png');
+  });
+
+  test('should render mindmap with radial layout', async ({ page }) => {
+    const dsl = `
 diagram "Radial Mindmap" {
   container "Mindmap" algorithm:radial spacing:100 {
     shape core label:"Core Concept"
@@ -115,15 +119,15 @@ diagram "Radial Mindmap" {
     core -to-> n5
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-radial-layout.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with different spacing', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-radial-layout.png');
+  });
+
+  test('should render mindmap with different spacing', async ({ page }) => {
+    const dsl = `
 diagram "Tight Spacing Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:50 {
     shape main label:"Main"
@@ -136,17 +140,17 @@ diagram "Tight Spacing Mindmap" {
     main -to-> c
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-tight-spacing.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with container styling', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-tight-spacing.png');
+  });
+
+  test('should render mindmap with container styling', async ({ page }) => {
+    const dsl = `
 diagram "Styled Container Mindmap" {
-  container "Mindmap" type:mindmap algorithm:radial spacing:80 backgroundColor:"#e8f5e9" borderColor:"#4caf50" borderWidth:2 {
+  container "Mindmap" type:mindmap algorithm:radial spacing:80 fillColor:"#e8f5e9" strokeColor:"#4caf50" borderWidth:2 {
     shape root label:"Root"
     shape child1 label:"Child 1"
     shape child2 label:"Child 2"
@@ -155,15 +159,15 @@ diagram "Styled Container Mindmap" {
     root -to-> child2
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-container-styled.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with asymmetric branches', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-container-styled.png');
+  });
+
+  test('should render mindmap with asymmetric branches', async ({ page }) => {
+    const dsl = `
 diagram "Asymmetric Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:75 {
     shape central label:"Central"
@@ -186,15 +190,15 @@ diagram "Asymmetric Mindmap" {
     right1 -to-> detail1
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-asymmetric.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with multiline labels', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-asymmetric.png');
+  });
+
+  test('should render mindmap with multiline labels', async ({ page }) => {
+    const dsl = `
 diagram "Multiline Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:90 {
     shape root label:"Main\\nTopic"
@@ -205,15 +209,15 @@ diagram "Multiline Mindmap" {
     root -to-> branch2
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-multiline-labels.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render deep mindmap hierarchy (4 levels)', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-multiline-labels.png');
+  });
+
+  test('should render deep mindmap hierarchy (4 levels)', async ({ page }) => {
+    const dsl = `
 diagram "Deep Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:70 {
     shape l1 label:"Level 1"
@@ -230,15 +234,15 @@ diagram "Deep Mindmap" {
     l3a -to-> l4
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-deep-hierarchy.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with stress algorithm', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-deep-hierarchy.png');
+  });
+
+  test('should render mindmap with stress algorithm', async ({ page }) => {
+    const dsl = `
 diagram "Stress Layout Mindmap" {
   container "Mindmap" algorithm:stress spacing:60 {
     shape nodeA label:"A"
@@ -254,15 +258,17 @@ diagram "Stress Layout Mindmap" {
     nodeD -to-> nodeE
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-stress-algorithm.png');
-	});
+    await renderAndSetup(page, dsl);
 
-	test('should render mindmap with wide branching (6+ branches)', async ({ page }) => {
-		const dsl = `
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-stress-algorithm.png');
+  });
+
+  test('should render mindmap with wide branching (6+ branches)', async ({
+    page,
+  }) => {
+    const dsl = `
 diagram "Wide Branching Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:80 {
     shape core label:"Core"
@@ -283,10 +289,10 @@ diagram "Wide Branching Mindmap" {
     core -to-> b7
   }
 }`;
-		await renderAndSetup(page, dsl);
-		
-		const svg = page.locator('svg');
-		await expect(svg).toBeVisible();
-		await expect(svg).toHaveScreenshot('mindmap-wide-branching.png');
-	});
+    await renderAndSetup(page, dsl);
+
+    const svg = page.locator('svg');
+    await expect(svg).toBeVisible();
+    await expect(svg).toHaveScreenshot('mindmap-wide-branching.png');
+  });
 });

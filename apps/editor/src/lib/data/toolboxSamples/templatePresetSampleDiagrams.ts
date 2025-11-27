@@ -11,8 +11,8 @@ export const templatePresetSampleDiagrams: SampleCategory[] = [
 				code: `diagram "Basic Template Example" {
   template "service-template" {
     label: "Microservice Template"
-    backgroundColor: "#e8f5e9"
-    borderColor: "#4caf50"
+    fillColor: "#e8f5e9"
+    strokeColor: "#4caf50"
     borderWidth: 2
     padding: 15
     resizable: true
@@ -35,8 +35,8 @@ export const templatePresetSampleDiagrams: SampleCategory[] = [
 				code: `diagram "Style Preset Example" {
   preset "card" {
     label: "Card Style"
-    backgroundColor: "#e3f2fd"
-    borderColor: "#2196f3"
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
     padding: 20
     shadow: true
   }
@@ -57,13 +57,13 @@ export const templatePresetSampleDiagrams: SampleCategory[] = [
 				description: 'Using both templates and presets together',
 				code: `diagram "Combined Example" {
   template "microservice" {
-    backgroundColor: "#e8f5e9"
+    fillColor: "#e8f5e9"
     borderWidth: 2
     padding: 15
   }
 
   preset "highlighted" {
-    borderColor: "#ff9800"
+    strokeColor: "#ff9800"
     shadow: true
   }
 
@@ -87,11 +87,11 @@ export const templatePresetSampleDiagrams: SampleCategory[] = [
 				name: 'Container Inheritance',
 				description: 'Inherit styles from parent containers using extends',
 				code: `diagram "Container Inheritance" {
-  container "Base Container" backgroundColor: "#f0f0f0" padding: 20 {
+  container "Base Container" fillColor: "#f0f0f0" padding: 20 {
     shape base as @rectangle label: "Base Component"
   }
 
-  container "Extended Container" extends: "Base Container" borderColor: "#2196f3" {
+  container "Extended Container" extends: "Base Container" strokeColor: "#2196f3" {
     shape extended as @rectangle label: "Extended Component"
   }
 

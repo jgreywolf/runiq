@@ -7,10 +7,10 @@ shape A fill: "#ffebee" label: "Using fill"
 shape B fill:"#e3f2fd" label:"Using fill"
 
 // Test stroke property - space after stroke
-shape C stroke: "#f44336" label: "Using stroke"
+shape C strokeColor: "#f44336" label: "Using stroke"
 
 // Test strokeColor property - no space
-shape D stroke:"#4caf50" label:"Using strokeColor"
+shape D strokeColor:"#4caf50" label:"Using strokeColor"
 
 // Test both work the same
 A -> B

@@ -49,7 +49,7 @@ Features:
 
 - Three containers organized by architectural layer (Frontend, Backend, Data)
 - 9 microservices with technology stack labels
-- Color-coded containers using `backgroundColor` and `borderColor`
+- Color-coded containers using `fillColor` and `strokeColor`
 - Horizontal layout (`direction LR`)
 
 ## C4 Shapes
@@ -88,8 +88,8 @@ Group related elements with colored containers:
 
 ```runiq
 container backend "Backend Services"
-  backgroundColor:"#e3f2fd"
-  borderColor:"#1976d2"
+  fillColor:"#e3f2fd"
+  strokeColor:"#1976d2"
   borderWidth:2 {
   shape service1 as @c4Container label:"Service 1"
   shape service2 as @c4Container label:"Service 2"
@@ -100,11 +100,11 @@ container backend "Backend Services"
 
 For container boxes, use light complementary colors:
 
-- **Light Blue**: `backgroundColor:"#e3f2fd" borderColor:"#1976d2"` (Backend/Services)
-- **Light Pink**: `backgroundColor:"#fce4ec" borderColor:"#c2185b"` (Frontend/UI)
-- **Light Purple**: `backgroundColor:"#f3e5f5" borderColor:"#7b1fa2"` (Data/Storage)
-- **Light Yellow**: `backgroundColor:"#fff8e1" borderColor:"#f57f17"` (External/Integration)
-- **Light Green**: `backgroundColor:"#e8f5e9" borderColor:"#388e3c"` (Messaging/Events)
+- **Light Blue**: `fillColor:"#e3f2fd" strokeColor:"#1976d2"` (Backend/Services)
+- **Light Pink**: `fillColor:"#fce4ec" strokeColor:"#c2185b"` (Frontend/UI)
+- **Light Purple**: `fillColor:"#f3e5f5" strokeColor:"#7b1fa2"` (Data/Storage)
+- **Light Yellow**: `fillColor:"#fff8e1" strokeColor:"#f57f17"` (External/Integration)
+- **Light Green**: `fillColor:"#e8f5e9" strokeColor:"#388e3c"` (Messaging/Events)
 
 ## Known Limitations
 

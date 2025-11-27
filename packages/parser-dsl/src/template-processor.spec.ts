@@ -57,7 +57,7 @@ describe('Template Processor', () => {
             shape: 'rect',
             properties: {
               label: '${item.name}',
-              fill: '${item.color}',
+              fillColor: '${item.color}',
             },
           } as TemplateNodeStatement,
         ],
@@ -74,7 +74,7 @@ describe('Template Processor', () => {
       expect(result.nodes).toHaveLength(3);
       expect(result.nodes[0].id).toBe('u1');
       expect(result.nodes[0].properties.label).toBe('Alice');
-      expect(result.nodes[0].properties.fill).toBe('blue');
+      expect(result.nodes[0].properties.fillColor).toBe('blue');
       expect(result.nodes[1].id).toBe('u2');
       expect(result.nodes[2].id).toBe('u3');
     });
@@ -244,7 +244,7 @@ describe('Template Processor', () => {
             shape: 'rect',
             properties: {
               label: '${item.name}',
-              fill: '${item.color}',
+              fillColor: '${item.color}',
             },
           } as TemplateNodeStatement,
         ],
@@ -258,7 +258,7 @@ describe('Template Processor', () => {
 
       expect(result.nodes).toHaveLength(1);
       expect(result.nodes[0].properties.label).toBe('Alice');
-      expect(result.nodes[0].properties.fill).toBe(''); // Empty string for missing value
+      expect(result.nodes[0].properties.fillColor).toBe(''); // Empty string for missing value
     });
 
     it('uses default shape when not specified', () => {

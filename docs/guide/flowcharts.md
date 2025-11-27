@@ -145,7 +145,7 @@ diagram "Styled Flowchart" {
 
   start -> process
   process -> decision
-  decision -> end label: "Done" stroke: "#10b981" strokeWidth: 2
+  decision -> end label: "Done" strokeColor: "#10b981" strokeWidth: 2
 }
 ```
 

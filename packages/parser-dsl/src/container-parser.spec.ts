@@ -214,7 +214,7 @@ describe('Container Parser', () => {
     it('should parse container with style reference', () => {
       const dsl = `
         diagram "test" {
-        style secureZone fill: "red"
+        style secureZone fillColor: "red"
         container "Secure" style: secureZone {
           shape Node1 as @rect label: "Node"
         }
@@ -243,11 +243,11 @@ describe('Container Parser', () => {
     it('should parse container with multiple style properties', () => {
       const dsl = `
         diagram "test" {
-        container "Complex" 
-          borderStyle: dotted 
-          borderColor: "#ff0000" 
-          borderWidth: 2
-          backgroundColor: "#f0f0f0"
+        container "Complex"
+          borderStyle: dotted
+          strokeColor: "#ff0000"
+          strokeWidth: 2
+          fillColor: "#f0f0f0"
           opacity: 0.8
           padding: 20
           labelPosition: top {
@@ -260,9 +260,9 @@ describe('Container Parser', () => {
       const container = result.diagram?.containers?.[0];
       const style = container?.containerStyle;
       expect(style?.borderStyle).toBe('dotted');
-      expect(style?.borderColor).toBe('#ff0000');
-      expect(style?.borderWidth).toBe(2);
-      expect(style?.backgroundColor).toBe('#f0f0f0');
+      expect(style?.strokeColor).toBe('#ff0000');
+      expect(style?.strokeWidth).toBe(2);
+      expect(style?.fillColor).toBe('#f0f0f0');
       expect(style?.opacity).toBe(0.8);
       expect(style?.padding).toBe(20);
       expect(style?.labelPosition).toBe('top');
@@ -402,8 +402,8 @@ describe('Container Parser', () => {
         diagram "C4 Diagram" {
         direction TB
         
-        style system fill: "#08427B" stroke: "#fff"
-        style external fill: "#999" stroke: "#fff"
+        style system fillColor: "#08427B" strokeColor: "#fff"
+        style external fillColor: "#999" strokeColor: "#fff"
         
         shape User as @actor label: "User" style: external
         
@@ -433,9 +433,9 @@ describe('Container Parser', () => {
         diagram "Banking System - System Context" {
         direction TB
         
-        style personStyle fill: "#08427B"
-        style systemStyle fill: "#1168BD"
-        style externalStyle fill: "#999999"
+        style personStyle fillColor: "#08427B"
+        style systemStyle fillColor: "#1168BD"
+        style externalStyle fillColor: "#999999"
         
         shape Customer as @actor label: "Personal Banking Customer" style: personStyle
         

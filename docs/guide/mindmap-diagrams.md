@@ -63,9 +63,9 @@ Mindmaps excel at:
 ```runiq
 diagram "Website Redesign Plan" {
 
-  style main fill:"#ffeb3b" stroke:"#f57c00" strokeWidth:3
-  style phase fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2
-  style task fill:"#f3e5f5" stroke:"#7b1fa2"
+  style main fill:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3
+  style phase fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+  style task fill:"#f3e5f5" strokeColor:"#7b1fa2"
 
   container "Project" type:mindmap algorithm:radial spacing:100 {
 
@@ -186,9 +186,9 @@ shape metric as @stadium label:"50% Growth"  // Key metric
 ### Color Coding by Level
 
 ```runiq
-style level1 fill:"#ffeb3b" stroke:"#f57c00" strokeWidth:3 fontSize:16
-style level2 fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2 fontSize:14
-style level3 fill:"#f3e5f5" stroke:"#7b1fa2" fontSize:12
+style level1 fill:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3 fontSize:16
+style level2 fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 fontSize:14
+style level3 fill:"#f3e5f5" strokeColor:"#7b1fa2" fontSize:12
 
 container "Mindmap" type:mindmap algorithm:radial {
   shape root label:"Main" style:level1
@@ -203,10 +203,10 @@ container "Mindmap" type:mindmap algorithm:radial {
 ### Color Coding by Category
 
 ```runiq
-style goals fill:"#c8e6c9" stroke:"#388e3c"
-style actions fill:"#bbdefb" stroke:"#1976d2"
-style risks fill:"#ffcdd2" stroke:"#d32f2f"
-style metrics fill:"#e1bee7" stroke:"#7b1fa2"
+style goals fill:"#c8e6c9" strokeColor:"#388e3c"
+style actions fill:"#bbdefb" strokeColor:"#1976d2"
+style risks fill:"#ffcdd2" strokeColor:"#d32f2f"
+style metrics fill:"#e1bee7" strokeColor:"#7b1fa2"
 ```
 
 ### Container Styling
@@ -215,8 +215,8 @@ style metrics fill:"#e1bee7" stroke:"#7b1fa2"
 container "Mindmap"
   algorithm:radial
   spacing:100
-  backgroundColor:"#f5f5f5"
-  borderColor:"#9e9e9e"
+  fillColor:"#f5f5f5"
+  strokeColor:"#9e9e9e"
   borderWidth:2
   padding:20 {
   // nodes here

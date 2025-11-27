@@ -223,8 +223,8 @@
 			{ label: 'boolean', type: 'type', detail: 'Boolean parameter type' },
 			{ label: 'color', type: 'type', detail: 'Color parameter type' },
 			// Container style properties
-			{ label: 'backgroundColor:', type: 'property', detail: 'Container background color' },
-			{ label: 'borderColor:', type: 'property', detail: 'Container border color' },
+			{ label: 'fillColor:', type: 'property', detail: 'Container background color' },
+			{ label: 'strokeColor:', type: 'property', detail: 'Container border color' },
 			{ label: 'borderWidth:', type: 'property', detail: 'Container border width' },
 			{ label: 'padding:', type: 'property', detail: 'Container padding' },
 			{ label: 'shadow:', type: 'property', detail: 'Container shadow (true/false)' },
@@ -253,21 +253,21 @@
 			padding: '0 10px'
 		},
 		'.cm-gutters': {
-			backgroundColor: '#f9fafb',
+			fillColor: '#f9fafb',
 			color: '#6b7280',
 			border: 'none'
 		},
 		'.cm-activeLineGutter': {
-			backgroundColor: '#e5e7eb'
+			fillColor: '#e5e7eb'
 		},
 		'.cm-activeLine': {
-			backgroundColor: '#f0f5f8'
+			fillColor: '#f0f5f8'
 		},
 		'.cm-selectionBackground': {
-			backgroundColor: '#dce8ef !important'
+			fillColor: '#dce8ef !important'
 		},
 		'&.cm-focused .cm-selectionBackground': {
-			backgroundColor: '#b9d1df !important'
+			fillColor: '#b9d1df !important'
 		},
 		'.cm-cursor': {
 			borderLeftColor: '#5a819e'
