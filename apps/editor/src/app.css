@@ -2,6 +2,9 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+/* Component Styles */
+@import './lib/styles/visual-canvas.css';
+
 /* ============================================================================
    Runiq Brand Colors
    ============================================================================

@@ -1,16 +1,31 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { parse, type NodeLocation } from '@runiq/parser-dsl';
-	import { layoutRegistry } from '@runiq/core';
-	import {
-		renderSvg,
-		renderWardleyMap,
-		renderSequenceDiagram,
-		renderTimeline
-	} from '@runiq/renderer-svg';
-	import { renderSchematic, renderPID } from '@runiq/renderer-schematic';
+	import { onMount, tick, untrack } from 'svelte';
+	import { type NodeLocation } from '@runiq/parser-dsl';
 	import { Badge } from '$lib/components/ui/badge';
 	import Icon from '@iconify/svelte';
+	import AnchorIndicators from './visual-canvas/AnchorIndicators.svelte';
+	import StylePanel from './visual-canvas/StylePanel.svelte';
+	import {
+		renderDiagram as renderDiagramUtil,
+		attachInteractiveHandlers as attachHandlers,
+		updateElementStyles,
+		type RenderResult
+	} from './visual-canvas/renderingUtils';
+	import {
+		handleElementMouseEnter,
+		handleElementMouseLeave,
+		handleElementClick,
+		handleElementDoubleClick,
+		handlePanStart,
+		handlePan,
+		handlePanEnd,
+		handleZoom,
+		handleLassoStart,
+		handleLassoDrag,
+		handleLassoEnd,
+		type MouseHandlerContext,
+		type MouseHandlerCallbacks
+	} from './visual-canvas/mouseHandlers';
 
 	// Props
 	interface Props {
@@ -64,6 +79,11 @@
 	let edgeCreationMode = $state(false);
 	let edgeCreationStartNode = $state<string | null>(null);
 
+	// Edge creation from anchor state
+	let creatingEdgeFromAnchor = $state(false);
+	let edgeCreationAnchor = $state<'north' | 'south' | 'east' | 'west' | null>(null);
+	let edgeCreationLine = $state<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
+
 	// Label editing state
 	let editingNodeId = $state<string | null>(null);
 	let editingEdgeId = $state<string | null>(null);
@@ -78,6 +98,20 @@
 	let styleFontSize = $state<string>('');
 	let styleFontColor = $state<string>('');
 	let styleShadow = $state<boolean>(false);
+	let styleStrokeWidth = $state<string>('');
+	let styleRouting = $state<string>('');
+
+	// Edge routing control state
+	let edgeControlPoints = $state<{ x: number; y: number }[]>([]);
+	let draggingControlPoint = $state<number | null>(null);
+	let dragControlPointStart = $state<{ x: number; y: number } | null>(null);
+
+	// Anchor component reference
+	let anchorIndicators: AnchorIndicators | null = null;
+
+	// Non-reactive hover state (only for visual feedback, no need to trigger re-renders)
+	let hoveredAnchor: 'north' | 'south' | 'east' | 'west' | null = null;
+	let isHoveringAnchor = false;
 
 	// Node locations from parser (for code highlighting)
 	let nodeLocations = $state<Map<string, NodeLocation>>(new Map());
@@ -100,6 +134,18 @@
 		}
 	});
 
+	// Effect to attach interactive handlers when SVG output changes
+	$effect(() => {
+		if (svgOutput) {
+			// Wait for Svelte to update the DOM, then attach handlers
+			tick().then(() => {
+				attachInteractiveHandlers();
+				// Recalculate anchors after SVG updates
+				anchorIndicators?.recalculate();
+			});
+		}
+	});
+
 	// Effect to load style values when selection changes
 	$effect(() => {
 		const elementId = selectedNodeId || selectedEdgeId;
@@ -118,38 +164,78 @@
 		// If not found, try to find as an edge
 		if (!element && currentProfile.edges) {
 			element = currentProfile.edges.find((e: any) => {
-				// Edge ID might be "from-to" format
+				// Edge ID might be "from-to" format, possibly with suffix like "from-to-1" or "from-to-2"
 				const edgeId = `${e.from}-${e.to}`;
-				return edgeId === elementId || e.id === elementId;
+
+				// Direct match
+				if (edgeId === elementId || e.id === elementId) {
+					return true;
+				}
+
+				// Match with suffix stripped (e.g., "decision-process2-2" -> "decision-process2")
+				if (elementId.startsWith(edgeId + '-')) {
+					return true;
+				}
+
+				return false;
 			});
 		}
 
 		if (element) {
 			// Load current style values from node.data or edge properties
 			// For nodes, properties are in node.data: fillColor, textColor, strokeColor, strokeWidth, fontSize
-			// For edges, properties are directly on edge: strokeColor, strokeWidth
+			// For edges, properties are directly on edge: strokeColor, strokeWidth, routing
 			if (element.data) {
 				// Node properties
 				styleBackground = element.data.fillColor || '';
 				styleStroke = element.data.strokeColor || '';
+				styleStrokeWidth = element.data.strokeWidth ? String(element.data.strokeWidth) : '';
 				styleFontSize = element.data.fontSize ? String(element.data.fontSize) : '';
 				styleFontColor = element.data.textColor || '';
 				styleShadow = element.data.shadow === true || element.data.shadow === 'true';
+				styleRouting = '';
 			} else {
-				// Edge properties (directly on edge)
+				// Edge properties - check both top-level and data object
 				styleBackground = '';
-				styleStroke = element.strokeColor || '';
+				styleStroke = element.strokeColor || element.data?.strokeColor || '';
+				styleStrokeWidth = element.strokeWidth
+					? String(element.strokeWidth)
+					: element.data?.strokeWidth
+						? String(element.data.strokeWidth)
+						: '';
 				styleFontSize = '';
 				styleFontColor = '';
 				styleShadow = false;
+				styleRouting = element.routing || element.data?.routing || '';
 			}
 		} else {
 			// Reset to defaults if element not found
 			styleBackground = '';
 			styleStroke = '';
+			styleStrokeWidth = '';
 			styleFontSize = '';
 			styleFontColor = '';
+			styleFontColor = '';
 			styleShadow = false;
+		}
+	});
+
+	// Calculate and render anchor points - delegated to AnchorIndicators component
+
+	// Effect to trigger anchor recalculation when selection changes
+	$effect(() => {
+		// ONLY track selectedNodeId
+		const nodeId = selectedNodeId;
+
+		// Don't recalculate if we're hovering an anchor
+		if (isHoveringAnchor) {
+			return;
+		}
+
+		if (anchorIndicators) {
+			tick().then(() => {
+				anchorIndicators?.recalculate();
+			});
 		}
 	});
 
@@ -168,8 +254,7 @@
 	let translateX = $state(0);
 	let translateY = $state(0);
 	let isDragging = $state(false);
-	let dragStartX = $state(0);
-	let dragStartY = $state(0);
+	let dragStart = $state<{ x: number; y: number } | null>(null);
 
 	// Mouse coordinates for troubleshooting
 	let mouseX = $state(0);
@@ -354,143 +439,26 @@
 		warnings = [];
 
 		try {
-			const startParse = performance.now();
+			// Use the extracted rendering utility
+			const result = await renderDiagramUtil(dslCode, dataContent, layoutEngine);
 
-			const codeWithData = injectDataIntoCode(dslCode, dataContent);
-			const parseResult = parse(codeWithData);
-			parseTime = Math.round(performance.now() - startParse);
+			svgOutput = result.svg;
+			errors = result.errors;
+			warnings = result.warnings;
+			parseTime = result.parseTime;
+			renderTime = result.renderTime;
 
-			if (!parseResult.success || !parseResult.document) {
-				errors = parseResult.errors;
-				svgOutput = '';
-				isRendering = false;
-				if (onparse) onparse(false, errors);
-				return;
+			if (result.nodeLocations) {
+				nodeLocations = result.nodeLocations;
 			}
 
-			// Store node locations for code highlighting
-			if (parseResult.nodeLocations) {
-				nodeLocations = parseResult.nodeLocations;
+			if (result.profile) {
+				currentProfile = result.profile;
 			}
 
-			const profile = parseResult.document.profiles[0];
-			if (!profile) {
-				errors = ['No profile found in document'];
-				svgOutput = '';
-				isRendering = false;
-				if (onparse) onparse(false, errors);
-				return;
-			}
-
-			// Store the profile for accessing node/edge properties
-			currentProfile = profile;
-
-			// Inject Sankey chart data (same as Preview.svelte)
-			if (profile.type === 'diagram' && dataContent) {
-				try {
-					const data = JSON.parse(dataContent);
-					if (profile.nodes) {
-						for (const node of profile.nodes) {
-							if (node.shape === 'sankeyChart') {
-								const dataKeys = Object.keys(data);
-								if (dataKeys.length > 0) {
-									node.data = data[dataKeys[0]];
-								}
-							}
-						}
-					}
-				} catch (e) {
-					// Ignore JSON parse errors
-				}
-			}
-
-			const startRender = performance.now();
-			let renderResult: { svg: string; warnings: string[] };
-
-			// Handle different profile types (same as Preview.svelte)
-			switch (profile.type) {
-				case 'electrical':
-				case 'pneumatic':
-				case 'hydraulic':
-					renderResult = renderSchematic(profile as any, {
-						gridSize: 50,
-						routing: 'orthogonal',
-						showNetLabels: true,
-						showValues: true,
-						showReferences: true
-					});
-					break;
-				case 'wardley':
-					renderResult = renderWardleyMap(profile as any, {
-						width: 800,
-						height: 600,
-						showGrid: true,
-						showEvolutionLabels: true,
-						showValueLabels: true
-					});
-					break;
-				case 'sequence':
-					renderResult = renderSequenceDiagram(profile as any, {
-						width: 800,
-						participantSpacing: 150,
-						messageSpacing: 60
-					});
-					break;
-				case 'timeline':
-					renderResult = renderTimeline(profile as any, {
-						width: 1600,
-						height: 500,
-						padding: 100,
-						showDates: true,
-						labelFontSize: 13,
-						dateFontSize: 11
-					});
-					break;
-				case 'pid':
-					renderResult = renderPID(profile as any, {
-						width: 1200,
-						height: 800,
-						gridSize: 50,
-						showGrid: false,
-						showTags: true,
-						showProperties: true,
-						spacing: 180
-					});
-					break;
-				case 'diagram': {
-					const diagram = {
-						...profile,
-						astVersion: parseResult.document.astVersion
-					};
-
-					const layoutEng = layoutRegistry.get(layoutEngine);
-					if (!layoutEng) {
-						errors = [`Unknown layout engine: ${layoutEngine}`];
-						isRendering = false;
-						return;
-					}
-
-					const layout = await layoutEng.layout(diagram);
-					renderResult = renderSvg(diagram, layout, { strict: false });
-					break;
-				}
-				default:
-					errors = [
-						`Profile type '${profile.type}' is not yet supported in the preview.`,
-						`Currently 'diagram', 'electrical', 'pneumatic', 'hydraulic', 'sequence', 'timeline', 'wardley', and 'pid' profiles can be rendered.`
-					];
-					svgOutput = '';
-					isRendering = false;
-					if (onparse) onparse(false, errors);
-					return;
-			}
-
-			svgOutput = renderResult.svg;
-			warnings = renderResult.warnings;
-			renderTime = Math.round(performance.now() - startRender);
 			isRendering = false;
 			if (onparse) {
-				onparse(true, []);
+				onparse(result.success, result.errors);
 			}
 
 			// After rendering, set up event listeners for interactive elements
@@ -509,7 +477,18 @@
 	function attachInteractiveHandlers() {
 		if (!svgContainer) return;
 
-		const svgElement = svgContainer.querySelector('svg');
+		// Find the diagram SVG (not the icon SVGs in buttons)
+		// The diagram SVG contains elements with data-node-id or data-edge-id
+		let svgElement: SVGSVGElement | null = null;
+		const allSvgs = svgContainer.querySelectorAll('svg');
+		for (const svg of allSvgs) {
+			// Check if this SVG has diagram elements
+			if (svg.querySelector('[data-node-id], [data-edge-id]')) {
+				svgElement = svg as SVGSVGElement;
+				break;
+			}
+		}
+
 		if (!svgElement) return;
 
 		// Add hover handlers to all nodes, edges, and containers
@@ -519,16 +498,16 @@
 
 		interactiveElements.forEach((element) => {
 			// Remove existing listeners to avoid duplicates
-			element.removeEventListener('mouseenter', handleElementMouseEnter as any);
-			element.removeEventListener('mouseleave', handleElementMouseLeave as any);
-			element.removeEventListener('click', handleElementClick as any);
-			element.removeEventListener('dblclick', handleElementDoubleClick as any);
+			element.removeEventListener('mouseenter', onElementMouseEnter as any);
+			element.removeEventListener('mouseleave', onElementMouseLeave as any);
+			element.removeEventListener('click', onElementClick as any);
+			element.removeEventListener('dblclick', onElementDoubleClick as any);
 
 			// Add new listeners
-			element.addEventListener('mouseenter', handleElementMouseEnter as any);
-			element.addEventListener('mouseleave', handleElementMouseLeave as any);
-			element.addEventListener('click', handleElementClick as any);
-			element.addEventListener('dblclick', handleElementDoubleClick as any);
+			element.addEventListener('mouseenter', onElementMouseEnter as any);
+			element.addEventListener('mouseleave', onElementMouseLeave as any);
+			element.addEventListener('click', onElementClick as any);
+			element.addEventListener('dblclick', onElementDoubleClick as any);
 		});
 
 		// Restore selection state after re-rendering
@@ -561,120 +540,136 @@
 		}
 	}
 
-	// Handle element mouse enter (hover)
-	function handleElementMouseEnter(event: Event) {
-		const target = event.currentTarget as SVGElement;
-		const nodeId = target.getAttribute('data-node-id');
-		const edgeId = target.getAttribute('data-edge-id');
-		const containerId = target.getAttribute('data-container-id');
-
-		hoveredElementId = nodeId || edgeId || containerId || null;
-
-		// Add hover class
-		target.classList.add('runiq-hovered');
+	// Render anchor points directly into the diagram SVG
+	// Wrappers for event handlers from mouseHandlers.ts
+	function onElementMouseEnter(event: Event) {
+		const context: MouseHandlerContext = {
+			svgContainer,
+			scale,
+			translateX,
+			translateY,
+			isDragging,
+			dragStart,
+			selectedNodeId,
+			selectedEdgeId,
+			selectedNodeIds,
+			selectedEdgeIds,
+			hoveredElementId,
+			edgeCreationMode,
+			edgeCreationStartNode,
+			isLassoActive,
+			isLassoPending,
+			lassoStartX,
+			lassoStartY,
+			lassoEndX,
+			lassoEndY
+		};
+		handleElementMouseEnter(event, context);
+		hoveredElementId = context.hoveredElementId;
 	}
 
-	// Handle element mouse leave
-	function handleElementMouseLeave(event: Event) {
-		const target = event.currentTarget as SVGElement;
-		hoveredElementId = null;
-
-		// Remove hover class
-		target.classList.remove('runiq-hovered');
+	function onElementMouseLeave(event: Event) {
+		const context: MouseHandlerContext = {
+			svgContainer,
+			scale,
+			translateX,
+			translateY,
+			isDragging,
+			dragStart,
+			selectedNodeId,
+			selectedEdgeId,
+			selectedNodeIds,
+			selectedEdgeIds,
+			hoveredElementId,
+			edgeCreationMode,
+			edgeCreationStartNode,
+			isLassoActive,
+			isLassoPending,
+			lassoStartX,
+			lassoStartY,
+			lassoEndX,
+			lassoEndY
+		};
+		handleElementMouseLeave(event, context);
+		hoveredElementId = context.hoveredElementId;
 	}
 
-	// Handle element click (selection and edge creation)
-	function handleElementClick(event: Event) {
-		event.stopPropagation();
-		const target = event.currentTarget as SVGElement;
-		const nodeId = target.getAttribute('data-node-id');
-		const edgeId = target.getAttribute('data-edge-id');
-		const mouseEvent = event as MouseEvent;
+	function onElementClick(event: Event) {
+		const context: MouseHandlerContext = {
+			svgContainer,
+			scale,
+			translateX,
+			translateY,
+			isDragging,
+			dragStart,
+			selectedNodeId,
+			selectedEdgeId,
+			selectedNodeIds,
+			selectedEdgeIds,
+			hoveredElementId,
+			edgeCreationMode,
+			edgeCreationStartNode,
+			isLassoActive,
+			isLassoPending,
+			lassoStartX,
+			lassoStartY,
+			lassoEndX,
+			lassoEndY
+		};
 
-		// Handle Ctrl+Click for multi-select
-		if ((mouseEvent.ctrlKey || mouseEvent.metaKey) && !mouseEvent.shiftKey) {
-			if (nodeId) {
-				const newSet = new Set(selectedNodeIds);
+		const callbacks: MouseHandlerCallbacks = {
+			onselect,
+			oninsertedge,
+			clearSelection,
+			updateMultiSelection,
+			cancelEdgeCreation,
+			startLabelEdit
+		};
 
-				// If we have a single selected node, add it to multi-select first
-				if (selectedNodeId && selectedNodeIds.size === 0) {
-					newSet.add(selectedNodeId);
-				}
+		handleElementClick(event, context, callbacks);
 
-				if (newSet.has(nodeId)) {
-					newSet.delete(nodeId);
-				} else {
-					newSet.add(nodeId);
-				}
+		// Update state from context
+		selectedNodeId = context.selectedNodeId;
+		selectedEdgeId = context.selectedEdgeId;
+		selectedNodeIds = context.selectedNodeIds;
+		selectedEdgeIds = context.selectedEdgeIds;
+		edgeCreationMode = context.edgeCreationMode;
+		edgeCreationStartNode = context.edgeCreationStartNode;
+	}
 
-				// Clear single selection
-				selectedNodeId = null;
-				selectedEdgeId = null;
+	function onElementDoubleClick(event: Event) {
+		const callbacks: MouseHandlerCallbacks = {
+			onselect,
+			oninsertedge,
+			clearSelection,
+			updateMultiSelection,
+			cancelEdgeCreation,
+			startLabelEdit
+		};
 
-				selectedNodeIds = newSet;
-				updateMultiSelection();
-			} else if (edgeId) {
-				const newSet = new Set(selectedEdgeIds);
+		const context: MouseHandlerContext = {
+			svgContainer,
+			scale,
+			translateX,
+			translateY,
+			isDragging,
+			dragStart,
+			selectedNodeId,
+			selectedEdgeId,
+			selectedNodeIds,
+			selectedEdgeIds,
+			hoveredElementId,
+			edgeCreationMode,
+			edgeCreationStartNode,
+			isLassoActive,
+			isLassoPending,
+			lassoStartX,
+			lassoStartY,
+			lassoEndX,
+			lassoEndY
+		};
 
-				// If we have a single selected edge, add it to multi-select first
-				if (selectedEdgeId && selectedEdgeIds.size === 0) {
-					newSet.add(selectedEdgeId);
-				}
-
-				if (newSet.has(edgeId)) {
-					newSet.delete(edgeId);
-				} else {
-					newSet.add(edgeId);
-				}
-
-				// Clear single selection
-				selectedNodeId = null;
-				selectedEdgeId = null;
-
-				selectedEdgeIds = newSet;
-				updateMultiSelection();
-			}
-			return;
-		}
-
-		// Handle Shift+Click for edge creation (nodes only)
-		if (mouseEvent.shiftKey && nodeId) {
-			if (!edgeCreationMode) {
-				// Start edge creation
-				edgeCreationMode = true;
-				edgeCreationStartNode = nodeId;
-				// Highlight the start node
-				clearSelection();
-				selectedNodeId = nodeId;
-				target.classList.add('runiq-selected', 'runiq-edge-start');
-			} else if (edgeCreationStartNode && edgeCreationStartNode !== nodeId) {
-				// Complete edge creation
-				if (oninsertedge) {
-					oninsertedge(edgeCreationStartNode, nodeId);
-				}
-				// Reset edge creation mode
-				cancelEdgeCreation();
-			} else {
-				// Clicked the same node - cancel
-				cancelEdgeCreation();
-			}
-			return;
-		}
-
-		// Normal selection behavior (no modifiers)
-		clearSelection();
-
-		if (nodeId) {
-			selectedNodeId = nodeId;
-			selectedEdgeId = null;
-			target.classList.add('runiq-selected');
-			if (onselect) onselect(nodeId, null);
-		} else if (edgeId) {
-			selectedEdgeId = edgeId;
-			selectedNodeId = null;
-			target.classList.add('runiq-selected');
-			if (onselect) onselect(null, edgeId);
-		}
+		handleElementDoubleClick(event, context, callbacks);
 	}
 
 	// Update visual styling for multi-selected elements
@@ -713,59 +708,27 @@
 		clearSelection();
 	}
 
-	// Apply style to selected node or edge
-	function applyStyle(property: string, value: any) {
-		const elementId = selectedNodeId || selectedEdgeId;
-		if (!elementId || !onedit) return;
+	// Start label editing
+	function startLabelEdit(nodeId: string | null, edgeId: string | null) {
+		if (!svgContainer) return;
 
-		// Map the UI property to the DSL property name
-		// For nodes: fillColor, textColor, strokeColor, strokeWidth, fontSize
-		// For edges: strokeColor, strokeWidth
-		let dslProperty: string;
-		switch (property) {
-			case 'background':
-				dslProperty = 'fillColor'; // background color
-				break;
-			case 'stroke':
-				dslProperty = 'strokeColor'; // border/stroke color
-				break;
-			case 'fontSize':
-				dslProperty = 'fontSize';
-				break;
-			case 'fontColor':
-				dslProperty = 'textColor'; // text color
-				break;
-			case 'shadow':
-				dslProperty = 'shadow';
-				value = value ? 'true' : 'false';
-				break;
-			default:
-				return;
-		}
+		const elementId = nodeId || edgeId;
+		if (!elementId) return;
 
-		onedit(elementId, dslProperty, value);
-	}
-
-	// Handle element double-click (start editing)
-	function handleElementDoubleClick(event: Event) {
-		event.stopPropagation();
-		event.preventDefault();
-
-		const target = event.currentTarget as SVGElement;
-		const nodeId = target.getAttribute('data-node-id');
-		const edgeId = target.getAttribute('data-edge-id');
-
-		// Find the text element within this element group
-		const textElement = target.querySelector('text');
-		if (!textElement) return;
-
-		// Get the current label text and trim whitespace
-		const currentLabel = (textElement.textContent || '').trim();
-
-		// Get the position of the text element in screen space
 		const svgElement = svgContainer.querySelector('svg');
 		if (!svgElement) return;
 
+		const selector = nodeId ? `[data-node-id="${nodeId}"]` : `[data-edge-id="${edgeId}"]`;
+		const element = svgElement.querySelector(selector);
+		if (!element) return;
+
+		const textElement = element.querySelector('text');
+		if (!textElement) return;
+
+		// Get the current label text
+		const currentLabel = (textElement.textContent || '').trim();
+
+		// Get the position of the text element in screen space
 		const textRect = textElement.getBoundingClientRect();
 		const containerRect = svgContainer.getBoundingClientRect();
 
@@ -785,17 +748,153 @@
 		editInputPosition = { x: inputX, y: inputY };
 	}
 
-	// Clear all selections
-	function clearSelection() {
+	// Handle anchor point drag start (start edge creation from anchor)
+	function handleAnchorDragStart(
+		direction: 'north' | 'south' | 'east' | 'west',
+		x: number,
+		y: number
+	) {
+		if (!selectedNodeId) return;
+
+		creatingEdgeFromAnchor = true;
+		edgeCreationAnchor = direction;
+
+		edgeCreationLine = {
+			x1: x,
+			y1: y,
+			x2: x,
+			y2: y
+		};
+	}
+
+	// Handle anchor drag (update edge creation line)
+	function handleAnchorDrag(x: number, y: number) {
+		if (!creatingEdgeFromAnchor || !edgeCreationLine) return;
+
+		edgeCreationLine = {
+			...edgeCreationLine,
+			x2: x,
+			y2: y
+		};
+	}
+
+	// Handle anchor drag end (complete edge creation)
+	function handleAnchorDragEnd(x: number, y: number) {
+		if (!creatingEdgeFromAnchor || !selectedNodeId) {
+			creatingEdgeFromAnchor = false;
+			edgeCreationLine = null;
+			edgeCreationAnchor = null;
+			return;
+		}
+
+		// IMPORTANT: Save the source node ID before any async operations
+		// because selectedNodeId might get cleared by other interactions
+		const sourceNodeId = selectedNodeId;
+
+		// Check if we're over another node
 		if (!svgContainer) return;
 
 		const svgElement = svgContainer.querySelector('svg');
 		if (!svgElement) return;
 
+		const point = svgElement.createSVGPoint();
+		point.x = x;
+		point.y = y;
+
+		const elements = document.elementsFromPoint(x, y);
+		const targetNode = elements.find((el) => el.hasAttribute('data-node-id'));
+		const targetNodeId = targetNode?.getAttribute('data-node-id');
+
+		if (targetNodeId && targetNodeId !== sourceNodeId && oninsertedge) {
+			// Create edge to existing node
+			oninsertedge(sourceNodeId, targetNodeId);
+		} else if (!targetNode && oninsertshape && oninsertedge) {
+			// Create new node at position
+			const rect = svgContainer.getBoundingClientRect();
+			const svgX = Math.round((x - rect.left - translateX) / scale);
+			const svgY = Math.round((y - rect.top - translateY) / scale);
+
+			const newNodeId = `node_${Date.now()}`;
+			const shapeCode = `shape ${newNodeId} as @rectangle label:"New Node"`;
+
+			oninsertshape(shapeCode);
+
+			setTimeout(() => {
+				if (oninsertedge) {
+					// Use saved sourceNodeId instead of selectedNodeId
+					oninsertedge(sourceNodeId, newNodeId);
+				}
+			}, 100);
+		}
+
+		// Reset state
+		creatingEdgeFromAnchor = false;
+		edgeCreationLine = null;
+		edgeCreationAnchor = null;
+	}
+
+	// Apply style to selected node or edge
+	function applyStyle(property: string, value: any) {
+		const elementId = selectedNodeId || selectedEdgeId;
+		if (!elementId || !onedit) return;
+
+		// Map the UI property to the DSL property name
+		// For nodes: fillColor, textColor, strokeColor, strokeWidth, fontSize
+		// For edges: strokeColor, strokeWidth, routing
+		let dslProperty: string;
+		switch (property) {
+			case 'background':
+				dslProperty = 'fillColor'; // background color
+				break;
+			case 'stroke':
+				dslProperty = 'strokeColor'; // border/stroke color
+				break;
+			case 'strokeWidth':
+				dslProperty = 'strokeWidth';
+				value = value ? parseInt(value) : undefined;
+				break;
+			case 'fontSize':
+				dslProperty = 'fontSize';
+				break;
+			case 'fontColor':
+				dslProperty = 'textColor'; // text color
+				break;
+			case 'shadow':
+				dslProperty = 'shadow';
+				value = value ? 'true' : 'false';
+				break;
+			case 'routing':
+				dslProperty = 'routing';
+				break;
+			default:
+				return;
+		}
+
+		onedit(elementId, dslProperty, value);
+	}
+
+	// Update visual styling for multi-selected elements
+	function clearSelection() {
+		if (!svgContainer) return;
+
+		// Find the diagram SVG (not toolbar icon SVGs)
+		const allSvgs = svgContainer.querySelectorAll('svg');
+		let svgElement: SVGSVGElement | null = null;
+		for (const svg of allSvgs) {
+			if (svg.querySelector('[data-node-id], [data-edge-id]')) {
+				svgElement = svg as SVGSVGElement;
+				break;
+			}
+		}
+
+		if (!svgElement) return;
+
 		// Remove selection class from all elements
-		svgElement.querySelectorAll('.runiq-selected, .runiq-multi-selected').forEach((el) => {
-			el.classList.remove('runiq-selected', 'runiq-multi-selected');
-		});
+		svgElement
+			.querySelectorAll('.runiq-selected, .runiq-multi-selected, .runiq-edge-start')
+			.forEach((el) => {
+				el.classList.remove('runiq-selected', 'runiq-multi-selected', 'runiq-edge-start');
+			});
 
 		selectedNodeId = null;
 		selectedEdgeId = null;
@@ -808,8 +907,10 @@
 		// Only deselect if clicking on the canvas itself, not on an element
 		if (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'svg') {
 			// If we're in multi-select mode (have multiple items selected), only clear if NOT holding Ctrl
-			const hasMultiSelection = selectedNodeIds.size > 1 || selectedEdgeIds.size > 1 ||
-			                          (selectedNodeIds.size === 1 && selectedEdgeIds.size === 1);
+			const hasMultiSelection =
+				selectedNodeIds.size > 1 ||
+				selectedEdgeIds.size > 1 ||
+				(selectedNodeIds.size === 1 && selectedEdgeIds.size === 1);
 
 			if (hasMultiSelection && (event.ctrlKey || event.metaKey)) {
 				// Don't clear multi-selection when Ctrl+clicking empty space
@@ -988,7 +1089,7 @@
 		// This is a simplified version - in a real implementation,
 		// you would extract all the node/edge properties from the AST
 		return {
-			id: element.getAttribute(`data-${type}-id`),
+			id: element.getAttribute(`data-${type}-id`)
 			// Additional properties would be extracted here
 		};
 	}
@@ -1113,8 +1214,7 @@
 			} else {
 				// Regular panning
 				isDragging = true;
-				dragStartX = e.clientX - translateX;
-				dragStartY = e.clientY - translateY;
+				dragStart = { x: e.clientX - translateX, y: e.clientY - translateY };
 			}
 		}
 	}
@@ -1126,6 +1226,16 @@
 
 		svgMouseX = Math.round((mouseX - translateX) / scale);
 		svgMouseY = Math.round((mouseY - translateY) / scale);
+
+		// Handle anchor-based edge creation
+		if (creatingEdgeFromAnchor) {
+			// Convert client coordinates to SVG coordinates
+			const rect = svgContainer.getBoundingClientRect();
+			const x = (e.clientX - rect.left - translateX) / scale;
+			const y = (e.clientY - rect.top - translateY) / scale;
+			handleAnchorDrag(x, y);
+			return;
+		}
 
 		if (isLassoPending) {
 			// Check if we've dragged far enough to activate lasso
@@ -1143,14 +1253,23 @@
 			// Update lasso rectangle
 			lassoEndX = mouseX;
 			lassoEndY = mouseY;
-		} else if (isDragging) {
+		} else if (isDragging && dragStart) {
 			// Handle canvas panning
-			translateX = e.clientX - dragStartX;
-			translateY = e.clientY - dragStartY;
+			translateX = e.clientX - dragStart.x;
+			translateY = e.clientY - dragStart.y;
 		}
 	}
 
-	function handleMouseUp() {
+	function handleMouseUp(e: MouseEvent) {
+		// Handle anchor-based edge creation completion
+		if (creatingEdgeFromAnchor) {
+			const rect = svgContainer.getBoundingClientRect();
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+			handleAnchorDragEnd(x, y);
+			return;
+		}
+
 		if (isLassoActive) {
 			// Complete lasso selection
 			selectElementsInLasso();
@@ -1184,18 +1303,13 @@
 			const containerRect = svgContainer.getBoundingClientRect();
 
 			// Transform SVG coordinates to screen coordinates
-			const elemX = (bbox.x * scale) + translateX;
-			const elemY = (bbox.y * scale) + translateY;
+			const elemX = bbox.x * scale + translateX;
+			const elemY = bbox.y * scale + translateY;
 			const elemWidth = bbox.width * scale;
 			const elemHeight = bbox.height * scale;
 
 			// Check if element intersects with lasso
-			if (
-				elemX < maxX &&
-				elemX + elemWidth > minX &&
-				elemY < maxY &&
-				elemY + elemHeight > minY
-			) {
+			if (elemX < maxX && elemX + elemWidth > minX && elemY < maxY && elemY + elemHeight > minY) {
 				const nodeId = element.getAttribute('data-node-id');
 				const edgeId = element.getAttribute('data-edge-id');
 
@@ -1244,224 +1358,6 @@
 		}
 	});
 </script>
-
-<style>
-	/* Add CSS for interactive states */
-	:global(.runiq-hovered) {
-		cursor: pointer;
-	}
-
-	/* Hover effect for nodes (groups with rectangles, circles, etc) */
-	:global(.runiq-hovered rect),
-	:global(.runiq-hovered circle),
-	:global(.runiq-hovered ellipse),
-	:global(.runiq-hovered polygon),
-	:global(.runiq-hovered polyline) {
-		filter: brightness(1.1);
-	}
-
-	/* Hover effect for edges (paths with strokes) */
-	:global(.runiq-hovered path) {
-		stroke: #3b82f6 !important;
-		stroke-width: 3 !important;
-	}
-
-	/* Make edges clickable with cursor feedback */
-	:global([data-edge-id]) {
-		cursor: pointer;
-	}
-
-	:global(.runiq-selected) {
-		filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.8));
-		border-color: #3b82f6;
-		stroke-width: 2;
-	}
-
-	/* Edge creation mode - start node highlight */
-	:global(.runiq-edge-start) {
-		filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.9));
-		animation: pulse-edge-start 1.5s ease-in-out infinite;
-	}
-
-	@keyframes pulse-edge-start {
-		0%, 100% {
-			filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.9));
-		}
-		50% {
-			filter: drop-shadow(0 0 10px rgba(34, 197, 94, 1));
-		}
-	}
-
-	/* Multi-selection styling */
-	:global(.runiq-multi-selected) {
-		filter: drop-shadow(0 0 3px rgba(168, 85, 247, 0.7));
-		stroke: #a855f7;
-		stroke-width: 2;
-	}
-
-	/* Floating toolbar at top center */
-	.floating-toolbar {
-		position: absolute;
-		top: 20px;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 1000;
-		display: flex;
-		gap: 8px;
-		background: white;
-		border: 1px solid #e5e7eb;
-		border-radius: 8px;
-		padding: 8px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	}
-
-	.toolbar-button {
-		display: flex;
-		align-items: center;
-		gap: 6px;
-		padding: 8px 16px;
-		background: white;
-		border: 1px solid #d1d5db;
-		border-radius: 6px;
-		font-size: 14px;
-		font-weight: 500;
-		color: #374151;
-		cursor: pointer;
-		transition: all 0.15s;
-	}
-
-	.toolbar-button:hover {
-		background: #f9fafb;
-		border-color: #3b82f6;
-		color: #3b82f6;
-	}
-
-	.toolbar-button:active {
-		transform: scale(0.98);
-	}
-
-	/* Lasso selection rectangle */
-	.lasso-rectangle {
-		position: absolute;
-		border: 2px dashed #3b82f6;
-		background: rgba(59, 130, 246, 0.1);
-		pointer-events: none;
-		z-index: 999;
-	}
-
-	.edit-input {
-		position: absolute;
-		z-index: 1000;
-		border: 2px solid #3b82f6;
-		border-radius: 4px;
-		padding: 4px 8px;
-		font-family: inherit;
-		font-size: 14px;
-		background: white;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-	}
-
-	/* Style Panel */
-	.style-panel {
-		position: absolute;
-		top: 60px;
-		right: 20px;
-		width: 280px;
-		background: white;
-		border: 1px solid #e5e7eb;
-		border-radius: 8px;
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-		z-index: 1000;
-		overflow: hidden;
-	}
-
-	.style-panel-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 12px 16px;
-		border-bottom: 1px solid #e5e7eb;
-		background: #f9fafb;
-	}
-
-	.style-panel-body {
-		padding: 16px;
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
-
-	.style-field {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-
-	.style-field label {
-		flex: 0 0 80px;
-		font-size: 13px;
-		font-weight: 500;
-		color: #374151;
-	}
-
-	.style-color-input {
-		width: 40px;
-		height: 32px;
-		border: 1px solid #d1d5db;
-		border-radius: 4px;
-		cursor: pointer;
-	}
-
-	.style-text-input {
-		flex: 1;
-		padding: 6px 8px;
-		border: 1px solid #d1d5db;
-		border-radius: 4px;
-		font-size: 13px;
-		font-family: monospace;
-	}
-
-	.style-text-input:focus {
-		outline: none;
-		border-color: #3b82f6;
-		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-	}
-
-	.style-number-input {
-		width: 80px;
-		padding: 6px 8px;
-		border: 1px solid #d1d5db;
-		border-radius: 4px;
-		font-size: 13px;
-	}
-
-	.style-number-input:focus {
-		outline: none;
-		border-color: #3b82f6;
-		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-	}
-
-	.style-checkbox {
-		width: 18px;
-		height: 18px;
-		cursor: pointer;
-	}
-
-	.close-button {
-		padding: 4px;
-		border-radius: 4px;
-		background: transparent;
-		border: none;
-		color: #6b7280;
-		cursor: pointer;
-		transition: all 0.15s;
-	}
-
-	.close-button:hover {
-		background: #f3f4f6;
-		color: #374151;
-	}
-</style>
 
 <div class="flex h-full flex-col">
 	<!-- Toolbar -->
@@ -1533,7 +1429,7 @@
 			{/if}
 
 			{#if selectedNodeIds.size > 0 || selectedEdgeIds.size > 0}
-				<Badge variant="outline" class="gap-1 bg-purple-50 border-purple-300 text-purple-700">
+				<Badge variant="outline" class="gap-1 border-purple-300 bg-purple-50 text-purple-700">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path
 							stroke-linecap="round"
@@ -1636,7 +1532,7 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 	<div
-		class="relative flex-1 overflow-hidden bg-neutral-50"
+		class="relative flex-1 bg-neutral-50"
 		bind:this={svgContainer}
 		onmousedown={handleMouseDown}
 		onmousemove={handleMouseMove}
@@ -1648,7 +1544,11 @@
 		ondrop={handleDrop}
 		onkeydown={handleCanvasKeyDown}
 		tabindex="0"
-		style="cursor: {isDragging ? 'grabbing' : (editingNodeId || editingEdgeId) ? 'default' : 'grab'}; outline: none;"
+		style="cursor: {isDragging
+			? 'grabbing'
+			: editingNodeId || editingEdgeId
+				? 'default'
+				: 'grab'}; outline: none;"
 	>
 		<!-- Floating Toolbar at Top Center -->
 		{#if selectedNodeId || selectedEdgeId}
@@ -1668,7 +1568,12 @@
 		{#if isLassoActive}
 			<div
 				class="lasso-rectangle"
-				style="left: {Math.min(lassoStartX, lassoEndX)}px; top: {Math.min(lassoStartY, lassoEndY)}px; width: {Math.abs(lassoEndX - lassoStartX)}px; height: {Math.abs(lassoEndY - lassoStartY)}px;"
+				style="left: {Math.min(lassoStartX, lassoEndX)}px; top: {Math.min(
+					lassoStartY,
+					lassoEndY
+				)}px; width: {Math.abs(lassoEndX - lassoStartX)}px; height: {Math.abs(
+					lassoEndY - lassoStartY
+				)}px;"
 			></div>
 		{/if}
 
@@ -1687,52 +1592,84 @@
 
 		<!-- Style Editing Panel -->
 		{#if showStylePanel && (selectedNodeId || selectedEdgeId)}
-			<div class="style-panel">
+			<div class="style-panel" onclick={(e) => e.stopPropagation()}>
 				<div class="style-panel-header">
-					<h3 class="font-semibold text-sm">
+					<h3 class="text-sm font-semibold">
 						Style {selectedNodeId ? 'Node' : 'Edge'}
 					</h3>
 					<button
-						onclick={() => (showStylePanel = false)}
+						onclick={(e) => {
+							e.stopPropagation();
+							showStylePanel = false;
+						}}
 						class="close-button"
 						title="Close"
 					>
 						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M6 18L18 6M6 6l12 12"
+							/>
 						</svg>
 					</button>
 				</div>
 
 				<div class="style-panel-body">
-					<!-- Background Color -->
-					<div class="style-field">
-						<label for="style-background">Background:</label>
-						<input
-							id="style-background"
-							type="color"
-							bind:value={styleBackground}
-							onchange={() => applyStyle('background', styleBackground)}
-							class="style-color-input"
-						/>
-						<input
-							type="text"
-							bind:value={styleBackground}
-							onchange={() => applyStyle('background', styleBackground)}
-							placeholder="#FFFFFF"
-							class="style-text-input"
-						/>
-					</div>
+					<!-- Background Color (nodes only) -->
+					{#if selectedNodeId}
+						<div class="style-field">
+							<label for="style-background">Background:</label>
+							<div class="color-picker-wrapper">
+								<input
+									id="style-background"
+									type="color"
+									bind:value={styleBackground}
+									onchange={() => applyStyle('background', styleBackground)}
+									class="hidden-color-input"
+								/>
+								<button
+									type="button"
+									onclick={() => document.getElementById('style-background')?.click()}
+									class="color-swatch-button"
+									style="background-color: {styleBackground || '#ffffff'}"
+									title="Click to change color"
+								>
+									<span class="sr-only">Pick color</span>
+								</button>
+							</div>
+							<input
+								type="text"
+								bind:value={styleBackground}
+								onchange={() => applyStyle('background', styleBackground)}
+								placeholder="#FFFFFF"
+								class="style-text-input"
+							/>
+						</div>
+					{/if}
 
 					<!-- Stroke Color -->
 					<div class="style-field">
 						<label for="style-stroke">Stroke:</label>
-						<input
-							id="style-stroke"
-							type="color"
-							bind:value={styleStroke}
-							onchange={() => applyStyle('stroke', styleStroke)}
-							class="style-color-input"
-						/>
+						<div class="color-picker-wrapper">
+							<input
+								id="style-stroke"
+								type="color"
+								bind:value={styleStroke}
+								onchange={() => applyStyle('stroke', styleStroke)}
+								class="hidden-color-input"
+							/>
+							<button
+								type="button"
+								onclick={() => document.getElementById('style-stroke')?.click()}
+								class="color-swatch-button"
+								style="background-color: {styleStroke || '#000000'}"
+								title="Click to change color"
+							>
+								<span class="sr-only">Pick color</span>
+							</button>
+						</div>
 						<input
 							type="text"
 							bind:value={styleStroke}
@@ -1741,6 +1678,46 @@
 							class="style-text-input"
 						/>
 					</div>
+
+					<!-- Stroke Width -->
+					<div class="style-field">
+						<label for="style-stroke-width">Stroke Width:</label>
+						<input
+							id="style-stroke-width"
+							type="number"
+							min="1"
+							max="20"
+							step="1"
+							bind:value={styleStrokeWidth}
+							onchange={(e) => {
+								const target = e.target as HTMLInputElement;
+								const numValue = parseInt(target.value) || 2;
+								styleStrokeWidth = String(numValue);
+								applyStyle('strokeWidth', numValue);
+							}}
+							placeholder="2"
+							class="style-number-input"
+						/>
+						<span class="text-xs text-neutral-500">px</span>
+					</div>
+					{#if selectedEdgeId}
+						<!-- Edge Routing Style -->
+						<div class="style-field">
+							<label for="style-routing">Routing:</label>
+							<select
+								id="style-routing"
+								bind:value={styleRouting}
+								onchange={() => applyStyle('routing', styleRouting)}
+								class="style-select-input"
+							>
+								<option value="">Default</option>
+								<option value="orthogonal">Orthogonal</option>
+								<option value="polyline">Polyline</option>
+								<option value="splines">Curved (Splines)</option>
+								<option value="straight">Straight</option>
+							</select>
+						</div>
+					{/if}
 
 					{#if selectedNodeId}
 						<!-- Font Size -->
@@ -1760,13 +1737,24 @@
 						<!-- Font Color -->
 						<div class="style-field">
 							<label for="style-font-color">Font Color:</label>
-							<input
-								id="style-font-color"
-								type="color"
-								bind:value={styleFontColor}
-								onchange={() => applyStyle('fontColor', styleFontColor)}
-								class="style-color-input"
-							/>
+							<div class="color-picker-wrapper">
+								<input
+									id="style-font-color"
+									type="color"
+									bind:value={styleFontColor}
+									onchange={() => applyStyle('fontColor', styleFontColor)}
+									class="hidden-color-input"
+								/>
+								<button
+									type="button"
+									onclick={() => document.getElementById('style-font-color')?.click()}
+									class="color-swatch-button"
+									style="background-color: {styleFontColor || '#000000'}"
+									title="Click to change color"
+								>
+									<span class="sr-only">Pick color</span>
+								</button>
+							</div>
 							<input
 								type="text"
 								bind:value={styleFontColor}
@@ -1827,6 +1815,16 @@
 			>
 				<div class="rounded-lg border border-neutral-300 bg-white p-4 shadow-sm">
 					{@html svgOutput}
+
+					<!-- Anchor Indicators Component -->
+					<AnchorIndicators
+						bind:this={anchorIndicators}
+						{svgContainer}
+						{selectedNodeId}
+						onAnchorDragStart={handleAnchorDragStart}
+						onAnchorDrag={handleAnchorDrag}
+						onAnchorDragEnd={handleAnchorDragEnd}
+					/>
 				</div>
 			</div>
 		{:else}

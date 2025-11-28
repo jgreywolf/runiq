@@ -1,0 +1,310 @@
+/* ============================================================================
+   Visual Canvas Component Styles
+   ============================================================================
+   Styles for the interactive diagram canvas including:
+   - Element hover/selection states
+   - Toolbar and panels
+   - Lasso selection
+   - Anchor indicators
+   - Animations
+   ============================================================================ */
+
+/* Interactive States */
+.runiq-hovered {
+	cursor: pointer;
+}
+
+/* Hover effect for nodes (groups with rectangles, circles, etc) */
+.runiq-hovered rect,
+.runiq-hovered circle,
+.runiq-hovered ellipse,
+.runiq-hovered polygon,
+.runiq-hovered polyline {
+	filter: brightness(1.1);
+}
+
+/* Hover effect for edges (paths with strokes) */
+.runiq-hovered path {
+	stroke: #3b82f6 !important;
+	stroke-width: 3 !important;
+}
+
+/* Make edges clickable with cursor feedback */
+[data-edge-id] {
+	cursor: pointer;
+}
+
+/* Selection States */
+.runiq-selected {
+	filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.8));
+	border-color: #3b82f6;
+	stroke-width: 2;
+}
+
+/* Edge creation mode - start node highlight */
+.runiq-edge-start {
+	filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.9));
+	animation: pulse-edge-start 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-edge-start {
+	0%,
+	100% {
+		filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.9));
+	}
+	50% {
+		filter: drop-shadow(0 0 10px rgba(34, 197, 94, 1));
+	}
+}
+
+/* Multi-selection styling */
+.runiq-multi-selected {
+	filter: drop-shadow(0 0 3px rgba(168, 85, 247, 0.7));
+	stroke: #a855f7;
+	stroke-width: 2;
+}
+
+/* Floating Toolbar */
+.floating-toolbar {
+	position: absolute;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1000;
+	display: flex;
+	gap: 8px;
+	background: white;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	padding: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-button {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 16px;
+	background: white;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #374151;
+	cursor: pointer;
+	transition: all 0.15s;
+}
+
+.toolbar-button:hover {
+	background: #f9fafb;
+	border-color: #3b82f6;
+	color: #3b82f6;
+}
+
+.toolbar-button:active {
+	transform: scale(0.98);
+}
+
+/* Lasso Selection */
+.lasso-rectangle {
+	position: absolute;
+	border: 2px dashed #3b82f6;
+	background: rgba(59, 130, 246, 0.1);
+	pointer-events: none;
+	z-index: 999;
+}
+
+/* Label Editing */
+.edit-input {
+	position: absolute;
+	z-index: 1000;
+	border: 2px solid #3b82f6;
+	border-radius: 4px;
+	padding: 4px 8px;
+	font-family: inherit;
+	font-size: 14px;
+	background: white;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Style Panel */
+.style-panel {
+	position: absolute;
+	top: 60px;
+	right: 20px;
+	width: 280px;
+	background: white;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
+	overflow: hidden;
+}
+
+.style-panel-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px 16px;
+	border-bottom: 1px solid #e5e7eb;
+	background: #f9fafb;
+}
+
+.style-panel-body {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.style-field {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.style-field label {
+	flex: 0 0 80px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #374151;
+}
+
+/* Color Picker */
+.hidden-color-input {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.color-picker-wrapper {
+	position: relative;
+}
+
+.color-swatch-button {
+	width: 40px;
+	height: 32px;
+	border: 2px solid #d1d5db;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.15s;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.color-swatch-button:hover {
+	border-color: #9ca3af;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.color-swatch-button:active {
+	transform: scale(0.95);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+/* Style Input Fields */
+.style-text-input {
+	flex: 1;
+	padding: 6px 8px;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	font-size: 13px;
+	font-family: monospace;
+}
+
+.style-text-input:focus {
+	outline: none;
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.style-number-input {
+	width: 80px;
+	padding: 6px 8px;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	font-size: 13px;
+}
+
+.style-number-input:focus {
+	outline: none;
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.style-select-input {
+	flex: 1;
+	padding: 6px 8px;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	font-size: 13px;
+	background: white;
+	cursor: pointer;
+}
+
+.style-select-input:focus {
+	outline: none;
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.style-checkbox {
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+}
+
+.close-button {
+	padding: 4px;
+	border-radius: 4px;
+	background: transparent;
+	border: none;
+	color: #6b7280;
+	cursor: pointer;
+	transition: all 0.15s;
+}
+
+.close-button:hover {
+	background: #f3f4f6;
+	color: #374151;
+}
+
+/* Anchor Point Indicators */
+.anchor-indicator {
+	cursor: pointer;
+	transition: transform 0.15s;
+}
+
+.anchor-indicator:hover {
+	transform: scale(1.2);
+}
+
+.anchor-circle {
+	transition: all 0.15s;
+}
+
+/* Marching Ants Animation */
+@keyframes march {
+	0% {
+		stroke-dashoffset: 0;
+	}
+	100% {
+		stroke-dashoffset: 10;
+	}
+}
+
+.marching-ants {
+	animation: march 0.5s linear infinite;
+}

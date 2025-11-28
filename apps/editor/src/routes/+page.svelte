@@ -150,10 +150,10 @@
 			// Handle node label editing
 			let shapeLineIndex = -1;
 
-			// Look for: shape nodeId as @shapeName ...
+			// Look for: shape nodeId or shape nodeId as @shapeName ...
 			for (let i = 0; i < lines.length; i++) {
 				const line = lines[i];
-				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}\\s+as\\s+@\\w+`);
+				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}(?:\\s|$)`);
 				if (shapeRegex.test(line)) {
 					shapeLineIndex = i;
 					break;
@@ -175,12 +175,8 @@
 				// Replace existing label: label:"old" -> label:"new"
 				updatedLine = line.replace(/label:\s*"[^"]*"/, `label:"${value}"`);
 			} else {
-				// Add new label property after the shape name
-				// shape nodeId as @shapeName -> shape nodeId as @shapeName label:"value"
-				updatedLine = line.replace(
-					new RegExp(`(shape\\s+${nodeOrEdgeId}\\s+as\\s+@\\w+)`),
-					`$1 label:"${value}"`
-				);
+				// Add new label property at the end of line
+				updatedLine = line.trim() + ` label:"${value}"`;
 			}
 
 			lines[shapeLineIndex] = updatedLine;
@@ -250,10 +246,10 @@
 			// Handle node position update (drag-and-drop)
 			let shapeLineIndex = -1;
 
-			// Look for: shape nodeId as @shapeName ...
+			// Look for: shape nodeId or shape nodeId as @shapeName ...
 			for (let i = 0; i < lines.length; i++) {
 				const line = lines[i];
-				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}\\s+as\\s+@\\w+`);
+				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}(?:\\s|$)`);
 				if (shapeRegex.test(line)) {
 					shapeLineIndex = i;
 					break;
@@ -276,11 +272,8 @@
 				// Replace existing position: position:(x,y) -> position:(newX,newY)
 				updatedLine = line.replace(/position:\s*\([^)]+\)/, `position:(${x},${y})`);
 			} else {
-				// Add position property after the shape name
-				updatedLine = line.replace(
-					new RegExp(`(shape\\s+${nodeOrEdgeId}\\s+as\\s+@\\w+)`),
-					`$1 position:(${x},${y})`
-				);
+				// Add position property at the end of line
+				updatedLine = line.trim() + ` position:(${x},${y})`;
 			}
 
 			lines[shapeLineIndex] = updatedLine;
@@ -293,14 +286,25 @@
 				// Fallback if editor ref is not available
 				code = newCode;
 			}
-		} else if (['fillColor', 'strokeColor', 'fontSize', 'textColor', 'shadow'].includes(property)) {
-			// Handle style properties (fillColor, strokeColor, fontSize, textColor, shadow)
+		} else if (
+			[
+				'fillColor',
+				'strokeColor',
+				'strokeWidth',
+				'fontSize',
+				'textColor',
+				'shadow',
+				'routing'
+			].includes(property)
+		) {
+			// Handle style properties (fillColor, strokeColor, strokeWidth, fontSize, textColor, shadow, routing)
 			let shapeOrEdgeLineIndex = -1;
 
 			// First try to find as a shape
 			for (let i = 0; i < lines.length; i++) {
 				const line = lines[i];
-				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}\\s+as\\s+@\\w+`);
+				// Match: shape nodeId or shape nodeId as @shapeName
+				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}(?:\\s|$)`);
 				if (shapeRegex.test(line)) {
 					shapeOrEdgeLineIndex = i;
 					break;
@@ -340,18 +344,18 @@
 			if (hasProperty) {
 				// Replace existing property value
 				// Handle both quoted strings (for colors) and unquoted values (for numbers/booleans)
-				if (property === 'fontSize') {
-					// fontSize is a number without quotes
-					updatedLine = line.replace(
-						new RegExp(`${property}:\\s*\\d+`),
-						`${property}:${value}`
-					);
+				if (property === 'fontSize' || property === 'strokeWidth') {
+					// fontSize and strokeWidth are numbers without quotes
+					updatedLine = line.replace(new RegExp(`${property}:\\s*\\d+`), `${property}:${value}`);
 				} else if (property === 'shadow') {
 					// shadow is a boolean without quotes
 					updatedLine = line.replace(
 						new RegExp(`${property}:\\s*(true|false)`),
 						`${property}:${value}`
 					);
+				} else if (property === 'routing') {
+					// routing is an unquoted identifier
+					updatedLine = line.replace(new RegExp(`${property}:\\s*\\w+`), `${property}:${value}`);
 				} else {
 					// fill, stroke, color are strings with quotes
 					updatedLine = line.replace(
@@ -361,9 +365,11 @@
 				}
 			} else {
 				// Add new property at the end of the line
-				if (property === 'fontSize') {
+				if (property === 'fontSize' || property === 'strokeWidth') {
 					updatedLine = line.trim() + ` ${property}:${value}`;
 				} else if (property === 'shadow') {
+					updatedLine = line.trim() + ` ${property}:${value}`;
+				} else if (property === 'routing') {
 					updatedLine = line.trim() + ` ${property}:${value}`;
 				} else {
 					updatedLine = line.trim() + ` ${property}:"${value}"`;

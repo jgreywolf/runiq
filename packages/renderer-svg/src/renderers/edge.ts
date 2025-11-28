@@ -70,9 +70,10 @@ export function renderEdge(
     }
   }
 
-  const edgeId = routed.edgeIndex !== undefined
-    ? `${routed.from}-${routed.to}-${routed.edgeIndex}`
-    : `${routed.from}-${routed.to}`;
+  const edgeId =
+    routed.edgeIndex !== undefined
+      ? `${routed.from}-${routed.to}-${routed.edgeIndex}`
+      : `${routed.from}-${routed.to}`;
   const groupAttrs = strict
     ? ''
     : ` data-runiq-edge="${edgeId}" data-edge-id="${edgeId}" data-edge-from="${routed.from}" data-edge-to="${routed.to}"`;
@@ -204,18 +205,18 @@ export function renderEdge(
   const markerStartAttr = useMarkerStart
     ? ` marker-start="url(#${isBidirectional ? arrowIdStart : arrowId})"`
     : useNavMarkerStart
-    ? ` marker-start="url(#${navArrowIdStart})"`
-    : '';
+      ? ` marker-start="url(#${navArrowIdStart})"`
+      : '';
   const markerEndAttr = useMarkerEnd
     ? ` marker-end="url(#${arrowId})"`
     : useNavMarkerEnd
-    ? ` marker-end="url(#${navArrowId})"`
-    : '';
+      ? ` marker-end="url(#${navArrowId})"`
+      : '';
   const markerAttr = markerStartAttr + markerEndAttr;
 
   // Add invisible wider path for better click/hover detection
-  const hitAreaWidth = 12; // Wider hit area for easier selection
-  edgeMarkup += `<path d="${pathData}" fill="none" stroke="transparent" stroke-width="${hitAreaWidth}" pointer-events="stroke" />`;
+  const hitAreaWidth = 20; // Wider hit area for easier selection (increased from 12)
+  edgeMarkup += `<path d="${pathData}" fill="none" stroke="transparent" stroke-width="${hitAreaWidth}" pointer-events="stroke" class="edge-hit-area" />`;
 
   // Render double line for consanguineous marriages
   if (isDoubleLine) {
@@ -330,8 +331,8 @@ export function renderEdge(
     const constraintY = displayLabel
       ? midPoint.y + 15 // Below label (whether it's a transition label or explicit label)
       : (edgeAst as any).stereotype
-      ? midPoint.y + 25 // Below stereotype
-      : midPoint.y + 10; // Below edge
+        ? midPoint.y + 25 // Below stereotype
+        : midPoint.y + 10; // Below edge
     edgeMarkup += `<text x="${midPoint.x}" y="${constraintY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">${escapeXml(constraintText)}</text>`;
   }
 
