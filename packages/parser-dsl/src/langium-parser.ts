@@ -151,14 +151,14 @@ function unescapeString(value: string): string {
 
   // Process escape sequences
   str = str
-    .replace(/\\n/g, '\n')    // Newline
-    .replace(/\\r/g, '\r')    // Carriage return
-    .replace(/\\t/g, '\t')    // Tab
-    .replace(/\\b/g, '\b')    // Backspace
-    .replace(/\\f/g, '\f')    // Form feed
-    .replace(/\\'/g, "'")     // Single quote
-    .replace(/\\"/g, '"')     // Double quote
-    .replace(/\\\\/g, '\\');  // Backslash (must be last)
+    .replace(/\\n/g, '\n') // Newline
+    .replace(/\\r/g, '\r') // Carriage return
+    .replace(/\\t/g, '\t') // Tab
+    .replace(/\\b/g, '\b') // Backspace
+    .replace(/\\f/g, '\f') // Form feed
+    .replace(/\\'/g, "'") // Single quote
+    .replace(/\\"/g, '"') // Double quote
+    .replace(/\\\\/g, '\\'); // Backslash (must be last)
 
   return str;
 }
@@ -189,7 +189,9 @@ export interface ParseResult {
  * Extract node locations from the Langium CST
  * Returns a map from node ID to source location
  */
-function extractNodeLocations(document: Langium.Document): Map<string, NodeLocation> {
+function extractNodeLocations(
+  document: Langium.Document
+): Map<string, NodeLocation> {
   const locations = new Map<string, NodeLocation>();
 
   // Process each profile
@@ -1253,7 +1255,7 @@ function convertTimelineProfile(
         } else if (Langium.isTimelineIconProperty(prop)) {
           event.icon = prop.icon.replace(/^"|"$/g, '');
         } else if (Langium.isTimelineColorProperty(prop)) {
-          event.textColor = prop.color.replace(/^"|"$/g, '');
+          event.fillColor = prop.color.replace(/^"|"$/g, '');
         } else if (Langium.isTimelinePositionProperty(prop)) {
           event.position = prop.position as 'top' | 'bottom';
         }
@@ -1275,7 +1277,7 @@ function convertTimelineProfile(
         } else if (Langium.isTimelineLabelProperty(prop)) {
           period.label = unescapeString(prop.label);
         } else if (Langium.isTimelineColorProperty(prop)) {
-          period.textColor = prop.color.replace(/^"|"$/g, '');
+          period.fillColor = prop.color.replace(/^"|"$/g, '');
         } else if (Langium.isTimelineOpacityProperty(prop)) {
           period.opacity = parseFloat(prop.opacity);
         }
@@ -1353,11 +1355,6 @@ function processDialogStatement(
     for (const prop of statement.properties) {
       if (Langium.isLabelProperty(prop)) {
         node.label = unescapeString(prop.value);
-      } else if (Langium.isPositionProperty(prop)) {
-        node.position = {
-          x: parseFloat(prop.x),
-          y: parseFloat(prop.y),
-        };
       } else if (Langium.isStyleRefProperty(prop)) {
         node.style = prop.ref?.$refText;
       } else if (Langium.isFillColorProperty(prop)) {

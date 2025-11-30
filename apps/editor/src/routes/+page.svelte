@@ -478,7 +478,7 @@
 	// Handle edge insertion from visual canvas (Shift+Click workflow)
 	function handleInsertEdge(fromNodeId: string, toNodeId: string) {
 		// Create edge declaration: fromId -> toId
-		const edgeCode = `${fromNodeId} -> ${toNodeId}`;
+		let edgeCode = `${fromNodeId} -> ${toNodeId}`;
 
 		// Find the profile/diagram block and insert at the end (before closing brace)
 		const lines = code.split('\n');

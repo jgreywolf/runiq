@@ -58,7 +58,7 @@ describe('Timeline Profile Tests', () => {
           label: 'Launch',
           description: 'Product launch event',
           icon: 'rocket',
-          textColor: '#10b981',
+          fillColor: '#10b981',
           position: 'top',
         });
       }
@@ -97,7 +97,7 @@ describe('Timeline Profile Tests', () => {
           startDate: '2024-03-01',
           endDate: '2024-06-01',
           label: 'Development',
-          textColor: '#dbeafe',
+          fillColor: '#dbeafe',
           opacity: 0.5,
         });
       }
