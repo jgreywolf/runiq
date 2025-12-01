@@ -107,15 +107,19 @@ describe('ISO 1219-1 Pneumatic Symbols', () => {
 
     it('should have correct dimensions', () => {
       expect(valve52Way.width).toBe(50);
+      expect(valve52Way.width).toBe(50);
       expect(valve52Way.height).toBe(50);
     });
 
+    it('should have 5 terminals (P, A, B, RA, RB)', () => {
     it('should have 5 terminals (P, A, B, RA, RB)', () => {
       expect(valve52Way.terminals).toHaveLength(5);
       const names = valve52Way.terminals.map((t) => t.name);
       expect(names).toContain('P'); // Pressure
       expect(names).toContain('A'); // Output A
       expect(names).toContain('B'); // Output B
+      expect(names).toContain('RA'); // Exhaust A
+      expect(names).toContain('RB'); // Exhaust B
       expect(names).toContain('RA'); // Exhaust A
       expect(names).toContain('RB'); // Exhaust B
     });
@@ -157,6 +161,7 @@ describe('ISO 1219-1 Pneumatic Symbols', () => {
 
     it('should have correct dimensions', () => {
       expect(pressureRegulator.width).toBe(40);
+      expect(pressureRegulator.width).toBe(40);
       expect(pressureRegulator.height).toBe(50);
     });
 
@@ -170,6 +175,7 @@ describe('ISO 1219-1 Pneumatic Symbols', () => {
       const svg = pressureRegulator.render(0, 0);
       expect(svg).toContain('<!-- Adjustment arrow');
       expect(svg).toContain('<line'); // Flow path
+      expect(svg).toContain('<polygon'); // Diamond shape
     });
   });
 
@@ -180,6 +186,7 @@ describe('ISO 1219-1 Pneumatic Symbols', () => {
 
     it('should have correct dimensions', () => {
       expect(filterPneumatic.width).toBe(40);
+      expect(filterPneumatic.height).toBe(50);
       expect(filterPneumatic.height).toBe(50);
     });
 
@@ -249,6 +256,7 @@ describe('ISO 1219-1 Pneumatic Symbols', () => {
 
     it('should have correct dimensions', () => {
       expect(checkValvePneumatic.width).toBe(30);
+      expect(checkValvePneumatic.width).toBe(30);
       expect(checkValvePneumatic.height).toBe(30);
     });
 
@@ -258,8 +266,11 @@ describe('ISO 1219-1 Pneumatic Symbols', () => {
       expect(checkValvePneumatic.terminals[1].name).toBe('out');
     });
 
+    it('should render with check valve triangle', () => {
     it('should render triangle with seat', () => {
       const svg = checkValvePneumatic.render(0, 0);
+      expect(svg).toContain('<polygon'); // Check valve triangle
+      expect(svg).toContain('<line'); // Seat line
       expect(svg).toContain('<polygon'); // Check valve body
       expect(svg).toContain('<line'); // Seat line
     });
