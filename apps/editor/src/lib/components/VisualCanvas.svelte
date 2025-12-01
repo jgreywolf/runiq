@@ -3,7 +3,6 @@
 	import { type NodeLocation } from '@runiq/parser-dsl';
 	import { Badge } from '$lib/components/ui/badge';
 	import Icon from '@iconify/svelte';
-	import AnchorIndicators from './visual-canvas/AnchorIndicators.svelte';
 	import StylePanel from './visual-canvas/StylePanel.svelte';
 	import {
 		renderDiagram as renderDiagramUtil,
@@ -26,6 +25,10 @@
 		type MouseHandlerContext,
 		type MouseHandlerCallbacks
 	} from './visual-canvas/mouseHandlers';
+	import { SelectionState } from './visual-canvas/SelectionState.svelte';
+	import { ViewportState } from './visual-canvas/ViewportState.svelte';
+
+	let diagramDataId = 'runiq-diagram';
 
 	// Props
 	interface Props {
@@ -59,37 +62,22 @@
 	let parseTime = $state(0);
 	let renderTime = $state(0);
 
-	// Selection state
-	let selectedNodeId = $state<string | null>(null);
-	let selectedEdgeId = $state<string | null>(null);
-	let selectedNodeIds = $state<Set<string>>(new Set());
-	let selectedEdgeIds = $state<Set<string>>(new Set());
-	let hoveredElementId = $state<string | null>(null);
-
-	// Lasso selection state
-	let lassoStartX = $state(0);
-	let lassoStartY = $state(0);
-	let lassoEndX = $state(0);
-	let lassoEndY = $state(0);
-	let isLassoActive = $state(false);
-	let isLassoPending = $state(false);
-	const LASSO_THRESHOLD = 5; // pixels to drag before activating lasso
-
-	// Edge creation state (Shift+Click workflow)
-	let edgeCreationMode = $state(false);
-	let edgeCreationStartNode = $state<string | null>(null);
-
-	// Edge creation from anchor state
-	let creatingEdgeFromAnchor = $state(false);
-	let edgeCreationAnchor = $state<'north' | 'south' | 'east' | 'west' | null>(null);
-	let edgeCreationLine = $state<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
-
-	// Label editing state
-	let editingNodeId = $state<string | null>(null);
-	let editingEdgeId = $state<string | null>(null);
-	let editingLabel = $state<string>('');
-	let editInputPosition = $state<{ x: number; y: number } | null>(null);
+	// DOM element references
 	let editInputElement = $state<HTMLInputElement | null>(null);
+	let svgContainer = $state<HTMLDivElement | null>(null);
+
+	// Selection state managed by SelectionState class
+	const selection = new SelectionState({
+		onSelectionChange: (nodeId, edgeId) => {
+			onselect?.(nodeId, edgeId);
+		}
+	});
+
+	// Viewport state managed by ViewportState class
+	const viewport = new ViewportState({
+		minScale: 0.1,
+		maxScale: 5
+	});
 
 	// Style editing state
 	let showStylePanel = $state(false);
@@ -100,18 +88,6 @@
 	let styleShadow = $state<boolean>(false);
 	let styleStrokeWidth = $state<string>('');
 	let styleRouting = $state<string>('');
-
-	// Edge routing control state
-	let edgeControlPoints = $state<{ x: number; y: number }[]>([]);
-	let draggingControlPoint = $state<number | null>(null);
-	let dragControlPointStart = $state<{ x: number; y: number } | null>(null);
-
-	// Anchor component reference
-	let anchorIndicators: AnchorIndicators | null = null;
-
-	// Non-reactive hover state (only for visual feedback, no need to trigger re-renders)
-	let hoveredAnchor: 'north' | 'south' | 'east' | 'west' | null = null;
-	let isHoveringAnchor = false;
 
 	// Node locations from parser (for code highlighting)
 	let nodeLocations = $state<Map<string, NodeLocation>>(new Map());
@@ -129,8 +105,11 @@
 
 	// Effect to select all text when editing starts
 	$effect(() => {
-		if (editInputElement && (editingNodeId || editingEdgeId)) {
-			editInputElement.select();
+		if (selection.editInputPosition && (selection.editingNodeId || selection.editingEdgeId)) {
+			const input = document.querySelector('.edit-input') as HTMLInputElement;
+			if (input) {
+				input.select();
+			}
 		}
 	});
 
@@ -140,15 +119,13 @@
 			// Wait for Svelte to update the DOM, then attach handlers
 			tick().then(() => {
 				attachInteractiveHandlers();
-				// Recalculate anchors after SVG updates
-				anchorIndicators?.recalculate();
 			});
 		}
 	});
 
 	// Effect to load style values when selection changes
 	$effect(() => {
-		const elementId = selectedNodeId || selectedEdgeId;
+		const elementId = selection.primarySelectedId;
 		if (!elementId || !currentProfile) {
 			return;
 		}
@@ -220,196 +197,15 @@
 		}
 	});
 
-	// Calculate and render anchor points - delegated to AnchorIndicators component
-
-	// Effect to trigger anchor recalculation when selection changes
-	$effect(() => {
-		// ONLY track selectedNodeId
-		const nodeId = selectedNodeId;
-
-		// Don't recalculate if we're hovering an anchor
-		if (isHoveringAnchor) {
-			return;
-		}
-
-		if (anchorIndicators) {
-			tick().then(() => {
-				anchorIndicators?.recalculate();
-			});
-		}
-	});
-
-	// Export function to get current SVG
-	export function getSvg(): string {
-		return svgOutput;
+	function getDiagramSvg() {
+		return document.querySelector<SVGSVGElement>(`[data-id="${diagramDataId}"]`);
 	}
 
-	// Export function to check if diagram is valid
-	export function hasValidDiagram(): boolean {
-		return svgOutput.length > 0 && errors.length === 0;
-	}
-
-	// Pan and zoom state
-	let scale = $state(1);
-	let translateX = $state(0);
-	let translateY = $state(0);
-	let isDragging = $state(false);
-	let dragStart = $state<{ x: number; y: number } | null>(null);
-
-	// Mouse coordinates for troubleshooting
-	let mouseX = $state(0);
-	let mouseY = $state(0);
-	let svgMouseX = $state(0);
-	let svgMouseY = $state(0);
-
-	let svgContainer: HTMLDivElement;
 	let lastCode = '';
 	let lastDataContent = '';
 
 	// Debounce timer
 	let debounceTimer: ReturnType<typeof setTimeout>;
-
-	// Process data content and inject into DSL (same as Preview.svelte)
-	function injectDataIntoCode(syntaxCode: string, data: string): string {
-		if (!data || !data.trim()) {
-			return syntaxCode;
-		}
-
-		const trimmedData = data.trim();
-		const looksLikeJson = trimmedData.startsWith('{') || trimmedData.startsWith('[');
-
-		let parsedData: any;
-
-		if (looksLikeJson) {
-			try {
-				parsedData = JSON.parse(trimmedData);
-			} catch (e: any) {
-				console.error('Failed to parse JSON data:', e);
-				return syntaxCode;
-			}
-		} else {
-			const lines = trimmedData
-				.split('\n')
-				.map((l) => l.trim())
-				.filter((l) => l);
-
-			if (lines.length > 0) {
-				const headers = lines[0].split(',').map((h) => h.trim());
-				const rows = lines.slice(1).map((line) => {
-					const values = line.split(',').map((v) => v.trim());
-					const obj: any = {};
-					headers.forEach((header, i) => {
-						const value = values[i];
-						obj[header] = isNaN(Number(value)) ? value : Number(value);
-					});
-					return obj;
-				});
-
-				parsedData = { dataset: rows };
-			}
-		}
-
-		if (!parsedData) {
-			return syntaxCode;
-		}
-
-		// Inject data into chart shapes (same logic as Preview.svelte)
-		let modifiedCode = syntaxCode;
-
-		const chartShapePattern =
-			/shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChart|pyramidShape|venn\dShape|sankeyChart)/g;
-
-		let match;
-		const replacements: Array<{ from: number; to: number; replacement: string }> = [];
-
-		while ((match = chartShapePattern.exec(syntaxCode)) !== null) {
-			const fullMatch = match[0];
-			const shapeId = match[1];
-			const shapeType = match[2];
-			const matchStart = match.index;
-
-			if (shapeType === 'sankeyChart') {
-				continue;
-			}
-
-			const afterMatch = syntaxCode.substring(matchStart + fullMatch.length);
-			const endMatch = afterMatch.match(/(?:\r?\n|$)/);
-			const lineEnd = endMatch
-				? matchStart + fullMatch.length + endMatch.index!
-				: syntaxCode.length;
-
-			const currentLine = syntaxCode.substring(matchStart, lineEnd);
-			const propsMatch = currentLine.match(/as\s+@\w+\s+(.*)$/);
-			const existingProps = propsMatch ? propsMatch[1].trim() : '';
-			const withoutData = existingProps.replace(/\bdata:\[.*?\]|\bdata:\{.*?\}/g, '').trim();
-
-			let dataToInject: any;
-
-			if (typeof parsedData === 'object' && !Array.isArray(parsedData)) {
-				const dataKeys = Object.keys(parsedData);
-				if (dataKeys.length > 0) {
-					dataToInject = parsedData[dataKeys[0]];
-				}
-			} else {
-				dataToInject = parsedData;
-			}
-
-			if (!dataToInject) continue;
-
-			let chartData: any;
-			let chartLabels: string[] | null = null;
-
-			if (
-				Array.isArray(dataToInject) &&
-				dataToInject.length > 0 &&
-				typeof dataToInject[0] === 'object'
-			) {
-				const firstObj = dataToInject[0];
-				const keys = Object.keys(firstObj);
-
-				const numericKey = keys.find((k) => typeof firstObj[k] === 'number');
-				const labelKey = keys.find((k) => typeof firstObj[k] === 'string');
-
-				if (numericKey) {
-					chartData = dataToInject.map((item: any) => item[numericKey]);
-
-					if (labelKey) {
-						chartLabels = dataToInject.map((item: any) => item[labelKey]);
-					}
-				} else {
-					chartData = dataToInject;
-				}
-			} else {
-				chartData = dataToInject;
-			}
-
-			const dataStr = JSON.stringify(chartData);
-			let newProps = withoutData;
-
-			if (chartLabels && chartLabels.length > 0) {
-				const labelsStr = JSON.stringify(chartLabels);
-				newProps = newProps
-					? `${newProps} labels:${labelsStr} data:${dataStr}`
-					: `labels:${labelsStr} data:${dataStr}`;
-			} else {
-				newProps = newProps ? `${newProps} data:${dataStr}` : `data:${dataStr}`;
-			}
-
-			const newShapeDecl = `shape ${shapeId} as @${shapeType} ${newProps}`;
-
-			replacements.push({
-				from: matchStart,
-				to: lineEnd,
-				replacement: newShapeDecl
-			});
-		}
-
-		replacements.reverse().forEach(({ from, to, replacement }) => {
-			modifiedCode = modifiedCode.substring(0, from) + replacement + modifiedCode.substring(to);
-		});
-
-		return modifiedCode;
-	}
 
 	// Watch for code or data changes with debounce
 	$effect(() => {
@@ -439,7 +235,6 @@
 		warnings = [];
 
 		try {
-			// Use the extracted rendering utility
 			const result = await renderDiagramUtil(dslCode, dataContent, layoutEngine);
 
 			svgOutput = result.svg;
@@ -460,9 +255,6 @@
 			if (onparse) {
 				onparse(result.success, result.errors);
 			}
-
-			// After rendering, set up event listeners for interactive elements
-			setTimeout(attachInteractiveHandlers, 0);
 		} catch (error) {
 			errors = [error instanceof Error ? error.message : 'Unknown error'];
 			svgOutput = '';
@@ -478,17 +270,7 @@
 		if (!svgContainer) return;
 
 		// Find the diagram SVG (not the icon SVGs in buttons)
-		// The diagram SVG contains elements with data-node-id or data-edge-id
-		let svgElement: SVGSVGElement | null = null;
-		const allSvgs = svgContainer.querySelectorAll('svg');
-		for (const svg of allSvgs) {
-			// Check if this SVG has diagram elements
-			if (svg.querySelector('[data-node-id], [data-edge-id]')) {
-				svgElement = svg as SVGSVGElement;
-				break;
-			}
-		}
-
+		let svgElement: SVGSVGElement | null = getDiagramSvg();
 		if (!svgElement) return;
 
 		// Add hover handlers to all nodes, edges, and containers
@@ -518,194 +300,104 @@
 	function restoreSelection() {
 		if (!svgContainer) return;
 
-		const svgElement = svgContainer.querySelector('svg');
+		let svgElement: SVGSVGElement | null = getDiagramSvg();
 		if (!svgElement) return;
 
 		// Re-apply selection to the selected node or edge
-		if (selectedNodeId) {
-			const nodeElement = svgElement.querySelector(`[data-node-id="${selectedNodeId}"]`);
+		if (selection.selectedNodeId) {
+			const nodeElement = svgElement.querySelector(`[data-node-id="${selection.selectedNodeId}"]`);
 			if (nodeElement) {
 				nodeElement.classList.add('runiq-selected');
-				if (edgeCreationMode && edgeCreationStartNode === selectedNodeId) {
-					nodeElement.classList.add('runiq-edge-start');
-				}
 			}
 		}
 
-		if (selectedEdgeId) {
-			const edgeElement = svgElement.querySelector(`[data-edge-id="${selectedEdgeId}"]`);
+		if (selection.selectedEdgeId) {
+			const edgeElement = svgElement.querySelector(`[data-edge-id="${selection.selectedEdgeId}"]`);
 			if (edgeElement) {
 				edgeElement.classList.add('runiq-selected');
 			}
 		}
 	}
 
-	// Render anchor points directly into the diagram SVG
+	// Helper to build MouseHandlerContext from current state
+	function buildMouseContext(): MouseHandlerContext {
+		return {
+			svgContainer,
+			scale: viewport.scale,
+			translateX: viewport.translateX,
+			translateY: viewport.translateY,
+			isDragging: viewport.isDragging,
+			dragStart: viewport.dragStart,
+			selectedNodeId: selection.selectedNodeId,
+			selectedEdgeId: selection.selectedEdgeId,
+			selectedNodeIds: selection.selectedNodeIds,
+			selectedEdgeIds: selection.selectedEdgeIds,
+			hoveredElementId: selection.hoveredElementId,
+			isLassoActive: selection.isLassoActive,
+			isLassoPending: selection.isLassoPending,
+			lassoStartX: selection.lassoStartX,
+			lassoStartY: selection.lassoStartY,
+			lassoEndX: selection.lassoEndX,
+			lassoEndY: selection.lassoEndY
+		};
+	}
+
+	// Helper to build MouseHandlerCallbacks
+	function buildMouseCallbacks(): MouseHandlerCallbacks {
+		return {
+			onselect,
+			clearSelection,
+			updateMultiSelection,
+			startLabelEdit
+		};
+	}
+
 	// Wrappers for event handlers from mouseHandlers.ts
 	function onElementMouseEnter(event: Event) {
-		const context: MouseHandlerContext = {
-			svgContainer,
-			scale,
-			translateX,
-			translateY,
-			isDragging,
-			dragStart,
-			selectedNodeId,
-			selectedEdgeId,
-			selectedNodeIds,
-			selectedEdgeIds,
-			hoveredElementId,
-			edgeCreationMode,
-			edgeCreationStartNode,
-			isLassoActive,
-			isLassoPending,
-			lassoStartX,
-			lassoStartY,
-			lassoEndX,
-			lassoEndY
-		};
+		const context = buildMouseContext();
 		handleElementMouseEnter(event, context);
-		hoveredElementId = context.hoveredElementId;
+		selection.hoveredElementId = context.hoveredElementId;
 	}
 
 	function onElementMouseLeave(event: Event) {
-		const context: MouseHandlerContext = {
-			svgContainer,
-			scale,
-			translateX,
-			translateY,
-			isDragging,
-			dragStart,
-			selectedNodeId,
-			selectedEdgeId,
-			selectedNodeIds,
-			selectedEdgeIds,
-			hoveredElementId,
-			edgeCreationMode,
-			edgeCreationStartNode,
-			isLassoActive,
-			isLassoPending,
-			lassoStartX,
-			lassoStartY,
-			lassoEndX,
-			lassoEndY
-		};
+		const context = buildMouseContext();
 		handleElementMouseLeave(event, context);
-		hoveredElementId = context.hoveredElementId;
+		selection.hoveredElementId = context.hoveredElementId;
 	}
 
 	function onElementClick(event: Event) {
-		const context: MouseHandlerContext = {
-			svgContainer,
-			scale,
-			translateX,
-			translateY,
-			isDragging,
-			dragStart,
-			selectedNodeId,
-			selectedEdgeId,
-			selectedNodeIds,
-			selectedEdgeIds,
-			hoveredElementId,
-			edgeCreationMode,
-			edgeCreationStartNode,
-			isLassoActive,
-			isLassoPending,
-			lassoStartX,
-			lassoStartY,
-			lassoEndX,
-			lassoEndY
-		};
-
-		const callbacks: MouseHandlerCallbacks = {
-			onselect,
-			oninsertedge,
-			clearSelection,
-			updateMultiSelection,
-			cancelEdgeCreation,
-			startLabelEdit
-		};
+		const context = buildMouseContext();
+		const callbacks = buildMouseCallbacks();
 
 		handleElementClick(event, context, callbacks);
 
-		// Update state from context
-		selectedNodeId = context.selectedNodeId;
-		selectedEdgeId = context.selectedEdgeId;
-		selectedNodeIds = context.selectedNodeIds;
-		selectedEdgeIds = context.selectedEdgeIds;
-		edgeCreationMode = context.edgeCreationMode;
-		edgeCreationStartNode = context.edgeCreationStartNode;
+		// Update selection state from context
+		if (context.selectedNodeId !== selection.selectedNodeId) {
+			if (context.selectedNodeId) {
+				selection.selectNode(context.selectedNodeId);
+			}
+		}
+		if (context.selectedEdgeId !== selection.selectedEdgeId) {
+			if (context.selectedEdgeId) {
+				selection.selectEdge(context.selectedEdgeId);
+			}
+		}
 	}
 
 	function onElementDoubleClick(event: Event) {
-		const callbacks: MouseHandlerCallbacks = {
-			onselect,
-			oninsertedge,
-			clearSelection,
-			updateMultiSelection,
-			cancelEdgeCreation,
-			startLabelEdit
-		};
-
-		const context: MouseHandlerContext = {
-			svgContainer,
-			scale,
-			translateX,
-			translateY,
-			isDragging,
-			dragStart,
-			selectedNodeId,
-			selectedEdgeId,
-			selectedNodeIds,
-			selectedEdgeIds,
-			hoveredElementId,
-			edgeCreationMode,
-			edgeCreationStartNode,
-			isLassoActive,
-			isLassoPending,
-			lassoStartX,
-			lassoStartY,
-			lassoEndX,
-			lassoEndY
-		};
-
+		const context = buildMouseContext();
+		const callbacks = buildMouseCallbacks();
 		handleElementDoubleClick(event, context, callbacks);
 	}
 
 	// Update visual styling for multi-selected elements
 	function updateMultiSelection() {
-		if (!svgContainer) return;
-
-		const svgElement = svgContainer.querySelector('svg');
-		if (!svgElement) return;
-
-		// Clear all selection classes first (both single and multi)
-		svgElement.querySelectorAll('.runiq-selected, .runiq-multi-selected').forEach((el) => {
-			el.classList.remove('runiq-selected', 'runiq-multi-selected');
-		});
-
-		// Add multi-selection class to selected nodes
-		selectedNodeIds.forEach((nodeId) => {
-			const nodeElement = svgElement.querySelector(`[data-node-id="${nodeId}"]`);
-			if (nodeElement) {
-				nodeElement.classList.add('runiq-multi-selected');
-			}
-		});
-
-		// Add multi-selection class to selected edges
-		selectedEdgeIds.forEach((edgeId) => {
-			const edgeElement = svgElement.querySelector(`[data-edge-id="${edgeId}"]`);
-			if (edgeElement) {
-				edgeElement.classList.add('runiq-multi-selected');
-			}
-		});
+		selection.updateVisualSelection(svgContainer);
 	}
 
-	// Cancel edge creation mode
-	function cancelEdgeCreation() {
-		edgeCreationMode = false;
-		edgeCreationStartNode = null;
-		clearSelection();
+	// Update visual selection (alias for consistency)
+	function updateVisualSelection() {
+		selection.updateVisualSelection(svgContainer);
 	}
 
 	// Start label editing
@@ -737,105 +429,12 @@
 		const inputY = textRect.top - containerRect.top;
 
 		// Start editing mode
-		if (nodeId) {
-			editingNodeId = nodeId;
-			editingEdgeId = null;
-		} else if (edgeId) {
-			editingEdgeId = edgeId;
-			editingNodeId = null;
-		}
-		editingLabel = currentLabel;
-		editInputPosition = { x: inputX, y: inputY };
-	}
-
-	// Handle anchor point drag start (start edge creation from anchor)
-	function handleAnchorDragStart(
-		direction: 'north' | 'south' | 'east' | 'west',
-		x: number,
-		y: number
-	) {
-		if (!selectedNodeId) return;
-
-		creatingEdgeFromAnchor = true;
-		edgeCreationAnchor = direction;
-
-		edgeCreationLine = {
-			x1: x,
-			y1: y,
-			x2: x,
-			y2: y
-		};
-	}
-
-	// Handle anchor drag (update edge creation line)
-	function handleAnchorDrag(x: number, y: number) {
-		if (!creatingEdgeFromAnchor || !edgeCreationLine) return;
-
-		edgeCreationLine = {
-			...edgeCreationLine,
-			x2: x,
-			y2: y
-		};
-	}
-
-	// Handle anchor drag end (complete edge creation)
-	function handleAnchorDragEnd(x: number, y: number) {
-		if (!creatingEdgeFromAnchor || !selectedNodeId) {
-			creatingEdgeFromAnchor = false;
-			edgeCreationLine = null;
-			edgeCreationAnchor = null;
-			return;
-		}
-
-		// IMPORTANT: Save the source node ID before any async operations
-		// because selectedNodeId might get cleared by other interactions
-		const sourceNodeId = selectedNodeId;
-
-		// Check if we're over another node
-		if (!svgContainer) return;
-
-		const svgElement = svgContainer.querySelector('svg');
-		if (!svgElement) return;
-
-		const point = svgElement.createSVGPoint();
-		point.x = x;
-		point.y = y;
-
-		const elements = document.elementsFromPoint(x, y);
-		const targetNode = elements.find((el) => el.hasAttribute('data-node-id'));
-		const targetNodeId = targetNode?.getAttribute('data-node-id');
-
-		if (targetNodeId && targetNodeId !== sourceNodeId && oninsertedge) {
-			// Create edge to existing node
-			oninsertedge(sourceNodeId, targetNodeId);
-		} else if (!targetNode && oninsertshape && oninsertedge) {
-			// Create new node at position
-			const rect = svgContainer.getBoundingClientRect();
-			const svgX = Math.round((x - rect.left - translateX) / scale);
-			const svgY = Math.round((y - rect.top - translateY) / scale);
-
-			const newNodeId = `node_${Date.now()}`;
-			const shapeCode = `shape ${newNodeId} as @rectangle label:"New Node"`;
-
-			oninsertshape(shapeCode);
-
-			setTimeout(() => {
-				if (oninsertedge) {
-					// Use saved sourceNodeId instead of selectedNodeId
-					oninsertedge(sourceNodeId, newNodeId);
-				}
-			}, 100);
-		}
-
-		// Reset state
-		creatingEdgeFromAnchor = false;
-		edgeCreationLine = null;
-		edgeCreationAnchor = null;
+		selection.startLabelEdit(nodeId, edgeId, currentLabel, { x: inputX, y: inputY });
 	}
 
 	// Apply style to selected node or edge
 	function applyStyle(property: string, value: any) {
-		const elementId = selectedNodeId || selectedEdgeId;
+		const elementId = selection.primarySelectedId;
 		if (!elementId || !onedit) return;
 
 		// Map the UI property to the DSL property name
@@ -875,31 +474,8 @@
 
 	// Update visual styling for multi-selected elements
 	function clearSelection() {
-		if (!svgContainer) return;
-
-		// Find the diagram SVG (not toolbar icon SVGs)
-		const allSvgs = svgContainer.querySelectorAll('svg');
-		let svgElement: SVGSVGElement | null = null;
-		for (const svg of allSvgs) {
-			if (svg.querySelector('[data-node-id], [data-edge-id]')) {
-				svgElement = svg as SVGSVGElement;
-				break;
-			}
-		}
-
-		if (!svgElement) return;
-
-		// Remove selection class from all elements
-		svgElement
-			.querySelectorAll('.runiq-selected, .runiq-multi-selected, .runiq-edge-start')
-			.forEach((el) => {
-				el.classList.remove('runiq-selected', 'runiq-multi-selected', 'runiq-edge-start');
-			});
-
-		selectedNodeId = null;
-		selectedEdgeId = null;
-		selectedNodeIds = new Set();
-		selectedEdgeIds = new Set();
+		selection.clearSelection();
+		updateVisualSelection();
 	}
 
 	// Handle canvas click (deselect)
@@ -907,18 +483,12 @@
 		// Only deselect if clicking on the canvas itself, not on an element
 		if (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'svg') {
 			// If we're in multi-select mode (have multiple items selected), only clear if NOT holding Ctrl
-			const hasMultiSelection =
-				selectedNodeIds.size > 1 ||
-				selectedEdgeIds.size > 1 ||
-				(selectedNodeIds.size === 1 && selectedEdgeIds.size === 1);
-
-			if (hasMultiSelection && (event.ctrlKey || event.metaKey)) {
+			if (selection.hasMultiSelection && (event.ctrlKey || event.metaKey)) {
 				// Don't clear multi-selection when Ctrl+clicking empty space
 				return;
 			}
 
 			clearSelection();
-			cancelEdgeCreation(); // Cancel edge creation if clicking on empty canvas
 			if (onselect) onselect(null, null);
 		}
 	}
@@ -926,29 +496,23 @@
 	// Handle keyboard events for the canvas
 	function handleCanvasKeyDown(event: KeyboardEvent) {
 		// Don't intercept if we're editing text
-		if (editingNodeId || editingEdgeId) return;
+		if (selection.editingNodeId || selection.editingEdgeId) return;
 
-		if (event.key === 'Escape') {
-			// Cancel edge creation mode
-			if (edgeCreationMode) {
-				cancelEdgeCreation();
-				event.preventDefault();
-			}
-		} else if (event.key === 'Delete' || event.key === 'Backspace') {
+		if (event.key === 'Delete' || event.key === 'Backspace') {
 			// Delete selected elements (single or multi)
-			if (selectedNodeIds.size > 0 || selectedEdgeIds.size > 0) {
+			if (selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0) {
 				// Delete all multi-selected items
-				selectedNodeIds.forEach((nodeId) => {
+				selection.selectedNodeIds.forEach((nodeId) => {
 					if (ondelete) ondelete(nodeId, null);
 				});
-				selectedEdgeIds.forEach((edgeId) => {
+				selection.selectedEdgeIds.forEach((edgeId) => {
 					if (ondelete) ondelete(null, edgeId);
 				});
 				clearSelection();
 				event.preventDefault();
-			} else if ((selectedNodeId || selectedEdgeId) && ondelete) {
+			} else if ((selection.selectedNodeId || selection.selectedEdgeId) && ondelete) {
 				// Delete single selected item
-				ondelete(selectedNodeId, selectedEdgeId);
+				ondelete(selection.selectedNodeId, selection.selectedEdgeId);
 				clearSelection();
 				event.preventDefault();
 			}
@@ -981,8 +545,8 @@
 		clipboard = [];
 
 		// Copy multi-selected items
-		if (selectedNodeIds.size > 0 || selectedEdgeIds.size > 0) {
-			selectedNodeIds.forEach((nodeId) => {
+		if (selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0) {
+			selection.selectedNodeIds.forEach((nodeId) => {
 				const element = svgElement.querySelector(`[data-node-id="${nodeId}"]`);
 				if (element) {
 					clipboard.push({
@@ -993,7 +557,7 @@
 				}
 			});
 
-			selectedEdgeIds.forEach((edgeId) => {
+			selection.selectedEdgeIds.forEach((edgeId) => {
 				const element = svgElement.querySelector(`[data-edge-id="${edgeId}"]`);
 				if (element) {
 					clipboard.push({
@@ -1005,21 +569,21 @@
 			});
 		}
 		// Copy single selected item
-		else if (selectedNodeId) {
-			const element = svgElement.querySelector(`[data-node-id="${selectedNodeId}"]`);
+		else if (selection.selectedNodeId) {
+			const element = svgElement.querySelector(`[data-node-id="${selection.selectedNodeId}"]`);
 			if (element) {
 				clipboard.push({
 					type: 'node',
-					id: selectedNodeId,
+					id: selection.selectedNodeId,
 					data: extractElementData(element, 'node')
 				});
 			}
-		} else if (selectedEdgeId) {
-			const element = svgElement.querySelector(`[data-edge-id="${selectedEdgeId}"]`);
+		} else if (selection.selectedEdgeId) {
+			const element = svgElement.querySelector(`[data-edge-id="${selection.selectedEdgeId}"]`);
 			if (element) {
 				clipboard.push({
 					type: 'edge',
-					id: selectedEdgeId,
+					id: selection.selectedEdgeId,
 					data: extractElementData(element, 'edge')
 				});
 			}
@@ -1031,15 +595,15 @@
 		handleCopy();
 
 		// Delete after copying
-		if (selectedNodeIds.size > 0 || selectedEdgeIds.size > 0) {
-			selectedNodeIds.forEach((nodeId) => {
+		if (selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0) {
+			selection.selectedNodeIds.forEach((nodeId) => {
 				if (ondelete) ondelete(nodeId, null);
 			});
-			selectedEdgeIds.forEach((edgeId) => {
+			selection.selectedEdgeIds.forEach((edgeId) => {
 				if (ondelete) ondelete(null, edgeId);
 			});
-		} else if (selectedNodeId || selectedEdgeId) {
-			if (ondelete) ondelete(selectedNodeId, selectedEdgeId);
+		} else if (selection.selectedNodeId || selection.selectedEdgeId) {
+			if (ondelete) ondelete(selection.selectedNodeId, selection.selectedEdgeId);
 		}
 
 		clearSelection();
@@ -1061,26 +625,7 @@
 
 	// Select all elements in the diagram
 	function handleSelectAll() {
-		if (!svgContainer) return;
-
-		const svgElement = svgContainer.querySelector('svg');
-		if (!svgElement) return;
-
-		const newSelectedNodes = new Set<string>();
-		const newSelectedEdges = new Set<string>();
-
-		svgElement.querySelectorAll('[data-node-id]').forEach((element) => {
-			const nodeId = element.getAttribute('data-node-id');
-			if (nodeId) newSelectedNodes.add(nodeId);
-		});
-
-		svgElement.querySelectorAll('[data-edge-id]').forEach((element) => {
-			const edgeId = element.getAttribute('data-edge-id');
-			if (edgeId) newSelectedEdges.add(edgeId);
-		});
-
-		selectedNodeIds = newSelectedNodes;
-		selectedEdgeIds = newSelectedEdges;
+		selection.selectAll(svgContainer);
 		updateMultiSelection();
 	}
 
@@ -1110,12 +655,12 @@
 		if (event.key === 'Enter') {
 			// Save the edit
 			if (onedit) {
-				if (editingNodeId) {
-					const location = nodeLocations.get(editingNodeId);
-					onedit(editingNodeId, 'label', editingLabel, location);
-				} else if (editingEdgeId) {
+				if (selection.editingNodeId) {
+					const location = nodeLocations.get(selection.editingNodeId);
+					onedit(selection.editingNodeId, 'label', selection.editingLabel, location);
+				} else if (selection.editingEdgeId) {
 					// For edges, we don't have location info yet (could be added later)
-					onedit(editingEdgeId, 'edgeLabel', editingLabel);
+					onedit(selection.editingEdgeId, 'edgeLabel', selection.editingLabel);
 				}
 			}
 			cancelEdit();
@@ -1127,32 +672,28 @@
 
 	// Cancel label editing
 	function cancelEdit() {
-		editingNodeId = null;
-		editingEdgeId = null;
-		editingLabel = '';
-		editInputPosition = null;
+		selection.cancelLabelEdit();
 	}
 
-	// Zoom controls (same as Preview.svelte)
+	// Zoom controls
 	function zoomIn() {
-		scale = Math.min(scale * 1.2, 5);
+		viewport.zoomIn();
 	}
 
 	function zoomOut() {
-		scale = Math.max(scale / 1.2, 0.1);
+		viewport.zoomOut();
 	}
 
 	function resetZoom() {
-		scale = 1;
-		translateX = 0;
-		translateY = 0;
+		viewport.resetZoom();
 	}
 
 	function fitToScreen() {
 		if (!svgContainer || !svgOutput) return;
 
-		translateX = 0;
-		translateY = 0;
+		// Reset pan
+		viewport.translateX = 0;
+		viewport.translateY = 0;
 
 		const parser = new DOMParser();
 		const svgDoc = parser.parseFromString(svgOutput, 'image/svg+xml');
@@ -1174,24 +715,20 @@
 		}
 
 		if (svgWidth === 0 || svgHeight === 0) {
-			scale = 0.9;
+			viewport.scale = 0.9;
 			return;
 		}
 
 		const containerWidth = svgContainer.clientWidth;
 		const containerHeight = svgContainer.clientHeight;
 
-		const padding = 0.9;
-		const scaleX = (containerWidth * padding) / svgWidth;
-		const scaleY = (containerHeight * padding) / svgHeight;
-
-		scale = Math.min(scaleX, scaleY, 5);
+		viewport.fitToScreen(svgWidth, svgHeight, containerWidth, containerHeight);
 	}
 
 	// Pan controls and lasso selection
 	function handleMouseDown(e: MouseEvent) {
 		// Don't start panning/lasso if we're editing
-		if (editingNodeId || editingEdgeId) return;
+		if (selection.editingNodeId || selection.editingEdgeId) return;
 
 		// Don't start lasso/pan if clicking on an element (let the element click handler deal with it)
 		const target = e.target as HTMLElement;
@@ -1200,136 +737,56 @@
 		}
 
 		if (e.button === 0) {
+			if (!svgContainer) return;
 			const rect = svgContainer.getBoundingClientRect();
 			const clientX = e.clientX - rect.left;
 			const clientY = e.clientY - rect.top;
 
 			// Ctrl+Drag for lasso selection (pending until drag threshold)
 			if (e.ctrlKey || e.metaKey) {
-				isLassoPending = true;
-				lassoStartX = clientX;
-				lassoStartY = clientY;
-				lassoEndX = clientX;
-				lassoEndY = clientY;
+				selection.startLasso(clientX, clientY);
 			} else {
 				// Regular panning
-				isDragging = true;
-				dragStart = { x: e.clientX - translateX, y: e.clientY - translateY };
+				viewport.startPan(e.clientX, e.clientY);
 			}
 		}
 	}
 
 	function handleMouseMove(e: MouseEvent) {
+		if (!svgContainer) return;
+
 		const rect = svgContainer.getBoundingClientRect();
-		mouseX = Math.round(e.clientX - rect.left);
-		mouseY = Math.round(e.clientY - rect.top);
+		viewport.updateMousePosition(e.clientX, e.clientY, rect);
 
-		svgMouseX = Math.round((mouseX - translateX) / scale);
-		svgMouseY = Math.round((mouseY - translateY) / scale);
-
-		// Handle anchor-based edge creation
-		if (creatingEdgeFromAnchor) {
-			// Convert client coordinates to SVG coordinates
-			const rect = svgContainer.getBoundingClientRect();
-			const x = (e.clientX - rect.left - translateX) / scale;
-			const y = (e.clientY - rect.top - translateY) / scale;
-			handleAnchorDrag(x, y);
-			return;
-		}
-
-		if (isLassoPending) {
-			// Check if we've dragged far enough to activate lasso
-			const dx = mouseX - lassoStartX;
-			const dy = mouseY - lassoStartY;
-			const distance = Math.sqrt(dx * dx + dy * dy);
-
-			if (distance > LASSO_THRESHOLD) {
-				isLassoPending = false;
-				isLassoActive = true;
-			}
-		}
-
-		if (isLassoActive) {
-			// Update lasso rectangle
-			lassoEndX = mouseX;
-			lassoEndY = mouseY;
-		} else if (isDragging && dragStart) {
+		if (selection.isLassoPending || selection.isLassoActive) {
+			selection.updateLasso(viewport.mouseX, viewport.mouseY);
+		} else if (viewport.isPanning) {
 			// Handle canvas panning
-			translateX = e.clientX - dragStart.x;
-			translateY = e.clientY - dragStart.y;
+			viewport.updatePan(e.clientX, e.clientY);
 		}
 	}
 
 	function handleMouseUp(e: MouseEvent) {
-		// Handle anchor-based edge creation completion
-		if (creatingEdgeFromAnchor) {
-			const rect = svgContainer.getBoundingClientRect();
-			const x = e.clientX - rect.left;
-			const y = e.clientY - rect.top;
-			handleAnchorDragEnd(x, y);
-			return;
-		}
-
-		if (isLassoActive) {
-			// Complete lasso selection
-			selectElementsInLasso();
-			isLassoActive = false;
-		}
-		isLassoPending = false;
-		isDragging = false;
-	}
-
-	// Select all elements within the lasso rectangle
-	function selectElementsInLasso() {
 		if (!svgContainer) return;
 
-		const svgElement = svgContainer.querySelector('svg');
-		if (!svgElement) return;
-
-		// Calculate lasso bounds in screen coordinates
-		const minX = Math.min(lassoStartX, lassoEndX);
-		const maxX = Math.max(lassoStartX, lassoEndX);
-		const minY = Math.min(lassoStartY, lassoEndY);
-		const maxY = Math.max(lassoStartY, lassoEndY);
-
-		const newSelectedNodes = new Set<string>();
-		const newSelectedEdges = new Set<string>();
-
-		// Check all interactive elements
-		const elements = svgElement.querySelectorAll('[data-node-id], [data-edge-id]');
-		elements.forEach((element) => {
-			const bbox = (element as SVGGraphicsElement).getBBox();
-			const svgRect = svgElement.getBoundingClientRect();
-			const containerRect = svgContainer.getBoundingClientRect();
-
-			// Transform SVG coordinates to screen coordinates
-			const elemX = bbox.x * scale + translateX;
-			const elemY = bbox.y * scale + translateY;
-			const elemWidth = bbox.width * scale;
-			const elemHeight = bbox.height * scale;
-
-			// Check if element intersects with lasso
-			if (elemX < maxX && elemX + elemWidth > minX && elemY < maxY && elemY + elemHeight > minY) {
-				const nodeId = element.getAttribute('data-node-id');
-				const edgeId = element.getAttribute('data-edge-id');
-
-				if (nodeId) newSelectedNodes.add(nodeId);
-				if (edgeId) newSelectedEdges.add(edgeId);
-			}
-		});
-
-		// Update selection
-		selectedNodeIds = newSelectedNodes;
-		selectedEdgeIds = newSelectedEdges;
-
-		// Update visual selection
-		updateMultiSelection();
+		if (selection.isLassoActive) {
+			// Complete lasso selection
+			selection.completeLasso(
+				svgContainer,
+				viewport.scale,
+				viewport.translateX,
+				viewport.translateY
+			);
+			updateMultiSelection();
+		}
+		selection.cancelLasso();
+		viewport.endPan();
 	}
 
 	function handleWheel(e: WheelEvent) {
 		e.preventDefault();
 		const delta = e.deltaY > 0 ? 0.9 : 1.1;
-		scale = Math.max(0.1, Math.min(5, scale * delta));
+		viewport.zoom(delta);
 	}
 
 	// Drag-and-drop handlers for shapes from toolbox
@@ -1428,7 +885,7 @@
 				</span>
 			{/if}
 
-			{#if selectedNodeIds.size > 0 || selectedEdgeIds.size > 0}
+			{#if selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0}
 				<Badge variant="outline" class="gap-1 border-purple-300 bg-purple-50 text-purple-700">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path
@@ -1438,9 +895,9 @@
 							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
 						/>
 					</svg>
-					Multi-Select: {selectedNodeIds.size + selectedEdgeIds.size} items
+					Multi-Select: {selection.selectedNodeIds.size + selection.selectedEdgeIds.size} items
 				</Badge>
-			{:else if selectedNodeId}
+			{:else if selection.selectedNodeId}
 				<Badge variant="outline" class="gap-1">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path
@@ -1450,9 +907,9 @@
 							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
 						/>
 					</svg>
-					Selected: {selectedNodeId}
+					Selected: {selection.selectedNodeId}
 				</Badge>
-			{:else if selectedEdgeId}
+			{:else if selection.selectedEdgeId}
 				<Badge variant="outline" class="gap-1">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path
@@ -1462,12 +919,12 @@
 							d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
 						/>
 					</svg>
-					Selected: {selectedEdgeId}
+					Selected: {selection.selectedEdgeId}
 				</Badge>
 			{/if}
 
 			<!-- Multi-select help hint -->
-			{#if !selectedNodeId && !selectedEdgeId && selectedNodeIds.size === 0 && selectedEdgeIds.size === 0}
+			{#if !selection.selectedNodeId && !selection.selectedEdgeId && selection.selectedNodeIds.size === 0 && selection.selectedEdgeIds.size === 0}
 				<span class="text-xs text-neutral-400 italic">
 					Tip: Ctrl+Click to multi-select, Ctrl+Drag for lasso
 				</span>
@@ -1492,7 +949,7 @@
 			</button>
 
 			<span class="min-w-[60px] text-center text-xs text-neutral-600">
-				{Math.round(scale * 100)}%
+				{viewport.zoomPercentage}%
 			</span>
 
 			<button
@@ -1544,14 +1001,14 @@
 		ondrop={handleDrop}
 		onkeydown={handleCanvasKeyDown}
 		tabindex="0"
-		style="cursor: {isDragging
+		style="cursor: {viewport.isPanning
 			? 'grabbing'
-			: editingNodeId || editingEdgeId
+			: selection.editingNodeId || selection.editingEdgeId
 				? 'default'
 				: 'grab'}; outline: none;"
 	>
 		<!-- Floating Toolbar at Top Center -->
-		{#if selectedNodeId || selectedEdgeId}
+		{#if selection.selectedNodeId || selection.selectedEdgeId}
 			<div class="floating-toolbar">
 				<button
 					onclick={() => (showStylePanel = !showStylePanel)}
@@ -1565,37 +1022,37 @@
 		{/if}
 
 		<!-- Lasso Selection Rectangle -->
-		{#if isLassoActive}
+		{#if selection.isLassoActive}
 			<div
 				class="lasso-rectangle"
-				style="left: {Math.min(lassoStartX, lassoEndX)}px; top: {Math.min(
-					lassoStartY,
-					lassoEndY
-				)}px; width: {Math.abs(lassoEndX - lassoStartX)}px; height: {Math.abs(
-					lassoEndY - lassoStartY
+				style="left: {Math.min(selection.lassoStartX, selection.lassoEndX)}px; top: {Math.min(
+					selection.lassoStartY,
+					selection.lassoEndY
+				)}px; width: {Math.abs(selection.lassoEndX - selection.lassoStartX)}px; height: {Math.abs(
+					selection.lassoEndY - selection.lassoStartY
 				)}px;"
 			></div>
 		{/if}
 
 		<!-- Label Edit Input -->
-		{#if (editingNodeId || editingEdgeId) && editInputPosition}
+		{#if (selection.editingNodeId || selection.editingEdgeId) && selection.editInputPosition}
 			<input
 				type="text"
 				bind:this={editInputElement}
-				bind:value={editingLabel}
+				bind:value={selection.editingLabel}
 				onkeydown={handleEditKeyPress}
 				class="edit-input"
-				style="left: {editInputPosition.x}px; top: {editInputPosition.y}px;"
+				style="left: {selection.editInputPosition.x}px; top: {selection.editInputPosition.y}px;"
 				autofocus
 			/>
 		{/if}
 
 		<!-- Style Editing Panel -->
-		{#if showStylePanel && (selectedNodeId || selectedEdgeId)}
+		{#if showStylePanel && (selection.selectedNodeId || selection.selectedEdgeId)}
 			<div class="style-panel" onclick={(e) => e.stopPropagation()}>
 				<div class="style-panel-header">
 					<h3 class="text-sm font-semibold">
-						Style {selectedNodeId ? 'Node' : 'Edge'}
+						Style {selection.selectedNodeId ? 'Node' : 'Edge'}
 					</h3>
 					<button
 						onclick={(e) => {
@@ -1618,7 +1075,7 @@
 
 				<div class="style-panel-body">
 					<!-- Background Color (nodes only) -->
-					{#if selectedNodeId}
+					{#if selection.selectedNodeId}
 						<div class="style-field">
 							<label for="style-background">Background:</label>
 							<div class="color-picker-wrapper">
@@ -1700,7 +1157,7 @@
 						/>
 						<span class="text-xs text-neutral-500">px</span>
 					</div>
-					{#if selectedEdgeId}
+					{#if selection.selectedEdgeId}
 						<!-- Edge Routing Style -->
 						<div class="style-field">
 							<label for="style-routing">Routing:</label>
@@ -1719,7 +1176,7 @@
 						</div>
 					{/if}
 
-					{#if selectedNodeId}
+					{#if selection.selectedNodeId}
 						<!-- Font Size -->
 						<div class="style-field">
 							<label for="style-font-size">Font Size:</label>
@@ -1811,20 +1268,10 @@
 			<!-- SVG Preview with Pan/Zoom -->
 			<div
 				class="absolute inset-0 flex items-center justify-center transition-transform"
-				style="transform: translate({translateX}px, {translateY}px) scale({scale})"
+				style="transform: translate({viewport.translateX}px, {viewport.translateY}px) scale({viewport.scale})"
 			>
 				<div class="rounded-lg border border-neutral-300 bg-white p-4 shadow-sm">
 					{@html svgOutput}
-
-					<!-- Anchor Indicators Component -->
-					<AnchorIndicators
-						bind:this={anchorIndicators}
-						{svgContainer}
-						{selectedNodeId}
-						onAnchorDragStart={handleAnchorDragStart}
-						onAnchorDrag={handleAnchorDrag}
-						onAnchorDragEnd={handleAnchorDragEnd}
-					/>
 				</div>
 			</div>
 		{:else}

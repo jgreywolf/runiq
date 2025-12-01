@@ -181,6 +181,7 @@ export interface ParseResult {
   success: boolean;
   document?: RuniqDocument;
   diagram?: DiagramAst; // Backwards compatibility - points to first diagram profile
+  warnings: string[];
   errors: string[];
   nodeLocations?: Map<string, NodeLocation>; // Map from node ID to source location
 }
@@ -301,7 +302,7 @@ export function parse(text: string): ParseResult {
       errors.push(`Parser error${location}: ${err.message}`);
     });
 
-    return { success: false, errors };
+    return { success: false, errors, warnings: [] };
   }
 
   // Convert Langium AST to Runiq Document
@@ -331,6 +332,7 @@ export function parse(text: string): ParseResult {
     success: true,
     document: runiqDocument,
     diagram, // Backwards compatibility
+    warnings: [],
     errors: [],
     nodeLocations,
   };

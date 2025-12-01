@@ -31,7 +31,8 @@ export async function renderDiagram(
 		errors: [],
 		warnings: [],
 		parseTime: 0,
-		renderTime: 0
+		renderTime: 0,
+		success: false
 	};
 
 	if (!code || code.trim() === '') {
