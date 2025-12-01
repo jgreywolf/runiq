@@ -29,7 +29,7 @@ diagram "My Architecture" {
 
 Themes work with all profile types: `diagram`, `sequence`, `timeline`, and `glyphset`.
 
-See [Themes Guide](docs/guide/themes.md) for complete theme documentation and examples.
+See [Themes Guide](guide/themes.md) for complete theme documentation and examples.
 
 ### 2. Direction
 

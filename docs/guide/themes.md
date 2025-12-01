@@ -426,4 +426,3 @@ Planned theme features:
 - [Glyphset Themes](/reference/glyphset-themes) - Glyphset-specific theme details
 - [DSL Syntax Reference](/DSL-SYNTAX-REFERENCE) - Complete syntax guide
 - [Styling](/guide/styling) - Advanced styling options
-- [Theme Integration](../THEME-INTEGRATION.md) - Technical implementation details
