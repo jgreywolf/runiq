@@ -395,7 +395,7 @@ container "Database" fill: "#e8f5e9" {
 
 ```runiq
 container "Secure Zone"
-  stroke: "#f44336"
+  strokeColor: "#f44336"
   strokeWidth: 3
   lineStyle: dashed {
   # Dashed red border

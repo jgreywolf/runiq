@@ -40,10 +40,9 @@ export const componentShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const backgroundColor =
-      (ctx.node.data?.backgroundColor as string) || '#ffffff';
-    const borderColor = (ctx.node.data?.borderColor as string) || '#333333';
-    const borderWidth = (ctx.node.data?.borderWidth as number) || 2;
+    const backgroundColor = (ctx.node.data?.fillColor as string) || '#ffffff';
+    const strokeColor = (ctx.node.data?.strokeColor as string) || '#333333';
+    const strokeWidth = (ctx.node.data?.strokeWidth as number) || 2;
 
     const symbolSize = 16; // Width of component symbol rectangles
     const symbolHeight = 8; // Height of component symbol rectangles
@@ -52,11 +51,11 @@ export const componentShape: ShapeDefinition = {
     const symbolY = y + 16; // Position from top
 
     // Component symbol (two small rectangles on the left)
-    const symbol1 = `<rect x="${symbolX}" y="${symbolY}" width="${symbolSize}" height="${symbolHeight}" fill="${backgroundColor}" stroke="${borderColor}" stroke-width="${borderWidth}" rx="1"/>`;
-    const symbol2 = `<rect x="${symbolX}" y="${symbolY + symbolHeight + symbolSpacing}" width="${symbolSize}" height="${symbolHeight}" fill="${backgroundColor}" stroke="${borderColor}" stroke-width="${borderWidth}" rx="1"/>`;
+    const symbol1 = `<rect x="${symbolX}" y="${symbolY}" width="${symbolSize}" height="${symbolHeight}" fill="${backgroundColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}" rx="1"/>`;
+    const symbol2 = `<rect x="${symbolX}" y="${symbolY + symbolHeight + symbolSpacing}" width="${symbolSize}" height="${symbolHeight}" fill="${backgroundColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}" rx="1"/>`;
 
     // Main rectangle with rounded corners
-    const rect = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" fill="${backgroundColor}" stroke="${borderColor}" stroke-width="${borderWidth}" rx="4"/>`;
+    const rect = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" fill="${backgroundColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}" rx="4"/>`;
 
     // Label (centered)
     const textX = x + bounds.width / 2;

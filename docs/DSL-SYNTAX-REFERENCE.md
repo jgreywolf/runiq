@@ -13,6 +13,24 @@ diagram "Name" {
 - MUST have curly braces `{ }`
 - Direction goes inside body
 
+**Optional: Specify a color theme:**
+
+```runiq
+diagram "My Architecture" {
+  theme ocean
+  direction LR
+  // shapes automatically use ocean theme colors
+}
+```
+
+**Available Themes:**
+
+- `runiq` (default - official brand), `professional`, `forest`, `sunset`, `ocean`, `monochrome`, `colorful`, `vibrant`, `warm`, `cool`
+
+Themes work with all profile types: `diagram`, `sequence`, `timeline`, and `glyphset`.
+
+See [Themes Guide](guide/themes.md) for complete theme documentation and examples.
+
 ### 2. Direction
 
 ```runiq
@@ -30,9 +48,9 @@ style name property: "value" property: number
 Examples:
 
 ```runiq
-style default fill: "#f0f8ff" stroke: "#4682b4" fontSize: 14
-style highlight fill: "#fffacd" stroke: "#daa520"
-style link stroke: "#2a6fdb" strokeWidth: 2
+style default fill: "#f0f8ff" strokeColor: "#4682b4" fontSize: 14
+style highlight fill: "#fffacd" strokeColor: "#daa520"
+style link strokeColor: "#2a6fdb" strokeWidth: 2
 ```
 
 ### 4. Shape Declarations
@@ -64,7 +82,7 @@ container id "Label" property:"value" property:number {
 Examples:
 
 ```runiq
-container backend "Backend" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 {
+container backend "Backend" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:3 {
   shape api as @hexagon label:"API"
 }
 
@@ -161,9 +179,9 @@ edge Customer -> Order
 
 #### Container Properties (no space before colon)
 
-- `backgroundColor:"#color"`
-- `borderColor:"#color"`
-- `borderWidth:number`
+- `fillColor:"#color"`
+- `strokeColor:"#color"`
+- `strokeWidth:number`
 - `borderStyle:solid`
 - `padding:number`
 - `algorithm:layered` (or force, stress, radial, mrtree)
@@ -172,7 +190,7 @@ edge Customer -> Order
 #### Style Properties (space before colon)
 
 - `fill: "#color"`
-- `stroke: "#color"`
+- `strokeColor: "#color"`
 - `strokeWidth: number`
 - `fontSize: number`
 - `fontFamily: "fontname"`
@@ -184,31 +202,31 @@ edge Customer -> Order
 
 The following keywords are reserved for specific container or layout properties and **CANNOT** be used in generic `style` declarations. Use the alternatives shown:
 
-| Reserved Keyword   | Used For           | Alternative for Styles             |
-| ------------------ | ------------------ | ---------------------------------- |
-| `padding:`         | Container property | `margin:` or custom property       |
-| `opacity:`         | Container style    | `fillOpacity:` or `strokeOpacity:` |
-| `borderStyle:`     | Container property | `lineStyle:` (for edges)           |
-| `borderColor:`     | Container property | `stroke:` (for shapes)             |
-| `borderWidth:`     | Container property | `strokeWidth:` (for shapes)        |
-| `backgroundColor:` | Container property | `fill:` (for shapes)               |
-| `labelPosition:`   | Container label    | Custom positioning                 |
-| `algorithm:`       | Container layout   | N/A (layout property only)         |
-| `spacing:`         | Container layout   | N/A (layout property only)         |
+| Reserved Keyword | Used For           | Alternative for Styles             |
+| ---------------- | ------------------ | ---------------------------------- |
+| `padding:`       | Container property | `margin:` or custom property       |
+| `opacity:`       | Container style    | `fillOpacity:` or `strokeOpacity:` |
+| `borderStyle:`   | Container property | `lineStyle:` (for edges)           |
+| `strokeColor:`   | Container property | `strokeColor:` (for shapes)        |
+| `strokeWidth:`   | Container property | `strokeWidth:` (for shapes)        |
+| `fillColor:`     | Container property | `fill:` (for shapes)               |
+| `labelPosition:` | Container label    | Custom positioning                 |
+| `algorithm:`     | Container layout   | N/A (layout property only)         |
+| `spacing:`       | Container layout   | N/A (layout property only)         |
 
 **Example - Correct Usage:**
 
 ```runiq
 // ✅ CORRECT - Safe properties in style declarations
-style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
+style myStyle fill: "#ff0000" strokeColor: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
 
 // ✅ CORRECT - Reserved keywords in container declarations
-container "Box" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 padding:20 {
+container "Box" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:3 padding:20 {
   shape node1 as @rect label:"Node"
 }
 
 // ❌ WRONG - Reserved keywords in style declarations (will cause parse errors)
-style badStyle padding: 10 opacity: 0.8 backgroundColor: "#fff"
+style badStyle padding: 10 opacity: 0.8 fillColor: "#fff"
 ```
 
 ## Complete Examples
@@ -219,8 +237,8 @@ style badStyle padding: 10 opacity: 0.8 backgroundColor: "#fff"
 diagram "Simple Flowchart" {
   direction LR
 
-  style default fill: "#f0f8ff" stroke: "#4682b4" fontSize: 14
-  style highlight fill: "#fffacd" stroke: "#daa520"
+  style default fill: "#f0f8ff" strokeColor: "#4682b4" fontSize: 14
+  style highlight fill: "#fffacd" strokeColor: "#daa520"
 
   shape start as @rounded label:"Start" style:highlight
   shape process as @rect label:"Process"
@@ -237,7 +255,7 @@ diagram "Simple Flowchart" {
 diagram "Microservices" {
   direction LR
 
-  container backend "Backend" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:3 {
+  container backend "Backend" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:3 {
     shape api as @hexagon label:"API"
     shape db as @cylinder label:"Database"
 
@@ -292,7 +310,7 @@ diagram "Name"
   shape x as @rect label:"X"
 
 // Spaces in style properties
-style default fill:#color stroke:#color
+style default fill:#color strokeColor:#color
 
 // Label as edge property
 source -> target label:"text"
@@ -302,8 +320,8 @@ shape x as @rect label: "X"
 
 // Multi-line container properties
 container "Name"
-  backgroundColor:"#fff"
-  borderColor:"#000" {
+  fillColor:"#fff"
+  strokeColor:"#000" {
 ```
 
 ### ✅ CORRECT
@@ -315,7 +333,7 @@ diagram "Name" {
 }
 
 // Space and quotes in style properties
-style default fill: "#color" stroke: "#color"
+style default fill: "#color" strokeColor: "#color"
 
 // Label in arrow
 source -text-> target
@@ -324,7 +342,7 @@ source -text-> target
 shape x as @rect label:"X"
 
 // Single-line container properties
-container "Name" backgroundColor:"#fff" borderColor:"#000" {
+container "Name" fillColor:"#fff" strokeColor:"#000" {
 ```
 
 ## Shape Names Reference

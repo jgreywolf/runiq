@@ -12,6 +12,8 @@
 	import { registerDefaultShapes, layoutRegistry, iconRegistry } from '@runiq/core';
 	import { ElkLayoutEngine } from '@runiq/layout-base';
 	import { fontAwesome } from '@runiq/icons-fontawesome';
+	import VisualCanvas from '$lib/components/VisualCanvas.svelte';
+	import { ProfileName } from '$lib/types';
 
 	// Register providers
 	registerDefaultShapes();
@@ -22,6 +24,9 @@
 	let toolboxSize = $state(20);
 	let editorSize = $state(40);
 	let previewSize = $state(40);
+
+	// Code editor visibility state
+	let showCodeEditor = $state(true);
 
 	let diagramName = $state('New Diagram');
 	let lastSaved = $state<Date | null>(null);
@@ -60,6 +65,13 @@
 	let codeEditorRef: CodeEditor | null = null;
 	let dataEditorRef: DataEditor | null = null;
 	let previewRef: Preview | null = null;
+	let shapeCounter = $state(1); // Counter for generating unique shape IDs
+
+	// History management for undo/redo
+	let history = $state<string[]>([initialCode]); // Stack of code states
+	let historyIndex = $state(0); // Current position in history
+	let isUndoRedoAction = false; // Flag to prevent undo/redo from adding to history
+	let isProgrammaticChange = false; // Flag to prevent programmatic changes from adding to history
 
 	// Initialize lastSaved after state declaration
 	lastSaved = initialLastSaved;
@@ -68,6 +80,24 @@
 	function handleCodeChange(newCode: string) {
 		code = newCode;
 		isDirty = true;
+
+		// Add to history if this is not an undo/redo or programmatic action
+		if (!isUndoRedoAction && !isProgrammaticChange) {
+			// Remove any "future" history if we're not at the end
+			if (historyIndex < history.length - 1) {
+				history = history.slice(0, historyIndex + 1);
+			}
+
+			// Add new state to history
+			history.push(newCode);
+			historyIndex = history.length - 1;
+
+			// Limit history size to prevent memory issues (keep last 100 states)
+			if (history.length > 100) {
+				history = history.slice(-100);
+				historyIndex = history.length - 1;
+			}
+		}
 
 		// Clear existing timeout
 		if (autoSaveTimeout) {
@@ -112,10 +142,524 @@
 		errors = parseErrors;
 	}
 
+	// Handle edit from visual canvas
+	function handleEdit(nodeOrEdgeId: string, property: string, value: any, location?: any) {
+		const lines = code.split('\n');
+
+		if (property === 'label') {
+			// Handle node label editing
+			let shapeLineIndex = -1;
+
+			// Look for: shape nodeId or shape nodeId as @shapeName ...
+			for (let i = 0; i < lines.length; i++) {
+				const line = lines[i];
+				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}(?:\\s|$)`);
+				if (shapeRegex.test(line)) {
+					shapeLineIndex = i;
+					break;
+				}
+			}
+
+			if (shapeLineIndex === -1) {
+				console.warn('Could not find shape declaration for node:', nodeOrEdgeId);
+				return;
+			}
+
+			const line = lines[shapeLineIndex];
+
+			// Check if label property already exists
+			const hasLabel = /label:\s*"[^"]*"/.test(line);
+
+			let updatedLine: string;
+			if (hasLabel) {
+				// Replace existing label: label:"old" -> label:"new"
+				updatedLine = line.replace(/label:\s*"[^"]*"/, `label:"${value}"`);
+			} else {
+				// Add new label property at the end of line
+				updatedLine = line.trim() + ` label:"${value}"`;
+			}
+
+			lines[shapeLineIndex] = updatedLine;
+			const newCode = lines.join('\n');
+
+			// Update the code editor (this will trigger handleCodeChange via the editor's onchange event)
+			if (codeEditorRef) {
+				codeEditorRef.setValue(newCode);
+			} else {
+				// Fallback if editor ref is not available
+				code = newCode;
+			}
+		} else if (property === 'edgeLabel') {
+			// Handle edge label editing
+			// Edge ID format: "from-to" or "from-to-index"
+			const edgeParts = nodeOrEdgeId.split('-');
+			if (edgeParts.length < 2) {
+				console.warn('Invalid edge ID format:', nodeOrEdgeId);
+				return;
+			}
+
+			const fromNode = edgeParts[0];
+			const toNode = edgeParts[1];
+
+			// Find the edge declaration: from -> to
+			let edgeLineIndex = -1;
+			for (let i = 0; i < lines.length; i++) {
+				const line = lines[i];
+				// Match: from -> to or from -label-> to
+				const edgeRegex = new RegExp(`^\\s*${fromNode}\\s+(-\\w*->|->)\\s+${toNode}(?:\\s|$)`);
+				if (edgeRegex.test(line)) {
+					edgeLineIndex = i;
+					break;
+				}
+			}
+
+			if (edgeLineIndex === -1) {
+				console.warn('Could not find edge declaration:', nodeOrEdgeId);
+				return;
+			}
+
+			const line = lines[edgeLineIndex];
+
+			// Check if label property already exists at end of line
+			const hasLabel = /label:\s*"[^"]*"/.test(line);
+
+			let updatedLine: string;
+			if (hasLabel) {
+				// Replace existing label: label:"old" -> label:"new"
+				updatedLine = line.replace(/label:\s*"[^"]*"/, `label:"${value}"`);
+			} else {
+				// Add label property at end of line
+				updatedLine = line.trim() + ` label:"${value}"`;
+			}
+
+			lines[edgeLineIndex] = updatedLine;
+			const newCode = lines.join('\n');
+
+			// Update the code editor (this will trigger handleCodeChange via the editor's onchange event)
+			if (codeEditorRef) {
+				codeEditorRef.setValue(newCode);
+			} else {
+				// Fallback if editor ref is not available
+				code = newCode;
+			}
+		} else if (property === 'position') {
+			// Handle node position update (drag-and-drop)
+			let shapeLineIndex = -1;
+
+			// Look for: shape nodeId or shape nodeId as @shapeName ...
+			for (let i = 0; i < lines.length; i++) {
+				const line = lines[i];
+				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}(?:\\s|$)`);
+				if (shapeRegex.test(line)) {
+					shapeLineIndex = i;
+					break;
+				}
+			}
+
+			if (shapeLineIndex === -1) {
+				console.warn('Could not find shape declaration for node:', nodeOrEdgeId);
+				return;
+			}
+
+			const line = lines[shapeLineIndex];
+			const { x, y } = value;
+
+			// Check if position property already exists
+			const hasPosition = /position:\s*\([^)]+\)/.test(line);
+
+			let updatedLine: string;
+			if (hasPosition) {
+				// Replace existing position: position:(x,y) -> position:(newX,newY)
+				updatedLine = line.replace(/position:\s*\([^)]+\)/, `position:(${x},${y})`);
+			} else {
+				// Add position property at the end of line
+				updatedLine = line.trim() + ` position:(${x},${y})`;
+			}
+
+			lines[shapeLineIndex] = updatedLine;
+			const newCode = lines.join('\n');
+
+			// Update the code editor (this will trigger handleCodeChange via the editor's onchange event)
+			if (codeEditorRef) {
+				codeEditorRef.setValue(newCode);
+			} else {
+				// Fallback if editor ref is not available
+				code = newCode;
+			}
+		} else if (
+			[
+				'fillColor',
+				'strokeColor',
+				'strokeWidth',
+				'fontSize',
+				'textColor',
+				'shadow',
+				'routing'
+			].includes(property)
+		) {
+			// Handle style properties (fillColor, strokeColor, strokeWidth, fontSize, textColor, shadow, routing)
+			let shapeOrEdgeLineIndex = -1;
+
+			// First try to find as a shape
+			for (let i = 0; i < lines.length; i++) {
+				const line = lines[i];
+				// Match: shape nodeId or shape nodeId as @shapeName
+				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}(?:\\s|$)`);
+				if (shapeRegex.test(line)) {
+					shapeOrEdgeLineIndex = i;
+					break;
+				}
+			}
+
+			// If not found as shape, try to find as edge
+			if (shapeOrEdgeLineIndex === -1) {
+				const edgeParts = nodeOrEdgeId.split('-');
+				if (edgeParts.length >= 2) {
+					const fromNode = edgeParts[0];
+					const toNode = edgeParts[1];
+
+					for (let i = 0; i < lines.length; i++) {
+						const line = lines[i];
+						const edgeRegex = new RegExp(`^\\s*${fromNode}\\s+(-\\w*->|->)\\s+${toNode}(?:\\s|$)`);
+						if (edgeRegex.test(line)) {
+							shapeOrEdgeLineIndex = i;
+							break;
+						}
+					}
+				}
+			}
+
+			if (shapeOrEdgeLineIndex === -1) {
+				console.warn('Could not find shape or edge declaration for:', nodeOrEdgeId);
+				return;
+			}
+
+			const line = lines[shapeOrEdgeLineIndex];
+
+			// Check if the property already exists
+			const propertyRegex = new RegExp(`${property}:\\s*[^\\s]+`);
+			const hasProperty = propertyRegex.test(line);
+
+			let updatedLine: string;
+			if (hasProperty) {
+				// Replace existing property value
+				// Handle both quoted strings (for colors) and unquoted values (for numbers/booleans)
+				if (property === 'fontSize' || property === 'strokeWidth') {
+					// fontSize and strokeWidth are numbers without quotes
+					updatedLine = line.replace(new RegExp(`${property}:\\s*\\d+`), `${property}:${value}`);
+				} else if (property === 'shadow') {
+					// shadow is a boolean without quotes
+					updatedLine = line.replace(
+						new RegExp(`${property}:\\s*(true|false)`),
+						`${property}:${value}`
+					);
+				} else if (property === 'routing') {
+					// routing is an unquoted identifier
+					updatedLine = line.replace(new RegExp(`${property}:\\s*\\w+`), `${property}:${value}`);
+				} else {
+					// fill, stroke, color are strings with quotes
+					updatedLine = line.replace(
+						new RegExp(`${property}:\\s*"[^"]*"`),
+						`${property}:"${value}"`
+					);
+				}
+			} else {
+				// Add new property at the end of the line
+				if (property === 'fontSize' || property === 'strokeWidth') {
+					updatedLine = line.trim() + ` ${property}:${value}`;
+				} else if (property === 'shadow') {
+					updatedLine = line.trim() + ` ${property}:${value}`;
+				} else if (property === 'routing') {
+					updatedLine = line.trim() + ` ${property}:${value}`;
+				} else {
+					updatedLine = line.trim() + ` ${property}:"${value}"`;
+				}
+			}
+
+			lines[shapeOrEdgeLineIndex] = updatedLine;
+			const newCode = lines.join('\n');
+
+			// Mark this as a programmatic change to prevent adding to history
+			isProgrammaticChange = true;
+
+			// Update the code editor
+			if (codeEditorRef) {
+				codeEditorRef.setValue(newCode);
+			} else {
+				code = newCode;
+			}
+
+			// Reset the flag after a small delay
+			setTimeout(() => {
+				isProgrammaticChange = false;
+			}, 50);
+		} else {
+			console.warn('Unsupported property for editing:', property);
+		}
+	}
+
 	// Handle shape insertion from toolbox
 	function handleInsertShape(shapeCode: string) {
+		// Replace placeholder ID with unique ID
+		const uniqueCode = shapeCode.replace('id', `id${shapeCounter}`);
+		shapeCounter++;
+
+		// Find the profile/diagram block and insert at the end (before closing brace)
+		const lines = code.split('\n');
+
+		// Find the last closing brace that belongs to a profile/diagram block
+		let insertLineIndex = -1;
+		let indentation = '  '; // Default indentation
+
+		// Look for profile/diagram block types
+		const profileTypes = [
+			'diagram',
+			'pid',
+			'electrical',
+			'pneumatic',
+			'hydraulic',
+			'sequence',
+			'timeline',
+			'wardley',
+			'glyphset'
+		];
+		let inProfileBlock = false;
+		let braceDepth = 0;
+		let profileStartIndent = '';
+
+		for (let i = 0; i < lines.length; i++) {
+			const line = lines[i];
+			const trimmed = line.trim();
+
+			// Check if this is a profile declaration
+			const isProfileStart = profileTypes.some((type) => new RegExp(`^${type}\\s+`).test(trimmed));
+
+			if (isProfileStart && trimmed.endsWith('{')) {
+				inProfileBlock = true;
+				braceDepth = 1;
+				// Calculate indentation (profile indent + 2 spaces)
+				const match = line.match(/^(\s*)/);
+				profileStartIndent = match ? match[1] : '';
+				indentation = profileStartIndent + '  ';
+			} else if (inProfileBlock) {
+				// Track brace depth
+				if (trimmed.includes('{')) braceDepth++;
+				if (trimmed.includes('}')) braceDepth--;
+
+				// If we found the closing brace of the profile block
+				if (braceDepth === 0 && trimmed === '}') {
+					insertLineIndex = i;
+					break;
+				}
+			}
+		}
+
+		if (insertLineIndex === -1) {
+			// No profile block found, fall back to cursor insertion
+			if (codeEditorRef) {
+				codeEditorRef.insertAtCursor(uniqueCode);
+			}
+			return;
+		}
+
+		// Insert the shape before the closing brace with proper indentation
+		lines.splice(insertLineIndex, 0, `${indentation}${uniqueCode}`);
+		const newCode = lines.join('\n');
+
+		// Update the code editor (this will trigger handleCodeChange via the editor's onchange event)
 		if (codeEditorRef) {
-			codeEditorRef.insertAtCursor(shapeCode);
+			codeEditorRef.setValue(newCode);
+		} else {
+			// Fallback if editor ref is not available
+			code = newCode;
+		}
+	}
+
+	// Handle edge insertion from visual canvas (Shift+Click workflow)
+	function handleInsertEdge(fromNodeId: string, toNodeId: string) {
+		// Create edge declaration: fromId -> toId
+		let edgeCode = `${fromNodeId} -> ${toNodeId}`;
+
+		// Find the profile/diagram block and insert at the end (before closing brace)
+		const lines = code.split('\n');
+
+		// Find the last closing brace that belongs to a profile/diagram block
+		let insertLineIndex = -1;
+		let indentation = '  '; // Default indentation
+
+		// Look for profile/diagram block types
+		const profileTypes = [
+			'diagram',
+			'pid',
+			'electrical',
+			'pneumatic',
+			'hydraulic',
+			'sequence',
+			'timeline',
+			'wardley',
+			'glyphset'
+		];
+		let inProfileBlock = false;
+		let braceDepth = 0;
+		let profileStartIndent = '';
+
+		for (let i = 0; i < lines.length; i++) {
+			const line = lines[i];
+			const trimmed = line.trim();
+
+			// Check if this is a profile declaration
+			const isProfileStart = profileTypes.some((type) => new RegExp(`^${type}\\s+`).test(trimmed));
+
+			if (isProfileStart && trimmed.endsWith('{')) {
+				inProfileBlock = true;
+				braceDepth = 1;
+				// Calculate indentation (profile indent + 2 spaces)
+				const match = line.match(/^(\s*)/);
+				profileStartIndent = match ? match[1] : '';
+				indentation = profileStartIndent + '  ';
+			} else if (inProfileBlock) {
+				// Track brace depth
+				if (trimmed.includes('{')) braceDepth++;
+				if (trimmed.includes('}')) braceDepth--;
+
+				// If we found the closing brace of the profile block
+				if (braceDepth === 0 && trimmed === '}') {
+					insertLineIndex = i;
+					break;
+				}
+			}
+		}
+
+		if (insertLineIndex === -1) {
+			// No profile block found, fall back to cursor insertion
+			if (codeEditorRef) {
+				codeEditorRef.insertAtCursor(edgeCode);
+			}
+			return;
+		}
+
+		// Insert the edge before the closing brace with proper indentation
+		lines.splice(insertLineIndex, 0, `${indentation}${edgeCode}`);
+		const newCode = lines.join('\n');
+
+		// Update the code editor (this will trigger handleCodeChange via the editor's onchange event)
+		if (codeEditorRef) {
+			codeEditorRef.setValue(newCode);
+		} else {
+			// Fallback if editor ref is not available
+			code = newCode;
+		}
+	}
+
+	// Handle undo (Ctrl+Z)
+	function handleUndo() {
+		if (historyIndex > 0) {
+			historyIndex--;
+			isUndoRedoAction = true;
+			const previousCode = history[historyIndex];
+			if (codeEditorRef) {
+				codeEditorRef.setValue(previousCode);
+			}
+			code = previousCode;
+			isUndoRedoAction = false;
+		}
+	}
+
+	// Handle redo (Ctrl+Y or Ctrl+Shift+Z)
+	function handleRedo() {
+		if (historyIndex < history.length - 1) {
+			historyIndex++;
+			isUndoRedoAction = true;
+			const nextCode = history[historyIndex];
+			if (codeEditorRef) {
+				codeEditorRef.setValue(nextCode);
+			}
+			code = nextCode;
+			isUndoRedoAction = false;
+		}
+	}
+
+	// Handle keyboard shortcuts (Ctrl+Z for undo, Ctrl+Y or Ctrl+Shift+Z for redo)
+	function handleKeyDown(event: KeyboardEvent) {
+		// Check if Ctrl (or Cmd on Mac) is pressed
+		const isCtrlOrCmd = event.ctrlKey || event.metaKey;
+
+		if (isCtrlOrCmd && event.key === 'z' && !event.shiftKey) {
+			// Undo: Ctrl+Z
+			event.preventDefault();
+			handleUndo();
+		} else if (isCtrlOrCmd && (event.key === 'y' || (event.key === 'z' && event.shiftKey))) {
+			// Redo: Ctrl+Y or Ctrl+Shift+Z
+			event.preventDefault();
+			handleRedo();
+		}
+	}
+
+	// Handle element deletion from visual canvas (Delete/Backspace)
+	function handleDelete(nodeId: string | null, edgeId: string | null) {
+		const lines = code.split('\n');
+		const linesToRemove: number[] = [];
+
+		if (nodeId) {
+			// Find and remove the shape declaration
+			// Look for: shape nodeId as @shapeName ...
+			for (let i = 0; i < lines.length; i++) {
+				const line = lines[i];
+				const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeId}\\s+as\\s+@\\w+`);
+				if (shapeRegex.test(line)) {
+					linesToRemove.push(i);
+					break;
+				}
+			}
+
+			// Also find and remove any edges connected to this node
+			// Match edges like: nodeId -> otherNode or otherNode -> nodeId
+			for (let i = 0; i < lines.length; i++) {
+				const line = lines[i];
+				// Match: nodeId -> ... or ... -> nodeId
+				const edgeRegex = new RegExp(
+					`^\\s*(${nodeId}\\s+(-\\w*->|->)\\s+\\w+|\\w+\\s+(-\\w*->|->)\\s+${nodeId})`
+				);
+				if (edgeRegex.test(line)) {
+					linesToRemove.push(i);
+				}
+			}
+		} else if (edgeId) {
+			// Find and remove the edge declaration
+			// Edge ID format: "from-to" or "from-to-index"
+			const edgeParts = edgeId.split('-');
+			if (edgeParts.length >= 2) {
+				const fromNode = edgeParts[0];
+				const toNode = edgeParts[1];
+
+				// Find the edge: from -> to or from -label-> to
+				for (let i = 0; i < lines.length; i++) {
+					const line = lines[i];
+					const edgeRegex = new RegExp(`^\\s*${fromNode}\\s+(-\\w*->|->)\\s+${toNode}`);
+					if (edgeRegex.test(line)) {
+						linesToRemove.push(i);
+						break;
+					}
+				}
+			}
+		}
+
+		if (linesToRemove.length > 0) {
+			// Remove lines in reverse order to maintain correct indices
+			const sortedLines = [...linesToRemove].sort((a, b) => b - a);
+			for (const lineIndex of sortedLines) {
+				lines.splice(lineIndex, 1);
+			}
+
+			const newCode = lines.join('\n');
+
+			// Update the code editor (this will trigger handleCodeChange via the editor's onchange event)
+			if (codeEditorRef) {
+				codeEditorRef.setValue(newCode);
+			} else {
+				// Fallback if editor ref is not available
+				code = newCode;
+			}
 		}
 	}
 
@@ -136,25 +680,19 @@
 			dataContent = '';
 		}
 
+		// Reset history for new sample
+		history = [sampleCode];
+		historyIndex = 0;
+
 		isDirty = true;
 	}
 
 	// Handle new diagram creation with type selection
-	function handleNewDiagram(
-		type:
-			| 'diagram'
-			| 'electrical'
-			| 'pneumatic'
-			| 'hydraulic'
-			| 'wardley'
-			| 'sequence'
-			| 'timeline'
-			| 'pid'
-	) {
+	function handleNewDiagram(type: ProfileName) {
 		let defaultContent: string;
-		let defaultName: string;
+		let defaultName = 'Untitled Diagram';
 
-		if (type === 'pid') {
+		if (type === ProfileName.pid) {
 			defaultContent = `pid "My P&ID" {
   // Equipment
   equipment TK-101 type:storageTank volume:5000 unit:L material:CS
@@ -178,7 +716,7 @@
   pressure 3 unit:bar
 }`;
 			defaultName = 'Untitled P&ID';
-		} else if (type === 'sequence') {
+		} else if (type === ProfileName.sequence) {
 			defaultContent = `sequence "My Sequence Diagram" {
 
   participant "User" as actor
@@ -192,7 +730,7 @@
 	}
 `;
 			defaultName = 'Untitled Sequence';
-		} else if (type === 'timeline') {
+		} else if (type === ProfileName.timeline) {
 			defaultContent = `timeline "My Timeline" {
   // Events with dates and descriptions
   event start date:"2024-01-01" label:"Project Start" 
@@ -229,7 +767,7 @@
 }
 `;
 			defaultName = 'Untitled Timeline';
-		} else if (type === 'electrical') {
+		} else if (type === ProfileName.electrical) {
 			defaultContent = `electrical "My Circuit" {
   net VCC, GND
   
@@ -237,7 +775,7 @@
   // Example: part R1 type:R value:"1k" pins:(VCC,GND)
 }`;
 			defaultName = 'Untitled Circuit';
-		} else if (type === 'pneumatic') {
+		} else if (type === ProfileName.pneumatic) {
 			defaultContent = `pneumatic "My Pneumatic Circuit" {
   pressure 6 bar operating
   flowRate 500 L/min
@@ -250,7 +788,7 @@
   // Example: part C1 CYL_DA pins:(PORT_A,PORT_B) doc:"Cylinder"
 }`;
 			defaultName = 'Untitled Pneumatic';
-		} else if (type === 'hydraulic') {
+		} else if (type === ProfileName.hydraulic) {
 			defaultContent = `hydraulic "My Hydraulic Circuit" {
   pressure 210 bar operating
   flowRate 40 L/min
@@ -265,7 +803,7 @@
   // Example: part P1 PUMP_FIXED pins:(TANK,PUMP) doc:"Main pump"
 }`;
 			defaultName = 'Untitled Hydraulic';
-		} else if (type === 'wardley') {
+		} else if (type === ProfileName.wardley) {
 			defaultContent = `wardley "My Strategy Map" {
   // Define user needs at the top
   anchor "User Need" value:0.95
@@ -281,9 +819,22 @@
   dependency from:"Platform" to:"Infrastructure"
 }`;
 			defaultName = 'Untitled Wardley Map';
+		} else if (type === ProfileName.glyphset) {
+			defaultContent = `glyphset columnList "Our Tech Stack" {
+	theme "forest"
+	item "TypeScript"
+	item "React"
+	item "Node.js"
+	item "PostgreSQL"
+	item "Redis"
+	item "Docker"
+	item "Kubernetes"
+	item "AWS"
+
+	columns 2
+}`;
 		} else {
 			defaultContent = 'diagram "My Diagram"\n\n// Add your shapes and connections here';
-			defaultName = 'Untitled Diagram';
 		}
 
 		if (codeEditorRef) {
@@ -292,6 +843,10 @@
 		code = defaultContent;
 		diagramName = defaultName;
 		isDirty = false;
+
+		// Reset history
+		history = [defaultContent];
+		historyIndex = 0;
 
 		// Clear auto-saved content and timestamp
 		localStorage.removeItem(AUTO_SAVE_KEY);
@@ -426,7 +981,8 @@
 	}
 </script>
 
-<div class="flex h-screen flex-col overflow-hidden bg-neutral-50">
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="flex h-screen flex-col overflow-hidden bg-neutral-50" onkeydown={handleKeyDown}>
 	<!-- Header -->
 	<Header
 		{diagramName}
@@ -466,58 +1022,62 @@
 				</div>
 			</Pane>
 
-			<PaneResizer
-				class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500"
-			/>
+			{#if showCodeEditor}
+				<PaneResizer
+					class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500"
+				/>
 
-			<!-- Center Panel: Code Editor (40% default) -->
-			<Pane
-				defaultSize={editorSize}
-				minSize={30}
-				maxSize={60}
-				onResize={(size) => {
-					editorSize = size;
-					savePanelSizes();
-				}}
-			>
-				<div class="flex h-full flex-col bg-white">
-					<div class="border-b border-runiq-200 bg-runiq-500 px-4 py-3">
-						<h2 class="text-sm font-semibold text-white">Editor</h2>
+				<!-- Center Panel: Code Editor (40% default) -->
+				<Pane
+					defaultSize={editorSize}
+					minSize={30}
+					maxSize={60}
+					onResize={(size) => {
+						editorSize = size;
+						savePanelSizes();
+					}}
+				>
+					<div class="flex h-full flex-col bg-white">
+						<div class="border-b border-runiq-200 bg-runiq-500 px-4 py-3">
+							<h2 class="text-sm font-semibold text-white">Editor</h2>
+						</div>
+						<div class="flex flex-1 flex-col overflow-hidden">
+							<Tabs.Root bind:value={activeTab} class="flex flex-1 flex-col">
+								<Tabs.List class="border-b border-neutral-200 bg-neutral-50 px-2">
+									<Tabs.Trigger value="syntax" class="px-4 py-2 text-sm font-medium">
+										Syntax
+									</Tabs.Trigger>
+									<Tabs.Trigger value="data" class="px-4 py-2 text-sm font-medium"
+										>Data</Tabs.Trigger
+									>
+								</Tabs.List>
+								<Tabs.Content value="syntax" class="flex-1 overflow-hidden">
+									<CodeEditor
+										bind:this={codeEditorRef}
+										value={code}
+										onchange={handleCodeChange}
+										onerror={handleEditorErrors}
+									/>
+								</Tabs.Content>
+								<Tabs.Content value="data" class="flex-1 overflow-hidden">
+									<DataEditor
+										bind:this={dataEditorRef}
+										value={dataContent}
+										onchange={handleDataChange}
+										onerror={handleDataErrors}
+									/>
+								</Tabs.Content>
+							</Tabs.Root>
+						</div>
 					</div>
-					<div class="flex flex-1 flex-col overflow-hidden">
-						<Tabs.Root bind:value={activeTab} class="flex flex-1 flex-col">
-							<Tabs.List class="border-b border-neutral-200 bg-neutral-50 px-2">
-								<Tabs.Trigger value="syntax" class="px-4 py-2 text-sm font-medium">
-									Syntax
-								</Tabs.Trigger>
-								<Tabs.Trigger value="data" class="px-4 py-2 text-sm font-medium">Data</Tabs.Trigger>
-							</Tabs.List>
-							<Tabs.Content value="syntax" class="flex-1 overflow-hidden">
-								<CodeEditor
-									bind:this={codeEditorRef}
-									value={code}
-									onchange={handleCodeChange}
-									onerror={handleEditorErrors}
-								/>
-							</Tabs.Content>
-							<Tabs.Content value="data" class="flex-1 overflow-hidden">
-								<DataEditor
-									bind:this={dataEditorRef}
-									value={dataContent}
-									onchange={handleDataChange}
-									onerror={handleDataErrors}
-								/>
-							</Tabs.Content>
-						</Tabs.Root>
-					</div>
-				</div>
-			</Pane>
+				</Pane>
 
-			<PaneResizer
-				class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500"
-			/>
+				<PaneResizer
+					class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500"
+				/>
+			{/if}
 
-			<!-- Right Panel: Preview (40% default) -->
+			<!-- Right Panel: Visual Editor (40% default) -->
 			<Pane
 				defaultSize={previewSize}
 				minSize={30}
@@ -527,20 +1087,40 @@
 				}}
 			>
 				<div class="flex h-full flex-col border-l border-neutral-300 bg-neutral-50">
-					<div class="border-b border-runiq-200 bg-runiq-500 px-4 py-3">
+					<div
+						class="flex items-center justify-between border-b border-runiq-200 bg-runiq-500 px-4 py-3"
+					>
 						<h2 class="text-sm font-semibold text-white">Preview</h2>
+						<button
+							onclick={() => (showCodeEditor = !showCodeEditor)}
+							class="rounded bg-runiq-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-runiq-700"
+							title={showCodeEditor ? 'Hide code editor' : 'Show code editor'}
+						>
+							{showCodeEditor ? 'Hide Code' : 'Show Code'}
+						</button>
 					</div>
 					<div class="flex-1 overflow-hidden">
 						{#if code.trim() === ''}
 							<EmptyPreview />
 						{:else}
-							<Preview
+							<VisualCanvas
 								bind:this={previewRef}
 								{code}
 								{dataContent}
 								{layoutEngine}
 								onparse={handleParse}
+								onedit={handleEdit}
+								oninsertshape={handleInsertShape}
+								oninsertedge={handleInsertEdge}
+								ondelete={handleDelete}
 							/>
+							<!-- <Preview
+								bind:this={previewRef}
+								{code}
+								{dataContent}
+								{layoutEngine}
+								onparse={handleParse}
+							/> -->
 						{/if}
 					</div>
 				</div>

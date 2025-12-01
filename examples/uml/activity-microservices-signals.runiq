@@ -19,7 +19,7 @@ diagram "Microservices API Orchestration" {
   shape logError as @activity label:"Log Error"
 
   // Define signal style
-  style signalStyle fill: "#E3F2FD" stroke: "#1976D2" strokeWidth: 2
+  style signalStyle fill: "#E3F2FD" strokeColor: "#1976D2" strokeWidth: 2
 
   // Signal communication (request-response pairs)
   shape sendAuthRequest as @sendSignal label:"Send Auth Request" style:signalStyle

@@ -33,9 +33,9 @@ Unlike classical circuits that process bits (0 or 1), quantum circuits process *
 ```runiq
 diagram "Bell State Circuit" {
 
-    style H0 fill:"#e8f5e9" stroke:"#000"
-    style control0 fill:"#333" stroke:"#000"
-    style target1 fill:"#fff" stroke:"#000"
+    style H0 fill:"#e8f5e9" strokeColor:"#000"
+    style control0 fill:"#333" strokeColor:"#000"
+    style target1 fill:"#fff" strokeColor:"#000"
 
     shape q0 as @qubitWire label:"q0" style: H0
     shape q1 as @qubitWire label:"q1" style: control0
@@ -73,9 +73,9 @@ diagram "Bell State Circuit" {
 
 ```runiq
 diagram "Pauli Gates" {
-  shape X_gate as @gateX label: "X" fill: "#ffebee" stroke: "#000"
-  shape Y_gate as @gateY label: "Y" fill: "#ffebee" stroke: "#000"
-  shape Z_gate as @gateZ label: "Z" fill: "#ffebee" stroke: "#000"
+  shape X_gate as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape Y_gate as @gateY label: "Y" fill: "#ffebee" strokeColor: "#000"
+  shape Z_gate as @gateZ label: "Z" fill: "#ffebee" strokeColor: "#000"
 }
 ```
 
@@ -97,7 +97,7 @@ diagram "Pauli Gates" {
 
 ```runiq
 diagram "Hadamard Gate" {
-  shape H_gate as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H_gate as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
 }
 ```
 
@@ -121,8 +121,8 @@ diagram "Hadamard Gate" {
 
 ```runiq
 diagram "Phase Gates" {
-  shape S_gate as @gateS label: "S" fill: "#fff9c4" stroke: "#000"
-  shape T_gate as @gateT label: "T" fill: "#fff9c4" stroke: "#000"
+  shape S_gate as @gateS label: "S" fill: "#fff9c4" strokeColor: "#000"
+  shape T_gate as @gateT label: "T" fill: "#fff9c4" strokeColor: "#000"
 }
 ```
 
@@ -150,7 +150,7 @@ diagram "Phase Gates" {
 
 ```runiq
 diagram "Control Dot" {
-  shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
+  shape controlId as @controlDot label: "●" fill: "#000" strokeColor: "#000"
 }
 ```
 
@@ -168,8 +168,8 @@ diagram "Control Dot" {
 
 ```runiq
 diagram "CNOT Gate" {
-  shape targetId as @cnotTarget label: "⊕" fill: "#fff" stroke: "#000"
-  shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
+  shape targetId as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape controlId as @controlDot label: "●" fill: "#000" strokeColor: "#000"
 
   controlId -> targetId
 }
@@ -193,8 +193,8 @@ diagram "CNOT Gate" {
 
 ```runiq
 diagram "SWAP Gate" {
-  shape swap0 as @swapX label: "⨉" fill: "#fff" stroke: "#000"
-  shape swap2 as @swapX label: "⨉" fill: "#fff" stroke: "#000"
+  shape swap0 as @swapX label: "⨉" fill: "#fff" strokeColor: "#000"
+  shape swap2 as @swapX label: "⨉" fill: "#fff" strokeColor: "#000"
 
   swap0 -> swap2
 }
@@ -220,8 +220,8 @@ diagram "SWAP Gate" {
 
 ```runiq
 diagram "Measurement" {
-  shape M0 as @measurement label: "M0" fill: "#e3f2fd" stroke: "#000"
-  shape M1 as @measurement label: "M1" fill: "#e3f2fd" stroke: "#000"
+  shape M0 as @measurement label: "M0" fill: "#e3f2fd" strokeColor: "#000"
+  shape M1 as @measurement label: "M1" fill: "#e3f2fd" strokeColor: "#000"
 }
 ```
 
@@ -291,9 +291,9 @@ diagram "Entanglement" {
 
     shape q0 as @qubitWire label: "Qubit 0: |0⟩"
     shape q1 as @qubitWire label: "Qubit 1: |0⟩"
-    shape H0 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-    shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
-    shape targetId as @cnotTarget label: "⊕" fill: "#fff" stroke: "#000"
+    shape H0 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+    shape controlId as @controlDot label: "●" fill: "#000" strokeColor: "#000"
+    shape targetId as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
 
     q0 -> H0 -> controlId
     q1 -> targetId
@@ -321,9 +321,9 @@ diagram "Superposition" {
     shape q0 as @qubitWire label: "q0"
     shape q1 as @qubitWire label: "q1"
     shape q2 as @qubitWire label: "q2"
-    shape H0 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-    shape H1 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-    shape H2 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+    shape H0 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+    shape H1 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+    shape H2 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
 
     q0 -> H0
     q1 -> H1
@@ -349,8 +349,8 @@ Apply gate to target only if control is |1⟩.
 diagram "Controlled-Z Gate" {
     direction LR
 
-    shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
-    shape Z_gate as @gateZ label: "Z" fill: "#ffebee" stroke: "#000"
+    shape controlId as @controlDot label: "●" fill: "#000" strokeColor: "#000"
+    shape Z_gate as @gateZ label: "Z" fill: "#ffebee" strokeColor: "#000"
 
     controlId -> Z_gate
 }
@@ -376,10 +376,10 @@ diagram "Phase Kickback" {
 
     shape q0 as @qubitWire label: "q0"
     shape q1 as @qubitWire label: "q1"
-    shape H_control as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-    shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
-    shape target_init as @gateX label: "X" fill: "#ffebee" stroke: "#000"
-    shape X_target as @gateX label: "X" fill: "#ffebee" stroke: "#000"
+    shape H_control as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+    shape controlId as @controlDot label: "●" fill: "#000" strokeColor: "#000"
+    shape target_init as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+    shape X_target as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
 
     q0 -> H_control -> controlId
     q1 -> target_init -> X_target
@@ -402,10 +402,10 @@ diagram "Measurement + Classical Control" {
     shape q0 as @qubitWire label: "q0"
     shape q1 as @qubitWire label: "q1"
     shape q2 as @qubitWire label: "q2"
-    shape M0 as @measurement label: "M0" fill: "#e3f2fd" stroke: "#000"
-    shape M1 as @measurement label: "M1" fill: "#e3f2fd" stroke: "#000"
-    shape X_gate as @gateX label: "X" fill: "#ffebee" stroke: "#000"
-    shape Z_gate as @gateZ label: "Z" fill: "#ffebee" stroke: "#000"
+    shape M0 as @measurement label: "M0" fill: "#e3f2fd" strokeColor: "#000"
+    shape M1 as @measurement label: "M1" fill: "#e3f2fd" strokeColor: "#000"
+    shape X_gate as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+    shape Z_gate as @gateZ label: "Z" fill: "#ffebee" strokeColor: "#000"
 
     q0 -> M0
     q1 -> M1
@@ -453,8 +453,8 @@ diagram "Gate Ordering" {
 ```runiq
 diagram "Vertical Alignment" {
     direction TB
-    shape controlId as @controlDot label: "●" fill: "#000" stroke: "#000"
-    shape targetId as @cnotTarget label: "⊕" fill: "#fff" stroke: "#000"
+    shape controlId as @controlDot label: "●" fill: "#000" strokeColor: "#000"
+    shape targetId as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
 
     controlId -> targetId
 }
@@ -470,8 +470,8 @@ diagram "Vertical Alignment" {
 
 ```runiq
 diagram "Clear Labels" {
-    shape H_init as @gateH label: "H (init)" fill: "#e8f5e9" stroke: "#000"
-    shape H_diff as @gateH label: "H (diff)" fill: "#e8f5e9" stroke: "#000"
+    shape H_init as @gateH label: "H (init)" fill: "#e8f5e9" strokeColor: "#000"
+    shape H_diff as @gateH label: "H (diff)" fill: "#e8f5e9" strokeColor: "#000"
 }
 ```
 
@@ -507,10 +507,10 @@ diagram "Grover's Algorithm Phases" {
 
 ```runiq
 diagram "Color Coding" {
-    shape H_gate as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
-    shape X_gate as @gateX label: "X" fill: "#ffebee" stroke: "#000"
-    shape S_gate as @gateS label: "S" fill: "#fff9c4" stroke: "#000"
-    shape M_gate as @measurement label: "M" fill: "#e3f2fd" stroke: "#000"
+    shape H_gate as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+    shape X_gate as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+    shape S_gate as @gateS label: "S" fill: "#fff9c4" strokeColor: "#000"
+    shape M_gate as @measurement label: "M" fill: "#e3f2fd" strokeColor: "#000"
 }
 ```
 

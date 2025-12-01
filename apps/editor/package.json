@@ -17,7 +17,8 @@
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"test:update": "playwright test --update-snapshots"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -32,6 +33,7 @@
 		"@tailwindcss/typography": "^0.5.18",
 		"@tailwindcss/vite": "^4.1.13",
 		"@types/node": "^22",
+		"@iconify/svelte": "^5.1.0",
 		"@vitest/browser": "^3.2.4",
 		"bits-ui": "2.11.0",
 		"eslint": "^9.36.0",

@@ -28,7 +28,7 @@ glyphset basicList "Key Features" {
   item "Highly Scalable"
   item "Open Source"
 
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -46,7 +46,7 @@ List items with images or icons.
 
 ```runiq
 glyphset pictureList "Team Members" {
-  theme "professional"
+  theme professional
   orientation "horizontal"
 
   image "https://i.pravatar.cc/150?img=1"
@@ -76,7 +76,7 @@ glyphset framedPicture "Product Screenshot" {
   image "https://i.pravatar.cc/150?img=1"
   image "https://i.pravatar.cc/150?img=2"
   label "Beautiful Dashboard Interface"
-  theme "ocean"
+  theme ocean
 }
 ```
 
@@ -94,7 +94,7 @@ Grid of picture blocks with labels.
 
 ```runiq
  glyphset pictureBlocks "Key Benefits" {
-    theme "professional"
+    theme professional
 
     image "https://i.pravatar.cc/300?img=25" label "Premium Quality" description "Crafted from finest materials for lasting durability"
     image "https://i.pravatar.cc/300?img=26" label "Smart Technology" description "Integrated sensors and AI for optimal performance"

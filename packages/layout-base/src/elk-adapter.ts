@@ -376,6 +376,12 @@ export class ElkLayoutEngine implements LayoutEngine {
           height: bounds.height,
         };
 
+        // If node has manual position, set it (fixed algorithm will respect it)
+        if (node.position) {
+          elkNode.x = node.position.x;
+          elkNode.y = node.position.y;
+        }
+
         // Add ports if this node has edges with anchor constraints
         if (nodesNeedingPorts.has(node.id)) {
           elkNode.ports = this.createNodePorts(

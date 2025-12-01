@@ -24,7 +24,9 @@ export function renderContainer(
     style = resolveContainerStyle(containerAst, diagram);
   }
 
-  const groupAttrs = strict ? '' : ` data-runiq-container="${id}"`;
+  const groupAttrs = strict
+    ? ''
+    : ` data-runiq-container="${id}" data-container-id="${id}"`;
 
   let markup = `<g${groupAttrs}>`;
 
@@ -38,11 +40,11 @@ export function renderContainer(
       // Build shape style object compatible with Style interface
       const shapeStyle: Record<string, unknown> = {
         // Only set fill if explicitly provided, otherwise let shape use its default
-        ...(style.backgroundColor && {
-          fill: style.backgroundColor,
+        ...(style.fillColor && {
+          fill: style.fillColor,
         }),
-        stroke: style.borderColor || '#ddd',
-        strokeWidth: style.borderWidth || 2,
+        stroke: style.strokeColor || '#ddd',
+        strokeWidth: style.strokeWidth || 2,
         padding: style.padding || 20,
         font: 'sans-serif',
         fontSize: 14,
@@ -108,9 +110,9 @@ function renderDefaultContainerBackground(
   height: number,
   style: ContainerStyle
 ): string {
-  const fill = style.backgroundColor || '#f9f9f9';
-  const stroke = style.borderColor || '#ddd';
-  const strokeWidth = style.borderWidth || 2;
+  const fill = style.fillColor || '#f9f9f9';
+  const stroke = style.strokeColor || '#ddd';
+  const strokeWidth = style.strokeWidth || 2;
   const rx = 8;
 
   // Convert borderStyle to stroke-dasharray
@@ -140,14 +142,19 @@ function findContainerInAst(
   containers: import('@runiq/core').ContainerDeclaration[] | undefined,
   id: string
 ): import('@runiq/core').ContainerDeclaration | undefined {
-  if (!containers) return undefined;
+  if (!containers) {
+    return undefined;
+  }
 
   for (const container of containers) {
-    if (container.id === id) return container;
+    if (container.id === id) {
+      return container;
+    }
     if (container.containers) {
       const found = findContainerInAst(container.containers, id);
       if (found) return found;
     }
   }
+
   return undefined;
 }

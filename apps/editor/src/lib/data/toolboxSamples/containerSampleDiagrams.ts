@@ -10,7 +10,7 @@ export const containerSampleDiagrams: SampleCategory[] = [
 				description: 'Basic container with shapes',
 				code: `diagram "Simple Container" {
 
-container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 {
+container backend "Backend Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:3 {
   shape api as @hexagon label:"API"
   shape auth as @hexagon label:"Auth"
   shape db as @cylinder label:"Database"
@@ -29,7 +29,7 @@ web -> api
 				code: `diagram "Multi-Region" {
 direction TB
 
-container useast "US East" backgroundColor:"#e8f5e9" borderColor:"#388e3c" borderWidth:3 {
+container useast "US East" fillColor:"#e8f5e9" strokeColor:"#388e3c" strokeWidth:3 {
   shape lb1 as @rectangle label:"Load Balancer"
   shape app1 as @roundedRectangle label:"App Server"
   shape db1 as @cylinder label:"DB Primary"
@@ -38,7 +38,7 @@ container useast "US East" backgroundColor:"#e8f5e9" borderColor:"#388e3c" borde
   app1 -> db1
 }
 
-container uswest "US West" backgroundColor:"#fff8e1" borderColor:"#f57f17" borderWidth:3 {
+container uswest "US West" fillColor:"#fff8e1" strokeColor:"#f57f17" strokeWidth:3 {
   shape lb2 as @rectangle label:"Load Balancer"
   shape app2 as @roundedRectangle label:"App Server"
   shape db2 as @cylinder label:"DB Replica"
@@ -58,19 +58,19 @@ db1 -> db2 label:"Replication"
 				description: 'Containers for service boundaries',
 				code: `diagram "Microservices" {
 
-container frontend "Frontend" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderWidth:2 {
+container frontend "Frontend" fillColor:"#fce4ec" strokeColor:"#c2185b" strokeWidth:2 {
   shape web as @roundedRectangle label:"Web UI"
   shape mobile as @roundedRectangle label:"Mobile UI"
 }
 
-container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+container backend "Backend Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
   shape gateway as @hexagon label:"API Gateway"
   shape auth as @rectangle label:"Auth Service"
   shape orders as @rectangle label:"Orders Service"
   shape payments as @rectangle label:"Payments Service"
 }
 
-container data "Data Layer" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:2 {
+container data "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
   shape cache as @cylinder label:"Redis"
   shape db as @cylinder label:"PostgreSQL"
 }

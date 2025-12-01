@@ -4,19 +4,19 @@ diagram "E-Commerce Platform - Microservices" {
   shape customer as @c4Person label:"Customer"
   shape admin as @c4Person label:"Admin"
 
-  container frontend "Frontend" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderWidth:2 {
+  container frontend "Frontend" fillColor:"#fce4ec" strokeColor:"#c2185b" strokeWidth:2 {
     shape web as @c4Container label:"Web UI\n[React]"
     shape mobile as @c4Container label:"Mobile App\n[Flutter]"
   }
 
-  container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container backend "Backend Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape gateway as @c4Container label:"API Gateway\n[Node.js]"
     shape auth as @c4Container label:"Auth Service\n[Java]"
     shape catalog as @c4Container label:"Catalog Service\n[Python]"
     shape orders as @c4Container label:"Orders Service\n[Go]"
   }
 
-  container data "Data Layer" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:2 {
+  container data "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
     shape userDb as @c4Container label:"User DB\n[PostgreSQL]"
     shape catalogDb as @c4Container label:"Catalog DB\n[MongoDB]"
     shape cache as @c4Container label:"Cache\n[Redis]"

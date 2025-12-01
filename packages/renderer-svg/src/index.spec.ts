@@ -1003,9 +1003,9 @@ describe('renderer-svg', () => {
             label: 'Styled Container',
             children: [],
             containerStyle: {
-              backgroundColor: '#e0f0ff',
-              borderColor: '#0066cc',
-              borderWidth: 3,
+              fillColor: '#e0f0ff',
+              strokeColor: '#0066cc',
+              strokeWidth: 3,
             },
           },
         ],

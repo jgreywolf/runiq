@@ -15,8 +15,8 @@ describe('Phase 5: Style Resolution', () => {
       label: 'Test',
       children: [],
       containerStyle: {
-        backgroundColor: '#ff0000',
-        borderColor: '#00ff00',
+        fillColor: '#ff0000',
+        strokeColor: '#00ff00',
         padding: 10,
       },
     };
@@ -29,8 +29,8 @@ describe('Phase 5: Style Resolution', () => {
 
     const resolved = resolveContainerStyle(container, diagram);
 
-    expect(resolved.backgroundColor).toBe('#ff0000');
-    expect(resolved.borderColor).toBe('#00ff00');
+    expect(resolved.fillColor).toBe('#ff0000');
+    expect(resolved.strokeColor).toBe('#00ff00');
     expect(resolved.padding).toBe(10);
   });
 
@@ -39,9 +39,9 @@ describe('Phase 5: Style Resolution', () => {
       id: 'card-template',
       label: 'Card',
       containerStyle: {
-        backgroundColor: '#e3f2fd',
-        borderColor: '#2196f3',
-        borderWidth: 2,
+        fillColor: '#e3f2fd',
+        strokeColor: '#2196f3',
+        strokeWidth: 2,
         padding: 20,
         shadow: true,
       },
@@ -66,9 +66,9 @@ describe('Phase 5: Style Resolution', () => {
 
     const resolved = resolveContainerStyle(container, diagram);
 
-    expect(resolved.backgroundColor).toBe('#e3f2fd');
-    expect(resolved.borderColor).toBe('#2196f3');
-    expect(resolved.borderWidth).toBe(2);
+    expect(resolved.fillColor).toBe('#e3f2fd');
+    expect(resolved.strokeColor).toBe('#2196f3');
+    expect(resolved.strokeWidth).toBe(2);
     expect(resolved.padding).toBe(20);
     expect(resolved.shadow).toBe(true);
   });
@@ -78,9 +78,9 @@ describe('Phase 5: Style Resolution', () => {
       id: 'success',
       label: 'Success',
       style: {
-        backgroundColor: '#e8f5e9',
-        borderColor: '#4caf50',
-        borderWidth: 3,
+        fillColor: '#e8f5e9',
+        strokeColor: '#4caf50',
+        strokeWidth: 3,
       },
     };
 
@@ -103,9 +103,9 @@ describe('Phase 5: Style Resolution', () => {
 
     const resolved = resolveContainerStyle(container, diagram);
 
-    expect(resolved.backgroundColor).toBe('#e8f5e9');
-    expect(resolved.borderColor).toBe('#4caf50');
-    expect(resolved.borderWidth).toBe(3);
+    expect(resolved.fillColor).toBe('#e8f5e9');
+    expect(resolved.strokeColor).toBe('#4caf50');
+    expect(resolved.strokeWidth).toBe(3);
   });
 
   it('should apply extends styles when extends is specified', () => {
@@ -115,8 +115,8 @@ describe('Phase 5: Style Resolution', () => {
       label: 'Base',
       children: [],
       containerStyle: {
-        backgroundColor: '#f0f0f0',
-        borderColor: '#999',
+        fillColor: '#f0f0f0',
+        strokeColor: '#999',
         padding: 15,
       },
     };
@@ -140,8 +140,8 @@ describe('Phase 5: Style Resolution', () => {
 
     const resolved = resolveContainerStyle(container, diagram);
 
-    expect(resolved.backgroundColor).toBe('#f0f0f0');
-    expect(resolved.borderColor).toBe('#999');
+    expect(resolved.fillColor).toBe('#f0f0f0');
+    expect(resolved.strokeColor).toBe('#999');
     expect(resolved.padding).toBe(15);
   });
 
@@ -150,9 +150,9 @@ describe('Phase 5: Style Resolution', () => {
       id: 'my-template',
       label: 'Template',
       containerStyle: {
-        backgroundColor: '#template',
-        borderColor: '#template',
-        borderWidth: 1,
+        fillColor: '#template',
+        strokeColor: '#template',
+        strokeWidth: 1,
         padding: 10,
       },
     };
@@ -161,9 +161,9 @@ describe('Phase 5: Style Resolution', () => {
       id: 'my-preset',
       label: 'Preset',
       style: {
-        backgroundColor: '#preset',
-        borderColor: '#preset',
-        borderWidth: 2,
+        fillColor: '#preset',
+        strokeColor: '#preset',
+        strokeWidth: 2,
       },
     };
 
@@ -173,8 +173,8 @@ describe('Phase 5: Style Resolution', () => {
       label: 'Base',
       children: [],
       containerStyle: {
-        backgroundColor: '#base',
-        borderColor: '#base',
+        fillColor: '#base',
+        strokeColor: '#base',
         margin: 5, // Unique to base
       },
     };
@@ -188,9 +188,9 @@ describe('Phase 5: Style Resolution', () => {
         extends: 'base', // Lowest priority
         templateId: 'my-template',
         preset: 'my-preset',
-        backgroundColor: '#inline', // Highest priority
+        fillColor: '#inline', // Highest priority
         // borderColor from preset should win (no inline override)
-        // borderWidth from preset should win
+        // strokeWidth from preset should win
         // padding from template should win
         // margin from extends (base) should be included
       },
@@ -208,10 +208,10 @@ describe('Phase 5: Style Resolution', () => {
     const resolved = resolveContainerStyle(container, diagram);
 
     // Inline wins
-    expect(resolved.backgroundColor).toBe('#inline');
+    expect(resolved.fillColor).toBe('#inline');
     // Preset wins over template and extends
-    expect(resolved.borderColor).toBe('#preset');
-    expect(resolved.borderWidth).toBe(2);
+    expect(resolved.strokeColor).toBe('#preset');
+    expect(resolved.strokeWidth).toBe(2);
     // Template property not overridden by preset or inline
     expect(resolved.padding).toBe(10);
     // Extends property not overridden by anyone
@@ -225,7 +225,7 @@ describe('Phase 5: Style Resolution', () => {
       label: 'Base 1',
       children: [],
       containerStyle: {
-        backgroundColor: '#base1',
+        fillColor: '#base1',
         padding: 5,
       },
     };
@@ -237,7 +237,7 @@ describe('Phase 5: Style Resolution', () => {
       children: [],
       containerStyle: {
         extends: 'base1',
-        borderColor: '#base2',
+        strokeColor: '#base2',
       },
     };
 
@@ -248,7 +248,7 @@ describe('Phase 5: Style Resolution', () => {
       children: [],
       containerStyle: {
         extends: 'base2',
-        borderWidth: 3,
+        strokeWidth: 3,
       },
     };
 
@@ -262,12 +262,12 @@ describe('Phase 5: Style Resolution', () => {
     const resolved = resolveContainerStyle(container, diagram);
 
     // From base1 (through base2)
-    expect(resolved.backgroundColor).toBe('#base1');
+    expect(resolved.fillColor).toBe('#base1');
     expect(resolved.padding).toBe(5);
     // From base2
-    expect(resolved.borderColor).toBe('#base2');
+    expect(resolved.strokeColor).toBe('#base2');
     // From derived (inline)
-    expect(resolved.borderWidth).toBe(3);
+    expect(resolved.strokeWidth).toBe(3);
   });
 
   it('should handle missing template reference gracefully', () => {
@@ -278,7 +278,7 @@ describe('Phase 5: Style Resolution', () => {
       children: [],
       containerStyle: {
         templateId: 'nonexistent',
-        backgroundColor: '#fallback',
+        fillColor: '#fallback',
       },
     };
 
@@ -291,7 +291,7 @@ describe('Phase 5: Style Resolution', () => {
     const resolved = resolveContainerStyle(container, diagram);
 
     // Should use inline style when template not found
-    expect(resolved.backgroundColor).toBe('#fallback');
+    expect(resolved.fillColor).toBe('#fallback');
   });
 
   it('should handle missing preset reference gracefully', () => {
@@ -302,7 +302,7 @@ describe('Phase 5: Style Resolution', () => {
       children: [],
       containerStyle: {
         preset: 'nonexistent',
-        borderColor: '#fallback',
+        strokeColor: '#fallback',
       },
     };
 
@@ -315,7 +315,7 @@ describe('Phase 5: Style Resolution', () => {
     const resolved = resolveContainerStyle(container, diagram);
 
     // Should use inline style when preset not found
-    expect(resolved.borderColor).toBe('#fallback');
+    expect(resolved.strokeColor).toBe('#fallback');
   });
 
   it('should handle missing extends reference gracefully', () => {
@@ -352,7 +352,7 @@ describe('Phase 5: Style Resolution', () => {
         templateId: 'nonexistent',
         preset: 'also-nonexistent',
         extends: 'still-nonexistent',
-        backgroundColor: '#test',
+        fillColor: '#test',
       },
     };
 
@@ -369,7 +369,7 @@ describe('Phase 5: Style Resolution', () => {
     expect(resolved).not.toHaveProperty('preset');
     expect(resolved).not.toHaveProperty('extends');
     // But actual style properties should be there
-    expect(resolved.backgroundColor).toBe('#test');
+    expect(resolved.fillColor).toBe('#test');
   });
 
   it('should find containers in nested structures', () => {
@@ -379,7 +379,7 @@ describe('Phase 5: Style Resolution', () => {
       label: 'Base',
       children: [],
       containerStyle: {
-        backgroundColor: '#nested',
+        fillColor: '#nested',
       },
       containers: [
         {
@@ -388,7 +388,7 @@ describe('Phase 5: Style Resolution', () => {
           label: 'Nested Base',
           children: [],
           containerStyle: {
-            borderColor: '#nested-border',
+            strokeColor: '#nested-border',
           },
         },
       ],
@@ -414,6 +414,6 @@ describe('Phase 5: Style Resolution', () => {
     const resolved = resolveContainerStyle(container, diagram);
 
     // Should find nested-base inside base container
-    expect(resolved.borderColor).toBe('#nested-border');
+    expect(resolved.strokeColor).toBe('#nested-border');
   });
 });

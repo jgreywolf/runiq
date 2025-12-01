@@ -284,7 +284,7 @@ describe('Activity Diagram Object Nodes', () => {
   it('should parse object nodes with styling', () => {
     const dsl = `
       diagram "Styled Activity" {
-        style dataStyle fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2
+        style dataStyle fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
 
         shape input as @objectNode label:"Input Data" style:dataStyle
         shape buffer as @centralBuffer label:"Queue" style:dataStyle

@@ -216,7 +216,7 @@ glyphset basicProcess "Onboarding Steps" {
   step "Offer"
   step "Start Date"
 
-  theme "forest"
+  theme forest
   orientation "horizontal"
 }
 ```

@@ -45,10 +45,10 @@ export const artifactShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const backgroundColor =
-      (ctx.node.data?.backgroundColor as string) || '#ffffcc';
-    const borderColor = (ctx.node.data?.borderColor as string) || '#666666';
-    const borderWidth = (ctx.node.data?.borderWidth as number) || 2;
+    const fillColor =
+      (ctx.node.data?.fillColor as string) || '#ffffcc';
+    const strokeColor = (ctx.node.data?.strokeColor as string) || '#666666';
+    const strokeWidth = (ctx.node.data?.strokeWidth as number) || 2;
 
     const foldSize = 12; // Size of the dog-eared corner
 
@@ -65,8 +65,8 @@ export const artifactShape: ShapeDefinition = {
     // Fold line (diagonal line for the dog-ear)
     const foldLine = `M ${x + bounds.width - foldSize},${y} L ${x + bounds.width},${y + foldSize}`;
 
-    const shape = `<path d="${path}" fill="${backgroundColor}" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
-    const fold = `<path d="${foldLine}" fill="none" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
+    const shape = `<path d="${path}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
+    const fold = `<path d="${foldLine}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
 
     // Stereotype text (top)
     const fontSize = ctx.style.fontSize || 14;

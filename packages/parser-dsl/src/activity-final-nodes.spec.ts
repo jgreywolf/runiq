@@ -317,8 +317,8 @@ describe('Activity Diagram Final Nodes', () => {
   it('should parse final nodes with styling', () => {
     const dsl = `
       diagram "Styled Finals" {
-        style errorStyle fill: "#ffcccc" stroke: "#cc0000" strokeWidth: 2
-        style successStyle fill: "#ccffcc" stroke: "#00cc00" strokeWidth: 2
+        style errorStyle fillColor: "#ffcccc" strokeColor: "#cc0000" strokeWidth: 2
+        style successStyle fillColor: "#ccffcc" strokeColor: "#00cc00" strokeWidth: 2
         
         shape start as @initialState
         shape work as @activity label:"Work"

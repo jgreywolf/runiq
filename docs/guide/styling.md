@@ -17,7 +17,7 @@ Apply styles to all shapes and edges:
 ```runiq
 diagram "Styled Diagram" {
 
-  style default fill:"#f7f7ff" stroke:"#444" strokeWidth:2
+  style default fill:"#f7f7ff" strokeColor:"#444" strokeWidth:2
   style default2 fill:"#ef1" fontFamily:"Inter, sans-serif" fontSize:14
 
   shape A as @rect label: "Node A" style:default
@@ -33,9 +33,9 @@ Define reusable named styles:
 ```runiq
 diagram "Named Styles" {
 
-  style primary fill:"#2196f3" stroke:"#1565c0" color:"#ffffff"
-  style accent fill:"#ff9800" stroke:"#f57c00" color:"#ffffff"
-  style subtle fill:"#f5f5f5" stroke:"#9e9e9e" color:"#333333"
+  style primary fill:"#2196f3" strokeColor:"#1565c0" color:"#ffffff"
+  style accent fill:"#ff9800" strokeColor:"#f57c00" color:"#ffffff"
+  style subtle fill:"#f5f5f5" strokeColor:"#9e9e9e" color:"#333333"
 
   shape Button as @rect label: "Submit" style:primary
   shape Warning as @rect label: "Cancel" style:accent
@@ -53,7 +53,7 @@ diagram "Colors" {
   shape A as @rect
     label: "Custom Colors"
     fill: "#e3f2fd"         # Background color
-    stroke: "#2196f3"       # Border color
+    strokeColor: "#2196f3"       # Border color
     color: "#1565c0"        # Text color
     strokeWidth: 2          # Border width
 }
@@ -73,7 +73,7 @@ fill: "rgba(33, 150, 243, 0.5)"
 
 # Named colors
 fill: "blue"
-stroke: "red"
+strokeColor: "red"
 color: "white"
 ```
 
@@ -122,9 +122,9 @@ diagram "Line Styles" {
   shape D as @rect label: "D"
 
   # Line styles
-  A -> B lineStyle: "solid" stroke: "#2196f3"
-  A -> C lineStyle: "dashed" stroke: "#ff9800"
-  A -> D lineStyle: "dotted" stroke: "#4caf50"
+  A -> B lineStyle: "solid" strokeColor: "#2196f3"
+  A -> C lineStyle: "dashed" strokeColor: "#ff9800"
+  A -> D lineStyle: "dotted" strokeColor: "#4caf50"
 }
 ```
 
@@ -159,19 +159,19 @@ diagram "Individual Styling" {
   shape Start as @rounded
     label: "Start"
     fill: "#4caf50"
-    stroke: "#2e7d32"
+    strokeColor: "#2e7d32"
     color: "#ffffff"
 
   shape Process as @rect
     label: "Process"
     fill: "#2196f3"
-    stroke: "#1565c0"
+    strokeColor: "#1565c0"
     color: "#ffffff"
 
   shape End as @rounded
     label: "End"
     fill: "#f44336"
-    stroke: "#c62828"
+    strokeColor: "#c62828"
     color: "#ffffff"
 }
 ```
@@ -183,7 +183,7 @@ diagram "Individual Styling" {
 ```runiq
 style default
   fill: "#ffffff"
-  stroke: "#444444"
+  strokeColor: "#444444"
   color: "#333333"
   strokeWidth: 2
 ```
@@ -196,19 +196,19 @@ diagram "Dark Theme" {
 
   style default
     fill: "#1e1e1e"
-    stroke: "#6e6e6e"
+    strokeColor: "#6e6e6e"
     color: "#e0e0e0"
     strokeWidth: 2
     fontFamily: "Consolas, monospace"
 
   style highlight
     fill: "#2196f3"
-    stroke: "#1976d2"
+    strokeColor: "#1976d2"
     color: "#ffffff"
 
   shape A as @rect label: "Dark Node"
   shape B as @rect label: "Highlight" style:highlight
-  A -> B stroke: "#6e6e6e"
+  A -> B strokeColor: "#6e6e6e"
 }
 ```
 
@@ -219,13 +219,13 @@ diagram "Pastel Theme"{
 
   style default
     fill: "#f5f5f5"
-    stroke: "#999999"
+    strokeColor: "#999999"
     strokeWidth: 1
 
-  style success fill:"#c8e6c9" stroke:"#81c784"
-  style warning fill:"#fff9c4" stroke:"#fff176"
-  style error fill:"#ffcdd2" stroke:"#ef9a9a"
-  style info fill:"#bbdefb" stroke:"#64b5f6"
+  style success fill:"#c8e6c9" strokeColor:"#81c784"
+  style warning fill:"#fff9c4" strokeColor:"#fff176"
+  style error fill:"#ffcdd2" strokeColor:"#ef9a9a"
+  style info fill:"#bbdefb" strokeColor:"#64b5f6"
 
   shape OK as @hexagon label: "Success" style:success
   shape Wait as @rect label: "Processing" style:warning
@@ -241,15 +241,15 @@ diagram "Professional Theme" {
 
   style default
     fill: "#ffffff"
-    stroke: "#263238"
+    strokeColor: "#263238"
     color: "#263238"
     strokeWidth: 2
     fontFamily: "Segoe UI, sans-serif"
     fontSize: 13
 
-  style primary fill:"#0d47a1" stroke:"#01579b" color:"#ffffff"
-  style secondary fill:"#37474f" stroke:"#263238" color:"#ffffff"
-  style accent fill:"#d84315" stroke:"#bf360c" color:"#ffffff"
+  style primary fill:"#0d47a1" strokeColor:"#01579b" color:"#ffffff"
+  style secondary fill:"#37474f" strokeColor:"#263238" color:"#ffffff"
+  style accent fill:"#d84315" strokeColor:"#bf360c" color:"#ffffff"
 
   shape Header as @rect label: "Header" style:primary
   shape Content as @rect label: "Content" style:secondary
@@ -265,18 +265,18 @@ diagram "Professional Theme" {
 diagram "Styled Containers" {
 
   container "Frontend"
-    backgroundColor: "#fff3e0"
-    borderColor: "#ff9800"
-    borderWidth: 2
+    fillColor: "#fff3e0"
+    strokeColor: "#ff9800"
+    strokeWidth: 2
     padding: 20
   {
     shape UI as @rect label: "UI Component"
   }
 
   container "Backend"
-    backgroundColor: "#e8f5e9"
-    borderColor: "#4caf50"
-    borderWidth: 2
+    fillColor: "#e8f5e9"
+    strokeColor: "#4caf50"
+    strokeWidth: 2
     padding: 20
   {
     shape API as @rect label: "API Service"
@@ -290,8 +290,8 @@ diagram "Styled Containers" {
 diagram "Styled Containers" {
 
   container "Elevated Card"
-    backgroundColor: "#ffffff"
-    borderColor: "#e0e0e0"
+    fillColor: "#ffffff"
+    strokeColor: "#e0e0e0"
     shadow: true
     padding: 25
   {
@@ -348,24 +348,24 @@ shape Gradient as @rect
 
 ```runiq
 # Blue
-fill: "#2196f3" stroke: "#1565c0"  # Primary
-fill: "#bbdefb" stroke: "#64b5f6"  # Light
-fill: "#0d47a1" stroke: "#01579b"  # Dark
+fill: "#2196f3" strokeColor: "#1565c0"  # Primary
+fill: "#bbdefb" strokeColor: "#64b5f6"  # Light
+fill: "#0d47a1" strokeColor: "#01579b"  # Dark
 
 # Green
-fill: "#4caf50" stroke: "#2e7d32"  # Primary
-fill: "#c8e6c9" stroke: "#81c784"  # Light
-fill: "#1b5e20" stroke: "#2e7d32"  # Dark
+fill: "#4caf50" strokeColor: "#2e7d32"  # Primary
+fill: "#c8e6c9" strokeColor: "#81c784"  # Light
+fill: "#1b5e20" strokeColor: "#2e7d32"  # Dark
 
 # Orange
-fill: "#ff9800" stroke: "#f57c00"  # Primary
-fill: "#ffe0b2" stroke: "#ffb74d"  # Light
-fill: "#e65100" stroke: "#ef6c00"  # Dark
+fill: "#ff9800" strokeColor: "#f57c00"  # Primary
+fill: "#ffe0b2" strokeColor: "#ffb74d"  # Light
+fill: "#e65100" strokeColor: "#ef6c00"  # Dark
 
 # Red
-fill: "#f44336" stroke: "#c62828"  # Primary
-fill: "#ffcdd2" stroke: "#ef9a9a"  # Light
-fill: "#b71c1c" stroke: "#c62828"  # Dark
+fill: "#f44336" strokeColor: "#c62828"  # Primary
+fill: "#ffcdd2" strokeColor: "#ef9a9a"  # Light
+fill: "#b71c1c" strokeColor: "#c62828"  # Dark
 ```
 
 ### Grayscale
@@ -388,11 +388,11 @@ Pick 3-5 colors and stick to them throughout the diagram:
 
 ```runiq
 # Define your palette
-style primary fill:"#2196f3" stroke:"#1565c0"
-style secondary fill:"#4caf50" stroke:"#2e7d32"
-style accent fill:"#ff9800" stroke:"#f57c00"
-style neutral fill:"#9e9e9e" stroke:"#616161"
-style danger fill:"#f44336" stroke:"#c62828"
+style primary fill:"#2196f3" strokeColor:"#1565c0"
+style secondary fill:"#4caf50" strokeColor:"#2e7d32"
+style accent fill:"#ff9800" strokeColor:"#f57c00"
+style neutral fill:"#9e9e9e" strokeColor:"#616161"
+style danger fill:"#f44336" strokeColor:"#c62828"
 ```
 
 ### 2. **Adequate Contrast**
@@ -416,10 +416,10 @@ shape Poor as @rect
 Use colors that match meaning:
 
 ```runiq
-style success fill:"#4caf50" stroke:"#2e7d32"  # Green for success
-style error fill:"#f44336" stroke:"#c62828"    # Red for errors
-style warning fill:"#ff9800" stroke:"#f57c00"  # Orange for warnings
-style info fill:"#2196f3" stroke:"#1565c0"     # Blue for info
+style success fill:"#4caf50" strokeColor:"#2e7d32"  # Green for success
+style error fill:"#f44336" strokeColor:"#c62828"    # Red for errors
+style warning fill:"#ff9800" strokeColor:"#f57c00"  # Orange for warnings
+style info fill:"#2196f3" strokeColor:"#1565c0"     # Blue for info
 ```
 
 ### 4. **Accessibility**
@@ -436,7 +436,7 @@ Consider colorblind users:
 ```runiq
 # Use subtle colors
 fill: "#f7f7ff"   # Very light blue-gray
-stroke: "#444444" # Dark gray (not black)
+strokeColor: "#444444" # Dark gray (not black)
 
 # Add whitespace
 padding: 30
@@ -453,36 +453,36 @@ fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
 
 ### Shape Properties
 
-| Property      | Type                    | Default    | Example               |
-| ------------- | ----------------------- | ---------- | --------------------- |
-| `fill`        | color                   | #f7f7ff    | `fill: "#2196f3"`     |
-| `stroke`      | color                   | #444       | `stroke: "#1565c0"`   |
-| `color`       | color                   | #333       | `color: "#ffffff"`    |
-| `strokeWidth` | number                  | 2          | `strokeWidth: 3`      |
-| `opacity`     | number                  | 1.0        | `opacity: 0.5`        |
-| `fontFamily`  | string                  | sans-serif | `fontFamily: "Inter"` |
-| `fontSize`    | number                  | 14         | `fontSize: 16`        |
-| `fontWeight`  | number                  | 400        | `fontWeight: 600`     |
-| `textAlign`   | left \| center \| right | center     | `textAlign: left`     |
+| Property      | Type                    | Default    | Example                  |
+| ------------- | ----------------------- | ---------- | ------------------------ |
+| `fill`        | color                   | #f7f7ff    | `fill: "#2196f3"`        |
+| `stroke`      | color                   | #444       | `strokeColor: "#1565c0"` |
+| `color`       | color                   | #333       | `color: "#ffffff"`       |
+| `strokeWidth` | number                  | 2          | `strokeWidth: 3`         |
+| `opacity`     | number                  | 1.0        | `opacity: 0.5`           |
+| `fontFamily`  | string                  | sans-serif | `fontFamily: "Inter"`    |
+| `fontSize`    | number                  | 14         | `fontSize: 16`           |
+| `fontWeight`  | number                  | 400        | `fontWeight: 600`        |
+| `textAlign`   | left \| center \| right | center     | `textAlign: left`        |
 
 ### Edge Properties
 
-| Property      | Type                               | Default | Example               |
-| ------------- | ---------------------------------- | ------- | --------------------- |
-| `stroke`      | color                              | #444    | `stroke: "#2196f3"`   |
-| `strokeWidth` | number                             | 2       | `strokeWidth: 3`      |
-| `lineStyle`   | (string) solid \| dashed \| dotted | solid   | `lineStyle: "dashed"` |
+| Property      | Type                               | Default | Example                  |
+| ------------- | ---------------------------------- | ------- | ------------------------ |
+| `stroke`      | color                              | #444    | `strokeColor: "#2196f3"` |
+| `strokeWidth` | number                             | 2       | `strokeWidth: 3`         |
+| `lineStyle`   | (string) solid \| dashed \| dotted | solid   | `lineStyle: "dashed"`    |
 
 ### Container Properties
 
-| Property      | Type                      | Default     | Example                      |
-| ------------- | ------------------------- | ----------- | ---------------------------- |
-| `fill`        | color                     | transparent | `backgroundColor: "#e3f2fd"` |
-| `borderColor` | color                     | #444        | `borderColor: "#2196f3"`     |
-| `borderWidth` | number                    | 1           | `borderWidth: 2`             |
-| `borderStyle` | solid \| dashed \| dotted | solid       | `borderStyle: dashed`        |
-| `shadow`      | boolean                   | false       | `shadow: true`               |
-| `opacity`     | number                    | 1.0         | `opacity: 0.9`               |
+| Property      | Type                      | Default     | Example                  |
+| ------------- | ------------------------- | ----------- | ------------------------ |
+| `fill`        | color                     | transparent | `fillColor: "#e3f2fd"`   |
+| `strokeColor` | color                     | #444        | `strokeColor: "#2196f3"` |
+| `strokeWidth` | number                    | 1           | `strokeWidth: 2`         |
+| `borderStyle` | solid \| dashed \| dotted | solid       | `borderStyle: dashed`    |
+| `shadow`      | boolean                   | false       | `shadow: true`           |
+| `opacity`     | number                    | 1.0         | `opacity: 0.9`           |
 
 ## Examples
 
@@ -492,11 +492,11 @@ fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
 diagram "Order Processing" {
   direction TB
 
-  style default fill:"#f5f5f5" stroke:"#616161"
-  style processStyle fill:"#2196f3" stroke:"#1565c0" color:"#ffffff"
-  style decision fill:"#ff9800" stroke:"#f57c00" color:"#ffffff"
-  style success fill:"#4caf50" stroke:"#2e7d32" color:"#ffffff"
-  style error fill:"#f44336" stroke:"#c62828" color:"#ffffff"
+  style default fill:"#f5f5f5" strokeColor:"#616161"
+  style processStyle fill:"#2196f3" strokeColor:"#1565c0" color:"#ffffff"
+  style decision fill:"#ff9800" strokeColor:"#f57c00" color:"#ffffff"
+  style success fill:"#4caf50" strokeColor:"#2e7d32" color:"#ffffff"
+  style error fill:"#f44336" strokeColor:"#c62828" color:"#ffffff"
 
   shape Start as @rounded label: "Start" style:success
   shape Validate as @rect label: "Validate Order" style:processStyle
@@ -520,21 +520,21 @@ diagram "Microservices" {
 
   style default fontFamily:"Inter, sans-serif" fontSize:13
 
-  container "Frontend" backgroundColor:"#fff3e0" borderColor:"#ff9800" {
+  container "Frontend" fillColor:"#fff3e0" strokeColor:"#ff9800" {
     shape React as @rect label: "React App"
-      fill:"#ffffff" stroke:"#ff9800"
+      fill:"#ffffff" strokeColor:"#ff9800"
   }
 
-  container "Backend" backgroundColor:"#e8f5e9" borderColor:"#4caf50" {
+  container "Backend" fillColor:"#e8f5e9" strokeColor:"#4caf50" {
     shape API as @rect label: "API Gateway"
-      fill:"#ffffff" stroke:"#4caf50"
+      fill:"#ffffff" strokeColor:"#4caf50"
     shape Auth as @rect label: "Auth Service"
-      fill:"#ffffff" stroke:"#4caf50"
+      fill:"#ffffff" strokeColor:"#4caf50"
   }
 
-  container "Data" backgroundColor:"#f3e5f5" borderColor:"#9c27b0" {
+  container "Data" fillColor:"#f3e5f5" strokeColor:"#9c27b0" {
     shape DB as @cylinder label: "PostgreSQL"
-      fill:"#ffffff" stroke:"#9c27b0"
+      fill:"#ffffff" strokeColor:"#9c27b0"
   }
 }
 ```

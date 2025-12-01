@@ -252,7 +252,7 @@ describe('Activity Diagram Signal Shapes', () => {
   it('should parse signal shapes with styling', () => {
     const dsl = `
       diagram "Styled Signals" {
-        style signalStyle fill:"#fff3e0" stroke:"#e65100" strokeWidth:2
+        style signalStyle fillColor:"#fff3e0" strokeColor:"#e65100" strokeWidth:2
 
         shape send as @sendSignal label:"Send Alert" style:signalStyle
         shape receive as @receiveSignal label:"Receive Alert" style:signalStyle

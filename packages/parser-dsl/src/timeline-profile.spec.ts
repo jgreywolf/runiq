@@ -37,12 +37,12 @@ describe('Timeline Profile Tests', () => {
     it('should parse timeline with full event properties', () => {
       const dsl = `
         timeline "Complete Timeline" {
-          event E1 
-            date:"2024-01-15" 
-            label:"Launch" 
+          event E1
+            date:"2024-01-15"
+            label:"Launch"
             description:"Product launch event"
             icon:"rocket"
-            color:"#10b981"
+            textColor:"#10b981"
             position:top
         }
       `;
@@ -58,7 +58,7 @@ describe('Timeline Profile Tests', () => {
           label: 'Launch',
           description: 'Product launch event',
           icon: 'rocket',
-          color: '#10b981',
+          fillColor: '#10b981',
           position: 'top',
         });
       }
@@ -71,11 +71,11 @@ describe('Timeline Profile Tests', () => {
             startDate:"2024-01-01" 
             endDate:"2024-03-01" 
             label:"Planning"
-          period P2 
-            startDate:"2024-03-01" 
-            endDate:"2024-06-01" 
+          period P2
+            startDate:"2024-03-01"
+            endDate:"2024-06-01"
             label:"Development"
-            color:"#dbeafe"
+            textColor:"#dbeafe"
             opacity:0.5
         }
       `;
@@ -97,7 +97,7 @@ describe('Timeline Profile Tests', () => {
           startDate: '2024-03-01',
           endDate: '2024-06-01',
           label: 'Development',
-          color: '#dbeafe',
+          fillColor: '#dbeafe',
           opacity: 0.5,
         });
       }
@@ -164,15 +164,15 @@ describe('Timeline Profile Tests', () => {
         timeline "Software Project Launch" {
           event kickoff date:"2024-01-15" label:"Project Kickoff" description:"Initial team meeting" icon:"flag"
           event requirements date:"2024-02-01" label:"Requirements Complete"
-          event design date:"2024-02-20" label:"Design Approved" color:"#3b82f6"
+          event design date:"2024-02-20" label:"Design Approved" textColor:"#3b82f6"
           event devStart date:"2024-03-01" label:"Development Starts"
-          event alpha date:"2024-04-15" label:"Alpha Release" color:"#f59e0b"
-          event beta date:"2024-05-01" label:"Beta Release" color:"#f59e0b"
-          event launch date:"2024-06-01" label:"Product Launch" icon:"rocket" color:"#10b981"
-          
-          period planning startDate:"2024-01-15" endDate:"2024-02-28" label:"Planning Phase" color:"#e0e7ff"
-          period development startDate:"2024-03-01" endDate:"2024-05-31" label:"Development Phase" color:"#dbeafe"
-          period testing startDate:"2024-04-15" endDate:"2024-05-31" label:"Testing Period" color:"#fef3c7"
+          event alpha date:"2024-04-15" label:"Alpha Release" textColor:"#f59e0b"
+          event beta date:"2024-05-01" label:"Beta Release" textColor:"#f59e0b"
+          event launch date:"2024-06-01" label:"Product Launch" icon:"rocket" textColor:"#10b981"
+
+          period planning startDate:"2024-01-15" endDate:"2024-02-28" label:"Planning Phase" textColor:"#e0e7ff"
+          period development startDate:"2024-03-01" endDate:"2024-05-31" label:"Development Phase" textColor:"#dbeafe"
+          period testing startDate:"2024-04-15" endDate:"2024-05-31" label:"Testing Period" textColor:"#fef3c7"
           
           orientation horizontal
         }

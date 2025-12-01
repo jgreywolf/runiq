@@ -268,10 +268,10 @@ describe('Mindmap Diagrams', () => {
             layoutOptions: {
               algorithm: 'radial',
             },
-            style: {
-              backgroundColor: '#f5f5f5',
-              borderColor: '#9e9e9e',
-              borderWidth: 2,
+            containerStyle: {
+              fillColor: '#f5f5f5',
+              strokeColor: '#9e9e9e',
+              strokeWidth: 2,
             },
             memberNodes: ['root'],
           },
@@ -279,9 +279,9 @@ describe('Mindmap Diagrams', () => {
       };
 
       const container = mindmap.containers![0];
-      expect(container.style?.backgroundColor).toBe('#f5f5f5');
-      expect(container.style?.borderColor).toBe('#9e9e9e');
-      expect(container.style?.borderWidth).toBe(2);
+      expect(container.containerStyle?.fillColor).toBe('#f5f5f5');
+      expect(container.containerStyle?.strokeColor).toBe('#9e9e9e');
+      expect(container.containerStyle?.strokeWidth).toBe(2);
     });
   });
 

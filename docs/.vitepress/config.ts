@@ -74,6 +74,7 @@ export default defineConfig({
             { text: 'Edges & Connections', link: '/guide/edges' },
             { text: 'Containers', link: '/guide/containers' },
             { text: 'Styling', link: '/guide/styling' },
+            { text: 'Themes', link: '/guide/themes' },
             { text: 'Layout', link: '/guide/layout' },
             { text: 'Reserved Keywords', link: '/guide/reserved-keywords' },
             { text: 'Web SDK Integration', link: '/guide/web-sdk' },

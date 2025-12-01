@@ -1,11 +1,12 @@
-import type { DiagramAst, RoutedEdge } from '@runiq/core';
+import type { DiagramAst, RoutedEdge, DiagramTheme } from '@runiq/core';
 import { escapeXml, renderMultilineText } from './utils.js';
 
 export function renderEdge(
   routed: RoutedEdge,
   diagram: DiagramAst,
   strict: boolean,
-  warnings: string[]
+  warnings: string[],
+  theme?: DiagramTheme
 ): string {
   // Use edgeIndex if available to handle multiple edges between same nodes
   const edgeAst =
@@ -30,9 +31,10 @@ export function renderEdge(
 
   const style = edgeAst.style ? diagram.styles?.[edgeAst.style] || {} : {};
   // Inline properties override style properties
-  // Check routed edge data first (set by layout algorithms), then edgeAst data, then style
+  // Check routed edge data first (set by layout algorithms), then edgeAst data, then style, then theme, then default
+  const defaultStroke = theme?.edgeColor || '#333';
   const stroke =
-    (edgeAst as any).strokeColor || (style as any).stroke || '#333';
+    (edgeAst as any).strokeColor || (style as any).stroke || defaultStroke;
   const strokeWidth =
     (routed as any).data?.strokeWidth ||
     (edgeAst.data as any)?.strokeWidth ||
@@ -70,9 +72,13 @@ export function renderEdge(
     }
   }
 
+  const edgeId =
+    routed.edgeIndex !== undefined
+      ? `${routed.from}-${routed.to}-${routed.edgeIndex}`
+      : `${routed.from}-${routed.to}`;
   const groupAttrs = strict
     ? ''
-    : ` data-runiq-edge="${routed.from}-${routed.to}"`;
+    : ` data-runiq-edge="${edgeId}" data-edge-id="${edgeId}" data-edge-from="${routed.from}" data-edge-to="${routed.to}"`;
   let edgeMarkup = `<g${groupAttrs}>`;
 
   // Determine arrow type and bidirectionality
@@ -201,14 +207,18 @@ export function renderEdge(
   const markerStartAttr = useMarkerStart
     ? ` marker-start="url(#${isBidirectional ? arrowIdStart : arrowId})"`
     : useNavMarkerStart
-    ? ` marker-start="url(#${navArrowIdStart})"`
-    : '';
+      ? ` marker-start="url(#${navArrowIdStart})"`
+      : '';
   const markerEndAttr = useMarkerEnd
     ? ` marker-end="url(#${arrowId})"`
     : useNavMarkerEnd
-    ? ` marker-end="url(#${navArrowId})"`
-    : '';
+      ? ` marker-end="url(#${navArrowId})"`
+      : '';
   const markerAttr = markerStartAttr + markerEndAttr;
+
+  // Add invisible wider path for better click/hover detection
+  const hitAreaWidth = 20; // Wider hit area for easier selection (increased from 12)
+  edgeMarkup += `<path d="${pathData}" fill="none" stroke="transparent" stroke-width="${hitAreaWidth}" pointer-events="stroke" class="edge-hit-area" />`;
 
   // Render double line for consanguineous marriages
   if (isDoubleLine) {
@@ -234,8 +244,8 @@ export function renderEdge(
           .slice(1)
           .map((p) => ` L ${p.x} ${p.y + offset}`)
           .join('');
-      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
-      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
+      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
     } else {
       // Offset horizontally for vertical lines
       const offsetPath1 =
@@ -250,12 +260,12 @@ export function renderEdge(
           .slice(1)
           .map((p) => ` L ${p.x + offset} ${p.y}`)
           .join('');
-      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
-      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+      edgeMarkup += `<path d="${offsetPath1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
+      edgeMarkup += `<path d="${offsetPath2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
     }
   } else {
     // Single line (standard)
-    edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} />`;
+    edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
   }
 
   // Calculate midpoint for labels
@@ -323,8 +333,8 @@ export function renderEdge(
     const constraintY = displayLabel
       ? midPoint.y + 15 // Below label (whether it's a transition label or explicit label)
       : (edgeAst as any).stereotype
-      ? midPoint.y + 25 // Below stereotype
-      : midPoint.y + 10; // Below edge
+        ? midPoint.y + 25 // Below stereotype
+        : midPoint.y + 10; // Below edge
     edgeMarkup += `<text x="${midPoint.x}" y="${constraintY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">${escapeXml(constraintText)}</text>`;
   }
 

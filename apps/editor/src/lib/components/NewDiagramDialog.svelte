@@ -1,36 +1,18 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
+	import { ProfileName } from '$lib/types';
+	import Icon from '@iconify/svelte';
 
 	interface Props {
 		open: boolean;
 		onOpenChange: (open: boolean) => void;
-		onCreateDiagram: (
-			type:
-				| 'diagram'
-				| 'electrical'
-				| 'pneumatic'
-				| 'hydraulic'
-				| 'wardley'
-				| 'sequence'
-				| 'timeline'
-				| 'pid'
-		) => void;
+		onCreateDiagram: (type: ProfileName) => void;
 	}
 
 	let { open = $bindable(), onOpenChange, onCreateDiagram }: Props = $props();
 
-	function createDiagram(
-		type:
-			| 'diagram'
-			| 'electrical'
-			| 'pneumatic'
-			| 'hydraulic'
-			| 'wardley'
-			| 'sequence'
-			| 'timeline'
-			| 'pid'
-	) {
+	function createDiagram(type: ProfileName) {
 		open = false;
 		onCreateDiagram(type);
 	}
@@ -48,27 +30,14 @@
 		<div class="grid grid-cols-2 gap-4 py-4">
 			<!-- Regular Diagram Option -->
 			<button
-				onclick={() => createDiagram('diagram')}
+				onclick={() => createDiagram(ProfileName.diagram)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
 						class="flex h-12 w-12 items-center justify-center rounded-lg bg-runiq-100 text-runiq-600 transition-colors group-hover:bg-runiq-200"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z"
-							/>
-						</svg>
+						<Icon icon="material-symbols:flowchart-outline-sharp" width="24" height="24" />
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Diagram</h3>
@@ -77,29 +46,34 @@
 				</div>
 			</button>
 
+			<!-- Glyphset "smart art" Option -->
+			<button
+				onclick={() => createDiagram(ProfileName.glyphset)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-runiq-100 text-runiq-600 transition-colors group-hover:bg-runiq-200"
+					>
+						<Icon icon="tabler:chart-pie-4-filled" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Glyphsets</h3>
+						<p class="text-sm text-neutral-600">Pre-built diagrams, smart art, templates</p>
+					</div>
+				</div>
+			</button>
+
 			<!-- Sequence Diagram Option -->
 			<button
-				onclick={() => createDiagram('sequence')}
+				onclick={() => createDiagram(ProfileName.sequence)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-blue-400 hover:bg-blue-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
 						class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-600 transition-colors group-hover:bg-blue-200"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-							/>
-						</svg>
+						<Icon icon="tabler:arrows-left-right" width="24" height="24" />
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Sequence Diagram</h3>
@@ -110,27 +84,14 @@
 
 			<!-- Timeline Diagram Option -->
 			<button
-				onclick={() => createDiagram('timeline')}
+				onclick={() => createDiagram(ProfileName.timeline)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-indigo-400 hover:bg-indigo-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
 						class="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 transition-colors group-hover:bg-indigo-200"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
+						<Icon icon="tabler:timeline" width="24" height="24" />
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Timeline</h3>
@@ -141,27 +102,14 @@
 
 			<!-- Electrical Circuit Option -->
 			<button
-				onclick={() => createDiagram('electrical')}
+				onclick={() => createDiagram(ProfileName.electrical)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
 						class="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 transition-colors group-hover:bg-amber-200"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M13 10V3L4 14h7v7l9-11h-7z"
-							/>
-						</svg>
+						<Icon icon="tabler:bolt" width="24" height="24" />
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Electrical Schematic</h3>
@@ -172,27 +120,14 @@
 
 			<!-- Pneumatic Circuit Option -->
 			<button
-				onclick={() => createDiagram('pneumatic')}
+				onclick={() => createDiagram(ProfileName.pneumatic)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-sky-400 hover:bg-sky-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
 						class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-sky-600 transition-colors group-hover:bg-sky-200"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-							/>
-						</svg>
+						<Icon icon="tabler:arrows-down-up" width="24" height="24" />
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Pneumatic Circuit</h3>
@@ -203,27 +138,14 @@
 
 			<!-- Hydraulic Circuit Option -->
 			<button
-				onclick={() => createDiagram('hydraulic')}
+				onclick={() => createDiagram(ProfileName.hydraulic)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-teal-400 hover:bg-teal-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
 						class="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 transition-colors group-hover:bg-teal-200"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-							/>
-						</svg>
+						<Icon icon="tabler:flask-filled" width="24" height="24" />
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Hydraulic Circuit</h3>
@@ -234,27 +156,14 @@
 
 			<!-- Wardley Map Option -->
 			<button
-				onclick={() => createDiagram('wardley')}
+				onclick={() => createDiagram(ProfileName.wardley)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-purple-400 hover:bg-purple-50"
 			>
 				<div class="flex items-center gap-3">
 					<div
 						class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 text-purple-600 transition-colors group-hover:bg-purple-200"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-							/>
-						</svg>
+						<Icon icon="tabler:chart-scatter" width="24" height="24" />
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Wardley Map</h3>
@@ -265,7 +174,7 @@
 
 			<!-- P&ID Diagram Option -->
 			<button
-				onclick={() => createDiagram('pid')}
+				onclick={() => createDiagram(ProfileName.pid)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50"
 			>
 				<div class="flex items-center gap-3">

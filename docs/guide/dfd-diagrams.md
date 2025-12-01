@@ -205,9 +205,9 @@ diagram "Validate Order Level 1" {
 ```runiq
 diagram "Library Management System" {
 
-  style entityd fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2
-  style processd fill:"#f3e5f5" stroke:"#7b1fa2" strokeWidth:2
-  style store fill:"#fff3e0" stroke:"#f57c00" strokeWidth:2
+  style entityd fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+  style processd fill:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2
+  style store fill:"#fff3e0" strokeColor:"#f57c00" strokeWidth:2
 
   // External Entities
   shape memberEntity as @externalEntity label:"Library Member"
@@ -251,10 +251,10 @@ diagram "Library Management System" {
 ### Color Coding by Type
 
 ```runiq
-style entities fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2
-style processes fill:"#f3e5f5" stroke:"#7b1fa2" strokeWidth:2
-style stores fill:"#fff3e0" stroke:"#f57c00" strokeWidth:2
-style flows stroke:"#4a5568" strokeWidth:1.5
+style entities fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+style processes fill:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2
+style stores fill:"#fff3e0" strokeColor:"#f57c00" strokeWidth:2
+style flows strokeColor:"#4a5568" strokeWidth:1.5
 
 shape user as @externalEntity label:"User" style:entities
 shape proc as @processCircle label:"1.0\nProcess" style:processes
@@ -264,8 +264,8 @@ shape db as @dataStoreLine label:"D1 Database" style:stores
 ### Emphasis with strokeWidth
 
 ```runiq
-style criticalStyle strokeWidth:3 stroke:"#dc2626"
-style normal strokeWidth:1.5 stroke:"#4a5568"
+style criticalStyle strokeWidth:3 strokeColor:"#dc2626"
+style normal strokeWidth:1.5 strokeColor:"#4a5568"
 
 shape important as @processCircle label:"Critical\nProcess" style:criticalStyle
 ```

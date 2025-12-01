@@ -100,7 +100,7 @@ glyphset basicProcess "Development Workflow" {
   step "Testing"
   step "Deployment"
 
-  theme "professional"
+  theme professional
   orientation "horizontal"
 }
 ```
@@ -145,6 +145,7 @@ Create a file named `hello.runiq`:
 
 ```runiq
 diagram "Hello Runiq" {
+  theme ocean
   direction TB
 
   shape Start as @rounded label: "Start"
@@ -159,6 +160,8 @@ diagram "Hello Runiq" {
   Decision -no-> Error
 }
 ```
+
+**Pro tip**: Add a `theme` declaration to automatically apply professional color schemes. [Learn more about themes →](/guide/themes)
 
 ### 2. Generate SVG (via CLI - coming soon)
 

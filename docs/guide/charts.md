@@ -218,7 +218,7 @@ diagram "Styled Charts" {
     data:[60, 40]
     labels:["A", "B"]
     colors:["#3b82f6", "#10b981"]
-    stroke:"#3b82f6"
+    strokeColor:"#3b82f6"
     strokeWidth:2
 
   shape chart2 as @barChart

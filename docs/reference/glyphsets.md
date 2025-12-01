@@ -221,7 +221,7 @@ glyphset basicProcess "Development Pipeline" {
   step "Deploy"
 
   orientation "horizontal"
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -239,7 +239,7 @@ glyphset orgChart "Team" {
     }
   }
 
-  theme "ocean"
+  theme ocean
 }
 ```
 
@@ -254,7 +254,7 @@ glyphset matrix "Eisenhower Matrix" {
 
   horizontalAxis "Urgency"
   verticalAxis "Importance"
-  theme "sunset"
+  theme sunset
 }
 ```
 
@@ -268,7 +268,7 @@ glyphset converging "Lead Sources" {
   outer "Referrals"
   inner "Qualified Leads"
 
-  theme "forest"
+  theme forest
 }
 ```
 
@@ -282,7 +282,7 @@ glyphset steppedVenn "Market Segments" {
   circle "Mid-Market"
   circle "SMB"
 
-  theme "vibrant"
+  theme vibrant
 }
 ```
 
@@ -297,7 +297,7 @@ glyphset linearVenn "Product Features" {
   circle "Premium"
   circle "Enterprise"
 
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -310,7 +310,7 @@ glyphset counterbalance "Cost vs Value" {
   side "Low Cost"
   side "High Value"
 
-  theme "cool"
+  theme cool
 }
 ```
 
@@ -324,7 +324,7 @@ glyphset equation "Revenue Model" {
   input "Subscriptions"
   output "Total Revenue"
 
-  theme "warm"
+  theme warm
 }
 ```
 
@@ -340,7 +340,7 @@ glyphset interconnected "Microservices" {
   node "Payment Service"
   node "Analytics"
 
-  theme "ocean"
+  theme ocean
 }
 ```
 
@@ -356,7 +356,7 @@ glyphset hub "Distribution Network" {
   spoke "Store C"
   spoke "Store D"
 
-  theme "forest"
+  theme forest
 }
 ```
 
@@ -371,7 +371,7 @@ glyphset circleHierarchy "System Layers" {
   child "API Layer"
   child "UI Layer"
 
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -392,7 +392,7 @@ glyphset labeledHierarchy "Team Structure" {
     }
   }
 
-  theme "vibrant"
+  theme vibrant
 }
 ```
 
@@ -405,7 +405,7 @@ glyphset labeledHierarchy "Simple Reporting" {
   child "CFO" reports_to
   child "CMO" reports_to
 
-  theme "cool"
+  theme cool
 }
 ```
 
@@ -422,7 +422,7 @@ glyphset tableHierarchy "System Architecture" {
   level "Repository 1" DataAccess
   level "Repository 2" DataAccess
 
-  theme "monochrome"
+  theme monochrome
 }
 ```
 
@@ -446,7 +446,7 @@ glyphset teamHierarchy "Project Teams" {
   leader "Emma Wilson"
   member "Frank"
 
-  theme "sunset"
+  theme sunset
 }
 ```
 

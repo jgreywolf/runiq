@@ -326,7 +326,7 @@ function processNodeStatement(
         // For most properties, we want string values
         // Special handling for certain properties could be added here
         if (
-          key === 'fill' ||
+          key === 'fillColor' ||
           key === 'stroke' ||
           key === 'label' ||
           key === 'text'

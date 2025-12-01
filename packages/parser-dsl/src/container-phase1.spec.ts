@@ -67,7 +67,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse different icon names', () => {
       const icons = ['database', 'cloud', 'lock', 'users', 'desktop'];
-      
+
       for (const iconName of icons) {
         const dsl = `
           diagram "test" {
@@ -115,7 +115,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse different badge values', () => {
       const badges = ['v1.0', 'PROD', 'Beta', '3.2.1', 'NEW'];
-      
+
       for (const badgeText of badges) {
         const dsl = `
           diagram "test" {
@@ -253,7 +253,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse different depth levels', () => {
       const depths = [0, 1, 2, 3];
-      
+
       for (const depthLevel of depths) {
         const dsl = `
           diagram "test" {
@@ -302,7 +302,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
     it('should parse different header positions', () => {
       const positions = ['top', 'bottom', 'left', 'right'];
-      
+
       for (const position of positions) {
         const dsl = `
           diagram "test" {
@@ -388,9 +388,9 @@ describe('Container Phase 1: Styling Enhancements', () => {
           badge: "v3.2"
           collapsible: true
           collapsed: false
-          backgroundColor: "#e1f5fe"
-          borderColor: "#01579b"
-          borderWidth: 2
+          fillColor: "#e1f5fe"
+          strokeColor: "#01579b"
+          strokeWidth: 2
           borderStyle: solid
           padding: 20
           shadow: true
@@ -410,7 +410,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
       expect(result.success).toBe(true);
       expect(result.diagram?.containers).toHaveLength(1);
-      
+
       const container = result.diagram?.containers?.[0];
       expect(container?.label).toBe('Frontend');
       expect(container?.header).toBe('Frontend Services');
@@ -418,11 +418,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
       expect(container?.badge).toBe('v3.2');
       expect(container?.collapsible).toBe(true);
       expect(container?.collapsed).toBe(false);
-      
+
       const style = container?.containerStyle;
-      expect(style?.backgroundColor).toBe('#e1f5fe');
-      expect(style?.borderColor).toBe('#01579b');
-      expect(style?.borderWidth).toBe(2);
+      expect(style?.fillColor).toBe('#e1f5fe');
+      expect(style?.strokeColor).toBe('#01579b');
+      expect(style?.strokeWidth).toBe(2);
       expect(style?.borderStyle).toBe('solid');
       expect(style?.padding).toBe(20);
       expect(style?.shadow).toBe(true);
@@ -433,7 +433,7 @@ describe('Container Phase 1: Styling Enhancements', () => {
       expect(style?.iconSize).toBe(20);
       expect(style?.iconColor).toBe('#ffffff');
       expect(style?.opacity).toBe(0.95);
-      
+
       expect(container?.children).toHaveLength(2);
       expect(result.diagram?.edges).toHaveLength(1);
     });
@@ -459,15 +459,15 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
       expect(result.success).toBe(true);
       expect(result.diagram?.containers).toHaveLength(1);
-      
+
       const outer = result.diagram?.containers?.[0];
       expect(outer?.containerStyle?.depth).toBe(0);
       expect(outer?.containerStyle?.shadow).toBe(true);
-      
+
       const middle = outer?.containers?.[0];
       expect(middle?.containerStyle?.depth).toBe(1);
       expect(middle?.containerStyle?.shadow).toBe(true);
-      
+
       const inner = middle?.containers?.[0];
       expect(inner?.containerStyle?.depth).toBe(2);
       expect(inner?.containerStyle?.shadow).toBe(false);
@@ -487,11 +487,11 @@ describe('Container Phase 1: Styling Enhancements', () => {
       const result = parse(dsl);
 
       expect(result.success).toBe(true);
-      
+
       const backend = result.diagram?.containers?.[0];
       expect(backend?.header).toBe('Backend Layer');
       expect(backend?.icon).toBe('server');
-      
+
       const database = backend?.containers?.[0];
       expect(database?.header).toBe('Data Layer');
       expect(database?.icon).toBe('database');
@@ -524,8 +524,8 @@ describe('Container Phase 1: Styling Enhancements', () => {
       const dsl = `
         diagram "test" {
         container "Services" 
-          backgroundColor: "#f0f0f0"
-          borderColor: "#333"
+          fillColor: "#f0f0f0"
+          strokeColor: "#333"
           padding: 15 {
           shape node1 as @rect label: "API"
         }
@@ -534,8 +534,8 @@ describe('Container Phase 1: Styling Enhancements', () => {
 
       expect(result.success).toBe(true);
       const container = result.diagram?.containers?.[0];
-      expect(container?.containerStyle?.backgroundColor).toBe('#f0f0f0');
-      expect(container?.containerStyle?.borderColor).toBe('#333');
+      expect(container?.containerStyle?.fillColor).toBe('#f0f0f0');
+      expect(container?.containerStyle?.strokeColor).toBe('#333');
       expect(container?.containerStyle?.padding).toBe(15);
       expect(container?.containerStyle?.shadow).toBeUndefined();
       expect(container?.containerStyle?.depth).toBeUndefined();

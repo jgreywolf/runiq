@@ -5,7 +5,7 @@
 	import { json, jsonParseLinter } from '@codemirror/lang-json';
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic } from '@codemirror/lint';
-	import { Upload } from 'lucide-svelte';
+	import Icon from '@iconify/svelte';
 
 	// Props
 	interface Props {
@@ -214,7 +214,7 @@
 			onclick={triggerFileUpload}
 			class="inline-flex items-center gap-2 rounded-md bg-runiq-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-runiq-600 focus:ring-2 focus:ring-runiq-500 focus:ring-offset-2 focus:outline-none"
 		>
-			<Upload class="h-4 w-4" />
+			<Icon icon="lucide:upload" class="h-4 w-4" />
 			Upload JSON/CSV
 		</button>
 		<input

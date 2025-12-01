@@ -40,23 +40,23 @@ diagram "Banking System - System Context" {
 diagram "E-Commerce Platform - Microservices" {
   direction TB
 
-  container "Frontend Layer" backgroundColor: "#e3f2fd" borderColor: "#2196f3" {
+  container "Frontend Layer" fillColor: "#e3f2fd" strokeColor: "#2196f3" {
     shape web as @c4Container label: "Web App\nReact SPA"
     shape mobile as @c4Container label: "Mobile App\niOS & Android"
   }
 
-  container "API Gateway" backgroundColor: "#f3e5f5" borderColor: "#9c27b0" {
+  container "API Gateway" fillColor: "#f3e5f5" strokeColor: "#9c27b0" {
     shape gateway as @c4Component label: "API Gateway\nKong"
   }
 
-  container "Services" backgroundColor: "#fff3e0" borderColor: "#ff9800" {
+  container "Services" fillColor: "#fff3e0" strokeColor: "#ff9800" {
     shape auth as @c4Component label: "Auth Service\nJWT tokens"
     shape catalog as @c4Component label: "Catalog Service\nProduct data"
     shape orders as @c4Component label: "Orders Service\nOrder processing"
     shape payment as @c4Component label: "Payment Service\nPayment gateway"
   }
 
-  container "Data Layer" backgroundColor: "#e8f5e9" borderColor: "#4caf50" {
+  container "Data Layer" fillColor: "#e8f5e9" strokeColor: "#4caf50" {
     shape postgres as @db label: "PostgreSQL\nTransactional data"
     shape redis as @db label: "Redis\nCache & sessions"
     shape s3 as @storage label: "S3\nProduct images"
@@ -130,19 +130,19 @@ diagram "User Authentication Flow" {
 diagram "Cross-Functional Order Process" {
   direction LR
 
-  container "Customer" backgroundColor: "#e3f2fd" borderColor: "#2196f3" {
+  container "Customer" fillColor: "#e3f2fd" strokeColor: "#2196f3" {
     shape order as @bpmnTask label: "Place Order"
     shape payment as @bpmnTask label: "Make Payment"
     shape receive as @bpmnTask label: "Receive Items"
   }
 
-  container "Sales" backgroundColor: "#f3e5f5" borderColor: "#9c27b0" {
+  container "Sales" fillColor: "#f3e5f5" strokeColor: "#9c27b0" {
     shape validate as @bpmnTask label: "Validate Order"
     shape check as @bpmnGateway label: "Stock Available?"
     shape notify as @bpmnTask label: "Notify Customer"
   }
 
-  container "Warehouse" backgroundColor: "#fff3e0" borderColor: "#ff9800" {
+  container "Warehouse" fillColor: "#fff3e0" strokeColor: "#ff9800" {
     shape pick as @bpmnTask label: "Pick Items"
     shape pack as @bpmnTask label: "Pack Order"
     shape ship as @bpmnTask label: "Ship Package"
@@ -183,12 +183,12 @@ diagram "Dashboard Components" {
 
   // Define templates for reusable container styles
   template: "widget" {
-    backgroundColor: "#ffffff"
-    borderColor: "#e0e0e0"
+    fillColor: "#ffffff"
+    strokeColor: "#e0e0e0"
     padding: 16
   }
   template: "panel" {
-    backgroundColor: "#f5f5f5"
+    fillColor: "#f5f5f5"
     padding: 20
   }
   container "Header" templateId:"panel" {
@@ -235,26 +235,26 @@ diagram "Dashboard Components" {
 diagram "AWS VPC Architecture" {
   direction TB
 
-  container "VPC 10.0.0.0/16" backgroundColor: "#e8f5e9" borderColor: "#4caf50" padding: 30 {
+  container "VPC 10.0.0.0/16" fillColor: "#e8f5e9" strokeColor: "#4caf50" padding: 30 {
 
-    container "Public Subnet" backgroundColor: "#e3f2fd" borderColor: "#2196f3" padding: 20 {
+    container "Public Subnet" fillColor: "#e3f2fd" strokeColor: "#2196f3" padding: 20 {
       shape igw as @awsApiGateway label: "Internet Gateway"
       shape nat as @awsApiGateway label: "NAT Gateway"
       shape alb as @loadBalancer label: "Application Load Balancer"
       shape bastion as @awsEc2 label: "Bastion Host"
     }
 
-    container "Private Subnet A" backgroundColor: "#fff3e0" borderColor: "#ff9800" padding: 20 {
+    container "Private Subnet A" fillColor: "#fff3e0" strokeColor: "#ff9800" padding: 20 {
       shape web1 as @awsEc2 label: "Web Server 1"
       shape web2 as @awsEc2 label: "Web Server 2"
     }
 
-    container "Private Subnet B" backgroundColor: "#fff3e0" borderColor: "#ff9800" padding: 20 {
+    container "Private Subnet B" fillColor: "#fff3e0" strokeColor: "#ff9800" padding: 20 {
       shape app1 as @awsEc2 label: "App Server 1"
       shape app2 as @awsEc2 label: "App Server 2"
     }
 
-    container "Data Tier" backgroundColor: "#fce4ec" borderColor: "#e91e63" padding: 20 {
+    container "Data Tier" fillColor: "#fce4ec" strokeColor: "#e91e63" padding: 20 {
       shape rds as @awsRds label: "RDS Primary"
       shape rdsStandby as @awsRds label: "RDS Standby"
       shape elasticache as @db label: "ElastiCache"

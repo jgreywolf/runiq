@@ -74,8 +74,8 @@ describe('UML Component Diagram Shapes', () => {
 
     it('should apply style properties', () => {
       const ctx = createMockContext('Service', {
-        backgroundColor: '#e3f2fd',
-        borderColor: '#1976d2',
+        fillColor: '#e3f2fd',
+        strokeColor: '#1976d2',
       });
       const svg = componentShape.render(ctx, { x: 0, y: 0 });
 
@@ -135,8 +135,8 @@ describe('UML Component Diagram Shapes', () => {
 
     it('should apply style properties', () => {
       const ctx = createMockContext('file.xml', {
-        backgroundColor: '#fff8e1',
-        borderColor: '#f57f17',
+        fillColor: '#fff8e1',
+        strokeColor: '#f57f17',
       });
       const svg = artifactShape.render(ctx, { x: 0, y: 0 });
 
@@ -195,8 +195,8 @@ describe('UML Component Diagram Shapes', () => {
 
     it('should apply style properties', () => {
       const ctx = createMockContext('Node', {
-        backgroundColor: '#f3e5f5',
-        borderColor: '#7b1fa2',
+        fillColor: '#f3e5f5',
+        strokeColor: '#7b1fa2',
       });
       const svg = nodeShape.render(ctx, { x: 0, y: 0 });
 

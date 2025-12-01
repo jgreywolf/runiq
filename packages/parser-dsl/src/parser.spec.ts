@@ -87,7 +87,7 @@ describe('Langium Parser', () => {
     it('should parse shape with all properties', () => {
       const dsl = `
         diagram "test" {
-          style myStyle fill: "red"
+          style myStyle fillColor: "red"
           shape ComplexNode as @rhombus label: "Decision" style: myStyle tooltip: "Choose path"
         }
       `;
@@ -207,7 +207,7 @@ describe('Langium Parser', () => {
     it('should parse style declaration', () => {
       const dsl = `
         diagram "test" {
-          style myStyle fill: "#ff0000" stroke: "#000000" strokeWidth: 2
+          style myStyle fillColor: "#ff0000" strokeColor: "#000000" strokeWidth: 2
         }
       `;
       const result = parse(dsl);
@@ -215,8 +215,8 @@ describe('Langium Parser', () => {
       expect(result.success).toBe(true);
       expect(result.diagram?.styles).toBeDefined();
       expect(result.diagram?.styles?.myStyle).toEqual({
-        fill: '#ff0000',
-        stroke: '#000000',
+        fillColor: '#ff0000',
+        strokeColor: '#000000',
         strokeWidth: '2', // Numbers parsed as strings currently
       });
     });
@@ -245,8 +245,8 @@ describe('Langium Parser', () => {
         diagram "flowchart" {
           direction LR
           
-          style default fill: "#f0f0f0" stroke: "#333"
-          style highlight fill: "#ffeb3b" stroke: "#f57c00"
+          style default fillColor: "#f0f0f0" strokeColor: "#333"
+          style highlight fillColor: "#ffeb3b" strokeColor: "#f57c00"
           
           shape Start as @rounded label: "Start" style: highlight
           shape Process as @rounded label: "Process"
@@ -497,9 +497,9 @@ A -> B
         diagram "flowchart" {
           direction TB
           
-          style default fill: "#f0f0f0" stroke: "#333" strokeWidth: 2
-          style decision fill: "#fff7e6" stroke: "#aa7700"
-          style error fill: "#ffebee" stroke: "#c62828"
+          style default fillColor: "#f0f0f0" strokeColor: "#333" strokeWidth: 2
+          style decision fillColor: "#fff7e6" strokeColor: "#aa7700"
+          style error fillColor: "#ffebee" strokeColor: "#c62828"
           
           shape Start as @rounded label: "User visits app"
           shape CheckAuth as @rhombus label: "Authenticated?" style: decision

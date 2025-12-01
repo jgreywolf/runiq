@@ -234,14 +234,14 @@ Apply consistent network diagram styling:
 diagram "Styled Network" {
   direction LR
 
-  shape internet as @cloud label: "Internet" fill: "#dbeafe" stroke: "#3b82f6"
-  shape fw as @firewall label: "Firewall" fill: "#fee2e2" stroke: "#dc2626"
-  shape switch as @switch label: "Switch" fill: "#fef3c7" stroke: "#f59e0b"
-  shape server as @server label: "Server" fill: "#d1fae5" stroke: "#10b981"
+  shape internet as @cloud label: "Internet" fill: "#dbeafe" strokeColor: "#3b82f6"
+  shape fw as @firewall label: "Firewall" fill: "#fee2e2" strokeColor: "#dc2626"
+  shape switch as @switch label: "Switch" fill: "#fef3c7" strokeColor: "#f59e0b"
+  shape server as @server label: "Server" fill: "#d1fae5" strokeColor: "#10b981"
 
-  internet -> fw style: { stroke: "#3b82f6", strokeWidth: 2 }
-  fw -> switch style: { stroke: "#dc2626", strokeWidth: 2 }
-  switch -> server style: { stroke: "#10b981", strokeWidth: 2 }
+  internet -> fw style: { strokeColor: "#3b82f6", strokeWidth: 2 }
+  fw -> switch style: { strokeColor: "#dc2626", strokeWidth: 2 }
+  switch -> server style: { strokeColor: "#10b981", strokeWidth: 2 }
 }
 ```
 

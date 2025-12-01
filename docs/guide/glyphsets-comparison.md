@@ -25,7 +25,7 @@ Comparison glyphsets help visualize contrasts, trade-offs, and multi-dimensional
 
 ```runiq
 glyphset matrix "Eisenhower Matrix" {
-  theme "professional"
+  theme professional
   quadrant "Do First: Urgent & Important"
   quadrant "Schedule: Important, Not Urgent"
   quadrant "Delegate: Urgent, Not Important"
@@ -33,7 +33,7 @@ glyphset matrix "Eisenhower Matrix" {
 
    horizontalAxis "Urgency"
   verticalAxis "Importance"
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -71,7 +71,7 @@ glyphset matrix3x3 "Risk Matrix" {
 
   horizontalAxis "Probability"
   verticalAxis "Impact"
-  theme "sunset"
+  theme sunset
 }
 ```
 
@@ -89,7 +89,7 @@ Matrix with multiple sections and subsections.
 
 ```runiq
 glyphset segmentedMatrix "Market Segments" {
-   theme "forest"
+   theme forest
   quadrant "Enterprise\nPremium"
   quadrant "Enterprise\nStandard"
   quadrant "SMB\nPremium"
@@ -112,7 +112,7 @@ Matrix with titled rows/columns.
 
 ```runiq
 glyphset titledMatrix "Vendor Evaluation (3x3)" {
-   theme "forest"
+   theme forest
   quadrant "$$"
   quadrant "$$$"
   quadrant "$"

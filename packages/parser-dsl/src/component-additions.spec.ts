@@ -235,8 +235,8 @@ describe('Component Diagram Additional Shapes', () => {
   it('should parse component diagram with styling', () => {
     const dsl = `
       diagram "Styled Components" {
-        style portStyle fill: "#e3f2fd" stroke: "#1976d2" strokeWidth: 2
-        style moduleStyle fill: "#f3e5f5" stroke: "#7b1fa2" strokeWidth: 2
+        style portStyle fillColor: "#e3f2fd" strokeColor: "#1976d2" strokeWidth: 2
+        style moduleStyle fillColor: "#f3e5f5" strokeColor: "#7b1fa2" strokeWidth: 2
         
         shape gateway as @component label:"Gateway"
         shape port1 as @port label:"Port 1" style:portStyle

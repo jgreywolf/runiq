@@ -7,9 +7,9 @@ diagram "Microservices Architecture with Templates"
 template "microservice" {
   label: "Microservice Template"
   description: "Standard microservice container with default styling"
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
-  borderWidth: 2
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
+  strokeWidth: 2
   padding: 20
   collapseButtonVisible: true
   shadow: true
@@ -18,9 +18,9 @@ template "microservice" {
 template "database" {
   label: "Database Template"
   description: "Database container template"
-  backgroundColor: "#fff3e0"
-  borderColor: "#ff9800"
-  borderWidth: 2
+  fillColor: "#fff3e0"
+  strokeColor: "#ff9800"
+  strokeWidth: 2
   padding: 15
   shadow: true
 }
@@ -28,9 +28,9 @@ template "database" {
 template "api-gateway" {
   label: "API Gateway Template"
   description: "API gateway container template"
-  backgroundColor: "#f3e5f5"
-  borderColor: "#9c27b0"
-  borderWidth: 2
+  fillColor: "#f3e5f5"
+  strokeColor: "#9c27b0"
+  strokeWidth: 2
   padding: 20
   collapseButtonVisible: true
 }
@@ -40,15 +40,15 @@ preset "card" {
   label: "Card Style"
   padding: 15
   shadow: true
-  borderWidth: 1
+  strokeWidth: 1
   borderStyle: "solid"
 }
 
 preset "highlighted" {
   label: "Highlighted Section"
-  backgroundColor: "#fff3cd"
-  borderColor: "#ffc107"
-  borderWidth: 2
+  fillColor: "#fff3cd"
+  strokeColor: "#ffc107"
+  strokeWidth: 2
 }
 
 preset "panel" {
@@ -82,7 +82,7 @@ container "Data Layer" templateId: "database" preset: "highlighted" {
 }
 
 // Container with template and inline overrides
-container "Payment Service" templateId: "microservice" backgroundColor: "#e8f5e9" borderColor: "#4caf50" {
+container "Payment Service" templateId: "microservice" fillColor: "#e8f5e9" strokeColor: "#4caf50" {
   shape payment as @rectangle label: "Payment API"
   shape vault as @cylinder label: "Vault"
 }

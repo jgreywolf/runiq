@@ -20,8 +20,8 @@ Runiq's container template system enables:
 diagram "Microservices"
 
 template "service" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
   padding: 20
 }
 
@@ -40,8 +40,8 @@ container "Payment Service" templateId: "service" {
 diagram "Dashboard"
 
 preset "card" {
-  backgroundColor: "#ffffff"
-  borderColor: "#dee2e6"
+  fillColor: "#ffffff"
+  strokeColor: "#dee2e6"
   padding: 15
   shadow: true
 }
@@ -65,9 +65,9 @@ Templates define reusable container patterns with optional parameters:
 template "microservice" {
   label: "Microservice Template"
   description: "Standard microservice container"
-  backgroundColor: "#e8f5e9"
-  borderColor: "#4caf50"
-  borderWidth: 2
+  fillColor: "#e8f5e9"
+  strokeColor: "#4caf50"
+  strokeWidth: 2
   padding: 20
   shadow: true
   collapseButtonVisible: true
@@ -76,6 +76,7 @@ template "microservice" {
 ```
 
 **Template Properties**:
+
 - `label` (string): Display name for the template
 - `description` (string): Template description
 - `parameters` (array): Template parameters (see below)
@@ -111,7 +112,7 @@ template "dashboard-widget" {
     "collapsible": boolean = true,
     "theme": string = "light"
   ]
-  backgroundColor: "#ffffff"
+  fillColor: "#ffffff"
   padding: 15
   shadow: true
   collapseButtonVisible: true
@@ -119,12 +120,14 @@ template "dashboard-widget" {
 ```
 
 **Parameter Types**:
+
 - `string` - Text values
 - `number` - Numeric values
 - `boolean` - True/false values
 - `color` - Color hex codes
 
 **Parameter Syntax**:
+
 ```
 "paramName": type = defaultValue
 ```
@@ -135,8 +138,8 @@ Inline properties override template defaults:
 
 ```runiq
 container "Custom Service" templateId: "microservice"
-  backgroundColor: "#f3e5f5"
-  borderColor: "#9c27b0"
+  fillColor: "#f3e5f5"
+  strokeColor: "#9c27b0"
 {
   shape custom as @server label: "Custom API"
 }
@@ -153,30 +156,31 @@ Presets define named style collections:
 ```runiq
 preset "card" {
   label: "Card Style"
-  backgroundColor: "#ffffff"
-  borderColor: "#dee2e6"
-  borderWidth: 1
+  fillColor: "#ffffff"
+  strokeColor: "#dee2e6"
+  strokeWidth: 1
   padding: 15
   shadow: true
 }
 
 preset "highlighted" {
   label: "Highlighted Section"
-  backgroundColor: "#fff3cd"
-  borderColor: "#ffc107"
-  borderWidth: 2
+  fillColor: "#fff3cd"
+  strokeColor: "#ffc107"
+  strokeWidth: 2
 }
 
 preset "panel" {
   label: "Panel Style"
-  backgroundColor: "#f8f9fa"
-  borderColor: "#6c757d"
+  fillColor: "#f8f9fa"
+  strokeColor: "#6c757d"
   padding: 20
   shadow: false
 }
 ```
 
 **Preset Properties**:
+
 - `label` (string): Display name
 - All container style properties (partial)
 
@@ -198,15 +202,15 @@ container "Standard" preset: "panel" {
 
 Runiq provides common presets:
 
-| Preset ID | Description | Colors |
-|-----------|-------------|---------|
-| `card` | Card-style container | White background, light gray border |
-| `panel` | Panel-style container | Light gray background |
-| `highlighted` | Emphasized container | Yellow background, orange border |
-| `primary` | Primary theme | Blue background |
-| `success` | Success theme | Green background |
-| `warning` | Warning theme | Orange background |
-| `error` | Error theme | Red background |
+| Preset ID     | Description           | Colors                              |
+| ------------- | --------------------- | ----------------------------------- |
+| `card`        | Card-style container  | White background, light gray border |
+| `panel`       | Panel-style container | Light gray background               |
+| `highlighted` | Emphasized container  | Yellow background, orange border    |
+| `primary`     | Primary theme         | Blue background                     |
+| `success`     | Success theme         | Green background                    |
+| `warning`     | Warning theme         | Orange background                   |
+| `error`       | Error theme           | Red background                      |
 
 ### Preset Overrides
 
@@ -214,7 +218,7 @@ Inline properties override preset styles:
 
 ```runiq
 container "Custom Card" preset: "card"
-  backgroundColor: "#e3f2fd"
+  fillColor: "#e3f2fd"
 {
   shape content as @rectangle label: "Content"
 }
@@ -232,8 +236,8 @@ Inherit properties from another container using `extends`:
 diagram "Inheritance Example"
 
 container "Base"
-  backgroundColor: "#f0f0f0"
-  borderColor: "#999"
+  fillColor: "#f0f0f0"
+  strokeColor: "#999"
   padding: 20
 {
   shape base as @rectangle label: "Base Component"
@@ -241,7 +245,7 @@ container "Base"
 
 container "Derived"
   extends: "Base"
-  borderColor: "#2196f3"
+  strokeColor: "#2196f3"
 {
   shape derived as @rectangle label: "Derived Component"
 }
@@ -273,12 +277,12 @@ Containers can extend template definitions:
 
 ```runiq
 template "microservice" {
-  backgroundColor: "#e8f5e9"
+  fillColor: "#e8f5e9"
   padding: 20
 }
 
 container "EnhancedService" extends: "microservice"
-  borderColor: "#4caf50"
+  strokeColor: "#4caf50"
 {
   shape api as @server label: "Enhanced API"
 }
@@ -290,7 +294,7 @@ Create inheritance chains:
 
 ```runiq
 container "Level1"
-  backgroundColor: "#f0f0f0"
+  fillColor: "#f0f0f0"
   padding: 10
 {
   shape l1 as @rectangle label: "Level 1"
@@ -304,7 +308,7 @@ container "Level2" extends: "Level1"
 
 container "Level3" extends: "Level2"
   padding: 20
-  borderColor: "#2196f3"
+  strokeColor: "#2196f3"
 {
   shape l3 as @rectangle label: "Level 3"
 }
@@ -324,13 +328,13 @@ When combining multiple style sources, precedence is:
 
 ```runiq
 template "service" {
-  backgroundColor: "#e8f5e9"
+  fillColor: "#e8f5e9"
   padding: 20
 }
 
 preset "card" {
   shadow: true
-  borderWidth: 1
+  strokeWidth: 1
 }
 
 container "MyService" templateId: "service" preset: "card" {
@@ -339,21 +343,22 @@ container "MyService" templateId: "service" preset: "card" {
 ```
 
 **Resolved Style**:
-- `backgroundColor: "#e8f5e9"` (from template)
+
+- `fillColor: "#e8f5e9"` (from template)
 - `padding: 20` (from template)
 - `shadow: true` (from preset)
-- `borderWidth: 1` (from preset)
+- `strokeWidth: 1` (from preset)
 
 ### Template + Inheritance
 
 ```runiq
 template "base-service" {
-  backgroundColor: "#f0f0f0"
+  fillColor: "#f0f0f0"
   padding: 15
 }
 
 container "Foundation" {
-  borderColor: "#999"
+  strokeColor: "#999"
   shadow: false
 }
 
@@ -363,24 +368,25 @@ container "Service" templateId: "base-service" extends: "Foundation" {
 ```
 
 **Resolved Style**:
-- `borderColor: "#999"` (from Foundation via extends)
+
+- `strokeColor: "#999"` (from Foundation via extends)
 - `shadow: false` (from Foundation via extends)
-- `backgroundColor: "#f0f0f0"` (from base-service template, overrides extends)
+- `fillColor: "#f0f0f0"` (from base-service template, overrides extends)
 - `padding: 15` (from base-service template, overrides extends)
 
 ### Preset + Inheritance
 
 ```runiq
 container "Base"
-  backgroundColor: "#f0f0f0"
+  fillColor: "#f0f0f0"
   padding: 20
 {
   shape base as @rectangle label: "Base"
 }
 
 preset "highlighted" {
-  borderColor: "#ffc107"
-  borderWidth: 2
+  strokeColor: "#ffc107"
+  strokeWidth: 2
 }
 
 container "Derived" extends: "Base" preset: "highlighted" {
@@ -389,26 +395,27 @@ container "Derived" extends: "Base" preset: "highlighted" {
 ```
 
 **Resolved Style**:
-- `backgroundColor: "#f0f0f0"` (from Base via extends)
+
+- `fillColor: "#f0f0f0"` (from Base via extends)
 - `padding: 20` (from Base via extends)
-- `borderColor: "#ffc107"` (from highlighted preset, overrides extends)
-- `borderWidth: 2` (from highlighted preset, overrides extends)
+- `strokeColor: "#ffc107"` (from highlighted preset, overrides extends)
+- `strokeWidth: 2` (from highlighted preset, overrides extends)
 
 ### All Three Combined
 
 ```runiq
 template "service" {
-  backgroundColor: "#e3f2fd"
+  fillColor: "#e3f2fd"
   padding: 20
 }
 
 preset "card" {
   shadow: true
-  borderWidth: 1
+  strokeWidth: 1
 }
 
 container "Base"
-  borderColor: "#999"
+  strokeColor: "#999"
 {
   shape base as @rectangle label: "Base"
 }
@@ -424,17 +431,19 @@ container "AdvancedService"
 ```
 
 **Resolved Style** (in precedence order):
-1. `borderColor: "#999"` ← extends
-2. `backgroundColor: "#e3f2fd"` ← template (overrides extends)
+
+1. `strokeColor: "#999"` ← extends
+2. `fillColor: "#e3f2fd"` ← template (overrides extends)
 3. `padding: 20` ← template (overrides extends)
 4. `shadow: true` ← preset (overrides extends + template)
-5. `borderWidth: 1` ← preset (overrides extends + template)
+5. `strokeWidth: 1` ← preset (overrides extends + template)
 6. `padding: 25` ← inline (overrides all)
 
 **Final Result**:
-- `backgroundColor: "#e3f2fd"`
-- `borderColor: "#999"`
-- `borderWidth: 1`
+
+- `fillColor: "#e3f2fd"`
+- `strokeColor: "#999"`
+- `strokeWidth: 1`
 - `padding: 25` (inline wins!)
 - `shadow: true`
 
@@ -448,8 +457,8 @@ diagram "Analytics Dashboard"
 // Define templates
 template "widget" {
   label: "Dashboard Widget"
-  backgroundColor: "#ffffff"
-  borderWidth: 1
+  fillColor: "#ffffff"
+  strokeWidth: 1
   padding: 15
   shadow: true
   collapseButtonVisible: true
@@ -458,25 +467,25 @@ template "widget" {
 
 template "chart" {
   label: "Chart Container"
-  backgroundColor: "#f8f9fa"
+  fillColor: "#f8f9fa"
   padding: 20
   shadow: false
 }
 
 // Define theme presets
 preset "primary" {
-  borderColor: "#2196f3"
-  backgroundColor: "#e3f2fd"
+  strokeColor: "#2196f3"
+  fillColor: "#e3f2fd"
 }
 
 preset "success" {
-  borderColor: "#4caf50"
-  backgroundColor: "#e8f5e9"
+  strokeColor: "#4caf50"
+  fillColor: "#e8f5e9"
 }
 
 preset "warning" {
-  borderColor: "#ff9800"
-  backgroundColor: "#fff3e0"
+  strokeColor: "#ff9800"
+  fillColor: "#fff3e0"
 }
 
 // Use templates and presets
@@ -513,9 +522,9 @@ diagram "Microservices Platform"
 template "microservice" {
   label: "Microservice"
   description: "Standard microservice container"
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
-  borderWidth: 2
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
+  strokeWidth: 2
   padding: 20
   collapseButtonVisible: true
   shadow: true
@@ -524,27 +533,27 @@ template "microservice" {
 // Database template
 template "database" {
   label: "Database"
-  backgroundColor: "#fff3e0"
-  borderColor: "#ff9800"
-  borderWidth: 2
+  fillColor: "#fff3e0"
+  strokeColor: "#ff9800"
+  strokeWidth: 2
   padding: 15
   shadow: true
 }
 
 // Presets for different layers
 preset "frontend" {
-  borderColor: "#9c27b0"
-  backgroundColor: "#f3e5f5"
+  strokeColor: "#9c27b0"
+  fillColor: "#f3e5f5"
 }
 
 preset "backend" {
-  borderColor: "#2196f3"
-  backgroundColor: "#e3f2fd"
+  strokeColor: "#2196f3"
+  fillColor: "#e3f2fd"
 }
 
 preset "data" {
-  borderColor: "#ff9800"
-  backgroundColor: "#fff3e0"
+  strokeColor: "#ff9800"
+  fillColor: "#fff3e0"
 }
 
 // Frontend layer
@@ -586,9 +595,9 @@ diagram "Service Inheritance"
 
 // Base service container
 container "BaseService"
-  backgroundColor: "#f0f0f0"
-  borderColor: "#999"
-  borderWidth: 1
+  fillColor: "#f0f0f0"
+  strokeColor: "#999"
+  strokeWidth: 1
   padding: 15
 {
   shape base as @rectangle label: "Base Component"
@@ -596,7 +605,7 @@ container "BaseService"
 
 // Authenticated service extends base
 container "AuthenticatedService" extends: "BaseService"
-  borderColor: "#2196f3"
+  strokeColor: "#2196f3"
   collapseButtonVisible: true
 {
   shape auth as @rectangle label: "Auth Middleware"
@@ -604,9 +613,9 @@ container "AuthenticatedService" extends: "BaseService"
 
 // Admin service extends authenticated
 container "AdminService" extends: "AuthenticatedService"
-  backgroundColor: "#fff3cd"
-  borderColor: "#ffc107"
-  borderWidth: 2
+  fillColor: "#fff3cd"
+  strokeColor: "#ffc107"
+  strokeWidth: 2
 {
   shape admin as @rectangle label: "Admin Endpoint"
   shape rbac as @rectangle label: "RBAC"
@@ -624,8 +633,8 @@ diagram "Operations Dashboard"
 
 // Widget template
 template "dashboard-widget" {
-  backgroundColor: "#ffffff"
-  borderWidth: 1
+  fillColor: "#ffffff"
+  strokeWidth: 1
   padding: 15
   shadow: true
   collapseButtonVisible: true
@@ -633,29 +642,29 @@ template "dashboard-widget" {
 
 // Section template
 template "dashboard-section" {
-  backgroundColor: "#f8f9fa"
-  borderColor: "#6c757d"
+  fillColor: "#f8f9fa"
+  strokeColor: "#6c757d"
   padding: 25
   shadow: false
 }
 
 // Container for entire dashboard
 container "Dashboard" templateId: "dashboard-section" {
-  
+
   // Nested containers using widget template
-  container "System Health" templateId: "dashboard-widget" borderColor: "#4caf50" {
+  container "System Health" templateId: "dashboard-widget" strokeColor: "#4caf50" {
     shape cpu as @gauge label: "CPU: 45%"
     shape memory as @gauge label: "Memory: 67%"
     shape disk as @gauge label: "Disk: 23%"
   }
-  
-  container "Active Services" templateId: "dashboard-widget" borderColor: "#2196f3" {
+
+  container "Active Services" templateId: "dashboard-widget" strokeColor: "#2196f3" {
     shape api as @circle label: "API: Running"
     shape db as @circle label: "DB: Running"
     shape cache as @circle label: "Cache: Running"
   }
-  
-  container "Alerts" templateId: "dashboard-widget" borderColor: "#ff9800" {
+
+  container "Alerts" templateId: "dashboard-widget" strokeColor: "#ff9800" {
     shape errors as @rhombus label: "Errors: 2"
     shape warnings as @rhombus label: "Warnings: 7"
   }
@@ -667,6 +676,7 @@ container "Dashboard" templateId: "dashboard-section" {
 ### 1. Naming Conventions
 
 **Use descriptive template names**:
+
 ```runiq
 // Good - Clear purpose
 template "microservice-container"
@@ -681,6 +691,7 @@ template "template-a"
 ### 2. Template Organization
 
 **Group related templates**:
+
 ```runiq
 // Service templates
 template "api-service" { ... }
@@ -696,48 +707,50 @@ template "modal-widget" { ... }
 ### 3. Preset Theming
 
 **Define consistent themes**:
+
 ```runiq
 // Color palette
 preset "primary" {
-  borderColor: "#2196f3"
-  backgroundColor: "#e3f2fd"
+  strokeColor: "#2196f3"
+  fillColor: "#e3f2fd"
 }
 
 preset "secondary" {
-  borderColor: "#6c757d"
-  backgroundColor: "#e9ecef"
+  strokeColor: "#6c757d"
+  fillColor: "#e9ecef"
 }
 
 preset "success" {
-  borderColor: "#4caf50"
-  backgroundColor: "#e8f5e9"
+  strokeColor: "#4caf50"
+  fillColor: "#e8f5e9"
 }
 
 preset "danger" {
-  borderColor: "#f44336"
-  backgroundColor: "#ffebee"
+  strokeColor: "#f44336"
+  fillColor: "#ffebee"
 }
 ```
 
 ### 4. Minimal Templates
 
 **Keep templates focused**:
+
 ```runiq
 // Good - Focused template
 template "service" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
   padding: 20
 }
 
 // Avoid - Too many properties
 template "everything" {
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
   padding: 20
   margin: 10
   shadow: true
-  borderWidth: 2
+  strokeWidth: 2
   borderStyle: "dashed"
   collapseButtonVisible: true
   resizable: true
@@ -748,6 +761,7 @@ template "everything" {
 ### 5. Template Parameters
 
 **Use parameters for variations**:
+
 ```runiq
 template "sized-container" {
   parameters: [
@@ -755,14 +769,15 @@ template "sized-container" {
     "height": number = 200,
     "padding": number = 15
   ]
-  backgroundColor: "#ffffff"
-  borderWidth: 1
+  fillColor: "#ffffff"
+  strokeWidth: 1
 }
 ```
 
 ### 6. Inheritance Depth
 
 **Limit inheritance chains**:
+
 ```runiq
 // Good - 2-3 levels max
 container "Base" { ... }
@@ -777,12 +792,13 @@ container "Level6" extends: "Level5" { ... }
 ### 7. Documentation
 
 **Document templates with labels and descriptions**:
+
 ```runiq
 template "microservice" {
   label: "Microservice Container"
   description: "Standard container for microservices with collapse and resize"
-  backgroundColor: "#e3f2fd"
-  borderColor: "#2196f3"
+  fillColor: "#e3f2fd"
+  strokeColor: "#2196f3"
   padding: 20
   collapseButtonVisible: true
   resizable: true
@@ -793,38 +809,38 @@ template "microservice" {
 
 ### Template Definition Properties
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `id` | string | Yes | Unique template identifier |
-| `label` | string | No | Display name |
-| `description` | string | No | Template description |
-| `parameters` | array | No | Template parameters |
-| `containerStyle` | object | No | Default container styles |
+| Property         | Type   | Required | Description                |
+| ---------------- | ------ | -------- | -------------------------- |
+| `id`             | string | Yes      | Unique template identifier |
+| `label`          | string | No       | Display name               |
+| `description`    | string | No       | Template description       |
+| `parameters`     | array  | No       | Template parameters        |
+| `containerStyle` | object | No       | Default container styles   |
 
 ### Parameter Properties
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `name` | string | Yes | Parameter name |
-| `type` | `string` \| `number` \| `boolean` \| `color` | Yes | Parameter type |
-| `defaultValue` | any | No | Default value |
-| `description` | string | No | Parameter description |
+| Property       | Type                                         | Required | Description           |
+| -------------- | -------------------------------------------- | -------- | --------------------- |
+| `name`         | string                                       | Yes      | Parameter name        |
+| `type`         | `string` \| `number` \| `boolean` \| `color` | Yes      | Parameter type        |
+| `defaultValue` | any                                          | No       | Default value         |
+| `description`  | string                                       | No       | Parameter description |
 
 ### Preset Definition Properties
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `id` | string | Yes | Unique preset identifier |
-| `label` | string | No | Display name |
-| `style` | object | Yes | Container style properties |
+| Property | Type   | Required | Description                |
+| -------- | ------ | -------- | -------------------------- |
+| `id`     | string | Yes      | Unique preset identifier   |
+| `label`  | string | No       | Display name               |
+| `style`  | object | Yes      | Container style properties |
 
 ### Container Usage Properties
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `templateId` | string | Reference to template ID |
-| `preset` | string | Reference to preset ID |
-| `extends` | string | Reference to container/template ID to inherit from |
+| Property     | Type   | Description                                        |
+| ------------ | ------ | -------------------------------------------------- |
+| `templateId` | string | Reference to template ID                           |
+| `preset`     | string | Reference to preset ID                             |
+| `extends`    | string | Reference to container/template ID to inherit from |
 
 ## Style Resolution Algorithm
 
@@ -847,32 +863,33 @@ When a container uses templates, presets, and inheritance, styles are resolved i
    - Highest priority, overrides all
 
 **Example Resolution**:
+
 ```typescript
 // Pseudocode for style resolution
 function resolveContainerStyle(container, diagram) {
   let style = {};
-  
+
   // 1. Apply extended container's styles
   if (container.extends) {
     const base = findContainer(container.extends);
     style = { ...style, ...resolveContainerStyle(base, diagram) };
   }
-  
+
   // 2. Apply template styles
   if (container.templateId) {
     const template = findTemplate(container.templateId);
     style = { ...style, ...template.containerStyle };
   }
-  
+
   // 3. Apply preset styles
   if (container.preset) {
     const preset = findPreset(container.preset);
     style = { ...style, ...preset.style };
   }
-  
+
   // 4. Apply inline styles (highest priority)
   style = { ...style, ...container.containerStyle };
-  
+
   return style;
 }
 ```

@@ -129,6 +129,9 @@ importers:
       '@eslint/js':
         specifier: ^9.36.0
         version: 9.37.0
+      '@iconify/svelte':
+        specifier: ^5.1.0
+        version: 5.1.0(svelte@5.39.11)
       '@internationalized/date':
         specifier: 3.8.1
         version: 3.8.1
@@ -1696,6 +1699,15 @@ packages:
     resolution: {integrity: sha512-OQQYl8yC5j3QklZOYnK31QYe5h47IhyCoxSLd53f0e0nA4dgi8VOZS30SgSAbsecQ+S0xlGJMjXIHTIqZ+ML3w==}
     dependencies:
       '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify/svelte@5.1.0(svelte@5.39.11):
+    resolution: {integrity: sha512-I14nSqo0pNXO5OKsT61ZO3XIPF4yRHA2ErgPsaZ1sPJdKXn80o7o8jOe1xpWphbb9FihdX6by9zlKKBss61mFw==}
+    peerDependencies:
+      svelte: '>4.0.0'
+    dependencies:
+      '@iconify/types': 2.0.0
+      svelte: 5.39.11
     dev: true
 
   /@iconify/types@2.0.0:

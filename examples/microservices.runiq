@@ -2,13 +2,13 @@ diagram "Microservices Architecture" {
   direction LR
 
   # Frontend Layer
-  container frontend "Frontend Layer" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:3 {
+  container frontend "Frontend Layer" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:3 {
     shape web as @rounded label:"Web UI"
     shape mobile as @rounded label:"Mobile App"
   }
 
   # Backend Services
-  container backend "Backend Services" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:3 {
+  container backend "Backend Services" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:3 {
     shape auth as @hexagon label:"Auth Service"
     shape api as @hexagon label:"API Gateway"
     shape users as @hexagon label:"User Service"
@@ -20,7 +20,7 @@ diagram "Microservices Architecture" {
   }
 
   # Data Layer
-  container data "Data Layer" backgroundColor:"#fff3e0" borderColor:"#f57c00" borderWidth:3 {
+  container data "Data Layer" fillColor:"#fff3e0" strokeColor:"#f57c00" strokeWidth:3 {
     shape db as @cylinder label:"PostgreSQL"
     shape cache as @cylinder label:"Redis"
     shape queue as @rect label:"Message Queue"

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BookOpen, FileText, Lightbulb } from 'lucide-svelte';
+	import Icon from '@iconify/svelte';
 
 	function openDocs() {
 		window.open('https://www.runiq.org/guide/getting-started', '_blank');
@@ -36,23 +36,23 @@
 				onclick={openQuickStart}
 				class="inline-flex items-center justify-center gap-2 rounded-lg bg-runiq-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-runiq-600"
 			>
-				<Lightbulb class="h-4 w-4" />
+				<Icon icon="lucide:lightbulb" width="16" height="16" />
 				5-Minute Quick Start
 			</button>
 
 			<div class="flex gap-2">
 				<button
 					onclick={openDocs}
-					class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
+					class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
 				>
-					<BookOpen class="h-4 w-4" />
+					<Icon icon="lucide:book-open" width="16" height="16" />
 					Documentation
 				</button>
 				<button
 					onclick={openExamples}
-					class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
+					class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
 				>
-					<FileText class="h-4 w-4" />
+					<Icon icon="lucide:file-text" width="16" height="16" />
 					Examples
 				</button>
 			</div>
@@ -64,7 +64,11 @@
 			<ul class="space-y-1 text-xs text-neutral-600">
 				<li class="flex items-start gap-2">
 					<span class="text-runiq-500">•</span>
-					<span>Start with <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs">diagram "My First Diagram"</code></span>
+					<span
+						>Start with <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs"
+							>diagram "My First Diagram"</code
+						></span
+					>
 				</li>
 				<li class="flex items-start gap-2">
 					<span class="text-runiq-500">•</span>
@@ -72,7 +76,10 @@
 				</li>
 				<li class="flex items-start gap-2">
 					<span class="text-runiq-500">•</span>
-					<span>Press <kbd class="rounded bg-neutral-100 px-1.5 py-0.5 text-xs font-semibold">F1</kbd> anytime for help</span>
+					<span
+						>Press <kbd class="rounded bg-neutral-100 px-1.5 py-0.5 text-xs font-semibold">F1</kbd> anytime
+						for help</span
+					>
 				</li>
 			</ul>
 		</div>

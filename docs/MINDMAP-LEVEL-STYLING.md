@@ -107,13 +107,13 @@ diagram "Colored Mindmap" {
   container "Strategy" algorithm: radial spacing: 100 {
     // Level detection still works with custom colors
     shape central as @circle label: "Strategy"
-      fill:"#6366f1" stroke:"#4338ca"
+      fill:"#6366f1" strokeColor:"#4338ca"
 
     shape branch1 as @roundedRectangle label: "Branch 1"
-      fill:"#10b981" stroke:"#059669"
+      fill:"#10b981" strokeColor:"#059669"
 
     shape detail as @rectangle label: "Detail"
-      fill:"#d1fae5" stroke:"#059669"
+      fill:"#d1fae5" strokeColor:"#059669"
 
     central -> branch1
     branch1 -> detail

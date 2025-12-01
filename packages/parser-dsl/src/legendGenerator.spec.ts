@@ -469,7 +469,7 @@ describe('Legend Generator', () => {
       };
 
       const legend = generateCategoryLegend(mapping as any);
-      const svg = renderLegendSVG(legend, { backgroundColor: '#f0f0f0' });
+      const svg = renderLegendSVG(legend, { fillColor: '#f0f0f0' });
 
       expect(svg).toContain('fill="#f0f0f0"');
     });

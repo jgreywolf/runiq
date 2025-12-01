@@ -157,9 +157,9 @@ function generateWithContainers(
       id: 'process-step',
       label: 'Process Step',
       containerStyle: {
-        backgroundColor: '#4472C4', // Office blue
-        borderColor: '#2E5AAC',
-        borderWidth: 0,
+        fillColor: '#4472C4', // Office blue
+        strokeColor: '#2E5AAC',
+        strokeWidth: 0,
         padding: 20,
         shadow: true,
         borderStyle: 'solid',

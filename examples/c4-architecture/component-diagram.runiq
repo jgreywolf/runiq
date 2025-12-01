@@ -3,7 +3,7 @@ diagram "API Application - Component Diagram"{
 
   shape webapp as @c4Container label:"Web Application"
 
-  container apiContainer "API Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container apiContainer "API Container" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape controller as @c4Component label:"REST Controller"
     shape security as @c4Component label:"Security Component"
     shape emailComponent as @c4Component label:"Email Component"

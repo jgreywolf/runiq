@@ -77,17 +77,27 @@ function extractGlyphSetParams(
       const name = param.name;
       let value: string | number | boolean;
 
-      if (typeof param.value === 'string') {
-        const strValue = param.value;
-        // Check if it's a quoted string and remove quotes
-        if (strValue.startsWith('"') && strValue.endsWith('"')) {
-          value = strValue.replace(/^"|"$/g, '');
-        } else {
-          // BooleanValue literals 'true' and 'false' come as strings
-          value = strValue;
-        }
+      // Handle new GlyphSetParameterValue structure
+      const paramValue = param.value;
+      if (paramValue.stringValue !== undefined) {
+        // STRING value - remove quotes
+        const strValue = paramValue.stringValue;
+        value = strValue.replace(/^"|"$/g, '');
+      } else if (paramValue.numberValue !== undefined) {
+        // NUMBER value
+        value = paramValue.numberValue;
+      } else if (paramValue.boolValue !== undefined) {
+        // BooleanValue
+        value = paramValue.boolValue;
+      } else if (paramValue.themeValue !== undefined) {
+        // ThemeValue - already unquoted string
+        value = paramValue.themeValue;
+      } else if (paramValue.directionValue !== undefined) {
+        // DirectionValue - already unquoted string
+        value = paramValue.directionValue;
       } else {
-        value = param.value; // Keep numbers as-is
+        // Fallback - shouldn't happen with proper grammar
+        value = String(paramValue);
       }
 
       params[name] = value;

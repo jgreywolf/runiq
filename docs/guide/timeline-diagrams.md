@@ -12,6 +12,26 @@ Create chronological timeline diagrams to visualize events, milestones, and peri
 
 Timeline diagrams display events in chronological order, perfect for project roadmaps, company histories, product releases, and career progressions. They support both horizontal and vertical orientations with customizable colors, icons, and period backgrounds.
 
+## Theming
+
+Apply professional color schemes to your timeline diagrams:
+
+```runiq
+timeline "Themed Project Roadmap" {
+  theme forest
+
+  event kickoff date:"2024-01-15" label:"Project Kickoff"
+  event design date:"2024-02-20" label:"Design Complete"
+  event launch date:"2024-06-01" label:"Product Launch"
+
+  orientation horizontal
+}
+```
+
+**Available themes**: `runiq` (default), `professional`, `forest`, `sunset`, `ocean`, `monochrome`, `colorful`, `vibrant`, `warm`, `cool`
+
+[Learn more about themes →](/guide/themes)
+
 ## Key Concepts
 
 ### Events

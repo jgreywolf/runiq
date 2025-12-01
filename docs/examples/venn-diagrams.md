@@ -84,7 +84,7 @@ diagram "Subscription Plans" {
     colors:["#cbd5e0", "#4299e1", "#2c5aa0"]
     intersections:["Basic+Pro", "Basic+Ent", "Pro+Ent", "All Plans"]
     fontSize: 14
-    stroke: "#2d3748"
+    strokeColor: "#2d3748"
     strokeWidth: 2
 }
 ```
@@ -151,7 +151,7 @@ diagram "Styled Venn" {
     intersections:["Design+Dev", "Design+Mkt", "Dev+Mkt", "All Three"]
     fontSize: 18
     fontFamily: "Georgia, serif"
-    stroke: "#1a202c"
+    strokeColor: "#1a202c"
     strokeWidth: 3
 }
 ```
@@ -169,7 +169,7 @@ diagram "Project Status" {
     colors:["#f56565", "#ed8936", "#48bb78"]
     intersections:["Review", "Testing", "Final Review", "All Clear"]
     fontSize: 14
-    stroke: "#2d3748"
+    strokeColor: "#2d3748"
     strokeWidth: 2
     fontFamily: "Roboto, sans-serif"
 }
@@ -217,7 +217,7 @@ diagram "Customer Segments" {
     colors:["#2c5aa0", "#4299e1", "#60a5fa"]
     intersections:["Ent+Mid", "Ent+SMB", "Mid+SMB", "All Segments"]
     fontSize: 16
-    stroke: "#1a365d"
+    strokeColor: "#1a365d"
     strokeWidth: 3
 }
 ```
@@ -232,7 +232,7 @@ diagram "Service Portfolio" {
     labels:["Consulting", "Development", "Support", "Training"]
     colors:["#5a67d8", "#48bb78", "#ed8936", "#9f7aea"]
     fontSize: 14
-    stroke: "#2d3748"
+    strokeColor: "#2d3748"
     strokeWidth: 2
 }
 ```
@@ -277,7 +277,7 @@ diagram "Maximum Detail" {
     data:[1000, 900, 850, 800]
     labels:["Frontend", "Backend", "Mobile", "Cloud"]
     colors:["#f56565", "#4299e1", "#48bb78", "#ed8936"]
-    stroke: "#1a202c"
+    strokeColor: "#1a202c"
     strokeWidth: 3
     fontSize: 16
     fontFamily: "Inter, -apple-system, sans-serif"

@@ -114,7 +114,7 @@ describe('Edge Weight Parsing', () => {
           shape B as @circle
           A -> B 
             weight: 20
-            stroke: "#ff0000"
+            strokeColor: "#ff0000"
             strokeWidth: 3
         }
       `;

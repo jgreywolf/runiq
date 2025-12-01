@@ -24,7 +24,7 @@ Grid layout of images with labels.
 
 ```runiq
 glyphset pictureGrid "Featured Products" {
-  theme "colorful"
+  theme colorful
   columns 3
 
   // Using pravatar.cc for test images (random faces)
@@ -51,7 +51,7 @@ Central image with callout boxes.
 
 ```runiq
 glyphset pictureCallout "Smart Watch" {
-  theme "professional"
+  theme professional
   image "https://i.pravatar.cc/400?img=20"
 
   callout "Water Resistant" topSide
@@ -75,7 +75,7 @@ Process flow with central picture.
 
 ```runiq
 glyphset pictureProcess "Baking Process" {
-  theme "colorful"
+  theme colorful
   direction "horizontal"
 
   // Using pravatar.cc for test images
@@ -106,7 +106,7 @@ glyphset events "Project Milestones" {
   event "Launch - Sep 1"
 
   showConnections true
-  theme "sunset"
+  theme sunset
 }
 ```
 

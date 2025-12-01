@@ -3,7 +3,7 @@ diagram "Banking System - Container Diagram" {
 
   shape customer as @c4Person label:"Customer"
 
-  container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container web "Web Container" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape webapp as @c4Container label:"Single-Page App\n[JavaScript, React]"
     shape api as @c4Container label:"API Application\n[Java, Spring Boot]"
     shape db as @c4Container label:"Database\n[Oracle]"

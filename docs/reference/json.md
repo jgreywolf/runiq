@@ -173,7 +173,7 @@ interface Container {
   properties?: {
     backgroundColor?: string; // Background color
     borderColor?: string; // Border color
-    borderWidth?: number; // Border width (px)
+    strokeWidth?: number; // Border width (px)
     borderStyle?: 'solid' | 'dashed' | 'dotted';
     padding?: number; // Internal padding (px)
     algorithm?: 'layered' | 'force' | 'stress' | 'radial' | 'mrtree';
@@ -245,7 +245,7 @@ if (validation.success) {
 diagram "Process Flow" {
   direction LR
 
-  style default fill:"#e3f2fd" stroke:"#1976d2"
+  style default fill:"#e3f2fd" strokeColor:"#1976d2"
 
   shape start as @rounded label:"Start"
   shape process as @rect label:"Process Data"
@@ -316,7 +316,7 @@ diagram "Process Flow" {
 
 ```runiq
 diagram "Microservices" {
-  container backend "Backend Services" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" {
+  container backend "Backend Services" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" {
     shape api as @hexagon label:"API"
     shape db as @cylinder label:"Database"
     api -> db

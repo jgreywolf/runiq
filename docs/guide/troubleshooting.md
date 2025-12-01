@@ -10,7 +10,7 @@ Common issues and solutions when working with Runiq.
 
 ## Parser Errors
 
-### Error: "Expecting '}' but found 'backgroundColor:'"
+### Error: "Expecting '}' but found 'fillColor:'"
 
 **Cause**: Container style properties must be **before** the opening `{`, not inside the container body.
 
@@ -18,7 +18,7 @@ Common issues and solutions when working with Runiq.
 
 ```runiq
 container "My Container" {
-  backgroundColor: "#e3f2fd"
+  fillColor: "#e3f2fd"
   shape A as @rect label: "Node"
 }
 ```
@@ -26,7 +26,7 @@ container "My Container" {
 ✅ **Correct:**
 
 ```runiq
-container "My Container" backgroundColor: "#e3f2fd" {
+container "My Container" fillColor: "#e3f2fd" {
   shape A as @rect label: "Node"
 }
 ```
@@ -34,7 +34,7 @@ container "My Container" backgroundColor: "#e3f2fd" {
 **All properties on one line:**
 
 ```runiq
-container "My Container" backgroundColor: "#e3f2fd" borderColor: "#2196f3" padding: 20 {
+container "My Container" fillColor: "#e3f2fd" strokeColor: "#2196f3" padding: 20 {
   shape A as @rect label: "Node"
 }
 ```

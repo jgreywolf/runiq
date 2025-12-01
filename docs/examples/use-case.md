@@ -130,7 +130,7 @@ edge UseCase1 -> UseCase2 stereotype: "<<include>>" lineStyle: dashed arrowType:
 edge UseCase1 -> UseCase2 lineStyle: dotted
 
 # Custom colors
-edge UseCase1 -> UseCase2 stroke: "#4caf50" lineStyle: dashed
+edge UseCase1 -> UseCase2 strokeColor: "#4caf50" lineStyle: dashed
 ```
 
 ## E-Commerce System

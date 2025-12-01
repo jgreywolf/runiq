@@ -57,9 +57,9 @@ diagram "Inline Icon Syntax" {
   test('should render icon with custom colors', async ({ page }) => {
     const dsl = `
 diagram "Colored Icons" {
-  shape node1 as @rectangle label:"Node 1" icon:fa/heart fill:"#ec4899" stroke:"#db2777"
-  shape node2 as @rectangle label:"Node 2" icon:fa/star fill:"#f59e0b" stroke:"#d97706"
-  shape node3 as @rectangle label:"Node 3" icon:fa/check fill:"#10b981" stroke:"#059669"
+  shape node1 as @rectangle label:"Node 1" icon:fa/heart fill:"#ec4899" strokeColor:"#db2777"
+  shape node2 as @rectangle label:"Node 2" icon:fa/star fill:"#f59e0b" strokeColor:"#d97706"
+  shape node3 as @rectangle label:"Node 3" icon:fa/check fill:"#10b981" strokeColor:"#059669"
   
   node1 -to-> node2
   node2 -to-> node3
@@ -152,7 +152,7 @@ diagram "Icons with Different Shapes" {
   test('should render icons in container', async ({ page }) => {
     const dsl = `
 diagram "Icons in Container" {
-  container "Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" {
+  container "Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" {
     shape webLayer as @rounded label:"Web" icon:fa/globe
     shape apiLayer as @rounded label:"API" icon:fa/plug
     shape cacheLayer as @rounded label:"Cache" icon:fa/bolt

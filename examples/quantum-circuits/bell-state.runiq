@@ -10,11 +10,11 @@ diagram "Bell State Circuit" {
   shape q1 as @qubitWire label: "q1: |0⟩"
   
   # Time step 1: Apply Hadamard to q0 (creates superposition)
-  shape H0 as @gateH label: "H" fill: "#e8f5e9" stroke: "#000"
+  shape H0 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
   
   # Time step 2: Apply CNOT (creates entanglement)
-  shape control0 as @controlDot label: "●" fill: "#000" stroke: "#000"
-  shape target1 as @cnotTarget label: "⊕" fill: "#fff" stroke: "#000"
+  shape control0 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
+  shape target1 as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
   
   # Wire connections
   q0 -> H0 -> control0

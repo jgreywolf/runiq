@@ -12,6 +12,6 @@ container "Dotted Border" borderStyle: dotted {
   shape C as @rect label: "Node C"
 }
 
-container "Dashed Red Border" borderStyle: dashed borderColor: "#ff0000" borderWidth: 3 {
+container "Dashed Red Border" borderStyle: dashed strokeColor: "#ff0000" strokeWidth: 3 {
   shape D as @rect label: "Node D"
 }

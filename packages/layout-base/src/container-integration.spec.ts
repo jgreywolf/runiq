@@ -81,9 +81,9 @@ describe('Container Integration Tests', () => {
     const dsl = `
       diagram "Styled Container" {
         container c1 "Styled" 
-          backgroundColor: "#e0f0ff"
-          borderColor: "#0066cc"
-          borderWidth: 3 {
+          fillColor: "#e0f0ff"
+          strokeColor: "#0066cc"
+          strokeWidth: 3 {
           shape A as @rounded label: "A"
         }
       }

@@ -93,7 +93,7 @@ diagram "Banking System - Containers" {
 
   shape customer as @c4Person label:"Customer"
 
-  container web "Web Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container web "Web Container" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape webapp as @c4Container label:"Single-Page App\n[JavaScript, React]"
     shape api as @c4Container label:"API Application\n[Java, Spring Boot]"
     shape db as @c4Container label:"Database\n[Oracle]"
@@ -122,7 +122,7 @@ diagram "API Application - Components" {
 
   shape webapp as @c4Container label:"Web Application"
 
-  container apiContainer "API Container" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container apiContainer "API Container" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape controller as @c4Component label:"REST Controller"
     shape security as @c4Component label:"Security Component"
     shape emailComponent as @c4Component label:"Email Component"
@@ -154,19 +154,19 @@ diagram "E-Commerce Platform" {
   shape customer as @c4Person label:"Customer"
   shape admin as @c4Person label:"Admin"
 
-  container frontend "Frontend" backgroundColor:"#fce4ec" borderColor:"#c2185b" borderWidth:2 {
+  container frontend "Frontend" fillColor:"#fce4ec" strokeColor:"#c2185b" strokeWidth:2 {
     shape web as @c4Container label:"Web UI\n[React]"
     shape mobile as @c4Container label:"Mobile App\n[Flutter]"
   }
 
-  container backend "Backend Services" backgroundColor:"#e3f2fd" borderColor:"#1976d2" borderWidth:2 {
+  container backend "Backend Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape gateway as @c4Container label:"API Gateway\n[Node.js]"
     shape auth as @c4Container label:"Auth Service\n[Java]"
     shape catalog as @c4Container label:"Catalog Service\n[Python]"
     shape orders as @c4Container label:"Orders Service\n[Go]"
   }
 
-  container data "Data Layer" backgroundColor:"#f3e5f5" borderColor:"#7b1fa2" borderWidth:2 {
+  container data "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
     shape userDb as @c4Container label:"User DB\n[PostgreSQL]"
     shape catalogDb as @c4Container label:"Catalog DB\n[MongoDB]"
     shape cache as @c4Container label:"Cache\n[Redis]"
@@ -210,7 +210,7 @@ The text in the arrow label describes the interaction and can include technical 
 C4 diagrams use Runiq's container feature to group related elements:
 
 ```runiq
-container name "Label" backgroundColor:"#color" borderColor:"#color" borderWidth:2 {
+container name "Label" fillColor:"#color" strokeColor:"#color" strokeWidth:2 {
   shape element1 as @c4Container label:"Element 1"
   shape element2 as @c4Container label:"Element 2"
 }
@@ -230,11 +230,11 @@ Use the official C4 color scheme for consistency:
 
 For container boxes, use lighter complementary colors:
 
-- Light blue: `backgroundColor:"#e3f2fd" borderColor:"#1976d2"`
-- Light pink: `backgroundColor:"#fce4ec" borderColor:"#c2185b"`
-- Light purple: `backgroundColor:"#f3e5f5" borderColor:"#7b1fa2"`
-- Light yellow: `backgroundColor:"#fff8e1" borderColor:"#f57f17"`
-- Light green: `backgroundColor:"#e8f5e9" borderColor:"#388e3c"`
+- Light blue: `fillColor:"#e3f2fd" strokeColor:"#1976d2"`
+- Light pink: `fillColor:"#fce4ec" strokeColor:"#c2185b"`
+- Light purple: `fillColor:"#f3e5f5" strokeColor:"#7b1fa2"`
+- Light yellow: `fillColor:"#fff8e1" strokeColor:"#f57f17"`
+- Light green: `fillColor:"#e8f5e9" strokeColor:"#388e3c"`
 
 ## Best Practices
 

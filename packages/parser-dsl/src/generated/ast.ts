@@ -118,7 +118,6 @@ export type RuniqKeywordNames =
     | "attributes:"
     | "auto"
     | "autoResize:"
-    | "backgroundColor:"
     | "badge:"
     | "balance"
     | "bar"
@@ -128,10 +127,8 @@ export type RuniqKeywordNames =
     | "bidirectional"
     | "biodegradable"
     | "boolean"
-    | "borderColor:"
     | "borderRadius:"
     | "borderStyle:"
-    | "borderWidth:"
     | "bottom"
     | "bottom-left"
     | "bottom-right"
@@ -178,8 +175,8 @@ export type RuniqKeywordNames =
     | "collapsible:"
     | "collapsing"
     | "color"
-    | "color:"
     | "colorScheme"
+    | "colorful"
     | "colors:"
     | "columnHeaders"
     | "columns"
@@ -201,6 +198,7 @@ export type RuniqKeywordNames =
     | "control_room"
     | "controlled_variable:"
     | "controller:"
+    | "cool"
     | "cooler"
     | "coolingTower"
     | "create"
@@ -276,7 +274,7 @@ export type RuniqKeywordNames =
     | "feedforward"
     | "field"
     | "fill-available"
-    | "fill:"
+    | "fillColor:"
     | "filter"
     | "filter:"
     | "finalState"
@@ -305,6 +303,7 @@ export type RuniqKeywordNames =
     | "for"
     | "force"
     | "foreach"
+    | "forest"
     | "format"
     | "found"
     | "fragment"
@@ -443,6 +442,7 @@ export type RuniqKeywordNames =
     | "mobile"
     | "mode:"
     | "module"
+    | "monochrome"
     | "mrtree"
     | "multiplicitySource:"
     | "multiplicityTarget:"
@@ -462,6 +462,7 @@ export type RuniqKeywordNames =
     | "number"
     | "nw"
     | "objectNode"
+    | "ocean"
     | "of:"
     | "op"
     | "opacity:"
@@ -525,6 +526,7 @@ export type RuniqKeywordNames =
     | "pressureTransmitter"
     | "private"
     | "process"
+    | "professional"
     | "protected"
     | "providedInterface"
     | "psi"
@@ -564,6 +566,7 @@ export type RuniqKeywordNames =
     | "routing:"
     | "rowHeaders"
     | "rpm"
+    | "runiq"
     | "ruptureDisk"
     | "s"
     | "schedule:"
@@ -625,12 +628,13 @@ export type RuniqKeywordNames =
     | "straight"
     | "stress"
     | "string"
-    | "stroke:"
+    | "strokeColor:"
     | "strokeWidth:"
     | "structure"
     | "style"
     | "style:"
     | "submachine"
+    | "sunset"
     | "sw"
     | "sync"
     | "synthetic"
@@ -654,6 +658,7 @@ export type RuniqKeywordNames =
     | "terminate"
     | "text"
     | "textAlign:"
+    | "textColor:"
     | "theme"
     | "thermal"
     | "timeObservation"
@@ -697,11 +702,13 @@ export type RuniqKeywordNames =
     | "verticalFork"
     | "vesselHorizontal"
     | "vesselVertical"
+    | "vibrant"
     | "vibrationTransmitter"
     | "visibility:"
     | "volume:"
     | "w"
     | "wardley"
+    | "warm"
     | "water-glycol"
     | "weight:"
     | "when:"
@@ -1026,21 +1033,6 @@ export function isCollapseTransitionValue(item: unknown): item is CollapseTransi
     return item === 'stable' || item === 'collapsing' || item === 'expanding';
 }
 
-export interface ColorProperty extends langium.AstNode {
-    readonly $container: ShapeDeclaration;
-    readonly $type: 'ColorProperty';
-    value: string;
-}
-
-export const ColorProperty = {
-    $type: 'ColorProperty',
-    value: 'value'
-} as const;
-
-export function isColorProperty(item: unknown): item is ColorProperty {
-    return reflection.isInstance(item, ColorProperty.$type);
-}
-
 export interface ColorsProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'ColorsProperty';
@@ -1194,10 +1186,7 @@ export interface ContainerStyleProperty extends langium.AstNode {
     readonly $type: 'ContainerStyleProperty';
     alignContent?: AlignContentValue;
     autoResize?: AutoResizeValue;
-    backgroundColor?: string;
-    borderColor?: string;
     borderStyle?: BorderStyleValue;
-    borderWidth?: string;
     childCountPosition?: ButtonPositionValue;
     collapseButtonColor?: string;
     collapseButtonPosition?: ButtonPositionValue;
@@ -1211,7 +1200,7 @@ export interface ContainerStyleProperty extends langium.AstNode {
     edgeBundling?: BooleanValue;
     edgeRouting?: EdgeRoutingValue;
     extends?: string;
-    fill?: string;
+    fillColor?: string;
     headerBackgroundColor?: string;
     headerPosition?: LabelPositionValue;
     hoverBorderColor?: string;
@@ -1250,6 +1239,8 @@ export interface ContainerStyleProperty extends langium.AstNode {
     shadow?: BooleanValue;
     showChildCount?: BooleanValue;
     showDepthIndicator?: BooleanValue;
+    strokeColor?: string;
+    strokeWidth?: string;
     templateId?: string;
     verticalAlign?: VerticalAlignValue;
 }
@@ -1258,10 +1249,7 @@ export const ContainerStyleProperty = {
     $type: 'ContainerStyleProperty',
     alignContent: 'alignContent',
     autoResize: 'autoResize',
-    backgroundColor: 'backgroundColor',
-    borderColor: 'borderColor',
     borderStyle: 'borderStyle',
-    borderWidth: 'borderWidth',
     childCountPosition: 'childCountPosition',
     collapseButtonColor: 'collapseButtonColor',
     collapseButtonPosition: 'collapseButtonPosition',
@@ -1275,7 +1263,7 @@ export const ContainerStyleProperty = {
     edgeBundling: 'edgeBundling',
     edgeRouting: 'edgeRouting',
     extends: 'extends',
-    fill: 'fill',
+    fillColor: 'fillColor',
     headerBackgroundColor: 'headerBackgroundColor',
     headerPosition: 'headerPosition',
     hoverBorderColor: 'hoverBorderColor',
@@ -1314,6 +1302,8 @@ export const ContainerStyleProperty = {
     shadow: 'shadow',
     showChildCount: 'showChildCount',
     showDepthIndicator: 'showDepthIndicator',
+    strokeColor: 'strokeColor',
+    strokeWidth: 'strokeWidth',
     templateId: 'templateId',
     verticalAlign: 'verticalAlign'
 } as const;
@@ -1518,7 +1508,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
+export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock | ThemeDeclaration;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -1714,7 +1704,7 @@ export function isEdgeLabelProperty(item: unknown): item is EdgeLabelProperty {
     return reflection.isInstance(item, EdgeLabelProperty.$type);
 }
 
-export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | EffectProperty | EventProperty | FlowTypeProperty | GuardProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | WeightProperty;
+export type EdgeProperty = ArrowTypeProperty | EdgeConstraintsProperty | EdgeLabelProperty | EdgeTypeProperty | EffectProperty | EventProperty | FlowTypeProperty | GuardProperty | LineStyleProperty | MultiplicitySourceProperty | MultiplicityTargetProperty | NavigabilityProperty | RoleSourceProperty | RoleTargetProperty | RoutingProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | WeightProperty;
 
 export const EdgeProperty = {
     $type: 'EdgeProperty'
@@ -1853,19 +1843,19 @@ export function isExtensionPointsProperty(item: unknown): item is ExtensionPoint
     return reflection.isInstance(item, ExtensionPointsProperty.$type);
 }
 
-export interface FillProperty extends langium.AstNode {
+export interface FillColorProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
-    readonly $type: 'FillProperty';
+    readonly $type: 'FillColorProperty';
     value: string;
 }
 
-export const FillProperty = {
-    $type: 'FillProperty',
+export const FillColorProperty = {
+    $type: 'FillColorProperty',
     value: 'value'
 } as const;
 
-export function isFillProperty(item: unknown): item is FillProperty {
-    return reflection.isInstance(item, FillProperty.$type);
+export function isFillColorProperty(item: unknown): item is FillColorProperty {
+    return reflection.isInstance(item, FillColorProperty.$type);
 }
 
 export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'spoke' | 'start' | 'step' | 'team' | 'to' | 'type' | 'value' | string;
@@ -2139,7 +2129,7 @@ export interface GlyphSetParameter extends langium.AstNode {
     readonly $container: GlyphSetProfile;
     readonly $type: 'GlyphSetParameter';
     name: GlyphSetParameterName;
-    value: BooleanValue | string;
+    value: GlyphSetParameterValue;
 }
 
 export const GlyphSetParameter = {
@@ -2156,6 +2146,29 @@ export type GlyphSetParameterName = 'alternating' | 'bidirectional' | 'callouts'
 
 export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
     return item === 'alternating' || item === 'bidirectional' || item === 'callouts' || item === 'center' || item === 'centerLabel' || item === 'circles' || item === 'colorScheme' || item === 'columnHeaders' || item === 'columns' || item === 'direction' || item === 'events' || item === 'frameStyle' || item === 'groups' || item === 'horizontalAxis' || item === 'image' || item === 'images' || item === 'items' || item === 'layout' || item === 'leftWeight' || item === 'levels' || item === 'mergePoint' || item === 'operator' || item === 'orientation' || item === 'overlap' || item === 'quadrants' || item === 'relationship' || item === 'result' || item === 'rightWeight' || item === 'rowHeaders' || item === 'segments' || item === 'shape' || item === 'showAllConnections' || item === 'showConnections' || item === 'showDottedLines' || item === 'showPercentages' || item === 'showValues' || item === 'sides' || item === 'source' || item === 'stages' || item === 'steps' || item === 'structure' || item === 'target' || item === 'theme' || item === 'useContainers' || item === 'verticalAxis' || item === 'xAxis' || item === 'yAxis';
+}
+
+export interface GlyphSetParameterValue extends langium.AstNode {
+    readonly $container: GlyphSetParameter;
+    readonly $type: 'GlyphSetParameterValue';
+    boolValue?: BooleanValue;
+    directionValue?: DirectionValue;
+    numberValue?: string;
+    stringValue?: string;
+    themeValue?: ThemeValue;
+}
+
+export const GlyphSetParameterValue = {
+    $type: 'GlyphSetParameterValue',
+    boolValue: 'boolValue',
+    directionValue: 'directionValue',
+    numberValue: 'numberValue',
+    stringValue: 'stringValue',
+    themeValue: 'themeValue'
+} as const;
+
+export function isGlyphSetParameterValue(item: unknown): item is GlyphSetParameterValue {
+    return reflection.isInstance(item, GlyphSetParameterValue.$type);
 }
 
 export interface GlyphSetProfile extends langium.AstNode {
@@ -2868,7 +2881,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -3660,6 +3673,23 @@ export function isPortDecl(item: unknown): item is PortDecl {
     return reflection.isInstance(item, PortDecl.$type);
 }
 
+export interface PositionProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'PositionProperty';
+    x: string;
+    y: string;
+}
+
+export const PositionProperty = {
+    $type: 'PositionProperty',
+    x: 'x',
+    y: 'y'
+} as const;
+
+export function isPositionProperty(item: unknown): item is PositionProperty {
+    return reflection.isInstance(item, PositionProperty.$type);
+}
+
 export interface PresetBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'PresetBlock';
@@ -4399,19 +4429,19 @@ export function isStringArray(item: unknown): item is StringArray {
     return reflection.isInstance(item, StringArray.$type);
 }
 
-export interface StrokeProperty extends langium.AstNode {
+export interface StrokeColorProperty extends langium.AstNode {
     readonly $container: EdgeDeclaration | ShapeDeclaration;
-    readonly $type: 'StrokeProperty';
+    readonly $type: 'StrokeColorProperty';
     value: string;
 }
 
-export const StrokeProperty = {
-    $type: 'StrokeProperty',
+export const StrokeColorProperty = {
+    $type: 'StrokeColorProperty',
     value: 'value'
 } as const;
 
-export function isStrokeProperty(item: unknown): item is StrokeProperty {
-    return reflection.isInstance(item, StrokeProperty.$type);
+export function isStrokeColorProperty(item: unknown): item is StrokeColorProperty {
+    return reflection.isInstance(item, StrokeColorProperty.$type);
 }
 
 export interface StrokeWidthProperty extends langium.AstNode {
@@ -4631,20 +4661,20 @@ export interface TemplateNodeProperty extends langium.AstNode {
     readonly $container: TemplateNodeDeclaration;
     readonly $type: 'TemplateNodeProperty';
     dataProps: Array<TemplateDataProperty>;
-    fill?: TemplateExpression;
+    fillColor?: TemplateExpression;
     label?: TemplateExpression;
     shape?: string;
-    stroke?: TemplateExpression;
+    strokeColor?: TemplateExpression;
     style?: string;
 }
 
 export const TemplateNodeProperty = {
     $type: 'TemplateNodeProperty',
     dataProps: 'dataProps',
-    fill: 'fill',
+    fillColor: 'fillColor',
     label: 'label',
     shape: 'shape',
-    stroke: 'stroke',
+    strokeColor: 'strokeColor',
     style: 'style'
 } as const;
 
@@ -4742,6 +4772,42 @@ export type TextAlignValue = 'center' | 'left' | 'right';
 
 export function isTextAlignValue(item: unknown): item is TextAlignValue {
     return item === 'left' || item === 'center' || item === 'right';
+}
+
+export interface TextColorProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'TextColorProperty';
+    value: string;
+}
+
+export const TextColorProperty = {
+    $type: 'TextColorProperty',
+    value: 'value'
+} as const;
+
+export function isTextColorProperty(item: unknown): item is TextColorProperty {
+    return reflection.isInstance(item, TextColorProperty.$type);
+}
+
+export interface ThemeDeclaration extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'ThemeDeclaration';
+    value: ThemeValue;
+}
+
+export const ThemeDeclaration = {
+    $type: 'ThemeDeclaration',
+    value: 'value'
+} as const;
+
+export function isThemeDeclaration(item: unknown): item is ThemeDeclaration {
+    return reflection.isInstance(item, ThemeDeclaration.$type);
+}
+
+export type ThemeValue = 'colorful' | 'cool' | 'forest' | 'monochrome' | 'ocean' | 'professional' | 'runiq' | 'sunset' | 'vibrant' | 'warm';
+
+export function isThemeValue(item: unknown): item is ThemeValue {
+    return item === 'professional' || item === 'forest' || item === 'sunset' || item === 'ocean' || item === 'monochrome' || item === 'colorful' || item === 'vibrant' || item === 'warm' || item === 'cool' || item === 'runiq';
 }
 
 export interface TimelineColorProperty extends langium.AstNode {
@@ -5272,7 +5338,6 @@ export type RuniqAstType = {
     BorderRadiusProperty: BorderRadiusProperty
     BusWidth: BusWidth
     CarrierProperty: CarrierProperty
-    ColorProperty: ColorProperty
     ColorsProperty: ColorsProperty
     ConditionalBlock: ConditionalBlock
     ConnectionPoint: ConnectionPoint
@@ -5312,7 +5377,7 @@ export type RuniqAstType = {
     EventProperty: EventProperty
     ExitProperty: ExitProperty
     ExtensionPointsProperty: ExtensionPointsProperty
-    FillProperty: FillProperty
+    FillColorProperty: FillColorProperty
     FlipAxesProperty: FlipAxesProperty
     FlowRateStatement: FlowRateStatement
     FlowTypeProperty: FlowTypeProperty
@@ -5328,6 +5393,7 @@ export type RuniqAstType = {
     GlyphSetItemStatement: GlyphSetItemStatement
     GlyphSetNestedItem: GlyphSetNestedItem
     GlyphSetParameter: GlyphSetParameter
+    GlyphSetParameterValue: GlyphSetParameterValue
     GlyphSetProfile: GlyphSetProfile
     GlyphSetSimpleItem: GlyphSetSimpleItem
     GroupBlock: GroupBlock
@@ -5421,6 +5487,7 @@ export type RuniqAstType = {
     PneumaticStatement: PneumaticStatement
     PortConnection: PortConnection
     PortDecl: PortDecl
+    PositionProperty: PositionProperty
     PresetBlock: PresetBlock
     PressureStatement: PressureStatement
     Profile: Profile
@@ -5466,7 +5533,7 @@ export type RuniqAstType = {
     StateInvariantProperty: StateInvariantProperty
     StereotypeProperty: StereotypeProperty
     StringArray: StringArray
-    StrokeProperty: StrokeProperty
+    StrokeColorProperty: StrokeColorProperty
     StrokeWidthProperty: StrokeWidthProperty
     StyleDeclaration: StyleDeclaration
     StyleProperty: StyleProperty
@@ -5485,6 +5552,8 @@ export type RuniqAstType = {
     TemplateVariable: TemplateVariable
     TemplateVariablePath: TemplateVariablePath
     TextAlignProperty: TextAlignProperty
+    TextColorProperty: TextColorProperty
+    ThemeDeclaration: ThemeDeclaration
     TimelineColorProperty: TimelineColorProperty
     TimelineDateProperty: TimelineDateProperty
     TimelineDescriptionProperty: TimelineDescriptionProperty
@@ -5672,15 +5741,6 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
-        ColorProperty: {
-            name: ColorProperty.$type,
-            properties: {
-                value: {
-                    name: ColorProperty.value
-                }
-            },
-            superTypes: [NodeProperty.$type]
-        },
         ColorsProperty: {
             name: ColorsProperty.$type,
             properties: {
@@ -5825,17 +5885,8 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 autoResize: {
                     name: ContainerStyleProperty.autoResize
                 },
-                backgroundColor: {
-                    name: ContainerStyleProperty.backgroundColor
-                },
-                borderColor: {
-                    name: ContainerStyleProperty.borderColor
-                },
                 borderStyle: {
                     name: ContainerStyleProperty.borderStyle
-                },
-                borderWidth: {
-                    name: ContainerStyleProperty.borderWidth
                 },
                 childCountPosition: {
                     name: ContainerStyleProperty.childCountPosition
@@ -5876,8 +5927,8 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 extends: {
                     name: ContainerStyleProperty.extends
                 },
-                fill: {
-                    name: ContainerStyleProperty.fill
+                fillColor: {
+                    name: ContainerStyleProperty.fillColor
                 },
                 headerBackgroundColor: {
                     name: ContainerStyleProperty.headerBackgroundColor
@@ -5993,6 +6044,12 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 showDepthIndicator: {
                     name: ContainerStyleProperty.showDepthIndicator
+                },
+                strokeColor: {
+                    name: ContainerStyleProperty.strokeColor
+                },
+                strokeWidth: {
+                    name: ContainerStyleProperty.strokeWidth
                 },
                 templateId: {
                     name: ContainerStyleProperty.templateId
@@ -6336,11 +6393,11 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
-        FillProperty: {
-            name: FillProperty.$type,
+        FillColorProperty: {
+            name: FillColorProperty.$type,
             properties: {
                 value: {
-                    name: FillProperty.value
+                    name: FillColorProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]
@@ -6527,6 +6584,27 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 value: {
                     name: GlyphSetParameter.value
+                }
+            },
+            superTypes: []
+        },
+        GlyphSetParameterValue: {
+            name: GlyphSetParameterValue.$type,
+            properties: {
+                boolValue: {
+                    name: GlyphSetParameterValue.boolValue
+                },
+                directionValue: {
+                    name: GlyphSetParameterValue.directionValue
+                },
+                numberValue: {
+                    name: GlyphSetParameterValue.numberValue
+                },
+                stringValue: {
+                    name: GlyphSetParameterValue.stringValue
+                },
+                themeValue: {
+                    name: GlyphSetParameterValue.themeValue
                 }
             },
             superTypes: []
@@ -7458,6 +7536,18 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        PositionProperty: {
+            name: PositionProperty.$type,
+            properties: {
+                x: {
+                    name: PositionProperty.x
+                },
+                y: {
+                    name: PositionProperty.y
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         PresetBlock: {
             name: PresetBlock.$type,
             properties: {
@@ -7899,11 +7989,11 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
-        StrokeProperty: {
-            name: StrokeProperty.$type,
+        StrokeColorProperty: {
+            name: StrokeColorProperty.$type,
             properties: {
                 value: {
-                    name: StrokeProperty.value
+                    name: StrokeColorProperty.value
                 }
             },
             superTypes: [EdgeProperty.$type, NodeProperty.$type]
@@ -8067,8 +8157,8 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TemplateNodeProperty.dataProps,
                     defaultValue: []
                 },
-                fill: {
-                    name: TemplateNodeProperty.fill
+                fillColor: {
+                    name: TemplateNodeProperty.fillColor
                 },
                 label: {
                     name: TemplateNodeProperty.label
@@ -8076,8 +8166,8 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 shape: {
                     name: TemplateNodeProperty.shape
                 },
-                stroke: {
-                    name: TemplateNodeProperty.stroke
+                strokeColor: {
+                    name: TemplateNodeProperty.strokeColor
                 },
                 style: {
                     name: TemplateNodeProperty.style
@@ -8133,6 +8223,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        TextColorProperty: {
+            name: TextColorProperty.$type,
+            properties: {
+                value: {
+                    name: TextColorProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        ThemeDeclaration: {
+            name: ThemeDeclaration.$type,
+            properties: {
+                value: {
+                    name: ThemeDeclaration.value
+                }
+            },
+            superTypes: [DiagramStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,

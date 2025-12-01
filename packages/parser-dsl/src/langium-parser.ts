@@ -151,16 +151,27 @@ function unescapeString(value: string): string {
 
   // Process escape sequences
   str = str
-    .replace(/\\n/g, '\n')    // Newline
-    .replace(/\\r/g, '\r')    // Carriage return
-    .replace(/\\t/g, '\t')    // Tab
-    .replace(/\\b/g, '\b')    // Backspace
-    .replace(/\\f/g, '\f')    // Form feed
-    .replace(/\\'/g, "'")     // Single quote
-    .replace(/\\"/g, '"')     // Double quote
-    .replace(/\\\\/g, '\\');  // Backslash (must be last)
+    .replace(/\\n/g, '\n') // Newline
+    .replace(/\\r/g, '\r') // Carriage return
+    .replace(/\\t/g, '\t') // Tab
+    .replace(/\\b/g, '\b') // Backspace
+    .replace(/\\f/g, '\f') // Form feed
+    .replace(/\\'/g, "'") // Single quote
+    .replace(/\\"/g, '"') // Double quote
+    .replace(/\\\\/g, '\\'); // Backslash (must be last)
 
   return str;
+}
+
+/**
+ * Location information for a node in the source code
+ */
+export interface NodeLocation {
+  nodeId: string;
+  startLine: number;
+  startColumn: number;
+  endLine: number;
+  endColumn: number;
 }
 
 /**
@@ -171,6 +182,82 @@ export interface ParseResult {
   document?: RuniqDocument;
   diagram?: DiagramAst; // Backwards compatibility - points to first diagram profile
   errors: string[];
+  nodeLocations?: Map<string, NodeLocation>; // Map from node ID to source location
+}
+
+/**
+ * Extract node locations from the Langium CST
+ * Returns a map from node ID to source location
+ */
+function extractNodeLocations(
+  document: Langium.Document
+): Map<string, NodeLocation> {
+  const locations = new Map<string, NodeLocation>();
+
+  // Process each profile
+  for (const profile of document.profiles) {
+    // Only extract locations for diagram profiles for now
+    if (Langium.isDiagramProfile(profile)) {
+      for (const statement of profile.statements) {
+        // Extract edge declarations - nodes are referenced in edges
+        if (Langium.isEdgeDeclaration(statement)) {
+          // Extract source node location from the 'from' NodeRef
+          if (statement.from?.$cstNode?.range) {
+            const sourceNodeId = nodeRefToString(statement.from);
+            const fromRange = statement.from.$cstNode.range;
+
+            if (!locations.has(sourceNodeId)) {
+              locations.set(sourceNodeId, {
+                nodeId: sourceNodeId,
+                startLine: fromRange.start.line + 1,
+                startColumn: fromRange.start.character + 1,
+                endLine: fromRange.end.line + 1,
+                endColumn: fromRange.end.character + 1,
+              });
+            }
+          }
+
+          // Extract target node location from the 'to' NodeRef (or chain)
+          if (statement.to?.$cstNode?.range) {
+            const targetNodeId = nodeRefToString(statement.to);
+            const toRange = statement.to.$cstNode.range;
+
+            if (!locations.has(targetNodeId)) {
+              locations.set(targetNodeId, {
+                nodeId: targetNodeId,
+                startLine: toRange.start.line + 1,
+                startColumn: toRange.start.character + 1,
+                endLine: toRange.end.line + 1,
+                endColumn: toRange.end.character + 1,
+              });
+            }
+          }
+
+          // Handle edge chains (A -> B -> C)
+          if (statement.chain && statement.chain.length > 0) {
+            for (const chainItem of statement.chain) {
+              if (chainItem.to?.$cstNode?.range) {
+                const chainNodeId = nodeRefToString(chainItem.to);
+                const chainRange = chainItem.to.$cstNode.range;
+
+                if (!locations.has(chainNodeId)) {
+                  locations.set(chainNodeId, {
+                    nodeId: chainNodeId,
+                    startLine: chainRange.start.line + 1,
+                    startColumn: chainRange.start.character + 1,
+                    endLine: chainRange.end.line + 1,
+                    endColumn: chainRange.end.character + 1,
+                  });
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return locations;
 }
 
 /**
@@ -221,6 +308,9 @@ export function parse(text: string): ParseResult {
   const document = parseResult.value as Langium.Document;
   const runiqDocument = convertToRuniqDocument(document);
 
+  // Extract node locations from CST
+  const nodeLocations = extractNodeLocations(document);
+
   // Backwards compatibility: expose first diagram profile as 'diagram'
   const firstDiagramProfile = runiqDocument.profiles.find(
     (p) => p.type === 'diagram'
@@ -242,6 +332,7 @@ export function parse(text: string): ParseResult {
     document: runiqDocument,
     diagram, // Backwards compatibility
     errors: [],
+    nodeLocations,
   };
 }
 
@@ -1148,7 +1239,7 @@ function convertTimelineProfile(
   // Process timeline statements
   for (const statement of profile.statements) {
     if (Langium.isTimelineEventStatement(statement)) {
-      // event E1 date:"2024-01-15" label:"Kickoff" description:"..." icon:"rocket" color:"#0066cc"
+      // event E1 date:"2024-01-15" label:"Kickoff" description:"..." icon:"rocket" textColor:"#0066cc"
       const event: Partial<TimelineEvent> = {
         id: statement.id,
       };
@@ -1164,7 +1255,7 @@ function convertTimelineProfile(
         } else if (Langium.isTimelineIconProperty(prop)) {
           event.icon = prop.icon.replace(/^"|"$/g, '');
         } else if (Langium.isTimelineColorProperty(prop)) {
-          event.color = prop.color.replace(/^"|"$/g, '');
+          event.fillColor = prop.color.replace(/^"|"$/g, '');
         } else if (Langium.isTimelinePositionProperty(prop)) {
           event.position = prop.position as 'top' | 'bottom';
         }
@@ -1172,7 +1263,7 @@ function convertTimelineProfile(
 
       timelineProfile.events.push(event as TimelineEvent);
     } else if (Langium.isTimelinePeriodStatement(statement)) {
-      // period P1 startDate:"2024-01-15" endDate:"2024-02-15" label:"Planning" color:"#e0e0e0" opacity:0.3
+      // period P1 startDate:"2024-01-15" endDate:"2024-02-15" label:"Planning" textColor:"#e0e0e0" opacity:0.3
       const period: Partial<TimelinePeriod> = {
         id: statement.id,
       };
@@ -1186,7 +1277,7 @@ function convertTimelineProfile(
         } else if (Langium.isTimelineLabelProperty(prop)) {
           period.label = unescapeString(prop.label);
         } else if (Langium.isTimelineColorProperty(prop)) {
-          period.color = prop.color.replace(/^"|"$/g, '');
+          period.fillColor = prop.color.replace(/^"|"$/g, '');
         } else if (Langium.isTimelineOpacityProperty(prop)) {
           period.opacity = parseFloat(prop.opacity);
         }
@@ -1218,6 +1309,8 @@ function processDialogStatement(
     diagram.direction = statement.value as Direction;
   } else if (Langium.isRoutingDeclaration(statement)) {
     diagram.routing = statement.value as EdgeRouting;
+  } else if (Langium.isThemeDeclaration(statement)) {
+    diagram.theme = statement.value;
   } else if (Langium.isStyleDeclaration(statement)) {
     const style: Style = {};
 
@@ -1266,13 +1359,13 @@ function processDialogStatement(
         node.label = unescapeString(prop.value);
       } else if (Langium.isStyleRefProperty(prop)) {
         node.style = prop.ref?.$refText;
-      } else if (Langium.isFillProperty(prop)) {
+      } else if (Langium.isFillColorProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.fillColor = prop.value.replace(/^"|"$/g, '');
-      } else if (Langium.isColorProperty(prop)) {
+      } else if (Langium.isTextColorProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.textColor = prop.value.replace(/^"|"$/g, '');
-      } else if (Langium.isStrokeProperty(prop)) {
+      } else if (Langium.isStrokeColorProperty(prop)) {
         if (!node.data) node.data = {};
         node.data.strokeColor = prop.value.replace(/^"|"$/g, '');
       } else if (Langium.isStrokeWidthProperty(prop)) {
@@ -1617,7 +1710,7 @@ function processDialogStatement(
         } else if (Langium.isWeightProperty(prop)) {
           // Graph theory edge weight
           edge.weight = parseFloat(String(prop.value));
-        } else if (Langium.isStrokeProperty(prop)) {
+        } else if (Langium.isStrokeColorProperty(prop)) {
           edge.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {
           edge.strokeWidth = parseFloat(prop.value);
@@ -1885,18 +1978,12 @@ function convertContainer(
     } else if (Langium.isContainerStyleProperty(prop)) {
       if (prop.borderStyle) {
         containerStyle.borderStyle = prop.borderStyle;
-      } else if (prop.borderColor) {
-        containerStyle.borderColor = prop.borderColor.replace(/^"|"$/g, '');
-      } else if (prop.borderWidth !== undefined) {
-        containerStyle.borderWidth = parseFloat(prop.borderWidth);
-      } else if (prop.fill) {
-        // Use fill as consistent alias for backgroundColor
-        containerStyle.backgroundColor = prop.fill.replace(/^"|"$/g, '');
-      } else if (prop.backgroundColor) {
-        containerStyle.backgroundColor = prop.backgroundColor.replace(
-          /^"|"$/g,
-          ''
-        );
+      } else if (prop.strokeColor) {
+        containerStyle.strokeColor = prop.strokeColor.replace(/^"|"$/g, '');
+      } else if (prop.strokeWidth !== undefined) {
+        containerStyle.strokeWidth = parseFloat(prop.strokeWidth);
+      } else if (prop.fillColor) {
+        containerStyle.fillColor = prop.fillColor.replace(/^"|"$/g, '');
       } else if (prop.opacity !== undefined) {
         containerStyle.opacity = parseFloat(prop.opacity);
       } else if (prop.padding !== undefined) {
@@ -2198,13 +2285,13 @@ function convertContainer(
           node.label = unescapeString(prop.value);
         } else if (Langium.isStyleRefProperty(prop)) {
           node.style = prop.ref?.$refText;
-        } else if (Langium.isFillProperty(prop)) {
+        } else if (Langium.isFillColorProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.fillColor = prop.value.replace(/^"|"$/g, '');
-        } else if (Langium.isColorProperty(prop)) {
+        } else if (Langium.isTextColorProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.textColor = prop.value.replace(/^"|"$/g, '');
-        } else if (Langium.isStrokeProperty(prop)) {
+        } else if (Langium.isStrokeColorProperty(prop)) {
           if (!node.data) node.data = {};
           node.data.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {
@@ -2426,7 +2513,7 @@ function convertContainer(
           edge.flowType = prop.value as 'control' | 'object';
         } else if (Langium.isWeightProperty(prop)) {
           edge.weight = parseFloat(String(prop.value));
-        } else if (Langium.isStrokeProperty(prop)) {
+        } else if (Langium.isStrokeColorProperty(prop)) {
           edge.strokeColor = prop.value.replace(/^"|"$/g, '');
         } else if (Langium.isStrokeWidthProperty(prop)) {
           edge.strokeWidth = parseFloat(prop.value);
@@ -2528,18 +2615,12 @@ function convertTemplate(block: Langium.TemplateBlock): ContainerTemplate {
       // Reuse the same property parsing logic from convertContainer
       if (Langium.isContainerStyleProperty(prop)) {
         // Phase 1 properties
-        if (prop.fill) {
-          // Use fill as consistent alias for backgroundColor
-          containerStyle.backgroundColor = prop.fill.replace(/^"|"$/g, '');
-        } else if (prop.backgroundColor) {
-          containerStyle.backgroundColor = prop.backgroundColor.replace(
-            /^"|"$/g,
-            ''
-          );
-        } else if (prop.borderColor) {
-          containerStyle.borderColor = prop.borderColor.replace(/^"|"$/g, '');
-        } else if (prop.borderWidth !== undefined) {
-          containerStyle.borderWidth = parseFloat(prop.borderWidth);
+        if (prop.fillColor) {
+          containerStyle.fillColor = prop.fillColor.replace(/^"|"$/g, '');
+        } else if (prop.strokeColor) {
+          containerStyle.strokeColor = prop.strokeColor.replace(/^"|"$/g, '');
+        } else if (prop.strokeWidth !== undefined) {
+          containerStyle.strokeWidth = parseFloat(prop.strokeWidth);
         } else if (prop.borderStyle) {
           containerStyle.borderStyle = prop.borderStyle as
             | 'solid'
@@ -2591,18 +2672,12 @@ function convertPreset(block: Langium.PresetBlock): ContainerPreset {
     for (const prop of block.properties) {
       if (Langium.isContainerStyleProperty(prop)) {
         // Phase 1 properties
-        if (prop.fill) {
-          // Use fill as consistent alias for backgroundColor
-          preset.style.backgroundColor = prop.fill.replace(/^"|"$/g, '');
-        } else if (prop.backgroundColor) {
-          preset.style.backgroundColor = prop.backgroundColor.replace(
-            /^"|"$/g,
-            ''
-          );
-        } else if (prop.borderColor) {
-          preset.style.borderColor = prop.borderColor.replace(/^"|"$/g, '');
-        } else if (prop.borderWidth !== undefined) {
-          preset.style.borderWidth = parseFloat(prop.borderWidth);
+        if (prop.fillColor) {
+          preset.style.fillColor = prop.fillColor.replace(/^"|"$/g, '');
+        } else if (prop.strokeColor) {
+          preset.style.strokeColor = prop.strokeColor.replace(/^"|"$/g, '');
+        } else if (prop.strokeWidth !== undefined) {
+          preset.style.strokeWidth = parseFloat(prop.strokeWidth);
         } else if (prop.borderStyle) {
           preset.style.borderStyle = prop.borderStyle as
             | 'solid'

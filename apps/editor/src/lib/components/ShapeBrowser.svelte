@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Search, X } from 'lucide-svelte';
+	import Icon from '@iconify/svelte';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import ShapeIcon from './ShapeIcon.svelte';
@@ -62,13 +62,27 @@
 	function collapseAll() {
 		expandedCategories = [];
 	}
+
+	// Drag-and-drop handlers
+	function handleDragStart(event: DragEvent, shapeCode: string) {
+		if (event.dataTransfer) {
+			event.dataTransfer.effectAllowed = 'copy';
+			event.dataTransfer.setData('application/x-runiq-shape', shapeCode);
+			event.dataTransfer.setData('text/plain', shapeCode);
+		}
+	}
 </script>
 
 <div class="flex h-full flex-col">
 	<!-- Search Bar -->
 	<div class="border-b border-neutral-200 bg-white p-3">
 		<div class="relative">
-			<Search class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
+			<Icon
+				icon="lucide:search"
+				width="16"
+				height="16"
+				class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400"
+			/>
 			<input
 				type="text"
 				bind:value={searchQuery}
@@ -81,7 +95,7 @@
 					class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
 					aria-label="Clear search"
 				>
-					<X class="h-4 w-4" />
+					<Icon icon="lucide:x" width="16" height="16" />
 				</button>
 			{/if}
 		</div>
@@ -117,7 +131,7 @@
 	<div class="flex-1 overflow-y-auto">
 		{#if filteredCategories.length === 0}
 			<div class="flex flex-col items-center justify-center p-8 text-center">
-				<Search class="mb-3 h-12 w-12 text-neutral-300" />
+				<Icon icon="lucide:search" width="48" height="48" class="mb-3 text-neutral-300" />
 				<p class="text-sm font-medium text-neutral-700">No shapes found</p>
 				<p class="mt-1 text-xs text-neutral-500">Try a different search term</p>
 			</div>
@@ -138,7 +152,9 @@
 								{#each category.shapes as shape (shape.id)}
 									<Tooltip.Root>
 										<Tooltip.Trigger
-											class="group flex h-12 w-full flex-col items-center justify-center gap-0.5 rounded-md border border-transparent p-1 transition-all hover:border-runiq-300 hover:bg-runiq-50 hover:shadow-sm active:scale-95 cursor-pointer"
+											draggable="true"
+											ondragstart={(e) => handleDragStart(e, shape.code)}
+											class="group flex h-12 w-full cursor-grab flex-col items-center justify-center gap-0.5 rounded-md border border-transparent p-1 transition-all hover:border-runiq-300 hover:bg-runiq-50 hover:shadow-sm active:scale-95 active:cursor-grabbing"
 											onclick={() => insertShape(shape.code)}
 										>
 											<ShapeIcon shapeId={shape.id} size={24} />
@@ -157,7 +173,9 @@
 											<div class="space-y-1">
 												<p class="text-xs font-semibold">{shape.label}</p>
 												<p class="font-mono text-xs text-neutral-500">@{shape.id}</p>
-												<p class="text-xs text-neutral-400 italic">Click to insert</p>
+												<p class="text-xs text-neutral-400 italic">
+													Click to insert or drag to canvas
+												</p>
 											</div>
 										</Tooltip.Content>
 									</Tooltip.Root>

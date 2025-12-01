@@ -18,7 +18,7 @@ Basic three-branch structure with automatic shape assignment.
 
 diagram "Simple Mindmap" {
 
-  container "BrainstormingSession" type:mindmap algorithm:radial spacing:80 backgroundColor:"#f5f5f5" borderColor:"#9e9e9e" borderWidth:2 {
+  container "BrainstormingSession" type:mindmap algorithm:radial spacing:80 fillColor:"#f5f5f5" strokeColor:"#9e9e9e" strokeWidth:2 {
 
     // Central node - automatically becomes @circ
     shape central label:"Project Ideas"
@@ -47,7 +47,7 @@ Hierarchical project breakdown with three levels (19 nodes).
 
 diagram "Hierarchical Mindmap" {
 
-  container "ProjectPlanning" type:mindmap algorithm:radial spacing:100 backgroundColor:"#e8f5e9" borderColor:"#4caf50" borderWidth:2 {
+  container "ProjectPlanning" type:mindmap algorithm:radial spacing:100 fillColor:"#e8f5e9" strokeColor:"#4caf50" strokeWidth:2 {
 
     // Central topic - auto @circ
     shape main label:"Website Redesign"
@@ -118,11 +118,11 @@ Educational knowledge map with styling (21 nodes).
 
 diagram "Learning JavaScript Roadmap" {
 
-  style highlight fill:"#ffeb3b" stroke:"#f57c00" strokeWidth:3
-  style level1 fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2
-  style level2 fill:"#f3e5f5" stroke:"#7b1fa2"
+  style highlight fill:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3
+  style level1 fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+  style level2 fill:"#f3e5f5" strokeColor:"#7b1fa2"
 
-  container "LearningPath" type:mindmap algorithm:radial spacing:90 backgroundColor:"#fafafa" borderColor:"#757575" borderWidth:2 {
+  container "LearningPath" type:mindmap algorithm:radial spacing:90 fillColor:"#fafafa" strokeColor:"#757575" strokeWidth:2 {
 
     // Central topic - auto @circ
     shape js label:"JavaScript" style:highlight
@@ -199,12 +199,12 @@ Strategic planning with mixed shapes for semantic meaning (21 nodes).
 
 diagram "Business Strategy 2025" {
 
-  style goal fill:"#4caf50" stroke:"#2e7d32" strokeWidth:3
-  style strategy fill:"#2196f3" stroke:"#1565c0" strokeWidth:2
-  style tactic fill:"#ff9800" stroke:"#e65100"
-  style metric fill:"#9c27b0" stroke:"#6a1b9a"
+  style goal fill:"#4caf50" strokeColor:"#2e7d32" strokeWidth:3
+  style strategy fill:"#2196f3" strokeColor:"#1565c0" strokeWidth:2
+  style tactic fill:"#ff9800" strokeColor:"#e65100"
+  style metric fill:"#9c27b0" strokeColor:"#6a1b9a"
 
-  container "StrategyMap" type:mindmap algorithm:radial spacing:110 backgroundColor:"#eceff1" borderColor:"#546e7a" borderWidth:3 {
+  container "StrategyMap" type:mindmap algorithm:radial spacing:110 fillColor:"#eceff1" strokeColor:"#546e7a" strokeWidth:3 {
 
     // Central goal - auto @circ (perfect for central idea!)
     shape goal label:"Market Leadership" style:goal

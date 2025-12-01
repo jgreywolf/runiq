@@ -1,8 +1,14 @@
-import type { DiagramAst, PositionedNode, GraphMetrics } from '@runiq/core';
+import type {
+  DiagramAst,
+  PositionedNode,
+  GraphMetrics,
+  DiagramTheme,
+} from '@runiq/core';
 import {
   shapeRegistry,
   createTextMeasurer,
   type NodeMetrics,
+  getThemeNodeColor,
 } from '@runiq/core';
 import { escapeXml } from './utils.js';
 import { renderIcon } from './icons.js';
@@ -13,7 +19,9 @@ export function renderNode(
   diagram: DiagramAst,
   strict: boolean,
   warnings: string[],
-  graphMetrics: GraphMetrics | null = null
+  graphMetrics: GraphMetrics | null = null,
+  theme?: DiagramTheme,
+  nodeIndex: number = 0
 ): string {
   const nodeAst = diagram.nodes.find((n) => n.id === positioned.id);
   if (!nodeAst) {
@@ -29,6 +37,19 @@ export function renderNode(
   }
 
   const style: any = nodeAst.style ? diagram.styles?.[nodeAst.style] || {} : {};
+
+  // Apply theme colors as defaults if theme is provided and no explicit colors
+  if (theme) {
+    if (!style.fill && !nodeAst.data?.fillColor) {
+      style.fill = getThemeNodeColor(theme, nodeIndex);
+    }
+    if (!style.stroke && !nodeAst.data?.strokeColor) {
+      style.stroke = theme.edgeColor;
+    }
+    if (!style.color && !nodeAst.data?.textColor) {
+      style.color = theme.textColor;
+    }
+  }
 
   // Merge inline properties from node.data into style
   if (nodeAst.data) {
@@ -118,7 +139,9 @@ export function renderNode(
   }
 
   // Wrap in group with optional link
-  let groupAttrs = strict ? '' : ` data-runiq-node="${nodeAst.id}"`;
+  let groupAttrs = strict
+    ? ''
+    : ` data-runiq-node="${nodeAst.id}" data-node-id="${nodeAst.id}" data-node-shape="${nodeAst.shape}"`;
 
   // Add opacity if specified
   if ((style as any).opacity !== undefined) {

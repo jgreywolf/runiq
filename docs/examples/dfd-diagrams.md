@@ -14,9 +14,9 @@ Basic e-commerce order processing flow.
 ```runiq
 diagram "Order Processing" {
 
-  style entity fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2
-  style process fill:"#f3e5f5" stroke:"#7b1fa2" strokeWidth:2
-  style store fill:"#fff3e0" stroke:"#f57c00" strokeWidth:2
+  style entity fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+  style process fill:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2
+  style store fill:"#fff3e0" strokeColor:"#f57c00" strokeWidth:2
 
   // External entities
   shape customer as @externalEntity label:"Customer" style:entity
@@ -47,9 +47,9 @@ Complete library operations with multiple processes.
 ```runiq
 diagram "Library System" {
 
-  style entity fill:"#e3f2fd" stroke:"#1976d2" strokeWidth:2
-  style process fill:"#f3e5f5" stroke:"#7b1fa2" strokeWidth:2
-  style store fill:"#fff3e0" stroke:"#f57c00" strokeWidth:2
+  style entity fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+  style process fill:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2
+  style store fill:"#fff3e0" strokeColor:"#f57c00" strokeWidth:2
 
   // External Entities
   shape member as @externalEntity label:"Library Member" style:entity
@@ -95,9 +95,9 @@ New user registration with validation and email confirmation.
 ```runiq
 diagram "User Registration" {
 
-  style entity fill:"#dbeafe" stroke:"#2563eb" strokeWidth:2
-  style process fill:"#f3e8ff" stroke:"#9333ea" strokeWidth:2
-  style store fill:"#fef3c7" stroke:"#f59e0b" strokeWidth:2
+  style entity fill:"#dbeafe" strokeColor:"#2563eb" strokeWidth:2
+  style process fill:"#f3e8ff" strokeColor:"#9333ea" strokeWidth:2
+  style store fill:"#fef3c7" strokeColor:"#f59e0b" strokeWidth:2
 
   // External entities
   shape user as @externalEntity label:"New User" style:entity
@@ -128,9 +128,9 @@ Business invoice workflow with approval.
 ```runiq
 diagram "Invoice Processing" {
 
-  style entity fill:"#e0f2fe" stroke:"#0284c7" strokeWidth:2
-  style process fill:"#fce7f3" stroke:"#db2777" strokeWidth:2
-  style store fill:"#fef9c3" stroke:"#ca8a04" strokeWidth:2
+  style entity fill:"#e0f2fe" strokeColor:"#0284c7" strokeWidth:2
+  style process fill:"#fce7f3" strokeColor:"#db2777" strokeWidth:2
+  style store fill:"#fef9c3" strokeColor:"#ca8a04" strokeWidth:2
 
   // External entities
   shape vendor as @externalEntity label:"Vendor" style:entity
@@ -163,9 +163,9 @@ System integration for payment processing.
 ```runiq
 diagram "Payment Integration" {
 
-  style entity fill:"#dbeafe" stroke:"#1e40af" strokeWidth:2
-  style process fill:"#f3e8ff" stroke:"#7c3aed" strokeWidth:2
-  style store fill:"#fef3c7" stroke:"#d97706" strokeWidth:2
+  style entity fill:"#dbeafe" strokeColor:"#1e40af" strokeWidth:2
+  style process fill:"#f3e8ff" strokeColor:"#7c3aed" strokeWidth:2
+  style store fill:"#fef3c7" strokeColor:"#d97706" strokeWidth:2
 
   // External entities
   shape customer as @externalEntity label:"Customer" style:entity
@@ -200,8 +200,8 @@ High-level system context showing external interactions.
 ```runiq
 diagram "E-Commerce Context" {
 
-  style entity fill:"#e0f2fe" stroke:"#0369a1" strokeWidth:2
-  style system fill:"#fce7f3" stroke:"#be185d" strokeWidth:3
+  style entity fill:"#e0f2fe" strokeColor:"#0369a1" strokeWidth:2
+  style system fill:"#fce7f3" strokeColor:"#be185d" strokeWidth:3
 
   // External entities
   shape customer as @externalEntity label:"Customer" style:entity
