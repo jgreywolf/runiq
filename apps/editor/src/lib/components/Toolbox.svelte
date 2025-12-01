@@ -28,6 +28,7 @@
 		if (code.startsWith('hydraulic')) return 'hydraulic';
 		if (code.startsWith('wardley')) return 'wardley';
 		if (code.startsWith('sequence')) return 'sequence';
+		if (code.startsWith('timeline')) return 'timeline';
 		if (code.startsWith('glyphset')) return 'glyphset';
 		return 'diagram'; // default
 	});
@@ -39,6 +40,7 @@
 	let isPneumaticMode = $derived(currentProfile === 'pneumatic');
 	let isHydraulicMode = $derived(currentProfile === 'hydraulic');
 	let isSequenceMode = $derived(currentProfile === 'sequence');
+	let isTimelineMode = $derived(currentProfile === 'timeline');
 	let isGlyphsetMode = $derived(currentProfile === 'glyphset');
 
 	// Filter categories based on current profile
@@ -72,14 +74,21 @@
 
 <Tooltip.Provider delayDuration={200}>
 	<div class="flex h-full flex-col">
-		{#if isGlyphsetMode}
-			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
-				<p class="text-xs font-medium text-amber-900">🔣 Glyph Set Mode</p>
+		{#if currentProfile === 'diagram'}
+			<div class="border-b border-runiq-200 bg-runiq-50 px-4 py-2">
+				<p class="text-xs font-medium text-runiq-900">📊 Diagram Mode</p>
 			</div>
-		{/if}
-		{#if isSequenceMode}
-			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
-				<p class="text-xs font-medium text-amber-900">⚡ Sequence Diagram Mode</p>
+		{:else if isGlyphsetMode}
+			<div class="border-b border-runiq-200 bg-runiq-50 px-4 py-2">
+				<p class="text-xs font-medium text-runiq-900">🔣 Glyph Set Mode</p>
+			</div>
+		{:else if isSequenceMode}
+			<div class="border-b border-blue-200 bg-blue-50 px-4 py-2">
+				<p class="text-xs font-medium text-blue-900">⚡ Sequence Diagram Mode</p>
+			</div>
+		{:else if isTimelineMode}
+			<div class="border-b border-indigo-200 bg-indigo-50 px-4 py-2">
+				<p class="text-xs font-medium text-indigo-900">📅 Timeline Mode</p>
 			</div>
 		{:else if isElectricalMode}
 			<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
@@ -94,8 +103,8 @@
 				<p class="text-xs font-medium text-sky-900">💨 Pneumatic Circuit Mode</p>
 			</div>
 		{:else if isHydraulicMode}
-			<div class="border-b border-cyan-200 bg-cyan-50 px-4 py-2">
-				<p class="text-xs font-medium text-cyan-900">💧 Hydraulic Circuit Mode</p>
+			<div class="border-b border-teal-200 bg-teal-50 px-4 py-2">
+				<p class="text-xs font-medium text-teal-900">💧 Hydraulic Circuit Mode</p>
 			</div>
 		{:else if isWardleyMode}
 			<div class="border-b border-purple-200 bg-purple-50 px-4 py-2">

@@ -9,7 +9,7 @@ template "microservice" {
   description: "Standard microservice container with default styling"
   fillColor: "#e3f2fd"
   strokeColor: "#2196f3"
-  borderWidth: 2
+  strokeWidth: 2
   padding: 20
   collapseButtonVisible: true
   shadow: true
@@ -20,7 +20,7 @@ template "database" {
   description: "Database container template"
   fillColor: "#fff3e0"
   strokeColor: "#ff9800"
-  borderWidth: 2
+  strokeWidth: 2
   padding: 15
   shadow: true
 }
@@ -30,7 +30,7 @@ template "api-gateway" {
   description: "API gateway container template"
   fillColor: "#f3e5f5"
   strokeColor: "#9c27b0"
-  borderWidth: 2
+  strokeWidth: 2
   padding: 20
   collapseButtonVisible: true
 }
@@ -40,7 +40,7 @@ preset "card" {
   label: "Card Style"
   padding: 15
   shadow: true
-  borderWidth: 1
+  strokeWidth: 1
   borderStyle: "solid"
 }
 
@@ -48,7 +48,7 @@ preset "highlighted" {
   label: "Highlighted Section"
   fillColor: "#fff3cd"
   strokeColor: "#ffc107"
-  borderWidth: 2
+  strokeWidth: 2
 }
 
 preset "panel" {

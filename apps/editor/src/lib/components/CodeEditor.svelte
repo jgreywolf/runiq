@@ -225,7 +225,7 @@
 			// Container style properties
 			{ label: 'fillColor:', type: 'property', detail: 'Container background color' },
 			{ label: 'strokeColor:', type: 'property', detail: 'Container border color' },
-			{ label: 'borderWidth:', type: 'property', detail: 'Container border width' },
+			{ label: 'strokeWidth:', type: 'property', detail: 'Container border width' },
 			{ label: 'padding:', type: 'property', detail: 'Container padding' },
 			{ label: 'shadow:', type: 'property', detail: 'Container shadow (true/false)' },
 			{ label: 'collapseButtonVisible:', type: 'property', detail: 'Show collapse button' },

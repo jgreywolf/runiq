@@ -24,7 +24,7 @@ Multiple inputs converging to a single output.
 
 ```runiq
 glyphset converging "Data Aggregation Flow" {
-  theme "forest"
+  theme forest
   item "Customer Database"
   item "Sales Records"
   item "Analytics Events"
@@ -47,7 +47,7 @@ Single input diverging to multiple outputs.
 
 ```runiq
 glyphset diverging "Notification Channels" {
-  theme "forest"
+  theme forest
   item "Email"
   item "SMS"
   item "Push Notification"
@@ -72,7 +72,7 @@ Two-sided balance scale showing trade-offs.
 
 ```runiq
 glyphset balance "professional" {
-  theme "forest"
+  theme forest
   side "Costs: Initial Investment, Training, Maintenance"
   side "Benefits: Productivity, ROI, Scalability"
 }
@@ -92,7 +92,7 @@ Opposing forces or contrasting concepts.
 
 ```runiq
 glyphset opposing "Tech Stack" {
-  theme "forest"
+  theme forest
   item "Open Source"
   item "Proprietary"
   item "Hybrid Model"
@@ -113,7 +113,7 @@ Pros and cons comparison.
 
 ```runiq
 glyphset plusMinus "Remote Work Analysis" {
-  theme "forest"
+  theme forest
   item "Flexibility"
   item "No Commute"
   item "Lower Costs"
@@ -137,7 +137,7 @@ Grouped clusters of related items.
 
 ```runiq
 glyphset cluster "Development Team" {
-  theme "forest"
+  theme forest
   item "Frontend Developer"
   item "Backend Developer"
   item "UI/UX Designer"
@@ -160,7 +160,7 @@ Interlocking puzzle pieces showing how parts fit together.
 
 ```runiq
 glyphset puzzle "Development Team" {
-  theme "forest"
+  theme forest
   item "Planning"
   item "Design"
   item "Development"
@@ -185,7 +185,7 @@ Concentric target/bullseye pattern.
 
 ```runiq
 glyphset target "Product Priorities" {
-  theme "forest"
+  theme forest
   circle "Core Features"
   circle "Key Features"
   circle "Nice to Have"

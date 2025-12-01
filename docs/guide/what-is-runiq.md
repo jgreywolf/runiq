@@ -106,7 +106,7 @@ glyphset basicProcess "Development Pipeline" {
   step "Deploy"
   step "Monitor"
 
-  theme "ocean"
+  theme ocean
   orientation "horizontal"
 }
 ```

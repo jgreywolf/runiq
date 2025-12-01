@@ -4,7 +4,7 @@
 
 diagram "Hierarchical Mindmap" {
   
-  container "ProjectPlanning" type:mindmap algorithm:radial spacing:100 fillColor:"#e8f5e9" strokeColor:"#4caf50" borderWidth:2 {
+  container "ProjectPlanning" type:mindmap algorithm:radial spacing:100 fillColor:"#e8f5e9" strokeColor:"#4caf50" strokeWidth:2 {
     
     // Central topic - auto @circ
     shape main label:"Website Redesign"

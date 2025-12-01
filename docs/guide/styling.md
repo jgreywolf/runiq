@@ -267,7 +267,7 @@ diagram "Styled Containers" {
   container "Frontend"
     fillColor: "#fff3e0"
     strokeColor: "#ff9800"
-    borderWidth: 2
+    strokeWidth: 2
     padding: 20
   {
     shape UI as @rect label: "UI Component"
@@ -276,7 +276,7 @@ diagram "Styled Containers" {
   container "Backend"
     fillColor: "#e8f5e9"
     strokeColor: "#4caf50"
-    borderWidth: 2
+    strokeWidth: 2
     padding: 20
   {
     shape API as @rect label: "API Service"
@@ -479,7 +479,7 @@ fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
 | ------------- | ------------------------- | ----------- | ------------------------ |
 | `fill`        | color                     | transparent | `fillColor: "#e3f2fd"`   |
 | `strokeColor` | color                     | #444        | `strokeColor: "#2196f3"` |
-| `borderWidth` | number                    | 1           | `borderWidth: 2`         |
+| `strokeWidth` | number                    | 1           | `strokeWidth: 2`         |
 | `borderStyle` | solid \| dashed \| dotted | solid       | `borderStyle: dashed`    |
 | `shadow`      | boolean                   | false       | `shadow: true`           |
 | `opacity`     | number                    | 1.0         | `opacity: 0.9`           |

@@ -8,7 +8,7 @@ diagram "Learning JavaScript Roadmap" {
   style level1 fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
   style level2 fill:"#f3e5f5" strokeColor:"#7b1fa2"
   
-  container "LearningPath" type:mindmap algorithm:radial spacing:90 fillColor:"#fafafa" strokeColor:"#757575" borderWidth:2 {
+  container "LearningPath" type:mindmap algorithm:radial spacing:90 fillColor:"#fafafa" strokeColor:"#757575" strokeWidth:2 {
     
     // Central topic - auto @circ
     shape js label:"JavaScript" style:highlight

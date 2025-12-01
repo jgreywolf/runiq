@@ -173,7 +173,7 @@ interface Container {
   properties?: {
     backgroundColor?: string; // Background color
     borderColor?: string; // Border color
-    borderWidth?: number; // Border width (px)
+    strokeWidth?: number; // Border width (px)
     borderStyle?: 'solid' | 'dashed' | 'dotted';
     padding?: number; // Internal padding (px)
     algorithm?: 'layered' | 'force' | 'stress' | 'radial' | 'mrtree';

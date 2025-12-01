@@ -58,15 +58,15 @@ describe('Phase 5: Container Templates & Presets', () => {
         id: 'highlighted-section',
         containerStyle: {
           fillColor: '#fff3cd',
-          borderColor: '#ffc107',
-          borderWidth: 2,
+          strokeColor: '#ffc107',
+          strokeWidth: 2,
           padding: 20,
           shadow: true,
         },
       };
 
       expect(template.containerStyle?.fillColor).toBe('#fff3cd');
-      expect(template.containerStyle?.borderWidth).toBe(2);
+      expect(template.containerStyle?.strokeWidth).toBe(2);
       expect(template.containerStyle?.shadow).toBe(true);
     });
 
@@ -122,8 +122,8 @@ describe('Phase 5: Container Templates & Presets', () => {
         ],
         containerStyle: {
           fillColor: '#ffffff',
-          borderColor: '#dee2e6',
-          borderWidth: 1,
+          strokeColor: '#dee2e6',
+          strokeWidth: 1,
           borderStyle: 'solid',
           padding: 15,
           shadow: true,
@@ -292,8 +292,8 @@ describe('Phase 5: Container Templates & Presets', () => {
           templateId: 'premium-widget',
           // Phase 1
           fillColor: '#f8f9fa',
-          borderColor: '#dee2e6',
-          borderWidth: 2,
+          strokeColor: '#dee2e6',
+          strokeWidth: 2,
           padding: 20,
           // Phase 3
           minWidth: 300,
@@ -320,8 +320,8 @@ describe('Phase 5: Container Templates & Presets', () => {
         label: 'Card Style',
         style: {
           fillColor: '#ffffff',
-          borderColor: '#dee2e6',
-          borderWidth: 1,
+          strokeColor: '#dee2e6',
+          strokeWidth: 1,
           padding: 15,
           shadow: true,
         },
@@ -337,7 +337,7 @@ describe('Phase 5: Container Templates & Presets', () => {
         id: 'highlighted',
         style: {
           fillColor: '#fff3cd',
-          borderColor: '#ffc107',
+          strokeColor: '#ffc107',
         },
       };
 
@@ -385,7 +385,7 @@ describe('Phase 5: Container Templates & Presets', () => {
         {
           id: 'panel',
           label: 'Panel',
-          style: { padding: 20, borderWidth: 2 },
+          style: { padding: 20, strokeWidth: 2 },
         },
         {
           id: 'group',
@@ -687,8 +687,8 @@ describe('Phase 5: Container Templates & Presets', () => {
             ],
             containerStyle: {
               fillColor: '#e3f2fd',
-              borderColor: '#2196f3',
-              borderWidth: 2,
+              strokeColor: '#2196f3',
+              strokeWidth: 2,
               padding: 20,
               collapseButtonVisible: true,
             },
@@ -698,8 +698,8 @@ describe('Phase 5: Container Templates & Presets', () => {
             label: 'Database Container',
             containerStyle: {
               fillColor: '#fff3e0',
-              borderColor: '#ff9800',
-              borderWidth: 2,
+              strokeColor: '#ff9800',
+              strokeWidth: 2,
               padding: 15,
             },
           },
@@ -711,7 +711,7 @@ describe('Phase 5: Container Templates & Presets', () => {
             style: {
               padding: 15,
               shadow: true,
-              borderWidth: 1,
+              strokeWidth: 1,
             },
           },
           {
@@ -719,8 +719,8 @@ describe('Phase 5: Container Templates & Presets', () => {
             label: 'Highlighted Section',
             style: {
               fillColor: '#fff3cd',
-              borderColor: '#ffc107',
-              borderWidth: 2,
+              strokeColor: '#ffc107',
+              strokeWidth: 2,
             },
           },
         ],
@@ -754,9 +754,7 @@ describe('Phase 5: Container Templates & Presets', () => {
       expect(diagram.templates).toHaveLength(2);
       expect(diagram.templates?.[0].id).toBe('microservice');
       expect(diagram.templates?.[0].parameters).toHaveLength(2);
-      expect(diagram.templates?.[1].containerStyle?.fillColor).toBe(
-        '#fff3e0'
-      );
+      expect(diagram.templates?.[1].containerStyle?.fillColor).toBe('#fff3e0');
 
       // Verify presets
       expect(diagram.presets).toHaveLength(2);

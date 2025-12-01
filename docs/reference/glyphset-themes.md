@@ -1,23 +1,38 @@
 # Glyphset Themes
 
-Glyphsets support predefined color themes to quickly apply professional color schemes to your visualizations.
+Glyphsets support predefined color themes to quickly apply professional color schemes to your visualizations. These are the same themes used across all Runiq diagram profiles (diagram, sequence, timeline).
+
+::: tip
+For complete theme documentation covering all diagram types, see the [Themes Guide](/guide/themes).
+:::
 
 ## Using Themes
 
-Add a `theme` parameter to your glyphset definition:
+Add a `theme` parameter to your glyphset definition (no quotes needed):
 
 ```runiq
 glyphset spiralCycle "My Diagram" {
-  theme "forest"
+  theme forest
   item "Step 1"
   item "Step 2"
   item "Step 3"
 }
 ```
 
+**Note**: Quoted theme names like `theme forest` are also supported for backwards compatibility.
+
 ## Available Themes
 
-### professional (default)
+### runiq (default)
+
+Official Runiq brand theme with professional blue-gray palette.
+
+- **Primary Color**: #5a819e (from the Runiq mascot's scarf)
+- **Palette**: Blue-gray gradient (#5a819e → #121a20)
+- **Best for**: Runiq-branded content, professional documentation
+- **Example**: `theme runiq`
+
+### professional
 
 Professional gray-blue palette for business and technical diagrams.
 
@@ -95,7 +110,7 @@ Cool spectrum with cyans, blues, and purples.
 
 ```runiq
 glyphset spiralCycle "Growth Journey" {
-  theme "forest"
+  theme forest
   item "Seed"
   item "Sprout"
   item "Sapling"
@@ -108,7 +123,7 @@ glyphset spiralCycle "Growth Journey" {
 
 ```runiq
 glyphset basicProcess "Creative Workflow" {
-  theme "vibrant"
+  theme vibrant
   step "Ideate"
   step "Design"
   step "Build"
@@ -120,7 +135,7 @@ glyphset basicProcess "Creative Workflow" {
 
 ```runiq
 glyphset radialCycle "Innovation Cycle" {
-  theme "sunset"
+  theme sunset
   item "Research"
   item "Prototype"
   item "Test"
@@ -133,7 +148,7 @@ glyphset radialCycle "Innovation Cycle" {
 
 ```runiq
 glyphset orbitCycle "Tech Ecosystem" {
-  theme "ocean"
+  theme ocean
   item "Core Platform"
   item "Services"
   item "APIs"
@@ -147,7 +162,7 @@ glyphset orbitCycle "Tech Ecosystem" {
 
 ```runiq
 glyphset matrix "Strategy Matrix" {
-  theme "cool"
+  theme cool
   quadrant "Invest"
   quadrant "Experiment"
   quadrant "Optimize"
@@ -159,7 +174,7 @@ glyphset matrix "Strategy Matrix" {
 
 ```runiq
 glyphset orgChart "Team Structure" {
-  theme "professional"
+  theme professional
   person "CEO" {
     person "CTO"
     person "CFO"

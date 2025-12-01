@@ -372,7 +372,7 @@ export const horizontalProcessGlyphSet: GlyphSetDefinition = {
         containerStyle: {
           fillColor: '#e3f2fd',
           strokeColor: '#2196f3',
-          borderWidth: 2,
+          strokeWidth: 2,
           padding: 15,
           shadow: true,
         },

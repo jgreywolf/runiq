@@ -1,0 +1,6 @@
+glyphset pyramid "Backward Compatible Test" {
+  theme "professional"
+  level "Top"
+  level "Middle"
+  level "Bottom"
+}

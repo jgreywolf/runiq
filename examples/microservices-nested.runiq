@@ -2,13 +2,13 @@ diagram "Microservices Architecture" {
   direction TB
 
   // Frontend Layer
-  container frontendLayer "Frontend Layer" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:2 {
+  container frontendLayer "Frontend Layer" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape webUI as @browser label:"Web UI"
     shape mobileUI as @rounded label:"Mobile UI"
   }
 
   // Backend Services with nested service groups
-  container backendLayer "Backend Services" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" borderWidth:2 padding:30 {
+  container backendLayer "Backend Services" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 padding:30 {
     
     container userServices "User Services" fillColor:"#fff3e0" strokeColor:"#f57c00" {
       shape authService as @hexagon label:"Auth Service"

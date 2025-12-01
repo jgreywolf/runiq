@@ -67,7 +67,7 @@ template "microservice" {
   description: "Standard microservice container"
   fillColor: "#e8f5e9"
   strokeColor: "#4caf50"
-  borderWidth: 2
+  strokeWidth: 2
   padding: 20
   shadow: true
   collapseButtonVisible: true
@@ -158,7 +158,7 @@ preset "card" {
   label: "Card Style"
   fillColor: "#ffffff"
   strokeColor: "#dee2e6"
-  borderWidth: 1
+  strokeWidth: 1
   padding: 15
   shadow: true
 }
@@ -167,7 +167,7 @@ preset "highlighted" {
   label: "Highlighted Section"
   fillColor: "#fff3cd"
   strokeColor: "#ffc107"
-  borderWidth: 2
+  strokeWidth: 2
 }
 
 preset "panel" {
@@ -334,7 +334,7 @@ template "service" {
 
 preset "card" {
   shadow: true
-  borderWidth: 1
+  strokeWidth: 1
 }
 
 container "MyService" templateId: "service" preset: "card" {
@@ -347,7 +347,7 @@ container "MyService" templateId: "service" preset: "card" {
 - `fillColor: "#e8f5e9"` (from template)
 - `padding: 20` (from template)
 - `shadow: true` (from preset)
-- `borderWidth: 1` (from preset)
+- `strokeWidth: 1` (from preset)
 
 ### Template + Inheritance
 
@@ -386,7 +386,7 @@ container "Base"
 
 preset "highlighted" {
   strokeColor: "#ffc107"
-  borderWidth: 2
+  strokeWidth: 2
 }
 
 container "Derived" extends: "Base" preset: "highlighted" {
@@ -399,7 +399,7 @@ container "Derived" extends: "Base" preset: "highlighted" {
 - `fillColor: "#f0f0f0"` (from Base via extends)
 - `padding: 20` (from Base via extends)
 - `strokeColor: "#ffc107"` (from highlighted preset, overrides extends)
-- `borderWidth: 2` (from highlighted preset, overrides extends)
+- `strokeWidth: 2` (from highlighted preset, overrides extends)
 
 ### All Three Combined
 
@@ -411,7 +411,7 @@ template "service" {
 
 preset "card" {
   shadow: true
-  borderWidth: 1
+  strokeWidth: 1
 }
 
 container "Base"
@@ -436,14 +436,14 @@ container "AdvancedService"
 2. `fillColor: "#e3f2fd"` ← template (overrides extends)
 3. `padding: 20` ← template (overrides extends)
 4. `shadow: true` ← preset (overrides extends + template)
-5. `borderWidth: 1` ← preset (overrides extends + template)
+5. `strokeWidth: 1` ← preset (overrides extends + template)
 6. `padding: 25` ← inline (overrides all)
 
 **Final Result**:
 
 - `fillColor: "#e3f2fd"`
 - `strokeColor: "#999"`
-- `borderWidth: 1`
+- `strokeWidth: 1`
 - `padding: 25` (inline wins!)
 - `shadow: true`
 
@@ -458,7 +458,7 @@ diagram "Analytics Dashboard"
 template "widget" {
   label: "Dashboard Widget"
   fillColor: "#ffffff"
-  borderWidth: 1
+  strokeWidth: 1
   padding: 15
   shadow: true
   collapseButtonVisible: true
@@ -524,7 +524,7 @@ template "microservice" {
   description: "Standard microservice container"
   fillColor: "#e3f2fd"
   strokeColor: "#2196f3"
-  borderWidth: 2
+  strokeWidth: 2
   padding: 20
   collapseButtonVisible: true
   shadow: true
@@ -535,7 +535,7 @@ template "database" {
   label: "Database"
   fillColor: "#fff3e0"
   strokeColor: "#ff9800"
-  borderWidth: 2
+  strokeWidth: 2
   padding: 15
   shadow: true
 }
@@ -597,7 +597,7 @@ diagram "Service Inheritance"
 container "BaseService"
   fillColor: "#f0f0f0"
   strokeColor: "#999"
-  borderWidth: 1
+  strokeWidth: 1
   padding: 15
 {
   shape base as @rectangle label: "Base Component"
@@ -615,7 +615,7 @@ container "AuthenticatedService" extends: "BaseService"
 container "AdminService" extends: "AuthenticatedService"
   fillColor: "#fff3cd"
   strokeColor: "#ffc107"
-  borderWidth: 2
+  strokeWidth: 2
 {
   shape admin as @rectangle label: "Admin Endpoint"
   shape rbac as @rectangle label: "RBAC"
@@ -634,7 +634,7 @@ diagram "Operations Dashboard"
 // Widget template
 template "dashboard-widget" {
   fillColor: "#ffffff"
-  borderWidth: 1
+  strokeWidth: 1
   padding: 15
   shadow: true
   collapseButtonVisible: true
@@ -750,7 +750,7 @@ template "everything" {
   padding: 20
   margin: 10
   shadow: true
-  borderWidth: 2
+  strokeWidth: 2
   borderStyle: "dashed"
   collapseButtonVisible: true
   resizable: true
@@ -770,7 +770,7 @@ template "sized-container" {
     "padding": number = 15
   ]
   fillColor: "#ffffff"
-  borderWidth: 1
+  strokeWidth: 1
 }
 ```
 

@@ -90,7 +90,7 @@ Group related elements with colored containers:
 container backend "Backend Services"
   fillColor:"#e3f2fd"
   strokeColor:"#1976d2"
-  borderWidth:2 {
+  strokeWidth:2 {
   shape service1 as @c4Container label:"Service 1"
   shape service2 as @c4Container label:"Service 2"
 }

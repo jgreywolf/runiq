@@ -13,6 +13,11 @@ import type {
   TimelineEvent,
   TimelinePeriod,
 } from '@runiq/core';
+import {
+  getTimelineTheme,
+  getThemeEventColor,
+  type TimelineTheme,
+} from '@runiq/core';
 
 export interface TimelineRenderOptions {
   width?: number;
@@ -43,8 +48,6 @@ const DEFAULT_EVENT_RADIUS = 8;
 const DEFAULT_LINE_STROKE_WIDTH = 3;
 const DEFAULT_LABEL_FONT_SIZE = 14;
 const DEFAULT_DATE_FONT_SIZE = 12;
-const DEFAULT_EVENT_COLOR = '#3B82F6';
-const DEFAULT_PERIOD_COLOR = '#E0E7FF';
 const DEFAULT_PERIOD_OPACITY = 0.3;
 
 /**
@@ -58,6 +61,11 @@ export function renderTimeline(
   const isHorizontal =
     profile.orientation === 'horizontal' || !profile.orientation;
 
+  // Apply theme if specified in profile
+  const theme = (profile as any).theme
+    ? getTimelineTheme((profile as any).theme)
+    : getTimelineTheme();
+
   const {
     width = isHorizontal ? DEFAULT_HORIZONTAL_WIDTH : DEFAULT_VERTICAL_WIDTH,
     height = isHorizontal ? DEFAULT_HORIZONTAL_HEIGHT : DEFAULT_VERTICAL_HEIGHT,
@@ -67,8 +75,8 @@ export function renderTimeline(
     labelFontSize = DEFAULT_LABEL_FONT_SIZE,
     dateFontSize = DEFAULT_DATE_FONT_SIZE,
     showDates = true,
-    defaultEventColor = DEFAULT_EVENT_COLOR,
-    defaultPeriodColor = DEFAULT_PERIOD_COLOR,
+    defaultEventColor = theme.eventColors[0],
+    defaultPeriodColor = theme.periodColor,
     defaultPeriodOpacity = DEFAULT_PERIOD_OPACITY,
     title = profile.title,
   } = options;
@@ -110,7 +118,7 @@ export function renderTimeline(
   // Background
   svg += `<rect width="${width}" height="${height}" fill="#FFFFFF"/>`;
 
-  // Render based on orientation
+  // Render timeline based on orientation
   if (isHorizontal) {
     svg += renderHorizontalTimeline(
       sortedEvents,
@@ -128,7 +136,8 @@ export function renderTimeline(
       showDates,
       defaultEventColor,
       defaultPeriodColor,
-      defaultPeriodOpacity
+      defaultPeriodOpacity,
+      theme
     );
   } else {
     svg += renderVerticalTimeline(
@@ -147,7 +156,8 @@ export function renderTimeline(
       showDates,
       defaultEventColor,
       defaultPeriodColor,
-      defaultPeriodOpacity
+      defaultPeriodOpacity,
+      theme
     );
   }
 
@@ -174,9 +184,10 @@ function renderHorizontalTimeline(
   labelFontSize: number,
   dateFontSize: number,
   showDates: boolean,
-  defaultEventColor: string,
+  _defaultEventColor: string,
   defaultPeriodColor: string,
-  defaultPeriodOpacity: number
+  defaultPeriodOpacity: number,
+  theme: TimelineTheme
 ): string {
   let svg = '';
   const timelineY = height / 2;
@@ -238,7 +249,8 @@ function renderHorizontalTimeline(
   events.forEach((event, index) => {
     const eventDate = new Date(event.date);
     const x = dateToX(eventDate);
-    const eventColor = event.fillColor || defaultEventColor;
+    // Use theme color if no custom color specified
+    const eventColor = event.fillColor || getThemeEventColor(theme, index);
 
     // Alternating label positions (top/bottom) unless specified
     const isTop =
@@ -334,9 +346,10 @@ function renderVerticalTimeline(
   labelFontSize: number,
   dateFontSize: number,
   showDates: boolean,
-  defaultEventColor: string,
+  _defaultEventColor: string,
   defaultPeriodColor: string,
-  defaultPeriodOpacity: number
+  defaultPeriodOpacity: number,
+  theme: TimelineTheme
 ): string {
   let svg = '';
   const timelineX = width / 2;
@@ -399,7 +412,8 @@ function renderVerticalTimeline(
   events.forEach((event, index) => {
     const eventDate = new Date(event.date);
     const y = dateToY(eventDate);
-    const eventColor = event.fillColor || defaultEventColor;
+    // Use theme color if no custom color specified
+    const eventColor = event.fillColor || getThemeEventColor(theme, index);
 
     // Alternating label positions (left/right) unless specified
     const isLeft =

@@ -61,7 +61,7 @@ describe('Hierarchical Containers - Core Types', () => {
         containerStyle: {
           borderStyle: 'dashed',
           borderColor: '#666',
-          borderWidth: 2,
+          strokeWidth: 2,
           backgroundColor: 'transparent',
         },
       };
@@ -88,11 +88,11 @@ describe('Hierarchical Containers - Core Types', () => {
       const style: ContainerStyle = {
         borderStyle: 'solid',
         borderColor: 'red',
-        borderWidth: 3,
+        strokeWidth: 3,
       };
 
       expect(style.borderStyle).toBe('solid');
-      expect(style.borderWidth).toBe(3);
+      expect(style.strokeWidth).toBe(3);
     });
 
     it('should define background styles', () => {
@@ -125,7 +125,7 @@ describe('Hierarchical Containers - Core Types', () => {
       const style: ContainerStyle = {
         borderStyle: 'dotted',
         borderColor: 'blue',
-        borderWidth: 1,
+        strokeWidth: 1,
         backgroundColor: '#eef',
         opacity: 0.3,
         padding: 15,
@@ -687,7 +687,7 @@ describe('Hierarchical Containers - Core Types', () => {
       const style: ContainerStyle = {
         borderStyle: 'solid',
         borderColor: '#01579b',
-        borderWidth: 2,
+        strokeWidth: 2,
         backgroundColor: '#e1f5fe',
         opacity: 0.9,
         padding: 20,
@@ -698,7 +698,7 @@ describe('Hierarchical Containers - Core Types', () => {
 
       expect(style.borderStyle).toBe('solid');
       expect(style.borderColor).toBe('#01579b');
-      expect(style.borderWidth).toBe(2);
+      expect(style.strokeWidth).toBe(2);
       expect(style.backgroundColor).toBe('#e1f5fe');
       expect(style.opacity).toBe(0.9);
       expect(style.padding).toBe(20);
@@ -770,7 +770,7 @@ describe('Hierarchical Containers - Core Types', () => {
         containerStyle: {
           backgroundColor: '#e1f5fe',
           borderColor: '#01579b',
-          borderWidth: 2,
+          strokeWidth: 2,
           borderStyle: 'solid',
           padding: 20,
           shadow: true,

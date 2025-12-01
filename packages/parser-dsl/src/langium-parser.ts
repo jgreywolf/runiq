@@ -1309,6 +1309,8 @@ function processDialogStatement(
     diagram.direction = statement.value as Direction;
   } else if (Langium.isRoutingDeclaration(statement)) {
     diagram.routing = statement.value as EdgeRouting;
+  } else if (Langium.isThemeDeclaration(statement)) {
+    diagram.theme = statement.value;
   } else if (Langium.isStyleDeclaration(statement)) {
     const style: Style = {};
 

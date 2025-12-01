@@ -74,6 +74,7 @@ export interface DiagramAst {
   title?: string;
   direction?: Direction;
   routing?: EdgeRouting;
+  theme?: string; // Color theme (professional, ocean, forest, etc.)
   styles?: Record<string, Style>;
   nodes: NodeAst[];
   edges: EdgeAst[];
@@ -645,6 +646,7 @@ export interface DiagramProfile {
   name: string;
   direction?: Direction;
   routing?: EdgeRouting;
+  theme?: string; // Color theme (professional, ocean, forest, etc.)
   styles?: Record<string, Style>;
   nodes: NodeAst[];
   edges: EdgeAst[];

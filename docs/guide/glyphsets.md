@@ -61,7 +61,7 @@ glyphset basicProcess "Software Development" {
   step "Test"
   step "Deploy"
 
-  theme "ocean"
+  theme ocean
   orientation "horizontal"
 }
 ```
@@ -70,22 +70,27 @@ glyphset basicProcess "Software Development" {
 
 Most glyphsets support these parameters:
 
-| Parameter     | Type   | Description                                                                                  | Default            |
-| ------------- | ------ | -------------------------------------------------------------------------------------------- | ------------------ |
-| `theme`       | string | Color theme (colorful, professional, monochrome, vibrant, warm, cool, forest, sunset, ocean) | `colorful`         |
-| `orientation` | string | Layout direction (horizontal, vertical)                                                      | varies by glyphset |
-| `shape`       | string | Node shape override                                                                          | varies by glyphset |
-| `direction`   | string | Layout flow direction (LR, RL, TB, BT)                                                       | varies by glyphset |
+| Parameter     | Type   | Description                                                                                         | Default            |
+| ------------- | ------ | --------------------------------------------------------------------------------------------------- | ------------------ |
+| `theme`       | string | Color theme (runiq, professional, forest, sunset, ocean, monochrome, colorful, vibrant, warm, cool) | `runiq`            |
+| `orientation` | string | Layout direction (horizontal, vertical)                                                             | varies by glyphset |
+| `shape`       | string | Node shape override                                                                                 | varies by glyphset |
+| `direction`   | string | Layout flow direction (LR, RL, TB, BT)                                                              | varies by glyphset |
 
 ## Themes
 
-All glyphsets support 5 built-in themes:
+All glyphsets support 10 built-in themes with the same professional color palettes used across all Runiq diagram types:
 
-- **professional** (default) - Blue business tones
-- **forest** - Natural greens
-- **sunset** - Warm oranges and reds
+- **runiq** (default) - Official Runiq brand blue-gray
+- **professional** - Classic business gray-blue
+- **forest** - Natural greens and earth tones
+- **sunset** - Warm oranges and ambers
 - **ocean** - Cool blues and teals
-- **monochrome** - Sophisticated grays
+- **monochrome** - Sophisticated blue gradient
+- **colorful** - Balanced multi-color Office palette
+- **vibrant** - Bold modern colors
+- **warm** - Friendly corals and yellows
+- **cool** - Analytical cyans and purples
 
 ```runiq
 glyphset basicProcess "Themed Process" {
@@ -93,11 +98,11 @@ glyphset basicProcess "Themed Process" {
   step "B"
   step "C"
 
-  theme "sunset"  // Try: professional, forest, sunset, ocean, monochrome
+  theme sunset  // Try: runiq, professional, forest, sunset, ocean, vibrant
 }
 ```
 
-[Learn more about themes →](/reference/glyphset-themes)
+[Learn more about themes →](/guide/themes) • [Glyphset themes reference →](/reference/glyphset-themes)
 
 ## Available Glyphset Categories
 

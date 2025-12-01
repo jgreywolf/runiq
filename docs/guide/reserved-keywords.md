@@ -994,7 +994,7 @@ These are reserved as container properties (not available in generic `style` blo
 - `padding` - Internal padding (use `margin` in styles)
 - `borderStyle` - Border style (use `lineStyle` for edges)
 - `strokeColor` - Border color
-- `borderWidth` - Border width
+- `strokeWidth` - Border width
 - `fillColor` - Background color
 - `opacity` - Container opacity (use `fillOpacity`/`strokeOpacity` in styles)
 - `shadow` - Drop shadow effect

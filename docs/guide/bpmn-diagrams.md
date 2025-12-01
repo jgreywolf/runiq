@@ -520,7 +520,7 @@ diagram "Styled BPMN Process" {
   container "Sales Process" as @bpmnPool
     fill: "#e3f2fd"
     strokeColor: "#1976d2"
-    borderWidth: 2
+    strokeWidth: 2
     borderStyle: dashed {
 
     shape start as @bpmnEvent label: "Start"

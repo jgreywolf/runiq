@@ -13,7 +13,7 @@ export const templatePresetSampleDiagrams: SampleCategory[] = [
     label: "Microservice Template"
     fillColor: "#e8f5e9"
     strokeColor: "#4caf50"
-    borderWidth: 2
+    strokeWidth: 2
     padding: 15
     resizable: true
   }
@@ -58,7 +58,7 @@ export const templatePresetSampleDiagrams: SampleCategory[] = [
 				code: `diagram "Combined Example" {
   template "microservice" {
     fillColor: "#e8f5e9"
-    borderWidth: 2
+    strokeWidth: 2
     padding: 15
   }
 

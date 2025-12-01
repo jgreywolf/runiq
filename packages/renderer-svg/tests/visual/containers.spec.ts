@@ -5,7 +5,7 @@ test.describe('Visual Regression - Container Tests', () => {
   test('should render a basic container with shapes', async ({ page }) => {
     const dsl = `
 diagram "Basic Container" {
-  container backend "Backend Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:2 {
+  container backend "Backend Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape api as @hexagon label:"API"
     shape db as @cylinder label:"Database"
     api -> db
@@ -73,7 +73,7 @@ diagram "Container Direction LR" {
   test('should render nested containers (2 levels)', async ({ page }) => {
     const dsl = `
 diagram "Nested Containers" {
-  container outer "Outer Container" fillColor:"#e8f5e9" strokeColor:"#388e3c" borderWidth:3 {
+  container outer "Outer Container" fillColor:"#e8f5e9" strokeColor:"#388e3c" strokeWidth:3 {
     shape start as @hexagon label:"Start"
     
     container inner "Inner Container" fillColor:"#fff3e0" strokeColor:"#f57c00" {

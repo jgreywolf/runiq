@@ -1,6 +1,6 @@
 diagram "Simple Container Test" {
 
-  container backend "Backend" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:3 {
+  container backend "Backend" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:3 {
     shape api as @hexagon label:"API"
     shape auth as @hexagon label:"Auth"
     api -> auth

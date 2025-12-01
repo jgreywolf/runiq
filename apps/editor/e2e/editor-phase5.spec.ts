@@ -310,7 +310,7 @@ test.describe.skip('Phase 5: Templates & Presets Editor Integration', () => {
 
   preset "card" {
     shadow: true
-    borderWidth: 1
+    strokeWidth: 1
   }
 
   container "API Service" templateId: "microservice" preset: "card" {

@@ -176,6 +176,7 @@ export type RuniqKeywordNames =
     | "collapsing"
     | "color"
     | "colorScheme"
+    | "colorful"
     | "colors:"
     | "columnHeaders"
     | "columns"
@@ -197,6 +198,7 @@ export type RuniqKeywordNames =
     | "control_room"
     | "controlled_variable:"
     | "controller:"
+    | "cool"
     | "cooler"
     | "coolingTower"
     | "create"
@@ -301,6 +303,7 @@ export type RuniqKeywordNames =
     | "for"
     | "force"
     | "foreach"
+    | "forest"
     | "format"
     | "found"
     | "fragment"
@@ -439,6 +442,7 @@ export type RuniqKeywordNames =
     | "mobile"
     | "mode:"
     | "module"
+    | "monochrome"
     | "mrtree"
     | "multiplicitySource:"
     | "multiplicityTarget:"
@@ -458,6 +462,7 @@ export type RuniqKeywordNames =
     | "number"
     | "nw"
     | "objectNode"
+    | "ocean"
     | "of:"
     | "op"
     | "opacity:"
@@ -521,6 +526,7 @@ export type RuniqKeywordNames =
     | "pressureTransmitter"
     | "private"
     | "process"
+    | "professional"
     | "protected"
     | "providedInterface"
     | "psi"
@@ -560,6 +566,7 @@ export type RuniqKeywordNames =
     | "routing:"
     | "rowHeaders"
     | "rpm"
+    | "runiq"
     | "ruptureDisk"
     | "s"
     | "schedule:"
@@ -627,6 +634,7 @@ export type RuniqKeywordNames =
     | "style"
     | "style:"
     | "submachine"
+    | "sunset"
     | "sw"
     | "sync"
     | "synthetic"
@@ -694,11 +702,13 @@ export type RuniqKeywordNames =
     | "verticalFork"
     | "vesselHorizontal"
     | "vesselVertical"
+    | "vibrant"
     | "vibrationTransmitter"
     | "visibility:"
     | "volume:"
     | "w"
     | "wardley"
+    | "warm"
     | "water-glycol"
     | "weight:"
     | "when:"
@@ -1498,7 +1508,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock;
+export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock | ThemeDeclaration;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -2119,7 +2129,7 @@ export interface GlyphSetParameter extends langium.AstNode {
     readonly $container: GlyphSetProfile;
     readonly $type: 'GlyphSetParameter';
     name: GlyphSetParameterName;
-    value: BooleanValue | string;
+    value: GlyphSetParameterValue;
 }
 
 export const GlyphSetParameter = {
@@ -2136,6 +2146,29 @@ export type GlyphSetParameterName = 'alternating' | 'bidirectional' | 'callouts'
 
 export function isGlyphSetParameterName(item: unknown): item is GlyphSetParameterName {
     return item === 'alternating' || item === 'bidirectional' || item === 'callouts' || item === 'center' || item === 'centerLabel' || item === 'circles' || item === 'colorScheme' || item === 'columnHeaders' || item === 'columns' || item === 'direction' || item === 'events' || item === 'frameStyle' || item === 'groups' || item === 'horizontalAxis' || item === 'image' || item === 'images' || item === 'items' || item === 'layout' || item === 'leftWeight' || item === 'levels' || item === 'mergePoint' || item === 'operator' || item === 'orientation' || item === 'overlap' || item === 'quadrants' || item === 'relationship' || item === 'result' || item === 'rightWeight' || item === 'rowHeaders' || item === 'segments' || item === 'shape' || item === 'showAllConnections' || item === 'showConnections' || item === 'showDottedLines' || item === 'showPercentages' || item === 'showValues' || item === 'sides' || item === 'source' || item === 'stages' || item === 'steps' || item === 'structure' || item === 'target' || item === 'theme' || item === 'useContainers' || item === 'verticalAxis' || item === 'xAxis' || item === 'yAxis';
+}
+
+export interface GlyphSetParameterValue extends langium.AstNode {
+    readonly $container: GlyphSetParameter;
+    readonly $type: 'GlyphSetParameterValue';
+    boolValue?: BooleanValue;
+    directionValue?: DirectionValue;
+    numberValue?: string;
+    stringValue?: string;
+    themeValue?: ThemeValue;
+}
+
+export const GlyphSetParameterValue = {
+    $type: 'GlyphSetParameterValue',
+    boolValue: 'boolValue',
+    directionValue: 'directionValue',
+    numberValue: 'numberValue',
+    stringValue: 'stringValue',
+    themeValue: 'themeValue'
+} as const;
+
+export function isGlyphSetParameterValue(item: unknown): item is GlyphSetParameterValue {
+    return reflection.isInstance(item, GlyphSetParameterValue.$type);
 }
 
 export interface GlyphSetProfile extends langium.AstNode {
@@ -4756,6 +4789,27 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
     return reflection.isInstance(item, TextColorProperty.$type);
 }
 
+export interface ThemeDeclaration extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $type: 'ThemeDeclaration';
+    value: ThemeValue;
+}
+
+export const ThemeDeclaration = {
+    $type: 'ThemeDeclaration',
+    value: 'value'
+} as const;
+
+export function isThemeDeclaration(item: unknown): item is ThemeDeclaration {
+    return reflection.isInstance(item, ThemeDeclaration.$type);
+}
+
+export type ThemeValue = 'colorful' | 'cool' | 'forest' | 'monochrome' | 'ocean' | 'professional' | 'runiq' | 'sunset' | 'vibrant' | 'warm';
+
+export function isThemeValue(item: unknown): item is ThemeValue {
+    return item === 'professional' || item === 'forest' || item === 'sunset' || item === 'ocean' || item === 'monochrome' || item === 'colorful' || item === 'vibrant' || item === 'warm' || item === 'cool' || item === 'runiq';
+}
+
 export interface TimelineColorProperty extends langium.AstNode {
     readonly $container: TimelineEventStatement | TimelinePeriodStatement;
     readonly $type: 'TimelineColorProperty';
@@ -5339,6 +5393,7 @@ export type RuniqAstType = {
     GlyphSetItemStatement: GlyphSetItemStatement
     GlyphSetNestedItem: GlyphSetNestedItem
     GlyphSetParameter: GlyphSetParameter
+    GlyphSetParameterValue: GlyphSetParameterValue
     GlyphSetProfile: GlyphSetProfile
     GlyphSetSimpleItem: GlyphSetSimpleItem
     GroupBlock: GroupBlock
@@ -5498,6 +5553,7 @@ export type RuniqAstType = {
     TemplateVariablePath: TemplateVariablePath
     TextAlignProperty: TextAlignProperty
     TextColorProperty: TextColorProperty
+    ThemeDeclaration: ThemeDeclaration
     TimelineColorProperty: TimelineColorProperty
     TimelineDateProperty: TimelineDateProperty
     TimelineDescriptionProperty: TimelineDescriptionProperty
@@ -6528,6 +6584,27 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 value: {
                     name: GlyphSetParameter.value
+                }
+            },
+            superTypes: []
+        },
+        GlyphSetParameterValue: {
+            name: GlyphSetParameterValue.$type,
+            properties: {
+                boolValue: {
+                    name: GlyphSetParameterValue.boolValue
+                },
+                directionValue: {
+                    name: GlyphSetParameterValue.directionValue
+                },
+                numberValue: {
+                    name: GlyphSetParameterValue.numberValue
+                },
+                stringValue: {
+                    name: GlyphSetParameterValue.stringValue
+                },
+                themeValue: {
+                    name: GlyphSetParameterValue.themeValue
                 }
             },
             superTypes: []
@@ -8155,6 +8232,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        ThemeDeclaration: {
+            name: ThemeDeclaration.$type,
+            properties: {
+                value: {
+                    name: ThemeDeclaration.value
+                }
+            },
+            superTypes: [DiagramStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,

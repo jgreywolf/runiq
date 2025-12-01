@@ -2,7 +2,7 @@ diagram "Multi-Region Deployment" {
   direction TB
 
   # US East Region
-  container useast "US East (Primary)" fillColor:"#e8f5e9" strokeColor:"#388e3c" borderWidth:3 {
+  container useast "US East (Primary)" fillColor:"#e8f5e9" strokeColor:"#388e3c" strokeWidth:3 {
     
     shape lb1 as @rect label:"Load Balancer"
     shape app1a as @rounded label:"App Server 1"
@@ -16,7 +16,7 @@ diagram "Multi-Region Deployment" {
   }
 
   # US West Region
-  container uswest "US West (Replica)" fillColor:"#fff8e1" strokeColor:"#f57f17" borderWidth:3 {
+  container uswest "US West (Replica)" fillColor:"#fff8e1" strokeColor:"#f57f17" strokeWidth:3 {
     
     shape lb2 as @rect label:"Load Balancer"
     shape app2a as @rounded label:"App Server 1"

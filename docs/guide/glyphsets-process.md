@@ -32,7 +32,7 @@ glyphset basicProcess "Software Release Process" {
   step "Production"
 
   orientation "horizontal"
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -56,7 +56,7 @@ glyphset stepProcess "Career Growth" {
   item "Engineering Manager"
 
   direction "up"
-  theme "forest"
+  theme forest
 }
 ```
 
@@ -79,7 +79,7 @@ glyphset alternatingProcess "Design Iteration" {
   item "Refine"
   item "Deliver"
 
-  theme "sunset"
+  theme sunset
 }
 ```
 
@@ -103,7 +103,7 @@ glyphset detailedProcess "Product Launch" {
   item "Launch | Release | Monitor | Support"
 
   direction "LR"
-  theme "ocean"
+  theme ocean
 }
 ```
 
@@ -129,7 +129,7 @@ glyphset cycle "PDCA Cycle" {
   item "Check"
   item "Act"
 
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -152,7 +152,7 @@ glyphset spiralCycle "Product Evolution" {
   item "v2.0"
   item "Enterprise"
 
-  theme "sunset"
+  theme sunset
 }
 ```
 
@@ -175,7 +175,7 @@ glyphset radialCycle "Ecosystem" {
   item "Marketplace"
   item "Community"
 
-  theme "ocean"
+  theme ocean
 }
 ```
 
@@ -197,7 +197,7 @@ glyphset blockCycle "Business Quarters" {
   item "Q3: Optimization"
   item "Q4: Review"
 
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -220,7 +220,7 @@ glyphset orbitCycle "Service Architecture" {
   item "Load Balancer"
   item "CDN"
 
-  theme "forest"
+  theme forest
 }
 ```
 
@@ -241,7 +241,7 @@ glyphset gearCycle "DevOps Pipeline" {
   item "Testing"
   item "Deployment"
 
-  theme "monochrome"
+  theme monochrome
 }
 ```
 
@@ -265,7 +265,7 @@ glyphset segmentedCycle "Agile Sprint" {
   item "Review"
   item "Retrospective"
 
-  theme "ocean"
+  theme ocean
 }
 ```
 
@@ -290,7 +290,7 @@ glyphset phasedProcess "Project Phases" {
   item "Monitoring"
   item "Closure"
 
-  theme "professional"
+  theme professional
 }
 ```
 
@@ -308,7 +308,7 @@ Process grouped into categories or workstreams.
 ```runiq
 // Grouped Process - Parallel Streams Converging
 glyphset groupedProcess "Cross-Functional Project" {
-  theme "forest"
+  theme forest
   group "Design Team" {
     item "User Research"
     item "UI Design"
@@ -342,7 +342,7 @@ Continuous flow with connected blocks.
 ```runiq
 // Continuous Block Process - Manufacturing Flow
 glyphset continuousBlockProcess "Production Line" {
-  theme "forest"
+  theme forest
   item "Raw Materials"
   item "Processing"
   item "Assembly"
@@ -369,7 +369,7 @@ Mathematical or logical equation-style process.
 ```runiq
 // Equation Process - Success Formula
 glyphset equationProcess "Business Success" {
-  theme "forest"
+  theme forest
   item "Great Product"
   item "Strong Team"
   item "Market Timing"

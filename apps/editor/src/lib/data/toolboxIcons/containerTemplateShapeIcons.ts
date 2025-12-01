@@ -35,7 +35,7 @@ container "Styled" fillColor: "#e3f2fd" strokeColor: "#2196f3" padding: 20 shado
 template "my-template" {
   fillColor: "#e3f2fd"
   strokeColor: "#2196f3"
-  borderWidth: 2
+  strokeWidth: 2
   padding: 20
   shadow: true
 }
@@ -74,7 +74,7 @@ preset "card" {
   strokeColor: "#2196f3"
   padding: 15
   shadow: true
-  borderWidth: 1
+  strokeWidth: 1
 }
 `
 			},

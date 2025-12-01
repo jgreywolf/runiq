@@ -2,7 +2,7 @@ diagram "Nested Containers Demo" {
   direction TB
 
   // Example 1: Two-level nesting (Organization structure)
-  container org "Company" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:2 {
+  container org "Company" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2 {
     shape ceo as @rounded label:"CEO"
     
     container engineering "Engineering Department" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" direction:LR {
@@ -28,7 +28,7 @@ diagram "Nested Containers Demo" {
   }
 
   // Example 2: Three-level nesting (Cloud Infrastructure)
-  container cloud "Cloud Platform" fillColor:"#e8f5e9" strokeColor:"#388e3c" borderWidth:3 {
+  container cloud "Cloud Platform" fillColor:"#e8f5e9" strokeColor:"#388e3c" strokeWidth:3 {
     shape lb as @hexagon label:"Load Balancer"
     
     container vpc "VPC Network" fillColor:"#e1f5fe" strokeColor:"#0288d1" {
@@ -53,7 +53,7 @@ diagram "Nested Containers Demo" {
   }
 
   // Example 3: C4 Container Diagram with nested data layer
-  container bankingSystem "Internet Banking System" fillColor:"#dceefb" strokeColor:"#1168bd" borderWidth:3 padding:40 {
+  container bankingSystem "Internet Banking System" fillColor:"#dceefb" strokeColor:"#1168bd" strokeWidth:3 padding:40 {
     shape webapp as @rect label:"Web Application"
     shape mobile as @rect label:"Mobile App"
     shape apiGateway as @hexagon label:"API Gateway"

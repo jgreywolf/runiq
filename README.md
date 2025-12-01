@@ -353,23 +353,24 @@ bankingSystem -Uses-> mainframe
 ### With Containers
 
 ```runiq
-diagram "Microservices"
-direction LR
+diagram "Microservices" {
+  direction LR
 
-container backend "Backend Services"
-  fillColor: "#f3e5f5"
-  strokeColor: "#7b1fa2"
-  borderWidth: 3 {
-  shape auth as @hexagon label: "Auth Service"
-  shape api as @hexagon label: "API Gateway"
-  shape users as @hexagon label: "User Service"
+  container backend "Backend Services"
+    fillColor: "#f3e5f5"
+    strokeColor: "#7b1fa2"
+    strokeWidth: 3 {
+    shape auth as @hexagon label: "Auth Service"
+    shape api as @hexagon label: "API Gateway"
+    shape users as @hexagon label: "User Service"
 
-  api -> auth
-  api -> users
+    api -> auth
+    api -> users
+  }
+
+  shape web as @rounded label: "Web UI"
+  web -> api : HTTPS
 }
-
-shape web as @rounded label: "Web UI"
-web -> api : HTTPS
 ```
 
 _SVG output coming soon - see [examples/microservices.runiq](./examples/microservices.runiq)_

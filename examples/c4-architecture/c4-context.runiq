@@ -6,7 +6,7 @@ diagram "E-Commerce System Context (C4)" {
   shape support as @actor label:"Support Staff"
 
   # Main System
-  container platform "E-Commerce Platform" fillColor:"#bbdefb" strokeColor:"#1976d2" borderWidth:4 padding:30 {
+  container platform "E-Commerce Platform" fillColor:"#bbdefb" strokeColor:"#1976d2" strokeWidth:4 padding:30 {
     
     shape web as @rounded label:"Web Application"
     shape mobile as @rounded label:"Mobile App"

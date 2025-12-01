@@ -1,0 +1,18 @@
+diagram "Theme Demo - Ocean" {
+  theme ocean
+  direction LR
+
+  shape user as @actor label:"User"
+  shape web as @rounded label:"Web App"
+  shape api as @hexagon label:"API Gateway"
+  shape auth as @rounded label:"Auth Service"
+  shape db as @cylinder label:"Database"
+  shape cache as @cylinder label:"Redis Cache"
+
+  user -requests-> web
+  web -calls-> api
+  api -> auth
+  api -> db
+  api -> cache
+  auth -> db
+}

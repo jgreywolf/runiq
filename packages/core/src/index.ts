@@ -5,7 +5,7 @@ export * from './text-measurement/index.js';
 export * from './shapes/index.js';
 export * from './shape-aliases.js';
 export * from './shapes/graph-metrics.js';
-export * from './themes/glyphset-themes.js';
+export * from './themes/index.js';
 export {
   validateDiagramType,
   listDiagramTypes,

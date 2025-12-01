@@ -12,6 +12,28 @@ Create UML sequence diagrams to visualize interactions between objects over time
 
 Sequence diagrams show how objects interact through messages exchanged over time. They're essential for documenting API flows, authentication sequences, and system interactions.
 
+## Theming
+
+Apply professional color schemes to your sequence diagrams:
+
+```runiq
+sequence "Themed Login Flow" {
+  theme ocean
+
+  participant "User" as actor
+  participant "App" as boundary
+  participant "Auth" as control
+
+  message from: "User" to: "App" label: "Login" type: sync
+  message from: "App" to: "Auth" label: "Validate" type: sync
+  message from: "Auth" to: "App" label: "Token" type: return
+}
+```
+
+**Available themes**: `runiq` (default), `professional`, `forest`, `sunset`, `ocean`, `monochrome`, `colorful`, `vibrant`, `warm`, `cool`
+
+[Learn more about themes →](/guide/themes)
+
 ## Key Concepts
 
 ### Participants

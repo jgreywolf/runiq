@@ -46,7 +46,7 @@ Alternating left/right layout for processes:
 
 ```runiq
 glyphset alternatingList "Product Evolution" {
-  theme "forest"
+  theme forest
   item "v1.0: MVP Release"
   item "v2.0: User Feedback"
   item "v3.0: Enterprise Features"
@@ -60,7 +60,7 @@ Forward-pointing chevrons for pipelines:
 
 ```runiq
 glyphset chevronList "Sales Pipeline" {
-  theme "forest"
+  theme forest
   item "Lead Generation"
   item "Qualification"
   item "Proposal"
@@ -75,7 +75,7 @@ Left-to-right progression:
 
 ```runiq
 glyphset horizontalList "Project Phases" {
-  theme "forest"
+  theme forest
   item "Planning"
   item "Development"
   item "Testing"
@@ -89,7 +89,7 @@ Multi-column list organization:
 
 ```runiq
 glyphset columnList "Tech Stack" {
-  theme "forest"
+  theme forest
   item "Frontend: React"
   item "Backend: Node.js"
   item "Database: PostgreSQL"
@@ -107,7 +107,7 @@ Circular continuous process (PDCA, etc.):
 
 ```runiq
 glyphset blockCycle "PDCA Continuous Improvement" {
-  theme "forest"
+  theme forest
   item "Plan"
   item "Do"
   item "Check"
@@ -121,7 +121,7 @@ Back-and-forth workflow steps:
 
 ```runiq
 glyphset alternatingProcess "Agile Workflow" {
-  theme "forest"
+  theme forest
   item "Sprint Planning"
   item "Development"
   item "Code Review"
@@ -136,7 +136,7 @@ Linear multi-stage process:
 
 ```runiq
 glyphset continuousBlockProcess "Manufacturing Pipeline" {
-  theme "forest"
+  theme forest
   item "Raw Materials"
   item "Processing"
   item "Assembly"
@@ -151,7 +151,7 @@ Ascending/descending steps:
 
 ```runiq
 glyphset stepProcess "Career Growth" {
-  theme "forest"
+  theme forest
   item "Junior Developer"
   item "Mid-Level Developer"
   item "Senior Developer"
@@ -170,7 +170,7 @@ Traditional org chart:
 
 ```runiq
 glyphset orgchart "Engineering Team" {
-  theme "forest"
+  theme forest
   item "CTO"
   item "VP Engineering"
   item "Engineering Manager"
@@ -186,7 +186,7 @@ Hierarchical levels:
 
 ```runiq
 glyphset pyramidList "Learning Pyramid" {
-  theme "forest"
+  theme forest
   item "Master"
   item "Advanced"
   item "Intermediate"
@@ -200,7 +200,7 @@ Radial organization:
 
 ```runiq
 glyphset circle-hierarchy "Product Components" {
-  theme "forest"
+  theme forest
   item "Core Platform"
   item "Analytics Module"
   item "Reporting Module"
@@ -214,7 +214,7 @@ Grouped hierarchical items:
 
 ```runiq
 glyphset nestedList "Feature Roadmap" {
-  theme "forest"
+  theme forest
   item "Phase 1: Foundation"
   item "Phase 2: Enhancement"
   item "Phase 3: Scale"
@@ -231,7 +231,7 @@ Pros/cons, advantages/disadvantages:
 
 ```runiq
 glyphset balance "Cloud Migration Decision" {
-  theme "forest"
+  theme forest
   side "Pros: Flexibility, Cost Savings, Innovation"
   side "Cons: Security Risk, Complexity, Vendor Lock-in"
 }
@@ -243,7 +243,7 @@ Alternative balance notation:
 
 ```runiq
 glyphset plusMinus "Remote Work Analysis" {
-  theme "forest"
+  theme forest
   side "Benefits: Flexibility, Cost Savings, Global Talent"
   side "Challenges: Communication, Collaboration, Timezone Issues"
 }
@@ -255,7 +255,7 @@ Two-sided comparison:
 
 ```runiq
 glyphset opposing "Traditional vs Innovative" {
-  theme "forest"
+  theme forest
   side "Traditional: Proven, Stable, Lower Risk"
   side "Innovative: Modern, Flexible, Higher Growth"
 }
@@ -267,7 +267,7 @@ Weight comparison:
 
 ```runiq
 glyphset counterbalance "Investment Decision" {
-  theme "forest"
+  theme forest
   side "Invest Now"
   side "Wait for Market"
 }
@@ -283,7 +283,7 @@ Multiple inputs to single output:
 
 ```runiq
 glyphset converging "Data Aggregation Flow" {
-  theme "forest"
+  theme forest
   item "Customer Database"
   item "Sales Records"
   item "Analytics Events"
@@ -297,7 +297,7 @@ Single input to multiple outputs:
 
 ```runiq
 glyphset diverging "Content Distribution" {
-  theme "forest"
+  theme forest
   item "Blog Post"
   item "Social Media"
   item "Email Newsletter"
@@ -311,7 +311,7 @@ Grouped related items:
 
 ```runiq
 glyphset cluster "Product Features" {
-  theme "forest"
+  theme forest
   item "Authentication"
   item "Dashboard"
   item "Reporting"
@@ -325,7 +325,7 @@ Central node with spokes:
 
 ```runiq
 glyphset hub "API Gateway" {
-  theme "forest"
+  theme forest
   item "Mobile App"
   item "Web App"
   item "Third-Party Services"
@@ -339,7 +339,7 @@ Network of connections:
 
 ```runiq
 glyphset interconnected "Microservices Architecture" {
-  theme "forest"
+  theme forest
   item "User Service"
   item "Order Service"
   item "Payment Service"
@@ -357,7 +357,7 @@ Nine-box grid:
 
 ```runiq
 glyphset matrix3x3 "BCG Product Portfolio" {
-  theme "forest"
+  theme forest
   quadrant "Low Growth\nLow Share"
   quadrant "Low Growth\nMed Share"
   quadrant "Low Growth\nHigh Share"
@@ -376,7 +376,7 @@ Divided grid with labels:
 
 ```runiq
 glyphset segmentedMatrix "Priority Matrix" {
-  theme "forest"
+  theme forest
   quadrant "Urgent & Important"
   quadrant "Not Urgent & Important"
   quadrant "Urgent & Not Important"
@@ -390,7 +390,7 @@ Matrix with descriptive titles:
 
 ```runiq
 glyphset titledMatrix "RACI Matrix" {
-  theme "forest"
+  theme forest
   quadrant "Responsible"
   quadrant "Accountable"
   quadrant "Consulted"
@@ -408,7 +408,7 @@ Conversion process (sales, marketing):
 
 ```runiq
 glyphset funnel "Sales Funnel" {
-  theme "warm"
+  theme warm
   stage "Awareness"
   stage "Interest"
   stage "Consideration"
@@ -425,7 +425,7 @@ Top-down filtering:
 
 ```runiq
 glyphset invertedPyramid "Hiring Funnel" {
-  theme "forest"
+  theme forest
   item "Applicants: 1000"
   item "Phone Screens: 200"
   item "Interviews: 50"
@@ -440,7 +440,7 @@ Goals and objectives (concentric circles):
 
 ```runiq
 glyphset target "Market Segmentation" {
-  theme "forest"
+  theme forest
   circle "Core Market"
   circle "Secondary Market"
   circle "Emerging Market"
@@ -456,7 +456,7 @@ Solution components:
 
 ```runiq
 glyphset puzzle "System Integration" {
-  theme "forest"
+  theme forest
   item "CRM System"
   item "Payment Gateway"
   item "Email Service"
@@ -470,7 +470,7 @@ Pyramid with divisions:
 
 ```runiq
 glyphset segmentedPyramid "Organizational Structure" {
-  theme "forest"
+  theme forest
   item "Executive"
   item "Management"
   item "Operations"
@@ -484,7 +484,7 @@ Interconnected systems:
 
 ```runiq
 glyphset gearCycle "Manufacturing System" {
-  theme "forest"
+  theme forest
   item "Supply Chain"
   item "Production"
   item "Quality Control"
@@ -498,7 +498,7 @@ Satellite elements around core:
 
 ```runiq
 glyphset orbitCycle "Enterprise Ecosystem" {
-  theme "forest"
+  theme forest
   item "Core Platform"
   item "Mobile Apps"
   item "Partner APIs"
@@ -512,7 +512,7 @@ Radial arrangement with center:
 
 ```runiq
 glyphset radialCycle "System Architecture" {
-  theme "forest"
+  theme forest
   item "Frontend"
   item "API Layer"
   item "Business Logic"
@@ -526,7 +526,7 @@ Circular with divisions:
 
 ```runiq
 glyphset segmentedCycle "24-Hour Timeline" {
-  theme "forest"
+  theme forest
   item "Morning: 6am-12pm"
   item "Afternoon: 12pm-6pm"
   item "Evening: 6pm-12am"
@@ -540,7 +540,7 @@ Growth spiral:
 
 ```runiq
 glyphset spiralCycle "Maturity Model" {
-  theme "forest"
+  theme forest
   item "Initial"
   item "Managed"
   item "Defined"
@@ -557,7 +557,7 @@ Mathematical or conceptual equations:
 
 ```runiq
 glyphset equation "Success Formula" {
-  theme "forest"
+  theme forest
   item "Vision"
   item "Execution"
   item "Success"
@@ -570,7 +570,7 @@ Process as equation:
 
 ```runiq
 glyphset equationProcess "Product Development" {
-  theme "forest"
+  theme forest
   item "Ideas"
   item "Validation"
   item "Development"
@@ -584,7 +584,7 @@ Table-like structure:
 
 ```runiq
 glyphset table-hierarchy "Feature Comparison" {
-  theme "forest"
+  theme forest
   item "Feature A: Basic"
   item "Feature B: Standard"
   item "Feature C: Premium"

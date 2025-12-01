@@ -45,7 +45,7 @@ glyphset orgChart "Company Structure" {
     }
   }
 
-  theme "professional"
+  theme professional
 }
 ```
 

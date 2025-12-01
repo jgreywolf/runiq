@@ -13,6 +13,24 @@ diagram "Name" {
 - MUST have curly braces `{ }`
 - Direction goes inside body
 
+**Optional: Specify a color theme:**
+
+```runiq
+diagram "My Architecture" {
+  theme ocean
+  direction LR
+  // shapes automatically use ocean theme colors
+}
+```
+
+**Available Themes:**
+
+- `runiq` (default - official brand), `professional`, `forest`, `sunset`, `ocean`, `monochrome`, `colorful`, `vibrant`, `warm`, `cool`
+
+Themes work with all profile types: `diagram`, `sequence`, `timeline`, and `glyphset`.
+
+See [Themes Guide](docs/guide/themes.md) for complete theme documentation and examples.
+
 ### 2. Direction
 
 ```runiq
@@ -64,7 +82,7 @@ container id "Label" property:"value" property:number {
 Examples:
 
 ```runiq
-container backend "Backend" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:3 {
+container backend "Backend" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:3 {
   shape api as @hexagon label:"API"
 }
 
@@ -163,7 +181,7 @@ edge Customer -> Order
 
 - `fillColor:"#color"`
 - `strokeColor:"#color"`
-- `borderWidth:number`
+- `strokeWidth:number`
 - `borderStyle:solid`
 - `padding:number`
 - `algorithm:layered` (or force, stress, radial, mrtree)
@@ -190,7 +208,7 @@ The following keywords are reserved for specific container or layout properties 
 | `opacity:`       | Container style    | `fillOpacity:` or `strokeOpacity:` |
 | `borderStyle:`   | Container property | `lineStyle:` (for edges)           |
 | `strokeColor:`   | Container property | `strokeColor:` (for shapes)        |
-| `borderWidth:`   | Container property | `strokeWidth:` (for shapes)        |
+| `strokeWidth:`   | Container property | `strokeWidth:` (for shapes)        |
 | `fillColor:`     | Container property | `fill:` (for shapes)               |
 | `labelPosition:` | Container label    | Custom positioning                 |
 | `algorithm:`     | Container layout   | N/A (layout property only)         |
@@ -203,7 +221,7 @@ The following keywords are reserved for specific container or layout properties 
 style myStyle fill: "#ff0000" strokeColor: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
 
 // ✅ CORRECT - Reserved keywords in container declarations
-container "Box" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderWidth:3 padding:20 {
+container "Box" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:3 padding:20 {
   shape node1 as @rect label:"Node"
 }
 
@@ -237,7 +255,7 @@ diagram "Simple Flowchart" {
 diagram "Microservices" {
   direction LR
 
-  container backend "Backend" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" borderWidth:3 {
+  container backend "Backend" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:3 {
     shape api as @hexagon label:"API"
     shape db as @cylinder label:"Database"
 

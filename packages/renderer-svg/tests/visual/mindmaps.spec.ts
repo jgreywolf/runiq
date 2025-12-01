@@ -150,7 +150,7 @@ diagram "Tight Spacing Mindmap" {
   test('should render mindmap with container styling', async ({ page }) => {
     const dsl = `
 diagram "Styled Container Mindmap" {
-  container "Mindmap" type:mindmap algorithm:radial spacing:80 fillColor:"#e8f5e9" strokeColor:"#4caf50" borderWidth:2 {
+  container "Mindmap" type:mindmap algorithm:radial spacing:80 fillColor:"#e8f5e9" strokeColor:"#4caf50" strokeWidth:2 {
     shape root label:"Root"
     shape child1 label:"Child 1"
     shape child2 label:"Child 2"

@@ -1,11 +1,12 @@
-import type { DiagramAst, RoutedEdge } from '@runiq/core';
+import type { DiagramAst, RoutedEdge, DiagramTheme } from '@runiq/core';
 import { escapeXml, renderMultilineText } from './utils.js';
 
 export function renderEdge(
   routed: RoutedEdge,
   diagram: DiagramAst,
   strict: boolean,
-  warnings: string[]
+  warnings: string[],
+  theme?: DiagramTheme
 ): string {
   // Use edgeIndex if available to handle multiple edges between same nodes
   const edgeAst =
@@ -30,9 +31,10 @@ export function renderEdge(
 
   const style = edgeAst.style ? diagram.styles?.[edgeAst.style] || {} : {};
   // Inline properties override style properties
-  // Check routed edge data first (set by layout algorithms), then edgeAst data, then style
+  // Check routed edge data first (set by layout algorithms), then edgeAst data, then style, then theme, then default
+  const defaultStroke = theme?.edgeColor || '#333';
   const stroke =
-    (edgeAst as any).strokeColor || (style as any).stroke || '#333';
+    (edgeAst as any).strokeColor || (style as any).stroke || defaultStroke;
   const strokeWidth =
     (routed as any).data?.strokeWidth ||
     (edgeAst.data as any)?.strokeWidth ||

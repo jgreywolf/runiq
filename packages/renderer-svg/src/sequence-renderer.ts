@@ -17,6 +17,7 @@ import type {
   SequenceNote,
   SequenceFragment,
 } from '@runiq/core';
+import { getSequenceTheme, type SequenceTheme } from '@runiq/core';
 
 export interface SequenceRenderOptions {
   width?: number;
@@ -60,6 +61,12 @@ export function renderSequenceDiagram(
   options: SequenceRenderOptions = {}
 ): SequenceRenderResult {
   const warnings: string[] = [];
+
+  // Apply theme if specified in profile
+  const theme = (profile as any).theme
+    ? getSequenceTheme((profile as any).theme)
+    : getSequenceTheme();
+
   const {
     participantSpacing = PARTICIPANT_SPACING,
     messageSpacing = MESSAGE_SPACING,
@@ -69,11 +76,20 @@ export function renderSequenceDiagram(
     noteWidth = NOTE_WIDTH,
     fragmentPadding = FRAGMENT_PADDING,
     title = profile.title,
-    participantColor = '#4A90E2',
-    messageColor = '#333333',
-    noteColor = '#FFFACD',
-    fragmentColor = '#E8F4F8',
+    participantColor = theme.participantColor,
+    messageColor = theme.messageColor,
+    noteColor = theme.noteColor,
+    fragmentColor = theme.fragmentColor,
   } = options;
+
+  // Create a custom theme with options overrides
+  const effectiveTheme: SequenceTheme = {
+    ...theme,
+    participantColor,
+    messageColor,
+    noteColor,
+    fragmentColor,
+  };
 
   // Validate profile
   if (profile.participants.length === 0) {
@@ -118,12 +134,7 @@ export function renderSequenceDiagram(
   svg += `<title id="sequence-title">${escapeXml(title)}</title>`;
 
   // Styles
-  svg += generateStyles(
-    participantColor,
-    messageColor,
-    noteColor,
-    fragmentColor
-  );
+  svg += generateStyles(effectiveTheme);
 
   // Background
   svg += `<rect width="${width}" height="${height}" fill="#FFFFFF"/>`;
@@ -211,68 +222,64 @@ export function renderSequenceDiagram(
 }
 
 /**
- * Generate CSS styles
+ * Generate CSS styles from theme
  */
-function generateStyles(
-  participantColor: string,
-  messageColor: string,
-  noteColor: string,
-  fragmentColor: string
-): string {
+function generateStyles(theme: SequenceTheme): string {
   return `
   <style>
     .participant-box {
-      fill: ${participantColor};
-      stroke: #2C5F8D;
+      fill: ${theme.participantColor};
+      stroke: ${theme.fragmentBorderColor};
       stroke-width: 2;
     }
     .participant-text {
-      fill: white;
+      fill: ${theme.participantTextColor};
       font-family: Arial, sans-serif;
       font-size: 14px;
       text-anchor: middle;
     }
     .lifeline {
-      stroke: #999999;
+      stroke: ${theme.lifelineColor};
       stroke-width: 1;
       stroke-dasharray: 5,5;
     }
     .message-line {
-      stroke: ${messageColor};
+      stroke: ${theme.messageColor};
       stroke-width: 2;
       fill: none;
     }
     .message-arrow {
-      fill: ${messageColor};
-      stroke: ${messageColor};
+      fill: ${theme.messageColor};
+      stroke: ${theme.messageColor};
     }
     .message-text {
-      fill: ${messageColor};
+      fill: ${theme.messageColor};
       font-family: Arial, sans-serif;
       font-size: 12px;
     }
     .activation-box {
-      fill: #FFFFFF;
-      stroke: ${participantColor};
+      fill: ${theme.activationColor};
+      stroke: ${theme.participantColor};
       stroke-width: 2;
+      opacity: 0.3;
     }
     .note-box {
-      fill: ${noteColor};
-      stroke: #E6DB74;
+      fill: ${theme.noteColor};
+      stroke: ${theme.messageColor};
       stroke-width: 1;
     }
     .note-text {
-      fill: #333333;
+      fill: ${theme.noteTextColor};
       font-family: Arial, sans-serif;
       font-size: 11px;
     }
     .fragment-box {
-      fill: ${fragmentColor};
-      stroke: #4A90E2;
+      fill: ${theme.fragmentColor};
+      stroke: ${theme.fragmentBorderColor};
       stroke-width: 2;
     }
     .fragment-label-bg {
-      fill: #4A90E2;
+      fill: ${theme.fragmentBorderColor};
     }
     .fragment-label-text {
       fill: white;
@@ -281,7 +288,7 @@ function generateStyles(
       font-weight: bold;
     }
     .fragment-condition {
-      fill: #333333;
+      fill: ${theme.messageColor};
       font-family: Arial, sans-serif;
       font-size: 11px;
       font-style: italic;

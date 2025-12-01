@@ -41,7 +41,7 @@ describe('Phase 5: Style Resolution', () => {
       containerStyle: {
         fillColor: '#e3f2fd',
         strokeColor: '#2196f3',
-        borderWidth: 2,
+        strokeWidth: 2,
         padding: 20,
         shadow: true,
       },
@@ -68,7 +68,7 @@ describe('Phase 5: Style Resolution', () => {
 
     expect(resolved.fillColor).toBe('#e3f2fd');
     expect(resolved.strokeColor).toBe('#2196f3');
-    expect(resolved.borderWidth).toBe(2);
+    expect(resolved.strokeWidth).toBe(2);
     expect(resolved.padding).toBe(20);
     expect(resolved.shadow).toBe(true);
   });
@@ -80,7 +80,7 @@ describe('Phase 5: Style Resolution', () => {
       style: {
         fillColor: '#e8f5e9',
         strokeColor: '#4caf50',
-        borderWidth: 3,
+        strokeWidth: 3,
       },
     };
 
@@ -105,7 +105,7 @@ describe('Phase 5: Style Resolution', () => {
 
     expect(resolved.fillColor).toBe('#e8f5e9');
     expect(resolved.strokeColor).toBe('#4caf50');
-    expect(resolved.borderWidth).toBe(3);
+    expect(resolved.strokeWidth).toBe(3);
   });
 
   it('should apply extends styles when extends is specified', () => {
@@ -152,7 +152,7 @@ describe('Phase 5: Style Resolution', () => {
       containerStyle: {
         fillColor: '#template',
         strokeColor: '#template',
-        borderWidth: 1,
+        strokeWidth: 1,
         padding: 10,
       },
     };
@@ -163,7 +163,7 @@ describe('Phase 5: Style Resolution', () => {
       style: {
         fillColor: '#preset',
         strokeColor: '#preset',
-        borderWidth: 2,
+        strokeWidth: 2,
       },
     };
 
@@ -190,7 +190,7 @@ describe('Phase 5: Style Resolution', () => {
         preset: 'my-preset',
         fillColor: '#inline', // Highest priority
         // borderColor from preset should win (no inline override)
-        // borderWidth from preset should win
+        // strokeWidth from preset should win
         // padding from template should win
         // margin from extends (base) should be included
       },
@@ -211,7 +211,7 @@ describe('Phase 5: Style Resolution', () => {
     expect(resolved.fillColor).toBe('#inline');
     // Preset wins over template and extends
     expect(resolved.strokeColor).toBe('#preset');
-    expect(resolved.borderWidth).toBe(2);
+    expect(resolved.strokeWidth).toBe(2);
     // Template property not overridden by preset or inline
     expect(resolved.padding).toBe(10);
     // Extends property not overridden by anyone
@@ -248,7 +248,7 @@ describe('Phase 5: Style Resolution', () => {
       children: [],
       containerStyle: {
         extends: 'base2',
-        borderWidth: 3,
+        strokeWidth: 3,
       },
     };
 
@@ -267,7 +267,7 @@ describe('Phase 5: Style Resolution', () => {
     // From base2
     expect(resolved.strokeColor).toBe('#base2');
     // From derived (inline)
-    expect(resolved.borderWidth).toBe(3);
+    expect(resolved.strokeWidth).toBe(3);
   });
 
   it('should handle missing template reference gracefully', () => {

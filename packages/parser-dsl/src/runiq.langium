@@ -22,6 +22,7 @@ DiagramProfile:
 DiagramStatement:
     DirectionDeclaration
     | RoutingDeclaration
+    | ThemeDeclaration
     | StyleDeclaration
     | ShapeDeclaration
     | EdgeDeclaration
@@ -662,9 +663,12 @@ GlyphSetSimpleItem:
 GlyphSetNestedItem:
     keyword=GlyphSetKeyword label=STRING relationship=ID? '{' children+=GlyphSetItemStatement* '}';
 
-// Parameter assignments: direction "LR", theme "professional", columns 3, shape "circle", showPercentages true
+// Parameter assignments: direction "LR", theme professional, columns 3, shape "circle", showPercentages true
 GlyphSetParameter:
-    name=GlyphSetParameterName value=(STRING | NUMBER | BooleanValue);
+    name=GlyphSetParameterName value=(GlyphSetParameterValue);
+
+GlyphSetParameterValue:
+    stringValue=STRING | numberValue=NUMBER | boolValue=BooleanValue | themeValue=ThemeValue | directionValue=DirectionValue;
 
 GlyphSetParameterName returns string:
     'alternating' | 'bidirectional' | 'callouts' | 'center' | 'centerLabel' | 'circles' | 'colorScheme' | 'columnHeaders' | 'columns'
@@ -694,6 +698,13 @@ DirectionDeclaration:
 
 DirectionValue returns string:
     'LR' | 'RL' | 'TB' | 'BT';
+
+// theme professional | forest | sunset | ocean | monochrome | colorful | vibrant | warm | cool | runiq
+ThemeDeclaration:
+    'theme' value=ThemeValue;
+
+ThemeValue returns string:
+    'professional' | 'forest' | 'sunset' | 'ocean' | 'monochrome' | 'colorful' | 'vibrant' | 'warm' | 'cool' | 'runiq';
 
 // routing orthogonal | polyline | splines | straight
 RoutingDeclaration:

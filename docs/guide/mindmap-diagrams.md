@@ -217,7 +217,7 @@ container "Mindmap"
   spacing:100
   fillColor:"#f5f5f5"
   strokeColor:"#9e9e9e"
-  borderWidth:2
+  strokeWidth:2
   padding:20 {
   // nodes here
 }
