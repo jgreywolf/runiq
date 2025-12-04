@@ -210,11 +210,12 @@
 /* Style Input Fields */
 .style-text-input {
 	flex: 1;
-	padding: 6px 8px;
+	padding: 6px 10px;
 	border: 1px solid #d1d5db;
 	border-radius: 4px;
 	font-size: 13px;
 	font-family: monospace;
+	width: 90%;
 }
 
 .style-text-input:focus {

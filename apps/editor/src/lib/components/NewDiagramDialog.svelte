@@ -3,18 +3,17 @@
 	import { Button } from '$lib/components/ui/button';
 	import { ProfileName } from '$lib/types';
 	import Icon from '@iconify/svelte';
+	import { handleNewDiagram } from '$lib/state/editorState.svelte';
 
 	interface Props {
 		open: boolean;
-		onOpenChange: (open: boolean) => void;
-		onCreateDiagram: (type: ProfileName) => void;
 	}
 
-	let { open = $bindable(), onOpenChange, onCreateDiagram }: Props = $props();
+	let { open = $bindable() }: Props = $props();
 
-	function createDiagram(type: ProfileName) {
+	function createDiagramClick(type: ProfileName) {
 		open = false;
-		onCreateDiagram(type);
+		handleNewDiagram(type);
 	}
 </script>
 
@@ -30,7 +29,7 @@
 		<div class="grid grid-cols-2 gap-4 py-4">
 			<!-- Regular Diagram Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.diagram)}
+				onclick={() => createDiagramClick(ProfileName.diagram)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50"
 			>
 				<div class="flex items-center gap-3">
@@ -48,7 +47,7 @@
 
 			<!-- Glyphset "smart art" Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.glyphset)}
+				onclick={() => createDiagramClick(ProfileName.glyphset)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50"
 			>
 				<div class="flex items-center gap-3">
@@ -66,7 +65,7 @@
 
 			<!-- Sequence Diagram Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.sequence)}
+				onclick={() => createDiagramClick(ProfileName.sequence)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-blue-400 hover:bg-blue-50"
 			>
 				<div class="flex items-center gap-3">
@@ -84,7 +83,7 @@
 
 			<!-- Timeline Diagram Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.timeline)}
+				onclick={() => createDiagramClick(ProfileName.timeline)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-indigo-400 hover:bg-indigo-50"
 			>
 				<div class="flex items-center gap-3">
@@ -102,7 +101,7 @@
 
 			<!-- Electrical Circuit Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.electrical)}
+				onclick={() => createDiagramClick(ProfileName.electrical)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
 			>
 				<div class="flex items-center gap-3">
@@ -120,7 +119,7 @@
 
 			<!-- Pneumatic Circuit Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.pneumatic)}
+				onclick={() => createDiagramClick(ProfileName.pneumatic)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-sky-400 hover:bg-sky-50"
 			>
 				<div class="flex items-center gap-3">
@@ -138,7 +137,7 @@
 
 			<!-- Hydraulic Circuit Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.hydraulic)}
+				onclick={() => createDiagramClick(ProfileName.hydraulic)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-teal-400 hover:bg-teal-50"
 			>
 				<div class="flex items-center gap-3">
@@ -156,7 +155,7 @@
 
 			<!-- Wardley Map Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.wardley)}
+				onclick={() => createDiagramClick(ProfileName.wardley)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-purple-400 hover:bg-purple-50"
 			>
 				<div class="flex items-center gap-3">
@@ -174,7 +173,7 @@
 
 			<!-- P&ID Diagram Option -->
 			<button
-				onclick={() => createDiagram(ProfileName.pid)}
+				onclick={() => createDiagramClick(ProfileName.pid)}
 				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50"
 			>
 				<div class="flex items-center gap-3">

@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { shapeRegistry } from '@runiq/core';
+	import { isDiagramSpecialIcon, getDiagramShapeIcon } from './icons/diagramIcons.js';
+	import { isGlyphsetShape, getGlyphsetShapeIcon } from './icons/glyphsetIcons.js';
+	import { isBpmnEvent, isBpmnGateway, getBpmnShapeIcon } from './icons/bpmnIcons.js';
 
 	interface Props {
 		shapeId: string;
@@ -8,32 +11,20 @@
 
 	let { shapeId, size = 24 }: Props = $props();
 
-	// Map toolbox IDs to actual shape registry IDs
+	// Map toolbox IDs to actual shape registry IDs (only for diagram shapes)
 	const shapeIdMap: Record<string, string> = {
 		paperTape: 'flag',
-		package: 'umlPackage', // UML package
-		// BPMN events map to bpmnEvent
-		bpmnEventStart: 'bpmnEvent',
-		bpmnEventEnd: 'bpmnEvent',
-		bpmnEventIntermediate: 'bpmnEvent',
-		// BPMN gateways map to bpmnGateway
-		bpmnGatewayExclusive: 'bpmnGateway',
-		bpmnGatewayParallel: 'bpmnGateway',
-		bpmnGatewayInclusive: 'bpmnGateway'
-	};
-
-	// IDs that should display special icons (not in shape registry)
-	const specialIcons: Record<string, string> = {
-		container: '📦',
-		containerStyled: '📦',
-		group: '🗂️'
+		package: 'umlPackage' // UML package
 	};
 
 	// Get the actual shape ID (mapped or original)
 	const actualShapeId = shapeIdMap[shapeId] || shapeId;
 
-	// Get the shape definition from registry
-	const shape = shapeRegistry.get(actualShapeId);
+	// Get the shape definition from registry (only if not a profile-specific icon)
+	const shape =
+		!isGlyphsetShape(shapeId) && !isBpmnEvent(shapeId) && !isBpmnGateway(shapeId)
+			? shapeRegistry.get(actualShapeId)
+			: null;
 
 	// Create a minimal render context for the icon
 	const createMockContext = (shapeId: string) => {
@@ -305,26 +296,14 @@
 
 	// Render the shape
 	let svgContent = $derived.by(() => {
-		// Check for special icons first (non-shape elements like containers)
-		const specialIcon = specialIcons[shapeId];
-		if (specialIcon) {
-			return `
-				<svg 
-					width="${size}" 
-					height="${size}" 
-					viewBox="0 0 40 40"
-					xmlns="http://www.w3.org/2000/svg"
-					style="display: block;"
-				>
-					<text 
-						x="20" 
-						y="28" 
-						text-anchor="middle" 
-						font-size="24"
-					>${specialIcon}</text>
-				</svg>
-			`;
+		// Check for diagram special icons first (non-shape elements like containers)
+		if (isDiagramSpecialIcon(shapeId)) {
+			return getDiagramShapeIcon(shapeId, size);
 		}
+
+		// Glyphset icons have been moved to glyphsetIcons.ts
+		// BPMN icons have been moved to bpmnIcons.ts
+		// Diagram special icons have been moved to diagramIcons.ts
 
 		// For electrical/digital components and sequence diagram elements, use special text-based icons
 		if (
@@ -680,9 +659,9 @@
 				manifoldCartridge: '⊙▭',
 				// Pneumatic components
 				// Pneumatic valves
-				valve22: '┤├',
-				valve32: '┤├┤',
-				valve42: '┤╪┤',
+				valve22Pneu: '┤├',
+				valve32Pneu: '┤├┤',
+				valve42Pneu: '┤╪┤',
 				valve52: '╪',
 				valve53Closed: '╪○',
 				valve53Exhaust: '╪R',
@@ -787,6 +766,11 @@
 			}
 		}
 
+		// Check for glyphset icons before checking shape registry
+		if (isGlyphsetShape(shapeId)) {
+			return getGlyphsetShapeIcon(shapeId, size);
+		}
+
 		if (!shape) return '';
 
 		const mockContext = createMockContext(shapeId);
@@ -794,9 +778,7 @@
 		const shapeContent = shape.render(mockContext as any, { x: 0, y: 0 });
 
 		// Chart shapes need larger display size in toolbox
-		const isChartShape = ['pieChart', 'barChart', 'pyramid'].includes(
-			shapeId
-		);
+		const isChartShape = ['pieChart', 'barChart', 'pyramid'].includes(shapeId);
 		const displaySize = isChartShape ? size * 3 : size;
 
 		return `

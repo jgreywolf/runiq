@@ -7,20 +7,20 @@ timeline "Software Project Launch" {
   
   event requirements date:"2024-02-01" label:"Requirements Complete" description:"All user stories documented"
   
-  event design date:"2024-02-20" label:"Design Approved" description:"UI/UX mockups finalized" color:"#3b82f6"
+  event design date:"2024-02-20" label:"Design Approved" description:"UI/UX mockups finalized" textColor:"#3b82f6"
   
   event devStart date:"2024-03-01" label:"Development Starts" description:"Sprint 1 begins"
   
-  event alpha date:"2024-04-15" label:"Alpha Release" description:"Internal testing version" color:"#f59e0b"
+  event alpha date:"2024-04-15" label:"Alpha Release" description:"Internal testing version" textColor:"#f59e0b"
   
-  event beta date:"2024-05-01" label:"Beta Release" description:"External user testing" color:"#f59e0b"
+  event beta date:"2024-05-01" label:"Beta Release" description:"External user testing" textColor:"#f59e0b"
   
-  event launch date:"2024-06-01" label:"Product Launch" description:"Public release v1.0" icon:"rocket" color:"#10b981"
+  event launch date:"2024-06-01" label:"Product Launch" description:"Public release v1.0" icon:"rocket" textColor:"#10b981"
   
   // Optional: Define development periods
-  period planning startDate:"2024-01-15" endDate:"2024-02-28" label:"Planning Phase" color:"#e0e7ff"
+  period planning startDate:"2024-01-15" endDate:"2024-02-28" label:"Planning Phase" textColor:"#e0e7ff"
   
-  period development startDate:"2024-03-01" endDate:"2024-05-31" label:"Development Phase" color:"#dbeafe"
+  period development startDate:"2024-03-01" endDate:"2024-05-31" label:"Development Phase" textColor:"#dbeafe"
   
-  period testing startDate:"2024-04-15" endDate:"2024-05-31" label:"Testing Period" color:"#fef3c7"
+  period testing startDate:"2024-04-15" endDate:"2024-05-31" label:"Testing Period" textColor:"#fef3c7"
 }

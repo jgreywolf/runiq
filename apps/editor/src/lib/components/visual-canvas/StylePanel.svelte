@@ -2,34 +2,115 @@
 	interface Props {
 		show: boolean;
 		isNode: boolean;
-		fillColor: string;
-		strokeColor: string;
-		strokeWidth: string;
-		textColor: string;
-		routing: string;
+		selectedElementId: string | null;
+		currentProfile: any;
 		onClose: () => void;
 		onStyleChange: (property: string, value: string) => void;
 	}
 
 	let {
 		show = $bindable(),
-		isNode,
-		fillColor = $bindable(),
-		strokeColor = $bindable(),
-		strokeWidth = $bindable(),
-		textColor = $bindable(),
-		routing = $bindable(),
+		isNode = $bindable(),
+		selectedElementId = $bindable(),
+		currentProfile,
 		onClose,
 		onStyleChange
 	}: Props = $props();
+
+	const styleValues = $derived.by(() => {
+		console.debug('Entered styleValues effect');
+		console.debug('selectedElementId:', selectedElementId);
+		console.debug('isNode:', isNode);
+		console.debug('currentProfile:', currentProfile);
+		if (!selectedElementId) {
+			return {
+				fillColor: '',
+				strokeColor: '',
+				strokeWidth: '',
+				textSize: '',
+				textColor: '',
+				shadow: false,
+				routing: ''
+			};
+		}
+
+		// Find the element in the profile
+		let element: any = null;
+
+		// Try to find as a node
+		if (isNode) {
+			element = currentProfile.nodes.find((n: any) => n.id === selectedElementId);
+		} else {
+			element = currentProfile.edges.find((e: any) => {
+				// Edge ID might be "from-to" format, possibly with suffix like "from-to-1" or "from-to-2"
+				const edgeId = `${e.from}-${e.to}`;
+
+				// Direct match
+				if (edgeId === selectedElementId || e.id === selectedElementId) {
+					return true;
+				}
+
+				// Match with suffix stripped (e.g., "decision-process2-2" -> "decision-process2")
+				if (selectedElementId.startsWith(edgeId + '-')) {
+					return true;
+				}
+
+				return false;
+			});
+		}
+
+		// Load current style values from node.data or edge properties
+		// For nodes, properties are in node.data: fillColor, textColor, strokeColor, strokeWidth, fontSize
+		// For edges, properties are directly on edge: strokeColor, strokeWidth, routing
+		if (element && isNode) {
+			console.debug(element);
+			let returnValue = {
+				fillColor: element.data.fillColor || '',
+				strokeColor: element.data.strokeColor || '',
+				strokeWidth: element.data.strokeWidth ? String(element.data.strokeWidth) : '',
+				textSize: element.data.fontSize ? String(element.data.fontSize) : '',
+				textColor: element.data.textColor || '',
+				shadow: element.data.shadow === true || element.data.shadow === 'true',
+				routing: ''
+			};
+
+			return returnValue;
+		}
+		if (element && !isNode) {
+			return {
+				fillColor: '',
+				strokeColor: element.strokeColor || element.data?.strokeColor || '',
+				strokeWidth: element.strokeWidth
+					? String(element.strokeWidth)
+					: element.data?.strokeWidth
+						? String(element.data.strokeWidth)
+						: '',
+				textSize: element.fontSize ? String(element.fontSize) : '',
+				textColor: element.textColor || '',
+				shadow: false,
+				routing: element.routing || element.data?.routing || ''
+			};
+		}
+
+		return {
+			fillColor: '',
+			strokeColor: '',
+			strokeWidth: '',
+			textSize: '',
+			textColor: '',
+			shadow: false,
+			routing: ''
+		};
+	});
 
 	function handleColorClick(property: string, currentValue: string) {
 		const input = document.createElement('input');
 		input.type = 'color';
 		input.value = currentValue || '#000000';
+		let newValue = input.value;
 
 		input.addEventListener('change', (e) => {
-			const newValue = (e.target as HTMLInputElement).value;
+			newValue = (e.target as HTMLInputElement).value;
 			onStyleChange(property, newValue);
 		});
 
@@ -49,67 +130,54 @@
 				<button class="close-button" onclick={onClose} aria-label="Close style panel"> × </button>
 			</div>
 
-			<div class="style-panel-content">
+			<div class="style-panel-body">
 				{#if isNode}
 					<!-- Fill Color -->
 					<div class="style-field">
-						<label class="style-label">Fill Color</label>
-						<div class="style-color-group">
+						<label for="style-background">Background:</label>
+						<div class="color-picker-wrapper">
 							<button
-								class="style-color-swatch"
-								style="background-color: {fillColor || '#f0f0f0'}"
-								onclick={() => handleColorClick('fillColor', fillColor)}
-								aria-label="Choose fill color"
-							></button>
-							<input
-								type="text"
-								class="style-text-input"
-								value={fillColor || ''}
-								oninput={(e) => onStyleChange('fillColor', e.currentTarget.value)}
-								placeholder="#f0f0f0"
-							/>
+								type="button"
+								class="color-swatch-button"
+								style="background-color: {styleValues.fillColor || '#ffffff'}"
+								onclick={() => handleColorClick('fillColor', styleValues.fillColor)}
+								title="Click to change color"
+							>
+								<span class="sr-only">Pick color</span>
+							</button>
 						</div>
-					</div>
-
-					<!-- Text Color -->
-					<div class="style-field">
-						<label class="style-label">Text Color</label>
-						<div class="style-color-group">
-							<button
-								class="style-color-swatch"
-								style="background-color: {textColor || '#000000'}"
-								onclick={() => handleColorClick('textColor', textColor)}
-								aria-label="Choose text color"
-							></button>
-							<input
-								type="text"
-								class="style-text-input"
-								value={textColor || ''}
-								oninput={(e) => onStyleChange('textColor', e.currentTarget.value)}
-								placeholder="#000000"
-							/>
-						</div>
+						<input
+							type="text"
+							value={styleValues.fillColor || ''}
+							onchange={(e) => onStyleChange('fillColor', e.currentTarget.value)}
+							placeholder="#FFFFFF"
+							class="style-text-input"
+						/>
 					</div>
 				{/if}
 
 				<!-- Stroke Color -->
 				<div class="style-field">
-					<label class="style-label">Stroke Color</label>
-					<div class="style-color-group">
+					<!-- svelte-ignore a11y_label_has_associated_control -->
+					<label class="style-label">Stroke Color:</label>
+					<div class="color-picker-wrapper">
 						<button
-							class="style-color-swatch"
-							style="background-color: {strokeColor || '#333333'}"
-							onclick={() => handleColorClick('strokeColor', strokeColor)}
-							aria-label="Choose stroke color"
-						></button>
-						<input
-							type="text"
-							class="style-text-input"
-							value={strokeColor || ''}
-							oninput={(e) => onStyleChange('strokeColor', e.currentTarget.value)}
-							placeholder="#333333"
-						/>
+							type="button"
+							class="color-swatch-button"
+							style="background-color: {styleValues.strokeColor || '#ffffff'}"
+							onclick={() => handleColorClick('strokeColor', styleValues.strokeColor)}
+							title="Click to change color"
+						>
+							<span class="sr-only">Pick color</span>
+						</button>
 					</div>
+					<input
+						type="text"
+						value={styleValues.strokeColor || ''}
+						onchange={(e) => onStyleChange('strokeColor', e.currentTarget.value)}
+						placeholder="#FFFFFF"
+						class="style-text-input"
+					/>
 				</div>
 
 				<!-- Stroke Width -->
@@ -117,12 +185,36 @@
 					<label class="style-label">Stroke Width</label>
 					<input
 						type="number"
-						class="style-text-input"
-						value={strokeWidth || ''}
+						class="style-number-input"
+						value={styleValues.strokeWidth || '2'}
 						oninput={(e) => onStyleChange('strokeWidth', e.currentTarget.value)}
 						placeholder="2"
 						min="0"
-						step="0.5"
+						step="1"
+					/>
+				</div>
+
+				<!-- Text Color -->
+				<div class="style-field">
+					<!-- svelte-ignore a11y_label_has_associated_control -->
+					<label class="style-label">Text Color:</label>
+					<div class="color-picker-wrapper">
+						<button
+							type="button"
+							class="color-swatch-button"
+							style="background-color: {styleValues.textColor || '#ffffff'}"
+							onclick={() => handleColorClick('textColor', styleValues.textColor)}
+							title="Click to change color"
+						>
+							<span class="sr-only">Pick color</span>
+						</button>
+					</div>
+					<input
+						type="text"
+						value={styleValues.textColor || ''}
+						onchange={(e) => onStyleChange('textColor', e.currentTarget.value)}
+						placeholder="#FFFFFF"
+						class="style-text-input"
 					/>
 				</div>
 
@@ -132,7 +224,7 @@
 						<label class="style-label">Routing</label>
 						<select
 							class="style-select"
-							value={routing || ''}
+							value={styleValues.routing || ''}
 							onchange={(e) => onStyleChange('routing', e.currentTarget.value)}
 						>
 							<option value="">Default</option>
@@ -152,111 +244,13 @@
 	.style-panel-container {
 		position: fixed;
 		top: 60px;
-		right: 20px;
+		right: 40px;
 		z-index: 1000;
-	}
-
-	.style-panel {
-		width: 280px;
-		background: white;
-		border: 1px solid #e5e7eb;
-		border-radius: 8px;
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-		overflow: hidden;
-	}
-
-	.style-panel-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 12px 16px;
-		border-bottom: 1px solid #e5e7eb;
-		background: #f9fafb;
-	}
-
-	.close-button {
-		background: none;
-		border: none;
-		font-size: 24px;
-		line-height: 1;
-		color: #6b7280;
-		cursor: pointer;
-		padding: 0;
-		width: 24px;
-		height: 24px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.close-button:hover {
-		color: #374151;
-	}
-
-	.style-panel-content {
-		padding: 16px;
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
-
-	.style-field {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
 	}
 
 	.style-label {
 		font-size: 12px;
 		font-weight: 500;
 		color: #374151;
-	}
-
-	.style-color-group {
-		display: flex;
-		gap: 8px;
-		align-items: center;
-	}
-
-	.style-color-swatch {
-		width: 32px;
-		height: 32px;
-		border-radius: 4px;
-		border: 2px solid #d1d5db;
-		cursor: pointer;
-		transition: border-color 0.15s;
-	}
-
-	.style-color-swatch:hover {
-		border-color: #9ca3af;
-	}
-
-	.style-text-input {
-		flex: 1;
-		padding: 6px 8px;
-		border: 1px solid #d1d5db;
-		border-radius: 4px;
-		font-size: 13px;
-		transition: border-color 0.15s;
-	}
-
-	.style-text-input:focus {
-		outline: none;
-		border-color: #3b82f6;
-	}
-
-	.style-select {
-		padding: 6px 8px;
-		border: 1px solid #d1d5db;
-		border-radius: 4px;
-		font-size: 13px;
-		background: white;
-		cursor: pointer;
-		transition: border-color 0.15s;
-	}
-
-	.style-select:focus {
-		outline: none;
-		border-color: #3b82f6;
 	}
 </style>

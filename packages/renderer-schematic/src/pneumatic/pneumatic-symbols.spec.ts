@@ -112,7 +112,6 @@ describe('ISO 1219-1 Pneumatic Symbols', () => {
     });
 
     it('should have 5 terminals (P, A, B, RA, RB)', () => {
-    it('should have 5 terminals (P, A, B, RA, RB)', () => {
       expect(valve52Way.terminals).toHaveLength(5);
       const names = valve52Way.terminals.map((t) => t.name);
       expect(names).toContain('P'); // Pressure
@@ -266,7 +265,6 @@ describe('ISO 1219-1 Pneumatic Symbols', () => {
       expect(checkValvePneumatic.terminals[1].name).toBe('out');
     });
 
-    it('should render with check valve triangle', () => {
     it('should render triangle with seat', () => {
       const svg = checkValvePneumatic.render(0, 0);
       expect(svg).toContain('<polygon'); // Check valve triangle

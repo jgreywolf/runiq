@@ -9,23 +9,19 @@
 	import { createRuniqServices } from '@runiq/parser-dsl';
 	import { EmptyFileSystem, URI } from 'langium';
 	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
+	import { handleCodeChange, handleEditorErrors } from '$lib/state/editorState.svelte';
 
 	// Props
 	interface Props {
 		value?: string;
-		onchange?: (value: string) => void;
-		onerror?: (errors: string[]) => void;
 		readonly?: boolean;
 	}
 
-	let { value = '', onchange, onerror, readonly = false }: Props = $props();
+	let { value = '', readonly = false }: Props = $props();
 
 	let editorContainer: HTMLDivElement;
 	let editorView: EditorView | null = null;
 	let editorTheme = new Compartment();
-
-	// Default blank diagram
-	const defaultCode = `diagram "My Diagram" {\n  // Add your shapes and connections here\n}`;
 
 	// Initialize Langium services for validation
 	const allServices = createRuniqServices(EmptyFileSystem);
@@ -276,7 +272,7 @@
 
 	onMount(() => {
 		const startState = EditorState.create({
-			doc: value || defaultCode,
+			doc: value || '',
 			extensions: [
 				basicSetup,
 				javascript(), // Temporary - will create custom Runiq language later
@@ -287,7 +283,7 @@
 				EditorView.updateListener.of((update) => {
 					if (update.docChanged && onchange) {
 						const newValue = update.state.doc.toString();
-						onchange(newValue);
+						handleCodeChange(newValue);
 
 						// Extract errors asynchronously
 						if (onerror) {
@@ -295,7 +291,7 @@
 								const errors = diagnostics
 									.filter((d) => d.severity === 'error')
 									.map((d) => d.message);
-								onerror(errors);
+								handleEditorErrors(errors);
 							});
 						}
 					}

@@ -19,6 +19,7 @@ import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
 import { quantumShapeIcons } from './toolboxIcons/quantumShapeIcons';
 import { containerTemplateShapeIcons } from './toolboxIcons/containerTemplateShapeIcons';
 import { sequenceShapeIcons } from './toolboxIcons/sequenceShapeIcons';
+import { glyphsetIcons } from './toolboxIcons/glyphsetIcons';
 
 export interface Shape {
 	id: string;
@@ -59,5 +60,6 @@ export const shapeCategories: ShapeCategory[] = [
 	...logicGateShapeIcons,
 	...digitalComponentShapeIcons,
 	...pneumaticShapeIcons,
-	...hydraulicShapeIcons
+	...hydraulicShapeIcons,
+	...glyphsetIcons
 ];

@@ -45,10 +45,7 @@
     "diagram",
     "dsl",
     "svg",
-    "sveltekit",
-    "monaco",
-    "layout",
-    "dagre",
+    "elk",
     "icons",
     "fontawesome",
     "typescript"

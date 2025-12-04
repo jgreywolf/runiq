@@ -1,4 +1,3 @@
-import { tick } from 'svelte';
 import { SvelteSet } from 'svelte/reactivity';
 
 export interface SelectionStateConfig {
@@ -142,19 +141,6 @@ export class SelectionState {
 		this.selectedEdgeIds = newSelectedEdges;
 	}
 
-	// Start edge creation mode
-	startEdgeCreation(nodeId: string): void {
-		this.edgeCreationMode = true;
-		this.edgeCreationStartNode = nodeId;
-	}
-
-	// Cancel edge creation mode
-	cancelEdgeCreation(): void {
-		this.edgeCreationMode = false;
-		this.edgeCreationStartNode = null;
-		this.clearSelection();
-	}
-
 	// Start label editing
 	startLabelEdit(
 		nodeId: string | null,
@@ -290,9 +276,6 @@ export class SelectionState {
 			const nodeElement = svgElement.querySelector(`[data-node-id="${this.selectedNodeId}"]`);
 			if (nodeElement) {
 				nodeElement.classList.add('runiq-selected');
-				if (this.edgeCreationMode && this.edgeCreationStartNode === this.selectedNodeId) {
-					nodeElement.classList.add('runiq-edge-start');
-				}
 			}
 		}
 

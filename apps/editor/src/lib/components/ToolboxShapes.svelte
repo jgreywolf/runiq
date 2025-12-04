@@ -4,7 +4,6 @@
 	import type { ShapeCategory } from '$lib/data/toolbox-data';
 	import ShapeIcon from './ShapeIcon.svelte';
 
-
 	interface Props {
 		categories: ShapeCategory[];
 		onInsertShape: (shapeCode: string) => void;
@@ -15,8 +14,8 @@
 	let shapeCounter = $state(1);
 
 	function insertShape(shapeCode: string) {
-		// Replace placeholder ID with unique ID
-		const uniqueCode = shapeCode.replace('id', `id${shapeCounter}`);
+		// Replace placeholder ID with unique ID (word boundary to avoid replacing 'id' in 'pyramid')
+		const uniqueCode = shapeCode.replace(/\bid\b/g, `id${shapeCounter}`);
 		shapeCounter++;
 		onInsertShape(uniqueCode);
 	}

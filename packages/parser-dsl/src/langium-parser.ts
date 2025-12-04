@@ -1353,6 +1353,7 @@ function processDialogStatement(
     const node: NodeAst = {
       id: statement.id,
       shape: statement.shape || 'rounded', // Default to rounded if no shape specified
+      data: {},
     };
 
     // Process node properties
@@ -1809,6 +1810,7 @@ function processDialogStatement(
       diagram.nodes.push({
         id: fromId,
         shape: 'rounded',
+        data: {},
       });
       declaredNodes.add(fromId);
     }
@@ -1817,6 +1819,7 @@ function processDialogStatement(
       diagram.nodes.push({
         id: toId,
         shape: 'rounded',
+        data: {},
       });
       declaredNodes.add(toId);
     }
@@ -2279,6 +2282,7 @@ function convertContainer(
       const node: NodeAst = {
         id: statement.id,
         shape,
+        data: {},
       };
 
       // Process node properties
@@ -2531,6 +2535,7 @@ function convertContainer(
         diagram.nodes.push({
           id: fromId,
           shape: 'rounded',
+          data: {},
         });
         declaredNodes.add(fromId);
       }
@@ -2539,6 +2544,7 @@ function convertContainer(
         diagram.nodes.push({
           id: toId,
           shape: 'rounded',
+          data: {},
         });
         declaredNodes.add(toId);
       }

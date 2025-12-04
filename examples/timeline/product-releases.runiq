@@ -6,103 +6,103 @@ timeline "CloudFlow Platform Releases" {
   event v1_0 date:"2022-01-15" label:"v1.0 - Genesis" 
     description:"Initial release: Core workflow engine" 
     icon:"rocket"
-    color:"#3B82F6"
+    textColor:"#3B82F6"
   
   event v1_1 date:"2022-03-20" label:"v1.1 - Integrations" 
     description:"Added Slack, Teams, Email connectors"
-    color:"#3B82F6"
+    textColor:"#3B82F6"
   
   event v1_2 date:"2022-06-10" label:"v1.2 - Templates" 
     description:"Pre-built workflow templates library"
-    color:"#3B82F6"
+    textColor:"#3B82F6"
   
   // Version 2.x - Enterprise
   event v2_0 date:"2022-09-01" label:"v2.0 - Enterprise" 
     description:"SSO, RBAC, audit logging" 
     icon:"shield"
-    color:"#8B5CF6"
+    textColor:"#8B5CF6"
   
   event v2_1 date:"2022-11-15" label:"v2.1 - Analytics" 
     description:"Advanced reporting and dashboards"
-    color:"#8B5CF6"
+    textColor:"#8B5CF6"
   
   event v2_2 date:"2023-02-05" label:"v2.2 - Performance" 
     description:"10x throughput improvement"
-    color:"#8B5CF6"
+    textColor:"#8B5CF6"
   
   // Version 3.x - AI-Powered
   event v3_0 date:"2023-05-20" label:"v3.0 - AI Assistant" 
     description:"Natural language workflow builder" 
     icon:"brain"
-    color:"#10B981"
+    textColor:"#10B981"
   
   event v3_1 date:"2023-08-10" label:"v3.1 - Smart Routing" 
     description:"ML-based intelligent task assignment"
-    color:"#10B981"
+    textColor:"#10B981"
   
   event v3_2 date:"2023-11-01" label:"v3.2 - Predictions" 
     description:"Predictive analytics and forecasting"
-    color:"#10B981"
+    textColor:"#10B981"
   
   // Version 4.x - Platform
   event v4_0 date:"2024-02-15" label:"v4.0 - Platform SDK" 
     description:"Public API and developer tools" 
     icon:"code"
-    color:"#F59E0B"
+    textColor:"#F59E0B"
   
   event v4_1 date:"2024-05-30" label:"v4.1 - Marketplace" 
     description:"Plugin marketplace launches"
-    color:"#F59E0B"
+    textColor:"#F59E0B"
   
   event v4_2 date:"2024-08-20" label:"v4.2 - Mobile Apps" 
     description:"iOS and Android native apps"
     icon:"mobile"
-    color:"#F59E0B"
+    textColor:"#F59E0B"
   
   // Future releases
   event v5_0 date:"2024-12-01" label:"v5.0 - Real-time" 
     description:"WebSocket streaming and live collaboration" 
     icon:"star"
-    color:"#EF4444"
+    textColor:"#EF4444"
   
   event v5_1 date:"2025-03-15" label:"v5.1 - Multi-tenant" 
     description:"Advanced workspace isolation (Planned)"
-    color:"#EF4444"
+    textColor:"#EF4444"
   
   // Development periods
   period alpha startDate:"2021-09-01" endDate:"2021-12-31" 
     label:"Alpha Testing" 
-    color:"#FEE2E2" 
+    textColor:"#FEE2E2" 
     opacity:0.3
   
   period beta startDate:"2021-12-31" endDate:"2022-01-15" 
     label:"Beta Program" 
-    color:"#FEF3C7" 
+    textColor:"#FEF3C7" 
     opacity:0.3
   
   period v1_era startDate:"2022-01-15" endDate:"2022-09-01" 
     label:"v1.x Series" 
-    color:"#DBEAFE" 
+    textColor:"#DBEAFE" 
     opacity:0.3
   
   period v2_era startDate:"2022-09-01" endDate:"2023-05-20" 
     label:"v2.x Series - Enterprise Focus" 
-    color:"#E0E7FF" 
+    textColor:"#E0E7FF" 
     opacity:0.3
   
   period v3_era startDate:"2023-05-20" endDate:"2024-02-15" 
     label:"v3.x Series - AI Integration" 
-    color:"#D1FAE5" 
+    textColor:"#D1FAE5" 
     opacity:0.3
   
   period v4_era startDate:"2024-02-15" endDate:"2024-12-01" 
     label:"v4.x Series - Platform Era" 
-    color:"#FEF3C7" 
+    textColor:"#FEF3C7" 
     opacity:0.3
   
   period v5_era startDate:"2024-12-01" endDate:"2025-06-01" 
     label:"v5.x Series - Next Generation" 
-    color:"#FCE7F3" 
+    textColor:"#FCE7F3" 
     opacity:0.3
   
   // Horizontal timeline for better readability
