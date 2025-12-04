@@ -119,13 +119,14 @@ export function updateCode(newCode: string, addToHistory: boolean = false) {
 		editorState.isProgrammaticChange = true;
 	}
 
-	if (editorRefs.code) {
-		editorRefs.code.setValue(newCode);
-	} else {
-		editorState.code = newCode;
-		editorState.profileName = detectProfile(newCode);
-	}
+	editorState.code = newCode;
+	editorState.profileName = detectProfile(newCode);
 
+	if (editorRefs.code) {
+		console.log(newCode);
+
+		editorRefs.code.setValue(newCode);
+	}
 	if (!addToHistory) {
 		// Clear flag after a brief delay to allow onchange to fire
 		setTimeout(() => {
@@ -245,7 +246,6 @@ export function handleReplaceGlyphset(newGlyphsetType: string) {
 
 	// Use the conversion utility
 	const result = convertGlyphset(code, newGlyphsetType);
-
 	if (!result.success) {
 		// Check if it's a structural incompatibility
 		if (result.incompatible && result.alternatives && result.alternatives.length > 0) {

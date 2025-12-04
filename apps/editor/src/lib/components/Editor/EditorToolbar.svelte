@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { EditorMode } from '$lib/types/editor';
 	import Icon from '@iconify/svelte';
-	import { editorState as modeState } from '$lib/state';
 	import { editorRefs, editorState, updateCode } from '$lib/state/editorState.svelte';
 	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
+	import { canvasState } from '$lib/state';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -17,7 +17,7 @@
 
 	// Mode handlers
 	function handleModeChange(newMode: EditorMode) {
-		modeState.mode = newMode;
+		canvasState.mode = newMode;
 	}
 
 	function handleAddShape() {
@@ -114,7 +114,7 @@
 		<div class="toolbar-section">
 			<button
 				class="toolbar-btn"
-				class:active={modeState.mode === 'select'}
+				class:active={canvasState.mode === 'select'}
 				onclick={() => handleModeChange('select')}
 				title="Select Mode (V)"
 				aria-label="Select Mode (V)"
@@ -124,7 +124,7 @@
 
 			<button
 				class="toolbar-btn"
-				class:active={modeState.mode === 'connect'}
+				class:active={canvasState.mode === 'connect'}
 				onclick={() => handleModeChange('connect')}
 				title="Connect Mode (C)"
 				aria-label="Connect Mode (C)"

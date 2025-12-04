@@ -59,7 +59,6 @@
 			const match = shapeCode.match(/glyphset\s+(\w+)/);
 			if (match) {
 				const newType = match[1];
-				console.log('Replacing glyphset with type:', newType);
 				handleReplaceGlyphset(newType);
 			}
 		} else {

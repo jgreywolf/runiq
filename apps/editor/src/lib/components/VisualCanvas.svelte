@@ -16,20 +16,13 @@
 		handleDelete,
 		handleResetStyles,
 		handleInsertShape,
-		editorRefs
+		editorRefs,
+		handleParse
 	} from '$lib/state/editorState.svelte';
 	import { editorState } from '$lib/state/editorState.svelte';
 
 	let diagramDataId = 'runiq-diagram';
 
-	// Props - now mostly for compatibility, can be removed gradually
-	interface Props {
-		code?: string;
-		dataContent?: string;
-		layoutEngine?: string;
-		onparse?: (success: boolean, errors: string[]) => void;
-	}
-	let { code = '', dataContent = '', layoutEngine = '', onparse }: Props = $props();
 	let svgOutput = $state('');
 	let isRendering = $state(false);
 	let parseTime = $state(0);
@@ -111,12 +104,12 @@
 	$effect(() => {
 		console.log('code:', editorState.code);
 		console.log('last code:', lastCode);
-		if (editorState.code !== lastCode || dataContent !== lastDataContent) {
+		if (editorState.code !== lastCode || editorState.dataContent !== lastDataContent) {
 			lastCode = editorState.code;
-			lastDataContent = dataContent;
+			lastDataContent = editorState.dataContent;
 			clearTimeout(debounceTimer);
 			debounceTimer = setTimeout(() => {
-				renderDiagram(code);
+				renderDiagram(editorState.code);
 			}, 300);
 		}
 	});
@@ -128,7 +121,7 @@
 			diagramState.clearWarnings();
 			parseTime = 0;
 			renderTime = 0;
-			if (onparse) onparse(true, []);
+			handleParse(true, []);
 			return;
 		}
 
@@ -137,7 +130,11 @@
 		diagramState.clearWarnings();
 
 		try {
-			const result = await renderDiagramUtil(dslCode, dataContent, layoutEngine);
+			const result = await renderDiagramUtil(
+				dslCode,
+				editorState.dataContent,
+				editorState.layoutEngine
+			);
 
 			svgOutput = result.svg;
 			diagramState.setErrors(result.errors);
@@ -154,17 +151,13 @@
 			}
 
 			isRendering = false;
-			if (onparse) {
-				onparse(result.success, result.errors);
-			}
+			handleParse(result.success, result.errors);
 		} catch (error) {
 			const errorMsg = error instanceof Error ? error.message : 'Unknown error';
 			diagramState.setErrors([errorMsg]);
 			svgOutput = '';
 			isRendering = false;
-			if (onparse) {
-				onparse(false, diagramState.errors);
-			}
+			handleParse(false, diagramState.errors);
 		}
 	}
 
@@ -337,10 +330,23 @@
 		handleInsertShape(shapeCode);
 	}
 
+	// onMount(() => {
+	// 	if (editorState.code) {
+	// 		renderDiagram(editorState.code);
+	// 	}
+	// });
+
 	onMount(() => {
-		if (code) {
-			renderDiagram(code);
-		}
+		// Register VisualCanvas with editorRefs
+		editorRefs.preview = {
+			hasValidDiagram,
+			getSvg
+		};
+
+		return () => {
+			// Cleanup on unmount
+			editorRefs.preview = null;
+		};
 	});
 </script>
 

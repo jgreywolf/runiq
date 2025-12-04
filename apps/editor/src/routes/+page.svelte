@@ -165,13 +165,7 @@
 							<EmptyPreview />
 						{:else}
 							<!-- Canvas -->
-							<VisualCanvas
-								bind:this={editorRefs.preview}
-								code={editorState.code}
-								dataContent={editorState.dataContent}
-								layoutEngine={editorState.layoutEngine}
-								onparse={handleParse}
-							/>
+							<VisualCanvas bind:this={editorRefs.preview} />
 						{/if}
 					</div>
 				</div>
