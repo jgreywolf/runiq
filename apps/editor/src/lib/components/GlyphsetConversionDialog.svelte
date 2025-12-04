@@ -6,7 +6,15 @@
 		flattenGroupedProcess,
 		expandToGroupedProcess,
 		flattenSegmentedPyramid,
+		expandToSegmentedPyramid,
+		flattenHub,
+		expandToHub,
+		flattenLabeledHierarchy,
+		flattenTableHierarchy,
+		flattenCircleHierarchy,
+		expandToCircleHierarchy,
 		flattenMatrix,
+		expandToMatrix,
 		convertGlyphset
 	} from '$lib/utils/glyphsetConversion';
 	import { editorState, updateCode } from '$lib/state/editorState.svelte';
@@ -39,9 +47,14 @@
 	const isFlattening = $derived(
 		fromType === 'groupedProcess' ||
 			fromType === 'segmentedPyramid' ||
+			fromType === 'hub' ||
+			fromType === 'labeledHierarchy' ||
+			fromType === 'tableHierarchy' ||
 			['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(fromType)
 	);
-	const isExpanding = $derived(toType === 'groupedProcess');
+	const isExpanding = $derived(
+		toType === 'groupedProcess' || toType === 'segmentedPyramid' || toType === 'hub'
+	);
 
 	// Handle convert with transform
 	function handleConvertWithTransform() {
@@ -56,12 +69,41 @@
 		else if (fromType === 'segmentedPyramid') {
 			result = flattenSegmentedPyramid(code, toType);
 		}
-		// Flatten if converting FROM/TO matrix types
-		else if (
-			['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(fromType) ||
-			['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(toType)
-		) {
+		// Expand if converting TO segmentedPyramid
+		else if (toType === 'segmentedPyramid') {
+			result = expandToSegmentedPyramid(code);
+		}
+		// Flatten if converting FROM hub
+		else if (fromType === 'hub') {
+			result = flattenHub(code, toType);
+		}
+		// Expand if converting TO hub
+		else if (toType === 'hub') {
+			result = expandToHub(code);
+		}
+		// Flatten if converting FROM labeledHierarchy
+		else if (fromType === 'labeledHierarchy') {
+			result = flattenLabeledHierarchy(code, toType);
+		}
+		// Flatten if converting FROM tableHierarchy
+		else if (fromType === 'tableHierarchy') {
+			result = flattenTableHierarchy(code, toType);
+		}
+		// Flatten if converting FROM circleHierarchy
+		else if (fromType === 'circleHierarchy') {
+			result = flattenCircleHierarchy(code, toType);
+		}
+		// Expand if converting TO circleHierarchy
+		else if (toType === 'circleHierarchy') {
+			result = expandToCircleHierarchy(code);
+		}
+		// Handle matrix conversions
+		else if (['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(fromType)) {
+			// Flatten FROM matrix types
 			result = flattenMatrix(code, toType);
+		} else if (['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(toType)) {
+			// Expand TO matrix types
+			result = expandToMatrix(code, toType);
 		}
 		// Expand if converting TO groupedProcess
 		else if (toType === 'groupedProcess') {
@@ -142,6 +184,23 @@
     item "Topic A"
     item "Topic B"
   }
+}`,
+			labeledHierarchy: `glyphset labeledHierarchy "Title" {
+  root "Manager"
+  child "Lead" oversees
+  child "Dev" manages
+}`,
+			tableHierarchy: `glyphset tableHierarchy "Title" {
+  level "UI Layer"
+  level "Service A" BusinessLogic
+  level "Service B" BusinessLogic
+  level "Database" DataAccess
+}`,
+			circleHierarchy: `glyphset circleHierarchy "Title" {
+  root "Core Concept"
+  child "Related Topic"
+  child "Another Topic"
+  child "Third Topic"
 }`
 		};
 		return examples[type] || `glyphset ${type} "Title" {\n  item "Example"\n}`;
@@ -161,6 +220,9 @@
 			chevronList: 'Chevron List',
 			pyramid: 'Pyramid',
 			segmentedPyramid: 'Segmented Pyramid',
+			labeledHierarchy: 'Labeled Hierarchy',
+			tableHierarchy: 'Table Hierarchy',
+			circleHierarchy: 'Circle Hierarchy',
 			funnel: 'Funnel'
 		};
 		return names[type] || type;
@@ -286,9 +348,54 @@
 							item and <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">spoke</code> items
 						</li>
 						<li>This radial structure differs from sequential or hierarchical layouts</li>
+					{:else if fromType === 'labeledHierarchy' || toType === 'labeledHierarchy'}
+						<li>
+							Labeled Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
+								>root</code
+							>
+							and <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">child</code> with edge labels
+						</li>
+						<li>Edge labels define relationships between nodes (e.g., 'manages', 'oversees')</li>
+						<li>Most glyphsets don't support relationship labels</li>
+					{:else if fromType === 'tableHierarchy' || toType === 'tableHierarchy'}
+						<li>
+							Table Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
+								>level</code
+							>
+							items with category tags (e.g., BusinessLogic, DataAccess)
+						</li>
+						<li>Category tags organize items into architectural layers</li>
+						<li>Most glyphsets don't support categorization</li>
+					{:else if fromType === 'circleHierarchy' || toType === 'circleHierarchy'}
+						<li>
+							Circle Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
+								>root</code
+							>
+							and <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">child</code> in a circular
+							layout
+						</li>
+						<li>First item is the root (center), others are children (around the circle)</li>
+						<li>This hierarchical structure differs from flat lists</li>
+					{:else if fromType === 'segmentedPyramid' || toType === 'segmentedPyramid'}
+						<li>
+							Segmented Pyramid uses nested <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
+								>level</code
+							> blocks with items inside
+						</li>
+						<li>Each level can contain multiple items</li>
+						<li>Most glyphsets use a flat list without levels</li>
+					{:else if alternatives.length > 0}
+						<li>These glyphset types have incompatible structural requirements</li>
+						<li>However, similar alternatives are available below that you can convert to</li>
+						<li class="font-semibold text-blue-700 dark:text-blue-300">
+							💡 Tip: Choose one of the recommended alternatives below
+						</li>
 					{:else}
 						<li>These glyphset types have incompatible structural requirements</li>
 						<li>Manual conversion would require restructuring your data</li>
+						<li class="font-semibold text-blue-700 dark:text-blue-300">
+							💡 Tip: You may need to manually edit your code to match the target structure
+						</li>
 					{/if}
 				</ul>
 			</div>

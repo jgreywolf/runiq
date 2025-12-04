@@ -102,16 +102,23 @@
 
 	// Watch for code or data changes with debounce
 	$effect(() => {
-		console.log('code:', editorState.code);
-		console.log('last code:', lastCode);
-		if (editorState.code !== lastCode || editorState.dataContent !== lastDataContent) {
-			lastCode = editorState.code;
-			lastDataContent = editorState.dataContent;
+		// Read reactive values to track them
+		const currentCode = editorState.code;
+		const currentDataContent = editorState.dataContent;
+
+		if (currentCode !== lastCode || currentDataContent !== lastDataContent) {
+			lastCode = currentCode;
+			lastDataContent = currentDataContent;
 			clearTimeout(debounceTimer);
 			debounceTimer = setTimeout(() => {
-				renderDiagram(editorState.code);
+				renderDiagram(currentCode);
 			}, 300);
 		}
+
+		// Cleanup function to clear timeout on unmount or re-run
+		return () => {
+			clearTimeout(debounceTimer);
+		};
 	});
 
 	async function renderDiagram(dslCode: string) {

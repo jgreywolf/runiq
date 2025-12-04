@@ -14,7 +14,17 @@ import * as DSL from '../utils/dslCodeManipulation';
 import {
 	convertGlyphset,
 	flattenGroupedProcess,
-	expandToGroupedProcess
+	expandToGroupedProcess,
+	flattenMatrix,
+	expandToMatrix,
+	flattenSegmentedPyramid,
+	expandToSegmentedPyramid,
+	flattenHub,
+	expandToHub,
+	flattenLabeledHierarchy,
+	flattenTableHierarchy,
+	flattenCircleHierarchy,
+	expandToCircleHierarchy
 } from '../utils/glyphsetConversion';
 import { openGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
 
@@ -50,25 +60,8 @@ export interface EditorState {
 	layoutEngine: string;
 	shapeCounter: number;
 	showCodeEditor: boolean;
-	isProgrammaticChange: boolean;
 	profileName: ProfileName | null;
 }
-
-// Create shared editor state
-export const editorState = $state<EditorState>({
-	code: '',
-	dataContent: '',
-	dataErrors: [],
-	errors: [],
-	diagramName: 'New Diagram',
-	isDirty: false,
-	activeTab: 'syntax',
-	layoutEngine: 'elk',
-	shapeCounter: 1,
-	showCodeEditor: true,
-	isProgrammaticChange: false,
-	profileName: null
-});
 
 /**
  * Detect profile type from current code
@@ -86,6 +79,29 @@ export function detectProfile(code: string): ProfileName {
 	return ProfileName.diagram;
 }
 
+// Auto-save and history managers (initialize early to restore state)
+export const autoSave = new AutoSaveManager();
+const { code: restoredCode, lastSaved: restoredLastSaved } = autoSave.restore();
+export const history = new HistoryManager(restoredCode);
+
+// Update autoSave's lastSaved timestamp
+autoSave.lastSaved = restoredLastSaved;
+
+// Create shared editor state (initialized with restored code and detected profile)
+export const editorState = $state<EditorState>({
+	code: restoredCode,
+	dataContent: '',
+	dataErrors: [],
+	errors: [],
+	diagramName: 'New Diagram',
+	isDirty: false,
+	activeTab: 'syntax',
+	layoutEngine: 'elk',
+	shapeCounter: 1,
+	showCodeEditor: true,
+	profileName: detectProfile(restoredCode)
+});
+
 // Create shared editor refs
 export const editorRefs = $state<EditorRefs>({
 	code: null,
@@ -94,19 +110,13 @@ export const editorRefs = $state<EditorRefs>({
 	viewport: null
 });
 
-// Auto-save and history managers
-export const autoSave = new AutoSaveManager();
-export const history = new HistoryManager('');
-
 /**
  * Initialize the editor with saved state
+ * @deprecated State is now initialized at module load time
  */
 export function initializeEditor() {
-	const { code: initialCode, lastSaved: initialLastSaved } = autoSave.restore();
-	editorState.code = initialCode;
-	editorState.profileName = detectProfile(initialCode);
-	history.reset(initialCode);
-	autoSave.lastSaved = initialLastSaved;
+	// No-op: initialization happens at module load now
+	// Kept for backwards compatibility
 }
 
 /**
@@ -115,35 +125,33 @@ export function initializeEditor() {
  * @param addToHistory - If true, adds the change to undo/redo history (default: false)
  */
 export function updateCode(newCode: string, addToHistory: boolean = false) {
-	if (!addToHistory) {
-		editorState.isProgrammaticChange = true;
+	// Add to history first if requested
+	if (addToHistory) {
+		history.push(newCode);
 	}
 
-	editorState.code = newCode;
-	editorState.profileName = detectProfile(newCode);
-
+	// Update CodeMirror editor (single source of truth)
+	// This will trigger handleCodeChange via updateListener, which updates state
 	if (editorRefs.code) {
-		console.log(newCode);
-
 		editorRefs.code.setValue(newCode);
-	}
-	if (!addToHistory) {
-		// Clear flag after a brief delay to allow onchange to fire
-		setTimeout(() => {
-			editorState.isProgrammaticChange = false;
-		}, 50);
+	} else {
+		// Fallback if editor not mounted yet
+		editorState.code = newCode;
+		editorState.profileName = detectProfile(newCode);
 	}
 }
 
 /**
  * Handle code changes with auto-save
+ * Called by CodeMirror updateListener for user-initiated changes only
  */
-export function handleCodeChange(newCode: string) {
+export function handleCodeChange(newCode: string, addToHistory: boolean = true) {
 	editorState.code = newCode;
 	editorState.profileName = detectProfile(newCode);
 	editorState.isDirty = true;
 
-	if (!history.isUndoRedoAction && !editorState.isProgrammaticChange) {
+	// Add to history for user typing (not for undo/redo or programmatic changes)
+	if (addToHistory && !history.isUndoRedoAction) {
 		history.push(newCode);
 	}
 
@@ -210,11 +218,7 @@ export function handleEdit(
 			'routing'
 		].includes(property)
 	) {
-		editorState.isProgrammaticChange = true;
 		newCode = DSL.editStyleProperty(editorState.code, nodeOrEdgeId, property, value);
-		setTimeout(() => {
-			editorState.isProgrammaticChange = false;
-		}, 50);
 	}
 
 	if (newCode !== editorState.code) {
@@ -246,26 +250,20 @@ export function handleReplaceGlyphset(newGlyphsetType: string) {
 
 	// Use the conversion utility
 	const result = convertGlyphset(code, newGlyphsetType);
+	console.log('Glyphset conversion result:', result);
 	if (!result.success) {
-		// Check if it's a structural incompatibility
-		if (result.incompatible && result.alternatives && result.alternatives.length > 0) {
-			// Extract current glyphset type from code
-			const match = code.match(/glyphset\s+(\w+)/);
-			const fromType = match?.[1] || 'unknown';
+		// Extract current glyphset type from code
+		const match = code.match(/glyphset\s+(\w+)/);
+		const fromType = match?.[1] || 'unknown';
 
-			// Open the incompatibility dialog with alternatives and convert option
-			openGlyphsetConversionDialog(
-				fromType,
-				newGlyphsetType,
-				result.errors[0] || 'Incompatible glyphset types',
-				result.alternatives,
-				result.canConvert || false
-			);
-		} else {
-			// Show error message to user for other errors
-			const errorMsg = result.errors.join('\n');
-			alert(`Cannot convert glyphset:\n\n${errorMsg}`);
-		}
+		// Always open the dialog for failed conversions
+		openGlyphsetConversionDialog(
+			fromType,
+			newGlyphsetType,
+			result.errors[0] || 'Cannot convert between these glyphset types',
+			result.alternatives || [],
+			result.canConvert || false
+		);
 		return;
 	}
 
@@ -287,11 +285,13 @@ export function handleReplaceGlyphset(newGlyphsetType: string) {
 
 /**
  * Handle transforming and converting a glyphset
- * Used when converting from/to groupedProcess or other special structures
+ * Used when converting from/to groupedProcess, matrix types, or other special structures
  */
 export function handleConvertWithTransform(fromType: string, targetGlyphsetType: string) {
 	const code = editorState.code;
 	let result;
+
+	const matrixTypes = ['matrix2x2', 'matrix3x3', 'segmentedMatrix', 'titledMatrix'];
 
 	// Flatten if converting FROM groupedProcess
 	if (fromType === 'groupedProcess') {
@@ -300,6 +300,46 @@ export function handleConvertWithTransform(fromType: string, targetGlyphsetType:
 	// Expand if converting TO groupedProcess
 	else if (targetGlyphsetType === 'groupedProcess') {
 		result = expandToGroupedProcess(code);
+	}
+	// Flatten if converting FROM matrix types
+	else if (matrixTypes.includes(fromType) && !matrixTypes.includes(targetGlyphsetType)) {
+		result = flattenMatrix(code, targetGlyphsetType);
+	}
+	// Expand if converting TO matrix types
+	else if (!matrixTypes.includes(fromType) && matrixTypes.includes(targetGlyphsetType)) {
+		result = expandToMatrix(code, targetGlyphsetType);
+	}
+	// Flatten if converting FROM segmentedPyramid
+	else if (fromType === 'segmentedPyramid') {
+		result = flattenSegmentedPyramid(code, targetGlyphsetType);
+	}
+	// Expand if converting TO segmentedPyramid
+	else if (targetGlyphsetType === 'segmentedPyramid') {
+		result = expandToSegmentedPyramid(code);
+	}
+	// Flatten if converting FROM hub
+	else if (fromType === 'hub') {
+		result = flattenHub(code, targetGlyphsetType);
+	}
+	// Expand if converting TO hub
+	else if (targetGlyphsetType === 'hub') {
+		result = expandToHub(code);
+	}
+	// Flatten if converting FROM labeledHierarchy
+	else if (fromType === 'labeledHierarchy') {
+		result = flattenLabeledHierarchy(code, targetGlyphsetType);
+	}
+	// Flatten if converting FROM tableHierarchy
+	else if (fromType === 'tableHierarchy') {
+		result = flattenTableHierarchy(code, targetGlyphsetType);
+	}
+	// Flatten if converting FROM circleHierarchy
+	else if (fromType === 'circleHierarchy') {
+		result = flattenCircleHierarchy(code, targetGlyphsetType);
+	}
+	// Expand if converting TO circleHierarchy
+	else if (targetGlyphsetType === 'circleHierarchy') {
+		result = expandToCircleHierarchy(code);
 	} else {
 		// Fallback to regular conversion
 		result = convertGlyphset(code, targetGlyphsetType);
@@ -339,8 +379,6 @@ export function handleUndo() {
 	const previousCode = history.undo();
 	if (previousCode !== null) {
 		updateCode(previousCode);
-		editorState.code = previousCode;
-		editorState.profileName = detectProfile(previousCode);
 		history.resetFlag();
 	}
 }
@@ -352,8 +390,6 @@ export function handleRedo() {
 	const nextCode = history.redo();
 	if (nextCode !== null) {
 		updateCode(nextCode);
-		editorState.code = nextCode;
-		editorState.profileName = detectProfile(nextCode);
 		history.resetFlag();
 	}
 }

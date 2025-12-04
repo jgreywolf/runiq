@@ -84,8 +84,8 @@
 			<!-- Left Panel: Toolbox (20% default) -->
 			<Pane
 				defaultSize={panelSizes.toolbox}
-				minSize={15}
-				maxSize={30}
+				minSize={10}
+				maxSize={40}
 				onResize={(size) => {
 					panelSizes.toolbox = size;
 					savePanelSizes();

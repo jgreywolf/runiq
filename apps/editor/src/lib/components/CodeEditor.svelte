@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { EditorView, basicSetup } from 'codemirror';
-	import { EditorState, Compartment } from '@codemirror/state';
+	import { EditorState, Compartment, Transaction, Annotation } from '@codemirror/state';
+
+	// Custom annotation to mark programmatic changes
+	const ProgrammaticChange = Annotation.define<boolean>();
 	import { javascript } from '@codemirror/lang-javascript';
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic, Action } from '@codemirror/lint';
@@ -281,19 +284,19 @@
 				autocompletion({ override: [runiqCompletions] }),
 				editorTheme.of(runiqTheme),
 				EditorView.updateListener.of((update) => {
-					if (update.docChanged && onchange) {
+					if (update.docChanged) {
 						const newValue = update.state.doc.toString();
-						handleCodeChange(newValue);
+						const isProgrammatic = update.transactions.some((tr: any) =>
+							tr.annotation(ProgrammaticChange)
+						);
+						handleCodeChange(newValue, !isProgrammatic);
 
-						// Extract errors asynchronously
-						if (onerror) {
-							runiqLinter(update.view).then((diagnostics) => {
-								const errors = diagnostics
-									.filter((d) => d.severity === 'error')
-									.map((d) => d.message);
-								handleEditorErrors(errors);
-							});
-						}
+						runiqLinter(update.view).then((diagnostics) => {
+							const errors = diagnostics
+								.filter((d) => d.severity === 'error')
+								.map((d) => d.message);
+							handleEditorErrors(errors);
+						});
 					}
 				}),
 				EditorView.editable.of(!readonly)
@@ -305,7 +308,6 @@
 			parent: editorContainer
 		});
 	});
-
 	onDestroy(() => {
 		if (editorView) {
 			editorView.destroy();
@@ -326,7 +328,8 @@
 					from: 0,
 					to: editorView.state.doc.length,
 					insert: newValue
-				}
+				},
+				annotations: [Transaction.addToHistory.of(false), ProgrammaticChange.of(true)]
 			});
 
 			// Position cursor at the end of the "Add your shapes" comment line

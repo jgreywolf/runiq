@@ -3,7 +3,7 @@
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import ShapeIcon from './ShapeIcon.svelte';
-	import { shapeCategories } from '$lib/data/toolbox-data';
+	import { getShapeCategoryByProfile, type ShapeCategory } from '$lib/data/toolbox-data';
 	import {
 		editorState,
 		handleInsertShape,
@@ -12,13 +12,16 @@
 	import { ProfileName } from '$lib/types';
 
 	// Filter categories for this specific profile
+	// const categories = $derived(
+	// 	shapeCategories.filter((cat) => {
+	// 		if (editorState.profileName) {
+	// 			return cat.profiles?.includes(editorState.profileName);
+	// 		}
+	// 		return null;
+	// 	})
+	// );
 	const categories = $derived(
-		shapeCategories.filter((cat) => {
-			if (editorState.profileName) {
-				return cat.profiles?.includes(editorState.profileName);
-			}
-			return null;
-		})
+		editorState.profileName ? getShapeCategoryByProfile(editorState.profileName) : []
 	);
 
 	let searchQuery = $state('');
@@ -104,8 +107,11 @@
 						<span class="text-xs text-gray-500">({category.shapes.length})</span>
 					</Accordion.Trigger>
 					<Accordion.Content class="pb-2">
-						<div class="flex flex-wrap gap-2 px-2">
-							{#each category.shapes as shape (shape.id)}
+						<div
+							class="grid grid-cols-[repeat(auto-fit,minmax(60px,1fr))] gap-2 px-2"
+							style="grid-template-columns: repeat(auto-fit, minmax(60px, calc(25% - 0.5rem))); max-width: 100%;"
+						>
+							{#each category.shapes as shape (`${editorState.profileName}-${shape.id}`)}
 								<Tooltip.Root>
 									<Tooltip.Trigger
 										onclick={() => handleShapeClick(shape.code)}

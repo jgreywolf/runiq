@@ -34,13 +34,16 @@ export const GLYPHSET_KEYWORDS = {
 	hierarchyCircle: ['node'],
 	labeledHierarchy: ['level'],
 	horizontalOrgChart: ['person'],
-	circleHierarchy: ['node'],
+	circleHierarchy: ['root', 'child'], // root + child structure like labeledHierarchy but without edge labels
 	titleBlock: ['level'],
 	tableHierarchy: ['level'],
 
-	// Comparison glyphsets - use 'item' or 'quadrant'
-	matrix2x2: ['quadrant', 'item'],
-	matrix3x3: ['item'],
+	// Comparison glyphsets - use 'item' (quadrant supported for backwards compatibility)
+	matrix: ['item', 'quadrant'], // Generic matrix
+	segmentedMatrix: ['item', 'quadrant'],
+	titledMatrix: ['item', 'quadrant'],
+	matrix2x2: ['item', 'quadrant'],
+	matrix3x3: ['item', 'quadrant'],
 	venn2: ['circle', 'item'],
 	venn3: ['circle', 'item'],
 	linearVenn: ['circle', 'item'],
@@ -152,9 +155,12 @@ export const COMPATIBILITY_GROUPS = {
  * Glyphsets with special structures that cannot be easily converted
  */
 export const STRUCTURAL_GLYPHSETS = [
-	'equation', // input + operator = result
+	'equation', // input + operator = output
 	'hub', // center + spokes
-	'groupedProcess' // nested groups + mergePoint
+	'groupedProcess', // nested groups + mergePoint
+	'labeledHierarchy', // root + child with edge labels
+	'circleHierarchy', // root + child without edge labels
+	'tableHierarchy' // level with optional category tags
 ] as const;
 
 /**
@@ -208,6 +214,16 @@ export function getCompatibleAlternatives(fromType: string, toType: string): str
 		alternatives.push('interconnected', 'cluster', 'target');
 	}
 
+	// If trying to convert FROM labeledHierarchy, suggest hierarchy types
+	if (fromType === 'labeledHierarchy') {
+		alternatives.push('orgChart', 'hierarchyTree', 'basicList', 'tableHierarchy');
+	}
+
+	// If trying to convert FROM tableHierarchy, suggest hierarchy types
+	if (fromType === 'tableHierarchy') {
+		alternatives.push('labeledHierarchy', 'pyramid', 'basicList');
+	}
+
 	// Remove duplicates and the target type
 	return [...new Set(alternatives)].filter((alt) => alt !== toType);
 }
@@ -250,6 +266,7 @@ export function flattenGroupedProcess(code: string, targetGlyphsetType: string):
 	const targetKeyword = getPrimaryKeyword(targetGlyphsetType);
 	let insideGroup = false;
 	let groupDepth = 0;
+	let imageCounter = 11; // For pictureProcess conversions
 
 	// Process remaining lines
 	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
@@ -293,8 +310,19 @@ export function flattenGroupedProcess(code: string, targetGlyphsetType: string):
 		if (trimmed.match(/^item\s+"[^"]+"/)) {
 			const match = line.match(/^(\s*)item(\s+"[^"]+")/);
 			if (match) {
-				// Use base indentation (not nested)
-				newLines.push(`  ${targetKeyword}${match[2]}`);
+				// Special handling for pictureProcess - convert to image + label format
+				if (targetGlyphsetType === 'pictureProcess') {
+					const labelMatch = match[2].match(/\s+"([^"]+)"/);
+					if (labelMatch) {
+						newLines.push(
+							`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelMatch[1]}"`
+						);
+						imageCounter++;
+					}
+				} else {
+					// Use base indentation (not nested)
+					newLines.push(`  ${targetKeyword}${match[2]}`);
+				}
 				continue;
 			}
 		}
@@ -396,7 +424,24 @@ export function expandToGroupedProcess(code: string): ConversionResult {
 			continue;
 		}
 
-		// Collect items to wrap in a group
+		// Keep empty lines inside the block
+		if (!trimmed) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Collect items to wrap in a group (including pictureProcess image+label format)
+		// Handle pictureProcess format: image "url" label "text"
+		if (trimmed.match(/^image\s+"[^"]+"\s+label\s+"[^"]+"/)) {
+			hasItems = true;
+			// Extract the label text from pictureProcess format
+			const labelMatch = line.match(/^\s*image\s+"[^"]+"\s+label\s+"([^"]+)"/);
+			if (labelMatch) {
+				itemLines.push(`    item "${labelMatch[1]}"`);
+			}
+			continue;
+		}
+		// Handle standard keywords
 		if (
 			trimmed.match(
 				/^(item|step|level|stage|person|node|side|input|output|circle|quadrant)\s+"[^"]+"/
@@ -434,6 +479,10 @@ export function expandToGroupedProcess(code: string): ConversionResult {
 			newLines.push(line);
 			break;
 		}
+
+		// Keep any other lines that don't match the patterns above
+		// (preserves unknown keywords or future additions)
+		newLines.push(line);
 	}
 
 	return {
@@ -471,6 +520,7 @@ export function flattenSegmentedPyramid(
 
 	// Determine target keyword
 	const targetKeyword = getPrimaryKeyword(targetGlyphsetType);
+	let imageCounter = 11; // For pictureProcess conversions
 
 	// Replace glyphset type
 	const glyphsetLine = lines[glyphsetLineIndex];
@@ -524,8 +574,19 @@ export function flattenSegmentedPyramid(
 		if (trimmed.match(/^item\s+"[^"]+"/)) {
 			const match = line.match(/^(\s*)item(\s+"[^"]+")/);
 			if (match) {
-				// Use base indentation (not nested)
-				newLines.push(`  ${targetKeyword}${match[2]}`);
+				// Special handling for pictureProcess - convert to image + label format
+				if (targetGlyphsetType === 'pictureProcess') {
+					const labelMatch = match[2].match(/\s+"([^"]+)"/);
+					if (labelMatch) {
+						newLines.push(
+							`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelMatch[1]}"`
+						);
+						imageCounter++;
+					}
+				} else {
+					// Use base indentation (not nested)
+					newLines.push(`  ${targetKeyword}${match[2]}`);
+				}
 				continue;
 			}
 		}
@@ -559,8 +620,791 @@ export function flattenSegmentedPyramid(
 }
 
 /**
- * Flatten matrix glyphsets (segmentedMatrix, titledMatrix) by extracting quadrant items
- * These use flat quadrant lists, so just need keyword conversion
+ * Expand a flat list glyphset to segmentedPyramid by wrapping items in level blocks
+ * Converts flat structure into nested level structure
+ */
+export function expandToSegmentedPyramid(code: string): ConversionResult {
+	const lines = code.split('\n');
+	const warnings: string[] = [];
+	const errors: string[] = [];
+	const newLines: string[] = [];
+
+	// Find the glyphset line
+	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
+
+	if (glyphsetLineIndex === -1) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: ['No glyphset declaration found']
+		};
+	}
+
+	// Replace glyphset type
+	const glyphsetLine = lines[glyphsetLineIndex];
+	const withNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s+"[^"]+"\s*\{.*)$/);
+	const withoutNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s*\{.*)$/);
+
+	if (withNameMatch) {
+		newLines.push(`${withNameMatch[1]}segmentedPyramid${withNameMatch[2]}`);
+	} else if (withoutNameMatch) {
+		newLines.push(`${withoutNameMatch[1]}segmentedPyramid${withoutNameMatch[2]}`);
+	} else {
+		newLines.push(glyphsetLine);
+	}
+
+	let insideMainBlock = false;
+	let hasItems = false;
+	const itemLines: string[] = [];
+
+	// Process remaining lines to collect items
+	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
+		const line = lines[i];
+		const trimmed = line.trim();
+
+		// Skip empty lines at the start
+		if (!trimmed && !insideMainBlock) {
+			continue;
+		}
+
+		if (!insideMainBlock) {
+			insideMainBlock = true;
+		}
+
+		// Keep theme and other parameters at the top level
+		if (
+			trimmed.match(
+				/^(theme|direction|columns|shape|showValues|showPercentages|layout|orientation)\s/
+			)
+		) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep comments
+		if (trimmed.startsWith('//')) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep empty lines inside the block
+		if (!trimmed) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Handle pictureProcess format: image "url" label "text"
+		if (trimmed.match(/^image\s+"[^"]+"\s+label\s+"[^"]+"/)) {
+			hasItems = true;
+			const labelMatch = line.match(/^\s*image\s+"[^"]+"\s+label\s+"([^"]+)"/);
+			if (labelMatch) {
+				itemLines.push(`    item "${labelMatch[1]}"`);
+			}
+			continue;
+		}
+
+		// Collect items to wrap in levels
+		if (
+			trimmed.match(
+				/^(item|step|level|stage|person|node|side|input|output|circle|quadrant|spoke|center|event|callout)\s+"[^"]+"/
+			)
+		) {
+			hasItems = true;
+			// Convert keyword to 'item' and adjust indentation
+			const match = line.match(
+				/^(\s*)(item|step|level|stage|person|node|side|input|output|circle|quadrant|spoke|center|event|callout)(\s+"[^"]+")/
+			);
+			if (match) {
+				itemLines.push(`    item${match[3]}`);
+			}
+			continue;
+		}
+
+		// Final closing brace
+		if (trimmed === '}') {
+			// Add the level wrappers if we found items (distribute across 3-4 levels)
+			if (hasItems) {
+				const totalItems = itemLines.length;
+				// Create a pyramid structure: fewer items at top, more at bottom
+				// Example distribution for 10 items: 1, 2, 3, 4
+				const levelCounts = [];
+				if (totalItems <= 4) {
+					// Just one item per level
+					for (let j = 0; j < totalItems; j++) {
+						levelCounts.push(1);
+					}
+				} else {
+					// Distribute items in a pyramid pattern
+					const levels = Math.min(4, Math.ceil(totalItems / 2));
+					let remaining = totalItems;
+					for (let j = 0; j < levels; j++) {
+						const itemsInLevel = Math.ceil(remaining / (levels - j));
+						levelCounts.push(Math.min(itemsInLevel, remaining));
+						remaining -= itemsInLevel;
+					}
+				}
+
+				let itemIndex = 0;
+				levelCounts.forEach((count, levelIdx) => {
+					const levelName =
+						['Top', 'Middle', 'Base', 'Foundation'][levelIdx] || `Level ${levelIdx + 1}`;
+					newLines.push(`  level "${levelName}" {`);
+					for (let j = 0; j < count && itemIndex < itemLines.length; j++) {
+						newLines.push(itemLines[itemIndex]);
+						itemIndex++;
+					}
+					newLines.push('  }');
+				});
+			}
+			newLines.push(line);
+			break;
+		}
+
+		// Keep any other lines that don't match the patterns above
+		newLines.push(line);
+	}
+
+	return {
+		success: true,
+		newCode: newLines.join('\n'),
+		warnings,
+		errors
+	};
+}
+
+/**
+ * Flatten a hub glyphset by extracting center and spoke items
+ * Converts center + spokes structure into a flat list
+ */
+export function flattenHub(code: string, targetGlyphsetType: string): ConversionResult {
+	const lines = code.split('\n');
+	const warnings: string[] = [];
+	const errors: string[] = [];
+	const newLines: string[] = [];
+
+	// Find the glyphset line
+	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
+
+	if (glyphsetLineIndex === -1) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: ['No glyphset declaration found']
+		};
+	}
+
+	// Determine target keyword
+	const targetKeyword = getPrimaryKeyword(targetGlyphsetType);
+	let imageCounter = 11; // For pictureProcess conversions
+
+	// Replace glyphset type
+	const glyphsetLine = lines[glyphsetLineIndex];
+	const withNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s+"[^"]+"\s*\{.*)$/);
+	const withoutNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s*\{.*)$/);
+
+	if (withNameMatch) {
+		newLines.push(`${withNameMatch[1]}${targetGlyphsetType}${withNameMatch[2]}`);
+	} else if (withoutNameMatch) {
+		newLines.push(`${withoutNameMatch[1]}${targetGlyphsetType}${withoutNameMatch[2]}`);
+	} else {
+		newLines.push(glyphsetLine);
+	}
+
+	// Process remaining lines
+	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
+		const line = lines[i];
+		const trimmed = line.trim();
+
+		// Skip empty lines
+		if (!trimmed) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Handle center and spoke keywords
+		if (trimmed.match(/^(center|spoke)\s+"[^"]+"/)) {
+			const match = line.match(/^(\s*)(center|spoke)(\s+"[^"]+")/);
+			if (match) {
+				// Special handling for pictureProcess
+				if (targetGlyphsetType === 'pictureProcess') {
+					const labelMatch = match[3].match(/\s+"([^"]+)"/);
+					if (labelMatch) {
+						newLines.push(
+							`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelMatch[1]}"`
+						);
+						imageCounter++;
+					}
+				} else {
+					// Convert to target keyword
+					newLines.push(`  ${targetKeyword}${match[3]}`);
+				}
+				continue;
+			}
+		}
+
+		// Keep theme, direction, and other parameters
+		if (
+			trimmed.match(
+				/^(theme|direction|columns|shape|showValues|showPercentages|layout|orientation|bidirectional)\s/
+			)
+		) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep comments
+		if (trimmed.startsWith('//')) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep closing brace
+		if (trimmed === '}') {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep other lines
+		newLines.push(line);
+	}
+
+	warnings.push('Hub structure (center + spokes) has been flattened into a simple list');
+
+	return {
+		success: true,
+		newCode: newLines.join('\n'),
+		warnings,
+		errors
+	};
+}
+
+/**
+ * Expand a flat list glyphset to hub by designating first item as center
+ * Converts flat structure into center + spoke structure
+ */
+export function expandToHub(code: string): ConversionResult {
+	const lines = code.split('\n');
+	const warnings: string[] = [];
+	const errors: string[] = [];
+	const newLines: string[] = [];
+
+	// Find the glyphset line
+	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
+
+	if (glyphsetLineIndex === -1) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: ['No glyphset declaration found']
+		};
+	}
+
+	// Replace glyphset type
+	const glyphsetLine = lines[glyphsetLineIndex];
+	const withNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s+"[^"]+"\s*\{.*)$/);
+	const withoutNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s*\{.*)$/);
+
+	if (withNameMatch) {
+		newLines.push(`${withNameMatch[1]}hub${withNameMatch[2]}`);
+	} else if (withoutNameMatch) {
+		newLines.push(`${withoutNameMatch[1]}hub${withoutNameMatch[2]}`);
+	} else {
+		newLines.push(glyphsetLine);
+	}
+
+	let hasItems = false;
+	let isFirstItem = true;
+	const itemLines: string[] = [];
+
+	// Process remaining lines to collect items
+	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
+		const line = lines[i];
+		const trimmed = line.trim();
+
+		if (!trimmed) {
+			continue;
+		}
+
+		// Keep theme and other parameters
+		if (
+			trimmed.match(
+				/^(theme|direction|columns|shape|showValues|showPercentages|layout|orientation)\s/
+			)
+		) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep comments
+		if (trimmed.startsWith('//')) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Handle pictureProcess format
+		if (trimmed.match(/^image\s+"[^"]+"\s+label\s+"[^"]+"/)) {
+			hasItems = true;
+			const labelMatch = line.match(/^\s*image\s+"[^"]+"\s+label\s+"([^"]+)"/);
+			if (labelMatch) {
+				if (isFirstItem) {
+					newLines.push(`  center "${labelMatch[1]}"`);
+					isFirstItem = false;
+				} else {
+					itemLines.push(`  spoke "${labelMatch[1]}"`);
+				}
+			}
+			continue;
+		}
+
+		// Collect items
+		if (
+			trimmed.match(
+				/^(item|step|level|stage|person|node|side|input|output|circle|quadrant|spoke|center|event|callout)\s+"[^"]+"/
+			)
+		) {
+			hasItems = true;
+			const match = line.match(
+				/^(\s*)(item|step|level|stage|person|node|side|input|output|circle|quadrant|spoke|center|event|callout)(\s+"[^"]+")/
+			);
+			if (match) {
+				if (isFirstItem) {
+					newLines.push(`  center${match[3]}`);
+					isFirstItem = false;
+				} else {
+					itemLines.push(`  spoke${match[3]}`);
+				}
+			}
+			continue;
+		}
+
+		// Final closing brace
+		if (trimmed === '}') {
+			// Add collected spokes
+			newLines.push(...itemLines);
+			newLines.push(line);
+			break;
+		}
+	}
+
+	if (!hasItems) {
+		warnings.push('No items found to convert');
+	} else {
+		warnings.push('First item designated as center, remaining items converted to spokes');
+	}
+
+	return {
+		success: true,
+		newCode: newLines.join('\n'),
+		warnings,
+		errors
+	};
+}
+
+/**
+ * Flatten labeledHierarchy by removing edge labels
+ * Converts root + child with edge labels into flat list
+ */
+export function flattenLabeledHierarchy(
+	code: string,
+	targetGlyphsetType: string
+): ConversionResult {
+	const lines = code.split('\n');
+	const warnings: string[] = [];
+	const errors: string[] = [];
+	const newLines: string[] = [];
+
+	// Find the glyphset line
+	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
+
+	if (glyphsetLineIndex === -1) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: ['No glyphset declaration found']
+		};
+	}
+
+	// Determine target keyword
+	const targetKeyword = getPrimaryKeyword(targetGlyphsetType);
+	let imageCounter = 11;
+
+	// Replace glyphset type
+	const glyphsetLine = lines[glyphsetLineIndex];
+	const withNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s+"[^"]+"\s*\{.*)$/);
+	const withoutNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s*\{.*)$/);
+
+	if (withNameMatch) {
+		newLines.push(`${withNameMatch[1]}${targetGlyphsetType}${withNameMatch[2]}`);
+	} else if (withoutNameMatch) {
+		newLines.push(`${withoutNameMatch[1]}${targetGlyphsetType}${withoutNameMatch[2]}`);
+	} else {
+		newLines.push(glyphsetLine);
+	}
+
+	// Process remaining lines
+	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
+		const line = lines[i];
+		const trimmed = line.trim();
+
+		if (!trimmed) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Handle root and child keywords (with optional edge labels)
+		if (trimmed.match(/^(root|child)\s+"[^"]+"/)) {
+			const match = line.match(/^(\s*)(root|child)\s+"([^"]+)"(\s+\w+)?/);
+			if (match) {
+				const labelText = match[3];
+				// Special handling for pictureProcess
+				if (targetGlyphsetType === 'pictureProcess') {
+					newLines.push(
+						`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`
+					);
+					imageCounter++;
+				} else {
+					newLines.push(`  ${targetKeyword} "${labelText}"`);
+				}
+				continue;
+			}
+		}
+
+		// Keep parameters
+		if (trimmed.match(/^(theme|direction|columns|shape|showValues|layout|orientation)\s/)) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep comments
+		if (trimmed.startsWith('//')) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep closing brace
+		if (trimmed === '}') {
+			newLines.push(line);
+			continue;
+		}
+
+		newLines.push(line);
+	}
+
+	warnings.push('Edge labels from labeledHierarchy have been removed');
+
+	return {
+		success: true,
+		newCode: newLines.join('\n'),
+		warnings,
+		errors
+	};
+}
+
+/**
+ * Flatten tableHierarchy by removing category tags
+ * Converts level with optional categories into flat list
+ */
+export function flattenTableHierarchy(code: string, targetGlyphsetType: string): ConversionResult {
+	const lines = code.split('\n');
+	const warnings: string[] = [];
+	const errors: string[] = [];
+	const newLines: string[] = [];
+
+	// Find the glyphset line
+	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
+
+	if (glyphsetLineIndex === -1) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: ['No glyphset declaration found']
+		};
+	}
+
+	// Determine target keyword
+	const targetKeyword = getPrimaryKeyword(targetGlyphsetType);
+	let imageCounter = 11;
+
+	// Replace glyphset type
+	const glyphsetLine = lines[glyphsetLineIndex];
+	const withNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s+"[^"]+"\s*\{.*)$/);
+	const withoutNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s*\{.*)$/);
+
+	if (withNameMatch) {
+		newLines.push(`${withNameMatch[1]}${targetGlyphsetType}${withNameMatch[2]}`);
+	} else if (withoutNameMatch) {
+		newLines.push(`${withoutNameMatch[1]}${targetGlyphsetType}${withoutNameMatch[2]}`);
+	} else {
+		newLines.push(glyphsetLine);
+	}
+
+	// Process remaining lines
+	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
+		const line = lines[i];
+		const trimmed = line.trim();
+
+		if (!trimmed) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Handle level keywords (with optional category tags)
+		if (trimmed.match(/^level\s+"[^"]+"/)) {
+			const match = line.match(/^(\s*)level\s+"([^"]+)"(\s+\w+)?/);
+			if (match) {
+				const labelText = match[2];
+				// Special handling for pictureProcess
+				if (targetGlyphsetType === 'pictureProcess') {
+					newLines.push(
+						`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`
+					);
+					imageCounter++;
+				} else {
+					newLines.push(`  ${targetKeyword} "${labelText}"`);
+				}
+				continue;
+			}
+		}
+
+		// Keep parameters
+		if (
+			trimmed.match(
+				/^(theme|direction|columns|shape|showValues|showConnections|layout|orientation)\s/
+			)
+		) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep comments
+		if (trimmed.startsWith('//')) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Keep closing brace
+		if (trimmed === '}') {
+			newLines.push(line);
+			continue;
+		}
+
+		newLines.push(line);
+	}
+
+	warnings.push('Category tags from tableHierarchy have been removed');
+
+	return {
+		success: true,
+		newCode: newLines.join('\n'),
+		warnings,
+		errors
+	};
+}
+
+/**
+ * Flatten circleHierarchy by converting root and child to flat list
+ */
+export function flattenCircleHierarchy(code: string, targetGlyphsetType: string): ConversionResult {
+	const lines = code.split('\n');
+	const warnings: string[] = [];
+	const errors: string[] = [];
+	const newLines: string[] = [];
+	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
+
+	if (glyphsetLineIndex === -1) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: ['No glyphset declaration found']
+		};
+	}
+
+	const targetKeyword = getPrimaryKeyword(targetGlyphsetType);
+	let imageCounter = 11;
+	const glyphsetLine = lines[glyphsetLineIndex];
+	const withNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s+"[^"]+"\s*\{.*)$/);
+	const withoutNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s*\{.*)$/);
+
+	if (withNameMatch) {
+		newLines.push(`${withNameMatch[1]}${targetGlyphsetType}${withNameMatch[2]}`);
+	} else if (withoutNameMatch) {
+		newLines.push(`${withoutNameMatch[1]}${targetGlyphsetType}${withoutNameMatch[2]}`);
+	} else {
+		newLines.push(glyphsetLine);
+	}
+
+	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
+		const line = lines[i];
+		const trimmed = line.trim();
+
+		if (!trimmed) {
+			newLines.push(line);
+			continue;
+		}
+
+		if (trimmed.match(/^(root|child)\s+"[^"]+"/)) {
+			const match = line.match(/^(\s*)(root|child)\s+"([^"]+)"/);
+			if (match) {
+				const labelText = match[3];
+				if (targetGlyphsetType === 'pictureProcess') {
+					newLines.push(
+						`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`
+					);
+					imageCounter++;
+				} else {
+					newLines.push(`  ${targetKeyword} "${labelText}"`);
+				}
+				continue;
+			}
+		}
+
+		if (trimmed.match(/^(theme|direction|columns|shape|showValues|layout|orientation)\s/)) {
+			newLines.push(line);
+			continue;
+		}
+
+		if (trimmed.startsWith('//')) {
+			newLines.push(line);
+			continue;
+		}
+
+		if (trimmed === '}') {
+			newLines.push(line);
+			continue;
+		}
+
+		newLines.push(line);
+	}
+
+	return {
+		success: true,
+		newCode: newLines.join('\n'),
+		warnings,
+		errors
+	};
+}
+
+/**
+ * Expand a flat list glyphset to circleHierarchy by designating first item as root
+ */
+export function expandToCircleHierarchy(code: string): ConversionResult {
+	const lines = code.split('\n');
+	const warnings: string[] = [];
+	const errors: string[] = [];
+	const newLines: string[] = [];
+	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
+
+	if (glyphsetLineIndex === -1) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: ['No glyphset declaration found']
+		};
+	}
+
+	const glyphsetLine = lines[glyphsetLineIndex];
+	const withNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s+"[^"]+"\s*\{.*)$/);
+	const withoutNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s*\{.*)$/);
+
+	if (withNameMatch) {
+		newLines.push(`${withNameMatch[1]}circleHierarchy${withNameMatch[2]}`);
+	} else if (withoutNameMatch) {
+		newLines.push(`${withoutNameMatch[1]}circleHierarchy${withoutNameMatch[2]}`);
+	} else {
+		newLines.push(glyphsetLine);
+	}
+
+	let hasItems = false;
+	let isFirstItem = true;
+	const itemLines: string[] = [];
+
+	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
+		const line = lines[i];
+		const trimmed = line.trim();
+
+		if (!trimmed) {
+			continue;
+		}
+
+		if (
+			trimmed.match(
+				/^(theme|direction|columns|shape|showValues|showPercentages|layout|orientation)\s/
+			)
+		) {
+			newLines.push(line);
+			continue;
+		}
+
+		if (trimmed.startsWith('//')) {
+			newLines.push(line);
+			continue;
+		}
+
+		if (trimmed.match(/^image\s+"[^"]+"\s+label\s+"[^"]+"/)) {
+			hasItems = true;
+			const labelMatch = line.match(/^\s*image\s+"[^"]+"\s+label\s+"([^"]+)"/);
+			if (labelMatch) {
+				if (isFirstItem) {
+					newLines.push(`  root "${labelMatch[1]}"`);
+					isFirstItem = false;
+				} else {
+					itemLines.push(`  child "${labelMatch[1]}"`);
+				}
+			}
+			continue;
+		}
+
+		if (
+			trimmed.match(
+				/^(item|step|level|stage|person|node|side|input|output|circle|quadrant|spoke|center|event|callout|root|child)\s+"[^"]+"/
+			)
+		) {
+			hasItems = true;
+			const match = line.match(
+				/^(\s*)(item|step|level|stage|person|node|side|input|output|circle|quadrant|spoke|center|event|callout|root|child)(\s+"[^"]+")/
+			);
+			if (match) {
+				if (isFirstItem) {
+					newLines.push(`  root${match[3]}`);
+					isFirstItem = false;
+				} else {
+					itemLines.push(`  child${match[3]}`);
+				}
+			}
+			continue;
+		}
+
+		if (trimmed === '}') {
+			newLines.push(...itemLines);
+			newLines.push(line);
+			break;
+		}
+	}
+
+	if (!hasItems) {
+		warnings.push('No items found to convert');
+	} else {
+		warnings.push('First item designated as root, remaining items converted to children');
+	}
+
+	return {
+		success: true,
+		newCode: newLines.join('\n'),
+		warnings,
+		errors
+	};
+}
+
+/**
+ * Flatten matrix glyphsets (segmentedMatrix, titledMatrix, matrix2x2, matrix3x3)
+ * These use flat item lists, so just need keyword conversion
  */
 export function flattenMatrix(code: string, targetGlyphsetType: string): ConversionResult {
 	const lines = code.split('\n');
@@ -596,14 +1440,14 @@ export function flattenMatrix(code: string, targetGlyphsetType: string): Convers
 		newLines.push(glyphsetLine);
 	}
 
-	// Process remaining lines - convert quadrant to target keyword
+	// Process remaining lines - convert item to target keyword
 	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
 		const line = lines[i];
 		const trimmed = line.trim();
 
-		// Convert quadrant to target keyword
-		if (trimmed.match(/^quadrant\s+"[^"]+"/)) {
-			const match = line.match(/^(\s*)quadrant(\s+"[^"]+")/);
+		// Convert item to target keyword
+		if (trimmed.match(/^item\s+"[^"]+"/)) {
+			const match = line.match(/^(\s*)item(\s+"[^"]+")/);
 			if (match) {
 				newLines.push(`${match[1]}${targetKeyword}${match[2]}`);
 				continue;
@@ -612,6 +1456,132 @@ export function flattenMatrix(code: string, targetGlyphsetType: string): Convers
 
 		// Keep everything else as-is
 		newLines.push(line);
+	}
+
+	return {
+		success: true,
+		newCode: newLines.join('\n'),
+		warnings,
+		errors
+	};
+}
+
+/**
+ * Expand to matrix glyphsets by converting items
+ * Handles matrix2x2 (4 items), matrix3x3 (9 items), segmentedMatrix, titledMatrix
+ * Warns if item count doesn't match matrix capacity
+ */
+export function expandToMatrix(code: string, targetMatrixType: string): ConversionResult {
+	const lines = code.split('\n');
+	const warnings: string[] = [];
+	const errors: string[] = [];
+	const newLines: string[] = [];
+
+	// Define matrix capacities
+	const matrixCapacity: Record<string, { max: number; keyword: string }> = {
+		matrix2x2: { max: 4, keyword: 'item' },
+		matrix3x3: { max: 9, keyword: 'item' },
+		segmentedMatrix: { max: Infinity, keyword: 'item' },
+		titledMatrix: { max: Infinity, keyword: 'item' }
+	};
+
+	const capacity = matrixCapacity[targetMatrixType];
+	if (!capacity) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: [`Unknown matrix type: ${targetMatrixType}`]
+		};
+	}
+
+	// Find the glyphset line
+	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
+
+	if (glyphsetLineIndex === -1) {
+		return {
+			success: false,
+			newCode: code,
+			warnings,
+			errors: ['No glyphset declaration found']
+		};
+	}
+
+	// Replace glyphset type
+	const glyphsetLine = lines[glyphsetLineIndex];
+	const withNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s+"[^"]+"\s*\{.*)$/);
+	const withoutNameMatch = glyphsetLine.match(/^(\s*glyphset\s+)\w+(\s*\{.*)$/);
+
+	if (withNameMatch) {
+		newLines.push(`${withNameMatch[1]}${targetMatrixType}${withNameMatch[2]}`);
+	} else if (withoutNameMatch) {
+		newLines.push(`${withoutNameMatch[1]}${targetMatrixType}${withoutNameMatch[2]}`);
+	} else {
+		newLines.push(glyphsetLine);
+	}
+
+	// Count items and convert keywords
+	let itemCount = 0;
+	const sourceKeywords = [
+		'item',
+		'step',
+		'level',
+		'stage',
+		'person',
+		'node',
+		'circle',
+		'event',
+		'spoke'
+	];
+
+	// Process remaining lines
+	for (let i = glyphsetLineIndex + 1; i < lines.length; i++) {
+		const line = lines[i];
+		const trimmed = line.trim();
+
+		// Skip non-item lines
+		if (
+			!trimmed ||
+			trimmed.startsWith('//') ||
+			trimmed === '}' ||
+			trimmed.match(/^(theme|direction|columns|shape|showValues|layout|orientation)\s/)
+		) {
+			newLines.push(line);
+			continue;
+		}
+
+		// Convert source keywords to target keyword
+		let converted = false;
+		for (const keyword of sourceKeywords) {
+			const match = line.match(new RegExp(`^(\\s*)${keyword}(\\s+"[^"]+")`));
+			if (match) {
+				itemCount++;
+				if (itemCount <= capacity.max) {
+					newLines.push(`${match[1]}${capacity.keyword}${match[2]}`);
+				}
+				// Skip items beyond capacity (data loss)
+				converted = true;
+				break;
+			}
+		}
+
+		if (!converted) {
+			newLines.push(line);
+		}
+	}
+
+	// Add warnings about data loss
+	if (itemCount > capacity.max) {
+		warnings.push(
+			`⚠️ Data loss: Found ${itemCount} items, but ${targetMatrixType} only supports ${capacity.max}. Extra items were removed.`
+		);
+	}
+
+	// Add info about item count
+	if (itemCount < capacity.max && capacity.max !== Infinity) {
+		warnings.push(
+			`ℹ️ Note: ${targetMatrixType} is designed for ${capacity.max} items. You currently have ${itemCount}.`
+		);
 	}
 
 	return {
@@ -632,7 +1602,7 @@ const KEYWORD_CONVERSIONS: Record<string, string> = {
 	stage: 'item',
 	person: 'item',
 	circle: 'item',
-	quadrant: 'item',
+	quadrant: 'item', // Legacy: old matrix types used 'quadrant'
 	image: 'item',
 	event: 'item',
 	spoke: 'item',
@@ -713,15 +1683,15 @@ export function areGlyphsetsCompatible(
 	}
 
 	// Block groupedProcess conversions (nested structure)
-	if (fromType === 'groupedProcess' || toType === 'groupedProcess') {
-		return {
-			compatible: false,
-			reason:
-				fromType === 'groupedProcess'
-					? 'Grouped Process uses nested group blocks that cannot be automatically flattened into a simple list.'
-					: 'Grouped Process requires nested group blocks. Simple item lists cannot be automatically grouped without context.'
-		};
-	}
+	// if (fromType === 'groupedProcess' || toType === 'groupedProcess') {
+	// 	return {
+	// 		compatible: false,
+	// 		reason:
+	// 			fromType === 'groupedProcess'
+	// 				? 'Grouped Process uses nested group blocks that cannot be automatically flattened into a simple list.'
+	// 				: 'Grouped Process requires nested group blocks. Simple item lists cannot be automatically grouped without context.'
+	// 	};
+	// }
 
 	// Block segmentedPyramid conversions (nested level structure)
 	if (fromType === 'segmentedPyramid' || toType === 'segmentedPyramid') {
@@ -734,7 +1704,7 @@ export function areGlyphsetsCompatible(
 		};
 	}
 
-	// Block matrix conversions (special quadrant structure)
+	// Block matrix conversions (special item-based structure)
 	if (
 		fromType === 'segmentedMatrix' ||
 		fromType === 'titledMatrix' ||
@@ -748,7 +1718,7 @@ export function areGlyphsetsCompatible(
 		return {
 			compatible: false,
 			reason:
-				'Matrix glyphsets use quadrant-based layouts that require specific item counts and positioning.'
+				'Matrix glyphsets use item-based layouts that require specific item counts and positioning.'
 		};
 	}
 
@@ -758,8 +1728,41 @@ export function areGlyphsetsCompatible(
 			compatible: false,
 			reason:
 				fromType === 'hub'
-					? 'Hub glyphset has a special radial structure (center + spokes) that cannot be converted to sequential layouts.'
-					: 'Hub glyphset requires a center item and spoke items. This radial structure cannot be automatically created.'
+					? 'Hub glyphset has a special radial structure (center + spokes) that can be flattened into a simple list.'
+					: 'Hub glyphset requires a center item and spoke items. Simple item lists can be converted (first item becomes center).'
+		};
+	}
+
+	// Block labeledHierarchy conversions (root + child with edge labels)
+	if (fromType === 'labeledHierarchy' || toType === 'labeledHierarchy') {
+		return {
+			compatible: false,
+			reason:
+				fromType === 'labeledHierarchy'
+					? 'Labeled Hierarchy uses root and child elements with edge labels that need to be removed for conversion.'
+					: 'Labeled Hierarchy requires root/child structure with edge labels. This structure cannot be automatically inferred.'
+		};
+	}
+
+	// Block tableHierarchy conversions (level with category tags)
+	if (fromType === 'tableHierarchy' || toType === 'tableHierarchy') {
+		return {
+			compatible: false,
+			reason:
+				fromType === 'tableHierarchy'
+					? 'Table Hierarchy uses levels with category tags (e.g., BusinessLogic, DataAccess) that need to be removed for conversion.'
+					: 'Table Hierarchy requires levels with category tags. This structure cannot be automatically inferred.'
+		};
+	}
+
+	// Block circleHierarchy conversions (root + child structure)
+	if (fromType === 'circleHierarchy' || toType === 'circleHierarchy') {
+		return {
+			compatible: false,
+			reason:
+				fromType === 'circleHierarchy'
+					? 'Circle Hierarchy uses a root and child structure that can be flattened into a simple list.'
+					: 'Circle Hierarchy requires a root item and child items. Simple item lists can be converted (first item becomes root).'
 		};
 	}
 
@@ -816,18 +1819,70 @@ export function convertGlyphset(code: string, newGlyphsetType: string): Conversi
 
 	const oldType = oldTypeMatch[1];
 
+	// Delegate to specialized conversion functions for structural glyphsets
+	const matrixTypes = ['matrix2x2', 'matrix3x3', 'segmentedMatrix', 'titledMatrix'];
+	
+	// Expanding TO structural glyphsets requires specialized logic
+	if (newGlyphsetType === 'groupedProcess') {
+		return expandToGroupedProcess(code);
+	}
+	if (newGlyphsetType === 'segmentedPyramid') {
+		return expandToSegmentedPyramid(code);
+	}
+	if (newGlyphsetType === 'hub') {
+		return expandToHub(code);
+	}
+	if (newGlyphsetType === 'circleHierarchy') {
+		return expandToCircleHierarchy(code);
+	}
+	if (matrixTypes.includes(newGlyphsetType)) {
+		return expandToMatrix(code, newGlyphsetType);
+	}
+	
+	// Flattening FROM structural glyphsets
+	if (oldType === 'groupedProcess') {
+		return flattenGroupedProcess(code, newGlyphsetType);
+	}
+	if (oldType === 'segmentedPyramid') {
+		return flattenSegmentedPyramid(code, newGlyphsetType);
+	}
+	if (oldType === 'hub') {
+		return flattenHub(code, newGlyphsetType);
+	}
+	if (oldType === 'labeledHierarchy') {
+		return flattenLabeledHierarchy(code, newGlyphsetType);
+	}
+	if (oldType === 'tableHierarchy') {
+		return flattenTableHierarchy(code, newGlyphsetType);
+	}
+	if (oldType === 'circleHierarchy') {
+		return flattenCircleHierarchy(code, newGlyphsetType);
+	}
+	if (matrixTypes.includes(oldType)) {
+		return flattenMatrix(code, newGlyphsetType);
+	}
+
 	// Check compatibility
 	const compatibility = areGlyphsetsCompatible(oldType, newGlyphsetType);
 	if (!compatibility.compatible) {
 		const alternatives = getCompatibleAlternatives(oldType, newGlyphsetType);
 		// Can convert if:
 		// - flattening FROM groupedProcess OR expanding TO groupedProcess
-		// - flattening FROM segmentedPyramid
+		// - flattening FROM segmentedPyramid OR expanding TO segmentedPyramid
 		// - flattening FROM/TO matrix types
+		// - flattening FROM/TO hub
+		// - flattening FROM labeledHierarchy or tableHierarchy or circleHierarchy
 		const canConvert =
 			oldType === 'groupedProcess' ||
 			newGlyphsetType === 'groupedProcess' ||
 			oldType === 'segmentedPyramid' ||
+			newGlyphsetType === 'segmentedPyramid' ||
+			oldType === 'hub' ||
+			newGlyphsetType === 'hub' ||
+			oldType === 'labeledHierarchy' ||
+			oldType === 'tableHierarchy' ||
+			oldType === 'circleHierarchy' ||
+			newGlyphsetType === 'circleHierarchy' ||
 			['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(oldType) ||
 			['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(newGlyphsetType);
 		return {
@@ -888,28 +1943,59 @@ export function convertGlyphset(code: string, newGlyphsetType: string): Conversi
 
 		// Special handling for converting TO pictureProcess (do this FIRST before other conversions)
 		if (newGlyphsetType === 'pictureProcess') {
-			// Check if line has any item keyword
+			// Skip if already in image format
+			if (line.includes('image ') && line.includes('label ')) {
+				continue;
+			}
+
 			let labelText = '';
 			let indent = '';
 
-			// Try to extract label from various formats
-			if (line.match(/^\s*(item|step|level|stage|person|node|side|input|output)\s+"([^"]+)"/)) {
-				const match = line.match(
-					/^(\s*)(item|step|level|stage|person|node|side|input|output)\s+"([^"]+)"/
-				);
-				if (match) {
-					indent = match[1];
-					labelText = match[3];
-					// If coming from detailedProcess, extract just the main step
-					if (oldType === 'detailedProcess' && labelText.includes(' | ')) {
-						labelText = labelText.split(' | ')[0].trim();
-					}
-					// Convert to pictureProcess format
-					lines[i] =
-						`${indent}image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`;
-					imageCounter++;
-					continue;
+			// Try to extract label from various keyword formats (expanded list)
+			const itemMatch = line.match(
+				/^(\s*)(item|step|level|stage|person|node|side|input|output|circle|quadrant|spoke|center|event|callout)\s+"([^"]+)"/
+			);
+
+			if (itemMatch) {
+				indent = itemMatch[1];
+				labelText = itemMatch[3];
+				// If coming from detailedProcess, extract just the main step
+				if (oldType === 'detailedProcess' && labelText.includes(' | ')) {
+					labelText = labelText.split(' | ')[0].trim();
 				}
+				// Convert to pictureProcess format
+				lines[i] =
+					`${indent}image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`;
+				imageCounter++;
+				continue;
+			}
+		}
+
+		// Special handling for converting TO pictureCallout or other picture types
+		if (
+			['pictureCallout', 'pictureList', 'horizontalPictureList', 'stackedPictureList'].includes(
+				newGlyphsetType
+			)
+		) {
+			// If source is pictureProcess, preserve image format but change keyword
+			if (line.includes('image ') && line.includes('label ')) {
+				// Already in image format, keep as-is since target also uses 'image'
+				continue;
+			}
+
+			// Convert other keywords to image format
+			let labelText = '';
+			let indent = '';
+			const itemMatch = line.match(
+				/^(\s*)(item|step|level|stage|person|node|side|input|output|circle|quadrant|spoke|center|event|callout)\s+"([^"]+)"/
+			);
+			if (itemMatch) {
+				indent = itemMatch[1];
+				labelText = itemMatch[3];
+				lines[i] =
+					`${indent}image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`;
+				imageCounter++;
+				continue;
 			}
 		}
 
