@@ -117,7 +117,7 @@
 										onclick={() => handleShapeClick(shape.code)}
 										class="flex flex-col items-center gap-1 rounded border border-neutral-200 p-2 hover:border-runiq-500 hover:bg-runiq-50 active:scale-95"
 									>
-										<ShapeIcon shapeId={shape.id} size={24} />
+										<ShapeIcon shapeId={shape.id} size={24} profileName={editorState.profileName} />
 									</Tooltip.Trigger>
 									<Tooltip.Content side="bottom" class="max-w-xs">
 										<p class="text-xs">{shape.label}</p>

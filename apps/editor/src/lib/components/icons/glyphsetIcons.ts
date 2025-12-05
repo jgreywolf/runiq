@@ -146,9 +146,11 @@ export function isGlyphsetShape(shapeId: string): boolean {
  */
 export function getGlyphsetShapeIcon(shapeId: string, size: number): string | null {
 	const icon = glyphsetShapeIcons[shapeId];
-	if (!icon) return null;
+	if (!icon) {
+		return null;
+	}
 
-	return `
+	const svgResult = `
 		<svg 
 			width="${size}" 
 			height="${size}" 
@@ -159,4 +161,6 @@ export function getGlyphsetShapeIcon(shapeId: string, size: number): string | nu
 			${icon}
 		</svg>
 	`;
+
+	return svgResult;
 }
