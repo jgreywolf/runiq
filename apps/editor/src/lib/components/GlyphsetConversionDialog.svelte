@@ -2,21 +2,7 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
 	import Icon from '@iconify/svelte';
-	import {
-		flattenGroupedProcess,
-		expandToGroupedProcess,
-		flattenSegmentedPyramid,
-		expandToSegmentedPyramid,
-		flattenHub,
-		expandToHub,
-		flattenLabeledHierarchy,
-		flattenTableHierarchy,
-		flattenCircleHierarchy,
-		expandToCircleHierarchy,
-		flattenMatrix,
-		expandToMatrix,
-		convertGlyphset
-	} from '$lib/utils/glyphsetConversion';
+	import { convertGlyphset, routeConversion } from '$lib/utils/glyphsetConversion';
 	import { editorState, updateCode } from '$lib/state/editorState.svelte';
 
 	interface Props {
@@ -59,59 +45,9 @@
 	// Handle convert with transform
 	function handleConvertWithTransform() {
 		const code = editorState.code;
-		let result;
 
-		// Flatten if converting FROM groupedProcess
-		if (fromType === 'groupedProcess') {
-			result = flattenGroupedProcess(code, toType);
-		}
-		// Flatten if converting FROM segmentedPyramid
-		else if (fromType === 'segmentedPyramid') {
-			result = flattenSegmentedPyramid(code, toType);
-		}
-		// Expand if converting TO segmentedPyramid
-		else if (toType === 'segmentedPyramid') {
-			result = expandToSegmentedPyramid(code);
-		}
-		// Flatten if converting FROM hub
-		else if (fromType === 'hub') {
-			result = flattenHub(code, toType);
-		}
-		// Expand if converting TO hub
-		else if (toType === 'hub') {
-			result = expandToHub(code);
-		}
-		// Flatten if converting FROM labeledHierarchy
-		else if (fromType === 'labeledHierarchy') {
-			result = flattenLabeledHierarchy(code, toType);
-		}
-		// Flatten if converting FROM tableHierarchy
-		else if (fromType === 'tableHierarchy') {
-			result = flattenTableHierarchy(code, toType);
-		}
-		// Flatten if converting FROM circleHierarchy
-		else if (fromType === 'circleHierarchy') {
-			result = flattenCircleHierarchy(code, toType);
-		}
-		// Expand if converting TO circleHierarchy
-		else if (toType === 'circleHierarchy') {
-			result = expandToCircleHierarchy(code);
-		}
-		// Handle matrix conversions
-		else if (['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(fromType)) {
-			// Flatten FROM matrix types
-			result = flattenMatrix(code, toType);
-		} else if (['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(toType)) {
-			// Expand TO matrix types
-			result = expandToMatrix(code, toType);
-		}
-		// Expand if converting TO groupedProcess
-		else if (toType === 'groupedProcess') {
-			result = expandToGroupedProcess(code);
-		} else {
-			// Fallback to regular conversion
-			result = convertGlyphset(code, toType);
-		}
+		// Use centralized routing logic
+		const result = routeConversion(code, fromType, toType) || convertGlyphset(code, toType);
 
 		if (!result.success) {
 			const errorMsg = result.errors.join('\n');

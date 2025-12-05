@@ -11,21 +11,7 @@ import { HistoryManager } from '../utils/historyManager.svelte';
 import { getTemplate } from '$lib/data/diagram-templates';
 import { exportAsSvg, exportAsPng } from '../utils/diagramExport';
 import * as DSL from '../utils/dslCodeManipulation';
-import {
-	convertGlyphset,
-	flattenGroupedProcess,
-	expandToGroupedProcess,
-	flattenMatrix,
-	expandToMatrix,
-	flattenSegmentedPyramid,
-	expandToSegmentedPyramid,
-	flattenHub,
-	expandToHub,
-	flattenLabeledHierarchy,
-	flattenTableHierarchy,
-	flattenCircleHierarchy,
-	expandToCircleHierarchy
-} from '../utils/glyphsetConversion';
+import { convertGlyphset, routeConversion } from '../utils/glyphsetConversion';
 import { openGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
 
 // Type definitions
@@ -289,61 +275,11 @@ export function handleReplaceGlyphset(newGlyphsetType: string) {
  */
 export function handleConvertWithTransform(fromType: string, targetGlyphsetType: string) {
 	const code = editorState.code;
-	let result;
 
-	const matrixTypes = ['matrix2x2', 'matrix3x3', 'segmentedMatrix', 'titledMatrix'];
-
-	// Flatten if converting FROM groupedProcess
-	if (fromType === 'groupedProcess') {
-		result = flattenGroupedProcess(code, targetGlyphsetType);
-	}
-	// Expand if converting TO groupedProcess
-	else if (targetGlyphsetType === 'groupedProcess') {
-		result = expandToGroupedProcess(code);
-	}
-	// Flatten if converting FROM matrix types
-	else if (matrixTypes.includes(fromType) && !matrixTypes.includes(targetGlyphsetType)) {
-		result = flattenMatrix(code, targetGlyphsetType);
-	}
-	// Expand if converting TO matrix types
-	else if (!matrixTypes.includes(fromType) && matrixTypes.includes(targetGlyphsetType)) {
-		result = expandToMatrix(code, targetGlyphsetType);
-	}
-	// Flatten if converting FROM segmentedPyramid
-	else if (fromType === 'segmentedPyramid') {
-		result = flattenSegmentedPyramid(code, targetGlyphsetType);
-	}
-	// Expand if converting TO segmentedPyramid
-	else if (targetGlyphsetType === 'segmentedPyramid') {
-		result = expandToSegmentedPyramid(code);
-	}
-	// Flatten if converting FROM hub
-	else if (fromType === 'hub') {
-		result = flattenHub(code, targetGlyphsetType);
-	}
-	// Expand if converting TO hub
-	else if (targetGlyphsetType === 'hub') {
-		result = expandToHub(code);
-	}
-	// Flatten if converting FROM labeledHierarchy
-	else if (fromType === 'labeledHierarchy') {
-		result = flattenLabeledHierarchy(code, targetGlyphsetType);
-	}
-	// Flatten if converting FROM tableHierarchy
-	else if (fromType === 'tableHierarchy') {
-		result = flattenTableHierarchy(code, targetGlyphsetType);
-	}
-	// Flatten if converting FROM circleHierarchy
-	else if (fromType === 'circleHierarchy') {
-		result = flattenCircleHierarchy(code, targetGlyphsetType);
-	}
-	// Expand if converting TO circleHierarchy
-	else if (targetGlyphsetType === 'circleHierarchy') {
-		result = expandToCircleHierarchy(code);
-	} else {
-		// Fallback to regular conversion
-		result = convertGlyphset(code, targetGlyphsetType);
-	}
+	// Use centralized routing logic
+	const result =
+		routeConversion(code, fromType, targetGlyphsetType) ||
+		convertGlyphset(code, targetGlyphsetType);
 
 	if (!result.success) {
 		const errorMsg = result.errors.join('\n');

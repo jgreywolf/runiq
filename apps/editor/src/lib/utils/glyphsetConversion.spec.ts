@@ -70,10 +70,9 @@ describe('glyphsetConversion', () => {
 
 			const result2 = areGlyphsetsCompatible('basicProcess', 'hub');
 			expect(result2.compatible).toBe(false);
-			expect(result2.reason).toContain('radial structure');
+			expect(result2.reason).toContain('center item and spoke items');
 		});
 	});
-
 	describe('getCompatibleAlternatives', () => {
 		it('should suggest alternatives for groupedProcess', () => {
 			const alternatives = getCompatibleAlternatives('groupedProcess', 'funnel');
@@ -156,7 +155,7 @@ describe('glyphsetConversion', () => {
 			expect(result.newCode).toContain('direction "up"');
 		});
 
-		it('should block conversion to matrix2x2', () => {
+		it('should successfully convert to matrix2x2 with warnings', () => {
 			const code = `glyphset basicList "Test" {
   item "A"
   item "B"
@@ -164,9 +163,10 @@ describe('glyphsetConversion', () => {
 }`;
 			const result = convertGlyphset(code, 'matrix2x2');
 
-			expect(result.success).toBe(false);
-			expect(result.incompatible).toBe(true);
-			expect(result.canConvert).toBe(true);
+			expect(result.success).toBe(true);
+			expect(result.newCode).toContain('glyphset matrix2x2');
+			expect(result.warnings?.length).toBeGreaterThan(0);
+			expect(result.warnings?.some((w) => w.includes('designed for 4 items'))).toBe(true);
 		});
 
 		it('should warn about item count for balance', () => {
@@ -352,7 +352,7 @@ describe('glyphsetConversion', () => {
 			expect(result.newCode).toContain('item "Build | "');
 		});
 
-		it('should return incompatible flag for groupedProcess conversions', () => {
+		it('should successfully convert groupedProcess via specialized function', () => {
 			const code = `glyphset groupedProcess "Test" {
   group "Team A" {
     item "Task 1"
@@ -361,23 +361,25 @@ describe('glyphsetConversion', () => {
 }`;
 			const result = convertGlyphset(code, 'basicProcess');
 
-			expect(result.success).toBe(false);
-			expect(result.incompatible).toBe(true);
-			expect(result.canConvert).toBe(true);
-			expect(result.alternatives).toBeDefined();
-			expect(result.alternatives!.length).toBeGreaterThan(0);
+			expect(result.success).toBe(true);
+			expect(result.newCode).toContain('glyphset basicProcess');
+			expect(result.newCode).toContain('item "Task 1"');
+			expect(result.newCode).not.toContain('group');
+			expect(result.newCode).not.toContain('mergePoint');
 		});
 
-		it('should return incompatible flag for hub conversions', () => {
+		it('should successfully convert hub via specialized function', () => {
 			const code = `glyphset hub "Test" {
   center "Core"
   spoke "Branch 1"
 }`;
 			const result = convertGlyphset(code, 'basicProcess');
 
-			expect(result.success).toBe(false);
-			expect(result.incompatible).toBe(true);
-			expect(result.alternatives).toBeDefined();
+			expect(result.success).toBe(true);
+			expect(result.newCode).toContain('glyphset basicProcess');
+			expect(result.newCode).toContain('item "Core"');
+			expect(result.newCode).toContain('item "Branch 1"');
+			expect(result.warnings).toBeDefined();
 		});
 	});
 
