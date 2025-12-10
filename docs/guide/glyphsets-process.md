@@ -16,7 +16,7 @@ Simple linear process flow with horizontal or vertical orientation.
 
 **Parameters:**
 
-- `step` (array, 2-10 items) - Process steps
+- `item` (array, 2-10 items) - Process steps
 - `orientation` - "horizontal" (default) or "vertical"
 - `theme` - Color theme
 - `useContainers` - Use container styling (default: false)
@@ -25,11 +25,11 @@ Simple linear process flow with horizontal or vertical orientation.
 
 ```runiq
 glyphset basicProcess "Software Release Process" {
-  step "Development"
-  step "Code Review"
-  step "Testing"
-  step "Staging"
-  step "Production"
+  item "Development"
+  item "Code Review"
+  item "Testing"
+  item "Staging"
+  item "Production"
 
   orientation "horizontal"
   theme professional

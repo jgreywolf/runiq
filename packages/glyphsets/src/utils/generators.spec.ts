@@ -33,7 +33,7 @@ describe('Generator Utilities', () => {
       });
 
       expect(result.nodes[0].shape).toBe('rounded');
-      expect(result.nodes[0].data?.color).toBeDefined();
+      expect(result.nodes[0].data?.fillColor).toBeDefined();
     });
 
     it('should use custom direction', () => {

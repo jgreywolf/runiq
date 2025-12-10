@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { EditorView, basicSetup } from 'codemirror';
-	import { EditorState, Compartment } from '@codemirror/state';
+	import { EditorState, Compartment, Transaction, Annotation } from '@codemirror/state';
+
+	// Custom annotation to mark programmatic changes
+	const ProgrammaticChange = Annotation.define<boolean>();
 	import { javascript } from '@codemirror/lang-javascript';
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic, Action } from '@codemirror/lint';
@@ -9,23 +12,19 @@
 	import { createRuniqServices } from '@runiq/parser-dsl';
 	import { EmptyFileSystem, URI } from 'langium';
 	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
+	import { handleCodeChange, handleEditorErrors } from '$lib/state/editorState.svelte';
 
 	// Props
 	interface Props {
 		value?: string;
-		onchange?: (value: string) => void;
-		onerror?: (errors: string[]) => void;
 		readonly?: boolean;
 	}
 
-	let { value = '', onchange, onerror, readonly = false }: Props = $props();
+	let { value = '', readonly = false }: Props = $props();
 
 	let editorContainer: HTMLDivElement;
 	let editorView: EditorView | null = null;
 	let editorTheme = new Compartment();
-
-	// Default blank diagram
-	const defaultCode = `diagram "My Diagram" {\n  // Add your shapes and connections here\n}`;
 
 	// Initialize Langium services for validation
 	const allServices = createRuniqServices(EmptyFileSystem);
@@ -276,7 +275,7 @@
 
 	onMount(() => {
 		const startState = EditorState.create({
-			doc: value || defaultCode,
+			doc: value || '',
 			extensions: [
 				basicSetup,
 				javascript(), // Temporary - will create custom Runiq language later
@@ -285,19 +284,19 @@
 				autocompletion({ override: [runiqCompletions] }),
 				editorTheme.of(runiqTheme),
 				EditorView.updateListener.of((update) => {
-					if (update.docChanged && onchange) {
+					if (update.docChanged) {
 						const newValue = update.state.doc.toString();
-						onchange(newValue);
+						const isProgrammatic = update.transactions.some((tr: any) =>
+							tr.annotation(ProgrammaticChange)
+						);
+						handleCodeChange(newValue, !isProgrammatic);
 
-						// Extract errors asynchronously
-						if (onerror) {
-							runiqLinter(update.view).then((diagnostics) => {
-								const errors = diagnostics
-									.filter((d) => d.severity === 'error')
-									.map((d) => d.message);
-								onerror(errors);
-							});
-						}
+						runiqLinter(update.view).then((diagnostics) => {
+							const errors = diagnostics
+								.filter((d) => d.severity === 'error')
+								.map((d) => d.message);
+							handleEditorErrors(errors);
+						});
 					}
 				}),
 				EditorView.editable.of(!readonly)
@@ -309,7 +308,6 @@
 			parent: editorContainer
 		});
 	});
-
 	onDestroy(() => {
 		if (editorView) {
 			editorView.destroy();
@@ -330,7 +328,8 @@
 					from: 0,
 					to: editorView.state.doc.length,
 					insert: newValue
-				}
+				},
+				annotations: [Transaction.addToHistory.of(false), ProgrammaticChange.of(true)]
 			});
 
 			// Position cursor at the end of the "Add your shapes" comment line

@@ -1,19 +1,21 @@
 <script lang="ts">
-	import Icon from '@iconify/svelte';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Tooltip from '$lib/components/ui/tooltip';
+	import { getShapeCategoryByProfile } from '$lib/data/toolbox-data';
+	import {
+		editorState,
+		handleInsertShape,
+		handleReplaceGlyphset
+	} from '$lib/state/editorState.svelte';
+	import { ProfileName } from '$lib/types';
+	import Icon from '@iconify/svelte';
 	import ShapeIcon from './ShapeIcon.svelte';
-	import type { ShapeCategory } from '$lib/data/toolbox-data';
 
-	interface Props {
-		categories: ShapeCategory[];
-		onInsertShape: (shapeCode: string) => void;
-	}
-
-	let { categories, onInsertShape }: Props = $props();
+	const categories = $derived(
+		editorState.profileName ? getShapeCategoryByProfile(editorState.profileName) : []
+	);
 
 	let searchQuery = $state('');
-	let shapeCounter = $state(1);
 	let expandedCategories = $state<string[]>([]);
 
 	// Filter shapes based on search query
@@ -44,147 +46,80 @@
 		}
 	});
 
-	function insertShape(shapeCode: string) {
-		// Replace placeholder ID with unique ID
-		const uniqueCode = shapeCode.replace('id', `id${shapeCounter}`);
-		shapeCounter++;
-		onInsertShape(uniqueCode);
-	}
-
-	function clearSearch() {
-		searchQuery = '';
-	}
-
-	function expandAll() {
-		expandedCategories = categories.map((cat) => cat.id);
-	}
-
-	function collapseAll() {
-		expandedCategories = [];
-	}
-
-	// Drag-and-drop handlers
-	function handleDragStart(event: DragEvent, shapeCode: string) {
-		if (event.dataTransfer) {
-			event.dataTransfer.effectAllowed = 'copy';
-			event.dataTransfer.setData('application/x-runiq-shape', shapeCode);
-			event.dataTransfer.setData('text/plain', shapeCode);
+	// Handle shape click based on profile type
+	function handleShapeClick(shapeCode: string) {
+		if (editorState.profileName === ProfileName.glyphset) {
+			handleReplaceGlyphset(shapeCode);
+		} else {
+			handleInsertShape(shapeCode);
 		}
 	}
+
+	// Determine search placeholder text
+	const itemLabelPlural = $derived(
+		editorState.profileName === ProfileName.glyphset ? 'glyphsets' : 'shapes'
+	);
 </script>
 
 <div class="flex h-full flex-col">
-	<!-- Search Bar -->
-	<div class="border-b border-neutral-200 bg-white p-3">
+	<!-- Search bar -->
+	<div class="border-b border-neutral-200 p-3">
 		<div class="relative">
-			<Icon
-				icon="lucide:search"
-				width="16"
-				height="16"
-				class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400"
-			/>
+			<Icon icon="material-symbols:search" class="absolute top-2.5 left-3 h-4 w-4 text-gray-500" />
 			<input
 				type="text"
-				bind:value={searchQuery}
 				placeholder="Search shapes..."
-				class="w-full rounded-md border border-neutral-300 py-2 pr-9 pl-10 text-sm transition-colors focus:border-runiq-400 focus:ring-2 focus:ring-runiq-200 focus:outline-none"
+				bind:value={searchQuery}
+				class="w-full rounded-md border border-neutral-300 py-2 pr-3 pl-9 text-sm ring-runiq-500 outline-none focus:border-runiq-500 focus:ring-1"
 			/>
-			{#if searchQuery}
-				<button
-					onclick={clearSearch}
-					class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
-					aria-label="Clear search"
-				>
-					<Icon icon="lucide:x" width="16" height="16" />
-				</button>
-			{/if}
 		</div>
-
-		<!-- Search Stats & Controls -->
-		<div class="mt-2 flex items-center justify-between text-xs text-neutral-500">
-			<span>
-				{#if searchQuery}
-					{totalShapes} result{totalShapes !== 1 ? 's' : ''} found
-				{:else}
-					{categories.length} categories, {categories.reduce(
-						(sum, cat) => sum + cat.shapes.length,
-						0
-					)}
-					shapes
-				{/if}
-			</span>
-			{#if !searchQuery}
-				<div class="flex gap-2">
-					<button onclick={expandAll} class="text-runiq-600 hover:text-runiq-700 hover:underline">
-						Expand All
-					</button>
-					<span>|</span>
-					<button onclick={collapseAll} class="text-runiq-600 hover:text-runiq-700 hover:underline">
-						Collapse All
-					</button>
-				</div>
-			{/if}
-		</div>
+		{#if searchQuery.trim()}
+			<div class="mt-2 text-xs text-gray-500">
+				{totalShapes}
+				{totalShapes === 1 ? 'shape' : 'shapes'} found
+			</div>
+		{/if}
 	</div>
 
-	<!-- Shape Categories -->
+	<!-- Shape categories -->
 	<div class="flex-1 overflow-y-auto">
+		<Accordion.Root type="multiple" bind:value={expandedCategories} class="w-full px-2">
+			{#each filteredCategories as category (category.id)}
+				<Accordion.Item value={category.id} class="border-none">
+					<Accordion.Trigger
+						class="flex w-full items-center justify-between rounded px-2 py-2 text-sm font-medium hover:bg-neutral-100"
+					>
+						<span>{category.label}</span>
+						<span class="text-xs text-gray-500">({category.shapes.length})</span>
+					</Accordion.Trigger>
+					<Accordion.Content class="pb-2">
+						<div
+							class="grid grid-cols-[repeat(auto-fit,minmax(60px,1fr))] gap-2 px-2"
+							style="grid-template-columns: repeat(auto-fit, minmax(60px, calc(25% - 0.5rem))); max-width: 100%;"
+						>
+							{#each category.shapes as shape (`${editorState.profileName}-${shape.id}`)}
+								<Tooltip.Root>
+									<Tooltip.Trigger
+										onclick={() => handleShapeClick(shape.code)}
+										class="flex flex-col items-center gap-1 rounded border border-neutral-200 p-2 hover:border-runiq-500 hover:bg-runiq-50 active:scale-95"
+									>
+										<ShapeIcon shapeId={shape.id} size={24} profileName={editorState.profileName} />
+									</Tooltip.Trigger>
+									<Tooltip.Content side="bottom" class="max-w-xs">
+										<p class="text-xs">{shape.label}</p>
+									</Tooltip.Content>
+								</Tooltip.Root>
+							{/each}
+						</div>
+					</Accordion.Content>
+				</Accordion.Item>
+			{/each}
+		</Accordion.Root>
+
 		{#if filteredCategories.length === 0}
-			<div class="flex flex-col items-center justify-center p-8 text-center">
-				<Icon icon="lucide:search" width="48" height="48" class="mb-3 text-neutral-300" />
-				<p class="text-sm font-medium text-neutral-700">No shapes found</p>
-				<p class="mt-1 text-xs text-neutral-500">Try a different search term</p>
+			<div class="px-4 py-8 text-center text-sm text-gray-500">
+				No {itemLabelPlural} found for "{searchQuery}"
 			</div>
-		{:else}
-			<Accordion.Root type="multiple" bind:value={expandedCategories} class="w-full">
-				{#each filteredCategories as category (category.id)}
-					<Accordion.Item value={category.id}>
-						<Accordion.Trigger class="px-4 py-2 text-sm font-medium hover:bg-neutral-50">
-							<span class="flex items-center gap-2">
-								{category.label}
-								<span class="rounded-full bg-neutral-200 px-2 py-0.5 text-xs text-neutral-600">
-									{category.shapes.length}
-								</span>
-							</span>
-						</Accordion.Trigger>
-						<Accordion.Content>
-							<div class="grid grid-cols-4 gap-1 p-2">
-								{#each category.shapes as shape (shape.id)}
-									<Tooltip.Root>
-										<Tooltip.Trigger
-											draggable="true"
-											ondragstart={(e) => handleDragStart(e, shape.code)}
-											class="group flex h-12 w-full cursor-grab flex-col items-center justify-center gap-0.5 rounded-md border border-transparent p-1 transition-all hover:border-runiq-300 hover:bg-runiq-50 hover:shadow-sm active:scale-95 active:cursor-grabbing"
-											onclick={() => insertShape(shape.code)}
-										>
-											<ShapeIcon shapeId={shape.id} size={24} />
-											<span
-												class="line-clamp-1 max-w-full text-[10px] text-neutral-500 group-hover:text-runiq-700"
-											>
-												{shape.id}
-											</span>
-										</Tooltip.Trigger>
-										<Tooltip.Content
-											side="right"
-											class="max-w-xs border border-neutral-300 bg-white text-neutral-900 shadow-lg"
-											sideOffset={8}
-											arrowClasses="bg-white border-l border-t border-neutral-300"
-										>
-											<div class="space-y-1">
-												<p class="text-xs font-semibold">{shape.label}</p>
-												<p class="font-mono text-xs text-neutral-500">@{shape.id}</p>
-												<p class="text-xs text-neutral-400 italic">
-													Click to insert or drag to canvas
-												</p>
-											</div>
-										</Tooltip.Content>
-									</Tooltip.Root>
-								{/each}
-							</div>
-						</Accordion.Content>
-					</Accordion.Item>
-				{/each}
-			</Accordion.Root>
 		{/if}
 	</div>
 </div>

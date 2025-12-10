@@ -11,11 +11,11 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				code: `glyphset basicProcess "Product Launch" {
   theme "vibrant"
   orientation "horizontal"
-  step "Ideation"
-  step "Design"
-  step "Development"
-  step "Testing"
-  step "Launch"
+  item "Ideation"
+  item "Design"
+  item "Development"
+  item "Testing"
+  item "Launch"
 }`
 			},
 			{
@@ -502,8 +502,8 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 				description: 'Two-sided balance',
 				code: `glyphset balance "Cost vs Benefit" {
   theme "cool"
-  side "Implementation Costs"
-  side "Long-term Benefits"
+  item"Implementation Costs"
+  item"Long-term Benefits"
     leftWeight 1
   rightWeight 3  // tilts toward this side
 }`
@@ -569,10 +569,10 @@ export const glyphsetSampleDiagrams: SampleCategory[] = [
 			{
 				name: 'Counterbalance',
 				description: 'Balance scale comparison',
-				code: `glyphset counterbalance "Cost vs Value" {
+				code: `glyphset counterBalance "Cost vs Value" {
   theme "cool"
-  side "Low Cost"
-  side "High Value"
+  item "Low Cost"
+  item "High Value"
 }`
 			},
 			{

@@ -6,16 +6,15 @@
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic } from '@codemirror/lint';
 	import Icon from '@iconify/svelte';
+	import { handleCodeChange, handleEditorErrors } from '$lib/state/editorState.svelte';
 
 	// Props
 	interface Props {
 		value?: string;
-		onchange?: (value: string) => void;
-		onerror?: (errors: string[]) => void;
 		readonly?: boolean;
 	}
 
-	let { value = '', onchange, onerror, readonly = false }: Props = $props();
+	let { value = '', readonly = false }: Props = $props();
 
 	let editorContainer: HTMLDivElement;
 	let editorView: EditorView | null = null;
@@ -97,18 +96,12 @@
 				EditorView.updateListener.of((update) => {
 					if (update.docChanged) {
 						const newValue = update.state.doc.toString();
-						if (onchange) {
-							onchange(newValue);
-						}
+						handleCodeChange(newValue);
 
 						// Extract errors
-						if (onerror) {
-							const diagnostics = dataFormatLinter(update.view);
-							const errors = diagnostics
-								.filter((d) => d.severity === 'error')
-								.map((d) => d.message);
-							onerror(errors);
-						}
+						const diagnostics = dataFormatLinter(update.view);
+						const errors = diagnostics.filter((d) => d.severity === 'error').map((d) => d.message);
+						handleEditorErrors(errors);
 					}
 				}),
 				EditorView.editable.of(!readonly),
@@ -180,14 +173,14 @@
 				try {
 					JSON.parse(content);
 					setValue(content);
-					if (onchange) onchange(content);
+					handleCodeChange(content);
 				} catch (err: any) {
 					alert(`Invalid JSON file: ${err.message}`);
 				}
 			} else {
 				// CSV - just load it
 				setValue(content);
-				if (onchange) onchange(content);
+				handleCodeChange(content);
 			}
 
 			target.value = ''; // Reset input for next upload

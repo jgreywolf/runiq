@@ -1,6 +1,6 @@
 import type { NodeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
+import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**
  * Balance (Scale) GlyphSet
@@ -18,8 +18,8 @@ import { getThemeColor, type ColorTheme } from '../themes.js';
  * @example
  * ```runiq
  * glyphset balance "Decision Analysis" {
- *   side "Pros"
- *   side "Cons"
+ *   item"Pros"
+ *   item"Cons"
  * }
  * ```
  */

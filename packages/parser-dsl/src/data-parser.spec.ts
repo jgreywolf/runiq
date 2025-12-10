@@ -234,7 +234,7 @@ describe('Data Property Parser', () => {
 
       const result = parse(dsl);
       expect(result.success).toBe(true);
-      expect(result.diagram?.nodes[0].data).toBeUndefined();
+      expect(result.diagram?.nodes[0].data).toEqual({});
     });
 
     it('should handle mixed nodes with and without data', () => {
@@ -249,7 +249,7 @@ describe('Data Property Parser', () => {
       const result = parse(dsl);
       expect(result.success).toBe(true);
       expect(result.diagram?.nodes).toHaveLength(2);
-      expect(result.diagram?.nodes[0].data).toBeUndefined();
+      expect(result.diagram?.nodes[0].data).toEqual({});
       expect(result.diagram?.nodes[1].data?.values).toEqual([30, 70]);
     });
   });

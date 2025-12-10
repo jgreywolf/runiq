@@ -1,7 +1,7 @@
-import type { DiagramAst, NodeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
-import { validateArrayParameter } from '../utils/validation.js';
+import type { NodeAst } from '@runiq/core';
+import { type GlyphSetDefinition } from '../types.js';
 import { extractStringParam } from '../utils/parameters.js';
+import { validateArrayParameter } from '../utils/validation.js';
 
 /**
  * Cycle GlyphSet
@@ -13,10 +13,10 @@ import { extractStringParam } from '../utils/parameters.js';
  * @example
  * ```runiq
  * glyphset cycle "PDCA Cycle" {
- *   step "Plan"
- *   step "Do"
- *   step "Check"
- *   step "Act"
+ *   item "Plan"
+ *   item "Do"
+ *   item "Check"
+ *   item "Act"
  * }
  * ```
  */

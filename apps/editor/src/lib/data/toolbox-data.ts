@@ -19,6 +19,8 @@ import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
 import { quantumShapeIcons } from './toolboxIcons/quantumShapeIcons';
 import { containerTemplateShapeIcons } from './toolboxIcons/containerTemplateShapeIcons';
 import { sequenceShapeIcons } from './toolboxIcons/sequenceShapeIcons';
+import { glyphsetIcons } from './toolboxIcons/glyphsetIcons';
+import { ProfileName } from '$lib/types';
 
 export interface Shape {
 	id: string;
@@ -59,5 +61,52 @@ export const shapeCategories: ShapeCategory[] = [
 	...logicGateShapeIcons,
 	...digitalComponentShapeIcons,
 	...pneumaticShapeIcons,
-	...hydraulicShapeIcons
+	...hydraulicShapeIcons,
+	...glyphsetIcons
 ];
+
+export const diagramShapes: ShapeCategory[] = [
+	...basicShapeIcons,
+	...flowchartShapeIcons,
+	...containerTemplateShapeIcons,
+	...umlShapeIcons,
+	...erdShapeIcons,
+	...storageShapeIcons,
+	...bpmnShapeIcons,
+	...c4ShapeIcons,
+	...controlSystemsShapeIcons,
+	...awsShapeIcons,
+	...networkShapeIcons,
+	...chartShapeIcons,
+	...quantumShapeIcons,
+	...specialShapeIcons
+];
+
+export const glyphsets: ShapeCategory[] = [...glyphsetIcons];
+export const sequenceShapes: ShapeCategory[] = [...sequenceShapeIcons];
+export const hydraulicShapes: ShapeCategory[] = [...hydraulicShapeIcons];
+export const pneumaticShapes: ShapeCategory[] = [...pneumaticShapeIcons];
+export const electricalShapes: ShapeCategory[] = [
+	...electricalShapeIcons,
+	...logicGateShapeIcons,
+	...digitalComponentShapeIcons
+];
+
+export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCategory[] => {
+	switch (profileName) {
+		case ProfileName.sequence:
+			return sequenceShapes;
+		case ProfileName.electrical:
+			return electricalShapes;
+		case ProfileName.pneumatic:
+			return pneumaticShapes;
+		case ProfileName.hydraulic:
+			return hydraulicShapes;
+		case ProfileName.diagram:
+			return diagramShapes;
+		case ProfileName.glyphset:
+			return glyphsets;
+		default:
+			return [];
+	}
+};

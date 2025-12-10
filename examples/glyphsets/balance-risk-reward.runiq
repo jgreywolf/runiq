@@ -3,6 +3,6 @@
 
 glyphset balance "vibrant" {
     theme "forest"
-side "Risk: Market Volatility, Regulatory Changes"
-  side "Reward: High Returns, Market Leadership"
+item"Risk: Market Volatility, Regulatory Changes"
+  item"Reward: High Returns, Market Leadership"
 }

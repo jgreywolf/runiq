@@ -1,16 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { parse } from './index';
 
 describe('GlyphSet Integration', () => {
   describe('Basic Process', () => {
-    it('parses horizontal process glyphset with steps', () => {
+    it('parses horizontal process glyphset with items', () => {
       const dsl = `
         glyphset basicProcess "Software Development" {
-          step "Research"
-          step "Design"
-          step "Develop"
-          step "Test"
-          step "Deploy"
+          item "Research"
+          item "Design"
+          item "Develop"
+          item "Test"
+          item "Deploy"
 
           orientation "horizontal"
         }
@@ -35,10 +35,10 @@ describe('GlyphSet Integration', () => {
       it('parses vertical process glyphset', () => {
         const dsl = `
         glyphset basicProcess "Project Phases" {
-          step "Initiation"
-          step "Planning"
-          step "Execution"
-          step "Closure"
+          item "Initiation"
+          item "Planning"
+          item "Execution"
+          item "Closure"
 
           orientation "vertical"
         }
@@ -54,15 +54,15 @@ describe('GlyphSet Integration', () => {
       });
     });
 
-    it('validates minimum steps', () => {
+    it('validates minimum items', () => {
       const dsl = `
         glyphset basicProcess "Too Few Steps" {
-          step "Only One"
+          item "Only One"
         }
       `;
 
       // Parse succeeds but generator throws validation error
-      expect(() => parse(dsl)).toThrow('at least 2 steps');
+      expect(() => parse(dsl)).toThrow('at least 2 items');
     });
   });
 
@@ -70,10 +70,10 @@ describe('GlyphSet Integration', () => {
     it('parses cycle glyphset with cycle-back edge', () => {
       const dsl = `
         glyphset cycle "PDCA Cycle" {
-          step "Plan"
-          step "Do"
-          step "Check"
-          step "Act"
+          item "Plan"
+          item "Do"
+          item "Check"
+          item "Act"
         }
       `;
 
@@ -83,7 +83,7 @@ describe('GlyphSet Integration', () => {
       // cycle generates single custom shape node
       expect(diagram.nodes).toHaveLength(1);
       expect(diagram.nodes?.[0].shape).toBe('cycle');
-      expect(diagram.nodes?.[0].data?.steps).toEqual([
+      expect(diagram.nodes?.[0].data?.items).toEqual([
         'Plan',
         'Do',
         'Check',
@@ -234,8 +234,8 @@ describe('GlyphSet Integration', () => {
     it('throws error for unknown glyphset', () => {
       const dsl = `
         glyphset nonexistent "Unknown" {
-          step "A"
-          step "B"
+          item "A"
+          item "B"
         }
       `;
 

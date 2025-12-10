@@ -4,23 +4,14 @@
 	import ExportButton from './ExportButton.svelte';
 	import SettingsButton from './SettingsButton.svelte';
 	import HelpMenu from './HelpMenu.svelte';
-	import type { ProfileName } from '$lib/types';
 
 	interface Props {
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
-		onNewDiagram?: (type: ProfileName) => void;
-		onExport?: (format: 'svg' | 'png') => void;
 	}
 
-	let {
-		diagramName = 'Untitled Diagram',
-		lastSaved = null,
-		isDirty = false,
-		onNewDiagram,
-		onExport
-	}: Props = $props();
+	let { diagramName = 'Untitled Diagram', lastSaved = null, isDirty = false }: Props = $props();
 
 	let showNewDiagramDialog = $state(false);
 
@@ -31,14 +22,6 @@
 			if (!confirmed) return;
 		}
 		showNewDiagramDialog = true;
-	}
-
-	function createDiagram(type: ProfileName) {
-		onNewDiagram?.(type);
-	}
-
-	function handleExport(format: 'svg' | 'png') {
-		onExport?.(format);
 	}
 
 	function handleSettings() {
@@ -106,7 +89,7 @@
 		<NewDiagramButton onclick={handleNewDiagramClick} />
 
 		<!-- Export Button -->
-		<ExportButton onExport={handleExport} />
+		<ExportButton />
 
 		<!-- Settings Button -->
 		<SettingsButton onclick={handleSettings} />
@@ -117,8 +100,4 @@
 </header>
 
 <!-- New Diagram Dialog -->
-<NewDiagramDialog
-	bind:open={showNewDiagramDialog}
-	onOpenChange={(open) => (showNewDiagramDialog = open)}
-	onCreateDiagram={createDiagram}
-/>
+<NewDiagramDialog bind:open={showNewDiagramDialog} />

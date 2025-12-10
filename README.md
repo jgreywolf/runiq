@@ -28,7 +28,7 @@
 - **Two inputs, one AST**: Human-friendly DSL and 1:1 JSON format
 - **Pure SVG output**: No HTML hacks, embed-safe for PowerPoint/Keynote/Google Slides
 - **Pluggable system**: Extensible shapes, icons, layout engines, and themes
-- **SvelteKit editor**: Monaco code editor with real-time preview
+- **SvelteKit editor**: CodeMirror code editor with real-time preview
 - **Standards compliant**: SVG 1.1/2.0 friendly with accessibility support
 
 ### C4 Architecture Diagrams (NEW! 🎉)
@@ -236,17 +236,15 @@ runiq render input.runiq > out.svg
 
 Runiq uses **[Langium](https://langium.org/)** for parsing - a modern TypeScript language engineering framework with:
 
-✅ **Built-in LSP support** - Ready for VS Code extensions and Monaco editor  
+✅ **Built-in LSP support** - Ready for VS Code extensions and CodeMirror editor  
 ✅ **Auto-generated typed AST** - TypeScript types derived from grammar  
 ✅ **Declarative grammar** - Clean `.langium` syntax  
 ✅ **Production-proven** - Used by Mermaid.js for new diagrams  
 ✅ **Active maintenance** - Regular updates from TypeFox/Eclipse
 
-See [docs/langium-migration.md](./docs/langium-migration.md) for migration details.
-
 ## Apps
 
-- `editor` - SvelteKit editor with Monaco
+- `editor` - SvelteKit editor with CodeMirror
 - `playground` - Simple demo
 
 ## Example DSL

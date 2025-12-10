@@ -28,7 +28,7 @@
 		<Icon icon="lucide:help-circle" width="16" height="16" />
 		<span>Help</span>
 	</DropdownMenu.Trigger>
-	<DropdownMenu.Content align="end" class="w-56">
+	<DropdownMenu.Content align="end" class="w-56 bg-runiq-50">
 		<DropdownMenu.Label>Help & Resources</DropdownMenu.Label>
 		<DropdownMenu.Separator />
 

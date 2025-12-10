@@ -60,9 +60,9 @@ describe('BasicProcess GlyphSet', () => {
         theme: 'colorful',
       });
 
-      expect(diagram.nodes[0].data?.color).toBeDefined();
-      expect(diagram.nodes[1].data?.color).toBeDefined();
-      expect(diagram.nodes[2].data?.color).toBeDefined();
+      expect(diagram.nodes[0].data?.fillColor).toBeDefined();
+      expect(diagram.nodes[1].data?.fillColor).toBeDefined();
+      expect(diagram.nodes[2].data?.fillColor).toBeDefined();
     });
 
     it('should use processBox shape in horizontal mode', () => {
@@ -95,9 +95,9 @@ describe('BasicProcess GlyphSet', () => {
         theme: 'monochrome',
       });
 
-      expect(diagram.nodes[0].data?.color).toBeDefined();
-      expect(diagram.nodes[1].data?.color).toBeDefined();
-      expect(diagram.nodes[2].data?.color).toBeDefined();
+      expect(diagram.nodes[0].data?.fillColor).toBeDefined();
+      expect(diagram.nodes[1].data?.fillColor).toBeDefined();
+      expect(diagram.nodes[2].data?.fillColor).toBeDefined();
     });
 
     it('should use processBox shape in vertical mode', () => {
@@ -240,7 +240,9 @@ describe('BasicProcess GlyphSet', () => {
       });
 
       // Colors should be different between themes (check second color to avoid coincidental matches)
-      expect(colorful.nodes[1].data?.color).not.toBe(warm.nodes[1].data?.color);
+      expect(colorful.nodes[1].data?.fillColor).not.toBe(
+        warm.nodes[1].data?.fillColor
+      );
     });
 
     it('should default to colorful theme', () => {
@@ -248,7 +250,7 @@ describe('BasicProcess GlyphSet', () => {
         steps: ['Step 1', 'Step 2'],
       });
 
-      expect(diagram.nodes[0].data?.color).toBeDefined();
+      expect(diagram.nodes[0].data?.fillColor).toBeDefined();
     });
   });
 

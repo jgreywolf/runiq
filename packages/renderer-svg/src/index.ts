@@ -67,7 +67,7 @@ export function renderSvg(
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
     width="${layout.size.width}" height="${layout.size.height}" 
     viewBox="0 0 ${layout.size.width} ${layout.size.height}"
-    role="img" aria-labelledby="diagram-title">`;
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">\n`;
 
   // Add title and description for accessibility
   const title = options.title || diagram.title || 'Diagram';

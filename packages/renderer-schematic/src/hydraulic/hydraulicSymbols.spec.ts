@@ -160,7 +160,6 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
     });
 
     it('should have 2 terminals (in, out)', () => {
-    it('should have 2 terminals (in, out)', () => {
       expect(pressureReliefValve.terminals).toHaveLength(2);
       expect(pressureReliefValve.terminals[0].name).toBe('in');
       expect(pressureReliefValve.terminals[1].name).toBe('out');
@@ -215,7 +214,6 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
     });
 
     it('should render diamond with adjustable orifice', () => {
-    it('should render diamond with adjustable orifice', () => {
       const svg = flowControlHydraulic.render(0, 0);
       expect(svg).toContain('<polygon'); // Diamond body
       expect(svg).toContain('<line'); // Variable orifice
@@ -240,147 +238,146 @@ describe('ISO 1219-2 Hydraulic Symbols', () => {
     });
 
     it('should render with ball and seat', () => {
-    it('should render with ball and seat', () => {
       const svg = checkValveHydraulic.render(0, 0);
       expect(svg).toContain('<circle');
       expect(svg).toContain('<polygon'); // Check valve triangle
       expect(svg).toContain('<polygon'); // Check valve triangle
     });
+
+    describe('filterHydraulic', () => {
+      it('should have correct id', () => {
+        expect(filterHydraulic.id).toBe('FILTER_HYD');
+      });
+
+      it('should have correct dimensions', () => {
+        expect(filterHydraulic.width).toBe(40);
+        expect(filterHydraulic.height).toBe(40);
+      });
+
+      it('should have 2 terminals (in, out)', () => {
+        expect(filterHydraulic.terminals).toHaveLength(2);
+        expect(filterHydraulic.terminals[0].name).toBe('in');
+        expect(filterHydraulic.terminals[1].name).toBe('out');
+      });
+
+      it('should render with thicker lines than pneumatic', () => {
+        const svg = filterHydraulic.render(0, 0);
+        expect(svg).toContain('<polygon'); // Diamond
+        expect(svg).toContain('stroke-width="2.5"'); // Thicker
+      });
+    });
+
+    describe('reservoir', () => {
+      it('should have correct id', () => {
+        expect(reservoir.id).toBe('RESERVOIR');
+      });
+
+      it('should have correct dimensions', () => {
+        expect(reservoir.width).toBe(50);
+        expect(reservoir.height).toBe(60);
+      });
+
+      it('should have 3 terminals (return, suction, vent)', () => {
+        expect(reservoir.terminals).toHaveLength(3);
+        expect(reservoir.terminals[0].name).toBe('return');
+        expect(reservoir.terminals[1].name).toBe('suction');
+        expect(reservoir.terminals[2].name).toBe('vent');
+      });
+
+      it('should render tank with fluid level', () => {
+        const svg = reservoir.render(0, 0);
+        expect(svg).toContain('<rect'); // Tank body
+        expect(svg).toContain('fluid level'); // Fluid indicator
+      });
+    });
+
+    describe('accumulator', () => {
+      it('should have correct id', () => {
+        expect(accumulator.id).toBe('ACCUMULATOR');
+      });
+
+      it('should have correct dimensions', () => {
+        expect(accumulator.width).toBe(40);
+        expect(accumulator.height).toBe(50);
+      });
+
+      it('should have 1 terminal (in)', () => {
+        expect(accumulator.terminals).toHaveLength(1);
+        expect(accumulator.terminals[0].name).toBe('in');
+      });
+
+      it('should render cylinder with gas symbol', () => {
+        const svg = accumulator.render(0, 0);
+        expect(svg).toContain('<rect'); // Cylinder
+        expect(svg).toContain('N2'); // Gas charge indicator
+        expect(svg).toContain('<line'); // Dividing line (piston/bladder)
+      });
+    });
+
+    describe('pressureGaugeHydraulic', () => {
+      it('should have correct id', () => {
+        expect(pressureGaugeHydraulic.id).toBe('GAUGE_P_HYD');
+      });
+
+      it('should have correct dimensions', () => {
+        expect(pressureGaugeHydraulic.width).toBe(30);
+        expect(pressureGaugeHydraulic.height).toBe(30);
+      });
+
+      it('should have 1 terminal (in)', () => {
+        expect(pressureGaugeHydraulic.terminals).toHaveLength(1);
+        expect(pressureGaugeHydraulic.terminals[0].name).toBe('in');
+      });
+
+      it('should render circle with P label', () => {
+        const svg = pressureGaugeHydraulic.render(0, 0);
+        expect(svg).toContain('<circle');
+        expect(svg).toContain('>P<'); // Pressure label
+      });
+    });
   });
 
-  describe('filterHydraulic', () => {
-    it('should have correct id', () => {
-      expect(filterHydraulic.id).toBe('FILTER_HYD');
+  describe('Symbol Integration', () => {
+    it('all hydraulic symbols should be exportable', () => {
+      expect(pumpFixed).toBeDefined();
+      expect(pumpVariable).toBeDefined();
+      expect(motorHydraulic).toBeDefined();
+      expect(cylinderHydraulic).toBeDefined();
+      expect(valve43Way).toBeDefined();
+      expect(pressureReliefValve).toBeDefined();
+      expect(pressureReducingValve).toBeDefined();
+      expect(flowControlHydraulic).toBeDefined();
+      expect(checkValveHydraulic).toBeDefined();
+      expect(filterHydraulic).toBeDefined();
+      expect(reservoir).toBeDefined();
+      expect(accumulator).toBeDefined();
+      expect(pressureGaugeHydraulic).toBeDefined();
     });
 
-    it('should have correct dimensions', () => {
-      expect(filterHydraulic.width).toBe(40);
-      expect(filterHydraulic.height).toBe(40);
-    });
+    it('all symbols should have valid SVG output', () => {
+      const allSymbols = [
+        pumpFixed,
+        pumpVariable,
+        motorHydraulic,
+        cylinderHydraulic,
+        valve43Way,
+        pressureReliefValve,
+        pressureReducingValve,
+        flowControlHydraulic,
+        checkValveHydraulic,
+        filterHydraulic,
+        reservoir,
+        accumulator,
+        pressureGaugeHydraulic,
+      ];
 
-    it('should have 2 terminals (in, out)', () => {
-      expect(filterHydraulic.terminals).toHaveLength(2);
-      expect(filterHydraulic.terminals[0].name).toBe('in');
-      expect(filterHydraulic.terminals[1].name).toBe('out');
-    });
-
-    it('should render with thicker lines than pneumatic', () => {
-      const svg = filterHydraulic.render(0, 0);
-      expect(svg).toContain('<polygon'); // Diamond
-      expect(svg).toContain('stroke-width="2.5"'); // Thicker
-    });
-  });
-
-  describe('reservoir', () => {
-    it('should have correct id', () => {
-      expect(reservoir.id).toBe('RESERVOIR');
-    });
-
-    it('should have correct dimensions', () => {
-      expect(reservoir.width).toBe(50);
-      expect(reservoir.height).toBe(60);
-    });
-
-    it('should have 3 terminals (return, suction, vent)', () => {
-      expect(reservoir.terminals).toHaveLength(3);
-      expect(reservoir.terminals[0].name).toBe('return');
-      expect(reservoir.terminals[1].name).toBe('suction');
-      expect(reservoir.terminals[2].name).toBe('vent');
-    });
-
-    it('should render tank with fluid level', () => {
-      const svg = reservoir.render(0, 0);
-      expect(svg).toContain('<rect'); // Tank body
-      expect(svg).toContain('fluid level'); // Fluid indicator
-    });
-  });
-
-  describe('accumulator', () => {
-    it('should have correct id', () => {
-      expect(accumulator.id).toBe('ACCUMULATOR');
-    });
-
-    it('should have correct dimensions', () => {
-      expect(accumulator.width).toBe(40);
-      expect(accumulator.height).toBe(50);
-    });
-
-    it('should have 1 terminal (in)', () => {
-      expect(accumulator.terminals).toHaveLength(1);
-      expect(accumulator.terminals[0].name).toBe('in');
-    });
-
-    it('should render cylinder with gas symbol', () => {
-      const svg = accumulator.render(0, 0);
-      expect(svg).toContain('<rect'); // Cylinder
-      expect(svg).toContain('N2'); // Gas charge indicator
-      expect(svg).toContain('<line'); // Dividing line (piston/bladder)
-    });
-  });
-
-  describe('pressureGaugeHydraulic', () => {
-    it('should have correct id', () => {
-      expect(pressureGaugeHydraulic.id).toBe('GAUGE_P_HYD');
-    });
-
-    it('should have correct dimensions', () => {
-      expect(pressureGaugeHydraulic.width).toBe(30);
-      expect(pressureGaugeHydraulic.height).toBe(30);
-    });
-
-    it('should have 1 terminal (in)', () => {
-      expect(pressureGaugeHydraulic.terminals).toHaveLength(1);
-      expect(pressureGaugeHydraulic.terminals[0].name).toBe('in');
-    });
-
-    it('should render circle with P label', () => {
-      const svg = pressureGaugeHydraulic.render(0, 0);
-      expect(svg).toContain('<circle');
-      expect(svg).toContain('>P<'); // Pressure label
-    });
-  });
-});
-
-describe('Symbol Integration', () => {
-  it('all hydraulic symbols should be exportable', () => {
-    expect(pumpFixed).toBeDefined();
-    expect(pumpVariable).toBeDefined();
-    expect(motorHydraulic).toBeDefined();
-    expect(cylinderHydraulic).toBeDefined();
-    expect(valve43Way).toBeDefined();
-    expect(pressureReliefValve).toBeDefined();
-    expect(pressureReducingValve).toBeDefined();
-    expect(flowControlHydraulic).toBeDefined();
-    expect(checkValveHydraulic).toBeDefined();
-    expect(filterHydraulic).toBeDefined();
-    expect(reservoir).toBeDefined();
-    expect(accumulator).toBeDefined();
-    expect(pressureGaugeHydraulic).toBeDefined();
-  });
-
-  it('all symbols should have valid SVG output', () => {
-    const allSymbols = [
-      pumpFixed,
-      pumpVariable,
-      motorHydraulic,
-      cylinderHydraulic,
-      valve43Way,
-      pressureReliefValve,
-      pressureReducingValve,
-      flowControlHydraulic,
-      checkValveHydraulic,
-      filterHydraulic,
-      reservoir,
-      accumulator,
-      pressureGaugeHydraulic,
-    ];
-
-    allSymbols.forEach((symbol) => {
-      const svg = symbol.render(0, 0);
-      expect(svg).toBeTruthy();
-      expect(svg.length).toBeGreaterThan(0);
-      // Should contain SVG elements (allow HTML comments)
-      expect(svg).toMatch(/<(rect|circle|polygon|line|path|text|g)/);
+      allSymbols.forEach((symbol) => {
+        const svg = symbol.render(0, 0);
+        expect(svg).toBeTruthy();
+        expect(svg.length).toBeGreaterThan(0);
+        // Should contain SVG elements (allow HTML comments)
+        expect(svg).toMatch(/<(rect|circle|polygon|line|path|text|g)/);
+      });
     });
   });
 });

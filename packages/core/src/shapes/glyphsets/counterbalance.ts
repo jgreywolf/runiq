@@ -4,8 +4,8 @@ import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
  * Counterbalance Shape - Weighted balance scale with tilt
  * Shows comparison with visual weight representation
  */
-export const counterbalance: ShapeDefinition = {
-  id: 'counterbalance',
+export const counterBalance: ShapeDefinition = {
+  id: 'counterBalance',
 
   bounds: (ctx: ShapeRenderContext) => {
     const data = ctx.node.data as {

@@ -31,7 +31,8 @@ export async function renderDiagram(
 		errors: [],
 		warnings: [],
 		parseTime: 0,
-		renderTime: 0
+		renderTime: 0,
+		success: false
 	};
 
 	if (!code || code.trim() === '') {
@@ -61,6 +62,7 @@ export async function renderDiagram(
 
 		// Extract profile from parse result - could be in diagram (legacy) or document.profiles[0]
 		const profile = parseResult.diagram || parseResult.document?.profiles?.[0];
+		result.profile = profile;
 
 		if (!profile) {
 			result.errors = ['No profile found in parse result'];
@@ -93,8 +95,8 @@ export async function renderDiagram(
 				return result;
 			}
 
-			const layoutedProfile = await layoutAlgorithm.layout(profile as any);
-			const renderResult = renderSvg(profile as any, layoutedProfile);
+			const laidOutProfile = await layoutAlgorithm.layout(profile as any);
+			const renderResult = renderSvg(profile as any, laidOutProfile);
 			result.svg = renderResult.svg;
 		}
 

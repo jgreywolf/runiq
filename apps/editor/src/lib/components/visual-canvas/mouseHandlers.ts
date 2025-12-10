@@ -12,8 +12,6 @@ export interface MouseHandlerContext {
 	selectedNodeIds: Set<string>;
 	selectedEdgeIds: Set<string>;
 	hoveredElementId: string | null;
-	edgeCreationMode: boolean;
-	edgeCreationStartNode: string | null;
 	isLassoActive: boolean;
 	isLassoPending: boolean;
 	lassoStartX: number;
@@ -24,20 +22,13 @@ export interface MouseHandlerContext {
 
 export interface MouseHandlerCallbacks {
 	onselect?: (nodeId: string | null, edgeId: string | null) => void;
-	oninsertedge?: (fromNodeId: string, toNodeId: string) => void;
 	clearSelection: () => void;
 	updateMultiSelection: () => void;
-	cancelEdgeCreation: () => void;
 	startLabelEdit: (nodeId: string | null, edgeId: string | null) => void;
 }
 
 export function handleElementMouseEnter(event: Event, context: MouseHandlerContext): void {
 	const target = event.currentTarget as SVGElement;
-
-	// Ignore anchor elements
-	if (target.closest('#anchor-indicators')) {
-		return;
-	}
 
 	const nodeId = target.getAttribute('data-node-id');
 	const edgeId = target.getAttribute('data-edge-id');
@@ -51,11 +42,6 @@ export function handleElementMouseEnter(event: Event, context: MouseHandlerConte
 
 export function handleElementMouseLeave(event: Event, context: MouseHandlerContext): void {
 	const target = event.currentTarget as SVGElement;
-
-	// Ignore anchor elements
-	if (target.closest('#anchor-indicators')) {
-		return;
-	}
 
 	context.hoveredElementId = null;
 
@@ -108,30 +94,6 @@ export function handleElementClick(
 
 			context.selectedEdgeIds = newSet;
 			callbacks.updateMultiSelection();
-		}
-		return;
-	}
-
-	// Handle Shift+Click for edge creation (nodes only)
-	if (mouseEvent.shiftKey && nodeId) {
-		if (!context.edgeCreationMode) {
-			// Start edge creation
-			context.edgeCreationMode = true;
-			context.edgeCreationStartNode = nodeId;
-			// Highlight the start node
-			callbacks.clearSelection();
-			context.selectedNodeId = nodeId;
-			target.classList.add('runiq-selected', 'runiq-edge-start');
-		} else if (context.edgeCreationStartNode && context.edgeCreationStartNode !== nodeId) {
-			// Complete edge creation
-			if (callbacks.oninsertedge) {
-				callbacks.oninsertedge(context.edgeCreationStartNode, nodeId);
-			}
-			// Reset edge creation mode
-			callbacks.cancelEdgeCreation();
-		} else {
-			// Clicked the same node - cancel
-			callbacks.cancelEdgeCreation();
 		}
 		return;
 	}
