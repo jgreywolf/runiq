@@ -2,19 +2,21 @@
  * Type definitions for glyphset conversion system
  */
 
+import type { GlyphsetId } from '@runiq/parser-dsl';
+
 export interface ConversionResult {
 	success: boolean;
 	newCode: string;
 	warnings: string[];
 	errors: string[];
-	incompatible?: boolean;
-	alternatives?: string[];
+	//compatible?: boolean;
+	//alternatives?: string[];
 	canConvert?: boolean;
 }
 
 export interface ParsedGlyphset {
 	glyphsetLineIndex: number;
-	glyphsetType: string;
-	glyphsetName?: string;
+	oldGlyphsetId: GlyphsetId;
+	glyphsetTitle: string;
 	lines: string[];
 }

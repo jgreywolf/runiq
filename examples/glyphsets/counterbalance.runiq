@@ -1,10 +1,10 @@
 // Counterbalance - Weighted balance scale
 // Shows comparison with visual weight representation
 
-glyphset counterbalance "Decision Analysis" {
+glyphset counterBalance "Decision Analysis" {
   theme "vibrant" 
-  side "Benefits: High ROI, Fast Implementation, Low Risk"
-  side "Costs: Initial Investment"
+  item"Benefits: High ROI, Fast Implementation, Low Risk"
+  item"Costs: Initial Investment"
 
   leftWeight 3 
   rightWeight 1

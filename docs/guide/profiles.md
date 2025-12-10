@@ -211,10 +211,10 @@ To use the glyphset profile:
 
 ```runiq
 glyphset basicProcess "Onboarding Steps" {
-  step "Application"
-  step "Interview"
-  step "Offer"
-  step "Start Date"
+  item "Application"
+  item "Interview"
+  item "Offer"
+  item "Start Date"
 
   theme forest
   orientation "horizontal"

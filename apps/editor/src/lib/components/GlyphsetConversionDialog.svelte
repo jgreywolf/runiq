@@ -1,9 +1,9 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
-	import Icon from '@iconify/svelte';
-	import { convertGlyphset, routeConversion } from '$lib/utils/glyphsetConversion';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import { editorState, updateCode } from '$lib/state/editorState.svelte';
+	import { convertGlyphset } from '$lib/utils/glyphsetConversion';
+	import Icon from '@iconify/svelte';
 
 	interface Props {
 		open: boolean;
@@ -11,9 +11,7 @@
 		fromType: string;
 		toType: string;
 		reason: string;
-		alternatives?: string[];
 		canConvert?: boolean;
-		onSelectAlternative?: (altType: string) => void;
 		onCancel?: () => void;
 	}
 
@@ -23,9 +21,7 @@
 		fromType,
 		toType,
 		reason,
-		alternatives = [],
 		canConvert = false,
-		onSelectAlternative,
 		onCancel
 	}: Props = $props();
 
@@ -46,8 +42,7 @@
 	function handleConvertWithTransform() {
 		const code = editorState.code;
 
-		// Use centralized routing logic
-		const result = routeConversion(code, fromType, toType) || convertGlyphset(code, toType);
+		const result = convertGlyphset(code, toType);
 
 		if (!result.success) {
 			const errorMsg = result.errors.join('\n');
@@ -95,8 +90,8 @@
   result "C"
 }`,
 			balance: `glyphset balance "Title" {
-  side "Left Option"
-  side "Right Option"
+  item"Left Option"
+  item"Right Option"
 }`,
 			hub: `glyphset hub "Title" {
   center "Core"
@@ -164,11 +159,6 @@
 		return names[type] || type;
 	}
 
-	function handleAlternativeClick(altType: string) {
-		onSelectAlternative?.(altType);
-		onOpenChange(false);
-	}
-
 	function handleClose() {
 		onCancel?.();
 		onOpenChange(false);
@@ -224,13 +214,13 @@
 						>
 							{#if isFlattening}
 								<Icon icon="mdi:unfold-less-horizontal" class="mr-2" width="18" />
-								Flatten and Convert to {getFriendlyName(toType)}
+								Flatten and Convert
 							{:else if isExpanding}
 								<Icon icon="mdi:folder-multiple-outline" class="mr-2" width="18" />
-								Group and Convert to {getFriendlyName(toType)}
+								Group and Convert
 							{:else}
 								<Icon icon="mdi:swap-horizontal" class="mr-2" width="18" />
-								Convert to {getFriendlyName(toType)}
+								Convert
 							{/if}
 						</Button>
 						<p class="text-xs text-gray-600 dark:text-gray-400">
@@ -320,12 +310,6 @@
 						</li>
 						<li>Each level can contain multiple items</li>
 						<li>Most glyphsets use a flat list without levels</li>
-					{:else if alternatives.length > 0}
-						<li>These glyphset types have incompatible structural requirements</li>
-						<li>However, similar alternatives are available below that you can convert to</li>
-						<li class="font-semibold text-blue-700 dark:text-blue-300">
-							💡 Tip: Choose one of the recommended alternatives below
-						</li>
 					{:else}
 						<li>These glyphset types have incompatible structural requirements</li>
 						<li>Manual conversion would require restructuring your data</li>
@@ -335,41 +319,6 @@
 					{/if}
 				</ul>
 			</div>
-
-			<!-- Alternatives -->
-			{#if alternatives.length > 0}
-				<div class="space-y-3">
-					<h3
-						class="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-100"
-					>
-						<Icon icon="mdi:lightbulb-outline" class="text-green-600 dark:text-green-400" />
-						{toType === 'groupedProcess' ? 'Recommended Alternatives' : 'Compatible Alternatives'}
-					</h3>
-					<p class="text-sm text-gray-700 dark:text-gray-300">
-						{#if toType === 'groupedProcess'}
-							Instead of Grouped Process, try one of these similar glyphset types:
-						{:else}
-							These glyphset types have similar structures and can be converted:
-						{/if}
-					</p>
-					<div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-						{#each alternatives as alt}
-							<Button
-								variant="outline"
-								class="h-auto justify-start border-gray-300 bg-white px-4 py-3 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700"
-								onclick={() => handleAlternativeClick(alt)}
-							>
-								<div class="flex flex-col items-start gap-1">
-									<span class="font-medium text-gray-900 dark:text-gray-100"
-										>{getFriendlyName(alt)}</span
-									>
-									<span class="text-xs text-gray-600 dark:text-gray-400">Click to convert</span>
-								</div>
-							</Button>
-						{/each}
-					</div>
-				</div>
-			{/if}
 		</div>
 
 		<Dialog.Footer
@@ -383,16 +332,6 @@
 				<Icon icon="mdi:close" class="mr-2" width="18" />
 				Cancel
 			</Button>
-			{#if alternatives.length === 0 && !canConvert}
-				<Button
-					variant="default"
-					onclick={handleClose}
-					class="flex-1 bg-runiq-500 hover:bg-runiq-600 sm:flex-none"
-				>
-					<Icon icon="mdi:check" class="mr-2" width="18" />
-					OK
-				</Button>
-			{/if}
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>

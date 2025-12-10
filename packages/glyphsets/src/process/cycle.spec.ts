@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { cycleGlyphSet } from './cycle';
 
 describe('Cycle', () => {
@@ -20,7 +20,7 @@ describe('Cycle', () => {
   });
 
   it('handles 8 steps (max)', () => {
-    const steps = Array.from({ length: 8 }, (_, i) => `Step ${i + 1}`);
+    const steps = Array.from({ length: 8 }, (_, i) => `item ${i + 1}`);
     const result = cycleGlyphSet.generator({ steps });
 
     expect(result.nodes).toHaveLength(1);

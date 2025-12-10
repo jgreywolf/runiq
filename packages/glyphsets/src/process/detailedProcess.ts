@@ -1,7 +1,10 @@
 import type { NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
-import { validateArrayParameter, validateStringParameter } from '../utils/validation.js';
 import { extractStringParam } from '../utils/parameters.js';
+import {
+  validateArrayParameter,
+  validateStringParameter,
+} from '../utils/validation.js';
 
 interface DetailedProcessStep {
   main: string;
@@ -85,7 +88,7 @@ export const detailedProcessGlyphSet: GlyphSetDefinition = {
         throw new GlyphSetError(
           'detailedProcess',
           'items',
-          `Step ${i + 1} must have format "Main Step | Substep 1 | Substep 2 | ..."`
+          `item ${i + 1} must have format "Main Step | Substep 1 | Substep 2 | ..."`
         );
       }
 

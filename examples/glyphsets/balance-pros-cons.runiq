@@ -3,6 +3,6 @@
 
 glyphset balance "colorful" {
     theme "forest"
-side "Pros: Flexibility, Cost Savings, Innovation"
-  side "Cons: Security Risk, Complexity, Vendor Lock-in"
+item"Pros: Flexibility, Cost Savings, Innovation"
+  item"Cons: Security Risk, Complexity, Vendor Lock-in"
 }

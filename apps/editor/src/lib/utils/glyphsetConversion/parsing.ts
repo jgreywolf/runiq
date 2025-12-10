@@ -3,7 +3,10 @@
  * Eliminates 390 lines of duplicated boilerplate across 13 functions
  */
 
+import { isGlyphsetId } from '@runiq/parser-dsl';
 import type { ConversionResult, ParsedGlyphset } from './types';
+
+const glyphsetDeclarationRegex = /glyphset\s+(\w+)\s+"([^"]+)"/;
 
 /**
  * Parse glyphset declaration and extract metadata
@@ -14,33 +17,27 @@ import type { ConversionResult, ParsedGlyphset } from './types';
 export function parseGlyphsetDeclaration(code: string): ParsedGlyphset | null {
 	const lines = code.split('\n');
 	const glyphsetLineIndex = lines.findIndex((line) => line.trim().startsWith('glyphset '));
-
 	if (glyphsetLineIndex === -1) {
 		return null;
 	}
 
 	const glyphsetLine = lines[glyphsetLineIndex];
+	const match = glyphsetLine.match(glyphsetDeclarationRegex);
 
-	// Extract type and optional name
-	const withNameMatch = glyphsetLine.match(/glyphset\s+(\w+)\s+"([^"]+)"/);
-	const withoutNameMatch = glyphsetLine.match(/glyphset\s+(\w+)/);
-
-	let glyphsetType: string;
-	let glyphsetName: string | undefined;
-
-	if (withNameMatch) {
-		glyphsetType = withNameMatch[1];
-		glyphsetName = withNameMatch[2];
-	} else if (withoutNameMatch) {
-		glyphsetType = withoutNameMatch[1];
-	} else {
+	if (!match) {
 		return null;
 	}
 
+	const oldGlyphsetId = isGlyphsetId(match[1]);
+	if (!oldGlyphsetId) {
+		return null;
+	}
+	const glyphsetTitle = match[2];
+
 	return {
 		glyphsetLineIndex,
-		glyphsetType,
-		glyphsetName,
+		oldGlyphsetId,
+		glyphsetTitle,
 		lines
 	};
 }
@@ -81,11 +78,14 @@ export function replaceGlyphsetType(
  * @param code - Original code
  * @returns ConversionResult with error
  */
-export function createParseError(code: string): ConversionResult {
+export function createParseError(
+	code: string,
+	error: string = 'No glyphset declaration found'
+): ConversionResult {
 	return {
 		success: false,
 		newCode: code,
 		warnings: [],
-		errors: ['No glyphset declaration found']
+		errors: [error]
 	};
 }

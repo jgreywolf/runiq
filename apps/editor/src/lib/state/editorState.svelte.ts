@@ -5,14 +5,14 @@
  * and used directly by any component, eliminating the need for prop drilling.
  */
 
+import { getTemplate } from '$lib/data/diagram-templates';
+import { openGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
 import { ProfileName } from '$lib/types';
 import { AutoSaveManager } from '../utils/autoSave.svelte';
-import { HistoryManager } from '../utils/historyManager.svelte';
-import { getTemplate } from '$lib/data/diagram-templates';
-import { exportAsSvg, exportAsPng } from '../utils/diagramExport';
+import { exportAsPng, exportAsSvg } from '../utils/diagramExport';
 import * as DSL from '../utils/dslCodeManipulation';
-import { convertGlyphset, routeConversion } from '../utils/glyphsetConversion';
-import { openGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
+import { convertGlyphset } from '../utils/glyphsetConversion';
+import { HistoryManager } from '../utils/historyManager.svelte';
 
 // Type definitions
 export interface EditorRefs {
@@ -236,7 +236,6 @@ export function handleReplaceGlyphset(newGlyphsetType: string) {
 
 	// Use the conversion utility
 	const result = convertGlyphset(code, newGlyphsetType);
-	console.log('Glyphset conversion result:', result);
 	if (!result.success) {
 		// Extract current glyphset type from code
 		const match = code.match(/glyphset\s+(\w+)/);
@@ -247,7 +246,6 @@ export function handleReplaceGlyphset(newGlyphsetType: string) {
 			fromType,
 			newGlyphsetType,
 			result.errors[0] || 'Cannot convert between these glyphset types',
-			result.alternatives || [],
 			result.canConvert || false
 		);
 		return;
@@ -277,9 +275,7 @@ export function handleConvertWithTransform(fromType: string, targetGlyphsetType:
 	const code = editorState.code;
 
 	// Use centralized routing logic
-	const result =
-		routeConversion(code, fromType, targetGlyphsetType) ||
-		convertGlyphset(code, targetGlyphsetType);
+	const result = convertGlyphset(code, targetGlyphsetType);
 
 	if (!result.success) {
 		const errorMsg = result.errors.join('\n');

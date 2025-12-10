@@ -38,7 +38,7 @@ export function generateLinearProcess(
       id: `${idPrefix}${i + 1}`,
       shape,
       label: item,
-      data: { color: getThemeColor(theme, i) },
+      data: { fillColor: getThemeColor(theme, i) },
     });
 
     if (i > 0) {
@@ -50,7 +50,7 @@ export function generateLinearProcess(
     }
   });
 
-  return { astVersion: '1.0', direction, nodes, edges };
+  return { astVersion: '1.0', direction, theme, nodes, edges };
 }
 
 export interface CycleProcessOptions {
@@ -83,7 +83,7 @@ export function generateCycleProcess(
       id: `${idPrefix}${i + 1}`,
       shape,
       label: item,
-      data: { color: getThemeColor(theme, i) },
+      data: { fillColor: getThemeColor(theme, i) },
     });
 
     // Create edge from previous node
@@ -103,7 +103,7 @@ export function generateCycleProcess(
     });
   }
 
-  return { astVersion: '1.0', direction, nodes, edges };
+  return { astVersion: '1.0', direction, theme, nodes, edges };
 }
 
 export interface HierarchyOptions {
@@ -137,7 +137,7 @@ export function generateHierarchy(
       id: `${idPrefix}${i + 1}`,
       shape,
       label: level,
-      data: { color: getThemeColor(theme, i) },
+      data: { fillColor: getThemeColor(theme, i) },
     });
 
     // Connect to previous level (parent)
@@ -149,7 +149,7 @@ export function generateHierarchy(
     }
   });
 
-  return { astVersion: '1.0', direction, nodes, edges };
+  return { astVersion: '1.0', direction, theme, nodes, edges };
 }
 
 export interface AlternatingProcessOptions {
@@ -185,7 +185,7 @@ export function generateAlternatingProcess(
       shape,
       label: item,
       data: {
-        color: getThemeColor(theme, i),
+        fillColor: getThemeColor(theme, i),
         position: isLeft ? 'left' : 'right',
       },
     });
@@ -198,7 +198,7 @@ export function generateAlternatingProcess(
     }
   });
 
-  return { astVersion: '1.0', direction, nodes, edges };
+  return { astVersion: '1.0', direction, theme, nodes, edges };
 }
 
 export interface CompositeNodeOptions {

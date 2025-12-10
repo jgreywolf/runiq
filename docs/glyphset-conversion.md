@@ -31,10 +31,10 @@ glyphset basicList "Sales" {
 Glyphsets are organized into compatibility groups for easier conversion:
 
 - **Process**: `basicProcess`, `cycle`, `stepProcess`, `verticalProcess`, etc.
-- **Hierarchy**: `pyramid`, `invertedPyramid`, `orgChart`, `hierarchyTree`, etc.
+- **Hierarchy**: `pyramid`, `invertedPyramid`, `orgChart`, etc.
 - **List**: `basicList`, `chevronList`, `numberedChevronList`, `columnList`, etc.
 - **Comparison**: `matrix2x2`, `matrix3x3`, `venn2`, `venn3`, etc.
-- **Balance**: `balance`, `opposing`, `counterbalance`
+- **Balance**: `balance`, `opposing`, `counterBalance`
 - **Flow**: `converging`, `diverging`, `hub`
 - **Network**: `interconnected`, `cluster`
 - **Target**: `target`, `funnel`
@@ -47,7 +47,7 @@ The system provides warnings for:
 
 #### Item Count Mismatches
 
-- **balance/opposing/counterbalance**: Expects exactly 2 items
+- **balance/opposing/counterBalance**: Expects exactly 2 items
 - **matrix2x2**: Expects 4 items
 - **matrix3x3**: Expects 9 items
 
@@ -165,8 +165,8 @@ glyphset pyramid "Hierarchy" {
 ```runiq
 // Original
 glyphset balance "Trade-offs" {
-  side "Speed: Fast deployment"
-  side "Quality: Thorough testing"
+  item"Speed: Fast deployment"
+  item"Quality: Thorough testing"
 }
 
 // Converted to basicList

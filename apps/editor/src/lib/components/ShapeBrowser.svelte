@@ -1,25 +1,16 @@
 <script lang="ts">
-	import Icon from '@iconify/svelte';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import ShapeIcon from './ShapeIcon.svelte';
-	import { getShapeCategoryByProfile, type ShapeCategory } from '$lib/data/toolbox-data';
+	import { getShapeCategoryByProfile } from '$lib/data/toolbox-data';
 	import {
 		editorState,
 		handleInsertShape,
 		handleReplaceGlyphset
 	} from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
+	import Icon from '@iconify/svelte';
+	import ShapeIcon from './ShapeIcon.svelte';
 
-	// Filter categories for this specific profile
-	// const categories = $derived(
-	// 	shapeCategories.filter((cat) => {
-	// 		if (editorState.profileName) {
-	// 			return cat.profiles?.includes(editorState.profileName);
-	// 		}
-	// 		return null;
-	// 	})
-	// );
 	const categories = $derived(
 		editorState.profileName ? getShapeCategoryByProfile(editorState.profileName) : []
 	);
@@ -58,12 +49,7 @@
 	// Handle shape click based on profile type
 	function handleShapeClick(shapeCode: string) {
 		if (editorState.profileName === ProfileName.glyphset) {
-			// Extract glyphset type from code like "glyphset blockCycle"
-			const match = shapeCode.match(/glyphset\s+(\w+)/);
-			if (match) {
-				const newType = match[1];
-				handleReplaceGlyphset(newType);
-			}
+			handleReplaceGlyphset(shapeCode);
 		} else {
 			handleInsertShape(shapeCode);
 		}

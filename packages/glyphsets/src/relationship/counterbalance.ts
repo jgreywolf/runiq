@@ -1,13 +1,13 @@
+import { getThemeColor } from '../themes.js';
 import type { GlyphSetDefinition } from '../types.js';
 import { GlyphSetError } from '../types.js';
-import { getThemeColor } from '../themes.js';
 
 /**
  * Counterbalance Glyphset - Weighted balance scale
  * Shows comparison with visual weight representation
  */
-export const counterbalanceGlyphSet: GlyphSetDefinition = {
-  id: 'counterbalance',
+export const counterBalanceGlyphSet: GlyphSetDefinition = {
+  id: 'counterBalance',
   name: 'Counterbalance',
   category: 'relationship',
   description:
@@ -45,7 +45,7 @@ export const counterbalanceGlyphSet: GlyphSetDefinition = {
 
     if (sides.length !== 2) {
       throw new GlyphSetError(
-        'counterbalance',
+        'counterBalance',
         `Counterbalance requires exactly 2 sides, got ${sides.length}`
       );
     }
@@ -54,8 +54,8 @@ export const counterbalanceGlyphSet: GlyphSetDefinition = {
       astVersion: '1.0',
       nodes: [
         {
-          id: 'counterbalance',
-          shape: 'counterbalance',
+          id: 'counterBalance',
+          shape: 'counterBalance',
           label: '',
           data: {
             left: {

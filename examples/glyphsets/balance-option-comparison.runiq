@@ -3,6 +3,6 @@
 
 glyphset balance "cool" {
     theme "forest"
-side "Option A: Cloud-Based, Subscription Model, Auto-Updates"
-  side "Option B: On-Premise, One-Time Cost, Full Control"
+item"Option A: Cloud-Based, Subscription Model, Auto-Updates"
+  item"Option B: On-Premise, One-Time Cost, Full Control"
 }

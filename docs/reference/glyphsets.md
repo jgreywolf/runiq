@@ -48,7 +48,7 @@ Complete reference for all **70+ glyphsets** available in Runiq.
 | `cluster`                | Relationship  | 2         | 4         | Grouped clusters                   |
 | `puzzle`                 | Relationship  | 2         | 6         | Interlocking pieces                |
 | `target`                 | Relationship  | 2         | 5         | Concentric rings                   |
-| `counterbalance`         | Relationship  | 2         | 2         | Balance scale comparison           |
+| `counterBalance`         | Relationship  | 2         | 2         | Balance scale comparison           |
 | `equation`               | Relationship  | 2         | 5         | A+B=C mathematical format          |
 | `interconnected`         | Relationship  | 3         | 8         | Circular mesh network              |
 | `hub`                    | Relationship  | 3         | 12        | Central hub with radial spokes     |
@@ -206,7 +206,7 @@ Connections and relationships between concepts.
 
 **Comparison:**
 
-- `counterbalance` - Balance scale comparison (2 items)
+- `counterBalance` - Balance scale comparison (2 items)
 - `equation` - A+B=C mathematical format (2-5 items)
 
 ## Usage Examples
@@ -215,10 +215,10 @@ Connections and relationships between concepts.
 
 ```runiq
 glyphset basicProcess "Development Pipeline" {
-  step "Plan"
-  step "Code"
-  step "Test"
-  step "Deploy"
+  item "Plan"
+  item "Code"
+  item "Test"
+  item "Deploy"
 
   orientation "horizontal"
   theme professional
@@ -306,9 +306,9 @@ glyphset linearVenn "Product Features" {
 Balance scale showing comparison between two concepts.
 
 ```runiq
-glyphset counterbalance "Cost vs Value" {
-  side "Low Cost"
-  side "High Value"
+glyphset counterBalance "Cost vs Value" {
+  item"Low Cost"
+  item"High Value"
 
   theme cool
 }

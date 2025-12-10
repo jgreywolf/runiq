@@ -30,7 +30,6 @@ export class AutoSaveManager {
 		const savedTime = localStorage.getItem(this.timeKey);
 
 		if (saved) {
-			console.log('Restored auto-saved code');
 			return {
 				code: saved,
 				lastSaved: savedTime ? new SvelteDate(savedTime) : new SvelteDate()

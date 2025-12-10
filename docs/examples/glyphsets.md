@@ -232,8 +232,8 @@ Pros/cons, advantages/disadvantages:
 ```runiq
 glyphset balance "Cloud Migration Decision" {
   theme forest
-  side "Pros: Flexibility, Cost Savings, Innovation"
-  side "Cons: Security Risk, Complexity, Vendor Lock-in"
+  item"Pros: Flexibility, Cost Savings, Innovation"
+  item"Cons: Security Risk, Complexity, Vendor Lock-in"
 }
 ```
 
@@ -244,8 +244,8 @@ Alternative balance notation:
 ```runiq
 glyphset plusMinus "Remote Work Analysis" {
   theme forest
-  side "Benefits: Flexibility, Cost Savings, Global Talent"
-  side "Challenges: Communication, Collaboration, Timezone Issues"
+  item"Benefits: Flexibility, Cost Savings, Global Talent"
+  item"Challenges: Communication, Collaboration, Timezone Issues"
 }
 ```
 
@@ -256,8 +256,8 @@ Two-sided comparison:
 ```runiq
 glyphset opposing "Traditional vs Innovative" {
   theme forest
-  side "Traditional: Proven, Stable, Lower Risk"
-  side "Innovative: Modern, Flexible, Higher Growth"
+  item"Traditional: Proven, Stable, Lower Risk"
+  item"Innovative: Modern, Flexible, Higher Growth"
 }
 ```
 
@@ -266,10 +266,10 @@ glyphset opposing "Traditional vs Innovative" {
 Weight comparison:
 
 ```runiq
-glyphset counterbalance "Investment Decision" {
+glyphset counterBalance "Investment Decision" {
   theme forest
-  side "Invest Now"
-  side "Wait for Market"
+  item"Invest Now"
+  item"Wait for Market"
 }
 ```
 
@@ -636,7 +636,7 @@ glyphset table-hierarchy "Feature Comparison" {
 | **Lists**         | alternatingList, chevronList, columnList, horizontalList, nestedList, numberedChevronList, increasingList                                | Steps, sequences, progressions      |
 | **Processes**     | alternatingProcess, blockCycle, continuousBlockProcess, stepProcess, phasedProcess, groupedProcess, detailedProcess                      | Workflows, cycles, procedures       |
 | **Hierarchies**   | orgchart, pyramidList, circle-hierarchy, nestedList, labeled-hierarchy, team-hierarchy                                                   | Org charts, classifications, levels |
-| **Comparisons**   | balance, plusMinus, opposing, counterbalance                                                                                             | Analysis, decisions, trade-offs     |
+| **Comparisons**   | balance, plusMinus, opposing, counterBalance                                                                                             | Analysis, decisions, trade-offs     |
 | **Relationships** | converging, diverging, cluster, hub, interconnected, linear-venn, stepped-venn                                                           | Connections, groupings, flows       |
 | **Matrices**      | matrix3x3, segmentedMatrix, titledMatrix                                                                                                 | Multi-dimensional analysis          |
 | **Metaphors**     | funnel, invertedPyramid, target, puzzle, segmentedPyramid, gearCycle, orbitCycle, radialCycle, segmentedCycle, spiralCycle               | Concepts, goals, systems            |

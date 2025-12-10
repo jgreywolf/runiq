@@ -1,18 +1,16 @@
 import type {
-  DiagramAst,
-  NodeAst,
-  EdgeAst,
   ContainerDeclaration,
   ContainerTemplate,
+  DiagramAst,
+  EdgeAst,
 } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
-import { getThemeColor, type ColorTheme } from '../themes.js';
+import { type GlyphSetDefinition } from '../types.js';
+import { generateLinearProcess } from '../utils/generators.js';
+import { extractArrayParam, extractCommonParams } from '../utils/parameters.js';
 import {
   validateArrayParameter,
   validateStringParameter,
 } from '../utils/validation.js';
-import { extractCommonParams, extractArrayParam } from '../utils/parameters.js';
-import { generateLinearProcess } from '../utils/generators.js';
 
 /**
  * Basic Process GlyphSet
@@ -23,26 +21,26 @@ import { generateLinearProcess } from '../utils/generators.js';
  *
  * @example
  * ```runiq
- * diagram "Software Development" glyphset:basicProcess {
+ * glyphset basicProcess "Software Development" {
  *   orientation "horizontal"
  *   theme "colorful"
- *   step "Research"
- *   step "Design"
- *   step "Develop"
- *   step "Test"
- *   step "Deploy"
+ *   item "Research"
+ *   item "Design"
+ *   item "Develop"
+ *   item "Test"
+ *   item "Deploy"
  * }
  * ```
  *
  * @example
  * ```runiq
- * diagram "Project Phases" glyphset:basicProcess {
+ * glyphset basicProcess "Project Phases"  {
  *   orientation "vertical"
- *   step "Initiation"
- *   step "Planning"
- *   step "Execution"
- *   step "Monitoring"
- *   step "Closure"
+ *   item "Initiation"
+ *   item "Planning"
+ *   item "Execution"
+ *   item "Monitoring"
+ *   item "Closure"
  * }
  * ```
  */
@@ -139,7 +137,7 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
     }
 
     // Generate using containers with styling (opt-in)
-    return generateWithContainers(steps, direction);
+    return generateWithContainers(steps, direction, theme);
   },
 };
 
@@ -149,7 +147,8 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
  */
 function generateWithContainers(
   steps: string[],
-  direction: 'TB' | 'LR'
+  direction: 'TB' | 'LR',
+  theme?: string
 ): DiagramAst {
   // Define a container template for process steps with SmartArt-inspired styling
   const templates: ContainerTemplate[] = [
@@ -190,6 +189,7 @@ function generateWithContainers(
   return {
     astVersion: '1.0',
     direction,
+    theme,
     nodes: [],
     edges,
     containers,

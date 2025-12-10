@@ -7,7 +7,7 @@ hydraulic "Cylinder Position Control" {
   
   // Components with pin connections
   // PUMP -> VALVE controls PORT_A/PORT_B for extend/retract -> TANK
-  // Flow control and counterbalance provide speed/load control
+  // Flow control and counterBalance provide speed/load control
   part VALVE type:VALVE_43 pins:(PUMP,PORT_A,PORT_B,TANK) doc:"4/3-way proportional valve, closed center"
   part CYLINDER type:CYL_HYD pins:(PORT_A,PORT_B) doc:"Double-acting hydraulic cylinder"
   part PILOT_A type:VALVE_32 pins:(PORT_A) doc:"Extend pilot control"

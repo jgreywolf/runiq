@@ -56,10 +56,10 @@ glyphset <glyphsetType> "Title" {
 
 ```runiq
 glyphset basicProcess "Software Development" {
-  step "Plan"
-  step "Code"
-  step "Test"
-  step "Deploy"
+  item "Plan"
+  item "Code"
+  item "Test"
+  item "Deploy"
 
   theme ocean
   orientation "horizontal"
@@ -94,9 +94,9 @@ All glyphsets support 10 built-in themes with the same professional color palett
 
 ```runiq
 glyphset basicProcess "Themed Process" {
-  step "A"
-  step "B"
-  step "C"
+  item "A"
+  item "B"
+  item "C"
 
   theme sunset  // Try: runiq, professional, forest, sunset, ocean, vibrant
 }

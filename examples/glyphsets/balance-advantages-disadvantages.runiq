@@ -3,6 +3,6 @@
 
 glyphset balance "warm" {
     theme "forest"
-side "Advantages: Easy to Use, Well Documented, Large Community"
-  side "Disadvantages: Licensing Costs, Limited Flexibility, Steep Curve"
+item"Advantages: Easy to Use, Well Documented, Large Community"
+  item"Disadvantages: Licensing Costs, Limited Flexibility, Steep Curve"
 }

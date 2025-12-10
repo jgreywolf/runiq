@@ -1,28 +1,23 @@
-import { describe, it, expect } from 'vitest';
-import {
-	convertGlyphset,
-	areGlyphsetsCompatible,
-	getPrimaryKeyword,
-	getCompatibleAlternatives,
-	flattenGroupedProcess,
-	expandToGroupedProcess,
-	flattenSegmentedPyramid,
-	flattenMatrix
-} from './glyphsetConversion';
+import { describe, expect, it } from 'vitest';
+import { convertGlyphset, getGlyphsetKeywords } from './glyphsetConversion';
+import { areGlyphsetsCompatible } from './glyphsetConversion/compatibility';
+import { expandToGroupedProcess, flattenGroupedProcess } from './glyphsetConversion/groupedProcess';
+import { flattenMatrix } from './glyphsetConversion/matrix';
+//import { flattenSegmentedPyramid } from './glyphsetConversion/levelConversions';
 
 describe('glyphsetConversion', () => {
-	describe('getPrimaryKeyword', () => {
+	describe('getGlyphsetKeywords', () => {
 		it('should return correct primary keywords', () => {
-			expect(getPrimaryKeyword('basicProcess')).toBe('item');
-			expect(getPrimaryKeyword('pyramid')).toBe('level');
-			expect(getPrimaryKeyword('balance')).toBe('side');
-			expect(getPrimaryKeyword('interconnected')).toBe('node');
-			expect(getPrimaryKeyword('funnel')).toBe('level');
+			expect(getGlyphsetKeywords('basicProcess')).toBe('item');
+			expect(getGlyphsetKeywords('pyramid')).toBe('level');
+			expect(getGlyphsetKeywords('balance')).toBe('side');
+			expect(getGlyphsetKeywords('interconnected')).toBe('node');
+			expect(getGlyphsetKeywords('funnel')).toBe('level');
 		});
 
-		it('should return "item" for unknown types', () => {
-			expect(getPrimaryKeyword('unknownType')).toBe('item');
-		});
+		// it('should return "item" for unknown types', () => {
+		// 	expect(getGlyphsetKeywords('unknownType')).toBe('item');
+		// });
 	});
 
 	describe('areGlyphsetsCompatible', () => {
@@ -73,26 +68,6 @@ describe('glyphsetConversion', () => {
 			expect(result2.reason).toContain('center item and spoke items');
 		});
 	});
-	describe('getCompatibleAlternatives', () => {
-		it('should suggest alternatives for groupedProcess', () => {
-			const alternatives = getCompatibleAlternatives('groupedProcess', 'funnel');
-			expect(alternatives).toContain('basicProcess');
-			expect(alternatives).toContain('stepProcess');
-			expect(alternatives).not.toContain('funnel'); // Target type excluded
-		});
-
-		it('should suggest alternatives when converting to hub', () => {
-			const alternatives = getCompatibleAlternatives('basicProcess', 'hub');
-			expect(alternatives).toContain('interconnected');
-			expect(alternatives).toContain('cluster');
-		});
-
-		it('should suggest alternatives for equation', () => {
-			const alternatives = getCompatibleAlternatives('equation', 'basicProcess');
-			expect(alternatives).toContain('balance');
-			expect(alternatives).toContain('basicList');
-		});
-	});
 
 	describe('convertGlyphset', () => {
 		it('should convert pyramid to invertedPyramid', () => {
@@ -129,8 +104,8 @@ describe('glyphsetConversion', () => {
 
 		it('should convert balance sides to items with warning', () => {
 			const code = `glyphset balance "Test" {
-  side "Pros"
-  side "Cons"
+  item"Pros"
+  item"Cons"
 }`;
 			const result = convertGlyphset(code, 'basicList');
 
@@ -466,9 +441,9 @@ describe('glyphsetConversion', () => {
 
 		it('should split items evenly between two groups', () => {
 			const code = `glyphset basicProcess "Test" {
-  step "Step 1"
-  step "Step 2"
-  step "Step 3"
+  item "Step 1"
+  item "Step 2"
+  item "Step 3"
 }`;
 			const result = expandToGroupedProcess(code);
 

@@ -2,23 +2,23 @@ import { shapeRegistry } from '../registries.js';
 import { registerShapeAliases } from '../shape-aliases.js';
 
 // Import from category folders
-import * as basic from './basic/index.js';
-import * as flowchart from './flowchart/index.js';
-import * as storage from './storage/index.js';
-import * as controlSystems from './control-systems/index.js';
-import * as special from './special/index.js';
-import * as rectVariants from './rect-variants/index.js';
-import * as charts from './charts/index.js';
-import * as network from './network/index.js';
-import * as quantum from './quantum/index.js';
-import * as uml from './uml/index.js';
-import * as c4 from './c4/index.js';
-import * as pedigree from './pedigree/index.js';
-import * as bpmn from './bpmn/index.js';
 import * as aws from './aws/index.js';
-import * as erd from './erd/index.js';
+import * as basic from './basic/index.js';
+import * as bpmn from './bpmn/index.js';
+import * as c4 from './c4/index.js';
+import * as charts from './charts/index.js';
+import * as controlSystems from './control-systems/index.js';
 import * as dataFlow from './data-flow/index.js';
+import * as erd from './erd/index.js';
+import * as flowchart from './flowchart/index.js';
 import * as glyphsets from './glyphsets/index.js';
+import * as network from './network/index.js';
+import * as pedigree from './pedigree/index.js';
+import * as quantum from './quantum/index.js';
+import * as rectVariants from './rect-variants/index.js';
+import * as special from './special/index.js';
+import * as storage from './storage/index.js';
+import * as uml from './uml/index.js';
 
 // Selective registration functions for tree-shaking
 export function registerBasicShapes(): void {
@@ -163,7 +163,7 @@ export function registerGlyphsets(): void {
   shapeRegistry.register(glyphsets.orbitCycleShape); // Orbit cycle (planetary style)
   shapeRegistry.register(glyphsets.steppedVenn); // Stepped Venn (3D stacked circles)
   shapeRegistry.register(glyphsets.linearVenn); // Linear Venn (horizontal overlap)
-  shapeRegistry.register(glyphsets.counterbalance); // Counterbalance (tilted scale)
+  shapeRegistry.register(glyphsets.counterBalance); // Counterbalance (tilted scale)
   shapeRegistry.register(glyphsets.equation); // Equation (A + B = C)
   shapeRegistry.register(glyphsets.interconnected); // Interconnected (mesh network)
   shapeRegistry.register(glyphsets.hub); // Hub (radial hub-and-spoke)
@@ -340,19 +340,19 @@ export function registerDefaultShapes(): void {
 }
 
 // Re-export all shapes from category folders
-export * from './basic/index.js';
-export * from './flowchart/index.js';
-export * from './storage/index.js';
-export * from './control-systems/index.js';
-export * from './special/index.js';
-export * from './rect-variants/index.js';
-export * from './charts/index.js';
-export * from './network/index.js';
-export * from './quantum/index.js';
-export * from './uml/index.js';
-export * from './pedigree/index.js';
-export * from './c4/index.js';
-export * from './bpmn/index.js';
 export * from './aws/index.js';
-export * from './erd/index.js';
+export * from './basic/index.js';
+export * from './bpmn/index.js';
+export * from './c4/index.js';
+export * from './charts/index.js';
+export * from './control-systems/index.js';
 export * from './data-flow/index.js';
+export * from './erd/index.js';
+export * from './flowchart/index.js';
+export * from './network/index.js';
+export * from './pedigree/index.js';
+export * from './quantum/index.js';
+export * from './rect-variants/index.js';
+export * from './special/index.js';
+export * from './storage/index.js';
+export * from './uml/index.js';

@@ -124,10 +124,10 @@ glyphset spiralCycle "Growth Journey" {
 ```runiq
 glyphset basicProcess "Creative Workflow" {
   theme vibrant
-  step "Ideate"
-  step "Design"
-  step "Build"
-  step "Launch"
+  item "Ideate"
+  item "Design"
+  item "Build"
+  item "Launch"
 }
 ```
 

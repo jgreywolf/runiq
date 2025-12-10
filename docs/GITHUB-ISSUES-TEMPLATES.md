@@ -377,11 +377,11 @@ Create a library of 10-15 preset diagram templates as an alternative to PowerPoi
 #### Phase 3: DSL Syntax (4 hours)
 ```runiq
 diagram process "Project Phases" template:horizontal-process
-  step "Research"
-  step "Design"
-  step "Develop"
-  step "Test"
-  step "Deploy"
+  item "Research"
+  item "Design"
+  item "Develop"
+  item "Test"
+  item "Deploy"
 
 # Expands to:
 diagram flowchart "Project Phases" direction LR

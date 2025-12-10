@@ -1,7 +1,7 @@
 import type { DiagramAst, NodeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { type ColorTheme } from '../themes.js';
-import { type ImageItem, validateImageItem } from '../utils/image.js';
+import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { validateImageItem, type ImageItem } from '../utils/image.js';
 
 /**
  * Picture Process GlyphSet
@@ -100,7 +100,7 @@ export const pictureProcessGlyphSet: GlyphSetDefinition = {
       if (typeof item === 'string') {
         return {
           image: item,
-          label: `Step ${index + 1}`,
+          label: `item ${index + 1}`,
         };
       } else if (validateImageItem(item)) {
         return item;

@@ -73,8 +73,8 @@ Two-sided balance scale showing trade-offs.
 ```runiq
 glyphset balance "professional" {
   theme forest
-  side "Costs: Initial Investment, Training, Maintenance"
-  side "Benefits: Productivity, ROI, Scalability"
+  item"Costs: Initial Investment, Training, Maintenance"
+  item"Benefits: Productivity, ROI, Scalability"
 }
 ```
 

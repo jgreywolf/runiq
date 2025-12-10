@@ -4,12 +4,12 @@
  */
 
 import { ProfileName } from '$lib/types';
+import { shapeRegistry } from '@runiq/core';
+import { getBpmnShapeIcon, isBpmnEvent, isBpmnGateway } from './bpmnIcons';
 import { getDiagramShapeIcon, isDiagramSpecialIcon } from './diagramIcons';
 import { getGlyphsetShapeIcon, isGlyphsetShape } from './glyphsetIcons';
-import { getBpmnShapeIcon, isBpmnEvent, isBpmnGateway } from './bpmnIcons';
-import { getTextIcon, hasTextIcon, getEntryExitIcon } from './textIcons';
-import { shapeRegistry } from '@runiq/core';
 import { createMockContext } from './mockContext';
+import { getEntryExitIcon, getTextIcon, hasTextIcon } from './textIcons';
 
 interface IconRequest {
 	shapeId: string;
@@ -38,7 +38,8 @@ export function getShapeIconSvg(request: IconRequest): string | null {
 
 		default:
 			// Fallback: try all sources
-			return getGlyphsetIcon(shapeId, size) || getDiagramProfileIcon(shapeId, size) || null;
+			//return getGlyphsetIcon(shapeId, size) || getDiagramProfileIcon(shapeId, size) || null;
+			return generatePlaceholderIcon(shapeId, size);
 	}
 }
 
@@ -88,14 +89,35 @@ function renderShapeFromRegistry(shapeId: string, size: number): string | null {
 	// Map some toolbox IDs to registry IDs
 	const shapeIdMap: Record<string, string> = {
 		paperTape: 'flag',
-		package: 'umlPackage'
+		package: 'umlPackage',
+		erdMultiValuedAttribute: 'erdMultivaluedAttribute'
 	};
+
+	// Container/template shapes don't exist in registry - they're code snippets
+	const snippetShapes = [
+		'basic-container',
+		'styled-container',
+		'template-definition',
+		'template-with-params',
+		'template-usage',
+		'preset-definition',
+		'preset-usage',
+		'themed-presets',
+		'container-inheritance',
+		'combined-template-preset',
+		'collapsible-container',
+		'nested-containers'
+	];
+
+	if (snippetShapes.includes(shapeId)) {
+		return generatePlaceholderIcon(shapeId, size);
+	}
 
 	const actualShapeId = shapeIdMap[shapeId] || shapeId;
 	const shape = shapeRegistry.get(actualShapeId);
 
 	if (!shape) {
-		return null;
+		return generatePlaceholderIcon(shapeId, size);
 	}
 
 	// Create mock context for rendering
@@ -118,4 +140,23 @@ function renderShapeFromRegistry(shapeId: string, size: number): string | null {
 			${shapeContent}
 		</svg>
 	`;
+}
+
+/**
+ * Generate a placeholder icon for shapes that cannot be rendered
+ */
+function generatePlaceholderIcon(shapeId: string, size: number): string {
+	const abbreviation = shapeId
+		.replace(/([A-Z])/g, ' $1')
+		.trim()
+		.split(' ')
+		.map((word) => word[0])
+		.join('')
+		.slice(0, 3)
+		.toUpperCase();
+
+	return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="white" stroke="#ccc" stroke-width="1" rx="2"/>
+        <text x="${size / 2}" y="${size / 2 + 3}" text-anchor="middle" font-size="8" fill="#666" font-family="monospace">${abbreviation}</text>
+    </svg>`;
 }

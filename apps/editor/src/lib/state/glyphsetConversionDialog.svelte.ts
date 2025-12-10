@@ -31,14 +31,12 @@ export function openGlyphsetConversionDialog(
 	fromType: string,
 	toType: string,
 	reason: string,
-	alternatives: string[],
 	canConvert: boolean = false
 ) {
 	glyphsetConversionDialogState.open = true;
 	glyphsetConversionDialogState.fromType = fromType;
 	glyphsetConversionDialogState.toType = toType;
 	glyphsetConversionDialogState.reason = reason;
-	glyphsetConversionDialogState.alternatives = alternatives;
 	glyphsetConversionDialogState.canConvert = canConvert;
 }
 

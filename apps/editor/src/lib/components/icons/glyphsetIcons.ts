@@ -94,7 +94,7 @@ export const glyphsetShapeIcons: Record<string, string> = {
 		'<path d="M8,8 L18,8 Q18,12 22,12 Q26,12 26,8 L32,8 L32,18 Q28,18 28,22 Q28,26 32,26 L32,32 L22,32 Q22,28 18,28 Q14,28 14,32 L8,32 Z" fill="#8B9DC3" stroke="#333" stroke-width="0.8"/>',
 	plusMinus:
 		'<circle cx="14" cy="20" r="8" fill="#8B9DC3" stroke="#333" stroke-width="0.8"/><line x1="14" y1="16" x2="14" y2="24" stroke="#333" stroke-width="1.5"/><line x1="10" y1="20" x2="18" y2="20" stroke="#333" stroke-width="1.5"/><circle cx="26" cy="20" r="8" fill="#A8B8D8" stroke="#333" stroke-width="0.8"/><line x1="22" y1="20" x2="30" y2="20" stroke="#333" stroke-width="1.5"/>',
-	counterbalance:
+	counterBalance:
 		'<rect x="6" y="12" width="10" height="16" fill="#8B9DC3" stroke="#333" stroke-width="0.8"/><rect x="24" y="12" width="10" height="16" fill="#A8B8D8" stroke="#333" stroke-width="0.8"/><line x1="20" y1="8" x2="20" y2="32" stroke="#333" stroke-width="1"/>',
 	equation:
 		'<circle cx="8" cy="20" r="4" fill="#8B9DC3" stroke="#333" stroke-width="0.8"/><text x="14" y="23" font-size="7" fill="#333">+</text><circle cx="20" cy="20" r="4" fill="#8B9DC3" stroke="#333" stroke-width="0.8"/><text x="26" y="23" font-size="7" fill="#333">=</text><circle cx="32" cy="20" r="4" fill="#8B9DC3" stroke="#333" stroke-width="0.8"/>',
