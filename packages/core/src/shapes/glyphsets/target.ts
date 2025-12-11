@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Target (Bullseye) Shape
@@ -40,20 +41,7 @@ export const target: ShapeDefinition = {
     ctx: ShapeRenderContext
   ): { x: number; y: number; name?: string }[] => {
     const bounds = target.bounds(ctx);
-    const cx = bounds.width / 2;
-    const cy = bounds.height / 2;
-
-    // Anchors at cardinal directions on the outermost circle
-    const circles = (ctx.node.data?.circles as Array<{ size: number }>) || [];
-    const maxRadius =
-      circles.length > 0 ? Math.max(...circles.map((c) => c.size)) : 100;
-
-    return [
-      { x: cx, y: cy - maxRadius, name: 'top' }, // Top
-      { x: cx + maxRadius, y: cy, name: 'right' }, // Right
-      { x: cx, y: cy + maxRadius, name: 'bottom' }, // Bottom
-      { x: cx - maxRadius, y: cy, name: 'left' }, // Left
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render: (

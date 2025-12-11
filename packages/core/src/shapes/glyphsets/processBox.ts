@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Darken a hex color by 20% for borders
@@ -30,7 +31,10 @@ export const processBoxShape: ShapeDefinition = {
 
     // Estimate width based on label length
     const minWidth = 120;
-    const estimatedWidth = Math.max(minWidth, label.length * (fontSize * 0.6) + 40);
+    const estimatedWidth = Math.max(
+      minWidth,
+      label.length * (fontSize * 0.6) + 40
+    );
 
     return {
       width: estimatedWidth,
@@ -40,12 +44,7 @@ export const processBoxShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -56,11 +55,13 @@ export const processBoxShape: ShapeDefinition = {
     const data = ctx.node.data as { color?: string } | undefined;
     const themeColor = data?.color;
 
-    const stroke = ctx.style.stroke || (themeColor ? darkenColor(themeColor) : '#2E5AAC');
+    const stroke =
+      ctx.style.stroke || (themeColor ? darkenColor(themeColor) : '#2E5AAC');
     const fill = ctx.style.fill || themeColor || '#4472C4'; // Office blue
     const strokeWidth = ctx.style.strokeWidth || 0;
     const fontSize = ctx.style.fontSize || 14;
-    const fontFamily = typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
+    const fontFamily =
+      typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
 
     const cornerRadius = 4;
     const x = position.x;

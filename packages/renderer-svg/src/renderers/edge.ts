@@ -1,4 +1,5 @@
-import type { DiagramAst, RoutedEdge, DiagramTheme } from '@runiq/core';
+import type { DiagramAst, DiagramTheme, RoutedEdge } from '@runiq/core';
+import { ArrowType, LineStyle } from '@runiq/core';
 import { escapeXml, renderMultilineText } from './utils.js';
 
 export function renderEdge(
@@ -43,15 +44,15 @@ export function renderEdge(
     1;
 
   // Determine line style
-  const lineStyle = (edgeAst as any).lineStyle || 'solid';
+  const lineStyle = (edgeAst as any).lineStyle || LineStyle.SOLID;
   let strokeDasharray = '';
   let isDoubleLine = false;
 
-  if (lineStyle === 'dashed') {
+  if (lineStyle === LineStyle.DASHED) {
     strokeDasharray = ' stroke-dasharray="5,3"';
-  } else if (lineStyle === 'dotted') {
+  } else if (lineStyle === LineStyle.DOTTED) {
     strokeDasharray = ' stroke-dasharray="2,2"';
-  } else if (lineStyle === 'double') {
+  } else if (lineStyle === LineStyle.DOUBLE) {
     // Double line for consanguineous marriages
     isDoubleLine = true;
   }
@@ -82,7 +83,7 @@ export function renderEdge(
   let edgeMarkup = `<g${groupAttrs}>`;
 
   // Determine arrow type and bidirectionality
-  const arrowType = (edgeAst as any).arrowType || 'standard';
+  const arrowType = (edgeAst as any).arrowType || ArrowType.STANDARD;
   const edgeType = (edgeAst as any).edgeType; // UML relationship type
   const isBidirectional = !!(edgeAst as any).bidirectional;
   const navigability = (edgeAst as any).navigability; // UML navigability direction
@@ -114,7 +115,7 @@ export function renderEdge(
   if (
     edgeType === 'aggregation' ||
     edgeType === 'composition' ||
-    arrowType !== 'none'
+    arrowType !== ArrowType.NONE
   ) {
     edgeMarkup += `<defs>`;
 
@@ -132,7 +133,7 @@ export function renderEdge(
         <polygon points="6,0 12,6 6,12 0,6" fill="${stroke}" />
       </marker>`;
       useMarkerStart = true;
-    } else if (arrowType === 'standard') {
+    } else if (arrowType === ArrowType.STANDARD) {
       // Filled triangle (association, standard arrow)
       edgeMarkup += `
       <marker id="${arrowId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -148,7 +149,7 @@ export function renderEdge(
       </marker>`;
         useMarkerStart = true;
       }
-    } else if (arrowType === 'hollow') {
+    } else if (arrowType === ArrowType.HOLLOW) {
       // Hollow triangle (generalization/inheritance)
       edgeMarkup += `
       <marker id="${arrowId}" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -164,7 +165,7 @@ export function renderEdge(
       </marker>`;
         useMarkerStart = true;
       }
-    } else if (arrowType === 'open') {
+    } else if (arrowType === ArrowType.OPEN) {
       // Open arrow (dependency)
       edgeMarkup += `
       <marker id="${arrowId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">

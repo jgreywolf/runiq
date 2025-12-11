@@ -1,8 +1,8 @@
-import type { ShapeDefinition } from '../../types/index.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
 
 interface ImageItem {
   image?: string;
