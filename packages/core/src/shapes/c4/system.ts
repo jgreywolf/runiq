@@ -1,3 +1,4 @@
+import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderMultilineText } from '../../types/index.js';
 
@@ -13,7 +14,7 @@ export const c4System: ShapeDefinition = {
       ...ctx.style,
       fontSize: (ctx.style.fontSize || 14) + 2, // Slightly larger
     });
-    const padding = ctx.style.padding || 20;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING_LARGE;
     const minWidth = 160;
     const minHeight = 100;
 

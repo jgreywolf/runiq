@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { ProfileType } from '@runiq/core';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser';
 
 describe('Sequence Diagram Interaction Use (ref)', () => {
@@ -20,7 +21,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.fragments).toBeDefined();
@@ -58,7 +59,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.fragments).toHaveLength(2);
@@ -90,7 +91,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const fragment = seqProfile?.fragments?.[0];
@@ -130,7 +131,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.fragments).toHaveLength(3);
@@ -163,7 +164,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const fragment = seqProfile?.fragments?.[0];
@@ -195,7 +196,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.fragments).toHaveLength(2);
@@ -221,7 +222,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const fragment = seqProfile?.fragments?.[0];
@@ -249,7 +250,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const fragment = seqProfile?.fragments?.[0];
@@ -276,7 +277,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const fragment = seqProfile?.fragments?.[0];
@@ -303,7 +304,7 @@ describe('Sequence Diagram Interaction Use (ref)', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.fragments).toHaveLength(1);

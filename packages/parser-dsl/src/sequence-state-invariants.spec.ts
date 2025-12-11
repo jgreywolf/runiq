@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { ProfileType } from '@runiq/core';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser';
 
 describe('Sequence Diagram - Message State Invariants', () => {
@@ -17,7 +18,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.messages).toHaveLength(2);
@@ -40,7 +41,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.messages).toHaveLength(2);
@@ -70,7 +71,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.messages).toHaveLength(4);
@@ -100,7 +101,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const message = seqProfile?.messages?.[0];
@@ -122,7 +123,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const message = seqProfile?.messages?.[0];
@@ -144,7 +145,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const message = seqProfile?.messages?.[0];
@@ -168,7 +169,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.messages?.[0].stateInvariant).toBe(
@@ -191,7 +192,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.messages?.[0].stateInvariant).toBe(
@@ -213,7 +214,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.messages?.[0].stateInvariant).toBe(
@@ -237,7 +238,7 @@ describe('Sequence Diagram - Message State Invariants', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.messages).toHaveLength(3);

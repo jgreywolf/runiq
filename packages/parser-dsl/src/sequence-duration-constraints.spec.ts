@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { ProfileType } from '@runiq/core';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser';
 
 describe('Sequence Diagram Duration Constraints', () => {
@@ -20,7 +21,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.durationConstraints).toBeDefined();
@@ -54,7 +55,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.durationConstraints).toBeDefined();
@@ -93,7 +94,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const constraint = seqProfile?.durationConstraints?.[0];
@@ -123,7 +124,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.durationConstraints).toHaveLength(1);
@@ -150,7 +151,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const constraint = seqProfile?.durationConstraints?.[0];
@@ -179,7 +180,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.durationConstraints).toHaveLength(3);
@@ -209,7 +210,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.durationConstraints).toBeUndefined();
@@ -236,7 +237,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.fragments).toHaveLength(1);
@@ -265,7 +266,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     const constraint = seqProfile?.durationConstraints?.[0];
@@ -297,7 +298,7 @@ describe('Sequence Diagram Duration Constraints', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.messages).toHaveLength(6);

@@ -1,3 +1,4 @@
+import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
 
 /**
@@ -8,7 +9,7 @@ export const systemBoundaryShape: ShapeDefinition = {
   id: 'systemBoundary',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 20;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING_LARGE;
 
     // System boundaries need to be large enough to contain use cases
     // Minimum size ensures reasonable container space
@@ -39,7 +40,7 @@ export const systemBoundaryShape: ShapeDefinition = {
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
-    const padding = ctx.style.padding || 20;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING_LARGE;
 
     const fill = ctx.style.fill || 'none';
     const stroke = ctx.style.stroke || '#666';

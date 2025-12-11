@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { ProfileType } from '@runiq/core';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser';
 
 describe('Sequence Diagram Gates', () => {
@@ -22,7 +23,7 @@ describe('Sequence Diagram Gates', () => {
     expect(result.success).toBe(true);
 
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
     expect(seqProfile).toBeDefined();
     expect(seqProfile?.fragments).toBeDefined();
@@ -53,7 +54,7 @@ describe('Sequence Diagram Gates', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
     const fragment = seqProfile?.fragments?.[0];
 
@@ -84,7 +85,7 @@ describe('Sequence Diagram Gates', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
     const fragment = seqProfile?.fragments?.[0];
 
@@ -114,7 +115,7 @@ describe('Sequence Diagram Gates', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
     const fragment = seqProfile?.fragments?.[0];
 
@@ -140,7 +141,7 @@ describe('Sequence Diagram Gates', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
     const fragment = seqProfile?.fragments?.[0];
 
@@ -168,7 +169,7 @@ describe('Sequence Diagram Gates', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
     const fragment = seqProfile?.fragments?.[0];
 
@@ -199,7 +200,7 @@ describe('Sequence Diagram Gates', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
     const fragment = seqProfile?.fragments?.[0];
 
@@ -235,7 +236,7 @@ describe('Sequence Diagram Gates', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
 
     expect(seqProfile?.fragments).toBeDefined();
@@ -269,7 +270,7 @@ describe('Sequence Diagram Gates', () => {
 
     expect(result.success).toBe(true);
     const seqProfile = result.document?.profiles?.find(
-      (p) => p.type === 'sequence'
+      (p) => p.type === ProfileType.SEQUENCE
     );
     const fragment = seqProfile?.fragments?.[0];
 

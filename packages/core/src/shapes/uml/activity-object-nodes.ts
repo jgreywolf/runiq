@@ -1,3 +1,4 @@
+import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
 
 /**
@@ -9,7 +10,7 @@ export const objectNodeShape: ShapeDefinition = {
   id: 'objectNode',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
     const nameSize = ctx.measureText(ctx.node.label || 'Object', ctx.style);
 
     const width = nameSize.width + padding * 2;
@@ -68,7 +69,7 @@ export const centralBufferShape: ShapeDefinition = {
   id: 'centralBuffer',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
     const stereotypePadding = 6;
     const nameSize = ctx.measureText(ctx.node.label || 'Buffer', ctx.style);
     const stereotypeSize = ctx.measureText('«centralBuffer»', {
@@ -140,7 +141,7 @@ export const dataStoreShape: ShapeDefinition = {
   id: 'dataStore',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
     const stereotypePadding = 6;
     const nameSize = ctx.measureText(ctx.node.label || 'DataStore', ctx.style);
     const stereotypeSize = ctx.measureText('«datastore»', {

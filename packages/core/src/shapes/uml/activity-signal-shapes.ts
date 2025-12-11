@@ -1,3 +1,4 @@
+import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
 
 /**
@@ -9,7 +10,7 @@ export const sendSignalShape: ShapeDefinition = {
   id: 'sendSignal',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
     const labelSize = ctx.measureText(ctx.node.label || 'Send', ctx.style);
 
     const width = labelSize.width + padding * 3;
@@ -78,7 +79,7 @@ export const receiveSignalShape: ShapeDefinition = {
   id: 'receiveSignal',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
     const labelSize = ctx.measureText(ctx.node.label || 'Receive', ctx.style);
 
     const width = labelSize.width + padding * 3;
@@ -147,7 +148,7 @@ export const acceptEventShape: ShapeDefinition = {
   id: 'acceptEvent',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
     const labelSize = ctx.measureText(ctx.node.label || 'Wait', ctx.style);
 
     const width = labelSize.width + padding * 3;

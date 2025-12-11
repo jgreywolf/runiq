@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { ProfileType } from '@runiq/core';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser.js';
 
 describe('Navigability and Constraints', () => {
@@ -21,7 +22,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.edges).toHaveLength(1);
         const edge = diagram.edges[0];
         expect(edge.navigability).toBe('target'); // Only target end is navigable
@@ -48,7 +49,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.edges).toHaveLength(4);
         expect(diagram.edges[0].navigability).toBe('source');
         expect(diagram.edges[1].navigability).toBe('target');
@@ -77,7 +78,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         const edge = diagram.edges[0];
         expect(edge.edgeType).toBe('aggregation');
         expect(edge.navigability).toBe('target');
@@ -104,7 +105,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         const node = diagram.nodes[0];
         expect(node.data).toBeDefined();
         expect(node.data.attributes).toHaveLength(1);
@@ -129,7 +130,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         const node = diagram.nodes[0];
         const method = node.data.methods[0];
         expect(method.name).toBe('query');
@@ -153,7 +154,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         const edge = diagram.edges[0];
         expect(edge.constraints).toEqual(['ordered']);
       }
@@ -173,7 +174,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         const attr = diagram.nodes[0].data.attributes[0];
         expect(attr.constraints).toHaveLength(3);
         expect(attr.constraints).toContain('ordered');

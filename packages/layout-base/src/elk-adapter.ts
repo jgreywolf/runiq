@@ -13,6 +13,7 @@ import {
   ArrowType,
   createTextMeasurer,
   LayoutAlgorithm,
+  LayoutDefaults,
   shapeRegistry,
 } from '@runiq/core';
 import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled.js';
@@ -1414,7 +1415,7 @@ export class ElkLayoutEngine implements LayoutEngine {
         const padding =
           pool.containerStyle?.padding !== undefined
             ? pool.containerStyle.padding
-            : 30;
+            : LayoutDefaults.CONTAINER_PADDING;
         const childCount = pool.children.length;
         const avgNodeSize = 100;
         const estimatedWidth = Math.max(
@@ -1432,7 +1433,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
       const containerSpacing =
-        container.layoutOptions?.spacing?.toString() || '50';
+        container.layoutOptions?.spacing?.toString() ??
+        LayoutDefaults.NODE_SPACING.toString();
 
       // Determine layout direction based on container options or shape
       // Priority: container.layoutOptions.direction > container.shape override > default
@@ -1582,7 +1584,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : LayoutDefaults.CONTAINER_PADDING;
 
       // Estimate container size based on children
       const childCount = container.children.length;
@@ -1646,7 +1648,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : LayoutDefaults.CONTAINER_PADDING;
 
       // Step 1: Recursively calculate nested container sizes first (depth-first)
       if (container.containers && container.containers.length > 0) {
@@ -2108,7 +2110,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : LayoutDefaults.CONTAINER_PADDING;
 
       // Find all direct child nodes in this container
       const childNodes = nodes.filter(
@@ -2188,7 +2190,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const padding =
       container.containerStyle?.padding !== undefined
         ? container.containerStyle.padding
-        : 30;
+        : LayoutDefaults.CONTAINER_PADDING;
 
     const elkContainer: ElkNode = {
       id: container.id || '',

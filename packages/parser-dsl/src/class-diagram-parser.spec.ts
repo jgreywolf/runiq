@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { ProfileType } from '@runiq/core';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser.js';
 
 describe('Class Diagram Parser', () => {
@@ -14,8 +15,8 @@ diagram "test" {
     expect(result.document?.profiles).toHaveLength(1);
 
     const diagram = result.document!.profiles[0];
-    expect(diagram.type).toBe('diagram');
-    if (diagram.type === 'diagram') {
+    expect(diagram.type).toBe(ProfileType.DIAGRAM);
+    if (diagram.type === ProfileType.DIAGRAM) {
       expect(diagram.nodes).toHaveLength(1);
       expect(diagram.nodes[0].id).toBe('Order');
       expect(diagram.nodes[0].shape).toBe('class');
@@ -34,7 +35,7 @@ diagram "test" {
     expect(result.success).toBe(true);
 
     const diagram = result.document!.profiles[0];
-    if (diagram.type === 'diagram') {
+    if (diagram.type === ProfileType.DIAGRAM) {
       expect(diagram.nodes).toHaveLength(1);
       expect(diagram.nodes[0].id).toBe('Customer');
       expect(diagram.nodes[0].label).toBe('Customer'); // Should default to ID
@@ -59,7 +60,7 @@ diagram "test" {
     expect(result.success).toBe(true);
 
     const diagram = result.document!.profiles[0];
-    if (diagram.type === 'diagram') {
+    if (diagram.type === ProfileType.DIAGRAM) {
       const node = diagram.nodes[0];
       expect(node.data).toBeDefined();
       expect(node.data!.attributes).toBeDefined();
@@ -97,7 +98,7 @@ diagram "test" {
     expect(result.success).toBe(true);
 
     const diagram = result.document!.profiles[0];
-    if (diagram.type === 'diagram') {
+    if (diagram.type === ProfileType.DIAGRAM) {
       const node = diagram.nodes[0];
       expect(node.data).toBeDefined();
       expect(node.data!.methods).toBeDefined();
@@ -126,7 +127,7 @@ diagram "test" {
     expect(result.success).toBe(true);
 
     const diagram = result.document!.profiles[0];
-    if (diagram.type === 'diagram') {
+    if (diagram.type === ProfileType.DIAGRAM) {
       const node = diagram.nodes[0];
       expect(node.data).toBeDefined();
       expect(node.data!.genericTypes).toBeDefined();
@@ -145,7 +146,7 @@ diagram "test" {
     expect(result.success).toBe(true);
 
     const diagram = result.document!.profiles[0];
-    if (diagram.type === 'diagram') {
+    if (diagram.type === ProfileType.DIAGRAM) {
       const node = diagram.nodes[0];
       expect(node.data).toBeDefined();
       expect(node.data!.stereotype).toBe('interface');
@@ -176,7 +177,7 @@ diagram "test" {
     expect(result.success).toBe(true);
 
     const diagram = result.document!.profiles[0];
-    if (diagram.type === 'diagram') {
+    if (diagram.type === ProfileType.DIAGRAM) {
       const node = diagram.nodes[0];
       expect(node.id).toBe('BankAccount');
       expect(node.shape).toBe('class');
@@ -213,7 +214,7 @@ diagram "test" {
     expect(result.success).toBe(true);
 
     const diagram = result.document!.profiles[0];
-    if (diagram.type === 'diagram') {
+    if (diagram.type === ProfileType.DIAGRAM) {
       expect(diagram.edges).toHaveLength(1);
       expect(diagram.edges[0].from).toBe('Order.customerId');
       expect(diagram.edges[0].to).toBe('Customer.id');
@@ -238,7 +239,7 @@ diagram "test" {
     expect(result.success).toBe(true);
 
     const diagram = result.document!.profiles[0];
-    if (diagram.type === 'diagram') {
+    if (diagram.type === ProfileType.DIAGRAM) {
       expect(diagram.edges).toHaveLength(2);
 
       // Member to class
@@ -272,7 +273,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.edges).toHaveLength(1);
         const edge = diagram.edges[0];
         expect(edge.multiplicitySource).toBe('1');
@@ -301,7 +302,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.edges).toHaveLength(3);
 
         expect(diagram.edges[0].multiplicitySource).toBe('0..1');
@@ -337,7 +338,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.edges).toHaveLength(1);
         const edge = diagram.edges[0];
         expect(edge.edgeType).toBe('aggregation');
@@ -368,7 +369,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.edges).toHaveLength(1);
         const edge = diagram.edges[0];
         expect(edge.edgeType).toBe('composition');
@@ -400,7 +401,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.edges).toHaveLength(1);
         const edge = diagram.edges[0];
         expect(edge.label).toBe('employs');
@@ -436,7 +437,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.edges).toHaveLength(1);
         const edge = diagram.edges[0];
         expect(edge.edgeType).toBe('composition');
@@ -465,7 +466,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         expect(diagram.nodes).toHaveLength(1);
         const node = diagram.nodes[0];
         expect(node.data).toBeDefined();
@@ -499,7 +500,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         const node = diagram.nodes[0];
 
         // Check static attribute
@@ -534,7 +535,7 @@ diagram "test" {
       expect(result.success).toBe(true);
 
       const diagram = result.document!.profiles[0];
-      if (diagram.type === 'diagram') {
+      if (diagram.type === ProfileType.DIAGRAM) {
         const node = diagram.nodes[0];
         const total = node.data.attributes[1];
 

@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { ProfileType } from '@runiq/core';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser.js';
 
 describe('Schematic Profile Parsing', () => {
@@ -15,10 +16,10 @@ electrical "RC Filter" {
     expect(result.document?.profiles).toHaveLength(1);
 
     const profile = result.document!.profiles[0];
-    expect(profile.type).toBe('electrical');
+    expect(profile.type).toBe(ProfileType.ELECTRICAL);
     expect(profile.name).toBe('RC Filter');
 
-    if (profile.type === 'electrical') {
+    if (profile.type === ProfileType.ELECTRICAL) {
       expect(profile.nets).toHaveLength(3);
       expect(profile.nets[0].name).toBe('IN');
       expect(profile.nets[1].name).toBe('OUT');
@@ -40,7 +41,7 @@ electrical "RC Lowpass" {
     expect(result.success).toBe(true);
     const profile = result.document!.profiles[0];
 
-    if (profile.type === 'electrical') {
+    if (profile.type === ProfileType.ELECTRICAL) {
       expect(profile.parts).toHaveLength(2);
       expect(profile.analyses).toBeDefined();
       expect(profile.analyses![0].kind).toBe('tran');
