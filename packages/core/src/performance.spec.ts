@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { shapeRegistry } from './registries.js';
 import { registerDefaultShapes } from './shapes/index.js';
-import type { DiagramAst, NodeAst } from './types.js';
+import type { DiagramAst, NodeAst } from './types/index.js';
 import { createTextMeasurer } from './text-measurement/index.js';
 
 describe('Performance Benchmarks', () => {

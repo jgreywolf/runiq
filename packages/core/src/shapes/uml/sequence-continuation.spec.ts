@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { continuationShape } from './sequence-continuation.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 function createMockContext(label = 'ref'): ShapeRenderContext {
   return {

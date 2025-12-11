@@ -10,6 +10,7 @@ import type {
   RoutedEdge,
 } from '@runiq/core';
 import {
+  ArrowType,
   createTextMeasurer,
   LayoutAlgorithm,
   shapeRegistry,
@@ -3062,7 +3063,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
       if (edge.arrowType === undefined) {
         // Mindmaps traditionally don't use arrows
-        edge.arrowType = 'none';
+        edge.arrowType = ArrowType.NONE;
       }
     }
   }

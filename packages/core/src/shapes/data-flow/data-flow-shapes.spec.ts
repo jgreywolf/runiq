@@ -7,7 +7,7 @@ import {
   dataStoreLeftShape,
   dataStoreOpenShape,
 } from './index.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 // Mock render context helper
 function createMockContext(

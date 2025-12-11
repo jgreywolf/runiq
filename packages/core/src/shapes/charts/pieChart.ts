@@ -1,4 +1,4 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 
 /**
  * Default color palette for pie chart slices

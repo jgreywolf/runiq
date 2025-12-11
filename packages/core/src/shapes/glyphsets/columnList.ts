@@ -1,5 +1,5 @@
 import { getThemeColor } from '../../themes/glyphset-themes.js';
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
 import {
   createStandardAnchors,
   extractItems,

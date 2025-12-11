@@ -1,4 +1,4 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 
 /**
  * Circle Hierarchy Shape - Concentric circles hierarchy

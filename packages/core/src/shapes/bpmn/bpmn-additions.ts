@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
 
 /**
  * Transaction - Rounded rectangle with double border (thick outer, thin inner)

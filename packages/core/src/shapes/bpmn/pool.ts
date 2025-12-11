@@ -1,4 +1,4 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 
 /**
  * BPMN Pool/Lane shape - represents a participant or sub-partition in a process.

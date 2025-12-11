@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 import { erdEntityShape } from './entity.js';
 import { erdWeakEntityShape } from './weakEntity.js';
 import { erdRelationshipShape } from './relationship.js';

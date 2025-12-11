@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
 
 /**
  * Darken a hex color by 20% for borders

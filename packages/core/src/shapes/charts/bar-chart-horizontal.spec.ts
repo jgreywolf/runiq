@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { barChart } from './barChart.js';
-import type { ShapeRenderContext, NodeAst } from '../../types.js';
+import type { ShapeRenderContext, NodeAst } from '../../types/index.js';
 
 // Helper to create render context for horizontal bar chart
 function createContext(data: any, style?: any): ShapeRenderContext {

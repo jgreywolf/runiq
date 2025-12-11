@@ -8,13 +8,33 @@ import type {
   LinkRef,
   NodeAst,
   Style,
-} from '../types.js';
+} from '../types/index.js';
 
 const DirectionSchema = z.nativeEnum(Direction);
 
-const StyleSchema = z
-  .record(z.unknown())
-  .refine((val): val is Style => typeof val === 'object' && val !== null);
+const StyleSchema = z.object({
+  fill: z.string().optional(),
+  fillColor: z.string().optional(),
+  stroke: z.string().optional(),
+  strokeColor: z.string().optional(),
+  strokeWidth: z.number().optional(),
+  font: z.string().optional(),
+  fontSize: z.number().optional(),
+  fontFamily: z.string().optional(),
+  fontWeight: z.string().optional(),
+  textAlign: z.string().optional(),
+  rx: z.number().optional(),
+  ry: z.number().optional(),
+  padding: z.number().optional(),
+  opacity: z.number().optional(),
+  textColor: z.string().optional(),
+  color: z.string().optional(),
+  affected: z.boolean().optional(),
+  carrier: z.boolean().optional(),
+  deceased: z.boolean().optional(),
+  tagFill: z.string().optional(),
+  extensions: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
+}) satisfies z.ZodType<Style>;
 
 const IconRefSchema = z.object({
   provider: z.string(),

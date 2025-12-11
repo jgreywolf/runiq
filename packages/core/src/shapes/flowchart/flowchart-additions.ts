@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
 
 /**
  * Multi-Process - Stacked rectangles to indicate multiple process instances

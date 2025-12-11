@@ -8,7 +8,7 @@ import {
   conversationShape,
   annotationShape,
 } from './bpmn-additions.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 function createMockContext(label = 'Test'): ShapeRenderContext {
   return {

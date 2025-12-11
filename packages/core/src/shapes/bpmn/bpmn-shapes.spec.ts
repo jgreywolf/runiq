@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 import { bpmnTaskShape } from './task.js';
 import { bpmnEventShape } from './event.js';
 import { bpmnGatewayShape } from './gateway.js';

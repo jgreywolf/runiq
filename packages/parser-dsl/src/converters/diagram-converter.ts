@@ -75,17 +75,43 @@ function processDialogStatement(
       const key = prop.key.endsWith(':') ? prop.key.slice(0, -1) : prop.key;
 
       if (key === 'lineStyle') {
+        // Store strokeDasharray in extensions for custom properties
+        if (!style.extensions) {
+          style.extensions = {};
+        }
         if (value === 'dashed') {
-          style['strokeDasharray'] = '5,5';
+          style.extensions['strokeDasharray'] = '5,5';
         } else if (value === 'dotted') {
-          style['strokeDasharray'] = '2,2';
+          style.extensions['strokeDasharray'] = '2,2';
         } else if (value === 'solid') {
-          style['strokeDasharray'] = 'none';
+          style.extensions['strokeDasharray'] = 'none';
         } else {
-          style['strokeDasharray'] = value;
+          style.extensions['strokeDasharray'] = value;
         }
       } else {
-        style[key] = value;
+        // Check if this is a known Style property or extension property
+        const knownStyleProps = [
+          'fill',
+          'fillColor',
+          'stroke',
+          'strokeColor',
+          'strokeWidth',
+          'fontSize',
+          'fontFamily',
+          'fontWeight',
+          'textAlign',
+          'opacity',
+        ];
+        if (knownStyleProps.includes(key)) {
+          // @ts-expect-error - Dynamic property assignment to known Style properties
+          style[key] = value;
+        } else {
+          // Store unknown properties in extensions
+          if (!style.extensions) {
+            style.extensions = {};
+          }
+          style.extensions[key] = value;
+        }
       }
     }
     if (!diagram.styles) {

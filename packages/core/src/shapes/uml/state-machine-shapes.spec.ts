@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 import { stateShape } from './state.js';
 import { initialStateShape } from './initialState.js';
 import { finalStateShape } from './finalState.js';

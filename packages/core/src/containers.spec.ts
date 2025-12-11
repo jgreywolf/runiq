@@ -3,7 +3,7 @@ import type {
   DiagramAst,
   ContainerDeclaration,
   ContainerStyle,
-} from './types.js';
+} from './types/index.js';
 
 describe('Hierarchical Containers - Core Types', () => {
   describe('ContainerDeclaration Type', () => {

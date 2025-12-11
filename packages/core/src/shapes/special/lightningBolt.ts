@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
 
 /**
  * Lightning bolt - for power, energy, or asynchronous events

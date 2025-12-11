@@ -5,7 +5,7 @@
  * This is a fast approximation suitable for server-side rendering
  * where pixel-perfect accuracy isn't required.
  */
-import type { Style } from '../types.js';
+import type { Style } from '../types/index.js';
 
 /**
  * Character width ratios relative to font size

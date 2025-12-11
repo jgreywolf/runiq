@@ -2,7 +2,7 @@
  * Auto-detecting text measurement
  * Uses browser implementation by default, falls back to Node.js heuristic
  */
-import type { Style } from '../types.js';
+import type { Style } from '../types/index.js';
 
 // Simple heuristic implementation (used as fallback)
 function heuristicMeasureText(

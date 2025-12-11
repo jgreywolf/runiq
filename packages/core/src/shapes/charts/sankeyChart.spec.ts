@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { sankeyChart, sankeyNode } from './sankeyChart.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 describe('sankeyNode', () => {
   describe('Shape Definition', () => {

@@ -7,7 +7,7 @@
  * - database (alias to cylinder)
  */
 
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 // ============================================================================

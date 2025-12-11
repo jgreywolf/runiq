@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { activityShape } from './activity.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 // Mock shape context for testing
 function createMockContext(

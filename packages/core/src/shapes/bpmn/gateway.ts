@@ -1,5 +1,5 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
-import { getDataProperty } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { getDataProperty } from '../../types/index.js';
 
 /**
  * BPMN Gateway shape - represents a branching or merging point in a process.

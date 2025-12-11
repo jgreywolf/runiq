@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 export const roundedRectangleShape: ShapeDefinition = {

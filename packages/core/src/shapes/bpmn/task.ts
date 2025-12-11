@@ -1,5 +1,5 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
-import { getDataProperty } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { getDataProperty } from '../../types/index.js';
 
 /**
  * BPMN Task shape - represents an atomic activity within a process.

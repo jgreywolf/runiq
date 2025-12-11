@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { lifelineShape } from './lifeline.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 describe('Lifeline Shape with State Invariants', () => {
   let mockContext: ShapeRenderContext;

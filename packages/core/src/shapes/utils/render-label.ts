@@ -1,4 +1,4 @@
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 /**
  * Helper function to render labels consistently across all shapes.

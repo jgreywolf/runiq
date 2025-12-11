@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 import { awsEc2Shape } from './ec2.js';
 import { awsS3Shape } from './s3.js';
 import { awsLambdaShape } from './lambda.js';

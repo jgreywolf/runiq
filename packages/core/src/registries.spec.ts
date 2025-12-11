@@ -4,7 +4,7 @@ import type {
   IconProvider,
   LayoutEngine,
   ShapeRenderContext,
-} from './types.js';
+} from './types/index.js';
 
 // We need to test the registry classes directly since they're used internally
 // Import private classes for testing by recreating them

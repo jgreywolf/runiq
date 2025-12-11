@@ -1,5 +1,5 @@
-import type { ShapeDefinition } from '../../types.js';
-import { renderMultilineText, escapeXml } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderMultilineText, escapeXml } from '../../types/index.js';
 
 /**
  * C4 Model: Container

@@ -4,7 +4,7 @@ import {
   centralBufferShape,
   dataStoreShape,
 } from './activity-object-nodes.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 // Mock shape context for testing
 function createMockContext(label: string = 'Test'): ShapeRenderContext {

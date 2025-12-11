@@ -1,4 +1,4 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
 
 /**
  * Hourglass shape (collate) - two triangles meeting at center point

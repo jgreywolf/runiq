@@ -1,4 +1,4 @@
-import type { DiagramAst } from '../types.js';
+import type { DiagramAst } from '../types/index.js';
 
 // TODO: Do we actually need this anymore?  Its only used in CLI
 export type DiagramType =

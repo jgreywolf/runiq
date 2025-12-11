@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ellipseWideShape } from '../basic/ellipseWide.js';
 import { systemBoundaryShape } from './systemBoundary.js';
-import type { ShapeRenderContext, Style } from '../../types.js';
+import type { ShapeRenderContext, Style } from '../../types/index.js';
 
 describe('Use Case Shapes', () => {
   const mockCtx: ShapeRenderContext = {

@@ -31,7 +31,7 @@ export * from './shapes/graph-metrics.js';
 export * from './shapes/index.js';
 export * from './text-measurement/index.js';
 export * from './themes/index.js';
-export * from './types.js';
+export * from './types/index.js';
 export * from './validation/schema.js';
 export {
   DIAGRAM_TYPE_CONSTRAINTS,

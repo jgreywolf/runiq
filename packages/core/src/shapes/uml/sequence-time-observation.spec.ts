@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { timeObservationShape } from './sequence-time-observation.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 function createMockContext(label = ''): ShapeRenderContext {
   return {

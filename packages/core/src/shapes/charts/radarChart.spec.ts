@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { radarChart } from './radarChart.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 describe('radarChart', () => {
   describe('Shape Definition', () => {

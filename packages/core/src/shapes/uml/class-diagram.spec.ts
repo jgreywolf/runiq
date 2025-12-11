@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { ShapeRenderContext, NodeAst, Style } from '../../types.js';
+import type { ShapeRenderContext, NodeAst, Style } from '../../types/index.js';
 import { classShape } from './class.js';
 
 // Mock text measurement function

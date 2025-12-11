@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { DiagramAstSchema, validateDiagram } from './schema.js';
-import type { DiagramAst } from '../types.js';
+import type { DiagramAst } from '../types/index.js';
 
 describe('Schema', () => {
   describe('DiagramAstSchema', () => {

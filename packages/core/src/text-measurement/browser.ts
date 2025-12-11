@@ -2,7 +2,7 @@
  * Browser-based text measurement using Canvas API
  * Provides accurate text measurements for web environments
  */
-import type { Style } from '../types.js';
+import type { Style } from '../types/index.js';
 
 let canvas: HTMLCanvasElement | null = null;
 let context: CanvasRenderingContext2D | null = null;

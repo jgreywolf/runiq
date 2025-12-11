@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { pieChart } from './pieChart.js';
-import type { ShapeRenderContext, NodeAst, Style } from '../../types.js';
+import type { ShapeRenderContext, NodeAst, Style } from '../../types/index.js';
 
 // Helper to create test context
 function ctx(data?: any): ShapeRenderContext {

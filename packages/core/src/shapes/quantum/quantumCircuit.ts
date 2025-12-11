@@ -9,7 +9,7 @@
  * Visual Standard: IBM Qiskit
  */
 
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 
 // ============================================================================
 // Pauli X Gate (NOT Gate)

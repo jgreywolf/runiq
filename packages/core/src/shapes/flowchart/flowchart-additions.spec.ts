@@ -8,7 +8,7 @@ import {
 } from './flowchart-additions.js';
 import { orShape } from '../special/or.js';
 import { summingJunctionShape } from '../control-systems/summingJunction.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 function createMockContext(label = 'Test'): ShapeRenderContext {
   return {

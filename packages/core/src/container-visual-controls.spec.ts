@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import type {
   ContainerDeclaration,
   ContainerStyle,
-} from './types.js';
+} from './types/index.js';
 
 describe('Container Phase 4: Visual Controls', () => {
   describe('Collapse Button Controls', () => {
