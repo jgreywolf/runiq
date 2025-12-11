@@ -1,11 +1,11 @@
 import type {
-  SequenceProfile,
-  SequenceParticipant,
-  SequenceMessage,
-  SequenceNote,
+  SequenceDurationConstraint,
   SequenceFragment,
   SequenceFragmentAlternative,
-  SequenceDurationConstraint,
+  SequenceMessage,
+  SequenceNote,
+  SequenceParticipant,
+  SequenceProfile,
 } from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';

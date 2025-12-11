@@ -1,4 +1,9 @@
-import type { PneumaticProfile, PartAst, PressureSpec, FlowRateSpec } from '@runiq/core';
+import type {
+  FlowRateSpec,
+  PartAst,
+  PneumaticProfile,
+  PressureSpec,
+} from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 

@@ -1,16 +1,20 @@
-import ELK, { ElkNode, ElkExtendedEdge } from 'elkjs/lib/elk.bundled.js';
 import type {
+  ContainerDeclaration,
   DiagramAst,
   EdgeAst,
+  LaidOutDiagram,
   LayoutEngine,
   LayoutOptions,
-  LaidOutDiagram,
+  PositionedContainer,
   PositionedNode,
   RoutedEdge,
-  PositionedContainer,
-  ContainerDeclaration,
 } from '@runiq/core';
-import { shapeRegistry, createTextMeasurer, LayoutAlgorithm } from '@runiq/core';
+import {
+  createTextMeasurer,
+  LayoutAlgorithm,
+  shapeRegistry,
+} from '@runiq/core';
+import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled.js';
 import { circularLayout } from './circular-layout.js';
 
 /**
@@ -1442,7 +1446,8 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
 
       // For radial/mindmap layouts, use straight lines instead of orthogonal routing
-      const isRadialLayout = container.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL;
+      const isRadialLayout =
+        container.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL;
 
       // Create a mini ELK graph for this container's contents
       const containerGraph: ElkNode = {

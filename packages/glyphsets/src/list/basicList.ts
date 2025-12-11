@@ -1,9 +1,9 @@
-import type { NodeAst, Direction } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
-import { getThemeColor, type ColorTheme } from '../themes.js';
-import { validateArrayParameter } from '../utils/validation.js';
-import { extractStringParam } from '../utils/parameters.js';
+import type { Direction } from '@runiq/core';
+import { type ColorTheme } from '../themes.js';
+import { type GlyphSetDefinition } from '../types.js';
 import { generateLinearProcess } from '../utils/generators.js';
+import { extractStringParam } from '../utils/parameters.js';
+import { validateArrayParameter } from '../utils/validation.js';
 
 /**
  * Basic List GlyphSet
@@ -50,7 +50,11 @@ export const basicListGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
-    const theme = extractStringParam(params, 'theme', 'professional') as ColorTheme;
+    const theme = extractStringParam(
+      params,
+      'theme',
+      'professional'
+    ) as ColorTheme;
 
     // Validation - validateArrayParameter checks both required and array constraints
     validateArrayParameter('basicList', 'items', items, {

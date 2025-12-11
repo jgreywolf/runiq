@@ -1,7 +1,6 @@
 ﻿import type { DiagramAst, RuniqDocument } from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import { EmptyFileSystem } from 'langium';
-import * as Langium from './generated/ast.js';
 import {
   convertDiagramProfile,
   convertDigitalProfile,
@@ -13,6 +12,7 @@ import {
   convertTimelineProfile,
   convertWardleyProfile,
 } from './converters/index.js';
+import * as Langium from './generated/ast.js';
 import { expandGlyphSet, isGlyphSetProfile } from './glyphset-expander.js';
 import { createRuniqServices } from './langium-module.js';
 import { extractNodeLocations } from './utils/index.js';
@@ -26,7 +26,10 @@ export interface ParseResult {
   diagram?: DiagramAst; // Backwards compatibility - points to first diagram profile
   warnings: string[];
   errors: string[];
-  nodeLocations?: Map<string, import('./utils/location-tracker.js').NodeLocation>;
+  nodeLocations?: Map<
+    string,
+    import('./utils/location-tracker.js').NodeLocation
+  >;
 }
 
 /**

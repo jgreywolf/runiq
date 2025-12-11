@@ -13,7 +13,7 @@ import type {
   Style,
   TemplateParameter,
 } from '@runiq/core';
-import { ProfileType, LineStyle, ArrowType } from '@runiq/core';
+import { ArrowType, LineStyle, ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 import {
   convertDataProperty,

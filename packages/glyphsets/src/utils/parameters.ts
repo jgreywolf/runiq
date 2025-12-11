@@ -35,8 +35,7 @@ export function extractCommonParams(
       (params.showValues as boolean | undefined) ??
       defaults?.showValues ??
       false,
-    direction:
-      ((params.direction as 'TB' | 'LR' | undefined) ||
+    direction: ((params.direction as 'TB' | 'LR' | undefined) ||
       defaults?.direction ||
       'TB') as Direction,
     orientation:

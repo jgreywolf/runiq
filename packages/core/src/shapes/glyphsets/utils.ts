@@ -3,11 +3,11 @@
  * Reduces boilerplate and ensures consistency across shapes
  */
 
-import type { ShapeRenderContext } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeRenderContext } from '../../types.js';
 
 /**
  * Options for creating standard 4-point anchors
@@ -111,13 +111,10 @@ export interface ThemeConfig {
 export function extractTheme(ctx: ShapeRenderContext): ThemeConfig {
   const themeId = (ctx.node.data?.theme as string) || 'professional';
   const theme = getGlyphsetTheme(themeId);
-  
+
   // Extract custom colors if provided
   let colors: string[] = [];
-  if (
-    ctx.node.data?.colors &&
-    Array.isArray(ctx.node.data.colors)
-  ) {
+  if (ctx.node.data?.colors && Array.isArray(ctx.node.data.colors)) {
     colors = ctx.node.data.colors as string[];
   }
 
@@ -200,9 +197,10 @@ export interface ListBoundsOptions {
  * Calculate bounds for a simple list-based shape
  * Covers the common case of vertically or horizontally stacked items
  */
-export function calculateListBounds(
-  options: ListBoundsOptions
-): { width: number; height: number } {
+export function calculateListBounds(options: ListBoundsOptions): {
+  width: number;
+  height: number;
+} {
   const {
     items,
     ctx,

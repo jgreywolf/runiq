@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { Direction, EdgeRouting, LayoutAlgorithm, LineStyle, ArrowType } from '../constants.js';
+import { Direction } from '../constants.js';
 import type {
   DiagramAst,
-  NodeAst,
   EdgeAst,
   GroupAst,
-  Style,
   IconRef,
   LinkRef,
+  NodeAst,
+  Style,
 } from '../types.js';
 
 const DirectionSchema = z.nativeEnum(Direction);

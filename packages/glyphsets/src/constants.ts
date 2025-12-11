@@ -1,7 +1,7 @@
 /**
  * Unique identifiers for all glyphset implementations
  * This is the single source of truth for glyphset type identifiers across the system
- * 
+ *
  * Moved from @runiq/parser-dsl to centralize glyphset concerns
  */
 export const GlyphsetIdList = {

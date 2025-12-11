@@ -1,5 +1,5 @@
-import type { DiagramAst, NodeAst, EdgeAst } from '@runiq/core';
-import { Direction, LineStyle } from '@runiq/core';
+import type { DiagramAst, EdgeAst, NodeAst } from '@runiq/core';
+import { Direction } from '@runiq/core';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
@@ -104,7 +104,13 @@ export function generateCycleProcess(
     });
   }
 
-  return { astVersion: '1.0', direction: direction as Direction, theme, nodes, edges };
+  return {
+    astVersion: '1.0',
+    direction: direction as Direction,
+    theme,
+    nodes,
+    edges,
+  };
 }
 
 export interface HierarchyOptions {
@@ -150,7 +156,13 @@ export function generateHierarchy(
     }
   });
 
-  return { astVersion: '1.0', direction: direction as Direction, theme, nodes, edges };
+  return {
+    astVersion: '1.0',
+    direction: direction as Direction,
+    theme,
+    nodes,
+    edges,
+  };
 }
 
 export interface AlternatingProcessOptions {
@@ -199,7 +211,13 @@ export function generateAlternatingProcess(
     }
   });
 
-  return { astVersion: '1.0', direction: direction as Direction, theme, nodes, edges };
+  return {
+    astVersion: '1.0',
+    direction: direction as Direction,
+    theme,
+    nodes,
+    edges,
+  };
 }
 
 export interface CompositeNodeOptions {

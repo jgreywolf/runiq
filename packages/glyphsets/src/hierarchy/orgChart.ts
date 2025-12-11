@@ -1,7 +1,7 @@
-import type { GlyphSetDefinition } from '../types.js';
 import type { DiagramAst, Direction } from '@runiq/core';
-import { GlyphSetError } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
+import type { GlyphSetDefinition } from '../types.js';
+import { GlyphSetError } from '../types.js';
 
 /**
  * Organization Chart GlyphSet

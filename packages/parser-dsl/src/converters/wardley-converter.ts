@@ -1,8 +1,13 @@
-import type { WardleyProfile } from '@runiq/core';
+import type {
+  WardleyAnchor,
+  WardleyComponent,
+  WardleyDependency,
+  WardleyEvolution,
+  WardleyProfile,
+} from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 import { unescapeString } from '../utils/index.js';
-import type { WardleyComponent, WardleyDependency, WardleyAnchor, WardleyEvolution } from '@runiq/core';
 
 /**
  * Convert WardleyProfile from Langium AST to core format

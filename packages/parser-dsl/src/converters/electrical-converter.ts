@@ -1,4 +1,4 @@
-import type { ElectricalProfile, PartAst, AnalysisAst } from '@runiq/core';
+import type { AnalysisAst, ElectricalProfile, PartAst } from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 

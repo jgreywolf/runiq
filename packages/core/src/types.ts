@@ -4,12 +4,11 @@
  */
 
 import type {
-  ProfileType,
+  ArrowType,
   Direction,
   EdgeRouting,
   LayoutAlgorithm,
   LineStyle,
-  ArrowType,
 } from './constants.js';
 
 /**

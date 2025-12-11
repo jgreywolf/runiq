@@ -1,4 +1,10 @@
-import type { DigitalProfile, ModuleAst, InstanceAst, PortAst, NetAst } from '@runiq/core';
+import type {
+  DigitalProfile,
+  InstanceAst,
+  ModuleAst,
+  NetAst,
+  PortAst,
+} from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 

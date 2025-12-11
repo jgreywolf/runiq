@@ -1,9 +1,9 @@
 import type {
+  FlowRateSpec,
+  FluidSpec,
   HydraulicProfile,
   PartAst,
   PressureSpec,
-  FlowRateSpec,
-  FluidSpec,
   TemperatureRange,
 } from '@runiq/core';
 import { ProfileType } from '@runiq/core';

@@ -1,11 +1,11 @@
-import type { ShapeDefinition } from '../../types.js';
 import { getThemeColor } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types.js';
 import {
+  createStandardAnchors,
   extractItems,
   extractNumberProp,
-  extractTheme,
   extractStyle,
-  createStandardAnchors,
+  extractTheme,
   renderEmptyState,
 } from './utils.js';
 

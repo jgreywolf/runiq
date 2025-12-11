@@ -1,12 +1,12 @@
-import type { ShapeDefinition } from '../../types.js';
 import { getThemeColor } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types.js';
 import {
-  extractItems,
-  extractTheme,
-  extractStyle,
-  createStandardAnchors,
-  renderEmptyState,
   calculateMaxTextWidth,
+  createStandardAnchors,
+  extractItems,
+  extractStyle,
+  extractTheme,
+  renderEmptyState,
 } from './utils.js';
 
 /**

@@ -1,4 +1,4 @@
-import type { DiagramAst, Direction, NodeAst } from '@runiq/core';
+import type { Direction, NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**

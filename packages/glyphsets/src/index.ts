@@ -19,16 +19,20 @@ export { GlyphSetRegistry, glyphsetRegistry } from './registry.js';
 
 // Export constants (moved from parser-dsl for better package boundaries)
 export {
-  GlyphsetIdList,
   getAllGlyphsetIds,
+  getGlyphsetStructureType,
+  GlyphsetIdList,
   isGlyphsetId,
   isNestedGlyphset,
   isPictureGlyphset,
-  getGlyphsetStructureType,
   NestedStructureGlyphsets,
   PictureGlyphsets,
 } from './constants.js';
-export type { GlyphsetId, NestedGlyphsetId, PictureGlyphsetId } from './constants.js';
+export type {
+  GlyphsetId,
+  NestedGlyphsetId,
+  PictureGlyphsetId,
+} from './constants.js';
 
 // Export image utilities
 export {

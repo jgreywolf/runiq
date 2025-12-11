@@ -1,4 +1,4 @@
-import type { DiagramAst, NodeAst, Direction } from '@runiq/core';
+import type { DiagramAst, Direction, NodeAst } from '@runiq/core';
 import { type ColorTheme } from '../themes.js';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { validateImageItem, type ImageItem } from '../utils/image.js';

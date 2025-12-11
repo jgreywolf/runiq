@@ -2,9 +2,9 @@ import type {
   ContainerDeclaration,
   ContainerTemplate,
   DiagramAst,
+  Direction,
   EdgeAst,
   LineStyle,
-  Direction,
 } from '@runiq/core';
 import { type GlyphSetDefinition } from '../types.js';
 import { generateLinearProcess } from '../utils/generators.js';

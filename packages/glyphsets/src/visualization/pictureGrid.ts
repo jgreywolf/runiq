@@ -1,7 +1,7 @@
-import type { DiagramAst, NodeAst, Direction } from '@runiq/core';
+import type { DiagramAst, Direction, NodeAst } from '@runiq/core';
+import { type ColorTheme } from '../themes.js';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
-import { getThemeColor, type ColorTheme } from '../themes.js';
-import { type ImageItem, validateImageItem } from '../utils/image.js';
+import { validateImageItem, type ImageItem } from '../utils/image.js';
 
 /**
  * Picture Grid GlyphSet

@@ -1,4 +1,8 @@
-import type { TimelineProfile, TimelineEvent, TimelinePeriod } from '@runiq/core';
+import type {
+  TimelineEvent,
+  TimelinePeriod,
+  TimelineProfile,
+} from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 import { unescapeString } from '../utils/index.js';

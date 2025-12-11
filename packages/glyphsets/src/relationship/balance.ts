@@ -1,4 +1,4 @@
-import type { NodeAst, Direction } from '@runiq/core';
+import type { Direction, NodeAst } from '@runiq/core';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 

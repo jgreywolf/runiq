@@ -1,4 +1,10 @@
-import type { PIDProfile, PIDEquipment, PIDInstrument, PIDLine, PIDLoop } from '@runiq/core';
+import type {
+  PIDEquipment,
+  PIDInstrument,
+  PIDLine,
+  PIDLoop,
+  PIDProfile,
+} from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 
