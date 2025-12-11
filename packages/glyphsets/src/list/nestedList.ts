@@ -1,4 +1,4 @@
-import type { NodeAst } from '@runiq/core';
+import type { NodeAst, Direction } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**
@@ -125,7 +125,7 @@ export const nestedListGlyphSet: GlyphSetDefinition = {
 
     return {
       astVersion: '1.0',
-      direction: 'TB',
+      direction: 'TB' as Direction,
       nodes,
       edges: [],
     };

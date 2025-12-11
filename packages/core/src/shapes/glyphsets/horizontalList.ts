@@ -1,8 +1,13 @@
 import type { ShapeDefinition } from '../../types.js';
+import { getThemeColor } from '../../themes/glyphset-themes.js';
 import {
-  getGlyphsetTheme,
-  getThemeColor,
-} from '../../themes/glyphset-themes.js';
+  extractItems,
+  extractTheme,
+  extractStyle,
+  createStandardAnchors,
+  renderEmptyState,
+  calculateMaxTextWidth,
+} from './utils.js';
 
 /**
  * Horizontal List Shape - Left-to-right list with equal-width boxes
@@ -12,7 +17,7 @@ export const horizontalListShape: ShapeDefinition = {
   id: 'horizontalList',
 
   bounds(ctx) {
-    const items = (ctx.node.data?.items as string[]) || [];
+    const items = extractItems(ctx.node.data);
 
     if (items.length === 0) {
       return { width: 200, height: 100 };
@@ -22,12 +27,8 @@ export const horizontalListShape: ShapeDefinition = {
     const itemHeight = 50;
     const itemSpacing = 16;
 
-    // Calculate max text width
-    let maxWidth = 0;
-    for (const item of items) {
-      const textSize = ctx.measureText(item, ctx.style);
-      maxWidth = Math.max(maxWidth, textSize.width + padding * 2);
-    }
+    // Calculate max text width using utility
+    const maxWidth = calculateMaxTextWidth(items, ctx, 0) + padding * 2;
 
     // Use equal width for all items
     const itemWidth = Math.max(maxWidth, 100); // Min 100px
@@ -43,28 +44,17 @@ export const horizontalListShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const items = (ctx.node.data?.items as string[]) || [];
+    const items = extractItems(ctx.node.data);
 
     if (items.length === 0) {
-      return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
-                    fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+      return renderEmptyState({ x, y, ...bounds });
     }
 
     const padding = 12;
@@ -72,21 +62,17 @@ export const horizontalListShape: ShapeDefinition = {
     const itemSpacing = 16;
 
     // Calculate equal item width
-    let maxWidth = 0;
-    for (const item of items) {
-      const textSize = ctx.measureText(item, ctx.style);
-      maxWidth = Math.max(maxWidth, textSize.width + padding * 2);
-    }
+    const maxWidth = calculateMaxTextWidth(items, ctx, 0) + padding * 2;
     const itemWidth = Math.max(maxWidth, 100);
 
-    // Theme support
-    const themeId = (ctx.node.data?.theme as string) || 'professional';
-    const theme = getGlyphsetTheme(themeId);
+    // Use utility functions for theme and style
+    const { theme } = extractTheme(ctx);
+    const styleConfig = extractStyle(ctx);
 
-    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
-    const strokeWidth = ctx.style.strokeWidth || 0;
-    const fontSize = ctx.style.fontSize || 14;
-    const font = ctx.style.font || 'Arial, sans-serif';
+    const stroke = styleConfig.stroke || theme.accentColor || '#2E5AAC';
+    const strokeWidth = styleConfig.strokeWidth || 0;
+    const fontSize = styleConfig.fontSize;
+    const font = styleConfig.font;
 
     let svg = '';
 
@@ -95,7 +81,7 @@ export const horizontalListShape: ShapeDefinition = {
       const itemX = x + i * (itemWidth + itemSpacing);
 
       // Use theme color for each item
-      const itemFill = ctx.style.fill || getThemeColor(theme, i);
+      const itemFill = styleConfig.fill || getThemeColor(theme, i);
 
       // Use processBox style (gradient boxes)
       svg += `

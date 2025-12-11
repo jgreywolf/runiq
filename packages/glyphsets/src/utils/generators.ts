@@ -1,4 +1,5 @@
 import type { DiagramAst, NodeAst, EdgeAst } from '@runiq/core';
+import { Direction, LineStyle } from '@runiq/core';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
@@ -9,7 +10,7 @@ import { getThemeColor, type ColorTheme } from '../themes.js';
 export interface LinearProcessOptions {
   shape?: string;
   theme?: ColorTheme;
-  direction?: 'TB' | 'LR';
+  direction?: Direction;
   idPrefix?: string;
   edgeStyle?: 'solid' | 'dashed' | 'dotted';
 }
@@ -25,7 +26,7 @@ export function generateLinearProcess(
   const {
     shape = 'rect',
     theme = 'colorful',
-    direction = 'LR',
+    direction = 'LR' as Direction,
     idPrefix = 'step',
     edgeStyle = 'solid',
   } = options;
@@ -56,7 +57,7 @@ export function generateLinearProcess(
 export interface CycleProcessOptions {
   shape?: string;
   theme?: ColorTheme;
-  direction?: 'TB' | 'LR';
+  direction?: Direction;
   idPrefix?: string;
 }
 
@@ -71,7 +72,7 @@ export function generateCycleProcess(
   const {
     shape = 'rect',
     theme = 'colorful',
-    direction = 'LR',
+    direction = 'LR' as Direction,
     idPrefix = 'step',
   } = options;
 
@@ -103,13 +104,13 @@ export function generateCycleProcess(
     });
   }
 
-  return { astVersion: '1.0', direction, theme, nodes, edges };
+  return { astVersion: '1.0', direction: direction as Direction, theme, nodes, edges };
 }
 
 export interface HierarchyOptions {
   shape?: string;
   theme?: ColorTheme;
-  direction?: 'TB' | 'LR';
+  direction?: Direction;
   idPrefix?: string;
   levelsPerRow?: number;
 }
@@ -125,7 +126,7 @@ export function generateHierarchy(
   const {
     shape = 'rect',
     theme = 'colorful',
-    direction = 'TB',
+    direction = 'TB' as Direction,
     idPrefix = 'level',
   } = options;
 
@@ -149,13 +150,13 @@ export function generateHierarchy(
     }
   });
 
-  return { astVersion: '1.0', direction, theme, nodes, edges };
+  return { astVersion: '1.0', direction: direction as Direction, theme, nodes, edges };
 }
 
 export interface AlternatingProcessOptions {
   shape?: string;
   theme?: ColorTheme;
-  direction?: 'TB' | 'LR';
+  direction?: Direction;
   idPrefix?: string;
   alternateDirection?: boolean;
 }
@@ -171,7 +172,7 @@ export function generateAlternatingProcess(
   const {
     shape = 'rect',
     theme = 'colorful',
-    direction = 'LR',
+    direction = 'LR' as Direction,
     idPrefix = 'step',
   } = options;
 
@@ -198,7 +199,7 @@ export function generateAlternatingProcess(
     }
   });
 
-  return { astVersion: '1.0', direction, theme, nodes, edges };
+  return { astVersion: '1.0', direction: direction as Direction, theme, nodes, edges };
 }
 
 export interface CompositeNodeOptions {
@@ -226,7 +227,7 @@ export function generateCompositeNode(
 
   return {
     astVersion: '1.0',
-    direction: 'TB',
+    direction: 'TB' as Direction,
     nodes: [node],
     edges: [],
   };

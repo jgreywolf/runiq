@@ -62,7 +62,7 @@ describe('GlyphSet Integration', () => {
       `;
 
       // Parse succeeds but generator throws validation error
-      expect(() => parse(dsl)).toThrow('at least 2 items');
+      expect(() => parse(dsl)).toThrow('at least 2 steps');
     });
   });
 
@@ -80,10 +80,10 @@ describe('GlyphSet Integration', () => {
       const result = parse(dsl);
       const diagram = result.document?.profiles[0]!;
 
-      // cycle generates single custom shape node
+      // cycle generates single custom shape node with steps in data
       expect(diagram.nodes).toHaveLength(1);
       expect(diagram.nodes?.[0].shape).toBe('cycle');
-      expect(diagram.nodes?.[0].data?.items).toEqual([
+      expect(diagram.nodes?.[0].data?.steps).toEqual([
         'Plan',
         'Do',
         'Check',

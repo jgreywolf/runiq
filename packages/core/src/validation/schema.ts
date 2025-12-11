@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Direction, EdgeRouting, LayoutAlgorithm, LineStyle, ArrowType } from '../constants.js';
 import type {
   DiagramAst,
   NodeAst,
@@ -9,7 +10,7 @@ import type {
   LinkRef,
 } from '../types.js';
 
-const DirectionSchema = z.enum(['LR', 'RL', 'TB', 'BT']);
+const DirectionSchema = z.nativeEnum(Direction);
 
 const StyleSchema = z
   .record(z.unknown())

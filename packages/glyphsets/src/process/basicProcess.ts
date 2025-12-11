@@ -3,6 +3,8 @@ import type {
   ContainerTemplate,
   DiagramAst,
   EdgeAst,
+  LineStyle,
+  Direction,
 } from '@runiq/core';
 import { type GlyphSetDefinition } from '../types.js';
 import { generateLinearProcess } from '../utils/generators.js';
@@ -124,7 +126,7 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
     });
 
     // Determine direction based on orientation
-    const direction = orientation === 'vertical' ? 'TB' : 'LR';
+    const direction = (orientation === 'vertical' ? 'TB' : 'LR') as Direction;
 
     // Generate using simple nodes (default - works better with ELK)
     if (!useContainers) {
@@ -147,7 +149,7 @@ export const basicProcessGlyphSet: GlyphSetDefinition = {
  */
 function generateWithContainers(
   steps: string[],
-  direction: 'TB' | 'LR',
+  direction: Direction,
   theme?: string
 ): DiagramAst {
   // Define a container template for process steps with SmartArt-inspired styling
@@ -161,7 +163,7 @@ function generateWithContainers(
         strokeWidth: 0,
         padding: 20,
         shadow: true,
-        borderStyle: 'solid',
+        borderStyle: 'solid' as LineStyle,
       },
     },
   ];

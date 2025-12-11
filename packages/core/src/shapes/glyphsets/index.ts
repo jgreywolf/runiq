@@ -9,7 +9,7 @@ export { cluster } from './cluster.js'; // Cluster diagram (radial hub-and-spoke
 export { columnListShape } from './columnList.js'; // Multi-column list with equal-width columns
 export { continuousBlockProcessShape } from './continuousBlockProcess.js'; // Connected blocks with arrows
 export { converging } from './converging.js'; // Converging sources diagram
-export { counterBalance } from './counterBalance.js'; // Weighted balance scale with tilt
+export { counterBalance } from './counterbalance.js'; // Weighted balance scale with tilt
 export { cycleShape } from './cycleShape.js'; // Circular cycle diagram
 export { detailedProcessShape } from './detailedProcess.js'; // Process with main steps and substeps
 export { diverging } from './diverging.js'; // Diverging branches diagram

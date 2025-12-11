@@ -1,4 +1,4 @@
-import type { DiagramAst, NodeAst } from '@runiq/core';
+import type { DiagramAst, NodeAst, Direction } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { type ColorTheme } from '../themes.js';
 import { type ImageItem, validateImageItem } from '../utils/image.js';
@@ -139,7 +139,7 @@ export const framedPictureGlyphSet: GlyphSetDefinition = {
       astVersion: '1.0',
       nodes,
       edges: [],
-      direction: 'TB',
+      direction: 'TB' as Direction,
     };
 
     return diagram;

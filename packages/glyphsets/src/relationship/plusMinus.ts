@@ -1,5 +1,5 @@
 import type { GlyphSetDefinition } from '../types.js';
-import type { DiagramAst } from '@runiq/core';
+import type { DiagramAst, Direction } from '@runiq/core';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
@@ -102,7 +102,7 @@ export const plusMinusGlyphSet: GlyphSetDefinition = {
 
     const ast: DiagramAst = {
       astVersion: '1.0',
-      direction: 'LR',
+      direction: 'LR' as Direction,
       nodes: [compositeNode],
       edges: [],
     };

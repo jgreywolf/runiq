@@ -1,4 +1,4 @@
-import type { NodeAst } from '@runiq/core';
+import type { DiagramAst, Direction, NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**
@@ -140,7 +140,7 @@ export const segmentedPyramidGlyphSet: GlyphSetDefinition = {
 
     return {
       astVersion: '1.0',
-      direction: 'TB',
+      direction: 'TB' as Direction,
       nodes,
       edges: [],
     };

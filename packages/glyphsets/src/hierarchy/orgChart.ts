@@ -1,4 +1,5 @@
 import type { GlyphSetDefinition } from '../types.js';
+import type { DiagramAst, Direction } from '@runiq/core';
 import { GlyphSetError } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
@@ -127,9 +128,9 @@ export const orgChartGlyphSet: GlyphSetDefinition = {
     // Generate theme colors
     const colors = [0, 1, 2, 3, 4, 5].map((idx) => getThemeColor(theme, idx));
 
-    return {
+    const ast: DiagramAst = {
       astVersion: '1.0',
-      direction: 'TB',
+      direction: 'TB' as Direction,
       nodes: [
         {
           id: 'orgChart',
@@ -144,6 +145,8 @@ export const orgChartGlyphSet: GlyphSetDefinition = {
       ],
       edges: [],
     };
+
+    return ast;
   },
 };
 

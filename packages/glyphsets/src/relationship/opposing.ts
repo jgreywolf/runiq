@@ -1,4 +1,4 @@
-import type { NodeAst } from '@runiq/core';
+import type { NodeAst, Direction } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
@@ -91,7 +91,7 @@ export const opposingGlyphSet: GlyphSetDefinition = {
 
     return {
       astVersion: '1.0',
-      direction: 'TB',
+      direction: 'TB' as Direction,
       nodes,
       edges: [],
     };

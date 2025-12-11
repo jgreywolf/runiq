@@ -1,5 +1,5 @@
 import type { GlyphSetDefinition } from '../types.js';
-import type { DiagramAst } from '@runiq/core';
+import type { DiagramAst, Direction } from '@runiq/core';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
@@ -103,7 +103,7 @@ export const clusterGlyphSet: GlyphSetDefinition = {
 
     const ast: DiagramAst = {
       astVersion: '1.0',
-      direction: 'LR', // Not really used since cluster is radial, but required
+      direction: 'LR' as Direction, // Not really used since cluster is radial, but required
       nodes: [compositeNode],
       edges: [],
     };

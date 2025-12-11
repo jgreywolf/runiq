@@ -1,3 +1,4 @@
+import type { Direction } from '@runiq/core';
 import type { ColorTheme } from '../themes.js';
 
 /**
@@ -10,7 +11,7 @@ export interface CommonParams {
   shape: string;
   useContainers: boolean;
   showValues: boolean;
-  direction: 'TB' | 'LR';
+  direction: Direction;
   orientation: 'horizontal' | 'vertical';
 }
 
@@ -35,9 +36,9 @@ export function extractCommonParams(
       defaults?.showValues ??
       false,
     direction:
-      (params.direction as 'TB' | 'LR' | undefined) ||
+      ((params.direction as 'TB' | 'LR' | undefined) ||
       defaults?.direction ||
-      'TB',
+      'TB') as Direction,
     orientation:
       (params.orientation as 'horizontal' | 'vertical' | undefined) ||
       defaults?.orientation ||

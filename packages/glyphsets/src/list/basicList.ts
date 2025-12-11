@@ -1,4 +1,4 @@
-import type { NodeAst } from '@runiq/core';
+import type { NodeAst, Direction } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 import { validateArrayParameter } from '../utils/validation.js';
@@ -63,7 +63,7 @@ export const basicListGlyphSet: GlyphSetDefinition = {
     const result = generateLinearProcess(items, {
       shape: 'processBox',
       theme,
-      direction: 'TB', // Top-to-bottom for list
+      direction: 'TB' as Direction, // Top-to-bottom for list
       idPrefix: 'item',
     });
 

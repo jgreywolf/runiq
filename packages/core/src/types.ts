@@ -1,5 +1,16 @@
-export type Direction = 'LR' | 'RL' | 'TB' | 'BT';
-export type EdgeRouting = 'orthogonal' | 'polyline' | 'splines' | 'straight';
+/**
+ * Core type definitions for Runiq diagrams
+ * Shared across all packages
+ */
+
+import type {
+  ProfileType,
+  Direction,
+  EdgeRouting,
+  LayoutAlgorithm,
+  LineStyle,
+  ArrowType,
+} from './constants.js';
 
 /**
  * Data value types for data-driven rendering (charts, graphs)
@@ -131,8 +142,8 @@ export interface EdgeAst {
   routing?: EdgeRouting; // Per-edge routing override
   // UML enhancements for use case diagrams and other notations
   stereotype?: string | string[]; // e.g., 'include', 'extend', 'uses' (rendered as <<stereotype>>). Supports single or multiple stereotypes
-  lineStyle?: 'solid' | 'dashed' | 'dotted' | 'double'; // Line appearance (double for consanguineous marriages)
-  arrowType?: 'standard' | 'hollow' | 'open' | 'none'; // Arrow head style
+  lineStyle?: LineStyle; // Line appearance
+  arrowType?: ArrowType; // Arrow head style
   bidirectional?: boolean; // Whether to show arrows on both ends (from <-> syntax)
   strokeColor?: string; // Line color (e.g., '#2196f3', 'rgb(33, 150, 243)')
   strokeWidth?: number; // Line thickness in pixels
@@ -211,7 +222,7 @@ export interface ContainerDeclaration {
  */
 export interface ContainerStyle {
   // Basic styles (existing)
-  borderStyle?: 'solid' | 'dashed' | 'dotted';
+  borderStyle?: LineStyle;
   strokeColor?: string;
   strokeWidth?: number;
   fillColor?: string;
@@ -347,22 +358,9 @@ export interface ContainerPreset {
   style: Partial<ContainerStyle>; // Style properties to apply
 }
 
-/**
- * ELK layout algorithms supported by Runiq
- * - layered: Hierarchical layout (default, good for flowcharts)
- * - force: Force-directed layout (good for network graphs)
- * - stress: Stress-minimization layout (minimize edge lengths)
- * - radial: Radial tree layout (good for org charts, mind maps)
- * - mrtree: Multi-rooted tree layout (good for forests)
- * - circular: Circular/cycle layout (good for circular workflows, lifecycles)
- */
-export type LayoutAlgorithm =
-  | 'layered'
-  | 'force'
-  | 'stress'
-  | 'radial'
-  | 'mrtree'
-  | 'circular';
+// LayoutAlgorithm is imported from constants.js
+// See constants.ts for supported layout algorithms:
+// layered, force, stress, radial, mrtree, circular
 
 /**
  * Layout options that can be specified per container

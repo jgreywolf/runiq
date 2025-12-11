@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { pictureProcessGlyphSet } from './pictureProcess.js';
 
 describe('pictureProcess glyphset', () => {
@@ -19,7 +19,7 @@ describe('pictureProcess glyphset', () => {
       expect(data.items).toHaveLength(3);
       expect(data.items[0]).toMatchObject({
         image: 'https://example.com/step1.jpg',
-        label: 'Step 1',
+        label: 'item 1',
       });
       expect(data.direction).toBe('horizontal'); // default
     });

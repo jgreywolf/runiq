@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser.js';
 
 describe('P&ID Profile DSL Syntax', () => {

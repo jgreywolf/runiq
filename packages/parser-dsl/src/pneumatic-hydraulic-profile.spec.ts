@@ -1,5 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { parse } from './langium-parser.js';
+import {
+  parseHydraulicProfile,
+  parsePneumaticProfile,
+} from './test-utils/profile-helpers.js';
 
 describe('Pneumatic Profile Parsing', () => {
   it('should parse a simple pneumatic profile with nets', () => {
@@ -8,17 +12,11 @@ pneumatic "Simple Cylinder Circuit" {
   net P, A, R
 }`;
 
-    const result = parse(input);
+    const profile = parsePneumaticProfile(input);
 
-    expect(result.success).toBe(true);
-    expect(result.document).toBeDefined();
-    expect(result.document?.profiles).toHaveLength(1);
+    expect(profile?.name).toBe('Simple Cylinder Circuit');
 
-    const profile = result.document!.profiles[0];
-    expect(profile.type).toBe('pneumatic');
-    expect(profile.name).toBe('Simple Cylinder Circuit');
-
-    if (profile.type === 'pneumatic') {
+    if (profile) {
       expect(profile.nets).toHaveLength(3);
       expect(profile.nets[0].name).toBe('P');
       expect(profile.nets[1].name).toBe('A');
@@ -35,12 +33,9 @@ pneumatic "Cylinder with Valve" {
   part AIR type:AIR_SOURCE pins:(P)
 }`;
 
-    const result = parse(input);
+    const profile = parsePneumaticProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'pneumatic') {
+    if (profile) {
       expect(profile.parts).toHaveLength(3);
       expect(profile.parts[0].ref).toBe('CYL1');
       expect(profile.parts[0].type).toBe('CYL_SA');
@@ -59,12 +54,9 @@ pneumatic "Pressure Controlled System" {
   part CYL1 type:CYL_DA pins:(A,P)
 }`;
 
-    const result = parse(input);
+    const profile = parsePneumaticProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'pneumatic') {
+    if (profile) {
       expect(profile.pressure).toBeDefined();
       expect(profile.pressure?.value).toBe(6);
       expect(profile.pressure?.unit).toBe('bar');
@@ -80,12 +72,9 @@ pneumatic "Flow Controlled Circuit" {
   part FLOW1 type:FLOW_CONTROL pins:(P,A)
 }`;
 
-    const result = parse(input);
+    const profile = parsePneumaticProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'pneumatic') {
+    if (profile) {
       expect(profile.flowRate).toBeDefined();
       expect(profile.flowRate?.value).toBe(100);
       expect(profile.flowRate?.unit).toBe('L/min');
@@ -109,12 +98,9 @@ pneumatic "FRL Unit with Cylinder" {
   part GAUGE type:GAUGE_P pins:(REGULATED)
 }`;
 
-    const result = parse(input);
+    const profile = parsePneumaticProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'pneumatic') {
+    if (profile) {
       expect(profile.name).toBe('FRL Unit with Cylinder');
       expect(profile.nets).toHaveLength(6);
       expect(profile.parts).toHaveLength(7);
@@ -131,17 +117,10 @@ hydraulic "Simple Hydraulic System" {
   net P, A, B, T
 }`;
 
-    const result = parse(input);
-
-    expect(result.success).toBe(true);
-    expect(result.document).toBeDefined();
-    expect(result.document?.profiles).toHaveLength(1);
-
-    const profile = result.document!.profiles[0];
-    expect(profile.type).toBe('hydraulic');
+    const profile = parseHydraulicProfile(input);
     expect(profile.name).toBe('Simple Hydraulic System');
 
-    if (profile.type === 'hydraulic') {
+    if (profile) {
       expect(profile.nets).toHaveLength(4);
       expect(profile.nets[0].name).toBe('P');
       expect(profile.nets[1].name).toBe('A');
@@ -159,12 +138,9 @@ hydraulic "Pump and Motor Circuit" {
   part RES type:RESERVOIR pins:(RETURN,TANK,VENT)
 }`;
 
-    const result = parse(input);
+    const profile = parseHydraulicProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'hydraulic') {
+    if (profile) {
       expect(profile.parts).toHaveLength(3);
       expect(profile.parts[0].ref).toBe('PUMP1');
       expect(profile.parts[0].type).toBe('PUMP_FIXED');
@@ -184,12 +160,9 @@ hydraulic "High Pressure System" {
   part PUMP type:PUMP_VAR pins:(T,P,CONTROL)
 }`;
 
-    const result = parse(input);
+    const profile = parseHydraulicProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'hydraulic') {
+    if (profile) {
       expect(profile.pressure).toBeDefined();
       expect(profile.pressure?.value).toBe(200);
       expect(profile.pressure?.unit).toBe('bar');
@@ -208,12 +181,9 @@ hydraulic "Industrial Hydraulic System" {
   part PUMP type:PUMP_FIXED pins:(T,P)
 }`;
 
-    const result = parse(input);
+    const profile = parseHydraulicProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'hydraulic') {
+    if (profile) {
       expect(profile.fluid).toBeDefined();
       expect(profile.fluid?.type).toBe('mineral');
       expect(profile.fluid?.viscosity).toBe('ISO VG 46');
@@ -243,12 +213,9 @@ hydraulic "Hydraulic Power Unit" {
   part ACCUM type:ACCUMULATOR pins:(FILTERED)
 }`;
 
-    const result = parse(input);
+    const profile = parseHydraulicProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'hydraulic') {
+    if (profile) {
       expect(profile.name).toBe('Hydraulic Power Unit');
       expect(profile.nets).toHaveLength(7);
       expect(profile.parts).toHaveLength(8);
@@ -268,12 +235,9 @@ hydraulic "Cylinder Control" {
   part CYL2 type:CYL_HYD pins:(A,B) doc:"Another cylinder"
 }`;
 
-    const result = parse(input);
+    const profile = parseHydraulicProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'hydraulic') {
+    if (profile) {
       expect(profile.parts).toHaveLength(2);
       expect(profile.parts[0].doc).toBe('Double-acting cylinder');
       expect(profile.parts[1].doc).toBe('Another cylinder');
@@ -300,12 +264,9 @@ pneumatic "All Pneumatic Symbols" {
   part G1 type:GAUGE_P pins:(N1)
 }`;
 
-    const result = parse(input);
+    const profile = parsePneumaticProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'pneumatic') {
+    if (profile) {
       expect(profile.parts).toHaveLength(12);
       const types = profile.parts.map((p) => p.type);
       expect(types).toContain('CYL_SA');
@@ -342,12 +303,9 @@ hydraulic "All Hydraulic Symbols" {
   part G1 type:GAUGE_P_HYD pins:(N1)
 }`;
 
-    const result = parse(input);
+    const profile = parseHydraulicProfile(input);
 
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-
-    if (profile.type === 'hydraulic') {
+    if (profile) {
       expect(profile.parts).toHaveLength(13);
       const types = profile.parts.map((p) => p.type);
       expect(types).toContain('PUMP_FIXED');
@@ -373,11 +331,8 @@ describe('Pneumatic/Hydraulic Profile Edge Cases', () => {
 pneumatic "Empty Circuit" {
 }`;
 
-    const result = parse(input);
-
-    expect(result.success).toBe(true);
-    const profile = result.document!.profiles[0];
-    if (profile.type === 'pneumatic') {
+    const profile = parsePneumaticProfile(input);
+    if (profile) {
       expect(profile.nets).toHaveLength(0);
       expect(profile.parts).toHaveLength(0);
     }

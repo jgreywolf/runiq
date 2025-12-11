@@ -1,4 +1,4 @@
-import type { DiagramAst, NodeAst } from '@runiq/core';
+import type { DiagramAst, NodeAst, Direction } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 import {
@@ -115,7 +115,7 @@ export const pictureListGlyphSet: GlyphSetDefinition = {
     });
 
     // Create a single custom node that will render the entire picture list
-    const direction = orientation === 'vertical' ? 'TB' : 'LR';
+    const direction = (orientation === 'vertical' ? 'TB' : 'LR') as Direction;
 
     const nodes: NodeAst[] = [
       {

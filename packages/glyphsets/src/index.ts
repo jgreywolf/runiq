@@ -17,6 +17,19 @@ export { GlyphSetError } from './types.js';
 // Export registry
 export { GlyphSetRegistry, glyphsetRegistry } from './registry.js';
 
+// Export constants (moved from parser-dsl for better package boundaries)
+export {
+  GlyphsetIdList,
+  getAllGlyphsetIds,
+  isGlyphsetId,
+  isNestedGlyphset,
+  isPictureGlyphset,
+  getGlyphsetStructureType,
+  NestedStructureGlyphsets,
+  PictureGlyphsets,
+} from './constants.js';
+export type { GlyphsetId, NestedGlyphsetId, PictureGlyphsetId } from './constants.js';
+
 // Export image utilities
 export {
   getImageUrl,
@@ -78,7 +91,7 @@ import { stepProcessGlyphSet } from './process/stepProcess.js';
 import { balanceGlyphSet } from './relationship/balance.js';
 import { clusterGlyphSet } from './relationship/cluster.js';
 import { convergingGlyphSet } from './relationship/converging.js';
-import { counterBalanceGlyphSet } from './relationship/counterBalance.js';
+import { counterBalanceGlyphSet } from './relationship/counterbalance.js';
 import { divergingGlyphSet } from './relationship/diverging.js';
 import { equationGlyphSet } from './relationship/equation.js';
 import { hubGlyphSet } from './relationship/hub.js';
@@ -217,7 +230,7 @@ export { stepProcessGlyphSet } from './process/stepProcess.js';
 export { balanceGlyphSet } from './relationship/balance.js';
 export { clusterGlyphSet } from './relationship/cluster.js';
 export { convergingGlyphSet } from './relationship/converging.js';
-export { counterBalanceGlyphSet } from './relationship/counterBalance.js';
+export { counterBalanceGlyphSet } from './relationship/counterbalance.js';
 export { divergingGlyphSet } from './relationship/diverging.js';
 export { equationGlyphSet } from './relationship/equation.js';
 export { hubGlyphSet } from './relationship/hub.js';

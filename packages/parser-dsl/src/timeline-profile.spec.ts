@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { parse } from './langium-parser';
+import { describe, expect, it } from 'vitest';
+import { parseTimelineProfile } from './test-utils/profile-helpers.js';
 
 describe('Timeline Profile Tests', () => {
   describe('Basic Timeline Parsing', () => {
@@ -11,15 +11,10 @@ describe('Timeline Profile Tests', () => {
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(true);
-      expect(result.document.profiles).toHaveLength(1);
-
-      const profile = result.document.profiles[0];
-      expect(profile.type).toBe('timeline');
+      const profile = parseTimelineProfile(dsl);
       expect(profile.title).toBe('Project Launch');
 
-      if (profile.type === 'timeline') {
+      if (profile) {
         expect(profile.events).toHaveLength(2);
         expect(profile.events[0]).toMatchObject({
           id: 'E1',
@@ -47,11 +42,8 @@ describe('Timeline Profile Tests', () => {
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(true);
-
-      const profile = result.document.profiles[0];
-      if (profile.type === 'timeline') {
+      const profile = parseTimelineProfile(dsl);
+      if (profile) {
         expect(profile.events[0]).toMatchObject({
           id: 'E1',
           date: '2024-01-15',
@@ -80,11 +72,8 @@ describe('Timeline Profile Tests', () => {
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(true);
-
-      const profile = result.document.profiles[0];
-      if (profile.type === 'timeline') {
+      const profile = parseTimelineProfile(dsl);
+      if (profile) {
         expect(profile.periods).toHaveLength(2);
         expect(profile.periods![0]).toMatchObject({
           id: 'P1',
@@ -113,11 +102,8 @@ describe('Timeline Profile Tests', () => {
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(true);
-
-      const profile = result.document.profiles[0];
-      if (profile.type === 'timeline') {
+      const profile = parseTimelineProfile(dsl);
+      if (profile) {
         expect(profile.events).toHaveLength(2);
         expect(profile.periods).toHaveLength(1);
       }
@@ -131,11 +117,8 @@ describe('Timeline Profile Tests', () => {
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(true);
-
-      const profile = result.document.profiles[0];
-      if (profile.type === 'timeline') {
+      const profile = parseTimelineProfile(dsl);
+      if (profile) {
         expect(profile.orientation).toBe('vertical');
         expect(profile.events).toHaveLength(1);
       }
@@ -148,11 +131,8 @@ describe('Timeline Profile Tests', () => {
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(true);
-
-      const profile = result.document.profiles[0];
-      if (profile.type === 'timeline') {
+      const profile = parseTimelineProfile(dsl);
+      if (profile) {
         expect(profile.orientation).toBe('horizontal');
       }
     });
@@ -178,11 +158,8 @@ describe('Timeline Profile Tests', () => {
         }
       `;
 
-      const result = parse(dsl);
-      expect(result.success).toBe(true);
-
-      const profile = result.document.profiles[0];
-      if (profile.type === 'timeline') {
+      const profile = parseTimelineProfile(dsl);
+      if (profile) {
         expect(profile.title).toBe('Software Project Launch');
         expect(profile.events).toHaveLength(7);
         expect(profile.periods).toHaveLength(3);

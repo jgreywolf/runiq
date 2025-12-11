@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { parse } from './langium-parser.js';
+import { describe, expect, it } from 'vitest';
+import { parseWardleyProfile } from './test-utils/profile-helpers.js';
 
 describe('Wardley Map Parser', () => {
   it('should parse a simple Wardley Map', () => {
@@ -12,16 +12,9 @@ wardley "Tea Shop" {
   dependency from:"Cup of Tea" to:"Water"
 }`;
 
-    const result = parse(input);
+    const profile = parseWardleyProfile(input);
 
-    expect(result.success).toBe(true);
-    expect(result.document).toBeDefined();
-    expect(result.document?.profiles).toHaveLength(1);
-
-    const profile = result.document?.profiles[0];
-    expect(profile?.type).toBe('wardley');
-
-    if (profile?.type === 'wardley') {
+    if (profile) {
       expect(profile.name).toBe('Tea Shop');
       expect(profile.anchors).toHaveLength(1);
       expect(profile.components).toHaveLength(2);
@@ -54,14 +47,9 @@ wardley "Inertia Test" {
   component "Old Platform" evolution:0.4 value:0.7 inertia:true
 }`;
 
-    const result = parse(input);
+    const profile = parseWardleyProfile(input);
 
-    expect(result.success).toBe(true);
-
-    const profile = result.document?.profiles[0];
-    expect(profile?.type).toBe('wardley');
-
-    if (profile?.type === 'wardley') {
+    if (profile) {
       expect(profile.components).toHaveLength(1);
       expect(profile.components[0].inertia).toBe(true);
     }
@@ -74,14 +62,9 @@ wardley "Evolution Test" {
   evolve "Legacy System" to evolution:0.7
 }`;
 
-    const result = parse(input);
+    const profile = parseWardleyProfile(input);
 
-    expect(result.success).toBe(true);
-
-    const profile = result.document?.profiles[0];
-    expect(profile?.type).toBe('wardley');
-
-    if (profile?.type === 'wardley') {
+    if (profile) {
       expect(profile.components).toHaveLength(1);
       expect(profile.evolutions).toHaveLength(1);
 
@@ -96,14 +79,9 @@ wardley "Label Test" {
   component "Service" evolution:0.7 value:0.8 label:"Customer-facing service"
 }`;
 
-    const result = parse(input);
+    const profile = parseWardleyProfile(input);
 
-    expect(result.success).toBe(true);
-
-    const profile = result.document?.profiles[0];
-    expect(profile?.type).toBe('wardley');
-
-    if (profile?.type === 'wardley') {
+    if (profile) {
       expect(profile.components[0].label).toBe('Customer-facing service');
     }
   });
@@ -129,14 +107,9 @@ wardley "Tea Shop" {
   dependency from:"Kettle" to:"Power"
 }`;
 
-    const result = parse(input);
+    const profile = parseWardleyProfile(input);
 
-    expect(result.success).toBe(true);
-
-    const profile = result.document?.profiles[0];
-    expect(profile?.type).toBe('wardley');
-
-    if (profile?.type === 'wardley') {
+    if (profile) {
       expect(profile.name).toBe('Tea Shop');
       expect(profile.components).toHaveLength(7);
       expect(profile.dependencies).toHaveLength(6);

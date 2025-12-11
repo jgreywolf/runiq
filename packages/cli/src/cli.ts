@@ -12,6 +12,7 @@ import {
   iconRegistry,
   validateDiagramType,
   listDiagramTypes,
+  ProfileType,
   type DiagramType,
   type DiagramAst,
   type DiagramProfile,
@@ -37,7 +38,7 @@ function extractDiagramFromParseResult(result: ParseResult): DiagramAst | null {
 
   // Find the first diagram profile
   const diagramProfile = doc.profiles.find(
-    (p): p is DiagramProfile => p.type === 'diagram'
+    (p): p is DiagramProfile => p.type === ProfileType.DIAGRAM
   );
 
   if (!diagramProfile) {

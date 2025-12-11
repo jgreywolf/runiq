@@ -1,4 +1,4 @@
-import type { DiagramAst, NodeAst, EdgeAst } from '@runiq/core';
+import type { DiagramAst, NodeAst, EdgeAst, Direction } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 import { getThemeColor, type ColorTheme } from '../themes.js';
 import { validateArrayParameter } from '../utils/validation.js';
@@ -80,7 +80,7 @@ export const eventsGlyphSet: GlyphSetDefinition = {
     const result = generateLinearProcess(events, {
       shape: 'processBox', // Use SmartArt-style processBox!
       theme,
-      direction: 'LR', // Left-to-right for timeline
+      direction: 'LR' as Direction, // Left-to-right for timeline
       idPrefix: 'event',
     });
 

@@ -10,7 +10,7 @@ import type {
   PositionedContainer,
   ContainerDeclaration,
 } from '@runiq/core';
-import { shapeRegistry, createTextMeasurer } from '@runiq/core';
+import { shapeRegistry, createTextMeasurer, LayoutAlgorithm } from '@runiq/core';
 import { circularLayout } from './circular-layout.js';
 
 /**
@@ -183,7 +183,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Check if any container uses circular algorithm
     const hasCircularContainer = diagram.containers?.some(
-      (c) => c.layoutOptions?.algorithm === 'circular'
+      (c) => c.layoutOptions?.algorithm === LayoutAlgorithm.CIRCULAR
     );
 
     // If circular algorithm detected, delegate to custom circular layout
@@ -268,7 +268,7 @@ export class ElkLayoutEngine implements LayoutEngine {
             'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
           }
         : {
-            'elk.algorithm': 'layered',
+            'elk.algorithm': LayoutAlgorithm.LAYERED,
             'elk.direction': direction,
             'elk.spacing.nodeNode': spacing.toString(),
             'elk.layered.spacing.nodeNodeBetweenLayers': (
@@ -869,7 +869,7 @@ export class ElkLayoutEngine implements LayoutEngine {
   private simplifyRadialEdges(diagram: DiagramAst, edges: RoutedEdge[]): void {
     // Check if any container uses radial algorithm
     const hasRadialContainer = diagram.containers?.some(
-      (c) => c.layoutOptions?.algorithm === 'radial'
+      (c) => c.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL
     );
 
     if (!hasRadialContainer) return;
@@ -878,7 +878,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const radialNodeIds = new Set<string>();
     if (diagram.containers) {
       for (const container of diagram.containers) {
-        if (container.layoutOptions?.algorithm === 'radial') {
+        if (container.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL) {
           for (const childId of container.children) {
             radialNodeIds.add(childId);
           }
@@ -1424,7 +1424,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     for (const container of containers) {
       // Map Runiq algorithm to ELK algorithm ID
       const algorithm = this.mapAlgorithmToElk(
-        container.layoutOptions?.algorithm || 'layered'
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
       const containerSpacing =
         container.layoutOptions?.spacing?.toString() || '50';
@@ -1442,7 +1442,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
 
       // For radial/mindmap layouts, use straight lines instead of orthogonal routing
-      const isRadialLayout = container.layoutOptions?.algorithm === 'radial';
+      const isRadialLayout = container.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL;
 
       // Create a mini ELK graph for this container's contents
       const containerGraph: ElkNode = {
@@ -1656,7 +1656,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
       // Step 2: Layout this container's direct children with ELK to get content size
       const algorithm = this.mapAlgorithmToElk(
-        container.layoutOptions?.algorithm || 'layered'
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
 
       // Determine container direction: explicit option > shape override > parent direction
@@ -1846,7 +1846,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Create mini ELK graph for container contents
       // Map Runiq algorithm to ELK algorithm ID
       const algorithm = this.mapAlgorithmToElk(
-        container.layoutOptions?.algorithm || 'layered'
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
 
       // Determine container direction: explicit option > shape override > parent direction
@@ -2531,17 +2531,17 @@ export class ElkLayoutEngine implements LayoutEngine {
    */
   private mapAlgorithmToElk(algorithm: string): string {
     switch (algorithm) {
-      case 'layered':
+      case LayoutAlgorithm.LAYERED:
         return 'layered';
-      case 'force':
+      case LayoutAlgorithm.FORCE:
         return 'org.eclipse.elk.force';
-      case 'stress':
+      case LayoutAlgorithm.STRESS:
         return 'org.eclipse.elk.stress';
-      case 'radial':
+      case LayoutAlgorithm.RADIAL:
         return 'org.eclipse.elk.radial';
-      case 'mrtree':
+      case LayoutAlgorithm.MRTREE:
         return 'org.eclipse.elk.mrtree';
-      case 'circular':
+      case LayoutAlgorithm.CIRCULAR:
         return 'circular'; // Custom algorithm, handled separately
       default:
         return 'layered'; // Default fallback
