@@ -3,13 +3,13 @@
  * Electrical, Digital, Block Diagram, Wardley, Sequence, Timeline, and other profiles
  */
 
-import type { EdgeAst, GroupAst, NodeAst, Style } from './diagram-types.js';
+import type { Direction, EdgeRouting } from '../constants.js';
 import type {
   ContainerDeclaration,
   ContainerPreset,
   ContainerTemplate,
 } from './container-types.js';
-import type { Direction, EdgeRouting } from '../constants.js';
+import type { EdgeAst, GroupAst, NodeAst, Style } from './diagram-types.js';
 
 // ============================================================================
 // Profile-Based System for Multi-Domain Support

@@ -33,7 +33,9 @@ const StyleSchema = z.object({
   carrier: z.boolean().optional(),
   deceased: z.boolean().optional(),
   tagFill: z.string().optional(),
-  extensions: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
+  extensions: z
+    .record(z.union([z.string(), z.number(), z.boolean()]))
+    .optional(),
 }) satisfies z.ZodType<Style>;
 
 const IconRefSchema = z.object({

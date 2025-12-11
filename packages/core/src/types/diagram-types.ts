@@ -9,7 +9,11 @@ import type {
   EdgeRouting,
   LineStyle,
 } from '../constants.js';
-import type { ContainerDeclaration, ContainerTemplate, ContainerPreset } from './container-types.js';
+import type {
+  ContainerDeclaration,
+  ContainerPreset,
+  ContainerTemplate,
+} from './container-types.js';
 
 export interface DiagramAst {
   astVersion: string;
