@@ -15,21 +15,27 @@ import type { ShapeRenderContext } from '../../types/index.js';
 export interface AnchorOptions {
   width: number;
   height: number;
+  /** Use 'id' instead of 'name' for anchor property */
+  useId?: boolean;
 }
 
 /**
  * Create standard 4-point anchors (north, south, east, west)
  * This is the most common anchor pattern for glyphset shapes
+ *
+ * @param options - Width, height, and optional useId flag
+ * @returns Array of 4 anchor points (top, right, bottom, left)
  */
 export function createStandardAnchors(
   options: AnchorOptions
-): { x: number; y: number; name?: string }[] {
-  const { width, height } = options;
+): { x: number; y: number; name?: string; id?: string }[] {
+  const { width, height, useId = false } = options;
+  const prop = useId ? 'id' : 'name';
   return [
-    { x: width / 2, y: 0, name: 'top' },
-    { x: width, y: height / 2, name: 'right' },
-    { x: width / 2, y: height, name: 'bottom' },
-    { x: 0, y: height / 2, name: 'left' },
+    { x: width / 2, y: 0, [prop]: 'top' },
+    { x: width, y: height / 2, [prop]: 'right' },
+    { x: width / 2, y: height, [prop]: 'bottom' },
+    { x: 0, y: height / 2, [prop]: 'left' },
   ];
 }
 

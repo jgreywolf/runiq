@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Titled Matrix Shape
@@ -111,15 +112,7 @@ export const titledMatrix: ShapeDefinition = {
 
   anchors(ctx: ShapeRenderContext) {
     const bounds = this.bounds(ctx);
-    const centerX = bounds.width / 2;
-    const centerY = bounds.height / 2;
-
-    return [
-      { id: 'top', x: centerX, y: 0 },
-      { id: 'right', x: bounds.width, y: centerY },
-      { id: 'bottom', x: centerX, y: bounds.height },
-      { id: 'left', x: 0, y: centerY },
-    ];
+    return createStandardAnchors({ ...bounds, useId: true });
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {

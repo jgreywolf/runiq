@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Matrix Organization Chart Shape
@@ -85,13 +86,7 @@ export const matrixOrgChart: ShapeDefinition = {
 
   anchors: (ctx: ShapeRenderContext) => {
     const bounds = matrixOrgChart.bounds(ctx);
-    const { width, height } = bounds;
-    return [
-      { id: 'top', x: width / 2, y: 0 },
-      { id: 'right', x: width, y: height / 2 },
-      { id: 'bottom', x: width / 2, y: height },
-      { id: 'left', x: 0, y: height / 2 },
-    ];
+    return createStandardAnchors({ ...bounds, useId: true });
   },
 
   render: (ctx: ShapeRenderContext, position: { x: number; y: number }) => {
