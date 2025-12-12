@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -44,9 +45,7 @@ export const orShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const r = bounds.width / 2;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // OR arc lines (two curved lines from bottom converging at top)
     const arcOffset = r * 0.4;

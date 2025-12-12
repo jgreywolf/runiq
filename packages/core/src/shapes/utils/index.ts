@@ -24,6 +24,13 @@ export {
   type SimpleBoundsConfig,
 } from './calculate-bounds.js';
 export {
+  extractBasicStyles,
+  extractStyles,
+  extractTextStyles,
+  type ExtractedStyles,
+  type StyleExtractionOptions,
+} from './extract-styles.js';
+export {
   renderAxisLabel,
   renderChartTitle,
   renderLegend,

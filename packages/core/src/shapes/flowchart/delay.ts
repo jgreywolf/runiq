@@ -1,6 +1,9 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -20,10 +23,7 @@ export const delayShape: ShapeDefinition = {
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || ctx.node.id;
 
     // Delay shape: rectangle with rounded right side

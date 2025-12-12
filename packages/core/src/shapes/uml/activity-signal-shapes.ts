@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -109,9 +110,10 @@ export const receiveSignalShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
 
     // Concave pentagon (indented on the left like a notch)
     const notchDepth = w * 0.2; // How far the left side is indented
@@ -179,9 +181,10 @@ export const acceptEventShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
 
     // Concave pentagon (same as receive signal)
     const notchDepth = w * 0.2;

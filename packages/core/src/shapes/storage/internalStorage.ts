@@ -1,5 +1,8 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -32,9 +35,7 @@ export const internalStorageShape: ShapeDefinition = {
     const vDivide = w * 0.25; // Vertical line at 25% from left
     const hDivide = y + h * 0.25; // Horizontal line at 25% from top
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || '';
 
     const textX = x + w / 2;

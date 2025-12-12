@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -55,10 +56,11 @@ export const processBoxShape: ShapeDefinition = {
     const data = ctx.node.data as { color?: string } | undefined;
     const themeColor = data?.color;
 
-    const stroke =
-      ctx.style.stroke || (themeColor ? darkenColor(themeColor) : '#2E5AAC');
-    const fill = ctx.style.fill || themeColor || '#4472C4'; // Office blue
-    const strokeWidth = ctx.style.strokeWidth || 0;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: themeColor || '#4472C4',
+      defaultStroke: themeColor ? darkenColor(themeColor) : '#2E5AAC',
+      defaultStrokeWidth: 0,
+    }); // Office blue
     const fontSize = ctx.style.fontSize || 14;
     const fontFamily =
       typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';

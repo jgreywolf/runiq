@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -35,9 +36,11 @@ export const integratorShape: ShapeDefinition = {
     const { x, y } = position;
 
     // Distinctive light blue fill for integrators
-    const fill = ctx.style.fill || '#e3f2fd';
-    const stroke = ctx.style.stroke || '#1976d2';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#e3f2fd',
+      defaultStroke: '#1976d2',
+      defaultStrokeWidth: 2,
+    });
 
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;

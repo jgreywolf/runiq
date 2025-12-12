@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -50,9 +51,9 @@ export const lightningBoltShape: ShapeDefinition = {
       `${x + w * 0.8},${y}`, // 7. Top center-right (back to top)
     ].join(' ');
 
-    const fill = ctx.style.fill || '#fbbf24';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#fbbf24',
+    });
     const font = ctx.style.font || 'sans-serif';
     const fontSize = ctx.style.fontSize || 10;
 

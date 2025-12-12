@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -34,8 +35,9 @@ export const transactionShape: ShapeDefinition = {
     const { x, y } = position;
     const radius = 8;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
+    const { fill, stroke } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     return `
       <!-- Outer rectangle (thick border) -->
@@ -84,9 +86,7 @@ export const eventSubProcessShape: ShapeDefinition = {
     const { x, y } = position;
     const radius = 8;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${radius}"
@@ -130,8 +130,7 @@ export const callActivityShape: ShapeDefinition = {
     const { x, y } = position;
     const radius = 8;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
+    const { fill, stroke } = extractBasicStyles(ctx);
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${radius}"
@@ -255,9 +254,9 @@ export const conversationShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStrokeWidth: 2,
+    });
 
     // Hexagon (diamond with flat top/bottom)
     const pathData = `M ${x + w / 2} ${y}

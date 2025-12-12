@@ -1,5 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateDiamondAnchors } from '../utils/index.js';
+import { calculateDiamondAnchors, extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -26,9 +26,10 @@ export const choiceShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
 
     let svg = `<g class="choice-shape">`;
 

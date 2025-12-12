@@ -1,6 +1,9 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -86,9 +89,9 @@ export const moduleShape: ShapeDefinition = {
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
@@ -129,9 +132,9 @@ export const templateShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const cornerSize = 20;
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
@@ -179,9 +182,9 @@ export const sendSignalShape: ShapeDefinition = {
     const h = bounds.height;
     const pointOffset = w * 0.2;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     const pathData = `M ${x} ${y + h / 2}
                       L ${x + w - pointOffset} ${y}
@@ -229,9 +232,9 @@ export const receiveSignalShape: ShapeDefinition = {
     const h = bounds.height;
     const pointOffset = w * 0.2;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     const pathData = `M ${x} ${y + h / 2}
                       L ${x + pointOffset} ${y}
@@ -319,9 +322,10 @@ export const pinShape: ShapeDefinition = {
 
   render(ctx, position) {
     const { x, y } = position;
-    const fill = ctx.style.fill || '#fff';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#fff',
+      defaultStroke: '#333',
+    });
 
     let svg = `<rect x="${x}" y="${y}" width="12" height="12"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
@@ -609,9 +613,9 @@ export const submachineShape: ShapeDefinition = {
     const { x, y } = position;
     const radius = 8;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${radius}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
@@ -656,9 +660,9 @@ export const loopShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
@@ -716,7 +720,9 @@ export const verticalForkShape: ShapeDefinition = {
 
   render(ctx, position) {
     const { x, y } = position;
-    const fill = ctx.style.fill || '#333';
+    const { fill } = extractBasicStyles(ctx, {
+      defaultFill: '#333',
+    });
 
     return `
       <rect x="${x}" y="${y}" width="6" height="60"

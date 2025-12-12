@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { createStandardAnchors } from './utils.js';
 
 interface GearCycleData {
@@ -61,9 +62,11 @@ export const gearCycleShape: ShapeDefinition = {
     const themeId = (ctx.node.data?.theme as string) || 'professional';
     const theme = getGlyphsetTheme(themeId);
 
-    const fill = ctx.style.fill || theme.colors[0];
-    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: theme.colors[0],
+      defaultStroke: theme.accentColor || '#2E5AAC',
+      defaultStrokeWidth: 2,
+    });
     const fontSize = ctx.style.fontSize || 12;
     const font = ctx.style.font || 'sans-serif';
 

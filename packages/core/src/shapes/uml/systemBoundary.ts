@@ -1,6 +1,9 @@
 import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -37,9 +40,11 @@ export const systemBoundaryShape: ShapeDefinition = {
     const { x, y } = position;
     const padding = ctx.style.padding ?? ShapeDefaults.PADDING_LARGE;
 
-    const fill = ctx.style.fill || 'none';
-    const stroke = ctx.style.stroke || '#666';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: 'none',
+      defaultStroke: '#666',
+      defaultStrokeWidth: 1.5,
+    });
 
     const labelY = y + padding;
 

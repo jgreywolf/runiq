@@ -1,5 +1,8 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -37,9 +40,10 @@ export const swimlaneShape: ShapeDefinition = {
     const { width, height } = this.bounds(ctx);
     const text = ctx.node.label || '';
 
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
-    const fill = ctx.style.fill || '#f0f0f0';
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
     const fontSize = ctx.style.fontSize || 14;
     const fontFamily = ctx.style.font || 'Arial';
 

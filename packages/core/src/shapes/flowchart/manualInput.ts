@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 import { createPolygonPath } from '../utils/svg-path-builder.js';
 
@@ -36,10 +37,7 @@ export const manualInputShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const slope = bounds.height * 0.2; // Top edge slopes down
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || ctx.node.id;
 
     // Sloped top rectangle

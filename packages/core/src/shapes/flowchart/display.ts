@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -51,10 +52,7 @@ export const displayShape: ShapeDefinition = {
       `Q ${x},${y + h * 0.3} ${x + inset},${y}`, // Left curve top
       `Z`,
     ].join(' ');
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || '';
 
     const textX = x + w / 2;

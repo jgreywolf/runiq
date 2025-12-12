@@ -1,5 +1,8 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -27,9 +30,10 @@ export const textBlockShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#fffef0'; // Very light yellow tint for notes
-    const stroke = ctx.style.stroke || '#999'; // Lighter gray for comments
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#fffef0', // Very light yellow tint for notes
+      defaultStroke: '#999', // Lighter gray for comments
+    });
     const label = ctx.node.label || ctx.node.id;
     const centerX = x + bounds.width / 2;
     const centerY = y + bounds.height / 2;

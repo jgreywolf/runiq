@@ -1,6 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
-import { calculateDiamondAnchors } from '../utils/index.js';
+import { calculateDiamondAnchors, extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 export const rhombusShape: ShapeDefinition = {
@@ -22,10 +22,7 @@ export const rhombusShape: ShapeDefinition = {
     const { x, y } = position;
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // Diamond points
     const points = [

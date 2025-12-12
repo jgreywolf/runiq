@@ -1,5 +1,8 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -34,10 +37,7 @@ export const linedRectangleShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
     const lineCount = 2; // Number of dividing lines
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || '';
 
     const textX = x + w / 2;

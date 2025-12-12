@@ -13,6 +13,16 @@ function escapeXml(text: string): string {
 }
 
 /**
+ * Style options for rendered text items
+ */
+export interface CompartmentItemStyle {
+  fontWeight?: 'normal' | 'bold';
+  fontStyle?: 'normal' | 'italic';
+  textDecoration?: 'none' | 'underline';
+  fontSize?: number;
+}
+
+/**
  * Configuration for rendering a single compartment
  */
 export interface CompartmentConfig {
@@ -21,17 +31,12 @@ export interface CompartmentConfig {
   /** Alignment: 'start' for left-aligned, 'middle' for centered */
   align?: 'start' | 'middle';
   /** Additional styling for text */
-  style?: {
-    fontWeight?: 'normal' | 'bold';
-    fontStyle?: 'normal' | 'italic';
-    textDecoration?: 'none' | 'underline';
-    fontSize?: number;
-  };
+  style?: CompartmentItemStyle;
   /** Optional custom renderer for each item */
   renderItem?: (
     item: string,
     index: number
-  ) => string | { text: string; style?: any };
+  ) => string | { text: string; style?: CompartmentItemStyle };
 }
 
 /**
@@ -158,7 +163,7 @@ export function renderMultiCompartmentShape(
 
       // Check if custom renderer provided
       let renderedItem = item;
-      let itemStyle = compartment.style || {};
+      let itemStyle: CompartmentItemStyle = compartment.style || {};
 
       if (compartment.renderItem) {
         const result = compartment.renderItem(item, i);

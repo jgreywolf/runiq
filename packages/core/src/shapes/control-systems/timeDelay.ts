@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -33,9 +34,11 @@ export const timeDelayShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#fce4ec';
-    const stroke = ctx.style.stroke || '#c2185b';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#fce4ec',
+      defaultStroke: '#c2185b',
+      defaultStrokeWidth: 2,
+    });
 
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;

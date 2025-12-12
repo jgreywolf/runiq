@@ -1,5 +1,8 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -60,9 +63,10 @@ export const packageShape: ShapeDefinition = {
     const maxTabWidth = w * 0.7; // Allow up to 70% of width
     const tabWidth = Math.min(Math.max(minTabWidth, 70), maxTabWidth);
 
-    const fill = ctx.style.fill || '#ffe4b5'; // Moccasin/light orange - very visible!
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffe4b5',
+      defaultStroke: '#000000',
+    }); // Moccasin/light orange - very visible!
 
     let svg = `<g class="package-shape">`;
 

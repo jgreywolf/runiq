@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderMultilineText, escapeXml } from '../../types/index.js';
+import { renderMultilineText } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 
 /**
  * Transfer Function Block
@@ -34,9 +35,10 @@ export const transferFunctionShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStrokeWidth: 2,
+    });
 
     // Parse label to extract numerator/denominator
     const label = ctx.node.label || ctx.node.id;

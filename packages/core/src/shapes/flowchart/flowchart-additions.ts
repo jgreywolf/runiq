@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 
 /**
  * Multi-Process - Stacked rectangles to indicate multiple process instances
@@ -32,10 +33,7 @@ export const multiProcessShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const offset = 4;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     return `
       <!-- Back rectangle (stacked effect) -->
@@ -154,9 +152,7 @@ export const magneticTapeShape: ShapeDefinition = {
     const h = bounds.height;
     const circleHeight = h * 0.5;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // Combined path: top semicircle + trapezoid bottom
     const pathData = `M ${x} ${y + circleHeight}

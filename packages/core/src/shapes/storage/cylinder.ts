@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 import { createPath } from '../utils/svg-path-builder.js';
 
@@ -38,10 +39,7 @@ export const cylinderShape: ShapeDefinition = {
     const rx = bounds.width / 2;
     const ry = bounds.height * 0.15; // Ellipse height (15% of total)
     const cx = x + bounds.width / 2;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || ctx.node.id;
 
     return `

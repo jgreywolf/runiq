@@ -1,6 +1,9 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderMultilineText } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 
 /**
  * C4 Model: Component
@@ -29,9 +32,11 @@ export const c4Component: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#85BBF0'; // C4 component lighter blue
-    const stroke = ctx.style.stroke || '#5A9BD5';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#85BBF0', // C4 component lighter blue
+      defaultStroke: '#5A9BD5',
+      defaultStrokeWidth: 1.5,
+    });
     const textColor = ctx.style.textColor || '#000000'; // Dark text for lighter background
     const rx = ctx.style.rx || 6;
 

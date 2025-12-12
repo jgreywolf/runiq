@@ -36,28 +36,28 @@ export interface ShapeRenderContext {
  * Handles the parser's format: { values: [{ property: value }] }
  * Also supports direct format and array format.
  */
-export function getDataProperty<T = any>(
+export function getDataProperty<T = unknown>(
   data: Record<string, unknown> | undefined,
   property: string,
   defaultValue?: T
 ): T | undefined {
   if (!data) return defaultValue;
 
-  const d = data as any;
-
   // Format from parser: { values: [{ property: value }] }
-  if (d.values && Array.isArray(d.values) && d.values[0]) {
-    return d.values[0][property] ?? defaultValue;
+  if (data.values && Array.isArray(data.values) && data.values[0]) {
+    const firstValue = data.values[0] as Record<string, unknown>;
+    return (firstValue[property] as T) ?? defaultValue;
   }
 
   // Direct format: { property: value }
-  if (d[property] !== undefined) {
-    return d[property] ?? defaultValue;
+  if (data[property] !== undefined) {
+    return (data[property] as T) ?? defaultValue;
   }
 
   // Array format: [{ property: value }]
-  if (Array.isArray(d) && d[0]) {
-    return d[0][property] ?? defaultValue;
+  if (Array.isArray(data) && data[0]) {
+    const firstItem = data[0] as Record<string, unknown>;
+    return (firstItem[property] as T) ?? defaultValue;
   }
 
   return defaultValue;

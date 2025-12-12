@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -35,9 +36,11 @@ export const differentiatorShape: ShapeDefinition = {
     const { x, y } = position;
 
     // Distinctive light orange fill for differentiators
-    const fill = ctx.style.fill || '#fff3e0';
-    const stroke = ctx.style.stroke || '#f57c00';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#fff3e0',
+      defaultStroke: '#f57c00',
+      defaultStrokeWidth: 2,
+    });
 
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;

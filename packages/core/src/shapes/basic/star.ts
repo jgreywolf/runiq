@@ -1,5 +1,8 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 
 /**
  * Star - 5-pointed star (unfilled)
@@ -120,10 +123,7 @@ export const starFilledShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const outerRadius = Math.min(bounds.width, bounds.height) / 2;
     const innerRadius = outerRadius * 0.4;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // Generate 5-pointed star path
     const points = [];
@@ -223,10 +223,7 @@ export const octagonShape: ShapeDefinition = {
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;
     const radius = Math.min(bounds.width, bounds.height) / 2;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // Generate octagon points
     const points = [];
@@ -300,9 +297,7 @@ export const plusShape: ShapeDefinition = {
     const armWidth = size * 0.3; // Width of plus arms
     const armLength = size / 2;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // Create plus shape using 12-point path (block cross)
     const hw = armWidth / 2; // half width

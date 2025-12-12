@@ -90,7 +90,6 @@ export const cycleShape: ShapeDefinition = {
       const p2 = positions[nextI];
 
       // Arc from p1 to p2
-      const midAngle = startAngle + (i + 0.5) * angleStep;
       const arcRadius = radius * 0.95;
 
       svg += `<path d="M ${p1.x} ${p1.y} A ${arcRadius} ${arcRadius} 0 0 1 ${p2.x} ${p2.y}" `;

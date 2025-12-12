@@ -1,5 +1,8 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { calculateRectangularAnchors } from '../utils/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -70,10 +73,7 @@ export const ellipseWideShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const rx = bounds.width / 2;
     const ry = bounds.height / 2;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const fontSize = ctx.style.fontSize || 14;
     const font = ctx.style.font || 'sans-serif';
     const label = ctx.node.label || ctx.node.id;

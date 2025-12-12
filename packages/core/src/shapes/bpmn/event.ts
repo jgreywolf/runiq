@@ -1,5 +1,6 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 import { getDataProperty } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -34,8 +35,10 @@ export const bpmnEventShape: ShapeDefinition = {
     const cx = x + radius;
     const cy = y + radius;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
+    const { fill, stroke } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
 
     // Get event type from data (handles parser's { values: [...] } format)
     const eventType =

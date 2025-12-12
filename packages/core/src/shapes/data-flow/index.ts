@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -85,9 +86,7 @@ export const externalEntityCornerShape: ShapeDefinition = {
     const { x, y } = position;
     const offset = 5; // Corner offset
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
@@ -250,9 +249,7 @@ export const dataStoreLeftShape: ShapeDefinition = {
     const { x, y } = position;
     const lineGap = 4; // Gap between double lines
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || ctx.node.id;
     const centerX = x + bounds.width / 2;
     const centerY = y + bounds.height / 2;
@@ -303,9 +300,9 @@ export const dataStoreOpenShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
     const label = ctx.node.label || ctx.node.id;
     const centerX = x + bounds.width / 2;
     const centerY = y + bounds.height / 2;

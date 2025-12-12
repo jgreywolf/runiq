@@ -1,5 +1,6 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 import { getDataProperty } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 
 /**
  * BPMN Gateway shape - represents a branching or merging point in a process.
@@ -33,9 +34,11 @@ export const bpmnGatewayShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 2,
+    });
 
     // Diamond shape
     const path = `M ${x + w / 2},${y} L ${x + w},${y + h / 2} L ${x + w / 2},${y + h} L ${x},${y + h / 2} Z`;
