@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Default color palette for line series
@@ -491,8 +492,18 @@ export const lineChart: ShapeDefinition = {
       : `<line x1="0" y1="0" x2="0" y2="${chartHeight}" stroke="#374151" stroke-width="2" />`;
 
     // Title
+    const titleStyle = {
+      ...ctx.style,
+      fontSize: 14,
+      fontWeight: '600' as const,
+    };
     const title = ctx.node.label
-      ? `<text x="${chartWidth / 2}" y="-5" text-anchor="middle" font-size="14" font-weight="600" fill="#111827">${ctx.node.label}</text>`
+      ? renderShapeLabel(
+          { ...ctx, style: titleStyle },
+          ctx.node.label,
+          chartWidth / 2,
+          -5
+        )
       : '';
 
     return `

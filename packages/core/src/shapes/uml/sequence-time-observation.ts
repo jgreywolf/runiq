@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Time Observation shape
@@ -12,7 +13,7 @@ export const timeObservationShape: ShapeDefinition = {
   bounds(ctx) {
     const padding = ctx.style.padding || 8;
     const hourglassSize = 30; // Fixed size for hourglass icon
-    
+
     let width = hourglassSize + padding * 2;
     let height = hourglassSize + padding * 2;
 
@@ -93,10 +94,13 @@ export const timeObservationShape: ShapeDefinition = {
     // Label (if provided)
     if (ctx.node.label) {
       const labelY = iconY + iconSize + fontSize + 4;
-      svg += `<text x="${x + w / 2}" y="${labelY}" `;
-      svg += `text-anchor="middle" font-size="${fontSize}" `;
-      svg += `font-family="${fontFamily}" fill="${stroke}">`;
-      svg += `${ctx.node.label}</text>`;
+      const labelStyle = { ...ctx.style, color: stroke };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        x + w / 2,
+        labelY
+      );
     }
 
     svg += `</g>`;

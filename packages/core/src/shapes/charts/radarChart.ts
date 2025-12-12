@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 interface RadarAxis {
   label: string;
@@ -385,7 +386,18 @@ export const radarChart: ShapeDefinition = {
 
     // Chart title
     if (ctx.node.label) {
-      svg += `\n      <text x="${width / 2}" y="20" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">${ctx.node.label}</text>`;
+      const titleStyle = {
+        ...ctx.style,
+        fontSize: 16,
+        fontWeight: 'bold' as const,
+      };
+      const titleSvg = renderShapeLabel(
+        { ...ctx, style: titleStyle },
+        ctx.node.label,
+        width / 2,
+        20
+      );
+      svg += `\n      ${titleSvg}`;
     }
 
     // Grid circles

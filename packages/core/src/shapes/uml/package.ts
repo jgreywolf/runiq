@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Package shape
@@ -90,12 +91,17 @@ export const packageShape: ShapeDefinition = {
 
     // Package name in the tab area
     const textY = y + tabHeight / 2 + (ctx.style.fontSize || 14) / 2;
-    const textColor = ctx.style.color || '#000000'; // Use explicit text color or black
-    svg += `<text x="${x + padding / 2}" y="${textY}" `;
-    svg += `font-size="${(ctx.style.fontSize || 14) - 2}" `;
-    svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
-    svg += `font-weight="bold" fill="${textColor}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) - 2,
+      fontWeight: 'bold' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || '',
+      x + padding / 2,
+      textY
+    );
 
     svg += `</g>`;
     return svg;

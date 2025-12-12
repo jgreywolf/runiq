@@ -1,5 +1,6 @@
 import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Send Signal Action shape
@@ -59,11 +60,13 @@ export const sendSignalShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (centered)
-    const fontFamily = ctx.style.font || 'Arial';
-    svg += `<text x="${x + (w - notchDepth) / 2}" y="${y + h / 2 + (ctx.style.fontSize || 14) / 3}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Send'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Send',
+      x + (w - notchDepth) / 2,
+      y + h / 2 + (ctx.style.fontSize || 14) / 3
+    );
 
     svg += `</g>`;
     return svg;
@@ -128,11 +131,13 @@ export const receiveSignalShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (centered)
-    const fontFamily = ctx.style.font || 'Arial';
-    svg += `<text x="${x + (w + notchDepth) / 2}" y="${y + h / 2 + (ctx.style.fontSize || 14) / 3}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Receive'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Receive',
+      x + (w + notchDepth) / 2,
+      y + h / 2 + (ctx.style.fontSize || 14) / 3
+    );
 
     svg += `</g>`;
     return svg;
@@ -197,11 +202,13 @@ export const acceptEventShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (centered)
-    const fontFamily = ctx.style.font || 'Arial';
-    svg += `<text x="${x + (w + notchDepth) / 2}" y="${y + h / 2 + (ctx.style.fontSize || 14) / 3}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Wait'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Wait',
+      x + (w + notchDepth) / 2,
+      y + h / 2 + (ctx.style.fontSize || 14) / 3
+    );
 
     svg += `</g>`;
     return svg;

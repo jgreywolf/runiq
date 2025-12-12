@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Brace right (right-facing curly brace) - For grouping right side
@@ -52,14 +53,12 @@ export const braceRightShape: ShapeDefinition = {
       `Q ${leftEdge + controlOffset} ${y + h * 0.8} ${leftEdge} ${y + h}`, // Bottom curve
     ].join(' ');
 
+    const label = ctx.node.label || ctx.node.id;
+    const labelSvg = renderShapeLabel(ctx, label, x + w / 2, midY);
+
     return `
       <path d="${path}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + w / 2}" y="${midY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${labelSvg}
     `;
   },
 };

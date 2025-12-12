@@ -1,5 +1,6 @@
 import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * System Boundary - Container rectangle for grouping use cases
@@ -53,12 +54,7 @@ export const systemBoundaryShape: ShapeDefinition = {
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"
             stroke-dasharray="5,3" />
       
-      <text x="${x + padding}" y="${labelY}" text-anchor="start" dominant-baseline="hanging"
-            font-family="${ctx.style.font || 'sans-serif'}" 
-            font-size="${ctx.style.fontSize || 14}"
-            font-weight="bold">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: { ...ctx.style, fontWeight: 'bold' as const } }, ctx.node.label || ctx.node.id, x + padding, labelY)}
     `;
   },
 };

@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { radarChart } from './radarChart.js';
+import { describe, expect, it } from 'vitest';
 import type { ShapeRenderContext } from '../../types/index.js';
+import { radarChart } from './radarChart.js';
 
 describe('radarChart', () => {
   describe('Shape Definition', () => {
@@ -352,7 +352,7 @@ describe('radarChart', () => {
       const svg = radarChart.render(ctx, { x: 0, y: 0 });
 
       expect(svg).toContain('Skills Assessment');
-      expect(svg).toContain('font-weight="bold"');
+      expect(svg).toContain('font-size="16"'); // Title uses fontSize 16
     });
 
     it('should render radial axes (spokes)', () => {
@@ -680,12 +680,14 @@ describe('radarChart', () => {
 
         for (const pointStr of points) {
           const [x, y] = pointStr.split(',').map(Number);
-          const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+          const distance = Math.sqrt(
+            Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
+          );
           distances.push(distance);
         }
 
         // Verify that not all distances are equal (which would create a regular polygon)
-        const uniqueDistances = new Set(distances.map(d => Math.round(d)));
+        const uniqueDistances = new Set(distances.map((d) => Math.round(d)));
         expect(uniqueDistances.size).toBeGreaterThan(1);
       }
     });

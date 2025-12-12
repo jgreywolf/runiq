@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Default color palette for pie chart slices
@@ -322,11 +323,21 @@ function renderSliceLabels(
 /**
  * Render title above the chart
  */
-function renderTitle(title: string, x: number, y: number): string {
+function renderTitle(
+  title: string,
+  x: number,
+  y: number,
+  ctx: ShapeRenderContext
+): string {
   // Position title at the top of the chart area (above the pie)
   const titleY = y + 15; // 15px from top
   const titleX = x;
-  return `<text x="${titleX}" y="${titleY}" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">${title}</text>`;
+  const titleStyle = {
+    ...ctx.style,
+    fontSize: 16,
+    fontWeight: 'bold' as const,
+  };
+  return renderShapeLabel({ ...ctx, style: titleStyle }, title, titleX, titleY);
 }
 
 /**
@@ -426,7 +437,7 @@ export const pieChart: ShapeDefinition = {
     const slices = calculateSlices(data);
 
     // Render title element (already defined at top of function)
-    const titleElement = title ? renderTitle(title, cx, position.y) : '';
+    const titleElement = title ? renderTitle(title, cx, position.y, ctx) : '';
 
     // Render slices
     const paths = renderSlices(slices, cx, cy, radius, ctx, customColors);

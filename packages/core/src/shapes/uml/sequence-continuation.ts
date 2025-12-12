@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Continuation shape
@@ -67,10 +68,13 @@ export const continuationShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (centered)
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + fontSize / 3}" `;
-    svg += `text-anchor="middle" font-size="${fontSize}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'ref'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'ref',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;

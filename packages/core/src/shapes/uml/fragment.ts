@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Interaction Fragment shape
@@ -67,19 +68,28 @@ export const fragmentShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Operator text (e.g., "alt", "loop", "opt")
-    svg += `<text x="${x + pentagonWidth / 2}" y="${y + pentagonHeight * 0.7}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
-    svg += `font-weight="bold" fill="${stroke}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const operatorStyle = { ...ctx.style, color: stroke, fontWeight: 'bold' };
+    svg += renderShapeLabel(
+      { ...ctx, style: operatorStyle },
+      ctx.node.label || '',
+      x + pentagonWidth / 2,
+      y + pentagonHeight * 0.7
+    );
 
     // Optional condition text (e.g., "[x > 0]")
     if (condition) {
       const conditionY = y + pentagonHeight + lineHeight;
-      svg += `<text x="${x + padding}" y="${conditionY}" `;
-      svg += `font-size="${(ctx.style.fontSize || 14) * 0.9}" `;
-      svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-      svg += `${condition}</text>`;
+      const conditionStyle = {
+        ...ctx.style,
+        fontSize: (ctx.style.fontSize || 14) * 0.9,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: conditionStyle },
+        condition,
+        x + padding,
+        conditionY
+      );
     }
 
     svg += `</g>`;

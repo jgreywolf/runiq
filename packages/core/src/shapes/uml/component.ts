@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Component shape - represents a modular part of a system with defined interfaces.
@@ -61,7 +62,7 @@ export const componentShape: ShapeDefinition = {
     const textX = x + bounds.width / 2;
     const textY = y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3;
     const label = ctx.node.label || '';
-    const text = `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${ctx.style.fontSize}" fill="#000000">${label}</text>`;
+    const text = renderShapeLabel(ctx, label, textX, textY);
 
     return `${rect}${symbol1}${symbol2}${text}`;
   },

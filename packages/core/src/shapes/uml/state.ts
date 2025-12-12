@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML State shape
@@ -103,11 +104,17 @@ export const stateShape: ShapeDefinition = {
 
     // State name
     let currentY = y + padding + lineHeight * 0.7;
-    svg += `<text x="${x + w / 2}" y="${currentY}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
-    svg += `font-weight="bold" fill="${stroke}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const nameStyle = {
+      ...ctx.style,
+      fontWeight: 'bold' as const,
+      color: stroke,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: nameStyle },
+      ctx.node.label || '',
+      x + w / 2,
+      currentY
+    );
 
     // Optional activities section
     if (activities.length > 0) {

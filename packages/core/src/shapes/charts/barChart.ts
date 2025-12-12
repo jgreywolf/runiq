@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import {
   BarData,
   getBarColor,
@@ -521,11 +522,17 @@ function calculateLegendPosition(
 function renderTitle(
   title: string,
   position: { x: number; y: number },
-  width: number
+  width: number,
+  ctx: ShapeRenderContext
 ): string {
   const titleX = position.x + width / 2;
   const titleY = position.y + 20;
-  return `<text x="${titleX}" y="${titleY}" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">${title}</text>`;
+  const titleStyle = {
+    ...ctx.style,
+    fontSize: 16,
+    fontWeight: 'bold' as const,
+  };
+  return renderShapeLabel({ ...ctx, style: titleStyle }, title, titleX, titleY);
 }
 
 /**
@@ -682,7 +689,7 @@ export const barChart: ShapeDefinition = {
 
     const bounds = this.bounds(ctx);
     const titleElement = title
-      ? renderTitle(title as string, position, bounds.width)
+      ? renderTitle(title as string, position, bounds.width, ctx)
       : '';
     const xLabelElement = xLabel
       ? renderXLabel(xLabel as string, position, bounds.width, bounds.height)

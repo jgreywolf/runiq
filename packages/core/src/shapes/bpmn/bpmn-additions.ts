@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Transaction - Rounded rectangle with double border (thick outer, thin inner)
@@ -45,11 +46,7 @@ export const transactionShape: ShapeDefinition = {
       <rect x="${x + 3}" y="${y + 3}" width="${bounds.width - 6}" height="${bounds.height - 6}" rx="${radius}"
             fill="none" stroke="${stroke}" stroke-width="1" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };
@@ -95,11 +92,7 @@ export const eventSubProcessShape: ShapeDefinition = {
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${radius}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="5,3" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };
@@ -144,11 +137,7 @@ export const callActivityShape: ShapeDefinition = {
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${radius}"
             fill="${fill}" stroke="${stroke}" stroke-width="3" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };
@@ -185,11 +174,7 @@ export const startNonInterferingShape: ShapeDefinition = {
       <circle cx="${cx}" cy="${cy}" r="18"
               fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="3,2" />
       
-      <text x="${cx}" y="${cy + 28}" 
-            text-anchor="middle" dominant-baseline="hanging"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="10">
-        ${ctx.node.label || ''}
-      </text>
+      ${ctx.node.label ? renderShapeLabel({ ...ctx, style: { ...ctx.style, fontSize: 10 } }, ctx.node.label, cx, cy + 28) : ''}
     `;
   },
 };
@@ -231,11 +216,7 @@ export const intermediateNonInterferingShape: ShapeDefinition = {
       <circle cx="${cx}" cy="${cy}" r="14"
               fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="3,2" />
       
-      <text x="${cx}" y="${cy + 28}" 
-            text-anchor="middle" dominant-baseline="hanging"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="10">
-        ${ctx.node.label || ''}
-      </text>
+      ${ctx.node.label ? renderShapeLabel({ ...ctx, style: { ...ctx.style, fontSize: 10 } }, ctx.node.label, cx, cy + 28) : ''}
     `;
   },
 };
@@ -289,11 +270,7 @@ export const conversationShape: ShapeDefinition = {
       <path d="${pathData}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + w / 2}" y="${y + h / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + w / 2, y + h / 2)}
     `;
   },
 };
@@ -342,11 +319,7 @@ export const annotationShape: ShapeDefinition = {
       <path d="${bracketPath}"
             fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + 15}" y="${y + bounds.height / 2}" 
-            text-anchor="start" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + 15, y + bounds.height / 2)}
     `;
   },
 };

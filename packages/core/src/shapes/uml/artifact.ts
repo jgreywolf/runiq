@@ -72,12 +72,22 @@ export const artifactShape: ShapeDefinition = {
     const fontSize = ctx.style.fontSize || 14;
     const stereotypeX = x + bounds.width / 2;
     const stereotypeY = y + fontSize + 8;
-    const stereotype = `<text x="${stereotypeX}" y="${stereotypeY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${fontSize - 2}" fill="#666666">«artifact»</text>`;
+    const stereotypeStyle = {
+      ...ctx.style,
+      fontSize: fontSize - 2,
+      color: '#666666',
+    };
+    const stereotype = renderShapeLabel(
+      { ...ctx, style: stereotypeStyle },
+      '«artifact»',
+      stereotypeX,
+      stereotypeY
+    );
 
     // Label text (center)
     const label = ctx.node.label || '';
     const textX = x + bounds.width / 2;
-    const textY = y + bounds.height / 2 + fontSize / 3 + 6;
+    const textY = y + bounds.height / 2 + 6;
 
     return `${shape}${fold}${stereotype}${renderShapeLabel(ctx, label, textX, textY)}`;
   },

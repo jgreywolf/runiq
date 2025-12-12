@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Sankey node shape - rectangular block representing a step in a flow
@@ -63,18 +64,24 @@ export const sankeyNode: ShapeDefinition = {
     // Sankey nodes are typically rectangles with rounded corners
     const rx = 4;
 
+    const label = ctx.node.label || ctx.node.id;
+    const labelStyle = {
+      ...ctx.style,
+      color: '#fff',
+      fontWeight: '600' as const,
+    };
+    const labelSvg = renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      label,
+      x + bounds.width / 2,
+      y + bounds.height / 2
+    );
+
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" 
             rx="${rx}" opacity="${opacity}" />
-      
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${fontFamily}" 
-            font-size="${fontSize}"
-            fill="#fff" font-weight="600">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${labelSvg}
     `;
   },
 };

@@ -1,5 +1,6 @@
 import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Object Node shape
@@ -49,11 +50,13 @@ export const objectNodeShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Object name (centered)
-    const fontFamily = ctx.style.font || 'Arial';
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + 5}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Object'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Object',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;
@@ -116,16 +119,26 @@ export const centralBufferShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Stereotype (top)
-    svg += `<text x="${x + w / 2}" y="${y + fontSize}" `;
-    svg += `text-anchor="middle" font-size="${fontSize - 2}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `«centralBuffer»</text>`;
+    const stereotypeStyle = {
+      ...ctx.style,
+      fontSize: fontSize - 2,
+      color: stroke,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: stereotypeStyle },
+      '«centralBuffer»',
+      x + w / 2,
+      y + fontSize
+    );
 
     // Buffer name (below stereotype)
-    svg += `<text x="${x + w / 2}" y="${y + fontSize * 2 + 4}" `;
-    svg += `text-anchor="middle" font-size="${fontSize}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Buffer'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Buffer',
+      x + w / 2,
+      y + fontSize * 2 + 4
+    );
 
     svg += `</g>`;
     return svg;
@@ -211,10 +224,13 @@ export const dataStoreShape: ShapeDefinition = {
     svg += `fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Data store name (centered in cylinder)
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + fontSize / 3}" `;
-    svg += `text-anchor="middle" font-size="${fontSize}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'DataStore'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'DataStore',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;

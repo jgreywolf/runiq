@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Helper function to darken a color
@@ -67,8 +68,7 @@ export const nodeShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fillColor =
-      (ctx.node.data?.fillColor as string) || '#e8f5e9';
+    const fillColor = (ctx.node.data?.fillColor as string) || '#e8f5e9';
     const strokeColor = (ctx.node.data?.strokeColor as string) || '#388e3c';
     const strokeWidth = (ctx.node.data?.strokeWidth as number) || 2;
 
@@ -115,13 +115,23 @@ export const nodeShape: ShapeDefinition = {
     const fontSize = ctx.style.fontSize || 14;
     const stereotypeX = x + mainWidth / 2;
     const stereotypeY = y + depthOffset + fontSize + 8;
-    const stereotype = `<text x="${stereotypeX}" y="${stereotypeY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${fontSize - 2}" fill="#666666">«device»</text>`;
+    const stereotypeStyle = {
+      ...ctx.style,
+      fontSize: fontSize - 2,
+      color: '#666666',
+    };
+    const stereotype = renderShapeLabel(
+      { ...ctx, style: stereotypeStyle },
+      '«device»',
+      stereotypeX,
+      stereotypeY
+    );
 
     // Label text (center of front face)
     const label = ctx.node.label || '';
     const textX = x + mainWidth / 2;
     const textY = y + depthOffset + mainHeight / 2 + fontSize / 3 + 6;
-    const text = `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${fontSize}" fill="#000000">${label}</text>`;
+    const text = renderShapeLabel(ctx, label, textX, textY);
 
     return `${top}${right}${front}${stereotype}${text}`;
   },

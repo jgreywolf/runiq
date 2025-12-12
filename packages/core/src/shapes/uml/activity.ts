@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Activity shape
@@ -114,10 +115,13 @@ export const activityShape: ShapeDefinition = {
     });
 
     // Activity name (centered)
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + 5}" `;
-    svg += `text-anchor="middle" font-size="${fontSize}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || '',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;
