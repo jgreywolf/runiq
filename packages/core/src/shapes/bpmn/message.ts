@@ -1,6 +1,6 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
 import { calculateAspectRatioBounds } from '../utils/calculate-bounds.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Message shape - represents a message being sent or received.

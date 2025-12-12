@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { calculateRectangularAnchors } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -59,16 +60,7 @@ export const ellipseWideShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const cx = bounds.width / 2;
-    const cy = bounds.height / 2;
-
-    return [
-      { x: cx, y: 0, name: 'top' },
-      { x: bounds.width, y: cy, name: 'right' },
-      { x: cx, y: bounds.height, name: 'bottom' },
-      { x: 0, y: cy, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {

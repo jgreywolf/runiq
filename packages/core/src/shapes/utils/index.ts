@@ -1,4 +1,29 @@
 export {
+  calculateCircularAnchors,
+  calculateCustomAnchors,
+  calculateDiamondAnchors,
+  calculateHorizontalBarAnchors,
+  calculateOctagonalAnchors,
+  calculateRectangularAnchors,
+  calculateTriangleAnchors,
+  calculateVerticalBarAnchors,
+  type Anchor,
+  type CustomAnchorConfig,
+} from './calculate-anchors.js';
+export {
+  calculateAspectRatioBounds,
+  calculateFixedBounds,
+  calculateMultiLineBounds,
+  calculateMultiTextBounds,
+  calculateSimpleBounds,
+  type AspectRatioBoundsConfig,
+  type Dimensions,
+  type FixedBoundsConfig,
+  type MultiLineBoundsConfig,
+  type MultiTextBoundsConfig,
+  type SimpleBoundsConfig,
+} from './calculate-bounds.js';
+export {
   renderAxisLabel,
   renderChartTitle,
   renderLegend,
@@ -24,16 +49,3 @@ export {
   createPolygonPath,
   createRoundedRectPath,
 } from './svg-path-builder.js';
-export {
-  calculateSimpleBounds,
-  calculateFixedBounds,
-  calculateMultiLineBounds,
-  calculateAspectRatioBounds,
-  calculateMultiTextBounds,
-  type Dimensions,
-  type SimpleBoundsConfig,
-  type FixedBoundsConfig,
-  type MultiLineBoundsConfig,
-  type AspectRatioBoundsConfig,
-  type MultiTextBoundsConfig,
-} from './calculate-bounds.js';

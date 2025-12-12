@@ -1,6 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Display shape - curved trapezoid for display output

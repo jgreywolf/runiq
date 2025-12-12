@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { calculateTriangleAnchors } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -19,16 +20,7 @@ export const flippedTriangleShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' }, // Top center
-      { x: w, y: 0, name: 'right' }, // Top right corner
-      { x: w / 2, y: h, name: 'bottom' }, // Bottom point
-      { x: 0, y: 0, name: 'left' }, // Top left corner
-    ];
+    return calculateTriangleAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {

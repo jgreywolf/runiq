@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { calculateRectangularAnchors } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -28,13 +29,7 @@ export const swimlaneShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const { width, height } = this.bounds(ctx);
-    return [
-      { name: 'top', x: width / 2, y: 0 },
-      { name: 'right', x: width, y: height / 2 },
-      { name: 'bottom', x: width / 2, y: height },
-      { name: 'left', x: 0, y: height / 2 },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {

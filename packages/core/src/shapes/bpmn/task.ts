@@ -1,5 +1,6 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 import { getDataProperty } from '../../types/index.js';
+import { calculateRectangularAnchors } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -23,16 +24,7 @@ export const bpmnTaskShape: ShapeDefinition = {
   },
 
   anchors(ctx: ShapeRenderContext) {
-    const bounds = this.bounds(ctx);
-    const halfWidth = bounds.width / 2;
-    const halfHeight = bounds.height / 2;
-
-    return [
-      { x: halfWidth, y: 0, name: 'top' },
-      { x: bounds.width, y: halfHeight, name: 'right' },
-      { x: halfWidth, y: bounds.height, name: 'bottom' },
-      { x: 0, y: halfHeight, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {

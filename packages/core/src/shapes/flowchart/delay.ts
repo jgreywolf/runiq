@@ -1,6 +1,7 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { calculateRectangularAnchors } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Delay - Rounded rectangle with one curved side
@@ -13,16 +14,7 @@ export const delayShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {

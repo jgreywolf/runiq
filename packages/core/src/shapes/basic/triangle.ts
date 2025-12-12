@@ -1,6 +1,7 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { calculateTriangleAnchors } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Triangle - Upward-pointing triangle for extract/merge operations
@@ -17,16 +18,7 @@ export const triangleShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h, name: 'left' },
-    ];
+    return calculateTriangleAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {

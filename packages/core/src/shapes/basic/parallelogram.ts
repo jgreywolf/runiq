@@ -1,6 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Parallelogram (Lean Right) - Data input/output flowing in
@@ -21,6 +21,7 @@ export const parallelogramShape: ShapeDefinition = {
     const h = bounds.height;
     const skew = 15;
 
+    // Use rectangular anchors but adjust for skew
     return [
       { x: w / 2, y: 0, name: 'top' },
       { x: w - skew, y: h / 2, name: 'right' },

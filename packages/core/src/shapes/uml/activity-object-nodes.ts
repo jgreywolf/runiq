@@ -1,7 +1,6 @@
-import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
 import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Object Node shape

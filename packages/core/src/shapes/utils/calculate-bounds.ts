@@ -59,7 +59,8 @@ export function calculateSimpleBounds(
   const textSize = ctx.measureText(label, ctx.style);
 
   let width = textSize.width + padding * widthPaddingMultiplier + extraWidth;
-  let height = textSize.height + padding * heightPaddingMultiplier + extraHeight;
+  let height =
+    textSize.height + padding * heightPaddingMultiplier + extraHeight;
 
   if (minWidth !== undefined) {
     width = Math.max(width, minWidth);
@@ -275,8 +276,8 @@ export interface MultiTextBoundsConfig {
  * ```typescript
  * bounds(ctx) {
  *   const texts = [stereotype, ctx.node.label];
- *   return calculateMultiTextBounds(ctx, { 
- *     texts, 
+ *   return calculateMultiTextBounds(ctx, {
+ *     texts,
  *     combineMode: 'max-width',
  *     spacing: 4
  *   });

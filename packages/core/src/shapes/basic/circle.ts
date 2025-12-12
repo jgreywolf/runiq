@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { calculateRectangularAnchors } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -25,15 +26,7 @@ export const circleShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const r = bounds.width / 2;
-
-    return [
-      { x: r, y: 0, name: 'top' },
-      { x: bounds.width, y: r, name: 'right' },
-      { x: r, y: bounds.height, name: 'bottom' },
-      { x: 0, y: r, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
