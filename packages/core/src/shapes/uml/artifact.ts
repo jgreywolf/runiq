@@ -46,8 +46,7 @@ export const artifactShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fillColor =
-      (ctx.node.data?.fillColor as string) || '#ffffcc';
+    const fillColor = (ctx.node.data?.fillColor as string) || '#ffffcc';
     const strokeColor = (ctx.node.data?.strokeColor as string) || '#666666';
     const strokeWidth = (ctx.node.data?.strokeWidth as number) || 2;
 

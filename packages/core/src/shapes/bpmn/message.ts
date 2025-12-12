@@ -54,8 +54,16 @@ export const bpmnMessageShape: ShapeDefinition = {
     // Optional label below the envelope
     if (ctx.node.label) {
       const textY = y + bounds.height + 16;
-      const labelStyle = { ...ctx.style, fontSize: (ctx.style.fontSize || 14) * 0.85 };
-      svg += renderShapeLabel({ ...ctx, style: labelStyle }, ctx.node.label, centerX, textY);
+      const labelStyle = {
+        ...ctx.style,
+        fontSize: (ctx.style.fontSize || 14) * 0.85,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        centerX,
+        textY
+      );
     }
 
     return svg;
