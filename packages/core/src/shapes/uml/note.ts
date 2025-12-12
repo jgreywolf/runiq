@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Note shape
@@ -79,11 +80,15 @@ export const noteShape: ShapeDefinition = {
     const lines = (ctx.node.data?.lines as string[]) || [ctx.node.label || ''];
     let currentY = y + padding + lineHeight * 0.7;
 
+    const textStyle = { ...ctx.style, color: stroke };
     lines.forEach((line) => {
-      svg += `<text x="${x + padding}" y="${currentY}" `;
-      svg += `font-size="${ctx.style.fontSize || 14}" `;
-      svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-      svg += `${line}</text>`;
+      svg += renderShapeLabel(
+        { ...ctx, style: textStyle },
+        line,
+        x + padding,
+        currentY,
+        'start'
+      );
       currentY += lineHeight;
     });
 
