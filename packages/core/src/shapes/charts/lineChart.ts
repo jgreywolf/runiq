@@ -1,4 +1,8 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import {
+  renderLegend as renderChartLegend,
+  type LegendItem,
+} from '../utils/render-chart-labels.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -310,18 +314,20 @@ function renderLegend(
   legendX: number,
   legendY: number
 ): string {
-  const items = series.map((s, i) => {
-    const y = legendY + i * 25;
-    return `
-      <g>
-        <line x1="${legendX}" y1="${y}" x2="${legendX + 20}" y2="${y}" stroke="${s.color}" stroke-width="2" />
-        <circle cx="${legendX + 10}" cy="${y}" r="4" fill="${s.color}" stroke="white" stroke-width="2" />
-        <text x="${legendX + 30}" y="${y + 4}" font-size="12" fill="#374151">${s.label}</text>
-      </g>
-    `;
-  });
+  const items: LegendItem[] = series.map((s) => ({
+    label: s.label,
+    color: s.color,
+  }));
 
-  return `<g class="legend">${items.join('\n')}</g>`;
+  return `<g class="legend">${renderChartLegend({
+    items,
+    x: legendX,
+    y: legendY,
+    orientation: 'vertical',
+    swatchShape: 'line',
+    rowHeight: 25,
+    labelOffset: 30,
+  })}</g>`;
 }
 
 /**

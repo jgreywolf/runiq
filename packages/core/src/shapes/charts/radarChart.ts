@@ -1,4 +1,8 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import {
+  renderLegend as renderChartLegend,
+  type LegendItem,
+} from '../utils/render-chart-labels.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 interface RadarAxis {
@@ -306,17 +310,17 @@ function renderLegend(
   legendX: number,
   legendY: number
 ): string {
-  const items: string[] = [];
-  const lineHeight = 20;
+  const items: LegendItem[] = series.map((s) => ({
+    label: s.label,
+    color: s.color || DEFAULT_PALETTE[0],
+  }));
 
-  series.forEach((s, idx) => {
-    const y = legendY + idx * lineHeight;
-    items.push(`
-      <rect x="${legendX}" y="${y - 10}" width="12" height="12" fill="${s.color}"/>
-      <text x="${legendX + 18}" y="${y}" font-size="12" fill="#374151">${s.label}</text>`);
+  return renderChartLegend({
+    items,
+    x: legendX,
+    y: legendY,
+    orientation: 'vertical',
   });
-
-  return items.join('\n');
 }
 
 /**

@@ -1,5 +1,9 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
+import {
+  renderLegend as renderChartLegend,
+  renderChartTitle,
+  type LegendItem,
+} from '../utils/render-chart-labels.js';
 
 /**
  * Default color palette for pie chart slices
@@ -216,25 +220,23 @@ function renderLegend(
   startY: number,
   customColors?: string[]
 ): string {
-  const SWATCH_SIZE = 12;
-  const ROW_HEIGHT = 20;
-  const LABEL_OFFSET = 18;
+  const items: LegendItem[] = slices.map((slice, i) => {
+    const percentage = Math.round(slice.percentage * 10) / 10;
+    const percentageStr =
+      percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
+    return {
+      label: slice.label,
+      color: getSliceColor(i, customColors),
+      value: `${percentageStr}%`,
+    };
+  });
 
-  return slices
-    .map((slice, i) => {
-      const y = startY + i * ROW_HEIGHT;
-      const color = getSliceColor(i, customColors);
-      // Round percentage, remove decimal if .0
-      const percentage = Math.round(slice.percentage * 10) / 10;
-      const percentageStr =
-        percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
-
-      return `<g>
-      <rect x="${startX}" y="${y}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
-      <text x="${startX + LABEL_OFFSET}" y="${y + 10}" font-size="11" fill="#333">${slice.label} (${percentageStr}%)</text>
-    </g>`;
-    })
-    .join('\n    ');
+  return renderChartLegend({
+    items,
+    x: startX,
+    y: startY,
+    orientation: 'vertical',
+  });
 }
 
 /**
@@ -247,40 +249,18 @@ function renderLegendHorizontal(
   maxWidth: number,
   customColors?: string[]
 ): string {
-  const SWATCH_SIZE = 12;
-  const ITEM_SPACING = 15; // Space between items
-  const LABEL_OFFSET = 18; // Space between swatch and text
+  const items: LegendItem[] = slices.map((slice, i) => ({
+    label: slice.label, // Just label for horizontal (values on slices)
+    color: getSliceColor(i, customColors),
+  }));
 
-  let currentX = 0; // Start at 0, will be offset by x when rendering
-  let currentY = 0; // Start at 0, will be offset by y when rendering
-  const items: string[] = [];
-
-  slices.forEach((slice, i) => {
-    const color = getSliceColor(i, customColors);
-    const labelText = slice.label; // Just the label, no percentage (values are on slices)
-
-    // Estimate text width more accurately (roughly 5.5px per character for 11px font)
-    const estimatedTextWidth = labelText.length * 5.5;
-    const itemWidth = SWATCH_SIZE + LABEL_OFFSET + estimatedTextWidth;
-
-    // Wrap to next row if needed (and not first item)
-    if (currentX > 0 && currentX + itemWidth > maxWidth) {
-      currentY += 20;
-      currentX = 0;
-    }
-
-    const actualX = x + currentX;
-    const actualY = y + currentY;
-
-    items.push(`<g>
-      <rect x="${actualX}" y="${actualY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
-      <text x="${actualX + LABEL_OFFSET}" y="${actualY + 10}" font-size="11" fill="#333">${labelText}</text>
-    </g>`);
-
-    currentX += itemWidth + ITEM_SPACING;
+  return renderChartLegend({
+    items,
+    x,
+    y,
+    orientation: 'horizontal',
+    maxWidth,
   });
-
-  return items.join('\n    ');
 }
 
 /**
@@ -320,24 +300,19 @@ function renderSliceLabels(
 /**
  * Render title text above the pie chart
  */
-/**
- * Render title above the chart
- */
 function renderTitle(
   title: string,
   x: number,
   y: number,
   ctx: ShapeRenderContext
 ): string {
-  // Position title at the top of the chart area (above the pie)
-  const titleY = y + 15; // 15px from top
-  const titleX = x;
-  const titleStyle = {
-    ...ctx.style,
-    fontSize: 16,
-    fontWeight: 'bold' as const,
-  };
-  return renderShapeLabel({ ...ctx, style: titleStyle }, title, titleX, titleY);
+  return renderChartTitle({
+    ctx,
+    title,
+    position: { x, y },
+    width: 0, // Centered on x directly
+    yOffset: 15,
+  });
 }
 
 /**

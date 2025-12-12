@@ -1,5 +1,11 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
+import {
+  renderLegend as renderChartLegend,
+  renderChartTitle,
+  renderXAxisLabel,
+  renderYAxisLabel,
+  type LegendItem,
+} from '../utils/render-chart-labels.js';
 import {
   BarData,
   getBarColor,
@@ -405,21 +411,17 @@ function renderLegend(
   startY: number,
   customColors?: string[]
 ): string {
-  const SWATCH_SIZE = 12;
-  const ROW_HEIGHT = 20;
-  const LABEL_OFFSET = 18;
+  const items: LegendItem[] = labels.map((label, i) => ({
+    label,
+    color: getBarColor(i, customColors),
+  }));
 
-  return labels
-    .map((label, i) => {
-      const y = startY + i * ROW_HEIGHT;
-      const color = getBarColor(i, customColors);
-
-      return `<g>
-      <rect x="${startX}" y="${y}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
-      <text x="${startX + LABEL_OFFSET}" y="${y + 10}" font-size="11" fill="#333">${label}</text>
-    </g>`;
-    })
-    .join('\n    ');
+  return renderChartLegend({
+    items,
+    x: startX,
+    y: startY,
+    orientation: 'vertical',
+  });
 }
 
 /**
@@ -432,36 +434,18 @@ function renderLegendHorizontal(
   maxWidth: number,
   customColors?: string[]
 ): string {
-  const SWATCH_SIZE = 12;
-  const ITEM_SPACING = 15;
-  const LABEL_OFFSET = 18;
+  const items: LegendItem[] = labels.map((label, i) => ({
+    label,
+    color: getBarColor(i, customColors),
+  }));
 
-  let currentX = 0;
-  let currentY = 0;
-  const items: string[] = [];
-
-  labels.forEach((label, i) => {
-    const color = getBarColor(i, customColors);
-    const estimatedTextWidth = label.length * 5.5;
-    const itemWidth = SWATCH_SIZE + LABEL_OFFSET + estimatedTextWidth;
-
-    if (currentX > 0 && currentX + itemWidth > maxWidth) {
-      currentY += 20;
-      currentX = 0;
-    }
-
-    const actualX = x + currentX;
-    const actualY = y + currentY;
-
-    items.push(`<g>
-      <rect x="${actualX}" y="${actualY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
-      <text x="${actualX + LABEL_OFFSET}" y="${actualY + 10}" font-size="11" fill="#333">${label}</text>
-    </g>`);
-
-    currentX += itemWidth + ITEM_SPACING;
+  return renderChartLegend({
+    items,
+    x,
+    y,
+    orientation: 'horizontal',
+    maxWidth,
   });
-
-  return items.join('\n    ');
 }
 
 /**
@@ -525,14 +509,12 @@ function renderTitle(
   width: number,
   ctx: ShapeRenderContext
 ): string {
-  const titleX = position.x + width / 2;
-  const titleY = position.y + 20;
-  const titleStyle = {
-    ...ctx.style,
-    fontSize: 16,
-    fontWeight: 'bold' as const,
-  };
-  return renderShapeLabel({ ...ctx, style: titleStyle }, title, titleX, titleY);
+  return renderChartTitle({
+    ctx,
+    title,
+    position,
+    width,
+  });
 }
 
 /**
@@ -546,7 +528,7 @@ function renderXLabel(
 ): string {
   const labelX = position.x + width / 2;
   const labelY = position.y + height + 40;
-  return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666">${label}</text>`;
+  return renderXAxisLabel({ label, x: labelX, y: labelY });
 }
 
 /**
@@ -559,7 +541,7 @@ function renderYLabel(
 ): string {
   const labelX = position.x - 30;
   const labelY = position.y + height / 2;
-  return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666" transform="rotate(-90 ${labelX} ${labelY})">${label}</text>`;
+  return renderYAxisLabel({ label, x: labelX, y: labelY, rotate: true });
 }
 
 /**
