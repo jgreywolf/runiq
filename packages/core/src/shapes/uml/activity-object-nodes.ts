@@ -1,6 +1,7 @@
 import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 /**
  * UML Object Node shape
@@ -11,13 +12,11 @@ export const objectNodeShape: ShapeDefinition = {
   id: 'objectNode',
 
   bounds(ctx) {
-    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
-    const nameSize = ctx.measureText(ctx.node.label || 'Object', ctx.style);
-
-    const width = nameSize.width + padding * 2;
-    const height = nameSize.height + padding * 2;
-
-    return { width: Math.max(width, 80), height: Math.max(height, 40) };
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: 'Object',
+      minWidth: 80,
+      minHeight: 40,
+    });
   },
 
   anchors(ctx) {
@@ -72,19 +71,13 @@ export const centralBufferShape: ShapeDefinition = {
   id: 'centralBuffer',
 
   bounds(ctx) {
-    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
-    const stereotypePadding = 6;
-    const nameSize = ctx.measureText(ctx.node.label || 'Buffer', ctx.style);
-    const stereotypeSize = ctx.measureText('«centralBuffer»', {
-      ...ctx.style,
-      fontSize: (ctx.style.fontSize || 14) - 2,
+    const label = ctx.node.label || 'Buffer';
+    const stereotype = '«centralBuffer»';
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: `${stereotype}\n${label}`,
+      minWidth: 100,
+      minHeight: 50,
     });
-
-    const width = Math.max(nameSize.width, stereotypeSize.width) + padding * 2;
-    const height =
-      nameSize.height + stereotypeSize.height + padding * 2 + stereotypePadding;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
   },
 
   anchors(ctx) {
@@ -154,19 +147,13 @@ export const dataStoreShape: ShapeDefinition = {
   id: 'dataStore',
 
   bounds(ctx) {
-    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
-    const stereotypePadding = 6;
-    const nameSize = ctx.measureText(ctx.node.label || 'DataStore', ctx.style);
-    const stereotypeSize = ctx.measureText('«datastore»', {
-      ...ctx.style,
-      fontSize: (ctx.style.fontSize || 14) - 2,
+    const label = ctx.node.label || 'DataStore';
+    const stereotype = '«datastore»';
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: `${stereotype}\n${label}`,
+      minWidth: 100,
+      minHeight: 50,
     });
-
-    const width = Math.max(nameSize.width, stereotypeSize.width) + padding * 2;
-    const height =
-      nameSize.height + stereotypeSize.height + padding * 2 + stereotypePadding;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
   },
 
   anchors(ctx) {

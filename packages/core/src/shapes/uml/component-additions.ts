@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 /**
  * Escape XML special characters to prevent HTML injection
@@ -66,13 +67,11 @@ export const portShape: ShapeDefinition = {
 export const moduleShape: ShapeDefinition = {
   id: 'module',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    return {
-      width: Math.max(textSize.width + padding * 2, 100),
-      height: textSize.height + padding * 3 + 14, // Extra space for stereotype
-    };
+    return calculateSimpleBounds(ctx, {
+      heightPaddingMultiplier: 3,
+      extraHeight: 14, // Extra space for stereotype
+      minWidth: 100,
+    });
   },
 
   anchors(ctx) {
@@ -123,13 +122,7 @@ export const moduleShape: ShapeDefinition = {
 export const templateShape: ShapeDefinition = {
   id: 'template',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    return {
-      width: textSize.width + padding * 2,
-      height: textSize.height + padding * 2,
-    };
+    return calculateSimpleBounds(ctx);
   },
 
   anchors(ctx) {
@@ -798,3 +791,4 @@ export const verticalForkShape: ShapeDefinition = {
     `;
   },
 };
+

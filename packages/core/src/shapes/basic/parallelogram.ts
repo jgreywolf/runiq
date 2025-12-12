@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 /**
  * Parallelogram (Lean Right) - Data input/output flowing in
@@ -8,14 +9,10 @@ import { renderShapeLabel } from '../utils/render-label.js';
 export const parallelogramShape: ShapeDefinition = {
   id: 'parallelogram',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
     const skew = 15; // pixels of horizontal skew
-
-    return {
-      width: textSize.width + padding * 2 + skew * 2,
-      height: textSize.height + padding * 2,
-    };
+    return calculateSimpleBounds(ctx, {
+      extraWidth: skew * 2,
+    });
   },
 
   anchors(ctx) {

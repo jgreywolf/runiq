@@ -1,6 +1,7 @@
 import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 /**
  * UML Send Signal Action shape
@@ -11,13 +12,12 @@ export const sendSignalShape: ShapeDefinition = {
   id: 'sendSignal',
 
   bounds(ctx) {
-    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
-    const labelSize = ctx.measureText(ctx.node.label || 'Send', ctx.style);
-
-    const width = labelSize.width + padding * 3;
-    const height = labelSize.height + padding * 2;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: 'Send',
+      widthPaddingMultiplier: 3,
+      minWidth: 100,
+      minHeight: 50,
+    });
   },
 
   anchors(ctx) {
@@ -82,13 +82,12 @@ export const receiveSignalShape: ShapeDefinition = {
   id: 'receiveSignal',
 
   bounds(ctx) {
-    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
-    const labelSize = ctx.measureText(ctx.node.label || 'Receive', ctx.style);
-
-    const width = labelSize.width + padding * 3;
-    const height = labelSize.height + padding * 2;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: 'Receive',
+      widthPaddingMultiplier: 3,
+      minWidth: 100,
+      minHeight: 50,
+    });
   },
 
   anchors(ctx) {
@@ -153,13 +152,12 @@ export const acceptEventShape: ShapeDefinition = {
   id: 'acceptEvent',
 
   bounds(ctx) {
-    const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
-    const labelSize = ctx.measureText(ctx.node.label || 'Wait', ctx.style);
-
-    const width = labelSize.width + padding * 3;
-    const height = labelSize.height + padding * 2;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: 'Wait',
+      widthPaddingMultiplier: 3,
+      minWidth: 100,
+      minHeight: 50,
+    });
   },
 
   anchors(ctx) {

@@ -24,3 +24,16 @@ export {
   createPolygonPath,
   createRoundedRectPath,
 } from './svg-path-builder.js';
+export {
+  calculateSimpleBounds,
+  calculateFixedBounds,
+  calculateMultiLineBounds,
+  calculateAspectRatioBounds,
+  calculateMultiTextBounds,
+  type Dimensions,
+  type SimpleBoundsConfig,
+  type FixedBoundsConfig,
+  type MultiLineBoundsConfig,
+  type AspectRatioBoundsConfig,
+  type MultiTextBoundsConfig,
+} from './calculate-bounds.js';

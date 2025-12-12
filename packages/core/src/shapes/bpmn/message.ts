@@ -1,5 +1,6 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateAspectRatioBounds } from '../utils/calculate-bounds.js';
 
 /**
  * BPMN Message shape - represents a message being sent or received.
@@ -9,17 +10,13 @@ export const bpmnMessageShape: ShapeDefinition = {
   id: 'bpmnMessage',
 
   bounds(ctx: ShapeRenderContext) {
-    const padding = ctx.style.padding || 8;
-    const labelMetrics = ctx.measureText(ctx.node.label || '', ctx.style);
-
-    const minWidth = 60;
-    const minHeight = 40;
-
-    const width = Math.max(minWidth, labelMetrics.width + padding * 2);
-    // Envelope has 2:3 aspect ratio
-    const height = Math.max(minHeight, width * 0.66);
-
-    return { width, height };
+    // Envelope has 3:2 aspect ratio (width:height)
+    return calculateAspectRatioBounds(ctx, {
+      aspectRatio: 3 / 2,
+      fitText: true,
+      minWidth: 60,
+      minHeight: 40,
+    });
   },
 
   anchors(ctx: ShapeRenderContext) {

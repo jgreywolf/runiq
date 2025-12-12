@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 /**
  * Delay - Rounded rectangle with one curved side
@@ -8,13 +9,7 @@ import { renderShapeLabel } from '../utils/render-label.js';
 export const delayShape: ShapeDefinition = {
   id: 'delay',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    return {
-      width: textSize.width + padding * 2,
-      height: textSize.height + padding * 2,
-    };
+    return calculateSimpleBounds(ctx);
   },
 
   anchors(ctx) {

@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 /**
  * Triangle - Upward-pointing triangle for extract/merge operations
@@ -8,13 +9,11 @@ import { renderShapeLabel } from '../utils/render-label.js';
 export const triangleShape: ShapeDefinition = {
   id: 'triangle',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    return {
-      width: Math.max(textSize.width + padding * 3, 80),
-      height: Math.max(textSize.height + padding * 2, 70),
-    };
+    return calculateSimpleBounds(ctx, {
+      widthPaddingMultiplier: 3,
+      minWidth: 80,
+      minHeight: 70,
+    });
   },
 
   anchors(ctx) {

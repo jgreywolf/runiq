@@ -1,16 +1,15 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 export const hexShape: ShapeDefinition = {
   id: 'hexagon',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    return {
-      width: Math.max(textSize.width + padding * 3, 100),
-      height: Math.max(textSize.height + padding * 2, 60),
-    };
+    return calculateSimpleBounds(ctx, {
+      widthPaddingMultiplier: 3,
+      minWidth: 100,
+      minHeight: 60,
+    });
   },
 
   anchors(ctx) {

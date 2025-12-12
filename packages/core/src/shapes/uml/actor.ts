@@ -1,17 +1,14 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 export const actorShape: ShapeDefinition = {
   id: 'user',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    // Actor shape is a circle on top of a rectangle (stick figure)
-    const minWidth = Math.max(textSize.width + padding * 2, 60);
-    const height = textSize.height + padding * 2 + 30; // extra for head circle
-
-    return { width: minWidth, height };
+    return calculateSimpleBounds(ctx, {
+      extraHeight: 30, // extra for head circle
+      minWidth: 60,
+    });
   },
 
   anchors(ctx) {

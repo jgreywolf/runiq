@@ -1,17 +1,15 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 
 export const rhombusShape: ShapeDefinition = {
   id: 'rhombus',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    // Diamond shape needs extra space
-    return {
-      width: Math.max(textSize.width + padding * 3, 80),
-      height: Math.max(textSize.height + padding * 2, 60),
-    };
+    return calculateSimpleBounds(ctx, {
+      widthPaddingMultiplier: 3,
+      minWidth: 80,
+      minHeight: 60,
+    });
   },
 
   anchors(ctx) {
