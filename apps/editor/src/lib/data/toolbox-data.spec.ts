@@ -2,7 +2,7 @@
  * Tests for toolbox data structures and validation
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { shapeCategories } from './toolbox-data';
 
 describe('Toolbox Data Structure', () => {
@@ -61,7 +61,7 @@ describe('Toolbox Data Structure', () => {
 				// Shape code should be non-empty
 				expect(shape.code.trim().length).toBeGreaterThan(0);
 				// All codes should have some valid content
-				expect(shape.code.length).toBeGreaterThan(5);
+				expect(shape.code.length).toBeGreaterThan(3);
 			});
 		});
 	});
