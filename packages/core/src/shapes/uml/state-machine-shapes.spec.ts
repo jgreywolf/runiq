@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import type { ShapeRenderContext } from '../../types/index.js';
-import { stateShape } from './state.js';
-import { initialStateShape } from './initialState.js';
-import { finalStateShape } from './finalState.js';
 import { choiceShape } from './choice.js';
+import { finalStateShape } from './finalState.js';
 import { forkShape } from './fork.js';
+import { initialStateShape } from './initialState.js';
 import { joinShape } from './join.js';
+import { stateShape } from './state.js';
 
 // Mock render context helper
 function createMockContext(
@@ -181,7 +181,7 @@ describe('UML State Machine Shapes', () => {
       const ctx = createMockContext('[x > 0]');
       const svg = choiceShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('[x > 0]');
+      expect(svg).toContain('[x &gt; 0]');
     });
   });
 

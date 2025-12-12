@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 interface OrbitCycleData {
@@ -42,13 +43,10 @@ export const orbitCycleShape: ShapeDefinition = {
     const centerLabel = (ctx.node.data?.centerLabel as string) || 'Core';
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const centerX = x + bounds.width / 2;
@@ -79,16 +77,16 @@ export const orbitCycleShape: ShapeDefinition = {
     let svg = '';
 
     // Draw central core (sun)
+    const centerStyle = {
+      fontSize: fontSize + 2,
+      fontWeight: 'bold',
+      color: '#FFFFFF',
+    };
     svg += `
       <circle cx="${centerX}" cy="${centerY}" r="${coreRadius}"
               fill="${coreFill}" stroke="${stroke}" stroke-width="${strokeWidth + 1}" />
       
-      <text x="${centerX}" y="${centerY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize + 2}" 
-            font-weight="bold" fill="#FFFFFF">
-        ${centerLabel}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: centerStyle }, centerLabel, centerX, centerY)}
     `;
 
     // Draw orbits and items
@@ -122,16 +120,12 @@ export const orbitCycleShape: ShapeDefinition = {
         const itemY = centerY; // Keep all items at center vertical level
 
         // Draw orbital item (planet)
+        const itemStyle = { fontSize, fontWeight: 'bold', color: '#FFFFFF' };
         svg += `
           <circle cx="${itemX}" cy="${itemY}" r="${planetRadius}"
                   fill="${orbitColor}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
-          <text x="${itemX}" y="${itemY}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}" 
-                font-weight="bold" fill="#FFFFFF">
-            ${items[itemIndex]}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: itemStyle }, items[itemIndex], itemX, itemY)}
         `;
 
         // Draw motion arrow indicating orbit direction - positioned to the side to avoid text overlap

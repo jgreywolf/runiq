@@ -27,6 +27,9 @@ export interface ShapeRenderContext {
       fill?: string;
       textAnchor?: 'start' | 'middle' | 'end';
       dominantBaseline?: string;
+      fontWeight?: string;
+      fontStyle?: 'normal' | 'italic';
+      textDecoration?: 'none' | 'underline';
     }
   ) => string;
 }

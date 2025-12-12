@@ -126,10 +126,18 @@ export const stateShape: ShapeDefinition = {
       // Activity list
       activities.forEach((activity) => {
         currentY += lineHeight * 0.7;
-        svg += `<text x="${x + padding}" y="${currentY}" `;
-        svg += `font-size="${(ctx.style.fontSize || 14) * 0.9}" `;
-        svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-        svg += `${activity}</text>`;
+        const activityStyle = {
+          ...ctx.style,
+          fontSize: (ctx.style.fontSize || 14) * 0.9,
+          color: stroke,
+        };
+        svg += renderShapeLabel(
+          { ...ctx, style: activityStyle },
+          activity,
+          x + padding,
+          currentY,
+          'start'
+        );
         currentY += lineHeight * 0.3;
       });
     }

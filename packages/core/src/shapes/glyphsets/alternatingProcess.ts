@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -46,13 +47,10 @@ export const alternatingProcessShape: ShapeDefinition = {
     const items = (ctx.node.data?.items as string[]) || [];
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const stepWidth = 160;
@@ -90,14 +88,15 @@ export const alternatingProcessShape: ShapeDefinition = {
               width="${stepWidth}" height="${stepHeight}"
               rx="8" ry="8"
               fill="${stepFill}" stroke="${stepStroke}" stroke-width="${strokeWidth}" />
-        
-        <text x="${stepX + stepWidth / 2}" y="${stepY + stepHeight / 2}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize}" 
-              font-weight="600" fill="#FFFFFF">
-          ${items[i]}
-        </text>
       `;
+
+      const stepStyle = { fontSize, fontWeight: '600', color: '#FFFFFF' };
+      svg += renderShapeLabel(
+        { ...ctx, style: stepStyle },
+        items[i],
+        stepX + stepWidth / 2,
+        stepY + stepHeight / 2
+      );
 
       // Draw connecting arrow to next step (if not last)
       if (i < items.length - 1) {

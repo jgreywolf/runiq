@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -119,7 +120,14 @@ export const titledMatrix: ShapeDefinition = {
     const data = ctx.node.data as any;
 
     if (!data || !data.quadrants) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid titledMatrix data</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid titledMatrix data',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const quadrants = data.quadrants || [];

@@ -160,7 +160,13 @@ export const sankeyChart: ShapeDefinition = {
       | undefined;
 
     if (!nodes || nodes.length === 0) {
-      return `<text x="${position.x}" y="${position.y}" fill="#6b7280" font-size="14">No Sankey data</text>`;
+      const noDataStyle = { fontSize: 14, color: '#6b7280' };
+      return renderShapeLabel(
+        { style: noDataStyle } as any,
+        'No Sankey data',
+        position.x,
+        position.y
+      );
     }
 
     const bounds = this.bounds(ctx);

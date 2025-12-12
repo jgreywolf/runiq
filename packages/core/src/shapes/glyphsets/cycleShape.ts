@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -123,12 +124,23 @@ export const cycleShape: ShapeDefinition = {
       svg += `stroke="${stroke}" stroke-width="0" />`;
 
       // Label
-      svg += `<text x="${pos.x}" y="${pos.y}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="600" `;
-      svg += `fill="#FFFFFF">`;
-      svg += `${label}`;
-      svg += `</text>`;
+      const labelCtx = {
+        ...ctx,
+        style: {
+          fontSize,
+          fontFamily,
+          fontWeight: '600',
+          color: '#FFFFFF',
+        },
+      };
+      svg += renderShapeLabel(
+        labelCtx,
+        label,
+        pos.x,
+        pos.y,
+        'middle',
+        'middle'
+      );
     });
 
     return svg;

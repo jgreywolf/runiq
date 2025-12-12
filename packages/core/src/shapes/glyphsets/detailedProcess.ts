@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 interface DetailedProcessStep {
@@ -70,13 +71,10 @@ export const detailedProcessShape: ShapeDefinition = {
     const direction = (ctx.node.data?.direction as string) || 'LR';
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const mainWidth = 140;
@@ -128,18 +126,14 @@ export const detailedProcessShape: ShapeDefinition = {
           const substepX = mainX + (mainWidth - substepWidth) / 2; // Center below main step
           const substepY = substepStartY + j * (substepHeight + 10);
 
+          const substepStyle = { fontSize: fontSize - 2, color: '#333' };
           svg += `
             <rect x="${substepX}" y="${substepY}" 
                   width="${substepWidth}" height="${substepHeight}"
                   rx="4" ry="4"
                   fill="${substepFill}" stroke="${mainStroke}" stroke-width="${strokeWidth - 0.5}" />
             
-            <text x="${substepX + substepWidth / 2}" y="${substepY + substepHeight / 2}" 
-                  text-anchor="middle" dominant-baseline="middle"
-                  font-family="${font}" font-size="${fontSize - 2}" 
-                  fill="#333">
-              ${items[i].substeps[j]}
-            </text>
+            ${renderShapeLabel({ ...ctx, style: substepStyle }, items[i].substeps[j], substepX + substepWidth / 2, substepY + substepHeight / 2)}
           `;
 
           // Draw line from main step to first substep
@@ -190,18 +184,14 @@ export const detailedProcessShape: ShapeDefinition = {
         const mainFill = ctx.style.fill || getThemeColor(theme, i);
 
         // Draw main step box
+        const mainStyleTB = { fontSize, fontWeight: 'bold', color: '#FFFFFF' };
         svg += `
           <rect x="${mainX}" y="${mainY}" 
                 width="${mainWidth}" height="${mainHeight}"
                 rx="6" ry="6"
                 fill="${mainFill}" stroke="${mainStroke}" stroke-width="${strokeWidth}" />
           
-          <text x="${mainX + mainWidth / 2}" y="${mainY + mainHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}" 
-                font-weight="bold" fill="#FFFFFF">
-            ${items[i].main}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: mainStyleTB }, items[i].main, mainX + mainWidth / 2, mainY + mainHeight / 2)}
         `;
 
         // Draw substeps to the right of main step
@@ -209,6 +199,7 @@ export const detailedProcessShape: ShapeDefinition = {
         for (let j = 0; j < items[i].substeps.length; j++) {
           const substepX = substepStartX;
           const substepY = mainY + (mainHeight - substepHeight) / 2;
+          const substepStyleTB = { fontSize: fontSize - 2, color: '#333' };
 
           svg += `
             <rect x="${substepX + j * (substepWidth + 10)}" y="${substepY}" 
@@ -216,12 +207,7 @@ export const detailedProcessShape: ShapeDefinition = {
                   rx="4" ry="4"
                   fill="${substepFill}" stroke="${mainStroke}" stroke-width="${strokeWidth - 0.5}" />
             
-            <text x="${substepX + j * (substepWidth + 10) + substepWidth / 2}" y="${substepY + substepHeight / 2}" 
-                  text-anchor="middle" dominant-baseline="middle"
-                  font-family="${font}" font-size="${fontSize - 2}" 
-                  fill="#333">
-              ${items[i].substeps[j]}
-            </text>
+            ${renderShapeLabel({ ...ctx, style: substepStyleTB }, items[i].substeps[j], substepX + j * (substepWidth + 10) + substepWidth / 2, substepY + substepHeight / 2)}
           `;
 
           // Draw line from main step to first substep

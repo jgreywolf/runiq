@@ -1,16 +1,5 @@
 import type { ShapeRenderContext } from '../../types/index.js';
-
-/**
- * Escape XML special characters to prevent HTML injection
- */
-function escapeXml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
-}
+import { renderShapeLabel } from './render-label.js';
 
 /**
  * Style options for rendered text items
@@ -120,24 +109,23 @@ export function renderMultiCompartmentShape(
       const style = header.style || {};
       const itemFontSize = style.fontSize || fontSize;
 
-      svg += `<text x="${x + width / 2}" y="${currentY}" `;
-      svg += `text-anchor="middle" `;
-      svg += `font-size="${itemFontSize}" `;
-      svg += `font-family="${fontFamily}" `;
+      // Create modified style context for this item
+      const itemStyleContext = {
+        ...ctx.style,
+        fontSize: itemFontSize,
+        fontWeight: style.fontWeight,
+        fontStyle: style.fontStyle,
+        textDecoration: style.textDecoration,
+        color: stroke,
+      };
 
-      if (style.fontWeight) {
-        svg += `font-weight="${style.fontWeight}" `;
-      }
-      if (style.fontStyle) {
-        svg += `font-style="${style.fontStyle}" `;
-      }
-      if (style.textDecoration) {
-        svg += `text-decoration="${style.textDecoration}" `;
-      }
-
-      svg += `fill="${stroke}">`;
-      svg += escapeXml(item);
-      svg += `</text>`;
+      svg += renderShapeLabel(
+        { ...ctx, style: itemStyleContext },
+        item,
+        x + width / 2,
+        currentY,
+        'middle'
+      );
 
       currentY += lineHeight * 0.3;
     }
@@ -177,24 +165,23 @@ export function renderMultiCompartmentShape(
 
       const itemFontSize = itemStyle.fontSize || fontSize;
 
-      svg += `<text x="${textX}" y="${currentY}" `;
-      svg += `text-anchor="${align}" `;
-      svg += `font-size="${itemFontSize}" `;
-      svg += `font-family="${fontFamily}" `;
+      // Create modified style context for this item
+      const itemStyleContext = {
+        ...ctx.style,
+        fontSize: itemFontSize,
+        fontWeight: itemStyle.fontWeight,
+        fontStyle: itemStyle.fontStyle,
+        textDecoration: itemStyle.textDecoration,
+        color: stroke,
+      };
 
-      if (itemStyle.fontWeight) {
-        svg += `font-weight="${itemStyle.fontWeight}" `;
-      }
-      if (itemStyle.fontStyle) {
-        svg += `font-style="${itemStyle.fontStyle}" `;
-      }
-      if (itemStyle.textDecoration) {
-        svg += `text-decoration="${itemStyle.textDecoration}" `;
-      }
-
-      svg += `fill="${stroke}">`;
-      svg += escapeXml(renderedItem);
-      svg += `</text>`;
+      svg += renderShapeLabel(
+        { ...ctx, style: itemStyleContext },
+        renderedItem,
+        textX,
+        currentY,
+        align
+      );
 
       currentY += lineHeight * 0.3;
     }

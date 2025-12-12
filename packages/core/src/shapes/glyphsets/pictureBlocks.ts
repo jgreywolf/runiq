@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 interface ImageItem {
@@ -129,8 +130,12 @@ export const pictureBlocksShape: ShapeDefinition = {
       );
 
       // Title
+      const titleCtx = {
+        ...ctx,
+        style: { fontSize: 18, fontWeight: '600', color },
+      };
       parts.push(
-        `<text x="${textX + 15}" y="${y + 30}" font-size="18" font-weight="600" fill="${color}">${item.label}</text>`
+        renderShapeLabel(titleCtx, item.label, textX + 15, y + 30, 'start')
       );
 
       // Description (if provided)
@@ -145,8 +150,12 @@ export const pictureBlocksShape: ShapeDefinition = {
           const testWidth = testLine.length * 7; // Rough estimate
 
           if (testWidth > maxWidth && line !== '') {
+            const descCtx = {
+              ...ctx,
+              style: { fontSize: 14, color: '#666' },
+            };
             parts.push(
-              `<text x="${textX + 15}" y="${lineY}" font-size="14" fill="#666">${line.trim()}</text>`
+              renderShapeLabel(descCtx, line.trim(), textX + 15, lineY, 'start')
             );
             line = word + ' ';
             lineY += 20;
@@ -156,8 +165,12 @@ export const pictureBlocksShape: ShapeDefinition = {
         });
 
         if (line.trim() !== '') {
+          const descCtx = {
+            ...ctx,
+            style: { fontSize: 14, color: '#666' },
+          };
           parts.push(
-            `<text x="${textX + 15}" y="${lineY}" font-size="14" fill="#666">${line.trim()}</text>`
+            renderShapeLabel(descCtx, line.trim(), textX + 15, lineY, 'start')
           );
         }
       }

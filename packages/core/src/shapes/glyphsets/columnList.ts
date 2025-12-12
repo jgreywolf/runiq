@@ -1,5 +1,6 @@
 import { getThemeColor } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import {
   createStandardAnchors,
   extractItems,
@@ -132,13 +133,15 @@ export const columnListShape: ShapeDefinition = {
                 width="${equalColumnWidth}" height="${itemHeight}"
                 rx="8" ry="8" 
                 fill="${itemFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-          
-          <text x="${colX + equalColumnWidth / 2}" y="${itemY + itemHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}">
-            ${itemText}
-          </text>
         `;
+
+        const itemStyle = { fontSize, color: '#000000' };
+        svg += renderShapeLabel(
+          { ...ctx, style: itemStyle },
+          itemText,
+          colX + equalColumnWidth / 2,
+          itemY + itemHeight / 2
+        );
       }
     }
 

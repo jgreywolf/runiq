@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -152,12 +153,17 @@ export const pyramidListShape: ShapeDefinition = {
 
       // Level label in pyramid
       const pyramidCenterY = (topY + bottomY) / 2;
-      svg += `<text x="${centerX}" y="${pyramidCenterY}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-      svg += `fill="white">`;
-      svg += `${level.label}`;
-      svg += `</text>`;
+      const pyramidLabelStyle = {
+        fontSize,
+        fontWeight: 'bold',
+        color: 'white',
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: pyramidLabelStyle },
+        level.label,
+        centerX,
+        pyramidCenterY
+      );
 
       // Render list items on the right
       const items = level.items || [];
@@ -186,12 +192,14 @@ export const pyramidListShape: ShapeDefinition = {
         });
       } else {
         // No items - show level label on right as well
-        svg += `<text x="${listStartX + 10}" y="${pyramidCenterY}" `;
-        svg += `text-anchor="start" dominant-baseline="middle" `;
-        svg += `font-family="${fontFamily}" font-size="${fontSize}" `;
-        svg += `fill="${stroke}">`;
-        svg += `${level.label}`;
-        svg += `</text>`;
+        const listLabelStyle = { fontSize, color: stroke };
+        svg += renderShapeLabel(
+          { ...ctx, style: listLabelStyle },
+          level.label,
+          listStartX + 10,
+          pyramidCenterY,
+          'start'
+        );
       }
     });
 

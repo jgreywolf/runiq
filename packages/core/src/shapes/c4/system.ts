@@ -1,10 +1,10 @@
 import { ShapeDefaults } from '../../constants.js';
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderMultilineText } from '../../types/index.js';
 import {
   calculateRectangularAnchors,
   extractBasicStyles,
 } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * C4 Model: Software System
@@ -47,18 +47,17 @@ export const c4System: ShapeDefinition = {
     const textColor = ctx.style.textColor || '#ffffff';
     const rx = ctx.style.rx || 8;
 
-    const titleSvg: string = renderMultilineText(
+    const titleStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) + 2,
+      fontWeight: 'bold',
+      color: textColor,
+    };
+    const titleSvg = renderShapeLabel(
+      { ...ctx, style: titleStyle },
       ctx.node.label || ctx.node.id,
       x + bounds.width / 2,
-      y + bounds.height / 2,
-      {
-        textAnchor: 'middle' as const,
-        dominantBaseline: 'middle',
-        fontFamily: (ctx.style.font || 'sans-serif') as string,
-        fontSize: ((ctx.style.fontSize || 14) + 2) as number,
-        fill: textColor as string,
-        fontWeight: 'bold' as string,
-      }
+      y + bounds.height / 2
     );
 
     return `

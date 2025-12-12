@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -94,7 +95,14 @@ export const matrix: ShapeDefinition = {
     const data = ctx.node.data as any;
 
     if (!data || !data.quadrants || data.quadrants.length !== 4) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid matrix data (requires 4 quadrants)</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid matrix data (requires 4 quadrants)',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const quadrants = data.quadrants || [];
@@ -134,14 +142,28 @@ export const matrix: ShapeDefinition = {
       // Y-axis label (vertical, left side)
       const yLabelX = position.x + 20;
       const yLabelY = gridStartY + CELL_SIZE;
-      svg += `<text x="${yLabelX}" y="${yLabelY}" text-anchor="middle" dominant-baseline="middle" fill="#666" font-size="14" font-weight="bold" transform="rotate(-90, ${yLabelX}, ${yLabelY})">${verticalAxis}</text>`;
+      const yAxisStyle = { fontSize: 14, fontWeight: 'bold', color: '#666' };
+      svg += `<text x="${yLabelX}" y="${yLabelY}" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90, ${yLabelX}, ${yLabelY})">`;
+      svg += renderShapeLabel(
+        { ...ctx, style: yAxisStyle },
+        verticalAxis,
+        0,
+        0
+      ).replace(/<text[^>]*>|<\/text>/g, '');
+      svg += `</text>`;
     }
 
     if (horizontalAxis) {
       // X-axis label (horizontal, bottom)
       const xLabelX = gridStartX + CELL_SIZE;
       const xLabelY = gridStartY + CELL_SIZE * 2 + 40;
-      svg += `<text x="${xLabelX}" y="${xLabelY}" text-anchor="middle" fill="#666" font-size="14" font-weight="bold">${horizontalAxis}</text>`;
+      const xAxisStyle = { fontSize: 14, fontWeight: 'bold', color: '#666' };
+      svg += renderShapeLabel(
+        { ...ctx, style: xAxisStyle },
+        horizontalAxis,
+        xLabelX,
+        xLabelY
+      );
     }
 
     return svg;

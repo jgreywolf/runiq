@@ -56,7 +56,7 @@ export const erdRelationshipShape: ShapeDefinition = {
       const labelStyle = {
         ...ctx.style,
         color: textColor,
-        fontStyle: 'italic',
+        fontStyle: 'italic' as const,
       };
       result += renderShapeLabel(
         { ...ctx, style: labelStyle },

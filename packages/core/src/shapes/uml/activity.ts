@@ -87,10 +87,14 @@ export const activityShape: ShapeDefinition = {
       svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
       // Pin label (left of the pin)
-      svg += `<text x="${pinX - 4}" y="${pinY + pinSize / 2 + 3}" `;
-      svg += `text-anchor="end" font-size="${pinFontSize}" `;
-      svg += `font-family="${fontFamily}" fill="${stroke}">`;
-      svg += `${pin}</text>`;
+      const pinLabelStyle = { fontSize: pinFontSize, color: stroke };
+      svg += renderShapeLabel(
+        { style: pinLabelStyle } as any,
+        pin,
+        pinX - 4,
+        pinY + pinSize / 2 + 3,
+        'end'
+      );
     });
 
     // Output pins (right side, small squares)
@@ -104,10 +108,14 @@ export const activityShape: ShapeDefinition = {
       svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
       // Pin label (right of the pin)
-      svg += `<text x="${pinX + pinSize + 4}" y="${pinY + pinSize / 2 + 3}" `;
-      svg += `text-anchor="start" font-size="${pinFontSize}" `;
-      svg += `font-family="${fontFamily}" fill="${stroke}">`;
-      svg += `${pin}</text>`;
+      const pinLabelStyle = { fontSize: pinFontSize, color: stroke };
+      svg += renderShapeLabel(
+        { style: pinLabelStyle } as any,
+        pin,
+        pinX + pinSize + 4,
+        pinY + pinSize / 2 + 3,
+        'start'
+      );
     });
 
     // Activity name (centered)

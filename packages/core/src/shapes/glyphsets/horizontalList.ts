@@ -1,5 +1,6 @@
 import { getThemeColor } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import {
   calculateMaxTextWidth,
   createStandardAnchors,
@@ -96,14 +97,15 @@ export const horizontalListShape: ShapeDefinition = {
               rx="4" ry="4" 
               fill="url(#processGradient-hlist-${i})" 
               stroke="${stroke}" stroke-width="${strokeWidth}" />
-        
-        <text x="${itemX + itemWidth / 2}" y="${y + itemHeight / 2}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize}" 
-              font-weight="600" fill="#FFFFFF">
-          ${items[i]}
-        </text>
       `;
+
+      const itemStyle = { fontSize, fontWeight: '600', color: '#FFFFFF' };
+      svg += renderShapeLabel(
+        { ...ctx, style: itemStyle },
+        items[i],
+        itemX + itemWidth / 2,
+        y + itemHeight / 2
+      );
     }
 
     return svg;

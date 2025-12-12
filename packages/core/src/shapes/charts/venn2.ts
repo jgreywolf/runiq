@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Default color palette for Venn diagram sets
@@ -87,22 +88,24 @@ export const venn2Shape: ShapeDefinition = {
     // Label A (inside left circle, non-overlapping region)
     const labelAX = circleAX - 30;
     const labelAY = centerY;
-    svg += `<text x="${labelAX}" y="${labelAY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">`;
-    svg += `${labelA}`;
-    svg += `</text>`;
+    const labelStyleA = { fontSize, fontWeight: 'bold', color: stroke } as any;
+    svg += renderShapeLabel(
+      { style: labelStyleA } as any,
+      labelA,
+      labelAX,
+      labelAY
+    );
 
     // Label B (inside right circle, non-overlapping region)
     const labelBX = circleBX + 30;
     const labelBY = centerY;
-    svg += `<text x="${labelBX}" y="${labelBY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">`;
-    svg += `${labelB}`;
-    svg += `</text>`;
+    const labelStyleB = { fontSize, fontWeight: 'bold', color: stroke } as any;
+    svg += renderShapeLabel(
+      { style: labelStyleB } as any,
+      labelB,
+      labelBX,
+      labelBY
+    );
 
     svg += `</g>`;
 

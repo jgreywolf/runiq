@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -50,13 +51,10 @@ export const equationProcessShape: ShapeDefinition = {
     const result = (ctx.node.data?.result as string) || '';
 
     if (inputs.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const itemWidth = 100;
@@ -83,60 +81,62 @@ export const equationProcessShape: ShapeDefinition = {
       const inputFill = ctx.style.fill || getThemeColor(theme, i);
 
       // Draw input box
+      const inputStyle = { fontSize, fontWeight: '600', color: '#FFFFFF' };
       svg += `
         <rect x="${currentX}" y="${y}" 
               width="${itemWidth}" height="${itemHeight}"
               rx="6" ry="6"
               fill="${inputFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
         
-        <text x="${currentX + itemWidth / 2}" y="${y + itemHeight / 2}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize}" 
-              font-weight="600" fill="#FFFFFF">
-          ${inputs[i]}
-        </text>
+        ${renderShapeLabel({ ...ctx, style: inputStyle }, inputs[i], currentX + itemWidth / 2, y + itemHeight / 2)}
       `;
 
       currentX += itemWidth;
 
       // Draw + operator (if not last input)
       if (i < inputs.length - 1) {
-        svg += `
-          <text x="${currentX + operatorWidth / 2}" y="${y + itemHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize * 1.5}" 
-                font-weight="700" fill="${stroke}">
-            +
-          </text>
-        `;
+        const operatorStyle = {
+          fontSize: fontSize * 1.5,
+          fontWeight: '700',
+          color: stroke,
+        };
+        svg += renderShapeLabel(
+          { ...ctx, style: operatorStyle },
+          '+',
+          currentX + operatorWidth / 2,
+          y + itemHeight / 2
+        );
         currentX += operatorWidth;
       }
     }
 
     // Draw = operator
-    svg += `
-      <text x="${currentX + operatorWidth / 2}" y="${y + itemHeight / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize * 1.5}" 
-            font-weight="700" fill="${stroke}">
-        =
-      </text>
-    `;
+    const equalsStyle = {
+      fontSize: fontSize * 1.5,
+      fontWeight: '700',
+      color: stroke,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: equalsStyle },
+      '=',
+      currentX + operatorWidth / 2,
+      y + itemHeight / 2
+    );
     currentX += operatorWidth;
 
     // Draw result box (slightly larger and different color)
+    const resultStyle = {
+      fontSize: fontSize * 1.1,
+      fontWeight: '700',
+      color: '#FFFFFF',
+    };
     svg += `
       <rect x="${currentX}" y="${y}" 
             width="${resultWidth}" height="${itemHeight}"
             rx="6" ry="6"
             fill="${resultFill}" stroke="${stroke}" stroke-width="${strokeWidth + 1}" />
       
-      <text x="${currentX + resultWidth / 2}" y="${y + itemHeight / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize * 1.1}" 
-            font-weight="700" fill="#FFFFFF">
-        ${result}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: resultStyle }, result, currentX + resultWidth / 2, y + itemHeight / 2)}
     `;
 
     return svg;

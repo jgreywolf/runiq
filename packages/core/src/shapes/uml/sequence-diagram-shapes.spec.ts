@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import type { ShapeRenderContext } from '../../types/index.js';
-import { lifelineShape } from './lifeline.js';
 import { activationShape } from './activation.js';
-import { fragmentShape } from './fragment.js';
 import { deletionShape } from './deletion.js';
+import { fragmentShape } from './fragment.js';
+import { lifelineShape } from './lifeline.js';
 
 // Mock render context helper
 function createMockContext(
@@ -148,7 +148,7 @@ describe('UML Sequence Diagram Shapes', () => {
       expect(svg).toContain('<rect'); // Main frame
       expect(svg).toContain('<path'); // Pentagon for operator
       expect(svg).toContain('alt');
-      expect(svg).toContain('[x > 0]');
+      expect(svg).toContain('[x &gt; 0]');
     });
 
     it('should support different operators', () => {

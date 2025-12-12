@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -94,7 +95,14 @@ export const matrix3x3: ShapeDefinition = {
     const data = ctx.node.data as any;
 
     if (!data || !data.quadrants || data.quadrants.length !== 9) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid matrix3x3 data (requires 9 quadrants)</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid matrix3x3 data (requires 9 quadrants)',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const quadrants = data.quadrants || [];

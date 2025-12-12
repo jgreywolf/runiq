@@ -223,6 +223,7 @@ function generatePath(
  * Render grid lines
  */
 function renderGrid(
+  ctx: ShapeRenderContext,
   minY: number,
   maxY: number,
   chartWidth: number,
@@ -246,8 +247,10 @@ function renderGrid(
       );
 
       // X-axis label (below the chart)
+      const labelStyle = { fontSize: 10, color: '#6b7280' };
+      const labelCtx = { ...ctx, style: labelStyle } as any;
       lines.push(
-        `<text x="${x}" y="${chartHeight + 15}" text-anchor="middle" font-size="10" fill="#6b7280">${value.toFixed(0)}</text>`
+        renderShapeLabel(labelCtx, value.toFixed(0), x, chartHeight + 15)
       );
     }
   } else {
@@ -262,8 +265,10 @@ function renderGrid(
       );
 
       // Y-axis label (left of chart)
+      const labelStyle = { fontSize: 10, color: '#6b7280' };
+      const labelCtx = { ...ctx, style: labelStyle } as any;
       lines.push(
-        `<text x="-10" y="${y + 4}" text-anchor="end" font-size="10" fill="#6b7280">${value.toFixed(1)}</text>`
+        renderShapeLabel(labelCtx, value.toFixed(1), -10, y + 4, 'end')
       );
     }
   }
@@ -350,7 +355,9 @@ function renderXAxisLabels(
       if (!p.label) return ''; // Skip if no label
       const x = ((p.x - minX) / xRange) * chartWidth;
       const y = chartHeight + 15; // Position below X-axis
-      return `<text x="${x.toFixed(2)}" y="${y}" text-anchor="middle" font-size="10" fill="#6b7280">${p.label}</text>`;
+      const labelStyle = { fontSize: 10, color: '#6b7280' };
+      const labelCtx = { style: labelStyle } as any;
+      return renderShapeLabel(labelCtx, p.label, Number(x.toFixed(2)), y);
     })
     .filter(Boolean)
     .join('\n');
@@ -375,7 +382,15 @@ function renderYAxisLabels(
       if (!p.label) return ''; // Skip if no label
       const y = chartHeight - ((p.x - minX) / xRange) * chartHeight;
       const x = -10; // Position to the left of Y-axis
-      return `<text x="${x}" y="${y.toFixed(2)}" text-anchor="end" font-size="10" fill="#6b7280">${p.label}</text>`;
+      const labelStyle = { fontSize: 10, color: '#6b7280' };
+      const labelCtx = { style: labelStyle } as any;
+      return renderShapeLabel(
+        labelCtx,
+        p.label,
+        x,
+        Number(y.toFixed(2)),
+        'end'
+      );
     })
     .filter(Boolean)
     .join('\n');
@@ -427,7 +442,13 @@ export const lineChart: ShapeDefinition = {
     const series = normalizeData(ctx.node.data, customColors, customLabels);
 
     if (series.length === 0 || series.every((s) => s.points.length === 0)) {
-      return `<text x="${position.x}" y="${position.y}" fill="#6b7280" font-size="14">No data</text>`;
+      const noDataStyle = { ...ctx.style, fontSize: 14, color: '#6b7280' };
+      return renderShapeLabel(
+        { ...ctx, style: noDataStyle },
+        'No data',
+        position.x,
+        position.y
+      );
     }
 
     // Calculate data bounds
@@ -441,8 +462,8 @@ export const lineChart: ShapeDefinition = {
     // Generate SVG elements
     const grid = showGrid
       ? flipAxes
-        ? renderGrid(minY, maxY, chartWidth, chartHeight, flipAxes)
-        : renderGrid(minY, maxY, chartWidth, chartHeight, flipAxes)
+        ? renderGrid(ctx, minY, maxY, chartWidth, chartHeight, flipAxes)
+        : renderGrid(ctx, minY, maxY, chartWidth, chartHeight, flipAxes)
       : '';
 
     const lines = series

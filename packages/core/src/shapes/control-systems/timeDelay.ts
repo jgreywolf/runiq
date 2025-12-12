@@ -45,7 +45,7 @@ export const timeDelayShape: ShapeDefinition = {
 
     // Use "e^-sT" unless label specifies otherwise
     const label = ctx.node.label || 'e^-sT';
-    const labelStyle = { ...ctx.style, fontStyle: 'italic' };
+    const labelStyle = { ...ctx.style, fontStyle: 'italic' as const };
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"

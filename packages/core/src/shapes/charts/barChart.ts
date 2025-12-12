@@ -6,6 +6,7 @@ import {
   renderYAxisLabel,
   type LegendItem,
 } from '../utils/render-chart-labels.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import {
   BarData,
   getBarColor,
@@ -74,12 +75,24 @@ function renderBarsVertical(
     // Label below bar
     const labelX = x + VERTICAL_BAR_WIDTH / 2;
     const labelY = position.y + bounds.height - VERTICAL_MARGIN_BOTTOM + 20;
-    const label = `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${item.label}</text>`;
+    const labelStyle = { fontSize: 12, color: '#333' };
+    const label = renderShapeLabel(
+      { style: labelStyle } as any,
+      item.label,
+      labelX,
+      labelY
+    );
 
     // Value above bar
     const valueX = x + VERTICAL_BAR_WIDTH / 2;
     const valueY = y - 5;
-    const value = `<text x="${valueX}" y="${valueY}" text-anchor="middle" font-size="11" fill="#666">${item.value}</text>`;
+    const valueStyle = { fontSize: 11, color: '#666' };
+    const value = renderShapeLabel(
+      { style: valueStyle } as any,
+      item.value.toString(),
+      valueX,
+      valueY
+    );
 
     return bar + label + value;
   });
@@ -173,7 +186,7 @@ function renderEmptyState(
 
   return `
     <rect x="${position.x}" y="${position.y}" width="${bounds.width}" height="${bounds.height}" fill="#f7fafc" stroke="#cbd5e0" stroke-width="2" rx="4" />
-    <text x="${centerX}" y="${centerY}" text-anchor="middle" font-size="14" fill="#718096">No data available</text>
+    ${renderShapeLabel({ style: { fontSize: 14, color: '#718096' } } as any, 'No data available', centerX, centerY)}
   `;
 }
 
@@ -217,15 +230,27 @@ function renderGroupedBarsVertical(
 
       const valueX = x + VERTICAL_GROUPED_BAR_WIDTH / 2;
       const valueY = y - 5;
+      const valueStyle = { fontSize: 10, color: '#666' };
       elements.push(
-        `<text x="${valueX}" y="${valueY}" text-anchor="middle" font-size="10" fill="#666">${value}</text>`
+        renderShapeLabel(
+          { style: valueStyle } as any,
+          value.toString(),
+          valueX,
+          valueY
+        )
       );
     });
 
     const labelX = currentX + groupWidth / 2;
     const labelY = position.y + bounds.height - VERTICAL_MARGIN_BOTTOM + 20;
+    const labelStyle = { fontSize: 12, color: '#333' };
     elements.push(
-      `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${group.label}</text>`
+      renderShapeLabel(
+        { style: labelStyle } as any,
+        group.label,
+        labelX,
+        labelY
+      )
     );
 
     currentX += groupWidth + VERTICAL_GROUP_SPACING;
@@ -275,15 +300,29 @@ function renderGroupedBarsHorizontal(
 
       const valueX = x + barWidth + 5;
       const valueY = y + HORIZONTAL_GROUPED_BAR_HEIGHT / 2 + 4;
+      const valueStyle = { fontSize: 10, color: '#666' };
       elements.push(
-        `<text x="${valueX}" y="${valueY}" font-size="10" fill="#666">${value}</text>`
+        renderShapeLabel(
+          { style: valueStyle } as any,
+          value.toString(),
+          valueX,
+          valueY,
+          'start'
+        )
       );
     });
 
     const labelX = position.x + HORIZONTAL_MARGIN_LEFT - 10;
     const labelY = currentY + groupHeight / 2 + 4;
+    const labelStyle = { fontSize: 12, color: '#333' };
     elements.push(
-      `<text x="${labelX}" y="${labelY}" text-anchor="end" font-size="12" fill="#333">${group.label}</text>`
+      renderShapeLabel(
+        { style: labelStyle } as any,
+        group.label,
+        labelX,
+        labelY,
+        'end'
+      )
     );
 
     currentY += groupHeight + HORIZONTAL_GROUP_SPACING;
@@ -332,14 +371,26 @@ function renderStackedBarsVertical(
     const totalX = currentX + VERTICAL_BAR_WIDTH / 2;
     const totalY =
       position.y + VERTICAL_MARGIN_TOP + (chartHeight - stackHeight) - 5;
+    const totalStyle = { fontSize: 10, color: '#666' };
     elements.push(
-      `<text x="${totalX}" y="${totalY}" text-anchor="middle" font-size="10" fill="#666">${total}</text>`
+      renderShapeLabel(
+        { style: totalStyle } as any,
+        total.toString(),
+        totalX,
+        totalY
+      )
     );
 
     const labelX = currentX + VERTICAL_BAR_WIDTH / 2;
     const labelY = position.y + bounds.height - VERTICAL_MARGIN_BOTTOM + 20;
+    const labelStyle = { fontSize: 12, color: '#333' };
     elements.push(
-      `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${group.label}</text>`
+      renderShapeLabel(
+        { style: labelStyle } as any,
+        group.label,
+        labelX,
+        labelY
+      )
     );
 
     currentX += VERTICAL_BAR_WIDTH + VERTICAL_BAR_SPACING;
@@ -386,14 +437,28 @@ function renderStackedBarsHorizontal(
 
     const totalX = currentX + 5;
     const totalY = currentY + HORIZONTAL_BAR_HEIGHT / 2 + 4;
+    const totalStyle = { fontSize: 10, color: '#666' };
     elements.push(
-      `<text x="${totalX}" y="${totalY}" font-size="10" fill="#666">${total}</text>`
+      renderShapeLabel(
+        { style: totalStyle } as any,
+        total.toString(),
+        totalX,
+        totalY,
+        'start'
+      )
     );
 
     const labelX = position.x + HORIZONTAL_MARGIN_LEFT - 10;
     const labelY = currentY + HORIZONTAL_BAR_HEIGHT / 2 + 4;
+    const labelStyle = { fontSize: 12, color: '#333' };
     elements.push(
-      `<text x="${labelX}" y="${labelY}" text-anchor="end" font-size="12" fill="#333">${group.label}</text>`
+      renderShapeLabel(
+        { style: labelStyle } as any,
+        group.label,
+        labelX,
+        labelY,
+        'end'
+      )
     );
 
     currentY += HORIZONTAL_BAR_HEIGHT + HORIZONTAL_BAR_SPACING;

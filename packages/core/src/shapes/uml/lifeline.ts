@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { calculateRectangularAnchors } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Lifeline shape
@@ -88,19 +89,32 @@ export const lifelineShape: ShapeDefinition = {
 
     // Optional stereotype(s)
     if (stereotypeText) {
-      svg += `<text x="${x + w / 2}" y="${textY}" `;
-      svg += `text-anchor="middle" font-size="${(ctx.style.fontSize || 14) * 0.9}" `;
-      svg += `font-family="${fontFamily}" fill="${stroke}">`;
-      svg += `${stereotypeText}</text>`;
+      const stereotypeStyle = {
+        ...ctx.style,
+        fontSize: (ctx.style.fontSize || 14) * 0.9,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: stereotypeStyle },
+        stereotypeText,
+        x + w / 2,
+        textY
+      );
       textY += lineHeight;
     }
 
     // Object/participant name
-    svg += `<text x="${x + w / 2}" y="${textY}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" `;
-    svg += `font-weight="bold" fill="${stroke}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const nameStyle = {
+      ...ctx.style,
+      fontWeight: 'bold',
+      color: stroke,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: nameStyle },
+      ctx.node.label || '',
+      x + w / 2,
+      textY
+    );
 
     // Vertical dashed line (lifeline)
     const lineX = x + w / 2;
@@ -126,10 +140,18 @@ export const lifelineShape: ShapeDefinition = {
       svg += `stroke-dasharray="3,3" />`;
 
       // Constraint text
-      svg += `<text x="${lineX}" y="${invariantY + lineHeight * 0.3}" `;
-      svg += `text-anchor="middle" font-size="${(ctx.style.fontSize || 14) * 0.9}" `;
-      svg += `font-family="${fontFamily}" font-style="italic" fill="${stroke}">`;
-      svg += `${invariantText}</text>`;
+      const invariantStyle = {
+        ...ctx.style,
+        fontSize: (ctx.style.fontSize || 14) * 0.9,
+        fontStyle: 'italic' as const,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: invariantStyle },
+        invariantText,
+        lineX,
+        invariantY + lineHeight * 0.3
+      );
     }
 
     svg += `</g>`;

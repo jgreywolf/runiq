@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Multi-Process - Stacked rectangles to indicate multiple process instances
@@ -51,11 +52,7 @@ export const multiProcessShape: ShapeDefinition = {
             width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };
@@ -108,11 +105,7 @@ export const curlyBraceAnnotationShape: ShapeDefinition = {
       <path d="${bracePath}"
             fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + 25}" y="${y + h / 2}" 
-            text-anchor="start" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + 25, y + h / 2, 'start')}
     `;
   },
 };
@@ -165,11 +158,7 @@ export const magneticTapeShape: ShapeDefinition = {
       <path d="${pathData}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + w / 2}" y="${y + h * 0.6}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + w / 2, y + h * 0.6)}
     `;
   },
 };

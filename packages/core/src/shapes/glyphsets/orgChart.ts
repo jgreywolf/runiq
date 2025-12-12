@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -83,6 +84,7 @@ export const orgChart: ShapeDefinition = {
 
     // Render tree with corrected positions
     svg += renderNodeWithPositions(
+      ctx,
       data.hierarchy,
       0,
       colors,
@@ -171,6 +173,7 @@ function calculateNodePositions(
  * Render nodes using pre-calculated positions
  */
 function renderNodeWithPositions(
+  ctx: ShapeRenderContext,
   node: OrgNode,
   level: number,
   colors: string[],
@@ -188,7 +191,7 @@ function renderNodeWithPositions(
   const y = pos.y + offsetY;
 
   // Render current node
-  svg += renderNodeBox(x, y, node.name, node.role, color, nodeShape);
+  svg += renderNodeBox(ctx, x, y, node.name, node.role, color, nodeShape);
 
   // Render children and connecting lines
   if (node.reports && node.reports.length > 0) {
@@ -207,6 +210,7 @@ function renderNodeWithPositions(
 
         // Render child subtree
         svg += renderNodeWithPositions(
+          ctx,
           child,
           level + 1,
           colors,
@@ -226,6 +230,7 @@ function renderNodeWithPositions(
  * Render a single node box
  */
 function renderNodeBox(
+  ctx: ShapeRenderContext,
   x: number,
   y: number,
   name: string,
@@ -250,10 +255,32 @@ function renderNodeBox(
   }
 
   // Render text
-  svg += `<text x="${x + NODE_WIDTH / 2}" y="${y + NODE_HEIGHT / 2 - (role ? 8 : 0)}" text-anchor="middle" dominant-baseline="middle" fill="#000" font-size="12" font-weight="bold">${escapeXml(name)}</text>`;
+  const nameCtx = {
+    ...ctx,
+    style: { fontSize: 12, fontWeight: 'bold', color: '#000' },
+  };
+  svg += renderShapeLabel(
+    nameCtx,
+    name,
+    x + NODE_WIDTH / 2,
+    y + NODE_HEIGHT / 2 - (role ? 8 : 0),
+    'middle',
+    'middle'
+  );
 
   if (role) {
-    svg += `<text x="${x + NODE_WIDTH / 2}" y="${y + NODE_HEIGHT / 2 + 12}" text-anchor="middle" dominant-baseline="middle" fill="#000" font-size="10">${escapeXml(role)}</text>`;
+    const roleCtx = {
+      ...ctx,
+      style: { fontSize: 10, color: '#000' },
+    };
+    svg += renderShapeLabel(
+      roleCtx,
+      role,
+      x + NODE_WIDTH / 2,
+      y + NODE_HEIGHT / 2 + 12,
+      'middle',
+      'middle'
+    );
   }
 
   return svg;

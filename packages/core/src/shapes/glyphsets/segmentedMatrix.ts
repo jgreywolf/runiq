@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -130,7 +131,14 @@ export const segmentedMatrix: ShapeDefinition = {
     const data = ctx.node.data as any;
 
     if (!data || !data.quadrants || data.quadrants.length !== 4) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid segmentedMatrix data (requires 4 quadrants)</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid segmentedMatrix data (requires 4 quadrants)',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const quadrants = data.quadrants || [];

@@ -231,7 +231,13 @@ function renderAxisLabels(
     else if (point.x > centerX + 5) anchor = 'start';
 
     labels.push(
-      `<text x="${point.x}" y="${point.y + 5}" text-anchor="${anchor}" font-size="12" fill="#374151">${axes[i].label}</text>`
+      renderShapeLabel(
+        { style: { fontSize: 12, color: '#374151' } } as any,
+        axes[i].label,
+        point.x,
+        point.y + 5,
+        anchor as any
+      )
     );
   }
 
@@ -369,12 +375,24 @@ export const radarChart: ShapeDefinition = {
       series.length === 0 ||
       series.every((s) => s.values.length === 0)
     ) {
-      return `<text x="${position.x}" y="${position.y}" fill="#6b7280" font-size="14">No data</text>`;
+      const noDataStyle = { fontSize: 14, color: '#6b7280' };
+      return renderShapeLabel(
+        { style: noDataStyle } as any,
+        'No data',
+        position.x,
+        position.y
+      );
     }
 
     // Validate axis count (minimum 3 for a radar chart)
     if (axes.length < 3) {
-      return `<text x="${position.x}" y="${position.y}" fill="#ef4444" font-size="14">Radar chart requires at least 3 axes</text>`;
+      const errorStyle = { fontSize: 14, color: '#ef4444' };
+      return renderShapeLabel(
+        { style: errorStyle } as any,
+        'Radar chart requires at least 3 axes',
+        position.x,
+        position.y
+      );
     }
 
     const width = 400;

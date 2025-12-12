@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -177,22 +178,24 @@ export const pyramidShape: ShapeDefinition = {
 
       // Label in center of trapezoid
       const labelY = (topY + bottomY) / 2 + (showValues ? -4 : 0);
-      svg += `<text x="${centerX}" y="${labelY}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-      svg += `fill="${stroke}">`;
-      svg += `${level.label}`;
-      svg += `</text>`;
+      const labelStyle = { fontSize, fontWeight: 'bold', color: stroke };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        level.label,
+        centerX,
+        labelY
+      );
 
       // Value below label (if enabled)
       if (showValues) {
         const valueY = labelY + fontSize + 2;
-        svg += `<text x="${centerX}" y="${valueY}" `;
-        svg += `text-anchor="middle" dominant-baseline="middle" `;
-        svg += `font-family="${fontFamily}" font-size="${fontSize - 2}" `;
-        svg += `fill="${stroke}">`;
-        svg += `${level.value}`;
-        svg += `</text>`;
+        const valueStyle = { fontSize: fontSize - 2, color: stroke };
+        svg += renderShapeLabel(
+          { ...ctx, style: valueStyle },
+          level.value.toString(),
+          centerX,
+          valueY
+        );
       }
     });
 

@@ -1,4 +1,5 @@
 import type { ShapeRenderContext } from '../../types/index.js';
+import { escapeXml } from '../../types/shape-types.js';
 
 /**
  * Helper function to render labels consistently across all shapes.
@@ -26,6 +27,9 @@ export function renderShapeLabel(
     '#000';
   const fontSize = ctx.style.fontSize || 14;
   const fontFamily = ctx.style.font || 'sans-serif';
+  const fontWeight = ctx.style.fontWeight;
+  const fontStyle = ctx.style.fontStyle;
+  const textDecoration = ctx.style.textDecoration;
 
   // Use renderLabel if available (supports inline icons), otherwise plain text
   if (ctx.renderLabel) {
@@ -35,12 +39,27 @@ export function renderShapeLabel(
       fill: textColor,
       textAnchor,
       dominantBaseline,
+      fontWeight,
+      fontStyle,
+      textDecoration,
     });
   }
 
-  // Fallback to plain text
-  return `<text x="${x}" y="${y}" 
+  // Fallback to plain text with additional style attributes
+  let textElement = `<text x="${x}" y="${y}" 
       text-anchor="${textAnchor}" dominant-baseline="${dominantBaseline}"
-      font-family="${fontFamily}" font-size="${fontSize}"
-      fill="${textColor}">${label}</text>`;
+      font-family="${fontFamily}" font-size="${fontSize}"`;
+
+  if (fontWeight) {
+    textElement += ` font-weight="${fontWeight}"`;
+  }
+  if (fontStyle) {
+    textElement += ` font-style="${fontStyle}"`;
+  }
+  if (textDecoration) {
+    textElement += ` text-decoration="${textDecoration}"`;
+  }
+
+  textElement += ` fill="${textColor}">${escapeXml(label)}</text>`;
+  return textElement;
 }

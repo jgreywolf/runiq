@@ -1,6 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderMultilineText } from '../../types/index.js';
 import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * C4 Model: Container
@@ -59,29 +59,32 @@ export const c4Container: ShapeDefinition = {
     const titleY = y + bounds.height / 2 - (technology ? 8 : 0);
     const techY = y + bounds.height / 2 + 12;
 
-    const titleSvg: string = renderMultilineText(
+    const titleStyle = {
+      ...ctx.style,
+      fontSize: ctx.style.fontSize || 14,
+      fontWeight: 'bold',
+      color: textColor,
+    };
+    const titleSvg = renderShapeLabel(
+      { ...ctx, style: titleStyle },
       title,
       x + bounds.width / 2,
-      titleY,
-      {
-        textAnchor: 'middle' as const,
-        dominantBaseline: 'middle',
-        fontFamily: (ctx.style.font || 'sans-serif') as string,
-        fontSize: (ctx.style.fontSize || 14) as number,
-        fill: textColor as string,
-        fontWeight: 'bold' as string,
-      }
+      titleY
     );
 
-    const techSvg: string = technology
-      ? renderMultilineText(technology, x + bounds.width / 2, techY, {
-          textAnchor: 'middle' as const,
-          dominantBaseline: 'middle',
-          fontFamily: (ctx.style.font || 'sans-serif') as string,
-          fontSize: ((ctx.style.fontSize || 14) - 2) as number,
-          fill: textColor as string,
-          fontStyle: 'italic' as string,
-        })
+    const techStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) - 2,
+      fontStyle: 'italic' as const,
+      color: textColor,
+    };
+    const techSvg = technology
+      ? renderShapeLabel(
+          { ...ctx, style: techStyle },
+          technology,
+          x + bounds.width / 2,
+          techY
+        )
       : '';
 
     return `

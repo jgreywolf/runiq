@@ -8,6 +8,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Options for creating standard 4-point anchors
@@ -54,9 +55,23 @@ export interface EmptyStateOptions {
  * Render a consistent empty state placeholder
  * Used when glyphset has no data/items
  */
-export function renderEmptyState(options: EmptyStateOptions): string {
+export function renderEmptyState(
+  options: EmptyStateOptions,
+  ctx?: ShapeRenderContext
+): string {
   const { x, y, width, height, message = 'No items' } = options;
 
+  if (ctx) {
+    const msgCtx = {
+      ...ctx,
+      style: { fontSize: 14, fontFamily: 'sans-serif', color: '#999' },
+    };
+    return `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
+                  fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
+            ${renderShapeLabel(msgCtx, message, x + width / 2, y + height / 2, 'middle', 'middle')}`;
+  }
+
+  // Fallback for when ctx is not provided (keep manual for backwards compat)
   return `<rect x="${x}" y="${y}" width="${width}" height="${height}" 
                 fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
           <text x="${x + width / 2}" y="${y + height / 2}" 

@@ -1,9 +1,9 @@
 import type { ShapeDefinition } from '../../types/index.js';
-import { renderMultilineText } from '../../types/index.js';
 import {
   calculateRectangularAnchors,
   extractBasicStyles,
 } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * C4 Model: Person
@@ -44,18 +44,17 @@ export const c4Person: ShapeDefinition = {
     const iconY = y + 20;
     const labelY = y + 45;
 
-    const labelSvg: string = renderMultilineText(
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: ctx.style.fontSize || 14,
+      fontWeight: 'bold',
+      color: textColor,
+    };
+    const labelSvg = renderShapeLabel(
+      { ...ctx, style: labelStyle },
       ctx.node.label || ctx.node.id,
       x + bounds.width / 2,
-      labelY,
-      {
-        textAnchor: 'middle' as const,
-        dominantBaseline: 'middle',
-        fontFamily: (ctx.style.font || 'sans-serif') as string,
-        fontSize: (ctx.style.fontSize || 14) as number,
-        fill: textColor as string,
-        fontWeight: 'bold' as string,
-      }
+      labelY
     );
 
     return `

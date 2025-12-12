@@ -50,7 +50,7 @@ export const differentiatorShape: ShapeDefinition = {
     const labelStyle = {
       ...ctx.style,
       fontSize: (ctx.style.fontSize || 14) + 2,
-      fontStyle: 'italic',
+      fontStyle: 'italic' as const,
     };
 
     return `

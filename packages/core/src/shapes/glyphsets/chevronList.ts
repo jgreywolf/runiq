@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -75,13 +76,10 @@ export const chevronListShape: ShapeDefinition = {
     const direction = (ctx.node.data?.direction as string) || 'TB';
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const padding = 12;
@@ -124,13 +122,15 @@ export const chevronListShape: ShapeDefinition = {
         svg += `
           <polygon points="${points}" 
                    fill="${chevronFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-          
-          <text x="${currentX + (chevronWidth - arrowSize / 2) / 2}" y="${y + chevronHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}">
-            ${item}
-          </text>
         `;
+
+        const itemStyle = { fontSize, color: '#000000' };
+        svg += renderShapeLabel(
+          { ...ctx, style: itemStyle },
+          item,
+          currentX + (chevronWidth - arrowSize / 2) / 2,
+          y + chevronHeight / 2
+        );
 
         currentX += chevronWidth + chevronSpacing;
       }
@@ -157,13 +157,15 @@ export const chevronListShape: ShapeDefinition = {
         svg += `
           <polygon points="${points}" 
                    fill="${chevronFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-          
-          <text x="${x + (chevronWidth - arrowSize / 2) / 2}" y="${currentY + chevronHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}">
-            ${item}
-          </text>
         `;
+
+        const itemStyle = { fontSize, color: '#000000' };
+        svg += renderShapeLabel(
+          { ...ctx, style: itemStyle },
+          item,
+          x + (chevronWidth - arrowSize / 2) / 2,
+          currentY + chevronHeight / 2
+        );
       }
     }
 

@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -170,7 +171,14 @@ export const puzzle: ShapeDefinition = {
     const data = ctx.node.data as any;
 
     if (!data || !data.pieces) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid puzzle data</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid puzzle data',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const pieces = data.pieces || [];

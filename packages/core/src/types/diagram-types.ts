@@ -127,6 +127,8 @@ export interface Style {
   fontSize?: number;
   fontFamily?: string;
   fontWeight?: string;
+  fontStyle?: 'normal' | 'italic';
+  textDecoration?: 'none' | 'underline';
   textAlign?: string;
   rx?: number;
   ry?: number;

@@ -4,6 +4,7 @@ import {
   renderChartTitle,
   type LegendItem,
 } from '../utils/render-chart-labels.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Default color palette for pie chart slices
@@ -292,7 +293,9 @@ function renderSliceLabels(
         parseInt(color.slice(5, 7), 16) * 0.114;
       const textColor = brightness > 128 ? '#333' : '#fff';
 
-      return `<text x="${x}" y="${y + 4}" text-anchor="middle" font-size="12" font-weight="bold" fill="${textColor}">${slice.value}</text>`;
+      const labelStyle = { fontSize: 12, fontWeight: 'bold', color: textColor };
+      const labelCtx = { style: labelStyle } as any;
+      return renderShapeLabel(labelCtx, slice.value.toString(), x, y + 4);
     })
     .join('\n    ');
 }

@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 interface RadialCycleData {
@@ -48,13 +49,10 @@ export const radialCycleShape: ShapeDefinition = {
     const centerLabel = (ctx.node.data?.centerLabel as string) || 'Center';
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const centerX = x + bounds.width / 2;
@@ -93,16 +91,12 @@ export const radialCycleShape: ShapeDefinition = {
     }
 
     // Draw center hub
+    const centerStyle = { fontSize, fontWeight: 'bold', color: '#FFFFFF' };
     svg += `
       <circle cx="${centerX}" cy="${centerY}" r="${centerRadius}"
               fill="${centerFill}" stroke="${stroke}" stroke-width="${strokeWidth + 1}" />
       
-      <text x="${centerX}" y="${centerY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize}" 
-            font-weight="bold" fill="#FFFFFF">
-        ${centerLabel}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: centerStyle }, centerLabel, centerX, centerY)}
     `;
 
     // Draw items around the circle
@@ -114,18 +108,14 @@ export const radialCycleShape: ShapeDefinition = {
       // Get color from theme for each item
       const itemColor = getThemeColor(theme, i);
 
+      const itemStyle = { fontSize: fontSize - 1, color: '#FFFFFF' };
       svg += `
         <rect x="${itemX}" y="${itemY}" 
               width="${itemWidth}" height="${itemHeight}"
               rx="6" ry="6"
               fill="${itemColor}" stroke="${stroke}" stroke-width="${strokeWidth}" />
         
-        <text x="${itemX + itemWidth / 2}" y="${itemY + itemHeight / 2}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize - 1}" 
-              fill="#FFFFFF">
-          ${items[i]}
-        </text>
+        ${renderShapeLabel({ ...ctx, style: itemStyle }, items[i], itemX + itemWidth / 2, itemY + itemHeight / 2)}
       `;
     }
 

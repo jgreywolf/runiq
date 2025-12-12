@@ -4,6 +4,7 @@ import {
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
 import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 interface GearCycleData {
@@ -49,13 +50,10 @@ export const gearCycleShape: ShapeDefinition = {
     const items = (ctx.node.data?.items as string[]) || [];
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     // Get theme colors
@@ -138,6 +136,7 @@ export const gearCycleShape: ShapeDefinition = {
       const gearFill = getThemeColor(theme, i);
 
       // Draw gear
+      const gearStyle = { fontSize, color: '#333' };
       svg += `
         <g>
           <path d="${generateGearPath(gearX, gearY, gearRadius, rotation)}"
@@ -146,12 +145,7 @@ export const gearCycleShape: ShapeDefinition = {
           <circle cx="${gearX}" cy="${gearY}" r="${gearRadius * 0.3}"
                   fill="#FFFFFF" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
-          <text x="${gearX}" y="${gearY}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}" 
-                fill="#333">
-            ${items[i]}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: gearStyle }, items[i], gearX, gearY)}
         </g>
       `;
 

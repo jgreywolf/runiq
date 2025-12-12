@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 /**
@@ -90,12 +91,13 @@ export const processBoxShape: ShapeDefinition = {
     svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (white text for contrast)
-    svg += `<text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="600" `;
-    svg += `fill="#FFFFFF">`;
-    svg += `${label}`;
-    svg += `</text>`;
+    const labelStyle = { fontSize, fontWeight: '600', color: '#FFFFFF' };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      label,
+      x + bounds.width / 2,
+      y + bounds.height / 2
+    );
 
     return svg;
   },

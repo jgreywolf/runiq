@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import { createStandardAnchors } from './utils.js';
 
 interface NestedItem {
@@ -62,13 +63,10 @@ export const nestedListShape: ShapeDefinition = {
     const items = (ctx.node.data?.items as NestedItem[]) || [];
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const padding = 12;
@@ -100,6 +98,7 @@ export const nestedListShape: ShapeDefinition = {
         const levelFill = ctx.style.fill || getThemeColor(theme, parentIndex);
         parentIndex++; // Increment for next parent
 
+        const levelStyle = { fontSize, fontWeight: '600', color: '#FFFFFF' };
         svg += `
           <defs>
             <linearGradient id="processGradient-nested-${i}" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -113,12 +112,7 @@ export const nestedListShape: ShapeDefinition = {
                 fill="url(#processGradient-nested-${i})" 
                 stroke="${theme.accentColor || '#2E5AAC'}" stroke-width="0" />
           
-          <text x="${x + indentOffset + boxWidth / 2}" y="${itemY + itemHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="Arial, sans-serif" font-size="${fontSize}" 
-                font-weight="600" fill="#FFFFFF">
-            ${item.label}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: levelStyle }, item.label, x + indentOffset + boxWidth / 2, itemY + itemHeight / 2)}
         `;
       } else {
         // Child item - use rounded rectangle style (lighter)
@@ -129,6 +123,7 @@ export const nestedListShape: ShapeDefinition = {
         const bulletX = x + indentOffset - 15;
         const bulletY = itemY + itemHeight / 2;
 
+        const childStyle = { fontSize, color: '#000' };
         svg += `
           <circle cx="${bulletX}" cy="${bulletY}" r="3" fill="#666" />
           
@@ -137,11 +132,7 @@ export const nestedListShape: ShapeDefinition = {
                 rx="8" ry="8" 
                 fill="#f0f0f0" stroke="#999" stroke-width="1" />
           
-          <text x="${x + indentOffset + boxWidth / 2}" y="${itemY + itemHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}">
-            ${item.label}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: childStyle }, item.label, x + indentOffset + boxWidth / 2, itemY + itemHeight / 2)}
         `;
       }
     }
