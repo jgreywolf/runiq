@@ -1032,9 +1032,7 @@ export class ElkLayoutEngine implements LayoutEngine {
    * Determine the direction an edge should leave from an anchor based on its name.
    * Returns 'horizontal' for left/right anchors, 'vertical' for top/bottom anchors.
    */
-  private getAnchorDirection(
-    anchorName?: string
-  ): Orientation | null {
+  private getAnchorDirection(anchorName?: string): Orientation | null {
     if (!anchorName) return null;
 
     const name = anchorName.toLowerCase();

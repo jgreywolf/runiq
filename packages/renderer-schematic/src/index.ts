@@ -8,48 +8,48 @@
 
 import type {
   ElectricalProfile,
-  PneumaticProfile,
   HydraulicProfile,
   PartAst,
+  PneumaticProfile,
 } from '@runiq/core';
 import { Orientation } from '@runiq/core';
-import { getSymbol } from './symbolRegistry.ts';
 import { SymbolDefinition } from './symbol.ts';
+import { getSymbol } from './symbolRegistry.ts';
 
 // Re-export P&ID symbols, line types, tag system, and renderer
-export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
 export {
-  pidLineTypes,
-  type PIDLineType,
-  type PIDLineTypeId,
   getLineType,
   getLineTypeStyle,
-  renderPIDLine,
+  pidLineTypes,
   renderDoubleLine,
   renderInsulationMarks,
+  renderPIDLine,
+  type PIDLineType,
+  type PIDLineTypeId,
 } from './pid-line-types.js';
 export {
   renderPID,
   type PIDRenderOptions,
   type PIDRenderResult,
 } from './pid-renderer.js';
+export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
 export {
-  type PIDTag,
-  parseTag,
-  validateTag,
+  commonTagCombinations,
   createTag,
-  isFieldMounted,
-  getTagCategory,
+  formatTagDisplay,
   generateSequentialTags,
   getLoopNumber,
-  isSameLoop,
   getLoopTags,
-  formatTagDisplay,
-  suggestTags,
+  getTagCategory,
+  isFieldMounted,
   isISACompliant,
+  isSameLoop,
   measuredVariables,
+  parseTag,
   readoutFunctions,
-  commonTagCombinations,
+  suggestTags,
+  validateTag,
+  type PIDTag,
 } from './pid-tags.js';
 
 // Union type for all profile types that can be rendered as schematics

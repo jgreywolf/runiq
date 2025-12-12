@@ -5,6 +5,8 @@
  * across electrical, hydraulic, and pneumatic symbol definitions.
  */
 
+import { Position } from '@runiq/core';
+
 // ============================================================================
 // Standard Attributes & Styling
 // ============================================================================
@@ -300,15 +302,15 @@ export function renderGearTeeth(
  * @param cx Center X coordinate
  * @param cy Center Y coordinate
  * @param radius Circle radius
- * @param position Position of triangle: 'left' | 'right' (default: 'left')
+ * @param position Position of triangle (default: Position.LEFT)
  */
 export function renderFixedDisplacementIndicator(
   cx: number,
   cy: number,
   radius: number,
-  position: 'left' | 'right' = 'left'
+  position: Position = Position.LEFT
 ): string {
-  if (position === 'left') {
+  if (position === Position.LEFT) {
     return `<polygon points="${cx - radius + 3},${cy - 12} ${cx - radius + 3},${cy + 12} ${cx - radius - 5},${cy}" fill="currentColor"/>`;
   } else {
     return `<polygon points="${cx + radius - 3},${cy - 12} ${cx + radius - 3},${cy + 12} ${cx + radius + 5},${cy}" fill="currentColor"/>`;
@@ -320,20 +322,20 @@ export function renderFixedDisplacementIndicator(
  * @param cx Center X coordinate
  * @param cy Center Y coordinate
  * @param radius Circle radius
- * @param position Position of line: 'left' | 'right' (default: 'left')
+ * @param position Position of line (default: Position.LEFT)
  * @param style Optional styling overrides
  */
 export function renderVariableDisplacementIndicator(
   cx: number,
   cy: number,
   radius: number,
-  position: 'left' | 'right' = 'left',
+  position: Position = Position.LEFT,
   style: SymbolStyle = {}
 ): string {
   const sw = style.strokeWidth ?? DEFAULT_STYLE.strokeWidth;
   const sc = style.strokeColor ?? DEFAULT_STYLE.strokeColor;
 
-  if (position === 'left') {
+  if (position === Position.LEFT) {
     return `<line x1="${cx - radius + 3}" y1="${cy + 10}" x2="${cx - radius - 5}" y2="${cy - 10}"
       stroke="${sc}" stroke-width="${sw}"/>`;
   } else {

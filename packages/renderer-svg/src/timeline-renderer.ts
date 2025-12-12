@@ -9,14 +9,15 @@
  */
 
 import type {
-  TimelineProfile,
   TimelineEvent,
   TimelinePeriod,
+  TimelineProfile,
 } from '@runiq/core';
 import {
-  getTimelineTheme,
   getThemeEventColor,
+  getTimelineTheme,
   Orientation,
+  Position,
   type TimelineTheme,
 } from '@runiq/core';
 
@@ -255,8 +256,8 @@ function renderHorizontalTimeline(
 
     // Alternating label positions (top/bottom) unless specified
     const isTop =
-      event.position === 'top' ||
-      (event.position !== 'bottom' && index % 2 === 0);
+      event.position === Position.TOP ||
+      (event.position !== Position.BOTTOM && index % 2 === 0);
     const labelY = isTop ? timelineY - 40 : timelineY + 40;
     const labelAnchor = 'middle';
 
@@ -418,8 +419,8 @@ function renderVerticalTimeline(
 
     // Alternating label positions (left/right) unless specified
     const isLeft =
-      event.position === 'left' ||
-      (event.position !== 'right' && index % 2 === 0);
+      event.position === Position.LEFT ||
+      (event.position !== Position.RIGHT && index % 2 === 0);
     const labelX = isLeft ? timelineX - 40 : timelineX + 40;
     const labelAnchor = isLeft ? 'end' : 'start';
 
