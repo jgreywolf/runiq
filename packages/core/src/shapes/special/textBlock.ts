@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Text block - Simple text container for comments/notes
@@ -35,18 +36,18 @@ export const textBlockShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#fffef0'; // Very light yellow tint for notes
     const stroke = ctx.style.stroke || '#999'; // Lighter gray for comments
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
+    const centerX = x + bounds.width / 2;
+    const centerY = y + bounds.height / 2;
+
+    // Use custom style for lighter gray text
+    const labelStyle = { ...ctx.style, color: stroke };
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"
             stroke-dasharray="4 2" />
-      
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}"
-            fill="${stroke}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, centerX, centerY)}
     `;
   },
 };

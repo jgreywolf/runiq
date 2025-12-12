@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Artifact shape - represents a physical piece of information (file, database, etc.).
@@ -78,8 +79,7 @@ export const artifactShape: ShapeDefinition = {
     const label = ctx.node.label || '';
     const textX = x + bounds.width / 2;
     const textY = y + bounds.height / 2 + fontSize / 3 + 6;
-    const text = `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${fontSize}" fill="#000000">${label}</text>`;
 
-    return `${shape}${fold}${stereotype}${text}`;
+    return `${shape}${fold}${stereotype}${renderShapeLabel(ctx, label, textX, textY)}`;
   },
 };

@@ -1,5 +1,6 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 import { getDataProperty } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Task shape - represents an atomic activity within a process.
@@ -49,7 +50,6 @@ export const bpmnTaskShape: ShapeDefinition = {
     const label = ctx.node.label || '';
     const textX = x + bounds.width / 2;
     const textY = y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3;
-    const text = `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily || 'Arial'}" font-size="${ctx.style.fontSize || 14}" fill="#000000">${label}</text>`;
 
     // Optional task type marker (user, service, manual, etc.)
     let marker = '';
@@ -69,6 +69,6 @@ export const bpmnTaskShape: ShapeDefinition = {
       }
     }
 
-    return `${rect}${marker}${text}`;
+    return `${rect}${marker}${renderShapeLabel(ctx, label, textX, textY)}`;
   },
 };

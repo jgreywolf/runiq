@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Message shape - represents a message being sent or received.
@@ -53,7 +54,8 @@ export const bpmnMessageShape: ShapeDefinition = {
     // Optional label below the envelope
     if (ctx.node.label) {
       const textY = y + bounds.height + 16;
-      svg += `<text x="${centerX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily || 'Arial'}" font-size="${(ctx.style.fontSize || 14) * 0.85}" fill="#000000">${ctx.node.label}</text>`;
+      const labelStyle = { ...ctx.style, fontSize: (ctx.style.fontSize || 14) * 0.85 };
+      svg += renderShapeLabel({ ...ctx, style: labelStyle }, ctx.node.label, centerX, textY);
     }
 
     return svg;
