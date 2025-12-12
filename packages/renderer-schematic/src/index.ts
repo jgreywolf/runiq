@@ -12,7 +12,7 @@ import type {
   PartAst,
   PneumaticProfile,
 } from '@runiq/core';
-import { Orientation } from '@runiq/core';
+import { Orientation, PIDLineType } from '@runiq/core';
 import { SymbolDefinition } from './symbol.ts';
 import { getSymbol } from './symbolRegistry.ts';
 
@@ -138,9 +138,9 @@ export function renderSchematic(
 
   // Determine CSS class prefix based on profile type
   const classPrefix =
-    profile.type === 'electrical'
+    profile.type === PIDLineType.ELECTRICAL
       ? 'electrical'
-      : profile.type === 'pneumatic'
+      : profile.type === PIDLineType.PNEUMATIC
         ? 'pneumatic'
         : 'hydraulic';
 

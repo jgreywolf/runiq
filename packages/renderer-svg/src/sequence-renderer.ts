@@ -11,13 +11,13 @@
  */
 
 import type {
-  SequenceProfile,
-  SequenceParticipant,
+  SequenceFragment,
   SequenceMessage,
   SequenceNote,
-  SequenceFragment,
+  SequenceParticipant,
+  SequenceProfile,
 } from '@runiq/core';
-import { getSequenceTheme, type SequenceTheme } from '@runiq/core';
+import { getSequenceTheme, MessageType, type SequenceTheme } from '@runiq/core';
 
 export interface SequenceRenderOptions {
   width?: number;
@@ -394,9 +394,9 @@ function renderMessage(
 
   // Determine line style based on message type
   const isDashed =
-    message.type === 'async' ||
-    message.type === 'return' ||
-    message.type === 'destroy';
+    message.type === MessageType.ASYNC ||
+    message.type === MessageType.RETURN ||
+    message.type === MessageType.DESTROY;
   const strokeDasharray = isDashed ? '5,5' : '';
 
   // Draw line
@@ -413,7 +413,7 @@ function renderMessage(
   } else if (isFoundMessage) {
     // Found message: filled circle at the start
     svg += `<circle cx="${fromX}" cy="${y}" r="5" class="found-message-start" fill="#333333"/>`;
-  } else if (message.type === 'return') {
+  } else if (message.type === MessageType.RETURN) {
     // Open arrow for return messages
     svg += `<polyline points="${arrowX},${y - arrowSize / 2} ${toX},${y} ${arrowX},${y + arrowSize / 2}" class="message-arrow" fill="none"/>`;
   } else {
