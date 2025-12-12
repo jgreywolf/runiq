@@ -1,16 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import type { ShapeRenderContext } from '../../types/index.js';
 import {
-  rectangleShape,
-  stadiumShape,
   circleShape,
-  triangleShape,
-  parallelogramShape,
-  trapezoidShape,
+  cylinderShape,
+  delayShape,
   flippedTrapezoidShape,
   manualInputShape,
-  delayShape,
-  cylinderShape,
+  parallelogramShape,
+  rectangleShape,
+  stadiumShape,
+  trapezoidShape,
+  triangleShape,
 } from '../index.js';
 
 // Mock context helper
@@ -294,7 +294,7 @@ describe('New Shapes', () => {
       const bounds = trapezoidShape.bounds(ctx);
       const svg = trapezoidShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('<polygon');
+      expect(svg).toContain('<path');
       // Top should be inset 20% on each side
       const inset = bounds.width * 0.2;
       expect(svg).toContain(`${inset},0`); // Top left
@@ -311,7 +311,7 @@ describe('New Shapes', () => {
       const bounds = flippedTrapezoidShape.bounds(ctx);
       const svg = flippedTrapezoidShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('<polygon');
+      expect(svg).toContain('<path');
       // Bottom should be inset
       const inset = bounds.width * 0.2;
       const bottomY = bounds.height;
@@ -353,13 +353,9 @@ describe('New Shapes', () => {
       const ctx = createMockContext('Input');
       const svg = manualInputShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('<polygon');
-      const pointsMatch = svg.match(/points="([^"]+)"/);
-      expect(pointsMatch).toBeTruthy();
-      if (pointsMatch) {
-        const coords = pointsMatch[1].split(' ');
-        expect(coords).toHaveLength(4); // 4 points
-      }
+      expect(svg).toContain('<path');
+      expect(svg).toContain('d="M'); // Path should start with M command
+      expect(svg).toContain('Z"'); // Path should close with Z
     });
 
     it('should have left side lower than right side at top', () => {

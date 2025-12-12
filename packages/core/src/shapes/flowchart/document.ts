@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { createPath } from '../utils/svg-path-builder.js';
 
 export const documentShape: ShapeDefinition = {
   id: 'document',
@@ -37,18 +38,18 @@ export const documentShape: ShapeDefinition = {
     const label = ctx.node.label || ctx.node.id;
 
     // Document shape with folded corner
-    const path = [
-      `M ${x} ${y}`,
-      `L ${x + bounds.width - foldSize} ${y}`,
-      `L ${x + bounds.width} ${y + foldSize}`,
-      `L ${x + bounds.width} ${y + bounds.height}`,
-      `L ${x} ${y + bounds.height}`,
-      `Z`,
+    const path = createPath()
+      .moveTo(x, y)
+      .lineTo(x + bounds.width - foldSize, y)
+      .lineTo(x + bounds.width, y + foldSize)
+      .lineTo(x + bounds.width, y + bounds.height)
+      .lineTo(x, y + bounds.height)
+      .close()
       // Fold line
-      `M ${x + bounds.width - foldSize} ${y}`,
-      `L ${x + bounds.width - foldSize} ${y + foldSize}`,
-      `L ${x + bounds.width} ${y + foldSize}`,
-    ].join(' ');
+      .moveTo(x + bounds.width - foldSize, y)
+      .lineTo(x + bounds.width - foldSize, y + foldSize)
+      .lineTo(x + bounds.width, y + foldSize)
+      .build();
 
     return `
       <path d="${path}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />

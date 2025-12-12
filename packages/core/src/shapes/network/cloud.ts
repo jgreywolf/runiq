@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { createPath } from '../utils/svg-path-builder.js';
 
 /**
  * Cloud shape - puffy cloud outline for cloud services, cloud storage, etc.
@@ -50,33 +51,46 @@ export const cloudShape: ShapeDefinition = {
 
     // Calculate control points for cloud bumps
     // Using cubic Bezier curves (C command) for smooth bumps
-    const path = [
+    const path = createPath()
       // Start at left center
-      `M ${x + bump},${cy}`,
-
+      .moveTo(x + bump, cy)
       // Top-left bump
-      `C ${x},${cy - bump} ${x + bump},${y + bump * 0.5} ${x + w * 0.25},${y + bump * 0.5}`,
-
+      .cubicTo(
+        x,
+        cy - bump,
+        x + bump,
+        y + bump * 0.5,
+        x + w * 0.25,
+        y + bump * 0.5
+      )
       // Top-center bump
-      `C ${x + w * 0.35},${y} ${x + w * 0.65},${y} ${x + w * 0.75},${y + bump * 0.5}`,
-
+      .cubicTo(x + w * 0.35, y, x + w * 0.65, y, x + w * 0.75, y + bump * 0.5)
       // Top-right bump
-      `C ${x + w - bump},${y + bump * 0.5} ${x + w},${cy - bump} ${x + w - bump},${cy}`,
-
+      .cubicTo(x + w - bump, y + bump * 0.5, x + w, cy - bump, x + w - bump, cy)
       // Right-middle bump (small)
-      `C ${x + w},${cy} ${x + w},${cy + bump * 0.5} ${x + w - bump * 0.5},${cy + bump}`,
-
+      .cubicTo(x + w, cy, x + w, cy + bump * 0.5, x + w - bump * 0.5, cy + bump)
       // Bottom-right bump
-      `C ${x + w - bump},${y + h - bump * 0.5} ${x + w * 0.8},${y + h} ${x + w * 0.65},${y + h - bump * 0.3}`,
-
+      .cubicTo(
+        x + w - bump,
+        y + h - bump * 0.5,
+        x + w * 0.8,
+        y + h,
+        x + w * 0.65,
+        y + h - bump * 0.3
+      )
       // Bottom-center bump
-      `C ${x + w * 0.5},${y + h} ${x + w * 0.35},${y + h - bump * 0.3} ${x + w * 0.25},${y + h - bump * 0.5}`,
-
+      .cubicTo(
+        x + w * 0.5,
+        y + h,
+        x + w * 0.35,
+        y + h - bump * 0.3,
+        x + w * 0.25,
+        y + h - bump * 0.5
+      )
       // Bottom-left bump
-      `C ${x + bump},${y + h - bump * 0.5} ${x},${cy + bump} ${x + bump},${cy}`,
-
-      `Z`,
-    ].join(' ');
+      .cubicTo(x + bump, y + h - bump * 0.5, x, cy + bump, x + bump, cy)
+      .close()
+      .build();
 
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';

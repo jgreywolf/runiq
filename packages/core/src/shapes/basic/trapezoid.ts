@@ -1,5 +1,6 @@
 import type { ShapeDefinition } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { createPolygonPath } from '../utils/svg-path-builder.js';
 
 /**
  * Trapezoid (Base Down) - Priority operations
@@ -41,15 +42,15 @@ export const trapezoidShape: ShapeDefinition = {
     const label = ctx.node.label || ctx.node.id;
 
     // Trapezoid with narrower top
-    const points = [
-      `${x + inset},${y}`, // top left
-      `${x + bounds.width - inset},${y}`, // top right
-      `${x + bounds.width},${y + bounds.height}`, // bottom right
-      `${x},${y + bounds.height}`, // bottom left
-    ].join(' ');
+    const path = createPolygonPath([
+      { x: x + inset, y }, // top left
+      { x: x + bounds.width - inset, y }, // top right
+      { x: x + bounds.width, y: y + bounds.height }, // bottom right
+      { x, y: y + bounds.height }, // bottom left
+    ]);
 
     return `
-      <polygon points="${points}" 
+      <path d="${path}" 
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
       ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
@@ -97,15 +98,15 @@ export const flippedTrapezoidShape: ShapeDefinition = {
     const label = ctx.node.label || ctx.node.id;
 
     // Inverted trapezoid with narrower bottom
-    const points = [
-      `${x},${y}`, // top left
-      `${x + bounds.width},${y}`, // top right
-      `${x + bounds.width - inset},${y + bounds.height}`, // bottom right
-      `${x + inset},${y + bounds.height}`, // bottom left
-    ].join(' ');
+    const path = createPolygonPath([
+      { x, y }, // top left
+      { x: x + bounds.width, y }, // top right
+      { x: x + bounds.width - inset, y: y + bounds.height }, // bottom right
+      { x: x + inset, y: y + bounds.height }, // bottom left
+    ]);
 
     return `
-      <polygon points="${points}" 
+      <path d="${path}" 
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
       ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
