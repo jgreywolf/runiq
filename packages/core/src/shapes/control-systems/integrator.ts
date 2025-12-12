@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Integrator Block (1/s)
@@ -43,18 +44,17 @@ export const integratorShape: ShapeDefinition = {
 
     // Use "1/s" unless label specifies otherwise
     const label = ctx.node.label || '1/s';
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) + 2,
+      fontStyle: 'italic',
+    };
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" 
-            font-size="${(ctx.style.fontSize || 14) + 2}"
-            font-style="italic">
-        ${label}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, cx, cy)}
     `;
   },
 };

@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Lightning bolt - for power, energy, or asynchronous events
@@ -57,16 +58,14 @@ export const lightningBoltShape: ShapeDefinition = {
 
     const textX = x + w / 2;
     const textY = y + h * 0.78; // Lower to avoid bolt shape
+    const label = ctx.node.label || '';
+    const labelStyle = { ...ctx.style, fontSize };
 
     return `
       <polygon points="${points}"
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${textX}" y="${textY}"
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize}">
-        ${ctx.node.label || ''}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, textX, textY)}
     `;
   },
 };

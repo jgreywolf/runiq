@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * ERD Weak Entity shape - represents an entity dependent on another entity
@@ -59,13 +60,13 @@ export const erdWeakEntityShape: ShapeDefinition = {
 
     // Label
     if (ctx.node.label) {
-      result += `<text x="${position.x + bounds.width / 2}" 
-                      y="${position.y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3}" 
-                      text-anchor="middle" 
-                      fill="${textColor}" 
-                      font-size="${ctx.style.fontSize || 14}" 
-                      font-weight="bold" 
-                      font-family="${ctx.style.fontFamily || 'Arial'}">${ctx.node.label}</text>`;
+      const labelStyle = { ...ctx.style, color: textColor, fontWeight: 'bold' };
+      result += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        position.x + bounds.width / 2,
+        position.y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3
+      );
     }
 
     result += `</g>`;

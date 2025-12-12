@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * ERD Relationship shape - represents a relationship between entities
@@ -60,13 +61,17 @@ export const erdRelationshipShape: ShapeDefinition = {
 
     // Label
     if (ctx.node.label) {
-      result += `<text x="${centerX}" 
-                      y="${centerY + (ctx.style.fontSize || 14) / 3}" 
-                      text-anchor="middle" 
-                      fill="${textColor}" 
-                      font-size="${ctx.style.fontSize || 14}" 
-                      font-style="italic" 
-                      font-family="${ctx.style.fontFamily || 'Arial'}">${ctx.node.label}</text>`;
+      const labelStyle = {
+        ...ctx.style,
+        color: textColor,
+        fontStyle: 'italic',
+      };
+      result += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        centerX,
+        centerY + (ctx.style.fontSize || 14) / 3
+      );
     }
 
     result += `</g>`;

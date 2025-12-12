@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Data Object shape - represents information or data used in a process.
@@ -62,7 +63,7 @@ export const bpmnDataObjectShape: ShapeDefinition = {
     const label = ctx.node.label || '';
     const textX = x + bounds.width / 2;
     const textY = y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3;
-    svg += `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily || 'Arial'}" font-size="${ctx.style.fontSize || 14}" fill="#000000">${label}</text>`;
+    svg += renderShapeLabel(ctx, label, textX, textY);
 
     return svg;
   },

@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * AWS RDS (Relational Database Service) shape
@@ -92,11 +93,13 @@ export const awsRdsShape: ShapeDefinition = {
     // Label
     if (ctx.node.label) {
       const labelY = iconY + dbHeight + 16 + (ctx.style.fontSize || 14);
-      result += `<text x="${position.x + bounds.width / 2}" y="${labelY}" 
-                      text-anchor="middle" 
-                      fill="${textColor}" 
-                      font-size="${ctx.style.fontSize || 14}" 
-                      font-family="${ctx.style.fontFamily || 'Arial'}">${ctx.node.label}</text>`;
+      const labelStyle = { ...ctx.style, color: textColor };
+      result += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        position.x + bounds.width / 2,
+        labelY
+      );
     }
 
     result += `</g>`;

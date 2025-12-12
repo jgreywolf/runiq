@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Gain Block
@@ -46,17 +47,14 @@ export const gainShape: ShapeDefinition = {
     const cx = x + bounds.width * 0.4; // Center text slightly left of center
     const cy = y + bounds.height / 2;
 
+    const labelStyle = { ...ctx.style, fontWeight: 'bold' };
+    const label = ctx.node.label || ctx.node.id;
+
     return `
       <polygon points="${points}"
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" 
-            font-size="${ctx.style.fontSize || 14}"
-            font-weight="bold">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, cx, cy)}
     `;
   },
 };

@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * External Entity - Simple rectangle
@@ -38,15 +39,14 @@ export const externalEntityShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
 
+    const label = ctx.node.label || ctx.node.id;
+    const centerX = x + bounds.width / 2;
+    const centerY = y + bounds.height / 2;
+
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, centerX, centerY)}
     `;
   },
 };
@@ -103,12 +103,7 @@ export const externalEntityCornerShape: ShapeDefinition = {
                L ${x - offset} ${y + bounds.height + offset}
                L ${x} ${y + bounds.height}"
             fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };
@@ -158,15 +153,12 @@ export const processCircleShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 2;
 
+    const label = ctx.node.label || ctx.node.id;
+
     return `
       <circle cx="${cx}" cy="${cy}" r="${radius}"
               fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy)}
     `;
   },
 };
@@ -206,6 +198,9 @@ export const dataStoreLineShape: ShapeDefinition = {
 
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
+    const centerX = x + bounds.width / 2;
+    const centerY = y + bounds.height / 2;
 
     return `
       <!-- Top line -->
@@ -216,11 +211,7 @@ export const dataStoreLineShape: ShapeDefinition = {
       <line x1="${x}" y1="${y + bounds.height}" x2="${x + bounds.width}" y2="${y + bounds.height}"
             stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, centerX, centerY)}
     `;
   },
 };
@@ -262,6 +253,9 @@ export const dataStoreLeftShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
+    const centerX = x + bounds.width / 2;
+    const centerY = y + bounds.height / 2;
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
@@ -271,11 +265,7 @@ export const dataStoreLeftShape: ShapeDefinition = {
       <line x1="${x + lineGap}" y1="${y}" x2="${x + lineGap}" y2="${y + bounds.height}"
             stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, centerX, centerY)}
     `;
   },
 };
@@ -316,6 +306,9 @@ export const dataStoreOpenShape: ShapeDefinition = {
     const fill = ctx.style.fill || '#f0f0f0';
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
+    const label = ctx.node.label || ctx.node.id;
+    const centerX = x + bounds.width / 2;
+    const centerY = y + bounds.height / 2;
 
     // U-shape (three sides, open on right)
     const pathData = `M ${x + bounds.width} ${y}
@@ -327,11 +320,7 @@ export const dataStoreOpenShape: ShapeDefinition = {
       <path d="${pathData}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, centerX, centerY)}
     `;
   },
 };

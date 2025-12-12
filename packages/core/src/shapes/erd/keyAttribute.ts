@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * ERD Key Attribute shape - represents a primary key attribute
@@ -57,14 +58,14 @@ export const erdKeyAttributeShape: ShapeDefinition = {
     if (ctx.node.label) {
       const fontSize = ctx.style.fontSize || 14;
       const textY = centerY + fontSize / 3;
+      const labelStyle = { ...ctx.style, color: textColor, fontWeight: 'bold' };
 
-      result += `<text x="${centerX}" 
-                      y="${textY}" 
-                      text-anchor="middle" 
-                      fill="${textColor}" 
-                      font-size="${fontSize}" 
-                      font-weight="bold" 
-                      font-family="${ctx.style.fontFamily || 'Arial'}">${ctx.node.label}</text>`;
+      result += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        centerX,
+        textY
+      );
 
       // Underline
       const labelWidth = ctx.measureText(ctx.node.label, ctx.style).width;

@@ -1,4 +1,5 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Pool/Lane shape - represents a participant or sub-partition in a process.
@@ -54,7 +55,8 @@ export const bpmnPoolShape: ShapeDefinition = {
     if (ctx.node.label) {
       const textX = x + labelAreaWidth / 2;
       const textY = y + bounds.height / 2;
-      svg += `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily || 'Arial'}" font-size="${ctx.style.fontSize || 14}" fill="#000000" transform="rotate(-90 ${textX} ${textY})">${ctx.node.label}</text>`;
+      const labelSvg = renderShapeLabel(ctx, ctx.node.label, textX, textY);
+      svg += `<g transform="rotate(-90 ${textX} ${textY})">${labelSvg}</g>`;
     }
 
     return svg;

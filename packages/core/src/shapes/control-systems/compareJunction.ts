@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Compare Junction - Circle with comparison operator
@@ -49,24 +50,23 @@ export const compareJunctionShape: ShapeDefinition = {
 
     // Use label or default to '=' comparison
     const label = ctx.node.label || '=';
+    const operatorStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) + 4,
+      fontWeight: 'bold',
+    };
+    const idLabelStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) - 2,
+    };
 
     return `
       <circle cx="${cx}" cy="${cy}" r="${r}"
               fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" 
-            font-size="${(ctx.style.fontSize || 14) + 4}"
-            font-weight="bold">
-        ${label}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: operatorStyle }, label, cx, cy)}
       
-      <text x="${cx}" y="${cy + r + 16}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${(ctx.style.fontSize || 14) - 2}">
-        ${ctx.node.id}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: idLabelStyle }, ctx.node.id, cx, cy + r + 16)}
     `;
   },
 };

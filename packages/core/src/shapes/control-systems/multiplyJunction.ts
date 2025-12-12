@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Multiply Junction - Circle with × sign
@@ -49,6 +50,7 @@ export const multiplyJunctionShape: ShapeDefinition = {
 
     // Calculate × sign lines (two diagonals)
     const lineLength = r * 0.6;
+    const label = ctx.node.label || ctx.node.id;
 
     return `
       <circle cx="${cx}" cy="${cy}" r="${r}"
@@ -62,11 +64,7 @@ export const multiplyJunctionShape: ShapeDefinition = {
             x2="${cx + lineLength}" y2="${cy - lineLength}"
             stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy + r + 16}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy + r + 16)}
     `;
   },
 };

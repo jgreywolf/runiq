@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Divide Junction - Circle with ÷ sign
@@ -51,6 +52,7 @@ export const divideJunctionShape: ShapeDefinition = {
     const lineLength = r * 0.6;
     const dotRadius = strokeWidth * 1.5;
     const dotOffset = lineLength * 0.5;
+    const label = ctx.node.label || ctx.node.id;
 
     return `
       <circle cx="${cx}" cy="${cy}" r="${r}"
@@ -66,11 +68,7 @@ export const divideJunctionShape: ShapeDefinition = {
       <circle cx="${cx}" cy="${cy + dotOffset}" r="${dotRadius}"
               fill="${stroke}" />
       
-      <text x="${cx}" y="${cy + r + 16}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy + r + 16)}
     `;
   },
 };

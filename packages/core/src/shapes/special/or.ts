@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Or (logical OR) - Circle with curved OR lines
@@ -51,6 +52,7 @@ export const orShape: ShapeDefinition = {
     const arcOffset = r * 0.4;
     const path1 = `M ${cx - arcOffset} ${cy + r * 0.3} Q ${cx - arcOffset * 0.5} ${cy - r * 0.5} ${cx} ${cy - r * 0.7}`;
     const path2 = `M ${cx + arcOffset} ${cy + r * 0.3} Q ${cx + arcOffset * 0.5} ${cy - r * 0.5} ${cx} ${cy - r * 0.7}`;
+    const label = ctx.node.label || ctx.node.id;
 
     return `
       <circle cx="${cx}" cy="${cy}" r="${r}"
@@ -59,11 +61,7 @@ export const orShape: ShapeDefinition = {
       <path d="${path1}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
       <path d="${path2}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy + r + 16}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy + r + 16)}
     `;
   },
 };
