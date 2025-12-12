@@ -3,6 +3,7 @@ import {
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
 import type { ShapeDefinition } from '../../types/index.js';
+import { createStandardAnchors } from './utils.js';
 
 interface ImageItem {
   image?: string;
@@ -57,12 +58,7 @@ export const pictureBlocksShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0 },
-      { x: bounds.width, y: bounds.height / 2 },
-      { x: bounds.width / 2, y: bounds.height },
-      { x: 0, y: bounds.height / 2 },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {

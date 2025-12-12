@@ -88,6 +88,48 @@ export enum AnchorPoint {
 }
 
 /**
+ * Orientation for layouts and shapes
+ */
+export enum Orientation {
+  HORIZONTAL = 'horizontal',
+  VERTICAL = 'vertical',
+}
+
+/**
+ * Position values for elements
+ */
+export enum Position {
+  LEFT = 'left',
+  RIGHT = 'right',
+  TOP = 'top',
+  BOTTOM = 'bottom',
+  CENTER = 'center',
+  OVER = 'over',
+}
+
+/**
+ * Message types for sequence diagrams
+ */
+export enum MessageType {
+  SYNC = 'sync',
+  ASYNC = 'async',
+  RETURN = 'return',
+  DESTROY = 'destroy',
+}
+
+/**
+ * Line types for P&ID diagrams
+ */
+export enum PIDLineType {
+  PROCESS = 'process',
+  SIGNAL = 'signal',
+  ELECTRICAL = 'electrical',
+  UTILITY = 'utility',
+  PNEUMATIC = 'pneumatic',
+  HYDRAULIC = 'hydraulic',
+}
+
+/**
  * GlyphSet categories
  */
 export enum GlyphSetCategory {

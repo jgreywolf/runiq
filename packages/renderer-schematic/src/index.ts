@@ -12,6 +12,7 @@ import type {
   HydraulicProfile,
   PartAst,
 } from '@runiq/core';
+import { Orientation } from '@runiq/core';
 import { getSymbol } from './symbolRegistry.ts';
 import { SymbolDefinition } from './symbol.ts';
 
@@ -70,8 +71,8 @@ export interface SchematicOptions {
   showValues?: boolean;
   /** Show component references (default: true) */
   showReferences?: boolean;
-  /** Orientation: 'horizontal' | 'vertical' (default: 'horizontal') */
-  orientation?: 'horizontal' | 'vertical';
+  /** Orientation (default: Orientation.HORIZONTAL) */
+  orientation?: Orientation;
   /** Wire routing mode: 'direct' | 'orthogonal' (default: 'direct') */
   routing?: 'direct' | 'orthogonal';
 }
@@ -111,7 +112,7 @@ export function renderSchematic(
     showNetLabels = true,
     showValues = true,
     showReferences = true,
-    orientation = 'horizontal',
+    orientation = Orientation.HORIZONTAL,
     routing = 'direct',
   } = options;
 
@@ -208,7 +209,7 @@ function normalizeNetName(name: string): string {
 function placeComponents(
   parts: PartAst[],
   gridSize: number,
-  orientation: 'horizontal' | 'vertical',
+  orientation: Orientation,
   warnings: string[]
 ): PositionedComponent[] {
   const positioned: PositionedComponent[] = [];
@@ -225,12 +226,12 @@ function placeComponents(
     positioned.push({
       part,
       symbol,
-      x: orientation === 'horizontal' ? currentX : gridSize * 2,
-      y: orientation === 'horizontal' ? gridSize * 2 : currentY,
+      x: orientation === Orientation.HORIZONTAL ? currentX : gridSize * 2,
+      y: orientation === Orientation.HORIZONTAL ? gridSize * 2 : currentY,
       rotation: 0,
     });
 
-    if (orientation === 'horizontal') {
+    if (orientation === Orientation.HORIZONTAL) {
       currentX += symbol.width + gridSize * 2;
     } else {
       currentY += symbol.height + gridSize * 2;

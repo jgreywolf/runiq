@@ -14,6 +14,7 @@ import {
   createTextMeasurer,
   LayoutAlgorithm,
   LayoutDefaults,
+  Orientation,
   shapeRegistry,
 } from '@runiq/core';
 import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled.js';
@@ -961,10 +962,10 @@ export class ElkLayoutEngine implements LayoutEngine {
         edge.points[0] = newStartPoint;
         // Fix the first segment to be orthogonal based on anchor direction
         const startDir = this.getAnchorDirection(startAnchor.name);
-        if (startDir === 'horizontal') {
+        if (startDir === Orientation.HORIZONTAL) {
           // First segment should be horizontal
           edge.points[1] = { x: edge.points[1].x, y: newStartPoint.y };
-        } else if (startDir === 'vertical') {
+        } else if (startDir === Orientation.VERTICAL) {
           // First segment should be vertical
           edge.points[1] = { x: newStartPoint.x, y: edge.points[1].y };
         }
@@ -984,7 +985,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const startDirection = this.getAnchorDirection(startAnchor?.name);
 
     // Create orthogonal routing based on anchor directions
-    if (startDirection === 'horizontal') {
+    if (startDirection === Orientation.HORIZONTAL) {
       // Exit horizontally from start anchor
       const midX = start.x + (end.x - start.x) * 0.5;
       edge.points = [
@@ -993,7 +994,7 @@ export class ElkLayoutEngine implements LayoutEngine {
         { x: midX, y: end.y }, // Vertical segment
         end,
       ];
-    } else if (startDirection === 'vertical') {
+    } else if (startDirection === Orientation.VERTICAL) {
       // Exit vertically from start anchor
       const midY = start.y + (end.y - start.y) * 0.5;
       edge.points = [
@@ -1033,15 +1034,15 @@ export class ElkLayoutEngine implements LayoutEngine {
    */
   private getAnchorDirection(
     anchorName?: string
-  ): 'horizontal' | 'vertical' | null {
+  ): Orientation | null {
     if (!anchorName) return null;
 
     const name = anchorName.toLowerCase();
     if (name === 'left' || name === 'right') {
-      return 'horizontal';
+      return Orientation.HORIZONTAL;
     }
     if (name === 'top' || name === 'bottom') {
-      return 'vertical';
+      return Orientation.VERTICAL;
     }
     return null;
   }
@@ -1061,10 +1062,10 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // First pass: determine if we have swimlanes and calculate uniform dimensions
     const hasHorizontalSwim = containers.some(
-      (c) => c.layoutOptions?.orientation === 'horizontal'
+      (c) => c.layoutOptions?.orientation === Orientation.HORIZONTAL
     );
     const hasVerticalSwim = containers.some(
-      (c) => c.layoutOptions?.orientation === 'vertical'
+      (c) => c.layoutOptions?.orientation === Orientation.VERTICAL
     );
 
     let uniformWidth: number | undefined;
@@ -1074,7 +1075,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     if (hasHorizontalSwim) {
       let maxWidth = 0;
       for (const container of containers) {
-        if (container.layoutOptions?.orientation === 'horizontal') {
+        if (container.layoutOptions?.orientation === Orientation.HORIZONTAL) {
           const placeholder = placeholders.get(container.id!);
           const width = placeholder?.width || 400;
           maxWidth = Math.max(maxWidth, width);
@@ -1087,7 +1088,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     if (hasVerticalSwim) {
       let maxHeight = 0;
       for (const container of containers) {
-        if (container.layoutOptions?.orientation === 'vertical') {
+        if (container.layoutOptions?.orientation === Orientation.VERTICAL) {
           const placeholder = placeholders.get(container.id!);
           const height = placeholder?.height || 300;
           maxHeight = Math.max(maxHeight, height);
@@ -1109,18 +1110,18 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (orientation) {
         // This is a swimlane - use uniform dimensions
         const width =
-          orientation === 'horizontal' && uniformWidth
+          orientation === Orientation.HORIZONTAL && uniformWidth
             ? uniformWidth
             : placeholder?.width || 400;
         const height =
-          orientation === 'vertical' && uniformHeight
+          orientation === Orientation.VERTICAL && uniformHeight
             ? uniformHeight
             : placeholder?.height || 300;
 
         positions.set(container.id!, { x: currentX, y: currentY });
         placeholders.set(container.id!, { width, height });
 
-        if (orientation === 'horizontal') {
+        if (orientation === Orientation.HORIZONTAL) {
           currentY += height + spacing;
         } else {
           currentX += width + spacing;
@@ -1171,9 +1172,9 @@ export class ElkLayoutEngine implements LayoutEngine {
       const positioned = positionedContainers[i];
       const orientation = container.layoutOptions?.orientation;
 
-      if (orientation === 'horizontal') {
+      if (orientation === Orientation.HORIZONTAL) {
         maxHorizontalWidth = Math.max(maxHorizontalWidth, positioned.width);
-      } else if (orientation === 'vertical') {
+      } else if (orientation === Orientation.VERTICAL) {
         maxVerticalHeight = Math.max(maxVerticalHeight, positioned.height);
       }
     }
@@ -1189,7 +1190,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const orientation = container.layoutOptions?.orientation;
 
       // Update position for sibling swimlanes (only at root level where x=0 or y=0)
-      if (orientation === 'horizontal' && positioned.x === 0) {
+      if (orientation === Orientation.HORIZONTAL && positioned.x === 0) {
         // Horizontal swimlanes: update Y position and track the delta
         const oldY = positioned.y;
         const newY = currentY;
@@ -1225,7 +1226,7 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
 
         currentY += positioned.height + spacing;
-      } else if (orientation === 'vertical' && positioned.y === 0) {
+      } else if (orientation === Orientation.VERTICAL && positioned.y === 0) {
         // Vertical swimlanes: update X position and track the delta
         const oldX = positioned.x;
         const newX = currentX;

@@ -16,6 +16,7 @@ import type {
 import {
   getTimelineTheme,
   getThemeEventColor,
+  Orientation,
   type TimelineTheme,
 } from '@runiq/core';
 
@@ -59,7 +60,7 @@ export function renderTimeline(
 ): TimelineRenderResult {
   const warnings: string[] = [];
   const isHorizontal =
-    profile.orientation === 'horizontal' || !profile.orientation;
+    profile.orientation === Orientation.HORIZONTAL || !profile.orientation;
 
   // Apply theme if specified in profile
   const theme = (profile as any).theme
