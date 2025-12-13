@@ -112,12 +112,7 @@ export const detailedProcessShape: ShapeDefinition = {
                 rx="6" ry="6"
                 fill="${mainFill}" stroke="${mainStroke}" stroke-width="${strokeWidth}" />
           
-          <text x="${mainX + mainWidth / 2}" y="${mainY + mainHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}" 
-                font-weight="bold" fill="#FFFFFF">
-            ${items[i].main}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: { fontSize, fontWeight: 'bold', color: '#FFFFFF' } }, items[i].main, mainX + mainWidth / 2, mainY + mainHeight / 2)}
         `;
 
         // Draw substeps below main step

@@ -74,7 +74,18 @@ function renderQuadrant(
     });
   } else {
     // Render main label at top
-    svg += `<text x="${x + width / 2}" y="${y + 20}" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">${label}</text>`;
+    const labelStyle = { fontSize: 12, fontWeight: 'bold', color: '#fff' };
+    svg += renderShapeLabel(
+      {
+        node: { id: '', type: '', data: {} },
+        renderLabel: () => '',
+        style: labelStyle,
+        measureText: () => ({ width: 0, height: 0 }),
+      } as any,
+      label,
+      x + width / 2,
+      y + 20
+    );
 
     // Render segments in 2x2 grid within quadrant
     const segmentWidth = (width - SEGMENT_MARGIN * 3) / 2;

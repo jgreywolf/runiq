@@ -120,16 +120,16 @@ export const phasedProcessShape: ShapeDefinition = {
             Z
           `;
 
+          const milestoneStyle = {
+            fontSize: fontSize - 2,
+            fontWeight: 'bold',
+            color: '#333',
+          };
           svg += `
             <path d="${diamondPath}" 
                   fill="${milestoneFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
             
-            <text x="${milestoneX}" y="${milestoneY}" 
-                  text-anchor="middle" dominant-baseline="middle"
-                  font-family="${font}" font-size="${fontSize - 2}" 
-                  font-weight="bold" fill="#333">
-              ${i + 1}
-            </text>
+            ${renderShapeLabel({ ...ctx, style: milestoneStyle }, (i + 1).toString(), milestoneX, milestoneY)}
           `;
 
           currentX = milestoneX + milestoneSize / 2 + spacing;
