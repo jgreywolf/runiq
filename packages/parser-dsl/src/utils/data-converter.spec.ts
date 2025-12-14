@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { convertDataProperty } from './data-converter.js';
+import { describe, expect, it } from 'vitest';
 import * as Langium from '../generated/ast.js';
+import { convertDataProperty } from './data-converter.js';
 
 describe('data-converter', () => {
   describe('convertDataProperty', () => {

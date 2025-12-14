@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { nodeRefToString, parseAnchoredArrow } from './node-ref-utils.js';
+import { describe, expect, it } from 'vitest';
 import type * as Langium from '../generated/ast.js';
+import { nodeRefToString, parseAnchoredArrow } from './node-ref-utils.js';
 
 describe('node-ref-utils', () => {
   describe('nodeRefToString', () => {
@@ -274,7 +274,9 @@ describe('node-ref-utils', () => {
       });
 
       it('should parse with complex label and anchors', () => {
-        const result = parseAnchoredArrow('-south-"HTTP POST /api/data"->north');
+        const result = parseAnchoredArrow(
+          '-south-"HTTP POST /api/data"->north'
+        );
         expect(result).toEqual({
           anchorFrom: 'south',
           anchorTo: 'north',

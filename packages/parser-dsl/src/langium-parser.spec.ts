@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { parse } from './langium-parser.js';
 import { ProfileType } from '@runiq/core';
+import { describe, expect, it } from 'vitest';
+import { parse } from './langium-parser.js';
 
 describe('langium-parser', () => {
   describe('parse() - Basic Functionality', () => {

@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { RuniqValueConverter } from './value-converter.js';
 import { DefaultValueConverter } from 'langium';
+import { describe, expect, it } from 'vitest';
+import { RuniqValueConverter } from './value-converter.js';
 
 describe('RuniqValueConverter', () => {
   describe('Class Definition', () => {

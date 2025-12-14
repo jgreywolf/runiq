@@ -1,16 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { parse } from '../langium-parser.js';
 
 /**
  * Unit tests for diagram-converter.
- * 
+ *
  * Note: Comprehensive diagram testing exists in:
  * - integration/parser.spec.ts (35 tests)
  * - integration/container-*.spec.ts (6 files, 188 tests)
  * - integration/data-parser.spec.ts (16 tests)
  * - integration/uml-relationships.spec.ts (13 tests)
  * - integration/class-diagram-parser.spec.ts (18 tests)
- * 
+ *
  * These tests focus on basic converter behavior through the parser.
  */
 describe('diagram-converter', () => {
