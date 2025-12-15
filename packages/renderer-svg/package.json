@@ -24,7 +24,7 @@
     "test:visual:update": "playwright test --update-snapshots",
     "test:visual:ui": "playwright test --ui",
     "test:visual:report": "playwright show-report",
-    "test:visual:serve": "node tests/visual/server.mjs",
+    "test:visual:serve": "node src/visual/server.mjs",
     "lint": "eslint src/**/*.ts",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"
