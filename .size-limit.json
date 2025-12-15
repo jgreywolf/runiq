@@ -1,0 +1,59 @@
+[
+  {
+    "name": "@runiq/core",
+    "path": "packages/core/dist/index.js",
+    "limit": "50 KB",
+    "ignore": ["**/*.d.ts"]
+  },
+  {
+    "name": "@runiq/parser-dsl",
+    "path": "packages/parser-dsl/dist/index.js",
+    "limit": "200 KB",
+    "ignore": ["**/*.d.ts"],
+    "note": "Larger due to Langium parser"
+  },
+  {
+    "name": "@runiq/layout-base",
+    "path": "packages/layout-base/dist/index.js",
+    "limit": "100 KB",
+    "ignore": ["**/*.d.ts"],
+    "note": "Includes ELK layout engine"
+  },
+  {
+    "name": "@runiq/renderer-svg",
+    "path": "packages/renderer-svg/dist/index.js",
+    "limit": "75 KB",
+    "ignore": ["**/*.d.ts"]
+  },
+  {
+    "name": "@runiq/renderer-schematic",
+    "path": "packages/renderer-schematic/dist/index.js",
+    "limit": "50 KB",
+    "ignore": ["**/*.d.ts"]
+  },
+  {
+    "name": "@runiq/io-json",
+    "path": "packages/io-json/dist/index.js",
+    "limit": "25 KB",
+    "ignore": ["**/*.d.ts"]
+  },
+  {
+    "name": "@runiq/glyphsets",
+    "path": "packages/glyphsets/dist/index.js",
+    "limit": "30 KB",
+    "ignore": ["**/*.d.ts"]
+  },
+  {
+    "name": "@runiq/data-loader",
+    "path": "packages/data-loader/dist/index.js",
+    "limit": "40 KB",
+    "ignore": ["**/*.d.ts"]
+  },
+  {
+    "name": "@runiq/cli",
+    "path": "packages/cli/dist/cli.js",
+    "limit": "500 KB",
+    "ignore": ["**/*.d.ts"],
+    "note": "Bundles all dependencies"
+  }
+]
