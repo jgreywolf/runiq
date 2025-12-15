@@ -1,4 +1,7 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { calculateAspectRatioBounds } from '../utils/calculate-bounds.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Message shape - represents a message being sent or received.
@@ -8,17 +11,13 @@ export const bpmnMessageShape: ShapeDefinition = {
   id: 'bpmnMessage',
 
   bounds(ctx: ShapeRenderContext) {
-    const padding = ctx.style.padding || 8;
-    const labelMetrics = ctx.measureText(ctx.node.label || '', ctx.style);
-
-    const minWidth = 60;
-    const minHeight = 40;
-
-    const width = Math.max(minWidth, labelMetrics.width + padding * 2);
-    // Envelope has 2:3 aspect ratio
-    const height = Math.max(minHeight, width * 0.66);
-
-    return { width, height };
+    // Envelope has 3:2 aspect ratio (width:height)
+    return calculateAspectRatioBounds(ctx, {
+      aspectRatio: 3 / 2,
+      fitText: true,
+      minWidth: 60,
+      minHeight: 40,
+    });
   },
 
   anchors(ctx: ShapeRenderContext) {
@@ -38,9 +37,11 @@ export const bpmnMessageShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
 
     // Envelope body (rectangle)
     let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"/>`;
@@ -53,7 +54,16 @@ export const bpmnMessageShape: ShapeDefinition = {
     // Optional label below the envelope
     if (ctx.node.label) {
       const textY = y + bounds.height + 16;
-      svg += `<text x="${centerX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily || 'Arial'}" font-size="${(ctx.style.fontSize || 14) * 0.85}" fill="#000000">${ctx.node.label}</text>`;
+      const labelStyle = {
+        ...ctx.style,
+        fontSize: (ctx.style.fontSize || 14) * 0.85,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        centerX,
+        textY
+      );
     }
 
     return svg;

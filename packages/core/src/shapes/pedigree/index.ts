@@ -1,4 +1,5 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Pedigree Chart Shapes
@@ -70,10 +71,13 @@ export const pedigreeMaleShape: ShapeDefinition = {
 
     // Label (name/ID)
     const label = ctx.node.label || ctx.node.id;
-    const fontSize = ctx.style?.fontSize || 12;
-    const font = ctx.style?.font || 'sans-serif';
-    svg += `<text x="${x + SIZE / 2}" y="${y + SIZE + 15}"
-                 text-anchor="middle" font-size="${fontSize}" font-family="${font}">${label}</text>`;
+    const labelStyle = { ...ctx.style, fontSize: ctx.style?.fontSize || 12 };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      label,
+      x + SIZE / 2,
+      y + SIZE + 15
+    );
 
     return svg;
   },
@@ -130,10 +134,13 @@ export const pedigreeFemaleShape: ShapeDefinition = {
 
     // Label (name/ID)
     const label = ctx.node.label || ctx.node.id;
-    const fontSize = ctx.style?.fontSize || 12;
-    const font = ctx.style?.font || 'sans-serif';
-    svg += `<text x="${cx}" y="${y + SIZE + 15}"
-                 text-anchor="middle" font-size="${fontSize}" font-family="${font}">${label}</text>`;
+    const labelStyle = { ...ctx.style, fontSize: ctx.style?.fontSize || 12 };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      label,
+      cx,
+      y + SIZE + 15
+    );
 
     return svg;
   },
@@ -191,10 +198,13 @@ export const pedigreeUnknownShape: ShapeDefinition = {
 
     // Label (name/ID)
     const label = ctx.node.label || ctx.node.id;
-    const fontSize = ctx.style?.fontSize || 12;
-    const font = ctx.style?.font || 'sans-serif';
-    svg += `<text x="${cx}" y="${y + SIZE + 15}"
-                 text-anchor="middle" font-size="${fontSize}" font-family="${font}">${label}</text>`;
+    const labelStyle = { ...ctx.style, fontSize: ctx.style?.fontSize || 12 };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      label,
+      cx,
+      y + SIZE + 15
+    );
 
     return svg;
   },

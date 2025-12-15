@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Pool/Lane shape - represents a participant or sub-partition in a process.
@@ -38,9 +40,11 @@ export const bpmnPoolShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#f5f5f5';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#f5f5f5',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 2,
+    });
 
     const labelAreaWidth = 30; // Width of the vertical label area
 
@@ -54,7 +58,8 @@ export const bpmnPoolShape: ShapeDefinition = {
     if (ctx.node.label) {
       const textX = x + labelAreaWidth / 2;
       const textY = y + bounds.height / 2;
-      svg += `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily || 'Arial'}" font-size="${ctx.style.fontSize || 14}" fill="#000000" transform="rotate(-90 ${textX} ${textY})">${ctx.node.label}</text>`;
+      const labelSvg = renderShapeLabel(ctx, ctx.node.label, textX, textY);
+      svg += `<g transform="rotate(-90 ${textX} ${textY})">${labelSvg}</g>`;
     }
 
     return svg;

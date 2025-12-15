@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Integrator Block (1/s)
@@ -34,27 +36,28 @@ export const integratorShape: ShapeDefinition = {
     const { x, y } = position;
 
     // Distinctive light blue fill for integrators
-    const fill = ctx.style.fill || '#e3f2fd';
-    const stroke = ctx.style.stroke || '#1976d2';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#e3f2fd',
+      defaultStroke: '#1976d2',
+      defaultStrokeWidth: 2,
+    });
 
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;
 
     // Use "1/s" unless label specifies otherwise
     const label = ctx.node.label || '1/s';
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) + 2,
+      fontStyle: 'italic' as const,
+    };
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" 
-            font-size="${(ctx.style.fontSize || 14) + 2}"
-            font-style="italic">
-        ${label}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, cx, cy)}
     `;
   },
 };

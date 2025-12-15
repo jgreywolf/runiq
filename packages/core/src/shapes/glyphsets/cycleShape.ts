@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Cycle Shape - Circular arrangement of process steps
@@ -33,12 +35,7 @@ export const cycleShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -94,7 +91,6 @@ export const cycleShape: ShapeDefinition = {
       const p2 = positions[nextI];
 
       // Arc from p1 to p2
-      const midAngle = startAngle + (i + 0.5) * angleStep;
       const arcRadius = radius * 0.95;
 
       svg += `<path d="M ${p1.x} ${p1.y} A ${arcRadius} ${arcRadius} 0 0 1 ${p2.x} ${p2.y}" `;
@@ -128,12 +124,23 @@ export const cycleShape: ShapeDefinition = {
       svg += `stroke="${stroke}" stroke-width="0" />`;
 
       // Label
-      svg += `<text x="${pos.x}" y="${pos.y}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="600" `;
-      svg += `fill="#FFFFFF">`;
-      svg += `${label}`;
-      svg += `</text>`;
+      const labelCtx = {
+        ...ctx,
+        style: {
+          fontSize,
+          fontFamily,
+          fontWeight: '600',
+          color: '#FFFFFF',
+        },
+      };
+      svg += renderShapeLabel(
+        labelCtx,
+        label,
+        pos.x,
+        pos.y,
+        'middle',
+        'middle'
+      );
     });
 
     return svg;

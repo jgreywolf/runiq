@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Puzzle Shape
@@ -162,22 +164,21 @@ export const puzzle: ShapeDefinition = {
 
   anchors(ctx: ShapeRenderContext) {
     const bounds = this.bounds(ctx);
-    const centerX = bounds.width / 2;
-    const centerY = bounds.height / 2;
-
-    return [
-      { id: 'top', x: centerX, y: 0 },
-      { id: 'right', x: bounds.width, y: centerY },
-      { id: 'bottom', x: centerX, y: bounds.height },
-      { id: 'left', x: 0, y: centerY },
-    ];
+    return createStandardAnchors({ ...bounds, useId: true });
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {
     const data = ctx.node.data as any;
 
     if (!data || !data.pieces) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid puzzle data</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid puzzle data',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const pieces = data.pieces || [];

@@ -1,6 +1,6 @@
-import type { NodeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import type { Direction, NodeAst } from '@runiq/core';
 import { getThemeColor, type ColorTheme } from '../themes.js';
+import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**
  * Converging GlyphSet
@@ -103,7 +103,7 @@ export const convergingGlyphSet: GlyphSetDefinition = {
 
     return {
       astVersion: '1.0',
-      direction: 'LR',
+      direction: 'LR' as Direction,
       nodes,
       edges: [],
     };

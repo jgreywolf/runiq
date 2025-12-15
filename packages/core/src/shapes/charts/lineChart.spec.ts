@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { lineChart } from './lineChart.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 describe('lineChart', () => {
   describe('Shape Definition', () => {

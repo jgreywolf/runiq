@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface PhasedProcessData {
   items: string[];
@@ -50,12 +52,7 @@ export const phasedProcessShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -66,13 +63,10 @@ export const phasedProcessShape: ShapeDefinition = {
     const direction = (ctx.node.data?.direction as string) || 'LR';
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const phaseWidth = 120;
@@ -102,18 +96,14 @@ export const phasedProcessShape: ShapeDefinition = {
         const phaseFill = ctx.style.fill || getThemeColor(theme, i);
 
         // Draw phase box
+        const phaseStyle = { fontSize, fontWeight: '600', color: '#FFFFFF' };
         svg += `
           <rect x="${currentX}" y="${phaseY}" 
                 width="${phaseWidth}" height="${phaseHeight}"
                 rx="6" ry="6"
                 fill="${phaseFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
-          <text x="${currentX + phaseWidth / 2}" y="${phaseY + phaseHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}" 
-                font-weight="600" fill="#FFFFFF">
-            ${items[i]}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: phaseStyle }, items[i], currentX + phaseWidth / 2, phaseY + phaseHeight / 2)}
         `;
 
         // Draw milestone diamond between phases (if not last)
@@ -130,16 +120,16 @@ export const phasedProcessShape: ShapeDefinition = {
             Z
           `;
 
+          const milestoneStyle = {
+            fontSize: fontSize - 2,
+            fontWeight: 'bold',
+            color: '#333',
+          };
           svg += `
             <path d="${diamondPath}" 
                   fill="${milestoneFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
             
-            <text x="${milestoneX}" y="${milestoneY}" 
-                  text-anchor="middle" dominant-baseline="middle"
-                  font-family="${font}" font-size="${fontSize - 2}" 
-                  font-weight="bold" fill="#333">
-              ${i + 1}
-            </text>
+            ${renderShapeLabel({ ...ctx, style: milestoneStyle }, (i + 1).toString(), milestoneX, milestoneY)}
           `;
 
           currentX = milestoneX + milestoneSize / 2 + spacing;
@@ -155,18 +145,14 @@ export const phasedProcessShape: ShapeDefinition = {
         const phaseFill = ctx.style.fill || getThemeColor(theme, i);
 
         // Draw phase box
+        const phaseStyle = { fontSize, fontWeight: '600', color: '#FFFFFF' };
         svg += `
           <rect x="${phaseX}" y="${currentY}" 
                 width="${phaseWidth}" height="${phaseHeight}"
                 rx="6" ry="6"
                 fill="${phaseFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
-          <text x="${phaseX + phaseWidth / 2}" y="${currentY + phaseHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}" 
-                font-weight="600" fill="#FFFFFF">
-            ${items[i]}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: phaseStyle }, items[i], phaseX + phaseWidth / 2, currentY + phaseHeight / 2)}
         `;
 
         // Draw milestone diamond between phases (if not last)
@@ -183,16 +169,16 @@ export const phasedProcessShape: ShapeDefinition = {
             Z
           `;
 
+          const milestoneStyleTB = {
+            fontSize: fontSize - 2,
+            fontWeight: 'bold',
+            color: '#333',
+          };
           svg += `
             <path d="${diamondPath}" 
                   fill="${milestoneFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
             
-            <text x="${milestoneX}" y="${milestoneY}" 
-                  text-anchor="middle" dominant-baseline="middle"
-                  font-family="${font}" font-size="${fontSize - 2}" 
-                  font-weight="bold" fill="#333">
-              ${i + 1}
-            </text>
+            ${renderShapeLabel({ ...ctx, style: milestoneStyleTB }, (i + 1).toString(), milestoneX, milestoneY)}
           `;
 
           currentY = milestoneY + milestoneSize / 2 + spacing;

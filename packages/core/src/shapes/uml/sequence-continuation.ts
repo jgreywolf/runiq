@@ -1,4 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Continuation shape
@@ -24,16 +29,7 @@ export const continuationShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -42,9 +38,11 @@ export const continuationShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
     const fontSize = ctx.style.fontSize || 14;
     const fontFamily = ctx.style.font || 'Arial';
 
@@ -67,10 +65,13 @@ export const continuationShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (centered)
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + fontSize / 3}" `;
-    svg += `text-anchor="middle" font-size="${fontSize}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'ref'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'ref',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { DiagramAst, ContainerDeclaration } from './types.js';
+import type { DiagramAst, ContainerDeclaration } from './types/index.js';
 
 describe('Container Phase 2: Collapse/Expand Functionality', () => {
   describe('Collapse State Management', () => {

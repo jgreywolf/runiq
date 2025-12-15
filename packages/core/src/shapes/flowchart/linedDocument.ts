@@ -1,4 +1,5 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -33,10 +34,7 @@ export const linedDocumentShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const foldSize = 10;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // Document shape with folded corner
     const docPath = [

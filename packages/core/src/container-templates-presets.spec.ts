@@ -11,7 +11,7 @@ import type {
   ContainerPreset,
   ContainerDeclaration,
   DiagramAst,
-} from './types.js';
+} from './types/index.js';
 
 describe('Phase 5: Container Templates & Presets', () => {
   describe('Template Definitions', () => {

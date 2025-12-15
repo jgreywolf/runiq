@@ -8,7 +8,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 import {
   serverShape,
   routerShape,

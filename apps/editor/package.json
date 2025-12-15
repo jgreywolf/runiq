@@ -64,6 +64,7 @@
 		"@codemirror/state": "^6.5.2",
 		"@codemirror/view": "^6.38.6",
 		"@runiq/core": "workspace:*",
+		"@runiq/glyphsets": "workspace:*",
 		"@runiq/icons-fontawesome": "workspace:*",
 		"@runiq/io-json": "workspace:*",
 		"@runiq/layout-base": "workspace:*",

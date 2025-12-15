@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { calculateRectangularAnchors } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * ERD Entity shape - represents a strong entity
@@ -21,16 +23,7 @@ export const erdEntityShape: ShapeDefinition = {
   },
 
   anchors(ctx: ShapeRenderContext) {
-    const bounds = this.bounds(ctx);
-    const halfWidth = bounds.width / 2;
-    const halfHeight = bounds.height / 2;
-
-    return [
-      { x: halfWidth, y: 0, name: 'top' },
-      { x: bounds.width, y: halfHeight, name: 'right' },
-      { x: halfWidth, y: bounds.height, name: 'bottom' },
-      { x: 0, y: halfHeight, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
@@ -50,13 +43,13 @@ export const erdEntityShape: ShapeDefinition = {
 
     // Label
     if (ctx.node.label) {
-      result += `<text x="${position.x + bounds.width / 2}" 
-                      y="${position.y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3}" 
-                      text-anchor="middle" 
-                      fill="${textColor}" 
-                      font-size="${ctx.style.fontSize || 14}" 
-                      font-weight="bold" 
-                      font-family="${ctx.style.fontFamily || 'Arial'}">${ctx.node.label}</text>`;
+      const labelStyle = { ...ctx.style, color: textColor, fontWeight: 'bold' };
+      result += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        position.x + bounds.width / 2,
+        position.y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3
+      );
     }
 
     result += `</g>`;

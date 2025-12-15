@@ -1,4 +1,5 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 export const roundedRectangleShape: ShapeDefinition = {
@@ -29,10 +30,7 @@ export const roundedRectangleShape: ShapeDefinition = {
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const rx = ctx.style.rx || 8;
     const label = ctx.node.label || ctx.node.id;
 

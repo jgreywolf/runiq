@@ -7,7 +7,7 @@ import {
   type GraphMetrics,
   type NodeMetrics,
 } from './graph-metrics.js';
-import type { DiagramAst } from '../types.js';
+import type { DiagramAst } from '../types/index.js';
 
 describe('Graph Metrics', () => {
   describe('calculateGraphMetrics', () => {

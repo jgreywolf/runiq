@@ -1,4 +1,4 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 
 /**
  * Labeled Hierarchy Shape - Tree structure with edge labels

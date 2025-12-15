@@ -1,4 +1,8 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -26,15 +30,7 @@ export const doubleCircleShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const r = bounds.width / 2;
-
-    return [
-      { x: r, y: 0, name: 'top' },
-      { x: bounds.width, y: r, name: 'right' },
-      { x: r, y: bounds.height, name: 'bottom' },
-      { x: 0, y: r, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -44,10 +40,7 @@ export const doubleCircleShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const outerR = bounds.width / 2;
     const innerR = outerR - 6; // 6px gap for inner circle
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || ctx.node.id;
 
     return `

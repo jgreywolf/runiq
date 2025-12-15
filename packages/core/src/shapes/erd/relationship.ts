@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { calculateDiamondAnchors } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * ERD Relationship shape - represents a relationship between entities
@@ -21,16 +23,7 @@ export const erdRelationshipShape: ShapeDefinition = {
   },
 
   anchors(ctx: ShapeRenderContext) {
-    const bounds = this.bounds(ctx);
-    const halfWidth = bounds.width / 2;
-    const halfHeight = bounds.height / 2;
-
-    return [
-      { x: halfWidth, y: 0, name: 'top' },
-      { x: bounds.width, y: halfHeight, name: 'right' },
-      { x: halfWidth, y: bounds.height, name: 'bottom' },
-      { x: 0, y: halfHeight, name: 'left' },
-    ];
+    return calculateDiamondAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
@@ -60,13 +53,17 @@ export const erdRelationshipShape: ShapeDefinition = {
 
     // Label
     if (ctx.node.label) {
-      result += `<text x="${centerX}" 
-                      y="${centerY + (ctx.style.fontSize || 14) / 3}" 
-                      text-anchor="middle" 
-                      fill="${textColor}" 
-                      font-size="${ctx.style.fontSize || 14}" 
-                      font-style="italic" 
-                      font-family="${ctx.style.fontFamily || 'Arial'}">${ctx.node.label}</text>`;
+      const labelStyle = {
+        ...ctx.style,
+        color: textColor,
+        fontStyle: 'italic' as const,
+      };
+      result += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        centerX,
+        centerY + (ctx.style.fontSize || 14) / 3
+      );
     }
 
     result += `</g>`;

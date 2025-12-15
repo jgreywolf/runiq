@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Cluster Shape
@@ -47,6 +49,7 @@ function wrapText(text: string, maxChars: number = 10): string[] {
 
 /**
  * Render a circle with centered multi-line text
+ * Note: This function doesn't have access to ctx, so we create a minimal style object
  */
 function renderCircle(
   x: number,
@@ -63,7 +66,7 @@ function renderCircle(
   // Circle
   let svg = `<circle cx="${x}" cy="${y}" r="${radius}" fill="${color}" stroke="#333" stroke-width="2"/>`;
 
-  // Text lines
+  // Text lines - using manual text since we don't have ctx here
   lines.forEach((line, i) => {
     const textY = startY + i * lineHeight;
     svg += `<text x="${x}" y="${textY}" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="500">${line}</text>`;
@@ -107,16 +110,7 @@ export const cluster: ShapeDefinition = {
 
   anchors(ctx: ShapeRenderContext) {
     const bounds = this.bounds(ctx);
-    const centerX = bounds.width / 2;
-    const centerY = bounds.height / 2;
-
-    // Return 4 cardinal direction anchors at the outer edge
-    return [
-      { id: 'top', x: centerX, y: 0 },
-      { id: 'right', x: bounds.width, y: centerY },
-      { id: 'bottom', x: centerX, y: bounds.height },
-      { id: 'left', x: 0, y: centerY },
-    ];
+    return createStandardAnchors({ ...bounds, useId: true });
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {
@@ -124,7 +118,14 @@ export const cluster: ShapeDefinition = {
 
     // Validate data structure
     if (!data || !data.center || !data.satellites) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid cluster data</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid cluster data',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const centerLabel = data.center.label || 'Center';

@@ -1,6 +1,6 @@
-import type { NodeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import type { Direction, NodeAst } from '@runiq/core';
 import { getThemeColor, type ColorTheme } from '../themes.js';
+import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**
  * Target (Bullseye) GlyphSet
@@ -115,7 +115,7 @@ export const targetGlyphSet: GlyphSetDefinition = {
 
     return {
       astVersion: '1.0',
-      direction: 'TB',
+      direction: 'TB' as Direction,
       nodes,
       edges: [], // No edges in concentric circles
     };

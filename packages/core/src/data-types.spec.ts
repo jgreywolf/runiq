@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { NodeAst, DataValue, DataArray } from './types.js';
+import type { NodeAst, DataValue, DataArray } from './types/index.js';
 
 describe('Data-Driven Node Types', () => {
   describe('NodeAst with data property', () => {

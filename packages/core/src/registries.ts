@@ -4,7 +4,7 @@ import type {
   LayoutEngine,
   DataSource,
   DataObject,
-} from './types.js';
+} from './types/index.js';
 
 class ShapeRegistry {
   private shapes = new Map<string, ShapeDefinition>();

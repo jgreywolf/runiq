@@ -1,4 +1,4 @@
-import type { NodeAst } from '@runiq/core';
+import type { Direction, NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**
@@ -56,7 +56,7 @@ export const chevronListGlyphSet: GlyphSetDefinition = {
 
   generator: (params) => {
     const items = params.items as string[] | undefined;
-    const direction = (params.direction as string) || 'TB';
+    const direction = ((params.direction as 'TB' | 'LR') || 'TB') as Direction;
     const theme = params.theme as string | undefined;
 
     // Validation

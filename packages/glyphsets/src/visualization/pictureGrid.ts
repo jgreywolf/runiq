@@ -1,7 +1,7 @@
-import type { DiagramAst, NodeAst } from '@runiq/core';
+import type { DiagramAst, Direction, NodeAst } from '@runiq/core';
+import { type ColorTheme } from '../themes.js';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
-import { getThemeColor, type ColorTheme } from '../themes.js';
-import { type ImageItem, validateImageItem } from '../utils/image.js';
+import { validateImageItem, type ImageItem } from '../utils/image.js';
 
 /**
  * Picture Grid GlyphSet
@@ -133,7 +133,7 @@ export const pictureGridGlyphSet: GlyphSetDefinition = {
       astVersion: '1.0',
       nodes,
       edges: [],
-      direction: 'TB',
+      direction: 'TB' as Direction,
     };
 
     return diagram;

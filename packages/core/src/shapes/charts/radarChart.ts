@@ -1,4 +1,9 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import {
+  renderLegend as renderChartLegend,
+  type LegendItem,
+} from '../utils/render-chart-labels.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 interface RadarAxis {
   label: string;
@@ -226,7 +231,13 @@ function renderAxisLabels(
     else if (point.x > centerX + 5) anchor = 'start';
 
     labels.push(
-      `<text x="${point.x}" y="${point.y + 5}" text-anchor="${anchor}" font-size="12" fill="#374151">${axes[i].label}</text>`
+      renderShapeLabel(
+        { style: { fontSize: 12, color: '#374151' } } as any,
+        axes[i].label,
+        point.x,
+        point.y + 5,
+        anchor as any
+      )
     );
   }
 
@@ -305,17 +316,17 @@ function renderLegend(
   legendX: number,
   legendY: number
 ): string {
-  const items: string[] = [];
-  const lineHeight = 20;
+  const items: LegendItem[] = series.map((s) => ({
+    label: s.label,
+    color: s.color || DEFAULT_PALETTE[0],
+  }));
 
-  series.forEach((s, idx) => {
-    const y = legendY + idx * lineHeight;
-    items.push(`
-      <rect x="${legendX}" y="${y - 10}" width="12" height="12" fill="${s.color}"/>
-      <text x="${legendX + 18}" y="${y}" font-size="12" fill="#374151">${s.label}</text>`);
+  return renderChartLegend({
+    items,
+    x: legendX,
+    y: legendY,
+    orientation: 'vertical',
   });
-
-  return items.join('\n');
 }
 
 /**
@@ -364,12 +375,24 @@ export const radarChart: ShapeDefinition = {
       series.length === 0 ||
       series.every((s) => s.values.length === 0)
     ) {
-      return `<text x="${position.x}" y="${position.y}" fill="#6b7280" font-size="14">No data</text>`;
+      const noDataStyle = { fontSize: 14, color: '#6b7280' };
+      return renderShapeLabel(
+        { style: noDataStyle } as any,
+        'No data',
+        position.x,
+        position.y
+      );
     }
 
     // Validate axis count (minimum 3 for a radar chart)
     if (axes.length < 3) {
-      return `<text x="${position.x}" y="${position.y}" fill="#ef4444" font-size="14">Radar chart requires at least 3 axes</text>`;
+      const errorStyle = { fontSize: 14, color: '#ef4444' };
+      return renderShapeLabel(
+        { style: errorStyle } as any,
+        'Radar chart requires at least 3 axes',
+        position.x,
+        position.y
+      );
     }
 
     const width = 400;
@@ -385,7 +408,18 @@ export const radarChart: ShapeDefinition = {
 
     // Chart title
     if (ctx.node.label) {
-      svg += `\n      <text x="${width / 2}" y="20" text-anchor="middle" font-size="16" font-weight="bold" fill="#111827">${ctx.node.label}</text>`;
+      const titleStyle = {
+        ...ctx.style,
+        fontSize: 16,
+        fontWeight: 'bold' as const,
+      };
+      const titleSvg = renderShapeLabel(
+        { ...ctx, style: titleStyle },
+        ctx.node.label,
+        width / 2,
+        20
+      );
+      svg += `\n      ${titleSvg}`;
     }
 
     // Grid circles

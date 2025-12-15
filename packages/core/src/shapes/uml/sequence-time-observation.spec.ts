@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+import type { ShapeRenderContext } from '../../types/index.js';
 import { timeObservationShape } from './sequence-time-observation.js';
-import type { ShapeRenderContext } from '../../types.js';
 
 function createMockContext(label = ''): ShapeRenderContext {
   return {
@@ -177,7 +177,7 @@ describe('Time Observation Shape', () => {
       const ctx = createMockContext('t < 100ms');
       const svg = timeObservationShape.render(ctx, { x: 0, y: 0 });
 
-      expect(svg).toContain('t < 100ms');
+      expect(svg).toContain('t &lt; 100ms');
     });
 
     it('should support absolute time labels', () => {

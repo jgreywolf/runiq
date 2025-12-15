@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface GroupedProcessData {
   groups: Array<{ name: string; items: string[] }>;
@@ -46,12 +48,7 @@ export const groupedProcessShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -63,13 +60,10 @@ export const groupedProcessShape: ShapeDefinition = {
     const mergePoint = (ctx.node.data?.mergePoint as string) || 'Result';
 
     if (groups.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const itemWidth = 120;
@@ -106,30 +100,27 @@ export const groupedProcessShape: ShapeDefinition = {
       const groupFill = ctx.style.fill || getThemeColor(theme, groupIdx);
 
       // Draw group label
-      svg += `
-        <text x="${x}" y="${groupY - 8}" 
-              font-family="${font}" font-size="${fontSize}" 
-              font-weight="bold" fill="${stroke}">
-          ${group.name}
-        </text>
-      `;
+      const groupLabelStyle = { fontSize, fontWeight: 'bold', color: stroke };
+      svg += renderShapeLabel(
+        { ...ctx, style: groupLabelStyle },
+        group.name,
+        x,
+        groupY - 8,
+        'start'
+      );
 
       // Draw items in this group
       for (let itemIdx = 0; itemIdx < group.items.length; itemIdx++) {
         const itemX = x + itemIdx * (itemWidth + horizontalSpacing);
 
+        const itemStyle = { fontSize: fontSize - 1, color: '#FFFFFF' };
         svg += `
           <rect x="${itemX}" y="${groupY}" 
                 width="${itemWidth}" height="${itemHeight}"
                 rx="4" ry="4"
                 fill="${groupFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
-          <text x="${itemX + itemWidth / 2}" y="${groupY + itemHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize - 1}" 
-                fill="#FFFFFF">
-            ${group.items[itemIdx]}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: itemStyle }, group.items[itemIdx], itemX + itemWidth / 2, groupY + itemHeight / 2)}
         `;
 
         // Draw arrow to next item in group
@@ -179,18 +170,14 @@ export const groupedProcessShape: ShapeDefinition = {
     }
 
     // Draw merge point (converging box)
+    const mergeStyle = { fontSize, fontWeight: 'bold', color: '#FFFFFF' };
     svg += `
       <rect x="${mergeX}" y="${mergeY}" 
             width="${mergeWidth}" height="${mergeHeight}"
             rx="6" ry="6"
             fill="${mergeFill}" stroke="${stroke}" stroke-width="${strokeWidth + 0.5}" />
       
-      <text x="${mergeX + mergeWidth / 2}" y="${mergeY + mergeHeight / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize}" 
-            font-weight="bold" fill="#FFFFFF">
-        ${mergePoint}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: mergeStyle }, mergePoint, mergeX + mergeWidth / 2, mergeY + mergeHeight / 2)}
     `;
 
     return svg;

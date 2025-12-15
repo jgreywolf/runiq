@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Segmented Matrix Shape
@@ -72,7 +74,18 @@ function renderQuadrant(
     });
   } else {
     // Render main label at top
-    svg += `<text x="${x + width / 2}" y="${y + 20}" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">${label}</text>`;
+    const labelStyle = { fontSize: 12, fontWeight: 'bold', color: '#fff' };
+    svg += renderShapeLabel(
+      {
+        node: { id: '', type: '', data: {} },
+        renderLabel: () => '',
+        style: labelStyle,
+        measureText: () => ({ width: 0, height: 0 }),
+      } as any,
+      label,
+      x + width / 2,
+      y + 20
+    );
 
     // Render segments in 2x2 grid within quadrant
     const segmentWidth = (width - SEGMENT_MARGIN * 3) / 2;
@@ -122,22 +135,21 @@ export const segmentedMatrix: ShapeDefinition = {
 
   anchors(ctx: ShapeRenderContext) {
     const bounds = this.bounds(ctx);
-    const centerX = bounds.width / 2;
-    const centerY = bounds.height / 2;
-
-    return [
-      { id: 'top', x: centerX, y: 0 },
-      { id: 'right', x: bounds.width, y: centerY },
-      { id: 'bottom', x: centerX, y: bounds.height },
-      { id: 'left', x: 0, y: centerY },
-    ];
+    return createStandardAnchors({ ...bounds, useId: true });
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {
     const data = ctx.node.data as any;
 
     if (!data || !data.quadrants || data.quadrants.length !== 4) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid segmentedMatrix data (requires 4 quadrants)</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid segmentedMatrix data (requires 4 quadrants)',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const quadrants = data.quadrants || [];

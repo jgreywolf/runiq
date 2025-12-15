@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface ChevronItem {
   label: string;
@@ -58,12 +60,7 @@ export const numberedChevronListShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -74,13 +71,10 @@ export const numberedChevronListShape: ShapeDefinition = {
     const colorScheme = (ctx.node.data?.colorScheme as string) || 'multi';
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const chevronWidth = 80;
@@ -140,31 +134,34 @@ export const numberedChevronListShape: ShapeDefinition = {
         </defs>
       `;
 
+      const numberStyle = {
+        fontSize: fontSize * 1.8,
+        fontWeight: '700',
+        color: '#FFFFFF',
+      };
       svg += `
         <polygon points="${chevronPoints}"
                  fill="url(#chevronGrad${i})"
                  stroke="${darkColor}" stroke-width="${strokeWidth}" />
         
-        <text x="${chevronX + chevronWidth / 2}" y="${chevronY + chevronH / 2}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize * 1.8}" 
-              font-weight="700" fill="#FFFFFF">
-          ${number}
-        </text>
+        ${renderShapeLabel({ ...ctx, style: numberStyle }, number, chevronX + chevronWidth / 2, chevronY + chevronH / 2)}
       `;
 
       // Draw label beside chevron
       const labelX = chevronX + chevronWidth + 8;
       const labelY = chevronY + chevronH / 2;
-
-      svg += `
-        <text x="${labelX}" y="${labelY}" 
-              text-anchor="start" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize * 1.2}" 
-              font-weight="600" fill="#000000">
-          ${item.label}
-        </text>
-      `;
+      const labelStyle = {
+        fontSize: fontSize * 1.2,
+        fontWeight: '600',
+        color: '#000000',
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        item.label,
+        labelX,
+        labelY,
+        'start'
+      );
 
       // Draw description box if present
       if (hasDescriptions && item.description) {
@@ -173,6 +170,7 @@ export const numberedChevronListShape: ShapeDefinition = {
         const descH = chevronH;
         const descW = descriptionWidth;
 
+        const descStyle = { fontSize, color: '#333333' };
         svg += `
           <rect x="${descX}" y="${descY}" 
                 width="${descW}" height="${descH}"
@@ -180,12 +178,7 @@ export const numberedChevronListShape: ShapeDefinition = {
                 fill="#FFFFFF" stroke="#CCCCCC" stroke-width="1"
                 filter="drop-shadow(2px 2px 4px rgba(0,0,0,0.1))" />
           
-          <text x="${descX + 12}" y="${descY + descH / 2}" 
-                text-anchor="start" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}" 
-                fill="#333333">
-            ${item.description}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: descStyle }, item.description, descX + 12, descY + descH / 2, 'start')}
         `;
       }
 

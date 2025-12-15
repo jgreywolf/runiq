@@ -1,5 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { createPath } from '../utils/svg-path-builder.js';
 
 /**
  * Stored data (bow-tie) - for sequential access storage
@@ -20,16 +25,7 @@ export const storedDataShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -40,17 +36,15 @@ export const storedDataShape: ShapeDefinition = {
     const curveDepth = w * 0.15; // How much the sides curve inward
 
     // Create bow-tie shape with inward curves on left and right
-    const path = [
-      `M ${x},${y}`, // Top left
-      `Q ${x + curveDepth},${y + h * 0.5} ${x},${y + h}`, // Left curve (inward)
-      `L ${x + w},${y + h}`, // Bottom edge
-      `Q ${x + w - curveDepth},${y + h * 0.5} ${x + w},${y}`, // Right curve (inward)
-      `Z`,
-    ].join(' ');
+    const path = createPath()
+      .moveTo(x, y) // Top left
+      .quadraticTo(x + curveDepth, y + h * 0.5, x, y + h) // Left curve (inward)
+      .lineTo(x + w, y + h) // Bottom edge
+      .quadraticTo(x + w - curveDepth, y + h * 0.5, x + w, y) // Right curve (inward)
+      .close()
+      .build();
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || '';
 
     const textX = x + w / 2;

@@ -1,4 +1,5 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Default color palette for Venn diagram sets
@@ -101,28 +102,31 @@ export const venn3Shape: ShapeDefinition = {
     svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label A (inside top-left circle, pushed left)
-    svg += `<text x="${circleAX - 35}" y="${circleAY - 15}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">`;
-    svg += `${labelA}`;
-    svg += `</text>`;
+    const labelStyleA = { fontSize, fontWeight: 'bold', color: stroke } as any;
+    svg += renderShapeLabel(
+      { style: labelStyleA } as any,
+      labelA,
+      circleAX - 35,
+      circleAY - 15
+    );
 
     // Label B (inside top-right circle, pushed right)
-    svg += `<text x="${circleBX + 35}" y="${circleBY - 15}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">`;
-    svg += `${labelB}`;
-    svg += `</text>`;
+    const labelStyleB = { fontSize, fontWeight: 'bold', color: stroke } as any;
+    svg += renderShapeLabel(
+      { style: labelStyleB } as any,
+      labelB,
+      circleBX + 35,
+      circleBY - 15
+    );
 
     // Label C (inside bottom circle, pushed down)
-    svg += `<text x="${circleCX}" y="${circleCY + 35}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-    svg += `fill="${stroke}">`;
-    svg += `${labelC}`;
-    svg += `</text>`;
+    const labelStyleC = { fontSize, fontWeight: 'bold', color: stroke } as any;
+    svg += renderShapeLabel(
+      { style: labelStyleC } as any,
+      labelC,
+      circleCX,
+      circleCY + 35
+    );
 
     svg += `</g>`;
 

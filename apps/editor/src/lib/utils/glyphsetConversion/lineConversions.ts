@@ -1,5 +1,5 @@
+import { isNestedGlyphset } from '@runiq/glyphsets';
 import { GlyphsetIds, isPictureGlyphset, type GlyphsetId } from '@runiq/parser-dsl';
-import { isNestedGlyphset } from '../../../../../../packages/parser-dsl/src/glyphsetIds';
 import { getGlyphsetKeywords } from '../glyphsetConversion';
 import { imageWithLabelRegex, standardKeywordRegex } from './constants';
 

@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface ImageItem {
   image?: string;
@@ -61,12 +63,7 @@ export const framedPictureShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0 },
-      { x: bounds.width, y: bounds.height / 2 },
-      { x: bounds.width / 2, y: bounds.height },
-      { x: 0, y: bounds.height / 2 },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -166,9 +163,18 @@ export const framedPictureShape: ShapeDefinition = {
 
       // Label below image
       const labelY = y + frameHeight - labelHeight / 2 - 5;
+      const labelCtx = {
+        ...ctx,
+        style: { fontSize: 12, fontWeight: '500', color: '#333' },
+      };
       parts.push(
-        `<text x="${x + frameWidth / 2}" y="${labelY}" text-anchor="middle" ` +
-          `font-size="12" font-weight="500" fill="#333">${item.label}</text>`
+        renderShapeLabel(
+          labelCtx,
+          item.label,
+          x + frameWidth / 2,
+          labelY,
+          'middle'
+        )
       );
 
       // Decorative elements for ornate style

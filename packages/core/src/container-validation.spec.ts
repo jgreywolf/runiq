@@ -9,7 +9,7 @@ import {
   findContainerForNode,
   getAllDescendants,
 } from './container-validation.js';
-import type { DiagramAst, ContainerDeclaration } from './types.js';
+import type { DiagramAst, ContainerDeclaration } from './types/index.js';
 
 describe('Container Validation', () => {
   describe('validateContainer', () => {

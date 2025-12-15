@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Increasing List Shape - Items progressively increase in size
@@ -64,12 +66,7 @@ export const increasingListShape: ShapeDefinition = {
   },
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -80,13 +77,10 @@ export const increasingListShape: ShapeDefinition = {
     const shapeType = (ctx.node.data?.shape as string) || 'circle';
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const padding = 16;
@@ -147,14 +141,19 @@ export const increasingListShape: ShapeDefinition = {
           <circle cx="${centerX}" cy="${centerY}" r="${radius}"
                   fill="${itemFill}" fill-opacity="${opacity}"
                   stroke="${stroke}" stroke-width="${strokeWidth}" />
-          
-          <text x="${centerX}" y="${centerY}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize * scale}" 
-                font-weight="600" fill="#FFFFFF">
-            ${items[i]}
-          </text>
         `;
+
+        const circleStyle = {
+          fontSize: fontSize * scale,
+          fontWeight: '600',
+          color: '#FFFFFF',
+        };
+        svg += renderShapeLabel(
+          { ...ctx, style: circleStyle },
+          items[i],
+          centerX,
+          centerY
+        );
       } else {
         // Box shape
         const boxWidth = size;
@@ -167,14 +166,19 @@ export const increasingListShape: ShapeDefinition = {
                 rx="${boxHeight * 0.15}" ry="${boxHeight * 0.15}"
                 fill="${itemFill}" fill-opacity="${opacity}"
                 stroke="${stroke}" stroke-width="${strokeWidth}" />
-          
-          <text x="${currentX + boxWidth / 2}" y="${boxY + boxHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize * scale}" 
-                font-weight="600" fill="#FFFFFF">
-            ${items[i]}
-          </text>
         `;
+
+        const boxStyle = {
+          fontSize: fontSize * scale,
+          fontWeight: '600',
+          color: '#FFFFFF',
+        };
+        svg += renderShapeLabel(
+          { ...ctx, style: boxStyle },
+          items[i],
+          currentX + boxWidth / 2,
+          boxY + boxHeight / 2
+        );
       }
 
       currentX += size + itemSpacing;

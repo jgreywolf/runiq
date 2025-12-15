@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface ImageItem {
   image?: string;
@@ -65,12 +67,7 @@ export const pictureCalloutShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0 },
-      { x: bounds.width, y: bounds.height / 2 },
-      { x: bounds.width / 2, y: bounds.height },
-      { x: 0, y: bounds.height / 2 },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -173,11 +170,21 @@ export const pictureCalloutShape: ShapeDefinition = {
         );
 
         // Callout box
+        const calloutCtx = {
+          ...ctx,
+          style: { fontSize: 12, fontWeight: '500', color: 'white' },
+        };
         parts.push(
           `<rect x="${calloutX}" y="${calloutY}" width="${calloutWidth}" height="${calloutHeight}" ` +
             `fill="${color}" stroke="white" stroke-width="2" rx="6"/>`,
-          `<text x="${calloutX + calloutWidth / 2}" y="${calloutY + calloutHeight / 2}" ` +
-            `text-anchor="middle" dy=".3em" font-size="12" font-weight="500" fill="white">${callout.label}</text>`
+          renderShapeLabel(
+            calloutCtx,
+            callout.label,
+            calloutX + calloutWidth / 2,
+            calloutY + calloutHeight / 2,
+            'middle',
+            'middle'
+          )
         );
       });
     });

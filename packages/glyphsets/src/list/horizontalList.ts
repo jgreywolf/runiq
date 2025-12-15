@@ -1,4 +1,4 @@
-import type { NodeAst } from '@runiq/core';
+import type { Direction, NodeAst } from '@runiq/core';
 import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
 
 /**
@@ -86,7 +86,7 @@ export const horizontalListGlyphSet: GlyphSetDefinition = {
 
     return {
       astVersion: '1.0',
-      direction: 'LR',
+      direction: 'LR' as Direction,
       nodes,
       edges: [],
     };

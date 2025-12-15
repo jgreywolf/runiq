@@ -1,4 +1,12 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import {
+  renderLegend as renderChartLegend,
+  renderChartTitle,
+  renderXAxisLabel,
+  renderYAxisLabel,
+  type LegendItem,
+} from '../utils/render-chart-labels.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import {
   BarData,
   getBarColor,
@@ -67,12 +75,24 @@ function renderBarsVertical(
     // Label below bar
     const labelX = x + VERTICAL_BAR_WIDTH / 2;
     const labelY = position.y + bounds.height - VERTICAL_MARGIN_BOTTOM + 20;
-    const label = `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${item.label}</text>`;
+    const labelStyle = { fontSize: 12, color: '#333' };
+    const label = renderShapeLabel(
+      { style: labelStyle } as any,
+      item.label,
+      labelX,
+      labelY
+    );
 
     // Value above bar
     const valueX = x + VERTICAL_BAR_WIDTH / 2;
     const valueY = y - 5;
-    const value = `<text x="${valueX}" y="${valueY}" text-anchor="middle" font-size="11" fill="#666">${item.value}</text>`;
+    const valueStyle = { fontSize: 11, color: '#666' };
+    const value = renderShapeLabel(
+      { style: valueStyle } as any,
+      item.value.toString(),
+      valueX,
+      valueY
+    );
 
     return bar + label + value;
   });
@@ -166,7 +186,7 @@ function renderEmptyState(
 
   return `
     <rect x="${position.x}" y="${position.y}" width="${bounds.width}" height="${bounds.height}" fill="#f7fafc" stroke="#cbd5e0" stroke-width="2" rx="4" />
-    <text x="${centerX}" y="${centerY}" text-anchor="middle" font-size="14" fill="#718096">No data available</text>
+    ${renderShapeLabel({ style: { fontSize: 14, color: '#718096' } } as any, 'No data available', centerX, centerY)}
   `;
 }
 
@@ -210,15 +230,27 @@ function renderGroupedBarsVertical(
 
       const valueX = x + VERTICAL_GROUPED_BAR_WIDTH / 2;
       const valueY = y - 5;
+      const valueStyle = { fontSize: 10, color: '#666' };
       elements.push(
-        `<text x="${valueX}" y="${valueY}" text-anchor="middle" font-size="10" fill="#666">${value}</text>`
+        renderShapeLabel(
+          { style: valueStyle } as any,
+          value.toString(),
+          valueX,
+          valueY
+        )
       );
     });
 
     const labelX = currentX + groupWidth / 2;
     const labelY = position.y + bounds.height - VERTICAL_MARGIN_BOTTOM + 20;
+    const labelStyle = { fontSize: 12, color: '#333' };
     elements.push(
-      `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${group.label}</text>`
+      renderShapeLabel(
+        { style: labelStyle } as any,
+        group.label,
+        labelX,
+        labelY
+      )
     );
 
     currentX += groupWidth + VERTICAL_GROUP_SPACING;
@@ -268,15 +300,29 @@ function renderGroupedBarsHorizontal(
 
       const valueX = x + barWidth + 5;
       const valueY = y + HORIZONTAL_GROUPED_BAR_HEIGHT / 2 + 4;
+      const valueStyle = { fontSize: 10, color: '#666' };
       elements.push(
-        `<text x="${valueX}" y="${valueY}" font-size="10" fill="#666">${value}</text>`
+        renderShapeLabel(
+          { style: valueStyle } as any,
+          value.toString(),
+          valueX,
+          valueY,
+          'start'
+        )
       );
     });
 
     const labelX = position.x + HORIZONTAL_MARGIN_LEFT - 10;
     const labelY = currentY + groupHeight / 2 + 4;
+    const labelStyle = { fontSize: 12, color: '#333' };
     elements.push(
-      `<text x="${labelX}" y="${labelY}" text-anchor="end" font-size="12" fill="#333">${group.label}</text>`
+      renderShapeLabel(
+        { style: labelStyle } as any,
+        group.label,
+        labelX,
+        labelY,
+        'end'
+      )
     );
 
     currentY += groupHeight + HORIZONTAL_GROUP_SPACING;
@@ -325,14 +371,26 @@ function renderStackedBarsVertical(
     const totalX = currentX + VERTICAL_BAR_WIDTH / 2;
     const totalY =
       position.y + VERTICAL_MARGIN_TOP + (chartHeight - stackHeight) - 5;
+    const totalStyle = { fontSize: 10, color: '#666' };
     elements.push(
-      `<text x="${totalX}" y="${totalY}" text-anchor="middle" font-size="10" fill="#666">${total}</text>`
+      renderShapeLabel(
+        { style: totalStyle } as any,
+        total.toString(),
+        totalX,
+        totalY
+      )
     );
 
     const labelX = currentX + VERTICAL_BAR_WIDTH / 2;
     const labelY = position.y + bounds.height - VERTICAL_MARGIN_BOTTOM + 20;
+    const labelStyle = { fontSize: 12, color: '#333' };
     elements.push(
-      `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="12" fill="#333">${group.label}</text>`
+      renderShapeLabel(
+        { style: labelStyle } as any,
+        group.label,
+        labelX,
+        labelY
+      )
     );
 
     currentX += VERTICAL_BAR_WIDTH + VERTICAL_BAR_SPACING;
@@ -379,14 +437,28 @@ function renderStackedBarsHorizontal(
 
     const totalX = currentX + 5;
     const totalY = currentY + HORIZONTAL_BAR_HEIGHT / 2 + 4;
+    const totalStyle = { fontSize: 10, color: '#666' };
     elements.push(
-      `<text x="${totalX}" y="${totalY}" font-size="10" fill="#666">${total}</text>`
+      renderShapeLabel(
+        { style: totalStyle } as any,
+        total.toString(),
+        totalX,
+        totalY,
+        'start'
+      )
     );
 
     const labelX = position.x + HORIZONTAL_MARGIN_LEFT - 10;
     const labelY = currentY + HORIZONTAL_BAR_HEIGHT / 2 + 4;
+    const labelStyle = { fontSize: 12, color: '#333' };
     elements.push(
-      `<text x="${labelX}" y="${labelY}" text-anchor="end" font-size="12" fill="#333">${group.label}</text>`
+      renderShapeLabel(
+        { style: labelStyle } as any,
+        group.label,
+        labelX,
+        labelY,
+        'end'
+      )
     );
 
     currentY += HORIZONTAL_BAR_HEIGHT + HORIZONTAL_BAR_SPACING;
@@ -404,21 +476,17 @@ function renderLegend(
   startY: number,
   customColors?: string[]
 ): string {
-  const SWATCH_SIZE = 12;
-  const ROW_HEIGHT = 20;
-  const LABEL_OFFSET = 18;
+  const items: LegendItem[] = labels.map((label, i) => ({
+    label,
+    color: getBarColor(i, customColors),
+  }));
 
-  return labels
-    .map((label, i) => {
-      const y = startY + i * ROW_HEIGHT;
-      const color = getBarColor(i, customColors);
-
-      return `<g>
-      <rect x="${startX}" y="${y}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
-      <text x="${startX + LABEL_OFFSET}" y="${y + 10}" font-size="11" fill="#333">${label}</text>
-    </g>`;
-    })
-    .join('\n    ');
+  return renderChartLegend({
+    items,
+    x: startX,
+    y: startY,
+    orientation: 'vertical',
+  });
 }
 
 /**
@@ -431,36 +499,18 @@ function renderLegendHorizontal(
   maxWidth: number,
   customColors?: string[]
 ): string {
-  const SWATCH_SIZE = 12;
-  const ITEM_SPACING = 15;
-  const LABEL_OFFSET = 18;
+  const items: LegendItem[] = labels.map((label, i) => ({
+    label,
+    color: getBarColor(i, customColors),
+  }));
 
-  let currentX = 0;
-  let currentY = 0;
-  const items: string[] = [];
-
-  labels.forEach((label, i) => {
-    const color = getBarColor(i, customColors);
-    const estimatedTextWidth = label.length * 5.5;
-    const itemWidth = SWATCH_SIZE + LABEL_OFFSET + estimatedTextWidth;
-
-    if (currentX > 0 && currentX + itemWidth > maxWidth) {
-      currentY += 20;
-      currentX = 0;
-    }
-
-    const actualX = x + currentX;
-    const actualY = y + currentY;
-
-    items.push(`<g>
-      <rect x="${actualX}" y="${actualY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
-      <text x="${actualX + LABEL_OFFSET}" y="${actualY + 10}" font-size="11" fill="#333">${label}</text>
-    </g>`);
-
-    currentX += itemWidth + ITEM_SPACING;
+  return renderChartLegend({
+    items,
+    x,
+    y,
+    orientation: 'horizontal',
+    maxWidth,
   });
-
-  return items.join('\n    ');
 }
 
 /**
@@ -521,11 +571,15 @@ function calculateLegendPosition(
 function renderTitle(
   title: string,
   position: { x: number; y: number },
-  width: number
+  width: number,
+  ctx: ShapeRenderContext
 ): string {
-  const titleX = position.x + width / 2;
-  const titleY = position.y + 20;
-  return `<text x="${titleX}" y="${titleY}" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">${title}</text>`;
+  return renderChartTitle({
+    ctx,
+    title,
+    position,
+    width,
+  });
 }
 
 /**
@@ -539,7 +593,7 @@ function renderXLabel(
 ): string {
   const labelX = position.x + width / 2;
   const labelY = position.y + height + 40;
-  return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666">${label}</text>`;
+  return renderXAxisLabel({ label, x: labelX, y: labelY });
 }
 
 /**
@@ -552,7 +606,7 @@ function renderYLabel(
 ): string {
   const labelX = position.x - 30;
   const labelY = position.y + height / 2;
-  return `<text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="14" fill="#666" transform="rotate(-90 ${labelX} ${labelY})">${label}</text>`;
+  return renderYAxisLabel({ label, x: labelX, y: labelY, rotate: true });
 }
 
 /**
@@ -682,7 +736,7 @@ export const barChart: ShapeDefinition = {
 
     const bounds = this.bounds(ctx);
     const titleElement = title
-      ? renderTitle(title as string, position, bounds.width)
+      ? renderTitle(title as string, position, bounds.width, ctx)
       : '';
     const xLabelElement = xLabel
       ? renderXLabel(xLabel as string, position, bounds.width, bounds.height)

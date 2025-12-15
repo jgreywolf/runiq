@@ -1,4 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Activity shape
@@ -42,16 +47,7 @@ export const activityShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -60,9 +56,10 @@ export const activityShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
     const fontSize = ctx.style.fontSize || 14;
     const fontFamily = ctx.style.font || 'Arial';
     const cornerRadius = 10;
@@ -90,10 +87,14 @@ export const activityShape: ShapeDefinition = {
       svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
       // Pin label (left of the pin)
-      svg += `<text x="${pinX - 4}" y="${pinY + pinSize / 2 + 3}" `;
-      svg += `text-anchor="end" font-size="${pinFontSize}" `;
-      svg += `font-family="${fontFamily}" fill="${stroke}">`;
-      svg += `${pin}</text>`;
+      const pinLabelStyle = { fontSize: pinFontSize, color: stroke };
+      svg += renderShapeLabel(
+        { style: pinLabelStyle } as any,
+        pin,
+        pinX - 4,
+        pinY + pinSize / 2 + 3,
+        'end'
+      );
     });
 
     // Output pins (right side, small squares)
@@ -107,17 +108,24 @@ export const activityShape: ShapeDefinition = {
       svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
       // Pin label (right of the pin)
-      svg += `<text x="${pinX + pinSize + 4}" y="${pinY + pinSize / 2 + 3}" `;
-      svg += `text-anchor="start" font-size="${pinFontSize}" `;
-      svg += `font-family="${fontFamily}" fill="${stroke}">`;
-      svg += `${pin}</text>`;
+      const pinLabelStyle = { fontSize: pinFontSize, color: stroke };
+      svg += renderShapeLabel(
+        { style: pinLabelStyle } as any,
+        pin,
+        pinX + pinSize + 4,
+        pinY + pinSize / 2 + 3,
+        'start'
+      );
     });
 
     // Activity name (centered)
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + 5}" `;
-    svg += `text-anchor="middle" font-size="${fontSize}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || '',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;

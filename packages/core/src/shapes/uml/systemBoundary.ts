@@ -1,4 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
+import { ShapeDefaults } from '../../constants.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * System Boundary - Container rectangle for grouping use cases
@@ -8,7 +14,7 @@ export const systemBoundaryShape: ShapeDefinition = {
   id: 'systemBoundary',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 20;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING_LARGE;
 
     // System boundaries need to be large enough to contain use cases
     // Minimum size ensures reasonable container space
@@ -26,24 +32,19 @@ export const systemBoundaryShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
-    const padding = ctx.style.padding || 20;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING_LARGE;
 
-    const fill = ctx.style.fill || 'none';
-    const stroke = ctx.style.stroke || '#666';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: 'none',
+      defaultStroke: '#666',
+      defaultStrokeWidth: 1.5,
+    });
 
     const labelY = y + padding;
 
@@ -52,12 +53,7 @@ export const systemBoundaryShape: ShapeDefinition = {
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"
             stroke-dasharray="5,3" />
       
-      <text x="${x + padding}" y="${labelY}" text-anchor="start" dominant-baseline="hanging"
-            font-family="${ctx.style.font || 'sans-serif'}" 
-            font-size="${ctx.style.fontSize || 14}"
-            font-weight="bold">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: { ...ctx.style, fontWeight: 'bold' as const } }, ctx.node.label || ctx.node.id, x + padding, labelY)}
     `;
   },
 };

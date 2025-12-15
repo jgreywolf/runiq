@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Divide Junction - Circle with ÷ sign
@@ -43,14 +45,13 @@ export const divideJunctionShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const r = bounds.width / 2;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // Calculate ÷ sign: horizontal line with dots above and below
     const lineLength = r * 0.6;
     const dotRadius = strokeWidth * 1.5;
     const dotOffset = lineLength * 0.5;
+    const label = ctx.node.label || ctx.node.id;
 
     return `
       <circle cx="${cx}" cy="${cy}" r="${r}"
@@ -66,11 +67,7 @@ export const divideJunctionShape: ShapeDefinition = {
       <circle cx="${cx}" cy="${cy + dotOffset}" r="${dotRadius}"
               fill="${stroke}" />
       
-      <text x="${cx}" y="${cy + r + 16}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy + r + 16)}
     `;
   },
 };

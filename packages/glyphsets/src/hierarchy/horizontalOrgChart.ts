@@ -1,6 +1,7 @@
+import type { DiagramAst, Direction } from '@runiq/core';
+import { getThemeColor, type ColorTheme } from '../themes.js';
 import type { GlyphSetDefinition } from '../types.js';
 import { GlyphSetError } from '../types.js';
-import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
  * Horizontal Organization Chart GlyphSet
@@ -125,9 +126,9 @@ export const horizontalOrgChartGlyphSet: GlyphSetDefinition = {
     // Generate theme colors
     const colors = [0, 1, 2, 3, 4, 5].map((idx) => getThemeColor(theme, idx));
 
-    return {
+    const ast: DiagramAst = {
       astVersion: '1.0',
-      direction: 'LR',
+      direction: 'LR' as Direction,
       nodes: [
         {
           id: 'horizontalOrgChart',
@@ -142,6 +143,8 @@ export const horizontalOrgChartGlyphSet: GlyphSetDefinition = {
       ],
       edges: [],
     };
+
+    return ast;
   },
 };
 

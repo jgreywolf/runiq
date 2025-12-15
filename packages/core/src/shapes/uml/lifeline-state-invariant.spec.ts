@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+import type { ShapeRenderContext } from '../../types/index.js';
 import { lifelineShape } from './lifeline.js';
-import type { ShapeRenderContext } from '../../types.js';
 
 describe('Lifeline Shape with State Invariants', () => {
   let mockContext: ShapeRenderContext;
@@ -42,7 +42,7 @@ describe('Lifeline Shape with State Invariants', () => {
 
       expect(svg).toContain('class="lifeline-shape"');
       expect(svg).toContain('Account');
-      expect(svg).toContain('{balance >= 0}');
+      expect(svg).toContain('{balance &gt;= 0}');
     });
 
     it('should render state invariant in dashed box', () => {
@@ -71,7 +71,7 @@ describe('Lifeline Shape with State Invariants', () => {
 
       // The invariant box should be centered horizontally on the lifeline
       // and positioned halfway down the lifeline
-      expect(svg).toContain('{count > 0}');
+      expect(svg).toContain('{count &gt; 0}');
       expect(svg).toContain('rect'); // Note box is rendered
     });
 
@@ -80,7 +80,7 @@ describe('Lifeline Shape with State Invariants', () => {
 
       const svg = lifelineShape.render(mockContext, { x: 0, y: 0 });
 
-      expect(svg).toContain('{x < 100}');
+      expect(svg).toContain('{x &lt; 100}');
       expect(svg).not.toContain('{{'); // Should not double-wrap
     });
 
@@ -89,7 +89,9 @@ describe('Lifeline Shape with State Invariants', () => {
 
       const svg = lifelineShape.render(mockContext, { x: 0, y: 0 });
 
-      expect(svg).toContain('{balance >= 0 AND status = "active"}');
+      expect(svg).toContain(
+        '{balance &gt;= 0 AND status = &quot;active&quot;}'
+      );
     });
 
     it('should handle empty string state invariant', () => {
@@ -115,7 +117,7 @@ describe('Lifeline Shape with State Invariants', () => {
 
       expect(svg).toContain('«entity»');
       expect(svg).toContain('Order');
-      expect(svg).toContain('{items.length > 0}');
+      expect(svg).toContain('{items.length &gt; 0}');
     });
 
     it('should render state invariant with custom height', () => {
@@ -138,7 +140,7 @@ describe('Lifeline Shape with State Invariants', () => {
 
       const svg = lifelineShape.render(mockContext, { x: 0, y: 0 });
 
-      expect(svg).toContain('{self.age >= 18}');
+      expect(svg).toContain('{self.age &gt;= 18}');
       expect(svg).toContain('stroke-dasharray="3,3"'); // Dashed box per UML convention
       expect(svg).toContain('font-style="italic"'); // Constraints shown in italics
     });
@@ -149,7 +151,7 @@ describe('Lifeline Shape with State Invariants', () => {
 
       const svg = lifelineShape.render(mockContext, { x: 0, y: 0 });
 
-      expect(svg).toContain('{self.orders->size() > 0}');
+      expect(svg).toContain('{self.orders-&gt;size() &gt; 0}');
     });
   });
 });

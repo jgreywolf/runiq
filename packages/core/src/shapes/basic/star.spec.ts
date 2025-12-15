@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { starShape, starFilledShape, octagonShape, plusShape } from './star.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 // Mock text measurement
 const mockMeasureText = (text: string) => ({

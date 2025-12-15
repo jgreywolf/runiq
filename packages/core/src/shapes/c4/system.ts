@@ -1,5 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
-import { renderMultilineText } from '../../types.js';
+import { ShapeDefaults } from '../../constants.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * C4 Model: Software System
@@ -13,7 +18,7 @@ export const c4System: ShapeDefinition = {
       ...ctx.style,
       fontSize: (ctx.style.fontSize || 14) + 2, // Slightly larger
     });
-    const padding = ctx.style.padding || 20;
+    const padding = ctx.style.padding ?? ShapeDefaults.PADDING_LARGE;
     const minWidth = 160;
     const minHeight = 100;
 
@@ -27,40 +32,32 @@ export const c4System: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#1168BD'; // C4 system blue
-    const stroke = ctx.style.stroke || '#0B4884';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#1168BD', // C4 system blue
+      defaultStroke: '#0B4884',
+      defaultStrokeWidth: 2,
+    });
     const textColor = ctx.style.textColor || '#ffffff';
     const rx = ctx.style.rx || 8;
 
-    const titleSvg: string = renderMultilineText(
+    const titleStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) + 2,
+      fontWeight: 'bold',
+      color: textColor,
+    };
+    const titleSvg = renderShapeLabel(
+      { ...ctx, style: titleStyle },
       ctx.node.label || ctx.node.id,
       x + bounds.width / 2,
-      y + bounds.height / 2,
-      {
-        textAnchor: 'middle' as const,
-        dominantBaseline: 'middle',
-        fontFamily: (ctx.style.font || 'sans-serif') as string,
-        fontSize: ((ctx.style.fontSize || 14) + 2) as number,
-        fill: textColor as string,
-        fontWeight: 'bold' as string,
-      }
+      y + bounds.height / 2
     );
 
     return `

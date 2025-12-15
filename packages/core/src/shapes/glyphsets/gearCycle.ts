@@ -1,8 +1,11 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface GearCycleData {
   items: string[];
@@ -37,12 +40,7 @@ export const gearCycleShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -52,22 +50,21 @@ export const gearCycleShape: ShapeDefinition = {
     const items = (ctx.node.data?.items as string[]) || [];
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     // Get theme colors
     const themeId = (ctx.node.data?.theme as string) || 'professional';
     const theme = getGlyphsetTheme(themeId);
 
-    const fill = ctx.style.fill || theme.colors[0];
-    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: theme.colors[0],
+      defaultStroke: theme.accentColor || '#2E5AAC',
+      defaultStrokeWidth: 2,
+    });
     const fontSize = ctx.style.fontSize || 12;
     const font = ctx.style.font || 'sans-serif';
 
@@ -139,6 +136,7 @@ export const gearCycleShape: ShapeDefinition = {
       const gearFill = getThemeColor(theme, i);
 
       // Draw gear
+      const gearStyle = { fontSize, color: '#333' };
       svg += `
         <g>
           <path d="${generateGearPath(gearX, gearY, gearRadius, rotation)}"
@@ -147,12 +145,7 @@ export const gearCycleShape: ShapeDefinition = {
           <circle cx="${gearX}" cy="${gearY}" r="${gearRadius * 0.3}"
                   fill="#FFFFFF" stroke="${stroke}" stroke-width="${strokeWidth}" />
           
-          <text x="${gearX}" y="${gearY}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}" 
-                fill="#333">
-            ${items[i]}
-          </text>
+          ${renderShapeLabel({ ...ctx, style: gearStyle }, items[i], gearX, gearY)}
         </g>
       `;
 

@@ -1,4 +1,5 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Default color palette for Venn diagram sets
@@ -7,22 +8,22 @@ const DEFAULT_COLORS = ['#4299e1', '#48bb78', '#ed8936', '#9f7aea'];
 
 /**
  * Unified Venn diagram - automatically determines 2, 3, or 4 circles based on data
- * 
+ *
  * Data formats:
  * 1. Simple array with labels: data:[values], labels:["Set A", "Set B", ...]
  * 2. Object format: data:[{label: "Set A", value: 100}, ...]
  * 3. Legacy format: data:{labelA, labelB, labelC, labelD, colors:[...]}
- * 
+ *
  * Intersection labels (optional):
  * - Use intersections:[] property to label overlapping regions
  * - For 2 circles: [AB]
  * - For 3 circles: [AB, AC, BC, ABC]
  * - For 4 circles: [AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD, ABCD]
- * 
+ *
  * The number of circles is determined by:
  * - Array length (simple array or object array)
  * - Number of label properties (labelA, labelB, etc.)
- * 
+ *
  * Supports 2, 3, or 4 circle Venn diagrams
  */
 
@@ -34,7 +35,11 @@ interface VennSet {
 /**
  * Normalize data from various formats to consistent VennSet array
  */
-function normalizeData(data: unknown, customLabels?: string[], customColors?: string[]): VennSet[] {
+function normalizeData(
+  data: unknown,
+  customLabels?: string[],
+  customColors?: string[]
+): VennSet[] {
   // Handle DSL parser wrapping: data may be wrapped in a values array
   let actualData = data;
   if (typeof data === 'object' && data !== null && 'values' in data) {
@@ -46,25 +51,32 @@ function normalizeData(data: unknown, customLabels?: string[], customColors?: st
 
   // Format 1: Simple array of numbers [30, 20, 50] or [1, 1, 1, 1]
   if (Array.isArray(actualData)) {
-    return actualData.map((item: unknown, i: number) => {
-      if (typeof item === 'number' || typeof item === 'string') {
+    return actualData
+      .map((item: unknown, i: number) => {
+        if (typeof item === 'number' || typeof item === 'string') {
+          return {
+            label: customLabels?.[i] || `Set ${String.fromCharCode(65 + i)}`, // A, B, C, D
+            color:
+              customColors?.[i] || DEFAULT_COLORS[i % DEFAULT_COLORS.length],
+          };
+        }
+        if (typeof item === 'object' && item !== null && 'label' in item) {
+          const objItem = item as { label?: string; value?: unknown };
+          return {
+            label:
+              objItem.label ||
+              customLabels?.[i] ||
+              `Set ${String.fromCharCode(65 + i)}`,
+            color:
+              customColors?.[i] || DEFAULT_COLORS[i % DEFAULT_COLORS.length],
+          };
+        }
         return {
-          label: customLabels?.[i] || `Set ${String.fromCharCode(65 + i)}`, // A, B, C, D
-          color: customColors?.[i] || DEFAULT_COLORS[i % DEFAULT_COLORS.length],
+          label: `Set ${String.fromCharCode(65 + i)}`,
+          color: DEFAULT_COLORS[i % DEFAULT_COLORS.length],
         };
-      }
-      if (typeof item === 'object' && item !== null && 'label' in item) {
-        const objItem = item as { label?: string; value?: unknown };
-        return {
-          label: objItem.label || customLabels?.[i] || `Set ${String.fromCharCode(65 + i)}`,
-          color: customColors?.[i] || DEFAULT_COLORS[i % DEFAULT_COLORS.length],
-        };
-      }
-      return {
-        label: `Set ${String.fromCharCode(65 + i)}`,
-        color: DEFAULT_COLORS[i % DEFAULT_COLORS.length],
-      };
-    }).slice(0, 4); // Max 4 sets
+      })
+      .slice(0, 4); // Max 4 sets
   }
 
   // Format 2: Legacy object with labelA, labelB, etc.
@@ -72,7 +84,9 @@ function normalizeData(data: unknown, customLabels?: string[], customColors?: st
     const dataObj = actualData as Record<string, unknown>;
     const sets: VennSet[] = [];
     const labels = ['labelA', 'labelB', 'labelC', 'labelD'];
-    const colors = Array.isArray(dataObj.colors) ? (dataObj.colors as string[]) : customColors || DEFAULT_COLORS;
+    const colors = Array.isArray(dataObj.colors)
+      ? (dataObj.colors as string[])
+      : customColors || DEFAULT_COLORS;
 
     for (let i = 0; i < labels.length; i++) {
       const labelKey = labels[i];
@@ -130,7 +144,8 @@ function render2Circles(
   const stroke = ctx.style.stroke || '#000000';
   const strokeWidth = ctx.style.strokeWidth || 2;
   const fontSize = ctx.style.fontSize || 14;
-  const fontFamily = typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
+  const fontFamily =
+    typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
   const opacity = 0.5;
 
   let svg = `<g transform="translate(${position.x},${position.y})">`;
@@ -146,24 +161,47 @@ function render2Circles(
   svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
   // Label A (left circle, non-overlapping region)
-  svg += `<text x="${circleAX - 30}" y="${centerY}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[0].label}</text>`;
+  const labelStyleA = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyleA },
+    sets[0].label,
+    circleAX - 30,
+    centerY
+  );
 
   // Label B (right circle, non-overlapping region)
-  svg += `<text x="${circleBX + 30}" y="${centerY}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[1].label}</text>`;
+  const labelStyleB = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyleB },
+    sets[1].label,
+    circleBX + 30,
+    centerY
+  );
 
   // Intersection label AB (center of overlap)
   if (intersections && intersections[0]) {
     const overlapCenterX = (circleAX + circleBX) / 2;
-    svg += `<text x="${overlapCenterX}" y="${centerY}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${fontFamily}" font-size="${fontSize - 1}" `;
-    svg += `fill="${stroke}">${intersections[0]}</text>`;
+    const intersectStyle = {
+      ...ctx.style,
+      fontSize: fontSize - 1,
+      color: stroke,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: intersectStyle },
+      intersections[0],
+      overlapCenterX,
+      centerY
+    );
   }
 
   svg += `</g>`;
@@ -194,7 +232,8 @@ function render3Circles(
   const stroke = ctx.style.stroke || '#000000';
   const strokeWidth = ctx.style.strokeWidth || 2;
   const fontSize = ctx.style.fontSize || 14;
-  const fontFamily = typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
+  const fontFamily =
+    typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
   const opacity = 0.4;
 
   let svg = `<g transform="translate(${position.x},${position.y})">`;
@@ -215,29 +254,53 @@ function render3Circles(
   svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
   // Label A (top-left, pushed left)
-  svg += `<text x="${circleAX - 35}" y="${circleAY - 15}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[0].label}</text>`;
+  const labelStyle3A = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyle3A },
+    sets[0].label,
+    circleAX - 35,
+    circleAY - 15
+  );
 
   // Label B (top-right, pushed right)
-  svg += `<text x="${circleBX + 35}" y="${circleBY - 15}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[1].label}</text>`;
+  const labelStyle3B = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyle3B },
+    sets[1].label,
+    circleBX + 35,
+    circleBY - 15
+  );
 
   // Label C (bottom, pushed down)
-  svg += `<text x="${circleCX}" y="${circleCY + 35}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[2].label}</text>`;
+  const labelStyle3C = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyle3C },
+    sets[2].label,
+    circleCX,
+    circleCY + 35
+  );
 
   // Intersection labels: [AB, AC, BC, ABC]
   // Position them in the lens-shaped regions, offset from the triple intersection
   if (intersections) {
     const centerX = (circleAX + circleBX + circleCX) / 3;
     const centerY = (circleAY + circleBY + circleCY) / 3;
-    
+
     // AB intersection (between top-left and top-right circles)
     // Position above center, in the lens between A and B
     if (intersections[0]) {
@@ -246,12 +309,19 @@ function render3Circles(
       // Move away from center toward the midpoint
       const abX = midX;
       const abY = midY - 20; // Increased from -15 to move further up
-      svg += `<text x="${abX}" y="${abY}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${fontSize - 1}" `;
-      svg += `fill="${stroke}">${intersections[0]}</text>`;
+      const intersectStyle3 = {
+        ...ctx.style,
+        fontSize: fontSize - 1,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle3 },
+        intersections[0],
+        abX,
+        abY
+      );
     }
-    
+
     // AC intersection (between top-left and bottom center)
     // Position in lower-left lens
     if (intersections[1]) {
@@ -260,12 +330,19 @@ function render3Circles(
       // Move away from center toward the bottom-left
       const acX = midX - 15; // Increased from -10 to shift further left
       const acY = midY + 8; // Increased from +5 to shift further down
-      svg += `<text x="${acX}" y="${acY}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${fontSize - 1}" `;
-      svg += `fill="${stroke}">${intersections[1]}</text>`;
+      const intersectStyle3AC = {
+        ...ctx.style,
+        fontSize: fontSize - 1,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle3AC },
+        intersections[1],
+        acX,
+        acY
+      );
     }
-    
+
     // BC intersection (between top-right and bottom center)
     // Position in lower-right lens
     if (intersections[2]) {
@@ -274,18 +351,32 @@ function render3Circles(
       // Move away from center toward the bottom-right
       const bcX = midX + 15; // Increased from +10 to shift further right
       const bcY = midY + 8; // Increased from +5 to shift further down
-      svg += `<text x="${bcX}" y="${bcY}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${fontSize - 1}" `;
-      svg += `fill="${stroke}">${intersections[2]}</text>`;
+      const intersectStyle3BC = {
+        ...ctx.style,
+        fontSize: fontSize - 1,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle3BC },
+        intersections[2],
+        bcX,
+        bcY
+      );
     }
-    
+
     // ABC intersection (center where all three meet)
     if (intersections[3]) {
-      svg += `<text x="${centerX}" y="${centerY}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${fontSize - 1}" `;
-      svg += `fill="${stroke}">${intersections[3]}</text>`;
+      const intersectStyle3ABC = {
+        ...ctx.style,
+        fontSize: fontSize - 1,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle3ABC },
+        intersections[3],
+        centerX,
+        centerY
+      );
     }
   }
 
@@ -319,7 +410,8 @@ function render4Circles(
   const stroke = ctx.style.stroke || '#000000';
   const strokeWidth = ctx.style.strokeWidth || 2;
   const fontSize = ctx.style.fontSize || 13;
-  const fontFamily = typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
+  const fontFamily =
+    typeof ctx.style.font === 'string' ? ctx.style.font : 'Arial, sans-serif';
   const opacity = 0.35;
 
   let svg = `<g transform="translate(${position.x},${position.y})">`;
@@ -345,122 +437,254 @@ function render4Circles(
   svg += `stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
   // Label A (top-left, pushed up-left)
-  svg += `<text x="${circleAX - 30}" y="${circleAY - 25}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[0].label}</text>`;
+  const labelStyle4A = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyle4A },
+    sets[0].label,
+    circleAX - 30,
+    circleAY - 25
+  );
 
   // Label B (top-right, pushed up-right)
-  svg += `<text x="${circleBX + 30}" y="${circleBY - 25}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[1].label}</text>`;
+  const labelStyle4B = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyle4B },
+    sets[1].label,
+    circleBX + 30,
+    circleBY - 25
+  );
 
   // Label C (bottom-left, pushed down-left)
-  svg += `<text x="${circleCX - 30}" y="${circleCY + 25}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[2].label}</text>`;
+  const labelStyle4C = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyle4C },
+    sets[2].label,
+    circleCX - 30,
+    circleCY + 25
+  );
 
   // Label D (bottom-right, pushed down-right)
-  svg += `<text x="${circleDX + 30}" y="${circleDY + 25}" `;
-  svg += `text-anchor="middle" dominant-baseline="middle" `;
-  svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-  svg += `fill="${stroke}">${sets[3].label}</text>`;
+  const labelStyle4D = {
+    ...ctx.style,
+    fontSize,
+    fontWeight: 'bold',
+    color: stroke,
+  };
+  svg += renderShapeLabel(
+    { ...ctx, style: labelStyle4D },
+    sets[3].label,
+    circleDX + 30,
+    circleDY + 25
+  );
 
   // Intersection labels: [AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD, ABCD]
   if (intersections) {
     const smallFontSize = fontSize - 2;
-    
+
     // Pairwise intersections (6 total)
     // AB (top-left ∩ top-right)
     if (intersections[0]) {
       const abX = (circleAX + circleBX) / 2;
       const abY = (circleAY + circleBY) / 2;
-      svg += `<text x="${abX}" y="${abY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[0]}</text>`;
+      const intersectStyle4 = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4 },
+        intersections[0],
+        abX,
+        abY
+      );
     }
-    
+
     // AC (top-left ∩ bottom-left)
     if (intersections[1]) {
       const acX = (circleAX + circleCX) / 2;
       const acY = (circleAY + circleCY) / 2;
-      svg += `<text x="${acX}" y="${acY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[1]}</text>`;
+      const intersectStyle4AC = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4AC },
+        intersections[1],
+        acX,
+        acY
+      );
     }
-    
+
     // AD (top-left ∩ bottom-right - diagonal)
     if (intersections[2]) {
       const adX = (circleAX + circleDX) / 2;
       const adY = (circleAY + circleDY) / 2;
-      svg += `<text x="${adX}" y="${adY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[2]}</text>`;
+      const intersectStyle4AD = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4AD },
+        intersections[2],
+        adX,
+        adY
+      );
     }
-    
+
     // BC (top-right ∩ bottom-left - diagonal)
     if (intersections[3]) {
       const bcX = (circleBX + circleCX) / 2;
       const bcY = (circleBY + circleCY) / 2;
-      svg += `<text x="${bcX}" y="${bcY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[3]}</text>`;
+      const intersectStyle4BC = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4BC },
+        intersections[3],
+        bcX,
+        bcY
+      );
     }
-    
+
     // BD (top-right ∩ bottom-right)
     if (intersections[4]) {
       const bdX = (circleBX + circleDX) / 2;
       const bdY = (circleBY + circleDY) / 2;
-      svg += `<text x="${bdX}" y="${bdY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[4]}</text>`;
+      const intersectStyle4BD = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4BD },
+        intersections[4],
+        bdX,
+        bdY
+      );
     }
-    
+
     // CD (bottom-left ∩ bottom-right)
     if (intersections[5]) {
       const cdX = (circleCX + circleDX) / 2;
       const cdY = (circleCY + circleDY) / 2;
-      svg += `<text x="${cdX}" y="${cdY}" text-anchor="middle" dominant-baseline="middle" `;
+      const intersectStyle4CD = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4CD },
+        intersections[5],
+        cdX,
+        cdY
+      );
       svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[5]}</text>`;
     }
-    
+
     // Triple intersections (4 total)
     // ABC (top-left ∩ top-right ∩ bottom-left)
     if (intersections[6]) {
       const abcX = (circleAX + circleBX + circleCX) / 3;
       const abcY = (circleAY + circleBY + circleCY) / 3;
-      svg += `<text x="${abcX}" y="${abcY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[6]}</text>`;
+      const intersectStyle4ABC = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4ABC },
+        intersections[6],
+        abcX,
+        abcY
+      );
     }
-    
+
     // ABD (top-left ∩ top-right ∩ bottom-right)
     if (intersections[7]) {
       const abdX = (circleAX + circleBX + circleDX) / 3;
       const abdY = (circleAY + circleBY + circleDY) / 3;
-      svg += `<text x="${abdX}" y="${abdY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[7]}</text>`;
+      const intersectStyle4ABD = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4ABD },
+        intersections[7],
+        abdX,
+        abdY
+      );
     }
-    
+
     // ACD (top-left ∩ bottom-left ∩ bottom-right)
     if (intersections[8]) {
       const acdX = (circleAX + circleCX + circleDX) / 3;
       const acdY = (circleAY + circleCY + circleDY) / 3;
-      svg += `<text x="${acdX}" y="${acdY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[8]}</text>`;
+      const intersectStyle4ACD = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4ACD },
+        intersections[8],
+        acdX,
+        acdY
+      );
     }
-    
+
     // BCD (top-right ∩ bottom-left ∩ bottom-right)
     if (intersections[9]) {
       const bcdX = (circleBX + circleCX + circleDX) / 3;
       const bcdY = (circleBY + circleCY + circleDY) / 3;
-      svg += `<text x="${bcdX}" y="${bcdY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[9]}</text>`;
+      const intersectStyle4BCD = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4BCD },
+        intersections[9],
+        bcdX,
+        bcdY
+      );
     }
-    
+
     // Quadruple intersection (1 total)
     // ABCD (all four circles meet)
     if (intersections[10]) {
       const abcdX = (circleAX + circleBX + circleCX + circleDX) / 4;
       const abcdY = (circleAY + circleBY + circleCY + circleDY) / 4;
-      svg += `<text x="${abcdX}" y="${abcdY}" text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${fontFamily}" font-size="${smallFontSize}" fill="${stroke}">${intersections[10]}</text>`;
+      const intersectStyle4ABCD = {
+        ...ctx.style,
+        fontSize: smallFontSize,
+        color: stroke,
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: intersectStyle4ABCD },
+        intersections[10],
+        abcdX,
+        abcdY
+      );
     }
   }
 
@@ -529,7 +753,7 @@ export const vennShape: ShapeDefinition = {
     const customColors = Array.isArray(ctx.node.data?.colors)
       ? (ctx.node.data.colors as string[])
       : undefined;
-    
+
     // Get intersection labels if provided
     const intersections = Array.isArray(ctx.node.data?.intersections)
       ? (ctx.node.data.intersections as string[])
@@ -545,7 +769,13 @@ export const vennShape: ShapeDefinition = {
       return render3Circles(sets, position, bounds, ctx, intersections);
     } else {
       // 4 sets (or fallback to 4 if more than 4)
-      return render4Circles(sets.slice(0, 4), position, bounds, ctx, intersections);
+      return render4Circles(
+        sets.slice(0, 4),
+        position,
+        bounds,
+        ctx,
+        intersections
+      );
     }
   },
 };

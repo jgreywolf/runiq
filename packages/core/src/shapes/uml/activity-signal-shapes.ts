@@ -1,4 +1,7 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Send Signal Action shape
@@ -9,13 +12,12 @@ export const sendSignalShape: ShapeDefinition = {
   id: 'sendSignal',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
-    const labelSize = ctx.measureText(ctx.node.label || 'Send', ctx.style);
-
-    const width = labelSize.width + padding * 3;
-    const height = labelSize.height + padding * 2;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: 'Send',
+      widthPaddingMultiplier: 3,
+      minWidth: 100,
+      minHeight: 50,
+    });
   },
 
   anchors(ctx) {
@@ -58,11 +60,13 @@ export const sendSignalShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (centered)
-    const fontFamily = ctx.style.font || 'Arial';
-    svg += `<text x="${x + (w - notchDepth) / 2}" y="${y + h / 2 + (ctx.style.fontSize || 14) / 3}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Send'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Send',
+      x + (w - notchDepth) / 2,
+      y + h / 2 + (ctx.style.fontSize || 14) / 3
+    );
 
     svg += `</g>`;
     return svg;
@@ -78,13 +82,12 @@ export const receiveSignalShape: ShapeDefinition = {
   id: 'receiveSignal',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
-    const labelSize = ctx.measureText(ctx.node.label || 'Receive', ctx.style);
-
-    const width = labelSize.width + padding * 3;
-    const height = labelSize.height + padding * 2;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: 'Receive',
+      widthPaddingMultiplier: 3,
+      minWidth: 100,
+      minHeight: 50,
+    });
   },
 
   anchors(ctx) {
@@ -107,9 +110,10 @@ export const receiveSignalShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
 
     // Concave pentagon (indented on the left like a notch)
     const notchDepth = w * 0.2; // How far the left side is indented
@@ -127,11 +131,13 @@ export const receiveSignalShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (centered)
-    const fontFamily = ctx.style.font || 'Arial';
-    svg += `<text x="${x + (w + notchDepth) / 2}" y="${y + h / 2 + (ctx.style.fontSize || 14) / 3}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Receive'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Receive',
+      x + (w + notchDepth) / 2,
+      y + h / 2 + (ctx.style.fontSize || 14) / 3
+    );
 
     svg += `</g>`;
     return svg;
@@ -147,13 +153,12 @@ export const acceptEventShape: ShapeDefinition = {
   id: 'acceptEvent',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
-    const labelSize = ctx.measureText(ctx.node.label || 'Wait', ctx.style);
-
-    const width = labelSize.width + padding * 3;
-    const height = labelSize.height + padding * 2;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: 'Wait',
+      widthPaddingMultiplier: 3,
+      minWidth: 100,
+      minHeight: 50,
+    });
   },
 
   anchors(ctx) {
@@ -176,9 +181,10 @@ export const acceptEventShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
 
     // Concave pentagon (same as receive signal)
     const notchDepth = w * 0.2;
@@ -196,11 +202,13 @@ export const acceptEventShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Label (centered)
-    const fontFamily = ctx.style.font || 'Arial';
-    svg += `<text x="${x + (w + notchDepth) / 2}" y="${y + h / 2 + (ctx.style.fontSize || 14) / 3}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Wait'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Wait',
+      x + (w + notchDepth) / 2,
+      y + h / 2 + (ctx.style.fontSize || 14) / 3
+    );
 
     svg += `</g>`;
     return svg;

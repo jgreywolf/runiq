@@ -4,12 +4,13 @@
  */
 
 import type {
-  PIDProfile,
   PIDEquipment,
   PIDInstrument,
   PIDLine,
   PIDLoop,
+  PIDProfile,
 } from '@runiq/core';
+import { PIDLineType } from '@runiq/core';
 import { pidSymbols, type PIDSymbolDefinition } from './pid-symbols.js';
 
 export interface PIDRenderOptions {
@@ -347,11 +348,11 @@ function renderLines(
 
     // Get line class based on type
     const lineClass =
-      line.type === 'signal'
+      line.type === PIDLineType.SIGNAL
         ? 'pid-line-signal'
-        : line.type === 'electrical'
+        : line.type === PIDLineType.ELECTRICAL
           ? 'pid-line-electrical'
-          : line.type === 'utility'
+          : line.type === PIDLineType.UTILITY
             ? 'pid-line-utility'
             : 'pid-line';
 
@@ -359,7 +360,10 @@ function renderLines(
     svg += `<line x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" class="${lineClass}"/>`;
 
     // Add line size annotation for process lines
-    if (line.type === 'process' && typeof line.properties?.size === 'number') {
+    if (
+      line.type === PIDLineType.PROCESS &&
+      typeof line.properties?.size === 'number'
+    ) {
       const midX = (from.x + to.x) / 2;
       const midY = (from.y + to.y) / 2;
       svg += `<text class="pid-property" x="${midX}" y="${midY - 5}">${line.properties.size}"</text>`;

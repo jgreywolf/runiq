@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Time Delay Block (e^-sT) for Block Diagrams
@@ -32,27 +34,24 @@ export const timeDelayShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#fce4ec';
-    const stroke = ctx.style.stroke || '#c2185b';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#fce4ec',
+      defaultStroke: '#c2185b',
+      defaultStrokeWidth: 2,
+    });
 
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;
 
     // Use "e^-sT" unless label specifies otherwise
     const label = ctx.node.label || 'e^-sT';
+    const labelStyle = { ...ctx.style, fontStyle: 'italic' as const };
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" 
-            font-size="${ctx.style.fontSize || 14}"
-            font-style="italic">
-        ${label}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, cx, cy)}
     `;
   },
 };

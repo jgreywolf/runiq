@@ -1,4 +1,5 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Shallow History Pseudo-state
@@ -43,10 +44,13 @@ export const historyShallowShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // "H" text
-    svg += `<text x="${cx}" y="${cy + 5}" `;
-    svg += `text-anchor="middle" font-size="${bounds.width * 0.6}" `;
-    svg += `font-family="Arial" font-weight="bold" fill="${stroke}">`;
-    svg += `H</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: bounds.width * 0.6,
+      fontWeight: 'bold' as const,
+      color: stroke,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'H', cx, cy);
 
     svg += `</g>`;
     return svg;
@@ -96,10 +100,13 @@ export const historyDeepShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // "H*" text
-    svg += `<text x="${cx}" y="${cy + 5}" `;
-    svg += `text-anchor="middle" font-size="${bounds.width * 0.5}" `;
-    svg += `font-family="Arial" font-weight="bold" fill="${stroke}">`;
-    svg += `H*</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: bounds.width * 0.5,
+      fontWeight: 'bold' as const,
+      color: stroke,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'H*', cx, cy);
 
     svg += `</g>`;
     return svg;

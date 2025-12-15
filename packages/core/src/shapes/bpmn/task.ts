@@ -1,5 +1,10 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
-import { getDataProperty } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { getDataProperty } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Task shape - represents an atomic activity within a process.
@@ -22,25 +27,18 @@ export const bpmnTaskShape: ShapeDefinition = {
   },
 
   anchors(ctx: ShapeRenderContext) {
-    const bounds = this.bounds(ctx);
-    const halfWidth = bounds.width / 2;
-    const halfHeight = bounds.height / 2;
-
-    return [
-      { x: halfWidth, y: 0, name: 'top' },
-      { x: bounds.width, y: halfHeight, name: 'right' },
-      { x: halfWidth, y: bounds.height, name: 'bottom' },
-      { x: 0, y: halfHeight, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 2,
+    });
 
     // BPMN tasks have rounded corners (8px radius is standard)
     const rect = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" rx="8" ry="8"/>`;
@@ -49,7 +47,6 @@ export const bpmnTaskShape: ShapeDefinition = {
     const label = ctx.node.label || '';
     const textX = x + bounds.width / 2;
     const textY = y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3;
-    const text = `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily || 'Arial'}" font-size="${ctx.style.fontSize || 14}" fill="#000000">${label}</text>`;
 
     // Optional task type marker (user, service, manual, etc.)
     let marker = '';
@@ -69,6 +66,6 @@ export const bpmnTaskShape: ShapeDefinition = {
       }
     }
 
-    return `${rect}${marker}${text}`;
+    return `${rect}${marker}${renderShapeLabel(ctx, label, textX, textY)}`;
   },
 };

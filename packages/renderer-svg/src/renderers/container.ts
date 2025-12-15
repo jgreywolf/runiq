@@ -1,11 +1,11 @@
 import type {
+  ContainerStyle,
   DiagramAst,
   PositionedContainer,
-  ContainerStyle,
 } from '@runiq/core';
-import { shapeRegistry, createTextMeasurer } from '@runiq/core';
-import { escapeXml } from './utils.js';
+import { createTextMeasurer, LineStyle, shapeRegistry } from '@runiq/core';
 import { resolveContainerStyle } from './style-resolver.js';
+import { escapeXml } from './utils.js';
 
 export function renderContainer(
   container: PositionedContainer,
@@ -52,9 +52,9 @@ export function renderContainer(
       };
 
       // Convert borderStyle to strokeDasharray for shapes
-      if (style.borderStyle === 'dashed') {
+      if (style.borderStyle === LineStyle.DASHED) {
         shapeStyle.strokeDasharray = '5,5';
-      } else if (style.borderStyle === 'dotted') {
+      } else if (style.borderStyle === LineStyle.DOTTED) {
         shapeStyle.strokeDasharray = '2,2';
       }
 
@@ -117,9 +117,9 @@ function renderDefaultContainerBackground(
 
   // Convert borderStyle to stroke-dasharray
   let strokeDasharray = '';
-  if (style.borderStyle === 'dashed') {
+  if (style.borderStyle === LineStyle.DASHED) {
     strokeDasharray = ' stroke-dasharray="5,5"';
-  } else if (style.borderStyle === 'dotted') {
+  } else if (style.borderStyle === LineStyle.DOTTED) {
     strokeDasharray = ' stroke-dasharray="2,2"';
   }
   // solid or undefined = no stroke-dasharray

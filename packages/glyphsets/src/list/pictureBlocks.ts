@@ -1,7 +1,7 @@
-import type { DiagramAst, NodeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import type { DiagramAst, Direction, NodeAst } from '@runiq/core';
 import { type ColorTheme } from '../themes.js';
-import { type ImageItem, validateImageItem } from '../utils/image.js';
+import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import { validateImageItem, type ImageItem } from '../utils/image.js';
 
 /**
  * Picture Blocks GlyphSet
@@ -123,7 +123,7 @@ export const pictureBlocksGlyphSet: GlyphSetDefinition = {
       astVersion: '1.0',
       nodes,
       edges: [],
-      direction: 'TB',
+      direction: 'TB' as Direction,
     };
 
     return diagram;

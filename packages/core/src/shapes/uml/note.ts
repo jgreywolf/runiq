@@ -1,4 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Note shape
@@ -29,16 +34,7 @@ export const noteShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -52,9 +48,10 @@ export const noteShape: ShapeDefinition = {
     const dogEarSize = 12; // Size of the folded corner
 
     // Notes typically have a light yellow background
-    const fill = ctx.style.fill || '#ffffcc';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffcc',
+      defaultStroke: '#000000',
+    });
 
     let svg = `<g class="note-shape">`;
 
@@ -79,11 +76,15 @@ export const noteShape: ShapeDefinition = {
     const lines = (ctx.node.data?.lines as string[]) || [ctx.node.label || ''];
     let currentY = y + padding + lineHeight * 0.7;
 
+    const textStyle = { ...ctx.style, color: stroke };
     lines.forEach((line) => {
-      svg += `<text x="${x + padding}" y="${currentY}" `;
-      svg += `font-size="${ctx.style.fontSize || 14}" `;
-      svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-      svg += `${line}</text>`;
+      svg += renderShapeLabel(
+        { ...ctx, style: textStyle },
+        line,
+        x + padding,
+        currentY,
+        'start'
+      );
       currentY += lineHeight;
     });
 

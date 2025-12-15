@@ -8,47 +8,48 @@
 
 import type {
   ElectricalProfile,
-  PneumaticProfile,
   HydraulicProfile,
   PartAst,
+  PneumaticProfile,
 } from '@runiq/core';
-import { getSymbol } from './symbolRegistry.ts';
+import { Orientation, PIDLineType } from '@runiq/core';
 import { SymbolDefinition } from './symbol.ts';
+import { getSymbol } from './symbolRegistry.ts';
 
 // Re-export P&ID symbols, line types, tag system, and renderer
-export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
 export {
-  pidLineTypes,
-  type PIDLineType,
-  type PIDLineTypeId,
   getLineType,
   getLineTypeStyle,
-  renderPIDLine,
+  pidLineTypes,
   renderDoubleLine,
   renderInsulationMarks,
+  renderPIDLine,
+  type PIDLineType,
+  type PIDLineTypeId,
 } from './pid-line-types.js';
 export {
   renderPID,
   type PIDRenderOptions,
   type PIDRenderResult,
 } from './pid-renderer.js';
+export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
 export {
-  type PIDTag,
-  parseTag,
-  validateTag,
+  commonTagCombinations,
   createTag,
-  isFieldMounted,
-  getTagCategory,
+  formatTagDisplay,
   generateSequentialTags,
   getLoopNumber,
-  isSameLoop,
   getLoopTags,
-  formatTagDisplay,
-  suggestTags,
+  getTagCategory,
+  isFieldMounted,
   isISACompliant,
+  isSameLoop,
   measuredVariables,
+  parseTag,
   readoutFunctions,
-  commonTagCombinations,
+  suggestTags,
+  validateTag,
+  type PIDTag,
 } from './pid-tags.js';
 
 // Union type for all profile types that can be rendered as schematics
@@ -70,8 +71,8 @@ export interface SchematicOptions {
   showValues?: boolean;
   /** Show component references (default: true) */
   showReferences?: boolean;
-  /** Orientation: 'horizontal' | 'vertical' (default: 'horizontal') */
-  orientation?: 'horizontal' | 'vertical';
+  /** Orientation (default: Orientation.HORIZONTAL) */
+  orientation?: Orientation;
   /** Wire routing mode: 'direct' | 'orthogonal' (default: 'direct') */
   routing?: 'direct' | 'orthogonal';
 }
@@ -111,7 +112,7 @@ export function renderSchematic(
     showNetLabels = true,
     showValues = true,
     showReferences = true,
-    orientation = 'horizontal',
+    orientation = Orientation.HORIZONTAL,
     routing = 'direct',
   } = options;
 
@@ -137,9 +138,9 @@ export function renderSchematic(
 
   // Determine CSS class prefix based on profile type
   const classPrefix =
-    profile.type === 'electrical'
+    profile.type === PIDLineType.ELECTRICAL
       ? 'electrical'
-      : profile.type === 'pneumatic'
+      : profile.type === PIDLineType.PNEUMATIC
         ? 'pneumatic'
         : 'hydraulic';
 
@@ -208,7 +209,7 @@ function normalizeNetName(name: string): string {
 function placeComponents(
   parts: PartAst[],
   gridSize: number,
-  orientation: 'horizontal' | 'vertical',
+  orientation: Orientation,
   warnings: string[]
 ): PositionedComponent[] {
   const positioned: PositionedComponent[] = [];
@@ -225,12 +226,12 @@ function placeComponents(
     positioned.push({
       part,
       symbol,
-      x: orientation === 'horizontal' ? currentX : gridSize * 2,
-      y: orientation === 'horizontal' ? gridSize * 2 : currentY,
+      x: orientation === Orientation.HORIZONTAL ? currentX : gridSize * 2,
+      y: orientation === Orientation.HORIZONTAL ? gridSize * 2 : currentY,
       rotation: 0,
     });
 
-    if (orientation === 'horizontal') {
+    if (orientation === Orientation.HORIZONTAL) {
       currentX += symbol.width + gridSize * 2;
     } else {
       currentY += symbol.height + gridSize * 2;

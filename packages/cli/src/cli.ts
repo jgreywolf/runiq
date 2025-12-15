@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-import { promises as fs } from 'fs';
-import { parse, type ParseResult } from '@runiq/parser-dsl';
-import { jsonToAst, astToJson } from '@runiq/io-json';
-import { ElkLayoutEngine } from '@runiq/layout-base';
-import { renderSvg, renderWardleyMap } from '@runiq/renderer-svg';
 import {
-  registerDefaultShapes,
-  layoutRegistry,
   iconRegistry,
-  validateDiagramType,
+  layoutRegistry,
   listDiagramTypes,
-  type DiagramType,
+  ProfileType,
+  registerDefaultShapes,
+  validateDiagramType,
   type DiagramAst,
   type DiagramProfile,
+  type DiagramType,
   type WardleyProfile,
 } from '@runiq/core';
 import { fontAwesome } from '@runiq/icons-fontawesome';
+import { astToJson, jsonToAst } from '@runiq/io-json';
+import { ElkLayoutEngine } from '@runiq/layout-base';
+import { parse, type ParseResult } from '@runiq/parser-dsl';
+import { renderSvg, renderWardleyMap } from '@runiq/renderer-svg';
+import { Command } from 'commander';
+import { promises as fs } from 'fs';
 
 // Register default providers
 registerDefaultShapes();
@@ -37,7 +38,7 @@ function extractDiagramFromParseResult(result: ParseResult): DiagramAst | null {
 
   // Find the first diagram profile
   const diagramProfile = doc.profiles.find(
-    (p): p is DiagramProfile => p.type === 'diagram'
+    (p): p is DiagramProfile => p.type === ProfileType.DIAGRAM
   );
 
   if (!diagramProfile) {

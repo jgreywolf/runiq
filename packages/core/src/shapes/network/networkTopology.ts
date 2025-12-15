@@ -7,7 +7,7 @@
  * - database (alias to cylinder)
  */
 
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 // ============================================================================
@@ -270,7 +270,13 @@ export const cloudShape: ShapeDefinition = {
 
     // Label
     if (label) {
-      svg += `<text x="${x + 40}" y="${y + 28}" text-anchor="middle" font-size="10" fill="#000">${label}</text>`;
+      const labelStyle = { ...ctx.style, fontSize: 10 };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        label,
+        x + 40,
+        y + 28
+      );
     }
 
     svg += `</g>`;
@@ -310,7 +316,13 @@ export const storageShape: ShapeDefinition = {
 
     // Label
     if (label) {
-      svg += `<text x="${x + 30}" y="${y + 58}" text-anchor="middle" font-size="8" fill="#000">${label}</text>`;
+      const labelStyle = { ...ctx.style, fontSize: 8 };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        label,
+        x + 30,
+        y + 58
+      );
     }
 
     svg += `</g>`;

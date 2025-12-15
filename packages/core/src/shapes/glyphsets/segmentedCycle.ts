@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface SegmentedCycleData {
   items: string[];
@@ -30,12 +32,7 @@ export const segmentedCycleShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -46,13 +43,10 @@ export const segmentedCycleShape: ShapeDefinition = {
     const showPercentages = (ctx.node.data?.showPercentages as boolean) ?? true;
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const centerX = x + bounds.width / 2;
@@ -122,25 +116,23 @@ export const segmentedCycleShape: ShapeDefinition = {
       const labelY = centerY + Math.sin(midAngle) * labelRadius;
 
       // Draw label
-      svg += `
-        <text x="${labelX}" y="${labelY}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize}" 
-              font-weight="bold" fill="#FFFFFF">
-          ${items[i]}
-        </text>
-      `;
+      const labelStyle = { fontSize, fontWeight: 'bold', color: '#FFFFFF' };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        items[i],
+        labelX,
+        labelY
+      );
 
       // Draw percentage if enabled
       if (showPercentages) {
-        svg += `
-          <text x="${labelX}" y="${labelY + fontSize + 4}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize - 2}" 
-                fill="#FFFFFF">
-            ${percentage.toFixed(1)}%
-          </text>
-        `;
+        const percentStyle = { fontSize: fontSize - 2, color: '#FFFFFF' };
+        svg += renderShapeLabel(
+          { ...ctx, style: percentStyle },
+          `${percentage.toFixed(1)}%`,
+          labelX,
+          labelY + fontSize + 4
+        );
       }
     }
 

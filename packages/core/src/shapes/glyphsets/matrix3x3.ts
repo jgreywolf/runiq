@@ -1,8 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
-import {
-  getGlyphsetTheme,
-  getThemeColor,
-} from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * 3x3 Matrix Shape
@@ -90,22 +88,21 @@ export const matrix3x3: ShapeDefinition = {
 
   anchors(ctx: ShapeRenderContext) {
     const bounds = this.bounds(ctx);
-    const centerX = bounds.width / 2;
-    const centerY = bounds.height / 2;
-
-    return [
-      { id: 'top', x: centerX, y: 0 },
-      { id: 'right', x: bounds.width, y: centerY },
-      { id: 'bottom', x: centerX, y: bounds.height },
-      { id: 'left', x: 0, y: centerY },
-    ];
+    return createStandardAnchors({ ...bounds, useId: true });
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {
     const data = ctx.node.data as any;
 
     if (!data || !data.quadrants || data.quadrants.length !== 9) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid matrix3x3 data (requires 9 quadrants)</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid matrix3x3 data (requires 9 quadrants)',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const quadrants = data.quadrants || [];

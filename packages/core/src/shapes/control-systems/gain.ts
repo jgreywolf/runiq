@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Gain Block
@@ -32,9 +34,9 @@ export const gainShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStrokeWidth: 2,
+    });
 
     // Right-pointing triangle: left base to right tip
     const points = [
@@ -46,17 +48,14 @@ export const gainShape: ShapeDefinition = {
     const cx = x + bounds.width * 0.4; // Center text slightly left of center
     const cy = y + bounds.height / 2;
 
+    const labelStyle = { ...ctx.style, fontWeight: 'bold' };
+    const label = ctx.node.label || ctx.node.id;
+
     return `
       <polygon points="${points}"
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" 
-            font-size="${ctx.style.fontSize || 14}"
-            font-weight="bold">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, cx, cy)}
     `;
   },
 };

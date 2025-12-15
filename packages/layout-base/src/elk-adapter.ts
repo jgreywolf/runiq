@@ -1,16 +1,23 @@
-import ELK, { ElkNode, ElkExtendedEdge } from 'elkjs/lib/elk.bundled.js';
 import type {
+  ContainerDeclaration,
   DiagramAst,
   EdgeAst,
+  LaidOutDiagram,
   LayoutEngine,
   LayoutOptions,
-  LaidOutDiagram,
+  PositionedContainer,
   PositionedNode,
   RoutedEdge,
-  PositionedContainer,
-  ContainerDeclaration,
 } from '@runiq/core';
-import { shapeRegistry, createTextMeasurer } from '@runiq/core';
+import {
+  ArrowType,
+  createTextMeasurer,
+  LayoutAlgorithm,
+  LayoutDefaults,
+  Orientation,
+  shapeRegistry,
+} from '@runiq/core';
+import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled.js';
 import { circularLayout } from './circular-layout.js';
 
 /**
@@ -183,7 +190,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Check if any container uses circular algorithm
     const hasCircularContainer = diagram.containers?.some(
-      (c) => c.layoutOptions?.algorithm === 'circular'
+      (c) => c.layoutOptions?.algorithm === LayoutAlgorithm.CIRCULAR
     );
 
     // If circular algorithm detected, delegate to custom circular layout
@@ -268,7 +275,7 @@ export class ElkLayoutEngine implements LayoutEngine {
             'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
           }
         : {
-            'elk.algorithm': 'layered',
+            'elk.algorithm': LayoutAlgorithm.LAYERED,
             'elk.direction': direction,
             'elk.spacing.nodeNode': spacing.toString(),
             'elk.layered.spacing.nodeNodeBetweenLayers': (
@@ -869,7 +876,7 @@ export class ElkLayoutEngine implements LayoutEngine {
   private simplifyRadialEdges(diagram: DiagramAst, edges: RoutedEdge[]): void {
     // Check if any container uses radial algorithm
     const hasRadialContainer = diagram.containers?.some(
-      (c) => c.layoutOptions?.algorithm === 'radial'
+      (c) => c.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL
     );
 
     if (!hasRadialContainer) return;
@@ -878,7 +885,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const radialNodeIds = new Set<string>();
     if (diagram.containers) {
       for (const container of diagram.containers) {
-        if (container.layoutOptions?.algorithm === 'radial') {
+        if (container.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL) {
           for (const childId of container.children) {
             radialNodeIds.add(childId);
           }
@@ -955,10 +962,10 @@ export class ElkLayoutEngine implements LayoutEngine {
         edge.points[0] = newStartPoint;
         // Fix the first segment to be orthogonal based on anchor direction
         const startDir = this.getAnchorDirection(startAnchor.name);
-        if (startDir === 'horizontal') {
+        if (startDir === Orientation.HORIZONTAL) {
           // First segment should be horizontal
           edge.points[1] = { x: edge.points[1].x, y: newStartPoint.y };
-        } else if (startDir === 'vertical') {
+        } else if (startDir === Orientation.VERTICAL) {
           // First segment should be vertical
           edge.points[1] = { x: newStartPoint.x, y: edge.points[1].y };
         }
@@ -978,7 +985,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const startDirection = this.getAnchorDirection(startAnchor?.name);
 
     // Create orthogonal routing based on anchor directions
-    if (startDirection === 'horizontal') {
+    if (startDirection === Orientation.HORIZONTAL) {
       // Exit horizontally from start anchor
       const midX = start.x + (end.x - start.x) * 0.5;
       edge.points = [
@@ -987,7 +994,7 @@ export class ElkLayoutEngine implements LayoutEngine {
         { x: midX, y: end.y }, // Vertical segment
         end,
       ];
-    } else if (startDirection === 'vertical') {
+    } else if (startDirection === Orientation.VERTICAL) {
       // Exit vertically from start anchor
       const midY = start.y + (end.y - start.y) * 0.5;
       edge.points = [
@@ -1025,17 +1032,15 @@ export class ElkLayoutEngine implements LayoutEngine {
    * Determine the direction an edge should leave from an anchor based on its name.
    * Returns 'horizontal' for left/right anchors, 'vertical' for top/bottom anchors.
    */
-  private getAnchorDirection(
-    anchorName?: string
-  ): 'horizontal' | 'vertical' | null {
+  private getAnchorDirection(anchorName?: string): Orientation | null {
     if (!anchorName) return null;
 
     const name = anchorName.toLowerCase();
     if (name === 'left' || name === 'right') {
-      return 'horizontal';
+      return Orientation.HORIZONTAL;
     }
     if (name === 'top' || name === 'bottom') {
-      return 'vertical';
+      return Orientation.VERTICAL;
     }
     return null;
   }
@@ -1055,10 +1060,10 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // First pass: determine if we have swimlanes and calculate uniform dimensions
     const hasHorizontalSwim = containers.some(
-      (c) => c.layoutOptions?.orientation === 'horizontal'
+      (c) => c.layoutOptions?.orientation === Orientation.HORIZONTAL
     );
     const hasVerticalSwim = containers.some(
-      (c) => c.layoutOptions?.orientation === 'vertical'
+      (c) => c.layoutOptions?.orientation === Orientation.VERTICAL
     );
 
     let uniformWidth: number | undefined;
@@ -1068,7 +1073,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     if (hasHorizontalSwim) {
       let maxWidth = 0;
       for (const container of containers) {
-        if (container.layoutOptions?.orientation === 'horizontal') {
+        if (container.layoutOptions?.orientation === Orientation.HORIZONTAL) {
           const placeholder = placeholders.get(container.id!);
           const width = placeholder?.width || 400;
           maxWidth = Math.max(maxWidth, width);
@@ -1081,7 +1086,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     if (hasVerticalSwim) {
       let maxHeight = 0;
       for (const container of containers) {
-        if (container.layoutOptions?.orientation === 'vertical') {
+        if (container.layoutOptions?.orientation === Orientation.VERTICAL) {
           const placeholder = placeholders.get(container.id!);
           const height = placeholder?.height || 300;
           maxHeight = Math.max(maxHeight, height);
@@ -1103,18 +1108,18 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (orientation) {
         // This is a swimlane - use uniform dimensions
         const width =
-          orientation === 'horizontal' && uniformWidth
+          orientation === Orientation.HORIZONTAL && uniformWidth
             ? uniformWidth
             : placeholder?.width || 400;
         const height =
-          orientation === 'vertical' && uniformHeight
+          orientation === Orientation.VERTICAL && uniformHeight
             ? uniformHeight
             : placeholder?.height || 300;
 
         positions.set(container.id!, { x: currentX, y: currentY });
         placeholders.set(container.id!, { width, height });
 
-        if (orientation === 'horizontal') {
+        if (orientation === Orientation.HORIZONTAL) {
           currentY += height + spacing;
         } else {
           currentX += width + spacing;
@@ -1165,9 +1170,9 @@ export class ElkLayoutEngine implements LayoutEngine {
       const positioned = positionedContainers[i];
       const orientation = container.layoutOptions?.orientation;
 
-      if (orientation === 'horizontal') {
+      if (orientation === Orientation.HORIZONTAL) {
         maxHorizontalWidth = Math.max(maxHorizontalWidth, positioned.width);
-      } else if (orientation === 'vertical') {
+      } else if (orientation === Orientation.VERTICAL) {
         maxVerticalHeight = Math.max(maxVerticalHeight, positioned.height);
       }
     }
@@ -1183,7 +1188,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const orientation = container.layoutOptions?.orientation;
 
       // Update position for sibling swimlanes (only at root level where x=0 or y=0)
-      if (orientation === 'horizontal' && positioned.x === 0) {
+      if (orientation === Orientation.HORIZONTAL && positioned.x === 0) {
         // Horizontal swimlanes: update Y position and track the delta
         const oldY = positioned.y;
         const newY = currentY;
@@ -1219,7 +1224,7 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
 
         currentY += positioned.height + spacing;
-      } else if (orientation === 'vertical' && positioned.y === 0) {
+      } else if (orientation === Orientation.VERTICAL && positioned.y === 0) {
         // Vertical swimlanes: update X position and track the delta
         const oldX = positioned.x;
         const newX = currentX;
@@ -1409,7 +1414,7 @@ export class ElkLayoutEngine implements LayoutEngine {
         const padding =
           pool.containerStyle?.padding !== undefined
             ? pool.containerStyle.padding
-            : 30;
+            : LayoutDefaults.CONTAINER_PADDING;
         const childCount = pool.children.length;
         const avgNodeSize = 100;
         const estimatedWidth = Math.max(
@@ -1424,10 +1429,11 @@ export class ElkLayoutEngine implements LayoutEngine {
     for (const container of containers) {
       // Map Runiq algorithm to ELK algorithm ID
       const algorithm = this.mapAlgorithmToElk(
-        container.layoutOptions?.algorithm || 'layered'
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
       const containerSpacing =
-        container.layoutOptions?.spacing?.toString() || '50';
+        container.layoutOptions?.spacing?.toString() ??
+        LayoutDefaults.NODE_SPACING.toString();
 
       // Determine layout direction based on container options or shape
       // Priority: container.layoutOptions.direction > container.shape override > default
@@ -1442,7 +1448,8 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
 
       // For radial/mindmap layouts, use straight lines instead of orthogonal routing
-      const isRadialLayout = container.layoutOptions?.algorithm === 'radial';
+      const isRadialLayout =
+        container.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL;
 
       // Create a mini ELK graph for this container's contents
       const containerGraph: ElkNode = {
@@ -1576,7 +1583,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : LayoutDefaults.CONTAINER_PADDING;
 
       // Estimate container size based on children
       const childCount = container.children.length;
@@ -1640,7 +1647,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : LayoutDefaults.CONTAINER_PADDING;
 
       // Step 1: Recursively calculate nested container sizes first (depth-first)
       if (container.containers && container.containers.length > 0) {
@@ -1656,7 +1663,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
       // Step 2: Layout this container's direct children with ELK to get content size
       const algorithm = this.mapAlgorithmToElk(
-        container.layoutOptions?.algorithm || 'layered'
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
 
       // Determine container direction: explicit option > shape override > parent direction
@@ -1846,7 +1853,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Create mini ELK graph for container contents
       // Map Runiq algorithm to ELK algorithm ID
       const algorithm = this.mapAlgorithmToElk(
-        container.layoutOptions?.algorithm || 'layered'
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
 
       // Determine container direction: explicit option > shape override > parent direction
@@ -2102,7 +2109,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : LayoutDefaults.CONTAINER_PADDING;
 
       // Find all direct child nodes in this container
       const childNodes = nodes.filter(
@@ -2182,7 +2189,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const padding =
       container.containerStyle?.padding !== undefined
         ? container.containerStyle.padding
-        : 30;
+        : LayoutDefaults.CONTAINER_PADDING;
 
     const elkContainer: ElkNode = {
       id: container.id || '',
@@ -2531,17 +2538,17 @@ export class ElkLayoutEngine implements LayoutEngine {
    */
   private mapAlgorithmToElk(algorithm: string): string {
     switch (algorithm) {
-      case 'layered':
+      case LayoutAlgorithm.LAYERED:
         return 'layered';
-      case 'force':
+      case LayoutAlgorithm.FORCE:
         return 'org.eclipse.elk.force';
-      case 'stress':
+      case LayoutAlgorithm.STRESS:
         return 'org.eclipse.elk.stress';
-      case 'radial':
+      case LayoutAlgorithm.RADIAL:
         return 'org.eclipse.elk.radial';
-      case 'mrtree':
+      case LayoutAlgorithm.MRTREE:
         return 'org.eclipse.elk.mrtree';
-      case 'circular':
+      case LayoutAlgorithm.CIRCULAR:
         return 'circular'; // Custom algorithm, handled separately
       default:
         return 'layered'; // Default fallback
@@ -3057,7 +3064,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
       if (edge.arrowType === undefined) {
         // Mindmaps traditionally don't use arrows
-        edge.arrowType = 'none';
+        edge.arrowType = ArrowType.NONE;
       }
     }
   }

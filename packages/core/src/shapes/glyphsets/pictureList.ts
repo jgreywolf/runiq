@@ -1,8 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { createStandardAnchors } from './utils.js';
 
 interface ImageItem {
   image?: string;
@@ -94,13 +95,7 @@ export const pictureListShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    const { width, height } = bounds;
-    return [
-      { x: width / 2, y: 0, id: 'top' },
-      { x: width, y: height / 2, id: 'right' },
-      { x: width / 2, y: height, id: 'bottom' },
-      { x: 0, y: height / 2, id: 'left' },
-    ];
+    return createStandardAnchors({ ...bounds, useId: true });
   },
 
   render(ctx, position) {

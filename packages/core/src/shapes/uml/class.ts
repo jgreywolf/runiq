@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { calculateCompartmentBounds } from '../utils/render-compartments.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Attribute definition for UML class diagrams
@@ -48,72 +50,30 @@ export const classShape: ShapeDefinition = {
   bounds(ctx: ShapeRenderContext) {
     const padding = 12;
     const lineHeight = 18;
-    const minWidth = 100;
 
-    // Extract class data
     const data = ctx.node.data || {};
     const attributes = (data.attributes as ClassAttribute[]) || [];
     const methods = (data.methods as ClassMethod[]) || [];
     const genericTypes = (data.genericTypes as string[]) || [];
     const stereotype = data.stereotype as string | undefined;
 
-    // Calculate class name width (with generics)
     const className = ctx.node.label || ctx.node.id;
     let nameText = className;
     if (genericTypes.length > 0) {
       nameText += `<${genericTypes.join(', ')}>`;
     }
-    const nameSize = ctx.measureText(nameText, ctx.style);
 
-    // Calculate stereotype width if present
-    let stereotypeWidth = 0;
-    if (stereotype) {
-      const stereotypeSize = ctx.measureText(`«${stereotype}»`, ctx.style);
-      stereotypeWidth = stereotypeSize.width;
-    }
+    const attributeTexts = attributes.map(formatAttribute);
+    const methodTexts = methods.map(formatMethod);
 
-    // Calculate attributes compartment height and width
-    let attributesHeight = 0;
-    let attributesWidth = 0;
-    if (attributes.length > 0) {
-      attributesHeight = attributes.length * lineHeight + padding * 2;
-      attributes.forEach((attr) => {
-        const attrText = formatAttribute(attr);
-        const attrSize = ctx.measureText(attrText, ctx.style);
-        attributesWidth = Math.max(attributesWidth, attrSize.width);
-      });
-    }
+    const headerItems = stereotype ? [`«${stereotype}»`, nameText] : [nameText];
 
-    // Calculate methods compartment height and width
-    let methodsHeight = 0;
-    let methodsWidth = 0;
-    if (methods.length > 0) {
-      methodsHeight = methods.length * lineHeight + padding * 2;
-      methods.forEach((method) => {
-        const methodText = formatMethod(method);
-        const methodSize = ctx.measureText(methodText, ctx.style);
-        methodsWidth = Math.max(methodsWidth, methodSize.width);
-      });
-    }
-
-    // Calculate name compartment height
-    let nameHeight = lineHeight + padding * 2;
-    if (stereotype) {
-      nameHeight += lineHeight; // Extra line for stereotype
-    }
-
-    // Calculate total dimensions
-    const width = Math.max(
-      minWidth,
-      nameSize.width + padding * 2,
-      stereotypeWidth + padding * 2,
-      attributesWidth + padding * 2,
-      methodsWidth + padding * 2
-    );
-
-    const height = nameHeight + attributesHeight + methodsHeight;
-
-    return { width, height };
+    return calculateCompartmentBounds(ctx, {
+      padding,
+      lineHeight,
+      header: { items: headerItems },
+      compartments: [{ items: attributeTexts }, { items: methodTexts }],
+    });
   },
 
   anchors(ctx: ShapeRenderContext) {
@@ -216,24 +176,34 @@ export const classShape: ShapeDefinition = {
     // Stereotype (if present)
     if (stereotype) {
       const stereotypeText = `«${stereotype}»`;
-      svg += `<text x="${x + bounds.width / 2}" y="${currentY + lineHeight / 2}" `;
-      svg += `text-anchor="middle" dominant-baseline="middle" `;
-      svg += `font-family="${ctx.style.font || 'sans-serif'}" `;
-      svg += `font-size="${(ctx.style.fontSize || 14) * 0.9}" `;
-      svg += `font-style="italic" fill="${ctx.style.textColor || '#000000'}">`;
-      svg += escapeXml(stereotypeText);
-      svg += '</text>';
+      const stereotypeStyle = {
+        ...ctx.style,
+        fontSize: (ctx.style.fontSize || 14) * 0.9,
+        fontStyle: 'italic' as const,
+        color: ctx.style.textColor || '#000000',
+      };
+      svg += renderShapeLabel(
+        { ...ctx, style: stereotypeStyle },
+        stereotypeText,
+        x + bounds.width / 2,
+        currentY + lineHeight / 2
+      );
       currentY += lineHeight;
     }
 
     // Class name (with optional generics)
-    svg += `<text x="${x + bounds.width / 2}" y="${currentY + lineHeight / 2}" `;
-    svg += `text-anchor="middle" dominant-baseline="middle" `;
-    svg += `font-family="${ctx.style.font || 'sans-serif'}" `;
-    svg += `font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-weight="bold" fill="${ctx.style.textColor || '#000000'}">`;
-    svg += escapeXml(nameText);
-    svg += '</text>';
+    const nameStyle = {
+      ...ctx.style,
+      fontSize: ctx.style.fontSize || 14,
+      fontWeight: 'bold',
+      color: ctx.style.textColor || '#000000',
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: nameStyle },
+      nameText,
+      x + bounds.width / 2,
+      currentY + lineHeight / 2
+    );
 
     currentY = y + nameHeight;
 
@@ -248,22 +218,21 @@ export const classShape: ShapeDefinition = {
       // Render each attribute
       attributes.forEach((attr) => {
         const attrText = formatAttribute(attr);
-        svg += `<text x="${x + padding}" y="${currentY + lineHeight / 2}" `;
-        svg += `text-anchor="start" dominant-baseline="middle" `;
-        svg += `font-family="${ctx.style.font || 'sans-serif'}" `;
-        svg += `font-size="${ctx.style.fontSize || 14}" `;
-        svg += `fill="${ctx.style.textColor || '#000000'}">`;
-
-        // Wrap in tspan if static (for underline)
-        if (attr.isStatic) {
-          svg += `<tspan text-decoration="underline">`;
-        }
-        svg += escapeXml(attrText);
-        if (attr.isStatic) {
-          svg += `</tspan>`;
-        }
-
-        svg += '</text>';
+        const attrStyle = {
+          ...ctx.style,
+          fontSize: ctx.style.fontSize || 14,
+          color: ctx.style.textColor || '#000000',
+          textDecoration: (attr.isStatic ? 'underline' : undefined) as
+            | 'underline'
+            | undefined,
+        };
+        svg += renderShapeLabel(
+          { ...ctx, style: attrStyle },
+          attrText,
+          x + padding,
+          currentY + lineHeight / 2,
+          'start'
+        );
         currentY += lineHeight;
       });
 
@@ -281,29 +250,24 @@ export const classShape: ShapeDefinition = {
       // Render each method
       methods.forEach((method) => {
         const methodText = formatMethod(method);
-        svg += `<text x="${x + padding}" y="${currentY + lineHeight / 2}" `;
-        svg += `text-anchor="start" dominant-baseline="middle" `;
-        svg += `font-family="${ctx.style.font || 'sans-serif'}" `;
-        svg += `font-size="${ctx.style.fontSize || 14}" `;
-        svg += `fill="${ctx.style.textColor || '#000000'}">`;
-
-        // Wrap in tspan for styling (underline for static, italics for abstract)
-        if (method.isStatic || method.isAbstract) {
-          svg += `<tspan`;
-          if (method.isStatic) {
-            svg += ` text-decoration="underline"`;
-          }
-          if (method.isAbstract) {
-            svg += ` font-style="italic"`;
-          }
-          svg += `>`;
-        }
-        svg += escapeXml(methodText);
-        if (method.isStatic || method.isAbstract) {
-          svg += `</tspan>`;
-        }
-
-        svg += '</text>';
+        const methodStyle = {
+          ...ctx.style,
+          fontSize: ctx.style.fontSize || 14,
+          color: ctx.style.textColor || '#000000',
+          textDecoration: (method.isStatic ? 'underline' : undefined) as
+            | 'underline'
+            | undefined,
+          fontStyle: (method.isAbstract ? 'italic' : undefined) as
+            | 'italic'
+            | undefined,
+        };
+        svg += renderShapeLabel(
+          { ...ctx, style: methodStyle },
+          methodText,
+          x + padding,
+          currentY + lineHeight / 2,
+          'start'
+        );
         currentY += lineHeight;
       });
     }

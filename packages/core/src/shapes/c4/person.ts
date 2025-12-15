@@ -1,5 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
-import { renderMultilineText } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * C4 Model: Person
@@ -21,25 +25,18 @@ export const c4Person: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#08427B'; // C4 person blue
-    const stroke = ctx.style.stroke || '#052E56';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#08427B', // C4 person blue
+      defaultStroke: '#052E56',
+      defaultStrokeWidth: 2,
+    });
     const textColor = ctx.style.textColor || '#ffffff';
     const rx = ctx.style.rx || 8;
 
@@ -47,18 +44,17 @@ export const c4Person: ShapeDefinition = {
     const iconY = y + 20;
     const labelY = y + 45;
 
-    const labelSvg: string = renderMultilineText(
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: ctx.style.fontSize || 14,
+      fontWeight: 'bold',
+      color: textColor,
+    };
+    const labelSvg = renderShapeLabel(
+      { ...ctx, style: labelStyle },
       ctx.node.label || ctx.node.id,
       x + bounds.width / 2,
-      labelY,
-      {
-        textAnchor: 'middle' as const,
-        dominantBaseline: 'middle',
-        fontFamily: (ctx.style.font || 'sans-serif') as string,
-        fontSize: (ctx.style.fontSize || 14) as number,
-        fill: textColor as string,
-        fontWeight: 'bold' as string,
-      }
+      labelY
     );
 
     return `

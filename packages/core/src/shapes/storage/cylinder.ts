@@ -1,5 +1,7 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
+import { createPath } from '../utils/svg-path-builder.js';
 
 /**
  * Cylinder - Database/storage shape
@@ -37,10 +39,7 @@ export const cylinderShape: ShapeDefinition = {
     const rx = bounds.width / 2;
     const ry = bounds.height * 0.15; // Ellipse height (15% of total)
     const cx = x + bounds.width / 2;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || ctx.node.id;
 
     return `
@@ -60,8 +59,15 @@ export const cylinderShape: ShapeDefinition = {
               stroke="${stroke}" stroke-width="${strokeWidth}" />
         
         <!-- Bottom ellipse (only bottom arc visible) -->
-        <path d="M ${x},${y + bounds.height - ry} 
-                 Q ${cx},${y + bounds.height + ry} ${x + bounds.width},${y + bounds.height - ry}"
+        <path d="${createPath()
+          .moveTo(x, y + bounds.height - ry)
+          .quadraticTo(
+            cx,
+            y + bounds.height + ry,
+            x + bounds.width,
+            y + bounds.height - ry
+          )
+          .build()}"
               fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
         
         ${renderShapeLabel(ctx, label, cx, y + bounds.height / 2)}

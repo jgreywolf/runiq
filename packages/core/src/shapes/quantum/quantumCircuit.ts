@@ -9,7 +9,8 @@
  * Visual Standard: IBM Qiskit
  */
 
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 // ============================================================================
 // Pauli X Gate (NOT Gate)
@@ -35,7 +36,13 @@ export const gateXShape: ShapeDefinition = {
     svg += `<rect x="${x}" y="${y}" width="20" height="20" fill="${fill}" stroke="${stroke}" stroke-width="2" rx="2" />`;
 
     // X label
-    svg += `<text x="${x + 10}" y="${y + 14}" text-anchor="middle" font-size="14" font-weight="bold" fill="${stroke}">X</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: stroke,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'X', x + 10, y + 14);
 
     svg += `</g>`;
     return svg;
@@ -66,7 +73,13 @@ export const gateYShape: ShapeDefinition = {
     svg += `<rect x="${x}" y="${y}" width="20" height="20" fill="${fill}" stroke="${stroke}" stroke-width="2" rx="2" />`;
 
     // Y label
-    svg += `<text x="${x + 10}" y="${y + 14}" text-anchor="middle" font-size="14" font-weight="bold" fill="${stroke}">Y</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: stroke,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'Y', x + 10, y + 14);
 
     svg += `</g>`;
     return svg;
@@ -97,7 +110,13 @@ export const gateZShape: ShapeDefinition = {
     svg += `<rect x="${x}" y="${y}" width="20" height="20" fill="${fill}" stroke="${stroke}" stroke-width="2" rx="2" />`;
 
     // Z label
-    svg += `<text x="${x + 10}" y="${y + 14}" text-anchor="middle" font-size="14" font-weight="bold" fill="${stroke}">Z</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: stroke,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'Z', x + 10, y + 14);
 
     svg += `</g>`;
     return svg;
@@ -128,7 +147,13 @@ export const gateHShape: ShapeDefinition = {
     svg += `<rect x="${x}" y="${y}" width="20" height="20" fill="${fill}" stroke="${stroke}" stroke-width="2" rx="2" />`;
 
     // H label
-    svg += `<text x="${x + 10}" y="${y + 14}" text-anchor="middle" font-size="14" font-weight="bold" fill="${stroke}">H</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: stroke,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'H', x + 10, y + 14);
 
     svg += `</g>`;
     return svg;
@@ -159,7 +184,13 @@ export const gateSShape: ShapeDefinition = {
     svg += `<rect x="${x}" y="${y}" width="20" height="20" fill="${fill}" stroke="${stroke}" stroke-width="2" rx="2" />`;
 
     // S label
-    svg += `<text x="${x + 10}" y="${y + 14}" text-anchor="middle" font-size="14" font-weight="bold" fill="${stroke}">S</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: stroke,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'S', x + 10, y + 14);
 
     svg += `</g>`;
     return svg;
@@ -190,7 +221,13 @@ export const gateTShape: ShapeDefinition = {
     svg += `<rect x="${x}" y="${y}" width="20" height="20" fill="${fill}" stroke="${stroke}" stroke-width="2" rx="2" />`;
 
     // T label
-    svg += `<text x="${x + 10}" y="${y + 14}" text-anchor="middle" font-size="14" font-weight="bold" fill="${stroke}">T</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: stroke,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'T', x + 10, y + 14);
 
     svg += `</g>`;
     return svg;

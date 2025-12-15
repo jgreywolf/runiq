@@ -1,4 +1,5 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
 
 /**
  * UML Junction Pseudo-state
@@ -31,7 +32,9 @@ export const junctionShape: ShapeDefinition = {
     const cx = x + r;
     const cy = y + r;
 
-    const fill = ctx.style.fill || '#000000'; // Default to filled black
+    const { fill } = extractBasicStyles(ctx, {
+      defaultFill: '#000000',
+    }); // Default to filled black
 
     let svg = `<g class="junction-shape">`;
     svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" />`;
@@ -71,9 +74,11 @@ export const entryPointShape: ShapeDefinition = {
     const cx = x + r;
     const cy = y + r;
 
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
-    const fill = ctx.style.fill || '#ffffff';
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
 
     let svg = `<g class="entryPoint-shape">`;
     svg += `<circle cx="${cx}" cy="${cy}" r="${r}" `;
@@ -114,9 +119,11 @@ export const exitPointShape: ShapeDefinition = {
     const cx = x + r;
     const cy = y + r;
 
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
-    const fill = ctx.style.fill || '#ffffff';
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
 
     let svg = `<g class="exitPoint-shape">`;
 
@@ -169,9 +176,11 @@ export const terminateShape: ShapeDefinition = {
     const cx = x + r;
     const cy = y + r;
 
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
-    const fill = ctx.style.fill || '#ffffff';
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
 
     let svg = `<g class="terminate-shape">`;
 

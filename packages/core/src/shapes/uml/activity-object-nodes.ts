@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Object Node shape
@@ -9,13 +11,11 @@ export const objectNodeShape: ShapeDefinition = {
   id: 'objectNode',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
-    const nameSize = ctx.measureText(ctx.node.label || 'Object', ctx.style);
-
-    const width = nameSize.width + padding * 2;
-    const height = nameSize.height + padding * 2;
-
-    return { width: Math.max(width, 80), height: Math.max(height, 40) };
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: 'Object',
+      minWidth: 80,
+      minHeight: 40,
+    });
   },
 
   anchors(ctx) {
@@ -48,11 +48,13 @@ export const objectNodeShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Object name (centered)
-    const fontFamily = ctx.style.font || 'Arial';
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + 5}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Object'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Object',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;
@@ -68,19 +70,13 @@ export const centralBufferShape: ShapeDefinition = {
   id: 'centralBuffer',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
-    const stereotypePadding = 6;
-    const nameSize = ctx.measureText(ctx.node.label || 'Buffer', ctx.style);
-    const stereotypeSize = ctx.measureText('«centralBuffer»', {
-      ...ctx.style,
-      fontSize: (ctx.style.fontSize || 14) - 2,
+    const label = ctx.node.label || 'Buffer';
+    const stereotype = '«centralBuffer»';
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: `${stereotype}\n${label}`,
+      minWidth: 100,
+      minHeight: 50,
     });
-
-    const width = Math.max(nameSize.width, stereotypeSize.width) + padding * 2;
-    const height =
-      nameSize.height + stereotypeSize.height + padding * 2 + stereotypePadding;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
   },
 
   anchors(ctx) {
@@ -115,16 +111,26 @@ export const centralBufferShape: ShapeDefinition = {
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Stereotype (top)
-    svg += `<text x="${x + w / 2}" y="${y + fontSize}" `;
-    svg += `text-anchor="middle" font-size="${fontSize - 2}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `«centralBuffer»</text>`;
+    const stereotypeStyle = {
+      ...ctx.style,
+      fontSize: fontSize - 2,
+      color: stroke,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: stereotypeStyle },
+      '«centralBuffer»',
+      x + w / 2,
+      y + fontSize
+    );
 
     // Buffer name (below stereotype)
-    svg += `<text x="${x + w / 2}" y="${y + fontSize * 2 + 4}" `;
-    svg += `text-anchor="middle" font-size="${fontSize}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'Buffer'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'Buffer',
+      x + w / 2,
+      y + fontSize * 2 + 4
+    );
 
     svg += `</g>`;
     return svg;
@@ -140,19 +146,13 @@ export const dataStoreShape: ShapeDefinition = {
   id: 'dataStore',
 
   bounds(ctx) {
-    const padding = ctx.style.padding || 10;
-    const stereotypePadding = 6;
-    const nameSize = ctx.measureText(ctx.node.label || 'DataStore', ctx.style);
-    const stereotypeSize = ctx.measureText('«datastore»', {
-      ...ctx.style,
-      fontSize: (ctx.style.fontSize || 14) - 2,
+    const label = ctx.node.label || 'DataStore';
+    const stereotype = '«datastore»';
+    return calculateSimpleBounds(ctx, {
+      defaultLabel: `${stereotype}\n${label}`,
+      minWidth: 100,
+      minHeight: 50,
     });
-
-    const width = Math.max(nameSize.width, stereotypeSize.width) + padding * 2;
-    const height =
-      nameSize.height + stereotypeSize.height + padding * 2 + stereotypePadding;
-
-    return { width: Math.max(width, 100), height: Math.max(height, 50) };
   },
 
   anchors(ctx) {
@@ -210,10 +210,13 @@ export const dataStoreShape: ShapeDefinition = {
     svg += `fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
     // Data store name (centered in cylinder)
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + fontSize / 3}" `;
-    svg += `text-anchor="middle" font-size="${fontSize}" `;
-    svg += `font-family="${fontFamily}" fill="${stroke}">`;
-    svg += `${ctx.node.label || 'DataStore'}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'DataStore',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;

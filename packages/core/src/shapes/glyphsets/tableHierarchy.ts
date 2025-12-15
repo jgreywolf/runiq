@@ -1,4 +1,4 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
 
 /**
  * Table Hierarchy Shape - Tabular rows with hierarchical connections

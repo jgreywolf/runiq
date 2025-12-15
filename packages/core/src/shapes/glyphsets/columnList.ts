@@ -1,8 +1,14 @@
-import type { ShapeDefinition } from '../../types.js';
+import { getThemeColor } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 import {
-  getGlyphsetTheme,
-  getThemeColor,
-} from '../../themes/glyphset-themes.js';
+  createStandardAnchors,
+  extractItems,
+  extractNumberProp,
+  extractStyle,
+  extractTheme,
+  renderEmptyState,
+} from './utils.js';
 
 /**
  * Column List Shape - Multi-column list with equal-width columns
@@ -12,9 +18,9 @@ export const columnListShape: ShapeDefinition = {
   id: 'columnList',
 
   bounds(ctx) {
-    // Extract column data from node data
-    const items = (ctx.node.data?.items as string[]) || [];
-    const columns = (ctx.node.data?.columns as number) || 2;
+    // Extract column data using utilities
+    const items = extractItems(ctx.node.data);
+    const columns = extractNumberProp(ctx.node.data, 'columns', 2);
 
     if (items.length === 0) {
       return { width: 200, height: 100 };
@@ -59,30 +65,19 @@ export const columnListShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    // Extract data
-    const items = (ctx.node.data?.items as string[]) || [];
-    const columns = (ctx.node.data?.columns as number) || 2;
+    // Extract data using utilities
+    const items = extractItems(ctx.node.data);
+    const columns = extractNumberProp(ctx.node.data, 'columns', 2);
 
     if (items.length === 0) {
-      return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
-                    fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+      return renderEmptyState({ x, y, ...bounds });
     }
 
     const padding = 12;
@@ -107,14 +102,14 @@ export const columnListShape: ShapeDefinition = {
     }
     const equalColumnWidth = Math.max(...columnWidths);
 
-    // Theme support
-    const themeId = (ctx.node.data?.theme as string) || 'professional';
-    const theme = getGlyphsetTheme(themeId);
+    // Use utilities for theme and style
+    const { theme } = extractTheme(ctx);
+    const styleConfig = extractStyle(ctx);
 
-    const stroke = ctx.style.stroke || theme.accentColor || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
-    const fontSize = ctx.style.fontSize || 14;
-    const font = ctx.style.font || 'sans-serif';
+    const stroke = styleConfig.stroke || theme.accentColor || '#333';
+    const strokeWidth = styleConfig.strokeWidth || 1;
+    const fontSize = styleConfig.fontSize;
+    const font = styleConfig.font;
 
     let svg = '';
 
@@ -138,13 +133,15 @@ export const columnListShape: ShapeDefinition = {
                 width="${equalColumnWidth}" height="${itemHeight}"
                 rx="8" ry="8" 
                 fill="${itemFill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-          
-          <text x="${colX + equalColumnWidth / 2}" y="${itemY + itemHeight / 2}" 
-                text-anchor="middle" dominant-baseline="middle"
-                font-family="${font}" font-size="${fontSize}">
-            ${itemText}
-          </text>
         `;
+
+        const itemStyle = { fontSize, color: '#000000' };
+        svg += renderShapeLabel(
+          { ...ctx, style: itemStyle },
+          itemText,
+          colX + equalColumnWidth / 2,
+          itemY + itemHeight / 2
+        );
       }
     }
 

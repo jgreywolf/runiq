@@ -1,5 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
-import { renderMultilineText } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * C4 Model: Component
@@ -21,40 +25,32 @@ export const c4Component: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#85BBF0'; // C4 component lighter blue
-    const stroke = ctx.style.stroke || '#5A9BD5';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#85BBF0', // C4 component lighter blue
+      defaultStroke: '#5A9BD5',
+      defaultStrokeWidth: 1.5,
+    });
     const textColor = ctx.style.textColor || '#000000'; // Dark text for lighter background
     const rx = ctx.style.rx || 6;
 
-    const labelSvg: string = renderMultilineText(
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: ctx.style.fontSize || 13,
+      fontWeight: '600',
+      color: textColor,
+    };
+    const labelSvg = renderShapeLabel(
+      { ...ctx, style: labelStyle },
       ctx.node.label || ctx.node.id,
       x + bounds.width / 2,
-      y + bounds.height / 2,
-      {
-        textAnchor: 'middle' as const,
-        dominantBaseline: 'middle',
-        fontFamily: (ctx.style.font || 'sans-serif') as string,
-        fontSize: (ctx.style.fontSize || 13) as number,
-        fill: textColor as string,
-        fontWeight: '600' as string,
-      }
+      y + bounds.height / 2
     );
 
     return `

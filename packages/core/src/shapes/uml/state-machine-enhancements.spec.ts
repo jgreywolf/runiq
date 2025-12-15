@@ -7,7 +7,7 @@ import {
   exitPointShape,
   terminateShape,
 } from './state-pseudostates.js';
-import type { RenderContext } from '../../types.js';
+import type { RenderContext } from '../../types/index.js';
 
 // Mock context helper
 function createMockContext(

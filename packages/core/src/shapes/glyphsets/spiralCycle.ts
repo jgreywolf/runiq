@@ -1,8 +1,11 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface SpiralCycleData {
   items: string[];
@@ -33,12 +36,7 @@ export const spiralCycleShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -48,13 +46,10 @@ export const spiralCycleShape: ShapeDefinition = {
     const items = (ctx.node.data?.items as string[]) || [];
 
     if (items.length === 0) {
+      const noItemsStyle = { fontSize: 14, color: '#999' };
       return `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" 
                     fill="#f9f9f9" stroke="#ccc" stroke-width="1" rx="4" />
-              <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-                    text-anchor="middle" dominant-baseline="middle" 
-                    fill="#999" font-family="sans-serif" font-size="14">
-                No items
-              </text>`;
+              ${renderShapeLabel({ ...ctx, style: noItemsStyle }, 'No items', x + bounds.width / 2, y + bounds.height / 2)}`;
     }
 
     const centerX = x + bounds.width / 2;
@@ -65,9 +60,11 @@ export const spiralCycleShape: ShapeDefinition = {
     const themeId = (ctx.node.data?.theme as string) || 'professional';
     const theme = getGlyphsetTheme(themeId);
 
-    const fill = ctx.style.fill || theme.colors[0];
-    const stroke = ctx.style.stroke || theme.accentColor || '#2E5AAC';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: theme.colors[0],
+      defaultStroke: theme.accentColor || '#2E5AAC',
+      defaultStrokeWidth: 2,
+    });
     const fontSize = ctx.style.fontSize || 12;
     const font = ctx.style.font || 'sans-serif';
 
@@ -115,18 +112,14 @@ export const spiralCycleShape: ShapeDefinition = {
       const itemColor = getThemeColor(theme, i);
 
       // Draw box
+      const itemStyle = { fontSize, fontWeight: 'bold', color: '#FFFFFF' };
       svg += `
         <rect x="${itemX}" y="${itemY}" 
               width="${boxWidth}" height="${boxHeight}"
               rx="6" ry="6"
               fill="${itemColor}" stroke="${stroke}" stroke-width="${strokeWidth}" />
         
-        <text x="${itemX + boxWidth / 2}" y="${itemY + boxHeight / 2}" 
-              text-anchor="middle" dominant-baseline="middle"
-              font-family="${font}" font-size="${fontSize}" 
-              font-weight="bold" fill="#FFFFFF">
-          ${items[i]}
-        </text>
+        ${renderShapeLabel({ ...ctx, style: itemStyle }, items[i], itemX + boxWidth / 2, itemY + boxHeight / 2)}
       `;
 
       // Draw arrow to next item (except last)

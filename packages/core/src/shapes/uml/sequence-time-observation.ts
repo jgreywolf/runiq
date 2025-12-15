@@ -1,4 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Time Observation shape
@@ -12,7 +17,7 @@ export const timeObservationShape: ShapeDefinition = {
   bounds(ctx) {
     const padding = ctx.style.padding || 8;
     const hourglassSize = 30; // Fixed size for hourglass icon
-    
+
     let width = hourglassSize + padding * 2;
     let height = hourglassSize + padding * 2;
 
@@ -30,16 +35,7 @@ export const timeObservationShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -48,9 +44,11 @@ export const timeObservationShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
     const fontSize = ctx.style.fontSize || 12;
     const fontFamily = ctx.style.font || 'Arial';
 
@@ -93,10 +91,13 @@ export const timeObservationShape: ShapeDefinition = {
     // Label (if provided)
     if (ctx.node.label) {
       const labelY = iconY + iconSize + fontSize + 4;
-      svg += `<text x="${x + w / 2}" y="${labelY}" `;
-      svg += `text-anchor="middle" font-size="${fontSize}" `;
-      svg += `font-family="${fontFamily}" fill="${stroke}">`;
-      svg += `${ctx.node.label}</text>`;
+      const labelStyle = { ...ctx.style, color: stroke };
+      svg += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        x + w / 2,
+        labelY
+      );
     }
 
     svg += `</g>`;

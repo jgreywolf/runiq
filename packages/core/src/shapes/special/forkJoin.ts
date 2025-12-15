@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Fork/Join - thick horizontal bar for parallel flow control
@@ -38,25 +40,22 @@ export const forkJoinShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#333'; // Dark fill for bar
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#333', // Dark fill for bar
+    });
     const font = ctx.style.font || 'sans-serif';
     const fontSize = ctx.style.fontSize || 10; // Small font
 
     const textX = x + w / 2;
     const textY = y + h / 2;
+    const label = ctx.node.label || '';
+    const labelStyle = { ...ctx.style, fontSize, color: '#fff' };
 
     return `
       <rect x="${x}" y="${y}" width="${w}" height="${h}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${textX}" y="${textY}"
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize}"
-            fill="#fff">
-        ${ctx.node.label || ''}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, textX, textY)}
     `;
   },
 };

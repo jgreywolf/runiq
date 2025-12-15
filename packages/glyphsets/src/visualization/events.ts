@@ -1,9 +1,12 @@
-import type { DiagramAst, NodeAst, EdgeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
-import { getThemeColor, type ColorTheme } from '../themes.js';
-import { validateArrayParameter } from '../utils/validation.js';
-import { extractStringParam, extractBooleanParam } from '../utils/parameters.js';
+import type { Direction } from '@runiq/core';
+import { type ColorTheme } from '../themes.js';
+import { type GlyphSetDefinition } from '../types.js';
 import { generateLinearProcess } from '../utils/generators.js';
+import {
+  extractBooleanParam,
+  extractStringParam,
+} from '../utils/parameters.js';
+import { validateArrayParameter } from '../utils/validation.js';
 
 /**
  * Events GlyphSet
@@ -66,8 +69,16 @@ export const eventsGlyphSet: GlyphSetDefinition = {
   generator: (params) => {
     const events = params.events as string[] | undefined;
     const shape = extractStringParam(params, 'shape', 'rounded');
-    const showConnections = extractBooleanParam(params, 'showConnections', true);
-    const theme = extractStringParam(params, 'theme', 'professional') as ColorTheme;
+    const showConnections = extractBooleanParam(
+      params,
+      'showConnections',
+      true
+    );
+    const theme = extractStringParam(
+      params,
+      'theme',
+      'professional'
+    ) as ColorTheme;
 
     // Validation - validateArrayParameter checks both required and array constraints
     validateArrayParameter('events', 'events', events, {
@@ -80,7 +91,7 @@ export const eventsGlyphSet: GlyphSetDefinition = {
     const result = generateLinearProcess(events, {
       shape: 'processBox', // Use SmartArt-style processBox!
       theme,
-      direction: 'LR', // Left-to-right for timeline
+      direction: 'LR' as Direction, // Left-to-right for timeline
       idPrefix: 'event',
     });
 

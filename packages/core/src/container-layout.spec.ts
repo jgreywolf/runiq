@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { ContainerDeclaration, ContainerStyle } from './types.js';
+import type { ContainerDeclaration, ContainerStyle } from './types/index.js';
 
 describe('Container Phase 3: Layout Optimization', () => {
   describe('Container Size Constraints', () => {

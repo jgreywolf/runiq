@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 interface ImageItem {
   image?: string;
@@ -94,12 +96,7 @@ export const pictureProcessShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0 },
-      { x: bounds.width, y: bounds.height / 2 },
-      { x: bounds.width / 2, y: bounds.height },
-      { x: 0, y: bounds.height / 2 },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx, position) {
@@ -147,15 +144,26 @@ export const pictureProcessShape: ShapeDefinition = {
         );
 
         // Label below image
+        const labelStyle = { fontSize: 12, fontWeight: '500', color: '#333' };
         parts.push(
-          `<text x="${x + imageSize / 2}" y="${y + imageSize + 20}" ` +
-            `text-anchor="middle" font-size="12" font-weight="500" fill="#333">${item.label}</text>`
+          renderShapeLabel(
+            { ...ctx, style: labelStyle },
+            item.label,
+            x + imageSize / 2,
+            y + imageSize + 20
+          )
         );
 
         // Step number badge
+        const badgeStyle = { fontSize: 10, fontWeight: 'bold', color: 'white' };
         parts.push(
           `<circle cx="${x + imageSize - 15}" cy="${y + 15}" r="12" fill="${color}" stroke="white" stroke-width="2"/>`,
-          `<text x="${x + imageSize - 15}" y="${y + 20}" text-anchor="middle" font-size="10" font-weight="bold" fill="white">${index + 1}</text>`
+          renderShapeLabel(
+            { ...ctx, style: badgeStyle },
+            (index + 1).toString(),
+            x + imageSize - 15,
+            y + 20
+          )
         );
 
         // Arrow to next step (if not last)
@@ -200,15 +208,26 @@ export const pictureProcessShape: ShapeDefinition = {
         );
 
         // Label below image
+        const labelStyle = { fontSize: 12, fontWeight: '500', color: '#333' };
         parts.push(
-          `<text x="${x + imageSize / 2}" y="${y + imageSize + 20}" ` +
-            `text-anchor="middle" font-size="12" font-weight="500" fill="#333">${item.label}</text>`
+          renderShapeLabel(
+            { ...ctx, style: labelStyle },
+            item.label,
+            x + imageSize / 2,
+            y + imageSize + 20
+          )
         );
 
         // Step number badge
+        const badgeStyle = { fontSize: 10, fontWeight: 'bold', color: 'white' };
         parts.push(
           `<circle cx="${x + imageSize - 15}" cy="${y + 15}" r="12" fill="${color}" stroke="white" stroke-width="2"/>`,
-          `<text x="${x + imageSize - 15}" y="${y + 20}" text-anchor="middle" font-size="10" font-weight="bold" fill="white">${index + 1}</text>`
+          renderShapeLabel(
+            { ...ctx, style: badgeStyle },
+            (index + 1).toString(),
+            x + imageSize - 15,
+            y + 20
+          )
         );
 
         // Arrow to next step (if not last)

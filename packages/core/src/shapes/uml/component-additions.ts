@@ -1,4 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Escape XML special characters to prevent HTML injection
@@ -24,13 +30,8 @@ export const portShape: ShapeDefinition = {
     };
   },
 
-  anchors() {
-    return [
-      { x: 8, y: 0, name: 'top' },
-      { x: 16, y: 8, name: 'right' },
-      { x: 8, y: 16, name: 'bottom' },
-      { x: 0, y: 8, name: 'left' },
-    ];
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -39,16 +40,23 @@ export const portShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
 
-    return `
-      <rect x="${x}" y="${y}" width="16" height="16"
-            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + 8}" y="${y + 24}" 
-            text-anchor="middle" dominant-baseline="hanging"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="10">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+    let svg = `<rect x="${x}" y="${y}" width="16" height="16"
+            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 10,
+      textAnchor: 'middle' as const,
+      dominantBaseline: 'hanging' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || ctx.node.id,
+      x + 8,
+      y + 24
+    );
+
+    return svg;
   },
 };
 
@@ -58,13 +66,11 @@ export const portShape: ShapeDefinition = {
 export const moduleShape: ShapeDefinition = {
   id: 'module',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    return {
-      width: Math.max(textSize.width + padding * 2, 100),
-      height: textSize.height + padding * 3 + 14, // Extra space for stereotype
-    };
+    return calculateSimpleBounds(ctx, {
+      heightPaddingMultiplier: 3,
+      extraHeight: 14, // Extra space for stereotype
+      minWidth: 100,
+    });
   },
 
   anchors(ctx) {
@@ -83,26 +89,29 @@ export const moduleShape: ShapeDefinition = {
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
-    return `
-      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
-            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + bounds.width / 2}" y="${y + 14}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="11">
-        «module»
-      </text>
-      
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2 + 7}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+    let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    const stereotypeStyle = { ...ctx.style, fontSize: 11 };
+    svg += renderShapeLabel(
+      { ...ctx, style: stereotypeStyle },
+      '«module»',
+      x + bounds.width / 2,
+      y + 14
+    );
+
+    svg += renderShapeLabel(
+      ctx,
+      ctx.node.label || ctx.node.id,
+      x + bounds.width / 2,
+      y + bounds.height / 2 + 7
+    );
+
+    return svg;
   },
 };
 
@@ -112,52 +121,38 @@ export const moduleShape: ShapeDefinition = {
 export const templateShape: ShapeDefinition = {
   id: 'template',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
-
-    return {
-      width: textSize.width + padding * 2,
-      height: textSize.height + padding * 2,
-    };
+    return calculateSimpleBounds(ctx);
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const cornerSize = 20;
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
-    return `
-      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+    let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
 
       <!-- Dashed corner for template parameter -->
       <path d="M ${x + bounds.width - cornerSize} ${y}
                L ${x + bounds.width} ${y}
                L ${x + bounds.width} ${y + cornerSize}"
-            fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="3,2" />
+            fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="3,2" />`;
 
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}"
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${escapeXml(ctx.node.label || ctx.node.id)}
-      </text>
-    `;
+    svg += renderShapeLabel(
+      ctx,
+      ctx.node.label || ctx.node.id,
+      x + bounds.width / 2,
+      y + bounds.height / 2
+    );
+
+    return svg;
   },
 };
 
@@ -177,16 +172,7 @@ export const sendSignalShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -196,9 +182,9 @@ export const sendSignalShape: ShapeDefinition = {
     const h = bounds.height;
     const pointOffset = w * 0.2;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     const pathData = `M ${x} ${y + h / 2}
                       L ${x + w - pointOffset} ${y}
@@ -206,16 +192,17 @@ export const sendSignalShape: ShapeDefinition = {
                       L ${x + w - pointOffset} ${y + h}
                       Z`;
 
-    return `
-      <path d="${pathData}"
-            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + w / 2 - pointOffset / 2}" y="${y + h / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+    let svg = `<path d="${pathData}"
+            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    svg += renderShapeLabel(
+      ctx,
+      ctx.node.label || ctx.node.id,
+      x + w / 2 - pointOffset / 2,
+      y + h / 2
+    );
+
+    return svg;
   },
 };
 
@@ -235,16 +222,7 @@ export const receiveSignalShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -254,9 +232,9 @@ export const receiveSignalShape: ShapeDefinition = {
     const h = bounds.height;
     const pointOffset = w * 0.2;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
     const pathData = `M ${x} ${y + h / 2}
                       L ${x + pointOffset} ${y}
@@ -265,16 +243,17 @@ export const receiveSignalShape: ShapeDefinition = {
                       L ${x + pointOffset} ${y + h}
                       Z`;
 
-    return `
-      <path d="${pathData}"
-            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + w / 2 + pointOffset / 2}" y="${y + h / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+    let svg = `<path d="${pathData}"
+            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    svg += renderShapeLabel(
+      ctx,
+      ctx.node.label || ctx.node.id,
+      x + w / 2 + pointOffset / 2,
+      y + h / 2
+    );
+
+    return svg;
   },
 };
 
@@ -306,16 +285,17 @@ export const historyShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 2;
 
-    return `
-      <circle cx="${cx}" cy="${cy}" r="15"
-              fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="16" font-weight="bold">
-        H
-      </text>
-    `;
+    let svg = `<circle cx="${cx}" cy="${cy}" r="15"
+              fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 16,
+      fontWeight: 'bold' as const,
+    };
+    svg += renderShapeLabel({ ...ctx, style: labelStyle }, 'H', cx, cy);
+
+    return svg;
   },
 };
 
@@ -342,20 +322,28 @@ export const pinShape: ShapeDefinition = {
 
   render(ctx, position) {
     const { x, y } = position;
-    const fill = ctx.style.fill || '#fff';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#fff',
+      defaultStroke: '#333',
+    });
 
-    return `
-      <rect x="${x}" y="${y}" width="12" height="12"
-            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + 6}" y="${y + 18}" 
-            text-anchor="middle" dominant-baseline="hanging"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="9">
-        ${ctx.node.label || ''}
-      </text>
-    `;
+    let svg = `<rect x="${x}" y="${y}" width="12" height="12"
+            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 9,
+      textAnchor: 'middle' as const,
+      dominantBaseline: 'hanging' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || '',
+      x + 6,
+      y + 18
+    );
+
+    return svg;
   },
 };
 
@@ -387,16 +375,23 @@ export const assemblyShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 2;
 
-    return `
-      <circle cx="${cx}" cy="${cy}" r="10"
-              fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${cx}" y="${cy + 26}" 
-            text-anchor="middle" dominant-baseline="hanging"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="10">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+    let svg = `<circle cx="${cx}" cy="${cy}" r="10"
+              fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 10,
+      textAnchor: 'middle' as const,
+      dominantBaseline: 'hanging' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || ctx.node.id,
+      cx,
+      cy + 26
+    );
+
+    return svg;
   },
 };
 
@@ -427,19 +422,26 @@ export const providedInterfaceShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 2;
 
-    return `
-      <line x1="${cx}" y1="${y + 30}" x2="${cx}" y2="${y + 10}"
+    let svg = `<line x1="${cx}" y1="${y + 30}" x2="${cx}" y2="${y + 10}"
             stroke="${stroke}" stroke-width="${strokeWidth}" />
       
       <circle cx="${cx}" cy="${y + 10}" r="8"
-              fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${cx}" y="${y + 42}" 
-            text-anchor="middle" dominant-baseline="hanging"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="10">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+              fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 10,
+      textAnchor: 'middle' as const,
+      dominantBaseline: 'hanging' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || ctx.node.id,
+      cx,
+      y + 42
+    );
+
+    return svg;
   },
 };
 
@@ -470,21 +472,28 @@ export const requiredInterfaceShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 2;
 
-    return `
-      <line x1="${cx}" y1="${y + 30}" x2="${cx}" y2="${y + 10}"
+    let svg = `<line x1="${cx}" y1="${y + 30}" x2="${cx}" y2="${y + 10}"
             stroke="${stroke}" stroke-width="${strokeWidth}" />
       
       <!-- Semicircle (socket) -->
       <path d="M ${cx - 8} ${y + 10}
                A 8 8 0 0 1 ${cx + 8} ${y + 10}"
-            fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${cx}" y="${y + 42}" 
-            text-anchor="middle" dominant-baseline="hanging"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="10">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+            fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 10,
+      textAnchor: 'middle' as const,
+      dominantBaseline: 'hanging' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || ctx.node.id,
+      cx,
+      y + 42
+    );
+
+    return svg;
   },
 };
 
@@ -504,16 +513,7 @@ export const frameShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -524,8 +524,7 @@ export const frameShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
 
-    return `
-      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+    let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
       <!-- Name tag -->
@@ -533,14 +532,21 @@ export const frameShape: ShapeDefinition = {
                L ${x + tagWidth} ${y}
                L ${x + tagWidth} ${y + tagHeight}
                L ${x} ${y + tagHeight}"
-            fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + tagWidth / 2}" y="${y + tagHeight / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="11" font-weight="bold">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+            fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: 11,
+      fontWeight: 'bold' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || ctx.node.id,
+      x + tagWidth / 2,
+      y + tagHeight / 2
+    );
+
+    return svg;
   },
 };
 
@@ -560,16 +566,7 @@ export const collaborationShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -583,16 +580,12 @@ export const collaborationShape: ShapeDefinition = {
     const stroke = ctx.style.stroke || '#333';
     const strokeWidth = ctx.style.strokeWidth || 1;
 
-    return `
-      <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"
-               fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="5,3" />
-      
-      <text x="${cx}" y="${cy}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+    let svg = `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"
+               fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="5,3" />`;
+
+    svg += renderShapeLabel(ctx, ctx.node.label || ctx.node.id, cx, cy);
+
+    return svg;
   },
 };
 
@@ -612,16 +605,7 @@ export const submachineShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -629,26 +613,27 @@ export const submachineShape: ShapeDefinition = {
     const { x, y } = position;
     const radius = 8;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
-    return `
-      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${radius}"
+    let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${radius}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
       <!-- Submachine icon (small circles in bottom right) -->
       <circle cx="${x + bounds.width - 15}" cy="${y + bounds.height - 10}" r="3"
               fill="none" stroke="${stroke}" stroke-width="1" />
       <circle cx="${x + bounds.width - 8}" cy="${y + bounds.height - 10}" r="3"
-              fill="none" stroke="${stroke}" stroke-width="1" />
-      
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
-    `;
+              fill="none" stroke="${stroke}" stroke-width="1" />`;
+
+    svg += renderShapeLabel(
+      ctx,
+      ctx.node.label || ctx.node.id,
+      x + bounds.width / 2,
+      y + bounds.height / 2
+    );
+
+    return svg;
   },
 };
 
@@ -668,47 +653,47 @@ export const loopShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultStroke: '#333',
+    });
 
-    return `
-      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
-            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <!-- Loop label in top left -->
-      <text x="${x + 8}" y="${y + 14}" 
-            text-anchor="start" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="11" font-weight="bold">
-        loop
-      </text>
-      
-      <!-- Divider line -->
-      <line x1="${x}" y1="${y + 20}" x2="${x + bounds.width}" y2="${y + 20}"
-            stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2 + 10}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.fontFamily || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ''}
-      </text>
-    `;
+    let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    // Loop label in top left
+    const loopLabelStyle = {
+      ...ctx.style,
+      fontSize: 11,
+      fontWeight: 'bold' as const,
+      textAnchor: 'start' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: loopLabelStyle },
+      'loop',
+      x + 8,
+      y + 14
+    );
+
+    // Divider line
+    svg += `<line x1="${x}" y1="${y + 20}" x2="${x + bounds.width}" y2="${y + 20}"
+            stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    // Condition/content label
+    svg += renderShapeLabel(
+      ctx,
+      ctx.node.label || '',
+      x + bounds.width / 2,
+      y + bounds.height / 2 + 10
+    );
+
+    return svg;
   },
 };
 
@@ -735,7 +720,9 @@ export const verticalForkShape: ShapeDefinition = {
 
   render(ctx, position) {
     const { x, y } = position;
-    const fill = ctx.style.fill || '#333';
+    const { fill } = extractBasicStyles(ctx, {
+      defaultFill: '#333',
+    });
 
     return `
       <rect x="${x}" y="${y}" width="6" height="60"

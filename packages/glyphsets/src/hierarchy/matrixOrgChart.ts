@@ -1,6 +1,7 @@
+import type { Direction } from '@runiq/core';
+import { getThemeColor, type ColorTheme } from '../themes.js';
 import type { GlyphSetDefinition } from '../types.js';
 import { GlyphSetError } from '../types.js';
-import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
  * Matrix Organization Chart GlyphSet
@@ -138,7 +139,7 @@ export const matrixOrgChartGlyphSet: GlyphSetDefinition = {
 
     return {
       astVersion: '1.0',
-      direction: 'TB',
+      direction: 'TB' as Direction,
       nodes: [
         {
           id: 'matrixOrgChart',

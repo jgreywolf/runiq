@@ -1,8 +1,10 @@
-import type { ShapeDefinition } from '../../types.js';
 import {
   getGlyphsetTheme,
   getThemeColor,
 } from '../../themes/glyphset-themes.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Wrap text to fit within a given width
@@ -74,12 +76,7 @@ export const segmentedPyramidShape: ShapeDefinition = {
 
   anchors(ctx) {
     const bounds = this.bounds(ctx);
-    return [
-      { x: bounds.width / 2, y: 0, name: 'top' },
-      { x: bounds.width, y: bounds.height / 2, name: 'right' },
-      { x: bounds.width / 2, y: bounds.height, name: 'bottom' },
-      { x: 0, y: bounds.height / 2, name: 'left' },
-    ];
+    return createStandardAnchors(bounds);
   },
 
   render(ctx) {
@@ -185,12 +182,13 @@ export const segmentedPyramidShape: ShapeDefinition = {
 
         // Level label at top of segments (bold)
         const labelY = topY + 12;
-        svg += `<text x="${centerX}" y="${labelY}" `;
-        svg += `text-anchor="middle" dominant-baseline="middle" `;
-        svg += `font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" `;
-        svg += `fill="${stroke}">`;
-        svg += `${level.label}`;
-        svg += `</text>`;
+        const levelLabelStyle = { fontSize, fontWeight: 'bold', color: stroke };
+        svg += renderShapeLabel(
+          { ...ctx, style: levelLabelStyle },
+          level.label,
+          centerX,
+          labelY
+        );
       } else {
         // Render solid level without segments
         const points = `${topLeft},${topY} ${topRight},${topY} ${bottomRight},${bottomY} ${bottomLeft},${bottomY}`;

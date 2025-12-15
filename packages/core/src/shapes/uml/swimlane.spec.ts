@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { swimlaneShape } from './swimlane.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 // Mock shape context for testing
 function createMockContext(data?: Record<string, unknown>): ShapeRenderContext {

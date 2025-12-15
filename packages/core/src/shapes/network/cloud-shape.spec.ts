@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { cloudShape } from './cloud.js';
-import { ShapeRenderContext } from '../../types.js';
+import { ShapeRenderContext } from '../../types/index.js';
 
 // Mock context helper
 function createMockContext(label: string): ShapeRenderContext {

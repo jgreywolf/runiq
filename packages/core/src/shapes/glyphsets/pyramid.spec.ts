@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { pyramidShape } from './pyramid.js';
-import type { ShapeRenderContext } from '../../types.js';
+import type { ShapeRenderContext } from '../../types/index.js';
 
 /**
  * Mock context for testing Pyramid diagram shape

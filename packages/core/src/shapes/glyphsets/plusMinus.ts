@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createStandardAnchors } from './utils.js';
 
 /**
  * Plus/Minus Shape
@@ -65,7 +67,22 @@ function renderBox(
   // Add symbol
   const symbolX = x + 15;
   const symbolY = y + height / 2;
-  svg += `<text x="${symbolX}" y="${symbolY}" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="${SYMBOL_SIZE}" font-weight="bold">${symbol}</text>`;
+  const symbolStyle = {
+    fontSize: SYMBOL_SIZE,
+    fontWeight: 'bold',
+    color: '#fff',
+  };
+  svg += renderShapeLabel(
+    {
+      node: { id: '', type: '', data: {} },
+      renderLabel: () => '',
+      style: symbolStyle,
+      measureText: () => ({ width: 0, height: 0 }),
+    } as any,
+    symbol,
+    symbolX,
+    symbolY
+  );
 
   // Add text
   const lines = wrapText(label, 18);
@@ -91,10 +108,32 @@ function renderDivider(x: number, y: number, height: number): string {
   let svg = `<line x1="${centerX}" y1="${y}" x2="${centerX}" y2="${y + height}" stroke="#666" stroke-width="3"/>`;
 
   // Add "PROS" label at top
-  svg += `<text x="${centerX}" y="${y - 10}" text-anchor="middle" fill="#2E7D32" font-size="14" font-weight="bold">PROS</text>`;
+  const prosStyle = { fontSize: 14, fontWeight: 'bold', color: '#2E7D32' };
+  svg += renderShapeLabel(
+    {
+      node: { id: '', type: '', data: {} },
+      renderLabel: () => '',
+      style: prosStyle,
+      measureText: () => ({ width: 0, height: 0 }),
+    } as any,
+    'PROS',
+    centerX,
+    y - 10
+  );
 
-  // Add "CONS" label at top
-  svg += `<text x="${centerX}" y="${y - 10}" text-anchor="middle" fill="#C62828" font-size="14" font-weight="bold" dx="100">CONS</text>`;
+  // Add "CONS" label at top (offset by dx)
+  const consStyle = { fontSize: 14, fontWeight: 'bold', color: '#C62828' };
+  svg += renderShapeLabel(
+    {
+      node: { id: '', type: '', data: {} },
+      renderLabel: () => '',
+      style: consStyle,
+      measureText: () => ({ width: 0, height: 0 }),
+    } as any,
+    'CONS',
+    centerX + 100,
+    y - 10
+  );
 
   return svg;
 }
@@ -116,22 +155,21 @@ export const plusMinus: ShapeDefinition = {
 
   anchors(ctx: ShapeRenderContext) {
     const bounds = this.bounds(ctx);
-    const centerX = bounds.width / 2;
-    const centerY = bounds.height / 2;
-
-    return [
-      { id: 'top', x: centerX, y: 0 },
-      { id: 'right', x: bounds.width, y: centerY },
-      { id: 'bottom', x: centerX, y: bounds.height },
-      { id: 'left', x: 0, y: centerY },
-    ];
+    return createStandardAnchors({ ...bounds, useId: true });
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {
     const data = ctx.node.data as any;
 
     if (!data || !data.plus || !data.minus) {
-      return `<text x="${position.x}" y="${position.y}" fill="red">Invalid plusMinus data</text>`;
+      const errorStyle = { color: 'red' };
+      return renderShapeLabel(
+        { ...ctx, style: errorStyle },
+        'Invalid plusMinus data',
+        position.x,
+        position.y,
+        'start'
+      );
     }
 
     const plusItems = data.plus || [];

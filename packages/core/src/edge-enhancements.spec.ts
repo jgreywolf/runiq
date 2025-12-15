@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { EdgeAst, DiagramAst } from './types.js';
+import type { EdgeAst, DiagramAst } from './types/index.js';
 
 describe('Edge Enhancements - Stereotypes and Line Styles', () => {
   describe('Edge Type Definitions', () => {

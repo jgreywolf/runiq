@@ -10,7 +10,7 @@
  * These metrics help identify important nodes, communities, and network structure.
  */
 
-import type { DiagramAst } from '../types.js';
+import type { DiagramAst } from '../types/index.js';
 
 /**
  * Graph metrics for a single node
