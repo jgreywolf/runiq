@@ -2,6 +2,14 @@ import { describe, expect, it, vi } from 'vitest';
 import type { ShapeRenderContext } from '../../types/index.js';
 import { renderShapeLabel } from './render-label.js';
 
+// Helper to create a mock measureText function
+const createMockMeasureText = () => {
+  return vi.fn((text: string) => ({
+    width: text.length * 8, // Approximate: 8px per character
+    height: 14,
+  }));
+};
+
 describe('render-label utility', () => {
   describe('renderShapeLabel', () => {
     it('should use renderLabel when available', () => {
@@ -10,6 +18,7 @@ describe('render-label utility', () => {
       const ctx = {
         style: { color: '#ff0000', fontSize: 16 },
         renderLabel: mockRenderLabel,
+        measureText: createMockMeasureText(),
       } as unknown as ShapeRenderContext;
 
       const result = renderShapeLabel(ctx, 'Test Label', 50, 50);
@@ -31,6 +40,7 @@ describe('render-label utility', () => {
     it('should fallback to plain text when renderLabel not available', () => {
       const ctx = {
         style: { color: '#0000ff', fontSize: 14 },
+        measureText: createMockMeasureText(),
       } as unknown as ShapeRenderContext;
 
       const result = renderShapeLabel(ctx, 'Simple Label', 100, 100);
@@ -47,6 +57,7 @@ describe('render-label utility', () => {
     it('should use default color when not specified', () => {
       const ctx = {
         style: {},
+        measureText: createMockMeasureText(),
       } as unknown as ShapeRenderContext;
 
       const result = renderShapeLabel(ctx, 'Test', 50, 50);
@@ -57,6 +68,7 @@ describe('render-label utility', () => {
     it('should use default fontSize when not specified', () => {
       const ctx = {
         style: {},
+        measureText: createMockMeasureText(),
       } as unknown as ShapeRenderContext;
 
       const result = renderShapeLabel(ctx, 'Test', 50, 50);
@@ -67,6 +79,7 @@ describe('render-label utility', () => {
     it('should use default fontFamily when not specified', () => {
       const ctx = {
         style: {},
+        measureText: createMockMeasureText(),
       } as unknown as ShapeRenderContext;
 
       const result = renderShapeLabel(ctx, 'Test', 50, 50);
@@ -77,6 +90,7 @@ describe('render-label utility', () => {
     it('should apply custom textAnchor', () => {
       const ctx = {
         style: {},
+        measureText: createMockMeasureText(),
       } as unknown as ShapeRenderContext;
 
       const result = renderShapeLabel(ctx, 'Test', 50, 50, 'start');
@@ -87,6 +101,7 @@ describe('render-label utility', () => {
     it('should apply custom dominantBaseline', () => {
       const ctx = {
         style: {},
+        measureText: createMockMeasureText(),
       } as unknown as ShapeRenderContext;
 
       const result = renderShapeLabel(ctx, 'Test', 50, 50, 'middle', 'hanging');
@@ -331,6 +346,117 @@ describe('render-label utility', () => {
 
         // Empty line should still create a tspan
         expect(result).toContain('><tspan'); // Empty tspan content
+      });
+    });
+
+    describe('textAlign property mapping', () => {
+      it('should map textAlign:"left" to text-anchor="start"', () => {
+        const ctx = {
+          style: { textAlign: 'left' },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Left', 50, 50);
+
+        expect(result).toContain('text-anchor="start"');
+      });
+
+      it('should map textAlign:"center" to text-anchor="middle"', () => {
+        const ctx = {
+          style: { textAlign: 'center' },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Center', 50, 50);
+
+        expect(result).toContain('text-anchor="middle"');
+      });
+
+      it('should map textAlign:"right" to text-anchor="end"', () => {
+        const ctx = {
+          style: { textAlign: 'right' },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Right', 50, 50);
+
+        expect(result).toContain('text-anchor="end"');
+      });
+
+      it('should default to text-anchor="middle" when textAlign not specified', () => {
+        const ctx = {
+          style: {},
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Default', 50, 50);
+
+        expect(result).toContain('text-anchor="middle"');
+      });
+
+      it('should handle case-insensitive textAlign values', () => {
+        const ctx = {
+          style: { textAlign: 'LEFT' },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Left', 50, 50);
+
+        expect(result).toContain('text-anchor="start"');
+      });
+
+      it('should allow direct SVG values (start/middle/end)', () => {
+        const ctx1 = {
+          style: { textAlign: 'start' },
+        } as unknown as ShapeRenderContext;
+
+        const result1 = renderShapeLabel(ctx1, 'Start', 50, 50);
+        expect(result1).toContain('text-anchor="start"');
+
+        const ctx2 = {
+          style: { textAlign: 'end' },
+        } as unknown as ShapeRenderContext;
+
+        const result2 = renderShapeLabel(ctx2, 'End', 50, 50);
+        expect(result2).toContain('text-anchor="end"');
+      });
+
+      it('should give priority to textAlign over textAnchor parameter', () => {
+        const ctx = {
+          style: { textAlign: 'left' },
+        } as unknown as ShapeRenderContext;
+
+        // Even though textAnchor parameter is 'end', textAlign should take precedence
+        const result = renderShapeLabel(ctx, 'Left Priority', 50, 50, 'end');
+
+        expect(result).toContain('text-anchor="start"');
+      });
+
+      it('should pass textAlign mapping to renderLabel when available', () => {
+        const mockRenderLabel = vi.fn(() => '<text>Mock</text>');
+
+        const ctx = {
+          style: { textAlign: 'right' },
+          renderLabel: mockRenderLabel,
+        } as unknown as ShapeRenderContext;
+
+        renderShapeLabel(ctx, 'Right', 50, 50);
+
+        expect(mockRenderLabel).toHaveBeenCalledWith('Right', 50, 50, {
+          fontSize: 14,
+          fontFamily: 'sans-serif',
+          fill: '#000',
+          textAnchor: 'end', // Should map 'right' to 'end'
+          dominantBaseline: 'middle',
+          fontWeight: undefined,
+          fontStyle: undefined,
+          textDecoration: undefined,
+        });
+      });
+
+      it('should work with multiline text', () => {
+        const ctx = {
+          style: { textAlign: 'right' },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Line 1\nLine 2', 50, 50);
+
+        expect(result).toContain('text-anchor="end"');
       });
     });
   });

@@ -1303,6 +1303,45 @@ export class ElkLayoutEngine implements LayoutEngine {
   }
 
   /**
+   * Apply uniform width to all BPMN pools so they span the full diagram width
+   * BPMN pools should all have the same width (like swimlanes in a pool)
+   */
+  private applyUniformBpmnPoolDimensions(
+    containers: ContainerDeclaration[],
+    positionedContainers: PositionedContainer[]
+  ): void {
+    // Find all BPMN pools and calculate max width
+    const bpmnPools: Array<{ container: ContainerDeclaration; positioned: PositionedContainer; index: number }> = [];
+    let maxWidth = 0;
+
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      const positioned = positionedContainers[i];
+      
+      if (container.shape === 'bpmnPool') {
+        bpmnPools.push({ container, positioned, index: i });
+        maxWidth = Math.max(maxWidth, positioned.width);
+      }
+    }
+
+    // If only one pool or no pools, no need to adjust
+    if (bpmnPools.length <= 1) {
+      return;
+    }
+
+    // Apply uniform width to all pools
+    for (const { positioned } of bpmnPools) {
+      // Only expand width, don't shrink (keep content from overflowing)
+      if (positioned.width < maxWidth) {
+        positioned.width = maxWidth;
+      }
+    }
+
+    // No need to adjust node positions - pools are horizontal containers
+    // and nodes are positioned absolutely within them
+  }
+
+  /**
    * Reposition regular (non-swimlane) containers to avoid overlap
    * Stacks containers vertically based on their actual laid-out heights
    */
@@ -2097,7 +2136,8 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Post-process containers based on their type
     const hasSwim = containers.some((c) => c.layoutOptions?.orientation);
-    const hasRegular = containers.some((c) => !c.layoutOptions?.orientation);
+    const hasBpmnPools = containers.some((c) => c.shape === 'bpmnPool');
+    const hasRegular = containers.some((c) => !c.layoutOptions?.orientation && c.shape !== 'bpmnPool');
 
     if (hasSwim) {
       // Apply uniform dimensions to swimlanes and adjust positions
@@ -2108,6 +2148,14 @@ export class ElkLayoutEngine implements LayoutEngine {
         edges,
         direction,
         nodeContainerMap
+      );
+    }
+
+    if (hasBpmnPools) {
+      // Apply uniform width to BPMN pools
+      this.applyUniformBpmnPoolDimensions(
+        containers,
+        result
       );
     }
 

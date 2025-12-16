@@ -88,7 +88,9 @@ export function extractBasicStyles(
     StyleExtractionOptions,
     'defaultFill' | 'defaultStroke' | 'defaultStrokeWidth'
   > = {}
-): Pick<ExtractedStyles, 'fill' | 'stroke' | 'strokeWidth'> & { strokeDasharray?: string } {
+): Pick<ExtractedStyles, 'fill' | 'stroke' | 'strokeWidth'> & {
+  strokeDasharray?: string;
+} {
   const {
     defaultFill = '#f0f0f0',
     defaultStroke = '#333',

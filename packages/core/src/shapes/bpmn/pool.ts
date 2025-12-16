@@ -40,16 +40,21 @@ export const bpmnPoolShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const { fill, stroke, strokeWidth, strokeDasharray } = extractBasicStyles(ctx, {
-      defaultFill: '#f5f5f5',
-      defaultStroke: '#000000',
-      defaultStrokeWidth: 2,
-    });
+    const { fill, stroke, strokeWidth, strokeDasharray } = extractBasicStyles(
+      ctx,
+      {
+        defaultFill: '#f5f5f5',
+        defaultStroke: '#000000',
+        defaultStrokeWidth: 2,
+      }
+    );
 
     const labelAreaWidth = 30; // Width of the vertical label area
-    
+
     // Build stroke-dasharray attribute if present
-    const dasharrayAttr = strokeDasharray ? ` stroke-dasharray="${strokeDasharray}"` : '';
+    const dasharrayAttr = strokeDasharray
+      ? ` stroke-dasharray="${strokeDasharray}"`
+      : '';
 
     // Main pool/lane rectangle
     let svg = `<rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"${dasharrayAttr}/>`;

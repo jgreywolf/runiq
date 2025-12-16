@@ -31,13 +31,48 @@ export function renderShapeLabel(
   const fontStyle = ctx.style.fontStyle;
   const textDecoration = ctx.style.textDecoration;
 
+  // Map textAlign style property to SVG text-anchor
+  // Priority: ctx.style.textAlign > parameter textAnchor > default 'middle'
+  let effectiveTextAnchor = textAnchor;
+  if (ctx.style.textAlign) {
+    const align = ctx.style.textAlign.toLowerCase();
+    if (align === 'left') {
+      effectiveTextAnchor = 'start';
+    } else if (align === 'center') {
+      effectiveTextAnchor = 'middle';
+    } else if (align === 'right') {
+      effectiveTextAnchor = 'end';
+    } else if (align === 'start' || align === 'middle' || align === 'end') {
+      // Allow direct SVG values too
+      effectiveTextAnchor = align as 'start' | 'middle' | 'end';
+    }
+  }
+
+  // Adjust x coordinate based on text-anchor if alignment differs from the default 'middle'
+  // Shapes typically pass center x, but start/end need left/right edges
+  let adjustedX = x;
+  if (effectiveTextAnchor !== 'middle' && ctx.measureText) {
+    // Measure text width to calculate adjustment
+    const textMetrics = ctx.measureText(label, ctx.style);
+    const halfWidth = textMetrics.width / 2;
+    const padding = 8; // Standard padding from edges
+    
+    if (effectiveTextAnchor === 'start') {
+      // Left align: move from center to left edge + padding
+      adjustedX = x - halfWidth + padding;
+    } else if (effectiveTextAnchor === 'end') {
+      // Right align: move from center to right edge - padding
+      adjustedX = x + halfWidth - padding;
+    }
+  }
+
   // Use renderLabel if available (supports inline icons), otherwise plain text
   if (ctx.renderLabel) {
-    return ctx.renderLabel(label, x, y, {
+    return ctx.renderLabel(label, adjustedX, y, {
       fontSize,
       fontFamily,
       fill: textColor,
-      textAnchor,
+      textAnchor: effectiveTextAnchor,
       dominantBaseline,
       fontWeight,
       fontStyle,
@@ -50,7 +85,7 @@ export function renderShapeLabel(
   const lineHeight = fontSize * 1.2;
 
   // Build base attributes
-  const baseAttrs = `text-anchor="${textAnchor}" font-family="${fontFamily}" font-size="${fontSize}"`;
+  const baseAttrs = `text-anchor="${effectiveTextAnchor}" font-family="${fontFamily}" font-size="${fontSize}"`;
   const styleAttrs = [
     fontWeight ? `font-weight="${fontWeight}"` : '',
     fontStyle ? `font-style="${fontStyle}"` : '',
@@ -64,7 +99,7 @@ export function renderShapeLabel(
 
   // Single line - simple text element
   if (lines.length === 1) {
-    return `<text x="${x}" y="${y}" dominant-baseline="${dominantBaseline}" ${allAttrs}>${escapeXml(label)}</text>`;
+    return `<text x="${adjustedX}" y="${y}" dominant-baseline="${dominantBaseline}" ${allAttrs}>${escapeXml(label)}</text>`;
   }
 
   // Multiple lines - use tspan elements
@@ -77,7 +112,7 @@ export function renderShapeLabel(
   let textElement = `<text ${allAttrs}>`;
   lines.forEach((line, index) => {
     const lineY = startY + index * lineHeight;
-    textElement += `<tspan x="${x}" y="${lineY}">${escapeXml(line)}</tspan>`;
+    textElement += `<tspan x="${adjustedX}" y="${lineY}">${escapeXml(line)}</tspan>`;
   });
   textElement += `</text>`;
 

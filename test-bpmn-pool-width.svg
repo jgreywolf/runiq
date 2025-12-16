@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="454" height="832" 
+    viewBox="0 0 454 832"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">BPMN Pool Width Test</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="pool1" data-container-id="pool1"><rect x="0" y="0" width="434" height="144" fill="#f5f5f5" stroke="#ddd" stroke-width="2"/><line x1="30" y1="0" x2="30" y2="144" stroke="#ddd" stroke-width="2"/><g transform="rotate(-90 15 72)"><text x="15" y="72" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#000">Pool 1</text></g></g><g data-runiq-container="pool2" data-container-id="pool2"><rect x="0" y="294" width="434" height="224" fill="#f5f5f5" stroke="#ddd" stroke-width="2"/><line x1="30" y1="294" x2="30" y2="518" stroke="#ddd" stroke-width="2"/><g transform="rotate(-90 15 406)"><text x="15" y="406" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#000">Pool 2 (longer content)</text></g></g><g data-runiq-container="pool3" data-container-id="pool3"><rect x="0" y="668" width="434" height="144" fill="#f5f5f5" stroke="#ddd" stroke-width="2"/><line x1="30" y1="668" x2="30" y2="812" stroke="#ddd" stroke-width="2"/><g transform="rotate(-90 15 740)"><text x="15" y="740" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#000">Pool 3</text></g></g><g data-runiq-edge="task2-task3-0" data-edge-id="task2-task3-0" data-edge-from="task2" data-edge-to="task3"><defs>
+      <marker id="arrow-standard-task2-task3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 142 446 L 217 446 L 217 446 L 292 446" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 142 446 L 217 446 L 217 446 L 292 446" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-task2-task3)" pointer-events="none" /></g><g data-runiq-edge="task6-task7-1" data-edge-id="task6-task7-1" data-edge-from="task6" data-edge-to="task7"><defs>
+      <marker id="arrow-standard-task6-task7" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 142 740 L 217 740 L 217 740 L 292 740" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 142 740 L 217 740 L 217 740 L 292 740" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-task6-task7)" pointer-events="none" /></g><g data-runiq-node="task1" data-node-id="task1" data-node-shape="bpmnTask"><rect x="42" y="42" width="100" height="60" fill="#5a819e" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="92" y="76.66666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Task A
+    </text></g><g data-runiq-node="task2" data-node-id="task2" data-node-shape="bpmnTask"><rect x="42" y="416" width="100" height="60" fill="#73a3bf" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="92" y="450.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Task B
+    </text></g><g data-runiq-node="task3" data-node-id="task3" data-node-shape="bpmnTask"><rect x="292" y="416" width="100" height="60" fill="#96bacf" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="342" y="450.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Task C
+    </text></g><g data-runiq-node="task4" data-node-id="task4" data-node-shape="bpmnTask"><rect x="42" y="336" width="100" height="60" fill="#48677e" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="92" y="370.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Task D
+    </text></g><g data-runiq-node="task5" data-node-id="task5" data-node-shape="bpmnTask"><rect x="162" y="336" width="100" height="60" fill="#364d5f" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="212" y="370.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Task E
+    </text></g><g data-runiq-node="task6" data-node-id="task6" data-node-shape="bpmnTask"><rect x="42" y="710" width="100" height="60" fill="#5a819e" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="92" y="744.6666666666666" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Task F
+    </text></g><g data-runiq-node="task7" data-node-id="task7" data-node-shape="bpmnTask"><rect x="292" y="710" width="100" height="60" fill="#73a3bf" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="342" y="744.6666666666666" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Task G
+    </text></g></svg>
