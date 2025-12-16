@@ -2442,18 +2442,40 @@ export class ElkLayoutEngine implements LayoutEngine {
           });
         }
       } else {
-        // Fallback: straight line between node centers
+        // Fallback: orthogonal routing between node centers
         const fromNode = nodes.find((n) => n.id === elkEdge.sources[0]);
         const toNode = nodes.find((n) => n.id === elkEdge.targets[0]);
 
         if (fromNode && toNode) {
-          points.push(
-            {
-              x: fromNode.x + fromNode.width / 2,
-              y: fromNode.y + fromNode.height / 2,
-            },
-            { x: toNode.x + toNode.width / 2, y: toNode.y + toNode.height / 2 }
-          );
+          const fromX = fromNode.x + fromNode.width / 2;
+          const fromY = fromNode.y + fromNode.height / 2;
+          const toX = toNode.x + toNode.width / 2;
+          const toY = toNode.y + toNode.height / 2;
+
+          // Use orthogonal routing instead of straight diagonal line
+          // Determine direction based on relative positions
+          const isVerticalPreference =
+            Math.abs(toY - fromY) > Math.abs(toX - fromX);
+
+          if (isVerticalPreference) {
+            // Vertical-first routing: go vertical then horizontal
+            const midY = (fromY + toY) / 2;
+            points.push(
+              { x: fromX, y: fromY },
+              { x: fromX, y: midY },
+              { x: toX, y: midY },
+              { x: toX, y: toY }
+            );
+          } else {
+            // Horizontal-first routing: go horizontal then vertical
+            const midX = (fromX + toX) / 2;
+            points.push(
+              { x: fromX, y: fromY },
+              { x: midX, y: fromY },
+              { x: midX, y: toY },
+              { x: toX, y: toY }
+            );
+          }
         }
       }
 

@@ -1,0 +1,18 @@
+diagram "Cross-Container Edge Test" {
+  direction TB
+  
+  container c1 "Container 1" {
+    shape n1 as @rectangle label:"Node 1"
+    shape n2 as @rectangle label:"Node 2"
+  }
+  
+  container c2 "Container 2" {
+    shape n3 as @rectangle label:"Node 3"
+    shape n4 as @rectangle label:"Node 4"
+  }
+  
+  // Cross-container edges that might route diagonally
+  n1 -> n3
+  n2 -> n4
+  n1 -> n4
+}
