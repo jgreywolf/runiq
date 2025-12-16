@@ -1,0 +1,7 @@
+diagram "Note Width Test" {
+  direction TB
+  
+  shape n1 as @note label:"Short"
+  shape n2 as @note label:"This is a medium length note that should size appropriately"
+  shape n3 as @note label:"This is an extremely long note with a lot of text that goes on and on and should potentially be constrained by a maximum width to prevent it from becoming too wide and breaking the layout of the diagram"
+}

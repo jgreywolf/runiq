@@ -1,0 +1,6 @@
+diagram "Container Test" {
+  container backend "Backend" {
+    shape api as @rect label:"API"
+    shape db as @cylinder label:"Database"
+  }
+}

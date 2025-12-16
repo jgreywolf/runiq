@@ -83,25 +83,67 @@ export function renderLabelWithIcons(
     fill?: string;
     textAnchor?: 'start' | 'middle' | 'end';
     dominantBaseline?: string;
+    fontWeight?: string;
+    fontStyle?: string;
+    textDecoration?: string;
   },
   warnings: string[]
 ): string {
   const segments = parseLabelWithIcons(label);
+  const fontSize = style.fontSize || 14;
 
-  // If no icons, return simple text element
+  // If no icons, check for multiline text (contains \n)
   if (segments.every((s) => s.type === 'text')) {
-    return `<text x="${x}" y="${y}" 
+    const lines = label.split('\n');
+
+    // Single line - simple text element
+    if (lines.length === 1) {
+      return `<text x="${x}" y="${y}" 
       text-anchor="${style.textAnchor || 'middle'}" 
       dominant-baseline="${style.dominantBaseline || 'middle'}"
       font-family="${style.fontFamily || 'sans-serif'}" 
-      font-size="${style.fontSize || 14}"
+      font-size="${fontSize}"
       fill="${style.fill || 'currentColor'}">
       ${label}
     </text>`;
+    }
+
+    // Multiple lines - use tspan elements
+    const lineHeight = fontSize * 1.2;
+    let startY = y;
+    if (style.dominantBaseline === 'middle') {
+      // Center the block of text vertically
+      startY = y - ((lines.length - 1) * lineHeight) / 2;
+    }
+
+    // Build base attributes
+    const baseAttrs = `text-anchor="${style.textAnchor || 'middle'}" font-family="${style.fontFamily || 'sans-serif'}" font-size="${fontSize}"`;
+    const styleAttrs = [
+      style.fontWeight ? `font-weight="${style.fontWeight}"` : '',
+      style.fontStyle ? `font-style="${style.fontStyle}"` : '',
+      style.textDecoration ? `text-decoration="${style.textDecoration}"` : '',
+    ]
+      .filter((a) => a)
+      .join(' ');
+    const allAttrs = [
+      baseAttrs,
+      styleAttrs,
+      `fill="${style.fill || 'currentColor'}"`,
+    ]
+      .filter((a) => a)
+      .join(' ');
+
+    let textElement = `<text ${allAttrs}>`;
+    lines.forEach((line, index) => {
+      const lineY = startY + index * lineHeight;
+      textElement += `<tspan x="${x}" y="${lineY}">${line}</tspan>`;
+    });
+    textElement += `</text>`;
+
+    return textElement;
   }
 
   // Build SVG with inline icons
-  const fontSize = style.fontSize || 14;
   const iconSize = fontSize; // Icons are same size as text
   const iconPadding = 4; // Space between icon and text
 

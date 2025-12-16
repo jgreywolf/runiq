@@ -80,4 +80,65 @@ describe('UML Note', () => {
     expect(bounds.width).toBeGreaterThan(0);
     expect(bounds.height).toBeGreaterThan(0);
   });
+
+  it('should enforce minimum width of 100px', () => {
+    const ctx = createMockContext('X'); // Very short text
+    const bounds = noteShape.bounds(ctx);
+
+    expect(bounds.width).toBeGreaterThanOrEqual(100);
+  });
+
+  it('should enforce maximum width of 500px', () => {
+    // Create a very long text that would exceed 500px
+    const longText = 'A'.repeat(200); // 200 characters * 8px/char = 1600px without constraint
+    const ctx = createMockContext(longText);
+    const bounds = noteShape.bounds(ctx);
+
+    expect(bounds.width).toBeLessThanOrEqual(500);
+  });
+
+  it('should wrap text when it exceeds maximum width', () => {
+    // Text that would be ~800px wide (100 chars * 8px) without wrapping
+    // Need text long enough: (500px - 24px padding) / 8px per char = ~60 chars before wrapping
+    const longText = 'A'.repeat(70) + ' ' + 'B'.repeat(70); // 140 chars total, will wrap
+    const ctx = createMockContext(longText);
+
+    const bounds = noteShape.bounds(ctx);
+
+    // Width should be constrained to MAX_WIDTH
+    expect(bounds.width).toBeLessThanOrEqual(500);
+
+    // Height should increase due to wrapping (multiple lines)
+    const lineHeight = 18; // fontSize 14 + 4
+    const minHeightForTwoLines = 12 * 2 + lineHeight * 2; // padding + 2 lines
+    expect(bounds.height).toBeGreaterThanOrEqual(minHeightForTwoLines);
+
+    // Check that wrappedLines were created
+    expect(ctx.node.data?.wrappedLines).toBeDefined();
+    expect((ctx.node.data?.wrappedLines as string[]).length).toBeGreaterThan(1);
+  });
+
+  it('should not wrap text that fits within maximum width', () => {
+    const shortText = 'Short note';
+    const ctx = createMockContext(shortText);
+
+    const bounds = noteShape.bounds(ctx);
+
+    // Should not create wrappedLines for short text
+    expect(ctx.node.data?.wrappedLines).toBeUndefined();
+  });
+
+  it('should render wrapped text with newlines', () => {
+    // Need enough text to trigger wrapping: > 60 chars
+    const longText = 'A'.repeat(70) + ' ' + 'B'.repeat(70);
+    const ctx = createMockContext(longText);
+
+    // Calculate bounds first (this triggers wrapping)
+    noteShape.bounds(ctx);
+
+    const svg = noteShape.render(ctx, { x: 0, y: 0 });
+
+    // Should contain tspan elements for multiline text
+    expect(svg).toContain('<tspan');
+  });
 });
