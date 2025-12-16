@@ -1311,13 +1311,17 @@ export class ElkLayoutEngine implements LayoutEngine {
     positionedContainers: PositionedContainer[]
   ): void {
     // Find all BPMN pools and calculate max width
-    const bpmnPools: Array<{ container: ContainerDeclaration; positioned: PositionedContainer; index: number }> = [];
+    const bpmnPools: Array<{
+      container: ContainerDeclaration;
+      positioned: PositionedContainer;
+      index: number;
+    }> = [];
     let maxWidth = 0;
 
     for (let i = 0; i < containers.length; i++) {
       const container = containers[i];
       const positioned = positionedContainers[i];
-      
+
       if (container.shape === 'bpmnPool') {
         bpmnPools.push({ container, positioned, index: i });
         maxWidth = Math.max(maxWidth, positioned.width);
@@ -2137,7 +2141,9 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Post-process containers based on their type
     const hasSwim = containers.some((c) => c.layoutOptions?.orientation);
     const hasBpmnPools = containers.some((c) => c.shape === 'bpmnPool');
-    const hasRegular = containers.some((c) => !c.layoutOptions?.orientation && c.shape !== 'bpmnPool');
+    const hasRegular = containers.some(
+      (c) => !c.layoutOptions?.orientation && c.shape !== 'bpmnPool'
+    );
 
     if (hasSwim) {
       // Apply uniform dimensions to swimlanes and adjust positions
@@ -2153,10 +2159,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     if (hasBpmnPools) {
       // Apply uniform width to BPMN pools
-      this.applyUniformBpmnPoolDimensions(
-        containers,
-        result
-      );
+      this.applyUniformBpmnPoolDimensions(containers, result);
     }
 
     if (hasRegular) {

@@ -56,7 +56,7 @@ export function renderShapeLabel(
     const textMetrics = ctx.measureText(label, ctx.style);
     const halfWidth = textMetrics.width / 2;
     const padding = 8; // Standard padding from edges
-    
+
     if (effectiveTextAnchor === 'start') {
       // Left align: move from center to left edge + padding
       adjustedX = x - halfWidth + padding;
