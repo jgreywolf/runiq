@@ -123,6 +123,7 @@ export interface Style {
   stroke?: string;
   strokeColor?: string; // Alias for stroke
   strokeWidth?: number;
+  strokeDasharray?: string; // SVG stroke-dasharray for dashed/dotted borders
   font?: string;
   fontSize?: number;
   fontFamily?: string;

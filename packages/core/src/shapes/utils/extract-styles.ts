@@ -74,12 +74,12 @@ export function extractStyles(
 }
 
 /**
- * Extracts basic shape styles (fill, stroke, strokeWidth only).
+ * Extracts basic shape styles (fill, stroke, strokeWidth, strokeDasharray).
  * Use this for simple shapes that don't need text rendering.
  *
  * @example
  * ```typescript
- * const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
+ * const { fill, stroke, strokeWidth, strokeDasharray } = extractBasicStyles(ctx);
  * ```
  */
 export function extractBasicStyles(
@@ -88,7 +88,7 @@ export function extractBasicStyles(
     StyleExtractionOptions,
     'defaultFill' | 'defaultStroke' | 'defaultStrokeWidth'
   > = {}
-): Pick<ExtractedStyles, 'fill' | 'stroke' | 'strokeWidth'> {
+): Pick<ExtractedStyles, 'fill' | 'stroke' | 'strokeWidth'> & { strokeDasharray?: string } {
   const {
     defaultFill = '#f0f0f0',
     defaultStroke = '#333',
@@ -99,6 +99,7 @@ export function extractBasicStyles(
     fill: ctx.style.fill || defaultFill,
     stroke: ctx.style.stroke || defaultStroke,
     strokeWidth: ctx.style.strokeWidth ?? defaultStrokeWidth,
+    strokeDasharray: ctx.style.strokeDasharray as string | undefined,
   };
 }
 
