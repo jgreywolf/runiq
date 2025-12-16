@@ -174,5 +174,164 @@ describe('render-label utility', () => {
 
       expect(result).toContain('fill="#000"');
     });
+
+    describe('Multiline text support', () => {
+      it('should render single line as simple text element', () => {
+        const ctx = {
+          style: { fontSize: 14 },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Single Line', 100, 100);
+
+        expect(result).toContain('<text');
+        expect(result).toContain('x="100"');
+        expect(result).toContain('y="100"');
+        expect(result).toContain('Single Line');
+        expect(result).not.toContain('<tspan');
+        expect(result).toContain('</text>');
+      });
+
+      it('should render multiline text with tspan elements', () => {
+        const ctx = {
+          style: { fontSize: 14 },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(
+          ctx,
+          'Line 1\nLine 2\nLine 3',
+          100,
+          100
+        );
+
+        expect(result).toContain('<text');
+        expect(result).toContain('<tspan');
+        expect(result).toContain('Line 1');
+        expect(result).toContain('Line 2');
+        expect(result).toContain('Line 3');
+        expect(result).toContain('</text>');
+
+        // Should have 3 tspans
+        const tspanCount = (result.match(/<tspan/g) || []).length;
+        expect(tspanCount).toBe(3);
+      });
+
+      it('should calculate line spacing correctly for multiline text', () => {
+        const ctx = {
+          style: { fontSize: 14 },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(
+          ctx,
+          'Line 1\nLine 2',
+          100,
+          100,
+          'middle',
+          'middle'
+        );
+
+        // Line height should be fontSize * 1.2 = 14 * 1.2 = 16.8
+        // For 2 lines centered, first line at y = 100 - 16.8/2 = 91.6
+        // Second line at y = 91.6 + 16.8 = 108.4 (may have floating point precision)
+        expect(result).toContain('y="91.6"');
+        expect(result).toMatch(/y="108\.3\d+"/); // Handle floating point precision
+      });
+
+      it('should center multiline text vertically with middle baseline', () => {
+        const ctx = {
+          style: { fontSize: 20 },
+        } as unknown as ShapeRenderContext;
+
+        // fontSize 20 * 1.2 = 24 line height
+        // 3 lines: (3-1) * 24 = 48 total height
+        // Centered at y=100: start at 100 - 48/2 = 76
+        const result = renderShapeLabel(
+          ctx,
+          'A\nB\nC',
+          50,
+          100,
+          'middle',
+          'middle'
+        );
+
+        expect(result).toContain('y="76"'); // First line
+        expect(result).toContain('y="100"'); // Second line (at center)
+        expect(result).toContain('y="124"'); // Third line
+      });
+
+      it('should maintain x coordinate for all tspans', () => {
+        const ctx = {
+          style: { fontSize: 14 },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'A\nB\nC', 75, 100);
+
+        // All tspans should have x="75"
+        const xMatches = result.match(/x="75"/g);
+        expect(xMatches).toBeTruthy();
+        expect(xMatches!.length).toBe(3); // One for each tspan
+      });
+
+      it('should escape XML in each line of multiline text', () => {
+        const ctx = {
+          style: {},
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(
+          ctx,
+          '<tag1>\n&special\n"quoted"',
+          50,
+          50
+        );
+
+        expect(result).toContain('&lt;tag1&gt;');
+        expect(result).toContain('&amp;special');
+        expect(result).toContain('&quot;quoted&quot;');
+      });
+
+      it('should apply text-anchor to multiline text', () => {
+        const ctx = {
+          style: {},
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'A\nB', 50, 50, 'start');
+
+        expect(result).toContain('text-anchor="start"');
+      });
+
+      it('should apply all style attributes to multiline text', () => {
+        const ctx = {
+          style: {
+            fontSize: 16,
+            font: 'Arial',
+            color: '#ff0000',
+            fontWeight: 'bold',
+            fontStyle: 'italic',
+          },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Line 1\nLine 2', 50, 50);
+
+        expect(result).toContain('font-size="16"');
+        expect(result).toContain('font-family="Arial"');
+        expect(result).toContain('fill="#ff0000"');
+        expect(result).toContain('font-weight="bold"');
+        expect(result).toContain('font-style="italic"');
+      });
+
+      it('should handle empty lines in multiline text', () => {
+        const ctx = {
+          style: { fontSize: 14 },
+        } as unknown as ShapeRenderContext;
+
+        const result = renderShapeLabel(ctx, 'Line 1\n\nLine 3', 100, 100);
+
+        // Should have 3 tspans (including empty line)
+        const tspanCount = (result.match(/<tspan/g) || []).length;
+        expect(tspanCount).toBe(3);
+
+        // Empty line should still create a tspan
+        expect(result).toContain('><tspan'); // Empty tspan content
+      });
+    });
   });
 });

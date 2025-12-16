@@ -36,7 +36,15 @@ export const systemBoundaryShape: ShapeDefinition = {
   },
 
   render(ctx, position) {
-    const bounds = this.bounds(ctx);
+    // Use container dimensions if available (when used as container shape),
+    // otherwise calculate bounds from label
+    const containerWidth = (ctx.node.data as any)?.width;
+    const containerHeight = (ctx.node.data as any)?.height;
+    const bounds =
+      containerWidth && containerHeight
+        ? { width: containerWidth, height: containerHeight }
+        : this.bounds(ctx);
+
     const { x, y } = position;
     const padding = ctx.style.padding ?? ShapeDefaults.PADDING_LARGE;
 
@@ -53,7 +61,7 @@ export const systemBoundaryShape: ShapeDefinition = {
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"
             stroke-dasharray="5,3" />
       
-      ${renderShapeLabel({ ...ctx, style: { ...ctx.style, fontWeight: 'bold' as const } }, ctx.node.label || ctx.node.id, x + padding, labelY)}
+      ${renderShapeLabel({ ...ctx, style: { ...ctx.style, fontWeight: 'bold' as const } }, ctx.node.label || ctx.node.id, x + padding, labelY, 'start')}
     `;
   },
 };

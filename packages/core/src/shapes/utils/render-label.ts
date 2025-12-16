@@ -4,10 +4,10 @@ import { escapeXml } from '../../types/shape-types.js';
 /**
  * Helper function to render labels consistently across all shapes.
  * Uses ctx.renderLabel if available (supports inline icons like "fa:fa-star Label"),
- * otherwise falls back to plain text rendering.
+ * otherwise falls back to plain text rendering with multiline support.
  *
  * @param ctx - Shape render context
- * @param label - Label text to render (may contain inline icon syntax)
+ * @param label - Label text to render (may contain inline icon syntax or \n for line breaks)
  * @param x - X coordinate for label
  * @param y - Y coordinate for label
  * @param textAnchor - Text alignment ('start' | 'middle' | 'end')
@@ -45,21 +45,41 @@ export function renderShapeLabel(
     });
   }
 
-  // Fallback to plain text with additional style attributes
-  let textElement = `<text x="${x}" y="${y}" 
-      text-anchor="${textAnchor}" dominant-baseline="${dominantBaseline}"
-      font-family="${fontFamily}" font-size="${fontSize}"`;
+  // Check if label contains newlines for multiline rendering
+  const lines = label.split('\n');
+  const lineHeight = fontSize * 1.2;
 
-  if (fontWeight) {
-    textElement += ` font-weight="${fontWeight}"`;
-  }
-  if (fontStyle) {
-    textElement += ` font-style="${fontStyle}"`;
-  }
-  if (textDecoration) {
-    textElement += ` text-decoration="${textDecoration}"`;
+  // Build base attributes
+  const baseAttrs = `text-anchor="${textAnchor}" font-family="${fontFamily}" font-size="${fontSize}"`;
+  const styleAttrs = [
+    fontWeight ? `font-weight="${fontWeight}"` : '',
+    fontStyle ? `font-style="${fontStyle}"` : '',
+    textDecoration ? `text-decoration="${textDecoration}"` : '',
+  ]
+    .filter((a) => a)
+    .join(' ');
+  const allAttrs = [baseAttrs, styleAttrs, `fill="${textColor}"`]
+    .filter((a) => a)
+    .join(' ');
+
+  // Single line - simple text element
+  if (lines.length === 1) {
+    return `<text x="${x}" y="${y}" dominant-baseline="${dominantBaseline}" ${allAttrs}>${escapeXml(label)}</text>`;
   }
 
-  textElement += ` fill="${textColor}">${escapeXml(label)}</text>`;
+  // Multiple lines - use tspan elements
+  let startY = y;
+  if (dominantBaseline === 'middle') {
+    // Center the block of text vertically
+    startY = y - ((lines.length - 1) * lineHeight) / 2;
+  }
+
+  let textElement = `<text ${allAttrs}>`;
+  lines.forEach((line, index) => {
+    const lineY = startY + index * lineHeight;
+    textElement += `<tspan x="${x}" y="${lineY}">${escapeXml(line)}</tspan>`;
+  });
+  textElement += `</text>`;
+
   return textElement;
 }

@@ -135,7 +135,7 @@ function renderDefaultContainerLabel(
 ): string {
   const labelX = x + 10;
   const labelY = y + 20;
-  return `<text x="${labelX}" y="${labelY}" class="runiq-container-label">${escapeXml(label)}</text>`;
+  return `<text x="${labelX}" y="${labelY}" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">${escapeXml(label)}</text>`;
 }
 
 function findContainerInAst(

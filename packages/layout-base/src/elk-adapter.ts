@@ -256,6 +256,18 @@ export class ElkLayoutEngine implements LayoutEngine {
       (n) => n.shape === 'pedigree-male' || n.shape === 'pedigree-female'
     );
 
+    // Detect if this is a use case diagram (actors + use cases in containers or ellipses)
+    // Only apply BOX algorithm if there are no containers (flat layout)
+    const isUseCaseDiagram =
+      !hasContainers &&
+      diagram.nodes.some(
+        (n) =>
+          n.shape === 'actor' ||
+          n.shape === 'actor-circle' ||
+          n.shape === 'actor-rect' ||
+          n.shape === 'ellipse-wide'
+      );
+
     // Check if any edges have anchor constraints - if so, we need to allow all port sides
     const hasAnchorConstraints = diagram.edges.some(
       (e: EdgeAst) => e.anchorFrom || e.anchorTo
@@ -274,35 +286,44 @@ export class ElkLayoutEngine implements LayoutEngine {
             'elk.edgeRouting': 'ORTHOGONAL', // Use orthogonal routing (right-angles only, no diagonals)
             'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
           }
-        : {
-            'elk.algorithm': LayoutAlgorithm.LAYERED,
-            'elk.direction': direction,
-            'elk.spacing.nodeNode': spacing.toString(),
-            'elk.layered.spacing.nodeNodeBetweenLayers': (
-              spacing * 1.5
-            ).toString(), // Extra layer spacing for containers
-            // Force pure orthogonal (right-angle) routing - no diagonals
-            'elk.edgeRouting': 'ORTHOGONAL',
-            'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
-            // IMPORTANT: Only restrict to north/south ports if no anchor constraints specified
-            // Otherwise, allow all port sides (north/south/east/west) for explicit anchor control
-            ...(hasAnchorConstraints
-              ? {}
-              : { 'elk.layered.northOrSouthPort': 'true' }),
-            // Port constraints - respect port sides when ports are specified
-            'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints (north/south/east/west)
-            // Edge spacing to prevent overlap - increased for better separation
-            'elk.spacing.edgeEdge': '25', // Space between parallel edges
-            'elk.spacing.edgeNode': '35', // Space between edges and nodes
-            'elk.layered.spacing.edgeEdgeBetweenLayers': '25', // Space between edges crossing layers
-            'elk.layered.spacing.edgeNodeBetweenLayers': '35', // Space between edges and nodes across layers
-            // Edge crossing minimization
-            'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-            'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
-            'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
-            // Improve edge separation
-            'elk.layered.thoroughness': '10', // Higher value = better edge routing (1-100)
-          },
+        : isUseCaseDiagram
+          ? {
+              // For use case diagrams, use BOX algorithm which is better for clustered layouts
+              // This prevents actors and use cases from bunching up
+              'elk.algorithm': 'box',
+              'elk.spacing.nodeNode': '150', // Increased spacing for better readability
+              'elk.edgeRouting': 'POLYLINE', // Use polyline routing for cleaner connections
+              'elk.box.packingMode': 'GROUP_DEC', // Group nodes and pack efficiently
+            }
+          : {
+              'elk.algorithm': LayoutAlgorithm.LAYERED,
+              'elk.direction': direction,
+              'elk.spacing.nodeNode': spacing.toString(),
+              'elk.layered.spacing.nodeNodeBetweenLayers': (
+                spacing * 1.5
+              ).toString(), // Extra layer spacing for containers
+              // Force pure orthogonal (right-angle) routing - no diagonals
+              'elk.edgeRouting': 'ORTHOGONAL',
+              'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
+              // IMPORTANT: Only restrict to north/south ports if no anchor constraints specified
+              // Otherwise, allow all port sides (north/south/east/west) for explicit anchor control
+              ...(hasAnchorConstraints
+                ? {}
+                : { 'elk.layered.northOrSouthPort': 'true' }),
+              // Port constraints - respect port sides when ports are specified
+              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints (north/south/east/west)
+              // Edge spacing to prevent overlap - increased for better separation
+              'elk.spacing.edgeEdge': '25', // Space between parallel edges
+              'elk.spacing.edgeNode': '35', // Space between edges and nodes
+              'elk.layered.spacing.edgeEdgeBetweenLayers': '25', // Space between edges crossing layers
+              'elk.layered.spacing.edgeNodeBetweenLayers': '35', // Space between edges and nodes across layers
+              // Edge crossing minimization
+              'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+              'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
+              'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
+              // Improve edge separation
+              'elk.layered.thoroughness': '10', // Higher value = better edge routing (1-100)
+            },
       children: [],
       edges: [],
     };
@@ -507,12 +528,20 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     const containerPositions = new Map<string, { x: number; y: number }>();
     if (diagram.containers) {
-      // For swimlanes OR vertical direction (TB/BT), use manual arrangement
+      // Count standalone nodes (nodes not in any container)
+      const standaloneNodeCount = diagram.nodes.filter(
+        (n) => !nodeContainerMap.has(n.id)
+      ).length;
+
+      // For swimlanes OR vertical direction (TB/BT) WITHOUT standalone nodes, use manual arrangement
       // ELK's layered algorithm doesn't respect document order for vertical layouts
       // and tends to position containers based on edge connections rather than sequence
+      // However, if there are standalone nodes mixed with containers, we MUST use ELK positions
+      // to ensure proper spacing and avoid overlaps
       const isVerticalDirection = direction === 'DOWN' || direction === 'UP';
+      const hasStandaloneNodes = standaloneNodeCount > 0;
 
-      if (hasSwimlanes || isVerticalDirection) {
+      if ((hasSwimlanes || isVerticalDirection) && !hasStandaloneNodes) {
         const manualPositions = this.arrangeSiblingContainers(
           diagram.containers,
           spacing,
@@ -523,8 +552,10 @@ export class ElkLayoutEngine implements LayoutEngine {
           containerPositions.set(id, pos);
         }
       } else {
-        // For horizontal direction (LR/RL), use ELK layout positions
-        // ELK handles horizontal spacing well and respects actual container sizes
+        // Use ELK layout positions when:
+        // - Horizontal direction (LR/RL), OR
+        // - There are standalone nodes mixed with containers (to ensure proper spacing)
+        // ELK handles spacing well and respects actual container sizes
         for (const elkNode of laidOut.children || []) {
           if (elkNode.id.startsWith('__container__')) {
             const containerId = elkNode.id.replace('__container__', '');

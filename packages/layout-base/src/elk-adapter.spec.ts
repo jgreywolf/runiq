@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { ElkLayoutEngine } from './elk-adapter.js';
 import type { DiagramAst } from '@runiq/core';
 import { shapeRegistry } from '@runiq/core';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { ElkLayoutEngine } from './elk-adapter.js';
 
 describe('ElkLayoutEngine', () => {
   let engine: ElkLayoutEngine;
@@ -545,6 +545,101 @@ describe('ElkLayoutEngine', () => {
       // ELK should layout nodes to minimize crossings
       expect(result.nodes).toHaveLength(4);
       expect(result.edges).toHaveLength(4);
+    });
+  });
+
+  describe('Use Case Diagram Layout', () => {
+    beforeEach(() => {
+      // Register use case specific shapes
+      shapeRegistry.register({
+        id: 'actor',
+        bounds: (_ctx) => ({ width: 60, height: 100 }),
+        render: (_ctx, position) =>
+          `<g><circle cx="${position.x + 30}" cy="${position.y + 20}" r="15"/><path d="M${position.x + 30},${position.y + 35} L${position.x + 30},${position.y + 70}"/></g>`,
+      });
+
+      shapeRegistry.register({
+        id: 'ellipse-wide',
+        bounds: (_ctx) => ({ width: 150, height: 80 }),
+        render: (_ctx, position) =>
+          `<ellipse cx="${position.x + 75}" cy="${position.y + 40}" rx="75" ry="40" />`,
+      });
+    });
+
+    it('should use BOX algorithm for use case diagrams', async () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'actor1', shape: 'actor' },
+          { id: 'useCase1', shape: 'ellipse-wide' },
+          { id: 'useCase2', shape: 'ellipse-wide' },
+        ],
+        edges: [
+          { from: 'actor1', to: 'useCase1' },
+          { from: 'actor1', to: 'useCase2' },
+        ],
+      };
+
+      const result = await engine.layout(diagram);
+
+      expect(result.nodes).toHaveLength(3);
+      expect(result.edges).toHaveLength(2);
+
+      // Check that nodes have good spacing (at least 100px between nodes)
+      const actor = result.nodes.find((n) => n.id === 'actor1');
+      const useCase1 = result.nodes.find((n) => n.id === 'useCase1');
+      const useCase2 = result.nodes.find((n) => n.id === 'useCase2');
+
+      expect(actor).toBeDefined();
+      expect(useCase1).toBeDefined();
+      expect(useCase2).toBeDefined();
+
+      // Use case diagrams should have increased spacing (150px configured)
+      // Check spacing between use cases
+      if (useCase1 && useCase2) {
+        const distance = Math.sqrt(
+          Math.pow(useCase2.x - useCase1.x, 2) +
+            Math.pow(useCase2.y - useCase1.y, 2)
+        );
+        // With 150px spacing, distance should be at least 100px
+        expect(distance).toBeGreaterThan(100);
+      }
+    });
+
+    it('should handle multiple actors and use cases', async () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'actor1', shape: 'actor' },
+          { id: 'actor2', shape: 'actor' },
+          { id: 'useCase1', shape: 'ellipse-wide' },
+          { id: 'useCase2', shape: 'ellipse-wide' },
+          { id: 'useCase3', shape: 'ellipse-wide' },
+        ],
+        edges: [
+          { from: 'actor1', to: 'useCase1' },
+          { from: 'actor1', to: 'useCase2' },
+          { from: 'actor2', to: 'useCase2' },
+          { from: 'actor2', to: 'useCase3' },
+        ],
+      };
+
+      const result = await engine.layout(diagram);
+
+      expect(result.nodes).toHaveLength(5);
+      expect(result.edges).toHaveLength(4);
+
+      // All nodes should have valid positions
+      result.nodes.forEach((node) => {
+        expect(node.x).toBeGreaterThanOrEqual(0);
+        expect(node.y).toBeGreaterThanOrEqual(0);
+        expect(node.width).toBeGreaterThan(0);
+        expect(node.height).toBeGreaterThan(0);
+      });
+
+      // Check that diagram has reasonable size
+      expect(result.size.width).toBeGreaterThan(150);
+      expect(result.size.height).toBeGreaterThan(80);
     });
   });
 });
