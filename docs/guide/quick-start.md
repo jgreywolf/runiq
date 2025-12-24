@@ -139,8 +139,8 @@ diagram "User Authentication Flow" {
 
 ```runiq
 diagram "Colors" {
-  shape Success as @hexagon label: "Success" fill: "#4caf50" color: "#fff"
-  shape Error as @doc label: "Error" fill: "#f44336" color: "#fff"
+  shape Success as @hexagon label: "Success" fillColor: "#4caf50" color: "#fff"
+  shape Error as @doc label: "Error" fillColor: "#f44336" color: "#fff"
 }
 ```
 
@@ -161,7 +161,7 @@ diagram "Line styles" {
 
 ```runiq
 diagram "Container styles" {
-  container "Client Layer" fill: "#e3f2fd" {
+  container "Client Layer" fillColor: "#e3f2fd" {
     # ... shapes
   }
 }

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="372" height="332" 
+    viewBox="0 0 372 332"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="chart1" data-node-id="chart1" data-node-shape="barChart"><g><text x="182" y="32" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Monthly Revenue by Category
+    </text><text x="-18" y="162" text-anchor="middle" font-size="14" fill="#666" transform="rotate(-90 -18 162)">Revenue ($K)</text><rect x="32" y="210.6206896551724" width="60" height="41.37931034482759" fill="#f56565" stroke="#48677e" stroke-width="1" />
+<rect x="32" y="148.55172413793105" width="60" height="62.06896551724138" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<rect x="32" y="114.0689655172414" width="60" height="34.48275862068966" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="62" y="109.06896551724137" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">100</text>
+<text x="62" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q1</text>
+<rect x="112" y="203.72413793103448" width="60" height="48.275862068965516" fill="#f56565" stroke="#48677e" stroke-width="1" />
+<rect x="112" y="134.75862068965517" width="60" height="68.96551724137932" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<rect x="112" y="93.37931034482759" width="60" height="41.37931034482759" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="142" y="88.37931034482759" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">115</text>
+<text x="142" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q2</text>
+<rect x="192" y="196.82758620689657" width="60" height="55.172413793103445" fill="#f56565" stroke="#48677e" stroke-width="1" />
+<rect x="192" y="120.96551724137933" width="60" height="75.86206896551724" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<rect x="192" y="72.68965517241381" width="60" height="48.275862068965516" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="222" y="67.68965517241378" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">130</text>
+<text x="222" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q3</text>
+<rect x="272" y="189.9310344827586" width="60" height="62.06896551724138" fill="#f56565" stroke="#48677e" stroke-width="1" />
+<rect x="272" y="107.17241379310343" width="60" height="82.75862068965517" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<rect x="272" y="51.999999999999986" width="60" height="55.172413793103445" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="302" y="47" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">145</text>
+<text x="302" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q4</text><line x1="22" y1="252" x2="342" y2="252" stroke="#333" stroke-width="2" /><text x="182" y="352" text-anchor="middle" font-size="14" fill="#666">Month</text></g></g></svg>

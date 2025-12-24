@@ -291,9 +291,9 @@ diagram "Styled Use Case" {
 
   shape user as @actor label: "User" color: "#3b82f6"
 
-  container system "System" fill: "#f0f9ff" strokeColor: "#3b82f6" {
-    shape useCase1 as @ellipseWide label: "Primary Use Case" fill: "#dbeafe" strokeColor: "#2563eb"
-    shape useCase2 as @ellipseWide label: "Extended Use Case" fill: "#fef3c7" strokeColor: "#f59e0b"
+  container system "System" fillColor: "#f0f9ff" strokeColor: "#3b82f6" {
+    shape useCase1 as @ellipseWide label: "Primary Use Case" fillColor: "#dbeafe" strokeColor: "#2563eb"
+    shape useCase2 as @ellipseWide label: "Extended Use Case" fillColor: "#fef3c7" strokeColor: "#f59e0b"
   }
 
   user -> useCase1 strokeColor: "#3b82f6" strokeWidth: 2
@@ -374,6 +374,6 @@ See the [use-case](/examples/use-case) directory for complete examples:
 ## Related
 
 - [Shape Reference - UML Shapes](/reference/shapes#_10-uml-shapes-22-shapes)
-- [UML Class Diagrams](/guide/class-diagrams)
-- [Sequence Diagrams](/guide/sequence-diagrams)
+- [UML Class Diagrams](/guide/diagram-types/class-diagrams)
+- [Sequence Diagrams](/guide/diagram-types/sequence-diagrams)
 - [Containers](/guide/containers)

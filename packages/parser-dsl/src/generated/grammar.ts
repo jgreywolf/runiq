@@ -503,11 +503,20 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "feature": "type",
             "operator": "=",
             "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@338"
-              },
-              "arguments": []
+              "$type": "Alternatives",
+              "elements": [
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@338"
+                  },
+                  "arguments": []
+                },
+                {
+                  "$type": "Keyword",
+                  "value": "L"
+                }
+              ]
             }
           }
         ]
@@ -660,11 +669,20 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
             "feature": "key",
             "operator": "=",
             "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@338"
-              },
-              "arguments": []
+              "$type": "Alternatives",
+              "elements": [
+                {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@338"
+                  },
+                  "arguments": []
+                },
+                {
+                  "$type": "Keyword",
+                  "value": "ratio"
+                }
+              ]
             }
           },
           {
@@ -6904,7 +6922,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@338"
+              "$ref": "#/rules@307"
             },
             "arguments": []
           },
@@ -15477,6 +15495,38 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "spoke"
+          },
+          {
+            "$type": "Keyword",
+            "value": "flow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "temperature"
+          },
+          {
+            "$type": "Keyword",
+            "value": "pressure"
+          },
+          {
+            "$type": "Keyword",
+            "value": "level"
+          },
+          {
+            "$type": "Keyword",
+            "value": "composition"
+          },
+          {
+            "$type": "Keyword",
+            "value": "ph"
+          },
+          {
+            "$type": "Keyword",
+            "value": "conductivity"
+          },
+          {
+            "$type": "Keyword",
+            "value": "speed"
           }
         ]
       },

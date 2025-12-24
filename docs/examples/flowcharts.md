@@ -77,18 +77,18 @@ Group related components using containers:
 diagram "Three-Tier Web App" {
   direction TB
 
-  container "Frontend" fill: "#e3f2fd" {
+  container "Frontend" fillColor: "#e3f2fd" {
     shape Browser as @rect label: "Web Browser"
     shape UI as @rect label: "React UI"
   }
 
-  container "Backend" fill: "#fff3e0" {
+  container "Backend" fillColor: "#fff3e0" {
     shape API as @rect label: "REST API"
     shape Auth as @rect label: "Auth Service"
     shape Business as @rect label: "Business Logic"
   }
 
-  container "Data Layer" fill: "#e8f5e9" {
+  container "Data Layer" fillColor: "#e8f5e9" {
     shape DB as @cylinder label: "PostgreSQL"
     shape Cache as @cylinder label: "Redis"
   }

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="640" height="176" 
+    viewBox="0 0 640 176"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="columnList" data-node-id="columnList" data-node-shape="columnList">
+          <rect x="12" y="12" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="108" y="32" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Requirements Doc
+    </text>
+          <rect x="12" y="64" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="108" y="84" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Architecture Diagram
+    </text>
+          <rect x="12" y="116" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="108" y="136" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      API Specification
+    </text>
+          <rect x="220" y="12" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="316" y="32" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      UI Mockups
+    </text>
+          <rect x="220" y="64" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="316" y="84" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Database Schema
+    </text>
+          <rect x="220" y="116" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="316" y="136" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Test Plans
+    </text>
+          <rect x="428" y="12" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="524" y="32" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      User Guides
+    </text>
+          <rect x="428" y="64" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="524" y="84" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Deployment Guide
+    </text>
+          <rect x="428" y="116" 
+                width="192" height="40"
+                rx="8" ry="8" 
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+        <text x="524" y="136" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Security Audit
+    </text></g></svg>

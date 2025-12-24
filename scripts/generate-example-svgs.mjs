@@ -4,21 +4,25 @@
  * This helps visualize examples in documentation
  */
 
-import {
-  readFileSync,
-  writeFileSync,
-  readdirSync,
-  statSync,
-  existsSync,
-  mkdirSync,
-} from 'fs';
-import { join, dirname, basename, extname } from 'path';
+import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs';
+import { basename, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 // Import from built packages using relative paths
-import { parse } from '../packages/parser-dsl/dist/index.js';
 import { ElkLayoutEngine } from '../packages/layout-base/dist/index.js';
-import { renderSvg } from '../packages/renderer-svg/dist/index.js';
+import { parse } from '../packages/parser-dsl/dist/index.js';
+import {
+  renderPID,
+  renderSchematic,
+} from '../packages/renderer-schematic/dist/index.js';
+import {
+  renderSequenceDiagram,
+  renderSvg,
+  renderTimeline,
+  renderWardleyMap,
+} from '../packages/renderer-svg/dist/index.js';
+// Ensure core shapes and registries are registered
+import { registerDefaultShapes } from '../packages/core/dist/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -50,8 +54,20 @@ async function generateSVG(runiqPath) {
   try {
     console.log(`\nProcessing: ${runiqPath}`);
 
-    // Read the .runiq file
-    const dslContent = readFileSync(runiqPath, 'utf-8');
+    // Read the .runiq file and strip Markdown code fences if present
+    let dslContent = readFileSync(runiqPath, 'utf-8');
+    // If file is wrapped in a ``` code block, extract the inner contents
+    if (dslContent.trimStart().startsWith('```')) {
+      const parts = dslContent.split(/\r?\n/);
+      // find first fence and last fence
+      const start = parts.findIndex((l) => l.trim().startsWith('```'));
+      const end = parts
+        .map((l) => l.trim().startsWith('```'))
+        .lastIndexOf(true);
+      if (start >= 0 && end > start) {
+        dslContent = parts.slice(start + 1, end).join('\n');
+      }
+    }
 
     // Parse DSL
     const parseResult = await parse(dslContent);
@@ -67,23 +83,67 @@ async function generateSVG(runiqPath) {
       return false;
     }
 
-    if (!parseResult.document) {
+    if (!parseResult.document && !parseResult.diagram) {
       console.error(`  ❌ No diagram generated`);
       return false;
     }
 
-    // Layout
-    const layoutEngine = new ElkLayoutEngine();
-    const laidOut = await layoutEngine.layout(parseResult.document, {
-      direction: parseResult.document.direction || 'TB',
-      spacing: 80,
-    });
+    // Choose DiagramAst for layout: prefer legacy `diagram` if present, otherwise use first profile
+    const diagramForLayout =
+      parseResult.diagram ||
+      (parseResult.document.profiles && parseResult.document.profiles[0]);
+    if (!diagramForLayout) {
+      console.error(`  ❌ No diagram profile available`);
+      return false;
+    }
 
-    // Render SVG
-    const result = renderSvg(laidOut, {
-      title: parseResult.document.title || 'Diagram',
-    });
-    const svg = result.svg;
+    // Ensure shapes are registered before layout/render
+    registerDefaultShapes();
+
+    // Coerce to plain objects to avoid prototype/CST artifacts
+    const plainDiagram = JSON.parse(JSON.stringify(diagramForLayout));
+    console.log('  Detected profile type:', plainDiagram && plainDiagram.type);
+
+    // If this is a schematic-style profile (electrical / pneumatic / hydraulic)
+    // use the schematic renderer which expects `parts` / `nets` etc.
+    const schematicTypes = new Set(['hydraulic', 'pneumatic', 'electrical']);
+    let svg;
+    if (
+      plainDiagram &&
+      plainDiagram.type &&
+      schematicTypes.has(plainDiagram.type)
+    ) {
+      const schemResult = renderSchematic(plainDiagram, {
+        showNetLabels: true,
+        showValues: true,
+      });
+      svg = schemResult.svg;
+    } else if (plainDiagram && plainDiagram.type === 'sequence') {
+      const seq = renderSequenceDiagram(plainDiagram, {});
+      svg = seq.svg;
+    } else if (plainDiagram && plainDiagram.type === 'timeline') {
+      const tl = renderTimeline(plainDiagram, {});
+      svg = tl.svg;
+    } else if (plainDiagram && plainDiagram.type === 'wardley') {
+      const wm = renderWardleyMap(plainDiagram, {});
+      svg = wm.svg;
+    } else if (plainDiagram && plainDiagram.type === 'pid') {
+      const pidResult = renderPID(plainDiagram, {});
+      svg = pidResult && pidResult.svg;
+    } else {
+      // Layout
+      const layoutEngine = new ElkLayoutEngine();
+      const laidOut = await layoutEngine.layout(plainDiagram, {
+        direction: plainDiagram.direction || 'TB',
+        spacing: 80,
+      });
+
+      // Render SVG
+      const result = renderSvg(plainDiagram, laidOut, {
+        title: parseResult.document.title || 'Diagram',
+      });
+      svg = result.svg;
+    }
 
     // Write SVG file
     const svgPath = runiqPath.replace('.runiq', '.svg');

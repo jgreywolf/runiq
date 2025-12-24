@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="446.4" height="550.8" 
+    viewBox="0 0 446.4 550.8"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="customer-bankingSystem-0" data-edge-id="customer-bankingSystem-0" data-edge-from="customer" data-edge-to="bankingSystem"><defs>
+      <marker id="arrow-standard-customer-bankingSystem" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 124 90.8 L 124 150.8 L 123.8 150.8 L 123.8 210.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 124 90.8 L 124 150.8 L 123.8 150.8 L 123.8 210.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-bankingSystem)" pointer-events="none" /><text x="123.8" y="150.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Uses</text></g><g data-runiq-edge="bankingSystem-emailSystem-1" data-edge-id="bankingSystem-emailSystem-1" data-edge-from="bankingSystem" data-edge-to="emailSystem"><defs>
+      <marker id="arrow-standard-bankingSystem-emailSystem" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 123.8 310.8 L 123.8 370.8 L 92 370.8 L 92 430.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 123.8 310.8 L 123.8 370.8 L 92 370.8 L 92 430.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bankingSystem-emailSystem)" pointer-events="none" /><text x="92" y="370.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Sends emails</text></g><g data-runiq-edge="bankingSystem-mainframe-2" data-edge-id="bankingSystem-mainframe-2" data-edge-from="bankingSystem" data-edge-to="mainframe"><defs>
+      <marker id="arrow-standard-bankingSystem-mainframe" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 123.8 310.8 L 123.8 345.8 L 339 345.8 L 339.2 430.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 123.8 310.8 L 123.8 345.8 L 339 345.8 L 339.2 430.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bankingSystem-mainframe)" pointer-events="none" /><text x="339" y="345.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Uses</text></g><g data-runiq-node="customer" data-node-id="customer" data-node-shape="c4Person">
+      <!-- C4 Person Container -->
+      <rect x="64" y="12" width="120" height="78.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="2" />
+
+      <!-- Person Icon (simple stick figure) -->
+      <circle cx="124" cy="32" r="6" fill="#ffffff" />
+      <line x1="124" y1="38" x2="124" y2="46" stroke="#ffffff" stroke-width="2" />
+      <line x1="116" y1="42" x2="132" y2="42" stroke="#ffffff" stroke-width="2" />
+      <line x1="124" y1="46" x2="118" y2="54" stroke="#ffffff" stroke-width="2" />
+      <line x1="124" y1="46" x2="130" y2="54" stroke="#ffffff" stroke-width="2" />
+
+      <!-- Label -->
+      <text x="124" y="57" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      Customer
+    </text>
+    </g><g data-runiq-node="bankingSystem" data-node-id="bankingSystem" data-node-shape="c4System">
+      <!-- C4 Software System -->
+      <rect x="27" y="210.8" width="193.6" height="100"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="2" />
+
+      <!-- Title -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="bold" fill="#ffffff"><tspan x="123.8" y="251.20000000000002">Internet Banking</tspan><tspan x="123.8" y="270.40000000000003">System</tspan></text>
+
+      <!-- TODO: Add description text below title -->
+    </g><g data-runiq-node="emailSystem" data-node-id="emailSystem" data-node-shape="c4System">
+      <!-- C4 Software System -->
+      <rect x="12" y="430.8" width="160" height="100"
+            rx="8" ry="8" fill="#96bacf" stroke="#48677e" stroke-width="2" />
+
+      <!-- Title -->
+      <text x="92" y="480.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#ffffff">
+      Email System
+    </text>
+
+      <!-- TODO: Add description text below title -->
+    </g><g data-runiq-node="mainframe" data-node-id="mainframe" data-node-shape="c4System">
+      <!-- C4 Software System -->
+      <rect x="252" y="430.8" width="174.4" height="100"
+            rx="8" ry="8" fill="#48677e" stroke="#48677e" stroke-width="2" />
+
+      <!-- Title -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="bold" fill="#ffffff"><tspan x="339.2" y="471.2">Mainframe</tspan><tspan x="339.2" y="490.4">Banking System</tspan></text>
+
+      <!-- TODO: Add description text below title -->
+    </g></svg>

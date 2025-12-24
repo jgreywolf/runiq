@@ -1,7 +1,164 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="630" 
-    viewBox="0 0 220 630"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Layout Algorithm Comparison with Edges</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="radial-layout"><rect x="0" y="0" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Radial Layout</text></g><g data-runiq-container="stress-layout"><rect x="0" y="230" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="250" class="runiq-container-label">Stress Layout</text></g><g data-runiq-container="mrtree-layout"><rect x="0" y="460" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="480" class="runiq-container-label">MRTree Layout</text></g></svg>
+    width="506.74510213419046" height="1072.361587045291" 
+    viewBox="0 0 506.74510213419046 1072.361587045291"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="radial-layout" data-container-id="radial-layout"><rect x="0" y="0" width="305.97266226871034" height="325.82103472525625" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Radial Layout</text></g><g data-runiq-container="stress-layout" data-container-id="stress-layout"><rect x="0" y="405.82103472525625" width="486.74510213419046" height="226.54055232003458" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="425.82103472525625" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Stress Layout</text></g><g data-runiq-container="mrtree-layout" data-container-id="mrtree-layout"><rect x="0" y="712.3615870452909" width="300" height="340" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="732.3615870452909" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">MRTree Layout</text></g><g data-runiq-edge="node1-node2-0" data-edge-id="node1-node2-0" data-edge-from="node1" data-edge-to="node2"><path d="M 178.24844151247356 196.3105173626281 L 228.77266226871035 217.02103472525621" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 178.24844151247356 196.3105173626281 L 228.77266226871035 217.02103472525621" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="node1-node3-1" data-edge-id="node1-node3-1" data-edge-from="node1" data-edge-to="node3"><path d="M 143.04844151247357 162.9105173626281 L 112.4 162.91051736262813" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 143.04844151247357 162.9105173626281 L 112.4 162.91051736262813" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="node1-node4-2" data-edge-id="node1-node4-2" data-edge-from="node1" data-edge-to="node4"><path d="M 178.24844151247356 129.5105173626281 L 228.7726622687103 108.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 178.24844151247356 129.5105173626281 L 228.7726622687103 108.8" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="snode1-snode2-3" data-edge-id="snode1-snode2-3" data-edge-from="snode1" data-edge-to="snode2"><defs>
+      <marker id="arrow-standard-snode1-snode2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 108.4 504.22103472525623 L 144.15001479855954 504.22103472525623 L 144.15001479855954 509.1758847877588 L 179.9000295971191 509.1758847877588" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 108.4 504.22103472525623 L 144.15001479855954 504.22103472525623 L 144.15001479855954 509.1758847877588 L 179.9000295971191 509.1758847877588" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-snode1-snode2)" pointer-events="none" /></g><g data-runiq-edge="snode2-snode3-4" data-edge-id="snode2-snode3-4" data-edge-from="snode2" data-edge-to="snode3"><defs>
+      <marker id="arrow-standard-snode2-snode3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 208.3000295971191 509.1758847877588 L 243.86637838779768 509.1758847877588 L 243.86637838779768 519.0986092979025 L 279.4327271784763 519.0986092979025" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 208.3000295971191 509.1758847877588 L 243.86637838779768 509.1758847877588 L 243.86637838779768 519.0986092979025 L 279.4327271784763 519.0986092979025" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-snode2-snode3)" pointer-events="none" /></g><g data-runiq-edge="snode3-snode4-5" data-edge-id="snode3-snode4-5" data-edge-from="snode3" data-edge-to="snode4"><defs>
+      <marker id="arrow-standard-snode3-snode4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 307.83272717847626 519.0986092979025 L 343.0889146563334 519.0986092979025 L 343.0889146563334 533.9615870452908 L 378.3451021341905 533.9615870452908" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 307.83272717847626 519.0986092979025 L 343.0889146563334 519.0986092979025 L 343.0889146563334 533.9615870452908 L 378.3451021341905 533.9615870452908" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-snode3-snode4)" pointer-events="none" /></g><g data-runiq-edge="mnode1-mnode2-6" data-edge-id="mnode1-mnode2-6" data-edge-from="mnode1" data-edge-to="mnode2"><defs>
+      <marker id="arrow-standard-mnode1-mnode2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 170 862.3615870452909 Q 170 897.3615870452909 100 942.3615870452909" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 170 862.3615870452909 Q 170 897.3615870452909 100 942.3615870452909" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mnode1-mnode2)" pointer-events="none" /></g><g data-runiq-edge="mnode1-mnode3-7" data-edge-id="mnode1-mnode3-7" data-edge-from="mnode1" data-edge-to="mnode3"><defs>
+      <marker id="arrow-standard-mnode1-mnode3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 170 862.3615870452909 Q 170 897.3615870452909 240 942.3615870452909" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 170 862.3615870452909 Q 170 897.3615870452909 240 942.3615870452909" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mnode1-mnode3)" pointer-events="none" /></g><g data-runiq-node="node1" data-node-id="node1" data-node-shape="person">
+      <!-- Actor head -->
+      <circle cx="178.24844151247356" cy="144.5105173626281" r="15" 
+              fill="#ffffff" stroke="#8b5cf6" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="148.04844151247357" y="164.5105173626281" width="60.400000000000006" height="26.799999999999997"
+            rx="5" fill="#ffffff" stroke="#8b5cf6" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="178.24844151247356" y="177.9105173626281" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Node 1
+    </text>
+    </g><g data-runiq-node="node2" data-node-id="node2" data-node-shape="person">
+      <!-- Actor head -->
+      <circle cx="228.77266226871035" cy="232.02103472525621" r="15" 
+              fill="#3b82f6" stroke="#2563eb" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="198.57266226871036" y="252.02103472525621" width="60.400000000000006" height="26.799999999999997"
+            rx="5" fill="#3b82f6" stroke="#2563eb" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="228.77266226871035" y="265.4210347252562" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Node 2
+    </text>
+    </g><g data-runiq-node="node3" data-node-id="node3" data-node-shape="person">
+      <!-- Actor head -->
+      <circle cx="77.2" cy="144.51051736262812" r="15" 
+              fill="#10b981" stroke="#059669" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="47" y="164.51051736262812" width="60.400000000000006" height="26.799999999999997"
+            rx="5" fill="#10b981" stroke="#059669" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="77.2" y="177.91051736262813" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Node 3
+    </text>
+    </g><g data-runiq-node="node4" data-node-id="node4" data-node-shape="person">
+      <!-- Actor head -->
+      <circle cx="228.7726622687103" cy="57" r="15" 
+              fill="#f59e0b" stroke="#d97706" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="198.57266226871027" y="77" width="60.400000000000006" height="26.799999999999997"
+            rx="5" fill="#f59e0b" stroke="#d97706" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="228.7726622687103" y="90.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Node 4
+    </text>
+    </g><g data-runiq-node="snode1" data-node-id="snode1" data-node-shape="rect">
+      <rect x="80" y="485.82103472525625" width="28.4" height="36.8"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="94.2" y="504.22103472525623" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      A
+    </text>
+    </g><g data-runiq-node="snode2" data-node-id="snode2" data-node-shape="rect">
+      <rect x="179.9000295971191" y="490.7758847877588" width="28.4" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="194.1000295971191" y="509.1758847877588" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      B
+    </text>
+    </g><g data-runiq-node="snode3" data-node-id="snode3" data-node-shape="rect">
+      <rect x="279.4327271784763" y="500.6986092979025" width="28.4" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="293.6327271784763" y="519.0986092979025" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      C
+    </text>
+    </g><g data-runiq-node="snode4" data-node-id="snode4" data-node-shape="rect">
+      <rect x="378.3451021341905" y="515.5615870452908" width="28.4" height="36.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="392.5451021341905" y="533.9615870452908" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      D
+    </text>
+    </g><g data-runiq-node="mnode1" data-node-id="mnode1" data-node-shape="service"><g><rect x="140" y="782.3615870452909" width="60" height="80" fill="#48677e" stroke="#48677e" stroke-width="2" /><line x1="145" y1="802.3615870452909" x2="195" y2="802.3615870452909" stroke="#48677e" stroke-width="1" /><line x1="145" y1="822.3615870452909" x2="195" y2="822.3615870452909" stroke="#48677e" stroke-width="1" /><line x1="145" y1="842.3615870452909" x2="195" y2="842.3615870452909" stroke="#48677e" stroke-width="1" /><text x="170" y="827.3615870452909" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Service 1
+    </text></g></g><g data-runiq-node="mnode2" data-node-id="mnode2" data-node-shape="service"><g><rect x="70" y="942.3615870452909" width="60" height="80" fill="#364d5f" stroke="#48677e" stroke-width="2" /><line x1="75" y1="962.3615870452909" x2="125" y2="962.3615870452909" stroke="#48677e" stroke-width="1" /><line x1="75" y1="982.3615870452909" x2="125" y2="982.3615870452909" stroke="#48677e" stroke-width="1" /><line x1="75" y1="1002.3615870452909" x2="125" y2="1002.3615870452909" stroke="#48677e" stroke-width="1" /><text x="100" y="987.3615870452909" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Service 2
+    </text></g></g><g data-runiq-node="mnode3" data-node-id="mnode3" data-node-shape="service"><g><rect x="210" y="942.3615870452909" width="60" height="80" fill="#5a819e" stroke="#48677e" stroke-width="2" /><line x1="215" y1="962.3615870452909" x2="265" y2="962.3615870452909" stroke="#48677e" stroke-width="1" /><line x1="215" y1="982.3615870452909" x2="265" y2="982.3615870452909" stroke="#48677e" stroke-width="1" /><line x1="215" y1="1002.3615870452909" x2="265" y2="1002.3615870452909" stroke="#48677e" stroke-width="1" /><text x="240" y="987.3615870452909" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Service 3
+    </text></g></g></svg>

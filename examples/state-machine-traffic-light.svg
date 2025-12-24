@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1098" height="1220" 
+    viewBox="0 0 1098 1220"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="initial-red-0" data-edge-id="initial-red-0" data-edge-from="initial" data-edge-to="red"><defs>
+      <marker id="arrow-standard-initial-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 748 30 L 748 90 L 748.2 90 L 748.2 150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 748 30 L 748 90 L 748.2 90 L 748.2 150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-initial-red)" pointer-events="none" /></g><g data-runiq-edge="red-green-1" data-edge-id="red-green-1" data-edge-from="red" data-edge-to="green"><defs>
+      <marker id="arrow-standard-red-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 748.2 259 L 748.2 344 L 141 344 L 141 458.5 L 141 548 L 339 548 L 396.6 633" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 748.2 259 L 748.2 344 L 141 344 L 141 458.5 L 141 548 L 339 548 L 396.6 633" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-red-green)" pointer-events="none" /><text x="141" y="458.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timerExpired</text></g><g data-runiq-edge="green-yellow-2" data-edge-id="green-yellow-2" data-edge-from="green" data-edge-to="yellow"><defs>
+      <marker id="arrow-standard-green-yellow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 396.6 742 L 396.6 777 L 247 777 L 189.6 862" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 396.6 742 L 396.6 777 L 247 777 L 189.6 862" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-green-yellow)" pointer-events="none" /><text x="247" y="777" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timerExpired</text></g><g data-runiq-edge="yellow-red-3" data-edge-id="yellow-red-3" data-edge-from="yellow" data-edge-to="red"><defs>
+      <marker id="arrow-standard-yellow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 189.6 862 L 189.6 777 L 48 777 L 48 687.5 L 48 458.5 L 48 294 L 621 294 L 585 204.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 189.6 862 L 189.6 777 L 48 777 L 48 687.5 L 48 458.5 L 48 294 L 621 294 L 585 204.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-yellow-red)" pointer-events="none" /><text x="48" y="458.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timerExpired</text></g><g data-runiq-edge="red-pedestrianCrossing-4" data-edge-id="red-pedestrianCrossing-4" data-edge-from="red" data-edge-to="pedestrianCrossing"><defs>
+      <marker id="arrow-standard-red-pedestrianCrossing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 748.2 259 L 748.2 369 L 454 369 L 453.6 404" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 748.2 259 L 748.2 369 L 454 369 L 453.6 404" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-red-pedestrianCrossing)" pointer-events="none" /><text x="454" y="369" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">pedestrianButton</text></g><g data-runiq-edge="pedestrianCrossing-green-5" data-edge-id="pedestrianCrossing-green-5" data-edge-from="pedestrianCrossing" data-edge-to="green"><defs>
+      <marker id="arrow-standard-pedestrianCrossing-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 453.6 513 L 453.6 573 L 396.6 573 L 396.6 633" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 453.6 513 L 453.6 573 L 396.6 573 L 396.6 633" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pedestrianCrossing-green)" pointer-events="none" /><text x="396.6" y="573" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timerExpired</text></g><g data-runiq-edge="red-emergency-6" data-edge-id="red-emergency-6" data-edge-from="red" data-edge-to="emergency"><defs>
+      <marker id="arrow-standard-red-emergency" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 748.2 259 L 748.2 458.5 L 766 687.5 L 766 777 L 591 777 L 591 916.5 L 558.2 1091" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 748.2 259 L 748.2 458.5 L 766 687.5 L 766 777 L 591 777 L 591 916.5 L 558.2 1091" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-red-emergency)" pointer-events="none" /><text x="766" y="777" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">emergencySignal</text></g><g data-runiq-edge="green-emergency-7" data-edge-id="green-emergency-7" data-edge-from="green" data-edge-to="emergency"><defs>
+      <marker id="arrow-standard-green-emergency" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 396.6 742 L 396.6 916.5 L 397 1006 L 526 1006 L 558.2 1091" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 396.6 742 L 396.6 916.5 L 397 1006 L 526 1006 L 558.2 1091" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-green-emergency)" pointer-events="none" /><text x="397" y="1006" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">emergencySignal</text></g><g data-runiq-edge="yellow-emergency-8" data-edge-id="yellow-emergency-8" data-edge-from="yellow" data-edge-to="emergency"><defs>
+      <marker id="arrow-standard-yellow-emergency" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 189.6 971 L 189.6 1031 L 460 1031 L 395 1145.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 189.6 971 L 189.6 1031 L 460 1031 L 395 1145.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-yellow-emergency)" pointer-events="none" /><text x="460" y="1031" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">emergencySignal</text></g><g data-runiq-edge="emergency-red-9" data-edge-id="emergency-red-9" data-edge-from="emergency" data-edge-to="red"><defs>
+      <marker id="arrow-standard-emergency-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 721.4000000000001 1145.5 L 656 1145.5 L 1014 1006 L 1014 916.5 L 1014 687.5 L 1014 458.5 L 1014 294 L 875 294 L 911.4000000000001 204.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 721.4000000000001 1145.5 L 656 1145.5 L 1014 1006 L 1014 916.5 L 1014 687.5 L 1014 458.5 L 1014 294 L 875 294 L 911.4000000000001 204.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-emergency-red)" pointer-events="none" /><text x="1014" y="687.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">emergencyCleared</text></g><g data-runiq-edge="red-malfunction-10" data-edge-id="red-malfunction-10" data-edge-from="red" data-edge-to="malfunction"><defs>
+      <marker id="arrow-standard-red-malfunction" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 748.2 259 L 748.2 458.5 L 803 687.5 L 802.8 862" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 748.2 259 L 748.2 458.5 L 803 687.5 L 802.8 862" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-red-malfunction)" pointer-events="none" /><text x="803" y="687.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">sensorFailure</text></g><g data-runiq-edge="green-malfunction-11" data-edge-id="green-malfunction-11" data-edge-from="green" data-edge-to="malfunction"><defs>
+      <marker id="arrow-standard-green-malfunction" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 396.6 742 L 396.6 802 L 715 802 L 802.8 862" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 396.6 742 L 396.6 802 L 715 802 L 802.8 862" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-green-malfunction)" pointer-events="none" /><text x="715" y="802" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">sensorFailure</text></g><g data-runiq-edge="malfunction-red-12" data-edge-id="malfunction-red-12" data-edge-from="malfunction" data-edge-to="red"><defs>
+      <marker id="arrow-standard-malfunction-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 802.8 862 L 802.8 777 L 839 777 L 839 687.5 L 839 458.5 L 911.4000000000001 204.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 802.8 862 L 802.8 777 L 839 777 L 839 687.5 L 839 458.5 L 911.4000000000001 204.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-malfunction-red)" pointer-events="none" /><text x="839" y="687.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">systemReset</text></g><g data-runiq-edge="red-final-13" data-edge-id="red-final-13" data-edge-from="red" data-edge-to="final"><defs>
+      <marker id="arrow-standard-red-final" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 748.2 259 L 748.2 319 L 95 319 L 95 404" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 748.2 259 L 748.2 319 L 95 319 L 95 404" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-red-final)" pointer-events="none" /><text x="95" y="319" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">shutdown</text></g><g data-runiq-node="initial" data-node-id="initial" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="748" cy="21" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="red" data-node-id="red" data-node-shape="state"><g class="state-shape"><rect x="585" y="150" width="326.40000000000003" height="109" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="748.2" y="174.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Red
+    </text><line x1="597" y1="183.6" x2="899.4000000000001" y2="183.6" stroke="#48677e" stroke-width="1" /><text x="597" y="204.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / turnOnRed() ; startTimer(30)
+    </text><text x="597" y="222.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / enforceStop()
+    </text><text x="597" y="240.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / turnOffRed() ; clearTimer()
+    </text></g></g><g data-runiq-node="yellow" data-node-id="yellow" data-node-shape="state"><g class="state-shape"><rect x="18" y="862" width="343.2" height="109" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="189.6" y="886.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Yellow
+    </text><line x1="30" y1="895.6" x2="349.2" y2="895.6" stroke="#48677e" stroke-width="1" /><text x="30" y="916.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / turnOnYellow() ; startTimer(5)
+    </text><text x="30" y="934.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / warnDrivers()
+    </text><text x="30" y="952.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / turnOffYellow()
+    </text></g></g><g data-runiq-node="green" data-node-id="green" data-node-shape="state"><g class="state-shape"><rect x="225" y="633" width="343.2" height="109" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="396.6" y="657.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Green
+    </text><line x1="237" y1="666.6" x2="556.2" y2="666.6" stroke="#48677e" stroke-width="1" /><text x="237" y="687.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / turnOnGreen() ; startTimer(45)
+    </text><text x="237" y="705.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / allowTraffic()
+    </text><text x="237" y="723.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / turnOffGreen()
+    </text></g></g><g data-runiq-node="pedestrianCrossing" data-node-id="pedestrianCrossing" data-node-shape="state"><g class="state-shape"><rect x="177" y="404" width="553.2" height="109" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="453.6" y="428.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Pedestrian Crossing
+    </text><line x1="189" y1="437.6" x2="718.2" y2="437.6" stroke="#48677e" stroke-width="1" /><text x="189" y="458.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / turnOnRedLight() ; activateCrosswalk() ; startTimer(15)
+    </text><text x="189" y="476.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / displayWalkSign() ; monitorCrossing()
+    </text><text x="189" y="494.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / deactivateCrosswalk() ; displayDontWalk()
+    </text></g></g><g data-runiq-node="emergency" data-node-id="emergency" data-node-shape="state"><g class="state-shape"><rect x="395" y="1091" width="326.40000000000003" height="109" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="558.2" y="1115.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Emergency Mode
+    </text><line x1="407" y1="1124.6" x2="709.4000000000001" y2="1124.6" stroke="#48677e" stroke-width="1" /><text x="407" y="1145.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / flashAllRed() ; soundAlarm()
+    </text><text x="407" y="1163.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / prioritizeEmergencyVehicle()
+    </text><text x="407" y="1181.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / resumeNormalOperation()
+    </text></g></g><g data-runiq-node="malfunction" data-node-id="malfunction" data-node-shape="state"><g class="state-shape"><rect x="627" y="862" width="351.6" height="109" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="802.8" y="886.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Malfunction
+    </text><line x1="639" y1="895.6" x2="966.6" y2="895.6" stroke="#48677e" stroke-width="1" /><text x="639" y="916.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / flashYellow() ; notifyControl()
+    </text><text x="639" y="934.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / logIssue()
+    </text><text x="639" y="952.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / resetSystem()
+    </text></g></g><g data-runiq-node="final" data-node-id="final" data-node-shape="finalState"><g class="final-state-shape"><circle cx="95" cy="415" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="95" cy="415" r="6.050000000000001" fill="#000000" stroke="none" /></g></g></svg>

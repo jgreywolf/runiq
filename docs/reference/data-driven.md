@@ -65,6 +65,7 @@ data source:servers [
 ```
 
 **Syntax**:
+
 - `data source:<key> [...]` - Inline JSON array
 - Access with `template "name" from:<key>`
 
@@ -77,6 +78,7 @@ datasource "json" key:users from:"data/users.json"
 ```
 
 **JSON File Format** (`data/users.json`):
+
 ```json
 [
   { "id": "u1", "name": "Alice", "email": "alice@example.com" },
@@ -94,6 +96,7 @@ datasource "csv" key:metrics from:"metrics.csv"
 ```
 
 **CSV File Format** (`metrics.csv`):
+
 ```csv
 id,name,value,status
 m1,API Response Time,245,ok
@@ -102,6 +105,7 @@ m3,Error Rate,12,error
 ```
 
 **CSV Options**:
+
 - `sep`: Column separator (default: `,`)
 - `hasHeader`: First row contains headers (default: `true`)
 
@@ -115,11 +119,12 @@ Access data fields using `${expression}` syntax:
 template "users" from:userData {
   node "${item.id}" shape:rect
     label: "${item.name}"
-    fill: "${item.color}"
+    fillColor: "${item.color}"
 }
 ```
 
 **Available Context Variables**:
+
 - `${item}` - Current data object
 - `${item.field}` - Access field on current object
 - `${item_index}` - Zero-based index (0, 1, 2, ...)
@@ -176,12 +181,13 @@ template "users" from:userData {
   if "${item.active}" {
     node "${item.id}" shape:rect
       label: "${item.name}"
-      fill: "#22c55e"
+      fillColor: "#22c55e"
   }
 }
 ```
 
 **Operators**:
+
 - Truthy check: `${item.field}` - evaluates boolean value
 - Comparison: `${item.age > 18}`, `${item.status == "active"}`
 - Logical: `${item.active && item.verified}`
@@ -192,7 +198,7 @@ template "users" from:userData {
 template "servers" from:serverData {
   node "${item.id}" shape:rect
     label: "${item.name}"
-    fill: ${item.status == "healthy" ? "#22c55e" : "#ef4444"}
+    fillColor: ${item.status == "healthy" ? "#22c55e" : "#ef4444"}
 }
 ```
 
@@ -204,7 +210,7 @@ template "products" from:productData {
     if "${item.featured}" {
       node "${item.id}" shape:rect
         label: "${item.name}"
-        fill: "#3b82f6"
+        fillColor: "#3b82f6"
     }
   }
 }
@@ -251,6 +257,7 @@ template "teamMembers" from:teams {
 ```
 
 **Loop Variables**:
+
 - `${member}` - Current loop item
 - `${member_index}` - Loop index (0-based)
 - `${member_first}` - True for first iteration
@@ -302,7 +309,7 @@ template "workflow" from:workflowData {
   for step in ${item.steps} {
     node "${step.id}" shape:rect label: "${step.name}"
   }
-  
+
   for conn in ${item.connections} {
     edge "${conn.from}" -> "${conn.to}"
       label: "${conn.type}"
@@ -330,7 +337,7 @@ data source:servers [
 template "servers" from:servers {
   node "${item.id}" shape:rect
     label: "${item.name}"
-    fill: @map(item.status) {
+    fillColor: @map(item.status) {
       healthy: "#22c55e"
       warning: "#f59e0b"
       error: "#ef4444"
@@ -339,6 +346,7 @@ template "servers" from:servers {
 ```
 
 **Category Syntax**:
+
 ```
 property: @map(data.field) {
   value1: "style1"
@@ -363,7 +371,7 @@ data source:servers [
 template "cpuVisualization" from:servers {
   node "${item.id}" shape:rect
     label: "${item.name}\n${item.cpu}%"
-    fill: @scale(item.cpu) {
+    fillColor: @scale(item.cpu) {
       domain: [0, 100]
       range: ["#22c55e", "#ef4444"]
     }
@@ -371,6 +379,7 @@ template "cpuVisualization" from:servers {
 ```
 
 **Scale Syntax**:
+
 ```
 property: @scale(data.field) {
   domain: [min, max]
@@ -386,7 +395,7 @@ Map based on value thresholds:
 template "metrics" from:metricData {
   node "${item.id}" shape:rect
     label: "${item.name}: ${item.value}"
-    fill: @threshold(item.value) {
+    fillColor: @threshold(item.value) {
       0: "#22c55e"     # value < 50
       50: "#f59e0b"    # 50 <= value < 80
       80: "#ef4444"    # value >= 80
@@ -402,7 +411,7 @@ Apply multiple style mappings:
 template "services" from:serviceData {
   node "${item.id}" shape:rect
     label: "${item.name}"
-    fill: @map(item.status) {
+    fillColor: @map(item.status) {
       running: "#22c55e"
       stopped: "#6b7280"
     }
@@ -436,17 +445,18 @@ data source:services [
 template "services" from:services {
   node "${item.id}" shape:rect
     label: "${item.name}"
-    fill: @map(item.status) {
+    fillColor: @map(item.status) {
       running: "#22c55e"
       stopped: "#6b7280"
       error: "#ef4444"
     }
 }
 
-legend for fill:status position:bottom-right title:"Service Status"
+legend for fillColor:status position:bottom-right title:"Service Status"
 ```
 
 **Legend Syntax**:
+
 ```
 legend for <property>:<field>
   position: top-left | top-right | bottom-left | bottom-right
@@ -460,13 +470,13 @@ For continuous mappings, show gradient:
 ```runiq
 template "heatmap" from:data {
   node "${item.id}" shape:rect
-    fill: @scale(item.value) {
+    fillColor: @scale(item.value) {
       domain: [0, 100]
       range: ["#22c55e", "#ef4444"]
     }
 }
 
-legend for fill:value
+legend for fillColor:value
   position: bottom-right
   title: "Value (0-100)"
   steps: 5
@@ -481,11 +491,11 @@ Display multiple legends:
 ```runiq
 template "network" from:networkData {
   node "${item.id}" shape:rect
-    fill: @map(item.status) { ... }
+    fillColor: @map(item.status) { ... }
     strokeWidth: @scale(item.bandwidth) { ... }
 }
 
-legend for fill:status position:bottom-right title:"Status"
+legend for fillColor:status position:bottom-right title:"Status"
 legend for strokeWidth:bandwidth position:bottom-left title:"Bandwidth"
 ```
 
@@ -500,14 +510,14 @@ import { generateNodes } from '@runiq/parser-dsl';
 
 const data = [
   { id: 's1', name: 'Server 1', status: 'active', load: 75 },
-  { id: 's2', name: 'Server 2', status: 'inactive', load: 20 }
+  { id: 's2', name: 'Server 2', status: 'inactive', load: 20 },
 ];
 
 const nodes = generateNodes(data, {
   shape: 'rect',
   idField: 'id',
   fieldMappings: {
-    label: 'name'
+    label: 'name',
   },
   styleMappings: [
     {
@@ -516,8 +526,8 @@ const nodes = generateNodes(data, {
       type: 'category',
       categories: {
         active: '#22c55e',
-        inactive: '#6b7280'
-      }
+        inactive: '#6b7280',
+      },
     },
     {
       property: 'opacity',
@@ -525,10 +535,10 @@ const nodes = generateNodes(data, {
       type: 'scale',
       scale: {
         domain: [0, 100],
-        range: [0.3, 1.0]
-      }
-    }
-  ]
+        range: [0.3, 1.0],
+      },
+    },
+  ],
 });
 ```
 
@@ -541,14 +551,14 @@ import { generateEdges } from '@runiq/parser-dsl';
 
 const connections = [
   { from: 's1', to: 's2', protocol: 'HTTP', bandwidth: 100 },
-  { from: 's2', to: 's3', protocol: 'SQL', bandwidth: 50 }
+  { from: 's2', to: 's3', protocol: 'SQL', bandwidth: 50 },
 ];
 
 const edges = generateEdges(connections, {
   fromField: 'from',
   toField: 'to',
   fieldMappings: {
-    label: 'protocol'
+    label: 'protocol',
   },
   styleMappings: [
     {
@@ -557,10 +567,10 @@ const edges = generateEdges(connections, {
       type: 'scale',
       scale: {
         domain: [0, 100],
-        range: [1, 5]
-      }
-    }
-  ]
+        range: [1, 5],
+      },
+    },
+  ],
 });
 ```
 
@@ -573,12 +583,12 @@ import { generateDiagramFromRelationalData } from '@runiq/parser-dsl';
 
 const data = [
   { from: 'Alice', to: 'Bob', weight: 10, type: 'friend' },
-  { from: 'Bob', to: 'Charlie', weight: 5, type: 'colleague' }
+  { from: 'Bob', to: 'Charlie', weight: 5, type: 'colleague' },
 ];
 
 const result = generateDiagramFromRelationalData(data, {
   nodeConfig: {
-    shape: 'circle'
+    shape: 'circle',
   },
   edgeConfig: {
     fromField: 'from',
@@ -591,16 +601,16 @@ const result = generateDiagramFromRelationalData(data, {
         type: 'category',
         categories: {
           friend: '#3b82f6',
-          colleague: '#22c55e'
-        }
-      }
-    ]
+          colleague: '#22c55e',
+        },
+      },
+    ],
   },
   generateLegends: true,
   legendConfig: {
     position: 'bottom-right',
-    title: 'Relationship Type'
-  }
+    title: 'Relationship Type',
+  },
 });
 
 // result contains: { nodes, edges, legends }
@@ -630,7 +640,7 @@ template "networkNodes" from:nodes {
   node "${item.id}" shape:rect
     label: "${item.name}"
     subtitle: "Load: ${item.load}%"
-    fill: @map(item.type) {
+    fillColor: @map(item.type) {
       security: "#ef4444"
       network: "#3b82f6"
       server: "#22c55e"
@@ -651,7 +661,7 @@ template "networkEdges" from:connections {
     }
 }
 
-legend for fill:type position:top-right title:"Component Type"
+legend for fillColor:type position:top-right title:"Component Type"
 legend for strokeWidth:bandwidth position:bottom-right title:"Bandwidth (Mbps)"
 ```
 
@@ -687,7 +697,7 @@ template "activeTeams" from:teams
   for member in ${item.members} {
     node "${member.id}" shape:circle
       label: "${member.name}\n${member.role}"
-      fill: @map(member.role) {
+      fillColor: @map(member.role) {
         Lead: "#3b82f6"
         Developer: "#22c55e"
         Manager: "#f59e0b"
@@ -699,7 +709,7 @@ template "activeTeams" from:teams
   }
 }
 
-legend for fill:role position:bottom-right title:"Role"
+legend for fillColor:role position:bottom-right title:"Role"
 ```
 
 ### Example 3: Data Pipeline with Nested Loops
@@ -736,7 +746,7 @@ template "pipelineStages" from:pipeline {
       for source in ${stage.sources} {
         node "${source.id}" shape:rect
           label: "${source.name}"
-          fill: @map(source.status) {
+          fillColor: @map(source.status) {
             healthy: "#22c55e"
             warning: "#f59e0b"
             error: "#ef4444"
@@ -746,7 +756,7 @@ template "pipelineStages" from:pipeline {
   }
 }
 
-legend for fill:status position:bottom-right title:"Status"
+legend for fillColor:status position:bottom-right title:"Status"
 ```
 
 ### Example 4: Conditional Dashboard with Multiple Data Sources
@@ -769,7 +779,7 @@ template "serviceCards" from:services {
   node "${item.id}" shape:rect
     label: "${item.name}"
     subtitle: "${item.status}"
-    fill: @map(item.status) {
+    fillColor: @map(item.status) {
       running: "#22c55e"
       stopped: "#ef4444"
     }
@@ -780,13 +790,13 @@ template "alertBadges" from:alerts
 {
   node "alert_${item.service}" shape:circle
     label: "!"
-    fill: "#ef4444"
-  
+    fillColor: "#ef4444"
+
   edge "alert_${item.service}" -> "${item.service}"
     label: "${item.message}"
 }
 
-legend for fill:status position:bottom-right title:"Service Status"
+legend for fillColor:status position:bottom-right title:"Service Status"
 ```
 
 ## Template Composition
@@ -808,10 +818,10 @@ const iconNodeTemplate = {
       id: '${item.id}',
       shape: '${item.icon}',
       properties: {
-        label: '${item.label}'
-      }
-    }
-  ]
+        label: '${item.label}',
+      },
+    },
+  ],
 };
 
 const serverTemplate = {
@@ -824,21 +834,18 @@ const serverTemplate = {
       parameters: {
         id: '${item.id}',
         icon: 'server',
-        label: '${item.hostname}'
-      }
-    }
-  ]
+        label: '${item.hostname}',
+      },
+    },
+  ],
 };
 
-const result = processTemplates(
-  [iconNodeTemplate, serverTemplate],
-  {
-    serverData: [
-      { id: 's1', hostname: 'web01' },
-      { id: 's2', hostname: 'web02' }
-    ]
-  }
-);
+const result = processTemplates([iconNodeTemplate, serverTemplate], {
+  serverData: [
+    { id: 's1', hostname: 'web01' },
+    { id: 's2', hostname: 'web02' },
+  ],
+});
 ```
 
 ## Best Practices
@@ -846,6 +853,7 @@ const result = processTemplates(
 ### 1. Data Structure Design
 
 **Keep data flat when possible**:
+
 ```json
 // Good - Flat structure
 [
@@ -869,6 +877,7 @@ const result = processTemplates(
 ### 2. ID Field Management
 
 **Always provide explicit IDs**:
+
 ```runiq
 # Good - Explicit IDs
 data source:nodes [
@@ -886,9 +895,10 @@ data source:nodes [
 ### 3. Style Mapping Organization
 
 **Define clear category values**:
+
 ```runiq
 # Good - Clear categories
-fill: @map(item.status) {
+fillColor: @map(item.status) {
   running: "#22c55e"
   stopped: "#6b7280"
   error: "#ef4444"
@@ -896,7 +906,7 @@ fill: @map(item.status) {
 }
 
 # Avoid - Missing default
-fill: @map(item.status) {
+fillColor: @map(item.status) {
   running: "#22c55e"
   stopped: "#6b7280"
 }
@@ -905,6 +915,7 @@ fill: @map(item.status) {
 ### 4. Filter Before Loop
 
 **Use filter to reduce processing**:
+
 ```runiq
 # Good - Filter at template level
 template "activeUsers" from:users
@@ -924,19 +935,21 @@ template "allUsers" from:users {
 ### 5. Legend Placement
 
 **Position legends to avoid overlap**:
+
 ```runiq
 # Good - Consider diagram layout
-legend for fill:status position:bottom-right
+legend for fillColor:status position:bottom-right
 legend for size:load position:bottom-left
 
 # Avoid - Overlapping legends
-legend for fill:status position:bottom-right
+legend for fillColor:status position:bottom-right
 legend for size:load position:bottom-right
 ```
 
 ### 6. Meaningful Variable Names
 
 **Use descriptive loop variables**:
+
 ```runiq
 # Good - Clear variable names
 for member in ${item.members} {
@@ -952,11 +965,12 @@ for x in ${item.members} {
 ### 7. Error Handling
 
 **Provide fallback values**:
+
 ```runiq
 # Good - Fallback for missing data
 node "${item.id}" shape:rect
   label: "${item.name || 'Unknown'}"
-  fill: "${item.color || '#6b7280'}"
+  fillColor: "${item.color || '#6b7280'}"
 ```
 
 ## API Reference
@@ -1060,5 +1074,5 @@ function generateLegendsFromMappings(
 
 - **[Templates Reference](/reference/templates)** - Template system deep-dive
 - **[JSON Format](/reference/json)** - JSON data structure reference
-- **[Component Diagrams](/guide/component-diagrams)** - Using templates for UML components
+- **[Component Diagrams](/guide/diagram-types/component-diagrams)** - Using templates for UML components
 - **[Examples](/examples/)** - Browse data-driven diagram examples

@@ -205,19 +205,19 @@ Swimlanes organize activities by role, department, or system component.
 diagram "Horizontal Swimlanes" {
   direction LR
 
-  container "Customer" fill: "#e3f2fd" {
+  container "Customer" fillColor: "#e3f2fd" {
     shape c1 as @initialState
     shape c2 as @activity label: "Place Order"
     shape c3 as @activity label: "Receive Confirmation"
     shape c4 as @activityFinal
   }
 
-  container "Sales" fill: "#fff3e0" {
+  container "Sales" fillColor: "#fff3e0" {
     shape s1 as @activity label: "Review Order"
     shape s2 as @activity label: "Approve Order"
   }
 
-  container "Warehouse" fill: "#e8f5e9" {
+  container "Warehouse" fillColor: "#e8f5e9" {
     shape w1 as @activity label: "Pick Items"
     shape w2 as @activity label: "Ship Order"
   }
@@ -241,21 +241,21 @@ For side-by-side comparisons, use `orientation: vertical`:
 diagram "Vertical Swimlanes" {
   direction TB
 
-  container "Frontend Team" orientation: vertical fill: "#e3f2fd" {
+  container "Frontend Team" orientation: vertical fillColor: "#e3f2fd" {
     shape fe1 as @initialState
     shape fe2 as @activity label: "Design UI"
     shape fe3 as @activity label: "Implement"
     shape fe4 as @activity label: "Test"
   }
 
-  container "Backend Team" orientation: vertical fill: "#fff3e0" {
+  container "Backend Team" orientation: vertical fillColor: "#fff3e0" {
     shape be1 as @initialState
     shape be2 as @activity label: "Design API"
     shape be3 as @activity label: "Implement"
     shape be4 as @activity label: "Test"
   }
 
-  container "DevOps" orientation: vertical fill: "#e8f5e9" {
+  container "DevOps" orientation: vertical fillColor: "#e8f5e9" {
     shape ops1 as @activity label: "Deploy"
     shape ops2 as @activityFinal
   }
@@ -377,7 +377,7 @@ Use stereotypes like `«input»`, `«output»`, `«parameter»` to annotate obje
 diagram "E-Commerce Order Processing" {
   direction TB
 
-  container "Customer Interface" fill: "#e3f2fd" {
+  container "Customer Interface" fillColor: "#e3f2fd" {
     shape start as @initialState
     shape browse as @activity label: "Browse Products"
     shape addToCart as @activity label: "Add to Cart"
@@ -386,7 +386,7 @@ diagram "E-Commerce Order Processing" {
     shape end as @activityFinal
   }
 
-  container "Order Processing" fill: "#fff3e0" {
+  container "Order Processing" fillColor: "#fff3e0" {
     shape validateOrder as @activity label: "Validate Order"
       inputPins: ["order", "customer"]
       outputPins: ["validOrder", "errors"]
@@ -397,13 +397,13 @@ diagram "E-Commerce Order Processing" {
     shape inventoryCheck as @diamond
   }
 
-  container "Payment Gateway" fill: "#f3e5f5" {
+  container "Payment Gateway" fillColor: "#f3e5f5" {
     shape processPayment as @activity label: "Process Payment"
     shape paymentCheck as @diamond
     shape refund as @activity label: "Issue Refund"
   }
 
-  container "Fulfillment" fill: "#e8f5e9" {
+  container "Fulfillment" fillColor: "#e8f5e9" {
     shape pickItems as @activity label: "Pick Items"
     shape packOrder as @activity label: "Pack Order"
     shape shipOrder as @activity label: "Ship Order"
@@ -542,13 +542,13 @@ Customize appearance with fill colors, borders, and padding:
 
 ```runiq
 container "Production System"
-  fill: "#ffebee"
+  fillColor: "#ffebee"
   strokeColor: "#c62828"
   padding: 30 {
 
   shape criticalProcess as @activity
     label: "Critical Process"
-    fill: "#ef5350"
+    fillColor: "#ef5350"
     color: "white"
 }
 ```
@@ -590,10 +590,10 @@ container "Production System"
 
 ## See Also
 
-- [BPMN Diagrams](/guide/bpmn-diagrams) - Business process modeling notation
-- [State Machine Diagrams](/guide/state-machine-diagrams) - State-based behavior
-- [Sequence Diagrams](/guide/sequence-diagrams) - Interaction modeling
-- [UML Class Diagrams](/guide/class-diagrams) - Structural modeling
+- [BPMN Diagrams](/guide/diagram-types/bpmn-diagrams) - Business process modeling notation
+- [State Machine Diagrams](/guide/diagram-types/state-machine-diagrams) - State-based behavior
+- [Sequence Diagrams](/guide/diagram-types/sequence-diagrams) - Interaction modeling
+- [UML Class Diagrams](/guide/diagram-types/class-diagrams) - Structural modeling
 
 ## References
 

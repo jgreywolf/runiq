@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="185.2" height="314" 
+    viewBox="0 0 185.2 314"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="chevronList" data-node-id="chevronList" data-node-shape="chevronList">
+          <polygon points="12,12 128.4,12 148.4,37 128.4,62 12,62" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="75.2" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Prospecting
+    </text>
+          <polygon points="12,70 145.2,70 165.2,95 145.2,120 12,120" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="83.6" y="95" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Qualification
+    </text>
+          <polygon points="12,128 103.2,128 123.2,153 103.2,178 12,178" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="62.6" y="153" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Proposal
+    </text>
+          <polygon points="12,186 128.4,186 148.4,211 128.4,236 12,236" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="75.2" y="211" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Negotiation
+    </text>
+          <polygon points="12,244 94.80000000000001,244 114.80000000000001,269 94.80000000000001,294 12,294" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="58.400000000000006" y="269" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Closing
+    </text></g></svg>

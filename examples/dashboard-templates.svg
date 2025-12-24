@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="934" height="3580.3199999999997" 
+    viewBox="0 0 934 3580.3199999999997"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="user-metrics" data-container-id="user-metrics"><rect x="0" y="0" width="904" height="604" 
+    fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">User Metrics</text></g><g data-runiq-container="revenue" data-container-id="revenue"><rect x="0" y="684" width="914" height="684" 
+    fill="#e8f5e9" stroke="#4caf50" stroke-width="2" rx="8" /><text x="10" y="704" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Revenue</text></g><g data-runiq-container="alerts" data-container-id="alerts"><rect x="0" y="1448" width="332" height="270.32" 
+    fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="8" /><text x="10" y="1468" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Alerts</text></g><g data-runiq-container="analytics" data-container-id="analytics"><rect x="0" y="1798.32" width="914" height="764" 
+    fill="#f8f9fa" stroke="#6c757d" stroke-width="1" rx="8" /><text x="10" y="1818.32" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Analytics</text></g><g data-runiq-container="performance" data-container-id="performance"><rect x="0" y="2642.3199999999997" width="344" height="264" 
+    fill="#f3e5f5" stroke="#2196f3" stroke-width="2" rx="8" /><text x="10" y="2662.3199999999997" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Performance</text></g><g data-runiq-container="advanced-metrics" data-container-id="advanced-metrics"><rect x="0" y="2986.3199999999997" width="484" height="574" 
+    fill="#e8f5e9" stroke="#4caf50" stroke-width="2" rx="8" /><text x="10" y="3006.3199999999997" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Advanced Metrics</text></g><g data-runiq-edge="visits-bounce-3" data-edge-id="visits-bounce-3" data-edge-from="visits" data-edge-to="bounce"><defs>
+      <marker id="arrow-standard-visits-bounce" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 672 2140.3199999999997 L 672 2180.3199999999997 L 672 2180.3199999999997 L 672 2220.3199999999997" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 672 2140.3199999999997 L 672 2180.3199999999997 L 672 2180.3199999999997 L 672 2220.3199999999997" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-visits-bounce)" pointer-events="none" /></g><g data-runiq-edge="total-monthly" data-edge-id="total-monthly" data-edge-from="total" data-edge-to="monthly"><defs>
+      <marker id="arrow-standard-total-monthly" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 242 42 L 242 484 L 242 484 L 242 726" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 242 42 L 242 484 L 242 484 L 242 726" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-total-monthly)" pointer-events="none" /></g><g data-runiq-edge="active-monthly" data-edge-id="active-monthly" data-edge-from="active" data-edge-to="monthly"><defs>
+      <marker id="arrow-standard-active-monthly" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 662 42 L 662 484 L 242 484 L 242 726" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 662 42 L 662 484 L 242 484 L 242 726" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-active-monthly)" pointer-events="none" /></g><g data-runiq-edge="growth-conversion" data-edge-id="growth-conversion" data-edge-from="growth" data-edge-to="conversion"><defs>
+      <marker id="arrow-standard-growth-conversion" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 242 262 L 242 1196.1599999999999 L 247 1196.1599999999999 L 292 1965.32" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 242 262 L 242 1196.1599999999999 L 247 1196.1599999999999 L 292 1965.32" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-growth-conversion)" pointer-events="none" /></g><g data-runiq-node="total" data-node-id="total" data-node-shape="barChart">
+    <rect x="42" y="42" width="400" height="200" fill="#f7fafc" stroke="#cbd5e0" stroke-width="2" rx="4" />
+    <text x="242" y="142" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#718096">No data available</text>
+  </g><g data-runiq-node="active" data-node-id="active" data-node-shape="barChart">
+    <rect x="462" y="42" width="400" height="200" fill="#f7fafc" stroke="#cbd5e0" stroke-width="2" rx="4" />
+    <text x="662" y="142" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#718096">No data available</text>
+  </g><g data-runiq-node="growth" data-node-id="growth" data-node-shape="lineChart"><text x="42" y="262" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#6b7280">
+      No data
+    </text></g><g data-runiq-node="monthly" data-node-id="monthly" data-node-shape="barChart">
+    <rect x="42" y="726" width="400" height="200" fill="#f7fafc" stroke="#cbd5e0" stroke-width="2" rx="4" />
+    <text x="242" y="826" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#718096">No data available</text>
+  </g><g data-runiq-node="ytd" data-node-id="ytd" data-node-shape="pieChart"><text x="587" y="741" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      YTD: $2.4M
+    </text><circle cx="587" cy="881" r="115" fill="#f0f0f0" stroke="#48677e" stroke-width="1" />
+    </g><g data-runiq-node="trend" data-node-id="trend" data-node-shape="lineChart"><text x="42" y="1026" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#6b7280">
+      No data
+    </text></g><g data-runiq-node="criticalShape" data-node-id="criticalShape" data-node-shape="rhombus">
+      <polygon points="99,1490 156,1520 99,1550 42,1520"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="99" y="1520" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      2 Critical
+    </text>
+    </g><g data-runiq-node="warnings" data-node-id="warnings" data-node-shape="rhombus">
+      <polygon points="233,1490 290,1520 233,1550 176,1520"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="233" y="1520" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      5 Warnings
+    </text>
+    </g><g data-runiq-node="info" data-node-id="info" data-node-shape="circle">
+      <circle cx="95.16" cy="1623.16" r="53.160000000000004"
+              fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="95.16" y="1623.16" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      12 Info
+    </text>
+    </g><g data-runiq-node="visits" data-node-id="visits" data-node-shape="barChart">
+    <rect x="572" y="1840.32" width="200" height="300" fill="#f7fafc" stroke="#cbd5e0" stroke-width="2" rx="4" />
+    <text x="672" y="1990.32" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#718096">No data available</text>
+  </g><g data-runiq-node="conversion" data-node-id="conversion" data-node-shape="pieChart"><text x="167" y="1855.32" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Conversion Rate
+    </text><circle cx="167" cy="1995.32" r="115" fill="#f0f0f0" stroke="#48677e" stroke-width="1" />
+    </g><g data-runiq-node="bounce" data-node-id="bounce" data-node-shape="lineChart"><text x="472" y="2220.3199999999997" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#6b7280">
+      No data
+    </text></g><g data-runiq-node="cpu" data-node-id="cpu" data-node-shape="gauge">
+      <!-- Gauge body -->
+      <path d="M 102 2696.3199999999997 A 32 32 0 0 1 102 2760.3199999999997" stroke="#48677e" stroke-width="1" fill="none" />
+      <line x1="102" y1="2702.3199999999997" x2="102" y2="2698.3199999999997" stroke="#48677e" stroke-width="1" />
+      <line x1="120.38477631085024" y1="2709.9352236891496" x2="123.21320343559643" y2="2707.1067965644033" stroke="#48677e" stroke-width="1" />
+      <line x1="128" y1="2728.3199999999997" x2="132" y2="2728.3199999999997" stroke="#48677e" stroke-width="1" />
+      <line x1="120.38477631085024" y1="2746.70477631085" x2="123.21320343559643" y2="2749.533203435596" stroke="#48677e" stroke-width="1" />
+      <line x1="102" y1="2754.3199999999997" x2="102" y2="2758.3199999999997" stroke="#48677e" stroke-width="1" />
+
+      <!-- Needle -->
+      <line x1="102" y1="2728.3199999999997" x2="102" y2="2696.3199999999997" stroke="#48677e" stroke-width="2" stroke-linecap="round" />
+      <circle cx="102" cy="2728.3199999999997" r="3" fill="#48677e" />
+
+      <!-- Optional numeric value -->
+      <text x="102" y="2754.3199999999997" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      
+    </text>
+
+      <!-- Shape label -->
+      <text x="102" y="2698.3199999999997" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      CPU: 45%
+    </text>
+    </g><g data-runiq-node="memory" data-node-id="memory" data-node-shape="gauge">
+      <!-- Gauge body -->
+      <path d="M 242 2696.3199999999997 A 32 32 0 0 1 242 2760.3199999999997" stroke="#48677e" stroke-width="1" fill="none" />
+      <line x1="242" y1="2702.3199999999997" x2="242" y2="2698.3199999999997" stroke="#48677e" stroke-width="1" />
+      <line x1="260.3847763108502" y1="2709.9352236891496" x2="263.2132034355964" y2="2707.1067965644033" stroke="#48677e" stroke-width="1" />
+      <line x1="268" y1="2728.3199999999997" x2="272" y2="2728.3199999999997" stroke="#48677e" stroke-width="1" />
+      <line x1="260.3847763108502" y1="2746.70477631085" x2="263.2132034355964" y2="2749.533203435596" stroke="#48677e" stroke-width="1" />
+      <line x1="242" y1="2754.3199999999997" x2="242" y2="2758.3199999999997" stroke="#48677e" stroke-width="1" />
+
+      <!-- Needle -->
+      <line x1="242" y1="2728.3199999999997" x2="242" y2="2696.3199999999997" stroke="#48677e" stroke-width="2" stroke-linecap="round" />
+      <circle cx="242" cy="2728.3199999999997" r="3" fill="#48677e" />
+
+      <!-- Optional numeric value -->
+      <text x="242" y="2754.3199999999997" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      
+    </text>
+
+      <!-- Shape label -->
+      <text x="242" y="2698.3199999999997" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      Memory: 67%
+    </text>
+    </g><g data-runiq-node="disk" data-node-id="disk" data-node-shape="gauge">
+      <!-- Gauge body -->
+      <path d="M 102 2796.3199999999997 A 32 32 0 0 1 102 2860.3199999999997" stroke="#48677e" stroke-width="1" fill="none" />
+      <line x1="102" y1="2802.3199999999997" x2="102" y2="2798.3199999999997" stroke="#48677e" stroke-width="1" />
+      <line x1="120.38477631085024" y1="2809.9352236891496" x2="123.21320343559643" y2="2807.1067965644033" stroke="#48677e" stroke-width="1" />
+      <line x1="128" y1="2828.3199999999997" x2="132" y2="2828.3199999999997" stroke="#48677e" stroke-width="1" />
+      <line x1="120.38477631085024" y1="2846.70477631085" x2="123.21320343559643" y2="2849.533203435596" stroke="#48677e" stroke-width="1" />
+      <line x1="102" y1="2854.3199999999997" x2="102" y2="2858.3199999999997" stroke="#48677e" stroke-width="1" />
+
+      <!-- Needle -->
+      <line x1="102" y1="2828.3199999999997" x2="102" y2="2796.3199999999997" stroke="#48677e" stroke-width="2" stroke-linecap="round" />
+      <circle cx="102" cy="2828.3199999999997" r="3" fill="#48677e" />
+
+      <!-- Optional numeric value -->
+      <text x="102" y="2854.3199999999997" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      
+    </text>
+
+      <!-- Shape label -->
+      <text x="102" y="2798.3199999999997" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      Disk: 23%
+    </text>
+    </g><g data-runiq-node="custom1" data-node-id="custom1" data-node-shape="barChart">
+    <rect x="37" y="3023.3199999999997" width="400" height="200" fill="#f7fafc" stroke="#cbd5e0" stroke-width="2" rx="4" />
+    <text x="237" y="3123.3199999999997" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#718096">No data available</text>
+  </g><g data-runiq-node="custom2" data-node-id="custom2" data-node-shape="pieChart"><text x="162" y="3258.3199999999997" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Custom Metric 2
+    </text><circle cx="162" cy="3398.3199999999997" r="115" fill="#f0f0f0" stroke="#48677e" stroke-width="1" />
+    </g></svg>

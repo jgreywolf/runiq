@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="393" height="762" 
+    viewBox="0 0 393 762"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="off-on-0" data-edge-id="off-on-0" data-edge-from="off" data-edge-to="on"><defs>
+      <marker id="arrow-standard-off-on" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 183 692 L 183 632 L 32 632 L 32 547 L 32 377 L 32 207 L 32 97 L 63 97 L 83 62" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 183 692 L 183 632 L 32 632 L 32 547 L 32 377 L 32 207 L 32 97 L 63 97 L 83 62" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-off-on)" pointer-events="none" /><text x="32" y="377" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">power on</text></g><g data-runiq-edge="on-idle-1" data-edge-id="on-idle-1" data-edge-from="on" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-on-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 83 62 L 83 97 L 296 97 L 296 182" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 83 62 L 83 97 L 296 97 L 296 182" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-on-idle)" pointer-events="none" /><text x="296" y="97" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">initialize</text></g><g data-runiq-edge="idle-playing-2" data-edge-id="idle-playing-2" data-edge-from="idle" data-edge-to="playing"><defs>
+      <marker id="arrow-standard-idle-playing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 296 232 L 296 267 L 219 267 L 219.4 352" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 296 232 L 296 267 L 219 267 L 219.4 352" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-playing)" pointer-events="none" /><text x="219" y="267" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">play</text></g><g data-runiq-edge="playing-paused-3" data-edge-id="playing-paused-3" data-edge-from="playing" data-edge-to="paused"><defs>
+      <marker id="arrow-standard-playing-paused" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 219.4 402 L 219.4 437 L 108 437 L 108 522" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 219.4 402 L 219.4 437 L 108 437 L 108 522" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-playing-paused)" pointer-events="none" /><text x="108" y="437" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">pause</text></g><g data-runiq-edge="paused-playing-4" data-edge-id="paused-playing-4" data-edge-from="paused" data-edge-to="playing"><defs>
+      <marker id="arrow-standard-paused-playing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 108 522 L 108 462 L 211 462 L 219.4 402" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 108 522 L 108 462 L 211 462 L 219.4 402" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paused-playing)" pointer-events="none" /><text x="211" y="462" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">resume</text></g><g data-runiq-edge="playing-stopped-5" data-edge-id="playing-stopped-5" data-edge-from="playing" data-edge-to="stopped"><defs>
+      <marker id="arrow-standard-playing-stopped" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 219.4 402 L 219.4 437 L 247 437 L 260.4 522" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 219.4 402 L 219.4 437 L 247 437 L 260.4 522" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-playing-stopped)" pointer-events="none" /><text x="247" y="437" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">stop</text></g><g data-runiq-edge="stopped-idle-6" data-edge-id="stopped-idle-6" data-edge-from="stopped" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-stopped-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 260.4 522 L 260.4 437 L 296 437 L 296 377 L 296 232" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 260.4 522 L 260.4 437 L 296 437 L 296 377 L 296 232" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-stopped-idle)" pointer-events="none" /><text x="296" y="437" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">reset</text></g><g data-runiq-edge="on-resumePoint-7" data-edge-id="on-resumePoint-7" data-edge-from="on" data-edge-to="resumePoint"><defs>
+      <marker id="arrow-standard-on-resumePoint" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 83 62 Q 83 207 83 362" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 83 62 Q 83 207 83 362" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-on-resumePoint)" pointer-events="none" /><text x="83" y="207" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">quick resume</text></g><g data-runiq-edge="resumePoint-paused-8" data-edge-id="resumePoint-paused-8" data-edge-from="resumePoint" data-edge-to="paused"><defs>
+      <marker id="arrow-standard-resumePoint-paused" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 83 392 L 83 437 L 88 437 L 108 522" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 83 392 L 83 437 L 88 437 L 108 522" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-resumePoint-paused)" pointer-events="none" /><text x="88" y="437" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">restore last state</text></g><g data-runiq-edge="playing-off-9" data-edge-id="playing-off-9" data-edge-from="playing" data-edge-to="off"><defs>
+      <marker id="arrow-standard-playing-off" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 219.4 402 L 219.4 487 L 183 487 L 183 547 L 183 692" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 219.4 402 L 219.4 487 L 183 487 L 183 547 L 183 692" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-playing-off)" pointer-events="none" /><text x="183" y="487" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">power off</text></g><g data-runiq-edge="paused-off-10" data-edge-id="paused-off-10" data-edge-from="paused" data-edge-to="off"><defs>
+      <marker id="arrow-standard-paused-off" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 108 572 L 108 607 L 170 607 L 183 692" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 108 572 L 108 607 L 170 607 L 183 692" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paused-off)" pointer-events="none" /><text x="170" y="607" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">power off</text></g><g data-runiq-edge="stopped-off-11" data-edge-id="stopped-off-11" data-edge-from="stopped" data-edge-to="off"><defs>
+      <marker id="arrow-standard-stopped-off" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 260.4 572 L 260.4 607 L 196 607 L 183 692" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 260.4 572 L 260.4 607 L 196 607 L 183 692" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-stopped-off)" pointer-events="none" /><text x="196" y="607" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">power off</text></g><g data-runiq-edge="idle-off-12" data-edge-id="idle-off-12" data-edge-from="idle" data-edge-to="off"><defs>
+      <marker id="arrow-standard-idle-off" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 296 232 L 296 267 L 337 267 L 337 377 L 337 547 L 337 632 L 210 632 L 183 692" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 296 232 L 296 267 L 337 267 L 337 377 L 337 547 L 337 632 L 210 632 L 183 692" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-off)" pointer-events="none" /><text x="337" y="547" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">power off</text></g><g data-runiq-node="off" data-node-id="off" data-node-shape="state"><g class="state-shape"><rect x="143" y="692" width="80" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="183" y="716.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Off
+    </text></g></g><g data-runiq-node="on" data-node-id="on" data-node-shape="state"><g class="state-shape"><rect x="43" y="12" width="80" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="83" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      On
+    </text></g></g><g data-runiq-node="idle" data-node-id="idle" data-node-shape="state"><g class="state-shape"><rect x="256" y="182" width="80" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="296" y="206.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Idle
+    </text></g></g><g data-runiq-node="playing" data-node-id="playing" data-node-shape="state"><g class="state-shape"><rect x="178" y="352" width="82.80000000000001" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="219.4" y="376.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Playing
+    </text></g></g><g data-runiq-node="paused" data-node-id="paused" data-node-shape="state"><g class="state-shape"><rect x="68" y="522" width="80" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="108" y="546.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Paused
+    </text></g></g><g data-runiq-node="stopped" data-node-id="stopped" data-node-shape="state"><g class="state-shape"><rect x="219" y="522" width="82.80000000000001" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="260.4" y="546.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Stopped
+    </text></g></g><g data-runiq-node="resumePoint" data-node-id="resumePoint" data-node-shape="historyShallow"><g class="historyShallow-shape"><circle cx="83" cy="377" r="15" fill="#73a3bf" stroke="#48677e" stroke-width="1.5" /><text x="83" y="377" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="18"
+      fill="#48677e">
+      H
+    </text></g></g></svg>

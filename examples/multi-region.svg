@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="939.8" height="793.6" 
+    viewBox="0 0 939.8 793.6"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="useast" data-container-id="useast"><rect x="12" y="372" width="413.8" height="401.6" 
+    fill="#e8f5e9" stroke="#388e3c" stroke-width="3" rx="8" /><text x="22" y="392" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">US East (Primary)</text></g><g data-runiq-container="uswest" data-container-id="uswest"><rect x="506" y="372" width="413.8" height="401.6" 
+    fill="#fff8e1" stroke="#f57f17" stroke-width="3" rx="8" /><text x="516" y="392" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">US West (Replica)</text></g><g data-runiq-edge="lb1-app1a-0" data-edge-id="lb1-app1a-0" data-edge-from="lb1" data-edge-to="app1a"><defs>
+      <marker id="arrow-standard-lb1-app1a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 137.6 450.8 L 137.6 485.8 L 321 485.8 L 321.4 530.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 137.6 450.8 L 137.6 485.8 L 321 485.8 L 321.4 530.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-lb1-app1a)" pointer-events="none" /></g><g data-runiq-edge="lb1-app1b-1" data-edge-id="lb1-app1b-1" data-edge-from="lb1" data-edge-to="app1b"><defs>
+      <marker id="arrow-standard-lb1-app1b" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 137.6 450.8 L 137.6 490.79999999999995 L 116.4 490.79999999999995 L 116.4 530.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 137.6 450.8 L 137.6 490.79999999999995 L 116.4 490.79999999999995 L 116.4 530.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-lb1-app1b)" pointer-events="none" /></g><g data-runiq-edge="app1a-db1-2" data-edge-id="app1a-db1-2" data-edge-from="app1a" data-edge-to="db1"><defs>
+      <marker id="arrow-standard-app1a-db1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 321.4 571.5999999999999 L 321.4 606.6 L 152 606.6 L 134 663.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 321.4 571.5999999999999 L 321.4 606.6 L 152 606.6 L 134 663.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-app1a-db1)" pointer-events="none" /></g><g data-runiq-edge="app1b-db1-3" data-edge-id="app1b-db1-3" data-edge-from="app1b" data-edge-to="db1"><defs>
+      <marker id="arrow-standard-app1b-db1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 116.4 571.5999999999999 L 116.4 617.5999999999999 L 134 617.5999999999999 L 134 663.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 116.4 571.5999999999999 L 116.4 617.5999999999999 L 134 617.5999999999999 L 134 663.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-app1b-db1)" pointer-events="none" /></g><g data-runiq-edge="lb2-app2a-4" data-edge-id="lb2-app2a-4" data-edge-from="lb2" data-edge-to="app2a"><defs>
+      <marker id="arrow-standard-lb2-app2a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 631.6 450.8 L 631.6 485.8 L 815 485.8 L 815.4 530.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 631.6 450.8 L 631.6 485.8 L 815 485.8 L 815.4 530.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-lb2-app2a)" pointer-events="none" /></g><g data-runiq-edge="lb2-app2b-5" data-edge-id="lb2-app2b-5" data-edge-from="lb2" data-edge-to="app2b"><defs>
+      <marker id="arrow-standard-lb2-app2b" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 631.6 450.8 L 631.6 490.79999999999995 L 610.4 490.79999999999995 L 610.4 530.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 631.6 450.8 L 631.6 490.79999999999995 L 610.4 490.79999999999995 L 610.4 530.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-lb2-app2b)" pointer-events="none" /></g><g data-runiq-edge="app2a-db2-6" data-edge-id="app2a-db2-6" data-edge-from="app2a" data-edge-to="db2"><defs>
+      <marker id="arrow-standard-app2a-db2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 815.4 571.5999999999999 L 815.4 606.6 L 646 606.6 L 628 663.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 815.4 571.5999999999999 L 815.4 606.6 L 646 606.6 L 628 663.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-app2a-db2)" pointer-events="none" /></g><g data-runiq-edge="app2b-db2-7" data-edge-id="app2b-db2-7" data-edge-from="app2b" data-edge-to="db2"><defs>
+      <marker id="arrow-standard-app2b-db2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 610.4 571.5999999999999 L 610.4 617.5999999999999 L 628 617.5999999999999 L 628 663.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 610.4 571.5999999999999 L 610.4 617.5999999999999 L 628 617.5999999999999 L 628 663.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-app2b-db2)" pointer-events="none" /></g><g data-runiq-edge="dns-cdn-8" data-edge-id="dns-cdn-8" data-edge-from="dns" data-edge-to="cdn"><defs>
+      <marker id="arrow-standard-dns-cdn" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 140.4 72 L 140.4 132 L 139.8 132 L 139.8 192" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 140.4 72 L 140.4 132 L 139.8 132 L 139.8 192" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dns-cdn)" pointer-events="none" /></g><g data-runiq-edge="cdn-lb1" data-edge-id="cdn-lb1" data-edge-from="cdn" data-edge-to="lb1"><defs>
+      <marker id="arrow-standard-cdn-lb1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 139.8 192 L 139.8 327.2 L 137.6 327.2 L 137.6 414" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 139.8 192 L 139.8 327.2 L 137.6 327.2 L 137.6 414" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cdn-lb1)" pointer-events="none" /></g><g data-runiq-edge="cdn-lb2" data-edge-id="cdn-lb2" data-edge-from="cdn" data-edge-to="lb2"><defs>
+      <marker id="arrow-standard-cdn-lb2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 139.8 192 L 139.8 327.2 L 631.6 327.2 L 631.6 414" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 139.8 192 L 139.8 327.2 L 631.6 327.2 L 631.6 414" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cdn-lb2)" pointer-events="none" /></g><g data-runiq-edge="monitor-lb1" data-edge-id="monitor-lb1" data-edge-from="monitor" data-edge-to="lb1"><defs>
+      <marker id="arrow-standard-monitor-lb1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 346 215.2 L 346 333 L 137.6 333 L 137.6 414" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 346 215.2 L 346 333 L 137.6 333 L 137.6 414" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-monitor-lb1)" pointer-events="none" /></g><g data-runiq-edge="monitor-lb2" data-edge-id="monitor-lb2" data-edge-from="monitor" data-edge-to="lb2"><defs>
+      <marker id="arrow-standard-monitor-lb2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 346 215.2 L 346 333 L 631.6 333 L 631.6 414" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 346 215.2 L 346 333 L 631.6 333 L 631.6 414" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-monitor-lb2)" pointer-events="none" /></g><g data-runiq-edge="monitor-db1" data-edge-id="monitor-db1" data-edge-from="monitor" data-edge-to="db1"><defs>
+      <marker id="arrow-standard-monitor-db1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 346 215.2 L 346 462.6 L 134 462.6 L 134 663.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 346 215.2 L 346 462.6 L 134 462.6 L 134 663.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-monitor-db1)" pointer-events="none" /></g><g data-runiq-edge="monitor-db2" data-edge-id="monitor-db2" data-edge-from="monitor" data-edge-to="db2"><defs>
+      <marker id="arrow-standard-monitor-db2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 346 215.2 L 346 462.6 L 628 462.6 L 628 663.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 346 215.2 L 346 462.6 L 628 462.6 L 628 663.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-monitor-db2)" pointer-events="none" /></g><g data-runiq-edge="db1-db2" data-edge-id="db1-db2" data-edge-from="db1" data-edge-to="db2"><defs>
+      <marker id="arrow-standard-db1-db2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 134 663.6 L 134 691.6 L 628 691.6 L 628 663.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 134 663.6 L 134 691.6 L 628 691.6 L 628 663.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-db1-db2)" pointer-events="none" /></g><g data-runiq-node="lb1" data-node-id="lb1" data-node-shape="rect">
+      <rect x="73" y="414" width="129.2" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="137.6" y="432.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Load Balancer
+    </text>
+    </g><g data-runiq-node="app1a" data-node-id="app1a" data-node-shape="rounded">
+      <rect x="259" y="530.8" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="321.4" y="551.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      App Server 1
+    </text>
+    </g><g data-runiq-node="app1b" data-node-id="app1b" data-node-shape="rounded">
+      <rect x="54" y="530.8" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="116.4" y="551.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      App Server 2
+    </text>
+    </g><g data-runiq-node="db1" data-node-id="db1" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="134" cy="663.6" rx="54" ry="12" 
+                 fill="#48677e" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="80" y="663.6" width="108" height="56" 
+              fill="#48677e" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="80" y1="663.6" x2="80" y2="719.6" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="188" y1="663.6" x2="188" y2="719.6" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 80,719.6 Q 134,743.6 188,719.6"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="134" y="691.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      DB Primary
+    </text>
+      </g>
+    </g><g data-runiq-node="lb2" data-node-id="lb2" data-node-shape="rect">
+      <rect x="567" y="414" width="129.2" height="36.8"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="631.6" y="432.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Load Balancer
+    </text>
+    </g><g data-runiq-node="app2a" data-node-id="app2a" data-node-shape="rounded">
+      <rect x="753" y="530.8" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="815.4" y="551.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      App Server 1
+    </text>
+    </g><g data-runiq-node="app2b" data-node-id="app2b" data-node-shape="rounded">
+      <rect x="548" y="530.8" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="610.4" y="551.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      App Server 2
+    </text>
+    </g><g data-runiq-node="db2" data-node-id="db2" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="628" cy="663.6" rx="54" ry="12" 
+                 fill="#96bacf" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="574" y="663.6" width="108" height="56" 
+              fill="#96bacf" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="574" y1="663.6" x2="574" y2="719.6" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="682" y1="663.6" x2="682" y2="719.6" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 574,719.6 Q 628,743.6 682,719.6"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="628" y="691.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      DB Replica
+    </text>
+      </g>
+    </g><g data-runiq-node="cdn" data-node-id="cdn" data-node-shape="hexagon">
+      <polygon points="88.14,192 191.46,192 213.60000000000002,222 191.46,252 88.14,252 66,222" 
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="139.8" y="222" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      CloudFront CDN
+    </text>
+    </g><g data-runiq-node="dns" data-node-id="dns" data-node-shape="rhombus">
+      <polygon points="140.4,12 205.8,42 140.4,72 75,42"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="140.4" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Route 53 DNS
+    </text>
+    </g><g data-runiq-node="monitor" data-node-id="monitor" data-node-shape="rect">
+      <rect x="294" y="215.2" width="104" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="346" y="233.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      CloudWatch
+    </text>
+    </g></svg>

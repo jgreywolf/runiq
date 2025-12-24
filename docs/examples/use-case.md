@@ -94,13 +94,13 @@ Admin -> AuditLog
 BackOffice -> ValidateAccount
 
 # Include relationships (mandatory)
-edge Login -> TwoFactor stereotype: "<<include>>" lineStyle: dashed arrowType: open
-edge Transfer -> ValidateAccount stereotype: "<<include>>" lineStyle: dashed arrowType: open
-edge PayBills -> ValidateAccount stereotype: "<<include>>" lineStyle: dashed arrowType: open
+edge Login -> TwoFactor stereotype: "<<include>>" lineStyle: "dashed" arrowType: open
+edge Transfer -> ValidateAccount stereotype: "<<include>>" lineStyle: "dashed" arrowType: open
+edge PayBills -> ValidateAccount stereotype: "<<include>>" lineStyle: "dashed" arrowType: open
 
 # Extend relationships (optional)
-edge SendNotification -> Transfer stereotype: "<<extend>>" lineStyle: dashed arrowType: open
-edge SendNotification -> PayBills stereotype: "<<extend>>" lineStyle: dashed arrowType: open
+edge SendNotification -> Transfer stereotype: "<<extend>>" lineStyle: "dashed" arrowType: open
+edge SendNotification -> PayBills stereotype: "<<extend>>" lineStyle: "dashed" arrowType: open
 ```
 
 ### UML Stereotypes
@@ -109,13 +109,13 @@ edge SendNotification -> PayBills stereotype: "<<extend>>" lineStyle: dashed arr
 
 - The base use case **requires** the included use case
 - Example: Login requires Two-Factor Auth
-- Use `stereotype: "<<include>>"` with `lineStyle: dashed`
+- Use `stereotype: "<<include>>"` with `lineStyle: "dashed"`
 
 `<<extend>>`: Optional behavior
 
 - The base use case **may** use the extending use case
 - Example: Transfer may trigger SendNotification
-- Use `stereotype: "<<extend>>"` with `lineStyle: dashed`
+- Use `stereotype: "<<extend>>"` with `lineStyle: "dashed"`
 
 ### Line Styles
 
@@ -124,13 +124,13 @@ edge SendNotification -> PayBills stereotype: "<<extend>>" lineStyle: dashed arr
 Actor -> UseCase
 
 # Dashed line (for stereotypes)
-edge UseCase1 -> UseCase2 stereotype: "<<include>>" lineStyle: dashed arrowType: open
+edge UseCase1 -> UseCase2 stereotype: "<<include>>" lineStyle: "dashed" arrowType: open
 
 # Dotted line
-edge UseCase1 -> UseCase2 lineStyle: dotted
+edge UseCase1 -> UseCase2 lineStyle: "dotted"
 
 # Custom colors
-edge UseCase1 -> UseCase2 strokeColor: "#4caf50" lineStyle: dashed
+edge UseCase1 -> UseCase2 strokeColor: "#4caf50" lineStyle: "dashed"
 ```
 
 ## E-Commerce System
@@ -196,8 +196,8 @@ Admin -> ManageUsers
 Admin -> ViewAnalytics
 
 # Include relationships
-edge Checkout -> Payment stereotype: "\u003c\u003cinclude\u003e\u003e" lineStyle: dashed arrowType: open
-edge ListProduct -> ManageInventory stereotype: "\u003c\u003cinclude\u003e\u003e" lineStyle: dashed arrowType: open
+edge Checkout -> Payment stereotype: "\u003c\u003cinclude\u003e\u003e" lineStyle: "dashed" arrowType: open
+edge ListProduct -> ManageInventory stereotype: "\u003c\u003cinclude\u003e\u003e" lineStyle: "dashed" arrowType: open
 ```
 
 ## Actor Styles

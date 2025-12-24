@@ -503,13 +503,7 @@ Includes:
 - Sales funnel (marketing)
 - Learning progression (education)
 
-## Related Documentation
-
-- [Charts & Graphs](/guide/charts) - Other data visualization shapes
-- [Hierarchy Glyphsets](/guide/glyphsets-hierarchy) - Pre-built hierarchy templates
-- [Data-Driven Diagrams](/reference/data-driven) - Dynamic data binding
-- [JSON Format](/reference/json) - Programmatic generation
-- [Styling Guide](/guide/styling) - Advanced styling techniques
+- [Charts & Graphs](/guide/diagram-types/charts) - Other data visualization shapes
 
 ## Resources
 

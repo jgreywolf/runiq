@@ -421,7 +421,7 @@ See the [Timeline Examples](/examples/timeline-diagrams) page for more complete 
 
 ## See Also
 
-- [Sequence Diagrams](/guide/sequence-diagrams) - For interaction timelines
-- [Activity Diagrams](/guide/activity-diagrams) - For process flows
-- [State Machine Diagrams](/guide/state-machine-diagrams) - For state transitions
-- [Charts & Graphs](/guide/charts) - For data visualization
+- [Sequence Diagrams](/guide/diagram-types/sequence-diagrams) - For interaction timelines
+- [Activity Diagrams](/guide/diagram-types/activity-diagrams) - For process flows
+- [State Machine Diagrams](/guide/diagram-types/state-machine-diagrams) - For state transitions
+- [Charts & Graphs](/guide/diagram-types/charts) - For data visualization

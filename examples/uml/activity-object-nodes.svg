@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="478.4" height="1704" 
+    viewBox="0 0 478.4 1704"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="init-readInput-0" data-edge-id="init-readInput-0" data-edge-from="init" data-edge-to="readInput"><defs>
+      <marker id="arrow-standard-init-readInput" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 117 30 L 117 90 L 117 90 L 117 150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 117 30 L 117 90 L 117 90 L 117 150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-init-readInput)" pointer-events="none" /></g><g data-runiq-edge="readInput-validateData-1" data-edge-id="readInput-validateData-1" data-edge-from="readInput" data-edge-to="validateData"><defs>
+      <marker id="arrow-standard-readInput-validateData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 117 200 Q 117 340 114.6 480" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 117 200 Q 117 340 114.6 480" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-readInput-validateData)" pointer-events="none" /></g><g data-runiq-edge="validateData-processOrder-2" data-edge-id="validateData-processOrder-2" data-edge-from="validateData" data-edge-to="processOrder"><defs>
+      <marker id="arrow-standard-validateData-processOrder" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 114.6 530 Q 114.6 675 125.6 820" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 114.6 530 Q 114.6 675 125.6 820" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validateData-processOrder)" pointer-events="none" /></g><g data-runiq-edge="processOrder-saveToDb-3" data-edge-id="processOrder-saveToDb-3" data-edge-from="processOrder" data-edge-to="saveToDb"><defs>
+      <marker id="arrow-standard-processOrder-saveToDb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 125.6 870 L 125.6 905 L 56 905 L 56 1010 L 56 1175 L 56 1235 L 95 1235 L 121.2 1320" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 125.6 870 L 125.6 905 L 56 905 L 56 1010 L 56 1175 L 56 1235 L 95 1235 L 121.2 1320" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processOrder-saveToDb)" pointer-events="none" /></g><g data-runiq-edge="saveToDb-sendConfirmation-4" data-edge-id="saveToDb-sendConfirmation-4" data-edge-from="saveToDb" data-edge-to="sendConfirmation"><defs>
+      <marker id="arrow-standard-saveToDb-sendConfirmation" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 121.2 1370 L 121.2 1430 L 95.4 1430 L 95.4 1490" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 121.2 1370 L 121.2 1430 L 95.4 1430 L 95.4 1490" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-saveToDb-sendConfirmation)" pointer-events="none" /></g><g data-runiq-edge="sendConfirmation-final-5" data-edge-id="sendConfirmation-final-5" data-edge-from="sendConfirmation" data-edge-to="final"><defs>
+      <marker id="arrow-standard-sendConfirmation-final" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 95.4 1540 L 95.4 1600 L 95 1600 L 95 1660" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 95.4 1540 L 95.4 1600 L 95 1600 L 95 1660" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendConfirmation-final)" pointer-events="none" /></g><g data-runiq-edge="readInput-userInput-6" data-edge-id="readInput-userInput-6" data-edge-from="readInput" data-edge-to="userInput"><defs>
+      <marker id="arrow-standard-readInput-userInput" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 117 200 L 117 235 L 180 235 L 180 320" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 117 200 L 117 235 L 180 235 L 180 320" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-readInput-userInput)" pointer-events="none" /><text x="180" y="235" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">«output»</text></g><g data-runiq-edge="userInput-validateData-7" data-edge-id="userInput-validateData-7" data-edge-from="userInput" data-edge-to="validateData"><defs>
+      <marker id="arrow-standard-userInput-validateData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 180 360 L 180 395 L 137 395 L 114.6 480" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 180 360 L 180 395 L 137 395 L 114.6 480" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userInput-validateData)" pointer-events="none" /><text x="137" y="395" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">«input»</text></g><g data-runiq-edge="validateData-validatedData-8" data-edge-id="validateData-validatedData-8" data-edge-from="validateData" data-edge-to="validatedData"><defs>
+      <marker id="arrow-standard-validateData-validatedData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 114.6 530 L 114.6 565 L 197 565 L 196.8 655" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 114.6 530 L 114.6 565 L 197 565 L 196.8 655" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validateData-validatedData)" pointer-events="none" /><text x="197" y="565" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">«output»</text></g><g data-runiq-edge="validatedData-processOrder-9" data-edge-id="validatedData-processOrder-9" data-edge-from="validatedData" data-edge-to="processOrder"><defs>
+      <marker id="arrow-standard-validatedData-processOrder" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 196.8 695 L 196.8 735 L 126 735 L 125.6 820" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 196.8 695 L 196.8 735 L 126 735 L 125.6 820" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validatedData-processOrder)" pointer-events="none" /><text x="126" y="735" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">«input»</text></g><g data-runiq-edge="processOrder-orderData-10" data-edge-id="processOrder-orderData-10" data-edge-from="processOrder" data-edge-to="orderData"><defs>
+      <marker id="arrow-standard-processOrder-orderData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 125.6 870 L 125.6 930 L 148 930 L 148 990" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 125.6 870 L 125.6 930 L 148 930 L 148 990" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processOrder-orderData)" pointer-events="none" /><text x="148" y="930" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">«output»</text></g><g data-runiq-edge="orderData-orderQueue-11" data-edge-id="orderData-orderQueue-11" data-edge-from="orderData" data-edge-to="orderQueue"><defs>
+      <marker id="arrow-standard-orderData-orderQueue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 148 1030 L 148 1090 L 148.2 1090 L 148.2 1150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 148 1030 L 148 1090 L 148.2 1090 L 148.2 1150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderData-orderQueue)" pointer-events="none" /><text x="148.2" y="1090" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">enqueue</text></g><g data-runiq-edge="orderQueue-saveToDb-12" data-edge-id="orderQueue-saveToDb-12" data-edge-from="orderQueue" data-edge-to="saveToDb"><defs>
+      <marker id="arrow-standard-orderQueue-saveToDb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 148.2 1200 L 148.2 1260 L 121.2 1260 L 121.2 1320" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 148.2 1200 L 148.2 1260 L 121.2 1260 L 121.2 1320" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderQueue-saveToDb)" pointer-events="none" /><text x="121.2" y="1260" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">dequeue</text></g><g data-runiq-edge="saveToDb-db-13" data-edge-id="saveToDb-db-13" data-edge-from="saveToDb" data-edge-to="db"><defs>
+      <marker id="arrow-standard-saveToDb-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 121.2 1370 L 121.2 1405 L 328 1405 L 327.8 1490" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 121.2 1370 L 121.2 1405 L 328 1405 L 327.8 1490" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-saveToDb-db)" pointer-events="none" /><text x="328" y="1405" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">store</text></g><g data-runiq-edge="customerDb-processOrder-14" data-edge-id="customerDb-processOrder-14" data-edge-from="customerDb" data-edge-to="processOrder"><defs>
+      <marker id="arrow-standard-customerDb-processOrder" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 402.2 700 L 402.2 760 L 159 760 L 125.6 820" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 402.2 700 L 402.2 760 L 159 760 L 125.6 820" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customerDb-processOrder)" pointer-events="none" /><text x="159" y="760" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">read</text></g><g data-runiq-node="init" data-node-id="init" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="117" cy="21" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="readInput" data-node-id="readInput" data-node-shape="activity"><g class="activity-shape"><rect x="42" y="150" width="150" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="117" y="175" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Read User Input
+    </text></g></g><g data-runiq-node="validateData" data-node-id="validateData" data-node-shape="activity"><g class="activity-shape"><rect x="48" y="480" width="133.2" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="114.6" y="505" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validate Data
+    </text></g></g><g data-runiq-node="processOrder" data-node-id="processOrder" data-node-shape="activity"><g class="activity-shape"><rect x="59" y="820" width="133.2" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="125.6" y="845" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Process Order
+    </text></g></g><g data-runiq-node="saveToDb" data-node-id="saveToDb" data-node-shape="activity"><g class="activity-shape"><rect x="42" y="1320" width="158.4" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="121.2" y="1345" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Save to Database
+    </text></g></g><g data-runiq-node="sendConfirmation" data-node-id="sendConfirmation" data-node-shape="activity"><g class="activity-shape"><rect x="12" y="1490" width="166.8" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="95.4" y="1515" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Confirmation
+    </text></g></g><g data-runiq-node="final" data-node-id="final" data-node-shape="activityFinal"><g class="activity-final-shape"><circle cx="95" cy="1672" r="10.5" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="95" cy="1672" r="5.25" fill="#48677e" /></g></g><g data-runiq-node="userInput" data-node-id="userInput" data-node-shape="objectNode"><g class="object-node-shape"><rect x="128" y="320" width="104" height="40" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="180" y="340" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      User Input
+    </text></g></g><g data-runiq-node="validatedData" data-node-id="validatedData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="128" y="655" width="137.60000000000002" height="40" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="196.8" y="675" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validated Data
+    </text></g></g><g data-runiq-node="orderData" data-node-id="orderData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="96" y="990" width="104" height="40" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="148" y="1010" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Order Data
+    </text></g></g><g data-runiq-node="orderQueue" data-node-id="orderQueue" data-node-shape="centralBuffer"><g class="central-buffer-shape"><rect x="92" y="1150" width="112.4" height="50" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="148.2" y="1164" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#48677e">
+      «centralBuffer»
+    </text><text x="148.2" y="1182" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Order Queue
+    </text></g></g><g data-runiq-node="db" data-node-id="db" data-node-shape="dataStore"><g class="data-store-shape"><ellipse cx="327.8" cy="1493.75" rx="68.80000000000001" ry="3.75" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><rect x="259" y="1493.75" width="137.60000000000002" height="42.5" fill="#73a3bf" stroke="none" /><line x1="259" y1="1493.75" x2="259" y2="1536.25" stroke="#48677e" stroke-width="1" /><line x1="396.6" y1="1493.75" x2="396.6" y2="1536.25" stroke="#48677e" stroke-width="1" /><path d="M 259 1536.25 Q 327.8 1543.75, 396.6 1536.25" fill="none" stroke="#48677e" stroke-width="1" /><text x="327.8" y="1515" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Order Database
+    </text></g></g><g data-runiq-node="customerDb" data-node-id="customerDb" data-node-shape="dataStore"><g class="data-store-shape"><ellipse cx="402.2" cy="653.75" rx="56.2" ry="3.75" fill="#96bacf" stroke="#48677e" stroke-width="1" /><rect x="346" y="653.75" width="112.4" height="42.5" fill="#96bacf" stroke="none" /><line x1="346" y1="653.75" x2="346" y2="696.25" stroke="#48677e" stroke-width="1" /><line x1="458.4" y1="653.75" x2="458.4" y2="696.25" stroke="#48677e" stroke-width="1" /><path d="M 346 696.25 Q 402.2 703.75, 458.4 696.25" fill="none" stroke="#48677e" stroke-width="1" /><text x="402.2" y="675" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Customer DB
+    </text></g></g></svg>

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1037.6" height="401" 
+    viewBox="0 0 1037.6 401"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="Integer-IComparable-0" data-edge-id="Integer-IComparable-0" data-edge-from="Integer" data-edge-to="IComparable"><defs>
+      <marker id="arrow-standard-Integer-IComparable" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 158.4 170 L 158.4 205 L 467 205 L 527.2 290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 158.4 170 L 158.4 205 L 467 205 L 527.2 290" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-Integer-IComparable)" pointer-events="none" /></g><g data-runiq-edge="String-IComparable-1" data-edge-id="String-IComparable-1" data-edge-from="String" data-edge-to="IComparable"><defs>
+      <marker id="arrow-standard-String-IComparable" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 527.2 170 L 527.2 230 L 527.2 230 L 527.2 290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 527.2 170 L 527.2 230 L 527.2 230 L 527.2 290" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-String-IComparable)" pointer-events="none" /></g><g data-runiq-edge="Date-IComparable-2" data-edge-id="Date-IComparable-2" data-edge-from="Date" data-edge-to="IComparable"><defs>
+      <marker id="arrow-standard-Date-IComparable" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 883.8 170 L 883.8 205 L 588 205 L 527.2 290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 883.8 170 L 883.8 205 L 588 205 L 527.2 290" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-Date-IComparable)" pointer-events="none" /></g><g data-runiq-node="IComparable" data-node-id="IComparable" data-node-shape="class"><rect x="406" y="290" width="242.4" height="91" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="527.2" y="311" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#000000">
+      «interface»
+    </text><text x="527.2" y="329" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      IComparable<T>
+    </text><line x1="406" y1="350" x2="648.4" y2="350" stroke="#48677e" stroke-width="1"/><text x="418" y="371" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + compareTo(other: T): int
+    </text></g><g data-runiq-node="Integer" data-node-id="Integer" data-node-shape="class"><rect x="12" y="48" width="292.8" height="122" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="158.4" y="69" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Integer
+    </text><line x1="12" y1="90" x2="304.8" y2="90" stroke="#48677e" stroke-width="1"/><text x="24" y="111" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - value: int
+    </text><line x1="12" y1="132" x2="304.8" y2="132" stroke="#48677e" stroke-width="1"/><text x="24" y="153" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + compareTo(other: Integer): int
+    </text><text x="24" y="171" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + getValue(): int
+    </text></g><g data-runiq-node="String" data-node-id="String" data-node-shape="class"><rect x="385" y="30" width="284.40000000000003" height="140" fill="#96bacf" stroke="#48677e" stroke-width="1"/><text x="527.2" y="51" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      String
+    </text><line x1="385" y1="72" x2="669.4000000000001" y2="72" stroke="#48677e" stroke-width="1"/><text x="397" y="93" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - data: char[]
+    </text><text x="397" y="111" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - length: int
+    </text><line x1="385" y1="132" x2="669.4000000000001" y2="132" stroke="#48677e" stroke-width="1"/><text x="397" y="153" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + compareTo(other: String): int
+    </text><text x="397" y="171" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + toString(): String
+    </text></g><g data-runiq-node="Date" data-node-id="Date" data-node-shape="class"><rect x="750" y="12" width="267.6" height="158" fill="#48677e" stroke="#48677e" stroke-width="1"/><text x="883.8" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Date
+    </text><line x1="750" y1="54" x2="1017.6" y2="54" stroke="#48677e" stroke-width="1"/><text x="762" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - year: int
+    </text><text x="762" y="93" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - month: int
+    </text><text x="762" y="111" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - day: int
+    </text><line x1="750" y1="132" x2="1017.6" y2="132" stroke="#48677e" stroke-width="1"/><text x="762" y="153" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + compareTo(other: Date): int
+    </text><text x="762" y="171" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + isAfter(other: Date): bool
+    </text></g></svg>

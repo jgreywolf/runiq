@@ -1,0 +1,315 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1690.6699929096421" height="1647.7730551231211" 
+    viewBox="0 0 1690.6699929096421 1647.7730551231211"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="concepts" data-container-id="concepts"><rect x="0" y="0" width="1670.6699929096421" height="1627.7730551231211" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Concepts</text></g><g data-runiq-edge="prog-oop-0" data-edge-id="prog-oop-0" data-edge-from="prog" data-edge-to="oop"><defs>
+      <marker id="arrow-standard-prog-oop" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 914.3405115928622 936.5875441672716 L 914.3405115928622 734.0341378101261 L 509.623820010832 734.0341378101261 L 509.623820010832 531.4807314529806" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 914.3405115928622 936.5875441672716 L 914.3405115928622 734.0341378101261 L 509.623820010832 734.0341378101261 L 509.623820010832 531.4807314529806" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-prog-oop)" pointer-events="none" /><text x="509.623820010832" y="734.0341378101261" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">paradigm</text></g><g data-runiq-edge="prog-fp-1" data-edge-id="prog-fp-1" data-edge-from="prog" data-edge-to="fp"><defs>
+      <marker id="arrow-standard-prog-fp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 914.3405115928622 973.3875441672716 L 914.3405115928622 1089.479097265128 L 1023.032659537666 1089.479097265128 L 1023.032659537666 1205.5706503629845" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 914.3405115928622 973.3875441672716 L 914.3405115928622 1089.479097265128 L 1023.032659537666 1089.479097265128 L 1023.032659537666 1205.5706503629845" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-prog-fp)" pointer-events="none" /><text x="1023.032659537666" y="1089.479097265128" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">paradigm</text></g><g data-runiq-edge="prog-web-2" data-edge-id="prog-web-2" data-edge-from="prog" data-edge-to="web"><defs>
+      <marker id="arrow-standard-prog-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 914.3405115928622 936.5875441672716 L 914.3405115928622 802.0884625483646 L 722.4358567205501 802.0884625483646 L 722.4358567205501 667.5893809294577" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 914.3405115928622 936.5875441672716 L 914.3405115928622 802.0884625483646 L 722.4358567205501 802.0884625483646 L 722.4358567205501 667.5893809294577" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-prog-web)" pointer-events="none" /><text x="722.4358567205501" y="802.0884625483646" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">domain</text></g><g data-runiq-edge="prog-mobile-3" data-edge-id="prog-mobile-3" data-edge-from="prog" data-edge-to="mobile"><defs>
+      <marker id="arrow-standard-prog-mobile" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 914.3405115928622 973.3875441672716 L 914.3405115928622 1136.7836717101193 L 659.2262832942647 1136.7836717101193 L 659.2262832942647 1300.179799252967" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 914.3405115928622 973.3875441672716 L 914.3405115928622 1136.7836717101193 L 659.2262832942647 1136.7836717101193 L 659.2262832942647 1300.179799252967" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-prog-mobile)" pointer-events="none" /><text x="659.2262832942647" y="1136.7836717101193" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">domain</text></g><g data-runiq-edge="prog-db-4" data-edge-id="prog-db-4" data-edge-from="prog" data-edge-to="db"><defs>
+      <marker id="arrow-standard-prog-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 970.5405115928621 954.9875441672716 L 1232.805252251252 954.9875441672716 L 1232.805252251252 1123.6538800447706 L 1495.0699929096422 1123.6538800447706" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 970.5405115928621 954.9875441672716 L 1232.805252251252 954.9875441672716 L 1232.805252251252 1123.6538800447706 L 1495.0699929096422 1123.6538800447706" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-prog-db)" pointer-events="none" /><text x="1232.805252251252" y="1123.6538800447706" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">domain</text></g><g data-runiq-edge="prog-ai-5" data-edge-id="prog-ai-5" data-edge-from="prog" data-edge-to="ai"><defs>
+      <marker id="arrow-standard-prog-ai" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 914.3405115928622 936.5875441672716 L 914.3405115928622 717.5933812775123 L 837.7114588958241 717.5933812775123 L 837.7114588958241 498.599218387753" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 914.3405115928622 936.5875441672716 L 914.3405115928622 717.5933812775123 L 837.7114588958241 717.5933812775123 L 837.7114588958241 498.599218387753" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-prog-ai)" pointer-events="none" /><text x="837.7114588958241" y="717.5933812775123" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">domain</text></g><g data-runiq-edge="java-oop-6" data-edge-id="java-oop-6" data-edge-from="java" data-edge-to="oop"><defs>
+      <marker id="arrow-standard-java-oop" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 519.0322725212484 816.0552567240055 L 519.0322725212484 673.7679940884931 L 509.623820010832 673.7679940884931 L 509.623820010832 531.4807314529806" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 519.0322725212484 816.0552567240055 L 519.0322725212484 673.7679940884931 L 509.623820010832 673.7679940884931 L 509.623820010832 531.4807314529806" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-java-oop)" pointer-events="none" /></g><g data-runiq-edge="cpp-oop-7" data-edge-id="cpp-oop-7" data-edge-from="cpp" data-edge-to="oop"><defs>
+      <marker id="arrow-standard-cpp-oop" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 436.2935882919576 140 L 436.2935882919576 317.34036572649035 L 509.623820010832 317.34036572649035 L 509.623820010832 494.6807314529807" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 436.2935882919576 140 L 436.2935882919576 317.34036572649035 L 509.623820010832 317.34036572649035 L 509.623820010832 494.6807314529807" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cpp-oop)" pointer-events="none" /></g><g data-runiq-edge="py-oop-8" data-edge-id="py-oop-8" data-edge-from="py" data-edge-to="oop"><defs>
+      <marker id="arrow-standard-py-oop" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 812.8072942703495 792.5817850890803 L 672.5155571405908 792.5817850890803 L 672.5155571405908 513.0807314529807 L 532.223820010832 513.0807314529807" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 812.8072942703495 792.5817850890803 L 672.5155571405908 792.5817850890803 L 672.5155571405908 513.0807314529807 L 532.223820010832 513.0807314529807" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-py-oop)" pointer-events="none" /></g><g data-runiq-edge="py-fp-9" data-edge-id="py-fp-9" data-edge-from="py" data-edge-to="fp"><defs>
+      <marker id="arrow-standard-py-fp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 862.8072942703495 822.5817850890803 L 862.8072942703495 1014.0762177260324 L 1023.032659537666 1014.0762177260324 L 1023.032659537666 1205.5706503629845" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 862.8072942703495 822.5817850890803 L 862.8072942703495 1014.0762177260324 L 1023.032659537666 1014.0762177260324 L 1023.032659537666 1205.5706503629845" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-py-fp)" pointer-events="none" /></g><g data-runiq-edge="js-fp-10" data-edge-id="js-fp-10" data-edge-from="js" data-edge-to="fp"><defs>
+      <marker id="arrow-standard-js-fp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1033.6178572712838 701.6176032228991 L 1033.6178572712838 953.5941267929418 L 1023.032659537666 953.5941267929418 L 1023.032659537666 1205.5706503629845" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1033.6178572712838 701.6176032228991 L 1033.6178572712838 953.5941267929418 L 1023.032659537666 953.5941267929418 L 1023.032659537666 1205.5706503629845" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-js-fp)" pointer-events="none" /></g><g data-runiq-edge="rust-fp-11" data-edge-id="rust-fp-11" data-edge-from="rust" data-edge-to="fp"><defs>
+      <marker id="arrow-standard-rust-fp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 539.060505360346 1517.7730551231211 L 752.946582449006 1517.7730551231211 L 752.946582449006 1232.3706503629844 L 966.8326595376659 1232.3706503629844" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 539.060505360346 1517.7730551231211 L 752.946582449006 1517.7730551231211 L 752.946582449006 1232.3706503629844 L 966.8326595376659 1232.3706503629844" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-rust-fp)" pointer-events="none" /></g><g data-runiq-edge="js-web-12" data-edge-id="js-web-12" data-edge-from="js" data-edge-to="web"><defs>
+      <marker id="arrow-standard-js-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 976.6178572712837 671.6176032228991 L 877.6268569959168 671.6176032228991 L 877.6268569959168 640.7893809294576 L 778.63585672055 640.7893809294576" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 976.6178572712837 671.6176032228991 L 877.6268569959168 671.6176032228991 L 877.6268569959168 640.7893809294576 L 778.63585672055 640.7893809294576" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-js-web)" pointer-events="none" /></g><g data-runiq-edge="ts-web-13" data-edge-id="ts-web-13" data-edge-from="ts" data-edge-to="web"><defs>
+      <marker id="arrow-standard-ts-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 398.2371839120968 765.1419898598672 L 532.2365203163234 765.1419898598672 L 532.2365203163234 640.7893809294576 L 666.23585672055 640.7893809294576" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 398.2371839120968 765.1419898598672 L 532.2365203163234 765.1419898598672 L 532.2365203163234 640.7893809294576 L 666.23585672055 640.7893809294576" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ts-web)" pointer-events="none" /></g><g data-runiq-edge="py-web-14" data-edge-id="py-web-14" data-edge-from="py" data-edge-to="web"><defs>
+      <marker id="arrow-standard-py-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 862.8072942703495 762.5817850890803 L 862.8072942703495 715.0855830092689 L 722.4358567205501 715.0855830092689 L 722.4358567205501 667.5893809294577" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 862.8072942703495 762.5817850890803 L 862.8072942703495 715.0855830092689 L 722.4358567205501 715.0855830092689 L 722.4358567205501 667.5893809294577" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-py-web)" pointer-events="none" /></g><g data-runiq-edge="py-ai-15" data-edge-id="py-ai-15" data-edge-from="py" data-edge-to="ai"><defs>
+      <marker id="arrow-standard-py-ai" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 862.8072942703495 762.5817850890803 L 862.8072942703495 630.5905017384166 L 837.7114588958241 630.5905017384166 L 837.7114588958241 498.599218387753" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 862.8072942703495 762.5817850890803 L 862.8072942703495 630.5905017384166 L 837.7114588958241 630.5905017384166 L 837.7114588958241 498.599218387753" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-py-ai)" pointer-events="none" /></g><g data-runiq-edge="java-mobile-16" data-edge-id="java-mobile-16" data-edge-from="java" data-edge-to="mobile"><defs>
+      <marker id="arrow-standard-java-mobile" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 519.0322725212484 876.0552567240055 L 519.0322725212484 1088.1175279884862 L 659.2262832942647 1088.1175279884862 L 659.2262832942647 1300.179799252967" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 519.0322725212484 876.0552567240055 L 519.0322725212484 1088.1175279884862 L 659.2262832942647 1088.1175279884862 L 659.2262832942647 1300.179799252967" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-java-mobile)" pointer-events="none" /></g><g data-runiq-edge="cpp-ai-17" data-edge-id="cpp-ai-17" data-edge-from="cpp" data-edge-to="ai"><defs>
+      <marker id="arrow-standard-cpp-ai" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 436.2935882919576 140 L 436.2935882919576 300.8996091938765 L 837.7114588958241 300.8996091938765 L 837.7114588958241 461.799218387753" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 436.2935882919576 140 L 436.2935882919576 300.8996091938765 L 837.7114588958241 300.8996091938765 L 837.7114588958241 461.799218387753" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cpp-ai)" pointer-events="none" /></g><g data-runiq-edge="js-react-18" data-edge-id="js-react-18" data-edge-from="js" data-edge-to="react"><defs>
+      <marker id="arrow-standard-js-react" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 976.6178572712837 671.6176032228991 L 880.6111526068048 671.6176032228991 L 880.6111526068048 882.8389879354975 L 784.604447942326 882.8389879354975" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 976.6178572712837 671.6176032228991 L 880.6111526068048 671.6176032228991 L 880.6111526068048 882.8389879354975 L 784.604447942326 882.8389879354975" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-js-react)" pointer-events="none" /></g><g data-runiq-edge="js-vue-19" data-edge-id="js-vue-19" data-edge-from="js" data-edge-to="vue"><defs>
+      <marker id="arrow-standard-js-vue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1033.6178572712838 641.6176032228991 L 1033.6178572712838 490.39629308570557 L 1098.2863085467932 490.39629308570557 L 1098.2863085467932 339.174982948512" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1033.6178572712838 641.6176032228991 L 1033.6178572712838 490.39629308570557 L 1098.2863085467932 490.39629308570557 L 1098.2863085467932 339.174982948512" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-js-vue)" pointer-events="none" /></g><g data-runiq-edge="js-node-20" data-edge-id="js-node-20" data-edge-from="js" data-edge-to="node"><defs>
+      <marker id="arrow-standard-js-node" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1033.6178572712838 641.6176032228991 L 1033.6178572712838 490.4636389843703 L 752.6335956257755 490.4636389843703 L 752.6335956257755 339.3096747458414" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1033.6178572712838 641.6176032228991 L 1033.6178572712838 490.4636389843703 L 752.6335956257755 490.4636389843703 L 752.6335956257755 339.3096747458414" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-js-node)" pointer-events="none" /></g><g data-runiq-edge="ts-react-21" data-edge-id="ts-react-21" data-edge-from="ts" data-edge-to="react"><defs>
+      <marker id="arrow-standard-ts-react" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 398.2371839120968 765.1419898598672 L 531.4208159272114 765.1419898598672 L 531.4208159272114 882.8389879354975 L 664.604447942326 882.8389879354975" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 398.2371839120968 765.1419898598672 L 531.4208159272114 765.1419898598672 L 531.4208159272114 882.8389879354975 L 664.604447942326 882.8389879354975" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ts-react)" pointer-events="none" /></g><g data-runiq-edge="py-django-22" data-edge-id="py-django-22" data-edge-from="py" data-edge-to="django"><defs>
+      <marker id="arrow-standard-py-django" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 912.8072942703495 792.5817850890803 L 1056.729430210114 792.5817850890803 L 1056.729430210114 633.103465530533 L 1200.6515661498784 633.103465530533" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 912.8072942703495 792.5817850890803 L 1056.729430210114 792.5817850890803 L 1056.729430210114 633.103465530533 L 1200.6515661498784 633.103465530533" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-py-django)" pointer-events="none" /></g><g data-runiq-edge="py-flask-23" data-edge-id="py-flask-23" data-edge-from="py" data-edge-to="flask"><defs>
+      <marker id="arrow-standard-py-flask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 812.8072942703495 792.5817850890803 L 550.9805311460316 792.5817850890803 L 550.9805311460316 1226.6802061296062 L 289.1537680217137 1226.6802061296062" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 812.8072942703495 792.5817850890803 L 550.9805311460316 792.5817850890803 L 550.9805311460316 1226.6802061296062 L 289.1537680217137 1226.6802061296062" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-py-flask)" pointer-events="none" /></g><g data-runiq-edge="java-spring-24" data-edge-id="java-spring-24" data-edge-from="java" data-edge-to="spring"><defs>
+      <marker id="arrow-standard-java-spring" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 469.0322725212484 846.0552567240055 L 334.5161362606242 846.0552567240055 L 334.5161362606242 879.4069629926764 L 200 879.4069629926764" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 469.0322725212484 846.0552567240055 L 334.5161362606242 846.0552567240055 L 334.5161362606242 879.4069629926764 L 200 879.4069629926764" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-java-spring)" pointer-events="none" /></g><g data-runiq-edge="react-web-25" data-edge-id="react-web-25" data-edge-from="react" data-edge-to="web"><defs>
+      <marker id="arrow-standard-react-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 724.604447942326 852.8389879354975 L 724.604447942326 760.2141844324776 L 722.4358567205501 760.2141844324776 L 722.4358567205501 667.5893809294577" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 724.604447942326 852.8389879354975 L 724.604447942326 760.2141844324776 L 722.4358567205501 760.2141844324776 L 722.4358567205501 667.5893809294577" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-react-web)" pointer-events="none" /></g><g data-runiq-edge="vue-web-26" data-edge-id="vue-web-26" data-edge-from="vue" data-edge-to="web"><defs>
+      <marker id="arrow-standard-vue-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1098.2863085467932 339.174982948512 L 1098.2863085467932 476.58218193898483 L 722.4358567205501 476.58218193898483 L 722.4358567205501 613.9893809294576" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1098.2863085467932 339.174982948512 L 1098.2863085467932 476.58218193898483 L 722.4358567205501 476.58218193898483 L 722.4358567205501 613.9893809294576" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-vue-web)" pointer-events="none" /></g><g data-runiq-edge="node-web-27" data-edge-id="node-web-27" data-edge-from="node" data-edge-to="web"><defs>
+      <marker id="arrow-standard-node-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 752.6335956257755 339.3096747458414 L 752.6335956257755 476.64952783764954 L 722.4358567205501 476.64952783764954 L 722.4358567205501 613.9893809294576" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 752.6335956257755 339.3096747458414 L 752.6335956257755 476.64952783764954 L 722.4358567205501 476.64952783764954 L 722.4358567205501 613.9893809294576" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-node-web)" pointer-events="none" /></g><g data-runiq-edge="django-web-28" data-edge-id="django-web-28" data-edge-from="django" data-edge-to="web"><defs>
+      <marker id="arrow-standard-django-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1200.6515661498784 633.103465530533 L 989.6437114352142 633.103465530533 L 989.6437114352142 640.7893809294576 L 778.63585672055 640.7893809294576" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1200.6515661498784 633.103465530533 L 989.6437114352142 633.103465530533 L 989.6437114352142 640.7893809294576 L 778.63585672055 640.7893809294576" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-django-web)" pointer-events="none" /></g><g data-runiq-edge="spring-web-29" data-edge-id="spring-web-29" data-edge-from="spring" data-edge-to="web"><defs>
+      <marker id="arrow-standard-spring-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 200 879.4069629926764 L 433.117928360275 879.4069629926764 L 433.117928360275 640.7893809294576 L 666.23585672055 640.7893809294576" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 200 879.4069629926764 L 433.117928360275 879.4069629926764 L 433.117928360275 640.7893809294576 L 666.23585672055 640.7893809294576" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-spring-web)" pointer-events="none" /></g><g data-runiq-node="prog" data-node-id="prog" data-node-shape="rect">
+      <rect x="858.1405115928621" y="936.5875441672716" width="112.4" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="914.3405115928622" y="954.9875441672716" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Programming
+    </text>
+    </g><g data-runiq-node="oop" data-node-id="oop" data-node-shape="rect">
+      <rect x="487.02382001083197" y="494.6807314529807" width="45.2" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="509.623820010832" y="513.0807314529807" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      OOP
+    </text>
+    </g><g data-runiq-node="fp" data-node-id="fp" data-node-shape="rect">
+      <rect x="966.8326595376659" y="1205.5706503629845" width="112.4" height="53.6"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="1023.032659537666" y="1223.9706503629843">Functional</tspan><tspan x="1023.032659537666" y="1240.7706503629843">Programming</tspan></text>
+    </g><g data-runiq-node="web" data-node-id="web" data-node-shape="rect">
+      <rect x="666.23585672055" y="613.9893809294576" width="112.4" height="53.6"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="722.4358567205501" y="632.3893809294576">Web</tspan><tspan x="722.4358567205501" y="649.1893809294576">Development</tspan></text>
+    </g><g data-runiq-node="mobile" data-node-id="mobile" data-node-shape="rect">
+      <rect x="603.0262832942647" y="1300.179799252967" width="112.4" height="53.6"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="659.2262832942647" y="1318.579799252967">Mobile</tspan><tspan x="659.2262832942647" y="1335.379799252967">Development</tspan></text>
+    </g><g data-runiq-node="db" data-node-id="db" data-node-shape="rect">
+      <rect x="1495.0699929096422" y="1105.2538800447705" width="95.60000000000001" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="1542.8699929096422" y="1123.6538800447706" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Databases
+    </text>
+    </g><g data-runiq-node="ai" data-node-id="ai" data-node-shape="rect">
+      <rect x="806.7114588958241" y="461.799218387753" width="62" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="837.7114588958241" y="480.199218387753" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      AI/ML
+    </text>
+    </g><g data-runiq-node="js" data-node-id="js" data-node-shape="hexagon">
+      <polygon points="993.7178572712837,641.6176032228991 1073.517857271284,641.6176032228991 1090.6178572712838,671.6176032228991 1073.517857271284,701.6176032228991 993.7178572712837,701.6176032228991 976.6178572712837,671.6176032228991" 
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="1033.6178572712838" y="671.6176032228991" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      JavaScript
+    </text>
+    </g><g data-runiq-node="ts" data-node-id="ts" data-node-shape="hexagon">
+      <polygon points="301.3371839120968,735.1419898598672 381.13718391209676,735.1419898598672 398.2371839120968,765.1419898598672 381.13718391209676,795.1419898598672 301.3371839120968,795.1419898598672 284.2371839120968,765.1419898598672" 
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="341.2371839120968" y="765.1419898598672" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      TypeScript
+    </text>
+    </g><g data-runiq-node="py" data-node-id="py" data-node-shape="hexagon">
+      <polygon points="827.8072942703495,762.5817850890803 897.8072942703495,762.5817850890803 912.8072942703495,792.5817850890803 897.8072942703495,822.5817850890803 827.8072942703495,822.5817850890803 812.8072942703495,792.5817850890803" 
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="862.8072942703495" y="792.5817850890803" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Python
+    </text>
+    </g><g data-runiq-node="java" data-node-id="java" data-node-shape="hexagon">
+      <polygon points="484.0322725212484,816.0552567240055 554.0322725212484,816.0552567240055 569.0322725212484,846.0552567240055 554.0322725212484,876.0552567240055 484.0322725212484,876.0552567240055 469.0322725212484,846.0552567240055" 
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="519.0322725212484" y="846.0552567240055" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Java
+    </text>
+    </g><g data-runiq-node="cpp" data-node-id="cpp" data-node-shape="hexagon">
+      <polygon points="401.2935882919576,80 471.2935882919576,80 486.2935882919576,110 471.2935882919576,140 401.2935882919576,140 386.2935882919576,110" 
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="436.2935882919576" y="110" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      C++
+    </text>
+    </g><g data-runiq-node="rust" data-node-id="rust" data-node-shape="hexagon">
+      <polygon points="454.060505360346,1487.7730551231211 524.060505360346,1487.7730551231211 539.060505360346,1517.7730551231211 524.060505360346,1547.7730551231211 454.060505360346,1547.7730551231211 439.060505360346,1517.7730551231211" 
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="489.060505360346" y="1517.7730551231211" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Rust
+    </text>
+    </g><g data-runiq-node="react" data-node-id="react" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="664.604447942326" y="852.8389879354975" width="120" height="60"
+            rx="6" ry="6" fill="#48677e" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="724.604447942326" y="882.8389879354975" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      React
+    </text>
+    </g><g data-runiq-node="vue" data-node-id="vue" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="1038.2863085467932" y="279.174982948512" width="120" height="60"
+            rx="6" ry="6" fill="#364d5f" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="1098.2863085467932" y="309.174982948512" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Vue
+    </text>
+    </g><g data-runiq-node="node" data-node-id="node" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="692.6335956257755" y="279.3096747458414" width="120" height="60"
+            rx="6" ry="6" fill="#5a819e" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="752.6335956257755" y="309.3096747458414" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Node.js
+    </text>
+    </g><g data-runiq-node="django" data-node-id="django" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="1200.6515661498784" y="603.103465530533" width="120" height="60"
+            rx="6" ry="6" fill="#73a3bf" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="1260.6515661498784" y="633.103465530533" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Django
+    </text>
+    </g><g data-runiq-node="flask" data-node-id="flask" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="229.1537680217137" y="1226.6802061296062" width="120" height="60"
+            rx="6" ry="6" fill="#96bacf" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="289.1537680217137" y="1256.6802061296062" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Flask
+    </text>
+    </g><g data-runiq-node="spring" data-node-id="spring" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="80" y="849.4069629926764" width="120" height="60"
+            rx="6" ry="6" fill="#48677e" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="140" y="879.4069629926764" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Spring
+    </text>
+    </g></svg>

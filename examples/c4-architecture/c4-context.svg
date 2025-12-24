@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="922.2" height="663.6" 
+    viewBox="0 0 922.2 663.6"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="platform" data-container-id="platform"><rect x="86" y="198.8" width="619" height="264.8" 
+    fill="#bbdefb" stroke="#1976d2" stroke-width="4" rx="8" /><text x="96" y="218.8" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">E-Commerce Platform</text></g><g data-runiq-edge="web-api-0" data-edge-id="web-api-0" data-edge-from="web" data-edge-to="api"><defs>
+      <marker id="arrow-standard-web-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 588 281.6 L 588 316.6 L 410 316.6 L 379.2 361.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 588 281.6 L 588 316.6 L 410 316.6 L 379.2 361.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-web-api)" pointer-events="none" /></g><g data-runiq-edge="mobile-api-1" data-edge-id="mobile-api-1" data-edge-from="mobile" data-edge-to="api"><defs>
+      <marker id="arrow-standard-mobile-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 379 281.6 L 379 321.6 L 379.2 321.6 L 379.2 361.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 379 281.6 L 379 321.6 L 379.2 321.6 L 379.2 361.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mobile-api)" pointer-events="none" /></g><g data-runiq-edge="adminpanel-api-2" data-edge-id="adminpanel-api-2" data-edge-from="adminpanel" data-edge-to="api"><defs>
+      <marker id="arrow-standard-adminpanel-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 186.2 281.6 L 186.2 316.6 L 349 316.6 L 379.2 361.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 186.2 281.6 L 186.2 316.6 L 349 316.6 L 379.2 361.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-adminpanel-api)" pointer-events="none" /></g><g data-runiq-edge="customer-web" data-edge-id="customer-web" data-edge-from="customer" data-edge-to="web"><defs>
+      <marker id="arrow-standard-customer-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 267.6 12 L 267.6 153.29999999999998 L 588 153.29999999999998 L 588 240.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 267.6 12 L 267.6 153.29999999999998 L 588 153.29999999999998 L 588 240.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-web)" pointer-events="none" /></g><g data-runiq-edge="customer-mobile" data-edge-id="customer-mobile" data-edge-from="customer" data-edge-to="mobile"><defs>
+      <marker id="arrow-standard-customer-mobile" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 267.6 12 L 267.6 153.29999999999998 L 379 153.29999999999998 L 379 240.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 267.6 12 L 267.6 153.29999999999998 L 379 153.29999999999998 L 379 240.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-mobile)" pointer-events="none" /></g><g data-runiq-edge="admin-adminpanel" data-edge-id="admin-adminpanel" data-edge-from="admin" data-edge-to="adminpanel"><defs>
+      <marker id="arrow-standard-admin-adminpanel" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 456.6 12 L 456.6 153.29999999999998 L 186.2 153.29999999999998 L 186.2 240.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 456.6 12 L 456.6 153.29999999999998 L 186.2 153.29999999999998 L 186.2 240.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-admin-adminpanel)" pointer-events="none" /></g><g data-runiq-edge="support-adminpanel" data-edge-id="support-adminpanel" data-edge-from="support" data-edge-to="adminpanel"><defs>
+      <marker id="arrow-standard-support-adminpanel" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 666.6 12 L 666.6 153.29999999999998 L 186.2 153.29999999999998 L 186.2 240.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 666.6 12 L 666.6 153.29999999999998 L 186.2 153.29999999999998 L 186.2 240.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-support-adminpanel)" pointer-events="none" /></g><g data-runiq-edge="api-payment" data-edge-id="api-payment" data-edge-from="api" data-edge-to="payment"><defs>
+      <marker id="arrow-standard-api-payment" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 379.2 361.6 L 379.2 502.6 L 90 502.6 L 90 583.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 379.2 361.6 L 379.2 502.6 L 90 502.6 L 90 583.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-payment)" pointer-events="none" /></g><g data-runiq-edge="api-shipping" data-edge-id="api-shipping" data-edge-from="api" data-edge-to="shipping"><defs>
+      <marker id="arrow-standard-api-shipping" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 379.2 361.6 L 379.2 502.6 L 334.4 502.6 L 334.4 583.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 379.2 361.6 L 379.2 502.6 L 334.4 502.6 L 334.4 583.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-shipping)" pointer-events="none" /></g><g data-runiq-edge="api-email" data-edge-id="api-email" data-edge-from="api" data-edge-to="email"><defs>
+      <marker id="arrow-standard-api-email" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 379.2 361.6 L 379.2 502.6 L 570.6 502.6 L 570.6 583.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 379.2 361.6 L 379.2 502.6 L 570.6 502.6 L 570.6 583.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-email)" pointer-events="none" /></g><g data-runiq-edge="api-analytics" data-edge-id="api-analytics" data-edge-from="api" data-edge-to="analytics"><defs>
+      <marker id="arrow-standard-api-analytics" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 379.2 361.6 L 379.2 502.6 L 811.6 502.6 L 811.6 583.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 379.2 361.6 L 379.2 502.6 L 811.6 502.6 L 811.6 583.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-analytics)" pointer-events="none" /></g><g data-runiq-node="web" data-node-id="web" data-node-shape="rounded">
+      <rect x="513" y="240.8" width="150" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="588" y="261.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web Application
+    </text>
+    </g><g data-runiq-node="mobile" data-node-id="mobile" data-node-shape="rounded">
+      <rect x="325" y="240.8" width="108" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="379" y="261.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Mobile App
+    </text>
+    </g><g data-runiq-node="api" data-node-id="api" data-node-shape="hexagon">
+      <polygon points="336.36,361.6 422.03999999999996,361.6 440.4,391.6 422.03999999999996,421.6 336.36,421.6 318,391.6" 
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="379.2" y="391.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      API Backend
+    </text>
+    </g><g data-runiq-node="adminpanel" data-node-id="adminpanel" data-node-shape="rounded">
+      <rect x="128" y="240.8" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="186.2" y="261.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Admin Panel
+    </text>
+    </g><g data-runiq-node="customer" data-node-id="customer" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="267.6" cy="27" r="15" 
+              fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="229" y="47" width="77.2" height="26.799999999999997"
+            rx="5" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="267.6" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Customer
+    </text>
+    </g><g data-runiq-node="admin" data-node-id="admin" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="456.6" cy="27" r="15" 
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="397" y="47" width="119.19999999999999" height="26.799999999999997"
+            rx="5" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="456.6" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Administrator
+    </text>
+    </g><g data-runiq-node="support" data-node-id="support" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="666.6" cy="27" r="15" 
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="607" y="47" width="119.19999999999999" height="26.799999999999997"
+            rx="5" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="666.6" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Support Staff
+    </text>
+    </g><g data-runiq-node="payment" data-node-id="payment" data-node-shape="rhombus">
+      <polygon points="90,583.6 168,613.6 90,643.6 12,613.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="90" y="613.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Payment Gateway
+    </text>
+    </g><g data-runiq-node="shipping" data-node-id="shipping" data-node-shape="rhombus">
+      <polygon points="334.4,583.6 420.8,613.6 334.4,643.6 248,613.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="334.4" y="613.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Shipping Provider
+    </text>
+    </g><g data-runiq-node="email" data-node-id="email" data-node-shape="rhombus">
+      <polygon points="570.6,583.6 640.2,613.6 570.6,643.6 501,613.6"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="570.6" y="613.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Email Service
+    </text>
+    </g><g data-runiq-node="analytics" data-node-id="analytics" data-node-shape="rhombus">
+      <polygon points="811.6,583.6 902.2,613.6 811.6,643.6 721,613.6"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="811.6" y="613.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Analytics Platform
+    </text>
+    </g></svg>

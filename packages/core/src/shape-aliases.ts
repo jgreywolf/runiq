@@ -14,6 +14,9 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('diamond', 'rhombus');
   shapeRegistry.registerAlias('decision', 'rhombus');
   shapeRegistry.registerAlias('pill', 'stadium');
+  // Legacy: older examples used curvTrap / curv-trap for trapezoid
+  shapeRegistry.registerAlias('curvTrap', 'trapezoid');
+  shapeRegistry.registerAlias('curv-trap', 'trapezoid');
 
   // Storage Shapes
   shapeRegistry.registerAlias('db', 'cylinder');
@@ -27,6 +30,8 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('api', 'server');
   shapeRegistry.registerAlias('browser', 'display');
   shapeRegistry.registerAlias('client', 'display');
+  // Legacy/compat: older examples used `@service`
+  shapeRegistry.registerAlias('service', 'server');
 
   // AWS Shapes
   shapeRegistry.registerAlias('s3', 'awsS3');
@@ -44,6 +49,10 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('output', 'parallelogram');
   shapeRegistry.registerAlias('io', 'parallelogram');
   shapeRegistry.registerAlias('doc', 'document');
+  // Legacy shape names: camelCase / older hyphenated variants
+  shapeRegistry.registerAlias('leanR', 'parallelogram');
+  shapeRegistry.registerAlias('leanRight', 'parallelogram');
+  shapeRegistry.registerAlias('lean-r', 'parallelogram');
 
   // BPMN Shapes
   shapeRegistry.registerAlias('task', 'bpmnTask');

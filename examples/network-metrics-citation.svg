@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="277.8" height="970.4" 
+    viewBox="0 0 277.8 970.4"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="paper1-paper2-0" data-edge-id="paper1-paper2-0" data-edge-from="paper1" data-edge-to="paper2"><defs>
+      <marker id="arrow-standard-paper1-paper2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 120.80000000000001 79.6 L 120.80000000000001 114.6 L 66 114.6 L 66.4 199.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 120.80000000000001 79.6 L 120.80000000000001 114.6 L 66 114.6 L 66.4 199.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper1-paper2)" pointer-events="none" /><text x="66" y="114.6" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-edge="paper1-paper3-1" data-edge-id="paper1-paper3-1" data-edge-from="paper1" data-edge-to="paper3"><defs>
+      <marker id="arrow-standard-paper1-paper3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 120.80000000000001 79.6 Q 120.80000000000001 225 130.4 370.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 120.80000000000001 79.6 Q 120.80000000000001 225 130.4 370.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper1-paper3)" pointer-events="none" /><text x="120.80000000000001" y="225" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-edge="paper2-paper3-2" data-edge-id="paper2-paper3-2" data-edge-from="paper2" data-edge-to="paper3"><defs>
+      <marker id="arrow-standard-paper2-paper3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 66.4 250.39999999999998 L 66.4 285.4 L 117 285.4 L 130.4 370.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 66.4 250.39999999999998 L 66.4 285.4 L 117 285.4 L 130.4 370.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper2-paper3)" pointer-events="none" /><text x="117" y="285.4" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-edge="paper2-paper4-3" data-edge-id="paper2-paper4-3" data-edge-from="paper2" data-edge-to="paper4"><defs>
+      <marker id="arrow-standard-paper2-paper4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 66.4 250.39999999999998 Q 66.4 395.79999999999995 68.6 541.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 66.4 250.39999999999998 Q 66.4 395.79999999999995 68.6 541.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper2-paper4)" pointer-events="none" /><text x="66.4" y="395.79999999999995" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-edge="paper3-paper4-4" data-edge-id="paper3-paper4-4" data-edge-from="paper3" data-edge-to="paper4"><defs>
+      <marker id="arrow-standard-paper3-paper4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 130.4 421.2 L 130.4 456.2 L 84 456.2 L 68.6 541.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 130.4 421.2 L 130.4 456.2 L 84 456.2 L 68.6 541.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper3-paper4)" pointer-events="none" /><text x="84" y="456.2" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-edge="paper4-paper5-5" data-edge-id="paper4-paper5-5" data-edge-from="paper4" data-edge-to="paper5"><defs>
+      <marker id="arrow-standard-paper4-paper5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 68.6 608.8000000000001 L 68.6 668.8000000000001 L 53.400000000000006 668.8000000000001 L 53.400000000000006 728.8000000000001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 68.6 608.8000000000001 L 68.6 668.8000000000001 L 53.400000000000006 668.8000000000001 L 53.400000000000006 728.8000000000001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper4-paper5)" pointer-events="none" /><text x="53.400000000000006" y="668.8000000000001" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-edge="paper4-paper6-6" data-edge-id="paper4-paper6-6" data-edge-from="paper4" data-edge-to="paper6"><defs>
+      <marker id="arrow-standard-paper4-paper6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 68.6 608.8000000000001 L 68.6 643.8000000000001 L 216 643.8000000000001 L 216.4 728.8000000000001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 68.6 608.8000000000001 L 68.6 643.8000000000001 L 216 643.8000000000001 L 216.4 728.8000000000001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper4-paper6)" pointer-events="none" /><text x="216" y="643.8000000000001" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-edge="paper5-paper7-7" data-edge-id="paper5-paper7-7" data-edge-from="paper5" data-edge-to="paper7"><defs>
+      <marker id="arrow-standard-paper5-paper7" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 53.400000000000006 779.6 L 53.400000000000006 839.6 L 66.4 839.6 L 66.4 899.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 53.400000000000006 779.6 L 53.400000000000006 839.6 L 66.4 839.6 L 66.4 899.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper5-paper7)" pointer-events="none" /><text x="66.4" y="839.6" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-edge="paper6-paper7-8" data-edge-id="paper6-paper7-8" data-edge-from="paper6" data-edge-to="paper7"><defs>
+      <marker id="arrow-standard-paper6-paper7" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 216.4 779.6 L 216.4 814.6 L 80 814.6 L 66.4 899.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 216.4 779.6 L 216.4 814.6 L 80 814.6 L 66.4 899.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paper6-paper7)" pointer-events="none" /><text x="80" y="814.6" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cites</text></g><g data-runiq-node="paper1" data-node-id="paper1" data-node-shape="document">
+      <path d="M 50,12 L 181.60000000000002,12 L 191.60000000000002,22 L 191.60000000000002,79.6 L 50,79.6 Z M 181.60000000000002,12 L 181.60000000000002,22 L 191.60000000000002,22" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="120.80000000000001" y="37.4">Paper 1</tspan><tspan x="120.80000000000001" y="54.2">(Foundational)</tspan></text>
+    
+    <g class="runiq-metric-badge">
+      <rect x="163.60000000000002" y="8" 
+            width="32" height="18" 
+            fill="#ffffff" stroke="#2196f3" stroke-width="1.5" 
+            rx="3" opacity="0.95" />
+      <text x="179.60000000000002" y="17" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="10" 
+            font-weight="600" fill="#2196f3">
+        B:0.00
+      </text>
+    </g>
+  </g><g data-runiq-node="paper2" data-node-id="paper2" data-node-shape="document">
+      <path d="M 25,199.6 L 97.80000000000001,199.6 L 107.80000000000001,209.6 L 107.80000000000001,250.39999999999998 L 25,250.39999999999998 Z M 97.80000000000001,199.6 L 97.80000000000001,209.6 L 107.80000000000001,209.6" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="66.4" y="225" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Paper 2
+    </text>
+    
+    <g class="runiq-metric-badge">
+      <rect x="79.80000000000001" y="195.6" 
+            width="32" height="18" 
+            fill="#ffffff" stroke="#2196f3" stroke-width="1.5" 
+            rx="3" opacity="0.95" />
+      <text x="95.80000000000001" y="204.6" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="10" 
+            font-weight="600" fill="#2196f3">
+        B:0.07
+      </text>
+    </g>
+  </g><g data-runiq-node="paper3" data-node-id="paper3" data-node-shape="document">
+      <path d="M 89,370.4 L 161.8,370.4 L 171.8,380.4 L 171.8,421.2 L 89,421.2 Z M 161.8,370.4 L 161.8,380.4 L 171.8,380.4" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="130.4" y="395.79999999999995" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Paper 3
+    </text>
+    
+    <g class="runiq-metric-badge">
+      <rect x="143.8" y="366.4" 
+            width="32" height="18" 
+            fill="#ffffff" stroke="#2196f3" stroke-width="1.5" 
+            rx="3" opacity="0.95" />
+      <text x="159.8" y="375.4" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="10" 
+            font-weight="600" fill="#2196f3">
+        B:0.07
+      </text>
+    </g>
+  </g><g data-runiq-node="paper4" data-node-id="paper4" data-node-shape="document">
+      <path d="M 23,541.2 L 104.2,541.2 L 114.2,551.2 L 114.2,608.8000000000001 L 23,608.8000000000001 Z M 104.2,541.2 L 104.2,551.2 L 114.2,551.2" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="68.6" y="566.6">Paper 4</tspan><tspan x="68.6" y="583.4">(Bridge)</tspan></text>
+    
+    <g class="runiq-metric-badge">
+      <rect x="86.2" y="537.2" 
+            width="32" height="18" 
+            fill="#ffffff" stroke="#2196f3" stroke-width="1.5" 
+            rx="3" opacity="0.95" />
+      <text x="102.2" y="546.2" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="10" 
+            font-weight="600" fill="#2196f3">
+        B:0.30
+      </text>
+    </g>
+  </g><g data-runiq-node="paper5" data-node-id="paper5" data-node-shape="document">
+      <path d="M 12,728.8000000000001 L 84.80000000000001,728.8000000000001 L 94.80000000000001,738.8000000000001 L 94.80000000000001,779.6 L 12,779.6 Z M 84.80000000000001,728.8000000000001 L 84.80000000000001,738.8000000000001 L 94.80000000000001,738.8000000000001" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="53.400000000000006" y="754.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Paper 5
+    </text>
+    
+    <g class="runiq-metric-badge">
+      <rect x="66.80000000000001" y="724.8000000000001" 
+            width="32" height="18" 
+            fill="#ffffff" stroke="#2196f3" stroke-width="1.5" 
+            rx="3" opacity="0.95" />
+      <text x="82.80000000000001" y="733.8000000000001" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="10" 
+            font-weight="600" fill="#2196f3">
+        B:0.07
+      </text>
+    </g>
+  </g><g data-runiq-node="paper6" data-node-id="paper6" data-node-shape="document">
+      <path d="M 175,728.8000000000001 L 247.8,728.8000000000001 L 257.8,738.8000000000001 L 257.8,779.6 L 175,779.6 Z M 247.8,728.8000000000001 L 247.8,738.8000000000001 L 257.8,738.8000000000001" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="216.4" y="754.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Paper 6
+    </text>
+    
+    <g class="runiq-metric-badge">
+      <rect x="229.8" y="724.8000000000001" 
+            width="32" height="18" 
+            fill="#ffffff" stroke="#2196f3" stroke-width="1.5" 
+            rx="3" opacity="0.95" />
+      <text x="245.8" y="733.8000000000001" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="10" 
+            font-weight="600" fill="#2196f3">
+        B:0.07
+      </text>
+    </g>
+  </g><g data-runiq-node="paper7" data-node-id="paper7" data-node-shape="document">
+      <path d="M 25,899.6 L 97.80000000000001,899.6 L 107.80000000000001,909.6 L 107.80000000000001,950.4 L 25,950.4 Z M 97.80000000000001,899.6 L 97.80000000000001,909.6 L 107.80000000000001,909.6" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="66.4" y="925" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Paper 7
+    </text>
+    
+    <g class="runiq-metric-badge">
+      <rect x="79.80000000000001" y="895.6" 
+            width="32" height="18" 
+            fill="#ffffff" stroke="#2196f3" stroke-width="1.5" 
+            rx="3" opacity="0.95" />
+      <text x="95.80000000000001" y="904.6" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="10" 
+            font-weight="600" fill="#2196f3">
+        B:0.00
+      </text>
+    </g>
+  </g></svg>

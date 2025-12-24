@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="432" height="432" 
+    viewBox="0 0 432 432"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="assessment" data-node-id="assessment" data-node-shape="radarChart"><g transform="translate(12, 12)">
+      <text x="200" y="20" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Comprehensive Performance Review
+    </text>
+      <circle cx="200" cy="200" r="35" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="70" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="105" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="140" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <line x1="200" y1="200" x2="200" y2="60" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="309.45640754552414" y2="112.7114277397773" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="336.48990770545527" y2="231.15293075388402" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="260.7437234764582" y2="326.13564150633863" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="139.25627652354183" y2="326.13564150633863" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="63.510092294544705" y2="231.15293075388402" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="90.54359245447581" y2="112.71142773977732" stroke="#d1d5db" stroke-width="1"/>
+      <text x="200" y="45" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#374151">Quality</text>
+      <text x="325.0930371948848" y="105.24163170260265" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#374151">Speed</text>
+      <text x="355.9884659490918" y="240.60334943301032" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#374151">Reliability</text>
+      <text x="269.42139825880935" y="349.15501886438705" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#374151">Security</text>
+      <text x="130.57860174119065" y="349.155018864387" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#374151">Scalability</text>
+      <text x="44.01153405090821" y="240.60334943301032" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#374151">Usability</text>
+      <text x="74.90696280511521" y="105.24163170260266" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#374151">Maintainability</text>
+      <polygon points="200,70.31578947368422 305.9998894125076,115.46790896904751 322.12254899961795,227.87367488505413 257.54668539874984,319.4969235323208 150.12620598775013,303.56400039467803 63.510092294544705,231.15293075388402 105.52183769754754,124.65617973328149" fill="#FF6B6B" fill-opacity="0.3" stroke="#FF6B6B" stroke-width="2"/>
+      <circle cx="200" cy="70.31578947368422" r="4" fill="#FF6B6B" stroke="white" stroke-width="1"/>
+      <circle cx="305.9998894125076" cy="115.46790896904751" r="4" fill="#4ECDC4" stroke="white" stroke-width="1"/>
+      <circle cx="322.12254899961795" cy="227.87367488505413" r="4" fill="#45B7D1" stroke="white" stroke-width="1"/>
+      <circle cx="257.54668539874984" cy="319.4969235323208" r="4" fill="#FFA07A" stroke="white" stroke-width="1"/>
+      <circle cx="150.12620598775013" cy="303.56400039467803" r="4" fill="#98D8C8" stroke="white" stroke-width="1"/>
+      <circle cx="63.510092294544705" cy="231.15293075388402" r="4" fill="#F7DC6F" stroke="white" stroke-width="1"/>
+      <circle cx="105.52183769754754" cy="124.65617973328149" r="4" fill="#BB8FCE" stroke="white" stroke-width="1"/>
+    </g></g></svg>

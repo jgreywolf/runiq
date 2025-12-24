@@ -1,0 +1,251 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1082" height="922" 
+    viewBox="0 0 1082 922"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="WeatherStation-ISubject-0" data-edge-id="WeatherStation-ISubject-0" data-edge-from="WeatherStation" data-edge-to="ISubject"><defs>
+      <marker id="arrow-standard-WeatherStation-ISubject" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 624 75 L 684 75 L 684 82.5 L 744 82.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 624 75 L 684 75 L 684 82.5 L 744 82.5" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-WeatherStation-ISubject)" pointer-events="none" /></g><g data-runiq-edge="CurrentConditionsDisplay-IObserver-1" data-edge-id="CurrentConditionsDisplay-IObserver-1" data-edge-from="CurrentConditionsDisplay" data-edge-to="IObserver"><defs>
+      <marker id="arrow-standard-CurrentConditionsDisplay-IObserver" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 624 374 L 684 374 L 684 383.5 L 744 383.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 624 374 L 684 374 L 684 383.5 L 744 383.5" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-CurrentConditionsDisplay-IObserver)" pointer-events="none" /></g><g data-runiq-edge="StatisticsDisplay-IObserver-2" data-edge-id="StatisticsDisplay-IObserver-2" data-edge-from="StatisticsDisplay" data-edge-to="IObserver"><defs>
+      <marker id="arrow-standard-StatisticsDisplay-IObserver" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 624 603 L 659 603 L 659 393 L 744 383.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 624 603 L 659 603 L 659 393 L 744 383.5" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-StatisticsDisplay-IObserver)" pointer-events="none" /></g><g data-runiq-edge="ForecastDisplay-IObserver-3" data-edge-id="ForecastDisplay-IObserver-3" data-edge-from="ForecastDisplay" data-edge-to="IObserver"><defs>
+      <marker id="arrow-standard-ForecastDisplay-IObserver" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 624 832 L 684 832 L 684 411 L 744 383.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 624 832 L 684 832 L 684 411 L 744 383.5" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-ForecastDisplay-IObserver)" pointer-events="none" /></g><g data-runiq-edge="WeatherStation-IObserver-4" data-edge-id="WeatherStation-IObserver-4" data-edge-from="WeatherStation" data-edge-to="IObserver"><defs>
+      <marker id="arrow-standard-WeatherStation-IObserver" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 624 171 L 659 153 L 659 356 L 744 383.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 624 171 L 659 153 L 659 356 L 744 383.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-WeatherStation-IObserver)" pointer-events="none" /></g><g data-runiq-node="ISubject" data-node-id="ISubject" data-node-shape="class"><rect x="744" y="19" width="318" height="127" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="903" y="40" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#000000">
+      «interface»
+    </text><text x="903" y="58" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      ISubject
+    </text><line x1="744" y1="79" x2="1062" y2="79" stroke="#48677e" stroke-width="1"/><text x="756" y="100" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + attach(observer: IObserver): void
+    </text><text x="756" y="118" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + detach(observer: IObserver): void
+    </text><text x="756" y="136" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + notify(): void
+    </text></g><g data-runiq-node="IObserver" data-node-id="IObserver" data-node-shape="class"><rect x="744" y="338" width="259.20000000000005" height="91" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="873.6" y="359" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#000000">
+      «interface»
+    </text><text x="873.6" y="377" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      IObserver
+    </text><line x1="744" y1="398" x2="1003.2" y2="398" stroke="#48677e" stroke-width="1"/><text x="756" y="419" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + update(data: object): void
+    </text></g><g data-runiq-node="WeatherStation" data-node-id="WeatherStation" data-node-shape="class"><rect x="12" y="12" width="612" height="212" fill="#96bacf" stroke="#48677e" stroke-width="1"/><text x="318" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      WeatherStation
+    </text><line x1="12" y1="54" x2="624" y2="54" stroke="#48677e" stroke-width="1"/><text x="24" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - observers: List<IObserver>
+    </text><text x="24" y="93" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - temperature: float
+    </text><text x="24" y="111" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - humidity: float
+    </text><text x="24" y="129" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - pressure: float
+    </text><line x1="12" y1="150" x2="624" y2="150" stroke="#48677e" stroke-width="1"/><text x="24" y="171" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + attach(observer: IObserver): void
+    </text><text x="24" y="189" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + detach(observer: IObserver): void
+    </text><text x="24" y="207" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + notify(): void
+    </text><text x="24" y="225" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + setMeasurements(temp: float, humidity: float, pressure: float): void
+    </text></g><g data-runiq-node="CurrentConditionsDisplay" data-node-id="CurrentConditionsDisplay" data-node-shape="class"><rect x="364.79999999999995" y="304" width="259.20000000000005" height="140" fill="#48677e" stroke="#48677e" stroke-width="1"/><text x="494.4" y="325" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      CurrentConditionsDisplay
+    </text><line x1="364.79999999999995" y1="346" x2="624" y2="346" stroke="#48677e" stroke-width="1"/><text x="376.79999999999995" y="367" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - temperature: float
+    </text><text x="376.79999999999995" y="385" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - humidity: float
+    </text><line x1="364.79999999999995" y1="406" x2="624" y2="406" stroke="#48677e" stroke-width="1"/><text x="376.79999999999995" y="427" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + update(data: object): void
+    </text><text x="376.79999999999995" y="445" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + display(): void
+    </text></g><g data-runiq-node="StatisticsDisplay" data-node-id="StatisticsDisplay" data-node-shape="class"><rect x="364.79999999999995" y="524" width="259.20000000000005" height="158" fill="#364d5f" stroke="#48677e" stroke-width="1"/><text x="494.4" y="545" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      StatisticsDisplay
+    </text><line x1="364.79999999999995" y1="566" x2="624" y2="566" stroke="#48677e" stroke-width="1"/><text x="376.79999999999995" y="587" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - maxTemp: float
+    </text><text x="376.79999999999995" y="605" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - minTemp: float
+    </text><text x="376.79999999999995" y="623" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - avgTemp: float
+    </text><line x1="364.79999999999995" y1="644" x2="624" y2="644" stroke="#48677e" stroke-width="1"/><text x="376.79999999999995" y="665" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + update(data: object): void
+    </text><text x="376.79999999999995" y="683" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + display(): void
+    </text></g><g data-runiq-node="ForecastDisplay" data-node-id="ForecastDisplay" data-node-shape="class"><rect x="364.79999999999995" y="762" width="259.20000000000005" height="140" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="494.4" y="783" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      ForecastDisplay
+    </text><line x1="364.79999999999995" y1="804" x2="624" y2="804" stroke="#48677e" stroke-width="1"/><text x="376.79999999999995" y="825" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - currentPressure: float
+    </text><text x="376.79999999999995" y="843" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - lastPressure: float
+    </text><line x1="364.79999999999995" y1="864" x2="624" y2="864" stroke="#48677e" stroke-width="1"/><text x="376.79999999999995" y="885" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + update(data: object): void
+    </text><text x="376.79999999999995" y="903" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + display(): void
+    </text></g></svg>

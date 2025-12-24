@@ -6,7 +6,7 @@ diagram "Parallel Development - Frontend and Backend" {
   direction TB
   
   // Frontend Team swimlane - vertical flow
-  container "Frontend Team" orientation: vertical fill: "#e3f2fd" padding: 20 {
+  container "Frontend Team" orientation: vertical fillColor: "#e3f2fd" padding: 20 {
     shape fe1 as @initialState
     shape fe2 as @activity label: "Design\nUI/UX"
     shape fe3 as @activity label: "Implement\nComponents"
@@ -17,7 +17,7 @@ diagram "Parallel Development - Frontend and Backend" {
   }
   
   // Backend Team swimlane - vertical flow
-  container "Backend Team" orientation: vertical fill: "#fff3e0" padding: 20 {
+  container "Backend Team" orientation: vertical fillColor: "#fff3e0" padding: 20 {
     shape be1 as @initialState
     shape be2 as @activity label: "API\nDesign"
     shape be3 as @activity label: "Implement\nEndpoints"
@@ -28,7 +28,7 @@ diagram "Parallel Development - Frontend and Backend" {
   }
   
   // DevOps swimlane - vertical flow
-  container "DevOps" orientation: vertical fill: "#e8f5e9" padding: 20 {
+  container "DevOps" orientation: vertical fillColor: "#e8f5e9" padding: 20 {
     shape ops1 as @activity label: "Merge\nCode"
     shape ops2 as @activity label: "Deploy\nStaging"
     shape ops3 as @activity label: "Run E2E\nTests"

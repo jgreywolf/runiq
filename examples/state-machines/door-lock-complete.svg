@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="664" height="960" 
+    viewBox="0 0 664 960"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="start-locked-0" data-edge-id="start-locked-0" data-edge-from="start" data-edge-to="locked"><defs>
+      <marker id="arrow-standard-start-locked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 635 500 L 635 535 L 503 535 L 453.2 620" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 635 500 L 635 535 L 503 535 L 453.2 620" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-locked)" pointer-events="none" /></g><g data-runiq-edge="locked-unlocked-1" data-edge-id="locked-unlocked-1" data-edge-from="locked" data-edge-to="unlocked"><defs>
+      <marker id="arrow-standard-locked-unlocked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 453.2 711 L 453.2 746 L 351 746 L 317.2 831" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 453.2 711 L 453.2 746 L 351 746 L 317.2 831" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-locked-unlocked)" pointer-events="none" /><text x="351" y="746" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">insertKey [keyValid] / logUnlock()</text></g><g data-runiq-edge="unlocked-locked-2" data-edge-id="unlocked-locked-2" data-edge-from="unlocked" data-edge-to="locked"><defs>
+      <marker id="arrow-standard-unlocked-locked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 417.4 885.5 L 384 885.5 L 453 771 L 453.2 711" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 417.4 885.5 L 384 885.5 L 453 771 L 453.2 711" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-unlocked-locked)" pointer-events="none" /><text x="453" y="771" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timeout / logRelock()</text></g><g data-runiq-edge="unlocked-doorOpen-3" data-edge-id="unlocked-doorOpen-3" data-edge-from="unlocked" data-edge-to="doorOpen"><defs>
+      <marker id="arrow-standard-unlocked-doorOpen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 317.2 831 L 317.2 665.5 L 284 485 L 284 295.5 L 284 156 L 298 156 L 298 121" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 317.2 831 L 317.2 665.5 L 284 485 L 284 295.5 L 284 156 L 298 156 L 298 121" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-unlocked-doorOpen)" pointer-events="none" /><text x="284" y="295.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">turnHandle [permitted]</text></g><g data-runiq-edge="doorOpen-unlocked-4" data-edge-id="doorOpen-unlocked-4" data-edge-from="doorOpen" data-edge-to="unlocked"><defs>
+      <marker id="arrow-standard-doorOpen-unlocked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 298 121 L 298 295.5 L 250 485 L 250 665.5 L 217 885.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 298 121 L 298 295.5 L 250 485 L 250 665.5 L 217 885.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-doorOpen-unlocked)" pointer-events="none" /><text x="250" y="485" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">closeDoor</text></g><g data-runiq-edge="doorOpen-alarm-5" data-edge-id="doorOpen-alarm-5" data-edge-from="doorOpen" data-edge-to="alarm"><defs>
+      <marker id="arrow-standard-doorOpen-alarm" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 298 121 L 298 156 L 431 156 L 431 241" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 298 121 L 298 156 L 431 156 L 431 241" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-doorOpen-alarm)" pointer-events="none" /><text x="431" y="156" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">forcedEntry [!authorized] / notifySecurity()</text></g><g data-runiq-edge="alarm-j1-6" data-edge-id="alarm-j1-6" data-edge-from="alarm" data-edge-to="j1"><defs>
+      <marker id="arrow-standard-alarm-j1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 431 350 L 431 385 L 328 385 L 328 479.3333333333333" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 431 350 L 431 385 L 328 385 L 328 479.3333333333333" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-alarm-j1)" pointer-events="none" /><text x="328" y="385" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">reset</text></g><g data-runiq-edge="j1-locked-7" data-edge-id="j1-locked-7" data-edge-from="j1" data-edge-to="locked"><defs>
+      <marker id="arrow-standard-j1-locked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 328 495.3333333333333 L 328 535 L 403 535 L 453.2 620" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 328 495.3333333333333 L 328 535 L 403 535 L 453.2 620" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-j1-locked)" pointer-events="none" /><text x="403" y="535" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> [adminReset]</text></g><g data-runiq-edge="j1-unlocked-8" data-edge-id="j1-unlocked-8" data-edge-from="j1" data-edge-to="unlocked"><defs>
+      <marker id="arrow-standard-j1-unlocked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 328 495.3333333333333 L 328 535 L 317 535 L 317 665.5 L 317.2 831" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 328 495.3333333333333 L 328 535 L 317 535 L 317 665.5 L 317.2 831" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-j1-unlocked)" pointer-events="none" /><text x="317" y="535" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> [normalReset]</text></g><g data-runiq-edge="alarm-hist-9" data-edge-id="alarm-hist-9" data-edge-from="alarm" data-edge-to="hist"><defs>
+      <marker id="arrow-standard-alarm-hist" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 431 350 L 431 410 L 431 410 L 431 470" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 431 350 L 431 410 L 431 410 L 431 470" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-alarm-hist)" pointer-events="none" /><text x="431" y="410" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">powerRestore</text></g><g data-runiq-edge="hist-locked-10" data-edge-id="hist-locked-10" data-edge-from="hist" data-edge-to="locked"><defs>
+      <marker id="arrow-standard-hist-locked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 431 500 L 431 535 L 453 535 L 453.2 620" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 431 500 L 431 535 L 453 535 L 453.2 620" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-hist-locked)" pointer-events="none" /></g><g data-runiq-edge="alarm-term-11" data-edge-id="alarm-term-11" data-edge-from="alarm" data-edge-to="term"><defs>
+      <marker id="arrow-standard-alarm-term" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 431 350 L 431 385 L 536 385 L 536 470" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 431 350 L 431 385 L 536 385 L 536 470" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-alarm-term)" pointer-events="none" /><text x="536" y="385" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">criticalFailure / shutdownSystem()</text></g><g data-runiq-edge="locked-final-12" data-edge-id="locked-final-12" data-edge-from="locked" data-edge-to="final"><defs>
+      <marker id="arrow-standard-locked-final" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 453.2 711 L 453.2 746 L 509 746 L 509 831" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 453.2 711 L 453.2 746 L 509 746 L 509 831" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-locked-final)" pointer-events="none" /><text x="509" y="746" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">decommission</text></g><g data-runiq-node="start" data-node-id="start" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="635" cy="491" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="locked" data-node-id="locked" data-node-shape="state"><g class="state-shape"><rect x="353" y="620" width="200.4" height="91" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="453.2" y="644.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Locked
+    </text><line x1="365" y1="653.6" x2="541.4" y2="653.6" stroke="#48677e" stroke-width="1" /><text x="365" y="674.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / lockBolt()
+    </text><text x="365" y="692.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / logStateExit()
+    </text></g></g><g data-runiq-node="unlocked" data-node-id="unlocked" data-node-shape="state"><g class="state-shape"><rect x="217" y="831" width="200.4" height="109" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="317.2" y="855.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Unlocked
+    </text><line x1="229" y1="864.6" x2="405.4" y2="864.6" stroke="#48677e" stroke-width="1" /><text x="229" y="885.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / unlockBolt()
+    </text><text x="229" y="903.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / monitorTimeout()
+    </text><text x="229" y="921.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / logStateExit()
+    </text></g></g><g data-runiq-node="doorOpen" data-node-id="doorOpen" data-node-shape="state"><g class="state-shape"><rect x="202" y="12" width="192" height="109" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="298" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Open
+    </text><line x1="214" y1="45.6" x2="382" y2="45.6" stroke="#48677e" stroke-width="1" /><text x="214" y="66.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / openDoor()
+    </text><text x="214" y="84.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / playOpenSound()
+    </text><text x="214" y="102.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / closeDoor()
+    </text></g></g><g data-runiq-node="alarm" data-node-id="alarm" data-node-shape="state"><g class="state-shape"><rect x="335" y="241" width="192" height="109" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="431" y="265.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Alarm
+    </text><line x1="347" y1="274.6" x2="515" y2="274.6" stroke="#48677e" stroke-width="1" /><text x="347" y="295.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / soundAlarm()
+    </text><text x="347" y="313.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / flashLights()
+    </text><text x="347" y="331.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / stopAlarm()
+    </text></g></g><g data-runiq-node="j1" data-node-id="j1" data-node-shape="junction"><g class="junction-shape"><circle cx="328" cy="487.3333333333333" r="8" fill="#5a819e" /></g></g><g data-runiq-node="check" data-node-id="check" data-node-shape="choice"><g class="choice-shape"><path d="M 162 12 L 182 32 L 162 52 L 142 32 Z" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="162" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.200000000000001"
+      fill="#FFFFFF">
+      Validate?
+    </text></g></g><g data-runiq-node="hist" data-node-id="hist" data-node-shape="historyShallow"><g class="historyShallow-shape"><circle cx="431" cy="485" r="15" fill="#96bacf" stroke="#48677e" stroke-width="1.5" /><text x="431" y="485" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="18"
+      fill="#48677e">
+      H
+    </text></g></g><g data-runiq-node="deepHist" data-node-id="deepHist" data-node-shape="historyDeep"><g class="historyDeep-shape"><circle cx="107" cy="27" r="15" fill="#48677e" stroke="#48677e" stroke-width="1.5" /><text x="107" y="27" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="15"
+      fill="#48677e">
+      H*
+    </text></g></g><g data-runiq-node="entry1" data-node-id="entry1" data-node-shape="entryPoint"><g class="entryPoint-shape"><circle cx="22" cy="22" r="10" fill="#364d5f" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="exit1" data-node-id="exit1" data-node-shape="exitPoint"><g class="exitPoint-shape"><circle cx="62" cy="22" r="10" fill="#5a819e" stroke="#48677e" stroke-width="1.5" /><line x1="56" y1="16" x2="68" y2="28" stroke="#48677e" stroke-width="1.0499999999999998" /><line x1="68" y1="16" x2="56" y2="28" stroke="#48677e" stroke-width="1.0499999999999998" /></g></g><g data-runiq-node="term" data-node-id="term" data-node-shape="terminate"><g class="terminate-shape"><circle cx="536" cy="480" r="10" fill="#73a3bf" stroke="#48677e" stroke-width="1.5" /><line x1="529" y1="473" x2="543" y2="487" stroke="#48677e" stroke-width="1.5" /><line x1="543" y1="473" x2="529" y2="487" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="final" data-node-id="final" data-node-shape="finalState"><g class="final-state-shape"><circle cx="509" cy="842" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="509" cy="842" r="6.050000000000001" fill="#000000" stroke="none" /></g></g></svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="412" height="332" 
+    viewBox="0 0 412 332"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="sales" data-node-id="sales" data-node-shape="barChart"><g><rect x="32" y="118.66666666666669" width="20" height="133.33333333333331" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="42" y="113.66666666666669" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">120</text>
+<rect x="57" y="157.55555555555554" width="20" height="94.44444444444444" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<text x="67" y="152.55555555555554" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">85</text>
+<rect x="82" y="146.44444444444446" width="20" height="105.55555555555556" fill="#ed8936" stroke="#48677e" stroke-width="1" />
+<text x="92" y="141.44444444444446" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">95</text>
+<text x="67" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q1</text>
+<rect x="122" y="85.33333333333331" width="20" height="166.66666666666669" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="132" y="80.33333333333331" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">150</text>
+<rect x="147" y="129.77777777777777" width="20" height="122.22222222222223" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<text x="157" y="124.77777777777777" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">110</text>
+<rect x="172" y="135.33333333333331" width="20" height="116.66666666666667" fill="#ed8936" stroke="#48677e" stroke-width="1" />
+<text x="182" y="130.33333333333331" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">105</text>
+<text x="157" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q2</text>
+<rect x="212" y="102" width="20" height="150" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="222" y="97" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">135</text>
+<rect x="237" y="146.44444444444446" width="20" height="105.55555555555556" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<text x="247" y="141.44444444444446" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">95</text>
+<rect x="262" y="124.22222222222223" width="20" height="127.77777777777777" fill="#ed8936" stroke="#48677e" stroke-width="1" />
+<text x="272" y="119.22222222222223" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">115</text>
+<text x="247" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q3</text>
+<rect x="302" y="52" width="20" height="200" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="312" y="47" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">180</text>
+<rect x="327" y="107.55555555555557" width="20" height="144.44444444444443" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<text x="337" y="102.55555555555557" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">130</text>
+<rect x="352" y="96.44444444444443" width="20" height="155.55555555555557" fill="#ed8936" stroke="#48677e" stroke-width="1" />
+<text x="362" y="91.44444444444443" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">140</text>
+<text x="337" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q4</text><line x1="22" y1="252" x2="382" y2="252" stroke="#333" stroke-width="2" /></g></g></svg>

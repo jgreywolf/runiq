@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="216" height="476.8" 
+    viewBox="0 0 216 476.8"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="backend" data-container-id="backend"><rect x="12" y="172.8" width="184" height="284" 
+    fill="#e3f2fd" stroke="#1976d2" stroke-width="3" rx="8" /><text x="22" y="192.8" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Backend</text></g><g data-runiq-edge="api-auth-0" data-edge-id="api-auth-0" data-edge-from="api" data-edge-to="auth"><defs>
+      <marker id="arrow-standard-api-auth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 104 274.8 L 104 314.8 L 104 314.8 L 104 354.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 104 274.8 L 104 314.8 L 104 314.8 L 104 354.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-auth)" pointer-events="none" /></g><g data-runiq-edge="web-api" data-edge-id="web-api" data-edge-from="web" data-edge-to="api"><defs>
+      <marker id="arrow-standard-web-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 103.6 12 L 103.6 138.6 L 104 138.6 L 104 214.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 103.6 12 L 103.6 138.6 L 104 138.6 L 104 214.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-web-api)" pointer-events="none" /></g><g data-runiq-node="api" data-node-id="api" data-node-shape="hexagon">
+      <polygon points="69,214.8 139,214.8 154,244.8 139,274.8 69,274.8 54,244.8" 
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="104" y="244.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      API
+    </text>
+    </g><g data-runiq-node="auth" data-node-id="auth" data-node-shape="hexagon">
+      <polygon points="69,354.8 139,354.8 154,384.8 139,414.8 69,414.8 54,384.8" 
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="104" y="384.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Auth
+    </text>
+    </g><g data-runiq-node="web" data-node-id="web" data-node-shape="rounded">
+      <rect x="79" y="12" width="49.2" height="40.8"
+            rx="8" ry="8" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="103.6" y="32.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web
+    </text>
+    </g></svg>

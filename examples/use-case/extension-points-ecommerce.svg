@@ -1,0 +1,252 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="552.4" height="1940.6" 
+    viewBox="0 0 552.4 1940.6"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="customer-browseProducts-0" data-edge-id="customer-browseProducts-0" data-edge-from="customer" data-edge-to="browseProducts"><defs>
+      <marker id="arrow-standard-customer-browseProducts" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 396.40000000000003 1920.6 L 396.40000000000003 1670.4 L 121.5 1670.4 L 121.5 1420.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 396.40000000000003 1920.6 L 396.40000000000003 1670.4 L 121.5 1670.4 L 121.5 1420.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-browseProducts)" pointer-events="none" /></g><g data-runiq-edge="customer-addToCart-1" data-edge-id="customer-addToCart-1" data-edge-from="customer" data-edge-to="addToCart"><defs>
+      <marker id="arrow-standard-customer-addToCart" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 396.40000000000003 1920.6 L 396.40000000000003 1105.1999999999998 L 141.954 1105.1999999999998 L 141.954 289.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 396.40000000000003 1920.6 L 396.40000000000003 1105.1999999999998 L 141.954 1105.1999999999998 L 141.954 289.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-addToCart)" pointer-events="none" /></g><g data-runiq-edge="customer-checkout-2" data-edge-id="customer-checkout-2" data-edge-from="customer" data-edge-to="checkout"><defs>
+      <marker id="arrow-standard-customer-checkout" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 396.40000000000003 1920.6 L 396.40000000000003 967.8 L 146.952 967.8 L 146.952 15" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 396.40000000000003 1920.6 L 396.40000000000003 967.8 L 146.952 967.8 L 146.952 15" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-checkout)" pointer-events="none" /></g><g data-runiq-edge="checkout-processPayment-3" data-edge-id="checkout-processPayment-3" data-edge-from="checkout" data-edge-to="processPayment"><defs>
+      <marker id="arrow-standard-checkout-processPayment" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 146.952 15 L 146.952 281.4 L 121.5 281.4 L 121.5 547.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 146.952 15 L 146.952 281.4 L 121.5 281.4 L 121.5 547.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkout-processPayment)" pointer-events="none" /></g><g data-runiq-edge="processPayment-confirmOrder-4" data-edge-id="processPayment-confirmOrder-4" data-edge-from="processPayment" data-edge-to="confirmOrder"><defs>
+      <marker id="arrow-standard-processPayment-confirmOrder" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 121.5 547.8 L 121.5 1092.4 L 404.9 1092.4 L 404.9 1637" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 121.5 547.8 L 121.5 1092.4 L 404.9 1092.4 L 404.9 1637" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processPayment-confirmOrder)" pointer-events="none" /></g><g data-runiq-edge="checkout-paymentGateway-5" data-edge-id="checkout-paymentGateway-5" data-edge-from="checkout" data-edge-to="paymentGateway"><defs>
+      <marker id="arrow-standard-checkout-paymentGateway" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 146.952 15 L 146.952 859.4 L 88 859.4 L 88 1703.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 146.952 15 L 146.952 859.4 L 88 859.4 L 88 1703.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkout-paymentGateway)" pointer-events="none" /><text x="88" y="844.4" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;include&gt;&gt;</text></g><g data-runiq-edge="processPayment-inventory-6" data-edge-id="processPayment-inventory-6" data-edge-from="processPayment" data-edge-to="inventory"><defs>
+      <marker id="arrow-standard-processPayment-inventory" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 121.5 547.8 L 121.5 1017.4 L 455.2 1017.4 L 455.2 1487" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 121.5 547.8 L 121.5 1017.4 L 455.2 1017.4 L 455.2 1487" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processPayment-inventory)" pointer-events="none" /><text x="455.2" y="1002.4" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;include&gt;&gt;</text></g><g data-runiq-edge="handleOutOfStock-addToCart-7" data-edge-id="handleOutOfStock-addToCart-7" data-edge-from="handleOutOfStock" data-edge-to="addToCart"><defs>
+      <marker id="arrow-standard-handleOutOfStock-addToCart" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 146.7 1221 L 146.7 755.4 L 141.954 755.4 L 141.954 289.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 146.7 1221 L 146.7 755.4 L 141.954 755.4 L 141.954 289.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-handleOutOfStock-addToCart)" pointer-events="none" /><text x="141.954" y="740.4" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="141.954" y="765.4" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Product Out of Stock</text></g><g data-runiq-edge="retryPayment-processPayment-8" data-edge-id="retryPayment-processPayment-8" data-edge-from="retryPayment" data-edge-to="processPayment"><defs>
+      <marker id="arrow-standard-retryPayment-processPayment" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 108.9 1853.8 L 108.9 1200.8 L 121.5 1200.8 L 121.5 547.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 108.9 1853.8 L 108.9 1200.8 L 121.5 1200.8 L 121.5 547.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-retryPayment-processPayment)" pointer-events="none" /><text x="121.5" y="1185.8" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="121.5" y="1210.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Card Declined</text></g><g data-runiq-edge="updateAddress-checkout-9" data-edge-id="updateAddress-checkout-9" data-edge-from="updateAddress" data-edge-to="checkout"><defs>
+      <marker id="arrow-standard-updateAddress-checkout" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 171.9 1021.8 L 171.9 518.4 L 146.952 518.4 L 146.952 15" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 171.9 1021.8 L 171.9 518.4 L 146.952 518.4 L 146.952 15" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-updateAddress-checkout)" pointer-events="none" /><text x="146.952" y="503.4" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="146.952" y="528.4" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Invalid Shipping Address</text></g><g data-runiq-edge="applyAlternativePayment-processPayment-10" data-edge-id="applyAlternativePayment-processPayment-10" data-edge-from="applyAlternativePayment" data-edge-to="processPayment"><defs>
+      <marker id="arrow-standard-applyAlternativePayment-processPayment" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 184.5 822.5999999999999 L 184.5 685.1999999999999 L 121.5 685.1999999999999 L 121.5 547.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 184.5 822.5999999999999 L 184.5 685.1999999999999 L 121.5 685.1999999999999 L 121.5 547.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-applyAlternativePayment-processPayment)" pointer-events="none" /><text x="121.5" y="670.1999999999999" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="121.5" y="695.1999999999999" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Insufficient Funds</text></g><g data-runiq-node="customer" data-node-id="customer" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="396.40000000000003" cy="1868.8" r="15" 
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="357.8" y="1888.8" width="77.2" height="26.799999999999997"
+            rx="5" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="396.40000000000003" y="1902.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Customer
+    </text>
+    </g><g data-runiq-node="paymentGateway" data-node-id="paymentGateway" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="88" cy="1652" r="15" 
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="20" y="1672" width="136" height="26.799999999999997"
+            rx="5" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="88" y="1685.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Payment Gateway
+    </text>
+    </g><g data-runiq-node="inventory" data-node-id="inventory" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="455.2" cy="1435.2" r="15" 
+              fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="383" y="1455.2" width="144.4" height="26.799999999999997"
+            rx="5" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="455.2" y="1468.6000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Inventory System
+    </text>
+    </g><g data-runiq-node="browseProducts" data-node-id="browseProducts" data-node-shape="ellipseWide">
+      <ellipse cx="121.5" cy="1444.8" rx="106.5" ry="24.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+    <text x="121.5" y="1444.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Browse Products
+    </text></g><g data-runiq-node="addToCart" data-node-id="addToCart" data-node-shape="ellipseWide">
+      <ellipse cx="141.954" cy="343.8" rx="126.954" ry="54"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+    <text x="141.954" y="327" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Add to Cart
+    </text>
+        <line x1="34.04310000000001" y1="342.40000000000003" 
+              x2="249.8649" y2="342.40000000000003"
+              stroke="#48677e" stroke-width="0.5" />
+      
+        <text x="141.954" y="355.00000000000006" text-anchor="middle" 
+              font-family="sans-serif" font-size="11.200000000000001" 
+              font-style="italic" fill="#48677e">
+          extension points
+        </text>
+      
+          <text x="141.954" y="371.80000000000007" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Product Out of Stock
+          </text>
+        
+          <text x="141.954" y="388.6000000000001" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Quantity Limit Exceeded
+          </text>
+        </g><g data-runiq-node="checkout" data-node-id="checkout" data-node-shape="ellipseWide">
+      <ellipse cx="146.952" cy="77.4" rx="131.952" ry="62.4"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="146.952" y="60.60000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Checkout
+    </text>
+        <line x1="34.7928" y1="76" 
+              x2="259.1112" y2="76"
+              stroke="#48677e" stroke-width="0.5" />
+      
+        <text x="146.952" y="88.6" text-anchor="middle" 
+              font-family="sans-serif" font-size="11.200000000000001" 
+              font-style="italic" fill="#48677e">
+          extension points
+        </text>
+      
+          <text x="146.952" y="105.39999999999999" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Payment Failed
+          </text>
+        
+          <text x="146.952" y="122.19999999999999" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Invalid Shipping Address
+          </text>
+        
+          <text x="146.952" y="139" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Promo Code Invalid
+          </text>
+        </g><g data-runiq-node="processPayment" data-node-id="processPayment" data-node-shape="ellipseWide">
+      <ellipse cx="121.5" cy="610.1999999999999" rx="106.5" ry="62.4"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+    <text x="121.5" y="593.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Process Payment
+    </text>
+        <line x1="30.975" y1="608.8" 
+              x2="212.025" y2="608.8"
+              stroke="#48677e" stroke-width="0.5" />
+      
+        <text x="121.5" y="621.4" text-anchor="middle" 
+              font-family="sans-serif" font-size="11.200000000000001" 
+              font-style="italic" fill="#48677e">
+          extension points
+        </text>
+      
+          <text x="121.5" y="638.1999999999999" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Card Declined
+          </text>
+        
+          <text x="121.5" y="654.9999999999999" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Insufficient Funds
+          </text>
+        
+          <text x="121.5" y="671.7999999999998" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Gateway Timeout
+          </text>
+        </g><g data-runiq-node="confirmOrder" data-node-id="confirmOrder" data-node-shape="ellipseWide">
+      <ellipse cx="404.9" cy="1661.6" rx="93.9" ry="24.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+    <text x="404.9" y="1661.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Confirm Order
+    </text></g><g data-runiq-node="handleOutOfStock" data-node-id="handleOutOfStock" data-node-shape="ellipseWide">
+      <ellipse cx="146.7" cy="1245.6" rx="131.7" ry="24.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+    <text x="146.7" y="1245.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Handle Out of Stock
+    </text></g><g data-runiq-node="retryPayment" data-node-id="retryPayment" data-node-shape="ellipseWide">
+      <ellipse cx="108.9" cy="1878.3999999999999" rx="93.9" ry="24.6"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+    <text x="108.9" y="1878.3999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Retry Payment
+    </text></g><g data-runiq-node="updateAddress" data-node-id="updateAddress" data-node-shape="ellipseWide">
+      <ellipse cx="171.9" cy="1046.3999999999999" rx="156.9" ry="24.6"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="171.9" y="1046.3999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Update Shipping Address
+    </text></g><g data-runiq-node="applyAlternativePayment" data-node-id="applyAlternativePayment" data-node-shape="ellipseWide">
+      <ellipse cx="184.5" cy="847.1999999999999" rx="169.5" ry="24.6"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+    <text x="184.5" y="847.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Apply Alternative Payment
+    </text></g></svg>

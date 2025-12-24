@@ -313,7 +313,7 @@ pnpm build
 ## Getting Help
 
 - [GitHub Issues](https://github.com/jgreywolf/runiq/issues) - Bug reports and feature requests
-- [Discussions](https://github.com/jgreywolf/runiq/discussions) - Questions and community
+- [Discussions](https://github.com/jgreywolf/runiq/issues) - Questions and community
 - [Contributing](/contributing) - How to contribute
 
 ---

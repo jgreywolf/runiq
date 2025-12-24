@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="203.60000000000002" height="531.2" 
+    viewBox="0 0 203.60000000000002 531.2"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="backend-services" data-container-id="backend-services"><rect x="0" y="0" width="175.2" height="245.6" 
+    fill="#e3f2fd" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Backend Services</text></g><g data-runiq-container="frontend" data-container-id="frontend"><rect x="0" y="325.6" width="183.60000000000002" height="185.6" 
+    fill="#fff3e0" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="345.6" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Frontend</text></g><g data-runiq-edge="API-Database-0" data-edge-id="API-Database-0" data-edge-from="API" data-edge-to="Database"><defs>
+      <marker id="arrow-standard-API-Database" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 87.6 82.8 L 87.6 122.80000000000001 L 87.6 122.80000000000001 L 87.6 162.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 87.6 82.8 L 87.6 122.80000000000001 L 87.6 122.80000000000001 L 87.6 162.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-API-Database)" pointer-events="none" /></g><g data-runiq-edge="WebApp-API" data-edge-id="WebApp-API" data-edge-from="WebApp" data-edge-to="API"><defs>
+      <marker id="arrow-standard-WebApp-API" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 79.2 367.6 L 79.2 225.2 L 87.6 225.2 L 87.6 42" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 79.2 367.6 L 79.2 225.2 L 87.6 225.2 L 87.6 42" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-WebApp-API)" pointer-events="none" /></g><g data-runiq-edge="MobileApp-API" data-edge-id="MobileApp-API" data-edge-from="MobileApp" data-edge-to="API"><defs>
+      <marker id="arrow-standard-MobileApp-API" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 91.80000000000001 428.40000000000003 L 91.80000000000001 255.6 L 87.6 255.6 L 87.6 42" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 91.80000000000001 428.40000000000003 L 91.80000000000001 255.6 L 87.6 255.6 L 87.6 42" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-MobileApp-API)" pointer-events="none" /></g><g data-runiq-node="API" data-node-id="API" data-node-shape="rounded">
+      <rect x="63" y="42" width="49.2" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="87.6" y="62.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      API
+    </text>
+    </g><g data-runiq-node="Database" data-node-id="Database" data-node-shape="rounded">
+      <rect x="42" y="162.8" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="87.6" y="183.20000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Database
+    </text>
+    </g><g data-runiq-node="WebApp" data-node-id="WebApp" data-node-shape="rounded">
+      <rect x="42" y="367.6" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="79.2" y="388" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      WebApp
+    </text>
+    </g><g data-runiq-node="MobileApp" data-node-id="MobileApp" data-node-shape="rounded">
+      <rect x="42" y="428.40000000000003" width="99.60000000000001" height="40.8"
+            rx="8" ry="8" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="91.80000000000001" y="448.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      MobileApp
+    </text>
+    </g></svg>

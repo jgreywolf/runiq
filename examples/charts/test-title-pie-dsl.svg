@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="442" height="312" 
+    viewBox="0 0 442 312"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="pie1" data-node-id="pie1" data-node-shape="pieChart"><text x="137" y="27" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Q4 2025 Sales Report
+    </text><path d="M 137,167 L 137,52 A 115,115 0 0,1 209.57511359749606,256.2067984310083 Z" fill="#667eea" stroke="#48677e" stroke-width="2" />
+    <path d="M 137,167 L 209.57511359749606,256.2067984310083 A 115,115 0 0,1 36.37645502160902,222.67676531536048 Z" fill="#764ba2" stroke="#48677e" stroke-width="2" />
+    <path d="M 137,167 L 36.37645502160902,222.67676531536048 A 115,115 0 0,1 52.95386410801575,88.50638852985476 Z" fill="#f093fb" stroke="#48677e" stroke-width="2" />
+    <path d="M 137,167 L 52.95386410801575,88.50638852985476 A 115,115 0 0,1 136.99999999999997,52 Z" fill="#4facfe" stroke="#48677e" stroke-width="2" />
+    <text x="212.85200423056506" y="144.04219122023562" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">450</text>
+    <text x="121.69984448121562" y="250.03262137308246" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff">320</text>
+    <text x="57.10750237135828" y="161.12888949218598" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">230</text>
+    <text x="104.92871226737753" y="97.16449022881105" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">150</text>
+    <g>
+      <rect x="272" y="212" width="12" height="12" fill="#667eea" stroke="#333" stroke-width="1" />
+      <text x="290" y="222" font-size="11" fill="#333">Product A (39.1%)</text>
+    </g>
+    <g>
+      <rect x="272" y="232" width="12" height="12" fill="#764ba2" stroke="#333" stroke-width="1" />
+      <text x="290" y="242" font-size="11" fill="#333">Product B (27.8%)</text>
+    </g>
+    <g>
+      <rect x="272" y="252" width="12" height="12" fill="#f093fb" stroke="#333" stroke-width="1" />
+      <text x="290" y="262" font-size="11" fill="#333">Product C (20%)</text>
+    </g>
+    <g>
+      <rect x="272" y="272" width="12" height="12" fill="#4facfe" stroke="#333" stroke-width="1" />
+      <text x="290" y="282" font-size="11" fill="#333">Product D (13%)</text>
+    </g></g></svg>

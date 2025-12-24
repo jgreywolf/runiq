@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1195" viewBox="0 0 1200 1195">
+		<defs>
+			<style>
+				.pid-equipment { stroke: #000; stroke-width: 2; fill: none; }
+				.pid-equipment-filled { stroke: #000; stroke-width: 2; fill: #fff; }
+				.pid-line { stroke: #000; stroke-width: 2; fill: none; }
+				.pid-line-signal { stroke: #000; stroke-width: 1.5; fill: none; stroke-dasharray: 5,5; }
+				.pid-line-electrical { stroke: #000; stroke-width: 2; fill: none; stroke-dasharray: 2,2; }
+				.pid-line-utility { stroke: #0066cc; stroke-width: 2; fill: none; }
+				.pid-instrument { stroke: #000; stroke-width: 2; fill: #fff; }
+				.pid-tag { font-family: Arial, sans-serif; font-size: 12px; fill: #000; text-anchor: middle; }
+				.pid-property { font-family: Arial, sans-serif; font-size: 10px; fill: #666; text-anchor: middle; }
+				.pid-loop { font-family: Arial, sans-serif; font-size: 10px; fill: #0066cc; text-anchor: middle; }
+			</style>
+		</defs>
+		<rect width="1200" height="1195" fill="#fff"/>
+		<g class="pid-lines-group"><line x1="700" y1="100" x2="100" y2="100" class="pid-line"/><text class="pid-property" x="400" y="95">12"</text><line x1="850" y1="100" x2="250" y2="100" class="pid-line"/><text class="pid-property" x="550" y="95">10"</text><line x1="100" y1="100" x2="250" y2="250" class="pid-line"/><text class="pid-property" x="175" y="170">6"</text><line x1="250" y1="250" x2="100" y2="100" class="pid-line"/><text class="pid-property" x="175" y="170">6"</text><line x1="250" y1="100" x2="400" y2="250" class="pid-line"/><text class="pid-property" x="325" y="170">4"</text><line x1="100" y1="550" x2="250" y2="550" class="pid-line-signal"/><line x1="250" y1="550" x2="700" y2="100" class="pid-line-signal"/><line x1="400" y1="550" x2="550" y2="550" class="pid-line-signal"/><line x1="550" y1="550" x2="850" y2="100" class="pid-line-signal"/><line x1="700" y1="550" x2="850" y2="550" class="pid-line-signal"/><line x1="850" y1="550" x2="100" y2="250" class="pid-line-signal"/><line x1="100" y1="700" x2="550" y2="700" class="pid-line-signal"/><line x1="100" y1="550" x2="550" y2="700" class="pid-line-signal"/><line x1="550" y1="700" x2="250" y2="250" class="pid-line-signal"/><line x1="250" y1="700" x2="700" y2="700" class="pid-line-signal"/><line x1="400" y1="550" x2="700" y2="700" class="pid-line-signal"/><line x1="700" y1="700" x2="400" y2="250" class="pid-line-signal"/><line x1="550" y1="850" x2="700" y2="850" class="pid-line-signal"/><line x1="700" y1="850" x2="400" y2="100" class="pid-line-signal"/><line x1="850" y1="850" x2="100" y2="1000" class="pid-line-signal"/><line x1="100" y1="1000" x2="550" y2="100" class="pid-line-signal"/><line x1="250" y1="550" x2="250" y2="1000" class="pid-line-signal"/><line x1="250" y1="1000" x2="100" y2="100" class="pid-line-signal"/><line x1="550" y1="550" x2="400" y2="1000" class="pid-line-signal"/><line x1="400" y1="1000" x2="250" y2="100" class="pid-line-signal"/><line x1="550" y1="1000" x2="250" y2="1000" class="pid-line-signal"/><line x1="700" y1="1000" x2="400" y2="1000" class="pid-line-signal"/></g><g class="pid-equipment-group"><g transform="translate(100,100)">
+      <!-- Compressor body (circle) -->
+      <circle cx="30" cy="25" r="22" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Impeller with direction arrow -->
+      <circle cx="30" cy="25" r="3" fill="currentColor"/>
+      <path d="M 33,25 l 8,0 l -3,-3 M 41,25 l -3,3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Inlet/outlet lines -->
+      <line x1="0" y1="25" x2="8" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="52" y1="25" x2="60" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="30" y="62" text-anchor="middle" font-size="10" fill="currentColor">K-101</text>
+    <text class="pid-tag" x="0" y="-35">K-101</text><text class="pid-property" x="0" y="45">CS</text></g><g transform="translate(250,100)">
+      <!-- Compressor body (circle) -->
+      <circle cx="30" cy="25" r="22" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Impeller with direction arrow -->
+      <circle cx="30" cy="25" r="3" fill="currentColor"/>
+      <path d="M 33,25 l 8,0 l -3,-3 M 41,25 l -3,3" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="none"/>
+      <!-- Inlet/outlet lines -->
+      <line x1="0" y1="25" x2="8" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="52" y1="25" x2="60" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="30" y="62" text-anchor="middle" font-size="10" fill="currentColor">K-102</text>
+    <text class="pid-tag" x="0" y="-35">K-102</text><text class="pid-property" x="0" y="45">CS</text></g><g transform="translate(400,100)">
+      <!-- Pump body (circle) -->
+      <circle cx="25" cy="25" r="20" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Impeller indicator -->
+      <circle cx="25" cy="25" r="3" fill="currentColor"/>
+      <!-- Inlet line -->
+      <line x1="0" y1="25" x2="5" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Outlet line -->
+      <line x1="45" y1="25" x2="50" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="25" y="60" text-anchor="middle" font-size="10" fill="currentColor">P-101</text>
+    <text class="pid-tag" x="0" y="-35">P-101</text><text class="pid-property" x="0" y="45">5m³/h, CS</text></g><g transform="translate(550,100)">
+      <!-- Pump body (circle) -->
+      <circle cx="25" cy="25" r="20" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        fill="none"/>
+      <!-- Impeller indicator -->
+      <circle cx="25" cy="25" r="3" fill="currentColor"/>
+      <!-- Inlet line -->
+      <line x1="0" y1="25" x2="5" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Outlet line -->
+      <line x1="45" y1="25" x2="50" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="25" y="60" text-anchor="middle" font-size="10" fill="currentColor">P-102</text>
+    <text class="pid-tag" x="0" y="-35">P-102</text><text class="pid-property" x="0" y="45">5m³/h, CS</text></g><g transform="translate(700,100)">
+      <!-- Inlet line -->
+      <line x1="0" y1="35" x2="5" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Valve body -->
+      <circle cx="15" cy="35" r="10" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Actuator (diamond on top) -->
+      <path d="M 15,10 L 23,20 L 15,30 L 7,20 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Stem connecting actuator to valve -->
+      <line x1="15" y1="30" x2="15" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Outlet line -->
+      <line x1="25" y1="35" x2="30" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="15" y="57" text-anchor="middle" font-size="9" fill="currentColor">PCV-601</text>
+    <text class="pid-tag" x="0" y="-35">PCV-601</text></g><g transform="translate(850,100)">
+      <!-- Inlet line -->
+      <line x1="0" y1="35" x2="5" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Valve body -->
+      <circle cx="15" cy="35" r="10" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Actuator (diamond on top) -->
+      <path d="M 15,10 L 23,20 L 15,30 L 7,20 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Stem connecting actuator to valve -->
+      <line x1="15" y1="30" x2="15" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Outlet line -->
+      <line x1="25" y1="35" x2="30" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="15" y="57" text-anchor="middle" font-size="9" fill="currentColor">PCV-602</text>
+    <text class="pid-tag" x="0" y="-35">PCV-602</text></g><g transform="translate(100,250)">
+      <!-- Inlet line -->
+      <line x1="0" y1="35" x2="5" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Valve body -->
+      <circle cx="15" cy="35" r="10" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Actuator (diamond on top) -->
+      <path d="M 15,10 L 23,20 L 15,30 L 7,20 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Stem connecting actuator to valve -->
+      <line x1="15" y1="30" x2="15" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Outlet line -->
+      <line x1="25" y1="35" x2="30" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="15" y="57" text-anchor="middle" font-size="9" fill="currentColor">PCV-603</text>
+    <text class="pid-tag" x="0" y="-35">PCV-603</text></g><g transform="translate(250,250)">
+      <!-- Inlet line -->
+      <line x1="0" y1="35" x2="5" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Valve body -->
+      <circle cx="15" cy="35" r="10" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Actuator (diamond on top) -->
+      <path d="M 15,10 L 23,20 L 15,30 L 7,20 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Stem connecting actuator to valve -->
+      <line x1="15" y1="30" x2="15" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Outlet line -->
+      <line x1="25" y1="35" x2="30" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="15" y="57" text-anchor="middle" font-size="9" fill="currentColor">ASV-801</text>
+    <text class="pid-tag" x="0" y="-35">ASV-801</text></g><g transform="translate(400,250)">
+      <!-- Inlet line -->
+      <line x1="0" y1="35" x2="5" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Valve body -->
+      <circle cx="15" cy="35" r="10" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Actuator (diamond on top) -->
+      <path d="M 15,10 L 23,20 L 15,30 L 7,20 Z" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        fill="white"/>
+      <!-- Stem connecting actuator to valve -->
+      <line x1="15" y1="30" x2="15" y2="25" 
+        stroke="currentColor" stroke-width="2"/>
+      <!-- Outlet line -->
+      <line x1="25" y1="35" x2="30" y2="35" 
+        stroke="currentColor" stroke-width="2"/>
+      <text x="15" y="57" text-anchor="middle" font-size="9" fill="currentColor">ASV-802</text>
+    <text class="pid-tag" x="0" y="-35">ASV-802</text></g></g><g class="pid-instruments-group"><g transform="translate(100,550)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">PT-601</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(250,550)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">PIC-601</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(400,550)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">PT-602</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(550,550)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">PIC-602</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(700,550)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">PT-603</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(850,550)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">PIC-603</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(100,700)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">FT-101</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(250,700)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">FT-102</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(400,700)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">FT-103</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(550,700)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">ASC-801</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(700,700)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">ASC-802</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(850,700)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">TT-501</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(100,850)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">TT-502</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(250,850)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">TT-503</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(400,850)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">TT-504</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(550,850)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">LT-401</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(700,850)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">LIC-401</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(850,850)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">LT-402</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(100,1000)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">LIC-402</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(250,1000)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">SC-701</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(400,1000)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">SC-702</text><circle cx="0" cy="0" r="28" class="pid-instrument" stroke-dasharray="3,3" fill="none"/></g><g transform="translate(550,1000)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">VT-901</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g><g transform="translate(700,1000)"><circle cx="0" cy="0" r="25" class="pid-instrument"/><text class="pid-tag" x="0" y="4">VT-902</text><line x1="-5" y1="30" x2="5" y2="30" stroke="#000" stroke-width="2"/></g></g><g class="pid-loops-group"><text class="pid-loop" x="250" y="590">Loop 601</text><text class="pid-property" x="250" y="602">pressure: 5 bar</text><text class="pid-loop" x="550" y="590">Loop 602</text><text class="pid-property" x="550" y="602">pressure: 15 bar</text><text class="pid-loop" x="850" y="590">Loop 603</text><text class="pid-property" x="850" y="602">pressure: 40 bar</text><text class="pid-loop" x="700" y="890">Loop 401</text><text class="pid-property" x="700" y="902">level: 50 %</text><text class="pid-loop" x="100" y="1040">Loop 402</text><text class="pid-property" x="100" y="1052">level: 50 %</text><text class="pid-loop" x="250" y="1040">Loop 701</text><text class="pid-property" x="250" y="1052">speed: 12000 rpm</text><text class="pid-loop" x="400" y="1040">Loop 702</text><text class="pid-property" x="400" y="1052">speed: 12000 rpm</text><text class="pid-loop" x="550" y="740">Loop 801</text><text class="pid-property" x="550" y="752">flow: 3000 m³/h</text><text class="pid-loop" x="700" y="740">Loop 802</text><text class="pid-property" x="700" y="752">flow: 3000 m³/h</text></g>
+	</svg>

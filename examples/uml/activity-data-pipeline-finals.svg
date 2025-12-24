@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="676.6" height="2770" 
+    viewBox="0 0 676.6 2770"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="start-receiveData-0" data-edge-id="start-receiveData-0" data-edge-from="start" data-edge-to="receiveData"><defs>
+      <marker id="arrow-standard-start-receiveData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 174 30 L 174 90 L 174.2 90 L 174.2 150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 174 30 L 174 90 L 174.2 90 L 174.2 150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-receiveData)" pointer-events="none" /></g><g data-runiq-edge="receiveData-rawData-1" data-edge-id="receiveData-rawData-1" data-edge-from="receiveData" data-edge-to="rawData"><defs>
+      <marker id="arrow-standard-receiveData-rawData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 174.2 200 L 174.2 260 L 173.6 260 L 173.6 320" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 174.2 200 L 174.2 260 L 173.6 260 L 173.6 320" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveData-rawData)" pointer-events="none" /></g><g data-runiq-edge="rawData-validateSchema-2" data-edge-id="rawData-validateSchema-2" data-edge-from="rawData" data-edge-to="validateSchema"><defs>
+      <marker id="arrow-standard-rawData-validateSchema" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 173.6 360 L 173.6 420 L 174 420 L 174 480" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 173.6 360 L 173.6 420 L 174 420 L 174 480" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-rawData-validateSchema)" pointer-events="none" /></g><g data-runiq-edge="validateSchema-validCheck-3" data-edge-id="validateSchema-validCheck-3" data-edge-from="validateSchema" data-edge-to="validCheck"><defs>
+      <marker id="arrow-standard-validateSchema-validCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 174 530 L 174 590 L 174 590 L 174 650" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 174 530 L 174 590 L 174 590 L 174 650" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validateSchema-validCheck)" pointer-events="none" /></g><g data-runiq-edge="validCheck-validationError-4" data-edge-id="validCheck-validationError-4" data-edge-from="validCheck" data-edge-to="validationError"><defs>
+      <marker id="arrow-standard-validCheck-validationError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 174 690 L 174 725 L 22 725 L 22 810" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 174 690 L 174 725 L 22 725 L 22 810" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validCheck-validationError)" pointer-events="none" /></g><g data-runiq-edge="validCheck-validatedData-5" data-edge-id="validCheck-validatedData-5" data-edge-from="validCheck" data-edge-to="validatedData"><defs>
+      <marker id="arrow-standard-validCheck-validatedData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 174 690 L 174 750 L 180.8 750 L 180.8 810" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 174 690 L 174 750 L 180.8 750 L 180.8 810" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validCheck-validatedData)" pointer-events="none" /></g><g data-runiq-edge="validatedData-transformData-6" data-edge-id="validatedData-transformData-6" data-edge-from="validatedData" data-edge-to="transformData"><defs>
+      <marker id="arrow-standard-validatedData-transformData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 180.8 850 L 180.8 910 L 180.8 910 L 180.8 970" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 180.8 850 L 180.8 910 L 180.8 910 L 180.8 970" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validatedData-transformData)" pointer-events="none" /></g><g data-runiq-edge="transformData-transformCheck-7" data-edge-id="transformData-transformCheck-7" data-edge-from="transformData" data-edge-to="transformCheck"><defs>
+      <marker id="arrow-standard-transformData-transformCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 180.8 1020 L 180.8 1080 L 181 1080 L 181 1140" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 180.8 1020 L 180.8 1080 L 181 1080 L 181 1140" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-transformData-transformCheck)" pointer-events="none" /></g><g data-runiq-edge="transformCheck-transformError-8" data-edge-id="transformCheck-transformError-8" data-edge-from="transformCheck" data-edge-to="transformError"><defs>
+      <marker id="arrow-standard-transformCheck-transformError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 181 1180 L 181 1240 L 174 1240 L 174 1300" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 181 1180 L 181 1240 L 174 1240 L 174 1300" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-transformCheck-transformError)" pointer-events="none" /></g><g data-runiq-edge="transformCheck-transformedData-9" data-edge-id="transformCheck-transformedData-9" data-edge-from="transformCheck" data-edge-to="transformedData"><defs>
+      <marker id="arrow-standard-transformCheck-transformedData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 181 1180 L 181 1215 L 341 1215 L 341.2 1300" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 181 1180 L 181 1215 L 341 1215 L 341.2 1300" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-transformCheck-transformedData)" pointer-events="none" /></g><g data-runiq-edge="transformedData-enrichFork-10" data-edge-id="transformedData-enrichFork-10" data-edge-from="transformedData" data-edge-to="enrichFork"><defs>
+      <marker id="arrow-standard-transformedData-enrichFork" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341.2 1340 L 341.2 1400 L 341 1400 L 341 1460" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341.2 1340 L 341.2 1400 L 341 1400 L 341 1460" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-transformedData-enrichFork)" pointer-events="none" /></g><g data-runiq-edge="enrichFork-enrichData-11" data-edge-id="enrichFork-enrichData-11" data-edge-from="enrichFork" data-edge-to="enrichData"><defs>
+      <marker id="arrow-standard-enrichFork-enrichData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341 1468 L 341 1528 L 328 1528 L 328 1588" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341 1468 L 341 1528 L 328 1528 L 328 1588" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-enrichFork-enrichData)" pointer-events="none" /></g><g data-runiq-edge="enrichFork-updateIndex-12" data-edge-id="enrichFork-updateIndex-12" data-edge-from="enrichFork" data-edge-to="updateIndex"><defs>
+      <marker id="arrow-standard-enrichFork-updateIndex" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341 1468 L 341 1503 L 459 1503 L 459 1613 L 459 1673 L 565 1673 L 564.8 1758" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341 1468 L 341 1503 L 459 1503 L 459 1613 L 459 1673 L 565 1673 L 564.8 1758" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-enrichFork-updateIndex)" pointer-events="none" /></g><g data-runiq-edge="enrichData-enrichedData-13" data-edge-id="enrichData-enrichedData-13" data-edge-from="enrichData" data-edge-to="enrichedData"><defs>
+      <marker id="arrow-standard-enrichData-enrichedData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 328 1638 L 328 1700.5 L 327.6 1700.5 L 327.6 1763" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 328 1638 L 328 1700.5 L 327.6 1700.5 L 327.6 1763" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-enrichData-enrichedData)" pointer-events="none" /></g><g data-runiq-edge="enrichedData-enrichJoin-14" data-edge-id="enrichedData-enrichJoin-14" data-edge-from="enrichedData" data-edge-to="enrichJoin"><defs>
+      <marker id="arrow-standard-enrichedData-enrichJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 327.6 1803 L 327.6 1865.5 L 341 1865.5 L 341 1928" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 327.6 1803 L 327.6 1865.5 L 341 1865.5 L 341 1928" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-enrichedData-enrichJoin)" pointer-events="none" /></g><g data-runiq-edge="updateIndex-enrichJoin-15" data-edge-id="updateIndex-enrichJoin-15" data-edge-from="updateIndex" data-edge-to="enrichJoin"><defs>
+      <marker id="arrow-standard-updateIndex-enrichJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 564.8 1808 L 564.8 1843 L 354 1843 L 341 1928" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 564.8 1808 L 564.8 1843 L 354 1843 L 341 1928" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-updateIndex-enrichJoin)" pointer-events="none" /></g><g data-runiq-edge="enrichJoin-uploadToStorage-16" data-edge-id="enrichJoin-uploadToStorage-16" data-edge-from="enrichJoin" data-edge-to="uploadToStorage"><defs>
+      <marker id="arrow-standard-enrichJoin-uploadToStorage" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341 1936 L 341 1996 L 341.4 1996 L 341.4 2056" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341 1936 L 341 1996 L 341.4 1996 L 341.4 2056" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-enrichJoin-uploadToStorage)" pointer-events="none" /></g><g data-runiq-edge="uploadToStorage-uploadCheck-17" data-edge-id="uploadToStorage-uploadCheck-17" data-edge-from="uploadToStorage" data-edge-to="uploadCheck"><defs>
+      <marker id="arrow-standard-uploadToStorage-uploadCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341.4 2106 L 341.4 2166 L 341 2166 L 341 2226" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341.4 2106 L 341.4 2166 L 341 2166 L 341 2226" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-uploadToStorage-uploadCheck)" pointer-events="none" /></g><g data-runiq-edge="uploadCheck-uploadError-18" data-edge-id="uploadCheck-uploadError-18" data-edge-from="uploadCheck" data-edge-to="uploadError"><defs>
+      <marker id="arrow-standard-uploadCheck-uploadError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341 2266 L 341 2301 L 208 2301 L 208 2386" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341 2266 L 341 2301 L 208 2301 L 208 2386" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-uploadCheck-uploadError)" pointer-events="none" /></g><g data-runiq-edge="uploadCheck-dataLake-19" data-edge-id="uploadCheck-dataLake-19" data-edge-from="uploadCheck" data-edge-to="dataLake"><defs>
+      <marker id="arrow-standard-uploadCheck-dataLake" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341 2266 L 341 2326 L 348 2326 L 348 2386" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341 2266 L 341 2326 L 348 2326 L 348 2386" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-uploadCheck-dataLake)" pointer-events="none" /></g><g data-runiq-edge="dataLake-sendNotification-20" data-edge-id="dataLake-sendNotification-20" data-edge-from="dataLake" data-edge-to="sendNotification"><defs>
+      <marker id="arrow-standard-dataLake-sendNotification" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 348 2436 L 348 2496 L 348 2496 L 348 2556" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 348 2436 L 348 2496 L 348 2496 L 348 2556" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dataLake-sendNotification)" pointer-events="none" /></g><g data-runiq-edge="sendNotification-pipelineSuccess-21" data-edge-id="sendNotification-pipelineSuccess-21" data-edge-from="sendNotification" data-edge-to="pipelineSuccess"><defs>
+      <marker id="arrow-standard-sendNotification-pipelineSuccess" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 348 2606 L 348 2666 L 348 2666 L 348 2726" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 348 2606 L 348 2666 L 348 2666 L 348 2726" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendNotification-pipelineSuccess)" pointer-events="none" /></g><g data-runiq-node="start" data-node-id="start" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="174" cy="21" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="pipelineSuccess" data-node-id="pipelineSuccess" data-node-shape="activityFinal"><g class="activity-final-shape"><circle cx="348" cy="2738" r="10.5" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="348" cy="2738" r="5.25" fill="#48677e" /></g></g><g data-runiq-node="validationError" data-node-id="validationError" data-node-shape="flowFinal"><g class="flow-final-shape"><circle cx="22" cy="820" r="8.5" fill="none" stroke="#48677e" stroke-width="1.5" /><line x1="16.9" y1="814.9" x2="27.1" y2="825.1" stroke="#48677e" stroke-width="1.5" /><line x1="27.1" y1="814.9" x2="16.9" y2="825.1" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="transformError" data-node-id="transformError" data-node-shape="flowFinal"><g class="flow-final-shape"><circle cx="174" cy="1310" r="8.5" fill="none" stroke="#48677e" stroke-width="1.5" /><line x1="168.9" y1="1304.9" x2="179.1" y2="1315.1" stroke="#48677e" stroke-width="1.5" /><line x1="179.1" y1="1304.9" x2="168.9" y2="1315.1" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="uploadError" data-node-id="uploadError" data-node-shape="flowFinal"><g class="flow-final-shape"><circle cx="208" cy="2396" r="8.5" fill="none" stroke="#48677e" stroke-width="1.5" /><line x1="202.9" y1="2390.9" x2="213.1" y2="2401.1" stroke="#48677e" stroke-width="1.5" /><line x1="213.1" y1="2390.9" x2="202.9" y2="2401.1" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="receiveData" data-node-id="receiveData" data-node-shape="activity"><g class="activity-shape"><rect x="95" y="150" width="158.4" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="174.2" y="175" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive Raw Data
+    </text></g></g><g data-runiq-node="validateSchema" data-node-id="validateSchema" data-node-shape="activity"><g class="activity-shape"><rect x="99" y="480" width="150" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="174" y="505" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validate Schema
+    </text></g></g><g data-runiq-node="transformData" data-node-id="transformData" data-node-shape="activity"><g class="activity-shape"><rect x="110" y="970" width="141.60000000000002" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="180.8" y="995" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Transform Data
+    </text></g></g><g data-runiq-node="enrichData" data-node-id="enrichData" data-node-shape="activity"><g class="activity-shape"><rect x="232" y="1588" width="192" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="328" y="1613" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Enrich with Metadata
+    </text></g></g><g data-runiq-node="uploadToStorage" data-node-id="uploadToStorage" data-node-shape="activity"><g class="activity-shape"><rect x="258" y="2056" width="166.8" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="341.4" y="2081" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Upload to Storage
+    </text></g></g><g data-runiq-node="updateIndex" data-node-id="updateIndex" data-node-shape="activity"><g class="activity-shape"><rect x="473" y="1758" width="183.6" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="564.8" y="1783" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Update Search Index
+    </text></g></g><g data-runiq-node="sendNotification" data-node-id="sendNotification" data-node-shape="activity"><g class="activity-shape"><rect x="231" y="2556" width="234" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="348" y="2581" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Success Notification
+    </text></g></g><g data-runiq-node="validCheck" data-node-id="validCheck" data-node-shape="choice"><g class="choice-shape"><path d="M 174 650 L 194 670 L 174 690 L 154 670 Z" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="174" y="675" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.200000000000001"
+      fill="#FFFFFF">
+      validCheck
+    </text></g></g><g data-runiq-node="transformCheck" data-node-id="transformCheck" data-node-shape="choice"><g class="choice-shape"><path d="M 181 1140 L 201 1160 L 181 1180 L 161 1160 Z" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="181" y="1165" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.200000000000001"
+      fill="#FFFFFF">
+      transformCheck
+    </text></g></g><g data-runiq-node="uploadCheck" data-node-id="uploadCheck" data-node-shape="choice"><g class="choice-shape"><path d="M 341 2226 L 361 2246 L 341 2266 L 321 2246 Z" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="341" y="2251" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.200000000000001"
+      fill="#FFFFFF">
+      uploadCheck
+    </text></g></g><g data-runiq-node="enrichFork" data-node-id="enrichFork" data-node-shape="fork"><g class="fork-shape"><rect x="301" y="1460" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="enrichJoin" data-node-id="enrichJoin" data-node-shape="join"><g class="join-shape"><rect x="301" y="1928" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="rawData" data-node-id="rawData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="130" y="320" width="87.2" height="40" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="173.6" y="340" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Raw Data
+    </text></g></g><g data-runiq-node="validatedData" data-node-id="validatedData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="112" y="810" width="137.60000000000002" height="40" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="180.8" y="830" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validated Data
+    </text></g></g><g data-runiq-node="transformedData" data-node-id="transformedData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="264" y="1300" width="154.4" height="40" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="341.2" y="1320" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Transformed Data
+    </text></g></g><g data-runiq-node="enrichedData" data-node-id="enrichedData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="263" y="1763" width="129.2" height="40" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="327.6" y="1783" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Enriched Data
+    </text></g></g><g data-runiq-node="dataLake" data-node-id="dataLake" data-node-shape="dataStore"><g class="data-store-shape"><ellipse cx="348" cy="2389.75" rx="50" ry="3.75" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><rect x="298" y="2389.75" width="100" height="42.5" fill="#73a3bf" stroke="none" /><line x1="298" y1="2389.75" x2="298" y2="2432.25" stroke="#48677e" stroke-width="1" /><line x1="398" y1="2389.75" x2="398" y2="2432.25" stroke="#48677e" stroke-width="1" /><path d="M 298 2432.25 Q 348 2439.75, 398 2432.25" fill="none" stroke="#48677e" stroke-width="1" /><text x="348" y="2411" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Data Lake
+    </text></g></g></svg>

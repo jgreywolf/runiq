@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1040.4" height="374" 
+    viewBox="0 0 1040.4 374"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="start-idle-0" data-edge-id="start-idle-0" data-edge-from="start" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-start-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 212.4 67 L 272.4 67 L 272.4 66.5 L 332.4 66.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 212.4 67 L 272.4 67 L 272.4 66.5 L 332.4 66.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-idle)" pointer-events="none" /></g><g data-runiq-edge="idle-locked-1" data-edge-id="idle-locked-1" data-edge-from="idle" data-edge-to="locked"><defs>
+      <marker id="arrow-standard-idle-locked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 549.6 66.5 L 584.6 66.5 L 584.6 161 L 669.6 193.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 549.6 66.5 L 584.6 66.5 L 584.6 161 L 669.6 193.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-locked)" pointer-events="none" /><text x="584.6" y="161" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">lockButton [doorClosed] / logLock()</text></g><g data-runiq-edge="locked-unlocked-2" data-edge-id="locked-unlocked-2" data-edge-from="locked" data-edge-to="unlocked"><defs>
+      <marker id="arrow-standard-locked-unlocked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 669.6 193.5 L 584.6 193.5 L 584.6 209 L 441 209 L 247.4 209 L 247.4 211 L 212.4 210.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 669.6 193.5 L 584.6 193.5 L 584.6 209 L 441 209 L 247.4 209 L 247.4 211 L 212.4 210.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-locked-unlocked)" pointer-events="none" /><text x="441" y="209" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">unlockButton [validKey] / logUnlock()</text></g><g data-runiq-edge="unlocked-locked-3" data-edge-id="unlocked-locked-3" data-edge-from="unlocked" data-edge-to="locked"><defs>
+      <marker id="arrow-standard-unlocked-locked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 212.4 210.5 Q 441 210.5 669.6 193.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 212.4 210.5 Q 441 210.5 669.6 193.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-unlocked-locked)" pointer-events="none" /><text x="441" y="210.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timeout / autoLock()</text></g><g data-runiq-edge="unlocked-alarm-4" data-edge-id="unlocked-alarm-4" data-edge-from="unlocked" data-edge-to="alarm"><defs>
+      <marker id="arrow-standard-unlocked-alarm" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 212.4 210.5 L 247.4 210.5 L 247.4 300 L 340.79999999999995 299.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 212.4 210.5 L 247.4 210.5 L 247.4 300 L 340.79999999999995 299.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-unlocked-alarm)" pointer-events="none" /><text x="247.4" y="300" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">forcedEntry / triggerAlarm()</text></g><g data-runiq-edge="alarm-locked-5" data-edge-id="alarm-locked-5" data-edge-from="alarm" data-edge-to="locked"><defs>
+      <marker id="arrow-standard-alarm-locked" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 541.1999999999999 299.5 L 584.6 299.5 L 584.6 226 L 669.6 193.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 541.1999999999999 299.5 L 584.6 299.5 L 584.6 226 L 669.6 193.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-alarm-locked)" pointer-events="none" /><text x="584.6" y="226" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">reset [adminCode] / clearAlarm()</text></g><g data-runiq-edge="locked-end-6" data-edge-id="locked-end-6" data-edge-from="locked" data-edge-to="end"><defs>
+      <marker id="arrow-standard-locked-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 878.4000000000001 193.5 L 938.4000000000001 193.5 L 938.4000000000001 194 L 998.4000000000001 194" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 878.4000000000001 193.5 L 938.4000000000001 193.5 L 938.4000000000001 194 L 998.4000000000001 194" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-locked-end)" pointer-events="none" /><text x="938.4000000000001" y="194" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">powerOff</text></g><g data-runiq-node="start" data-node-id="start" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="203.4" cy="67" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="idle" data-node-id="idle" data-node-shape="state"><g class="state-shape"><rect x="332.4" y="12" width="217.20000000000002" height="109" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="441" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Idle
+    </text><line x1="344.4" y1="45.6" x2="537.6" y2="45.6" stroke="#48677e" stroke-width="1" /><text x="344.4" y="66.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / turnOffLight()
+    </text><text x="344.4" y="84.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / monitorSensors()
+    </text><text x="344.4" y="102.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / logStateChange()
+    </text></g></g><g data-runiq-node="locked" data-node-id="locked" data-node-shape="state"><g class="state-shape"><rect x="669.6" y="139" width="208.8" height="109" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="774" y="163.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Locked
+    </text><line x1="681.6" y1="172.6" x2="866.4000000000001" y2="172.6" stroke="#48677e" stroke-width="1" /><text x="681.6" y="193.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / engageLock()
+    </text><text x="681.6" y="211.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / flashLED()
+    </text><text x="681.6" y="229.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / disengageLock()
+    </text></g></g><g data-runiq-node="unlocked" data-node-id="unlocked" data-node-shape="state"><g class="state-shape"><rect x="12" y="156" width="200.4" height="109" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="112.2" y="180.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Unlocked
+    </text><line x1="24" y1="189.6" x2="200.4" y2="189.6" stroke="#48677e" stroke-width="1" /><text x="24" y="210.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / releaseLock()
+    </text><text x="24" y="228.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / startTimer(10s)
+    </text><text x="24" y="246.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / stopTimer()
+    </text></g></g><g data-runiq-node="alarm" data-node-id="alarm" data-node-shape="state"><g class="state-shape"><rect x="340.79999999999995" y="245" width="200.4" height="109" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="440.99999999999994" y="269.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Alarm
+    </text><line x1="352.79999999999995" y1="278.6" x2="529.1999999999999" y2="278.6" stroke="#48677e" stroke-width="1" /><text x="352.79999999999995" y="299.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / soundAlarm()
+    </text><text x="352.79999999999995" y="317.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / sendAlert()
+    </text><text x="352.79999999999995" y="335.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / silenceAlarm()
+    </text></g></g><g data-runiq-node="end" data-node-id="end" data-node-shape="finalState"><g class="final-state-shape"><circle cx="1009.4000000000001" cy="194" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="1009.4000000000001" cy="194" r="6.050000000000001" fill="#000000" stroke="none" /></g></g></svg>

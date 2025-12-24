@@ -1,5 +1,246 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="170" 
-    viewBox="0 0 220 170"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Learning Path</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="learningmap"><rect x="0" y="0" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">LearningMap</text></g></svg>
+    width="1186.716025605487" height="1010.0646478290021" 
+    viewBox="0 0 1186.716025605487 1010.0646478290021"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="learningmap" data-container-id="learningmap"><rect x="0" y="0" width="1166.716025605487" height="990.0646478290021" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">LearningMap</text></g><g data-runiq-edge="central-frontend-0" data-edge-id="central-frontend-0" data-edge-from="central" data-edge-to="frontend"><path d="M 594.3027429406334 444.4176779493758 L 642.4782274996938 551.4140334101912" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 594.3027429406334 444.4176779493758 L 642.4782274996938 551.4140334101912" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="central-backend-1" data-edge-id="central-backend-1" data-edge-from="central" data-edge-to="backend"><path d="M 519.3027429406334 424.01767794937575 L 492.8881880421904 362.62840438175965" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 519.3027429406334 424.01767794937575 L 492.8881880421904 362.62840438175965" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="central-devops-2" data-edge-id="central-devops-2" data-edge-from="central" data-edge-to="devops"><path d="M 594.3027429406334 403.6176779493758 L 696.929258945436 327.65964519481105" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 594.3027429406334 403.6176779493758 L 696.929258945436 327.65964519481105" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frontend-html-3" data-edge-id="frontend-html-3" data-edge-from="frontend" data-edge-to="html"><path d="M 688.0782274996939 571.8140334101912 L 888.8877138176605 521.5836095666161" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 688.0782274996939 571.8140334101912 L 888.8877138176605 521.5836095666161" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frontend-javascript-4" data-edge-id="frontend-javascript-4" data-edge-from="frontend" data-edge-to="javascript"><path d="M 688.0782274996939 571.8140334101912 L 819.4196876885791 676.6877909428956" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 688.0782274996939 571.8140334101912 L 819.4196876885791 676.6877909428956" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frontend-frameworks-5" data-edge-id="frontend-frameworks-5" data-edge-from="frontend" data-edge-to="frameworks"><path d="M 642.4782274996938 592.2140334101912 L 494.13789517231294 743.046505090638" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 642.4782274996938 592.2140334101912 L 494.13789517231294 743.046505090638" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="backend-nodejs-6" data-edge-id="backend-nodejs-6" data-edge-from="backend" data-edge-to="nodejs"><path d="M 451.48818804219036 383.0284043817597 L 264.62824020860285 532.3019725285171" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 451.48818804219036 383.0284043817597 L 264.62824020860285 532.3019725285171" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="backend-databases-7" data-edge-id="backend-databases-7" data-edge-from="backend" data-edge-to="databases"><path d="M 410.0881880421904 362.62840438175965 L 328.04902414042647 264.7852307047782" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 410.0881880421904 362.62840438175965 L 328.04902414042647 264.7852307047782" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="backend-apis-8" data-edge-id="backend-apis-8" data-edge-from="backend" data-edge-to="apis"><path d="M 451.48818804219036 342.2284043817597 L 480.9712767608799 109.1552371712733" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 451.48818804219036 342.2284043817597 L 480.9712767608799 109.1552371712733" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="devops-docker-9" data-edge-id="devops-docker-9" data-edge-from="devops" data-edge-to="docker"><path d="M 696.929258945436 286.85964519481104 L 632.6467519458323 92.60144410512474" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 696.929258945436 286.85964519481104 L 632.6467519458323 92.60144410512474" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="devops-cicd-10" data-edge-id="devops-cicd-10" data-edge-from="devops" data-edge-to="cicd"><path d="M 696.929258945436 286.85964519481104 L 783.0942885654314 145.08061421763028" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 696.929258945436 286.85964519481104 L 783.0942885654314 145.08061421763028" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="devops-cloud-11" data-edge-id="devops-cloud-11" data-edge-from="devops" data-edge-to="cloud"><path d="M 734.1292589454359 307.259645194811 L 887.8694921575703 287.63922023399664" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 734.1292589454359 307.259645194811 L 887.8694921575703 287.63922023399664" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frameworks-react-12" data-edge-id="frameworks-react-12" data-edge-from="frameworks" data-edge-to="react"><path d="M 494.13789517231294 783.846505090638 L 670.3062814469848 907.2646478290021" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 494.13789517231294 783.846505090638 L 670.3062814469848 907.2646478290021" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frameworks-vue-13" data-edge-id="frameworks-vue-13" data-edge-from="frameworks" data-edge-to="vue"><path d="M 494.13789517231294 783.846505090638 L 470.35129246881957 897.6549701251275" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 494.13789517231294 783.846505090638 L 470.35129246881957 897.6549701251275" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frameworks-angular-14" data-edge-id="frameworks-angular-14" data-edge-from="frameworks" data-edge-to="angular"><path d="M 440.13789517231294 763.446505090638 L 314.4181990436818 819.2556442270896" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 440.13789517231294 763.446505090638 L 314.4181990436818 819.2556442270896" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="databases-postgres-15" data-edge-id="databases-postgres-15" data-edge-from="databases" data-edge-to="postgres"><path d="M 228.44902414042645 264.7852307047782 L 150 318.5132490742959" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 228.44902414042645 264.7852307047782 L 150 318.5132490742959" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="databases-mongodb-16" data-edge-id="databases-mongodb-16" data-edge-from="databases" data-edge-to="mongodb"><path d="M 278.24902414042646 244.38523070477822 L 235.597483529906 82.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 278.24902414042646 244.38523070477822 L 235.597483529906 82.8" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="cloud-aws-17" data-edge-id="cloud-aws-17" data-edge-from="cloud" data-edge-to="aws"><path d="M 920.8694921575703 267.23922023399666 L 1011.0555527481673 151.5800033719044" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 920.8694921575703 267.23922023399666 L 1011.0555527481673 151.5800033719044" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="cloud-azure-18" data-edge-id="cloud-azure-18" data-edge-from="cloud" data-edge-to="azure"><path d="M 953.8694921575703 287.63922023399664 L 1058.716025605487 314.3963553748417" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 953.8694921575703 287.63922023399664 L 1058.716025605487 314.3963553748417" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-node="central" data-node-id="central" data-node-shape="rounded">
+      <rect x="519.3027429406334" y="403.6176779493758" width="150" height="40.8"
+            rx="8" ry="8" fill="#8b5cf6" stroke="#7c3aed" stroke-width="1" />
+      
+      <text x="594.3027429406334" y="424.01767794937575" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web Development
+    </text>
+    </g><g data-runiq-node="frontend" data-node-id="frontend" data-node-shape="rounded">
+      <rect x="596.8782274996938" y="551.4140334101912" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#3b82f6" stroke="#2563eb" stroke-width="1" />
+      
+      <text x="642.4782274996938" y="571.8140334101912" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Frontend
+    </text>
+    </g><g data-runiq-node="backend" data-node-id="backend" data-node-shape="rounded">
+      <rect x="410.0881880421904" y="342.2284043817597" width="82.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#10b981" stroke="#059669" stroke-width="1" />
+      
+      <text x="451.48818804219036" y="362.62840438175965" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Backend
+    </text>
+    </g><g data-runiq-node="devops" data-node-id="devops" data-node-shape="rounded">
+      <rect x="659.729258945436" y="286.85964519481104" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#f59e0b" stroke="#d97706" stroke-width="1" />
+      
+      <text x="696.929258945436" y="307.259645194811" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      DevOps
+    </text>
+    </g><g data-runiq-node="html" data-node-id="html" data-node-shape="rounded">
+      <rect x="888.8877138176605" y="501.18360956661616" width="81.6" height="38.4"
+            rx="8" ry="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+      
+      <text x="929.6877138176604" y="520.3836095666162" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      HTML/CSS
+    </text>
+    </g><g data-runiq-node="javascript" data-node-id="javascript" data-node-shape="rounded">
+      <rect x="765.4196876885791" y="676.6877909428956" width="96" height="38.4"
+            rx="8" ry="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+      
+      <text x="813.4196876885791" y="695.8877909428957" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      JavaScript
+    </text>
+    </g><g data-runiq-node="frameworks" data-node-id="frameworks" data-node-shape="rounded">
+      <rect x="440.13789517231294" y="743.046505090638" width="96" height="38.4"
+            rx="8" ry="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+      
+      <text x="488.13789517231294" y="762.246505090638" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Frameworks
+    </text>
+    </g><g data-runiq-node="nodejs" data-node-id="nodejs" data-node-shape="rounded">
+      <rect x="223.22824020860287" y="532.3019725285171" width="74.39999999999999" height="38.4"
+            rx="8" ry="8" fill="#d1fae5" stroke="#059669" stroke-width="1" />
+      
+      <text x="260.42824020860286" y="551.5019725285172" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Node.js
+    </text>
+    </g><g data-runiq-node="databases" data-node-id="databases" data-node-shape="rounded">
+      <rect x="228.44902414042645" y="244.38523070477822" width="88.8" height="38.4"
+            rx="8" ry="8" fill="#d1fae5" stroke="#059669" stroke-width="1" />
+      
+      <text x="272.8490241404264" y="263.5852307047782" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Databases
+    </text>
+    </g><g data-runiq-node="apis" data-node-id="apis" data-node-shape="rounded">
+      <rect x="452.1712767608799" y="68.3552371712733" width="52.8" height="38.4"
+            rx="8" ry="8" fill="#d1fae5" stroke="#059669" stroke-width="1" />
+      
+      <text x="478.57127676087987" y="87.5552371712733" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      APIs
+    </text>
+    </g><g data-runiq-node="docker" data-node-id="docker" data-node-shape="rounded">
+      <rect x="595.4467519458323" y="51.801444105124745" width="67.19999999999999" height="38.4"
+            rx="8" ry="8" fill="#fef3c7" stroke="#d97706" stroke-width="1" />
+      
+      <text x="629.0467519458323" y="71.00144410512475" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Docker
+    </text>
+    </g><g data-runiq-node="cicd" data-node-id="cicd" data-node-shape="rounded">
+      <rect x="750.0942885654314" y="104.28061421763027" width="60" height="38.4"
+            rx="8" ry="8" fill="#fef3c7" stroke="#d97706" stroke-width="1" />
+      
+      <text x="780.0942885654314" y="123.48061421763028" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      CI/CD
+    </text>
+    </g><g data-runiq-node="cloud" data-node-id="cloud" data-node-shape="rounded">
+      <rect x="887.8694921575703" y="267.23922023399666" width="60" height="38.4"
+            rx="8" ry="8" fill="#fef3c7" stroke="#d97706" stroke-width="1" />
+      
+      <text x="917.8694921575703" y="286.43922023399665" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Cloud
+    </text>
+    </g><g data-runiq-node="react" data-node-id="react" data-node-shape="rounded">
+      <rect x="637.3062814469848" y="907.2646478290021" width="57" height="37.2"
+            rx="8" ry="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1" />
+      
+      <text x="665.8062814469848" y="925.8646478290021" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      React
+    </text>
+    </g><g data-runiq-node="vue" data-node-id="vue" data-node-shape="rounded">
+      <rect x="445.75129246881954" y="897.6549701251275" width="43.8" height="37.2"
+            rx="8" ry="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1" />
+      
+      <text x="467.6512924688195" y="916.2549701251276" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      Vue
+    </text>
+    </g><g data-runiq-node="angular" data-node-id="angular" data-node-shape="rounded">
+      <rect x="231.61819904368178" y="798.8556442270897" width="70.19999999999999" height="37.2"
+            rx="8" ry="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1" />
+      
+      <text x="266.7181990436818" y="817.4556442270897" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      Angular
+    </text>
+    </g><g data-runiq-node="postgres" data-node-id="postgres" data-node-shape="rounded">
+      <rect x="42" y="298.11324907429594" width="90" height="37.2"
+            rx="8" ry="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1" />
+      
+      <text x="87" y="316.71324907429596" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      PostgreSQL
+    </text>
+    </g><g data-runiq-node="mongodb" data-node-id="mongodb" data-node-shape="rounded">
+      <rect x="194.19748352990598" y="42" width="70.19999999999999" height="37.2"
+            rx="8" ry="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1" />
+      
+      <text x="229.29748352990597" y="60.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      MongoDB
+    </text>
+    </g><g data-runiq-node="aws" data-node-id="aws" data-node-shape="rounded">
+      <rect x="986.4555527481673" y="110.7800033719044" width="43.8" height="37.2"
+            rx="8" ry="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1" />
+      
+      <text x="1008.3555527481673" y="129.3800033719044" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      AWS
+    </text>
+    </g><g data-runiq-node="azure" data-node-id="azure" data-node-shape="rounded">
+      <rect x="1058.716025605487" y="293.9963553748417" width="57" height="37.2"
+            rx="8" ry="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1" />
+      
+      <text x="1087.216025605487" y="312.5963553748417" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      Azure
+    </text>
+    </g></svg>

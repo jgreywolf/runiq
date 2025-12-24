@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="466.8" height="818" 
+    viewBox="0 0 466.8 818"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="Library-Book-0" data-edge-id="Library-Book-0" data-edge-from="Library" data-edge-to="Book"><defs>
+      <marker id="arrow-aggregation-Library-Book" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto" markerUnits="strokeWidth">
+        <polygon points="6,0 12,6 6,12 0,6" fill="white" stroke="#48677e" stroke-width="1" />
+      </marker></defs><defs>
+      <marker id="nav-arrow-Library-Book" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+        <polyline points="0,0 6,3 0,6" fill="none" stroke="#48677e" stroke-width="1.5" />
+      </marker></defs><path d="M 171 188 Q 171 396 155.8 604" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 171 188 Q 171 396 155.8 604" fill="none" stroke="#48677e" stroke-width="1" marker-start="url(#arrow-aggregation-Library-Book)" marker-end="url(#nav-arrow-Library-Book)" pointer-events="none" /><text x="171" y="406" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">{ordered}</text><text x="168.72" y="242.4" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1</text><text x="158.08" y="533.5999999999999" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">0..*</text><text x="158.08" y="546.5999999999999" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">catalog</text></g><g data-runiq-edge="Member-Book-1" data-edge-id="Member-Book-1" data-edge-from="Member" data-edge-to="Book"><defs>
+      <marker id="arrow-association-Member-Book" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><defs>
+      <marker id="nav-arrow-Member-Book" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+        <polyline points="0,0 6,3 0,6" fill="none" stroke="#48677e" stroke-width="1.5" />
+      </marker>
+      <marker id="nav-arrow-start-Member-Book" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto">
+        <polyline points="6,0 0,3 6,6" fill="none" stroke="#48677e" stroke-width="1.5" />
+      </marker></defs><path d="M 300.4 484 L 300.4 519 L 193 519 L 155.8 604" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 300.4 484 L 300.4 519 L 193 519 L 155.8 604" fill="none" stroke="#48677e" stroke-width="1" marker-start="url(#nav-arrow-start-Member-Book)" marker-end="url(#arrow-association-Member-Book)" pointer-events="none" /><text x="193" y="529" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">{ordered}</text><text x="278.71" y="494" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">0..*</text><text x="278.71" y="507" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">borrowers</text><text x="177.49" y="578" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">0..5</text><text x="177.49" y="591" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">borrowedBooks</text></g><g data-runiq-edge="Library-Member-2" data-edge-id="Library-Member-2" data-edge-from="Library" data-edge-to="Member"><defs>
+      <marker id="arrow-aggregation-Library-Member" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto" markerUnits="strokeWidth">
+        <polygon points="6,0 12,6 6,12 0,6" fill="white" stroke="#48677e" stroke-width="1" />
+      </marker></defs><defs>
+      <marker id="nav-arrow-Library-Member" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+        <polyline points="0,0 6,3 0,6" fill="none" stroke="#48677e" stroke-width="1.5" />
+      </marker></defs><path d="M 171 188 L 171 223 L 300 223 L 300.4 308" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 171 188 L 171 223 L 300 223 L 300.4 308" fill="none" stroke="#48677e" stroke-width="1" marker-start="url(#arrow-aggregation-Library-Member)" marker-end="url(#nav-arrow-Library-Member)" pointer-events="none" /><text x="300" y="233" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">{unique}</text><text x="190.41" y="198" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1</text><text x="280.99" y="282" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">0..*</text><text x="280.99" y="295" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">members</text></g><g data-runiq-node="Library" data-node-id="Library" data-node-shape="class"><rect x="12" y="12" width="318" height="176" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="171" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Library
+    </text><line x1="12" y1="54" x2="330" y2="54" stroke="#48677e" stroke-width="1"/><text x="24" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + name: String
+    </text><text x="24" y="93" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + address: String
+    </text><text x="24" y="111" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - catalog: List<Book>
+    </text><line x1="12" y1="132" x2="330" y2="132" stroke="#48677e" stroke-width="1"/><text x="24" y="153" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + addBook(book: Book): void
+    </text><text x="24" y="171" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + findBook(isbn: String): Book
+    </text><text x="24" y="189" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + removeBook(isbn: String): boolean
+    </text></g><g data-runiq-node="Book" data-node-id="Book" data-node-shape="class"><rect x="43" y="604" width="225.60000000000002" height="194" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="155.8" y="625" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Book
+    </text><line x1="43" y1="646" x2="268.6" y2="646" stroke="#48677e" stroke-width="1"/><text x="55" y="667" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + isbn: String
+    </text><text x="55" y="685" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + title: String
+    </text><text x="55" y="703" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + author: String
+    </text><text x="55" y="721" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - available: boolean
+    </text><line x1="43" y1="742" x2="268.6" y2="742" stroke="#48677e" stroke-width="1"/><text x="55" y="763" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + checkout(): void
+    </text><text x="55" y="781" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + checkin(): void
+    </text><text x="55" y="799" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + isAvailable(): boolean
+    </text></g><g data-runiq-node="Member" data-node-id="Member" data-node-shape="class"><rect x="154" y="308" width="292.8" height="176" fill="#96bacf" stroke="#48677e" stroke-width="1"/><text x="300.4" y="329" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Member
+    </text><line x1="154" y1="350" x2="446.8" y2="350" stroke="#48677e" stroke-width="1"/><text x="166" y="371" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + memberId: String
+    </text><text x="166" y="389" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + name: String
+    </text><text x="166" y="407" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - borrowedBooks: List<Book>
+    </text><line x1="154" y1="428" x2="446.8" y2="428" stroke="#48677e" stroke-width="1"/><text x="166" y="449" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + borrowBook(book: Book): void
+    </text><text x="166" y="467" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + returnBook(book: Book): void
+    </text><text x="166" y="485" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + getBorrowedBooks(): List<Book>
+    </text></g></svg>

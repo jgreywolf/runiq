@@ -1,18 +1,19 @@
-diagram test_container_fill
+diagram "test_container_fill" {
 
-// Test the new fill property for containers (consistent with shapes)
-container "Backend Services" fill:"#e3f2fd" {
-  shape API
-  shape Database
+  // Test the new fill property for containers (consistent with shapes)
+  container "Backend Services" fillColor:"#e3f2fd" {
+    shape API
+    shape Database
+  }
+
+  // Test that backgroundColor still works (backward compatibility)
+  container "Frontend" fillColor:"#fff3e0" {
+    shape WebApp
+    shape MobileApp
+  }
+
+  // Test that both work the same way
+  API -> Database
+  WebApp -> API
+  MobileApp -> API
 }
-
-// Test that backgroundColor still works (backward compatibility)
-container "Frontend" fillColor:"#fff3e0" {
-  shape WebApp
-  shape MobileApp
-}
-
-// Test that both work the same way
-API -> Database
-WebApp -> API
-MobileApp -> API

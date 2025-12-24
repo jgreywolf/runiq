@@ -23,49 +23,66 @@ diagram "Simple Component Diagram" {
 
 ## Core Concepts
 
-### Components
+-## Best Practices
+-### Interface Design
+-1. **Interface Segregation**: Multiple small, focused interfaces
 
-Components represent modular parts of a system with well-defined interfaces. In Runiq, use `@component` (rendered as `@umlComponent` internally due to grammar constraints).
+- ```runiq
+
+  ```
+- # Good: Separate interfaces
+- shape iRead as @providedInterface label:"IReadUser"
+- shape iWrite as @providedInterface label:"IWriteUser"
+- # Avoid: One large interface with everything
+- ```
+
+  ```
+
+2. **Lollipop and Socket**: Always pair provided with required
 
 ```runiq
-diagram "Component with Interfaces" {
-  shape service as @component label:"Payment Service"
-
-  # Provided interface (lollipop notation)
-  shape iPayment as @providedInterface label:"IPayment"
-
-  # Required interface (socket notation)
-  shape needsDb as @requiredInterface label:"IDatabase"
-
-  service -> iPayment
-  service -> needsDb
-}
+# Provider
+shape dbService as @component label:"DB Service"
+shape provides as @providedInterface label:"IDatabase"
+# Consumer
+shape appService as @component label:"App Service"
+shape requires as @requiredInterface label:"IDatabase"
+# Connect with assembly
+shape conn as @assembly
+provides -> conn -> requires
 ```
 
-**Component Shape**:
-
-- Rectangle with two small rectangles (tabs) on the left side
-- Represents a replaceable, encapsulated unit of functionality
-- Can have multiple provided and required interfaces
-
----
-
-## Interfaces
-
-### Provided Interfaces (Lollipop Notation)
-
-Interfaces that a component exposes to others. Rendered as a circle on a line (lollipop).
+3. **Explicit Connectors**: Use `@assembly` to show interface wiring
 
 ```runiq
-diagram "Provided Interface Example" {
-  shape authService as @component label:"Auth Service"
-  shape iAuth as @providedInterface label:"IAuthentication"
-  shape iAuthorization as @providedInterface label:"IAuthorization"
+shape connector as @assembly
+providedInterface -> connector
+connector -> requiredInterface
+```
 
+### Component Organization
+
+1. **Layering**: Group components by architectural layer
+
+- Presentation Layer: UI components
+- Business Logic: Service components with business rules
+- Data Access: Repository, DAO components
+
+2. **Cohesion**: Keep related functionality together
+
+- High cohesion within components
+- Loose coupling between components
+
+3. **Naming**: Use clear, descriptive names
+
+- Components: `UserService`, `OrderRepository`
+- Interfaces: Prefix with `I` (e.g., `IUserService`)
+- Ports: Include protocol or purpose (e.g., `HTTP 8080`)
   authService -> iAuth
   authService -> iAuthorization
-}
-```
+  }
+
+````
 
 **Provided Interface**:
 
@@ -86,7 +103,7 @@ diagram "Required Interface Example" {
   webApp -> needsAuth
   webApp -> needsDb
 }
-```
+````
 
 **Required Interface**:
 
@@ -720,5 +737,5 @@ diagram "Deployment Topology" {
 ## Related Resources
 
 - [UML 2.5 Specification](https://www.omg.org/spec/UML/) - Official component diagram notation
-- [C4 Architecture](/guide/c4-architecture) - Context, Container, Component, Code
-- [Class Diagrams](/guide/class-diagrams) - Detailed class-level design
+- [C4 Architecture](/guide/diagram-types/c4-architecture) - Context, Container, Component, Code
+- [Class Diagrams](/guide/diagram-types/class-diagrams) - Detailed class-level design

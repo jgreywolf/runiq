@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1019.2" height="1232" 
+    viewBox="0 0 1019.2 1232"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="initial-idle-0" data-edge-id="initial-idle-0" data-edge-from="initial" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-initial-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 310 790 L 310 850 L 763 850 L 819.8 910" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 310 790 L 310 850 L 763 850 L 819.8 910" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-initial-idle)" pointer-events="none" /></g><g data-runiq-edge="idle-selecting-1" data-edge-id="idle-selecting-1" data-edge-from="idle" data-edge-to="selecting"><defs>
+      <marker id="arrow-standard-idle-selecting" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 932.6 955.5 L 904 955.5 L 904 524.5 L 904 295.5 L 834 121" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 932.6 955.5 L 904 955.5 L 904 524.5 L 904 295.5 L 834 121" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-selecting)" pointer-events="none" /><text x="904" y="524.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">selectButton</text></g><g data-runiq-edge="selecting-processing-2" data-edge-id="selecting-processing-2" data-edge-from="selecting" data-edge-to="processing"><defs>
+      <marker id="arrow-standard-selecting-processing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 834 121 L 834 156 L 180 156 L 179.60000000000002 241" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 834 121 L 834 156 L 180 156 L 179.60000000000002 241" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-selecting-processing)" pointer-events="none" /><text x="180" y="156" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">confirmSelection</text></g><g data-runiq-edge="selecting-outOfStock-3" data-edge-id="selecting-outOfStock-3" data-edge-from="selecting" data-edge-to="outOfStock"><defs>
+      <marker id="arrow-standard-selecting-outOfStock" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 834 121 L 834 181 L 616 181 L 616.2 250" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 834 121 L 834 181 L 616 181 L 616.2 250" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-selecting-outOfStock)" pointer-events="none" /><text x="616" y="181" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[productUnavailable]</text></g><g data-runiq-edge="selecting-idle-4" data-edge-id="selecting-idle-4" data-edge-from="selecting" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-selecting-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 834 121 L 834 156 L 878 156 L 878 295.5 L 878 524.5 L 878 744.5 L 878 825 L 876 825 L 819.8 910" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 834 121 L 834 156 L 878 156 L 878 295.5 L 878 524.5 L 878 744.5 L 878 825 L 876 825 L 819.8 910" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-selecting-idle)" pointer-events="none" /><text x="878" y="524.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cancel</text></g><g data-runiq-edge="processing-dispensing-5" data-edge-id="processing-dispensing-5" data-edge-from="processing" data-edge-to="dispensing"><defs>
+      <marker id="arrow-standard-processing-dispensing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 179.60000000000002 350 L 179.60000000000002 385 L 205 385 L 204.6 470" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 179.60000000000002 350 L 179.60000000000002 385 L 205 385 L 204.6 470" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-dispensing)" pointer-events="none" /><text x="205" y="385" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[paymentSuccess]</text></g><g data-runiq-edge="processing-paymentFailed-6" data-edge-id="processing-paymentFailed-6" data-edge-from="processing" data-edge-to="paymentFailed"><defs>
+      <marker id="arrow-standard-processing-paymentFailed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 179.60000000000002 350 L 179.60000000000002 410 L 645 410 L 645.4 470" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 179.60000000000002 350 L 179.60000000000002 410 L 645 410 L 645.4 470" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-paymentFailed)" pointer-events="none" /><text x="645" y="410" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[paymentFailed]</text></g><g data-runiq-edge="dispensing-idle-7" data-edge-id="dispensing-idle-7" data-edge-from="dispensing" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-dispensing-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 204.6 579 L 204.6 744.5 L 140 875 L 735 875 L 707 955.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 204.6 579 L 204.6 744.5 L 140 875 L 735 875 L 707 955.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dispensing-idle)" pointer-events="none" /><text x="140" y="875" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[success]</text></g><g data-runiq-edge="dispensing-dispenseFailed-8" data-edge-id="dispensing-dispenseFailed-8" data-edge-from="dispensing" data-edge-to="dispenseFailed"><defs>
+      <marker id="arrow-standard-dispensing-dispenseFailed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 204.6 579 L 204.6 614 L 592 614 L 591.6 699" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 204.6 579 L 204.6 614 L 592 614 L 591.6 699" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dispensing-dispenseFailed)" pointer-events="none" /><text x="592" y="614" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[mechanicalError]</text></g><g data-runiq-edge="outOfStock-idle-9" data-edge-id="outOfStock-idle-9" data-edge-from="outOfStock" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-outOfStock-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 616.2 341 L 616.2 385 L 848 385 L 848 524.5 L 848 744.5 L 819.8 910" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 616.2 341 L 616.2 385 L 848 385 L 848 524.5 L 848 744.5 L 819.8 910" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-outOfStock-idle)" pointer-events="none" /><text x="848" y="524.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timeout</text></g><g data-runiq-edge="paymentFailed-idle-10" data-edge-id="paymentFailed-idle-10" data-edge-from="paymentFailed" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-paymentFailed-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 645.4 579 L 645.4 614 L 820 614 L 820 744.5 L 819.8 910" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 645.4 579 L 645.4 614 L 820 614 L 820 744.5 L 819.8 910" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paymentFailed-idle)" pointer-events="none" /><text x="820" y="614" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timeout</text></g><g data-runiq-edge="dispenseFailed-idle-11" data-edge-id="dispenseFailed-idle-11" data-edge-from="dispenseFailed" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-dispenseFailed-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 591.6 790 L 591.6 825 L 792 825 L 819.8 910" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 591.6 790 L 591.6 825 L 792 825 L 819.8 910" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dispenseFailed-idle)" pointer-events="none" /><text x="792" y="825" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">acknowledged</text></g><g data-runiq-edge="idle-maintenance-12" data-edge-id="idle-maintenance-12" data-edge-from="idle" data-edge-to="maintenance"><defs>
+      <marker id="arrow-standard-idle-maintenance" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 819.8 1001 L 819.8 1036 L 714 1036 L 785.6 1121" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 819.8 1001 L 819.8 1036 L 714 1036 L 785.6 1121" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-maintenance)" pointer-events="none" /><text x="714" y="1036" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">maintenanceKey</text></g><g data-runiq-edge="maintenance-idle-13" data-edge-id="maintenance-idle-13" data-edge-from="maintenance" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-maintenance-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 785.6 1121 L 785.6 1061 L 819.8 1061 L 819.8 1001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 785.6 1121 L 785.6 1061 L 819.8 1061 L 819.8 1001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-maintenance-idle)" pointer-events="none" /><text x="819.8" y="1061" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">exitMaintenance</text></g><g data-runiq-node="initial" data-node-id="initial" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="310" cy="781" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="idle" data-node-id="idle" data-node-shape="state"><g class="state-shape"><rect x="707" y="910" width="225.60000000000002" height="91" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="819.8" y="934.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Idle
+    </text><line x1="719" y1="943.6" x2="920.6" y2="943.6" stroke="#48677e" stroke-width="1" /><text x="719" y="964.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / displayWelcome()
+    </text><text x="719" y="982.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / showAdvertisement()
+    </text></g></g><g data-runiq-node="selecting" data-node-id="selecting" data-node-shape="state"><g class="state-shape"><rect x="717" y="12" width="234" height="109" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="834" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Selecting Product
+    </text><line x1="729" y1="45.6" x2="939" y2="45.6" stroke="#48677e" stroke-width="1" /><text x="729" y="66.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / enableSelection()
+    </text><text x="729" y="84.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / highlightAvailable()
+    </text><text x="729" y="102.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / disableSelection()
+    </text></g></g><g data-runiq-node="processing" data-node-id="processing" data-node-shape="state"><g class="state-shape"><rect x="50" y="241" width="259.20000000000005" height="109" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="179.60000000000002" y="265.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Processing Payment
+    </text><line x1="62" y1="274.6" x2="297.20000000000005" y2="274.6" stroke="#48677e" stroke-width="1" /><text x="62" y="295.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / validateCard()
+    </text><text x="62" y="313.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / contactPaymentGateway()
+    </text><text x="62" y="331.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / finalizeTransaction()
+    </text></g></g><g data-runiq-node="dispensing" data-node-id="dispensing" data-node-shape="state"><g class="state-shape"><rect x="12" y="470" width="385.2" height="109" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="204.6" y="494.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Dispensing
+    </text><line x1="24" y1="503.6" x2="385.2" y2="503.6" stroke="#48677e" stroke-width="1" /><text x="24" y="524.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / openDispenser() ; releaseProduct()
+    </text><text x="24" y="542.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / checkDispenseComplete()
+    </text><text x="24" y="560.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / closeDispenser() ; updateInventory()
+    </text></g></g><g data-runiq-node="outOfStock" data-node-id="outOfStock" data-node-shape="state"><g class="state-shape"><rect x="390" y="250" width="452.40000000000003" height="91" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="616.2" y="274.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Out of Stock
+    </text><line x1="402" y1="283.6" x2="830.4000000000001" y2="283.6" stroke="#48677e" stroke-width="1" /><text x="402" y="304.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / displayOutOfStock() ; suggestAlternatives()
+    </text><text x="402" y="322.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / clearDisplay()
+    </text></g></g><g data-runiq-node="paymentFailed" data-node-id="paymentFailed" data-node-shape="state"><g class="state-shape"><rect x="478" y="470" width="334.8" height="109" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="645.4" y="494.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Payment Failed
+    </text><line x1="490" y1="503.6" x2="800.8" y2="503.6" stroke="#48677e" stroke-width="1" /><text x="490" y="524.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / displayError() ; returnCard()
+    </text><text x="490" y="542.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / waitForCustomerAction()
+    </text><text x="490" y="560.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / resetPayment()
+    </text></g></g><g data-runiq-node="dispenseFailed" data-node-id="dispenseFailed" data-node-shape="state"><g class="state-shape"><rect x="399" y="699" width="385.2" height="91" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="591.6" y="723.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Dispense Failed
+    </text><line x1="411" y1="732.6" x2="772.2" y2="732.6" stroke="#48677e" stroke-width="1" /><text x="411" y="753.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / displayApology() ; initiateRefund()
+    </text><text x="411" y="771.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / notifyMaintenance()
+    </text></g></g><g data-runiq-node="maintenance" data-node-id="maintenance" data-node-shape="state"><g class="state-shape"><rect x="572" y="1121" width="427.20000000000005" height="91" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="785.6" y="1145.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Maintenance Mode
+    </text><line x1="584" y1="1154.6" x2="987.2" y2="1154.6" stroke="#48677e" stroke-width="1" /><text x="584" y="1175.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / lockAllControls() ; displayMaintenance()
+    </text><text x="584" y="1193.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / unlockControls()
+    </text></g></g></svg>

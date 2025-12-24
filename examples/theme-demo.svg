@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="159.8" height="1153.3999999999999" 
+    viewBox="0 0 159.8 1153.3999999999999"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="user-web-0" data-edge-id="user-web-0" data-edge-from="user" data-edge-to="web"><defs>
+      <marker id="arrow-standard-user-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#0582CA" />
+      </marker></defs><path d="M 75 909.1999999999999 L 65.7 909.1999999999999 L 65.7 1133.3999999999999 L 56.400000000000006 1133.3999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 75 909.1999999999999 L 65.7 909.1999999999999 L 65.7 1133.3999999999999 L 56.400000000000006 1133.3999999999999" fill="none" stroke="#0582CA" stroke-width="1" marker-end="url(#arrow-standard-user-web)" pointer-events="none" /><text x="65.7" y="1133.3999999999999" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">requests</text></g><g data-runiq-edge="web-api-1" data-edge-id="web-api-1" data-edge-from="web" data-edge-to="api"><defs>
+      <marker id="arrow-standard-web-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#0582CA" />
+      </marker></defs><path d="M 56.400000000000006 1133.3999999999999 L 56.400000000000006 689.1999999999999 L 76.2 689.1999999999999 L 76.2 245" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 56.400000000000006 1133.3999999999999 L 56.400000000000006 689.1999999999999 L 76.2 689.1999999999999 L 76.2 245" fill="none" stroke="#0582CA" stroke-width="1" marker-end="url(#arrow-standard-web-api)" pointer-events="none" /><text x="76.2" y="689.1999999999999" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">calls</text></g><g data-runiq-edge="api-auth-2" data-edge-id="api-auth-2" data-edge-from="api" data-edge-to="auth"><defs>
+      <marker id="arrow-standard-api-auth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#0582CA" />
+      </marker></defs><path d="M 76.2 245 L 76.2 465 L 77.4 465 L 77.4 685" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 76.2 245 L 76.2 465 L 77.4 465 L 77.4 685" fill="none" stroke="#0582CA" stroke-width="1" marker-end="url(#arrow-standard-api-auth)" pointer-events="none" /></g><g data-runiq-edge="api-db-3" data-edge-id="api-db-3" data-edge-from="api" data-edge-to="db"><defs>
+      <marker id="arrow-standard-api-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#0582CA" />
+      </marker></defs><path d="M 76.2 245 L 76.2 356 L 60.6 356 L 60.6 467" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 76.2 245 L 76.2 356 L 60.6 356 L 60.6 467" fill="none" stroke="#0582CA" stroke-width="1" marker-end="url(#arrow-standard-api-db)" pointer-events="none" /></g><g data-runiq-edge="api-cache-4" data-edge-id="api-cache-4" data-edge-from="api" data-edge-to="cache"><defs>
+      <marker id="arrow-standard-api-cache" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#0582CA" />
+      </marker></defs><path d="M 76.2 245 L 76.2 136 L 73.2 136 L 73.2 27" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 76.2 245 L 76.2 136 L 73.2 136 L 73.2 27" fill="none" stroke="#0582CA" stroke-width="1" marker-end="url(#arrow-standard-api-cache)" pointer-events="none" /></g><g data-runiq-edge="auth-db-5" data-edge-id="auth-db-5" data-edge-from="auth" data-edge-to="db"><defs>
+      <marker id="arrow-standard-auth-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#0582CA" />
+      </marker></defs><path d="M 77.4 685 L 77.4 576 L 60.6 576 L 60.6 467" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 77.4 685 L 77.4 576 L 60.6 576 L 60.6 467" fill="none" stroke="#0582CA" stroke-width="1" marker-end="url(#arrow-standard-auth-db)" pointer-events="none" /></g><g data-runiq-node="user" data-node-id="user" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="45" cy="890.8" r="15" 
+              fill="#006BA6" stroke="#0582CA" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="20" y="910.8" width="50" height="26.799999999999997"
+            rx="5" fill="#006BA6" stroke="#0582CA" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="45" y="924.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      User
+    </text>
+    </g><g data-runiq-node="web" data-node-id="web" data-node-shape="rounded">
+      <rect x="15" y="1092.6" width="82.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#0496FF" stroke="#0582CA" stroke-width="1" />
+      
+      <text x="56.400000000000006" y="1113" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web App
+    </text>
+    </g><g data-runiq-node="api" data-node-id="api" data-node-shape="hexagon">
+      <polygon points="33.36,245 119.04,245 137.4,275 119.04,305 33.36,305 15,275" 
+               fill="#0582CA" stroke="#0582CA" stroke-width="1" />
+      
+      <text x="76.2" y="275" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      API Gateway
+    </text>
+    </g><g data-runiq-node="auth" data-node-id="auth" data-node-shape="rounded">
+      <rect x="15" y="685" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#003554" stroke="#0582CA" stroke-width="1" />
+      
+      <text x="77.4" y="705.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Auth Service
+    </text>
+    </g><g data-runiq-node="db" data-node-id="db" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="60.6" cy="467" rx="45.6" ry="12" 
+                 fill="#051923" stroke="#0582CA" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="15" y="467" width="91.2" height="56" 
+              fill="#051923" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="15" y1="467" x2="15" y2="523" 
+              stroke="#0582CA" stroke-width="1" />
+        <line x1="106.2" y1="467" x2="106.2" y2="523" 
+              stroke="#0582CA" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 15,523 Q 60.6,547 106.2,523"
+              fill="none" stroke="#0582CA" stroke-width="1" />
+        
+        <text x="60.6" y="495" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Database
+    </text>
+      </g>
+    </g><g data-runiq-node="cache" data-node-id="cache" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="73.2" cy="27" rx="58.2" ry="12" 
+                 fill="#006BA6" stroke="#0582CA" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="15" y="27" width="116.4" height="56" 
+              fill="#006BA6" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="15" y1="27" x2="15" y2="83" 
+              stroke="#0582CA" stroke-width="1" />
+        <line x1="131.4" y1="27" x2="131.4" y2="83" 
+              stroke="#0582CA" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 15,83 Q 73.2,107 131.4,83"
+              fill="none" stroke="#0582CA" stroke-width="1" />
+        
+        <text x="73.2" y="55" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Redis Cache
+    </text>
+      </g>
+    </g></svg>

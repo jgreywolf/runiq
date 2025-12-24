@@ -69,8 +69,8 @@ features:
 diagram "Auth Flow"
 direction LR
 
-style default fill:#f7f7ff strokeColor:#444
-style decision fill:#fff7e6 strokeColor:#aa7700
+style default fillColor:#f7f7ff strokeColor:#444
+style decision fillColor:#fff7e6 strokeColor:#aa7700
 
 shape User     as @actor   label:"Visitor"
 shape Landing  as @rounded label:"Landing Page"
@@ -136,7 +136,7 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 - [GitHub Repository](https://github.com/jgreywolf/runiq)
 - [Report Issues](https://github.com/jgreywolf/runiq/issues)
 - [Contribute](https://github.com/jgreywolf/runiq/pulls)
-- [Discussions](https://github.com/jgreywolf/runiq/discussions)
+- [Discussions](https://github.com/jgreywolf/runiq/issues)
 
 ---
 

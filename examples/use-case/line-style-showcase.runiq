@@ -5,27 +5,27 @@ diagram "Line Style and Arrow Type Showcase" {
   shape b as @rounded label:"Dashed + Standard"
   shape c as @rounded label:"Dotted + Standard"
   shape d as @rounded label:"Solid + Hollow"
-  shape e as @rounded label:"Dashed + Hollow"
+  shape ef as @rounded label:"Dashed + Hollow"
   shape f as @rounded label:"Solid + Open"
   shape g as @rounded label:"Dashed + Open"
   shape h as @rounded label:"Solid + None"
   shape i as @rounded label:"Dashed + None"
   
   // Solid lines
-  a -> b lineStyle:solid arrowType:standard
+  a -> b lineStyle:"solid" arrowType:standard
   b -> c lineStyle:"dashed" arrowType:standard
-  c -> d lineStyle:dotted arrowType:standard
+  c -> d lineStyle:"dotted" arrowType:standard
   
   // Hollow arrows (inheritance/generalization)
-  d -> e lineStyle:solid arrowType:hollow
-  e -> f lineStyle:"dashed" arrowType:hollow
+  d -> ef lineStyle:"solid" arrowType:hollow
+  ef -> f lineStyle:"dashed" arrowType:hollow
   
   // Open arrows (dependency)
-  f -> g lineStyle:solid arrowType:open
+  f -> g lineStyle:"solid" arrowType:open
   g -> h lineStyle:"dashed" arrowType:open
   
   // No arrows (bidirectional or undirected)
-  h -> i lineStyle:solid arrowType:none
+  h -> i lineStyle:"solid" arrowType:none
   i -> a lineStyle:"dashed" arrowType:none
   
   // With edge labels (stereotypes shown as labels)

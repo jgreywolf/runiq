@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="387" height="874" 
+    viewBox="0 0 387 874"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="start-readOrder-0" data-edge-id="start-readOrder-0" data-edge-from="start" data-edge-to="readOrder"><defs>
+      <marker id="arrow-standard-start-readOrder" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 119 30 L 119 90 L 119 90 L 119 150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 119 30 L 119 90 L 119 90 L 119 150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-readOrder)" pointer-events="none" /></g><g data-runiq-edge="readOrder-validateOrder-1" data-edge-id="readOrder-validateOrder-1" data-edge-from="readOrder" data-edge-to="validateOrder"><defs>
+      <marker id="arrow-standard-readOrder-validateOrder" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 119 200 L 119 260 L 118.80000000000001 260 L 118.80000000000001 320" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 119 200 L 119 260 L 118.80000000000001 260 L 118.80000000000001 320" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-readOrder-validateOrder)" pointer-events="none" /></g><g data-runiq-edge="validateOrder-processPayment-2" data-edge-id="validateOrder-processPayment-2" data-edge-from="validateOrder" data-edge-to="processPayment"><defs>
+      <marker id="arrow-standard-validateOrder-processPayment" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 118.80000000000001 370 L 118.80000000000001 430 L 95 430 L 95 490" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 118.80000000000001 370 L 118.80000000000001 430 L 95 430 L 95 490" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validateOrder-processPayment)" pointer-events="none" /><text x="95" y="430" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[valid]</text></g><g data-runiq-edge="validateOrder-logErrors-3" data-edge-id="validateOrder-logErrors-3" data-edge-from="validateOrder" data-edge-to="logErrors"><defs>
+      <marker id="arrow-standard-validateOrder-logErrors" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 118.80000000000001 370 L 118.80000000000001 405 L 205 405 L 205 515 L 205 575 L 313 575 L 313 660" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 118.80000000000001 370 L 118.80000000000001 405 L 205 405 L 205 515 L 205 575 L 313 575 L 313 660" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validateOrder-logErrors)" pointer-events="none" /><text x="205" y="515" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[invalid]</text></g><g data-runiq-edge="processPayment-sendConfirmation-4" data-edge-id="processPayment-sendConfirmation-4" data-edge-from="processPayment" data-edge-to="sendConfirmation"><defs>
+      <marker id="arrow-standard-processPayment-sendConfirmation" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 95 540 L 95 600 L 95.4 600 L 95.4 660" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 95 540 L 95 600 L 95.4 600 L 95.4 660" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processPayment-sendConfirmation)" pointer-events="none" /></g><g data-runiq-edge="sendConfirmation-end-5" data-edge-id="sendConfirmation-end-5" data-edge-from="sendConfirmation" data-edge-to="end"><defs>
+      <marker id="arrow-standard-sendConfirmation-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 95.4 710 L 95.4 770 L 99 770 L 99 830" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 95.4 710 L 95.4 770 L 99 770 L 99 830" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendConfirmation-end)" pointer-events="none" /></g><g data-runiq-edge="logErrors-end-6" data-edge-id="logErrors-end-6" data-edge-from="logErrors" data-edge-to="end"><defs>
+      <marker id="arrow-standard-logErrors-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 313 710 L 313 745 L 103 745 L 99 830" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 313 710 L 313 745 L 103 745 L 99 830" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-logErrors-end)" pointer-events="none" /></g><g data-runiq-node="start" data-node-id="start" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="119" cy="21" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="readOrder" data-node-id="readOrder" data-node-shape="activity"><g class="activity-shape"><rect x="65" y="150" width="108" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><rect x="168" y="161.66666666666666" width="10" height="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="182" y="169.66666666666666" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#48677e">order</text><rect x="168" y="178.33333333333334" width="10" height="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="182" y="186.33333333333334" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#48677e">customer</text><text x="119" y="175" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Read Order
+    </text></g></g><g data-runiq-node="validateOrder" data-node-id="validateOrder" data-node-shape="activity"><g class="activity-shape"><rect x="48" y="320" width="141.60000000000002" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><rect x="43" y="340" width="10" height="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="39" y="348" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#48677e">order</text><rect x="184.60000000000002" y="331.6666666666667" width="10" height="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="198.60000000000002" y="339.6666666666667" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#48677e">validOrder</text><rect x="184.60000000000002" y="348.3333333333333" width="10" height="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="198.60000000000002" y="356.3333333333333" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#48677e">errors</text><text x="118.80000000000001" y="345" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validate Order
+    </text></g></g><g data-runiq-node="processPayment" data-node-id="processPayment" data-node-shape="activity"><g class="activity-shape"><rect x="20" y="490" width="150" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><rect x="15" y="501.6666666666667" width="10" height="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="11" y="509.6666666666667" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#48677e">validOrder</text><rect x="15" y="518.3333333333334" width="10" height="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="11" y="526.3333333333334" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#48677e">customer</text><rect x="165" y="501.6666666666667" width="10" height="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="179" y="509.6666666666667" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#48677e">receipt</text><rect x="165" y="518.3333333333334" width="10" height="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="179" y="526.3333333333334" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#48677e">status</text><text x="95" y="515" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Process Payment
+    </text></g></g><g data-runiq-node="sendConfirmation" data-node-id="sendConfirmation" data-node-shape="activity"><g class="activity-shape"><rect x="12" y="660" width="166.8" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><rect x="7" y="671.6666666666666" width="10" height="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="3" y="679.6666666666666" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#48677e">receipt</text><rect x="7" y="688.3333333333334" width="10" height="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="3" y="696.3333333333334" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#48677e">customer</text><rect x="173.8" y="680" width="10" height="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="187.8" y="688" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#48677e">email</text><text x="95.4" y="685" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Confirmation
+    </text></g></g><g data-runiq-node="logErrors" data-node-id="logErrors" data-node-shape="activity"><g class="activity-shape"><rect x="259" y="660" width="108" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><rect x="254" y="680" width="10" height="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="250" y="688" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#48677e">errors</text><text x="313" y="685" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Log Errors
+    </text></g></g><g data-runiq-node="end" data-node-id="end" data-node-shape="activityFinal"><g class="activity-final-shape"><circle cx="99" cy="842" r="10.5" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="99" cy="842" r="5.25" fill="#48677e" /></g></g></svg>

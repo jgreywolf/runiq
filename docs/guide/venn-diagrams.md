@@ -341,5 +341,5 @@ See the [Venn Diagram Examples](/examples/venn-diagrams) page for more complete 
 ## Next Steps
 
 - Explore [Pyramid Diagrams](/guide/pyramid-diagrams) for hierarchical data
-- Learn about [Data Flow Diagrams](/guide/dfd-diagrams) for process visualization
+- Learn about [Data Flow Diagrams](/guide/diagram-types/dfd-diagrams) for process visualization
 - Check the [DSL Reference](/reference/dsl) for complete syntax details

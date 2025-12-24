@@ -1,8 +1,8 @@
 diagram "Auth Flow" {
   direction LR
 
-  style default fill: "#f7f7ff" strokeColor: "#444" font: "Inter" fontSize: 14
-  style decision fill: "#fff7e6" strokeColor: "#aa7700"
+  style default fillColor: "#f7f7ff" strokeColor: "#444" font: "Inter" fontSize: 14
+  style decision fillColor: "#fff7e6" strokeColor: "#aa7700"
   style link strokeColor: "#2a6fdb" strokeWidth: 2
 
   shape User     as @actor   label:"Visitor" icon:fa/user

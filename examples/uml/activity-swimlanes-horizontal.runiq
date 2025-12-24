@@ -6,7 +6,7 @@ diagram "Purchase Order Process" {
   direction LR
   
   // Customer swimlane - horizontal flow
-  container "Customer" orientation: horizontal fill: "#e3f2fd" padding: 20 {
+  container "Customer" orientation: horizontal fillColor: "#e3f2fd" padding: 20 {
     shape c1 as @initialState
     shape c2 as @activity label: "Submit\nOrder"
     shape c3 as @diamond
@@ -15,7 +15,7 @@ diagram "Purchase Order Process" {
   }
   
   // Sales Department swimlane - horizontal flow
-  container "Sales Department" orientation: horizontal fill: "#fff3e0" padding: 20 {
+  container "Sales Department" orientation: horizontal fillColor: "#fff3e0" padding: 20 {
     shape s1 as @activity label: "Review\nOrder"
     shape s2 as @activity label: "Check\nInventory"
     shape s3 as @activity label: "Approve\nOrder"
@@ -23,7 +23,7 @@ diagram "Purchase Order Process" {
   }
   
   // Warehouse swimlane - horizontal flow
-  container "Warehouse" orientation: horizontal fill: "#e8f5e9" padding: 20 {
+  container "Warehouse" orientation: horizontal fillColor: "#e8f5e9" padding: 20 {
     shape w1 as @activity label: "Pick\nItems"
     shape w2 as @activity label: "Pack\nOrder"
     shape w3 as @activity label: "Ship\nGoods"

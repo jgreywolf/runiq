@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="452" height="592" 
+    viewBox="0 0 452 592"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="alternatingProcess" data-node-id="alternatingProcess" data-node-shape="alternatingProcess">
+        <rect x="12" y="12" 
+              width="160" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="92" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Sprint Planning
+    </text>
+          <defs>
+            <marker id="arrowhead-alt-0" markerWidth="10" markerHeight="10" 
+                    refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#48677e" />
+            </marker>
+          </defs>
+          
+          <path d="M 92 72 
+                   Q 92 92, 352 92
+                   Q 352 92, 352 112"
+                fill="none" stroke="#48677e" stroke-width="2"
+                marker-end="url(#arrowhead-alt-0)" />
+        
+        <rect x="272" y="112" 
+              width="160" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="352" y="142" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Development
+    </text>
+          <defs>
+            <marker id="arrowhead-alt-1" markerWidth="10" markerHeight="10" 
+                    refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#48677e" />
+            </marker>
+          </defs>
+          
+          <path d="M 352 172 
+                   Q 352 192, 92 192
+                   Q 92 192, 92 212"
+                fill="none" stroke="#48677e" stroke-width="2"
+                marker-end="url(#arrowhead-alt-1)" />
+        
+        <rect x="12" y="212" 
+              width="160" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="92" y="242" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Code Review
+    </text>
+          <defs>
+            <marker id="arrowhead-alt-2" markerWidth="10" markerHeight="10" 
+                    refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#48677e" />
+            </marker>
+          </defs>
+          
+          <path d="M 92 272 
+                   Q 92 292, 352 292
+                   Q 352 292, 352 312"
+                fill="none" stroke="#48677e" stroke-width="2"
+                marker-end="url(#arrowhead-alt-2)" />
+        
+        <rect x="272" y="312" 
+              width="160" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="352" y="342" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Testing
+    </text>
+          <defs>
+            <marker id="arrowhead-alt-3" markerWidth="10" markerHeight="10" 
+                    refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#48677e" />
+            </marker>
+          </defs>
+          
+          <path d="M 352 372 
+                   Q 352 392, 92 392
+                   Q 92 392, 92 412"
+                fill="none" stroke="#48677e" stroke-width="2"
+                marker-end="url(#arrowhead-alt-3)" />
+        
+        <rect x="12" y="412" 
+              width="160" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="92" y="442" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Deployment
+    </text>
+          <defs>
+            <marker id="arrowhead-alt-4" markerWidth="10" markerHeight="10" 
+                    refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#48677e" />
+            </marker>
+          </defs>
+          
+          <path d="M 92 472 
+                   Q 92 492, 352 492
+                   Q 352 492, 352 512"
+                fill="none" stroke="#48677e" stroke-width="2"
+                marker-end="url(#arrowhead-alt-4)" />
+        
+        <rect x="272" y="512" 
+              width="160" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="352" y="542" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Retrospective
+    </text></g></svg>

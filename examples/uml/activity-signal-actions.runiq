@@ -1,39 +1,40 @@
 # Activity Diagram: Signal Actions
 # Demonstrates asynchronous communication using signal shapes
+diagram "Activity Diagram: Signal Actions" {
+  # Send signal actions (convex pentagon pointing right)
+  shape emailService as @sendSignal label:"Send Email"
+  shape notificationService as @sendSignal label:"Send Push Notification"
+  shape smsService as @sendSignal label:"Send SMS"
 
-# Send signal actions (convex pentagon pointing right)
-shape emailService as @sendSignal label:"Send Email"
-shape notificationService as @sendSignal label:"Send Push Notification"
-shape smsService as @sendSignal label:"Send SMS"
+  # Receive signal actions (concave pentagon with left notch)
+  shape receiveEmail as @receiveSignal label:"Email Received"
+  shape receivePush as @receiveSignal label:"Notification Received"
+  shape receiveSMS as @receiveSignal label:"SMS Received"
 
-# Receive signal actions (concave pentagon with left notch)
-shape receiveEmail as @receiveSignal label:"Email Received"
-shape receivePush as @receiveSignal label:"Notification Received"
-shape receiveSMS as @receiveSignal label:"SMS Received"
+  # Accept event actions (wait for any event)
+  shape waitResponse as @acceptEvent label:"Wait for Response"
+  shape waitConfirmation as @acceptEvent label:"Wait for Confirmation"
 
-# Accept event actions (wait for any event)
-shape waitResponse as @acceptEvent label:"Wait for Response"
-shape waitConfirmation as @acceptEvent label:"Wait for Confirmation"
+  # Activity actions
+  shape processRequest as @activity label:"Process Request"
+  shape validateResponse as @activity label:"Validate Response"
+  shape logEvent as @activity label:"Log Event"
 
-# Activity actions
-shape processRequest as @activity label:"Process Request"
-shape validateResponse as @activity label:"Validate Response"
-shape logEvent as @activity label:"Log Event"
+  # Flow showing asynchronous communication pattern
+  processRequest -> emailService flowType:"control"
+  emailService -> receiveEmail flowType:"control"
+  receiveEmail -> waitResponse flowType:"control"
+  waitResponse -> validateResponse flowType:"control"
 
-# Flow showing asynchronous communication pattern
-processRequest -> emailService flowType:control
-emailService -> receiveEmail flowType:control
-receiveEmail -> waitResponse flowType:control
-waitResponse -> validateResponse flowType:control
+  # Parallel notification flows
+  processRequest -> notificationService flowType:"control"
+  processRequest -> smsService flowType:"control"
+  notificationService -> receivePush flowType:"control"
+  smsService -> receiveSMS flowType:"control"
 
-# Parallel notification flows
-processRequest -> notificationService flowType:control
-processRequest -> smsService flowType:control
-notificationService -> receivePush flowType:control
-smsService -> receiveSMS flowType:control
-
-# Convergence
-validateResponse -> waitConfirmation flowType:control
-receivePush -> waitConfirmation flowType:control
-receiveSMS -> waitConfirmation flowType:control
-waitConfirmation -> logEvent flowType:control
+  # Convergence
+  validateResponse -> waitConfirmation flowType:"control"
+  receivePush -> waitConfirmation flowType:"control"
+  receiveSMS -> waitConfirmation flowType:"control"
+  waitConfirmation -> logEvent flowType:"control"
+}

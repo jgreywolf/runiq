@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1559.8" height="967" 
+    viewBox="0 0 1559.8 967"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="initial-draft-0" data-edge-id="initial-draft-0" data-edge-from="initial" data-edge-to="draft"><defs>
+      <marker id="arrow-standard-initial-draft" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1513 121 L 1513 156 L 1446 156 L 1351.4 241" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1513 121 L 1513 156 L 1446 156 L 1351.4 241" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-initial-draft)" pointer-events="none" /></g><g data-runiq-edge="draft-validating-1" data-edge-id="draft-validating-1" data-edge-from="draft" data-edge-to="validating"><defs>
+      <marker id="arrow-standard-draft-validating" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1351.4 241 L 1351.4 156 L 1325 156 L 1423.4 66.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1351.4 241 L 1351.4 156 L 1325 156 L 1423.4 66.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-draft-validating)" pointer-events="none" /><text x="1325" y="156" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">submit [itemCount &gt; 0 &amp;&amp; customerVerified &amp;&amp; !processingLocked] / lockEditing(); logSubmission()</text></g><g data-runiq-edge="draft-failed-2" data-edge-id="draft-failed-2" data-edge-from="draft" data-edge-to="failed"><defs>
+      <marker id="arrow-standard-draft-failed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1351.4 314 L 1351.4 349 L 1215 349 L 1215 488.5 L 1215 708.5 L 1215 789 L 1194 789 L 1124.2 874" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1351.4 314 L 1351.4 349 L 1215 349 L 1215 488.5 L 1215 708.5 L 1215 789 L 1194 789 L 1124.2 874" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-draft-failed)" pointer-events="none" /><text x="1215" y="708.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">submit [itemCount == 0 || !customerVerified] / showError(&#39;Invalid order&#39;); logValidationError()</text></g><g data-runiq-edge="validating-pending-3" data-edge-id="validating-pending-3" data-edge-from="validating" data-edge-to="pending"><defs>
+      <marker id="arrow-standard-validating-pending" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 929 66.5 L 1028 66.5 L 899 156 L 898.6 241" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 929 66.5 L 1028 66.5 L 899 156 L 898.6 241" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validating-pending)" pointer-events="none" /><text x="899" y="156" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> [allItemsAvailable &amp;&amp; inventoryReserved &amp;&amp; priceValid] / sendPaymentRequest(); startPaymentTimer()</text></g><g data-runiq-edge="validating-failed-4" data-edge-id="validating-failed-4" data-edge-from="validating" data-edge-to="failed"><defs>
+      <marker id="arrow-standard-validating-failed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1176.2 121 L 1176.2 277.5 L 1127 488.5 L 1127 708.5 L 1127 789 L 1148 789 L 1124.2 874" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1176.2 121 L 1176.2 277.5 L 1127 488.5 L 1127 708.5 L 1127 789 L 1148 789 L 1124.2 874" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validating-failed)" pointer-events="none" /><text x="1127" y="708.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> [!allItemsAvailable || inventoryCheckFailed] / notifyCustomer(&#39;Out of stock&#39;); suggestAlternatives()</text></g><g data-runiq-edge="validating-draft-5" data-edge-id="validating-draft-5" data-edge-from="validating" data-edge-to="draft"><defs>
+      <marker id="arrow-standard-validating-draft" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1176.2 121 L 1176.2 156 L 1257 156 L 1351.4 241" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1176.2 121 L 1176.2 156 L 1257 156 L 1351.4 241" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validating-draft)" pointer-events="none" /><text x="1257" y="156" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> [validationTimeout || customerRequestedChanges] / unlockEditing(); preserveChanges()</text></g><g data-runiq-edge="pending-processing-6" data-edge-id="pending-processing-6" data-edge-from="pending" data-edge-to="processing"><defs>
+      <marker id="arrow-standard-pending-processing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 706 277.5 L 783 277.5 L 527 349 L 527 434" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 706 277.5 L 783 277.5 L 527 349 L 527 434" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pending-processing)" pointer-events="none" /><text x="527" y="349" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">paymentReceived [paymentAmount &gt;= totalAmount &amp;&amp; paymentVerified] / confirmPayment(); deductInventory(); scheduleProcessing()</text></g><g data-runiq-edge="pending-cancelled-8" data-edge-id="pending-cancelled-8" data-edge-from="pending" data-edge-to="cancelled"><defs>
+      <marker id="arrow-standard-pending-cancelled" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 898.6 314 L 898.6 488.5 L 937 578 L 940 578 L 814.4 663" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 898.6 314 L 898.6 488.5 L 937 578 L 940 578 L 814.4 663" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pending-cancelled)" pointer-events="none" /><text x="937" y="578" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">customerCancelled / releaseReservation(); logCancellation()</text></g><g data-runiq-edge="pending-failed-9" data-edge-id="pending-failed-9" data-edge-from="pending" data-edge-to="failed"><defs>
+      <marker id="arrow-standard-pending-failed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1091.2 277.5 L 1014 277.5 L 1101 349 L 1101 488.5 L 1101 708.5 L 1124.2 874" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1091.2 277.5 L 1014 277.5 L 1101 349 L 1101 488.5 L 1101 708.5 L 1124.2 874" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pending-failed)" pointer-events="none" /><text x="1101" y="488.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">paymentFailed [retryCount &gt;= maxRetries || fraudDetected] / flagAccount(); notifySecurityTeam()</text></g><g data-runiq-edge="processing-shipping-10" data-edge-id="processing-shipping-10" data-edge-from="processing" data-edge-to="shipping"><defs>
+      <marker id="arrow-standard-processing-shipping" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 527 543 L 527 578 L 270 578 L 270 663" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 527 543 L 527 578 L 270 578 L 270 663" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-shipping)" pointer-events="none" /><text x="270" y="578" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> [itemsPicked &amp;&amp; itemsPacked &amp;&amp; labelGenerated] / handoffToCarrier(); updateTracking()</text></g><g data-runiq-edge="processing-failed-11" data-edge-id="processing-failed-11" data-edge-from="processing" data-edge-to="failed"><defs>
+      <marker id="arrow-standard-processing-failed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 527 543 L 527 708.5 L 527 789 L 1054 789 L 1124.2 874" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 527 543 L 527 708.5 L 527 789 L 1054 789 L 1124.2 874" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-failed)" pointer-events="none" /><text x="527" y="789" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> [processingError || systemFailure] / initiateRefund(); alertManager(); createTicket()</text></g><g data-runiq-edge="processing-cancelled-12" data-edge-id="processing-cancelled-12" data-edge-from="processing" data-edge-to="cancelled"><defs>
+      <marker id="arrow-standard-processing-cancelled" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 527 543 L 527 578 L 689 578 L 814.4 663" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 527 543 L 527 578 L 689 578 L 814.4 663" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-cancelled)" pointer-events="none" /><text x="689" y="578" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">urgentCancellation [!shipped &amp;&amp; cancellationAuthorized] / stopProcessing(); initiateRefund(); restockItems()</text></g><g data-runiq-edge="shipping-delivered-13" data-edge-id="shipping-delivered-13" data-edge-from="shipping" data-edge-to="delivered"><defs>
+      <marker id="arrow-standard-shipping-delivered" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 270 754 L 270 814 L 196.20000000000002 814 L 196.20000000000002 874" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 270 754 L 270 814 L 196.20000000000002 814 L 196.20000000000002 874" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-shipping-delivered)" pointer-events="none" /><text x="196.20000000000002" y="814" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">deliveryConfirmed [signatureReceived || photoConfirmation || timeWindowExpired] / markComplete(); requestReview(); updateMetrics()</text></g><g data-runiq-edge="shipping-failed-14" data-edge-id="shipping-failed-14" data-edge-from="shipping" data-edge-to="failed"><defs>
+      <marker id="arrow-standard-shipping-failed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 270 754 L 270 814 L 1008 814 L 961 910.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 270 754 L 270 814 L 1008 814 L 961 910.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-shipping-failed)" pointer-events="none" /><text x="1008" y="814" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">deliveryFailed [attemptCount &gt;= maxDeliveryAttempts] / returnToSender(); issueRefund(); logIssue()</text></g><g data-runiq-edge="shipping-shipping-15" data-edge-id="shipping-shipping-15" data-edge-from="shipping" data-edge-to="shipping"><defs>
+      <marker id="arrow-standard-shipping-shipping" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 48 708.5 L 38 708.5 L 38 723.6666666666666 L 48 708.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 48 708.5 L 38 708.5 L 38 723.6666666666666 L 48 708.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-shipping-shipping)" pointer-events="none" /><text x="38" y="723.6666666666666" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">deliveryAttemptFailed [attemptCount &lt; maxDeliveryAttempts &amp;&amp; customerReachable] / incrementAttempts(); scheduleRetry(); contactCustomer()</text></g><g data-runiq-edge="failed-draft-16" data-edge-id="failed-draft-16" data-edge-from="failed" data-edge-to="draft"><defs>
+      <marker id="arrow-standard-failed-draft" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1287.4 910.5 L 1241 910.5 L 1241 488.5 L 1241 374 L 1414 374 L 1351.4 314" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1287.4 910.5 L 1241 910.5 L 1241 488.5 L 1241 374 L 1414 374 L 1351.4 314" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-failed-draft)" pointer-events="none" /><text x="1241" y="374" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">retry [errorResolved &amp;&amp; retryAuthorized &amp;&amp; timeoutNotExpired] / clearErrors(); resetState(); notifyRetry()</text></g><g data-runiq-node="draft" data-node-id="draft" data-node-shape="state"><g class="state-shape"><rect x="1163" y="241" width="376.8" height="73" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="1351.4" y="265.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Draft
+    </text><line x1="1175" y1="274.6" x2="1527.8" y2="274.6" stroke="#48677e" stroke-width="1" /><text x="1175" y="295.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / initializeOrder(); assignOrderId()
+    </text></g></g><g data-runiq-node="validating" data-node-id="validating" data-node-shape="state"><g class="state-shape"><rect x="929" y="12" width="494.40000000000003" height="109" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="1176.2" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validating
+    </text><line x1="941" y1="45.6" x2="1411.4" y2="45.6" stroke="#48677e" stroke-width="1" /><text x="941" y="66.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / startValidationTimer()
+    </text><text x="941" y="84.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / validateItems(); checkInventory(); verifyCustomer()
+    </text><text x="941" y="102.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / clearValidationTimer()
+    </text></g></g><g data-runiq-node="pending" data-node-id="pending" data-node-shape="state"><g class="state-shape"><rect x="706" y="241" width="385.2" height="73" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="898.6" y="265.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Pending Payment
+    </text><line x1="718" y1="274.6" x2="1079.2" y2="274.6" stroke="#48677e" stroke-width="1" /><text x="718" y="295.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / calculateTotal(); generateInvoice()
+    </text></g></g><g data-runiq-node="processing" data-node-id="processing" data-node-shape="state"><g class="state-shape"><rect x="347" y="434" width="360" height="109" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="527" y="458.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Processing
+    </text><line x1="359" y1="467.6" x2="695" y2="467.6" stroke="#48677e" stroke-width="1" /><text x="359" y="488.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / reserveInventory(); lockPrices()
+    </text><text x="359" y="506.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / updateStatus()
+    </text><text x="359" y="524.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / releaseIfFailed()
+    </text></g></g><g data-runiq-node="shipping" data-node-id="shipping" data-node-shape="state"><g class="state-shape"><rect x="48" y="663" width="444" height="91" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="270" y="687.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Shipping
+    </text><line x1="60" y1="696.6" x2="480" y2="696.6" stroke="#48677e" stroke-width="1" /><text x="60" y="717.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / generateShippingLabel(); notifyWarehouse()
+    </text><text x="60" y="735.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / trackShipment()
+    </text></g></g><g data-runiq-node="delivered" data-node-id="delivered" data-node-shape="state"><g class="state-shape"><rect x="12" y="874" width="368.40000000000003" height="73" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="196.20000000000002" y="898.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Delivered
+    </text><line x1="24" y1="907.6" x2="368.40000000000003" y2="907.6" stroke="#48677e" stroke-width="1" /><text x="24" y="928.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / confirmDelivery(); sendThankYou()
+    </text></g></g><g data-runiq-node="cancelled" data-node-id="cancelled" data-node-shape="state"><g class="state-shape"><rect x="563" y="663" width="502.8" height="73" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="814.4" y="687.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Cancelled
+    </text><line x1="575" y1="696.6" x2="1053.8" y2="696.6" stroke="#48677e" stroke-width="1" /><text x="575" y="717.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / refundPayment(); restockItems(); notifyCustomer()
+    </text></g></g><g data-runiq-node="failed" data-node-id="failed" data-node-shape="state"><g class="state-shape"><rect x="961" y="874" width="326.40000000000003" height="73" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="1124.2" y="898.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Failed
+    </text><line x1="973" y1="907.6" x2="1275.4" y2="907.6" stroke="#48677e" stroke-width="1" /><text x="973" y="928.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / logFailure(); alertSupport()
+    </text></g></g><g data-runiq-node="initial" data-node-id="initial" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="1513" cy="112" r="9" fill="#000000" stroke="none" /></g></g></svg>

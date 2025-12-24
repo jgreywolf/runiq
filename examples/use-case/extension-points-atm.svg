@@ -1,0 +1,315 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="699.2" height="1906.2" 
+    viewBox="0 0 699.2 1906.2"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="customer-insertCard-0" data-edge-id="customer-insertCard-0" data-edge-from="customer" data-edge-to="insertCard"><defs>
+      <marker id="arrow-standard-customer-insertCard" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 621 1886.2 L 621 1744.4 L 367.1 1744.4 L 367.1 1602.6000000000001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 621 1886.2 L 621 1744.4 L 367.1 1744.4 L 367.1 1602.6000000000001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-insertCard)" pointer-events="none" /></g><g data-runiq-edge="insertCard-enterPIN-1" data-edge-id="insertCard-enterPIN-1" data-edge-from="insertCard" data-edge-to="enterPIN"><defs>
+      <marker id="arrow-standard-insertCard-enterPIN" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 367.1 1602.6000000000001 L 367.1 946.2 L 131.958 946.2 L 131.958 289.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 367.1 1602.6000000000001 L 367.1 946.2 L 131.958 946.2 L 131.958 289.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-insertCard-enterPIN)" pointer-events="none" /></g><g data-runiq-edge="enterPIN-selectWithdrawal-2" data-edge-id="enterPIN-selectWithdrawal-2" data-edge-from="enterPIN" data-edge-to="selectWithdrawal"><defs>
+      <marker id="arrow-standard-enterPIN-selectWithdrawal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 131.958 289.8 L 131.958 152.4 L 178.20000000000002 152.4 L 178.20000000000002 15" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 131.958 289.8 L 131.958 152.4 L 178.20000000000002 152.4 L 178.20000000000002 15" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-enterPIN-selectWithdrawal)" pointer-events="none" /></g><g data-runiq-edge="selectWithdrawal-dispenseCash-3" data-edge-id="selectWithdrawal-dispenseCash-3" data-edge-from="selectWithdrawal" data-edge-to="dispenseCash"><defs>
+      <marker id="arrow-standard-selectWithdrawal-dispenseCash" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 178.20000000000002 15 L 178.20000000000002 152.4 L 505.878 152.4 L 505.878 289.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 178.20000000000002 15 L 178.20000000000002 152.4 L 505.878 152.4 L 505.878 289.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-selectWithdrawal-dispenseCash)" pointer-events="none" /></g><g data-runiq-edge="dispenseCash-printReceipt-4" data-edge-id="dispenseCash-printReceipt-4" data-edge-from="dispenseCash" data-edge-to="printReceipt"><defs>
+      <marker id="arrow-standard-dispenseCash-printReceipt" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 505.878 289.8 L 505.878 427.20000000000005 L 126.95999999999998 427.20000000000005 L 126.95999999999998 564.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 505.878 289.8 L 505.878 427.20000000000005 L 126.95999999999998 427.20000000000005 L 126.95999999999998 564.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dispenseCash-printReceipt)" pointer-events="none" /></g><g data-runiq-edge="printReceipt-ejectCard-5" data-edge-id="printReceipt-ejectCard-5" data-edge-from="printReceipt" data-edge-to="ejectCard"><defs>
+      <marker id="arrow-standard-printReceipt-ejectCard" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 126.95999999999998 564.6 L 126.95999999999998 1192 L 352.4 1192 L 352.4 1819.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 126.95999999999998 564.6 L 126.95999999999998 1192 L 352.4 1192 L 352.4 1819.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-printReceipt-ejectCard)" pointer-events="none" /></g><g data-runiq-edge="enterPIN-cardNetwork-6" data-edge-id="enterPIN-cardNetwork-6" data-edge-from="enterPIN" data-edge-to="cardNetwork"><defs>
+      <marker id="arrow-standard-enterPIN-cardNetwork" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 131.958 289.8 L 131.958 979.6000000000001 L 75.4 979.6000000000001 L 75.4 1669.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 131.958 289.8 L 131.958 979.6000000000001 L 75.4 979.6000000000001 L 75.4 1669.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-enterPIN-cardNetwork)" pointer-events="none" /><text x="75.4" y="964.6000000000001" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;include&gt;&gt;</text></g><g data-runiq-edge="selectWithdrawal-bank-7" data-edge-id="selectWithdrawal-bank-7" data-edge-from="selectWithdrawal" data-edge-to="bank"><defs>
+      <marker id="arrow-standard-selectWithdrawal-bank" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 178.20000000000002 15 L 178.20000000000002 950.6 L 71.2 950.6 L 71.2 1886.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 178.20000000000002 15 L 178.20000000000002 950.6 L 71.2 950.6 L 71.2 1886.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-selectWithdrawal-bank)" pointer-events="none" /><text x="71.2" y="935.6" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;include&gt;&gt;</text></g><g data-runiq-edge="dispenseCash-bank-8" data-edge-id="dispenseCash-bank-8" data-edge-from="dispenseCash" data-edge-to="bank"><defs>
+      <marker id="arrow-standard-dispenseCash-bank" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 505.878 289.8 L 505.878 1088 L 71.2 1088 L 71.2 1886.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 505.878 289.8 L 505.878 1088 L 71.2 1088 L 71.2 1886.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dispenseCash-bank)" pointer-events="none" /><text x="71.2" y="1073" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;include&gt;&gt;</text></g><g data-runiq-edge="retryPIN-enterPIN-9" data-edge-id="retryPIN-enterPIN-9" data-edge-from="retryPIN" data-edge-to="enterPIN"><defs>
+      <marker id="arrow-standard-retryPIN-enterPIN" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 121.5 1403.4 L 121.5 846.6 L 131.958 846.6 L 131.958 289.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 121.5 1403.4 L 121.5 846.6 L 131.958 846.6 L 131.958 289.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-retryPIN-enterPIN)" pointer-events="none" /><text x="131.958" y="831.6" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="131.958" y="856.6" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Invalid PIN</text></g><g data-runiq-edge="contactSupport-enterPIN-10" data-edge-id="contactSupport-enterPIN-10" data-edge-from="contactSupport" data-edge-to="enterPIN"><defs>
+      <marker id="arrow-standard-contactSupport-enterPIN" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 178.20000000000002 805.8 L 178.20000000000002 547.8 L 131.958 547.8 L 131.958 289.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 178.20000000000002 805.8 L 178.20000000000002 547.8 L 131.958 547.8 L 131.958 289.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-contactSupport-enterPIN)" pointer-events="none" /><text x="131.958" y="532.8" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="131.958" y="557.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Card Locked</text></g><g data-runiq-edge="cancelTransaction-enterPIN-11" data-edge-id="cancelTransaction-enterPIN-11" data-edge-from="cancelTransaction" data-edge-to="enterPIN"><defs>
+      <marker id="arrow-standard-cancelTransaction-enterPIN" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 553.8 1204.2 L 553.8 747 L 131.958 747 L 131.958 289.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 553.8 1204.2 L 553.8 747 L 131.958 747 L 131.958 289.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cancelTransaction-enterPIN)" pointer-events="none" /><text x="131.958" y="732" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="131.958" y="757" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">PIN Attempts Exceeded</text></g><g data-runiq-edge="selectLowerAmount-selectWithdrawal-12" data-edge-id="selectLowerAmount-selectWithdrawal-12" data-edge-from="selectLowerAmount" data-edge-to="selectWithdrawal"><defs>
+      <marker id="arrow-standard-selectLowerAmount-selectWithdrawal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 146.7 1204.2 L 146.7 609.6 L 178.20000000000002 609.6 L 178.20000000000002 15" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 146.7 1204.2 L 146.7 609.6 L 178.20000000000002 609.6 L 178.20000000000002 15" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-selectLowerAmount-selectWithdrawal)" pointer-events="none" /><text x="178.20000000000002" y="594.6" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="178.20000000000002" y="619.6" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Insufficient Balance</text></g><g data-runiq-edge="checkBalance-selectWithdrawal-13" data-edge-id="checkBalance-selectWithdrawal-13" data-edge-from="checkBalance" data-edge-to="selectWithdrawal"><defs>
+      <marker id="arrow-standard-checkBalance-selectWithdrawal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 159.3 1005 L 159.3 510 L 178.20000000000002 510 L 178.20000000000002 15" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 159.3 1005 L 159.3 510 L 178.20000000000002 510 L 178.20000000000002 15" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkBalance-selectWithdrawal)" pointer-events="none" /><text x="178.20000000000002" y="495" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="178.20000000000002" y="520" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Daily Limit Exceeded</text></g><g data-runiq-edge="cancelTransaction-selectWithdrawal-14" data-edge-id="cancelTransaction-selectWithdrawal-14" data-edge-from="cancelTransaction" data-edge-to="selectWithdrawal"><defs>
+      <marker id="arrow-standard-cancelTransaction-selectWithdrawal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 553.8 1204.2 L 553.8 609.6 L 178.20000000000002 609.6 L 178.20000000000002 15" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 553.8 1204.2 L 553.8 609.6 L 178.20000000000002 609.6 L 178.20000000000002 15" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cancelTransaction-selectWithdrawal)" pointer-events="none" /><text x="178.20000000000002" y="594.6" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="178.20000000000002" y="619.6" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">ATM Cash Depleted</text></g><g data-runiq-edge="cancelTransaction-dispenseCash-16" data-edge-id="cancelTransaction-dispenseCash-16" data-edge-from="cancelTransaction" data-edge-to="dispenseCash"><defs>
+      <marker id="arrow-standard-cancelTransaction-dispenseCash" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 553.8 1204.2 L 553.8 747 L 505.878 747 L 505.878 289.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 553.8 1204.2 L 553.8 747 L 505.878 747 L 505.878 289.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cancelTransaction-dispenseCash)" pointer-events="none" /><text x="505.878" y="732" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="505.878" y="757" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Communication Error</text></g><g data-runiq-edge="skipReceipt-printReceipt-17" data-edge-id="skipReceipt-printReceipt-17" data-edge-from="skipReceipt" data-edge-to="printReceipt"><defs>
+      <marker id="arrow-standard-skipReceipt-printReceipt" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 465.6 1403.4 L 465.6 984 L 126.95999999999998 984 L 126.95999999999998 564.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 465.6 1403.4 L 465.6 984 L 126.95999999999998 984 L 126.95999999999998 564.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-skipReceipt-printReceipt)" pointer-events="none" /><text x="126.95999999999998" y="969" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">&lt;&lt;extend&gt;&gt;</text><text x="126.95999999999998" y="994" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Printer Out of Paper</text></g><g data-runiq-node="customer" data-node-id="customer" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="621" cy="1834.4" r="15" 
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="582.4" y="1854.4" width="77.2" height="26.799999999999997"
+            rx="5" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="621" y="1867.8000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Customer
+    </text>
+    </g><g data-runiq-node="bank" data-node-id="bank" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="71.2" cy="1834.4" r="15" 
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="20" y="1854.4" width="102.4" height="26.799999999999997"
+            rx="5" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="71.2" y="1867.8000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Bank System
+    </text>
+    </g><g data-runiq-node="cardNetwork" data-node-id="cardNetwork" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="75.4" cy="1617.6000000000001" r="15" 
+              fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="20" y="1637.6000000000001" width="110.80000000000001" height="26.799999999999997"
+            rx="5" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="75.4" y="1651.0000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Card Network
+    </text>
+    </g><g data-runiq-node="insertCard" data-node-id="insertCard" data-node-shape="ellipseWide">
+      <ellipse cx="367.1" cy="1627.2" rx="81.30000000000001" ry="24.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+    <text x="367.1" y="1627.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Insert Card
+    </text></g><g data-runiq-node="enterPIN" data-node-id="enterPIN" data-node-shape="ellipseWide">
+      <ellipse cx="131.958" cy="352.2" rx="116.958" ry="62.4"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+    <text x="131.958" y="335.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Enter PIN
+    </text>
+        <line x1="32.5437" y1="350.8" 
+              x2="231.3723" y2="350.8"
+              stroke="#48677e" stroke-width="0.5" />
+      
+        <text x="131.958" y="363.40000000000003" text-anchor="middle" 
+              font-family="sans-serif" font-size="11.200000000000001" 
+              font-style="italic" fill="#48677e">
+          extension points
+        </text>
+      
+          <text x="131.958" y="380.20000000000005" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Invalid PIN
+          </text>
+        
+          <text x="131.958" y="397.00000000000006" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Card Locked
+          </text>
+        
+          <text x="131.958" y="413.80000000000007" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            PIN Attempts Exceeded
+          </text>
+        </g><g data-runiq-node="selectWithdrawal" data-node-id="selectWithdrawal" data-node-shape="ellipseWide">
+      <ellipse cx="178.20000000000002" cy="77.4" rx="163.20000000000002" ry="62.4"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="178.20000000000002" y="60.60000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Select Withdrawal Amount
+    </text>
+        <line x1="39.480000000000004" y1="76" 
+              x2="316.92" y2="76"
+              stroke="#48677e" stroke-width="0.5" />
+      
+        <text x="178.20000000000002" y="88.6" text-anchor="middle" 
+              font-family="sans-serif" font-size="11.200000000000001" 
+              font-style="italic" fill="#48677e">
+          extension points
+        </text>
+      
+          <text x="178.20000000000002" y="105.39999999999999" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Insufficient Balance
+          </text>
+        
+          <text x="178.20000000000002" y="122.19999999999999" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Daily Limit Exceeded
+          </text>
+        
+          <text x="178.20000000000002" y="139" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            ATM Cash Depleted
+          </text>
+        </g><g data-runiq-node="dispenseCash" data-node-id="dispenseCash" data-node-shape="ellipseWide">
+      <ellipse cx="505.878" cy="343.8" rx="106.96199999999999" ry="54"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+    <text x="505.878" y="327" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Dispense Cash
+    </text>
+        <line x1="414.9603" y1="342.40000000000003" 
+              x2="596.7956999999999" y2="342.40000000000003"
+              stroke="#48677e" stroke-width="0.5" />
+      
+        <text x="505.878" y="355.00000000000006" text-anchor="middle" 
+              font-family="sans-serif" font-size="11.200000000000001" 
+              font-style="italic" fill="#48677e">
+          extension points
+        </text>
+      
+          <text x="505.878" y="371.80000000000007" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Dispenser Jam
+          </text>
+        
+          <text x="505.878" y="388.6000000000001" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Communication Error
+          </text>
+        </g><g data-runiq-node="printReceipt" data-node-id="printReceipt" data-node-shape="ellipseWide">
+      <ellipse cx="126.95999999999998" cy="610.2" rx="111.95999999999998" ry="45.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+    <text x="126.95999999999998" y="593.4000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Print Receipt
+    </text>
+        <line x1="31.793999999999997" y1="608.8000000000001" 
+              x2="222.12599999999998" y2="608.8000000000001"
+              stroke="#48677e" stroke-width="0.5" />
+      
+        <text x="126.95999999999998" y="621.4000000000001" text-anchor="middle" 
+              font-family="sans-serif" font-size="11.200000000000001" 
+              font-style="italic" fill="#48677e">
+          extension points
+        </text>
+      
+          <text x="126.95999999999998" y="638.2" text-anchor="middle"
+                font-family="sans-serif" font-size="11.9">
+            Printer Out of Paper
+          </text>
+        </g><g data-runiq-node="ejectCard" data-node-id="ejectCard" data-node-shape="ellipseWide">
+      <ellipse cx="352.4" cy="1844" rx="75" ry="24.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+    <text x="352.4" y="1844" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Eject Card
+    </text></g><g data-runiq-node="retryPIN" data-node-id="retryPIN" data-node-shape="ellipseWide">
+      <ellipse cx="121.5" cy="1428" rx="106.5" ry="24.6"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+    <text x="121.5" y="1428" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Retry PIN Entry
+    </text></g><g data-runiq-node="contactSupport" data-node-id="contactSupport" data-node-shape="ellipseWide">
+      <ellipse cx="178.20000000000002" cy="830.4" rx="163.20000000000002" ry="24.6"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="178.20000000000002" y="830.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Contact Customer Support
+    </text></g><g data-runiq-node="selectLowerAmount" data-node-id="selectLowerAmount" data-node-shape="ellipseWide">
+      <ellipse cx="146.7" cy="1228.8" rx="131.7" ry="24.6"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+    <text x="146.7" y="1228.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Select Lower Amount
+    </text></g><g data-runiq-node="checkBalance" data-node-id="checkBalance" data-node-shape="ellipseWide">
+      <ellipse cx="159.3" cy="1029.6" rx="144.3" ry="24.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+    <text x="159.3" y="1029.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Check Account Balance
+    </text></g><g data-runiq-node="cancelTransaction" data-node-id="cancelTransaction" data-node-shape="ellipseWide">
+      <ellipse cx="553.8" cy="1228.8" rx="125.4" ry="24.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+    <text x="553.8" y="1228.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Cancel Transaction
+    </text></g><g data-runiq-node="skipReceipt" data-node-id="skipReceipt" data-node-shape="ellipseWide">
+      <ellipse cx="465.6" cy="1428" rx="87.60000000000001" ry="24.6"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+    <text x="465.6" y="1428" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Skip Receipt
+    </text></g></svg>

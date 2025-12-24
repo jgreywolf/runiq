@@ -245,7 +245,7 @@ if (validation.success) {
 diagram "Process Flow" {
   direction LR
 
-  style default fill:"#e3f2fd" strokeColor:"#1976d2"
+  style default fillColor:"#e3f2fd" strokeColor:"#1976d2"
 
   shape start as @rounded label:"Start"
   shape process as @rect label:"Process Data"
@@ -519,9 +519,9 @@ interface ProcessTemplate {
 }
 
 const themes = {
-  blue: { fill: '#e3f2fd', stroke: '#1976d2' },
-  green: { fill: '#e8f5e9', stroke: '#388e3c' },
-  orange: { fill: '#fff3e0', stroke: '#f57c00' },
+  blue: { fillColor: '#e3f2fd', stroke: '#1976d2' },
+  green: { fillColor: '#e8f5e9', stroke: '#388e3c' },
+  orange: { fillColor: '#fff3e0', stroke: '#f57c00' },
 };
 
 function generateProcess(template: ProcessTemplate): Diagram {
@@ -536,7 +536,7 @@ function generateProcess(template: ProcessTemplate): Diagram {
       type: 'rounded',
       properties: {
         label: step,
-        fill: theme.fill,
+        fillColor: theme.fill,
         stroke: theme.stroke,
       },
     })),

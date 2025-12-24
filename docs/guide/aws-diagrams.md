@@ -232,10 +232,10 @@ Apply AWS standard colors:
 diagram "Styled AWS" {
   direction LR
 
-  shape compute as @awsEc2 label: "EC2" fill: "#ff9900" color: "#ffffff"
-  shape storage as @awsS3 label: "S3" fill: "#569a31" color: "#ffffff"
-  shape db as @awsRds label: "RDS" fill: "#3b48cc" color: "#ffffff"
-  shape lambda as @awsLambda label: "Lambda" fill: "#ff9900" color: "#ffffff"
+  shape compute as @awsEc2 label: "EC2" fillColor: "#ff9900" color: "#ffffff"
+  shape storage as @awsS3 label: "S3" fillColor: "#569a31" color: "#ffffff"
+  shape db as @awsRds label: "RDS" fillColor: "#3b48cc" color: "#ffffff"
+  shape lambda as @awsLambda label: "Lambda" fillColor: "#ff9900" color: "#ffffff"
 
   compute -> db strokeColor: "#4caf50" strokeWidth: 2
   compute -> storage strokeColor: "#232f3e" strokeWidth: 2
@@ -326,10 +326,8 @@ How do Runiq AWS diagrams compare to other cloud diagramming tools?
 
 ## Related
 
-- [Shape Reference - AWS Shapes](/reference/shapes#_14-aws-shapes-6-shapes)
-- [Network Diagrams](/guide/network-diagrams)
-- [C4 Architecture](/guide/c4-architecture)
-- [Containers](/guide/containers)
+- [Network Diagrams](/guide/diagram-types/network-diagrams)
+- [C4 Architecture](/guide/diagram-types/c4-architecture)
 
 ## Resources
 

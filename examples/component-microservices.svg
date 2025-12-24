@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="435.8" height="952" 
+    viewBox="0 0 435.8 952"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="apiGateway-httpIn-0" data-edge-id="apiGateway-httpIn-0" data-edge-from="apiGateway" data-edge-to="httpIn"><defs>
+      <marker id="arrow-standard-apiGateway-httpIn" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 147 72 L 147 107 L 20 107 L 20 214" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 147 72 L 147 107 L 20 107 L 20 214" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-apiGateway-httpIn)" pointer-events="none" /></g><g data-runiq-edge="apiGateway-httpsIn-1" data-edge-id="apiGateway-httpsIn-1" data-edge-from="apiGateway" data-edge-to="httpsIn"><defs>
+      <marker id="arrow-standard-apiGateway-httpsIn" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 147 72 L 147 132 L 116 132 L 116 192" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 147 72 L 147 132 L 116 132 L 116 192" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-apiGateway-httpsIn)" pointer-events="none" /></g><g data-runiq-edge="apiGateway-authOut-2" data-edge-id="apiGateway-authOut-2" data-edge-from="apiGateway" data-edge-to="authOut"><defs>
+      <marker id="arrow-standard-apiGateway-authOut" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 147 72 L 147 222 L 159 287 L 43 287 L 40 386.6666666666667" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 147 72 L 147 222 L 159 287 L 43 287 L 40 386.6666666666667" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-apiGateway-authOut)" pointer-events="none" /></g><g data-runiq-edge="apiGateway-dataOut-3" data-edge-id="apiGateway-dataOut-3" data-edge-from="apiGateway" data-edge-to="dataOut"><defs>
+      <marker id="arrow-standard-apiGateway-dataOut" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 147 72 L 147 107 L 203 107 L 203 214" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 147 72 L 147 107 L 203 107 L 203 214" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-apiGateway-dataOut)" pointer-events="none" /></g><g data-runiq-edge="authService-authInterface-4" data-edge-id="authService-authInterface-4" data-edge-from="authService" data-edge-to="authInterface"><defs>
+      <marker id="arrow-standard-authService-authInterface" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 190.4 432 L 190.4 467 L 50 467 L 45 558.6666666666666" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 190.4 432 L 190.4 467 L 50 467 L 45 558.6666666666666" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authService-authInterface)" pointer-events="none" /></g><g data-runiq-edge="userService-userInterface-5" data-edge-id="userService-userInterface-5" data-edge-from="userService" data-edge-to="userInterface"><defs>
+      <marker id="arrow-standard-userService-userInterface" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 353.4 252 L 353.4 315.33333333333337 L 348 315.33333333333337 L 348 378.6666666666667" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 353.4 252 L 353.4 315.33333333333337 L 348 315.33333333333337 L 348 378.6666666666667" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userService-userInterface)" pointer-events="none" /></g><g data-runiq-edge="webClient-needsAuth-6" data-edge-id="webClient-needsAuth-6" data-edge-from="webClient" data-edge-to="needsAuth"><defs>
+      <marker id="arrow-standard-webClient-needsAuth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 200 612 Q 200 752 175 892" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 200 612 Q 200 752 175 892" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-webClient-needsAuth)" pointer-events="none" /></g><g data-runiq-edge="webClient-needsUser-7" data-edge-id="webClient-needsUser-7" data-edge-from="webClient" data-edge-to="needsUser"><defs>
+      <marker id="arrow-standard-webClient-needsUser" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 200 612 L 200 647 L 226 647 L 231 732" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 200 612 L 200 647 L 226 647 L 231 732" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-webClient-needsUser)" pointer-events="none" /></g><g data-runiq-edge="authInterface-authConn-8" data-edge-id="authInterface-authConn-8" data-edge-from="authInterface" data-edge-to="authConn"><defs>
+      <marker id="arrow-standard-authInterface-authConn" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 45 598.6666666666666 L 45 669.3333333333333 L 45 669.3333333333333 L 45 740" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 45 598.6666666666666 L 45 669.3333333333333 L 45 669.3333333333333 L 45 740" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authInterface-authConn)" pointer-events="none" /></g><g data-runiq-edge="authConn-needsAuth-9" data-edge-id="authConn-needsAuth-9" data-edge-from="authConn" data-edge-to="needsAuth"><defs>
+      <marker id="arrow-standard-authConn-needsAuth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 45 764 L 45 807 L 170 807 L 175 892" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 45 764 L 45 807 L 170 807 L 175 892" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authConn-needsAuth)" pointer-events="none" /></g><g data-runiq-edge="userInterface-userConn-10" data-edge-id="userInterface-userConn-10" data-edge-from="userInterface" data-edge-to="userConn"><defs>
+      <marker id="arrow-standard-userInterface-userConn" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 348 418.6666666666667 L 348 467 L 352 467 L 352 570" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 348 418.6666666666667 L 348 467 L 352 467 L 352 570" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userInterface-userConn)" pointer-events="none" /></g><g data-runiq-edge="userConn-needsUser-11" data-edge-id="userConn-needsUser-11" data-edge-from="userConn" data-edge-to="needsUser"><defs>
+      <marker id="arrow-standard-userConn-needsUser" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 352 594 L 352 647 L 236 647 L 231 732" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 352 594 L 352 647 L 236 647 L 231 732" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userConn-needsUser)" pointer-events="none" /></g><g data-runiq-edge="httpIn-authOut-12" data-edge-id="httpIn-authOut-12" data-edge-from="httpIn" data-edge-to="authOut"><defs>
+      <marker id="arrow-standard-httpIn-authOut" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 20 230 L 20 287 L 37 287 L 40 386.6666666666667" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 20 230 L 20 287 L 37 287 L 40 386.6666666666667" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-httpIn-authOut)" pointer-events="none" /></g><g data-runiq-edge="authOut-authInterface-13" data-edge-id="authOut-authInterface-13" data-edge-from="authOut" data-edge-to="authInterface"><defs>
+      <marker id="arrow-standard-authOut-authInterface" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 40 402.6666666666667 L 40 480.66666666666663 L 45 480.66666666666663 L 45 558.6666666666666" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 40 402.6666666666667 L 40 480.66666666666663 L 45 480.66666666666663 L 45 558.6666666666666" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authOut-authInterface)" pointer-events="none" /></g><g data-runiq-edge="dataOut-userInterface-14" data-edge-id="dataOut-userInterface-14" data-edge-from="dataOut" data-edge-to="userInterface"><defs>
+      <marker id="arrow-standard-dataOut-userInterface" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 203 230 L 203 287 L 343 287 L 348 378.6666666666667" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 203 230 L 203 287 L 343 287 L 348 378.6666666666667" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dataOut-userInterface)" pointer-events="none" /></g><g data-runiq-node="apiGateway" data-node-id="apiGateway" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="87" y="12" width="120" height="60"
+            rx="6" ry="6" fill="#5a819e" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="147" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      API Gateway
+    </text>
+    </g><g data-runiq-node="httpIn" data-node-id="httpIn" data-node-shape="port"><rect x="12" y="214" width="16" height="16"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="20" y="238" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      HTTP
+    </text></g><g data-runiq-node="httpsIn" data-node-id="httpsIn" data-node-shape="port"><rect x="108" y="192" width="16" height="16"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="116" y="216" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      HTTPS
+    </text></g><g data-runiq-node="authOut" data-node-id="authOut" data-node-shape="port"><rect x="32" y="386.6666666666667" width="16" height="16"
+            fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="40" y="410.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      Auth
+    </text></g><g data-runiq-node="dataOut" data-node-id="dataOut" data-node-shape="port"><rect x="195" y="214" width="16" height="16"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="203" y="238" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      Data
+    </text></g><g data-runiq-node="authService" data-node-id="authService" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="128" y="372" width="124.80000000000001" height="60"
+            rx="6" ry="6" fill="#5a819e" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="190.4" y="402" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Auth Service
+    </text>
+    </g><g data-runiq-node="authInterface" data-node-id="authInterface" data-node-shape="providedInterface"><line x1="45" y1="588.6666666666666" x2="45" y2="568.6666666666666"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="45" cy="568.6666666666666" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="45" y="600.6666666666666" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IAuth
+    </text></g><g data-runiq-node="userService" data-node-id="userService" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="291" y="192" width="124.80000000000001" height="60"
+            rx="6" ry="6" fill="#96bacf" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="353.4" y="222" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      User Service
+    </text>
+    </g><g data-runiq-node="userInterface" data-node-id="userInterface" data-node-shape="providedInterface"><line x1="348" y1="408.6666666666667" x2="348" y2="388.6666666666667"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="348" cy="388.6666666666667" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="348" y="420.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IUserData
+    </text></g><g data-runiq-node="webClient" data-node-id="webClient" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="140" y="552" width="120" height="60"
+            rx="6" ry="6" fill="#364d5f" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="200" y="582" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Web Client
+    </text>
+    </g><g data-runiq-node="needsAuth" data-node-id="needsAuth" data-node-shape="requiredInterface"><line x1="175" y1="922" x2="175" y2="902"
+            stroke="#48677e" stroke-width="2" />
+      
+      <!-- Semicircle (socket) -->
+      <path d="M 167 902
+               A 8 8 0 0 1 183 902"
+            fill="none" stroke="#48677e" stroke-width="2" /><text x="175" y="934" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IAuth
+    </text></g><g data-runiq-node="needsUser" data-node-id="needsUser" data-node-shape="requiredInterface"><line x1="231" y1="762" x2="231" y2="742"
+            stroke="#48677e" stroke-width="2" />
+      
+      <!-- Semicircle (socket) -->
+      <path d="M 223 742
+               A 8 8 0 0 1 239 742"
+            fill="none" stroke="#48677e" stroke-width="2" /><text x="231" y="774" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IUserData
+    </text></g><g data-runiq-node="authConn" data-node-id="authConn" data-node-shape="assembly"><circle cx="45" cy="752" r="10"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="45" y="778" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      authConn
+    </text></g><g data-runiq-node="userConn" data-node-id="userConn" data-node-shape="assembly"><circle cx="352" cy="582" r="10"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="352" y="608" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      userConn
+    </text></g></svg>

@@ -19,7 +19,7 @@ diagram "UML Activity Diagram - Object Nodes" {
   shape orderQueue as @centralBuffer label: "Order Queue"
   
   # Data store - persistent storage
-  shape database as @dataStore label: "Order Database"
+  shape db as @dataStore label: "Order Database"
   shape customerDb as @dataStore label: "Customer DB"
 
   # Control flow
@@ -41,6 +41,6 @@ diagram "UML Activity Diagram - Object Nodes" {
   orderData -> orderQueue label: "enqueue"
   orderQueue -> saveToDb label: "dequeue"
   
-  saveToDb -> database label: "store"
+  saveToDb -> db label: "store"
   customerDb -> processOrder label: "read"
 }

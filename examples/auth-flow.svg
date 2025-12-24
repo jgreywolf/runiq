@@ -1,82 +1,83 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="862.4000000000001" height="222.8" 
-    viewBox="0 0 862.4000000000001 222.8"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Auth Flow</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="User-Landing"><defs>
+    width="159.8" height="913.3999999999999" 
+    viewBox="0 0 159.8 913.3999999999999"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="User-Landing-0" data-edge-id="User-Landing-0" data-edge-from="User" data-edge-to="Landing"><defs>
       <marker id="arrow-standard-User-Landing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 94.80000000000001 52.4 L 169.8 52.4 L 169.8 52.4 L 244.8 52.4" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-User-Landing)" /><text x="169.8" y="52.4" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">visits</text></g><g data-runiq-edge="Landing-Check"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 93.80000000000001 48.4 L 85.60000000000001 48.4 L 85.60000000000001 852.5999999999999 L 77.4 852.5999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 93.80000000000001 48.4 L 85.60000000000001 48.4 L 85.60000000000001 852.5999999999999 L 77.4 852.5999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-User-Landing)" pointer-events="none" /><text x="85.60000000000001" y="852.5999999999999" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">visits</text></g><g data-runiq-edge="Landing-Check-1" data-edge-id="Landing-Check-1" data-edge-from="Landing" data-edge-to="Check"><defs>
       <marker id="arrow-standard-Landing-Check" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 369.6 52.4 L 429.6 52.4 L 429.6 52 L 489.6 52" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-Landing-Check)" /></g><g data-runiq-edge="Check-Welcome"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 77.4 852.5999999999999 L 77.4 542.1999999999999 L 72 542.1999999999999 L 72 231.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 77.4 852.5999999999999 L 77.4 542.1999999999999 L 72 542.1999999999999 L 72 231.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Landing-Check)" pointer-events="none" /></g><g data-runiq-edge="Check-Welcome-2" data-edge-id="Check-Welcome-2" data-edge-from="Check" data-edge-to="Welcome"><defs>
       <marker id="arrow-standard-Check-Welcome" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 609.6 52 L 669.6 52 L 669.6 42 L 729.6 42" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-Check-Welcome)" /><text x="669.6" y="42" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">yes</text></g><g data-runiq-edge="Check-Pricing"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 72 231.8 L 72 336.8 L 65 336.8 L 65 441.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 72 231.8 L 72 336.8 L 65 336.8 L 65 441.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Check-Welcome)" pointer-events="none" /><text x="65" y="336.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">yes</text></g><g data-runiq-edge="Check-Pricing-3" data-edge-id="Check-Pricing-3" data-edge-from="Check" data-edge-to="Pricing"><defs>
       <marker id="arrow-standard-Check-Pricing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 609.6 52 L 644.6 52 L 644.6 177 L 729.6 177.4" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-Check-Pricing)" /><text x="644.6" y="177" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">no</text></g><g data-runiq-node="User">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 72 231.8 L 72 454.5 L 97.80000000000001 454.5 L 97.80000000000001 677.1999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 72 231.8 L 72 454.5 L 97.80000000000001 454.5 L 97.80000000000001 677.1999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Check-Pricing)" pointer-events="none" /><text x="97.80000000000001" y="454.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">no</text></g><g data-runiq-node="User" data-node-id="User" data-node-shape="actor">
       <!-- Actor head -->
-      <circle cx="53.400000000000006" cy="32" r="15" 
-              fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      <circle cx="54.400000000000006" cy="30" r="15" 
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
       
       <!-- Actor body -->
-      <rect x="17" y="52" width="72.80000000000001" height="30.799999999999997"
-            rx="5" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      <rect x="20" y="50" width="68.80000000000001" height="26.799999999999997"
+            rx="5" fill="#5a819e" stroke="#48677e" stroke-width="1" />
       
       <!-- Label -->
-      <text x="53.400000000000006" y="67.4" 
+      <text x="54.400000000000006" y="63.4" 
       text-anchor="middle" 
       dominant-baseline="middle"
       font-family="sans-serif" 
       font-size="14"
-      fill="#000">
+      fill="#FFFFFF">
       Visitor
     </text>
-    </g><g data-runiq-node="Landing">
-      <rect x="244.8" y="32" width="124.80000000000001" height="40.8"
-            rx="8" ry="8" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+    </g><g data-runiq-node="Landing" data-node-id="Landing" data-node-shape="rounded">
+      <rect x="15" y="852.5999999999999" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
       
-      <text x="307.20000000000005" y="52.4" 
+      <text x="77.4" y="872.9999999999999" 
       text-anchor="middle" 
       dominant-baseline="middle"
       font-family="sans-serif" 
       font-size="14"
-      fill="#000">
+      fill="#FFFFFF">
       Landing Page
     </text>
-    </g><g data-runiq-node="Check">
-      <polygon points="549.6,22 609.6,52 549.6,82 489.6,52"
-               fill="#fff7e6" stroke="#aa7700" stroke-width="1" />
+    </g><g data-runiq-node="Check" data-node-id="Check" data-node-shape="rhombus">
+      <polygon points="72,231.8 129,261.8 72,291.8 15,261.8"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
       
-      <text x="549.6" y="52" 
+      <text x="72" y="261.8" 
       text-anchor="middle" 
       dominant-baseline="middle"
       font-family="sans-serif" 
       font-size="14"
-      fill="#000">
+      fill="#FFFFFF">
       Signed up?
     </text>
-    </g><g data-runiq-node="Welcome">
-      <polygon points="744.6,12 814.6,12 829.6,42 814.6,72 744.6,72 729.6,42" 
-               fill="#f0f0f0" stroke="#333" stroke-width="1" />
+    </g><g data-runiq-node="Welcome" data-node-id="Welcome" data-node-shape="hexagon">
+      <polygon points="30,441.8 100,441.8 115,471.8 100,501.8 30,501.8 15,471.8" 
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
       
-      <text x="779.6" y="42" 
+      <text x="65" y="471.8" 
       text-anchor="middle" 
       dominant-baseline="middle"
       font-family="sans-serif" 
       font-size="14"
-      fill="#000">
+      fill="#FFFFFF">
       Welcome
     </text>
     </g><a xlink:href="/pricing">
-      <g data-runiq-node="Pricing">
-      <path d="M 729.6 152 L 802.4000000000001 152 L 812.4000000000001 162 L 812.4000000000001 202.8 L 729.6 202.8 Z M 802.4000000000001 152 L 802.4000000000001 162 L 812.4000000000001 162" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      <g data-runiq-node="Pricing" data-node-id="Pricing" data-node-shape="doc">
+      <path d="M 15,651.8 L 87.80000000000001,651.8 L 97.80000000000001,661.8 L 97.80000000000001,702.5999999999999 L 15,702.5999999999999 Z M 87.80000000000001,651.8 L 87.80000000000001,661.8 L 97.80000000000001,661.8" fill="#364d5f" stroke="#48677e" stroke-width="1" />
       
-      <text x="771" y="177.4" 
+      <text x="56.400000000000006" y="677.1999999999999" 
       text-anchor="middle" 
       dominant-baseline="middle"
       font-family="sans-serif" 
       font-size="14"
-      fill="#000">
+      fill="#FFFFFF">
       Pricing
     </text>
     <title>See pricing</title></g>

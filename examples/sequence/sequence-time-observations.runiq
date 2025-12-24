@@ -33,8 +33,3 @@ sequence "Payment Processing with Timing" {
   message from:"API" to:"Client" label:"paymentSuccess" type:return
 
 }
-
-# Standalone time observation shapes for timing analysis
-shape t1 as @timeObservation label:"t1 = start"
-shape t2 as @timeObservation label:"t2 = end"
-shape delta as @timeObservation label:"Δt = t2-t1 < 1000ms"

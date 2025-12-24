@@ -12,29 +12,29 @@ diagram "Quantum Fourier Transform" {
   shape q2 as @qubitWire label: "q2: |q₂⟩"
   
   # QFT on Qubit 0
-  shape H0_1 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape control1_0 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape S0_1 as @gateS label: "S" fill: "#fff9c4" strokeColor: "#000"
-  shape control2_0 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape T0_1 as @gateT label: "T" fill: "#fff9c4" strokeColor: "#000"
+  shape H0_1 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape control1_0 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape S0_1 as @gateS label: "S" fillColor: "#fff9c4" strokeColor: "#000"
+  shape control2_0 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape T0_1 as @gateT label: "T" fillColor: "#fff9c4" strokeColor: "#000"
   
   shape barrier1 as @barrier label: "|"
   
   # QFT on Qubit 1
-  shape H1_1 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape control2_1 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape S1_1 as @gateS label: "S" fill: "#fff9c4" strokeColor: "#000"
+  shape H1_1 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape control2_1 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape S1_1 as @gateS label: "S" fillColor: "#fff9c4" strokeColor: "#000"
   
   shape barrier2 as @barrier label: "|"
   
   # QFT on Qubit 2
-  shape H2_1 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H2_1 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
   
   shape barrier3 as @barrier label: "|"
   
   # SWAP gates (reverse qubit order)
-  shape swap0_1 as @swapX label: "⨉" fill: "#fff" strokeColor: "#000"
-  shape swap2_1 as @swapX label: "⨉" fill: "#fff" strokeColor: "#000"
+  shape swap0_1 as @swapX label: "⨉" fillColor: "#fff" strokeColor: "#000"
+  shape swap2_1 as @swapX label: "⨉" fillColor: "#fff" strokeColor: "#000"
   
   shape barrier4 as @barrier label: "|"
   

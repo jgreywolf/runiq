@@ -171,9 +171,9 @@ subtopic1a -> detail1
 
 ```runiq
 // Define styles for different levels
-style main fill:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3
-style branch fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
-style detail fill:"#f3e5f5" strokeColor:"#7b1fa2"
+style main fillColor:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3
+style branch fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+style detail fillColor:"#f3e5f5" strokeColor:"#7b1fa2"
 
 container "Mindmap" algorithm:radial {
   shape center as @circ label:"Topic" style:main

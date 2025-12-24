@@ -760,7 +760,7 @@ export function LiveEditor() {
 ## Support
 
 - [GitHub Issues](https://github.com/jgreywolf/runiq/issues) - Report bugs
-- [Discussions](https://github.com/jgreywolf/runiq/discussions) - Ask questions
+- [Discussions](https://github.com/jgreywolf/runiq/issues) - Ask questions
 - [Examples](https://github.com/jgreywolf/runiq/tree/main/examples) - Sample code
 
 ---

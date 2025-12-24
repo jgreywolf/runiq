@@ -17,42 +17,44 @@ Runiq's container template system enables:
 ### Basic Template
 
 ```runiq
-diagram "Microservices"
+diagram "Microservices" {
 
-template "service" {
-  fillColor: "#e3f2fd"
-  strokeColor: "#2196f3"
-  padding: 20
-}
+  template "service" {
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
+    padding: 20
+  }
 
-container "Auth Service" templateId: "service" {
-  shape auth as @server label: "Authentication"
-}
+  container "Auth Service" templateId: "service" {
+    shape auth as @server label: "Authentication"
+  }
 
-container "Payment Service" templateId: "service" {
-  shape payment as @server label: "Payment Gateway"
+  container "Payment Service" templateId: "service" {
+    shape payment as @server label: "Payment Gateway"
+  }
 }
 ```
 
 ### Basic Preset
 
 ```runiq
-diagram "Dashboard"
+diagram "Dashboard" {
 
-preset "card" {
-  fillColor: "#ffffff"
-  strokeColor: "#dee2e6"
-  padding: 15
-  shadow: true
-}
+  preset "card" {
+    fillColor: "#ffffff"
+    strokeColor: "#dee2e6"
+    padding: 15
+    shadow: true
+  }
 
-container "Metrics" preset: "card" {
-  shape users as @barChartVertical label: "Users: 1,250"
-}
+  container "Metrics" preset: "card" {
+    shape users as @barChartVertical label: "Users: 1,250"
+  }
 
-container "Revenue" preset: "card" {
-  shape rev as @lineChart label: "Revenue: $2.4M"
-}
+  container "Revenue" preset: "card" {
+    shape rev as @lineChart label: "Revenue: $2.4M"
+  }
+  }
 ```
 
 ## Templates
@@ -233,21 +235,22 @@ container "Custom Card" preset: "card"
 Inherit properties from another container using `extends`:
 
 ```runiq
-diagram "Inheritance Example"
+diagram "Inheritance Example" {
 
-container "Base"
-  fillColor: "#f0f0f0"
-  strokeColor: "#999"
-  padding: 20
-{
-  shape base as @rectangle label: "Base Component"
-}
+  container "Base"
+    fillColor: "#f0f0f0"
+    strokeColor: "#999"
+    padding: 20
+  {
+    shape base as @rectangle label: "Base Component"
+  }
 
-container "Derived"
-  extends: "Base"
-  strokeColor: "#2196f3"
-{
-  shape derived as @rectangle label: "Derived Component"
+  container "Derived"
+    extends: "Base"
+    strokeColor: "#2196f3"
+  {
+    shape derived as @rectangle label: "Derived Component"
+  }
 }
 ```
 
@@ -452,221 +455,225 @@ container "AdvancedService"
 ### Example 1: Themed Dashboard
 
 ```runiq
-diagram "Analytics Dashboard"
+diagram "Analytics Dashboard" {
 
-// Define templates
-template "widget" {
-  label: "Dashboard Widget"
-  fillColor: "#ffffff"
-  strokeWidth: 1
-  padding: 15
-  shadow: true
-  collapseButtonVisible: true
-  resizable: true
-}
+  // Define templates
+  template "widget" {
+    label: "Dashboard Widget"
+    fillColor: "#ffffff"
+    strokeWidth: 1
+    padding: 15
+    shadow: true
+    collapseButtonVisible: true
+    resizable: true
+  }
 
-template "chart" {
-  label: "Chart Container"
-  fillColor: "#f8f9fa"
-  padding: 20
-  shadow: false
-}
+  template "chart" {
+    label: "Chart Container"
+    fillColor: "#f8f9fa"
+    padding: 20
+    shadow: false
+  }
 
-// Define theme presets
-preset "primary" {
-  strokeColor: "#2196f3"
-  fillColor: "#e3f2fd"
-}
+  // Define theme presets
+  preset "primary" {
+    strokeColor: "#2196f3"
+    fillColor: "#e3f2fd"
+  }
 
-preset "success" {
-  strokeColor: "#4caf50"
-  fillColor: "#e8f5e9"
-}
+  preset "success" {
+    strokeColor: "#4caf50"
+    fillColor: "#e8f5e9"
+  }
 
-preset "warning" {
-  strokeColor: "#ff9800"
-  fillColor: "#fff3e0"
-}
+  preset "warning" {
+    strokeColor: "#ff9800"
+    fillColor: "#fff3e0"
+  }
 
-// Use templates and presets
-container "User Metrics" templateId: "widget" preset: "primary" {
-  shape users as @barChartVertical label: "Total Users: 1,250"
-  shape active as @gauge label: "Active: 987"
-  shape growth as @lineChart label: "+15% growth"
-}
+  // Use templates and presets
+  container "User Metrics" templateId: "widget" preset: "primary" {
+    shape users as @barChart flipAxes: true  label: "Total Users: 1,250"
+    shape active as @gauge label: "Active: 987"
+    shape growth as @lineChart label: "+15% growth"
+  }
 
-container "Revenue" templateId: "widget" preset: "success" {
-  shape monthly as @barChartVertical label: "Monthly: $125K"
-  shape ytd as @pieChart label: "YTD: $2.4M"
-  shape trend as @lineChart label: "↑ Trending"
-}
+  container "Revenue" templateId: "widget" preset: "success" {
+    shape monthly as @barChart flipAxes: true label: "Monthly: $125K"
+    shape ytd as @pieChart label: "YTD: $2.4M"
+    shape trend as @lineChart label: "↑ Trending"
+  }
 
-container "Alerts" templateId: "widget" preset: "warning" {
-  shape critical as @rhombus label: "2 Critical"
-  shape warnings as @rhombus label: "5 Warnings"
-}
+  container "Alerts" templateId: "widget" preset: "warning" {
+    shape criticalShape as @rhombus label: "2 Critical"
+    shape warnings as @rhombus label: "5 Warnings"
+  }
 
-container "Performance Chart" templateId: "chart" preset: "primary" {
-  shape cpu as @lineChart label: "CPU Usage"
-  shape memory as @lineChart label: "Memory"
-  shape disk as @lineChart label: "Disk I/O"
+  container "Performance Chart" templateId: "chart" preset: "primary" {
+    shape cpu as @lineChart label: "CPU Usage"
+    shape memory as @lineChart label: "Memory"
+    shape disk as @lineChart label: "Disk I/O"
+  }
 }
 ```
 
 ### Example 2: Microservices Architecture
 
 ```runiq
-diagram "Microservices Platform"
+diagram "Microservices Platform" {
 
-// Service template
-template "microservice" {
-  label: "Microservice"
-  description: "Standard microservice container"
-  fillColor: "#e3f2fd"
-  strokeColor: "#2196f3"
-  strokeWidth: 2
-  padding: 20
-  collapseButtonVisible: true
-  shadow: true
+  // Service template
+  template "microservice" {
+    label: "Microservice"
+    description: "Standard microservice container"
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
+    strokeWidth: 2
+    padding: 20
+    collapseButtonVisible: true
+    shadow: true
+  }
+
+  // Database template
+  template "database" {
+    label: "Database"
+    fillColor: "#fff3e0"
+    strokeColor: "#ff9800"
+    strokeWidth: 2
+    padding: 15
+    shadow: true
+  }
+
+  // Presets for different layers
+  preset "frontend" {
+    strokeColor: "#9c27b0"
+    fillColor: "#f3e5f5"
+  }
+
+  preset "backend" {
+    strokeColor: "#2196f3"
+    fillColor: "#e3f2fd"
+  }
+
+  preset "data" {
+    strokeColor: "#ff9800"
+    fillColor: "#fff3e0"
+  }
+
+  // Frontend layer
+  container "API Gateway" templateId: "microservice" preset: "frontend" {
+    shape gateway as @server label: "Gateway"
+    shape auth as @rectangle label: "Auth Check"
+    shape routingShape as @rectangle label: "Router"
+  }
+
+  // Backend services
+  container "User Service" templateId: "microservice" preset: "backend" {
+    shape api1 as @rectangle label: "User API"
+    shape cache1 as @cylinder label: "Cache"
+  }
+
+  container "Order Service" templateId: "microservice" preset: "backend" {
+    shape api2 as @rectangle label: "Order API"
+    shape queue as @cylinder label: "Queue"
+  }
+
+  // Data layer
+  container "Databases" templateId: "database" preset: "data" {
+    shape userdb as @cylinder label: "User DB"
+    shape orderdb as @cylinder label: "Order DB"
+    shape analytics as @cylinder label: "Analytics"
+  }
+
+  // Edges
+  gateway -> api1
+  gateway -> api2
+  api1 -> userdb
+  api2 -> orderdb
 }
-
-// Database template
-template "database" {
-  label: "Database"
-  fillColor: "#fff3e0"
-  strokeColor: "#ff9800"
-  strokeWidth: 2
-  padding: 15
-  shadow: true
-}
-
-// Presets for different layers
-preset "frontend" {
-  strokeColor: "#9c27b0"
-  fillColor: "#f3e5f5"
-}
-
-preset "backend" {
-  strokeColor: "#2196f3"
-  fillColor: "#e3f2fd"
-}
-
-preset "data" {
-  strokeColor: "#ff9800"
-  fillColor: "#fff3e0"
-}
-
-// Frontend layer
-container "API Gateway" templateId: "microservice" preset: "frontend" {
-  shape gateway as @server label: "Gateway"
-  shape auth as @rectangle label: "Auth Check"
-  shape routing as @rectangle label: "Router"
-}
-
-// Backend services
-container "User Service" templateId: "microservice" preset: "backend" {
-  shape api1 as @rectangle label: "User API"
-  shape cache1 as @cylinder label: "Cache"
-}
-
-container "Order Service" templateId: "microservice" preset: "backend" {
-  shape api2 as @rectangle label: "Order API"
-  shape queue as @cylinder label: "Queue"
-}
-
-// Data layer
-container "Databases" templateId: "database" preset: "data" {
-  shape userdb as @cylinder label: "User DB"
-  shape orderdb as @cylinder label: "Order DB"
-  shape analytics as @cylinder label: "Analytics"
-}
-
-// Edges
-gateway -> api1
-gateway -> api2
-api1 -> userdb
-api2 -> orderdb
 ```
 
 ### Example 3: Inheritance Chain
 
 ```runiq
-diagram "Service Inheritance"
+diagram "Service Inheritance" {
 
-// Base service container
-container "BaseService"
-  fillColor: "#f0f0f0"
-  strokeColor: "#999"
-  strokeWidth: 1
-  padding: 15
-{
-  shape base as @rectangle label: "Base Component"
+  // Base service container
+  container "BaseService"
+    fillColor: "#f0f0f0"
+    strokeColor: "#999"
+    strokeWidth: 1
+    padding: 15
+  {
+    shape base as @rectangle label: "Base Component"
+  }
+
+  // Authenticated service extends base
+  container "AuthenticatedService" extends: "BaseService"
+    strokeColor: "#2196f3"
+    collapseButtonVisible: true
+  {
+    shape auth as @rectangle label: "Auth Middleware"
+  }
+
+  // Admin service extends authenticated
+  container "AdminService" extends: "AuthenticatedService"
+    fillColor: "#fff3cd"
+    strokeColor: "#ffc107"
+    strokeWidth: 2
+  {
+    shape admin as @rectangle label: "Admin Endpoint"
+    shape rbac as @rectangle label: "RBAC"
+  }
+
+  // Connections
+  base -> auth
+  auth -> admin
 }
-
-// Authenticated service extends base
-container "AuthenticatedService" extends: "BaseService"
-  strokeColor: "#2196f3"
-  collapseButtonVisible: true
-{
-  shape auth as @rectangle label: "Auth Middleware"
-}
-
-// Admin service extends authenticated
-container "AdminService" extends: "AuthenticatedService"
-  fillColor: "#fff3cd"
-  strokeColor: "#ffc107"
-  strokeWidth: 2
-{
-  shape admin as @rectangle label: "Admin Endpoint"
-  shape rbac as @rectangle label: "RBAC"
-}
-
-// Connections
-base -> auth
-auth -> admin
 ```
 
 ### Example 4: Multi-Template Dashboard
 
 ```runiq
-diagram "Operations Dashboard"
+diagram "Operations Dashboard" {
 
-// Widget template
-template "dashboard-widget" {
-  fillColor: "#ffffff"
-  strokeWidth: 1
-  padding: 15
-  shadow: true
-  collapseButtonVisible: true
-}
-
-// Section template
-template "dashboard-section" {
-  fillColor: "#f8f9fa"
-  strokeColor: "#6c757d"
-  padding: 25
-  shadow: false
-}
-
-// Container for entire dashboard
-container "Dashboard" templateId: "dashboard-section" {
-
-  // Nested containers using widget template
-  container "System Health" templateId: "dashboard-widget" strokeColor: "#4caf50" {
-    shape cpu as @gauge label: "CPU: 45%"
-    shape memory as @gauge label: "Memory: 67%"
-    shape disk as @gauge label: "Disk: 23%"
+  // Widget template
+  template "dashboard-widget" {
+    fillColor: "#ffffff"
+    strokeWidth: 1
+    padding: 15
+    shadow: true
+    collapseButtonVisible: true
   }
 
-  container "Active Services" templateId: "dashboard-widget" strokeColor: "#2196f3" {
-    shape api as @circle label: "API: Running"
-    shape db as @circle label: "DB: Running"
-    shape cache as @circle label: "Cache: Running"
+  // Section template
+  template "dashboard-section" {
+    fillColor: "#f8f9fa"
+    strokeColor: "#6c757d"
+    padding: 25
+    shadow: false
   }
 
-  container "Alerts" templateId: "dashboard-widget" strokeColor: "#ff9800" {
-    shape errors as @rhombus label: "Errors: 2"
-    shape warnings as @rhombus label: "Warnings: 7"
+  // Container for entire dashboard
+  container "Dashboard" templateId: "dashboard-section" {
+
+    // Nested containers using widget template
+    container "System Health" templateId: "dashboard-widget" strokeColor: "#4caf50" {
+      shape cpu as @gauge label: "CPU: 45%"
+      shape memory as @gauge label: "Memory: 67%"
+      shape disk as @gauge label: "Disk: 23%"
+    }
+
+    container "Active Services" templateId: "dashboard-widget" strokeColor: "#2196f3" {
+      shape api as @circle label: "API: Running"
+      shape db as @circle label: "DB: Running"
+      shape cache as @circle label: "Cache: Running"
+    }
+
+    container "Alerts" templateId: "dashboard-widget" strokeColor: "#ff9800" {
+      shape errors as @rhombus label: "Errors: 2"
+      shape warnings as @rhombus label: "Warnings: 7"
+    }
   }
 }
 ```
@@ -969,4 +976,4 @@ function resolveContainerStyle(
 - **[Containers Guide](/guide/containers)** - Complete container system documentation
 - **[Data-Driven Diagrams](/reference/data-driven)** - Template-based diagram generation
 - **[Styling](/guide/styling)** - General styling reference
-- **[Component Diagrams](/guide/component-diagrams)** - UML component templates
+- **[Component Diagrams](/guide/diagram-types/component-diagrams)** - UML component templates

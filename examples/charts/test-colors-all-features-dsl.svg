@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="502" height="702" 
+    viewBox="0 0 502 702"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="pie1" data-node-id="pie1" data-node-shape="pieChart"><text x="357" y="27" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Product Distribution
+    </text><path d="M 357,167 L 357,52 A 115,115 0 0,1 450.036954353119,234.5953040136344 Z" fill="#667eea" stroke="#48677e" stroke-width="2" />
+    <path d="M 357,167 L 450.036954353119,234.5953040136344 A 115,115 0 0,1 273.16860784653767,245.72291718179918 Z" fill="#764ba2" stroke="#48677e" stroke-width="2" />
+    <path d="M 357,167 L 273.16860784653767,245.72291718179918 A 115,115 0 0,1 263.963045646881,99.4046959863656 Z" fill="#f093fb" stroke="#48677e" stroke-width="2" />
+    <path d="M 357,167 L 263.963045646881,99.4046959863656 A 115,115 0 0,1 357,52 Z" fill="#4facfe" stroke="#48677e" stroke-width="2" />
+    <text x="428.7260251971636" y="134.45376477096647" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">35</text>
+    <text x="362.0546368221097" y="251.34115163847588" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff">28</text>
+    <text x="276.6588483615241" y="176.05463682210979" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">22</text>
+    <text x="320.4537647709665" y="99.27397480283639" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">15</text>
+    <g>
+      <rect x="232" y="302" width="12" height="12" fill="#667eea" stroke="#333" stroke-width="1" />
+      <text x="250" y="312" font-size="11" fill="#333">Product A</text>
+    </g>
+    <g>
+      <rect x="326.5" y="302" width="12" height="12" fill="#764ba2" stroke="#333" stroke-width="1" />
+      <text x="344.5" y="312" font-size="11" fill="#333">Product B</text>
+    </g>
+    <g>
+      <rect x="232" y="322" width="12" height="12" fill="#f093fb" stroke="#333" stroke-width="1" />
+      <text x="250" y="332" font-size="11" fill="#333">Product C</text>
+    </g>
+    <g>
+      <rect x="326.5" y="322" width="12" height="12" fill="#4facfe" stroke="#333" stroke-width="1" />
+      <text x="344.5" y="332" font-size="11" fill="#333">Product D</text>
+    </g></g><g data-runiq-node="bar1" data-node-id="bar1" data-node-shape="barChart"><g><rect x="32" y="152" width="20" height="150" fill="#ff6b6b" stroke="#48677e" stroke-width="1" />
+<text x="42" y="147" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">30</text>
+<rect x="57" y="77" width="20" height="225" fill="#4ecdc4" stroke="#48677e" stroke-width="1" />
+<text x="67" y="72" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">45</text>
+<rect x="82" y="177" width="20" height="125" fill="#45b7d1" stroke="#48677e" stroke-width="1" />
+<text x="92" y="172" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">25</text>
+<text x="67" y="322" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q1</text>
+<rect x="122" y="127" width="20" height="175" fill="#ff6b6b" stroke="#48677e" stroke-width="1" />
+<text x="132" y="122" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">35</text>
+<rect x="147" y="52" width="20" height="250" fill="#4ecdc4" stroke="#48677e" stroke-width="1" />
+<text x="157" y="47" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">50</text>
+<rect x="172" y="152" width="20" height="150" fill="#45b7d1" stroke="#48677e" stroke-width="1" />
+<text x="182" y="147" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">30</text>
+<text x="157" y="322" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Q2</text><line x1="22" y1="302" x2="202" y2="302" stroke="#333" stroke-width="2" /><g>
+      <rect x="12" y="372" width="12" height="12" fill="#ff6b6b" stroke="#333" stroke-width="1" />
+      <text x="30" y="382" font-size="11" fill="#333">Series 1</text>
+    </g>
+    <g>
+      <rect x="101" y="372" width="12" height="12" fill="#4ecdc4" stroke="#333" stroke-width="1" />
+      <text x="119" y="382" font-size="11" fill="#333">Series 2</text>
+    </g>
+    <g>
+      <rect x="12" y="392" width="12" height="12" fill="#45b7d1" stroke="#333" stroke-width="1" />
+      <text x="30" y="402" font-size="11" fill="#333">Series 3</text>
+    </g></g></g><g data-runiq-node="bar2" data-node-id="bar2" data-node-shape="barChart"><g><rect x="32" y="535.0434782608695" width="60" height="86.95652173913044" fill="#a8e6cf" stroke="#48677e" stroke-width="1" />
+<rect x="32" y="482.86956521739125" width="60" height="52.17391304347826" fill="#ffd3b6" stroke="#48677e" stroke-width="1" />
+<rect x="32" y="448.08695652173907" width="60" height="34.78260869565217" fill="#ffaaa5" stroke="#48677e" stroke-width="1" />
+<text x="62" y="443.0869565217391" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">100</text>
+<text x="62" y="642" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Jan</text>
+<rect x="112" y="526.3478260869565" width="60" height="95.65217391304348" fill="#a8e6cf" stroke="#48677e" stroke-width="1" />
+<rect x="112" y="465.4782608695652" width="60" height="60.86956521739131" fill="#ffd3b6" stroke="#48677e" stroke-width="1" />
+<rect x="112" y="422" width="60" height="43.47826086956522" fill="#ffaaa5" stroke="#48677e" stroke-width="1" />
+<text x="142" y="417" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">115</text>
+<text x="142" y="642" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Feb</text><line x1="22" y1="622" x2="342" y2="622" stroke="#333" stroke-width="2" /><g>
+      <rect x="362" y="502" width="12" height="12" fill="#a8e6cf" stroke="#333" stroke-width="1" />
+      <text x="380" y="512" font-size="11" fill="#333">Series 1</text>
+    </g>
+    <g>
+      <rect x="362" y="522" width="12" height="12" fill="#ffd3b6" stroke="#333" stroke-width="1" />
+      <text x="380" y="532" font-size="11" fill="#333">Series 2</text>
+    </g>
+    <g>
+      <rect x="362" y="542" width="12" height="12" fill="#ffaaa5" stroke="#333" stroke-width="1" />
+      <text x="380" y="552" font-size="11" fill="#333">Series 3</text>
+    </g></g></g></svg>

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="420" 
+    height="186" 
+    viewBox="60 60 420 186"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">Single Cylinder Control Circuit</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .pneumatic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .pneumatic-component { color: #000000; }
+      .pneumatic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .pneumatic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .pneumatic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="pneumatic-wires">
+  <path d="M 120,150 L 240,115" class="pneumatic-wire"/>
+  <text x="245" y="110" class="pneumatic-net-label">PORT_A</text>
+</g>
+<g class="pneumatic-components">
+  <g class="pneumatic-component" data-ref="VALVE">
+
+      <!-- Left position box -->
+      <rect x="100" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Right position box -->
+      <rect x="120" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- Flow arrows in left position (P->A) -->
+      <line x1="105" y1="140" x2="110" y2="110" stroke="currentColor" stroke-width="2"/>
+      <polygon points="110,110 108,115 112,115"
+        fill="currentColor"/>
+
+      <!-- Flow arrows in right position (A->R) -->
+      <line x1="130" y1="110" x2="135" y2="140" stroke="currentColor" stroke-width="2"/>
+      <polygon points="135,140 133,135 137,135"
+        fill="currentColor"/>
+
+      <!-- Port P connection -->
+      <circle cx="102" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port A connection -->
+      <circle cx="120" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port R connection -->
+      <circle cx="138" cy="155" r="2" fill="currentColor"/>
+        <text x="120" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">VALVE</text>
+  </g>
+  <g class="pneumatic-component" data-ref="CYLINDER">
+
+      <!-- Cylinder body -->
+      <rect x="250" y="100" width="40" height="20"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- piston rod line -->
+      <line x1="240" y1="115" x2="250" y2="115" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Port A circle -->
+      <circle cx="270" cy="130" r="2" fill="currentColor"/>
+
+      <!-- Exhaust port circle -->
+      <circle cx="290" cy="130" r="2" fill="currentColor"/>
+
+      <!-- spring return indicator (zigzag) -->
+      <path d="M 285,105 l 2,-2 l 2,4 l 2,-4 l 2,4 l 2,-4 l 2,2"
+        stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <text x="270" y="110" font-size="8" text-anchor="middle" fill="currentColor">spring</text>
+        <text x="270" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">CYLINDER</text>
+  </g>
+  <g class="pneumatic-component" data-ref="BUTTON">
+
+      <!-- Left position box -->
+      <rect x="400" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Right position box -->
+      <rect x="420" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- Flow arrows in left position (P->A) -->
+      <line x1="405" y1="140" x2="410" y2="110" stroke="currentColor" stroke-width="2"/>
+      <polygon points="410,110 408,115 412,115"
+        fill="currentColor"/>
+
+      <!-- Flow arrows in right position (A->R) -->
+      <line x1="430" y1="110" x2="435" y2="140" stroke="currentColor" stroke-width="2"/>
+      <polygon points="435,140 433,135 437,135"
+        fill="currentColor"/>
+
+      <!-- Port P connection -->
+      <circle cx="402" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port A connection -->
+      <circle cx="420" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port R connection -->
+      <circle cx="438" cy="155" r="2" fill="currentColor"/>
+        <text x="420" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">BUTTON</text>
+  </g>
+</g>
+<g class="pneumatic-grounds">
+</g>
+<g class="profile-metadata">
+  <text x="70" y="266" class="pneumatic-label">Pressure: 6 bar (operating)</text>
+  <text x="70" y="284" class="pneumatic-label">Flow Rate: 500 L/min</text>
+</g>
+</svg>

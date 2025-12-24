@@ -1,17 +1,6 @@
-// Time Distribution - Segmented Cycle
-// Demonstrates segmented cycle glyphset with percentages
-
-diagram TimeDistribution
-  theme professional
-
-glyphset segmentedCycle
-  direction LR
-  showPercentages true
-  
-  // Phases with percentages
-  "Planning" 15%
-  "Development" 40%
-  "Testing" 25%
-  "Deployment" 10%
-  "Maintenance" 10%
-end
+glyphset segmentedCycle "Time Management" {
+  theme "vibrant"
+  item "Morning Focus"
+  item "Afternoon Meetings"
+  item "Evening Review"
+}

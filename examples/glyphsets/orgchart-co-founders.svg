@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="432" height="372" 
+    viewBox="0 0 432 372"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="orgChart" data-node-id="orgChart" data-node-shape="orgChart"><g class="org-chart"><rect x="152" y="12" width="120" height="60" fill="#2E7D32" stroke="#666" stroke-width="2" rx="8" /><text x="212" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#000">
+      Alex Rivera - Co-Founder & CEO
+    </text><line x1="212" y1="72" x2="212" y2="152" stroke="#666" stroke-width="2" /><rect x="152" y="152" width="120" height="60" fill="#43A047" stroke="#666" stroke-width="2" rx="8" /><text x="212" y="182" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#000">
+      Engineering Team
+    </text><line x1="212" y1="212" x2="72" y2="292" stroke="#666" stroke-width="2" /><rect x="12" y="292" width="120" height="60" fill="#66BB6A" stroke="#666" stroke-width="2" rx="8" /><text x="72" y="322" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#000">
+      Tech Lead
+    </text><line x1="212" y1="212" x2="212" y2="292" stroke="#666" stroke-width="2" /><rect x="152" y="292" width="120" height="60" fill="#66BB6A" stroke="#666" stroke-width="2" rx="8" /><text x="212" y="322" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#000">
+      Senior Dev
+    </text><line x1="212" y1="212" x2="352" y2="292" stroke="#666" stroke-width="2" /><rect x="292" y="292" width="120" height="60" fill="#66BB6A" stroke="#666" stroke-width="2" rx="8" /><text x="352" y="322" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#000">
+      Junior Dev
+    </text></g></g></svg>

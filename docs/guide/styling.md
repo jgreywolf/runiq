@@ -17,8 +17,8 @@ Apply styles to all shapes and edges:
 ```runiq
 diagram "Styled Diagram" {
 
-  style default fill:"#f7f7ff" strokeColor:"#444" strokeWidth:2
-  style default2 fill:"#ef1" fontFamily:"Inter, sans-serif" fontSize:14
+  style default fillColor:"#f7f7ff" strokeColor:"#444" strokeWidth:2
+  style default2 fillColor:"#ef1" fontFamily:"Inter, sans-serif" fontSize:14
 
   shape A as @rect label: "Node A" style:default
   shape B as @rect label: "Node B" style:default2
@@ -33,9 +33,9 @@ Define reusable named styles:
 ```runiq
 diagram "Named Styles" {
 
-  style primary fill:"#2196f3" strokeColor:"#1565c0" color:"#ffffff"
-  style accent fill:"#ff9800" strokeColor:"#f57c00" color:"#ffffff"
-  style subtle fill:"#f5f5f5" strokeColor:"#9e9e9e" color:"#333333"
+  style primary fillColor:"#2196f3" strokeColor:"#1565c0" color:"#ffffff"
+  style accent fillColor:"#ff9800" strokeColor:"#f57c00" color:"#ffffff"
+  style subtle fillColor:"#f5f5f5" strokeColor:"#9e9e9e" color:"#333333"
 
   shape Button as @rect label: "Submit" style:primary
   shape Warning as @rect label: "Cancel" style:accent
@@ -52,7 +52,7 @@ diagram "Colors" {
 
   shape A as @rect
     label: "Custom Colors"
-    fill: "#e3f2fd"         # Background color
+    fillColor: "#e3f2fd"         # Background color
     strokeColor: "#2196f3"       # Border color
     color: "#1565c0"        # Text color
     strokeWidth: 2          # Border width
@@ -63,16 +63,16 @@ diagram "Colors" {
 
 ```runiq
 # Hex colors
-fill: "#2196f3"
+fillColor: "#2196f3"
 
 # RGB colors
-fill: "rgb(33, 150, 243)"
+fillColor: "rgb(33, 150, 243)"
 
 # RGBA with transparency
-fill: "rgba(33, 150, 243, 0.5)"
+fillColor: "rgba(33, 150, 243, 0.5)"
 
 # Named colors
-fill: "blue"
+fillColor: "blue"
 strokeColor: "red"
 color: "white"
 ```
@@ -158,19 +158,19 @@ diagram "Individual Styling" {
 
   shape Start as @rounded
     label: "Start"
-    fill: "#4caf50"
+    fillColor: "#4caf50"
     strokeColor: "#2e7d32"
     color: "#ffffff"
 
   shape Process as @rect
     label: "Process"
-    fill: "#2196f3"
+    fillColor: "#2196f3"
     strokeColor: "#1565c0"
     color: "#ffffff"
 
   shape End as @rounded
     label: "End"
-    fill: "#f44336"
+    fillColor: "#f44336"
     strokeColor: "#c62828"
     color: "#ffffff"
 }
@@ -182,7 +182,7 @@ diagram "Individual Styling" {
 
 ```runiq
 style default
-  fill: "#ffffff"
+  fillColor: "#ffffff"
   strokeColor: "#444444"
   color: "#333333"
   strokeWidth: 2
@@ -195,14 +195,14 @@ diagram "Dark Theme" {
   direction LR
 
   style default
-    fill: "#1e1e1e"
+    fillColor: "#1e1e1e"
     strokeColor: "#6e6e6e"
     color: "#e0e0e0"
     strokeWidth: 2
     fontFamily: "Consolas, monospace"
 
   style highlight
-    fill: "#2196f3"
+    fillColor: "#2196f3"
     strokeColor: "#1976d2"
     color: "#ffffff"
 
@@ -218,14 +218,14 @@ diagram "Dark Theme" {
 diagram "Pastel Theme"{
 
   style default
-    fill: "#f5f5f5"
+    fillColor: "#f5f5f5"
     strokeColor: "#999999"
     strokeWidth: 1
 
-  style success fill:"#c8e6c9" strokeColor:"#81c784"
-  style warning fill:"#fff9c4" strokeColor:"#fff176"
-  style error fill:"#ffcdd2" strokeColor:"#ef9a9a"
-  style info fill:"#bbdefb" strokeColor:"#64b5f6"
+  style success fillColor:"#c8e6c9" strokeColor:"#81c784"
+  style warning fillColor:"#fff9c4" strokeColor:"#fff176"
+  style error fillColor:"#ffcdd2" strokeColor:"#ef9a9a"
+  style info fillColor:"#bbdefb" strokeColor:"#64b5f6"
 
   shape OK as @hexagon label: "Success" style:success
   shape Wait as @rect label: "Processing" style:warning
@@ -240,16 +240,16 @@ diagram "Pastel Theme"{
 diagram "Professional Theme" {
 
   style default
-    fill: "#ffffff"
+    fillColor: "#ffffff"
     strokeColor: "#263238"
     color: "#263238"
     strokeWidth: 2
     fontFamily: "Segoe UI, sans-serif"
     fontSize: 13
 
-  style primary fill:"#0d47a1" strokeColor:"#01579b" color:"#ffffff"
-  style secondary fill:"#37474f" strokeColor:"#263238" color:"#ffffff"
-  style accent fill:"#d84315" strokeColor:"#bf360c" color:"#ffffff"
+  style primary fillColor:"#0d47a1" strokeColor:"#01579b" color:"#ffffff"
+  style secondary fillColor:"#37474f" strokeColor:"#263238" color:"#ffffff"
+  style accent fillColor:"#d84315" strokeColor:"#bf360c" color:"#ffffff"
 
   shape Header as @rect label: "Header" style:primary
   shape Content as @rect label: "Content" style:secondary
@@ -307,9 +307,9 @@ diagram "Styled Containers" {
 ```runiq
 diagram "Opacity" {
 
-  shape Solid as @rect label: "Solid" fill: "#2196f3" opacity: 1.0
-  shape Semi as @rect label: "Semi-Transparent" fill: "#e1f" opacity: 0.5
-  shape Light as @rect label: "Very Transparent" fill: "#2196f3" opacity: 0.2
+  shape Solid as @rect label: "Solid" fillColor: "#2196f3" opacity: 1.0
+  shape Semi as @rect label: "Semi-Transparent" fillColor: "#e1f" opacity: 0.5
+  shape Light as @rect label: "Very Transparent" fillColor: "#2196f3" opacity: 0.2
 }
 ```
 
@@ -339,7 +339,7 @@ SVG gradient fills are not yet supported but are planned for a future release.
 # Planned syntax:
 shape Gradient as @rect
   label: "Gradient"
-  fill: "linear-gradient(#2196f3, #1565c0)"
+  fillColor: "linear-gradient(#2196f3, #1565c0)"
 ```
 
 ## Color Palettes
@@ -348,36 +348,36 @@ shape Gradient as @rect
 
 ```runiq
 # Blue
-fill: "#2196f3" strokeColor: "#1565c0"  # Primary
-fill: "#bbdefb" strokeColor: "#64b5f6"  # Light
-fill: "#0d47a1" strokeColor: "#01579b"  # Dark
+fillColor: "#2196f3" strokeColor: "#1565c0"  # Primary
+fillColor: "#bbdefb" strokeColor: "#64b5f6"  # Light
+fillColor: "#0d47a1" strokeColor: "#01579b"  # Dark
 
 # Green
-fill: "#4caf50" strokeColor: "#2e7d32"  # Primary
-fill: "#c8e6c9" strokeColor: "#81c784"  # Light
-fill: "#1b5e20" strokeColor: "#2e7d32"  # Dark
+fillColor: "#4caf50" strokeColor: "#2e7d32"  # Primary
+fillColor: "#c8e6c9" strokeColor: "#81c784"  # Light
+fillColor: "#1b5e20" strokeColor: "#2e7d32"  # Dark
 
 # Orange
-fill: "#ff9800" strokeColor: "#f57c00"  # Primary
-fill: "#ffe0b2" strokeColor: "#ffb74d"  # Light
-fill: "#e65100" strokeColor: "#ef6c00"  # Dark
+fillColor: "#ff9800" strokeColor: "#f57c00"  # Primary
+fillColor: "#ffe0b2" strokeColor: "#ffb74d"  # Light
+fillColor: "#e65100" strokeColor: "#ef6c00"  # Dark
 
 # Red
-fill: "#f44336" strokeColor: "#c62828"  # Primary
-fill: "#ffcdd2" strokeColor: "#ef9a9a"  # Light
-fill: "#b71c1c" strokeColor: "#c62828"  # Dark
+fillColor: "#f44336" strokeColor: "#c62828"  # Primary
+fillColor: "#ffcdd2" strokeColor: "#ef9a9a"  # Light
+fillColor: "#b71c1c" strokeColor: "#c62828"  # Dark
 ```
 
 ### Grayscale
 
 ```runiq
-fill: "#ffffff"  # White
-fill: "#f5f5f5"  # Very Light Gray
-fill: "#e0e0e0"  # Light Gray
-fill: "#9e9e9e"  # Medium Gray
-fill: "#616161"  # Dark Gray
-fill: "#212121"  # Very Dark Gray
-fill: "#000000"  # Black
+fillColor: "#ffffff"  # White
+fillColor: "#f5f5f5"  # Very Light Gray
+fillColor: "#e0e0e0"  # Light Gray
+fillColor: "#9e9e9e"  # Medium Gray
+fillColor: "#616161"  # Dark Gray
+fillColor: "#212121"  # Very Dark Gray
+fillColor: "#000000"  # Black
 ```
 
 ## Best Practices
@@ -388,11 +388,11 @@ Pick 3-5 colors and stick to them throughout the diagram:
 
 ```runiq
 # Define your palette
-style primary fill:"#2196f3" strokeColor:"#1565c0"
-style secondary fill:"#4caf50" strokeColor:"#2e7d32"
-style accent fill:"#ff9800" strokeColor:"#f57c00"
-style neutral fill:"#9e9e9e" strokeColor:"#616161"
-style danger fill:"#f44336" strokeColor:"#c62828"
+style primary fillColor:"#2196f3" strokeColor:"#1565c0"
+style secondary fillColor:"#4caf50" strokeColor:"#2e7d32"
+style accent fillColor:"#ff9800" strokeColor:"#f57c00"
+style neutral fillColor:"#9e9e9e" strokeColor:"#616161"
+style danger fillColor:"#f44336" strokeColor:"#c62828"
 ```
 
 ### 2. **Adequate Contrast**
@@ -402,12 +402,12 @@ Ensure text is readable against backgrounds:
 ```runiq
 # Good contrast
 shape Good as @rect
-  fill: "#2196f3"   // Dark blue background
+  fillColor: "#2196f3"   // Dark blue background
   color: "#ffffff"  # White text ✅
 
 # Poor contrast (avoid)
 shape Poor as @rect
-  fill: "#bbdefb"   # Light blue background
+  fillColor: "#bbdefb"   # Light blue background
   color: "#ffffff"  # White text ❌
 ```
 
@@ -416,10 +416,10 @@ shape Poor as @rect
 Use colors that match meaning:
 
 ```runiq
-style success fill:"#4caf50" strokeColor:"#2e7d32"  # Green for success
-style error fill:"#f44336" strokeColor:"#c62828"    # Red for errors
-style warning fill:"#ff9800" strokeColor:"#f57c00"  # Orange for warnings
-style info fill:"#2196f3" strokeColor:"#1565c0"     # Blue for info
+style success fillColor:"#4caf50" strokeColor:"#2e7d32"  # Green for success
+style error fillColor:"#f44336" strokeColor:"#c62828"    # Red for errors
+style warning fillColor:"#ff9800" strokeColor:"#f57c00"  # Orange for warnings
+style info fillColor:"#2196f3" strokeColor:"#1565c0"     # Blue for info
 ```
 
 ### 4. **Accessibility**
@@ -435,7 +435,7 @@ Consider colorblind users:
 
 ```runiq
 # Use subtle colors
-fill: "#f7f7ff"   # Very light blue-gray
+fillColor: "#f7f7ff"   # Very light blue-gray
 strokeColor: "#444444" # Dark gray (not black)
 
 # Add whitespace
@@ -455,7 +455,7 @@ fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
 
 | Property      | Type                    | Default    | Example                  |
 | ------------- | ----------------------- | ---------- | ------------------------ |
-| `fill`        | color                   | #f7f7ff    | `fill: "#2196f3"`        |
+| `fill`        | color                   | #f7f7ff    | `fillColor: "#2196f3"`   |
 | `stroke`      | color                   | #444       | `strokeColor: "#1565c0"` |
 | `color`       | color                   | #333       | `color: "#ffffff"`       |
 | `strokeWidth` | number                  | 2          | `strokeWidth: 3`         |
@@ -492,11 +492,11 @@ fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
 diagram "Order Processing" {
   direction TB
 
-  style default fill:"#f5f5f5" strokeColor:"#616161"
-  style processStyle fill:"#2196f3" strokeColor:"#1565c0" color:"#ffffff"
-  style decision fill:"#ff9800" strokeColor:"#f57c00" color:"#ffffff"
-  style success fill:"#4caf50" strokeColor:"#2e7d32" color:"#ffffff"
-  style error fill:"#f44336" strokeColor:"#c62828" color:"#ffffff"
+  style default fillColor:"#f5f5f5" strokeColor:"#616161"
+  style processStyle fillColor:"#2196f3" strokeColor:"#1565c0" color:"#ffffff"
+  style decision fillColor:"#ff9800" strokeColor:"#f57c00" color:"#ffffff"
+  style success fillColor:"#4caf50" strokeColor:"#2e7d32" color:"#ffffff"
+  style error fillColor:"#f44336" strokeColor:"#c62828" color:"#ffffff"
 
   shape Start as @rounded label: "Start" style:success
   shape Validate as @rect label: "Validate Order" style:processStyle
@@ -522,19 +522,19 @@ diagram "Microservices" {
 
   container "Frontend" fillColor:"#fff3e0" strokeColor:"#ff9800" {
     shape React as @rect label: "React App"
-      fill:"#ffffff" strokeColor:"#ff9800"
+      fillColor:"#ffffff" strokeColor:"#ff9800"
   }
 
   container "Backend" fillColor:"#e8f5e9" strokeColor:"#4caf50" {
     shape API as @rect label: "API Gateway"
-      fill:"#ffffff" strokeColor:"#4caf50"
+      fillColor:"#ffffff" strokeColor:"#4caf50"
     shape Auth as @rect label: "Auth Service"
-      fill:"#ffffff" strokeColor:"#4caf50"
+      fillColor:"#ffffff" strokeColor:"#4caf50"
   }
 
   container "Data" fillColor:"#f3e5f5" strokeColor:"#9c27b0" {
     shape DB as @cylinder label: "PostgreSQL"
-      fill:"#ffffff" strokeColor:"#9c27b0"
+      fillColor:"#ffffff" strokeColor:"#9c27b0"
   }
 }
 ```

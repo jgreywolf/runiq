@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="970" height="930" 
+    viewBox="0 0 970 930"
+    role="img" aria-labelledby="sequence-title"><title id="sequence-title">E-Commerce Order Processing with SLAs</title>
+  <style>
+    .participant-box {
+      fill: #5a819e;
+      stroke: #5a819e;
+      stroke-width: 2;
+    }
+    .participant-text {
+      fill: #FFFFFF;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      text-anchor: middle;
+    }
+    .lifeline {
+      stroke: #96bacf;
+      stroke-width: 1;
+      stroke-dasharray: 5,5;
+    }
+    .message-line {
+      stroke: #48677e;
+      stroke-width: 2;
+      fill: none;
+    }
+    .message-arrow {
+      fill: #48677e;
+      stroke: #48677e;
+    }
+    .message-text {
+      fill: #48677e;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+    .activation-box {
+      fill: #73a3bf;
+      stroke: #5a819e;
+      stroke-width: 2;
+      opacity: 0.3;
+    }
+    .note-box {
+      fill: #dce8ef;
+      stroke: #48677e;
+      stroke-width: 1;
+    }
+    .note-text {
+      fill: #24333f;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+    }
+    .fragment-box {
+      fill: #f0f5f8;
+      stroke: #5a819e;
+      stroke-width: 2;
+    }
+    .fragment-label-bg {
+      fill: #5a819e;
+    }
+    .fragment-label-text {
+      fill: white;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .fragment-condition {
+      fill: #48677e;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-style: italic;
+    }
+  </style>
+  <rect width="970" height="930" fill="#FFFFFF"/><text x="485" y="30" class="diagram-title" text-anchor="middle" font-size="18" font-weight="bold" fill="#333333">E-Commerce Order Processing with SLAs</text><rect x="50" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="110" y="75" class="participant-text">Customer</text><rect x="200" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="260" y="75" class="participant-text">Web Frontend</text><rect x="350" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="410" y="75" class="participant-text">Order Service</text><rect x="500" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="560" y="75" class="participant-text">Inventory Service</text><rect x="650" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="710" y="75" class="participant-text">Payment Gateway</text><rect x="800" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="860" y="75" class="participant-text">Notification Service</text><line x1="110" y1="110" x2="110" y2="880" class="lifeline"/><line x1="260" y1="110" x2="260" y2="880" class="lifeline"/><line x1="410" y1="110" x2="410" y2="880" class="lifeline"/><line x1="560" y1="110" x2="560" y2="880" class="lifeline"/><line x1="710" y1="110" x2="710" y2="880" class="lifeline"/><line x1="860" y1="110" x2="860" y2="880" class="lifeline"/><line x1="110" y1="110" x2="260" y2="110" class="message-line" stroke-dasharray=""/><polygon points="260,110 252,106 252,114" class="message-arrow"/><text x="185" y="105" class="message-text" text-anchor="middle">Place Order</text><line x1="260" y1="170" x2="410" y2="170" class="message-line" stroke-dasharray=""/><polygon points="410,170 402,166 402,174" class="message-arrow"/><text x="335" y="165" class="message-text" text-anchor="middle">createOrder()</text><line x1="410" y1="230" x2="560" y2="230" class="message-line" stroke-dasharray=""/><polygon points="560,230 552,226 552,234" class="message-arrow"/><text x="485" y="225" class="message-text" text-anchor="middle">checkAvailability()</text><line x1="560" y1="290" x2="410" y2="290" class="message-line" stroke-dasharray="5,5"/><polyline points="418,286 410,290 418,294" class="message-arrow" fill="none"/><text x="485" y="285" class="message-text" text-anchor="middle">available: true</text><line x1="410" y1="350" x2="710" y2="350" class="message-line" stroke-dasharray=""/><polygon points="710,350 702,346 702,354" class="message-arrow"/><text x="560" y="345" class="message-text" text-anchor="middle">processPayment()</text><line x1="710" y1="410" x2="410" y2="410" class="message-line" stroke-dasharray="5,5"/><polyline points="418,406 410,410 418,414" class="message-arrow" fill="none"/><text x="560" y="405" class="message-text" text-anchor="middle">payment confirmed</text><line x1="410" y1="470" x2="860" y2="470" class="message-line" stroke-dasharray="5,5"/><polygon points="860,470 852,466 852,474" class="message-arrow"/><text x="635" y="465" class="message-text" text-anchor="middle">sendConfirmation()</text><line x1="860" y1="530" x2="110" y2="530" class="message-line" stroke-dasharray="5,5"/><polygon points="110,530 118,526 118,534" class="message-arrow"/><text x="485" y="525" class="message-text" text-anchor="middle">Order confirmation email</text><line x1="410" y1="590" x2="260" y2="590" class="message-line" stroke-dasharray="5,5"/><polyline points="268,586 260,590 268,594" class="message-arrow" fill="none"/><text x="335" y="585" class="message-text" text-anchor="middle">order created</text><line x1="260" y1="650" x2="110" y2="650" class="message-line" stroke-dasharray="5,5"/><polyline points="118,646 110,650 118,654" class="message-arrow" fill="none"/><text x="185" y="645" class="message-text" text-anchor="middle">Success page</text><rect x="260" y="690" width="150" height="40" class="note-box"/><polyline points="400,690 400,700 410,700" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="265" y="715" class="note-text">Performance SLAs ensure responsive user experience</text><rect x="420" y="750" width="150" height="40" class="note-box"/><polyline points="560,750 560,760 570,760" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="425" y="775" class="note-text">Multiple duration constraints can overlap to track different SLAs</text></svg>

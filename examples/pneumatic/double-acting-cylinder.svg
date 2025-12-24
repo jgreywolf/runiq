@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="550" 
+    height="186" 
+    viewBox="60 60 550 186"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">Double-Acting Cylinder Circuit</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .pneumatic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .pneumatic-component { color: #000000; }
+      .pneumatic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .pneumatic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .pneumatic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="pneumatic-wires">
+  <path d="M 118,150 L 250,115" class="pneumatic-wire"/>
+  <text x="255" y="110" class="pneumatic-net-label">PORT_A</text>
+  <path d="M 250,115 L 410,115" class="pneumatic-wire"/>
+  <text x="415" y="110" class="pneumatic-net-label">PORT_A</text>
+  <path d="M 128,150 L 270,130" class="pneumatic-wire"/>
+  <text x="275" y="125" class="pneumatic-net-label">PORT_B</text>
+  <path d="M 270,130 L 540,115" class="pneumatic-wire"/>
+  <text x="545" y="110" class="pneumatic-net-label">PORT_B</text>
+</g>
+<g class="pneumatic-components">
+  <g class="pneumatic-component" data-ref="VALVE">
+
+      <!-- Left position box (P->A, B->RB) -->
+      <rect x="100" y="100" width="25" height="50"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Right position box (P->B, A->RA) -->
+      <rect x="125" y="100" width="25" height="50"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- Flow paths in left position -->
+      <line x1="104" y1="145" x2="110" y2="105" stroke="currentColor" stroke-width="2"/>
+      <polygon points="110,105 108,110 112,110"
+        fill="currentColor"/>
+      <line x1="115" y1="145" x2="121" y2="105" stroke="currentColor" stroke-width="2"/>
+      <polygon points="121,105 119,110 123,110"
+        fill="currentColor"/>
+
+      <!-- Flow paths in right position -->
+      <line x1="129" y1="145" x2="141" y2="105" stroke="currentColor" stroke-width="2"/>
+      <line x1="135" y1="145" x2="129" y2="105" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Port connections -->
+      <circle cx="102" cy="155" r="2" fill="currentColor"/>
+      <circle cx="112" cy="155" r="2" fill="currentColor"/>
+      <circle cx="122" cy="155" r="2" fill="currentColor"/>
+      <circle cx="140" cy="155" r="2" fill="currentColor"/>
+      <circle cx="148" cy="155" r="2" fill="currentColor"/>
+        <text x="125" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">VALVE</text>
+  </g>
+  <g class="pneumatic-component" data-ref="CYLINDER">
+
+      <!-- Cylinder body -->
+      <rect x="260" y="100" width="40" height="20"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- piston rod line -->
+      <line x1="250" y1="115" x2="260" y2="115" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Port A circle (left) -->
+      <circle cx="270" cy="130" r="2" fill="currentColor"/>
+
+      <!-- Port B circle (right) -->
+      <circle cx="290" cy="130" r="2" fill="currentColor"/>
+        <text x="280" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">CYLINDER</text>
+  </g>
+  <g class="pneumatic-component" data-ref="FLOW_A">
+
+      <!-- Check valve body (triangle + line) -->
+      <polygon points="415,105 415,125 435,115"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Seat line -->
+      <line x1="435" y1="105" x2="435" y2="125"
+        stroke="currentColor" stroke-width="2"/>
+
+      <!-- Input/output lines -->
+      <line x1="410" y1="115" x2="415" y2="115" stroke="currentColor" stroke-width="2"/>
+      <line x1="435" y1="115" x2="440" y2="115" stroke="currentColor" stroke-width="2"/>
+        <text x="425" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">FLOW_A</text>
+  </g>
+  <g class="pneumatic-component" data-ref="FLOW_B">
+
+      <!-- Check valve body (triangle + line) -->
+      <polygon points="545,105 545,125 565,115"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Seat line -->
+      <line x1="565" y1="105" x2="565" y2="125"
+        stroke="currentColor" stroke-width="2"/>
+
+      <!-- Input/output lines -->
+      <line x1="540" y1="115" x2="545" y2="115" stroke="currentColor" stroke-width="2"/>
+      <line x1="565" y1="115" x2="570" y2="115" stroke="currentColor" stroke-width="2"/>
+        <text x="555" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">FLOW_B</text>
+  </g>
+</g>
+<g class="pneumatic-grounds">
+</g>
+<g class="profile-metadata">
+  <text x="70" y="266" class="pneumatic-label">Pressure: 6 bar (operating)</text>
+  <text x="70" y="284" class="pneumatic-label">Flow Rate: 800 L/min</text>
+</g>
+</svg>

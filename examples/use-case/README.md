@@ -151,7 +151,7 @@ Required dependency - base use case ALWAYS includes the other:
 ellipse-wide Checkout "Checkout"
 ellipse-wide ValidatePayment "Validate Payment"
 
-Checkout -> ValidatePayment stereotype: "include" lineStyle: dashed arrowType: open
+Checkout -> ValidatePayment stereotype: "include" lineStyle: "dashed" arrowType: open
 ```
 
 ### `<<extend>>` Relationship
@@ -162,7 +162,7 @@ Optional extension - extending use case adds behavior to base:
 ellipse-wide CompletePurchase "Complete Purchase"
 ellipse-wide PrintReceipt "Print Receipt"
 
-PrintReceipt -> CompletePurchase stereotype: "extend" lineStyle: dashed arrowType: open
+PrintReceipt -> CompletePurchase stereotype: "extend" lineStyle: "dashed" arrowType: open
 ```
 
 ### Generalization (Inheritance)
@@ -173,20 +173,20 @@ Actor or use case specialization:
 actor OnlineCustomer "Online Customer"
 actor Customer "Customer"
 
-OnlineCustomer -> Customer lineStyle: solid arrowType: hollow
+OnlineCustomer -> Customer lineStyle: "solid" arrowType: hollow
 ```
 
 ### Custom Combinations
 
 ```runiq
 # Dependency with custom stereotype
-A -> B stereotype: "uses" lineStyle: dashed arrowType: open label: "invokes"
+A -> B stereotype: "uses" lineStyle: "dashed" arrowType: open label: "invokes"
 
 # Association with label
-A -> B lineStyle: solid arrowType: standard label: "manages"
+A -> B lineStyle: "solid" arrowType: standard label: "manages"
 
 # Generalization
-Child -> Parent lineStyle: solid arrowType: hollow
+Child -> Parent lineStyle: "solid" arrowType: hollow
 ```
 
 ## Use Case Diagram Best Practices
@@ -266,40 +266,40 @@ system-boundary Sys "My System" {
 **Meaning**: Actor participates in or initiates the use case
 
 ```runiq
-Customer -> PlaceOrder lineStyle: solid arrowType: standard
+Customer -> PlaceOrder lineStyle: "solid" arrowType: standard
 ```
 
 ### `<<include>>` (Use Case Dependency)
 
 **Visual**: Dashed line with open arrow  
-**Syntax**: `BaseUseCase -> IncludedUseCase stereotype: "include" lineStyle: dashed arrowType: open`  
+**Syntax**: `BaseUseCase -> IncludedUseCase stereotype: "include" lineStyle: "dashed" arrowType: open`  
 **Meaning**: Base use case always includes the behavior of included use case  
 **Direction**: From base → to included
 
 ```runiq
-Checkout -> ValidatePayment stereotype: "include" lineStyle: dashed arrowType: open
+Checkout -> ValidatePayment stereotype: "include" lineStyle: "dashed" arrowType: open
 ```
 
 ### `<<extend>>` (Use Case Extension)
 
 **Visual**: Dashed line with open arrow  
-**Syntax**: `ExtendingUseCase -> BaseUseCase stereotype: "extend" lineStyle: dashed arrowType: open`  
+**Syntax**: `ExtendingUseCase -> BaseUseCase stereotype: "extend" lineStyle: "dashed" arrowType: open`  
 **Meaning**: Extending use case adds optional behavior to base use case  
 **Direction**: From extending → to base (opposite of include!)
 
 ```runiq
-PrintReceipt -> CompletePurchase stereotype: "extend" lineStyle: dashed arrowType: open
+PrintReceipt -> CompletePurchase stereotype: "extend" lineStyle: "dashed" arrowType: open
 ```
 
 ### Generalization (Inheritance)
 
 **Visual**: Solid line with hollow arrow  
-**Syntax**: `SpecializedActor -> GeneralActor lineStyle: solid arrowType: hollow`  
+**Syntax**: `SpecializedActor -> GeneralActor lineStyle: "solid" arrowType: hollow`  
 **Meaning**: Specialized actor/use case inherits from general actor/use case  
 **Direction**: From child → to parent
 
 ```runiq
-OnlineCustomer -> Customer lineStyle: solid arrowType: hollow
+OnlineCustomer -> Customer lineStyle: "solid" arrowType: hollow
 ```
 
 ## Related Diagram Types

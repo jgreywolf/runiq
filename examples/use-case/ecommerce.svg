@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="599.8" height="875.5999999999999" 
+    viewBox="0 0 599.8 875.5999999999999"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="ecommerce" data-container-id="ecommerce"><rect x="12" y="198.8" width="567.8" height="470" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="22" y="218.8" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">E-Commerce Platform</text></g><g data-runiq-edge="checkout-payment-5" data-edge-id="checkout-payment-5" data-edge-from="checkout" data-edge-to="payment"><defs>
+      <marker id="arrow-standard-checkout-payment" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 432.20000000000005 497.6 L 432.20000000000005 537.6 L 431.3 537.6 L 431.3 577.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 432.20000000000005 497.6 L 432.20000000000005 537.6 L 431.3 537.6 L 431.3 577.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkout-payment)" pointer-events="none" /></g><g data-runiq-edge="customer-browse" data-edge-id="customer-browse" data-edge-from="customer" data-edge-to="browse"><defs>
+      <marker id="arrow-standard-customer-browse" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 201 12 L 201 224.60000000000002 L 160.5 224.60000000000002 L 160.5 428.40000000000003" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 201 12 L 201 224.60000000000002 L 160.5 224.60000000000002 L 160.5 428.40000000000003" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-browse)" pointer-events="none" /></g><g data-runiq-edge="customer-search" data-edge-id="customer-search" data-edge-from="customer" data-edge-to="search"><defs>
+      <marker id="arrow-standard-customer-search" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 201 12 L 201 190 L 349.40000000000003 190 L 349.40000000000003 359.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 201 12 L 201 190 L 349.40000000000003 190 L 349.40000000000003 359.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-search)" pointer-events="none" /></g><g data-runiq-edge="customer-addToCart" data-edge-id="customer-addToCart" data-edge-from="customer" data-edge-to="addToCart"><defs>
+      <marker id="arrow-standard-customer-addToCart" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 201 12 L 201 155.4 L 135.3 155.4 L 135.3 290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 201 12 L 201 155.4 L 135.3 155.4 L 135.3 290" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-addToCart)" pointer-events="none" /></g><g data-runiq-edge="customer-checkout" data-edge-id="customer-checkout" data-edge-from="customer" data-edge-to="checkout"><defs>
+      <marker id="arrow-standard-customer-checkout" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 201 12 L 201 259.20000000000005 L 432.20000000000005 259.20000000000005 L 432.20000000000005 497.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 201 12 L 201 259.20000000000005 L 432.20000000000005 259.20000000000005 L 432.20000000000005 497.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-checkout)" pointer-events="none" /></g><g data-runiq-edge="customer-trackOrder" data-edge-id="customer-trackOrder" data-edge-from="customer" data-edge-to="trackOrder"><defs>
+      <marker id="arrow-standard-customer-trackOrder" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 201 12 L 201 155.4 L 317.90000000000003 155.4 L 317.90000000000003 290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 201 12 L 201 155.4 L 317.90000000000003 155.4 L 317.90000000000003 290" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-trackOrder)" pointer-events="none" /></g><g data-runiq-edge="admin-manageProducts" data-edge-id="admin-manageProducts" data-edge-from="admin" data-edge-to="manageProducts"><defs>
+      <marker id="arrow-standard-admin-manageProducts" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 454 12 L 454 224.60000000000002 L 393.5 224.60000000000002 L 393.5 428.40000000000003" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 454 12 L 454 224.60000000000002 L 393.5 224.60000000000002 L 393.5 428.40000000000003" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-admin-manageProducts)" pointer-events="none" /></g><g data-runiq-edge="admin-viewReports" data-edge-id="admin-viewReports" data-edge-from="admin" data-edge-to="viewReports"><defs>
+      <marker id="arrow-standard-admin-viewReports" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 454 12 L 454 259.20000000000005 L 179.4 259.20000000000005 L 179.4 497.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 454 12 L 454 259.20000000000005 L 179.4 259.20000000000005 L 179.4 497.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-admin-viewReports)" pointer-events="none" /></g><g data-runiq-edge="admin-manageUsers" data-edge-id="admin-manageUsers" data-edge-from="admin" data-edge-to="manageUsers"><defs>
+      <marker id="arrow-standard-admin-manageUsers" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 454 12 L 454 190 L 141.60000000000002 190 L 141.60000000000002 359.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 454 12 L 454 190 L 141.60000000000002 190 L 141.60000000000002 359.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-admin-manageUsers)" pointer-events="none" /></g><g data-runiq-edge="payment-vendor" data-edge-id="payment-vendor" data-edge-from="payment" data-edge-to="vendor"><defs>
+      <marker id="arrow-standard-payment-vendor" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 431.3 577.6 L 431.3 712.2 L 367 712.2 L 367 788.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 431.3 577.6 L 431.3 712.2 L 367 712.2 L 367 788.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-payment-vendor)" pointer-events="none" /></g><g data-runiq-edge="manageProducts-vendor" data-edge-id="manageProducts-vendor" data-edge-from="manageProducts" data-edge-to="vendor"><defs>
+      <marker id="arrow-standard-manageProducts-vendor" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 393.5 428.40000000000003 L 393.5 613 L 367 613 L 367 788.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 393.5 428.40000000000003 L 393.5 613 L 367 613 L 367 788.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-manageProducts-vendor)" pointer-events="none" /></g><g data-runiq-node="browse" data-node-id="browse" data-node-shape="ellipseWide">
+      <ellipse cx="160.5" cy="403.80000000000007" rx="106.5" ry="24.6"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="160.5" y="403.80000000000007" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Browse Products
+    </text></g><g data-runiq-node="search" data-node-id="search" data-node-shape="ellipseWide">
+      <ellipse cx="349.40000000000003" cy="334.6" rx="100.2" ry="24.6"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+    <text x="349.40000000000003" y="334.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Search Catalog
+    </text></g><g data-runiq-node="addToCart" data-node-id="addToCart" data-node-shape="ellipseWide">
+      <ellipse cx="135.3" cy="265.40000000000003" rx="81.30000000000001" ry="24.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+    <text x="135.3" y="265.40000000000003" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Add to Cart
+    </text></g><g data-runiq-node="checkout" data-node-id="checkout" data-node-shape="ellipseWide">
+      <ellipse cx="432.20000000000005" cy="473.00000000000006" rx="62.400000000000006" ry="24.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+    <text x="432.20000000000005" y="473.00000000000006" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Checkout
+    </text></g><g data-runiq-node="payment" data-node-id="payment" data-node-shape="ellipseWide">
+      <ellipse cx="431.3" cy="602.2" rx="106.5" ry="24.6"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+    <text x="431.3" y="602.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Process Payment
+    </text></g><g data-runiq-node="trackOrder" data-node-id="trackOrder" data-node-shape="ellipseWide">
+      <ellipse cx="317.90000000000003" cy="265.40000000000003" rx="81.30000000000001" ry="24.6"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="317.90000000000003" y="265.40000000000003" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Track Order
+    </text></g><g data-runiq-node="manageProducts" data-node-id="manageProducts" data-node-shape="ellipseWide">
+      <ellipse cx="393.5" cy="403.80000000000007" rx="106.5" ry="24.6"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+    <text x="393.5" y="403.80000000000007" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Manage Products
+    </text></g><g data-runiq-node="viewReports" data-node-id="viewReports" data-node-shape="ellipseWide">
+      <ellipse cx="179.4" cy="473.00000000000006" rx="125.4" ry="24.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+    <text x="179.4" y="473.00000000000006" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      View Sales Reports
+    </text></g><g data-runiq-node="manageUsers" data-node-id="manageUsers" data-node-shape="ellipseWide">
+      <ellipse cx="141.60000000000002" cy="334.6" rx="87.60000000000001" ry="24.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+    <text x="141.60000000000002" y="334.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Manage Users
+    </text></g><g data-runiq-node="customer" data-node-id="customer" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="201" cy="27" r="15" 
+              fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="133" y="47" width="136" height="26.799999999999997"
+            rx="5" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="201" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Online Customer
+    </text>
+    </g><g data-runiq-node="admin" data-node-id="admin" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="454" cy="27" r="15" 
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="365" y="47" width="178" height="26.799999999999997"
+            rx="5" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="454" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      System Administrator
+    </text>
+    </g><g data-runiq-node="vendor" data-node-id="vendor" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="367" cy="803.8" r="15" 
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="299" y="823.8" width="136" height="26.799999999999997"
+            rx="5" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="367" y="837.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      External Vendor
+    </text>
+    </g></svg>

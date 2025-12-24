@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="132" height="632" 
+    viewBox="0 0 132 632"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="Order-LineItem-0" data-edge-id="Order-LineItem-0" data-edge-from="Order" data-edge-to="LineItem"><defs>
+      <marker id="arrow-composition-Order-LineItem" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto" markerUnits="strokeWidth">
+        <polygon points="6,0 12,6 6,12 0,6" fill="#48677e" />
+      </marker></defs><path d="M 62 252 L 62 312 L 62 312 L 62 372" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 62 252 L 62 312 L 62 312 L 62 372" fill="none" stroke="#48677e" stroke-width="1" marker-start="url(#arrow-composition-Order-LineItem)" pointer-events="none" /><text x="62" y="312" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">items</text><text x="62" y="327" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">{ordered}</text><text x="62" y="346" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1..*</text></g><g data-runiq-edge="LineItem-Product-1" data-edge-id="LineItem-Product-1" data-edge-from="LineItem" data-edge-to="Product"><defs>
+      <marker id="arrow-association-LineItem-Product" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 62 432 L 62 492 L 62 492 L 62 552" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 62 432 L 62 492 L 62 492 L 62 552" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-association-LineItem-Product)" pointer-events="none" /><text x="62" y="492" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">product</text><text x="62" y="507" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">{unique, readonly}</text><text x="62" y="526" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1</text></g><g data-runiq-edge="Customer-Order-2" data-edge-id="Customer-Order-2" data-edge-from="Customer" data-edge-to="Order"><defs>
+      <marker id="arrow-association-Customer-Order" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><defs>
+      <marker id="nav-arrow-Customer-Order" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+        <polyline points="0,0 6,3 0,6" fill="none" stroke="#48677e" stroke-width="1.5" />
+      </marker></defs><path d="M 62 72 L 62 132 L 62 132 L 62 192" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 62 72 L 62 132 L 62 132 L 62 192" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-association-Customer-Order)" pointer-events="none" /><text x="62" y="132" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">orders</text><text x="62" y="166" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">0..*</text></g><g data-runiq-edge="Order-Customer-3" data-edge-id="Order-Customer-3" data-edge-from="Order" data-edge-to="Customer"><defs>
+      <marker id="arrow-association-Order-Customer" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><defs>
+      <marker id="nav-arrow-Order-Customer" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+        <polyline points="0,0 6,3 0,6" fill="none" stroke="#48677e" stroke-width="1.5" />
+      </marker>
+      <marker id="nav-arrow-start-Order-Customer" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto">
+        <polyline points="6,0 0,3 6,6" fill="none" stroke="#48677e" stroke-width="1.5" />
+      </marker></defs><path d="M 62 192 L 62 132 L 62 132 L 62 72" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 62 192 L 62 132 L 62 132 L 62 72" fill="none" stroke="#48677e" stroke-width="1" marker-start="url(#nav-arrow-start-Order-Customer)" marker-end="url(#arrow-association-Order-Customer)" pointer-events="none" /><text x="62" y="132" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">customer</text><text x="62" y="166" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1</text></g><g data-runiq-node="Order" data-node-id="Order" data-node-shape="class"><rect x="12" y="192" width="100" height="60" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="62" y="213" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Order
+    </text></g><g data-runiq-node="LineItem" data-node-id="LineItem" data-node-shape="class"><rect x="12" y="372" width="100" height="60" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="62" y="393" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      LineItem
+    </text></g><g data-runiq-node="Product" data-node-id="Product" data-node-shape="class"><rect x="12" y="552" width="100" height="60" fill="#96bacf" stroke="#48677e" stroke-width="1"/><text x="62" y="573" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Product
+    </text></g><g data-runiq-node="Customer" data-node-id="Customer" data-node-shape="class"><rect x="12" y="12" width="100" height="60" fill="#48677e" stroke="#48677e" stroke-width="1"/><text x="62" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Customer
+    </text></g></svg>

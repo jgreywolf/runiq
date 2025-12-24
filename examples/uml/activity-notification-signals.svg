@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1272.6" height="2288" 
+    viewBox="0 0 1272.6 2288"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="start-createNotification-0" data-edge-id="start-createNotification-0" data-edge-from="start" data-edge-to="createNotification"><defs>
+      <marker id="arrow-standard-start-createNotification" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 313 30 L 313 90 L 312.8 90 L 312.8 150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 313 30 L 313 90 L 312.8 90 L 312.8 150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-createNotification)" pointer-events="none" /></g><g data-runiq-edge="createNotification-notificationData-1" data-edge-id="createNotification-notificationData-1" data-edge-from="createNotification" data-edge-to="notificationData"><defs>
+      <marker id="arrow-standard-createNotification-notificationData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 312.8 200 L 312.8 260 L 313.4 260 L 313.4 320" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 312.8 200 L 312.8 260 L 313.4 260 L 313.4 320" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-createNotification-notificationData)" pointer-events="none" /></g><g data-runiq-edge="notificationData-validateRecipients-2" data-edge-id="notificationData-validateRecipients-2" data-edge-from="notificationData" data-edge-to="validateRecipients"><defs>
+      <marker id="arrow-standard-notificationData-validateRecipients" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 313.4 360 L 313.4 420 L 312.8 420 L 312.8 480" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 313.4 360 L 313.4 420 L 312.8 420 L 312.8 480" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-notificationData-validateRecipients)" pointer-events="none" /></g><g data-runiq-edge="validateRecipients-validationCheck-3" data-edge-id="validateRecipients-validationCheck-3" data-edge-from="validateRecipients" data-edge-to="validationCheck"><defs>
+      <marker id="arrow-standard-validateRecipients-validationCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 312.8 530 L 312.8 590 L 313 590 L 313 650" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 312.8 530 L 312.8 590 L 313 590 L 313 650" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validateRecipients-validationCheck)" pointer-events="none" /></g><g data-runiq-edge="validationCheck-logNotification-4" data-edge-id="validationCheck-logNotification-4" data-edge-from="validationCheck" data-edge-to="logNotification"><defs>
+      <marker id="arrow-standard-validationCheck-logNotification" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 313 690 L 313 725 L 91 725 L 91.2 810" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 313 690 L 313 725 L 91 725 L 91.2 810" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validationCheck-logNotification)" pointer-events="none" /><text x="91" y="725" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[invalid]</text></g><g data-runiq-edge="logNotification-failure-5" data-edge-id="logNotification-failure-5" data-edge-from="logNotification" data-edge-to="failure"><defs>
+      <marker id="arrow-standard-logNotification-failure" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 91.2 860 L 91.2 920 L 91 920 L 91 980" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 91.2 860 L 91.2 920 L 91 920 L 91 980" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-logNotification-failure)" pointer-events="none" /></g><g data-runiq-edge="validationCheck-validatedData-6" data-edge-id="validationCheck-validatedData-6" data-edge-from="validationCheck" data-edge-to="validatedData"><defs>
+      <marker id="arrow-standard-validationCheck-validatedData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 313 690 L 313 752.5 L 319.8 752.5 L 319.8 815" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 313 690 L 313 752.5 L 319.8 752.5 L 319.8 815" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validationCheck-validatedData)" pointer-events="none" /><text x="319.8" y="752.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[valid]</text></g><g data-runiq-edge="validatedData-prepareContent-7" data-edge-id="validatedData-prepareContent-7" data-edge-from="validatedData" data-edge-to="prepareContent"><defs>
+      <marker id="arrow-standard-validatedData-prepareContent" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 319.8 855 L 319.8 917.5 L 320 917.5 L 320 980" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 319.8 855 L 319.8 917.5 L 320 917.5 L 320 980" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validatedData-prepareContent)" pointer-events="none" /></g><g data-runiq-edge="prepareContent-formattedContent-8" data-edge-id="prepareContent-formattedContent-8" data-edge-from="prepareContent" data-edge-to="formattedContent"><defs>
+      <marker id="arrow-standard-prepareContent-formattedContent" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 320 1030 L 320 1090 L 320.4 1090 L 320.4 1150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 320 1030 L 320 1090 L 320.4 1090 L 320.4 1150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-prepareContent-formattedContent)" pointer-events="none" /></g><g data-runiq-edge="formattedContent-notificationDB-9" data-edge-id="formattedContent-notificationDB-9" data-edge-from="formattedContent" data-edge-to="notificationDB"><defs>
+      <marker id="arrow-standard-formattedContent-notificationDB" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 320.4 1190 L 320.4 1314 L 293 1463 L 293 1633 L 293 1782 L 293 1931 L 317 2076" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 320.4 1190 L 320.4 1314 L 293 1463 L 293 1633 L 293 1782 L 293 1931 L 317 2076" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-formattedContent-notificationDB)" pointer-events="none" /><text x="293" y="1633" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">save</text></g><g data-runiq-edge="formattedContent-broadcastFork-10" data-edge-id="formattedContent-broadcastFork-10" data-edge-from="formattedContent" data-edge-to="broadcastFork"><defs>
+      <marker id="arrow-standard-formattedContent-broadcastFork" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 320.4 1190 L 320.4 1225 L 668 1225 L 668 1310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 320.4 1190 L 320.4 1225 L 668 1225 L 668 1310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-formattedContent-broadcastFork)" pointer-events="none" /></g><g data-runiq-edge="broadcastFork-sendEmail-11" data-edge-id="broadcastFork-sendEmail-11" data-edge-from="broadcastFork" data-edge-to="sendEmail"><defs>
+      <marker id="arrow-standard-broadcastFork-sendEmail" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 628 1314 L 644 1314 L 415 1353 L 415 1438" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 628 1314 L 644 1314 L 415 1353 L 415 1438" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-broadcastFork-sendEmail)" pointer-events="none" /></g><g data-runiq-edge="broadcastFork-sendSMS-12" data-edge-id="broadcastFork-sendSMS-12" data-edge-from="broadcastFork" data-edge-to="sendSMS"><defs>
+      <marker id="arrow-standard-broadcastFork-sendSMS" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 668 1318 L 668 1378 L 660 1378 L 660 1438" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 668 1318 L 668 1378 L 660 1378 L 660 1438" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-broadcastFork-sendSMS)" pointer-events="none" /></g><g data-runiq-edge="broadcastFork-sendPush-13" data-edge-id="broadcastFork-sendPush-13" data-edge-from="broadcastFork" data-edge-to="sendPush"><defs>
+      <marker id="arrow-standard-broadcastFork-sendPush" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 668 1318 L 668 1378 L 900 1378 L 900.4 1438" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 668 1318 L 668 1378 L 900 1378 L 900.4 1438" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-broadcastFork-sendPush)" pointer-events="none" /></g><g data-runiq-edge="broadcastFork-sendWebhook-14" data-edge-id="broadcastFork-sendWebhook-14" data-edge-from="broadcastFork" data-edge-to="sendWebhook"><defs>
+      <marker id="arrow-standard-broadcastFork-sendWebhook" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 708 1314 L 692 1314 L 1158 1353 L 1158.4 1438" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 708 1314 L 692 1314 L 1158 1353 L 1158.4 1438" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-broadcastFork-sendWebhook)" pointer-events="none" /></g><g data-runiq-edge="sendEmail-receiveEmailAck-15" data-edge-id="sendEmail-receiveEmailAck-15" data-edge-from="sendEmail" data-edge-to="receiveEmailAck"><defs>
+      <marker id="arrow-standard-sendEmail-receiveEmailAck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 415 1488 L 415 1548 L 415.4 1548 L 415.4 1608" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 415 1488 L 415 1548 L 415.4 1548 L 415.4 1608" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendEmail-receiveEmailAck)" pointer-events="none" /></g><g data-runiq-edge="sendSMS-receiveSMSAck-16" data-edge-id="sendSMS-receiveSMSAck-16" data-edge-from="sendSMS" data-edge-to="receiveSMSAck"><defs>
+      <marker id="arrow-standard-sendSMS-receiveSMSAck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 660 1488 L 660 1548 L 660 1548 L 660 1608" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 660 1488 L 660 1548 L 660 1548 L 660 1608" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendSMS-receiveSMSAck)" pointer-events="none" /></g><g data-runiq-edge="sendPush-receivePushAck-17" data-edge-id="sendPush-receivePushAck-17" data-edge-from="sendPush" data-edge-to="receivePushAck"><defs>
+      <marker id="arrow-standard-sendPush-receivePushAck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 900.4 1488 L 900.4 1548 L 900.2 1548 L 900.2 1608" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 900.4 1488 L 900.4 1548 L 900.2 1548 L 900.2 1608" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendPush-receivePushAck)" pointer-events="none" /></g><g data-runiq-edge="sendWebhook-receiveWebhookAck-18" data-edge-id="sendWebhook-receiveWebhookAck-18" data-edge-from="sendWebhook" data-edge-to="receiveWebhookAck"><defs>
+      <marker id="arrow-standard-sendWebhook-receiveWebhookAck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1158.4 1488 L 1158.4 1548 L 1157.8 1548 L 1157.8 1608" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1158.4 1488 L 1158.4 1548 L 1157.8 1548 L 1157.8 1608" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendWebhook-receiveWebhookAck)" pointer-events="none" /></g><g data-runiq-edge="receiveEmailAck-acknowledgmentJoin-19" data-edge-id="receiveEmailAck-acknowledgmentJoin-19" data-edge-from="receiveEmailAck" data-edge-to="acknowledgmentJoin"><defs>
+      <marker id="arrow-standard-receiveEmailAck-acknowledgmentJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 415.4 1658 L 415.4 1693 L 644 1693 L 628 1782" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 415.4 1658 L 415.4 1693 L 644 1693 L 628 1782" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveEmailAck-acknowledgmentJoin)" pointer-events="none" /></g><g data-runiq-edge="receiveSMSAck-acknowledgmentJoin-20" data-edge-id="receiveSMSAck-acknowledgmentJoin-20" data-edge-from="receiveSMSAck" data-edge-to="acknowledgmentJoin"><defs>
+      <marker id="arrow-standard-receiveSMSAck-acknowledgmentJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 660 1658 L 660 1718 L 668 1718 L 668 1778" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 660 1658 L 660 1718 L 668 1718 L 668 1778" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveSMSAck-acknowledgmentJoin)" pointer-events="none" /></g><g data-runiq-edge="receivePushAck-acknowledgmentJoin-21" data-edge-id="receivePushAck-acknowledgmentJoin-21" data-edge-from="receivePushAck" data-edge-to="acknowledgmentJoin"><defs>
+      <marker id="arrow-standard-receivePushAck-acknowledgmentJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 900.2 1658 L 900.2 1693 L 676 1693 L 668 1778" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 900.2 1658 L 900.2 1693 L 676 1693 L 668 1778" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receivePushAck-acknowledgmentJoin)" pointer-events="none" /></g><g data-runiq-edge="receiveWebhookAck-acknowledgmentJoin-22" data-edge-id="receiveWebhookAck-acknowledgmentJoin-22" data-edge-from="receiveWebhookAck" data-edge-to="acknowledgmentJoin"><defs>
+      <marker id="arrow-standard-receiveWebhookAck-acknowledgmentJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1157.8 1658 L 1157.8 1718 L 692 1718 L 708 1782" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1157.8 1658 L 1157.8 1718 L 692 1718 L 708 1782" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveWebhookAck-acknowledgmentJoin)" pointer-events="none" /></g><g data-runiq-edge="acknowledgmentJoin-trackDelivery-23" data-edge-id="acknowledgmentJoin-trackDelivery-23" data-edge-from="acknowledgmentJoin" data-edge-to="trackDelivery"><defs>
+      <marker id="arrow-standard-acknowledgmentJoin-trackDelivery" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 668 1786 L 668 1821 L 507 1821 L 507.2 1906" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 668 1786 L 668 1821 L 507 1821 L 507.2 1906" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-acknowledgmentJoin-trackDelivery)" pointer-events="none" /></g><g data-runiq-edge="trackDelivery-notificationDB-24" data-edge-id="trackDelivery-notificationDB-24" data-edge-from="trackDelivery" data-edge-to="notificationDB"><defs>
+      <marker id="arrow-standard-trackDelivery-notificationDB" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 507.2 1956 L 507.2 1991 L 341 1991 L 317 2076" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 507.2 1956 L 507.2 1991 L 341 1991 L 317 2076" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-trackDelivery-notificationDB)" pointer-events="none" /><text x="341" y="1991" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">update status</text></g><g data-runiq-edge="trackDelivery-updateMetrics-25" data-edge-id="trackDelivery-updateMetrics-25" data-edge-from="trackDelivery" data-edge-to="updateMetrics"><defs>
+      <marker id="arrow-standard-trackDelivery-updateMetrics" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 507.2 1956 L 507.2 2016 L 540.8 2016 L 540.8 2076" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 507.2 1956 L 507.2 2016 L 540.8 2016 L 540.8 2076" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-trackDelivery-updateMetrics)" pointer-events="none" /></g><g data-runiq-edge="updateMetrics-success-26" data-edge-id="updateMetrics-success-26" data-edge-from="updateMetrics" data-edge-to="success"><defs>
+      <marker id="arrow-standard-updateMetrics-success" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 540.8 2126 L 540.8 2186 L 541 2186 L 541 2246" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 540.8 2126 L 540.8 2186 L 541 2186 L 541 2246" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-updateMetrics-success)" pointer-events="none" /></g><g data-runiq-node="start" data-node-id="start" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="313" cy="21" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="success" data-node-id="success" data-node-shape="finalState"><g class="final-state-shape"><circle cx="541" cy="2257" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="541" cy="2257" r="6.050000000000001" fill="#000000" stroke="none" /></g></g><g data-runiq-node="failure" data-node-id="failure" data-node-shape="finalState"><g class="final-state-shape"><circle cx="91" cy="991" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="91" cy="991" r="6.050000000000001" fill="#000000" stroke="none" /></g></g><g data-runiq-node="createNotification" data-node-id="createNotification" data-node-shape="activity"><g class="activity-shape"><rect x="221" y="150" width="183.6" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="312.8" y="175" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Create Notification
+    </text></g></g><g data-runiq-node="validateRecipients" data-node-id="validateRecipients" data-node-shape="activity"><g class="activity-shape"><rect x="221" y="480" width="183.6" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="312.8" y="505" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validate Recipients
+    </text></g></g><g data-runiq-node="prepareContent" data-node-id="prepareContent" data-node-shape="activity"><g class="activity-shape"><rect x="245" y="980" width="150" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="320" y="1005" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Prepare Content
+    </text></g></g><g data-runiq-node="logNotification" data-node-id="logNotification" data-node-shape="activity"><g class="activity-shape"><rect x="12" y="810" width="158.4" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="91.2" y="835" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Log Notification
+    </text></g></g><g data-runiq-node="trackDelivery" data-node-id="trackDelivery" data-node-shape="activity"><g class="activity-shape"><rect x="407" y="1906" width="200.4" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="507.2" y="1931" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Track Delivery Status
+    </text></g></g><g data-runiq-node="updateMetrics" data-node-id="updateMetrics" data-node-shape="activity"><g class="activity-shape"><rect x="470" y="2076" width="141.60000000000002" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="540.8" y="2101" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Update Metrics
+    </text></g></g><g data-runiq-node="sendEmail" data-node-id="sendEmail" data-node-shape="sendSignal"><g class="send-signal-shape"><path d="M 358 1438 L 449.2 1438 L 472 1463 L 449.2 1488 L 358 1488 Z" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="403.6" y="1467.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Email
+    </text></g></g><g data-runiq-node="sendSMS" data-node-id="sendSMS" data-node-shape="sendSignal"><g class="send-signal-shape"><path d="M 610 1438 L 690 1438 L 710 1463 L 690 1488 L 610 1488 Z" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="650" y="1467.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send SMS
+    </text></g></g><g data-runiq-node="sendPush" data-node-id="sendPush" data-node-shape="sendSignal"><g class="send-signal-shape"><path d="M 793 1438 L 964.8399999999999 1438 L 1007.8 1463 L 964.8399999999999 1488 L 793 1488 Z" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="878.92" y="1467.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Push Notification
+    </text></g></g><g data-runiq-node="sendWebhook" data-node-id="sendWebhook" data-node-shape="sendSignal"><g class="send-signal-shape"><path d="M 1093 1438 L 1197.6399999999999 1438 L 1223.8 1463 L 1197.6399999999999 1488 L 1093 1488 Z" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="1145.32" y="1467.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Webhook
+    </text></g></g><g data-runiq-node="receiveEmailAck" data-node-id="receiveEmailAck" data-node-shape="receiveSignal"><g class="receive-signal-shape"><path d="M 363.56 1608 L 501.8 1608 L 501.8 1658 L 363.56 1658 L 329 1633 Z" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="432.68" y="1637.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive Email ACK
+    </text></g></g><g data-runiq-node="receiveSMSAck" data-node-id="receiveSMSAck" data-node-shape="receiveSignal"><g class="receive-signal-shape"><path d="M 613.2 1608 L 738 1608 L 738 1658 L 613.2 1658 L 582 1633 Z" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="675.6" y="1637.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive SMS ACK
+    </text></g></g><g data-runiq-node="receivePushAck" data-node-id="receivePushAck" data-node-shape="receiveSignal"><g class="receive-signal-shape"><path d="M 850.88 1608 L 982.4 1608 L 982.4 1658 L 850.88 1658 L 818 1633 Z" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="916.64" y="1637.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive Push ACK
+    </text></g></g><g data-runiq-node="receiveWebhookAck" data-node-id="receiveWebhookAck" data-node-shape="receiveSignal"><g class="receive-signal-shape"><path d="M 1100.92 1608 L 1252.6 1608 L 1252.6 1658 L 1100.92 1658 L 1063 1633 Z" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="1176.76" y="1637.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive Webhook ACK
+    </text></g></g><g data-runiq-node="validationCheck" data-node-id="validationCheck" data-node-shape="choice"><g class="choice-shape"><path d="M 313 650 L 333 670 L 313 690 L 293 670 Z" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="313" y="675" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.200000000000001"
+      fill="#FFFFFF">
+      validationCheck
+    </text></g></g><g data-runiq-node="broadcastFork" data-node-id="broadcastFork" data-node-shape="fork"><g class="fork-shape"><rect x="628" y="1310" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="acknowledgmentJoin" data-node-id="acknowledgmentJoin" data-node-shape="join"><g class="join-shape"><rect x="628" y="1778" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="notificationData" data-node-id="notificationData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="232" y="320" width="162.8" height="40" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="313.4" y="340" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Notification Data
+    </text></g></g><g data-runiq-node="validatedData" data-node-id="validatedData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="251" y="815" width="137.60000000000002" height="40" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="319.8" y="835" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validated Data
+    </text></g></g><g data-runiq-node="formattedContent" data-node-id="formattedContent" data-node-shape="objectNode"><g class="object-node-shape"><rect x="239" y="1150" width="162.8" height="40" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="320.4" y="1170" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Formatted Content
+    </text></g></g><g data-runiq-node="notificationDB" data-node-id="notificationDB" data-node-shape="dataStore"><g class="data-store-shape"><ellipse cx="317" cy="2079.75" rx="73" ry="3.75" fill="#48677e" stroke="#48677e" stroke-width="1" /><rect x="244" y="2079.75" width="146" height="42.5" fill="#48677e" stroke="none" /><line x1="244" y1="2079.75" x2="244" y2="2122.25" stroke="#48677e" stroke-width="1" /><line x1="390" y1="2079.75" x2="390" y2="2122.25" stroke="#48677e" stroke-width="1" /><path d="M 244 2122.25 Q 317 2129.75, 390 2122.25" fill="none" stroke="#48677e" stroke-width="1" /><text x="317" y="2101" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Notification DB
+    </text></g></g></svg>

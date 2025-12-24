@@ -1,66 +1,127 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="555.3333333333334" height="552" 
-    viewBox="0 0 555.3333333333334 552"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Genetic Trait Inheritance</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="i1-i2"><path d="M 501.5238095238096 52 L 501.5238095238096 82 L 165.33333333333331 82 L 165.33333333333331 132" fill="none" stroke="#333" stroke-width="1" /></g><g data-runiq-edge="ii2-iipartner"><path d="M 512 292 L 512 312 L 408.6666666666667 312 L 408.6666666666667 372" fill="none" stroke="#333" stroke-width="1" /></g><g data-runiq-edge="i1-ii1"><defs>
+    width="552" height="712" 
+    viewBox="0 0 552 712"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="i1-i2-0" data-edge-id="i1-i2-0" data-edge-from="i1" data-edge-to="i2"><path d="M 276 52 L 276 137 L 224 137 L 224 172" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 276 52 L 276 137 L 224 137 L 224 172" fill="none" stroke="#48677e" stroke-width="1" pointer-events="none" /></g><g data-runiq-edge="ii2-iipartner-1" data-edge-id="ii2-iipartner-1" data-edge-from="ii2" data-edge-to="iipartner"><path d="M 152 372 L 152 432 L 152 432 L 152 492" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 372 L 152 432 L 152 432 L 152 492" fill="none" stroke="#48677e" stroke-width="1" pointer-events="none" /></g><g data-runiq-edge="i1-ii1-2" data-edge-id="i1-ii1-2" data-edge-from="i1" data-edge-to="ii1"><defs>
       <marker id="arrow-standard-i1-ii1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 495.80952380952385 52 L 495.80952380952385 72 L 134.33333333333331 72 L 134.33333333333331 192 L 145.33333333333331 192 L 145.33333333333334 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii1)" /></g><g data-runiq-edge="i1-ii2"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 276 52 L 276 87 L 25 87 L 25 192 L 32 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 276 52 L 276 87 L 25 87 L 25 192 L 32 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i1-ii1)" pointer-events="none" /></g><g data-runiq-edge="i1-ii2-3" data-edge-id="i1-ii2-3" data-edge-from="i1" data-edge-to="ii2"><defs>
       <marker id="arrow-standard-i1-ii2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 518.6666666666667 52 L 518.6666666666667 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii2)" /></g><g data-runiq-edge="i1-ii3"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 276 52 L 276 112 L 145 112 L 145 192 L 152 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 276 52 L 276 112 L 145 112 L 145 192 L 152 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i1-ii2)" pointer-events="none" /></g><g data-runiq-edge="i1-ii3-4" data-edge-id="i1-ii3-4" data-edge-from="i1" data-edge-to="ii3"><defs>
       <marker id="arrow-standard-i1-ii3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 490.09523809523813 52 L 490.09523809523813 62 L 25.333333333333314 62 L 25.333333333333336 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii3)" /></g><g data-runiq-edge="i1-ii4"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 276 52 Q 276 192 272 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 276 52 Q 276 192 272 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i1-ii3)" pointer-events="none" /></g><g data-runiq-edge="i1-ii4-5" data-edge-id="i1-ii4-5" data-edge-from="i1" data-edge-to="ii4"><defs>
       <marker id="arrow-standard-i1-ii4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 512.952380952381 52 L 512.952380952381 102 L 398.6666666666667 102 L 398.6666666666667 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii4)" /></g><g data-runiq-edge="i1-ii5"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 276 52 L 276 112 L 399 112 L 399 192 L 392 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 276 52 L 276 112 L 399 112 L 399 192 L 392 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i1-ii4)" pointer-events="none" /></g><g data-runiq-edge="i1-ii5-6" data-edge-id="i1-ii5-6" data-edge-from="i1" data-edge-to="ii5"><defs>
       <marker id="arrow-standard-i1-ii5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 507.23809523809524 52 L 507.23809523809524 92 L 278.6666666666667 92 L 278.6666666666667 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i1-ii5)" /></g><g data-runiq-edge="i2-ii1"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 276 52 L 276 87 L 519 87 L 519 192 L 512 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 276 52 L 276 87 L 519 87 L 519 192 L 512 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i1-ii5)" pointer-events="none" /></g><g data-runiq-edge="i2-ii1-7" data-edge-id="i2-ii1-7" data-edge-from="i2" data-edge-to="ii1"><defs>
       <marker id="arrow-standard-i2-ii1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 158.66666666666666 172 L 158.66666666666666 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii1)" /></g><g data-runiq-edge="i2-ii2"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 224 212 L 224 247 L 39 247 L 32 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 224 212 L 224 247 L 39 247 L 32 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i2-ii1)" pointer-events="none" /></g><g data-runiq-edge="i2-ii2-8" data-edge-id="i2-ii2-8" data-edge-from="i2" data-edge-to="ii2"><defs>
       <marker id="arrow-standard-i2-ii2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 178.66666666666663 172 L 178.66666666666663 182 L 505.33333333333337 182 L 505.3333333333333 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii2)" /></g><g data-runiq-edge="i2-ii3"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 224 212 L 224 272 L 159 272 L 152 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 224 212 L 224 272 L 159 272 L 152 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i2-ii2)" pointer-events="none" /></g><g data-runiq-edge="i2-ii3-9" data-edge-id="i2-ii3-9" data-edge-from="i2" data-edge-to="ii3"><defs>
       <marker id="arrow-standard-i2-ii3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 151.99999999999997 172 L 152 182 L 38.666666666666686 182 L 38.66666666666667 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii3)" /></g><g data-runiq-edge="i2-ii4"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 224 212 L 224 297 L 265 297 L 272 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 224 212 L 224 297 L 265 297 L 272 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i2-ii3)" pointer-events="none" /></g><g data-runiq-edge="i2-ii4-10" data-edge-id="i2-ii4-10" data-edge-from="i2" data-edge-to="ii4"><defs>
       <marker id="arrow-standard-i2-ii4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 171.99999999999997 172 L 172 192 L 385.33333333333337 192 L 385.3333333333333 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii4)" /></g><g data-runiq-edge="i2-ii5"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 224 212 L 224 272 L 385 272 L 392 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 224 212 L 224 272 L 385 272 L 392 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i2-ii4)" pointer-events="none" /></g><g data-runiq-edge="i2-ii5-11" data-edge-id="i2-ii5-11" data-edge-from="i2" data-edge-to="ii5"><defs>
       <marker id="arrow-standard-i2-ii5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 165.33333333333331 172 L 165.33333333333331 202 L 265.33333333333337 202 L 265.33333333333337 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-i2-ii5)" /></g><g data-runiq-edge="ii2-iii1"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 224 212 L 224 247 L 505 247 L 512 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 224 212 L 224 247 L 505 247 L 512 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-i2-ii5)" pointer-events="none" /></g><g data-runiq-edge="ii2-iii1-12" data-edge-id="ii2-iii1-12" data-edge-from="ii2" data-edge-to="iii1"><defs>
       <marker id="arrow-standard-ii2-iii1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 502 292 L 502 302 L 377.6666666666667 302 L 377.6666666666667 422 L 388.6666666666667 422 L 388.6666666666667 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-ii2-iii1)" /></g><g data-runiq-edge="ii2-iii2"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 152 372 L 152 407 L 96 407 L 96 512 L 103 652" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 372 L 152 407 L 96 407 L 96 512 L 103 652" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ii2-iii1)" pointer-events="none" /></g><g data-runiq-edge="ii2-iii2-13" data-edge-id="ii2-iii2-13" data-edge-from="ii2" data-edge-to="iii2"><defs>
       <marker id="arrow-standard-ii2-iii2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 522 292 L 522 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-ii2-iii2)" /></g><g data-runiq-edge="iipartner-iii1"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 152 372 L 152 407 L 230 407 L 230 512 L 223 652" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 372 L 152 407 L 230 407 L 230 512 L 223 652" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ii2-iii2)" pointer-events="none" /></g><g data-runiq-edge="iipartner-iii1-14" data-edge-id="iipartner-iii1-14" data-edge-from="iipartner" data-edge-to="iii1"><defs>
       <marker id="arrow-standard-iipartner-iii1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 402 412 L 402.00000000000006 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-iipartner-iii1)" /></g><g data-runiq-edge="iipartner-iii2"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 152 532 L 152 567 L 110 567 L 103 652" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 532 L 152 567 L 110 567 L 103 652" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-iipartner-iii1)" pointer-events="none" /></g><g data-runiq-edge="iipartner-iii2-15" data-edge-id="iipartner-iii2-15" data-edge-from="iipartner" data-edge-to="iii2"><defs>
       <marker id="arrow-standard-iipartner-iii2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 415.33333333333337 412 L 415.33333333333337 422 L 508.6666666666667 422 L 508.6666666666667 492" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-iipartner-iii2)" /></g><g data-runiq-node="i1"><rect x="484.3809523809524" y="12" width="40" height="40"
-                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="504.3809523809524" y="67"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">I-1</text></g><g data-runiq-node="i2"><circle cx="165.33333333333331" cy="152" r="19"
-                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="165.33333333333331" y="187"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">I-2</text></g><g data-runiq-node="ii1"><circle cx="152" cy="272" r="19"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="152" y="307"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">II-1</text></g><g data-runiq-node="ii2"><rect x="492" y="252" width="40" height="40"
-                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="512" y="307"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">II-2</text></g><g data-runiq-node="ii3"><circle cx="32" cy="272" r="19"
-                fill="#000" stroke="#000" stroke-width="2"/><text x="32" y="307"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">II-3</text></g><g data-runiq-node="ii4"><rect x="372" y="252" width="40" height="40"
-                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="392" y="307"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">II-4</text></g><g data-runiq-node="ii5"><circle cx="272" cy="272" r="19"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="272" y="307"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">II-5</text></g><g data-runiq-node="iipartner"><circle cx="408.6666666666667" cy="392" r="19"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="408.6666666666667" y="427"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">II-partner</text></g><g data-runiq-node="iii1"><rect x="375.33333333333337" y="492" width="40" height="40"
-                fill="url(#pedigree-half-fill)" stroke="#000" stroke-width="2"/><text x="395.33333333333337" y="547"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">III-1</text></g><g data-runiq-node="iii2"><circle cx="515.3333333333334" cy="512" r="19"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="515.3333333333334" y="547"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">III-2</text></g></svg>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 152 532 L 152 567 L 216 567 L 223 652" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 532 L 152 567 L 216 567 L 223 652" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-iipartner-iii2)" pointer-events="none" /></g><g data-runiq-node="i1" data-node-id="i1" data-node-shape="pedigreeMale"><rect x="256" y="12" width="40" height="40"
+                fill="url(#pedigree-half-fill)" stroke="#48677e" stroke-width="2"/><text x="276" y="67" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      I-1
+    </text></g><g data-runiq-node="i2" data-node-id="i2" data-node-shape="pedigreeFemale"><circle cx="224" cy="192" r="19"
+                fill="url(#pedigree-half-fill)" stroke="#48677e" stroke-width="2"/><text x="224" y="227" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      I-2
+    </text></g><g data-runiq-node="ii1" data-node-id="ii1" data-node-shape="pedigreeFemale"><circle cx="32" cy="352" r="19"
+                fill="#96bacf" stroke="#48677e" stroke-width="2"/><text x="32" y="387" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      II-1
+    </text></g><g data-runiq-node="ii2" data-node-id="ii2" data-node-shape="pedigreeMale"><rect x="132" y="332" width="40" height="40"
+                fill="url(#pedigree-half-fill)" stroke="#48677e" stroke-width="2"/><text x="152" y="387" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      II-2
+    </text></g><g data-runiq-node="ii3" data-node-id="ii3" data-node-shape="pedigreeFemale"><circle cx="272" cy="352" r="19"
+                fill="#000" stroke="#48677e" stroke-width="2"/><text x="272" y="387" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      II-3
+    </text></g><g data-runiq-node="ii4" data-node-id="ii4" data-node-shape="pedigreeMale"><rect x="372" y="332" width="40" height="40"
+                fill="url(#pedigree-half-fill)" stroke="#48677e" stroke-width="2"/><text x="392" y="387" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      II-4
+    </text></g><g data-runiq-node="ii5" data-node-id="ii5" data-node-shape="pedigreeFemale"><circle cx="512" cy="352" r="19"
+                fill="#73a3bf" stroke="#48677e" stroke-width="2"/><text x="512" y="387" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      II-5
+    </text></g><g data-runiq-node="iipartner" data-node-id="iipartner" data-node-shape="pedigreeFemale"><circle cx="152" cy="512" r="19"
+                fill="#96bacf" stroke="#48677e" stroke-width="2"/><text x="152" y="547" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      II-partner
+    </text></g><g data-runiq-node="iii1" data-node-id="iii1" data-node-shape="pedigreeMale"><rect x="83" y="652" width="40" height="40"
+                fill="url(#pedigree-half-fill)" stroke="#48677e" stroke-width="2"/><text x="103" y="707" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      III-1
+    </text></g><g data-runiq-node="iii2" data-node-id="iii2" data-node-shape="pedigreeFemale"><circle cx="223" cy="672" r="19"
+                fill="#364d5f" stroke="#48677e" stroke-width="2"/><text x="223" y="707" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      III-2
+    </text></g></svg>

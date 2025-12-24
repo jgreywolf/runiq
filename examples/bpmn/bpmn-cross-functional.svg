@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="880.4000000000001" height="752" 
+    viewBox="0 0 880.4000000000001 752"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="customer" data-container-id="customer"><rect x="0" y="0" width="858.4000000000001" height="144" fill="#f5f5f5" stroke="#ddd" stroke-width="2"/><line x1="30" y1="0" x2="30" y2="144" stroke="#ddd" stroke-width="2"/><g transform="rotate(-90 15 72)"><text x="15" y="72" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#000">Customer</text></g></g><g data-runiq-container="sales" data-container-id="sales"><rect x="0" y="224" width="585.6" height="284" fill="#f5f5f5" stroke="#ddd" stroke-width="2"/><line x1="30" y1="224" x2="30" y2="508" stroke="#ddd" stroke-width="2"/><g transform="rotate(-90 15 366)"><text x="15" y="366" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#000">Sales Department</text></g></g><g data-runiq-container="warehouse" data-container-id="warehouse"><rect x="0" y="588" width="568" height="144" fill="#f5f5f5" stroke="#ddd" stroke-width="2"/><line x1="30" y1="588" x2="30" y2="732" stroke="#ddd" stroke-width="2"/><g transform="rotate(-90 15 660)"><text x="15" y="660" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#000">Warehouse</text></g></g><g data-runiq-edge="start-orderTask-0" data-edge-id="start-orderTask-0" data-edge-from="start" data-edge-to="orderTask"><defs>
+      <marker id="arrow-standard-start-orderTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 82 72 L 122 72 L 122 72 L 162 72" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 82 72 L 122 72 L 122 72 L 162 72" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-orderTask)" pointer-events="none" /></g><g data-runiq-edge="orderTask-payTask-1" data-edge-id="orderTask-payTask-1" data-edge-from="orderTask" data-edge-to="payTask"><defs>
+      <marker id="arrow-standard-orderTask-payTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 278.4 72 L 318.4 72 L 318.4 72 L 358.4 72" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 278.4 72 L 318.4 72 L 318.4 72 L 358.4 72" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderTask-payTask)" pointer-events="none" /></g><g data-runiq-edge="payTask-receiveTask-2" data-edge-id="payTask-receiveTask-2" data-edge-from="payTask" data-edge-to="receiveTask"><defs>
+      <marker id="arrow-standard-payTask-receiveTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 483.2 72 L 523.2 72 L 523.2 72 L 563.2 72" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 483.2 72 L 523.2 72 L 523.2 72 L 563.2 72" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-payTask-receiveTask)" pointer-events="none" /></g><g data-runiq-edge="receiveTask-end-3" data-edge-id="receiveTask-end-3" data-edge-from="receiveTask" data-edge-to="end"><defs>
+      <marker id="arrow-standard-receiveTask-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 696.4000000000001 72 L 736.4000000000001 72 L 736.4000000000001 72 L 776.4000000000001 72" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 696.4000000000001 72 L 736.4000000000001 72 L 736.4000000000001 72 L 776.4000000000001 72" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveTask-end)" pointer-events="none" /></g><g data-runiq-edge="reviewTask-approveGateway-4" data-edge-id="reviewTask-approveGateway-4" data-edge-from="reviewTask" data-edge-to="approveGateway"><defs>
+      <marker id="arrow-standard-reviewTask-approveGateway" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 166.8 304 L 206.8 304 L 206.8 304 L 246.8 304" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 166.8 304 L 206.8 304 L 206.8 304 L 246.8 304" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-reviewTask-approveGateway)" pointer-events="none" /></g><g data-runiq-edge="approveGateway-confirmTask-5" data-edge-id="approveGateway-confirmTask-5" data-edge-from="approveGateway" data-edge-to="confirmTask"><defs>
+      <marker id="arrow-standard-approveGateway-confirmTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 296.8 304 L 336.8 304 L 336.8 296 L 376.8 296" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 296.8 304 L 336.8 304 L 336.8 296 L 376.8 296" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-approveGateway-confirmTask)" pointer-events="none" /><text x="336.8" y="296" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Yes</text></g><g data-runiq-edge="approveGateway-rejectTask-6" data-edge-id="approveGateway-rejectTask-6" data-edge-from="approveGateway" data-edge-to="rejectTask"><defs>
+      <marker id="arrow-standard-approveGateway-rejectTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 296.8 304 L 331.8 304 L 331.8 436 L 376.8 436" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 296.8 304 L 331.8 304 L 331.8 436 L 376.8 436" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-approveGateway-rejectTask)" pointer-events="none" /><text x="331.8" y="436" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">No</text></g><g data-runiq-edge="pickTask-packTask-7" data-edge-id="pickTask-packTask-7" data-edge-from="pickTask" data-edge-to="packTask"><defs>
+      <marker id="arrow-standard-pickTask-packTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 150 660 L 190 660 L 190 660 L 230 660" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 150 660 L 190 660 L 190 660 L 230 660" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pickTask-packTask)" pointer-events="none" /></g><g data-runiq-edge="packTask-shipTask-8" data-edge-id="packTask-shipTask-8" data-edge-from="packTask" data-edge-to="shipTask"><defs>
+      <marker id="arrow-standard-packTask-shipTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 338 660 L 378 660 L 378 660 L 418 660" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 338 660 L 378 660 L 378 660 L 418 660" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-packTask-shipTask)" pointer-events="none" /></g><g data-runiq-edge="orderTask-reviewTask" data-edge-id="orderTask-reviewTask" data-edge-from="orderTask" data-edge-to="reviewTask"><defs>
+      <marker id="arrow-standard-orderTask-reviewTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 220.2 42 L 220.2 188 L 104.4 188 L 104.4 274" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 220.2 42 L 220.2 188 L 104.4 188 L 104.4 274" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderTask-reviewTask)" pointer-events="none" /><text x="104.4" y="188" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Order Info</text></g><g data-runiq-edge="confirmTask-payTask" data-edge-id="confirmTask-payTask" data-edge-from="confirmTask" data-edge-to="payTask"><defs>
+      <marker id="arrow-standard-confirmTask-payTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 460.20000000000005 266 L 460.20000000000005 184 L 420.79999999999995 184 L 420.79999999999995 42" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 460.20000000000005 266 L 460.20000000000005 184 L 420.79999999999995 184 L 420.79999999999995 42" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-confirmTask-payTask)" pointer-events="none" /><text x="420.79999999999995" y="184" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Payment Request</text></g><g data-runiq-edge="payTask-pickTask" data-edge-id="payTask-pickTask" data-edge-from="payTask" data-edge-to="pickTask"><defs>
+      <marker id="arrow-standard-payTask-pickTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 420.79999999999995 42 L 420.79999999999995 366 L 96 366 L 96 630" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 420.79999999999995 42 L 420.79999999999995 366 L 96 366 L 96 630" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-payTask-pickTask)" pointer-events="none" /><text x="96" y="366" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Fulfillment Request</text></g><g data-runiq-edge="shipTask-receiveTask" data-edge-id="shipTask-receiveTask" data-edge-from="shipTask" data-edge-to="receiveTask"><defs>
+      <marker id="arrow-standard-shipTask-receiveTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 472 630 L 472 366 L 629.8000000000001 366 L 629.8000000000001 42" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 472 630 L 472 366 L 629.8000000000001 366 L 629.8000000000001 42" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-shipTask-receiveTask)" pointer-events="none" /><text x="629.8000000000001" y="366" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Shipment</text></g><g data-runiq-edge="rejectTask-end" data-edge-id="rejectTask-end" data-edge-from="rejectTask" data-edge-to="end"><defs>
+      <marker id="arrow-standard-rejectTask-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 439.20000000000005 406 L 439.20000000000005 254 L 796.4000000000001 254 L 796.4000000000001 52" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 439.20000000000005 406 L 439.20000000000005 254 L 796.4000000000001 254 L 796.4000000000001 52" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-rejectTask-end)" pointer-events="none" /><text x="796.4000000000001" y="254" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">Rejection Notice</text></g><g data-runiq-node="start" data-node-id="start" data-node-shape="bpmnEvent"><circle cx="62" cy="72" r="19" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="62" y="108" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.9"
+      fill="#FFFFFF">
+      Start
+    </text></g><g data-runiq-node="orderTask" data-node-id="orderTask" data-node-shape="bpmnTask"><rect x="162" y="42" width="116.4" height="60" fill="#73a3bf" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="220.2" y="76.66666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Place Order
+    </text></g><g data-runiq-node="payTask" data-node-id="payTask" data-node-shape="bpmnTask"><rect x="358.4" y="42" width="124.80000000000001" height="60" fill="#96bacf" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="420.79999999999995" y="76.66666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Make Payment
+    </text></g><g data-runiq-node="receiveTask" data-node-id="receiveTask" data-node-shape="bpmnTask"><rect x="563.2" y="42" width="133.2" height="60" fill="#48677e" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="629.8000000000001" y="76.66666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Receive Order
+    </text></g><g data-runiq-node="end" data-node-id="end" data-node-shape="bpmnEvent"><circle cx="796.4000000000001" cy="72" r="17.5" fill="#364d5f" stroke="#48677e" stroke-width="5"/><text x="796.4000000000001" y="108" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.9"
+      fill="#FFFFFF">
+      End
+    </text></g><g data-runiq-node="reviewTask" data-node-id="reviewTask" data-node-shape="bpmnTask"><rect x="42" y="274" width="124.80000000000001" height="60" fill="#5a819e" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="104.4" y="308.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Review Order
+    </text></g><g data-runiq-node="approveGateway" data-node-id="approveGateway" data-node-shape="bpmnGateway"><path d="M 271.8,279 L 296.8,304 L 271.8,329 L 246.8,304 Z" fill="#73a3bf" stroke="#48677e" stroke-width="2"/><path d="M 259.3,291.5 L 284.3,316.5 M 284.3,291.5 L 259.3,316.5" stroke="#48677e" stroke-width="2" stroke-linecap="round"/></g><g data-runiq-node="confirmTask" data-node-id="confirmTask" data-node-shape="bpmnTask"><rect x="376.8" y="266" width="166.8" height="60" fill="#96bacf" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="460.20000000000005" y="300.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Send Confirmation
+    </text></g><g data-runiq-node="rejectTask" data-node-id="rejectTask" data-node-shape="bpmnTask"><rect x="376.8" y="406" width="124.80000000000001" height="60" fill="#48677e" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="439.20000000000005" y="440.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Reject Order
+    </text></g><g data-runiq-node="pickTask" data-node-id="pickTask" data-node-shape="bpmnTask"><rect x="42" y="630" width="108" height="60" fill="#364d5f" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="96" y="664.6666666666666" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Pick Items
+    </text></g><g data-runiq-node="packTask" data-node-id="packTask" data-node-shape="bpmnTask"><rect x="230" y="630" width="108" height="60" fill="#5a819e" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="284" y="664.6666666666666" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Pack Order
+    </text></g><g data-runiq-node="shipTask" data-node-id="shipTask" data-node-shape="bpmnTask"><rect x="418" y="630" width="108" height="60" fill="#73a3bf" stroke="#48677e" stroke-width="2" rx="8" ry="8"/><text x="472" y="664.6666666666666" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Ship Order
+    </text></g></svg>

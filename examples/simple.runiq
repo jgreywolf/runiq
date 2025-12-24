@@ -1,8 +1,8 @@
 diagram "Simple Example" {
   direction LR
 
-  style default fill: "#f0f8ff" strokeColor: "#4682b4" fontSize: 14
-  style highlight fill: "#fffacd" strokeColor: "#daa520"
+  style default fillColor: "#f0f8ff" strokeColor: "#4682b4" fontSize: 14
+  style highlight fillColor: "#fffacd" strokeColor: "#daa520"
 
   shape Start as @rounded label:"Start" style:highlight
   shape Process as @rounded label:"Process Data"

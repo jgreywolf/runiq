@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="303.8" height="550.4" 
+    viewBox="0 0 303.8 550.4"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="atm" data-container-id="atm"><rect x="12" y="198.8" width="271.8" height="331.59999999999997" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="22" y="218.8" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">ATM System</text></g><g data-runiq-edge="withdraw-printReceipt-2" data-edge-id="withdraw-printReceipt-2" data-edge-from="withdraw" data-edge-to="printReceipt"><defs>
+      <marker id="arrow-standard-withdraw-printReceipt" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 147.9 359.2 L 147.9 399.2 L 147.9 399.2 L 147.9 439.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 147.9 359.2 L 147.9 399.2 L 147.9 399.2 L 147.9 439.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-withdraw-printReceipt)" pointer-events="none" /><text x="147.9" y="399.2" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">optional</text></g><g data-runiq-edge="user-withdraw" data-edge-id="user-withdraw" data-edge-from="user" data-edge-to="withdraw"><defs>
+      <marker id="arrow-standard-user-withdraw" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 171.6 12 L 171.6 190 L 147.9 190 L 147.9 359.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 171.6 12 L 171.6 190 L 147.9 190 L 147.9 359.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-user-withdraw)" pointer-events="none" /></g><g data-runiq-edge="user-checkBalance" data-edge-id="user-checkBalance" data-edge-from="user" data-edge-to="checkBalance"><defs>
+      <marker id="arrow-standard-user-checkBalance" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 171.6 12 L 171.6 155.4 L 147.9 155.4 L 147.9 290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 171.6 12 L 171.6 155.4 L 147.9 155.4 L 147.9 290" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-user-checkBalance)" pointer-events="none" /></g><g data-runiq-node="withdraw" data-node-id="withdraw" data-node-shape="ellipseWide">
+      <ellipse cx="147.9" cy="334.6" rx="93.9" ry="24.6"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="147.9" y="334.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Withdraw Cash
+    </text></g><g data-runiq-node="checkBalance" data-node-id="checkBalance" data-node-shape="ellipseWide">
+      <ellipse cx="147.9" cy="265.40000000000003" rx="93.9" ry="24.6"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+    <text x="147.9" y="265.40000000000003" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Check Balance
+    </text></g><g data-runiq-node="printReceipt" data-node-id="printReceipt" data-node-shape="ellipseWide">
+      <ellipse cx="147.9" cy="463.8" rx="93.9" ry="24.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+    <text x="147.9" y="463.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Print Receipt
+    </text></g><g data-runiq-node="user" data-node-id="user" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="171.6" cy="27" r="15" 
+              fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="112" y="47" width="119.19999999999999" height="26.799999999999997"
+            rx="5" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="171.6" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Bank Customer
+    </text>
+    </g></svg>

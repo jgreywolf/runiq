@@ -379,7 +379,7 @@ Planned features:
 
 ## See Also
 
-- [Sequence Diagrams Guide](/guide/sequence-diagrams)
+- [Sequence Diagrams Guide](/guide/diagram-types/sequence-diagrams)
 - [Profile System](/guide/profiles)
 - [DSL Syntax Reference](/reference/dsl)
 - [UML Sequence Diagram Specification](https://www.omg.org/spec/UML/2.5.1/)

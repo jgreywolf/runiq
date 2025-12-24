@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="816.2" height="545" 
+    viewBox="0 0 816.2 545"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="initial-idle-0" data-edge-id="initial-idle-0" data-edge-from="initial" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-initial-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 364 103 L 364 138 L 280 138 L 259.4 223" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 364 103 L 364 138 L 280 138 L 259.4 223" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-initial-idle)" pointer-events="none" /></g><g data-runiq-edge="idle-moving-1" data-edge-id="idle-moving-1" data-edge-from="idle" data-edge-to="moving"><defs>
+      <marker id="arrow-standard-idle-moving" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 405.8 268.5 L 364 268.5 L 625 188 L 624.6 103" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 405.8 268.5 L 364 268.5 L 625 188 L 624.6 103" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-moving)" pointer-events="none" /><text x="625" y="188" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">floorRequest [requestedFloor != currentFloor &amp;&amp; doorsClosed] / setTarget(requestedFloor); startMotor()</text></g><g data-runiq-edge="idle-idle-2" data-edge-id="idle-idle-2" data-edge-from="idle" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-idle-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 113 268.5 L 103 268.5 L 103 283.6666666666667 L 113 268.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 113 268.5 L 103 268.5 L 103 283.6666666666667 L 113 268.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-idle)" pointer-events="none" /><text x="103" y="283.6666666666667" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">floorRequest [requestedFloor == currentFloor] / playTone(&#39;already-here&#39;)</text></g><g data-runiq-edge="moving-idle-3" data-edge-id="moving-idle-3" data-edge-from="moving" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-moving-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 624.6 103 L 624.6 163 L 322 163 L 259.4 223" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 624.6 103 L 624.6 163 L 322 163 L 259.4 223" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-moving-idle)" pointer-events="none" /><text x="322" y="163" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">floorReached [currentFloor == requestedFloor] / clearTarget(); logArrival()</text></g><g data-runiq-edge="idle-doorOpen-4" data-edge-id="idle-doorOpen-4" data-edge-from="idle" data-edge-to="doorOpen"><defs>
+      <marker id="arrow-standard-idle-doorOpen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 259.4 223 L 259.4 138 L 222 138 L 274.20000000000005 57.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 259.4 223 L 259.4 138 L 222 138 L 274.20000000000005 57.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-doorOpen)" pointer-events="none" /><text x="222" y="138" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">openButton / recordUserInteraction()</text></g><g data-runiq-edge="doorOpen-idle-6" data-edge-id="doorOpen-idle-6" data-edge-from="doorOpen" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-doorOpen-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 144.60000000000002 103 L 144.60000000000002 138 L 197 138 L 259.4 223" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 144.60000000000002 103 L 144.60000000000002 138 L 197 138 L 259.4 223" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-doorOpen-idle)" pointer-events="none" /><text x="197" y="138" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timeout [timerExpired &amp;&amp; !obstacleDetected]</text></g><g data-runiq-edge="moving-emergency-7" data-edge-id="moving-emergency-7" data-edge-from="moving" data-edge-to="emergency"><defs>
+      <marker id="arrow-standard-moving-emergency" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 624.6 103 L 624.6 268.5 L 710 349 L 407 349 L 480.40000000000003 479.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 624.6 103 L 624.6 268.5 L 710 349 L 407 349 L 480.40000000000003 479.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-moving-emergency)" pointer-events="none" /><text x="710" y="349" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">emergencyButton / engageBrakes(); logEmergency()</text></g><g data-runiq-edge="idle-emergency-8" data-edge-id="idle-emergency-8" data-edge-from="idle" data-edge-to="emergency"><defs>
+      <marker id="arrow-standard-idle-emergency" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 259.4 314 L 259.4 374 L 296.20000000000005 374 L 296.20000000000005 434" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 259.4 314 L 259.4 374 L 296.20000000000005 374 L 296.20000000000005 434" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-emergency)" pointer-events="none" /><text x="296.20000000000005" y="374" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">systemFault [faultSeverity &gt;= CRITICAL] / lockElevator(); notifyOperator()</text></g><g data-runiq-edge="doorOpen-emergency-9" data-edge-id="doorOpen-emergency-9" data-edge-from="doorOpen" data-edge-to="emergency"><defs>
+      <marker id="arrow-standard-doorOpen-emergency" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 15 57.5 L 67 57.5 L 67 374 L 186 374 L 112 479.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 15 57.5 L 67 57.5 L 67 374 L 186 374 L 112 479.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-doorOpen-emergency)" pointer-events="none" /><text x="67" y="374" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">obstacleStuck [obstructionTime &gt; 30] / reverseDoors(); alertMaintenance()</text></g><g data-runiq-edge="emergency-idle-10" data-edge-id="emergency-idle-10" data-edge-from="emergency" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-emergency-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 296.20000000000005 434 L 296.20000000000005 374 L 259.4 374 L 259.4 314" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 296.20000000000005 434 L 296.20000000000005 374 L 259.4 374 L 259.4 314" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-emergency-idle)" pointer-events="none" /><text x="259.4" y="374" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">reset [maintenanceAuthorized &amp;&amp; systemChecked] / clearFaults(); enableOperation()</text></g><g data-runiq-edge="idle-final-11" data-edge-id="idle-final-11" data-edge-from="idle" data-edge-to="final"><defs>
+      <marker id="arrow-standard-idle-final" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 259.4 314 L 259.4 349 L 22 349 L 22 434" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 259.4 314 L 259.4 349 L 22 349 L 22 434" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-final)" pointer-events="none" /><text x="22" y="349" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">shutdown [noActiveRequests &amp;&amp; allDoorsSecure] / saveState(); powerDown()</text></g><g data-runiq-node="idle" data-node-id="idle" data-node-shape="state"><g class="state-shape"><rect x="113" y="223" width="292.8" height="91" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="259.4" y="247.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Idle
+    </text><line x1="125" y1="256.6" x2="393.8" y2="256.6" stroke="#48677e" stroke-width="1" /><text x="125" y="277.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / stopMotor(); openDoors()
+    </text><text x="125" y="295.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / closeDoors()
+    </text></g></g><g data-runiq-node="moving" data-node-id="moving" data-node-shape="state"><g class="state-shape"><rect x="453" y="12" width="343.2" height="91" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="624.6" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Moving
+    </text><line x1="465" y1="45.6" x2="784.2" y2="45.6" stroke="#48677e" stroke-width="1" /><text x="465" y="66.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / monitorSafety(); updatePosition()
+    </text><text x="465" y="84.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / stopMotor()
+    </text></g></g><g data-runiq-node="doorOpen" data-node-id="doorOpen" data-node-shape="state"><g class="state-shape"><rect x="15" y="12" width="259.20000000000005" height="91" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="144.60000000000002" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Door Open
+    </text><line x1="27" y1="45.6" x2="262.20000000000005" y2="45.6" stroke="#48677e" stroke-width="1" /><text x="27" y="66.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / activateDoorTimer()
+    </text><text x="27" y="84.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / deactivateDoorTimer()
+    </text></g></g><g data-runiq-node="emergency" data-node-id="emergency" data-node-shape="state"><g class="state-shape"><rect x="112" y="434" width="368.40000000000003" height="91" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="296.20000000000005" y="458.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Emergency Stop
+    </text><line x1="124" y1="467.6" x2="468.40000000000003" y2="467.6" stroke="#48677e" stroke-width="1" /><text x="124" y="488.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / soundAlarm(); notifyMaintenance()
+    </text><text x="124" y="506.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / resetAlarm()
+    </text></g></g><g data-runiq-node="initial" data-node-id="initial" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="364" cy="94" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="final" data-node-id="final" data-node-shape="terminate"><g class="terminate-shape"><circle cx="22" cy="444" r="10" fill="#5a819e" stroke="#48677e" stroke-width="1.5" /><line x1="15" y1="437" x2="29" y2="451" stroke="#48677e" stroke-width="1.5" /><line x1="29" y1="437" x2="15" y2="451" stroke="#48677e" stroke-width="1.5" /></g></g></svg>

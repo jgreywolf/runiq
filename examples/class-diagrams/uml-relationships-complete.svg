@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="656" height="934" 
+    viewBox="0 0 656 934"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="University-Department-0" data-edge-id="University-Department-0" data-edge-from="University" data-edge-to="Department"><defs>
+      <marker id="arrow-composition-University-Department" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto" markerUnits="strokeWidth">
+        <polygon points="6,0 12,6 6,12 0,6" fill="#48677e" />
+      </marker></defs><path d="M 203.8 134 L 203.8 194 L 203.6 194 L 203.6 254" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 203.8 134 L 203.8 194 L 203.6 194 L 203.6 254" fill="none" stroke="#48677e" stroke-width="1" marker-start="url(#arrow-composition-University-Department)" pointer-events="none" /><text x="203.77" y="144" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1</text><text x="203.77" y="157" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">institution</text><text x="203.63" y="228" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1..*</text><text x="203.63" y="241" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">unit</text></g><g data-runiq-edge="Department-Professor-1" data-edge-id="Department-Professor-1" data-edge-from="Department" data-edge-to="Professor"><defs>
+      <marker id="arrow-aggregation-Department-Professor" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto" markerUnits="strokeWidth">
+        <polygon points="6,0 12,6 6,12 0,6" fill="white" stroke="#48677e" stroke-width="1" />
+      </marker></defs><path d="M 203.6 376 L 203.6 436 L 145.8 436 L 145.8 496" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 203.6 376 L 203.6 436 L 145.8 436 L 145.8 496" fill="none" stroke="#48677e" stroke-width="1" marker-start="url(#arrow-aggregation-Department-Professor)" pointer-events="none" /><text x="194.93" y="386" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1..*</text><text x="194.93" y="399" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">employer</text><text x="154.47000000000003" y="470" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1..*</text><text x="154.47000000000003" y="483" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">faculty</text></g><g data-runiq-edge="Professor-Course-2" data-edge-id="Professor-Course-2" data-edge-from="Professor" data-edge-to="Course"><defs>
+      <marker id="arrow-standard-Professor-Course" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 145.8 654 L 145.8 714 L 200.20000000000002 714 L 200.20000000000002 774" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 145.8 654 L 145.8 714 L 200.20000000000002 714 L 200.20000000000002 774" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Professor-Course)" pointer-events="none" /><text x="200.20000000000002" y="714" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">teaches</text><text x="153.96" y="664" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1..*</text><text x="153.96" y="677" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">instructor</text><text x="192.04000000000002" y="748" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1..*</text><text x="192.04000000000002" y="761" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">subject</text></g><g data-runiq-edge="Student-Course-3" data-edge-id="Student-Course-3" data-edge-from="Student" data-edge-to="Course"><defs>
+      <marker id="arrow-standard-Student-Course" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 498 654 L 498 689 L 255 689 L 200.20000000000002 774" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 498 654 L 498 689 L 255 689 L 200.20000000000002 774" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Student-Course)" pointer-events="none" /><text x="255" y="689" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">enrolledIn</text><text x="453.33" y="664" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">0..*</text><text x="453.33" y="677" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">learner</text><text x="244.87000000000003" y="748" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">0..*</text><text x="244.87000000000003" y="761" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">curriculum</text></g><g data-runiq-edge="Department-Student-4" data-edge-id="Department-Student-4" data-edge-from="Department" data-edge-to="Student"><defs>
+      <marker id="arrow-standard-Department-Student" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 203.6 376 L 203.6 411 L 498 411 L 498 496" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 203.6 376 L 203.6 411 L 498 411 L 498 496" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Department-Student)" pointer-events="none" /><text x="498" y="411" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">advises</text><text x="247.76" y="386" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1</text><text x="453.84" y="470" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">0..*</text></g><g data-runiq-node="University" data-node-id="University" data-node-shape="class"><rect x="28" y="12" width="351.6" height="122" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="203.8" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      University
+    </text><line x1="28" y1="54" x2="379.6" y2="54" stroke="#48677e" stroke-width="1"/><text x="40" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - name: string
+    </text><text x="40" y="93" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - founded: int
+    </text><line x1="28" y1="114" x2="379.6" y2="114" stroke="#48677e" stroke-width="1"/><text x="40" y="135" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + addDepartment(dept: Department): void
+    </text></g><g data-runiq-node="Department" data-node-id="Department" data-node-shape="class"><rect x="32" y="254" width="343.2" height="122" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="203.6" y="275" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Department
+    </text><line x1="32" y1="296" x2="375.2" y2="296" stroke="#48677e" stroke-width="1"/><text x="44" y="317" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - name: string
+    </text><text x="44" y="335" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - building: string
+    </text><line x1="32" y1="356" x2="375.2" y2="356" stroke="#48677e" stroke-width="1"/><text x="44" y="377" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + hireProfessor(prof: Professor): void
+    </text></g><g data-runiq-node="Professor" data-node-id="Professor" data-node-shape="class"><rect x="12" y="496" width="267.6" height="158" fill="#96bacf" stroke="#48677e" stroke-width="1"/><text x="145.8" y="517" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Professor
+    </text><line x1="12" y1="538" x2="279.6" y2="538" stroke="#48677e" stroke-width="1"/><text x="24" y="559" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - employeeId: string
+    </text><text x="24" y="577" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - name: string
+    </text><text x="24" y="595" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - specialty: string
+    </text><line x1="12" y1="616" x2="279.6" y2="616" stroke="#48677e" stroke-width="1"/><text x="24" y="637" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + teach(course: Course): void
+    </text><text x="24" y="655" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + research(): Paper
+    </text></g><g data-runiq-node="Student" data-node-id="Student" data-node-shape="class"><rect x="360" y="496" width="276" height="158" fill="#48677e" stroke="#48677e" stroke-width="1"/><text x="498" y="517" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Student
+    </text><line x1="360" y1="538" x2="636" y2="538" stroke="#48677e" stroke-width="1"/><text x="372" y="559" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - studentId: string
+    </text><text x="372" y="577" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - name: string
+    </text><text x="372" y="595" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - major: string
+    </text><line x1="360" y1="616" x2="636" y2="616" stroke="#48677e" stroke-width="1"/><text x="372" y="637" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + enroll(course: Course): void
+    </text><text x="372" y="655" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + graduate(): void
+    </text></g><g data-runiq-node="Course" data-node-id="Course" data-node-shape="class"><rect x="37" y="774" width="326.40000000000003" height="140" fill="#364d5f" stroke="#48677e" stroke-width="1"/><text x="200.20000000000002" y="795" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Course
+    </text><line x1="37" y1="816" x2="363.40000000000003" y2="816" stroke="#48677e" stroke-width="1"/><text x="49" y="837" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - code: string
+    </text><text x="49" y="855" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - title: string
+    </text><text x="49" y="873" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - credits: int
+    </text><line x1="37" y1="894" x2="363.40000000000003" y2="894" stroke="#48677e" stroke-width="1"/><text x="49" y="915" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + addStudent(student: Student): void
+    </text></g></svg>

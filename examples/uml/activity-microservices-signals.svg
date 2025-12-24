@@ -1,0 +1,260 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1008.8" height="2820" 
+    viewBox="0 0 1008.8 2820"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="start-receiveRequest-0" data-edge-id="start-receiveRequest-0" data-edge-from="start" data-edge-to="receiveRequest"><defs>
+      <marker id="arrow-standard-start-receiveRequest" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 175 30 L 175 90 L 174.8 90 L 174.8 150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 175 30 L 175 90 L 174.8 90 L 174.8 150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-receiveRequest)" pointer-events="none" /></g><g data-runiq-edge="receiveRequest-apiRequest-1" data-edge-id="receiveRequest-apiRequest-1" data-edge-from="receiveRequest" data-edge-to="apiRequest"><defs>
+      <marker id="arrow-standard-receiveRequest-apiRequest" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 174.8 200 L 174.8 260 L 175.2 260 L 175.2 320" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 174.8 200 L 174.8 260 L 175.2 260 L 175.2 320" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveRequest-apiRequest)" pointer-events="none" /></g><g data-runiq-edge="apiRequest-authToken-2" data-edge-id="apiRequest-authToken-2" data-edge-from="apiRequest" data-edge-to="authToken"><defs>
+      <marker id="arrow-standard-apiRequest-authToken" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 175.2 360 L 175.2 420 L 175 420 L 175 480" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 175.2 360 L 175.2 420 L 175 420 L 175 480" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-apiRequest-authToken)" pointer-events="none" /></g><g data-runiq-edge="authToken-validateAuth-3" data-edge-id="authToken-validateAuth-3" data-edge-from="authToken" data-edge-to="validateAuth"><defs>
+      <marker id="arrow-standard-authToken-validateAuth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 175 520 L 175 580 L 174.8 580 L 174.8 640" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 175 520 L 175 580 L 174.8 580 L 174.8 640" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authToken-validateAuth)" pointer-events="none" /></g><g data-runiq-edge="validateAuth-sendAuthRequest-4" data-edge-id="validateAuth-sendAuthRequest-4" data-edge-from="validateAuth" data-edge-to="sendAuthRequest"><defs>
+      <marker id="arrow-standard-validateAuth-sendAuthRequest" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 174.8 690 L 174.8 750 L 175.4 750 L 175.4 810" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 174.8 690 L 174.8 750 L 175.4 750 L 175.4 810" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validateAuth-sendAuthRequest)" pointer-events="none" /></g><g data-runiq-edge="sendAuthRequest-receiveAuthResponse-5" data-edge-id="sendAuthRequest-receiveAuthResponse-5" data-edge-from="sendAuthRequest" data-edge-to="receiveAuthResponse"><defs>
+      <marker id="arrow-standard-sendAuthRequest-receiveAuthResponse" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 175.4 860 L 175.4 920 L 175.2 920 L 175.2 980" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 175.4 860 L 175.4 920 L 175.2 920 L 175.2 980" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendAuthRequest-receiveAuthResponse)" pointer-events="none" /></g><g data-runiq-edge="receiveAuthResponse-authCheck-6" data-edge-id="receiveAuthResponse-authCheck-6" data-edge-from="receiveAuthResponse" data-edge-to="authCheck"><defs>
+      <marker id="arrow-standard-receiveAuthResponse-authCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 175.2 1030 L 175.2 1090 L 175 1090 L 175 1150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 175.2 1030 L 175.2 1090 L 175 1090 L 175 1150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveAuthResponse-authCheck)" pointer-events="none" /></g><g data-runiq-edge="authCheck-logError-7" data-edge-id="authCheck-logError-7" data-edge-from="authCheck" data-edge-to="logError"><defs>
+      <marker id="arrow-standard-authCheck-logError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 175 1190 L 175 1250 L 168 1250 L 168 1310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 175 1190 L 175 1250 L 168 1250 L 168 1310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authCheck-logError)" pointer-events="none" /><text x="168" y="1250" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[unauthorized]</text></g><g data-runiq-edge="logError-logStore-8" data-edge-id="logError-logStore-8" data-edge-from="logError" data-edge-to="logStore"><defs>
+      <marker id="arrow-standard-logError-logStore" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 168 1360 L 168 1420 L 168 1420 L 168 1480" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 168 1360 L 168 1420 L 168 1420 L 168 1480" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-logError-logStore)" pointer-events="none" /></g><g data-runiq-edge="logStore-error-9" data-edge-id="logStore-error-9" data-edge-from="logStore" data-edge-to="error"><defs>
+      <marker id="arrow-standard-logStore-error" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 168 1530 L 168 1590 L 168 1590 L 168 1650" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 168 1530 L 168 1590 L 168 1590 L 168 1650" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-logStore-error)" pointer-events="none" /></g><g data-runiq-edge="authCheck-orchestrate-10" data-edge-id="authCheck-orchestrate-10" data-edge-from="authCheck" data-edge-to="orchestrate"><defs>
+      <marker id="arrow-standard-authCheck-orchestrate" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 175 1190 L 175 1225 L 603 1225 L 603 1310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 175 1190 L 175 1225 L 603 1225 L 603 1310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authCheck-orchestrate)" pointer-events="none" /><text x="603" y="1225" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[authorized]</text></g><g data-runiq-edge="orchestrate-serviceFork-11" data-edge-id="orchestrate-serviceFork-11" data-edge-from="orchestrate" data-edge-to="serviceFork"><defs>
+      <marker id="arrow-standard-orchestrate-serviceFork" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 603 1360 L 603 1435.75 L 603 1435.75 L 603 1511.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 603 1360 L 603 1435.75 L 603 1435.75 L 603 1511.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orchestrate-serviceFork)" pointer-events="none" /></g><g data-runiq-edge="serviceFork-sendUserRequest-12" data-edge-id="serviceFork-sendUserRequest-12" data-edge-from="serviceFork" data-edge-to="sendUserRequest"><defs>
+      <marker id="arrow-standard-serviceFork-sendUserRequest" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 603 1519.5 L 603 1565 L 345 1565 L 345.4 1650" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 603 1519.5 L 603 1565 L 345 1565 L 345.4 1650" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-serviceFork-sendUserRequest)" pointer-events="none" /></g><g data-runiq-edge="serviceFork-sendOrderRequest-13" data-edge-id="serviceFork-sendOrderRequest-13" data-edge-from="serviceFork" data-edge-to="sendOrderRequest"><defs>
+      <marker id="arrow-standard-serviceFork-sendOrderRequest" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 603 1519.5 L 603 1584.75 L 602.6 1584.75 L 602.6 1650" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 603 1519.5 L 603 1584.75 L 602.6 1584.75 L 602.6 1650" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-serviceFork-sendOrderRequest)" pointer-events="none" /></g><g data-runiq-edge="serviceFork-sendInventoryRequest-14" data-edge-id="serviceFork-sendInventoryRequest-14" data-edge-from="serviceFork" data-edge-to="sendInventoryRequest"><defs>
+      <marker id="arrow-standard-serviceFork-sendInventoryRequest" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 603 1519.5 L 603 1565 L 881 1565 L 881.4 1650" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 603 1519.5 L 603 1565 L 881 1565 L 881.4 1650" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-serviceFork-sendInventoryRequest)" pointer-events="none" /></g><g data-runiq-edge="sendUserRequest-receiveUserResponse-15" data-edge-id="sendUserRequest-receiveUserResponse-15" data-edge-from="sendUserRequest" data-edge-to="receiveUserResponse"><defs>
+      <marker id="arrow-standard-sendUserRequest-receiveUserResponse" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 345.4 1700 L 345.4 1760 L 345.4 1760 L 345.4 1820" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 345.4 1700 L 345.4 1760 L 345.4 1760 L 345.4 1820" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendUserRequest-receiveUserResponse)" pointer-events="none" /></g><g data-runiq-edge="receiveUserResponse-userData-16" data-edge-id="receiveUserResponse-userData-16" data-edge-from="receiveUserResponse" data-edge-to="userData"><defs>
+      <marker id="arrow-standard-receiveUserResponse-userData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 345.4 1870 L 345.4 1930 L 344.8 1930 L 344.8 1990" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 345.4 1870 L 345.4 1930 L 344.8 1930 L 344.8 1990" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveUserResponse-userData)" pointer-events="none" /></g><g data-runiq-edge="sendOrderRequest-receiveOrderResponse-17" data-edge-id="sendOrderRequest-receiveOrderResponse-17" data-edge-from="sendOrderRequest" data-edge-to="receiveOrderResponse"><defs>
+      <marker id="arrow-standard-sendOrderRequest-receiveOrderResponse" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 602.6 1700 L 602.6 1760 L 602.6 1760 L 602.6 1820" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 602.6 1700 L 602.6 1760 L 602.6 1760 L 602.6 1820" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendOrderRequest-receiveOrderResponse)" pointer-events="none" /></g><g data-runiq-edge="receiveOrderResponse-orderData-18" data-edge-id="receiveOrderResponse-orderData-18" data-edge-from="receiveOrderResponse" data-edge-to="orderData"><defs>
+      <marker id="arrow-standard-receiveOrderResponse-orderData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 602.6 1870 L 602.6 1930 L 603 1930 L 603 1990" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 602.6 1870 L 602.6 1930 L 603 1930 L 603 1990" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveOrderResponse-orderData)" pointer-events="none" /></g><g data-runiq-edge="sendInventoryRequest-receiveInventoryResponse-19" data-edge-id="sendInventoryRequest-receiveInventoryResponse-19" data-edge-from="sendInventoryRequest" data-edge-to="receiveInventoryResponse"><defs>
+      <marker id="arrow-standard-sendInventoryRequest-receiveInventoryResponse" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 881.4 1700 L 881.4 1760 L 881.4 1760 L 881.4 1820" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 881.4 1700 L 881.4 1760 L 881.4 1760 L 881.4 1820" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendInventoryRequest-receiveInventoryResponse)" pointer-events="none" /></g><g data-runiq-edge="receiveInventoryResponse-inventoryData-20" data-edge-id="receiveInventoryResponse-inventoryData-20" data-edge-from="receiveInventoryResponse" data-edge-to="inventoryData"><defs>
+      <marker id="arrow-standard-receiveInventoryResponse-inventoryData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 881.4 1870 L 881.4 1930 L 880.8 1930 L 880.8 1990" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 881.4 1870 L 881.4 1930 L 880.8 1930 L 880.8 1990" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-receiveInventoryResponse-inventoryData)" pointer-events="none" /></g><g data-runiq-edge="userData-serviceJoin-21" data-edge-id="userData-serviceJoin-21" data-edge-from="userData" data-edge-to="serviceJoin"><defs>
+      <marker id="arrow-standard-userData-serviceJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 344.8 2030 L 344.8 2065 L 583 2065 L 603 2150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 344.8 2030 L 344.8 2065 L 583 2065 L 603 2150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userData-serviceJoin)" pointer-events="none" /></g><g data-runiq-edge="orderData-serviceJoin-22" data-edge-id="orderData-serviceJoin-22" data-edge-from="orderData" data-edge-to="serviceJoin"><defs>
+      <marker id="arrow-standard-orderData-serviceJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 603 2030 L 603 2090 L 603 2090 L 603 2150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 603 2030 L 603 2090 L 603 2090 L 603 2150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderData-serviceJoin)" pointer-events="none" /></g><g data-runiq-edge="inventoryData-serviceJoin-23" data-edge-id="inventoryData-serviceJoin-23" data-edge-from="inventoryData" data-edge-to="serviceJoin"><defs>
+      <marker id="arrow-standard-inventoryData-serviceJoin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 880.8 2030 L 880.8 2065 L 623 2065 L 603 2150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 880.8 2030 L 880.8 2065 L 623 2065 L 603 2150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-inventoryData-serviceJoin)" pointer-events="none" /></g><g data-runiq-edge="serviceJoin-aggregateResults-24" data-edge-id="serviceJoin-aggregateResults-24" data-edge-from="serviceJoin" data-edge-to="aggregateResults"><defs>
+      <marker id="arrow-standard-serviceJoin-aggregateResults" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 603 2158 L 603 2218 L 603.4 2218 L 603.4 2278" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 603 2158 L 603 2218 L 603.4 2218 L 603.4 2278" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-serviceJoin-aggregateResults)" pointer-events="none" /></g><g data-runiq-edge="aggregateResults-aggregatedData-25" data-edge-id="aggregateResults-aggregatedData-25" data-edge-from="aggregateResults" data-edge-to="aggregatedData"><defs>
+      <marker id="arrow-standard-aggregateResults-aggregatedData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 603.4 2328 L 603.4 2388 L 602.8 2388 L 602.8 2448" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 603.4 2328 L 603.4 2388 L 602.8 2388 L 602.8 2448" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-aggregateResults-aggregatedData)" pointer-events="none" /></g><g data-runiq-edge="aggregatedData-cacheStore-26" data-edge-id="aggregatedData-cacheStore-26" data-edge-from="aggregatedData" data-edge-to="cacheStore"><defs>
+      <marker id="arrow-standard-aggregatedData-cacheStore" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 602.8 2488 L 602.8 2548 L 572.8 2548 L 572.8 2608" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 602.8 2488 L 602.8 2548 L 572.8 2548 L 572.8 2608" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-aggregatedData-cacheStore)" pointer-events="none" /><text x="572.8" y="2548" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cache</text></g><g data-runiq-edge="aggregatedData-sendResponse-27" data-edge-id="aggregatedData-sendResponse-27" data-edge-from="aggregatedData" data-edge-to="sendResponse"><defs>
+      <marker id="arrow-standard-aggregatedData-sendResponse" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 602.8 2488 L 602.8 2523 L 805 2523 L 805.4 2608" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 602.8 2488 L 602.8 2523 L 805 2523 L 805.4 2608" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-aggregatedData-sendResponse)" pointer-events="none" /></g><g data-runiq-edge="sendResponse-success-28" data-edge-id="sendResponse-success-28" data-edge-from="sendResponse" data-edge-to="success"><defs>
+      <marker id="arrow-standard-sendResponse-success" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 805.4 2658 L 805.4 2718 L 805 2718 L 805 2778" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 805.4 2658 L 805.4 2718 L 805 2718 L 805 2778" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sendResponse-success)" pointer-events="none" /></g><g data-runiq-node="start" data-node-id="start" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="175" cy="21" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="success" data-node-id="success" data-node-shape="finalState"><g class="final-state-shape"><circle cx="805" cy="2789" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="805" cy="2789" r="6.050000000000001" fill="#000000" stroke="none" /></g></g><g data-runiq-node="error" data-node-id="error" data-node-shape="finalState"><g class="final-state-shape"><circle cx="168" cy="1661" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="168" cy="1661" r="6.050000000000001" fill="#000000" stroke="none" /></g></g><g data-runiq-node="receiveRequest" data-node-id="receiveRequest" data-node-shape="activity"><g class="activity-shape"><rect x="83" y="150" width="183.6" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="174.8" y="175" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive API Request
+    </text></g></g><g data-runiq-node="validateAuth" data-node-id="validateAuth" data-node-shape="activity"><g class="activity-shape"><rect x="83" y="640" width="183.6" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="174.8" y="665" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validate Auth Token
+    </text></g></g><g data-runiq-node="orchestrate" data-node-id="orchestrate" data-node-shape="activity"><g class="activity-shape"><rect x="507" y="1310" width="192" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="603" y="1335" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Orchestrate Services
+    </text></g></g><g data-runiq-node="aggregateResults" data-node-id="aggregateResults" data-node-shape="activity"><g class="activity-shape"><rect x="520" y="2278" width="166.8" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="603.4" y="2303" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Aggregate Results
+    </text></g></g><g data-runiq-node="sendResponse" data-node-id="sendResponse" data-node-shape="activity"><g class="activity-shape"><rect x="722" y="2608" width="166.8" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="805.4" y="2633" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send API Response
+    </text></g></g><g data-runiq-node="logError" data-node-id="logError" data-node-shape="activity"><g class="activity-shape"><rect x="118" y="1310" width="100" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="168" y="1335" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Log Error
+    </text></g></g><g data-runiq-node="sendAuthRequest" data-node-id="sendAuthRequest" data-node-shape="sendSignal"><g class="send-signal-shape"><path d="M 89 810 L 227.24 810 L 261.8 835 L 227.24 860 L 89 860 Z" fill="#364d5f" stroke="#48677e" stroke-width="2" /><text x="158.12" y="839.6666666666666" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Auth Request
+    </text></g></g><g data-runiq-node="receiveAuthResponse" data-node-id="receiveAuthResponse" data-node-shape="receiveSignal"><g class="receive-signal-shape"><path d="M 113.28 980 L 278.4 980 L 278.4 1030 L 113.28 1030 L 72 1005 Z" fill="#364d5f" stroke="#48677e" stroke-width="2" /><text x="195.84" y="1009.6666666666666" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive Auth Response
+    </text></g></g><g data-runiq-node="sendUserRequest" data-node-id="sendUserRequest" data-node-shape="sendSignal"><g class="send-signal-shape"><path d="M 259 1650 L 397.24 1650 L 431.8 1675 L 397.24 1700 L 259 1700 Z" fill="#364d5f" stroke="#48677e" stroke-width="2" /><text x="328.12" y="1679.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send User Request
+    </text></g></g><g data-runiq-node="receiveUserResponse" data-node-id="receiveUserResponse" data-node-shape="receiveSignal"><g class="receive-signal-shape"><path d="M 293.56 1820 L 431.8 1820 L 431.8 1870 L 293.56 1870 L 259 1845 Z" fill="#364d5f" stroke="#48677e" stroke-width="2" /><text x="362.68" y="1849.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive User Data
+    </text></g></g><g data-runiq-node="sendOrderRequest" data-node-id="sendOrderRequest" data-node-shape="sendSignal"><g class="send-signal-shape"><path d="M 512 1650 L 656.96 1650 L 693.2 1675 L 656.96 1700 L 512 1700 Z" fill="#364d5f" stroke="#48677e" stroke-width="2" /><text x="584.48" y="1679.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Order Request
+    </text></g></g><g data-runiq-node="receiveOrderResponse" data-node-id="receiveOrderResponse" data-node-shape="receiveSignal"><g class="receive-signal-shape"><path d="M 548.24 1820 L 693.2 1820 L 693.2 1870 L 548.24 1870 L 512 1845 Z" fill="#364d5f" stroke="#48677e" stroke-width="2" /><text x="620.72" y="1849.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive Order Data
+    </text></g></g><g data-runiq-node="sendInventoryRequest" data-node-id="sendInventoryRequest" data-node-shape="sendSignal"><g class="send-signal-shape"><path d="M 774 1650 L 945.8399999999999 1650 L 988.8 1675 L 945.8399999999999 1700 L 774 1700 Z" fill="#364d5f" stroke="#48677e" stroke-width="2" /><text x="859.92" y="1679.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Send Inventory Request
+    </text></g></g><g data-runiq-node="receiveInventoryResponse" data-node-id="receiveInventoryResponse" data-node-shape="receiveSignal"><g class="receive-signal-shape"><path d="M 816.96 1820 L 988.8 1820 L 988.8 1870 L 816.96 1870 L 774 1845 Z" fill="#364d5f" stroke="#48677e" stroke-width="2" /><text x="902.88" y="1849.6666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Receive Inventory Data
+    </text></g></g><g data-runiq-node="serviceFork" data-node-id="serviceFork" data-node-shape="fork"><g class="fork-shape"><rect x="563" y="1511.5" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="serviceJoin" data-node-id="serviceJoin" data-node-shape="join"><g class="join-shape"><rect x="563" y="2150" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="authCheck" data-node-id="authCheck" data-node-shape="choice"><g class="choice-shape"><path d="M 175 1150 L 195 1170 L 175 1190 L 155 1170 Z" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="175" y="1175" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.200000000000001"
+      fill="#FFFFFF">
+      authCheck
+    </text></g></g><g data-runiq-node="errorCheck" data-node-id="errorCheck" data-node-shape="choice"><g class="choice-shape"><path d="M 32 12 L 52 32 L 32 52 L 12 32 Z" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="32" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.200000000000001"
+      fill="#FFFFFF">
+      errorCheck
+    </text></g></g><g data-runiq-node="apiRequest" data-node-id="apiRequest" data-node-shape="objectNode"><g class="object-node-shape"><rect x="119" y="320" width="112.4" height="40" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="175.2" y="340" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      API Request
+    </text></g></g><g data-runiq-node="authToken" data-node-id="authToken" data-node-shape="objectNode"><g class="object-node-shape"><rect x="123" y="480" width="104" height="40" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="175" y="500" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Auth Token
+    </text></g></g><g data-runiq-node="userData" data-node-id="userData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="297" y="1990" width="95.60000000000001" height="40" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="344.8" y="2010" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      User Data
+    </text></g></g><g data-runiq-node="orderData" data-node-id="orderData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="551" y="1990" width="104" height="40" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="603" y="2010" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Order Data
+    </text></g></g><g data-runiq-node="inventoryData" data-node-id="inventoryData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="812" y="1990" width="137.60000000000002" height="40" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="880.8" y="2010" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Inventory Data
+    </text></g></g><g data-runiq-node="aggregatedData" data-node-id="aggregatedData" data-node-shape="objectNode"><g class="object-node-shape"><rect x="513" y="2448" width="179.6" height="40" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="602.8" y="2468" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Aggregated Response
+    </text></g></g><g data-runiq-node="cacheStore" data-node-id="cacheStore" data-node-shape="dataStore"><g class="data-store-shape"><ellipse cx="572.8" cy="2611.75" rx="68.80000000000001" ry="3.75" fill="#96bacf" stroke="#48677e" stroke-width="1" /><rect x="504" y="2611.75" width="137.60000000000002" height="42.5" fill="#96bacf" stroke="none" /><line x1="504" y1="2611.75" x2="504" y2="2654.25" stroke="#48677e" stroke-width="1" /><line x1="641.6" y1="2611.75" x2="641.6" y2="2654.25" stroke="#48677e" stroke-width="1" /><path d="M 504 2654.25 Q 572.8 2661.75, 641.6 2654.25" fill="none" stroke="#48677e" stroke-width="1" /><text x="572.8" y="2633" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Response Cache
+    </text></g></g><g data-runiq-node="logStore" data-node-id="logStore" data-node-shape="dataStore"><g class="data-store-shape"><ellipse cx="168" cy="1483.75" rx="50" ry="3.75" fill="#48677e" stroke="#48677e" stroke-width="1" /><rect x="118" y="1483.75" width="100" height="42.5" fill="#48677e" stroke="none" /><line x1="118" y1="1483.75" x2="118" y2="1526.25" stroke="#48677e" stroke-width="1" /><line x1="218" y1="1483.75" x2="218" y2="1526.25" stroke="#48677e" stroke-width="1" /><path d="M 118 1526.25 Q 168 1533.75, 218 1526.25" fill="none" stroke="#48677e" stroke-width="1" /><text x="168" y="1505" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Log Store
+    </text></g></g></svg>

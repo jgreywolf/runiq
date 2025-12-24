@@ -613,7 +613,7 @@ See the [Charts examples](/examples/chart-diagrams) for more
 - [Shape Reference - Chart Shapes](/reference/shapes#_7-chart-shapes-7-shapes)
 - [Venn Diagrams](/guide/venn-diagrams) - Detailed guide with set theory examples
 - [Pyramid Diagrams](/guide/pyramid-diagrams) - Hierarchies and conversion funnels
-- [Sankey Diagrams](/guide/sankey-diagrams) - Flow and energy diagrams
+- [Sankey Diagrams](/guide/diagram-types/sankey-diagrams) - Flow and energy diagrams
 - [Styling](/guide/styling)
 - [Containers](/guide/containers)
 

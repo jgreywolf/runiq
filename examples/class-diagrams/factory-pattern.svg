@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1701.2" height="643" 
+    viewBox="0 0 1701.2 643"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="WindowsButton-IButton-0" data-edge-id="WindowsButton-IButton-0" data-edge-from="WindowsButton" data-edge-to="IButton"><defs>
+      <marker id="arrow-standard-WindowsButton-IButton" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 183.6 394 L 183.6 454 L 1209 454 L 1140 568.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 183.6 394 L 183.6 454 L 1209 454 L 1140 568.5" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-WindowsButton-IButton)" pointer-events="none" /></g><g data-runiq-edge="MacButton-IButton-1" data-edge-id="MacButton-IButton-1" data-edge-from="MacButton" data-edge-to="IButton"><defs>
+      <marker id="arrow-standard-MacButton-IButton" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 607.6 394 L 607.6 429 L 1277 429 L 1311.6 514" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 607.6 394 L 607.6 429 L 1277 429 L 1311.6 514" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-MacButton-IButton)" pointer-events="none" /></g><g data-runiq-edge="LinuxButton-IButton-2" data-edge-id="LinuxButton-IButton-2" data-edge-from="LinuxButton" data-edge-to="IButton"><defs>
+      <marker id="arrow-standard-LinuxButton-IButton" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1345.6 394 L 1345.6 454 L 1311.6 454 L 1311.6 514" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1345.6 394 L 1345.6 454 L 1311.6 454 L 1311.6 514" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-LinuxButton-IButton)" pointer-events="none" /></g><g data-runiq-edge="WindowsFactory-IButtonFactory-3" data-edge-id="WindowsFactory-IButtonFactory-3" data-edge-from="WindowsFactory" data-edge-to="IButtonFactory"><defs>
+      <marker id="arrow-standard-WindowsFactory-IButtonFactory" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 333 152 L 333 212 L 907 212 L 860 317.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 333 152 L 333 212 L 907 212 L 860 317.5" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-WindowsFactory-IButtonFactory)" pointer-events="none" /></g><g data-runiq-edge="MacFactory-IButtonFactory-4" data-edge-id="MacFactory-IButtonFactory-4" data-edge-from="MacFactory" data-edge-to="IButtonFactory"><defs>
+      <marker id="arrow-standard-MacFactory-IButtonFactory" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 647 152 L 647 187 L 954 187 L 977 272" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 647 152 L 647 187 L 954 187 L 977 272" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-MacFactory-IButtonFactory)" pointer-events="none" /></g><g data-runiq-edge="LinuxFactory-IButtonFactory-5" data-edge-id="LinuxFactory-IButtonFactory-5" data-edge-from="LinuxFactory" data-edge-to="IButtonFactory"><defs>
+      <marker id="arrow-standard-LinuxFactory-IButtonFactory" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1039 152 L 1039 212 L 977 212 L 977 272" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1039 152 L 1039 212 L 977 212 L 977 272" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-LinuxFactory-IButtonFactory)" pointer-events="none" /></g><g data-runiq-edge="Application.factory-IButtonFactory-6" data-edge-id="Application.factory-IButtonFactory-6" data-edge-from="Application.factory" data-edge-to="IButtonFactory"><defs>
+      <marker id="arrow-standard-Application.factory-IButtonFactory" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1488.6 152 L 1488.6 187 L 1047 187 L 1094 317.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1488.6 152 L 1488.6 187 L 1047 187 L 1094 317.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Application.factory-IButtonFactory)" pointer-events="none" /></g><g data-runiq-edge="Application.button-IButton-7" data-edge-id="Application.button-IButton-7" data-edge-from="Application.button" data-edge-to="IButton"><defs>
+      <marker id="arrow-standard-Application.button-IButton" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1488.6 152 L 1488.6 333 L 1553 429 L 1415 429 L 1483.2 568.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1488.6 152 L 1488.6 333 L 1553 429 L 1415 429 L 1483.2 568.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Application.button-IButton)" pointer-events="none" /></g><g data-runiq-edge="WindowsFactory-WindowsButton-8" data-edge-id="WindowsFactory-WindowsButton-8" data-edge-from="WindowsFactory" data-edge-to="WindowsButton"><defs>
+      <marker id="arrow-standard-WindowsFactory-WindowsButton" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 333 152 L 333 187 L 184 187 L 183.6 272" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 333 152 L 333 187 L 184 187 L 183.6 272" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-WindowsFactory-WindowsButton)" pointer-events="none" /><text x="184" y="187" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">creates</text></g><g data-runiq-edge="MacFactory-MacButton-9" data-edge-id="MacFactory-MacButton-9" data-edge-from="MacFactory" data-edge-to="MacButton"><defs>
+      <marker id="arrow-standard-MacFactory-MacButton" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 647 152 L 647 212 L 607.6 212 L 607.6 272" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 647 152 L 647 212 L 607.6 212 L 607.6 272" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-MacFactory-MacButton)" pointer-events="none" /><text x="607.6" y="212" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">creates</text></g><g data-runiq-edge="LinuxFactory-LinuxButton-10" data-edge-id="LinuxFactory-LinuxButton-10" data-edge-from="LinuxFactory" data-edge-to="LinuxButton"><defs>
+      <marker id="arrow-standard-LinuxFactory-LinuxButton" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1039 152 L 1039 212 L 1346 212 L 1345.6 272" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1039 152 L 1039 212 L 1346 212 L 1345.6 272" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-LinuxFactory-LinuxButton)" pointer-events="none" /><text x="1346" y="212" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">creates</text></g><g data-runiq-node="IButton" data-node-id="IButton" data-node-shape="class"><rect x="1140" y="514" width="343.2" height="109" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="1311.6" y="535" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#000000">
+      «interface»
+    </text><text x="1311.6" y="553" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      IButton
+    </text><line x1="1140" y1="574" x2="1483.2" y2="574" stroke="#48677e" stroke-width="1"/><text x="1152" y="595" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + render(): void
+    </text><text x="1152" y="613" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + onClick(handler: EventHandler): void
+    </text></g><g data-runiq-node="WindowsButton" data-node-id="WindowsButton" data-node-shape="class"><rect x="12" y="272" width="343.2" height="122" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="183.6" y="293" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      WindowsButton
+    </text><line x1="12" y1="314" x2="355.2" y2="314" stroke="#48677e" stroke-width="1"/><text x="24" y="335" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - style: WindowsStyle
+    </text><line x1="12" y1="356" x2="355.2" y2="356" stroke="#48677e" stroke-width="1"/><text x="24" y="377" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + render(): void
+    </text><text x="24" y="395" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + onClick(handler: EventHandler): void
+    </text></g><g data-runiq-node="MacButton" data-node-id="MacButton" data-node-shape="class"><rect x="436" y="272" width="343.2" height="122" fill="#96bacf" stroke="#48677e" stroke-width="1"/><text x="607.6" y="293" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      MacButton
+    </text><line x1="436" y1="314" x2="779.2" y2="314" stroke="#48677e" stroke-width="1"/><text x="448" y="335" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - theme: MacTheme
+    </text><line x1="436" y1="356" x2="779.2" y2="356" stroke="#48677e" stroke-width="1"/><text x="448" y="377" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + render(): void
+    </text><text x="448" y="395" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + onClick(handler: EventHandler): void
+    </text></g><g data-runiq-node="LinuxButton" data-node-id="LinuxButton" data-node-shape="class"><rect x="1174" y="272" width="343.2" height="122" fill="#48677e" stroke="#48677e" stroke-width="1"/><text x="1345.6" y="293" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      LinuxButton
+    </text><line x1="1174" y1="314" x2="1517.2" y2="314" stroke="#48677e" stroke-width="1"/><text x="1186" y="335" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - desktop: string
+    </text><line x1="1174" y1="356" x2="1517.2" y2="356" stroke="#48677e" stroke-width="1"/><text x="1186" y="377" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + render(): void
+    </text><text x="1186" y="395" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + onClick(handler: EventHandler): void
+    </text></g><g data-runiq-node="IButtonFactory" data-node-id="IButtonFactory" data-node-shape="class"><rect x="860" y="272" width="234" height="91" fill="#364d5f" stroke="#48677e" stroke-width="1"/><text x="977" y="293" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#000000">
+      «interface»
+    </text><text x="977" y="311" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      IButtonFactory
+    </text><line x1="860" y1="332" x2="1094" y2="332" stroke="#48677e" stroke-width="1"/><text x="872" y="353" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + createButton(): IButton
+    </text></g><g data-runiq-node="WindowsFactory" data-node-id="WindowsFactory" data-node-shape="class"><rect x="216" y="79" width="234" height="73" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="333" y="100" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      WindowsFactory
+    </text><line x1="216" y1="121" x2="450" y2="121" stroke="#48677e" stroke-width="1"/><text x="228" y="142" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + createButton(): IButton
+    </text></g><g data-runiq-node="MacFactory" data-node-id="MacFactory" data-node-shape="class"><rect x="530" y="79" width="234" height="73" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="647" y="100" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      MacFactory
+    </text><line x1="530" y1="121" x2="764" y2="121" stroke="#48677e" stroke-width="1"/><text x="542" y="142" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + createButton(): IButton
+    </text></g><g data-runiq-node="LinuxFactory" data-node-id="LinuxFactory" data-node-shape="class"><rect x="922" y="79" width="234" height="73" fill="#96bacf" stroke="#48677e" stroke-width="1"/><text x="1039" y="100" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      LinuxFactory
+    </text><line x1="922" y1="121" x2="1156" y2="121" stroke="#48677e" stroke-width="1"/><text x="934" y="142" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + createButton(): IButton
+    </text></g><g data-runiq-node="Application" data-node-id="Application" data-node-shape="class"><rect x="1296" y="12" width="385.2" height="140" fill="#48677e" stroke="#48677e" stroke-width="1"/><text x="1488.6" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Application
+    </text><line x1="1296" y1="54" x2="1681.2" y2="54" stroke="#48677e" stroke-width="1"/><text x="1308" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - factory: IButtonFactory
+    </text><text x="1308" y="93" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - button: IButton
+    </text><line x1="1296" y1="114" x2="1681.2" y2="114" stroke="#48677e" stroke-width="1"/><text x="1308" y="135" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + initialize(factory: IButtonFactory): void
+    </text><text x="1308" y="153" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + createUI(): void
+    </text></g></svg>

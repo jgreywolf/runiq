@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="483" height="1037.6" 
+    viewBox="0 0 483 1037.6"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="a-b-0" data-edge-id="a-b-0" data-edge-from="a" data-edge-to="b"><defs>
+      <marker id="arrow-standard-a-b" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 131.2 52.8 L 131.2 112.80000000000001 L 131.4 112.80000000000001 L 131.4 172.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 131.2 52.8 L 131.2 112.80000000000001 L 131.4 112.80000000000001 L 131.4 172.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-a-b)" pointer-events="none" /></g><g data-runiq-edge="b-c-1" data-edge-id="b-c-1" data-edge-from="b" data-edge-to="c"><defs>
+      <marker id="arrow-standard-b-c" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 131.4 213.60000000000002 L 131.4 273.6 L 131.4 273.6 L 131.4 333.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 131.4 213.60000000000002 L 131.4 273.6 L 131.4 273.6 L 131.4 333.6" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-standard-b-c)" pointer-events="none" /></g><g data-runiq-edge="c-d-2" data-edge-id="c-d-2" data-edge-from="c" data-edge-to="d"><defs>
+      <marker id="arrow-standard-c-d" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 131.4 374.40000000000003 L 131.4 434.40000000000003 L 154.8 434.40000000000003 L 154.8 494.40000000000003" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 131.4 374.40000000000003 L 131.4 434.40000000000003 L 154.8 434.40000000000003 L 154.8 494.40000000000003" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="2,2" marker-end="url(#arrow-standard-c-d)" pointer-events="none" /></g><g data-runiq-edge="d-ef-3" data-edge-id="d-ef-3" data-edge-from="d" data-edge-to="ef"><defs>
+      <marker id="arrow-hollow-d-ef" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="white" stroke="#48677e" stroke-width="1" />
+      </marker></defs><path d="M 154.8 535.2 L 154.8 620.2 L 312 620.2 L 337 655.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 154.8 535.2 L 154.8 620.2 L 312 620.2 L 337 655.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-hollow-d-ef)" pointer-events="none" /></g><g data-runiq-edge="ef-f-4" data-edge-id="ef-f-4" data-edge-from="ef" data-edge-to="f"><defs>
+      <marker id="arrow-hollow-ef-f" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="white" stroke="#48677e" stroke-width="1" />
+      </marker></defs><path d="M 337 655.2 L 337 570.2 L 368 570.2 L 368.4 535.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 337 655.2 L 337 570.2 L 368 570.2 L 368.4 535.2" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-hollow-ef-f)" pointer-events="none" /></g><g data-runiq-edge="f-g-5" data-edge-id="f-g-5" data-edge-from="f" data-edge-to="g"><defs>
+      <marker id="arrow-open-f-g" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polyline points="0,0 9,3 0,6" fill="none" stroke="#48677e" stroke-width="1" />
+      </marker></defs><path d="M 368.4 535.2 L 368.4 595.2 L 137 595.2 L 114.6 655.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 368.4 535.2 L 368.4 595.2 L 137 595.2 L 114.6 655.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-open-f-g)" pointer-events="none" /></g><g data-runiq-edge="g-h-6" data-edge-id="g-h-6" data-edge-from="g" data-edge-to="h"><defs>
+      <marker id="arrow-open-g-h" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polyline points="0,0 9,3 0,6" fill="none" stroke="#48677e" stroke-width="1" />
+      </marker></defs><path d="M 114.6 696 L 114.6 756 L 115.4 756 L 115.4 816" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 114.6 696 L 114.6 756 L 115.4 756 L 115.4 816" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-open-g-h)" pointer-events="none" /></g><g data-runiq-edge="h-i-7" data-edge-id="h-i-7" data-edge-from="h" data-edge-to="i"><path d="M 115.4 856.8 L 115.4 916.8 L 114.6 916.8 L 114.6 976.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 115.4 856.8 L 115.4 916.8 L 114.6 916.8 L 114.6 976.8" fill="none" stroke="#48677e" stroke-width="1" pointer-events="none" /></g><g data-runiq-edge="i-a-8" data-edge-id="i-a-8" data-edge-from="i" data-edge-to="a"><path d="M 114.6 976.8 L 114.6 891.8 L 12 891.8 L 12 836.4 L 12 675.6 L 12 514.8 L 12 354 L 12 193.20000000000002 L 12 87.8 L 92 87.8 L 131.2 52.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 114.6 976.8 L 114.6 891.8 L 12 891.8 L 12 836.4 L 12 675.6 L 12 514.8 L 12 354 L 12 193.20000000000002 L 12 87.8 L 92 87.8 L 131.2 52.8" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" pointer-events="none" /></g><g data-runiq-edge="a-d-9" data-edge-id="a-d-9" data-edge-from="a" data-edge-to="d"><defs>
+      <marker id="arrow-open-a-d" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polyline points="0,0 9,3 0,6" fill="none" stroke="#48677e" stroke-width="1" />
+      </marker></defs><path d="M 131.2 52.8 L 131.2 87.8 L 250 87.8 L 250 193.20000000000002 L 250 354 L 250 409.40000000000003 L 178 409.40000000000003 L 154.8 494.40000000000003" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 131.2 52.8 L 131.2 87.8 L 250 87.8 L 250 193.20000000000002 L 250 354 L 250 409.40000000000003 L 178 409.40000000000003 L 154.8 494.40000000000003" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-open-a-d)" pointer-events="none" /><text x="250" y="354" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">includes</text></g><g data-runiq-edge="d-g-10" data-edge-id="d-g-10" data-edge-from="d" data-edge-to="g"><defs>
+      <marker id="arrow-open-d-g" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polyline points="0,0 9,3 0,6" fill="none" stroke="#48677e" stroke-width="1" />
+      </marker></defs><path d="M 154.8 535.2 L 154.8 570.2 L 92 570.2 L 114.6 655.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 154.8 535.2 L 154.8 570.2 L 92 570.2 L 114.6 655.2" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-open-d-g)" pointer-events="none" /><text x="92" y="570.2" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">extends</text></g><g data-runiq-edge="f-i-11" data-edge-id="f-i-11" data-edge-from="f" data-edge-to="i"><defs>
+      <marker id="arrow-open-f-i" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polyline points="0,0 9,3 0,6" fill="none" stroke="#48677e" stroke-width="1" />
+      </marker></defs><path d="M 368.4 535.2 L 368.4 570.2 L 447 570.2 L 447 675.6 L 447 836.4 L 447 891.8 L 148 891.8 L 114.6 976.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 368.4 535.2 L 368.4 570.2 L 447 570.2 L 447 675.6 L 447 836.4 L 447 891.8 L 148 891.8 L 114.6 976.8" fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow-open-f-i)" pointer-events="none" /><text x="447" y="836.4" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">uses</text></g><g data-runiq-node="a" data-node-id="a" data-node-shape="rounded">
+      <rect x="52" y="12" width="158.4" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="131.2" y="32.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Solid + Standard
+    </text>
+    </g><g data-runiq-node="b" data-node-id="b" data-node-shape="rounded">
+      <rect x="48" y="172.8" width="166.8" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="131.4" y="193.20000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Dashed + Standard
+    </text>
+    </g><g data-runiq-node="c" data-node-id="c" data-node-shape="rounded">
+      <rect x="48" y="333.6" width="166.8" height="40.8"
+            rx="8" ry="8" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="131.4" y="354" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Dotted + Standard
+    </text>
+    </g><g data-runiq-node="d" data-node-id="d" data-node-shape="rounded">
+      <rect x="84" y="494.40000000000003" width="141.60000000000002" height="40.8"
+            rx="8" ry="8" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="154.8" y="514.8000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Solid + Hollow
+    </text>
+    </g><g data-runiq-node="ef" data-node-id="ef" data-node-shape="rounded">
+      <rect x="262" y="655.2" width="150" height="40.8"
+            rx="8" ry="8" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="337" y="675.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Dashed + Hollow
+    </text>
+    </g><g data-runiq-node="f" data-node-id="f" data-node-shape="rounded">
+      <rect x="306" y="494.40000000000003" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="368.4" y="514.8000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Solid + Open
+    </text>
+    </g><g data-runiq-node="g" data-node-id="g" data-node-shape="rounded">
+      <rect x="48" y="655.2" width="133.2" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="114.6" y="675.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Dashed + Open
+    </text>
+    </g><g data-runiq-node="h" data-node-id="h" data-node-shape="rounded">
+      <rect x="53" y="816" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="115.4" y="836.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Solid + None
+    </text>
+    </g><g data-runiq-node="i" data-node-id="i" data-node-shape="rounded">
+      <rect x="48" y="976.8" width="133.2" height="40.8"
+            rx="8" ry="8" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="114.6" y="997.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Dashed + None
+    </text>
+    </g></svg>

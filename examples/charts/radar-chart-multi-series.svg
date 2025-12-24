@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="432" height="432" 
+    viewBox="0 0 432 432"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="metrics" data-node-id="metrics" data-node-shape="radarChart"><g transform="translate(12, 12)">
+      <text x="200" y="20" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      System Performance
+    </text>
+      <circle cx="200" cy="200" r="35" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="70" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="105" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="140" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <line x1="200" y1="200" x2="200" y2="60" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="321.24355652982143" y2="130" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="321.24355652982143" y2="270" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="200" y2="340" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="78.75644347017858" y2="270" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="78.7564434701786" y2="130" stroke="#d1d5db" stroke-width="1"/>
+      <text x="200" y="45" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#374151">Axis 1</text>
+      <text x="338.5640646055102" y="125.00000000000001" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#374151">Axis 2</text>
+      <text x="338.5640646055102" y="285" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#374151">Axis 3</text>
+      <text x="200" y="365" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#374151">Axis 4</text>
+      <text x="61.4359353944898" y="285" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#374151">Axis 5</text>
+      <text x="61.43593539448983" y="124.99999999999999" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#374151">Axis 6</text>
+      <polygon points="200,60 294.3005439676389,145.55555555555557 253.88602512436506,231.11111111111111 200,277.77777777777777 119.17096231345239,246.66666666666666 85.49219661072422,133.88888888888886" fill="#3b82f6" fill-opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <circle cx="200" cy="60" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="294.3005439676389" cy="145.55555555555557" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="253.88602512436506" cy="231.11111111111111" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="200" cy="277.77777777777777" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="119.17096231345239" cy="246.66666666666666" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="85.49219661072422" cy="133.88888888888886" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+    </g></g></svg>

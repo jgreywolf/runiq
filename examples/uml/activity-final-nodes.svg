@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="459.8" height="838" 
+    viewBox="0 0 459.8 838"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="start-fork-0" data-edge-id="start-fork-0" data-edge-from="start" data-edge-to="fork"><defs>
+      <marker id="arrow-standard-start-fork" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 263 30 L 263 90 L 263 90 L 263 150" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 263 30 L 263 90 L 263 90 L 263 150" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-fork)" pointer-events="none" /></g><g data-runiq-edge="fork-mainTask-1" data-edge-id="fork-mainTask-1" data-edge-from="fork" data-edge-to="mainTask"><defs>
+      <marker id="arrow-standard-fork-mainTask" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 263 158 L 263 193 L 62 193 L 62 278" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 263 158 L 263 193 L 62 193 L 62 278" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-fork-mainTask)" pointer-events="none" /><text x="62" y="193" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">flow1</text></g><g data-runiq-edge="mainTask-completeMain-2" data-edge-id="mainTask-completeMain-2" data-edge-from="mainTask" data-edge-to="completeMain"><defs>
+      <marker id="arrow-standard-mainTask-completeMain" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 62 328 L 62 388 L 62 388 L 62 448" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 62 328 L 62 388 L 62 388 L 62 448" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mainTask-completeMain)" pointer-events="none" /></g><g data-runiq-edge="fork-validate-3" data-edge-id="fork-validate-3" data-edge-from="fork" data-edge-to="validate"><defs>
+      <marker id="arrow-standard-fork-validate" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 263 158 L 263 218 L 262.8 218 L 262.8 278" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 263 158 L 263 218 L 262.8 218 L 262.8 278" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-fork-validate)" pointer-events="none" /><text x="262.8" y="218" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">flow2</text></g><g data-runiq-edge="validate-checkResult-4" data-edge-id="validate-checkResult-4" data-edge-from="validate" data-edge-to="checkResult"><defs>
+      <marker id="arrow-standard-validate-checkResult" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 262.8 328 L 262.8 363 L 194 363 L 194.2 448" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 262.8 328 L 262.8 363 L 194 363 L 194.2 448" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validate-checkResult)" pointer-events="none" /></g><g data-runiq-edge="checkResult-handleError-5" data-edge-id="checkResult-handleError-5" data-edge-from="checkResult" data-edge-to="handleError"><defs>
+      <marker id="arrow-standard-checkResult-handleError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 194.2 508 L 194.2 568 L 181.4 568 L 181.4 628" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 194.2 508 L 194.2 568 L 181.4 568 L 181.4 628" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkResult-handleError)" pointer-events="none" /><text x="181.4" y="568" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">invalid</text></g><g data-runiq-edge="handleError-endFlow-6" data-edge-id="handleError-endFlow-6" data-edge-from="handleError" data-edge-to="endFlow"><defs>
+      <marker id="arrow-standard-handleError-endFlow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 181.4 678 L 181.4 738 L 181 738 L 181 798" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 181.4 678 L 181.4 738 L 181 738 L 181 798" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-handleError-endFlow)" pointer-events="none" /></g><g data-runiq-edge="fork-logActivity-7" data-edge-id="fork-logActivity-7" data-edge-from="fork" data-edge-to="logActivity"><defs>
+      <marker id="arrow-standard-fork-logActivity" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 263 158 L 263 193 L 369 193 L 369 303 L 369 363 L 377 363 L 377.4 453" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 263 158 L 263 193 L 369 193 L 369 303 L 369 363 L 377 363 L 377.4 453" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-fork-logActivity)" pointer-events="none" /><text x="369" y="303" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">flow3</text></g><g data-runiq-edge="logActivity-join-8" data-edge-id="logActivity-join-8" data-edge-from="logActivity" data-edge-to="join"><defs>
+      <marker id="arrow-standard-logActivity-join" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 377.4 503 L 377.4 565.5 L 364 565.5 L 364 628" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 377.4 503 L 377.4 565.5 L 364 565.5 L 364 628" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-logActivity-join)" pointer-events="none" /></g><g data-runiq-edge="checkResult-join-9" data-edge-id="checkResult-join-9" data-edge-from="checkResult" data-edge-to="join"><defs>
+      <marker id="arrow-standard-checkResult-join" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 194.2 508 L 194.2 543 L 351 543 L 364 628" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 194.2 508 L 194.2 543 L 351 543 L 364 628" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkResult-join)" pointer-events="none" /><text x="351" y="543" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">valid</text></g><g data-runiq-node="start" data-node-id="start" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="263" cy="21" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="fork" data-node-id="fork" data-node-shape="fork"><g class="fork-shape"><rect x="223" y="150" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="mainTask" data-node-id="mainTask" data-node-shape="activity"><g class="activity-shape"><rect x="12" y="278" width="100" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="62" y="303" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Main Task
+    </text></g></g><g data-runiq-node="completeMain" data-node-id="completeMain" data-node-shape="activityFinal"><g class="activity-final-shape"><circle cx="62" cy="460" r="10.5" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="62" cy="460" r="5.25" fill="#48677e" /></g></g><g data-runiq-node="validate" data-node-id="validate" data-node-shape="activity"><g class="activity-shape"><rect x="192" y="278" width="141.60000000000002" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="262.8" y="303" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validate Input
+    </text></g></g><g data-runiq-node="checkResult" data-node-id="checkResult" data-node-shape="decision">
+      <polygon points="194.2,448 234.4,478 194.2,508 154,478"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="194.2" y="478" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Valid?
+    </text>
+    </g><g data-runiq-node="handleError" data-node-id="handleError" data-node-shape="activity"><g class="activity-shape"><rect x="119" y="628" width="124.80000000000001" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="181.4" y="653" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Handle Error
+    </text></g></g><g data-runiq-node="endFlow" data-node-id="endFlow" data-node-shape="flowFinal"><g class="flow-final-shape"><circle cx="181" cy="808" r="8.5" fill="none" stroke="#48677e" stroke-width="1.5" /><line x1="175.9" y1="802.9" x2="186.1" y2="813.1" stroke="#48677e" stroke-width="1.5" /><line x1="186.1" y1="802.9" x2="175.9" y2="813.1" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="logActivity" data-node-id="logActivity" data-node-shape="activity"><g class="activity-shape"><rect x="315" y="453" width="124.80000000000001" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="377.4" y="478" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Log Activity
+    </text></g></g><g data-runiq-node="join" data-node-id="join" data-node-shape="join"><g class="join-shape"><rect x="324" y="628" width="80" height="8" fill="#000000" stroke="none" /></g></g></svg>

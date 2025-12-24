@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="299.6" height="486" 
+    viewBox="0 0 299.6 486"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="House-Room-0" data-edge-id="House-Room-0" data-edge-from="House" data-edge-to="Room"><defs>
+      <marker id="arrow-composition-House-Room" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto" markerUnits="strokeWidth">
+        <polygon points="6,0 12,6 6,12 0,6" fill="#48677e" />
+      </marker></defs><path d="M 145.8 188 L 145.8 248 L 145.60000000000002 248 L 145.60000000000002 308" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 145.8 188 L 145.8 248 L 145.60000000000002 248 L 145.60000000000002 308" fill="none" stroke="#48677e" stroke-width="1" marker-start="url(#arrow-composition-House-Room)" pointer-events="none" /><text x="145.77" y="198" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1</text><text x="145.77" y="211" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">whole</text><text x="145.63000000000002" y="282" text-anchor="middle" font-size="11" class="runiq-edge-multiplicity">1..*</text><text x="145.63000000000002" y="295" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-role">part</text></g><g data-runiq-node="House" data-node-id="House" data-node-shape="class"><rect x="12" y="12" width="267.6" height="176" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="145.8" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      House
+    </text><line x1="12" y1="54" x2="279.6" y2="54" stroke="#48677e" stroke-width="1"/><text x="24" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - address: string
+    </text><text x="24" y="93" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - yearBuilt: int
+    </text><text x="24" y="111" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - squareFeet: int
+    </text><line x1="12" y1="132" x2="279.6" y2="132" stroke="#48677e" stroke-width="1"/><text x="24" y="153" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + getTotalRooms(): int
+    </text><text x="24" y="171" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + getRoom(name: string): Room
+    </text><text x="24" y="189" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + demolish(): void
+    </text></g><g data-runiq-node="Room" data-node-id="Room" data-node-shape="class"><rect x="58" y="308" width="175.20000000000002" height="158" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="145.60000000000002" y="329" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Room
+    </text><line x1="58" y1="350" x2="233.20000000000002" y2="350" stroke="#48677e" stroke-width="1"/><text x="70" y="371" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - name: string
+    </text><text x="70" y="389" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - squareFeet: int
+    </text><text x="70" y="407" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - hasWindow: bool
+    </text><line x1="58" y1="428" x2="233.20000000000002" y2="428" stroke="#48677e" stroke-width="1"/><text x="70" y="449" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + getArea(): int
+    </text><text x="70" y="467" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + renovate(): void
+    </text></g></svg>

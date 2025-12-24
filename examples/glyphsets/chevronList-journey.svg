@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="662" height="82" 
+    viewBox="0 0 662 82"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="chevronList" data-node-id="chevronList" data-node-shape="chevronList">
+          <polygon points="12,12 111.60000000000002,12 131.60000000000002,37 111.60000000000002,62 12,62" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="66.80000000000001" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Awareness
+    </text>
+          <polygon points="139.60000000000002,12 272.8,12 292.8,37 272.8,62 139.60000000000002,62" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="211.20000000000002" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Consideration
+    </text>
+          <polygon points="300.8,12 392,12 412,37 392,62 300.8,62" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="351.40000000000003" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Decision
+    </text>
+          <polygon points="420,12 511.20000000000005,12 531.2,37 511.20000000000005,62 420,62" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="470.6" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Purchase
+    </text>
+          <polygon points="539.2,12 622,12 642,37 622,62 539.2,62" 
+                   fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        <text x="585.6" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Loyalty
+    </text></g></svg>

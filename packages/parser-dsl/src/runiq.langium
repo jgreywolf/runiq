@@ -57,7 +57,7 @@ PartProperty:
     PartTypeProperty | PartValueProperty | PartPinsProperty | PartSourceProperty | PartGenericProperty;
 
 PartTypeProperty:
-    'type:' type=ID;
+    'type:' type=(ID | 'L');
 
 PartValueProperty:
     'value:' value=(STRING | NUMBER | ID);
@@ -70,7 +70,7 @@ PartPinsProperty:
 
 // Generic parameters for transistors, op-amps, etc: model:"2N2222", w:"10u", l:"1u", ratio:"10:1"
 PartGenericProperty:
-    key=ID ':' value=(STRING | NUMBER | ID);
+    key=(ID | 'ratio') ':' value=(STRING | NUMBER | ID);
 
 // analysis tran "0 5m"
 AnalysisStatement:
@@ -646,7 +646,7 @@ GlyphSetProfile:
 
 // Allow both IDs and certain keywords as glyphset types
 GlyphSetType returns string:
-    ID | 'target' | 'source' | 'balance' | 'events';
+    FlexibleID | 'target' | 'source' | 'balance' | 'events';
 
 GlyphSetItemStatement:
     GlyphSetImageItem | GlyphSetSimpleItem | GlyphSetNestedItem;
@@ -1347,7 +1347,9 @@ FlexibleID returns string:
     | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue'
     // Common mindmap/hierarchy node names
     | 'root' | 'child' | 'branch' | 'leaf' | 'node' | 'center' | 'central' | 'hub'
-    | 'left' | 'right' | 'team' | 'leader' | 'member' | 'detail' | 'spoke';
+    | 'left' | 'right' | 'team' | 'leader' | 'member' | 'detail' | 'spoke'
+    // Control/measurement keywords allowed as FlexibleIDs
+    | 'flow' | 'temperature' | 'pressure' | 'level' | 'composition' | 'ph' | 'conductivity' | 'speed';
 
 // Allow keywords as identifiers in template variable paths
 TemplateIdentifier returns string:

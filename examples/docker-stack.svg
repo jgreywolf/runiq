@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="923.6" height="531" 
+    viewBox="0 0 923.6 531"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="webnet" data-container-id="webnet"><rect x="253.60000000000002" y="89.4" width="175.2" height="241.6" 
+    fill="#f5f5f5" stroke="#424242" stroke-width="2" rx="8" /><text x="263.6" y="109.4" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Web Network</text></g><g data-runiq-container="backend" data-container-id="backend"><rect x="509.6" y="12" width="394" height="319" 
+    fill="#e0f7fa" stroke="#00796b" stroke-width="2" rx="8" /><text x="519.6" y="32" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Backend Network</text></g><g data-runiq-container="storage" data-container-id="storage"><rect x="12" y="12" width="221.60000000000002" height="337.6" 
+    fill="#fce4ec" stroke="#c2185b" stroke-width="2" rx="8" /><text x="22" y="32" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Storage</text></g><g data-runiq-edge="nginx-app-0" data-edge-id="nginx-app-0" data-edge-from="nginx" data-edge-to="app"><defs>
+      <marker id="arrow-standard-nginx-app" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341.6 168.2 L 341.6 208.2 L 341.20000000000005 208.2 L 341.20000000000005 248.20000000000002" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341.6 168.2 L 341.6 208.2 L 341.20000000000005 208.2 L 341.20000000000005 248.20000000000002" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-nginx-app)" pointer-events="none" /></g><g data-runiq-edge="api-redis-1" data-edge-id="api-redis-1" data-edge-from="api" data-edge-to="redis"><defs>
+      <marker id="arrow-standard-api-redis" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 811.6 114 L 811.6 149 L 616.6 149 L 605.6 221" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 811.6 114 L 811.6 149 L 616.6 149 L 605.6 221" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-redis)" pointer-events="none" /></g><g data-runiq-edge="api-rabbitmq-2" data-edge-id="api-rabbitmq-2" data-edge-from="api" data-edge-to="rabbitmq"><defs>
+      <marker id="arrow-standard-api-rabbitmq" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 811.6 114 L 811.6 174 L 776.6 174 L 762.2 209" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 811.6 114 L 811.6 174 L 776.6 174 L 762.2 209" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-rabbitmq)" pointer-events="none" /></g><g data-runiq-edge="worker-redis-3" data-edge-id="worker-redis-3" data-edge-from="worker" data-edge-to="redis"><defs>
+      <marker id="arrow-standard-worker-redis" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 616.2 114 L 616.2 167.5 L 605.6 167.5 L 605.6 221" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 616.2 114 L 616.2 167.5 L 605.6 167.5 L 605.6 221" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-worker-redis)" pointer-events="none" /></g><g data-runiq-edge="worker-rabbitmq-4" data-edge-id="worker-rabbitmq-4" data-edge-from="worker" data-edge-to="rabbitmq"><defs>
+      <marker id="arrow-standard-worker-rabbitmq" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 616.2 114 L 616.2 174 L 747.6 174 L 762.2 209" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 616.2 114 L 616.2 174 L 747.6 174 L 762.2 209" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-worker-rabbitmq)" pointer-events="none" /></g><g data-runiq-edge="postgres-pgbackup-5" data-edge-id="postgres-pgbackup-5" data-edge-from="postgres" data-edge-to="pgbackup"><defs>
+      <marker id="arrow-standard-postgres-pgbackup" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 101.6 178.8 L 101.6 224.8 L 101.80000000000001 224.8 L 101.80000000000001 270.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 101.6 178.8 L 101.6 224.8 L 101.80000000000001 224.8 L 101.80000000000001 270.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-postgres-pgbackup)" pointer-events="none" /></g><g data-runiq-edge="app-s3" data-edge-id="app-s3" data-edge-from="app" data-edge-to="s3"><defs>
+      <marker id="arrow-standard-app-s3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341.20000000000005 289 L 341.20000000000005 374.8 L 358.6 374.8 L 358.6 451" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341.20000000000005 289 L 341.20000000000005 374.8 L 358.6 374.8 L 358.6 451" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-app-s3)" pointer-events="none" /></g><g data-runiq-edge="worker-s3" data-edge-id="worker-s3" data-edge-from="worker" data-edge-to="s3"><defs>
+      <marker id="arrow-standard-worker-s3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 616.2 77.2 L 616.2 288.3 L 358.6 288.3 L 358.6 451" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 616.2 77.2 L 616.2 288.3 L 358.6 288.3 L 358.6 451" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-worker-s3)" pointer-events="none" /></g><g data-runiq-edge="app-api" data-edge-id="app-api" data-edge-from="app" data-edge-to="api"><defs>
+      <marker id="arrow-standard-app-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 341.20000000000005 289 L 341.20000000000005 176.3 L 811.6 176.3 L 811.6 54" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341.20000000000005 289 L 341.20000000000005 176.3 L 811.6 176.3 L 811.6 54" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-app-api)" pointer-events="none" /></g><g data-runiq-edge="api-postgres" data-edge-id="api-postgres" data-edge-from="api" data-edge-to="postgres"><defs>
+      <marker id="arrow-standard-api-postgres" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 811.6 54 L 811.6 117.4 L 101.6 117.4 L 101.6 178.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 811.6 54 L 811.6 117.4 L 101.6 117.4 L 101.6 178.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-postgres)" pointer-events="none" /></g><g data-runiq-edge="worker-postgres" data-edge-id="worker-postgres" data-edge-from="worker" data-edge-to="postgres"><defs>
+      <marker id="arrow-standard-worker-postgres" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 616.2 77.2 L 616.2 123.2 L 101.6 123.2 L 101.6 178.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 616.2 77.2 L 616.2 123.2 L 101.6 123.2 L 101.6 178.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-worker-postgres)" pointer-events="none" /></g><g data-runiq-node="nginx" data-node-id="nginx" data-node-shape="rect">
+      <rect x="310.6" y="131.4" width="62" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="341.6" y="149.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      nginx
+    </text>
+    </g><g data-runiq-node="app" data-node-id="app" data-node-shape="rounded">
+      <rect x="295.6" y="248.20000000000002" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="341.20000000000005" y="268.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      node-app
+    </text>
+    </g><g data-runiq-node="api" data-node-id="api" data-node-shape="hexagon">
+      <polygon points="776.6,54 846.6,54 861.6,84 846.6,114 776.6,114 761.6,84" 
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="811.6" y="84" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      fastapi
+    </text>
+    </g><g data-runiq-node="worker" data-node-id="worker" data-node-shape="rect">
+      <rect x="551.6" y="77.2" width="129.2" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="616.2" y="95.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      celery-worker
+    </text>
+    </g><g data-runiq-node="redis" data-node-id="redis" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="605.6" cy="221" rx="33" ry="12" 
+                 fill="#364d5f" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="572.6" y="221" width="66" height="56" 
+              fill="#364d5f" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="572.6" y1="221" x2="572.6" y2="277" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="638.6" y1="221" x2="638.6" y2="277" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 572.6,277 Q 605.6,301 638.6,277"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="605.6" y="249" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      redis
+    </text>
+      </g>
+    </g><g data-runiq-node="rabbitmq" data-node-id="rabbitmq" data-node-shape="rect">
+      <rect x="718.6" y="209" width="87.2" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="762.2" y="227.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      rabbitmq
+    </text>
+    </g><g data-runiq-node="postgres" data-node-id="postgres" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="101.6" cy="122.8" rx="45.6" ry="12" 
+                 fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="56" y="122.8" width="91.2" height="56" 
+              fill="#73a3bf" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="56" y1="122.8" x2="56" y2="178.8" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="147.2" y1="122.8" x2="147.2" y2="178.8" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 56,178.8 Q 101.6,202.8 147.2,178.8"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="101.6" y="150.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      postgres
+    </text>
+      </g>
+    </g><g data-runiq-node="pgbackup" data-node-id="pgbackup" data-node-shape="rect">
+      <rect x="54" y="270.8" width="95.60000000000001" height="36.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="101.80000000000001" y="289.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      pg-backup
+    </text>
+    </g><g data-runiq-node="volumes" data-node-id="volumes" data-node-shape="rect">
+      <rect x="54" y="54" width="137.60000000000002" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="122.80000000000001" y="72.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      shared-volumes
+    </text>
+    </g><g data-runiq-node="s3" data-node-id="s3" data-node-shape="hexagon">
+      <polygon points="323.6,451 393.6,451 408.6,481 393.6,511 323.6,511 308.6,481" 
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="358.6" y="481" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      AWS S3
+    </text>
+    </g></svg>

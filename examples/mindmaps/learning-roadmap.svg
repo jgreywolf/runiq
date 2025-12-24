@@ -1,5 +1,246 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="170" 
-    viewBox="0 0 220 170"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Learning JavaScript Roadmap</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="learningpath"><rect x="0" y="0" width="200" height="150" 
-    fill="#fafafa" stroke="#757575" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">LearningPath</text></g></svg>
+    width="1270.8461351058422" height="1216.9706078725794" 
+    viewBox="0 0 1270.8461351058422 1216.9706078725794"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="learningpath" data-container-id="learningpath"><rect x="0" y="0" width="1250.8461351058422" height="1196.9706078725794" 
+    fill="#fafafa" stroke="#757575" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">LearningPath</text></g><g data-runiq-edge="js-basics-0" data-edge-id="js-basics-0" data-edge-from="js" data-edge-to="basics"><path d="M 634.5813698115379 665.9543580452358 L 759.0829843263214 731.599721327713" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 634.5813698115379 665.9543580452358 L 759.0829843263214 731.599721327713" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="js-advanced-1" data-edge-id="js-advanced-1" data-edge-from="js" data-edge-to="advanced"><path d="M 563.781369811538 595.1543580452358 L 494.63823938992 670.48606951754" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 563.781369811538 595.1543580452358 L 494.63823938992 670.48606951754" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="js-frameworks-2" data-edge-id="js-frameworks-2" data-edge-from="js" data-edge-to="frameworks"><path d="M 634.5813698115379 524.3543580452358 L 540.0319297791689 439.02808977457477" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 634.5813698115379 524.3543580452358 L 540.0319297791689 439.02808977457477" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="js-tools-3" data-edge-id="js-tools-3" data-edge-from="js" data-edge-to="tools"><path d="M 705.381369811538 595.1543580452358 L 777.3661475938579 475.1491329513902" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 705.381369811538 595.1543580452358 L 777.3661475938579 475.1491329513902" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="basics-variables-4" data-edge-id="basics-variables-4" data-edge-from="basics" data-edge-to="variables"><path d="M 796.2829843263213 751.999721327713 L 1111.6831793685187 728.2184761517781" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 796.2829843263213 751.999721327713 L 1111.6831793685187 728.2184761517781" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="basics-functions-5" data-edge-id="basics-functions-5" data-edge-from="basics" data-edge-to="functions"><path d="M 796.2829843263213 751.999721327713 L 1032.702058026872 943.8073335387118" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 796.2829843263213 751.999721327713 L 1032.702058026872 943.8073335387118" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="basics-arrays-6" data-edge-id="basics-arrays-6" data-edge-from="basics" data-edge-to="arrays"><path d="M 759.0829843263214 772.399721327713 L 838.0372925537818 1078.5846647274523" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 759.0829843263214 772.399721327713 L 838.0372925537818 1078.5846647274523" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="basics-objects-7" data-edge-id="basics-objects-7" data-edge-from="basics" data-edge-to="objects"><path d="M 759.0829843263214 772.399721327713 L 624.762325735851 1118.1706078725797" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 759.0829843263214 772.399721327713 L 624.762325735851 1118.1706078725797" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="advanced-closures-8" data-edge-id="advanced-closures-8" data-edge-from="advanced" data-edge-to="closures"><path d="M 449.03823938992 690.88606951754 L 395.0035743749828 1062.3781312868555" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 449.03823938992 690.88606951754 L 395.0035743749828 1062.3781312868555" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="advanced-promises-9" data-edge-id="advanced-promises-9" data-edge-from="advanced" data-edge-to="promises"><path d="M 449.03823938992 690.88606951754 L 204.7168371819619 906.0634116572189" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 449.03823938992 690.88606951754 L 204.7168371819619 906.0634116572189" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="advanced-async_await-10" data-edge-id="advanced-async_await-10" data-edge-from="advanced" data-edge-to="async_await"><path d="M 403.43823938992 670.48606951754 L 154.4 669.471215640049" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 403.43823938992 670.48606951754 L 154.4 669.471215640049" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="advanced-modules-11" data-edge-id="advanced-modules-11" data-edge-from="advanced" data-edge-to="modules"><path d="M 449.03823938992 650.0860695175401 L 127.74088063836226 422.92202149561916" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 449.03823938992 650.0860695175401 L 127.74088063836226 422.92202149561916" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frameworks-react-12" data-edge-id="frameworks-react-12" data-edge-from="frameworks" data-edge-to="react"><path d="M 486.0319297791688 418.62808977457473 L 267.62812562572014 227.91984898372792" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 486.0319297791688 418.62808977457473 L 267.62812562572014 227.91984898372792" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frameworks-vue-13" data-edge-id="frameworks-vue-13" data-edge-from="frameworks" data-edge-to="vue"><path d="M 540.0319297791689 398.22808977457476 L 370.4593036650015 140.83086235441596" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 540.0319297791689 398.22808977457476 L 370.4593036650015 140.83086235441596" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="frameworks-svelte-14" data-edge-id="frameworks-svelte-14" data-edge-from="frameworks" data-edge-to="svelte"><path d="M 540.0319297791689 398.22808977457476 L 539.9150397510134 80.38810333987583" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 540.0319297791689 398.22808977457476 L 539.9150397510134 80.38810333987583" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="tools-npm-15" data-edge-id="tools-npm-15" data-edge-from="tools" data-edge-to="npm"><path d="M 777.3661475938579 434.3491329513902 L 719.820713751372 78.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 777.3661475938579 434.3491329513902 L 719.820713751372 78.8" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="tools-webpack-16" data-edge-id="tools-webpack-16" data-edge-from="tools" data-edge-to="webpack"><path d="M 777.3661475938579 434.3491329513902 L 898.9865249006862 140.98914226444577" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 777.3661475938579 434.3491329513902 L 898.9865249006862 140.98914226444577" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="tools-vite-17" data-edge-id="tools-vite-17" data-edge-from="tools" data-edge-to="vite"><path d="M 810.3661475938579 454.74913295139015 L 1024.6137667127869 249.49741525770602" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 810.3661475938579 454.74913295139015 L 1024.6137667127869 249.49741525770602" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="tools-typescript-18" data-edge-id="tools-typescript-18" data-edge-from="tools" data-edge-to="typescript"><path d="M 810.3661475938579 454.74913295139015 L 1104.8461351058422 452.0897427983176" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 810.3661475938579 454.74913295139015 L 1104.8461351058422 452.0897427983176" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-node="js" data-node-id="js" data-node-shape="circ">
+      <circle cx="634.5813698115379" cy="595.1543580452358" r="70.8"
+              fill="#ffffff" stroke="#8b5cf6" stroke-width="3" />
+      
+      <text x="634.5813698115379" y="595.1543580452358" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      JavaScript
+    </text>
+    </g><g data-runiq-node="basics" data-node-id="basics" data-node-shape="rounded">
+      <rect x="721.8829843263213" y="731.599721327713" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#3b82f6" stroke="#2563eb" stroke-width="2" />
+      
+      <text x="759.0829843263214" y="751.999721327713" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Basics
+    </text>
+    </g><g data-runiq-node="advanced" data-node-id="advanced" data-node-shape="rounded">
+      <rect x="403.43823938992" y="650.0860695175401" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#10b981" stroke="#059669" stroke-width="2" />
+      
+      <text x="449.03823938992" y="670.48606951754" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Advanced
+    </text>
+    </g><g data-runiq-node="frameworks" data-node-id="frameworks" data-node-shape="rounded">
+      <rect x="486.0319297791688" y="398.22808977457476" width="108" height="40.8"
+            rx="8" ry="8" fill="#f59e0b" stroke="#d97706" stroke-width="2" />
+      
+      <text x="540.0319297791689" y="418.62808977457473" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Frameworks
+    </text>
+    </g><g data-runiq-node="tools" data-node-id="tools" data-node-shape="rounded">
+      <rect x="744.3661475938579" y="434.3491329513902" width="66" height="40.8"
+            rx="8" ry="8" fill="#ec4899" stroke="#db2777" stroke-width="2" />
+      
+      <text x="777.3661475938579" y="454.74913295139015" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Tools
+    </text>
+    </g><g data-runiq-node="variables" data-node-id="variables" data-node-shape="rect">
+      <rect x="1111.6831793685187" y="709.8184761517781" width="84.8" height="34.4"
+            fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="1154.0831793685188" y="727.0184761517781" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Variables
+    </text>
+    </g><g data-runiq-node="functions" data-node-id="functions" data-node-shape="rect">
+      <rect x="984.902058026872" y="943.8073335387118" width="84.8" height="34.4"
+            fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="1027.3020580268721" y="961.0073335387118" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Functions
+    </text>
+    </g><g data-runiq-node="arrays" data-node-id="arrays" data-node-shape="rect">
+      <rect x="802.8372925537817" y="1078.5846647274523" width="63.199999999999996" height="34.4"
+            fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="834.4372925537817" y="1095.7846647274523" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Arrays
+    </text>
+    </g><g data-runiq-node="objects" data-node-id="objects" data-node-shape="rect">
+      <rect x="585.3623257358511" y="1118.1706078725797" width="70.39999999999999" height="34.4"
+            fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="620.5623257358511" y="1135.3706078725797" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Objects
+    </text>
+    </g><g data-runiq-node="closures" data-node-id="closures" data-node-shape="rect">
+      <rect x="351.4035743749828" y="1062.3781312868555" width="77.6" height="34.4"
+            fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="390.2035743749828" y="1079.5781312868555" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Closures
+    </text>
+    </g><g data-runiq-node="promises" data-node-id="promises" data-node-shape="rect">
+      <rect x="161.1168371819619" y="906.0634116572189" width="77.6" height="34.4"
+            fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="199.9168371819619" y="923.263411657219" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Promises
+    </text>
+    </g><g data-runiq-node="async_await" data-node-id="async_await" data-node-shape="rect">
+      <rect x="42" y="651.071215640049" width="99.19999999999999" height="34.4"
+            fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="91.6" y="668.271215640049" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Async/Await
+    </text>
+    </g><g data-runiq-node="modules" data-node-id="modules" data-node-shape="rect">
+      <rect x="88.34088063836225" y="386.12202149561915" width="70.39999999999999" height="34.4"
+            fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="123.54088063836224" y="403.32202149561914" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Modules
+    </text>
+    </g><g data-runiq-node="react" data-node-id="react" data-node-shape="rect">
+      <rect x="205.62812562572014" y="209.5198489837279" width="56" height="34.4"
+            fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <text x="233.62812562572014" y="226.7198489837279" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      React
+    </text>
+    </g><g data-runiq-node="vue" data-node-id="vue" data-node-shape="rect">
+      <rect x="347.8593036650015" y="104.03086235441594" width="41.599999999999994" height="34.4"
+            fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <text x="368.6593036650015" y="121.23086235441595" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Vue
+    </text>
+    </g><g data-runiq-node="svelte" data-node-id="svelte" data-node-shape="rect">
+      <rect x="504.71503975101336" y="43.58810333987583" width="63.199999999999996" height="34.4"
+            fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <text x="536.3150397510134" y="60.78810333987583" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Svelte
+    </text>
+    </g><g data-runiq-node="npm" data-node-id="npm" data-node-shape="rect">
+      <rect x="697.2207137513719" y="42" width="41.599999999999994" height="34.4"
+            fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="718.0207137513719" y="59.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      npm
+    </text>
+    </g><g data-runiq-node="webpack" data-node-id="webpack" data-node-shape="rect">
+      <rect x="859.5865249006862" y="104.18914226444576" width="70.39999999999999" height="34.4"
+            fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="894.7865249006862" y="121.38914226444577" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Webpack
+    </text>
+    </g><g data-runiq-node="vite" data-node-id="vite" data-node-shape="rect">
+      <rect x="1024.6137667127869" y="231.09741525770602" width="48.8" height="34.4"
+            fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="1049.013766712787" y="248.297415257706" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Vite
+    </text>
+    </g><g data-runiq-node="typescript" data-node-id="typescript" data-node-shape="rect">
+      <rect x="1104.8461351058422" y="433.68974279831764" width="92" height="34.4"
+            fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="1150.8461351058422" y="450.8897427983176" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      TypeScript
+    </text>
+    </g></svg>

@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="442.6" height="919.2" 
+    viewBox="0 0 442.6 919.2"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="frontend" data-container-id="frontend"><rect x="0" y="0" width="196.4" height="237.6" 
+    fill="#e3f2fd" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Frontend</text></g><g data-runiq-container="backend" data-container-id="backend"><rect x="0" y="317.6" width="422.6" height="237.6" 
+    fill="#fff3e0" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="337.6" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Backend</text></g><g data-runiq-container="datalayer" data-container-id="datalayer"><rect x="0" y="635.2" width="192" height="264" 
+    fill="#e8f5e9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="655.2" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Data Layer</text></g><g data-runiq-edge="Browser-UI-0" data-edge-id="Browser-UI-0" data-edge-from="Browser" data-edge-to="UI"><defs>
+      <marker id="arrow-standard-Browser-UI" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 98.2 78.8 L 98.2 118.80000000000001 L 97.6 118.80000000000001 L 97.6 158.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 98.2 78.8 L 98.2 118.80000000000001 L 97.6 118.80000000000001 L 97.6 158.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Browser-UI)" pointer-events="none" /></g><g data-runiq-edge="API-Auth-2" data-edge-id="API-Auth-2" data-edge-from="API" data-edge-to="Auth"><defs>
+      <marker id="arrow-standard-API-Auth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 116.6 396.40000000000003 L 116.6 436.40000000000003 L 102.4 436.40000000000003 L 102.4 476.40000000000003" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 116.6 396.40000000000003 L 116.6 436.40000000000003 L 102.4 436.40000000000003 L 102.4 476.40000000000003" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-API-Auth)" pointer-events="none" /></g><g data-runiq-edge="API-Business-3" data-edge-id="API-Business-3" data-edge-from="API" data-edge-to="Business"><defs>
+      <marker id="arrow-standard-API-Business" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 116.6 396.40000000000003 L 116.6 431.40000000000003 L 312 431.40000000000003 L 311.8 476.40000000000003" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 116.6 396.40000000000003 L 116.6 431.40000000000003 L 312 431.40000000000003 L 311.8 476.40000000000003" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-API-Business)" pointer-events="none" /></g><g data-runiq-edge="UI-API" data-edge-id="UI-API" data-edge-from="UI" data-edge-to="API"><defs>
+      <marker id="arrow-standard-UI-API" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 97.6 158.8 L 97.6 277.6 L 116.6 277.6 L 116.6 359.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 97.6 158.8 L 97.6 277.6 L 116.6 277.6 L 116.6 359.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-UI-API)" pointer-events="none" /></g><g data-runiq-edge="Business-DB" data-edge-id="Business-DB" data-edge-from="Business" data-edge-to="DB"><defs>
+      <marker id="arrow-standard-Business-DB" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 311.8 476.40000000000003 L 311.8 656 L 96 656 L 96 789.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 311.8 476.40000000000003 L 311.8 656 L 96 656 L 96 789.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Business-DB)" pointer-events="none" /></g><g data-runiq-edge="Business-Cache" data-edge-id="Business-Cache" data-edge-from="Business" data-edge-to="Cache"><defs>
+      <marker id="arrow-standard-Business-Cache" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 311.8 476.40000000000003 L 311.8 606 L 75 606 L 75 689.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 311.8 476.40000000000003 L 311.8 606 L 75 606 L 75 689.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Business-Cache)" pointer-events="none" /></g><g data-runiq-node="Browser" data-node-id="Browser" data-node-shape="rect">
+      <rect x="42" y="42" width="112.4" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="98.2" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web Browser
+    </text>
+    </g><g data-runiq-node="UI" data-node-id="UI" data-node-shape="rect">
+      <rect x="54" y="158.8" width="87.2" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="97.6" y="177.20000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      React UI
+    </text>
+    </g><g data-runiq-node="API" data-node-id="API" data-node-shape="rect">
+      <rect x="73" y="359.6" width="87.2" height="36.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="116.6" y="378" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      REST API
+    </text>
+    </g><g data-runiq-node="Auth" data-node-id="Auth" data-node-shape="rect">
+      <rect x="42" y="476.40000000000003" width="120.80000000000001" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="102.4" y="494.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Auth Service
+    </text>
+    </g><g data-runiq-node="Business" data-node-id="Business" data-node-shape="rect">
+      <rect x="243" y="476.40000000000003" width="137.60000000000002" height="36.8"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="311.8" y="494.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Business Logic
+    </text>
+    </g><g data-runiq-node="DB" data-node-id="DB" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="96" cy="789.2" rx="54" ry="12" 
+                 fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="42" y="789.2" width="108" height="56" 
+              fill="#5a819e" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="42" y1="789.2" x2="42" y2="845.2" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="150" y1="789.2" x2="150" y2="845.2" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 42,845.2 Q 96,869.2 150,845.2"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="96" y="817.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      PostgreSQL
+    </text>
+      </g>
+    </g><g data-runiq-node="Cache" data-node-id="Cache" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="75" cy="689.2" rx="33" ry="12" 
+                 fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="42" y="689.2" width="66" height="56" 
+              fill="#73a3bf" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="42" y1="689.2" x2="42" y2="745.2" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="108" y1="689.2" x2="108" y2="745.2" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 42,745.2 Q 75,769.2 108,745.2"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="75" y="717.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Redis
+    </text>
+      </g>
+    </g></svg>

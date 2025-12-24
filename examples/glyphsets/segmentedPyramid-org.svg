@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="382" height="312" 
+    viewBox="0 0 382 312"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="segmentedPyramid" data-node-id="segmentedPyramid" data-node-shape="segmentedPyramid"><polygon points="136.25,20 213.75,20 252.5,80 97.5,80" fill="#2D5016" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="175" y="50" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">CEO</text><text x="175" y="32" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#48677e">
+      Executive
+    </text><polygon points="97.5,80 149.16666666666666,80 136.25,140 58.75,140" fill="#4A7C2C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="110.41666666666666" y="104" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">VP</text><text x="110.41666666666666" y="116" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Engineering</text><polygon points="149.16666666666666,80 200.83333333333331,80 213.75,140 136.25,140" fill="#4A7C2C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="175" y="110" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">VP Product</text><polygon points="200.83333333333331,80 252.49999999999997,80 291.25,140 213.75,140" fill="#4A7C2C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="239.58333333333331" y="110" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">VP Sales</text><text x="175" y="92" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#48677e">
+      Leadership
+    </text><polygon points="58.75,140 97.5,140 71.66666666666666,200 20,200" fill="#6FA84C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="61.979166666666664" y="170" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Backend</text><polygon points="97.5,140 136.25,140 123.33333333333331,200 71.66666666666666,200" fill="#6FA84C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="107.18749999999999" y="170" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Frontend</text><polygon points="136.25,140 175,140 175,200 123.33333333333333,200" fill="#6FA84C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="152.39583333333331" y="170" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Mobile</text><polygon points="175,140 213.75,140 226.66666666666666,200 175,200" fill="#6FA84C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="197.60416666666666" y="170" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Design</text><polygon points="213.75,140 252.5,140 278.3333333333333,200 226.66666666666666,200" fill="#6FA84C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="242.8125" y="170" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Marketing</text><polygon points="252.5,140 291.25,140 330,200 278.3333333333333,200" fill="#6FA84C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="288.0208333333333" y="170" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Support</text><text x="175" y="152" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#48677e">
+      Management
+    </text><polygon points="20,200 82,200 82,260 20,260" fill="#8FBC6F" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="51" y="230" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Engineers</text><polygon points="82,200 144,200 144,260 82,260" fill="#8FBC6F" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="113" y="230" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Designers</text><polygon points="144,200 206,200 206,260 144,260" fill="#8FBC6F" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="175" y="230" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Marketers</text><polygon points="206,200 268,200 268,260 206,260" fill="#8FBC6F" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="237" y="230" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Sales Reps</text><polygon points="268,200 330,200 330,260 268,260" fill="#8FBC6F" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="299" y="224" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Support</text><text x="299" y="236" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Staff</text><text x="175" y="212" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#48677e">
+      Individual Contributors
+    </text></g></svg>

@@ -4,9 +4,9 @@
 
 diagram "Learning JavaScript Roadmap" {
   
-  style highlight fill:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3
-  style level1 fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
-  style level2 fill:"#f3e5f5" strokeColor:"#7b1fa2"
+  style highlight fillColor:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3
+  style level1 fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+  style level2 fillColor:"#f3e5f5" strokeColor:"#7b1fa2"
   
   container "LearningPath" type:mindmap algorithm:radial spacing:90 fillColor:"#fafafa" strokeColor:"#757575" strokeWidth:2 {
     

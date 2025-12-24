@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="800" height="630" 
+    viewBox="0 0 800 630"
+    role="img" aria-labelledby="sequence-title"><title id="sequence-title">User Authentication</title>
+  <style>
+    .participant-box {
+      fill: #5a819e;
+      stroke: #5a819e;
+      stroke-width: 2;
+    }
+    .participant-text {
+      fill: #FFFFFF;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      text-anchor: middle;
+    }
+    .lifeline {
+      stroke: #96bacf;
+      stroke-width: 1;
+      stroke-dasharray: 5,5;
+    }
+    .message-line {
+      stroke: #48677e;
+      stroke-width: 2;
+      fill: none;
+    }
+    .message-arrow {
+      fill: #48677e;
+      stroke: #48677e;
+    }
+    .message-text {
+      fill: #48677e;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+    .activation-box {
+      fill: #73a3bf;
+      stroke: #5a819e;
+      stroke-width: 2;
+      opacity: 0.3;
+    }
+    .note-box {
+      fill: #dce8ef;
+      stroke: #48677e;
+      stroke-width: 1;
+    }
+    .note-text {
+      fill: #24333f;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+    }
+    .fragment-box {
+      fill: #f0f5f8;
+      stroke: #5a819e;
+      stroke-width: 2;
+    }
+    .fragment-label-bg {
+      fill: #5a819e;
+    }
+    .fragment-label-text {
+      fill: white;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .fragment-condition {
+      fill: #48677e;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-style: italic;
+    }
+  </style>
+  <rect width="800" height="630" fill="#FFFFFF"/><text x="400" y="30" class="diagram-title" text-anchor="middle" font-size="18" font-weight="bold" fill="#333333">User Authentication</text><rect x="50" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="110" y="75" class="participant-text">User</text><rect x="200" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="260" y="75" class="participant-text">Web App</text><rect x="350" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="410" y="75" class="participant-text">Auth Service</text><rect x="500" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="560" y="75" class="participant-text">Database</text><line x1="110" y1="110" x2="110" y2="580" class="lifeline"/><line x1="260" y1="110" x2="260" y2="580" class="lifeline"/><line x1="410" y1="110" x2="410" y2="580" class="lifeline"/><line x1="560" y1="110" x2="560" y2="580" class="lifeline"/><line x1="110" y1="110" x2="260" y2="110" class="message-line" stroke-dasharray=""/><polygon points="260,110 252,106 252,114" class="message-arrow"/><text x="185" y="105" class="message-text" text-anchor="middle">Enter credentials</text><rect x="405" y="170" width="10" height="40" class="activation-box"/><line x1="260" y1="170" x2="410" y2="170" class="message-line" stroke-dasharray=""/><polygon points="410,170 402,166 402,174" class="message-arrow"/><text x="335" y="165" class="message-text" text-anchor="middle">Validate login</text><line x1="410" y1="230" x2="560" y2="230" class="message-line" stroke-dasharray=""/><polygon points="560,230 552,226 552,234" class="message-arrow"/><text x="485" y="225" class="message-text" text-anchor="middle">Query user</text><line x1="560" y1="290" x2="410" y2="290" class="message-line" stroke-dasharray="5,5"/><polyline points="418,286 410,290 418,294" class="message-arrow" fill="none"/><text x="485" y="285" class="message-text" text-anchor="middle">User data</text><line x1="410" y1="350" x2="260" y2="350" class="message-line" stroke-dasharray="5,5"/><polyline points="268,346 260,350 268,354" class="message-arrow" fill="none"/><text x="335" y="345" class="message-text" text-anchor="middle">Auth token</text><line x1="260" y1="410" x2="110" y2="410" class="message-line" stroke-dasharray="5,5"/><polyline points="118,406 110,410 118,414" class="message-arrow" fill="none"/><text x="185" y="405" class="message-text" text-anchor="middle">Login success</text><rect x="270" y="450" width="150" height="40" class="note-box"/><polyline points="410,450 410,460 420,460" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="275" y="475" class="note-text">Token stored in session</text></svg>

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="232" height="308" 
+    viewBox="0 0 232 308"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="numberedChevronList" data-node-id="numberedChevronList" data-node-shape="numberedChevronList">
+        <defs>
+          <linearGradient id="chevronGrad0" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#5a819e;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#4A7C2C;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      
+        <polygon points="12,12 77,12 92,42 77,72 12,72 12,12"
+                 fill="url(#chevronGrad0)"
+                 stroke="#4A7C2C" stroke-width="2" />
+        
+        <text x="52" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="25.2"
+      fill="#FFFFFF">
+      01
+    </text>
+      <text x="100" y="42" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16.8"
+      fill="#000000">
+      Register
+    </text>
+        <defs>
+          <linearGradient id="chevronGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#5a819e;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#4A7C2C;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      
+        <polygon points="12,84 77,84 92,114 77,144 12,144 12,84"
+                 fill="url(#chevronGrad1)"
+                 stroke="#4A7C2C" stroke-width="2" />
+        
+        <text x="52" y="114" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="25.2"
+      fill="#FFFFFF">
+      02
+    </text>
+      <text x="100" y="114" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16.8"
+      fill="#000000">
+      Verify Email
+    </text>
+        <defs>
+          <linearGradient id="chevronGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#5a819e;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#4A7C2C;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      
+        <polygon points="12,156 77,156 92,186 77,216 12,216 12,156"
+                 fill="url(#chevronGrad2)"
+                 stroke="#4A7C2C" stroke-width="2" />
+        
+        <text x="52" y="186" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="25.2"
+      fill="#FFFFFF">
+      03
+    </text>
+      <text x="100" y="186" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16.8"
+      fill="#000000">
+      Complete Profile
+    </text>
+        <defs>
+          <linearGradient id="chevronGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#5a819e;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#4A7C2C;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      
+        <polygon points="12,228 77,228 92,258 77,288 12,288 12,228"
+                 fill="url(#chevronGrad3)"
+                 stroke="#4A7C2C" stroke-width="2" />
+        
+        <text x="52" y="258" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="25.2"
+      fill="#FFFFFF">
+      04
+    </text>
+      <text x="100" y="258" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16.8"
+      fill="#000000">
+      Start Tutorial
+    </text></g></svg>

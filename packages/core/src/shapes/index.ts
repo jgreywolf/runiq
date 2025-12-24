@@ -38,6 +38,7 @@ export function registerBasicShapes(): void {
   shapeRegistry.register(basic.flippedTriangleShape);
   shapeRegistry.register(basic.parallelogramShape);
   shapeRegistry.register(basic.chevronShape);
+  shapeRegistry.register(basic.monitorShape);
   shapeRegistry.register(basic.trapezoidShape);
   shapeRegistry.register(basic.flippedTrapezoidShape);
   shapeRegistry.register(basic.starShape);
@@ -102,6 +103,7 @@ export function registerSpecialShapes(): void {
   shapeRegistry.register(special.braceRightShape);
   shapeRegistry.register(special.lightningBoltShape);
   shapeRegistry.register(special.hourglassShape);
+  shapeRegistry.register(special.gaugeShape);
   shapeRegistry.register(special.forkJoinShape);
   shapeRegistry.register(special.orShape);
 }

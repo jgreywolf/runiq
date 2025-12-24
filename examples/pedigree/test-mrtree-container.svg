@@ -1,5 +1,67 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="170" 
-    viewBox="0 0 220 170"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">MRTree Container Test</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="pedigree-tree"><rect x="0" y="0" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Pedigree Tree</text></g></svg>
+    width="400" height="400" 
+    viewBox="0 0 400 400"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="pedigree-tree" data-container-id="pedigree-tree"><rect x="0" y="0" width="380" height="380" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Pedigree Tree</text></g><g data-runiq-edge="father-mother-0" data-edge-id="father-mother-0" data-edge-from="father" data-edge-to="mother"><defs>
+      <marker id="arrow-standard-father-mother" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 210 110 Q 210 145 210 190" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 210 110 Q 210 145 210 190" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-father-mother)" pointer-events="none" /></g><g data-runiq-edge="father-child1-1" data-edge-id="father-child1-1" data-edge-from="father" data-edge-to="child1"><defs>
+      <marker id="arrow-standard-father-child1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 210 110 Q 210 145 90 310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 210 110 Q 210 145 90 310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-father-child1)" pointer-events="none" /></g><g data-runiq-edge="father-child2-2" data-edge-id="father-child2-2" data-edge-from="father" data-edge-to="child2"><defs>
+      <marker id="arrow-standard-father-child2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 210 110 L 210 145 L 265 155 L 265 265 L 210 310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 210 110 L 210 145 L 265 155 L 265 265 L 210 310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-father-child2)" pointer-events="none" /></g><g data-runiq-edge="father-child3-3" data-edge-id="father-child3-3" data-edge-from="father" data-edge-to="child3"><defs>
+      <marker id="arrow-standard-father-child3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 210 110 L 210 145 L 300 155 L 300 265 L 330 310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 210 110 L 210 145 L 300 155 L 300 265 L 330 310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-father-child3)" pointer-events="none" /></g><g data-runiq-edge="mother-child1-4" data-edge-id="mother-child1-4" data-edge-from="mother" data-edge-to="child1"><defs>
+      <marker id="arrow-standard-mother-child1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 210 230 L 210 265 L 100.16666666666666 308.6792452830189 L 90 310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 210 230 L 210 265 L 100.16666666666666 308.6792452830189 L 90 310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mother-child1)" pointer-events="none" /></g><g data-runiq-edge="mother-child2-5" data-edge-id="mother-child2-5" data-edge-from="mother" data-edge-to="child2"><defs>
+      <marker id="arrow-standard-mother-child2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 210 230 Q 210 265 210 310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 210 230 Q 210 265 210 310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mother-child2)" pointer-events="none" /></g><g data-runiq-edge="mother-child3-6" data-edge-id="mother-child3-6" data-edge-from="mother" data-edge-to="child3"><defs>
+      <marker id="arrow-standard-mother-child3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 210 230 L 210 265 L 319.83333333333337 308.6792452830189 L 330 310" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 210 230 L 210 265 L 319.83333333333337 308.6792452830189 L 330 310" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mother-child3)" pointer-events="none" /></g><g data-runiq-node="father" data-node-id="father" data-node-shape="pedigreeMale"><rect x="190" y="70" width="40" height="40"
+                fill="#000" stroke="#48677e" stroke-width="2"/><text x="210" y="125" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Father
+    </text></g><g data-runiq-node="mother" data-node-id="mother" data-node-shape="pedigreeFemale"><circle cx="210" cy="210" r="19"
+                fill="#73a3bf" stroke="#48677e" stroke-width="2"/><text x="210" y="245" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Mother
+    </text></g><g data-runiq-node="child1" data-node-id="child1" data-node-shape="pedigreeMale"><rect x="70" y="310" width="40" height="40"
+                fill="#000" stroke="#48677e" stroke-width="2"/><text x="90" y="365" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Child 1
+    </text></g><g data-runiq-node="child2" data-node-id="child2" data-node-shape="pedigreeFemale"><circle cx="210" cy="330" r="19"
+                fill="url(#pedigree-half-fill)" stroke="#48677e" stroke-width="2"/><text x="210" y="365" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Child 2
+    </text></g><g data-runiq-node="child3" data-node-id="child3" data-node-shape="pedigreeMale"><rect x="310" y="310" width="40" height="40"
+                fill="#364d5f" stroke="#48677e" stroke-width="2"/><text x="330" y="365" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Child 3
+    </text></g></svg>

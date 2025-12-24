@@ -53,23 +53,23 @@ diagram "Friend Network" {
 diagram "Colored Communities" {
   container "Social Network" algorithm: force spacing: 140 {
     // Tech (blue)
-    shape t1 as @circle label:"T1" style:"fill: #4285f4"
-    shape t2 as @circle label:"T2" style:"fill: #4285f4"
-    shape t3 as @circle label:"T3" style:"fill: #4285f4"
+    shape t1 as @circle label:"T1" fillColor: "#4285f4"
+    shape t2 as @circle label:"T2" fillColor: "#4285f4"
+    shape t3 as @circle label:"T3" fillColor: "#4285f4"
     
     // Business (green)
-    shape b1 as @circle label:"B1" style:"fill: #34a853"
-    shape b2 as @circle label:"B2" style:"fill: #34a853"
-    shape b3 as @circle label:"B3" style:"fill: #34a853"
+    shape b1 as @circle label:"B1" fillColor: "#34a853"
+    shape b2 as @circle label:"B2" fillColor: "#34a853"
+    shape b3 as @circle label:"B3" fillColor: "#34a853"
     
     // Creative (red)
-    shape c1 as @circle label:"C1" style:"fill: #ea4335"
-    shape c2 as @circle label:"C2" style:"fill: #ea4335"
-    shape c3 as @circle label:"C3" style:"fill: #ea4335"
+    shape c1 as @circle label:"C1" fillColor: "#ea4335"
+    shape c2 as @circle label:"C2" fillColor: "#ea4335"
+    shape c3 as @circle label:"C3" fillColor: "#ea4335"
     
     // Connectors (yellow)
-    shape x1 as @circle label:"X1" style:"fill: #fbbc04"
-    shape x2 as @circle label:"X2" style:"fill: #fbbc04"
+    shape x1 as @circle label:"X1" fillColor: "#fbbc04"
+    shape x2 as @circle label:"X2" fillColor: "#fbbc04"
     
     // Intra-community edges (strong)
     t1 -> t2

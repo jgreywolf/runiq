@@ -1,0 +1,43 @@
+// Knowledge Graph Example
+// Shows concepts and their relationships using force-directed layout
+
+// Biological knowledge graph
+diagram "Biology Concepts" {
+  container "Life Sciences" algorithm: force spacing: 140 {
+    // Hierarchical concepts
+    shape life as @circle label:"Life"
+    shape cell as @circle label:"Cell"
+    shape organism as @circle label:"Organism"
+    shape organ as @circle label:"Organ"
+    shape tissue as @circle label:"Tissue"
+    
+    // Molecular biology
+    shape dna as @hexagon label:"DNA"
+    shape rna as @hexagon label:"RNA"
+    shape protein as @hexagon label:"Protein"
+    shape enzyme as @hexagon label:"Enzyme"
+    
+    // Processes
+    shape replication as @roundedRectangle label:"Replication"
+    shape transcription as @roundedRectangle label:"Transcription"
+    shape translation as @roundedRectangle label:"Translation"
+    
+    // Hierarchical relationships
+    life -> organism label:"comprises"
+    organism -> organ label:"has"
+    organ -> tissue label:"made of"
+    tissue -> cell label:"made of"
+    
+    // Molecular relationships
+    cell -> dna label:"contains"
+    cell -> protein label:"produces"
+    dna -> rna label:"transcribes to"
+    rna -> protein label:"translates to"
+    protein -> enzyme label:"type of"
+    
+    // Process relationships
+    dna -> replication label:"undergoes"
+    dna -> transcription label:"undergoes"
+    rna -> translation label:"undergoes"
+  }
+}

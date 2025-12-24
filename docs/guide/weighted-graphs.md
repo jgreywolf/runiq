@@ -271,6 +271,6 @@ container "Hierarchy" algorithm: layered {
 - **Lucidchart**: Real-time collaboration on network diagrams with stakeholders\n\n## See Also
 
 - [Edges Guide](./edges.md) - All edge properties and syntax
-- [Force-Directed Networks](./force-directed-networks.md) - Network visualization
+- [Force-Directed Networks](./diagram-types/force-directed-networks.md) - Network visualization
 - [Graph Metrics](../reference/graph-metrics.md) - Compute graph metrics with weights
 - [Layout Guide](./layout.md) - Layout algorithm options

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="555.2" height="302" 
+    viewBox="0 0 555.2 302"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="alternatingList" data-node-id="alternatingList" data-node-shape="alternatingList">
+        <rect x="12" y="12" 
+              width="241.60000000000002" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="132.8" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Q1: Planning & Design
+    </text>
+        <rect x="293.6" y="82" 
+              width="241.60000000000002" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="414.40000000000003" y="112" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Q2: Core Development
+    </text>
+        <rect x="12" y="152" 
+              width="241.60000000000002" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="132.8" y="182" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Q3: Testing & Refinement
+    </text>
+        <rect x="293.6" y="222" 
+              width="241.60000000000002" height="60"
+              rx="8" ry="8"
+              fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      <text x="414.40000000000003" y="252" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Q4: Launch & Marketing
+    </text></g></svg>

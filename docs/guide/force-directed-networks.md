@@ -259,7 +259,7 @@ container "Network" direction: TB { ... }  // Uses layered algorithm
 - [Layout & Direction](./layout.md) - General layout documentation
 - [Weighted Graphs](./weighted-graphs.md) - Add weights to edges for cost/distance networks
 - [Graph Metrics](../reference/graph-metrics.md) - Compute centrality and clustering metrics
-- [Network Diagrams](./network-diagrams.md) - Network topology diagrams
+- [Network Diagrams](./diagram-types/network-diagrams.md) - Network topology diagrams
 - [Containers](./containers.md) - Container syntax
 - [Shapes Reference](../reference/shapes.md) - Available shapes
 

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="820" height="930" 
+    viewBox="0 0 820 930"
+    role="img" aria-labelledby="sequence-title"><title id="sequence-title">User Registration Flow</title>
+  <style>
+    .participant-box {
+      fill: #5a819e;
+      stroke: #5a819e;
+      stroke-width: 2;
+    }
+    .participant-text {
+      fill: #FFFFFF;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      text-anchor: middle;
+    }
+    .lifeline {
+      stroke: #96bacf;
+      stroke-width: 1;
+      stroke-dasharray: 5,5;
+    }
+    .message-line {
+      stroke: #48677e;
+      stroke-width: 2;
+      fill: none;
+    }
+    .message-arrow {
+      fill: #48677e;
+      stroke: #48677e;
+    }
+    .message-text {
+      fill: #48677e;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+    .activation-box {
+      fill: #73a3bf;
+      stroke: #5a819e;
+      stroke-width: 2;
+      opacity: 0.3;
+    }
+    .note-box {
+      fill: #dce8ef;
+      stroke: #48677e;
+      stroke-width: 1;
+    }
+    .note-text {
+      fill: #24333f;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+    }
+    .fragment-box {
+      fill: #f0f5f8;
+      stroke: #5a819e;
+      stroke-width: 2;
+    }
+    .fragment-label-bg {
+      fill: #5a819e;
+    }
+    .fragment-label-text {
+      fill: white;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .fragment-condition {
+      fill: #48677e;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-style: italic;
+    }
+  </style>
+  <rect width="820" height="930" fill="#FFFFFF"/><text x="410" y="30" class="diagram-title" text-anchor="middle" font-size="18" font-weight="bold" fill="#333333">User Registration Flow</text><rect x="50" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="110" y="75" class="participant-text">User</text><rect x="200" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="260" y="75" class="participant-text">Registration Page</text><rect x="350" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="410" y="75" class="participant-text">User Service</text><rect x="500" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="560" y="75" class="participant-text">Email Service</text><rect x="650" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="710" y="75" class="participant-text">Database</text><line x1="110" y1="110" x2="110" y2="880" class="lifeline"/><line x1="260" y1="110" x2="260" y2="880" class="lifeline"/><line x1="410" y1="110" x2="410" y2="880" class="lifeline"/><line x1="560" y1="110" x2="560" y2="880" class="lifeline"/><line x1="710" y1="110" x2="710" y2="880" class="lifeline"/><line x1="110" y1="110" x2="260" y2="110" class="message-line" stroke-dasharray=""/><polygon points="260,110 252,106 252,114" class="message-arrow"/><text x="185" y="105" class="message-text" text-anchor="middle">Submit registration</text><line x1="260" y1="170" x2="410" y2="170" class="message-line" stroke-dasharray=""/><polygon points="410,170 402,166 402,174" class="message-arrow"/><text x="335" y="165" class="message-text" text-anchor="middle">registerUser(email, password)</text><rect x="40" y="200" width="740" height="120" class="fragment-box"/><rect x="40" y="200" width="60" height="20" class="fragment-label-bg"/><text x="70" y="214" class="fragment-label-text" text-anchor="middle">ref</text><text x="105" y="214" class="fragment-condition">[Input Validation]</text><line x1="410" y1="230" x2="710" y2="230" class="message-line" stroke-dasharray=""/><polygon points="710,230 702,226 702,234" class="message-arrow"/><text x="560" y="225" class="message-text" text-anchor="middle">checkEmailExists()</text><line x1="410" y1="290" x2="710" y2="290" class="message-line" stroke-dasharray=""/><polygon points="710,290 702,286 702,294" class="message-arrow"/><text x="560" y="285" class="message-text" text-anchor="middle">insertUser()</text><rect x="40" y="320" width="740" height="120" class="fragment-box"/><rect x="40" y="320" width="60" height="20" class="fragment-label-bg"/><text x="70" y="334" class="fragment-label-text" text-anchor="middle">ref</text><text x="105" y="334" class="fragment-condition">[Create Auth Credentials]</text><line x1="410" y1="350" x2="560" y2="350" class="message-line" stroke-dasharray="5,5"/><polygon points="560,350 552,346 552,354" class="message-arrow"/><text x="485" y="345" class="message-text" text-anchor="middle">sendWelcomeEmail()</text><line x1="410" y1="410" x2="260" y2="410" class="message-line" stroke-dasharray="5,5"/><polyline points="268,406 260,410 268,414" class="message-arrow" fill="none"/><text x="335" y="405" class="message-text" text-anchor="middle">registration success</text><rect x="40" y="440" width="740" height="120" class="fragment-box"/><rect x="40" y="440" width="60" height="20" class="fragment-label-bg"/><text x="70" y="454" class="fragment-label-text" text-anchor="middle">ref</text><text x="105" y="454" class="fragment-condition">[Send Verification Email]</text><line x1="260" y1="470" x2="110" y2="470" class="message-line" stroke-dasharray="5,5"/><polyline points="118,466 110,470 118,474" class="message-arrow" fill="none"/><text x="185" y="465" class="message-text" text-anchor="middle">Show success message</text><rect x="260" y="510" width="150" height="40" class="note-box"/><polyline points="400,510 400,520 410,520" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="265" y="535" class="note-text">Main registration flow delegates to sub-processes</text><rect x="420" y="570" width="150" height="40" class="note-box"/><polyline points="560,570 560,580 570,580" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="425" y="595" class="note-text">Ref fragments improve maintainability by reusing common sequences</text></svg>

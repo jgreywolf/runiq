@@ -1,5 +1,99 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="170" 
-    viewBox="0 0 220 170"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Road Network</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="cities"><rect x="0" y="0" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Cities</text></g></svg>
+    width="919.742935345994" height="1069.8308013856595" 
+    viewBox="0 0 919.742935345994 1069.8308013856595"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="cities" data-container-id="cities"><rect x="0" y="0" width="899.742935345994" height="1049.8308013856595" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Cities</text></g><g data-runiq-edge="boston-nyc-0" data-edge-id="boston-nyc-0" data-edge-from="boston" data-edge-to="nyc"><defs>
+      <marker id="arrow-standard-boston-nyc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 417.05042679078986 358.59674096570893 L 307.56521339539495 358.59674096570893 L 307.56521339539495 139.03999999999996 L 198.07999999999998 139.03999999999996" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 417.05042679078986 358.59674096570893 L 307.56521339539495 358.59674096570893 L 307.56521339539495 139.03999999999996 L 198.07999999999998 139.03999999999996" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-boston-nyc)" pointer-events="none" /><text x="307.56521339539495" y="139.03999999999996" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">215 mi</text></g><g data-runiq-edge="nyc-philly-1" data-edge-id="nyc-philly-1" data-edge-from="nyc" data-edge-to="philly"><defs>
+      <marker id="arrow-standard-nyc-philly" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 198.07999999999998 139.03999999999996 L 412.02841716875776 139.03999999999996 L 412.02841716875776 297.2297538562905 L 625.9768343375156 297.2297538562905" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 198.07999999999998 139.03999999999996 L 412.02841716875776 139.03999999999996 L 412.02841716875776 297.2297538562905 L 625.9768343375156 297.2297538562905" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-nyc-philly)" pointer-events="none" /><text x="412.02841716875776" y="297.2297538562905" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">95 mi</text></g><g data-runiq-edge="philly-washington-2" data-edge-id="philly-washington-2" data-edge-from="philly" data-edge-to="washington"><defs>
+      <marker id="arrow-standard-philly-washington" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 708.5368343375155 379.7897538562905 L 708.5368343375155 586.370277620975 L 731.3029353459942 586.370277620975 L 731.3029353459942 792.9508013856596" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 708.5368343375155 379.7897538562905 L 708.5368343375155 586.370277620975 L 731.3029353459942 586.370277620975 L 731.3029353459942 792.9508013856596" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-philly-washington)" pointer-events="none" /><text x="731.3029353459942" y="586.370277620975" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">140 mi</text></g><g data-runiq-edge="washington-baltimore-3" data-edge-id="washington-baltimore-3" data-edge-from="washington" data-edge-to="baltimore"><defs>
+      <marker id="arrow-standard-washington-baltimore" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 731.3029353459942 792.9508013856596 L 731.3029353459942 749.3052617623788 L 609.0237738073168 749.3052617623788 L 609.0237738073168 705.659722139098" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 731.3029353459942 792.9508013856596 L 731.3029353459942 749.3052617623788 L 609.0237738073168 749.3052617623788 L 609.0237738073168 705.659722139098" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-washington-baltimore)" pointer-events="none" /><text x="609.0237738073168" y="749.3052617623788" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">40 mi</text></g><g data-runiq-edge="baltimore-philly-4" data-edge-id="baltimore-philly-4" data-edge-from="baltimore" data-edge-to="philly"><defs>
+      <marker id="arrow-standard-baltimore-philly" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 609.0237738073168 575.819722139098 L 609.0237738073168 477.80473799769425 L 708.5368343375155 477.80473799769425 L 708.5368343375155 379.7897538562905" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 609.0237738073168 575.819722139098 L 609.0237738073168 477.80473799769425 L 708.5368343375155 477.80473799769425 L 708.5368343375155 379.7897538562905" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-baltimore-philly)" pointer-events="none" /><text x="708.5368343375155" y="477.80473799769425" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">100 mi</text></g><g data-runiq-edge="boston-baltimore-5" data-edge-id="boston-baltimore-5" data-edge-from="boston" data-edge-to="baltimore"><defs>
+      <marker id="arrow-standard-boston-baltimore" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 464.33042679078983 405.87674096570896 L 464.33042679078983 490.8482315524035 L 609.0237738073168 490.8482315524035 L 609.0237738073168 575.819722139098" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 464.33042679078983 405.87674096570896 L 464.33042679078983 490.8482315524035 L 609.0237738073168 490.8482315524035 L 609.0237738073168 575.819722139098" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-boston-baltimore)" pointer-events="none" /><text x="609.0237738073168" y="490.8482315524035" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">400 mi</text></g><g data-runiq-edge="washington-richmond-6" data-edge-id="washington-richmond-6" data-edge-from="washington" data-edge-to="richmond"><defs>
+      <marker id="arrow-standard-washington-richmond" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 642.8629353459942 881.3908013856596 L 469.04656396704854 881.3908013856596 L 469.04656396704854 531.6630296524269 L 295.2301925881029 531.6630296524269" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 642.8629353459942 881.3908013856596 L 469.04656396704854 881.3908013856596 L 469.04656396704854 531.6630296524269 L 295.2301925881029 531.6630296524269" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-washington-richmond)" pointer-events="none" /><text x="469.04656396704854" y="531.6630296524269" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">110 mi</text></g><g data-runiq-node="boston" data-node-id="boston" data-node-shape="circle">
+      <circle cx="464.33042679078983" cy="358.59674096570893" r="47.28"
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="464.33042679078983" y="358.59674096570893" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Boston
+    </text>
+    </g><g data-runiq-node="nyc" data-node-id="nyc" data-node-shape="circle">
+      <circle cx="139.04" cy="139.03999999999996" r="59.04"
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="139.04" y="139.03999999999996" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      New York
+    </text>
+    </g><g data-runiq-node="philly" data-node-id="philly" data-node-shape="circle">
+      <circle cx="708.5368343375155" cy="297.2297538562905" r="82.56"
+              fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="708.5368343375155" y="297.2297538562905" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Philadelphia
+    </text>
+    </g><g data-runiq-node="washington" data-node-id="washington" data-node-shape="circle">
+      <circle cx="731.3029353459942" cy="881.3908013856596" r="88.44"
+              fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="731.3029353459942" y="881.3908013856596" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Washington DC
+    </text>
+    </g><g data-runiq-node="baltimore" data-node-id="baltimore" data-node-shape="circle">
+      <circle cx="609.0237738073168" cy="640.7397221390979" r="64.92"
+              fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="609.0237738073168" y="640.7397221390979" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Baltimore
+    </text>
+    </g><g data-runiq-node="richmond" data-node-id="richmond" data-node-shape="circle">
+      <circle cx="236.1901925881029" cy="531.6630296524269" r="59.04"
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="236.1901925881029" y="531.6630296524269" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Richmond
+    </text>
+    </g></svg>

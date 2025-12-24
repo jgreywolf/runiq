@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="1260" 
+    height="186" 
+    viewBox="60 60 1260 186"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">Sequential Cylinder Control</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .pneumatic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .pneumatic-component { color: #000000; }
+      .pneumatic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .pneumatic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .pneumatic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="pneumatic-wires">
+  <path d="M 110,150 L 248,150" class="pneumatic-wire"/>
+  <text x="253" y="145" class="pneumatic-net-label">SUPPLY</text>
+  <path d="M 248,150 L 818,150" class="pneumatic-wire"/>
+  <text x="823" y="145" class="pneumatic-net-label">SUPPLY</text>
+  <path d="M 258,150 L 390,115" class="pneumatic-wire"/>
+  <text x="395" y="110" class="pneumatic-net-label">A_EXTEND</text>
+  <path d="M 268,150 L 410,130" class="pneumatic-wire"/>
+  <text x="415" y="125" class="pneumatic-net-label">A_RETRACT</text>
+  <path d="M 828,150 L 960,115" class="pneumatic-wire"/>
+  <text x="965" y="110" class="pneumatic-net-label">B_EXTEND</text>
+  <path d="M 838,150 L 980,130" class="pneumatic-wire"/>
+  <text x="985" y="125" class="pneumatic-net-label">B_RETRACT</text>
+</g>
+<g class="pneumatic-components">
+  <g class="pneumatic-component" data-ref="START">
+
+      <!-- Left position box -->
+      <rect x="100" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Right position box -->
+      <rect x="120" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- Flow arrows in left position (P->A) -->
+      <line x1="105" y1="140" x2="110" y2="110" stroke="currentColor" stroke-width="2"/>
+      <polygon points="110,110 108,115 112,115"
+        fill="currentColor"/>
+
+      <!-- Flow arrows in right position (A->R) -->
+      <line x1="130" y1="110" x2="135" y2="140" stroke="currentColor" stroke-width="2"/>
+      <polygon points="135,140 133,135 137,135"
+        fill="currentColor"/>
+
+      <!-- Port P connection -->
+      <circle cx="102" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port A connection -->
+      <circle cx="120" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port R connection -->
+      <circle cx="138" cy="155" r="2" fill="currentColor"/>
+        <text x="120" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">START</text>
+  </g>
+  <g class="pneumatic-component" data-ref="VALVE_A">
+
+      <!-- Left position box (P->A, B->RB) -->
+      <rect x="240" y="100" width="25" height="50"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Right position box (P->B, A->RA) -->
+      <rect x="265" y="100" width="25" height="50"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- Flow paths in left position -->
+      <line x1="244" y1="145" x2="250" y2="105" stroke="currentColor" stroke-width="2"/>
+      <polygon points="250,105 248,110 252,110"
+        fill="currentColor"/>
+      <line x1="255" y1="145" x2="261" y2="105" stroke="currentColor" stroke-width="2"/>
+      <polygon points="261,105 259,110 263,110"
+        fill="currentColor"/>
+
+      <!-- Flow paths in right position -->
+      <line x1="269" y1="145" x2="281" y2="105" stroke="currentColor" stroke-width="2"/>
+      <line x1="275" y1="145" x2="269" y2="105" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Port connections -->
+      <circle cx="242" cy="155" r="2" fill="currentColor"/>
+      <circle cx="252" cy="155" r="2" fill="currentColor"/>
+      <circle cx="262" cy="155" r="2" fill="currentColor"/>
+      <circle cx="280" cy="155" r="2" fill="currentColor"/>
+      <circle cx="288" cy="155" r="2" fill="currentColor"/>
+        <text x="265" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">VALVE_A</text>
+  </g>
+  <g class="pneumatic-component" data-ref="CYL_A">
+
+      <!-- Cylinder body -->
+      <rect x="400" y="100" width="40" height="20"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- piston rod line -->
+      <line x1="390" y1="115" x2="400" y2="115" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Port A circle (left) -->
+      <circle cx="410" cy="130" r="2" fill="currentColor"/>
+
+      <!-- Port B circle (right) -->
+      <circle cx="430" cy="130" r="2" fill="currentColor"/>
+        <text x="420" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">CYL_A</text>
+  </g>
+  <g class="pneumatic-component" data-ref="SENS_A0">
+
+      <!-- Sensor body (rectangle) -->
+      <rect x="559" y="110"
+        width="12" height="10"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Sensing indicator (+ symbol) -->
+      <line x1="562" y1="115" x2="568" y2="115" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="565" y1="112" x2="565" y2="118" stroke="currentColor" stroke-width="1.5"/>
+
+      <!-- Connection line -->
+      <line x1="565" y1="120" x2="565" y2="125" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Label -->
+      <text x="565" y="107" font-size="7"
+        text-anchor="middle" fill="currentColor">PROX</text>
+        <text x="565" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">SENS_A0</text>
+  </g>
+  <g class="pneumatic-component" data-ref="SENS_A1">
+
+      <!-- Sensor body (rectangle) -->
+      <rect x="689" y="110"
+        width="12" height="10"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Sensing indicator (+ symbol) -->
+      <line x1="692" y1="115" x2="698" y2="115" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="695" y1="112" x2="695" y2="118" stroke="currentColor" stroke-width="1.5"/>
+
+      <!-- Connection line -->
+      <line x1="695" y1="120" x2="695" y2="125" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Label -->
+      <text x="695" y="107" font-size="7"
+        text-anchor="middle" fill="currentColor">PROX</text>
+        <text x="695" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">SENS_A1</text>
+  </g>
+  <g class="pneumatic-component" data-ref="VALVE_B">
+
+      <!-- Left position box (P->A, B->RB) -->
+      <rect x="810" y="100" width="25" height="50"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Right position box (P->B, A->RA) -->
+      <rect x="835" y="100" width="25" height="50"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- Flow paths in left position -->
+      <line x1="814" y1="145" x2="820" y2="105" stroke="currentColor" stroke-width="2"/>
+      <polygon points="820,105 818,110 822,110"
+        fill="currentColor"/>
+      <line x1="825" y1="145" x2="831" y2="105" stroke="currentColor" stroke-width="2"/>
+      <polygon points="831,105 829,110 833,110"
+        fill="currentColor"/>
+
+      <!-- Flow paths in right position -->
+      <line x1="839" y1="145" x2="851" y2="105" stroke="currentColor" stroke-width="2"/>
+      <line x1="845" y1="145" x2="839" y2="105" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Port connections -->
+      <circle cx="812" cy="155" r="2" fill="currentColor"/>
+      <circle cx="822" cy="155" r="2" fill="currentColor"/>
+      <circle cx="832" cy="155" r="2" fill="currentColor"/>
+      <circle cx="850" cy="155" r="2" fill="currentColor"/>
+      <circle cx="858" cy="155" r="2" fill="currentColor"/>
+        <text x="835" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">VALVE_B</text>
+  </g>
+  <g class="pneumatic-component" data-ref="CYL_B">
+
+      <!-- Cylinder body -->
+      <rect x="970" y="100" width="40" height="20"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- piston rod line -->
+      <line x1="960" y1="115" x2="970" y2="115" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Port A circle (left) -->
+      <circle cx="980" cy="130" r="2" fill="currentColor"/>
+
+      <!-- Port B circle (right) -->
+      <circle cx="1000" cy="130" r="2" fill="currentColor"/>
+        <text x="990" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">CYL_B</text>
+  </g>
+  <g class="pneumatic-component" data-ref="SENS_B0">
+
+      <!-- Sensor body (rectangle) -->
+      <rect x="1129" y="110"
+        width="12" height="10"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Sensing indicator (+ symbol) -->
+      <line x1="1132" y1="115" x2="1138" y2="115" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="1135" y1="112" x2="1135" y2="118" stroke="currentColor" stroke-width="1.5"/>
+
+      <!-- Connection line -->
+      <line x1="1135" y1="120" x2="1135" y2="125" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Label -->
+      <text x="1135" y="107" font-size="7"
+        text-anchor="middle" fill="currentColor">PROX</text>
+        <text x="1135" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">SENS_B0</text>
+  </g>
+  <g class="pneumatic-component" data-ref="SENS_B1">
+
+      <!-- Sensor body (rectangle) -->
+      <rect x="1259" y="110"
+        width="12" height="10"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Sensing indicator (+ symbol) -->
+      <line x1="1262" y1="115" x2="1268" y2="115" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="1265" y1="112" x2="1265" y2="118" stroke="currentColor" stroke-width="1.5"/>
+
+      <!-- Connection line -->
+      <line x1="1265" y1="120" x2="1265" y2="125" stroke="currentColor" stroke-width="2"/>
+
+      <!-- Label -->
+      <text x="1265" y="107" font-size="7"
+        text-anchor="middle" fill="currentColor">PROX</text>
+        <text x="1265" y="92" 
+        class="pneumatic-label" 
+        text-anchor="middle">SENS_B1</text>
+  </g>
+</g>
+<g class="pneumatic-grounds">
+</g>
+<g class="profile-metadata">
+  <text x="70" y="266" class="pneumatic-label">Pressure: 6 bar (operating)</text>
+  <text x="70" y="284" class="pneumatic-label">Flow Rate: 1200 L/min</text>
+</g>
+</svg>

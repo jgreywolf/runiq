@@ -1,6 +1,108 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="400" 
-    viewBox="0 0 220 400"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Container with Internal Edges Test</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="network-services"><rect x="0" y="0" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Network Services</text></g><g data-runiq-container="force-network"><rect x="0" y="230" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="250" class="runiq-container-label">Force Network</text></g></svg>
+    width="415.4073513661207" height="1182.2047661976287" 
+    viewBox="0 0 415.4073513661207 1182.2047661976287"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="network-services" data-container-id="network-services"><rect x="0" y="0" width="209.2" height="484" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Network Services</text></g><g data-runiq-container="force-network" data-container-id="force-network"><rect x="0" y="564" width="395.4073513661207" height="598.2047661976287" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="584" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Force Network</text></g><g data-runiq-edge="api-auth-0" data-edge-id="api-auth-0" data-edge-from="api" data-edge-to="auth"><defs>
+      <marker id="arrow-standard-api-auth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 127 122 L 127 157 L 72 157 L 72 202" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 127 122 L 127 157 L 72 157 L 72 202" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-auth)" pointer-events="none" /></g><g data-runiq-edge="api-db-1" data-edge-id="api-db-1" data-edge-from="api" data-edge-to="db"><defs>
+      <marker id="arrow-standard-api-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 127 122 Q 127 242 121.6 374" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 127 122 Q 127 242 121.6 374" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-db)" pointer-events="none" /></g><g data-runiq-edge="auth-db-2" data-edge-id="auth-db-2" data-edge-from="auth" data-edge-to="db"><defs>
+      <marker id="arrow-standard-auth-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 72 282 L 72 317 L 106 317 L 121.6 374" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 72 282 L 72 317 L 106 317 L 121.6 374" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-auth-db)" pointer-events="none" /></g><g data-runiq-edge="web-app-3" data-edge-id="web-app-3" data-edge-from="web" data-edge-to="app"><defs>
+      <marker id="arrow-standard-web-app" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 255.4073513661207 1042.2047661976287 L 197.70367568306034 1042.2047661976287 L 197.70367568306034 883.1396487823026 L 140 883.1396487823026" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 255.4073513661207 1042.2047661976287 L 197.70367568306034 1042.2047661976287 L 197.70367568306034 883.1396487823026 L 140 883.1396487823026" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-web-app)" pointer-events="none" /></g><g data-runiq-edge="app-cache-4" data-edge-id="app-cache-4" data-edge-from="app" data-edge-to="cache"><defs>
+      <marker id="arrow-standard-app-cache" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 110 843.1396487823026 L 110 777.5698243911513 L 276.99400389027943 777.5698243911513 L 276.99400389027943 712" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 110 843.1396487823026 L 110 777.5698243911513 L 276.99400389027943 777.5698243911513 L 276.99400389027943 712" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-app-cache)" pointer-events="none" /></g><g data-runiq-node="api" data-node-id="api" data-node-shape="service"><g><rect x="97" y="42" width="60" height="80" fill="#5a819e" stroke="#48677e" stroke-width="2" /><line x1="102" y1="62" x2="152" y2="62" stroke="#48677e" stroke-width="1" /><line x1="102" y1="82" x2="152" y2="82" stroke="#48677e" stroke-width="1" /><line x1="102" y1="102" x2="152" y2="102" stroke="#48677e" stroke-width="1" /><text x="127" y="87" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      API
+    </text></g></g><g data-runiq-node="auth" data-node-id="auth" data-node-shape="service"><g><rect x="42" y="202" width="60" height="80" fill="#73a3bf" stroke="#48677e" stroke-width="2" /><line x1="47" y1="222" x2="97" y2="222" stroke="#48677e" stroke-width="1" /><line x1="47" y1="242" x2="97" y2="242" stroke="#48677e" stroke-width="1" /><line x1="47" y1="262" x2="97" y2="262" stroke="#48677e" stroke-width="1" /><text x="72" y="247" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Auth
+    </text></g></g><g data-runiq-node="db" data-node-id="db" data-node-shape="database">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="121.6" cy="374" rx="45.6" ry="12" 
+                 fill="#96bacf" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="76" y="374" width="91.2" height="56" 
+              fill="#96bacf" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="76" y1="374" x2="76" y2="430" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="167.2" y1="374" x2="167.2" y2="430" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 76,430 Q 121.6,454 167.2,430"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="121.6" y="402" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Database
+    </text>
+      </g>
+    </g><g data-runiq-node="web" data-node-id="web" data-node-shape="server"><g><rect x="255.4073513661207" y="1002.2047661976287" width="60" height="80" fill="#48677e" stroke="#48677e" stroke-width="2" /><line x1="260.4073513661207" y1="1022.2047661976287" x2="310.4073513661207" y2="1022.2047661976287" stroke="#48677e" stroke-width="1" /><line x1="260.4073513661207" y1="1042.2047661976287" x2="310.4073513661207" y2="1042.2047661976287" stroke="#48677e" stroke-width="1" /><line x1="260.4073513661207" y1="1062.2047661976287" x2="310.4073513661207" y2="1062.2047661976287" stroke="#48677e" stroke-width="1" /><text x="285.4073513661207" y="1047.2047661976287" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web Server
+    </text></g></g><g data-runiq-node="app" data-node-id="app" data-node-shape="service"><g><rect x="80" y="843.1396487823026" width="60" height="80" fill="#364d5f" stroke="#48677e" stroke-width="2" /><line x1="85" y1="863.1396487823026" x2="135" y2="863.1396487823026" stroke="#48677e" stroke-width="1" /><line x1="85" y1="883.1396487823026" x2="135" y2="883.1396487823026" stroke="#48677e" stroke-width="1" /><line x1="85" y1="903.1396487823026" x2="135" y2="903.1396487823026" stroke="#48677e" stroke-width="1" /><text x="110" y="888.1396487823026" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      App Server
+    </text></g></g><g data-runiq-node="cache" data-node-id="cache" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="276.99400389027943" cy="656" rx="33" ry="12" 
+                 fill="#5a819e" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="243.99400389027943" y="656" width="66" height="56" 
+              fill="#5a819e" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="243.99400389027943" y1="656" x2="243.99400389027943" y2="712" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="309.99400389027943" y1="656" x2="309.99400389027943" y2="712" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 243.99400389027943,712 Q 276.99400389027943,736 309.99400389027943,712"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="276.99400389027943" y="684" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Redis
+    </text>
+      </g>
+    </g></svg>

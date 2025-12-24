@@ -1,8 +1,165 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="280" height="690" 
-    viewBox="0 0 280 690"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Container Direction Test</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="vert"><rect x="0" y="0" width="200" height="150" 
-    fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Vertical Flow</text></g><g data-runiq-container="horiz"><rect x="0" y="230" width="200" height="150" 
-    fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="8" /><text x="10" y="250" class="runiq-container-label">Horizontal Flow</text></g><g data-runiq-container="outer"><rect x="0" y="460" width="260" height="210" 
-    fill="#e8f5e9" stroke="#388e3c" stroke-width="3" rx="8" /><text x="10" y="480" class="runiq-container-label">Outer Container (TB)</text><g data-runiq-container="inner"><rect x="30" y="490" width="200" height="150" 
-    fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="8" /><text x="40" y="510" class="runiq-container-label">Inner Container (LR)</text></g></g></svg>
+    width="622.8000000000001" height="1088" 
+    viewBox="0 0 622.8000000000001 1088"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="vert" data-container-id="vert"><rect x="0" y="0" width="158.4" height="366.4" 
+    fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Vertical Flow</text></g><g data-runiq-container="horiz" data-container-id="horiz"><rect x="0" y="446.4" width="467.20000000000005" height="124.8" 
+    fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="8" /><text x="10" y="466.4" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Horizontal Flow</text></g><g data-runiq-container="outer" data-container-id="outer"><rect x="0" y="651.2" width="602.8000000000001" height="416.8" 
+    fill="#e8f5e9" stroke="#388e3c" stroke-width="3" rx="8" /><text x="10" y="671.2" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Outer Container (TB)</text><g data-runiq-container="inner" data-container-id="inner"><rect x="30" y="913.2" width="542.8000000000001" height="124.8" 
+    fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="8" /><text x="40" y="933.2" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Inner Container (LR)</text></g></g><g data-runiq-edge="a-b-0" data-edge-id="a-b-0" data-edge-from="a" data-edge-to="b"><defs>
+      <marker id="arrow-standard-a-b" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 79.2 82.8 L 79.2 122.80000000000001 L 79.2 122.80000000000001 L 79.2 162.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 79.2 82.8 L 79.2 122.80000000000001 L 79.2 122.80000000000001 L 79.2 162.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-a-b)" pointer-events="none" /></g><g data-runiq-edge="b-c-1" data-edge-id="b-c-1" data-edge-from="b" data-edge-to="c"><defs>
+      <marker id="arrow-standard-b-c" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 79.2 203.60000000000002 L 79.2 243.60000000000002 L 79.2 243.60000000000002 L 79.2 283.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 79.2 203.60000000000002 L 79.2 243.60000000000002 L 79.2 243.60000000000002 L 79.2 283.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-b-c)" pointer-events="none" /></g><g data-runiq-edge="x-y-2" data-edge-id="x-y-2" data-edge-from="x" data-edge-to="y"><defs>
+      <marker id="arrow-standard-x-y" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 116.4 508.79999999999995 L 156.4 508.79999999999995 L 156.4 508.79999999999995 L 196.4 508.79999999999995" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 116.4 508.79999999999995 L 156.4 508.79999999999995 L 156.4 508.79999999999995 L 196.4 508.79999999999995" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-x-y)" pointer-events="none" /></g><g data-runiq-edge="y-z-3" data-edge-id="y-z-3" data-edge-from="y" data-edge-to="z"><defs>
+      <marker id="arrow-standard-y-z" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 270.8 508.79999999999995 L 310.8 508.79999999999995 L 310.8 508.79999999999995 L 350.8 508.79999999999995" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 270.8 508.79999999999995 L 310.8 508.79999999999995 L 310.8 508.79999999999995 L 350.8 508.79999999999995" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-y-z)" pointer-events="none" /></g><g data-runiq-edge="p1-p2-4" data-edge-id="p1-p2-4" data-edge-from="p1" data-edge-to="p2"><defs>
+      <marker id="arrow-standard-p1-p2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 171.60000000000002 975.6 L 211.60000000000002 975.6 L 211.60000000000002 975.6 L 251.60000000000002 975.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 171.60000000000002 975.6 L 211.60000000000002 975.6 L 211.60000000000002 975.6 L 251.60000000000002 975.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-p1-p2)" pointer-events="none" /></g><g data-runiq-edge="p2-p3-5" data-edge-id="p2-p3-5" data-edge-from="p2" data-edge-to="p3"><defs>
+      <marker id="arrow-standard-p2-p3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 351.20000000000005 975.6 L 391.20000000000005 975.6 L 391.20000000000005 975.6 L 431.20000000000005 975.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 351.20000000000005 975.6 L 391.20000000000005 975.6 L 391.20000000000005 975.6 L 431.20000000000005 975.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-p2-p3)" pointer-events="none" /></g><g data-runiq-edge="start-p1" data-edge-id="start-p1" data-edge-from="start" data-edge-to="p1"><defs>
+      <marker id="arrow-standard-start-p1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 92 693.2 L 92 849.4000000000001 L 121.80000000000001 849.4000000000001 L 121.80000000000001 955.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 92 693.2 L 92 849.4000000000001 L 121.80000000000001 849.4000000000001 L 121.80000000000001 955.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-p1)" pointer-events="none" /></g><g data-runiq-edge="p3-end" data-edge-id="p3-end" data-edge-from="p3" data-edge-to="end"><defs>
+      <marker id="arrow-standard-p3-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 481.00000000000006 955.2 L 481.00000000000006 889.4000000000001 L 92 889.4000000000001 L 92 773.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 481.00000000000006 955.2 L 481.00000000000006 889.4000000000001 L 92 889.4000000000001 L 92 773.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-p3-end)" pointer-events="none" /></g><g data-runiq-node="a" data-node-id="a" data-node-shape="rounded">
+      <rect x="42" y="42" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="79.2" y="62.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Step A
+    </text>
+    </g><g data-runiq-node="b" data-node-id="b" data-node-shape="rounded">
+      <rect x="42" y="162.8" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="79.2" y="183.20000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Step B
+    </text>
+    </g><g data-runiq-node="c" data-node-id="c" data-node-shape="rounded">
+      <rect x="42" y="283.6" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="79.2" y="304" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Step C
+    </text>
+    </g><g data-runiq-node="x" data-node-id="x" data-node-shape="rounded">
+      <rect x="42" y="488.4" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="79.2" y="508.79999999999995" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Step X
+    </text>
+    </g><g data-runiq-node="y" data-node-id="y" data-node-shape="rounded">
+      <rect x="196.4" y="488.4" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="233.60000000000002" y="508.79999999999995" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Step Y
+    </text>
+    </g><g data-runiq-node="z" data-node-id="z" data-node-shape="rounded">
+      <rect x="350.8" y="488.4" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="388" y="508.79999999999995" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Step Z
+    </text>
+    </g><g data-runiq-node="start" data-node-id="start" data-node-shape="hexagon">
+      <polygon points="57,693.2 127,693.2 142,723.2 127,753.2 57,753.2 42,723.2" 
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="92" y="723.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Start
+    </text>
+    </g><g data-runiq-node="end" data-node-id="end" data-node-shape="hexagon">
+      <polygon points="57,773.2 127,773.2 142,803.2 127,833.2 57,833.2 42,803.2" 
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="92" y="803.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      End
+    </text>
+    </g><g data-runiq-node="p1" data-node-id="p1" data-node-shape="rounded">
+      <rect x="72" y="955.2" width="99.60000000000001" height="40.8"
+            rx="8" ry="8" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="121.80000000000001" y="975.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Process 1
+    </text>
+    </g><g data-runiq-node="p2" data-node-id="p2" data-node-shape="rounded">
+      <rect x="251.60000000000002" y="955.2" width="99.60000000000001" height="40.8"
+            rx="8" ry="8" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="301.40000000000003" y="975.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Process 2
+    </text>
+    </g><g data-runiq-node="p3" data-node-id="p3" data-node-shape="rounded">
+      <rect x="431.20000000000005" y="955.2" width="99.60000000000001" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="481.00000000000006" y="975.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Process 3
+    </text>
+    </g></svg>

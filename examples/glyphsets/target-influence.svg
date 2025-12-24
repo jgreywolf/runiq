@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="472" height="472" 
+    viewBox="0 0 472 472"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="target" data-node-id="target" data-node-shape="target">
+      <circle 
+        cx="232" 
+        cy="232" 
+        r="200" 
+        fill="#66BB6A" 
+        stroke="#333" 
+        stroke-width="2"
+        opacity="0.9"
+      />
+      <text 
+        x="232" 
+        y="57" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="14"
+        font-weight="500"
+        fill="#333"
+      >
+        Minimal Influence
+      </text>
+      <circle 
+        cx="232" 
+        cy="232" 
+        r="140" 
+        fill="#43A047" 
+        stroke="#333" 
+        stroke-width="2"
+        opacity="0.9"
+      />
+      <text 
+        x="232" 
+        y="134" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="14"
+        font-weight="500"
+        fill="#333"
+      >
+        Moderate Influence
+      </text>
+      <circle 
+        cx="232" 
+        cy="232" 
+        r="80" 
+        fill="#2E7D32" 
+        stroke="#333" 
+        stroke-width="2"
+        opacity="0.9"
+      />
+      <text 
+        x="232" 
+        y="232" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="14"
+        font-weight="500"
+        fill="#333"
+      >
+        Direct Influence
+      </text></g></svg>

@@ -709,8 +709,8 @@ See the [examples/sequence](/examples/sequence-diagrams) directory for complete 
 
 - [Profiles](/guide/profiles)
 - [Shape Reference - UML Shapes](/reference/shapes#_10-uml-shapes-22-shapes)
-- [UML Class Diagrams](/guide/class-diagrams)
-- [Use Case Diagrams](/guide/use-case-diagrams)
+- [UML Class Diagrams](/guide/diagram-types/class-diagrams)
+- [Use Case Diagrams](/guide/diagram-types/use-case-diagrams)
 
 ## Resources
 

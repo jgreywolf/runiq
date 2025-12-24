@@ -1,6 +1,90 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="400" 
-    viewBox="0 0 220 400"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Algorithm Showcase</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="stress-algorithm"><rect x="0" y="0" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Stress Algorithm</text></g><g data-runiq-container="layered-algorithm"><rect x="0" y="230" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="250" class="runiq-container-label">Layered Algorithm</text></g></svg>
+    width="380" height="951.2" 
+    viewBox="0 0 380 951.2"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="stress-algorithm" data-container-id="stress-algorithm"><rect x="0" y="0" width="360" height="560" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Stress Algorithm</text></g><g data-runiq-container="layered-algorithm" data-container-id="layered-algorithm"><rect x="0" y="640" width="171.2" height="291.2" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="660" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Layered Algorithm</text></g><g data-runiq-node="svc1" data-node-id="svc1" data-node-shape="service"><g><rect x="80" y="80" width="60" height="80" fill="#5a819e" stroke="#48677e" stroke-width="2" /><line x1="85" y1="100" x2="135" y2="100" stroke="#48677e" stroke-width="1" /><line x1="85" y1="120" x2="135" y2="120" stroke="#48677e" stroke-width="1" /><line x1="85" y1="140" x2="135" y2="140" stroke="#48677e" stroke-width="1" /><text x="110" y="125" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Service 1
+    </text></g></g><g data-runiq-node="svc2" data-node-id="svc2" data-node-shape="service"><g><rect x="220" y="80" width="60" height="80" fill="#73a3bf" stroke="#48677e" stroke-width="2" /><line x1="225" y1="100" x2="275" y2="100" stroke="#48677e" stroke-width="1" /><line x1="225" y1="120" x2="275" y2="120" stroke="#48677e" stroke-width="1" /><line x1="225" y1="140" x2="275" y2="140" stroke="#48677e" stroke-width="1" /><text x="250" y="125" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Service 2
+    </text></g></g><g data-runiq-node="svc3" data-node-id="svc3" data-node-shape="service"><g><rect x="80" y="240" width="60" height="80" fill="#96bacf" stroke="#48677e" stroke-width="2" /><line x1="85" y1="260" x2="135" y2="260" stroke="#48677e" stroke-width="1" /><line x1="85" y1="280" x2="135" y2="280" stroke="#48677e" stroke-width="1" /><line x1="85" y1="300" x2="135" y2="300" stroke="#48677e" stroke-width="1" /><text x="110" y="285" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Service 3
+    </text></g></g><g data-runiq-node="svc4" data-node-id="svc4" data-node-shape="service"><g><rect x="80" y="400" width="60" height="80" fill="#48677e" stroke="#48677e" stroke-width="2" /><line x1="85" y1="420" x2="135" y2="420" stroke="#48677e" stroke-width="1" /><line x1="85" y1="440" x2="135" y2="440" stroke="#48677e" stroke-width="1" /><line x1="85" y1="460" x2="135" y2="460" stroke="#48677e" stroke-width="1" /><text x="110" y="445" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Service 4
+    </text></g></g><g data-runiq-node="svc5" data-node-id="svc5" data-node-shape="service"><g><rect x="220" y="240" width="60" height="80" fill="#364d5f" stroke="#48677e" stroke-width="2" /><line x1="225" y1="260" x2="275" y2="260" stroke="#48677e" stroke-width="1" /><line x1="225" y1="280" x2="275" y2="280" stroke="#48677e" stroke-width="1" /><line x1="225" y1="300" x2="275" y2="300" stroke="#48677e" stroke-width="1" /><text x="250" y="285" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Service 5
+    </text></g></g><g data-runiq-node="node1" data-node-id="node1" data-node-shape="rect">
+      <rect x="42" y="795.6" width="87.2" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="85.6" y="814" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Layer 1A
+    </text>
+    </g><g data-runiq-node="node2" data-node-id="node2" data-node-shape="rect">
+      <rect x="42" y="852.4" width="87.2" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="85.6" y="870.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Layer 1B
+    </text>
+    </g><g data-runiq-node="node3" data-node-id="node3" data-node-shape="rect">
+      <rect x="42" y="682" width="78.80000000000001" height="36.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="81.4" y="700.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Layer 2
+    </text>
+    </g><g data-runiq-node="node4" data-node-id="node4" data-node-shape="rect">
+      <rect x="42" y="738.8" width="78.80000000000001" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="81.4" y="757.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Layer 3
+    </text>
+    </g></svg>

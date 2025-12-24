@@ -2,7 +2,7 @@
 
 UML State Machine Diagrams (also called statecharts) model the behavior of objects through states, transitions, and events.
 
-For comprehensive documentation on state machine syntax and features, see the [State Machine Diagrams Guide](/guide/state-machine-diagrams).
+For comprehensive documentation on state machine syntax and features, see the [State Machine Diagrams Guide](/guide/diagram-types/state-machine-diagrams).
 
 ## Traffic Light Controller
 
@@ -12,72 +12,72 @@ Classic traffic light with normal cycle, pedestrian crossing, and emergency mode
 
 ```runiq
 diagram "Traffic Light State Machine" {
-  
+
   // Traffic light states with timing actions
   shape initial as @initialState
-  
-  shape red as @state 
-    label:"Red" 
-    entry:"turnOnRed() ; startTimer(30)" 
-    doActivity:"enforceStop()" 
+
+  shape red as @state
+    label:"Red"
+    entry:"turnOnRed() ; startTimer(30)"
+    doActivity:"enforceStop()"
     exit:"turnOffRed() ; clearTimer()"
-  
-  shape yellow as @state 
-    label:"Yellow" 
-    entry:"turnOnYellow() ; startTimer(5)" 
-    doActivity:"warnDrivers()" 
+
+  shape yellow as @state
+    label:"Yellow"
+    entry:"turnOnYellow() ; startTimer(5)"
+    doActivity:"warnDrivers()"
     exit:"turnOffYellow()"
-  
-  shape green as @state 
-    label:"Green" 
-    entry:"turnOnGreen() ; startTimer(45)" 
-    doActivity:"allowTraffic()" 
+
+  shape green as @state
+    label:"Green"
+    entry:"turnOnGreen() ; startTimer(45)"
+    doActivity:"allowTraffic()"
     exit:"turnOffGreen()"
-  
+
   // Pedestrian crossing state
-  shape pedestrianCrossing as @state 
-    label:"Pedestrian Crossing" 
-    entry:"turnOnRedLight() ; activateCrosswalk() ; startTimer(15)" 
-    doActivity:"displayWalkSign() ; monitorCrossing()" 
+  shape pedestrianCrossing as @state
+    label:"Pedestrian Crossing"
+    entry:"turnOnRedLight() ; activateCrosswalk() ; startTimer(15)"
+    doActivity:"displayWalkSign() ; monitorCrossing()"
     exit:"deactivateCrosswalk() ; displayDontWalk()"
-  
+
   // Emergency mode
-  shape emergency as @state 
-    label:"Emergency Mode" 
-    entry:"flashAllRed() ; soundAlarm()" 
-    doActivity:"prioritizeEmergencyVehicle()" 
+  shape emergency as @state
+    label:"Emergency Mode"
+    entry:"flashAllRed() ; soundAlarm()"
+    doActivity:"prioritizeEmergencyVehicle()"
     exit:"resumeNormalOperation()"
-  
+
   // Malfunction
-  shape malfunction as @state 
-    label:"Malfunction" 
-    entry:"flashYellow() ; notifyControl()" 
-    doActivity:"logIssue()" 
+  shape malfunction as @state
+    label:"Malfunction"
+    entry:"flashYellow() ; notifyControl()"
+    doActivity:"logIssue()"
     exit:"resetSystem()"
-  
+
   shape final as @finalState
-  
+
   // Normal cycle
   initial -> red
   red -> green label:"timerExpired"
   green -> yellow label:"timerExpired"
   yellow -> red label:"timerExpired"
-  
+
   // Pedestrian button
   red -> pedestrianCrossing label:"pedestrianButton"
   pedestrianCrossing -> green label:"timerExpired"
-  
+
   // Emergency override
   red -> emergency label:"emergencySignal"
   green -> emergency label:"emergencySignal"
   yellow -> emergency label:"emergencySignal"
   emergency -> red label:"emergencyCleared"
-  
+
   // Malfunction handling
   red -> malfunction label:"sensorFailure"
   green -> malfunction label:"sensorFailure"
   malfunction -> red label:"systemReset"
-  
+
   // Shutdown
   red -> final label:"shutdown"
 }
@@ -100,6 +100,7 @@ Each state has three types of actions:
 3. **Exit**: Run once when leaving state
 
 Example:
+
 ```
 Red State:
   Entry: turnOnRed() ; startTimer(30)
@@ -109,12 +110,12 @@ Red State:
 
 ### Transition Events
 
-| Event | Source State | Target State | Purpose |
-|-------|--------------|--------------|---------|
-| `timerExpired` | Red → Green | Green | Normal cycle progression |
-| `pedestrianButton` | Red → Crossing | Pedestrian Crossing | Pedestrian request |
-| `emergencySignal` | Any → Emergency | Emergency Mode | Emergency vehicle priority |
-| `sensorFailure` | Any → Malfunction | Malfunction | Fault detection |
+| Event              | Source State      | Target State        | Purpose                    |
+| ------------------ | ----------------- | ------------------- | -------------------------- |
+| `timerExpired`     | Red → Green       | Green               | Normal cycle progression   |
+| `pedestrianButton` | Red → Crossing    | Pedestrian Crossing | Pedestrian request         |
+| `emergencySignal`  | Any → Emergency   | Emergency Mode      | Emergency vehicle priority |
+| `sensorFailure`    | Any → Malfunction | Malfunction         | Fault detection            |
 
 ---
 
@@ -126,29 +127,29 @@ Electronic door lock with alarm and tamper detection.
 
 ```runiq
 diagram "Door Lock State Machine" {
-  
+
   // States with entry/exit actions
   shape initial as @initialState
-  
-  shape unlocked as @state 
-    label:"Unlocked" 
-    entry:"releaseLockBolt()" 
-    doActivity:"monitorDoor()" 
+
+  shape unlocked as @state
+    label:"Unlocked"
+    entry:"releaseLockBolt()"
+    doActivity:"monitorDoor()"
     exit:"stopMonitoring()"
-  
-  shape locked as @state 
-    label:"Locked" 
-    entry:"engageLockBolt() ; enableAlarm()" 
+
+  shape locked as @state
+    label:"Locked"
+    entry:"engageLockBolt() ; enableAlarm()"
     exit:"disableAlarm()"
-  
-  shape alarmed as @state 
-    label:"Alarmed" 
-    entry:"soundAlarm() ; notifySecurity()" 
-    doActivity:"flashLights()" 
+
+  shape alarmed as @state
+    label:"Alarmed"
+    entry:"soundAlarm() ; notifySecurity()"
+    doActivity:"flashLights()"
     exit:"silenceAlarm()"
-  
+
   shape final as @finalState
-  
+
   // Transitions with events
   initial -> unlocked
   unlocked -> locked label:"lock"
@@ -193,72 +194,72 @@ Product vending machine with payment processing and error handling.
 
 ```runiq
 diagram "Vending Machine State Machine" {
-  
+
   // Initial and idle states
   shape initial as @initialState
-  
-  shape idle as @state 
-    label:"Idle" 
-    entry:"displayWelcome()" 
+
+  shape idle as @state
+    label:"Idle"
+    entry:"displayWelcome()"
     doActivity:"showAdvertisement()"
-  
+
   // Selection and payment
-  shape selecting as @state 
-    label:"Selecting Product" 
-    entry:"enableSelection()" 
-    doActivity:"highlightAvailable()" 
+  shape selecting as @state
+    label:"Selecting Product"
+    entry:"enableSelection()"
+    doActivity:"highlightAvailable()"
     exit:"disableSelection()"
-  
-  shape processing as @state 
-    label:"Processing Payment" 
-    entry:"validateCard()" 
-    doActivity:"contactPaymentGateway()" 
+
+  shape processing as @state
+    label:"Processing Payment"
+    entry:"validateCard()"
+    doActivity:"contactPaymentGateway()"
     exit:"finalizeTransaction()"
-  
+
   // Dispensing with complex actions
-  shape dispensing as @state 
-    label:"Dispensing" 
-    entry:"openDispenser() ; releaseProduct()" 
-    doActivity:"checkDispenseComplete()" 
+  shape dispensing as @state
+    label:"Dispensing"
+    entry:"openDispenser() ; releaseProduct()"
+    doActivity:"checkDispenseComplete()"
     exit:"closeDispenser() ; updateInventory()"
-  
+
   // Error handling states
-  shape outOfStock as @state 
-    label:"Out of Stock" 
-    entry:"displayOutOfStock() ; suggestAlternatives()" 
+  shape outOfStock as @state
+    label:"Out of Stock"
+    entry:"displayOutOfStock() ; suggestAlternatives()"
     exit:"clearDisplay()"
-  
-  shape paymentFailed as @state 
-    label:"Payment Failed" 
-    entry:"displayError() ; returnCard()" 
-    doActivity:"waitForCustomerAction()" 
+
+  shape paymentFailed as @state
+    label:"Payment Failed"
+    entry:"displayError() ; returnCard()"
+    doActivity:"waitForCustomerAction()"
     exit:"resetPayment()"
-  
-  shape dispenseFailed as @state 
-    label:"Dispense Failed" 
-    entry:"displayApology() ; initiateRefund()" 
+
+  shape dispenseFailed as @state
+    label:"Dispense Failed"
+    entry:"displayApology() ; initiateRefund()"
     exit:"notifyMaintenance()"
-  
+
   // Maintenance
-  shape maintenance as @state 
-    label:"Maintenance Mode" 
-    entry:"lockAllControls() ; displayMaintenance()" 
+  shape maintenance as @state
+    label:"Maintenance Mode"
+    entry:"lockAllControls() ; displayMaintenance()"
     exit:"unlockControls()"
-  
+
   // Transitions
   initial -> idle
-  
+
   idle -> selecting label:"selectButton"
   selecting -> processing label:"confirmSelection"
   selecting -> outOfStock label:"[productUnavailable]"
   selecting -> idle label:"cancel"
-  
+
   processing -> dispensing label:"[paymentSuccess]"
   processing -> paymentFailed label:"[paymentFailed]"
-  
+
   dispensing -> idle label:"[success]"
   dispensing -> dispenseFailed label:"[mechanicalError]"
-  
+
   outOfStock -> idle label:"timeout"
   paymentFailed -> idle label:"timeout"
   dispenseFailed -> idle label:"acknowledged"
@@ -287,15 +288,16 @@ Idle → Selecting → Processing → Dispensing → Idle
 
 ### Error Handling Paths
 
-| Error Condition | State | Recovery |
-|----------------|-------|----------|
-| Product unavailable | Out of Stock | Timeout → Idle |
-| Payment declined | Payment Failed | Timeout → Idle |
-| Dispense jam | Dispense Failed | Acknowledged → Idle |
+| Error Condition     | State           | Recovery            |
+| ------------------- | --------------- | ------------------- |
+| Product unavailable | Out of Stock    | Timeout → Idle      |
+| Payment declined    | Payment Failed  | Timeout → Idle      |
+| Dispense jam        | Dispense Failed | Acknowledged → Idle |
 
 ### State Actions Detail
 
 **Dispensing State**:
+
 - Entry: `openDispenser()`, `releaseProduct()`
 - Do: `checkDispenseComplete()` (continuous monitoring)
 - Exit: `closeDispenser()`, `updateInventory()`
@@ -312,73 +314,73 @@ Hierarchical states with substates (order processing).
 
 ```runiq
 diagram "Order State Machine with Composite States" {
-  
+
   shape initial as @initialState
-  
+
   // Composite state containing substates
-  shape processing as @compositeState 
-    label:"Processing Order" 
-    entry:"startOrderProcessing()" 
+  shape processing as @compositeState
+    label:"Processing Order"
+    entry:"startOrderProcessing()"
     exit:"completeProcessing()"
-  
+
   // Substates within Processing
   container processingContainer within:processing {
     shape subInitial as @initialState
-    
-    shape validating as @state 
-      label:"Validating" 
-      entry:"checkInventory()" 
+
+    shape validating as @state
+      label:"Validating"
+      entry:"checkInventory()"
       exit:"saveValidation()"
-    
-    shape charging as @state 
-      label:"Charging Payment" 
-      entry:"authorizeCard()" 
+
+    shape charging as @state
+      label:"Charging Payment"
+      entry:"authorizeCard()"
       exit:"savePayment()"
-    
-    shape preparing as @state 
-      label:"Preparing Shipment" 
-      entry:"generateLabel()" 
+
+    shape preparing as @state
+      label:"Preparing Shipment"
+      entry:"generateLabel()"
       exit:"notifyWarehouse()"
-    
+
     // Internal transitions
     subInitial -> validating
     validating -> charging label:"[valid]"
     charging -> preparing label:"[charged]"
   }
-  
+
   // Top-level states
-  shape pending as @state 
-    label:"Pending" 
+  shape pending as @state
+    label:"Pending"
     entry:"createOrderRecord()"
-  
-  shape shipped as @state 
-    label:"Shipped" 
-    entry:"updateTrackingInfo()" 
+
+  shape shipped as @state
+    label:"Shipped"
+    entry:"updateTrackingInfo()"
     doActivity:"monitorDelivery()"
-  
-  shape delivered as @state 
-    label:"Delivered" 
+
+  shape delivered as @state
+    label:"Delivered"
     entry:"confirmDelivery() ; emailReceipt()"
-  
-  shape cancelled as @state 
-    label:"Cancelled" 
+
+  shape cancelled as @state
+    label:"Cancelled"
     entry:"processRefund() ; notifyCustomer()"
-  
+
   shape final as @finalState
-  
+
   // Top-level transitions
   initial -> pending
   pending -> processing label:"paymentStarted"
   processing -> shipped label:"processingComplete"
   processing -> cancelled label:"paymentFailed"
-  
+
   shipped -> delivered label:"delivered"
   delivered -> final label:"acknowledged"
-  
+
   // Cancellation from any state
   pending -> cancelled label:"customerCancel"
   shipped -> cancelled label:"returnRequested"
-  
+
   cancelled -> final label:"refundCompleted"
 }
 ```
@@ -419,32 +421,32 @@ State machine that remembers previous state (media player).
 
 ```runiq
 diagram "Media Player with History" {
-  
+
   shape initial as @initialState
-  
-  shape stopped as @state 
-    label:"Stopped" 
-    entry:"resetPlayhead()" 
+
+  shape stopped as @state
+    label:"Stopped"
+    entry:"resetPlayhead()"
     exit:"savePosition()"
-  
-  shape playing as @state 
-    label:"Playing" 
-    entry:"resumePlayback()" 
-    doActivity:"streamAudio()" 
+
+  shape playing as @state
+    label:"Playing"
+    entry:"resumePlayback()"
+    doActivity:"streamAudio()"
     exit:"pauseStream()"
-  
-  shape paused as @state 
-    label:"Paused" 
-    entry:"displayPauseIcon()" 
+
+  shape paused as @state
+    label:"Paused"
+    entry:"displayPauseIcon()"
     exit:"hidePauseIcon()"
-  
+
   // History state - remembers last active state
   shape history as @historyState label:"H"
-  
+
   // Volume adjustment composite state
-  shape adjustingVolume as @compositeState 
+  shape adjustingVolume as @compositeState
     label:"Adjusting Volume"
-  
+
   // Transitions
   initial -> stopped
   stopped -> playing label:"play"
@@ -452,10 +454,10 @@ diagram "Media Player with History" {
   paused -> playing label:"resume"
   playing -> stopped label:"stop"
   paused -> stopped label:"stop"
-  
+
   // History transition
   stopped -> history label:"restoreLast"
-  
+
   // Volume adjustment from any state
   playing -> adjustingVolume label:"volumeButton"
   paused -> adjustingVolume label:"volumeButton"
@@ -473,6 +475,7 @@ diagram "Media Player with History" {
 ### History State Usage
 
 When transitioning to history state:
+
 1. System recalls last active state in that region
 2. Transitions back to that state automatically
 3. Useful for "restore last session" functionality
@@ -488,7 +491,7 @@ When transitioning to history state:
 
 ## Related Resources
 
-- [State Machine Diagrams Guide](/guide/state-machine-diagrams) - Complete syntax reference with all features
+- [State Machine Diagrams Guide](/guide/diagram-types/state-machine-diagrams) - Complete syntax reference with all features
 - [UML State Machine Specification](https://www.omg.org/spec/UML/) - Official UML 2.5 statechart semantics
 - [Diagram Profile](/guide/profiles#diagram-profile) - Overview of diagram capabilities
 
@@ -496,20 +499,20 @@ When transitioning to history state:
 
 ### States
 
-| Element | Shape | Description |
-|---------|-------|-------------|
-| Initial State | ● (filled circle) | Starting point of state machine |
-| State | Rounded rectangle | Normal state with entry/do/exit |
-| Final State | ⊙ (bull's-eye) | Terminal state, ends state machine |
-| Composite State | Rounded rectangle with substates | Contains nested state machine |
-| History State | ⊙H | Remembers last active substate |
+| Element         | Shape                            | Description                        |
+| --------------- | -------------------------------- | ---------------------------------- |
+| Initial State   | ● (filled circle)                | Starting point of state machine    |
+| State           | Rounded rectangle                | Normal state with entry/do/exit    |
+| Final State     | ⊙ (bull's-eye)                   | Terminal state, ends state machine |
+| Composite State | Rounded rectangle with substates | Contains nested state machine      |
+| History State   | ⊙H                               | Remembers last active substate     |
 
 ### State Actions
 
 States can have three types of actions:
 
 ```runiq
-shape myState as @state 
+shape myState as @state
   label:"State Name"
   entry:"executeOnEntry()"
   doActivity:"executeContinuously()"
@@ -560,6 +563,7 @@ processing -> failed label:"[paymentDeclined]"
 ### Composite States
 
 Use composite states when:
+
 - Multiple substates share common behavior
 - Need to abstract internal complexity
 - Want to group related states logically
@@ -568,6 +572,7 @@ Use composite states when:
 ### History States
 
 Use history states for:
+
 - Restoring user context after interruptions
 - Multi-step wizards or forms
 - Media playback applications
@@ -576,11 +581,13 @@ Use history states for:
 ### Common Patterns
 
 #### 1. Timeout Pattern
+
 ```runiq
 state1 -> state2 label:"timeout(30s)"
 ```
 
 #### 2. Error Recovery Pattern
+
 ```runiq
 normalState -> errorState label:"error"
 errorState -> normalState label:"retry"
@@ -588,12 +595,14 @@ errorState -> failed label:"maxRetriesExceeded"
 ```
 
 #### 3. Modal Behavior Pattern
+
 ```runiq
 anyState -> modalState label:"openModal"
 modalState -> historyState label:"closeModal"
 ```
 
 #### 4. Initialization Pattern
+
 ```runiq
 initial -> loadingState
 loadingState -> readyState label:"[loadComplete]"
@@ -602,21 +611,23 @@ loadingState -> errorState label:"[loadFailed]"
 
 ## State Machine vs. Activity Diagram
 
-| Feature | State Machine | Activity Diagram |
-|---------|--------------|------------------|
-| **Focus** | Object states over time | Workflow steps and processes |
-| **Nodes** | States (modes of being) | Activities (things to do) |
-| **Transitions** | Event-driven | Control flow, data flow |
-| **Use Case** | Reactive systems, protocols | Business processes, algorithms |
-| **Examples** | UI states, device modes | Order processing, CI/CD pipeline |
+| Feature         | State Machine               | Activity Diagram                 |
+| --------------- | --------------------------- | -------------------------------- |
+| **Focus**       | Object states over time     | Workflow steps and processes     |
+| **Nodes**       | States (modes of being)     | Activities (things to do)        |
+| **Transitions** | Event-driven                | Control flow, data flow          |
+| **Use Case**    | Reactive systems, protocols | Business processes, algorithms   |
+| **Examples**    | UI states, device modes     | Order processing, CI/CD pipeline |
 
 **When to use State Machine**:
+
 - Modeling object lifecycle (Order: Pending → Processing → Shipped)
 - Device controllers (Traffic light, thermostat)
 - Protocol implementations (TCP state machine)
 - UI component states (Button: enabled, disabled, focused)
 
 **When to use Activity Diagram**:
+
 - Business process workflows
 - Algorithm flowcharts
 - Multi-step procedures

@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="572" height="562" 
+    viewBox="0 0 572 562"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="pictureBlocks" data-node-id="pictureBlocks" data-node-shape="pictureBlocks"><rect x="12" y="12" width="540" height="530" fill="white" stroke="#e0e0e0" stroke-width="1" rx="8"/>
+<defs>
+  <clipPath id="clip-blocks-pictureBlocks-0">
+    <rect x="32" y="32" width="200" height="150" rx="8"/>
+  </clipPath>
+</defs>
+<rect x="32" y="32" width="200" height="150" fill="#5B9BD5" opacity="0.1" rx="8"/>
+<image href="https://i.pravatar.cc/300?img=25" x="32" y="32" width="200" height="150" clip-path="url(#clip-blocks-pictureBlocks-0)" preserveAspectRatio="xMidYMid slice"/>
+<rect x="32" y="32" width="200" height="150" fill="none" stroke="#5B9BD5" stroke-width="2" rx="8"/>
+<rect x="252" y="32" width="280" height="150" fill="#5B9BD5" opacity="0.05" rx="8" stroke="#5B9BD5" stroke-width="1"/>
+<text x="267" y="62" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="18"
+      fill="#5B9BD5">
+      Premium Quality
+    </text>
+<text x="267" y="92" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#666">
+      Crafted from finest materials for
+    </text>
+<text x="267" y="112" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#666">
+      lasting durability
+    </text>
+<defs>
+  <clipPath id="clip-blocks-pictureBlocks-1">
+    <rect x="332" y="202" width="200" height="150" rx="8"/>
+  </clipPath>
+</defs>
+<rect x="332" y="202" width="200" height="150" fill="#70AD47" opacity="0.1" rx="8"/>
+<image href="https://i.pravatar.cc/300?img=26" x="332" y="202" width="200" height="150" clip-path="url(#clip-blocks-pictureBlocks-1)" preserveAspectRatio="xMidYMid slice"/>
+<rect x="332" y="202" width="200" height="150" fill="none" stroke="#70AD47" stroke-width="2" rx="8"/>
+<rect x="32" y="202" width="280" height="150" fill="#70AD47" opacity="0.05" rx="8" stroke="#70AD47" stroke-width="1"/>
+<text x="47" y="232" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="18"
+      fill="#70AD47">
+      Smart Technology
+    </text>
+<text x="47" y="262" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#666">
+      Integrated sensors and AI for
+    </text>
+<text x="47" y="282" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#666">
+      optimal performance
+    </text>
+<defs>
+  <clipPath id="clip-blocks-pictureBlocks-2">
+    <rect x="32" y="372" width="200" height="150" rx="8"/>
+  </clipPath>
+</defs>
+<rect x="32" y="372" width="200" height="150" fill="#FFC000" opacity="0.1" rx="8"/>
+<image href="https://i.pravatar.cc/300?img=27" x="32" y="372" width="200" height="150" clip-path="url(#clip-blocks-pictureBlocks-2)" preserveAspectRatio="xMidYMid slice"/>
+<rect x="32" y="372" width="200" height="150" fill="none" stroke="#FFC000" stroke-width="2" rx="8"/>
+<rect x="252" y="372" width="280" height="150" fill="#FFC000" opacity="0.05" rx="8" stroke="#FFC000" stroke-width="1"/>
+<text x="267" y="402" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="18"
+      fill="#FFC000">
+      Eco-Friendly
+    </text>
+<text x="267" y="432" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#666">
+      Sustainable design with minimal
+    </text>
+<text x="267" y="452" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#666">
+      environmental impact
+    </text></g></svg>

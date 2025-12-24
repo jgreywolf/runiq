@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="532" height="392" 
+    viewBox="0 0 532 392"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="diverging" data-node-id="diverging" data-node-shape="diverging">
+    <rect 
+      x="32"
+      y="157"
+      width="120"
+      height="70"
+      fill="#2E7D32"
+      stroke="#333"
+      stroke-width="2"
+      rx="4"
+      opacity="0.9"
+    />
+      <text 
+        x="92"
+        y="192"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="sans-serif"
+        font-size="12"
+        font-weight="600"
+        fill="#fff"
+      >
+        Source
+      </text>
+    <rect 
+      x="372"
+      y="37"
+      width="120"
+      height="70"
+      fill="#43A047"
+      stroke="#333"
+      stroke-width="2"
+      rx="4"
+      opacity="0.9"
+    />
+      <text 
+        x="432"
+        y="72"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="sans-serif"
+        font-size="12"
+        font-weight="600"
+        fill="#fff"
+      >
+        Frontend Team
+      </text>
+    <defs>
+      <marker id="arrowhead-diverging" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+        <polygon points="0,0 10,5 0,10" fill="#666" />
+      </marker>
+    </defs>
+    <line 
+      x1="152"
+      y1="192"
+      x2="372"
+      y2="72"
+      stroke="#666"
+      stroke-width="2"
+      marker-end="url(#arrowhead-diverging)"
+    />
+    <rect 
+      x="372"
+      y="117"
+      width="120"
+      height="70"
+      fill="#66BB6A"
+      stroke="#333"
+      stroke-width="2"
+      rx="4"
+      opacity="0.9"
+    />
+      <text 
+        x="432"
+        y="152"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="sans-serif"
+        font-size="12"
+        font-weight="600"
+        fill="#fff"
+      >
+        Backend Team
+      </text>
+    <defs>
+      <marker id="arrowhead-diverging" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+        <polygon points="0,0 10,5 0,10" fill="#666" />
+      </marker>
+    </defs>
+    <line 
+      x1="152"
+      y1="192"
+      x2="372"
+      y2="152"
+      stroke="#666"
+      stroke-width="2"
+      marker-end="url(#arrowhead-diverging)"
+    />
+    <rect 
+      x="372"
+      y="197"
+      width="120"
+      height="70"
+      fill="#81C784"
+      stroke="#333"
+      stroke-width="2"
+      rx="4"
+      opacity="0.9"
+    />
+      <text 
+        x="432"
+        y="232"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="sans-serif"
+        font-size="12"
+        font-weight="600"
+        fill="#fff"
+      >
+        QA Team
+      </text>
+    <defs>
+      <marker id="arrowhead-diverging" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+        <polygon points="0,0 10,5 0,10" fill="#666" />
+      </marker>
+    </defs>
+    <line 
+      x1="152"
+      y1="192"
+      x2="372"
+      y2="232"
+      stroke="#666"
+      stroke-width="2"
+      marker-end="url(#arrowhead-diverging)"
+    />
+    <rect 
+      x="372"
+      y="277"
+      width="120"
+      height="70"
+      fill="#1B5E20"
+      stroke="#333"
+      stroke-width="2"
+      rx="4"
+      opacity="0.9"
+    />
+      <text 
+        x="432"
+        y="312"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="sans-serif"
+        font-size="12"
+        font-weight="600"
+        fill="#fff"
+      >
+        DevOps Team
+      </text>
+    <defs>
+      <marker id="arrowhead-diverging" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+        <polygon points="0,0 10,5 0,10" fill="#666" />
+      </marker>
+    </defs>
+    <line 
+      x1="152"
+      y1="192"
+      x2="372"
+      y2="312"
+      stroke="#666"
+      stroke-width="2"
+      marker-end="url(#arrowhead-diverging)"
+    /></g></svg>

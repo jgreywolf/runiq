@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="592" height="222" 
+    viewBox="0 0 592 222"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="pictureProcess" data-node-id="pictureProcess" data-node-shape="pictureProcess"><rect x="12" y="12" width="560" height="190" fill="white" stroke="#e0e0e0" stroke-width="1" rx="8"/>
+<defs>
+  <clipPath id="clip-process-h-pictureProcess-0">
+    <rect x="32" y="32" width="100" height="100" rx="8"/>
+  </clipPath>
+</defs>
+<rect x="32" y="32" width="100" height="100" fill="#FF6B6B" clip-path="url(#clip-process-h-pictureProcess-0)"/>
+<image href="https://i.pravatar.cc/200?img=11" x="32" y="32" width="100" height="100" clip-path="url(#clip-process-h-pictureProcess-0)" preserveAspectRatio="xMidYMid slice"/>
+<text x="82" y="152" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Gather Ingredients
+    </text>
+<circle cx="117" cy="47" r="12" fill="#FF6B6B" stroke="white" stroke-width="2"/>
+<text x="117" y="52" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="white">
+      1
+    </text>
+<line x1="142" y1="82" x2="162" y2="82" stroke="#FF6B6B" stroke-width="3" marker-end="url(#arrowhead-0)"/>
+<defs>
+  <marker id="arrowhead-0" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <polygon points="0 0, 10 3, 0 6" fill="#FF6B6B"/>
+  </marker>
+</defs>
+<defs>
+  <clipPath id="clip-process-h-pictureProcess-1">
+    <rect x="172" y="32" width="100" height="100" rx="8"/>
+  </clipPath>
+</defs>
+<rect x="172" y="32" width="100" height="100" fill="#4ECDC4" clip-path="url(#clip-process-h-pictureProcess-1)"/>
+<image href="https://i.pravatar.cc/200?img=12" x="172" y="32" width="100" height="100" clip-path="url(#clip-process-h-pictureProcess-1)" preserveAspectRatio="xMidYMid slice"/>
+<text x="222" y="152" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Mix Thoroughly
+    </text>
+<circle cx="257" cy="47" r="12" fill="#4ECDC4" stroke="white" stroke-width="2"/>
+<text x="257" y="52" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="white">
+      2
+    </text>
+<line x1="282" y1="82" x2="302" y2="82" stroke="#4ECDC4" stroke-width="3" marker-end="url(#arrowhead-1)"/>
+<defs>
+  <marker id="arrowhead-1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <polygon points="0 0, 10 3, 0 6" fill="#4ECDC4"/>
+  </marker>
+</defs>
+<defs>
+  <clipPath id="clip-process-h-pictureProcess-2">
+    <rect x="312" y="32" width="100" height="100" rx="8"/>
+  </clipPath>
+</defs>
+<rect x="312" y="32" width="100" height="100" fill="#45B7D1" clip-path="url(#clip-process-h-pictureProcess-2)"/>
+<image href="https://i.pravatar.cc/200?img=13" x="312" y="32" width="100" height="100" clip-path="url(#clip-process-h-pictureProcess-2)" preserveAspectRatio="xMidYMid slice"/>
+<text x="362" y="152" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Bake at 350°F
+    </text>
+<circle cx="397" cy="47" r="12" fill="#45B7D1" stroke="white" stroke-width="2"/>
+<text x="397" y="52" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="white">
+      3
+    </text>
+<line x1="422" y1="82" x2="442" y2="82" stroke="#45B7D1" stroke-width="3" marker-end="url(#arrowhead-2)"/>
+<defs>
+  <marker id="arrowhead-2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <polygon points="0 0, 10 3, 0 6" fill="#45B7D1"/>
+  </marker>
+</defs>
+<defs>
+  <clipPath id="clip-process-h-pictureProcess-3">
+    <rect x="452" y="32" width="100" height="100" rx="8"/>
+  </clipPath>
+</defs>
+<rect x="452" y="32" width="100" height="100" fill="#FFA07A" clip-path="url(#clip-process-h-pictureProcess-3)"/>
+<image href="https://i.pravatar.cc/200?img=14" x="452" y="32" width="100" height="100" clip-path="url(#clip-process-h-pictureProcess-3)" preserveAspectRatio="xMidYMid slice"/>
+<text x="502" y="152" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Cool & Serve
+    </text>
+<circle cx="537" cy="47" r="12" fill="#FFA07A" stroke="white" stroke-width="2"/>
+<text x="537" y="52" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="white">
+      4
+    </text></g></svg>

@@ -1,16 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="78.66666666666666" height="312" 
-    viewBox="0 0 78.66666666666666 312"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Consanguinity Test</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="cousin1-cousin2"><path d="M 29 52 L 29 132" fill="none" stroke="#333" stroke-width="1" /><path d="M 35 52 L 35 132" fill="none" stroke="#333" stroke-width="1" /></g><g data-runiq-edge="cousin1-child"><defs>
+    width="120" height="392" 
+    viewBox="0 0 120 392"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="cousin1-cousin2-0" data-edge-id="cousin1-cousin2-0" data-edge-from="cousin1" data-edge-to="cousin2"><path d="M 80 52 L 80 87 L 32 87 L 32 172" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 77 52 L 77 87 L 29 87 L 29 172" fill="none" stroke="#48677e" stroke-width="1" pointer-events="none" /><path d="M 83 52 L 83 87 L 35 87 L 35 172" fill="none" stroke="#48677e" stroke-width="1" pointer-events="none" /></g><g data-runiq-edge="cousin1-child-1" data-edge-id="cousin1-child-1" data-edge-from="cousin1" data-edge-to="child"><defs>
       <marker id="arrow-standard-cousin1-child" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 45.333333333333336 52 L 45.333333333333336 62 L 62 62 L 62 182 L 45.333333333333336 182 L 45.333333333333336 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-cousin1-child)" /></g><g data-runiq-edge="cousin2-child"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 80 52 Q 80 192 80 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 80 52 Q 80 192 80 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cousin1-child)" pointer-events="none" /></g><g data-runiq-edge="cousin2-child-2" data-edge-id="cousin2-child-2" data-edge-from="cousin2" data-edge-to="child"><defs>
       <marker id="arrow-standard-cousin2-child" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 32 172 L 32 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-cousin2-child)" /></g><g data-runiq-node="cousin1"><rect x="18.666666666666664" y="12" width="40" height="40"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="38.666666666666664" y="67"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">Cousin 1</text></g><g data-runiq-node="cousin2"><circle cx="32" cy="152" r="19"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="32" y="187"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">Cousin 2</text></g><g data-runiq-node="child"><rect x="18.666666666666664" y="252" width="40" height="40"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="38.666666666666664" y="307"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">Child</text></g></svg>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 32 212 L 32 247 L 73 247 L 80 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 32 212 L 32 247 L 73 247 L 80 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cousin2-child)" pointer-events="none" /></g><g data-runiq-node="cousin1" data-node-id="cousin1" data-node-shape="pedigreeMale"><rect x="60" y="12" width="40" height="40"
+                fill="#5a819e" stroke="#48677e" stroke-width="2"/><text x="80" y="67" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Cousin 1
+    </text></g><g data-runiq-node="cousin2" data-node-id="cousin2" data-node-shape="pedigreeFemale"><circle cx="32" cy="192" r="19"
+                fill="#73a3bf" stroke="#48677e" stroke-width="2"/><text x="32" y="227" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Cousin 2
+    </text></g><g data-runiq-node="child" data-node-id="child" data-node-shape="pedigreeMale"><rect x="60" y="332" width="40" height="40"
+                fill="#96bacf" stroke="#48677e" stroke-width="2"/><text x="80" y="387" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Child
+    </text></g></svg>

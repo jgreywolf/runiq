@@ -1,21 +1,49 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="78.66666666666666" height="432" 
-    viewBox="0 0 78.66666666666666 432"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Marriage Edge Test</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="grandfather-grandmother"><path d="M 32 52 L 32 132" fill="none" stroke="#333" stroke-width="1" /></g><g data-runiq-edge="father-mother"><path d="M 48.666666666666664 292 L 48.666666666666664 372" fill="none" stroke="#333" stroke-width="1" /></g><g data-runiq-edge="grandfather-father"><defs>
+    width="120" height="552" 
+    viewBox="0 0 120 552"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="grandfather-grandmother-0" data-edge-id="grandfather-grandmother-0" data-edge-from="grandfather" data-edge-to="grandmother"><path d="M 80 52 L 80 87 L 32 87 L 32 172" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 80 52 L 80 87 L 32 87 L 32 172" fill="none" stroke="#48677e" stroke-width="1" pointer-events="none" /></g><g data-runiq-edge="father-mother-4" data-edge-id="father-mother-4" data-edge-from="father" data-edge-to="mother"><defs>
+      <marker id="arrow-standard-father-mother" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 80 372 L 80 432 L 80 432 L 80 492" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 80 372 L 80 432 L 80 432 L 80 492" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-father-mother)" pointer-events="none" /></g><g data-runiq-edge="grandfather-father-2" data-edge-id="grandfather-father-2" data-edge-from="grandfather" data-edge-to="father"><defs>
       <marker id="arrow-standard-grandfather-father" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 45.333333333333336 52 L 45.333333333333336 62 L 62 62 L 62 182 L 45.333333333333336 182 L 45.333333333333336 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-grandfather-father)" /></g><g data-runiq-edge="grandmother-father"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 80 52 Q 80 192 80 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 80 52 Q 80 192 80 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-grandfather-father)" pointer-events="none" /></g><g data-runiq-edge="grandmother-father-3" data-edge-id="grandmother-father-3" data-edge-from="grandmother" data-edge-to="father"><defs>
       <marker id="arrow-standard-grandmother-father" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 32 172 L 32 252" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-grandmother-father)" /></g><g data-runiq-edge="father-mother"><path d="M 38.666666666666664 292 L 38.666666666666664 372" fill="none" stroke="#333" stroke-width="1" /></g><g data-runiq-edge="mother-father"><defs>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 32 212 L 32 247 L 73 247 L 80 332" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 32 212 L 32 247 L 73 247 L 80 332" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-grandmother-father)" pointer-events="none" /></g><g data-runiq-edge="mother-father-5" data-edge-id="mother-father-5" data-edge-from="mother" data-edge-to="father"><defs>
       <marker id="arrow-standard-mother-father" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <polygon points="0,0 0,6 9,3" fill="#333" />
-      </marker></defs><path d="M 28.666666666666664 372 L 28.666666666666664 292" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-mother-father)" /></g><g data-runiq-node="grandfather"><rect x="18.666666666666664" y="12" width="40" height="40"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="38.666666666666664" y="67"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">Grandfather</text></g><g data-runiq-node="grandmother"><circle cx="32" cy="152" r="19"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="32" y="187"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">Grandmother</text></g><g data-runiq-node="father"><rect x="18.666666666666664" y="252" width="40" height="40"
-                fill="#000" stroke="#000" stroke-width="2"/><text x="38.666666666666664" y="307"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">Father</text></g><g data-runiq-node="mother"><circle cx="38.666666666666664" cy="392" r="19"
-                fill="#fff" stroke="#000" stroke-width="2"/><text x="38.666666666666664" y="427"
-                 text-anchor="middle" font-size="12" font-family="sans-serif">Mother</text></g></svg>
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 80 492 L 80 432 L 80 432 L 80 372" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 80 492 L 80 432 L 80 432 L 80 372" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mother-father)" pointer-events="none" /></g><g data-runiq-node="grandfather" data-node-id="grandfather" data-node-shape="pedigreeMale"><rect x="60" y="12" width="40" height="40"
+                fill="#5a819e" stroke="#48677e" stroke-width="2"/><text x="80" y="67" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Grandfather
+    </text></g><g data-runiq-node="grandmother" data-node-id="grandmother" data-node-shape="pedigreeFemale"><circle cx="32" cy="192" r="19"
+                fill="#73a3bf" stroke="#48677e" stroke-width="2"/><text x="32" y="227" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Grandmother
+    </text></g><g data-runiq-node="father" data-node-id="father" data-node-shape="pedigreeMale"><rect x="60" y="332" width="40" height="40"
+                fill="#000" stroke="#48677e" stroke-width="2"/><text x="80" y="387" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Father
+    </text></g><g data-runiq-node="mother" data-node-id="mother" data-node-shape="pedigreeFemale"><circle cx="80" cy="512" r="19"
+                fill="#48677e" stroke="#48677e" stroke-width="2"/><text x="80" y="547" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Mother
+    </text></g></svg>

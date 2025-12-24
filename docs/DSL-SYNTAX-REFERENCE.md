@@ -110,7 +110,7 @@ source -labeltext-> target
 **Edge with properties**:
 
 ```runiq
-source -> target lineStyle:solid arrowType:none
+source -> target lineStyle:"solid" arrowType:none
 ```
 
 **UML Class Diagram Relationships** (NEW! 🎉):
@@ -166,7 +166,7 @@ edge Customer -> Order
 
 #### Edge Properties (no space before colon)
 
-- `lineStyle:solid` (or dashed, dotted)
+- `lineStyle:"solid"` (or dashed, dotted)
 - `arrowType:standard` (or hollow, open, none)
 - `stereotype:"<<include>>"` (UML stereotypes)
 - `edgeType:association` (or aggregation, composition, dependency, generalization, realization)

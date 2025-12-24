@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1303" height="349.6" 
+    viewBox="0 0 1303 349.6"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="increasingList" data-node-id="increasingList" data-node-shape="increasingList">
+          <rect x="12" y="115.22000000000001" 
+                width="158.8" height="111.16"
+                rx="16.674" ry="16.674"
+                fill="#5a819e" fill-opacity="0.6"
+                stroke="#48677e" stroke-width="2" />
+        <text x="91.4" y="170.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Low Impact
+    </text>
+          <rect x="190.8" y="101.32500000000002" 
+                width="198.5" height="138.95"
+                rx="20.842499999999998" ry="20.842499999999998"
+                fill="#5a819e" fill-opacity="0.7"
+                stroke="#48677e" stroke-width="2" />
+        <text x="290.05" y="170.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="17.5"
+      fill="#FFFFFF">
+      Medium Impact
+    </text>
+          <rect x="409.3" y="87.43" 
+                width="238.20000000000002" height="166.74"
+                rx="25.011" ry="25.011"
+                fill="#5a819e" fill-opacity="0.8"
+                stroke="#48677e" stroke-width="2" />
+        <text x="528.4" y="170.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="21"
+      fill="#FFFFFF">
+      High Impact
+    </text>
+          <rect x="667.5" y="73.53500000000001" 
+                width="277.90000000000003" height="194.53"
+                rx="29.179499999999997" ry="29.179499999999997"
+                fill="#5a819e" fill-opacity="0.9"
+                stroke="#48677e" stroke-width="2" />
+        <text x="806.45" y="170.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="24.5"
+      fill="#FFFFFF">
+      Critical Impact
+    </text>
+          <rect x="965.4000000000001" y="59.640000000000015" 
+                width="317.6" height="222.32"
+                rx="33.348" ry="33.348"
+                fill="#5a819e" fill-opacity="1"
+                stroke="#48677e" stroke-width="2" />
+        <text x="1124.2" y="170.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="28"
+      fill="#FFFFFF">
+      Business Critical
+    </text></g></svg>

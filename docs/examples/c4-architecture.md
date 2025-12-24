@@ -198,19 +198,9 @@ diagram "E-Commerce Platform" {
 Add technology/protocol information to relationship arrows using label syntax:
 
 ```runiq
-webapp -API calls [JSON/HTTPS]-> api
-api -Reads/Writes [SQL/TCP]-> db
-service -Sends emails [SMTP]-> emailSystem
-```
-
 The text in the arrow label describes the interaction and can include technical details.
 
 ## Containers
-
-C4 diagrams use Runiq's container feature to group related elements:
-
-```runiq
-container name "Label" fillColor:"#color" strokeColor:"#color" strokeWidth:2 {
   shape element1 as @c4Container label:"Element 1"
   shape element2 as @c4Container label:"Element 2"
 }
@@ -224,16 +214,11 @@ Use the official C4 color scheme for consistency:
 
 - **Person**: `#08427B` (dark blue)
 - **Software System**: `#1168BD` (medium blue)
-- **Container**: `#438DD5` (light blue)
-- **Component**: `#85BBF0` (lightest blue)
 - **External System**: `#999999` (gray)
 
 For container boxes, use lighter complementary colors:
 
 - Light blue: `fillColor:"#e3f2fd" strokeColor:"#1976d2"`
-- Light pink: `fillColor:"#fce4ec" strokeColor:"#c2185b"`
-- Light purple: `fillColor:"#f3e5f5" strokeColor:"#7b1fa2"`
-- Light yellow: `fillColor:"#fff8e1" strokeColor:"#f57f17"`
 - Light green: `fillColor:"#e8f5e9" strokeColor:"#388e3c"`
 
 ## Best Practices
@@ -250,10 +235,6 @@ For container boxes, use lighter complementary colors:
 
 - **Nested Containers**: Deep container nesting (container within container) doesn't position correctly yet. Use flat hierarchies with multiple containers at the same level as a workaround.
 - **Component Nesting**: Component diagrams should show components within ONE container, not multiple nested levels.
-
-These limitations are being addressed - see the roadmap for updates.
-
-## References
 
 - Official C4 Model: https://c4model.com/
 - C4 Model Book: https://leanpub.com/visualising-software-architecture
@@ -277,4 +258,4 @@ These limitations are being addressed - see the roadmap for updates.
 
 - [Container Guide](/guide/containers) - Learn more about containers
 - [Shape Reference](/reference/shapes) - All available shapes
-- [UML Class Diagrams](/guide/class-diagrams) - For Level 4 (Code) diagrams
+- [UML Class Diagrams](/guide/diagram-types/class-diagrams) - For Level 4 (Code) diagrams

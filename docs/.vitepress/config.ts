@@ -1,7 +1,7 @@
-import { defineConfig } from 'vitepress';
 import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+import { defineConfig } from 'vitepress';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -104,27 +104,45 @@ export default defineConfig({
         {
           text: 'Diagram Profile',
           items: [
-            { text: 'Flowcharts', link: '/guide/flowcharts' },
-            { text: 'Mindmap Diagrams', link: '/guide/mindmap-diagrams' },
+            { text: 'Flowcharts', link: '/guide/diagram-types/flowcharts' },
+            {
+              text: 'Mindmap Diagrams',
+              link: '/guide/diagram-types/mindmap-diagrams',
+            },
             { text: 'Venn Diagrams', link: '/guide/venn-diagrams' },
             { text: 'Pyramid Diagrams', link: '/guide/pyramid-diagrams' },
-            { text: 'Data Flow Diagrams', link: '/guide/dfd-diagrams' },
-            { text: 'UML Class Diagrams', link: '/guide/class-diagrams' },
+            {
+              text: 'Data Flow Diagrams',
+              link: '/guide/diagram-types/dfd-diagrams',
+            },
+            {
+              text: 'UML Class Diagrams',
+              link: '/guide/diagram-types/class-diagrams',
+            },
             { text: 'Component Diagrams', link: '/guide/component-diagrams' },
-            { text: 'ERD Diagrams', link: '/guide/erd-diagrams' },
+            { text: 'ERD Diagrams', link: '/guide/diagram-types/erd-diagrams' },
             {
               text: 'State Machine Diagrams',
-              link: '/guide/state-machine-diagrams',
+              link: '/guide/diagram-types/state-machine-diagrams',
             },
-            { text: 'Activity Diagrams', link: '/guide/activity-diagrams' },
-            { text: 'BPMN Diagrams', link: '/guide/bpmn-diagrams' },
+            {
+              text: 'Activity Diagrams',
+              link: '/guide/diagram-types/activity-diagrams',
+            },
+            {
+              text: 'BPMN Diagrams',
+              link: '/guide/diagram-types/bpmn-diagrams',
+            },
             { text: 'Use Case Diagrams', link: '/guide/use-case-diagrams' },
             { text: 'C4 Architecture', link: '/guide/c4-architecture' },
             {
               text: 'Control system Diagrams',
               link: '/guide/control-diagrams',
             },
-            { text: 'Network Diagrams', link: '/guide/network-diagrams' },
+            {
+              text: 'Network Diagrams',
+              link: '/guide/diagram-types/network-diagrams',
+            },
             { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
             { text: 'Charts & Graphs', link: '/guide/charts' },
             //{ text: 'Pedigree Charts', link: '/guide/pedigree-charts' },
@@ -137,7 +155,10 @@ export default defineConfig({
             { text: 'Electrical Circuits', link: '/guide/electrical' },
             { text: 'Digital Circuits', link: '/guide/digital-circuits' },
             { text: 'Wardley Maps', link: '/guide/wardley-maps' },
-            { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
+            {
+              text: 'Sequence Diagrams',
+              link: '/guide/diagram-types/sequence-diagrams',
+            },
             { text: 'Timeline Diagrams', link: '/guide/timeline-diagrams' },
             { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
             { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },

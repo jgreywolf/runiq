@@ -11,7 +11,7 @@ diagram "Consanguinity Test" {
   shape child as @pedigreeMale label:"Child"
 
   # Consanguineous marriage (double line, no arrow)
-  cousin1 -> cousin2 lineStyle:double arrowType:none
+  cousin1 -> cousin2 lineStyle:"double" arrowType:none
 
   # Parent-child (standard)
   cousin1 -> child

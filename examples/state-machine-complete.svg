@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="767.8" height="1030" 
+    viewBox="0 0 767.8 1030"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="start-idle-0" data-edge-id="start-idle-0" data-edge-from="start" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-start-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 249 781 L 249 816 L 251 816 L 250.60000000000002 901" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 249 781 L 249 816 L 251 816 L 250.60000000000002 901" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-start-idle)" pointer-events="none" /></g><g data-runiq-edge="idle-decision-1" data-edge-id="idle-decision-1" data-edge-from="idle" data-edge-to="decision"><defs>
+      <marker id="arrow-standard-idle-decision" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 142 955.5 L 178 955.5 L 178 519 L 178 387 L 178 217.5 L 178 87 L 330 87 L 340 52" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 142 955.5 L 178 955.5 L 178 519 L 178 387 L 178 217.5 L 178 87 L 330 87 L 340 52" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-decision)" pointer-events="none" /><text x="178" y="217.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">dataReceived [dataValid] / validateData()</text></g><g data-runiq-edge="decision-processing-2" data-edge-id="decision-processing-2" data-edge-from="decision" data-edge-to="processing"><defs>
+      <marker id="arrow-standard-decision-processing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 340 52 L 340 112 L 529 112 L 529 217.5 L 529 387 L 529 519 L 529 587 L 643 587 L 643.4 672" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 340 52 L 340 112 L 529 112 L 529 217.5 L 529 387 L 529 519 L 529 587 L 643 587 L 643.4 672" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-decision-processing)" pointer-events="none" /><text x="529" y="387" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[priority == high]</text></g><g data-runiq-edge="decision-waiting-3" data-edge-id="decision-waiting-3" data-edge-from="decision" data-edge-to="waiting"><defs>
+      <marker id="arrow-standard-decision-waiting" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 340 52 L 340 112 L 372 112 L 372 172" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 340 52 L 340 112 L 372 112 L 372 172" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-decision-waiting)" pointer-events="none" /><text x="372" y="112" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[priority == low]</text></g><g data-runiq-edge="processing-split-4" data-edge-id="processing-split-4" data-edge-from="processing" data-edge-to="split"><defs>
+      <marker id="arrow-standard-processing-split" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 643.4 672 L 643.4 562 L 555 562 L 555 519 L 555 387 L 555 217.5 L 555 87 L 523 87 L 503 52" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 643.4 672 L 643.4 562 L 555 562 L 555 519 L 555 387 L 555 217.5 L 555 87 L 523 87 L 503 52" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-split)" pointer-events="none" /><text x="555" y="387" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">completed</text></g><g data-runiq-edge="split-waiting-5" data-edge-id="split-waiting-5" data-edge-from="split" data-edge-to="waiting"><defs>
+      <marker id="arrow-standard-split-waiting" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 503 52 L 503 87 L 404 87 L 372 172" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 503 52 L 503 87 L 404 87 L 372 172" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-split-waiting)" pointer-events="none" /></g><g data-runiq-edge="split-idle-6" data-edge-id="split-idle-6" data-edge-from="split" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-split-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 503 52 L 503 217.5 L 503 387 L 503 519 L 503 726.5 L 503 841 L 323 841 L 359.20000000000005 955.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 503 52 L 503 217.5 L 503 387 L 503 519 L 503 726.5 L 503 841 L 323 841 L 359.20000000000005 955.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-split-idle)" pointer-events="none" /></g><g data-runiq-edge="waiting-merge-7" data-edge-id="waiting-merge-7" data-edge-from="waiting" data-edge-to="merge"><defs>
+      <marker id="arrow-standard-waiting-merge" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 372 263 L 372 298 L 254 298 L 254 383" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 372 263 L 372 298 L 254 298 L 254 383" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-waiting-merge)" pointer-events="none" /></g><g data-runiq-edge="idle-merge-8" data-edge-id="idle-merge-8" data-edge-from="idle" data-edge-to="merge"><defs>
+      <marker id="arrow-standard-idle-merge" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 250.60000000000002 901 L 250.60000000000002 816 L 204 816 L 204 726.5 L 204 519 L 204 426 L 241 426 L 254 391" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 250.60000000000002 901 L 250.60000000000002 816 L 204 816 L 204 726.5 L 204 519 L 204 426 L 241 426 L 254 391" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-merge)" pointer-events="none" /></g><g data-runiq-edge="merge-junc-9" data-edge-id="merge-junc-9" data-edge-from="merge" data-edge-to="junc"><defs>
+      <marker id="arrow-standard-merge-junc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 254 391 L 254 426 L 357 426 L 357 511" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 254 391 L 254 426 L 357 426 L 357 511" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-merge-junc)" pointer-events="none" /><text x="357" y="426" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> / checkStatus()</text></g><g data-runiq-edge="junc-processing-10" data-edge-id="junc-processing-10" data-edge-from="junc" data-edge-to="processing"><defs>
+      <marker id="arrow-standard-junc-processing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 357 527 L 357 612 L 591 612 L 643.4 672" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 357 527 L 357 612 L 591 612 L 643.4 672" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-junc-processing)" pointer-events="none" /><text x="591" y="612" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[retry]</text></g><g data-runiq-edge="junc-hist-11" data-edge-id="junc-hist-11" data-edge-from="junc" data-edge-to="hist"><defs>
+      <marker id="arrow-standard-junc-hist" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 357 527 L 357 619.25 L 353 619.25 L 353 711.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 357 527 L 357 619.25 L 353 619.25 L 353 711.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-junc-hist)" pointer-events="none" /><text x="353" y="619.25" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[restore]</text></g><g data-runiq-edge="hist-idle-12" data-edge-id="hist-idle-12" data-edge-from="hist" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-hist-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 353 741.5 L 353 816 L 287 816 L 250.60000000000002 901" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 353 741.5 L 353 816 L 287 816 L 250.60000000000002 901" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-hist-idle)" pointer-events="none" /></g><g data-runiq-edge="junc-term-13" data-edge-id="junc-term-13" data-edge-from="junc" data-edge-to="term"><defs>
+      <marker id="arrow-standard-junc-term" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 357 527 L 357 637 L 458 637 L 458 672" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 357 527 L 357 637 L 458 637 L 458 672" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-junc-term)" pointer-events="none" /><text x="458" y="637" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">[fatal error]</text></g><g data-runiq-edge="processing-end-14" data-edge-id="processing-end-14" data-edge-from="processing" data-edge-to="end"><defs>
+      <marker id="arrow-standard-processing-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 643.4 781 L 643.4 841 L 643 841 L 643 901" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 643.4 781 L 643.4 841 L 643 841 L 643 901" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-end)" pointer-events="none" /><text x="643" y="841" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">shutdown / cleanup()</text></g><g data-runiq-node="start" data-node-id="start" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="249" cy="772" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="idle" data-node-id="idle" data-node-shape="state"><g class="state-shape"><rect x="142" y="901" width="217.20000000000002" height="109" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="250.60000000000002" y="925.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Idle
+    </text><line x1="154" y1="934.6" x2="347.20000000000005" y2="934.6" stroke="#48677e" stroke-width="1" /><text x="154" y="955.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / turnOffLight()
+    </text><text x="154" y="973.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / monitorSensors()
+    </text><text x="154" y="991.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / logStateChange()
+    </text></g></g><g data-runiq-node="processing" data-node-id="processing" data-node-shape="state"><g class="state-shape"><rect x="539" y="672" width="208.8" height="109" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="643.4" y="696.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Processing
+    </text><line x1="551" y1="705.6" x2="735.8" y2="705.6" stroke="#48677e" stroke-width="1" /><text x="551" y="726.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / startProcess()
+    </text><text x="551" y="744.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / processData()
+    </text><text x="551" y="762.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / cleanup()
+    </text></g></g><g data-runiq-node="waiting" data-node-id="waiting" data-node-shape="state"><g class="state-shape"><rect x="276" y="172" width="192" height="91" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="372" y="196.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Waiting
+    </text><line x1="288" y1="205.6" x2="456" y2="205.6" stroke="#48677e" stroke-width="1" /><text x="288" y="226.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / startTimer()
+    </text><text x="288" y="244.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / cancelTimer()
+    </text></g></g><g data-runiq-node="decision" data-node-id="decision" data-node-shape="choice"><g class="choice-shape"><path d="M 340 12 L 360 32 L 340 52 L 320 32 Z" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="340" y="37" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11.200000000000001"
+      fill="#FFFFFF">
+      decision
+    </text></g></g><g data-runiq-node="split" data-node-id="split" data-node-shape="fork"><g class="fork-shape"><rect x="463" y="44" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="merge" data-node-id="merge" data-node-shape="join"><g class="join-shape"><rect x="214" y="383" width="80" height="8" fill="#000000" stroke="none" /></g></g><g data-runiq-node="junc" data-node-id="junc" data-node-shape="junction"><g class="junction-shape"><circle cx="357" cy="519" r="8" fill="#96bacf" /></g></g><g data-runiq-node="hist" data-node-id="hist" data-node-shape="historyShallow"><g class="historyShallow-shape"><circle cx="353" cy="726.5" r="15" fill="#48677e" stroke="#48677e" stroke-width="1.5" /><text x="353" y="726.5" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="18"
+      fill="#48677e">
+      H
+    </text></g></g><g data-runiq-node="histDeep" data-node-id="histDeep" data-node-shape="historyDeep"><g class="historyDeep-shape"><circle cx="107" cy="27" r="15" fill="#364d5f" stroke="#48677e" stroke-width="1.5" /><text x="107" y="27" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="15"
+      fill="#48677e">
+      H*
+    </text></g></g><g data-runiq-node="term" data-node-id="term" data-node-shape="terminate"><g class="terminate-shape"><circle cx="458" cy="682" r="10" fill="#5a819e" stroke="#48677e" stroke-width="1.5" /><line x1="451" y1="675" x2="465" y2="689" stroke="#48677e" stroke-width="1.5" /><line x1="465" y1="675" x2="451" y2="689" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="entryPt" data-node-id="entryPt" data-node-shape="entryPoint"><g class="entryPoint-shape"><circle cx="22" cy="22" r="10" fill="#73a3bf" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="exitPt" data-node-id="exitPt" data-node-shape="exitPoint"><g class="exitPoint-shape"><circle cx="62" cy="22" r="10" fill="#96bacf" stroke="#48677e" stroke-width="1.5" /><line x1="56" y1="16" x2="68" y2="28" stroke="#48677e" stroke-width="1.0499999999999998" /><line x1="68" y1="16" x2="56" y2="28" stroke="#48677e" stroke-width="1.0499999999999998" /></g></g><g data-runiq-node="end" data-node-id="end" data-node-shape="finalState"><g class="final-state-shape"><circle cx="643" cy="912" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="643" cy="912" r="6.050000000000001" fill="#000000" stroke="none" /></g></g></svg>

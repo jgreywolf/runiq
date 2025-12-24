@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="258" height="910.8" 
+    viewBox="0 0 258 910.8"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="r-sum-0" data-edge-id="r-sum-0" data-edge-from="r" data-edge-to="sum"><defs>
+      <marker id="arrow-standard-r-sum" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 93.8 48.8 L 93.8 108.80000000000001 L 94 108.80000000000001 L 94 168.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 93.8 48.8 L 93.8 108.80000000000001 L 94 108.80000000000001 L 94 168.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-r-sum)" pointer-events="none" /></g><g data-runiq-edge="sum-gc-1" data-edge-id="sum-gc-1" data-edge-from="sum" data-edge-to="gc"><defs>
+      <marker id="arrow-standard-sum-gc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 94 184.8 L 94 244.8 L 91.4 244.8 L 91.4 304.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 94 184.8 L 94 244.8 L 91.4 244.8 L 91.4 304.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sum-gc)" pointer-events="none" /></g><g data-runiq-edge="gc-gp-2" data-edge-id="gc-gp-2" data-edge-from="gc" data-edge-to="gp"><defs>
+      <marker id="arrow-standard-gc-gp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 91.4 374.4 L 91.4 434.4 L 91.2 434.4 L 91.2 494.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 91.4 374.4 L 91.4 434.4 L 91.2 434.4 L 91.2 494.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-gc-gp)" pointer-events="none" /></g><g data-runiq-edge="gp-y-3" data-edge-id="gp-y-3" data-edge-from="gp" data-edge-to="y"><defs>
+      <marker id="arrow-standard-gp-y" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 91.2 564 L 91.2 624 L 90.8 624 L 90.8 684" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 91.2 564 L 91.2 624 L 90.8 624 L 90.8 684" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-gp-y)" pointer-events="none" /></g><g data-runiq-edge="y-h-4" data-edge-id="y-h-4" data-edge-from="y" data-edge-to="h"><defs>
+      <marker id="arrow-standard-y-h" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 90.8 720.8 L 90.8 793.3 L 66 793.3 L 66 865.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 90.8 720.8 L 90.8 793.3 L 66 793.3 L 66 865.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-y-h)" pointer-events="none" /></g><g data-runiq-edge="h-sum-5" data-edge-id="h-sum-5" data-edge-from="h" data-edge-to="sum"><defs>
+      <marker id="arrow-standard-h-sum" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 141 865.8 L 116 755.8 L 206 755.8 L 206 702.4 L 206 529.1999999999999 L 206 339.6 L 206 219.8 L 97 219.8 L 94 184.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 141 865.8 L 116 755.8 L 206 755.8 L 206 702.4 L 206 529.1999999999999 L 206 339.6 L 206 219.8 L 97 219.8 L 94 184.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-h-sum)" pointer-events="none" /><text x="206" y="529.1999999999999" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">negative</text></g><g data-runiq-node="r" data-node-id="r" data-node-shape="rect">
+      <rect x="67" y="12" width="53.6" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="93.8" y="30.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      R(s)
+    </text>
+    </g><g data-runiq-node="sum" data-node-id="sum" data-node-shape="junction"><g class="junction-shape"><circle cx="94" cy="176.8" r="8" fill="#73a3bf" /></g></g><g data-runiq-node="gc" data-node-id="gc" data-node-shape="transferFunction">
+      <rect x="50" y="304.8" width="82.80000000000001" height="69.6"
+            fill="#96bacf" stroke="#48677e" stroke-width="2" />
+
+      
+        <text x="91.4" y="331.6" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="12">5</text>
+
+        <line x1="62.42" y1="339.6"
+              x2="120.38000000000001" y2="339.6"
+              stroke="#48677e" stroke-width="2" />
+
+        <text x="91.4" y="351.6" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="12">(s+2)</text>
+      
+    </g><g data-runiq-node="gp" data-node-id="gp" data-node-shape="transferFunction">
+      <rect x="12" y="494.4" width="158.4" height="69.6"
+            fill="#48677e" stroke="#48677e" stroke-width="2" />
+
+      
+        <text x="91.2" y="521.1999999999999" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="12">(s+1)</text>
+
+        <line x1="35.760000000000005" y1="529.1999999999999"
+              x2="146.64" y2="529.1999999999999"
+              stroke="#48677e" stroke-width="2" />
+
+        <text x="91.2" y="541.1999999999999" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="12">(s^2+3s+2)</text>
+      
+    </g><g data-runiq-node="y" data-node-id="y" data-node-shape="rect">
+      <rect x="64" y="684" width="53.6" height="36.8"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="90.8" y="702.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Y(s)
+    </text>
+    </g><g data-runiq-node="h" data-node-id="h" data-node-shape="gain">
+      <polygon points="66,840.8 66,890.8 141,865.8"
+               fill="#5a819e" stroke="#48677e" stroke-width="2" />
+      
+      <text x="96" y="865.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      H(s)=1
+    </text>
+    </g></svg>

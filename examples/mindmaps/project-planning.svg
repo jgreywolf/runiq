@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1391.459371166581" height="1322.3699059218611" 
+    viewBox="0 0 1391.459371166581 1322.3699059218611"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="projectplanning" data-container-id="projectplanning"><rect x="0" y="0" width="1371.459371166581" height="1302.3699059218611" 
+    fill="#e8f5e9" stroke="#4caf50" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">ProjectPlanning</text></g><g data-runiq-edge="main-research-0" data-edge-id="main-research-0" data-edge-from="main" data-edge-to="research"><path d="M 690.7531229602298 753.1623358674266 L 842.9494643218566 885.2553523949351" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 690.7531229602298 753.1623358674266 L 842.9494643218566 885.2553523949351" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="main-design-1" data-edge-id="main-design-1" data-edge-from="main" data-edge-to="design"><path d="M 584.6731229602298 647.0823358674267 L 449.9451147478932 759.933027357596" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 584.6731229602298 647.0823358674267 L 449.9451147478932 759.933027357596" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="main-development-2" data-edge-id="main-development-2" data-edge-from="main" data-edge-to="development"><path d="M 690.7531229602298 541.0023358674266 L 509.25401049857066 428.56435124586244" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 690.7531229602298 541.0023358674266 L 509.25401049857066 428.56435124586244" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="main-testing-3" data-edge-id="main-testing-3" data-edge-from="main" data-edge-to="testing"><path d="M 690.7531229602298 541.0023358674266 L 900.640559151001 453.0738581216413" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 690.7531229602298 541.0023358674266 L 900.640559151001 453.0738581216413" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="research-surveys-4" data-edge-id="research-surveys-4" data-edge-from="research" data-edge-to="surveys"><path d="M 888.5494643218566 905.6553523949351 L 1204.659371166581 814.3128147829633" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 888.5494643218566 905.6553523949351 L 1204.659371166581 814.3128147829633" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="research-competitors-5" data-edge-id="research-competitors-5" data-edge-from="research" data-edge-to="competitors"><path d="M 842.9494643218566 926.0553523949351 L 1030.279998476319 1121.4716098035965" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 842.9494643218566 926.0553523949351 L 1030.279998476319 1121.4716098035965" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="research-analytics-6" data-edge-id="research-analytics-6" data-edge-from="research" data-edge-to="analytics"><path d="M 842.9494643218566 926.0553523949351 L 598.128860075454 1219.5699059218612" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 842.9494643218566 926.0553523949351 L 598.128860075454 1219.5699059218612" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="design-wireframes-7" data-edge-id="design-wireframes-7" data-edge-from="design" data-edge-to="wireframes"><path d="M 412.7451147478932 780.3330273575959 L 279.46808363226506 1063.6486288752449" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 412.7451147478932 780.3330273575959 L 279.46808363226506 1063.6486288752449" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="design-mockups-8" data-edge-id="design-mockups-8" data-edge-from="design" data-edge-to="mockups"><path d="M 375.5451147478932 759.933027357596 L 172.42092557786174 863.4033750973307" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 375.5451147478932 759.933027357596 L 172.42092557786174 863.4033750973307" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="design-prototype-9" data-edge-id="design-prototype-9" data-edge-from="design" data-edge-to="prototype"><path d="M 375.5451147478932 759.933027357596 L 141.60000000000002 610.3388834413446" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 375.5451147478932 759.933027357596 L 141.60000000000002 610.3388834413446" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="development-frontend-10" data-edge-id="development-frontend-10" data-edge-from="development" data-edge-to="frontend"><path d="M 451.0540104985707 408.1643512458624 L 211.96058528243174 355.35062482483335" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 451.0540104985707 408.1643512458624 L 211.96058528243174 355.35062482483335" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="development-backend-11" data-edge-id="development-backend-11" data-edge-from="development" data-edge-to="backend"><path d="M 509.25401049857066 387.76435124586243 L 327.7548980369112 189.64636662429848" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 509.25401049857066 387.76435124586243 L 327.7548980369112 189.64636662429848" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="development-db-12" data-edge-id="development-db-12" data-edge-from="development" data-edge-to="db"><path d="M 509.25401049857066 387.76435124586243 L 550.3213917997169 84.06665756998716" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 509.25401049857066 387.76435124586243 L 550.3213917997169 84.06665756998716" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="testing-unit_tests-13" data-edge-id="testing-unit_tests-13" data-edge-from="testing" data-edge-to="unit_tests"><path d="M 900.640559151001 412.2738581216413 L 825.81418664851 82.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 900.640559151001 412.2738581216413 L 825.81418664851 82.8" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="testing-integration-14" data-edge-id="testing-integration-14" data-edge-from="testing" data-edge-to="integration"><path d="M 900.640559151001 412.2738581216413 L 1095.6671838210991 224.6059105328191" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 900.640559151001 412.2738581216413 L 1095.6671838210991 224.6059105328191" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="testing-user_testing-15" data-edge-id="testing-user_testing-15" data-edge-from="testing" data-edge-to="user_testing"><path d="M 942.0405591510009 432.6738581216413 L 1204.6593711665805 479.85185695188954" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 942.0405591510009 432.6738581216413 L 1204.6593711665805 479.85185695188954" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-node="main" data-node-id="main" data-node-shape="circ">
+      <circle cx="690.7531229602298" cy="647.0823358674267" r="106.08"
+              fill="#ffffff" stroke="#8b5cf6" stroke-width="1" />
+      
+      <text x="690.7531229602298" y="647.0823358674267" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Website Redesign
+    </text>
+    </g><g data-runiq-node="research" data-node-id="research" data-node-shape="rounded">
+      <rect x="797.3494643218565" y="885.2553523949351" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#3b82f6" stroke="#2563eb" stroke-width="1" />
+      
+      <text x="842.9494643218566" y="905.6553523949351" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Research
+    </text>
+    </g><g data-runiq-node="design" data-node-id="design" data-node-shape="rounded">
+      <rect x="375.5451147478932" y="739.533027357596" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#10b981" stroke="#059669" stroke-width="1" />
+      
+      <text x="412.7451147478932" y="759.933027357596" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Design
+    </text>
+    </g><g data-runiq-node="development" data-node-id="development" data-node-shape="rounded">
+      <rect x="451.0540104985707" y="387.76435124586243" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#f59e0b" stroke="#d97706" stroke-width="1" />
+      
+      <text x="509.25401049857066" y="408.1643512458624" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Development
+    </text>
+    </g><g data-runiq-node="testing" data-node-id="testing" data-node-shape="rounded">
+      <rect x="859.240559151001" y="412.2738581216413" width="82.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#ec4899" stroke="#db2777" stroke-width="1" />
+      
+      <text x="900.640559151001" y="432.6738581216413" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Testing
+    </text>
+    </g><g data-runiq-node="surveys" data-node-id="surveys" data-node-shape="rounded">
+      <rect x="1204.659371166581" y="793.9128147829633" width="110.39999999999999" height="38.4"
+            rx="8" ry="8" fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="1259.859371166581" y="813.1128147829634" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      User Surveys
+    </text>
+    </g><g data-runiq-node="competitors" data-node-id="competitors" data-node-shape="rounded">
+      <rect x="938.4799984763189" y="1121.4716098035965" width="160.79999999999998" height="38.4"
+            rx="8" ry="8" fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="1018.8799984763189" y="1140.6716098035965" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Competitor Analysis
+    </text>
+    </g><g data-runiq-node="analytics" data-node-id="analytics" data-node-shape="rounded">
+      <rect x="518.9288600754539" y="1219.5699059218612" width="139.2" height="38.4"
+            rx="8" ry="8" fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="588.528860075454" y="1238.7699059218612" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Analytics Review
+    </text>
+    </g><g data-runiq-node="wireframes" data-node-id="wireframes" data-node-shape="rounded">
+      <rect x="225.46808363226506" y="1063.6486288752449" width="96" height="38.4"
+            rx="8" ry="8" fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="273.46808363226506" y="1082.848628875245" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Wireframes
+    </text>
+    </g><g data-runiq-node="mockups" data-node-id="mockups" data-node-shape="rounded">
+      <rect x="89.62092557786173" y="843.0033750973307" width="74.39999999999999" height="38.4"
+            rx="8" ry="8" fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="126.82092557786171" y="862.2033750973308" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Mockups
+    </text>
+    </g><g data-runiq-node="prototype" data-node-id="prototype" data-node-shape="rounded">
+      <rect x="42" y="589.9388834413446" width="88.8" height="38.4"
+            rx="8" ry="8" fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="86.4" y="609.1388834413447" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Prototype
+    </text>
+    </g><g data-runiq-node="frontend" data-node-id="frontend" data-node-shape="rounded">
+      <rect x="120.76058528243175" y="334.95062482483337" width="81.6" height="38.4"
+            rx="8" ry="8" fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <text x="161.56058528243176" y="354.15062482483336" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Frontend
+    </text>
+    </g><g data-runiq-node="backend" data-node-id="backend" data-node-shape="rounded">
+      <rect x="286.3548980369112" y="148.84636662429847" width="74.39999999999999" height="38.4"
+            rx="8" ry="8" fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <text x="323.5548980369112" y="168.04636662429846" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Backend
+    </text>
+    </g><g data-runiq-node="db" data-node-id="db" data-node-shape="rounded">
+      <rect x="504.7213917997169" y="43.26665756998716" width="81.6" height="38.4"
+            rx="8" ry="8" fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <text x="545.5213917997169" y="62.46665756998716" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Database
+    </text>
+    </g><g data-runiq-node="unit_tests" data-node-id="unit_tests" data-node-shape="rounded">
+      <rect x="771.81418664851" y="42" width="96" height="38.4"
+            rx="8" ry="8" fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="819.81418664851" y="61.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Unit Tests
+    </text>
+    </g><g data-runiq-node="integration" data-node-id="integration" data-node-shape="rounded">
+      <rect x="1037.467183821099" y="183.8059105328191" width="103.19999999999999" height="38.4"
+            rx="8" ry="8" fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="1089.067183821099" y="203.0059105328191" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Integration
+    </text>
+    </g><g data-runiq-node="user_testing" data-node-id="user_testing" data-node-shape="rounded">
+      <rect x="1204.6593711665805" y="459.45185695188957" width="110.39999999999999" height="38.4"
+            rx="8" ry="8" fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="1259.8593711665806" y="478.65185695188956" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      User Testing
+    </text>
+    </g></svg>

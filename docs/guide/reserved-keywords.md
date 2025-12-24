@@ -244,7 +244,7 @@ group backend [api, db, cache]
 
 ```runiq
 style highlight {
-  fill: "#ffeb3b"
+  fillColor: "#ffeb3b"
   strokeColor: "#f57c00"
   strokeWidth: 3
 }
@@ -1094,7 +1094,7 @@ shape node as @rectangle label:"Text" color:"#ff0000"
 
 # Style properties - WITH SPACE
 style myStyle {
-  fill: "#ff0000"
+  fillColor: "#ff0000"
   strokeColor: "#000000"
 }
 ```

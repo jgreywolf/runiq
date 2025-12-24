@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="432" height="652" 
+    viewBox="0 0 432 652"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="trends" data-node-id="trends" data-node-shape="lineChart">
+      <g transform="translate(72, 32)">
+        <text x="160" y="-5" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Weekly Performance Trends
+    </text>
+        <line x1="0" y1="0" x2="320" y2="0" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="-10" y="4" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      89.6
+    </text>
+<line x1="0" y1="48" x2="320" y2="48" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="-10" y="52" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      85.8
+    </text>
+<line x1="0" y1="96" x2="320" y2="96" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="-10" y="100" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      81.9
+    </text>
+<line x1="0" y1="144" x2="320" y2="144" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="-10" y="148" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      78.1
+    </text>
+<line x1="0" y1="192" x2="320" y2="192" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="-10" y="196" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      74.2
+    </text>
+<line x1="0" y1="240" x2="320" y2="240" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="-10" y="244" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      70.4
+    </text>
+        <line x1="0" y1="240" x2="320" y2="240" stroke="#374151" stroke-width="2" />
+        <line x1="0" y1="0" x2="0" y2="240" stroke="#374151" stroke-width="2" />
+        <text x="0" y="255" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6b7280">Mon</text>
+<text x="53.33" y="255" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6b7280">Tue</text>
+<text x="106.67" y="255" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6b7280">Wed</text>
+<text x="160" y="255" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6b7280">Thu</text>
+<text x="213.33" y="255" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6b7280">Fri</text>
+<text x="266.67" y="255" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6b7280">Sat</text>
+<text x="320" y="255" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6b7280">Sun</text>
+        <path d="M 0.00 220.00 L 53.33 182.50 L 106.67 145.00 L 160.00 95.00 L 213.33 132.50 L 266.67 57.50 L 320.00 20.00" stroke="#3b82f6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="0.00" cy="220.00" r="4" fill="#3b82f6" stroke="white" stroke-width="2" />
+<circle cx="53.33" cy="182.50" r="4" fill="#10b981" stroke="white" stroke-width="2" />
+<circle cx="106.67" cy="145.00" r="4" fill="#10b981" stroke="white" stroke-width="2" />
+<circle cx="160.00" cy="95.00" r="4" fill="#f59e0b" stroke="white" stroke-width="2" />
+<circle cx="213.33" cy="132.50" r="4" fill="#10b981" stroke="white" stroke-width="2" />
+<circle cx="266.67" cy="57.50" r="4" fill="#ef4444" stroke="white" stroke-width="2" />
+<circle cx="320.00" cy="20.00" r="4" fill="#ef4444" stroke="white" stroke-width="2" />
+        
+      </g>
+    </g><g data-runiq-node="horizontalChart" data-node-id="horizontalChart" data-node-shape="lineChart">
+      <g transform="translate(72, 352)">
+        <text x="160" y="-5" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Horizontal Performance View
+    </text>
+        <line x1="0" y1="0" x2="0" y2="240" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="0" y="255" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      76
+    </text>
+<line x1="64" y1="0" x2="64" y2="240" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="64" y="255" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      80
+    </text>
+<line x1="128" y1="0" x2="128" y2="240" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="128" y="255" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      84
+    </text>
+<line x1="192" y1="0" x2="192" y2="240" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="192" y="255" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      89
+    </text>
+<line x1="256" y1="0" x2="256" y2="240" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="256" y="255" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      93
+    </text>
+<line x1="320" y1="0" x2="320" y2="240" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4" />
+<text x="320" y="255" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#6b7280">
+      97
+    </text>
+        <line x1="0" y1="0" x2="0" y2="240" stroke="#374151" stroke-width="2" />
+        <line x1="0" y1="240" x2="320" y2="240" stroke="#374151" stroke-width="2" />
+        <text x="-10" y="240" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="10" fill="#6b7280">Speed</text>
+<text x="-10" y="180" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="10" fill="#6b7280">Accuracy</text>
+<text x="-10" y="120" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="10" fill="#6b7280">Efficiency</text>
+<text x="-10" y="60" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="10" fill="#6b7280">Quality</text>
+<text x="-10" y="0" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="10" fill="#6b7280">Reliability</text>
+        <path d="M 136.47 240.00 L 246.27 180.00 L 26.67 120.00 L 183.53 60.00 L 293.33 0.00" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="136.47" cy="240.00" r="4" fill="#10b981" stroke="white" stroke-width="2" />
+<circle cx="246.27" cy="180.00" r="4" fill="#10b981" stroke="white" stroke-width="2" />
+<circle cx="26.67" cy="120.00" r="4" fill="#f59e0b" stroke="white" stroke-width="2" />
+<circle cx="183.53" cy="60.00" r="4" fill="#10b981" stroke="white" stroke-width="2" />
+<circle cx="293.33" cy="0.00" r="4" fill="#ef4444" stroke="white" stroke-width="2" />
+        
+      </g>
+    </g></svg>

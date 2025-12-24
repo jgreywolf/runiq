@@ -159,11 +159,11 @@ shape A as @rect label: "My Node"
 **Supported formats:**
 
 ```runiq
-fill: "#2196f3"              # Hex ✅
-fill: "rgb(33, 150, 243)"    # RGB ✅
-fill: "rgba(33, 150, 243, 0.5)" # RGBA ✅
-fill: "blue"                 # Named ✅
-fill: "#219"                 # Short hex ❌
+fillColor: "#2196f3"              # Hex ✅
+fillColor: "rgb(33, 150, 243)"    # RGB ✅
+fillColor: "rgba(33, 150, 243, 0.5)" # RGBA ✅
+fillColor: "blue"                 # Named ✅
+fillColor: "#219"                 # Short hex ❌
 ```
 
 ## Editor Issues
@@ -383,7 +383,7 @@ Found a bug or need help?
 
 ### Community Support
 
-- **GitHub Discussions**: https://github.com/jgreywolf/runiq/discussions
+- **GitHub Discussions**: https://github.com/jgreywolf/runiq/issues
 - **Discord** (coming soon)
 
 ## Debug Mode

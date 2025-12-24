@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="463.20000000000005" height="930.3999999999999" 
+    viewBox="0 0 463.20000000000005 930.3999999999999"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="Start-Init-0" data-edge-id="Start-Init-0" data-edge-from="Start" data-edge-to="Init"><defs>
+      <marker id="arrow-standard-Start-Init" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 88 52.8 L 88 118.60000000000001 L 88 118.60000000000001 L 88 184.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 88 52.8 L 88 118.60000000000001 L 88 118.60000000000001 L 88 184.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Start-Init)" pointer-events="none" /></g><g data-runiq-edge="Init-OuterCheck-1" data-edge-id="Init-OuterCheck-1" data-edge-from="Init" data-edge-to="OuterCheck"><defs>
+      <marker id="arrow-standard-Init-OuterCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 88 221.2 L 88 287 L 87.6 287 L 87.6 352.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 88 221.2 L 88 287 L 87.6 287 L 87.6 352.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Init-OuterCheck)" pointer-events="none" /></g><g data-runiq-edge="OuterCheck-InnerInit-2" data-edge-id="OuterCheck-InnerInit-2" data-edge-from="OuterCheck" data-edge-to="InnerInit"><defs>
+      <marker id="arrow-standard-OuterCheck-InnerInit" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 87.6 412.8 L 87.6 447.8 L 224 447.8 L 224 534.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 87.6 412.8 L 87.6 447.8 L 224 447.8 L 224 534.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-OuterCheck-InnerInit)" pointer-events="none" /><text x="224" y="447.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">yes</text></g><g data-runiq-edge="OuterCheck-End-3" data-edge-id="OuterCheck-End-3" data-edge-from="OuterCheck" data-edge-to="End"><defs>
+      <marker id="arrow-standard-OuterCheck-End" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 87.6 412.8 L 87.6 472.79999999999995 L 87.6 472.79999999999995 L 87.6 532.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 87.6 412.8 L 87.6 472.79999999999995 L 87.6 472.79999999999995 L 87.6 532.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-OuterCheck-End)" pointer-events="none" /><text x="87.6" y="472.79999999999995" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">no</text></g><g data-runiq-edge="InnerInit-InnerCheck-4" data-edge-id="InnerInit-InnerCheck-4" data-edge-from="InnerInit" data-edge-to="InnerCheck"><defs>
+      <marker id="arrow-standard-InnerInit-InnerCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 224 571.5999999999999 L 224 608.5999999999999 L 262 608.5999999999999 L 290 693.5999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 224 571.5999999999999 L 224 608.5999999999999 L 262 608.5999999999999 L 290 693.5999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-InnerInit-InnerCheck)" pointer-events="none" /></g><g data-runiq-edge="InnerCheck-Compare-5" data-edge-id="InnerCheck-Compare-5" data-edge-from="InnerCheck" data-edge-to="Compare"><defs>
+      <marker id="arrow-standard-InnerCheck-Compare" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 290 693.5999999999999 L 290 553.1999999999999 L 290 382.8 L 290 267.8 L 307 267.8 L 352.6 232.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 290 693.5999999999999 L 290 553.1999999999999 L 290 382.8 L 290 267.8 L 307 267.8 L 352.6 232.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-InnerCheck-Compare)" pointer-events="none" /><text x="290" y="267.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">yes</text></g><g data-runiq-edge="InnerCheck-IncrementI-6" data-edge-id="InnerCheck-IncrementI-6" data-edge-from="InnerCheck" data-edge-to="IncrementI"><defs>
+      <marker id="arrow-standard-InnerCheck-IncrementI" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 290 753.5999999999999 L 290 788.5999999999999 L 42 788.5999999999999 L 34.6 873.5999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 290 753.5999999999999 L 290 788.5999999999999 L 42 788.5999999999999 L 34.6 873.5999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-InnerCheck-IncrementI)" pointer-events="none" /><text x="42" y="788.5999999999999" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">no</text></g><g data-runiq-edge="Compare-Swap-7" data-edge-id="Compare-Swap-7" data-edge-from="Compare" data-edge-to="Swap"><defs>
+      <marker id="arrow-standard-Compare-Swap" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 352.6 232.8 L 352.6 298.6 L 352.8 298.6 L 352.8 364.40000000000003" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 352.6 232.8 L 352.6 298.6 L 352.8 298.6 L 352.8 364.40000000000003" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Compare-Swap)" pointer-events="none" /><text x="352.8" y="298.6" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">yes</text></g><g data-runiq-edge="Compare-IncrementJ-8" data-edge-id="Compare-IncrementJ-8" data-edge-from="Compare" data-edge-to="IncrementJ"><defs>
+      <marker id="arrow-standard-Compare-IncrementJ" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 352.6 232.8 L 352.6 267.8 L 415 267.8 L 415 382.8 L 407.6 534.1333333333333" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 352.6 232.8 L 352.6 267.8 L 415 267.8 L 415 382.8 L 407.6 534.1333333333333" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Compare-IncrementJ)" pointer-events="none" /><text x="415" y="267.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">no</text></g><g data-runiq-edge="Swap-IncrementJ-9" data-edge-id="Swap-IncrementJ-9" data-edge-from="Swap" data-edge-to="IncrementJ"><defs>
+      <marker id="arrow-standard-Swap-IncrementJ" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 352.8 401.20000000000005 L 352.8 447.8 L 400 447.8 L 407.6 534.1333333333333" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 352.8 401.20000000000005 L 352.8 447.8 L 400 447.8 L 407.6 534.1333333333333" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Swap-IncrementJ)" pointer-events="none" /></g><g data-runiq-edge="IncrementJ-InnerCheck-10" data-edge-id="IncrementJ-InnerCheck-10" data-edge-from="IncrementJ" data-edge-to="InnerCheck"><defs>
+      <marker id="arrow-standard-IncrementJ-InnerCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 407.6 570.9333333333333 L 407.6 608.5999999999999 L 319 608.5999999999999 L 290 693.5999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 407.6 570.9333333333333 L 407.6 608.5999999999999 L 319 608.5999999999999 L 290 693.5999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-IncrementJ-InnerCheck)" pointer-events="none" /></g><g data-runiq-edge="IncrementI-OuterCheck-11" data-edge-id="IncrementI-OuterCheck-11" data-edge-from="IncrementI" data-edge-to="OuterCheck"><defs>
+      <marker id="arrow-standard-IncrementI-OuterCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 34.6 873.5999999999999 L 34.6 723.5999999999999 L 27 553.1999999999999 L 27 447.8 L 63 447.8 L 87.6 412.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 34.6 873.5999999999999 L 34.6 723.5999999999999 L 27 553.1999999999999 L 27 447.8 L 63 447.8 L 87.6 412.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-IncrementI-OuterCheck)" pointer-events="none" /></g><g data-runiq-node="Start" data-node-id="Start" data-node-shape="rounded">
+      <rect x="55" y="12" width="66" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="88" y="32.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Start
+    </text>
+    </g><g data-runiq-node="Init" data-node-id="Init" data-node-shape="rect">
+      <rect x="57" y="184.4" width="62" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="88" y="202.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      i = 0
+    </text>
+    </g><g data-runiq-node="OuterCheck" data-node-id="OuterCheck" data-node-shape="rhombus">
+      <polygon points="87.6,352.8 136.2,382.8 87.6,412.8 39,382.8"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="87.6" y="382.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      i < n-1?
+    </text>
+    </g><g data-runiq-node="InnerInit" data-node-id="InnerInit" data-node-shape="rect">
+      <rect x="193" y="534.8" width="62" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="224" y="553.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      j = 0
+    </text>
+    </g><g data-runiq-node="InnerCheck" data-node-id="InnerCheck" data-node-shape="rhombus">
+      <polygon points="290,693.5999999999999 347,723.5999999999999 290,753.5999999999999 233,723.5999999999999"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="290" y="723.5999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      j < n-i-1?
+    </text>
+    </g><g data-runiq-node="Compare" data-node-id="Compare" data-node-shape="rhombus">
+      <polygon points="352.6,172.8 443.20000000000005,202.8 352.6,232.8 262,202.8"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="352.6" y="202.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      arr[j] > arr[j+1]?
+    </text>
+    </g><g data-runiq-node="Swap" data-node-id="Swap" data-node-shape="rect">
+      <rect x="326" y="364.40000000000003" width="53.6" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="352.8" y="382.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Swap
+    </text>
+    </g><g data-runiq-node="IncrementJ" data-node-id="IncrementJ" data-node-shape="rect">
+      <rect x="385" y="534.1333333333333" width="45.2" height="36.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="407.6" y="552.5333333333333" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      j++
+    </text>
+    </g><g data-runiq-node="IncrementI" data-node-id="IncrementI" data-node-shape="rect">
+      <rect x="12" y="873.5999999999999" width="45.2" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="34.6" y="891.9999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      i++
+    </text>
+    </g><g data-runiq-node="End" data-node-id="End" data-node-shape="rounded">
+      <rect x="63" y="532.8" width="49.2" height="40.8"
+            rx="8" ry="8" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="87.6" y="553.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      End
+    </text>
+    </g></svg>

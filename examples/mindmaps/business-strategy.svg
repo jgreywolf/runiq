@@ -1,5 +1,210 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="170" 
-    viewBox="0 0 220 170"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Business Strategy 2025</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="strategymap"><rect x="0" y="0" width="200" height="150" 
-    fill="#eceff1" stroke="#546e7a" stroke-width="3" rx="8" /><text x="10" y="20" class="runiq-container-label">StrategyMap</text></g></svg>
+    width="2038.0940624220966" height="1932.0782355989768" 
+    viewBox="0 0 2038.0940624220966 1932.0782355989768"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="strategymap" data-container-id="strategymap"><rect x="0" y="0" width="2018.0940624220966" height="1912.0782355989768" 
+    fill="#eceff1" stroke="#546e7a" stroke-width="3" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">StrategyMap</text></g><g data-runiq-edge="goal-product-0" data-edge-id="goal-product-0" data-edge-from="goal" data-edge-to="product"><path d="M 1017.301101740808 1083.7649322363216 L 1237.1031962527622 1169.7684645132142" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1017.301101740808 1083.7649322363216 L 1237.1031962527622 1169.7684645132142" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="goal-customer-1" data-edge-id="goal-customer-1" data-edge-from="goal" data-edge-to="customer"><path d="M 1017.301101740808 1083.7649322363216 L 797.222365333181 1169.5014025234611" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1017.301101740808 1083.7649322363216 L 797.222365333181 1169.5014025234611" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="goal-innovation-2" data-edge-id="goal-innovation-2" data-edge-from="goal" data-edge-to="innovation"><path d="M 905.341101740808 971.8049322363215 L 781.8327843736345 790.0621535725096" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 905.341101740808 971.8049322363215 L 781.8327843736345 790.0621535725096" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="goal-operations-3" data-edge-id="goal-operations-3" data-edge-from="goal" data-edge-to="operations"><path d="M 1017.301101740808 859.8449322363215 L 1237.2076409510034 773.942151570863" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1017.301101740808 859.8449322363215 L 1237.2076409510034 773.942151570863" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="product-quality-4" data-edge-id="product-quality-4" data-edge-from="product" data-edge-to="quality"><path d="M 1327.7031962527624 1199.7684645132142 L 1489.2344263011237 1260.467486060287" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1327.7031962527624 1199.7684645132142 L 1489.2344263011237 1260.467486060287" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="product-features-5" data-edge-id="product-features-5" data-edge-from="product" data-edge-to="features"><path d="M 1237.1031962527622 1229.7684645132142 L 1200.7889644198865 1557.5843903586367" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1237.1031962527622 1229.7684645132142 L 1200.7889644198865 1557.5843903586367" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="quality-nps-6" data-edge-id="quality-nps-6" data-edge-from="quality" data-edge-to="nps"><path d="M 1672.8344263011236 1260.467486060287 L 1870.4940624220967 1257.6366141681065" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1672.8344263011236 1260.467486060287 L 1870.4940624220967 1257.6366141681065" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="customer-support-7" data-edge-id="customer-support-7" data-edge-from="customer" data-edge-to="support"><path d="M 797.222365333181 1229.5014025234611 L 760.2888098880188 1530.2538011447584" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 797.222365333181 1229.5014025234611 L 760.2888098880188 1530.2538011447584" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="customer-feedback-8" data-edge-id="customer-feedback-8" data-edge-from="customer" data-edge-to="feedback"><path d="M 723.422365333181 1199.5014025234611 L 505.86285159418327 1230.6352097685844" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 723.422365333181 1199.5014025234611 L 505.86285159418327 1230.6352097685844" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="support-adoption-9" data-edge-id="support-adoption-9" data-edge-from="support" data-edge-to="adoption"><path d="M 760.2888098880188 1571.0538011447584 L 631.7826639616243 1810.0782355989768" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 760.2888098880188 1571.0538011447584 L 631.7826639616243 1810.0782355989768" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="innovation-research-10" data-edge-id="innovation-research-10" data-edge-from="innovation" data-edge-to="research"><path d="M 724.8327843736345 760.0621535725096 L 483.1066548670693 784.446851407287" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 724.8327843736345 760.0621535725096 L 483.1066548670693 784.446851407287" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="innovation-partnerships-11" data-edge-id="innovation-partnerships-11" data-edge-from="innovation" data-edge-to="partnerships"><path d="M 781.8327843736345 730.0621535725096 L 731.8196672943658 426.85399539584745" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 781.8327843736345 730.0621535725096 L 731.8196672943658 426.85399539584745" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="research-patents-12" data-edge-id="research-patents-12" data-edge-from="research" data-edge-to="patents"><path d="M 341.5066548670693 784.446851407287 L 172.8 698.6694708790242" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 341.5066548670693 784.446851407287 L 172.8 698.6694708790242" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="operations-automation-13" data-edge-id="operations-automation-13" data-edge-from="operations" data-edge-to="automation"><path d="M 1237.2076409510034 713.942151570863 L 1273.8757211407983 413.16193220976896" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1237.2076409510034 713.942151570863 L 1273.8757211407983 413.16193220976896" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="operations-training-14" data-edge-id="operations-training-14" data-edge-from="operations" data-edge-to="training"><path d="M 1344.6076409510033 743.942151570863 L 1545.529686087194 754.3186419914553" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1344.6076409510033 743.942151570863 L 1545.529686087194 754.3186419914553" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="automation-efficiency-15" data-edge-id="automation-efficiency-15" data-edge-from="automation" data-edge-to="efficiency"><path d="M 1273.8757211407983 372.36193220976895 L 1322.0535900377683 102" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1273.8757211407983 372.36193220976895 L 1322.0535900377683 102" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-node="goal" data-node-id="goal" data-node-shape="circ">
+      <circle cx="1017.301101740808" cy="971.8049322363215" r="111.96000000000001"
+              fill="#ffffff" stroke="#8b5cf6" stroke-width="3" />
+      
+      <text x="1017.301101740808" y="971.8049322363215" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Market Leadership
+    </text>
+    </g><g data-runiq-node="product" data-node-id="product" data-node-shape="hexagon">
+      <polygon points="1173.6831962527624,1169.7684645132142 1300.5231962527623,1169.7684645132142 1327.7031962527624,1199.7684645132142 1300.5231962527623,1229.7684645132142 1173.6831962527624,1229.7684645132142 1146.5031962527623,1199.7684645132142" 
+               fill="#3b82f6" stroke="#2563eb" stroke-width="2" />
+      
+      <text x="1237.1031962527622" y="1199.7684645132142" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Product Excellence
+    </text>
+    </g><g data-runiq-node="customer" data-node-id="customer" data-node-shape="hexagon">
+      <polygon points="745.562365333181,1169.5014025234611 848.882365333181,1169.5014025234611 871.022365333181,1199.5014025234611 848.882365333181,1229.5014025234611 745.562365333181,1229.5014025234611 723.422365333181,1199.5014025234611" 
+               fill="#10b981" stroke="#059669" stroke-width="2" />
+      
+      <text x="797.222365333181" y="1199.5014025234611" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Customer Focus
+    </text>
+    </g><g data-runiq-node="innovation" data-node-id="innovation" data-node-shape="hexagon">
+      <polygon points="741.9327843736345,730.0621535725096 821.7327843736344,730.0621535725096 838.8327843736345,760.0621535725096 821.7327843736344,790.0621535725096 741.9327843736345,790.0621535725096 724.8327843736345,760.0621535725096" 
+               fill="#f59e0b" stroke="#d97706" stroke-width="2" />
+      
+      <text x="781.8327843736345" y="760.0621535725096" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Innovation
+    </text>
+    </g><g data-runiq-node="operations" data-node-id="operations" data-node-shape="hexagon">
+      <polygon points="1162.0276409510034,713.942151570863 1312.3876409510033,713.942151570863 1344.6076409510033,743.942151570863 1312.3876409510033,773.942151570863 1162.0276409510034,773.942151570863 1129.8076409510033,743.942151570863" 
+               fill="#ec4899" stroke="#db2777" stroke-width="2" />
+      
+      <text x="1237.2076409510034" y="743.942151570863" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Operational Efficiency
+    </text>
+    </g><g data-runiq-node="quality" data-node-id="quality" data-node-shape="rounded">
+      <rect x="1489.2344263011237" y="1240.067486060287" width="160.79999999999998" height="38.4"
+            rx="8" ry="8" fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="1569.6344263011238" y="1259.267486060287" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Quality Improvement
+    </text>
+    </g><g data-runiq-node="features" data-node-id="features" data-node-shape="rounded">
+      <rect x="1138.3889644198864" y="1557.5843903586367" width="110.39999999999999" height="38.4"
+            rx="8" ry="8" fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <text x="1193.5889644198865" y="1576.7843903586368" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      New Features
+    </text>
+    </g><g data-runiq-node="support" data-node-id="support" data-node-shape="rounded">
+      <rect x="697.8888098880188" y="1530.2538011447584" width="110.39999999999999" height="38.4"
+            rx="8" ry="8" fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="753.0888098880189" y="1549.4538011447585" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      24/7 Support
+    </text>
+    </g><g data-runiq-node="feedback" data-node-id="feedback" data-node-shape="rounded">
+      <rect x="372.6628515941833" y="1210.2352097685844" width="117.6" height="38.4"
+            rx="8" ry="8" fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <text x="431.4628515941833" y="1229.4352097685844" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Feedback Loop
+    </text>
+    </g><g data-runiq-node="research" data-node-id="research" data-node-shape="rounded">
+      <rect x="341.5066548670693" y="764.046851407287" width="124.79999999999998" height="38.4"
+            rx="8" ry="8" fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <text x="403.9066548670693" y="783.2468514072871" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      R&D Investment
+    </text>
+    </g><g data-runiq-node="partnerships" data-node-id="partnerships" data-node-shape="rounded">
+      <rect x="648.4196672943658" y="386.05399539584744" width="146.39999999999998" height="38.4"
+            rx="8" ry="8" fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <text x="721.6196672943659" y="405.2539953958474" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Tech Partnerships
+    </text>
+    </g><g data-runiq-node="automation" data-node-id="automation" data-node-shape="rounded">
+      <rect x="1186.2757211407984" y="372.36193220976895" width="153.6" height="38.4"
+            rx="8" ry="8" fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="1263.0757211407984" y="391.56193220976894" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Process Automation
+    </text>
+    </g><g data-runiq-node="training" data-node-id="training" data-node-shape="rounded">
+      <rect x="1545.529686087194" y="733.9186419914553" width="117.6" height="38.4"
+            rx="8" ry="8" fill="#f7b5d6" stroke="#e5679f" stroke-width="1" />
+      
+      <text x="1604.329686087194" y="753.1186419914553" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Team Training
+    </text>
+    </g><g data-runiq-node="nps" data-node-id="nps" data-node-shape="rhombus">
+      <polygon points="1915.1940624220967,1227.6366141681065 1959.8940624220968,1257.6366141681065 1915.1940624220967,1287.6366141681065 1870.4940624220967,1257.6366141681065"
+               fill="#eff5fe" stroke="#a3bdf6" stroke-width="1" />
+      
+      <text x="1915.1940624220967" y="1257.6366141681065" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      NPS Score
+    </text>
+    </g><g data-runiq-node="adoption" data-node-id="adoption" data-node-shape="rhombus">
+      <polygon points="620.0826639616242,1810.0782355989768 677.9826639616242,1840.0782355989768 620.0826639616242,1870.0782355989768 562.1826639616243,1840.0782355989768"
+               fill="#ebf9f4" stroke="#96d2c0" stroke-width="1" />
+      
+      <text x="620.0826639616242" y="1840.0782355989768" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      Adoption Rate
+    </text>
+    </g><g data-runiq-node="patents" data-node-id="patents" data-node-shape="rhombus">
+      <polygon points="96.6,668.6694708790242 151.2,698.6694708790242 96.6,728.6694708790242 42,698.6694708790242"
+               fill="#fef7eb" stroke="#eec596" stroke-width="1" />
+      
+      <text x="96.6" y="698.6694708790242" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      Patent Count
+    </text>
+    </g><g data-runiq-node="efficiency" data-node-id="efficiency" data-node-shape="rhombus">
+      <polygon points="1311.2535900377682,42 1365.8535900377683,72 1311.2535900377682,102 1256.6535900377683,72"
+               fill="#fdf0f6" stroke="#efa3c5" stroke-width="1" />
+      
+      <text x="1311.2535900377682" y="72" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      Efficiency %
+    </text>
+    </g></svg>

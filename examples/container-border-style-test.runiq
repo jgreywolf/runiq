@@ -1,17 +1,19 @@
+diagram "Container borderStyle Test" {
 // Test container borderStyle property
 
-container "Solid Border (default)" {
-  shape A as @rect label: "Node A"
-}
+  container "Solid Border (default)" {
+    shape A as @rect label: "Node A"
+  }
 
-container "Dashed Border" borderStyle: dashed {
-  shape B as @rect label: "Node B"
-}
+  container "Dashed Border" borderStyle: dashed {
+    shape B as @rect label: "Node B"
+  }
 
-container "Dotted Border" borderStyle: dotted {
-  shape C as @rect label: "Node C"
-}
+  container "Dotted Border" borderStyle: dotted {
+    shape C as @rect label: "Node C"
+  }
 
-container "Dashed Red Border" borderStyle: dashed strokeColor: "#ff0000" strokeWidth: 3 {
-  shape D as @rect label: "Node D"
+  container "Dashed Red Border" borderStyle: dashed strokeColor: "#ff0000" strokeWidth: 3 {
+    shape D as @rect label: "Node D"
+  }
 }

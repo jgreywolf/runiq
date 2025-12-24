@@ -533,6 +533,6 @@ diagram "User Authentication Flow" {
 
 ## Related Resources
 
-- [Activity Diagrams Guide](/guide/activity-diagrams) - Complete syntax reference
+- [Activity Diagrams Guide](/guide/diagram-types/activity-diagrams) - Complete syntax reference
 - [UML Activity Specification](https://www.omg.org/spec/UML/) - Official UML 2.5 specification
 - [Diagram Profile](/guide/profiles#diagram-profile) - Overview of diagram capabilities

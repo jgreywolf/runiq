@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="442" height="312" 
+    viewBox="0 0 442 312"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="pie1" data-node-id="pie1" data-node-shape="pieChart"><text x="137" y="27" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Custom Colors Pie
+    </text><path d="M 137,167 L 137,52 A 115,115 0 0,1 230.03695435311897,234.5953040136344 Z" fill="#ff0000" stroke="#48677e" stroke-width="2" />
+    <path d="M 137,167 L 230.03695435311897,234.5953040136344 A 115,115 0 0,1 53.168607846537654,245.72291718179918 Z" fill="#00ff00" stroke="#48677e" stroke-width="2" />
+    <path d="M 137,167 L 53.168607846537654,245.72291718179918 A 115,115 0 0,1 43.96304564688104,99.4046959863656 Z" fill="#0000ff" stroke="#48677e" stroke-width="2" />
+    <path d="M 137,167 L 43.96304564688104,99.4046959863656 A 115,115 0 0,1 136.99999999999997,52 Z" fill="#ffff00" stroke="#48677e" stroke-width="2" />
+    <text x="208.7260251971636" y="134.45376477096647" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff">35</text>
+    <text x="142.05463682210973" y="251.34115163847588" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">28</text>
+    <text x="56.658848361524136" y="176.05463682210979" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff">22</text>
+    <text x="100.45376477096647" y="99.27397480283639" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">15</text>
+    <g>
+      <rect x="272" y="212" width="12" height="12" fill="#ff0000" stroke="#333" stroke-width="1" />
+      <text x="290" y="222" font-size="11" fill="#333">Red Slice (35%)</text>
+    </g>
+    <g>
+      <rect x="272" y="232" width="12" height="12" fill="#00ff00" stroke="#333" stroke-width="1" />
+      <text x="290" y="242" font-size="11" fill="#333">Green Slice (28%)</text>
+    </g>
+    <g>
+      <rect x="272" y="252" width="12" height="12" fill="#0000ff" stroke="#333" stroke-width="1" />
+      <text x="290" y="262" font-size="11" fill="#333">Blue Slice (22%)</text>
+    </g>
+    <g>
+      <rect x="272" y="272" width="12" height="12" fill="#ffff00" stroke="#333" stroke-width="1" />
+      <text x="290" y="282" font-size="11" fill="#333">Yellow Slice (15%)</text>
+    </g></g></svg>

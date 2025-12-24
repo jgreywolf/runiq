@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="747" height="771.2" 
+    viewBox="0 0 747 771.2"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="pluginApi-iInit-0" data-edge-id="pluginApi-iInit-0" data-edge-from="pluginApi" data-edge-to="iInit"><defs>
+      <marker id="arrow-standard-pluginApi-iInit" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 339 229.60000000000002 L 339 314.6 L 442 314.6 L 442 365.20000000000005" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 339 229.60000000000002 L 339 314.6 L 442 314.6 L 442 365.20000000000005" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pluginApi-iInit)" pointer-events="none" /></g><g data-runiq-edge="pluginApi-iConfig-1" data-edge-id="pluginApi-iConfig-1" data-edge-from="pluginApi" data-edge-to="iConfig"><defs>
+      <marker id="arrow-standard-pluginApi-iConfig" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 339 229.60000000000002 L 339 289.6 L 332 289.6 L 332 349.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 339 229.60000000000002 L 339 289.6 L 332 289.6 L 332 349.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pluginApi-iConfig)" pointer-events="none" /></g><g data-runiq-edge="pluginApi-iLifecycle-2" data-edge-id="pluginApi-iLifecycle-2" data-edge-from="pluginApi" data-edge-to="iLifecycle"><defs>
+      <marker id="arrow-standard-pluginApi-iLifecycle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 339 229.60000000000002 L 339 289.6 L 222 289.6 L 222 349.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 339 229.60000000000002 L 339 289.6 L 222 289.6 L 222 349.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pluginApi-iLifecycle)" pointer-events="none" /></g><g data-runiq-edge="authPlugin-needsInit1-3" data-edge-id="authPlugin-needsInit1-3" data-edge-from="authPlugin" data-edge-to="needsInit1"><defs>
+      <marker id="arrow-standard-authPlugin-needsInit1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 80.80000000000001 591.2 L 80.80000000000001 626.2 L 232 626.2 L 237 711.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 80.80000000000001 591.2 L 80.80000000000001 626.2 L 232 626.2 L 237 711.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authPlugin-needsInit1)" pointer-events="none" /></g><g data-runiq-edge="loggingPlugin-needsInit2-4" data-edge-id="loggingPlugin-needsInit2-4" data-edge-from="loggingPlugin" data-edge-to="needsInit2"><defs>
+      <marker id="arrow-standard-loggingPlugin-needsInit2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 592 591.2 L 592 626.2 L 356 626.2 L 351 711.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 592 591.2 L 592 626.2 L 356 626.2 L 351 711.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-loggingPlugin-needsInit2)" pointer-events="none" /></g><g data-runiq-edge="cachingPlugin-needsInit3-5" data-edge-id="cachingPlugin-needsInit3-5" data-edge-from="cachingPlugin" data-edge-to="needsInit3"><defs>
+      <marker id="arrow-standard-cachingPlugin-needsInit3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 677 410.40000000000003 Q 677 560.8000000000001 672 711.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 677 410.40000000000003 Q 677 560.8000000000001 672 711.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cachingPlugin-needsInit3)" pointer-events="none" /></g><g data-runiq-edge="iInit-conn1-6" data-edge-id="iInit-conn1-6" data-edge-from="iInit" data-edge-to="conn1"><defs>
+      <marker id="arrow-standard-iInit-conn1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 442 405.20000000000005 L 442 445.40000000000003 L 242 445.40000000000003 L 242 548.8000000000001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 442 405.20000000000005 L 442 445.40000000000003 L 242 445.40000000000003 L 242 548.8000000000001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-iInit-conn1)" pointer-events="none" /></g><g data-runiq-edge="conn1-needsInit1-7" data-edge-id="conn1-needsInit1-7" data-edge-from="conn1" data-edge-to="needsInit1"><defs>
+      <marker id="arrow-standard-conn1-needsInit1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 242 572.8000000000001 L 242 642 L 237 642 L 237 711.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 242 572.8000000000001 L 242 642 L 237 642 L 237 711.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-conn1-needsInit1)" pointer-events="none" /></g><g data-runiq-edge="iInit-conn2-8" data-edge-id="iInit-conn2-8" data-edge-from="iInit" data-edge-to="conn2"><defs>
+      <marker id="arrow-standard-iInit-conn2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 442 405.20000000000005 L 442 470.40000000000003 L 346 470.40000000000003 L 346 548.8000000000001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 442 405.20000000000005 L 442 470.40000000000003 L 346 470.40000000000003 L 346 548.8000000000001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-iInit-conn2)" pointer-events="none" /></g><g data-runiq-edge="conn2-needsInit2-9" data-edge-id="conn2-needsInit2-9" data-edge-from="conn2" data-edge-to="needsInit2"><defs>
+      <marker id="arrow-standard-conn2-needsInit2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 346 572.8000000000001 L 346 642 L 351 642 L 351 711.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 346 572.8000000000001 L 346 642 L 351 642 L 351 711.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-conn2-needsInit2)" pointer-events="none" /></g><g data-runiq-edge="iInit-conn3-10" data-edge-id="iInit-conn3-10" data-edge-from="iInit" data-edge-to="conn3"><defs>
+      <marker id="arrow-standard-iInit-conn3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 442 405.20000000000005 L 442 477.00000000000006 L 450 477.00000000000006 L 450 548.8000000000001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 442 405.20000000000005 L 442 477.00000000000006 L 450 477.00000000000006 L 450 548.8000000000001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-iInit-conn3)" pointer-events="none" /></g><g data-runiq-edge="conn3-needsInit3-11" data-edge-id="conn3-needsInit3-11" data-edge-from="conn3" data-edge-to="needsInit3"><defs>
+      <marker id="arrow-standard-conn3-needsInit3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 450 572.8000000000001 L 450 651.2 L 667 651.2 L 672 711.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 450 572.8000000000001 L 450 651.2 L 667 651.2 L 672 711.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-conn3-needsInit3)" pointer-events="none" /></g><g data-runiq-edge="pluginMgr-pluginApi-12" data-edge-id="pluginMgr-pluginApi-12" data-edge-from="pluginMgr" data-edge-to="pluginApi"><defs>
+      <marker id="arrow-standard-pluginMgr-pluginApi" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 339.2 48.8 L 339.2 108.80000000000001 L 339 108.80000000000001 L 339 168.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 339.2 48.8 L 339.2 108.80000000000001 L 339 108.80000000000001 L 339 168.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pluginMgr-pluginApi)" pointer-events="none" /></g><g data-runiq-edge="pluginApi-authPlugin-13" data-edge-id="pluginApi-authPlugin-13" data-edge-from="pluginApi" data-edge-to="authPlugin"><defs>
+      <marker id="arrow-standard-pluginApi-authPlugin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 287 199.20000000000002 L 302 199.20000000000002 L 171 264.6 L 171 380 L 171 445.40000000000003 L 81 445.40000000000003 L 80.80000000000001 530.4000000000001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 287 199.20000000000002 L 302 199.20000000000002 L 171 264.6 L 171 380 L 171 445.40000000000003 L 81 445.40000000000003 L 80.80000000000001 530.4000000000001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pluginApi-authPlugin)" pointer-events="none" /></g><g data-runiq-edge="pluginApi-loggingPlugin-14" data-edge-id="pluginApi-loggingPlugin-14" data-edge-from="pluginApi" data-edge-to="loggingPlugin"><defs>
+      <marker id="arrow-standard-pluginApi-loggingPlugin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 339 229.60000000000002 L 339 289.6 L 591 289.6 L 591 380 L 591 445.40000000000003 L 592 445.40000000000003 L 592 530.4000000000001" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 339 229.60000000000002 L 339 289.6 L 591 289.6 L 591 380 L 591 445.40000000000003 L 592 445.40000000000003 L 592 530.4000000000001" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pluginApi-loggingPlugin)" pointer-events="none" /></g><g data-runiq-edge="pluginApi-cachingPlugin-15" data-edge-id="pluginApi-cachingPlugin-15" data-edge-from="pluginApi" data-edge-to="cachingPlugin"><defs>
+      <marker id="arrow-standard-pluginApi-cachingPlugin" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 391 199.20000000000002 L 376 199.20000000000002 L 677 264.6 L 677 349.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 391 199.20000000000002 L 376 199.20000000000002 L 677 264.6 L 677 349.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pluginApi-cachingPlugin)" pointer-events="none" /></g><g data-runiq-node="pluginMgr" data-node-id="pluginMgr" data-node-shape="template"><rect x="262" y="12" width="154.4" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+
+      <!-- Dashed corner for template parameter -->
+      <path d="M 396.4 12
+               L 416.4 12
+               L 416.4 32"
+            fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="3,2" /><text x="339.2" y="30.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      PluginManager<T>
+    </text></g><g data-runiq-node="pluginApi" data-node-id="pluginApi" data-node-shape="module"><rect x="287" y="168.8" width="104" height="60.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="339" y="182.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      «module»
+    </text><text x="339" y="206.20000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Plugin API
+    </text></g><g data-runiq-node="authPlugin" data-node-id="authPlugin" data-node-shape="module"><rect x="12" y="530.4000000000001" width="137.60000000000002" height="60.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="80.80000000000001" y="544.4000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      «module»
+    </text><text x="80.80000000000001" y="567.8000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Authentication
+    </text></g><g data-runiq-node="loggingPlugin" data-node-id="loggingPlugin" data-node-shape="module"><rect x="542" y="530.4000000000001" width="100" height="60.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="592" y="544.4000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      «module»
+    </text><text x="592" y="567.8000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Logging
+    </text></g><g data-runiq-node="cachingPlugin" data-node-id="cachingPlugin" data-node-shape="module"><rect x="627" y="349.6" width="100" height="60.8"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="677" y="363.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      «module»
+    </text><text x="677" y="387" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Caching
+    </text></g><g data-runiq-node="iInit" data-node-id="iInit" data-node-shape="providedInterface"><line x1="442" y1="395.20000000000005" x2="442" y2="375.20000000000005"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="442" cy="375.20000000000005" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="442" y="407.20000000000005" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IInitializable
+    </text></g><g data-runiq-node="iConfig" data-node-id="iConfig" data-node-shape="providedInterface"><line x1="332" y1="379.6" x2="332" y2="359.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="332" cy="359.6" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="332" y="391.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IConfigurable
+    </text></g><g data-runiq-node="iLifecycle" data-node-id="iLifecycle" data-node-shape="providedInterface"><line x1="222" y1="379.6" x2="222" y2="359.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="222" cy="359.6" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="222" y="391.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      ILifecycle
+    </text></g><g data-runiq-node="needsInit1" data-node-id="needsInit1" data-node-shape="requiredInterface"><line x1="237" y1="741.2" x2="237" y2="721.2"
+            stroke="#48677e" stroke-width="2" />
+      
+      <!-- Semicircle (socket) -->
+      <path d="M 229 721.2
+               A 8 8 0 0 1 245 721.2"
+            fill="none" stroke="#48677e" stroke-width="2" /><text x="237" y="753.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IInitializable
+    </text></g><g data-runiq-node="needsInit2" data-node-id="needsInit2" data-node-shape="requiredInterface"><line x1="351" y1="741.2" x2="351" y2="721.2"
+            stroke="#48677e" stroke-width="2" />
+      
+      <!-- Semicircle (socket) -->
+      <path d="M 343 721.2
+               A 8 8 0 0 1 359 721.2"
+            fill="none" stroke="#48677e" stroke-width="2" /><text x="351" y="753.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IInitializable
+    </text></g><g data-runiq-node="needsInit3" data-node-id="needsInit3" data-node-shape="requiredInterface"><line x1="672" y1="741.2" x2="672" y2="721.2"
+            stroke="#48677e" stroke-width="2" />
+      
+      <!-- Semicircle (socket) -->
+      <path d="M 664 721.2
+               A 8 8 0 0 1 680 721.2"
+            fill="none" stroke="#48677e" stroke-width="2" /><text x="672" y="753.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IInitializable
+    </text></g><g data-runiq-node="conn1" data-node-id="conn1" data-node-shape="assembly"><circle cx="242" cy="560.8000000000001" r="10"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="242" y="586.8000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      conn1
+    </text></g><g data-runiq-node="conn2" data-node-id="conn2" data-node-shape="assembly"><circle cx="346" cy="560.8000000000001" r="10"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="346" y="586.8000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      conn2
+    </text></g><g data-runiq-node="conn3" data-node-id="conn3" data-node-shape="assembly"><circle cx="450" cy="560.8000000000001" r="10"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="450" y="586.8000000000001" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      conn3
+    </text></g></svg>

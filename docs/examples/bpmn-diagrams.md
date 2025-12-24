@@ -627,7 +627,7 @@ diagram "Purchase Order Process - Message Flow" {
 
 ## Related Resources
 
-- [BPMN Diagrams Guide](/guide/bpmn-diagrams) - Complete syntax reference
+- [BPMN Diagrams Guide](/guide/diagram-types/bpmn-diagrams) - Complete syntax reference
 - [BPMN 2.0 Specification](https://www.omg.org/spec/BPMN/) - Official OMG standard
 - [Diagram Profile](/guide/profiles#diagram-profile) - Overview of diagram capabilities
 

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="751.52" height="251.84" 
+    viewBox="0 0 751.52 251.84"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="increasingList" data-node-id="increasingList" data-node-shape="increasingList">
+          <circle cx="66.96000000000001" cy="121.92000000000002" r="54.96"
+                  fill="#5a819e" fill-opacity="0.6"
+                  stroke="#48677e" stroke-width="2" />
+        <text x="66.96000000000001" y="121.92000000000002" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Minor
+    </text>
+          <circle cx="215.20000000000002" cy="121.92" r="73.28"
+                  fill="#5a819e" fill-opacity="0.7333333333333333"
+                  stroke="#48677e" stroke-width="2" />
+        <text x="215.20000000000002" y="121.92" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="18.666666666666664"
+      fill="#FFFFFF">
+      Moderate
+    </text>
+          <circle cx="400.08000000000004" cy="121.92" r="91.6"
+                  fill="#5a819e" fill-opacity="0.8666666666666667"
+                  stroke="#48677e" stroke-width="2" />
+        <text x="400.08000000000004" y="121.92" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="23.333333333333332"
+      fill="#FFFFFF">
+      Important
+    </text>
+          <circle cx="621.6" cy="121.92" r="109.92"
+                  fill="#5a819e" fill-opacity="1"
+                  stroke="#48677e" stroke-width="2" />
+        <text x="621.6" y="121.92" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="28"
+      fill="#FFFFFF">
+      Critical
+    </text></g></svg>

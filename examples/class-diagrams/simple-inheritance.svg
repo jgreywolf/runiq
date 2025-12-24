@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="743.6" height="450" 
+    viewBox="0 0 743.6 450"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="Dog-Animal-0" data-edge-id="Dog-Animal-0" data-edge-from="Dog" data-edge-to="Animal"><defs>
+      <marker id="arrow-standard-Dog-Animal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 103.8 134 L 103.8 169 L 322 169 L 367.8 254" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 103.8 134 L 103.8 169 L 322 169 L 367.8 254" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Dog-Animal)" pointer-events="none" /></g><g data-runiq-edge="Cat-Animal-1" data-edge-id="Cat-Animal-1" data-edge-from="Cat" data-edge-to="Animal"><defs>
+      <marker id="arrow-standard-Cat-Animal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 367.8 134 L 367.8 194 L 367.8 194 L 367.8 254" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 367.8 134 L 367.8 194 L 367.8 194 L 367.8 254" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Cat-Animal)" pointer-events="none" /></g><g data-runiq-edge="Bird-Animal-2" data-edge-id="Bird-Animal-2" data-edge-from="Bird" data-edge-to="Animal"><defs>
+      <marker id="arrow-standard-Bird-Animal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 631.8 134 L 631.8 169 L 414 169 L 367.8 254" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 631.8 134 L 631.8 169 L 414 169 L 367.8 254" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Bird-Animal)" pointer-events="none" /></g><g data-runiq-node="Animal" data-node-id="Animal" data-node-shape="class"><rect x="276" y="254" width="183.6" height="176" fill="#5a819e" stroke="#48677e" stroke-width="1"/><text x="367.8" y="275" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#000000">
+      «abstract»
+    </text><text x="367.8" y="293" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Animal
+    </text><line x1="276" y1="314" x2="459.6" y2="314" stroke="#48677e" stroke-width="1"/><text x="288" y="335" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      # name: string
+    </text><text x="288" y="353" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      # age: int
+    </text><line x1="276" y1="374" x2="459.6" y2="374" stroke="#48677e" stroke-width="1"/><text x="288" y="395" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + eat(): void
+    </text><text x="288" y="413" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + sleep(): void
+    </text><text x="288" y="431" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + makeSound(): void
+    </text></g><g data-runiq-node="Dog" data-node-id="Dog" data-node-shape="class"><rect x="12" y="12" width="183.6" height="122" fill="#73a3bf" stroke="#48677e" stroke-width="1"/><text x="103.8" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Dog
+    </text><line x1="12" y1="54" x2="195.6" y2="54" stroke="#48677e" stroke-width="1"/><text x="24" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - breed: string
+    </text><line x1="12" y1="96" x2="195.6" y2="96" stroke="#48677e" stroke-width="1"/><text x="24" y="117" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + makeSound(): void
+    </text><text x="24" y="135" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + fetch(): void
+    </text></g><g data-runiq-node="Cat" data-node-id="Cat" data-node-shape="class"><rect x="276" y="12" width="183.6" height="122" fill="#96bacf" stroke="#48677e" stroke-width="1"/><text x="367.8" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Cat
+    </text><line x1="276" y1="54" x2="459.6" y2="54" stroke="#48677e" stroke-width="1"/><text x="288" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - indoor: bool
+    </text><line x1="276" y1="96" x2="459.6" y2="96" stroke="#48677e" stroke-width="1"/><text x="288" y="117" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + makeSound(): void
+    </text><text x="288" y="135" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + scratch(): void
+    </text></g><g data-runiq-node="Bird" data-node-id="Bird" data-node-shape="class"><rect x="540" y="12" width="183.6" height="122" fill="#48677e" stroke="#48677e" stroke-width="1"/><text x="631.8" y="33" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      Bird
+    </text><line x1="540" y1="54" x2="723.6" y2="54" stroke="#48677e" stroke-width="1"/><text x="552" y="75" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      - wingspan: float
+    </text><line x1="540" y1="96" x2="723.6" y2="96" stroke="#48677e" stroke-width="1"/><text x="552" y="117" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + makeSound(): void
+    </text><text x="552" y="135" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#000000">
+      + fly(): void
+    </text></g></svg>

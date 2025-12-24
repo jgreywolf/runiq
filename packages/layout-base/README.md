@@ -183,7 +183,7 @@ ELK supports multiple layout algorithms via the `algorithm` option:
 - ✅ **radial** - Radial tree layout
 - ✅ **mrtree** - Multi-root tree layout
 
-See [Force-Directed Networks Guide](../../docs/guide/force-directed-networks.md) for details.
+See [Force-Directed Networks Guide](../../docs/guide/diagram-types/force-directed-networks.md) for details.
 
 ## Future Features
 

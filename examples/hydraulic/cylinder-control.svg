@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="870" 
+    height="204" 
+    viewBox="60 60 870 204"
+    role="img" 
+    aria-labelledby="schematic-title">
+  <title id="schematic-title">Cylinder Position Control</title>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .hydraulic-wire { stroke: #000000; stroke-width: 2; fill: none; }
+      .hydraulic-component { color: #000000; }
+      .hydraulic-label { font-family: sans-serif; font-size: 12px; fill: #000000; }
+      .hydraulic-value { font-family: sans-serif; font-size: 10px; fill: #000000; }
+      .hydraulic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+    ]]></style>
+  </defs>
+<g class="hydraulic-wires">
+  <path d="M 130,150 L 270,115" class="hydraulic-wire"/>
+  <text x="275" y="110" class="hydraulic-net-label">PORT_A</text>
+  <path d="M 270,115 L 440,150" class="hydraulic-wire"/>
+  <text x="445" y="145" class="hydraulic-net-label">PORT_A</text>
+  <path d="M 440,150 L 730,140" class="hydraulic-wire"/>
+  <text x="735" y="135" class="hydraulic-net-label">PORT_A</text>
+  <path d="M 730,140 L 870,140" class="hydraulic-wire"/>
+  <text x="875" y="135" class="hydraulic-net-label">PORT_A</text>
+  <path d="M 145,150 L 290,130" class="hydraulic-wire"/>
+  <text x="295" y="125" class="hydraulic-net-label">PORT_B</text>
+  <path d="M 290,130 L 580,150" class="hydraulic-wire"/>
+  <text x="585" y="145" class="hydraulic-net-label">PORT_B</text>
+  <path d="M 580,150 L 730,100" class="hydraulic-wire"/>
+  <text x="735" y="95" class="hydraulic-net-label">PORT_B</text>
+</g>
+<g class="hydraulic-components">
+  <g class="hydraulic-component" data-ref="VALVE">
+
+      <!-- Position 1 box (left) -->
+      <rect x="100" y="110" width="22" height="30"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Position 2 box (center) -->
+      <rect x="122" y="110" width="22" height="30"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Position 3 box (right) -->
+      <rect x="144" y="110" width="22" height="30"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Flow indicators in center position (closed center shown) -->
+      <line x1="127" y1="117" x2="143" y2="133"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="127" y1="133" x2="143" y2="117"
+        stroke="currentColor" stroke-width="1.5"/>
+
+      <!-- Port connection lines -->
+      <line x1="105" y1="150" x2="105" y2="148" stroke="currentColor" stroke-width="2"/>
+      <line x1="120" y1="150" x2="120" y2="148" stroke="currentColor" stroke-width="2"/>
+      <line x1="150" y1="150" x2="150" y2="148" stroke="currentColor" stroke-width="2"/>
+      <line x1="165" y1="150" x2="165" y2="148" stroke="currentColor" stroke-width="2"/>
+        <text x="135" y="92" 
+        class="hydraulic-label" 
+        text-anchor="middle">VALVE</text>
+  </g>
+  <g class="hydraulic-component" data-ref="CYLINDER">
+
+      <!-- Cylinder body (thicker lines for hydraulic) -->
+      <rect x="280" y="100" width="40" height="20" 
+        stroke="currentColor" stroke-width="2.5" fill="none"/>
+      
+      <!-- piston rod line -->
+      <line x1="270" y1="115" x2="280" y2="115" 
+        stroke="currentColor" stroke-width="2.5"/>
+      
+      <!-- Port A circle (left) -->
+      <circle cx="290" cy="130" r="2.5" fill="currentColor"/>
+      
+      <!-- Port B circle (right) -->
+      <circle cx="310" cy="130" r="2.5" fill="currentColor"/>
+        <text x="300" y="92" 
+        class="hydraulic-label" 
+        text-anchor="middle">CYLINDER</text>
+  </g>
+  <g class="hydraulic-component" data-ref="PILOT_A">
+
+      <!-- Left position box -->
+      <rect x="430" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Right position box -->
+      <rect x="450" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- Flow arrows in left position (P->A) -->
+      <line x1="435" y1="140" x2="440" y2="110" stroke="currentColor" stroke-width="2"/>
+      <polygon points="440,110 438,115 442,115"
+        fill="currentColor"/>
+
+      <!-- Flow arrows in right position (A->R) -->
+      <line x1="460" y1="110" x2="465" y2="140" stroke="currentColor" stroke-width="2"/>
+      <polygon points="465,140 463,135 467,135"
+        fill="currentColor"/>
+
+      <!-- Port P connection -->
+      <circle cx="432" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port A connection -->
+      <circle cx="450" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port R connection -->
+      <circle cx="468" cy="155" r="2" fill="currentColor"/>
+        <text x="450" y="92" 
+        class="hydraulic-label" 
+        text-anchor="middle">PILOT_A</text>
+  </g>
+  <g class="hydraulic-component" data-ref="PILOT_B">
+
+      <!-- Left position box -->
+      <rect x="570" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Right position box -->
+      <rect x="590" y="100" width="20" height="50"
+        stroke="currentColor" stroke-width="2" fill="none"/>
+
+      <!-- Flow arrows in left position (P->A) -->
+      <line x1="575" y1="140" x2="580" y2="110" stroke="currentColor" stroke-width="2"/>
+      <polygon points="580,110 578,115 582,115"
+        fill="currentColor"/>
+
+      <!-- Flow arrows in right position (A->R) -->
+      <line x1="600" y1="110" x2="605" y2="140" stroke="currentColor" stroke-width="2"/>
+      <polygon points="605,140 603,135 607,135"
+        fill="currentColor"/>
+
+      <!-- Port P connection -->
+      <circle cx="572" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port A connection -->
+      <circle cx="590" cy="155" r="2" fill="currentColor"/>
+
+      <!-- Port R connection -->
+      <circle cx="608" cy="155" r="2" fill="currentColor"/>
+        <text x="590" y="92" 
+        class="hydraulic-label" 
+        text-anchor="middle">PILOT_B</text>
+  </g>
+  <g class="hydraulic-component" data-ref="BALANCE">
+
+      <!-- Ball seat (circle) -->
+      <circle cx="730" cy="120" r="5" stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Check valve triangle -->
+      <polygon points="730,110 740,130 720,130"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Seat line -->
+      <line x1="718" y1="130" x2="742" y2="130"
+        stroke="currentColor" stroke-width="2"/>
+
+      <!-- Ports -->
+      <line x1="730" y1="105" x2="730" y2="97" stroke="currentColor" stroke-width="2.5"/>
+      <line x1="730" y1="138" x2="730" y2="143" stroke="currentColor" stroke-width="2.5"/>
+        <text x="730" y="92" 
+        class="hydraulic-label" 
+        text-anchor="middle">BALANCE</text>
+  </g>
+  <g class="hydraulic-component" data-ref="FLOW_CTRL">
+
+      <!-- Ball seat (circle) -->
+      <circle cx="870" cy="120" r="5" stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Check valve triangle -->
+      <polygon points="870,110 880,130 860,130"
+        stroke="currentColor" stroke-width="2" fill="white"/>
+
+      <!-- Seat line -->
+      <line x1="858" y1="130" x2="882" y2="130"
+        stroke="currentColor" stroke-width="2"/>
+
+      <!-- Ports -->
+      <line x1="870" y1="105" x2="870" y2="97" stroke="currentColor" stroke-width="2.5"/>
+      <line x1="870" y1="138" x2="870" y2="143" stroke="currentColor" stroke-width="2.5"/>
+        <text x="870" y="92" 
+        class="hydraulic-label" 
+        text-anchor="middle">FLOW_CTRL</text>
+  </g>
+</g>
+<g class="hydraulic-grounds">
+</g>
+<g class="profile-metadata">
+  <text x="70" y="284" class="hydraulic-label">Pressure: 160 bar (operating)</text>
+  <text x="70" y="302" class="hydraulic-label">Flow Rate: 30 L/min</text>
+  <text x="70" y="320" class="hydraulic-label">Fluid: mineral (ISO VG 32)</text>
+</g>
+</svg>

@@ -12,8 +12,8 @@ diagram "Marriage Edge Test" {
   shape mother as @pedigreeFemale label:"Mother"
 
   # Marriage lines (horizontal, no arrows)
-  grandfather -> grandmother lineStyle:solid arrowType:none
-  father -> mother lineStyle:solid arrowType:none
+  grandfather -> grandmother lineStyle:"solid" arrowType:none
+  father -> mother lineStyle:"solid" arrowType:none
 
   # Parent-child connections (standard directed edges)
   grandfather -> father

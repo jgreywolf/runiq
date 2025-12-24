@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="332" height="272" 
+    viewBox="0 0 332 272"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="maslow" data-node-id="maslow" data-node-shape="pyramid"><polygon points="124,20 176,20 202,60 98,60" fill="#9B59B6" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="150" y="36" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Physiological
+    </text><text x="150" y="52" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#48677e">
+      20
+    </text><polygon points="98,60 202,60 228,100 72,100" fill="#3498DB" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="150" y="76" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Safety
+    </text><text x="150" y="92" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#48677e">
+      40
+    </text><polygon points="72,100 228,100 254,140 46,140" fill="#2ECC71" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="150" y="116" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Love/Belonging
+    </text><text x="150" y="132" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#48677e">
+      60
+    </text><polygon points="46,140 254,140 280,180 20,180" fill="#F39C12" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="150" y="156" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Esteem
+    </text><text x="150" y="172" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#48677e">
+      80
+    </text><polygon points="20,180 280,180 280,220 20,220" fill="#E74C3C" fill-opacity="0.7" stroke="#48677e" stroke-width="2" /><text x="150" y="196" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Self-Actualization
+    </text><text x="150" y="212" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#48677e">
+      100
+    </text></g></svg>

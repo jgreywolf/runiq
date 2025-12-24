@@ -1,0 +1,71 @@
+// Knowledge Graph Example
+// Shows concepts and their relationships using force-directed layout
+
+diagram "Programming Knowledge Graph" {
+  container "Concepts" algorithm: force spacing: 120 {
+    // Core programming concepts
+    shape prog as @rect label:"Programming"
+    shape oop as @rect label:"OOP"
+    shape fp as @rect label:"Functional\nProgramming"
+    shape web as @rect label:"Web\nDevelopment"
+    shape mobile as @rect label:"Mobile\nDevelopment"
+    shape db as @rect label:"Databases"
+    shape ai as @rect label:"AI/ML"
+    
+    // Programming languages
+    shape js as @hexagon label:"JavaScript"
+    shape ts as @hexagon label:"TypeScript"
+    shape py as @hexagon label:"Python"
+    shape java as @hexagon label:"Java"
+    shape cpp as @hexagon label:"C++"
+    shape rust as @hexagon label:"Rust"
+    
+    // Frameworks & tools
+    shape react as @component label:"React"
+    shape vue as @component label:"Vue"
+    shape node as @component label:"Node.js"
+    shape django as @component label:"Django"
+    shape flask as @component label:"Flask"
+    shape spring as @component label:"Spring"
+    
+    // Relationships (is-a, uses, implements)
+    prog -> oop label:"paradigm"
+    prog -> fp label:"paradigm"
+    prog -> web label:"domain"
+    prog -> mobile label:"domain"
+    prog -> db label:"domain"
+    prog -> ai label:"domain"
+    
+    // Language to paradigm
+    java -> oop
+    cpp -> oop
+    py -> oop
+    py -> fp
+    js -> fp
+    rust -> fp
+    
+    // Language to domain
+    js -> web
+    ts -> web
+    py -> web
+    py -> ai
+    java -> mobile
+    cpp -> ai
+    
+    // Framework relationships
+    js -> react
+    js -> vue
+    js -> node
+    ts -> react
+    py -> django
+    py -> flask
+    java -> spring
+    
+    // Framework to domain
+    react -> web
+    vue -> web
+    node -> web
+    django -> web
+    spring -> web
+  }
+}

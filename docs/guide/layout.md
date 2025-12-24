@@ -28,7 +28,7 @@ const laidOut = await layoutDiagram(diagram, {
 ELK supports multiple layout algorithms:
 
 - **layered** (default): Hierarchical layout - ideal for flowcharts, processes, decision trees
-- **force**: Force-directed layout - networks, organic graphs, social networks ([Force-Directed Networks Guide](./force-directed-networks.md))
+- **force**: Force-directed layout - networks, organic graphs, social networks ([Force-Directed Networks Guide](./diagram-types/force-directed-networks.md))
 - **stress**: Stress minimization - similarity graphs, multi-dimensional scaling
 - **radial**: Radial tree layout - hierarchies with central focus
 - **mrtree**: Multi-root tree layout - forests and disconnected trees

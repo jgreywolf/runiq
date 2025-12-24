@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="524.2" height="815.5999999999999" 
+    viewBox="0 0 524.2 815.5999999999999"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="bank" data-container-id="bank"><rect x="12" y="198.8" width="492.20000000000005" height="410" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="22" y="218.8" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Banking System</text></g><g data-runiq-edge="customer-login" data-edge-id="customer-login" data-edge-from="customer" data-edge-to="login"><defs>
+      <marker id="arrow-standard-customer-login" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 196.6 12 L 196.6 224.60000000000002 L 166.8 224.60000000000002 L 166.8 428.40000000000003" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 196.6 12 L 196.6 224.60000000000002 L 166.8 224.60000000000002 L 166.8 428.40000000000003" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-login)" pointer-events="none" /></g><g data-runiq-edge="customer-viewBalance" data-edge-id="customer-viewBalance" data-edge-from="customer" data-edge-to="viewBalance"><defs>
+      <marker id="arrow-standard-customer-viewBalance" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 196.6 12 L 196.6 259.20000000000005 L 192 259.20000000000005 L 192 497.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 196.6 12 L 196.6 259.20000000000005 L 192 259.20000000000005 L 192 497.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-viewBalance)" pointer-events="none" /></g><g data-runiq-edge="customer-transfer" data-edge-id="customer-transfer" data-edge-from="customer" data-edge-to="transfer"><defs>
+      <marker id="arrow-standard-customer-transfer" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 196.6 12 L 196.6 155.4 L 362 155.4 L 362 290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 196.6 12 L 196.6 155.4 L 362 155.4 L 362 290" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-transfer)" pointer-events="none" /></g><g data-runiq-edge="customer-deposit" data-edge-id="customer-deposit" data-edge-from="customer" data-edge-to="deposit"><defs>
+      <marker id="arrow-standard-customer-deposit" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 196.6 12 L 196.6 155.4 L 147.9 155.4 L 147.9 290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 196.6 12 L 196.6 155.4 L 147.9 155.4 L 147.9 290" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-deposit)" pointer-events="none" /></g><g data-runiq-edge="customer-withdraw" data-edge-id="customer-withdraw" data-edge-from="customer" data-edge-to="withdraw"><defs>
+      <marker id="arrow-standard-customer-withdraw" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 196.6 12 L 196.6 190 L 154.2 190 L 154.2 359.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 196.6 12 L 196.6 190 L 154.2 190 L 154.2 359.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-withdraw)" pointer-events="none" /></g><g data-runiq-edge="bankStaff-generateReport" data-edge-id="bankStaff-generateReport" data-edge-from="bankStaff" data-edge-to="generateReport"><defs>
+      <marker id="arrow-standard-bankStaff-generateReport" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 398 12 L 398 293.8 L 236.10000000000002 293.8 L 236.10000000000002 517.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 398 12 L 398 293.8 L 236.10000000000002 293.8 L 236.10000000000002 517.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bankStaff-generateReport)" pointer-events="none" /></g><g data-runiq-edge="bankStaff-viewBalance" data-edge-id="bankStaff-viewBalance" data-edge-from="bankStaff" data-edge-to="viewBalance"><defs>
+      <marker id="arrow-standard-bankStaff-viewBalance" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 398 12 L 398 259.20000000000005 L 192 259.20000000000005 L 192 497.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 398 12 L 398 259.20000000000005 L 192 259.20000000000005 L 192 497.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bankStaff-viewBalance)" pointer-events="none" /></g><g data-runiq-edge="transfer-system" data-edge-id="transfer-system" data-edge-from="transfer" data-edge-to="system"><defs>
+      <marker id="arrow-standard-transfer-system" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 362 290 L 362 513.8 L 258 513.8 L 258 728.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 362 290 L 362 513.8 L 258 513.8 L 258 728.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-transfer-system)" pointer-events="none" /><text x="258" y="513.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">processes_payment</text></g><g data-runiq-node="login" data-node-id="login" data-node-shape="ellipseWide">
+      <ellipse cx="166.8" cy="403.80000000000007" rx="112.80000000000001" ry="24.6"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="166.8" y="403.80000000000007" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Login to Account
+    </text></g><g data-runiq-node="viewBalance" data-node-id="viewBalance" data-node-shape="ellipseWide">
+      <ellipse cx="192" cy="473.00000000000006" rx="138" ry="24.6"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+    <text x="192" y="473.00000000000006" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      View Account Balance
+    </text></g><g data-runiq-node="transfer" data-node-id="transfer" data-node-shape="ellipseWide">
+      <ellipse cx="362" cy="265.40000000000003" rx="100.2" ry="24.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+    <text x="362" y="265.40000000000003" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Transfer Money
+    </text></g><g data-runiq-node="deposit" data-node-id="deposit" data-node-shape="ellipseWide">
+      <ellipse cx="147.9" cy="265.40000000000003" rx="93.9" ry="24.6"
+               fill="#48677e" stroke="#48677e" stroke-width="1" />
+    <text x="147.9" y="265.40000000000003" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Deposit Funds
+    </text></g><g data-runiq-node="withdraw" data-node-id="withdraw" data-node-shape="ellipseWide">
+      <ellipse cx="154.2" cy="334.6" rx="100.2" ry="24.6"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+    <text x="154.2" y="334.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Withdraw Funds
+    </text></g><g data-runiq-node="generateReport" data-node-id="generateReport" data-node-shape="ellipseWide">
+      <ellipse cx="236.10000000000002" cy="542.2" rx="182.10000000000002" ry="24.6"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+    <text x="236.10000000000002" y="542.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Generate Transaction Report
+    </text></g><g data-runiq-node="customer" data-node-id="customer" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="196.6" cy="27" r="15" 
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="158" y="47" width="77.2" height="26.799999999999997"
+            rx="5" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="196.6" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Customer
+    </text>
+    </g><g data-runiq-node="bankStaff" data-node-id="bankStaff" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="398" cy="27" r="15" 
+              fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="351" y="47" width="94" height="26.799999999999997"
+            rx="5" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="398" y="60.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Bank Staff
+    </text>
+    </g><g data-runiq-node="system" data-node-id="system" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="258" cy="743.8" r="15" 
+              fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="190" y="763.8" width="136" height="26.799999999999997"
+            rx="5" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="258" y="777.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Payment Gateway
+    </text>
+    </g></svg>

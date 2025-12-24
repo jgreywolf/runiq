@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="432" height="432" 
+    viewBox="0 0 432 432"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="skills" data-node-id="skills" data-node-shape="radarChart"><g transform="translate(12, 12)">
+      <text x="200" y="20" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Full Stack Developer Skills
+    </text>
+      <circle cx="200" cy="200" r="35" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="70" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="105" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <circle cx="200" cy="200" r="140" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+      <line x1="200" y1="200" x2="200" y2="60" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="309.45640754552414" y2="112.7114277397773" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="336.48990770545527" y2="231.15293075388402" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="260.7437234764582" y2="326.13564150633863" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="139.25627652354183" y2="326.13564150633863" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="63.510092294544705" y2="231.15293075388402" stroke="#d1d5db" stroke-width="1"/>
+      <line x1="200" y1="200" x2="90.54359245447581" y2="112.71142773977732" stroke="#d1d5db" stroke-width="1"/>
+      <text x="200" y="45" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#374151">JavaScript</text>
+      <text x="325.0930371948848" y="105.24163170260265" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#374151">TypeScript</text>
+      <text x="355.9884659490918" y="240.60334943301032" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#374151">React</text>
+      <text x="269.42139825880935" y="349.15501886438705" dominant-baseline="middle" text-anchor="start" font-family="sans-serif" font-size="12" fill="#374151">Node.js</text>
+      <text x="130.57860174119065" y="349.155018864387" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#374151">SQL</text>
+      <text x="44.01153405090821" y="240.60334943301032" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#374151">Docker</text>
+      <text x="74.90696280511521" y="105.24163170260266" dominant-baseline="middle" text-anchor="end" font-family="sans-serif" font-size="12" fill="#374151">Git</text>
+      <polygon points="200,63.04347826086956 301.1282026235821,119.35294954218556 315.719704358973,226.412267378293 254.14114483771272,312.4252456904323 141.89730797904,320.6514831799761 88.73105350098753,225.39641094066633 90.54359245447581,112.71142773977732" fill="#3b82f6" fill-opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <circle cx="200" cy="63.04347826086956" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="301.1282026235821" cy="119.35294954218556" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="315.719704358973" cy="226.412267378293" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="254.14114483771272" cy="312.4252456904323" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="141.89730797904" cy="320.6514831799761" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="88.73105350098753" cy="225.39641094066633" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+      <circle cx="90.54359245447581" cy="112.71142773977732" r="4" fill="#3b82f6" stroke="white" stroke-width="1"/>
+    </g></g></svg>

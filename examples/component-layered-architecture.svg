@@ -1,0 +1,376 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1280.6" height="1053.6" 
+    viewBox="0 0 1280.6 1053.6"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="ui-uiHttp-0" data-edge-id="ui-uiHttp-0" data-edge-from="ui" data-edge-to="uiHttp"><defs>
+      <marker id="arrow-standard-ui-uiHttp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 119 72 L 119 107 L 23 107 L 23 192" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 119 72 L 119 107 L 23 107 L 23 192" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ui-uiHttp)" pointer-events="none" /></g><g data-runiq-edge="ui-uiWs-1" data-edge-id="ui-uiWs-1" data-edge-from="ui" data-edge-to="uiWs"><defs>
+      <marker id="arrow-standard-ui-uiWs" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 119 72 L 119 132 L 119 132 L 119 192" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 119 72 L 119 132 L 119 132 L 119 192" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ui-uiWs)" pointer-events="none" /></g><g data-runiq-edge="userSvc-iUserSvc-2" data-edge-id="userSvc-iUserSvc-2" data-edge-from="userSvc" data-edge-to="iUserSvc"><defs>
+      <marker id="arrow-standard-userSvc-iUserSvc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 68.2 409.6 L 68.2 444.6 L 37 444.6 L 37 529.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 68.2 409.6 L 68.2 444.6 L 37 444.6 L 37 529.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userSvc-iUserSvc)" pointer-events="none" /></g><g data-runiq-edge="orderSvc-iOrderSvc-3" data-edge-id="orderSvc-iOrderSvc-3" data-edge-from="orderSvc" data-edge-to="iOrderSvc"><defs>
+      <marker id="arrow-standard-orderSvc-iOrderSvc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 265.4 409.6 L 265.4 444.6 L 138 444.6 L 138 529.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 265.4 409.6 L 265.4 444.6 L 138 444.6 L 138 529.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderSvc-iOrderSvc)" pointer-events="none" /></g><g data-runiq-edge="paymentSvc-iPaymentSvc-4" data-edge-id="paymentSvc-iPaymentSvc-4" data-edge-from="paymentSvc" data-edge-to="iPaymentSvc"><defs>
+      <marker id="arrow-standard-paymentSvc-iPaymentSvc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1191.8 409.6 L 1191.8 469.6 L 1169 469.6 L 1169 529.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1191.8 409.6 L 1191.8 469.6 L 1169 469.6 L 1169 529.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paymentSvc-iPaymentSvc)" pointer-events="none" /></g><g data-runiq-edge="dal-dbPort-5" data-edge-id="dal-dbPort-5" data-edge-from="dal" data-edge-to="dbPort"><defs>
+      <marker id="arrow-standard-dal-dbPort" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 712 409.4666666666667 L 712 494.6 L 563 494.6 L 563 529.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 712 409.4666666666667 L 712 494.6 L 563 494.6 L 563 529.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dal-dbPort)" pointer-events="none" /></g><g data-runiq-edge="dal-cachePort-6" data-edge-id="dal-cachePort-6" data-edge-from="dal" data-edge-to="cachePort"><defs>
+      <marker id="arrow-standard-dal-cachePort" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 712 409.4666666666667 L 712 469.6 L 467 469.6 L 467 529.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 712 409.4666666666667 L 712 469.6 L 467 469.6 L 467 529.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dal-cachePort)" pointer-events="none" /></g><g data-runiq-edge="userRepo-iUserData-7" data-edge-id="userRepo-iUserData-7" data-edge-from="userRepo" data-edge-to="iUserData"><defs>
+      <marker id="arrow-standard-userRepo-iUserData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 301.2 568 L 301.2 628.8 L 301 628.8 L 301 689.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 301.2 568 L 301.2 628.8 L 301 628.8 L 301 689.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userRepo-iUserData)" pointer-events="none" /></g><g data-runiq-edge="orderRepo-iOrderData-8" data-edge-id="orderRepo-iOrderData-8" data-edge-from="orderRepo" data-edge-to="iOrderData"><defs>
+      <marker id="arrow-standard-orderRepo-iOrderData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 732.4 568 L 732.4 628.8 L 732 628.8 L 732 689.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 732.4 568 L 732.4 628.8 L 732 628.8 L 732 689.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderRepo-iOrderData)" pointer-events="none" /></g><g data-runiq-edge="paymentRepo-iPaymentData-9" data-edge-id="paymentRepo-iPaymentData-9" data-edge-from="paymentRepo" data-edge-to="iPaymentData"><defs>
+      <marker id="arrow-standard-paymentRepo-iPaymentData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 983.8 568 L 983.8 628.8 L 984 628.8 L 984 689.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 983.8 568 L 983.8 628.8 L 984 628.8 L 984 689.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paymentRepo-iPaymentData)" pointer-events="none" /></g><g data-runiq-edge="userSvc-needsUserData-10" data-edge-id="userSvc-needsUserData-10" data-edge-from="userSvc" data-edge-to="needsUserData"><defs>
+      <marker id="arrow-standard-userSvc-needsUserData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 68.2 409.6 L 68.2 549.6 L 87 709.6 L 87 861.6 L 87 933.6 L 291 933.6 L 296 993.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 68.2 409.6 L 68.2 549.6 L 87 709.6 L 87 861.6 L 87 933.6 L 291 933.6 L 296 993.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userSvc-needsUserData)" pointer-events="none" /></g><g data-runiq-edge="orderSvc-needsOrderData-11" data-edge-id="orderSvc-needsOrderData-11" data-edge-from="orderSvc" data-edge-to="needsOrderData"><defs>
+      <marker id="arrow-standard-orderSvc-needsOrderData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 265.4 409.6 L 265.4 469.6 L 188 469.6 L 188 549.6 L 188 709.6 L 188 861.6 L 188 908.6 L 722 908.6 L 727 993.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 265.4 409.6 L 265.4 469.6 L 188 469.6 L 188 549.6 L 188 709.6 L 188 861.6 L 188 908.6 L 722 908.6 L 727 993.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderSvc-needsOrderData)" pointer-events="none" /></g><g data-runiq-edge="paymentSvc-needsPaymentData-12" data-edge-id="paymentSvc-needsPaymentData-12" data-edge-from="paymentSvc" data-edge-to="needsPaymentData"><defs>
+      <marker id="arrow-standard-paymentSvc-needsPaymentData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1191.8 409.6 L 1191.8 444.6 L 1219 444.6 L 1219 549.6 L 1219 709.6 L 1219 861.6 L 1219 908.6 L 994 908.6 L 989 993.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1191.8 409.6 L 1191.8 444.6 L 1219 444.6 L 1219 549.6 L 1219 709.6 L 1219 861.6 L 1219 908.6 L 994 908.6 L 989 993.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paymentSvc-needsPaymentData)" pointer-events="none" /></g><g data-runiq-edge="iUserData-userConn-13" data-edge-id="iUserData-userConn-13" data-edge-from="iUserData" data-edge-to="userConn"><defs>
+      <marker id="arrow-standard-iUserData-userConn" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 301 729.6 L 301 789.6 L 301 789.6 L 301 849.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 301 729.6 L 301 789.6 L 301 789.6 L 301 849.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-iUserData-userConn)" pointer-events="none" /></g><g data-runiq-edge="userConn-needsUserData-14" data-edge-id="userConn-needsUserData-14" data-edge-from="userConn" data-edge-to="needsUserData"><defs>
+      <marker id="arrow-standard-userConn-needsUserData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 301 873.6 L 301 933.6 L 296 933.6 L 296 993.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 301 873.6 L 301 933.6 L 296 933.6 L 296 993.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-userConn-needsUserData)" pointer-events="none" /></g><g data-runiq-edge="iOrderData-orderConn-15" data-edge-id="iOrderData-orderConn-15" data-edge-from="iOrderData" data-edge-to="orderConn"><defs>
+      <marker id="arrow-standard-iOrderData-orderConn" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 732 729.6 L 732 789.6 L 732 789.6 L 732 849.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 732 729.6 L 732 789.6 L 732 789.6 L 732 849.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-iOrderData-orderConn)" pointer-events="none" /></g><g data-runiq-edge="orderConn-needsOrderData-16" data-edge-id="orderConn-needsOrderData-16" data-edge-from="orderConn" data-edge-to="needsOrderData"><defs>
+      <marker id="arrow-standard-orderConn-needsOrderData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 732 873.6 L 732 933.6 L 727 933.6 L 727 993.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 732 873.6 L 732 933.6 L 727 933.6 L 727 993.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-orderConn-needsOrderData)" pointer-events="none" /></g><g data-runiq-edge="iPaymentData-paymentConn-17" data-edge-id="iPaymentData-paymentConn-17" data-edge-from="iPaymentData" data-edge-to="paymentConn"><defs>
+      <marker id="arrow-standard-iPaymentData-paymentConn" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 984 729.6 L 984 789.6 L 984 789.6 L 984 849.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 984 729.6 L 984 789.6 L 984 789.6 L 984 849.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-iPaymentData-paymentConn)" pointer-events="none" /></g><g data-runiq-edge="paymentConn-needsPaymentData-18" data-edge-id="paymentConn-needsPaymentData-18" data-edge-from="paymentConn" data-edge-to="needsPaymentData"><defs>
+      <marker id="arrow-standard-paymentConn-needsPaymentData" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 984 873.6 L 984 933.6 L 989 933.6 L 989 993.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 984 873.6 L 984 933.6 L 989 933.6 L 989 993.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-paymentConn-needsPaymentData)" pointer-events="none" /></g><g data-runiq-edge="bizLogic-userSvc-19" data-edge-id="bizLogic-userSvc-19" data-edge-from="bizLogic" data-edge-to="userSvc"><defs>
+      <marker id="arrow-standard-bizLogic-userSvc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 207 210.4 L 236 210.4 L 68 263.8 L 68.2 348.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 207 210.4 L 236 210.4 L 68 263.8 L 68.2 348.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bizLogic-userSvc)" pointer-events="none" /></g><g data-runiq-edge="bizLogic-orderSvc-20" data-edge-id="bizLogic-orderSvc-20" data-edge-from="bizLogic" data-edge-to="orderSvc"><defs>
+      <marker id="arrow-standard-bizLogic-orderSvc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 280 228.8 L 280 288.8 L 265.4 288.8 L 265.4 348.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 280 228.8 L 280 288.8 L 265.4 288.8 L 265.4 348.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bizLogic-orderSvc)" pointer-events="none" /></g><g data-runiq-edge="bizLogic-paymentSvc-21" data-edge-id="bizLogic-paymentSvc-21" data-edge-from="bizLogic" data-edge-to="paymentSvc"><defs>
+      <marker id="arrow-standard-bizLogic-paymentSvc" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 353 210.4 L 324 210.4 L 1192 263.8 L 1191.8 348.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 353 210.4 L 324 210.4 L 1192 263.8 L 1191.8 348.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bizLogic-paymentSvc)" pointer-events="none" /></g><g data-runiq-edge="dal-userRepo-22" data-edge-id="dal-userRepo-22" data-edge-from="dal" data-edge-to="userRepo"><defs>
+      <marker id="arrow-standard-dal-userRepo" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 652 379.4666666666667 L 672 379.4666666666667 L 301 444.6 L 301.2 531.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 652 379.4666666666667 L 672 379.4666666666667 L 301 444.6 L 301.2 531.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dal-userRepo)" pointer-events="none" /></g><g data-runiq-edge="dal-orderRepo-23" data-edge-id="dal-orderRepo-23" data-edge-from="dal" data-edge-to="orderRepo"><defs>
+      <marker id="arrow-standard-dal-orderRepo" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 712 409.4666666666667 L 712 470.33333333333337 L 732.4 470.33333333333337 L 732.4 531.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 712 409.4666666666667 L 712 470.33333333333337 L 732.4 470.33333333333337 L 732.4 531.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dal-orderRepo)" pointer-events="none" /></g><g data-runiq-edge="dal-paymentRepo-24" data-edge-id="dal-paymentRepo-24" data-edge-from="dal" data-edge-to="paymentRepo"><defs>
+      <marker id="arrow-standard-dal-paymentRepo" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 772 379.4666666666667 L 752 379.4666666666667 L 984 444.6 L 983.8 531.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 772 379.4666666666667 L 752 379.4666666666667 L 984 444.6 L 983.8 531.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dal-paymentRepo)" pointer-events="none" /></g><g data-runiq-edge="ui-bizLogic-25" data-edge-id="ui-bizLogic-25" data-edge-from="ui" data-edge-to="bizLogic"><defs>
+      <marker id="arrow-standard-ui-bizLogic" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 119 72 L 119 107 L 280 107 L 280 192" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 119 72 L 119 107 L 280 107 L 280 192" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ui-bizLogic)" pointer-events="none" /></g><g data-runiq-edge="bizLogic-dal-26" data-edge-id="bizLogic-dal-26" data-edge-from="bizLogic" data-edge-to="dal"><defs>
+      <marker id="arrow-standard-bizLogic-dal" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 280 228.8 L 280 288.8 L 712 288.8 L 712 349.4666666666667" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 280 228.8 L 280 288.8 L 712 288.8 L 712 349.4666666666667" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bizLogic-dal)" pointer-events="none" /></g><g data-runiq-node="ui" data-node-id="ui" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="59" y="12" width="120" height="60"
+            rx="6" ry="6" fill="#5a819e" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="119" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Web UI
+    </text>
+    </g><g data-runiq-node="uiHttp" data-node-id="uiHttp" data-node-shape="port"><rect x="15" y="192" width="16" height="16"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="23" y="216" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      HTTP 8080
+    </text></g><g data-runiq-node="uiWs" data-node-id="uiWs" data-node-shape="port"><rect x="111" y="192" width="16" height="16"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="119" y="216" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      WebSocket
+    </text></g><g data-runiq-node="bizLogic" data-node-id="bizLogic" data-node-shape="template"><rect x="207" y="192" width="146" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+
+      <!-- Dashed corner for template parameter -->
+      <path d="M 333 192
+               L 353 192
+               L 353 212"
+            fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="3,2" /><text x="280" y="210.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      ServiceLayer<T>
+    </text></g><g data-runiq-node="userSvc" data-node-id="userSvc" data-node-shape="module"><rect x="12" y="348.8" width="112.4" height="60.8"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="68.2" y="362.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      «module»
+    </text><text x="68.2" y="386.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      UserService
+    </text></g><g data-runiq-node="orderSvc" data-node-id="orderSvc" data-node-shape="module"><rect x="205" y="348.8" width="120.80000000000001" height="60.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="265.4" y="362.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      «module»
+    </text><text x="265.4" y="386.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      OrderService
+    </text></g><g data-runiq-node="paymentSvc" data-node-id="paymentSvc" data-node-shape="module"><rect x="1123" y="348.8" width="137.60000000000002" height="60.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="1191.8" y="362.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="11"
+      fill="#FFFFFF">
+      «module»
+    </text><text x="1191.8" y="386.2" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      PaymentService
+    </text></g><g data-runiq-node="iUserSvc" data-node-id="iUserSvc" data-node-shape="providedInterface"><line x1="37" y1="559.6" x2="37" y2="539.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="37" cy="539.6" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="37" y="571.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IUserService
+    </text></g><g data-runiq-node="iOrderSvc" data-node-id="iOrderSvc" data-node-shape="providedInterface"><line x1="138" y1="559.6" x2="138" y2="539.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="138" cy="539.6" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="138" y="571.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IOrderService
+    </text></g><g data-runiq-node="iPaymentSvc" data-node-id="iPaymentSvc" data-node-shape="providedInterface"><line x1="1169" y1="559.6" x2="1169" y2="539.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="1169" cy="539.6" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="1169" y="571.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IPaymentService
+    </text></g><g data-runiq-node="dal" data-node-id="dal" data-node-shape="component">
+      <!-- C4 Component -->
+      <rect x="652" y="349.4666666666667" width="120" height="60"
+            rx="6" ry="6" fill="#5a819e" stroke="#48677e" stroke-width="1.5" />
+
+      <!-- Label -->
+      <text x="712" y="379.4666666666667" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#000000">
+      Data Access
+    </text>
+    </g><g data-runiq-node="dbPort" data-node-id="dbPort" data-node-shape="port"><rect x="555" y="529.6" width="16" height="16"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="563" y="553.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      DB 5432
+    </text></g><g data-runiq-node="cachePort" data-node-id="cachePort" data-node-shape="port"><rect x="459" y="529.6" width="16" height="16"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="467" y="553.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      Cache
+    </text></g><g data-runiq-node="userRepo" data-node-id="userRepo" data-node-shape="template"><rect x="224" y="531.2" width="154.4" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+
+      <!-- Dashed corner for template parameter -->
+      <path d="M 358.4 531.2
+               L 378.4 531.2
+               L 378.4 551.2"
+            fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="3,2" /><text x="301.2" y="549.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Repository<User>
+    </text></g><g data-runiq-node="orderRepo" data-node-id="orderRepo" data-node-shape="template"><rect x="651" y="531.2" width="162.8" height="36.8"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" />
+
+      <!-- Dashed corner for template parameter -->
+      <path d="M 793.8 531.2
+               L 813.8 531.2
+               L 813.8 551.2"
+            fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="3,2" /><text x="732.4" y="549.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Repository<Order>
+    </text></g><g data-runiq-node="paymentRepo" data-node-id="paymentRepo" data-node-shape="template"><rect x="894" y="531.2" width="179.6" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+
+      <!-- Dashed corner for template parameter -->
+      <path d="M 1053.6 531.2
+               L 1073.6 531.2
+               L 1073.6 551.2"
+            fill="none" stroke="#48677e" stroke-width="1" stroke-dasharray="3,2" /><text x="983.8" y="549.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Repository<Payment>
+    </text></g><g data-runiq-node="iUserData" data-node-id="iUserData" data-node-shape="providedInterface"><line x1="301" y1="719.6" x2="301" y2="699.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="301" cy="699.6" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="301" y="731.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IUserData
+    </text></g><g data-runiq-node="iOrderData" data-node-id="iOrderData" data-node-shape="providedInterface"><line x1="732" y1="719.6" x2="732" y2="699.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="732" cy="699.6" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="732" y="731.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IOrderData
+    </text></g><g data-runiq-node="iPaymentData" data-node-id="iPaymentData" data-node-shape="providedInterface"><line x1="984" y1="719.6" x2="984" y2="699.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <circle cx="984" cy="699.6" r="8"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="984" y="731.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IPaymentData
+    </text></g><g data-runiq-node="needsUserData" data-node-id="needsUserData" data-node-shape="requiredInterface"><line x1="296" y1="1023.6" x2="296" y2="1003.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <!-- Semicircle (socket) -->
+      <path d="M 288 1003.6
+               A 8 8 0 0 1 304 1003.6"
+            fill="none" stroke="#48677e" stroke-width="2" /><text x="296" y="1035.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IUserData
+    </text></g><g data-runiq-node="needsOrderData" data-node-id="needsOrderData" data-node-shape="requiredInterface"><line x1="727" y1="1023.6" x2="727" y2="1003.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <!-- Semicircle (socket) -->
+      <path d="M 719 1003.6
+               A 8 8 0 0 1 735 1003.6"
+            fill="none" stroke="#48677e" stroke-width="2" /><text x="727" y="1035.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IOrderData
+    </text></g><g data-runiq-node="needsPaymentData" data-node-id="needsPaymentData" data-node-shape="requiredInterface"><line x1="989" y1="1023.6" x2="989" y2="1003.6"
+            stroke="#48677e" stroke-width="2" />
+      
+      <!-- Semicircle (socket) -->
+      <path d="M 981 1003.6
+               A 8 8 0 0 1 997 1003.6"
+            fill="none" stroke="#48677e" stroke-width="2" /><text x="989" y="1035.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      IPaymentData
+    </text></g><g data-runiq-node="userConn" data-node-id="userConn" data-node-shape="assembly"><circle cx="301" cy="861.6" r="10"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="301" y="887.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      userConn
+    </text></g><g data-runiq-node="orderConn" data-node-id="orderConn" data-node-shape="assembly"><circle cx="732" cy="861.6" r="10"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="732" y="887.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      orderConn
+    </text></g><g data-runiq-node="paymentConn" data-node-id="paymentConn" data-node-shape="assembly"><circle cx="984" cy="861.6" r="10"
+              fill="none" stroke="#48677e" stroke-width="2" /><text x="984" y="887.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="10"
+      fill="#FFFFFF">
+      paymentConn
+    </text></g></svg>

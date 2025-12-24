@@ -12,25 +12,25 @@ diagram "Quantum Teleportation" {
   shape q2 as @qubitWire label: "q2: |0⟩ (Bob)"
   
   # Step 1: Create EPR pair between q1 and q2
-  shape H1_prep as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape control1_prep as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target2_prep as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape H1_prep as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape control1_prep as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target2_prep as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
   
   # Step 2: Alice entangles q0 with q1
-  shape control0 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target1 as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape control0 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target1 as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
   
   # Step 3: Alice applies Hadamard to q0
-  shape H0 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H0 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
   
   # Step 4: Alice measures both q0 and q1
-  shape M0 as @measurement label: "M0" fill: "#e3f2fd" strokeColor: "#000"
-  shape M1 as @measurement label: "M1" fill: "#e3f2fd" strokeColor: "#000"
+  shape M0 as @measurement label: "M0" fillColor: "#e3f2fd" strokeColor: "#000"
+  shape M1 as @measurement label: "M1" fillColor: "#e3f2fd" strokeColor: "#000"
   
   # Step 5: Bob applies corrections based on measurements
   shape barrier1 as @barrier label: "|"
-  shape X2 as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
-  shape Z2 as @gateZ label: "Z" fill: "#ffebee" strokeColor: "#000"
+  shape X2 as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
+  shape Z2 as @gateZ label: "Z" fillColor: "#ffebee" strokeColor: "#000"
   
   # Circuit connections
   # Alice's q0 path

@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="528.3279852498821" height="1348.4634113069046" 
+    viewBox="0 0 528.3279852498821 1348.4634113069046"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="sdlc" data-container-id="sdlc"><rect x="0" y="0" width="508.3279852498821" height="1328.4634113069046" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">SDLC</text><g data-runiq-container="planningdetails" data-container-id="planningdetails"><rect x="30" y="477.6634113069047" width="262.8" height="145.2" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="40" y="497.6634113069047" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">PlanningDetails</text></g><g data-runiq-container="designdetails" data-container-id="designdetails"><rect x="30" y="702.8634113069047" width="237.60000000000002" height="145.2" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="40" y="722.8634113069047" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">DesignDetails</text></g><g data-runiq-container="developmentdetails" data-container-id="developmentdetails"><rect x="30" y="928.0634113069048" width="212.4" height="145.2" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="40" y="948.0634113069048" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">DevelopmentDetails</text></g><g data-runiq-container="testingdetails" data-container-id="testingdetails"><rect x="30" y="1153.2634113069046" width="254.4" height="145.2" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="40" y="1173.2634113069046" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">TestingDetails</text></g></g><g data-runiq-edge="central-planning-0" data-edge-id="central-planning-0" data-edge-from="central" data-edge-to="planning"><path d="M 339.1592201113019 206.28896385778734 L 416.07115120565095 339.01668147516955" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 339.1592201113019 206.28896385778734 L 416.07115120565095 339.01668147516955" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="central-design-1" data-edge-id="central-design-1" data-edge-from="central" data-edge-to="design"><path d="M 262.4792201113019 282.96896385778734 L 129.0389056652208 356.8634113069047" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 262.4792201113019 282.96896385778734 L 129.0389056652208 356.8634113069047" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="central-development-2" data-edge-id="central-development-2" data-edge-from="central" data-edge-to="development"><path d="M 185.7992201113019 206.28896385778734 L 100.2 82.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 185.7992201113019 206.28896385778734 L 100.2 82.8" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="central-testing-3" data-edge-id="central-testing-3" data-edge-from="central" data-edge-to="testing"><path d="M 339.1592201113019 206.28896385778734 L 424.927985249882 82.99144159330835" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 339.1592201113019 206.28896385778734 L 424.927985249882 82.99144159330835" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="planning-requirements" data-edge-id="planning-requirements" data-edge-from="planning" data-edge-to="requirements"><defs>
+      <marker id="arrow-standard-planning-requirements" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 416.07115120565095 339.01668147516955 L 416.07115120565095 449.7400463910371 L 134.4 449.7400463910371 L 134.4 519.6634113069047" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 416.07115120565095 339.01668147516955 L 416.07115120565095 449.7400463910371 L 134.4 449.7400463910371 L 134.4 519.6634113069047" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-planning-requirements)" pointer-events="none" /></g><g data-runiq-edge="planning-research" data-edge-id="planning-research" data-edge-from="planning" data-edge-to="research"><defs>
+      <marker id="arrow-standard-planning-research" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 416.07115120565095 339.01668147516955 L 416.07115120565095 459.94004639103713 L 180 459.94004639103713 L 180 540.0634113069048" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 416.07115120565095 339.01668147516955 L 416.07115120565095 459.94004639103713 L 180 459.94004639103713 L 180 540.0634113069048" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-planning-research)" pointer-events="none" /></g><g data-runiq-edge="planning-feasibility" data-edge-id="planning-feasibility" data-edge-from="planning" data-edge-to="feasibility"><defs>
+      <marker id="arrow-standard-planning-feasibility" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 416.07115120565095 339.01668147516955 L 416.07115120565095 459.94004639103713 L 192.60000000000002 459.94004639103713 L 192.60000000000002 540.0634113069048" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 416.07115120565095 339.01668147516955 L 416.07115120565095 459.94004639103713 L 192.60000000000002 459.94004639103713 L 192.60000000000002 540.0634113069048" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-planning-feasibility)" pointer-events="none" /></g><g data-runiq-edge="design-architecture" data-edge-id="design-architecture" data-edge-from="design" data-edge-to="architecture"><defs>
+      <marker id="arrow-standard-design-architecture" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 129.0389056652208 356.8634113069047 L 129.0389056652208 571.2634113069047 L 134.4 571.2634113069047 L 134.4 744.8634113069047" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 129.0389056652208 356.8634113069047 L 129.0389056652208 571.2634113069047 L 134.4 571.2634113069047 L 134.4 744.8634113069047" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-design-architecture)" pointer-events="none" /></g><g data-runiq-edge="design-uiux" data-edge-id="design-uiux" data-edge-from="design" data-edge-to="uiux"><defs>
+      <marker id="arrow-standard-design-uiux" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 129.0389056652208 356.8634113069047 L 129.0389056652208 581.4634113069046 L 167.4 581.4634113069046 L 167.4 765.2634113069047" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 129.0389056652208 356.8634113069047 L 129.0389056652208 581.4634113069046 L 167.4 581.4634113069046 L 167.4 765.2634113069047" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-design-uiux)" pointer-events="none" /></g><g data-runiq-edge="design-db" data-edge-id="design-db" data-edge-from="design" data-edge-to="db"><defs>
+      <marker id="arrow-standard-design-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 129.0389056652208 356.8634113069047 L 129.0389056652208 581.4634113069046 L 180 581.4634113069046 L 180 765.2634113069047" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 129.0389056652208 356.8634113069047 L 129.0389056652208 581.4634113069046 L 180 581.4634113069046 L 180 765.2634113069047" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-design-db)" pointer-events="none" /></g><g data-runiq-edge="development-frontend" data-edge-id="development-frontend" data-edge-from="development" data-edge-to="frontend"><defs>
+      <marker id="arrow-standard-development-frontend" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 100.2 42 L 100.2 526.4317056534524 L 117.6 526.4317056534524 L 117.6 970.0634113069048" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 100.2 42 L 100.2 526.4317056534524 L 117.6 526.4317056534524 L 117.6 970.0634113069048" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-development-frontend)" pointer-events="none" /></g><g data-runiq-edge="development-backend" data-edge-id="development-backend" data-edge-from="development" data-edge-to="backend"><defs>
+      <marker id="arrow-standard-development-backend" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 100.2 42 L 100.2 536.6317056534524 L 159 536.6317056534524 L 159 990.4634113069047" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 100.2 42 L 100.2 536.6317056534524 L 159 536.6317056534524 L 159 990.4634113069047" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-development-backend)" pointer-events="none" /></g><g data-runiq-edge="development-api" data-edge-id="development-api" data-edge-from="development" data-edge-to="api"><defs>
+      <marker id="arrow-standard-development-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 100.2 42 L 100.2 536.6317056534524 L 142.2 536.6317056534524 L 142.2 990.4634113069047" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 100.2 42 L 100.2 536.6317056534524 L 142.2 536.6317056534524 L 142.2 990.4634113069047" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-development-api)" pointer-events="none" /></g><g data-runiq-edge="testing-unit" data-edge-id="testing-unit" data-edge-from="testing" data-edge-to="unit"><defs>
+      <marker id="arrow-standard-testing-unit" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 424.927985249882 42.191441593308355 L 424.927985249882 639.1274264501066 L 126 639.1274264501066 L 126 1236.0634113069045" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 424.927985249882 42.191441593308355 L 424.927985249882 639.1274264501066 L 126 639.1274264501066 L 126 1236.0634113069045" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-testing-unit)" pointer-events="none" /></g><g data-runiq-edge="testing-integration" data-edge-id="testing-integration" data-edge-from="testing" data-edge-to="integration"><defs>
+      <marker id="arrow-standard-testing-integration" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 424.927985249882 42.191441593308355 L 424.927985249882 649.3274264501066 L 184.2 649.3274264501066 L 184.2 1256.4634113069046" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 424.927985249882 42.191441593308355 L 424.927985249882 649.3274264501066 L 184.2 649.3274264501066 L 184.2 1256.4634113069046" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-testing-integration)" pointer-events="none" /></g><g data-runiq-edge="testing-e2e" data-edge-id="testing-e2e" data-edge-from="testing" data-edge-to="e2e"><defs>
+      <marker id="arrow-standard-testing-e2e" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 424.927985249882 42.191441593308355 L 424.927985249882 649.3274264501066 L 175.8 649.3274264501066 L 175.8 1256.4634113069046" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 424.927985249882 42.191441593308355 L 424.927985249882 649.3274264501066 L 175.8 649.3274264501066 L 175.8 1256.4634113069046" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-testing-e2e)" pointer-events="none" /></g><g data-runiq-node="central" data-node-id="central" data-node-shape="circ">
+      <circle cx="262.4792201113019" cy="206.28896385778734" r="76.68"
+              fill="#6366f1" stroke="#4338ca" stroke-width="3" />
+      
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="262.4792201113019" y="197.88896385778733">Software</tspan><tspan x="262.4792201113019" y="214.68896385778734">Development</tspan></text>
+    </g><g data-runiq-node="planning" data-node-id="planning" data-node-shape="rounded">
+      <rect x="370.4711512056509" y="339.01668147516955" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#10b981" stroke="#059669" stroke-width="2" />
+      
+      <text x="416.07115120565095" y="359.4166814751695" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Planning
+    </text>
+    </g><g data-runiq-node="design" data-node-id="design" data-node-shape="rounded">
+      <rect x="91.8389056652208" y="356.8634113069047" width="74.4" height="40.8"
+            rx="8" ry="8" fill="#3b82f6" stroke="#2563eb" stroke-width="2" />
+      
+      <text x="129.0389056652208" y="377.2634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Design
+    </text>
+    </g><g data-runiq-node="development" data-node-id="development" data-node-shape="rounded">
+      <rect x="42" y="42" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#f59e0b" stroke="#d97706" stroke-width="2" />
+      
+      <text x="100.2" y="62.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Development
+    </text>
+    </g><g data-runiq-node="testing" data-node-id="testing" data-node-shape="rounded">
+      <rect x="383.527985249882" y="42.191441593308355" width="82.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#ec4899" stroke="#db2777" stroke-width="2" />
+      
+      <text x="424.927985249882" y="62.59144159330835" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Testing
+    </text>
+    </g><g data-runiq-node="requirements" data-node-id="requirements" data-node-shape="rounded">
+      <rect x="72" y="519.6634113069047" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#d1fae5" stroke="#059669" stroke-width="1" />
+      
+      <text x="134.4" y="540.0634113069046" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Requirements
+    </text>
+    </g><g data-runiq-node="research" data-node-id="research" data-node-shape="rounded">
+      <rect x="134.4" y="540.0634113069048" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#d1fae5" stroke="#059669" stroke-width="1" />
+      
+      <text x="180" y="560.4634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Research
+    </text>
+    </g><g data-runiq-node="feasibility" data-node-id="feasibility" data-node-shape="rounded">
+      <rect x="134.4" y="540.0634113069048" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#d1fae5" stroke="#059669" stroke-width="1" />
+      
+      <text x="192.60000000000002" y="560.4634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Feasibility
+    </text>
+    </g><g data-runiq-node="architecture" data-node-id="architecture" data-node-shape="rounded">
+      <rect x="72" y="744.8634113069047" width="124.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+      
+      <text x="134.4" y="765.2634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Architecture
+    </text>
+    </g><g data-runiq-node="uiux" data-node-id="uiux" data-node-shape="rounded">
+      <rect x="134.4" y="765.2634113069047" width="66" height="40.8"
+            rx="8" ry="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+      
+      <text x="167.4" y="785.6634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      UI/UX
+    </text>
+    </g><g data-runiq-node="db" data-node-id="db" data-node-shape="rounded">
+      <rect x="134.4" y="765.2634113069047" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+      
+      <text x="180" y="785.6634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Database
+    </text>
+    </g><g data-runiq-node="frontend" data-node-id="frontend" data-node-shape="rounded">
+      <rect x="72" y="970.0634113069048" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#fef3c7" stroke="#d97706" stroke-width="1" />
+      
+      <text x="117.6" y="990.4634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Frontend
+    </text>
+    </g><g data-runiq-node="backend" data-node-id="backend" data-node-shape="rounded">
+      <rect x="117.6" y="990.4634113069047" width="82.80000000000001" height="40.8"
+            rx="8" ry="8" fill="#fef3c7" stroke="#d97706" stroke-width="1" />
+      
+      <text x="159" y="1010.8634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Backend
+    </text>
+    </g><g data-runiq-node="api" data-node-id="api" data-node-shape="rounded">
+      <rect x="117.6" y="990.4634113069047" width="49.2" height="40.8"
+            rx="8" ry="8" fill="#fef3c7" stroke="#d97706" stroke-width="1" />
+      
+      <text x="142.2" y="1010.8634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      API
+    </text>
+    </g><g data-runiq-node="unit" data-node-id="unit" data-node-shape="rounded">
+      <rect x="72" y="1195.2634113069046" width="108" height="40.8"
+            rx="8" ry="8" fill="#fce7f3" stroke="#db2777" stroke-width="1" />
+      
+      <text x="126" y="1215.6634113069047" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Unit Tests
+    </text>
+    </g><g data-runiq-node="integration" data-node-id="integration" data-node-shape="rounded">
+      <rect x="126" y="1215.6634113069047" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#fce7f3" stroke="#db2777" stroke-width="1" />
+      
+      <text x="184.2" y="1236.0634113069048" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Integration
+    </text>
+    </g><g data-runiq-node="e2e" data-node-id="e2e" data-node-shape="rounded">
+      <rect x="126" y="1215.6634113069047" width="99.60000000000001" height="40.8"
+            rx="8" ry="8" fill="#fce7f3" stroke="#db2777" stroke-width="1" />
+      
+      <text x="175.8" y="1236.0634113069048" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      E2E Tests
+    </text>
+    </g></svg>

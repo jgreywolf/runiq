@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="532" height="332" 
+    viewBox="0 0 532 332"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="chart1" data-node-id="chart1" data-node-shape="barChart"><g><text x="262" y="32" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="16"
+      fill="#FFFFFF">
+      Revenue by Category - 2025
+    </text><text x="-18" y="162" text-anchor="middle" font-size="14" fill="#666" transform="rotate(-90 -18 162)">Revenue ($K)</text><rect x="32" y="183.0344827586207" width="60" height="68.96551724137932" fill="#f56565" stroke="#48677e" stroke-width="1" />
+<rect x="32" y="141.6551724137931" width="60" height="41.37931034482759" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<rect x="32" y="114.0689655172414" width="60" height="27.586206896551722" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="62" y="109.06896551724137" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">100</text>
+<text x="62" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Jan</text>
+<rect x="112" y="176.13793103448276" width="60" height="75.86206896551724" fill="#f56565" stroke="#48677e" stroke-width="1" />
+<rect x="112" y="127.86206896551724" width="60" height="48.275862068965516" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<rect x="112" y="93.37931034482759" width="60" height="34.48275862068966" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="142" y="88.37931034482759" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">115</text>
+<text x="142" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Feb</text>
+<rect x="192" y="169.24137931034483" width="60" height="82.75862068965517" fill="#f56565" stroke="#48677e" stroke-width="1" />
+<rect x="192" y="114.06896551724138" width="60" height="55.172413793103445" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<rect x="192" y="72.6896551724138" width="60" height="41.37931034482759" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="222" y="67.68965517241378" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">130</text>
+<text x="222" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Mar</text>
+<rect x="272" y="162.3448275862069" width="60" height="89.65517241379311" fill="#f56565" stroke="#48677e" stroke-width="1" />
+<rect x="272" y="100.27586206896551" width="60" height="62.06896551724138" fill="#48bb78" stroke="#48677e" stroke-width="1" />
+<rect x="272" y="51.99999999999999" width="60" height="48.275862068965516" fill="#4299e1" stroke="#48677e" stroke-width="1" />
+<text x="302" y="47" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">145</text>
+<text x="302" y="272" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#333">Apr</text><line x1="22" y1="252" x2="502" y2="252" stroke="#333" stroke-width="2" /><text x="262" y="352" text-anchor="middle" font-size="14" fill="#666">Month</text><g>
+      <rect x="522" y="252" width="12" height="12" fill="#f56565" stroke="#333" stroke-width="1" />
+      <text x="540" y="262" font-size="11" fill="#333">Series 1</text>
+    </g>
+    <g>
+      <rect x="522" y="272" width="12" height="12" fill="#48bb78" stroke="#333" stroke-width="1" />
+      <text x="540" y="282" font-size="11" fill="#333">Series 2</text>
+    </g>
+    <g>
+      <rect x="522" y="292" width="12" height="12" fill="#4299e1" stroke="#333" stroke-width="1" />
+      <text x="540" y="302" font-size="11" fill="#333">Series 3</text>
+    </g></g></g></svg>

@@ -173,7 +173,7 @@ shape energy as @sankeyChart data:[{
 
 For complex features (multi-series, custom colors, toggles), use JSON or programmatic generation.
 
-**📖 See the [Charts Guide](./docs/guide/charts.md) and [Sankey Guide](./docs/guide/sankey-diagrams.md) for complete syntax and examples.**
+**📖 See the [Charts Guide](./docs/guide/diagram-types/charts.md) and [Sankey Guide](./docs/guide/diagram-types/sankey-diagrams.md) for complete syntax and examples.**
 
 ### UML State Machine Shapes
 
@@ -189,7 +189,7 @@ For complex features (multi-series, custom colors, toggles), use JSON or program
 - ✅ `@exitPoint` - Exit point pseudo-state (circle with X on state boundary)
 - ✅ `@terminate` - Terminate pseudo-state (circle with X)
 
-**📖 See the [State Machine Diagrams Guide](./docs/guide/state-machine-diagrams.md) for complete UML 2.5 syntax and examples.**
+**📖 See the [State Machine Diagrams Guide](./docs/guide/diagram-types/state-machine-diagrams.md) for complete UML 2.5 syntax and examples.**
 
 <!-- ### Pedigree/Genealogy
 

@@ -205,9 +205,9 @@ diagram "Validate Order Level 1" {
 ```runiq
 diagram "Library Management System" {
 
-  style entityd fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
-  style processd fill:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2
-  style store fill:"#fff3e0" strokeColor:"#f57c00" strokeWidth:2
+  style entityd fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+  style processd fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2
+  style store fillColor:"#fff3e0" strokeColor:"#f57c00" strokeWidth:2
 
   // External Entities
   shape memberEntity as @externalEntity label:"Library Member"
@@ -251,9 +251,9 @@ diagram "Library Management System" {
 ### Color Coding by Type
 
 ```runiq
-style entities fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
-style processes fill:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2
-style stores fill:"#fff3e0" strokeColor:"#f57c00" strokeWidth:2
+style entities fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+style processes fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2
+style stores fillColor:"#fff3e0" strokeColor:"#f57c00" strokeWidth:2
 style flows strokeColor:"#4a5568" strokeWidth:1.5
 
 shape user as @externalEntity label:"User" style:entities
@@ -416,9 +416,9 @@ diagram "User Registration" {
 
 ## Related Documentation
 
-- [Flowcharts](/guide/flowcharts) - Control flow and logic diagrams
-- [Activity Diagrams](/guide/activity-diagrams) - UML activity flows
-- [BPMN Diagrams](/guide/bpmn-diagrams) - Business process modeling
+- [Flowcharts](/guide/diagram-types/flowcharts) - Control flow and logic diagrams
+- [Activity Diagrams](/guide/diagram-types/activity-diagrams) - UML activity flows
+- [BPMN Diagrams](/guide/diagram-types/bpmn-diagrams) - Business process modeling
 - [Layout Algorithms](/guide/layout) - Understanding auto-layout
 - [Styling Guide](/guide/styling) - Advanced styling techniques
 

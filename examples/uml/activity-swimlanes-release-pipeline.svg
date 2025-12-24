@@ -1,7 +1,105 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="630" 
-    viewBox="0 0 220 630"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Software Release Process</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="development"><rect x="0" y="0" width="200" height="150" 
-    fill="#e3f2fd" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Development</text></g><g data-runiq-container="quality-assurance"><rect x="0" y="230" width="200" height="150" 
-    fill="#fff3e0" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="250" class="runiq-container-label">Quality Assurance</text></g><g data-runiq-container="operations"><rect x="0" y="460" width="200" height="150" 
-    fill="#e8f5e9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="480" class="runiq-container-label">Operations</text></g></svg>
+    width="994" height="840.6" 
+    viewBox="0 0 994 840.6"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="development" data-container-id="development"><rect x="0" y="0" width="974" height="277" 
+    fill="#e3f2fd" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Development</text></g><g data-runiq-container="quality-assurance" data-container-id="quality-assurance"><rect x="0" y="357" width="974" height="259.6" 
+    fill="#fff3e0" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="377" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Quality Assurance</text></g><g data-runiq-container="operations" data-container-id="operations"><rect x="0" y="696.6" width="974" height="124" 
+    fill="#e8f5e9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="716.6" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Operations</text></g><g data-runiq-edge="dev1-dev2-0" data-edge-id="dev1-dev2-0" data-edge-from="dev1" data-edge-to="dev2"><defs>
+      <marker id="arrow-standard-dev1-dev2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 292 236 L 327 236 L 327 136 L 372 126.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 292 236 L 327 236 L 327 136 L 372 126.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dev1-dev2)" pointer-events="none" /></g><g data-runiq-edge="dev2-dev3-1" data-edge-id="dev2-dev3-1" data-edge-from="dev2" data-edge-to="dev3"><defs>
+      <marker id="arrow-standard-dev2-dev3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 472 126.8 L 507 126.8 L 507 70 L 552 60.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 472 126.8 L 507 126.8 L 507 70 L 552 60.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dev2-dev3)" pointer-events="none" /></g><g data-runiq-edge="dev3-dev4-2" data-edge-id="dev3-dev4-2" data-edge-from="dev3" data-edge-to="dev4"><defs>
+      <marker id="arrow-standard-dev3-dev4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 552 60.8 L 422 60.8 L 252 51 L 132 60.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 552 60.8 L 422 60.8 L 252 51 L 132 60.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dev3-dev4)" pointer-events="none" /></g><g data-runiq-edge="dev4-dev5-3" data-edge-id="dev4-dev5-3" data-edge-from="dev4" data-edge-to="dev5"><defs>
+      <marker id="arrow-standard-dev4-dev5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 132 60.8 L 167 60.8 L 167 117 L 212 117" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 132 60.8 L 167 60.8 L 167 117 L 212 117" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dev4-dev5)" pointer-events="none" /></g><g data-runiq-edge="dev5-dev2-5" data-edge-id="dev5-dev2-5" data-edge-from="dev5" data-edge-to="dev2"><defs>
+      <marker id="arrow-standard-dev5-dev2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 292 117 L 332 117 L 332 126.8 L 372 126.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 292 117 L 332 117 L 332 126.8 L 372 126.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dev5-dev2)" pointer-events="none" /><text x="332" y="126.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">changes_needed</text></g><g data-runiq-edge="qa1-qa2-6" data-edge-id="qa1-qa2-6" data-edge-from="qa1" data-edge-to="qa2"><defs>
+      <marker id="arrow-standard-qa1-qa2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 148.4 427.8 L 188.4 427.8 L 188.4 427.8 L 228.4 427.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 148.4 427.8 L 188.4 427.8 L 188.4 427.8 L 228.4 427.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-qa1-qa2)" pointer-events="none" /></g><g data-runiq-edge="qa2-qa3-7" data-edge-id="qa2-qa3-7" data-edge-from="qa2" data-edge-to="qa3"><defs>
+      <marker id="arrow-standard-qa2-qa3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 328.4 427.8 L 368.4 427.8 L 368.4 428 L 408.4 428" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 328.4 427.8 L 368.4 427.8 L 368.4 428 L 408.4 428" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-qa2-qa3)" pointer-events="none" /></g><g data-runiq-edge="qa3-qa5-8" data-edge-id="qa3-qa5-8" data-edge-from="qa3" data-edge-to="qa5"><defs>
+      <marker id="arrow-standard-qa3-qa5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 488.4 428 L 528.4 428 L 528.4 417.8 L 568.4 417.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 488.4 428 L 528.4 428 L 528.4 417.8 L 568.4 417.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-qa3-qa5)" pointer-events="none" /><text x="528.4" y="417.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">pass</text></g><g data-runiq-edge="qa3-qa4-9" data-edge-id="qa3-qa4-9" data-edge-from="qa3" data-edge-to="qa4"><defs>
+      <marker id="arrow-standard-qa3-qa4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 488.4 428 L 523.4 428 L 523.4 556 L 568.4 555.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 488.4 428 L 523.4 428 L 523.4 556 L 568.4 555.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-qa3-qa4)" pointer-events="none" /><text x="523.4" y="556" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">fail</text></g><g data-runiq-edge="ops1-ops2-12" data-edge-id="ops1-ops2-12" data-edge-from="ops1" data-edge-to="ops2"><defs>
+      <marker id="arrow-standard-ops1-ops2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 132 758.4 L 172 758.4 L 172 758.4 L 212 758.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 132 758.4 L 172 758.4 L 172 758.4 L 212 758.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ops1-ops2)" pointer-events="none" /></g><g data-runiq-edge="ops2-ops3-13" data-edge-id="ops2-ops3-13" data-edge-from="ops2" data-edge-to="ops3"><defs>
+      <marker id="arrow-standard-ops2-ops3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 312 758.4 L 352 758.4 L 352 758.6 L 392 758.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 312 758.4 L 352 758.4 L 352 758.6 L 392 758.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ops2-ops3)" pointer-events="none" /></g><g data-runiq-edge="ops3-ops4-14" data-edge-id="ops3-ops4-14" data-edge-from="ops3" data-edge-to="ops4"><defs>
+      <marker id="arrow-standard-ops3-ops4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 472 758.6 L 512 758.6 L 512 758.4 L 552 758.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 472 758.6 L 512 758.6 L 512 758.4 L 552 758.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ops3-ops4)" pointer-events="none" /><text x="512" y="758.4" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">pass</text></g><g data-runiq-edge="ops4-ops5-16" data-edge-id="ops4-ops5-16" data-edge-from="ops4" data-edge-to="ops5"><defs>
+      <marker id="arrow-standard-ops4-ops5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 660 758.4 L 700 758.4 L 700 758.6 L 740 758.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 660 758.4 L 700 758.4 L 700 758.6 L 740 758.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ops4-ops5)" pointer-events="none" /></g><g data-runiq-edge="ops5-ops6-17" data-edge-id="ops5-ops6-17" data-edge-from="ops5" data-edge-to="ops6"><defs>
+      <marker id="arrow-standard-ops5-ops6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 840 758.6 L 880 758.6 L 880 758.6 L 920 758.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 840 758.6 L 880 758.6 L 880 758.6 L 920 758.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ops5-ops6)" pointer-events="none" /></g><g data-runiq-edge="dev5-qa1" data-edge-id="dev5-qa1" data-edge-from="dev5" data-edge-to="qa1"><defs>
+      <marker id="arrow-standard-dev5-qa1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 252 87 L 252 117 L 171.1 427.8 L 90.2 399" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 252 87 L 252 117 L 171.1 427.8 L 90.2 399" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dev5-qa1)" pointer-events="none" /><text x="171.1" y="427.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">approved</text></g><g data-runiq-edge="qa4-dev2" data-edge-id="qa4-dev2" data-edge-from="qa4" data-edge-to="dev2"><defs>
+      <marker id="arrow-standard-qa4-dev2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 618.4 527 L 618.4 555.8 L 520.2 126.8 L 422 98" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 618.4 527 L 618.4 555.8 L 520.2 126.8 L 422 98" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-qa4-dev2)" pointer-events="none" /></g><g data-runiq-edge="qa5-ops1" data-edge-id="qa5-ops1" data-edge-from="qa5" data-edge-to="ops1"><defs>
+      <marker id="arrow-standard-qa5-ops1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 622.4 389 L 622.4 417.8 L 352.2 758.4 L 82 729.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 622.4 389 L 622.4 417.8 L 352.2 758.4 L 82 729.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-qa5-ops1)" pointer-events="none" /></g><g data-runiq-edge="ops3-qa4" data-edge-id="ops3-qa4" data-edge-from="ops3" data-edge-to="qa4"><defs>
+      <marker id="arrow-standard-ops3-qa4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 432 728.6 L 432 758.6 L 525.2 555.8 L 618.4 527" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 432 728.6 L 432 758.6 L 525.2 555.8 L 618.4 527" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ops3-qa4)" pointer-events="none" /><text x="525.2" y="555.8" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">fail</text></g><g data-runiq-node="dev1" data-node-id="dev1" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="283" cy="236" r="9" fill="#000000" stroke="none" /></g></g><g data-runiq-node="dev2" data-node-id="dev2" data-node-shape="activity"><g class="activity-shape"><rect x="372" y="98" width="100" height="57.6" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="422" y="118.39999999999999">Write</tspan><tspan x="422" y="135.2">Code</tspan></text></g></g><g data-runiq-node="dev3" data-node-id="dev3" data-node-shape="activity"><g class="activity-shape"><rect x="552" y="32" width="100" height="57.6" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="602" y="52.4">Unit</tspan><tspan x="602" y="69.2">Test</tspan></text></g></g><g data-runiq-node="dev4" data-node-id="dev4" data-node-shape="activity"><g class="activity-shape"><rect x="32" y="32" width="100" height="57.6" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="82" y="52.4">Code</tspan><tspan x="82" y="69.2">Review</tspan></text></g></g><g data-runiq-node="dev5" data-node-id="dev5" data-node-shape="diamond">
+      <polygon points="252,87 292,117 252,147 212,117"
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="252" y="117" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      dev5
+    </text>
+    </g><g data-runiq-node="qa1" data-node-id="qa1" data-node-shape="activity"><g class="activity-shape"><rect x="32" y="399" width="116.4" height="57.6" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="90.2" y="419.40000000000003">Integration</tspan><tspan x="90.2" y="436.20000000000005">Test</tspan></text></g></g><g data-runiq-node="qa2" data-node-id="qa2" data-node-shape="activity"><g class="activity-shape"><rect x="228.4" y="399" width="100" height="57.6" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="278.4" y="419.40000000000003">System</tspan><tspan x="278.4" y="436.20000000000005">Test</tspan></text></g></g><g data-runiq-node="qa3" data-node-id="qa3" data-node-shape="diamond">
+      <polygon points="448.4,398 488.4,428 448.4,458 408.4,428"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="448.4" y="428" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      qa3
+    </text>
+    </g><g data-runiq-node="qa4" data-node-id="qa4" data-node-shape="activity"><g class="activity-shape"><rect x="568.4" y="527" width="100" height="57.6" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="618.4" y="547.4">Bug</tspan><tspan x="618.4" y="564.1999999999999">Report</tspan></text></g></g><g data-runiq-node="qa5" data-node-id="qa5" data-node-shape="activity"><g class="activity-shape"><rect x="568.4" y="389" width="108" height="57.6" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="622.4" y="409.40000000000003">Regression</tspan><tspan x="622.4" y="426.20000000000005">Test</tspan></text></g></g><g data-runiq-node="ops1" data-node-id="ops1" data-node-shape="activity"><g class="activity-shape"><rect x="32" y="729.6" width="100" height="57.6" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="82" y="750">Deploy</tspan><tspan x="82" y="766.8">Staging</tspan></text></g></g><g data-runiq-node="ops2" data-node-id="ops2" data-node-shape="activity"><g class="activity-shape"><rect x="212" y="729.6" width="100" height="57.6" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="262" y="750">Smoke</tspan><tspan x="262" y="766.8">Test</tspan></text></g></g><g data-runiq-node="ops3" data-node-id="ops3" data-node-shape="diamond">
+      <polygon points="432,728.6 472,758.6 432,788.6 392,758.6"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="432" y="758.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      ops3
+    </text>
+    </g><g data-runiq-node="ops4" data-node-id="ops4" data-node-shape="activity"><g class="activity-shape"><rect x="552" y="729.6" width="108" height="57.6" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#48677e"><tspan x="606" y="750">Deploy</tspan><tspan x="606" y="766.8">Production</tspan></text></g></g><g data-runiq-node="ops5" data-node-id="ops5" data-node-shape="activity"><g class="activity-shape"><rect x="740" y="733.6" width="100" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="790" y="758.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Monitor
+    </text></g></g><g data-runiq-node="ops6" data-node-id="ops6" data-node-shape="finalState"><g class="final-state-shape"><circle cx="931" cy="758.6" r="11" fill="none" stroke="#48677e" stroke-width="1.5" /><circle cx="931" cy="758.6" r="6.050000000000001" fill="#000000" stroke="none" /></g></g></svg>

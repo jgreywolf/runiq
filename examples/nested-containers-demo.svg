@@ -1,0 +1,346 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1312.4" height="1636.4" 
+    viewBox="0 0 1312.4 1636.4"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="org" data-container-id="org"><rect x="376" y="640" width="457.4" height="764.2" 
+    fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8" /><text x="386" y="660" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Company</text><g data-runiq-container="engineering" data-container-id="engineering"><rect x="406" y="802.8" width="329.6" height="245.8" 
+    fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="8" /><text x="416" y="822.8" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Engineering Department</text></g><g data-runiq-container="sales" data-container-id="sales"><rect x="406" y="1128.6" width="397.4" height="245.6" 
+    fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="8" /><text x="416" y="1148.6" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Sales Department</text></g></g><g data-runiq-container="cloud" data-container-id="cloud"><rect x="12" y="640" width="344" height="820" 
+    fill="#e8f5e9" stroke="#388e3c" stroke-width="3" rx="8" /><text x="22" y="660" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Cloud Platform</text><g data-runiq-container="vpc" data-container-id="vpc"><rect x="42" y="822" width="284" height="608" 
+    fill="#e1f5fe" stroke="#0288d1" stroke-width="2" rx="8" /><text x="52" y="842" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">VPC Network</text><g data-runiq-container="publicSubnet" data-container-id="publicSubnet"><rect x="72" y="852" width="224" height="164" 
+    fill="#fff9c4" stroke="#fbc02d" stroke-width="2" rx="8" /><text x="82" y="872" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Public Subnet</text></g><g data-runiq-container="privateSubnet" data-container-id="privateSubnet"><rect x="72" y="1096" width="198" height="304" 
+    fill="#ffebee" stroke="#c62828" stroke-width="2" rx="8" /><text x="82" y="1116" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Private Subnet</text></g></g></g><g data-runiq-container="bankingSystem" data-container-id="bankingSystem"><rect x="853.4" y="826.8" width="439" height="789.6" 
+    fill="#dceefb" stroke="#1168bd" stroke-width="3" rx="8" /><text x="863.4" y="846.8" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Internet Banking System</text><g data-runiq-container="dataLayer" data-container-id="dataLayer"><rect x="893.4" y="1252.4" width="217.2" height="324" 
+    fill="#f0f0f0" stroke="#666666" stroke-width="2" rx="8" stroke-dasharray="5,5" /><text x="903.4" y="1272.4" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Data Layer</text></g></g><g data-runiq-edge="cto-dev1-0" data-edge-id="cto-dev1-0" data-edge-from="cto" data-edge-to="dev1"><defs>
+      <marker id="arrow-standard-cto-dev1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 497.2 871.1999999999999 L 537.2 871.1999999999999 L 537.2 865.1999999999999 L 577.2 865.1999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 497.2 871.1999999999999 L 537.2 871.1999999999999 L 537.2 865.1999999999999 L 577.2 865.1999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cto-dev1)" pointer-events="none" /></g><g data-runiq-edge="cto-dev2-1" data-edge-id="cto-dev2-1" data-edge-from="cto" data-edge-to="dev2"><defs>
+      <marker id="arrow-standard-cto-dev2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 497.2 871.1999999999999 L 532.2 871.1999999999999 L 532.2 985.8 L 577.2 986.1999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 497.2 871.1999999999999 L 532.2 871.1999999999999 L 532.2 985.8 L 577.2 986.1999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cto-dev2)" pointer-events="none" /></g><g data-runiq-edge="vp-rep1-2" data-edge-id="vp-rep1-2" data-edge-from="vp" data-edge-to="rep1"><defs>
+      <marker id="arrow-standard-vp-rep1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 521.6 1211.3999999999999 L 521.6 1251.3999999999999 L 506.2 1251.3999999999999 L 506.2 1291.3999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 521.6 1211.3999999999999 L 521.6 1251.3999999999999 L 506.2 1251.3999999999999 L 506.2 1291.3999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-vp-rep1)" pointer-events="none" /></g><g data-runiq-edge="vp-rep2-3" data-edge-id="vp-rep2-3" data-edge-from="vp" data-edge-to="rep2"><defs>
+      <marker id="arrow-standard-vp-rep2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 521.6 1211.3999999999999 L 521.6 1246.3999999999999 L 703 1246.3999999999999 L 703.2 1291.3999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 521.6 1211.3999999999999 L 521.6 1246.3999999999999 L 703 1246.3999999999999 L 703.2 1291.3999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-vp-rep2)" pointer-events="none" /></g><g data-runiq-edge="api-db-6" data-edge-id="api-db-6" data-edge-from="api" data-edge-to="db"><defs>
+      <marker id="arrow-standard-api-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 171 1198 L 171 1244 L 170.6 1244 L 170.6 1290" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 171 1198 L 171 1244 L 170.6 1244 L 170.6 1290" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-api-db)" pointer-events="none" /></g><g data-runiq-edge="webapp-apiGateway-12" data-edge-id="webapp-apiGateway-12" data-edge-from="webapp" data-edge-to="apiGateway"><defs>
+      <marker id="arrow-standard-webapp-apiGateway" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1167.4 915.5999999999999 L 1167.4 950.5999999999999 L 1003.4 950.5999999999999 L 982.6 995.5999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1167.4 915.5999999999999 L 1167.4 950.5999999999999 L 1003.4 950.5999999999999 L 982.6 995.5999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-webapp-apiGateway)" pointer-events="none" /></g><g data-runiq-edge="mobile-apiGateway-13" data-edge-id="mobile-apiGateway-13" data-edge-from="mobile" data-edge-to="apiGateway"><defs>
+      <marker id="arrow-standard-mobile-apiGateway" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 962.4 915.5999999999999 L 962.4 955.5999999999999 L 982.6 955.5999999999999 L 982.6 995.5999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 962.4 915.5999999999999 L 962.4 955.5999999999999 L 982.6 955.5999999999999 L 982.6 995.5999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mobile-apiGateway)" pointer-events="none" /></g><g data-runiq-edge="apiGateway-backend-14" data-edge-id="apiGateway-backend-14" data-edge-from="apiGateway" data-edge-to="backend"><defs>
+      <marker id="arrow-standard-apiGateway-backend" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 982.6 1055.6 L 982.6 1095.6 L 982.6 1095.6 L 982.6 1135.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 982.6 1055.6 L 982.6 1095.6 L 982.6 1095.6 L 982.6 1135.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-apiGateway-backend)" pointer-events="none" /></g><g data-runiq-edge="mainDb-cache-11" data-edge-id="mainDb-cache-11" data-edge-from="mainDb" data-edge-to="cache"><defs>
+      <marker id="arrow-standard-mainDb-cache" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1002 1362.4 L 1002 1414.4 L 1002.6 1414.4 L 1002.6 1466.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1002 1362.4 L 1002 1414.4 L 1002.6 1414.4 L 1002.6 1466.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-mainDb-cache)" pointer-events="none" /></g><g data-runiq-edge="customer-webapp" data-edge-id="customer-webapp" data-edge-from="customer" data-edge-to="webapp"><defs>
+      <marker id="arrow-standard-customer-webapp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1132 640 L 1132 785.3 L 1167.4 785.3 L 1167.4 878.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1132 640 L 1132 785.3 L 1167.4 785.3 L 1167.4 878.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-webapp)" pointer-events="none" /></g><g data-runiq-edge="customer-mobile" data-edge-id="customer-mobile" data-edge-from="customer" data-edge-to="mobile"><defs>
+      <marker id="arrow-standard-customer-mobile" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1132 640 L 1132 785.3 L 962.4 785.3 L 962.4 878.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1132 640 L 1132 785.3 L 962.4 785.3 L 962.4 878.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-customer-mobile)" pointer-events="none" /></g><g data-runiq-edge="ceo-cto" data-edge-id="ceo-cto" data-edge-from="ceo" data-edge-to="cto"><defs>
+      <marker id="arrow-standard-ceo-cto" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 442.6 682 L 442.6 786.8 L 472.6 786.8 L 472.6 850.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 442.6 682 L 442.6 786.8 L 472.6 786.8 L 472.6 850.8" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ceo-cto)" pointer-events="none" /></g><g data-runiq-edge="ceo-vp" data-edge-id="ceo-vp" data-edge-from="ceo" data-edge-to="vp"><defs>
+      <marker id="arrow-standard-ceo-vp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 442.6 682 L 442.6 946.7 L 521.6 946.7 L 521.6 1211.3999999999999" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 442.6 682 L 442.6 946.7 L 521.6 946.7 L 521.6 1211.3999999999999" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-ceo-vp)" pointer-events="none" /></g><g data-runiq-edge="web1-api" data-edge-id="web1-api" data-edge-from="web1" data-edge-to="api"><defs>
+      <marker id="arrow-standard-web1-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 174 934 L 144 934 L 171 1051 L 171 1138" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 174 934 L 144 934 L 171 1051 L 171 1138" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-web1-api)" pointer-events="none" /></g><g data-runiq-edge="web2-api" data-edge-id="web2-api" data-edge-from="web2" data-edge-to="api"><defs>
+      <marker id="arrow-standard-web2-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 254 934 L 224 934 L 171 1051 L 171 1138" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 254 934 L 224 934 L 171 1051 L 171 1138" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-web2-api)" pointer-events="none" /></g><g data-runiq-edge="lb-web1" data-edge-id="lb-web1" data-edge-from="lb" data-edge-to="web1"><defs>
+      <marker id="arrow-standard-lb-web1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 123.6 682 L 123.6 823 L 144 823 L 174 934" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 123.6 682 L 123.6 823 L 144 823 L 174 934" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-lb-web1)" pointer-events="none" /></g><g data-runiq-edge="lb-web2" data-edge-id="lb-web2" data-edge-from="lb" data-edge-to="web2"><defs>
+      <marker id="arrow-standard-lb-web2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 123.6 682 L 123.6 823 L 224 823 L 254 934" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 123.6 682 L 123.6 823 L 224 823 L 254 934" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-lb-web2)" pointer-events="none" /></g><g data-runiq-edge="backend-mainDb" data-edge-id="backend-mainDb" data-edge-from="backend" data-edge-to="mainDb"><defs>
+      <marker id="arrow-standard-backend-mainDb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 982.6 1172.3999999999999 L 982.6 1244.2 L 1002 1244.2 L 1002 1306.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 982.6 1172.3999999999999 L 982.6 1244.2 L 1002 1244.2 L 1002 1306.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-backend-mainDb)" pointer-events="none" /></g><g data-runiq-edge="backend-cache" data-edge-id="backend-cache" data-edge-from="backend" data-edge-to="cache"><defs>
+      <marker id="arrow-standard-backend-cache" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 982.6 1172.3999999999999 L 982.6 1324.2 L 1002.6 1324.2 L 1002.6 1466.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 982.6 1172.3999999999999 L 982.6 1324.2 L 1002.6 1324.2 L 1002.6 1466.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-backend-cache)" pointer-events="none" /></g><g data-runiq-node="ceo" data-node-id="ceo" data-node-shape="rounded">
+      <rect x="418" y="682" width="49.2" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="442.6" y="702.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      CEO
+    </text>
+    </g><g data-runiq-node="cto" data-node-id="cto" data-node-shape="rounded">
+      <rect x="448" y="850.8" width="49.2" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="472.6" y="871.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      CTO
+    </text>
+    </g><g data-runiq-node="dev1" data-node-id="dev1" data-node-shape="rounded">
+      <rect x="577.2" y="844.8" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="635.4000000000001" y="865.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Developer 1
+    </text>
+    </g><g data-runiq-node="dev2" data-node-id="dev2" data-node-shape="rounded">
+      <rect x="577.2" y="965.8" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="635.4000000000001" y="986.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Developer 2
+    </text>
+    </g><g data-runiq-node="vp" data-node-id="vp" data-node-shape="rounded">
+      <rect x="476" y="1170.6" width="91.2" height="40.8"
+            rx="8" ry="8" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="521.6" y="1191" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      VP Sales
+    </text>
+    </g><g data-runiq-node="rep1" data-node-id="rep1" data-node-shape="rounded">
+      <rect x="448" y="1291.3999999999999" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="506.2" y="1311.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Sales Rep 1
+    </text>
+    </g><g data-runiq-node="rep2" data-node-id="rep2" data-node-shape="rounded">
+      <rect x="645" y="1291.3999999999999" width="116.4" height="40.8"
+            rx="8" ry="8" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="703.2" y="1311.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Sales Rep 2
+    </text>
+    </g><g data-runiq-node="lb" data-node-id="lb" data-node-shape="hexagon">
+      <polygon points="74.88,682 172.32,682 193.2,712 172.32,742 74.88,742 54,712" 
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="123.6" y="712" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Load Balancer
+    </text>
+    </g><g data-runiq-node="web1" data-node-id="web1" data-node-shape="server"><g><rect x="114" y="894" width="60" height="80" fill="#48677e" stroke="#48677e" stroke-width="2" /><line x1="119" y1="914" x2="169" y2="914" stroke="#48677e" stroke-width="1" /><line x1="119" y1="934" x2="169" y2="934" stroke="#48677e" stroke-width="1" /><line x1="119" y1="954" x2="169" y2="954" stroke="#48677e" stroke-width="1" /><text x="144" y="939" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web Server 1
+    </text></g></g><g data-runiq-node="web2" data-node-id="web2" data-node-shape="server"><g><rect x="194" y="894" width="60" height="80" fill="#364d5f" stroke="#48677e" stroke-width="2" /><line x1="199" y1="914" x2="249" y2="914" stroke="#48677e" stroke-width="1" /><line x1="199" y1="934" x2="249" y2="934" stroke="#48677e" stroke-width="1" /><line x1="199" y1="954" x2="249" y2="954" stroke="#48677e" stroke-width="1" /><text x="224" y="939" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web Server 2
+    </text></g></g><g data-runiq-node="api" data-node-id="api" data-node-shape="hexagon">
+      <polygon points="131.1,1138 210.9,1138 228,1168 210.9,1198 131.1,1198 114,1168" 
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="171" y="1168" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      API Server
+    </text>
+    </g><g data-runiq-node="db" data-node-id="db" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="170.6" cy="1290" rx="45.6" ry="12" 
+                 fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="125" y="1290" width="91.2" height="56" 
+              fill="#73a3bf" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="125" y1="1290" x2="125" y2="1346" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="216.2" y1="1290" x2="216.2" y2="1346" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 125,1346 Q 170.6,1370 216.2,1346"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="170.6" y="1318" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Database
+    </text>
+      </g>
+    </g><g data-runiq-node="webapp" data-node-id="webapp" data-node-shape="rect">
+      <rect x="1094.4" y="878.8" width="146" height="36.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="1167.4" y="897.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Web Application
+    </text>
+    </g><g data-runiq-node="mobile" data-node-id="mobile" data-node-shape="rect">
+      <rect x="910.4" y="878.8" width="104" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="962.4" y="897.1999999999999" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Mobile App
+    </text>
+    </g><g data-runiq-node="apiGateway" data-node-id="apiGateway" data-node-shape="hexagon">
+      <polygon points="939.76,995.5999999999999 1025.44,995.5999999999999 1043.8,1025.6 1025.44,1055.6 939.76,1055.6 921.4,1025.6" 
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="982.6" y="1025.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      API Gateway
+    </text>
+    </g><g data-runiq-node="backend" data-node-id="backend" data-node-shape="rect">
+      <rect x="905.4" y="1135.6" width="154.4" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="982.6" y="1154" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Backend Services
+    </text>
+    </g><g data-runiq-node="mainDb" data-node-id="mainDb" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="1002" cy="1306.4" rx="66.6" ry="12" 
+                 fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="935.4" y="1306.4" width="133.2" height="56" 
+              fill="#73a3bf" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="935.4" y1="1306.4" x2="935.4" y2="1362.4" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="1068.6" y1="1306.4" x2="1068.6" y2="1362.4" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 935.4,1362.4 Q 1002,1386.4 1068.6,1362.4"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="1002" y="1334.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Main Database
+    </text>
+      </g>
+    </g><g data-runiq-node="cache" data-node-id="cache" data-node-shape="cylinder">
+      <g>
+        <!-- Top ellipse -->
+        <ellipse cx="1002.6" cy="1466.4" rx="58.2" ry="12" 
+                 fill="#96bacf" stroke="#48677e" stroke-width="1" />
+        
+        <!-- Side rectangles -->
+        <rect x="944.4" y="1466.4" width="116.4" height="56" 
+              fill="#96bacf" stroke="none" />
+        
+        <!-- Side lines -->
+        <line x1="944.4" y1="1466.4" x2="944.4" y2="1522.4" 
+              stroke="#48677e" stroke-width="1" />
+        <line x1="1060.8" y1="1466.4" x2="1060.8" y2="1522.4" 
+              stroke="#48677e" stroke-width="1" />
+        
+        <!-- Bottom ellipse (only bottom arc visible) -->
+        <path d="M 944.4,1522.4 Q 1002.6,1546.4 1060.8,1522.4"
+              fill="none" stroke="#48677e" stroke-width="1" />
+        
+        <text x="1002.6" y="1494.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Redis Cache
+    </text>
+      </g>
+    </g><g data-runiq-node="customer" data-node-id="customer" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="1132" cy="655" r="15" 
+              fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="1093.4" y="675" width="77.2" height="26.799999999999997"
+            rx="5" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text x="1132" y="688.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Customer
+    </text>
+    </g></svg>

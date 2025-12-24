@@ -856,10 +856,10 @@ diagram "Self-Transition" {
 
 ## Related Topics
 
-- [Class Diagrams](/guide/class-diagrams) - UML class modeling
-- [Sequence Diagrams](/guide/sequence-diagrams) - Interaction modeling
-- [Use Case Diagrams](/guide/use-case-diagrams) - System functionality
-- [Activity Diagrams](/guide/activity-diagrams) - Process modeling (coming soon)
+- [Class Diagrams](/guide/diagram-types/class-diagrams) - UML class modeling
+- [Sequence Diagrams](/guide/diagram-types/sequence-diagrams) - Interaction modeling
+- [Use Case Diagrams](/guide/diagram-types/use-case-diagrams) - System functionality
+- [Activity Diagrams](/guide/diagram-types/activity-diagrams) - Process modeling (coming soon)
 
 ---
 

@@ -634,7 +634,7 @@ How do Runiq ERD diagrams compare to other database modeling tools?
 
 ## Next Steps
 
-- Explore **[UML Class Diagrams](/guide/class-diagrams)** for detailed implementation models
+- Explore **[UML Class Diagrams](/guide/diagram-types/class-diagrams)** for detailed implementation models
 - Review **[Shape Reference](/reference/shapes#erd-shapes)** for all ERD shapes
 - See **[Database Examples](/examples/)** for more ERD patterns
 - Learn about **[Data-Driven Diagrams](/reference/data-driven)** for generating ERDs from CSV/JSON

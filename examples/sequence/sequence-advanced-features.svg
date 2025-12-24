@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="820" height="1230" 
+    viewBox="0 0 820 1230"
+    role="img" aria-labelledby="sequence-title"><title id="sequence-title">Advanced Sequence Features Demo</title>
+  <style>
+    .participant-box {
+      fill: #5a819e;
+      stroke: #5a819e;
+      stroke-width: 2;
+    }
+    .participant-text {
+      fill: #FFFFFF;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      text-anchor: middle;
+    }
+    .lifeline {
+      stroke: #96bacf;
+      stroke-width: 1;
+      stroke-dasharray: 5,5;
+    }
+    .message-line {
+      stroke: #48677e;
+      stroke-width: 2;
+      fill: none;
+    }
+    .message-arrow {
+      fill: #48677e;
+      stroke: #48677e;
+    }
+    .message-text {
+      fill: #48677e;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+    .activation-box {
+      fill: #73a3bf;
+      stroke: #5a819e;
+      stroke-width: 2;
+      opacity: 0.3;
+    }
+    .note-box {
+      fill: #dce8ef;
+      stroke: #48677e;
+      stroke-width: 1;
+    }
+    .note-text {
+      fill: #24333f;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+    }
+    .fragment-box {
+      fill: #f0f5f8;
+      stroke: #5a819e;
+      stroke-width: 2;
+    }
+    .fragment-label-bg {
+      fill: #5a819e;
+    }
+    .fragment-label-text {
+      fill: white;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .fragment-condition {
+      fill: #48677e;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-style: italic;
+    }
+  </style>
+  <rect width="820" height="1230" fill="#FFFFFF"/><text x="410" y="30" class="diagram-title" text-anchor="middle" font-size="18" font-weight="bold" fill="#333333">Advanced Sequence Features Demo</text><rect x="50" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="110" y="75" class="participant-text">Client</text><rect x="200" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="260" y="75" class="participant-text">API Gateway</text><rect x="350" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="410" y="75" class="participant-text">Auth Service</text><rect x="500" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="560" y="75" class="participant-text">Cache</text><rect x="650" y="50" width="120" height="40" class="participant-box" rx="5"/><text x="710" y="75" class="participant-text">Database</text><line x1="110" y1="110" x2="110" y2="1180" class="lifeline"/><line x1="260" y1="110" x2="260" y2="1180" class="lifeline"/><line x1="410" y1="110" x2="410" y2="1180" class="lifeline"/><line x1="560" y1="110" x2="560" y2="1180" class="lifeline"/><line x1="710" y1="110" x2="710" y2="1180" class="lifeline"/><rect x="255" y="110" width="10" height="40" class="activation-box"/><line x1="110" y1="110" x2="260" y2="110" class="message-line" stroke-dasharray=""/><polygon points="260,110 252,106 252,114" class="message-arrow"/><text x="185" y="90" class="message-guard" text-anchor="middle" font-size="10" fill="#666666">[token valid]</text><text x="185" y="105" class="message-text" text-anchor="middle">request()</text><line x1="260" y1="170" x2="260" y2="170" class="message-line" stroke-dasharray=""/><polygon points="260,170 268,166 268,174" class="message-arrow"/><text x="260" y="165" class="message-text" text-anchor="middle">validateRequest()</text><line x1="260" y1="230" x2="410" y2="230" class="message-line" stroke-dasharray=""/><polygon points="410,230 402,226 402,234" class="message-arrow"/><text x="335" y="225" class="message-text" text-anchor="middle">authorize()</text><text x="335" y="245" class="message-timing" text-anchor="middle" font-size="10" fill="#666666">{&lt; 50ms}</text><line x1="410" y1="290" x2="260" y2="290" class="message-line" stroke-dasharray="5,5"/><polyline points="268,286 260,290 268,294" class="message-arrow" fill="none"/><text x="335" y="285" class="message-text" text-anchor="middle">authorized</text><line x1="260" y1="350" x2="560" y2="350" class="message-line" stroke-dasharray=""/><polygon points="560,350 552,346 552,354" class="message-arrow"/><text x="410" y="345" class="message-text" text-anchor="middle">get(key)</text><text x="410" y="365" class="message-timing" text-anchor="middle" font-size="10" fill="#666666">{&lt; 10ms}</text><line x1="560" y1="410" x2="260" y2="410" class="message-line" stroke-dasharray="5,5"/><polyline points="268,406 260,410 268,414" class="message-arrow" fill="none"/><text x="410" y="405" class="message-text" text-anchor="middle">null</text><line x1="260" y1="470" x2="710" y2="470" class="message-line" stroke-dasharray=""/><polygon points="710,470 702,466 702,474" class="message-arrow"/><text x="485" y="450" class="message-guard" text-anchor="middle" font-size="10" fill="#666666">[cache miss]</text><text x="485" y="465" class="message-text" text-anchor="middle">query()</text><text x="485" y="485" class="message-timing" text-anchor="middle" font-size="10" fill="#666666">{&lt; 100ms}</text><line x1="710" y1="530" x2="260" y2="530" class="message-line" stroke-dasharray="5,5"/><polyline points="268,526 260,530 268,534" class="message-arrow" fill="none"/><text x="485" y="525" class="message-text" text-anchor="middle">data</text><line x1="260" y1="590" x2="410" y2="590" class="message-line" stroke-dasharray="5,5"/><circle cx="410" cy="590" r="5" class="lost-message-end" fill="#333333"/><text x="335" y="585" class="message-text" text-anchor="middle">auditLog(event)</text><line x1="260" y1="650" x2="410" y2="650" class="message-line" stroke-dasharray="5,5"/><circle cx="410" cy="650" r="5" class="lost-message-end" fill="#333333"/><text x="335" y="645" class="message-text" text-anchor="middle">metrics.record()</text><line x1="10" y1="710" x2="110" y2="710" class="message-line" stroke-dasharray="5,5"/><circle cx="10" cy="710" r="5" class="found-message-start" fill="#333333"/><text x="60" y="705" class="message-text" text-anchor="middle">pushNotification</text><line x1="260" y1="770" x2="110" y2="770" class="message-line" stroke-dasharray="5,5"/><polyline points="118,766 110,770 118,774" class="message-arrow" fill="none"/><text x="185" y="750" class="message-guard" text-anchor="middle" font-size="10" fill="#666666">[success]</text><text x="185" y="765" class="message-text" text-anchor="middle">response</text><text x="185" y="785" class="message-timing" text-anchor="middle" font-size="10" fill="#666666">{&lt; 200ms total}</text><rect x="110" y="810" width="150" height="40" class="note-box"/><polyline points="250,810 250,820 260,820" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="115" y="835" class="note-text">Authentication with guard condition</text><rect x="270" y="870" width="150" height="40" class="note-box"/><polyline points="410,870 410,880 420,880" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="275" y="895" class="note-text">Authorization check with timing SLA</text><rect x="560" y="930" width="150" height="40" class="note-box"/><polyline points="700,930 700,940 710,940" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="565" y="955" class="note-text">Data access with caching strategy</text><rect x="270" y="990" width="150" height="40" class="note-box"/><polyline points="410,990 410,1000 420,1000" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="275" y="1015" class="note-text">Async operations - fire and forget</text><rect x="-50" y="1050" width="150" height="40" class="note-box"/><polyline points="90,1050 90,1060 100,1060" fill="none" stroke="#E6DB74" stroke-width="1"/><text x="-45" y="1075" class="note-text">External event arrives</text></svg>

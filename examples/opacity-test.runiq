@@ -1,7 +1,9 @@
-// Test opacity property
-shape A as @rect label: "Full Opacity (default)" fill: "#2196f3"
-shape B as @rect label: "70% Opacity" fill: "#2196f3" opacity: 0.7
-shape C as @rect label: "50% Opacity" fill: "#2196f3" opacity: 0.5
-shape D as @rect label: "20% Opacity" fill: "#2196f3" opacity: 0.2
+diagram "opacity test" {
+  // Test opacity property
+  shape A as @rect label: "Full Opacity (default)" fillColor: "#2196f3"
+  shape B as @rect label: "70% Opacity" fillColor: "#2196f3" opacity: 0.7
+  shape C as @rect label: "50% Opacity" fillColor: "#2196f3" opacity: 0.5
+  shape D as @rect label: "20% Opacity" fillColor: "#2196f3" opacity: 0.2
 
-A -> B -> C -> D
+  A -> B -> C -> D
+}

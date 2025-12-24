@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1414.4" height="1078" 
+    viewBox="0 0 1414.4 1078"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="initial-off-0" data-edge-id="initial-off-0" data-edge-from="initial" data-edge-to="off"><defs>
+      <marker id="arrow-standard-initial-off" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1152 568 L 1152 653 L 1066.6 653 L 1066.6 738" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1152 568 L 1152 653 L 1066.6 653 L 1066.6 738" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-initial-off)" pointer-events="none" /><text x="1066.6" y="653" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text"> / initialize(); loadSettings()</text></g><g data-runiq-edge="off-idle-1" data-edge-id="off-idle-1" data-edge-from="off" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-off-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1066.6 738 L 1066.6 653 L 700 653 L 631.6 568" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1066.6 738 L 1066.6 653 L 700 653 L 631.6 568" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-off-idle)" pointer-events="none" /><text x="700" y="653" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">powerOn / restore(); displayWelcome()</text></g><g data-runiq-edge="idle-off-2" data-edge-id="idle-off-2" data-edge-from="idle" data-edge-to="off"><defs>
+      <marker id="arrow-standard-idle-off" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 631.6 568 L 631.6 678 L 981 678 L 1066.6 738" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 631.6 568 L 631.6 678 L 981 678 L 1066.6 738" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-off)" pointer-events="none" /><text x="981" y="678" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">powerOff [userConfirmed] / saveSettings(); shutdownGracefully()</text></g><g data-runiq-edge="idle-heating-17" data-edge-id="idle-heating-17" data-edge-from="idle" data-edge-to="heating"><defs>
+      <marker id="arrow-standard-idle-heating" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 460 522.5 L 529 522.5 L 297 628 L 214.6 738" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 460 522.5 L 529 522.5 L 297 628 L 214.6 738" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-heating)" pointer-events="none" /><text x="297" y="628" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">scheduleTriggered [scheduledMode == HEAT &amp;&amp; currentTemp &lt; scheduledTarget] / setTarget(scheduledTarget); logSchedule(&#39;heating&#39;)</text></g><g data-runiq-edge="idle-cooling-18" data-edge-id="idle-cooling-18" data-edge-from="idle" data-edge-to="cooling"><defs>
+      <marker id="arrow-standard-idle-cooling" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 631.6 477 L 631.6 367 L 476 367 L 476 286.5 L 476 156 L 500 156 L 450 121" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 631.6 477 L 631.6 367 L 476 367 L 476 286.5 L 476 156 L 500 156 L 450 121" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-cooling)" pointer-events="none" /><text x="476" y="286.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">scheduleTriggered [scheduledMode == COOL &amp;&amp; currentTemp &gt; scheduledTarget] / setTarget(scheduledTarget); logSchedule(&#39;cooling&#39;)</text></g><g data-runiq-edge="idle-fanShape-5" data-edge-id="idle-fanShape-5" data-edge-from="idle" data-edge-to="fanShape"><defs>
+      <marker id="arrow-standard-idle-fanShape" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 631.6 568 L 631.6 653 L 651.2 653 L 651.2 738" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 631.6 568 L 631.6 653 L 651.2 653 L 651.2 738" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-fanShape)" pointer-events="none" /><text x="651.2" y="653" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">fanRequest [mode == FAN_ONLY] / startFan(); setTimer(&#39;fan-timeout&#39;)</text></g><g data-runiq-edge="heating-idle-6" data-edge-id="heating-idle-6" data-edge-from="heating" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-heating-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 407.2 792.5 L 352 792.5 L 563 653 L 631.6 568" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 407.2 792.5 L 352 792.5 L 563 653 L 631.6 568" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-heating-idle)" pointer-events="none" /><text x="563" y="653" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">temperatureReading [currentTemp &gt;= targetTemp] / logAction(&#39;target-reached&#39;); notifyUser()</text></g><g data-runiq-edge="cooling-idle-7" data-edge-id="cooling-idle-7" data-edge-from="cooling" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-cooling-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 450 121 L 450 286.5 L 400 442 L 509 442 L 460 522.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 450 121 L 450 286.5 L 400 442 L 509 442 L 460 522.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cooling-idle)" pointer-events="none" /><text x="400" y="442" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">temperatureReading [currentTemp &lt;= targetTemp] / logAction(&#39;target-reached&#39;); notifyUser()</text></g><g data-runiq-edge="fanShape-idle-8" data-edge-id="fanShape-idle-8" data-edge-from="fanShape" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-fanShape-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 651.2 738 L 651.2 703 L 632 703 L 631.6 568" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 651.2 738 L 651.2 703 L 632 703 L 631.6 568" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-fanShape-idle)" pointer-events="none" /><text x="632" y="703" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">timeout / stopFan()</text></g><g data-runiq-edge="heating-cooling-9" data-edge-id="heating-cooling-9" data-edge-from="heating" data-edge-to="cooling"><defs>
+      <marker id="arrow-standard-heating-cooling" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 214.6 738 L 214.6 522.5 L 132 286.5 L 132 181 L 350 181 L 450 121" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 214.6 738 L 214.6 522.5 L 132 286.5 L 132 181 L 350 181 L 450 121" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-heating-cooling)" pointer-events="none" /><text x="132" y="181" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">modeChange [newMode == COOL &amp;&amp; safeToSwitch] / waitForSafeTransition(); logModeChange()</text></g><g data-runiq-edge="cooling-heating-10" data-edge-id="cooling-heating-10" data-edge-from="cooling" data-edge-to="heating"><defs>
+      <marker id="arrow-standard-cooling-heating" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 249 66.5 L 299 66.5 L 77 156 L 77 286.5 L 77 522.5 L 22 792.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 249 66.5 L 299 66.5 L 77 156 L 77 286.5 L 77 522.5 L 22 792.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cooling-heating)" pointer-events="none" /><text x="77" y="286.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">modeChange [newMode == HEAT &amp;&amp; safeToSwitch] / waitForSafeTransition(); logModeChange()</text></g><g data-runiq-edge="heating-heating-11" data-edge-id="heating-heating-11" data-edge-from="heating" data-edge-to="heating"><defs>
+      <marker id="arrow-standard-heating-heating" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 22 792.5 L 12 792.5 L 12 810.6666666666666 L 22 792.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 22 792.5 L 12 792.5 L 12 810.6666666666666 L 22 792.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-heating-heating)" pointer-events="none" /><text x="12" y="810.6666666666666" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">targetAdjusted / updateTarget(); recalculateRuntime()</text></g><g data-runiq-edge="cooling-cooling-12" data-edge-id="cooling-cooling-12" data-edge-from="cooling" data-edge-to="cooling"><defs>
+      <marker id="arrow-standard-cooling-cooling" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 249 66.5 L 239 66.5 L 239 84.66666666666666 L 249 66.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 249 66.5 L 239 66.5 L 239 84.66666666666666 L 249 66.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cooling-cooling)" pointer-events="none" /><text x="239" y="84.66666666666666" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">targetAdjusted / updateTarget(); recalculateRuntime()</text></g><g data-runiq-edge="idle-away-13" data-edge-id="idle-away-13" data-edge-from="idle" data-edge-to="away"><defs>
+      <marker id="arrow-standard-idle-away" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 803.2 522.5 L 735 522.5 L 1274 628 L 1274 792.5 L 1274 882 L 1189 882 L 1189.2 967" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 803.2 522.5 L 735 522.5 L 1274 628 L 1274 792.5 L 1274 882 L 1189 882 L 1189.2 967" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-away)" pointer-events="none" /><text x="1274" y="792.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">awayModeActivated / saveCurrentSettings(); applyEcoSettings()</text></g><g data-runiq-edge="heating-away-14" data-edge-id="heating-away-14" data-edge-from="heating" data-edge-to="away"><defs>
+      <marker id="arrow-standard-heating-away" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 214.6 847 L 214.6 907 L 1052 907 L 984 1012.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 214.6 847 L 214.6 907 L 1052 907 L 984 1012.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-heating-away)" pointer-events="none" /><text x="1052" y="907" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">awayModeActivated / saveCurrentSettings(); shutdownHVAC(); applyEcoSettings()</text></g><g data-runiq-edge="cooling-away-15" data-edge-id="cooling-away-15" data-edge-from="cooling" data-edge-to="away"><defs>
+      <marker id="arrow-standard-cooling-away" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 651 66.5 L 601 66.5 L 1326 156 L 1326 286.5 L 1326 522.5 L 1326 792.5 L 1394.4 1012.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 651 66.5 L 601 66.5 L 1326 156 L 1326 286.5 L 1326 522.5 L 1326 792.5 L 1394.4 1012.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cooling-away)" pointer-events="none" /><text x="1326" y="286.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">awayModeActivated / saveCurrentSettings(); shutdownHVAC(); applyEcoSettings()</text></g><g data-runiq-edge="away-idle-16" data-edge-id="away-idle-16" data-edge-from="away" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-away-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1189.2 967 L 1189.2 907 L 1300 907 L 1300 792.5 L 1300 603 L 769 603 L 803.2 522.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1189.2 967 L 1189.2 907 L 1300 907 L 1300 792.5 L 1300 603 L 769 603 L 803.2 522.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-away-idle)" pointer-events="none" /><text x="1300" y="792.5" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">awayModeDeactivated [userPresenceDetected || scheduleResumed] / restoreSettings(); resumeNormalOperation()</text></g><g data-runiq-edge="away-heating-19" data-edge-id="away-heating-19" data-edge-from="away" data-edge-to="heating"><defs>
+      <marker id="arrow-standard-away-heating" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1189.2 967 L 1189.2 882 L 279 882 L 214.6 847" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1189.2 967 L 1189.2 882 L 279 882 L 214.6 847" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-away-heating)" pointer-events="none" /><text x="279" y="882" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">scheduleTriggered [scheduledMode == HEAT &amp;&amp; awayModeOverride] / exitAwayMode(); setTarget(scheduledTarget)</text></g><g data-runiq-edge="heating-maintenance-20" data-edge-id="heating-maintenance-20" data-edge-from="heating" data-edge-to="maintenance"><defs>
+      <marker id="arrow-standard-heating-maintenance" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 214.6 738 L 214.6 522.5 L 187 417 L 584 417 L 512 286.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 214.6 738 L 214.6 522.5 L 187 417 L 584 417 L 512 286.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-heating-maintenance)" pointer-events="none" /><text x="187" y="417" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">systemFault [faultType == CRITICAL || tempExceeded] / emergencyShutdown(); alertUser(); logFault()</text></g><g data-runiq-edge="cooling-maintenance-21" data-edge-id="cooling-maintenance-21" data-edge-from="cooling" data-edge-to="maintenance"><defs>
+      <marker id="arrow-standard-cooling-maintenance" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 450 121 L 450 181 L 692 181 L 692 241" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 450 121 L 450 181 L 692 181 L 692 241" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-cooling-maintenance)" pointer-events="none" /><text x="692" y="181" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">systemFault [faultType == CRITICAL || pressureAbnormal] / emergencyShutdown(); alertUser(); logFault()</text></g><g data-runiq-edge="maintenance-idle-24" data-edge-id="maintenance-idle-24" data-edge-from="maintenance" data-edge-to="idle"><defs>
+      <marker id="arrow-standard-maintenance-idle" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 692 332 L 692 367 L 705 367 L 631.6 477" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 692 332 L 692 367 L 705 367 L 631.6 477" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-maintenance-idle)" pointer-events="none" /><text x="705" y="367" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">filterReplaced / resetFilterTimer(); resumeOperation()</text></g><g data-runiq-edge="idle-maintenance-23" data-edge-id="idle-maintenance-23" data-edge-from="idle" data-edge-to="maintenance"><defs>
+      <marker id="arrow-standard-idle-maintenance" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 803.2 522.5 L 754 522.5 L 800 367 L 872 286.5" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 803.2 522.5 L 754 522.5 L 800 367 L 872 286.5" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-idle-maintenance)" pointer-events="none" /><text x="800" y="367" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">filterAlert [filterLifeExpired &amp;&amp; userRequested] / pauseOperation(); displayInstructions()</text></g><g data-runiq-node="off" data-node-id="off" data-node-shape="state"><g class="state-shape"><rect x="895" y="738" width="343.2" height="73" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="1066.6" y="762.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Off
+    </text><line x1="907" y1="771.6" x2="1226.2" y2="771.6" stroke="#48677e" stroke-width="1" /><text x="907" y="792.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / shutdownHVAC(); clearDisplay()
+    </text></g></g><g data-runiq-node="idle" data-node-id="idle" data-node-shape="state"><g class="state-shape"><rect x="460" y="477" width="343.2" height="91" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="631.6" y="501.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Idle
+    </text><line x1="472" y1="510.6" x2="791.2" y2="510.6" stroke="#48677e" stroke-width="1" /><text x="472" y="531.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / displayTemperature()
+    </text><text x="472" y="549.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / monitorSensors(); checkSchedule()
+    </text></g></g><g data-runiq-node="heating" data-node-id="heating" data-node-shape="state"><g class="state-shape"><rect x="22" y="738" width="385.2" height="109" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="214.6" y="762.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Heating
+    </text><line x1="34" y1="771.6" x2="395.2" y2="771.6" stroke="#48677e" stroke-width="1" /><text x="34" y="792.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / activateHeater(); showHeatingIcon()
+    </text><text x="34" y="810.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / regulateTemperature(); monitorSafety()
+    </text><text x="34" y="828.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / deactivateHeater()
+    </text></g></g><g data-runiq-node="cooling" data-node-id="cooling" data-node-shape="state"><g class="state-shape"><rect x="249" y="12" width="402" height="109" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="450" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Cooling
+    </text><line x1="261" y1="45.6" x2="639" y2="45.6" stroke="#48677e" stroke-width="1" /><text x="261" y="66.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / activateAC(); showCoolingIcon()
+    </text><text x="261" y="84.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / regulateTemperature(); monitorHumidity()
+    </text><text x="261" y="102.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / deactivateAC()
+    </text></g></g><g data-runiq-node="fanShape" data-node-id="fanShape" data-node-shape="state"><g class="state-shape"><rect x="488" y="738" width="326.40000000000003" height="109" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="651.2" y="762.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Fan Only
+    </text><line x1="500" y1="771.6" x2="802.4000000000001" y2="771.6" stroke="#48677e" stroke-width="1" /><text x="500" y="792.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / activateFan(); showFanIcon()
+    </text><text x="500" y="810.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / circulateAir()
+    </text><text x="500" y="828.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / deactivateFan()
+    </text></g></g><g data-runiq-node="away" data-node-id="away" data-node-shape="state"><g class="state-shape"><rect x="984" y="967" width="410.40000000000003" height="91" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="1189.2" y="991.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Away Mode
+    </text><line x1="996" y1="1000.6" x2="1382.4" y2="1000.6" stroke="#48677e" stroke-width="1" /><text x="996" y="1021.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / setEcoTemperature(); disableSchedule()
+    </text><text x="996" y="1039.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      do / periodicCheck()
+    </text></g></g><g data-runiq-node="maintenance" data-node-id="maintenance" data-node-shape="state"><g class="state-shape"><rect x="512" y="241" width="360" height="91" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="692" y="265.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Maintenance Mode
+    </text><line x1="524" y1="274.6" x2="860" y2="274.6" stroke="#48677e" stroke-width="1" /><text x="524" y="295.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      entry / lockControls(); runDiagnostics()
+    </text><text x="524" y="313.6" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12.6"
+      fill="#48677e">
+      exit / unlockControls()
+    </text></g></g><g data-runiq-node="initial" data-node-id="initial" data-node-shape="initialState"><g class="initial-state-shape"><circle cx="1152" cy="559" r="9" fill="#000000" stroke="none" /></g></g></svg>

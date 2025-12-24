@@ -1,0 +1,16 @@
+// Example: Gauge demo
+diagram "Gauge Demo" {
+
+  // Two gauges side-by-side to demonstrate values
+  shape speed as @gauge
+    label: "Speed"
+    data: [75]
+
+  shape temp as @gauge
+    label: "Temperature"
+    data: [45]
+
+  // A simple connection to show layout behavior
+  speed -> temp
+
+}

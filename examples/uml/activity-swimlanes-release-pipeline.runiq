@@ -6,7 +6,7 @@ diagram "Software Release Process" {
   direction LR
   
   // Development swimlane
-  container "Development" orientation: horizontal fill: "#e3f2fd" padding: 20 {
+  container "Development" orientation: horizontal fillColor: "#e3f2fd" padding: 20 {
     shape dev1 as @initialState
     shape dev2 as @activity label: "Write\nCode"
     shape dev3 as @activity label: "Unit\nTest"
@@ -15,7 +15,7 @@ diagram "Software Release Process" {
   }
   
   // QA swimlane
-  container "Quality Assurance" orientation: horizontal fill: "#fff3e0" padding: 20 {
+  container "Quality Assurance" orientation: horizontal fillColor: "#fff3e0" padding: 20 {
     shape qa1 as @activity label: "Integration\nTest"
     shape qa2 as @activity label: "System\nTest"
     shape qa3 as @diamond
@@ -24,7 +24,7 @@ diagram "Software Release Process" {
   }
   
   // Operations swimlane
-  container "Operations" orientation: horizontal fill: "#e8f5e9" padding: 20 {
+  container "Operations" orientation: horizontal fillColor: "#e8f5e9" padding: 20 {
     shape ops1 as @activity label: "Deploy\nStaging"
     shape ops2 as @activity label: "Smoke\nTest"
     shape ops3 as @diamond

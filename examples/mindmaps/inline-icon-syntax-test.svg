@@ -1,5 +1,177 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="220" height="170" 
-    viewBox="0 0 220 170"
-    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Inline Icons Test</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="social-media"><rect x="0" y="0" width="200" height="150" 
-    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" class="runiq-container-label">Social Media</text></g></svg>
+    width="1514.9708911561486" height="1271.1395355642499" 
+    viewBox="0 0 1514.9708911561486 1271.1395355642499"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="social-media" data-container-id="social-media"><rect x="0" y="0" width="1494.9708911561486" height="1251.1395355642499" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Social Media</text></g><g data-runiq-edge="central-twitter-0" data-edge-id="central-twitter-0" data-edge-from="central" data-edge-to="twitter"><path d="M 787.4204442235774 572.4189673783915 L 923.5082981726177 821.9097457499145" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 787.4204442235774 572.4189673783915 L 923.5082981726177 821.9097457499145" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="central-facebook-1" data-edge-id="central-facebook-1" data-edge-from="central" data-edge-to="facebook"><path d="M 657.8204442235774 552.0189673783915 L 604.9102221117887 641.3494499645108" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 657.8204442235774 552.0189673783915 L 604.9102221117887 641.3494499645108" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="central-instagram-2" data-edge-id="central-instagram-2" data-edge-from="central" data-edge-to="instagram"><path d="M 787.4204442235774 531.6189673783915 L 614.3436005346747 302.54298441827865" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 787.4204442235774 531.6189673783915 L 614.3436005346747 302.54298441827865" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="central-linkedin-3" data-edge-id="central-linkedin-3" data-edge-from="central" data-edge-to="linkedin"><path d="M 787.4204442235774 531.6189673783915 L 1027.1266147018637 359.5114949058764" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 787.4204442235774 531.6189673783915 L 1027.1266147018637 359.5114949058764" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="twitter-tweet-4" data-edge-id="twitter-tweet-4" data-edge-from="twitter" data-edge-to="tweet"><path d="M 1065.7082981726178 842.3097457499144 L 1210.5708911561485 890.8952736087182" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1065.7082981726178 842.3097457499144 L 1210.5708911561485 890.8952736087182" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="twitter-hashtags-5" data-edge-id="twitter-hashtags-5" data-edge-from="twitter" data-edge-to="hashtags"><path d="M 923.5082981726177 862.7097457499144 L 711.6479026991054 1168.3395355642497" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 923.5082981726177 862.7097457499144 L 711.6479026991054 1168.3395355642497" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="facebook-ads-6" data-edge-id="facebook-ads-6" data-edge-from="facebook" data-edge-to="ads"><path d="M 354.11022211178874 641.3494499645108 L 301.20000000000005 730.67993255063" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 354.11022211178874 641.3494499645108 L 301.20000000000005 730.67993255063" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-edge="instagram-stories-7" data-edge-id="instagram-stories-7" data-edge-from="instagram" data-edge-to="stories"><path d="M 614.3436005346747 261.74298441827864 L 373.3820078637178 82.8" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 614.3436005346747 261.74298441827864 L 373.3820078637178 82.8" fill="none" stroke="#6b7280" stroke-width="2.5" pointer-events="none" /></g><g data-runiq-node="central" data-node-id="central" data-node-shape="rounded">
+      <rect x="657.8204442235774" y="531.6189673783915" width="259.20000000000005" height="40.8"
+            rx="8" ry="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1" />
+      
+      <g><text x="715.4204442235774" y="552.0189673783915" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="11.200000000000001"
+          fill="#FFFFFF">
+          [fa:fa-rocket]
+        </text><text x="803.4204442235774" y="552.0189673783915" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="14"
+        fill="#FFFFFF">
+        Launch Campaign
+      </text></g>
+    </g><g data-runiq-node="twitter" data-node-id="twitter" data-node-shape="rounded">
+      <rect x="781.3082981726177" y="821.9097457499145" width="284.40000000000003" height="40.8"
+            rx="8" ry="8" fill="#3b82f6" stroke="#2563eb" stroke-width="1" />
+      
+      <g><text x="843.1082981726178" y="842.3097457499144" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="11.200000000000001"
+          fill="#FFFFFF">
+          [fa:fa-twitter]
+        </text><text x="938.1082981726178" y="842.3097457499144" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="14"
+        fill="#FFFFFF">
+        Twitter Marketing
+      </text></g>
+    </g><g data-runiq-node="facebook" data-node-id="facebook" data-node-shape="rounded">
+      <rect x="354.11022211178874" y="620.9494499645108" width="250.8" height="40.8"
+            rx="8" ry="8" fill="#10b981" stroke="#059669" stroke-width="1" />
+      
+      <g><text x="420.11022211178874" y="641.3494499645108" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="11.200000000000001"
+          fill="#FFFFFF">
+          [fa:fa-facebook]
+        </text><text x="522.1102221117887" y="641.3494499645108" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="14"
+        fill="#FFFFFF">
+        Facebook Ads
+      </text></g>
+    </g><g data-runiq-node="instagram" data-node-id="instagram" data-node-shape="rounded">
+      <rect x="463.74360053467467" y="261.74298441827864" width="301.2" height="40.8"
+            rx="8" ry="8" fill="#f59e0b" stroke="#d97706" stroke-width="1" />
+      
+      <g><text x="533.9436005346747" y="282.1429844182786" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="11.200000000000001"
+          fill="#FFFFFF">
+          [fa:fa-instagram]
+        </text><text x="642.9436005346747" y="282.1429844182786" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="14"
+        fill="#FFFFFF">
+        Instagram Stories
+      </text></g>
+    </g><g data-runiq-node="linkedin" data-node-id="linkedin" data-node-shape="rounded">
+      <rect x="868.1266147018637" y="318.7114949058764" width="318" height="40.8"
+            rx="8" ry="8" fill="#ec4899" stroke="#db2777" stroke-width="1" />
+      
+      <g><text x="934.1266147018637" y="339.1114949058764" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="11.200000000000001"
+          fill="#FFFFFF">
+          [fa:fa-linkedin]
+        </text><text x="1036.1266147018637" y="339.1114949058764" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="14"
+        fill="#FFFFFF">
+        Professional Network
+      </text></g>
+    </g><g data-runiq-node="tweet" data-node-id="tweet" data-node-shape="rounded">
+      <rect x="1210.5708911561485" y="870.4952736087182" width="211.2" height="38.4"
+            rx="8" ry="8" fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <g><text x="1264.9708911561484" y="889.6952736087183" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="9.600000000000001"
+          fill="#FFFFFF">
+          [fa:fa-comment]
+        </text><text x="1346.9708911561484" y="889.6952736087183" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="12"
+        fill="#FFFFFF">
+        Daily Tweets
+      </text></g>
+    </g><g data-runiq-node="hashtags" data-node-id="hashtags" data-node-shape="rounded">
+      <rect x="586.2479026991055" y="1168.3395355642497" width="218.39999999999998" height="38.4"
+            rx="8" ry="8" fill="#b0cdfb" stroke="#6691f1" stroke-width="1" />
+      
+      <g><text x="640.6479026991055" y="1187.5395355642497" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="9.600000000000001"
+          fill="#FFFFFF">
+          [fa:fa-hashtag]
+        </text><text x="722.6479026991055" y="1187.5395355642497" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="12"
+        fill="#FFFFFF">
+        Trending Tags
+      </text></g>
+    </g><g data-runiq-node="ads" data-node-id="ads" data-node-shape="rounded">
+      <rect x="42" y="710.2799325506301" width="225.59999999999997" height="38.4"
+            rx="8" ry="8" fill="#9fe3cc" stroke="#50b596" stroke-width="1" />
+      
+      <g><text x="92.79999999999998" y="729.4799325506301" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="9.600000000000001"
+          fill="#FFFFFF">
+          [fa:fa-dollar]
+        </text><text x="168.79999999999998" y="729.4799325506301" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="12"
+        fill="#FFFFFF">
+        Sponsored Posts
+      </text></g>
+    </g><g data-runiq-node="stories" data-node-id="stories" data-node-shape="rounded">
+      <rect x="252.18200786371779" y="42" width="211.2" height="38.4"
+            rx="8" ry="8" fill="#fbd89d" stroke="#e49f50" stroke-width="1" />
+      
+      <g><text x="299.38200786371783" y="61.2" 
+          text-anchor="start" 
+          dominant-baseline="middle"
+          font-family="sans-serif" 
+          font-size="9.600000000000001"
+          fill="#FFFFFF">
+          [fa:fa-image]
+        </text><text x="369.38200786371783" y="61.2" 
+        text-anchor="start" 
+        dominant-baseline="middle"
+        font-family="sans-serif" 
+        font-size="12"
+        fill="#FFFFFF">
+        Visual Content
+      </text></g>
+    </g></svg>

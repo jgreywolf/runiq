@@ -400,11 +400,11 @@ Customer -> Deposit
 Staff -> CheckBalance
 
 # `<<include>>` - Required dependency (dashed, open arrow)
-Withdraw -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
-Deposit -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
+Withdraw -> Authenticate stereotype: "include" lineStyle: "dashed" arrowType: open
+Deposit -> Authenticate stereotype: "include" lineStyle: "dashed" arrowType: open
 
 # `<<extend>>` - Optional extension (dashed, open arrow)
-PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open
+PrintReceipt -> Withdraw stereotype: "extend" lineStyle: "dashed" arrowType: open
 ```
 
 **This generates:**

@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1154.6579685791476" height="1296.2154852558783" 
+    viewBox="0 0 1154.6579685791476 1296.2154852558783"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="friends" data-container-id="friends"><rect x="0" y="0" width="1134.6579685791476" height="1276.2154852558783" 
+    fill="#f9f9f9" stroke="#ddd" stroke-width="2" rx="8" /><text x="10" y="20" text-anchor="start" dominant-baseline="hanging" class="runiq-container-label">Friends</text></g><g data-runiq-edge="alice-bob-0" data-edge-id="alice-bob-0" data-edge-from="alice" data-edge-to="bob"><defs>
+      <marker id="arrow-standard-alice-bob" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 880.9970765075207 807.4503618427005 L 805.8299681161758 807.4503618427005 L 805.8299681161758 825.50698685042 L 730.6628597248309 825.50698685042" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 880.9970765075207 807.4503618427005 L 805.8299681161758 807.4503618427005 L 805.8299681161758 825.50698685042 L 730.6628597248309 825.50698685042" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-alice-bob)" pointer-events="none" /></g><g data-runiq-edge="alice-carol-1" data-edge-id="alice-carol-1" data-edge-from="alice" data-edge-to="carol"><defs>
+      <marker id="arrow-standard-alice-carol" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 932.9970765075207 765.6503618427006 L 932.9970765075207 704.0646848459261 L 1002.6579685791477 704.0646848459261 L 1002.6579685791477 642.4790078491516" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 932.9970765075207 765.6503618427006 L 932.9970765075207 704.0646848459261 L 1002.6579685791477 704.0646848459261 L 1002.6579685791477 642.4790078491516" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-alice-carol)" pointer-events="none" /></g><g data-runiq-edge="alice-dan-2" data-edge-id="alice-dan-2" data-edge-from="alice" data-edge-to="dan"><defs>
+      <marker id="arrow-standard-alice-dan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 932.9970765075207 849.2503618427006 L 932.9970765075207 914.3208911514688 L 975.8578708709861 914.3208911514688 L 975.8578708709861 979.391420460237" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 932.9970765075207 849.2503618427006 L 932.9970765075207 914.3208911514688 L 975.8578708709861 914.3208911514688 L 975.8578708709861 979.391420460237" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-alice-dan)" pointer-events="none" /></g><g data-runiq-edge="bob-carol-3" data-edge-id="bob-carol-3" data-edge-from="bob" data-edge-to="carol"><defs>
+      <marker id="arrow-standard-bob-carol" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 730.6628597248309 825.50698685042 L 840.6604141519892 825.50698685042 L 840.6604141519892 600.6790078491515 L 950.6579685791477 600.6790078491515" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 730.6628597248309 825.50698685042 L 840.6604141519892 825.50698685042 L 840.6604141519892 600.6790078491515 L 950.6579685791477 600.6790078491515" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bob-carol)" pointer-events="none" /></g><g data-runiq-edge="bob-dan-4" data-edge-id="bob-dan-4" data-edge-from="bob" data-edge-to="dan"><defs>
+      <marker id="arrow-standard-bob-dan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 730.6628597248309 825.50698685042 L 829.3603652979085 825.50698685042 L 829.3603652979085 1021.1914204602369 L 928.0578708709861 1021.1914204602369" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 730.6628597248309 825.50698685042 L 829.3603652979085 825.50698685042 L 829.3603652979085 1021.1914204602369 L 928.0578708709861 1021.1914204602369" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bob-dan)" pointer-events="none" /></g><g data-runiq-edge="carol-dan-5" data-edge-id="carol-dan-5" data-edge-from="carol" data-edge-to="dan"><defs>
+      <marker id="arrow-standard-carol-dan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1002.6579685791477 642.4790078491516 L 1002.6579685791477 810.9352141546942 L 975.8578708709861 810.9352141546942 L 975.8578708709861 979.391420460237" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1002.6579685791477 642.4790078491516 L 1002.6579685791477 810.9352141546942 L 975.8578708709861 810.9352141546942 L 975.8578708709861 979.391420460237" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-carol-dan)" pointer-events="none" /></g><g data-runiq-edge="eve-frank-6" data-edge-id="eve-frank-6" data-edge-from="eve" data-edge-to="frank"><defs>
+      <marker id="arrow-standard-eve-frank" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 280.62819558100557 883.2691842134649 L 280.62819558100557 967.758117884415 L 349.8274601511831 967.758117884415 L 349.8274601511831 1052.247051555365" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 280.62819558100557 883.2691842134649 L 280.62819558100557 967.758117884415 L 349.8274601511831 967.758117884415 L 349.8274601511831 1052.247051555365" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-eve-frank)" pointer-events="none" /></g><g data-runiq-edge="eve-grace-7" data-edge-id="eve-grace-7" data-edge-from="eve" data-edge-to="grace"><defs>
+      <marker id="arrow-standard-eve-grace" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 280.62819558100557 883.2691842134649 L 280.62819558100557 997.9423347346715 L 127.80000000000001 997.9423347346715 L 127.80000000000001 1112.6154852558782" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 280.62819558100557 883.2691842134649 L 280.62819558100557 997.9423347346715 L 127.80000000000001 997.9423347346715 L 127.80000000000001 1112.6154852558782" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-eve-grace)" pointer-events="none" /></g><g data-runiq-edge="frank-grace-8" data-edge-id="frank-grace-8" data-edge-from="frank" data-edge-to="grace"><defs>
+      <marker id="arrow-standard-frank-grace" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 302.0274601511831 1094.047051555365 L 238.81373007559156 1094.047051555365 L 238.81373007559156 1154.4154852558781 L 175.60000000000002 1154.4154852558781" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 302.0274601511831 1094.047051555365 L 238.81373007559156 1094.047051555365 L 238.81373007559156 1154.4154852558781 L 175.60000000000002 1154.4154852558781" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-frank-grace)" pointer-events="none" /></g><g data-runiq-edge="henry-iris-9" data-edge-id="henry-iris-9" data-edge-from="henry" data-edge-to="iris"><defs>
+      <marker id="arrow-standard-henry-iris" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 710.7636784322784 390.8299260050044 L 710.7636784322784 277.21496300250215 L 417.19769546680845 277.21496300250215 L 417.19769546680845 163.59999999999997" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 710.7636784322784 390.8299260050044 L 710.7636784322784 277.21496300250215 L 417.19769546680845 277.21496300250215 L 417.19769546680845 163.59999999999997" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-henry-iris)" pointer-events="none" /></g><g data-runiq-edge="alice-jack-10" data-edge-id="alice-jack-10" data-edge-from="alice" data-edge-to="jack"><defs>
+      <marker id="arrow-standard-alice-jack" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 932.9970765075207 849.2503618427006 L 932.9970765075207 929.0144579024575 L 797.872903363979 929.0144579024575 L 797.872903363979 1008.7785539622142" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 932.9970765075207 849.2503618427006 L 932.9970765075207 929.0144579024575 L 797.872903363979 929.0144579024575 L 797.872903363979 1008.7785539622142" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-alice-jack)" pointer-events="none" /><text x="797.872903363979" y="929.0144579024575" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">project</text></g><g data-runiq-edge="bob-jack-11" data-edge-id="bob-jack-11" data-edge-from="bob" data-edge-to="jack"><defs>
+      <marker id="arrow-standard-bob-jack" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 674.462859724831 867.3069868504201 L 674.462859724831 938.0427704063172 L 797.872903363979 938.0427704063172 L 797.872903363979 1008.7785539622142" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 674.462859724831 867.3069868504201 L 674.462859724831 938.0427704063172 L 797.872903363979 938.0427704063172 L 797.872903363979 1008.7785539622142" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-bob-jack)" pointer-events="none" /></g><g data-runiq-edge="eve-kate-12" data-edge-id="eve-kate-12" data-edge-from="eve" data-edge-to="kate"><defs>
+      <marker id="arrow-standard-eve-kate" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 324.2281955810056 841.4691842134648 L 439.6600734098763 841.4691842134648 L 439.6600734098763 995.6755368023591 L 555.091951238747 995.6755368023591" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 324.2281955810056 841.4691842134648 L 439.6600734098763 841.4691842134648 L 439.6600734098763 995.6755368023591 L 555.091951238747 995.6755368023591" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-eve-kate)" pointer-events="none" /><text x="439.6600734098763" y="995.6755368023591" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">gym</text></g><g data-runiq-edge="frank-kate-13" data-edge-id="frank-kate-13" data-edge-from="frank" data-edge-to="kate"><defs>
+      <marker id="arrow-standard-frank-kate" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 397.62746015118313 1094.047051555365 L 476.3597056949651 1094.047051555365 L 476.3597056949651 995.6755368023591 L 555.091951238747 995.6755368023591" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 397.62746015118313 1094.047051555365 L 476.3597056949651 1094.047051555365 L 476.3597056949651 995.6755368023591 L 555.091951238747 995.6755368023591" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-frank-kate)" pointer-events="none" /></g><g data-runiq-edge="henry-kate-14" data-edge-id="henry-kate-14" data-edge-from="henry" data-edge-to="kate"><defs>
+      <marker id="arrow-standard-henry-kate" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 710.7636784322784 474.4299260050044 L 710.7636784322784 714.1527314036819 L 598.691951238747 714.1527314036819 L 598.691951238747 953.8755368023592" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 710.7636784322784 474.4299260050044 L 710.7636784322784 714.1527314036819 L 598.691951238747 714.1527314036819 L 598.691951238747 953.8755368023592" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-henry-kate)" pointer-events="none" /><text x="598.691951238747" y="714.1527314036819" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">gallery</text></g><g data-runiq-edge="jack-kate-15" data-edge-id="jack-kate-15" data-edge-from="jack" data-edge-to="kate"><defs>
+      <marker id="arrow-standard-jack-kate" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 745.872903363979 1050.5785539622143 L 694.082427301363 1050.5785539622143 L 694.082427301363 995.6755368023591 L 642.2919512387471 995.6755368023591" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 745.872903363979 1050.5785539622143 L 694.082427301363 1050.5785539622143 L 694.082427301363 995.6755368023591 L 642.2919512387471 995.6755368023591" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-jack-kate)" pointer-events="none" /><text x="694.082427301363" y="995.6755368023591" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">friends</text></g><g data-runiq-edge="dan-kate-16" data-edge-id="dan-kate-16" data-edge-from="dan" data-edge-to="kate"><defs>
+      <marker id="arrow-standard-dan-kate" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 928.0578708709861 1021.1914204602369 L 785.1749110548666 1021.1914204602369 L 785.1749110548666 995.6755368023591 L 642.2919512387471 995.6755368023591" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 928.0578708709861 1021.1914204602369 L 785.1749110548666 1021.1914204602369 L 785.1749110548666 995.6755368023591 L 642.2919512387471 995.6755368023591" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-dan-kate)" pointer-events="none" /></g><g data-runiq-node="alice" data-node-id="alice" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="932.9970765075207" cy="780.6503618427006" r="15" 
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="885.9970765075207" y="800.6503618427006" width="94" height="43.599999999999994"
+            rx="5" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="932.9970765075207" y="814.0503618427006">Alice</tspan><tspan x="932.9970765075207" y="830.8503618427005">(Engineer)</tspan></text>
+    </g><g data-runiq-node="bob" data-node-id="bob" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="674.462859724831" cy="798.7069868504201" r="15" 
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="623.262859724831" y="818.7069868504201" width="102.4" height="43.599999999999994"
+            rx="5" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="674.462859724831" y="832.1069868504201">Bob</tspan><tspan x="674.462859724831" y="848.90698685042">(Developer)</tspan></text>
+    </g><g data-runiq-node="carol" data-node-id="carol" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="1002.6579685791477" cy="573.8790078491515" r="15" 
+              fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="955.6579685791477" y="593.8790078491515" width="94" height="43.599999999999994"
+            rx="5" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="1002.6579685791477" y="607.2790078491515">Carol</tspan><tspan x="1002.6579685791477" y="624.0790078491515">(Designer)</tspan></text>
+    </g><g data-runiq-node="dan" data-node-id="dan" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="975.8578708709861" cy="994.391420460237" r="15" 
+              fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="933.0578708709861" y="1014.391420460237" width="85.60000000000001" height="43.599999999999994"
+            rx="5" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="975.8578708709861" y="1027.7914204602368">Dan</tspan><tspan x="975.8578708709861" y="1044.5914204602368">(Product)</tspan></text>
+    </g><g data-runiq-node="eve" data-node-id="eve" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="280.62819558100557" cy="814.6691842134649" r="15" 
+              fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="242.02819558100558" y="834.6691842134649" width="77.2" height="43.599999999999994"
+            rx="5" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="280.62819558100557" y="848.0691842134648">Eve</tspan><tspan x="280.62819558100557" y="864.8691842134648">(Runner)</tspan></text>
+    </g><g data-runiq-node="frank" data-node-id="frank" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="349.8274601511831" cy="1067.247051555365" r="15" 
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="307.0274601511831" y="1087.247051555365" width="85.60000000000001" height="43.599999999999994"
+            rx="5" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="349.8274601511831" y="1100.647051555365">Frank</tspan><tspan x="349.8274601511831" y="1117.4470515553649">(Cyclist)</tspan></text>
+    </g><g data-runiq-node="grace" data-node-id="grace" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="127.80000000000001" cy="1127.6154852558782" r="15" 
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="85" y="1147.6154852558782" width="85.60000000000001" height="43.599999999999994"
+            rx="5" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="127.80000000000001" y="1161.015485255878">Grace</tspan><tspan x="127.80000000000001" y="1177.815485255878">(Swimmer)</tspan></text>
+    </g><g data-runiq-node="henry" data-node-id="henry" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="710.7636784322784" cy="405.8299260050044" r="15" 
+              fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="667.9636784322785" y="425.8299260050044" width="85.60000000000001" height="43.599999999999994"
+            rx="5" fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="710.7636784322784" y="439.2299260050044">Henry</tspan><tspan x="710.7636784322784" y="456.0299260050044">(Painter)</tspan></text>
+    </g><g data-runiq-node="iris" data-node-id="iris" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="417.19769546680845" cy="94.99999999999996" r="15" 
+              fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="370.19769546680845" y="114.99999999999996" width="94" height="43.599999999999994"
+            rx="5" fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="417.19769546680845" y="128.39999999999995">Iris</tspan><tspan x="417.19769546680845" y="145.19999999999996">(Sculptor)</tspan></text>
+    </g><g data-runiq-node="jack" data-node-id="jack" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="797.872903363979" cy="1023.7785539622142" r="15" 
+              fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="750.872903363979" y="1043.7785539622141" width="94" height="43.599999999999994"
+            rx="5" fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="797.872903363979" y="1057.178553962214">Jack</tspan><tspan x="797.872903363979" y="1073.978553962214">(Polymath)</tspan></text>
+    </g><g data-runiq-node="kate" data-node-id="kate" data-node-shape="actor">
+      <!-- Actor head -->
+      <circle cx="598.691951238747" cy="968.8755368023592" r="15" 
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Actor body -->
+      <rect x="560.091951238747" y="988.8755368023592" width="77.2" height="43.599999999999994"
+            rx="5" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <!-- Label -->
+      <text text-anchor="middle" font-family="sans-serif" font-size="14" fill="#FFFFFF"><tspan x="598.691951238747" y="1002.2755368023592">Kate</tspan><tspan x="598.691951238747" y="1019.0755368023591">(Social)</tspan></text>
+    </g></svg>

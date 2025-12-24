@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="547" height="1204" 
+    viewBox="0 0 547 1204"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="init-validating-0" data-edge-id="init-validating-0" data-edge-from="init" data-edge-to="validating"><defs>
+      <marker id="arrow-standard-init-validating" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 473 964 L 473 819 L 491 666 L 491 513 L 491 360 L 491 207 L 491 97 L 268 97 L 241 62" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 473 964 L 473 819 L 491 666 L 491 513 L 491 360 L 491 207 L 491 97 L 268 97 L 241 62" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-init-validating)" pointer-events="none" /><text x="491" y="360" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">start</text></g><g data-runiq-edge="validating-authChecking-1" data-edge-id="validating-authChecking-1" data-edge-from="validating" data-edge-to="authChecking"><defs>
+      <marker id="arrow-standard-validating-authChecking" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 241 62 L 241 97 L 152 97 L 152 182" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 241 62 L 241 97 L 152 97 L 152 182" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validating-authChecking)" pointer-events="none" /><text x="152" y="97" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">validate OK</text></g><g data-runiq-edge="validating-checkError-2" data-edge-id="validating-checkError-2" data-edge-from="validating" data-edge-to="checkError"><defs>
+      <marker id="arrow-standard-validating-checkError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 241 62 L 241 207 L 241 360 L 241 513 L 241 573 L 202 573 L 199 658" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 241 62 L 241 207 L 241 360 L 241 513 L 241 573 L 202 573 L 199 658" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-validating-checkError)" pointer-events="none" /><text x="241" y="513" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">validation failed</text></g><g data-runiq-edge="authChecking-checkAuth-3" data-edge-id="authChecking-checkAuth-3" data-edge-from="authChecking" data-edge-to="checkAuth"><defs>
+      <marker id="arrow-standard-authChecking-checkAuth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 152 232 L 152 292 L 152 292 L 152 352" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 232 L 152 292 L 152 292 L 152 352" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-authChecking-checkAuth)" pointer-events="none" /></g><g data-runiq-edge="checkAuth-processing-4" data-edge-id="checkAuth-processing-4" data-edge-from="checkAuth" data-edge-to="processing"><defs>
+      <marker id="arrow-standard-checkAuth-processing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 152 368 L 152 403 L 66 403 L 66 488" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 368 L 152 403 L 66 403 L 66 488" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkAuth-processing)" pointer-events="none" /><text x="66" y="403" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">authorized</text></g><g data-runiq-edge="checkAuth-criticalError-5" data-edge-id="checkAuth-criticalError-5" data-edge-from="checkAuth" data-edge-to="criticalError"><defs>
+      <marker id="arrow-standard-checkAuth-criticalError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 152 368 L 152 513 L 155 573 L 119 573 L 119 666 L 154.8 794" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 368 L 152 513 L 155 573 L 119 573 L 119 666 L 154.8 794" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkAuth-criticalError)" pointer-events="none" /><text x="119" y="573" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">unauthorized</text></g><g data-runiq-edge="processing-complete-6" data-edge-id="processing-complete-6" data-edge-from="processing" data-edge-to="complete"><defs>
+      <marker id="arrow-standard-processing-complete" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 66 538 L 66 666 L 48 819 L 48 989 L 63.6 1134" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 66 538 L 66 666 L 48 819 L 48 989 L 63.6 1134" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-complete)" pointer-events="none" /><text x="48" y="819" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">success</text></g><g data-runiq-edge="processing-checkError-7" data-edge-id="processing-checkError-7" data-edge-from="processing" data-edge-to="checkError"><defs>
+      <marker id="arrow-standard-processing-checkError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 66 538 L 66 598 L 196 598 L 199 658" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 66 538 L 66 598 L 196 598 L 199 658" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-processing-checkError)" pointer-events="none" /><text x="196" y="598" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">error</text></g><g data-runiq-edge="checkError-retryable-8" data-edge-id="checkError-retryable-8" data-edge-from="checkError" data-edge-to="retryable"><defs>
+      <marker id="arrow-standard-checkError-retryable" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 199 674 L 199 709 L 381 709 L 381 794" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 199 674 L 199 709 L 381 709 L 381 794" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkError-retryable)" pointer-events="none" /><text x="381" y="709" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">network timeout</text></g><g data-runiq-edge="checkError-criticalError-10" data-edge-id="checkError-criticalError-10" data-edge-from="checkError" data-edge-to="criticalError"><defs>
+      <marker id="arrow-standard-checkError-criticalError" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 199 674 L 199 734 L 190 734 L 154.8 794" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 199 674 L 199 734 L 190 734 L 154.8 794" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-checkError-criticalError)" pointer-events="none" /><text x="190" y="734" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">data corruption</text></g><g data-runiq-edge="retryable-init-11" data-edge-id="retryable-init-11" data-edge-from="retryable" data-edge-to="init"><defs>
+      <marker id="arrow-standard-retryable-init" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 381 844 L 381 879 L 455 879 L 473 964" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 381 844 L 381 879 L 455 879 L 473 964" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-retryable-init)" pointer-events="none" /><text x="455" y="879" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">retry</text></g><g data-runiq-edge="retryable-rollback-12" data-edge-id="retryable-rollback-12" data-edge-from="retryable" data-edge-to="rollback"><defs>
+      <marker id="arrow-standard-retryable-rollback" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 381 844 L 381 879 L 282 879 L 266.6 964" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 381 844 L 381 879 L 282 879 L 266.6 964" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-retryable-rollback)" pointer-events="none" /><text x="282" y="879" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">max retries</text></g><g data-runiq-edge="criticalError-abort-13" data-edge-id="criticalError-abort-13" data-edge-from="criticalError" data-edge-to="abort"><defs>
+      <marker id="arrow-standard-criticalError-abort" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 154.8 844 L 154.8 904 L 131 904 L 131 964" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 154.8 844 L 154.8 904 L 131 904 L 131 964" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-criticalError-abort)" pointer-events="none" /><text x="131" y="904" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">security breach</text></g><g data-runiq-edge="criticalError-rollback-14" data-edge-id="criticalError-rollback-14" data-edge-from="criticalError" data-edge-to="rollback"><defs>
+      <marker id="arrow-standard-criticalError-rollback" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 154.8 844 L 154.8 879 L 251 879 L 266.6 964" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 154.8 844 L 154.8 879 L 251 879 L 266.6 964" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-criticalError-rollback)" pointer-events="none" /><text x="251" y="879" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">safe failure</text></g><g data-runiq-edge="rollback-complete-15" data-edge-id="rollback-complete-15" data-edge-from="rollback" data-edge-to="complete"><defs>
+      <marker id="arrow-standard-rollback-complete" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 266.6 1014 L 266.6 1049 L 79 1049 L 63.6 1134" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 266.6 1014 L 266.6 1049 L 79 1049 L 63.6 1134" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-rollback-complete)" pointer-events="none" /><text x="79" y="1049" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">rolled back</text></g><g data-runiq-node="init" data-node-id="init" data-node-shape="state"><g class="state-shape"><rect x="419" y="964" width="108" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="473" y="988.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Initialize
+    </text></g></g><g data-runiq-node="validating" data-node-id="validating" data-node-shape="state"><g class="state-shape"><rect x="187" y="12" width="108" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="241" y="36.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Validating
+    </text></g></g><g data-runiq-node="authChecking" data-node-id="authChecking" data-node-shape="state"><g class="state-shape"><rect x="98" y="182" width="108" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="152" y="206.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Auth Check
+    </text></g></g><g data-runiq-node="processing" data-node-id="processing" data-node-shape="state"><g class="state-shape"><rect x="12" y="488" width="108" height="50" rx="10" ry="10" fill="#48677e" stroke="#48677e" stroke-width="1" /><text x="66" y="512.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Processing
+    </text></g></g><g data-runiq-node="checkAuth" data-node-id="checkAuth" data-node-shape="junction"><g class="junction-shape"><circle cx="152" cy="360" r="8" fill="#364d5f" /></g></g><g data-runiq-node="checkError" data-node-id="checkError" data-node-shape="junction"><g class="junction-shape"><circle cx="199" cy="666" r="8" fill="#5a819e" /></g></g><g data-runiq-node="retryable" data-node-id="retryable" data-node-shape="state"><g class="state-shape"><rect x="306" y="794" width="150" height="50" rx="10" ry="10" fill="#73a3bf" stroke="#48677e" stroke-width="1" /><text x="381" y="818.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Retryable Error
+    </text></g></g><g data-runiq-node="criticalError" data-node-id="criticalError" data-node-shape="state"><g class="state-shape"><rect x="84" y="794" width="141.60000000000002" height="50" rx="10" ry="10" fill="#96bacf" stroke="#48677e" stroke-width="1" /><text x="154.8" y="818.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Critical Error
+    </text></g></g><g data-runiq-node="abort" data-node-id="abort" data-node-shape="terminate"><g class="terminate-shape"><circle cx="131" cy="974" r="10" fill="#48677e" stroke="#48677e" stroke-width="1.5" /><line x1="124" y1="967" x2="138" y2="981" stroke="#48677e" stroke-width="1.5" /><line x1="138" y1="967" x2="124" y2="981" stroke="#48677e" stroke-width="1.5" /></g></g><g data-runiq-node="rollback" data-node-id="rollback" data-node-shape="state"><g class="state-shape"><rect x="221" y="964" width="91.2" height="50" rx="10" ry="10" fill="#364d5f" stroke="#48677e" stroke-width="1" /><text x="266.6" y="988.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Rollback
+    </text></g></g><g data-runiq-node="complete" data-node-id="complete" data-node-shape="state"><g class="state-shape"><rect x="18" y="1134" width="91.2" height="50" rx="10" ry="10" fill="#5a819e" stroke="#48677e" stroke-width="1" /><text x="63.6" y="1158.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#48677e">
+      Complete
+    </text></g></g></svg>

@@ -1,110 +1,111 @@
 // Phase 5 Example: Advanced Template Usage
 // Demonstrates complex template inheritance and preset combinations
 
-diagram "Dashboard Components"
+diagram "Dashboard Components" {
 
-// Widget template with parameters
-template "dashboard-widget" {
-  label: "Dashboard Widget"
-  description: "Reusable dashboard component with collapsible sections"
-  parameters: [
-    "title": string = "Widget",
-    "height": number = 250,
-    "collapsible": boolean = true
-  ]
-  fillColor: "#ffffff"
-  strokeColor: "#dee2e6"
-  strokeWidth: 1
-  padding: 15
-  shadow: true
-  collapseButtonVisible: true
-  resizable: true
+  // Widget template with parameters
+  template "dashboard-widget" {
+    label: "Dashboard Widget"
+    description: "Reusable dashboard component with collapsible sections"
+    parameters: [
+      "title": string = "Widget",
+      "height": number = 250,
+      "collapsible": boolean = true
+    ]
+    fillColor: "#ffffff"
+    strokeColor: "#dee2e6"
+    strokeWidth: 1
+    padding: 15
+    shadow: true
+    collapseButtonVisible: true
+    resizable: true
+  }
+
+  // Chart template
+  template "chart-container" {
+    label: "Chart Container"
+    description: "Container for charts and visualizations"
+    fillColor: "#f8f9fa"
+    strokeColor: "#6c757d"
+    strokeWidth: 1
+    padding: 20
+    shadow: false
+  }
+
+  // Presets for different themes
+  preset "primary" {
+    label: "Primary Theme"
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
+    strokeWidth: 2
+  }
+
+  preset "success" {
+    label: "Success Theme"
+    fillColor: "#e8f5e9"
+    strokeColor: "#4caf50"
+    strokeWidth: 2
+  }
+
+  preset "warning" {
+    label: "Warning Theme"
+    fillColor: "#fff3e0"
+    strokeColor: "#ff9800"
+    strokeWidth: 2
+  }
+
+  preset "compact" {
+    label: "Compact Layout"
+    padding: 10
+    strokeWidth: 1
+  }
+
+  // Dashboard sections using templates
+  container "User Metrics" templateId: "dashboard-widget" preset: "primary" {
+    shape total as @barChart flipAxes: true label: "Total Users: 1,250"
+    shape active as @barChart flipAxes: true label: "Active: 987"
+    shape growth as @lineChart label: "+15% this month"
+  }
+
+  container "Revenue" templateId: "dashboard-widget" preset: "success" {
+    shape monthly as @barChart flipAxes: true label: "Monthly Revenue"
+    shape ytd as @pieChart label: "YTD: $2.4M"
+    shape trend as @lineChart label: "↑ Trending Up"
+  }
+
+  container "Alerts" templateId: "dashboard-widget" preset: "warning" {
+    shape criticalShape as @rhombus label: "2 Critical"
+    shape warnings as @rhombus label: "5 Warnings"
+    shape info as @circle label: "12 Info"
+  }
+
+  // Chart section with template
+  container "Analytics" templateId: "chart-container" preset: "compact" {
+    shape visits as @barChart label: "Page Visits"
+    shape conversion as @pieChart label: "Conversion Rate"
+    shape bounce as @lineChart label: "Bounce Rate"
+  }
+
+  // Container extending another with preset override
+  container "Performance" extends: "User Metrics" preset: "primary" fillColor: "#f3e5f5" {
+    shape cpu as @gauge label: "CPU: 45%"
+    shape memory as @gauge label: "Memory: 67%"
+    shape disk as @gauge label: "Disk: 23%"
+  }
+
+  // Multiple inheritance: template + preset + extends
+  container "Advanced Metrics" 
+    templateId: "dashboard-widget" 
+    preset: "success" 
+    extends: "User Metrics"
+    padding: 25 {
+    shape custom1 as @barChart flipAxes: true label: "Custom Metric 1"
+    shape custom2 as @pieChart label: "Custom Metric 2"
+  }
+
+  // Edges for data flow
+  total -> monthly
+  active -> monthly
+  growth -> conversion
+  visits -> bounce
 }
-
-// Chart template
-template "chart-container" {
-  label: "Chart Container"
-  description: "Container for charts and visualizations"
-  fillColor: "#f8f9fa"
-  strokeColor: "#6c757d"
-  strokeWidth: 1
-  padding: 20
-  shadow: false
-}
-
-// Presets for different themes
-preset "primary" {
-  label: "Primary Theme"
-  fillColor: "#e3f2fd"
-  strokeColor: "#2196f3"
-  strokeWidth: 2
-}
-
-preset "success" {
-  label: "Success Theme"
-  fillColor: "#e8f5e9"
-  strokeColor: "#4caf50"
-  strokeWidth: 2
-}
-
-preset "warning" {
-  label: "Warning Theme"
-  fillColor: "#fff3e0"
-  strokeColor: "#ff9800"
-  strokeWidth: 2
-}
-
-preset "compact" {
-  label: "Compact Layout"
-  padding: 10
-  strokeWidth: 1
-}
-
-// Dashboard sections using templates
-container "User Metrics" templateId: "dashboard-widget" preset: "primary" {
-  shape total as @barChartVertical label: "Total Users: 1,250"
-  shape active as @barChartVertical label: "Active: 987"
-  shape growth as @lineChart label: "+15% this month"
-}
-
-container "Revenue" templateId: "dashboard-widget" preset: "success" {
-  shape monthly as @barChartVertical label: "Monthly Revenue"
-  shape ytd as @pieChart label: "YTD: $2.4M"
-  shape trend as @lineChart label: "↑ Trending Up"
-}
-
-container "Alerts" templateId: "dashboard-widget" preset: "warning" {
-  shape critical as @rhombus label: "2 Critical"
-  shape warnings as @rhombus label: "5 Warnings"
-  shape info as @circle label: "12 Info"
-}
-
-// Chart section with template
-container "Analytics" templateId: "chart-container" preset: "compact" {
-  shape visits as @barChartHorizontal label: "Page Visits"
-  shape conversion as @pieChart label: "Conversion Rate"
-  shape bounce as @lineChart label: "Bounce Rate"
-}
-
-// Container extending another with preset override
-container "Performance" extends: "User Metrics" preset: "primary" fillColor: "#f3e5f5" {
-  shape cpu as @gauge label: "CPU: 45%"
-  shape memory as @gauge label: "Memory: 67%"
-  shape disk as @gauge label: "Disk: 23%"
-}
-
-// Multiple inheritance: template + preset + extends
-container "Advanced Metrics" 
-  templateId: "dashboard-widget" 
-  preset: "success" 
-  extends: "User Metrics"
-  padding: 25 {
-  shape custom1 as @barChartVertical label: "Custom Metric 1"
-  shape custom2 as @pieChart label: "Custom Metric 2"
-}
-
-// Edges for data flow
-total -> monthly
-active -> monthly
-growth -> conversion
-visits -> bounce
