@@ -430,7 +430,7 @@ interface ContainerDeclaration {
   badge?: string;
   collapsible?: boolean;
   collapsed?: boolean;
-  shape?: string; // e.g., 'umlPackage', 'awsVpc'
+  shape?: string; // e.g., 'awsVpc' (container-specific types; e.g., UML packages are represented as container types)
   style?: string;
   containerStyle?: ContainerStyle;
   children: string[]; // Node IDs
