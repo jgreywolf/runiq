@@ -1,7 +1,71 @@
----
+# Getting Started
+
+This guide helps you get Runiq up and running locally, render your first diagram, and run the example generator used by the documentation gallery.
+
+Prerequisites
+
+- Node.js 18+ installed
+- pnpm installed globally (`npm i -g pnpm`) on Windows PowerShell
+
+Quick setup
+
+```powershell
+cd C:\source\repos\Runiq
+pnpm install
+# Build all packages (optional but recommended)
+pnpm -r build
+```
+
+Run the editor (local dev server)
+
+```powershell
+# Starts the SvelteKit editor app
+pnpm dev:editor
+# Open the editor in your browser (check console for port)
+```
+
+Create and render your first diagram
+
+1. Create a file `examples/hello.runiq` with the following content:
+
+```runiq
+diagram Hello {
+  node n1 as @rectangle label:"Hello Runiq"
+}
+```
+
+2. Render the example (single-file diagnostic):
+
+```powershell
+node .\scripts\run-one-example.mjs .\examples\hello.runiq
+```
+
+Bulk-generate all example SVGs (used for the docs gallery)
+
+```powershell
+node .\scripts\generate-example-svgs.mjs
+```
+
+When editing grammar or parser rules
+
+```powershell
+cd packages\parser-dsl
+pnpm run generate   # run Langium generator if present
+pnpm build
+```
+
+Notes for maintainers
+
+- If you add new shapes, ensure they are registered for headless rendering by calling `registerDefaultShapes()` in any scripts that render without the editor.
+- If you add a new profile type (e.g., an alternative renderer), update `scripts/generate-example-svgs.mjs` to route that profile to the correct renderer (see `docs/guide/recent-code-changes.md`).
+- Docs live under the `docs/` directory — add guides under `docs/guide/` and link them from `docs/index.md`.
+
+## Need more?: I can expand this into a quick-start README with screenshots, or add a small PowerShell script to scaffold new examples. Which would you prefer?
+
 title: Getting Started
 description: Get Runiq up and running in minutes with installation, basic usage, and next steps.
 lastUpdated: 2025-01-09
+
 ---
 
 # Getting Started

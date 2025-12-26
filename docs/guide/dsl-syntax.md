@@ -1,7 +1,116 @@
+# DSL Syntax Reference
+
+This reference summarizes the core Runiq DSL constructs used in examples and docs. It focuses on the syntax you will most commonly use when creating diagrams, examples, and documentation.
+
+Diagram declaration
+
+- Basic form:
+
+```runiq
+diagram Name [profile] {
+  // body: nodes, edges, containers, shapes, properties
+}
+```
+
+- `profile` is optional (examples: `sequence`, `timeline`, `pid`, `hydraulic`, `pneumatic`, `wardley`). When present it selects a renderer and a profile-specific AST shape.
+
+Nodes / shapes
+
+- Create a simple node:
+
+```runiq
+node n1 as @rectangle label:"Hello"
+```
+
+- Pieces:
+  - `node` or `shape` keyword (examples use `node`) followed by an identifier (e.g., `n1`).
+  - `as @shapeId` picks a shape from the shape registry (e.g., `@rectangle`, `@server`, `@gauge`).
+  - Optional `label:"..."` and other properties can be provided inline.
+
+Edges
+
+- Basic edge form:
+
+```runiq
+n1 -> n2 label:"calls"
+```
+
+- Variants may support styles, arrow heads, anchors, and labels. Use explicit anchor syntax if supported by the renderer (see specific guide pages for `renderSequenceDiagram` and `renderSvg`).
+
+Containers
+
+- Group nodes inside a container/block:
+
+```runiq
+container c1 as @box label:"Subsystem" {
+  node a as @rectangle
+  node b as @rectangle
+}
+```
+
+Profiles & specialized constructs
+
+- Certain profiles define custom top-level keys and block types. Examples:
+  - `sequence` profiles declare `lifelines`, `messages`, `notes` and are rendered by `renderSequenceDiagram`.
+  - `timeline` profiles declare `events` with `time` properties and are rendered by `renderTimeline`.
+  - `pid` profiles include `equipment`, `instruments`, `lines`, `loops`, and `processSpecs` and are rendered by `renderPID` (see `examples/pid/*`).
+  - `hydraulic`/`pneumatic`/`electrical` profiles are schematic-style and are rendered by `renderSchematic` (use `parts`/`nets` style data).
+
+Properties & styles
+
+- Inline properties use `key:value` or `key:"string"` syntax. Examples:
+
+```runiq
+node pump as @pump label:"P-101" flowRate:50 flowRateUnit:"m³/h"
+```
+
+- Styles (colors, stroke, fill, font) may be applied via a `style` block or inline attributes depending on the shape's API. See `docs/guide/cookbook` for style patterns.
+
+IDs and tokens
+
+- The parser supports flexible identifiers (`FlexibleID`) used for glyphsets, parts and many keys. This allows identifiers with dashes, underscores, and short tokens. If you modify grammar, update `packages/parser-dsl/src/runiq.langium` and regenerate artifacts.
+
+AST / runtime shape notes
+
+- Before layout/render the parser produces an AST. For most node/edge diagrams, the layout engine expects `nodes` and `edges` arrays.
+- Profile-specific AST shapes (example for `pid`) include keys such as:
+
+```json
+{
+  "type": "pid",
+  "name": "...",
+  "equipment": [...],
+  "instruments": [...],
+  "lines": [...],
+  "loops": [...],
+  "processSpecs": [...]
+}
+```
+
+- Sequence/timeline/wardley/pid/schematic profiles are routed to specialized renderers in `scripts/generate-example-svgs.mjs`. Avoid sending those ASTs through ELK layout; instead use the profile renderer.
+
+Best practices
+
+- Use `@shapeId` rather than ad-hoc geometry when possible; shapes are themeable and consistent across renderers.
+- Keep semantics of profile types intact: use `pid` blocks for process diagrams, `sequence` blocks for interaction flows, etc.
+- When adding new shapes, register them via `registerDefaultShapes()` for headless scripts used by the docs generator.
+
+Troubleshooting
+
+- If an example fails during bulk generation with a `.length` TypeError, check whether the diagram was routed to ELK but lacks `nodes`/`edges` (common symptom when a profile-specific AST was sent to ELK). Update `scripts/generate-example-svgs.mjs` to route the profile to the correct renderer.
+- If a glyphset or part identifier doesn't parse, check `FlexibleID` handling in `packages/parser-dsl/src/runiq.langium`.
+
+Further reading
+
+- See `packages/parser-dsl/src/runiq.langium` for concrete grammar rules.
+- See `docs/guide/recent-code-changes.md` for renderer routing mappings and developer commands.
+
 ---
+
 title: DSL Syntax Reference
 description: Reference for the Runiq diagram DSL — declarations, shapes, edges, containers, and styles.
 lastUpdated: 2025-12-22
+
 ---
 
 # DSL Syntax Reference

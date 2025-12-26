@@ -1,0 +1,52 @@
+name: Generate Shape Docs
+
+on:
+  pull_request:
+    paths:
+      - 'packages/core/**'
+      - 'scripts/generate-shape-docs.cjs'
+      - 'packages/parser-dsl/**'
+  push:
+    paths:
+      - 'packages/core/**'
+      - 'scripts/generate-shape-docs.cjs'
+      - 'packages/parser-dsl/**'
+
+jobs:
+  generate-shapes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm -w build
+
+      - name: Run shape docs generator
+        run: node ./scripts/generate-shape-docs.cjs
+
+      - name: Check for changes
+        run: |
+          git config user.name github-actions || true
+          git config user.email actions@github.com || true
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Generated docs differ from committed files. Run scripts/generate-shape-docs.cjs and commit results.";
+            git --no-pager status --porcelain;
+            exit 1;
+          else
+            echo "No changes in generated docs.";
+          fi
+
+      - name: Upload shapes docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shapes-docs
+          path: docs/shapes
