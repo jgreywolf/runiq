@@ -39,6 +39,7 @@ export function registerBasicShapes(): void {
   shapeRegistry.register(basic.parallelogramShape);
   shapeRegistry.register(basic.chevronShape);
   shapeRegistry.register(basic.monitorShape);
+  shapeRegistry.register(basic.sampleBadgeShape);
   shapeRegistry.register(basic.trapezoidShape);
   shapeRegistry.register(basic.flippedTrapezoidShape);
   shapeRegistry.register(basic.starShape);
@@ -210,7 +211,7 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.interfaceShape);
   shapeRegistry.register(uml.abstractShape);
   shapeRegistry.register(uml.enumShape);
-  shapeRegistry.register(uml.packageShape);
+  // `umlPackage` is a container type (not registered as a standalone shape)
   shapeRegistry.register(uml.noteShape);
   shapeRegistry.register(uml.lifelineShape);
   shapeRegistry.register(uml.activationShape);

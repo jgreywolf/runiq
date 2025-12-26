@@ -19,3 +19,4 @@ export { flippedTrapezoidShape, trapezoidShape } from './trapezoid.js';
 export { triangleShape } from './triangle.js';
 
 export { monitorShape } from './monitor.js';
+export { sampleBadgeShape } from './sampleBadge.js';

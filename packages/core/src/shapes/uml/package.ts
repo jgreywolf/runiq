@@ -6,9 +6,19 @@ import {
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
- * UML Package shape
- * Displays package as a folder with a tab
- * Used in class diagrams to show package/namespace organization
+ * UML Package 'shape'
+ *
+ * NOTE: This module implements the visual rendering used when a container is
+ * styled as a UML package (folder with a tab). Historically `umlPackage` was
+ * exported and registered as a standalone shape; it is now intended to be used
+ * as a *container type* (i.e. `container { shape: 'umlPackage' }`) rather than
+ * being registered for general-purpose node usage. The default registration
+ * was removed in `shapes/index.ts` so containers can opt-in to this rendering
+ * without adding an extra standalone shape to the global registry.
+ *
+ * The implementation still supports standalone rendering (for preview/testing)
+ * but callers should treat this as a container rendering helper and prefer
+ * configuring containers via the `shape` property in `ContainerDeclaration`.
  */
 export const packageShape: ShapeDefinition = {
   id: 'umlPackage',
