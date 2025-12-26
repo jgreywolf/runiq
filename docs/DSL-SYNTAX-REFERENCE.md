@@ -375,9 +375,8 @@ Control system diagram shapes:
 
 Chart shapes:
 
-- `@pie-chart` - Pie chart
-- `@bar-chart-vertical` - Vertical bar chart
-- `@bar-chart-horizontal` - Horizontal bar chart
+- `@pieChart` - Pie chart
+- `@barChart` - Bar chart (horizontal or vertical)
 
 ## Profile Types
 

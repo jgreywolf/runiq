@@ -1,7 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const metaPath = path.join(__dirname, '..', 'docs', 'examples', 'metadata.json');
+const metaPath = path.join(
+  __dirname,
+  '..',
+  'docs',
+  'examples',
+  'metadata.json'
+);
 const examplesRoot = path.join(__dirname, '..', 'examples');
 
 if (!fs.existsSync(metaPath)) {
@@ -23,28 +29,53 @@ function detectProfile(content) {
   if (/^\s*glyphset\b/.test(txt) || /glyphset\s*:/.test(txt)) return 'glyphset';
   if (/^\s*diagram\b/.test(txt)) return 'diagram';
   // charts are often 'diagram' but include chart keywords
-  if (/\b(bar-chart|bar chart|pie chart|line chart|radar chart|sankey)\b/.test(txt)) return 'charts';
+  if (
+    /\b(bar-chart|bar chart|pie chart|line chart|radar chart|sankey)\b/.test(
+      txt
+    )
+  )
+    return 'charts';
   return 'diagram';
 }
 
 for (const entry of meta) {
   const file = path.join(process.cwd(), entry.path || '');
   let content = '';
-  try { content = fs.readFileSync(file, 'utf8'); } catch (e) { content = ''; }
+  try {
+    content = fs.readFileSync(file, 'utf8');
+  } catch (e) {
+    content = '';
+  }
   const profile = detectProfile(content);
   entry.profile = profile;
   if (!byProfile[profile]) byProfile[profile] = [];
-  byProfile[profile].push({ id: entry.id, path: entry.path, title: entry.title });
+  byProfile[profile].push({
+    id: entry.id,
+    path: entry.path,
+    title: entry.title,
+  });
 }
 
 // write updated metadata (backup first)
-fs.writeFileSync(metaPath + '.profile.bak', JSON.stringify(meta, null, 2), 'utf8');
+fs.writeFileSync(
+  metaPath + '.profile.bak',
+  JSON.stringify(meta, null, 2),
+  'utf8'
+);
 fs.writeFileSync(metaPath, JSON.stringify(meta, null, 2), 'utf8');
 
-const outPath = path.join(__dirname, '..', 'docs', 'examples', 'by-profile.json');
+const outPath = path.join(
+  __dirname,
+  '..',
+  'docs',
+  'examples',
+  'by-profile.json'
+);
 fs.writeFileSync(outPath, JSON.stringify(byProfile, null, 2), 'utf8');
 
 // print summary
-const summary = Object.entries(byProfile).map(([k, v]) => `${k}: ${v.length}`).join(', ');
+const summary = Object.entries(byProfile)
+  .map(([k, v]) => `${k}: ${v.length}`)
+  .join(', ');
 console.log('Profiles mapped —', summary);
 console.log('Wrote', outPath);

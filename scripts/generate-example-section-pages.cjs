@@ -10,7 +10,9 @@ if (!fs.existsSync(byProfilePath)) {
   process.exit(1);
 }
 const byProfile = JSON.parse(fs.readFileSync(byProfilePath, 'utf8'));
-const meta = fs.existsSync(metaPath) ? JSON.parse(fs.readFileSync(metaPath, 'utf8')) : [];
+const meta = fs.existsSync(metaPath)
+  ? JSON.parse(fs.readFileSync(metaPath, 'utf8'))
+  : [];
 
 if (!fs.existsSync(examplesDir)) fs.mkdirSync(examplesDir, { recursive: true });
 
@@ -28,7 +30,10 @@ function writeProfilePage(profile, items) {
   for (const it of items) {
     const m = meta.find((e) => e.id === it.id) || {};
     const tags = (m.tags || []).join(', ');
-    lines.push(`- **${it.title}** — [${it.path}](${it.path})` + (tags ? ` — _${tags}_` : ''));
+    lines.push(
+      `- **${it.title}** — [${it.path}](${it.path})` +
+        (tags ? ` — _${tags}_` : '')
+    );
   }
   const outPath = path.join(examplesDir, `${profile}.md`);
   fs.writeFileSync(outPath, lines.join('\n'), 'utf8');
@@ -41,4 +46,9 @@ for (const [profile, items] of Object.entries(byProfile)) {
   fs.writeFileSync(jsonOut, JSON.stringify(items, null, 2), 'utf8');
 }
 
-console.log('Generated', Object.keys(byProfile).length, 'profile pages in', examplesDir);
+console.log(
+  'Generated',
+  Object.keys(byProfile).length,
+  'profile pages in',
+  examplesDir
+);

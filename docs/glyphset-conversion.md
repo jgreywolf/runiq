@@ -33,7 +33,7 @@ Glyphsets are organized into compatibility groups for easier conversion:
 - **Process**: `basicProcess`, `cycle`, `stepProcess`, `verticalProcess`, etc.
 - **Hierarchy**: `pyramid`, `invertedPyramid`, `orgChart`, etc.
 - **List**: `basicList`, `chevronList`, `numberedChevronList`, `columnList`, etc.
-- **Comparison**: `matrix2x2`, `matrix3x3`, `venn2`, `venn3`, etc.
+- **Comparison**: `matrix2x2`, `matrix3x3`, `venn`, etc.
 - **Balance**: `balance`, `opposing`, `counterBalance`
 - **Flow**: `converging`, `diverging`, `hub`
 - **Network**: `interconnected`, `cluster`

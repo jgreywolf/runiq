@@ -18,10 +18,15 @@ function walk(dir) {
 
 function extractTitle(content) {
   // look for top-level declarations with a quoted title
-  const m = content.match(/^(?:\s*)(?:diagram|glyphset|sequence|timeline|pid|wardley)\s+\"([^\"]+)\"/im);
+  const m = content.match(
+    /^(?:\s*)(?:diagram|glyphset|sequence|timeline|pid|wardley)\s+\"([^\"]+)\"/im
+  );
   if (m) return m[1];
   // fallback: first non-empty line
-  const lines = content.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  const lines = content
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
   return lines.length ? lines[0].slice(0, 120) : '';
 }
 
@@ -37,7 +42,10 @@ const metadata = files.map((f) => {
   const content = fs.readFileSync(f, 'utf8');
   const title = extractTitle(content) || path.basename(f, '.runiq');
   return {
-    id: path.relative(examplesDir, f).replace(/\\/g, '/').replace(/\/.+$/, '').length ? path.basename(f, '.runiq') : path.basename(f, '.runiq'),
+    id: path.relative(examplesDir, f).replace(/\\/g, '/').replace(/\/.+$/, '')
+      .length
+      ? path.basename(f, '.runiq')
+      : path.basename(f, '.runiq'),
     title,
     path: path.relative(process.cwd(), f).replace(/\\/g, '/'),
     category: inferCategory(f),

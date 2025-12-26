@@ -391,8 +391,8 @@ type Profile =
   | HydraulicProfile // Hydraulic systems (ISO 1219-2)
   | PIDProfile // P&ID diagrams (ISA-5.1)
   | WardleyProfile // Wardley maps
-  | DigitalProfile // Digital circuits
-  | BlockDiagramProfile; // Block diagrams
+  | DigitalProfile; // Digital circuits
+//| BlockDiagramProfile; // Block diagrams
 ```
 
 Each profile has:

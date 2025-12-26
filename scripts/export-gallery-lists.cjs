@@ -1,7 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const metaPath = path.join(__dirname, '..', 'docs', 'examples', 'metadata.json');
+const metaPath = path.join(
+  __dirname,
+  '..',
+  'docs',
+  'examples',
+  'metadata.json'
+);
 if (!fs.existsSync(metaPath)) {
   console.error('metadata.json missing:', metaPath);
   process.exit(1);
@@ -31,6 +37,16 @@ for (const [profile, items] of Object.entries(byProfile)) {
 
 // write combined
 const all = Object.values(byProfile).flat();
-fs.writeFileSync(path.join(outDir, 'gallery-all.json'), JSON.stringify(all, null, 2), 'utf8');
+fs.writeFileSync(
+  path.join(outDir, 'gallery-all.json'),
+  JSON.stringify(all, null, 2),
+  'utf8'
+);
 
-console.log('Exported gallery lists:', Object.keys(byProfile).map(k=>`gallery-${k}.json`).join(', '), 'and gallery-all.json');
+console.log(
+  'Exported gallery lists:',
+  Object.keys(byProfile)
+    .map((k) => `gallery-${k}.json`)
+    .join(', '),
+  'and gallery-all.json'
+);

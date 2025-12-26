@@ -1,7 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const metaPath = path.join(__dirname, '..', 'docs', 'examples', 'metadata.json');
+const metaPath = path.join(
+  __dirname,
+  '..',
+  'docs',
+  'examples',
+  'metadata.json'
+);
 const examplesRoot = path.join(__dirname, '..', 'examples');
 
 if (!fs.existsSync(metaPath)) {
@@ -23,10 +29,16 @@ for (const entry of meta) {
   const base = path.basename(filePath).toLowerCase();
 
   // Normalize bar-chart variants
-  if (base.includes('bar-chart-horizontal') || base.includes('bar-chart-horizontal')) {
+  if (
+    base.includes('bar-chart-horizontal') ||
+    base.includes('bar-chart-horizontal')
+  ) {
     entry.normalizedId = 'bar-chart';
     entry.flipAxes = true;
-  } else if (base.includes('bar-chart-vertical') || base.includes('bar-chart-vertical')) {
+  } else if (
+    base.includes('bar-chart-vertical') ||
+    base.includes('bar-chart-vertical')
+  ) {
     entry.normalizedId = 'bar-chart';
     entry.flipAxes = false;
   } else if (base.includes('bar-chart')) {
@@ -37,7 +49,10 @@ for (const entry of meta) {
 
   // Annotate venn examples: glyphset vs shape
   if (base.includes('venn') || entry.id.toLowerCase().includes('venn')) {
-    if (/glyphset\s*:/i.test(content) || /glyphset\s+[a-zA-Z0-9_-]+/i.test(content)) {
+    if (
+      /glyphset\s*:/i.test(content) ||
+      /glyphset\s+[a-zA-Z0-9_-]+/i.test(content)
+    ) {
       entry.type = 'glyphset';
     } else {
       entry.type = 'shape';

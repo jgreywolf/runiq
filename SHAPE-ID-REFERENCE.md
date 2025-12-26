@@ -136,16 +136,11 @@ This document lists shapes where the **common name** differs from the **actual r
 
 - ✅ `@pieChart` - Pie chart with labeled slices
 - ✅ `@barChart` - Unified bar chart (use `flipAxes: true` for horizontal)
-- ✅ `@barChartVertical` - Vertical bar chart (deprecated, use @barChart)
-- ✅ `@barChartHorizontal` - Horizontal bar chart (deprecated, use @barChart with flipAxes)
 - ✅ `@lineChart` - Line chart with time series data
 - ✅ `@radarChart` - Radar/spider chart with multi-axis metrics
 - ✅ `@sankeyChart` - Sankey diagram with flow-proportional edges (NEW!)
 - ✅ `@sankeyNode` - Individual node in Sankey diagrams (NEW!)
 - ✅ `@pyramid` - Pyramid chart for hierarchical data
-- ✅ `@venn2` - 2-circle Venn diagram
-- ✅ `@venn3` - 3-circle Venn diagram
-- ✅ `@venn4` - 4-circle Venn diagram
 - ✅ `@venn` - Unified Venn diagram (auto-detects 2/3/4 circles)
 
 **Chart Data Formats:**
