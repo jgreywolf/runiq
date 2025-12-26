@@ -1,0 +1,2004 @@
+[
+  {
+    "id": "auth-flow",
+    "title": "Auth Flow",
+    "path": "examples/auth-flow.runiq",
+    "category": "general"
+  },
+  {
+    "id": "aws-vpc-example",
+    "title": "AWS VPC Architecture",
+    "path": "examples/aws-vpc-example.runiq",
+    "category": "general"
+  },
+  {
+    "id": "feedback-system",
+    "title": "Unity Feedback System",
+    "path": "examples/control-diagrams/feedback-system.runiq",
+    "category": "control-diagrams"
+  },
+  {
+    "id": "parallel-paths",
+    "title": "Parallel Signal Processing",
+    "path": "examples/control-diagrams/parallel-paths.runiq",
+    "category": "control-diagrams"
+  },
+  {
+    "id": "pid-controller",
+    "title": "PID Controller",
+    "path": "examples/control-diagrams/pid-controller.runiq",
+    "category": "control-diagrams"
+  },
+  {
+    "id": "state-space",
+    "title": "State-Space Representation",
+    "path": "examples/control-diagrams/state-space.runiq",
+    "category": "control-diagrams"
+  },
+  {
+    "id": "transfer-function-chain",
+    "title": "Cascaded Transfer Functions",
+    "path": "examples/control-diagrams/transfer-function-chain.runiq",
+    "category": "control-diagrams"
+  },
+  {
+    "id": "bpmn-cross-functional",
+    "title": "Cross-Functional Order Process",
+    "path": "examples/bpmn/bpmn-cross-functional.runiq",
+    "category": "bpmn"
+  },
+  {
+    "id": "bpmn-nested-pools",
+    "title": "BPMN Nested Pools",
+    "path": "examples/bpmn/bpmn-nested-pools.runiq",
+    "category": "bpmn"
+  },
+  {
+    "id": "bpmn-pool-example",
+    "title": "BPMN Pool Container Example",
+    "path": "examples/bpmn/bpmn-pool-example.runiq",
+    "category": "bpmn"
+  },
+  {
+    "id": "gateway-types-example",
+    "title": "Order Processing with Gateway Types",
+    "path": "examples/bpmn/gateway-types-example.runiq",
+    "category": "bpmn"
+  },
+  {
+    "id": "c4-context",
+    "title": "E-Commerce System Context (C4)",
+    "path": "examples/c4-architecture/c4-context.runiq",
+    "category": "c4-architecture"
+  },
+  {
+    "id": "component-diagram",
+    "title": "API Application - Component Diagram",
+    "path": "examples/c4-architecture/component-diagram.runiq",
+    "category": "c4-architecture"
+  },
+  {
+    "id": "container-diagram",
+    "title": "Banking System - Container Diagram",
+    "path": "examples/c4-architecture/container-diagram.runiq",
+    "category": "c4-architecture"
+  },
+  {
+    "id": "microservices",
+    "title": "E-Commerce Platform - Microservices",
+    "path": "examples/c4-architecture/microservices.runiq",
+    "category": "c4-architecture"
+  },
+  {
+    "id": "system-context",
+    "title": "Banking System - System Context",
+    "path": "examples/c4-architecture/system-context.runiq",
+    "category": "c4-architecture"
+  },
+  {
+    "id": "bar-chart-full-featured",
+    "title": "Full Featured Bar Chart",
+    "path": "examples/charts/bar-chart-full-featured.runiq",
+    "category": "charts",
+    "normalizedId": "bar-chart",
+    "flipAxes": true
+  },
+  {
+    "id": "bar-chart-grouped-vertical",
+    "title": "Quarterly Sales by Product - Grouped",
+    "path": "examples/charts/bar-chart-grouped-vertical.runiq",
+    "category": "charts",
+    "normalizedId": "bar-chart",
+    "flipAxes": false
+  },
+  {
+    "id": "bar-chart-horizontal",
+    "title": "Product Sales",
+    "path": "examples/charts/bar-chart-horizontal.runiq",
+    "category": "charts",
+    "normalizedId": "bar-chart",
+    "flipAxes": true
+  },
+  {
+    "id": "bar-chart-vertical",
+    "title": "Performance Metrics",
+    "path": "examples/charts/bar-chart-vertical.runiq",
+    "category": "charts",
+    "normalizedId": "bar-chart",
+    "flipAxes": false
+  },
+  {
+    "id": "dsl-all-features",
+    "title": "All Chart Features",
+    "path": "examples/charts/dsl-all-features.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "dsl-bar-grouped",
+    "title": "Grouped Bar Chart",
+    "path": "examples/charts/dsl-bar-grouped.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "dsl-bar-horizontal",
+    "title": "Department Budget",
+    "path": "examples/charts/dsl-bar-horizontal.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "dsl-bar-labeled",
+    "title": "Labeled Bar Chart",
+    "path": "examples/charts/dsl-bar-labeled.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "dsl-bar-simple",
+    "title": "Monthly Sales",
+    "path": "examples/charts/dsl-bar-simple.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "dsl-bar-stacked",
+    "title": "Stacked Bar Chart",
+    "path": "examples/charts/dsl-bar-stacked.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "dsl-pie-labeled",
+    "title": "Product Sales Distribution",
+    "path": "examples/charts/dsl-pie-labeled.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "dsl-pie-simple",
+    "title": "Simple Pie Chart",
+    "path": "examples/charts/dsl-pie-simple.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "line-chart-colored-points",
+    "title": "Temperature Trends with Alerts",
+    "path": "examples/charts/line-chart-colored-points.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "line-chart-full-featured",
+    "title": "Full Featured Line Chart",
+    "path": "examples/charts/line-chart-full-featured.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "line-chart-horizontal",
+    "title": "Performance Metrics Horizontal",
+    "path": "examples/charts/line-chart-horizontal.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "line-chart-monthly-labels",
+    "title": "2024 Sales Performance",
+    "path": "examples/charts/line-chart-monthly-labels.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "line-chart-multi-series",
+    "title": "Performance Trend",
+    "path": "examples/charts/line-chart-multi-series.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "line-chart-simple",
+    "title": "Sales Performance",
+    "path": "examples/charts/line-chart-simple.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "pie-chart-full-featured",
+    "title": "Browser Market Share",
+    "path": "examples/charts/pie-chart-full-featured.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "pie-chart-with-labels",
+    "title": "Budget Breakdown",
+    "path": "examples/charts/pie-chart-with-labels.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "pie-chart-with-legend",
+    "title": "Revenue Distribution with Legend",
+    "path": "examples/charts/pie-chart-with-legend.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "pyramid-as-funnel-with-labels",
+    "title": "Sales Funnel",
+    "path": "examples/charts/pyramid-as-funnel-with-labels.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "pyramid-full-featured",
+    "title": "Maslow's Hierarchy",
+    "path": "examples/charts/pyramid-full-featured.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "radar-chart-array",
+    "title": "Product Evaluation",
+    "path": "examples/charts/radar-chart-array.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "radar-chart-colored-points",
+    "title": "Team Performance Assessment",
+    "path": "examples/charts/radar-chart-colored-points.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "radar-chart-full-featured",
+    "title": "Full Featured Radar Chart",
+    "path": "examples/charts/radar-chart-full-featured.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "radar-chart-multi-series",
+    "title": "Performance Metrics",
+    "path": "examples/charts/radar-chart-multi-series.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "radar-chart-simple",
+    "title": "Character Skills",
+    "path": "examples/charts/radar-chart-simple.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "radar-chart-skill-labels",
+    "title": "Developer Skill Matrix",
+    "path": "examples/charts/radar-chart-skill-labels.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "radar-chart-tech-stack",
+    "title": "Technology Stack",
+    "path": "examples/charts/radar-chart-tech-stack.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-colors-all-features-dsl",
+    "title": "Chart Features Test",
+    "path": "examples/charts/test-colors-all-features-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-colors-bar-dsl",
+    "title": "Custom Colors Grouped Bars",
+    "path": "examples/charts/test-colors-bar-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-colors-pie-dsl",
+    "title": "Custom Colors Pie Chart",
+    "path": "examples/charts/test-colors-pie-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-colors-stacked-dsl",
+    "title": "Custom Colors Stacked Bars",
+    "path": "examples/charts/test-colors-stacked-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-grouped-dsl",
+    "title": "Grouped Bars Test",
+    "path": "examples/charts/test-grouped-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-labels-bar-dsl",
+    "title": "Quarterly Revenue with Labels",
+    "path": "examples/charts/test-labels-bar-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-labels-grouped-dsl",
+    "title": "Regional Sales Analysis",
+    "path": "examples/charts/test-labels-grouped-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-labels-horizontal-dsl",
+    "title": "Department Performance Metrics",
+    "path": "examples/charts/test-labels-horizontal-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-labels-stacked-dsl",
+    "title": "Revenue Breakdown by Category",
+    "path": "examples/charts/test-labels-stacked-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-stacked-dsl",
+    "title": "Stacked Bar Chart Test",
+    "path": "examples/charts/test-stacked-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "test-title-pie-dsl",
+    "title": "Product Sales with Title",
+    "path": "examples/charts/test-title-pie-dsl.runiq",
+    "category": "charts"
+  },
+  {
+    "id": "venn-2-circles",
+    "title": "Skills Overlap",
+    "path": "examples/charts/venn-2-circles.runiq",
+    "category": "charts",
+    "type": "shape"
+  },
+  {
+    "id": "venn-2-with-intersections",
+    "title": "Skills Overlap: Frontend & Backend",
+    "path": "examples/charts/venn-2-with-intersections.runiq",
+    "category": "charts",
+    "type": "shape"
+  },
+  {
+    "id": "venn-3-circles",
+    "title": "Project Requirements",
+    "path": "examples/charts/venn-3-circles.runiq",
+    "category": "charts",
+    "type": "shape"
+  },
+  {
+    "id": "venn-3-with-intersections",
+    "title": "Project Triangle: Fast, Good, Cheap",
+    "path": "examples/charts/venn-3-with-intersections.runiq",
+    "category": "charts",
+    "type": "shape"
+  },
+  {
+    "id": "venn-4-circles",
+    "title": "Development Skills",
+    "path": "examples/charts/venn-4-circles.runiq",
+    "category": "charts",
+    "type": "shape"
+  },
+  {
+    "id": "venn-4-with-intersections",
+    "title": "Full Stack Developer Skills",
+    "path": "examples/charts/venn-4-with-intersections.runiq",
+    "category": "charts",
+    "type": "shape"
+  },
+  {
+    "id": "circular-economy",
+    "title": "Circular Economy",
+    "path": "examples/circular-economy.runiq",
+    "category": "general"
+  },
+  {
+    "id": "circular-sdlc",
+    "title": "SDLC - Agile Cycle",
+    "path": "examples/circular-sdlc.runiq",
+    "category": "general"
+  },
+  {
+    "id": "aggregation-example",
+    "title": "Department-Employee Aggregation",
+    "path": "examples/class-diagrams/aggregation-example.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "composition-example",
+    "title": "House-Room Composition",
+    "path": "examples/class-diagrams/composition-example.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "domain-model",
+    "title": "E-Commerce Domain Model",
+    "path": "examples/class-diagrams/domain-model.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "factory-pattern",
+    "title": "Factory Pattern",
+    "path": "examples/class-diagrams/factory-pattern.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "generic-collections",
+    "title": "Generic Collections",
+    "path": "examples/class-diagrams/generic-collections.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "interface-implementation",
+    "title": "Comparable Types",
+    "path": "examples/class-diagrams/interface-implementation.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "observer-pattern",
+    "title": "Observer Pattern",
+    "path": "examples/class-diagrams/observer-pattern.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "phase3-navigability-constraints",
+    "title": "Library Management System",
+    "path": "examples/class-diagrams/phase3-navigability-constraints.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "simple-inheritance",
+    "title": "Animal Hierarchy",
+    "path": "examples/class-diagrams/simple-inheritance.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "simple-without-labels",
+    "title": "Simple Classes",
+    "path": "examples/class-diagrams/simple-without-labels.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "uml-relationships-complete",
+    "title": "University System",
+    "path": "examples/class-diagrams/uml-relationships-complete.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "visual-enhancements-example-new",
+    "title": "Department-Employee Aggregation",
+    "path": "examples/class-diagrams/visual-enhancements-example-new.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "visual-enhancements-example",
+    "title": "Visual Enhancements",
+    "path": "examples/class-diagrams/visual-enhancements-example.runiq",
+    "category": "class-diagrams"
+  },
+  {
+    "id": "component-layered-architecture",
+    "title": "Three-Tier Architecture",
+    "path": "examples/component-layered-architecture.runiq",
+    "category": "general"
+  },
+  {
+    "id": "component-microservices",
+    "title": "Microservices Architecture",
+    "path": "examples/component-microservices.runiq",
+    "category": "general"
+  },
+  {
+    "id": "component-plugin-system",
+    "title": "Plugin System Architecture",
+    "path": "examples/component-plugin-system.runiq",
+    "category": "general"
+  },
+  {
+    "id": "container-border-style-test",
+    "title": "Container borderStyle Test",
+    "path": "examples/container-border-style-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "container-directions-test",
+    "title": "Container Direction Test",
+    "path": "examples/container-directions-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "container-edges-test",
+    "title": "Container with Internal Edges Test",
+    "path": "examples/container-edges-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "container-fill-test",
+    "title": "test_container_fill",
+    "path": "examples/container-fill-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "container-templates-presets",
+    "title": "Microservices Architecture with Templates",
+    "path": "examples/container-templates-presets.runiq",
+    "category": "general"
+  },
+  {
+    "id": "cross-container-edges-test",
+    "title": "Cross-Container Edges Test",
+    "path": "examples/cross-container-edges-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "dashboard-templates",
+    "title": "Dashboard Components",
+    "path": "examples/dashboard-templates.runiq",
+    "category": "general"
+  },
+  {
+    "id": "dependency-graph",
+    "title": "Package Dependencies",
+    "path": "examples/dependency-graph.runiq",
+    "category": "general"
+  },
+  {
+    "id": "alu-4bit",
+    "title": "digital \"ALU4bit\" {",
+    "path": "examples/digital/alu-4bit.runiq",
+    "category": "digital"
+  },
+  {
+    "id": "counter-4bit",
+    "title": "digital \"Counter4bit\" {",
+    "path": "examples/digital/counter-4bit.runiq",
+    "category": "digital"
+  },
+  {
+    "id": "shift-register",
+    "title": "digital \"ShiftRegister\" {",
+    "path": "examples/digital/shift-register.runiq",
+    "category": "digital"
+  },
+  {
+    "id": "state-machine",
+    "title": "digital \"StateMachine\" {",
+    "path": "examples/digital/state-machine.runiq",
+    "category": "digital"
+  },
+  {
+    "id": "docker-stack",
+    "title": "Docker Compose Stack",
+    "path": "examples/docker-stack.runiq",
+    "category": "general"
+  },
+  {
+    "id": "edge-labels-canvas-test",
+    "title": "Long Edge Labels Test",
+    "path": "examples/edge-labels-canvas-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "edge-labels-tb-test",
+    "title": "TB Direction Edge Labels Test",
+    "path": "examples/edge-labels-tb-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "edge-labels-test",
+    "title": "Edge Labels Test",
+    "path": "examples/edge-labels-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "amplifier-ce",
+    "title": "electrical \"Common Emitter Amplifier\" {",
+    "path": "examples/electrical/amplifier-ce.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "cmos-inverter",
+    "title": "electrical \"CMOS Inverter\" {",
+    "path": "examples/electrical/cmos-inverter.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "h-bridge-motor",
+    "title": "electrical \"H-Bridge Motor Driver\" {",
+    "path": "examples/electrical/h-bridge-motor.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "led-circuit",
+    "title": "electrical \"LED Circuit with Current Limiting\" {",
+    "path": "examples/electrical/led-circuit.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "opamp-amplifier",
+    "title": "electrical \"Op-Amp Non-Inverting Amplifier\" {",
+    "path": "examples/electrical/opamp-amplifier.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "rc-filter",
+    "title": "electrical \"RC Lowpass Filter\" {",
+    "path": "examples/electrical/rc-filter.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "rl-high-pass",
+    "title": "electrical \"RL High-Pass Filter\" {",
+    "path": "examples/electrical/rl-high-pass.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "rlc-resonant",
+    "title": "electrical \"RLC Resonant Circuit\" {",
+    "path": "examples/electrical/rlc-resonant.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "transformer-supply",
+    "title": "electrical \"Transformer Power Supply\" {",
+    "path": "examples/electrical/transformer-supply.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "voltage-divider",
+    "title": "electrical \"Voltage Divider\" {",
+    "path": "examples/electrical/voltage-divider.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "voltage-regulator",
+    "title": "electrical \"5V Voltage Regulator\" {",
+    "path": "examples/electrical/voltage-regulator.runiq",
+    "category": "electrical"
+  },
+  {
+    "id": "bubble-sort",
+    "title": "Bubble Sort Algorithm",
+    "path": "examples/flowcharts/bubble-sort.runiq",
+    "category": "flowcharts"
+  },
+  {
+    "id": "etl-pipeline",
+    "title": "ETL Pipeline",
+    "path": "examples/flowcharts/etl-pipeline.runiq",
+    "category": "flowcharts"
+  },
+  {
+    "id": "order-state-machine",
+    "title": "Order State Machine",
+    "path": "examples/flowcharts/order-state-machine.runiq",
+    "category": "flowcharts"
+  },
+  {
+    "id": "three-tier-web-app",
+    "title": "Three-Tier Web App",
+    "path": "examples/flowcharts/three-tier-web-app.runiq",
+    "category": "flowcharts"
+  },
+  {
+    "id": "force-network",
+    "title": "Force-Directed Network Topology",
+    "path": "examples/force-network.runiq",
+    "category": "general"
+  },
+  {
+    "id": "gauge-demo",
+    "title": "Gauge Demo",
+    "path": "examples/gauge-demo.runiq",
+    "category": "general"
+  },
+  {
+    "id": "alternatingList-evolution",
+    "title": "// Alternating List - Product Evolution",
+    "path": "examples/glyphsets/alternatingList-evolution.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "alternatingList-timeline",
+    "title": "// Alternating List - Development Timeline",
+    "path": "examples/glyphsets/alternatingList-timeline.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "alternatingProcess-workflow",
+    "title": "// Alternating Process - Development Workflow",
+    "path": "examples/glyphsets/alternatingProcess-workflow.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "balance-advantages-disadvantages",
+    "title": "// Balance Glyphset Example: Advantages vs Disadvantages",
+    "path": "examples/glyphsets/balance-advantages-disadvantages.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "balance-cost-benefit",
+    "title": "// Balance Glyphset Example: Cost-Benefit Analysis",
+    "path": "examples/glyphsets/balance-cost-benefit.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "balance-option-comparison",
+    "title": "// Balance Glyphset Example: Option Comparison",
+    "path": "examples/glyphsets/balance-option-comparison.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "balance-pros-cons",
+    "title": "// Balance Glyphset Example: Pros/Cons Analysis",
+    "path": "examples/glyphsets/balance-pros-cons.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "balance-risk-reward",
+    "title": "// Balance Glyphset Example: Risk/Reward Assessment",
+    "path": "examples/glyphsets/balance-risk-reward.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "blockCycle-pdca",
+    "title": "// Block Cycle - PDCA (Plan-Do-Check-Act)",
+    "path": "examples/glyphsets/blockCycle-pdca.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "chevronList-journey",
+    "title": "// Chevron List - Customer Journey (Horizontal)",
+    "path": "examples/glyphsets/chevronList-journey.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "chevronList-pipeline",
+    "title": "// Chevron List - Sales Pipeline (Vertical)",
+    "path": "examples/glyphsets/chevronList-pipeline.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "circle-hierarchy",
+    "title": "// Circle Hierarchy - Concentric circles hierarchy",
+    "path": "examples/glyphsets/circle-hierarchy.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "cluster-product-features",
+    "title": "// Cluster Glyphset Example: Product Features",
+    "path": "examples/glyphsets/cluster-product-features.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "cluster-team-structure",
+    "title": "// Cluster Glyphset Example: Team Structure",
+    "path": "examples/glyphsets/cluster-team-structure.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "cluster-topic-map",
+    "title": "// Cluster Glyphset Example: Topic Clustering",
+    "path": "examples/glyphsets/cluster-topic-map.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "columnList-deliverables",
+    "title": "// Column List - Project Deliverables (3 columns)",
+    "path": "examples/glyphsets/columnList-deliverables.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "columnList-techstack",
+    "title": "// Column List - Tech Stack (2 columns)",
+    "path": "examples/glyphsets/columnList-techstack.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "continuousBlockProcess-manufacturing",
+    "title": "// Continuous Block Process - Manufacturing Flow",
+    "path": "examples/glyphsets/continuousBlockProcess-manufacturing.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "converging-data-aggregation",
+    "title": "// Converging Glyphset Example: Data Aggregation",
+    "path": "examples/glyphsets/converging-data-aggregation.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "converging-decision-factors",
+    "title": "// Converging Glyphset Example: Decision Factors",
+    "path": "examples/glyphsets/converging-decision-factors.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "converging-team-collaboration",
+    "title": "// Converging Glyphset Example: Team Collaboration",
+    "path": "examples/glyphsets/converging-team-collaboration.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "counterbalance",
+    "title": "// Counterbalance - Weighted balance scale",
+    "path": "examples/glyphsets/counterbalance.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "detailedProcess-product",
+    "title": "// Detailed Process - Process with Substeps",
+    "path": "examples/glyphsets/detailedProcess-product.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "diverging-broadcasting",
+    "title": "// Diverging Glyphset Example: Message Broadcasting",
+    "path": "examples/glyphsets/diverging-broadcasting.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "diverging-decision-branching",
+    "title": "// Diverging Glyphset Example: Decision Branching",
+    "path": "examples/glyphsets/diverging-decision-branching.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "diverging-delegation",
+    "title": "// Diverging Glyphset Example: Team Delegation",
+    "path": "examples/glyphsets/diverging-delegation.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "equation",
+    "title": "// Equation - A + B = C relationship formula",
+    "path": "examples/glyphsets/equation.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "equationProcess-success",
+    "title": "// Equation Process - Success Formula",
+    "path": "examples/glyphsets/equationProcess-success.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "framed-picture-test",
+    "title": "/*",
+    "path": "examples/glyphsets/framed-picture-test.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "funnel-sales-alias",
+    "title": "// Funnel using 'stage' keyword (alias to invertedPyramid)",
+    "path": "examples/glyphsets/funnel-sales-alias.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "gearCycle-manufacturing",
+    "title": "// Gear Cycle - Manufacturing Process",
+    "path": "examples/glyphsets/gearCycle-manufacturing.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "groupedProcess-crossfunctional",
+    "title": "// Grouped Process - Parallel Streams Converging",
+    "path": "examples/glyphsets/groupedProcess-crossfunctional.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "horizontalList-phases",
+    "title": "// Horizontal List - Project Phases",
+    "path": "examples/glyphsets/horizontalList-phases.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "horizontalList-roles",
+    "title": "// Horizontal List - Team Roles",
+    "path": "examples/glyphsets/horizontalList-roles.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "hub",
+    "title": "// Hub - Hub-and-spoke radial diagram",
+    "path": "examples/glyphsets/hub.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "increasingList-impact",
+    "title": "// Increasing List - Impact Scale (Box)",
+    "path": "examples/glyphsets/increasingList-impact.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "increasingList-priority",
+    "title": "// Increasing List - Priority Levels (Circle)",
+    "path": "examples/glyphsets/increasingList-priority.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "interconnected",
+    "title": "// Interconnected - Mesh network with all-to-all connections",
+    "path": "examples/glyphsets/interconnected.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "invertedPyramid-filter",
+    "title": "// Inverted Pyramid Example - Content Filtering",
+    "path": "examples/glyphsets/invertedPyramid-filter.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "invertedPyramid-hiring",
+    "title": "// Inverted Pyramid Example - Hiring Pipeline",
+    "path": "examples/glyphsets/invertedPyramid-hiring.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "invertedPyramid-sales-funnel",
+    "title": "// Inverted Pyramid Example - Sales Funnel",
+    "path": "examples/glyphsets/invertedPyramid-sales-funnel.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "labeled-hierarchy",
+    "title": "// Labeled Hierarchy - Tree structure with edge labels",
+    "path": "examples/glyphsets/labeled-hierarchy.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "linear-venn",
+    "title": "// Linear Venn - Horizontal overlapping circles",
+    "path": "examples/glyphsets/linear-venn.runiq",
+    "category": "glyphsets",
+    "type": "glyphset"
+  },
+  {
+    "id": "matrix3x3-portfolio",
+    "title": "glyphset matrix3x3 \"BCG Product Portfolio\" {",
+    "path": "examples/glyphsets/matrix3x3-portfolio.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "matrix3x3-risk-assessment",
+    "title": "glyphset matrix3x3 \"Risk Assessment Matrix\" {",
+    "path": "examples/glyphsets/matrix3x3-risk-assessment.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "matrix3x3-talent-grid",
+    "title": "glyphset matrix3x3 \"9-Box Talent Assessment\" {",
+    "path": "examples/glyphsets/matrix3x3-talent-grid.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "matrix3x3-universal-item",
+    "title": "// Matrix 3x3 using universal 'item' keyword",
+    "path": "examples/glyphsets/matrix3x3-universal-item.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "nestedList-features",
+    "title": "// Nested List - Product Features",
+    "path": "examples/glyphsets/nestedList-features.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "nestedList-learning",
+    "title": "// Nested List - Learning Path",
+    "path": "examples/glyphsets/nestedList-learning.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "numberedChevronList-project",
+    "title": "// Numbered Chevron List - Process Steps with Descriptions",
+    "path": "examples/glyphsets/numberedChevronList-project.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "numberedChevronList-simple",
+    "title": "// Numbered Chevron List - Simple Steps (No Descriptions)",
+    "path": "examples/glyphsets/numberedChevronList-simple.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "opposing-philosophies",
+    "title": "// Opposing Glyphset Example: Four Competing Philosophies",
+    "path": "examples/glyphsets/opposing-philosophies.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "opposing-rock-paper-scissors",
+    "title": "// Opposing Glyphset Example: Rock-Paper-Scissors",
+    "path": "examples/glyphsets/opposing-rock-paper-scissors.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "opposing-supply-demand",
+    "title": "// Opposing Glyphset Example: Supply vs Demand",
+    "path": "examples/glyphsets/opposing-supply-demand.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "opposing-tech-models",
+    "title": "// Opposing Glyphset Example: Technology Licensing Models",
+    "path": "examples/glyphsets/opposing-tech-models.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "opposing-traditional-innovative",
+    "title": "// Opposing Glyphset Example: Traditional vs Innovative",
+    "path": "examples/glyphsets/opposing-traditional-innovative.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "orbitCycle-enterprise",
+    "title": "// Orbit Cycle - Enterprise Ecosystem",
+    "path": "examples/glyphsets/orbitCycle-enterprise.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "orgchart-co-founders",
+    "title": "// Co-Founders Example",
+    "path": "examples/glyphsets/orgchart-co-founders.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "orgchart-deep-hierarchy",
+    "title": "// Deep Hierarchy Example",
+    "path": "examples/glyphsets/orgchart-deep-hierarchy.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "orgchart-horizontal",
+    "title": "// Horizontal Organization Chart",
+    "path": "examples/glyphsets/orgchart-horizontal.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "orgchart-matrix",
+    "title": "// Matrix Organization Chart",
+    "path": "examples/glyphsets/orgchart-matrix.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "orgchart-small-team",
+    "title": "// Simple Small Team",
+    "path": "examples/glyphsets/orgchart-small-team.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "orgchart-standard",
+    "title": "// Standard Vertical Organization Chart",
+    "path": "examples/glyphsets/orgchart-standard.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "phasedProcess-release",
+    "title": "// Phased Process - Project Phases with Milestones",
+    "path": "examples/glyphsets/phasedProcess-release.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "picture-blocks-test",
+    "title": "/*",
+    "path": "examples/glyphsets/picture-blocks-test.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "picture-callout-test",
+    "title": "/*",
+    "path": "examples/glyphsets/picture-callout-test.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "picture-grid-test",
+    "title": "/*",
+    "path": "examples/glyphsets/picture-grid-test.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "picture-list-test",
+    "title": "// Test file for pictureList glyphset - Phase 2 Implementation",
+    "path": "examples/glyphsets/picture-list-test.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "picture-process-test",
+    "title": "/*",
+    "path": "examples/glyphsets/picture-process-test.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "plusMinus-cloud-migration",
+    "title": "// Plus/Minus Glyphset Example: Cloud Migration",
+    "path": "examples/glyphsets/plusMinus-cloud-migration.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "plusMinus-remote-work",
+    "title": "// Plus/Minus Glyphset Example: Remote Work",
+    "path": "examples/glyphsets/plusMinus-remote-work.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "plusMinus-technology-adoption",
+    "title": "// Plus/Minus Glyphset Example: Technology Adoption",
+    "path": "examples/glyphsets/plusMinus-technology-adoption.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "puzzle-problem-solving",
+    "title": "// Puzzle Glyphset Example: Problem Solving",
+    "path": "examples/glyphsets/puzzle-problem-solving.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "puzzle-system-integration",
+    "title": "// Puzzle Glyphset Example: System Integration",
+    "path": "examples/glyphsets/puzzle-system-integration.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "puzzle-team-collaboration",
+    "title": "// Puzzle Glyphset Example: Team Collaboration",
+    "path": "examples/glyphsets/puzzle-team-collaboration.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "pyramidList-features",
+    "title": "// Pyramid List Example - Feature Priority",
+    "path": "examples/glyphsets/pyramidList-features.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "pyramidList-learning",
+    "title": "// Pyramid List Example - Learning Path",
+    "path": "examples/glyphsets/pyramidList-learning.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "pyramidList-project",
+    "title": "// Pyramid List Example - Project Phases",
+    "path": "examples/glyphsets/pyramidList-project.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "radialCycle-architecture",
+    "title": "// Radial Cycle - Technical Architecture",
+    "path": "examples/glyphsets/radialCycle-architecture.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "segmentedCycle-time",
+    "title": "glyphset segmentedCycle \"Time Management\" {",
+    "path": "examples/glyphsets/segmentedCycle-time.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "segmentedMatrix-analysis",
+    "title": "glyphset segmentedMatrix \"Market Segments\" {",
+    "path": "examples/glyphsets/segmentedMatrix-analysis.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "segmentedMatrix-detailed",
+    "title": "glyphset segmentedMatrix \"Project Classification\" {",
+    "path": "examples/glyphsets/segmentedMatrix-detailed.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "segmentedMatrix-priority",
+    "title": "glyphset segmentedMatrix \"Eisenhower Matrix\" {",
+    "path": "examples/glyphsets/segmentedMatrix-priority.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "segmentedPyramid-org",
+    "title": "// Segmented Pyramid Example - Organization Structure",
+    "path": "examples/glyphsets/segmentedPyramid-org.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "segmentedPyramid-skills",
+    "title": "// Segmented Pyramid Example - Skills Development",
+    "path": "examples/glyphsets/segmentedPyramid-skills.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "segmentedPyramid-strategy",
+    "title": "// Segmented Pyramid Example - Product Strategy",
+    "path": "examples/glyphsets/segmentedPyramid-strategy.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "spiralCycle-forest-theme",
+    "title": "// Spiral Cycle - Forest Theme",
+    "path": "examples/glyphsets/spiralCycle-forest-theme.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "spiralCycle-maturity",
+    "title": "// Spiral Cycle - Capability Maturity Model",
+    "path": "examples/glyphsets/spiralCycle-maturity.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "stepped-venn",
+    "title": "// Stepped Venn - 3D stacked Venn circles with vertical offset",
+    "path": "examples/glyphsets/stepped-venn.runiq",
+    "category": "glyphsets",
+    "type": "glyphset"
+  },
+  {
+    "id": "stepProcess-career",
+    "title": "// Step Process - Career Growth Path",
+    "path": "examples/glyphsets/stepProcess-career.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "table-hierarchy",
+    "title": "// Table Hierarchy - Tabular rows with hierarchical connections",
+    "path": "examples/glyphsets/table-hierarchy.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "target-influence",
+    "title": "// Target Diagram - Influence Zones",
+    "path": "examples/glyphsets/target-influence.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "target-market",
+    "title": "// Target Diagram - Market Segmentation",
+    "path": "examples/glyphsets/target-market.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "target-priorities",
+    "title": "// Target Diagram - Priority Levels",
+    "path": "examples/glyphsets/target-priorities.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "target-roadmap",
+    "title": "// Target Diagram - Product Roadmap",
+    "path": "examples/glyphsets/target-roadmap.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "team-hierarchy",
+    "title": "// Team Hierarchy - Grouped teams with leader and members",
+    "path": "examples/glyphsets/team-hierarchy.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "titledMatrix-criteria",
+    "title": "glyphset titledMatrix \"Vendor Evaluation (3x3)\" {",
+    "path": "examples/glyphsets/titledMatrix-criteria.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "titledMatrix-features",
+    "title": "glyphset titledMatrix \"Product Features\" {",
+    "path": "examples/glyphsets/titledMatrix-features.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "titledMatrix-raci",
+    "title": "glyphset titledMatrix \"RACI Matrix\" {",
+    "path": "examples/glyphsets/titledMatrix-raci.runiq",
+    "category": "glyphsets"
+  },
+  {
+    "id": "cylinder-control",
+    "title": "hydraulic \"Cylinder Position Control\" {",
+    "path": "examples/hydraulic/cylinder-control.runiq",
+    "category": "hydraulic"
+  },
+  {
+    "id": "motor-control",
+    "title": "// Hydraulic Motor Speed Control",
+    "path": "examples/hydraulic/motor-control.runiq",
+    "category": "hydraulic"
+  },
+  {
+    "id": "power-unit",
+    "title": "hydraulic \"Hydraulic Power Unit\" {",
+    "path": "examples/hydraulic/power-unit.runiq",
+    "category": "hydraulic"
+  },
+  {
+    "id": "press-system",
+    "title": "hydraulic \"Hydraulic Press System\" {",
+    "path": "examples/hydraulic/press-system.runiq",
+    "category": "hydraulic"
+  },
+  {
+    "id": "inline-fill-test",
+    "title": "test_inline_fill",
+    "path": "examples/inline-fill-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "knowledge-graph-biologicial",
+    "title": "Biology Concepts",
+    "path": "examples/knowledge-graph-biologicial.runiq",
+    "category": "general"
+  },
+  {
+    "id": "knowledge-graph-programming",
+    "title": "Programming Knowledge Graph",
+    "path": "examples/knowledge-graph-programming.runiq",
+    "category": "general"
+  },
+  {
+    "id": "microservices-nested",
+    "title": "Microservices Architecture",
+    "path": "examples/microservices-nested.runiq",
+    "category": "general"
+  },
+  {
+    "id": "microservices",
+    "title": "Microservices Architecture",
+    "path": "examples/microservices.runiq",
+    "category": "general"
+  },
+  {
+    "id": "business-strategy",
+    "title": "Business Strategy 2025",
+    "path": "examples/mindmaps/business-strategy.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "deep-multi-level",
+    "title": "Learning Path",
+    "path": "examples/mindmaps/deep-multi-level.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "inline-icon-syntax-test",
+    "title": "Inline Icons Test",
+    "path": "examples/mindmaps/inline-icon-syntax-test.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "learning-roadmap",
+    "title": "Learning JavaScript Roadmap",
+    "path": "examples/mindmaps/learning-roadmap.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "minimal-auto-styled",
+    "title": "My Ideas",
+    "path": "examples/mindmaps/minimal-auto-styled.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "multi-level-mindmap",
+    "title": "Software Development Lifecycle",
+    "path": "examples/mindmaps/multi-level-mindmap.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "project-planning",
+    "title": "Hierarchical Mindmap",
+    "path": "examples/mindmaps/project-planning.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "simple-mindmap-v2",
+    "title": "Simple Mindmap v2",
+    "path": "examples/mindmaps/simple-mindmap-v2.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "simple-mindmap",
+    "title": "Simple Mindmap",
+    "path": "examples/mindmaps/simple-mindmap.runiq",
+    "category": "mindmaps"
+  },
+  {
+    "id": "multi-region",
+    "title": "Multi-Region Deployment",
+    "path": "examples/multi-region.runiq",
+    "category": "general"
+  },
+  {
+    "id": "nested-containers-demo",
+    "title": "Nested Containers Demo",
+    "path": "examples/nested-containers-demo.runiq",
+    "category": "general"
+  },
+  {
+    "id": "network-metrics-citation",
+    "title": "Citation Network",
+    "path": "examples/network-metrics-citation.runiq",
+    "category": "general"
+  },
+  {
+    "id": "network-metrics-infrastructure",
+    "title": "Server Infrastructure",
+    "path": "examples/network-metrics-infrastructure.runiq",
+    "category": "general"
+  },
+  {
+    "id": "network-metrics-social",
+    "title": "Social Network Analysis",
+    "path": "examples/network-metrics-social.runiq",
+    "category": "general"
+  },
+  {
+    "id": "opacity-test",
+    "title": "opacity test",
+    "path": "examples/opacity-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "family-tree-example",
+    "title": "Smith Family Tree",
+    "path": "examples/pedigree/family-tree-example.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "genetic-trait",
+    "title": "Genetic Trait Inheritance",
+    "path": "examples/pedigree/genetic-trait.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "hemophilia",
+    "title": "Hemophilia Pedigree",
+    "path": "examples/pedigree/hemophilia.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "medical-pedigree-example",
+    "title": "Genetic Disorder Tracking",
+    "path": "examples/pedigree/medical-pedigree-example.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "simple-3-generation",
+    "title": "Simple Pedigree",
+    "path": "examples/pedigree/simple-3-generation.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "simple-family",
+    "title": "Johnson Family",
+    "path": "examples/pedigree/simple-family.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "test-consanguinity",
+    "title": "Consanguinity Test",
+    "path": "examples/pedigree/test-consanguinity.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "test-marriage-edges",
+    "title": "Marriage Edge Test",
+    "path": "examples/pedigree/test-marriage-edges.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "test-mrtree-container",
+    "title": "MRTree Container Test",
+    "path": "examples/pedigree/test-mrtree-container.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "test-mrtree",
+    "title": "MRTree Test",
+    "path": "examples/pedigree/test-mrtree.runiq",
+    "category": "pedigree"
+  },
+  {
+    "id": "01-simple-tank-pump",
+    "title": "Tank Pump Transfer",
+    "path": "examples/pid/01-simple-tank-pump.runiq",
+    "category": "pid"
+  },
+  {
+    "id": "02-heat-exchanger",
+    "title": "Shell and Tube Heat Exchanger",
+    "path": "examples/pid/02-heat-exchanger.runiq",
+    "category": "pid"
+  },
+  {
+    "id": "03-distillation-column",
+    "title": "Distillation Column",
+    "path": "examples/pid/03-distillation-column.runiq",
+    "category": "pid"
+  },
+  {
+    "id": "04-reactor-safety",
+    "title": "Batch Reactor with Safety Systems",
+    "path": "examples/pid/04-reactor-safety.runiq",
+    "category": "pid"
+  },
+  {
+    "id": "05-compressor-system",
+    "title": "Two-Stage Compressor System",
+    "path": "examples/pid/05-compressor-system.runiq",
+    "category": "pid"
+  },
+  {
+    "id": "cylinder-control",
+    "title": "// Single-Acting Cylinder Control",
+    "path": "examples/pneumatic/cylinder-control.runiq",
+    "category": "pneumatic"
+  },
+  {
+    "id": "double-acting-cylinder",
+    "title": "// Double-Acting Cylinder with 5/2-Way Valve",
+    "path": "examples/pneumatic/double-acting-cylinder.runiq",
+    "category": "pneumatic"
+  },
+  {
+    "id": "frl-unit",
+    "title": "pneumatic \"FRL Air Preparation Unit\" {",
+    "path": "examples/pneumatic/frl-unit.runiq",
+    "category": "pneumatic"
+  },
+  {
+    "id": "sequence-control",
+    "title": "// Sequential Pneumatic Control",
+    "path": "examples/pneumatic/sequence-control.runiq",
+    "category": "pneumatic"
+  },
+  {
+    "id": "bell-state",
+    "title": "Bell State Circuit",
+    "path": "examples/quantum-circuits/bell-state.runiq",
+    "category": "quantum-circuits"
+  },
+  {
+    "id": "grover-search",
+    "title": "Grover's Search Algorithm",
+    "path": "examples/quantum-circuits/grover-search.runiq",
+    "category": "quantum-circuits"
+  },
+  {
+    "id": "quantum-fourier-transform",
+    "title": "Quantum Fourier Transform",
+    "path": "examples/quantum-circuits/quantum-fourier-transform.runiq",
+    "category": "quantum-circuits"
+  },
+  {
+    "id": "quantum-teleportation",
+    "title": "Quantum Teleportation",
+    "path": "examples/quantum-circuits/quantum-teleportation.runiq",
+    "category": "quantum-circuits"
+  },
+  {
+    "id": "radial-org-with-edges",
+    "title": "Layout Algorithm Comparison with Edges",
+    "path": "examples/radial-org-with-edges.runiq",
+    "category": "general"
+  },
+  {
+    "id": "radial-org",
+    "title": "Layout Algorithm Comparison",
+    "path": "examples/radial-org.runiq",
+    "category": "general"
+  },
+  {
+    "id": "advanced-timing-example",
+    "title": "Payment Processing with Detailed Timing",
+    "path": "examples/sequence/advanced-timing-example.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "api-error-handling",
+    "title": "API Request with Error Handling",
+    "path": "examples/sequence/api-error-handling.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "async-messaging",
+    "title": "Event-Driven Async Processing",
+    "path": "examples/sequence/async-messaging.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "auth-flow",
+    "title": "User Authentication",
+    "path": "examples/sequence/auth-flow.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "combined-features-example",
+    "title": "Microservices Request Processing",
+    "path": "examples/sequence/combined-features-example.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "duration-constraints-example",
+    "title": "E-Commerce Order Processing with SLAs",
+    "path": "examples/sequence/duration-constraints-example.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "gates-example",
+    "title": "API Gateway with Gates",
+    "path": "examples/sequence/gates-example.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "interaction-use-example",
+    "title": "User Registration Flow",
+    "path": "examples/sequence/interaction-use-example.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "object-lifecycle",
+    "title": "Resource Lifecycle",
+    "path": "examples/sequence/object-lifecycle.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "retry-loop",
+    "title": "API with Retry Logic",
+    "path": "examples/sequence/retry-loop.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "sequence-advanced-features",
+    "title": "Advanced Sequence Features Demo",
+    "path": "examples/sequence/sequence-advanced-features.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "sequence-continuations",
+    "title": "Login Flow",
+    "path": "examples/sequence/sequence-continuations.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "sequence-time-observations",
+    "title": "Payment Processing with Timing",
+    "path": "examples/sequence/sequence-time-observations.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "state-invariants-auth",
+    "title": "Secure Authentication Flow",
+    "path": "examples/sequence/state-invariants-auth.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "state-invariants-locking",
+    "title": "Resource Locking with Invariants",
+    "path": "examples/sequence/state-invariants-locking.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "state-invariants-transaction",
+    "title": "Bank Transfer with Invariants",
+    "path": "examples/sequence/state-invariants-transaction.runiq",
+    "category": "sequence"
+  },
+  {
+    "id": "simple-container",
+    "title": "Simple Container Test",
+    "path": "examples/simple-container.runiq",
+    "category": "general"
+  },
+  {
+    "id": "simple-flowchart",
+    "title": "Simple Flowchart Test",
+    "path": "examples/simple-flowchart.runiq",
+    "category": "general"
+  },
+  {
+    "id": "simple",
+    "title": "Simple Example",
+    "path": "examples/simple.runiq",
+    "category": "general"
+  },
+  {
+    "id": "social-network",
+    "title": "Friend Network",
+    "path": "examples/social-network.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-complete",
+    "title": "UML State Machine - Complete Features",
+    "path": "examples/state-machine-complete.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-door-lock",
+    "title": "Door Lock State Machine",
+    "path": "examples/state-machine-door-lock.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-elevator-transitions",
+    "title": "Elevator Control System",
+    "path": "examples/state-machine-elevator-transitions.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-enhanced",
+    "title": "Enhanced State Machine - Door Lock System",
+    "path": "examples/state-machine-enhanced.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-media-player-history",
+    "title": "Media Player",
+    "path": "examples/state-machine-media-player-history.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-order-transitions",
+    "title": "Order Processing System",
+    "path": "examples/state-machine-order-transitions.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-terminate-error-handling",
+    "title": "Transaction Processing",
+    "path": "examples/state-machine-terminate-error-handling.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-thermostat-transitions",
+    "title": "Smart Thermostat Control",
+    "path": "examples/state-machine-thermostat-transitions.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-traffic-light",
+    "title": "Traffic Light State Machine",
+    "path": "examples/state-machine-traffic-light.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-vending",
+    "title": "Vending Machine State Machine",
+    "path": "examples/state-machine-vending.runiq",
+    "category": "general"
+  },
+  {
+    "id": "state-machine-workflow-junction-entryexit",
+    "title": "Document Processing Workflow",
+    "path": "examples/state-machine-workflow-junction-entryexit.runiq",
+    "category": "general"
+  },
+  {
+    "id": "door-lock-complete",
+    "title": "Door Lock State Machine",
+    "path": "examples/state-machines/door-lock-complete.runiq",
+    "category": "state-machines"
+  },
+  {
+    "id": "stress-graph",
+    "title": "Algorithm Showcase",
+    "path": "examples/stress-graph.runiq",
+    "category": "general"
+  },
+  {
+    "id": "test-decision-routing",
+    "title": "Test Decision Routing",
+    "path": "examples/test-decision-routing.runiq",
+    "category": "general"
+  },
+  {
+    "id": "test-edge-anchors",
+    "title": "Edge Anchor Test",
+    "path": "examples/test-edge-anchors.runiq",
+    "category": "general"
+  },
+  {
+    "id": "test-opacity",
+    "title": "Opacity",
+    "path": "examples/test-opacity.runiq",
+    "category": "general"
+  },
+  {
+    "id": "test-uml-relationships",
+    "title": "UML Class Diagram Relationships Test",
+    "path": "examples/test-uml-relationships.runiq",
+    "category": "general"
+  },
+  {
+    "id": "theme-demo",
+    "title": "Theme Demo - Ocean",
+    "path": "examples/theme-demo.runiq",
+    "category": "general"
+  },
+  {
+    "id": "career-journey",
+    "title": "Professional Development Journey",
+    "path": "examples/timeline/career-journey.runiq",
+    "category": "timeline"
+  },
+  {
+    "id": "company-history",
+    "title": "TechCorp Journey: 20 Years of Innovation",
+    "path": "examples/timeline/company-history.runiq",
+    "category": "timeline"
+  },
+  {
+    "id": "product-releases",
+    "title": "CloudFlow Platform Releases",
+    "path": "examples/timeline/product-releases.runiq",
+    "category": "timeline"
+  },
+  {
+    "id": "project-timeline",
+    "title": "Software Project Launch",
+    "path": "examples/timeline/project-timeline.runiq",
+    "category": "timeline"
+  },
+  {
+    "id": "activity-action-pins",
+    "title": "UML Activity Diagram - Action Pins",
+    "path": "examples/uml/activity-action-pins.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-data-pipeline-finals",
+    "title": "Data Processing Pipeline",
+    "path": "examples/uml/activity-data-pipeline-finals.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-data-pipeline",
+    "title": "Data Processing Pipeline",
+    "path": "examples/uml/activity-data-pipeline.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-document-approval",
+    "title": "Document Approval Activity",
+    "path": "examples/uml/activity-document-approval.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-event-driven-order",
+    "title": "Event-Driven Order Processing System",
+    "path": "examples/uml/activity-event-driven-order.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-final-nodes",
+    "title": "Activity Final Nodes Demo",
+    "path": "examples/uml/activity-final-nodes.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-microservices-signals",
+    "title": "Microservices API Orchestration",
+    "path": "examples/uml/activity-microservices-signals.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-notification-signals",
+    "title": "Notification Broadcasting System",
+    "path": "examples/uml/activity-notification-signals.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-object-nodes",
+    "title": "UML Activity Diagram - Object Nodes",
+    "path": "examples/uml/activity-object-nodes.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-order-processing-finals",
+    "title": "E-Commerce Order Processing",
+    "path": "examples/uml/activity-order-processing-finals.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-order-processing",
+    "title": "Order Processing Activity",
+    "path": "examples/uml/activity-order-processing.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-signal-actions",
+    "title": "Activity Diagram: Signal Actions",
+    "path": "examples/uml/activity-signal-actions.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-swimlanes-horizontal",
+    "title": "Purchase Order Process",
+    "path": "examples/uml/activity-swimlanes-horizontal.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-swimlanes-release-pipeline",
+    "title": "Software Release Process",
+    "path": "examples/uml/activity-swimlanes-release-pipeline.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "activity-swimlanes-vertical",
+    "title": "Parallel Development - Frontend and Backend",
+    "path": "examples/uml/activity-swimlanes-vertical.runiq",
+    "category": "uml"
+  },
+  {
+    "id": "uml-constraints-navigability-test",
+    "title": "UML Constraints & Navigability",
+    "path": "examples/uml-constraints-navigability-test.runiq",
+    "category": "general"
+  },
+  {
+    "id": "banking-advanced",
+    "title": "Online Banking - Advanced Relationships",
+    "path": "examples/use-case/banking-advanced.runiq",
+    "category": "use-case"
+  },
+  {
+    "id": "banking",
+    "title": "Banking System - Customer Use Cases",
+    "path": "examples/use-case/banking.runiq",
+    "category": "use-case"
+  },
+  {
+    "id": "ecommerce",
+    "title": "E-Commerce System",
+    "path": "examples/use-case/ecommerce.runiq",
+    "category": "use-case"
+  },
+  {
+    "id": "extension-points-atm",
+    "title": "ATM Withdrawal - Extension Points",
+    "path": "examples/use-case/extension-points-atm.runiq",
+    "category": "use-case"
+  },
+  {
+    "id": "extension-points-ecommerce",
+    "title": "E-commerce Checkout - Extension Points",
+    "path": "examples/use-case/extension-points-ecommerce.runiq",
+    "category": "use-case"
+  },
+  {
+    "id": "line-style-showcase",
+    "title": "Line Style and Arrow Type Showcase",
+    "path": "examples/use-case/line-style-showcase.runiq",
+    "category": "use-case"
+  },
+  {
+    "id": "relationships",
+    "title": "Entity Relationship Diagram - Relationship Showcase",
+    "path": "examples/use-case/relationships.runiq",
+    "category": "use-case"
+  },
+  {
+    "id": "simple",
+    "title": "Simple ATM Example",
+    "path": "examples/use-case/simple.runiq",
+    "category": "use-case"
+  },
+  {
+    "id": "tea-shop",
+    "title": "Cup of Tea",
+    "path": "examples/wardley/tea-shop.runiq",
+    "category": "wardley"
+  },
+  {
+    "id": "technology-evolution",
+    "title": "Modern Web Application Stack",
+    "path": "examples/wardley/technology-evolution.runiq",
+    "category": "wardley"
+  },
+  {
+    "id": "weighted-graph",
+    "title": "Road Network",
+    "path": "examples/weighted-graph.runiq",
+    "category": "general"
+  }
+]

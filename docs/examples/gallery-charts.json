@@ -1,0 +1,249 @@
+[
+  {
+    "id": "bar-chart-full-featured",
+    "title": "Full Featured Bar Chart",
+    "path": "examples/charts/bar-chart-full-featured.runiq",
+    "tags": [
+      "charts",
+      "full",
+      "featured"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "line-chart-colored-points",
+    "title": "Temperature Trends with Alerts",
+    "path": "examples/charts/line-chart-colored-points.runiq",
+    "tags": [
+      "charts",
+      "temperature",
+      "trends"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "line-chart-full-featured",
+    "title": "Full Featured Line Chart",
+    "path": "examples/charts/line-chart-full-featured.runiq",
+    "tags": [
+      "charts",
+      "full",
+      "featured"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "line-chart-horizontal",
+    "title": "Performance Metrics Horizontal",
+    "path": "examples/charts/line-chart-horizontal.runiq",
+    "tags": [
+      "charts",
+      "network",
+      "performance",
+      "metrics"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "line-chart-monthly-labels",
+    "title": "2024 Sales Performance",
+    "path": "examples/charts/line-chart-monthly-labels.runiq",
+    "tags": [
+      "charts",
+      "2024",
+      "sales"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "line-chart-multi-series",
+    "title": "Performance Trend",
+    "path": "examples/charts/line-chart-multi-series.runiq",
+    "tags": [
+      "charts",
+      "performance",
+      "trend"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "pie-chart-full-featured",
+    "title": "Browser Market Share",
+    "path": "examples/charts/pie-chart-full-featured.runiq",
+    "tags": [
+      "charts",
+      "browser",
+      "market"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "pie-chart-with-labels",
+    "title": "Budget Breakdown",
+    "path": "examples/charts/pie-chart-with-labels.runiq",
+    "tags": [
+      "charts",
+      "c4-architecture",
+      "budget",
+      "breakdown"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "radar-chart-colored-points",
+    "title": "Team Performance Assessment",
+    "path": "examples/charts/radar-chart-colored-points.runiq",
+    "tags": [
+      "charts",
+      "c4-architecture",
+      "team",
+      "performance"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "radar-chart-full-featured",
+    "title": "Full Featured Radar Chart",
+    "path": "examples/charts/radar-chart-full-featured.runiq",
+    "tags": [
+      "charts",
+      "c4-architecture",
+      "full",
+      "featured"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "radar-chart-multi-series",
+    "title": "Performance Metrics",
+    "path": "examples/charts/radar-chart-multi-series.runiq",
+    "tags": [
+      "charts",
+      "performance",
+      "metrics"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "radar-chart-skill-labels",
+    "title": "Developer Skill Matrix",
+    "path": "examples/charts/radar-chart-skill-labels.runiq",
+    "tags": [
+      "charts",
+      "glyphset",
+      "developer",
+      "skill"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-colors-bar-dsl",
+    "title": "Custom Colors Grouped Bars",
+    "path": "examples/charts/test-colors-bar-dsl.runiq",
+    "tags": [
+      "charts",
+      "custom",
+      "colors"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-colors-pie-dsl",
+    "title": "Custom Colors Pie Chart",
+    "path": "examples/charts/test-colors-pie-dsl.runiq",
+    "tags": [
+      "charts",
+      "custom",
+      "colors"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-colors-stacked-dsl",
+    "title": "Custom Colors Stacked Bars",
+    "path": "examples/charts/test-colors-stacked-dsl.runiq",
+    "tags": [
+      "charts",
+      "custom",
+      "colors"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-grouped-dsl",
+    "title": "Grouped Bars Test",
+    "path": "examples/charts/test-grouped-dsl.runiq",
+    "tags": [
+      "charts",
+      "grouped",
+      "bars"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-labels-bar-dsl",
+    "title": "Quarterly Revenue with Labels",
+    "path": "examples/charts/test-labels-bar-dsl.runiq",
+    "tags": [
+      "charts",
+      "quarterly",
+      "revenue"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-labels-grouped-dsl",
+    "title": "Regional Sales Analysis",
+    "path": "examples/charts/test-labels-grouped-dsl.runiq",
+    "tags": [
+      "charts",
+      "regional",
+      "sales"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-labels-horizontal-dsl",
+    "title": "Department Performance Metrics",
+    "path": "examples/charts/test-labels-horizontal-dsl.runiq",
+    "tags": [
+      "charts",
+      "department",
+      "performance"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-labels-stacked-dsl",
+    "title": "Revenue Breakdown by Category",
+    "path": "examples/charts/test-labels-stacked-dsl.runiq",
+    "tags": [
+      "charts",
+      "revenue",
+      "breakdown"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-stacked-dsl",
+    "title": "Stacked Bar Chart Test",
+    "path": "examples/charts/test-stacked-dsl.runiq",
+    "tags": [
+      "charts",
+      "stacked",
+      "chart"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "test-title-pie-dsl",
+    "title": "Product Sales with Title",
+    "path": "examples/charts/test-title-pie-dsl.runiq",
+    "tags": [
+      "charts",
+      "product",
+      "sales"
+    ],
+    "difficulty": "easy"
+  }
+]

@@ -1,6 +1,0 @@
-// Simple Pie Chart Example
-// Basic pie chart with numeric values
-
-diagram "Simple Pie Chart" {
-  shape pie1 as @pieChart label:"Simple Pie Chart" data:[30,45,25]
-}

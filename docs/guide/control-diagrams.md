@@ -1,6 +1,6 @@
 ---
 title: Control Systems Diagrams
-description: Create hierarchical block diagrams for system architecture, signal flow, and functional decomposition.
+description: Create hierarchical control diagrams for system architecture, signal flow, and functional decomposition.
 lastUpdated: 2025-01-09
 ---
 
@@ -46,7 +46,7 @@ diagram "PI Controller" {
 | **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ⚠️ MDL          | ❌         | ⚠️ XML         | ✅             |
 | **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial      | ❌         | ⚠️ Partial     | ✅             |
 | **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Limited      | ❌         | ⚠️ Limited     | ⚠️ Limited     |
-| **Block diagrams**           | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅              | ✅         | ✅             | ✅             |
+| **Control diagrams**         | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅              | ✅         | ✅             | ✅             |
 | **Signal flow**              | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅              | ✅         | ✅             | ✅             |
 | **Feedback loops**           | ✅             | ⚠️ Manual      | ⚠️ Manual      | ✅          | ✅              | ✅         | ✅             | ✅             |
 | **Control blocks**           | ✅             | ❌             | ❌             | ⚠️ Manual   | ✅              | ✅         | ✅             | ✅             |

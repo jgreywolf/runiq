@@ -1,10 +1,10 @@
 # @runiq/export-latex
 
-LaTeX/TikZ exporter for Runiq Control system block diagrams
+LaTeX/TikZ exporter for Runiq Control system diagrams
 
 ## Features
 
-- ✅ Exports block diagrams to LaTeX/TikZ format
+- ✅ Exports control diagrams to LaTeX/TikZ format
 - ✅ Generates standalone LaTeX documents ready to compile
 - ✅ Converts transfer functions to LaTeX fractions (`\frac{num}{den}`)
 - ✅ Supports all block diagram shapes (transfer functions, gains, integrators, etc.)

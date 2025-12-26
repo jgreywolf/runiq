@@ -3,7 +3,7 @@ import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
- * Time Delay Block (e^-sT) for Block Diagrams
+ * Time Delay Block (e^-sT) for control Diagrams
  * Time delay block for control systems
  * Shows "e^-sT" or "z^-n" notation
  * Different from flowchart delay shape

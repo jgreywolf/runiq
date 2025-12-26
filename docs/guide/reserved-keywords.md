@@ -293,7 +293,7 @@ preset "card" {
 }
 
 container "Metrics" preset: "card" {
-  shape chart as @barChartVertical label: "Users"
+  shape chart as @barChart label: "Users"
 }
 ```
 

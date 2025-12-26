@@ -1,0 +1,113 @@
+[
+  {
+    "id": "matrix3x3-portfolio",
+    "title": "glyphset matrix3x3 \"BCG Product Portfolio\" {",
+    "path": "examples/glyphsets/matrix3x3-portfolio.runiq",
+    "tags": [
+      "glyphset",
+      "matrix3x3",
+      "product"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "matrix3x3-risk-assessment",
+    "title": "glyphset matrix3x3 \"Risk Assessment Matrix\" {",
+    "path": "examples/glyphsets/matrix3x3-risk-assessment.runiq",
+    "tags": [
+      "glyphset",
+      "matrix3x3",
+      "risk"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "matrix3x3-talent-grid",
+    "title": "glyphset matrix3x3 \"9-Box Talent Assessment\" {",
+    "path": "examples/glyphsets/matrix3x3-talent-grid.runiq",
+    "tags": [
+      "glyphset",
+      "matrix3x3",
+      "talent"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "segmentedCycle-time",
+    "title": "glyphset segmentedCycle \"Time Management\" {",
+    "path": "examples/glyphsets/segmentedCycle-time.runiq",
+    "tags": [
+      "glyphset",
+      "segmentedcycle",
+      "time"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "segmentedMatrix-analysis",
+    "title": "glyphset segmentedMatrix \"Market Segments\" {",
+    "path": "examples/glyphsets/segmentedMatrix-analysis.runiq",
+    "tags": [
+      "glyphset",
+      "segmentedmatrix",
+      "market"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "segmentedMatrix-detailed",
+    "title": "glyphset segmentedMatrix \"Project Classification\" {",
+    "path": "examples/glyphsets/segmentedMatrix-detailed.runiq",
+    "tags": [
+      "glyphset",
+      "uml",
+      "segmentedmatrix",
+      "project"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "segmentedMatrix-priority",
+    "title": "glyphset segmentedMatrix \"Eisenhower Matrix\" {",
+    "path": "examples/glyphsets/segmentedMatrix-priority.runiq",
+    "tags": [
+      "glyphset",
+      "segmentedmatrix",
+      "eisenhower"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "titledMatrix-criteria",
+    "title": "glyphset titledMatrix \"Vendor Evaluation (3x3)\" {",
+    "path": "examples/glyphsets/titledMatrix-criteria.runiq",
+    "tags": [
+      "glyphset",
+      "titledmatrix",
+      "vendor"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "titledMatrix-features",
+    "title": "glyphset titledMatrix \"Product Features\" {",
+    "path": "examples/glyphsets/titledMatrix-features.runiq",
+    "tags": [
+      "glyphset",
+      "titledmatrix",
+      "product"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "titledMatrix-raci",
+    "title": "glyphset titledMatrix \"RACI Matrix\" {",
+    "path": "examples/glyphsets/titledMatrix-raci.runiq",
+    "tags": [
+      "glyphset",
+      "titledmatrix",
+      "raci"
+    ],
+    "difficulty": "easy"
+  }
+]

@@ -1,0 +1,283 @@
+---
+title: Diagram Examples
+---
+
+# Diagram Examples
+
+Found 275 examples.
+
+- **Auth Flow** — [examples/auth-flow.runiq](examples/auth-flow.runiq) — _general, auth, flow_
+- **AWS VPC Architecture** — [examples/aws-vpc-example.runiq](examples/aws-vpc-example.runiq) — _general, c4-architecture, architecture_
+- **Unity Feedback System** — [examples/control-diagrams/feedback-system.runiq](examples/control-diagrams/feedback-system.runiq) — _control-diagrams, unity, feedback_
+- **Parallel Signal Processing** — [examples/control-diagrams/parallel-paths.runiq](examples/control-diagrams/parallel-paths.runiq) — _control-diagrams, parallel, signal_
+- **PID Controller** — [examples/control-diagrams/pid-controller.runiq](examples/control-diagrams/pid-controller.runiq) — _control-diagrams, pid, controller_
+- **State-Space Representation** — [examples/control-diagrams/state-space.runiq](examples/control-diagrams/state-space.runiq) — _control-diagrams, state, space_
+- **Cascaded Transfer Functions** — [examples/control-diagrams/transfer-function-chain.runiq](examples/control-diagrams/transfer-function-chain.runiq) — _control-diagrams, cascaded, transfer_
+- **Cross-Functional Order Process** — [examples/bpmn/bpmn-cross-functional.runiq](examples/bpmn/bpmn-cross-functional.runiq) — _bpmn, c4-architecture, cross, functional_
+- **BPMN Nested Pools** — [examples/bpmn/bpmn-nested-pools.runiq](examples/bpmn/bpmn-nested-pools.runiq) — _bpmn, c4-architecture, nested, pools_
+- **BPMN Pool Container Example** — [examples/bpmn/bpmn-pool-example.runiq](examples/bpmn/bpmn-pool-example.runiq) — _bpmn, c4-architecture, pool, container_
+- **Order Processing with Gateway Types** — [examples/bpmn/gateway-types-example.runiq](examples/bpmn/gateway-types-example.runiq) — _bpmn, order, processing_
+- **E-Commerce System Context (C4)** — [examples/c4-architecture/c4-context.runiq](examples/c4-architecture/c4-context.runiq) — _c4-architecture, commerce, system_
+- **API Application - Component Diagram** — [examples/c4-architecture/component-diagram.runiq](examples/c4-architecture/component-diagram.runiq) — _c4-architecture, control-diagrams, application, component_
+- **Banking System - Container Diagram** — [examples/c4-architecture/container-diagram.runiq](examples/c4-architecture/container-diagram.runiq) — _c4-architecture, banking, system_
+- **E-Commerce Platform - Microservices** — [examples/c4-architecture/microservices.runiq](examples/c4-architecture/microservices.runiq) — _c4-architecture, commerce, platform_
+- **Banking System - System Context** — [examples/c4-architecture/system-context.runiq](examples/c4-architecture/system-context.runiq) — _c4-architecture, banking, system_
+- **Quarterly Sales by Product - Grouped** — [examples/charts/bar-chart-grouped-vertical.runiq](examples/charts/bar-chart-grouped-vertical.runiq) — _charts, quarterly, sales_
+- **Product Sales** — [examples/charts/bar-chart-horizontal.runiq](examples/charts/bar-chart-horizontal.runiq) — _charts, product, sales_
+- **Performance Metrics** — [examples/charts/bar-chart-vertical.runiq](examples/charts/bar-chart-vertical.runiq) — _charts, performance, metrics_
+- **Sales Performance** — [examples/charts/line-chart-simple.runiq](examples/charts/line-chart-simple.runiq) — _charts, sales, performance_
+- **Revenue Distribution with Legend** — [examples/charts/pie-chart-with-legend.runiq](examples/charts/pie-chart-with-legend.runiq) — _charts, revenue, distribution_
+- **Sales Funnel** — [examples/charts/pyramid-as-funnel-with-labels.runiq](examples/charts/pyramid-as-funnel-with-labels.runiq) — _charts, c4-architecture, sales, funnel_
+- **Maslow's Hierarchy** — [examples/charts/pyramid-full-featured.runiq](examples/charts/pyramid-full-featured.runiq) — _charts, maslow, hierarchy_
+- **Product Evaluation** — [examples/charts/radar-chart-array.runiq](examples/charts/radar-chart-array.runiq) — _charts, product, evaluation_
+- **Character Skills** — [examples/charts/radar-chart-simple.runiq](examples/charts/radar-chart-simple.runiq) — _charts, character, skills_
+- **Technology Stack** — [examples/charts/radar-chart-tech-stack.runiq](examples/charts/radar-chart-tech-stack.runiq) — _charts, technology, stack_
+- **Chart Features Test** — [examples/charts/test-colors-all-features-dsl.runiq](examples/charts/test-colors-all-features-dsl.runiq) — _charts, c4-architecture, chart, features_
+- **Skills Overlap** — [examples/charts/venn-2-circles.runiq](examples/charts/venn-2-circles.runiq) — _charts, skills, overlap_
+- **Skills Overlap: Frontend & Backend** — [examples/charts/venn-2-with-intersections.runiq](examples/charts/venn-2-with-intersections.runiq) — _charts, c4-architecture, skills, overlap_
+- **Project Requirements** — [examples/charts/venn-3-circles.runiq](examples/charts/venn-3-circles.runiq) — _charts, project, requirements_
+- **Project Triangle: Fast, Good, Cheap** — [examples/charts/venn-3-with-intersections.runiq](examples/charts/venn-3-with-intersections.runiq) — _charts, project, triangle_
+- **Development Skills** — [examples/charts/venn-4-circles.runiq](examples/charts/venn-4-circles.runiq) — _charts, development, skills_
+- **Full Stack Developer Skills** — [examples/charts/venn-4-with-intersections.runiq](examples/charts/venn-4-with-intersections.runiq) — _charts, c4-architecture, full, stack_
+- **Circular Economy** — [examples/circular-economy.runiq](examples/circular-economy.runiq) — _general, c4-architecture, circular, economy_
+- **SDLC - Agile Cycle** — [examples/circular-sdlc.runiq](examples/circular-sdlc.runiq) — _general, c4-architecture, sdlc, agile_
+- **Department-Employee Aggregation** — [examples/class-diagrams/aggregation-example.runiq](examples/class-diagrams/aggregation-example.runiq) — _uml, c4-architecture, department, employee_
+- **House-Room Composition** — [examples/class-diagrams/composition-example.runiq](examples/class-diagrams/composition-example.runiq) — _uml, c4-architecture, network, house, room_
+- **E-Commerce Domain Model** — [examples/class-diagrams/domain-model.runiq](examples/class-diagrams/domain-model.runiq) — _uml, commerce, domain_
+- **Factory Pattern** — [examples/class-diagrams/factory-pattern.runiq](examples/class-diagrams/factory-pattern.runiq) — _uml, factory, pattern_
+- **Generic Collections** — [examples/class-diagrams/generic-collections.runiq](examples/class-diagrams/generic-collections.runiq) — _uml, generic, collections_
+- **Comparable Types** — [examples/class-diagrams/interface-implementation.runiq](examples/class-diagrams/interface-implementation.runiq) — _uml, comparable, types_
+- **Observer Pattern** — [examples/class-diagrams/observer-pattern.runiq](examples/class-diagrams/observer-pattern.runiq) — _uml, observer, pattern_
+- **Library Management System** — [examples/class-diagrams/phase3-navigability-constraints.runiq](examples/class-diagrams/phase3-navigability-constraints.runiq) — _uml, library, management_
+- **Animal Hierarchy** — [examples/class-diagrams/simple-inheritance.runiq](examples/class-diagrams/simple-inheritance.runiq) — _uml, animal, hierarchy_
+- **Simple Classes** — [examples/class-diagrams/simple-without-labels.runiq](examples/class-diagrams/simple-without-labels.runiq) — _uml, simple, classes_
+- **University System** — [examples/class-diagrams/uml-relationships-complete.runiq](examples/class-diagrams/uml-relationships-complete.runiq) — _uml, university, system_
+- **Department-Employee Aggregation** — [examples/class-diagrams/visual-enhancements-example-new.runiq](examples/class-diagrams/visual-enhancements-example-new.runiq) — _uml, c4-architecture, department, employee_
+- **Visual Enhancements** — [examples/class-diagrams/visual-enhancements-example.runiq](examples/class-diagrams/visual-enhancements-example.runiq) — _uml, visual, enhancements_
+- **Three-Tier Architecture** — [examples/component-layered-architecture.runiq](examples/component-layered-architecture.runiq) — _general, c4-architecture, control-diagrams, three, tier_
+- **Microservices Architecture** — [examples/component-microservices.runiq](examples/component-microservices.runiq) — _general, c4-architecture, control-diagrams, microservices, architecture_
+- **Plugin System Architecture** — [examples/component-plugin-system.runiq](examples/component-plugin-system.runiq) — _general, c4-architecture, control-diagrams, plugin, system_
+- **Container borderStyle Test** — [examples/container-border-style-test.runiq](examples/container-border-style-test.runiq) — _general, c4-architecture, container, borderstyle_
+- **Container Direction Test** — [examples/container-directions-test.runiq](examples/container-directions-test.runiq) — _general, c4-architecture, container, direction_
+- **Container with Internal Edges Test** — [examples/container-edges-test.runiq](examples/container-edges-test.runiq) — _general, c4-architecture, network, container, with_
+- **test_container_fill** — [examples/container-fill-test.runiq](examples/container-fill-test.runiq) — _general, c4-architecture, test, container_
+- **Microservices Architecture with Templates** — [examples/container-templates-presets.runiq](examples/container-templates-presets.runiq) — _general, c4-architecture, microservices, architecture_
+- **Cross-Container Edges Test** — [examples/cross-container-edges-test.runiq](examples/cross-container-edges-test.runiq) — _general, c4-architecture, cross, container_
+- **Dashboard Components** — [examples/dashboard-templates.runiq](examples/dashboard-templates.runiq) — _general, charts, c4-architecture, dashboard, components_
+- **Package Dependencies** — [examples/dependency-graph.runiq](examples/dependency-graph.runiq) — _general, uml, c4-architecture, network, package, dependencies_
+- **digital "ALU4bit" {** — [examples/digital/alu-4bit.runiq](examples/digital/alu-4bit.runiq) — _digital, alu4bit_
+- **digital "Counter4bit" {** — [examples/digital/counter-4bit.runiq](examples/digital/counter-4bit.runiq) — _digital, counter4bit_
+- **digital "ShiftRegister" {** — [examples/digital/shift-register.runiq](examples/digital/shift-register.runiq) — _digital, shiftregister_
+- **digital "StateMachine" {** — [examples/digital/state-machine.runiq](examples/digital/state-machine.runiq) — _control-diagrams, digital, statemachine_
+- **Docker Compose Stack** — [examples/docker-stack.runiq](examples/docker-stack.runiq) — _general, c4-architecture, network, docker, compose_
+- **Long Edge Labels Test** — [examples/edge-labels-canvas-test.runiq](examples/edge-labels-canvas-test.runiq) — _general, long, edge_
+- **TB Direction Edge Labels Test** — [examples/edge-labels-tb-test.runiq](examples/edge-labels-tb-test.runiq) — _general, direction, edge_
+- **Edge Labels Test** — [examples/edge-labels-test.runiq](examples/edge-labels-test.runiq) — _general, edge, labels_
+- **Bubble Sort Algorithm** — [examples/flowcharts/bubble-sort.runiq](examples/flowcharts/bubble-sort.runiq) — _charts, bubble, sort_
+- **ETL Pipeline** — [examples/flowcharts/etl-pipeline.runiq](examples/flowcharts/etl-pipeline.runiq) — _charts, pipeline_
+- **Order State Machine** — [examples/flowcharts/order-state-machine.runiq](examples/flowcharts/order-state-machine.runiq) — _charts, order, state_
+- **Three-Tier Web App** — [examples/flowcharts/three-tier-web-app.runiq](examples/flowcharts/three-tier-web-app.runiq) — _charts, c4-architecture, three, tier_
+- **Force-Directed Network Topology** — [examples/force-network.runiq](examples/force-network.runiq) — _general, glyphset, c4-architecture, network, force, directed_
+- **Gauge Demo** — [examples/gauge-demo.runiq](examples/gauge-demo.runiq) — _general, gauge, demo_
+- **// Alternating List - Product Evolution** — [examples/glyphsets/alternatingList-evolution.runiq](examples/glyphsets/alternatingList-evolution.runiq) — _glyphset, alternating, list_
+- **// Alternating List - Development Timeline** — [examples/glyphsets/alternatingList-timeline.runiq](examples/glyphsets/alternatingList-timeline.runiq) — _glyphset, alternating, list_
+- **// Alternating Process - Development Workflow** — [examples/glyphsets/alternatingProcess-workflow.runiq](examples/glyphsets/alternatingProcess-workflow.runiq) — _glyphset, alternating, process_
+- **// Balance Glyphset Example: Advantages vs Disadvantages** — [examples/glyphsets/balance-advantages-disadvantages.runiq](examples/glyphsets/balance-advantages-disadvantages.runiq) — _glyphset, balance, example_
+- **// Balance Glyphset Example: Cost-Benefit Analysis** — [examples/glyphsets/balance-cost-benefit.runiq](examples/glyphsets/balance-cost-benefit.runiq) — _glyphset, balance, example_
+- **// Balance Glyphset Example: Option Comparison** — [examples/glyphsets/balance-option-comparison.runiq](examples/glyphsets/balance-option-comparison.runiq) — _glyphset, control-diagrams, balance, example_
+- **// Balance Glyphset Example: Pros/Cons Analysis** — [examples/glyphsets/balance-pros-cons.runiq](examples/glyphsets/balance-pros-cons.runiq) — _glyphset, balance, example_
+- **// Balance Glyphset Example: Risk/Reward Assessment** — [examples/glyphsets/balance-risk-reward.runiq](examples/glyphsets/balance-risk-reward.runiq) — _glyphset, balance, example_
+- **// Block Cycle - PDCA (Plan-Do-Check-Act)** — [examples/glyphsets/blockCycle-pdca.runiq](examples/glyphsets/blockCycle-pdca.runiq) — _glyphset, block, cycle_
+- **// Chevron List - Customer Journey (Horizontal)** — [examples/glyphsets/chevronList-journey.runiq](examples/glyphsets/chevronList-journey.runiq) — _glyphset, chevron, list_
+- **// Chevron List - Sales Pipeline (Vertical)** — [examples/glyphsets/chevronList-pipeline.runiq](examples/glyphsets/chevronList-pipeline.runiq) — _glyphset, chevron, list_
+- **// Circle Hierarchy - Concentric circles hierarchy** — [examples/glyphsets/circle-hierarchy.runiq](examples/glyphsets/circle-hierarchy.runiq) — _glyphset, circle, hierarchy_
+- **// Cluster Glyphset Example: Product Features** — [examples/glyphsets/cluster-product-features.runiq](examples/glyphsets/cluster-product-features.runiq) — _glyphset, cluster, example_
+- **// Cluster Glyphset Example: Team Structure** — [examples/glyphsets/cluster-team-structure.runiq](examples/glyphsets/cluster-team-structure.runiq) — _glyphset, cluster, example_
+- **// Cluster Glyphset Example: Topic Clustering** — [examples/glyphsets/cluster-topic-map.runiq](examples/glyphsets/cluster-topic-map.runiq) — _glyphset, network, cluster, example_
+- **// Column List - Project Deliverables (3 columns)** — [examples/glyphsets/columnList-deliverables.runiq](examples/glyphsets/columnList-deliverables.runiq) — _glyphset, column, list_
+- **// Column List - Tech Stack (2 columns)** — [examples/glyphsets/columnList-techstack.runiq](examples/glyphsets/columnList-techstack.runiq) — _glyphset, column, list_
+- **// Continuous Block Process - Manufacturing Flow** — [examples/glyphsets/continuousBlockProcess-manufacturing.runiq](examples/glyphsets/continuousBlockProcess-manufacturing.runiq) — _glyphset, continuous, block_
+- **// Converging Glyphset Example: Data Aggregation** — [examples/glyphsets/converging-data-aggregation.runiq](examples/glyphsets/converging-data-aggregation.runiq) — _glyphset, converging, example_
+- **// Converging Glyphset Example: Decision Factors** — [examples/glyphsets/converging-decision-factors.runiq](examples/glyphsets/converging-decision-factors.runiq) — _glyphset, converging, example_
+- **// Converging Glyphset Example: Team Collaboration** — [examples/glyphsets/converging-team-collaboration.runiq](examples/glyphsets/converging-team-collaboration.runiq) — _glyphset, converging, example_
+- **// Counterbalance - Weighted balance scale** — [examples/glyphsets/counterbalance.runiq](examples/glyphsets/counterbalance.runiq) — _glyphset, counterbalance, weighted_
+- **// Detailed Process - Process with Substeps** — [examples/glyphsets/detailedProcess-product.runiq](examples/glyphsets/detailedProcess-product.runiq) — _glyphset, detailed, process_
+- **// Diverging Glyphset Example: Message Broadcasting** — [examples/glyphsets/diverging-broadcasting.runiq](examples/glyphsets/diverging-broadcasting.runiq) — _glyphset, diverging, example_
+- **// Diverging Glyphset Example: Decision Branching** — [examples/glyphsets/diverging-decision-branching.runiq](examples/glyphsets/diverging-decision-branching.runiq) — _glyphset, diverging, example_
+- **// Diverging Glyphset Example: Team Delegation** — [examples/glyphsets/diverging-delegation.runiq](examples/glyphsets/diverging-delegation.runiq) — _glyphset, diverging, example_
+- **// Equation - A + B = C relationship formula** — [examples/glyphsets/equation.runiq](examples/glyphsets/equation.runiq) — _glyphset, equation, relationship_
+- **// Equation Process - Success Formula** — [examples/glyphsets/equationProcess-success.runiq](examples/glyphsets/equationProcess-success.runiq) — _glyphset, equation, process_
+- **/*** — [examples/glyphsets/framed-picture-test.runiq](examples/glyphsets/framed-picture-test.runiq) — _glyphset, uml_
+- **// Funnel using 'stage' keyword (alias to invertedPyramid)** — [examples/glyphsets/funnel-sales-alias.runiq](examples/glyphsets/funnel-sales-alias.runiq) — _glyphset, funnel, using_
+- **// Gear Cycle - Manufacturing Process** — [examples/glyphsets/gearCycle-manufacturing.runiq](examples/glyphsets/gearCycle-manufacturing.runiq) — _glyphset, gear, cycle_
+- **// Grouped Process - Parallel Streams Converging** — [examples/glyphsets/groupedProcess-crossfunctional.runiq](examples/glyphsets/groupedProcess-crossfunctional.runiq) — _glyphset, grouped, process_
+- **// Horizontal List - Project Phases** — [examples/glyphsets/horizontalList-phases.runiq](examples/glyphsets/horizontalList-phases.runiq) — _glyphset, horizontal, list_
+- **// Horizontal List - Team Roles** — [examples/glyphsets/horizontalList-roles.runiq](examples/glyphsets/horizontalList-roles.runiq) — _glyphset, horizontal, list_
+- **// Hub - Hub-and-spoke radial diagram** — [examples/glyphsets/hub.runiq](examples/glyphsets/hub.runiq) — _glyphset, spoke, radial_
+- **// Increasing List - Impact Scale (Box)** — [examples/glyphsets/increasingList-impact.runiq](examples/glyphsets/increasingList-impact.runiq) — _glyphset, increasing, list_
+- **// Increasing List - Priority Levels (Circle)** — [examples/glyphsets/increasingList-priority.runiq](examples/glyphsets/increasingList-priority.runiq) — _glyphset, increasing, list_
+- **// Interconnected - Mesh network with all-to-all connections** — [examples/glyphsets/interconnected.runiq](examples/glyphsets/interconnected.runiq) — _glyphset, network, interconnected, mesh_
+- **// Inverted Pyramid Example - Content Filtering** — [examples/glyphsets/invertedPyramid-filter.runiq](examples/glyphsets/invertedPyramid-filter.runiq) — _glyphset, inverted, pyramid_
+- **// Inverted Pyramid Example - Hiring Pipeline** — [examples/glyphsets/invertedPyramid-hiring.runiq](examples/glyphsets/invertedPyramid-hiring.runiq) — _glyphset, inverted, pyramid_
+- **// Inverted Pyramid Example - Sales Funnel** — [examples/glyphsets/invertedPyramid-sales-funnel.runiq](examples/glyphsets/invertedPyramid-sales-funnel.runiq) — _glyphset, inverted, pyramid_
+- **// Labeled Hierarchy - Tree structure with edge labels** — [examples/glyphsets/labeled-hierarchy.runiq](examples/glyphsets/labeled-hierarchy.runiq) — _glyphset, labeled, hierarchy_
+- **// Linear Venn - Horizontal overlapping circles** — [examples/glyphsets/linear-venn.runiq](examples/glyphsets/linear-venn.runiq) — _glyphset, charts, venn, linear, horizontal_
+- **// Matrix 3x3 using universal 'item' keyword** — [examples/glyphsets/matrix3x3-universal-item.runiq](examples/glyphsets/matrix3x3-universal-item.runiq) — _glyphset, matrix, using_
+- **// Nested List - Product Features** — [examples/glyphsets/nestedList-features.runiq](examples/glyphsets/nestedList-features.runiq) — _glyphset, nested, list_
+- **// Nested List - Learning Path** — [examples/glyphsets/nestedList-learning.runiq](examples/glyphsets/nestedList-learning.runiq) — _glyphset, control-diagrams, nested, list_
+- **// Numbered Chevron List - Process Steps with Descriptions** — [examples/glyphsets/numberedChevronList-project.runiq](examples/glyphsets/numberedChevronList-project.runiq) — _glyphset, numbered, chevron_
+- **// Numbered Chevron List - Simple Steps (No Descriptions)** — [examples/glyphsets/numberedChevronList-simple.runiq](examples/glyphsets/numberedChevronList-simple.runiq) — _glyphset, numbered, chevron_
+- **// Opposing Glyphset Example: Four Competing Philosophies** — [examples/glyphsets/opposing-philosophies.runiq](examples/glyphsets/opposing-philosophies.runiq) — _glyphset, opposing, example_
+- **// Opposing Glyphset Example: Rock-Paper-Scissors** — [examples/glyphsets/opposing-rock-paper-scissors.runiq](examples/glyphsets/opposing-rock-paper-scissors.runiq) — _glyphset, opposing, example_
+- **// Opposing Glyphset Example: Supply vs Demand** — [examples/glyphsets/opposing-supply-demand.runiq](examples/glyphsets/opposing-supply-demand.runiq) — _glyphset, opposing, example_
+- **// Opposing Glyphset Example: Technology Licensing Models** — [examples/glyphsets/opposing-tech-models.runiq](examples/glyphsets/opposing-tech-models.runiq) — _glyphset, opposing, example_
+- **// Opposing Glyphset Example: Traditional vs Innovative** — [examples/glyphsets/opposing-traditional-innovative.runiq](examples/glyphsets/opposing-traditional-innovative.runiq) — _glyphset, opposing, example_
+- **// Orbit Cycle - Enterprise Ecosystem** — [examples/glyphsets/orbitCycle-enterprise.runiq](examples/glyphsets/orbitCycle-enterprise.runiq) — _glyphset, orbit, cycle_
+- **// Co-Founders Example** — [examples/glyphsets/orgchart-co-founders.runiq](examples/glyphsets/orgchart-co-founders.runiq) — _glyphset, charts, founders, example_
+- **// Deep Hierarchy Example** — [examples/glyphsets/orgchart-deep-hierarchy.runiq](examples/glyphsets/orgchart-deep-hierarchy.runiq) — _glyphset, charts, deep, hierarchy_
+- **// Horizontal Organization Chart** — [examples/glyphsets/orgchart-horizontal.runiq](examples/glyphsets/orgchart-horizontal.runiq) — _glyphset, charts, horizontal, organization_
+- **// Matrix Organization Chart** — [examples/glyphsets/orgchart-matrix.runiq](examples/glyphsets/orgchart-matrix.runiq) — _glyphset, charts, matrix, organization_
+- **// Simple Small Team** — [examples/glyphsets/orgchart-small-team.runiq](examples/glyphsets/orgchart-small-team.runiq) — _glyphset, charts, simple, small_
+- **// Standard Vertical Organization Chart** — [examples/glyphsets/orgchart-standard.runiq](examples/glyphsets/orgchart-standard.runiq) — _glyphset, charts, standard, vertical_
+- **// Phased Process - Project Phases with Milestones** — [examples/glyphsets/phasedProcess-release.runiq](examples/glyphsets/phasedProcess-release.runiq) — _glyphset, phased, process_
+- **/*** — [examples/glyphsets/picture-blocks-test.runiq](examples/glyphsets/picture-blocks-test.runiq) — _glyphset_
+- **/*** — [examples/glyphsets/picture-callout-test.runiq](examples/glyphsets/picture-callout-test.runiq) — _glyphset_
+- **/*** — [examples/glyphsets/picture-grid-test.runiq](examples/glyphsets/picture-grid-test.runiq) — _glyphset_
+- **// Test file for pictureList glyphset - Phase 2 Implementation** — [examples/glyphsets/picture-list-test.runiq](examples/glyphsets/picture-list-test.runiq) — _glyphset, test, file_
+- **/*** — [examples/glyphsets/picture-process-test.runiq](examples/glyphsets/picture-process-test.runiq) — _glyphset_
+- **// Plus/Minus Glyphset Example: Cloud Migration** — [examples/glyphsets/plusMinus-cloud-migration.runiq](examples/glyphsets/plusMinus-cloud-migration.runiq) — _glyphset, plus, minus_
+- **// Plus/Minus Glyphset Example: Remote Work** — [examples/glyphsets/plusMinus-remote-work.runiq](examples/glyphsets/plusMinus-remote-work.runiq) — _glyphset, plus, minus_
+- **// Plus/Minus Glyphset Example: Technology Adoption** — [examples/glyphsets/plusMinus-technology-adoption.runiq](examples/glyphsets/plusMinus-technology-adoption.runiq) — _glyphset, plus, minus_
+- **// Puzzle Glyphset Example: Problem Solving** — [examples/glyphsets/puzzle-problem-solving.runiq](examples/glyphsets/puzzle-problem-solving.runiq) — _glyphset, charts, puzzle, example_
+- **// Puzzle Glyphset Example: System Integration** — [examples/glyphsets/puzzle-system-integration.runiq](examples/glyphsets/puzzle-system-integration.runiq) — _glyphset, charts, c4-architecture, puzzle, example_
+- **// Puzzle Glyphset Example: Team Collaboration** — [examples/glyphsets/puzzle-team-collaboration.runiq](examples/glyphsets/puzzle-team-collaboration.runiq) — _glyphset, charts, puzzle, example_
+- **// Pyramid List Example - Feature Priority** — [examples/glyphsets/pyramidList-features.runiq](examples/glyphsets/pyramidList-features.runiq) — _glyphset, pyramid, list_
+- **// Pyramid List Example - Learning Path** — [examples/glyphsets/pyramidList-learning.runiq](examples/glyphsets/pyramidList-learning.runiq) — _glyphset, control-diagrams, pyramid, list_
+- **// Pyramid List Example - Project Phases** — [examples/glyphsets/pyramidList-project.runiq](examples/glyphsets/pyramidList-project.runiq) — _glyphset, charts, pyramid, list_
+- **// Radial Cycle - Technical Architecture** — [examples/glyphsets/radialCycle-architecture.runiq](examples/glyphsets/radialCycle-architecture.runiq) — _glyphset, c4-architecture, radial, cycle_
+- **// Segmented Pyramid Example - Organization Structure** — [examples/glyphsets/segmentedPyramid-org.runiq](examples/glyphsets/segmentedPyramid-org.runiq) — _glyphset, segmented, pyramid_
+- **// Segmented Pyramid Example - Skills Development** — [examples/glyphsets/segmentedPyramid-skills.runiq](examples/glyphsets/segmentedPyramid-skills.runiq) — _glyphset, segmented, pyramid_
+- **// Segmented Pyramid Example - Product Strategy** — [examples/glyphsets/segmentedPyramid-strategy.runiq](examples/glyphsets/segmentedPyramid-strategy.runiq) — _glyphset, segmented, pyramid_
+- **// Spiral Cycle - Forest Theme** — [examples/glyphsets/spiralCycle-forest-theme.runiq](examples/glyphsets/spiralCycle-forest-theme.runiq) — _glyphset, spiral, cycle_
+- **// Spiral Cycle - Capability Maturity Model** — [examples/glyphsets/spiralCycle-maturity.runiq](examples/glyphsets/spiralCycle-maturity.runiq) — _glyphset, spiral, cycle_
+- **// Stepped Venn - 3D stacked Venn circles with vertical offset** — [examples/glyphsets/stepped-venn.runiq](examples/glyphsets/stepped-venn.runiq) — _glyphset, charts, venn, stepped, stacked_
+- **// Step Process - Career Growth Path** — [examples/glyphsets/stepProcess-career.runiq](examples/glyphsets/stepProcess-career.runiq) — _glyphset, step, process_
+- **// Table Hierarchy - Tabular rows with hierarchical connections** — [examples/glyphsets/table-hierarchy.runiq](examples/glyphsets/table-hierarchy.runiq) — _glyphset, table, hierarchy_
+- **// Target Diagram - Influence Zones** — [examples/glyphsets/target-influence.runiq](examples/glyphsets/target-influence.runiq) — _glyphset, target, diagram_
+- **// Target Diagram - Market Segmentation** — [examples/glyphsets/target-market.runiq](examples/glyphsets/target-market.runiq) — _glyphset, target, diagram_
+- **// Target Diagram - Priority Levels** — [examples/glyphsets/target-priorities.runiq](examples/glyphsets/target-priorities.runiq) — _glyphset, target, diagram_
+- **// Target Diagram - Product Roadmap** — [examples/glyphsets/target-roadmap.runiq](examples/glyphsets/target-roadmap.runiq) — _glyphset, target, diagram_
+- **// Team Hierarchy - Grouped teams with leader and members** — [examples/glyphsets/team-hierarchy.runiq](examples/glyphsets/team-hierarchy.runiq) — _glyphset, c4-architecture, team, hierarchy_
+- **// Hydraulic Motor Speed Control** — [examples/hydraulic/motor-control.runiq](examples/hydraulic/motor-control.runiq) — _control-diagrams, charts, pid, c4-architecture, hydraulic, motor_
+- **test_inline_fill** — [examples/inline-fill-test.runiq](examples/inline-fill-test.runiq) — _general, test, inline_
+- **Biology Concepts** — [examples/knowledge-graph-biologicial.runiq](examples/knowledge-graph-biologicial.runiq) — _general, c4-architecture, network, biology, concepts_
+- **Programming Knowledge Graph** — [examples/knowledge-graph-programming.runiq](examples/knowledge-graph-programming.runiq) — _general, c4-architecture, network, programming, knowledge_
+- **Microservices Architecture** — [examples/microservices-nested.runiq](examples/microservices-nested.runiq) — _general, c4-architecture, microservices, architecture_
+- **Microservices Architecture** — [examples/microservices.runiq](examples/microservices.runiq) — _c4-architecture, commerce, platform_
+- **Business Strategy 2025** — [examples/mindmaps/business-strategy.runiq](examples/mindmaps/business-strategy.runiq) — _c4-architecture, business, strategy_
+- **Learning Path** — [examples/mindmaps/deep-multi-level.runiq](examples/mindmaps/deep-multi-level.runiq) — _c4-architecture, learning, path_
+- **Inline Icons Test** — [examples/mindmaps/inline-icon-syntax-test.runiq](examples/mindmaps/inline-icon-syntax-test.runiq) — _c4-architecture, network, inline, icons_
+- **Learning JavaScript Roadmap** — [examples/mindmaps/learning-roadmap.runiq](examples/mindmaps/learning-roadmap.runiq) — _c4-architecture, learning, javascript_
+- **My Ideas** — [examples/mindmaps/minimal-auto-styled.runiq](examples/mindmaps/minimal-auto-styled.runiq) — _c4-architecture, ideas_
+- **Software Development Lifecycle** — [examples/mindmaps/multi-level-mindmap.runiq](examples/mindmaps/multi-level-mindmap.runiq) — _charts, c4-architecture, software, development_
+- **Hierarchical Mindmap** — [examples/mindmaps/project-planning.runiq](examples/mindmaps/project-planning.runiq) — _c4-architecture, hierarchical, mindmap_
+- **Simple Mindmap v2** — [examples/mindmaps/simple-mindmap-v2.runiq](examples/mindmaps/simple-mindmap-v2.runiq) — _c4-architecture, simple, mindmap_
+- **Simple Mindmap** — [examples/mindmaps/simple-mindmap.runiq](examples/mindmaps/simple-mindmap.runiq) — _c4-architecture, simple, mindmap_
+- **Multi-Region Deployment** — [examples/multi-region.runiq](examples/multi-region.runiq) — _general, c4-architecture, multi, region_
+- **Nested Containers Demo** — [examples/nested-containers-demo.runiq](examples/nested-containers-demo.runiq) — _general, c4-architecture, network, nested, containers_
+- **Citation Network** — [examples/network-metrics-citation.runiq](examples/network-metrics-citation.runiq) — _general, glyphset, network, citation_
+- **Server Infrastructure** — [examples/network-metrics-infrastructure.runiq](examples/network-metrics-infrastructure.runiq) — _general, network, server, infrastructure_
+- **Social Network Analysis** — [examples/network-metrics-social.runiq](examples/network-metrics-social.runiq) — _general, network, social, analysis_
+- **opacity test** — [examples/opacity-test.runiq](examples/opacity-test.runiq) — _general, opacity, test_
+- **Smith Family Tree** — [examples/pedigree/family-tree-example.runiq](examples/pedigree/family-tree-example.runiq) — _charts, smith, family_
+- **Genetic Trait Inheritance** — [examples/pedigree/genetic-trait.runiq](examples/pedigree/genetic-trait.runiq) — _genetic, trait_
+- **Hemophilia Pedigree** — [examples/pedigree/hemophilia.runiq](examples/pedigree/hemophilia.runiq) — _uml, hemophilia, pedigree_
+- **Genetic Disorder Tracking** — [examples/pedigree/medical-pedigree-example.runiq](examples/pedigree/medical-pedigree-example.runiq) — _genetic, disorder_
+- **Simple Pedigree** — [examples/pedigree/simple-3-generation.runiq](examples/pedigree/simple-3-generation.runiq) — _simple, pedigree_
+- **Johnson Family** — [examples/pedigree/simple-family.runiq](examples/pedigree/simple-family.runiq) — _johnson, family_
+- **Consanguinity Test** — [examples/pedigree/test-consanguinity.runiq](examples/pedigree/test-consanguinity.runiq) — _consanguinity, test_
+- **Marriage Edge Test** — [examples/pedigree/test-marriage-edges.runiq](examples/pedigree/test-marriage-edges.runiq) — _marriage, edge_
+- **MRTree Container Test** — [examples/pedigree/test-mrtree-container.runiq](examples/pedigree/test-mrtree-container.runiq) — _c4-architecture, mrtree, container_
+- **MRTree Test** — [examples/pedigree/test-mrtree.runiq](examples/pedigree/test-mrtree.runiq) — _mrtree, test_
+- **Tank Pump Transfer** — [examples/pid/01-simple-tank-pump.runiq](examples/pid/01-simple-tank-pump.runiq) — _pid, charts, control-diagrams, tank, pump_
+- **Shell and Tube Heat Exchanger** — [examples/pid/02-heat-exchanger.runiq](examples/pid/02-heat-exchanger.runiq) — _pid, charts, control-diagrams, shell, tube_
+- **Distillation Column** — [examples/pid/03-distillation-column.runiq](examples/pid/03-distillation-column.runiq) — _pid, charts, control-diagrams, distillation, column_
+- **Batch Reactor with Safety Systems** — [examples/pid/04-reactor-safety.runiq](examples/pid/04-reactor-safety.runiq) — _pid, charts, control-diagrams, batch, reactor_
+- **Two-Stage Compressor System** — [examples/pid/05-compressor-system.runiq](examples/pid/05-compressor-system.runiq) — _pid, charts, control-diagrams, stage, compressor_
+- **// Single-Acting Cylinder Control** — [examples/pneumatic/cylinder-control.runiq](examples/pneumatic/cylinder-control.runiq) — _control-diagrams, charts, pid, c4-architecture, hydraulic, cylinder_
+- **// Double-Acting Cylinder with 5/2-Way Valve** — [examples/pneumatic/double-acting-cylinder.runiq](examples/pneumatic/double-acting-cylinder.runiq) — _control-diagrams, charts, c4-architecture, double, acting_
+- **// Sequential Pneumatic Control** — [examples/pneumatic/sequence-control.runiq](examples/pneumatic/sequence-control.runiq) — _control-diagrams, sequence, charts, c4-architecture, sequential, pneumatic_
+- **Bell State Circuit** — [examples/quantum-circuits/bell-state.runiq](examples/quantum-circuits/bell-state.runiq) — _quantum, control-diagrams, bell, state_
+- **Grover's Search Algorithm** — [examples/quantum-circuits/grover-search.runiq](examples/quantum-circuits/grover-search.runiq) — _quantum, uml, charts, control-diagrams, grover, search_
+- **Quantum Fourier Transform** — [examples/quantum-circuits/quantum-fourier-transform.runiq](examples/quantum-circuits/quantum-fourier-transform.runiq) — _quantum, uml, charts, c4-architecture, control-diagrams, fourier, transform_
+- **Quantum Teleportation** — [examples/quantum-circuits/quantum-teleportation.runiq](examples/quantum-circuits/quantum-teleportation.runiq) — _quantum, uml, charts, control-diagrams, teleportation_
+- **Layout Algorithm Comparison with Edges** — [examples/radial-org-with-edges.runiq](examples/radial-org-with-edges.runiq) — _general, c4-architecture, layout, algorithm_
+- **Layout Algorithm Comparison** — [examples/radial-org.runiq](examples/radial-org.runiq) — _general, c4-architecture, layout, algorithm_
+- **Payment Processing with Detailed Timing** — [examples/sequence/advanced-timing-example.runiq](examples/sequence/advanced-timing-example.runiq) — _sequence, uml, c4-architecture, control-diagrams, payment, processing_
+- **API Request with Error Handling** — [examples/sequence/api-error-handling.runiq](examples/sequence/api-error-handling.runiq) — _sequence, control-diagrams, request, with_
+- **Event-Driven Async Processing** — [examples/sequence/async-messaging.runiq](examples/sequence/async-messaging.runiq) — _sequence, control-diagrams, event, driven_
+- **User Authentication** — [examples/sequence/auth-flow.runiq](examples/sequence/auth-flow.runiq) — _general, auth, flow_
+- **Microservices Request Processing** — [examples/sequence/combined-features-example.runiq](examples/sequence/combined-features-example.runiq) — _sequence, control-diagrams, microservices, request_
+- **E-Commerce Order Processing with SLAs** — [examples/sequence/duration-constraints-example.runiq](examples/sequence/duration-constraints-example.runiq) — _sequence, uml, control-diagrams, commerce, order_
+- **API Gateway with Gates** — [examples/sequence/gates-example.runiq](examples/sequence/gates-example.runiq) — _sequence, uml, control-diagrams, gateway, with_
+- **User Registration Flow** — [examples/sequence/interaction-use-example.runiq](examples/sequence/interaction-use-example.runiq) — _sequence, uml, control-diagrams, user, registration_
+- **Resource Lifecycle** — [examples/sequence/object-lifecycle.runiq](examples/sequence/object-lifecycle.runiq) — _sequence, control-diagrams, resource, lifecycle_
+- **API with Retry Logic** — [examples/sequence/retry-loop.runiq](examples/sequence/retry-loop.runiq) — _sequence, control-diagrams, with, retry_
+- **Login Flow** — [examples/sequence/sequence-continuations.runiq](examples/sequence/sequence-continuations.runiq) — _sequence, uml, control-diagrams, login, flow_
+- **Payment Processing with Timing** — [examples/sequence/sequence-time-observations.runiq](examples/sequence/sequence-time-observations.runiq) — _sequence, uml, control-diagrams, payment, processing_
+- **Secure Authentication Flow** — [examples/sequence/state-invariants-auth.runiq](examples/sequence/state-invariants-auth.runiq) — _sequence, uml, control-diagrams, secure, authentication_
+- **Resource Locking with Invariants** — [examples/sequence/state-invariants-locking.runiq](examples/sequence/state-invariants-locking.runiq) — _sequence, uml, control-diagrams, resource, locking_
+- **Bank Transfer with Invariants** — [examples/sequence/state-invariants-transaction.runiq](examples/sequence/state-invariants-transaction.runiq) — _sequence, uml, control-diagrams, bank, transfer_
+- **Simple Container Test** — [examples/simple-container.runiq](examples/simple-container.runiq) — _general, c4-architecture, simple, container_
+- **Simple Flowchart Test** — [examples/simple-flowchart.runiq](examples/simple-flowchart.runiq) — _general, charts, simple, flowchart_
+- **Simple Example** — [examples/simple.runiq](examples/simple.runiq) — _general, simple, example_
+- **Friend Network** — [examples/social-network.runiq](examples/social-network.runiq) — _general, glyphset, c4-architecture, network, friend_
+- **UML State Machine - Complete Features** — [examples/state-machine-complete.runiq](examples/state-machine-complete.runiq) — _general, uml, state, machine_
+- **Door Lock State Machine** — [examples/state-machine-door-lock.runiq](examples/state-machine-door-lock.runiq) — _general, uml, door, lock_
+- **Elevator Control System** — [examples/state-machine-elevator-transitions.runiq](examples/state-machine-elevator-transitions.runiq) — _general, uml, control-diagrams, elevator, control_
+- **Enhanced State Machine - Door Lock System** — [examples/state-machine-enhanced.runiq](examples/state-machine-enhanced.runiq) — _general, uml, enhanced, state_
+- **Media Player** — [examples/state-machine-media-player-history.runiq](examples/state-machine-media-player-history.runiq) — _general, media, player_
+- **Order Processing System** — [examples/state-machine-order-transitions.runiq](examples/state-machine-order-transitions.runiq) — _general, uml, order, processing_
+- **Transaction Processing** — [examples/state-machine-terminate-error-handling.runiq](examples/state-machine-terminate-error-handling.runiq) — _general, uml, network, transaction, processing_
+- **Smart Thermostat Control** — [examples/state-machine-thermostat-transitions.runiq](examples/state-machine-thermostat-transitions.runiq) — _general, uml, control-diagrams, smart, thermostat_
+- **Traffic Light State Machine** — [examples/state-machine-traffic-light.runiq](examples/state-machine-traffic-light.runiq) — _general, uml, control-diagrams, traffic, light_
+- **Vending Machine State Machine** — [examples/state-machine-vending.runiq](examples/state-machine-vending.runiq) — _general, uml, control-diagrams, vending, machine_
+- **Document Processing Workflow** — [examples/state-machine-workflow-junction-entryexit.runiq](examples/state-machine-workflow-junction-entryexit.runiq) — _general, document, processing_
+- **Door Lock State Machine** — [examples/state-machines/door-lock-complete.runiq](examples/state-machines/door-lock-complete.runiq) — _uml, door, lock_
+- **Algorithm Showcase** — [examples/stress-graph.runiq](examples/stress-graph.runiq) — _general, c4-architecture, network, algorithm, showcase_
+- **Test Decision Routing** — [examples/test-decision-routing.runiq](examples/test-decision-routing.runiq) — _general, test, decision_
+- **Edge Anchor Test** — [examples/test-edge-anchors.runiq](examples/test-edge-anchors.runiq) — _general, edge, anchor_
+- **Opacity** — [examples/test-opacity.runiq](examples/test-opacity.runiq) — _general, opacity_
+- **UML Class Diagram Relationships Test** — [examples/test-uml-relationships.runiq](examples/test-uml-relationships.runiq) — _general, uml, class, diagram_
+- **Theme Demo - Ocean** — [examples/theme-demo.runiq](examples/theme-demo.runiq) — _general, theme, demo_
+- **Professional Development Journey** — [examples/timeline/career-journey.runiq](examples/timeline/career-journey.runiq) — _professional, development_
+- **TechCorp Journey: 20 Years of Innovation** — [examples/timeline/company-history.runiq](examples/timeline/company-history.runiq) — _charts, quantum, techcorp, journey_
+- **CloudFlow Platform Releases** — [examples/timeline/product-releases.runiq](examples/timeline/product-releases.runiq) — _cloudflow, platform_
+- **Software Project Launch** — [examples/timeline/project-timeline.runiq](examples/timeline/project-timeline.runiq) — _software, project_
+- **UML Activity Diagram - Action Pins** — [examples/uml/activity-action-pins.runiq](examples/uml/activity-action-pins.runiq) — _uml, control-diagrams, activity, diagram_
+- **Data Processing Pipeline** — [examples/uml/activity-data-pipeline-finals.runiq](examples/uml/activity-data-pipeline-finals.runiq) — _uml, control-diagrams, data, processing_
+- **Data Processing Pipeline** — [examples/uml/activity-data-pipeline.runiq](examples/uml/activity-data-pipeline.runiq) — _uml, control-diagrams, data, processing_
+- **Document Approval Activity** — [examples/uml/activity-document-approval.runiq](examples/uml/activity-document-approval.runiq) — _uml, control-diagrams, document, approval_
+- **Event-Driven Order Processing System** — [examples/uml/activity-event-driven-order.runiq](examples/uml/activity-event-driven-order.runiq) — _uml, control-diagrams, event, driven_
+- **Activity Final Nodes Demo** — [examples/uml/activity-final-nodes.runiq](examples/uml/activity-final-nodes.runiq) — _uml, control-diagrams, activity, final_
+- **Microservices API Orchestration** — [examples/uml/activity-microservices-signals.runiq](examples/uml/activity-microservices-signals.runiq) — _uml, control-diagrams, microservices, orchestration_
+- **Notification Broadcasting System** — [examples/uml/activity-notification-signals.runiq](examples/uml/activity-notification-signals.runiq) — _uml, charts, control-diagrams, notification, broadcasting_
+- **UML Activity Diagram - Object Nodes** — [examples/uml/activity-object-nodes.runiq](examples/uml/activity-object-nodes.runiq) — _uml, control-diagrams, activity, diagram_
+- **E-Commerce Order Processing** — [examples/uml/activity-order-processing-finals.runiq](examples/uml/activity-order-processing-finals.runiq) — _uml, control-diagrams, commerce, order_
+- **Order Processing Activity** — [examples/uml/activity-order-processing.runiq](examples/uml/activity-order-processing.runiq) — _uml, control-diagrams, order, processing_
+- **Activity Diagram: Signal Actions** — [examples/uml/activity-signal-actions.runiq](examples/uml/activity-signal-actions.runiq) — _uml, control-diagrams, activity, diagram_
+- **Purchase Order Process** — [examples/uml/activity-swimlanes-horizontal.runiq](examples/uml/activity-swimlanes-horizontal.runiq) — _uml, c4-architecture, purchase, order_
+- **Software Release Process** — [examples/uml/activity-swimlanes-release-pipeline.runiq](examples/uml/activity-swimlanes-release-pipeline.runiq) — _uml, c4-architecture, software, release_
+- **Parallel Development - Frontend and Backend** — [examples/uml/activity-swimlanes-vertical.runiq](examples/uml/activity-swimlanes-vertical.runiq) — _uml, c4-architecture, parallel, development_
+- **UML Constraints & Navigability** — [examples/uml-constraints-navigability-test.runiq](examples/uml-constraints-navigability-test.runiq) — _general, uml, constraints, navigability_
+- **Online Banking - Advanced Relationships** — [examples/use-case/banking-advanced.runiq](examples/use-case/banking-advanced.runiq) — _c4-architecture, online, banking_
+- **Banking System - Customer Use Cases** — [examples/use-case/banking.runiq](examples/use-case/banking.runiq) — _c4-architecture, banking, system_
+- **E-Commerce System** — [examples/use-case/ecommerce.runiq](examples/use-case/ecommerce.runiq) — _c4-architecture, commerce, system_
+- **ATM Withdrawal - Extension Points** — [examples/use-case/extension-points-atm.runiq](examples/use-case/extension-points-atm.runiq) — _network, withdrawal, extension_
+- **E-commerce Checkout - Extension Points** — [examples/use-case/extension-points-ecommerce.runiq](examples/use-case/extension-points-ecommerce.runiq) — _commerce, checkout_
+- **Line Style and Arrow Type Showcase** — [examples/use-case/line-style-showcase.runiq](examples/use-case/line-style-showcase.runiq) — _line, style_
+- **Entity Relationship Diagram - Relationship Showcase** — [examples/use-case/relationships.runiq](examples/use-case/relationships.runiq) — _uml, control-diagrams, entity, relationship_
+- **Simple ATM Example** — [examples/use-case/simple.runiq](examples/use-case/simple.runiq) — _general, simple, example_
+- **Cup of Tea** — [examples/wardley/tea-shop.runiq](examples/wardley/tea-shop.runiq) — _wardley, uml, c4-architecture_
+- **Modern Web Application Stack** — [examples/wardley/technology-evolution.runiq](examples/wardley/technology-evolution.runiq) — _wardley, c4-architecture, modern, application_
+- **Road Network** — [examples/weighted-graph.runiq](examples/weighted-graph.runiq) — _general, c4-architecture, network, road_

@@ -70,7 +70,7 @@ function generatePreamble(): string {
 \\usepackage{tikz}
 \\usetikzlibrary{positioning,shapes.geometric,arrows.meta,calc}
 
-% TikZ styles for block diagrams
+% TikZ styles for control diagrams
 \\tikzset{
   block/.style={
     rectangle,

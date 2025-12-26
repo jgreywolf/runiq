@@ -48,7 +48,7 @@ diagram "Dashboard" {
   }
 
   container "Metrics" preset: "card" {
-    shape users as @barChartVertical label: "Users: 1,250"
+    shape users as @barChart label: "Users: 1,250"
   }
 
   container "Revenue" preset: "card" {

@@ -1,10 +1,10 @@
 # @runiq/export-simulink
 
-Simulink MDL exporter for Runiq Control system block diagrams
+Simulink MDL exporter for Runiq Control system diagrams
 
 ## Features
 
-- ✅ Exports block diagrams to Simulink MDL format
+- ✅ Exports control diagrams to Simulink MDL format
 - ✅ Generates `.mdl` files loadable in MATLAB/Simulink
 - ✅ Converts transfer functions to MATLAB array notation
 - ✅ Supports all block diagram shapes (TransferFcn, Gain, Integrator, etc.)

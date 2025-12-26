@@ -1,0 +1,112 @@
+[
+  {
+    "id": "bar-chart-full-featured",
+    "path": "examples/charts/bar-chart-full-featured.runiq",
+    "title": "Full Featured Bar Chart"
+  },
+  {
+    "id": "line-chart-colored-points",
+    "path": "examples/charts/line-chart-colored-points.runiq",
+    "title": "Temperature Trends with Alerts"
+  },
+  {
+    "id": "line-chart-full-featured",
+    "path": "examples/charts/line-chart-full-featured.runiq",
+    "title": "Full Featured Line Chart"
+  },
+  {
+    "id": "line-chart-horizontal",
+    "path": "examples/charts/line-chart-horizontal.runiq",
+    "title": "Performance Metrics Horizontal"
+  },
+  {
+    "id": "line-chart-monthly-labels",
+    "path": "examples/charts/line-chart-monthly-labels.runiq",
+    "title": "2024 Sales Performance"
+  },
+  {
+    "id": "line-chart-multi-series",
+    "path": "examples/charts/line-chart-multi-series.runiq",
+    "title": "Performance Trend"
+  },
+  {
+    "id": "pie-chart-full-featured",
+    "path": "examples/charts/pie-chart-full-featured.runiq",
+    "title": "Browser Market Share"
+  },
+  {
+    "id": "pie-chart-with-labels",
+    "path": "examples/charts/pie-chart-with-labels.runiq",
+    "title": "Budget Breakdown"
+  },
+  {
+    "id": "radar-chart-colored-points",
+    "path": "examples/charts/radar-chart-colored-points.runiq",
+    "title": "Team Performance Assessment"
+  },
+  {
+    "id": "radar-chart-full-featured",
+    "path": "examples/charts/radar-chart-full-featured.runiq",
+    "title": "Full Featured Radar Chart"
+  },
+  {
+    "id": "radar-chart-multi-series",
+    "path": "examples/charts/radar-chart-multi-series.runiq",
+    "title": "Performance Metrics"
+  },
+  {
+    "id": "radar-chart-skill-labels",
+    "path": "examples/charts/radar-chart-skill-labels.runiq",
+    "title": "Developer Skill Matrix"
+  },
+  {
+    "id": "test-colors-bar-dsl",
+    "path": "examples/charts/test-colors-bar-dsl.runiq",
+    "title": "Custom Colors Grouped Bars"
+  },
+  {
+    "id": "test-colors-pie-dsl",
+    "path": "examples/charts/test-colors-pie-dsl.runiq",
+    "title": "Custom Colors Pie Chart"
+  },
+  {
+    "id": "test-colors-stacked-dsl",
+    "path": "examples/charts/test-colors-stacked-dsl.runiq",
+    "title": "Custom Colors Stacked Bars"
+  },
+  {
+    "id": "test-grouped-dsl",
+    "path": "examples/charts/test-grouped-dsl.runiq",
+    "title": "Grouped Bars Test"
+  },
+  {
+    "id": "test-labels-bar-dsl",
+    "path": "examples/charts/test-labels-bar-dsl.runiq",
+    "title": "Quarterly Revenue with Labels"
+  },
+  {
+    "id": "test-labels-grouped-dsl",
+    "path": "examples/charts/test-labels-grouped-dsl.runiq",
+    "title": "Regional Sales Analysis"
+  },
+  {
+    "id": "test-labels-horizontal-dsl",
+    "path": "examples/charts/test-labels-horizontal-dsl.runiq",
+    "title": "Department Performance Metrics"
+  },
+  {
+    "id": "test-labels-stacked-dsl",
+    "path": "examples/charts/test-labels-stacked-dsl.runiq",
+    "title": "Revenue Breakdown by Category"
+  },
+  {
+    "id": "test-stacked-dsl",
+    "path": "examples/charts/test-stacked-dsl.runiq",
+    "title": "Stacked Bar Chart Test"
+  },
+  {
+    "id": "test-title-pie-dsl",
+    "path": "examples/charts/test-title-pie-dsl.runiq",
+    "title": "Product Sales with Title"
+  }
+]

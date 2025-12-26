@@ -1,0 +1,14 @@
+[
+  {
+    "id": "sequence-advanced-features",
+    "title": "Advanced Sequence Features Demo",
+    "path": "examples/sequence/sequence-advanced-features.runiq",
+    "tags": [
+      "sequence",
+      "control-diagrams",
+      "advanced",
+      "features"
+    ],
+    "difficulty": "medium"
+  }
+]

@@ -334,7 +334,7 @@ Runiq is built as a **monorepo** with modular packages:
 | **Object Diagrams**       | ❌                                 | ❌              | ✅ Yes            | ❌            | ❌            | ⚠️ Manual        |
 | **Timing Diagrams**       | ❌                                 | ❌              | ✅ Yes            | ❌            | ❌            | ❌               |
 | **ER Diagrams**           | ✅ Crow's foot                     | ✅ Yes          | ✅ Yes            | ❌            | ⚠️ Basic      | ✅ Full          |
-| **Control Systems**       | ✅ Block diagrams                  | ❌              | ❌                | ❌            | ❌            | ⚠️ Basic         |
+| **Control Systems**       | ✅ control diagrams                | ❌              | ❌                | ❌            | ❌            | ⚠️ Basic         |
 | **Styling**               | ✅ Themes + inline                 | ✅ CSS + themes | ⚠️ Limited        | ⚠️ Attrs      | ✅ Strong     | ✅ Full GUI      |
 | **Export Formats**        | ✅ SPICE, Verilog, LaTeX, Simulink | ❌ Code         | ❌ Code           | ❌ Code       | ❌ Code       | ⚠️ Limited       |
 | **TypeScript/JavaScript** | ✅ Native                          | ✅ Yes          | ❌ Java           | ❌ C          | ❌ Go         | ✅ Web only      |
@@ -378,7 +378,7 @@ Runiq is built as a **monorepo** with modular packages:
 - ✅ **No vendor lock-in** - Open source, MIT license
 - ✅ **Developer workflow** - TypeScript types, CLI tools, SDK
 - ✅ **Quick diagrams** - 60+ SmartArt-style glyphsets
-- ✅ **Technical diagrams** - Circuits, control systems, block diagrams
+- ✅ **Technical diagrams** - Circuits, control systems
 
 **Choose Mermaid if you need:**
 

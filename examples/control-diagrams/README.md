@@ -1,6 +1,6 @@
 # Control system Diagram Examples
 
-Control system and signal processing block diagrams created with Runiq.
+Control system and signal processing diagrams created with Runiq.
 
 > **📸 Visual Outputs:** SVG visualizations are coming soon! For now, you can view the `.runiq` source files below. To generate SVGs, run through the Runiq CLI or renderer.
 

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "amplifier-ce",
+    "path": "examples/electrical/amplifier-ce.runiq",
+    "title": "electrical \"Common Emitter Amplifier\" {"
+  },
+  {
+    "id": "cmos-inverter",
+    "path": "examples/electrical/cmos-inverter.runiq",
+    "title": "electrical \"CMOS Inverter\" {"
+  },
+  {
+    "id": "h-bridge-motor",
+    "path": "examples/electrical/h-bridge-motor.runiq",
+    "title": "electrical \"H-Bridge Motor Driver\" {"
+  },
+  {
+    "id": "led-circuit",
+    "path": "examples/electrical/led-circuit.runiq",
+    "title": "electrical \"LED Circuit with Current Limiting\" {"
+  },
+  {
+    "id": "opamp-amplifier",
+    "path": "examples/electrical/opamp-amplifier.runiq",
+    "title": "electrical \"Op-Amp Non-Inverting Amplifier\" {"
+  },
+  {
+    "id": "rc-filter",
+    "path": "examples/electrical/rc-filter.runiq",
+    "title": "electrical \"RC Lowpass Filter\" {"
+  },
+  {
+    "id": "rl-high-pass",
+    "path": "examples/electrical/rl-high-pass.runiq",
+    "title": "electrical \"RL High-Pass Filter\" {"
+  },
+  {
+    "id": "rlc-resonant",
+    "path": "examples/electrical/rlc-resonant.runiq",
+    "title": "electrical \"RLC Resonant Circuit\" {"
+  },
+  {
+    "id": "transformer-supply",
+    "path": "examples/electrical/transformer-supply.runiq",
+    "title": "electrical \"Transformer Power Supply\" {"
+  },
+  {
+    "id": "voltage-divider",
+    "path": "examples/electrical/voltage-divider.runiq",
+    "title": "electrical \"Voltage Divider\" {"
+  },
+  {
+    "id": "voltage-regulator",
+    "path": "examples/electrical/voltage-regulator.runiq",
+    "title": "electrical \"5V Voltage Regulator\" {"
+  },
+  {
+    "id": "cylinder-control",
+    "path": "examples/hydraulic/cylinder-control.runiq",
+    "title": "hydraulic \"Cylinder Position Control\" {"
+  },
+  {
+    "id": "power-unit",
+    "path": "examples/hydraulic/power-unit.runiq",
+    "title": "hydraulic \"Hydraulic Power Unit\" {"
+  },
+  {
+    "id": "press-system",
+    "path": "examples/hydraulic/press-system.runiq",
+    "title": "hydraulic \"Hydraulic Press System\" {"
+  },
+  {
+    "id": "frl-unit",
+    "path": "examples/pneumatic/frl-unit.runiq",
+    "title": "pneumatic \"FRL Air Preparation Unit\" {"
+  }
+]

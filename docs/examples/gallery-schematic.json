@@ -1,0 +1,182 @@
+[
+  {
+    "id": "amplifier-ce",
+    "title": "electrical \"Common Emitter Amplifier\" {",
+    "path": "examples/electrical/amplifier-ce.runiq",
+    "tags": [
+      "control-diagrams",
+      "electrical",
+      "common"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cmos-inverter",
+    "title": "electrical \"CMOS Inverter\" {",
+    "path": "examples/electrical/cmos-inverter.runiq",
+    "tags": [
+      "control-diagrams",
+      "electrical",
+      "cmos"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "h-bridge-motor",
+    "title": "electrical \"H-Bridge Motor Driver\" {",
+    "path": "examples/electrical/h-bridge-motor.runiq",
+    "tags": [
+      "control-diagrams",
+      "electrical",
+      "bridge"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "led-circuit",
+    "title": "electrical \"LED Circuit with Current Limiting\" {",
+    "path": "examples/electrical/led-circuit.runiq",
+    "tags": [
+      "control-diagrams",
+      "electrical",
+      "circuit"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "opamp-amplifier",
+    "title": "electrical \"Op-Amp Non-Inverting Amplifier\" {",
+    "path": "examples/electrical/opamp-amplifier.runiq",
+    "tags": [
+      "control-diagrams",
+      "network",
+      "electrical",
+      "inverting"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "rc-filter",
+    "title": "electrical \"RC Lowpass Filter\" {",
+    "path": "examples/electrical/rc-filter.runiq",
+    "tags": [
+      "control-diagrams",
+      "c4-architecture",
+      "electrical",
+      "lowpass"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "rl-high-pass",
+    "title": "electrical \"RL High-Pass Filter\" {",
+    "path": "examples/electrical/rl-high-pass.runiq",
+    "tags": [
+      "control-diagrams",
+      "electrical",
+      "high"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "rlc-resonant",
+    "title": "electrical \"RLC Resonant Circuit\" {",
+    "path": "examples/electrical/rlc-resonant.runiq",
+    "tags": [
+      "control-diagrams",
+      "c4-architecture",
+      "electrical",
+      "resonant"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "transformer-supply",
+    "title": "electrical \"Transformer Power Supply\" {",
+    "path": "examples/electrical/transformer-supply.runiq",
+    "tags": [
+      "control-diagrams",
+      "electrical",
+      "transformer"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "voltage-divider",
+    "title": "electrical \"Voltage Divider\" {",
+    "path": "examples/electrical/voltage-divider.runiq",
+    "tags": [
+      "control-diagrams",
+      "electrical",
+      "voltage"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "voltage-regulator",
+    "title": "electrical \"5V Voltage Regulator\" {",
+    "path": "examples/electrical/voltage-regulator.runiq",
+    "tags": [
+      "control-diagrams",
+      "electrical",
+      "voltage"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cylinder-control",
+    "title": "hydraulic \"Cylinder Position Control\" {",
+    "path": "examples/hydraulic/cylinder-control.runiq",
+    "tags": [
+      "control-diagrams",
+      "charts",
+      "pid",
+      "c4-architecture",
+      "hydraulic",
+      "cylinder"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "power-unit",
+    "title": "hydraulic \"Hydraulic Power Unit\" {",
+    "path": "examples/hydraulic/power-unit.runiq",
+    "tags": [
+      "control-diagrams",
+      "charts",
+      "pid",
+      "c4-architecture",
+      "hydraulic",
+      "hydraulic"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "press-system",
+    "title": "hydraulic \"Hydraulic Press System\" {",
+    "path": "examples/hydraulic/press-system.runiq",
+    "tags": [
+      "control-diagrams",
+      "sequence",
+      "charts",
+      "pid",
+      "c4-architecture",
+      "hydraulic",
+      "hydraulic"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "frl-unit",
+    "title": "pneumatic \"FRL Air Preparation Unit\" {",
+    "path": "examples/pneumatic/frl-unit.runiq",
+    "tags": [
+      "control-diagrams",
+      "charts",
+      "c4-architecture",
+      "pneumatic",
+      "preparation"
+    ],
+    "difficulty": "easy"
+  }
+]

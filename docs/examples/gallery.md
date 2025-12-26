@@ -1,3 +1,16 @@
+<!-- Gallery JSON index for UI - included so docs build packages these assets -->
+# Gallery JSON
+
+The gallery JSON files used by the documentation UI are included here. They are generated from `docs/examples/metadata.json` and written to these files:
+
+- [gallery-all.json](gallery-all.json)
+- [gallery-diagram.json](gallery-diagram.json)
+- [gallery-charts.json](gallery-charts.json)
+- [gallery-schematic.json](gallery-schematic.json)
+- [gallery-glyphset.json](gallery-glyphset.json)
+- [gallery-sequence.json](gallery-sequence.json)
+
+Use these JSON endpoints from the documentation front-end or gallery UI to populate lists and filters.
 # Example Gallery
 
 Browse interactive examples organized by diagram type. Click any example to view the code and try it in the online editor.

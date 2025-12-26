@@ -79,7 +79,7 @@ Standard SPICE suffixes: f, p, n, u, m, k, Meg, G
 
 - **Text-based schematic design** - Version control friendly, perfect for documentation
 - **SPICE netlist export** - Seamless integration with simulation tools
-- **Unified language** - Combine electrical schematics with block diagrams, flowcharts, and more
+- **Unified language** - Combine electrical schematics with control diagrams, flowcharts, and more
 - **IEEE standard symbols** - Professional circuit notation
 - **Net naming** - Descriptive names instead of node numbers
 - **Auto-layout** - ELK engine for clean circuit layouts

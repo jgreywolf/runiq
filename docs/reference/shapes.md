@@ -223,21 +223,18 @@ diagram "Special Symbols" {
 
 Data visualization and chart components:
 
-| Shape                | Syntax                | Description               |
-| -------------------- | --------------------- | ------------------------- |
-| Pie Chart            | `@pieChart`           | Circular pie chart        |
-| Bar Chart Vertical   | `@barChartVertical`   | Vertical bar chart        |
-| Bar Chart Horizontal | `@barChartHorizontal` | Horizontal bar chart      |
-| Pyramid              | `@pyramid`            | Pyramid/hierarchy chart   |
-| Venn 2               | `@venn2`              | Two-circle Venn diagram   |
-| Venn 3               | `@venn3`              | Three-circle Venn diagram |
-| Venn 4               | `@venn4`              | Four-circle Venn diagram  |
+| Shape     | Syntax      | Description             |
+| --------- | ----------- | ----------------------- |
+| Pie Chart | `@pieChart` | Circular pie chart      |
+| Bar Chart | `@barChart` | Bar chart               |
+| Pyramid   | `@pyramid`  | Pyramid/hierarchy chart |
+| Venn      | `@venn`     | Venn diagram            |
 
 **Example:**
 
 ```runiq
 diagram "Data Visualization" {
-  shape sales as @barChartVertical label: "Q4 Sales"
+  shape sales as @barChart label: "Q4 Sales"
   shape market as @pieChart label: "Market Share"
 }
 ```

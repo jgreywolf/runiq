@@ -68,7 +68,7 @@ describe('Performance Benchmarks', () => {
     // Use actual registered shape IDs
     const complexShapes = [
       'pieChart',
-      'barChartVertical',
+      'barChart',
       'pedigreeMale',
       'pedigreeFemale',
       'gateX',
