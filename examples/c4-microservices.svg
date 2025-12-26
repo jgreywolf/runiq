@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1512.4213562373095" height="697.6" 
+    viewBox="0 0 1512.4213562373095 697.6"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">E-Commerce Platform - Microservices</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="frontend"><rect x="357" y="81" width="224" height="271.2" 
+    fill="#fce4ec" stroke="#c2185b" stroke-width="2" rx="8" /><text x="367" y="101" class="runiq-container-label">Frontend</text></g><g data-runiq-container="backend"><rect x="783.4213562373095" y="42" width="532" height="635.6" 
+    fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8" /><text x="793.4213562373095" y="62" class="runiq-container-label">Backend Services</text></g><g data-runiq-container="data"><rect x="1268.4213562373095" y="55" width="224" height="374.79999999999995" 
+    fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="8" /><text x="1278.4213562373095" y="75" class="runiq-container-label">Data Layer</text></g><g data-runiq-edge="gateway-auth"><defs>
+      <marker id="arrow-standard-gateway-auth" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 965.4213562373095 360 L 1115.4213562373095 360" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-gateway-auth)" /></g><g data-runiq-edge="gateway-catalog"><defs>
+      <marker id="arrow-standard-gateway-catalog" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 965.4213562373095 381 L 975.4213562373095 381 L 975.4213562373095 594 L 1115.4213562373095 594" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-gateway-catalog)" /></g><g data-runiq-edge="gateway-orders"><defs>
+      <marker id="arrow-standard-gateway-orders" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 965.4213562373095 339 L 975.4213562373095 339 L 975.4213562373095 126 L 1115.4213562373095 126" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-gateway-orders)" /></g><g data-runiq-edge="customer-web"><defs>
+      <marker id="arrow-standard-customer-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 72 144.4 L 270.5 144.4 L 270.5 164.8 L 469 164.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-customer-web)" /></g><g data-runiq-edge="customer-mobile"><defs>
+      <marker id="arrow-standard-customer-mobile" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 72 144.4 L 270.5 144.4 L 270.5 268.4 L 469 268.4" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-customer-mobile)" /></g><g data-runiq-edge="admin-web"><defs>
+      <marker id="arrow-standard-admin-web" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 72 373.4 L 270.5 373.4 L 270.5 164.8 L 469 164.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-admin-web)" /></g><g data-runiq-edge="web-gateway"><defs>
+      <marker id="arrow-standard-web-gateway" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 558.4213562373095 148 L 568.4213562373095 148 L 568.4213562373095 129 L 783.4213562373095 129" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-web-gateway)" /></g><g data-runiq-edge="mobile-gateway"><defs>
+      <marker id="arrow-standard-mobile-gateway" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 558.4213562373095 215 L 783.4213562373095 215" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-mobile-gateway)" /></g><g data-runiq-edge="auth-userDb"><defs>
+      <marker id="arrow-standard-auth-userDb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 1043.4213562373095 107 L 1053.4213562373095 107 L 1053.4213562373095 113 L 1268.4213562373095 113" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-auth-userDb)" /></g><g data-runiq-edge="catalog-catalogDb"><defs>
+      <marker id="arrow-standard-catalog-catalogDb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 1043.4213562373095 172 L 1268.4213562373095 172" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-catalog-catalogDb)" /></g><g data-runiq-edge="orders-cache"><defs>
+      <marker id="arrow-standard-orders-cache" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 1043.4213562373095 237 L 1053.4213562373095 237 L 1053.4213562373095 230 L 1268.4213562373095 230" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-orders-cache)" /></g><g data-runiq-node="web">
+      <!-- C4 Container -->
+      <rect x="399" y="123" width="140" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="469" y="164.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Web UI
+[React]
+      </text>
+      
+      
+    </g><g data-runiq-node="mobile">
+      <!-- C4 Container -->
+      <rect x="399" y="226.6" width="140" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="469" y="268.4" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Mobile App
+[Flutter]
+      </text>
+      
+      
+    </g><g data-runiq-node="gateway">
+      <!-- C4 Container -->
+      <rect x="825.4213562373095" y="318" width="140" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="895.4213562373095" y="359.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        API Gateway
+[Node.js]
+      </text>
+      
+      
+    </g><g data-runiq-node="auth">
+      <!-- C4 Container -->
+      <rect x="1115.4213562373095" y="318" width="140" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="1185.4213562373095" y="359.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Auth Service
+[Java]
+      </text>
+      
+      
+    </g><g data-runiq-node="catalog">
+      <!-- C4 Container -->
+      <rect x="1115.4213562373095" y="552" width="158" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="1194.4213562373095" y="593.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Catalog Service
+[Python]
+      </text>
+      
+      
+    </g><g data-runiq-node="orders">
+      <!-- C4 Container -->
+      <rect x="1115.4213562373095" y="84" width="149.60000000000002" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="1190.2213562373095" y="125.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Orders Service
+[Go]
+      </text>
+      
+      
+    </g><g data-runiq-node="userDb">
+      <!-- C4 Container -->
+      <rect x="1310.4213562373095" y="97" width="140" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="1380.4213562373095" y="138.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        User DB
+[PostgreSQL]
+      </text>
+      
+      
+    </g><g data-runiq-node="catalogDb">
+      <!-- C4 Container -->
+      <rect x="1310.4213562373095" y="200.6" width="140" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="1380.4213562373095" y="242.39999999999998" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Catalog DB
+[MongoDB]
+      </text>
+      
+      
+    </g><g data-runiq-node="cache">
+      <!-- C4 Container -->
+      <rect x="1310.4213562373095" y="304.2" width="140" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="1380.4213562373095" y="346" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Cache
+[Redis]
+      </text>
+      
+      
+    </g><g data-runiq-node="customer">
+      <!-- C4 Person Container -->
+      <rect x="12" y="105" width="120" height="78.8"
+            rx="8" ry="8" fill="#08427B" stroke="#052E56" stroke-width="2" />
+      
+      <!-- Person Icon (simple stick figure) -->
+      <circle cx="72" cy="125" r="6" fill="#ffffff" />
+      <line x1="72" y1="131" x2="72" y2="139" stroke="#ffffff" stroke-width="2" />
+      <line x1="64" y1="135" x2="80" y2="135" stroke="#ffffff" stroke-width="2" />
+      <line x1="72" y1="139" x2="66" y2="147" stroke="#ffffff" stroke-width="2" />
+      <line x1="72" y1="139" x2="78" y2="147" stroke="#ffffff" stroke-width="2" />
+      
+      <!-- Label -->
+      <text x="72" y="150" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Customer
+      </text>
+    </g><g data-runiq-node="admin">
+      <!-- C4 Person Container -->
+      <rect x="12" y="334" width="120" height="78.8"
+            rx="8" ry="8" fill="#08427B" stroke="#052E56" stroke-width="2" />
+      
+      <!-- Person Icon (simple stick figure) -->
+      <circle cx="72" cy="354" r="6" fill="#ffffff" />
+      <line x1="72" y1="360" x2="72" y2="368" stroke="#ffffff" stroke-width="2" />
+      <line x1="64" y1="364" x2="80" y2="364" stroke="#ffffff" stroke-width="2" />
+      <line x1="72" y1="368" x2="66" y2="376" stroke="#ffffff" stroke-width="2" />
+      <line x1="72" y1="368" x2="78" y2="376" stroke="#ffffff" stroke-width="2" />
+      
+      <!-- Label -->
+      <text x="72" y="379" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Admin
+      </text>
+    </g></svg>

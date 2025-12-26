@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1278" height="212.8" 
+    viewBox="0 0 1278 212.8"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="New-Pending-0" data-edge-id="New-Pending-0" data-edge-from="New" data-edge-to="Pending"><defs>
+      <marker id="arrow-standard-New-Pending" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 111.60000000000001 172.4 L 146.60000000000002 172.4 L 146.60000000000002 125 L 231.60000000000002 125.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 111.60000000000001 172.4 L 146.60000000000002 172.4 L 146.60000000000002 125 L 231.60000000000002 125.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-New-Pending)" pointer-events="none" /><text x="146.60000000000002" y="125" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">create</text></g><g data-runiq-edge="Pending-Processing-1" data-edge-id="Pending-Processing-1" data-edge-from="Pending" data-edge-to="Processing"><defs>
+      <marker id="arrow-standard-Pending-Processing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 377.6 125.4 L 412.6 125.4 L 412.6 48 L 497.6 48.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 377.6 125.4 L 412.6 125.4 L 412.6 48 L 497.6 48.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Pending-Processing)" pointer-events="none" /><text x="412.6" y="48" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">pay</text></g><g data-runiq-edge="Processing-Shipped-2" data-edge-id="Processing-Shipped-2" data-edge-from="Processing" data-edge-to="Shipped"><defs>
+      <marker id="arrow-standard-Processing-Shipped" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 601.6 48.4 L 666.8 48.4 L 666.8 42.4 L 732 42.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 601.6 48.4 L 666.8 48.4 L 666.8 42.4 L 732 42.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Processing-Shipped)" pointer-events="none" /><text x="666.8" y="42.4" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">ship</text></g><g data-runiq-edge="Shipped-Delivered-3" data-edge-id="Shipped-Delivered-3" data-edge-from="Shipped" data-edge-to="Delivered"><defs>
+      <marker id="arrow-standard-Shipped-Delivered" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 810.8 42.4 L 876 42.4 L 876 42 L 941.2 42" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 810.8 42.4 L 876 42.4 L 876 42 L 941.2 42" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Shipped-Delivered)" pointer-events="none" /><text x="876" y="42" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">deliver</text></g><g data-runiq-edge="New-Cancelled-4" data-edge-id="New-Cancelled-4" data-edge-from="New" data-edge-to="Cancelled"><defs>
+      <marker id="arrow-standard-New-Cancelled" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 111.60000000000001 172.4 L 304.6 172.4 L 549.6 179 L 721.6 166.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 111.60000000000001 172.4 L 304.6 172.4 L 549.6 179 L 721.6 166.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-New-Cancelled)" pointer-events="none" /><text x="549.6" y="179" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cancel</text></g><g data-runiq-edge="Pending-Cancelled-5" data-edge-id="Pending-Cancelled-5" data-edge-from="Pending" data-edge-to="Cancelled"><defs>
+      <marker id="arrow-standard-Pending-Cancelled" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 377.6 125.4 L 549.6 125.4 L 636.6 132 L 636.6 166 L 721.6 166.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 377.6 125.4 L 549.6 125.4 L 636.6 132 L 636.6 166 L 721.6 166.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Pending-Cancelled)" pointer-events="none" /><text x="636.6" y="132" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cancel</text></g><g data-runiq-edge="Processing-Cancelled-6" data-edge-id="Processing-Cancelled-6" data-edge-from="Processing" data-edge-to="Cancelled"><defs>
+      <marker id="arrow-standard-Processing-Cancelled" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 601.6 48.4 L 661.6 48.4 L 661.6 154 L 721.6 166.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 601.6 48.4 L 661.6 48.4 L 661.6 154 L 721.6 166.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Processing-Cancelled)" pointer-events="none" /><text x="661.6" y="154" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">cancel</text></g><g data-runiq-edge="Delivered-Refunded-7" data-edge-id="Delivered-Refunded-7" data-edge-from="Delivered" data-edge-to="Refunded"><defs>
+      <marker id="arrow-standard-Delivered-Refunded" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1046.8 42 L 1106.8 42 L 1106.8 42.4 L 1166.8 42.4" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1046.8 42 L 1106.8 42 L 1106.8 42.4 L 1166.8 42.4" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Delivered-Refunded)" pointer-events="none" /><text x="1106.8" y="42.4" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">refund</text></g><g data-runiq-node="New" data-node-id="New" data-node-shape="rounded">
+      <rect x="12" y="152" width="99.60000000000001" height="40.8"
+            rx="8" ry="8" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="61.800000000000004" y="172.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      New Order
+    </text>
+    </g><g data-runiq-node="Pending" data-node-id="Pending" data-node-shape="rect">
+      <rect x="231.60000000000002" y="107" width="146" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="304.6" y="125.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Pending Payment
+    </text>
+    </g><g data-runiq-node="Processing" data-node-id="Processing" data-node-shape="rect">
+      <rect x="497.6" y="30" width="104" height="36.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="549.6" y="48.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Processing
+    </text>
+    </g><g data-runiq-node="Shipped" data-node-id="Shipped" data-node-shape="rect">
+      <rect x="732" y="24" width="78.80000000000001" height="36.8"
+            fill="#48677e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="771.4" y="42.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Shipped
+    </text>
+    </g><g data-runiq-node="Delivered" data-node-id="Delivered" data-node-shape="hexagon">
+      <polygon points="957.0400000000001,12 1030.96,12 1046.8,42 1030.96,72 957.0400000000001,72 941.2,42" 
+               fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="994" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Delivered
+    </text>
+    </g><g data-runiq-node="Cancelled" data-node-id="Cancelled" data-node-shape="doc">
+      <path d="M 721.6,141 L 811.2,141 L 821.2,151 L 821.2,191.8 L 721.6,191.8 Z M 811.2,141 L 811.2,151 L 821.2,151" fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="771.4" y="166.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Cancelled
+    </text>
+    </g><g data-runiq-node="Refunded" data-node-id="Refunded" data-node-shape="doc">
+      <path d="M 1166.8,17 L 1248,17 L 1258,27 L 1258,67.8 L 1166.8,67.8 Z M 1248,17 L 1248,27 L 1258,27" fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="1212.3999999999999" y="42.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Refunded
+    </text>
+    </g></svg>

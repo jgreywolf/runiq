@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="341.4" height="617.6" 
+    viewBox="0 0 341.4 617.6"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="refs-sum-0" data-edge-id="refs-sum-0" data-edge-from="refs" data-edge-to="sum"><defs>
+      <marker id="arrow-standard-refs-sum" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 122.80000000000001 272 L 122.80000000000001 332 L 126 332 L 126 392" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 122.80000000000001 272 L 122.80000000000001 332 L 126 332 L 126 392" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-refs-sum)" pointer-events="none" /><text x="126" y="332" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">r_t</text></g><g data-runiq-edge="sum-pids-1" data-edge-id="sum-pids-1" data-edge-from="sum" data-edge-to="pids"><defs>
+      <marker id="arrow-standard-sum-pids" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 126 408 L 126 443 L 65 443 L 52 528" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 126 408 L 126 443 L 65 443 L 52 528" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-sum-pids)" pointer-events="none" /><text x="65" y="443" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">e_t</text></g><g data-runiq-edge="pids-plant-2" data-edge-id="pids-plant-2" data-edge-from="pids" data-edge-to="plant"><defs>
+      <marker id="arrow-standard-pids-plant" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 52 528 L 52 400 L 39 253.6 L 52 115.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 52 528 L 52 400 L 39 253.6 L 52 115.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-pids-plant)" pointer-events="none" /><text x="39" y="253.6" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">u_t</text></g><g data-runiq-edge="plant-output-3" data-edge-id="plant-output-3" data-edge-from="plant" data-edge-to="output"><defs>
+      <marker id="arrow-standard-plant-output" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 52 115.2 L 52 150.2 L 286 150.2 L 286.2 235.2" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 52 115.2 L 52 150.2 L 286 150.2 L 286.2 235.2" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-plant-output)" pointer-events="none" /><text x="286" y="150.2" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">y_t</text></g><g data-runiq-edge="output-sum-4" data-edge-id="output-sum-4" data-edge-from="output" data-edge-to="sum"><defs>
+      <marker id="arrow-standard-output-sum" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 286.2 272 L 286.2 307 L 129 307 L 126 392" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 286.2 272 L 286.2 307 L 129 307 L 126 392" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-output-sum)" pointer-events="none" /><text x="129" y="307" text-anchor="middle" dominant-baseline="middle" class="runiq-edge-text">feedback</text></g><g data-runiq-node="refs" data-node-id="refs" data-node-shape="rect">
+      <rect x="75" y="235.2" width="95.60000000000001" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="122.80000000000001" y="253.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Reference
+    </text>
+    </g><g data-runiq-node="sum" data-node-id="sum" data-node-shape="junction"><g class="junction-shape"><circle cx="126" cy="400" r="8" fill="#73a3bf" /></g></g><g data-runiq-node="pids" data-node-id="pids" data-node-shape="transferFunction">
+      <rect x="12" y="528" width="80" height="69.6"
+            fill="#96bacf" stroke="#48677e" stroke-width="2" />
+
+      <text x="52" y="562.8" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="14">PID</text>
+    </g><g data-runiq-node="plant" data-node-id="plant" data-node-shape="transferFunction">
+      <rect x="12" y="12" width="80" height="103.2"
+            fill="#48677e" stroke="#48677e" stroke-width="2" />
+
+      <text text-anchor="middle" font-family="sans-serif" font-size="14"><tspan x="52" y="55.2">Plant</tspan><tspan x="52" y="72">G(s)</tspan></text>
+    </g><g data-runiq-node="output" data-node-id="output" data-node-shape="rect">
+      <rect x="251" y="235.2" width="70.4" height="36.8"
+            fill="#364d5f" stroke="#48677e" stroke-width="1" />
+      
+      <text x="286.2" y="253.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Output
+    </text>
+    </g></svg>

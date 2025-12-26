@@ -1,0 +1,28 @@
+name: 'Docs: Check example SVGs'
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check-svgs:
+    name: Check documentation example SVG references
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Enable corepack (pnpm)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run SVG inventory check
+        run: node scripts/list-missing-svgs.mjs
