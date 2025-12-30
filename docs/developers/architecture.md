@@ -1,71 +1,84 @@
 # Architecture Overview
 
-Owner: `@jgreywolf`
+Owner: @jgreywolf
 
-Purpose: Describe high-level system architecture, package responsibilities, data flow, and extension points.
+This page gives a concise system overview for contributors: package responsibilities, the render pipeline, extension points, and where to find key code.
 
-Acceptance criteria:
+Canonical reference
 
-- Contains a system diagram (SVG) showing package interactions.
-- Lists extension points and example code snippets for plugins.
-- Includes commands to run the dev environment and where to find key source files.
+For exhaustive architecture details and diagrams, see the canonical guide: [ARCHITECTURE-GUIDE.md](../ARCHITECTURE-GUIDE.md).
 
-Quick links:
+System overview
 
-- `packages/core` — core shapes, registries, rendering primitives
-- `packages/parser-dsl` — Langium grammar and parser
-- `packages/renderer-svg` — SVG renderer implementation
-- `packages/layout-base` — layout adapters (ELK)
+- `@runiq/core` — core types, the shape registry, validation helpers, and the canonical shape implementations.
+- `@runiq/parser-dsl` — Langium-based grammar and parser that produces the project ASTs.
+- `@runiq/renderer-svg` — SVG renderer and rendering primitives used by the editor and the generator.
+- `@runiq/layout-base` — layout adapter layer (ELK integration and layout shims).
+- `@runiq/renderer-schematic` — schematic-style renderer for electrical/hydraulic/pneumatic profiles.
+- `@runiq/io-json` — import/export helpers for example interchange.
+- `@runiq/web` / `apps/editor` — browser SDK and SvelteKit editor UI.
 
-Dev commands:
+Render pipeline (high level)
 
-`powershell
-cd C:\source\repos\Runiq
-pnpm -w build
-pnpm -w test
+1. Parse: `packages/parser-dsl` converts `.runiq` source into an AST.
+2. Validate: core validators ensure required fields and shape IDs exist.
+3. Register: `registerDefaultShapes()` or runtime registration ensures the `shapeRegistry` contains needed shapes.
+4. Layout: `layout-base` (ELK) computes positions for node/edge diagrams — profile-specific renderers may skip ELK.
+5. Render: profile-specific renderers in `renderer-svg` or `renderer-schematic` produce an SVG string.
+6. Export: write SVG to `examples/` or `docs/public/examples/` for docs and gallery.
 
-````markdown
-# Architecture Overview
+Extension points
 
-Owner: `@jgreywolf`
+- Shape registry: add `ShapeDefinition`s under `packages/core/src/shapes` and register via `shapeRegistry.register()`.
+- Layout engines: implement or register new `LayoutEngine` adapters in `layout-base` and add to `layoutRegistry`.
+- Renderer hooks: profile renderers (sequence, timeline, wardley, pid, schematic) register routing in the example generator — update `scripts/generate-example-svgs.mjs` when adding profiles.
+- Icon providers & themes: register via `iconRegistry` and theme exports; renderer will resolve icons during render.
 
-Purpose: High-level architecture, package responsibilities, data flow, extension points, and contributor workflow.
+Where to look (quick links)
 
-Canonical guide
-
-For the complete, canonical architecture reference (full details, diagrams, package lists, and examples), see the project root: [ARCHITECTURE-GUIDE.md](../ARCHITECTURE-GUIDE.md).
-
-This developer doc is a concise summary and links into the canonical guide where appropriate.
-
-Overview
-
-- `@runiq/core` — types, registries, shapes, validation
-- `@runiq/parser-dsl` — Langium grammar and parser
-- `@runiq/renderer-svg` — SVG renderer and render pipeline
-- `@runiq/layout-base` — layout adapters (ELK)
-
-Key concepts
-
-- Pipeline: Parse (Langium) → Validate → Layout (ELK) → Render (SVG)
-- Shape registry: runtime registry of `ShapeDefinition`s used by the renderer
-- Profiles: domain-specific parsing + rendering (sequence, timeline, electrical, etc.)
-
-Where to look (quick)
-
-- Shape implementations: packages/core/src/shapes/
-- Shape registry: packages/core/src/registries.ts and packages/core/src/shapes/index.ts
-- Parser grammar: packages/parser-dsl/src/runiq.langium
-- Renderer: packages/renderer-svg/src/
+- Shape implementations: [packages/core/src/shapes/](packages/core/src/shapes/)
+- Shape registry: [packages/core/src/registries.ts](packages/core/src/registries.ts) and [packages/core/src/shapes/index.ts](packages/core/src/shapes/index.ts)
+- Parser grammar: [packages/parser-dsl/src/runiq.langium](packages/parser-dsl/src/runiq.langium)
+- Renderer: [packages/renderer-svg/src/](packages/renderer-svg/src/)
+- Layout adapters: [packages/layout-base/](packages/layout-base/)
 
 Developer commands (Windows PowerShell)
 
 ```powershell
 cd C:\source\repos\Runiq
-pnpm install
+corepack enable
+pnpm install --frozen-lockfile
 pnpm -w build
 pnpm -w test
 pnpm --filter @runiq/core test
 ```
+
+Quick examples
+
+Register a shape at runtime (for headless scripts):
+
+```ts
+import { shapeRegistry } from '@runiq/core';
+import { myShape } from './packages/core/src/shapes/my-shape';
+
+shapeRegistry.register(myShape);
+```
+
+Route a new profile in the generator (example note)
+
+When adding a profile that must be rendered by a specialized renderer, update `scripts/generate-example-svgs.mjs` to map the profile name to the renderer function (see `scripts/generate-example-svgs.mjs` for examples such as `sequence`, `pid`, `wardley`).
+
+Acceptance criteria for architecture docs
+
+- Includes a system diagram in `docs/public/images/architecture.svg` or links to the canonical `ARCHITECTURE-GUIDE.md` diagram.
+- Lists package responsibilities and primary extension points.
+- Contains quick developer commands and pointers to code locations.
+
+Notes
+
+- For details about missing documentation assets or regenerating example SVGs, see [Missing Documentation Assets](missing-assets.md).
+- If you change parser tokens or grammar, regenerate Langium artifacts under `packages/parser-dsl` and update docs accordingly.
+
 ````
 
 Run the editor locally (dev mode):
@@ -104,3 +117,4 @@ Notes and next steps
 ```
 
 ```
+````

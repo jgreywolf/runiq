@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
+  <style>
+    .box { fill:#ffffff; stroke:#374151; stroke-width:2; rx:8; }
+    .label { font-family: Arial, Helvetica, sans-serif; font-size:14px; fill:#111827; }
+    .sub { font-size:12px; fill:#6b7280; }
+    .arrow { stroke:#6b7280; stroke-width:2; fill:none; marker-end: url(#arrowhead); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 z" fill="#6b7280" />
+    </marker>
+  </defs>
+
+  <!-- Editor / Web -->
+  <rect class="box" x="40" y="40" width="220" height="80" />
+  <text class="label" x="150" y="64" text-anchor="middle">Editor / Web</text>
+  <text class="sub" x="150" y="84" text-anchor="middle">apps/editor · @runiq/web</text>
+
+  <!-- Parser -->
+  <rect class="box" x="340" y="30" width="220" height="60" />
+  <text class="label" x="450" y="52" text-anchor="middle">Parser</text>
+  <text class="sub" x="450" y="68" text-anchor="middle">packages/parser-dsl (Langium)</text>
+
+  <!-- Core -->
+  <rect class="box" x="340" y="120" width="220" height="100" />
+  <text class="label" x="450" y="148" text-anchor="middle">Core</text>
+  <text class="sub" x="450" y="166" text-anchor="middle">packages/core — shapes, registries, validation</text>
+
+  <!-- Layout & Render -->
+  <rect class="box" x="640" y="40" width="220" height="180" />
+  <text class="label" x="750" y="64" text-anchor="middle">Layout & Render</text>
+  <text class="sub" x="750" y="84" text-anchor="middle">packages/layout-base (ELK)</text>
+  <text class="sub" x="750" y="100" text-anchor="middle">packages/renderer-svg</text>
+  <text class="sub" x="750" y="116" text-anchor="middle">packages/renderer-schematic</text>
+
+  <!-- IO / Examples -->
+  <rect class="box" x="40" y="220" width="220" height="80" />
+  <text class="label" x="150" y="248" text-anchor="middle">Examples / IO</text>
+  <text class="sub" x="150" y="266" text-anchor="middle">examples/ · packages/io-json</text>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M260 80 L340 60" />
+  <path class="arrow" d="M560 60 L640 60" />
+  <path class="arrow" d="M560 120 L640 120" />
+  <path class="arrow" d="M260 240 L340 160" />
+  <path class="arrow" d="M560 160 L640 160" />
+
+  <!-- Notes -->
+  <text class="sub" x="450" y="210" text-anchor="middle">Typical pipeline: Parse → Validate → Layout → Render → Export</text>
+
+</svg>

@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { ShapeRenderContext } from '../../types/index.js';
-import { sampleBadgeShape } from './sampleBadge.js';
+import { badgeShape } from './badge.js';
 
 function createMockContext(
   label = '',
   data: Record<string, unknown> = {}
 ): ShapeRenderContext {
   return {
-    node: { id: 'sample', shape: 'sampleBadge', label, data },
+    node: { id: 'sample', shape: 'badge', label, data },
     style: {
       padding: 8,
       fontSize: 14,
@@ -22,12 +22,12 @@ function createMockContext(
 
 describe('Sample Badge Shape', () => {
   it('exports the expected id', () => {
-    expect(sampleBadgeShape.id).toBe('sampleBadge');
+    expect(badgeShape.id).toBe('badge');
   });
 
   it('calculates bounds including padding', () => {
     const ctx = createMockContext('Hello');
-    const b = sampleBadgeShape.bounds(ctx);
+    const b = badgeShape.bounds(ctx);
 
     expect(b.width).toBeGreaterThan(0);
     expect(b.height).toBeGreaterThan(0);
@@ -35,7 +35,7 @@ describe('Sample Badge Shape', () => {
 
   it('provides four anchors named top/right/bottom/left', () => {
     const ctx = createMockContext('A');
-    const anchors = sampleBadgeShape.anchors(ctx);
+    const anchors = badgeShape.anchors(ctx);
     expect(anchors).toHaveLength(4);
     expect(anchors.map((a) => a.name)).toEqual([
       'top',
@@ -47,7 +47,7 @@ describe('Sample Badge Shape', () => {
 
   it('renders SVG rect and label', () => {
     const ctx = createMockContext('Label');
-    const svg = sampleBadgeShape.render(ctx, { x: 0, y: 0 });
+    const svg = badgeShape.render(ctx, { x: 0, y: 0 });
     expect(svg).toContain('<rect');
     expect(svg).toContain('Label');
   });

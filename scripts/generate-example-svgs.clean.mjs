@@ -85,32 +85,12 @@ async function generateSVG(runiqPath) {
     }
 
     // Choose DiagramAst for layout: prefer legacy `diagram` if present, otherwise use first profile
-    let diagramForLayout =
+    const diagramForLayout =
       parseResult.diagram ||
       (parseResult.document.profiles && parseResult.document.profiles[0]);
     if (!diagramForLayout) {
       console.error(`  ❌ No diagram profile available`);
       return false;
-    }
-
-    // Backwards-compat: some parsers return a `diagram` object for legacy callers
-    // which intentionally strips the `type` field. If `type` is missing, copy
-    // it from the corresponding profile in `document.profiles` (match by name),
-    // or fall back to the first profile's type.
-    if (
-      (!diagramForLayout.type || diagramForLayout.type === undefined) &&
-      parseResult.document &&
-      Array.isArray(parseResult.document.profiles) &&
-      parseResult.document.profiles.length > 0
-    ) {
-      const profiles = parseResult.document.profiles;
-      const matched = profiles.find((p) => p.name === diagramForLayout.title);
-      const src = matched || profiles[0];
-      // copy type if available
-      if (src && src.type) {
-        // attach the numeric/string type so downstream routing can detect it
-        diagramForLayout = { ...diagramForLayout, type: src.type };
-      }
     }
 
     // Ensure shapes are registered before layout/render

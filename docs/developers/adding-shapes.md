@@ -37,6 +37,83 @@ Recommended checklist
 pnpm --filter @runiq/core test
 node scripts/run-one-example.mjs examples/<category>/<name>.runiq
 ```
+
+Concrete example: adding `badge` shape
+
+1. Create file `packages/core/src/shapes/badge.ts`:
+
+```ts
+import type { ShapeDefinition } from '@runiq/core';
+
+export const badge: ShapeDefinition = {
+  id: 'badge',
+  bounds(ctx) {
+    const text = ctx.props.label ?? 'Badge';
+    return { width: Math.max(80, text.length * 8 + 24), height: 32 };
+  },
+  anchors(ctx) {
+    const b = this.bounds(ctx as any);
+    return [
+      { x: b.width / 2, y: 0 },
+      { x: b.width, y: b.height / 2 },
+      { x: b.width / 2, y: b.height },
+      { x: 0, y: b.height / 2 },
+    ];
+  },
+  render(ctx, pos) {
+    const { width, height } = this.bounds(ctx as any);
+    const label = (ctx.props.label ?? 'Badge').replace(/</g, '&lt;');
+    return `<g transform="translate(${pos.x},${pos.y})"><rect x="0" y="0" width="${width}" height="${height}" rx="6" fill="#111827"/><text x="${width / 2}" y="${height / 2 + 5}" text-anchor="middle" fill="#fff">${label}</text></g>`;
+  },
+};
+```
+
+2. Add unit tests `packages/core/src/shapes/badge.spec.ts`:
+
+```ts
+import { badge } from './badge';
+
+describe('badge shape', () => {
+  it('has expected id', () => expect(badge.id).toBe('badge'));
+
+  it('computes bounds for label', () => {
+    const b = badge.bounds({ props: { label: 'Hi' } } as any);
+    expect(b.width).toBeGreaterThanOrEqual(80);
+    expect(b.height).toBe(32);
+  });
+
+  it('provides 4 anchors', () => {
+    const a = badge.anchors({ props: { label: 'X' } } as any);
+    expect(a).toHaveLength(4);
+  });
+
+  it('renders SVG string', () => {
+    const svg = badge.render(
+      { props: { label: 'Test' } } as any,
+      { x: 0, y: 0 } as any
+    );
+    expect(typeof svg).toBe('string');
+    expect(svg).toContain('<rect');
+  });
+});
+```
+
+3. Add example `examples/badge/basics.runiq` showing usage:
+
+```runiq
+diagram BadgeExample {
+   shape b as @badge label:"Hello"
+}
+```
+
+4. Register the shape in `packages/core/src/shapes/index.ts` by importing and adding to registration list; or ensure `registerDefaultShapes()` includes it.
+
+5. Run tests and render example:
+
+```powershell
+pnpm --filter @runiq/core test
+node scripts/run-one-example.mjs examples/badge/basics.runiq
+```
 ````
 
 Testing expectations for PRs

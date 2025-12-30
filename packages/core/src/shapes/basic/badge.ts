@@ -1,13 +1,12 @@
-import type { ShapeDefinition } from '../../types/index.js';
-import { extractBasicStyles } from '../utils/index.js';
-import { renderShapeLabel } from '../utils/render-label.js';
+import { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles, renderShapeLabel } from '../utils/index.js';
 
 /**
  * Sample Badge shape - rounded rectangle with centered label
  * Useful as an example shape for docs and tests.
  */
-export const sampleBadgeShape: ShapeDefinition = {
-  id: 'sampleBadge',
+export const badgeShape: ShapeDefinition = {
+  id: 'badge',
   bounds(ctx) {
     const text = ctx.node.label || ctx.node.id;
     const textSize = ctx.measureText(text, ctx.style);
@@ -32,14 +31,14 @@ export const sampleBadgeShape: ShapeDefinition = {
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
-    const { fill, stroke, strokeWidth, rx } = extractBasicStyles(ctx);
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
     const label = ctx.node.label || ctx.node.id;
 
-    const corner = rx ?? 6;
+    const corner = 6;
 
     return `
-      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${corner}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
-    `;
+        <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${corner}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+        ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
+      `;
   },
 };

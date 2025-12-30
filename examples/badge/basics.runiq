@@ -1,0 +1,3 @@
+diagram "BadgeExample" {
+  shape b as @badge label:"Hello"
+}

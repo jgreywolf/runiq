@@ -18,5 +18,5 @@ export { octagonShape, plusShape, starFilledShape, starShape } from './star.js';
 export { flippedTrapezoidShape, trapezoidShape } from './trapezoid.js';
 export { triangleShape } from './triangle.js';
 
+export { badgeShape } from './badge.js';
 export { monitorShape } from './monitor.js';
-export { sampleBadgeShape } from './sampleBadge.js';
