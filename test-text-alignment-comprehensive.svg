@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="525.76" height="462.24" 
+    viewBox="0 0 525.76 462.24"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Text Alignment Comprehensive Test</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="r1" data-node-id="r1" data-node-shape="rectangle">
+      <rect x="312.4" y="12" width="137.60000000000002" height="36.8"
+            fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="330.4" y="30.4" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Left Rectangle
+    </text>
+    </g><g data-runiq-node="r2" data-node-id="r2" data-node-shape="rectangle">
+      <rect x="178" y="92" width="154.4" height="36.8"
+            fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="255.2" y="110.4" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Center Rectangle
+    </text>
+    </g><g data-runiq-node="r3" data-node-id="r3" data-node-shape="rectangle">
+      <rect x="12" y="92" width="146" height="36.8"
+            fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="140" y="110.4" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Right Rectangle
+    </text>
+    </g><g data-runiq-node="c1" data-node-id="c1" data-node-shape="circle">
+      <circle cx="429.08" cy="168.68" r="76.68"
+              fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="390.88" y="168.68" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Left Circle
+    </text>
+    </g><g data-runiq-node="c2" data-node-id="c2" data-node-shape="circle">
+      <circle cx="285.56" cy="353.8" r="88.44"
+              fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="285.56" y="353.8" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Center Circle
+    </text>
+    </g><g data-runiq-node="c3" data-node-id="c3" data-node-shape="circle">
+      <circle cx="94.56" cy="347.92" r="82.56"
+              fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="136.96" y="347.92" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Right Circle
+    </text>
+    </g><g data-runiq-node="d1" data-node-id="d1" data-node-shape="rhombus">
+      <polygon points="52,12 92,42 52,72 12,42"
+               fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      
+      <text x="43.2" y="42" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Left
+    </text>
+    </g><g data-runiq-node="d2" data-node-id="d2" data-node-shape="rhombus">
+      <polygon points="252.2,12 292.4,42 252.2,72 212,42"
+               fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="252.2" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Center
+    </text>
+    </g><g data-runiq-node="d3" data-node-id="d3" data-node-shape="rhombus">
+      <polygon points="152,12 192,42 152,72 112,42"
+               fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      
+      <text x="165" y="42" 
+      text-anchor="end" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Right
+    </text>
+    </g></svg>

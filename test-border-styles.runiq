@@ -1,0 +1,15 @@
+diagram "Border Style Test" {
+  direction LR
+  
+  container c1 "Solid Border" fillColor:"#e3f2fd" strokeColor:"#1976d2" borderStyle:solid {
+    shape n1 as @rectangle label:"Node 1"
+  }
+  
+  container c2 "Dashed Border" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" borderStyle:dashed {
+    shape n2 as @rectangle label:"Node 2"
+  }
+  
+  container c3 "Dotted Border" fillColor:"#fff3e0" strokeColor:"#f57c00" borderStyle:dotted {
+    shape n3 as @rectangle label:"Node 3"
+  }
+}

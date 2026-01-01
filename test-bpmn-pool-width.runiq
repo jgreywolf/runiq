@@ -1,0 +1,23 @@
+diagram "BPMN Pool Width Test" {
+  direction TB
+  
+  container pool1 "Pool 1" as @bpmnPool {
+    shape task1 as @bpmnTask label:"Task A"
+  }
+  
+  container pool2 "Pool 2 (longer content)" as @bpmnPool {
+    shape task2 as @bpmnTask label:"Task B"
+    shape task3 as @bpmnTask label:"Task C"
+    shape task4 as @bpmnTask label:"Task D"
+    shape task5 as @bpmnTask label:"Task E"
+    
+    task2 -> task3 -> task4 -> task5
+  }
+  
+  container pool3 "Pool 3" as @bpmnPool {
+    shape task6 as @bpmnTask label:"Task F"
+    shape task7 as @bpmnTask label:"Task G"
+    
+    task6 -> task7
+  }
+}
