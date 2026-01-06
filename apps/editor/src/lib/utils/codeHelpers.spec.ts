@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
-	generateShapeCode,
-	extractElementData,
 	escapeLabel,
+	extractElementData,
 	formatPropertyValue,
+	generateShapeCode,
 	type ClipboardItem
 } from './codeHelpers';
 
@@ -26,7 +26,7 @@ describe('codeHelpers', () => {
 				data: { id: 'edge1' }
 			};
 			const result = generateShapeCode(item, 'edge2');
-			expect(result).toBe('edge edge1 -> edge2');
+			expect(result).toBe('edge1 -> edge2');
 		});
 	});
 

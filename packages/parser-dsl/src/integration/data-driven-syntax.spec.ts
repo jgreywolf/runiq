@@ -1,6 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { parse } from '../langium-parser.js';
-import { DiagramProfile, Profile } from '@runiq/core';
 
 describe('Data-Driven Syntax', () => {
   describe('DataSourceDeclaration', () => {
@@ -187,7 +186,7 @@ describe('Data-Driven Syntax', () => {
       const input = `
         diagram "test" {
           foreach "connections" from:edges {
-            edge \${item.from} -> \${item.to} label:\${item.type}
+            \${item.from} -> \${item.to} label:\${item.type}
           }
         }
       `;
@@ -270,7 +269,7 @@ describe('Data-Driven Syntax', () => {
             if \${item.hasTeam} {
               for member in \${item.team} {
                 node \${member.id} shape:ellipse label:\${member.name}
-                edge \${item.id} -> \${member.id} label:"manages"
+                \${item.id} -> \${member.id} label:"manages"
               }
             }
           }

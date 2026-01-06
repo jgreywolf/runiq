@@ -100,12 +100,15 @@ source -> target
 ```
 
 **Labeled edge**:
+There are two methods to define the label for an edge. Either inline with the arrow declaration, or as a separate "label" property
 
 ```runiq
 source -labeltext-> target
 ```
 
-**IMPORTANT**: Label goes **inside the arrow**, not as a property
+```runiq
+source -> target label: "labeltext"
+```
 
 **Edge with properties**:
 
@@ -129,7 +132,7 @@ House -> Room edgeType:composition multiplicitySource:"1" multiplicityTarget:"1.
 Company -> Person edgeType:association roleSource:"employer" roleTarget:"employee"
 
 // Complete example with all properties
-edge Customer -> Order
+Customer -> Order
   edgeType: association
   multiplicitySource: "1"
   multiplicityTarget: "0..*"
@@ -312,9 +315,6 @@ diagram "Name"
 // Spaces in style properties
 style default fill:#color strokeColor:#color
 
-// Label as edge property
-source -> target label:"text"
-
 // Space before colon in node properties
 shape x as @rect label: "X"
 
@@ -334,9 +334,6 @@ diagram "Name" {
 
 // Space and quotes in style properties
 style default fill: "#color" strokeColor: "#color"
-
-// Label in arrow
-source -text-> target
 
 // No space in node properties
 shape x as @rect label:"X"

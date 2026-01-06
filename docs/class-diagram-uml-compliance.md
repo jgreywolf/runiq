@@ -41,7 +41,7 @@ Based on [Wikipedia UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagr
 - Examples: `aggregation-example.runiq`, `composition-example.runiq`
 
 ```runiq
-edge Customer -> Order
+ Customer -> Order
   edgeType: association
   multiplicitySource: "1"
   multiplicityTarget: "0..*"
@@ -68,7 +68,7 @@ edge Customer -> Order
 - Example: `examples/class-diagrams/aggregation-example.runiq`
 
 ```runiq
-edge Company -> Employee
+Company -> Employee
   edgeType: aggregation
   multiplicitySource: "1"
   multiplicityTarget: "1..*"
@@ -94,7 +94,7 @@ edge Company -> Employee
 - Example: `examples/class-diagrams/composition-example.runiq`
 
 ```runiq
-edge House -> Room
+House -> Room
   edgeType: composition
   multiplicitySource: "1"
   multiplicityTarget: "1..*"
@@ -121,7 +121,7 @@ edge House -> Room
 - Examples: `aggregation-example.runiq`, `composition-example.runiq`
 
 ```runiq
-edge Company -> Person
+Company -> Person
   edgeType: association
   label: "employs"
   roleSource: "employer"
@@ -219,7 +219,7 @@ methods:[
 - Tests: ✅ Parsing verified in `uml-relationships.test.ts`
 
 ```runiq
-edge Customer -> Order
+Customer -> Order
   navigability: target  // Customer can access Orders
 ```
 
@@ -249,7 +249,7 @@ edge Customer -> Order
 - Tests: ✅ Parsing verified in `uml-relationships.test.ts`
 
 ```runiq
-edge Customer -> Order
+Customer -> Order
   constraints: ["ordered", "unique"]
 
 attributes:[

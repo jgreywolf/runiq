@@ -194,7 +194,7 @@ shape myNode as @rectangle label: "Process Step"
 shape server as @server label: "API Server" icon: fa/server
 ```
 
-### `edge`
+<!-- ### `edge`
 
 **Purpose**: Declares an explicit edge connection with detailed properties.
 
@@ -204,7 +204,7 @@ shape server as @server label: "API Server" icon: fa/server
 
 ```runiq
 edge myNode -> server label: "HTTP Request" style: dashed
-```
+``` -->
 
 ### `container`
 
@@ -453,7 +453,7 @@ Common property names used throughout Runiq.
 
 ```runiq
 shape server as @server label: "API Server"
-edge a -> b label: "HTTP Request"
+a -> b label: "HTTP Request"
 ```
 
 ::: tip
@@ -640,7 +640,7 @@ data source inventory from: "inventory.csv"
 `from` is allowed as a node ID through FlexibleID.
 :::
 
-### `to`
+<!-- ### `to`
 
 **Purpose**: Specifies target node in edge declarations or range endpoints.
 
@@ -654,7 +654,7 @@ edge source to: target label: "Connection"
 
 ::: tip
 `to` is allowed as a node ID through FlexibleID.
-:::
+::: -->
 
 ### `key`
 

@@ -3,7 +3,7 @@
  * Tests line chart and radar chart rendering
  */
 
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 	test.beforeEach(async ({ page }) => {
@@ -146,7 +146,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
   shape frontend as @radarChart label:"Frontend Stack" data:[90, 85, 75, 80, 70]
   shape backend as @radarChart label:"Backend Stack" data:[85, 80, 90, 75, 85]
   
-  edge frontend -> backend label:"API"
+   frontend -> backend label:"API"
 }`;
 				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});
@@ -171,7 +171,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
   shape trend as @lineChart label:"Monthly Trend" data:[60, 65, 70, 75, 80, 85]
   shape metrics as @radarChart label:"Current Metrics" data:[80, 75, 85, 70, 90]
   
-  edge trend -> metrics label:"analysis"
+   trend -> metrics label:"analysis"
 }`;
 				await page.locator('[data-value="syntax"] .cm-content').fill(dsl);
 			});

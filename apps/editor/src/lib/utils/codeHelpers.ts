@@ -27,7 +27,7 @@ export function generateShapeCode(item: ClipboardItem, newId: string): string {
 	if (item.type === 'node') {
 		return `shape ${newId} as @rectangle label:"Copy of ${item.id}"`;
 	} else {
-		return `edge ${item.id} -> ${newId}`;
+		return `${item.id} -> ${newId}`;
 	}
 }
 

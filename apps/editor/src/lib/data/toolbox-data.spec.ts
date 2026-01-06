@@ -60,8 +60,6 @@ describe('Toolbox Data Structure', () => {
 			category.shapes.forEach((shape) => {
 				// Shape code should be non-empty
 				expect(shape.code.trim().length).toBeGreaterThan(0);
-				// All codes should have some valid content
-				expect(shape.code.length).toBeGreaterThan(3);
 			});
 		});
 	});

@@ -101,7 +101,7 @@ export function convertGlyphset(code: string, newType: string): ConversionResult
 	}
 
 	// Convert to target keyword
-	for (let i = 1; i < oldLines.length; i++) {
+	for (let i = 0; i < oldLines.length; i++) {
 		const line = oldLines[i].trimEnd();
 
 		// Skip empty lines, comments, closing braces, and parameter lines
