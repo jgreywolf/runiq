@@ -44,11 +44,12 @@ diagram "Styled Container" {
 
 :::tip Unified Property Names
 Runiq uses consistent property names across all element types:
+
 - `fillColor:` for background color (shapes, containers)
 - `strokeColor:` for border/stroke color (shapes, edges, containers)
 - `strokeWidth:` for border/stroke width (shapes, edges, containers)
 - `textColor:` for text color (shapes)
-:::
+  :::
 
 ## Multiple Containers
 
@@ -378,12 +379,12 @@ diagram "Order Process" {
 diagram "Network Zones" {
   direction LR
 
-  container "DMZ" fill: "#ffebee" {
+  container "DMZ" fillColor: "#ffebee" {
     shape Firewall as @rect label: "Firewall"
     shape Proxy as @rect label: "Proxy Server"
   }
 
-  container "Internal Network" fill: "#e8f5e9" {
+  container "Internal Network" fillColor: "#e8f5e9" {
     shape AppServer as @rect label: "App Server"
     shape DBServer as @cylinder label: "DB Server"
     AppServer -> DBServer
@@ -395,19 +396,19 @@ diagram "Network Zones" {
 
 ## Container Style Properties
 
-| Property        | Type                      | Default     | Example                    |
-| --------------- | ------------------------- | ----------- | -------------------------- |
-| `fillColor`     | color                     | transparent | `fillColor: "#e3f2fd"`     |
-| `strokeColor`   | color                     | #444        | `strokeColor: "#2196f3"`   |
-| `strokeWidth`   | number                    | 1           | `strokeWidth: 2`           |
-| `borderStyle`   | solid \| dashed \| dotted | solid       | `borderStyle: dashed`      |
-| `padding`       | number                    | 20          | `padding: 30`              |
-| `paddingTop`    | number                    | -           | `paddingTop: 10`           |
-| `paddingRight`  | number                    | -           | `paddingRight: 10`         |
-| `paddingBottom` | number                    | -           | `paddingBottom: 10`        |
-| `paddingLeft`   | number                    | -           | `paddingLeft: 10`          |
-| `shadow`        | boolean                   | false       | `shadow: true`             |
-| `opacity`       | number                    | 1.0         | `opacity: 0.8`             |
+| Property        | Type                      | Default     | Example                  |
+| --------------- | ------------------------- | ----------- | ------------------------ |
+| `fillColor`     | color                     | transparent | `fillColor: "#e3f2fd"`   |
+| `strokeColor`   | color                     | #444        | `strokeColor: "#2196f3"` |
+| `strokeWidth`   | number                    | 1           | `strokeWidth: 2`         |
+| `borderStyle`   | solid \| dashed \| dotted | solid       | `borderStyle: dashed`    |
+| `padding`       | number                    | 20          | `padding: 30`            |
+| `paddingTop`    | number                    | -           | `paddingTop: 10`         |
+| `paddingRight`  | number                    | -           | `paddingRight: 10`       |
+| `paddingBottom` | number                    | -           | `paddingBottom: 10`      |
+| `paddingLeft`   | number                    | -           | `paddingLeft: 10`        |
+| `shadow`        | boolean                   | false       | `shadow: true`           |
+| `opacity`       | number                    | 1.0         | `opacity: 0.8`           |
 
 ### Phase 5 Properties
 

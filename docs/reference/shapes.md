@@ -571,7 +571,7 @@ All shapes support these properties:
 ```runiq
 shape MyShape as @rect
   label: "Display Text"
-  fill: "#4caf50"
+  fillColor: "#4caf50"
   textColor: "#ffffff"
   strokeColor: "#333333"
   strokeWidth: 2
@@ -580,7 +580,7 @@ shape MyShape as @rect
 
 ### Color Properties
 
-- `fill` - Background color (hex or CSS color)
+- `fillColor` - Background color (hex or CSS color)
 - `textColor` - Label text color
 - `strokeColor` - Border color
 - `strokeWidth` - Border width in pixels

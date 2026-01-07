@@ -206,11 +206,13 @@ electrical "RC Filter" {
 **Digital logic** with Verilog export:
 
 ```runiq
-electrical "Half Adder" {
+digital "Half Adder" {
+  module HalfAdder ports:(A,B,SUM,CARRY)
+  module Top ports:(A,B,SUM,CARRY)
+
   net A, B, SUM, CARRY
 
-  part U1 type:XOR pins:(A,B,SUM)
-  part U2 type:AND pins:(A,B,CARRY)
+  inst U1 of:HalfAdder map:(A:A, B:B, SUM:SUM, CARRY:CARRY)
 }
 ```
 
@@ -219,9 +221,7 @@ electrical "Half Adder" {
 Control systems with export to LaTeX and Simulink:
 
 ```runiq
-diagram: block-diagram {
-  title: "PID Controller"
-
+diagram "PID Controller" {
   shape Kp as @gain label: "Kp"
   shape Ki as @transferFunction label: "Ki/s"
   shape Kd as @transferFunction label: "Kd·s"

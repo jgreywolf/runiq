@@ -112,11 +112,11 @@ diagram "Budget Allocation" {
   shape budget as @pieChart
     label:"Annual Budget"
     data:[
-      {label:"Engineering", value:450, color:"#4299e1"},
-      {label:"Sales", value:280, color:"#48bb78"},
-      {label:"Marketing", value:220, color:"#ed8936"},
-      {label:"Operations", value:180, color:"#9f7aea"},
-      {label:"Other", value:70, color:"#a0aec0"}
+      {label:"Engineering", value:450, fillColor:"#4299e1"},
+      {label:"Sales", value:280, fillColor:"#48bb78"},
+      {label:"Marketing", value:220, fillColor:"#ed8936"},
+      {label:"Operations", value:180, fillColor:"#9f7aea"},
+      {label:"Other", value:70, fillColor:"#a0aec0"}
     ]
 }
 ```
@@ -153,9 +153,9 @@ diagram "Performance Metrics" {
     data:{
       labels:["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
       series:[
-        {name:"CPU %", values:[45, 38, 62, 78, 85, 52], color:"#3b82f6"},
-        {name:"Memory %", values:[58, 55, 68, 72, 80, 65], color:"#10b981"},
-        {name:"Disk %", values:[30, 28, 35, 42, 48, 38], color:"#f59e0b"}
+        {name:"CPU %", values:[45, 38, 62, 78, 85, 52], fillColor:"#3b82f6"},
+        {name:"Memory %", values:[58, 55, 68, 72, 80, 65], fillColor:"#10b981"},
+        {name:"Disk %", values:[30, 28, 35, 42, 48, 38], fillColor:"#f59e0b"}
       ]
     }
 }
@@ -191,8 +191,8 @@ diagram "Team Capabilities" {
         {label:"Database"}
       ],
       series:[
-        {label:"Team A", values:[85, 72, 68, 90, 75], color:"#3b82f6"},
-        {label:"Team B", values:[70, 88, 82, 75, 85], color:"#10b981"}
+        {label:"Team A", values:[85, 72, 68, 90, 75], fillColor:"#3b82f6"},
+        {label:"Team B", values:[70, 88, 82, 75, 85], fillColor:"#10b981"}
       ]
     }
     showLegend:true
@@ -259,7 +259,7 @@ Runiq supports a chart-specific DSL for cleaner syntax:
 chart bar "Quarterly Sales" {
   data: [120, 150, 135, 180]
   labels: ["Q1", "Q2", "Q3", "Q4"]
-  color: "#4299e1"
+  fillColor: "#4299e1"
 }
 ```
 
@@ -269,8 +269,8 @@ chart bar "Quarterly Sales" {
 chart bar "Revenue Comparison" {
   labels: ["Jan", "Feb", "Mar", "Apr"]
   series: [
-    {name: "2024", values: [120, 140, 130, 150], color: "#3b82f6"},
-    {name: "2023", values: [100, 120, 115, 130], color: "#10b981"}
+    {name: "2024", values: [120, 140, 130, 150], fillColor: "#3b82f6"},
+    {name: "2023", values: [100, 120, 115, 130], fillColor: "#10b981"}
   ]
 }
 ```
@@ -296,9 +296,9 @@ chart pie "Market Share" {
 diagram "Custom Colors" {
   shape chart as @barChart
     data:[
-      {label:"Category A", value:85, color:"#4299e1"},
-      {label:"Category B", value:72, color:"#48bb78"},
-      {label:"Category C", value:90, color:"#ed8936"}
+      {label:"Category A", value:85, fillColor:"#4299e1"},
+      {label:"Category B", value:72, fillColor:"#48bb78"},
+      {label:"Category C", value:90, fillColor:"#ed8936"}
     ]
 }
 ```
@@ -381,13 +381,13 @@ diagram "Styled Chart" {
 
 ## Chart Types Summary
 
-| Chart Type | Best For | Data Shape |
-|------------|----------|------------|
-| **Bar Chart** | Comparing categories | Categorical with values |
-| **Pie Chart** | Part-to-whole (< 7 slices) | Categories with percentages |
-| **Line Chart** | Trends over time | Sequential data points |
-| **Radar Chart** | Multi-dimensional comparison | Multiple metrics per item |
-| **Sankey** | Flows and processes | Source-target-value triplets |
+| Chart Type      | Best For                     | Data Shape                   |
+| --------------- | ---------------------------- | ---------------------------- |
+| **Bar Chart**   | Comparing categories         | Categorical with values      |
+| **Pie Chart**   | Part-to-whole (< 7 slices)   | Categories with percentages  |
+| **Line Chart**  | Trends over time             | Sequential data points       |
+| **Radar Chart** | Multi-dimensional comparison | Multiple metrics per item    |
+| **Sankey**      | Flows and processes          | Source-target-value triplets |
 
 ## Next Steps
 

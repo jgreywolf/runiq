@@ -113,12 +113,10 @@ packages/glyphsets/
 
 ### 3. GlyphSet DSL Syntax
 
-Users invoke GlyphSets through a special DSL syntax:
-
-#### Syntax Option 1: GlyphSet Property (Recommended)
+Users invoke GlyphSets through the dedicated `glyphset` profile:
 
 ```runiq
-diagram "My Process" glyphset:horizontal-process {
+glyphset basicProcess "My Process" {
   step "Research"
   step "Design"
   step "Develop"
@@ -127,27 +125,7 @@ diagram "My Process" glyphset:horizontal-process {
 }
 ```
 
-#### Syntax Option 2: GlyphSet Keyword (More Explicit)
-
-```runiq
-glyphset horizontal-process "My Process" {
-  step "Research"
-  step "Design"
-  step "Develop"
-  step "Test"
-  step "Deploy"
-}
-```
-
-#### Syntax Option 3: From Clause (Declarative)
-
-```runiq
-diagram "My Process" from glyphset horizontal-process {
-  items: ["Research", "Design", "Develop", "Test", "Deploy"]
-}
-```
-
-**Decision:** **Option 1** (`glyphset:` property) - simplest, most consistent with existing syntax, avoids collision with `template` keyword.
+**Decision:** Use the `glyphset <type> "Name" { ... }` profile syntax.
 
 ---
 
@@ -555,12 +533,12 @@ const diagram = {
 
 #### Distinction from Data-Driven Templates
 
-| Feature         | Data-Driven Templates (Existing)          | GlyphSets (New)                       |
-| --------------- | ----------------------------------------- | ------------------------------------- |
-| **Purpose**     | Generate diagrams from data sources       | Generate diagrams from user input     |
-| **DSL Syntax**  | `template "name" from:datasource { ... }` | `glyphset:horizontal-process { ... }` |
-| **Data Source** | External (CSV, JSON, API)                 | Inline (DSL body)                     |
-| **Use Case**    | Dynamic data visualization                | Quick diagram scaffolding             |
+| Feature         | Data-Driven Templates (Existing)         | GlyphSets (New)                       |
+| --------------- | ---------------------------------------- | ------------------------------------- |
+| **Purpose**     | Generate diagrams from data sources      | Generate diagrams from user input     |
+| **DSL Syntax**  | `foreach "name" from:datasource { ... }` | `glyphset:horizontal-process { ... }` |
+| **Data Source** | External (CSV, JSON, API)                | Inline (DSL body)                     |
+| **Use Case**    | Dynamic data visualization               | Quick diagram scaffolding             |
 
 ---
 
@@ -678,7 +656,7 @@ Runiq already uses "template" in **two contexts**:
    - Defined inline in diagrams
    - Referenced via `templateId: "name"`
 
-2. **Data-Driven Templates** (`template "name" from:datasource { ... }`)
+2. **Data-Driven Templates** (`foreach "name" from:datasource { ... }`)
    - Generate diagrams from external data
    - Use variable substitution (`${item.id}`)
    - Support conditionals and loops

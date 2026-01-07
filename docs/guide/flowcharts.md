@@ -138,10 +138,10 @@ Apply consistent styling to flowchart elements:
 diagram "Styled Flowchart" {
   direction TB
 
-  shape start as @stadium label: "Start" fill: "#4ade80" color: "#ffffff"
-  shape process as @rectangle label: "Process" fill: "#60a5fa" color: "#ffffff"
-  shape decision as @rhombus label: "Decision?" fill: "#fbbf24" color: "#000000"
-  shape end as @stadium label: "End" fill: "#f87171" color: "#ffffff"
+  shape start as @stadium label: "Start" fillColor: "#4ade80" textColor: "#ffffff"
+  shape process as @rectangle label: "Process" fillColor: "#60a5fa" textColor: "#ffffff"
+  shape decision as @rhombus label: "Decision?" fillColor: "#fbbf24" textColor: "#000000"
+  shape end as @stadium label: "End" fillColor: "#f87171" textColor: "#ffffff"
 
   start -> process
   process -> decision

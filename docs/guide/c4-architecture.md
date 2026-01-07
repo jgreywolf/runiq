@@ -190,10 +190,10 @@ Apply C4 model color conventions:
 diagram "Styled C4 Diagram" {
   direction LR
 
-  shape personShape as @c4Person label: "User" fill: "#08427b" color: "#ffffff"
-  shape internalSystem as @c4System label: "Internal System" fill: "#1168bd" color: "#ffffff"
-  shape externalSystem as @c4System label: "External System" fill: "#999999" color: "#ffffff"
-  shape containerShape as @c4Container label: "Container" fill: "#438dd5" color: "#ffffff"
+  shape personShape as @c4Person label: "User" fillColor: "#08427b" textColor: "#ffffff"
+  shape internalSystem as @c4System label: "Internal System" fillColor: "#1168bd" textColor: "#ffffff"
+  shape externalSystem as @c4System label: "External System" fillColor: "#999999" textColor: "#ffffff"
+  shape containerShape as @c4Container label: "Container" fillColor: "#438dd5" textColor: "#ffffff"
 
   personShape -> internalSystem strokeColor: "#707070" strokeWidth: 2
   internalSystem -> externalSystem strokeColor: "#707070" lineStyle: "dashed"

@@ -52,39 +52,39 @@ diagram "Product Strategy" {
   container "Strategy" algorithm: radial spacing: 100 {
     // Central node with gradient-like color
     shape central as @circle label: "Product Strategy" 
-      fill:"#6366f1" strokeColor:"#4338ca" strokeWidth:3
+      fillColor: "#6366f1" strokeColor: "#4338ca" strokeWidth: 3
     
     // Features branch (green theme)
     shape features as @roundedRectangle label: "Features"
-      fill:"#10b981" strokeColor:"#059669" strokeWidth:2
+      fillColor: "#10b981" strokeColor: "#059669" strokeWidth: 2
     shape feature1 as @rectangle label: "Core Functions"
-      fill:"#d1fae5" strokeColor:"#059669"
+      fillColor: "#d1fae5" strokeColor: "#059669"
     shape feature2 as @rectangle label: "Integrations"
-      fill:"#d1fae5" strokeColor:"#059669"
+      fillColor: "#d1fae5" strokeColor: "#059669"
     
     // Marketing branch (pink theme)
     shape marketing as @roundedRectangle label: "Marketing"
-      fill:"#ec4899" strokeColor:"#db2777" strokeWidth:2
+      fillColor: "#ec4899" strokeColor: "#db2777" strokeWidth: 2
     shape marketing1 as @rectangle label: "Social Media"
-      fill:"#fce7f3" strokeColor:"#db2777"
+      fillColor: "#fce7f3" strokeColor: "#db2777"
     shape marketing2 as @rectangle label: "Content"
-      fill:"#fce7f3" strokeColor:"#db2777"
+      fillColor: "#fce7f3" strokeColor: "#db2777"
     
     // Technology branch (blue theme)
     shape tech as @roundedRectangle label: "Technology"
-      fill:"#3b82f6" strokeColor:"#2563eb" strokeWidth:2
+      fillColor: "#3b82f6" strokeColor: "#2563eb" strokeWidth: 2
     shape tech1 as @rectangle label: "Frontend"
-      fill:"#dbeafe" strokeColor:"#2563eb"
+      fillColor: "#dbeafe" strokeColor: "#2563eb"
     shape tech2 as @rectangle label: "Backend"
-      fill:"#dbeafe" strokeColor:"#2563eb"
+      fillColor: "#dbeafe" strokeColor: "#2563eb"
     
     // Business branch (amber theme)
     shape business as @roundedRectangle label: "Business Model"
-      fill:"#f59e0b" strokeColor:"#d97706" strokeWidth:2
+      fillColor: "#f59e0b" strokeColor: "#d97706" strokeWidth: 2
     shape business1 as @rectangle label: "Revenue"
-      fill:"#fef3c7" strokeColor:"#d97706"
+      fillColor: "#fef3c7" strokeColor: "#d97706"
     shape business2 as @rectangle label: "Costs"
-      fill:"#fef3c7" strokeColor:"#d97706"
+      fillColor: "#fef3c7" strokeColor: "#d97706"
     
     // Structure
     central -> features

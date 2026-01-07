@@ -281,7 +281,7 @@ See [Sequence Diagrams Examples](/examples/sequence-diagrams) for detailed docum
 To use the electrical profile:
 
 ```runiq
-electrical"LED Circuit" {
+electrical "LED Circuit" {
   net VCC, GND, N1
 
   part V1 type:V value:"5V" pins:(VCC,GND)
@@ -297,13 +297,12 @@ To use the digital profile for logic circuits:
 
 ```runiq
 digital "CMOS Inverter" {
-  module inv {
-    input A
-    output Y
+  module Inv ports:(A,Y)
+  module Top ports:(A,Y)
 
-    instance pmos type:pmos width:2 pins:(Y,A,VDD,VDD)
-    instance nmos type:nmos width:1 pins:(Y,A,GND,GND)
-  }
+  net A, Y, VDD, GND
+
+  inst U1 of:Inv map:(A:A, Y:Y)
 }
 ```
 

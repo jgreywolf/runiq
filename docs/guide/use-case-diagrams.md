@@ -289,11 +289,11 @@ Customize use case diagram appearance:
 diagram "Styled Use Case" {
   direction LR
 
-  shape user as @actor label: "User" color: "#3b82f6"
+  shape user as @actor label: "User" textColor: "#3b82f6"
 
-  container system "System" fill: "#f0f9ff" strokeColor: "#3b82f6" {
-    shape useCase1 as @ellipseWide label: "Primary Use Case" fill: "#dbeafe" strokeColor: "#2563eb"
-    shape useCase2 as @ellipseWide label: "Extended Use Case" fill: "#fef3c7" strokeColor: "#f59e0b"
+  container system "System" fillColor: "#f0f9ff" strokeColor: "#3b82f6" {
+    shape useCase1 as @ellipseWide label: "Primary Use Case" fillColor: "#dbeafe" strokeColor: "#2563eb"
+    shape useCase2 as @ellipseWide label: "Extended Use Case" fillColor: "#fef3c7" strokeColor: "#f59e0b"
   }
 
   user -> useCase1 strokeColor: "#3b82f6" strokeWidth: 2

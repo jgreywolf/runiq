@@ -1,8 +1,10 @@
+---
+title: Container Templates & Presets
+---
+
 # Container Templates & Presets
 
-Reusable container patterns with templates, style presets, and inheritance.
-
-## Overview
+### Microservices Architecture
 
 Runiq's container template system enables:
 
@@ -17,41 +19,41 @@ Runiq's container template system enables:
 ### Basic Template
 
 ```runiq
-diagram "Microservices"
+diagram "Microservices" {
+  template "service" {
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
+    padding: 20
+  }
 
-template "service" {
-  fillColor: "#e3f2fd"
-  strokeColor: "#2196f3"
-  padding: 20
-}
+  container "Auth Service" templateId: "service" {
+    shape auth as @server label: "Authentication"
+  }
 
-container "Auth Service" templateId: "service" {
-  shape auth as @server label: "Authentication"
-}
-
-container "Payment Service" templateId: "service" {
-  shape payment as @server label: "Payment Gateway"
+  container "Payment Service" templateId: "service" {
+    shape payment as @server label: "Payment Gateway"
+  }
 }
 ```
 
 ### Basic Preset
 
 ```runiq
-diagram "Dashboard"
+diagram "Dashboard" {
+  preset "card" {
+    fillColor: "#ffffff"
+    strokeColor: "#dee2e6"
+    padding: 15
+    shadow: true
+  }
 
-preset "card" {
-  fillColor: "#ffffff"
-  strokeColor: "#dee2e6"
-  padding: 15
-  shadow: true
-}
+  container "Metrics" preset: "card" {
+    shape users as @barChartVertical label: "Users: 1,250"
+  }
 
-container "Metrics" preset: "card" {
-  shape users as @barChartVertical label: "Users: 1,250"
-}
-
-container "Revenue" preset: "card" {
-  shape rev as @lineChart label: "Revenue: $2.4M"
+  container "Revenue" preset: "card" {
+    shape rev as @lineChart label: "Revenue: $2.4M"
+  }
 }
 ```
 
@@ -62,16 +64,18 @@ container "Revenue" preset: "card" {
 Templates define reusable container patterns with optional parameters:
 
 ```runiq
-template "microservice" {
-  label: "Microservice Template"
-  description: "Standard microservice container"
-  fillColor: "#e8f5e9"
-  strokeColor: "#4caf50"
-  strokeWidth: 2
-  padding: 20
-  shadow: true
-  collapseButtonVisible: true
-  resizable: true
+diagram "Templates" {
+  template "microservice" {
+    label: "Microservice Template"
+    description: "Standard microservice container"
+    fillColor: "#e8f5e9"
+    strokeColor: "#4caf50"
+    strokeWidth: 2
+    padding: 20
+    shadow: true
+    collapseButtonVisible: true
+    resizable: true
+  }
 }
 ```
 
@@ -87,14 +91,16 @@ template "microservice" {
 Reference templates with `templateId`:
 
 ```runiq
-container "User Service" templateId: "microservice" {
-  shape api as @rectangle label: "User API"
-  shape cache as @cylinder label: "Cache"
-}
+diagram "Using Templates" {
+  container "User Service" templateId: "microservice" {
+    shape api as @rectangle label: "User API"
+    shape cache as @cylinder label: "Cache"
+  }
 
-container "Order Service" templateId: "microservice" {
-  shape api as @rectangle label: "Order API"
-  shape db as @cylinder label: "Database"
+  container "Order Service" templateId: "microservice" {
+    shape api as @rectangle label: "Order API"
+    shape db as @cylinder label: "Database"
+  }
 }
 ```
 
@@ -103,19 +109,21 @@ container "Order Service" templateId: "microservice" {
 Define parameterized templates:
 
 ```runiq
-template "dashboard-widget" {
-  label: "Dashboard Widget"
-  description: "Configurable dashboard component"
-  parameters: [
-    "title": string = "Widget",
-    "height": number = 250,
-    "collapsible": boolean = true,
-    "theme": string = "light"
-  ]
-  fillColor: "#ffffff"
-  padding: 15
-  shadow: true
-  collapseButtonVisible: true
+diagram "Template Parameters" {
+  template "dashboard-widget" {
+    label: "Dashboard Widget"
+    description: "Configurable dashboard component"
+    parameters: [
+      "title": string = "Widget",
+      "height": number = 250,
+      "collapsible": boolean = true,
+      "theme": string = "light"
+    ]
+    fillColor: "#ffffff"
+    padding: 15
+    shadow: true
+    collapseButtonVisible: true
+  }
 }
 ```
 
@@ -137,11 +145,13 @@ template "dashboard-widget" {
 Inline properties override template defaults:
 
 ```runiq
-container "Custom Service" templateId: "microservice"
-  fillColor: "#f3e5f5"
-  strokeColor: "#9c27b0"
-{
-  shape custom as @server label: "Custom API"
+diagram "Template Overrides" {
+  container "Custom Service" templateId: "microservice"
+    fillColor: "#f3e5f5"
+    strokeColor: "#9c27b0"
+  {
+    shape custom as @server label: "Custom API"
+  }
 }
 ```
 
@@ -154,28 +164,30 @@ container "Custom Service" templateId: "microservice"
 Presets define named style collections:
 
 ```runiq
-preset "card" {
-  label: "Card Style"
-  fillColor: "#ffffff"
-  strokeColor: "#dee2e6"
-  strokeWidth: 1
-  padding: 15
-  shadow: true
-}
+diagram "Presets" {
+  preset "card" {
+    label: "Card Style"
+    fillColor: "#ffffff"
+    strokeColor: "#dee2e6"
+    strokeWidth: 1
+    padding: 15
+    shadow: true
+  }
 
-preset "highlighted" {
-  label: "Highlighted Section"
-  fillColor: "#fff3cd"
-  strokeColor: "#ffc107"
-  strokeWidth: 2
-}
+  preset "highlighted" {
+    label: "Highlighted Section"
+    fillColor: "#fff3cd"
+    strokeColor: "#ffc107"
+    strokeWidth: 2
+  }
 
-preset "panel" {
-  label: "Panel Style"
-  fillColor: "#f8f9fa"
-  strokeColor: "#6c757d"
-  padding: 20
-  shadow: false
+  preset "panel" {
+    label: "Panel Style"
+    fillColor: "#f8f9fa"
+    strokeColor: "#6c757d"
+    padding: 20
+    shadow: false
+  }
 }
 ```
 
@@ -189,12 +201,14 @@ preset "panel" {
 Apply presets with `preset:`:
 
 ```runiq
-container "Important" preset: "highlighted" {
-  shape alert as @rhombus label: "Critical Alert"
-}
+diagram "Using Presets" {
+  container "Important" preset: "highlighted" {
+    shape alert as @rhombus label: "Critical Alert"
+  }
 
-container "Standard" preset: "panel" {
-  shape data as @rectangle label: "Data"
+  container "Standard" preset: "panel" {
+    shape data as @rectangle label: "Data"
+  }
 }
 ```
 
@@ -217,10 +231,12 @@ Runiq provides common presets:
 Inline properties override preset styles:
 
 ```runiq
-container "Custom Card" preset: "card"
-  fillColor: "#e3f2fd"
-{
-  shape content as @rectangle label: "Content"
+diagram "Preset Overrides" {
+  container "Custom Card" preset: "card"
+    fillColor: "#e3f2fd"
+  {
+    shape content as @rectangle label: "Content"
+  }
 }
 ```
 
@@ -233,21 +249,21 @@ container "Custom Card" preset: "card"
 Inherit properties from another container using `extends`:
 
 ```runiq
-diagram "Inheritance Example"
+diagram "Inheritance Example" {
+  container "Base"
+    fillColor: "#f0f0f0"
+    strokeColor: "#999"
+    padding: 20
+  {
+    shape base as @rectangle label: "Base Component"
+  }
 
-container "Base"
-  fillColor: "#f0f0f0"
-  strokeColor: "#999"
-  padding: 20
-{
-  shape base as @rectangle label: "Base Component"
-}
-
-container "Derived"
-  extends: "Base"
-  strokeColor: "#2196f3"
-{
-  shape derived as @rectangle label: "Derived Component"
+  container "Derived"
+    extends: "Base"
+    strokeColor: "#2196f3"
+  {
+    shape derived as @rectangle label: "Derived Component"
+  }
 }
 ```
 
@@ -258,16 +274,18 @@ container "Derived"
 The `extends` property references a container by its ID (the container name):
 
 ```runiq
-container "ServiceBase" {
-  shape common as @rectangle label: "Common"
-}
+diagram "Container Inheritance" {
+  container "ServiceBase" {
+    shape common as @rectangle label: "Common"
+  }
 
-container "AuthService" extends: "ServiceBase" {
-  shape auth as @rectangle label: "Auth"
-}
+  container "AuthService" extends: "ServiceBase" {
+    shape auth as @rectangle label: "Auth"
+  }
 
-container "PaymentService" extends: "ServiceBase" {
-  shape payment as @rectangle label: "Payment"
+  container "PaymentService" extends: "ServiceBase" {
+    shape payment as @rectangle label: "Payment"
+  }
 }
 ```
 
@@ -276,15 +294,17 @@ container "PaymentService" extends: "ServiceBase" {
 Containers can extend template definitions:
 
 ```runiq
-template "microservice" {
-  fillColor: "#e8f5e9"
-  padding: 20
-}
+diagram "Extending Templates" {
+  template "microservice" {
+    fillColor: "#e8f5e9"
+    padding: 20
+  }
 
-container "EnhancedService" extends: "microservice"
-  strokeColor: "#4caf50"
-{
-  shape api as @server label: "Enhanced API"
+  container "EnhancedService" extends: "microservice"
+    strokeColor: "#4caf50"
+  {
+    shape api as @server label: "Enhanced API"
+  }
 }
 ```
 
@@ -293,24 +313,26 @@ container "EnhancedService" extends: "microservice"
 Create inheritance chains:
 
 ```runiq
-container "Level1"
-  fillColor: "#f0f0f0"
-  padding: 10
-{
-  shape l1 as @rectangle label: "Level 1"
-}
+diagram "Multi-level Inheritance" {
+  container "Level1"
+    fillColor: "#f0f0f0"
+    padding: 10
+  {
+    shape l1 as @rectangle label: "Level 1"
+  }
 
-container "Level2" extends: "Level1"
-  padding: 15
-{
-  shape l2 as @rectangle label: "Level 2"
-}
+  container "Level2" extends: "Level1"
+    padding: 15
+  {
+    shape l2 as @rectangle label: "Level 2"
+  }
 
-container "Level3" extends: "Level2"
-  padding: 20
-  strokeColor: "#2196f3"
-{
-  shape l3 as @rectangle label: "Level 3"
+  container "Level3" extends: "Level2"
+    padding: 20
+    strokeColor: "#2196f3"
+  {
+    shape l3 as @rectangle label: "Level 3"
+  }
 }
 ```
 
@@ -327,18 +349,20 @@ When combining multiple style sources, precedence is:
 ### Template + Preset
 
 ```runiq
-template "service" {
-  fillColor: "#e8f5e9"
-  padding: 20
-}
+diagram "Template + Preset" {
+  template "service" {
+    fillColor: "#e8f5e9"
+    padding: 20
+  }
 
-preset "card" {
-  shadow: true
-  strokeWidth: 1
-}
+  preset "card" {
+    shadow: true
+    strokeWidth: 1
+  }
 
-container "MyService" templateId: "service" preset: "card" {
-  shape api as @server label: "API"
+  container "MyService" templateId: "service" preset: "card" {
+    shape api as @server label: "API"
+  }
 }
 ```
 
@@ -352,18 +376,20 @@ container "MyService" templateId: "service" preset: "card" {
 ### Template + Inheritance
 
 ```runiq
-template "base-service" {
-  fillColor: "#f0f0f0"
-  padding: 15
-}
+diagram "Template + Inheritance" {
+  template "base-service" {
+    fillColor: "#f0f0f0"
+    padding: 15
+  }
 
-container "Foundation" {
-  strokeColor: "#999"
-  shadow: false
-}
+  container "Foundation" {
+    strokeColor: "#999"
+    shadow: false
+  }
 
-container "Service" templateId: "base-service" extends: "Foundation" {
-  shape api as @server label: "API"
+  container "Service" templateId: "base-service" extends: "Foundation" {
+    shape api as @server label: "API"
+  }
 }
 ```
 
@@ -377,20 +403,22 @@ container "Service" templateId: "base-service" extends: "Foundation" {
 ### Preset + Inheritance
 
 ```runiq
-container "Base"
-  fillColor: "#f0f0f0"
-  padding: 20
-{
-  shape base as @rectangle label: "Base"
-}
+diagram "Preset + Inheritance" {
+  container "Base"
+    fillColor: "#f0f0f0"
+    padding: 20
+  {
+    shape base as @rectangle label: "Base"
+  }
 
-preset "highlighted" {
-  strokeColor: "#ffc107"
-  strokeWidth: 2
-}
+  preset "highlighted" {
+    strokeColor: "#ffc107"
+    strokeWidth: 2
+  }
 
-container "Derived" extends: "Base" preset: "highlighted" {
-  shape derived as @rectangle label: "Derived"
+  container "Derived" extends: "Base" preset: "highlighted" {
+    shape derived as @rectangle label: "Derived"
+  }
 }
 ```
 
@@ -404,29 +432,31 @@ container "Derived" extends: "Base" preset: "highlighted" {
 ### All Three Combined
 
 ```runiq
-template "service" {
-  fillColor: "#e3f2fd"
-  padding: 20
-}
+diagram "All Three Combined" {
+  template "service" {
+    fillColor: "#e3f2fd"
+    padding: 20
+  }
 
-preset "card" {
-  shadow: true
-  strokeWidth: 1
-}
+  preset "card" {
+    shadow: true
+    strokeWidth: 1
+  }
 
-container "Base"
-  strokeColor: "#999"
-{
-  shape base as @rectangle label: "Base"
-}
+  container "Base"
+    strokeColor: "#999"
+  {
+    shape base as @rectangle label: "Base"
+  }
 
-container "AdvancedService"
-  extends: "Base"
-  templateId: "service"
-  preset: "card"
-  padding: 25
-{
-  shape api as @server label: "API"
+  container "AdvancedService"
+    extends: "Base"
+    templateId: "service"
+    preset: "card"
+    padding: 25
+  {
+    shape api as @server label: "API"
+  }
 }
 ```
 
@@ -452,7 +482,7 @@ container "AdvancedService"
 ### Example 1: Themed Dashboard
 
 ```runiq
-diagram "Analytics Dashboard"
+diagram "Analytics Dashboard" {
 
 // Define templates
 template "widget" {
@@ -511,12 +541,13 @@ container "Performance Chart" templateId: "chart" preset: "primary" {
   shape memory as @lineChart label: "Memory"
   shape disk as @lineChart label: "Disk I/O"
 }
+}
 ```
 
 ### Example 2: Microservices Architecture
 
 ```runiq
-diagram "Microservices Platform"
+diagram "Microservices Platform" {
 
 // Service template
 template "microservice" {
@@ -586,12 +617,13 @@ gateway -> api1
 gateway -> api2
 api1 -> userdb
 api2 -> orderdb
+}
 ```
 
 ### Example 3: Inheritance Chain
 
 ```runiq
-diagram "Service Inheritance"
+diagram "Service Inheritance" {
 
 // Base service container
 container "BaseService"
@@ -624,12 +656,13 @@ container "AdminService" extends: "AuthenticatedService"
 // Connections
 base -> auth
 auth -> admin
+}
 ```
 
 ### Example 4: Multi-Template Dashboard
 
 ```runiq
-diagram "Operations Dashboard"
+diagram "Operations Dashboard" {
 
 // Widget template
 template "dashboard-widget" {
@@ -669,6 +702,8 @@ container "Dashboard" templateId: "dashboard-section" {
     shape warnings as @rhombus label: "Warnings: 7"
   }
 }
+
+}
 ```
 
 ## Template Best Practices
@@ -678,14 +713,16 @@ container "Dashboard" templateId: "dashboard-section" {
 **Use descriptive template names**:
 
 ```runiq
-// Good - Clear purpose
-template "microservice-container"
-template "dashboard-widget"
-template "data-table"
+diagram "Naming Conventions" {
+  // Good - Clear purpose
+  template "microservice-container" { padding: 20 }
+  template "dashboard-widget" { padding: 15 }
+  template "data-table" { padding: 10 }
 
-// Avoid - Too generic
-template "container1"
-template "template-a"
+  // Avoid - Too generic
+  template "container1" { padding: 10 }
+  template "template-a" { padding: 10 }
+}
 ```
 
 ### 2. Template Organization
@@ -693,15 +730,17 @@ template "template-a"
 **Group related templates**:
 
 ```runiq
-// Service templates
-template "api-service" { ... }
-template "worker-service" { ... }
-template "gateway-service" { ... }
+diagram "Template Organization" {
+  // Service templates
+  template "api-service" { padding: 20 }
+  template "worker-service" { padding: 20 }
+  template "gateway-service" { padding: 20 }
 
-// UI templates
-template "card-widget" { ... }
-template "panel-widget" { ... }
-template "modal-widget" { ... }
+  // UI templates
+  template "card-widget" { padding: 15 }
+  template "panel-widget" { padding: 20 }
+  template "modal-widget" { padding: 25 }
+}
 ```
 
 ### 3. Preset Theming
@@ -709,25 +748,27 @@ template "modal-widget" { ... }
 **Define consistent themes**:
 
 ```runiq
-// Color palette
-preset "primary" {
-  strokeColor: "#2196f3"
-  fillColor: "#e3f2fd"
-}
+diagram "Preset Theming" {
+  // Color palette
+  preset "primary" {
+    strokeColor: "#2196f3"
+    fillColor: "#e3f2fd"
+  }
 
-preset "secondary" {
-  strokeColor: "#6c757d"
-  fillColor: "#e9ecef"
-}
+  preset "secondary" {
+    strokeColor: "#6c757d"
+    fillColor: "#e9ecef"
+  }
 
-preset "success" {
-  strokeColor: "#4caf50"
-  fillColor: "#e8f5e9"
-}
+  preset "success" {
+    strokeColor: "#4caf50"
+    fillColor: "#e8f5e9"
+  }
 
-preset "danger" {
-  strokeColor: "#f44336"
-  fillColor: "#ffebee"
+  preset "danger" {
+    strokeColor: "#f44336"
+    fillColor: "#ffebee"
+  }
 }
 ```
 
@@ -736,25 +777,26 @@ preset "danger" {
 **Keep templates focused**:
 
 ```runiq
-// Good - Focused template
-template "service" {
-  fillColor: "#e3f2fd"
-  strokeColor: "#2196f3"
-  padding: 20
-}
+diagram "Minimal Templates" {
+  // Good - Focused template
+  template "service" {
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
+    padding: 20
+  }
 
-// Avoid - Too many properties
-template "everything" {
-  fillColor: "#e3f2fd"
-  strokeColor: "#2196f3"
-  padding: 20
-  margin: 10
-  shadow: true
-  strokeWidth: 2
-  borderStyle: "dashed"
-  collapseButtonVisible: true
-  resizable: true
-  // ... too many properties
+  // Avoid - Too many properties
+  template "everything" {
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
+    padding: 20
+    margin: 10
+    shadow: true
+    strokeWidth: 2
+    borderStyle: dashed
+    collapseButtonVisible: true
+    resizable: true
+  }
 }
 ```
 
@@ -763,14 +805,16 @@ template "everything" {
 **Use parameters for variations**:
 
 ```runiq
-template "sized-container" {
-  parameters: [
-    "width": number = 300,
-    "height": number = 200,
-    "padding": number = 15
-  ]
-  fillColor: "#ffffff"
-  strokeWidth: 1
+diagram "Template Parameters" {
+  template "sized-container" {
+    parameters: [
+      "width": number = 300,
+      "height": number = 200,
+      "padding": number = 15
+    ]
+    fillColor: "#ffffff"
+    strokeWidth: 1
+  }
 }
 ```
 
@@ -779,14 +823,16 @@ template "sized-container" {
 **Limit inheritance chains**:
 
 ```runiq
-// Good - 2-3 levels max
-container "Base" { ... }
-container "Level2" extends: "Base" { ... }
-container "Level3" extends: "Level2" { ... }
+diagram "Inheritance Depth" {
+  // Good - 2-3 levels max
+  container "Base" { }
+  container "Level2" extends: "Base" { }
+  container "Level3" extends: "Level2" { }
 
-// Avoid - Deep chains (hard to debug)
-container "Level5" extends: "Level4" { ... }
-container "Level6" extends: "Level5" { ... }
+  // Avoid - Deep chains (hard to debug)
+  container "Level5" extends: "Level4" { }
+  container "Level6" extends: "Level5" { }
+}
 ```
 
 ### 7. Documentation
@@ -794,14 +840,16 @@ container "Level6" extends: "Level5" { ... }
 **Document templates with labels and descriptions**:
 
 ```runiq
-template "microservice" {
-  label: "Microservice Container"
-  description: "Standard container for microservices with collapse and resize"
-  fillColor: "#e3f2fd"
-  strokeColor: "#2196f3"
-  padding: 20
-  collapseButtonVisible: true
-  resizable: true
+diagram "Template Documentation" {
+  template "microservice" {
+    label: "Microservice Container"
+    description: "Standard container for microservices with collapse and resize"
+    fillColor: "#e3f2fd"
+    strokeColor: "#2196f3"
+    padding: 20
+    collapseButtonVisible: true
+    resizable: true
+  }
 }
 ```
 

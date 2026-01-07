@@ -54,13 +54,13 @@ diagram "Pauli Gates" {
   direction LR
 
   shape q0 as @qubitWire label: "q0: |0⟩"
-  shape X as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape X as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
 
   shape q1 as @qubitWire label: "q1: |0⟩"
-  shape Y as @gateY label: "Y" fill: "#ffebee" strokeColor: "#000"
+  shape Y as @gateY label: "Y" fillColor: "#ffebee" strokeColor: "#000"
 
   shape q2 as @qubitWire label: "q2: |0⟩"
-  shape Z as @gateZ label: "Z" fill: "#ffebee" strokeColor: "#000"
+  shape Z as @gateZ label: "Z" fillColor: "#ffebee" strokeColor: "#000"
 
   q0 -> X
   q1 -> Y
@@ -83,7 +83,7 @@ diagram "Superposition with Hadamard" {
   direction LR
 
   shape q0 as @qubitWire label: "q0: |0⟩"
-  shape H as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
 
   q0 -> H
 
@@ -108,10 +108,10 @@ diagram "Phase Gates" {
   direction LR
 
   shape q0 as @qubitWire label: "q0: |+⟩"
-  shape S as @gateS label: "S" fill: "#e3f2fd" strokeColor: "#000"
+  shape S as @gateS label: "S" fillColor: "#e3f2fd" strokeColor: "#000"
 
   shape q1 as @qubitWire label: "q1: |+⟩"
-  shape T as @gateT label: "T" fill: "#e3f2fd" strokeColor: "#000"
+  shape T as @gateT label: "T" fillColor: "#e3f2fd" strokeColor: "#000"
 
   q0 -> S
   q1 -> T
@@ -137,8 +137,8 @@ diagram "CNOT Gate" {
   shape q0 as @qubitWire label: "q0: control"
   shape q1 as @qubitWire label: "q1: target"
 
-  shape control as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape control as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
 
   q0 -> control
   q1 -> target
@@ -163,8 +163,8 @@ diagram "SWAP Gate" {
   shape q0 as @qubitWire label: "q0: |ψ⟩"
   shape q1 as @qubitWire label: "q1: |φ⟩"
 
-  shape swap0 as @swapX label: "×" fill: "#fff" strokeColor: "#000"
-  shape swap1 as @swapX label: "×" fill: "#fff" strokeColor: "#000"
+  shape swap0 as @swapX label: "×" fillColor: "#fff" strokeColor: "#000"
+  shape swap1 as @swapX label: "×" fillColor: "#fff" strokeColor: "#000"
 
   q0 -> swap0
   q1 -> swap1
@@ -183,8 +183,8 @@ diagram "Controlled-Z Gate" {
   shape q0 as @qubitWire label: "q0: control"
   shape q1 as @qubitWire label: "q1: target"
 
-  shape control as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape Z as @gateZ label: "Z" fill: "#ffebee" strokeColor: "#000"
+  shape control as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape Z as @gateZ label: "Z" fillColor: "#ffebee" strokeColor: "#000"
 
   q0 -> control
   q1 -> Z
@@ -203,8 +203,8 @@ diagram "Measurement" {
   direction LR
 
   shape q0 as @qubitWire label: "q0: |+⟩"
-  shape H as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape M as @measurement label: "M" fill: "#e3f2fd" strokeColor: "#000"
+  shape H as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape M as @measurement label: "M" fillColor: "#e3f2fd" strokeColor: "#000"
 
   q0 -> H -> M
 
@@ -223,13 +223,13 @@ diagram "Circuit Barriers" {
   shape q0 as @qubitWire label: "q0"
   shape q1 as @qubitWire label: "q1"
 
-  shape H0 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape H1 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H0 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape H1 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
 
   shape barrier as @barrier label: "|"
 
-  shape X0 as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
-  shape X1 as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape X0 as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
+  shape X1 as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
 
   q0 -> H0 -> barrier -> X0
   q1 -> H1 -> barrier -> X1
@@ -250,11 +250,11 @@ diagram "Bell State |Φ+⟩" {
   shape q1 as @qubitWire label: "q1: |0⟩"
 
   # Step 1: Create superposition on q0
-  shape H as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
 
   # Step 2: Entangle q0 and q1
-  shape control as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape control as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
 
   q0 -> H -> control
   q1 -> target
@@ -282,23 +282,23 @@ diagram "Quantum Teleportation" {
   shape q2 as @qubitWire label: "q2: |0⟩ (Bob)"
 
   # Create EPR pair between q1 and q2
-  shape H1_prep as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape control1_prep as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target2_prep as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape H1_prep as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape control1_prep as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target2_prep as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
 
   # Alice entangles q0 with q1
-  shape control0 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target1 as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
-  shape H0 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape control0 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target1 as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
+  shape H0 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
 
   # Alice measures both qubits
-  shape M0 as @measurement label: "M0" fill: "#e3f2fd" strokeColor: "#000"
-  shape M1 as @measurement label: "M1" fill: "#e3f2fd" strokeColor: "#000"
+  shape M0 as @measurement label: "M0" fillColor: "#e3f2fd" strokeColor: "#000"
+  shape M1 as @measurement label: "M1" fillColor: "#e3f2fd" strokeColor: "#000"
 
   # Bob applies corrections based on measurements
   shape barrier1 as @barrier label: "|"
-  shape X2 as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
-  shape Z2 as @gateZ label: "Z" fill: "#ffebee" strokeColor: "#000"
+  shape X2 as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
+  shape Z2 as @gateZ label: "Z" fillColor: "#ffebee" strokeColor: "#000"
 
   # Circuit connections
   q0 -> control0 -> H0 -> M0
@@ -327,23 +327,23 @@ diagram "3-Qubit QFT" {
   shape q2 as @qubitWire label: "q2"
 
   # QFT on q0
-  shape H0 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape S01 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape R2_01 as @gateS label: "S" fill: "#e3f2fd" strokeColor: "#000"
-  shape T02 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape R3_02 as @gateT label: "T" fill: "#e3f2fd" strokeColor: "#000"
+  shape H0 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape S01 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape R2_01 as @gateS label: "S" fillColor: "#e3f2fd" strokeColor: "#000"
+  shape T02 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape R3_02 as @gateT label: "T" fillColor: "#e3f2fd" strokeColor: "#000"
 
   # QFT on q1
-  shape H1 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape S12 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape R2_12 as @gateS label: "S" fill: "#e3f2fd" strokeColor: "#000"
+  shape H1 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape S12 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape R2_12 as @gateS label: "S" fillColor: "#e3f2fd" strokeColor: "#000"
 
   # QFT on q2
-  shape H2 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H2 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
 
   # SWAP to reverse order
-  shape swap01_a as @swapX label: "×" fill: "#fff" strokeColor: "#000"
-  shape swap01_b as @swapX label: "×" fill: "#fff" strokeColor: "#000"
+  shape swap01_a as @swapX label: "×" fillColor: "#fff" strokeColor: "#000"
+  shape swap01_b as @swapX label: "×" fillColor: "#fff" strokeColor: "#000"
 
   q0 -> H0 -> S01 -> T02 -> swap01_a
   q1 -> R2_01 -> H1 -> S12
@@ -372,20 +372,20 @@ diagram "Grover Iteration" {
   shape oracle as @barrier label: "Oracle"
 
   # Step 2: Diffusion operator (amplifies marked state)
-  shape H0_diff as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape H1_diff as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H0_diff as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape H1_diff as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
 
-  shape X0_diff as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
-  shape X1_diff as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape X0_diff as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
+  shape X1_diff as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
 
-  shape control_diff as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target_diff as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape control_diff as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target_diff as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
 
-  shape X0_diff2 as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
-  shape X1_diff2 as @gateX label: "X" fill: "#ffebee" strokeColor: "#000"
+  shape X0_diff2 as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
+  shape X1_diff2 as @gateX label: "X" fillColor: "#ffebee" strokeColor: "#000"
 
-  shape H0_diff2 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
-  shape H1_diff2 as @gateH label: "H" fill: "#e8f5e9" strokeColor: "#000"
+  shape H0_diff2 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
+  shape H1_diff2 as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
 
   q0 -> oracle -> H0_diff -> X0_diff -> control_diff -> X0_diff2 -> H0_diff2
   q1 -> oracle -> H1_diff -> X1_diff -> target_diff -> X1_diff2 -> H1_diff2
@@ -410,21 +410,21 @@ diagram "3-Qubit Bit Flip Code" {
   shape q2 as @qubitWire label: "q2: |0⟩ (ancilla)"
 
   # Encoding
-  shape cnot01 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target1 as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape cnot01 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target1 as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
 
-  shape cnot02 as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target2 as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape cnot02 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target2 as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
 
   # Error channel (X error might occur)
   shape noise as @barrier label: "noise"
 
   # Decoding (majority vote)
-  shape cnot01_dec as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target1_dec as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape cnot01_dec as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target1_dec as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
 
-  shape cnot02_dec as @controlDot label: "●" fill: "#000" strokeColor: "#000"
-  shape target2_dec as @cnotTarget label: "⊕" fill: "#fff" strokeColor: "#000"
+  shape cnot02_dec as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape target2_dec as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
 
   q0 -> cnot01 -> cnot02 -> noise -> cnot01_dec -> cnot02_dec
   q1 -> target1 -> noise -> target1_dec

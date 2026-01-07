@@ -307,9 +307,9 @@ diagram "Styled Containers" {
 ```runiq
 diagram "Opacity" {
 
-  shape Solid as @rect label: "Solid" fill: "#2196f3" opacity: 1.0
-  shape Semi as @rect label: "Semi-Transparent" fill: "#e1f" opacity: 0.5
-  shape Light as @rect label: "Very Transparent" fill: "#2196f3" opacity: 0.2
+  shape Solid as @rect label: "Solid" fillColor: "#2196f3" opacity: 1.0
+  shape Semi as @rect label: "Semi-Transparent" fillColor: "#e1f" opacity: 0.5
+  shape Light as @rect label: "Very Transparent" fillColor: "#2196f3" opacity: 0.2
 }
 ```
 

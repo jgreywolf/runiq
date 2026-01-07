@@ -51,17 +51,19 @@ The SPICE exporter supports all passive and active components:
 Specify simulation analyses in your `.runiq` file:
 
 ```runiq
-profile electrical "RC Filter"
+electrical "RC Filter" {
+  net IN, OUT, GND
 
-# Components
-part V1 type:V source:"SIN(0 1 1k)" pins:(IN, GND)
-part R1 type:R value:10k pins:(IN, OUT)
-part C1 type:C value:1n pins:(OUT, GND)
+  # Components
+  part V1 type:V source:"SIN(0 1 1k)" pins:(IN, GND)
+  part R1 type:R value:10k pins:(IN, OUT)
+  part C1 type:C value:1n pins:(OUT, GND)
 
-# Analyses
-analysis tran args:"0 5m"           # Transient analysis (0 to 5ms)
-analysis ac args:"dec 10 1 100k"    # AC analysis (1Hz to 100kHz)
-analysis dc args:"V1 0 5 0.1"       # DC sweep (0V to 5V, 0.1V steps)
+  # Analyses
+  analysis tran "0 5m"            # Transient analysis (0 to 5ms)
+  analysis ac "dec 10 1 100k"     # AC analysis (1Hz to 100kHz)
+  analysis dc "V1 0 5 0.1"        # DC sweep (0V to 5V, 0.1V steps)
+}
 ```
 
 **Analysis Directives:**
@@ -165,25 +167,27 @@ SPICE standard suffixes are supported:
 ### Complete Example: Op-Amp Circuit
 
 ```runiq
-profile electrical "Inverting Amplifier"
+electrical "Inverting Amplifier" {
+  net IN, OUT, VINV, VCC, VEE, GND
 
-# Power supply
-part VCC type:V source:"DC 15" pins:(VCC, GND)
-part VEE type:V source:"DC -15" pins:(VEE, GND)
+  # Power supply
+  part VCC type:V source:"DC 15" pins:(VCC, GND)
+  part VEE type:V source:"DC -15" pins:(VEE, GND)
 
-# Input signal
-part VIN type:V source:"SIN(0 0.1 1k)" pins:(IN, GND)
+  # Input signal
+  part VIN type:V source:"SIN(0 0.1 1k)" pins:(IN, GND)
 
-# Feedback network
-part R1 type:R value:10k pins:(IN, VINV)
-part R2 type:R value:100k pins:(VINV, OUT)
+  # Feedback network
+  part R1 type:R value:10k pins:(IN, VINV)
+  part R2 type:R value:100k pins:(VINV, OUT)
 
-# Op-amp
-part U1 type:X model:"OPAMP" pins:(VINV, GND, VCC, VEE, OUT)
+  # Op-amp
+  part U1 type:X model:"OPAMP" pins:(VINV, GND, VCC, VEE, OUT)
 
-# Analysis
-analysis tran args:"0 2m"
-analysis ac args:"dec 10 1 100k"
+  # Analysis
+  analysis tran "0 2m"
+  analysis ac "dec 10 1 100k"
+}
 ```
 
 **Exported SPICE:**
@@ -302,12 +306,9 @@ interface VerilogResult {
 **Input (.runiq):**
 
 ```runiq
-profile digital "AND2"
-
-module AND2 {
-  port a dir:input
-  port b dir:input
-  port y dir:output
+digital "AND2" {
+  module AND2 ports:(a, b, y)
+  net a, b, y
 }
 ```
 
@@ -329,12 +330,9 @@ endmodule
 **Input (.runiq):**
 
 ```runiq
-profile digital "Register"
-
-module Register params:(WIDTH:8, RESET_VALUE:0) {
-  port clk dir:input
-  port d dir:input width:8
-  port q dir:output width:8
+digital "Register" {
+  module Register params:(WIDTH:8, RESET_VALUE:0) ports:(clk, d[7:0], q[7:0])
+  net clk, d[7:0], q[7:0]
 }
 ```
 
@@ -360,22 +358,16 @@ endmodule
 **Input (.runiq):**
 
 ```runiq
-profile digital "ALU4bit"
+digital "ALU4bit" {
+  module ALU4bit ports:(a[3:0], b[3:0], op[1:0], result[3:0])
 
-module ALU4bit {
-  port a dir:input width:4
-  port b dir:input width:4
-  port op dir:input width:2
-  port result dir:output width:4
+  # Internal nets
+  net a[3:0], b[3:0], op[1:0], result[3:0], add_result[3:0], sub_result[3:0]
+
+  # Instances
+  inst ADDER of:Adder4bit map:(a:a, b:b, sum:add_result)
+  inst MUX of:Mux4to1 params:(WIDTH:4) map:(sel:op, in0:add_result, in1:sub_result, out:result)
 }
-
-# Internal nets
-net add_result width:4
-net sub_result width:4
-
-# Instances
-instance ADDER of:Adder4bit ports:(a:a, b:b, sum:add_result)
-instance MUX of:Mux4to1 params:(WIDTH:4) ports:(sel:op, in0:add_result, in1:sub_result, out:result)
 ```
 
 **Output (.v):**
@@ -417,12 +409,9 @@ endmodule
 ```bash
 # Step 1: Create Runiq digital circuit
 cat > counter.runiq << 'EOF'
-profile digital "Counter4bit"
-
-module Counter4bit {
-  port clk dir:input
-  port reset dir:input
-  port count dir:output width:4
+digital "Counter4bit" {
+  module Counter4bit ports:(clk, reset, count[3:0])
+  net clk, reset, count[3:0]
 }
 EOF
 
@@ -611,27 +600,27 @@ The exporter automatically converts transfer functions to LaTeX fractions:
 **Input (.runiq):**
 
 ```runiq
-profile block-diagram "PID Controller"
+diagram "PID Controller" {
+  shape setpoint as @input label:"r(t)"
+  shape error as @compare-junction label:"+"
+  shape Kp as @gain label:"Kp"
+  shape Ki as @integrator label:"Ki/s"
+  shape Kd as @differentiator label:"Kd·s"
+  shape sum as @compare-junction label:"+"
+  shape plant as @transfer-fn label:"G(s) = 1/(s+1)"
+  shape output as @output label:"y(t)"
 
-node setpoint shape:input label:"r(t)"
-node error shape:compare-junction label:"+"
-node Kp shape:gain label:"Kp"
-node Ki shape:integrator label:"Ki/s"
-node Kd shape:differentiator label:"Kd·s"
-node sum shape:compare-junction label:"+"
-node plant shape:transfer-fn label:"G(s) = 1/(s+1)"
-node output shape:output label:"y(t)"
-
-edge setpoint -> error
-edge error -> Kp
-edge error -> Ki
-edge error -> Kd
-edge Kp -> sum
-edge Ki -> sum
-edge Kd -> sum
-edge sum -> plant
-edge plant -> output
-edge output -> error label:"-" style:dashed
+  setpoint -> error
+  error -> Kp
+  error -> Ki
+  error -> Kd
+  Kp -> sum
+  Ki -> sum
+  Kd -> sum
+  sum -> plant
+  plant -> output
+  output -> error label:"-" lineStyle:"dashed"
+}
 ```
 
 **Output (.tex):**
@@ -859,14 +848,14 @@ Example: $s^2 + 3s + 2$ → `[1 3 2]`
 **Input (.runiq):**
 
 ```runiq
-profile block-diagram "Second Order System"
+diagram "Second Order System" {
+  shape input as @input label:"r(t)"
+  shape plant as @transfer-fn label:"1/(s^2+2s+1)"
+  shape output as @output label:"y(t)"
 
-node input shape:input label:"r(t)"
-node plant shape:transfer-fn label:"1/(s^2+2s+1)"
-node output shape:output label:"y(t)"
-
-edge input -> plant
-edge plant -> output
+  input -> plant
+  plant -> output
+}
 ```
 
 **Output (.mdl):**
@@ -950,35 +939,36 @@ title('Step Response')
 **Input (.runiq):**
 
 ```runiq
-profile block-diagram "PID Controller"
+diagram "PID Controller" {
 
 # Reference input
-node ref shape:input label:"Setpoint"
+  shape ref as @input label:"Setpoint"
 
 # Controller
-node error shape:compare-junction label:"+"
-node Kp shape:gain label:"Kp=5"
-node Ki shape:integrator label:"Ki=2"
-node Kd shape:differentiator label:"Kd=0.5"
-node pid_sum shape:compare-junction label:"+"
+  shape error as @compare-junction label:"+"
+  shape Kp as @gain label:"Kp=5"
+  shape Ki as @integrator label:"Ki=2"
+  shape Kd as @differentiator label:"Kd=0.5"
+  shape pid_sum as @compare-junction label:"+"
 
 # Plant
-node plant shape:transfer-fn label:"1/(s^2+3s+2)"
+  shape plant as @transfer-fn label:"1/(s^2+3s+2)"
 
 # Output
-node output shape:output label:"Output"
+  shape output as @output label:"Output"
 
 # Connections
-edge ref -> error
-edge error -> Kp
-edge error -> Ki
-edge error -> Kd
-edge Kp -> pid_sum
-edge Ki -> pid_sum
-edge Kd -> pid_sum
-edge pid_sum -> plant
-edge plant -> output
-edge output -> error label:"-" style:dashed
+  ref -> error
+  error -> Kp
+  error -> Ki
+  error -> Kd
+  Kp -> pid_sum
+  Ki -> pid_sum
+  Kd -> pid_sum
+  pid_sum -> plant
+  plant -> output
+  output -> error label:"-" lineStyle:"dashed"
+}
 ```
 
 **Generated MDL:**

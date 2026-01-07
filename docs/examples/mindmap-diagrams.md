@@ -118,9 +118,9 @@ Educational knowledge map with styling (21 nodes).
 
 diagram "Learning JavaScript Roadmap" {
 
-  style highlight fill:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3
-  style level1 fill:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
-  style level2 fill:"#f3e5f5" strokeColor:"#7b1fa2"
+  style highlight fillColor:"#ffeb3b" strokeColor:"#f57c00" strokeWidth:3
+  style level1 fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:2
+  style level2 fillColor:"#f3e5f5" strokeColor:"#7b1fa2"
 
   container "LearningPath" type:mindmap algorithm:radial spacing:90 fillColor:"#fafafa" strokeColor:"#757575" strokeWidth:2 {
 
@@ -199,10 +199,10 @@ Strategic planning with mixed shapes for semantic meaning (21 nodes).
 
 diagram "Business Strategy 2025" {
 
-  style goal fill:"#4caf50" strokeColor:"#2e7d32" strokeWidth:3
-  style strategy fill:"#2196f3" strokeColor:"#1565c0" strokeWidth:2
-  style tactic fill:"#ff9800" strokeColor:"#e65100"
-  style metric fill:"#9c27b0" strokeColor:"#6a1b9a"
+  style goal fillColor:"#4caf50" strokeColor:"#2e7d32" strokeWidth:3
+  style strategy fillColor:"#2196f3" strokeColor:"#1565c0" strokeWidth:2
+  style tactic fillColor:"#ff9800" strokeColor:"#e65100"
+  style metric fillColor:"#9c27b0" strokeColor:"#6a1b9a"
 
   container "StrategyMap" type:mindmap algorithm:radial spacing:110 fillColor:"#eceff1" strokeColor:"#546e7a" strokeWidth:3 {
 

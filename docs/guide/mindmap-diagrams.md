@@ -281,19 +281,19 @@ Use concise labels (2-4 words) with meaningful naming:
 diagram "Strategic Planning" {
   container "Strategy" type:mindmap algorithm:radial spacing:120 {
 
-    shape goal as @circ label:"Expand Market" fill:"#4caf50"
+    shape goal as @circ label:"Expand Market" fillColor:"#4caf50"
 
     // Strategic pillars (hexagons)
-    shape strat1 as @hexagon label:"Product Innovation" fill:"#2196f3"
-    shape strat2 as @hexagon label:"Customer Service" fill:"#2196f3"
+    shape strat1 as @hexagon label:"Product Innovation" fillColor:"#2196f3"
+    shape strat2 as @hexagon label:"Customer Service" fillColor:"#2196f3"
 
     // Tactical actions (rounded)
-    shape tactic1 as @rounded label:"Launch Mobile App" fill:"#ff9800"
-    shape tactic2 as @rounded label:"24/7 Support" fill:"#ff9800"
+    shape tactic1 as @rounded label:"Launch Mobile App" fillColor:"#ff9800"
+    shape tactic2 as @rounded label:"24/7 Support" fillColor:"#ff9800"
 
     // Metrics (diamonds)
-    shape kpi1 as @rhombus label:"10k Users" fill:"#9c27b0"
-    shape kpi2 as @rhombus label:"95% CSAT" fill:"#9c27b0"
+    shape kpi1 as @rhombus label:"10k Users" fillColor:"#9c27b0"
+    shape kpi2 as @rhombus label:"95% CSAT" fillColor:"#9c27b0"
 
     goal -> strat1
     goal -> strat2

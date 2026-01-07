@@ -518,23 +518,23 @@ diagram "Styled BPMN Process" {
   direction TB
 
   container "Sales Process" as @bpmnPool
-    fill: "#e3f2fd"
+    fillColor: "#e3f2fd"
     strokeColor: "#1976d2"
     strokeWidth: 2
     borderStyle: dashed {
 
     shape start as @bpmnEvent label: "Start"
       data: [{"eventType": "start"}]
-      fill: "#4caf50"
+      fillColor: "#4caf50"
 
     shape task as @bpmnTask label: "Process Lead"
-      fill: "#fff9c4"
+      fillColor: "#fff9c4"
       strokeColor: "#f57c00"
       strokeWidth: 2
 
     shape end as @bpmnEvent label: "End"
       data: [{"eventType": "end"}]
-      fill: "#f44336"
+      fillColor: "#f44336"
 
     start -> task
     task -> end

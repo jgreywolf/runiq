@@ -27,14 +27,14 @@ diagram "My Architecture" {
 
 - `runiq` (default - official brand), `professional`, `forest`, `sunset`, `ocean`, `monochrome`, `colorful`, `vibrant`, `warm`, `cool`
 
-Themes work with all profile types: `diagram`, `sequence`, `timeline`, and `glyphset`.
+Themes are supported in the `diagram` profile. The `glyphset` profile supports a `theme` parameter.
 
 See [Themes Guide](guide/themes.md) for complete theme documentation and examples.
 
 ### 2. Direction
 
 ```runiq
-direction LR  // or RL, TB, BT (no space before colon)
+direction LR  // or RL, TB, BT
 ```
 
 ### 3. Style Declarations
@@ -43,7 +43,7 @@ direction LR  // or RL, TB, BT (no space before colon)
 style name property: "value" property: number
 ```
 
-**IMPORTANT**: Style properties have **SPACE before colon** and **quoted string values**
+**IMPORTANT**: Style keys end with `:` (e.g. `fillColor:`). Values can be strings, numbers, or IDs.
 
 Examples:
 
@@ -113,7 +113,7 @@ source -> target label: "labeltext"
 **Edge with properties**:
 
 ```runiq
-source -> target lineStyle:solid arrowType:none
+source -> target lineStyle:"solid" arrowType:none
 ```
 
 **UML Class Diagram Relationships** (NEW! 🎉):
@@ -169,7 +169,7 @@ Customer -> Order
 
 #### Edge Properties (no space before colon)
 
-- `lineStyle:solid` (or dashed, dotted)
+- `lineStyle:"solid"` (or "dashed", "dotted")
 - `arrowType:standard` (or hollow, open, none)
 - `stereotype:"<<include>>"` (UML stereotypes)
 - `edgeType:association` (or aggregation, composition, dependency, generalization, realization)
@@ -313,7 +313,7 @@ diagram "Name"
   shape x as @rect label:"X"
 
 // Spaces in style properties
-style default fill:#color strokeColor:#color
+style default fill:"#color" strokeColor:"#color"
 
 // Space before colon in node properties
 shape x as @rect label: "X"

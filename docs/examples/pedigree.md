@@ -123,7 +123,7 @@ diagram "Consanguinity" {
   shape child as @pedigreeMale label:"Child" affected:true
 
   # Consanguineous marriage (double line, no arrow)
-  cousin1 -> cousin2 lineStyle:double arrowType:none
+  cousin1 -> cousin2 lineStyle:"double" arrowType:none
 
   # Parent-child
   cousin1 -> child
@@ -132,7 +132,7 @@ diagram "Consanguinity" {
 ```
 
 **Double Line Notation:**
-The `lineStyle:double` property creates parallel lines 6px apart, the standard symbol for consanguineous (blood-related) marriages. This is important in genetics for tracking increased risk of recessive conditions.
+The `lineStyle:"double"` property creates parallel lines 6px apart, the standard symbol for consanguineous (blood-related) marriages. This is important in genetics for tracking increased risk of recessive conditions.
 
 ## Multiple Marriages
 
@@ -297,16 +297,16 @@ While Runiq doesn't auto-generate legends, include explanatory comments:
 
 Runiq's pedigree implementation follows standard medical genetics notation:
 
-| Symbol                   | Meaning       | Runiq Syntax                      |
-| ------------------------ | ------------- | --------------------------------- |
-| □ (square)               | Male          | `@pedigreeMale`                   |
-| ○ (circle)               | Female        | `@pedigreeFemale`                 |
-| ◇ (diamond)              | Unknown sex   | `@pedigreeUnknown`                |
-| ■ (filled)               | Affected      | `affected:true`                   |
-| ▦ (half-filled)          | Carrier       | `carrier:true`                    |
-| ⌿ (diagonal line)        | Deceased      | `deceased:true`                   |
-| ─ (horizontal, no arrow) | Marriage      | `arrowType:none`                  |
-| ═ (double line)          | Consanguinity | `lineStyle:double arrowType:none` |
+| Symbol                   | Meaning       | Runiq Syntax                        |
+| ------------------------ | ------------- | ----------------------------------- |
+| □ (square)               | Male          | `@pedigreeMale`                     |
+| ○ (circle)               | Female        | `@pedigreeFemale`                   |
+| ◇ (diamond)              | Unknown sex   | `@pedigreeUnknown`                  |
+| ■ (filled)               | Affected      | `affected:true`                     |
+| ▦ (half-filled)          | Carrier       | `carrier:true`                      |
+| ⌿ (diagonal line)        | Deceased      | `deceased:true`                     |
+| ─ (horizontal, no arrow) | Marriage      | `arrowType:none`                    |
+| ═ (double line)          | Consanguinity | `lineStyle:"double" arrowType:none` |
 
 ## See Also
 

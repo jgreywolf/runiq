@@ -191,7 +191,8 @@ Force layouts reveal natural patterns:
 ### Force vs Layered
 
 ```runiq
-diagram "Layout Comparison" direction: LR {
+diagram "Layout Comparison" {
+  direction LR
   // Hierarchical (layered)
   container "Layered" direction: TB {
     shape a as @circle label:"A"

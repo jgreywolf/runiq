@@ -387,25 +387,19 @@ Themes provide defaults, but you can override specific colors:
 diagram "Mixed Styling" {
   theme ocean  // Base theme
 
-  shape important as @rect label:"Critical" fill:"#DC2626"  // Override with red
+  shape important as @rect label:"Critical" fillColor:"#DC2626"  // Override with red
   shape normal as @rect label:"Normal"  // Uses ocean theme color
-  shape info as @rect label:"Info" fill:"#3B82F6"  // Override with blue
+  shape info as @rect label:"Info" fillColor:"#3B82F6"  // Override with blue
 }
 ```
 
 ## Syntax Note
 
-Both quoted and unquoted theme names work for backwards compatibility:
+Theme names are unquoted keywords:
 
 ```runiq
-// Recommended (cleaner)
 diagram "My Diagram" {
   theme ocean
-}
-
-// Also works (backwards compatible)
-diagram "My Diagram" {
-  theme "ocean"
 }
 ```
 

@@ -102,14 +102,14 @@ wardley "Business Strategy" {
 
 ```runiq
 sequence "Authentication Flow" {
-  actor User
-  participant Auth
-  participant DB
+  participant "User" as actor
+  participant "Auth" as control
+  participant "DB" as database
 
-  User -> Auth: login(credentials)
-  Auth -> DB: validateUser()
-  DB --> Auth: userRecord
-  Auth --> User: authToken
+  message from:"User" to:"Auth" label:"login(credentials)" type:sync
+  message from:"Auth" to:"DB" label:"validateUser()" type:sync
+  message from:"DB" to:"Auth" label:"userRecord" type:return
+  message from:"Auth" to:"User" label:"authToken" type:return
 }
 ```
 
@@ -123,9 +123,13 @@ sequence "Authentication Flow" {
 
 ```runiq
 pneumatic "Air Compressor System" {
-  component C1 type: compressor
-  component V1 type: valve_3_2
-  pipe C1.out -> V1.in
+  net SUPPLY, EXHAUST, N1
+
+  pressure 6 bar operating
+  flowRate 800 L/min
+
+  part C1 type:compressor pins:(SUPPLY,N1)
+  part V1 type:valve_3_2 pins:(N1,EXHAUST)
 }
 ```
 
@@ -535,7 +539,7 @@ shape gauge as @gauge-circular label: "Speed" value: 75
 **Usage**:
 
 ```runiq
-shape box as @rectangle label: "Alert" color: "#ff0000"
+shape box as @rectangle label: "Alert" textColor: "#ff0000"
 period planning color: "#e0e7ff"
 ```
 
@@ -1090,7 +1094,7 @@ Remember that **node properties** have no space before the colon, while **style 
 
 ```runiq
 # Node properties - NO SPACE
-shape node as @rectangle label:"Text" color:"#ff0000"
+shape node as @rectangle label:"Text" textColor:"#ff0000"
 
 # Style properties - WITH SPACE
 style myStyle {

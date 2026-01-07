@@ -25,14 +25,14 @@ Glyphsets use a simple, declarative syntax:
 
 ```runiq
 glyphset <type> "<title>" {
-  theme "<theme-name>"
+  theme forest
   item "<content>"
   item "<content>"
   // ... more items
 }
 ```
 
-**Available themes:** `"forest"`, `"warm"`, `"cool"`, `"ocean"`, `"sunset"`
+**Available themes:** `forest`, `warm`, `cool`, `ocean`, `sunset`
 
 ## Categories
 

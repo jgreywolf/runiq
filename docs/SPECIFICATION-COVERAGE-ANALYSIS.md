@@ -612,7 +612,7 @@ BPMN 2.0 includes choreography diagrams showing message exchange without process
 3. **Relationship Styles** - ✅ Supported
    - Async: dashed lines
    - Sync: solid lines
-   - Already have `lineStyle: dashed`
+   - Already have `lineStyle: "dashed"`
 
 ### 3.2 C4 Recommendations:
 

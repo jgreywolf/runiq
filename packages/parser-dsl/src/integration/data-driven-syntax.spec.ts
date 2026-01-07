@@ -186,7 +186,7 @@ describe('Data-Driven Syntax', () => {
       const input = `
         diagram "test" {
           foreach "connections" from:edges {
-            \${item.from} -> \${item.to} label:\${item.type}
+            edge \${item.from} -> \${item.to} label:\${item.type}
           }
         }
       `;

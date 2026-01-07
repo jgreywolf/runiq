@@ -205,19 +205,19 @@ Swimlanes organize activities by role, department, or system component.
 diagram "Horizontal Swimlanes" {
   direction LR
 
-  container "Customer" fill: "#e3f2fd" {
+  container "Customer" fillColor: "#e3f2fd" {
     shape c1 as @initialState
     shape c2 as @activity label: "Place Order"
     shape c3 as @activity label: "Receive Confirmation"
     shape c4 as @activityFinal
   }
 
-  container "Sales" fill: "#fff3e0" {
+  container "Sales" fillColor: "#fff3e0" {
     shape s1 as @activity label: "Review Order"
     shape s2 as @activity label: "Approve Order"
   }
 
-  container "Warehouse" fill: "#e8f5e9" {
+  container "Warehouse" fillColor: "#e8f5e9" {
     shape w1 as @activity label: "Pick Items"
     shape w2 as @activity label: "Ship Order"
   }
@@ -241,21 +241,21 @@ For side-by-side comparisons, use `orientation: vertical`:
 diagram "Vertical Swimlanes" {
   direction TB
 
-  container "Frontend Team" orientation: vertical fill: "#e3f2fd" {
+  container "Frontend Team" orientation: vertical fillColor: "#e3f2fd" {
     shape fe1 as @initialState
     shape fe2 as @activity label: "Design UI"
     shape fe3 as @activity label: "Implement"
     shape fe4 as @activity label: "Test"
   }
 
-  container "Backend Team" orientation: vertical fill: "#fff3e0" {
+  container "Backend Team" orientation: vertical fillColor: "#fff3e0" {
     shape be1 as @initialState
     shape be2 as @activity label: "Design API"
     shape be3 as @activity label: "Implement"
     shape be4 as @activity label: "Test"
   }
 
-  container "DevOps" orientation: vertical fill: "#e8f5e9" {
+  container "DevOps" orientation: vertical fillColor: "#e8f5e9" {
     shape ops1 as @activity label: "Deploy"
     shape ops2 as @activityFinal
   }
@@ -542,14 +542,14 @@ Customize appearance with fill colors, borders, and padding:
 
 ```runiq
 container "Production System"
-  fill: "#ffebee"
+  fillColor: "#ffebee"
   strokeColor: "#c62828"
   padding: 30 {
 
   shape criticalProcess as @activity
     label: "Critical Process"
-    fill: "#ef5350"
-    color: "white"
+    fillColor: "#ef5350"
+    textColor: "white"
 }
 ```
 

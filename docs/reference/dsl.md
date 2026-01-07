@@ -17,7 +17,7 @@ diagram "My Diagram" {
 Options:
 
 - direction TB | LR | BT | RL
-- title: optional string (used by renderers)
+- theme professional | forest | sunset | ocean | monochrome | colorful | vibrant | warm | cool | runiq
 
 ## Shapes
 
@@ -33,23 +33,23 @@ shape DB      as @cylinder   label:"Database"
 ## Edges
 
 ```runiq
-Start -> Action : begins
+Start -> Action label:"begins"
 Action -> Decide
-Decide -yes-> DB : write
-Decide[no]  -> Note : warn
+Decide -> DB label:"yes"
+Decide -> Note label:"no"
 ```
 
 Edge adornments:
 
-- Labels: `: text`
-- Branches: `[yes]`, `[no]`, or custom `[label]`
+- Labels: `label:"text"`
+- Anchor exits/entries (optional): `A -east-> B`, `A -north->south B`
 - Styles via named styles or direct style on edge (see Styles)
 
 ## Styles
 
 ```runiq
-style default fill:#f7f7ff strokeColor:#444
-style decision fill:#fff7e6 strokeColor:#aa7700
+style default fill:"#f7f7ff" strokeColor:"#444"
+style decision fill:"#fff7e6" strokeColor:"#aa7700"
 
 shape Decide as @rhombus label:"OK?" style:decision
 ```
@@ -59,14 +59,13 @@ Supported style keys vary by renderer; common keys include `fill`, `stroke`, `st
 ## Containers
 
 ```runiq
-container System {
-  children: [Web, API]
+diagram "Containers" {
+  container "System" {
+    shape Web as @rect label:"Web"
+    shape API as @rect label:"API"
+    Web -> API
+  }
 }
-
-shape Web as @rect label:"Web"
-shape API as @rect label:"API"
-
-Web -> API
 ```
 
 Nested containers are supported. See the Containers guide for layout details.
@@ -74,7 +73,7 @@ Nested containers are supported. See the Containers guide for layout details.
 ## Electrical profile
 
 ```runiq
-electrical"LED Circuit" {
+electrical "LED Circuit" {
   net VCC, GND, N1
 
   part V1 type:V value:"5V" pins:(VCC,GND)
@@ -116,7 +115,7 @@ diagram "Auth Flow" {
 ### Electrical (analog)
 
 ```runiq
-electrical"Voltage Divider" {
+electrical "Voltage Divider" {
   net VCC, VOUT, GND
 
   part V1 type:V value:"12V" pins:(VCC,GND)

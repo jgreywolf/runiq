@@ -303,13 +303,13 @@ LoopBlock:
 
 ```runiq
 diagram "Sales by Region" {
-  data sales from:"sales-data.json"
+  datasource "json" key:sales from:"sales-data.json"
 
-  template "region-nodes" from:sales {
-    for region in ${regions} {
-      shape ${region.id} as @rectangle
-        label:"${region.name}\n$${region.revenue}"
-        fill:${region.color}
+  foreach "region-nodes" from:sales {
+    for region in ${item.regions} {
+      node ${region.id} shape:rect
+        label:"${region.name} ($${region.revenue})"
+        fillColor:"${region.color}"
     }
   }
 }
@@ -319,6 +319,7 @@ diagram "Sales by Region" {
 
 ```runiq
 diagram "Revenue Distribution" {
+  # NOTE: Planned/pseudocode. This specific pie-chart syntax is not part of the current DSL.
   data sales from:"sales-data.json"
 
   shape pie as @pie-chart

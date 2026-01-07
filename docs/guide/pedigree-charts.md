@@ -93,10 +93,10 @@ husband -> wife arrowType:none
 
 ### Consanguineous Marriage
 
-Use `lineStyle:double` for blood-related spouses (e.g., cousins):
+Use `lineStyle:"double"` for blood-related spouses (e.g., cousins):
 
 ```runiq
-cousin1 -> cousin2 lineStyle:double arrowType:none
+cousin1 -> cousin2 lineStyle:"double" arrowType:none
 ```
 
 ### Parent-Child Relationships
