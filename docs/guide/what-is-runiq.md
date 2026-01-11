@@ -77,7 +77,7 @@ Runiq uses the **Eclipse Layout Kernel (ELK)** with 5 algorithms:
 
 ### 4. Rich Shape Library
 
-**142+ shapes** across 17 categories:
+**176 shapes** across 17 categories:
 
 - **Actors** (8) - User representations for use case diagrams
 - **Circles** (10) - Various circle styles and sizes
@@ -313,7 +313,7 @@ Runiq is built as a **monorepo** with modular packages:
 | **Layout Engine**         | ELK (5 algorithms)                 | Dagre/ELK       | GraphViz          | Built-in      | Custom        | Manual + Auto    |
 | **Version Control**       | ✅ Text-based                      | ✅ Text-based   | ✅ Text-based     | ✅ Text-based | ✅ Text-based | ⚠️ XML binary    |
 | **Glyphsets/SmartArt**    | ✅ 60+ templates                   | ❌              | ❌                | ❌            | ❌            | ⚠️ Limited       |
-| **Shape Library**         | ✅ 142+ shapes                     | ⚠️ ~30 shapes   | ⚠️ ~50 shapes     | ⚠️ Basic      | ⚠️ ~40 shapes | ✅ Thousands     |
+| **Shape Library**         | ✅ 176 shapes                     | ⚠️ ~30 shapes   | ⚠️ ~50 shapes     | ⚠️ Basic      | ⚠️ ~40 shapes | ✅ Thousands     |
 | **Containers**            | ✅ Full support                    | ⚠️ Limited      | ✅ Subgraphs      | ⚠️ Limited    | ✅ Yes        | ✅ Full          |
 | **UML Support**           | ✅ Most types                      | ✅ Most types   | ✅ Full UML suite | ❌            | ⚠️ Basic      | ✅ Via templates |
 | **Flowcharts**            | ✅ ISO 5807                        | ✅ Yes          | ✅ Yes            | ✅ Yes        | ✅ Yes        | ✅ Full          |
@@ -353,7 +353,7 @@ Runiq is built as a **monorepo** with modular packages:
 | **Version Control**     | ✅ Native Git                        | ❌ Manual     | ⚠️ Built-in   | ⚠️ Built-in   | ⚠️ Cloud    | ⚠️ Cloud      |
 | **Offline Mode**        | ✅ Full                              | ✅ Desktop    | ❌ Web only   | ⚠️ Limited    | ❌ Web only | ❌ Web only   |
 | **Automation**          | ✅ CLI + SDK                         | ⚠️ VBA        | ⚠️ API        | ⚠️ API        | ⚠️ Limited  | ⚠️ API        |
-| **Shape Library**       | ✅ 142+ shapes                       | ✅ Thousands  | ✅ Thousands  | ✅ Thousands  | ✅ Hundreds | ✅ Thousands  |
+| **Shape Library**       | ✅ 176 shapes                       | ✅ Thousands  | ✅ Thousands  | ✅ Thousands  | ✅ Hundreds | ✅ Thousands  |
 | **Templates**           | ✅ 60+ glyphsets                     | ✅ Hundreds   | ✅ Hundreds   | ✅ Hundreds   | ✅ Dozens   | ✅ Hundreds   |
 | **UML**                 | ✅ 6 types                           | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Full     | ✅ Full       |
 | **BPMN**                | ✅ Yes                               | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Yes      | ✅ Yes        |
@@ -410,3 +410,6 @@ Runiq is built as a **monorepo** with modular packages:
 ::: tip Future Integration
 The documentation site currently uses VitePress for speed and simplicity. In the future, we plan to integrate the **SvelteKit editor** for live, interactive diagram editing directly in the docs. Stay tuned!
 :::
+
+
+

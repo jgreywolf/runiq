@@ -137,12 +137,12 @@ diagram "CNOT Gate" {
   shape q0 as @qubitWire label: "q0: control"
   shape q1 as @qubitWire label: "q1: target"
 
-  shape control as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
-  shape target as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
+  shape ctrl0 as @controlDot label: "control" fillColor: "#000" strokeColor: "#000"
+  shape tgt0 as @cnotTarget label: "target" fillColor: "#fff" strokeColor: "#000"
 
-  q0 -> control
-  q1 -> target
-  control -> target
+  q0 -> ctrl0
+  q1 -> tgt0
+  ctrl0 -> tgt0
 }
 ```
 
@@ -183,12 +183,12 @@ diagram "Controlled-Z Gate" {
   shape q0 as @qubitWire label: "q0: control"
   shape q1 as @qubitWire label: "q1: target"
 
-  shape control as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
+  shape ctrlZ as @controlDot label: "control" fillColor: "#000" strokeColor: "#000"
   shape Z as @gateZ label: "Z" fillColor: "#ffebee" strokeColor: "#000"
 
-  q0 -> control
+  q0 -> ctrlZ
   q1 -> Z
-  control -> Z
+  ctrlZ -> Z
 }
 ```
 
@@ -243,24 +243,24 @@ diagram "Circuit Barriers" {
 Creates the simplest entangled state:
 
 ```runiq
-diagram "Bell State |Φ+⟩" {
+diagram "Bell State |Psi+>" {
   direction LR
 
-  shape q0 as @qubitWire label: "q0: |0⟩"
-  shape q1 as @qubitWire label: "q1: |0⟩"
+  shape q0 as @qubitWire label: "q0: |0>"
+  shape q1 as @qubitWire label: "q1: |0>"
 
   # Step 1: Create superposition on q0
   shape H as @gateH label: "H" fillColor: "#e8f5e9" strokeColor: "#000"
 
   # Step 2: Entangle q0 and q1
-  shape control as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
-  shape target as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
+  shape ctrl1 as @controlDot label: "control" fillColor: "#000" strokeColor: "#000"
+  shape tgt1 as @cnotTarget label: "target" fillColor: "#fff" strokeColor: "#000"
 
-  q0 -> H -> control
-  q1 -> target
-  control -> target
+  q0 -> H -> ctrl1
+  q1 -> tgt1
+  ctrl1 -> tgt1
 
-  # Result: |Φ+⟩ = (|00⟩ + |11⟩)/√2
+  # Result: |Psi+> = (|00> + |11>)/sqrt(2)
   # Measuring q0 determines q1 instantly (entanglement)
 }
 ```
@@ -405,35 +405,35 @@ Protects against X errors (bit flips):
 diagram "3-Qubit Bit Flip Code" {
   direction LR
 
-  shape q0 as @qubitWire label: "q0: |ψ⟩ (data)"
-  shape q1 as @qubitWire label: "q1: |0⟩ (ancilla)"
-  shape q2 as @qubitWire label: "q2: |0⟩ (ancilla)"
+  shape q0 as @qubitWire label: "q0: |Psi> (data)"
+  shape q1 as @qubitWire label: "q1: |0> (ancilla)"
+  shape q2 as @qubitWire label: "q2: |0> (ancilla)"
 
   # Encoding
-  shape cnot01 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
-  shape target1 as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
+  shape cnot01 as @controlDot label: "control" fillColor: "#000" strokeColor: "#000"
+  shape tgt1 as @cnotTarget label: "target" fillColor: "#fff" strokeColor: "#000"
 
-  shape cnot02 as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
-  shape target2 as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
+  shape cnot02 as @controlDot label: "control" fillColor: "#000" strokeColor: "#000"
+  shape tgt2 as @cnotTarget label: "target" fillColor: "#fff" strokeColor: "#000"
 
   # Error channel (X error might occur)
-  shape noise as @barrier label: "noise"
+  shape barrierNoise as @barrier label: "noise"
 
   # Decoding (majority vote)
-  shape cnot01_dec as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
-  shape target1_dec as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
+  shape cnot01_dec as @controlDot label: "control" fillColor: "#000" strokeColor: "#000"
+  shape tgt1_dec as @cnotTarget label: "target" fillColor: "#fff" strokeColor: "#000"
 
-  shape cnot02_dec as @controlDot label: "●" fillColor: "#000" strokeColor: "#000"
-  shape target2_dec as @cnotTarget label: "⊕" fillColor: "#fff" strokeColor: "#000"
+  shape cnot02_dec as @controlDot label: "control" fillColor: "#000" strokeColor: "#000"
+  shape tgt2_dec as @cnotTarget label: "target" fillColor: "#fff" strokeColor: "#000"
 
-  q0 -> cnot01 -> cnot02 -> noise -> cnot01_dec -> cnot02_dec
-  q1 -> target1 -> noise -> target1_dec
-  q2 -> target2 -> noise -> target2_dec
+  q0 -> cnot01 -> cnot02 -> barrierNoise -> cnot01_dec -> cnot02_dec
+  q1 -> tgt1 -> barrierNoise -> tgt1_dec
+  q2 -> tgt2 -> barrierNoise -> tgt2_dec
 
-  cnot01 -> target1
-  cnot02 -> target2
-  cnot01_dec -> target1_dec
-  cnot02_dec -> target2_dec
+  cnot01 -> tgt1
+  cnot02 -> tgt2
+  cnot01_dec -> tgt1_dec
+  cnot02_dec -> tgt2_dec
 }
 ```
 
@@ -508,3 +508,5 @@ diagram "3-Qubit Bit Flip Code" {
 - Check [C4 Architecture](/examples/c4-architecture) for system design and architecture diagrams
 - Explore [State Machine Diagrams](/examples/state-machines) for quantum protocol states
 - Browse the [examples/quantum-circuits](https://github.com/jgreywolf/Runiq/tree/main/examples/quantum-circuits) directory for more examples
+
+

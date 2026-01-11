@@ -10,27 +10,20 @@ Runiq supports embedding icons directly within label text using a simple, intuit
 
 ## Shape Compatibility
 
-::: tip Currently Supported Shapes (53 of 142 shapes)
-Inline icon support is currently available for:
-- ✅ **Basic shapes** (18): rectangle, circle, hexagon, rhombus, stadium, triangle, etc.
-- ✅ **Flowchart shapes** (13): document, delay, display, manual input, card, etc.
-- ✅ **Storage shapes** (7): cylinder, diskStorage, tapeStorage, etc.
-- ✅ **Network shapes** (6): cloud, server, router, switch, firewall, loadBalancer
-- ✅ **Rect-variants** (7): taggedRectangle, notchedRectangle, framedRectangle, etc.
-- ⏳ **UML shapes** (2 of ~50): actor, choice only
+::: tip Currently Supported Shapes (diagram profile)
+Inline icon support is available on shapes that render labels through the shared label renderer. In practice, this covers most diagram profile shapes such as:
+- **Basic shapes**: rectangle, circle, hexagon, rhombus, stadium, triangle, etc.
+- **Flowchart shapes**: document, delay, display, manual input, card, etc.
+- **Storage shapes**: cylinder, diskStorage, tapeStorage, etc.
+- **Network shapes**: cloud, server, router, switch, firewall, loadBalancer
+- **Rect-variants**: taggedRectangle, notchedRectangle, framedRectangle, etc.
 :::
 
 ::: warning Not Yet Supported
-Inline icons are not yet implemented for:
-- ❌ Most UML shapes (class, note, state, activity, interface, etc.)
-- ❌ Chart shapes (pieChart, barChart, lineChart, sankeyChart, etc.)
-- ❌ Control system shapes (transfer-fn, gain, integrator, etc.)
-- ❌ Specialized shapes (AWS, BPMN, quantum<!-- , pedigree -->)
-
-For these shapes, icons will not render. Use the corner `icon:` property instead (see below), or wait for future updates.
+Inline icons do not render on shapes that draw their own labels without the shared label renderer. If you see missing icons, use the corner `icon:` property instead (see below).
 :::
 
-**Rollout Status**: ~37% of shapes complete. Additional shapes are being updated progressively.
+**Rollout Status**: Coverage varies by shape family; corner icons always work.
 
 ## Quick Example
 
@@ -219,15 +212,15 @@ shape middle label: "Press fa:fa-keyboard to type"
 shape end label: "Learn more fa:fa-graduation"
 ```
 
-### Works with All Shapes
+### Works with All Shapes (Corner Icons)
 
-Inline icons work with any shape type:
+Corner icons (`icon:`) work with any shape type:
 
 ```runiq
-shape circle as @circle label: "fa:fa-globe World"
-shape rect as @rectangle label: "fa:fa-box Package"
-shape diamond as @rhombus label: "fa:fa-question Decision"
-shape stadium as @stadium label: "fa:fa-flag Finish"
+shape circle as @circle label: "World" icon:fa/globe
+shape rect as @rectangle label: "Package" icon:fa/box
+shape diamond as @rhombus label: "Decision" icon:fa/question
+shape stadium as @stadium label: "Finish" icon:fa/flag
 ```
 
 ## Combining with Traditional Icons
@@ -454,3 +447,4 @@ diagram "Order Flow" {
 :::tip Try It Out
 Visit the [Runiq Editor](https://editor.runiq.org) to experiment with inline icons in real-time!
 :::
+

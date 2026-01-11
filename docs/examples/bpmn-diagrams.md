@@ -9,30 +9,30 @@ Basic BPMN pool with start event, tasks, and end event.
 ### DSL Code
 
 ```runiq
-diagram "BPMN Pool Container Example"
+diagram "BPMN Pool Container Example" {
+  # Pool as a container with shapes inside
+  container pool1 "Customer" as @bpmnPool {
+    shape start as @bpmnEvent label:"Start" data:[{"eventType":"start"}]
+    shape task1 as @bpmnTask label:"Place Order"
+    shape task2 as @bpmnTask label:"Make Payment"
+    shape end as @bpmnEvent label:"End" data:[{"eventType":"end"}]
 
-# Pool as a container with shapes inside
-container pool1 "Customer" as @bpmnPool {
-  shape start as @bpmnEvent label:"Start" data:[{"eventType":"start"}]
-  shape task1 as @bpmnTask label:"Place Order"
-  shape task2 as @bpmnTask label:"Make Payment"
-  shape end as @bpmnEvent label:"End" data:[{"eventType":"end"}]
+    start -> task1
+    task1 -> task2
+    task2 -> end
+  }
 
-  start -> task1
-  task1 -> task2
-  task2 -> end
+  # Another pool
+  container pool2 "System" as @bpmnPool {
+    shape processOrder as @bpmnTask label:"Process Order"
+    shape notify as @bpmnTask label:"Send Confirmation"
+
+    processOrder -> notify
+  }
+
+  # Connection between pools - message flow
+  task1 -> processOrder label:"Order Data"
 }
-
-# Another pool
-container pool2 "System" as @bpmnPool {
-  shape process as @bpmnTask label:"Process Order"
-  shape notify as @bpmnTask label:"Send Confirmation"
-
-  process -> notify
-}
-
-# Connection between pools - message flow
-shape task1 -> process label:"Order Data"
 ```
 
 ### Key Features
@@ -58,52 +58,52 @@ Multi-department process with parallel lanes and decision gateways.
 ### DSL Code
 
 ```runiq
-diagram "Cross-Functional Order Process"
+diagram "Cross-Functional Order Process" {
+  direction TB
 
-direction TB
+  # Customer swimlane - places order
+  container customer "Customer" as @bpmnPool {
+    shape start as @bpmnEvent label:"Start" data:[{"eventType":"start"}]
+    shape orderTask as @bpmnTask label:"Place Order"
+    shape payTask as @bpmnTask label:"Make Payment"
+    shape receiveTask as @bpmnTask label:"Receive Order"
+    shape end as @bpmnEvent label:"End" data:[{"eventType":"end"}]
 
-# Customer swimlane - places order
-container customer "Customer" as @bpmnPool {
-  shape start as @bpmnEvent label:"Start" data:[{"eventType":"start"}]
-  shape orderTask as @bpmnTask label:"Place Order"
-  shape payTask as @bpmnTask label:"Make Payment"
-  shape receiveTask as @bpmnTask label:"Receive Order"
-  shape end as @bpmnEvent label:"End" data:[{"eventType":"end"}]
+    start -> orderTask
+    orderTask -> payTask
+    payTask -> receiveTask
+    receiveTask -> end
+  }
 
-  start -> orderTask
-  orderTask -> payTask
-  payTask -> receiveTask
-  receiveTask -> end
+  # Sales swimlane - processes order
+  container sales "Sales Department" as @bpmnPool {
+    shape reviewTask as @bpmnTask label:"Review Order"
+    shape approveGateway as @bpmnGateway label:"Approved?" data:[{"gatewayType":"exclusive"}]
+    shape confirmTask as @bpmnTask label:"Send Confirmation"
+    shape rejectTask as @bpmnTask label:"Reject Order"
+
+    reviewTask -> approveGateway
+    approveGateway -> confirmTask label:"Yes"
+    approveGateway -> rejectTask label:"No"
+  }
+
+  # Warehouse swimlane - fulfills order
+  container warehouse "Warehouse" as @bpmnPool {
+    shape pickTask as @bpmnTask label:"Pick Items"
+    shape packTask as @bpmnTask label:"Pack Order"
+    shape shipTask as @bpmnTask label:"Ship Order"
+
+    pickTask -> packTask
+    packTask -> shipTask
+  }
+
+  # Cross-lane connections showing handoffs
+  orderTask -> reviewTask label:"Order Info"
+  confirmTask -> payTask label:"Payment Request"
+  payTask -> pickTask label:"Fulfillment Request"
+  shipTask -> receiveTask label:"Shipment"
+  rejectTask -> end label:"Rejection Notice"
 }
-
-# Sales swimlane - processes order
-container sales "Sales Department" as @bpmnPool {
-  shape reviewTask as @bpmnTask label:"Review Order"
-  shape approveGateway as @bpmnGateway label:"Approved?" data:[{"gatewayType":"exclusive"}]
-  shape confirmTask as @bpmnTask label:"Send Confirmation"
-  shape rejectTask as @bpmnTask label:"Reject Order"
-
-  reviewTask -> approveGateway
-  approveGateway -> confirmTask label:"Yes"
-  approveGateway -> rejectTask label:"No"
-}
-
-# Warehouse swimlane - fulfills order
-container warehouse "Warehouse" as @bpmnPool {
-  shape pickTask as @bpmnTask label:"Pick Items"
-  shape packTask as @bpmnTask label:"Pack Order"
-  shape shipTask as @bpmnTask label:"Ship Order"
-
-  pickTask -> packTask
-  packTask -> shipTask
-}
-
-# Cross-lane connections showing handoffs
-orderTask -> reviewTask label:"Order Info"
-confirmTask -> payTask label:"Payment Request"
-payTask -> pickTask label:"Fulfillment Request"
-shipTask -> receiveTask label:"Shipment"
-rejectTask -> end label:"Rejection Notice"
 ```
 
 ### Key Features
@@ -459,7 +459,7 @@ diagram "BPMN Subprocess" {
   # Collapsed subprocess - shown as single box with +
   shape orderSubprocess as @bpmnTask
     label:"Order Processing\n[+]"
-    data:[{"subprocess": true, "expanded": false}]
+    data:[{"subprocess":"true", "expanded":"false"}]
 
   shape decision as @bpmnGateway
     label:"Success?"

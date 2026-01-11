@@ -52,7 +52,7 @@ diagram "Association Example" {
     attributes:[{name:"studentId" type:"int" visibility:private}]
     methods:[{name:"learn" returnType:"void" visibility:public}]
 
-  Teacher -> Student label:"teaches" multiplicity:"1..*"
+  Teacher -> Student label:"teaches" multiplicityTarget:"1..*"
 }
 ```
 
@@ -72,8 +72,8 @@ diagram "Inheritance Example" {
   shape Cat as @class label:"Cat"
     methods:[{name:"makeSound" returnType:"void" visibility:public}]
 
-  Dog -> Animal arrowType:inheritance
-  Cat -> Animal arrowType:inheritance
+  Dog -> Animal relationship: generalization
+  Cat -> Animal relationship: generalization
 }
 ```
 
@@ -95,7 +95,7 @@ diagram "Aggregation Example" {
       {name:"name" type:"string" visibility:private}
     ]
 
-  Department -> Employee arrowType:aggregation multiplicity:"1..*"
+  Department -> Employee relationship: aggregation multiplicityTarget:"1..*"
 }
 ```
 
@@ -117,7 +117,7 @@ diagram "Composition Example" {
       {name:"area" type:"double" visibility:private}
     ]
 
-  House -> Room arrowType:composition multiplicity:"1..*"
+  House -> Room relationship: composition multiplicityTarget:"1..*"
 }
 ```
 
@@ -143,8 +143,8 @@ diagram "Interface Example" {
     ]
     methods:[{name:"draw" returnType:"void" visibility:public}]
 
-  Circle -> Drawable arrowType:implementation
-  Rectangle -> Drawable arrowType:implementation
+  Circle -> Drawable relationship: realization
+  Rectangle -> Drawable relationship: realization
 }
 ```
 
@@ -168,9 +168,9 @@ diagram "Factory Pattern" {
   shape Square as @class label:"Square"
     methods:[{name:"draw" returnType:"void" visibility:public}]
 
-  ShapeFactory ..> Shape arrowType:dependency label:"creates"
-  Circle -> Shape arrowType:implementation
-  Square -> Shape arrowType:implementation
+  ShapeFactory -> Shape relationship: dependency lineStyle:"dashed" label:"creates"
+  Circle -> Shape relationship: realization
+  Square -> Shape relationship: realization
 }
 ```
 
@@ -192,8 +192,8 @@ diagram "Observer Pattern" {
   shape ConcreteObserver as @class label:"ConcreteObserver"
     methods:[{name:"update" returnType:"void" visibility:public}]
 
-  Subject -> Observer arrowType:dependency multiplicity:"*"
-  ConcreteObserver -> Observer arrowType:implementation
+  Subject -> Observer relationship: dependency multiplicityTarget:"*"
+  ConcreteObserver -> Observer relationship: realization
 }
 ```
 
@@ -245,9 +245,9 @@ diagram "E-Commerce Domain Model" {
     ]
 
   // Relationships
-  Customer -> Order multiplicity:"1..*"
-  Order -> OrderItem arrowType:composition multiplicity:"1..*"
-  OrderItem -> Product arrowType:aggregation
+  Customer -> Order relationship: association multiplicityTarget:"1..*"
+  Order -> OrderItem relationship: composition multiplicityTarget:"1..*"
+  OrderItem -> Product relationship: aggregation
 }
 ```
 
@@ -276,8 +276,8 @@ diagram "Generic Collections" {
       {name:"get" params:[{name:"index" type:"int"}] returnType:"T" visibility:public}
     ]
 
-  ArrayList -> List arrowType:implementation
-  LinkedList -> List arrowType:implementation
+  ArrayList -> List relationship: realization
+  LinkedList -> List relationship: realization
 }
 ```
 
@@ -319,10 +319,10 @@ diagram "Database Foreign Keys" {
 | Relationship | Arrow Type | Meaning | Example |
 |--------------|------------|---------|---------|
 | Association | `->` | General relationship | Teacher teaches Student |
-| Inheritance | `arrowType:inheritance` | "is-a" relationship | Dog is an Animal |
-| Implementation | `arrowType:implementation` | Implements interface | Circle implements Shape |
-| Aggregation | `arrowType:aggregation` | "has-a" (weak) | Department has Employees |
-| Composition | `arrowType:composition` | "owns-a" (strong) | House owns Rooms |
+| Inheritance | `relationship: generalization` | "is-a" relationship | Dog is an Animal |
+| Implementation | `relationship: realization` | Implements interface | Circle implements Shape |
+| Aggregation | `relationship: aggregation` | "has-a" (weak) | Department has Employees |
+| Composition | `relationship: composition` | "owns-a" (strong) | House owns Rooms |
 | Dependency | `..>` | Uses/depends on | Controller uses Service |
 
 ## Next Steps

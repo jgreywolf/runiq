@@ -92,7 +92,7 @@ diagram "UML Activity Diagram - Object Nodes" {
   shape orderQueue as @centralBuffer label: "Order Queue"
 
   # Data store - persistent storage
-  shape database as @dataStore label: "Order Database"
+  shape orderDb as @dataStore label: "Order Database"
   shape customerDb as @dataStore label: "Customer DB"
 
   # Control flow
@@ -114,7 +114,7 @@ diagram "UML Activity Diagram - Object Nodes" {
   orderData -> orderQueue label: "enqueue"
   orderQueue -> saveToDb label: "dequeue"
 
-  saveToDb -> database label: "store"
+  saveToDb -> orderDb label: "store"
   customerDb -> processOrder label: "read"
 }
 ```
@@ -145,7 +145,7 @@ Activities organized by responsible party or system.
 diagram "Order Fulfillment - Horizontal Swimlanes" {
   direction LR
 
-  container customer "Customer" as @swimlane direction:horizontal {
+  container customer "Customer" as @swimlane direction: LR {
     shape browseProducts as @activity label: "Browse Products"
     shape placeOrder as @activity label: "Place Order"
     shape receiveShipment as @activity label: "Receive Shipment"
@@ -153,7 +153,7 @@ diagram "Order Fulfillment - Horizontal Swimlanes" {
     browseProducts -> placeOrder
   }
 
-  container orderSystem "Order System" as @swimlane direction:horizontal {
+  container orderSystem "Order System" as @swimlane direction: LR {
     shape validateOrder as @activity label: "Validate Order"
     shape processPayment as @activity label: "Process Payment"
     shape createInvoice as @activity label: "Create Invoice"
@@ -162,7 +162,7 @@ diagram "Order Fulfillment - Horizontal Swimlanes" {
     processPayment -> createInvoice
   }
 
-  container warehouse "Warehouse" as @swimlane direction:horizontal {
+  container warehouse "Warehouse" as @swimlane direction: LR {
     shape pickItems as @activity label: "Pick Items"
     shape packOrder as @activity label: "Pack Order"
     shape shipOrder as @activity label: "Ship Order"
@@ -203,7 +203,7 @@ Release pipeline with vertical organization by team.
 diagram "CI/CD Release Pipeline" {
   direction TB
 
-  container devTeam "Development Team" as @swimlane direction:vertical {
+  container devTeam "Development Team" as @swimlane direction: TB {
     shape init as @initialState
     shape writeCode as @activity label: "Write Code"
     shape runLocalTests as @activity label: "Run Local Tests"
@@ -214,7 +214,7 @@ diagram "CI/CD Release Pipeline" {
     runLocalTests -> commitCode
   }
 
-  container ciServer "CI Server" as @swimlane direction:vertical {
+  container ciServer "CI Server" as @swimlane direction: TB {
     shape detectChange as @activity label: "Detect Change"
     shape runBuild as @activity label: "Run Build"
     shape runTests as @activity label: "Run Test Suite"
@@ -227,7 +227,7 @@ diagram "CI/CD Release Pipeline" {
     decision -> buildArtifact label: "[yes]"
   }
 
-  container qaTeam "QA Team" as @swimlane direction:vertical {
+  container qaTeam "QA Team" as @swimlane direction: TB {
     shape deployToQA as @activity label: "Deploy to QA"
     shape runE2ETests as @activity label: "Run E2E Tests"
     shape approveRelease as @activity label: "Approve Release"
@@ -236,7 +236,7 @@ diagram "CI/CD Release Pipeline" {
     runE2ETests -> approveRelease
   }
 
-  container opsTeam "Operations Team" as @swimlane direction:vertical {
+  container opsTeam "Operations Team" as @swimlane direction: TB {
     shape deployProduction as @activity label: "Deploy to Prod"
     shape monitorHealth as @activity label: "Monitor Health"
     shape final as @activityFinal

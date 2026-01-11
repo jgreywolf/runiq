@@ -9,18 +9,17 @@ Browse interactive examples organized by diagram type. Click any example to view
 ```runiq
 diagram "Banking System - System Context" {
   direction TB
-  spacing: 120
 
   // External actors
-  shape customer as @actor label: "Customer" description: "Bank customer"
-  shape admin as @actor label: "Admin Staff" description: "Bank employees"
+  shape customer as @actor label: "Customer"
+  shape admin as @actor label: "Admin Staff"
 
   // System
-  shape banking as @c4System label: "Internet Banking System" description: "Allows customers to view info and make transactions"
+  shape banking as @c4System label: "Internet Banking System"
 
   // External systems
-  shape mainframe as @c4System label: "Mainframe" description: "Stores customer accounts"
-  shape email as @c4System label: "Email System" description: "Sends emails to customers"
+  shape mainframe as @c4System label: "Mainframe"
+  shape email as @c4System label: "Email System"
 
   // Relationships
   customer -> banking label: "Views balances, makes payments"
@@ -94,26 +93,26 @@ diagram "User Authentication Flow" {
   direction TB
 
   shape start as @stadium label: "Start"
-  shape input as @input label: "Enter Credentials"
-  shape validate as @process label: "Validate Input"
+  shape inputNode as @parallelogram label: "Enter Credentials"
+  shape validateNode as @rectangle label: "Validate Input"
   shape checkFormat as @decision label: "Format Valid?"
-  shape authenticate as @process label: "Check Database"
+  shape authenticate as @rectangle label: "Check Database"
   shape checkAuth as @decision label: "Credentials Match?"
-  shape createSession as @process label: "Create Session"
-  shape sendError as @process label: "Send Error"
-  shape redirect as @process label: "Redirect to Dashboard"
+  shape createSession as @rectangle label: "Create Session"
+  shape sendError as @rectangle label: "Send Error"
+  shape redirect as @rectangle label: "Redirect to Dashboard"
   shape end as @stadium label: "End"
 
-  start -> input
-  input -> validate
-  validate -> checkFormat
+  start -> inputNode
+  inputNode -> validateNode
+  validateNode -> checkFormat
   checkFormat -yes-> authenticate
   checkFormat -no-> sendError
   authenticate -> checkAuth
   checkAuth -yes-> createSession
   checkAuth -no-> sendError
   createSession -> redirect
-  sendError -> input
+  sendError -> inputNode
   redirect -> end
 }
 ```
@@ -182,41 +181,41 @@ diagram "Dashboard Components" {
   direction TB
 
   // Define templates for reusable container styles
-  template: "widget" {
+  template "widget" {
     fillColor: "#ffffff"
     strokeColor: "#e0e0e0"
     padding: 16
   }
-  template: "panel" {
+  template "panel" {
     fillColor: "#f5f5f5"
     padding: 20
   }
-  container "Header" templateId:"panel" {
+  container "Header" templateId: "panel" {
     shape logo as @rect label: "Logo"
     shape nav as @rect label: "Navigation"
     shape user as @actor label: "User Menu"
   }
 
-  container "Main Content" templateId:"panel" {
-    container "Metrics" templateId:"widget" {
+  container "Main Content" templateId: "panel" {
+    container "Metrics" templateId: "widget" {
       shape revenue as @rect label: "Revenue: $125K"
       shape users as @rect label: "Active Users: 1,234"
       shape orders as @rect label: "Orders: 89"
     }
 
-    container "Charts" templateId:"widget" {
+    container "Charts" templateId: "widget" {
       shape sales as @rect label: "Sales Chart"
       shape traffic as @rect label: "Traffic Graph"
     }
 
-    container "Recent Activity" templateId:"widget" {
+    container "Recent Activity" templateId: "widget" {
       shape activity1 as @rect label: "User signup"
       shape activity2 as @rect label: "New order"
       shape activity3 as @rect label: "Payment received"
     }
   }
 
-  container "Footer" templateId:"panel" {
+  container "Footer" templateId: "panel" {
     shape copyright as @rect label: "© 2025"
     shape links as @rect label: "Links"
   }

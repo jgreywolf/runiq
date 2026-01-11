@@ -315,36 +315,16 @@ diagram "Order State Machine with Composite States" {
   
   shape initial as @initialState
   
-  // Composite state containing substates
-  shape processing as @compositeState 
-    label:"Processing Order" 
-    entry:"startOrderProcessing()" 
+  // Composite state (represented as a state with internal sequence)
+  shape processing as @compositeState
+    label:"Processing Order"
+    entry:"startOrderProcessing()"
     exit:"completeProcessing()"
-  
-  // Substates within Processing
-  container processingContainer within:processing {
-    shape subInitial as @initialState
-    
-    shape validating as @state 
-      label:"Validating" 
-      entry:"checkInventory()" 
-      exit:"saveValidation()"
-    
-    shape charging as @state 
-      label:"Charging Payment" 
-      entry:"authorizeCard()" 
-      exit:"savePayment()"
-    
-    shape preparing as @state 
-      label:"Preparing Shipment" 
-      entry:"generateLabel()" 
-      exit:"notifyWarehouse()"
-    
-    // Internal transitions
-    subInitial -> validating
-    validating -> charging label:"[valid]"
-    charging -> preparing label:"[charged]"
-  }
+
+  // Internal processing sequence (flat representation)
+  shape validating as @state label:"Validating" entry:"checkInventory()" exit:"saveValidation()"
+  shape charging as @state label:"Charging Payment" entry:"authorizeCard()" exit:"savePayment()"
+  shape preparing as @state label:"Preparing Shipment" entry:"generateLabel()" exit:"notifyWarehouse()"
   
   // Top-level states
   shape pending as @state 
@@ -369,7 +349,10 @@ diagram "Order State Machine with Composite States" {
   // Top-level transitions
   initial -> pending
   pending -> processing label:"paymentStarted"
-  processing -> shipped label:"processingComplete"
+  processing -> validating label:"startProcessing"
+  validating -> charging label:"[valid]"
+  charging -> preparing label:"[charged]"
+  preparing -> shipped label:"processingComplete"
   processing -> cancelled label:"paymentFailed"
   
   shipped -> delivered label:"delivered"
@@ -439,7 +422,7 @@ diagram "Media Player with History" {
     exit:"hidePauseIcon()"
   
   // History state - remembers last active state
-  shape history as @historyState label:"H"
+  shape hist as @historyShallow label:"H"
   
   // Volume adjustment composite state
   shape adjustingVolume as @compositeState 
@@ -454,12 +437,12 @@ diagram "Media Player with History" {
   paused -> stopped label:"stop"
   
   // History transition
-  stopped -> history label:"restoreLast"
+  stopped -> hist label:"restoreLast"
   
   // Volume adjustment from any state
   playing -> adjustingVolume label:"volumeButton"
   paused -> adjustingVolume label:"volumeButton"
-  adjustingVolume -> history label:"volumeAdjusted"
+  adjustingVolume -> hist label:"volumeAdjusted"
 }
 ```
 

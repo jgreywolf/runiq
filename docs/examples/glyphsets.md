@@ -24,11 +24,11 @@ Glyphsets are smart diagram layouts inspired by Microsoft PowerPoint's SmartArt 
 Glyphsets use a simple, declarative syntax:
 
 ```runiq
-glyphset <type> "<title>" {
+glyphset basicList "Example" {
   theme forest
-  item "<content>"
-  item "<content>"
-  // ... more items
+  item "First item"
+  item "Second item"
+  item "Third item"
 }
 ```
 
@@ -169,14 +169,18 @@ Organizational structures and nested relationships.
 Traditional org chart:
 
 ```runiq
-glyphset orgchart "Engineering Team" {
+glyphset orgChart "Engineering Team" {
+  person "CTO" {
+    person "VP Engineering" {
+      person "Engineering Manager" {
+        person "Tech Lead"
+        person "Senior Developer"
+        person "Developer"
+      }
+    }
+  }
+
   theme forest
-  item "CTO"
-  item "VP Engineering"
-  item "Engineering Manager"
-  item "Tech Lead"
-  item "Senior Developer"
-  item "Developer"
 }
 ```
 
@@ -199,12 +203,13 @@ glyphset pyramidList "Learning Pyramid" {
 Radial organization:
 
 ```runiq
-glyphset circle-hierarchy "Product Components" {
+glyphset circleHierarchy "Product Components" {
   theme forest
-  item "Core Platform"
-  item "Analytics Module"
-  item "Reporting Module"
-  item "Integration APIs"
+  root "Core Platform"
+  child "Analytics Module"
+  child "Reporting Module"
+  child "Integration APIs"
+  child "Security Layer"
 }
 ```
 
@@ -319,12 +324,12 @@ glyphset cluster "Product Features" {
 }
 ```
 
-#### Hub
+#### Hub (Cluster)
 
 Central node with spokes:
 
 ```runiq
-glyphset hub "API Gateway" {
+glyphset cluster "API Gateway" {
   theme forest
   item "Mobile App"
   item "Web App"
@@ -558,9 +563,9 @@ Mathematical or conceptual equations:
 ```runiq
 glyphset equation "Success Formula" {
   theme forest
-  item "Vision"
-  item "Execution"
-  item "Success"
+  input "Vision"
+  input "Execution"
+  output "Success"
 }
 ```
 
@@ -583,7 +588,7 @@ glyphset equationProcess "Product Development" {
 Table-like structure:
 
 ```runiq
-glyphset table-hierarchy "Feature Comparison" {
+glyphset tableHierarchy "Feature Comparison" {
   theme forest
   item "Feature A: Basic"
   item "Feature B: Standard"

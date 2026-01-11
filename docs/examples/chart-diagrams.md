@@ -20,12 +20,8 @@ Basic column chart for comparing values:
 diagram "Sales Performance" {
   shape sales as @barChart
     label:"Q4 Sales by Region"
-    data:[
-      {label:"North", value:450},
-      {label:"South", value:380},
-      {label:"East", value:520},
-      {label:"West", value:410}
-    ]
+    data:[450, 380, 520, 410]
+    labels:["North", "South", "East", "West"]
 }
 ```
 
@@ -38,12 +34,8 @@ diagram "Feature Adoption" {
   shape features as @barChart
     label:"Feature Usage"
     flipAxes:true
-    data:[
-      {label:"User Authentication", value:95},
-      {label:"Dashboard Analytics", value:78},
-      {label:"Export Reports", value:62},
-      {label:"Team Collaboration", value:45}
-    ]
+    data:[95, 78, 62, 45]
+    labels:["User Authentication", "Dashboard Analytics", "Export Reports", "Team Collaboration"]
 }
 ```
 
@@ -55,13 +47,20 @@ Compare multiple series side-by-side:
 diagram "Revenue Comparison" {
   shape revenue as @barChart
     label:"Revenue: Actual vs Target"
-    data:{
-      labels:["Q1", "Q2", "Q3", "Q4"],
-      series:[
-        {name:"Actual", values:[450, 520, 480, 610]},
-        {name:"Target", values:[400, 500, 550, 600]}
-      ]
-    }
+}
+```
+
+Multi-series charts are best driven from JSON data. Use the Data Panel in the editor or an external JSON file:
+
+```json
+{
+  "revenue": {
+    "labels": ["Q1", "Q2", "Q3", "Q4"],
+    "series": [
+      { "name": "Actual", "values": [450, 520, 480, 610] },
+      { "name": "Target", "values": [400, 500, 550, 600] }
+    ]
+  }
 }
 ```
 
@@ -73,15 +72,22 @@ Show part-to-whole relationships:
 diagram "Sales Breakdown" {
   shape breakdown as @barChart
     label:"Sales by Product Category"
-    stacked:true
-    data:{
-      labels:["Jan", "Feb", "Mar", "Apr"],
-      series:[
-        {name:"Electronics", values:[120, 140, 130, 150]},
-        {name:"Clothing", values:[80, 90, 85, 95]},
-        {name:"Home Goods", values:[60, 70, 75, 80]}
-      ]
-    }
+}
+```
+
+Stacked data is also provided via JSON:
+
+```json
+{
+  "breakdown": {
+    "stacked": true,
+    "labels": ["Jan", "Feb", "Mar", "Apr"],
+    "series": [
+      { "name": "Electronics", "values": [120, 140, 130, 150] },
+      { "name": "Clothing", "values": [80, 90, 85, 95] },
+      { "name": "Home Goods", "values": [60, 70, 75, 80] }
+    ]
+  }
 }
 ```
 
@@ -95,13 +101,8 @@ Pie charts show proportions and percentages.
 diagram "Market Share" {
   shape market as @pieChart
     label:"Browser Market Share"
-    data:[
-      {label:"Chrome", value:65},
-      {label:"Safari", value:19},
-      {label:"Firefox", value:8},
-      {label:"Edge", value:5},
-      {label:"Other", value:3}
-    ]
+    data:[65, 19, 8, 5, 3]
+    labels:["Chrome", "Safari", "Firefox", "Edge", "Other"]
 }
 ```
 
@@ -111,13 +112,9 @@ diagram "Market Share" {
 diagram "Budget Allocation" {
   shape budget as @pieChart
     label:"Annual Budget"
-    data:[
-      {label:"Engineering", value:450, fillColor:"#4299e1"},
-      {label:"Sales", value:280, fillColor:"#48bb78"},
-      {label:"Marketing", value:220, fillColor:"#ed8936"},
-      {label:"Operations", value:180, fillColor:"#9f7aea"},
-      {label:"Other", value:70, fillColor:"#a0aec0"}
-    ]
+    data:[450, 280, 220, 180, 70]
+    labels:["Engineering", "Sales", "Marketing", "Operations", "Other"]
+    colors:["#4299e1", "#48bb78", "#ed8936", "#9f7aea", "#a0aec0"]
 }
 ```
 
@@ -131,14 +128,8 @@ Line charts visualize trends and changes over time.
 diagram "User Growth" {
   shape growth as @lineChart
     label:"Monthly Active Users"
-    data:[
-      {label:"Jan", value:1200},
-      {label:"Feb", value:1450},
-      {label:"Mar", value:1380},
-      {label:"Apr", value:1620},
-      {label:"May", value:1890},
-      {label:"Jun", value:2100}
-    ]
+    data:[1200, 1450, 1380, 1620, 1890, 2100]
+    labels:["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
 }
 ```
 
@@ -150,14 +141,21 @@ Compare multiple metrics:
 diagram "Performance Metrics" {
   shape metrics as @lineChart
     label:"System Performance"
-    data:{
-      labels:["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
-      series:[
-        {name:"CPU %", values:[45, 38, 62, 78, 85, 52], fillColor:"#3b82f6"},
-        {name:"Memory %", values:[58, 55, 68, 72, 80, 65], fillColor:"#10b981"},
-        {name:"Disk %", values:[30, 28, 35, 42, 48, 38], fillColor:"#f59e0b"}
-      ]
-    }
+}
+```
+
+Multi-line data should be supplied via JSON:
+
+```json
+{
+  "metrics": {
+    "labels": ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
+    "series": [
+      { "name": "CPU %", "values": [45, 38, 62, 78, 85, 52], "color": "#3b82f6" },
+      { "name": "Memory %", "values": [58, 55, 68, 72, 80, 65], "color": "#10b981" },
+      { "name": "Disk %", "values": [30, 28, 35, 42, 48, 38], "color": "#f59e0b" }
+    ]
+  }
 }
 ```
 
@@ -182,20 +180,21 @@ diagram "Developer Skills" {
 diagram "Team Capabilities" {
   shape comparison as @radarChart
     label:"Development Team Skills"
-    data:{
-      axes:[
-        {label:"Frontend"},
-        {label:"Backend"},
-        {label:"DevOps"},
-        {label:"Testing"},
-        {label:"Database"}
-      ],
-      series:[
-        {label:"Team A", values:[85, 72, 68, 90, 75], fillColor:"#3b82f6"},
-        {label:"Team B", values:[70, 88, 82, 75, 85], fillColor:"#10b981"}
-      ]
-    }
-    showLegend:true
+}
+```
+
+Multi-series radar data should be provided via JSON:
+
+```json
+{
+  "comparison": {
+    "axes": ["Frontend", "Backend", "DevOps", "Testing", "Database"],
+    "series": [
+      { "label": "Team A", "values": [85, 72, 68, 90, 75], "color": "#3b82f6" },
+      { "label": "Team B", "values": [70, 88, 82, 75, 85], "color": "#10b981" }
+    ],
+    "showLegend": true
+  }
 }
 ```
 
@@ -209,19 +208,28 @@ Sankey diagrams visualize flows and connections between nodes.
 diagram "Website Traffic Flow" {
   shape traffic as @sankeyChart
     label:"User Journey"
-    nodes:[
-      {id:"homepage", label:"Homepage"},
-      {id:"products", label:"Products"},
-      {id:"cart", label:"Cart"},
-      {id:"checkout", label:"Checkout"},
-      {id:"complete", label:"Complete"}
+}
+```
+
+Provide Sankey data via JSON:
+
+```json
+{
+  "traffic": {
+    "nodes": [
+      { "id": "homepage", "label": "Homepage" },
+      { "id": "products", "label": "Products" },
+      { "id": "cart", "label": "Cart" },
+      { "id": "checkout", "label": "Checkout" },
+      { "id": "complete", "label": "Complete" }
+    ],
+    "links": [
+      { "source": "homepage", "target": "products", "value": 1000 },
+      { "source": "products", "target": "cart", "value": 450 },
+      { "source": "cart", "target": "checkout", "value": 280 },
+      { "source": "checkout", "target": "complete", "value": 220 }
     ]
-    flows:[
-      {from:"homepage", to:"products", value:1000},
-      {from:"products", to:"cart", value:450},
-      {from:"cart", to:"checkout", value:280},
-      {from:"checkout", to:"complete", value:220}
-    ]
+  }
 }
 ```
 
@@ -231,60 +239,43 @@ diagram "Website Traffic Flow" {
 diagram "Budget Flow" {
   shape budget as @sankeyChart
     label:"Budget Allocation"
-    nodes:[
-      {id:"revenue", label:"Total Revenue"},
-      {id:"eng", label:"Engineering"},
-      {id:"sales", label:"Sales"},
-      {id:"ops", label:"Operations"},
-      {id:"prod", label:"Product Dev"},
-      {id:"infra", label:"Infrastructure"}
+}
+```
+
+```json
+{
+  "budget": {
+    "nodes": [
+      { "id": "revenue", "label": "Total Revenue" },
+      { "id": "eng", "label": "Engineering" },
+      { "id": "sales", "label": "Sales" },
+      { "id": "ops", "label": "Operations" },
+      { "id": "prod", "label": "Product Dev" },
+      { "id": "infra", "label": "Infrastructure" }
+    ],
+    "links": [
+      { "source": "revenue", "target": "eng", "value": 450 },
+      { "source": "revenue", "target": "sales", "value": 280 },
+      { "source": "revenue", "target": "ops", "value": 180 },
+      { "source": "eng", "target": "prod", "value": 300 },
+      { "source": "eng", "target": "infra", "value": 150 }
     ]
-    flows:[
-      {from:"revenue", to:"eng", value:450},
-      {from:"revenue", to:"sales", value:280},
-      {from:"revenue", to:"ops", value:180},
-      {from:"eng", to:"prod", value:300},
-      {from:"eng", to:"infra", value:150}
-    ]
+  }
 }
 ```
 
 ## Chart DSL Syntax
 
-Runiq supports a chart-specific DSL for cleaner syntax:
+Runiq currently uses the standard diagram syntax for charts. For complex multi-series data, use JSON import.
 
-### Simple Bar Chart (DSL)
-
-```runiq
-chart bar "Quarterly Sales" {
-  data: [120, 150, 135, 180]
-  labels: ["Q1", "Q2", "Q3", "Q4"]
-  fillColor: "#4299e1"
-}
-```
-
-### Grouped Bar Chart (DSL)
+### Simple Bar Chart
 
 ```runiq
-chart bar "Revenue Comparison" {
-  labels: ["Jan", "Feb", "Mar", "Apr"]
-  series: [
-    {name: "2024", values: [120, 140, 130, 150], fillColor: "#3b82f6"},
-    {name: "2023", values: [100, 120, 115, 130], fillColor: "#10b981"}
-  ]
-}
-```
-
-### Pie Chart (DSL)
-
-```runiq
-chart pie "Market Share" {
-  data: [
-    {label: "Product A", value: 450},
-    {label: "Product B", value: 320},
-    {label: "Product C", value: 180}
-  ]
-  showPercentages: true
+diagram "Quarterly Sales" {
+  shape sales as @barChart
+    data:[120, 150, 135, 180]
+    labels:["Q1", "Q2", "Q3", "Q4"]
+    fillColor:"#4299e1"
 }
 ```
 
@@ -295,11 +286,9 @@ chart pie "Market Share" {
 ```runiq
 diagram "Custom Colors" {
   shape chart as @barChart
-    data:[
-      {label:"Category A", value:85, fillColor:"#4299e1"},
-      {label:"Category B", value:72, fillColor:"#48bb78"},
-      {label:"Category C", value:90, fillColor:"#ed8936"}
-    ]
+    data:[85, 72, 90]
+    labels:["Category A", "Category B", "Category C"]
+    colors:["#4299e1", "#48bb78", "#ed8936"]
 }
 ```
 
@@ -311,9 +300,6 @@ diagram "Styled Chart" {
     label:"Monthly Sales"
     data:[120, 145, 132, 168, 195, 210]
     labels:["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-    showGrid:true
-    gridColor:"#e2e8f0"
-    axisColor:"#4a5568"
 }
 ```
 

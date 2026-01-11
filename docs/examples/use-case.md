@@ -108,11 +108,11 @@ diagram "Advanced Banking System" {
 
 ```runiq
 diagram "Line Styles" {
-  shape actor as @actor label: "Actor"
+  shape actorNode as @actor label: "Actor"
   shape useCase1 as @ellipseWide label: "Use Case 1"
   shape useCase2 as @ellipseWide label: "Use Case 2"
 
-  actor -> useCase1
+  actorNode -> useCase1
   useCase1 -> useCase2 label: "<<include>>" lineStyle: "dashed" arrowType: open
   useCase2 -> useCase1 lineStyle: "dotted"
   useCase1 -> useCase2 strokeColor: "#4caf50" lineStyle: "dashed"

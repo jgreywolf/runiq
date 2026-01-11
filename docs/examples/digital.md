@@ -1,9 +1,9 @@
 # Digital Logic Examples
 
-Design digital circuits with Verilog HDL export for synthesis and simulation.
+Design digital circuits with gate-level schematics and Verilog HDL export for synthesis and simulation.
 
 ::: info Coming soon
-Rendered SVG visuals for the Digital profile are coming soon. The DSL snippets below are accurate, and parser support for `digital { ... }` modules is in progress. Once available, this page will include side-by-side rendered diagrams.
+Rendered SVG visuals for schematic profiles are coming soon. The DSL snippets below use the `electrical` profile for gate-level logic; see the [Digital Circuits Guide](/guide/digital-circuits) for `digital { ... }` module syntax.
 :::
 
 ## Half Adder
@@ -13,16 +13,11 @@ Basic combinational circuit that adds two single bits.
 ### DSL Code
 
 ```runiq
-digital "Half Adder" {
-  # Inputs
-  input A, B
+electrical "Half Adder" {
+  net A, B, SUM, CARRY
 
-  # Outputs
-  output SUM, CARRY
-
-  # Logic gates
-  gate U1 type:XOR inputs:(A,B) output:SUM
-  gate U2 type:AND inputs:(A,B) output:CARRY
+  part U1 type:XOR pins:(A,B,SUM)
+  part U2 type:AND pins:(A,B,CARRY)
 }
 ```
 
@@ -66,26 +61,15 @@ Adds three bits (two inputs plus carry-in).
 ### DSL Code
 
 ```runiq
-digital "Full Adder" {
-  # Inputs
-  input A, B, CIN
+electrical "Full Adder" {
+  net A, B, CIN, SUM, COUT
+  net SUM1, CARRY1, CARRY2
 
-  # Outputs
-  output SUM, COUT
-
-  # Internal nets
-  wire SUM1, CARRY1, CARRY2
-
-  # First half adder
-  gate U1 type:XOR inputs:(A,B) output:SUM1
-  gate U2 type:AND inputs:(A,B) output:CARRY1
-
-  # Second half adder
-  gate U3 type:XOR inputs:(SUM1,CIN) output:SUM
-  gate U4 type:AND inputs:(SUM1,CIN) output:CARRY2
-
-  # Carry out
-  gate U5 type:OR inputs:(CARRY1,CARRY2) output:COUT
+  part U1 type:XOR pins:(A,B,SUM1)
+  part U2 type:AND pins:(A,B,CARRY1)
+  part U3 type:XOR pins:(SUM1,CIN,SUM)
+  part U4 type:AND pins:(SUM1,CIN,CARRY2)
+  part U5 type:OR pins:(CARRY1,CARRY2,COUT)
 }
 ```
 
@@ -114,25 +98,14 @@ Selects one of two inputs based on a select signal.
 ### DSL Code
 
 ```runiq
-digital "2-to-1 Multiplexer" {
-  # Inputs
-  input D0, D1, SEL
+electrical "2-to-1 Multiplexer" {
+  net D0, D1, SEL, Y
+  net SEL_N, T0, T1
 
-  # Output
-  output Y
-
-  # Internal nets
-  wire SEL_N, T0, T1
-
-  # Invert select
-  gate U1 type:NOT inputs:(SEL) output:SEL_N
-
-  # AND gates for selection
-  gate U2 type:AND inputs:(D0,SEL_N) output:T0
-  gate U3 type:AND inputs:(D1,SEL) output:T1
-
-  # OR gate for output
-  gate U4 type:OR inputs:(T0,T1) output:Y
+  part U1 type:NOT pins:(SEL,SEL_N)
+  part U2 type:AND pins:(D0,SEL_N,T0)
+  part U3 type:AND pins:(D1,SEL,T1)
+  part U4 type:OR pins:(T0,T1,Y)
 }
 ```
 
@@ -206,23 +179,10 @@ Basic sequential element with clock.
 ### DSL Code
 
 ```runiq
-digital "D Flip-Flop" {
-  # Inputs
-  input D, CLK, RST
+electrical "D Flip-Flop" {
+  net D, CLK, Q, Q_N
 
-  # Outputs
-  output Q, Q_N
-
-  # Master-slave structure
-  wire M_Q, M_Q_N, S_D
-
-  # Master latch (active on clock high)
-  gate U1 type:DFF inputs:(D,CLK,RST) output:M_Q
-  gate U2 type:NOT inputs:(M_Q) output:M_Q_N
-
-  # Slave latch (active on clock low)
-  gate U3 type:DFF inputs:(M_Q,CLK,RST) output:Q
-  gate U4 type:NOT inputs:(Q) output:Q_N
+  part FF1 type:DFF pins:(D,CLK,Q,Q_N)
 }
 ```
 
@@ -230,16 +190,15 @@ digital "D Flip-Flop" {
 
 - **D**: Data input
 - **CLK**: Clock signal (rising edge triggered)
-- **RST**: Asynchronous reset (active high)
 - **Q**: Output follows D on clock rising edge
 - **Q_N**: Inverted output
 
 ### Timing Diagram
 
 ```
-CLK: ___/‾\___/‾\___/‾\___
-D:   ___/‾‾‾\___/‾‾‾‾‾‾‾
-Q:   _______/‾‾‾\___/‾‾‾
+CLK: ___|--|___|--|___|--|___
+D:   ___|--|__|--|___|--|__|--|___
+Q:   ________|--|__|--|___|--|__
 ```
 
 ## 4-Bit Counter
@@ -249,30 +208,14 @@ Sequential circuit that counts from 0 to 15.
 ### DSL Code
 
 ```runiq
-digital "4-Bit Counter" {
-  # Inputs
-  input CLK, RST, EN
+electrical "4-Bit Counter" {
+  net T, CLK, Q0, Q1, Q2, Q3
 
-  # Outputs (4-bit count)
-  output Q0, Q1, Q2, Q3
-
-  # Internal carry signals
-  wire C0, C1, C2
-
-  # Bit 0 (LSB) - toggles every clock
-  gate FF0 type:TFF inputs:(EN,CLK,RST) output:Q0
-  gate A0 type:AND inputs:(Q0,EN) output:C0
-
-  # Bit 1 - toggles when Q0=1
-  gate FF1 type:TFF inputs:(C0,CLK,RST) output:Q1
-  gate A1 type:AND inputs:(Q1,C0) output:C1
-
-  # Bit 2 - toggles when Q1=Q0=1
-  gate FF2 type:TFF inputs:(C1,CLK,RST) output:Q2
-  gate A2 type:AND inputs:(Q2,C1) output:C2
-
-  # Bit 3 (MSB) - toggles when Q2=Q1=Q0=1
-  gate FF3 type:TFF inputs:(C2,CLK,RST) output:Q3
+  // Tie T high for continuous toggling
+  part FF0 type:TFF pins:(T,CLK,Q0)
+  part FF1 type:TFF pins:(T,Q0,Q1)
+  part FF2 type:TFF pins:(T,Q1,Q2)
+  part FF3 type:TFF pins:(T,Q2,Q3)
 }
 ```
 
@@ -317,84 +260,46 @@ Runiq supports standard digital logic gates:
 
 ```runiq
 # Combinational gate
-gate <ID> type:<TYPE> inputs:(<in1>,<in2>,...) output:<out>
+part <ID> type:<TYPE> pins:(<in1>,<in2>,...,<out>)
 
 # Sequential element
-gate <ID> type:<TYPE> inputs:(<D>,<CLK>,<RST>) output:<Q>
-
-# Multi-output
-gate <ID> type:<TYPE> inputs:(...) outputs:(<Q>,<Q_N>)
+part <ID> type:<TYPE> pins:(<D>,<CLK>,<Q>,<Q_N>)
 ```
 
 ## Complete Examples
 
-### 4-Bit ALU (Arithmetic Logic Unit)
+### 1-Bit ALU (Combinational)
 
 ```runiq
-digital "4-Bit ALU" {
-  # Inputs (4-bit operands)
-  input A[3:0], B[3:0]
-  input OP[1:0]  # Operation select
+electrical "1-Bit ALU" {
+  net A, B, S0, S1, Y
+  net Y_AND, Y_OR, Y_XOR, Y_NOT
 
-  # Outputs
-  output Y[3:0]  # Result
-  output ZERO    # Zero flag
-  output CARRY   # Carry out
+  part AND1 type:AND pins:(A,B,Y_AND)
+  part OR1 type:OR pins:(A,B,Y_OR)
+  part XOR1 type:XOR pins:(A,B,Y_XOR)
+  part NOT1 type:NOT pins:(A,Y_NOT)
 
-  # Internal signals
-  wire ADD_Y[3:0], SUB_Y[3:0], AND_Y[3:0], OR_Y[3:0]
-  wire C[3:0]    # Carry chain
-
-  # Adder
-  gate ADD0 type:FULL_ADD inputs:(A[0],B[0],0) outputs:(ADD_Y[0],C[0])
-  gate ADD1 type:FULL_ADD inputs:(A[1],B[1],C[0]) outputs:(ADD_Y[1],C[1])
-  gate ADD2 type:FULL_ADD inputs:(A[2],B[2],C[1]) outputs:(ADD_Y[2],C[2])
-  gate ADD3 type:FULL_ADD inputs:(A[3],B[3],C[2]) outputs:(ADD_Y[3],CARRY)
-
-  # Bitwise AND
-  gate AND0 type:AND inputs:(A[0],B[0]) output:AND_Y[0]
-  gate AND1 type:AND inputs:(A[1],B[1]) output:AND_Y[1]
-  gate AND2 type:AND inputs:(A[2],B[2]) output:AND_Y[2]
-  gate AND3 type:AND inputs:(A[3],B[3]) output:AND_Y[3]
-
-  # Bitwise OR
-  gate OR0 type:OR inputs:(A[0],B[0]) output:OR_Y[0]
-  gate OR1 type:OR inputs:(A[1],B[1]) output:OR_Y[1]
-  gate OR2 type:OR inputs:(A[2],B[2]) output:OR_Y[2]
-  gate OR3 type:OR inputs:(A[3],B[3]) output:OR_Y[3]
-
-  # Multiplexer for operation select
-  mux MUX type:MUX4 select:OP[1:0] inputs:(ADD_Y,SUB_Y,AND_Y,OR_Y) output:Y[3:0]
-
-  # Zero detection
-  gate ZERO_DET type:NOR inputs:(Y[0],Y[1],Y[2],Y[3]) output:ZERO
+  // Select between AND/OR/XOR/NOT using S1:S0
+  part MUX1 type:MUX41 pins:(Y_AND,Y_OR,Y_XOR,Y_NOT,S0,S1,Y)
 }
 ```
 
 ### 8-Bit Shift Register
 
 ```runiq
-digital "8-Bit Shift Register" {
-  # Inputs
-  input DATA_IN, CLK, RST
-  input SHIFT_EN
+electrical "8-Bit Shift Register" {
+  net SERIAL_IN, CLK
+  net Q0, Q1, Q2, Q3, Q4, Q5, Q6, Q7
 
-  # Outputs (parallel)
-  output Q[7:0]
-  output SERIAL_OUT
-
-  # Flip-flop chain
-  gate FF0 type:DFF inputs:(DATA_IN,CLK,RST) output:Q[0]
-  gate FF1 type:DFF inputs:(Q[0],CLK,RST) output:Q[1]
-  gate FF2 type:DFF inputs:(Q[1],CLK,RST) output:Q[2]
-  gate FF3 type:DFF inputs:(Q[2],CLK,RST) output:Q[3]
-  gate FF4 type:DFF inputs:(Q[3],CLK,RST) output:Q[4]
-  gate FF5 type:DFF inputs:(Q[4],CLK,RST) output:Q[5]
-  gate FF6 type:DFF inputs:(Q[5],CLK,RST) output:Q[6]
-  gate FF7 type:DFF inputs:(Q[6],CLK,RST) output:Q[7]
-
-  # Serial output is MSB
-  assign SERIAL_OUT = Q[7]
+  part FF0 type:DFF pins:(SERIAL_IN,CLK,Q0)
+  part FF1 type:DFF pins:(Q0,CLK,Q1)
+  part FF2 type:DFF pins:(Q1,CLK,Q2)
+  part FF3 type:DFF pins:(Q2,CLK,Q3)
+  part FF4 type:DFF pins:(Q3,CLK,Q4)
+  part FF5 type:DFF pins:(Q4,CLK,Q5)
+  part FF6 type:DFF pins:(Q5,CLK,Q6)
+  part FF7 type:DFF pins:(Q6,CLK,Q7)
 }
 ```
 
@@ -454,9 +359,9 @@ Always verify your designs with:
 
 ## Next Steps
 
-- [Electrical Circuits →](/examples/electrical) - Analog schematics with SPICE
-- [Control system Diagrams →](/examples/control-diagrams) - System-level design
-- [Reference →](/reference/shapes) - All digital symbols
+- [Electrical Circuits](/examples/electrical) - Analog schematics with SPICE
+- [Control System Diagrams](/examples/control-diagrams) - System-level design
+- [Reference](/reference/shapes) - All digital symbols
 
 ---
 
@@ -468,3 +373,5 @@ All example `.runiq` files are available in the [GitHub repository](https://gith
 git clone https://github.com/jgreywolf/runiq.git
 cd runiq/examples/digital
 ```
+
+

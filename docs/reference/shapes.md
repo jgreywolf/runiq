@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides **249 shapes** across 17 categories for building professional diagrams.
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (176 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides **249 shapes** across 17 categories for building professional dia
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 142+ shapes below ↓](#all-shapes)
+[See all 176 diagram profile shapes below ↓](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -32,7 +32,7 @@ Shapes are organized by their primary use case and profile. Most shapes work acr
 
 ## Categories
 
-### 1. Basic Shapes (19 shapes)
+### 1. Basic Shapes (22 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -192,7 +192,7 @@ diagram "PID Controller" {
 See the [Control system Diagrams Guide](../guide/control-diagrams.md) for comprehensive documentation on control system diagrams with LaTeX and Simulink export.
 :::
 
-### 6. Special Shapes (6 shapes)
+### 6. Special Shapes (7 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -307,7 +307,7 @@ diagram "Bell State" {
 See the [Quantum Circuits Guide](../guide/quantum-circuits.md) for comprehensive documentation on quantum computing diagrams.
 :::
 
-### 10. UML Shapes (22 shapes)
+### 10. UML Shapes (52 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -544,25 +544,25 @@ Complete listing organized by category:
 
 | Category           | Count | Common Uses                                    |
 | ------------------ | ----- | ---------------------------------------------- |
-| Basic Shapes       | 19    | General-purpose geometric shapes               |
+| Basic Shapes       | 22    | General-purpose geometric shapes               |
 | Flowchart          | 14    | Process flows, ISO 5807 standard               |
 | Storage            | 7     | Databases, data persistence                    |
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
 | Control Systems    | 10    | Control system diagrams, signal processing     |
-| Special            | 6     | Miscellaneous symbols                          |
+| Special            | 7     | Miscellaneous symbols                          |
 | Charts             | 7     | Data visualization (pie, bar, Venn)            |
 | Network            | 7     | Infrastructure, topology diagrams              |
 | Quantum            | 12    | Quantum computing circuits                     |
-| UML                | 22    | Software modeling, class/sequence diagrams     |
+| UML                | 52    | Software modeling, class/sequence diagrams     |
 | Pedigree           | 3     | Medical family trees, genetics                 |
 | C4 Architecture    | 4     | Software architecture (C4 model)               |
 | BPMN               | 6     | Business process modeling                      |
 | AWS                | 6     | Amazon Web Services infrastructure             |
 | ERD                | 6     | Database entity-relationship diagrams          |
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
-| Electrical/Digital | 40+   | Circuits (resistors, gates, transistors, etc.) |
+| Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 142+ shapes** (excluding electrical/digital circuit components)
+**Total: 176 diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

@@ -262,7 +262,7 @@ electrical "RLC Resonant Circuit" {
 
   # Series RLC components
   part R1 type:R value:"10" pins:(IN,OUT)
-  part L1 type:L value:"10m" pins:(OUT,GND)
+  part L1 type:l value:"10m" pins:(OUT,GND)
   part C1 type:C value:"1u" pins:(OUT,GND)
 
   # AC analysis: 100Hz to 10kHz
@@ -304,7 +304,7 @@ electrical "Bridge Rectifier" {
   part C1 type:C value:"1000u" pins:(DC_PLUS,DC_MINUS)
 
   # Load resistor
-  part RL type:R value:"100" pins:(DC_PLUS,DC_MINUS)
+  part RLOAD type:R value:"100" pins:(DC_PLUS,DC_MINUS)
 
   analysis tran "0 100m"
 }

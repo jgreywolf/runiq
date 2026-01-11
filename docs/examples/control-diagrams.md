@@ -11,15 +11,15 @@ Classic proportional-integral-derivative controller with feedback.
 ```runiq
 diagram "PID Controller" {
 
-  shape ref as @box label: "Reference"
+  shape refInput as @box label: "Reference"
   shape sum as @junction label: "+/-"
-  shape pid as @transfer-fn label: "PID"
+  shape controller as @transfer-fn label: "PID"
   shape plant as @transfer-fn label: "Plant\nG(s)"
   shape output as @box label: "Output"
 
-  ref -> sum label: "r(t)"
-  sum -> pid label: "e(t)"
-  pid -> plant label: "u(t)"
+  refInput -> sum label: "r(t)"
+  sum -> controller label: "e(t)"
+  controller -> plant label: "u(t)"
   plant -> output label: "y(t)"
   output -> sum label: "feedback"
 }
@@ -65,7 +65,7 @@ diagram "Feedback Control System" {
 direction LR
 
   # Forward path
-  shape input as @box label: "Input\nR(s)"
+  shape inputSignal as @box label: "Input\nR(s)"
   shape error as @summing-junction label: "Σ"
   shape controller as @transfer-fn label: "Controller\nC(s)"
   shape plant as @transfer-fn label: "Plant\nG(s)"
@@ -79,7 +79,7 @@ direction LR
   shape dist_sum as @summing-junction label: "Σ"
 
   # Forward connections
-  input -> error label: "+"
+  inputSignal -> error label: "+"
   error -> controller
   controller -> dist_sum label: "+"
   disturbance -> dist_sum label: "+"
@@ -128,13 +128,13 @@ Series connection of multiple transfer functions.
 diagram "Multi-Stage Amplifier" {
   direction LR
 
-  shape input as @box label: "Input"
+  shape inputSignal as @box label: "Input"
   shape stage1 as @transfer-fn label: "Stage 1\nA₁(s)"
   shape stage2 as @transfer-fn label: "Stage 2\nA₂(s)"
   shape stage3 as @transfer-fn label: "Stage 3\nA₃(s)"
   shape output as @box label: "Output"
 
-  input -> stage1
+  inputSignal -> stage1
   stage1 -> stage2
   stage2 -> stage3
   stage3 -> output
@@ -313,11 +313,11 @@ diagram "DC Motor Speed Control" {
   direction LR
 
   # Input
-  shape ref as @box label: "Desired\nSpeed"
+  shape refInput as @box label: "Desired\nSpeed"
 
   # Controller
   shape error as @summing-junction label: "Σ"
-  shape pid as @transfer-fn label: "PID\nController"
+  shape controller as @transfer-fn label: "PID\nController"
 
   # Motor model
   shape motor as @transfer-fn label: "Motor\nK/(Js+b)"
@@ -326,14 +326,14 @@ diagram "DC Motor Speed Control" {
   shape tacho as @gain label: "Kt"
 
   # Output
-  shape speed as @box label: "Actual\nSpeed"
+  shape speedOut as @box label: "Actual\nSpeed"
 
   # Connections
-  ref -> error label: "+"
-  error -> pid
-  pid -> motor label: "Voltage"
-  motor -> speed
-  speed -> tacho
+  refInput -> error label: "+"
+  error -> controller
+  controller -> motor label: "Voltage"
+  motor -> speedOut
+  speedOut -> tacho
   tacho -> error label: "-"
 }
 ```
@@ -472,7 +472,7 @@ Support Unicode: τ, ω, ζ, θ, ϕ
 Always label inputs with signs:
 
 ```runiq
-ref -> sum label: "+"
+refInput -> sum label: "+"
 feedback -> sum label: "-"
 ```
 

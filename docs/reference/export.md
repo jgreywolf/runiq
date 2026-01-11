@@ -18,6 +18,36 @@ All export formats are accessible via:
 - **CLI**: `runiq diagram.runiq --export <format> -o output.ext`
 - **TypeScript API**: `import { toSpice, toVerilog, toLatex, toSimulink } from '@runiq/export-*'`
 
+### SVG, PNG, and PDF (Diagram Profile)
+
+The diagram profile renders to SVG. To produce PNG or PDF, render SVG first and convert with external tools.
+
+**Render SVG:**
+
+```bash
+runiq render diagram.runiq -o diagram.svg
+```
+
+**Convert to PNG or PDF (examples):**
+
+```bash
+# Inkscape
+inkscape diagram.svg --export-type=png --export-filename=diagram.png
+inkscape diagram.svg --export-type=pdf --export-filename=diagram.pdf
+
+# librsvg
+rsvg-convert diagram.svg -o diagram.png
+
+# ImageMagick
+magick diagram.svg diagram.png
+magick diagram.svg diagram.pdf
+```
+
+::: tip Notes
+- Inkscape and librsvg generally preserve text and gradients best for SVG conversion.
+- Use higher resolution with ImageMagick: `magick -density 300 diagram.svg diagram.png`.
+:::
+
 ---
 
 ## SPICE Netlist Export

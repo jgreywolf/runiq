@@ -1,29 +1,31 @@
 ---
 title: JSON Format
-description: Complete reference for Runiq's 1:1 JSON representation of diagram DSL with conversion utilities and examples.
+description: Complete reference for Runiq's JSON Diagram AST format with conversion utilities and examples.
 lastUpdated: 2025-11-17
 ---
 
 # JSON Format
 
-Runiq provides a 1:1 JSON representation of its DSL, enabling programmatic diagram generation and seamless integration with data sources. Every DSL diagram can be represented as JSON, and vice versa.
+Runiq provides a JSON representation of its Diagram AST, enabling programmatic diagram generation and seamless integration with data sources. This format mirrors the structure used by the renderer and `@runiq/io-json`.
 
 ## Overview
 
-The JSON format mirrors the DSL structure exactly:
+The JSON format mirrors the Diagram AST structure used by the renderer:
 
-- **DSL** → Human-readable text format for authoring
-- **JSON** → Machine-readable format for programmatic generation
-- **1:1 Mapping** → Perfect equivalence between both formats
+- **DSL** -> Human-readable text format for authoring
+- **JSON** -> Machine-readable format for programmatic generation
+- **1:1 Mapping** -> Diagram AST and JSON are equivalent for supported fields
+
+**Note:** JSON conversion uses `DiagramAst` (e.g., `astVersion`, `nodes`, `edges`) and does not include a top-level `type` field. Profile-specific DSL (timeline, glyphset, sequence, etc.) is converted to `DiagramAst` before JSON conversion.
 
 ## Why Use JSON Format?
 
-- ✅ **Programmatic Generation** - Create diagrams from database queries, APIs, or computed data
-- ✅ **Data Integration** - Bind diagrams to application state
-- ✅ **Version Control** - JSON diff-friendly for change tracking
-- ✅ **Type Safety** - Full TypeScript support for AST structure
-- ✅ **Templating** - Generate dynamic diagrams from templates
-- ✅ **Serialization** - Store/transmit diagrams efficiently
+- **Programmatic Generation** - Create diagrams from database queries, APIs, or computed data
+- **Data Integration** - Bind diagrams to application state
+- **Version Control** - JSON diff-friendly for change tracking
+- **Type Safety** - Full TypeScript support for AST structure
+- **Templating** - Generate dynamic diagrams from templates
+- **Serialization** - Store/transmit diagrams efficiently
 
 ## Basic Structure
 
@@ -43,23 +45,19 @@ diagram "Simple" {
 
 ```json
 {
-  "type": "diagram",
+  "astVersion": "1.0",
   "title": "Simple",
   "direction": "TB",
-  "shapes": [
+  "nodes": [
     {
       "id": "A",
-      "type": "rect",
-      "properties": {
-        "label": "Node A"
-      }
+      "shape": "rect",
+      "label": "Node A"
     },
     {
       "id": "B",
-      "type": "rect",
-      "properties": {
-        "label": "Node B"
-      }
+      "shape": "rect",
+      "label": "Node B"
     }
   ],
   "edges": [
@@ -73,47 +71,32 @@ diagram "Simple" {
 
 ## Complete JSON Schema
 
-### Diagram Object
+### DiagramAst Object
 
 ```typescript
-interface Diagram {
-  type:
-    | 'diagram'
-    | 'electrical'
-    | 'digital'
-    | 'wardley'
-    | 'sequence'
-    | 'pneumatic'
-    | 'hydraulic'
-    | 'pid';
-  title: string;
+interface DiagramAst {
+  astVersion: string;
+  title?: string;
   direction?: 'TB' | 'BT' | 'LR' | 'RL';
-  shapes: Shape[];
+  styles?: Record<string, Style>;
+  nodes: Node[];
   edges: Edge[];
-  styles?: Style[];
-  containers?: Container[];
+  groups?: Group[];
 }
 ```
 
-### Shape Object
+### Node Object
 
 ```typescript
-interface Shape {
+interface Node {
   id: string; // Unique identifier
-  type: string; // Shape type (rect, circ, hexagon, etc.)
-  properties?: {
-    label?: string; // Display text
-    fill?: string; // Background color
-    stroke?: string; // Border color
-    strokeWidth?: number; // Border width
-    color?: string; // Text color
-    style?: string; // Named style reference
-    icon?: string; // Icon name (e.g., "fa/user")
-    link?: string; // Hyperlink URL
-    tooltip?: string; // Hover tooltip
-    data?: any; // Custom data (charts, etc.)
-    [key: string]: any; // Additional properties
-  };
+  shape: string; // Shape type (rect, circ, hexagon, etc.)
+  label?: string; // Display text
+  style?: string; // Named style reference
+  icon?: { provider: string; name: string }; // Icon reference
+  link?: { href: string; target?: string; rel?: string }; // Hyperlink
+  tooltip?: string; // Hover tooltip
+  data?: Record<string, unknown>; // Custom data (charts, etc.)
 }
 ```
 
@@ -121,27 +104,14 @@ interface Shape {
 
 ```typescript
 interface Edge {
-  from: string; // Source shape ID
-  to: string; // Target shape ID
+  from: string; // Source node ID
+  to: string; // Target node ID
   label?: string; // Edge label
-  properties?: {
-    lineStyle?: 'solid' | 'dashed' | 'dotted';
-    arrowType?: 'standard' | 'hollow' | 'open' | 'none';
-    stereotype?: string; // UML stereotype (e.g., "<<include>>")
-    weight?: number; // Edge weight for algorithms
-    edgeType?:
-      | 'association'
-      | 'aggregation'
-      | 'composition'
-      | 'dependency'
-      | 'generalization'
-      | 'realization';
-    multiplicitySource?: string; // UML multiplicity (e.g., "1..*")
-    multiplicityTarget?: string;
-    roleSource?: string; // UML role name
-    roleTarget?: string;
-    [key: string]: any;
-  };
+  when?: string; // Conditional edge label
+  style?: string; // Named style reference
+  link?: { href: string; target?: string; rel?: string }; // Hyperlink
+  tooltip?: string; // Hover tooltip
+  data?: Record<string, unknown>; // Custom data
 }
 ```
 
@@ -149,47 +119,48 @@ interface Edge {
 
 ```typescript
 interface Style {
-  name: string; // Style identifier
-  properties: {
-    fill?: string; // Background color
-    stroke?: string; // Border color
-    strokeWidth?: number; // Border width (px)
-    fontSize?: number; // Font size (px)
-    fontFamily?: string; // Font family
-    fontWeight?: number; // Font weight
-    color?: string; // Text color
-    textAlign?: 'left' | 'center' | 'right';
-    [key: string]: any;
-  };
+  fill?: string; // Background color
+  fillColor?: string; // Alias for fill
+  stroke?: string; // Border color
+  strokeColor?: string; // Alias for stroke
+  strokeWidth?: number; // Border width (px)
+  font?: string;
+  fontSize?: number; // Font size (px)
+  fontFamily?: string; // Font family
+  fontWeight?: string; // Font weight
+  textAlign?: string;
+  rx?: number;
+  ry?: number;
+  padding?: number;
+  opacity?: number;
+  textColor?: string; // Alternative to fill for text
+  color?: string; // Generic color
+  affected?: boolean; // Pedigree charts
+  carrier?: boolean;
+  deceased?: boolean;
+  tagFill?: string;
+  extensions?: Record<string, string | number | boolean>;
 }
 ```
 
-### Container Object
+### Group Object
 
 ```typescript
-interface Container {
-  id: string; // Unique identifier
-  label: string; // Display text
-  properties?: {
-    backgroundColor?: string; // Background color
-    borderColor?: string; // Border color
-    strokeWidth?: number; // Border width (px)
-    borderStyle?: 'solid' | 'dashed' | 'dotted';
-    padding?: number; // Internal padding (px)
-    algorithm?: 'layered' | 'force' | 'stress' | 'radial' | 'mrtree';
-    spacing?: number; // Node spacing (px)
-    type?: string; // Container type (e.g., "mindmap")
-    [key: string]: any;
-  };
-  shapes: Shape[]; // Nested shapes
-  edges: Edge[]; // Internal edges
-  containers?: Container[]; // Nested containers
+interface Group {
+  id?: string;
+  label?: string;
+  children: string[];
+  style?: string;
 }
 ```
+
+::: warning Containers and advanced fields
+`@runiq/io-json` currently validates and round-trips core Diagram AST fields (astVersion, title, direction, styles, nodes, edges, groups). Container hierarchies, templates, presets, and other extended fields are not preserved by JSON conversion yet. Use DSL for those features.
+:::
 
 ## Conversion Utilities
 
-### Using @runiq/io-json
+### Using `@runiq/io-json`
 
 The `@runiq/io-json` package provides utilities for converting between DSL and JSON:
 
@@ -197,21 +168,37 @@ The `@runiq/io-json` package provides utilities for converting between DSL and J
 import { astToJson, jsonToAst } from '@runiq/io-json';
 import { parse } from '@runiq/parser-dsl';
 
-// DSL → AST → JSON
+// DSL -> AST -> JSON
 const dsl = `diagram "Example" {
   shape A as @rect label:"Hello"
 }`;
 
 const parseResult = parse(dsl);
-const diagram = parseResult.document!.diagrams[0];
+const diagramProfile = parseResult.document?.profiles.find(
+  (profile) => profile.type === 'diagram'
+);
 
-const jsonResult = astToJson(diagram);
+if (!diagramProfile || !parseResult.document) {
+  throw new Error('No diagram profile found');
+}
+
+const ast = {
+  astVersion: parseResult.document.astVersion,
+  title: diagramProfile.name,
+  direction: diagramProfile.direction,
+  styles: diagramProfile.styles,
+  nodes: diagramProfile.nodes,
+  edges: diagramProfile.edges,
+  groups: diagramProfile.groups,
+};
+
+const jsonResult = astToJson(ast);
 if (jsonResult.success) {
   console.log(jsonResult.data); // JSON string
 }
 
-// JSON → AST → DSL
-const json = `{ "type": "diagram", "title": "Example", ... }`;
+// JSON -> AST -> DSL
+const json = `{ "astVersion": "1.0", "title": "Example", "nodes": [], "edges": [] }`;
 
 const astResult = jsonToAst(json);
 if (astResult.success) {
@@ -260,39 +247,33 @@ diagram "Process Flow" {
 
 ```json
 {
-  "type": "diagram",
+  "astVersion": "1.0",
   "title": "Process Flow",
   "direction": "LR",
-  "styles": [
-    {
-      "name": "default",
-      "properties": {
-        "fill": "#e3f2fd",
-        "stroke": "#1976d2"
-      }
+  "styles": {
+    "default": {
+      "fill": "#e3f2fd",
+      "stroke": "#1976d2"
     }
-  ],
-  "shapes": [
+  },
+  "nodes": [
     {
       "id": "start",
-      "type": "rounded",
-      "properties": {
-        "label": "Start"
-      }
+      "shape": "rounded",
+      "label": "Start",
+      "style": "default"
     },
     {
       "id": "process",
-      "type": "rect",
-      "properties": {
-        "label": "Process Data"
-      }
+      "shape": "rect",
+      "label": "Process Data",
+      "style": "default"
     },
     {
       "id": "end",
-      "type": "rounded",
-      "properties": {
-        "label": "End"
-      }
+      "shape": "rounded",
+      "label": "End",
+      "style": "default"
     }
   ],
   "edges": [
@@ -310,17 +291,15 @@ diagram "Process Flow" {
 }
 ```
 
-### Example 2: Container with Nested Shapes
+### Example 2: Links and Labels
 
 **DSL:**
 
 ```runiq
-diagram "Microservices" {
-  container backend "Backend Services" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" {
-    shape api as @hexagon label:"API"
-    shape db as @cylinder label:"Database"
-    api -> db
-  }
+diagram "Service Links" {
+  shape api as @hexagon label:"API" link:"https://example.com"
+  shape db as @cylinder label:"Database"
+  api -> db label:"reads"
 }
 ```
 
@@ -328,42 +307,30 @@ diagram "Microservices" {
 
 ```json
 {
-  "type": "diagram",
-  "title": "Microservices",
-  "containers": [
+  "astVersion": "1.0",
+  "title": "Service Links",
+  "nodes": [
     {
-      "id": "backend",
-      "label": "Backend Services",
-      "properties": {
-        "backgroundColor": "#f3e5f5",
-        "borderColor": "#7b1fa2"
-      },
-      "shapes": [
-        {
-          "id": "api",
-          "type": "hexagon",
-          "properties": {
-            "label": "API"
-          }
-        },
-        {
-          "id": "db",
-          "type": "cylinder",
-          "properties": {
-            "label": "Database"
-          }
-        }
-      ],
-      "edges": [
-        {
-          "from": "api",
-          "to": "db"
-        }
-      ]
+      "id": "api",
+      "shape": "hexagon",
+      "label": "API",
+      "link": {
+        "href": "https://example.com"
+      }
+    },
+    {
+      "id": "db",
+      "shape": "cylinder",
+      "label": "Database"
     }
   ],
-  "shapes": [],
-  "edges": []
+  "edges": [
+    {
+      "from": "api",
+      "to": "db",
+      "label": "reads"
+    }
+  ]
 }
 ```
 
@@ -385,15 +352,15 @@ diagram "Sales Chart" {
 
 ```json
 {
-  "type": "diagram",
+  "astVersion": "1.0",
   "title": "Sales Chart",
-  "shapes": [
+  "nodes": [
     {
       "id": "sales",
-      "type": "pieChart",
-      "properties": {
-        "label": "Q1-Q4 Sales",
-        "data": [100, 150, 120, 180],
+      "shape": "pieChart",
+      "label": "Q1-Q4 Sales",
+      "data": {
+        "values": [100, 150, 120, 180],
         "labels": ["Q1", "Q2", "Q3", "Q4"],
         "showLegend": true
       }
@@ -415,17 +382,15 @@ interface OrgNode {
   reports: OrgNode[];
 }
 
-function generateOrgChart(data: OrgNode): Diagram {
-  const shapes: Shape[] = [];
-  const edges: Edge[] = [];
+function generateOrgChart(data: OrgNode): DiagramAst {
+  const nodes: NodeAst[] = [];
+  const edges: EdgeAst[] = [];
 
   function traverse(node: OrgNode, parent?: string) {
-    shapes.push({
+    nodes.push({
       id: node.id,
-      type: 'rect',
-      properties: {
-        label: `${node.name}\n${node.role}`,
-      },
+      shape: 'rect',
+      label: `${node.name}\n${node.role}`,
     });
 
     if (parent) {
@@ -441,10 +406,10 @@ function generateOrgChart(data: OrgNode): Diagram {
   traverse(data);
 
   return {
-    type: 'diagram',
+    astVersion: '1.0',
     title: 'Organization Chart',
     direction: 'TB',
-    shapes,
+    nodes,
     edges,
   };
 }
@@ -471,38 +436,33 @@ const json = JSON.stringify(diagram, null, 2);
 ### Dynamic Database Queries
 
 ```typescript
-async function generateERDiagram(database: string): Promise<Diagram> {
+async function generateERDiagram(database: string): Promise<DiagramAst> {
   // Query database schema
   const tables = await queryTables(database);
 
-  const shapes: Shape[] = tables.map((table) => ({
+  const nodes: NodeAst[] = tables.map((table) => ({
     id: table.name,
-    type: 'rect',
-    properties: {
-      label: table.name,
-      tooltip: `${table.rowCount} rows`,
-    },
+    shape: 'rect',
+    label: table.name,
+    tooltip: `${table.rowCount} rows`,
   }));
 
-  const edges: Edge[] = [];
+  const edges: EdgeAst[] = [];
   for (const table of tables) {
     for (const fk of table.foreignKeys) {
       edges.push({
         from: table.name,
         to: fk.references,
-        properties: {
-          label: fk.column,
-          lineStyle: 'dashed',
-        },
+        label: fk.column,
       });
     }
   }
 
   return {
-    type: 'diagram',
+    astVersion: '1.0',
     title: `${database} Schema`,
     direction: 'TB',
-    shapes,
+    nodes,
     edges,
   };
 }
@@ -524,21 +484,24 @@ const themes = {
   orange: { fill: '#fff3e0', stroke: '#f57c00' },
 };
 
-function generateProcess(template: ProcessTemplate): Diagram {
+function generateProcess(template: ProcessTemplate): DiagramAst {
   const theme = themes[template.theme];
 
   return {
-    type: 'diagram',
+    astVersion: '1.0',
     title: 'Process Flow',
     direction: 'LR',
-    shapes: template.steps.map((step, i) => ({
-      id: `step${i}`,
-      type: 'rounded',
-      properties: {
-        label: step,
+    styles: {
+      theme: {
         fill: theme.fill,
         stroke: theme.stroke,
       },
+    },
+    nodes: template.steps.map((step, i) => ({
+      id: `step${i}`,
+      shape: 'rounded',
+      label: step,
+      style: 'theme',
     })),
     edges: template.steps.slice(0, -1).map((_, i) => ({
       from: `step${i}`,
@@ -557,28 +520,28 @@ const process = generateProcess({
 ### Conditional Rendering
 
 ```typescript
-function generateDashboard(metrics: Metric[]): Diagram {
-  const shapes: Shape[] = [];
+function generateDashboard(metrics: Metric[]): DiagramAst {
+  const nodes: NodeAst[] = [];
+  const styles: Record<string, Style> = {
+    success: { fill: '#c8e6c9', stroke: '#388e3c' },
+    warning: { fill: '#ffccbc', stroke: '#d84315' },
+  };
 
   metrics.forEach((metric, i) => {
     const status = metric.value >= metric.target ? 'success' : 'warning';
-    const fill = status === 'success' ? '#c8e6c9' : '#ffccbc';
-
-    shapes.push({
+    nodes.push({
       id: `metric${i}`,
-      type: 'rect',
-      properties: {
-        label: `${metric.name}\n${metric.value}/${metric.target}`,
-        fill,
-        stroke: status === 'success' ? '#388e3c' : '#d84315',
-      },
+      shape: 'rect',
+      label: `${metric.name}\n${metric.value}/${metric.target}`,
+      style: status,
     });
   });
 
   return {
-    type: 'diagram',
+    astVersion: '1.0',
     title: 'KPI Dashboard',
-    shapes,
+    styles,
+    nodes,
     edges: [],
   };
 }
@@ -589,7 +552,7 @@ function generateDashboard(metrics: Metric[]): Diagram {
 Full TypeScript types are available in `@runiq/core`:
 
 ```typescript
-import type { DiagramAst, Shape, Edge, Container, Style } from '@runiq/core';
+import type { DiagramAst, NodeAst, EdgeAst, GroupAst, Style } from '@runiq/core';
 ```
 
 ## Best Practices
@@ -597,12 +560,12 @@ import type { DiagramAst, Shape, Edge, Container, Style } from '@runiq/core';
 ### 1. Use TypeScript for Type Safety
 
 ```typescript
-import type { Diagram } from '@runiq/core';
+import type { DiagramAst } from '@runiq/core';
 
-const diagram: Diagram = {
-  type: 'diagram',
+const diagram: DiagramAst = {
+  astVersion: '1.0',
   title: 'Example',
-  shapes: [],
+  nodes: [],
   edges: [],
 };
 ```
@@ -626,10 +589,10 @@ if (!validation.success) {
 // Use UUID or sequential IDs
 import { v4 as uuid } from 'uuid';
 
-const shape = {
+const node = {
   id: uuid(),
-  type: 'rect',
-  properties: { label: 'Node' },
+  shape: 'rect',
+  label: 'Node',
 };
 ```
 
@@ -644,14 +607,16 @@ interface Node {
 }
 
 // Presentation layer
-function nodeToShape(node: Node, style: Style): Shape {
+const styles: Record<string, Style> = {
+  primary: { fill: '#e3f2fd', stroke: '#1976d2' },
+};
+
+function nodeToAst(node: Node, styleName: string): NodeAst {
   return {
     id: node.id,
-    type: 'rect',
-    properties: {
-      label: node.label,
-      ...style.properties,
-    },
+    shape: 'rect',
+    label: node.label,
+    style: styleName,
   };
 }
 ```
@@ -666,3 +631,8 @@ function nodeToShape(node: Node, style: Style): Shape {
 ---
 
 **Next Steps**: Try converting an existing DSL diagram to JSON using `@runiq/io-json`, then experiment with programmatic generation using the template examples above.
+
+
+
+
+

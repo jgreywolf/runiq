@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Tests](https://img.shields.io/badge/tests-1098%2B-brightgreen.svg)](./packages)
 
-**🚀 Status**: Phase 1 Complete - Core types, **249 shapes**, ELK layout, hierarchical containers!  
+**🚀 Status**: Phase 1 Complete - Core types, **233 shapes**, ELK layout, hierarchical containers!  
 **⚡ NEW**: UML 2.5 Class Relationships - Multiplicity, Aggregation/Composition diamonds, Role names! 💎  
 **⚡ NEW**: C4 Architecture diagrams - System Context, Containers, Components with official color palette! 🏗️  
 **⚡ NEW**: UML Class Diagrams with generics, member-level edges, and design patterns! 🎨  
@@ -649,9 +649,9 @@ Contributions are welcome! This project follows **Test-Driven Development (TDD)*
 
 See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for detailed development guidelines.
 
-## 📊 Shape Library (249 Total)
+## 📊 Shape Library (233 Total)
 
-Runiq provides **249 professional shapes** across 17 categories:
+Runiq provides **233 professional shapes** across 17 categories in the core registry (diagram + glyphset shapes; see the Shape Reference for the diagram profile catalog):
 
 | Category          | Count | Description                                                   |
 | ----------------- | ----- | ------------------------------------------------------------- |
@@ -662,10 +662,10 @@ Runiq provides **249 professional shapes** across 17 categories:
 | **Control**       | 10    | Transfer functions, gain, integrator, summing junctions       |
 | **Special**       | 7     | Text blocks, braces, lightning, hourglass                     |
 | **Charts**        | 7     | Pie, bar, line, radar, venn, sankey                           |
-| **Glyphsets**     | 58    | SmartArt-style templates (pyramid, matrix, cycle, org charts) |
+| **Glyphsets**     | 57    | SmartArt-style templates (pyramid, matrix, cycle, org charts) |
 | **Network**       | 7     | Server, router, switch, firewall, cloud                       |
 | **Quantum**       | 12    | Quantum gates (X, Y, Z, H, S, T, CNOT, SWAP)                  |
-| **UML**           | 54    | Class, state, activity, sequence, component diagrams          |
+| **UML**           | 52    | Class, state, activity, sequence, component diagrams          |
 | **Pedigree**      | 3     | Medical genetics symbols (male, female, unknown)              |
 | **C4**            | 4     | C4 architecture (person, system, container, component)        |
 | **BPMN**          | 6     | Business process modeling notation                            |
@@ -674,6 +674,8 @@ Runiq provides **249 professional shapes** across 17 categories:
 | **Data Flow**     | 6     | DFD shapes (external entity, process, data store)             |
 
 See [Shape Reference](/docs/reference/shapes.md) for complete catalog with examples.
+
+Schematic profiles use a separate symbol registry (36 electrical/digital symbols).
 
 ## 🎨 Supported Diagram Types
 
@@ -747,3 +749,5 @@ MIT © 2025 Justin Greywolf
 ---
 
 **Built with ❤️ using Test-Driven Development** | [Report Issues](https://github.com/jgreywolf/runiq/issues) | [Contribute](https://github.com/jgreywolf/runiq/pulls)
+
+

@@ -71,7 +71,7 @@ diagram "Hierarchical Mindmap" {
     // Level 2 - Development subtasks
     shape frontend as @rect label:"Frontend"
     shape backend as @rect label:"Backend"
-    shape database as @rect label:"Database"
+    shape databaseNode as @rect label:"Database"
 
     // Level 2 - Testing subtasks
     shape unit_tests as @rect label:"Unit Tests"
@@ -97,7 +97,7 @@ diagram "Hierarchical Mindmap" {
     // Development connections
     development -> frontend
     development -> backend
-    development -> database
+    development -> databaseNode
 
     // Testing connections
     testing -> unit_tests

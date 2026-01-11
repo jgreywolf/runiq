@@ -143,7 +143,7 @@ diagram "Multiple Marriages" {
   direction TB
 
   # Person with two marriages
-  shape person as @pedigreeMale label:"Father"
+  shape fatherNode as @pedigreeMale label:"Father"
   shape spouse1 as @pedigreeFemale label:"Wife 1" deceased:true
   shape spouse2 as @pedigreeFemale label:"Wife 2"
 
@@ -155,17 +155,17 @@ diagram "Multiple Marriages" {
   shape child3 as @pedigreeMale label:"Child 3"
 
   # Marriage relationships
-  person -> spouse1 arrowType:none
-  person -> spouse2 arrowType:none
+  fatherNode -> spouse1 arrowType:none
+  fatherNode -> spouse2 arrowType:none
 
   # First marriage children
-  person -> child1
-  person -> child2
+  fatherNode -> child1
+  fatherNode -> child2
   spouse1 -> child1
   spouse1 -> child2
 
   # Second marriage children
-  person -> child3
+  fatherNode -> child3
   spouse2 -> child3
 }
 ```
