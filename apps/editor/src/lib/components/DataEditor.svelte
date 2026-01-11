@@ -6,7 +6,7 @@
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic } from '@codemirror/lint';
 	import Icon from '@iconify/svelte';
-	import { handleCodeChange, handleEditorErrors } from '$lib/state/editorState.svelte';
+	import { handleDataChange, handleDataErrors } from '$lib/state/editorState.svelte';
 
 	// Props
 	interface Props {
@@ -96,12 +96,12 @@
 				EditorView.updateListener.of((update) => {
 					if (update.docChanged) {
 						const newValue = update.state.doc.toString();
-						handleCodeChange(newValue);
+						handleDataChange(newValue);
 
 						// Extract errors
 						const diagnostics = dataFormatLinter(update.view);
 						const errors = diagnostics.filter((d) => d.severity === 'error').map((d) => d.message);
-						handleEditorErrors(errors);
+						handleDataErrors(errors);
 					}
 				}),
 				EditorView.editable.of(!readonly),
@@ -173,14 +173,16 @@
 				try {
 					JSON.parse(content);
 					setValue(content);
-					handleCodeChange(content);
+					handleDataChange(content);
+					handleDataErrors([]);
 				} catch (err: any) {
 					alert(`Invalid JSON file: ${err.message}`);
 				}
 			} else {
 				// CSV - just load it
 				setValue(content);
-				handleCodeChange(content);
+				handleDataChange(content);
+				handleDataErrors([]);
 			}
 
 			target.value = ''; // Reset input for next upload
