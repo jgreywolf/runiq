@@ -1663,10 +1663,12 @@ export class ElkLayoutEngine implements LayoutEngine {
       const hasHeader = Boolean(container.label || container.header);
       const labelOffset = hasHeader ? 24 : 0;
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
-      const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
+      const paddingRight =
+        container.containerStyle?.paddingRight ?? basePadding;
       const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
       const paddingTop =
-        rawPaddingTop + (container.containerStyle?.paddingTop ? 0 : labelOffset);
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
       const paddingBottom =
         container.containerStyle?.paddingBottom ?? basePadding;
 
@@ -1736,10 +1738,12 @@ export class ElkLayoutEngine implements LayoutEngine {
       const hasHeader = Boolean(container.label || container.header);
       const labelOffset = hasHeader ? 24 : 0;
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
-      const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
+      const paddingRight =
+        container.containerStyle?.paddingRight ?? basePadding;
       const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
       const paddingTop =
-        rawPaddingTop + (container.containerStyle?.paddingTop ? 0 : labelOffset);
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
       const paddingBottom =
         container.containerStyle?.paddingBottom ?? basePadding;
 
@@ -1840,8 +1844,10 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (containerGraph.children!.length > 0) {
         try {
           const laidOutContainer = await this.elk.layout(containerGraph);
-          contentWidth = (laidOutContainer.width || 0) + paddingLeft + paddingRight;
-          contentHeight = (laidOutContainer.height || 0) + paddingTop + paddingBottom;
+          contentWidth =
+            (laidOutContainer.width || 0) + paddingLeft + paddingRight;
+          contentHeight =
+            (laidOutContainer.height || 0) + paddingTop + paddingBottom;
 
           // Calculate the actual height used by direct child shapes (excluding placeholders)
           for (const node of laidOutContainer.children || []) {
@@ -1939,12 +1945,12 @@ export class ElkLayoutEngine implements LayoutEngine {
       const hasHeader = Boolean(container.label || container.header);
       const labelOffset = hasHeader ? 24 : 0;
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
-      const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
+      //const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
       const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
       const paddingTop =
-        rawPaddingTop + (container.containerStyle?.paddingTop ? 0 : labelOffset);
-      const paddingBottom =
-        container.containerStyle?.paddingBottom ?? basePadding;
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
+      //const paddingBottom = container.containerStyle?.paddingBottom ?? basePadding;
 
       // Get container position from placeholder
       // Note: This position is relative to the parent container's content area
@@ -2046,11 +2052,11 @@ export class ElkLayoutEngine implements LayoutEngine {
           for (const elkNode of laidOutContainer.children || []) {
             const positionedNode = {
               id: elkNode.id,
-            x: containerPos.x + paddingLeft + (elkNode.x || 0),
-            y: containerPos.y + paddingTop + (elkNode.y || 0),
-            width: elkNode.width || 0,
-            height: elkNode.height || 0,
-          };
+              x: containerPos.x + paddingLeft + (elkNode.x || 0),
+              y: containerPos.y + paddingTop + (elkNode.y || 0),
+              width: elkNode.width || 0,
+              height: elkNode.height || 0,
+            };
             nodes.push(positionedNode);
           }
 
