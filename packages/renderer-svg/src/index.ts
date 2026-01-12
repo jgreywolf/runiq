@@ -4,7 +4,11 @@ import { renderContainer } from './renderers/container.js';
 import { renderEdge } from './renderers/edge.js';
 import { renderNode } from './renderers/node.js';
 import { renderDefs } from './renderers/defs.js';
-import { calculateGraphMetrics, getDiagramTheme } from '@runiq/core';
+import {
+  calculateGraphMetrics,
+  getDiagramTheme,
+  getContainerMembership,
+} from '@runiq/core';
 
 // Re-export Wardley renderer
 export {
@@ -63,6 +67,15 @@ export function renderSvg(
   const graphMetrics =
     diagram.edges.length > 0 ? calculateGraphMetrics(diagram) : null;
 
+  const membership = getContainerMembership(diagram);
+  const nodeIndexById = new Map(
+    layout.nodes.map((node, index) => [node.id, index])
+  );
+  const freeNodes = layout.nodes.filter((node) => !membership.has(node.id));
+  const containedNodes = layout.nodes.filter((node) =>
+    membership.has(node.id)
+  );
+
   // SVG header
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
     width="${layout.size.width}" height="${layout.size.height}" 
@@ -80,7 +93,21 @@ export function renderSvg(
   // Add default styles and patterns
   svg += renderDefs();
 
-  // Render containers first (as backgrounds)
+  // Render nodes outside containers behind container backgrounds
+  for (const node of freeNodes) {
+    const nodeIndex = nodeIndexById.get(node.id) ?? 0;
+    svg += renderNode(
+      node,
+      diagram,
+      strict,
+      warnings,
+      graphMetrics,
+      theme,
+      nodeIndex
+    );
+  }
+
+  // Render containers (as backgrounds for contained nodes)
   if (layout.containers) {
     for (const container of layout.containers) {
       svg += renderContainer(container, diagram, strict);
@@ -92,10 +119,18 @@ export function renderSvg(
     svg += renderEdge(edge, diagram, strict, warnings, theme);
   }
 
-  // Render nodes (on top of everything)
-  for (let i = 0; i < layout.nodes.length; i++) {
-    const node = layout.nodes[i];
-    svg += renderNode(node, diagram, strict, warnings, graphMetrics, theme, i);
+  // Render contained nodes on top of containers
+  for (const node of containedNodes) {
+    const nodeIndex = nodeIndexById.get(node.id) ?? 0;
+    svg += renderNode(
+      node,
+      diagram,
+      strict,
+      warnings,
+      graphMetrics,
+      theme,
+      nodeIndex
+    );
   }
 
   svg += '</svg>';
