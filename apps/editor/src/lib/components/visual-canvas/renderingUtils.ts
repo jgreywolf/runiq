@@ -8,7 +8,7 @@ import {
 	renderSequenceDiagram,
 	renderTimeline
 } from '@runiq/renderer-svg';
-import { renderSchematic, renderPID } from '@runiq/renderer-schematic';
+import { renderDigital, renderSchematic, renderPID } from '@runiq/renderer-schematic';
 
 export interface RenderResult {
 	success: boolean;
@@ -250,6 +250,14 @@ export async function renderDiagram(
 			result.svg = renderSchematic(profile as any).svg;
 		} else if (profileType === 'pid') {
 			result.svg = renderPID(profile as any).svg;
+		} else if (profileType === 'digital') {
+			result.svg = renderDigital(profile as any, {
+				gridSize: 50,
+				routing: 'orthogonal',
+				showNetLabels: true,
+				showValues: false,
+				showReferences: true
+			}).svg;
 		} else {
 			// Standard diagram with layout
 			const layoutAlgorithm = layoutRegistry.get(layoutEngine || 'elk');

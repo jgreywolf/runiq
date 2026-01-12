@@ -7,6 +7,7 @@
  */
 
 import type {
+  DigitalProfile,
   ElectricalProfile,
   HydraulicProfile,
   PartAst,
@@ -15,6 +16,7 @@ import type {
 import { Orientation, PIDLineType } from '@runiq/core';
 import { SymbolDefinition } from './symbol.ts';
 import { getSymbol } from './symbolRegistry.ts';
+import { convertDigitalToSchematic } from './digital.ts';
 
 // Re-export P&ID symbols, line types, tag system, and renderer
 export {
@@ -170,6 +172,29 @@ export function renderSchematic(
   svg += '</svg>';
 
   return { svg, warnings };
+}
+
+/**
+ * Render a digital profile using schematic symbols.
+ * Converts digital instances/modules into schematic parts and reuses renderSchematic.
+ */
+export function renderDigital(
+  profile: DigitalProfile,
+  options: SchematicOptions = {}
+): RenderResult {
+  const schematicProfile = convertDigitalToSchematic(profile);
+  if (!schematicProfile.parts || schematicProfile.parts.length === 0) {
+    const title = profile.name || 'Digital Circuit';
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="520" height="160" viewBox="0 0 520 160" role="img" aria-labelledby="digital-title">
+  <title id="digital-title">${title}</title>
+  <rect width="520" height="160" fill="#f9fafb"/>
+  <text x="20" y="40" font-family="sans-serif" font-size="18" font-weight="bold" fill="#16a34a">${title}</text>
+  <text x="20" y="72" font-family="sans-serif" font-size="12" fill="#555">No instances to render.</text>
+  <text x="20" y="94" font-family="sans-serif" font-size="12" fill="#555">Add inst statements to draw gate-level symbols.</text>
+</svg>`;
+    return { svg, warnings: [] };
+  }
+  return renderSchematic(schematicProfile, options);
 }
 
 /**

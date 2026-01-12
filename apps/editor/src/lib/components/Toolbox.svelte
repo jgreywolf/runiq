@@ -46,6 +46,10 @@
 					<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
 						<p class="text-xs font-medium text-amber-900">⚡ Electrical Circuit Mode</p>
 					</div>
+				{:else if editorState.profileName === ProfileName.digital}
+					<div class="border-b border-lime-200 bg-lime-50 px-4 py-2">
+						<p class="text-xs font-medium text-lime-900">Digital Circuit Mode</p>
+					</div>
 				{:else if editorState.profileName === ProfileName.pneumatic}
 					<div class="border-b border-sky-200 bg-sky-50 px-4 py-2">
 						<p class="text-xs font-medium text-sky-900">💨 Pneumatic Circuit Mode</p>
