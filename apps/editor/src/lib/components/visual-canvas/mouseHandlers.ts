@@ -27,14 +27,28 @@ export interface MouseHandlerCallbacks {
 	startLabelEdit: (nodeId: string | null, edgeId: string | null) => void;
 }
 
+const chartShapes = new Set([
+	'lineChart',
+	'radarChart',
+	'pieChart',
+	'barChart',
+	'pyramidShape',
+	'sankeyChart'
+]);
+
 export function handleElementMouseEnter(event: Event, context: MouseHandlerContext): void {
 	const target = event.currentTarget as SVGElement;
 
 	const nodeId = target.getAttribute('data-node-id');
 	const edgeId = target.getAttribute('data-edge-id');
 	const containerId = target.getAttribute('data-container-id');
+	const shapeId = target.getAttribute('data-node-shape');
 
 	context.hoveredElementId = nodeId || edgeId || containerId || null;
+
+	if (shapeId && chartShapes.has(shapeId)) {
+		return;
+	}
 
 	// Add hover class
 	target.classList.add('runiq-hovered');
@@ -43,7 +57,12 @@ export function handleElementMouseEnter(event: Event, context: MouseHandlerConte
 export function handleElementMouseLeave(event: Event, context: MouseHandlerContext): void {
 	const target = event.currentTarget as SVGElement;
 
+	const shapeId = target.getAttribute('data-node-shape');
 	context.hoveredElementId = null;
+
+	if (shapeId && chartShapes.has(shapeId)) {
+		return;
+	}
 
 	// Remove hover class
 	target.classList.remove('runiq-hovered');

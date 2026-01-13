@@ -12,6 +12,8 @@ import { electricalShapeIcons } from './toolboxIcons/electricalShapeIcons';
 import { pneumaticShapeIcons } from './toolboxIcons/pneumaticShapeIcons';
 import { hydraulicShapeIcons } from './toolboxIcons/hydraulicShapeIcons';
 import { digitalComponentShapeIcons } from './toolboxIcons/digitalComponentShapeIcons';
+import { digitalLogicGateShapeIcons } from './toolboxIcons/digitalLogicGateShapeIcons';
+import { digitalSyntaxShapeIcons } from './toolboxIcons/digitalSyntaxShapeIcons';
 import { awsShapeIcons } from './toolboxIcons/awsShapeIcons';
 import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
 import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
@@ -60,6 +62,8 @@ export const shapeCategories: ShapeCategory[] = [
 	...electricalShapeIcons,
 	...logicGateShapeIcons,
 	...digitalComponentShapeIcons,
+	...digitalLogicGateShapeIcons,
+	...digitalSyntaxShapeIcons,
 	...pneumaticShapeIcons,
 	...hydraulicShapeIcons,
 	...glyphsetIcons
@@ -88,7 +92,11 @@ export const hydraulicShapes: ShapeCategory[] = [...hydraulicShapeIcons];
 export const pneumaticShapes: ShapeCategory[] = [...pneumaticShapeIcons];
 export const electricalShapes: ShapeCategory[] = [
 	...electricalShapeIcons,
-	...logicGateShapeIcons,
+	...logicGateShapeIcons
+];
+export const digitalShapes: ShapeCategory[] = [
+	...digitalSyntaxShapeIcons,
+	...digitalLogicGateShapeIcons,
 	...digitalComponentShapeIcons
 ];
 
@@ -98,6 +106,8 @@ export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCatego
 			return sequenceShapes;
 		case ProfileName.electrical:
 			return electricalShapes;
+		case ProfileName.digital:
+			return digitalShapes;
 		case ProfileName.pneumatic:
 			return pneumaticShapes;
 		case ProfileName.hydraulic:

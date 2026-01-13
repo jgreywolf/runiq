@@ -1485,15 +1485,17 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Calculate max width needed across all pools
       let maxWidth = 0;
       for (const pool of bpmnPools) {
-        const padding =
+        const basePadding =
           pool.containerStyle?.padding !== undefined
             ? pool.containerStyle.padding
             : LayoutDefaults.CONTAINER_PADDING;
+        const paddingLeft = pool.containerStyle?.paddingLeft ?? basePadding;
+        const paddingRight = pool.containerStyle?.paddingRight ?? basePadding;
         const childCount = pool.children.length;
         const avgNodeSize = 100;
         const estimatedWidth = Math.max(
           400, // Minimum width for pools
-          Math.sqrt(childCount) * avgNodeSize * 1.5 + padding * 2
+          Math.sqrt(childCount) * avgNodeSize * 1.5 + paddingLeft + paddingRight
         );
         maxWidth = Math.max(maxWidth, estimatedWidth);
       }
@@ -1654,10 +1656,21 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
 
       // Calculate container size (placeholder dimensions)
-      const padding =
+      const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
           : LayoutDefaults.CONTAINER_PADDING;
+      const hasHeader = Boolean(container.label || container.header);
+      const labelOffset = hasHeader ? 24 : 0;
+      const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
+      const paddingRight =
+        container.containerStyle?.paddingRight ?? basePadding;
+      const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
+      const paddingTop =
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
+      const paddingBottom =
+        container.containerStyle?.paddingBottom ?? basePadding;
 
       // Estimate container size based on children
       const childCount = container.children.length;
@@ -1670,13 +1683,13 @@ export class ElkLayoutEngine implements LayoutEngine {
       } else {
         estimatedWidth = Math.max(
           200,
-          Math.sqrt(childCount) * avgNodeSize + padding * 2
+          Math.sqrt(childCount) * avgNodeSize + paddingLeft + paddingRight
         );
       }
 
       const estimatedHeight = Math.max(
         150,
-        Math.sqrt(childCount) * avgNodeSize + padding * 2
+        Math.sqrt(childCount) * avgNodeSize + paddingTop + paddingBottom
       );
 
       // Add placeholder node representing this container
@@ -1718,10 +1731,21 @@ export class ElkLayoutEngine implements LayoutEngine {
     direction: string
   ): Promise<void> {
     for (const container of containers) {
-      const padding =
+      const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
           : LayoutDefaults.CONTAINER_PADDING;
+      const hasHeader = Boolean(container.label || container.header);
+      const labelOffset = hasHeader ? 24 : 0;
+      const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
+      const paddingRight =
+        container.containerStyle?.paddingRight ?? basePadding;
+      const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
+      const paddingTop =
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
+      const paddingBottom =
+        container.containerStyle?.paddingBottom ?? basePadding;
 
       // Step 1: Recursively calculate nested container sizes first (depth-first)
       if (container.containers && container.containers.length > 0) {
@@ -1820,8 +1844,10 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (containerGraph.children!.length > 0) {
         try {
           const laidOutContainer = await this.elk.layout(containerGraph);
-          contentWidth = (laidOutContainer.width || 0) + padding * 2;
-          contentHeight = (laidOutContainer.height || 0) + padding * 2;
+          contentWidth =
+            (laidOutContainer.width || 0) + paddingLeft + paddingRight;
+          contentHeight =
+            (laidOutContainer.height || 0) + paddingTop + paddingBottom;
 
           // Calculate the actual height used by direct child shapes (excluding placeholders)
           for (const node of laidOutContainer.children || []) {
@@ -1872,8 +1898,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
 
         // Add padding on all sides
-        const nestedContainerWidth = padding + maxRight + padding;
-        const nestedContainerHeight = padding + maxBottom + padding;
+        const nestedContainerWidth = paddingLeft + maxRight + paddingRight;
+        const nestedContainerHeight = paddingTop + maxBottom + paddingBottom;
 
         // Use the larger of: content from direct children OR nested containers
         contentWidth = Math.max(contentWidth, nestedContainerWidth);
@@ -1912,10 +1938,19 @@ export class ElkLayoutEngine implements LayoutEngine {
     // layout containers and contents
     for (const container of containers) {
       // process one container
-      const padding =
+      const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
           : 30;
+      const hasHeader = Boolean(container.label || container.header);
+      const labelOffset = hasHeader ? 24 : 0;
+      const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
+      //const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
+      const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
+      const paddingTop =
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
+      //const paddingBottom = container.containerStyle?.paddingBottom ?? basePadding;
 
       // Get container position from placeholder
       // Note: This position is relative to the parent container's content area
@@ -2017,8 +2052,8 @@ export class ElkLayoutEngine implements LayoutEngine {
           for (const elkNode of laidOutContainer.children || []) {
             const positionedNode = {
               id: elkNode.id,
-              x: containerPos.x + padding + (elkNode.x || 0),
-              y: containerPos.y + padding + (elkNode.y || 0),
+              x: containerPos.x + paddingLeft + (elkNode.x || 0),
+              y: containerPos.y + paddingTop + (elkNode.y || 0),
               width: elkNode.width || 0,
               height: elkNode.height || 0,
             };
@@ -2037,8 +2072,8 @@ export class ElkLayoutEngine implements LayoutEngine {
           // Adjust edge positions to be relative to container
           for (const edge of tempEdges) {
             for (const point of edge.points) {
-              point.x += containerPos.x + padding;
-              point.y += containerPos.y + padding;
+              point.x += containerPos.x + paddingLeft;
+              point.y += containerPos.y + paddingTop;
             }
           }
 
@@ -2100,8 +2135,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         >();
         for (const [id, pos] of nestedPositions.entries()) {
           absoluteNestedPositions.set(id, {
-            x: containerPos.x + padding + pos.x,
-            y: containerPos.y + padding + pos.y,
+            x: containerPos.x + paddingLeft + pos.x,
+            y: containerPos.y + paddingTop + pos.y,
           });
         }
 

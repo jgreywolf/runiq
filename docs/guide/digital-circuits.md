@@ -56,6 +56,8 @@ digital "4-bit Counter" {
 }
 ```
 
+Note: In the editor toolbox, electrical shapes insert `part ... pins:(...)` snippets, while digital shapes insert `inst ... map:(...)` snippets. Digital mode includes both gate-level symbols and module/instance syntax so you can mix primitives with hierarchical blocks.
+
 ## Comparison
 
 | Feature               | `electrical` Profile | `digital` Profile        |

@@ -19,13 +19,38 @@ function wrapText(
   maxWidth: number,
   padding: number
 ): string[] {
-  const words = text.split(/\s+/);
+  const words = text.split(/\s+/).filter(Boolean);
   const lines: string[] = [];
   let currentLine = '';
 
   const availableWidth = maxWidth - padding * 2;
 
   for (const word of words) {
+    const wordSize = ctx.measureText(word, ctx.style);
+    if (wordSize.width > availableWidth) {
+      if (currentLine) {
+        lines.push(currentLine);
+        currentLine = '';
+      }
+
+      let chunk = '';
+      for (const char of word) {
+        const testChunk = chunk + char;
+        const testSize = ctx.measureText(testChunk, ctx.style);
+        if (testSize.width <= availableWidth || chunk === '') {
+          chunk = testChunk;
+        } else {
+          lines.push(chunk);
+          chunk = char;
+        }
+      }
+
+      if (chunk) {
+        lines.push(chunk);
+      }
+      continue;
+    }
+
     const testLine = currentLine ? `${currentLine} ${word}` : word;
     const testSize = ctx.measureText(testLine, ctx.style);
 
@@ -65,40 +90,60 @@ export const noteShape: ShapeDefinition = {
     // Get label text
     const labelText = ctx.node.label || '';
 
-    // Check if data.lines are pre-wrapped (multi-line notes)
-    let lines = (ctx.node.data?.lines as string[]) || null;
+    const maxAllowedWidth =
+      typeof ctx.node.data?.maxWidth === 'number'
+        ? ctx.node.data.maxWidth
+        : MAX_WIDTH;
 
-    if (!lines) {
-      // Auto-wrap text if it exceeds MAX_WIDTH
-      const textSize = ctx.measureText(labelText, ctx.style);
-      const naturalWidth = textSize.width + padding * 2;
+    // Respect provided lines but still wrap any line that exceeds max width.
+    const rawLines =
+      (ctx.node.data?.lines as string[] | undefined) ??
+      (labelText ? [labelText] : ['']);
+    const lines: string[] = [];
+    let didWrap = false;
 
-      if (naturalWidth > MAX_WIDTH) {
-        // Text is too wide, wrap it
-        lines = wrapText(ctx, labelText, MAX_WIDTH, padding);
-        // Store wrapped lines in node data for render() to use
-        if (!ctx.node.data) {
-          (ctx.node as any).data = {};
+    for (const line of rawLines) {
+      if (!line) {
+        lines.push('');
+        continue;
+      }
+
+      const lineSize = ctx.measureText(line, ctx.style);
+      const naturalWidth = lineSize.width + padding * 2;
+
+      if (naturalWidth > maxAllowedWidth) {
+        const wrapped = wrapText(ctx, line, maxAllowedWidth, padding);
+        lines.push(...wrapped);
+        if (wrapped.length > 1 || wrapped[0] !== line) {
+          didWrap = true;
         }
-        (ctx.node.data as any).wrappedLines = lines;
       } else {
-        // Text fits on one line
-        lines = [labelText];
+        lines.push(line);
       }
     }
 
+    if (didWrap) {
+      if (!ctx.node.data) {
+        (ctx.node as any).data = {};
+      }
+      (ctx.node.data as any).wrappedLines = lines;
+    }
+
     // Calculate width based on longest line
-    let maxWidth = 0;
+    let maxLineWidth = 0;
     lines.forEach((line) => {
       const lineSize = ctx.measureText(line, ctx.style);
-      maxWidth = Math.max(maxWidth, lineSize.width);
+      maxLineWidth = Math.max(maxLineWidth, lineSize.width);
     });
 
-    const width = maxWidth + padding * 2;
+    const width = maxLineWidth + padding * 2;
     const height = padding * 2 + lines.length * lineHeight;
 
     // Apply constraints
-    const constrainedWidth = Math.max(MIN_WIDTH, Math.min(width, MAX_WIDTH));
+    const constrainedWidth = Math.max(
+      MIN_WIDTH,
+      Math.min(width, maxAllowedWidth)
+    );
 
     return { width: constrainedWidth, height: Math.max(height, 60) };
   },

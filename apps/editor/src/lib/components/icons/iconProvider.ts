@@ -32,6 +32,7 @@ export function getShapeIconSvg(request: IconRequest): string | null {
 		case ProfileName.diagram:
 		case ProfileName.sequence:
 		case ProfileName.electrical:
+		case ProfileName.digital:
 		case ProfileName.pneumatic:
 		case ProfileName.hydraulic:
 			return getDiagramProfileIcon(shapeId, size);

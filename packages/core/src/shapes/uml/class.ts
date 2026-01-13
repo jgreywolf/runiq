@@ -1,5 +1,4 @@
 import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
-import { calculateCompartmentBounds } from '../utils/render-compartments.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -49,7 +48,7 @@ export const classShape: ShapeDefinition = {
 
   bounds(ctx: ShapeRenderContext) {
     const padding = 12;
-    const lineHeight = 18;
+    const lineHeight = (ctx.style.fontSize || 14) + 4;
 
     const data = ctx.node.data || {};
     const attributes = (data.attributes as ClassAttribute[]) || [];
@@ -68,12 +67,50 @@ export const classShape: ShapeDefinition = {
 
     const headerItems = stereotype ? [`«${stereotype}»`, nameText] : [nameText];
 
-    return calculateCompartmentBounds(ctx, {
-      padding,
-      lineHeight,
-      header: { items: headerItems },
-      compartments: [{ items: attributeTexts }, { items: methodTexts }],
+    const measureText = (text: string) => {
+      if (ctx.measureText) {
+        return ctx.measureText(text, ctx.style);
+      }
+
+      return { width: text.length * 8, height: lineHeight };
+    };
+
+    let maxWidth = 0;
+    headerItems.forEach((item) => {
+      const size = measureText(item);
+      maxWidth = Math.max(maxWidth, size.width);
     });
+    attributeTexts.forEach((item) => {
+      const size = measureText(item);
+      maxWidth = Math.max(maxWidth, size.width);
+    });
+    methodTexts.forEach((item) => {
+      const size = measureText(item);
+      maxWidth = Math.max(maxWidth, size.width);
+    });
+
+    const minWidth = 100;
+    const width = Math.max(minWidth, maxWidth + padding * 2);
+
+    let totalHeight = 0;
+    let nameHeight = lineHeight + padding * 2;
+    if (stereotype) {
+      nameHeight += lineHeight;
+    }
+    totalHeight += nameHeight;
+
+    if (attributeTexts.length > 0) {
+      totalHeight += attributeTexts.length * lineHeight + padding * 2;
+    }
+
+    if (methodTexts.length > 0) {
+      totalHeight += methodTexts.length * lineHeight + padding * 2;
+    }
+
+    const minHeight = 60;
+    const height = Math.max(minHeight, totalHeight);
+
+    return { width, height };
   },
 
   anchors(ctx: ShapeRenderContext) {
@@ -87,7 +124,7 @@ export const classShape: ShapeDefinition = {
     const stereotype = data.stereotype as string | undefined;
 
     const padding = 12;
-    const lineHeight = 18;
+    const lineHeight = (ctx.style.fontSize || 14) + 4;
 
     // Calculate compartment heights
     let nameHeight = lineHeight + padding * 2;
@@ -144,7 +181,7 @@ export const classShape: ShapeDefinition = {
     const stereotype = data.stereotype as string | undefined;
 
     const padding = 12;
-    const lineHeight = 18;
+    const lineHeight = (ctx.style.fontSize || 14) + 4;
 
     // Calculate compartment heights
     let nameHeight = lineHeight + padding * 2;
@@ -180,7 +217,7 @@ export const classShape: ShapeDefinition = {
         ...ctx.style,
         fontSize: (ctx.style.fontSize || 14) * 0.9,
         fontStyle: 'italic' as const,
-        color: ctx.style.textColor || '#000000',
+        color: ctx.style.textColor || ctx.style.color || '#000000',
       };
       svg += renderShapeLabel(
         { ...ctx, style: stereotypeStyle },
@@ -196,7 +233,7 @@ export const classShape: ShapeDefinition = {
       ...ctx.style,
       fontSize: ctx.style.fontSize || 14,
       fontWeight: 'bold',
-      color: ctx.style.textColor || '#000000',
+      color: ctx.style.textColor || ctx.style.color || '#000000',
     };
     svg += renderShapeLabel(
       { ...ctx, style: nameStyle },
@@ -221,7 +258,7 @@ export const classShape: ShapeDefinition = {
         const attrStyle = {
           ...ctx.style,
           fontSize: ctx.style.fontSize || 14,
-          color: ctx.style.textColor || '#000000',
+          color: ctx.style.textColor || ctx.style.color || '#000000',
           textDecoration: (attr.isStatic ? 'underline' : undefined) as
             | 'underline'
             | undefined,
@@ -253,7 +290,7 @@ export const classShape: ShapeDefinition = {
         const methodStyle = {
           ...ctx.style,
           fontSize: ctx.style.fontSize || 14,
-          color: ctx.style.textColor || '#000000',
+          color: ctx.style.textColor || ctx.style.color || '#000000',
           textDecoration: (method.isStatic ? 'underline' : undefined) as
             | 'underline'
             | undefined,

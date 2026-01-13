@@ -17,6 +17,7 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 		'diagram',
 		'pid',
 		'electrical',
+		'digital',
 		'pneumatic',
 		'hydraulic',
 		'sequence',

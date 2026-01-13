@@ -78,7 +78,7 @@ export const invertedPyramidShape: ShapeDefinition = {
     return createStandardAnchors(bounds);
   },
 
-  render(ctx) {
+  render(ctx, position) {
     const bounds = this.bounds(ctx);
     const data = (ctx.node.data as unknown) || {};
 
@@ -114,7 +114,8 @@ export const invertedPyramidShape: ShapeDefinition = {
     const maxWidth = bounds.width - 40;
     const centerX = bounds.width / 2;
 
-    let svg = '';
+    const { x, y } = position;
+    let svg = `<g transform="translate(${x},${y})">`;
 
     // Render levels from top to bottom (largest to smallest - INVERTED)
     levels.forEach((level, index) => {
@@ -174,6 +175,7 @@ export const invertedPyramidShape: ShapeDefinition = {
       }
     });
 
+    svg += `</g>`;
     return svg;
   },
 };

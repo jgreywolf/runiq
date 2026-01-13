@@ -38,6 +38,10 @@ diagram "Energy Flow" {
 
 The shape ID (`energy`) automatically matches the key in your JSON data. The Sankey shape looks for `nodes` and `links` arrays within that data object.
 
+::: note Data Panel parsing
+If you see `Parser error ... found {` after pasting JSON, the editor is parsing the JSON as DSL. This usually means the JSON was entered in the Syntax panel or the Data panel is not enabled in your editor build. In that case, use the external JSON workflow below.
+:::
+
 ### Using External Files (Alternative)
 
 For standalone `.runiq` files, you can reference external JSON:

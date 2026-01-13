@@ -14,6 +14,33 @@ import { escapeXml } from './utils.js';
 import { renderIcon } from './icons.js';
 import { renderLabelWithIcons } from './label-with-icons.js';
 
+const DARK_TEXT = '#0f172a';
+const LIGHT_TEXT = '#ffffff';
+
+function resolveTextColor(fill: string | undefined, fallback: string): string {
+  if (!fill) {
+    return fallback;
+  }
+
+  const hex = fill.trim().replace('#', '');
+  if (hex.length !== 3 && hex.length !== 6) {
+    return fallback;
+  }
+
+  const normalized =
+    hex.length === 3 ? hex.split('').map((c) => c + c).join('') : hex;
+  const r = Number.parseInt(normalized.slice(0, 2), 16);
+  const g = Number.parseInt(normalized.slice(2, 4), 16);
+  const b = Number.parseInt(normalized.slice(4, 6), 16);
+
+  if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) {
+    return fallback;
+  }
+
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.6 ? DARK_TEXT : LIGHT_TEXT;
+}
+
 export function renderNode(
   positioned: PositionedNode,
   diagram: DiagramAst,
@@ -45,9 +72,6 @@ export function renderNode(
     }
     if (!style.stroke && !nodeAst.data?.strokeColor) {
       style.stroke = theme.edgeColor;
-    }
-    if (!style.color && !nodeAst.data?.textColor) {
-      style.color = theme.textColor;
     }
   }
 
@@ -89,6 +113,14 @@ export function renderNode(
     if ((nodeAst.data as any).opacity !== undefined) {
       (style as any).opacity = (nodeAst.data as any).opacity;
     }
+  }
+
+  if (!style.color && !nodeAst.data?.textColor) {
+    const fallbackText = theme?.textColor || DARK_TEXT;
+    style.color = resolveTextColor(
+      typeof style.fill === 'string' ? style.fill : undefined,
+      fallbackText
+    );
   }
 
   // Create label renderer function that supports inline icons
