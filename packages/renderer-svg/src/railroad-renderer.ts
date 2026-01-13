@@ -7,6 +7,9 @@ export interface RailroadRenderOptions {
   height?: number;
   title?: string;
   theme?: string;
+  startMarker?: 'circle' | 'none';
+  endMarker?: 'arrow' | 'circle' | 'none';
+  compact?: boolean;
 }
 
 export interface RailroadRenderResult {
@@ -30,10 +33,11 @@ interface RailroadStyle {
   terminalStroke: string;
   nonterminalFill: string;
   nonterminalStroke: string;
+  operatorFill: string;
   background: string;
 }
 
-const SPACING = {
+const DEFAULT_SPACING = {
   gap: 20,
   branchPad: 24,
   vGap: 18,
@@ -41,6 +45,8 @@ const SPACING = {
   boxPadY: 6,
   loop: 22,
 };
+
+let activeSpacing = { ...DEFAULT_SPACING };
 
 const RAIL = {
   start: 16,
@@ -62,6 +68,56 @@ function line(x1: number, y1: number, x2: number, y2: number): string {
 }
 
 function path(d: string): string {
+  return `<path d="${d}" fill="none" />`;
+}
+
+function roundedPath(
+  points: Array<{ x: number; y: number }>,
+  radius: number
+): string {
+  if (points.length < 2) return '';
+
+  let d = `M ${points[0].x} ${points[0].y}`;
+
+  for (let i = 1; i < points.length - 1; i += 1) {
+    const prev = points[i - 1];
+    const curr = points[i];
+    const next = points[i + 1];
+
+    const v1 = { x: prev.x - curr.x, y: prev.y - curr.y };
+    const v2 = { x: next.x - curr.x, y: next.y - curr.y };
+    const len1 = Math.hypot(v1.x, v1.y);
+    const len2 = Math.hypot(v2.x, v2.y);
+
+    if (len1 === 0 || len2 === 0) {
+      d += ` L ${curr.x} ${curr.y}`;
+      continue;
+    }
+
+    const cross = v1.x * v2.y - v1.y * v2.x;
+    if (cross === 0) {
+      d += ` L ${curr.x} ${curr.y}`;
+      continue;
+    }
+
+    const cornerRadius = Math.min(radius, len1 / 2, len2 / 2);
+    const p1 = {
+      x: curr.x + (v1.x / len1) * cornerRadius,
+      y: curr.y + (v1.y / len1) * cornerRadius,
+    };
+    const p2 = {
+      x: curr.x + (v2.x / len2) * cornerRadius,
+      y: curr.y + (v2.y / len2) * cornerRadius,
+    };
+
+    d += ` L ${p1.x} ${p1.y}`;
+    const sweep = cross < 0 ? 0 : 1;
+    d += ` A ${cornerRadius} ${cornerRadius} 0 0 ${sweep} ${p2.x} ${p2.y}`;
+  }
+
+  const last = points[points.length - 1];
+  d += ` L ${last.x} ${last.y}`;
+
   return `<path d="${d}" fill="none" />`;
 }
 
@@ -108,6 +164,12 @@ function resolveTextColor(fill: string, _fallback: string): string {
   return contrastRatio(fill, dark) >= contrastRatio(fill, light) ? dark : light;
 }
 
+function isOperatorToken(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  return /^[^A-Za-z0-9\s]+$/.test(trimmed);
+}
+
 function blendColor(color: string, background: string, amount: number): string {
   const parse = (value: string): [number, number, number] | null => {
     const hex = value.trim().replace('#', '');
@@ -152,8 +214,8 @@ function layoutToken(
   const fontFamily = style?.fontFamily || DEFAULT_STYLE.fontFamily;
   const textColor = textColorOverride || style?.text || '#0f172a';
   const metrics = measureText(value, { fontSize, fontFamily });
-  const width = Math.max(24, metrics.width + SPACING.boxPadX * 2);
-  const height = Math.max(24, metrics.height + SPACING.boxPadY * 2);
+  const width = Math.max(24, metrics.width + activeSpacing.boxPadX * 2);
+  const height = Math.max(24, metrics.height + activeSpacing.boxPadY * 2);
   const baseline = height / 2;
 
   return {
@@ -182,6 +244,19 @@ function layoutExpr(
 ): LayoutNode {
   switch (expr.type) {
     case 'token':
+      if (isOperatorToken(expr.value)) {
+        return layoutToken(
+          expr.value,
+          style.operatorFill,
+          style.terminalStroke,
+          style.fontSize,
+          'normal',
+          '600',
+          undefined,
+          style,
+          resolveTextColor(style.operatorFill, style.text)
+        );
+      }
       return layoutToken(
         expr.value,
         style.terminalFill,
@@ -236,7 +311,7 @@ function layoutSequence(
   const layouts = items.map((item) => layoutExpr(item, style));
   const width =
     layouts.reduce((sum, item) => sum + item.width, 0) +
-    SPACING.gap * Math.max(0, layouts.length - 1);
+    activeSpacing.gap * Math.max(0, layouts.length - 1);
   const height = Math.max(...layouts.map((item) => item.height), 28);
   const baseline = height / 2;
 
@@ -255,11 +330,11 @@ function layoutSequence(
         if (index < layouts.length - 1) {
           const lineY = y + baseline;
           const startX = cursorX + item.width;
-          const endX = startX + SPACING.gap;
+          const endX = startX + activeSpacing.gap;
           parts.push(line(startX, lineY, endX, lineY));
         }
 
-        cursorX += item.width + SPACING.gap;
+        cursorX += item.width + activeSpacing.gap;
       });
 
       return parts.join('\n');
@@ -273,10 +348,10 @@ function layoutChoice(
 ): LayoutNode {
   const layouts = options.map((item) => layoutExpr(item, style));
   const maxWidth = Math.max(...layouts.map((item) => item.width), 40);
-  const width = maxWidth + SPACING.branchPad * 2;
+  const width = maxWidth + activeSpacing.branchPad * 2;
   const height =
     layouts.reduce((sum, item) => sum + item.height, 0) +
-    SPACING.vGap * Math.max(0, layouts.length - 1);
+    activeSpacing.vGap * Math.max(0, layouts.length - 1);
   const baseline = height / 2;
 
   return {
@@ -288,9 +363,9 @@ function layoutChoice(
       const entryX = x;
       const entryY = y + baseline;
       const exitX = x + width;
-      const leftX = x + SPACING.branchPad / 2;
-      const optionX = x + SPACING.branchPad;
-      const rightX = x + width - SPACING.branchPad / 2;
+      const leftX = x + activeSpacing.branchPad / 2;
+      const optionX = x + activeSpacing.branchPad;
+      const rightX = x + width - activeSpacing.branchPad / 2;
 
       let cursorY = y;
       layouts.forEach((item) => {
@@ -300,13 +375,31 @@ function layoutChoice(
 
         parts.push(item.render(itemX, itemY));
 
-        const toOption = `M ${entryX} ${entryY} H ${leftX} V ${itemBaselineY} H ${itemX}`;
-        parts.push(path(toOption));
+        parts.push(
+          roundedPath(
+            [
+              { x: entryX, y: entryY },
+              { x: leftX, y: entryY },
+              { x: leftX, y: itemBaselineY },
+              { x: itemX, y: itemBaselineY },
+            ],
+            6
+          )
+        );
 
-        const fromOption = `M ${itemX + item.width} ${itemBaselineY} H ${rightX} V ${entryY} H ${exitX}`;
-        parts.push(path(fromOption));
+        parts.push(
+          roundedPath(
+            [
+              { x: itemX + item.width, y: itemBaselineY },
+              { x: rightX, y: itemBaselineY },
+              { x: rightX, y: entryY },
+              { x: exitX, y: entryY },
+            ],
+            6
+          )
+        );
 
-        cursorY += item.height + SPACING.vGap;
+        cursorY += item.height + activeSpacing.vGap;
       });
 
       return parts.join('\n');
@@ -319,9 +412,9 @@ function layoutOptional(
   style: RailroadStyle
 ): LayoutNode {
   const child = layoutExpr(expression, style);
-  const width = child.width + SPACING.branchPad * 2;
-  const height = child.height + SPACING.loop;
-  const baseline = SPACING.loop + child.baseline;
+  const width = child.width + activeSpacing.branchPad * 2;
+  const height = child.height + activeSpacing.loop;
+  const baseline = activeSpacing.loop + child.baseline;
 
   return {
     width,
@@ -333,17 +426,26 @@ function layoutOptional(
       const entryY = y + baseline;
       const exitX = x + width;
 
-      const childX = x + SPACING.branchPad;
-      const childY = y + SPACING.loop;
+      const childX = x + activeSpacing.branchPad;
+      const childY = y + activeSpacing.loop;
       parts.push(child.render(childX, childY));
 
       const lineY = entryY;
       parts.push(line(entryX, lineY, childX, lineY));
       parts.push(line(childX + child.width, lineY, exitX, lineY));
 
-      const bypassY = y + SPACING.loop / 2;
-      const bypassPath = `M ${entryX} ${lineY} V ${bypassY} H ${exitX} V ${lineY}`;
-      parts.push(path(bypassPath));
+      const bypassY = y + activeSpacing.loop / 2;
+      parts.push(
+        roundedPath(
+          [
+            { x: entryX, y: lineY },
+            { x: entryX, y: bypassY },
+            { x: exitX, y: bypassY },
+            { x: exitX, y: lineY },
+          ],
+          6
+        )
+      );
 
       return parts.join('\n');
     },
@@ -356,9 +458,9 @@ function layoutRepeat(
   style: RailroadStyle
 ): LayoutNode {
   const child = layoutExpr(expression, style);
-  const topPad = includeBypass ? SPACING.loop : 0;
-  const width = child.width + SPACING.branchPad * 2;
-  const height = child.height + SPACING.loop + topPad;
+  const topPad = includeBypass ? activeSpacing.loop : 0;
+  const width = child.width + activeSpacing.branchPad * 2;
+  const height = child.height + activeSpacing.loop + topPad;
   const baseline = topPad + child.baseline;
 
   return {
@@ -371,28 +473,82 @@ function layoutRepeat(
       const entryY = y + baseline;
       const exitX = x + width;
 
-      const childX = x + SPACING.branchPad;
+      const childX = x + activeSpacing.branchPad;
       const childY = y + topPad;
       parts.push(child.render(childX, childY));
 
       parts.push(line(entryX, entryY, childX, entryY));
       parts.push(line(childX + child.width, entryY, exitX, entryY));
 
-      const loopY = childY + child.height + SPACING.loop / 2;
-      const loopLeft = x + SPACING.branchPad / 2;
-      const loopRight = x + width - SPACING.branchPad / 2;
-      const loopPath = `M ${childX + child.width} ${entryY} H ${loopRight} V ${loopY} H ${loopLeft} V ${entryY} H ${childX}`;
-      parts.push(path(loopPath));
+      const loopY = childY + child.height + activeSpacing.loop / 2;
+      const loopLeft = x + activeSpacing.branchPad / 2;
+      const loopRight = x + width - activeSpacing.branchPad / 2;
+      parts.push(
+        roundedPath(
+          [
+            { x: childX + child.width, y: entryY },
+            { x: loopRight, y: entryY },
+            { x: loopRight, y: loopY },
+            { x: loopLeft, y: loopY },
+            { x: loopLeft, y: entryY },
+            { x: childX, y: entryY },
+          ],
+          6
+        )
+      );
 
       if (includeBypass) {
-        const bypassY = y + SPACING.loop / 2;
-        const bypassPath = `M ${entryX} ${entryY} V ${bypassY} H ${exitX} V ${entryY}`;
-        parts.push(path(bypassPath));
+        const bypassY = y + activeSpacing.loop / 2;
+        parts.push(
+          roundedPath(
+            [
+              { x: entryX, y: entryY },
+              { x: entryX, y: bypassY },
+              { x: exitX, y: bypassY },
+              { x: exitX, y: entryY },
+            ],
+            6
+          )
+        );
       }
 
       return parts.join('\n');
     },
   };
+}
+
+function collectMissingReferences(
+  diagrams: { name: string; expression: RailroadExpression }[]
+): string[] {
+  const defined = new Set(diagrams.map((diagram) => diagram.name));
+  const missing = new Set<string>();
+
+  const walk = (expr: RailroadExpression) => {
+    switch (expr.type) {
+      case 'reference':
+        if (!defined.has(expr.name)) {
+          missing.add(expr.name);
+        }
+        return;
+      case 'sequence':
+        expr.items.forEach(walk);
+        return;
+      case 'choice':
+        expr.options.forEach(walk);
+        return;
+      case 'optional':
+      case 'oneOrMore':
+      case 'zeroOrMore':
+        walk(expr.expression);
+        return;
+      default:
+        return;
+    }
+  };
+
+  diagrams.forEach((diagram) => walk(diagram.expression));
+
+  return Array.from(missing).sort();
 }
 
 export function renderRailroadDiagram(
@@ -401,6 +557,22 @@ export function renderRailroadDiagram(
 ): RailroadRenderResult {
   const warnings: string[] = [];
   const diagrams = profile.diagrams || [];
+  activeSpacing = options.compact
+    ? {
+        gap: 14,
+        branchPad: 18,
+        vGap: 12,
+        boxPadX: 10,
+        boxPadY: 5,
+        loop: 16,
+      }
+    : { ...DEFAULT_SPACING };
+  const missingRefs = collectMissingReferences(diagrams);
+  if (missingRefs.length > 0) {
+    warnings.push(
+      `Missing railroad diagram references: ${missingRefs.join(', ')}`
+    );
+  }
   const theme = getDiagramTheme(profile.theme || options.theme);
   const background = theme.backgroundColor;
   const stroke = ensureContrast(theme.edgeColor, background);
@@ -409,6 +581,13 @@ export function renderRailroadDiagram(
     theme.railroadMarkerColor || theme.accentColor || theme.edgeColor,
     background
   );
+  const operatorFill = blendColor(
+    theme.railroadOperatorColor || theme.accentColor || theme.edgeColor,
+    background,
+    0.2
+  );
+  const startMarker = options.startMarker ?? theme.railroadStartMarker ?? 'circle';
+  const endMarker = options.endMarker ?? theme.railroadEndMarker ?? 'arrow';
   const terminalFill = blendColor(
     theme.nodeColors[0] || theme.accentColor,
     background,
@@ -429,6 +608,7 @@ export function renderRailroadDiagram(
     terminalStroke: stroke,
     nonterminalFill,
     nonterminalStroke: stroke,
+    operatorFill,
     background,
   };
 
@@ -456,7 +636,7 @@ export function renderRailroadDiagram(
     ...layouts.map(
       (item) =>
         item.layout.width +
-        SPACING.branchPad * 2 +
+        activeSpacing.branchPad * 2 +
         RAIL.start +
         RAIL.end
     ),
@@ -464,7 +644,7 @@ export function renderRailroadDiagram(
   );
   const contentHeight =
     layouts.reduce((sum, item) => sum + item.layout.height, 0) +
-    SPACING.vGap * Math.max(0, layouts.length - 1) +
+    activeSpacing.vGap * Math.max(0, layouts.length - 1) +
     32;
 
   const width = options.width ?? contentWidth + 64;
@@ -474,11 +654,15 @@ export function renderRailroadDiagram(
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
   <title id="diagram-title">${escapeXml(title)}</title>
   <rect x="0" y="0" width="${width}" height="${height}" fill="${style.background}" />
-  <defs>
+  ${
+    endMarker === 'arrow'
+      ? `<defs>
     <marker id="railroad-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
       <path d="M0,0 L8,3 L0,6 Z" fill="${markerFill}" />
     </marker>
-  </defs>
+  </defs>`
+      : ''
+  }
   <g stroke="${style.stroke}" stroke-width="${style.lineWidth}" stroke-linecap="round" stroke-linejoin="round">`;
 
   let cursorY = 24;
@@ -496,13 +680,26 @@ export function renderRailroadDiagram(
     const railLineStart = RAIL.startRadius * 2;
     const railLineEnd = railEndX + RAIL.end;
 
-    svg += `<circle cx="${RAIL.startRadius}" cy="${railY}" r="${RAIL.startRadius}" fill="${markerFill}" />`;
-    svg += line(railLineStart, railY, railStartX, railY);
+    if (startMarker === 'circle') {
+      svg += `<circle cx="${RAIL.startRadius}" cy="${railY}" r="${RAIL.startRadius}" fill="${markerFill}" />`;
+      svg += line(railLineStart, railY, railStartX, railY);
+    } else {
+      svg += line(0, railY, railStartX, railY);
+    }
     svg += layout.render(railStartX, 0);
-    svg += `<line x1="${railEndX}" y1="${railY}" x2="${railLineEnd}" y2="${railY}" marker-end="url(#railroad-arrow)" />`;
+    if (endMarker === 'arrow') {
+      svg += `<line x1="${railEndX}" y1="${railY}" x2="${railLineEnd}" y2="${railY}" marker-end="url(#railroad-arrow)" />`;
+    } else if (endMarker === 'circle') {
+      const endRadius = RAIL.startRadius;
+      const endCircleX = railLineEnd;
+      svg += line(railEndX, railY, endCircleX - endRadius, railY);
+      svg += `<circle cx="${endCircleX}" cy="${railY}" r="${endRadius}" fill="${markerFill}" />`;
+    } else {
+      svg += line(railEndX, railY, railLineEnd, railY);
+    }
     svg += `</g>`;
 
-    cursorY = diagramY + layout.height + SPACING.vGap;
+    cursorY = diagramY + layout.height + activeSpacing.vGap;
   });
 
   svg += '</g></svg>';

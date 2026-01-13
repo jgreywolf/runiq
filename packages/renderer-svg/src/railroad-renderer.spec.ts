@@ -80,4 +80,135 @@ describe('Railroad renderer', () => {
     expect(circleFillMatch).not.toBeNull();
     expect(markerFillMatch![1]).toBe(circleFillMatch![1]);
   });
+
+  it('warns on missing diagram references', () => {
+    const profile: RailroadProfile = {
+      ...baseProfile,
+      diagrams: [
+        {
+          name: 'Expr',
+          expression: {
+            type: 'sequence',
+            items: [
+              { type: 'reference', name: 'Term' },
+              { type: 'token', value: '+' },
+              { type: 'reference', name: 'Missing' },
+            ],
+          },
+        },
+        {
+          name: 'Term',
+          expression: { type: 'token', value: 'x' },
+        },
+      ],
+    };
+
+    const result = renderRailroadDiagram(profile, { width: 300, height: 160 });
+    expect(result.warnings.join('\n')).toContain(
+      'Missing railroad diagram references: Missing'
+    );
+  });
+
+  it('renders rounded connector paths', () => {
+    const profile: RailroadProfile = {
+      ...baseProfile,
+      diagrams: [
+        {
+          name: 'Choice',
+          expression: {
+            type: 'choice',
+            options: [
+              { type: 'token', value: 'a' },
+              { type: 'token', value: 'b' },
+            ],
+          },
+        },
+      ],
+    };
+
+    const result = renderRailroadDiagram(profile, { width: 280, height: 160 });
+    expect(result.svg).toContain('A 6 6');
+  });
+
+  it('supports circle end markers via options', () => {
+    const profile: RailroadProfile = {
+      ...baseProfile,
+      diagrams: [
+        {
+          name: 'EndCircle',
+          expression: { type: 'token', value: 'x' },
+        },
+      ],
+    };
+
+    const result = renderRailroadDiagram(profile, {
+      width: 240,
+      height: 140,
+      endMarker: 'circle',
+    });
+
+    expect(result.svg).not.toContain('railroad-arrow');
+    expect(result.svg).toContain('<circle');
+  });
+
+  it('styles operator tokens differently from terminals', () => {
+    const profile: RailroadProfile = {
+      ...baseProfile,
+      theme: 'professional',
+      diagrams: [
+        {
+          name: 'Ops',
+          expression: {
+            type: 'sequence',
+            items: [
+              { type: 'token', value: 'a' },
+              { type: 'token', value: '+' },
+            ],
+          },
+        },
+      ],
+    };
+
+    const result = renderRailroadDiagram(profile, { width: 240, height: 140 });
+    const fills = Array.from(result.svg.matchAll(/<rect[^>]*fill="([^"]+)"/g)).map(
+      (match) => match[1]
+    );
+    const tokenFills = fills.slice(1, 3);
+    expect(tokenFills.length).toBe(2);
+    expect(new Set(tokenFills).size).toBe(2);
+  });
+
+  it('uses tighter spacing in compact mode', () => {
+    const profile: RailroadProfile = {
+      ...baseProfile,
+      diagrams: [
+        {
+          name: 'Compact',
+          expression: {
+            type: 'sequence',
+            items: [
+              { type: 'token', value: 'a' },
+              { type: 'token', value: 'b' },
+              { type: 'token', value: 'c' },
+            ],
+          },
+        },
+      ],
+    };
+
+    const regular = renderRailroadDiagram(profile, { width: 400, height: 160 });
+    const compact = renderRailroadDiagram(profile, {
+      width: 400,
+      height: 160,
+      compact: true,
+    });
+
+    const widthRegex = /<svg[^>]*width="([^"]+)"/;
+    const regularWidth = Number(regular.svg.match(widthRegex)?.[1]);
+    const compactWidth = Number(compact.svg.match(widthRegex)?.[1]);
+
+    expect(regularWidth).toBeGreaterThan(0);
+    expect(compactWidth).toBeGreaterThan(0);
+    expect(compactWidth).toBeLessThan(regularWidth);
+  });
 });

@@ -14,6 +14,9 @@ export interface DiagramTheme {
   edgeColor: string;
   accentColor: string;
   railroadMarkerColor: string;
+  railroadOperatorColor: string;
+  railroadStartMarker: 'circle' | 'none';
+  railroadEndMarker: 'arrow' | 'circle' | 'none';
   backgroundColor: string;
   textColor: string;
 }
@@ -30,6 +33,9 @@ function baseToDiagramTheme(base: BaseColorPalette): DiagramTheme {
     edgeColor: base.edgeColor,
     accentColor: base.primaryColor,
     railroadMarkerColor: base.primaryColor,
+    railroadOperatorColor: base.secondaryColor,
+    railroadStartMarker: 'circle',
+    railroadEndMarker: 'arrow',
     backgroundColor: base.backgroundColor,
     textColor: base.textColor,
   };
