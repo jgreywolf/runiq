@@ -169,6 +169,16 @@ export const diagramTemplates: Record<ProfileName, DiagramTemplate> = {
 		name: 'Untitled Wardley Map'
 	},
 
+	[ProfileName.railroad]: {
+		content: `railroad "My Grammar" {
+  diagram Expr = Term (("+" | "-") Term)*
+  diagram Term = Factor (("*" | "/") Factor)*
+  diagram Factor = Number | "(" Expr ")"
+  diagram Number = digit+
+}`,
+		name: 'Untitled Railroad Diagram'
+	},
+
 	[ProfileName.glyphset]: {
 		content: `glyphset columnList "Our Tech Stack" {
 	theme "forest"

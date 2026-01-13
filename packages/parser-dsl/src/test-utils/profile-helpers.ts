@@ -11,6 +11,7 @@ import type {
   PIDProfile,
   PneumaticProfile,
   Profile,
+  RailroadProfile,
   SequenceProfile,
   TimelineProfile,
   WardleyProfile,
@@ -123,6 +124,13 @@ export function parseHydraulicProfile(input: string): HydraulicProfile {
  */
 export function parsePIDProfile(input: string): PIDProfile {
   return parseProfile<PIDProfile>(input, 'pid');
+}
+
+/**
+ * Parse a railroad profile with common assertions
+ */
+export function parseRailroadProfile(input: string): RailroadProfile {
+  return parseProfile<RailroadProfile>(input, 'railroad');
 }
 
 /**

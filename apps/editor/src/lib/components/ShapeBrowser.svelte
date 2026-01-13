@@ -105,7 +105,11 @@
 									>
 										<ShapeIcon shapeId={shape.id} size={24} profileName={editorState.profileName} />
 									</Tooltip.Trigger>
-									<Tooltip.Content side="bottom" class="max-w-xs">
+									<Tooltip.Content
+										side="right"
+										sideOffset={8}
+										class="max-w-xs bg-slate-900 text-white shadow-lg pointer-events-none"
+									>
 										<p class="text-xs">{shape.label}</p>
 									</Tooltip.Content>
 								</Tooltip.Root>

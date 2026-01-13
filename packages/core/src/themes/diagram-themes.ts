@@ -13,6 +13,7 @@ export interface DiagramTheme {
   nodeColors: string[];
   edgeColor: string;
   accentColor: string;
+  railroadMarkerColor: string;
   backgroundColor: string;
   textColor: string;
 }
@@ -28,6 +29,7 @@ function baseToDiagramTheme(base: BaseColorPalette): DiagramTheme {
     nodeColors: base.colors,
     edgeColor: base.edgeColor,
     accentColor: base.primaryColor,
+    railroadMarkerColor: base.primaryColor,
     backgroundColor: base.backgroundColor,
     textColor: base.textColor,
   };

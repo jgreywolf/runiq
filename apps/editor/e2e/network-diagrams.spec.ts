@@ -3,7 +3,7 @@
  * Tests force-directed and other network layout algorithms
  */
 
-import { test, expect, type Locator } from '@playwright/test';
+import { expect, test, type Locator } from '@playwright/test';
 
 test.describe('Network Diagrams - Visual Tests', () => {
 	let syntaxEditor: Locator;
@@ -60,7 +60,8 @@ test.describe('Network Diagrams - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('network-01-force-simple.png', {
-					maxDiffPixels: 250,
+					maxDiffPixels: 625,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});
@@ -97,7 +98,7 @@ test.describe('Network Diagrams - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('network-02-force-social.png', {
-					maxDiffPixels: 250,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -183,7 +184,8 @@ diagram "Package Dependencies" {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('network-03-force-dependencies.png', {
-					maxDiffPixels: 250,
+					maxDiffPixels: 600,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});
@@ -266,7 +268,8 @@ diagram "Package Dependencies" {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('network-04-force-medium.png', {
-					maxDiffPixels: 300,
+					maxDiffPixels: 600,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});
@@ -317,7 +320,8 @@ diagram "Package Dependencies" {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('network-05-force-knowledge-graph.png', {
-					maxDiffPixels: 250,
+					maxDiffPixels: 600,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});

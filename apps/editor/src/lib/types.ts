@@ -8,5 +8,6 @@ export enum ProfileName {
 	wardley = 'wardley',
 	sequence = 'sequence',
 	timeline = 'timeline',
-	pid = 'pid'
+	pid = 'pid',
+	railroad = 'railroad'
 }

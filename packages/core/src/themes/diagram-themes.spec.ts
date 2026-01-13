@@ -26,6 +26,7 @@ describe('diagram-themes', () => {
         expect(theme).toHaveProperty('nodeColors');
         expect(theme).toHaveProperty('edgeColor');
         expect(theme).toHaveProperty('accentColor');
+        expect(theme).toHaveProperty('railroadMarkerColor');
         expect(theme).toHaveProperty('backgroundColor');
         expect(theme).toHaveProperty('textColor');
       });
@@ -44,6 +45,7 @@ describe('diagram-themes', () => {
       Object.values(diagramThemes).forEach((theme) => {
         expect(theme.edgeColor).toMatch(hexColorRegex);
         expect(theme.accentColor).toMatch(hexColorRegex);
+        expect(theme.railroadMarkerColor).toMatch(hexColorRegex);
         expect(theme.backgroundColor).toMatch(hexColorRegex);
         expect(theme.textColor).toMatch(hexColorRegex);
 

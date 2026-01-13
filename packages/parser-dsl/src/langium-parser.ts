@@ -8,6 +8,7 @@ import {
   convertHydraulicProfile,
   convertPIDProfile,
   convertPneumaticProfile,
+  convertRailroadProfile,
   convertSequenceProfile,
   convertTimelineProfile,
   convertWardleyProfile,
@@ -128,6 +129,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertDigitalProfile(profile));
     } else if (Langium.isWardleyProfile(profile)) {
       runiqDoc.profiles.push(convertWardleyProfile(profile));
+    } else if (Langium.isRailroadProfile(profile)) {
+      runiqDoc.profiles.push(convertRailroadProfile(profile));
     } else if (Langium.isSequenceProfile(profile)) {
       runiqDoc.profiles.push(convertSequenceProfile(profile));
     } else if (Langium.isPneumaticProfile(profile)) {

@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -141,6 +141,35 @@ DigitalNetStatement:
 
 NetDecl:
     name=ID ('[' width=BusWidth ']')?;
+
+// ============================================================================
+// Railroad Profile (syntax diagrams)
+// ============================================================================
+RailroadProfile:
+    'railroad' name=STRING '{'
+        statements+=RailroadStatement*
+    '}';
+
+RailroadStatement:
+    ThemeDeclaration | RailroadDiagramStatement;
+
+RailroadDiagramStatement:
+    'diagram' name=ID '=' expression=RailroadExpression;
+
+RailroadExpression:
+    RailroadChoice;
+
+RailroadChoice:
+    first=RailroadSequence ('|' rest+=RailroadSequence)*;
+
+RailroadSequence:
+    items+=RailroadUnary+;
+
+RailroadUnary:
+    primary=RailroadPrimary op=('?' | '*' | '+')?;
+
+RailroadPrimary:
+    token=STRING | ref=ID | '(' expression=RailroadExpression ')';
 
 // ============================================================================
 // Pneumatic Profile (ISO 1219-1 pneumatic circuits)

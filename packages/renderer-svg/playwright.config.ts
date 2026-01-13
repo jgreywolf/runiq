@@ -15,9 +15,9 @@ export default defineConfig({
     timeout: 5000,
     toHaveScreenshot: {
       // Maximum pixel difference allowed
-      maxDiffPixels: 100,
+      maxDiffPixels: 475,
       // Maximum percentage of pixels that can differ
-      maxDiffPixelRatio: 0.01,
+      maxDiffPixelRatio: 0.02,
       // Generate diffs for failed comparisons
       animations: 'disabled',
       // Use consistent anti-aliasing

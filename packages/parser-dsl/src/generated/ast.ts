@@ -28,6 +28,8 @@ export type RuniqKeywordNames =
     | "%"
     | "("
     | ")"
+    | "*"
+    | "+"
     | ","
     | "."
     | ".."
@@ -40,6 +42,7 @@ export type RuniqKeywordNames =
     | "900#"
     | ":"
     | "="
+    | "?"
     | "@"
     | "Alloy20"
     | "BT"
@@ -537,6 +540,7 @@ export type RuniqKeywordNames =
     | "quadrants"
     | "queue"
     | "radial"
+    | "railroad"
     | "range:"
     | "rated"
     | "rating:"
@@ -718,6 +722,7 @@ export type RuniqKeywordNames =
     | "yAxis"
     | "yLabel:"
     | "{"
+    | "|"
     | "}";
 
 export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
@@ -3746,7 +3751,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GlyphSetProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | TimelineProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GlyphSetProfile | HydraulicProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -3754,6 +3759,128 @@ export const Profile = {
 
 export function isProfile(item: unknown): item is Profile {
     return reflection.isInstance(item, Profile.$type);
+}
+
+export interface RailroadChoice extends langium.AstNode {
+    readonly $container: RailroadDiagramStatement | RailroadPrimary;
+    readonly $type: 'RailroadChoice';
+    first: RailroadSequence;
+    rest: Array<RailroadSequence>;
+}
+
+export const RailroadChoice = {
+    $type: 'RailroadChoice',
+    first: 'first',
+    rest: 'rest'
+} as const;
+
+export function isRailroadChoice(item: unknown): item is RailroadChoice {
+    return reflection.isInstance(item, RailroadChoice.$type);
+}
+
+export interface RailroadDiagramStatement extends langium.AstNode {
+    readonly $container: RailroadProfile;
+    readonly $type: 'RailroadDiagramStatement';
+    expression: RailroadExpression;
+    name: string;
+}
+
+export const RailroadDiagramStatement = {
+    $type: 'RailroadDiagramStatement',
+    expression: 'expression',
+    name: 'name'
+} as const;
+
+export function isRailroadDiagramStatement(item: unknown): item is RailroadDiagramStatement {
+    return reflection.isInstance(item, RailroadDiagramStatement.$type);
+}
+
+export type RailroadExpression = RailroadChoice;
+
+export const RailroadExpression = {
+    $type: 'RailroadExpression'
+} as const;
+
+export function isRailroadExpression(item: unknown): item is RailroadExpression {
+    return reflection.isInstance(item, RailroadExpression.$type);
+}
+
+export interface RailroadPrimary extends langium.AstNode {
+    readonly $container: RailroadUnary;
+    readonly $type: 'RailroadPrimary';
+    expression?: RailroadExpression;
+    ref?: string;
+    token?: string;
+}
+
+export const RailroadPrimary = {
+    $type: 'RailroadPrimary',
+    expression: 'expression',
+    ref: 'ref',
+    token: 'token'
+} as const;
+
+export function isRailroadPrimary(item: unknown): item is RailroadPrimary {
+    return reflection.isInstance(item, RailroadPrimary.$type);
+}
+
+export interface RailroadProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'RailroadProfile';
+    name: string;
+    statements: Array<RailroadStatement>;
+}
+
+export const RailroadProfile = {
+    $type: 'RailroadProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isRailroadProfile(item: unknown): item is RailroadProfile {
+    return reflection.isInstance(item, RailroadProfile.$type);
+}
+
+export interface RailroadSequence extends langium.AstNode {
+    readonly $container: RailroadChoice;
+    readonly $type: 'RailroadSequence';
+    items: Array<RailroadUnary>;
+}
+
+export const RailroadSequence = {
+    $type: 'RailroadSequence',
+    items: 'items'
+} as const;
+
+export function isRailroadSequence(item: unknown): item is RailroadSequence {
+    return reflection.isInstance(item, RailroadSequence.$type);
+}
+
+export type RailroadStatement = RailroadDiagramStatement | ThemeDeclaration;
+
+export const RailroadStatement = {
+    $type: 'RailroadStatement'
+} as const;
+
+export function isRailroadStatement(item: unknown): item is RailroadStatement {
+    return reflection.isInstance(item, RailroadStatement.$type);
+}
+
+export interface RailroadUnary extends langium.AstNode {
+    readonly $container: RailroadSequence;
+    readonly $type: 'RailroadUnary';
+    op?: '*' | '+' | '?';
+    primary: RailroadPrimary;
+}
+
+export const RailroadUnary = {
+    $type: 'RailroadUnary',
+    op: 'op',
+    primary: 'primary'
+} as const;
+
+export function isRailroadUnary(item: unknown): item is RailroadUnary {
+    return reflection.isInstance(item, RailroadUnary.$type);
 }
 
 export type ResizeHandleValue = 'e' | 'n' | 'ne' | 'nw' | 's' | 'se' | 'sw' | 'w';
@@ -4790,7 +4917,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock | RailroadProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -5491,6 +5618,14 @@ export type RuniqAstType = {
     PresetBlock: PresetBlock
     PressureStatement: PressureStatement
     Profile: Profile
+    RailroadChoice: RailroadChoice
+    RailroadDiagramStatement: RailroadDiagramStatement
+    RailroadExpression: RailroadExpression
+    RailroadPrimary: RailroadPrimary
+    RailroadProfile: RailroadProfile
+    RailroadSequence: RailroadSequence
+    RailroadStatement: RailroadStatement
+    RailroadUnary: RailroadUnary
     RoleSourceProperty: RoleSourceProperty
     RoleTargetProperty: RoleTargetProperty
     RoutingDeclaration: RoutingDeclaration
@@ -7585,6 +7720,93 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        RailroadChoice: {
+            name: RailroadChoice.$type,
+            properties: {
+                first: {
+                    name: RailroadChoice.first
+                },
+                rest: {
+                    name: RailroadChoice.rest,
+                    defaultValue: []
+                }
+            },
+            superTypes: [RailroadExpression.$type]
+        },
+        RailroadDiagramStatement: {
+            name: RailroadDiagramStatement.$type,
+            properties: {
+                expression: {
+                    name: RailroadDiagramStatement.expression
+                },
+                name: {
+                    name: RailroadDiagramStatement.name
+                }
+            },
+            superTypes: [RailroadStatement.$type]
+        },
+        RailroadExpression: {
+            name: RailroadExpression.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        RailroadPrimary: {
+            name: RailroadPrimary.$type,
+            properties: {
+                expression: {
+                    name: RailroadPrimary.expression
+                },
+                ref: {
+                    name: RailroadPrimary.ref
+                },
+                token: {
+                    name: RailroadPrimary.token
+                }
+            },
+            superTypes: []
+        },
+        RailroadProfile: {
+            name: RailroadProfile.$type,
+            properties: {
+                name: {
+                    name: RailroadProfile.name
+                },
+                statements: {
+                    name: RailroadProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        RailroadSequence: {
+            name: RailroadSequence.$type,
+            properties: {
+                items: {
+                    name: RailroadSequence.items,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        RailroadStatement: {
+            name: RailroadStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        RailroadUnary: {
+            name: RailroadUnary.$type,
+            properties: {
+                op: {
+                    name: RailroadUnary.op
+                },
+                primary: {
+                    name: RailroadUnary.primary
+                }
+            },
+            superTypes: []
+        },
         RoleSourceProperty: {
             name: RoleSourceProperty.$type,
             properties: {
@@ -8240,7 +8462,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type]
+            superTypes: [DiagramStatement.$type, RailroadStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,
