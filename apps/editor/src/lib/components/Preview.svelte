@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { parse } from '@runiq/parser-dsl';
-	import { layoutRegistry } from '@runiq/core';
-	import {
-		renderSvg,
-		renderWardleyMap,
-		renderSequenceDiagram,
-		renderTimeline
-	} from '@runiq/renderer-svg';
-	import { renderSchematic, renderPID } from '@runiq/renderer-schematic';
 	import { Badge } from '$lib/components/ui/badge';
+	import { layoutRegistry } from '@runiq/core';
+	import { parse } from '@runiq/parser-dsl';
+	import { renderDigital, renderPID, renderSchematic } from '@runiq/renderer-schematic';
+	import {
+		renderSequenceDiagram,
+		renderSvg,
+		renderTimeline,
+		renderWardleyMap
+	} from '@runiq/renderer-svg';
+	import { onMount } from 'svelte';
 
 	// Props
 	interface Props {
@@ -481,6 +481,15 @@
 						spacing: 180
 					});
 					break;
+				case 'digital':
+					renderResult = renderDigital(profile as any, {
+						gridSize: 50,
+						routing: 'orthogonal',
+						showNetLabels: true,
+						showValues: false,
+						showReferences: true
+					});
+					break;
 				case 'diagram': {
 					// Add astVersion for compatibility with DiagramAst
 					const diagram = {
@@ -505,7 +514,7 @@
 				default:
 					errors = [
 						`Profile type '${profile.type}' is not yet supported in the preview.`,
-						`Currently 'diagram', 'electrical', 'pneumatic', 'hydraulic', 'sequence', 'timeline', 'wardley', and 'pid' profiles can be rendered.`
+						`Currently 'diagram', 'electrical', 'digital', 'pneumatic', 'hydraulic', 'sequence', 'timeline', 'wardley', and 'pid' profiles can be rendered.`
 					];
 					svgOutput = '';
 					isRendering = false;

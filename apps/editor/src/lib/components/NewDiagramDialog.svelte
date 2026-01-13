@@ -117,6 +117,24 @@
 				</div>
 			</button>
 
+			<!-- Digital Circuit Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.digital)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-lime-400 hover:bg-lime-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-lime-100 text-lime-600 transition-colors group-hover:bg-lime-200"
+					>
+						<Icon icon="tabler:logic-xor" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Digital Circuit</h3>
+						<p class="text-sm text-neutral-600">Modules, buses, hierarchical design</p>
+					</div>
+				</div>
+			</button>
+
 			<!-- Pneumatic Circuit Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.pneumatic)}

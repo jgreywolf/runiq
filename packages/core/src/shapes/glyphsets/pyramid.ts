@@ -64,7 +64,7 @@ export const pyramidShape: ShapeDefinition = {
     return createStandardAnchors(bounds);
   },
 
-  render(ctx) {
+  render(ctx, position) {
     const bounds = this.bounds(ctx);
     const data = (ctx.node.data as unknown) || {};
 
@@ -140,7 +140,8 @@ export const pyramidShape: ShapeDefinition = {
     const maxWidth = bounds.width - 40; // Padding on sides
     const centerX = bounds.width / 2;
 
-    let svg = '';
+    const { x, y } = position;
+    let svg = `<g transform="translate(${x},${y})">`;
 
     // Render levels from top to bottom (smallest to largest)
     levels.forEach((level, index) => {
@@ -199,6 +200,7 @@ export const pyramidShape: ShapeDefinition = {
       }
     });
 
+    svg += `</g>`;
     return svg;
   },
 };

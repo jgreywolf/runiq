@@ -489,7 +489,7 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 	<div
-		class="relative flex-1 bg-neutral-50"
+		class="relative flex-1 overflow-hidden bg-neutral-50"
 		bind:this={svgContainer}
 		onmousedown={handleMouseDown}
 		onmousemove={handleMouseMove}

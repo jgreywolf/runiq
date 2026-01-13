@@ -79,7 +79,7 @@ export const segmentedPyramidShape: ShapeDefinition = {
     return createStandardAnchors(bounds);
   },
 
-  render(ctx) {
+  render(ctx, position) {
     const bounds = this.bounds(ctx);
     const data = (ctx.node.data as unknown) || {};
 
@@ -114,7 +114,8 @@ export const segmentedPyramidShape: ShapeDefinition = {
     const maxWidth = bounds.width - 40;
     const centerX = bounds.width / 2;
 
-    let svg = '';
+    const { x, y } = position;
+    let svg = `<g transform="translate(${x},${y})">`;
 
     // Render levels from top to bottom (smallest to largest)
     levels.forEach((level, index) => {
@@ -214,6 +215,7 @@ export const segmentedPyramidShape: ShapeDefinition = {
       }
     });
 
+    svg += `</g>`;
     return svg;
   },
 };

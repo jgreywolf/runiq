@@ -8,7 +8,7 @@ import {
 } from '$lib/components/visual-canvas/mouseHandlers';
 import { SelectionState } from '$lib/components/visual-canvas/SelectionState.svelte';
 import { ViewportState } from '$lib/components/visual-canvas/ViewportState.svelte';
-import { editorState } from '$lib/state';
+import { canvasState } from '$lib/state';
 import { SvelteSet } from 'svelte/reactivity';
 
 /**
@@ -148,13 +148,13 @@ export class InteractionManager {
 
 		// Update editorState
 		if (allSelectedIds.size > 0) {
-			editorState.setSelection(Array.from(allSelectedIds));
+			canvasState.setSelection(Array.from(allSelectedIds));
 		} else {
-			editorState.clearSelection();
+			canvasState.clearSelection();
 		}
 
 		// Update hover state
-		editorState.setHovered(this.selection.hoveredElementId);
+		canvasState.setHovered(this.selection.hoveredElementId);
 	}
 
 	/**
@@ -164,7 +164,7 @@ export class InteractionManager {
 		const context = this.buildContext();
 		handleElementMouseEnter(event, context);
 		this.selection.hoveredElementId = context.hoveredElementId;
-		editorState.setHovered(context.hoveredElementId);
+		canvasState.setHovered(context.hoveredElementId);
 	};
 
 	/**
@@ -174,7 +174,7 @@ export class InteractionManager {
 		const context = this.buildContext();
 		handleElementMouseLeave(event, context);
 		this.selection.hoveredElementId = context.hoveredElementId;
-		editorState.setHovered(context.hoveredElementId);
+		canvasState.setHovered(context.hoveredElementId);
 	};
 
 	/**

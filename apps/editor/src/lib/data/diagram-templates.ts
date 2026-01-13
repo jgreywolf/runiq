@@ -104,6 +104,21 @@ export const diagramTemplates: Record<ProfileName, DiagramTemplate> = {
 		name: 'Untitled Circuit'
 	},
 
+	[ProfileName.digital]: {
+		content: `digital "My Digital Circuit" {
+  // Define a reusable module
+  module Counter ports:(clk, reset, count[3:0])
+
+  // Declare nets
+  net clk, reset
+  net count[3:0]
+
+  // Instantiate the module
+  inst U1 of:Counter map:(clk:clk, reset:reset, count:count)
+}`,
+		name: 'Untitled Digital Circuit'
+	},
+
 	[ProfileName.pneumatic]: {
 		content: `pneumatic "My Pneumatic Circuit" {
   pressure 6 bar operating

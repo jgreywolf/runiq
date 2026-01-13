@@ -3,7 +3,8 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { shapeCategories } from './toolbox-data';
+import { getShapeCategoryByProfile, shapeCategories } from './toolbox-data';
+import { ProfileName } from '../types';
 
 describe('Toolbox Data Structure', () => {
 	it('should have shape categories', () => {
@@ -120,5 +121,21 @@ describe('Toolbox Data Structure', () => {
 			(s) => s.id === 'diamond' || s.code.includes('@rhombus') || s.code.includes('@diamond')
 		);
 		expect(diamondShape).toBeDefined();
+	});
+
+	it('should include digital syntax and components in digital profile', () => {
+		const categories = getShapeCategoryByProfile(ProfileName.digital);
+		const categoryIds = categories.map((cat) => cat.id);
+		expect(categoryIds).toContain('digitalSyntax');
+		expect(categoryIds).toContain('digitalLogicGates');
+		expect(categoryIds).toContain('digitalComponents');
+	});
+
+	it('should not include digital-only categories in electrical profile', () => {
+		const categories = getShapeCategoryByProfile(ProfileName.electrical);
+		const categoryIds = categories.map((cat) => cat.id);
+		expect(categoryIds).not.toContain('digitalSyntax');
+		expect(categoryIds).not.toContain('digitalLogicGates');
+		expect(categoryIds).not.toContain('digitalComponents');
 	});
 });

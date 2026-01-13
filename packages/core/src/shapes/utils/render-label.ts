@@ -48,23 +48,8 @@ export function renderShapeLabel(
     }
   }
 
-  // Adjust x coordinate based on text-anchor if alignment differs from the default 'middle'
-  // Shapes typically pass center x, but start/end need left/right edges
-  let adjustedX = x;
-  if (effectiveTextAnchor !== 'middle' && ctx.measureText) {
-    // Measure text width to calculate adjustment
-    const textMetrics = ctx.measureText(label, ctx.style);
-    const halfWidth = textMetrics.width / 2;
-    const padding = 8; // Standard padding from edges
-
-    if (effectiveTextAnchor === 'start') {
-      // Left align: move from center to left edge + padding
-      adjustedX = x - halfWidth + padding;
-    } else if (effectiveTextAnchor === 'end') {
-      // Right align: move from center to right edge - padding
-      adjustedX = x + halfWidth - padding;
-    }
-  }
+  // Use provided x coordinate as-is; text-anchor controls alignment relative to x.
+  const adjustedX = x;
 
   // Use renderLabel if available (supports inline icons), otherwise plain text
   if (ctx.renderLabel) {

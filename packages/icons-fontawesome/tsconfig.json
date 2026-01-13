@@ -4,6 +4,10 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@runiq/core": ["../core/src"]
+    },
     "types": [],
     "outDir": "./dist"
   },

@@ -51,10 +51,11 @@ export interface EditorState {
 
 /**
  * Detect profile type from current code
- * Official profiles: diagram, sequence, wardley, electrical, pneumatic, hydraulic, glyphset, timeline
+ * Official profiles: diagram, sequence, wardley, electrical, digital, pneumatic, hydraulic, glyphset, timeline
  */
 export function detectProfile(code: string): ProfileName {
 	const trimmed = code.trim();
+	if (trimmed.startsWith('digital')) return ProfileName.digital;
 	if (trimmed.startsWith('electrical')) return ProfileName.electrical;
 	if (trimmed.startsWith('pneumatic')) return ProfileName.pneumatic;
 	if (trimmed.startsWith('hydraulic')) return ProfileName.hydraulic;
