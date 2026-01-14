@@ -1,4 +1,4 @@
-﻿import type { DiagramAst, RuniqDocument } from '@runiq/core';
+import type { DiagramAst, RailroadExpression, RailroadProfile, RuniqDocument } from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import { EmptyFileSystem } from 'langium';
 import {
@@ -104,7 +104,7 @@ export function parse(text: string): ParseResult {
     success: true,
     document: runiqDocument,
     diagram, // Backwards compatibility
-    warnings: [],
+    warnings: collectParseWarnings(runiqDocument),
     errors: [],
     nodeLocations,
   };
@@ -153,4 +153,57 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
   }
 
   return runiqDoc;
+}
+
+function collectParseWarnings(document: RuniqDocument): string[] {
+  const warnings: string[] = [];
+
+  for (const profile of document.profiles) {
+    if (profile.type === ProfileType.RAILROAD) {
+      warnings.push(...collectRailroadWarnings(profile));
+    }
+  }
+
+  return warnings;
+}
+
+function collectRailroadWarnings(profile: RailroadProfile): string[] {
+  const diagrams = profile.diagrams || [];
+  if (diagrams.length === 0) return [];
+
+  const defined = new Set(diagrams.map((diagram) => diagram.name));
+  const missing = new Set<string>();
+
+  const walk = (expr: RailroadExpression) => {
+    switch (expr.type) {
+      case 'reference':
+        if (!defined.has(expr.name)) {
+          missing.add(expr.name);
+        }
+        return;
+      case 'sequence':
+        expr.items.forEach(walk);
+        return;
+      case 'choice':
+        expr.options.forEach(walk);
+        return;
+      case 'optional':
+      case 'oneOrMore':
+      case 'zeroOrMore':
+        walk(expr.expression);
+        return;
+      default:
+        return;
+    }
+  };
+
+  diagrams.forEach((diagram) => walk(diagram.expression));
+
+  if (missing.size === 0) {
+    return [];
+  }
+
+  return [
+    `Missing railroad diagram references: ${Array.from(missing).sort().join(', ')}`,
+  ];
 }
