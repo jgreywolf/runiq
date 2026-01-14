@@ -44,6 +44,7 @@ export interface EditorState {
 	dataContent: string;
 	dataErrors: string[];
 	errors: string[];
+	lintWarnings: string[];
 	diagramName: string;
 	isDirty: boolean;
 	activeTab: string;
@@ -85,6 +86,7 @@ export const editorState = $state<EditorState>({
 	dataContent: '',
 	dataErrors: [],
 	errors: [],
+	lintWarnings: [],
 	diagramName: 'New Diagram',
 	isDirty: false,
 	activeTab: 'syntax',
@@ -157,6 +159,13 @@ export function handleCodeChange(newCode: string, addToHistory: boolean = true) 
  */
 export function handleEditorErrors(editorErrors: string[]) {
 	console.log('Editor errors:', editorErrors);
+}
+
+/**
+ * Handle editor warnings
+ */
+export function handleEditorWarnings(editorWarnings: string[]) {
+	editorState.lintWarnings = editorWarnings;
 }
 
 /**

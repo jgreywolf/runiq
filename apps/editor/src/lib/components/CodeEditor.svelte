@@ -12,7 +12,7 @@
 	import { createRuniqServices } from '@runiq/parser-dsl';
 	import { EmptyFileSystem, URI } from 'langium';
 	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
-	import { handleCodeChange, handleEditorErrors } from '$lib/state/editorState.svelte';
+	import { handleCodeChange, handleEditorErrors, handleEditorWarnings } from '$lib/state/editorState.svelte';
 
 	// Props
 	interface Props {
@@ -295,7 +295,11 @@
 							const errors = diagnostics
 								.filter((d) => d.severity === 'error')
 								.map((d) => d.message);
+							const warnings = diagnostics
+								.filter((d) => d.severity === 'warning')
+								.map((d) => d.message);
 							handleEditorErrors(errors);
+							handleEditorWarnings(warnings);
 						});
 					}
 				}),

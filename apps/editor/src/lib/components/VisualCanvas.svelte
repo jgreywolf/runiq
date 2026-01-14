@@ -30,6 +30,7 @@
 	let showWarnings = $state(false);
 	let lastWarningCount = $state(0);
 	let warningDetails = $state<WarningDetail[]>([]);
+	let combinedWarnings = $state<string[]>([]);
 
 	// DOM element references
 	let editInputElement = $state<HTMLInputElement | null>(null);
@@ -74,8 +75,7 @@
 	});
 
 	$effect(() => {
-		const warningCount =
-			warningDetails.length > 0 ? warningDetails.length : diagramState.warnings.length;
+		const warningCount = warningDetails.length + combinedWarnings.length;
 
 		if (warningCount === 0) {
 			showWarnings = false;
@@ -84,6 +84,21 @@
 		}
 
 		lastWarningCount = warningCount;
+	});
+
+	$effect(() => {
+		const detailMessages = new Set(warningDetails.map((warning) => warning.message));
+		const merged = [...diagramState.warnings, ...editorState.lintWarnings];
+		const unique: string[] = [];
+
+		for (const warning of merged) {
+			if (!warning || detailMessages.has(warning) || unique.includes(warning)) {
+				continue;
+			}
+			unique.push(warning);
+		}
+
+		combinedWarnings = unique;
 	});
 
 	// Effect to attach interactive handlers when SVG output changes
@@ -413,7 +428,7 @@
 					</svg>
 					{diagramState.errors.length} Error{diagramState.errors.length === 1 ? '' : 's'}
 				</Badge>
-			{:else if (warningDetails.length > 0 ? warningDetails.length : diagramState.warnings.length) > 0}
+			{:else if warningDetails.length + combinedWarnings.length > 0}
 				<button
 					type="button"
 					class="focus:outline-none"
@@ -430,11 +445,9 @@
 								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
 							/>
 						</svg>
-						{warningDetails.length > 0 ? warningDetails.length : diagramState.warnings.length}
+						{warningDetails.length + combinedWarnings.length}
 						Warning
-						{(warningDetails.length > 0
-							? warningDetails.length
-							: diagramState.warnings.length) === 1
+						{warningDetails.length + combinedWarnings.length === 1
 							? ''
 							: 's'}
 					</Badge>
@@ -513,7 +526,7 @@
 		</div>
 	</div>
 
-	{#if (warningDetails.length > 0 || diagramState.warnings.length > 0) && showWarnings}
+	{#if (warningDetails.length > 0 || combinedWarnings.length > 0) && showWarnings}
 		<div class="border-b border-warning/40 bg-warning/10 px-4 py-2">
 			<div class="flex items-start justify-between gap-3">
 				<div>
@@ -547,9 +560,10 @@
 								</li>
 							{/each}
 						</ul>
-					{:else}
-						<ul class="mt-1 list-disc space-y-1 pl-5 text-sm text-neutral-700">
-							{#each diagramState.warnings as warning}
+					{/if}
+					{#if combinedWarnings.length > 0}
+						<ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-neutral-700">
+							{#each combinedWarnings as warning}
 								<li>{warning}</li>
 							{/each}
 						</ul>
