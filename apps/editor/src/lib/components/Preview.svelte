@@ -4,6 +4,7 @@
 	import { parse } from '@runiq/parser-dsl';
 	import { renderDigital, renderPID, renderSchematic } from '@runiq/renderer-schematic';
 	import {
+		renderRailroadDiagram,
 		renderSequenceDiagram,
 		renderSvg,
 		renderTimeline,
@@ -481,6 +482,12 @@
 						spacing: 180
 					});
 					break;
+				case 'railroad':
+					renderResult = renderRailroadDiagram(profile as any, {
+						width: 900,
+						height: 260
+					});
+					break;
 				case 'digital':
 					renderResult = renderDigital(profile as any, {
 						gridSize: 50,
@@ -514,7 +521,7 @@
 				default:
 					errors = [
 						`Profile type '${profile.type}' is not yet supported in the preview.`,
-						`Currently 'diagram', 'electrical', 'digital', 'pneumatic', 'hydraulic', 'sequence', 'timeline', 'wardley', and 'pid' profiles can be rendered.`
+						`Currently 'diagram', 'electrical', 'digital', 'pneumatic', 'hydraulic', 'sequence', 'timeline', 'wardley', 'pid', and 'railroad' profiles can be rendered.`
 					];
 					svgOutput = '';
 					isRendering = false;

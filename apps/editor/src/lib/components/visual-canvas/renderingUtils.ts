@@ -1,8 +1,9 @@
 // SVG rendering utilities for the visual canvas
 
-import { parse, type NodeLocation } from '@runiq/parser-dsl';
+import { parse, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
 import { layoutRegistry } from '@runiq/core';
 import {
+	renderRailroadDiagram,
 	renderSvg,
 	renderWardleyMap,
 	renderSequenceDiagram,
@@ -15,6 +16,7 @@ export interface RenderResult {
 	svg: string;
 	errors: string[];
 	warnings: string[];
+	warningDetails?: WarningDetail[];
 	parseTime: number;
 	renderTime: number;
 	nodeLocations?: Map<string, NodeLocation>;
@@ -200,6 +202,10 @@ export async function renderDiagram(
 			);
 		}
 
+		if (parseResult.warningDetails && parseResult.warningDetails.length > 0) {
+			result.warningDetails = parseResult.warningDetails;
+		}
+
 		const renderStart = performance.now();
 
 		// Extract profile from parse result - could be in diagram (legacy) or document.profiles[0]
@@ -250,6 +256,8 @@ export async function renderDiagram(
 			result.svg = renderSchematic(profile as any).svg;
 		} else if (profileType === 'pid') {
 			result.svg = renderPID(profile as any).svg;
+		} else if (profileType === 'railroad') {
+			result.svg = renderRailroadDiagram(profile as any).svg;
 		} else if (profileType === 'digital') {
 			result.svg = renderDigital(profile as any, {
 				gridSize: 50,

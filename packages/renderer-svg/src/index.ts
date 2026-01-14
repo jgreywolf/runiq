@@ -31,6 +31,13 @@ export {
   type TimelineRenderResult,
 } from './timeline-renderer.js';
 
+// Re-export Railroad renderer
+export {
+  renderRailroadDiagram,
+  type RailroadRenderOptions,
+  type RailroadRenderResult,
+} from './railroad-renderer.js';
+
 // Re-export label utilities for inline icons
 export {
   parseLabelWithIcons,

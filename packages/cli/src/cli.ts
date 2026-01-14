@@ -10,13 +10,14 @@ import {
   type DiagramAst,
   type DiagramProfile,
   type DiagramType,
+  type RailroadProfile,
   type WardleyProfile,
 } from '@runiq/core';
 import { fontAwesome } from '@runiq/icons-fontawesome';
 import { astToJson, jsonToAst } from '@runiq/io-json';
 import { ElkLayoutEngine } from '@runiq/layout-base';
 import { parse, type ParseResult } from '@runiq/parser-dsl';
-import { renderSvg, renderWardleyMap } from '@runiq/renderer-svg';
+import { renderRailroadDiagram, renderSvg, renderWardleyMap } from '@runiq/renderer-svg';
 import { Command } from 'commander';
 import { promises as fs } from 'fs';
 
@@ -84,6 +85,7 @@ program
       let ast;
       let isWardley = false;
       let wardleyProfile: WardleyProfile | null = null;
+      let railroadProfile: RailroadProfile | null = null;
 
       // Parse based on file extension or content
       if (input.endsWith('.json')) {
@@ -115,6 +117,20 @@ program
           isWardley = true;
           wardleyProfile = wardley;
         } else {
+          const railroad = result.document?.profiles.find(
+            (p: any): p is RailroadProfile => p.type === 'railroad'
+          );
+          if (railroad) {
+            railroadProfile = railroad;
+          }
+        }
+
+        if (result.warnings.length > 0) {
+          console.warn('Warnings:');
+          result.warnings.forEach((w: string) => console.warn(`  ${w}`));
+        }
+
+        if (!isWardley && !railroadProfile) {
           ast = extractDiagramFromParseResult(result);
           if (!ast) {
             console.error('No diagram or Wardley profile found in document');
@@ -136,6 +152,23 @@ program
         if (options.output) {
           await fs.writeFile(options.output, renderResult.svg);
           console.log(`Wardley Map SVG written to ${options.output}`);
+        } else {
+          console.log(renderResult.svg);
+        }
+        return;
+      }
+
+      if (railroadProfile) {
+        const renderResult = renderRailroadDiagram(railroadProfile);
+
+        if (renderResult.warnings.length > 0) {
+          console.warn('Warnings:');
+          renderResult.warnings.forEach((w) => console.warn(`  ${w}`));
+        }
+
+        if (options.output) {
+          await fs.writeFile(options.output, renderResult.svg);
+          console.log(`Railroad SVG written to ${options.output}`);
         } else {
           console.log(renderResult.svg);
         }
@@ -241,6 +274,10 @@ program
         const result = parse(dslContent);
         if (result.success) {
           console.log('✓ Valid DSL diagram syntax');
+          if (result.warnings.length > 0) {
+            console.warn('Warnings:');
+            result.warnings.forEach((w: string) => console.warn(`  ${w}`));
+          }
           ast = extractDiagramFromParseResult(result);
           if (!ast) {
             console.error('✗ No diagram profile found in document');

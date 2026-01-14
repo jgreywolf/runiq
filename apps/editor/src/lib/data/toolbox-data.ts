@@ -14,6 +14,7 @@ import { hydraulicShapeIcons } from './toolboxIcons/hydraulicShapeIcons';
 import { digitalComponentShapeIcons } from './toolboxIcons/digitalComponentShapeIcons';
 import { digitalLogicGateShapeIcons } from './toolboxIcons/digitalLogicGateShapeIcons';
 import { digitalSyntaxShapeIcons } from './toolboxIcons/digitalSyntaxShapeIcons';
+import { railroadSyntaxShapeIcons } from './toolboxIcons/railroadSyntaxShapeIcons';
 import { awsShapeIcons } from './toolboxIcons/awsShapeIcons';
 import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
 import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
@@ -36,7 +37,7 @@ export interface ShapeCategory {
 	shapes: Shape[];
 	/**
 	 * Profile(s) this shape category belongs to.
-	 * Official profiles: diagram (default), sequence, wardley, electrical, digital, pneumatic, hydraulic
+	 * Official profiles: diagram (default), sequence, wardley, electrical, digital, pneumatic, hydraulic, railroad
 	 * If undefined or contains 'diagram', category is shown in general diagram mode.
 	 */
 	profiles?: string[];
@@ -64,6 +65,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...digitalComponentShapeIcons,
 	...digitalLogicGateShapeIcons,
 	...digitalSyntaxShapeIcons,
+	...railroadSyntaxShapeIcons,
 	...pneumaticShapeIcons,
 	...hydraulicShapeIcons,
 	...glyphsetIcons
@@ -99,6 +101,7 @@ export const digitalShapes: ShapeCategory[] = [
 	...digitalLogicGateShapeIcons,
 	...digitalComponentShapeIcons
 ];
+export const railroadShapes: ShapeCategory[] = [...railroadSyntaxShapeIcons];
 
 export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCategory[] => {
 	switch (profileName) {
@@ -116,6 +119,8 @@ export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCatego
 			return diagramShapes;
 		case ProfileName.glyphset:
 			return glyphsets;
+		case ProfileName.railroad:
+			return railroadShapes;
 		default:
 			return [];
 	}

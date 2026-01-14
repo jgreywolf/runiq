@@ -66,21 +66,24 @@ features:
 ## Quick Example
 
 ```runiq
-diagram "Auth Flow"
-direction LR
+diagram "Auth Flow" {
+  direction LR
 
-style default fill:#f7f7ff strokeColor:#444
-style decision fill:#fff7e6 strokeColor:#aa7700
+  style default fillColor: "#f7f7ff" strokeColor: "#444" font: "Inter" fontSize: 14
+  style decision fillColor: "#fff7e6" strokeColor: "#aa7700"
+  style link strokeColor: "#2a6fdb" strokeWidth: 2
 
-shape User     as @actor   label:"Visitor"
-shape Landing  as @rounded label:"Landing Page"
-shape Check    as @rhombus label:"Signed up?" style:decision
-shape Welcome  as @hexagon     label:"Welcome"
+  shape User     as @actor   label:"Visitor" icon:fa/user
+  shape Landing  as @rounded label:"Landing Page"
+  shape Check    as @rhombus label:"Signed up?" style:decision
+  shape Welcome  as @hexagon     label:"Welcome"
+  shape Pricing  as @doc     label:"Pricing" icon:fa/dollar link:"/pricing" tooltip:"See pricing"
 
-User -> Landing : visits
-Landing -> Check
-Check -yes-> Welcome
-Check[no]  -> Pricing : reads
+  User -visits-> Landing
+  Landing -> Check
+  Check -yes-> Welcome
+  Check -no-> Pricing
+}
 ```
 
 <div style="margin: 2rem 0;">
@@ -143,4 +146,3 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 <div style="text-align: center; margin-top: 3rem; color: #666;">
   Built with ❤️ using Test-Driven Development
 </div>
-

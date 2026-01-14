@@ -84,6 +84,13 @@ Build architecture diagrams, UML models, and process flows.
 - **Visual Examples**: Auth flow, API error handling, async messaging
 - Applications: API design, protocol documentation, user stories
 
+### [Railroad Diagrams](/examples/railroad-diagrams)
+
+- Grammar and syntax rules with EBNF shorthand
+- Left-to-right deterministic layout
+- Branches, loops, and optional paths
+- **Examples**: Arithmetic grammar, JSON subset, URL grammar
+
 ### [Class Diagrams](/examples/class-diagrams)
 
 - UML class modeling with relationships
@@ -338,6 +345,11 @@ Visualize events and milestones over time.
   <a href="/examples/sequence-diagrams" class="example-card">
     <h3>💬 Sequence Diagrams</h3>
     <p>UML message exchanges & interactions</p>
+  </a>
+
+  <a href="/examples/railroad-diagrams" class="example-card">
+    <h3>Railroad Diagrams</h3>
+    <p>Grammar rules & syntax flows</p>
   </a>
 
   <a href="/examples/class-diagrams" class="example-card">

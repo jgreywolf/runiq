@@ -31,12 +31,13 @@ describe('Constants and Enums', () => {
       expect(ProfileType.PNEUMATIC).toBe('pneumatic');
       expect(ProfileType.HYDRAULIC).toBe('hydraulic');
       expect(ProfileType.PID).toBe('pid');
+      expect(ProfileType.RAILROAD).toBe('railroad');
       expect(ProfileType.GLYPHSET).toBe('glyphset');
     });
 
-    it('should have 11 profile types', () => {
+    it('should have 12 profile types', () => {
       const values = Object.values(ProfileType);
-      expect(values).toHaveLength(11);
+      expect(values).toHaveLength(12);
     });
   });
 

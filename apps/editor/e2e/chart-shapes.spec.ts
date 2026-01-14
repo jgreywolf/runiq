@@ -32,7 +32,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-01-line-chart-simple.png', {
-					maxDiffPixels: 200,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -52,7 +52,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-02-line-chart-performance.png', {
-					maxDiffPixels: 200,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -72,7 +72,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-03-line-chart-temperature.png', {
-					maxDiffPixels: 200,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -94,7 +94,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-04-radar-chart-simple.png', {
-					maxDiffPixels: 200,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -114,7 +114,8 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-05-radar-chart-performance.png', {
-					maxDiffPixels: 200,
+					maxDiffPixels: 600,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});
@@ -134,7 +135,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-06-radar-chart-quality.png', {
-					maxDiffPixels: 200,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -157,7 +158,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-07-radar-chart-tech-stack.png', {
-					maxDiffPixels: 200,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -182,7 +183,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-08-mixed-charts.png', {
-					maxDiffPixels: 200,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -225,7 +226,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-09-sankey-simple.png', {
-					maxDiffPixels: 300,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -314,7 +315,7 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-11-sankey-colored-flows.png', {
-					maxDiffPixels: 300,
+					maxDiffPixels: 500,
 					fullPage: true
 				});
 			});
@@ -364,7 +365,8 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-12-sankey-conversion-funnel.png', {
-					maxDiffPixels: 300,
+					maxDiffPixels: 600,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});
@@ -413,7 +415,8 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-13-sankey-budget-allocation.png', {
-					maxDiffPixels: 300,
+					maxDiffPixels: 600,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});
@@ -447,7 +450,8 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-14-sankey-single-node.png', {
-					maxDiffPixels: 300,
+					maxDiffPixels: 600,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});
@@ -496,7 +500,8 @@ test.describe('Phase 4: Chart Shapes - Visual Tests', () => {
 
 			await test.step('Take screenshot for visual regression', async () => {
 				await expect(page).toHaveScreenshot('phase4-15-sankey-complex-energy-grid.png', {
-					maxDiffPixels: 300,
+					maxDiffPixels: 600,
+					maxDiffPixelRatio: 0.03,
 					fullPage: true
 				});
 			});

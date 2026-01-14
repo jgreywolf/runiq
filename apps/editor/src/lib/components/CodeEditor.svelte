@@ -12,7 +12,7 @@
 	import { createRuniqServices } from '@runiq/parser-dsl';
 	import { EmptyFileSystem, URI } from 'langium';
 	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
-	import { handleCodeChange, handleEditorErrors } from '$lib/state/editorState.svelte';
+	import { handleCodeChange, handleEditorErrors, handleEditorWarnings } from '$lib/state/editorState.svelte';
 
 	// Props
 	interface Props {
@@ -295,7 +295,11 @@
 							const errors = diagnostics
 								.filter((d) => d.severity === 'error')
 								.map((d) => d.message);
+							const warnings = diagnostics
+								.filter((d) => d.severity === 'warning')
+								.map((d) => d.message);
 							handleEditorErrors(errors);
+							handleEditorWarnings(warnings);
 						});
 					}
 				}),
@@ -384,6 +388,22 @@
 		});
 
 		// Focus the editor
+		editorView.focus();
+	}
+
+	export function jumpTo(line: number, column: number) {
+		if (!editorView) return;
+
+		const doc = editorView.state.doc;
+		const clampedLine = Math.max(1, Math.min(line, doc.lines));
+		const lineInfo = doc.line(clampedLine);
+		const clampedColumn = Math.max(1, Math.min(column, lineInfo.length + 1));
+		const pos = lineInfo.from + clampedColumn - 1;
+
+		editorView.dispatch({
+			selection: { anchor: pos },
+			scrollIntoView: true
+		});
 		editorView.focus();
 	}
 </script>

@@ -1088,26 +1088,106 @@ Due to length constraints, I'll provide abbreviated templates for the remaining 
 
 ## TIER 4: SPECIALIZED / LOWER PRIORITY
 
+### Issue 31: Railroad Diagrams (BNF/EBNF)
+
+````markdown
+## dYZ\_ Feature: Railroad (Syntax) Diagrams
+
+### Description
+
+Add a dedicated `railroad` profile for grammar/syntax diagrams used in language specifications. Supports EBNF-style shorthand and renders classic railroad layout (left-to-right with branching, loops, and optional paths).
+
+### Current Status
+
+- OK. Diagram/profile architecture exists
+- TODO. Railroad DSL + renderer missing
+
+### Implementation Requirements
+
+**Effort:** 1-2 weeks  
+**Priority:** Medium  
+**Complexity:** Medium (new parser + deterministic layout)
+
+#### Phase 1: Profile + AST (2 days)
+
+- [ ] Add `railroad` profile to grammar and parser
+- [ ] Define AST for railroad expressions: seq, choice, optional, oneOrMore, zeroOrMore, token, ref
+- [ ] Ensure precedence: `seq` binds tighter than `choice` (A B | C == choice(seq(A,B), C))
+
+#### Phase 2: DSL Syntax (2 days)
+
+```runiq
+railroad "Expression Grammar" {
+  diagram Expr = Term (("+" | "-") Term)*
+  diagram Term = Factor (("*" | "/") Factor)*
+  diagram Factor = Number | "(" Expr ")"
+  diagram Number = digit+
+}
+```
+
+**Shorthand rules:**
+
+- Sequence by whitespace: `A B` -> `seq(A, B)`
+- Alternation: `A | B` -> `choice(A, B)`
+- Optional: `A?` -> `optional(A)`
+- One or more: `A+` -> `oneOrMore(A)`
+- Zero or more: `A*` -> `zeroOrMore(A)`
+- Grouping: `(A B) | C`
+- Tokens: `"literal"`; Nonterminals: `Name`
+
+#### Phase 3: Renderer/Layout (3-4 days)
+
+- [ ] Implement deterministic layout (left-to-right)
+- [ ] Primitives: start/end, terminals, nonterminals, lines, arcs
+- [ ] Handle branches, loops, and bypass paths
+- [ ] Theme-aware styling + stroke/label consistency
+
+#### Phase 4: Editor Integration (1 day)
+
+- [ ] Add profile option in new diagram dialog
+- [ ] Add sample templates in toolbox
+- [ ] Wire renderer in preview pipeline
+
+#### Phase 5: Examples + Tests (2 days)
+
+- [ ] Arithmetic grammar example
+- [ ] JSON subset example
+- [ ] URL subset example
+- [ ] Parser unit tests for shorthand expansion
+- [ ] Renderer snapshot tests for seq/choice/repeat/optional
+
+### Acceptance Criteria
+
+- [ ] `railroad` profile parses with shorthand rules
+- [ ] Renders clean railroad diagrams (LTR, readable)
+- [ ] 3+ examples documented
+- [ ] 25+ tests passing
+
+### Estimated Effort
+
+**Total: 1-2 weeks**
+````
+
 ```markdown
-## 🎯 Feature: Radar Chart (1 week)
+## dYZ\_ Feature: Radar Chart (1 week)
 
-## 🎯 Feature: Path Diagram / SEM (1-2 weeks)
+## dYZ\_ Feature: Path Diagram / SEM (1-2 weeks)
 
-## 🎯 Feature: Threat Modeling (1 week)
+## dYZ\_ Feature: Threat Modeling (1 week)
 
-## 🎯 Feature: Event Modeling (1 week)
+## dYZ\_ Feature: Event Modeling (1 week)
 
-## 🎯 Feature: Railroad Diagrams BNF (1-2 weeks)
+## dYZ\_ Feature: Railroad Diagrams BNF (1-2 weeks) (see detailed template above)
 
-## 🎯 Feature: UPN Diagrams (1-2 weeks)
+## dYZ\_ Feature: UPN Diagrams (1-2 weeks)
 
-## 🎯 Feature: Transit System Maps (1-2 weeks)
+## dYZ\_ Feature: Transit System Maps (1-2 weeks)
 
-## 🎯 Feature: N x M Matrix (2-3 days)
+## dYZ\_ Feature: N x M Matrix (2-3 days)
 
-## 🎯 Feature: Causal Loop Diagrams (1 week)
+## dYZ\_ Feature: Causal Loop Diagrams (1 week)
 
-## 🎯 Feature: Ishikawa Fishbone (3-4 days)
+## dYZ\_ Feature: Ishikawa Fishbone (3-4 days)
 ```
 
 ---

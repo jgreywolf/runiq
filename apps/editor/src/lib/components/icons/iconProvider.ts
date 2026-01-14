@@ -36,6 +36,8 @@ export function getShapeIconSvg(request: IconRequest): string | null {
 		case ProfileName.pneumatic:
 		case ProfileName.hydraulic:
 			return getDiagramProfileIcon(shapeId, size);
+		case ProfileName.railroad:
+			return getRailroadSnippetIcon(shapeId, size);
 
 		default:
 			// Fallback: try all sources
@@ -141,6 +143,39 @@ function renderShapeFromRegistry(shapeId: string, size: number): string | null {
 			${shapeContent}
 		</svg>
 	`;
+}
+
+/**
+ * Render a railroad snippet icon (text-based).
+ */
+function getRailroadSnippetIcon(shapeId: string, size: number): string | null {
+	const snippetLabels: Record<string, string> = {
+		'railroad-rule': 'rule',
+		'railroad-theme': 'theme',
+		'railroad-choice': 'A|B',
+		'railroad-sequence': 'A B',
+		'railroad-optional': 'A?',
+		'railroad-zero-or-more': 'A*',
+		'railroad-one-or-more': 'A+',
+		'railroad-group': '(A|B)',
+		'railroad-literal': '"+"',
+		'railroad-reference': 'Expr'
+	};
+
+	const label = snippetLabels[shapeId];
+	if (!label) {
+		return generatePlaceholderIcon(shapeId, size);
+	}
+
+	const fontSize = Math.max(8, Math.floor(size * 0.28));
+	const padding = Math.max(2, Math.floor(size * 0.08));
+	const width = size - padding * 2;
+	const height = size - padding * 2;
+
+	return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+		<rect x="${padding}" y="${padding}" width="${width}" height="${height}" rx="4" fill="#f8fafc" stroke="#94a3b8" stroke-width="1" />
+		<text x="${size / 2}" y="${size / 2 + fontSize * 0.35}" text-anchor="middle" font-size="${fontSize}" fill="#0f172a" font-family="monospace">${label}</text>
+	</svg>`;
 }
 
 /**

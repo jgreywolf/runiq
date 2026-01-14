@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -141,6 +141,90 @@ DigitalNetStatement:
 
 NetDecl:
     name=ID ('[' width=BusWidth ']')?;
+
+// ============================================================================
+// Railroad Profile (syntax diagrams)
+// ============================================================================
+RailroadProfile:
+    'railroad' name=STRING '{'
+        statements+=RailroadStatement*
+    '}';
+
+RailroadStatement:
+    ThemeDeclaration | RailroadOptionsStatement | RailroadDiagramStatement;
+
+RailroadDiagramStatement:
+    'diagram' name=ID '=' expression=RailroadExpression;
+
+RailroadExpression:
+    RailroadChoice;
+
+RailroadChoice:
+    first=RailroadSequence ('|' rest+=RailroadSequence)*;
+
+RailroadSequence:
+    items+=RailroadUnary+;
+
+RailroadUnary:
+    primary=RailroadPrimary op=('?' | '*' | '+')?;
+
+RailroadPrimary:
+    token=STRING | ref=ID | '(' expression=RailroadExpression ')';
+
+RailroadOptionsStatement:
+    'options' properties+=RailroadOptionProperty+;
+
+RailroadOptionProperty:
+    RailroadMarkerColorProperty
+    | RailroadOperatorColorProperty
+    | RailroadStartMarkerProperty
+    | RailroadEndMarkerProperty
+    | RailroadCompactProperty
+    | RailroadGapProperty
+    | RailroadBranchPadProperty
+    | RailroadVGapProperty
+    | RailroadLoopProperty
+    | RailroadBoxPadXProperty
+    | RailroadBoxPadYProperty;
+
+RailroadMarkerColorProperty:
+    'markerColor:' value=STRING;
+
+RailroadOperatorColorProperty:
+    'operatorColor:' value=STRING;
+
+RailroadStartMarkerProperty:
+    'startMarker:' value=RailroadStartMarkerValue;
+
+RailroadStartMarkerValue returns string:
+    'circle' | 'none';
+
+RailroadEndMarkerProperty:
+    'endMarker:' value=RailroadEndMarkerValue;
+
+RailroadEndMarkerValue returns string:
+    'arrow' | 'circle' | 'none';
+
+RailroadCompactProperty:
+    'compact:' value=BooleanValue;
+
+RailroadGapProperty:
+    'gap:' value=NUMBER;
+
+RailroadBranchPadProperty:
+    'branchPad:' value=NUMBER;
+
+RailroadVGapProperty:
+    'vGap:' value=NUMBER;
+
+RailroadLoopProperty:
+    'loop:' value=NUMBER;
+
+RailroadBoxPadXProperty:
+    'boxPadX:' value=NUMBER;
+
+RailroadBoxPadYProperty:
+    'boxPadY:' value=NUMBER;
 
 // ============================================================================
 // Pneumatic Profile (ISO 1219-1 pneumatic circuits)

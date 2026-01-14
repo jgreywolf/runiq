@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
-	import { type NodeLocation } from '@runiq/parser-dsl';
+	import { type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
 	import { Badge } from '$lib/components/ui/badge';
 	import Icon from '@iconify/svelte';
 	import EditorToolbar from './Editor/EditorToolbar.svelte';
@@ -27,6 +27,10 @@
 	let isRendering = $state(false);
 	let parseTime = $state(0);
 	let renderTime = $state(0);
+	let showWarnings = $state(false);
+	let lastWarningCount = $state(0);
+	let warningDetails = $state<WarningDetail[]>([]);
+	let combinedWarnings = $state<string[]>([]);
 
 	// DOM element references
 	let editInputElement = $state<HTMLInputElement | null>(null);
@@ -68,6 +72,33 @@
 	// Effect to update interactionManager's svgContainer reference
 	$effect(() => {
 		interactionManager.setSvgContainer(svgContainer);
+	});
+
+	$effect(() => {
+		const warningCount = warningDetails.length + combinedWarnings.length;
+
+		if (warningCount === 0) {
+			showWarnings = false;
+		} else if (warningCount > lastWarningCount) {
+			showWarnings = true;
+		}
+
+		lastWarningCount = warningCount;
+	});
+
+	$effect(() => {
+		const detailMessages = new Set(warningDetails.map((warning) => warning.message));
+		const merged = [...diagramState.warnings, ...editorState.lintWarnings];
+		const unique: string[] = [];
+
+		for (const warning of merged) {
+			if (!warning || detailMessages.has(warning) || unique.includes(warning)) {
+				continue;
+			}
+			unique.push(warning);
+		}
+
+		combinedWarnings = unique;
 	});
 
 	// Effect to attach interactive handlers when SVG output changes
@@ -126,6 +157,7 @@
 			svgOutput = '';
 			diagramState.clearErrors();
 			diagramState.clearWarnings();
+			warningDetails = [];
 			parseTime = 0;
 			renderTime = 0;
 			handleParse(true, []);
@@ -146,6 +178,7 @@
 			svgOutput = result.svg;
 			diagramState.setErrors(result.errors);
 			diagramState.setWarnings(result.warnings);
+			warningDetails = result.warningDetails ?? [];
 			parseTime = result.parseTime;
 			renderTime = result.renderTime;
 
@@ -162,6 +195,7 @@
 		} catch (error) {
 			const errorMsg = error instanceof Error ? error.message : 'Unknown error';
 			diagramState.setErrors([errorMsg]);
+			warningDetails = [];
 			svgOutput = '';
 			isRendering = false;
 			handleParse(false, diagramState.errors);
@@ -394,18 +428,30 @@
 					</svg>
 					{diagramState.errors.length} Error{diagramState.errors.length === 1 ? '' : 's'}
 				</Badge>
-			{:else if diagramState.warnings.length > 0}
-				<Badge variant="outline" class="gap-1 border-warning text-warning">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-						/>
-					</svg>
-					{diagramState.warnings.length} Warning{diagramState.warnings.length === 1 ? '' : 's'}
-				</Badge>
+			{:else if warningDetails.length + combinedWarnings.length > 0}
+				<button
+					type="button"
+					class="focus:outline-none"
+					onclick={() => {
+						showWarnings = !showWarnings;
+					}}
+				>
+					<Badge variant="outline" class="gap-1 border-warning text-warning">
+						<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+							/>
+						</svg>
+						{warningDetails.length + combinedWarnings.length}
+						Warning
+						{warningDetails.length + combinedWarnings.length === 1
+							? ''
+							: 's'}
+					</Badge>
+				</button>
 			{:else if svgOutput}
 				<Badge variant="default" class="gap-1 bg-success text-white">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -480,8 +526,68 @@
 		</div>
 	</div>
 
+	{#if (warningDetails.length > 0 || combinedWarnings.length > 0) && showWarnings}
+		<div class="border-b border-warning/40 bg-warning/10 px-4 py-2">
+			<div class="flex items-start justify-between gap-3">
+				<div>
+					<div class="text-sm font-semibold text-warning">Warnings</div>
+					{#if warningDetails.length > 0}
+						<ul class="mt-1 space-y-2 text-sm text-neutral-700">
+							{#each warningDetails as warning}
+								<li>
+									<button
+										type="button"
+										class="flex w-full items-start gap-2 rounded px-2 py-1 text-left hover:bg-warning/20"
+										onclick={() => {
+											editorState.showCodeEditor = true;
+											editorState.activeTab = 'syntax';
+											tick().then(() => {
+												editorRefs.code?.jumpTo(
+													warning.range.startLine,
+													warning.range.startColumn
+												);
+											});
+										}}
+									>
+										<span class="mt-0.5 h-1.5 w-1.5 rounded-full bg-warning"></span>
+										<span class="flex-1">
+											<span class="block">{warning.message}</span>
+											<span class="text-xs text-neutral-500">
+												Line {warning.range.startLine}, Col {warning.range.startColumn}
+											</span>
+										</span>
+									</button>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+					{#if combinedWarnings.length > 0}
+						<ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-neutral-700">
+							{#each combinedWarnings as warning}
+								<li>{warning}</li>
+							{/each}
+						</ul>
+					{/if}
+				</div>
+				<button
+					type="button"
+					class="rounded p-1 text-warning hover:bg-warning/20"
+					aria-label="Dismiss warnings"
+					onclick={() => {
+						showWarnings = false;
+					}}
+				>
+					<Icon icon="lucide:x" class="size-4" />
+				</button>
+			</div>
+		</div>
+	{/if}
+
 	<!-- Floating Toolbar -->
-	<div class="absolute left-4 z-10 flex gap-2" style="top: 66px;">
+	<div
+		class="absolute left-4 z-10 flex gap-2"
+		style="top: {showWarnings && diagramState.warnings.length > 0 ? '120px' : '66px'};"
+	>
 		<EditorToolbar {svgContainer} {svgOutput} />
 	</div>
 
