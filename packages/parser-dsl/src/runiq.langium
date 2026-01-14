@@ -179,7 +179,13 @@ RailroadOptionProperty:
     | RailroadOperatorColorProperty
     | RailroadStartMarkerProperty
     | RailroadEndMarkerProperty
-    | RailroadCompactProperty;
+    | RailroadCompactProperty
+    | RailroadGapProperty
+    | RailroadBranchPadProperty
+    | RailroadVGapProperty
+    | RailroadLoopProperty
+    | RailroadBoxPadXProperty
+    | RailroadBoxPadYProperty;
 
 RailroadMarkerColorProperty:
     'markerColor:' value=STRING;
@@ -201,6 +207,24 @@ RailroadEndMarkerValue returns string:
 
 RailroadCompactProperty:
     'compact:' value=BooleanValue;
+
+RailroadGapProperty:
+    'gap:' value=NUMBER;
+
+RailroadBranchPadProperty:
+    'branchPad:' value=NUMBER;
+
+RailroadVGapProperty:
+    'vGap:' value=NUMBER;
+
+RailroadLoopProperty:
+    'loop:' value=NUMBER;
+
+RailroadBoxPadXProperty:
+    'boxPadX:' value=NUMBER;
+
+RailroadBoxPadYProperty:
+    'boxPadY:' value=NUMBER;
 
 // ============================================================================
 // Pneumatic Profile (ISO 1219-1 pneumatic circuits)

@@ -490,6 +490,12 @@ export interface RailroadOptions {
   startMarker?: 'circle' | 'none';
   endMarker?: 'arrow' | 'circle' | 'none';
   compact?: boolean;
+  gap?: number;
+  branchPad?: number;
+  vGap?: number;
+  loop?: number;
+  boxPadX?: number;
+  boxPadY?: number;
 }
 
 export type RailroadExpression =

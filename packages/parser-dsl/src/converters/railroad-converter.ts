@@ -85,6 +85,18 @@ export function convertRailroadProfile(
           options.endMarker = prop.value;
         } else if (Langium.isRailroadCompactProperty(prop)) {
           options.compact = prop.value === 'true';
+        } else if (Langium.isRailroadGapProperty(prop)) {
+          options.gap = Number(prop.value);
+        } else if (Langium.isRailroadBranchPadProperty(prop)) {
+          options.branchPad = Number(prop.value);
+        } else if (Langium.isRailroadVGapProperty(prop)) {
+          options.vGap = Number(prop.value);
+        } else if (Langium.isRailroadLoopProperty(prop)) {
+          options.loop = Number(prop.value);
+        } else if (Langium.isRailroadBoxPadXProperty(prop)) {
+          options.boxPadX = Number(prop.value);
+        } else if (Langium.isRailroadBoxPadYProperty(prop)) {
+          options.boxPadY = Number(prop.value);
         }
       }
     }

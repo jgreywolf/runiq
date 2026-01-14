@@ -137,7 +137,10 @@ export type RuniqKeywordNames =
     | "bottom-left"
     | "bottom-right"
     | "boundary"
+    | "boxPadX:"
+    | "boxPadY:"
     | "branch"
+    | "branchPad:"
     | "break"
     | "cache"
     | "call"
@@ -323,6 +326,7 @@ export type RuniqKeywordNames =
     | "future"
     | "gal"
     | "gal/min"
+    | "gap:"
     | "gates:"
     | "gatewayType:"
     | "generalization"
@@ -691,6 +695,7 @@ export type RuniqKeywordNames =
     | "units"
     | "useContainers"
     | "utility"
+    | "vGap:"
     | "value"
     | "value:"
     | "valveAngle"
@@ -3768,6 +3773,51 @@ export function isProfile(item: unknown): item is Profile {
     return reflection.isInstance(item, Profile.$type);
 }
 
+export interface RailroadBoxPadXProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBoxPadXProperty';
+    value: string;
+}
+
+export const RailroadBoxPadXProperty = {
+    $type: 'RailroadBoxPadXProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBoxPadXProperty(item: unknown): item is RailroadBoxPadXProperty {
+    return reflection.isInstance(item, RailroadBoxPadXProperty.$type);
+}
+
+export interface RailroadBoxPadYProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBoxPadYProperty';
+    value: string;
+}
+
+export const RailroadBoxPadYProperty = {
+    $type: 'RailroadBoxPadYProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBoxPadYProperty(item: unknown): item is RailroadBoxPadYProperty {
+    return reflection.isInstance(item, RailroadBoxPadYProperty.$type);
+}
+
+export interface RailroadBranchPadProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBranchPadProperty';
+    value: string;
+}
+
+export const RailroadBranchPadProperty = {
+    $type: 'RailroadBranchPadProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBranchPadProperty(item: unknown): item is RailroadBranchPadProperty {
+    return reflection.isInstance(item, RailroadBranchPadProperty.$type);
+}
+
 export interface RailroadChoice extends langium.AstNode {
     readonly $container: RailroadDiagramStatement | RailroadPrimary;
     readonly $type: 'RailroadChoice';
@@ -3848,6 +3898,36 @@ export function isRailroadExpression(item: unknown): item is RailroadExpression 
     return reflection.isInstance(item, RailroadExpression.$type);
 }
 
+export interface RailroadGapProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadGapProperty';
+    value: string;
+}
+
+export const RailroadGapProperty = {
+    $type: 'RailroadGapProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadGapProperty(item: unknown): item is RailroadGapProperty {
+    return reflection.isInstance(item, RailroadGapProperty.$type);
+}
+
+export interface RailroadLoopProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadLoopProperty';
+    value: string;
+}
+
+export const RailroadLoopProperty = {
+    $type: 'RailroadLoopProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadLoopProperty(item: unknown): item is RailroadLoopProperty {
+    return reflection.isInstance(item, RailroadLoopProperty.$type);
+}
+
 export interface RailroadMarkerColorProperty extends langium.AstNode {
     readonly $container: RailroadOptionsStatement;
     readonly $type: 'RailroadMarkerColorProperty';
@@ -3878,7 +3958,7 @@ export function isRailroadOperatorColorProperty(item: unknown): item is Railroad
     return reflection.isInstance(item, RailroadOperatorColorProperty.$type);
 }
 
-export type RailroadOptionProperty = RailroadCompactProperty | RailroadEndMarkerProperty | RailroadMarkerColorProperty | RailroadOperatorColorProperty | RailroadStartMarkerProperty;
+export type RailroadOptionProperty = RailroadBoxPadXProperty | RailroadBoxPadYProperty | RailroadBranchPadProperty | RailroadCompactProperty | RailroadEndMarkerProperty | RailroadGapProperty | RailroadLoopProperty | RailroadMarkerColorProperty | RailroadOperatorColorProperty | RailroadStartMarkerProperty | RailroadVGapProperty;
 
 export const RailroadOptionProperty = {
     $type: 'RailroadOptionProperty'
@@ -4000,6 +4080,21 @@ export const RailroadUnary = {
 
 export function isRailroadUnary(item: unknown): item is RailroadUnary {
     return reflection.isInstance(item, RailroadUnary.$type);
+}
+
+export interface RailroadVGapProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadVGapProperty';
+    value: string;
+}
+
+export const RailroadVGapProperty = {
+    $type: 'RailroadVGapProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadVGapProperty(item: unknown): item is RailroadVGapProperty {
+    return reflection.isInstance(item, RailroadVGapProperty.$type);
 }
 
 export type ResizeHandleValue = 'e' | 'n' | 'ne' | 'nw' | 's' | 'se' | 'sw' | 'w';
@@ -5737,11 +5832,16 @@ export type RuniqAstType = {
     PresetBlock: PresetBlock
     PressureStatement: PressureStatement
     Profile: Profile
+    RailroadBoxPadXProperty: RailroadBoxPadXProperty
+    RailroadBoxPadYProperty: RailroadBoxPadYProperty
+    RailroadBranchPadProperty: RailroadBranchPadProperty
     RailroadChoice: RailroadChoice
     RailroadCompactProperty: RailroadCompactProperty
     RailroadDiagramStatement: RailroadDiagramStatement
     RailroadEndMarkerProperty: RailroadEndMarkerProperty
     RailroadExpression: RailroadExpression
+    RailroadGapProperty: RailroadGapProperty
+    RailroadLoopProperty: RailroadLoopProperty
     RailroadMarkerColorProperty: RailroadMarkerColorProperty
     RailroadOperatorColorProperty: RailroadOperatorColorProperty
     RailroadOptionProperty: RailroadOptionProperty
@@ -5752,6 +5852,7 @@ export type RuniqAstType = {
     RailroadStartMarkerProperty: RailroadStartMarkerProperty
     RailroadStatement: RailroadStatement
     RailroadUnary: RailroadUnary
+    RailroadVGapProperty: RailroadVGapProperty
     RoleSourceProperty: RoleSourceProperty
     RoleTargetProperty: RoleTargetProperty
     RoutingDeclaration: RoutingDeclaration
@@ -7846,6 +7947,33 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        RailroadBoxPadXProperty: {
+            name: RailroadBoxPadXProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBoxPadXProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadBoxPadYProperty: {
+            name: RailroadBoxPadYProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBoxPadYProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadBranchPadProperty: {
+            name: RailroadBranchPadProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBranchPadProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
         RailroadChoice: {
             name: RailroadChoice.$type,
             properties: {
@@ -7894,6 +8022,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
             },
             superTypes: []
+        },
+        RailroadGapProperty: {
+            name: RailroadGapProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadGapProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadLoopProperty: {
+            name: RailroadLoopProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadLoopProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
         },
         RailroadMarkerColorProperty: {
             name: RailroadMarkerColorProperty.$type,
@@ -7993,6 +8139,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: []
+        },
+        RailroadVGapProperty: {
+            name: RailroadVGapProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadVGapProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
         },
         RoleSourceProperty: {
             name: RoleSourceProperty.$type,

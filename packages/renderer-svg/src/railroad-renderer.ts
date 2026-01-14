@@ -567,6 +567,24 @@ export function renderRailroadDiagram(
         loop: 16,
       }
     : { ...DEFAULT_SPACING };
+  if (typeof profileOptions.gap === 'number') {
+    activeSpacing.gap = profileOptions.gap;
+  }
+  if (typeof profileOptions.branchPad === 'number') {
+    activeSpacing.branchPad = profileOptions.branchPad;
+  }
+  if (typeof profileOptions.vGap === 'number') {
+    activeSpacing.vGap = profileOptions.vGap;
+  }
+  if (typeof profileOptions.loop === 'number') {
+    activeSpacing.loop = profileOptions.loop;
+  }
+  if (typeof profileOptions.boxPadX === 'number') {
+    activeSpacing.boxPadX = profileOptions.boxPadX;
+  }
+  if (typeof profileOptions.boxPadY === 'number') {
+    activeSpacing.boxPadY = profileOptions.boxPadY;
+  }
   const missingRefs = collectMissingReferences(diagrams);
   if (missingRefs.length > 0) {
     warnings.push(

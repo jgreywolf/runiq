@@ -232,4 +232,48 @@ describe('Railroad renderer', () => {
     expect(result.svg).not.toContain('railroad-arrow');
     expect(result.svg).toContain('fill="#ff0000"');
   });
+
+  it('applies spacing overrides from options', () => {
+    const profile: RailroadProfile = {
+      ...baseProfile,
+      options: {
+        gap: 6,
+        branchPad: 10,
+        vGap: 6,
+        loop: 10,
+        boxPadX: 6,
+        boxPadY: 4,
+      },
+      diagrams: [
+        {
+          name: 'Spacing',
+          expression: {
+            type: 'sequence',
+            items: [
+              { type: 'token', value: 'a' },
+              { type: 'token', value: 'b' },
+              { type: 'token', value: 'c' },
+            ],
+          },
+        },
+      ],
+    };
+
+    const defaultRender = renderRailroadDiagram(
+      { ...profile, options: undefined },
+      { width: 400, height: 160 }
+    );
+    const tunedRender = renderRailroadDiagram(profile, {
+      width: 400,
+      height: 160,
+    });
+
+    const widthRegex = /<svg[^>]*width="([^"]+)"/;
+    const defaultWidth = Number(defaultRender.svg.match(widthRegex)?.[1]);
+    const tunedWidth = Number(tunedRender.svg.match(widthRegex)?.[1]);
+
+    expect(defaultWidth).toBeGreaterThan(0);
+    expect(tunedWidth).toBeGreaterThan(0);
+    expect(tunedWidth).toBeLessThan(defaultWidth);
+  });
 });
