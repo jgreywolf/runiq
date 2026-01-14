@@ -16,7 +16,11 @@ import { HistoryManager } from '../utils/historyManager.svelte';
 
 // Type definitions
 export interface EditorRefs {
-	code: { setValue: (code: string) => void; insertAtCursor: (text: string) => void } | null;
+	code: {
+		setValue: (code: string) => void;
+		insertAtCursor: (text: string) => void;
+		jumpTo: (line: number, column: number) => void;
+	} | null;
 	data: { setValue: (data: string) => void } | null;
 	preview: { hasValidDiagram: () => boolean; getSvg: () => string } | null;
 	viewport: {

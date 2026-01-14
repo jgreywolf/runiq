@@ -1,6 +1,6 @@
 import type { DiagramAst, RailroadExpression, RailroadProfile, RuniqDocument } from '@runiq/core';
 import { ProfileType } from '@runiq/core';
-import { EmptyFileSystem } from 'langium';
+import { EmptyFileSystem, type AstNode } from 'langium';
 import {
   convertDiagramProfile,
   convertDigitalProfile,
@@ -26,11 +26,22 @@ export interface ParseResult {
   document?: RuniqDocument;
   diagram?: DiagramAst; // Backwards compatibility - points to first diagram profile
   warnings: string[];
+  warningDetails?: WarningDetail[];
   errors: string[];
   nodeLocations?: Map<
     string,
     import('./utils/location-tracker.js').NodeLocation
   >;
+}
+
+export interface WarningDetail {
+  message: string;
+  range: {
+    startLine: number;
+    startColumn: number;
+    endLine: number;
+    endColumn: number;
+  };
 }
 
 /**
@@ -74,7 +85,7 @@ export function parse(text: string): ParseResult {
       errors.push(`Parser error${location}: ${err.message}`);
     });
 
-    return { success: false, errors, warnings: [] };
+    return { success: false, errors, warnings: [], warningDetails: [] };
   }
 
   // Convert Langium AST to Runiq Document
@@ -105,6 +116,7 @@ export function parse(text: string): ParseResult {
     document: runiqDocument,
     diagram, // Backwards compatibility
     warnings: collectParseWarnings(runiqDocument),
+    warningDetails: collectParseWarningDetails(document),
     errors: [],
     nodeLocations,
   };
@@ -206,4 +218,77 @@ function collectRailroadWarnings(profile: RailroadProfile): string[] {
   return [
     `Missing railroad diagram references: ${Array.from(missing).sort().join(', ')}`,
   ];
+}
+
+function collectParseWarningDetails(
+  document: Langium.Document
+): WarningDetail[] {
+  const warnings: WarningDetail[] = [];
+
+  for (const profile of document.profiles) {
+    if (Langium.isRailroadProfile(profile)) {
+      warnings.push(...collectRailroadWarningDetails(profile));
+    }
+  }
+
+  return warnings;
+}
+
+function collectRailroadWarningDetails(
+  profile: Langium.RailroadProfile
+): WarningDetail[] {
+  const diagrams = profile.statements.filter((statement) =>
+    Langium.isRailroadDiagramStatement(statement)
+  );
+  if (diagrams.length === 0) return [];
+
+  const defined = new Set(diagrams.map((diagram) => diagram.name));
+  const warningDetails: WarningDetail[] = [];
+
+  const addWarning = (message: string, node?: AstNode) => {
+    const range = node?.$cstNode?.range;
+    if (!range) return;
+
+    warningDetails.push({
+      message,
+      range: {
+        startLine: range.start.line + 1,
+        startColumn: range.start.character + 1,
+        endLine: range.end.line + 1,
+        endColumn: range.end.character + 1,
+      },
+    });
+  };
+
+  function walkExpression(expression: Langium.RailroadExpression) {
+    if (Langium.isRailroadChoice(expression)) {
+      walkSequence(expression.first);
+      expression.rest.forEach(walkSequence);
+    }
+  }
+
+  function walkPrimary(primary: Langium.RailroadPrimary) {
+    if (primary.ref && !defined.has(primary.ref)) {
+      addWarning(`Missing railroad diagram reference: ${primary.ref}`, primary);
+      return;
+    }
+
+    if (primary.expression) {
+      walkExpression(primary.expression);
+    }
+  }
+
+  function walkUnary(unary: Langium.RailroadUnary) {
+    walkPrimary(unary.primary);
+  }
+
+  function walkSequence(sequence: Langium.RailroadSequence) {
+    sequence.items.forEach(walkUnary);
+  }
+
+  diagrams.forEach((diagram) => {
+    walkExpression(diagram.expression);
+  });
+
+  return warningDetails;
 }

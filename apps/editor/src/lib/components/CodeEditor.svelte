@@ -386,6 +386,22 @@
 		// Focus the editor
 		editorView.focus();
 	}
+
+	export function jumpTo(line: number, column: number) {
+		if (!editorView) return;
+
+		const doc = editorView.state.doc;
+		const clampedLine = Math.max(1, Math.min(line, doc.lines));
+		const lineInfo = doc.line(clampedLine);
+		const clampedColumn = Math.max(1, Math.min(column, lineInfo.length + 1));
+		const pos = lineInfo.from + clampedColumn - 1;
+
+		editorView.dispatch({
+			selection: { anchor: pos },
+			scrollIntoView: true
+		});
+		editorView.focus();
+	}
 </script>
 
 <div class="editor-container" bind:this={editorContainer}></div>
