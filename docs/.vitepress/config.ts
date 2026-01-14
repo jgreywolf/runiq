@@ -139,6 +139,7 @@ export default defineConfig({
             { text: 'Wardley Maps', link: '/guide/wardley-maps' },
             { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
             { text: 'Timeline Diagrams', link: '/guide/timeline-diagrams' },
+            { text: 'Railroad Diagrams', link: '/guide/railroad-diagrams' },
             { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
             { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },
             { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
