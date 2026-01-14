@@ -67,9 +67,9 @@ function line(x1: number, y1: number, x2: number, y2: number): string {
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" />`;
 }
 
-function path(d: string): string {
-  return `<path d="${d}" fill="none" />`;
-}
+// function path(d: string): string {
+//   return `<path d="${d}" fill="none" />`;
+// }
 
 function roundedPath(
   points: Array<{ x: number; y: number }>,
@@ -175,7 +175,12 @@ function blendColor(color: string, background: string, amount: number): string {
     const hex = value.trim().replace('#', '');
     if (hex.length !== 3 && hex.length !== 6) return null;
     const normalized =
-      hex.length === 3 ? hex.split('').map((c) => c + c).join('') : hex;
+      hex.length === 3
+        ? hex
+            .split('')
+            .map((c) => c + c)
+            .join('')
+        : hex;
     const r = Number.parseInt(normalized.slice(0, 2), 16);
     const g = Number.parseInt(normalized.slice(2, 4), 16);
     const b = Number.parseInt(normalized.slice(4, 6), 16);
@@ -187,17 +192,10 @@ function blendColor(color: string, background: string, amount: number): string {
   const bg = parse(background);
   if (!fg || !bg) return color;
 
-  const mix = (c: number, b: number) =>
-    Math.round(b + (c - b) * amount);
-  const [r, g, b] = [
-    mix(fg[0], bg[0]),
-    mix(fg[1], bg[1]),
-    mix(fg[2], bg[2]),
-  ];
+  const mix = (c: number, b: number) => Math.round(b + (c - b) * amount);
+  const [r, g, b] = [mix(fg[0], bg[0]), mix(fg[1], bg[1]), mix(fg[2], bg[2])];
 
-  return `#${[r, g, b]
-    .map((v) => v.toString(16).padStart(2, '0'))
-    .join('')}`;
+  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
 }
 
 function layoutToken(
@@ -557,7 +555,9 @@ export function renderRailroadDiagram(
 ): RailroadRenderResult {
   const warnings: string[] = [];
   const diagrams = profile.diagrams || [];
-  activeSpacing = options.compact
+  const profileOptions = profile.options || {};
+  const compact = options.compact ?? profileOptions.compact ?? false;
+  activeSpacing = compact
     ? {
         gap: 14,
         branchPad: 18,
@@ -577,17 +577,28 @@ export function renderRailroadDiagram(
   const background = theme.backgroundColor;
   const stroke = ensureContrast(theme.edgeColor, background);
   const labelText = ensureContrast(theme.textColor, background);
-  const markerFill = ensureContrast(
-    theme.railroadMarkerColor || theme.accentColor || theme.edgeColor,
-    background
-  );
-  const operatorFill = blendColor(
-    theme.railroadOperatorColor || theme.accentColor || theme.edgeColor,
-    background,
-    0.2
-  );
-  const startMarker = options.startMarker ?? theme.railroadStartMarker ?? 'circle';
-  const endMarker = options.endMarker ?? theme.railroadEndMarker ?? 'arrow';
+  const markerColor =
+    profileOptions.markerColor ||
+    theme.railroadMarkerColor ||
+    theme.accentColor ||
+    theme.edgeColor;
+  const markerFill = ensureContrast(markerColor, background);
+  const operatorColor =
+    profileOptions.operatorColor ||
+    theme.railroadOperatorColor ||
+    theme.accentColor ||
+    theme.edgeColor;
+  const operatorFill = blendColor(operatorColor, background, 0.2);
+  const startMarker =
+    options.startMarker ??
+    profileOptions.startMarker ??
+    theme.railroadStartMarker ??
+    'circle';
+  const endMarker =
+    options.endMarker ??
+    profileOptions.endMarker ??
+    theme.railroadEndMarker ??
+    'arrow';
   const terminalFill = blendColor(
     theme.nodeColors[0] || theme.accentColor,
     background,
@@ -635,17 +646,18 @@ export function renderRailroadDiagram(
   const contentWidth = Math.max(
     ...layouts.map(
       (item) =>
-        item.layout.width +
-        activeSpacing.branchPad * 2 +
-        RAIL.start +
-        RAIL.end
+        item.layout.width + activeSpacing.branchPad * 2 + RAIL.start + RAIL.end
     ),
     240
   );
+  const topPad = 24;
+  const labelHeight = 24;
+  const bottomPad = 24;
   const contentHeight =
-    layouts.reduce((sum, item) => sum + item.layout.height, 0) +
+    topPad +
+    layouts.reduce((sum, item) => sum + labelHeight + item.layout.height, 0) +
     activeSpacing.vGap * Math.max(0, layouts.length - 1) +
-    32;
+    bottomPad;
 
   const width = options.width ?? contentWidth + 64;
   const height = options.height ?? contentHeight + 32;
@@ -665,7 +677,7 @@ export function renderRailroadDiagram(
   }
   <g stroke="${style.stroke}" stroke-width="${style.lineWidth}" stroke-linecap="round" stroke-linejoin="round">`;
 
-  let cursorY = 24;
+  let cursorY = topPad;
   const startX = 32;
   layouts.forEach(({ name, layout }) => {
     const labelY = cursorY + 12;

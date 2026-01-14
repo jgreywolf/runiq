@@ -1,6 +1,7 @@
 import type {
   RailroadExpression,
   RailroadProfile as CoreRailroadProfile,
+  RailroadOptions as CoreRailroadOptions,
 } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 
@@ -62,6 +63,7 @@ export function convertRailroadProfile(
   profile: Langium.RailroadProfile
 ): CoreRailroadProfile {
   let theme: string | undefined;
+  const options: CoreRailroadOptions = {};
   const diagrams = profile.statements.filter(
     (statement): statement is Langium.RailroadDiagramStatement =>
       Langium.isRailroadDiagramStatement(statement)
@@ -71,12 +73,28 @@ export function convertRailroadProfile(
     if (Langium.isThemeDeclaration(statement)) {
       theme = statement.value;
     }
+    if (Langium.isRailroadOptionsStatement(statement)) {
+      for (const prop of statement.properties) {
+        if (Langium.isRailroadMarkerColorProperty(prop)) {
+          options.markerColor = stripQuotes(prop.value);
+        } else if (Langium.isRailroadOperatorColorProperty(prop)) {
+          options.operatorColor = stripQuotes(prop.value);
+        } else if (Langium.isRailroadStartMarkerProperty(prop)) {
+          options.startMarker = prop.value;
+        } else if (Langium.isRailroadEndMarkerProperty(prop)) {
+          options.endMarker = prop.value;
+        } else if (Langium.isRailroadCompactProperty(prop)) {
+          options.compact = prop.value === 'true';
+        }
+      }
+    }
   }
 
   return {
     type: 'railroad',
     name: profile.name.replace(/^"|"$/g, ''),
     theme,
+    options: Object.keys(options).length > 0 ? options : undefined,
     diagrams: diagrams.map((statement) => ({
       name: statement.name,
       expression: convertChoice(statement.expression),

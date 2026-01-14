@@ -472,6 +472,7 @@ export interface RailroadProfile {
   type: 'railroad';
   name: string;
   theme?: string;
+  options?: RailroadOptions;
   diagrams: RailroadDiagram[];
 }
 
@@ -481,6 +482,14 @@ export interface RailroadProfile {
 export interface RailroadDiagram {
   name: string;
   expression: RailroadExpression;
+}
+
+export interface RailroadOptions {
+  markerColor?: string;
+  operatorColor?: string;
+  startMarker?: 'circle' | 'none';
+  endMarker?: 'arrow' | 'circle' | 'none';
+  compact?: boolean;
 }
 
 export type RailroadExpression =

@@ -151,7 +151,7 @@ RailroadProfile:
     '}';
 
 RailroadStatement:
-    ThemeDeclaration | RailroadDiagramStatement;
+    ThemeDeclaration | RailroadOptionsStatement | RailroadDiagramStatement;
 
 RailroadDiagramStatement:
     'diagram' name=ID '=' expression=RailroadExpression;
@@ -170,6 +170,37 @@ RailroadUnary:
 
 RailroadPrimary:
     token=STRING | ref=ID | '(' expression=RailroadExpression ')';
+
+RailroadOptionsStatement:
+    'options' properties+=RailroadOptionProperty+;
+
+RailroadOptionProperty:
+    RailroadMarkerColorProperty
+    | RailroadOperatorColorProperty
+    | RailroadStartMarkerProperty
+    | RailroadEndMarkerProperty
+    | RailroadCompactProperty;
+
+RailroadMarkerColorProperty:
+    'markerColor:' value=STRING;
+
+RailroadOperatorColorProperty:
+    'operatorColor:' value=STRING;
+
+RailroadStartMarkerProperty:
+    'startMarker:' value=RailroadStartMarkerValue;
+
+RailroadStartMarkerValue returns string:
+    'circle' | 'none';
+
+RailroadEndMarkerProperty:
+    'endMarker:' value=RailroadEndMarkerValue;
+
+RailroadEndMarkerValue returns string:
+    'arrow' | 'circle' | 'none';
+
+RailroadCompactProperty:
+    'compact:' value=BooleanValue;
 
 // ============================================================================
 // Pneumatic Profile (ISO 1219-1 pneumatic circuits)

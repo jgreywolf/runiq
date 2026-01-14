@@ -211,4 +211,25 @@ describe('Railroad renderer', () => {
     expect(compactWidth).toBeGreaterThan(0);
     expect(compactWidth).toBeLessThan(regularWidth);
   });
+
+  it('applies profile option overrides', () => {
+    const profile: RailroadProfile = {
+      ...baseProfile,
+      options: {
+        startMarker: 'none',
+        endMarker: 'circle',
+        markerColor: '#ff0000',
+      },
+      diagrams: [
+        {
+          name: 'Overrides',
+          expression: { type: 'token', value: 'x' },
+        },
+      ],
+    };
+
+    const result = renderRailroadDiagram(profile, { width: 240, height: 140 });
+    expect(result.svg).not.toContain('railroad-arrow');
+    expect(result.svg).toContain('fill="#ff0000"');
+  });
 });
