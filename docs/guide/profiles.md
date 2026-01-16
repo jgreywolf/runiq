@@ -8,7 +8,7 @@ lastUpdated: 2025-01-20
 
 Runiq supports **11 primary profiles** for different diagramming needs:
 
-- **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, Control system diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
+- **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, control system diagrams, kinematic diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **GlyphSet profile**: SmartArt-style pre-built diagram templates (pyramids, matrices, cycles, org charts) with 61 glyphsets across 6 categories.
 - **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
 - **Timeline profile**: Timeline diagrams and Gantt-style visualizations for project planning, roadmaps, and chronological events.

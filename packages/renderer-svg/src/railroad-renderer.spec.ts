@@ -1,6 +1,44 @@
 import { describe, expect, it } from 'vitest';
+import { getDiagramTheme } from '@runiq/core';
 import type { RailroadProfile } from '@runiq/core';
 import { renderRailroadDiagram } from './railroad-renderer.js';
+
+function luminance(color: string): number | null {
+  const hex = color.trim().replace('#', '');
+  if (hex.length !== 3 && hex.length !== 6) return null;
+  const normalized =
+    hex.length === 3
+      ? hex
+          .split('')
+          .map((c) => c + c)
+          .join('')
+      : hex;
+  const r = Number.parseInt(normalized.slice(0, 2), 16);
+  const g = Number.parseInt(normalized.slice(2, 4), 16);
+  const b = Number.parseInt(normalized.slice(4, 6), 16);
+  if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) return null;
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+}
+
+function contrastRatio(a: string, b: string): number {
+  const lumA = luminance(a);
+  const lumB = luminance(b);
+  if (lumA === null || lumB === null) return 1;
+  const [hi, lo] = lumA > lumB ? [lumA, lumB] : [lumB, lumA];
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+function bestForeground(background: string): string {
+  const lum = luminance(background);
+  if (lum === null) return '#0f172a';
+  return lum > 0.6 ? '#0f172a' : '#ffffff';
+}
+
+function ensureContrast(color: string, background: string): string {
+  return contrastRatio(color, background) < 3
+    ? bestForeground(background)
+    : color;
+}
 
 describe('Railroad renderer', () => {
   const baseProfile: RailroadProfile = {
@@ -187,19 +225,20 @@ describe('Railroad renderer', () => {
           expression: {
             type: 'sequence',
             items: [
-              { type: 'token', value: 'a' },
-              { type: 'token', value: 'b' },
-              { type: 'token', value: 'c' },
+              { type: 'token', value: 'alpha' },
+              { type: 'token', value: 'bravo' },
+              { type: 'token', value: 'charlie' },
+              { type: 'token', value: 'delta' },
+              { type: 'token', value: 'echo' },
+              { type: 'token', value: 'foxtrot' },
             ],
           },
         },
       ],
     };
 
-    const regular = renderRailroadDiagram(profile, { width: 400, height: 160 });
+    const regular = renderRailroadDiagram(profile);
     const compact = renderRailroadDiagram(profile, {
-      width: 400,
-      height: 160,
       compact: true,
     });
 
@@ -228,9 +267,15 @@ describe('Railroad renderer', () => {
       ],
     };
 
-    const result = renderRailroadDiagram(profile, { width: 240, height: 140 });
+    const result = renderRailroadDiagram(profile);
     expect(result.svg).not.toContain('railroad-arrow');
-    expect(result.svg).toContain('fill="#ff0000"');
+    const theme = getDiagramTheme();
+    const expectedFill = ensureContrast('#ff0000', theme.backgroundColor);
+    const circleFillMatch = result.svg.match(
+      /<circle[^>]*fill="([^"]+)"/
+    );
+    expect(circleFillMatch).not.toBeNull();
+    expect(circleFillMatch![1]).toBe(expectedFill);
   });
 
   it('applies spacing overrides from options', () => {
@@ -250,23 +295,23 @@ describe('Railroad renderer', () => {
           expression: {
             type: 'sequence',
             items: [
-              { type: 'token', value: 'a' },
-              { type: 'token', value: 'b' },
-              { type: 'token', value: 'c' },
+              { type: 'token', value: 'alpha' },
+              { type: 'token', value: 'bravo' },
+              { type: 'token', value: 'charlie' },
+              { type: 'token', value: 'delta' },
+              { type: 'token', value: 'echo' },
+              { type: 'token', value: 'foxtrot' },
             ],
           },
         },
       ],
     };
 
-    const defaultRender = renderRailroadDiagram(
-      { ...profile, options: undefined },
-      { width: 400, height: 160 }
-    );
-    const tunedRender = renderRailroadDiagram(profile, {
-      width: 400,
-      height: 160,
+    const defaultRender = renderRailroadDiagram({
+      ...profile,
+      options: undefined,
     });
+    const tunedRender = renderRailroadDiagram(profile);
 
     const widthRegex = /<svg[^>]*width="([^"]+)"/;
     const defaultWidth = Number(defaultRender.svg.match(widthRegex)?.[1]);

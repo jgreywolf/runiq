@@ -12,6 +12,7 @@ import * as dataFlow from './data-flow/index.js';
 import * as erd from './erd/index.js';
 import * as flowchart from './flowchart/index.js';
 import * as glyphsets from './glyphsets/index.js';
+import * as kinematic from './kinematic/index.js';
 import * as network from './network/index.js';
 import * as pedigree from './pedigree/index.js';
 import * as quantum from './quantum/index.js';
@@ -176,6 +177,25 @@ export function registerGlyphsets(): void {
   shapeRegistry.register(glyphsets.matrixOrgChart); // Matrix Org Chart (dual reporting)
 }
 
+export function registerKinematicShapes(): void {
+  shapeRegistry.register(kinematic.revoluteJointShape);
+  shapeRegistry.register(kinematic.fixedJointShape);
+  shapeRegistry.register(kinematic.prismaticJointShape);
+  shapeRegistry.register(kinematic.sphericalJointShape);
+  shapeRegistry.register(kinematic.universalJointShape);
+  shapeRegistry.register(kinematic.cylindricalJointShape);
+  shapeRegistry.register(kinematic.planarJointShape);
+  shapeRegistry.register(kinematic.binaryLinkShape);
+  shapeRegistry.register(kinematic.ternaryLinkShape);
+  shapeRegistry.register(kinematic.quaternaryLinkShape);
+  shapeRegistry.register(kinematic.groundLinkShape);
+  shapeRegistry.register(kinematic.rotaryMotorShape);
+  shapeRegistry.register(kinematic.linearActuatorShape);
+  shapeRegistry.register(kinematic.springShape);
+  shapeRegistry.register(kinematic.damperShape);
+  shapeRegistry.register(kinematic.gearShape);
+}
+
 export function registerNetworkShapes(): void {
   shapeRegistry.register(network.serverShape);
   shapeRegistry.register(network.routerShape);
@@ -334,6 +354,7 @@ export function registerDefaultShapes(): void {
   registerERDShapes();
   registerDataFlowShapes();
   registerGlyphsets();
+  registerKinematicShapes();
 
   // Register all common aliases
   registerShapeAliases();
@@ -349,6 +370,7 @@ export * from './control-systems/index.js';
 export * from './data-flow/index.js';
 export * from './erd/index.js';
 export * from './flowchart/index.js';
+export * from './kinematic/index.js';
 export * from './network/index.js';
 export * from './pedigree/index.js';
 export * from './quantum/index.js';

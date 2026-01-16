@@ -31,7 +31,7 @@ features:
     details: Standards-compliant SVG with no HTML hacks. Embed-safe for PowerPoint, Keynote, Google Slides.
 
   - icon: 🔧
-    title: 176 Shapes Across 17 Categories
+    title: 192 Shapes Across 18 Categories
     details: From flowcharts to UML diagrams, quantum circuits to Control system diagrams, BPMN to AWS infrastructure.
 
   - icon: ✨
@@ -124,7 +124,7 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 
 **October 31, 2025** - v0.1.0 Released! 🎉
 
-- ✅ 176 shapes across 17 categories
+- ✅ 192 shapes across 18 categories
 - ✅ Quantum circuits, <!-- pedigree charts, --> BPMN, AWS, ERD, DFD support
 - ✅ UML relationship support (stereotypes, line styles, arrow types)
 - ✅ Control system diagrams with LaTeX and Simulink export

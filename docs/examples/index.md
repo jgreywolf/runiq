@@ -161,6 +161,16 @@ Design control loops and signal processing.
 - Export to LaTeX/TikZ and Simulink MDL
 - **Supports**: Summing junctions, gain blocks, integrators
 
+## Mechanical Systems
+
+Linkages and mechanisms for robotics and motion design.
+
+### [Kinematic Diagrams](/examples/kinematic-diagrams)
+
+- Joints, links, and actuators for mechanism layouts
+- Four-bar linkages, slider-cranks, and robot arms
+- Applications: robotics, mechanism design, motion studies
+
 ## Electrical Engineering
 
 Create professional IEEE-standard circuit diagrams.
@@ -375,6 +385,11 @@ Visualize events and milestones over time.
   <a href="/examples/control-diagrams" class="example-card">
     <h3>🎛️ Control system Diagrams</h3>
     <p>Control systems & signal flow</p>
+  </a>
+
+  <a href="/examples/kinematic-diagrams" class="example-card">
+    <h3>Kinematic Diagrams</h3>
+    <p>Linkages, joints, and actuators</p>
   </a>
   
   <a href="/examples/electrical" class="example-card">

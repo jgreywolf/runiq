@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1479.2" height="123.2" 
+    viewBox="0 0 1479.2 123.2"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Two-DOF Arm</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="Base" data-node-id="Base" data-node-shape="groundLink">
+      <rect x="12" y="28" width="140" height="60"
+        fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      <line x1="35.33333333333333" y1="70" x2="25.999999999999993" y2="82" stroke="#48677e" stroke-width="1" />
+<line x1="58.666666666666664" y1="70" x2="49.33333333333333" y2="82" stroke="#48677e" stroke-width="1" />
+<line x1="82" y1="70" x2="72.66666666666667" y2="82" stroke="#48677e" stroke-width="1" />
+<line x1="105.33333333333333" y1="70" x2="96" y2="82" stroke="#48677e" stroke-width="1" />
+<line x1="128.66666666666666" y1="70" x2="119.33333333333333" y2="82" stroke="#48677e" stroke-width="1" />
+      <text x="82" y="58" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      Base
+    </text>
+    </g><g data-runiq-node="J1" data-node-id="J1" data-node-shape="revoluteJoint">
+      <circle cx="347.6" cy="57.6" r="45.6"
+        fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      <circle cx="347.6" cy="57.6" r="5.4719999999999995"
+        fill="#48677e" />
+      <text x="347.6" y="57.6" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      Shoulder
+    </text>
+    </g><g data-runiq-node="Link1" data-node-id="Link1" data-node-shape="binaryLink">
+      <rect x="543.2" y="33" width="140" height="50"
+        rx="12.5" ry="12.5"
+        fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      <circle cx="563.2" cy="58" r="15"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <circle cx="663.2" cy="58" r="15"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <text x="613.2" y="58" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#0f172a">
+      Link 1
+    </text>
+    </g><g data-runiq-node="J2" data-node-id="J2" data-node-shape="revoluteJoint">
+      <circle cx="866.2" cy="58" r="33"
+        fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      <circle cx="866.2" cy="58" r="3.96"
+        fill="#48677e" />
+      <text x="866.2" y="58" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      Elbow
+    </text>
+    </g><g data-runiq-node="Link2" data-node-id="Link2" data-node-shape="binaryLink">
+      <rect x="1049.2" y="33" width="140" height="50"
+        rx="12.5" ry="12.5"
+        fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      <circle cx="1069.2" cy="58" r="15"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <circle cx="1169.2" cy="58" r="15"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <text x="1119.2" y="58" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#0f172a">
+      Link 2
+    </text>
+    </g><g data-runiq-node="Tool" data-node-id="Tool" data-node-shape="ternaryLink">
+      <polygon points="1399.2,26.5 1437.6000000000001,89.5 1360.8,89.5"
+        fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      <circle cx="1399.2" cy="39.46" r="10.799999999999999"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <circle cx="1371.6" cy="76.54" r="10.799999999999999"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <circle cx="1426.8000000000002" cy="76.54" r="10.799999999999999"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <text x="1399.2" y="58" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#0f172a">
+      Tool
+    </text>
+    </g><g data-runiq-edge="Base-J1-0" data-edge-id="Base-J1-0" data-edge-from="Base" data-edge-to="J1"><defs>
+      <marker id="arrow-standard-Base-J1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 152 58 L 227 58 L 227 57.6 L 302 57.6" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 152 58 L 227 58 L 227 57.6 L 302 57.6" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Base-J1)" pointer-events="none" /></g><g data-runiq-edge="J1-Link1-1" data-edge-id="J1-Link1-1" data-edge-from="J1" data-edge-to="Link1"><defs>
+      <marker id="arrow-standard-J1-Link1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 393.2 57.6 L 468.20000000000005 57.6 L 468.20000000000005 58 L 543.2 58" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 393.2 57.6 L 468.20000000000005 57.6 L 468.20000000000005 58 L 543.2 58" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-J1-Link1)" pointer-events="none" /></g><g data-runiq-edge="Link1-J2-2" data-edge-id="Link1-J2-2" data-edge-from="Link1" data-edge-to="J2"><defs>
+      <marker id="arrow-standard-Link1-J2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 683.2 58 L 758.2 58 L 758.2 58 L 833.2 58" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 683.2 58 L 758.2 58 L 758.2 58 L 833.2 58" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Link1-J2)" pointer-events="none" /></g><g data-runiq-edge="J2-Link2-3" data-edge-id="J2-Link2-3" data-edge-from="J2" data-edge-to="Link2"><defs>
+      <marker id="arrow-standard-J2-Link2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 899.2 58 L 974.2 58 L 974.2 58 L 1049.2 58" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 899.2 58 L 974.2 58 L 974.2 58 L 1049.2 58" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-J2-Link2)" pointer-events="none" /></g><g data-runiq-edge="Link2-Tool-4" data-edge-id="Link2-Tool-4" data-edge-from="Link2" data-edge-to="Tool"><defs>
+      <marker id="arrow-standard-Link2-Tool" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1189.2 58 L 1264.2 58 L 1264.2 58 L 1339.2 58" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1189.2 58 L 1264.2 58 L 1264.2 58 L 1339.2 58" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Link2-Tool)" pointer-events="none" /></g></svg>

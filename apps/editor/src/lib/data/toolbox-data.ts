@@ -8,6 +8,7 @@ import { c4ShapeIcons } from './toolboxIcons/c4ShapeIcons';
 import { bpmnShapeIcons } from './toolboxIcons/bpmnShapeIcons';
 import { storageShapeIcons } from './toolboxIcons/storageShapeIcons';
 import { controlSystemsShapeIcons } from './toolboxIcons/controlSystemsShapeIcons';
+import { kinematicShapeIcons } from './toolboxIcons/kinematicShapeIcons';
 import { electricalShapeIcons } from './toolboxIcons/electricalShapeIcons';
 import { pneumaticShapeIcons } from './toolboxIcons/pneumaticShapeIcons';
 import { hydraulicShapeIcons } from './toolboxIcons/hydraulicShapeIcons';
@@ -53,6 +54,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
 	...controlSystemsShapeIcons,
+	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...networkShapeIcons,
 	//...pedigreeShapeIcons,
@@ -81,6 +83,7 @@ export const diagramShapes: ShapeCategory[] = [
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
 	...controlSystemsShapeIcons,
+	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...networkShapeIcons,
 	...chartShapeIcons,

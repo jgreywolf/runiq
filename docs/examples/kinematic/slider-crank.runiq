@@ -1,0 +1,17 @@
+diagram "Slider-Crank" {
+  direction LR
+
+  style link fillColor: "#e0f2fe" strokeColor: "#0284c7"
+  style joint fillColor: "#fef3c7" strokeColor: "#b45309"
+  style actuator fillColor: "#dcfce7" strokeColor: "#15803d"
+
+  shape Motor as @rotaryMotor label: "Motor" style:actuator
+  shape J1 as @revoluteJoint label: "J1" style:joint
+  shape Crank as @binaryLink label: "Crank" style:link
+  shape J2 as @revoluteJoint label: "J2" style:joint
+  shape Rod as @binaryLink label: "Rod" style:link
+  shape J3 as @prismaticJoint label: "J3" style:joint
+  shape Slider as @linearActuator label: "Slider" style:actuator
+
+  Motor -> J1 -> Crank -> J2 -> Rod -> J3 -> Slider
+}
