@@ -1,0 +1,18 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "gearCycle",
+      "shape": "gearCycle",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

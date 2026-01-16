@@ -1,0 +1,54 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "matrix3x3-composite",
+      "shape": "matrix3x3",
+      "label": "3x3 Matrix",
+      "data": {
+        "quadrants": [
+          {
+            "label": "Alpha",
+            "color": "#546E7A"
+          },
+          {
+            "label": "Beta",
+            "color": "#607D8B"
+          },
+          {
+            "label": "Gamma",
+            "color": "#78909C"
+          },
+          {
+            "label": "Delta",
+            "color": "#90A4AE"
+          },
+          {
+            "label": "Epsilon",
+            "color": "#455A64"
+          },
+          {
+            "label": "Zeta",
+            "color": "#37474F"
+          },
+          {
+            "label": "Eta",
+            "color": "#263238"
+          },
+          {
+            "label": "Theta",
+            "color": "#B0BEC5"
+          },
+          {
+            "label": "Iota",
+            "color": "#546E7A"
+          }
+        ],
+        "xAxis": "",
+        "yAxis": ""
+      }
+    }
+  ],
+  "edges": []
+}

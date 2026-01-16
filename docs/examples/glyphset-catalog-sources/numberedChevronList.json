@@ -1,0 +1,28 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "numberedChevronList",
+      "shape": "numberedChevronList",
+      "label": "",
+      "data": {
+        "items": [
+          {
+            "label": "Alpha",
+            "description": ""
+          },
+          {
+            "label": "Beta",
+            "description": ""
+          },
+          {
+            "label": "Gamma",
+            "description": ""
+          }
+        ],
+        "colorScheme": "multi"
+      }
+    }
+  ],
+  "edges": []
+}

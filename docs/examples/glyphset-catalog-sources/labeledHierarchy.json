@@ -1,0 +1,40 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "labeledHierarchy",
+      "shape": "labeledHierarchy",
+      "label": "",
+      "data": {
+        "root": {
+          "label": "Root",
+          "relationship": "Owns",
+          "children": [
+            {
+              "label": "Alpha",
+              "relationship": "Leads",
+              "children": []
+            },
+            {
+              "label": "Beta",
+              "relationship": "Supports",
+              "children": []
+            },
+            {
+              "label": "Gamma",
+              "relationship": "Reports",
+              "children": []
+            }
+          ]
+        },
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C",
+          "#90A4AE"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

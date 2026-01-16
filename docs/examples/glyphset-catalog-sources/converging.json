@@ -1,0 +1,32 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "converging",
+      "shape": "converging",
+      "label": "",
+      "data": {
+        "sources": [
+          {
+            "label": "Input A",
+            "color": "#546E7A"
+          },
+          {
+            "label": "Input B",
+            "color": "#607D8B"
+          },
+          {
+            "label": "Input C",
+            "color": "#78909C"
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "color": "#90A4AE"
+        }
+      }
+    }
+  ],
+  "edges": []
+}
