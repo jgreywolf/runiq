@@ -1,0 +1,43 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "theme": "professional",
+  "nodes": [
+    {
+      "id": "event1",
+      "shape": "processBox",
+      "label": "Kickoff",
+      "data": {
+        "fillColor": "#546E7A"
+      }
+    },
+    {
+      "id": "event2",
+      "shape": "processBox",
+      "label": "Milestone",
+      "data": {
+        "fillColor": "#607D8B"
+      }
+    },
+    {
+      "id": "event3",
+      "shape": "processBox",
+      "label": "Launch",
+      "data": {
+        "fillColor": "#78909C"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "event1",
+      "to": "event2",
+      "style": "solid"
+    },
+    {
+      "from": "event2",
+      "to": "event3",
+      "style": "solid"
+    }
+  ]
+}

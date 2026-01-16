@@ -1,0 +1,41 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "titledMatrix-composite",
+      "shape": "titledMatrix",
+      "label": "Titled Matrix",
+      "data": {
+        "quadrants": [
+          {
+            "label": "Alpha",
+            "color": "#546E7A"
+          },
+          {
+            "label": "Beta",
+            "color": "#607D8B"
+          },
+          {
+            "label": "Gamma",
+            "color": "#78909C"
+          },
+          {
+            "label": "Delta",
+            "color": "#90A4AE"
+          }
+        ],
+        "columnHeaders": [
+          "Column A",
+          "Column B"
+        ],
+        "rowHeaders": [
+          "Row 1",
+          "Row 2"
+        ],
+        "size": 2
+      }
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,26 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "interconnected",
+      "shape": "interconnected",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma",
+          "Delta"
+        ],
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C",
+          "#90A4AE"
+        ],
+        "showAllConnections": true
+      }
+    }
+  ],
+  "edges": []
+}

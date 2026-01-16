@@ -1,0 +1,26 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "balance",
+      "shape": "balance",
+      "label": "",
+      "data": {
+        "sides": [
+          {
+            "label": "Option A",
+            "position": "left",
+            "color": "#546E7A"
+          },
+          {
+            "label": "Option B",
+            "position": "right",
+            "color": "#607D8B"
+          }
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

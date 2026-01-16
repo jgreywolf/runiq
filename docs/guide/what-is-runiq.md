@@ -94,7 +94,7 @@ Runiq uses the **Eclipse Layout Kernel (ELK)** with 5 algorithms:
 
 [View all shapes →](/reference/shapes)
 
-### 5. "Smart Art" Glyphsets (60+)
+### 5. "Smart Art" Glyphsets (61)
 
 **Glyphsets** are pre-built diagram templates similar to **PowerPoint SmartArt**. Perfect for quick visualizations without manual layout:
 
@@ -312,7 +312,7 @@ Runiq is built as a **monorepo** with modular packages:
 | **Output**                | Pure SVG                           | SVG + HTML      | PNG/SVG           | SVG/PNG       | SVG/PNG       | SVG/PNG/XML      |
 | **Layout Engine**         | ELK (5 algorithms)                 | Dagre/ELK       | GraphViz          | Built-in      | Custom        | Manual + Auto    |
 | **Version Control**       | ✅ Text-based                      | ✅ Text-based   | ✅ Text-based     | ✅ Text-based | ✅ Text-based | ⚠️ XML binary    |
-| **Glyphsets/SmartArt**    | ✅ 60+ templates                   | ❌              | ❌                | ❌            | ❌            | ⚠️ Limited       |
+| **Glyphsets/SmartArt**    | ✅ 61 templates                   | ❌              | ❌                | ❌            | ❌            | ⚠️ Limited       |
 | **Shape Library**         | ✅ 192 shapes                     | ⚠️ ~30 shapes   | ⚠️ ~50 shapes     | ⚠️ Basic      | ⚠️ ~40 shapes | ✅ Thousands     |
 | **Containers**            | ✅ Full support                    | ⚠️ Limited      | ✅ Subgraphs      | ⚠️ Limited    | ✅ Yes        | ✅ Full          |
 | **UML Support**           | ✅ Most types                      | ✅ Most types   | ✅ Full UML suite | ❌            | ⚠️ Basic      | ✅ Via templates |
@@ -354,7 +354,7 @@ Runiq is built as a **monorepo** with modular packages:
 | **Offline Mode**        | ✅ Full                              | ✅ Desktop    | ❌ Web only   | ⚠️ Limited    | ❌ Web only | ❌ Web only   |
 | **Automation**          | ✅ CLI + SDK                         | ⚠️ VBA        | ⚠️ API        | ⚠️ API        | ⚠️ Limited  | ⚠️ API        |
 | **Shape Library**       | ✅ 192 shapes                       | ✅ Thousands  | ✅ Thousands  | ✅ Thousands  | ✅ Hundreds | ✅ Thousands  |
-| **Templates**           | ✅ 60+ glyphsets                     | ✅ Hundreds   | ✅ Hundreds   | ✅ Hundreds   | ✅ Dozens   | ✅ Hundreds   |
+| **Templates**           | ✅ 61 glyphsets                     | ✅ Hundreds   | ✅ Hundreds   | ✅ Hundreds   | ✅ Dozens   | ✅ Hundreds   |
 | **UML**                 | ✅ 6 types                           | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Full     | ✅ Full       |
 | **BPMN**                | ✅ Yes                               | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Yes      | ✅ Yes        |
 | **Flowcharts**          | ✅ ISO 5807                          | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Full     | ✅ Full       |
@@ -377,7 +377,7 @@ Runiq is built as a **monorepo** with modular packages:
 - ✅ **Engineering exports** - SPICE netlists, Verilog HDL, LaTeX, Simulink
 - ✅ **No vendor lock-in** - Open source, MIT license
 - ✅ **Developer workflow** - TypeScript types, CLI tools, SDK
-- ✅ **Quick diagrams** - 60+ SmartArt-style glyphsets
+- ✅ **Quick diagrams** - 61 SmartArt-style glyphsets
 - ✅ **Technical diagrams** - Circuits, control systems, block diagrams
 
 **Choose Mermaid if you need:**

@@ -1,0 +1,23 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "counterBalance",
+      "shape": "counterBalance",
+      "label": "",
+      "data": {
+        "left": {
+          "label": "Left",
+          "weight": 60,
+          "color": "#546E7A"
+        },
+        "right": {
+          "label": "Right",
+          "weight": 40,
+          "color": "#607D8B"
+        }
+      }
+    }
+  ],
+  "edges": []
+}

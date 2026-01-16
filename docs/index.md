@@ -35,7 +35,7 @@ features:
     details: From flowcharts to UML diagrams, quantum circuits to Control system diagrams, BPMN to AWS infrastructure.
 
   - icon: ✨
-    title: 60+ Smart Art Glyphsets
+    title: 61 Smart Art Glyphsets
     details: Quick diagram templates like MS PowerPoint SmartArt. Process flows, org charts, matrices, timelines - ready to use with 9 professional themes.
 
   - icon: 🏗️

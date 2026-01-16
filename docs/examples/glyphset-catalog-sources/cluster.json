@@ -1,0 +1,32 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "cluster-composite",
+      "shape": "cluster",
+      "label": "Core",
+      "data": {
+        "center": {
+          "label": "Core",
+          "color": "#546E7A"
+        },
+        "satellites": [
+          {
+            "label": "Edge A",
+            "color": "#607D8B"
+          },
+          {
+            "label": "Edge B",
+            "color": "#78909C"
+          },
+          {
+            "label": "Edge C",
+            "color": "#90A4AE"
+          }
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

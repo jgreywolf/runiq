@@ -17,6 +17,12 @@ Smart diagram layouts for presentations, reports, and visual storytelling.
 - **Visual Metaphors**: Funnels, targets, gears, puzzles, containers
 - **Applications**: Presentations, reports, infographics, strategic planning
 
+### [Glyphset Catalog](/examples/glyphset-catalog)
+
+- Full list of every glyphset type
+- Min/max item counts and descriptions
+- Quick scan for available SmartArt-style patterns
+
 ## Software Engineering
 
 Build architecture diagrams, UML models, and process flows.
@@ -309,7 +315,12 @@ Visualize events and milestones over time.
 <div class="example-grid">
   <a href="/examples/glyphsets" class="example-card">
     <h3>✨ Glyphsets</h3>
-    <p>99+ smart layouts & visual metaphors</p>
+    <p>61 smart layouts & visual metaphors</p>
+  </a>
+
+  <a href="/examples/glyphset-catalog" class="example-card">
+    <h3>Glyphset Catalog</h3>
+    <p>All SmartArt-style templates</p>
   </a>
 
   <a href="/examples/flowcharts" class="example-card">

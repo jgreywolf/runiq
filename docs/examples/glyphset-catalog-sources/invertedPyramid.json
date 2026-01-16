@@ -1,0 +1,30 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "invertedPyramid",
+      "shape": "invertedPyramid",
+      "label": "",
+      "data": {
+        "levels": [
+          {
+            "label": "Level 1: Alpha",
+            "value": 3
+          },
+          {
+            "label": "Level 2: Beta",
+            "value": 2
+          },
+          {
+            "label": "Level 3: Gamma",
+            "value": 1
+          }
+        ],
+        "showValues": false,
+        "theme": "professional"
+      }
+    }
+  ],
+  "edges": []
+}

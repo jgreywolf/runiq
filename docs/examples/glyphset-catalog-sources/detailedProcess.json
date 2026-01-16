@@ -1,0 +1,37 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "detailedProcess",
+      "shape": "detailedProcess",
+      "label": "",
+      "data": {
+        "items": [
+          {
+            "main": "Design",
+            "substeps": [
+              "Wireframes",
+              "Prototypes"
+            ]
+          },
+          {
+            "main": "Build",
+            "substeps": [
+              "Frontend",
+              "Backend"
+            ]
+          },
+          {
+            "main": "Test",
+            "substeps": [
+              "Unit Tests",
+              "QA"
+            ]
+          }
+        ],
+        "direction": "LR"
+      }
+    }
+  ],
+  "edges": []
+}

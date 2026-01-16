@@ -1,0 +1,48 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "orgChart",
+      "shape": "orgChart",
+      "label": "",
+      "data": {
+        "hierarchy": {
+          "name": "CEO",
+          "role": "Executive",
+          "reports": [
+            {
+              "name": "VP Engineering",
+              "reports": [
+                {
+                  "name": "Dev Lead"
+                },
+                {
+                  "name": "QA Lead"
+                }
+              ]
+            },
+            {
+              "name": "VP Sales",
+              "reports": [
+                {
+                  "name": "Account Lead"
+                }
+              ]
+            }
+          ]
+        },
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C",
+          "#90A4AE",
+          "#455A64",
+          "#37474F"
+        ],
+        "nodeShape": "rounded"
+      }
+    }
+  ],
+  "edges": []
+}

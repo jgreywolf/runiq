@@ -1,0 +1,29 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "pyramid",
+      "shape": "pyramid",
+      "label": "",
+      "data": {
+        "levels": [
+          {
+            "label": "Level 1: Alpha",
+            "value": 1
+          },
+          {
+            "label": "Level 2: Beta",
+            "value": 2
+          },
+          {
+            "label": "Level 3: Gamma",
+            "value": 3
+          }
+        ],
+        "showValues": false
+      }
+    }
+  ],
+  "edges": []
+}
