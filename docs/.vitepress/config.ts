@@ -124,6 +124,7 @@ export default defineConfig({
               text: 'Control system Diagrams',
               link: '/guide/control-diagrams',
             },
+            { text: 'Kinematic Diagrams', link: '/guide/kinematic-diagrams' },
             { text: 'Network Diagrams', link: '/guide/network-diagrams' },
             { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
             { text: 'Charts & Graphs', link: '/guide/charts' },
