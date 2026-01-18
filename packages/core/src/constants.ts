@@ -20,6 +20,9 @@ export enum ProfileType {
   PID = 'pid',
   RAILROAD = 'railroad',
   GLYPHSET = 'glyphset',
+  KANBAN = 'kanban',
+  GITGRAPH = 'gitgraph',
+  TREEMAP = 'treemap',
 }
 
 /**

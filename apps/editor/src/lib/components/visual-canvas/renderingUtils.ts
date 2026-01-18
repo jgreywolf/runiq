@@ -7,7 +7,10 @@ import {
 	renderSvg,
 	renderWardleyMap,
 	renderSequenceDiagram,
-	renderTimeline
+	renderTimeline,
+	renderKanban,
+	renderGitGraph,
+	renderTreemap
 } from '@runiq/renderer-svg';
 import { renderDigital, renderSchematic, renderPID } from '@runiq/renderer-schematic';
 
@@ -248,6 +251,12 @@ export async function renderDiagram(
 			result.svg = renderSequenceDiagram(profile as any).svg;
 		} else if (profileType === 'timeline') {
 			result.svg = renderTimeline(profile as any).svg;
+		} else if (profileType === 'kanban') {
+			result.svg = renderKanban(profile as any).svg;
+		} else if (profileType === 'gitgraph') {
+			result.svg = renderGitGraph(profile as any).svg;
+		} else if (profileType === 'treemap') {
+			result.svg = renderTreemap(profile as any).svg;
 		} else if (
 			profileType === 'electrical' ||
 			profileType === 'pneumatic' ||

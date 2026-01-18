@@ -1122,7 +1122,9 @@ style myStyle {
 - **~20 GlyphSet item keywords** (step, person, level, etc.)
 - **~15 data-driven keywords** (data, for, in, source, etc.) - most usable as node IDs
 
-**Key Takeaway**: While Runiq has many reserved keywords for structure and semantics, the FlexibleID system allows most common property keywords to be used as node identifiers, reducing naming conflicts in practice.
+**Key Takeaway**: While Runiq has many reserved keywords for structure and semantics, the FlexibleID system allows most common property keywords to be used as node identifiers, reducing naming conflicts in practice. For profile-specific IDs (like GitGraph branches/commits), you can also use quoted identifiers (e.g., `branch "api"`), which bypass keyword conflicts entirely.
+
+**Tip**: Quoted identifiers now work across diagram and sequence profiles too. If an ID conflicts with a keyword, wrap it in quotes (e.g., `shape "api"` or `participant "api"`).
 
 ## See Also
 

@@ -5,12 +5,15 @@ import {
   convertDiagramProfile,
   convertDigitalProfile,
   convertElectricalProfile,
+  convertGitGraphProfile,
   convertHydraulicProfile,
+  convertKanbanProfile,
   convertPIDProfile,
   convertPneumaticProfile,
   convertRailroadProfile,
   convertSequenceProfile,
   convertTimelineProfile,
+  convertTreemapProfile,
   convertWardleyProfile,
 } from './converters/index.js';
 import * as Langium from './generated/ast.js';
@@ -153,6 +156,12 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertPIDProfile(profile));
     } else if (Langium.isTimelineProfile(profile)) {
       runiqDoc.profiles.push(convertTimelineProfile(profile));
+    } else if (Langium.isKanbanProfile(profile)) {
+      runiqDoc.profiles.push(convertKanbanProfile(profile));
+    } else if (Langium.isGitGraphProfile(profile)) {
+      runiqDoc.profiles.push(convertGitGraphProfile(profile));
+    } else if (Langium.isTreemapProfile(profile)) {
+      runiqDoc.profiles.push(convertTreemapProfile(profile));
     } else if (isGlyphSetProfile(profile)) {
       // Expand glyphset to diagram profile
       const expandedDiagram = expandGlyphSet(profile);

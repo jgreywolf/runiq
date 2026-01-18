@@ -1,9 +1,9 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import { handleNewDiagram } from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
 	import Icon from '@iconify/svelte';
-	import { handleNewDiagram } from '$lib/state/editorState.svelte';
 
 	interface Props {
 		open: boolean;
@@ -113,6 +113,60 @@
 					<div>
 						<h3 class="font-semibold text-neutral-900">Railroad Diagram</h3>
 						<p class="text-sm text-neutral-600">Grammar and syntax diagrams</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Kanban Board Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.kanban)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-rose-400 hover:bg-rose-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-rose-100 text-rose-600 transition-colors group-hover:bg-rose-200"
+					>
+						<Icon icon="tabler:layout-board" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Kanban</h3>
+						<p class="text-sm text-neutral-600">Columns, cards, swimlanes</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- GitGraph Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.gitgraph)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-slate-400 hover:bg-slate-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors group-hover:bg-slate-200"
+					>
+						<Icon icon="tabler:git-branch" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">GitGraph</h3>
+						<p class="text-sm text-neutral-600">Branches, commits, merges</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Treemap Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.treemap)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 transition-colors group-hover:bg-amber-200"
+					>
+						<Icon icon="tabler:layout-grid" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Treemap</h3>
+						<p class="text-sm text-neutral-600">Hierarchical area layouts</p>
 					</div>
 				</div>
 			</button>

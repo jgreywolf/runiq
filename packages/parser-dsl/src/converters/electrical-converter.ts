@@ -1,6 +1,7 @@
 import type { AnalysisAst, ElectricalProfile, PartAst } from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
+import { unescapeString } from '../utils/index.js';
 
 /**
  * Convert ElectricalProfile from Langium AST to core format
@@ -20,19 +21,19 @@ export function convertElectricalProfile(
     if (Langium.isNetStatement(statement)) {
       // net IN, OUT, GND
       for (const netName of statement.names) {
-        electricalProfile.nets.push({ name: netName });
+        electricalProfile.nets.push({ name: unescapeString(netName) });
       }
     } else if (Langium.isPartStatement(statement)) {
       // part R1 type:R value:10k pins:(IN,OUT)
       const part: PartAst = {
-        ref: statement.ref,
+        ref: unescapeString(statement.ref),
         type: '',
         pins: [],
       };
 
       for (const prop of statement.properties) {
         if (Langium.isPartTypeProperty(prop)) {
-          part.type = prop.type;
+          part.type = unescapeString(prop.type);
         } else if (Langium.isPartValueProperty(prop)) {
           if (!part.params) part.params = {};
           let value = prop.value;
@@ -48,7 +49,7 @@ export function convertElectricalProfile(
           if (!part.params) part.params = {};
           part.params.source = prop.source.replace(/^"|"$/g, '');
         } else if (Langium.isPartPinsProperty(prop)) {
-          part.pins = prop.pins;
+          part.pins = prop.pins.map((pin) => unescapeString(pin));
         } else if (Langium.isPartGenericProperty(prop)) {
           // Handle generic properties like model:"2N2222", w:"10u", l:"1u", ratio:"10:1"
           if (!part.params) part.params = {};

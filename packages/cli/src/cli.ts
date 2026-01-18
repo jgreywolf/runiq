@@ -10,14 +10,22 @@ import {
   type DiagramAst,
   type DiagramProfile,
   type DiagramType,
-  type RailroadProfile,
   type WardleyProfile,
 } from '@runiq/core';
 import { fontAwesome } from '@runiq/icons-fontawesome';
 import { astToJson, jsonToAst } from '@runiq/io-json';
 import { ElkLayoutEngine } from '@runiq/layout-base';
 import { parse, type ParseResult } from '@runiq/parser-dsl';
-import { renderRailroadDiagram, renderSvg, renderWardleyMap } from '@runiq/renderer-svg';
+import {
+  renderGitGraph,
+  renderKanban,
+  renderRailroadDiagram,
+  renderSequenceDiagram,
+  renderSvg,
+  renderTimeline,
+  renderTreemap,
+  renderWardleyMap,
+} from '@runiq/renderer-svg';
 import { Command } from 'commander';
 import { promises as fs } from 'fs';
 
@@ -83,9 +91,8 @@ program
     try {
       const content = await fs.readFile(input, 'utf-8');
       let ast;
-      let isWardley = false;
-      let wardleyProfile: WardleyProfile | null = null;
-      let railroadProfile: RailroadProfile | null = null;
+      let renderProfileType: string | null = null;
+      let nonDiagramProfile: any = null;
 
       // Parse based on file extension or content
       if (input.endsWith('.json')) {
@@ -108,40 +115,46 @@ program
           process.exit(1);
         }
 
-        // Check if it's a Wardley profile
-        const wardley = result.document?.profiles.find(
-          (p: any): p is WardleyProfile => p.type === 'wardley'
-        );
+        const profile = result.document?.profiles?.[0];
+        renderProfileType = profile?.type ?? null;
+        nonDiagramProfile = profile ?? null;
 
-        if (wardley) {
-          isWardley = true;
-          wardleyProfile = wardley;
-        } else {
-          const railroad = result.document?.profiles.find(
-            (p: any): p is RailroadProfile => p.type === 'railroad'
-          );
-          if (railroad) {
-            railroadProfile = railroad;
-          }
-        }
-
-        if (result.warnings.length > 0) {
-          console.warn('Warnings:');
-          result.warnings.forEach((w: string) => console.warn(`  ${w}`));
-        }
-
-        if (!isWardley && !railroadProfile) {
+        if (renderProfileType === ProfileType.DIAGRAM) {
           ast = extractDiagramFromParseResult(result);
           if (!ast) {
-            console.error('No diagram or Wardley profile found in document');
+            console.error('No diagram profile found in document');
             process.exit(1);
           }
+        } else if (!nonDiagramProfile) {
+          console.error('No profile found in document');
+          process.exit(1);
         }
       }
 
-      // Handle Wardley Map rendering (no layout needed)
-      if (isWardley && wardleyProfile) {
-        const renderResult = renderWardleyMap(wardleyProfile);
+      // Handle non-diagram profiles (no layout needed)
+      if (renderProfileType && renderProfileType !== ProfileType.DIAGRAM) {
+        let renderResult: { svg: string; warnings: string[] } | null = null;
+
+        if (renderProfileType === ProfileType.WARDLEY) {
+          renderResult = renderWardleyMap(nonDiagramProfile as WardleyProfile);
+        } else if (renderProfileType === ProfileType.RAILROAD) {
+          renderResult = renderRailroadDiagram(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.SEQUENCE) {
+          renderResult = renderSequenceDiagram(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.TIMELINE) {
+          renderResult = renderTimeline(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.KANBAN) {
+          renderResult = renderKanban(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.GITGRAPH) {
+          renderResult = renderGitGraph(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.TREEMAP) {
+          renderResult = renderTreemap(nonDiagramProfile as any);
+        }
+
+        if (!renderResult) {
+          console.error(`Unsupported profile type: ${renderProfileType}`);
+          process.exit(1);
+        }
 
         if (renderResult.warnings.length > 0) {
           console.warn('Warnings:');
@@ -151,24 +164,7 @@ program
         // Output
         if (options.output) {
           await fs.writeFile(options.output, renderResult.svg);
-          console.log(`Wardley Map SVG written to ${options.output}`);
-        } else {
-          console.log(renderResult.svg);
-        }
-        return;
-      }
-
-      if (railroadProfile) {
-        const renderResult = renderRailroadDiagram(railroadProfile);
-
-        if (renderResult.warnings.length > 0) {
-          console.warn('Warnings:');
-          renderResult.warnings.forEach((w) => console.warn(`  ${w}`));
-        }
-
-        if (options.output) {
-          await fs.writeFile(options.output, renderResult.svg);
-          console.log(`Railroad SVG written to ${options.output}`);
+          console.log(`SVG written to ${options.output}`);
         } else {
           console.log(renderResult.svg);
         }
@@ -260,10 +256,10 @@ program
       if (input.endsWith('.json')) {
         const result = jsonToAst(content);
         if (result.success) {
-          console.log('✓ Valid JSON diagram syntax');
+          console.log('?" Valid JSON diagram syntax');
           ast = result.data;
         } else {
-          console.error('✗ Invalid JSON diagram:');
+          console.error('?- Invalid JSON diagram:');
           result.problems.forEach((p) => console.error(`  ${p}`));
           process.exit(1);
         }
@@ -273,18 +269,20 @@ program
           : content;
         const result = parse(dslContent);
         if (result.success) {
-          console.log('✓ Valid DSL diagram syntax');
-          if (result.warnings.length > 0) {
-            console.warn('Warnings:');
-            result.warnings.forEach((w: string) => console.warn(`  ${w}`));
+          const profile = result.document?.profiles?.[0];
+          if (profile && profile.type !== ProfileType.DIAGRAM) {
+            console.log(`?" Valid DSL ${profile.type} syntax`);
+            return;
           }
+
+          console.log('?" Valid DSL diagram syntax');
           ast = extractDiagramFromParseResult(result);
           if (!ast) {
-            console.error('✗ No diagram profile found in document');
+            console.error('?- No diagram profile found in document');
             process.exit(1);
           }
         } else {
-          console.error('✗ Invalid DSL diagram:');
+          console.error('?- Invalid DSL diagram:');
           result.errors.forEach((e: string) => console.error(`  ${e}`));
           process.exit(1);
         }

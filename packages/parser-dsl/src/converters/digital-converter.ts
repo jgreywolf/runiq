@@ -7,6 +7,7 @@ import type {
 } from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
+import { unescapeString } from '../utils/index.js';
 
 /**
  * Convert DigitalProfile from Langium AST to core format
@@ -27,7 +28,7 @@ export function convertDigitalProfile(
       // module Counter ports:(clk,reset,count[7:0])
       if (!digitalProfile.modules) digitalProfile.modules = [];
       const module: ModuleAst = {
-        name: statement.name,
+        name: unescapeString(statement.name),
         ports: [],
       };
 
@@ -35,7 +36,7 @@ export function convertDigitalProfile(
         if (Langium.isModulePortsProperty(prop)) {
           for (const portDecl of prop.ports) {
             const port: PortAst = {
-              name: portDecl.name,
+              name: unescapeString(portDecl.name),
               dir: 'input', // Default, would need grammar enhancement for dir
             };
             if (portDecl.width) {
@@ -56,7 +57,7 @@ export function convertDigitalProfile(
             ) {
               value = value.slice(1, -1);
             }
-            module.params[paramDecl.name] = value;
+            module.params[unescapeString(paramDecl.name)] = value;
           }
         }
       }
@@ -65,17 +66,17 @@ export function convertDigitalProfile(
     } else if (Langium.isInstStatement(statement)) {
       // inst U1 of:Counter map:(clk:clk, reset:reset)
       const instance: InstanceAst = {
-        ref: statement.ref,
+        ref: unescapeString(statement.ref),
         of: '',
         portMap: {},
       };
 
       for (const prop of statement.properties) {
         if (Langium.isInstOfProperty(prop)) {
-          instance.of = prop.module;
+          instance.of = unescapeString(prop.module);
         } else if (Langium.isInstMapProperty(prop)) {
           for (const conn of prop.connections) {
-            instance.portMap[conn.port] = conn.net;
+            instance.portMap[unescapeString(conn.port)] = unescapeString(conn.net);
           }
         } else if (Langium.isInstParamsProperty(prop)) {
           if (!instance.paramMap) instance.paramMap = {};
@@ -88,7 +89,7 @@ export function convertDigitalProfile(
             ) {
               value = value.slice(1, -1);
             }
-            instance.paramMap[param.param] = value;
+            instance.paramMap[unescapeString(param.param)] = value;
           }
         }
       }
@@ -98,7 +99,7 @@ export function convertDigitalProfile(
       // net clk, reset, count[7:0]
       for (const netDecl of statement.names) {
         const net: NetAst = {
-          name: netDecl.name,
+          name: unescapeString(netDecl.name),
         };
         if (netDecl.width) {
           net.width =

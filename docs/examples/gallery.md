@@ -291,6 +291,102 @@ diagram "AWS VPC Architecture" {
 
 ---
 
+## Productivity Visuals
+
+### Kanban Board
+
+<div style="margin: 1rem 0;">
+  <img src="/examples/kanban-product-roadmap.svg" alt="Kanban board example" style="max-width: 720px; margin: 0 auto; display: block;">
+</div>
+
+```runiq
+kanban "Product Roadmap" {
+  theme runiq
+  swimlane "Q1 Focus" {
+    column backlog "Backlog" wip:6 {
+      card K1 "Customer interviews" priority:high tags:["research"]
+      card K2 "Design refresh" priority:medium tags:["design"]
+    }
+    column progress "In Progress" wip:3 {
+      card K3 "Mobile onboarding" priority:high assignee:"Avery" estimate:"5d"
+      card K4 "Billing optimizations" priority:medium assignee:"Noah"
+    }
+    column review "Review" wip:2 {
+      card K5 "New pricing page" priority:medium tags:["marketing"]
+    }
+    column completed "Done" {
+      card K6 "Stability sprint" priority:low
+    }
+  }
+}
+```
+
+[Try this example ?+'](https://editor.runiq.org)
+
+---
+
+### GitGraph Release Flow
+
+<div style="margin: 1rem 0;">
+  <img src="/examples/gitgraph-release-flow.svg" alt="GitGraph release flow example" style="max-width: 720px; margin: 0 auto; display: block;">
+</div>
+
+```runiq
+gitgraph "Release Flow" {
+  theme runiq
+  orientation vertical
+
+  branch main label:"main" color:"#0f172a"
+  branch feature label:"feature/login" parent:main color:"#2563eb"
+  branch hotfix label:"hotfix/session" parent:main color:"#ef4444"
+
+  commit c1 branch:main label:"Bootstrap repo"
+  commit c2 branch:feature label:"Login form"
+  commit c3 branch:feature label:"OAuth support"
+  merge m1 from:feature into:main label:"Merge login" tag:"v1.0.0"
+
+  commit c4 branch:hotfix label:"Patch session bug"
+  merge m2 from:hotfix into:main label:"Merge hotfix" tag:"v1.0.1"
+}
+```
+
+[Try this example ?+'](https://editor.runiq.org)
+
+---
+
+### Treemap Overview
+
+<div style="margin: 1rem 0;">
+  <img src="/examples/treemap-product-usage.svg" alt="Treemap example" style="max-width: 720px; margin: 0 auto; display: block;">
+</div>
+
+```runiq
+treemap "Product Usage" {
+  layout slice-dice
+  padding 10
+  gap 6
+  showValues true
+  showLegend true
+
+  group "North America" value:60 color:"#bfdbfe" {
+    item "Enterprise" value:40
+    item "SMB" value:20
+  }
+  group "EMEA" value:25 color:"#fecdd3" {
+    item "Enterprise" value:15
+    item "SMB" value:10
+  }
+  group "APAC" value:15 color:"#bbf7d0" {
+    item "Enterprise" value:8
+    item "SMB" value:7
+  }
+}
+```
+
+[Try this example ?+'](https://editor.runiq.org)
+
+---
+
 ## What's Next?
 
 - **[Getting Started](/guide/getting-started)** - Install Runiq and create your first diagram

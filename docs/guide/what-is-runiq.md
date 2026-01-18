@@ -322,12 +322,12 @@ Runiq is built as a **monorepo** with modular packages:
 | **Wardley Maps**          | ✅ Native                          | ⚠️ Plugin       | ❌                | ❌            | ⚠️ Manual     | ⚠️ Manual        |
 | **Network Diagrams**      | ✅ Weighted, Force, Stress         | ✅ Basic        | ✅ Basic          | ✅ Strong     | ✅ Yes        | ✅ Full          |
 | **Timeline/Gantt**        | ⚠️ Timeline                        | ⚠️ Gantt        | ✅ Gantt          | ❌            | ⚠️ Limited    | ✅ Gantt         |
-| **Git Graphs**            | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
+| **Git Graphs**            | ?o. Yes                             | ?o. Yes          | ??O                | ??O            | ??O            | ??O               |
 | **User Journey**          | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
 | **Quadrant Charts**       | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
 | **Requirement Diagrams**  | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
 | **ZenUML**                | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
-| **Data Viz**              | ✅ Sankey, Pyramid, Venn           | ⚠️ Sankey, Pie  | ❌                | ❌            | ❌            | ⚠️ Charts        |
+| **Data Viz**              | ?o. Sankey, Treemap, Pyramid, Venn   | ?s??,? Sankey, Pie  | ??O                | ??O            | ??O            | ?s??,? Charts        |
 | **C4 Architecture**       | ✅ Full C4                         | ✅ Yes          | ✅ Yes            | ❌            | ✅ Yes        | ⚠️ Manual        |
 | **Mind Maps**             | ✅ Radial layout                   | ✅ Yes          | ✅ Yes            | ❌            | ❌            | ✅ Yes           |
 | **Deployment Diagrams**   | ❌                                 | ❌              | ✅ Yes            | ❌            | ❌            | ⚠️ Manual        |

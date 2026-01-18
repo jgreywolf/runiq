@@ -9,5 +9,8 @@ export enum ProfileName {
 	sequence = 'sequence',
 	timeline = 'timeline',
 	pid = 'pid',
-	railroad = 'railroad'
+	railroad = 'railroad',
+	kanban = 'kanban',
+	gitgraph = 'gitgraph',
+	treemap = 'treemap'
 }

@@ -59,7 +59,10 @@ export type Profile =
   | HydraulicProfile
   | PIDProfile
   | RailroadProfile
-  | TimelineProfile;
+  | TimelineProfile
+  | KanbanProfile
+  | GitGraphProfile
+  | TreemapProfile;
 
 /**
  * Electrical/Analog circuit profile
@@ -582,4 +585,119 @@ export interface TimelinePeriod {
   label: string;
   fillColor?: string; // Background color for period shading
   opacity?: number; // Default: 0.1
+}
+
+// ============================================================================
+// Kanban Profile Types
+// ============================================================================
+
+export interface KanbanProfile {
+  type: 'kanban';
+  name: string;
+  theme?: string;
+  swimlane?: KanbanSwimlane;
+  columns: KanbanColumn[];
+}
+
+export interface KanbanSwimlane {
+  id?: string;
+  label?: string;
+  style?: KanbanStyle;
+  columns: KanbanColumn[];
+}
+
+export interface KanbanColumn {
+  id?: string;
+  label: string;
+  wipLimit?: number;
+  maxCards?: number;
+  overflow?: KanbanOverflow;
+  style?: KanbanStyle;
+  cards: KanbanCard[];
+}
+
+export interface KanbanCard {
+  id?: string;
+  label: string;
+  description?: string;
+  assignee?: string;
+  priority?: KanbanPriority;
+  tags?: string[];
+  estimate?: string;
+  style?: KanbanStyle;
+}
+
+export type KanbanPriority = 'low' | 'medium' | 'high' | 'critical';
+export type KanbanOverflow = 'stack' | 'ellipsis';
+
+export interface KanbanStyle {
+  fillColor?: string;
+  strokeColor?: string;
+  textColor?: string;
+  borderRadius?: number;
+}
+
+// ============================================================================
+// GitGraph Profile Types
+// ============================================================================
+
+export interface GitGraphProfile {
+  type: 'gitgraph';
+  name: string;
+  theme?: string;
+  orientation?: 'vertical' | 'horizontal';
+  rowSpacing?: number;
+  columnSpacing?: number;
+  branches: GitGraphBranch[];
+  commits: GitGraphCommit[];
+  merges: GitGraphMerge[];
+}
+
+export interface GitGraphBranch {
+  id: string;
+  label?: string;
+  color?: string;
+  parent?: string;
+}
+
+export interface GitGraphCommit {
+  id: string;
+  branch: string;
+  label?: string;
+  message?: string;
+  author?: string;
+  tag?: string;
+  order?: number;
+}
+
+export interface GitGraphMerge {
+  id: string;
+  from: string;
+  into: string;
+  label?: string;
+  tag?: string;
+  order?: number;
+}
+
+// ============================================================================
+// Treemap Profile Types
+// ============================================================================
+
+export interface TreemapProfile {
+  type: 'treemap';
+  name: string;
+  theme?: string;
+  layout?: 'slice-dice' | 'squarify';
+  padding?: number;
+  gap?: number;
+  showValues?: boolean;
+  showLegend?: boolean;
+  nodes: TreemapNode[];
+}
+
+export interface TreemapNode {
+  label: string;
+  value?: number;
+  color?: string;
+  children?: TreemapNode[];
 }
