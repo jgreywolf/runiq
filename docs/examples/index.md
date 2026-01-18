@@ -125,6 +125,12 @@ Create charts and visual analytics for presentations and reports.
 - Sankey diagrams for flow visualization
 - Applications: Business reporting, data analysis, KPI tracking
 
+### [Treemap Diagrams](/examples/treemap-diagrams)
+
+- Hierarchical area layouts for portfolio breakdowns
+- Value-to-area mapping with groups and items
+- Useful for budgets, usage, and resource allocation
+
 ### [Venn Diagrams](/examples/venn-diagrams)
 
 - Set overlap analysis (2-circle and 3-circle)
@@ -259,6 +265,22 @@ Strategic mapping tools for business analysis and decision-making.
 - **Visual Examples**: Tea shop, technology evolution, business strategy
 - Export to SVG for presentations and documentation
 
+## Productivity Visuals
+
+Planning and collaboration diagrams for teams.
+
+### [Kanban Boards](/examples/kanban-diagrams)
+
+- Swimlanes, columns, and card metadata
+- WIP limits and workflow visualization
+- **Examples**: Product roadmap, bug triage, campaign planning
+
+### [GitGraph Diagrams](/examples/gitgraph-diagrams)
+
+- Branches, commits, merges, and tags
+- Useful for release flows and hotfix pipelines
+- **Examples**: Release flow, feature train, milestone tags
+
 ## Timelines & Chronology
 
 Visualize events and milestones over time.
@@ -358,6 +380,21 @@ Visualize events and milestones over time.
   <a href="/examples/chart-diagrams" class="example-card">
     <h3>📊 Charts</h3>
     <p>Bar, pie, line, radar & more</p>
+  </a>
+
+  <a href="/examples/treemap-diagrams" class="example-card">
+    <h3>dY"? Treemaps</h3>
+    <p>Hierarchical area visualizations</p>
+  </a>
+
+  <a href="/examples/kanban-diagrams" class="example-card">
+    <h3>dY"? Kanban</h3>
+    <p>Columns, cards, and swimlanes</p>
+  </a>
+
+  <a href="/examples/gitgraph-diagrams" class="example-card">
+    <h3>dY"? GitGraph</h3>
+    <p>Branches, commits, and merges</p>
   </a>
   
   <a href="/examples/control-diagrams" class="example-card">

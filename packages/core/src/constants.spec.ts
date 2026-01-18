@@ -32,11 +32,14 @@ describe('Constants and Enums', () => {
       expect(ProfileType.HYDRAULIC).toBe('hydraulic');
       expect(ProfileType.PID).toBe('pid');
       expect(ProfileType.GLYPHSET).toBe('glyphset');
+      expect(ProfileType.KANBAN).toBe('kanban');
+      expect(ProfileType.GITGRAPH).toBe('gitgraph');
+      expect(ProfileType.TREEMAP).toBe('treemap');
     });
 
-    it('should have 11 profile types', () => {
+    it('should have 14 profile types', () => {
       const values = Object.values(ProfileType);
-      expect(values).toHaveLength(11);
+      expect(values).toHaveLength(14);
     });
   });
 

@@ -1,0 +1,18 @@
+treemap "Product Usage" {
+  layout slice-dice
+  padding 10
+  gap 6
+
+  group "North America" value:60 color:"#bfdbfe" {
+    item "Enterprise" value:40
+    item "SMB" value:20
+  }
+  group "EMEA" value:25 color:"#fecdd3" {
+    item "Enterprise" value:15
+    item "SMB" value:10
+  }
+  group "APAC" value:15 color:"#bbf7d0" {
+    item "Enterprise" value:8
+    item "SMB" value:7
+  }
+}

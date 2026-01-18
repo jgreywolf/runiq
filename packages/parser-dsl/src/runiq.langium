@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -634,6 +634,218 @@ TimelineOrientationStatement:
 
 TimelineOrientation returns string:
     'horizontal' | 'vertical';
+
+// ============================================================================
+// Kanban Profile - Columns, cards, and swimlanes
+// ============================================================================
+
+KanbanProfile:
+    'kanban' name=STRING '{'
+        statements+=KanbanStatement*
+    '}';
+
+KanbanStatement:
+    ThemeDeclaration
+    | KanbanSwimlaneBlock
+    | KanbanColumnBlock;
+
+// swimlane "Product" { column ... }
+KanbanSwimlaneBlock:
+    'swimlane' label=STRING? properties+=KanbanStyleProperty* '{'
+        columns+=KanbanColumnBlock*
+    '}';
+
+// column Backlog "Backlog" wip:5 { card ... }
+KanbanColumnBlock:
+    'column' id=ID? label=STRING properties+=KanbanColumnProperty* '{'
+        cards+=KanbanCardStatement*
+    '}';
+
+KanbanColumnProperty:
+    KanbanWipProperty | KanbanStyleProperty;
+
+KanbanWipProperty:
+    'wip:' value=NUMBER;
+
+// card C1 "Implement auth" priority:high tags:["frontend"]
+KanbanCardStatement:
+    'card' id=ID? label=STRING properties+=KanbanCardProperty*;
+
+KanbanCardProperty:
+    KanbanDescriptionProperty
+    | KanbanAssigneeProperty
+    | KanbanPriorityProperty
+    | KanbanTagsProperty
+    | KanbanEstimateProperty
+    | KanbanStyleProperty;
+
+KanbanDescriptionProperty:
+    'description:' description=STRING;
+
+KanbanAssigneeProperty:
+    'assignee:' assignee=STRING;
+
+KanbanPriorityProperty:
+    'priority:' priority=KanbanPriorityValue;
+
+KanbanPriorityValue returns string:
+    'low' | 'medium' | 'high' | 'critical';
+
+KanbanTagsProperty:
+    'tags:' value=StringArray;
+
+KanbanEstimateProperty:
+    'estimate:' estimate=STRING;
+
+KanbanStyleProperty:
+    KanbanFillColorProperty
+    | KanbanStrokeColorProperty
+    | KanbanTextColorProperty
+    | KanbanBorderRadiusProperty;
+
+KanbanFillColorProperty:
+    'fillColor:' value=STRING;
+
+KanbanStrokeColorProperty:
+    'strokeColor:' value=STRING;
+
+KanbanTextColorProperty:
+    'textColor:' value=STRING;
+
+KanbanBorderRadiusProperty:
+    'borderRadius:' value=NUMBER;
+
+// ============================================================================
+// GitGraph Profile - Branches, commits, merges, tags
+// ============================================================================
+
+GitGraphProfile:
+    'gitgraph' name=STRING '{'
+        statements+=GitGraphStatement*
+    '}';
+
+GitGraphStatement:
+    ThemeDeclaration
+    | GitGraphOrientationStatement
+    | GitGraphBranchStatement
+    | GitGraphCommitStatement
+    | GitGraphMergeStatement;
+
+GitGraphOrientationStatement:
+    'orientation' orientation=GitGraphOrientationValue;
+
+GitGraphOrientationValue returns string:
+    'vertical' | 'horizontal';
+
+GitGraphBranchStatement:
+    'branch' id=ID properties+=GitGraphBranchProperty*;
+
+GitGraphBranchProperty:
+    GitGraphBranchLabelProperty | GitGraphBranchColorProperty | GitGraphBranchParentProperty;
+
+GitGraphBranchLabelProperty:
+    'label:' label=STRING;
+
+GitGraphBranchColorProperty:
+    'color:' color=STRING;
+
+GitGraphBranchParentProperty:
+    'parent:' parent=ID;
+
+GitGraphCommitStatement:
+    'commit' id=ID properties+=GitGraphCommitProperty+;
+
+GitGraphCommitProperty:
+    GitGraphCommitBranchProperty
+    | GitGraphCommitLabelProperty
+    | GitGraphCommitMessageProperty
+    | GitGraphCommitAuthorProperty
+    | GitGraphCommitTagProperty;
+
+GitGraphCommitBranchProperty:
+    'branch:' branch=ID;
+
+GitGraphCommitLabelProperty:
+    'label:' label=STRING;
+
+GitGraphCommitMessageProperty:
+    'message:' message=STRING;
+
+GitGraphCommitAuthorProperty:
+    'author:' author=STRING;
+
+GitGraphCommitTagProperty:
+    'tag:' tag=STRING;
+
+GitGraphMergeStatement:
+    'merge' id=ID properties+=GitGraphMergeProperty+;
+
+GitGraphMergeProperty:
+    GitGraphMergeFromProperty
+    | GitGraphMergeIntoProperty
+    | GitGraphMergeLabelProperty
+    | GitGraphMergeTagProperty;
+
+GitGraphMergeFromProperty:
+    'from:' from=ID;
+
+GitGraphMergeIntoProperty:
+    'into:' into=ID;
+
+GitGraphMergeLabelProperty:
+    'label:' label=STRING;
+
+GitGraphMergeTagProperty:
+    'tag:' tag=STRING;
+
+// ============================================================================
+// Treemap Profile - Hierarchical area layout
+// ============================================================================
+
+TreemapProfile:
+    'treemap' name=STRING '{'
+        statements+=TreemapStatement*
+    '}';
+
+TreemapStatement:
+    ThemeDeclaration
+    | TreemapLayoutStatement
+    | TreemapPaddingStatement
+    | TreemapGapStatement
+    | TreemapGroupBlock
+    | TreemapItemStatement;
+
+TreemapLayoutStatement:
+    'layout' layout=TreemapLayoutValue;
+
+TreemapLayoutValue returns string:
+    'slice-dice' | 'squarify';
+
+TreemapPaddingStatement:
+    'padding' value=NUMBER;
+
+TreemapGapStatement:
+    'gap' value=NUMBER;
+
+TreemapGroupBlock:
+    'group' label=STRING properties+=TreemapNodeProperty* '{'
+        children+=(TreemapGroupBlock | TreemapItemStatement)*
+    '}';
+
+TreemapItemStatement:
+    'item' label=STRING properties+=TreemapNodeProperty*;
+
+TreemapNodeProperty:
+    TreemapValueProperty | TreemapColorProperty | TreemapLabelProperty;
+
+TreemapValueProperty:
+    'value:' value=NUMBER;
+
+TreemapColorProperty:
+    'color:' color=STRING;
+
+TreemapLabelProperty:
+    'label:' label=STRING;
 
 // ============================================================================
 // GlyphSet Profile - SmartArt-style diagram templates
@@ -1424,7 +1636,7 @@ LayoutComplexityValue returns string:
     'low' | 'medium' | 'high';
 
 BooleanValue returns string:
-    'true' | 'false';
+    BOOLEAN;
 
 // Phase 4: Visual controls value types
 ButtonPositionValue returns string:

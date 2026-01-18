@@ -1,17 +1,20 @@
 ---
 title: Profiles
-description: Understand Runiq's 10 diagram profiles - Diagram, Electrical, Digital, Wardley, Sequence, Timeline, Pneumatic, Hydraulic, P&ID, and GlyphSet with specialized syntax and rendering.
-lastUpdated: 2025-01-20
+description: Understand Runiq's 13 diagram profiles, including Kanban, GitGraph, and Treemap, with specialized syntax and rendering.
+lastUpdated: 2025-02-08
 ---
 
 # Profiles
 
-Runiq supports **10 primary profiles** for different diagramming needs:
+Runiq supports **13 primary profiles** for different diagramming needs:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, Control system diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **GlyphSet profile**: SmartArt-style pre-built diagram templates (pyramids, matrices, cycles, org charts) with 61 glyphsets across 6 categories.
 - **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
 - **Timeline profile**: Timeline diagrams and Gantt-style visualizations for project planning, roadmaps, and chronological events.
+- **Kanban profile**: Columns and cards for work tracking, WIP limits, and swimlanes.
+- **GitGraph profile**: Branch, commit, merge, and tag visualization for release flows.
+- **Treemap profile**: Hierarchical area charts for portfolio and usage breakdowns.
 - **Electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 - **Digital profile**: Digital logic circuits with standard gate symbols (AND, OR, NOT, NAND, NOR, XOR, etc.). Supports HDL export to Verilog.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
@@ -28,7 +31,7 @@ Most syntax is shared across profiles. The key differences are:
 
 ## Profile Comparison Table
 
-Here's a comprehensive comparison of the 10 primary profiles to help you choose the right one for your project:
+Here's a comprehensive comparison of the primary engineering and diagram profiles to help you choose the right one for your project:
 
 ::: tip Quick Links
 **Timeline** and **GlyphSet** profile guides:
@@ -36,6 +39,56 @@ Here's a comprehensive comparison of the 10 primary profiles to help you choose 
 - **Timeline Profile**: See [Timeline Diagrams Guide](/guide/timeline-diagrams)
 - **GlyphSet Profile**: See [Glyphsets Guide](/guide/glyphsets) - 61 SmartArt-style templates
   :::
+
+## Productivity Profiles
+
+These profiles focus on planning and collaboration visuals.
+
+### Kanban
+
+```runiq
+kanban "Sprint Board" {
+  column backlog "Backlog" wip:5 {
+    card K1 "Discovery notes" priority:medium
+  }
+  column progress "In Progress" {
+    card K2 "API integration" priority:high assignee:"Riley"
+  }
+  column completed "Done" {
+    card K3 "UX review" priority:low
+  }
+}
+```
+
+See [Kanban Boards Guide](/guide/kanban-diagrams).
+
+### GitGraph
+
+```runiq
+gitgraph "Release Flow" {
+  branch main label:"main"
+  branch feature label:"feature/auth" parent:main
+  commit c1 branch:main label:"Baseline"
+  commit c2 branch:feature label:"Auth flow"
+  merge m1 from:feature into:main label:"Merge auth" tag:"v1.2.0"
+}
+```
+
+See [GitGraph Guide](/guide/gitgraph-diagrams).
+
+### Treemap
+
+```runiq
+treemap "Portfolio" {
+  layout slice-dice
+  group "Core Platform" {
+    item "Auth" value:32
+    item "Billing" value:20
+  }
+}
+```
+
+See [Treemap Guide](/guide/treemap-diagrams).
 
 | Feature                  | Diagram                                            | Electrical                                                                              | Digital                                                                           | Wardley                                                                           | Sequence                                                                            | Pneumatic                                                                             | Hydraulic                                                                             | P&ID                                        |
 | ------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------- |

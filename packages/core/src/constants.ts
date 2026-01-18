@@ -19,6 +19,9 @@ export enum ProfileType {
   HYDRAULIC = 'hydraulic',
   PID = 'pid',
   GLYPHSET = 'glyphset',
+  KANBAN = 'kanban',
+  GITGRAPH = 'gitgraph',
+  TREEMAP = 'treemap',
 }
 
 /**

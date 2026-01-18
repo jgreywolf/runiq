@@ -145,6 +145,14 @@ export default defineConfig({
           ],
         },
         {
+          text: 'Productivity Profiles',
+          items: [
+            { text: 'Kanban Boards', link: '/guide/kanban-diagrams' },
+            { text: 'GitGraph Diagrams', link: '/guide/gitgraph-diagrams' },
+            { text: 'Treemap Diagrams', link: '/guide/treemap-diagrams' },
+          ],
+        },
+        {
           text: 'Help',
           items: [{ text: 'Troubleshooting', link: '/guide/troubleshooting' }],
         },

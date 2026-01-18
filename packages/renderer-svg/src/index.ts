@@ -31,6 +31,27 @@ export {
   type TimelineRenderResult,
 } from './timeline-renderer.js';
 
+// Re-export Kanban renderer
+export {
+  renderKanban,
+  type KanbanRenderOptions,
+  type KanbanRenderResult,
+} from './kanban-renderer.js';
+
+// Re-export GitGraph renderer
+export {
+  renderGitGraph,
+  type GitGraphRenderOptions,
+  type GitGraphRenderResult,
+} from './gitgraph-renderer.js';
+
+// Re-export Treemap renderer
+export {
+  renderTreemap,
+  type TreemapRenderOptions,
+  type TreemapRenderResult,
+} from './treemap-renderer.js';
+
 // Re-export label utilities for inline icons
 export {
   parseLabelWithIcons,
