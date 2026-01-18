@@ -1,0 +1,18 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "equationProcess",
+      "shape": "equationProcess",
+      "label": "",
+      "data": {
+        "inputs": [
+          "Alpha",
+          "Beta"
+        ],
+        "result": "Gamma"
+      }
+    }
+  ],
+  "edges": []
+}

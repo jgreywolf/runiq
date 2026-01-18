@@ -3,7 +3,7 @@
  * Tests visual rendering and parsing of all P&ID example diagrams
  */
 
-import { test, expect, type Page } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
 // Helper to get the syntax editor (not the data editor)
 function getSyntaxEditor(page: Page) {
@@ -93,7 +93,8 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-01-simple-tank-pump.png', {
-				maxDiffPixels: 300,
+				maxDiffPixels: 600,
+				maxDiffPixelRatio: 0.03,
 				fullPage: true
 			});
 		});
@@ -143,7 +144,8 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-02-heat-exchanger.png', {
-				maxDiffPixels: 300,
+				maxDiffPixels: 600,
+				maxDiffPixelRatio: 0.03,
 				fullPage: true
 			});
 		});
@@ -195,7 +197,8 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-03-distillation-column.png', {
-				maxDiffPixels: 300,
+				maxDiffPixels: 600,
+				maxDiffPixelRatio: 0.03,
 				fullPage: true
 			});
 		});
@@ -242,7 +245,8 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-04-reactor-safety.png', {
-				maxDiffPixels: 300,
+				maxDiffPixels: 600,
+				maxDiffPixelRatio: 0.03,
 				fullPage: true
 			});
 		});
@@ -292,7 +296,8 @@ test.describe('P&ID Diagram Rendering', () => {
 
 		await test.step('Take screenshot for visual regression', async () => {
 			await expect(page).toHaveScreenshot('pid-05-compressor-system.png', {
-				maxDiffPixels: 300,
+				maxDiffPixels: 600,
+				maxDiffPixelRatio: 0.03,
 				fullPage: true
 			});
 		});

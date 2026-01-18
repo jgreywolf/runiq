@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="712" height="222" 
+    viewBox="0 0 712 222"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="groupedProcess" data-node-id="groupedProcess" data-node-shape="groupedProcess"><text x="12" y="34" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#48677e">
+      Design
+    </text>
+          <rect x="12" y="42" 
+                width="120" height="50"
+                rx="4" ry="4"
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+          
+          <text x="72" y="67" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Wireframes
+    </text>
+        
+            <defs>
+              <marker id="arrowhead-group-0-0" markerWidth="8" markerHeight="8" 
+                      refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#48677e" />
+              </marker>
+            </defs>
+            
+            <line x1="132" y1="67" 
+                  x2="172" y2="67"
+                  stroke="#48677e" stroke-width="1.5"
+                  marker-end="url(#arrowhead-group-0-0)" />
+          
+          <rect x="172" y="42" 
+                width="120" height="50"
+                rx="4" ry="4"
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+          
+          <text x="232" y="67" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Prototypes
+    </text>
+        
+            <defs>
+              <marker id="arrowhead-merge-0" markerWidth="8" markerHeight="8" 
+                      refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#48677e" />
+              </marker>
+            </defs>
+            
+            <line x1="292" y1="67" 
+                  x2="552" y2="107"
+                  stroke="#48677e" stroke-width="2"
+                  marker-end="url(#arrowhead-merge-0)" />
+          <text x="12" y="114" 
+      text-anchor="start" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#48677e">
+      Build
+    </text>
+          <rect x="12" y="122" 
+                width="120" height="50"
+                rx="4" ry="4"
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+          
+          <text x="72" y="147" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      API
+    </text>
+        
+            <defs>
+              <marker id="arrowhead-group-1-0" markerWidth="8" markerHeight="8" 
+                      refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#48677e" />
+              </marker>
+            </defs>
+            
+            <line x1="132" y1="147" 
+                  x2="172" y2="147"
+                  stroke="#48677e" stroke-width="1.5"
+                  marker-end="url(#arrowhead-group-1-0)" />
+          
+          <rect x="172" y="122" 
+                width="120" height="50"
+                rx="4" ry="4"
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+          
+          <text x="232" y="147" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Frontend
+    </text>
+        
+            <defs>
+              <marker id="arrowhead-group-1-1" markerWidth="8" markerHeight="8" 
+                      refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#48677e" />
+              </marker>
+            </defs>
+            
+            <line x1="292" y1="147" 
+                  x2="332" y2="147"
+                  stroke="#48677e" stroke-width="1.5"
+                  marker-end="url(#arrowhead-group-1-1)" />
+          
+          <rect x="332" y="122" 
+                width="120" height="50"
+                rx="4" ry="4"
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+          
+          <text x="392" y="147" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Database
+    </text>
+        
+            <defs>
+              <marker id="arrowhead-merge-1" markerWidth="8" markerHeight="8" 
+                      refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#48677e" />
+              </marker>
+            </defs>
+            
+            <line x1="452" y1="147" 
+                  x2="552" y2="107"
+                  stroke="#48677e" stroke-width="2"
+                  marker-end="url(#arrowhead-merge-1)" />
+          
+      <rect x="552" y="72" 
+            width="140" height="70"
+            rx="6" ry="6"
+            fill="#FFC000" stroke="#48677e" stroke-width="2.5" />
+      
+      <text x="622" y="107" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#FFFFFF">
+      Launch
+    </text>
+    </g></svg>

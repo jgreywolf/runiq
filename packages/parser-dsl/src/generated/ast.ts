@@ -28,6 +28,8 @@ export type RuniqKeywordNames =
     | "%"
     | "("
     | ")"
+    | "*"
+    | "+"
     | ","
     | "."
     | ".."
@@ -40,6 +42,7 @@ export type RuniqKeywordNames =
     | "900#"
     | ":"
     | "="
+    | "?"
     | "@"
     | "Alloy20"
     | "BT"
@@ -109,6 +112,7 @@ export type RuniqKeywordNames =
     | "anchor"
     | "and"
     | "api"
+    | "arrow"
     | "arrowType:"
     | "artifact"
     | "as"
@@ -135,8 +139,11 @@ export type RuniqKeywordNames =
     | "bottom-left"
     | "bottom-right"
     | "boundary"
+    | "boxPadX:"
+    | "boxPadY:"
     | "branch"
     | "branch:"
+    | "branchPad:"
     | "break"
     | "cache"
     | "call"
@@ -188,6 +195,7 @@ export type RuniqKeywordNames =
     | "columnHeaders"
     | "columns"
     | "commit"
+    | "compact:"
     | "complex"
     | "component"
     | "composition"
@@ -261,6 +269,7 @@ export type RuniqKeywordNames =
     | "ellipsis"
     | "end"
     | "endDate:"
+    | "endMarker:"
     | "entity"
     | "entry:"
     | "entryPoint"
@@ -328,6 +337,7 @@ export type RuniqKeywordNames =
     | "gal"
     | "gal/min"
     | "gap"
+    | "gap:"
     | "gates:"
     | "gatewayType:"
     | "generalization"
@@ -432,6 +442,7 @@ export type RuniqKeywordNames =
     | "marginLeft:"
     | "marginRight:"
     | "marginTop:"
+    | "markerColor:"
     | "material:"
     | "max"
     | "maxCards:"
@@ -486,7 +497,9 @@ export type RuniqKeywordNames =
     | "open"
     | "operating"
     | "operator"
+    | "operatorColor:"
     | "opt"
+    | "options"
     | "options:"
     | "or"
     | "orientation"
@@ -558,6 +571,7 @@ export type RuniqKeywordNames =
     | "quadrants"
     | "queue"
     | "radial"
+    | "railroad"
     | "range:"
     | "rated"
     | "rating:"
@@ -645,6 +659,7 @@ export type RuniqKeywordNames =
     | "standard"
     | "start"
     | "startDate:"
+    | "startMarker:"
     | "stateInvariant:"
     | "static:"
     | "step"
@@ -711,6 +726,7 @@ export type RuniqKeywordNames =
     | "units"
     | "useContainers"
     | "utility"
+    | "vGap:"
     | "value"
     | "value:"
     | "valveAngle"
@@ -750,6 +766,7 @@ export type RuniqKeywordNames =
     | "yAxis"
     | "yLabel:"
     | "{"
+    | "|"
     | "}";
 
 export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
@@ -4474,7 +4491,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -4488,6 +4505,330 @@ export type ProfileIdentifier = FlexibleID | string;
 
 export function isProfileIdentifier(item: unknown): item is ProfileIdentifier {
     return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
+export interface RailroadBoxPadXProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBoxPadXProperty';
+    value: string;
+}
+
+export const RailroadBoxPadXProperty = {
+    $type: 'RailroadBoxPadXProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBoxPadXProperty(item: unknown): item is RailroadBoxPadXProperty {
+    return reflection.isInstance(item, RailroadBoxPadXProperty.$type);
+}
+
+export interface RailroadBoxPadYProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBoxPadYProperty';
+    value: string;
+}
+
+export const RailroadBoxPadYProperty = {
+    $type: 'RailroadBoxPadYProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBoxPadYProperty(item: unknown): item is RailroadBoxPadYProperty {
+    return reflection.isInstance(item, RailroadBoxPadYProperty.$type);
+}
+
+export interface RailroadBranchPadProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBranchPadProperty';
+    value: string;
+}
+
+export const RailroadBranchPadProperty = {
+    $type: 'RailroadBranchPadProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBranchPadProperty(item: unknown): item is RailroadBranchPadProperty {
+    return reflection.isInstance(item, RailroadBranchPadProperty.$type);
+}
+
+export interface RailroadChoice extends langium.AstNode {
+    readonly $container: RailroadDiagramStatement | RailroadPrimary;
+    readonly $type: 'RailroadChoice';
+    first: RailroadSequence;
+    rest: Array<RailroadSequence>;
+}
+
+export const RailroadChoice = {
+    $type: 'RailroadChoice',
+    first: 'first',
+    rest: 'rest'
+} as const;
+
+export function isRailroadChoice(item: unknown): item is RailroadChoice {
+    return reflection.isInstance(item, RailroadChoice.$type);
+}
+
+export interface RailroadCompactProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadCompactProperty';
+    value: BooleanValue;
+}
+
+export const RailroadCompactProperty = {
+    $type: 'RailroadCompactProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadCompactProperty(item: unknown): item is RailroadCompactProperty {
+    return reflection.isInstance(item, RailroadCompactProperty.$type);
+}
+
+export interface RailroadDiagramStatement extends langium.AstNode {
+    readonly $container: RailroadProfile;
+    readonly $type: 'RailroadDiagramStatement';
+    expression: RailroadExpression;
+    name: string;
+}
+
+export const RailroadDiagramStatement = {
+    $type: 'RailroadDiagramStatement',
+    expression: 'expression',
+    name: 'name'
+} as const;
+
+export function isRailroadDiagramStatement(item: unknown): item is RailroadDiagramStatement {
+    return reflection.isInstance(item, RailroadDiagramStatement.$type);
+}
+
+export interface RailroadEndMarkerProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadEndMarkerProperty';
+    value: RailroadEndMarkerValue;
+}
+
+export const RailroadEndMarkerProperty = {
+    $type: 'RailroadEndMarkerProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadEndMarkerProperty(item: unknown): item is RailroadEndMarkerProperty {
+    return reflection.isInstance(item, RailroadEndMarkerProperty.$type);
+}
+
+export type RailroadEndMarkerValue = 'arrow' | 'circle' | 'none';
+
+export function isRailroadEndMarkerValue(item: unknown): item is RailroadEndMarkerValue {
+    return item === 'arrow' || item === 'circle' || item === 'none';
+}
+
+export type RailroadExpression = RailroadChoice;
+
+export const RailroadExpression = {
+    $type: 'RailroadExpression'
+} as const;
+
+export function isRailroadExpression(item: unknown): item is RailroadExpression {
+    return reflection.isInstance(item, RailroadExpression.$type);
+}
+
+export interface RailroadGapProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadGapProperty';
+    value: string;
+}
+
+export const RailroadGapProperty = {
+    $type: 'RailroadGapProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadGapProperty(item: unknown): item is RailroadGapProperty {
+    return reflection.isInstance(item, RailroadGapProperty.$type);
+}
+
+export interface RailroadLoopProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadLoopProperty';
+    value: string;
+}
+
+export const RailroadLoopProperty = {
+    $type: 'RailroadLoopProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadLoopProperty(item: unknown): item is RailroadLoopProperty {
+    return reflection.isInstance(item, RailroadLoopProperty.$type);
+}
+
+export interface RailroadMarkerColorProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadMarkerColorProperty';
+    value: string;
+}
+
+export const RailroadMarkerColorProperty = {
+    $type: 'RailroadMarkerColorProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadMarkerColorProperty(item: unknown): item is RailroadMarkerColorProperty {
+    return reflection.isInstance(item, RailroadMarkerColorProperty.$type);
+}
+
+export interface RailroadOperatorColorProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadOperatorColorProperty';
+    value: string;
+}
+
+export const RailroadOperatorColorProperty = {
+    $type: 'RailroadOperatorColorProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadOperatorColorProperty(item: unknown): item is RailroadOperatorColorProperty {
+    return reflection.isInstance(item, RailroadOperatorColorProperty.$type);
+}
+
+export type RailroadOptionProperty = RailroadBoxPadXProperty | RailroadBoxPadYProperty | RailroadBranchPadProperty | RailroadCompactProperty | RailroadEndMarkerProperty | RailroadGapProperty | RailroadLoopProperty | RailroadMarkerColorProperty | RailroadOperatorColorProperty | RailroadStartMarkerProperty | RailroadVGapProperty;
+
+export const RailroadOptionProperty = {
+    $type: 'RailroadOptionProperty'
+} as const;
+
+export function isRailroadOptionProperty(item: unknown): item is RailroadOptionProperty {
+    return reflection.isInstance(item, RailroadOptionProperty.$type);
+}
+
+export interface RailroadOptionsStatement extends langium.AstNode {
+    readonly $container: RailroadProfile;
+    readonly $type: 'RailroadOptionsStatement';
+    properties: Array<RailroadOptionProperty>;
+}
+
+export const RailroadOptionsStatement = {
+    $type: 'RailroadOptionsStatement',
+    properties: 'properties'
+} as const;
+
+export function isRailroadOptionsStatement(item: unknown): item is RailroadOptionsStatement {
+    return reflection.isInstance(item, RailroadOptionsStatement.$type);
+}
+
+export interface RailroadPrimary extends langium.AstNode {
+    readonly $container: RailroadUnary;
+    readonly $type: 'RailroadPrimary';
+    expression?: RailroadExpression;
+    ref?: string;
+    token?: string;
+}
+
+export const RailroadPrimary = {
+    $type: 'RailroadPrimary',
+    expression: 'expression',
+    ref: 'ref',
+    token: 'token'
+} as const;
+
+export function isRailroadPrimary(item: unknown): item is RailroadPrimary {
+    return reflection.isInstance(item, RailroadPrimary.$type);
+}
+
+export interface RailroadProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'RailroadProfile';
+    name: string;
+    statements: Array<RailroadStatement>;
+}
+
+export const RailroadProfile = {
+    $type: 'RailroadProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isRailroadProfile(item: unknown): item is RailroadProfile {
+    return reflection.isInstance(item, RailroadProfile.$type);
+}
+
+export interface RailroadSequence extends langium.AstNode {
+    readonly $container: RailroadChoice;
+    readonly $type: 'RailroadSequence';
+    items: Array<RailroadUnary>;
+}
+
+export const RailroadSequence = {
+    $type: 'RailroadSequence',
+    items: 'items'
+} as const;
+
+export function isRailroadSequence(item: unknown): item is RailroadSequence {
+    return reflection.isInstance(item, RailroadSequence.$type);
+}
+
+export interface RailroadStartMarkerProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadStartMarkerProperty';
+    value: RailroadStartMarkerValue;
+}
+
+export const RailroadStartMarkerProperty = {
+    $type: 'RailroadStartMarkerProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadStartMarkerProperty(item: unknown): item is RailroadStartMarkerProperty {
+    return reflection.isInstance(item, RailroadStartMarkerProperty.$type);
+}
+
+export type RailroadStartMarkerValue = 'circle' | 'none';
+
+export function isRailroadStartMarkerValue(item: unknown): item is RailroadStartMarkerValue {
+    return item === 'circle' || item === 'none';
+}
+
+export type RailroadStatement = RailroadDiagramStatement | RailroadOptionsStatement | ThemeDeclaration;
+
+export const RailroadStatement = {
+    $type: 'RailroadStatement'
+} as const;
+
+export function isRailroadStatement(item: unknown): item is RailroadStatement {
+    return reflection.isInstance(item, RailroadStatement.$type);
+}
+
+export interface RailroadUnary extends langium.AstNode {
+    readonly $container: RailroadSequence;
+    readonly $type: 'RailroadUnary';
+    op?: '*' | '+' | '?';
+    primary: RailroadPrimary;
+}
+
+export const RailroadUnary = {
+    $type: 'RailroadUnary',
+    op: 'op',
+    primary: 'primary'
+} as const;
+
+export function isRailroadUnary(item: unknown): item is RailroadUnary {
+    return reflection.isInstance(item, RailroadUnary.$type);
+}
+
+export interface RailroadVGapProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadVGapProperty';
+    value: string;
+}
+
+export const RailroadVGapProperty = {
+    $type: 'RailroadVGapProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadVGapProperty(item: unknown): item is RailroadVGapProperty {
+    return reflection.isInstance(item, RailroadVGapProperty.$type);
 }
 
 export type ResizeHandleValue = 'e' | 'n' | 'ne' | 'nw' | 's' | 'se' | 'sw' | 'w';
@@ -5530,7 +5871,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | TreemapProfile;
+    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | TreemapProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -6481,6 +6822,27 @@ export type RuniqAstType = {
     PresetBlock: PresetBlock
     PressureStatement: PressureStatement
     Profile: Profile
+    RailroadBoxPadXProperty: RailroadBoxPadXProperty
+    RailroadBoxPadYProperty: RailroadBoxPadYProperty
+    RailroadBranchPadProperty: RailroadBranchPadProperty
+    RailroadChoice: RailroadChoice
+    RailroadCompactProperty: RailroadCompactProperty
+    RailroadDiagramStatement: RailroadDiagramStatement
+    RailroadEndMarkerProperty: RailroadEndMarkerProperty
+    RailroadExpression: RailroadExpression
+    RailroadGapProperty: RailroadGapProperty
+    RailroadLoopProperty: RailroadLoopProperty
+    RailroadMarkerColorProperty: RailroadMarkerColorProperty
+    RailroadOperatorColorProperty: RailroadOperatorColorProperty
+    RailroadOptionProperty: RailroadOptionProperty
+    RailroadOptionsStatement: RailroadOptionsStatement
+    RailroadPrimary: RailroadPrimary
+    RailroadProfile: RailroadProfile
+    RailroadSequence: RailroadSequence
+    RailroadStartMarkerProperty: RailroadStartMarkerProperty
+    RailroadStatement: RailroadStatement
+    RailroadUnary: RailroadUnary
+    RailroadVGapProperty: RailroadVGapProperty
     RoleSourceProperty: RoleSourceProperty
     RoleTargetProperty: RoleTargetProperty
     RoutingDeclaration: RoutingDeclaration
@@ -9013,6 +9375,208 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        RailroadBoxPadXProperty: {
+            name: RailroadBoxPadXProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBoxPadXProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadBoxPadYProperty: {
+            name: RailroadBoxPadYProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBoxPadYProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadBranchPadProperty: {
+            name: RailroadBranchPadProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBranchPadProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadChoice: {
+            name: RailroadChoice.$type,
+            properties: {
+                first: {
+                    name: RailroadChoice.first
+                },
+                rest: {
+                    name: RailroadChoice.rest,
+                    defaultValue: []
+                }
+            },
+            superTypes: [RailroadExpression.$type]
+        },
+        RailroadCompactProperty: {
+            name: RailroadCompactProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadCompactProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadDiagramStatement: {
+            name: RailroadDiagramStatement.$type,
+            properties: {
+                expression: {
+                    name: RailroadDiagramStatement.expression
+                },
+                name: {
+                    name: RailroadDiagramStatement.name
+                }
+            },
+            superTypes: [RailroadStatement.$type]
+        },
+        RailroadEndMarkerProperty: {
+            name: RailroadEndMarkerProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadEndMarkerProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadExpression: {
+            name: RailroadExpression.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        RailroadGapProperty: {
+            name: RailroadGapProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadGapProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadLoopProperty: {
+            name: RailroadLoopProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadLoopProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadMarkerColorProperty: {
+            name: RailroadMarkerColorProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadMarkerColorProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadOperatorColorProperty: {
+            name: RailroadOperatorColorProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadOperatorColorProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadOptionProperty: {
+            name: RailroadOptionProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        RailroadOptionsStatement: {
+            name: RailroadOptionsStatement.$type,
+            properties: {
+                properties: {
+                    name: RailroadOptionsStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [RailroadStatement.$type]
+        },
+        RailroadPrimary: {
+            name: RailroadPrimary.$type,
+            properties: {
+                expression: {
+                    name: RailroadPrimary.expression
+                },
+                ref: {
+                    name: RailroadPrimary.ref
+                },
+                token: {
+                    name: RailroadPrimary.token
+                }
+            },
+            superTypes: []
+        },
+        RailroadProfile: {
+            name: RailroadProfile.$type,
+            properties: {
+                name: {
+                    name: RailroadProfile.name
+                },
+                statements: {
+                    name: RailroadProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        RailroadSequence: {
+            name: RailroadSequence.$type,
+            properties: {
+                items: {
+                    name: RailroadSequence.items,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        RailroadStartMarkerProperty: {
+            name: RailroadStartMarkerProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadStartMarkerProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadStatement: {
+            name: RailroadStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        RailroadUnary: {
+            name: RailroadUnary.$type,
+            properties: {
+                op: {
+                    name: RailroadUnary.op
+                },
+                primary: {
+                    name: RailroadUnary.primary
+                }
+            },
+            superTypes: []
+        },
+        RailroadVGapProperty: {
+            name: RailroadVGapProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadVGapProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
         RoleSourceProperty: {
             name: RoleSourceProperty.$type,
             properties: {
@@ -9668,7 +10232,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, TreemapStatement.$type]
+            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, TreemapStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,

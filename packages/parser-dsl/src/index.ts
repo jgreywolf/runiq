@@ -1,5 +1,5 @@
 // Export Langium parser
-export { parse, type ParseResult } from './langium-parser.js';
+export { parse, type ParseResult, type WarningDetail } from './langium-parser.js';
 export type { NodeLocation } from './utils/index.js';
 
 // Export Langium services for LSP integration

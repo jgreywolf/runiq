@@ -48,8 +48,20 @@ describe('langium-parser', () => {
       expect(result.success).toBe(true);
       expect(result.document?.profiles[0]).toBeDefined();
     });
-  });
+    it('should warn on missing railroad references', () => {
+      const dsl = `
+        railroad "Grammar" {
+          diagram Expr = Term | Missing
+          diagram Term = "x"
+        }
+      `;
+      const result = parse(dsl);
 
+      expect(result.success).toBe(true);
+      expect(result.warnings.length).toBeGreaterThan(0);
+      expect(result.warnings.join('\n')).toContain('Missing railroad diagram references: Missing');
+    });
+  });
   describe('parse() - Error Handling', () => {
     it('should return errors for invalid syntax', () => {
       const dsl = `diagram "Bad" { @@@ }`;

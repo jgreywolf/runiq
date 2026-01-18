@@ -6,7 +6,7 @@ lastUpdated: 2025-01-21
 
 # Glyphset Diagram Examples
 
-Glyphsets are pre-designed diagram templates that provide professional layouts for common business and communication needs. With 99+ templates available, they offer quick solutions for presentations, reports, and visual storytelling.
+Glyphsets are pre-designed diagram templates that provide professional layouts for common business and communication needs. With 61 templates available, they offer quick solutions for presentations, reports, and visual storytelling.
 
 ## What are Glyphsets?
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import { handleNewDiagram } from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
 	import Icon from '@iconify/svelte';
-	import { handleNewDiagram } from '$lib/state/editorState.svelte';
 
 	interface Props {
 		open: boolean;
@@ -95,6 +95,24 @@
 					<div>
 						<h3 class="font-semibold text-neutral-900">Timeline</h3>
 						<p class="text-sm text-neutral-600">Chronological events, milestones, periods</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Railroad Diagram Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.railroad)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-slate-400 hover:bg-slate-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-colors group-hover:bg-slate-200"
+					>
+						<Icon icon="tabler:route" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Railroad Diagram</h3>
+						<p class="text-sm text-neutral-600">Grammar and syntax diagrams</p>
 					</div>
 				</div>
 			</button>

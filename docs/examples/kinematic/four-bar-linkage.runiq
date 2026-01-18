@@ -1,0 +1,18 @@
+diagram "Four-Bar Linkage" {
+  direction LR
+
+  style link fillColor: "#dbeafe" strokeColor: "#2563eb"
+  style joint fillColor: "#ffedd5" strokeColor: "#c2410c"
+  style ground fillColor: "#e2e8f0" strokeColor: "#475569"
+
+  shape Ground as @groundLink label: "Ground" style:ground
+  shape J1 as @revoluteJoint label: "J1" style:joint
+  shape L1 as @binaryLink label: "Crank" style:link
+  shape J2 as @revoluteJoint label: "J2" style:joint
+  shape L2 as @binaryLink label: "Coupler" style:link
+  shape J3 as @revoluteJoint label: "J3" style:joint
+  shape L3 as @binaryLink label: "Rocker" style:link
+  shape J4 as @revoluteJoint label: "J4" style:joint
+
+  Ground -> J1 -> L1 -> J2 -> L2 -> J3 -> L3 -> J4 -> Ground
+}

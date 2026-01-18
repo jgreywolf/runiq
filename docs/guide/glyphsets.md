@@ -106,7 +106,7 @@ glyphset basicProcess "Themed Process" {
 
 ## Available Glyphset Categories
 
-Runiq includes **60+ glyphsets** across 6 categories:
+Runiq includes **61 glyphsets** across 6 categories:
 
 ### 1. Process Glyphsets (17)
 
@@ -216,7 +216,7 @@ Use diagram profiles instead when you need:
 | ---------------------------- | --------------- | ------------------- | ----------- | -------------- | ------------- |
 | **Text-based DSL**           | ✅ DSL+JSON     | ❌ GUI              | ✅ Yes      | ✅ Yes         | ❌ GUI        |
 | **Version control friendly** | ✅ Git-friendly | ❌ Binary files     | ✅ Yes      | ✅ Yes         | ❌ Cloud      |
-| **Template library**         | ✅ 60+ types    | ✅ 200+ types       | ❌ No       | ❌ No          | ✅ 100+ types |
+| **Template library**         | ✅ 61 types    | ✅ 200+ types       | ❌ No       | ❌ No          | ✅ 100+ types |
 | **Custom themes**            | ✅ 9 themes     | ✅ Many themes      | ⚠️ Limited  | ⚠️ Colors only | ✅ Yes        |
 | **Data-driven**              | ✅ JSON support | ⚠️ Excel link       | ❌ No       | ❌ No          | ⚠️ CSV import |
 | **Programmatic API**         | ✅ Full SDK     | ⚠️ VBA/COM          | ❌ No       | ❌ No          | ⚠️ API        |
@@ -234,7 +234,7 @@ Use diagram profiles instead when you need:
 
 **When to use PowerPoint SmartArt instead:**
 
-- Need more template variety (200+ vs 60+)
+- Need more template variety (200+ vs 61)
 - Working exclusively in Microsoft Office
 - Prefer GUI-based editing
 - Don't need version control or programmatic generation

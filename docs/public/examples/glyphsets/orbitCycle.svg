@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="582" height="582" 
+    viewBox="0 0 582 582"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="orbitCycle" data-node-id="orbitCycle" data-node-shape="orbitCycle">
+      <circle cx="287" cy="287" r="60"
+              fill="#70AD47" stroke="#48677e" stroke-width="3" />
+      
+      <text x="287" y="287" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Core
+    </text>
+    
+        <circle cx="287" cy="287" r="110"
+                fill="none" stroke="#D0D0D0" stroke-width="1" stroke-dasharray="5,5" />
+      
+          <circle cx="397" cy="287" r="45"
+                  fill="#5B9BD5" stroke="#48677e" stroke-width="2" />
+          
+          <text x="397" y="287" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Alpha
+    </text>
+        
+            <defs>
+              <marker id="orbit-arrow-0" markerWidth="10" markerHeight="10" 
+                      refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#48677e" />
+              </marker>
+            </defs>
+            <path d="M 244.90482243984013 185.37325142375846 A 110 110 0 0 1 329.09517756015987 185.37325142375846"
+                  fill="none" stroke="#48677e" stroke-width="2" 
+                  marker-end="url(#orbit-arrow-0)" 
+                  opacity="0.6" />
+          
+        <circle cx="287" cy="287" r="170"
+                fill="none" stroke="#D0D0D0" stroke-width="1" stroke-dasharray="5,5" />
+      
+          <circle cx="457" cy="287" r="45"
+                  fill="#70AD47" stroke="#48677e" stroke-width="2" />
+          
+          <text x="457" y="287" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Beta
+    </text>
+        
+            <defs>
+              <marker id="orbit-arrow-1" markerWidth="10" markerHeight="10" 
+                      refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#48677e" />
+              </marker>
+            </defs>
+            <path d="M 221.94381649793473 129.94047947308127 A 170 170 0 0 1 352.05618350206527 129.94047947308127"
+                  fill="none" stroke="#48677e" stroke-width="2" 
+                  marker-end="url(#orbit-arrow-1)" 
+                  opacity="0.6" />
+          
+        <circle cx="287" cy="287" r="230"
+                fill="none" stroke="#D0D0D0" stroke-width="1" stroke-dasharray="5,5" />
+      
+          <circle cx="517" cy="287" r="45"
+                  fill="#FFC000" stroke="#48677e" stroke-width="2" />
+          
+          <text x="517" y="287" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Gamma
+    </text>
+        
+            <defs>
+              <marker id="orbit-arrow-2" markerWidth="10" markerHeight="10" 
+                      refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#48677e" />
+              </marker>
+            </defs>
+            <path d="M 198.98281055602936 74.50770752240405 A 230 230 0 0 1 375.01718944397066 74.50770752240405"
+                  fill="none" stroke="#48677e" stroke-width="2" 
+                  marker-end="url(#orbit-arrow-2)" 
+                  opacity="0.6" />
+          </g></svg>

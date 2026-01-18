@@ -18,6 +18,7 @@ export enum ProfileType {
   PNEUMATIC = 'pneumatic',
   HYDRAULIC = 'hydraulic',
   PID = 'pid',
+  RAILROAD = 'railroad',
   GLYPHSET = 'glyphset',
   KANBAN = 'kanban',
   GITGRAPH = 'gitgraph',

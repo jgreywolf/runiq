@@ -1,0 +1,46 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "nestedList",
+      "shape": "nestedList",
+      "label": "",
+      "data": {
+        "items": [
+          {
+            "label": "Core",
+            "indent": 0,
+            "isLevel": true
+          },
+          {
+            "label": "Alpha",
+            "indent": 1,
+            "isLevel": false
+          },
+          {
+            "label": "Beta",
+            "indent": 1,
+            "isLevel": false
+          },
+          {
+            "label": "Advanced",
+            "indent": 0,
+            "isLevel": true
+          },
+          {
+            "label": "Gamma",
+            "indent": 1,
+            "isLevel": false
+          },
+          {
+            "label": "Delta",
+            "indent": 1,
+            "isLevel": false
+          }
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

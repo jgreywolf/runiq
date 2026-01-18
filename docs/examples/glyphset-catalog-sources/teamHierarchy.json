@@ -1,0 +1,37 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "teamHierarchy",
+      "shape": "teamHierarchy",
+      "label": "",
+      "data": {
+        "teams": [
+          {
+            "name": "Team Alpha",
+            "leader": "Avery",
+            "members": [
+              "Alex",
+              "Casey"
+            ]
+          },
+          {
+            "name": "Team Beta",
+            "leader": "Jordan",
+            "members": [
+              "Blake",
+              "Devon"
+            ]
+          }
+        ],
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C",
+          "#90A4AE"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

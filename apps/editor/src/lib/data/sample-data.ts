@@ -14,6 +14,7 @@ import { networkSampleDiagrams } from './toolboxSamples/networkSampleDiagrams';
 //import { pedigreeSampleDiagrams } from './toolboxSamples/pedigreeSampleDiagrams';
 import { pneumaticSampleDiagrams } from './toolboxSamples/pneumaticSampleDiagrams';
 import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
+import { railroadSampleDiagrams } from './toolboxSamples/railroadSampleDiagrams';
 import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
 import { stateMachineSampleDiagrams } from './toolboxSamples/stateMachineSampleDiagrams';
 import { templatePresetSampleDiagrams } from './toolboxSamples/templatePresetSampleDiagrams';
@@ -58,5 +59,6 @@ export const sampleDiagrams: SampleCategory[] = [
 	...pneumaticSampleDiagrams,
 	...hydraulicSampleDiagrams,
 	...wardleySampleDiagrams,
-	...glyphsetSampleDiagrams
+	...glyphsetSampleDiagrams,
+	...railroadSampleDiagrams
 ];

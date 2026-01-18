@@ -58,6 +58,7 @@ export type Profile =
   | PneumaticProfile
   | HydraulicProfile
   | PIDProfile
+  | RailroadProfile
   | TimelineProfile
   | KanbanProfile
   | GitGraphProfile
@@ -461,6 +462,87 @@ export interface SequenceDurationConstraint {
   fromMessage: number; // Starting message index (0-based)
   toMessage: number; // Ending message index (0-based)
   constraint: string; // Constraint expression (e.g., "< 100ms", "{d..2d}")
+}
+
+// ============================================================================
+// Railroad Profile Types
+// ============================================================================
+
+/**
+ * Railroad diagram profile for grammar/syntax diagrams
+ */
+export interface RailroadProfile {
+  type: 'railroad';
+  name: string;
+  theme?: string;
+  options?: RailroadOptions;
+  diagrams: RailroadDiagram[];
+}
+
+/**
+ * Named railroad diagram production
+ */
+export interface RailroadDiagram {
+  name: string;
+  expression: RailroadExpression;
+}
+
+export interface RailroadOptions {
+  markerColor?: string;
+  operatorColor?: string;
+  startMarker?: 'circle' | 'none';
+  endMarker?: 'arrow' | 'circle' | 'none';
+  compact?: boolean;
+  gap?: number;
+  branchPad?: number;
+  vGap?: number;
+  loop?: number;
+  boxPadX?: number;
+  boxPadY?: number;
+}
+
+export type RailroadExpression =
+  | RailroadSequence
+  | RailroadChoice
+  | RailroadOptional
+  | RailroadOneOrMore
+  | RailroadZeroOrMore
+  | RailroadToken
+  | RailroadReference;
+
+export interface RailroadSequence {
+  type: 'sequence';
+  items: RailroadExpression[];
+}
+
+export interface RailroadChoice {
+  type: 'choice';
+  options: RailroadExpression[];
+}
+
+export interface RailroadOptional {
+  type: 'optional';
+  expression: RailroadExpression;
+}
+
+export interface RailroadOneOrMore {
+  type: 'oneOrMore';
+  expression: RailroadExpression;
+}
+
+export interface RailroadZeroOrMore {
+  type: 'zeroOrMore';
+  expression: RailroadExpression;
+}
+
+export interface RailroadToken {
+  type: 'token';
+  value: string;
+}
+
+export interface RailroadReference {
+  type: 'reference';
+  name: string;
 }
 
 // ============================================================================

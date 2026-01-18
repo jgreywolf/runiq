@@ -19,6 +19,7 @@ import { parse, type ParseResult } from '@runiq/parser-dsl';
 import {
   renderGitGraph,
   renderKanban,
+  renderRailroadDiagram,
   renderSequenceDiagram,
   renderSvg,
   renderTimeline,
@@ -136,6 +137,8 @@ program
 
         if (renderProfileType === ProfileType.WARDLEY) {
           renderResult = renderWardleyMap(nonDiagramProfile as WardleyProfile);
+        } else if (renderProfileType === ProfileType.RAILROAD) {
+          renderResult = renderRailroadDiagram(nonDiagramProfile as any);
         } else if (renderProfileType === ProfileType.SEQUENCE) {
           renderResult = renderSequenceDiagram(nonDiagramProfile as any);
         } else if (renderProfileType === ProfileType.TIMELINE) {

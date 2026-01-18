@@ -1,0 +1,37 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "circleHierarchy",
+      "shape": "circleHierarchy",
+      "label": "",
+      "data": {
+        "root": "Root",
+        "levels": [
+          {
+            "label": "Level 1",
+            "items": [
+              "Alpha",
+              "Beta",
+              "Gamma"
+            ]
+          },
+          {
+            "label": "Level 2",
+            "items": [
+              "Delta"
+            ]
+          }
+        ],
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C",
+          "#90A4AE",
+          "#455A64"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

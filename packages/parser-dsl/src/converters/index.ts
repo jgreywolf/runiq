@@ -11,6 +11,7 @@ export { convertHydraulicProfile } from './hydraulic-converter.js';
 export { convertKanbanProfile } from './kanban-converter.js';
 export { convertPIDProfile } from './pid-converter.js';
 export { convertPneumaticProfile } from './pneumatic-converter.js';
+export { convertRailroadProfile } from './railroad-converter.js';
 export { convertSequenceProfile } from './sequence-converter.js';
 export { convertTimelineProfile } from './timeline-converter.js';
 export { convertTreemapProfile } from './treemap-converter.js';

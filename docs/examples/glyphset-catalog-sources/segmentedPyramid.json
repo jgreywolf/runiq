@@ -1,0 +1,40 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "segmentedPyramid",
+      "shape": "segmentedPyramid",
+      "label": "",
+      "data": {
+        "levels": [
+          {
+            "label": "Level 1",
+            "value": 1,
+            "segments": [
+              "A",
+              "B"
+            ]
+          },
+          {
+            "label": "Level 2",
+            "value": 2,
+            "segments": [
+              "C",
+              "D"
+            ]
+          },
+          {
+            "label": "Level 3",
+            "value": 3,
+            "segments": [
+              "E"
+            ]
+          }
+        ],
+        "theme": "professional"
+      }
+    }
+  ],
+  "edges": []
+}

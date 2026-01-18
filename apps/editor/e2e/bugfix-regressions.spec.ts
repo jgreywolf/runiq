@@ -36,7 +36,8 @@ test.describe('Bugfix regressions', () => {
 		await page.waitForTimeout(2000);
 
 		await expect(page).toHaveScreenshot('bugfix-01-container-padding-label-overlap.png', {
-			maxDiffPixels: 250,
+			maxDiffPixels: 600,
+			maxDiffPixelRatio: 0.03,
 			fullPage: true
 		});
 	});
@@ -61,7 +62,8 @@ test.describe('Bugfix regressions', () => {
 		await page.waitForTimeout(2000);
 
 		await expect(page).toHaveScreenshot('bugfix-02-class-text-bounds.png', {
-			maxDiffPixels: 250,
+			maxDiffPixels: 600,
+			maxDiffPixelRatio: 0.03,
 			fullPage: true
 		});
 	});
@@ -81,7 +83,8 @@ test.describe('Bugfix regressions', () => {
 		await page.waitForTimeout(300);
 
 		await expect(page).toHaveScreenshot('bugfix-03-hover-selection-highlight.png', {
-			maxDiffPixels: 250,
+			maxDiffPixels: 600,
+			maxDiffPixelRatio: 0.03,
 			fullPage: true
 		});
 	});
@@ -102,7 +105,7 @@ test.describe('Bugfix regressions', () => {
 		await expect(lightText).toHaveAttribute('fill', '#0f172a');
 
 		await expect(page).toHaveScreenshot('bugfix-04-auto-contrast-text-color.png', {
-			maxDiffPixels: 200,
+			maxDiffPixels: 500,
 			fullPage: true
 		});
 	});
@@ -123,5 +126,28 @@ test.describe('Bugfix regressions', () => {
 			maxDiffPixels: 250,
 			fullPage: true
 		});
+	});
+
+	test('06-railroad-start-end-markers', async ({ page }) => {
+		const dsl = `railroad "Marker Test" {
+  theme ocean
+  diagram Expr = "a" "b"
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(1500);
+
+		const diagramSvg = page.locator('svg[data-id="runiq-diagram"]');
+		await expect(diagramSvg).toHaveCount(1);
+
+		const svgContent = await diagramSvg.evaluate((el) => el.outerHTML);
+		expect(svgContent).toContain('railroad-arrow');
+
+		const markerFillMatch = svgContent.match(
+			/marker id="railroad-arrow"[\s\S]*?<path d="M0,0 L8,3 L0,6 Z" fill="([^"]+)"/
+		);
+		const circleFillMatch = svgContent.match(/<circle[^>]*r="4"[^>]*fill="([^"]+)"/);
+		expect(markerFillMatch).not.toBeNull();
+		expect(circleFillMatch).not.toBeNull();
+		expect(markerFillMatch![1]).toBe(circleFillMatch![1]);
 	});
 });

@@ -16,7 +16,11 @@ import { HistoryManager } from '../utils/historyManager.svelte';
 
 // Type definitions
 export interface EditorRefs {
-	code: { setValue: (code: string) => void; insertAtCursor: (text: string) => void } | null;
+	code: {
+		setValue: (code: string) => void;
+		insertAtCursor: (text: string) => void;
+		jumpTo: (line: number, column: number) => void;
+	} | null;
 	data: { setValue: (data: string) => void } | null;
 	preview: { hasValidDiagram: () => boolean; getSvg: () => string } | null;
 	viewport: {
@@ -40,6 +44,7 @@ export interface EditorState {
 	dataContent: string;
 	dataErrors: string[];
 	errors: string[];
+	lintWarnings: string[];
 	diagramName: string;
 	isDirty: boolean;
 	activeTab: string;
@@ -51,7 +56,7 @@ export interface EditorState {
 
 /**
  * Detect profile type from current code
- * Official profiles: diagram, sequence, wardley, electrical, digital, pneumatic, hydraulic, glyphset, timeline, kanban, gitgraph, treemap
+ * Official profiles: diagram, sequence, wardley, electrical, digital, pneumatic, hydraulic, glyphset, timeline, railroad, kanban, gitgraph, treemap
  */
 export function detectProfile(code: string): ProfileName {
 	const trimmed = code.trim().toLowerCase();
@@ -83,6 +88,7 @@ export const editorState = $state<EditorState>({
 	dataContent: '',
 	dataErrors: [],
 	errors: [],
+	lintWarnings: [],
 	diagramName: 'New Diagram',
 	isDirty: false,
 	activeTab: 'syntax',
@@ -155,6 +161,13 @@ export function handleCodeChange(newCode: string, addToHistory: boolean = true) 
  */
 export function handleEditorErrors(editorErrors: string[]) {
 	console.log('Editor errors:', editorErrors);
+}
+
+/**
+ * Handle editor warnings
+ */
+export function handleEditorWarnings(editorWarnings: string[]) {
+	editorState.lintWarnings = editorWarnings;
 }
 
 /**

@@ -1,0 +1,19 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "segmentedCycle",
+      "shape": "segmentedCycle",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ],
+        "showPercentages": true
+      }
+    }
+  ],
+  "edges": []
+}

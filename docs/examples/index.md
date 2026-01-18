@@ -17,6 +17,12 @@ Smart diagram layouts for presentations, reports, and visual storytelling.
 - **Visual Metaphors**: Funnels, targets, gears, puzzles, containers
 - **Applications**: Presentations, reports, infographics, strategic planning
 
+### [Glyphset Catalog](/examples/glyphset-catalog)
+
+- Full list of every glyphset type
+- Min/max item counts and descriptions
+- Quick scan for available SmartArt-style patterns
+
 ## Software Engineering
 
 Build architecture diagrams, UML models, and process flows.
@@ -83,6 +89,13 @@ Build architecture diagrams, UML models, and process flows.
 - Timing constraints and delays
 - **Visual Examples**: Auth flow, API error handling, async messaging
 - Applications: API design, protocol documentation, user stories
+
+### [Railroad Diagrams](/examples/railroad-diagrams)
+
+- Grammar and syntax rules with EBNF shorthand
+- Left-to-right deterministic layout
+- Branches, loops, and optional paths
+- **Examples**: Arithmetic grammar, JSON subset, URL grammar
 
 ### [Class Diagrams](/examples/class-diagrams)
 
@@ -159,6 +172,16 @@ Design control loops and signal processing.
 - Motor speed control, aircraft pitch
 - Export to LaTeX/TikZ and Simulink MDL
 - **Supports**: Summing junctions, gain blocks, integrators
+
+## Mechanical Systems
+
+Linkages and mechanisms for robotics and motion design.
+
+### [Kinematic Diagrams](/examples/kinematic-diagrams)
+
+- Joints, links, and actuators for mechanism layouts
+- Four-bar linkages, slider-cranks, and robot arms
+- Applications: robotics, mechanism design, motion studies
 
 ## Electrical Engineering
 
@@ -314,7 +337,12 @@ Visualize events and milestones over time.
 <div class="example-grid">
   <a href="/examples/glyphsets" class="example-card">
     <h3>✨ Glyphsets</h3>
-    <p>99+ smart layouts & visual metaphors</p>
+    <p>61 smart layouts & visual metaphors</p>
+  </a>
+
+  <a href="/examples/glyphset-catalog" class="example-card">
+    <h3>Glyphset Catalog</h3>
+    <p>All SmartArt-style templates</p>
   </a>
 
   <a href="/examples/flowcharts" class="example-card">
@@ -362,6 +390,11 @@ Visualize events and milestones over time.
     <p>UML message exchanges & interactions</p>
   </a>
 
+  <a href="/examples/railroad-diagrams" class="example-card">
+    <h3>Railroad Diagrams</h3>
+    <p>Grammar rules & syntax flows</p>
+  </a>
+
   <a href="/examples/class-diagrams" class="example-card">
     <h3>📐 Class Diagrams</h3>
     <p>UML object-oriented modeling</p>
@@ -400,6 +433,11 @@ Visualize events and milestones over time.
   <a href="/examples/control-diagrams" class="example-card">
     <h3>🎛️ Control system Diagrams</h3>
     <p>Control systems & signal flow</p>
+  </a>
+
+  <a href="/examples/kinematic-diagrams" class="example-card">
+    <h3>Kinematic Diagrams</h3>
+    <p>Linkages, joints, and actuators</p>
   </a>
   
   <a href="/examples/electrical" class="example-card">

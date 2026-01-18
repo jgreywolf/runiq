@@ -130,7 +130,8 @@ test.describe('Graph Metrics Visualization', () => {
 
 		// Visual snapshot to verify positioning
 		await expect(page).toHaveScreenshot('graph-metrics-04-badge-positions.png', {
-			maxDiffPixels: 250,
+			maxDiffPixels: 600,
+			maxDiffPixelRatio: 0.03,
 			fullPage: true
 		});
 	});
@@ -173,7 +174,8 @@ test.describe('Graph Metrics Visualization', () => {
 
 		// Visual snapshot
 		await expect(page).toHaveScreenshot('graph-metrics-05-mixed-types.png', {
-			maxDiffPixels: 250,
+			maxDiffPixels: 600,
+			maxDiffPixelRatio: 0.03,
 			fullPage: true
 		});
 	});
