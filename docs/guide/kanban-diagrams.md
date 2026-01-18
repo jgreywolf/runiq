@@ -45,6 +45,20 @@ kanban "Release Checklist" {
 }
 ```
 
+## Overflow
+
+Limit visible cards per column and show an overflow indicator:
+
+```runiq
+kanban "Support Queue" {
+  column incoming "Incoming" maxCards:2 overflow:stack {
+    card C1 "Payment failures" priority:high
+    card C2 "Webhook retries" priority:medium
+    card C3 "Account merge request" priority:low
+  }
+}
+```
+
 ## Styling
 
 You can style swimlanes, columns, and cards with inline colors:
@@ -63,6 +77,7 @@ kanban "Design Ops" {
 
 - **Swimlanes**: Optional container for columns (`swimlane "Label" { ... }`).
 - **Columns**: Named columns with optional WIP limits (`wip:3`).
+- **Overflow**: Use `maxCards` and `overflow:stack|ellipsis` for long columns.
 - **Cards**: Labels plus metadata: `description`, `assignee`, `priority`, `tags`, `estimate`.
 - **Theme support**: `theme runiq` works the same as other profiles.
 

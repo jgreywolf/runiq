@@ -1,6 +1,7 @@
 import type {
   KanbanCard,
   KanbanColumn,
+  KanbanOverflow,
   KanbanProfile,
   KanbanStyle,
 } from '@runiq/core';
@@ -35,6 +36,8 @@ const DEFAULTS = {
   metaFontSize: 11,
   labelFontSize: 14,
   priorityBarWidth: 6,
+  overflowStackHeight: 28,
+  overflowEllipsisHeight: 16,
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
@@ -83,6 +86,19 @@ function wrapText(
   return lines;
 }
 
+function getVisibleCards(column: KanbanColumn): {
+  visibleCards: KanbanCard[];
+  hiddenCount: number;
+  overflow: KanbanOverflow;
+} {
+  const maxCards =
+    column.maxCards === undefined ? column.cards.length : Math.max(0, column.maxCards);
+  const visibleCards = column.cards.slice(0, maxCards);
+  const hiddenCount = Math.max(0, column.cards.length - visibleCards.length);
+  const overflow = column.overflow ?? 'ellipsis';
+  return { visibleCards, hiddenCount, overflow };
+}
+
 function measureCardHeight(
   card: KanbanCard,
   width: number,
@@ -125,8 +141,9 @@ function measureColumnWidth(
   }
 ): number {
   let maxWidth = measureText(column.label, { fontSize: DEFAULTS.labelFontSize }).width;
+  const { visibleCards } = getVisibleCards(column);
 
-  for (const card of column.cards) {
+  for (const card of visibleCards) {
     const cardWidth = measureText(card.label, { fontSize: DEFAULTS.titleFontSize }).width;
     maxWidth = Math.max(maxWidth, cardWidth);
   }
@@ -193,31 +210,49 @@ export function renderKanban(
   const swimlaneLabelGap = swimlaneLabel ? 6 : 0;
 
   let maxColumnHeight = 0;
-  const cardLayouts = new Map<string, { height: number; titleLines: string[]; descriptionLines: string[]; metaText: string }[]>();
+  const columnLayouts: Array<{
+    cardInfo: { height: number; titleLines: string[]; descriptionLines: string[]; metaText: string }[];
+    visibleCards: KanbanCard[];
+    hiddenCount: number;
+    overflow: KanbanOverflow;
+  }> = [];
 
   columns.forEach((column, columnIndex) => {
     const width = columnWidths[columnIndex];
+    const { visibleCards, hiddenCount, overflow } = getVisibleCards(column);
     const cardInfo: { height: number; titleLines: string[]; descriptionLines: string[]; metaText: string }[] = [];
     let cardsHeight = 0;
 
-    column.cards.forEach((card) => {
+    visibleCards.forEach((card) => {
       const info = measureCardHeight(card, width, measureText);
       cardInfo.push(info);
       cardsHeight += info.height;
     });
 
-    if (column.cards.length > 1) {
-      cardsHeight += rowGap * (column.cards.length - 1);
+    if (visibleCards.length > 1) {
+      cardsHeight += rowGap * (visibleCards.length - 1);
     }
 
+    if (hiddenCount > 0) {
+      const overflowHeight =
+        overflow === 'stack' ? DEFAULTS.overflowStackHeight : DEFAULTS.overflowEllipsisHeight;
+      cardsHeight += (visibleCards.length > 0 ? rowGap : 0) + overflowHeight;
+    }
+
+    const hasCards = visibleCards.length > 0 || hiddenCount > 0;
     const columnHeight =
       DEFAULTS.columnPadding * 2 +
       DEFAULTS.headerHeight +
-      (column.cards.length > 0 ? rowGap : 0) +
+      (hasCards ? rowGap : 0) +
       cardsHeight;
 
     maxColumnHeight = Math.max(maxColumnHeight, columnHeight);
-    cardLayouts.set(column.id || `${columnIndex}`, cardInfo);
+    columnLayouts[columnIndex] = {
+      cardInfo,
+      visibleCards,
+      hiddenCount,
+      overflow,
+    };
   });
 
   const swimlaneHeight =
@@ -266,9 +301,13 @@ export function renderKanban(
     let cardY =
       columnY + DEFAULTS.columnPadding + DEFAULTS.headerHeight + rowGap;
 
-    const cardInfo = cardLayouts.get(column.id || `${columnIndex}`) || [];
+    const layout = columnLayouts[columnIndex];
+    const cardInfo = layout?.cardInfo || [];
+    const visibleCards = layout?.visibleCards || [];
+    const hiddenCount = layout?.hiddenCount || 0;
+    const overflow = layout?.overflow || 'ellipsis';
 
-    column.cards.forEach((card, cardIndex) => {
+    visibleCards.forEach((card, cardIndex) => {
       const cardStyle = mergeStyle(cardBaseStyle, card.style);
       const cardHeight = cardInfo[cardIndex]?.height || DEFAULTS.cardMinHeight;
       const cardX = columnX + DEFAULTS.columnPadding;
@@ -316,6 +355,23 @@ export function renderKanban(
 
       cardY += cardHeight + rowGap;
     });
+
+    if (hiddenCount > 0) {
+      const overflowX = columnX + DEFAULTS.columnPadding;
+      const overflowWidth = width - DEFAULTS.columnPadding * 2;
+      if (overflow === 'stack') {
+        const stackOffset = 3;
+        const stackHeight = DEFAULTS.overflowStackHeight - stackOffset * 2;
+        const stackWidth = overflowWidth - stackOffset * 2;
+        svg += `<rect x="${overflowX + stackOffset * 2}" y="${cardY + stackOffset * 2}" width="${stackWidth}" height="${stackHeight}" rx="6" ry="6" fill="${cardBaseStyle.fillColor}" stroke="${cardBaseStyle.strokeColor}" opacity="0.5" />`;
+        svg += `<rect x="${overflowX + stackOffset}" y="${cardY + stackOffset}" width="${stackWidth}" height="${stackHeight}" rx="6" ry="6" fill="${cardBaseStyle.fillColor}" stroke="${cardBaseStyle.strokeColor}" opacity="0.7" />`;
+        svg += `<rect x="${overflowX}" y="${cardY}" width="${overflowWidth}" height="${stackHeight}" rx="6" ry="6" fill="${cardBaseStyle.fillColor}" stroke="${cardBaseStyle.strokeColor}" />`;
+        svg += `<text x="${overflowX + overflowWidth / 2}" y="${cardY + stackHeight / 2 + 4}" font-family="sans-serif" font-size="${DEFAULTS.metaFontSize}" fill="${cardBaseStyle.textColor}" text-anchor="middle">+${hiddenCount} more</text>`;
+      } else {
+        const textY = cardY + DEFAULTS.overflowEllipsisHeight;
+        svg += `<text x="${overflowX}" y="${textY}" font-family="sans-serif" font-size="${DEFAULTS.metaFontSize}" fill="${cardBaseStyle.textColor}">+${hiddenCount} more</text>`;
+      }
+    }
 
     currentX += width + columnGap;
   });

@@ -27,7 +27,7 @@ export function convertTimelineProfile(
     if (Langium.isTimelineEventStatement(statement)) {
       // event E1 date:"2024-01-15" label:"Kickoff" description:"..." icon:"rocket" textColor:"#0066cc"
       const event: Partial<TimelineEvent> = {
-        id: statement.id,
+        id: unescapeString(statement.id),
       };
 
       // Extract properties from the properties array
@@ -51,7 +51,7 @@ export function convertTimelineProfile(
     } else if (Langium.isTimelinePeriodStatement(statement)) {
       // period P1 startDate:"2024-01-15" endDate:"2024-02-15" label:"Planning" textColor:"#e0e0e0" opacity:0.3
       const period: Partial<TimelinePeriod> = {
-        id: statement.id,
+        id: unescapeString(statement.id),
       };
 
       // Extract properties

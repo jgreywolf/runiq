@@ -85,8 +85,8 @@ export function renderGitGraph(
   options: GitGraphRenderOptions = {}
 ): GitGraphRenderResult {
   const warnings: string[] = [];
-  const columnSpacing = options.columnSpacing ?? 140;
-  const rowSpacing = options.rowSpacing ?? 60;
+  const columnSpacing = options.columnSpacing ?? profile.columnSpacing ?? 140;
+  const rowSpacing = options.rowSpacing ?? profile.rowSpacing ?? 60;
   const margin = options.margin ?? 40;
   const nodeRadius = 6;
   const orientation = profile.orientation || 'vertical';

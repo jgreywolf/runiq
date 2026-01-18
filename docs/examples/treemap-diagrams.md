@@ -36,6 +36,8 @@ treemap "Portfolio Allocation" {
   layout squarify
   padding 8
   gap 4
+  showValues true
+  showLegend true
 
   group "Core Platform" color:"#e2e8f0" {
     item "Auth" value:32

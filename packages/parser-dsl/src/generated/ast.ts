@@ -13,7 +13,6 @@ export const RuniqTerminals = {
     ARROW: /->/,
     TAG: /[A-Z][A-Z0-9]*-[0-9]{1,4}[A-Z]?/,
     SHAPE_ID: /[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/,
-    BOOLEAN: /true|false/,
     ID: /[a-zA-Z_][a-zA-Z0-9_]*/,
     STRING: /"(?:[^"\\]|\\.)*"/,
     NUMBER: /-?[0-9]+(\.[0-9]+)?/,
@@ -185,6 +184,7 @@ export type RuniqKeywordNames =
     | "colorful"
     | "colors:"
     | "column"
+    | "column:"
     | "columnHeaders"
     | "columns"
     | "commit"
@@ -258,6 +258,7 @@ export type RuniqKeywordNames =
     | "edgeType:"
     | "effect:"
     | "electrical"
+    | "ellipsis"
     | "end"
     | "endDate:"
     | "entity"
@@ -433,6 +434,7 @@ export type RuniqKeywordNames =
     | "marginTop:"
     | "material:"
     | "max"
+    | "maxCards:"
     | "maxHeight:"
     | "maxWidth:"
     | "medium"
@@ -493,6 +495,7 @@ export type RuniqKeywordNames =
     | "output"
     | "outputPins:"
     | "over"
+    | "overflow:"
     | "overlap"
     | "package"
     | "packed"
@@ -582,6 +585,7 @@ export type RuniqKeywordNames =
     | "root"
     | "routing"
     | "routing:"
+    | "row:"
     | "rowHeaders"
     | "rpm"
     | "runiq"
@@ -608,6 +612,7 @@ export type RuniqKeywordNames =
     | "showConnections"
     | "showDepthIndicator:"
     | "showDottedLines"
+    | "showLegend"
     | "showLegend:"
     | "showMetrics:"
     | "showPercentages"
@@ -624,6 +629,7 @@ export type RuniqKeywordNames =
     | "space-around"
     | "space-between"
     | "space-evenly"
+    | "spacing"
     | "spacing:"
     | "speed"
     | "speedController"
@@ -632,6 +638,7 @@ export type RuniqKeywordNames =
     | "spoke"
     | "squarify"
     | "stable"
+    | "stack"
     | "stacked:"
     | "stage"
     | "stages"
@@ -969,10 +976,10 @@ export function isAutoResizeValue(item: unknown): item is AutoResizeValue {
     return item === 'true' || item === 'false' || item === 'fit-content' || item === 'fill-available';
 }
 
-export type BooleanValue = string;
+export type BooleanValue = 'false' | 'true';
 
 export function isBooleanValue(item: unknown): item is BooleanValue {
-    return (typeof item === 'string' && (/true|false/.test(item)));
+    return item === 'true' || item === 'false';
 }
 
 export interface BorderRadiusProperty extends langium.AstNode {
@@ -1110,7 +1117,7 @@ export function isConnectionPoint(item: unknown): item is ConnectionPoint {
 export interface ContainerBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ContainerBlock';
-    id?: FlexibleID;
+    id?: DiagramIdentifier;
     label: string;
     properties: Array<ContainerProperty>;
     shape?: FlexibleID | string;
@@ -1446,7 +1453,7 @@ export interface DataSourceDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'DataSourceDeclaration';
     format: string;
-    key: string;
+    key: DiagramIdentifier;
     options: Array<DataSourceOption>;
     source: string;
 }
@@ -1514,6 +1521,12 @@ export type DepthIndicatorStyleValue = 'bar' | 'color' | 'indent';
 
 export function isDepthIndicatorStyleValue(item: unknown): item is DepthIndicatorStyleValue {
     return item === 'bar' || item === 'indent' || item === 'color';
+}
+
+export type DiagramIdentifier = FlexibleID | string;
+
+export function isDiagramIdentifier(item: unknown): item is DiagramIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
 }
 
 export interface DiagramProfile extends langium.AstNode {
@@ -2019,7 +2032,7 @@ export function isFontWeightProperty(item: unknown): item is FontWeightProperty 
 export interface ForEachBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ForEachBlock';
-    dataKey: string;
+    dataKey: DiagramIdentifier;
     filter?: string;
     id: string;
     limit?: string;
@@ -2125,7 +2138,7 @@ export function isGitGraphBranchLabelProperty(item: unknown): item is GitGraphBr
 export interface GitGraphBranchParentProperty extends langium.AstNode {
     readonly $container: GitGraphBranchStatement;
     readonly $type: 'GitGraphBranchParentProperty';
-    parent: string;
+    parent: GitGraphIdentifier;
 }
 
 export const GitGraphBranchParentProperty = {
@@ -2150,7 +2163,7 @@ export function isGitGraphBranchProperty(item: unknown): item is GitGraphBranchP
 export interface GitGraphBranchStatement extends langium.AstNode {
     readonly $container: GitGraphProfile;
     readonly $type: 'GitGraphBranchStatement';
-    id: string;
+    id: GitGraphIdentifier;
     properties: Array<GitGraphBranchProperty>;
 }
 
@@ -2162,6 +2175,21 @@ export const GitGraphBranchStatement = {
 
 export function isGitGraphBranchStatement(item: unknown): item is GitGraphBranchStatement {
     return reflection.isInstance(item, GitGraphBranchStatement.$type);
+}
+
+export interface GitGraphColumnSpacingProperty extends langium.AstNode {
+    readonly $container: GitGraphSpacingStatement;
+    readonly $type: 'GitGraphColumnSpacingProperty';
+    value: string;
+}
+
+export const GitGraphColumnSpacingProperty = {
+    $type: 'GitGraphColumnSpacingProperty',
+    value: 'value'
+} as const;
+
+export function isGitGraphColumnSpacingProperty(item: unknown): item is GitGraphColumnSpacingProperty {
+    return reflection.isInstance(item, GitGraphColumnSpacingProperty.$type);
 }
 
 export interface GitGraphCommitAuthorProperty extends langium.AstNode {
@@ -2182,7 +2210,7 @@ export function isGitGraphCommitAuthorProperty(item: unknown): item is GitGraphC
 export interface GitGraphCommitBranchProperty extends langium.AstNode {
     readonly $container: GitGraphCommitStatement;
     readonly $type: 'GitGraphCommitBranchProperty';
-    branch: string;
+    branch: GitGraphIdentifier;
 }
 
 export const GitGraphCommitBranchProperty = {
@@ -2237,7 +2265,7 @@ export function isGitGraphCommitProperty(item: unknown): item is GitGraphCommitP
 export interface GitGraphCommitStatement extends langium.AstNode {
     readonly $container: GitGraphProfile;
     readonly $type: 'GitGraphCommitStatement';
-    id: string;
+    id: GitGraphIdentifier;
     properties: Array<GitGraphCommitProperty>;
 }
 
@@ -2266,10 +2294,16 @@ export function isGitGraphCommitTagProperty(item: unknown): item is GitGraphComm
     return reflection.isInstance(item, GitGraphCommitTagProperty.$type);
 }
 
+export type GitGraphIdentifier = FlexibleID | string;
+
+export function isGitGraphIdentifier(item: unknown): item is GitGraphIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
 export interface GitGraphMergeFromProperty extends langium.AstNode {
     readonly $container: GitGraphMergeStatement;
     readonly $type: 'GitGraphMergeFromProperty';
-    from: string;
+    from: GitGraphIdentifier;
 }
 
 export const GitGraphMergeFromProperty = {
@@ -2284,7 +2318,7 @@ export function isGitGraphMergeFromProperty(item: unknown): item is GitGraphMerg
 export interface GitGraphMergeIntoProperty extends langium.AstNode {
     readonly $container: GitGraphMergeStatement;
     readonly $type: 'GitGraphMergeIntoProperty';
-    into: string;
+    into: GitGraphIdentifier;
 }
 
 export const GitGraphMergeIntoProperty = {
@@ -2324,7 +2358,7 @@ export function isGitGraphMergeProperty(item: unknown): item is GitGraphMergePro
 export interface GitGraphMergeStatement extends langium.AstNode {
     readonly $container: GitGraphProfile;
     readonly $type: 'GitGraphMergeStatement';
-    id: string;
+    id: GitGraphIdentifier;
     properties: Array<GitGraphMergeProperty>;
 }
 
@@ -2391,7 +2425,47 @@ export function isGitGraphProfile(item: unknown): item is GitGraphProfile {
     return reflection.isInstance(item, GitGraphProfile.$type);
 }
 
-export type GitGraphStatement = GitGraphBranchStatement | GitGraphCommitStatement | GitGraphMergeStatement | GitGraphOrientationStatement | ThemeDeclaration;
+export interface GitGraphRowSpacingProperty extends langium.AstNode {
+    readonly $container: GitGraphSpacingStatement;
+    readonly $type: 'GitGraphRowSpacingProperty';
+    value: string;
+}
+
+export const GitGraphRowSpacingProperty = {
+    $type: 'GitGraphRowSpacingProperty',
+    value: 'value'
+} as const;
+
+export function isGitGraphRowSpacingProperty(item: unknown): item is GitGraphRowSpacingProperty {
+    return reflection.isInstance(item, GitGraphRowSpacingProperty.$type);
+}
+
+export type GitGraphSpacingProperty = GitGraphColumnSpacingProperty | GitGraphRowSpacingProperty;
+
+export const GitGraphSpacingProperty = {
+    $type: 'GitGraphSpacingProperty'
+} as const;
+
+export function isGitGraphSpacingProperty(item: unknown): item is GitGraphSpacingProperty {
+    return reflection.isInstance(item, GitGraphSpacingProperty.$type);
+}
+
+export interface GitGraphSpacingStatement extends langium.AstNode {
+    readonly $container: GitGraphProfile;
+    readonly $type: 'GitGraphSpacingStatement';
+    properties: Array<GitGraphSpacingProperty>;
+}
+
+export const GitGraphSpacingStatement = {
+    $type: 'GitGraphSpacingStatement',
+    properties: 'properties'
+} as const;
+
+export function isGitGraphSpacingStatement(item: unknown): item is GitGraphSpacingStatement {
+    return reflection.isInstance(item, GitGraphSpacingStatement.$type);
+}
+
+export type GitGraphStatement = GitGraphBranchStatement | GitGraphCommitStatement | GitGraphMergeStatement | GitGraphOrientationStatement | GitGraphSpacingStatement | ThemeDeclaration;
 
 export const GitGraphStatement = {
     $type: 'GitGraphStatement'
@@ -2399,6 +2473,12 @@ export const GitGraphStatement = {
 
 export function isGitGraphStatement(item: unknown): item is GitGraphStatement {
     return reflection.isInstance(item, GitGraphStatement.$type);
+}
+
+export type GlyphSetIdentifier = FlexibleID | string;
+
+export function isGlyphSetIdentifier(item: unknown): item is GlyphSetIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
 }
 
 export interface GlyphSetImageItem extends langium.AstNode {
@@ -2444,7 +2524,7 @@ export interface GlyphSetNestedItem extends langium.AstNode {
     children: Array<GlyphSetItemStatement>;
     keyword: GlyphSetKeyword;
     label: string;
-    relationship?: string;
+    relationship?: GlyphSetIdentifier;
 }
 
 export const GlyphSetNestedItem = {
@@ -2529,7 +2609,7 @@ export interface GlyphSetSimpleItem extends langium.AstNode {
     readonly $type: 'GlyphSetSimpleItem';
     keyword: GlyphSetKeyword;
     label: string;
-    relationship?: string;
+    relationship?: GlyphSetIdentifier;
 }
 
 export const GlyphSetSimpleItem = {
@@ -2658,7 +2738,7 @@ export function isInstMapProperty(item: unknown): item is InstMapProperty {
 export interface InstOfProperty extends langium.AstNode {
     readonly $container: InstStatement;
     readonly $type: 'InstOfProperty';
-    module: string;
+    module: ProfileIdentifier;
 }
 
 export const InstOfProperty = {
@@ -2705,7 +2785,7 @@ export interface InstStatement extends langium.AstNode {
     readonly $container: DigitalProfile;
     readonly $type: 'InstStatement';
     properties: Array<InstProperty>;
-    ref: string;
+    ref: ProfileIdentifier;
 }
 
 export const InstStatement = {
@@ -2782,7 +2862,7 @@ export function isKanbanCardProperty(item: unknown): item is KanbanCardProperty 
 export interface KanbanCardStatement extends langium.AstNode {
     readonly $container: KanbanColumnBlock;
     readonly $type: 'KanbanCardStatement';
-    id?: string;
+    id?: KanbanIdentifier;
     label: string;
     properties: Array<KanbanCardProperty>;
 }
@@ -2802,7 +2882,7 @@ export interface KanbanColumnBlock extends langium.AstNode {
     readonly $container: KanbanProfile | KanbanSwimlaneBlock;
     readonly $type: 'KanbanColumnBlock';
     cards: Array<KanbanCardStatement>;
-    id?: string;
+    id?: KanbanIdentifier;
     label: string;
     properties: Array<KanbanColumnProperty>;
 }
@@ -2819,7 +2899,7 @@ export function isKanbanColumnBlock(item: unknown): item is KanbanColumnBlock {
     return reflection.isInstance(item, KanbanColumnBlock.$type);
 }
 
-export type KanbanColumnProperty = KanbanStyleProperty | KanbanWipProperty;
+export type KanbanColumnProperty = KanbanMaxCardsProperty | KanbanOverflowProperty | KanbanStyleProperty | KanbanWipProperty;
 
 export const KanbanColumnProperty = {
     $type: 'KanbanColumnProperty'
@@ -2872,6 +2952,48 @@ export const KanbanFillColorProperty = {
 
 export function isKanbanFillColorProperty(item: unknown): item is KanbanFillColorProperty {
     return reflection.isInstance(item, KanbanFillColorProperty.$type);
+}
+
+export type KanbanIdentifier = FlexibleID | string;
+
+export function isKanbanIdentifier(item: unknown): item is KanbanIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
+export interface KanbanMaxCardsProperty extends langium.AstNode {
+    readonly $container: KanbanColumnBlock;
+    readonly $type: 'KanbanMaxCardsProperty';
+    value: string;
+}
+
+export const KanbanMaxCardsProperty = {
+    $type: 'KanbanMaxCardsProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanMaxCardsProperty(item: unknown): item is KanbanMaxCardsProperty {
+    return reflection.isInstance(item, KanbanMaxCardsProperty.$type);
+}
+
+export interface KanbanOverflowProperty extends langium.AstNode {
+    readonly $container: KanbanColumnBlock;
+    readonly $type: 'KanbanOverflowProperty';
+    value: KanbanOverflowValue;
+}
+
+export const KanbanOverflowProperty = {
+    $type: 'KanbanOverflowProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanOverflowProperty(item: unknown): item is KanbanOverflowProperty {
+    return reflection.isInstance(item, KanbanOverflowProperty.$type);
+}
+
+export type KanbanOverflowValue = 'ellipsis' | 'stack';
+
+export function isKanbanOverflowValue(item: unknown): item is KanbanOverflowValue {
+    return item === 'stack' || item === 'ellipsis';
 }
 
 export interface KanbanPriorityProperty extends langium.AstNode {
@@ -3109,7 +3231,7 @@ export interface LoopBlock extends langium.AstNode {
     readonly $type: 'LoopBlock';
     collection: TemplateExpression;
     statements: Array<TemplateStatement>;
-    variable: string;
+    variable: DiagramIdentifier;
 }
 
 export const LoopBlock = {
@@ -3390,7 +3512,7 @@ export function isModuleProperty(item: unknown): item is ModuleProperty {
 export interface ModuleStatement extends langium.AstNode {
     readonly $container: DigitalProfile;
     readonly $type: 'ModuleStatement';
-    name: string;
+    name: ProfileIdentifier;
     properties: Array<ModuleProperty>;
 }
 
@@ -3458,7 +3580,7 @@ export function isNavigabilityProperty(item: unknown): item is NavigabilityPrope
 export interface NetDecl extends langium.AstNode {
     readonly $container: DigitalNetStatement;
     readonly $type: 'NetDecl';
-    name: string;
+    name: ProfileIdentifier;
     width?: BusWidth;
 }
 
@@ -3475,7 +3597,7 @@ export function isNetDecl(item: unknown): item is NetDecl {
 export interface NetStatement extends langium.AstNode {
     readonly $container: ElectricalProfile | HydraulicProfile | PneumaticProfile;
     readonly $type: 'NetStatement';
-    names: Array<string>;
+    names: Array<ProfileIdentifier>;
 }
 
 export const NetStatement = {
@@ -3500,8 +3622,8 @@ export function isNodeProperty(item: unknown): item is NodeProperty {
 export interface NodeRef extends langium.AstNode {
     readonly $container: EdgeChain | EdgeDeclaration;
     readonly $type: 'NodeRef';
-    member?: FlexibleID;
-    node: FlexibleID;
+    member?: DiagramIdentifier;
+    node: DiagramIdentifier;
 }
 
 export const NodeRef = {
@@ -3553,7 +3675,7 @@ export function isOutputPinsProperty(item: unknown): item is OutputPinsProperty 
 export interface ParamDecl extends langium.AstNode {
     readonly $container: ModuleParamsProperty;
     readonly $type: 'ParamDecl';
-    name: string;
+    name: ProfileIdentifier;
     value: string;
 }
 
@@ -3585,7 +3707,7 @@ export function isParamNameField(item: unknown): item is ParamNameField {
 export interface ParamOverride extends langium.AstNode {
     readonly $container: InstParamsProperty;
     readonly $type: 'ParamOverride';
-    param: string;
+    param: ProfileIdentifier;
     value: string;
 }
 
@@ -3618,7 +3740,7 @@ export interface PartGenericProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartGenericProperty';
     key: string;
-    value: string;
+    value: FlexibleID | string;
 }
 
 export const PartGenericProperty = {
@@ -3634,7 +3756,7 @@ export function isPartGenericProperty(item: unknown): item is PartGenericPropert
 export interface PartPinsProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartPinsProperty';
-    pins: Array<string>;
+    pins: Array<ProfileIdentifier>;
 }
 
 export const PartPinsProperty = {
@@ -3675,7 +3797,7 @@ export interface PartStatement extends langium.AstNode {
     readonly $container: ElectricalProfile | HydraulicProfile | PneumaticProfile;
     readonly $type: 'PartStatement';
     properties: Array<PartProperty>;
-    ref: string;
+    ref: ProfileIdentifier;
 }
 
 export const PartStatement = {
@@ -3691,7 +3813,7 @@ export function isPartStatement(item: unknown): item is PartStatement {
 export interface PartTypeProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartTypeProperty';
-    type: string;
+    type: ProfileIdentifier;
 }
 
 export const PartTypeProperty = {
@@ -3706,7 +3828,7 @@ export function isPartTypeProperty(item: unknown): item is PartTypeProperty {
 export interface PartValueProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartValueProperty';
-    value: string;
+    value: FlexibleID | string;
 }
 
 export const PartValueProperty = {
@@ -4246,8 +4368,8 @@ export function isPneumaticStatement(item: unknown): item is PneumaticStatement 
 export interface PortConnection extends langium.AstNode {
     readonly $container: InstMapProperty;
     readonly $type: 'PortConnection';
-    net: string;
-    port: string;
+    net: ProfileIdentifier;
+    port: ProfileIdentifier;
     range?: BusWidth;
 }
 
@@ -4265,7 +4387,7 @@ export function isPortConnection(item: unknown): item is PortConnection {
 export interface PortDecl extends langium.AstNode {
     readonly $container: ModulePortsProperty;
     readonly $type: 'PortDecl';
-    name: string;
+    name: ProfileIdentifier;
     width?: BusWidth;
 }
 
@@ -4360,6 +4482,12 @@ export const Profile = {
 
 export function isProfile(item: unknown): item is Profile {
     return reflection.isInstance(item, Profile.$type);
+}
+
+export type ProfileIdentifier = FlexibleID | string;
+
+export function isProfileIdentifier(item: unknown): item is ProfileIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
 }
 
 export type ResizeHandleValue = 'e' | 'n' | 'ne' | 'nw' | 's' | 'se' | 'sw' | 'w';
@@ -4651,7 +4779,7 @@ export function isSequenceFragmentType(item: unknown): item is SequenceFragmentT
 export interface SequenceFromProperty extends langium.AstNode {
     readonly $container: SequenceMessageStatement;
     readonly $type: 'SequenceFromProperty';
-    from: 'found' | 'lost' | string;
+    from: 'found' | 'lost' | SequenceIdentifier;
 }
 
 export const SequenceFromProperty = {
@@ -4676,6 +4804,12 @@ export const SequenceGuardProperty = {
 
 export function isSequenceGuardProperty(item: unknown): item is SequenceGuardProperty {
     return reflection.isInstance(item, SequenceGuardProperty.$type);
+}
+
+export type SequenceIdentifier = FlexibleID | string;
+
+export function isSequenceIdentifier(item: unknown): item is SequenceIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
 }
 
 export interface SequenceLabelProperty extends langium.AstNode {
@@ -4727,7 +4861,7 @@ export function isSequenceMessageType(item: unknown): item is SequenceMessageTyp
 export interface SequenceNoteParticipantsProperty extends langium.AstNode {
     readonly $container: SequenceNoteStatement;
     readonly $type: 'SequenceNoteParticipantsProperty';
-    participants: Array<string>;
+    participants: Array<SequenceIdentifier>;
 }
 
 export const SequenceNoteParticipantsProperty = {
@@ -4790,7 +4924,7 @@ export function isSequenceNoteStatement(item: unknown): item is SequenceNoteStat
 export interface SequenceParticipantStatement extends langium.AstNode {
     readonly $container: SequenceProfile;
     readonly $type: 'SequenceParticipantStatement';
-    name: string;
+    name: SequenceIdentifier;
     type?: SequenceParticipantType;
 }
 
@@ -4870,7 +5004,7 @@ export function isSequenceTimingProperty(item: unknown): item is SequenceTimingP
 export interface SequenceToProperty extends langium.AstNode {
     readonly $container: SequenceMessageStatement;
     readonly $type: 'SequenceToProperty';
-    to: 'found' | 'lost' | string;
+    to: 'found' | 'lost' | SequenceIdentifier;
 }
 
 export const SequenceToProperty = {
@@ -4900,7 +5034,7 @@ export function isSequenceTypeProperty(item: unknown): item is SequenceTypePrope
 export interface ShapeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ShapeDeclaration';
-    id: FlexibleID;
+    id: DiagramIdentifier;
     properties: Array<NodeProperty>;
     shape?: ShapeIdentifier;
 }
@@ -5068,7 +5202,7 @@ export function isStrokeWidthProperty(item: unknown): item is StrokeWidthPropert
 export interface StyleDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'StyleDeclaration';
-    name: string;
+    name: DiagramIdentifier;
     properties: Array<StyleProperty>;
 }
 
@@ -5186,7 +5320,7 @@ export interface TemplateEdgeProperty extends langium.AstNode {
     readonly $type: 'TemplateEdgeProperty';
     condition?: TemplateExpression;
     label?: TemplateExpression;
-    style?: string;
+    style?: DiagramIdentifier;
 }
 
 export const TemplateEdgeProperty = {
@@ -5271,7 +5405,7 @@ export interface TemplateNodeProperty extends langium.AstNode {
     label?: TemplateExpression;
     shape?: string;
     strokeColor?: TemplateExpression;
-    style?: string;
+    style?: DiagramIdentifier;
 }
 
 export const TemplateNodeProperty = {
@@ -5489,7 +5623,7 @@ export function isTimelineEventProperty(item: unknown): item is TimelineEventPro
 export interface TimelineEventStatement extends langium.AstNode {
     readonly $container: TimelineProfile;
     readonly $type: 'TimelineEventStatement';
-    id: string;
+    id: TimelineIdentifier;
     properties: Array<TimelineEventProperty>;
 }
 
@@ -5516,6 +5650,12 @@ export const TimelineIconProperty = {
 
 export function isTimelineIconProperty(item: unknown): item is TimelineIconProperty {
     return reflection.isInstance(item, TimelineIconProperty.$type);
+}
+
+export type TimelineIdentifier = FlexibleID | string;
+
+export function isTimelineIdentifier(item: unknown): item is TimelineIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
 }
 
 export interface TimelineLabelProperty extends langium.AstNode {
@@ -5582,7 +5722,7 @@ export function isTimelinePeriodProperty(item: unknown): item is TimelinePeriodP
 export interface TimelinePeriodStatement extends langium.AstNode {
     readonly $container: TimelineProfile;
     readonly $type: 'TimelinePeriodStatement';
-    id: string;
+    id: TimelineIdentifier;
     properties: Array<TimelinePeriodProperty>;
 }
 
@@ -5833,7 +5973,37 @@ export function isTreemapProfile(item: unknown): item is TreemapProfile {
     return reflection.isInstance(item, TreemapProfile.$type);
 }
 
-export type TreemapStatement = ThemeDeclaration | TreemapGapStatement | TreemapGroupBlock | TreemapItemStatement | TreemapLayoutStatement | TreemapPaddingStatement;
+export interface TreemapShowLegendStatement extends langium.AstNode {
+    readonly $container: TreemapProfile;
+    readonly $type: 'TreemapShowLegendStatement';
+    value: BooleanValue;
+}
+
+export const TreemapShowLegendStatement = {
+    $type: 'TreemapShowLegendStatement',
+    value: 'value'
+} as const;
+
+export function isTreemapShowLegendStatement(item: unknown): item is TreemapShowLegendStatement {
+    return reflection.isInstance(item, TreemapShowLegendStatement.$type);
+}
+
+export interface TreemapShowValuesStatement extends langium.AstNode {
+    readonly $container: TreemapProfile;
+    readonly $type: 'TreemapShowValuesStatement';
+    value: BooleanValue;
+}
+
+export const TreemapShowValuesStatement = {
+    $type: 'TreemapShowValuesStatement',
+    value: 'value'
+} as const;
+
+export function isTreemapShowValuesStatement(item: unknown): item is TreemapShowValuesStatement {
+    return reflection.isInstance(item, TreemapShowValuesStatement.$type);
+}
+
+export type TreemapStatement = ThemeDeclaration | TreemapGapStatement | TreemapGroupBlock | TreemapItemStatement | TreemapLayoutStatement | TreemapPaddingStatement | TreemapShowLegendStatement | TreemapShowValuesStatement;
 
 export const TreemapStatement = {
     $type: 'TreemapStatement'
@@ -6169,6 +6339,7 @@ export type RuniqAstType = {
     GitGraphBranchParentProperty: GitGraphBranchParentProperty
     GitGraphBranchProperty: GitGraphBranchProperty
     GitGraphBranchStatement: GitGraphBranchStatement
+    GitGraphColumnSpacingProperty: GitGraphColumnSpacingProperty
     GitGraphCommitAuthorProperty: GitGraphCommitAuthorProperty
     GitGraphCommitBranchProperty: GitGraphCommitBranchProperty
     GitGraphCommitLabelProperty: GitGraphCommitLabelProperty
@@ -6184,6 +6355,9 @@ export type RuniqAstType = {
     GitGraphMergeTagProperty: GitGraphMergeTagProperty
     GitGraphOrientationStatement: GitGraphOrientationStatement
     GitGraphProfile: GitGraphProfile
+    GitGraphRowSpacingProperty: GitGraphRowSpacingProperty
+    GitGraphSpacingProperty: GitGraphSpacingProperty
+    GitGraphSpacingStatement: GitGraphSpacingStatement
     GitGraphStatement: GitGraphStatement
     GlyphSetImageItem: GlyphSetImageItem
     GlyphSetItemStatement: GlyphSetItemStatement
@@ -6213,6 +6387,8 @@ export type RuniqAstType = {
     KanbanDescriptionProperty: KanbanDescriptionProperty
     KanbanEstimateProperty: KanbanEstimateProperty
     KanbanFillColorProperty: KanbanFillColorProperty
+    KanbanMaxCardsProperty: KanbanMaxCardsProperty
+    KanbanOverflowProperty: KanbanOverflowProperty
     KanbanPriorityProperty: KanbanPriorityProperty
     KanbanProfile: KanbanProfile
     KanbanStatement: KanbanStatement
@@ -6395,6 +6571,8 @@ export type RuniqAstType = {
     TreemapNodeProperty: TreemapNodeProperty
     TreemapPaddingStatement: TreemapPaddingStatement
     TreemapProfile: TreemapProfile
+    TreemapShowLegendStatement: TreemapShowLegendStatement
+    TreemapShowValuesStatement: TreemapShowValuesStatement
     TreemapStatement: TreemapStatement
     TreemapValueProperty: TreemapValueProperty
     WardleyAnchorProperty: WardleyAnchorProperty
@@ -7404,6 +7582,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [GitGraphStatement.$type]
         },
+        GitGraphColumnSpacingProperty: {
+            name: GitGraphColumnSpacingProperty.$type,
+            properties: {
+                value: {
+                    name: GitGraphColumnSpacingProperty.value
+                }
+            },
+            superTypes: [GitGraphSpacingProperty.$type]
+        },
         GitGraphCommitAuthorProperty: {
             name: GitGraphCommitAuthorProperty.$type,
             properties: {
@@ -7544,6 +7731,31 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [Profile.$type]
+        },
+        GitGraphRowSpacingProperty: {
+            name: GitGraphRowSpacingProperty.$type,
+            properties: {
+                value: {
+                    name: GitGraphRowSpacingProperty.value
+                }
+            },
+            superTypes: [GitGraphSpacingProperty.$type]
+        },
+        GitGraphSpacingProperty: {
+            name: GitGraphSpacingProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        GitGraphSpacingStatement: {
+            name: GitGraphSpacingStatement.$type,
+            properties: {
+                properties: {
+                    name: GitGraphSpacingStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [GitGraphStatement.$type]
         },
         GitGraphStatement: {
             name: GitGraphStatement.$type,
@@ -7869,6 +8081,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [KanbanStyleProperty.$type]
+        },
+        KanbanMaxCardsProperty: {
+            name: KanbanMaxCardsProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanMaxCardsProperty.value
+                }
+            },
+            superTypes: [KanbanColumnProperty.$type]
+        },
+        KanbanOverflowProperty: {
+            name: KanbanOverflowProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanOverflowProperty.value
+                }
+            },
+            superTypes: [KanbanColumnProperty.$type]
         },
         KanbanPriorityProperty: {
             name: KanbanPriorityProperty.$type,
@@ -9698,6 +9928,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [Profile.$type]
+        },
+        TreemapShowLegendStatement: {
+            name: TreemapShowLegendStatement.$type,
+            properties: {
+                value: {
+                    name: TreemapShowLegendStatement.value
+                }
+            },
+            superTypes: [TreemapStatement.$type]
+        },
+        TreemapShowValuesStatement: {
+            name: TreemapShowValuesStatement.$type,
+            properties: {
+                value: {
+                    name: TreemapShowValuesStatement.value
+                }
+            },
+            superTypes: [TreemapStatement.$type]
         },
         TreemapStatement: {
             name: TreemapStatement.$type,

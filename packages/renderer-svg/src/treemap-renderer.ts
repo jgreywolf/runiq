@@ -7,6 +7,8 @@ export interface TreemapRenderOptions {
   height?: number;
   padding?: number;
   gap?: number;
+  showValues?: boolean;
+  showLegend?: boolean;
 }
 
 export interface TreemapRenderResult {
@@ -109,6 +111,8 @@ export function renderTreemap(
   const theme = getDiagramTheme(profile.theme || 'runiq');
   const background = theme?.backgroundColor || '#ffffff';
   const textColor = theme?.textColor || '#0f172a';
+  const showValues = options.showValues ?? profile.showValues ?? false;
+  const showLegend = options.showLegend ?? profile.showLegend ?? false;
 
   if (!profile.nodes || profile.nodes.length === 0) {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
@@ -137,7 +141,9 @@ export function renderTreemap(
     if (label && rectWidth > 40 && rectHeight > 24) {
       const textX = x + 6;
       const textY = y + 14;
-      const clipped = label.length > 28 ? `${label.slice(0, 25)}...` : label;
+      const valueText = showValues && node.value !== undefined ? ` (${node.value})` : '';
+      const fullLabel = `${label}${valueText}`;
+      const clipped = fullLabel.length > 28 ? `${fullLabel.slice(0, 25)}...` : fullLabel;
       svg += renderMultilineText(clipped, textX, textY, {
         textAnchor: 'start',
         dominantBaseline: 'hanging',
@@ -147,6 +153,27 @@ export function renderTreemap(
       });
     }
   });
+
+  if (showLegend) {
+    const legendX = 20;
+    let legendY = height - 20;
+    const legendItems: Array<{ label: string; color: string }> = [];
+    for (const node of profile.nodes) {
+      const color =
+        node.color ||
+        theme?.nodeColors?.[legendItems.length % (theme?.nodeColors?.length || 1)] ||
+        DEPTH_COLORS[legendItems.length % DEPTH_COLORS.length];
+      legendItems.push({ label: node.label, color });
+    }
+
+    const maxItems = Math.min(legendItems.length, 6);
+    for (let i = 0; i < maxItems; i++) {
+      const item = legendItems[i];
+      const itemY = legendY - i * 18;
+      svg += `<rect x="${legendX}" y="${itemY - 10}" width="10" height="10" fill="${item.color}" stroke="#ffffff" />`;
+      svg += `<text x="${legendX + 16}" y="${itemY}" font-family="sans-serif" font-size="11" fill="${textColor}">${escapeXml(item.label)}</text>`;
+    }
+  }
 
   svg += '</svg>';
   return { svg, warnings };

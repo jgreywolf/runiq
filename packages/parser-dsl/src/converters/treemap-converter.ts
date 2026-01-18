@@ -68,6 +68,10 @@ export function convertTreemapProfile(
       treemapProfile.padding = Number(statement.value);
     } else if (Langium.isTreemapGapStatement(statement)) {
       treemapProfile.gap = Number(statement.value);
+    } else if (Langium.isTreemapShowValuesStatement(statement)) {
+      treemapProfile.showValues = statement.value === 'true';
+    } else if (Langium.isTreemapShowLegendStatement(statement)) {
+      treemapProfile.showLegend = statement.value === 'true';
     } else if (Langium.isTreemapGroupBlock(statement)) {
       treemapProfile.nodes.push(parseTreemapGroup(statement));
     } else if (Langium.isTreemapItemStatement(statement)) {

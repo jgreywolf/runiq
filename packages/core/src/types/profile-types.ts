@@ -528,6 +528,8 @@ export interface KanbanColumn {
   id?: string;
   label: string;
   wipLimit?: number;
+  maxCards?: number;
+  overflow?: KanbanOverflow;
   style?: KanbanStyle;
   cards: KanbanCard[];
 }
@@ -544,6 +546,7 @@ export interface KanbanCard {
 }
 
 export type KanbanPriority = 'low' | 'medium' | 'high' | 'critical';
+export type KanbanOverflow = 'stack' | 'ellipsis';
 
 export interface KanbanStyle {
   fillColor?: string;
@@ -561,6 +564,8 @@ export interface GitGraphProfile {
   name: string;
   theme?: string;
   orientation?: 'vertical' | 'horizontal';
+  rowSpacing?: number;
+  columnSpacing?: number;
   branches: GitGraphBranch[];
   commits: GitGraphCommit[];
   merges: GitGraphMerge[];
@@ -603,6 +608,8 @@ export interface TreemapProfile {
   layout?: 'slice-dice' | 'squarify';
   padding?: number;
   gap?: number;
+  showValues?: boolean;
+  showLegend?: boolean;
   nodes: TreemapNode[];
 }
 

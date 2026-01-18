@@ -29,7 +29,7 @@ export function convertSequenceProfile(
   for (const statement of profile.statements) {
     if (Langium.isSequenceParticipantStatement(statement)) {
       // participant "Actor" as actor
-      const name = statement.name.replace(/^"|"$/g, '');
+      const name = unescapeString(statement.name);
       const participant: SequenceParticipant = {
         id: name.toLowerCase().replace(/\s+/g, '_'), // Generate ID from name
         name: name,
@@ -47,14 +47,14 @@ export function convertSequenceProfile(
 
       for (const prop of statement.properties) {
         if (Langium.isSequenceFromProperty(prop)) {
-          const from = prop.from.replace(/^"|"$/g, '');
+          const from = unescapeString(prop.from);
           // Preserve 'lost' and 'found' as-is for special message types
           message.from =
             from === 'lost' || from === 'found'
               ? from
               : from.toLowerCase().replace(/\s+/g, '_');
         } else if (Langium.isSequenceToProperty(prop)) {
-          const to = prop.to.replace(/^"|"$/g, '');
+          const to = unescapeString(prop.to);
           // Preserve 'lost' and 'found' as-is for special message types
           message.to =
             to === 'lost' || to === 'found'
@@ -91,7 +91,7 @@ export function convertSequenceProfile(
           note.position = prop.position as SequenceNote['position'];
         } else if (Langium.isSequenceNoteParticipantsProperty(prop)) {
           note.participants = prop.participants.map((p) => {
-            const name = p.replace(/^"|"$/g, '');
+            const name = unescapeString(p);
             return name.toLowerCase().replace(/\s+/g, '_');
           });
         }

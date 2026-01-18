@@ -38,6 +38,8 @@ treemap "Engineering Portfolio" {
   layout squarify
   padding 8
   gap 4
+  showValues true
+  showLegend true
 
   group "Core Platform" color:"#e2e8f0" {
     item "Authentication" value:32
@@ -58,5 +60,7 @@ treemap "Engineering Portfolio" {
 - **Values**: `value:` drives area size; groups can omit value to sum children.
 - **Layouts**: `slice-dice` or `squarify`.
 - **Spacing**: `padding` (inner spacing) and `gap` (between nodes).
+- **Value labels**: `showValues true` appends numeric values to labels.
+- **Legend**: `showLegend true` renders a legend for top-level groups.
 
 See [Profiles](/guide/profiles) for the full profile overview.

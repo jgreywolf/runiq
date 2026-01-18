@@ -47,30 +47,30 @@ ElectricalStatement:
 
 // net IN, OUT, GND
 NetStatement:
-    'net' names+=ID (',' names+=ID)*;
+    'net' names+=ProfileIdentifier (',' names+=ProfileIdentifier)*;
 
 // part R1 type:R value:10k pins:(IN,OUT)
 PartStatement:
-    'part' ref=ID properties+=PartProperty+;
+    'part' ref=ProfileIdentifier properties+=PartProperty+;
 
 PartProperty:
     PartTypeProperty | PartValueProperty | PartPinsProperty | PartSourceProperty | PartGenericProperty;
 
 PartTypeProperty:
-    'type:' type=ID;
+    'type:' type=ProfileIdentifier;
 
 PartValueProperty:
-    'value:' value=(STRING | NUMBER | ID);
+    'value:' value=(STRING | NUMBER | FlexibleID);
 
 PartSourceProperty:
     'source:' source=STRING;
 
 PartPinsProperty:
-    'pins:' '(' pins+=ID (',' pins+=ID)* ')';
+    'pins:' '(' pins+=ProfileIdentifier (',' pins+=ProfileIdentifier)* ')';
 
 // Generic parameters for transistors, op-amps, etc: model:"2N2222", w:"10u", l:"1u", ratio:"10:1"
 PartGenericProperty:
-    key=ID ':' value=(STRING | NUMBER | ID);
+    key=ID ':' value=(STRING | NUMBER | FlexibleID);
 
 // analysis tran "0 5m"
 AnalysisStatement:
@@ -93,7 +93,7 @@ DigitalStatement:
 
 // module Counter ports:(clk,reset,count[7:0])
 ModuleStatement:
-    'module' name=ID properties+=ModuleProperty+;
+    'module' name=ProfileIdentifier properties+=ModuleProperty+;
 
 ModuleProperty:
     ModulePortsProperty | ModuleParamsProperty;
@@ -105,23 +105,23 @@ ModuleParamsProperty:
     'params:' '(' params+=ParamDecl (',' params+=ParamDecl)* ')';
 
 PortDecl:
-    name=ID ('[' width=BusWidth ']')?;
+    name=ProfileIdentifier ('[' width=BusWidth ']')?;
 
 BusWidth:
     msb=NUMBER ':' lsb=NUMBER;
 
 ParamDecl:
-    name=ID ':' value=(STRING | NUMBER);
+    name=ProfileIdentifier ':' value=(STRING | NUMBER);
 
 // inst U1 of:Counter map:(clk:clk, reset:reset)
 InstStatement:
-    'inst' ref=ID properties+=InstProperty+;
+    'inst' ref=ProfileIdentifier properties+=InstProperty+;
 
 InstProperty:
     InstOfProperty | InstMapProperty | InstParamsProperty;
 
 InstOfProperty:
-    'of:' module=ID;
+    'of:' module=ProfileIdentifier;
 
 InstMapProperty:
     'map:' '(' connections+=PortConnection (',' connections+=PortConnection)* ')';
@@ -130,17 +130,17 @@ InstParamsProperty:
     'params:' '(' params+=ParamOverride (',' params+=ParamOverride)* ')';
 
 PortConnection:
-    port=ID ':' net=ID ('[' range=BusWidth ']')?;
+    port=ProfileIdentifier ':' net=ProfileIdentifier ('[' range=BusWidth ']')?;
 
 ParamOverride:
-    param=ID ':' value=(STRING | NUMBER);
+    param=ProfileIdentifier ':' value=(STRING | NUMBER);
 
 // Digital nets (with optional bus notation)
 DigitalNetStatement:
     'net' names+=NetDecl (',' names+=NetDecl)*;
 
 NetDecl:
-    name=ID ('[' width=BusWidth ']')?;
+    name=ProfileIdentifier ('[' width=BusWidth ']')?;
 
 // ============================================================================
 // Pneumatic Profile (ISO 1219-1 pneumatic circuits)
@@ -469,7 +469,7 @@ SequenceStatement:
 // participant Actor as actor
 // participant "Web Server" as entity
 SequenceParticipantStatement:
-    'participant' name=STRING ('as' type=SequenceParticipantType)?;
+    'participant' name=SequenceIdentifier ('as' type=SequenceParticipantType)?;
 
 SequenceParticipantType returns string:
     'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'continuation';
@@ -482,10 +482,10 @@ SequenceMessageProperty:
     SequenceFromProperty | SequenceToProperty | SequenceLabelProperty | SequenceTypeProperty | SequenceActivateProperty | SequenceGuardProperty | SequenceTimingProperty | SequenceStateInvariantProperty;
 
 SequenceFromProperty:
-    'from:' (from=STRING | from='lost' | from='found');
+    'from:' (from=SequenceIdentifier | from='lost' | from='found');
 
 SequenceToProperty:
-    'to:' (to=STRING | to='lost' | to='found');
+    'to:' (to=SequenceIdentifier | to='lost' | to='found');
 
 SequenceLabelProperty:
     'label:' label=STRING;
@@ -523,7 +523,7 @@ SequenceNotePosition returns string:
     'left' | 'right' | 'over';
 
 SequenceNoteParticipantsProperty:
-    'participants:' '(' participants+=STRING (',' participants+=STRING)* ')';
+    'participants:' '(' participants+=SequenceIdentifier (',' participants+=SequenceIdentifier)* ')';
 
 // fragment loop "Retry Logic" from:5 to:7
 // fragment alt "Error Handling" from:10 to:15 alternatives:("Success":10-12,"Failure":13-15)
@@ -585,8 +585,8 @@ TimelineStatement:
     TimelineEventStatement | TimelinePeriodStatement | TimelineOrientationStatement;
 
 // event kickoff date:"2024-01-15" label:"Project Kickoff" description:"Initial meeting" icon:"flag" textColor:"#3b82f6"
-TimelineEventStatement:
-    'event' id=ID properties+=TimelineEventProperty+;
+  TimelineEventStatement:
+      'event' id=TimelineIdentifier properties+=TimelineEventProperty+;
 
 TimelineEventProperty:
     TimelineDateProperty | TimelineLabelProperty | TimelineDescriptionProperty | TimelineIconProperty | TimelineColorProperty | TimelinePositionProperty;
@@ -613,8 +613,11 @@ TimelinePosition returns string:
     'top' | 'bottom' | 'left' | 'right';
 
 // period planning startDate:"2024-01-15" endDate:"2024-02-28" label:"Planning Phase" textColor:"#e0e7ff"
-TimelinePeriodStatement:
-    'period' id=ID properties+=TimelinePeriodProperty+;
+  TimelinePeriodStatement:
+      'period' id=TimelineIdentifier properties+=TimelinePeriodProperty+;
+
+  TimelineIdentifier returns string:
+      FlexibleID | STRING;
 
 TimelinePeriodProperty:
     TimelineStartDateProperty | TimelineEndDateProperty | TimelineLabelProperty | TimelineColorProperty | TimelineOpacityProperty;
@@ -656,20 +659,29 @@ KanbanSwimlaneBlock:
     '}';
 
 // column Backlog "Backlog" wip:5 { card ... }
-KanbanColumnBlock:
-    'column' id=ID? label=STRING properties+=KanbanColumnProperty* '{'
-        cards+=KanbanCardStatement*
-    '}';
+  KanbanColumnBlock:
+      'column' id=KanbanIdentifier? label=STRING properties+=KanbanColumnProperty* '{'
+          cards+=KanbanCardStatement*
+      '}';
 
-KanbanColumnProperty:
-    KanbanWipProperty | KanbanStyleProperty;
+  KanbanColumnProperty:
+      KanbanWipProperty | KanbanMaxCardsProperty | KanbanOverflowProperty | KanbanStyleProperty;
 
-KanbanWipProperty:
-    'wip:' value=NUMBER;
+  KanbanWipProperty:
+      'wip:' value=NUMBER;
+
+  KanbanMaxCardsProperty:
+      'maxCards:' value=NUMBER;
+
+  KanbanOverflowProperty:
+      'overflow:' value=KanbanOverflowValue;
+
+  KanbanOverflowValue returns string:
+      'stack' | 'ellipsis';
 
 // card C1 "Implement auth" priority:high tags:["frontend"]
-KanbanCardStatement:
-    'card' id=ID? label=STRING properties+=KanbanCardProperty*;
+  KanbanCardStatement:
+      'card' id=KanbanIdentifier? label=STRING properties+=KanbanCardProperty*;
 
 KanbanCardProperty:
     KanbanDescriptionProperty
@@ -712,8 +724,20 @@ KanbanStrokeColorProperty:
 KanbanTextColorProperty:
     'textColor:' value=STRING;
 
-KanbanBorderRadiusProperty:
-    'borderRadius:' value=NUMBER;
+  KanbanBorderRadiusProperty:
+      'borderRadius:' value=NUMBER;
+
+KanbanIdentifier returns string:
+    FlexibleID | STRING;
+
+ProfileIdentifier returns string:
+    FlexibleID | STRING;
+
+DiagramIdentifier returns string:
+    FlexibleID | STRING;
+
+SequenceIdentifier returns string:
+    FlexibleID | STRING;
 
 // ============================================================================
 // GitGraph Profile - Branches, commits, merges, tags
@@ -727,6 +751,7 @@ GitGraphProfile:
 GitGraphStatement:
     ThemeDeclaration
     | GitGraphOrientationStatement
+    | GitGraphSpacingStatement
     | GitGraphBranchStatement
     | GitGraphCommitStatement
     | GitGraphMergeStatement;
@@ -737,8 +762,20 @@ GitGraphOrientationStatement:
 GitGraphOrientationValue returns string:
     'vertical' | 'horizontal';
 
-GitGraphBranchStatement:
-    'branch' id=ID properties+=GitGraphBranchProperty*;
+GitGraphSpacingStatement:
+    'spacing' '(' properties+=GitGraphSpacingProperty (',' properties+=GitGraphSpacingProperty)* ')';
+
+GitGraphSpacingProperty:
+    GitGraphRowSpacingProperty | GitGraphColumnSpacingProperty;
+
+GitGraphRowSpacingProperty:
+    'row:' value=NUMBER;
+
+GitGraphColumnSpacingProperty:
+    'column:' value=NUMBER;
+
+  GitGraphBranchStatement:
+      'branch' id=GitGraphIdentifier properties+=GitGraphBranchProperty*;
 
 GitGraphBranchProperty:
     GitGraphBranchLabelProperty | GitGraphBranchColorProperty | GitGraphBranchParentProperty;
@@ -749,11 +786,11 @@ GitGraphBranchLabelProperty:
 GitGraphBranchColorProperty:
     'color:' color=STRING;
 
-GitGraphBranchParentProperty:
-    'parent:' parent=ID;
+  GitGraphBranchParentProperty:
+      'parent:' parent=GitGraphIdentifier;
 
-GitGraphCommitStatement:
-    'commit' id=ID properties+=GitGraphCommitProperty+;
+  GitGraphCommitStatement:
+      'commit' id=GitGraphIdentifier properties+=GitGraphCommitProperty+;
 
 GitGraphCommitProperty:
     GitGraphCommitBranchProperty
@@ -762,8 +799,8 @@ GitGraphCommitProperty:
     | GitGraphCommitAuthorProperty
     | GitGraphCommitTagProperty;
 
-GitGraphCommitBranchProperty:
-    'branch:' branch=ID;
+  GitGraphCommitBranchProperty:
+      'branch:' branch=GitGraphIdentifier;
 
 GitGraphCommitLabelProperty:
     'label:' label=STRING;
@@ -777,8 +814,8 @@ GitGraphCommitAuthorProperty:
 GitGraphCommitTagProperty:
     'tag:' tag=STRING;
 
-GitGraphMergeStatement:
-    'merge' id=ID properties+=GitGraphMergeProperty+;
+  GitGraphMergeStatement:
+      'merge' id=GitGraphIdentifier properties+=GitGraphMergeProperty+;
 
 GitGraphMergeProperty:
     GitGraphMergeFromProperty
@@ -786,11 +823,14 @@ GitGraphMergeProperty:
     | GitGraphMergeLabelProperty
     | GitGraphMergeTagProperty;
 
-GitGraphMergeFromProperty:
-    'from:' from=ID;
+  GitGraphMergeFromProperty:
+      'from:' from=GitGraphIdentifier;
 
-GitGraphMergeIntoProperty:
-    'into:' into=ID;
+  GitGraphMergeIntoProperty:
+      'into:' into=GitGraphIdentifier;
+
+  GitGraphIdentifier returns string:
+      FlexibleID | STRING;
 
 GitGraphMergeLabelProperty:
     'label:' label=STRING;
@@ -812,6 +852,8 @@ TreemapStatement:
     | TreemapLayoutStatement
     | TreemapPaddingStatement
     | TreemapGapStatement
+    | TreemapShowValuesStatement
+    | TreemapShowLegendStatement
     | TreemapGroupBlock
     | TreemapItemStatement;
 
@@ -826,6 +868,12 @@ TreemapPaddingStatement:
 
 TreemapGapStatement:
     'gap' value=NUMBER;
+
+TreemapShowValuesStatement:
+    'showValues' value=BooleanValue;
+
+TreemapShowLegendStatement:
+    'showLegend' value=BooleanValue;
 
 TreemapGroupBlock:
     'group' label=STRING properties+=TreemapNodeProperty* '{'
@@ -868,12 +916,15 @@ GlyphSetImageItem:
     keyword='image' url=STRING ('label' label=STRING)? ('description' description=STRING)?;
 
 // Simple flat items: step "Label", level "Label", etc.
-GlyphSetSimpleItem:
-    keyword=GlyphSetKeyword label=STRING relationship=ID?;
+  GlyphSetSimpleItem:
+      keyword=GlyphSetKeyword label=STRING relationship=GlyphSetIdentifier?;
 
 // Nested items with children: person "Name" { person "Child1" person "Child2" }
-GlyphSetNestedItem:
-    keyword=GlyphSetKeyword label=STRING relationship=ID? '{' children+=GlyphSetItemStatement* '}';
+  GlyphSetNestedItem:
+      keyword=GlyphSetKeyword label=STRING relationship=GlyphSetIdentifier? '{' children+=GlyphSetItemStatement* '}';
+
+  GlyphSetIdentifier returns string:
+      FlexibleID | STRING;
 
 // Parameter assignments: direction "LR", theme professional, columns 3, shape "circle", showPercentages true
 GlyphSetParameter:
@@ -927,7 +978,7 @@ RoutingValue returns string:
 
 // style myStyle fillColor:"red" strokeColor:"blue" textColor:"#333"
 StyleDeclaration:
-    'style' name=ID properties+=StyleProperty+;
+    'style' name=DiagramIdentifier properties+=StyleProperty+;
 
 StyleProperty:
     key=StylePropertyKey value=(STRING | NUMBER | ID);
@@ -939,7 +990,7 @@ StylePropertyKey returns string:
 // shape node1 as @rounded label: "My Node" style: myStyle icon: fa/user link: "http://example.com"
 // shape node1 label: "My Node" (shape optional if inside type:mindmap container)
 ShapeDeclaration:
-    'shape' id=FlexibleID ('as' '@' shape=ShapeIdentifier)? properties+=NodeProperty*;
+    'shape' id=DiagramIdentifier ('as' '@' shape=ShapeIdentifier)? properties+=NodeProperty*;
 
 // Allow shape IDs, regular IDs, and certain keywords that are valid shape names
 ShapeIdentifier returns string:
@@ -1015,7 +1066,7 @@ GatewayTypeValue returns string:
     'exclusive' | 'xor' | 'parallel' | 'and' | 'inclusive' | 'or' | 'eventBased' | 'event' | 'complex';
 
 StyleRefProperty:
-    'style:' ref=[StyleDeclaration:ID];
+    'style:' ref=[StyleDeclaration:DiagramIdentifier];
 
 IconProperty:
     'icon:' provider=ID '/' icon=ID;
@@ -1268,7 +1319,7 @@ EdgeChain:
 // Support both simple node references (node1) and member references (Class.field)
 // Use FlexibleID to allow keywords like 'data', 'label', 'm' as node names
 NodeRef:
-    node=FlexibleID ('.' member=FlexibleID)?;
+    node=DiagramIdentifier ('.' member=DiagramIdentifier)?;
 
 EdgeProperty:
     EdgeLabelProperty
@@ -1361,7 +1412,7 @@ GroupBlock:
 // container "Label" { ... } with optional properties
 // Now supports: container id "Label" as @shapeName { ... }
 ContainerBlock:
-    'container' (id=FlexibleID)? label=STRING ('as' '@' shape=(SHAPE_ID | FlexibleID))? properties+=ContainerProperty* '{'
+    'container' (id=DiagramIdentifier)? label=STRING ('as' '@' shape=(SHAPE_ID | FlexibleID))? properties+=ContainerProperty* '{'
         statements+=DiagramStatement*
     '}';
 
@@ -1473,7 +1524,7 @@ ContainerLayoutProperty:
 // datasource "json" key:users from:"data/users.json"
 // datasource "csv" key:metrics from:"metrics.csv"
 DataSourceDeclaration:
-    'datasource' format=STRING 'key:' key=ID 'from:' source=STRING
+    'datasource' format=STRING 'key:' key=DiagramIdentifier 'from:' source=STRING
     ('options:' '{' options+=DataSourceOption (',' options+=DataSourceOption)* '}')?;
 
 DataSourceOption:
@@ -1482,7 +1533,7 @@ DataSourceOption:
 // Data-driven ForEach block: generates nodes/edges from data
 // foreach "userCard" from:users { ... }
 ForEachBlock:
-    'foreach' id=STRING 'from:' dataKey=ID '{'
+    'foreach' id=STRING 'from:' dataKey=DiagramIdentifier '{'
         ('filter:' filter=STRING)?
         ('limit:' limit=NUMBER)?
         statements+=TemplateStatement*
@@ -1503,7 +1554,7 @@ TemplateNodeProperty:
     | 'label:' label=TemplateExpression
     | 'fillColor:' fillColor=TemplateExpression
     | 'strokeColor:' strokeColor=TemplateExpression
-    | 'style:' style=ID
+    | 'style:' style=DiagramIdentifier
     | 'data:' '{' dataProps+=TemplateDataProperty (',' dataProps+=TemplateDataProperty)* '}';
 
 TemplateDataProperty:
@@ -1515,7 +1566,7 @@ TemplateEdgeDeclaration:
 
 TemplateEdgeProperty:
     'label:' label=TemplateExpression
-    | 'style:' style=ID
+    | 'style:' style=DiagramIdentifier
     | 'when:' condition=TemplateExpression;
 
 // Conditional rendering: if ${item.active} { ... }
@@ -1524,7 +1575,7 @@ ConditionalBlock:
 
 // Loop over data: for item in ${data.items} { ... }
 LoopBlock:
-    'for' variable=ID 'in' collection=TemplateExpression '{' statements+=TemplateStatement* '}';
+    'for' variable=DiagramIdentifier 'in' collection=TemplateExpression '{' statements+=TemplateStatement* '}';
 
 // Template expression: literal string, variable reference ${...}, or combination
 TemplateExpression:
@@ -1636,7 +1687,7 @@ LayoutComplexityValue returns string:
     'low' | 'medium' | 'high';
 
 BooleanValue returns string:
-    BOOLEAN;
+    'true' | 'false';
 
 // Phase 4: Visual controls value types
 ButtonPositionValue returns string:
@@ -1659,7 +1710,6 @@ terminal BIDIRECTIONAL_ARROW: '<->';
 terminal ARROW: '->';
 terminal TAG: /[A-Z][A-Z0-9]*-[0-9]{1,4}[A-Z]?/;  // P&ID instrument/equipment tags like V-101, FT-205, PIC-301A (uppercase-number format, must come first)
 terminal SHAPE_ID: /[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/;  // Shape IDs like circle-filled, must start with lowercase or underscore to avoid matching P&ID tags
-terminal BOOLEAN: /true|false/;  // Must come before ID to prevent 'true'/'false' from being matched as identifiers
 terminal ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
 terminal STRING: /"(?:[^"\\]|\\.)*"/;
 terminal NUMBER: /-?[0-9]+(\.[0-9]+)?/;

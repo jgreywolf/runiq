@@ -31,7 +31,7 @@ function parseStyle(
 
 function parseCard(statement: Langium.KanbanCardStatement): KanbanCard {
   const card: KanbanCard = {
-    id: statement.id,
+    id: statement.id ? unescapeString(statement.id) : undefined,
     label: unescapeString(statement.label),
   };
   const styleProps: Langium.KanbanStyleProperty[] = [];
@@ -64,7 +64,7 @@ function parseCard(statement: Langium.KanbanCardStatement): KanbanCard {
 
 function parseColumn(statement: Langium.KanbanColumnBlock): KanbanColumn {
   const column: KanbanColumn = {
-    id: statement.id,
+    id: statement.id ? unescapeString(statement.id) : undefined,
     label: unescapeString(statement.label),
     cards: [],
   };
@@ -73,6 +73,10 @@ function parseColumn(statement: Langium.KanbanColumnBlock): KanbanColumn {
   for (const prop of statement.properties) {
     if (Langium.isKanbanWipProperty(prop)) {
       column.wipLimit = Number(prop.value);
+    } else if (Langium.isKanbanMaxCardsProperty(prop)) {
+      column.maxCards = Number(prop.value);
+    } else if (Langium.isKanbanOverflowProperty(prop)) {
+      column.overflow = prop.value as KanbanColumn['overflow'];
     } else if (Langium.isKanbanStyleProperty(prop)) {
       styleProps.push(prop);
     }

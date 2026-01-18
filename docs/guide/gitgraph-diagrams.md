@@ -43,6 +43,25 @@ gitgraph "Hotfix Lane" {
 }
 ```
 
+## Spacing
+
+Tune the distance between commit rows and branch columns:
+
+```runiq
+gitgraph "Spacing Tune" {
+  theme ocean
+  orientation vertical
+  spacing(row:80, column:180)
+
+  branch main label:"main"
+  branch qa label:"qa" parent:main
+
+  commit c1 branch:main label:"Cut release"
+  commit c2 branch:qa label:"QA signoff"
+  merge m1 from:qa into:main label:"Merge QA" tag:"v2.2.0"
+}
+```
+
 ## Tags and Merge Commits
 
 ```runiq

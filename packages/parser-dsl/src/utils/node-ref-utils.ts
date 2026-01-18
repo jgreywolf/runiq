@@ -1,14 +1,17 @@
 import type * as Langium from '../generated/ast.js';
+import { unescapeString } from './string-utils.js';
 
 /**
  * Convert NodeRef to string representation
  * Supports both simple refs (node1) and member refs (Class.field)
  */
 export function nodeRefToString(ref: Langium.NodeRef): string {
+  const node = unescapeString(ref.node);
+  const member = ref.member ? unescapeString(ref.member) : undefined;
   if (ref.member) {
-    return `${ref.node}.${ref.member}`;
+    return `${node}.${member}`;
   }
-  return ref.node;
+  return node;
 }
 
 /**

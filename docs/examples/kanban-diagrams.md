@@ -35,18 +35,19 @@ kanban "Product Roadmap" {
 ```runiq
 kanban "Bug Triage" {
   theme ocean
-  column incoming "Incoming" wip:8 {
+  column incoming "Incoming" wip:8 maxCards:2 overflow:stack {
     card B1 "Checkout timeout" priority:critical assignee:"DevOps"
     card B2 "Missing email receipts" priority:high tags:["billing"]
+    card B3 "Calendar invite bug" priority:medium
   }
   column investigating "Investigating" wip:4 {
-    card B3 "Search latency spike" priority:high assignee:"Sasha"
+    card B4 "Search latency spike" priority:high assignee:"Sasha"
   }
   column fix "Fix In Progress" wip:3 {
-    card B4 "Webhook retries" priority:medium assignee:"Ravi" estimate:"2d"
+    card B5 "Webhook retries" priority:medium assignee:"Ravi" estimate:"2d"
   }
   column resolved "Resolved" {
-    card B5 "Dark mode contrast" priority:low
+    card B6 "Dark mode contrast" priority:low
   }
 }
 ```

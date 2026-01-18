@@ -61,6 +61,7 @@ function processDialogStatement(
     diagram.theme = statement.value;
   } else if (Langium.isStyleDeclaration(statement)) {
     const style: Style = {};
+    const styleName = unescapeString(statement.name);
 
     for (const prop of statement.properties) {
       let value = prop.value;
@@ -117,10 +118,11 @@ function processDialogStatement(
     if (!diagram.styles) {
       diagram.styles = {};
     }
-    diagram.styles[statement.name] = style;
+    diagram.styles[styleName] = style;
   } else if (Langium.isShapeDeclaration(statement)) {
+    const nodeId = unescapeString(statement.id);
     const node: NodeAst = {
-      id: statement.id,
+      id: nodeId,
       shape: statement.shape || 'rounded',
       data: {},
     };
@@ -145,7 +147,7 @@ function processDialogStatement(
     for (const child of statement.statements) {
       processDialogStatement(child, diagram, declaredNodes);
       if (Langium.isShapeDeclaration(child)) {
-        group.children.push(child.id);
+        group.children.push(unescapeString(child.id));
       }
     }
 
@@ -162,7 +164,7 @@ function processDialogStatement(
     if (!(diagram as any).dataSources) (diagram as any).dataSources = [];
     (diagram as any).dataSources.push({
       format: statement.format.replace(/^"|"$/g, ''),
-      key: statement.key,
+      key: unescapeString(statement.key),
       source: statement.source.replace(/^"|"$/g, ''),
       options: statement.options?.map((opt) => {
         let value: string | number | boolean = opt.value;
@@ -179,7 +181,7 @@ function processDialogStatement(
     if (!(diagram as any).dataTemplates) (diagram as any).dataTemplates = [];
     (diagram as any).dataTemplates.push({
       id: statement.id.replace(/^"|"$/g, ''),
-      dataKey: statement.dataKey,
+      dataKey: unescapeString(statement.dataKey),
       filter: statement.filter?.replace(/^"|"$/g, ''),
       limit:
         statement.limit !== undefined ? Number(statement.limit) : undefined,
@@ -207,7 +209,9 @@ function processNodeProperties(
     if (Langium.isLabelProperty(prop)) {
       node.label = unescapeString(prop.value);
     } else if (Langium.isStyleRefProperty(prop)) {
-      node.style = prop.ref?.$refText;
+      if (prop.ref?.$refText) {
+        node.style = unescapeString(prop.ref.$refText);
+      }
     } else if (Langium.isFillColorProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.fillColor = prop.value.replace(/^"|"$/g, '');
@@ -613,7 +617,9 @@ function processEdgeProperties(
     } else if (Langium.isStrokeWidthProperty(prop)) {
       edge.strokeWidth = parseFloat(prop.value);
     } else if (Langium.isStyleRefProperty(prop)) {
-      edge.style = prop.ref?.$refText;
+      if (prop.ref?.$refText) {
+        edge.style = unescapeString(prop.ref.$refText);
+      }
     }
   }
 }
@@ -627,7 +633,7 @@ export function convertContainer(
   diagram: DiagramAst
 ): ContainerDeclaration {
   const id =
-    block.id ||
+    (block.id ? unescapeString(block.id) : undefined) ||
     block.label
       .replace(/^"|"$/g, '')
       .toLowerCase()
@@ -653,7 +659,9 @@ export function convertContainer(
   // Process container properties
   for (const prop of block.properties) {
     if (Langium.isStyleRefProperty(prop)) {
-      styleRef = prop.ref?.$refText;
+      if (prop.ref?.$refText) {
+        styleRef = unescapeString(prop.ref.$refText);
+      }
     } else if (Langium.isContainerTypeProperty(prop)) {
       containerType = prop.type;
     } else if (Langium.isContainerMetadataProperty(prop)) {
@@ -929,7 +937,7 @@ export function convertContainer(
   let isFirstNode = true;
   for (const statement of block.statements) {
     if (Langium.isShapeDeclaration(statement)) {
-      container.children.push(statement.id);
+      container.children.push(unescapeString(statement.id));
 
       let shape: string;
       if (statement.shape) {
@@ -943,7 +951,7 @@ export function convertContainer(
       if (isFirstNode) isFirstNode = false;
 
       const node: NodeAst = {
-        id: statement.id,
+        id: unescapeString(statement.id),
         shape,
         data: {},
       };
@@ -951,7 +959,7 @@ export function convertContainer(
       processNodeProperties(node, statement.properties);
 
       diagram.nodes.push(node);
-      declaredNodes.add(statement.id);
+      declaredNodes.add(node.id);
     } else if (Langium.isEdgeDeclaration(statement)) {
       const fromId = nodeRefToString(statement.from);
       const toId = nodeRefToString(statement.to);

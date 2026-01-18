@@ -2,6 +2,8 @@ treemap "Product Usage" {
   layout slice-dice
   padding 10
   gap 6
+  showValues true
+  showLegend true
 
   group "North America" value:60 color:"#bfdbfe" {
     item "Enterprise" value:40

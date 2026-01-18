@@ -31,6 +31,8 @@ gitgraph "Release Flow" {
 
 ```runiq
 gitgraph "Feature Train" {
+  spacing(row:70, column:160)
+
   branch main label:"main" color:"#0f172a"
   branch api label:"feature/api" parent:main color:"#16a34a"
   branch ui label:"feature/ui" parent:main color:"#7c3aed"

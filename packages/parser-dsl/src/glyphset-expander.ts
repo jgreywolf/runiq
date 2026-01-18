@@ -9,6 +9,7 @@ import type { DiagramAst } from '@runiq/core';
 import { glyphsetRegistry, GlyphSetError } from '@runiq/glyphsets';
 import type { ImageItem } from '@runiq/glyphsets';
 import * as Langium from './generated/ast.js';
+import { unescapeString } from './utils/index.js';
 
 // Define hierarchical node types
 interface HierarchicalNode {
@@ -202,7 +203,7 @@ function extractGlyphSetParams(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       const label = simpleItem.label.replace(/^"|"/g, ''); // Remove quotes
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      const relationship = simpleItem.relationship || '';
+      const relationship = simpleItem.relationship ? unescapeString(simpleItem.relationship) : '';
 
       switch (keyword) {
         case 'step':
@@ -389,7 +390,7 @@ function extractGlyphSetParams(
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 function extractNestedHierarchyItem(item: Langium.GlyphSetNestedItem): any {
   const label = item.label.replace(/^"|"$/g, ''); // Remove quotes
-  const relationship = item.relationship || '';
+  const relationship = item.relationship ? unescapeString(item.relationship) : '';
   const children: any[] = [];
 
   // Process all children recursively
@@ -398,7 +399,7 @@ function extractNestedHierarchyItem(item: Langium.GlyphSetNestedItem): any {
       children.push(extractNestedHierarchyItem(child));
     } else if (Langium.isGlyphSetSimpleItem(child)) {
       const childLabel = child.label.replace(/^"|"$/g, '');
-      const childRelationship = child.relationship || '';
+      const childRelationship = child.relationship ? unescapeString(child.relationship) : '';
       const childStr = childRelationship
         ? `${childLabel}:${childRelationship}`
         : childLabel;

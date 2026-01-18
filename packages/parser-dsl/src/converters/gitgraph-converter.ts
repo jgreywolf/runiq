@@ -10,7 +10,7 @@ import { unescapeString } from '../utils/index.js';
 
 function parseBranch(statement: Langium.GitGraphBranchStatement): GitGraphBranch {
   const branch: GitGraphBranch = {
-    id: statement.id,
+    id: unescapeString(statement.id),
   };
 
   for (const prop of statement.properties) {
@@ -19,7 +19,7 @@ function parseBranch(statement: Langium.GitGraphBranchStatement): GitGraphBranch
     } else if (Langium.isGitGraphBranchColorProperty(prop)) {
       branch.color = prop.color.replace(/^"|"$/g, '');
     } else if (Langium.isGitGraphBranchParentProperty(prop)) {
-      branch.parent = prop.parent;
+      branch.parent = unescapeString(prop.parent);
     }
   }
 
@@ -28,13 +28,13 @@ function parseBranch(statement: Langium.GitGraphBranchStatement): GitGraphBranch
 
 function parseCommit(statement: Langium.GitGraphCommitStatement): GitGraphCommit {
   const commit: GitGraphCommit = {
-    id: statement.id,
+    id: unescapeString(statement.id),
     branch: '',
   };
 
   for (const prop of statement.properties) {
     if (Langium.isGitGraphCommitBranchProperty(prop)) {
-      commit.branch = prop.branch;
+      commit.branch = unescapeString(prop.branch);
     } else if (Langium.isGitGraphCommitLabelProperty(prop)) {
       commit.label = unescapeString(prop.label);
     } else if (Langium.isGitGraphCommitMessageProperty(prop)) {
@@ -51,16 +51,16 @@ function parseCommit(statement: Langium.GitGraphCommitStatement): GitGraphCommit
 
 function parseMerge(statement: Langium.GitGraphMergeStatement): GitGraphMerge {
   const merge: GitGraphMerge = {
-    id: statement.id,
+    id: unescapeString(statement.id),
     from: '',
     into: '',
   };
 
   for (const prop of statement.properties) {
     if (Langium.isGitGraphMergeFromProperty(prop)) {
-      merge.from = prop.from;
+      merge.from = unescapeString(prop.from);
     } else if (Langium.isGitGraphMergeIntoProperty(prop)) {
-      merge.into = prop.into;
+      merge.into = unescapeString(prop.into);
     } else if (Langium.isGitGraphMergeLabelProperty(prop)) {
       merge.label = unescapeString(prop.label);
     } else if (Langium.isGitGraphMergeTagProperty(prop)) {
@@ -89,6 +89,14 @@ export function convertGitGraphProfile(
       gitProfile.theme = statement.value;
     } else if (Langium.isGitGraphOrientationStatement(statement)) {
       gitProfile.orientation = statement.orientation as GitGraphProfile['orientation'];
+    } else if (Langium.isGitGraphSpacingStatement(statement)) {
+      for (const prop of statement.properties) {
+        if (Langium.isGitGraphRowSpacingProperty(prop)) {
+          gitProfile.rowSpacing = Number(prop.value);
+        } else if (Langium.isGitGraphColumnSpacingProperty(prop)) {
+          gitProfile.columnSpacing = Number(prop.value);
+        }
+      }
     } else if (Langium.isGitGraphBranchStatement(statement)) {
       gitProfile.branches.push(parseBranch(statement));
     } else if (Langium.isGitGraphCommitStatement(statement)) {
