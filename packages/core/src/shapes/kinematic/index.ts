@@ -19,4 +19,13 @@ export {
   springShape,
   damperShape,
   gearShape,
+  gripperParallelShape,
+  gripperAngularShape,
+  toolMountShape,
+  camShape,
+  gripperVacuumShape,
+  toolChangerShape,
+  camFollowerShape,
+  pulleyShape,
+  leverShape,
 } from './actuators.js';

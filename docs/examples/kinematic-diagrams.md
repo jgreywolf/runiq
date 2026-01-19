@@ -86,6 +86,62 @@ diagram "Two-DOF Arm" {
 
 ![Two-DOF Arm](/examples/kinematic/two-dof-arm.svg)
 
+## Walking Mechanism
+
+### DSL Code
+
+```runiq
+diagram "Walking Mechanism" {
+  direction LR
+
+  style link fillColor: "#e2e8f0" strokeColor: "#475569"
+  style joint fillColor: "#fee2e2" strokeColor: "#b91c1c"
+  style actuator fillColor: "#dcfce7" strokeColor: "#15803d"
+
+  shape Hip as @revoluteJoint label: "Hip" style:joint
+  shape Leg as @binaryLink label: "Upper Leg" style:link
+  shape Knee as @revoluteJoint label: "Knee" style:joint
+  shape Shin as @binaryLink label: "Lower Leg" style:link
+  shape Ankle as @revoluteJoint label: "Ankle" style:joint
+  shape Foot as @binaryLink label: "Foot" style:link
+  shape Spring as @spring label: "Spring" style:actuator
+
+  Hip -> Leg -> Knee -> Shin -> Ankle -> Foot
+  Knee -> Spring
+}
+```
+
+### Generated SVG
+
+![Walking Mechanism](/examples/kinematic/walking-mechanism.svg)
+
+## Gripper Mechanism
+
+### DSL Code
+
+```runiq
+diagram "Gripper Mechanism" {
+  direction LR
+
+  style link fillColor: "#e0f2fe" strokeColor: "#0284c7"
+  style joint fillColor: "#fef3c7" strokeColor: "#b45309"
+  style actuator fillColor: "#dcfce7" strokeColor: "#15803d"
+
+  shape Base as @groundLink label: "Base"
+  shape J1 as @revoluteJoint label: "J1" style:joint
+  shape Link1 as @binaryLink label: "Link" style:link
+  shape Gripper as @gripperParallel label: "Gripper" style:actuator
+  shape Mount as @toolMount label: "Tool Mount" style:actuator
+
+  Base -> J1 -> Link1 -> Gripper
+  Gripper -> Mount
+}
+```
+
+### Generated SVG
+
+![Gripper Mechanism](/examples/kinematic/gripper-mechanism.svg)
+
 ## Next Steps
 
 - [Kinematic Diagrams Guide](/guide/kinematic-diagrams)
