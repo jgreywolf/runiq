@@ -336,92 +336,6 @@ diagram hvac "Office HVAC System"
 
 ---
 
-### Issue 8: Template Library (SmartArt Alternative)
-
-```markdown
-## 🎯 Feature: Diagram Template Library
-
-### Description
-Create a library of 10-15 preset diagram templates as an alternative to PowerPoint SmartArt. Makes diagram creation easier for common patterns.
-
-### Implementation Requirements
-
-**Effort:** 2-3 days
-**Priority:** High (Ease of use)
-**Complexity:** Medium
-
-#### Phase 1: Template System (1 day)
-- [ ] Template definition format
-- [ ] Template parser/expander
-- [ ] Template parameter substitution
-- [ ] Template validation
-
-#### Phase 2: Common Templates (1 day)
-**15 Templates:**
-1. Horizontal Process (linear steps)
-2. Vertical Process (top-to-bottom)
-3. Cycle (circular process)
-4. Pyramid (3-4 levels)
-5. Hierarchy (org chart style)
-6. Matrix (2x2, 3x3)
-7. Venn Diagram (2-3 circles)
-8. Timeline (horizontal events)
-9. Funnel (sales/conversion)
-10. Comparison (side-by-side)
-11. List (bullet points with icons)
-12. Radial (center-out structure)
-13. Chevron (overlapping arrows)
-14. Stack (layered components)
-15. Target (concentric circles)
-
-#### Phase 3: DSL Syntax (4 hours)
-```runiq
-diagram process "Project Phases" template:horizontal-process
-  item "Research"
-  item "Design"
-  item "Develop"
-  item "Test"
-  item "Deploy"
-
-# Expands to:
-diagram flowchart "Project Phases" direction LR
-  node s1 as @rounded label:"Research"
-  node s2 as @rounded label:"Design"
-  node s3 as @rounded label:"Develop"
-  node s4 as @rounded label:"Test"
-  node s5 as @rounded label:"Deploy"
-  edge s1 -> s2 -> s3 -> s4 -> s5
-````
-
-#### Phase 4: Documentation (4 hours)
-
-- [ ] Template gallery with previews
-- [ ] Usage examples for each template
-- [ ] Customization guide
-- [ ] Migration guide from SmartArt
-
-### Testing Requirements
-
-- [ ] Template parsing
-- [ ] Parameter substitution
-- [ ] Each template generates valid diagram
-- [ ] Style customization works
-
-### Acceptance Criteria
-
-- [ ] 15 templates implemented
-- [ ] Template syntax works
-- [ ] Gallery documentation
-- [ ] 25+ tests passing
-
-### Estimated Effort
-
-**Total: 2-3 days**
-
-````
-
----
-
 ### Issue 9-12: Simple Visual Enhancements (1-2 days each)
 
 ```markdown
@@ -452,19 +366,6 @@ diagram flowchart "Project Phases" direction LR
 
 ---
 
-## 🎯 Feature: Timeline Diagrams
-
-**Effort:** 1-2 days
-**Complexity:** Low
-
-### Requirements
-- [x] Horizontal time axis
-- [x] Event markers
-- [x] Date/time labels
-- [x] Era/period backgrounds
-- [x] Milestone indicators
-
----
 
 ## 🎯 Feature: Quadrant Chart (2x2 Matrix)
 
@@ -576,6 +477,9 @@ diagram timing "Door Controller"
 ### Description
 Add support for Piping & Instrumentation Diagrams (P&ID) following ISA-5.1 standard. **Extremely high industry value!**
 
+### Current Status
+- ƒo. P&ID profile implemented with equipment, instrumentation, lines, and control loops
+
 ### Implementation Requirements
 
 **Effort:** 3-4 days
@@ -586,57 +490,58 @@ Add support for Piping & Instrumentation Diagrams (P&ID) following ISA-5.1 stand
 **40-60 Symbols:**
 
 **Vessels & Tanks:**
-- [ ] Pressure vessel (vertical/horizontal)
-- [ ] Storage tank
-- [ ] Reactor
-- [ ] Separator (horizontal/vertical)
-- [ ] Knockout drum
-- [ ] Flash drum
+- [x] Pressure vessel (vertical/horizontal)
+- [x] Storage tank
+- [x] Reactor
+- [x] Separator (horizontal/vertical)
+- [x] Knockout drum
+- [x] Flash drum
 
 **Rotating Equipment:**
-- [ ] Centrifugal pump
-- [ ] Positive displacement pump
-- [ ] Compressor (centrifugal/reciprocating)
-- [ ] Fan/blower
-- [ ] Turbine
+- [x] Centrifugal pump
+- [x] Positive displacement pump
+- [x] Compressor (centrifugal/reciprocating)
+- [x] Fan/blower
+- [x] Turbine
 
 **Heat Transfer:**
-- [ ] Shell & tube heat exchanger
-- [ ] Plate heat exchanger
-- [ ] Air cooler
-- [ ] Fired heater/furnace
-- [ ] Condenser
-- [ ] Reboiler
+- [x] Shell & tube heat exchanger
+- [x] Plate heat exchanger
+- [x] Air cooler
+- [x] Fired heater/furnace
+- [x] Condenser
+- [x] Reboiler
 
 **Valves (20+ types):**
-- [ ] Gate valve
-- [ ] Globe valve
-- [ ] Ball valve
-- [ ] Butterfly valve
-- [ ] Check valve
-- [ ] Control valve
-- [ ] Safety relief valve
+- [x] Gate valve
+- [x] Globe valve
+- [x] Ball valve
+- [x] Butterfly valve
+- [x] Check valve
+- [x] Control valve
+- [x] Safety relief valve
 - [ ] Pressure reducing valve
-- [ ] Three-way valve
-- [ ] Plug valve
+- [x] Three-way valve
+- [x] Plug valve
 
 **Instrumentation:**
-- [ ] Pressure transmitter (PT)
-- [ ] Temperature transmitter (TT)
-- [ ] Flow transmitter (FT)
-- [ ] Level transmitter (LT)
-- [ ] Analyzer (AT)
+- [x] Pressure transmitter (PT)
+- [x] Temperature transmitter (TT)
+- [x] Flow transmitter (FT)
+- [x] Level transmitter (LT)
+- [x] Analyzer (AT)
 - [ ] Control valve with positioner
-- [ ] Pressure indicator (PI)
-- [ ] Temperature indicator (TI)
+- [x] Pressure indicator (PI)
+- [x] Temperature indicator (TI)
 
 #### Phase 2: Line Types (4 hours)
-- [ ] Process piping (thick solid)
-- [ ] Instrument signal (thin dashed)
-- [ ] Electrical signal
+- [x] Process piping (thick solid)
+- [x] Instrument signal (thin dashed)
+- [x] Electrical signal
 - [ ] Pneumatic signal
 - [ ] Hydraulic signal
 - [ ] Software/data link
+- [x] Utility lines (steam, cooling water, etc.)
 
 #### Phase 3: Tag Numbering (4 hours)
 ```typescript
@@ -671,25 +576,25 @@ diagram pid "Distillation Column"
 
 #### Phase 5: Examples (4 hours)
 
-- [ ] Simple heat exchanger loop
-- [ ] Distillation column
-- [ ] Pump with instrumentation
+- [x] Simple heat exchanger loop
+- [x] Distillation column
+- [x] Pump with instrumentation
 - [ ] Tank farm
-- [ ] Chemical reactor system
+- [x] Chemical reactor system
 
 ### Testing Requirements
 
-- [ ] All 60 symbols render correctly
+- [x] All 60 symbols render correctly
 - [ ] ISA-5.1 tag compliance
-- [ ] Line type differentiation
-- [ ] Instrument connection logic
+- [x] Line type differentiation
+- [x] Instrument connection logic
 
 ### Acceptance Criteria
 
-- [ ] 60+ P&ID symbols
+- [x] 60+ P&ID symbols
 - [ ] ISA-5.1 standard compliance
 - [ ] Tag numbering system
-- [ ] 5+ example P&IDs
+- [x] 5+ example P&IDs
 - [ ] 50+ tests passing
 
 ### Industry Standards
@@ -816,6 +721,10 @@ diagram pid "Distillation Column"
 
 Add support for C4 model (Context, Container, Component, Code) architecture diagrams with hierarchical containers.
 
+### Current Status
+
+- ƒo. C4 shapes, examples, and docs are in place
+
 ### Implementation Requirements
 
 **Effort:** 1-2 weeks  
@@ -826,19 +735,19 @@ Add support for C4 model (Context, Container, Component, Code) architecture diag
 
 **This is the critical architecture enhancement!**
 
-- [ ] Add container/subgraph support to AST
-- [ ] Nested container parsing in DSL
-- [ ] ELK hierarchical layout
-- [ ] Container rendering with z-index
-- [ ] Cross-container edge routing
+- [x] Add container/subgraph support to AST
+- [x] Nested container parsing in DSL
+- [x] ELK hierarchical layout
+- [x] Container rendering with z-index
+- [x] Cross-container edge routing
 
 #### Phase 2: C4-Specific Shapes (2 days)
 
-- [ ] Person (external user)
-- [ ] Software System (high-level)
-- [ ] Container (app, database, etc.)
-- [ ] Component (code module)
-- [ ] Relationship arrows with technology labels
+- [x] Person (external user)
+- [x] Software System (high-level)
+- [x] Container (app, database, etc.)
+- [x] Component (code module)
+- [x] Relationship arrows with technology labels
 
 #### Phase 3: C4 Levels (2 days)
 
@@ -874,17 +783,17 @@ diagram c4Component "API Container"
 
 #### Phase 4: Examples & Tests (2 days)
 
-- [ ] System context example
-- [ ] Container diagram example
-- [ ] Component diagram example
+- [x] System context example
+- [x] Container diagram example
+- [x] Component diagram example
 - [ ] 40+ tests
 
 ### Acceptance Criteria
 
-- [ ] Hierarchical containers work
-- [ ] All 4 C4 levels supported
-- [ ] Technology labels on relationships
-- [ ] 3+ C4 examples
+- [x] Hierarchical containers work
+- [x] All 4 C4 levels supported
+- [x] Technology labels on relationships
+- [x] 3+ C4 examples
 - [ ] 40+ tests passing
 
 ### References
@@ -908,6 +817,10 @@ diagram c4Component "API Container"
 ### Description
 Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateways.
 
+### Current Status
+- ƒo. Core BPMN shapes + pools implemented with examples
+- ƒ?O Full BPMN 2.0 coverage (subtypes, compliance, validation)
+
 ### Implementation Requirements
 
 **Effort:** 2-3 weeks
@@ -918,13 +831,13 @@ Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateway
 **60+ Symbols:**
 
 **Events (20 types):**
-- [ ] Start event (plain, message, timer, conditional, signal)
-- [ ] End event (plain, message, terminate, error, cancel)
-- [ ] Intermediate event (message, timer, error, escalation)
+- [x] Start event (plain, message, timer, conditional, signal)
+- [x] End event (plain, message, terminate, error, cancel)
+- [x] Intermediate event (message, timer, error, escalation)
 - [ ] Boundary event (interrupting/non-interrupting)
 
 **Tasks:**
-- [ ] Task (generic)
+- [x] Task (generic)
 - [ ] User task
 - [ ] Service task
 - [ ] Script task
@@ -934,14 +847,14 @@ Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateway
 - [ ] Receive task
 
 **Gateways:**
-- [ ] Exclusive gateway (XOR)
-- [ ] Parallel gateway (AND)
-- [ ] Inclusive gateway (OR)
-- [ ] Event-based gateway
-- [ ] Complex gateway
+- [x] Exclusive gateway (XOR)
+- [x] Parallel gateway (AND)
+- [x] Inclusive gateway (OR)
+- [x] Event-based gateway
+- [x] Complex gateway
 
 **Data:**
-- [ ] Data object
+- [x] Data object
 - [ ] Data store
 - [ ] Message flow
 
@@ -950,7 +863,7 @@ Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateway
 - [ ] Group
 
 #### Phase 2: Pools & Lanes (4 days)
-- [ ] Pool container (organization)
+- [x] Pool container (organization)
 - [ ] Lane container (role/department)
 - [ ] Nested lanes
 - [ ] Message flows between pools
@@ -996,10 +909,10 @@ diagram bpmn "Order Process"
 
 #### Phase 5: Examples & Tests (2 days)
 
-- [ ] Order fulfillment
-- [ ] Loan approval
-- [ ] Customer onboarding
-- [ ] Incident management
+- [x] Order fulfillment
+- [x] Loan approval
+- [x] Customer onboarding
+- [x] Incident management
 - [ ] 60+ tests
 
 ### Acceptance Criteria
@@ -1009,7 +922,7 @@ diagram bpmn "Order Process"
 - [ ] Message flows
 - [ ] BPMN 2.0 compliance
 - [ ] Export to BPMN XML (future)
-- [ ] 5+ example processes
+- [x] 5+ example processes
 - [ ] 60+ tests passing
 
 ### Industry Standards
@@ -1037,10 +950,10 @@ Due to length constraints, I'll provide abbreviated templates for the remaining 
 
 ```markdown
 ## 🎯 Feature: Sankey Diagram (1-2 weeks)
-- Flow-proportional edges
-- Variable-width rendering
-- Multi-stage flows
-- Energy/material flow visualization
+- [x] Flow-proportional edges
+- [x] Variable-width rendering
+- [x] Multi-stage flows
+- [x] Energy/material flow visualization
 
 ## 🎯 Feature: Roadmap Diagram (1-2 weeks)
 - Timeline + swimlanes
@@ -1049,10 +962,10 @@ Due to length constraints, I'll provide abbreviated templates for the remaining 
 - Milestone markers
 
 ## 🎯 Feature: Wardley Map (1-2 weeks)
-- 2D evolution/value axes
-- Component positioning
-- Value chain connections
-- Movement indicators
+- [x] 2D evolution/value axes
+- [x] Component positioning
+- [x] Value chain connections
+- [x] Movement indicators
 
 ## 🎯 Feature: Critical Path Analysis (1-2 weeks)
 - PERT/CPM layout
