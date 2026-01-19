@@ -31,5 +31,7 @@ hvac "Office HVAC System" {
 - **Equipment**: Use `equipment` with `type:` to select an HVAC symbol.
 - **Ducts**: Use `duct` to define supply/return/exhaust runs and sizes.
 - **Connections**: Use `connect` chains to tie equipment and ducts together.
+- **Ports**: Most equipment exposes `in`/`out` ports; sensors use `sense`. Ducts accept `in`/`out`.
+- **Metadata**: Extra properties like `cfm-max` or `capacity` are accepted as key/value pairs.
 
 See [Profiles](/guide/profiles) for the full profile list.
