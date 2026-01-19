@@ -47,4 +47,34 @@ electrical "RC Lowpass" {
       expect(profile.analyses![0].kind).toBe('tran');
     }
   });
+
+  it('should parse HVAC profile with equipment and ducts', () => {
+    const input = `
+hvac "Office HVAC System" {
+  equipment AHU1 type:air-handling-unit cfm:5000
+  equipment VAV1 type:vav-box cfm-max:1000
+  equipment Diff1 type:diffuser-supply
+
+  duct Supply type:supply size:"16x12"
+  duct Return type:return size:"20x14"
+
+  connect AHU1.out -> Supply -> VAV1.in
+  connect VAV1.out -> Diff1.in
+  connect Diff1.out -> Return -> AHU1.in
+}`;
+
+    const result = parse(input);
+
+    expect(result.success).toBe(true);
+    expect(result.document).toBeDefined();
+
+    const profile = result.document!.profiles[0];
+    expect(profile.type).toBe(ProfileType.HVAC);
+    expect(profile.name).toBe('Office HVAC System');
+
+    if (profile.type === ProfileType.HVAC) {
+      expect(profile.parts).toHaveLength(5);
+      expect(profile.nets.length).toBeGreaterThan(0);
+    }
+  });
 });

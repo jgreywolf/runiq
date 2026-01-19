@@ -194,6 +194,15 @@ export function registerKinematicShapes(): void {
   shapeRegistry.register(kinematic.springShape);
   shapeRegistry.register(kinematic.damperShape);
   shapeRegistry.register(kinematic.gearShape);
+  shapeRegistry.register(kinematic.gripperParallelShape);
+  shapeRegistry.register(kinematic.gripperAngularShape);
+  shapeRegistry.register(kinematic.toolMountShape);
+  shapeRegistry.register(kinematic.camShape);
+  shapeRegistry.register(kinematic.gripperVacuumShape);
+  shapeRegistry.register(kinematic.toolChangerShape);
+  shapeRegistry.register(kinematic.camFollowerShape);
+  shapeRegistry.register(kinematic.pulleyShape);
+  shapeRegistry.register(kinematic.leverShape);
 }
 
 export function registerNetworkShapes(): void {

@@ -436,6 +436,7 @@
 				case 'electrical':
 				case 'pneumatic':
 				case 'hydraulic':
+				case 'hvac':
 					renderResult = renderSchematic(profile as any, {
 						gridSize: 50,
 						routing: 'orthogonal',
@@ -521,7 +522,7 @@
 				default:
 					errors = [
 						`Profile type '${profile.type}' is not yet supported in the preview.`,
-						`Currently 'diagram', 'electrical', 'digital', 'pneumatic', 'hydraulic', 'sequence', 'timeline', 'wardley', 'pid', and 'railroad' profiles can be rendered.`
+						`Currently 'diagram', 'electrical', 'digital', 'pneumatic', 'hydraulic', 'hvac', 'sequence', 'timeline', 'wardley', 'pid', and 'railroad' profiles can be rendered.`
 					];
 					svgOutput = '';
 					isRendering = false;

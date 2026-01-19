@@ -40,7 +40,7 @@ Add kinematic diagram support for robotics and mechanism design. Shows motion re
 
 - ✅ Node-edge model fits perfectly
 - ✅ Layout algorithms available
-- ❌ Kinematic-specific shapes missing
+- ✅ Kinematic-specific shapes available
 
 ### Implementation Requirements
 
@@ -52,32 +52,32 @@ Add kinematic diagram support for robotics and mechanism design. Shows motion re
 
 **20-25 Symbols:**
 
-- [ ] Revolute joint (pin/hinge)
-- [ ] Prismatic joint (slider)
-- [ ] Spherical joint (ball)
-- [ ] Universal joint
-- [ ] Fixed joint
-- [ ] Cylindrical joint
-- [ ] Planar joint
+- [x] Revolute joint (pin/hinge)
+- [x] Prismatic joint (slider)
+- [x] Spherical joint (ball)
+- [x] Universal joint
+- [x] Fixed joint
+- [x] Cylindrical joint
+- [x] Planar joint
 
 #### Phase 2: Link Shapes (4 hours)
 
-- [ ] Binary link (2 connections)
-- [ ] Ternary link (3 connections)
-- [ ] Quaternary link (4 connections)
-- [ ] Ground/fixed link
+- [x] Binary link (2 connections)
+- [x] Ternary link (3 connections)
+- [x] Quaternary link (4 connections)
+- [x] Ground/fixed link
 
 #### Phase 3: Actuators & End Effectors (4 hours)
 
-- [ ] Linear actuator
-- [ ] Rotary motor
-- [ ] Gripper (parallel jaw)
-- [ ] Gripper (angular)
-- [ ] Tool mount
-- [ ] Spring
-- [ ] Damper
-- [ ] Cam
-- [ ] Gear
+- [x] Linear actuator
+- [x] Rotary motor
+- [x] Gripper (parallel jaw)
+- [x] Gripper (angular)
+- [x] Tool mount
+- [x] Spring
+- [x] Damper
+- [x] Cam
+- [x] Gear
 
 #### Phase 4: DSL Syntax (2 hours)
 
@@ -99,11 +99,11 @@ diagram kinematic "4-Bar Linkage"
 
 #### Phase 5: Examples (4 hours)
 
-- [ ] 4-bar linkage
-- [ ] Crank-slider mechanism
-- [ ] Robot arm (3-DOF)
-- [ ] Walking mechanism
-- [ ] Gripper mechanism
+- [x] 4-bar linkage
+- [x] Crank-slider mechanism
+- [x] Robot arm (3-DOF)
+- [x] Walking mechanism
+- [x] Gripper mechanism
 
 ### Testing Requirements
 
@@ -115,11 +115,11 @@ diagram kinematic "4-Bar Linkage"
 
 ### Acceptance Criteria
 
-- [ ] 25 kinematic symbols
-- [ ] Joint-link connections
-- [ ] 5+ example mechanisms
+- [x] 25 kinematic symbols
+- [x] Joint-link connections
+- [x] 5+ example mechanisms
 - [ ] 30+ tests passing
-- [ ] Documentation with robotics applications
+- [x] Documentation with robotics applications
 
 ### Export Options (Future)
 
@@ -266,25 +266,25 @@ Add support for HVAC (Heating, Ventilation, Air Conditioning) system diagrams fo
 
 #### Phase 1: HVAC Equipment Symbols (1 day)
 **25-35 Symbols:**
-- [ ] Air Handling Unit (AHU)
-- [ ] Fan (supply, return, exhaust)
-- [ ] Filter
-- [ ] Heating coil
-- [ ] Cooling coil
-- [ ] Humidifier
-- [ ] Dehumidifier
-- [ ] VAV box (Variable Air Volume)
-- [ ] Diffuser (supply, return)
-- [ ] Damper (motorized, manual, fire)
-- [ ] Ductwork (supply, return, exhaust)
-- [ ] Thermostat
-- [ ] Temperature sensor
-- [ ] Pressure sensor
-- [ ] Chiller
-- [ ] Boiler
-- [ ] Cooling tower
-- [ ] Pump
-- [ ] Heat exchanger
+- [x] Air Handling Unit (AHU)
+- [x] Fan (supply, return, exhaust)
+- [x] Filter
+- [x] Heating coil
+- [x] Cooling coil
+- [x] Humidifier
+- [x] Dehumidifier
+- [x] VAV box (Variable Air Volume)
+- [x] Diffuser (supply, return)
+- [x] Damper (motorized, manual, fire)
+- [x] Ductwork (supply, return, exhaust)
+- [x] Thermostat
+- [x] Temperature sensor
+- [x] Pressure sensor
+- [x] Chiller
+- [x] Boiler
+- [x] Cooling tower
+- [x] Pump
+- [x] Heat exchanger
 
 #### Phase 2: DSL Syntax (4 hours)
 ```runiq
@@ -303,24 +303,24 @@ diagram hvac "Office HVAC System"
 
 #### Phase 3: Examples (4 hours)
 
-- [ ] Simple office HVAC
-- [ ] Multi-zone system
-- [ ] Rooftop unit (RTU)
-- [ ] Chilled water system
-- [ ] Heat pump system
+- [x] Simple office HVAC
+- [x] Multi-zone system
+- [x] Rooftop unit (RTU)
+- [x] Chilled water system
+- [x] Heat pump system
 
 ### Testing Requirements
 
-- [ ] All HVAC symbols render
-- [ ] Duct routing
-- [ ] Airflow direction indicators
-- [ ] Equipment labels (CFM, BTU, tonnage)
+- [x] All HVAC symbols render
+- [x] Duct routing
+- [x] Airflow direction indicators
+- [x] Equipment labels (CFM, BTU, tonnage)
 
 ### Acceptance Criteria
 
 - [ ] 30+ HVAC symbols
 - [ ] ASHRAE standard compliance
-- [ ] 5+ example systems
+- [x] 5+ example systems
 - [ ] 35+ tests passing
 
 ### Standards
@@ -444,10 +444,10 @@ diagram flowchart "Project Phases" direction LR
 **Complexity:** Low
 
 ### Requirements
-- [ ] Pie slice shapes
-- [ ] Data-to-angle conversion
-- [ ] Percentage labels
-- [ ] Legend support
+- [x] Pie slice shapes
+- [x] Data-to-angle conversion
+- [x] Percentage labels
+- [x] Legend support
 - [ ] Donut chart variant
 
 ---
@@ -458,11 +458,11 @@ diagram flowchart "Project Phases" direction LR
 **Complexity:** Low
 
 ### Requirements
-- [ ] Horizontal time axis
-- [ ] Event markers
-- [ ] Date/time labels
-- [ ] Era/period backgrounds
-- [ ] Milestone indicators
+- [x] Horizontal time axis
+- [x] Event markers
+- [x] Date/time labels
+- [x] Era/period backgrounds
+- [x] Milestone indicators
 
 ---
 
@@ -754,9 +754,9 @@ diagram pid "Distillation Column"
 
 ### Requirements
 - [ ] Enable ELK rectpacking algorithm
-- [ ] Hierarchical nesting
-- [ ] Value-to-area mapping
-- [ ] Color scales
+- [x] Hierarchical nesting
+- [x] Value-to-area mapping
+- [x] Color scales
 - [ ] Hover labels
 
 ---
@@ -767,10 +767,10 @@ diagram pid "Distillation Column"
 **Complexity:** Medium
 
 ### Requirements
-- [ ] Column layout
-- [ ] Card shapes
-- [ ] WIP limits per column
-- [ ] Swimlanes (optional)
+- [x] Column layout
+- [x] Card shapes
+- [x] WIP limits per column
+- [x] Swimlanes (optional)
 - [ ] Card priority indicators
 
 ---
@@ -795,12 +795,12 @@ diagram pid "Distillation Column"
 **Complexity:** Medium
 
 ### Requirements
-- [ ] Timeline layout
-- [ ] Branch visualization
-- [ ] Commit nodes
-- [ ] Merge indicators
-- [ ] Tag labels
-- [ ] Branch labels
+- [x] Timeline layout
+- [x] Branch visualization
+- [x] Commit nodes
+- [x] Merge indicators
+- [x] Tag labels
+- [x] Branch labels
 ````
 
 ---
@@ -1100,7 +1100,7 @@ Add a dedicated `railroad` profile for grammar/syntax diagrams used in language 
 ### Current Status
 
 - OK. Diagram/profile architecture exists
-- TODO. Railroad DSL + renderer missing
+- OK. Railroad DSL + renderer implemented
 
 ### Implementation Requirements
 
@@ -1110,9 +1110,9 @@ Add a dedicated `railroad` profile for grammar/syntax diagrams used in language 
 
 #### Phase 1: Profile + AST (2 days)
 
-- [ ] Add `railroad` profile to grammar and parser
-- [ ] Define AST for railroad expressions: seq, choice, optional, oneOrMore, zeroOrMore, token, ref
-- [ ] Ensure precedence: `seq` binds tighter than `choice` (A B | C == choice(seq(A,B), C))
+- [x] Add `railroad` profile to grammar and parser
+- [x] Define AST for railroad expressions: seq, choice, optional, oneOrMore, zeroOrMore, token, ref
+- [x] Ensure precedence: `seq` binds tighter than `choice` (A B | C == choice(seq(A,B), C))
 
 #### Phase 2: DSL Syntax (2 days)
 
@@ -1137,31 +1137,31 @@ railroad "Expression Grammar" {
 
 #### Phase 3: Renderer/Layout (3-4 days)
 
-- [ ] Implement deterministic layout (left-to-right)
-- [ ] Primitives: start/end, terminals, nonterminals, lines, arcs
-- [ ] Handle branches, loops, and bypass paths
-- [ ] Theme-aware styling + stroke/label consistency
+- [x] Implement deterministic layout (left-to-right)
+- [x] Primitives: start/end, terminals, nonterminals, lines, arcs
+- [x] Handle branches, loops, and bypass paths
+- [x] Theme-aware styling + stroke/label consistency
 
 #### Phase 4: Editor Integration (1 day)
 
-- [ ] Add profile option in new diagram dialog
-- [ ] Add sample templates in toolbox
-- [ ] Wire renderer in preview pipeline
+- [x] Add profile option in new diagram dialog
+- [x] Add sample templates in toolbox
+- [x] Wire renderer in preview pipeline
 
 #### Phase 5: Examples + Tests (2 days)
 
-- [ ] Arithmetic grammar example
-- [ ] JSON subset example
-- [ ] URL subset example
-- [ ] Parser unit tests for shorthand expansion
-- [ ] Renderer snapshot tests for seq/choice/repeat/optional
+- [x] Arithmetic grammar example
+- [x] JSON subset example
+- [x] URL subset example
+- [x] Parser unit tests for shorthand expansion
+- [x] Renderer snapshot tests for seq/choice/repeat/optional
 
 ### Acceptance Criteria
 
-- [ ] `railroad` profile parses with shorthand rules
-- [ ] Renders clean railroad diagrams (LTR, readable)
-- [ ] 3+ examples documented
-- [ ] 25+ tests passing
+- [x] `railroad` profile parses with shorthand rules
+- [x] Renders clean railroad diagrams (LTR, readable)
+- [x] 3+ examples documented
+- [x] 25+ tests passing
 
 ### Estimated Effort
 

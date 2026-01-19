@@ -9,6 +9,7 @@
 import type {
   DigitalProfile,
   ElectricalProfile,
+  HvacProfile,
   HydraulicProfile,
   PartAst,
   PneumaticProfile,
@@ -58,7 +59,8 @@ export {
 export type RenderableProfile =
   | ElectricalProfile
   | PneumaticProfile
-  | HydraulicProfile;
+  | HydraulicProfile
+  | HvacProfile;
 
 export interface SchematicOptions {
   /** Grid size for component placement (default: 50) */
@@ -77,6 +79,8 @@ export interface SchematicOptions {
   orientation?: Orientation;
   /** Wire routing mode: 'direct' | 'orthogonal' (default: 'direct') */
   routing?: 'direct' | 'orthogonal';
+  /** Show airflow direction arrows on wires (HVAC only by default) */
+  showFlowArrows?: boolean;
 }
 
 export interface RenderResult {
@@ -100,7 +104,7 @@ interface NetConnection {
 
 /**
  * Main schematic rendering function
- * Supports electrical schematics, pneumatic circuits, and hydraulic circuits
+ * Supports electrical schematics, pneumatic circuits, hydraulic circuits, and HVAC systems
  */
 export function renderSchematic(
   profile: RenderableProfile,
@@ -116,6 +120,7 @@ export function renderSchematic(
     showReferences = true,
     orientation = Orientation.HORIZONTAL,
     routing = 'direct',
+    showFlowArrows = profile.type === 'hvac',
   } = options;
 
   // Build net connectivity map
@@ -144,15 +149,17 @@ export function renderSchematic(
       ? 'electrical'
       : profile.type === PIDLineType.PNEUMATIC
         ? 'pneumatic'
-        : 'hydraulic';
+        : profile.type === 'hvac'
+          ? 'hvac'
+          : 'hydraulic';
 
   // Generate SVG
   let svg = generateSvgHeader(bounds, profile.name);
   svg += generateStyles(wireColor, componentColor, classPrefix);
-  svg += generateDefs();
+  svg += generateDefs(wireColor, classPrefix, showFlowArrows);
 
   // Render wires (below components)
-  svg += renderWires(wires, showNetLabels, classPrefix);
+  svg += renderWires(wires, showNetLabels, classPrefix, showFlowArrows);
 
   // Render components
   svg += renderComponents(
@@ -480,8 +487,22 @@ function generateStyles(
 /**
  * Generate defs (markers, etc.)
  */
-function generateDefs(): string {
-  return '';
+function generateDefs(
+  wireColor: string,
+  classPrefix: string,
+  showFlowArrows: boolean
+): string {
+  if (!showFlowArrows) {
+    return '';
+  }
+
+  return `
+  <defs>
+    <marker id="${classPrefix}-flow-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="${wireColor}" />
+    </marker>
+  </defs>
+`;
 }
 
 /**
@@ -494,7 +515,8 @@ function renderWires(
     junctions?: { x: number; y: number }[];
   }[],
   showNetLabels: boolean,
-  classPrefix: string
+  classPrefix: string,
+  showFlowArrows: boolean
 ): string {
   let svg = `<g class="${classPrefix}-wires">\n`;
 
@@ -508,7 +530,11 @@ function renderWires(
       .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x},${p.y}`)
       .join(' ');
 
-    svg += `  <path d="${pathData}" class="${classPrefix}-wire"/>\n`;
+    const arrowMarker =
+      showFlowArrows && wire.net !== 'GND'
+        ? ` marker-end="url(#${classPrefix}-flow-arrow)"`
+        : '';
+    svg += `  <path d="${pathData}" class="${classPrefix}-wire"${arrowMarker}/>\n`;
 
     // Add net label at midpoint
     if (showNetLabels && wire.net !== 'GND') {
@@ -591,18 +617,13 @@ function renderComponents(
 
     // Component value (below)
     if (showValues && comp.part.params) {
-      const value =
-        comp.part.params.value ||
-        comp.part.params.source ||
-        comp.part.params.model ||
-        comp.part.params.ratio ||
-        '';
+      const value = getComponentValue(comp.part.params);
       if (value) {
         const valueX = comp.x + comp.symbol.width / 2;
         const valueY = comp.y + comp.symbol.height + 15;
         svg += `    <text x="${valueX}" y="${valueY}" 
           class="${classPrefix}-value" 
-          text-anchor="middle">${escapeXml(String(value))}</text>\n`;
+          text-anchor="middle">${escapeXml(value)}</text>\n`;
       }
     }
 
@@ -611,6 +632,32 @@ function renderComponents(
 
   svg += '</g>\n';
   return svg;
+}
+
+function getComponentValue(params: Record<string, unknown>): string | undefined {
+  const knownKeys = [
+    'value',
+    'source',
+    'model',
+    'ratio',
+    'cfm',
+    'cfm-max',
+    'capacity',
+    'flow',
+    'btu',
+    'tonnage',
+  ];
+
+  for (const key of knownKeys) {
+    if (key in params) {
+      const raw = params[key];
+      if (raw === undefined || raw === null || raw === '') continue;
+      const label = key.toUpperCase().replace(/-/g, ' ');
+      return `${label}: ${String(raw)}`;
+    }
+  }
+
+  return undefined;
 }
 
 /**

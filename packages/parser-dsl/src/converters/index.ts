@@ -7,6 +7,7 @@ export {
 export { convertDigitalProfile } from './digital-converter.js';
 export { convertElectricalProfile } from './electrical-converter.js';
 export { convertGitGraphProfile } from './gitgraph-converter.js';
+export { convertHvacProfile } from './hvac-converter.js';
 export { convertHydraulicProfile } from './hydraulic-converter.js';
 export { convertKanbanProfile } from './kanban-converter.js';
 export { convertPIDProfile } from './pid-converter.js';

@@ -212,3 +212,280 @@ export const gearShape: ShapeDefinition = {
     `;
   },
 };
+
+export const gripperParallelShape: ShapeDefinition = {
+  id: 'gripperParallel',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 110, 60);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const jawWidth = bounds.width * 0.18;
+    const jawHeight = bounds.height * 0.5;
+    const jawY = y + (bounds.height - jawHeight) / 2;
+    const leftJawX = x + bounds.width * 0.15;
+    const rightJawX = x + bounds.width - jawWidth - bounds.width * 0.15;
+
+    return `
+      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+        rx="${bounds.height * 0.2}" ry="${bounds.height * 0.2}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <rect x="${leftJawX}" y="${jawY}" width="${jawWidth}" height="${jawHeight}"
+        fill="${stroke}" />
+      <rect x="${rightJawX}" y="${jawY}" width="${jawWidth}" height="${jawHeight}"
+        fill="${stroke}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};
+
+export const gripperAngularShape: ShapeDefinition = {
+  id: 'gripperAngular',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 110, 60);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const midX = x + bounds.width / 2;
+    const midY = y + bounds.height / 2;
+    const jawLength = bounds.width * 0.25;
+    const jawOffset = bounds.height * 0.2;
+
+    return `
+      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+        rx="${bounds.height * 0.2}" ry="${bounds.height * 0.2}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <line x1="${midX}" y1="${midY}" x2="${midX - jawLength}" y2="${midY - jawOffset}"
+        stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      <line x1="${midX}" y1="${midY}" x2="${midX + jawLength}" y2="${midY - jawOffset}"
+        stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};
+
+export const toolMountShape: ShapeDefinition = {
+  id: 'toolMount',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 90, 70);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const baseY = y + bounds.height * 0.7;
+
+    return `
+      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+        rx="${bounds.height * 0.2}" ry="${bounds.height * 0.2}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <line x1="${x + bounds.width * 0.2}" y1="${baseY}" x2="${x + bounds.width * 0.8}" y2="${baseY}"
+        stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      <circle cx="${x + bounds.width * 0.5}" cy="${baseY}" r="${Math.max(3, strokeWidth + 2)}"
+        fill="${stroke}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};
+
+export const camShape: ShapeDefinition = {
+  id: 'cam',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 90, 90);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const cx = x + bounds.width / 2;
+    const cy = y + bounds.height / 2;
+    const r = bounds.width / 2;
+
+    return `
+      <circle cx="${cx}" cy="${cy}" r="${r}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <circle cx="${cx + r * 0.25}" cy="${cy - r * 0.15}" r="${r * 0.35}"
+        fill="${stroke}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};
+
+export const gripperVacuumShape: ShapeDefinition = {
+  id: 'gripperVacuum',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 110, 70);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const cx = x + bounds.width / 2;
+    const cupRadius = Math.min(bounds.width, bounds.height) * 0.28;
+    const cupY = y + bounds.height * 0.65;
+
+    return `
+      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+        rx="${bounds.height * 0.2}" ry="${bounds.height * 0.2}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <line x1="${cx}" y1="${y + bounds.height * 0.2}" x2="${cx}" y2="${cupY - cupRadius}"
+        stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      <circle cx="${cx}" cy="${cupY}" r="${cupRadius}"
+        fill="none" stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};
+
+export const toolChangerShape: ShapeDefinition = {
+  id: 'toolChanger',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 110, 60);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const midY = y + bounds.height / 2;
+    const dotOffset = bounds.width * 0.2;
+
+    return `
+      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+        rx="${bounds.height * 0.2}" ry="${bounds.height * 0.2}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <circle cx="${x + dotOffset}" cy="${midY}" r="${Math.max(3, strokeWidth + 1)}"
+        fill="${stroke}" />
+      <circle cx="${x + bounds.width - dotOffset}" cy="${midY}" r="${Math.max(3, strokeWidth + 1)}"
+        fill="${stroke}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};
+
+export const camFollowerShape: ShapeDefinition = {
+  id: 'camFollower',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 100, 90);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const cx = x + bounds.width * 0.45;
+    const cy = y + bounds.height * 0.55;
+    const camRadius = bounds.width * 0.3;
+    const rollerRadius = camRadius * 0.35;
+    const rollerX = cx + camRadius * 0.8;
+    const rollerY = cy - camRadius * 0.6;
+
+    return `
+      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+        rx="${bounds.height * 0.2}" ry="${bounds.height * 0.2}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <circle cx="${cx}" cy="${cy}" r="${camRadius}"
+        fill="none" stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      <circle cx="${rollerX}" cy="${rollerY}" r="${rollerRadius}"
+        fill="${stroke}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};
+
+export const pulleyShape: ShapeDefinition = {
+  id: 'pulley',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 90, 90);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const cx = x + bounds.width / 2;
+    const cy = y + bounds.height / 2;
+    const r = bounds.width * 0.38;
+
+    return `
+      <circle cx="${cx}" cy="${cy}" r="${r}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <circle cx="${cx}" cy="${cy}" r="${r * 0.45}"
+        fill="none" stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      <line x1="${x + bounds.width * 0.1}" y1="${cy}" x2="${x + bounds.width * 0.9}" y2="${cy}"
+        stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};
+
+export const leverShape: ShapeDefinition = {
+  id: 'lever',
+  bounds(ctx) {
+    return actuatorBounds(ctx, 120, 50);
+  },
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+    });
+    const midY = y + bounds.height * 0.6;
+    const pivotX = x + bounds.width * 0.25;
+
+    return `
+      <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
+        rx="${bounds.height * 0.2}" ry="${bounds.height * 0.2}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
+      <line x1="${x + bounds.width * 0.1}" y1="${midY}" x2="${x + bounds.width * 0.9}" y2="${midY}"
+        stroke="${stroke}" stroke-width="${Math.max(1, strokeWidth)}" />
+      <circle cx="${pivotX}" cy="${midY}" r="${Math.max(3, strokeWidth + 1)}"
+        fill="${stroke}" />
+      ${renderActuatorLabel(ctx, x, y, bounds.width, bounds.height)}
+    `;
+  },
+};

@@ -193,7 +193,7 @@ See the [Control system Diagrams Guide](../guide/control-diagrams.md) for compre
 :::
 
 
-### 6. Kinematic Shapes (16 shapes)
+### 6. Kinematic Shapes (25 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -217,6 +217,15 @@ Kinematic diagram elements for joints, links, and actuators:
 | Spring           | `@spring`          | Spring element                  |
 | Damper           | `@damper`          | Damper element                  |
 | Gear             | `@gear`            | Gear element                    |
+| Parallel Gripper | `@gripperParallel` | Parallel jaw gripper            |
+| Angular Gripper  | `@gripperAngular`  | Angular jaw gripper             |
+| Tool Mount       | `@toolMount`       | End-effector mount              |
+| Cam              | `@cam`             | Cam element                     |
+| Vacuum Gripper   | `@gripperVacuum`   | Suction cup gripper             |
+| Tool Changer     | `@toolChanger`     | Quick tool change mount         |
+| Cam Follower     | `@camFollower`     | Cam follower element            |
+| Pulley           | `@pulley`          | Pulley element                  |
+| Lever            | `@lever`           | Lever arm                       |
 
 **Example:**
 
@@ -593,7 +602,7 @@ Complete listing organized by category:
 | Storage            | 7     | Databases, data persistence                    |
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
 | Control Systems    | 10    | Control system diagrams, signal processing     |
-| Kinematic          | 16    | Joints, links, and actuators                   |
+| Kinematic          | 25    | Joints, links, and actuators                   |
 | Special            | 7     | Miscellaneous symbols                          |
 | Charts             | 7     | Data visualization (pie, bar, Venn)            |
 | Network            | 7     | Infrastructure, topology diagrams              |
@@ -607,7 +616,7 @@ Complete listing organized by category:
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 192 diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 201 diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

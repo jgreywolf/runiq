@@ -101,6 +101,7 @@ export type RuniqKeywordNames =
     | "affected:"
     | "aggregation"
     | "agitator"
+    | "air-handling-unit"
     | "airCooler"
     | "algorithm:"
     | "alignContent:"
@@ -132,12 +133,14 @@ export type RuniqKeywordNames =
     | "betweenness"
     | "bidirectional"
     | "biodegradable"
+    | "boiler"
     | "boolean"
     | "borderRadius:"
     | "borderStyle:"
     | "bottom"
     | "bottom-left"
     | "bottom-right"
+    | "bottomSide"
     | "boundary"
     | "boxPadX:"
     | "boxPadY:"
@@ -159,6 +162,7 @@ export type RuniqKeywordNames =
     | "child"
     | "childCountPosition:"
     | "children:"
+    | "chiller"
     | "circle"
     | "circles"
     | "circular"
@@ -205,6 +209,7 @@ export type RuniqKeywordNames =
     | "conductivity"
     | "conductivityTransmitter"
     | "config"
+    | "connect"
     | "constraint:"
     | "constraints:"
     | "container"
@@ -216,11 +221,16 @@ export type RuniqKeywordNames =
     | "controller:"
     | "cool"
     | "cooler"
+    | "cooling-coil"
+    | "cooling-tower"
     | "coolingTower"
     | "create"
     | "critical"
     | "crossContainerEdgeOptimization:"
     | "cyclone"
+    | "damper-fire"
+    | "damper-manual"
+    | "damper-motorized"
     | "dashed"
     | "data"
     | "data:"
@@ -235,6 +245,7 @@ export type RuniqKeywordNames =
     | "degC"
     | "degF"
     | "degree"
+    | "dehumidifier"
     | "delimiter"
     | "dependency"
     | "depth:"
@@ -245,6 +256,8 @@ export type RuniqKeywordNames =
     | "destroy"
     | "detail"
     | "diagram"
+    | "diffuser-return"
+    | "diffuser-supply"
     | "digital"
     | "dimension:"
     | "direction"
@@ -255,6 +268,7 @@ export type RuniqKeywordNames =
     | "done"
     | "dotted"
     | "double"
+    | "duct"
     | "durationConstraint"
     | "e"
     | "easeIn"
@@ -282,6 +296,8 @@ export type RuniqKeywordNames =
     | "evolution:"
     | "evolve"
     | "exclusive"
+    | "exhaust"
+    | "exhaust-fan"
     | "exit:"
     | "exitPoint"
     | "expanding"
@@ -351,8 +367,10 @@ export type RuniqKeywordNames =
     | "header:"
     | "headerBackgroundColor:"
     | "headerPosition:"
+    | "heat-exchanger"
     | "heatExchangerPlate"
     | "heatExchangerShellTube"
+    | "heating-coil"
     | "high"
     | "history"
     | "historyDeep"
@@ -364,6 +382,8 @@ export type RuniqKeywordNames =
     | "hoverBorderWidth:"
     | "hoverHighlight:"
     | "hub"
+    | "humidifier"
+    | "hvac"
     | "hydraulic"
     | "icon"
     | "icon-text"
@@ -408,6 +428,7 @@ export type RuniqKeywordNames =
     | "leader"
     | "leaf"
     | "left"
+    | "leftSide"
     | "leftWeight"
     | "legendPosition:"
     | "level"
@@ -547,6 +568,7 @@ export type RuniqKeywordNames =
     | "preset"
     | "preset:"
     | "pressure"
+    | "pressure-sensor"
     | "pressureAlarmHigh"
     | "pressureAlarmHighHigh"
     | "pressureAlarmLow"
@@ -565,6 +587,7 @@ export type RuniqKeywordNames =
     | "providedInterface"
     | "psi"
     | "public"
+    | "pump"
     | "pumpCentrifugal"
     | "pumpPositiveDisplacement"
     | "quadrant"
@@ -591,8 +614,10 @@ export type RuniqKeywordNames =
     | "resizeHandles:"
     | "result"
     | "return"
+    | "return-fan"
     | "returnType:"
     | "right"
+    | "rightSide"
     | "rightWeight"
     | "roleSource:"
     | "roleTarget:"
@@ -677,6 +702,8 @@ export type RuniqKeywordNames =
     | "style:"
     | "submachine"
     | "sunset"
+    | "supply"
+    | "supply-fan"
     | "sw"
     | "swimlane"
     | "sync"
@@ -688,6 +715,7 @@ export type RuniqKeywordNames =
     | "team"
     | "temp:"
     | "temperature"
+    | "temperature-sensor"
     | "temperatureAlarmHigh"
     | "temperatureAlarmHighHigh"
     | "temperatureAlarmLow"
@@ -706,6 +734,7 @@ export type RuniqKeywordNames =
     | "textColor:"
     | "theme"
     | "thermal"
+    | "thermostat"
     | "timeObservation"
     | "timeline"
     | "timing:"
@@ -716,6 +745,7 @@ export type RuniqKeywordNames =
     | "top"
     | "top-left"
     | "top-right"
+    | "topSide"
     | "tran"
     | "treemap"
     | "true"
@@ -743,6 +773,7 @@ export type RuniqKeywordNames =
     | "valveSafetyRelief"
     | "valveShutoff"
     | "valveThreeWay"
+    | "vav-box"
     | "vertical"
     | "verticalAlign:"
     | "verticalAxis"
@@ -1913,10 +1944,10 @@ export function isFillColorProperty(item: unknown): item is FillColorProperty {
     return reflection.isInstance(item, FillColorProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'spoke' | 'start' | 'step' | 'team' | 'to' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'team' | 'temperature' | 'to' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -2492,12 +2523,6 @@ export function isGitGraphStatement(item: unknown): item is GitGraphStatement {
     return reflection.isInstance(item, GitGraphStatement.$type);
 }
 
-export type GlyphSetIdentifier = FlexibleID | string;
-
-export function isGlyphSetIdentifier(item: unknown): item is GlyphSetIdentifier {
-    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
-}
-
 export interface GlyphSetImageItem extends langium.AstNode {
     readonly $container: GlyphSetNestedItem | GlyphSetProfile;
     readonly $type: 'GlyphSetImageItem';
@@ -2541,7 +2566,7 @@ export interface GlyphSetNestedItem extends langium.AstNode {
     children: Array<GlyphSetItemStatement>;
     keyword: GlyphSetKeyword;
     label: string;
-    relationship?: GlyphSetIdentifier;
+    relationship?: GlyphSetRelationshipValue;
 }
 
 export const GlyphSetNestedItem = {
@@ -2621,12 +2646,18 @@ export function isGlyphSetProfile(item: unknown): item is GlyphSetProfile {
     return reflection.isInstance(item, GlyphSetProfile.$type);
 }
 
+export type GlyphSetRelationshipValue = 'bottom' | 'bottomSide' | 'left' | 'leftSide' | 'right' | 'rightSide' | 'top' | 'topSide' | string;
+
+export function isGlyphSetRelationshipValue(item: unknown): item is GlyphSetRelationshipValue {
+    return item === 'topSide' || item === 'rightSide' || item === 'bottomSide' || item === 'leftSide' || item === 'top' || item === 'right' || item === 'bottom' || item === 'left' || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
 export interface GlyphSetSimpleItem extends langium.AstNode {
     readonly $container: GlyphSetNestedItem | GlyphSetProfile;
     readonly $type: 'GlyphSetSimpleItem';
     keyword: GlyphSetKeyword;
     label: string;
-    relationship?: GlyphSetIdentifier;
+    relationship?: GlyphSetRelationshipValue;
 }
 
 export const GlyphSetSimpleItem = {
@@ -2676,6 +2707,193 @@ export const GuardProperty = {
 
 export function isGuardProperty(item: unknown): item is GuardProperty {
     return reflection.isInstance(item, GuardProperty.$type);
+}
+
+export interface HvacConnection extends langium.AstNode {
+    readonly $container: HvacConnectStatement;
+    readonly $type: 'HvacConnection';
+    port?: ProfileIdentifier;
+    ref: ProfileIdentifier;
+}
+
+export const HvacConnection = {
+    $type: 'HvacConnection',
+    port: 'port',
+    ref: 'ref'
+} as const;
+
+export function isHvacConnection(item: unknown): item is HvacConnection {
+    return reflection.isInstance(item, HvacConnection.$type);
+}
+
+export interface HvacConnectStatement extends langium.AstNode {
+    readonly $container: HvacProfile;
+    readonly $type: 'HvacConnectStatement';
+    path: Array<HvacConnection>;
+}
+
+export const HvacConnectStatement = {
+    $type: 'HvacConnectStatement',
+    path: 'path'
+} as const;
+
+export function isHvacConnectStatement(item: unknown): item is HvacConnectStatement {
+    return reflection.isInstance(item, HvacConnectStatement.$type);
+}
+
+export type HvacDuctProperty = HvacDuctSizeProperty | HvacDuctTypeProperty | HvacEquipmentMetaProperty;
+
+export const HvacDuctProperty = {
+    $type: 'HvacDuctProperty'
+} as const;
+
+export function isHvacDuctProperty(item: unknown): item is HvacDuctProperty {
+    return reflection.isInstance(item, HvacDuctProperty.$type);
+}
+
+export interface HvacDuctSizeProperty extends langium.AstNode {
+    readonly $container: HvacDuctStatement;
+    readonly $type: 'HvacDuctSizeProperty';
+    value: string;
+}
+
+export const HvacDuctSizeProperty = {
+    $type: 'HvacDuctSizeProperty',
+    value: 'value'
+} as const;
+
+export function isHvacDuctSizeProperty(item: unknown): item is HvacDuctSizeProperty {
+    return reflection.isInstance(item, HvacDuctSizeProperty.$type);
+}
+
+export interface HvacDuctStatement extends langium.AstNode {
+    readonly $container: HvacProfile;
+    readonly $type: 'HvacDuctStatement';
+    id: ProfileIdentifier;
+    properties: Array<HvacDuctProperty>;
+}
+
+export const HvacDuctStatement = {
+    $type: 'HvacDuctStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isHvacDuctStatement(item: unknown): item is HvacDuctStatement {
+    return reflection.isInstance(item, HvacDuctStatement.$type);
+}
+
+export type HvacDuctType = 'exhaust' | 'return' | 'supply';
+
+export function isHvacDuctType(item: unknown): item is HvacDuctType {
+    return item === 'supply' || item === 'return' || item === 'exhaust';
+}
+
+export interface HvacDuctTypeProperty extends langium.AstNode {
+    readonly $container: HvacDuctStatement;
+    readonly $type: 'HvacDuctTypeProperty';
+    type: HvacDuctType;
+}
+
+export const HvacDuctTypeProperty = {
+    $type: 'HvacDuctTypeProperty',
+    type: 'type'
+} as const;
+
+export function isHvacDuctTypeProperty(item: unknown): item is HvacDuctTypeProperty {
+    return reflection.isInstance(item, HvacDuctTypeProperty.$type);
+}
+
+export interface HvacEquipmentMetaProperty extends langium.AstNode {
+    readonly $container: HvacDuctStatement | HvacEquipmentStatement;
+    readonly $type: 'HvacEquipmentMetaProperty';
+    key: ProfileIdentifier | string;
+    value: FlexibleID | string;
+}
+
+export const HvacEquipmentMetaProperty = {
+    $type: 'HvacEquipmentMetaProperty',
+    key: 'key',
+    value: 'value'
+} as const;
+
+export function isHvacEquipmentMetaProperty(item: unknown): item is HvacEquipmentMetaProperty {
+    return reflection.isInstance(item, HvacEquipmentMetaProperty.$type);
+}
+
+export type HvacEquipmentProperty = HvacEquipmentMetaProperty | HvacEquipmentTypeProperty;
+
+export const HvacEquipmentProperty = {
+    $type: 'HvacEquipmentProperty'
+} as const;
+
+export function isHvacEquipmentProperty(item: unknown): item is HvacEquipmentProperty {
+    return reflection.isInstance(item, HvacEquipmentProperty.$type);
+}
+
+export interface HvacEquipmentStatement extends langium.AstNode {
+    readonly $container: HvacProfile;
+    readonly $type: 'HvacEquipmentStatement';
+    id: ProfileIdentifier;
+    properties: Array<HvacEquipmentProperty>;
+}
+
+export const HvacEquipmentStatement = {
+    $type: 'HvacEquipmentStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isHvacEquipmentStatement(item: unknown): item is HvacEquipmentStatement {
+    return reflection.isInstance(item, HvacEquipmentStatement.$type);
+}
+
+export type HvacEquipmentType = 'air-handling-unit' | 'boiler' | 'chiller' | 'cooling-coil' | 'cooling-tower' | 'damper-fire' | 'damper-manual' | 'damper-motorized' | 'dehumidifier' | 'diffuser-return' | 'diffuser-supply' | 'exhaust-fan' | 'filter' | 'heat-exchanger' | 'heating-coil' | 'humidifier' | 'pressure-sensor' | 'pump' | 'return-fan' | 'supply-fan' | 'temperature-sensor' | 'thermostat' | 'vav-box';
+
+export function isHvacEquipmentType(item: unknown): item is HvacEquipmentType {
+    return item === 'air-handling-unit' || item === 'supply-fan' || item === 'return-fan' || item === 'exhaust-fan' || item === 'filter' || item === 'heating-coil' || item === 'cooling-coil' || item === 'humidifier' || item === 'dehumidifier' || item === 'vav-box' || item === 'diffuser-supply' || item === 'diffuser-return' || item === 'damper-motorized' || item === 'damper-manual' || item === 'damper-fire' || item === 'thermostat' || item === 'temperature-sensor' || item === 'pressure-sensor' || item === 'chiller' || item === 'boiler' || item === 'cooling-tower' || item === 'pump' || item === 'heat-exchanger';
+}
+
+export interface HvacEquipmentTypeProperty extends langium.AstNode {
+    readonly $container: HvacEquipmentStatement;
+    readonly $type: 'HvacEquipmentTypeProperty';
+    type: HvacEquipmentType;
+}
+
+export const HvacEquipmentTypeProperty = {
+    $type: 'HvacEquipmentTypeProperty',
+    type: 'type'
+} as const;
+
+export function isHvacEquipmentTypeProperty(item: unknown): item is HvacEquipmentTypeProperty {
+    return reflection.isInstance(item, HvacEquipmentTypeProperty.$type);
+}
+
+export interface HvacProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'HvacProfile';
+    name: string;
+    statements: Array<HvacStatement>;
+}
+
+export const HvacProfile = {
+    $type: 'HvacProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isHvacProfile(item: unknown): item is HvacProfile {
+    return reflection.isInstance(item, HvacProfile.$type);
+}
+
+export type HvacStatement = HvacConnectStatement | HvacDuctStatement | HvacEquipmentStatement;
+
+export const HvacStatement = {
+    $type: 'HvacStatement'
+} as const;
+
+export function isHvacStatement(item: unknown): item is HvacStatement {
+    return reflection.isInstance(item, HvacStatement.$type);
 }
 
 export interface HydraulicProfile extends langium.AstNode {
@@ -4491,7 +4709,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -6709,6 +6927,18 @@ export type RuniqAstType = {
     GlyphSetSimpleItem: GlyphSetSimpleItem
     GroupBlock: GroupBlock
     GuardProperty: GuardProperty
+    HvacConnectStatement: HvacConnectStatement
+    HvacConnection: HvacConnection
+    HvacDuctProperty: HvacDuctProperty
+    HvacDuctSizeProperty: HvacDuctSizeProperty
+    HvacDuctStatement: HvacDuctStatement
+    HvacDuctTypeProperty: HvacDuctTypeProperty
+    HvacEquipmentMetaProperty: HvacEquipmentMetaProperty
+    HvacEquipmentProperty: HvacEquipmentProperty
+    HvacEquipmentStatement: HvacEquipmentStatement
+    HvacEquipmentTypeProperty: HvacEquipmentTypeProperty
+    HvacProfile: HvacProfile
+    HvacStatement: HvacStatement
     HydraulicProfile: HydraulicProfile
     HydraulicStatement: HydraulicStatement
     IconProperty: IconProperty
@@ -8253,6 +8483,124 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [EdgeProperty.$type]
+        },
+        HvacConnectStatement: {
+            name: HvacConnectStatement.$type,
+            properties: {
+                path: {
+                    name: HvacConnectStatement.path,
+                    defaultValue: []
+                }
+            },
+            superTypes: [HvacStatement.$type]
+        },
+        HvacConnection: {
+            name: HvacConnection.$type,
+            properties: {
+                port: {
+                    name: HvacConnection.port
+                },
+                ref: {
+                    name: HvacConnection.ref
+                }
+            },
+            superTypes: []
+        },
+        HvacDuctProperty: {
+            name: HvacDuctProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        HvacDuctSizeProperty: {
+            name: HvacDuctSizeProperty.$type,
+            properties: {
+                value: {
+                    name: HvacDuctSizeProperty.value
+                }
+            },
+            superTypes: [HvacDuctProperty.$type]
+        },
+        HvacDuctStatement: {
+            name: HvacDuctStatement.$type,
+            properties: {
+                id: {
+                    name: HvacDuctStatement.id
+                },
+                properties: {
+                    name: HvacDuctStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [HvacStatement.$type]
+        },
+        HvacDuctTypeProperty: {
+            name: HvacDuctTypeProperty.$type,
+            properties: {
+                type: {
+                    name: HvacDuctTypeProperty.type
+                }
+            },
+            superTypes: [HvacDuctProperty.$type]
+        },
+        HvacEquipmentMetaProperty: {
+            name: HvacEquipmentMetaProperty.$type,
+            properties: {
+                key: {
+                    name: HvacEquipmentMetaProperty.key
+                },
+                value: {
+                    name: HvacEquipmentMetaProperty.value
+                }
+            },
+            superTypes: [HvacDuctProperty.$type, HvacEquipmentProperty.$type]
+        },
+        HvacEquipmentProperty: {
+            name: HvacEquipmentProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        HvacEquipmentStatement: {
+            name: HvacEquipmentStatement.$type,
+            properties: {
+                id: {
+                    name: HvacEquipmentStatement.id
+                },
+                properties: {
+                    name: HvacEquipmentStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [HvacStatement.$type]
+        },
+        HvacEquipmentTypeProperty: {
+            name: HvacEquipmentTypeProperty.$type,
+            properties: {
+                type: {
+                    name: HvacEquipmentTypeProperty.type
+                }
+            },
+            superTypes: [HvacEquipmentProperty.$type]
+        },
+        HvacProfile: {
+            name: HvacProfile.$type,
+            properties: {
+                name: {
+                    name: HvacProfile.name
+                },
+                statements: {
+                    name: HvacProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        HvacStatement: {
+            name: HvacStatement.$type,
+            properties: {
+            },
+            superTypes: []
         },
         HydraulicProfile: {
             name: HydraulicProfile.$type,

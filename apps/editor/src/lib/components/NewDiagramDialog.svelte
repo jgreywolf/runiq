@@ -243,6 +243,24 @@
 				</div>
 			</button>
 
+			<!-- HVAC System Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.hvac)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-cyan-400 hover:bg-cyan-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 transition-colors group-hover:bg-cyan-200"
+					>
+						<Icon icon="tabler:wind" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">HVAC System</h3>
+						<p class="text-sm text-neutral-600">ASHRAE equipment and duct layouts</p>
+					</div>
+				</div>
+			</button>
+
 			<!-- Wardley Map Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.wardley)}

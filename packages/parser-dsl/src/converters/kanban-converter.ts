@@ -9,6 +9,17 @@ import { ProfileType } from '@runiq/core';
 import * as Langium from '../generated/ast.js';
 import { unescapeString } from '../utils/index.js';
 
+function parseNumericValue(value: string | number | undefined): number | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  if (typeof value === 'number') {
+    return value;
+  }
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 function parseStyle(
   properties: Langium.KanbanStyleProperty[]
 ): KanbanStyle | undefined {
@@ -22,7 +33,10 @@ function parseStyle(
     } else if (Langium.isKanbanTextColorProperty(prop)) {
       style.textColor = prop.value.replace(/^"|"$/g, '');
     } else if (Langium.isKanbanBorderRadiusProperty(prop)) {
-      style.borderRadius = Number(prop.value);
+      const borderRadius = parseNumericValue(prop.value);
+      if (borderRadius !== undefined) {
+        style.borderRadius = borderRadius;
+      }
     }
   }
 
@@ -72,9 +86,9 @@ function parseColumn(statement: Langium.KanbanColumnBlock): KanbanColumn {
 
   for (const prop of statement.properties) {
     if (Langium.isKanbanWipProperty(prop)) {
-      column.wipLimit = Number(prop.value);
+      column.wipLimit = parseNumericValue(prop.value);
     } else if (Langium.isKanbanMaxCardsProperty(prop)) {
-      column.maxCards = Number(prop.value);
+      column.maxCards = parseNumericValue(prop.value);
     } else if (Langium.isKanbanOverflowProperty(prop)) {
       column.overflow = prop.value as KanbanColumn['overflow'];
     } else if (Langium.isKanbanStyleProperty(prop)) {

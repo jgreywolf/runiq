@@ -17,6 +17,7 @@ export enum ProfileType {
   WARDLEY = 'wardley',
   PNEUMATIC = 'pneumatic',
   HYDRAULIC = 'hydraulic',
+  HVAC = 'hvac',
   PID = 'pid',
   RAILROAD = 'railroad',
   GLYPHSET = 'glyphset',

@@ -6,6 +6,7 @@ import {
   convertDigitalProfile,
   convertElectricalProfile,
   convertGitGraphProfile,
+  convertHvacProfile,
   convertHydraulicProfile,
   convertKanbanProfile,
   convertPIDProfile,
@@ -19,7 +20,7 @@ import {
 import * as Langium from './generated/ast.js';
 import { expandGlyphSet, isGlyphSetProfile } from './glyphset-expander.js';
 import { createRuniqServices } from './langium-module.js';
-import { extractNodeLocations } from './utils/index.js';
+import { extractNodeLocations, unescapeString } from './utils/index.js';
 
 /**
  * Parse result type
@@ -118,7 +119,10 @@ export function parse(text: string): ParseResult {
     success: true,
     document: runiqDocument,
     diagram, // Backwards compatibility
-    warnings: collectParseWarnings(runiqDocument),
+    warnings: mergeWarnings(
+      collectParseWarnings(runiqDocument),
+      collectParseWarningsFromLangium(document)
+    ),
     warningDetails: collectParseWarningDetails(document),
     errors: [],
     nodeLocations,
@@ -144,6 +148,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertDigitalProfile(profile));
     } else if (Langium.isWardleyProfile(profile)) {
       runiqDoc.profiles.push(convertWardleyProfile(profile));
+    } else if (Langium.isHvacProfile(profile)) {
+      runiqDoc.profiles.push(convertHvacProfile(profile));
     } else if (Langium.isRailroadProfile(profile)) {
       runiqDoc.profiles.push(convertRailroadProfile(profile));
     } else if (Langium.isSequenceProfile(profile)) {
@@ -186,6 +192,26 @@ function collectParseWarnings(document: RuniqDocument): string[] {
   }
 
   return warnings;
+}
+
+function collectParseWarningsFromLangium(
+  document: Langium.Document
+): string[] {
+  const warnings: string[] = [];
+
+  for (const profile of document.profiles) {
+    if (Langium.isHvacProfile(profile)) {
+      warnings.push(...collectHvacWarnings(profile));
+    }
+  }
+
+  return warnings;
+}
+
+function mergeWarnings(...groups: string[][]): string[] {
+  const merged = new Set<string>();
+  groups.flat().forEach((warning) => merged.add(warning));
+  return Array.from(merged);
 }
 
 function collectRailroadWarnings(profile: RailroadProfile): string[] {
@@ -237,6 +263,8 @@ function collectParseWarningDetails(
   for (const profile of document.profiles) {
     if (Langium.isRailroadProfile(profile)) {
       warnings.push(...collectRailroadWarningDetails(profile));
+    } else if (Langium.isHvacProfile(profile)) {
+      warnings.push(...collectHvacWarningDetails(profile));
     }
   }
 
@@ -298,6 +326,147 @@ function collectRailroadWarningDetails(
   diagrams.forEach((diagram) => {
     walkExpression(diagram.expression);
   });
+
+  return warningDetails;
+}
+
+const DEFAULT_HVAC_PORTS = ['in', 'out'] as const;
+
+const HVAC_PORTS: Record<string, string[]> = {
+  'diffuser-supply': ['in'],
+  'diffuser-return': ['in'],
+  thermostat: ['sense'],
+  'temperature-sensor': ['sense'],
+  'pressure-sensor': ['sense'],
+};
+
+function getHvacPorts(type: string): string[] {
+  return HVAC_PORTS[type] ?? [...DEFAULT_HVAC_PORTS];
+}
+
+function collectHvacWarnings(profile: Langium.HvacProfile): string[] {
+  const equipmentTypes = new Map<string, string>();
+  const ducts = new Set<string>();
+
+  for (const statement of profile.statements) {
+    if (Langium.isHvacEquipmentStatement(statement)) {
+      const id = unescapeString(statement.id);
+      let equipmentType = 'air-handling-unit';
+      for (const prop of statement.properties) {
+        if (Langium.isHvacEquipmentTypeProperty(prop)) {
+          equipmentType = prop.type;
+        }
+      }
+      equipmentTypes.set(id, equipmentType);
+    } else if (Langium.isHvacDuctStatement(statement)) {
+      ducts.add(unescapeString(statement.id));
+    }
+  }
+
+  const missingRefs = new Set<string>();
+  const invalidPorts = new Set<string>();
+
+  for (const statement of profile.statements) {
+    if (!Langium.isHvacConnectStatement(statement)) continue;
+
+    for (const endpoint of statement.path) {
+      const ref = unescapeString(endpoint.ref);
+      const isEquipment = equipmentTypes.has(ref);
+      const isDuct = ducts.has(ref);
+
+      if (!isEquipment && !isDuct) {
+        missingRefs.add(ref);
+        continue;
+      }
+
+      if (endpoint.port) {
+        const port = unescapeString(endpoint.port);
+        const ports = isEquipment
+          ? getHvacPorts(equipmentTypes.get(ref) ?? 'air-handling-unit')
+          : [...DEFAULT_HVAC_PORTS];
+        if (!ports.includes(port)) {
+          invalidPorts.add(`${ref}.${port}`);
+        }
+      }
+    }
+  }
+
+  const warnings: string[] = [];
+  if (missingRefs.size > 0) {
+    warnings.push(
+      `Missing HVAC references: ${Array.from(missingRefs).sort().join(', ')}`
+    );
+  }
+  if (invalidPorts.size > 0) {
+    warnings.push(
+      `Invalid HVAC ports: ${Array.from(invalidPorts).sort().join(', ')}`
+    );
+  }
+
+  return warnings;
+}
+
+function collectHvacWarningDetails(
+  profile: Langium.HvacProfile
+): WarningDetail[] {
+  const warningDetails: WarningDetail[] = [];
+  const equipmentTypes = new Map<string, string>();
+  const ducts = new Set<string>();
+
+  for (const statement of profile.statements) {
+    if (Langium.isHvacEquipmentStatement(statement)) {
+      const id = unescapeString(statement.id);
+      let equipmentType = 'air-handling-unit';
+      for (const prop of statement.properties) {
+        if (Langium.isHvacEquipmentTypeProperty(prop)) {
+          equipmentType = prop.type;
+        }
+      }
+      equipmentTypes.set(id, equipmentType);
+    } else if (Langium.isHvacDuctStatement(statement)) {
+      ducts.add(unescapeString(statement.id));
+    }
+  }
+
+  const addWarning = (message: string, node?: AstNode) => {
+    const range = node?.$cstNode?.range;
+    if (!range) return;
+
+    warningDetails.push({
+      message,
+      range: {
+        startLine: range.start.line + 1,
+        startColumn: range.start.character + 1,
+        endLine: range.end.line + 1,
+        endColumn: range.end.character + 1,
+      },
+    });
+  };
+
+  for (const statement of profile.statements) {
+    if (!Langium.isHvacConnectStatement(statement)) continue;
+
+    for (const endpoint of statement.path) {
+      const ref = unescapeString(endpoint.ref);
+      const isEquipment = equipmentTypes.has(ref);
+      const isDuct = ducts.has(ref);
+
+      if (!isEquipment && !isDuct) {
+        addWarning(`Missing HVAC reference: ${ref}`, endpoint);
+        continue;
+      }
+
+      if (endpoint.port) {
+        const port = unescapeString(endpoint.port);
+        const ports = isEquipment
+          ? getHvacPorts(equipmentTypes.get(ref) ?? 'air-handling-unit')
+          : [...DEFAULT_HVAC_PORTS];
+        if (!ports.includes(port)) {
+          addWarning(`Invalid HVAC port: ${ref}.${port}`, endpoint);
+        }
+      }
+    }
+  }
 
   return warningDetails;
 }

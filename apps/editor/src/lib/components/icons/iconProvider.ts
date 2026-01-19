@@ -35,6 +35,7 @@ export function getShapeIconSvg(request: IconRequest): string | null {
 		case ProfileName.digital:
 		case ProfileName.pneumatic:
 		case ProfileName.hydraulic:
+		case ProfileName.hvac:
 			return getDiagramProfileIcon(shapeId, size);
 		case ProfileName.railroad:
 			return getRailroadSnippetIcon(shapeId, size);
@@ -57,7 +58,7 @@ function getGlyphsetIcon(shapeId: string, size: number): string | null {
 }
 
 /**
- * Get diagram profile icon (diagram, sequence, electrical, pneumatic, hydraulic)
+ * Get diagram profile icon (diagram, sequence, electrical, pneumatic, hydraulic, hvac)
  */
 function getDiagramProfileIcon(shapeId: string, size: number): string | null {
 	// Check for entry/exit point special icons

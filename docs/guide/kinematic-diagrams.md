@@ -34,6 +34,8 @@ Use kinematic shapes when you want to:
 
 - `@rotaryMotor`, `@linearActuator`
 - `@spring`, `@damper`, `@gear`
+- `@gripperParallel`, `@gripperAngular`, `@toolMount`, `@cam`
+- `@gripperVacuum`, `@toolChanger`, `@camFollower`, `@pulley`, `@lever`
 
 Full list: see [Shape Reference](/reference/shapes).
 

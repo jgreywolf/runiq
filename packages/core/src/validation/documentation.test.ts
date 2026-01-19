@@ -9,10 +9,8 @@
  * 4. Code examples in documentation can be parsed
  */
 
-import { describe, it, expect, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { shapeRegistry } from '../registries';
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
 import { registerDefaultShapes } from '../shapes';
 
 describe('Documentation Validation', () => {
@@ -24,7 +22,7 @@ describe('Documentation Validation', () => {
   describe('Shape Registry Validation', () => {
     it('should have exactly 248 shapes registered', () => {
       const allShapes = shapeRegistry.list();
-      expect(allShapes.length).toBe(248);
+      expect(allShapes.length).toBe(257);
     });
 
     it('should have all shape IDs unique', () => {
@@ -126,7 +124,7 @@ describe('Documentation Validation', () => {
     it('should have shape count documentation match actual count', () => {
       // This test catches regressions where shape count in docs drifts from reality
       const actualCount = shapeRegistry.list().length;
-      expect(actualCount).toBe(248);
+      expect(actualCount).toBe(257);
 
       // If this test fails, update:
       // - docs/reference/shapes.md: "248 shapes"
