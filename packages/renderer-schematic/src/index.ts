@@ -79,6 +79,8 @@ export interface SchematicOptions {
   orientation?: Orientation;
   /** Wire routing mode: 'direct' | 'orthogonal' (default: 'direct') */
   routing?: 'direct' | 'orthogonal';
+  /** Show airflow direction arrows on wires (HVAC only by default) */
+  showFlowArrows?: boolean;
 }
 
 export interface RenderResult {
@@ -118,6 +120,7 @@ export function renderSchematic(
     showReferences = true,
     orientation = Orientation.HORIZONTAL,
     routing = 'direct',
+    showFlowArrows = profile.type === 'hvac',
   } = options;
 
   // Build net connectivity map
@@ -153,10 +156,10 @@ export function renderSchematic(
   // Generate SVG
   let svg = generateSvgHeader(bounds, profile.name);
   svg += generateStyles(wireColor, componentColor, classPrefix);
-  svg += generateDefs();
+  svg += generateDefs(wireColor, classPrefix, showFlowArrows);
 
   // Render wires (below components)
-  svg += renderWires(wires, showNetLabels, classPrefix);
+  svg += renderWires(wires, showNetLabels, classPrefix, showFlowArrows);
 
   // Render components
   svg += renderComponents(
@@ -484,8 +487,22 @@ function generateStyles(
 /**
  * Generate defs (markers, etc.)
  */
-function generateDefs(): string {
-  return '';
+function generateDefs(
+  wireColor: string,
+  classPrefix: string,
+  showFlowArrows: boolean
+): string {
+  if (!showFlowArrows) {
+    return '';
+  }
+
+  return `
+  <defs>
+    <marker id="${classPrefix}-flow-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="${wireColor}" />
+    </marker>
+  </defs>
+`;
 }
 
 /**
@@ -498,7 +515,8 @@ function renderWires(
     junctions?: { x: number; y: number }[];
   }[],
   showNetLabels: boolean,
-  classPrefix: string
+  classPrefix: string,
+  showFlowArrows: boolean
 ): string {
   let svg = `<g class="${classPrefix}-wires">\n`;
 
@@ -512,7 +530,11 @@ function renderWires(
       .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x},${p.y}`)
       .join(' ');
 
-    svg += `  <path d="${pathData}" class="${classPrefix}-wire"/>\n`;
+    const arrowMarker =
+      showFlowArrows && wire.net !== 'GND'
+        ? ` marker-end="url(#${classPrefix}-flow-arrow)"`
+        : '';
+    svg += `  <path d="${pathData}" class="${classPrefix}-wire"${arrowMarker}/>\n`;
 
     // Add net label at midpoint
     if (showNetLabels && wire.net !== 'GND') {

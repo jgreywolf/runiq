@@ -34,5 +34,6 @@ hvac "Office HVAC System" {
 - **Ports**: Most equipment exposes `in`/`out` ports; sensors use `sense`. Ducts accept `in`/`out`.
 - **Metadata**: Extra properties like `cfm-max` or `capacity` are accepted as key/value pairs.
 - **Labels**: Metadata values (CFM, capacity, flow) are shown under components.
+- **Airflow**: HVAC connections render with direction arrows by default.
 
 See [Profiles](/guide/profiles) for the full profile list.
