@@ -30,6 +30,7 @@ describe('Constants and Enums', () => {
       expect(ProfileType.WARDLEY).toBe('wardley');
       expect(ProfileType.PNEUMATIC).toBe('pneumatic');
       expect(ProfileType.HYDRAULIC).toBe('hydraulic');
+      expect(ProfileType.HVAC).toBe('hvac');
       expect(ProfileType.PID).toBe('pid');
       expect(ProfileType.RAILROAD).toBe('railroad');
       expect(ProfileType.GLYPHSET).toBe('glyphset');

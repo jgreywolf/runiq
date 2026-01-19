@@ -5,6 +5,7 @@ export enum ProfileName {
 	digital = 'digital',
 	pneumatic = 'pneumatic',
 	hydraulic = 'hydraulic',
+	hvac = 'hvac',
 	wardley = 'wardley',
 	sequence = 'sequence',
 	timeline = 'timeline',

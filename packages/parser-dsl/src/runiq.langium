@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile;
+    DiagramProfile | ElectricalProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -266,6 +266,62 @@ HydraulicProfile:
 // Statements within hydraulic profile
 HydraulicStatement:
     NetStatement | PartStatement | PressureStatement | FlowRateStatement | FluidStatement;
+
+// ============================================================================
+// HVAC Profile (ASHRAE-style HVAC diagrams)
+// ============================================================================
+
+HvacProfile:
+    'hvac' name=STRING '{'
+        statements+=HvacStatement*
+    '}';
+
+HvacStatement:
+    HvacEquipmentStatement | HvacDuctStatement | HvacConnectStatement;
+
+// equipment AHU1 type:air-handling-unit cfm:5000
+HvacEquipmentStatement:
+    'equipment' id=ProfileIdentifier properties+=HvacEquipmentProperty*;
+
+HvacEquipmentProperty:
+    HvacEquipmentTypeProperty | HvacEquipmentMetaProperty;
+
+HvacEquipmentTypeProperty:
+    'type:' type=HvacEquipmentType;
+
+HvacEquipmentMetaProperty:
+    key=(ProfileIdentifier | SHAPE_ID) ':' value=(STRING | NUMBER | FlexibleID);
+
+HvacEquipmentType returns string:
+    'air-handling-unit' | 'supply-fan' | 'return-fan' | 'exhaust-fan'
+    | 'filter' | 'heating-coil' | 'cooling-coil' | 'humidifier' | 'dehumidifier'
+    | 'vav-box' | 'diffuser-supply' | 'diffuser-return'
+    | 'damper-motorized' | 'damper-manual' | 'damper-fire'
+    | 'thermostat' | 'temperature-sensor' | 'pressure-sensor'
+    | 'chiller' | 'boiler' | 'cooling-tower' | 'pump' | 'heat-exchanger';
+
+// duct Supply type:supply size:"16x12"
+HvacDuctStatement:
+    'duct' id=ProfileIdentifier properties+=HvacDuctProperty*;
+
+HvacDuctProperty:
+    HvacDuctTypeProperty | HvacDuctSizeProperty | HvacEquipmentMetaProperty;
+
+HvacDuctTypeProperty:
+    'type:' type=HvacDuctType;
+
+HvacDuctType returns string:
+    'supply' | 'return' | 'exhaust';
+
+HvacDuctSizeProperty:
+    'size:' value=STRING;
+
+// connect AHU1.out -> Supply -> VAV1.in
+HvacConnectStatement:
+    'connect' path+=HvacConnection (ARROW path+=HvacConnection)*;
+
+HvacConnection:
+    ref=ProfileIdentifier ('.' port=ProfileIdentifier)?;
 
 // fluid mineral "ISO VG 46" temp:(10,60,C)
 FluidStatement:

@@ -9,6 +9,7 @@
 import type {
   DigitalProfile,
   ElectricalProfile,
+  HvacProfile,
   HydraulicProfile,
   PartAst,
   PneumaticProfile,
@@ -58,7 +59,8 @@ export {
 export type RenderableProfile =
   | ElectricalProfile
   | PneumaticProfile
-  | HydraulicProfile;
+  | HydraulicProfile
+  | HvacProfile;
 
 export interface SchematicOptions {
   /** Grid size for component placement (default: 50) */
@@ -100,7 +102,7 @@ interface NetConnection {
 
 /**
  * Main schematic rendering function
- * Supports electrical schematics, pneumatic circuits, and hydraulic circuits
+ * Supports electrical schematics, pneumatic circuits, hydraulic circuits, and HVAC systems
  */
 export function renderSchematic(
   profile: RenderableProfile,
@@ -144,7 +146,9 @@ export function renderSchematic(
       ? 'electrical'
       : profile.type === PIDLineType.PNEUMATIC
         ? 'pneumatic'
-        : 'hydraulic';
+        : profile.type === 'hvac'
+          ? 'hvac'
+          : 'hydraulic';
 
   // Generate SVG
   let svg = generateSvgHeader(bounds, profile.name);

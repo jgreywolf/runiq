@@ -61,6 +61,9 @@
 				{:else if editorState.profileName === ProfileName.hydraulic}
 					<div class="border-b border-teal-200 bg-teal-50 px-4 py-2">
 						<p class="text-xs font-medium text-teal-900">💧 Hydraulic Circuit Mode</p>
+					</div>				{:else if editorState.profileName === ProfileName.hvac}
+					<div class="border-b border-cyan-200 bg-cyan-50 px-4 py-2">
+						<p class="text-xs font-medium text-cyan-900">HVAC System Mode</p>
 					</div>
 				{:else if editorState.profileName === ProfileName.wardley}
 					<div class="border-b border-purple-200 bg-purple-50 px-4 py-2">
@@ -117,3 +120,4 @@
 	categories={sampleDiagrams}
 	onInsertSample={handleInsertSample}
 />
+

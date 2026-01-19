@@ -20,6 +20,7 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 		'digital',
 		'pneumatic',
 		'hydraulic',
+		'hvac',
 		'sequence',
 		'timeline',
 		'wardley',

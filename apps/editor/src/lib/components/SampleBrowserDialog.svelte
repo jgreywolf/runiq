@@ -66,10 +66,10 @@
 		{
 			id: 'technical',
 			label: 'Technical Schematics',
-			description: 'Electrical, pneumatic, hydraulic',
+			description: 'Electrical, pneumatic, hydraulic, HVAC',
 			color: 'amber',
 			icon: 'circuit',
-			categoryIds: ['electrical', 'digital', 'logicGates', 'pneumatic', 'hydraulic', 'railroad']
+			categoryIds: ['electrical', 'digital', 'logicGates', 'pneumatic', 'hydraulic', 'hvac', 'railroad']
 		},
 		{
 			id: 'data',

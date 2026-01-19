@@ -259,6 +259,14 @@ Design pneumatic and hydraulic circuits following ISO 1219-1 standards.
 - **Visual Examples**: Power unit, press system, motor control
 - Applications: Heavy machinery, presses, mobile equipment
 
+### [HVAC Diagrams](/examples/hvac-diagrams)
+
+- Air handling units, coils, and VAV boxes
+- Supply/return ducting and diffusers
+- Sensors: temperature, pressure, thermostats
+- **Visual Examples**: Office AHU, rooftop unit
+- Applications: Commercial buildings, campuses, data centers
+
 <!-- ## Medical & Genetics
 
 Professional pedigree charts following medical standards.
@@ -469,6 +477,10 @@ Visualize events and milestones over time.
     <h3>🔧 Hydraulic</h3>
     <p>Fluid power systems (ISO 1219-1)</p>
   </a>
+  <a href="/examples/hvac-diagrams" class="example-card">
+    <h3>HVAC</h3>
+    <p>Air handling and duct layouts (ASHRAE)</p>
+  </a>
 
   <!-- <a href="/examples/pedigree" class="example-card">
     <h3>🧬 Pedigree Charts</h3>
@@ -519,3 +531,4 @@ Visualize events and milestones over time.
   font-size: 0.9rem;
 }
 </style>
+

@@ -1,0 +1,38 @@
+# HVAC Diagrams
+
+HVAC diagrams show equipment and duct connections for air handling systems.
+
+## Office HVAC System
+
+```runiq
+hvac "Office HVAC System" {
+  equipment AHU1 type:air-handling-unit cfm:5000
+  equipment Fan1 type:supply-fan cfm:5000
+  equipment Coil1 type:cooling-coil capacity:"10 tons"
+  equipment VAV1 type:vav-box cfm-max:1000
+  equipment Diff1 type:diffuser-supply
+
+  duct Supply type:supply size:"16x12"
+  duct Return type:return size:"20x14"
+
+  connect AHU1.out -> Supply -> VAV1.in
+  connect VAV1.out -> Diff1.in
+  connect Diff1.out -> Return -> AHU1.in
+}
+```
+
+## Rooftop Unit
+
+```runiq
+hvac "Rooftop Unit" {
+  equipment RTU type:air-handling-unit cfm:3500
+  equipment Diff1 type:diffuser-supply
+  equipment Therm1 type:thermostat
+
+  duct Supply type:supply size:"14x10"
+  duct Return type:return size:"18x12"
+
+  connect RTU.out -> Supply -> Diff1.in
+  connect Diff1.out -> Return -> RTU.in
+}
+```

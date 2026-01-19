@@ -6,7 +6,7 @@ lastUpdated: 2026-01-18
 
 # Profiles
 
-Runiq supports **13 primary profiles** for different diagramming needs:
+Runiq supports **14 primary profiles** for different diagramming needs:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, control system diagrams, kinematic diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **GlyphSet profile**: SmartArt-style pre-built diagram templates (pyramids, matrices, cycles, org charts) with 61 glyphsets across 6 categories.
@@ -21,6 +21,7 @@ Runiq supports **13 primary profiles** for different diagramming needs:
 - **Railroad profile**: Grammar and syntax diagrams with EBNF-style shorthand and left-to-right railroad layout.
 - **Pneumatic profile**: Pneumatic circuits following ISO 1219-1 standards with cylinders, valves, FRL units, and compressed air components.
 - **Hydraulic profile**: Hydraulic circuits following ISO 1219-2 standards with pumps, motors, valves, and fluid power components.
+- **HVAC profile**: Heating, ventilation, and air conditioning diagrams with equipment and ductwork symbols.
 - **P&ID profile**: Piping & Instrumentation Diagrams following ISA-5.1 standards for process engineering and industrial systems.
 
 Most syntax is shared across profiles. The key differences are:
@@ -32,7 +33,7 @@ Most syntax is shared across profiles. The key differences are:
 
 ## Profile Comparison Table
 
-Here's a comprehensive comparison of the 13 primary profiles to help you choose the right one for your project:
+Here's a comprehensive comparison of the 14 primary profiles to help you choose the right one for your project:
 
 ::: tip Quick Links
 **Timeline**, **Railroad**, and **GlyphSet** profile guides:

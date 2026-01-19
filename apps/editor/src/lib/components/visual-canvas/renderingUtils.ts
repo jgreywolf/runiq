@@ -260,7 +260,8 @@ export async function renderDiagram(
 		} else if (
 			profileType === 'electrical' ||
 			profileType === 'pneumatic' ||
-			profileType === 'hydraulic'
+			profileType === 'hydraulic' ||
+			profileType === 'hvac'
 		) {
 			result.svg = renderSchematic(profile as any).svg;
 		} else if (profileType === 'pid') {

@@ -82,6 +82,7 @@ describe('Toolbox Data Structure', () => {
 			'digital',
 			'pneumatic',
 			'hydraulic',
+			'hvac',
 			'railroad',
 			'pid',
 			'glyphset'

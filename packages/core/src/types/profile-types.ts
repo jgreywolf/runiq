@@ -55,6 +55,7 @@ export type Profile =
   | BlockDiagramProfile
   | WardleyProfile
   | SequenceProfile
+  | HvacProfile
   | PneumaticProfile
   | HydraulicProfile
   | PIDProfile
@@ -86,6 +87,17 @@ export interface DigitalProfile {
   modules?: ModuleAst[];
   instances: InstanceAst[];
   nets: NetAst[];
+}
+
+/**
+ * HVAC (Heating, Ventilation, Air Conditioning) profile
+ * Uses schematic-style parts and duct connections
+ */
+export interface HvacProfile {
+  type: 'hvac';
+  name: string;
+  nets: NetAst[];
+  parts: PartAst[];
 }
 
 /**

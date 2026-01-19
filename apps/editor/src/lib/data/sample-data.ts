@@ -8,6 +8,7 @@ import { digitalSampleDiagrams } from './toolboxSamples/digitalSampleDiagrams';
 import { electricalSampleDiagrams } from './toolboxSamples/electricalSampleDiagrams';
 import { flowchartSampleDiagrams } from './toolboxSamples/flowchartSampleDiagrams';
 import { hydraulicSampleDiagrams } from './toolboxSamples/hydraulicSampleDiagrams';
+import { hvacSampleDiagrams } from './toolboxSamples/hvacSampleDiagrams';
 import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
 import { mindmapSampleDiagrams } from './toolboxSamples/mindmapSampleDiagrams';
 import { networkSampleDiagrams } from './toolboxSamples/networkSampleDiagrams';
@@ -58,6 +59,7 @@ export const sampleDiagrams: SampleCategory[] = [
 	...logicGateSampleDiagrams,
 	...pneumaticSampleDiagrams,
 	...hydraulicSampleDiagrams,
+	...hvacSampleDiagrams,
 	...wardleySampleDiagrams,
 	...glyphsetSampleDiagrams,
 	...railroadSampleDiagrams

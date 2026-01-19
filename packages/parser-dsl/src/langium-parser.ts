@@ -6,6 +6,7 @@ import {
   convertDigitalProfile,
   convertElectricalProfile,
   convertGitGraphProfile,
+  convertHvacProfile,
   convertHydraulicProfile,
   convertKanbanProfile,
   convertPIDProfile,
@@ -144,6 +145,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertDigitalProfile(profile));
     } else if (Langium.isWardleyProfile(profile)) {
       runiqDoc.profiles.push(convertWardleyProfile(profile));
+    } else if (Langium.isHvacProfile(profile)) {
+      runiqDoc.profiles.push(convertHvacProfile(profile));
     } else if (Langium.isRailroadProfile(profile)) {
       runiqDoc.profiles.push(convertRailroadProfile(profile));
     } else if (Langium.isSequenceProfile(profile)) {
