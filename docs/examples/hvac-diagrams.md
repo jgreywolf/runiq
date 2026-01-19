@@ -81,3 +81,45 @@ hvac "Economizer Loop" {
   connect Temp.sense -> AHU1.in
 }
 ```
+
+## Chilled Water Plant
+
+```runiq
+hvac "Chilled Water Plant" {
+  equipment CH1 type:chiller capacity:"250 tons"
+  equipment CT1 type:cooling-tower capacity:"300 tons"
+  equipment Pump1 type:pump flow:"1200 gpm"
+  equipment HX1 type:heat-exchanger
+  equipment AHU1 type:air-handling-unit cfm:8000
+
+  duct Supply type:supply size:"24x16"
+  duct Return type:return size:"28x18"
+
+  connect AHU1.out -> Supply
+  connect Return -> AHU1.in
+  connect CH1.out -> HX1.in
+  connect HX1.out -> Pump1.in
+  connect Pump1.out -> CH1.in
+  connect CT1.out -> CH1.in
+}
+```
+
+## Heat Pump System
+
+```runiq
+hvac "Heat Pump System" {
+  equipment HP1 type:heat-exchanger label:"Heat Pump"
+  equipment AHU1 type:air-handling-unit cfm:4200
+  equipment Fan1 type:supply-fan cfm:4200
+  equipment Therm1 type:thermostat
+
+  duct Supply type:supply size:"16x12"
+  duct Return type:return size:"20x14"
+
+  connect HP1.out -> AHU1.in
+  connect AHU1.out -> Supply -> Fan1.in
+  connect Fan1.out -> Supply
+  connect Return -> AHU1.in
+  connect Therm1.sense -> AHU1.in
+}
+```

@@ -39,9 +39,9 @@ describe('Constants and Enums', () => {
       expect(ProfileType.TREEMAP).toBe('treemap');
     });
 
-    it('should have 15 profile types', () => {
+    it('should have 16 profile types', () => {
       const values = Object.values(ProfileType);
-      expect(values).toHaveLength(15);
+      expect(values).toHaveLength(16);
     });
   });
 

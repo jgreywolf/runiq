@@ -33,5 +33,6 @@ hvac "Office HVAC System" {
 - **Connections**: Use `connect` chains to tie equipment and ducts together.
 - **Ports**: Most equipment exposes `in`/`out` ports; sensors use `sense`. Ducts accept `in`/`out`.
 - **Metadata**: Extra properties like `cfm-max` or `capacity` are accepted as key/value pairs.
+- **Labels**: Metadata values (CFM, capacity, flow) are shown under components.
 
 See [Profiles](/guide/profiles) for the full profile list.

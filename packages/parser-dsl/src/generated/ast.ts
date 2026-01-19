@@ -140,6 +140,7 @@ export type RuniqKeywordNames =
     | "bottom"
     | "bottom-left"
     | "bottom-right"
+    | "bottomSide"
     | "boundary"
     | "boxPadX:"
     | "boxPadY:"
@@ -427,6 +428,7 @@ export type RuniqKeywordNames =
     | "leader"
     | "leaf"
     | "left"
+    | "leftSide"
     | "leftWeight"
     | "legendPosition:"
     | "level"
@@ -615,6 +617,7 @@ export type RuniqKeywordNames =
     | "return-fan"
     | "returnType:"
     | "right"
+    | "rightSide"
     | "rightWeight"
     | "roleSource:"
     | "roleTarget:"
@@ -742,6 +745,7 @@ export type RuniqKeywordNames =
     | "top"
     | "top-left"
     | "top-right"
+    | "topSide"
     | "tran"
     | "treemap"
     | "true"
@@ -1940,10 +1944,10 @@ export function isFillColorProperty(item: unknown): item is FillColorProperty {
     return reflection.isInstance(item, FillColorProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'spoke' | 'start' | 'step' | 'team' | 'to' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'team' | 'temperature' | 'to' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -2519,12 +2523,6 @@ export function isGitGraphStatement(item: unknown): item is GitGraphStatement {
     return reflection.isInstance(item, GitGraphStatement.$type);
 }
 
-export type GlyphSetIdentifier = FlexibleID | string;
-
-export function isGlyphSetIdentifier(item: unknown): item is GlyphSetIdentifier {
-    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
-}
-
 export interface GlyphSetImageItem extends langium.AstNode {
     readonly $container: GlyphSetNestedItem | GlyphSetProfile;
     readonly $type: 'GlyphSetImageItem';
@@ -2568,7 +2566,7 @@ export interface GlyphSetNestedItem extends langium.AstNode {
     children: Array<GlyphSetItemStatement>;
     keyword: GlyphSetKeyword;
     label: string;
-    relationship?: GlyphSetIdentifier;
+    relationship?: GlyphSetRelationshipValue;
 }
 
 export const GlyphSetNestedItem = {
@@ -2648,12 +2646,18 @@ export function isGlyphSetProfile(item: unknown): item is GlyphSetProfile {
     return reflection.isInstance(item, GlyphSetProfile.$type);
 }
 
+export type GlyphSetRelationshipValue = 'bottom' | 'bottomSide' | 'left' | 'leftSide' | 'right' | 'rightSide' | 'top' | 'topSide' | string;
+
+export function isGlyphSetRelationshipValue(item: unknown): item is GlyphSetRelationshipValue {
+    return item === 'topSide' || item === 'rightSide' || item === 'bottomSide' || item === 'leftSide' || item === 'top' || item === 'right' || item === 'bottom' || item === 'left' || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
 export interface GlyphSetSimpleItem extends langium.AstNode {
     readonly $container: GlyphSetNestedItem | GlyphSetProfile;
     readonly $type: 'GlyphSetSimpleItem';
     keyword: GlyphSetKeyword;
     label: string;
-    relationship?: GlyphSetIdentifier;
+    relationship?: GlyphSetRelationshipValue;
 }
 
 export const GlyphSetSimpleItem = {

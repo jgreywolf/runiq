@@ -28,6 +28,25 @@ function rectSymbol(
   });
 }
 
+function ductSymbol(id: string, label: string): SymbolDefinition {
+  return createSymbol(id, STANDARD_WIDTH, STANDARD_HEIGHT, STANDARD_TERMINALS, (cx, cy) => {
+    const width = STANDARD_WIDTH - 6;
+    const height = STANDARD_HEIGHT - 6;
+    const x = cx - width / 2;
+    const y = cy - height / 2;
+    const arrowStart = x + 10;
+    const arrowEnd = x + width - 10;
+    const arrowY = cy;
+    const arrowHead = `${arrowEnd - 6},${arrowY - 4} ${arrowEnd},${arrowY} ${arrowEnd - 6},${arrowY + 4}`;
+    return `
+      ${renderRectangleBody(cx, cy, width, height)}
+      <line x1="${arrowStart}" y1="${arrowY}" x2="${arrowEnd}" y2="${arrowY}" ${styleAttrs()} />
+      <polygon points="${arrowHead}" ${styleAttrs({ fillColor: 'currentColor' })} />
+      <text x="${cx}" y="${y + height - 6}" font-family="sans-serif" font-size="9" text-anchor="middle">${label}</text>
+    `;
+  });
+}
+
 function coilSymbol(id: string, label: string): SymbolDefinition {
   return createSymbol(id, STANDARD_WIDTH, STANDARD_HEIGHT, STANDARD_TERMINALS, (cx, cy) => {
     const width = STANDARD_WIDTH - 6;
@@ -88,6 +107,6 @@ export const boiler = rectSymbol('BOILER', 'BLR');
 export const coolingTower = rectSymbol('COOLING_TOWER', 'CT');
 export const pump = rectSymbol('PUMP', 'P');
 export const heatExchanger = rectSymbol('HEAT_EXCHANGER', 'HX');
-export const ductSupply = rectSymbol('DUCT_SUPPLY', 'SUP');
-export const ductReturn = rectSymbol('DUCT_RETURN', 'RET');
-export const ductExhaust = rectSymbol('DUCT_EXHAUST', 'EXH');
+export const ductSupply = ductSymbol('DUCT_SUPPLY', 'SUP');
+export const ductReturn = ductSymbol('DUCT_RETURN', 'RET');
+export const ductExhaust = ductSymbol('DUCT_EXHAUST', 'EXH');

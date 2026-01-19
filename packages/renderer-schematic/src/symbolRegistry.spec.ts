@@ -129,6 +129,23 @@ describe('symbolRegistry', () => {
       expect(symbolRegistry.has('FRL')).toBe(true);
     });
 
+    it('should contain HVAC symbols', () => {
+      expect(symbolRegistry.has('AIR_HANDLING_UNIT')).toBe(true);
+      expect(symbolRegistry.has('SUPPLY_FAN')).toBe(true);
+      expect(symbolRegistry.has('COOLING_COIL')).toBe(true);
+      expect(symbolRegistry.has('VAV_BOX')).toBe(true);
+      expect(symbolRegistry.has('DIFFUSER_SUPPLY')).toBe(true);
+      expect(symbolRegistry.has('DAMPER_MOTORIZED')).toBe(true);
+      expect(symbolRegistry.has('TEMPERATURE_SENSOR')).toBe(true);
+      expect(symbolRegistry.has('CHILLER')).toBe(true);
+      expect(symbolRegistry.has('BOILER')).toBe(true);
+      expect(symbolRegistry.has('COOLING_TOWER')).toBe(true);
+      expect(symbolRegistry.has('HEAT_EXCHANGER')).toBe(true);
+      expect(symbolRegistry.has('DUCT_SUPPLY')).toBe(true);
+      expect(symbolRegistry.has('DUCT_RETURN')).toBe(true);
+      expect(symbolRegistry.has('DUCT_EXHAUST')).toBe(true);
+    });
+
     it('should contain Phase 2 hydraulic symbols (pressure control)', () => {
       expect(symbolRegistry.has('RELIEF_DIRECT')).toBe(true);
       expect(symbolRegistry.has('RELIEF_PILOT')).toBe(true);

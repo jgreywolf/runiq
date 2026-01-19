@@ -1056,15 +1056,17 @@ GlyphSetImageItem:
     keyword='image' url=STRING ('label' label=STRING)? ('description' description=STRING)?;
 
 // Simple flat items: step "Label", level "Label", etc.
-  GlyphSetSimpleItem:
-      keyword=GlyphSetKeyword label=STRING relationship=GlyphSetIdentifier?;
+GlyphSetSimpleItem:
+    keyword=GlyphSetKeyword label=STRING relationship=GlyphSetRelationshipValue?;
 
 // Nested items with children: person "Name" { person "Child1" person "Child2" }
-  GlyphSetNestedItem:
-      keyword=GlyphSetKeyword label=STRING relationship=GlyphSetIdentifier? '{' children+=GlyphSetItemStatement* '}';
+GlyphSetNestedItem:
+    keyword=GlyphSetKeyword label=STRING relationship=GlyphSetRelationshipValue? '{' children+=GlyphSetItemStatement* '}';
 
-  GlyphSetIdentifier returns string:
-      FlexibleID | STRING;
+GlyphSetRelationshipValue returns string:
+    STRING
+    | 'topSide' | 'rightSide' | 'bottomSide' | 'leftSide'
+    | 'top' | 'right' | 'bottom' | 'left';
 
 // Parameter assignments: direction "LR", theme professional, columns 3, shape "circle", showPercentages true
 GlyphSetParameter:
@@ -1750,7 +1752,9 @@ FlexibleID returns string:
     | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue'
     // Common mindmap/hierarchy node names
     | 'root' | 'child' | 'branch' | 'leaf' | 'node' | 'center' | 'central' | 'hub'
-    | 'left' | 'right' | 'team' | 'leader' | 'member' | 'detail' | 'spoke';
+    | 'left' | 'right' | 'team' | 'leader' | 'member' | 'detail' | 'spoke'
+    // Control variable keywords used in profiles
+    | 'flow' | 'temperature' | 'pressure' | 'level' | 'composition' | 'ph' | 'conductivity' | 'speed';
 
 // Allow keywords as identifiers in template variable paths
 TemplateIdentifier returns string:

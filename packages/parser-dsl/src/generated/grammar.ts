@@ -10926,7 +10926,7 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
     },
     {
       "$type": "ParserRule",
-      "name": "GlyphSetIdentifier",
+      "name": "GlyphSetRelationshipValue",
       "dataType": "string",
       "definition": {
         "$type": "Alternatives",
@@ -10934,16 +10934,41 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@413"
+              "$ref": "#/rules@444"
             },
             "arguments": []
           },
           {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@444"
-            },
-            "arguments": []
+            "$type": "Keyword",
+            "value": "topSide"
+          },
+          {
+            "$type": "Keyword",
+            "value": "rightSide"
+          },
+          {
+            "$type": "Keyword",
+            "value": "bottomSide"
+          },
+          {
+            "$type": "Keyword",
+            "value": "leftSide"
+          },
+          {
+            "$type": "Keyword",
+            "value": "top"
+          },
+          {
+            "$type": "Keyword",
+            "value": "right"
+          },
+          {
+            "$type": "Keyword",
+            "value": "bottom"
+          },
+          {
+            "$type": "Keyword",
+            "value": "left"
           }
         ]
       },
@@ -19269,6 +19294,38 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           {
             "$type": "Keyword",
             "value": "spoke"
+          },
+          {
+            "$type": "Keyword",
+            "value": "flow"
+          },
+          {
+            "$type": "Keyword",
+            "value": "temperature"
+          },
+          {
+            "$type": "Keyword",
+            "value": "pressure"
+          },
+          {
+            "$type": "Keyword",
+            "value": "level"
+          },
+          {
+            "$type": "Keyword",
+            "value": "composition"
+          },
+          {
+            "$type": "Keyword",
+            "value": "ph"
+          },
+          {
+            "$type": "Keyword",
+            "value": "conductivity"
+          },
+          {
+            "$type": "Keyword",
+            "value": "speed"
           }
         ]
       },

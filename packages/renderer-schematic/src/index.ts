@@ -595,18 +595,13 @@ function renderComponents(
 
     // Component value (below)
     if (showValues && comp.part.params) {
-      const value =
-        comp.part.params.value ||
-        comp.part.params.source ||
-        comp.part.params.model ||
-        comp.part.params.ratio ||
-        '';
+      const value = getComponentValue(comp.part.params);
       if (value) {
         const valueX = comp.x + comp.symbol.width / 2;
         const valueY = comp.y + comp.symbol.height + 15;
         svg += `    <text x="${valueX}" y="${valueY}" 
           class="${classPrefix}-value" 
-          text-anchor="middle">${escapeXml(String(value))}</text>\n`;
+          text-anchor="middle">${escapeXml(value)}</text>\n`;
       }
     }
 
@@ -615,6 +610,32 @@ function renderComponents(
 
   svg += '</g>\n';
   return svg;
+}
+
+function getComponentValue(params: Record<string, unknown>): string | undefined {
+  const knownKeys = [
+    'value',
+    'source',
+    'model',
+    'ratio',
+    'cfm',
+    'cfm-max',
+    'capacity',
+    'flow',
+    'btu',
+    'tonnage',
+  ];
+
+  for (const key of knownKeys) {
+    if (key in params) {
+      const raw = params[key];
+      if (raw === undefined || raw === null || raw === '') continue;
+      const label = key.toUpperCase().replace(/-/g, ' ');
+      return `${label}: ${String(raw)}`;
+    }
+  }
+
+  return undefined;
 }
 
 /**
