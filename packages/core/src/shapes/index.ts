@@ -311,6 +311,7 @@ export function registerBPMNShapes(): void {
   shapeRegistry.register(bpmn.bpmnDataObjectShape);
   shapeRegistry.register(bpmn.bpmnMessageShape);
   shapeRegistry.register(bpmn.bpmnPoolShape);
+  shapeRegistry.register(bpmn.bpmnLaneShape);
 }
 
 export function registerAWSShapes(): void {

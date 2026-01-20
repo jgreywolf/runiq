@@ -42,6 +42,8 @@ export function convertDiagramProfile(
     processDialogStatement(statement, diagram, declaredNodes);
   }
 
+  applyBpmnMessageFlowDefaults(diagram);
+
   return diagram;
 }
 
@@ -1147,4 +1149,51 @@ export function convertPreset(block: Langium.PresetBlock): ContainerPreset {
   }
 
   return preset;
+}
+
+function applyBpmnMessageFlowDefaults(diagram: DiagramProfile): void {
+  if (!diagram.containers || diagram.edges.length === 0) {
+    return;
+  }
+
+  const poolByNode = new Map<string, string>();
+
+  const walkContainers = (
+    containers: ContainerDeclaration[],
+    currentPoolId?: string
+  ) => {
+    for (const container of containers) {
+      const containerId = container.id || container.label || '';
+      const isPool = container.shape === 'bpmnPool';
+      const poolId = isPool ? containerId : currentPoolId;
+
+      for (const child of container.children) {
+        if (poolId) {
+          poolByNode.set(child, poolId);
+        }
+      }
+
+      if (container.containers && container.containers.length > 0) {
+        walkContainers(container.containers, poolId);
+      }
+    }
+  };
+
+  walkContainers(diagram.containers);
+
+  for (const edge of diagram.edges) {
+    const fromPool = poolByNode.get(edge.from);
+    const toPool = poolByNode.get(edge.to);
+
+    if (!fromPool || !toPool || fromPool === toPool) {
+      continue;
+    }
+
+    if (!edge.lineStyle) {
+      edge.lineStyle = LineStyle.DASHED;
+    }
+    if (!edge.arrowType) {
+      edge.arrowType = ArrowType.OPEN;
+    }
+  }
 }

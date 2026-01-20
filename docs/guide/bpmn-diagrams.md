@@ -121,19 +121,19 @@ diagram "Process with Lanes" {
 
   container "Order Fulfillment" as @bpmnPool {
     # Sales lane
-    container "Sales" {
+    container "Sales" as @bpmnLane {
       shape s1 as @bpmnTask label: "Review Order"
       shape s2 as @bpmnTask label: "Approve Order"
     }
 
     # Warehouse lane
-    container "Warehouse" {
+    container "Warehouse" as @bpmnLane {
       shape w1 as @bpmnTask label: "Pick Items"
       shape w2 as @bpmnTask label: "Pack Items"
     }
 
     # Shipping lane
-    container "Shipping" {
+    container "Shipping" as @bpmnLane {
       shape sh1 as @bpmnTask label: "Generate Label"
       shape sh2 as @bpmnTask label: "Ship Package"
     }
@@ -387,6 +387,8 @@ diagram "Cross-Organizational Process" {
 }
 ```
 
+By default, edges that cross between different `@bpmnPool` containers render as message flows (dashed line with open arrowheads). Set `lineStyle` or `arrowType` on the edge if you need a different appearance.
+
 ::: warning Message Flow Rules
 
 - Message flows (dashed arrows) **only** connect shapes in **different** pools
@@ -431,21 +433,21 @@ diagram "E-Commerce Order Fulfillment" {
 
   # Warehouse pool with lanes
   container "Warehouse" as @bpmnPool {
-    container "Inventory" {
+    container "Inventory" as @bpmnLane {
       shape checkStock as @bpmnTask label: "Check Stock"
       shape reserveItems as @bpmnTask label: "Reserve Items"
     }
 
-    container "Picking" {
+    container "Picking" as @bpmnLane {
       shape pickTask as @bpmnTask label: "Pick Items"
     }
 
-    container "Packing" {
+    container "Packing" as @bpmnLane {
       shape packTask as @bpmnTask label: "Pack Order"
       shape labelTask as @bpmnTask label: "Generate Label"
     }
 
-    container "Shipping" {
+    container "Shipping" as @bpmnLane {
       shape shipTask as @bpmnTask label: "Ship Order"
     }
 
@@ -556,9 +558,9 @@ container "Customer" as @bpmnPool { ... }
 
 ```runiq
 container "Order Fulfillment" as @bpmnPool {
-  container "Sales" { ... }
-  container "Warehouse" { ... }
-  container "Shipping" { ... }
+  container "Sales" as @bpmnLane { ... }
+  container "Warehouse" as @bpmnLane { ... }
+  container "Shipping" as @bpmnLane { ... }
 }
 ```
 

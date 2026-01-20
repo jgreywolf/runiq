@@ -49,9 +49,16 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 			},
 			{
 				id: 'bpmnPool',
-				label: 'Pool/Lane',
+				label: 'Pool',
 				code: `container pool1 "Customer" as @bpmnPool {
   shape task1 as @bpmnTask label:"Task"
+}`
+			},
+			{
+				id: 'bpmnLane',
+				label: 'Lane',
+				code: `container lane1 "Sales" as @bpmnLane {
+  shape task1 as @bpmnTask label:"Review Order"
 }`
 			}
 		]

@@ -5,6 +5,7 @@ export { bpmnGatewayShape } from './gateway.js';
 export { bpmnDataObjectShape } from './dataObject.js';
 export { bpmnMessageShape } from './message.js';
 export { bpmnPoolShape } from './pool.js';
+export { bpmnLaneShape } from './lane.js';
 
 // BPMN Additional Shapes
 export {
