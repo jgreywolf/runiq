@@ -340,6 +340,27 @@ diagram "Task Types" {
 }
 ```
 
+## Additional BPMN Shapes
+
+Use these shapes for richer BPMN notation beyond basic tasks/events:
+
+```runiq
+# Transaction (double border)
+shape tx as @transaction label: "Payment Transaction"
+
+# Event subprocess (dashed border)
+shape subprocess as @eventSubProcess label: "Escalation"
+
+# Call activity (thick border)
+shape callProc as @callActivity label: "Call Subprocess"
+
+# Conversation (hexagon)
+shape convo as @conversation label: "Vendor Sync"
+
+# Annotation (left bracket)
+shape note as @annotation label: "Requires audit trail"
+```
+
 ## Message Flows
 
 Message flows show communication between different pools (participants):

@@ -53,4 +53,11 @@ describe('BPMN Lane', () => {
     expect(svg).toContain('<rect');
     expect(svg).toContain('Warehouse');
   });
+
+  it('should use the default lane fill color', () => {
+    const ctx = createMockContext('Lane', { width: 600, height: 140 });
+    const svg = bpmnLaneShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('fill="#f0f0f0"');
+  });
 });
