@@ -202,6 +202,8 @@ function collectParseWarningsFromLangium(
   for (const profile of document.profiles) {
     if (Langium.isHvacProfile(profile)) {
       warnings.push(...collectHvacWarnings(profile));
+    } else if (Langium.isPIDProfile(profile)) {
+      warnings.push(...collectPidWarnings(profile));
     }
   }
 
@@ -265,6 +267,8 @@ function collectParseWarningDetails(
       warnings.push(...collectRailroadWarningDetails(profile));
     } else if (Langium.isHvacProfile(profile)) {
       warnings.push(...collectHvacWarningDetails(profile));
+    } else if (Langium.isPIDProfile(profile)) {
+      warnings.push(...collectPidWarningDetails(profile));
     }
   }
 
@@ -464,6 +468,121 @@ function collectHvacWarningDetails(
         if (!ports.includes(port)) {
           addWarning(`Invalid HVAC port: ${ref}.${port}`, endpoint);
         }
+      }
+    }
+  }
+
+  return warningDetails;
+}
+
+function getPidLoopNumber(tag: string): number | undefined {
+  const match = tag.match(/-(\d{1,4})[A-Z]?$/);
+  if (!match) {
+    return undefined;
+  }
+  return Number(match[1]);
+}
+
+function collectPidWarnings(profile: Langium.PIDProfile): string[] {
+  const warnings: string[] = [];
+
+  for (const statement of profile.statements) {
+    if (Langium.isPIDInstrumentStatement(statement)) {
+      const loopProp = statement.properties.find((prop) =>
+        Langium.isPIDLoopRefProperty(prop)
+      );
+      if (loopProp) {
+        const tagLoop = getPidLoopNumber(statement.tag);
+        const loopNum = Number(loopProp.loopNum);
+        if (
+          tagLoop !== undefined &&
+          !Number.isNaN(loopNum) &&
+          tagLoop !== loopNum
+        ) {
+          warnings.push(
+            `PID loop mismatch: ${statement.tag} uses loop ${loopProp.loopNum} but tag implies ${tagLoop}`
+          );
+        }
+      }
+    } else if (Langium.isPIDLoopStatement(statement)) {
+      const controllerProp = statement.properties.find((prop) =>
+        Langium.isPIDControllerProperty(prop)
+      );
+      if (controllerProp) {
+        const controllerLoop = getPidLoopNumber(controllerProp.tag);
+        const loopNum = Number(statement.loopNum);
+        if (
+          controllerLoop !== undefined &&
+          !Number.isNaN(loopNum) &&
+          controllerLoop !== loopNum
+        ) {
+          warnings.push(
+            `PID loop mismatch: loop ${statement.loopNum} references ${controllerProp.tag} (${controllerLoop})`
+          );
+        }
+      }
+    }
+  }
+
+  return warnings;
+}
+
+function collectPidWarningDetails(
+  profile: Langium.PIDProfile
+): WarningDetail[] {
+  const warningDetails: WarningDetail[] = [];
+
+  const addWarning = (message: string, node?: AstNode) => {
+    const range = node?.$cstNode?.range;
+    if (!range) return;
+
+    warningDetails.push({
+      message,
+      range: {
+        startLine: range.start.line + 1,
+        startColumn: range.start.character + 1,
+        endLine: range.end.line + 1,
+        endColumn: range.end.character + 1,
+      },
+    });
+  };
+
+  for (const statement of profile.statements) {
+    if (Langium.isPIDInstrumentStatement(statement)) {
+      const loopProp = statement.properties.find((prop) =>
+        Langium.isPIDLoopRefProperty(prop)
+      );
+      if (!loopProp) continue;
+
+      const tagLoop = getPidLoopNumber(statement.tag);
+      const loopNum = Number(loopProp.loopNum);
+      if (
+        tagLoop !== undefined &&
+        !Number.isNaN(loopNum) &&
+        tagLoop !== loopNum
+      ) {
+        addWarning(
+          `PID loop mismatch: ${statement.tag} uses loop ${loopProp.loopNum} but tag implies ${tagLoop}`,
+          loopProp
+        );
+      }
+    } else if (Langium.isPIDLoopStatement(statement)) {
+      const controllerProp = statement.properties.find((prop) =>
+        Langium.isPIDControllerProperty(prop)
+      );
+      if (!controllerProp) continue;
+
+      const controllerLoop = getPidLoopNumber(controllerProp.tag);
+      const loopNum = Number(statement.loopNum);
+      if (
+        controllerLoop !== undefined &&
+        !Number.isNaN(loopNum) &&
+        controllerLoop !== loopNum
+      ) {
+        addWarning(
+          `PID loop mismatch: loop ${statement.loopNum} references ${controllerProp.tag} (${controllerLoop})`,
+          controllerProp
+        );
       }
     }
   }

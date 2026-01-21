@@ -363,15 +363,16 @@ describe('P&ID Symbols - Instrumentation', () => {
 });
 
 describe('P&ID Symbol Library - Completeness', () => {
-  it('should export 64 symbols total', () => {
+  it('should export 87 symbols total', () => {
     const symbolCount = Object.keys(pidSymbols).length;
-    expect(symbolCount).toBe(64);
+    expect(symbolCount).toBe(87);
   });
 
   it('should have all vessel types', () => {
     expect(pidSymbols.vesselVertical).toBeDefined();
     expect(pidSymbols.vesselHorizontal).toBeDefined();
     expect(pidSymbols.storageTank).toBeDefined();
+    expect(pidSymbols.separator).toBeDefined();
   });
 
   it('should have all pump types', () => {
@@ -381,16 +382,22 @@ describe('P&ID Symbol Library - Completeness', () => {
 
   it('should have all valve types', () => {
     expect(pidSymbols.valveGate).toBeDefined();
+    expect(pidSymbols.valveShutoff).toBeDefined();
     expect(pidSymbols.valveGlobe).toBeDefined();
     expect(pidSymbols.valveBall).toBeDefined();
     expect(pidSymbols.valveCheck).toBeDefined();
     expect(pidSymbols.valveControl).toBeDefined();
+    expect(pidSymbols.valveControlPositioner).toBeDefined();
     expect(pidSymbols.valveSafetyRelief).toBeDefined();
+    expect(pidSymbols.valvePressureReducing).toBeDefined();
   });
 
   it('should have all heat exchanger types', () => {
     expect(pidSymbols.heatExchangerShellTube).toBeDefined();
+    expect(pidSymbols.cooler).toBeDefined();
     expect(pidSymbols.airCooler).toBeDefined();
+    expect(pidSymbols.jacket).toBeDefined();
+    expect(pidSymbols.ruptureDisk).toBeDefined();
   });
 
   it('should have all instrument types', () => {
@@ -399,6 +406,9 @@ describe('P&ID Symbol Library - Completeness', () => {
     expect(pidSymbols.pressureTransmitter).toBeDefined();
     expect(pidSymbols.levelTransmitter).toBeDefined();
     expect(pidSymbols.flowIndicatorController).toBeDefined();
+    expect(pidSymbols.vibrationTransmitter).toBeDefined();
+    expect(pidSymbols.speedController).toBeDefined();
+    expect(pidSymbols.temperatureAlarmHigh).toBeDefined();
   });
 });
 
@@ -442,11 +452,14 @@ describe('ISA-5.1 Standard Compliance', () => {
   it('all valves should have inlet and outlet terminals', () => {
     const valves = [
       pidSymbols.valveGate,
+      pidSymbols.valveShutoff,
       pidSymbols.valveGlobe,
       pidSymbols.valveBall,
       pidSymbols.valveCheck,
       pidSymbols.valveControl,
+      pidSymbols.valveControlPositioner,
       pidSymbols.valveSafetyRelief,
+      pidSymbols.valvePressureReducing,
       pidSymbols.valveButterfly,
       pidSymbols.valveThreeWay,
       pidSymbols.valveNeedle,
@@ -648,15 +661,16 @@ describe('P&ID Symbols - New Equipment', () => {
 });
 
 describe('P&ID Symbol Completeness', () => {
-  it('should have 64 total symbols', () => {
+  it('should have 87 total symbols', () => {
     const symbolCount = Object.keys(pidSymbols).length;
-    expect(symbolCount).toBe(64);
+    expect(symbolCount).toBe(87);
   });
 
   it('should have all vessel types', () => {
     expect(pidSymbols.vesselVertical).toBeDefined();
     expect(pidSymbols.vesselHorizontal).toBeDefined();
     expect(pidSymbols.storageTank).toBeDefined();
+    expect(pidSymbols.separator).toBeDefined();
     expect(pidSymbols.reactor).toBeDefined();
     expect(pidSymbols.knockoutDrum).toBeDefined();
     expect(pidSymbols.distillationColumn).toBeDefined();
@@ -679,11 +693,14 @@ describe('P&ID Symbol Completeness', () => {
 
   it('should have all valve types', () => {
     expect(pidSymbols.valveGate).toBeDefined();
+    expect(pidSymbols.valveShutoff).toBeDefined();
     expect(pidSymbols.valveGlobe).toBeDefined();
     expect(pidSymbols.valveBall).toBeDefined();
     expect(pidSymbols.valveCheck).toBeDefined();
     expect(pidSymbols.valveControl).toBeDefined();
+    expect(pidSymbols.valveControlPositioner).toBeDefined();
     expect(pidSymbols.valveSafetyRelief).toBeDefined();
+    expect(pidSymbols.valvePressureReducing).toBeDefined();
     expect(pidSymbols.valveButterfly).toBeDefined();
     expect(pidSymbols.valveThreeWay).toBeDefined();
     expect(pidSymbols.valveNeedle).toBeDefined();
@@ -695,12 +712,15 @@ describe('P&ID Symbol Completeness', () => {
 
   it('should have all heat exchanger types', () => {
     expect(pidSymbols.heatExchangerShellTube).toBeDefined();
+    expect(pidSymbols.cooler).toBeDefined();
     expect(pidSymbols.airCooler).toBeDefined();
     expect(pidSymbols.heatExchangerPlate).toBeDefined();
     expect(pidSymbols.firedHeater).toBeDefined();
+    expect(pidSymbols.jacket).toBeDefined();
     expect(pidSymbols.coolingTower).toBeDefined();
     expect(pidSymbols.condenser).toBeDefined();
     expect(pidSymbols.reboiler).toBeDefined();
+    expect(pidSymbols.ruptureDisk).toBeDefined();
   });
 
   it('should have all instrument types', () => {
@@ -712,6 +732,7 @@ describe('P&ID Symbol Completeness', () => {
     expect(pidSymbols.analyzerTransmitter).toBeDefined();
     expect(pidSymbols.phTransmitter).toBeDefined();
     expect(pidSymbols.conductivityTransmitter).toBeDefined();
+    expect(pidSymbols.vibrationTransmitter).toBeDefined();
 
     // Indicators
     expect(pidSymbols.flowIndicator).toBeDefined();
@@ -729,6 +750,7 @@ describe('P&ID Symbol Completeness', () => {
     expect(pidSymbols.pressureController).toBeDefined();
     expect(pidSymbols.temperatureController).toBeDefined();
     expect(pidSymbols.levelController).toBeDefined();
+    expect(pidSymbols.speedController).toBeDefined();
 
     // Indicator Controllers
     expect(pidSymbols.flowIndicatorController).toBeDefined();
@@ -741,6 +763,22 @@ describe('P&ID Symbol Completeness', () => {
     expect(pidSymbols.levelSwitch).toBeDefined();
     expect(pidSymbols.pressureSwitch).toBeDefined();
     expect(pidSymbols.temperatureSwitch).toBeDefined();
+
+    // Alarms
+    expect(pidSymbols.temperatureAlarmHigh).toBeDefined();
+    expect(pidSymbols.temperatureAlarmLow).toBeDefined();
+    expect(pidSymbols.temperatureAlarmHighHigh).toBeDefined();
+    expect(pidSymbols.temperatureAlarmLowLow).toBeDefined();
+    expect(pidSymbols.pressureAlarmHigh).toBeDefined();
+    expect(pidSymbols.pressureAlarmLow).toBeDefined();
+    expect(pidSymbols.pressureAlarmHighHigh).toBeDefined();
+    expect(pidSymbols.pressureAlarmLowLow).toBeDefined();
+    expect(pidSymbols.levelAlarmHigh).toBeDefined();
+    expect(pidSymbols.levelAlarmLow).toBeDefined();
+    expect(pidSymbols.levelAlarmHighHigh).toBeDefined();
+    expect(pidSymbols.levelAlarmLowLow).toBeDefined();
+    expect(pidSymbols.flowAlarmHigh).toBeDefined();
+    expect(pidSymbols.flowAlarmLow).toBeDefined();
   });
 });
 describe('P&ID Symbols - Phase 2 Equipment', () => {

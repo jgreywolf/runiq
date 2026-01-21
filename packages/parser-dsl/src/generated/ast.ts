@@ -764,12 +764,14 @@ export type RuniqKeywordNames =
     | "valveButterfly"
     | "valveCheck"
     | "valveControl"
+    | "valveControlPositioner"
     | "valveDiaphragm"
     | "valveGate"
     | "valveGlobe"
     | "valveNeedle"
     | "valvePinch"
     | "valvePlug"
+    | "valvePressureReducing"
     | "valveSafetyRelief"
     | "valveShutoff"
     | "valveThreeWay"
@@ -4181,10 +4183,10 @@ export function isPIDEquipmentStatement(item: unknown): item is PIDEquipmentStat
     return reflection.isInstance(item, PIDEquipmentStatement.$type);
 }
 
-export type PIDEquipmentType = 'agitator' | 'airCooler' | 'compressorCentrifugal' | 'compressorReciprocating' | 'condenser' | 'cooler' | 'coolingTower' | 'cyclone' | 'distillationColumn' | 'fan' | 'filter' | 'firedHeater' | 'flashDrum' | 'heatExchangerPlate' | 'heatExchangerShellTube' | 'jacket' | 'knockoutDrum' | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'reactor' | 'reboiler' | 'refluxDrum' | 'ruptureDisk' | 'separator' | 'separatorHorizontal' | 'storageTank' | 'turbineSteam' | 'valveAngle' | 'valveBall' | 'valveButterfly' | 'valveCheck' | 'valveControl' | 'valveDiaphragm' | 'valveGate' | 'valveGlobe' | 'valveNeedle' | 'valvePinch' | 'valvePlug' | 'valveSafetyRelief' | 'valveShutoff' | 'valveThreeWay' | 'vesselHorizontal' | 'vesselVertical';
+export type PIDEquipmentType = 'agitator' | 'airCooler' | 'compressorCentrifugal' | 'compressorReciprocating' | 'condenser' | 'cooler' | 'coolingTower' | 'cyclone' | 'distillationColumn' | 'fan' | 'filter' | 'firedHeater' | 'flashDrum' | 'heatExchangerPlate' | 'heatExchangerShellTube' | 'jacket' | 'knockoutDrum' | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'reactor' | 'reboiler' | 'refluxDrum' | 'ruptureDisk' | 'separator' | 'separatorHorizontal' | 'storageTank' | 'turbineSteam' | 'valveAngle' | 'valveBall' | 'valveButterfly' | 'valveCheck' | 'valveControl' | 'valveControlPositioner' | 'valveDiaphragm' | 'valveGate' | 'valveGlobe' | 'valveNeedle' | 'valvePinch' | 'valvePlug' | 'valvePressureReducing' | 'valveSafetyRelief' | 'valveShutoff' | 'valveThreeWay' | 'vesselHorizontal' | 'vesselVertical';
 
 export function isPIDEquipmentType(item: unknown): item is PIDEquipmentType {
-    return item === 'vesselVertical' || item === 'vesselHorizontal' || item === 'storageTank' || item === 'reactor' || item === 'knockoutDrum' || item === 'distillationColumn' || item === 'filter' || item === 'separator' || item === 'separatorHorizontal' || item === 'flashDrum' || item === 'refluxDrum' || item === 'cyclone' || item === 'pumpCentrifugal' || item === 'pumpPositiveDisplacement' || item === 'compressorCentrifugal' || item === 'compressorReciprocating' || item === 'turbineSteam' || item === 'fan' || item === 'agitator' || item === 'valveGate' || item === 'valveGlobe' || item === 'valveBall' || item === 'valveCheck' || item === 'valveControl' || item === 'valveSafetyRelief' || item === 'valveButterfly' || item === 'valveThreeWay' || item === 'valveNeedle' || item === 'valvePlug' || item === 'valveDiaphragm' || item === 'valveAngle' || item === 'valvePinch' || item === 'valveShutoff' || item === 'heatExchangerShellTube' || item === 'cooler' || item === 'airCooler' || item === 'heatExchangerPlate' || item === 'firedHeater' || item === 'coolingTower' || item === 'condenser' || item === 'reboiler' || item === 'jacket' || item === 'ruptureDisk';
+    return item === 'vesselVertical' || item === 'vesselHorizontal' || item === 'storageTank' || item === 'reactor' || item === 'knockoutDrum' || item === 'distillationColumn' || item === 'filter' || item === 'separator' || item === 'separatorHorizontal' || item === 'flashDrum' || item === 'refluxDrum' || item === 'cyclone' || item === 'pumpCentrifugal' || item === 'pumpPositiveDisplacement' || item === 'compressorCentrifugal' || item === 'compressorReciprocating' || item === 'turbineSteam' || item === 'fan' || item === 'agitator' || item === 'valveGate' || item === 'valveGlobe' || item === 'valveBall' || item === 'valveCheck' || item === 'valveControl' || item === 'valveSafetyRelief' || item === 'valveControlPositioner' || item === 'valvePressureReducing' || item === 'valveButterfly' || item === 'valveThreeWay' || item === 'valveNeedle' || item === 'valvePlug' || item === 'valveDiaphragm' || item === 'valveAngle' || item === 'valvePinch' || item === 'valveShutoff' || item === 'heatExchangerShellTube' || item === 'cooler' || item === 'airCooler' || item === 'heatExchangerPlate' || item === 'firedHeater' || item === 'coolingTower' || item === 'condenser' || item === 'reboiler' || item === 'jacket' || item === 'ruptureDisk';
 }
 
 export interface PIDEquipmentTypeProperty extends langium.AstNode {

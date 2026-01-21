@@ -3948,6 +3948,14 @@ export const RuniqGrammar = (): Grammar => loadedRuniqGrammar ?? (loadedRuniqGra
           },
           {
             "$type": "Keyword",
+            "value": "valveControlPositioner"
+          },
+          {
+            "$type": "Keyword",
+            "value": "valvePressureReducing"
+          },
+          {
+            "$type": "Keyword",
             "value": "valveButterfly"
           },
           {

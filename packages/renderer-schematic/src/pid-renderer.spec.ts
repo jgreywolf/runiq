@@ -550,6 +550,115 @@ describe('pid-renderer', () => {
       expect(result.svg).toContain('class="pid-line-utility"');
     });
 
+    it('should render pneumatic line with dashed style', () => {
+      const equipment: PIDEquipment[] = [
+        {
+          tag: 'V-101',
+          type: 'vesselVertical',
+          description: 'Tank',
+          properties: {},
+        },
+        {
+          tag: 'V-102',
+          type: 'vesselVertical',
+          description: 'Tank',
+          properties: {},
+        },
+      ];
+
+      const line: PIDLine = {
+        from: { equipment: 'V-101', port: 'outlet' },
+        to: { equipment: 'V-102', port: 'inlet' },
+        type: PIDLineType.PNEUMATIC,
+        properties: {},
+      };
+
+      const profile: PIDProfile = {
+        version: '1.0',
+        metadata: { title: 'Test' },
+        equipment,
+        instruments: [],
+        lines: [line],
+      };
+
+      const result = renderPID(profile);
+
+      expect(result.svg).toContain('class="pid-line-pneumatic"');
+    });
+
+    it('should render hydraulic line with thick style', () => {
+      const equipment: PIDEquipment[] = [
+        {
+          tag: 'V-101',
+          type: 'vesselVertical',
+          description: 'Tank',
+          properties: {},
+        },
+        {
+          tag: 'V-102',
+          type: 'vesselVertical',
+          description: 'Tank',
+          properties: {},
+        },
+      ];
+
+      const line: PIDLine = {
+        from: { equipment: 'V-101', port: 'outlet' },
+        to: { equipment: 'V-102', port: 'inlet' },
+        type: PIDLineType.HYDRAULIC,
+        properties: {},
+      };
+
+      const profile: PIDProfile = {
+        version: '1.0',
+        metadata: { title: 'Test' },
+        equipment,
+        instruments: [],
+        lines: [line],
+      };
+
+      const result = renderPID(profile);
+
+      expect(result.svg).toContain('class="pid-line-hydraulic"');
+    });
+
+    it('should render data line with dotted style', () => {
+      const equipment: PIDEquipment[] = [
+        {
+          tag: 'V-101',
+          type: 'vesselVertical',
+          description: 'Tank',
+          properties: {},
+        },
+      ];
+
+      const instrument: PIDInstrument = {
+        tag: 'FT-101',
+        type: 'flow-transmitter',
+        description: 'Flow Transmitter',
+        properties: {},
+      };
+
+      const line: PIDLine = {
+        from: { equipment: 'V-101', port: 'outlet' },
+        to: { equipment: 'FT-101', port: 'input' },
+        type: PIDLineType.DATA,
+        properties: {},
+      };
+
+      const profile: PIDProfile = {
+        version: '1.0',
+        metadata: { title: 'Test' },
+        equipment,
+        instruments: [instrument],
+        lines: [line],
+      };
+
+      const result = renderPID(profile);
+
+      expect(result.svg).toContain('class="pid-line-data"');
+    });
+
     it('should render line size annotation for process lines', () => {
       const equipment: PIDEquipment[] = [
         {

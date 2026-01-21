@@ -132,6 +132,7 @@ export enum PIDLineType {
   UTILITY = 'utility',
   PNEUMATIC = 'pneumatic',
   HYDRAULIC = 'hydraulic',
+  DATA = 'data',
 }
 
 /**

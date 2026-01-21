@@ -185,11 +185,12 @@ describe('Constants and Enums', () => {
       expect(PIDLineType.UTILITY).toBe('utility');
       expect(PIDLineType.PNEUMATIC).toBe('pneumatic');
       expect(PIDLineType.HYDRAULIC).toBe('hydraulic');
+      expect(PIDLineType.DATA).toBe('data');
     });
 
-    it('should have 6 PID line types', () => {
+    it('should have 7 PID line types', () => {
       const values = Object.values(PIDLineType);
-      expect(values).toHaveLength(6);
+      expect(values).toHaveLength(7);
     });
   });
 

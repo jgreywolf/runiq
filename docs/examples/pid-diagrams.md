@@ -247,6 +247,36 @@ pid "Gas Compressor Package" {
 
 ---
 
+## Signal and Valve Variants
+
+Showcases additional valve symbols and non-process signal line types.
+
+### DSL Code
+
+```runiq
+pid "Signal and Valve Variants" {
+  equipment PRV-501 type:valvePressureReducing rating:300#
+  equipment PCV-501 type:valveControlPositioner rating:300#
+  equipment ISV-501 type:valveShutoff rating:300#
+
+  instrument FT-501 type:flowTransmitter range:(0,200) unit:mA3/h loop:501 location:field
+  instrument FIC-501 type:flowIndicatorController range:(0,200) unit:mA3/h loop:501 location:panel
+
+  line pneumatic from:FIC-501 to:PCV-501
+  line hydraulic from:PCV-501 to:ACT-501
+  line data from:PLC-501 to:ISV-501
+
+  loop 501 controlled_variable:flow setpoint:120 unit:mA3/h controller:FIC-501 mode:auto
+}
+```
+
+### Key Features
+
+- **Valves**: Pressure reducing, control valve with positioner, and shutoff valve
+- **Signals**: Pneumatic, hydraulic, and data links for actuators and controllers
+
+---
+
 ## Related Resources
 
 - [P&ID Profile Guide](/guide/pid-diagrams) - Complete syntax reference
@@ -285,4 +315,3 @@ Include critical design information:
 - **Pumps**: Flow rate, head, driver power
 - **Heat Exchangers**: Type, area, duty
 - **Compressors**: Type, stages, power
-

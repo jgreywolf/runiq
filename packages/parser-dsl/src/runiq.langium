@@ -376,7 +376,7 @@ PIDEquipmentType returns string:
     | 'turbineSteam' | 'fan' | 'agitator'
     // Valves
     | 'valveGate' | 'valveGlobe' | 'valveBall' | 'valveCheck' | 'valveControl' | 'valveSafetyRelief'
-    | 'valveButterfly' | 'valveThreeWay' | 'valveNeedle' | 'valvePlug' | 'valveDiaphragm'
+    | 'valveControlPositioner' | 'valvePressureReducing' | 'valveButterfly' | 'valveThreeWay' | 'valveNeedle' | 'valvePlug' | 'valveDiaphragm'
     | 'valveAngle' | 'valvePinch' | 'valveShutoff'
     // Heat Exchangers
     | 'heatExchangerShellTube' | 'cooler' | 'airCooler' | 'heatExchangerPlate' | 'firedHeater'
