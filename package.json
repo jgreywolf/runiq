@@ -21,7 +21,7 @@
     "test:coverage": "pnpm -r test -- --coverage",
     "lint": "pnpm -r lint",
     "format": "prettier --write .",
-    "typecheck": "pnpm -C packages/core build && pnpm -r typecheck",
+    "typecheck": "pnpm -C packages/core build && pnpm -C packages/glyphsets build && pnpm -r typecheck",
     "clean": "pnpm -r clean",
     "size": "size-limit",
     "changeset": "changeset",
