@@ -1,7 +1,0 @@
-glyphset funnel "Theme Test" {
-  theme ocean
-  level "Awareness"
-  level "Interest"
-  level "Decision"
-  level "Action"
-}

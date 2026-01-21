@@ -1177,6 +1177,34 @@ export class ElkLayoutEngine implements LayoutEngine {
     return positions;
   }
 
+  private arrangeBpmnLanes(
+    lanes: ContainerDeclaration[],
+    placeholders: Map<string, { width: number; height: number }>,
+    spacing: number
+  ): Map<string, { x: number; y: number }> {
+    const positions = new Map<string, { x: number; y: number }>();
+    let maxWidth = 0;
+
+    for (const lane of lanes) {
+      const placeholder = placeholders.get(lane.id!);
+      const width = placeholder?.width || 400;
+      maxWidth = Math.max(maxWidth, width);
+    }
+
+    let currentY = 0;
+    const laneGap = Math.max(10, Math.round(spacing * 0.1));
+    for (const lane of lanes) {
+      const placeholder = placeholders.get(lane.id!);
+      const height = placeholder?.height || 120;
+
+      positions.set(lane.id!, { x: 0, y: currentY });
+      placeholders.set(lane.id!, { width: maxWidth, height });
+      currentY += height + laneGap;
+    }
+
+    return positions;
+  }
+
   /**
    * Apply uniform dimensions to swimlanes after content layout
    * All horizontal swimlanes get the same width (widest)
@@ -1343,6 +1371,42 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // No need to adjust node positions - pools are horizontal containers
     // and nodes are positioned absolutely within them
+  }
+
+  private stretchBpmnLanesInPools(
+    containers: ContainerDeclaration[],
+    positionedContainers: PositionedContainer[]
+  ): void {
+    const positionedById = new Map<string, PositionedContainer>();
+    for (const positioned of positionedContainers) {
+      positionedById.set(positioned.id, positioned);
+    }
+
+    for (const container of containers) {
+      if (container.shape !== 'bpmnPool') {
+        continue;
+      }
+
+      const positioned = positionedById.get(container.id || '');
+      if (!positioned?.containers || positioned.width <= 0) {
+        continue;
+      }
+
+      const basePadding =
+        container.containerStyle?.padding !== undefined
+          ? container.containerStyle.padding
+          : 30;
+      const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
+      const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
+      const innerWidth = Math.max(
+        0,
+        positioned.width - paddingLeft - paddingRight
+      );
+
+      for (const lane of positioned.containers) {
+        lane.width = innerWidth;
+      }
+    }
   }
 
   /**
@@ -1772,6 +1836,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         );
       } else if (container.shape === 'bpmnPool') {
         containerDirection = 'RIGHT';
+      } else if (container.shape === 'bpmnLane') {
+        containerDirection = 'RIGHT';
       }
 
       const containerGraph: ElkNode = {
@@ -1868,11 +1934,18 @@ export class ElkLayoutEngine implements LayoutEngine {
           directChildrenHeight > 0 ? directChildrenHeight + spacing : 0;
 
         // Arrange nested containers starting from nestedStartY
-        const tempPositions = this.arrangeSiblingContainers(
-          container.containers,
-          spacing,
-          containerPlaceholders
-        );
+        const tempPositions =
+          container.shape === 'bpmnPool'
+            ? this.arrangeBpmnLanes(
+                container.containers,
+                containerPlaceholders,
+                spacing
+              )
+            : this.arrangeSiblingContainers(
+                container.containers,
+                spacing,
+                containerPlaceholders
+              );
 
         // Adjust Y positions to start after direct children
         const adjustedPositions = new Map<string, { x: number; y: number }>();
@@ -1973,6 +2046,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         );
       } else if (container.shape === 'bpmnPool') {
         containerDirection = 'RIGHT'; // Horizontal flow for BPMN pools
+      } else if (container.shape === 'bpmnLane') {
+        containerDirection = 'RIGHT'; // Horizontal flow for BPMN lanes
       }
 
       const containerGraph: ElkNode = {
@@ -2113,11 +2188,18 @@ export class ElkLayoutEngine implements LayoutEngine {
           directChildrenHeight > 0 ? directChildrenHeight + spacing : 0;
 
         // Calculate positions for nested sibling containers (relative to this container's content area)
-        const tempPositions = this.arrangeSiblingContainers(
-          container.containers,
-          spacing,
-          containerPlaceholders
-        );
+        const tempPositions =
+          container.shape === 'bpmnPool'
+            ? this.arrangeBpmnLanes(
+                container.containers,
+                containerPlaceholders,
+                spacing
+              )
+            : this.arrangeSiblingContainers(
+                container.containers,
+                spacing,
+                containerPlaceholders
+              );
 
         // Adjust positions to start after direct children
         const nestedPositions = new Map<string, { x: number; y: number }>();
@@ -2195,6 +2277,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     if (hasBpmnPools) {
       // Apply uniform width to BPMN pools
       this.applyUniformBpmnPoolDimensions(containers, result);
+      this.stretchBpmnLanesInPools(containers, result);
     }
 
     if (hasRegular) {

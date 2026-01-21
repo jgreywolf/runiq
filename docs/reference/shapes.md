@@ -466,7 +466,7 @@ diagram "C4 System Context" {
 }
 ```
 
-### 14. BPMN Shapes (6 shapes)
+### 14. BPMN Shapes (7 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -480,6 +480,7 @@ Business Process Model and Notation (BPMN) 2.0 elements:
 | BPMN Data Object | `@bpmnDataObject` | Data object/artifact         |
 | BPMN Message     | `@bpmnMessage`    | Message/communication        |
 | BPMN Pool        | `@bpmnPool`       | Process pool/participant     |
+| BPMN Lane        | `@bpmnLane`       | Pool subdivision/lane        |
 
 **Example:**
 
@@ -610,7 +611,7 @@ Complete listing organized by category:
 | UML                | 52    | Software modeling, class/sequence diagrams     |
 | Pedigree           | 3     | Medical family trees, genetics                 |
 | C4 Architecture    | 4     | Software architecture (C4 model)               |
-| BPMN               | 6     | Business process modeling                      |
+| BPMN               | 7     | Business process modeling                      |
 | AWS                | 6     | Amazon Web Services infrastructure             |
 | ERD                | 6     | Database entity-relationship diagrams          |
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |

@@ -311,6 +311,14 @@ export function registerBPMNShapes(): void {
   shapeRegistry.register(bpmn.bpmnDataObjectShape);
   shapeRegistry.register(bpmn.bpmnMessageShape);
   shapeRegistry.register(bpmn.bpmnPoolShape);
+  shapeRegistry.register(bpmn.bpmnLaneShape);
+  shapeRegistry.register(bpmn.transactionShape);
+  shapeRegistry.register(bpmn.eventSubProcessShape);
+  shapeRegistry.register(bpmn.callActivityShape);
+  shapeRegistry.register(bpmn.startNonInterferingShape);
+  shapeRegistry.register(bpmn.intermediateNonInterferingShape);
+  shapeRegistry.register(bpmn.conversationShape);
+  shapeRegistry.register(bpmn.annotationShape);
 }
 
 export function registerAWSShapes(): void {

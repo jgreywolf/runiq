@@ -1,4 +1,5 @@
 import type { DiagramAst } from '../types/index.js';
+import { validateBpmnDiagram } from './bpmn.js';
 
 // TODO: Do we actually need this anymore?  Its only used in CLI
 export type DiagramType =
@@ -8,6 +9,7 @@ export type DiagramType =
   | 'state-machine'
   | 'block-diagram'
   | 'use-case'
+  | 'bpmn'
   | 'generic';
 
 export interface DiagramValidationError {
@@ -88,6 +90,26 @@ export const DIAGRAM_TYPE_CONSTRAINTS: Record<
       'rounded',
     ],
   },
+  bpmn: {
+    type: 'bpmn',
+    description: 'BPMN diagrams with pools, lanes, events, gateways, and tasks',
+    allowedShapes: [
+      'bpmnTask',
+      'bpmnEvent',
+      'bpmnGateway',
+      'bpmnDataObject',
+      'bpmnMessage',
+      'bpmnPool',
+      'bpmnLane',
+      'transaction',
+      'eventSubProcess',
+      'callActivity',
+      'startNonInterfering',
+      'intermediateNonInterfering',
+      'conversation',
+      'annotation',
+    ],
+  },
   generic: {
     type: 'generic',
     description: 'Generic diagrams with no shape restrictions',
@@ -166,11 +188,13 @@ export function validateDiagramType(
     }
   }
 
-  return {
-    valid: errors.length === 0,
-    errors,
-    warnings,
-  };
+  if (diagramType === 'bpmn') {
+    const bpmnResult = validateBpmnDiagram(ast);
+    errors.push(...bpmnResult.errors);
+    warnings.push(...bpmnResult.warnings);
+  }
+
+  return { valid: errors.length === 0, errors, warnings };
 }
 
 export function listDiagramTypes(): DiagramTypeConstraints[] {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { DiagramAst } from '../types/index.js';
+import { ArrowType, LineStyle } from '../constants.js';
 import {
   DIAGRAM_TYPE_CONSTRAINTS,
   listDiagramTypes,
@@ -219,6 +220,111 @@ describe('validation', () => {
         const result = validateDiagramType(ast, 'flowchart');
         expect(result.valid).toBe(false);
         expect(result.errors.length).toBeGreaterThan(0);
+        expect(result.warnings.length).toBeGreaterThan(0);
+      });
+    });
+
+    describe('bpmn validation', () => {
+      it('should warn for message flows without styling between pools', () => {
+        const ast: DiagramAst = {
+          astVersion: '1.0',
+          nodes: [
+            { id: 'a', shape: 'bpmnTask' },
+            { id: 'b', shape: 'bpmnTask' },
+          ],
+          edges: [{ from: 'a', to: 'b' }],
+          containers: [
+            {
+              type: 'container',
+              id: 'pool-a',
+              label: 'Pool A',
+              shape: 'bpmnPool',
+              children: ['a'],
+            },
+            {
+              type: 'container',
+              id: 'pool-b',
+              label: 'Pool B',
+              shape: 'bpmnPool',
+              children: ['b'],
+            },
+          ],
+        };
+
+        const result = validateDiagramType(ast, 'bpmn');
+        expect(result.warnings.length).toBeGreaterThan(0);
+      });
+
+      it('should warn for message flow styling inside a pool', () => {
+        const ast: DiagramAst = {
+          astVersion: '1.0',
+          nodes: [
+            { id: 'a', shape: 'bpmnTask' },
+            { id: 'b', shape: 'bpmnTask' },
+          ],
+          edges: [
+            {
+              from: 'a',
+              to: 'b',
+              lineStyle: LineStyle.DASHED,
+              arrowType: ArrowType.OPEN,
+            },
+          ],
+          containers: [
+            {
+              type: 'container',
+              id: 'pool-a',
+              label: 'Pool A',
+              shape: 'bpmnPool',
+              children: ['a', 'b'],
+            },
+          ],
+        };
+
+        const result = validateDiagramType(ast, 'bpmn');
+        expect(result.warnings.length).toBeGreaterThan(0);
+      });
+
+      it('should error when a lane is outside a pool', () => {
+        const ast: DiagramAst = {
+          astVersion: '1.0',
+          nodes: [{ id: 'a', shape: 'bpmnTask' }],
+          edges: [],
+          containers: [
+            {
+              type: 'container',
+              id: 'lane-a',
+              label: 'Lane A',
+              shape: 'bpmnLane',
+              children: ['a'],
+            },
+          ],
+        };
+
+        const result = validateDiagramType(ast, 'bpmn');
+        expect(result.errors.length).toBeGreaterThan(0);
+      });
+
+      it('should warn when BPMN nodes are outside pools', () => {
+        const ast: DiagramAst = {
+          astVersion: '1.0',
+          nodes: [
+            { id: 'a', shape: 'bpmnTask' },
+            { id: 'b', shape: 'bpmnTask' },
+          ],
+          edges: [],
+          containers: [
+            {
+              type: 'container',
+              id: 'pool-a',
+              label: 'Pool A',
+              shape: 'bpmnPool',
+              children: ['a'],
+            },
+          ],
+        };
+
+        const result = validateDiagramType(ast, 'bpmn');
         expect(result.warnings.length).toBeGreaterThan(0);
       });
     });
