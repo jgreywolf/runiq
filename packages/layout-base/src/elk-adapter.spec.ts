@@ -37,6 +37,20 @@ describe('ElkLayoutEngine', () => {
       render: (_ctx, position) =>
         `<polygon points="${position.x + 50},${position.y} ${position.x + 100},${position.y + 50} ${position.x + 50},${position.y + 100} ${position.x},${position.y + 50}" />`,
     });
+
+    shapeRegistry.register({
+      id: 'pedigree-male',
+      bounds: (_ctx) => ({ width: 80, height: 80 }),
+      render: (_ctx, position) =>
+        `<rect x="${position.x}" y="${position.y}" width="80" height="80" />`,
+    });
+
+    shapeRegistry.register({
+      id: 'pedigree-female',
+      bounds: (_ctx) => ({ width: 80, height: 80 }),
+      render: (_ctx, position) =>
+        `<circle cx="${position.x + 40}" cy="${position.y + 40}" r="40" />`,
+    });
   });
 
   describe('Engine Metadata', () => {
@@ -640,6 +654,98 @@ describe('ElkLayoutEngine', () => {
       // Check that diagram has reasonable size
       expect(result.size.width).toBeGreaterThan(150);
       expect(result.size.height).toBeGreaterThan(80);
+    });
+  });
+
+  describe('Special Layout Modes', () => {
+    it('should use circular layout for circular containers', async () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [{ from: 'A', to: 'B' }],
+        containers: [
+          {
+            type: 'container',
+            id: 'circle-container',
+            label: 'Circular',
+            children: ['A', 'B'],
+            layoutOptions: { algorithm: 'circular' },
+          },
+        ],
+      };
+
+      const result = await engine.layout(diagram);
+
+      expect(result.nodes).toHaveLength(2);
+      expect(result.containers).toHaveLength(1);
+      expect(result.size.width).toBeGreaterThan(0);
+      expect(result.size.height).toBeGreaterThan(0);
+    });
+
+    it('should apply mindmap styling in radial containers', async () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'root', shape: 'circle' },
+          { id: 'child', shape: 'rounded' },
+        ],
+        edges: [{ from: 'root', to: 'child' }],
+        containers: [
+          {
+            type: 'container',
+            id: 'mindmap',
+            label: 'Mindmap',
+            children: ['root', 'child'],
+            layoutOptions: { algorithm: 'radial' },
+          },
+        ],
+      };
+
+      const result = await engine.layout(diagram);
+
+      expect(result.nodes).toHaveLength(2);
+      expect(diagram.nodes[0].data?.mindmapLevel).toBeDefined();
+    });
+
+    it('should layout pedigree diagrams without errors', async () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'p1', shape: 'pedigree-male' },
+          { id: 'p2', shape: 'pedigree-female' },
+          { id: 'c1', shape: 'pedigree-male' },
+        ],
+        edges: [
+          { from: 'p1', to: 'c1' },
+          { from: 'p2', to: 'c1' },
+        ],
+      };
+
+      const result = await engine.layout(diagram);
+
+      expect(result.nodes).toHaveLength(3);
+      expect(result.edges).toHaveLength(2);
+    });
+
+    it('should respect anchor constraints', async () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [
+          { from: 'A', to: 'B', anchorFrom: 'east', anchorTo: 'west' },
+        ],
+      };
+
+      const result = await engine.layout(diagram);
+
+      expect(result.edges).toHaveLength(1);
+      expect(result.edges[0].points.length).toBeGreaterThanOrEqual(2);
     });
   });
 });

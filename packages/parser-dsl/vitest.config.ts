@@ -12,6 +12,8 @@ export default defineConfig({
         '**/dist/**',
         '**/*.spec.ts',
         '**/*.test.ts',
+        '**/src/index.ts',
+        '**/test-*.js',
         '**/src/generated/**',
       ],
       thresholds: {

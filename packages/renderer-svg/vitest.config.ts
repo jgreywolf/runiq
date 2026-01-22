@@ -12,6 +12,8 @@ export default defineConfig({
         '**/node_modules/**',
         '**/dist/**',
         '**/src/visual/**',
+        '**/src/index.ts',
+        '**/test-*.js',
         '**/*.spec.ts',
         '**/*.test.ts',
       ],
