@@ -42,6 +42,10 @@
 					<div class="border-b border-indigo-200 bg-indigo-50 px-4 py-2">
 						<p class="text-xs font-medium text-indigo-900">📅 Timeline Mode</p>
 					</div>
+				{:else if editorState.profileName === ProfileName.railroad}
+					<div class="border-b border-slate-200 bg-slate-50 px-4 py-2">
+						<p class="text-xs font-medium text-slate-900">Railroad Diagram Mode</p>
+					</div>
 				{:else if editorState.profileName === ProfileName.electrical}
 					<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
 						<p class="text-xs font-medium text-amber-900">⚡ Electrical Circuit Mode</p>
@@ -57,6 +61,9 @@
 				{:else if editorState.profileName === ProfileName.hydraulic}
 					<div class="border-b border-teal-200 bg-teal-50 px-4 py-2">
 						<p class="text-xs font-medium text-teal-900">💧 Hydraulic Circuit Mode</p>
+					</div>				{:else if editorState.profileName === ProfileName.hvac}
+					<div class="border-b border-cyan-200 bg-cyan-50 px-4 py-2">
+						<p class="text-xs font-medium text-cyan-900">HVAC System Mode</p>
 					</div>
 				{:else if editorState.profileName === ProfileName.wardley}
 					<div class="border-b border-purple-200 bg-purple-50 px-4 py-2">
@@ -113,3 +120,4 @@
 	categories={sampleDiagrams}
 	onInsertSample={handleInsertSample}
 />
+

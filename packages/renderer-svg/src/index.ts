@@ -1,14 +1,14 @@
 import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
-import { escapeXml } from './renderers/utils.js';
-import { renderContainer } from './renderers/container.js';
-import { renderEdge } from './renderers/edge.js';
-import { renderNode } from './renderers/node.js';
-import { renderDefs } from './renderers/defs.js';
 import {
   calculateGraphMetrics,
-  getDiagramTheme,
   getContainerMembership,
+  getDiagramTheme,
 } from '@runiq/core';
+import { renderContainer } from './renderers/container.js';
+import { renderDefs } from './renderers/defs.js';
+import { renderEdge } from './renderers/edge.js';
+import { renderNode } from './renderers/node.js';
+import { escapeXml } from './renderers/utils.js';
 
 // Re-export Wardley renderer
 export {
@@ -31,11 +31,39 @@ export {
   type TimelineRenderResult,
 } from './timeline-renderer.js';
 
+// Re-export Railroad renderer
+export {
+  renderRailroadDiagram,
+  type RailroadRenderOptions,
+  type RailroadRenderResult,
+} from './railroad-renderer.js';
+
+// Re-export Kanban renderer
+export {
+  renderKanban,
+  type KanbanRenderOptions,
+  type KanbanRenderResult,
+} from './kanban-renderer.js';
+
+// Re-export GitGraph renderer
+export {
+  renderGitGraph,
+  type GitGraphRenderOptions,
+  type GitGraphRenderResult,
+} from './gitgraph-renderer.js';
+
+// Re-export Treemap renderer
+export {
+  renderTreemap,
+  type TreemapRenderOptions,
+  type TreemapRenderResult,
+} from './treemap-renderer.js';
+
 // Re-export label utilities for inline icons
 export {
+  measureLabelWithIcons,
   parseLabelWithIcons,
   renderLabelWithIcons,
-  measureLabelWithIcons,
   type LabelSegment,
 } from './renderers/label-with-icons.js';
 
@@ -72,9 +100,7 @@ export function renderSvg(
     layout.nodes.map((node, index) => [node.id, index])
   );
   const freeNodes = layout.nodes.filter((node) => !membership.has(node.id));
-  const containedNodes = layout.nodes.filter((node) =>
-    membership.has(node.id)
-  );
+  const containedNodes = layout.nodes.filter((node) => membership.has(node.id));
 
   // SVG header
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 

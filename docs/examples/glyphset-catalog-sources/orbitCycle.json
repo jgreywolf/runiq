@@ -1,0 +1,19 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "orbitCycle",
+      "shape": "orbitCycle",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ],
+        "centerLabel": "Core"
+      }
+    }
+  ],
+  "edges": []
+}

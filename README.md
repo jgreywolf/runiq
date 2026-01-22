@@ -651,7 +651,7 @@ See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for d
 
 ## 📊 Shape Library (233 Total)
 
-Runiq provides **233 professional shapes** across 17 categories in the core registry (diagram + glyphset shapes; see the Shape Reference for the diagram profile catalog):
+Runiq provides **248 professional shapes** across 18 categories in the core registry (diagram + glyphset shapes; see the Shape Reference for the diagram profile catalog):
 
 | Category          | Count | Description                                                   |
 | ----------------- | ----- | ------------------------------------------------------------- |

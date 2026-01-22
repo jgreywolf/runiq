@@ -170,6 +170,34 @@ import {
   vacuumSwitch,
   blowOffValve,
 } from './pneumatic/pneumaticSymbols.ts';
+import {
+  airHandlingUnit,
+  supplyFan,
+  returnFan,
+  exhaustFan,
+  filter as hvacFilter,
+  heatingCoil,
+  coolingCoil,
+  humidifier,
+  dehumidifier,
+  vavBox,
+  diffuserSupply,
+  diffuserReturn,
+  damperMotorized,
+  damperManual,
+  damperFire,
+  thermostat,
+  temperatureSensor,
+  pressureSensor as hvacPressureSensor,
+  chiller,
+  boiler,
+  coolingTower,
+  pump as hvacPump,
+  heatExchanger,
+  ductSupply,
+  ductReturn,
+  ductExhaust,
+} from './hvac/hvacSymbols.ts';
 import { SymbolDefinition } from './symbol.ts';
 
 /**
@@ -374,3 +402,31 @@ symbolRegistry.set('MANIFOLD_SANDWICH', manifoldSandwich);
 symbolRegistry.set('MANIFOLD_MONOBLOCK', manifoldMonoblock);
 symbolRegistry.set('MANIFOLD_MODULAR', manifoldModular);
 symbolRegistry.set('MANIFOLD_CARTRIDGE', manifoldCartridge);
+
+// HVAC components
+symbolRegistry.set('AIR_HANDLING_UNIT', airHandlingUnit);
+symbolRegistry.set('SUPPLY_FAN', supplyFan);
+symbolRegistry.set('RETURN_FAN', returnFan);
+symbolRegistry.set('EXHAUST_FAN', exhaustFan);
+symbolRegistry.set('FILTER', hvacFilter);
+symbolRegistry.set('HEATING_COIL', heatingCoil);
+symbolRegistry.set('COOLING_COIL', coolingCoil);
+symbolRegistry.set('HUMIDIFIER', humidifier);
+symbolRegistry.set('DEHUMIDIFIER', dehumidifier);
+symbolRegistry.set('VAV_BOX', vavBox);
+symbolRegistry.set('DIFFUSER_SUPPLY', diffuserSupply);
+symbolRegistry.set('DIFFUSER_RETURN', diffuserReturn);
+symbolRegistry.set('DAMPER_MOTORIZED', damperMotorized);
+symbolRegistry.set('DAMPER_MANUAL', damperManual);
+symbolRegistry.set('DAMPER_FIRE', damperFire);
+symbolRegistry.set('THERMOSTAT', thermostat);
+symbolRegistry.set('TEMPERATURE_SENSOR', temperatureSensor);
+symbolRegistry.set('PRESSURE_SENSOR', hvacPressureSensor);
+symbolRegistry.set('CHILLER', chiller);
+symbolRegistry.set('BOILER', boiler);
+symbolRegistry.set('COOLING_TOWER', coolingTower);
+symbolRegistry.set('PUMP', hvacPump);
+symbolRegistry.set('HEAT_EXCHANGER', heatExchanger);
+symbolRegistry.set('DUCT_SUPPLY', ductSupply);
+symbolRegistry.set('DUCT_RETURN', ductReturn);
+symbolRegistry.set('DUCT_EXHAUST', ductExhaust);

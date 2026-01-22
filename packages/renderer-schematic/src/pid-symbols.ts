@@ -154,6 +154,37 @@ export const storageTank = createPIDSymbol(
   }
 );
 
+/**
+ * Generic Separator Vessel
+ * Horizontal vessel with internal baffle
+ */
+export const separator = createPIDSymbol(
+  'SEPARATOR',
+  90,
+  50,
+  'vessel',
+  [
+    { x: 0, y: 25, name: 'left' },
+    { x: 90, y: 25, name: 'right' },
+    { x: 45, y: 0, name: 'top' },
+    { x: 45, y: 50, name: 'bottom' },
+  ],
+  (cx, cy, label) => {
+    const w = 90;
+    const h = 50;
+    const left = cx - w / 2;
+    const top = cy - h / 2;
+
+    return `
+      <rect x="${left}" y="${top}" width="${w}" height="${h}" 
+        stroke="currentColor" stroke-width="3" fill="none"/>
+      <line x1="${cx}" y1="${top + 6}" x2="${cx}" y2="${top + h - 6}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="11" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
 // ============================================================================
 // ROTATING EQUIPMENT - PUMPS
 // ============================================================================
@@ -259,6 +290,36 @@ export const valveGate = createPIDSymbol(
         fill="white"/>
       <!-- Outlet line -->
       <line x1="${cx + size / 2}" y1="${cy}" x2="${cx + 15}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${cy + 20}" text-anchor="middle" font-size="9" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Shutoff/Isolation Valve
+ * Two opposing triangles indicating isolation
+ */
+export const valveShutoff = createPIDSymbol(
+  'VALVE_SHUTOFF',
+  34,
+  30,
+  'valve',
+  [
+    { x: 0, y: 15, name: 'inlet' },
+    { x: 34, y: 15, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const size = 10;
+
+    return `
+      <line x1="${cx - 17}" y1="${cy}" x2="${cx - size}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M ${cx - size},${cy - size} L ${cx - size},${cy + size} L ${cx},${cy} Z" 
+        stroke="currentColor" stroke-width="2" fill="white"/>
+      <path d="M ${cx + size},${cy - size} L ${cx + size},${cy + size} L ${cx},${cy} Z" 
+        stroke="currentColor" stroke-width="2" fill="white"/>
+      <line x1="${cx + size}" y1="${cy}" x2="${cx + 17}" y2="${cy}" 
         stroke="currentColor" stroke-width="2"/>
       ${label ? `<text x="${cx}" y="${cy + 20}" text-anchor="middle" font-size="9" fill="currentColor">${label}</text>` : ''}
     `;
@@ -453,6 +514,74 @@ export const valveSafetyRelief = createPIDSymbol(
   }
 );
 
+/**
+ * Pressure Reducing Valve
+ * Globe valve with pressure reducer indicator
+ */
+export const valvePressureReducing = createPIDSymbol(
+  'VALVE_PRV',
+  32,
+  35,
+  'valve',
+  [
+    { x: 0, y: 18, name: 'inlet' },
+    { x: 32, y: 18, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const r = 10;
+
+    return `
+      <line x1="${cx - 16}" y1="${cy}" x2="${cx - r}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <circle cx="${cx}" cy="${cy}" r="${r}" 
+        stroke="currentColor" stroke-width="2" fill="white"/>
+      <path d="M ${cx - 6},${cy - 12} L ${cx + 6},${cy - 12}" 
+        stroke="currentColor" stroke-width="2"/>
+      <path d="M ${cx},${cy - 12} L ${cx},${cy - 2}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + r}" y1="${cy}" x2="${cx + 16}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${cy + r + 12}" text-anchor="middle" font-size="9" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Control Valve with Positioner
+ * Control valve with positioner box on actuator
+ */
+export const valveControlPositioner = createPIDSymbol(
+  'VALVE_CONTROL_POS',
+  34,
+  56,
+  'valve',
+  [
+    { x: 0, y: 38, name: 'inlet' },
+    { x: 34, y: 38, name: 'outlet' },
+    { x: 17, y: 0, name: 'actuator' },
+  ],
+  (cx, cy, label) => {
+    const r = 10;
+    const valveY = cy + 12;
+
+    return `
+      <line x1="${cx - 17}" y1="${valveY}" x2="${cx - r}" y2="${valveY}" 
+        stroke="currentColor" stroke-width="2"/>
+      <circle cx="${cx}" cy="${valveY}" r="${r}" 
+        stroke="currentColor" stroke-width="2" fill="white"/>
+      <path d="M ${cx},${cy - 16} L ${cx + 8},${cy - 6} L ${cx},${cy + 2} L ${cx - 8},${cy - 6} Z" 
+        stroke="currentColor" stroke-width="2" fill="white"/>
+      <rect x="${cx + 10}" y="${cy - 12}" width="10" height="8" 
+        stroke="currentColor" stroke-width="2" fill="white"/>
+      <line x1="${cx}" y1="${cy + 2}" x2="${cx}" y2="${valveY - r}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + r}" y1="${valveY}" x2="${cx + 17}" y2="${valveY}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${valveY + r + 12}" text-anchor="middle" font-size="9" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
 // ============================================================================
 // HEAT EXCHANGERS
 // ============================================================================
@@ -549,6 +678,35 @@ export const airCooler = createPIDSymbol(
       <line x1="${cx - 7}" y1="${bottom - h - 22}" x2="${cx + 7}" y2="${bottom - h - 8}" 
         stroke="currentColor" stroke-width="2"/>
       ${label ? `<text x="${cx}" y="${bottom + 15}" text-anchor="middle" font-size="10" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Generic Cooler / Intercooler
+ * Box with zig-zag heat transfer path
+ */
+export const cooler = createPIDSymbol(
+  'COOLER',
+  70,
+  40,
+  'heatExchanger',
+  [
+    { x: 0, y: 20, name: 'inlet' },
+    { x: 70, y: 20, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const w = 70;
+    const h = 30;
+    const left = cx - w / 2;
+    const top = cy - h / 2;
+
+    return `
+      <rect x="${left}" y="${top}" width="${w}" height="${h}" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M ${left + 8},${cy} L ${left + 18},${cy - 6} L ${left + 28},${cy + 6} L ${left + 38},${cy - 6} L ${left + 48},${cy + 6} L ${left + 58},${cy}" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      ${label ? `<text x="${cx}" y="${cy + 18}" text-anchor="middle" font-size="10" fill="currentColor">${label}</text>` : ''}
     `;
   }
 );
@@ -1647,6 +1805,65 @@ export const firedHeater = createPIDSymbol(
   }
 );
 
+/**
+ * Jacketed Vessel/Equipment
+ * Double rectangle indicating jacket
+ */
+export const jacket = createPIDSymbol(
+  'JACKET',
+  60,
+  70,
+  'heatExchanger',
+  [
+    { x: 0, y: 20, name: 'inlet' },
+    { x: 60, y: 20, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const w = 60;
+    const h = 70;
+    const left = cx - w / 2;
+    const top = cy - h / 2;
+
+    return `
+      <rect x="${left}" y="${top}" width="${w}" height="${h}" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      <rect x="${left + 6}" y="${top + 6}" width="${w - 12}" height="${h - 12}" 
+        stroke="currentColor" stroke-width="2" fill="none"/>
+      ${label ? `<text x="${cx}" y="${cy + 5}" text-anchor="middle" font-size="10" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
+/**
+ * Rupture Disk
+ * Circular disk with diagonal slash
+ */
+export const ruptureDisk = createPIDSymbol(
+  'RUPTURE_DISK',
+  30,
+  30,
+  'misc',
+  [
+    { x: 0, y: 15, name: 'inlet' },
+    { x: 30, y: 15, name: 'outlet' },
+  ],
+  (cx, cy, label) => {
+    const r = 10;
+
+    return `
+      <line x1="${cx - 15}" y1="${cy}" x2="${cx - r}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      <circle cx="${cx}" cy="${cy}" r="${r}" 
+        stroke="currentColor" stroke-width="2" fill="white"/>
+      <line x1="${cx - r + 2}" y1="${cy + r - 2}" x2="${cx + r - 2}" y2="${cy - r + 2}" 
+        stroke="currentColor" stroke-width="2"/>
+      <line x1="${cx + r}" y1="${cy}" x2="${cx + 15}" y2="${cy}" 
+        stroke="currentColor" stroke-width="2"/>
+      ${label ? `<text x="${cx}" y="${cy + r + 12}" text-anchor="middle" font-size="9" fill="currentColor">${label}</text>` : ''}
+    `;
+  }
+);
+
 // ============================================================================
 // MORE INSTRUMENTATION
 // ============================================================================
@@ -1898,6 +2115,24 @@ export const flowController = createPIDSymbol(
 );
 
 /**
+ * Speed Controller (SC)
+ */
+export const speedController = createPIDSymbol(
+  'SC',
+  40,
+  40,
+  'instrument',
+  [
+    { x: 20, y: 40, name: 'process' },
+    { x: 20, y: 0, name: 'output' },
+  ],
+  (cx, cy, label) => {
+    const tag = label || 'SC';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+/**
  * pH Analyzer/Transmitter (pHT)
  */
 export const phTransmitter = createPIDSymbol(
@@ -1924,6 +2159,21 @@ export const conductivityTransmitter = createPIDSymbol(
   (cx, cy, label) => {
     const tag = label || 'CT';
     return instrumentBubble(cx, cy, tag, true); // Field mounted
+  }
+);
+
+/**
+ * Vibration Transmitter (VT)
+ */
+export const vibrationTransmitter = createPIDSymbol(
+  'VT',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'process' }],
+  (cx, cy, label) => {
+    const tag = label || 'VT';
+    return instrumentBubble(cx, cy, tag, true);
   }
 );
 
@@ -1999,6 +2249,186 @@ export const temperatureSwitch = createPIDSymbol(
   }
 );
 
+/**
+ * Temperature Alarms
+ */
+export const temperatureAlarmHigh = createPIDSymbol(
+  'TAH',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'TAH';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const temperatureAlarmLow = createPIDSymbol(
+  'TAL',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'TAL';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const temperatureAlarmHighHigh = createPIDSymbol(
+  'TAHH',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'TAHH';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const temperatureAlarmLowLow = createPIDSymbol(
+  'TALL',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'TALL';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+/**
+ * Pressure Alarms
+ */
+export const pressureAlarmHigh = createPIDSymbol(
+  'PAH',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'PAH';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const pressureAlarmLow = createPIDSymbol(
+  'PAL',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'PAL';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const pressureAlarmHighHigh = createPIDSymbol(
+  'PAHH',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'PAHH';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const pressureAlarmLowLow = createPIDSymbol(
+  'PALL',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'PALL';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+/**
+ * Level Alarms
+ */
+export const levelAlarmHigh = createPIDSymbol(
+  'LAH',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'LAH';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const levelAlarmLow = createPIDSymbol(
+  'LAL',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'LAL';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const levelAlarmHighHigh = createPIDSymbol(
+  'LAHH',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'LAHH';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const levelAlarmLowLow = createPIDSymbol(
+  'LALL',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'LALL';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+/**
+ * Flow Alarms
+ */
+export const flowAlarmHigh = createPIDSymbol(
+  'FAH',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'FAH';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
+export const flowAlarmLow = createPIDSymbol(
+  'FAL',
+  40,
+  40,
+  'instrument',
+  [{ x: 20, y: 40, name: 'signal' }],
+  (cx, cy, label) => {
+    const tag = label || 'FAL';
+    return instrumentBubble(cx, cy, tag, false);
+  }
+);
+
 // ============================================================================
 // EXPORT ALL SYMBOLS
 // ============================================================================
@@ -2008,6 +2438,7 @@ export const pidSymbols = {
   vesselVertical,
   vesselHorizontal,
   storageTank,
+  separator,
   reactor,
   knockoutDrum,
   distillationColumn,
@@ -2028,11 +2459,14 @@ export const pidSymbols = {
 
   // Valves
   valveGate,
+  valveShutoff,
   valveGlobe,
   valveBall,
   valveCheck,
   valveControl,
+  valveControlPositioner,
   valveSafetyRelief,
+  valvePressureReducing,
   valveButterfly,
   valveThreeWay,
   valveNeedle,
@@ -2043,12 +2477,15 @@ export const pidSymbols = {
 
   // Heat Exchangers & Cooling
   heatExchangerShellTube,
+  cooler,
   airCooler,
   heatExchangerPlate,
   firedHeater,
+  jacket,
   coolingTower,
   condenser,
   reboiler,
+  ruptureDisk,
 
   // Instrumentation - Transmitters
   flowTransmitter,
@@ -2058,6 +2495,7 @@ export const pidSymbols = {
   analyzerTransmitter,
   phTransmitter,
   conductivityTransmitter,
+  vibrationTransmitter,
 
   // Instrumentation - Indicators
   flowIndicator,
@@ -2075,6 +2513,7 @@ export const pidSymbols = {
   pressureController,
   temperatureController,
   levelController,
+  speedController,
 
   // Instrumentation - Indicator Controllers
   flowIndicatorController,
@@ -2087,6 +2526,20 @@ export const pidSymbols = {
   levelSwitch,
   pressureSwitch,
   temperatureSwitch,
+  temperatureAlarmHigh,
+  temperatureAlarmLow,
+  temperatureAlarmHighHigh,
+  temperatureAlarmLowLow,
+  pressureAlarmHigh,
+  pressureAlarmLow,
+  pressureAlarmHighHigh,
+  pressureAlarmLowLow,
+  levelAlarmHigh,
+  levelAlarmLow,
+  levelAlarmHighHigh,
+  levelAlarmLowLow,
+  flowAlarmHigh,
+  flowAlarmLow,
 };
 
 export type PIDSymbolType = keyof typeof pidSymbols;

@@ -1,0 +1,28 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "puzzle-composite",
+      "shape": "puzzle",
+      "label": "Alpha + Beta + Gamma",
+      "data": {
+        "pieces": [
+          {
+            "label": "Alpha",
+            "color": "#4472C4"
+          },
+          {
+            "label": "Beta",
+            "color": "#ED7D31"
+          },
+          {
+            "label": "Gamma",
+            "color": "#A5A5A5"
+          }
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

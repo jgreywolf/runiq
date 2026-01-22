@@ -31,11 +31,11 @@ features:
     details: Standards-compliant SVG with no HTML hacks. Embed-safe for PowerPoint, Keynote, Google Slides.
 
   - icon: 🔧
-    title: 176 Shapes Across 17 Categories
+    title: 192 Shapes Across 18 Categories
     details: From flowcharts to UML diagrams, quantum circuits to Control system diagrams, BPMN to AWS infrastructure.
 
   - icon: ✨
-    title: 60+ Smart Art Glyphsets
+    title: 61 Smart Art Glyphsets
     details: Quick diagram templates like MS PowerPoint SmartArt. Process flows, org charts, matrices, timelines - ready to use with 9 professional themes.
 
   - icon: 🏗️
@@ -66,21 +66,24 @@ features:
 ## Quick Example
 
 ```runiq
-diagram "Auth Flow"
-direction LR
+diagram "Auth Flow" {
+  direction LR
 
-style default fill:#f7f7ff strokeColor:#444
-style decision fill:#fff7e6 strokeColor:#aa7700
+  style default fillColor: "#f7f7ff" strokeColor: "#444" font: "Inter" fontSize: 14
+  style decision fillColor: "#fff7e6" strokeColor: "#aa7700"
+  style link strokeColor: "#2a6fdb" strokeWidth: 2
 
-shape User     as @actor   label:"Visitor"
-shape Landing  as @rounded label:"Landing Page"
-shape Check    as @rhombus label:"Signed up?" style:decision
-shape Welcome  as @hexagon     label:"Welcome"
+  shape User     as @actor   label:"Visitor" icon:fa/user
+  shape Landing  as @rounded label:"Landing Page"
+  shape Check    as @rhombus label:"Signed up?" style:decision
+  shape Welcome  as @hexagon     label:"Welcome"
+  shape Pricing  as @doc     label:"Pricing" icon:fa/dollar link:"/pricing" tooltip:"See pricing"
 
-User -> Landing : visits
-Landing -> Check
-Check -yes-> Welcome
-Check[no]  -> Pricing : reads
+  User -visits-> Landing
+  Landing -> Check
+  Check -yes-> Welcome
+  Check -no-> Pricing
+}
 ```
 
 <div style="margin: 2rem 0;">
@@ -121,7 +124,7 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 
 **October 31, 2025** - v0.1.0 Released! 🎉
 
-- ✅ 176 shapes across 17 categories
+- ✅ 192 shapes across 18 categories
 - ✅ Quantum circuits, <!-- pedigree charts, --> BPMN, AWS, ERD, DFD support
 - ✅ UML relationship support (stereotypes, line styles, arrow types)
 - ✅ Control system diagrams with LaTeX and Simulink export
@@ -143,4 +146,3 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 <div style="text-align: center; margin-top: 3rem; color: #666;">
   Built with ❤️ using Test-Driven Development
 </div>
-

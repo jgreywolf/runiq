@@ -28,6 +28,8 @@ export type RuniqKeywordNames =
     | "%"
     | "("
     | ")"
+    | "*"
+    | "+"
     | ","
     | "."
     | ".."
@@ -40,6 +42,7 @@ export type RuniqKeywordNames =
     | "900#"
     | ":"
     | "="
+    | "?"
     | "@"
     | "Alloy20"
     | "BT"
@@ -98,6 +101,7 @@ export type RuniqKeywordNames =
     | "affected:"
     | "aggregation"
     | "agitator"
+    | "air-handling-unit"
     | "airCooler"
     | "algorithm:"
     | "alignContent:"
@@ -109,13 +113,16 @@ export type RuniqKeywordNames =
     | "anchor"
     | "and"
     | "api"
+    | "arrow"
     | "arrowType:"
     | "artifact"
     | "as"
     | "assembly"
+    | "assignee:"
     | "association"
     | "async"
     | "attributes:"
+    | "author:"
     | "auto"
     | "autoResize:"
     | "badge:"
@@ -126,19 +133,26 @@ export type RuniqKeywordNames =
     | "betweenness"
     | "bidirectional"
     | "biodegradable"
+    | "boiler"
     | "boolean"
     | "borderRadius:"
     | "borderStyle:"
     | "bottom"
     | "bottom-left"
     | "bottom-right"
+    | "bottomSide"
     | "boundary"
+    | "boxPadX:"
+    | "boxPadY:"
     | "branch"
+    | "branch:"
+    | "branchPad:"
     | "break"
     | "cache"
     | "call"
     | "callout"
     | "callouts"
+    | "card"
     | "carrier:"
     | "cascade"
     | "center"
@@ -148,6 +162,7 @@ export type RuniqKeywordNames =
     | "child"
     | "childCountPosition:"
     | "children:"
+    | "chiller"
     | "circle"
     | "circles"
     | "circular"
@@ -175,11 +190,16 @@ export type RuniqKeywordNames =
     | "collapsible:"
     | "collapsing"
     | "color"
+    | "color:"
     | "colorScheme"
     | "colorful"
     | "colors:"
+    | "column"
+    | "column:"
     | "columnHeaders"
     | "columns"
+    | "commit"
+    | "compact:"
     | "complex"
     | "component"
     | "composition"
@@ -189,6 +209,7 @@ export type RuniqKeywordNames =
     | "conductivity"
     | "conductivityTransmitter"
     | "config"
+    | "connect"
     | "constraint:"
     | "constraints:"
     | "container"
@@ -200,11 +221,16 @@ export type RuniqKeywordNames =
     | "controller:"
     | "cool"
     | "cooler"
+    | "cooling-coil"
+    | "cooling-tower"
     | "coolingTower"
     | "create"
     | "critical"
     | "crossContainerEdgeOptimization:"
     | "cyclone"
+    | "damper-fire"
+    | "damper-manual"
+    | "damper-motorized"
     | "dashed"
     | "data"
     | "data:"
@@ -219,6 +245,7 @@ export type RuniqKeywordNames =
     | "degC"
     | "degF"
     | "degree"
+    | "dehumidifier"
     | "delimiter"
     | "dependency"
     | "depth:"
@@ -229,6 +256,8 @@ export type RuniqKeywordNames =
     | "destroy"
     | "detail"
     | "diagram"
+    | "diffuser-return"
+    | "diffuser-supply"
     | "digital"
     | "dimension:"
     | "direction"
@@ -239,6 +268,7 @@ export type RuniqKeywordNames =
     | "done"
     | "dotted"
     | "double"
+    | "duct"
     | "durationConstraint"
     | "e"
     | "easeIn"
@@ -250,12 +280,15 @@ export type RuniqKeywordNames =
     | "edgeType:"
     | "effect:"
     | "electrical"
+    | "ellipsis"
     | "end"
     | "endDate:"
+    | "endMarker:"
     | "entity"
     | "entry:"
     | "entryPoint"
     | "equipment"
+    | "estimate:"
     | "event"
     | "event:"
     | "eventBased"
@@ -263,6 +296,8 @@ export type RuniqKeywordNames =
     | "evolution:"
     | "evolve"
     | "exclusive"
+    | "exhaust"
+    | "exhaust-fan"
     | "exit:"
     | "exitPoint"
     | "expanding"
@@ -317,10 +352,13 @@ export type RuniqKeywordNames =
     | "future"
     | "gal"
     | "gal/min"
+    | "gap"
+    | "gap:"
     | "gates:"
     | "gatewayType:"
     | "generalization"
     | "genericTypes:"
+    | "gitgraph"
     | "glyphset"
     | "group"
     | "groups"
@@ -329,8 +367,10 @@ export type RuniqKeywordNames =
     | "header:"
     | "headerBackgroundColor:"
     | "headerPosition:"
+    | "heat-exchanger"
     | "heatExchangerPlate"
     | "heatExchangerShellTube"
+    | "heating-coil"
     | "high"
     | "history"
     | "historyDeep"
@@ -342,6 +382,8 @@ export type RuniqKeywordNames =
     | "hoverBorderWidth:"
     | "hoverHighlight:"
     | "hub"
+    | "humidifier"
+    | "hvac"
     | "hydraulic"
     | "icon"
     | "icon-text"
@@ -364,11 +406,13 @@ export type RuniqKeywordNames =
     | "instrument"
     | "insulation:"
     | "intersections:"
+    | "into:"
     | "item"
     | "items"
     | "jacket"
     | "junction"
     | "kPa"
+    | "kanban"
     | "key"
     | "key:"
     | "kg/h"
@@ -384,6 +428,7 @@ export type RuniqKeywordNames =
     | "leader"
     | "leaf"
     | "left"
+    | "leftSide"
     | "leftWeight"
     | "legendPosition:"
     | "level"
@@ -418,14 +463,18 @@ export type RuniqKeywordNames =
     | "marginLeft:"
     | "marginRight:"
     | "marginTop:"
+    | "markerColor:"
     | "material:"
     | "max"
+    | "maxCards:"
     | "maxHeight:"
     | "maxWidth:"
     | "medium"
     | "member"
+    | "merge"
     | "mergePoint"
     | "message"
+    | "message:"
     | "methods:"
     | "metricPosition:"
     | "metricType:"
@@ -469,7 +518,9 @@ export type RuniqKeywordNames =
     | "open"
     | "operating"
     | "operator"
+    | "operatorColor:"
     | "opt"
+    | "options"
     | "options:"
     | "or"
     | "orientation"
@@ -478,9 +529,11 @@ export type RuniqKeywordNames =
     | "output"
     | "outputPins:"
     | "over"
+    | "overflow:"
     | "overlap"
     | "package"
     | "packed"
+    | "padding"
     | "padding:"
     | "paddingBottom:"
     | "paddingLeft:"
@@ -491,6 +544,7 @@ export type RuniqKeywordNames =
     | "parallel"
     | "parameters:"
     | "params:"
+    | "parent:"
     | "part"
     | "partial"
     | "participant"
@@ -514,6 +568,7 @@ export type RuniqKeywordNames =
     | "preset"
     | "preset:"
     | "pressure"
+    | "pressure-sensor"
     | "pressureAlarmHigh"
     | "pressureAlarmHighHigh"
     | "pressureAlarmLow"
@@ -524,6 +579,7 @@ export type RuniqKeywordNames =
     | "pressureRecorder"
     | "pressureSwitch"
     | "pressureTransmitter"
+    | "priority:"
     | "private"
     | "process"
     | "professional"
@@ -531,12 +587,14 @@ export type RuniqKeywordNames =
     | "providedInterface"
     | "psi"
     | "public"
+    | "pump"
     | "pumpCentrifugal"
     | "pumpPositiveDisplacement"
     | "quadrant"
     | "quadrants"
     | "queue"
     | "radial"
+    | "railroad"
     | "range:"
     | "rated"
     | "rating:"
@@ -556,14 +614,17 @@ export type RuniqKeywordNames =
     | "resizeHandles:"
     | "result"
     | "return"
+    | "return-fan"
     | "returnType:"
     | "right"
+    | "rightSide"
     | "rightWeight"
     | "roleSource:"
     | "roleTarget:"
     | "root"
     | "routing"
     | "routing:"
+    | "row:"
     | "rowHeaders"
     | "rpm"
     | "runiq"
@@ -590,6 +651,7 @@ export type RuniqKeywordNames =
     | "showConnections"
     | "showDepthIndicator:"
     | "showDottedLines"
+    | "showLegend"
     | "showLegend:"
     | "showMetrics:"
     | "showPercentages"
@@ -599,25 +661,30 @@ export type RuniqKeywordNames =
     | "sides"
     | "signal"
     | "size:"
+    | "slice-dice"
     | "solid"
     | "source"
     | "source:"
     | "space-around"
     | "space-between"
     | "space-evenly"
+    | "spacing"
     | "spacing:"
     | "speed"
     | "speedController"
     | "spline"
     | "splines"
     | "spoke"
+    | "squarify"
     | "stable"
+    | "stack"
     | "stacked:"
     | "stage"
     | "stages"
     | "standard"
     | "start"
     | "startDate:"
+    | "startMarker:"
     | "stateInvariant:"
     | "static:"
     | "step"
@@ -635,14 +702,20 @@ export type RuniqKeywordNames =
     | "style:"
     | "submachine"
     | "sunset"
+    | "supply"
+    | "supply-fan"
     | "sw"
+    | "swimlane"
     | "sync"
     | "synthetic"
     | "t/h"
+    | "tag:"
+    | "tags:"
     | "target"
     | "team"
     | "temp:"
     | "temperature"
+    | "temperature-sensor"
     | "temperatureAlarmHigh"
     | "temperatureAlarmHighHigh"
     | "temperatureAlarmLow"
@@ -661,6 +734,7 @@ export type RuniqKeywordNames =
     | "textColor:"
     | "theme"
     | "thermal"
+    | "thermostat"
     | "timeObservation"
     | "timeline"
     | "timing:"
@@ -671,7 +745,9 @@ export type RuniqKeywordNames =
     | "top"
     | "top-left"
     | "top-right"
+    | "topSide"
     | "tran"
+    | "treemap"
     | "true"
     | "turbineSteam"
     | "type"
@@ -680,6 +756,7 @@ export type RuniqKeywordNames =
     | "units"
     | "useContainers"
     | "utility"
+    | "vGap:"
     | "value"
     | "value:"
     | "valveAngle"
@@ -687,15 +764,18 @@ export type RuniqKeywordNames =
     | "valveButterfly"
     | "valveCheck"
     | "valveControl"
+    | "valveControlPositioner"
     | "valveDiaphragm"
     | "valveGate"
     | "valveGlobe"
     | "valveNeedle"
     | "valvePinch"
     | "valvePlug"
+    | "valvePressureReducing"
     | "valveSafetyRelief"
     | "valveShutoff"
     | "valveThreeWay"
+    | "vav-box"
     | "vertical"
     | "verticalAlign:"
     | "verticalAxis"
@@ -712,12 +792,14 @@ export type RuniqKeywordNames =
     | "water-glycol"
     | "weight:"
     | "when:"
+    | "wip:"
     | "xAxis"
     | "xLabel:"
     | "xor"
     | "yAxis"
     | "yLabel:"
     | "{"
+    | "|"
     | "}";
 
 export type RuniqTokenNames = RuniqTerminalNames | RuniqKeywordNames;
@@ -1085,7 +1167,7 @@ export function isConnectionPoint(item: unknown): item is ConnectionPoint {
 export interface ContainerBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ContainerBlock';
-    id?: FlexibleID;
+    id?: DiagramIdentifier;
     label: string;
     properties: Array<ContainerProperty>;
     shape?: FlexibleID | string;
@@ -1421,7 +1503,7 @@ export interface DataSourceDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'DataSourceDeclaration';
     format: string;
-    key: string;
+    key: DiagramIdentifier;
     options: Array<DataSourceOption>;
     source: string;
 }
@@ -1489,6 +1571,12 @@ export type DepthIndicatorStyleValue = 'bar' | 'color' | 'indent';
 
 export function isDepthIndicatorStyleValue(item: unknown): item is DepthIndicatorStyleValue {
     return item === 'bar' || item === 'indent' || item === 'color';
+}
+
+export type DiagramIdentifier = FlexibleID | string;
+
+export function isDiagramIdentifier(item: unknown): item is DiagramIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
 }
 
 export interface DiagramProfile extends langium.AstNode {
@@ -1858,10 +1946,10 @@ export function isFillColorProperty(item: unknown): item is FillColorProperty {
     return reflection.isInstance(item, FillColorProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'spoke' | 'start' | 'step' | 'team' | 'to' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'team' | 'temperature' | 'to' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -1994,7 +2082,7 @@ export function isFontWeightProperty(item: unknown): item is FontWeightProperty 
 export interface ForEachBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ForEachBlock';
-    dataKey: string;
+    dataKey: DiagramIdentifier;
     filter?: string;
     id: string;
     limit?: string;
@@ -2067,6 +2155,376 @@ export function isGenericTypesProperty(item: unknown): item is GenericTypesPrope
     return reflection.isInstance(item, GenericTypesProperty.$type);
 }
 
+export interface GitGraphBranchColorProperty extends langium.AstNode {
+    readonly $container: GitGraphBranchStatement;
+    readonly $type: 'GitGraphBranchColorProperty';
+    color: string;
+}
+
+export const GitGraphBranchColorProperty = {
+    $type: 'GitGraphBranchColorProperty',
+    color: 'color'
+} as const;
+
+export function isGitGraphBranchColorProperty(item: unknown): item is GitGraphBranchColorProperty {
+    return reflection.isInstance(item, GitGraphBranchColorProperty.$type);
+}
+
+export interface GitGraphBranchLabelProperty extends langium.AstNode {
+    readonly $container: GitGraphBranchStatement;
+    readonly $type: 'GitGraphBranchLabelProperty';
+    label: string;
+}
+
+export const GitGraphBranchLabelProperty = {
+    $type: 'GitGraphBranchLabelProperty',
+    label: 'label'
+} as const;
+
+export function isGitGraphBranchLabelProperty(item: unknown): item is GitGraphBranchLabelProperty {
+    return reflection.isInstance(item, GitGraphBranchLabelProperty.$type);
+}
+
+export interface GitGraphBranchParentProperty extends langium.AstNode {
+    readonly $container: GitGraphBranchStatement;
+    readonly $type: 'GitGraphBranchParentProperty';
+    parent: GitGraphIdentifier;
+}
+
+export const GitGraphBranchParentProperty = {
+    $type: 'GitGraphBranchParentProperty',
+    parent: 'parent'
+} as const;
+
+export function isGitGraphBranchParentProperty(item: unknown): item is GitGraphBranchParentProperty {
+    return reflection.isInstance(item, GitGraphBranchParentProperty.$type);
+}
+
+export type GitGraphBranchProperty = GitGraphBranchColorProperty | GitGraphBranchLabelProperty | GitGraphBranchParentProperty;
+
+export const GitGraphBranchProperty = {
+    $type: 'GitGraphBranchProperty'
+} as const;
+
+export function isGitGraphBranchProperty(item: unknown): item is GitGraphBranchProperty {
+    return reflection.isInstance(item, GitGraphBranchProperty.$type);
+}
+
+export interface GitGraphBranchStatement extends langium.AstNode {
+    readonly $container: GitGraphProfile;
+    readonly $type: 'GitGraphBranchStatement';
+    id: GitGraphIdentifier;
+    properties: Array<GitGraphBranchProperty>;
+}
+
+export const GitGraphBranchStatement = {
+    $type: 'GitGraphBranchStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isGitGraphBranchStatement(item: unknown): item is GitGraphBranchStatement {
+    return reflection.isInstance(item, GitGraphBranchStatement.$type);
+}
+
+export interface GitGraphColumnSpacingProperty extends langium.AstNode {
+    readonly $container: GitGraphSpacingStatement;
+    readonly $type: 'GitGraphColumnSpacingProperty';
+    value: string;
+}
+
+export const GitGraphColumnSpacingProperty = {
+    $type: 'GitGraphColumnSpacingProperty',
+    value: 'value'
+} as const;
+
+export function isGitGraphColumnSpacingProperty(item: unknown): item is GitGraphColumnSpacingProperty {
+    return reflection.isInstance(item, GitGraphColumnSpacingProperty.$type);
+}
+
+export interface GitGraphCommitAuthorProperty extends langium.AstNode {
+    readonly $container: GitGraphCommitStatement;
+    readonly $type: 'GitGraphCommitAuthorProperty';
+    author: string;
+}
+
+export const GitGraphCommitAuthorProperty = {
+    $type: 'GitGraphCommitAuthorProperty',
+    author: 'author'
+} as const;
+
+export function isGitGraphCommitAuthorProperty(item: unknown): item is GitGraphCommitAuthorProperty {
+    return reflection.isInstance(item, GitGraphCommitAuthorProperty.$type);
+}
+
+export interface GitGraphCommitBranchProperty extends langium.AstNode {
+    readonly $container: GitGraphCommitStatement;
+    readonly $type: 'GitGraphCommitBranchProperty';
+    branch: GitGraphIdentifier;
+}
+
+export const GitGraphCommitBranchProperty = {
+    $type: 'GitGraphCommitBranchProperty',
+    branch: 'branch'
+} as const;
+
+export function isGitGraphCommitBranchProperty(item: unknown): item is GitGraphCommitBranchProperty {
+    return reflection.isInstance(item, GitGraphCommitBranchProperty.$type);
+}
+
+export interface GitGraphCommitLabelProperty extends langium.AstNode {
+    readonly $container: GitGraphCommitStatement;
+    readonly $type: 'GitGraphCommitLabelProperty';
+    label: string;
+}
+
+export const GitGraphCommitLabelProperty = {
+    $type: 'GitGraphCommitLabelProperty',
+    label: 'label'
+} as const;
+
+export function isGitGraphCommitLabelProperty(item: unknown): item is GitGraphCommitLabelProperty {
+    return reflection.isInstance(item, GitGraphCommitLabelProperty.$type);
+}
+
+export interface GitGraphCommitMessageProperty extends langium.AstNode {
+    readonly $container: GitGraphCommitStatement;
+    readonly $type: 'GitGraphCommitMessageProperty';
+    message: string;
+}
+
+export const GitGraphCommitMessageProperty = {
+    $type: 'GitGraphCommitMessageProperty',
+    message: 'message'
+} as const;
+
+export function isGitGraphCommitMessageProperty(item: unknown): item is GitGraphCommitMessageProperty {
+    return reflection.isInstance(item, GitGraphCommitMessageProperty.$type);
+}
+
+export type GitGraphCommitProperty = GitGraphCommitAuthorProperty | GitGraphCommitBranchProperty | GitGraphCommitLabelProperty | GitGraphCommitMessageProperty | GitGraphCommitTagProperty;
+
+export const GitGraphCommitProperty = {
+    $type: 'GitGraphCommitProperty'
+} as const;
+
+export function isGitGraphCommitProperty(item: unknown): item is GitGraphCommitProperty {
+    return reflection.isInstance(item, GitGraphCommitProperty.$type);
+}
+
+export interface GitGraphCommitStatement extends langium.AstNode {
+    readonly $container: GitGraphProfile;
+    readonly $type: 'GitGraphCommitStatement';
+    id: GitGraphIdentifier;
+    properties: Array<GitGraphCommitProperty>;
+}
+
+export const GitGraphCommitStatement = {
+    $type: 'GitGraphCommitStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isGitGraphCommitStatement(item: unknown): item is GitGraphCommitStatement {
+    return reflection.isInstance(item, GitGraphCommitStatement.$type);
+}
+
+export interface GitGraphCommitTagProperty extends langium.AstNode {
+    readonly $container: GitGraphCommitStatement;
+    readonly $type: 'GitGraphCommitTagProperty';
+    tag: string;
+}
+
+export const GitGraphCommitTagProperty = {
+    $type: 'GitGraphCommitTagProperty',
+    tag: 'tag'
+} as const;
+
+export function isGitGraphCommitTagProperty(item: unknown): item is GitGraphCommitTagProperty {
+    return reflection.isInstance(item, GitGraphCommitTagProperty.$type);
+}
+
+export type GitGraphIdentifier = FlexibleID | string;
+
+export function isGitGraphIdentifier(item: unknown): item is GitGraphIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
+export interface GitGraphMergeFromProperty extends langium.AstNode {
+    readonly $container: GitGraphMergeStatement;
+    readonly $type: 'GitGraphMergeFromProperty';
+    from: GitGraphIdentifier;
+}
+
+export const GitGraphMergeFromProperty = {
+    $type: 'GitGraphMergeFromProperty',
+    from: 'from'
+} as const;
+
+export function isGitGraphMergeFromProperty(item: unknown): item is GitGraphMergeFromProperty {
+    return reflection.isInstance(item, GitGraphMergeFromProperty.$type);
+}
+
+export interface GitGraphMergeIntoProperty extends langium.AstNode {
+    readonly $container: GitGraphMergeStatement;
+    readonly $type: 'GitGraphMergeIntoProperty';
+    into: GitGraphIdentifier;
+}
+
+export const GitGraphMergeIntoProperty = {
+    $type: 'GitGraphMergeIntoProperty',
+    into: 'into'
+} as const;
+
+export function isGitGraphMergeIntoProperty(item: unknown): item is GitGraphMergeIntoProperty {
+    return reflection.isInstance(item, GitGraphMergeIntoProperty.$type);
+}
+
+export interface GitGraphMergeLabelProperty extends langium.AstNode {
+    readonly $container: GitGraphMergeStatement;
+    readonly $type: 'GitGraphMergeLabelProperty';
+    label: string;
+}
+
+export const GitGraphMergeLabelProperty = {
+    $type: 'GitGraphMergeLabelProperty',
+    label: 'label'
+} as const;
+
+export function isGitGraphMergeLabelProperty(item: unknown): item is GitGraphMergeLabelProperty {
+    return reflection.isInstance(item, GitGraphMergeLabelProperty.$type);
+}
+
+export type GitGraphMergeProperty = GitGraphMergeFromProperty | GitGraphMergeIntoProperty | GitGraphMergeLabelProperty | GitGraphMergeTagProperty;
+
+export const GitGraphMergeProperty = {
+    $type: 'GitGraphMergeProperty'
+} as const;
+
+export function isGitGraphMergeProperty(item: unknown): item is GitGraphMergeProperty {
+    return reflection.isInstance(item, GitGraphMergeProperty.$type);
+}
+
+export interface GitGraphMergeStatement extends langium.AstNode {
+    readonly $container: GitGraphProfile;
+    readonly $type: 'GitGraphMergeStatement';
+    id: GitGraphIdentifier;
+    properties: Array<GitGraphMergeProperty>;
+}
+
+export const GitGraphMergeStatement = {
+    $type: 'GitGraphMergeStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isGitGraphMergeStatement(item: unknown): item is GitGraphMergeStatement {
+    return reflection.isInstance(item, GitGraphMergeStatement.$type);
+}
+
+export interface GitGraphMergeTagProperty extends langium.AstNode {
+    readonly $container: GitGraphMergeStatement;
+    readonly $type: 'GitGraphMergeTagProperty';
+    tag: string;
+}
+
+export const GitGraphMergeTagProperty = {
+    $type: 'GitGraphMergeTagProperty',
+    tag: 'tag'
+} as const;
+
+export function isGitGraphMergeTagProperty(item: unknown): item is GitGraphMergeTagProperty {
+    return reflection.isInstance(item, GitGraphMergeTagProperty.$type);
+}
+
+export interface GitGraphOrientationStatement extends langium.AstNode {
+    readonly $container: GitGraphProfile;
+    readonly $type: 'GitGraphOrientationStatement';
+    orientation: GitGraphOrientationValue;
+}
+
+export const GitGraphOrientationStatement = {
+    $type: 'GitGraphOrientationStatement',
+    orientation: 'orientation'
+} as const;
+
+export function isGitGraphOrientationStatement(item: unknown): item is GitGraphOrientationStatement {
+    return reflection.isInstance(item, GitGraphOrientationStatement.$type);
+}
+
+export type GitGraphOrientationValue = 'horizontal' | 'vertical';
+
+export function isGitGraphOrientationValue(item: unknown): item is GitGraphOrientationValue {
+    return item === 'vertical' || item === 'horizontal';
+}
+
+export interface GitGraphProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'GitGraphProfile';
+    name: string;
+    statements: Array<GitGraphStatement>;
+}
+
+export const GitGraphProfile = {
+    $type: 'GitGraphProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isGitGraphProfile(item: unknown): item is GitGraphProfile {
+    return reflection.isInstance(item, GitGraphProfile.$type);
+}
+
+export interface GitGraphRowSpacingProperty extends langium.AstNode {
+    readonly $container: GitGraphSpacingStatement;
+    readonly $type: 'GitGraphRowSpacingProperty';
+    value: string;
+}
+
+export const GitGraphRowSpacingProperty = {
+    $type: 'GitGraphRowSpacingProperty',
+    value: 'value'
+} as const;
+
+export function isGitGraphRowSpacingProperty(item: unknown): item is GitGraphRowSpacingProperty {
+    return reflection.isInstance(item, GitGraphRowSpacingProperty.$type);
+}
+
+export type GitGraphSpacingProperty = GitGraphColumnSpacingProperty | GitGraphRowSpacingProperty;
+
+export const GitGraphSpacingProperty = {
+    $type: 'GitGraphSpacingProperty'
+} as const;
+
+export function isGitGraphSpacingProperty(item: unknown): item is GitGraphSpacingProperty {
+    return reflection.isInstance(item, GitGraphSpacingProperty.$type);
+}
+
+export interface GitGraphSpacingStatement extends langium.AstNode {
+    readonly $container: GitGraphProfile;
+    readonly $type: 'GitGraphSpacingStatement';
+    properties: Array<GitGraphSpacingProperty>;
+}
+
+export const GitGraphSpacingStatement = {
+    $type: 'GitGraphSpacingStatement',
+    properties: 'properties'
+} as const;
+
+export function isGitGraphSpacingStatement(item: unknown): item is GitGraphSpacingStatement {
+    return reflection.isInstance(item, GitGraphSpacingStatement.$type);
+}
+
+export type GitGraphStatement = GitGraphBranchStatement | GitGraphCommitStatement | GitGraphMergeStatement | GitGraphOrientationStatement | GitGraphSpacingStatement | ThemeDeclaration;
+
+export const GitGraphStatement = {
+    $type: 'GitGraphStatement'
+} as const;
+
+export function isGitGraphStatement(item: unknown): item is GitGraphStatement {
+    return reflection.isInstance(item, GitGraphStatement.$type);
+}
+
 export interface GlyphSetImageItem extends langium.AstNode {
     readonly $container: GlyphSetNestedItem | GlyphSetProfile;
     readonly $type: 'GlyphSetImageItem';
@@ -2110,7 +2568,7 @@ export interface GlyphSetNestedItem extends langium.AstNode {
     children: Array<GlyphSetItemStatement>;
     keyword: GlyphSetKeyword;
     label: string;
-    relationship?: string;
+    relationship?: GlyphSetRelationshipValue;
 }
 
 export const GlyphSetNestedItem = {
@@ -2190,12 +2648,18 @@ export function isGlyphSetProfile(item: unknown): item is GlyphSetProfile {
     return reflection.isInstance(item, GlyphSetProfile.$type);
 }
 
+export type GlyphSetRelationshipValue = 'bottom' | 'bottomSide' | 'left' | 'leftSide' | 'right' | 'rightSide' | 'top' | 'topSide' | string;
+
+export function isGlyphSetRelationshipValue(item: unknown): item is GlyphSetRelationshipValue {
+    return item === 'topSide' || item === 'rightSide' || item === 'bottomSide' || item === 'leftSide' || item === 'top' || item === 'right' || item === 'bottom' || item === 'left' || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
 export interface GlyphSetSimpleItem extends langium.AstNode {
     readonly $container: GlyphSetNestedItem | GlyphSetProfile;
     readonly $type: 'GlyphSetSimpleItem';
     keyword: GlyphSetKeyword;
     label: string;
-    relationship?: string;
+    relationship?: GlyphSetRelationshipValue;
 }
 
 export const GlyphSetSimpleItem = {
@@ -2245,6 +2709,193 @@ export const GuardProperty = {
 
 export function isGuardProperty(item: unknown): item is GuardProperty {
     return reflection.isInstance(item, GuardProperty.$type);
+}
+
+export interface HvacConnection extends langium.AstNode {
+    readonly $container: HvacConnectStatement;
+    readonly $type: 'HvacConnection';
+    port?: ProfileIdentifier;
+    ref: ProfileIdentifier;
+}
+
+export const HvacConnection = {
+    $type: 'HvacConnection',
+    port: 'port',
+    ref: 'ref'
+} as const;
+
+export function isHvacConnection(item: unknown): item is HvacConnection {
+    return reflection.isInstance(item, HvacConnection.$type);
+}
+
+export interface HvacConnectStatement extends langium.AstNode {
+    readonly $container: HvacProfile;
+    readonly $type: 'HvacConnectStatement';
+    path: Array<HvacConnection>;
+}
+
+export const HvacConnectStatement = {
+    $type: 'HvacConnectStatement',
+    path: 'path'
+} as const;
+
+export function isHvacConnectStatement(item: unknown): item is HvacConnectStatement {
+    return reflection.isInstance(item, HvacConnectStatement.$type);
+}
+
+export type HvacDuctProperty = HvacDuctSizeProperty | HvacDuctTypeProperty | HvacEquipmentMetaProperty;
+
+export const HvacDuctProperty = {
+    $type: 'HvacDuctProperty'
+} as const;
+
+export function isHvacDuctProperty(item: unknown): item is HvacDuctProperty {
+    return reflection.isInstance(item, HvacDuctProperty.$type);
+}
+
+export interface HvacDuctSizeProperty extends langium.AstNode {
+    readonly $container: HvacDuctStatement;
+    readonly $type: 'HvacDuctSizeProperty';
+    value: string;
+}
+
+export const HvacDuctSizeProperty = {
+    $type: 'HvacDuctSizeProperty',
+    value: 'value'
+} as const;
+
+export function isHvacDuctSizeProperty(item: unknown): item is HvacDuctSizeProperty {
+    return reflection.isInstance(item, HvacDuctSizeProperty.$type);
+}
+
+export interface HvacDuctStatement extends langium.AstNode {
+    readonly $container: HvacProfile;
+    readonly $type: 'HvacDuctStatement';
+    id: ProfileIdentifier;
+    properties: Array<HvacDuctProperty>;
+}
+
+export const HvacDuctStatement = {
+    $type: 'HvacDuctStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isHvacDuctStatement(item: unknown): item is HvacDuctStatement {
+    return reflection.isInstance(item, HvacDuctStatement.$type);
+}
+
+export type HvacDuctType = 'exhaust' | 'return' | 'supply';
+
+export function isHvacDuctType(item: unknown): item is HvacDuctType {
+    return item === 'supply' || item === 'return' || item === 'exhaust';
+}
+
+export interface HvacDuctTypeProperty extends langium.AstNode {
+    readonly $container: HvacDuctStatement;
+    readonly $type: 'HvacDuctTypeProperty';
+    type: HvacDuctType;
+}
+
+export const HvacDuctTypeProperty = {
+    $type: 'HvacDuctTypeProperty',
+    type: 'type'
+} as const;
+
+export function isHvacDuctTypeProperty(item: unknown): item is HvacDuctTypeProperty {
+    return reflection.isInstance(item, HvacDuctTypeProperty.$type);
+}
+
+export interface HvacEquipmentMetaProperty extends langium.AstNode {
+    readonly $container: HvacDuctStatement | HvacEquipmentStatement;
+    readonly $type: 'HvacEquipmentMetaProperty';
+    key: ProfileIdentifier | string;
+    value: FlexibleID | string;
+}
+
+export const HvacEquipmentMetaProperty = {
+    $type: 'HvacEquipmentMetaProperty',
+    key: 'key',
+    value: 'value'
+} as const;
+
+export function isHvacEquipmentMetaProperty(item: unknown): item is HvacEquipmentMetaProperty {
+    return reflection.isInstance(item, HvacEquipmentMetaProperty.$type);
+}
+
+export type HvacEquipmentProperty = HvacEquipmentMetaProperty | HvacEquipmentTypeProperty;
+
+export const HvacEquipmentProperty = {
+    $type: 'HvacEquipmentProperty'
+} as const;
+
+export function isHvacEquipmentProperty(item: unknown): item is HvacEquipmentProperty {
+    return reflection.isInstance(item, HvacEquipmentProperty.$type);
+}
+
+export interface HvacEquipmentStatement extends langium.AstNode {
+    readonly $container: HvacProfile;
+    readonly $type: 'HvacEquipmentStatement';
+    id: ProfileIdentifier;
+    properties: Array<HvacEquipmentProperty>;
+}
+
+export const HvacEquipmentStatement = {
+    $type: 'HvacEquipmentStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isHvacEquipmentStatement(item: unknown): item is HvacEquipmentStatement {
+    return reflection.isInstance(item, HvacEquipmentStatement.$type);
+}
+
+export type HvacEquipmentType = 'air-handling-unit' | 'boiler' | 'chiller' | 'cooling-coil' | 'cooling-tower' | 'damper-fire' | 'damper-manual' | 'damper-motorized' | 'dehumidifier' | 'diffuser-return' | 'diffuser-supply' | 'exhaust-fan' | 'filter' | 'heat-exchanger' | 'heating-coil' | 'humidifier' | 'pressure-sensor' | 'pump' | 'return-fan' | 'supply-fan' | 'temperature-sensor' | 'thermostat' | 'vav-box';
+
+export function isHvacEquipmentType(item: unknown): item is HvacEquipmentType {
+    return item === 'air-handling-unit' || item === 'supply-fan' || item === 'return-fan' || item === 'exhaust-fan' || item === 'filter' || item === 'heating-coil' || item === 'cooling-coil' || item === 'humidifier' || item === 'dehumidifier' || item === 'vav-box' || item === 'diffuser-supply' || item === 'diffuser-return' || item === 'damper-motorized' || item === 'damper-manual' || item === 'damper-fire' || item === 'thermostat' || item === 'temperature-sensor' || item === 'pressure-sensor' || item === 'chiller' || item === 'boiler' || item === 'cooling-tower' || item === 'pump' || item === 'heat-exchanger';
+}
+
+export interface HvacEquipmentTypeProperty extends langium.AstNode {
+    readonly $container: HvacEquipmentStatement;
+    readonly $type: 'HvacEquipmentTypeProperty';
+    type: HvacEquipmentType;
+}
+
+export const HvacEquipmentTypeProperty = {
+    $type: 'HvacEquipmentTypeProperty',
+    type: 'type'
+} as const;
+
+export function isHvacEquipmentTypeProperty(item: unknown): item is HvacEquipmentTypeProperty {
+    return reflection.isInstance(item, HvacEquipmentTypeProperty.$type);
+}
+
+export interface HvacProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'HvacProfile';
+    name: string;
+    statements: Array<HvacStatement>;
+}
+
+export const HvacProfile = {
+    $type: 'HvacProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isHvacProfile(item: unknown): item is HvacProfile {
+    return reflection.isInstance(item, HvacProfile.$type);
+}
+
+export type HvacStatement = HvacConnectStatement | HvacDuctStatement | HvacEquipmentStatement;
+
+export const HvacStatement = {
+    $type: 'HvacStatement'
+} as const;
+
+export function isHvacStatement(item: unknown): item is HvacStatement {
+    return reflection.isInstance(item, HvacStatement.$type);
 }
 
 export interface HydraulicProfile extends langium.AstNode {
@@ -2324,7 +2975,7 @@ export function isInstMapProperty(item: unknown): item is InstMapProperty {
 export interface InstOfProperty extends langium.AstNode {
     readonly $container: InstStatement;
     readonly $type: 'InstOfProperty';
-    module: string;
+    module: ProfileIdentifier;
 }
 
 export const InstOfProperty = {
@@ -2371,7 +3022,7 @@ export interface InstStatement extends langium.AstNode {
     readonly $container: DigitalProfile;
     readonly $type: 'InstStatement';
     properties: Array<InstProperty>;
-    ref: string;
+    ref: ProfileIdentifier;
 }
 
 export const InstStatement = {
@@ -2403,6 +3054,320 @@ export const IntersectionsProperty = {
 
 export function isIntersectionsProperty(item: unknown): item is IntersectionsProperty {
     return reflection.isInstance(item, IntersectionsProperty.$type);
+}
+
+export interface KanbanAssigneeProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement;
+    readonly $type: 'KanbanAssigneeProperty';
+    assignee: string;
+}
+
+export const KanbanAssigneeProperty = {
+    $type: 'KanbanAssigneeProperty',
+    assignee: 'assignee'
+} as const;
+
+export function isKanbanAssigneeProperty(item: unknown): item is KanbanAssigneeProperty {
+    return reflection.isInstance(item, KanbanAssigneeProperty.$type);
+}
+
+export interface KanbanBorderRadiusProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement | KanbanColumnBlock | KanbanSwimlaneBlock;
+    readonly $type: 'KanbanBorderRadiusProperty';
+    value: string;
+}
+
+export const KanbanBorderRadiusProperty = {
+    $type: 'KanbanBorderRadiusProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanBorderRadiusProperty(item: unknown): item is KanbanBorderRadiusProperty {
+    return reflection.isInstance(item, KanbanBorderRadiusProperty.$type);
+}
+
+export type KanbanCardProperty = KanbanAssigneeProperty | KanbanDescriptionProperty | KanbanEstimateProperty | KanbanPriorityProperty | KanbanStyleProperty | KanbanTagsProperty;
+
+export const KanbanCardProperty = {
+    $type: 'KanbanCardProperty'
+} as const;
+
+export function isKanbanCardProperty(item: unknown): item is KanbanCardProperty {
+    return reflection.isInstance(item, KanbanCardProperty.$type);
+}
+
+export interface KanbanCardStatement extends langium.AstNode {
+    readonly $container: KanbanColumnBlock;
+    readonly $type: 'KanbanCardStatement';
+    id?: KanbanIdentifier;
+    label: string;
+    properties: Array<KanbanCardProperty>;
+}
+
+export const KanbanCardStatement = {
+    $type: 'KanbanCardStatement',
+    id: 'id',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isKanbanCardStatement(item: unknown): item is KanbanCardStatement {
+    return reflection.isInstance(item, KanbanCardStatement.$type);
+}
+
+export interface KanbanColumnBlock extends langium.AstNode {
+    readonly $container: KanbanProfile | KanbanSwimlaneBlock;
+    readonly $type: 'KanbanColumnBlock';
+    cards: Array<KanbanCardStatement>;
+    id?: KanbanIdentifier;
+    label: string;
+    properties: Array<KanbanColumnProperty>;
+}
+
+export const KanbanColumnBlock = {
+    $type: 'KanbanColumnBlock',
+    cards: 'cards',
+    id: 'id',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isKanbanColumnBlock(item: unknown): item is KanbanColumnBlock {
+    return reflection.isInstance(item, KanbanColumnBlock.$type);
+}
+
+export type KanbanColumnProperty = KanbanMaxCardsProperty | KanbanOverflowProperty | KanbanStyleProperty | KanbanWipProperty;
+
+export const KanbanColumnProperty = {
+    $type: 'KanbanColumnProperty'
+} as const;
+
+export function isKanbanColumnProperty(item: unknown): item is KanbanColumnProperty {
+    return reflection.isInstance(item, KanbanColumnProperty.$type);
+}
+
+export interface KanbanDescriptionProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement;
+    readonly $type: 'KanbanDescriptionProperty';
+    description: string;
+}
+
+export const KanbanDescriptionProperty = {
+    $type: 'KanbanDescriptionProperty',
+    description: 'description'
+} as const;
+
+export function isKanbanDescriptionProperty(item: unknown): item is KanbanDescriptionProperty {
+    return reflection.isInstance(item, KanbanDescriptionProperty.$type);
+}
+
+export interface KanbanEstimateProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement;
+    readonly $type: 'KanbanEstimateProperty';
+    estimate: string;
+}
+
+export const KanbanEstimateProperty = {
+    $type: 'KanbanEstimateProperty',
+    estimate: 'estimate'
+} as const;
+
+export function isKanbanEstimateProperty(item: unknown): item is KanbanEstimateProperty {
+    return reflection.isInstance(item, KanbanEstimateProperty.$type);
+}
+
+export interface KanbanFillColorProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement | KanbanColumnBlock | KanbanSwimlaneBlock;
+    readonly $type: 'KanbanFillColorProperty';
+    value: string;
+}
+
+export const KanbanFillColorProperty = {
+    $type: 'KanbanFillColorProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanFillColorProperty(item: unknown): item is KanbanFillColorProperty {
+    return reflection.isInstance(item, KanbanFillColorProperty.$type);
+}
+
+export type KanbanIdentifier = FlexibleID | string;
+
+export function isKanbanIdentifier(item: unknown): item is KanbanIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
+export interface KanbanMaxCardsProperty extends langium.AstNode {
+    readonly $container: KanbanColumnBlock;
+    readonly $type: 'KanbanMaxCardsProperty';
+    value: string;
+}
+
+export const KanbanMaxCardsProperty = {
+    $type: 'KanbanMaxCardsProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanMaxCardsProperty(item: unknown): item is KanbanMaxCardsProperty {
+    return reflection.isInstance(item, KanbanMaxCardsProperty.$type);
+}
+
+export interface KanbanOverflowProperty extends langium.AstNode {
+    readonly $container: KanbanColumnBlock;
+    readonly $type: 'KanbanOverflowProperty';
+    value: KanbanOverflowValue;
+}
+
+export const KanbanOverflowProperty = {
+    $type: 'KanbanOverflowProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanOverflowProperty(item: unknown): item is KanbanOverflowProperty {
+    return reflection.isInstance(item, KanbanOverflowProperty.$type);
+}
+
+export type KanbanOverflowValue = 'ellipsis' | 'stack';
+
+export function isKanbanOverflowValue(item: unknown): item is KanbanOverflowValue {
+    return item === 'stack' || item === 'ellipsis';
+}
+
+export interface KanbanPriorityProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement;
+    readonly $type: 'KanbanPriorityProperty';
+    priority: KanbanPriorityValue;
+}
+
+export const KanbanPriorityProperty = {
+    $type: 'KanbanPriorityProperty',
+    priority: 'priority'
+} as const;
+
+export function isKanbanPriorityProperty(item: unknown): item is KanbanPriorityProperty {
+    return reflection.isInstance(item, KanbanPriorityProperty.$type);
+}
+
+export type KanbanPriorityValue = 'critical' | 'high' | 'low' | 'medium';
+
+export function isKanbanPriorityValue(item: unknown): item is KanbanPriorityValue {
+    return item === 'low' || item === 'medium' || item === 'high' || item === 'critical';
+}
+
+export interface KanbanProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'KanbanProfile';
+    name: string;
+    statements: Array<KanbanStatement>;
+}
+
+export const KanbanProfile = {
+    $type: 'KanbanProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isKanbanProfile(item: unknown): item is KanbanProfile {
+    return reflection.isInstance(item, KanbanProfile.$type);
+}
+
+export type KanbanStatement = KanbanColumnBlock | KanbanSwimlaneBlock | ThemeDeclaration;
+
+export const KanbanStatement = {
+    $type: 'KanbanStatement'
+} as const;
+
+export function isKanbanStatement(item: unknown): item is KanbanStatement {
+    return reflection.isInstance(item, KanbanStatement.$type);
+}
+
+export interface KanbanStrokeColorProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement | KanbanColumnBlock | KanbanSwimlaneBlock;
+    readonly $type: 'KanbanStrokeColorProperty';
+    value: string;
+}
+
+export const KanbanStrokeColorProperty = {
+    $type: 'KanbanStrokeColorProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanStrokeColorProperty(item: unknown): item is KanbanStrokeColorProperty {
+    return reflection.isInstance(item, KanbanStrokeColorProperty.$type);
+}
+
+export type KanbanStyleProperty = KanbanBorderRadiusProperty | KanbanFillColorProperty | KanbanStrokeColorProperty | KanbanTextColorProperty;
+
+export const KanbanStyleProperty = {
+    $type: 'KanbanStyleProperty'
+} as const;
+
+export function isKanbanStyleProperty(item: unknown): item is KanbanStyleProperty {
+    return reflection.isInstance(item, KanbanStyleProperty.$type);
+}
+
+export interface KanbanSwimlaneBlock extends langium.AstNode {
+    readonly $container: KanbanProfile;
+    readonly $type: 'KanbanSwimlaneBlock';
+    columns: Array<KanbanColumnBlock>;
+    label?: string;
+    properties: Array<KanbanStyleProperty>;
+}
+
+export const KanbanSwimlaneBlock = {
+    $type: 'KanbanSwimlaneBlock',
+    columns: 'columns',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isKanbanSwimlaneBlock(item: unknown): item is KanbanSwimlaneBlock {
+    return reflection.isInstance(item, KanbanSwimlaneBlock.$type);
+}
+
+export interface KanbanTagsProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement;
+    readonly $type: 'KanbanTagsProperty';
+    value: StringArray;
+}
+
+export const KanbanTagsProperty = {
+    $type: 'KanbanTagsProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanTagsProperty(item: unknown): item is KanbanTagsProperty {
+    return reflection.isInstance(item, KanbanTagsProperty.$type);
+}
+
+export interface KanbanTextColorProperty extends langium.AstNode {
+    readonly $container: KanbanCardStatement | KanbanColumnBlock | KanbanSwimlaneBlock;
+    readonly $type: 'KanbanTextColorProperty';
+    value: string;
+}
+
+export const KanbanTextColorProperty = {
+    $type: 'KanbanTextColorProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanTextColorProperty(item: unknown): item is KanbanTextColorProperty {
+    return reflection.isInstance(item, KanbanTextColorProperty.$type);
+}
+
+export interface KanbanWipProperty extends langium.AstNode {
+    readonly $container: KanbanColumnBlock;
+    readonly $type: 'KanbanWipProperty';
+    value: string;
+}
+
+export const KanbanWipProperty = {
+    $type: 'KanbanWipProperty',
+    value: 'value'
+} as const;
+
+export function isKanbanWipProperty(item: unknown): item is KanbanWipProperty {
+    return reflection.isInstance(item, KanbanWipProperty.$type);
 }
 
 export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
@@ -2503,7 +3468,7 @@ export interface LoopBlock extends langium.AstNode {
     readonly $type: 'LoopBlock';
     collection: TemplateExpression;
     statements: Array<TemplateStatement>;
-    variable: string;
+    variable: DiagramIdentifier;
 }
 
 export const LoopBlock = {
@@ -2784,7 +3749,7 @@ export function isModuleProperty(item: unknown): item is ModuleProperty {
 export interface ModuleStatement extends langium.AstNode {
     readonly $container: DigitalProfile;
     readonly $type: 'ModuleStatement';
-    name: string;
+    name: ProfileIdentifier;
     properties: Array<ModuleProperty>;
 }
 
@@ -2852,7 +3817,7 @@ export function isNavigabilityProperty(item: unknown): item is NavigabilityPrope
 export interface NetDecl extends langium.AstNode {
     readonly $container: DigitalNetStatement;
     readonly $type: 'NetDecl';
-    name: string;
+    name: ProfileIdentifier;
     width?: BusWidth;
 }
 
@@ -2869,7 +3834,7 @@ export function isNetDecl(item: unknown): item is NetDecl {
 export interface NetStatement extends langium.AstNode {
     readonly $container: ElectricalProfile | HydraulicProfile | PneumaticProfile;
     readonly $type: 'NetStatement';
-    names: Array<string>;
+    names: Array<ProfileIdentifier>;
 }
 
 export const NetStatement = {
@@ -2894,8 +3859,8 @@ export function isNodeProperty(item: unknown): item is NodeProperty {
 export interface NodeRef extends langium.AstNode {
     readonly $container: EdgeChain | EdgeDeclaration;
     readonly $type: 'NodeRef';
-    member?: FlexibleID;
-    node: FlexibleID;
+    member?: DiagramIdentifier;
+    node: DiagramIdentifier;
 }
 
 export const NodeRef = {
@@ -2947,7 +3912,7 @@ export function isOutputPinsProperty(item: unknown): item is OutputPinsProperty 
 export interface ParamDecl extends langium.AstNode {
     readonly $container: ModuleParamsProperty;
     readonly $type: 'ParamDecl';
-    name: string;
+    name: ProfileIdentifier;
     value: string;
 }
 
@@ -2979,7 +3944,7 @@ export function isParamNameField(item: unknown): item is ParamNameField {
 export interface ParamOverride extends langium.AstNode {
     readonly $container: InstParamsProperty;
     readonly $type: 'ParamOverride';
-    param: string;
+    param: ProfileIdentifier;
     value: string;
 }
 
@@ -3012,7 +3977,7 @@ export interface PartGenericProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartGenericProperty';
     key: string;
-    value: string;
+    value: FlexibleID | string;
 }
 
 export const PartGenericProperty = {
@@ -3028,7 +3993,7 @@ export function isPartGenericProperty(item: unknown): item is PartGenericPropert
 export interface PartPinsProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartPinsProperty';
-    pins: Array<string>;
+    pins: Array<ProfileIdentifier>;
 }
 
 export const PartPinsProperty = {
@@ -3069,7 +4034,7 @@ export interface PartStatement extends langium.AstNode {
     readonly $container: ElectricalProfile | HydraulicProfile | PneumaticProfile;
     readonly $type: 'PartStatement';
     properties: Array<PartProperty>;
-    ref: string;
+    ref: ProfileIdentifier;
 }
 
 export const PartStatement = {
@@ -3085,7 +4050,7 @@ export function isPartStatement(item: unknown): item is PartStatement {
 export interface PartTypeProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartTypeProperty';
-    type: string;
+    type: ProfileIdentifier;
 }
 
 export const PartTypeProperty = {
@@ -3100,7 +4065,7 @@ export function isPartTypeProperty(item: unknown): item is PartTypeProperty {
 export interface PartValueProperty extends langium.AstNode {
     readonly $container: PartStatement;
     readonly $type: 'PartValueProperty';
-    value: string;
+    value: FlexibleID | string;
 }
 
 export const PartValueProperty = {
@@ -3218,10 +4183,10 @@ export function isPIDEquipmentStatement(item: unknown): item is PIDEquipmentStat
     return reflection.isInstance(item, PIDEquipmentStatement.$type);
 }
 
-export type PIDEquipmentType = 'agitator' | 'airCooler' | 'compressorCentrifugal' | 'compressorReciprocating' | 'condenser' | 'cooler' | 'coolingTower' | 'cyclone' | 'distillationColumn' | 'fan' | 'filter' | 'firedHeater' | 'flashDrum' | 'heatExchangerPlate' | 'heatExchangerShellTube' | 'jacket' | 'knockoutDrum' | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'reactor' | 'reboiler' | 'refluxDrum' | 'ruptureDisk' | 'separator' | 'separatorHorizontal' | 'storageTank' | 'turbineSteam' | 'valveAngle' | 'valveBall' | 'valveButterfly' | 'valveCheck' | 'valveControl' | 'valveDiaphragm' | 'valveGate' | 'valveGlobe' | 'valveNeedle' | 'valvePinch' | 'valvePlug' | 'valveSafetyRelief' | 'valveShutoff' | 'valveThreeWay' | 'vesselHorizontal' | 'vesselVertical';
+export type PIDEquipmentType = 'agitator' | 'airCooler' | 'compressorCentrifugal' | 'compressorReciprocating' | 'condenser' | 'cooler' | 'coolingTower' | 'cyclone' | 'distillationColumn' | 'fan' | 'filter' | 'firedHeater' | 'flashDrum' | 'heatExchangerPlate' | 'heatExchangerShellTube' | 'jacket' | 'knockoutDrum' | 'pumpCentrifugal' | 'pumpPositiveDisplacement' | 'reactor' | 'reboiler' | 'refluxDrum' | 'ruptureDisk' | 'separator' | 'separatorHorizontal' | 'storageTank' | 'turbineSteam' | 'valveAngle' | 'valveBall' | 'valveButterfly' | 'valveCheck' | 'valveControl' | 'valveControlPositioner' | 'valveDiaphragm' | 'valveGate' | 'valveGlobe' | 'valveNeedle' | 'valvePinch' | 'valvePlug' | 'valvePressureReducing' | 'valveSafetyRelief' | 'valveShutoff' | 'valveThreeWay' | 'vesselHorizontal' | 'vesselVertical';
 
 export function isPIDEquipmentType(item: unknown): item is PIDEquipmentType {
-    return item === 'vesselVertical' || item === 'vesselHorizontal' || item === 'storageTank' || item === 'reactor' || item === 'knockoutDrum' || item === 'distillationColumn' || item === 'filter' || item === 'separator' || item === 'separatorHorizontal' || item === 'flashDrum' || item === 'refluxDrum' || item === 'cyclone' || item === 'pumpCentrifugal' || item === 'pumpPositiveDisplacement' || item === 'compressorCentrifugal' || item === 'compressorReciprocating' || item === 'turbineSteam' || item === 'fan' || item === 'agitator' || item === 'valveGate' || item === 'valveGlobe' || item === 'valveBall' || item === 'valveCheck' || item === 'valveControl' || item === 'valveSafetyRelief' || item === 'valveButterfly' || item === 'valveThreeWay' || item === 'valveNeedle' || item === 'valvePlug' || item === 'valveDiaphragm' || item === 'valveAngle' || item === 'valvePinch' || item === 'valveShutoff' || item === 'heatExchangerShellTube' || item === 'cooler' || item === 'airCooler' || item === 'heatExchangerPlate' || item === 'firedHeater' || item === 'coolingTower' || item === 'condenser' || item === 'reboiler' || item === 'jacket' || item === 'ruptureDisk';
+    return item === 'vesselVertical' || item === 'vesselHorizontal' || item === 'storageTank' || item === 'reactor' || item === 'knockoutDrum' || item === 'distillationColumn' || item === 'filter' || item === 'separator' || item === 'separatorHorizontal' || item === 'flashDrum' || item === 'refluxDrum' || item === 'cyclone' || item === 'pumpCentrifugal' || item === 'pumpPositiveDisplacement' || item === 'compressorCentrifugal' || item === 'compressorReciprocating' || item === 'turbineSteam' || item === 'fan' || item === 'agitator' || item === 'valveGate' || item === 'valveGlobe' || item === 'valveBall' || item === 'valveCheck' || item === 'valveControl' || item === 'valveSafetyRelief' || item === 'valveControlPositioner' || item === 'valvePressureReducing' || item === 'valveButterfly' || item === 'valveThreeWay' || item === 'valveNeedle' || item === 'valvePlug' || item === 'valveDiaphragm' || item === 'valveAngle' || item === 'valvePinch' || item === 'valveShutoff' || item === 'heatExchangerShellTube' || item === 'cooler' || item === 'airCooler' || item === 'heatExchangerPlate' || item === 'firedHeater' || item === 'coolingTower' || item === 'condenser' || item === 'reboiler' || item === 'jacket' || item === 'ruptureDisk';
 }
 
 export interface PIDEquipmentTypeProperty extends langium.AstNode {
@@ -3640,8 +4605,8 @@ export function isPneumaticStatement(item: unknown): item is PneumaticStatement 
 export interface PortConnection extends langium.AstNode {
     readonly $container: InstMapProperty;
     readonly $type: 'PortConnection';
-    net: string;
-    port: string;
+    net: ProfileIdentifier;
+    port: ProfileIdentifier;
     range?: BusWidth;
 }
 
@@ -3659,7 +4624,7 @@ export function isPortConnection(item: unknown): item is PortConnection {
 export interface PortDecl extends langium.AstNode {
     readonly $container: ModulePortsProperty;
     readonly $type: 'PortDecl';
-    name: string;
+    name: ProfileIdentifier;
     width?: BusWidth;
 }
 
@@ -3746,7 +4711,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GlyphSetProfile | HydraulicProfile | PIDProfile | PneumaticProfile | SequenceProfile | TimelineProfile | WardleyProfile;
+export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -3754,6 +4719,336 @@ export const Profile = {
 
 export function isProfile(item: unknown): item is Profile {
     return reflection.isInstance(item, Profile.$type);
+}
+
+export type ProfileIdentifier = FlexibleID | string;
+
+export function isProfileIdentifier(item: unknown): item is ProfileIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
+}
+
+export interface RailroadBoxPadXProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBoxPadXProperty';
+    value: string;
+}
+
+export const RailroadBoxPadXProperty = {
+    $type: 'RailroadBoxPadXProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBoxPadXProperty(item: unknown): item is RailroadBoxPadXProperty {
+    return reflection.isInstance(item, RailroadBoxPadXProperty.$type);
+}
+
+export interface RailroadBoxPadYProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBoxPadYProperty';
+    value: string;
+}
+
+export const RailroadBoxPadYProperty = {
+    $type: 'RailroadBoxPadYProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBoxPadYProperty(item: unknown): item is RailroadBoxPadYProperty {
+    return reflection.isInstance(item, RailroadBoxPadYProperty.$type);
+}
+
+export interface RailroadBranchPadProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadBranchPadProperty';
+    value: string;
+}
+
+export const RailroadBranchPadProperty = {
+    $type: 'RailroadBranchPadProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadBranchPadProperty(item: unknown): item is RailroadBranchPadProperty {
+    return reflection.isInstance(item, RailroadBranchPadProperty.$type);
+}
+
+export interface RailroadChoice extends langium.AstNode {
+    readonly $container: RailroadDiagramStatement | RailroadPrimary;
+    readonly $type: 'RailroadChoice';
+    first: RailroadSequence;
+    rest: Array<RailroadSequence>;
+}
+
+export const RailroadChoice = {
+    $type: 'RailroadChoice',
+    first: 'first',
+    rest: 'rest'
+} as const;
+
+export function isRailroadChoice(item: unknown): item is RailroadChoice {
+    return reflection.isInstance(item, RailroadChoice.$type);
+}
+
+export interface RailroadCompactProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadCompactProperty';
+    value: BooleanValue;
+}
+
+export const RailroadCompactProperty = {
+    $type: 'RailroadCompactProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadCompactProperty(item: unknown): item is RailroadCompactProperty {
+    return reflection.isInstance(item, RailroadCompactProperty.$type);
+}
+
+export interface RailroadDiagramStatement extends langium.AstNode {
+    readonly $container: RailroadProfile;
+    readonly $type: 'RailroadDiagramStatement';
+    expression: RailroadExpression;
+    name: string;
+}
+
+export const RailroadDiagramStatement = {
+    $type: 'RailroadDiagramStatement',
+    expression: 'expression',
+    name: 'name'
+} as const;
+
+export function isRailroadDiagramStatement(item: unknown): item is RailroadDiagramStatement {
+    return reflection.isInstance(item, RailroadDiagramStatement.$type);
+}
+
+export interface RailroadEndMarkerProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadEndMarkerProperty';
+    value: RailroadEndMarkerValue;
+}
+
+export const RailroadEndMarkerProperty = {
+    $type: 'RailroadEndMarkerProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadEndMarkerProperty(item: unknown): item is RailroadEndMarkerProperty {
+    return reflection.isInstance(item, RailroadEndMarkerProperty.$type);
+}
+
+export type RailroadEndMarkerValue = 'arrow' | 'circle' | 'none';
+
+export function isRailroadEndMarkerValue(item: unknown): item is RailroadEndMarkerValue {
+    return item === 'arrow' || item === 'circle' || item === 'none';
+}
+
+export type RailroadExpression = RailroadChoice;
+
+export const RailroadExpression = {
+    $type: 'RailroadExpression'
+} as const;
+
+export function isRailroadExpression(item: unknown): item is RailroadExpression {
+    return reflection.isInstance(item, RailroadExpression.$type);
+}
+
+export interface RailroadGapProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadGapProperty';
+    value: string;
+}
+
+export const RailroadGapProperty = {
+    $type: 'RailroadGapProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadGapProperty(item: unknown): item is RailroadGapProperty {
+    return reflection.isInstance(item, RailroadGapProperty.$type);
+}
+
+export interface RailroadLoopProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadLoopProperty';
+    value: string;
+}
+
+export const RailroadLoopProperty = {
+    $type: 'RailroadLoopProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadLoopProperty(item: unknown): item is RailroadLoopProperty {
+    return reflection.isInstance(item, RailroadLoopProperty.$type);
+}
+
+export interface RailroadMarkerColorProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadMarkerColorProperty';
+    value: string;
+}
+
+export const RailroadMarkerColorProperty = {
+    $type: 'RailroadMarkerColorProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadMarkerColorProperty(item: unknown): item is RailroadMarkerColorProperty {
+    return reflection.isInstance(item, RailroadMarkerColorProperty.$type);
+}
+
+export interface RailroadOperatorColorProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadOperatorColorProperty';
+    value: string;
+}
+
+export const RailroadOperatorColorProperty = {
+    $type: 'RailroadOperatorColorProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadOperatorColorProperty(item: unknown): item is RailroadOperatorColorProperty {
+    return reflection.isInstance(item, RailroadOperatorColorProperty.$type);
+}
+
+export type RailroadOptionProperty = RailroadBoxPadXProperty | RailroadBoxPadYProperty | RailroadBranchPadProperty | RailroadCompactProperty | RailroadEndMarkerProperty | RailroadGapProperty | RailroadLoopProperty | RailroadMarkerColorProperty | RailroadOperatorColorProperty | RailroadStartMarkerProperty | RailroadVGapProperty;
+
+export const RailroadOptionProperty = {
+    $type: 'RailroadOptionProperty'
+} as const;
+
+export function isRailroadOptionProperty(item: unknown): item is RailroadOptionProperty {
+    return reflection.isInstance(item, RailroadOptionProperty.$type);
+}
+
+export interface RailroadOptionsStatement extends langium.AstNode {
+    readonly $container: RailroadProfile;
+    readonly $type: 'RailroadOptionsStatement';
+    properties: Array<RailroadOptionProperty>;
+}
+
+export const RailroadOptionsStatement = {
+    $type: 'RailroadOptionsStatement',
+    properties: 'properties'
+} as const;
+
+export function isRailroadOptionsStatement(item: unknown): item is RailroadOptionsStatement {
+    return reflection.isInstance(item, RailroadOptionsStatement.$type);
+}
+
+export interface RailroadPrimary extends langium.AstNode {
+    readonly $container: RailroadUnary;
+    readonly $type: 'RailroadPrimary';
+    expression?: RailroadExpression;
+    ref?: string;
+    token?: string;
+}
+
+export const RailroadPrimary = {
+    $type: 'RailroadPrimary',
+    expression: 'expression',
+    ref: 'ref',
+    token: 'token'
+} as const;
+
+export function isRailroadPrimary(item: unknown): item is RailroadPrimary {
+    return reflection.isInstance(item, RailroadPrimary.$type);
+}
+
+export interface RailroadProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'RailroadProfile';
+    name: string;
+    statements: Array<RailroadStatement>;
+}
+
+export const RailroadProfile = {
+    $type: 'RailroadProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isRailroadProfile(item: unknown): item is RailroadProfile {
+    return reflection.isInstance(item, RailroadProfile.$type);
+}
+
+export interface RailroadSequence extends langium.AstNode {
+    readonly $container: RailroadChoice;
+    readonly $type: 'RailroadSequence';
+    items: Array<RailroadUnary>;
+}
+
+export const RailroadSequence = {
+    $type: 'RailroadSequence',
+    items: 'items'
+} as const;
+
+export function isRailroadSequence(item: unknown): item is RailroadSequence {
+    return reflection.isInstance(item, RailroadSequence.$type);
+}
+
+export interface RailroadStartMarkerProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadStartMarkerProperty';
+    value: RailroadStartMarkerValue;
+}
+
+export const RailroadStartMarkerProperty = {
+    $type: 'RailroadStartMarkerProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadStartMarkerProperty(item: unknown): item is RailroadStartMarkerProperty {
+    return reflection.isInstance(item, RailroadStartMarkerProperty.$type);
+}
+
+export type RailroadStartMarkerValue = 'circle' | 'none';
+
+export function isRailroadStartMarkerValue(item: unknown): item is RailroadStartMarkerValue {
+    return item === 'circle' || item === 'none';
+}
+
+export type RailroadStatement = RailroadDiagramStatement | RailroadOptionsStatement | ThemeDeclaration;
+
+export const RailroadStatement = {
+    $type: 'RailroadStatement'
+} as const;
+
+export function isRailroadStatement(item: unknown): item is RailroadStatement {
+    return reflection.isInstance(item, RailroadStatement.$type);
+}
+
+export interface RailroadUnary extends langium.AstNode {
+    readonly $container: RailroadSequence;
+    readonly $type: 'RailroadUnary';
+    op?: '*' | '+' | '?';
+    primary: RailroadPrimary;
+}
+
+export const RailroadUnary = {
+    $type: 'RailroadUnary',
+    op: 'op',
+    primary: 'primary'
+} as const;
+
+export function isRailroadUnary(item: unknown): item is RailroadUnary {
+    return reflection.isInstance(item, RailroadUnary.$type);
+}
+
+export interface RailroadVGapProperty extends langium.AstNode {
+    readonly $container: RailroadOptionsStatement;
+    readonly $type: 'RailroadVGapProperty';
+    value: string;
+}
+
+export const RailroadVGapProperty = {
+    $type: 'RailroadVGapProperty',
+    value: 'value'
+} as const;
+
+export function isRailroadVGapProperty(item: unknown): item is RailroadVGapProperty {
+    return reflection.isInstance(item, RailroadVGapProperty.$type);
 }
 
 export type ResizeHandleValue = 'e' | 'n' | 'ne' | 'nw' | 's' | 'se' | 'sw' | 'w';
@@ -4045,7 +5340,7 @@ export function isSequenceFragmentType(item: unknown): item is SequenceFragmentT
 export interface SequenceFromProperty extends langium.AstNode {
     readonly $container: SequenceMessageStatement;
     readonly $type: 'SequenceFromProperty';
-    from: 'found' | 'lost' | string;
+    from: 'found' | 'lost' | SequenceIdentifier;
 }
 
 export const SequenceFromProperty = {
@@ -4070,6 +5365,12 @@ export const SequenceGuardProperty = {
 
 export function isSequenceGuardProperty(item: unknown): item is SequenceGuardProperty {
     return reflection.isInstance(item, SequenceGuardProperty.$type);
+}
+
+export type SequenceIdentifier = FlexibleID | string;
+
+export function isSequenceIdentifier(item: unknown): item is SequenceIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
 }
 
 export interface SequenceLabelProperty extends langium.AstNode {
@@ -4121,7 +5422,7 @@ export function isSequenceMessageType(item: unknown): item is SequenceMessageTyp
 export interface SequenceNoteParticipantsProperty extends langium.AstNode {
     readonly $container: SequenceNoteStatement;
     readonly $type: 'SequenceNoteParticipantsProperty';
-    participants: Array<string>;
+    participants: Array<SequenceIdentifier>;
 }
 
 export const SequenceNoteParticipantsProperty = {
@@ -4184,7 +5485,7 @@ export function isSequenceNoteStatement(item: unknown): item is SequenceNoteStat
 export interface SequenceParticipantStatement extends langium.AstNode {
     readonly $container: SequenceProfile;
     readonly $type: 'SequenceParticipantStatement';
-    name: string;
+    name: SequenceIdentifier;
     type?: SequenceParticipantType;
 }
 
@@ -4264,7 +5565,7 @@ export function isSequenceTimingProperty(item: unknown): item is SequenceTimingP
 export interface SequenceToProperty extends langium.AstNode {
     readonly $container: SequenceMessageStatement;
     readonly $type: 'SequenceToProperty';
-    to: 'found' | 'lost' | string;
+    to: 'found' | 'lost' | SequenceIdentifier;
 }
 
 export const SequenceToProperty = {
@@ -4294,7 +5595,7 @@ export function isSequenceTypeProperty(item: unknown): item is SequenceTypePrope
 export interface ShapeDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ShapeDeclaration';
-    id: FlexibleID;
+    id: DiagramIdentifier;
     properties: Array<NodeProperty>;
     shape?: ShapeIdentifier;
 }
@@ -4415,7 +5716,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | IntersectionsProperty | LabelsProperty | OutputPinsProperty;
+    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | IntersectionsProperty | KanbanTagsProperty | LabelsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -4462,7 +5763,7 @@ export function isStrokeWidthProperty(item: unknown): item is StrokeWidthPropert
 export interface StyleDeclaration extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'StyleDeclaration';
-    name: string;
+    name: DiagramIdentifier;
     properties: Array<StyleProperty>;
 }
 
@@ -4580,7 +5881,7 @@ export interface TemplateEdgeProperty extends langium.AstNode {
     readonly $type: 'TemplateEdgeProperty';
     condition?: TemplateExpression;
     label?: TemplateExpression;
-    style?: string;
+    style?: DiagramIdentifier;
 }
 
 export const TemplateEdgeProperty = {
@@ -4665,7 +5966,7 @@ export interface TemplateNodeProperty extends langium.AstNode {
     label?: TemplateExpression;
     shape?: string;
     strokeColor?: TemplateExpression;
-    style?: string;
+    style?: DiagramIdentifier;
 }
 
 export const TemplateNodeProperty = {
@@ -4790,7 +6091,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | TreemapProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -4883,7 +6184,7 @@ export function isTimelineEventProperty(item: unknown): item is TimelineEventPro
 export interface TimelineEventStatement extends langium.AstNode {
     readonly $container: TimelineProfile;
     readonly $type: 'TimelineEventStatement';
-    id: string;
+    id: TimelineIdentifier;
     properties: Array<TimelineEventProperty>;
 }
 
@@ -4910,6 +6211,12 @@ export const TimelineIconProperty = {
 
 export function isTimelineIconProperty(item: unknown): item is TimelineIconProperty {
     return reflection.isInstance(item, TimelineIconProperty.$type);
+}
+
+export type TimelineIdentifier = FlexibleID | string;
+
+export function isTimelineIdentifier(item: unknown): item is TimelineIdentifier {
+    return isFlexibleID(item) || (typeof item === 'string' && (/"(?:[^"\\]|\\.)*"/.test(item)));
 }
 
 export interface TimelineLabelProperty extends langium.AstNode {
@@ -4976,7 +6283,7 @@ export function isTimelinePeriodProperty(item: unknown): item is TimelinePeriodP
 export interface TimelinePeriodStatement extends langium.AstNode {
     readonly $container: TimelineProfile;
     readonly $type: 'TimelinePeriodStatement';
-    id: string;
+    id: TimelineIdentifier;
     properties: Array<TimelinePeriodProperty>;
 }
 
@@ -5081,6 +6388,205 @@ export const TooltipProperty = {
 
 export function isTooltipProperty(item: unknown): item is TooltipProperty {
     return reflection.isInstance(item, TooltipProperty.$type);
+}
+
+export interface TreemapColorProperty extends langium.AstNode {
+    readonly $container: TreemapGroupBlock | TreemapItemStatement;
+    readonly $type: 'TreemapColorProperty';
+    color: string;
+}
+
+export const TreemapColorProperty = {
+    $type: 'TreemapColorProperty',
+    color: 'color'
+} as const;
+
+export function isTreemapColorProperty(item: unknown): item is TreemapColorProperty {
+    return reflection.isInstance(item, TreemapColorProperty.$type);
+}
+
+export interface TreemapGapStatement extends langium.AstNode {
+    readonly $container: TreemapProfile;
+    readonly $type: 'TreemapGapStatement';
+    value: string;
+}
+
+export const TreemapGapStatement = {
+    $type: 'TreemapGapStatement',
+    value: 'value'
+} as const;
+
+export function isTreemapGapStatement(item: unknown): item is TreemapGapStatement {
+    return reflection.isInstance(item, TreemapGapStatement.$type);
+}
+
+export interface TreemapGroupBlock extends langium.AstNode {
+    readonly $container: TreemapGroupBlock | TreemapProfile;
+    readonly $type: 'TreemapGroupBlock';
+    children: Array<TreemapGroupBlock | TreemapItemStatement>;
+    label: string;
+    properties: Array<TreemapNodeProperty>;
+}
+
+export const TreemapGroupBlock = {
+    $type: 'TreemapGroupBlock',
+    children: 'children',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isTreemapGroupBlock(item: unknown): item is TreemapGroupBlock {
+    return reflection.isInstance(item, TreemapGroupBlock.$type);
+}
+
+export interface TreemapItemStatement extends langium.AstNode {
+    readonly $container: TreemapGroupBlock | TreemapProfile;
+    readonly $type: 'TreemapItemStatement';
+    label: string;
+    properties: Array<TreemapNodeProperty>;
+}
+
+export const TreemapItemStatement = {
+    $type: 'TreemapItemStatement',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isTreemapItemStatement(item: unknown): item is TreemapItemStatement {
+    return reflection.isInstance(item, TreemapItemStatement.$type);
+}
+
+export interface TreemapLabelProperty extends langium.AstNode {
+    readonly $container: TreemapGroupBlock | TreemapItemStatement;
+    readonly $type: 'TreemapLabelProperty';
+    label: string;
+}
+
+export const TreemapLabelProperty = {
+    $type: 'TreemapLabelProperty',
+    label: 'label'
+} as const;
+
+export function isTreemapLabelProperty(item: unknown): item is TreemapLabelProperty {
+    return reflection.isInstance(item, TreemapLabelProperty.$type);
+}
+
+export interface TreemapLayoutStatement extends langium.AstNode {
+    readonly $container: TreemapProfile;
+    readonly $type: 'TreemapLayoutStatement';
+    layout: TreemapLayoutValue;
+}
+
+export const TreemapLayoutStatement = {
+    $type: 'TreemapLayoutStatement',
+    layout: 'layout'
+} as const;
+
+export function isTreemapLayoutStatement(item: unknown): item is TreemapLayoutStatement {
+    return reflection.isInstance(item, TreemapLayoutStatement.$type);
+}
+
+export type TreemapLayoutValue = 'slice-dice' | 'squarify';
+
+export function isTreemapLayoutValue(item: unknown): item is TreemapLayoutValue {
+    return item === 'slice-dice' || item === 'squarify';
+}
+
+export type TreemapNodeProperty = TreemapColorProperty | TreemapLabelProperty | TreemapValueProperty;
+
+export const TreemapNodeProperty = {
+    $type: 'TreemapNodeProperty'
+} as const;
+
+export function isTreemapNodeProperty(item: unknown): item is TreemapNodeProperty {
+    return reflection.isInstance(item, TreemapNodeProperty.$type);
+}
+
+export interface TreemapPaddingStatement extends langium.AstNode {
+    readonly $container: TreemapProfile;
+    readonly $type: 'TreemapPaddingStatement';
+    value: string;
+}
+
+export const TreemapPaddingStatement = {
+    $type: 'TreemapPaddingStatement',
+    value: 'value'
+} as const;
+
+export function isTreemapPaddingStatement(item: unknown): item is TreemapPaddingStatement {
+    return reflection.isInstance(item, TreemapPaddingStatement.$type);
+}
+
+export interface TreemapProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'TreemapProfile';
+    name: string;
+    statements: Array<TreemapStatement>;
+}
+
+export const TreemapProfile = {
+    $type: 'TreemapProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isTreemapProfile(item: unknown): item is TreemapProfile {
+    return reflection.isInstance(item, TreemapProfile.$type);
+}
+
+export interface TreemapShowLegendStatement extends langium.AstNode {
+    readonly $container: TreemapProfile;
+    readonly $type: 'TreemapShowLegendStatement';
+    value: BooleanValue;
+}
+
+export const TreemapShowLegendStatement = {
+    $type: 'TreemapShowLegendStatement',
+    value: 'value'
+} as const;
+
+export function isTreemapShowLegendStatement(item: unknown): item is TreemapShowLegendStatement {
+    return reflection.isInstance(item, TreemapShowLegendStatement.$type);
+}
+
+export interface TreemapShowValuesStatement extends langium.AstNode {
+    readonly $container: TreemapProfile;
+    readonly $type: 'TreemapShowValuesStatement';
+    value: BooleanValue;
+}
+
+export const TreemapShowValuesStatement = {
+    $type: 'TreemapShowValuesStatement',
+    value: 'value'
+} as const;
+
+export function isTreemapShowValuesStatement(item: unknown): item is TreemapShowValuesStatement {
+    return reflection.isInstance(item, TreemapShowValuesStatement.$type);
+}
+
+export type TreemapStatement = ThemeDeclaration | TreemapGapStatement | TreemapGroupBlock | TreemapItemStatement | TreemapLayoutStatement | TreemapPaddingStatement | TreemapShowLegendStatement | TreemapShowValuesStatement;
+
+export const TreemapStatement = {
+    $type: 'TreemapStatement'
+} as const;
+
+export function isTreemapStatement(item: unknown): item is TreemapStatement {
+    return reflection.isInstance(item, TreemapStatement.$type);
+}
+
+export interface TreemapValueProperty extends langium.AstNode {
+    readonly $container: TreemapGroupBlock | TreemapItemStatement;
+    readonly $type: 'TreemapValueProperty';
+    value: string;
+}
+
+export const TreemapValueProperty = {
+    $type: 'TreemapValueProperty',
+    value: 'value'
+} as const;
+
+export function isTreemapValueProperty(item: unknown): item is TreemapValueProperty {
+    return reflection.isInstance(item, TreemapValueProperty.$type);
 }
 
 export type VerticalAlignValue = 'bottom' | 'middle' | 'top';
@@ -5389,6 +6895,31 @@ export type RuniqAstType = {
     GatewayTypeProperty: GatewayTypeProperty
     GenericPIDProperty: GenericPIDProperty
     GenericTypesProperty: GenericTypesProperty
+    GitGraphBranchColorProperty: GitGraphBranchColorProperty
+    GitGraphBranchLabelProperty: GitGraphBranchLabelProperty
+    GitGraphBranchParentProperty: GitGraphBranchParentProperty
+    GitGraphBranchProperty: GitGraphBranchProperty
+    GitGraphBranchStatement: GitGraphBranchStatement
+    GitGraphColumnSpacingProperty: GitGraphColumnSpacingProperty
+    GitGraphCommitAuthorProperty: GitGraphCommitAuthorProperty
+    GitGraphCommitBranchProperty: GitGraphCommitBranchProperty
+    GitGraphCommitLabelProperty: GitGraphCommitLabelProperty
+    GitGraphCommitMessageProperty: GitGraphCommitMessageProperty
+    GitGraphCommitProperty: GitGraphCommitProperty
+    GitGraphCommitStatement: GitGraphCommitStatement
+    GitGraphCommitTagProperty: GitGraphCommitTagProperty
+    GitGraphMergeFromProperty: GitGraphMergeFromProperty
+    GitGraphMergeIntoProperty: GitGraphMergeIntoProperty
+    GitGraphMergeLabelProperty: GitGraphMergeLabelProperty
+    GitGraphMergeProperty: GitGraphMergeProperty
+    GitGraphMergeStatement: GitGraphMergeStatement
+    GitGraphMergeTagProperty: GitGraphMergeTagProperty
+    GitGraphOrientationStatement: GitGraphOrientationStatement
+    GitGraphProfile: GitGraphProfile
+    GitGraphRowSpacingProperty: GitGraphRowSpacingProperty
+    GitGraphSpacingProperty: GitGraphSpacingProperty
+    GitGraphSpacingStatement: GitGraphSpacingStatement
+    GitGraphStatement: GitGraphStatement
     GlyphSetImageItem: GlyphSetImageItem
     GlyphSetItemStatement: GlyphSetItemStatement
     GlyphSetNestedItem: GlyphSetNestedItem
@@ -5398,6 +6929,18 @@ export type RuniqAstType = {
     GlyphSetSimpleItem: GlyphSetSimpleItem
     GroupBlock: GroupBlock
     GuardProperty: GuardProperty
+    HvacConnectStatement: HvacConnectStatement
+    HvacConnection: HvacConnection
+    HvacDuctProperty: HvacDuctProperty
+    HvacDuctSizeProperty: HvacDuctSizeProperty
+    HvacDuctStatement: HvacDuctStatement
+    HvacDuctTypeProperty: HvacDuctTypeProperty
+    HvacEquipmentMetaProperty: HvacEquipmentMetaProperty
+    HvacEquipmentProperty: HvacEquipmentProperty
+    HvacEquipmentStatement: HvacEquipmentStatement
+    HvacEquipmentTypeProperty: HvacEquipmentTypeProperty
+    HvacProfile: HvacProfile
+    HvacStatement: HvacStatement
     HydraulicProfile: HydraulicProfile
     HydraulicStatement: HydraulicStatement
     IconProperty: IconProperty
@@ -5408,6 +6951,26 @@ export type RuniqAstType = {
     InstProperty: InstProperty
     InstStatement: InstStatement
     IntersectionsProperty: IntersectionsProperty
+    KanbanAssigneeProperty: KanbanAssigneeProperty
+    KanbanBorderRadiusProperty: KanbanBorderRadiusProperty
+    KanbanCardProperty: KanbanCardProperty
+    KanbanCardStatement: KanbanCardStatement
+    KanbanColumnBlock: KanbanColumnBlock
+    KanbanColumnProperty: KanbanColumnProperty
+    KanbanDescriptionProperty: KanbanDescriptionProperty
+    KanbanEstimateProperty: KanbanEstimateProperty
+    KanbanFillColorProperty: KanbanFillColorProperty
+    KanbanMaxCardsProperty: KanbanMaxCardsProperty
+    KanbanOverflowProperty: KanbanOverflowProperty
+    KanbanPriorityProperty: KanbanPriorityProperty
+    KanbanProfile: KanbanProfile
+    KanbanStatement: KanbanStatement
+    KanbanStrokeColorProperty: KanbanStrokeColorProperty
+    KanbanStyleProperty: KanbanStyleProperty
+    KanbanSwimlaneBlock: KanbanSwimlaneBlock
+    KanbanTagsProperty: KanbanTagsProperty
+    KanbanTextColorProperty: KanbanTextColorProperty
+    KanbanWipProperty: KanbanWipProperty
     LabelProperty: LabelProperty
     LabelsProperty: LabelsProperty
     LegendPositionProperty: LegendPositionProperty
@@ -5491,6 +7054,27 @@ export type RuniqAstType = {
     PresetBlock: PresetBlock
     PressureStatement: PressureStatement
     Profile: Profile
+    RailroadBoxPadXProperty: RailroadBoxPadXProperty
+    RailroadBoxPadYProperty: RailroadBoxPadYProperty
+    RailroadBranchPadProperty: RailroadBranchPadProperty
+    RailroadChoice: RailroadChoice
+    RailroadCompactProperty: RailroadCompactProperty
+    RailroadDiagramStatement: RailroadDiagramStatement
+    RailroadEndMarkerProperty: RailroadEndMarkerProperty
+    RailroadExpression: RailroadExpression
+    RailroadGapProperty: RailroadGapProperty
+    RailroadLoopProperty: RailroadLoopProperty
+    RailroadMarkerColorProperty: RailroadMarkerColorProperty
+    RailroadOperatorColorProperty: RailroadOperatorColorProperty
+    RailroadOptionProperty: RailroadOptionProperty
+    RailroadOptionsStatement: RailroadOptionsStatement
+    RailroadPrimary: RailroadPrimary
+    RailroadProfile: RailroadProfile
+    RailroadSequence: RailroadSequence
+    RailroadStartMarkerProperty: RailroadStartMarkerProperty
+    RailroadStatement: RailroadStatement
+    RailroadUnary: RailroadUnary
+    RailroadVGapProperty: RailroadVGapProperty
     RoleSourceProperty: RoleSourceProperty
     RoleTargetProperty: RoleTargetProperty
     RoutingDeclaration: RoutingDeclaration
@@ -5572,6 +7156,19 @@ export type RuniqAstType = {
     TimelineStatement: TimelineStatement
     TitleProperty: TitleProperty
     TooltipProperty: TooltipProperty
+    TreemapColorProperty: TreemapColorProperty
+    TreemapGapStatement: TreemapGapStatement
+    TreemapGroupBlock: TreemapGroupBlock
+    TreemapItemStatement: TreemapItemStatement
+    TreemapLabelProperty: TreemapLabelProperty
+    TreemapLayoutStatement: TreemapLayoutStatement
+    TreemapNodeProperty: TreemapNodeProperty
+    TreemapPaddingStatement: TreemapPaddingStatement
+    TreemapProfile: TreemapProfile
+    TreemapShowLegendStatement: TreemapShowLegendStatement
+    TreemapShowValuesStatement: TreemapShowValuesStatement
+    TreemapStatement: TreemapStatement
+    TreemapValueProperty: TreemapValueProperty
     WardleyAnchorProperty: WardleyAnchorProperty
     WardleyAnchorStatement: WardleyAnchorStatement
     WardleyComponentProperty: WardleyComponentProperty
@@ -6533,6 +8130,233 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        GitGraphBranchColorProperty: {
+            name: GitGraphBranchColorProperty.$type,
+            properties: {
+                color: {
+                    name: GitGraphBranchColorProperty.color
+                }
+            },
+            superTypes: [GitGraphBranchProperty.$type]
+        },
+        GitGraphBranchLabelProperty: {
+            name: GitGraphBranchLabelProperty.$type,
+            properties: {
+                label: {
+                    name: GitGraphBranchLabelProperty.label
+                }
+            },
+            superTypes: [GitGraphBranchProperty.$type]
+        },
+        GitGraphBranchParentProperty: {
+            name: GitGraphBranchParentProperty.$type,
+            properties: {
+                parent: {
+                    name: GitGraphBranchParentProperty.parent
+                }
+            },
+            superTypes: [GitGraphBranchProperty.$type]
+        },
+        GitGraphBranchProperty: {
+            name: GitGraphBranchProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        GitGraphBranchStatement: {
+            name: GitGraphBranchStatement.$type,
+            properties: {
+                id: {
+                    name: GitGraphBranchStatement.id
+                },
+                properties: {
+                    name: GitGraphBranchStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [GitGraphStatement.$type]
+        },
+        GitGraphColumnSpacingProperty: {
+            name: GitGraphColumnSpacingProperty.$type,
+            properties: {
+                value: {
+                    name: GitGraphColumnSpacingProperty.value
+                }
+            },
+            superTypes: [GitGraphSpacingProperty.$type]
+        },
+        GitGraphCommitAuthorProperty: {
+            name: GitGraphCommitAuthorProperty.$type,
+            properties: {
+                author: {
+                    name: GitGraphCommitAuthorProperty.author
+                }
+            },
+            superTypes: [GitGraphCommitProperty.$type]
+        },
+        GitGraphCommitBranchProperty: {
+            name: GitGraphCommitBranchProperty.$type,
+            properties: {
+                branch: {
+                    name: GitGraphCommitBranchProperty.branch
+                }
+            },
+            superTypes: [GitGraphCommitProperty.$type]
+        },
+        GitGraphCommitLabelProperty: {
+            name: GitGraphCommitLabelProperty.$type,
+            properties: {
+                label: {
+                    name: GitGraphCommitLabelProperty.label
+                }
+            },
+            superTypes: [GitGraphCommitProperty.$type]
+        },
+        GitGraphCommitMessageProperty: {
+            name: GitGraphCommitMessageProperty.$type,
+            properties: {
+                message: {
+                    name: GitGraphCommitMessageProperty.message
+                }
+            },
+            superTypes: [GitGraphCommitProperty.$type]
+        },
+        GitGraphCommitProperty: {
+            name: GitGraphCommitProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        GitGraphCommitStatement: {
+            name: GitGraphCommitStatement.$type,
+            properties: {
+                id: {
+                    name: GitGraphCommitStatement.id
+                },
+                properties: {
+                    name: GitGraphCommitStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [GitGraphStatement.$type]
+        },
+        GitGraphCommitTagProperty: {
+            name: GitGraphCommitTagProperty.$type,
+            properties: {
+                tag: {
+                    name: GitGraphCommitTagProperty.tag
+                }
+            },
+            superTypes: [GitGraphCommitProperty.$type]
+        },
+        GitGraphMergeFromProperty: {
+            name: GitGraphMergeFromProperty.$type,
+            properties: {
+                from: {
+                    name: GitGraphMergeFromProperty.from
+                }
+            },
+            superTypes: [GitGraphMergeProperty.$type]
+        },
+        GitGraphMergeIntoProperty: {
+            name: GitGraphMergeIntoProperty.$type,
+            properties: {
+                into: {
+                    name: GitGraphMergeIntoProperty.into
+                }
+            },
+            superTypes: [GitGraphMergeProperty.$type]
+        },
+        GitGraphMergeLabelProperty: {
+            name: GitGraphMergeLabelProperty.$type,
+            properties: {
+                label: {
+                    name: GitGraphMergeLabelProperty.label
+                }
+            },
+            superTypes: [GitGraphMergeProperty.$type]
+        },
+        GitGraphMergeProperty: {
+            name: GitGraphMergeProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        GitGraphMergeStatement: {
+            name: GitGraphMergeStatement.$type,
+            properties: {
+                id: {
+                    name: GitGraphMergeStatement.id
+                },
+                properties: {
+                    name: GitGraphMergeStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [GitGraphStatement.$type]
+        },
+        GitGraphMergeTagProperty: {
+            name: GitGraphMergeTagProperty.$type,
+            properties: {
+                tag: {
+                    name: GitGraphMergeTagProperty.tag
+                }
+            },
+            superTypes: [GitGraphMergeProperty.$type]
+        },
+        GitGraphOrientationStatement: {
+            name: GitGraphOrientationStatement.$type,
+            properties: {
+                orientation: {
+                    name: GitGraphOrientationStatement.orientation
+                }
+            },
+            superTypes: [GitGraphStatement.$type]
+        },
+        GitGraphProfile: {
+            name: GitGraphProfile.$type,
+            properties: {
+                name: {
+                    name: GitGraphProfile.name
+                },
+                statements: {
+                    name: GitGraphProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        GitGraphRowSpacingProperty: {
+            name: GitGraphRowSpacingProperty.$type,
+            properties: {
+                value: {
+                    name: GitGraphRowSpacingProperty.value
+                }
+            },
+            superTypes: [GitGraphSpacingProperty.$type]
+        },
+        GitGraphSpacingProperty: {
+            name: GitGraphSpacingProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        GitGraphSpacingStatement: {
+            name: GitGraphSpacingStatement.$type,
+            properties: {
+                properties: {
+                    name: GitGraphSpacingStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [GitGraphStatement.$type]
+        },
+        GitGraphStatement: {
+            name: GitGraphStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
         GlyphSetImageItem: {
             name: GlyphSetImageItem.$type,
             properties: {
@@ -6662,6 +8486,124 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [EdgeProperty.$type]
         },
+        HvacConnectStatement: {
+            name: HvacConnectStatement.$type,
+            properties: {
+                path: {
+                    name: HvacConnectStatement.path,
+                    defaultValue: []
+                }
+            },
+            superTypes: [HvacStatement.$type]
+        },
+        HvacConnection: {
+            name: HvacConnection.$type,
+            properties: {
+                port: {
+                    name: HvacConnection.port
+                },
+                ref: {
+                    name: HvacConnection.ref
+                }
+            },
+            superTypes: []
+        },
+        HvacDuctProperty: {
+            name: HvacDuctProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        HvacDuctSizeProperty: {
+            name: HvacDuctSizeProperty.$type,
+            properties: {
+                value: {
+                    name: HvacDuctSizeProperty.value
+                }
+            },
+            superTypes: [HvacDuctProperty.$type]
+        },
+        HvacDuctStatement: {
+            name: HvacDuctStatement.$type,
+            properties: {
+                id: {
+                    name: HvacDuctStatement.id
+                },
+                properties: {
+                    name: HvacDuctStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [HvacStatement.$type]
+        },
+        HvacDuctTypeProperty: {
+            name: HvacDuctTypeProperty.$type,
+            properties: {
+                type: {
+                    name: HvacDuctTypeProperty.type
+                }
+            },
+            superTypes: [HvacDuctProperty.$type]
+        },
+        HvacEquipmentMetaProperty: {
+            name: HvacEquipmentMetaProperty.$type,
+            properties: {
+                key: {
+                    name: HvacEquipmentMetaProperty.key
+                },
+                value: {
+                    name: HvacEquipmentMetaProperty.value
+                }
+            },
+            superTypes: [HvacDuctProperty.$type, HvacEquipmentProperty.$type]
+        },
+        HvacEquipmentProperty: {
+            name: HvacEquipmentProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        HvacEquipmentStatement: {
+            name: HvacEquipmentStatement.$type,
+            properties: {
+                id: {
+                    name: HvacEquipmentStatement.id
+                },
+                properties: {
+                    name: HvacEquipmentStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [HvacStatement.$type]
+        },
+        HvacEquipmentTypeProperty: {
+            name: HvacEquipmentTypeProperty.$type,
+            properties: {
+                type: {
+                    name: HvacEquipmentTypeProperty.type
+                }
+            },
+            superTypes: [HvacEquipmentProperty.$type]
+        },
+        HvacProfile: {
+            name: HvacProfile.$type,
+            properties: {
+                name: {
+                    name: HvacProfile.name
+                },
+                statements: {
+                    name: HvacProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        HvacStatement: {
+            name: HvacStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
         HydraulicProfile: {
             name: HydraulicProfile.$type,
             properties: {
@@ -6758,6 +8700,204 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        KanbanAssigneeProperty: {
+            name: KanbanAssigneeProperty.$type,
+            properties: {
+                assignee: {
+                    name: KanbanAssigneeProperty.assignee
+                }
+            },
+            superTypes: [KanbanCardProperty.$type]
+        },
+        KanbanBorderRadiusProperty: {
+            name: KanbanBorderRadiusProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanBorderRadiusProperty.value
+                }
+            },
+            superTypes: [KanbanStyleProperty.$type]
+        },
+        KanbanCardProperty: {
+            name: KanbanCardProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        KanbanCardStatement: {
+            name: KanbanCardStatement.$type,
+            properties: {
+                id: {
+                    name: KanbanCardStatement.id
+                },
+                label: {
+                    name: KanbanCardStatement.label
+                },
+                properties: {
+                    name: KanbanCardStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        KanbanColumnBlock: {
+            name: KanbanColumnBlock.$type,
+            properties: {
+                cards: {
+                    name: KanbanColumnBlock.cards,
+                    defaultValue: []
+                },
+                id: {
+                    name: KanbanColumnBlock.id
+                },
+                label: {
+                    name: KanbanColumnBlock.label
+                },
+                properties: {
+                    name: KanbanColumnBlock.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [KanbanStatement.$type]
+        },
+        KanbanColumnProperty: {
+            name: KanbanColumnProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        KanbanDescriptionProperty: {
+            name: KanbanDescriptionProperty.$type,
+            properties: {
+                description: {
+                    name: KanbanDescriptionProperty.description
+                }
+            },
+            superTypes: [KanbanCardProperty.$type]
+        },
+        KanbanEstimateProperty: {
+            name: KanbanEstimateProperty.$type,
+            properties: {
+                estimate: {
+                    name: KanbanEstimateProperty.estimate
+                }
+            },
+            superTypes: [KanbanCardProperty.$type]
+        },
+        KanbanFillColorProperty: {
+            name: KanbanFillColorProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanFillColorProperty.value
+                }
+            },
+            superTypes: [KanbanStyleProperty.$type]
+        },
+        KanbanMaxCardsProperty: {
+            name: KanbanMaxCardsProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanMaxCardsProperty.value
+                }
+            },
+            superTypes: [KanbanColumnProperty.$type]
+        },
+        KanbanOverflowProperty: {
+            name: KanbanOverflowProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanOverflowProperty.value
+                }
+            },
+            superTypes: [KanbanColumnProperty.$type]
+        },
+        KanbanPriorityProperty: {
+            name: KanbanPriorityProperty.$type,
+            properties: {
+                priority: {
+                    name: KanbanPriorityProperty.priority
+                }
+            },
+            superTypes: [KanbanCardProperty.$type]
+        },
+        KanbanProfile: {
+            name: KanbanProfile.$type,
+            properties: {
+                name: {
+                    name: KanbanProfile.name
+                },
+                statements: {
+                    name: KanbanProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        KanbanStatement: {
+            name: KanbanStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        KanbanStrokeColorProperty: {
+            name: KanbanStrokeColorProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanStrokeColorProperty.value
+                }
+            },
+            superTypes: [KanbanStyleProperty.$type]
+        },
+        KanbanStyleProperty: {
+            name: KanbanStyleProperty.$type,
+            properties: {
+            },
+            superTypes: [KanbanCardProperty.$type, KanbanColumnProperty.$type]
+        },
+        KanbanSwimlaneBlock: {
+            name: KanbanSwimlaneBlock.$type,
+            properties: {
+                columns: {
+                    name: KanbanSwimlaneBlock.columns,
+                    defaultValue: []
+                },
+                label: {
+                    name: KanbanSwimlaneBlock.label
+                },
+                properties: {
+                    name: KanbanSwimlaneBlock.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [KanbanStatement.$type]
+        },
+        KanbanTagsProperty: {
+            name: KanbanTagsProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanTagsProperty.value
+                }
+            },
+            superTypes: [KanbanCardProperty.$type]
+        },
+        KanbanTextColorProperty: {
+            name: KanbanTextColorProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanTextColorProperty.value
+                }
+            },
+            superTypes: [KanbanStyleProperty.$type]
+        },
+        KanbanWipProperty: {
+            name: KanbanWipProperty.$type,
+            properties: {
+                value: {
+                    name: KanbanWipProperty.value
+                }
+            },
+            superTypes: [KanbanColumnProperty.$type]
         },
         LabelProperty: {
             name: LabelProperty.$type,
@@ -7585,6 +9725,208 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        RailroadBoxPadXProperty: {
+            name: RailroadBoxPadXProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBoxPadXProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadBoxPadYProperty: {
+            name: RailroadBoxPadYProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBoxPadYProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadBranchPadProperty: {
+            name: RailroadBranchPadProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadBranchPadProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadChoice: {
+            name: RailroadChoice.$type,
+            properties: {
+                first: {
+                    name: RailroadChoice.first
+                },
+                rest: {
+                    name: RailroadChoice.rest,
+                    defaultValue: []
+                }
+            },
+            superTypes: [RailroadExpression.$type]
+        },
+        RailroadCompactProperty: {
+            name: RailroadCompactProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadCompactProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadDiagramStatement: {
+            name: RailroadDiagramStatement.$type,
+            properties: {
+                expression: {
+                    name: RailroadDiagramStatement.expression
+                },
+                name: {
+                    name: RailroadDiagramStatement.name
+                }
+            },
+            superTypes: [RailroadStatement.$type]
+        },
+        RailroadEndMarkerProperty: {
+            name: RailroadEndMarkerProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadEndMarkerProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadExpression: {
+            name: RailroadExpression.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        RailroadGapProperty: {
+            name: RailroadGapProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadGapProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadLoopProperty: {
+            name: RailroadLoopProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadLoopProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadMarkerColorProperty: {
+            name: RailroadMarkerColorProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadMarkerColorProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadOperatorColorProperty: {
+            name: RailroadOperatorColorProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadOperatorColorProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadOptionProperty: {
+            name: RailroadOptionProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        RailroadOptionsStatement: {
+            name: RailroadOptionsStatement.$type,
+            properties: {
+                properties: {
+                    name: RailroadOptionsStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [RailroadStatement.$type]
+        },
+        RailroadPrimary: {
+            name: RailroadPrimary.$type,
+            properties: {
+                expression: {
+                    name: RailroadPrimary.expression
+                },
+                ref: {
+                    name: RailroadPrimary.ref
+                },
+                token: {
+                    name: RailroadPrimary.token
+                }
+            },
+            superTypes: []
+        },
+        RailroadProfile: {
+            name: RailroadProfile.$type,
+            properties: {
+                name: {
+                    name: RailroadProfile.name
+                },
+                statements: {
+                    name: RailroadProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        RailroadSequence: {
+            name: RailroadSequence.$type,
+            properties: {
+                items: {
+                    name: RailroadSequence.items,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        RailroadStartMarkerProperty: {
+            name: RailroadStartMarkerProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadStartMarkerProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
+        RailroadStatement: {
+            name: RailroadStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        RailroadUnary: {
+            name: RailroadUnary.$type,
+            properties: {
+                op: {
+                    name: RailroadUnary.op
+                },
+                primary: {
+                    name: RailroadUnary.primary
+                }
+            },
+            superTypes: []
+        },
+        RailroadVGapProperty: {
+            name: RailroadVGapProperty.$type,
+            properties: {
+                value: {
+                    name: RailroadVGapProperty.value
+                }
+            },
+            superTypes: [RailroadOptionProperty.$type]
+        },
         RoleSourceProperty: {
             name: RoleSourceProperty.$type,
             properties: {
@@ -8240,7 +10582,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type]
+            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, TreemapStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,
@@ -8406,6 +10748,133 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        TreemapColorProperty: {
+            name: TreemapColorProperty.$type,
+            properties: {
+                color: {
+                    name: TreemapColorProperty.color
+                }
+            },
+            superTypes: [TreemapNodeProperty.$type]
+        },
+        TreemapGapStatement: {
+            name: TreemapGapStatement.$type,
+            properties: {
+                value: {
+                    name: TreemapGapStatement.value
+                }
+            },
+            superTypes: [TreemapStatement.$type]
+        },
+        TreemapGroupBlock: {
+            name: TreemapGroupBlock.$type,
+            properties: {
+                children: {
+                    name: TreemapGroupBlock.children,
+                    defaultValue: []
+                },
+                label: {
+                    name: TreemapGroupBlock.label
+                },
+                properties: {
+                    name: TreemapGroupBlock.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TreemapStatement.$type]
+        },
+        TreemapItemStatement: {
+            name: TreemapItemStatement.$type,
+            properties: {
+                label: {
+                    name: TreemapItemStatement.label
+                },
+                properties: {
+                    name: TreemapItemStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TreemapStatement.$type]
+        },
+        TreemapLabelProperty: {
+            name: TreemapLabelProperty.$type,
+            properties: {
+                label: {
+                    name: TreemapLabelProperty.label
+                }
+            },
+            superTypes: [TreemapNodeProperty.$type]
+        },
+        TreemapLayoutStatement: {
+            name: TreemapLayoutStatement.$type,
+            properties: {
+                layout: {
+                    name: TreemapLayoutStatement.layout
+                }
+            },
+            superTypes: [TreemapStatement.$type]
+        },
+        TreemapNodeProperty: {
+            name: TreemapNodeProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TreemapPaddingStatement: {
+            name: TreemapPaddingStatement.$type,
+            properties: {
+                value: {
+                    name: TreemapPaddingStatement.value
+                }
+            },
+            superTypes: [TreemapStatement.$type]
+        },
+        TreemapProfile: {
+            name: TreemapProfile.$type,
+            properties: {
+                name: {
+                    name: TreemapProfile.name
+                },
+                statements: {
+                    name: TreemapProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        TreemapShowLegendStatement: {
+            name: TreemapShowLegendStatement.$type,
+            properties: {
+                value: {
+                    name: TreemapShowLegendStatement.value
+                }
+            },
+            superTypes: [TreemapStatement.$type]
+        },
+        TreemapShowValuesStatement: {
+            name: TreemapShowValuesStatement.$type,
+            properties: {
+                value: {
+                    name: TreemapShowValuesStatement.value
+                }
+            },
+            superTypes: [TreemapStatement.$type]
+        },
+        TreemapStatement: {
+            name: TreemapStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TreemapValueProperty: {
+            name: TreemapValueProperty.$type,
+            properties: {
+                value: {
+                    name: TreemapValueProperty.value
+                }
+            },
+            superTypes: [TreemapNodeProperty.$type]
         },
         WardleyAnchorProperty: {
             name: WardleyAnchorProperty.$type,

@@ -108,6 +108,9 @@ export function renderPID(
 				.pid-line-signal { stroke: #000; stroke-width: 1.5; fill: none; stroke-dasharray: 5,5; }
 				.pid-line-electrical { stroke: #000; stroke-width: 2; fill: none; stroke-dasharray: 2,2; }
 				.pid-line-utility { stroke: #0066cc; stroke-width: 2; fill: none; }
+				.pid-line-pneumatic { stroke: #000; stroke-width: 1.5; fill: none; stroke-dasharray: 8,4; }
+				.pid-line-hydraulic { stroke: #000; stroke-width: 3; fill: none; }
+				.pid-line-data { stroke: #000; stroke-width: 1.5; fill: none; stroke-dasharray: 2,3; }
 				.pid-instrument { stroke: #000; stroke-width: 2; fill: #fff; }
 				.pid-tag { font-family: Arial, sans-serif; font-size: 12px; fill: #000; text-anchor: middle; }
 				.pid-property { font-family: Arial, sans-serif; font-size: 10px; fill: #666; text-anchor: middle; }
@@ -354,7 +357,13 @@ function renderLines(
           ? 'pid-line-electrical'
           : line.type === PIDLineType.UTILITY
             ? 'pid-line-utility'
-            : 'pid-line';
+            : line.type === PIDLineType.PNEUMATIC
+              ? 'pid-line-pneumatic'
+              : line.type === PIDLineType.HYDRAULIC
+                ? 'pid-line-hydraulic'
+                : line.type === PIDLineType.DATA
+                  ? 'pid-line-data'
+                  : 'pid-line';
 
     // Simple straight line for now (can be enhanced with orthogonal routing)
     svg += `<line x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" class="${lineClass}"/>`;

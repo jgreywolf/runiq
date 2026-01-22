@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (176 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (192 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 176 diagram profile shapes below ↓](#all-shapes)
+[See all 192 diagram profile shapes below ↓](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -192,7 +192,60 @@ diagram "PID Controller" {
 See the [Control system Diagrams Guide](../guide/control-diagrams.md) for comprehensive documentation on control system diagrams with LaTeX and Simulink export.
 :::
 
-### 6. Special Shapes (7 shapes)
+
+### 6. Kinematic Shapes (25 shapes)
+
+**Profile:** `diagram` (default)
+
+Kinematic diagram elements for joints, links, and actuators:
+
+| Shape            | Syntax             | Description                     |
+| ---------------- | ------------------ | ------------------------------- |
+| Revolute Joint   | `@revoluteJoint`   | Pin/hinge joint                 |
+| Fixed Joint      | `@fixedJoint`      | Fixed connection                |
+| Prismatic Joint  | `@prismaticJoint`  | Slider joint                    |
+| Spherical Joint  | `@sphericalJoint`  | Ball joint                      |
+| Universal Joint  | `@universalJoint`  | Universal joint                 |
+| Cylindrical Joint| `@cylindricalJoint`| Cylinder + rotation             |
+| Planar Joint     | `@planarJoint`     | Planar sliding joint            |
+| Binary Link      | `@binaryLink`      | Two-connection link             |
+| Ternary Link     | `@ternaryLink`     | Three-connection link           |
+| Quaternary Link  | `@quaternaryLink`  | Four-connection link            |
+| Ground Link      | `@groundLink`      | Fixed ground/base link          |
+| Rotary Motor     | `@rotaryMotor`     | Rotary actuator                 |
+| Linear Actuator  | `@linearActuator`  | Linear actuator                 |
+| Spring           | `@spring`          | Spring element                  |
+| Damper           | `@damper`          | Damper element                  |
+| Gear             | `@gear`            | Gear element                    |
+| Parallel Gripper | `@gripperParallel` | Parallel jaw gripper            |
+| Angular Gripper  | `@gripperAngular`  | Angular jaw gripper             |
+| Tool Mount       | `@toolMount`       | End-effector mount              |
+| Cam              | `@cam`             | Cam element                     |
+| Vacuum Gripper   | `@gripperVacuum`   | Suction cup gripper             |
+| Tool Changer     | `@toolChanger`     | Quick tool change mount         |
+| Cam Follower     | `@camFollower`     | Cam follower element            |
+| Pulley           | `@pulley`          | Pulley element                  |
+| Lever            | `@lever`           | Lever arm                       |
+
+**Example:**
+
+```runiq
+diagram "Kinematic Linkage" {
+  direction LR
+
+  shape ground as @groundLink label: "Ground"
+  shape J1 as @revoluteJoint label: "J1"
+  shape link1 as @binaryLink label: "Link 1"
+  shape J2 as @revoluteJoint label: "J2"
+  shape link2 as @binaryLink label: "Link 2"
+  shape motor as @rotaryMotor label: "Motor"
+
+  ground -> J1 -> link1 -> J2 -> link2
+  motor -> J1
+}
+```
+
+### 7. Special Shapes (7 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -217,7 +270,7 @@ diagram "Special Symbols" {
 }
 ```
 
-### 7. Chart Shapes (7 shapes)
+### 8. Chart Shapes (7 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -242,7 +295,7 @@ diagram "Data Visualization" {
 }
 ```
 
-### 8. Network Shapes (7 shapes)
+### 9. Network Shapes (7 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -269,7 +322,7 @@ diagram "Network Topology" {
 }
 ```
 
-### 9. Quantum Circuit Shapes (12 shapes)
+### 10. Quantum Circuit Shapes (12 shapes)
 
 **Profile:** `diagram` (default, but designed for quantum circuits)
 
@@ -307,7 +360,7 @@ diagram "Bell State" {
 See the [Quantum Circuits Guide](../guide/quantum-circuits.md) for comprehensive documentation on quantum computing diagrams.
 :::
 
-### 10. UML Shapes (52 shapes)
+### 11. UML Shapes (52 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -348,7 +401,7 @@ diagram "Use Case Diagram" {
 }
 ```
 
-<!-- ### 11. Pedigree Shapes (3 shapes)
+<!-- ### 12. Pedigree Shapes (3 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -387,7 +440,7 @@ diagram "Family History" {
 See the [Pedigree Charts Guide](../guide/pedigree-charts.md) for comprehensive documentation on creating medical family trees with inheritance patterns.
 ::: -->
 
-### 12. C4 Architecture Shapes (4 shapes)
+### 13. C4 Architecture Shapes (4 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -413,7 +466,7 @@ diagram "C4 System Context" {
 }
 ```
 
-### 13. BPMN Shapes (6 shapes)
+### 14. BPMN Shapes (7 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -427,6 +480,7 @@ Business Process Model and Notation (BPMN) 2.0 elements:
 | BPMN Data Object | `@bpmnDataObject` | Data object/artifact         |
 | BPMN Message     | `@bpmnMessage`    | Message/communication        |
 | BPMN Pool        | `@bpmnPool`       | Process pool/participant     |
+| BPMN Lane        | `@bpmnLane`       | Pool subdivision/lane        |
 
 **Example:**
 
@@ -441,7 +495,7 @@ diagram "Order Process" {
 }
 ```
 
-### 14. AWS Shapes (6 shapes)
+### 15. AWS Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -470,7 +524,7 @@ diagram "AWS Architecture" {
 }
 ```
 
-### 15. ERD Shapes (6 shapes)
+### 16. ERD Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -499,7 +553,7 @@ diagram "Database Schema" {
 }
 ```
 
-### 16. Data Flow Diagram Shapes (6 shapes)
+### 17. Data Flow Diagram Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -527,7 +581,7 @@ diagram "Order Processing DFD" {
 }
 ```
 
-### 17. Electrical & Digital Shapes
+### 18. Electrical & Digital Shapes
 
 **Profiles:** `electrical`, `digital`, `pneumatic`, `hydraulic`
 
@@ -549,6 +603,7 @@ Complete listing organized by category:
 | Storage            | 7     | Databases, data persistence                    |
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
 | Control Systems    | 10    | Control system diagrams, signal processing     |
+| Kinematic          | 25    | Joints, links, and actuators                   |
 | Special            | 7     | Miscellaneous symbols                          |
 | Charts             | 7     | Data visualization (pie, bar, Venn)            |
 | Network            | 7     | Infrastructure, topology diagrams              |
@@ -556,13 +611,13 @@ Complete listing organized by category:
 | UML                | 52    | Software modeling, class/sequence diagrams     |
 | Pedigree           | 3     | Medical family trees, genetics                 |
 | C4 Architecture    | 4     | Software architecture (C4 model)               |
-| BPMN               | 6     | Business process modeling                      |
+| BPMN               | 7     | Business process modeling                      |
 | AWS                | 6     | Amazon Web Services infrastructure             |
 | ERD                | 6     | Database entity-relationship diagrams          |
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 176 diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 201 diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

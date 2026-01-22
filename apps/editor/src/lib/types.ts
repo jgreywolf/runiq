@@ -5,8 +5,13 @@ export enum ProfileName {
 	digital = 'digital',
 	pneumatic = 'pneumatic',
 	hydraulic = 'hydraulic',
+	hvac = 'hvac',
 	wardley = 'wardley',
 	sequence = 'sequence',
 	timeline = 'timeline',
-	pid = 'pid'
+	pid = 'pid',
+	railroad = 'railroad',
+	kanban = 'kanban',
+	gitgraph = 'gitgraph',
+	treemap = 'treemap'
 }

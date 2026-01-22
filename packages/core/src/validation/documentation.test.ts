@@ -9,10 +9,8 @@
  * 4. Code examples in documentation can be parsed
  */
 
-import { describe, it, expect, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { shapeRegistry } from '../registries';
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
 import { registerDefaultShapes } from '../shapes';
 
 describe('Documentation Validation', () => {
@@ -22,9 +20,11 @@ describe('Documentation Validation', () => {
   });
 
   describe('Shape Registry Validation', () => {
-    it('should have exactly 232 shapes registered', () => {
+    // these are fragile tests as they need to be updated whenever any new shapes are added.
+    // TODO: Consider automating this in the future by parsing the shapes directory
+    it('should have exactly 265 shapes registered', () => {
       const allShapes = shapeRegistry.list();
-      expect(allShapes.length).toBe(232);
+      expect(allShapes.length).toBe(265);
     });
 
     it('should have all shape IDs unique', () => {
@@ -39,9 +39,9 @@ describe('Documentation Validation', () => {
       // This ensures registerDefaultShapes() is working correctly
       const actualCount = shapeRegistry.list().length;
 
-      // We expect at least 230 shapes across all categories
+      // We expect at least 265 shapes across all categories
       // (Exact count may vary as shapes are added/removed)
-      expect(actualCount).toBeGreaterThan(230);
+      expect(actualCount).toBeGreaterThanOrEqual(265);
     });
   });
 
@@ -100,7 +100,7 @@ describe('Documentation Validation', () => {
   });
 
   describe('Profile Validation', () => {
-    it('should support all 10 documented profiles', () => {
+    it('should support all 11 documented profiles', () => {
       // This test ensures the types include all profiles mentioned in docs
       // The actual validation happens at type level in types.ts
       const documentedProfiles = [
@@ -110,6 +110,7 @@ describe('Documentation Validation', () => {
         'wardley',
         'sequence',
         'timeline',
+        'railroad',
         'pneumatic',
         'hydraulic',
         'pid',
@@ -117,7 +118,7 @@ describe('Documentation Validation', () => {
       ];
 
       // Just verify we have the list - actual type checking happens at compile time
-      expect(documentedProfiles).toHaveLength(10);
+      expect(documentedProfiles).toHaveLength(11);
     });
   });
 
@@ -125,11 +126,11 @@ describe('Documentation Validation', () => {
     it('should have shape count documentation match actual count', () => {
       // This test catches regressions where shape count in docs drifts from reality
       const actualCount = shapeRegistry.list().length;
-      expect(actualCount).toBe(232);
+      expect(actualCount).toBe(265);
 
       // If this test fails, update:
-      // - docs/reference/shapes.md: "232 shapes"
-      // - README.md: "232 shapes"
+      // - docs/reference/shapes.md: "248 shapes"
+      // - README.md: "248 shapes"
       // - Any comparison tables
     });
   });

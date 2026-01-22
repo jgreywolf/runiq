@@ -17,8 +17,13 @@ export enum ProfileType {
   WARDLEY = 'wardley',
   PNEUMATIC = 'pneumatic',
   HYDRAULIC = 'hydraulic',
+  HVAC = 'hvac',
   PID = 'pid',
+  RAILROAD = 'railroad',
   GLYPHSET = 'glyphset',
+  KANBAN = 'kanban',
+  GITGRAPH = 'gitgraph',
+  TREEMAP = 'treemap',
 }
 
 /**
@@ -127,6 +132,7 @@ export enum PIDLineType {
   UTILITY = 'utility',
   PNEUMATIC = 'pneumatic',
   HYDRAULIC = 'hydraulic',
+  DATA = 'data',
 }
 
 /**

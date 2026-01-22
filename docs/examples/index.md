@@ -17,6 +17,12 @@ Smart diagram layouts for presentations, reports, and visual storytelling.
 - **Visual Metaphors**: Funnels, targets, gears, puzzles, containers
 - **Applications**: Presentations, reports, infographics, strategic planning
 
+### [Glyphset Catalog](/examples/glyphset-catalog)
+
+- Full list of every glyphset type
+- Min/max item counts and descriptions
+- Quick scan for available SmartArt-style patterns
+
 ## Software Engineering
 
 Build architecture diagrams, UML models, and process flows.
@@ -84,6 +90,13 @@ Build architecture diagrams, UML models, and process flows.
 - **Visual Examples**: Auth flow, API error handling, async messaging
 - Applications: API design, protocol documentation, user stories
 
+### [Railroad Diagrams](/examples/railroad-diagrams)
+
+- Grammar and syntax rules with EBNF shorthand
+- Left-to-right deterministic layout
+- Branches, loops, and optional paths
+- **Examples**: Arithmetic grammar, JSON subset, URL grammar
+
 ### [Class Diagrams](/examples/class-diagrams)
 
 - UML class modeling with relationships
@@ -125,6 +138,12 @@ Create charts and visual analytics for presentations and reports.
 - Sankey diagrams for flow visualization
 - Applications: Business reporting, data analysis, KPI tracking
 
+### [Treemap Diagrams](/examples/treemap-diagrams)
+
+- Hierarchical area layouts for portfolio breakdowns
+- Value-to-area mapping with groups and items
+- Useful for budgets, usage, and resource allocation
+
 ### [Venn Diagrams](/examples/venn-diagrams)
 
 - Set overlap analysis (2-circle and 3-circle)
@@ -153,6 +172,16 @@ Design control loops and signal processing.
 - Motor speed control, aircraft pitch
 - Export to LaTeX/TikZ and Simulink MDL
 - **Supports**: Summing junctions, gain blocks, integrators
+
+## Mechanical Systems
+
+Linkages and mechanisms for robotics and motion design.
+
+### [Kinematic Diagrams](/examples/kinematic-diagrams)
+
+- Joints, links, and actuators for mechanism layouts
+- Four-bar linkages, slider-cranks, and robot arms
+- Applications: robotics, mechanism design, motion studies
 
 ## Electrical Engineering
 
@@ -230,6 +259,14 @@ Design pneumatic and hydraulic circuits following ISO 1219-1 standards.
 - **Visual Examples**: Power unit, press system, motor control
 - Applications: Heavy machinery, presses, mobile equipment
 
+### [HVAC Diagrams](/examples/hvac-diagrams)
+
+- Air handling units, coils, and VAV boxes
+- Supply/return ducting and diffusers
+- Sensors: temperature, pressure, thermostats
+- **Visual Examples**: Office AHU, rooftop unit
+- Applications: Commercial buildings, campuses, data centers
+
 <!-- ## Medical & Genetics
 
 Professional pedigree charts following medical standards.
@@ -258,6 +295,22 @@ Strategic mapping tools for business analysis and decision-making.
 - Anchor points for user needs and outcomes
 - **Visual Examples**: Tea shop, technology evolution, business strategy
 - Export to SVG for presentations and documentation
+
+## Productivity Visuals
+
+Planning and collaboration diagrams for teams.
+
+### [Kanban Boards](/examples/kanban-diagrams)
+
+- Swimlanes, columns, and card metadata
+- WIP limits and workflow visualization
+- **Examples**: Product roadmap, bug triage, campaign planning
+
+### [GitGraph Diagrams](/examples/gitgraph-diagrams)
+
+- Branches, commits, merges, and tags
+- Useful for release flows and hotfix pipelines
+- **Examples**: Release flow, feature train, milestone tags
 
 ## Timelines & Chronology
 
@@ -292,7 +345,12 @@ Visualize events and milestones over time.
 <div class="example-grid">
   <a href="/examples/glyphsets" class="example-card">
     <h3>✨ Glyphsets</h3>
-    <p>99+ smart layouts & visual metaphors</p>
+    <p>61 smart layouts & visual metaphors</p>
+  </a>
+
+  <a href="/examples/glyphset-catalog" class="example-card">
+    <h3>Glyphset Catalog</h3>
+    <p>All SmartArt-style templates</p>
   </a>
 
   <a href="/examples/flowcharts" class="example-card">
@@ -340,6 +398,11 @@ Visualize events and milestones over time.
     <p>UML message exchanges & interactions</p>
   </a>
 
+  <a href="/examples/railroad-diagrams" class="example-card">
+    <h3>Railroad Diagrams</h3>
+    <p>Grammar rules & syntax flows</p>
+  </a>
+
   <a href="/examples/class-diagrams" class="example-card">
     <h3>📐 Class Diagrams</h3>
     <p>UML object-oriented modeling</p>
@@ -359,10 +422,30 @@ Visualize events and milestones over time.
     <h3>📊 Charts</h3>
     <p>Bar, pie, line, radar & more</p>
   </a>
+
+  <a href="/examples/treemap-diagrams" class="example-card">
+    <h3>dY"? Treemaps</h3>
+    <p>Hierarchical area visualizations</p>
+  </a>
+
+  <a href="/examples/kanban-diagrams" class="example-card">
+    <h3>dY"? Kanban</h3>
+    <p>Columns, cards, and swimlanes</p>
+  </a>
+
+  <a href="/examples/gitgraph-diagrams" class="example-card">
+    <h3>dY"? GitGraph</h3>
+    <p>Branches, commits, and merges</p>
+  </a>
   
   <a href="/examples/control-diagrams" class="example-card">
     <h3>🎛️ Control system Diagrams</h3>
     <p>Control systems & signal flow</p>
+  </a>
+
+  <a href="/examples/kinematic-diagrams" class="example-card">
+    <h3>Kinematic Diagrams</h3>
+    <p>Linkages, joints, and actuators</p>
   </a>
   
   <a href="/examples/electrical" class="example-card">
@@ -393,6 +476,10 @@ Visualize events and milestones over time.
   <a href="/examples/hydraulic-circuits" class="example-card">
     <h3>🔧 Hydraulic</h3>
     <p>Fluid power systems (ISO 1219-1)</p>
+  </a>
+  <a href="/examples/hvac-diagrams" class="example-card">
+    <h3>HVAC</h3>
+    <p>Air handling and duct layouts (ASHRAE)</p>
   </a>
 
   <!-- <a href="/examples/pedigree" class="example-card">
@@ -444,3 +531,4 @@ Visualize events and milestones over time.
   font-size: 0.9rem;
 }
 </style>
+

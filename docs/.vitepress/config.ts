@@ -124,6 +124,7 @@ export default defineConfig({
               text: 'Control system Diagrams',
               link: '/guide/control-diagrams',
             },
+            { text: 'Kinematic Diagrams', link: '/guide/kinematic-diagrams' },
             { text: 'Network Diagrams', link: '/guide/network-diagrams' },
             { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
             { text: 'Charts & Graphs', link: '/guide/charts' },
@@ -139,9 +140,18 @@ export default defineConfig({
             { text: 'Wardley Maps', link: '/guide/wardley-maps' },
             { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
             { text: 'Timeline Diagrams', link: '/guide/timeline-diagrams' },
+            { text: 'Railroad Diagrams', link: '/guide/railroad-diagrams' },
             { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
             { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },
             { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
+          ],
+        },
+        {
+          text: 'Productivity Profiles',
+          items: [
+            { text: 'Kanban Boards', link: '/guide/kanban-diagrams' },
+            { text: 'GitGraph Diagrams', link: '/guide/gitgraph-diagrams' },
+            { text: 'Treemap Diagrams', link: '/guide/treemap-diagrams' },
           ],
         },
         {

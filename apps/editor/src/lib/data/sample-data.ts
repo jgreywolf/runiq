@@ -8,12 +8,14 @@ import { digitalSampleDiagrams } from './toolboxSamples/digitalSampleDiagrams';
 import { electricalSampleDiagrams } from './toolboxSamples/electricalSampleDiagrams';
 import { flowchartSampleDiagrams } from './toolboxSamples/flowchartSampleDiagrams';
 import { hydraulicSampleDiagrams } from './toolboxSamples/hydraulicSampleDiagrams';
+import { hvacSampleDiagrams } from './toolboxSamples/hvacSampleDiagrams';
 import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
 import { mindmapSampleDiagrams } from './toolboxSamples/mindmapSampleDiagrams';
 import { networkSampleDiagrams } from './toolboxSamples/networkSampleDiagrams';
 //import { pedigreeSampleDiagrams } from './toolboxSamples/pedigreeSampleDiagrams';
 import { pneumaticSampleDiagrams } from './toolboxSamples/pneumaticSampleDiagrams';
 import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
+import { railroadSampleDiagrams } from './toolboxSamples/railroadSampleDiagrams';
 import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
 import { stateMachineSampleDiagrams } from './toolboxSamples/stateMachineSampleDiagrams';
 import { templatePresetSampleDiagrams } from './toolboxSamples/templatePresetSampleDiagrams';
@@ -57,6 +59,8 @@ export const sampleDiagrams: SampleCategory[] = [
 	...logicGateSampleDiagrams,
 	...pneumaticSampleDiagrams,
 	...hydraulicSampleDiagrams,
+	...hvacSampleDiagrams,
 	...wardleySampleDiagrams,
-	...glyphsetSampleDiagrams
+	...glyphsetSampleDiagrams,
+	...railroadSampleDiagrams
 ];

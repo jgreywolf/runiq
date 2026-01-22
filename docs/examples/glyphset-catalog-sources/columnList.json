@@ -1,0 +1,21 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "columnList",
+      "shape": "columnList",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma",
+          "Delta"
+        ],
+        "columns": 2
+      }
+    }
+  ],
+  "edges": []
+}

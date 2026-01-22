@@ -30,13 +30,18 @@ describe('Constants and Enums', () => {
       expect(ProfileType.WARDLEY).toBe('wardley');
       expect(ProfileType.PNEUMATIC).toBe('pneumatic');
       expect(ProfileType.HYDRAULIC).toBe('hydraulic');
+      expect(ProfileType.HVAC).toBe('hvac');
       expect(ProfileType.PID).toBe('pid');
+      expect(ProfileType.RAILROAD).toBe('railroad');
       expect(ProfileType.GLYPHSET).toBe('glyphset');
+      expect(ProfileType.KANBAN).toBe('kanban');
+      expect(ProfileType.GITGRAPH).toBe('gitgraph');
+      expect(ProfileType.TREEMAP).toBe('treemap');
     });
 
-    it('should have 11 profile types', () => {
+    it('should have 16 profile types', () => {
       const values = Object.values(ProfileType);
-      expect(values).toHaveLength(11);
+      expect(values).toHaveLength(16);
     });
   });
 
@@ -180,11 +185,12 @@ describe('Constants and Enums', () => {
       expect(PIDLineType.UTILITY).toBe('utility');
       expect(PIDLineType.PNEUMATIC).toBe('pneumatic');
       expect(PIDLineType.HYDRAULIC).toBe('hydraulic');
+      expect(PIDLineType.DATA).toBe('data');
     });
 
-    it('should have 6 PID line types', () => {
+    it('should have 7 PID line types', () => {
       const values = Object.values(PIDLineType);
-      expect(values).toHaveLength(6);
+      expect(values).toHaveLength(7);
     });
   });
 

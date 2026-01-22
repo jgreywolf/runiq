@@ -1,0 +1,32 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "diverging",
+      "shape": "diverging",
+      "label": "",
+      "data": {
+        "source": {
+          "label": "Source",
+          "color": "#546E7A"
+        },
+        "destinations": [
+          {
+            "label": "Output A",
+            "color": "#607D8B"
+          },
+          {
+            "label": "Output B",
+            "color": "#78909C"
+          },
+          {
+            "label": "Output C",
+            "color": "#90A4AE"
+          }
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

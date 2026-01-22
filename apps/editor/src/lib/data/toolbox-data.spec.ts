@@ -82,6 +82,8 @@ describe('Toolbox Data Structure', () => {
 			'digital',
 			'pneumatic',
 			'hydraulic',
+			'hvac',
+			'railroad',
 			'pid',
 			'glyphset'
 		];
@@ -137,5 +139,11 @@ describe('Toolbox Data Structure', () => {
 		expect(categoryIds).not.toContain('digitalSyntax');
 		expect(categoryIds).not.toContain('digitalLogicGates');
 		expect(categoryIds).not.toContain('digitalComponents');
+	});
+
+	it('should include railroad snippets in railroad profile', () => {
+		const categories = getShapeCategoryByProfile(ProfileName.railroad);
+		const categoryIds = categories.map((cat) => cat.id);
+		expect(categoryIds).toContain('railroadSyntax');
 	});
 });

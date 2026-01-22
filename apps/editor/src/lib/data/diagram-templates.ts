@@ -94,6 +94,62 @@ export const diagramTemplates: Record<ProfileName, DiagramTemplate> = {
 		name: 'Untitled Timeline'
 	},
 
+	[ProfileName.kanban]: {
+		content: `kanban "Product Board" {
+  theme runiq
+  swimlane "Q1 Focus" {
+    column backlog "Backlog" wip:5 {
+      card C1 "Audit auth flow" priority:high tags:["security","backend"]
+      card C2 "Onboarding copy refresh" priority:medium assignee:"Maya"
+    }
+    column progress "In Progress" wip:3 {
+      card C3 "Billing sync fixes" priority:high assignee:"Alex" estimate:"3d"
+    }
+    column completed "Done" {
+      card C4 "Upgrade dependencies" priority:low
+    }
+  }
+}`,
+		name: 'Untitled Kanban'
+	},
+
+	[ProfileName.gitgraph]: {
+		content: `gitgraph "Release Flow" {
+  theme runiq
+
+  branch main label:"main" color:"#0f172a"
+  branch feature label:"feature/login" parent:main color:"#2563eb"
+
+  commit c1 branch:main label:"Initial scaffold"
+  commit c2 branch:feature label:"Login form"
+  commit c3 branch:feature label:"OAuth support"
+  merge m1 from:feature into:main label:"Merge login" tag:"v1.0.0"
+}`,
+		name: 'Untitled GitGraph'
+	},
+
+	[ProfileName.treemap]: {
+		content: `treemap "Product Usage" {
+  layout slice-dice
+  padding 10
+  gap 6
+
+  group "North America" value:60 color:"#bfdbfe" {
+    item "Enterprise" value:40
+    item "SMB" value:20
+  }
+  group "EMEA" value:25 color:"#fecdd3" {
+    item "Enterprise" value:15
+    item "SMB" value:10
+  }
+  group "APAC" value:15 color:"#bbf7d0" {
+    item "Enterprise" value:8
+    item "SMB" value:7
+  }
+}`,
+		name: 'Untitled Treemap'
+	},
+
 	[ProfileName.electrical]: {
 		content: `electrical "My Circuit" {
   net VCC, GND
@@ -151,6 +207,23 @@ export const diagramTemplates: Record<ProfileName, DiagramTemplate> = {
 		name: 'Untitled Hydraulic'
 	},
 
+	[ProfileName.hvac]: {
+		content: `hvac "Office HVAC System" {
+  equipment AHU1 type:air-handling-unit cfm:5000
+  equipment Coil1 type:cooling-coil capacity:"10 tons"
+  equipment VAV1 type:vav-box cfm-max:1000
+  equipment Diff1 type:diffuser-supply
+
+  duct Supply type:supply size:"16x12"
+  duct Return type:return size:"20x14"
+
+  connect AHU1.out -> Supply -> VAV1.in
+  connect VAV1.out -> Diff1.in
+  connect Diff1.out -> Return -> AHU1.in
+}`,
+		name: 'Untitled HVAC'
+	},
+
 	[ProfileName.wardley]: {
 		content: `wardley "My Strategy Map" {
   // Define user needs at the top
@@ -167,6 +240,16 @@ export const diagramTemplates: Record<ProfileName, DiagramTemplate> = {
   dependency from:"Platform" to:"Infrastructure"
 }`,
 		name: 'Untitled Wardley Map'
+	},
+
+	[ProfileName.railroad]: {
+		content: `railroad "My Grammar" {
+  diagram Expr = Term (("+" | "-") Term)*
+  diagram Term = Factor (("*" | "/") Factor)*
+  diagram Factor = Number | "(" Expr ")"
+  diagram Number = digit+
+}`,
+		name: 'Untitled Railroad Diagram'
 	},
 
 	[ProfileName.glyphset]: {

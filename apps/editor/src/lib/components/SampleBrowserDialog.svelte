@@ -1,8 +1,8 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
-	import Icon from '@iconify/svelte';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import type { SampleCategory } from '$lib/data/sample-data';
+	import Icon from '@iconify/svelte';
 
 	interface Props {
 		open: boolean;
@@ -66,10 +66,10 @@
 		{
 			id: 'technical',
 			label: 'Technical Schematics',
-			description: 'Electrical, pneumatic, hydraulic',
+			description: 'Electrical, pneumatic, hydraulic, HVAC',
 			color: 'amber',
 			icon: 'circuit',
-			categoryIds: ['electrical', 'digital', 'logicGates', 'pneumatic', 'hydraulic']
+			categoryIds: ['electrical', 'digital', 'logicGates', 'pneumatic', 'hydraulic', 'hvac', 'railroad']
 		},
 		{
 			id: 'data',
