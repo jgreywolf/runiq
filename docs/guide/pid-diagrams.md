@@ -48,7 +48,7 @@ pid "Simple Process Flow" {
 
 ## Equipment Types
 
-P&IDs support **64 equipment types** across multiple categories:
+P&IDs support **87 symbols** across multiple categories:
 
 ### Vessels & Process Equipment
 
@@ -82,7 +82,9 @@ P&IDs support **64 equipment types** across multiple categories:
 - `valveBall` - Ball valve
 - `valveCheck` - Check valve
 - `valveControl` - Control valve (automatic)
+- `valveControlPositioner` - Control valve with positioner
 - `valveSafetyRelief` - Safety relief valve (PSV)
+- `valvePressureReducing` - Pressure reducing valve
 - `valveButterfly` - Butterfly valve
 - `valveThreeWay` - Three-way valve
 - `valveNeedle` - Needle valve
@@ -257,6 +259,19 @@ line process from:P-101.discharge to:V-101.inlet
 - `utility` - Utility lines: steam, cooling water, air (blue solid lines)
 - `signal` - Instrument signals (dashed lines)
 - `electrical` - Electrical connections (dotted lines)
+- `pneumatic` - Pneumatic signal lines (dashed)
+- `hydraulic` - Hydraulic signal lines (thicker solid)
+- `data` - Software/data links (fine dotted)
+
+### Line Type Example
+
+```runiq
+// Signal variants
+line signal from:FT-101 to:FIC-101
+line pneumatic from:FIC-101 to:PCV-101
+line hydraulic from:PCV-101 to:ACT-101
+line data from:PLC-1 to:VFD-201
+```
 
 **Pipe Schedules:**
 
@@ -428,6 +443,7 @@ pid "Shell and Tube Heat Exchanger" {
 - Use standard tag notation (e.g., `FT-101`, not `FlowTransmitter1`)
 - Group equipment by area: `P-101`, `P-102` (pumps in area 100)
 - Use consistent loop numbering: `TIC-201` controls loop `201`
+- Keep tag loop numbers aligned with `loop:` properties (the parser warns on mismatches)
 
 ### Organization
 

@@ -1,4 +1,4 @@
-import type { DiagramAst, LaidOutDiagram } from '@runiq/core';
+import type { DiagramAst, LaidOutDiagram, LayoutOptions } from '@runiq/core';
 // Ensure core side-effects (shape registrations & aliases) run in browser bundles
 import '@runiq/core';
 import { parse as parseDsl, type ParseResult } from '@runiq/parser-dsl';
@@ -15,13 +15,6 @@ import {
 } from '@runiq/core';
 
 export type { ParseResult };
-
-export interface LayoutOptions {
-  /** Direction TB/LR/BT/RL - defaults to diagram or TB */
-  direction?: 'TB' | 'LR' | 'BT' | 'RL';
-  /** Node spacing in px */
-  spacing?: number;
-}
 
 /** Parse Runiq DSL text into a Diagram AST (first diagram in document). */
 export function parseRuniq(text: string): DiagramAst {

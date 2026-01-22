@@ -129,6 +129,41 @@ describe('circularLayout', () => {
     }
   });
 
+  it('should normalize arc direction for long angle differences', () => {
+    const diagram: DiagramAst = {
+      astVersion: '1.0',
+      nodes: [
+        { id: 'n0', shape: 'rect' },
+        { id: 'n1', shape: 'rect' },
+        { id: 'n2', shape: 'rect' },
+      ],
+      edges: [
+        { from: 'n0', to: 'n2' },
+        { from: 'n2', to: 'n0' },
+      ],
+    };
+
+    const result = circularLayout(diagram);
+
+    expect(result.edges).toHaveLength(2);
+    for (const edge of result.edges) {
+      expect(edge.points?.length).toBe(3);
+    }
+  });
+
+  it('should return empty edge points when nodes are missing', () => {
+    const diagram: DiagramAst = {
+      astVersion: '1.0',
+      nodes: [{ id: 'a', shape: 'rect' }],
+      edges: [{ from: 'a', to: 'missing' }],
+    };
+
+    const result = circularLayout(diagram);
+
+    expect(result.edges).toHaveLength(1);
+    expect(result.edges[0].points).toEqual([]);
+  });
+
   it('should handle empty diagram', () => {
     const diagram: DiagramAst = {
       astVersion: '1.0',
@@ -144,6 +179,32 @@ describe('circularLayout', () => {
     // Empty diagram returns 0x0 size
     expect(result.size.width).toBe(0);
     expect(result.size.height).toBe(0);
+  });
+
+  it('should handle missing nodes and edges arrays', () => {
+    const diagram: DiagramAst = {
+      astVersion: '1.0',
+    };
+
+    const result = circularLayout(diagram);
+
+    expect(result.nodes).toHaveLength(0);
+    expect(result.edges).toHaveLength(0);
+  });
+
+  it('should handle missing edges array with nodes present', () => {
+    const diagram: DiagramAst = {
+      astVersion: '1.0',
+      nodes: [
+        { id: 'a', shape: 'rect' },
+        { id: 'b', shape: 'rect' },
+      ],
+    };
+
+    const result = circularLayout(diagram);
+
+    expect(result.nodes).toHaveLength(2);
+    expect(result.edges).toHaveLength(0);
   });
 
   it('should handle single node', () => {
@@ -205,6 +266,23 @@ describe('circularLayout', () => {
     expect(result.nodes).toHaveLength(4);
     expect(result.size.width).toBeGreaterThan(0);
     expect(result.size.height).toBeGreaterThan(0);
+  });
+
+  it('should support counterclockwise direction', () => {
+    const diagram: DiagramAst = {
+      astVersion: '1.0',
+      nodes: [
+        { id: 'a', shape: 'rect' },
+        { id: 'b', shape: 'rect' },
+        { id: 'c', shape: 'rect' },
+      ],
+      edges: [],
+    };
+
+    const result = circularLayout(diagram, { direction: 'counterclockwise' });
+
+    expect(result.nodes).toHaveLength(3);
+    expect(result.size.width).toBeGreaterThan(0);
   });
 
   it('should support custom radius', () => {
