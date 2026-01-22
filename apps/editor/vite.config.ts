@@ -11,7 +11,8 @@ export default defineConfig({
 	test: {
 		expect: { requireAssertions: true },
 		coverage: {
-			provider: 'v8'
+			provider: 'v8',
+			enabled: !process.env.CI
 		},
 		projects: [
 			{
