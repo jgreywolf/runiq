@@ -10,6 +10,9 @@ export default defineConfig({
 	},
 	test: {
 		expect: { requireAssertions: true },
+		coverage: {
+			provider: 'v8'
+		},
 		projects: [
 			{
 				extends: './vite.config.ts',
