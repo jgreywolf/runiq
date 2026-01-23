@@ -4,6 +4,7 @@ export {
   convertPreset,
   convertTemplate,
 } from './diagram-converter.js';
+export { convertControlProfile } from './control-converter.js';
 export { convertDigitalProfile } from './digital-converter.js';
 export { convertElectricalProfile } from './electrical-converter.js';
 export { convertGitGraphProfile } from './gitgraph-converter.js';

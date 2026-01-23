@@ -3,7 +3,7 @@ import { classSampleDiagrams } from './toolboxSamples/classSampleDiagrams';
 import { c4SampleDiagrams } from './toolboxSamples/c4SampleDiagrams';
 import { chartSampleDiagrams } from './toolboxSamples/chartSampleDiagrams';
 import { containerSampleDiagrams } from './toolboxSamples/containerSampleDiagrams';
-import { controlSystemsSampleDiagrams } from './toolboxSamples/controlSystemsSampleDiagrams';
+import { controlSampleDiagrams } from './toolboxSamples/controlSampleDiagrams';
 import { digitalSampleDiagrams } from './toolboxSamples/digitalSampleDiagrams';
 import { electricalSampleDiagrams } from './toolboxSamples/electricalSampleDiagrams';
 import { flowchartSampleDiagrams } from './toolboxSamples/flowchartSampleDiagrams';
@@ -50,7 +50,7 @@ export const sampleDiagrams: SampleCategory[] = [
 	...mindmapSampleDiagrams,
 	...networkSampleDiagrams,
 	...c4SampleDiagrams,
-	...controlSystemsSampleDiagrams,
+	...controlSampleDiagrams,
 	//...pedigreeSampleDiagrams,
 	...chartSampleDiagrams,
 	...quantumSampleDiagrams,

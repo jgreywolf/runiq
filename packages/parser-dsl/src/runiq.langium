@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile;
+    DiagramProfile | ElectricalProfile | ControlProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -78,6 +78,23 @@ AnalysisStatement:
 
 AnalysisKind returns string:
     'tran' | 'ac' | 'dc' | 'op' | 'noise';
+
+// ============================================================================
+// Control Profile (PLC ladder / FBD)
+// ============================================================================
+ControlProfile:
+    'control' name=STRING '{'
+        statements+=ControlStatement*
+    '}';
+
+ControlStatement:
+    ControlVariantStatement | NetStatement | PartStatement;
+
+ControlVariantStatement:
+    'variant' variant=ControlVariant;
+
+ControlVariant returns string:
+    'ladder' | 'fbd' | 'sfc';
 
 // ============================================================================
 // Digital Profile (digital circuits)
@@ -1554,7 +1571,7 @@ GroupBlock:
 // container "Label" { ... } with optional properties
 // Now supports: container id "Label" as @shapeName { ... }
 ContainerBlock:
-    'container' (id=DiagramIdentifier)? label=STRING ('as' '@' shape=(SHAPE_ID | FlexibleID))? properties+=ContainerProperty* '{'
+    'container' (id=ID)? label=STRING ('as' '@' shape=(SHAPE_ID | FlexibleID))? properties+=ContainerProperty* '{'
         statements+=DiagramStatement*
     '}';
 
@@ -1748,7 +1765,7 @@ FlexibleID returns string:
     // Control flow keywords
     | 'for' | 'in' | 'if' | 'loop' | 'call'
     // Common node names
-    | 'start' | 'end' | 'done' | 'process' | 'mobile' | 'm' | 'f' | 'step' | 'action'
+    | 'start' | 'end' | 'done' | 'process' | 'mobile' | 'm' | 'f' | 'e' | 'step' | 'action'
     | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue'
     // Common mindmap/hierarchy node names
     | 'root' | 'child' | 'branch' | 'leaf' | 'node' | 'center' | 'central' | 'hub'

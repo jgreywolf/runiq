@@ -189,6 +189,24 @@
 				</div>
 			</button>
 
+			<!-- Control Logic Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.control)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-orange-400 hover:bg-orange-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 text-orange-600 transition-colors group-hover:bg-orange-200"
+					>
+						<Icon icon="tabler:switch-2" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Control Logic</h3>
+						<p class="text-sm text-neutral-600">Ladder logic and FBD blocks</p>
+					</div>
+				</div>
+			</button>
+
 			<!-- Digital Circuit Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.digital)}

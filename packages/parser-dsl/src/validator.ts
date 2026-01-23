@@ -35,6 +35,14 @@ export class RuniqValidator {
     shape: ShapeDeclaration,
     accept: ValidationAcceptor
   ): void {
+    if (!shape.id) {
+      accept('error', 'Shape declaration is missing an id.', {
+        node: shape,
+        property: 'id',
+      });
+      return;
+    }
+
     // Validate shape ID length
     if (shape.id.length > 50) {
       accept(

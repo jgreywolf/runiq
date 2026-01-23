@@ -306,6 +306,7 @@ export type RuniqKeywordNames =
     | "f"
     | "false"
     | "fan"
+    | "fbd"
     | "feedforward"
     | "field"
     | "fill-available"
@@ -421,6 +422,7 @@ export type RuniqKeywordNames =
     | "label:"
     | "labelPosition:"
     | "labels:"
+    | "ladder"
     | "layered"
     | "layout"
     | "layoutCache:"
@@ -643,6 +645,7 @@ export type RuniqKeywordNames =
     | "sequence"
     | "setpoint:"
     | "settings"
+    | "sfc"
     | "shadow:"
     | "shape"
     | "shape:"
@@ -775,6 +778,7 @@ export type RuniqKeywordNames =
     | "valveSafetyRelief"
     | "valveShutoff"
     | "valveThreeWay"
+    | "variant"
     | "vav-box"
     | "vertical"
     | "verticalAlign:"
@@ -1167,7 +1171,7 @@ export function isConnectionPoint(item: unknown): item is ConnectionPoint {
 export interface ContainerBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ContainerBlock';
-    id?: DiagramIdentifier;
+    id?: string;
     label: string;
     properties: Array<ContainerProperty>;
     shape?: FlexibleID | string;
@@ -1421,10 +1425,58 @@ export function isControlMode(item: unknown): item is ControlMode {
     return item === 'manual' || item === 'auto' || item === 'cascade' || item === 'ratio' || item === 'feedforward';
 }
 
+export interface ControlProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'ControlProfile';
+    name: string;
+    statements: Array<ControlStatement>;
+}
+
+export const ControlProfile = {
+    $type: 'ControlProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isControlProfile(item: unknown): item is ControlProfile {
+    return reflection.isInstance(item, ControlProfile.$type);
+}
+
+export type ControlStatement = ControlVariantStatement | NetStatement | PartStatement;
+
+export const ControlStatement = {
+    $type: 'ControlStatement'
+} as const;
+
+export function isControlStatement(item: unknown): item is ControlStatement {
+    return reflection.isInstance(item, ControlStatement.$type);
+}
+
 export type ControlVariable = 'composition' | 'conductivity' | 'flow' | 'level' | 'ph' | 'pressure' | 'speed' | 'temperature';
 
 export function isControlVariable(item: unknown): item is ControlVariable {
     return item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed';
+}
+
+export type ControlVariant = 'fbd' | 'ladder' | 'sfc';
+
+export function isControlVariant(item: unknown): item is ControlVariant {
+    return item === 'ladder' || item === 'fbd' || item === 'sfc';
+}
+
+export interface ControlVariantStatement extends langium.AstNode {
+    readonly $container: ControlProfile;
+    readonly $type: 'ControlVariantStatement';
+    variant: ControlVariant;
+}
+
+export const ControlVariantStatement = {
+    $type: 'ControlVariantStatement',
+    variant: 'variant'
+} as const;
+
+export function isControlVariantStatement(item: unknown): item is ControlVariantStatement {
+    return reflection.isInstance(item, ControlVariantStatement.$type);
 }
 
 export interface DataArray extends langium.AstNode {
@@ -1946,10 +1998,10 @@ export function isFillColorProperty(item: unknown): item is FillColorProperty {
     return reflection.isInstance(item, FillColorProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'team' | 'temperature' | 'to' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'e' | 'end' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'team' | 'temperature' | 'to' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'e' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -3832,7 +3884,7 @@ export function isNetDecl(item: unknown): item is NetDecl {
 }
 
 export interface NetStatement extends langium.AstNode {
-    readonly $container: ElectricalProfile | HydraulicProfile | PneumaticProfile;
+    readonly $container: ControlProfile | ElectricalProfile | HydraulicProfile | PneumaticProfile;
     readonly $type: 'NetStatement';
     names: Array<ProfileIdentifier>;
 }
@@ -4031,7 +4083,7 @@ export function isPartSourceProperty(item: unknown): item is PartSourceProperty 
 }
 
 export interface PartStatement extends langium.AstNode {
-    readonly $container: ElectricalProfile | HydraulicProfile | PneumaticProfile;
+    readonly $container: ControlProfile | ElectricalProfile | HydraulicProfile | PneumaticProfile;
     readonly $type: 'PartStatement';
     properties: Array<PartProperty>;
     ref: ProfileIdentifier;
@@ -4711,7 +4763,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
+export type Profile = ControlProfile | DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -6853,6 +6905,9 @@ export type RuniqAstType = {
     ContainerProperty: ContainerProperty
     ContainerStyleProperty: ContainerStyleProperty
     ContainerTypeProperty: ContainerTypeProperty
+    ControlProfile: ControlProfile
+    ControlStatement: ControlStatement
+    ControlVariantStatement: ControlVariantStatement
     DataArray: DataArray
     DataItem: DataItem
     DataObject: DataObject
@@ -7665,6 +7720,34 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [ContainerProperty.$type]
+        },
+        ControlProfile: {
+            name: ControlProfile.$type,
+            properties: {
+                name: {
+                    name: ControlProfile.name
+                },
+                statements: {
+                    name: ControlProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        ControlStatement: {
+            name: ControlStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        ControlVariantStatement: {
+            name: ControlVariantStatement.$type,
+            properties: {
+                variant: {
+                    name: ControlVariantStatement.variant
+                }
+            },
+            superTypes: [ControlStatement.$type]
         },
         DataArray: {
             name: DataArray.$type,
@@ -9171,7 +9254,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     defaultValue: []
                 }
             },
-            superTypes: [ElectricalStatement.$type, HydraulicStatement.$type, PneumaticStatement.$type]
+            superTypes: [ControlStatement.$type, ElectricalStatement.$type, HydraulicStatement.$type, PneumaticStatement.$type]
         },
         NodeProperty: {
             name: NodeProperty.$type,
@@ -9610,7 +9693,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: PartStatement.ref
                 }
             },
-            superTypes: [ElectricalStatement.$type, HydraulicStatement.$type, PneumaticStatement.$type]
+            superTypes: [ControlStatement.$type, ElectricalStatement.$type, HydraulicStatement.$type, PneumaticStatement.$type]
         },
         PartTypeProperty: {
             name: PartTypeProperty.$type,

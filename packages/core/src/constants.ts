@@ -14,6 +14,7 @@ export enum ProfileType {
   ELECTRICAL = 'electrical',
   DIGITAL = 'digital',
   BLOCK_DIAGRAM = 'blockDiagram',
+  CONTROL = 'control',
   WARDLEY = 'wardley',
   PNEUMATIC = 'pneumatic',
   HYDRAULIC = 'hydraulic',

@@ -160,6 +160,18 @@ export const diagramTemplates: Record<ProfileName, DiagramTemplate> = {
 		name: 'Untitled Circuit'
 	},
 
+	[ProfileName.control]: {
+		content: `control "Motor Start-Stop" {
+  variant ladder
+  net L1, L2, M1, M2
+
+  part Start type:NO_CONTACT pins:(L1,M1) doc:"Start button"
+  part Stop type:NC_CONTACT pins:(M1,M2) doc:"Stop button"
+  part Motor type:COIL pins:(M2,L2) doc:"Motor coil"
+}`,
+		name: 'Untitled Control Diagram'
+	},
+
 	[ProfileName.digital]: {
 		content: `digital "My Digital Circuit" {
   // Define a reusable module

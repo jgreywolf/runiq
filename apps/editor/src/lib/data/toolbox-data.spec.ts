@@ -80,6 +80,7 @@ describe('Toolbox Data Structure', () => {
 			'wardley',
 			'electrical',
 			'digital',
+			'control',
 			'pneumatic',
 			'hydraulic',
 			'hvac',
@@ -139,6 +140,12 @@ describe('Toolbox Data Structure', () => {
 		expect(categoryIds).not.toContain('digitalSyntax');
 		expect(categoryIds).not.toContain('digitalLogicGates');
 		expect(categoryIds).not.toContain('digitalComponents');
+	});
+
+	it('should include control ladder snippets in control profile', () => {
+		const categories = getShapeCategoryByProfile(ProfileName.control);
+		const categoryIds = categories.map((cat) => cat.id);
+		expect(categoryIds).toContain('controlLadder');
 	});
 
 	it('should include railroad snippets in railroad profile', () => {

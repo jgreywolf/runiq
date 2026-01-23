@@ -52,6 +52,7 @@ export type Profile =
   | DiagramProfile
   | ElectricalProfile
   | DigitalProfile
+  | ControlProfile
   | BlockDiagramProfile
   | WardleyProfile
   | SequenceProfile
@@ -111,6 +112,18 @@ export interface BlockDiagramProfile {
   nets: NetAst[]; // Signal paths
   parts: PartAst[]; // Transfer functions, gain blocks, operations
   feedbackLoops?: boolean; // Enable feedback loop routing
+}
+
+/**
+ * PLC control profile (ladder logic / function block diagrams)
+ * Uses schematic-style parts and nets with optional variant hints.
+ */
+export interface ControlProfile {
+  type: 'control';
+  name: string;
+  nets: NetAst[]; // Power rails, signal lines
+  parts: PartAst[]; // Contacts, coils, blocks
+  variant?: 'ladder' | 'fbd' | 'sfc';
 }
 
 /**

@@ -417,7 +417,7 @@ pid "Shell and Tube Heat Exchanger" {
   line process from:E-101.tubeOut to:TT-202 size:4 unit:in schedule:SCH40 material:CS
 
   // Cooling Water Lines
-  line utility from:CW-1.supply to:P-102.inlet size:6 unit:in schedule:STD material:CS
+  line utility from:CW-1.supplyLine to:P-102.inlet size:6 unit:in schedule:STD material:CS
   line utility from:P-102.discharge to:TCV-201.inlet size:4 unit:in schedule:STD material:CS
   line utility from:TCV-201.outlet to:E-101.shellIn size:4 unit:in schedule:STD material:CS
   line utility from:E-101.shellOut to:CW-1.returnLine size:6 unit:in schedule:STD material:CS

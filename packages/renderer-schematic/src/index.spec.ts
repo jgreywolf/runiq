@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { renderSchematic } from './index.js';
-import type { ElectricalProfile } from '@runiq/core';
+import type { ControlProfile, ElectricalProfile } from '@runiq/core';
 
 describe('Electrical Renderer', () => {
   it('should render a simple schematic profile (type: schematic)', () => {
@@ -15,6 +15,23 @@ describe('Electrical Renderer', () => {
     const result = renderSchematic(profile);
     expect(result.svg).toContain('<svg');
     expect(result.svg).toContain('Test Schematic');
+  });
+
+  it('should render a basic control profile', () => {
+    const profile: ControlProfile = {
+      type: 'control',
+      name: 'Start-Stop Ladder',
+      nets: [{ name: 'L1' }, { name: 'L2' }, { name: 'M1' }],
+      parts: [
+        { ref: 'Start', type: 'NO_CONTACT', pins: ['L1', 'M1'] },
+        { ref: 'Motor', type: 'COIL', pins: ['M1', 'L2'] },
+      ],
+      variant: 'ladder',
+    };
+
+    const result = renderSchematic(profile);
+    expect(result.svg).toContain('<svg');
+    expect(result.svg).toContain('Start-Stop Ladder');
   });
   describe('Basic Rendering', () => {
     it('should render simple resistor circuit', () => {

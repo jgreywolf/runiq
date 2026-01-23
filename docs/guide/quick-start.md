@@ -318,7 +318,7 @@ Now that you've created your first diagram:
 
 1. **Explore Examples** - See [complete examples →](/examples/)
 2. **Learn All Shapes** - Browse the [shape reference →](/reference/shapes)
-3. **Advanced Features** - Try [electrical circuits →](/guide/electrical) or [Control system diagrams →](/guide/control-diagrams)
+3. **Advanced Features** - Try [electrical circuits →](/guide/electrical) or [Control Logic diagrams →](/guide/control-diagrams)
 4. **API Deep Dive** - Read the [full API docs →](/reference/api/core)
 
 ## Tips & Tricks

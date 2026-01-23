@@ -7,6 +7,7 @@
  */
 
 import type {
+  ControlProfile,
   DigitalProfile,
   ElectricalProfile,
   HvacProfile,
@@ -14,10 +15,10 @@ import type {
   PartAst,
   PneumaticProfile,
 } from '@runiq/core';
-import { Orientation, PIDLineType } from '@runiq/core';
+import { Orientation } from '@runiq/core';
+import { convertDigitalToSchematic } from './digital.ts';
 import { SymbolDefinition } from './symbol.ts';
 import { getSymbol } from './symbolRegistry.ts';
-import { convertDigitalToSchematic } from './digital.ts';
 
 // Re-export P&ID symbols, line types, tag system, and renderer
 export {
@@ -57,6 +58,7 @@ export {
 
 // Union type for all profile types that can be rendered as schematics
 export type RenderableProfile =
+  | ControlProfile
   | ElectricalProfile
   | PneumaticProfile
   | HydraulicProfile
@@ -145,13 +147,15 @@ export function renderSchematic(
 
   // Determine CSS class prefix based on profile type
   const classPrefix =
-    profile.type === PIDLineType.ELECTRICAL
+    profile.type === 'electrical'
       ? 'electrical'
-      : profile.type === PIDLineType.PNEUMATIC
+      : profile.type === 'pneumatic'
         ? 'pneumatic'
         : profile.type === 'hvac'
           ? 'hvac'
-          : 'hydraulic';
+          : profile.type === 'control'
+            ? 'control'
+            : 'hydraulic';
 
   // Generate SVG
   let svg = generateSvgHeader(bounds, profile.name);
@@ -634,7 +638,9 @@ function renderComponents(
   return svg;
 }
 
-function getComponentValue(params: Record<string, unknown>): string | undefined {
+function getComponentValue(
+  params: Record<string, unknown>
+): string | undefined {
   const knownKeys = [
     'value',
     'source',

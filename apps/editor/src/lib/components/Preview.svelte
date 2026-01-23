@@ -434,6 +434,7 @@
 			// Handle different profile types
 			switch (profile.type) {
 				case 'electrical':
+				case 'control':
 				case 'pneumatic':
 				case 'hydraulic':
 				case 'hvac':
@@ -522,7 +523,7 @@
 				default:
 					errors = [
 						`Profile type '${profile.type}' is not yet supported in the preview.`,
-						`Currently 'diagram', 'electrical', 'digital', 'pneumatic', 'hydraulic', 'hvac', 'sequence', 'timeline', 'wardley', 'pid', and 'railroad' profiles can be rendered.`
+						`Currently 'diagram', 'electrical', 'control', 'digital', 'pneumatic', 'hydraulic', 'hvac', 'sequence', 'timeline', 'wardley', 'pid', and 'railroad' profiles can be rendered.`
 					];
 					svgOutput = '';
 					isRendering = false;
