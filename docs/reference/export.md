@@ -10,8 +10,8 @@ Runiq supports four export formats, each targeting specific domains:
 | ---------------- | ----------------------- | ------------------------------------ | ------------------------ |
 | **SPICE**        | Analog circuits         | Simulation in LTspice/ngspice/PSpice | `@runiq/export-spice`    |
 | **Verilog HDL**  | Digital circuits        | Synthesis with Vivado/Quartus/Yosys  | `@runiq/export-verilog`  |
-| **LaTeX/TikZ**   | Control system diagrams | Academic papers and presentations    | `@runiq/export-latex`    |
-| **Simulink MDL** | Control systems         | MATLAB/Simulink simulation           | `@runiq/export-simulink` |
+| **LaTeX/TikZ**   | Control system block diagrams (diagram profile) | Academic papers and presentations    | `@runiq/export-latex`    |
+| **Simulink MDL** | Control system block diagrams (diagram profile) | MATLAB/Simulink simulation           | `@runiq/export-simulink` |
 
 All export formats are accessible via:
 
@@ -504,7 +504,7 @@ The exporter validates:
 
 ## LaTeX/TikZ Export
 
-Export Control system diagrams to LaTeX/TikZ format for academic papers and presentations.
+Export control system block diagrams (diagram profile) to LaTeX/TikZ format for academic papers and presentations.
 
 ### Use Cases
 
@@ -745,7 +745,7 @@ LaTeX special characters are automatically escaped:
 
 ## Simulink MDL Export
 
-Export Control system diagrams to Simulink MDL format for MATLAB/Simulink simulation.
+Export control system block diagrams (diagram profile) to Simulink MDL format for MATLAB/Simulink simulation.
 
 ### Use Cases
 
@@ -1263,7 +1263,7 @@ Model {
 
 - [Digital Circuits Guide](/guide/digital-circuits) - Digital circuit design patterns
 - [Electrical Circuits Guide](/guide/electrical) - Analog circuit design patterns
-- [Control system Diagrams Guide](/guide/control-diagrams) - Control system design
+- [Control Logic Diagrams Guide](/guide/control-diagrams) - Ladder and function block diagrams
 - [CLI Reference](/reference/cli) - Command-line export options
 - [Shapes Reference](/reference/shapes) - All available shape IDs
 
@@ -1353,5 +1353,5 @@ interface SimulinkResult {
 
 - [Electrical Examples](/examples/electrical) - RC filters, op-amps, power supplies
 - [Digital Examples](/examples/digital) - Counters, ALUs, state machines
-- [Control system Diagram Examples](/examples/control-diagrams) - PID controllers, filters
+- [Control Logic Diagram Examples](/examples/control-diagrams) - Ladder and function block examples
 - [GitHub Repository](https://github.com/jgreywolf/runiq/tree/main/examples) - All example files

@@ -3,6 +3,7 @@ export enum ProfileName {
 	glyphset = 'glyphset',
 	electrical = 'electrical',
 	digital = 'digital',
+	control = 'control',
 	pneumatic = 'pneumatic',
 	hydraulic = 'hydraulic',
 	hvac = 'hvac',

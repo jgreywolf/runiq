@@ -36,8 +36,7 @@
 				'templatesPresets',
 				'templates',
 				'network',
-				'c4',
-				'controlSystems'
+				'c4'
 			]
 		},
 		{
@@ -69,7 +68,16 @@
 			description: 'Electrical, pneumatic, hydraulic, HVAC',
 			color: 'amber',
 			icon: 'circuit',
-			categoryIds: ['electrical', 'digital', 'logicGates', 'pneumatic', 'hydraulic', 'hvac', 'railroad']
+			categoryIds: [
+				'electrical',
+				'control',
+				'digital',
+				'logicGates',
+				'pneumatic',
+				'hydraulic',
+				'hvac',
+				'railroad'
+			]
 		},
 		{
 			id: 'data',
@@ -85,7 +93,7 @@
 			description: 'Wardley, timeline, pedigree',
 			color: 'emerald',
 			icon: 'specialized',
-			categoryIds: ['wardley', 'timeline', 'pedigree', 'controlSystems']
+			categoryIds: ['wardley', 'timeline', 'pedigree']
 		}
 	];
 

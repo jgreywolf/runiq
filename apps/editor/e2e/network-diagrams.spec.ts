@@ -331,8 +331,9 @@ diagram "Package Dependencies" {
 	test.describe('Algorithm Comparison', () => {
 		test('06-comparison-layered-vs-force: Same data, different algorithms', async ({ page }) => {
 			await test.step('Enter comparison diagram', async () => {
-				const dsl = `diagram "Layout Comparison" direction: LR {
-  container "Layered" direction: TB {
+				const dsl = `diagram "Layout Comparison" {
+  direction LR
+  container "Layered" direction:TB {
     shape a as @circle label:"A"
     shape b as @circle label:"B"
     shape c as @circle label:"C"
@@ -343,7 +344,7 @@ diagram "Package Dependencies" {
     c -> d
   }
   
-  container "Force" algorithm: force spacing: 100 {
+  container "Force" algorithm:force spacing:100 {
     shape e as @circle label:"E"
     shape f as @circle label:"F"
     shape g as @circle label:"G"

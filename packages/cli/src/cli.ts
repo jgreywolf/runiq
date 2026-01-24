@@ -26,6 +26,7 @@ import {
   renderTreemap,
   renderWardleyMap,
 } from '@runiq/renderer-svg';
+import { renderDigital, renderSchematic } from '@runiq/renderer-schematic';
 import { Command } from 'commander';
 import { promises as fs } from 'fs';
 
@@ -149,6 +150,28 @@ program
           renderResult = renderGitGraph(nonDiagramProfile as any);
         } else if (renderProfileType === ProfileType.TREEMAP) {
           renderResult = renderTreemap(nonDiagramProfile as any);
+        } else if (
+          renderProfileType === ProfileType.ELECTRICAL ||
+          renderProfileType === ProfileType.PNEUMATIC ||
+          renderProfileType === ProfileType.HYDRAULIC ||
+          renderProfileType === ProfileType.HVAC ||
+          renderProfileType === ProfileType.CONTROL
+        ) {
+          renderResult = renderSchematic(nonDiagramProfile as any, {
+            gridSize: 50,
+            routing: 'orthogonal',
+            showNetLabels: true,
+            showValues: true,
+            showReferences: true,
+          });
+        } else if (renderProfileType === ProfileType.DIGITAL) {
+          renderResult = renderDigital(nonDiagramProfile as any, {
+            gridSize: 50,
+            routing: 'orthogonal',
+            showNetLabels: true,
+            showValues: false,
+            showReferences: true,
+          });
         }
 
         if (!renderResult) {

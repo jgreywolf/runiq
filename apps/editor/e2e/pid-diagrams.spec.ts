@@ -119,7 +119,7 @@ test.describe('P&ID Diagram Rendering', () => {
 
   line process from:P-101.discharge to:E-101.tubeIn size:4 unit:in schedule:SCH40 material:CS
   line process from:E-101.tubeOut to:TT-202 size:4 unit:in schedule:SCH40 material:CS
-  line utility from:CW-1.supply to:P-102.inlet size:6 unit:in schedule:STD material:CS
+  line utility from:CW-1.supplyLine to:P-102.inlet size:6 unit:in schedule:STD material:CS
   line utility from:P-102.discharge to:TCV-201.inlet size:4 unit:in schedule:STD material:CS
   line utility from:TCV-201.outlet to:E-101.shellIn size:4 unit:in schedule:STD material:CS
   line utility from:E-101.shellOut to:CW-1.returnLine size:6 unit:in schedule:STD material:CS
@@ -171,7 +171,7 @@ test.describe('P&ID Diagram Rendering', () => {
   instrument LT-401 type:levelTransmitter range:(0,100) unit:% loop:401 location:field
   instrument LIC-401 type:levelIndicatorController range:(0,100) unit:% loop:401 location:panel
 
-  line process from:FEED-1.supply to:C-101.feedMid size:4 unit:in schedule:XS material:CS
+  line process from:FEED-1.supplyLine to:C-101.feedMid size:4 unit:in schedule:XS material:CS
   line process from:C-101.overhead to:COND-1.tubeIn size:6 unit:in schedule:SCH40 material:CS
   line process from:COND-1.tubeOut to:D-101.inlet size:6 unit:in schedule:SCH40 material:CS
   line signal from:TT-201 to:TIC-201
@@ -270,7 +270,7 @@ test.describe('P&ID Diagram Rendering', () => {
   instrument SC-701 type:speedController range:(0,15000) unit:rpm loop:701 location:panel
   instrument VT-901 type:vibrationTransmitter range:(0,50) unit:mm/s location:field
 
-  line process from:FEED-1.supply to:K-101.inlet size:8 unit:in schedule:XS material:CS
+  line process from:FEED-1.supplyLine to:K-101.inlet size:8 unit:in schedule:XS material:CS
   line process from:K-101.discharge to:E-101.tubeIn size:6 unit:in schedule:XS material:CS
   line process from:D-101.outlet to:K-102.inlet size:6 unit:in schedule:XS material:CS
   line signal from:PT-601 to:PIC-601

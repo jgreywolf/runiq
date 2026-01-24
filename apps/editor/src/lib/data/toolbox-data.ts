@@ -7,9 +7,9 @@ import { umlShapeIcons } from './toolboxIcons/umlShapeIcons';
 import { c4ShapeIcons } from './toolboxIcons/c4ShapeIcons';
 import { bpmnShapeIcons } from './toolboxIcons/bpmnShapeIcons';
 import { storageShapeIcons } from './toolboxIcons/storageShapeIcons';
-import { controlSystemsShapeIcons } from './toolboxIcons/controlSystemsShapeIcons';
 import { kinematicShapeIcons } from './toolboxIcons/kinematicShapeIcons';
 import { electricalShapeIcons } from './toolboxIcons/electricalShapeIcons';
+import { controlShapeIcons } from './toolboxIcons/controlShapeIcons';
 import { pneumaticShapeIcons } from './toolboxIcons/pneumaticShapeIcons';
 import { hydraulicShapeIcons } from './toolboxIcons/hydraulicShapeIcons';
 import { hvacShapeIcons } from './toolboxIcons/hvacShapeIcons';
@@ -39,7 +39,7 @@ export interface ShapeCategory {
 	shapes: Shape[];
 	/**
 	 * Profile(s) this shape category belongs to.
-	 * Official profiles: diagram (default), sequence, wardley, electrical, digital, pneumatic, hydraulic, hvac, railroad
+	 * Official profiles: diagram (default), sequence, wardley, electrical, digital, control, pneumatic, hydraulic, hvac, railroad
 	 * If undefined or contains 'diagram', category is shown in general diagram mode.
 	 */
 	profiles?: string[];
@@ -54,7 +54,6 @@ export const shapeCategories: ShapeCategory[] = [
 	...storageShapeIcons,
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
-	...controlSystemsShapeIcons,
 	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...networkShapeIcons,
@@ -65,6 +64,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...sequenceShapeIcons,
 	...electricalShapeIcons,
 	...logicGateShapeIcons,
+	...controlShapeIcons,
 	...digitalComponentShapeIcons,
 	...digitalLogicGateShapeIcons,
 	...digitalSyntaxShapeIcons,
@@ -84,7 +84,6 @@ export const diagramShapes: ShapeCategory[] = [
 	...storageShapeIcons,
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
-	...controlSystemsShapeIcons,
 	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...networkShapeIcons,
@@ -101,6 +100,7 @@ export const electricalShapes: ShapeCategory[] = [
 	...electricalShapeIcons,
 	...logicGateShapeIcons
 ];
+export const controlShapes: ShapeCategory[] = [...controlShapeIcons];
 export const hvacShapes: ShapeCategory[] = [...hvacShapeIcons];
 export const digitalShapes: ShapeCategory[] = [
 	...digitalSyntaxShapeIcons,
@@ -115,6 +115,8 @@ export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCatego
 			return sequenceShapes;
 		case ProfileName.electrical:
 			return electricalShapes;
+		case ProfileName.control:
+			return controlShapes;
 		case ProfileName.digital:
 			return digitalShapes;
 		case ProfileName.pneumatic:

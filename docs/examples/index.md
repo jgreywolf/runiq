@@ -160,18 +160,15 @@ Create charts and visual analytics for presentations and reports.
 - **Visual Examples**: Maslow's hierarchy, org structure, sales funnel, learning levels
 - Applications: Hierarchical data, process stages, organizational charts
 
-## Control Systems
+## Control Logic
 
-Design control loops and signal processing.
+PLC-style ladder and function block diagrams for automation logic.
 
-### [Control system Diagrams](/examples/control-diagrams)
+### [Control Logic Diagrams](/examples/control-diagrams)
 
-- PID controllers with feedback
-- Multi-stage transfer functions
-- State-space representation
-- Motor speed control, aircraft pitch
-- Export to LaTeX/TikZ and Simulink MDL
-- **Supports**: Summing junctions, gain blocks, integrators
+- Ladder rungs with contacts and coils
+- Function block diagrams with timers and outputs
+- **Supports**: NO/NC contacts, set/reset coils, TON timers
 
 ## Mechanical Systems
 
@@ -439,8 +436,8 @@ Visualize events and milestones over time.
   </a>
   
   <a href="/examples/control-diagrams" class="example-card">
-    <h3>🎛️ Control system Diagrams</h3>
-    <p>Control systems & signal flow</p>
+    <h3>Control Logic Diagrams</h3>
+    <p>Ladder and function block logic</p>
   </a>
 
   <a href="/examples/kinematic-diagrams" class="example-card">
@@ -531,4 +528,3 @@ Visualize events and milestones over time.
   font-size: 0.9rem;
 }
 </style>
-

@@ -1,84 +1,54 @@
 ---
-title: Control Systems Diagrams
-description: Create hierarchical block diagrams for system architecture, signal flow, and functional decomposition.
-lastUpdated: 2025-01-09
+title: Control Logic Diagrams
+description: Create PLC-style ladder and function block diagrams using the control profile.
+lastUpdated: 2026-02-08
 ---
 
-# Control Systems
+# Control Logic Diagrams
 
-Design control systems, signal chains, and feedback loops with readable syntax and clean SVG output. Export to LaTeX/TikZ or Simulink MDL (planned) for further analysis.
+The control profile targets PLC-style ladder and function block diagrams using the schematic renderer. It shares the same `part` and `net` syntax as electrical and hydraulic profiles, but with control-specific symbols.
 
 ## Supported elements
 
-- Blocks: generic processing blocks (`@rect`, `@rounded`)
-- SISO components: Gain, Integrator, Summing Junction (shapes available in the catalog)
-- Connectors: labeled edges with line style and color
+- Contacts and coils: normally open, normally closed, set/reset coils
+- Timers: timer-on (TON) blocks
+- Nets: named rails and rungs
 
-## Example
+## Example: Ladder rung
 
 ```runiq
-diagram "PI Controller" {
-  direction LR
+control "Motor Start-Stop" {
+  variant ladder
+  net L1, L2, M1, M2
 
-  shape Ref as @doc label: "Reference"
-  shape Sum as @circle label: "+/−"  // summing junction
-  shape C as @rect label: "Controller (PI)"
-  shape P as @rect label: "Plant"
-  shape Y as @doc label: "Output"
+  part Start type:NO_CONTACT pins:(L1,M1) doc:"Start button"
+  part Stop type:NC_CONTACT pins:(M1,M2) doc:"Stop button"
+  part Motor type:COIL pins:(M2,L2) doc:"Motor coil"
+}
+```
 
-  Ref -> Sum
-  Sum -> C
-  C -> P
-  P -> Y
-  Y -> Sum label: "feedback" lineStyle: "dotted"
+## Example: Function block diagram
+
+```runiq
+control "Timer Enable" {
+  variant fbd
+  net L1, L2, EN, DONE
+
+  part Enable type:NO_CONTACT pins:(L1,EN) doc:"Enable"
+  part Timer type:TIMER_ON pins:(EN,DONE) doc:"TON 2s"
+  part Coil type:COIL pins:(DONE,L2) doc:"Output"
 }
 ```
 
 ## Layout tips
 
-- Use `direction LR` for left-to-right signal flow
-- Increase `spacing` if feedback arcs collide with labels
+- Prefer short net names for cleaner rungs.
+- Add `variant ladder` or `variant fbd` to signal the intended style.
 
-## Comparison with Other Tools
+## Legacy control system blocks
 
-| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | MATLAB Simulink | LabVIEW    | Xcos           | Modelica       |
-| ---------------------------- | -------------- | -------------- | -------------- | ----------- | --------------- | ---------- | -------------- | -------------- |
-| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ⚠️ MDL          | ❌         | ⚠️ XML         | ✅             |
-| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial      | ❌         | ⚠️ Partial     | ✅             |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Limited      | ❌         | ⚠️ Limited     | ⚠️ Limited     |
-| **Block diagrams**           | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅              | ✅         | ✅             | ✅             |
-| **Signal flow**              | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅              | ✅         | ✅             | ✅             |
-| **Feedback loops**           | ✅             | ⚠️ Manual      | ⚠️ Manual      | ✅          | ✅              | ✅         | ✅             | ✅             |
-| **Control blocks**           | ✅             | ❌             | ❌             | ⚠️ Manual   | ✅              | ✅         | ✅             | ✅             |
-| **Simulation**               | ❌             | ❌             | ❌             | ❌          | ✅              | ✅         | ✅             | ✅             |
-| **Transfer functions**       | ⚠️ Labels      | ❌             | ❌             | ⚠️ Labels   | ✅              | ✅         | ✅             | ✅             |
-| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial      | ⚠️ Partial | ❌             | ✅             |
-| **Code generation**          | ❌             | ❌             | ❌             | ❌          | ✅              | ✅         | ⚠️ Limited     | ✅             |
-| **Real-time execution**      | ❌             | ❌             | ❌             | ❌          | ✅              | ✅         | ✅             | ✅             |
-| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple        | Image      | Multiple       | Multiple       |
-| **Learning curve**           | Low            | Low            | Medium         | Low         | High            | High       | Medium         | High           |
-| **Cost**                     | Free           | Free           | Free           | Paid        | Paid            | Paid       | Free           | Free           |
-| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows/Mac     | Windows    | Cross-platform | Cross-platform |
-
-**Key Advantages of Runiq:**
-
-- **Documentation-First**: Perfect for control system architecture documentation
-- **Version Control**: Track control designs alongside code in Git
-- **Lightweight**: Quick visualization without heavy simulation environments
-- **Unified DSL**: Consistent syntax with other diagram types
-
-**When to Use Alternatives:**
-
-- **MATLAB Simulink**: Full simulation, analysis, and code generation for control systems
-- **LabVIEW**: Hardware integration and real-time control with data acquisition
-- **Modelica**: Open-standard modeling for multi-domain physical systems
-- **Lucidchart**: Real-time collaboration with control engineers
+Block-diagram control system shapes (transfer functions, summing junctions) remain available in the diagram profile for backward compatibility, but new control logic work should use the control profile.
 
 ## Examples
 
-See the [examples/control-diagrams](../examples/control-diagrams) directory for more complete examples
-
-## Export
-
-- LaTeX/TikZ: Export paths suitable for papers (planned CLI)
-- Simulink: Basic MDL generation (WIP)
+See the [examples/control-diagrams](../examples/control-diagrams) page for more examples.

@@ -158,11 +158,11 @@ diagram "Emphasis Styles" {
 }
 ```
 
-### 5. Control System Shapes (10 shapes)
+### 5. Control System Shapes (legacy, 10 shapes)
 
 **Profile:** `diagram` (default)
 
-Control system diagram elements for control systems and signal processing:
+Legacy control system block-diagram elements (transfer functions, summing junctions). New control logic work should use the `control` profile with schematic parts/nets.
 
 | Shape             | Syntax              | Description                    |
 | ----------------- | ------------------- | ------------------------------ |
@@ -172,9 +172,9 @@ Control system diagram elements for control systems and signal processing:
 | Differentiator    | `@differentiator`   | Differentiation block (s)      |
 | Time Delay        | `@timeDelay`        | Transport delay (e^-Ts)        |
 | Saturation        | `@saturation`       | Limiter/saturator              |
-| Summing Junction  | `@summingJunction`  | Adder/summer (Σ)               |
-| Multiply Junction | `@multiplyJunction` | Multiplier (×)                 |
-| Divide Junction   | `@divideJunction`   | Divider (÷)                    |
+| Summing Junction  | `@summingJunction`  | Adder/summer                   |
+| Multiply Junction | `@multiplyJunction` | Multiplier                     |
+| Divide Junction   | `@divideJunction`   | Divider                        |
 | Compare Junction  | `@compareJunction`  | Comparator                     |
 
 **Example:**
@@ -183,13 +183,13 @@ Control system diagram elements for control systems and signal processing:
 diagram "PID Controller" {
   shape kp as @gain label: "Kp"
   shape ki as @integrator label: "Ki/s"
-  shape kd as @differentiator label: "Kd·s"
-  shape sum as @summingJunction label: "Σ"
+  shape kd as @differentiator label: "Kd*s"
+  shape sum as @summingJunction label: "+/-"
 }
 ```
 
-::: tip Control Systems
-See the [Control system Diagrams Guide](../guide/control-diagrams.md) for comprehensive documentation on control system diagrams with LaTeX and Simulink export.
+::: tip Control Logic
+See the [Control Logic Diagrams Guide](../guide/control-diagrams.md) for ladder and function block examples.
 :::
 
 
@@ -602,7 +602,7 @@ Complete listing organized by category:
 | Flowchart          | 14    | Process flows, ISO 5807 standard               |
 | Storage            | 7     | Databases, data persistence                    |
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
-| Control Systems    | 10    | Control system diagrams, signal processing     |
+| Control Systems (legacy) | 10 | Control system block diagrams |
 | Kinematic          | 25    | Joints, links, and actuators                   |
 | Special            | 7     | Miscellaneous symbols                          |
 | Charts             | 7     | Data visualization (pie, bar, Venn)            |

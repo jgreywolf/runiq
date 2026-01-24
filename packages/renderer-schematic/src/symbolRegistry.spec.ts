@@ -146,6 +146,15 @@ describe('symbolRegistry', () => {
       expect(symbolRegistry.has('DUCT_EXHAUST')).toBe(true);
     });
 
+    it('should contain control system symbols', () => {
+      expect(symbolRegistry.has('NO_CONTACT')).toBe(true);
+      expect(symbolRegistry.has('NC_CONTACT')).toBe(true);
+      expect(symbolRegistry.has('COIL')).toBe(true);
+      expect(symbolRegistry.has('SET_COIL')).toBe(true);
+      expect(symbolRegistry.has('RESET_COIL')).toBe(true);
+      expect(symbolRegistry.has('TIMER_ON')).toBe(true);
+    });
+
     it('should contain Phase 2 hydraulic symbols (pressure control)', () => {
       expect(symbolRegistry.has('RELIEF_DIRECT')).toBe(true);
       expect(symbolRegistry.has('RELIEF_PILOT')).toBe(true);

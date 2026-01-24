@@ -57,10 +57,10 @@ pid "Batch Reactor with Safety Systems" {
   instrument SC-701 type:speedController range:(0,500) unit:rpm loop:701 location:panel
   
   // Process Lines - Feeds
-  line process from:FEED-1.supply to:P-101.inlet size:2 unit:in schedule:XS material:SS316L
+  line process from:FEED-1.supplyLine to:P-101.inlet size:2 unit:in schedule:XS material:SS316L
   line process from:P-101.discharge to:FCV-101.inlet size:2 unit:in schedule:XS material:SS316L
   line process from:FCV-101.outlet to:R-101.feedA size:2 unit:in schedule:XS material:SS316L
-  line process from:FEED-2.supply to:P-102.inlet size:2 unit:in schedule:XS material:SS316L
+  line process from:FEED-2.supplyLine to:P-102.inlet size:2 unit:in schedule:XS material:SS316L
   line process from:P-102.discharge to:FCV-102.inlet size:2 unit:in schedule:XS material:SS316L
   line process from:FCV-102.outlet to:R-101.feedB size:2 unit:in schedule:XS material:SS316L
   
@@ -70,7 +70,7 @@ pid "Batch Reactor with Safety Systems" {
   line process from:XV-901.outlet to:PRODUCT-1.tank size:4 unit:in schedule:XS material:SS316L
   
   // Utility Lines - Cooling Water
-  line utility from:CW-1.supply to:TCV-501.inlet size:4 unit:in schedule:STD material:CS
+  line utility from:CW-1.supplyLine to:TCV-501.inlet size:4 unit:in schedule:STD material:CS
   line utility from:TCV-501.outlet to:J-101.inlet size:4 unit:in schedule:STD material:CS
   line utility from:J-101.outlet to:CW-1.returnLine size:4 unit:in schedule:STD material:CS
   

@@ -198,6 +198,14 @@ import {
   ductReturn,
   ductExhaust,
 } from './hvac/hvacSymbols.ts';
+import {
+  coil,
+  contactNC,
+  contactNO,
+  resetCoil,
+  setCoil,
+  timerOn,
+} from './control/controlSymbols.ts';
 import { SymbolDefinition } from './symbol.ts';
 
 /**
@@ -253,6 +261,13 @@ export const symbolRegistry = new Map<string, SymbolDefinition>([
   // Decoders
   ['DEC24', decoder2to4],
   ['DEC38', decoder3to8],
+  // Control systems (ladder / FBD)
+  ['NO_CONTACT', contactNO],
+  ['NC_CONTACT', contactNC],
+  ['COIL', coil],
+  ['SET_COIL', setCoil],
+  ['RESET_COIL', resetCoil],
+  ['TIMER_ON', timerOn],
 ]);
 
 // Pneumatic symbols

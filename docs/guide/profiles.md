@@ -1,14 +1,14 @@
 ---
 title: Profiles
-description: Understand Runiq's 13 diagram profiles - Diagram, GlyphSet, Sequence, Timeline, Kanban, GitGraph, and Treemap, Electrical, Digital, Wardley, Railroad, Pneumatic, Hydraulic, and P&ID with specialized syntax and rendering.
-lastUpdated: 2026-01-18
+description: Understand Runiq's 16 diagram profiles - Diagram, GlyphSet, Sequence, Timeline, Kanban, GitGraph, Treemap, Electrical, Digital, Control, Wardley, Railroad, Pneumatic, Hydraulic, HVAC, and P&ID with specialized syntax and rendering.
+lastUpdated: 2026-02-08
 ---
 
 # Profiles
 
-Runiq supports **14 primary profiles** for different diagramming needs:
+Runiq supports **16 primary profiles** for different diagramming needs:
 
-- **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, control system diagrams, kinematic diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
+- **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, kinematic diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **GlyphSet profile**: SmartArt-style pre-built diagram templates (pyramids, matrices, cycles, org charts) with 61 glyphsets across 6 categories.
 - **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
 - **Timeline profile**: Timeline diagrams and Gantt-style visualizations for project planning, roadmaps, and chronological events.
@@ -17,6 +17,7 @@ Runiq supports **14 primary profiles** for different diagramming needs:
 - **Treemap profile**: Hierarchical area charts for portfolio and usage breakdowns.
 - **Electrical profile**: Technical schematics rendered with IEEE-style symbols and electrical rules. This profile unlocks exporters like SPICE and Verilog.
 - **Digital profile**: Digital logic circuits with standard gate symbols (AND, OR, NOT, NAND, NOR, XOR, etc.). Supports HDL export to Verilog.
+- **Control profile**: PLC control logic with ladder and function block diagrams rendered through the schematic engine.
 - **Wardley profile**: Strategic mapping with 2D axes (Evolution × Value Chain) for business analysis and technology planning.
 - **Railroad profile**: Grammar and syntax diagrams with EBNF-style shorthand and left-to-right railroad layout.
 - **Pneumatic profile**: Pneumatic circuits following ISO 1219-1 standards with cylinders, valves, FRL units, and compressed air components.

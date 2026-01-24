@@ -100,13 +100,14 @@ describe('Documentation Validation', () => {
   });
 
   describe('Profile Validation', () => {
-    it('should support all 11 documented profiles', () => {
+    it('should support all 12 documented profiles', () => {
       // This test ensures the types include all profiles mentioned in docs
       // The actual validation happens at type level in types.ts
       const documentedProfiles = [
         'diagram',
         'electrical',
         'digital',
+        'control',
         'wardley',
         'sequence',
         'timeline',
@@ -118,7 +119,7 @@ describe('Documentation Validation', () => {
       ];
 
       // Just verify we have the list - actual type checking happens at compile time
-      expect(documentedProfiles).toHaveLength(11);
+      expect(documentedProfiles).toHaveLength(12);
     });
   });
 

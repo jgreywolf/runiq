@@ -27,6 +27,7 @@ describe('Constants and Enums', () => {
       expect(ProfileType.ELECTRICAL).toBe('electrical');
       expect(ProfileType.DIGITAL).toBe('digital');
       expect(ProfileType.BLOCK_DIAGRAM).toBe('blockDiagram');
+      expect(ProfileType.CONTROL).toBe('control');
       expect(ProfileType.WARDLEY).toBe('wardley');
       expect(ProfileType.PNEUMATIC).toBe('pneumatic');
       expect(ProfileType.HYDRAULIC).toBe('hydraulic');
@@ -39,9 +40,9 @@ describe('Constants and Enums', () => {
       expect(ProfileType.TREEMAP).toBe('treemap');
     });
 
-    it('should have 16 profile types', () => {
+    it('should have 17 profile types', () => {
       const values = Object.values(ProfileType);
-      expect(values).toHaveLength(16);
+      expect(values).toHaveLength(17);
     });
   });
 

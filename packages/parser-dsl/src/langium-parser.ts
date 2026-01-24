@@ -3,6 +3,7 @@ import { ProfileType } from '@runiq/core';
 import { EmptyFileSystem, type AstNode } from 'langium';
 import {
   convertDiagramProfile,
+  convertControlProfile,
   convertDigitalProfile,
   convertElectricalProfile,
   convertGitGraphProfile,
@@ -142,6 +143,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
   for (const profile of document.profiles) {
     if (Langium.isDiagramProfile(profile)) {
       runiqDoc.profiles.push(convertDiagramProfile(profile));
+    } else if (Langium.isControlProfile(profile)) {
+      runiqDoc.profiles.push(convertControlProfile(profile));
     } else if (Langium.isElectricalProfile(profile)) {
       runiqDoc.profiles.push(convertElectricalProfile(profile));
     } else if (Langium.isDigitalProfile(profile)) {

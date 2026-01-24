@@ -6,7 +6,7 @@ lastUpdated: 2025-01-09
 
 # Shapes Overview
 
-Runiq provides a large catalog of shapes spanning flowcharts, UML, containers, charts, Control system diagrams, and schematic symbols. You can mix shapes within a single diagram—there is no strict separation by diagram type.
+Runiq provides a large catalog of shapes spanning flowcharts, UML, containers, charts, control logic diagrams, and schematic symbols. You can mix shapes within a single diagram—there is no strict separation by diagram type.
 
 Common examples:
 

@@ -169,6 +169,18 @@ describe('langium-parser', () => {
 
       expect(result.document?.profiles[0]?.type).toBe(ProfileType.DIGITAL);
     });
+
+    it('should route control profile correctly', () => {
+      const dsl = `
+        control "Motor Start" {
+          variant ladder
+          net L1, L2
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.document?.profiles[0]?.type).toBe(ProfileType.CONTROL);
+    });
   });
 
   describe('parse() - Multi-Profile Documents', () => {

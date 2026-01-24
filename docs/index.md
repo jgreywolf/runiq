@@ -32,7 +32,7 @@ features:
 
   - icon: 🔧
     title: 192 Shapes Across 18 Categories
-    details: From flowcharts to UML diagrams, quantum circuits to Control system diagrams, BPMN to AWS infrastructure.
+    details: From flowcharts to UML diagrams, quantum circuits to control logic diagrams, BPMN to AWS infrastructure.
 
   - icon: ✨
     title: 61 Smart Art Glyphsets
@@ -55,8 +55,8 @@ features:
     details: SPICE netlist and Verilog HDL export. IEEE-standard schematic rendering.
 
   - icon: 📊
-    title: Control system Diagrams
-    details: Control systems with transfer functions. Export to LaTeX/TikZ and Simulink.
+    title: Control Logic Diagrams
+    details: Ladder and function block logic with schematic rendering.
 
   - icon: 🧪
     title: 1111+ Tests Passing
@@ -96,8 +96,8 @@ diagram "Auth Flow" {
 Create flowcharts, sequence diagrams, use case diagrams, class diagrams, state machines, ER diagrams, and architecture diagrams with clean, readable syntax.
 :::
 
-::: info Control Systems
-Design PID controllers, feedback loops, and state-space models. Export to LaTeX for papers or Simulink for simulation.
+::: info Control Logic
+Design ladder and function block logic for automation systems with schematic rendering.
 :::
 
 ::: info Schematic/Electrical Engineering
@@ -127,7 +127,7 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 - ✅ 192 shapes across 18 categories
 - ✅ Quantum circuits, <!-- pedigree charts, --> BPMN, AWS, ERD, DFD support
 - ✅ UML relationship support (stereotypes, line styles, arrow types)
-- ✅ Control system diagrams with LaTeX and Simulink export
+- ✅ Control logic diagrams with LaTeX and Simulink export
 - ✅ Electrical & digital circuits with SPICE/Verilog export
 - ✅ Hierarchical containers for complex architectures
 - ✅ 705+ tests passing

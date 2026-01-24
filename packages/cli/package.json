@@ -32,6 +32,7 @@
     "@runiq/parser-dsl": "workspace:*",
     "@runiq/io-json": "workspace:*",
     "@runiq/layout-base": "workspace:*",
+    "@runiq/renderer-schematic": "workspace:*",
     "@runiq/renderer-svg": "workspace:*",
     "@runiq/icons-fontawesome": "workspace:*",
     "commander": "^11.1.0"
