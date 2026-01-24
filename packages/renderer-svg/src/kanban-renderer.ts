@@ -36,6 +36,8 @@ const DEFAULTS = {
   metaFontSize: 11,
   labelFontSize: 14,
   priorityBarWidth: 6,
+  priorityBadgePaddingX: 6,
+  priorityBadgePaddingY: 2,
   overflowStackHeight: 28,
   overflowEllipsisHeight: 16,
 };
@@ -46,6 +48,10 @@ const PRIORITY_COLORS: Record<string, string> = {
   high: '#ef4444',
   critical: '#7f1d1d',
 };
+
+function formatPriorityLabel(priority: string): string {
+  return priority.charAt(0).toUpperCase() + priority.slice(1);
+}
 
 function mergeStyle(base: KanbanStyle, override?: KanbanStyle): KanbanStyle {
   return {
@@ -318,6 +324,20 @@ export function renderKanban(
       if (card.priority) {
         const priorityColor = PRIORITY_COLORS[card.priority] || PRIORITY_COLORS.medium;
         svg += `<rect x="${cardX}" y="${cardY}" width="${DEFAULTS.priorityBarWidth}" height="${cardHeight}" fill="${priorityColor}" rx="${cardStyle.borderRadius}" ry="${cardStyle.borderRadius}" />`;
+
+        const priorityLabel = formatPriorityLabel(card.priority);
+        const badgeFontSize = DEFAULTS.metaFontSize;
+        const badgeTextWidth = measureText(priorityLabel, {
+          fontSize: badgeFontSize,
+          fontFamily: 'sans-serif',
+        }).width;
+        const badgeWidth = badgeTextWidth + DEFAULTS.priorityBadgePaddingX * 2;
+        const badgeHeight = badgeFontSize + DEFAULTS.priorityBadgePaddingY * 2;
+        const badgeX = cardX + cardWidth - badgeWidth - DEFAULTS.cardPadding;
+        const badgeY = cardY + DEFAULTS.cardPadding;
+
+        svg += `<rect x="${badgeX}" y="${badgeY}" width="${badgeWidth}" height="${badgeHeight}" rx="${badgeHeight / 2}" ry="${badgeHeight / 2}" fill="${priorityColor}" />`;
+        svg += `<text x="${badgeX + badgeWidth / 2}" y="${badgeY + badgeHeight / 2 + 1}" font-family="sans-serif" font-size="${badgeFontSize}" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">${escapeXml(priorityLabel)}</text>`;
       }
 
       const contentX = cardX + DEFAULTS.cardPadding + DEFAULTS.priorityBarWidth;
