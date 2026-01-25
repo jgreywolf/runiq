@@ -53,6 +53,23 @@ diagram "Energy Flow" {
 }
 ```
 
+### Using CSV Data
+
+You can also load Sankey links from CSV using a datasource and `from:` on the shape:
+
+```runiq
+diagram "Energy Flow" {
+  datasource "csv" key:flows from:"source,target,value,sourceLabel,targetLabel\nCoal,Grid,300,Coal Power,Power Grid\nSolar,Grid,100,Solar Energy,Power Grid\nGrid,Homes,380,Power Grid,Residential"
+  shape energy as @sankeyChart from:flows label:"Energy Distribution"
+}
+```
+
+CSV columns:
+- Required: `source`, `target`, `value`
+- Optional: `label`, `color`, `sourceLabel`, `targetLabel`, `sourceColor`, `targetColor`
+
+Note: external CSV/JSON file paths are supported in CLI renders; the editor currently supports inline sources only.
+
 ## Data Format
 
 Sankey diagrams use a structured data format with two main components:
@@ -78,6 +95,7 @@ Each link represents a flow between two nodes:
   source: "source-node-id",  // Required: ID of source node
   target: "target-node-id",  // Required: ID of target node
   value: 100,                // Required: flow quantity (determines width)
+  label: "Optional label",   // Optional: label rendered on the flow
   color: "#e74c3c"           // Optional: flow color
 }
 ```
@@ -149,12 +167,20 @@ diagram "Colored Flows" {
       { "id": "C", "label": "Mixed", "color": "#9b59b6" }
     ],
     "links": [
-      { "source": "A", "target": "C", "value": 60, "color": "#e74c3c" },
-      { "source": "B", "target": "C", "value": 40, "color": "#3498db" }
+      { "source": "A", "target": "C", "value": 60, "color": "#e74c3c", "label": "Hot" },
+      { "source": "B", "target": "C", "value": 40, "color": "#3498db", "label": "Cold" }
     ]
   }
 }
 ```
+
+### Flow Labels
+
+Add labels to individual links using the `label` field, or enable `showLinkValues` to display numeric values on every flow.
+
+### Theme Integration
+
+Sankey labels and strokes inherit the active diagram theme by default. Use `valueColor` or `linkLabelColor` to override text colors, and set node/link colors explicitly when you need consistent palettes across themes. If you want automatic node/link colors, enable `paletteByLayer` to draw from the active theme palette (or provide a `palette` override).
 
 ### Custom Dimensions
 
@@ -172,6 +198,34 @@ You can specify custom dimensions in your data:
   }
 }
 ```
+
+### Sankey Display Options
+
+You can tune spacing and labeling with optional properties on the data object:
+
+  ```json
+  {
+    "energy": {
+      "nodeWidth": 24,
+      "nodePadding": 24,
+      "flowOpacity": 0.35,
+      "showLinkValues": true,
+      "paletteByLayer": true,
+      "palette": ["#0ea5e9", "#22c55e", "#f59e0b", "#a855f7"],
+      "linkLabelColor": "#1f2937",
+      "valueColor": "#6b7280",
+      "nodes": [...],
+      "links": [...]
+    }
+}
+```
+
+Notes:
+  - `nodeWidth` and `nodePadding` adjust column spacing and vertical separation.
+  - `showLinkValues` renders numeric values on each link.
+  - `paletteByLayer` auto-assigns node/link colors by layer using the active theme palette.
+  - `palette` overrides the theme palette when `paletteByLayer` is enabled.
+  - `linkLabelColor` and `valueColor` override label text colors.
 
 ## Use Cases
 
@@ -373,7 +427,7 @@ The layout algorithm supports cycles, but they can reduce readability. If you ne
 ### Layout Algorithm
 
 1. **Topological Sort**: Assigns nodes to layers (columns) based on dependencies
-2. **Value Calculation**: Computes total flow through each node
+2. **Value Calculation**: Uses the larger of total incoming vs outgoing flow per node
 3. **Vertical Positioning**: Distributes nodes within each layer
 4. **Flow Rendering**: Draws curved paths with widths proportional to values
 
@@ -399,6 +453,7 @@ Flows use SVG `<path>` elements with cubic Bezier curves:
 2. **Fixed Layout**: Nodes are automatically positioned (no manual control)
 3. **Left-to-Right Only**: Flows always go left-to-right
 4. **No Multi-Level**: Doesn't support nested or hierarchical Sankey diagrams
+5. **Dense Labels**: Link labels can overlap in very dense charts
 
 ## Related Diagram Types
 
@@ -758,6 +813,7 @@ interface SankeyLink {
   source: string; // Source node ID
   target: string; // Target node ID
   value: number; // Flow quantity
+  label?: string; // Optional flow label
   color?: string; // Flow color (optional)
 }
 
@@ -765,8 +821,16 @@ interface SankeyData {
   nodes: SankeyNode[];
   links: SankeyLink[];
   width?: number; // Chart width (default: 800)
-  height?: number; // Chart height (default: 600)
-}
+    height?: number; // Chart height (default: 600)
+    nodeWidth?: number; // Node thickness (default: 20)
+    nodePadding?: number; // Vertical spacing between nodes (default: 20)
+    flowOpacity?: number; // Link opacity (default: 0.4)
+    showLinkValues?: boolean; // Render values on links
+    paletteByLayer?: boolean; // Use theme palette colors by layer
+    palette?: string[]; // Optional palette override for layer colors
+    linkLabelColor?: string; // Flow label color override
+    valueColor?: string; // Node value label color override
+  }
 ```
 
 ## Comparison with Other Tools

@@ -162,6 +162,7 @@ Customer -> Order
 - `link:"/url"`
 - `tooltip:"text"`
 - `data:[values]`
+- `from:datasourceKey`
 - `showLegend:true`
 - `showMetrics:true` - Display graph metric badge
 - `metricType:degree` - Metric to display (degree, betweenness, closeness, clustering)

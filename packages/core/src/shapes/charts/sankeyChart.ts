@@ -86,6 +86,17 @@ export const sankeyNode: ShapeDefinition = {
   },
 };
 
+const DEFAULT_PALETTE = [
+  '#4299e1', // blue
+  '#48bb78', // green
+  '#ed8936', // orange
+  '#9f7aea', // purple
+  '#f56565', // red
+  '#38b2ac', // teal
+  '#ed64a6', // pink
+  '#ecc94b', // yellow
+];
+
 /**
  * Full Sankey diagram shape - renders complete diagram with nodes and flows
  * Data format:
@@ -156,7 +167,7 @@ export const sankeyChart: ShapeDefinition = {
       | Array<{ id: string; label?: string; color?: string }>
       | undefined;
     const links = sankeyData?.links as
-      | Array<{ source: string; target: string; value: number; color?: string }>
+      | Array<{ source: string; target: string; value: number; color?: string; label?: string }>
       | undefined;
 
     if (!nodes || nodes.length === 0) {
@@ -174,15 +185,71 @@ export const sankeyChart: ShapeDefinition = {
     const width = bounds.width;
     const height = bounds.height;
 
+    const labelColor =
+      (ctx.style && typeof ctx.style.color === 'string' && ctx.style.color) ||
+      '#333';
+    const valueColor =
+      (sankeyData &&
+        typeof sankeyData === 'object' &&
+        typeof (sankeyData as any).valueColor === 'string' &&
+        (sankeyData as any).valueColor) ||
+      '#64748b';
+    const nodeStroke =
+      (ctx.style && typeof ctx.style.stroke === 'string' && ctx.style.stroke) ||
+      '#333';
+    const nodeWidth =
+      (sankeyData &&
+        typeof sankeyData === 'object' &&
+        typeof (sankeyData as any).nodeWidth === 'number' &&
+        (sankeyData as any).nodeWidth) ||
+      20;
+    const nodePadding =
+      (sankeyData &&
+        typeof sankeyData === 'object' &&
+        typeof (sankeyData as any).nodePadding === 'number' &&
+        (sankeyData as any).nodePadding) ||
+      20;
+    const flowOpacity =
+      (sankeyData &&
+        typeof sankeyData === 'object' &&
+        typeof (sankeyData as any).flowOpacity === 'number' &&
+        (sankeyData as any).flowOpacity) ||
+      0.4;
+    const paletteByLayer =
+      sankeyData &&
+      typeof sankeyData === 'object' &&
+      (sankeyData as any).paletteByLayer === true;
+    const showLinkValues = !!(
+      sankeyData &&
+      typeof sankeyData === 'object' &&
+      (sankeyData as any).showLinkValues === true
+    );
+    const linkLabelColor =
+      (sankeyData &&
+        typeof sankeyData === 'object' &&
+        typeof (sankeyData as any).linkLabelColor === 'string' &&
+        (sankeyData as any).linkLabelColor) ||
+      labelColor;
+    const defaultLinkColor =
+      (ctx.style && typeof ctx.style.stroke === 'string' && ctx.style.stroke) ||
+      '#4a90e2';
+    const palette =
+      (sankeyData &&
+        typeof sankeyData === 'object' &&
+        Array.isArray((sankeyData as any).palette) &&
+        (sankeyData as any).palette) ||
+      (ctx.node.data &&
+        Array.isArray((ctx.node.data as any).themePalette) &&
+        (ctx.node.data as any).themePalette) ||
+      DEFAULT_PALETTE;
+
     // If no links, just render nodes in a single column
     if (!links || links.length === 0) {
       const nodePositions = new Map<
         string,
         { x: number; y: number; width: number; height: number }
       >();
-      const nodeWidth = 20;
       const nodeHeight = 80;
-      const nodePadding = 20;
 
       let currentY = (height - nodes.length * (nodeHeight + nodePadding)) / 2;
       for (const node of nodes) {
@@ -200,7 +267,17 @@ export const sankeyChart: ShapeDefinition = {
         nodeValues.set(node.id, 0);
       }
 
-      const nodeElements = renderNodes(nodes, nodePositions, nodeValues, x, y);
+      const nodeElements = renderNodes(
+        nodes,
+        nodePositions,
+        nodeValues,
+        x,
+        y,
+        nodeStroke,
+        labelColor,
+        valueColor,
+        paletteByLayer ? assignSequentialColors(nodes, palette) : undefined
+      );
       return `<g>${nodeElements}</g>`;
     }
 
@@ -218,16 +295,47 @@ export const sankeyChart: ShapeDefinition = {
       nodeValues,
       numLayers,
       width,
-      height
+      height,
+      nodeWidth,
+      nodePadding
     );
 
     // Render flows (links) first so they appear behind nodes
-    const flows = renderFlows(links, nodePositions, x, y);
+    const layerColors = paletteByLayer
+      ? assignLayerColors(nodes, nodeLayers, palette)
+      : undefined;
+    const { svg: flows, missingNodeIds } = renderFlows(
+      links,
+      nodePositions,
+      x,
+      y,
+      defaultLinkColor,
+      flowOpacity,
+      showLinkValues,
+      linkLabelColor,
+      layerColors
+    );
 
     // Render nodes
-    const nodeElements = renderNodes(nodes, nodePositions, nodeValues, x, y);
+    const nodeElements = renderNodes(
+      nodes,
+      nodePositions,
+      nodeValues,
+      x,
+      y,
+      nodeStroke,
+      labelColor,
+      valueColor,
+      layerColors
+    );
 
-    return `<g>${flows}${nodeElements}</g>`;
+    const warnings = missingNodeIds.size
+      ? `<text x="${x + 8}" y="${y + 16}" font-size="12" font-family="sans-serif" fill="#ef4444">Missing Sankey nodes: ${Array.from(
+          missingNodeIds
+        ).join(', ')}</text>`
+      : '';
+
+    return `<g>${flows}${nodeElements}${warnings}</g>`;
   },
 };
 
@@ -299,18 +407,25 @@ function calculateNodeValues(
   nodes: Array<{ id: string }>,
   links: Array<{ source: string; target: string; value: number }>
 ): Map<string, number> {
+  const incoming = new Map<string, number>();
+  const outgoing = new Map<string, number>();
   const values = new Map<string, number>();
 
   for (const node of nodes) {
+    incoming.set(node.id, 0);
+    outgoing.set(node.id, 0);
     values.set(node.id, 0);
   }
 
   for (const link of links) {
-    // Use maximum of incoming and outgoing flows
-    const sourceVal = values.get(link.source) || 0;
-    const targetVal = values.get(link.target) || 0;
-    values.set(link.source, Math.max(sourceVal, link.value));
-    values.set(link.target, Math.max(targetVal, link.value));
+    incoming.set(link.target, (incoming.get(link.target) || 0) + link.value);
+    outgoing.set(link.source, (outgoing.get(link.source) || 0) + link.value);
+  }
+
+  for (const node of nodes) {
+    const totalIn = incoming.get(node.id) || 0;
+    const totalOut = outgoing.get(node.id) || 0;
+    values.set(node.id, Math.max(totalIn, totalOut));
   }
 
   return values;
@@ -325,14 +440,14 @@ function calculateNodePositions(
   values: Map<string, number>,
   numLayers: number,
   width: number,
-  height: number
+  height: number,
+  nodeWidth: number,
+  nodePadding: number
 ): Map<string, { x: number; y: number; width: number; height: number }> {
   const positions = new Map<
     string,
     { x: number; y: number; width: number; height: number }
   >();
-  const nodeWidth = 20;
-  const nodePadding = 20;
   const layerWidth = (width - nodeWidth) / (numLayers - 1 || 1);
 
   // Group nodes by layer
@@ -381,22 +496,37 @@ function renderFlows(
     target: string;
     value: number;
     color?: string;
+    label?: string;
   }>,
   positions: Map<
     string,
     { x: number; y: number; width: number; height: number }
   >,
   offsetX: number,
-  offsetY: number
-): string {
+  offsetY: number,
+  defaultColor: string,
+  opacity: number,
+  showLinkValues: boolean,
+  labelColor: string,
+  layerColors?: Map<string, string>
+): { svg: string; missingNodeIds: Set<string> } {
   const maxValue = Math.max(...links.map((l) => l.value));
+  const missingNodeIds = new Set<string>();
 
-  return links
+  const svg = links
     .map((link) => {
       const source = positions.get(link.source);
       const target = positions.get(link.target);
 
-      if (!source || !target) return '';
+      if (!source || !target) {
+        if (!source) {
+          missingNodeIds.add(link.source);
+        }
+        if (!target) {
+          missingNodeIds.add(link.target);
+        }
+        return '';
+      }
 
       const flowWidth = Math.max((link.value / maxValue) * 80, 2);
 
@@ -416,12 +546,26 @@ function renderFlows(
       const topPath = `M ${x1} ${y1 - flowWidth / 2} C ${cx1} ${y1 - flowWidth / 2}, ${cx2} ${y2 - flowWidth / 2}, ${x2} ${y2 - flowWidth / 2}`;
       const bottomPath = `L ${x2} ${y2 + flowWidth / 2} C ${cx2} ${y2 + flowWidth / 2}, ${cx1} ${y1 + flowWidth / 2}, ${x1} ${y1 + flowWidth / 2} Z`;
 
-      const color = link.color || '#4a90e2';
-      const opacity = 0.4;
+        const color =
+          link.color ||
+          (layerColors ? layerColors.get(link.source) : undefined) ||
+          defaultColor;
 
-      return `<path d="${topPath} ${bottomPath}" fill="${color}" opacity="${opacity}" stroke="none" />`;
+      let labelMarkup = '';
+      const label = link.label;
+      if (label || showLinkValues) {
+        const valueLabel = showLinkValues ? link.value.toFixed(0) : '';
+        const labelText = label && showLinkValues ? `${label} (${valueLabel})` : label || valueLabel;
+        const labelX = x1 + (x2 - x1) * 0.5;
+        const labelY = y1 + (y2 - y1) * 0.5;
+        labelMarkup = `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="middle" font-size="11" font-family="sans-serif" fill="${labelColor}">${labelText}</text>`;
+      }
+
+      return `<path d="${topPath} ${bottomPath}" fill="${color}" opacity="${opacity}" stroke="none" />${labelMarkup}`;
     })
     .join('\n');
+
+  return { svg, missingNodeIds };
 }
 
 /**
@@ -435,7 +579,11 @@ function renderNodes(
   >,
   values: Map<string, number>,
   offsetX: number,
-  offsetY: number
+  offsetY: number,
+  strokeColor: string,
+  labelColor: string,
+  valueColor: string,
+  layerColors?: Map<string, string>
 ): string {
   return nodes
     .map((node) => {
@@ -444,26 +592,59 @@ function renderNodes(
 
       const x = offsetX + pos.x;
       const y = offsetY + pos.y;
-      const color = node.color || '#4a90e2';
+        const color =
+          node.color ||
+          (layerColors ? layerColors.get(node.id) : undefined) ||
+          '#4a90e2';
       const label = node.label || node.id;
       const value = values.get(node.id) || 0;
 
       return `
         <rect x="${x}" y="${y}" width="${pos.width}" height="${pos.height}"
-              fill="${color}" stroke="#333" stroke-width="1" rx="2" />
+              fill="${color}" stroke="${strokeColor}" stroke-width="1" rx="2" />
         
         <text x="${x + pos.width + 8}" y="${y + pos.height / 2}" 
               text-anchor="start" dominant-baseline="middle"
-              font-size="12" fill="#333" font-weight="500">
+              font-size="12" fill="${labelColor}" font-weight="500">
           ${label}
         </text>
         
         <text x="${x + pos.width + 8}" y="${y + pos.height / 2 + 14}" 
               text-anchor="start" dominant-baseline="middle"
-              font-size="10" fill="#666">
+              font-size="10" fill="${valueColor}">
           ${value.toFixed(0)}
         </text>
       `;
-    })
-    .join('\n');
+      })
+      .join('\n');
+}
+
+function assignLayerColors(
+  nodes: Array<{ id: string }>,
+  layers: Map<string, number>,
+  palette: string[]
+): Map<string, string> {
+  const colors = new Map<string, string>();
+  const paletteSize = palette.length || 1;
+
+  for (const node of nodes) {
+    const layer = layers.get(node.id) ?? 0;
+    colors.set(node.id, palette[layer % paletteSize]);
+  }
+
+  return colors;
+}
+
+function assignSequentialColors(
+  nodes: Array<{ id: string }>,
+  palette: string[]
+): Map<string, string> {
+  const colors = new Map<string, string>();
+  const paletteSize = palette.length || 1;
+
+  nodes.forEach((node, index) => {
+    colors.set(node.id, palette[index % paletteSize]);
+  });
+
+  return colors;
 }

@@ -99,6 +99,7 @@
 
 	let selectedProfile = $state<string | null>(null);
 	let searchQuery = $state('');
+	let globalSearchQuery = $state('');
 
 	// Get categories for selected profile
 	let displayedCategories = $derived.by(() => {
@@ -124,14 +125,32 @@
 			.filter((cat) => cat.samples.length > 0);
 	});
 
+	// Global search across all categories
+	let globalFilteredCategories = $derived.by(() => {
+		if (!globalSearchQuery.trim()) return [];
+		const query = globalSearchQuery.toLowerCase();
+		return categories
+			.map((cat) => ({
+				...cat,
+				samples: cat.samples.filter(
+					(sample) =>
+						sample.name.toLowerCase().includes(query) ||
+						sample.description.toLowerCase().includes(query)
+				)
+			}))
+			.filter((cat) => cat.samples.length > 0);
+	});
+
 	function selectProfile(profileId: string) {
 		selectedProfile = profileId;
 		searchQuery = '';
+		globalSearchQuery = '';
 	}
 
 	function goBack() {
 		selectedProfile = null;
 		searchQuery = '';
+		globalSearchQuery = '';
 	}
 
 	function handleInsertSample(code: string, data?: string) {
@@ -173,6 +192,62 @@
 		</Dialog.Header>
 
 		{#if !selectedProfile}
+			<div class="flex items-center gap-3 py-2">
+				<div class="relative flex-1">
+					<Icon
+						icon="lucide:search"
+						width="16"
+						height="16"
+						class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400"
+					/>
+					<input
+						type="text"
+						bind:value={globalSearchQuery}
+						placeholder="Search all samples..."
+						class="w-full rounded-md border border-neutral-300 py-2 pr-9 pl-9 text-sm focus:border-runiq-500 focus:ring-1 focus:ring-runiq-500 focus:outline-none"
+					/>
+					{#if globalSearchQuery}
+						<button
+							onclick={() => (globalSearchQuery = '')}
+							class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+						>
+							<Icon icon="lucide:x" class="h-4 w-4" />
+						</button>
+					{/if}
+				</div>
+			</div>
+
+			{#if globalFilteredCategories.length > 0}
+				<div class="max-h-[520px] space-y-4 overflow-auto py-2">
+					{#each globalFilteredCategories as category}
+						<div>
+							<h4 class="mb-2 px-1 text-sm font-semibold text-neutral-700">
+								{category.label}
+								<span class="ml-1 text-xs font-normal text-neutral-500"
+									>({category.samples.length})</span
+								>
+							</h4>
+							<div class="grid gap-2 sm:grid-cols-2">
+								{#each category.samples as sample}
+									<button
+										onclick={() => handleInsertSample(sample.code, sample.data)}
+										class="flex cursor-pointer flex-col rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-300 hover:bg-runiq-50"
+									>
+										<p class="text-sm font-medium text-neutral-900">{sample.name}</p>
+										<p class="mt-1 text-xs text-neutral-600">{sample.description}</p>
+									</button>
+								{/each}
+							</div>
+						</div>
+					{/each}
+				</div>
+			{:else if globalSearchQuery.trim().length > 0}
+				<div class="flex flex-col items-center justify-center py-12 text-center">
+					<Icon icon="lucide:file-text" width="48" height="48" class="mb-3 text-neutral-300" />
+					<p class="text-sm text-neutral-600">No samples found</p>
+					<p class="mt-1 text-xs text-neutral-500">Try a different search term</p>
+				</div>
+			{:else}
 			<!-- Profile Grid View -->
 			<div class="grid grid-cols-2 gap-4 py-4 sm:grid-cols-3">
 				{#each profileGroups as profile}
@@ -203,6 +278,7 @@
 					</button>
 				{/each}
 			</div>
+			{/if}
 		{:else}
 			<!-- Sample List View -->
 			<div class="flex flex-col gap-4 py-4">

@@ -29,6 +29,7 @@ import {
 import { renderDigital, renderSchematic } from '@runiq/renderer-schematic';
 import { Command } from 'commander';
 import { promises as fs } from 'fs';
+import path from 'path';
 
 // Register default providers
 registerDefaultShapes();
@@ -68,6 +69,334 @@ function extractDiagramFromParseResult(result: ParseResult): DiagramAst | null {
   };
 
   return ast;
+}
+
+function normalizeDataSourceOptions(
+  options?: Array<{ name: string; value: string | number | boolean }>
+): Record<string, unknown> {
+  const normalized: Record<string, unknown> = {};
+  if (!options) return normalized;
+  for (const option of options) {
+    normalized[option.name] = option.value;
+  }
+  return normalized;
+}
+
+function parseCsvRows(content: string, delimiter: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < content.length; i++) {
+    const char = content[i];
+    const next = content[i + 1];
+
+    if (char === '"') {
+      if (inQuotes && next === '"') {
+        current += '"';
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (!inQuotes && char === delimiter) {
+      row.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    if (!inQuotes && (char === '\n' || char === '\r')) {
+      if (char === '\r' && next === '\n') {
+        i += 1;
+      }
+      row.push(current.trim());
+      if (row.some((cell) => cell.length > 0)) {
+        rows.push(row);
+      }
+      row = [];
+      current = '';
+      continue;
+    }
+
+    current += char;
+  }
+
+  if (current.length > 0 || row.length > 0) {
+    row.push(current.trim());
+    if (row.some((cell) => cell.length > 0)) {
+      rows.push(row);
+    }
+  }
+
+  return rows;
+}
+
+function parseCsvToObjects(
+  content: string,
+  options: Record<string, unknown>
+): Array<Record<string, unknown>> {
+  const delimiter =
+    (typeof options.sep === 'string' && options.sep) ||
+    (typeof options.delimiter === 'string' && options.delimiter) ||
+    ',';
+  const hasHeader =
+    (options.hasHeader === undefined ? options.header : options.hasHeader) ??
+    true;
+
+  const rows = parseCsvRows(content, delimiter);
+  if (rows.length === 0) {
+    return [];
+  }
+
+  if (hasHeader) {
+    const headers = rows[0].map((h) => h.trim());
+    return rows.slice(1).map((row) => {
+      const obj: Record<string, unknown> = {};
+      headers.forEach((header, index) => {
+        const value = row[index] ?? '';
+        const numberValue = Number(value);
+        obj[header] = Number.isNaN(numberValue) ? value : numberValue;
+      });
+      return obj;
+    });
+  }
+
+  return rows.map((row, index) => ({
+    index: index + 1,
+    values: row,
+  }));
+}
+
+function extractChartValues(
+  data: unknown
+): { values: unknown[]; labels?: string[] } | null {
+  if (Array.isArray(data)) {
+    if (data.length === 0) {
+      return { values: [] };
+    }
+
+    if (typeof data[0] === 'object' && data[0] !== null) {
+      const firstObj = data[0] as Record<string, unknown>;
+      const keys = Object.keys(firstObj);
+      const numericKey = keys.find((k) => typeof firstObj[k] === 'number');
+      const labelKey = keys.find((k) => typeof firstObj[k] === 'string');
+
+      if (numericKey) {
+        const values = data.map((item: any) => item[numericKey]);
+        const labels =
+          labelKey !== undefined
+            ? data.map((item: any) => item[labelKey])
+            : undefined;
+        return { values, labels };
+      }
+    }
+
+    return { values: data };
+  }
+
+  if (data && typeof data === 'object') {
+    const obj = data as Record<string, unknown>;
+    if (Array.isArray(obj.values)) {
+      return {
+        values: obj.values,
+        labels: Array.isArray(obj.labels) ? obj.labels : undefined,
+      };
+    }
+    const firstKey = Object.keys(obj)[0];
+    if (firstKey && Array.isArray(obj[firstKey])) {
+      return extractChartValues(obj[firstKey]);
+    }
+  }
+
+  return null;
+}
+
+function buildSankeyDataFromRows(
+  rows: Array<Record<string, unknown>>
+): Record<string, unknown> | null {
+  if (rows.length === 0) {
+    return { nodes: [], links: [] };
+  }
+
+  const links: Array<Record<string, unknown>> = [];
+  const nodes = new Map<string, { id: string; label?: string; color?: string }>();
+
+  for (const row of rows) {
+    const rowLower: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(row)) {
+      rowLower[key.toLowerCase()] = value;
+    }
+
+    const source = String(rowLower.source ?? rowLower.from ?? '');
+    const target = String(rowLower.target ?? rowLower.to ?? '');
+    const valueRaw = rowLower.value ?? rowLower.amount ?? rowLower.size;
+    const value = Number(valueRaw);
+
+    if (!source || !target || Number.isNaN(value)) {
+      return null;
+    }
+
+    const link: Record<string, unknown> = {
+      source,
+      target,
+      value,
+    };
+
+    if (rowLower.label || rowLower.linklabel) {
+      link.label = String(rowLower.label ?? rowLower.linklabel);
+    }
+    if (rowLower.color || rowLower.linkcolor) {
+      link.color = String(rowLower.color ?? rowLower.linkcolor);
+    }
+
+    links.push(link);
+
+    const sourceLabel = rowLower.sourcelabel ? String(rowLower.sourcelabel) : undefined;
+    const targetLabel = rowLower.targetlabel ? String(rowLower.targetlabel) : undefined;
+    const sourceColor = rowLower.sourcecolor ? String(rowLower.sourcecolor) : undefined;
+    const targetColor = rowLower.targetcolor ? String(rowLower.targetcolor) : undefined;
+
+    if (!nodes.has(source)) {
+      nodes.set(source, { id: source, label: sourceLabel, color: sourceColor });
+    }
+    if (!nodes.has(target)) {
+      nodes.set(target, { id: target, label: targetLabel, color: targetColor });
+    }
+  }
+
+  return { nodes: Array.from(nodes.values()), links };
+}
+
+function normalizeSankeyData(data: unknown): Record<string, unknown> | null {
+  if (!data) return null;
+
+  if (Array.isArray(data)) {
+    return buildSankeyDataFromRows(data as Array<Record<string, unknown>>);
+  }
+
+  if (typeof data === 'object') {
+    const obj = data as Record<string, unknown>;
+    const nodes = obj.nodes;
+    const links = obj.links;
+
+    if (Array.isArray(links)) {
+      const sanitizedLinks = links
+        .map((link: any) => ({
+          ...link,
+          value: Number(link.value),
+        }))
+        .filter((link: any) => link.source && link.target && !Number.isNaN(link.value));
+
+      const normalizedNodes = Array.isArray(nodes)
+        ? nodes
+        : Array.from(
+            new Set(
+              sanitizedLinks
+                .flatMap((link: any) => [link.source, link.target])
+                .filter(Boolean)
+            )
+          ).map((id) => ({ id }));
+
+      return { ...obj, nodes: normalizedNodes, links: sanitizedLinks };
+    }
+  }
+
+  return null;
+}
+
+async function resolveDataSourcesForDiagram(
+  profile: any,
+  baseDir: string,
+  warnings: string[]
+): Promise<void> {
+  const sources = profile?.dataSources;
+  if (!Array.isArray(sources) || !Array.isArray(profile.nodes)) {
+    return;
+  }
+
+  const chartShapes = new Set([
+    'lineChart',
+    'radarChart',
+    'pieChart',
+    'barChart',
+    'pyramidShape',
+    'venn2Shape',
+    'venn3Shape',
+    'sankeyChart',
+  ]);
+
+  const resolved = new Map<string, unknown>();
+
+  for (const source of sources) {
+    const format = source.format;
+    const key = source.key;
+    const src = source.source;
+    const options = normalizeDataSourceOptions(source.options);
+
+    if (!format || !key || !src) continue;
+
+    try {
+      if (format === 'json') {
+        let content = src;
+        if (!src.trim().startsWith('{') && !src.trim().startsWith('[')) {
+          const fullPath = path.resolve(baseDir, src);
+          content = await fs.readFile(fullPath, 'utf-8');
+        }
+        resolved.set(key, JSON.parse(content));
+      } else if (format === 'csv') {
+        let content = src;
+        const looksInline =
+          src.includes('\n') || src.includes('\r') || src.includes(',');
+        if (!looksInline) {
+          const fullPath = path.resolve(baseDir, src);
+          content = await fs.readFile(fullPath, 'utf-8');
+        }
+        resolved.set(key, parseCsvToObjects(content, options));
+      } else {
+        warnings.push(`Datasource "${key}" uses unsupported format "${format}".`);
+      }
+    } catch (error) {
+      warnings.push(
+        `Failed to load datasource "${key}": ${
+          error instanceof Error ? error.message : 'unknown error'
+        }`
+      );
+    }
+  }
+
+  for (const node of profile.nodes) {
+    if (!node.dataSource || !chartShapes.has(node.shape)) continue;
+    const data = resolved.get(node.dataSource);
+    if (!data) {
+      warnings.push(`Datasource "${node.dataSource}" not found for shape "${node.id}".`);
+      continue;
+    }
+
+    if (node.shape === 'sankeyChart') {
+      const sankeyData = normalizeSankeyData(data);
+      if (!sankeyData) {
+        warnings.push(`Datasource "${node.dataSource}" does not match Sankey data format.`);
+        continue;
+      }
+      node.data = { ...(node.data || {}), ...sankeyData };
+      continue;
+    }
+
+    const chartData = extractChartValues(data);
+    if (!chartData) {
+      warnings.push(`Datasource "${node.dataSource}" could not map to chart values.`);
+      continue;
+    }
+
+    node.data = {
+      ...(node.data || {}),
+      values: chartData.values,
+      labels: chartData.labels ?? node.data?.labels,
+    };
+  }
 }
 
 const program = new Command();
@@ -119,6 +448,20 @@ program
         const profile = result.document?.profiles?.[0];
         renderProfileType = profile?.type ?? null;
         nonDiagramProfile = profile ?? null;
+
+        const dataSourceWarnings: string[] = [];
+        if (profile?.type === ProfileType.DIAGRAM) {
+          await resolveDataSourcesForDiagram(
+            profile,
+            path.dirname(input),
+            dataSourceWarnings
+          );
+        }
+
+        if (dataSourceWarnings.length > 0) {
+          console.warn('Datasource warnings:');
+          dataSourceWarnings.forEach((w) => console.warn(`  ${w}`));
+        }
 
         if (renderProfileType === ProfileType.DIAGRAM) {
           ast = extractDiagramFromParseResult(result);

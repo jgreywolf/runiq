@@ -103,6 +103,17 @@ m3,Error Rate,12,error
 - `sep`: Column separator (default: `,`)
 - `hasHeader`: First row contains headers (default: `true`)
 
+## Charts Using Data Sources
+
+Chart shapes can bind to a datasource directly in the DSL:
+
+```runiq
+diagram "Metrics" {
+  datasource "csv" key:metrics from:"id,label,value\nm1,Latency,120\nm2,Errors,30"
+  shape chart as @barChart from:metrics label:"Service Metrics"
+}
+```
+
 ## Template Syntax
 
 ### Variable Substitution
