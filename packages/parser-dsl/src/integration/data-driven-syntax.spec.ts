@@ -77,6 +77,22 @@ describe('Data-Driven Syntax', () => {
       const result = parse(input);
       expect(result.errors).toHaveLength(0);
     });
+
+    it('parses chart shape with data source reference', () => {
+      const input = `
+        diagram "test" {
+          datasource "csv" key:metrics from:"id,label,value\\nm1,Sales,120"
+          shape sales as @barChart from:metrics
+        }
+      `;
+      const result = parse(input);
+      expect(result.success).toBe(true);
+      expect(result.errors).toHaveLength(0);
+
+      const profile = result.document!.profiles[0] as any;
+      expect(profile.nodes).toHaveLength(1);
+      expect(profile.nodes[0].dataSource).toBe('metrics');
+    });
   });
 
   describe('ForEachBlock', () => {

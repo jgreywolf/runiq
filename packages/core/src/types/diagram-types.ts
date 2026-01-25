@@ -63,6 +63,8 @@ export interface NodeAst {
         [k: string]: unknown;
       }
     | Record<string, unknown>;
+  // Optional data source key for data-driven shapes
+  dataSource?: string;
 }
 
 export interface EdgeAst {

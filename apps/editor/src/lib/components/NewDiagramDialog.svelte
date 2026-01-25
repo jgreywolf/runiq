@@ -18,7 +18,7 @@
 </script>
 
 <Dialog.Root bind:open>
-	<Dialog.Content class="bg-white sm:max-w-md">
+	<Dialog.Content class="bg-white sm:max-w-3xl">
 		<Dialog.Header>
 			<Dialog.Title class="text-neutral-900">Create New Diagram</Dialog.Title>
 			<Dialog.Description class="text-neutral-600"
@@ -26,7 +26,7 @@
 			>
 		</Dialog.Header>
 
-		<div class="grid grid-cols-2 gap-4 py-4">
+		<div class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto py-4 sm:grid-cols-3">
 			<!-- Regular Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.diagram)}

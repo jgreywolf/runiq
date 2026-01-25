@@ -32,6 +32,17 @@ See the [Shape Reference - Chart Shapes](/reference/shapes#_7-chart-shapes-7-sha
 > shape chart as @barChart label:"Revenue" data:[120, 150, 180] flipAxes:true
 > ```
 
+### Data Sources in DSL
+
+You can declare inline JSON or CSV data sources in the DSL and bind them to chart shapes:
+
+```runiq
+diagram "Sales Metrics" {
+  datasource "csv" key:metrics from:"id,label,value\nm1,Q1,120\nm2,Q2,150"
+  shape sales as @barChart label:"Quarterly Sales" from:metrics
+}
+```
+
 ## Pie Charts ⭐
 
 Pie charts visualize proportional data as colored slices. Supports custom labels, colors, legends, and titles.

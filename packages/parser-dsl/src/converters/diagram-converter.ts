@@ -257,6 +257,8 @@ function processNodeProperties(
       node.tooltip = prop.text.replace(/^"|"$/g, '');
     } else if (Langium.isDataProperty(prop)) {
       node.data = convertDataProperty(prop);
+    } else if (Langium.isDataSourceRefProperty(prop)) {
+      node.dataSource = unescapeString(prop.source);
     } else if (Langium.isShowLegendProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.showLegend = prop.value === 'true';

@@ -1589,6 +1589,21 @@ export function isDataSourceOption(item: unknown): item is DataSourceOption {
     return reflection.isInstance(item, DataSourceOption.$type);
 }
 
+export interface DataSourceRefProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'DataSourceRefProperty';
+    source: DiagramIdentifier;
+}
+
+export const DataSourceRefProperty = {
+    $type: 'DataSourceRefProperty',
+    source: 'source'
+} as const;
+
+export function isDataSourceRefProperty(item: unknown): item is DataSourceRefProperty {
+    return reflection.isInstance(item, DataSourceRefProperty.$type);
+}
+
 export interface DataValue extends langium.AstNode {
     readonly $container: DataProperty;
     readonly $type: 'DataValue';
@@ -3898,7 +3913,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -6915,6 +6930,7 @@ export type RuniqAstType = {
     DataProperty: DataProperty
     DataSourceDeclaration: DataSourceDeclaration
     DataSourceOption: DataSourceOption
+    DataSourceRefProperty: DataSourceRefProperty
     DataValue: DataValue
     DeceasedProperty: DeceasedProperty
     DiagramProfile: DiagramProfile
@@ -7827,6 +7843,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: []
+        },
+        DataSourceRefProperty: {
+            name: DataSourceRefProperty.$type,
+            properties: {
+                source: {
+                    name: DataSourceRefProperty.source
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         DataValue: {
             name: DataValue.$type,

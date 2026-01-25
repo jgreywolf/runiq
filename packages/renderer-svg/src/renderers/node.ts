@@ -139,8 +139,17 @@ export function renderNode(
     return renderLabelWithIcons(label, x, y, labelStyle, warnings);
   };
 
+  const renderNodeAst =
+    nodeAst.data && typeof nodeAst.data === 'object'
+      ? { ...nodeAst, data: { ...nodeAst.data } }
+      : { ...nodeAst, data: {} };
+
+  if (theme && nodeAst.shape === 'sankeyChart') {
+    (renderNodeAst.data as any).themePalette = theme.nodeColors;
+  }
+
   let nodeMarkup = shapeImpl.render(
-    { node: nodeAst as any, style, measureText, renderLabel },
+    { node: renderNodeAst as any, style, measureText, renderLabel },
     { x: positioned.x, y: positioned.y }
   );
 

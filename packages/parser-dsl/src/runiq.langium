@@ -1171,6 +1171,7 @@ NodeProperty:
     | LinkProperty
     | TooltipProperty
     | DataProperty
+    | DataSourceRefProperty
     | LabelsProperty
     | ShowLegendProperty
     | ShowValuesProperty
@@ -1444,6 +1445,9 @@ StringArray:
 
 DataProperty:
     'data:' '[' (items+=DataItem (',' items+=DataItem)*)? ']';
+
+DataSourceRefProperty:
+    'from:' source=DiagramIdentifier;
 
 DataItem:
     DataObject | DataValue;
