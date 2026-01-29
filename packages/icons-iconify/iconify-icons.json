@@ -1,0 +1,35 @@
+{
+  "collections": {
+    "simple-icons": {
+      "package": "@iconify-json/simple-icons"
+    },
+    "logos": {
+      "package": "@iconify-json/logos"
+    }
+  },
+  "icons": [
+    { "id": "cloud:aws", "collection": "simple-icons", "icon": "amazonwebservices" },
+    { "id": "cloud:aws-ec2", "collection": "simple-icons", "icon": "amazonec2" },
+    { "id": "cloud:aws-s3", "collection": "simple-icons", "icon": "amazons3" },
+    { "id": "cloud:aws-lambda", "collection": "simple-icons", "icon": "awslambda" },
+    { "id": "cloud:aws-rds", "collection": "simple-icons", "icon": "amazonrds" },
+    { "id": "cloud:aws-apigateway", "collection": "simple-icons", "icon": "amazonapigateway" },
+    { "id": "cloud:aws-cloudwatch", "collection": "simple-icons", "icon": "amazoncloudwatch" },
+    { "id": "cloud:aws-dynamodb", "collection": "simple-icons", "icon": "amazondynamodb" },
+    { "id": "cloud:aws-ecs", "collection": "simple-icons", "icon": "amazonecs" },
+    { "id": "cloud:aws-eks", "collection": "simple-icons", "icon": "amazoneks" },
+    { "id": "cloud:aws-elasticache", "collection": "simple-icons", "icon": "amazonelasticache" },
+    { "id": "cloud:aws-iam", "collection": "simple-icons", "icon": "amazoniam" },
+    { "id": "cloud:aws-route53", "collection": "simple-icons", "icon": "amazonroute53" },
+    { "id": "cloud:aws-sqs", "collection": "simple-icons", "icon": "amazonsqs" },
+    { "id": "cloud:azure", "collection": "simple-icons", "icon": "microsoftazure" },
+    { "id": "cloud:azure-vm", "collection": "simple-icons", "icon": "microsoftazure" },
+    { "id": "cloud:azure-storage", "collection": "simple-icons", "icon": "microsoftazure" },
+    { "id": "cloud:azure-functions", "collection": "simple-icons", "icon": "azurefunctions" },
+    { "id": "cloud:gcp", "collection": "simple-icons", "icon": "googlecloud" },
+    { "id": "cloud:gcp-compute", "collection": "simple-icons", "icon": "googlecloud" },
+    { "id": "cloud:gcp-storage", "collection": "simple-icons", "icon": "googlecloudstorage" },
+    { "id": "cloud:gcp-functions", "collection": "simple-icons", "icon": "googlecloud" },
+    { "id": "cloud:gcp-spanner", "collection": "simple-icons", "icon": "googlecloudspanner" }
+  ]
+}

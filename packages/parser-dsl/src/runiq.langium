@@ -1163,16 +1163,18 @@ ShapeIdentifier returns string:
     | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
     | 'db' | 'pill' | 'circle' | 'person';
 
-NodeProperty:
-    LabelProperty
-    | PositionProperty
-    | StyleRefProperty
-    | IconProperty
-    | LinkProperty
-    | TooltipProperty
-    | DataProperty
-    | DataSourceRefProperty
-    | LabelsProperty
+  NodeProperty:
+      LabelProperty
+      | PositionProperty
+      | StyleRefProperty
+      | IconProperty
+      | IconColorProperty
+      | IconSizeProperty
+      | LinkProperty
+      | TooltipProperty
+      | DataProperty
+      | DataSourceRefProperty
+      | LabelsProperty
     | ShowLegendProperty
     | ShowValuesProperty
     | LegendPositionProperty
@@ -1228,8 +1230,14 @@ GatewayTypeValue returns string:
 StyleRefProperty:
     'style:' ref=[StyleDeclaration:DiagramIdentifier];
 
-IconProperty:
-    'icon:' provider=ID '/' icon=ID;
+  IconProperty:
+      'icon:' provider=ID '/' icon=ID;
+
+  IconColorProperty:
+      'iconColor:' color=STRING;
+
+  IconSizeProperty:
+      'iconSize:' size=NUMBER;
 
 LinkProperty:
     'link:' url=STRING;

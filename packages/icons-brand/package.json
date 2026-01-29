@@ -1,13 +1,10 @@
 {
-  "name": "@runiq/cli",
+  "name": "@runiq/icons-brand",
   "version": "0.1.0",
-  "description": "Command line interface for Runiq",
+  "description": "Curated brand icon provider for Runiq",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "runiq": "./dist/cli.js"
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -19,7 +16,7 @@
     "src"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc -p tsconfig.build.json",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -29,15 +26,7 @@
   },
   "dependencies": {
     "@runiq/core": "workspace:*",
-    "@runiq/parser-dsl": "workspace:*",
-    "@runiq/io-json": "workspace:*",
-    "@runiq/layout-base": "workspace:*",
-    "@runiq/renderer-schematic": "workspace:*",
-    "@runiq/renderer-svg": "workspace:*",
-    "@runiq/icons-brand": "workspace:*",
-    "@runiq/icons-fontawesome": "workspace:*",
-    "@runiq/icons-iconify": "workspace:*",
-    "commander": "^11.1.0"
+    "@runiq/icons-iconify": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
@@ -46,8 +35,8 @@
     "vitest": "^1.2.2"
   },
   "keywords": [
-    "cli",
-    "diagram",
+    "icons",
+    "brand",
     "svg"
   ],
   "author": "Runiq Team",

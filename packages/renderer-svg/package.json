@@ -38,7 +38,9 @@
   "devDependencies": {
     "@playwright/test": "^1.55.1",
     "@runiq/core": "workspace:*",
+    "@runiq/icons-brand": "workspace:^",
     "@runiq/icons-fontawesome": "workspace:^",
+    "@runiq/icons-iconify": "workspace:^",
     "@runiq/layout-base": "workspace:^",
     "@types/node": "^20.11.0",
     "playwright": "^1.55.1",

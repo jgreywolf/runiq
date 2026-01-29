@@ -249,6 +249,12 @@ function processNodeProperties(
         provider: prop.provider,
         name: prop.icon,
       };
+    } else if (Langium.isIconColorProperty(prop)) {
+      if (!node.data) node.data = {};
+      node.data.iconColor = prop.color.replace(/^"|"$/g, '');
+    } else if (Langium.isIconSizeProperty(prop)) {
+      if (!node.data) node.data = {};
+      node.data.iconSize = parseFloat(prop.size);
     } else if (Langium.isLinkProperty(prop)) {
       node.link = {
         href: prop.url.replace(/^"|"$/g, ''),

@@ -12,7 +12,9 @@ import {
   type DiagramType,
   type WardleyProfile,
 } from '@runiq/core';
+import { brandIcons } from '@runiq/icons-brand';
 import { fontAwesome } from '@runiq/icons-fontawesome';
+import { iconify } from '@runiq/icons-iconify';
 import { astToJson, jsonToAst } from '@runiq/io-json';
 import { ElkLayoutEngine } from '@runiq/layout-base';
 import { parse, type ParseResult } from '@runiq/parser-dsl';
@@ -34,7 +36,9 @@ import path from 'path';
 // Register default providers
 registerDefaultShapes();
 layoutRegistry.register(new ElkLayoutEngine());
+iconRegistry.register(brandIcons);
 iconRegistry.register(fontAwesome);
+iconRegistry.register(iconify);
 
 /**
  * Helper function to extract DiagramProfile from ParseResult

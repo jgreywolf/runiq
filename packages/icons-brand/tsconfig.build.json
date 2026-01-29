@@ -4,17 +4,8 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "declarationMap": true,
-    "declarationDir": "./dist",
     "outDir": "./dist",
     "rootDir": "./src",
     "noEmit": false
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "src/__tests__/**",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts"
-  ]
+  }
 }

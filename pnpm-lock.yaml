@@ -86,9 +86,15 @@ importers:
       '@runiq/glyphsets':
         specifier: workspace:*
         version: link:../../packages/glyphsets
+      '@runiq/icons-brand':
+        specifier: workspace:*
+        version: link:../../packages/icons-brand
       '@runiq/icons-fontawesome':
         specifier: workspace:*
         version: link:../../packages/icons-fontawesome
+      '@runiq/icons-iconify':
+        specifier: workspace:*
+        version: link:../../packages/icons-iconify
       '@runiq/io-json':
         specifier: workspace:*
         version: link:../../packages/io-json
@@ -228,9 +234,15 @@ importers:
       '@runiq/core':
         specifier: workspace:*
         version: link:../core
+      '@runiq/icons-brand':
+        specifier: workspace:*
+        version: link:../icons-brand
       '@runiq/icons-fontawesome':
         specifier: workspace:*
         version: link:../icons-fontawesome
+      '@runiq/icons-iconify':
+        specifier: workspace:*
+        version: link:../icons-iconify
       '@runiq/io-json':
         specifier: workspace:*
         version: link:../io-json
@@ -423,12 +435,59 @@ importers:
         specifier: ^1.2.0
         version: 1.6.1(@types/node@20.19.20)
 
+  packages/icons-brand:
+    dependencies:
+      '@runiq/core':
+        specifier: workspace:*
+        version: link:../core
+      '@runiq/icons-iconify':
+        specifier: workspace:*
+        version: link:../icons-iconify
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.20
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(typescript@5.9.3)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.2
+        version: 1.6.1(@types/node@20.19.20)
+
   packages/icons-fontawesome:
     dependencies:
       '@runiq/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.20
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(typescript@5.9.3)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.2
+        version: 1.6.1(@types/node@20.19.20)
+
+  packages/icons-iconify:
+    dependencies:
+      '@runiq/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@iconify-json/logos':
+        specifier: ^1.2.10
+        version: 1.2.10
+      '@iconify-json/simple-icons':
+        specifier: ^1.2.68
+        version: 1.2.68
       '@types/node':
         specifier: ^20.11.0
         version: 20.19.20
@@ -548,9 +607,15 @@ importers:
       '@runiq/core':
         specifier: workspace:*
         version: link:../core
+      '@runiq/icons-brand':
+        specifier: workspace:^
+        version: link:../icons-brand
       '@runiq/icons-fontawesome':
         specifier: workspace:^
         version: link:../icons-fontawesome
+      '@runiq/icons-iconify':
+        specifier: workspace:^
+        version: link:../icons-iconify
       '@runiq/layout-base':
         specifier: workspace:^
         version: link:../layout-base
@@ -1740,8 +1805,14 @@ packages:
     engines: {node: '>=18.18'}
     dev: true
 
-  /@iconify-json/simple-icons@1.2.54:
-    resolution: {integrity: sha512-OQQYl8yC5j3QklZOYnK31QYe5h47IhyCoxSLd53f0e0nA4dgi8VOZS30SgSAbsecQ+S0xlGJMjXIHTIqZ+ML3w==}
+  /@iconify-json/logos@1.2.10:
+    resolution: {integrity: sha512-qxaXKJ6fu8jzTMPQdHtNxlfx6tBQ0jXRbHZIYy5Ilh8Lx9US9FsAdzZWUR8MXV8PnWTKGDFO4ZZee9VwerCyMA==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/simple-icons@1.2.68:
+    resolution: {integrity: sha512-bQPl1zuZlX6AnofreA1v7J+hoPncrFMppqGboe/SH54jZO37meiBUGBqNOxEpc0HKfZGxJaVVJwZd4gdMYu3hw==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
@@ -6371,7 +6442,7 @@ packages:
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.40.1)(search-insights@2.17.3)
-      '@iconify-json/simple-icons': 1.2.54
+      '@iconify-json/simple-icons': 1.2.68
       '@shikijs/core': 2.5.0
       '@shikijs/transformers': 2.5.0
       '@shikijs/types': 2.5.0

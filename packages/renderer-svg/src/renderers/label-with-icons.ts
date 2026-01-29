@@ -177,15 +177,27 @@ export function renderLabelWithIcons(
       // Approximate text width
       currentX += seg.content.length * (fontSize * 0.6) + iconPadding;
     } else if (seg.type === 'icon' && seg.iconRef) {
-      const provider = iconRegistry.get(seg.iconRef.provider);
-      const iconData = provider?.getPath(seg.iconRef.name);
+      const iconData = iconRegistry.getIcon(
+        seg.iconRef.provider,
+        seg.iconRef.name
+      );
 
       if (iconData) {
         // Adjust icon Y to align with text baseline
         const iconY = y - iconSize / 2;
-        svg += `<svg x="${currentX}" y="${iconY}" width="${iconSize}" height="${iconSize}" viewBox="${iconData.viewBox}">
+        if (iconData.svg) {
+          svg += `<svg x="${currentX}" y="${iconY}" width="${iconSize}" height="${iconSize}" viewBox="${iconData.viewBox}" fill="${style.fill || 'currentColor'}">
+          ${iconData.svg}
+        </svg>`;
+        } else if (iconData.d) {
+          svg += `<svg x="${currentX}" y="${iconY}" width="${iconSize}" height="${iconSize}" viewBox="${iconData.viewBox}">
           <path d="${iconData.d}" fill="${style.fill || 'currentColor'}" />
         </svg>`;
+        } else {
+          warnings.push(
+            `Icon ${seg.iconRef.provider}/${seg.iconRef.name} missing path data`
+          );
+        }
         currentX += iconSize + iconPadding;
       } else {
         warnings.push(

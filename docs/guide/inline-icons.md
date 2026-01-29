@@ -1,6 +1,6 @@
 ---
 title: Inline Icons
-description: Embed FontAwesome icons directly in shape labels with simple syntax for enhanced visual communication.
+description: Embed icons from multiple libraries directly in shape labels with simple syntax for enhanced visual communication.
 lastUpdated: 2025-01-09
 ---
 
@@ -105,17 +105,22 @@ shape cloud as @cloud label: "AWS" icon:fa/cloud
 
 All registered icon providers are supported. Currently available:
 
-- **fa** or **fontawesome** - FontAwesome icons (500+ icons available)
+- **fa** or **fontawesome** - FontAwesome icons (large general-purpose set)
+- **iconify** - A compact starter set modeled after Iconify naming (preferred when available)
+- **brand** - Curated brand/service badges (placeholders when iconify lacks an equivalent)
 
 Example icon names:
 
-- `fa:fa-twitter`, `fa:fa-facebook`, `fa:fa-instagram`
-- `fa:fa-rocket`, `fa:fa-star`, `fa:fa-heart`
-- `fa:fa-code`, `fa:fa-laptop`, `fa:fa-mobile`
-- `fa:fa-dollar`, `fa:fa-chart`, `fa:fa-users`
+- `fa:fa-twitter`, `fa:fa-rocket`, `fa:fa-server`
+- `iconify:cloud-aws-ec2`, `iconify:mdi-database`, `iconify:mdi-pipeline`
+- `brand:github-actions`, `brand:postgres`
 
 :::tip Icon Reference
 See the [Shape Reference](/reference/shapes#icons) for a complete list of available icons.
+:::
+
+:::tip Iconify Extraction
+Large Iconify collections are trimmed down via the extractor script documented in `docs/guide/icon-libraries.md` so the bundle only includes the icons we list.
 :::
 
 ## Use Cases
@@ -447,4 +452,3 @@ diagram "Order Flow" {
 :::tip Try It Out
 Visit the [Runiq Editor](https://editor.runiq.org) to experiment with inline icons in real-time!
 :::
-
