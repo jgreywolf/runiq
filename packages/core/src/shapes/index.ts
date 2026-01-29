@@ -105,6 +105,31 @@ export function registerSpecialShapes(): void {
   shapeRegistry.register(special.hourglassShape);
   shapeRegistry.register(special.forkJoinShape);
   shapeRegistry.register(special.orShape);
+  shapeRegistry.register(special.hRuleShape);
+  shapeRegistry.register(special.vRuleShape);
+  shapeRegistry.register(special.bracketLeftShape);
+  shapeRegistry.register(special.bracketRightShape);
+  shapeRegistry.register(special.sectionHeaderShape);
+  shapeRegistry.register(special.swimlaneDividerShape);
+  shapeRegistry.register(special.titleBoxShape);
+  shapeRegistry.register(special.subtitleTextShape);
+  shapeRegistry.register(special.captionBoxShape);
+  shapeRegistry.register(special.footnoteTextShape);
+  shapeRegistry.register(special.legendBoxShape);
+  shapeRegistry.register(special.watermarkTextShape);
+  shapeRegistry.register(special.badgeWarningShape);
+  shapeRegistry.register(special.badgeInfoShape);
+  shapeRegistry.register(special.badgeSuccessShape);
+  shapeRegistry.register(special.badgeErrorShape);
+  shapeRegistry.register(special.badgeStarShape);
+  shapeRegistry.register(special.badgeFlagShape);
+  shapeRegistry.register(special.badgeLockShape);
+  shapeRegistry.register(special.badgeUnlockShape);
+  shapeRegistry.register(special.badgeNewShape);
+  shapeRegistry.register(special.badgeUpdatedShape);
+  shapeRegistry.register(special.badgePriorityShape);
+  shapeRegistry.register(special.badgeNumberShape);
+  shapeRegistry.register(special.badgeLabelShape);
 }
 
 export function registerChartShapes(): void {
