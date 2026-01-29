@@ -10,7 +10,9 @@
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { registerDefaultShapes, layoutRegistry, iconRegistry } from '@runiq/core';
 	import { ElkLayoutEngine } from '@runiq/layout-base';
+	import { brandIcons } from '@runiq/icons-brand';
 	import { fontAwesome } from '@runiq/icons-fontawesome';
+	import { iconify } from '@runiq/icons-iconify';
 	import VisualCanvas from '$lib/components/VisualCanvas.svelte';
 	import {
 		editorState,
@@ -38,7 +40,9 @@
 	// Register providers
 	registerDefaultShapes();
 	layoutRegistry.register(new ElkLayoutEngine());
+	iconRegistry.register(brandIcons);
 	iconRegistry.register(fontAwesome);
+	iconRegistry.register(iconify);
 
 	// Initialize editor state
 	initializeEditor();

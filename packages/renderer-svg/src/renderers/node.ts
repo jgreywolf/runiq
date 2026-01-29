@@ -155,7 +155,12 @@ export function renderNode(
 
   // Add icon if present
   if ((nodeAst as any).icon) {
-    const iconMarkup = renderIcon((nodeAst as any).icon, positioned, warnings);
+    const iconMarkup = renderIcon(
+      (nodeAst as any).icon,
+      positioned,
+      nodeAst,
+      warnings
+    );
     if (iconMarkup) {
       nodeMarkup += iconMarkup;
     }

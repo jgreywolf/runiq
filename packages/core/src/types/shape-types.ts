@@ -170,7 +170,15 @@ export interface ShapeDefinition {
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string; // returns SVG <g> inner markup
 }
 
+export interface IconDefinition {
+  viewBox: string;
+  d?: string;
+  svg?: string;
+}
+
 export interface IconProvider {
-  id: string; // "fontawesome"
-  getPath(name: string): { d: string; viewBox: string } | undefined;
+  id: string; // "fa", "iconify", "brand"
+  getIcon?(name: string): IconDefinition | undefined;
+  getSvg?(name: string): { svg: string; viewBox: string } | undefined;
+  getPath?(name: string): { d: string; viewBox: string } | undefined;
 }

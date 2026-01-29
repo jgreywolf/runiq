@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import type {
   ShapeDefinition,
+  IconDefinition,
   IconProvider,
   LayoutEngine,
   ShapeRenderContext,
@@ -43,12 +44,13 @@ class IconRegistry {
     return this.providers.get(providerId);
   }
 
-  getIcon(
-    providerId: string,
-    name: string
-  ): { d: string; viewBox: string } | undefined {
+  getIcon(providerId: string, name: string): IconDefinition | undefined {
     const provider = this.providers.get(providerId);
-    return provider?.getPath(name);
+    if (!provider) return undefined;
+    if (provider.getIcon) return provider.getIcon(name);
+    if (provider.getSvg) return provider.getSvg(name);
+    if (provider.getPath) return provider.getPath(name);
+    return undefined;
   }
 
   list(): IconProvider[] {

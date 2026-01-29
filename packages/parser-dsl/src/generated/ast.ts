@@ -2992,6 +2992,21 @@ export function isHydraulicStatement(item: unknown): item is HydraulicStatement 
     return reflection.isInstance(item, HydraulicStatement.$type);
 }
 
+export interface IconColorProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'IconColorProperty';
+    color: string;
+}
+
+export const IconColorProperty = {
+    $type: 'IconColorProperty',
+    color: 'color'
+} as const;
+
+export function isIconColorProperty(item: unknown): item is IconColorProperty {
+    return reflection.isInstance(item, IconColorProperty.$type);
+}
+
 export interface IconProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'IconProperty';
@@ -3007,6 +3022,21 @@ export const IconProperty = {
 
 export function isIconProperty(item: unknown): item is IconProperty {
     return reflection.isInstance(item, IconProperty.$type);
+}
+
+export interface IconSizeProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'IconSizeProperty';
+    size: string;
+}
+
+export const IconSizeProperty = {
+    $type: 'IconSizeProperty',
+    size: 'size'
+} as const;
+
+export function isIconSizeProperty(item: unknown): item is IconSizeProperty {
+    return reflection.isInstance(item, IconSizeProperty.$type);
 }
 
 export interface InputPinsProperty extends langium.AstNode {
@@ -3913,7 +3943,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconColorProperty | IconProperty | IconSizeProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -7014,7 +7044,9 @@ export type RuniqAstType = {
     HvacStatement: HvacStatement
     HydraulicProfile: HydraulicProfile
     HydraulicStatement: HydraulicStatement
+    IconColorProperty: IconColorProperty
     IconProperty: IconProperty
+    IconSizeProperty: IconSizeProperty
     InputPinsProperty: InputPinsProperty
     InstMapProperty: InstMapProperty
     InstOfProperty: InstOfProperty
@@ -8731,6 +8763,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        IconColorProperty: {
+            name: IconColorProperty.$type,
+            properties: {
+                color: {
+                    name: IconColorProperty.color
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         IconProperty: {
             name: IconProperty.$type,
             properties: {
@@ -8739,6 +8780,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 provider: {
                     name: IconProperty.provider
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        IconSizeProperty: {
+            name: IconSizeProperty.$type,
+            properties: {
+                size: {
+                    name: IconSizeProperty.size
                 }
             },
             superTypes: [NodeProperty.$type]
