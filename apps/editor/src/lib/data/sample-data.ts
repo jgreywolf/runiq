@@ -33,6 +33,7 @@ export interface Sample {
 	description: string;
 	code: string;
 	data?: string; // Optional JSON or CSV data for data-driven diagrams
+	badges?: string[];
 }
 
 export interface SampleCategory {

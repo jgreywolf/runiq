@@ -582,9 +582,14 @@ export interface TimelineProfile {
   type: 'timeline';
   astVersion: string;
   title: string;
+  theme?: string;
   orientation?: 'horizontal' | 'vertical'; // Default: horizontal
   events: TimelineEvent[];
   periods?: TimelinePeriod[]; // Optional time periods/eras
+  lanes?: TimelineLane[];
+  tasks?: TimelineTask[];
+  milestones?: TimelineMilestone[];
+  dependencies?: TimelineDependency[];
 }
 
 /**
@@ -610,6 +615,49 @@ export interface TimelinePeriod {
   label: string;
   fillColor?: string; // Background color for period shading
   opacity?: number; // Default: 0.1
+}
+
+/**
+ * Optional lane grouping for Gantt/roadmap timelines.
+ */
+export interface TimelineLane {
+  id: string;
+  label?: string;
+  fillColor?: string;
+  textColor?: string;
+}
+
+/**
+ * Range-based task for Gantt timelines.
+ */
+export interface TimelineTask {
+  id: string;
+  startDate: string;
+  endDate: string;
+  label: string;
+  description?: string;
+  fillColor?: string;
+  lane?: string;
+}
+
+/**
+ * Point-in-time milestone for Gantt timelines.
+ */
+export interface TimelineMilestone {
+  id: string;
+  date: string;
+  label: string;
+  description?: string;
+  fillColor?: string;
+  lane?: string;
+}
+
+/**
+ * Dependency edge between tasks/milestones.
+ */
+export interface TimelineDependency {
+  from: string;
+  to: string;
 }
 
 // ============================================================================

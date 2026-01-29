@@ -235,6 +235,17 @@
 									>
 										<p class="text-sm font-medium text-neutral-900">{sample.name}</p>
 										<p class="mt-1 text-xs text-neutral-600">{sample.description}</p>
+										{#if sample.badges?.length}
+											<div class="mt-2 flex flex-wrap gap-1">
+												{#each sample.badges as badge}
+													<span
+														class="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-700"
+													>
+														{badge}
+													</span>
+												{/each}
+											</div>
+										{/if}
 									</button>
 								{/each}
 							</div>
@@ -334,6 +345,17 @@
 										>
 											<p class="text-sm font-medium text-neutral-900">{sample.name}</p>
 											<p class="mt-1 text-xs text-neutral-600">{sample.description}</p>
+											{#if sample.badges?.length}
+												<div class="mt-2 flex flex-wrap gap-1">
+													{#each sample.badges as badge}
+														<span
+															class="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-700"
+														>
+															{badge}
+														</span>
+													{/each}
+												</div>
+											{/if}
 											{#if sample.data}
 												<p class="mt-1 text-xs font-medium text-runiq-600">
 													📊 Includes sample data

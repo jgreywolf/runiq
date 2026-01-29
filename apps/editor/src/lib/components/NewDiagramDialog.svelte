@@ -94,7 +94,7 @@
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Timeline</h3>
-						<p class="text-sm text-neutral-600">Chronological events, milestones, periods</p>
+						<p class="text-sm text-neutral-600">Events, periods, and Gantt-style roadmaps</p>
 					</div>
 				</div>
 			</button>

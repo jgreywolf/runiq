@@ -739,7 +739,14 @@ TimelineProfile:
     '}';
 
 TimelineStatement:
-    TimelineEventStatement | TimelinePeriodStatement | TimelineOrientationStatement;
+    TimelineEventStatement
+    | TimelinePeriodStatement
+    | TimelineOrientationStatement
+    | TimelineLaneStatement
+    | TimelineTaskStatement
+    | TimelineMilestoneStatement
+    | TimelineDependencyStatement
+    | ThemeDeclaration;
 
 // event kickoff date:"2024-01-15" label:"Project Kickoff" description:"Initial meeting" icon:"flag" textColor:"#3b82f6"
   TimelineEventStatement:
@@ -763,6 +770,9 @@ TimelineIconProperty:
 TimelineColorProperty:
     'textColor:' color=STRING;
 
+TimelineFillColorProperty:
+    'fillColor:' color=STRING;
+
 TimelinePositionProperty:
     'position:' position=TimelinePosition;
 
@@ -777,7 +787,12 @@ TimelinePosition returns string:
       FlexibleID | STRING;
 
 TimelinePeriodProperty:
-    TimelineStartDateProperty | TimelineEndDateProperty | TimelineLabelProperty | TimelineColorProperty | TimelineOpacityProperty;
+    TimelineStartDateProperty
+    | TimelineEndDateProperty
+    | TimelineLabelProperty
+    | TimelineColorProperty
+    | TimelineFillColorProperty
+    | TimelineOpacityProperty;
 
 TimelineStartDateProperty:
     'startDate:' startDate=STRING;
@@ -794,6 +809,48 @@ TimelineOrientationStatement:
 
 TimelineOrientation returns string:
     'horizontal' | 'vertical';
+
+// Optional lane grouping for Gantt/roadmap timelines
+TimelineLaneStatement:
+    'lane' id=TimelineIdentifier properties+=TimelineLaneProperty* '{'
+        statements+=TimelineLaneStatementItem*
+    '}';
+
+TimelineLaneStatementItem:
+    TimelineTaskStatement | TimelineMilestoneStatement;
+
+TimelineLaneProperty:
+    TimelineLabelProperty | TimelineColorProperty | TimelineFillColorProperty;
+
+// task build startDate:"2024-01-01" endDate:"2024-02-01" label:"Build" lane:"Platform"
+TimelineTaskStatement:
+    'task' id=TimelineIdentifier properties+=TimelineTaskProperty+;
+
+TimelineTaskProperty:
+    TimelineStartDateProperty
+    | TimelineEndDateProperty
+    | TimelineLabelProperty
+    | TimelineDescriptionProperty
+    | TimelineFillColorProperty
+    | TimelineLaneRefProperty;
+
+// milestone launch date:"2024-03-01" label:"Launch" lane:"Platform"
+TimelineMilestoneStatement:
+    'milestone' id=TimelineIdentifier properties+=TimelineMilestoneProperty+;
+
+TimelineMilestoneProperty:
+    TimelineDateProperty
+    | TimelineLabelProperty
+    | TimelineDescriptionProperty
+    | TimelineFillColorProperty
+    | TimelineLaneRefProperty;
+
+TimelineLaneRefProperty:
+    'lane:' lane=TimelineIdentifier;
+
+// depends build -> launch
+TimelineDependencyStatement:
+    'depends' from=TimelineIdentifier ARROW to=TimelineIdentifier;
 
 // ============================================================================
 // Kanban Profile - Columns, cards, and swimlanes

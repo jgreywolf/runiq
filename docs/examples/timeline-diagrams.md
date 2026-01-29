@@ -51,6 +51,33 @@ timeline "Software Project Launch" {
 }
 ```
 
+## Gantt Roadmap
+
+Lane-based timeline with tasks, milestones, and dependencies:
+
+This example uses the same `timeline` profile, but switches to task/milestone syntax.
+
+```runiq
+timeline "Roadmap Plan" {
+  theme professional
+
+  lane platform label:"Platform" {
+    task api1 startDate:"2024-01-10" endDate:"2024-02-28" label:"API Foundation"
+    milestone beta1 date:"2024-03-05" label:"Beta"
+  }
+
+  lane experience label:"Experience" {
+    task ux1 startDate:"2024-01-20" endDate:"2024-02-15" label:"UX Refresh"
+    task onboarding startDate:"2024-02-10" endDate:"2024-03-20" label:"Onboarding"
+  }
+
+  task ops1 startDate:"2024-02-01" endDate:"2024-03-25" label:"Ops Readiness"
+  milestone launch1 date:"2024-03-30" label:"Launch"
+
+  depends api1 -> launch1
+}
+```
+
 ## Company History
 
 Chronicle 20 years of organizational growth:

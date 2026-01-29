@@ -248,6 +248,7 @@ export type RuniqKeywordNames =
     | "dehumidifier"
     | "delimiter"
     | "dependency"
+    | "depends"
     | "depth:"
     | "depthIndicatorStyle:"
     | "derived:"
@@ -423,6 +424,8 @@ export type RuniqKeywordNames =
     | "labelPosition:"
     | "labels:"
     | "ladder"
+    | "lane"
+    | "lane:"
     | "layered"
     | "layout"
     | "layoutCache:"
@@ -481,6 +484,7 @@ export type RuniqKeywordNames =
     | "metricPosition:"
     | "metricType:"
     | "middle"
+    | "milestone"
     | "min"
     | "minHeight:"
     | "minResizeHeight:"
@@ -715,6 +719,7 @@ export type RuniqKeywordNames =
     | "tag:"
     | "tags:"
     | "target"
+    | "task"
     | "team"
     | "temp:"
     | "temperature"
@@ -6188,7 +6193,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | TreemapProfile;
+    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | TimelineProfile | TreemapProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -6209,7 +6214,7 @@ export function isThemeValue(item: unknown): item is ThemeValue {
 }
 
 export interface TimelineColorProperty extends langium.AstNode {
-    readonly $container: TimelineEventStatement | TimelinePeriodStatement;
+    readonly $container: TimelineEventStatement | TimelineLaneStatement | TimelinePeriodStatement;
     readonly $type: 'TimelineColorProperty';
     color: string;
 }
@@ -6224,7 +6229,7 @@ export function isTimelineColorProperty(item: unknown): item is TimelineColorPro
 }
 
 export interface TimelineDateProperty extends langium.AstNode {
-    readonly $container: TimelineEventStatement;
+    readonly $container: TimelineEventStatement | TimelineMilestoneStatement;
     readonly $type: 'TimelineDateProperty';
     date: string;
 }
@@ -6238,8 +6243,25 @@ export function isTimelineDateProperty(item: unknown): item is TimelineDatePrope
     return reflection.isInstance(item, TimelineDateProperty.$type);
 }
 
+export interface TimelineDependencyStatement extends langium.AstNode {
+    readonly $container: TimelineProfile;
+    readonly $type: 'TimelineDependencyStatement';
+    from: TimelineIdentifier;
+    to: TimelineIdentifier;
+}
+
+export const TimelineDependencyStatement = {
+    $type: 'TimelineDependencyStatement',
+    from: 'from',
+    to: 'to'
+} as const;
+
+export function isTimelineDependencyStatement(item: unknown): item is TimelineDependencyStatement {
+    return reflection.isInstance(item, TimelineDependencyStatement.$type);
+}
+
 export interface TimelineDescriptionProperty extends langium.AstNode {
-    readonly $container: TimelineEventStatement;
+    readonly $container: TimelineEventStatement | TimelineMilestoneStatement | TimelineTaskStatement;
     readonly $type: 'TimelineDescriptionProperty';
     description: string;
 }
@@ -6254,7 +6276,7 @@ export function isTimelineDescriptionProperty(item: unknown): item is TimelineDe
 }
 
 export interface TimelineEndDateProperty extends langium.AstNode {
-    readonly $container: TimelinePeriodStatement;
+    readonly $container: TimelinePeriodStatement | TimelineTaskStatement;
     readonly $type: 'TimelineEndDateProperty';
     endDate: string;
 }
@@ -6295,6 +6317,21 @@ export function isTimelineEventStatement(item: unknown): item is TimelineEventSt
     return reflection.isInstance(item, TimelineEventStatement.$type);
 }
 
+export interface TimelineFillColorProperty extends langium.AstNode {
+    readonly $container: TimelineLaneStatement | TimelineMilestoneStatement | TimelinePeriodStatement | TimelineTaskStatement;
+    readonly $type: 'TimelineFillColorProperty';
+    color: string;
+}
+
+export const TimelineFillColorProperty = {
+    $type: 'TimelineFillColorProperty',
+    color: 'color'
+} as const;
+
+export function isTimelineFillColorProperty(item: unknown): item is TimelineFillColorProperty {
+    return reflection.isInstance(item, TimelineFillColorProperty.$type);
+}
+
 export interface TimelineIconProperty extends langium.AstNode {
     readonly $container: TimelineEventStatement;
     readonly $type: 'TimelineIconProperty';
@@ -6317,7 +6354,7 @@ export function isTimelineIdentifier(item: unknown): item is TimelineIdentifier 
 }
 
 export interface TimelineLabelProperty extends langium.AstNode {
-    readonly $container: TimelineEventStatement | TimelinePeriodStatement;
+    readonly $container: TimelineEventStatement | TimelineLaneStatement | TimelineMilestoneStatement | TimelinePeriodStatement | TimelineTaskStatement;
     readonly $type: 'TimelineLabelProperty';
     label: string;
 }
@@ -6329,6 +6366,87 @@ export const TimelineLabelProperty = {
 
 export function isTimelineLabelProperty(item: unknown): item is TimelineLabelProperty {
     return reflection.isInstance(item, TimelineLabelProperty.$type);
+}
+
+export type TimelineLaneProperty = TimelineColorProperty | TimelineFillColorProperty | TimelineLabelProperty;
+
+export const TimelineLaneProperty = {
+    $type: 'TimelineLaneProperty'
+} as const;
+
+export function isTimelineLaneProperty(item: unknown): item is TimelineLaneProperty {
+    return reflection.isInstance(item, TimelineLaneProperty.$type);
+}
+
+export interface TimelineLaneRefProperty extends langium.AstNode {
+    readonly $container: TimelineMilestoneStatement | TimelineTaskStatement;
+    readonly $type: 'TimelineLaneRefProperty';
+    lane: TimelineIdentifier;
+}
+
+export const TimelineLaneRefProperty = {
+    $type: 'TimelineLaneRefProperty',
+    lane: 'lane'
+} as const;
+
+export function isTimelineLaneRefProperty(item: unknown): item is TimelineLaneRefProperty {
+    return reflection.isInstance(item, TimelineLaneRefProperty.$type);
+}
+
+export interface TimelineLaneStatement extends langium.AstNode {
+    readonly $container: TimelineProfile;
+    readonly $type: 'TimelineLaneStatement';
+    id: TimelineIdentifier;
+    properties: Array<TimelineLaneProperty>;
+    statements: Array<TimelineLaneStatementItem>;
+}
+
+export const TimelineLaneStatement = {
+    $type: 'TimelineLaneStatement',
+    id: 'id',
+    properties: 'properties',
+    statements: 'statements'
+} as const;
+
+export function isTimelineLaneStatement(item: unknown): item is TimelineLaneStatement {
+    return reflection.isInstance(item, TimelineLaneStatement.$type);
+}
+
+export type TimelineLaneStatementItem = TimelineMilestoneStatement | TimelineTaskStatement;
+
+export const TimelineLaneStatementItem = {
+    $type: 'TimelineLaneStatementItem'
+} as const;
+
+export function isTimelineLaneStatementItem(item: unknown): item is TimelineLaneStatementItem {
+    return reflection.isInstance(item, TimelineLaneStatementItem.$type);
+}
+
+export type TimelineMilestoneProperty = TimelineDateProperty | TimelineDescriptionProperty | TimelineFillColorProperty | TimelineLabelProperty | TimelineLaneRefProperty;
+
+export const TimelineMilestoneProperty = {
+    $type: 'TimelineMilestoneProperty'
+} as const;
+
+export function isTimelineMilestoneProperty(item: unknown): item is TimelineMilestoneProperty {
+    return reflection.isInstance(item, TimelineMilestoneProperty.$type);
+}
+
+export interface TimelineMilestoneStatement extends langium.AstNode {
+    readonly $container: TimelineLaneStatement | TimelineProfile;
+    readonly $type: 'TimelineMilestoneStatement';
+    id: TimelineIdentifier;
+    properties: Array<TimelineMilestoneProperty>;
+}
+
+export const TimelineMilestoneStatement = {
+    $type: 'TimelineMilestoneStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isTimelineMilestoneStatement(item: unknown): item is TimelineMilestoneStatement {
+    return reflection.isInstance(item, TimelineMilestoneStatement.$type);
 }
 
 export interface TimelineOpacityProperty extends langium.AstNode {
@@ -6367,7 +6485,7 @@ export function isTimelineOrientationStatement(item: unknown): item is TimelineO
     return reflection.isInstance(item, TimelineOrientationStatement.$type);
 }
 
-export type TimelinePeriodProperty = TimelineColorProperty | TimelineEndDateProperty | TimelineLabelProperty | TimelineOpacityProperty | TimelineStartDateProperty;
+export type TimelinePeriodProperty = TimelineColorProperty | TimelineEndDateProperty | TimelineFillColorProperty | TimelineLabelProperty | TimelineOpacityProperty | TimelineStartDateProperty;
 
 export const TimelinePeriodProperty = {
     $type: 'TimelinePeriodProperty'
@@ -6433,7 +6551,7 @@ export function isTimelineProfile(item: unknown): item is TimelineProfile {
 }
 
 export interface TimelineStartDateProperty extends langium.AstNode {
-    readonly $container: TimelinePeriodStatement;
+    readonly $container: TimelinePeriodStatement | TimelineTaskStatement;
     readonly $type: 'TimelineStartDateProperty';
     startDate: string;
 }
@@ -6447,7 +6565,7 @@ export function isTimelineStartDateProperty(item: unknown): item is TimelineStar
     return reflection.isInstance(item, TimelineStartDateProperty.$type);
 }
 
-export type TimelineStatement = TimelineEventStatement | TimelineOrientationStatement | TimelinePeriodStatement;
+export type TimelineStatement = ThemeDeclaration | TimelineDependencyStatement | TimelineEventStatement | TimelineLaneStatement | TimelineMilestoneStatement | TimelineOrientationStatement | TimelinePeriodStatement | TimelineTaskStatement;
 
 export const TimelineStatement = {
     $type: 'TimelineStatement'
@@ -6455,6 +6573,33 @@ export const TimelineStatement = {
 
 export function isTimelineStatement(item: unknown): item is TimelineStatement {
     return reflection.isInstance(item, TimelineStatement.$type);
+}
+
+export type TimelineTaskProperty = TimelineDescriptionProperty | TimelineEndDateProperty | TimelineFillColorProperty | TimelineLabelProperty | TimelineLaneRefProperty | TimelineStartDateProperty;
+
+export const TimelineTaskProperty = {
+    $type: 'TimelineTaskProperty'
+} as const;
+
+export function isTimelineTaskProperty(item: unknown): item is TimelineTaskProperty {
+    return reflection.isInstance(item, TimelineTaskProperty.$type);
+}
+
+export interface TimelineTaskStatement extends langium.AstNode {
+    readonly $container: TimelineLaneStatement | TimelineProfile;
+    readonly $type: 'TimelineTaskStatement';
+    id: TimelineIdentifier;
+    properties: Array<TimelineTaskProperty>;
+}
+
+export const TimelineTaskStatement = {
+    $type: 'TimelineTaskStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isTimelineTaskStatement(item: unknown): item is TimelineTaskStatement {
+    return reflection.isInstance(item, TimelineTaskStatement.$type);
 }
 
 export interface TitleProperty extends langium.AstNode {
@@ -7243,12 +7388,20 @@ export type RuniqAstType = {
     ThemeDeclaration: ThemeDeclaration
     TimelineColorProperty: TimelineColorProperty
     TimelineDateProperty: TimelineDateProperty
+    TimelineDependencyStatement: TimelineDependencyStatement
     TimelineDescriptionProperty: TimelineDescriptionProperty
     TimelineEndDateProperty: TimelineEndDateProperty
     TimelineEventProperty: TimelineEventProperty
     TimelineEventStatement: TimelineEventStatement
+    TimelineFillColorProperty: TimelineFillColorProperty
     TimelineIconProperty: TimelineIconProperty
     TimelineLabelProperty: TimelineLabelProperty
+    TimelineLaneProperty: TimelineLaneProperty
+    TimelineLaneRefProperty: TimelineLaneRefProperty
+    TimelineLaneStatement: TimelineLaneStatement
+    TimelineLaneStatementItem: TimelineLaneStatementItem
+    TimelineMilestoneProperty: TimelineMilestoneProperty
+    TimelineMilestoneStatement: TimelineMilestoneStatement
     TimelineOpacityProperty: TimelineOpacityProperty
     TimelineOrientationStatement: TimelineOrientationStatement
     TimelinePeriodProperty: TimelinePeriodProperty
@@ -7257,6 +7410,8 @@ export type RuniqAstType = {
     TimelineProfile: TimelineProfile
     TimelineStartDateProperty: TimelineStartDateProperty
     TimelineStatement: TimelineStatement
+    TimelineTaskProperty: TimelineTaskProperty
+    TimelineTaskStatement: TimelineTaskStatement
     TitleProperty: TitleProperty
     TooltipProperty: TooltipProperty
     TreemapColorProperty: TreemapColorProperty
@@ -10740,7 +10895,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, TreemapStatement.$type]
+            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,
@@ -10749,7 +10904,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineColorProperty.color
                 }
             },
-            superTypes: [TimelineEventProperty.$type, TimelinePeriodProperty.$type]
+            superTypes: [TimelineEventProperty.$type, TimelineLaneProperty.$type, TimelinePeriodProperty.$type]
         },
         TimelineDateProperty: {
             name: TimelineDateProperty.$type,
@@ -10758,7 +10913,19 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineDateProperty.date
                 }
             },
-            superTypes: [TimelineEventProperty.$type]
+            superTypes: [TimelineEventProperty.$type, TimelineMilestoneProperty.$type]
+        },
+        TimelineDependencyStatement: {
+            name: TimelineDependencyStatement.$type,
+            properties: {
+                from: {
+                    name: TimelineDependencyStatement.from
+                },
+                to: {
+                    name: TimelineDependencyStatement.to
+                }
+            },
+            superTypes: [TimelineStatement.$type]
         },
         TimelineDescriptionProperty: {
             name: TimelineDescriptionProperty.$type,
@@ -10767,7 +10934,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineDescriptionProperty.description
                 }
             },
-            superTypes: [TimelineEventProperty.$type]
+            superTypes: [TimelineEventProperty.$type, TimelineMilestoneProperty.$type, TimelineTaskProperty.$type]
         },
         TimelineEndDateProperty: {
             name: TimelineEndDateProperty.$type,
@@ -10776,7 +10943,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineEndDateProperty.endDate
                 }
             },
-            superTypes: [TimelinePeriodProperty.$type]
+            superTypes: [TimelinePeriodProperty.$type, TimelineTaskProperty.$type]
         },
         TimelineEventProperty: {
             name: TimelineEventProperty.$type,
@@ -10797,6 +10964,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [TimelineStatement.$type]
         },
+        TimelineFillColorProperty: {
+            name: TimelineFillColorProperty.$type,
+            properties: {
+                color: {
+                    name: TimelineFillColorProperty.color
+                }
+            },
+            superTypes: [TimelineLaneProperty.$type, TimelineMilestoneProperty.$type, TimelinePeriodProperty.$type, TimelineTaskProperty.$type]
+        },
         TimelineIconProperty: {
             name: TimelineIconProperty.$type,
             properties: {
@@ -10813,7 +10989,64 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineLabelProperty.label
                 }
             },
-            superTypes: [TimelineEventProperty.$type, TimelinePeriodProperty.$type]
+            superTypes: [TimelineEventProperty.$type, TimelineLaneProperty.$type, TimelineMilestoneProperty.$type, TimelinePeriodProperty.$type, TimelineTaskProperty.$type]
+        },
+        TimelineLaneProperty: {
+            name: TimelineLaneProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineLaneRefProperty: {
+            name: TimelineLaneRefProperty.$type,
+            properties: {
+                lane: {
+                    name: TimelineLaneRefProperty.lane
+                }
+            },
+            superTypes: [TimelineMilestoneProperty.$type, TimelineTaskProperty.$type]
+        },
+        TimelineLaneStatement: {
+            name: TimelineLaneStatement.$type,
+            properties: {
+                id: {
+                    name: TimelineLaneStatement.id
+                },
+                properties: {
+                    name: TimelineLaneStatement.properties,
+                    defaultValue: []
+                },
+                statements: {
+                    name: TimelineLaneStatement.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TimelineStatement.$type]
+        },
+        TimelineLaneStatementItem: {
+            name: TimelineLaneStatementItem.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineMilestoneProperty: {
+            name: TimelineMilestoneProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineMilestoneStatement: {
+            name: TimelineMilestoneStatement.$type,
+            properties: {
+                id: {
+                    name: TimelineMilestoneStatement.id
+                },
+                properties: {
+                    name: TimelineMilestoneStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TimelineLaneStatementItem.$type, TimelineStatement.$type]
         },
         TimelineOpacityProperty: {
             name: TimelineOpacityProperty.$type,
@@ -10881,13 +11114,32 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineStartDateProperty.startDate
                 }
             },
-            superTypes: [TimelinePeriodProperty.$type]
+            superTypes: [TimelinePeriodProperty.$type, TimelineTaskProperty.$type]
         },
         TimelineStatement: {
             name: TimelineStatement.$type,
             properties: {
             },
             superTypes: []
+        },
+        TimelineTaskProperty: {
+            name: TimelineTaskProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineTaskStatement: {
+            name: TimelineTaskStatement.$type,
+            properties: {
+                id: {
+                    name: TimelineTaskStatement.id
+                },
+                properties: {
+                    name: TimelineTaskStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TimelineLaneStatementItem.$type, TimelineStatement.$type]
         },
         TitleProperty: {
             name: TitleProperty.$type,
