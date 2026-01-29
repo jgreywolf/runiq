@@ -23,6 +23,11 @@ Smart diagram layouts for presentations, reports, and visual storytelling.
 - Min/max item counts and descriptions
 - Quick scan for available SmartArt-style patterns
 
+### [Decorative Elements](/examples/decorative-elements)
+
+- Callouts, badges, dividers, and typographic accents
+- Mixed into any diagram profile layout
+
 ## Software Engineering
 
 Build architecture diagrams, UML models, and process flows.
