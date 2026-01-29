@@ -278,6 +278,10 @@ shape missing label: "unknown:invalid-icon oops"
 // Console warning: "Icon unknown/invalid-icon not found in label"
 ```
 
+### Reserved Keywords
+
+Some identifiers are reserved by the DSL. If an icon name conflicts, use underscores in DSL and the provider will normalize it (for example `icon:brand/key_icon`).
+
 ## Best Practices
 
 ### 1. Use Icons for Clarity
