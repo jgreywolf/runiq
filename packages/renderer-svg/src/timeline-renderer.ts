@@ -181,7 +181,7 @@ export function renderTimeline(
   svg += generateStyles(defaultEventColor, defaultPeriodColor);
 
   // Background
-  svg += `<rect width="${width}" height="${height}" fill="#FFFFFF"/>`;
+  svg += `<rect width="${width}" height="${height}" fill="${theme.backgroundColor}"/>`;
 
   // Render timeline based on orientation
   if (isHorizontal) {
@@ -366,6 +366,23 @@ function resolveContrastText(fill: string | undefined, fallback: string): string
   return luminance > 0.6 ? '#0f172a' : '#ffffff';
 }
 
+function getContrastColor(background: string, darkColor: string, lightColor: string): string {
+  const hex = background.trim().replace('#', '');
+  if (hex.length !== 3 && hex.length !== 6) {
+    return darkColor;
+  }
+  const normalized =
+    hex.length === 3 ? hex.split('').map((c) => c + c).join('') : hex;
+  const r = Number.parseInt(normalized.slice(0, 2), 16);
+  const g = Number.parseInt(normalized.slice(2, 4), 16);
+  const b = Number.parseInt(normalized.slice(4, 6), 16);
+  if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) {
+    return darkColor;
+  }
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.6 ? darkColor : lightColor;
+}
+
 function renderGanttTimeline(
   profile: TimelineProfile,
   metrics: GanttMetrics,
@@ -539,6 +556,18 @@ function renderHorizontalTimeline(
   const timelineStartX = padding;
   const timelineEndX = width - padding;
   const timelineWidth = timelineEndX - timelineStartX;
+  const labelColor = getContrastColor(theme.backgroundColor, '#1f2937', '#f8fafc');
+  const descriptionColor = getContrastColor(
+    theme.backgroundColor,
+    '#64748b',
+    '#e2e8f0'
+  );
+  const dateColor = getContrastColor(theme.backgroundColor, '#94a3b8', '#cbd5f5');
+  const periodLabelColor = getContrastColor(
+    theme.backgroundColor,
+    '#6b7280',
+    '#e2e8f0'
+  );
 
   // Helper to convert date to X position
   const dateToX = (date: Date): number => {
@@ -575,7 +604,7 @@ function renderHorizontalTimeline(
         y="${padding - 10}" 
         text-anchor="middle" 
         font-size="${dateFontSize}" 
-        fill="#666666" 
+        fill="${periodLabelColor}" 
         class="runiq-timeline-period-label">${escapeXml(period.label)}</text>`;
     }
   }
@@ -586,7 +615,7 @@ function renderHorizontalTimeline(
     y1="${timelineY}" 
     x2="${timelineEndX}" 
     y2="${timelineY}" 
-    stroke="#333333" 
+    stroke="${theme.lineColor}" 
     stroke-width="${lineStrokeWidth}" 
     class="runiq-timeline-axis"/>`;
 
@@ -637,7 +666,7 @@ function renderHorizontalTimeline(
         text-anchor="${labelAnchor}" 
         font-size="${labelFontSize}" 
         font-weight="600" 
-        fill="#333333" 
+        fill="${labelColor}" 
         class="runiq-timeline-event-label">${escapeXml(event.label)}</text>`;
     }
 
@@ -649,7 +678,7 @@ function renderHorizontalTimeline(
         y="${descY}" 
         text-anchor="${labelAnchor}" 
         font-size="${dateFontSize}" 
-        fill="#666666" 
+        fill="${descriptionColor}" 
         class="runiq-timeline-event-description">${escapeXml(event.description)}</text>`;
     }
 
@@ -661,7 +690,7 @@ function renderHorizontalTimeline(
         y="${dateY}" 
         text-anchor="middle" 
         font-size="${dateFontSize}" 
-        fill="#999999" 
+        fill="${dateColor}" 
         class="runiq-timeline-event-date">${formatDate(eventDate)}</text>`;
     }
 
@@ -701,6 +730,18 @@ function renderVerticalTimeline(
   const timelineStartY = padding;
   const timelineEndY = height - padding;
   const timelineHeight = timelineEndY - timelineStartY;
+  const labelColor = getContrastColor(theme.backgroundColor, '#1f2937', '#f8fafc');
+  const descriptionColor = getContrastColor(
+    theme.backgroundColor,
+    '#64748b',
+    '#e2e8f0'
+  );
+  const dateColor = getContrastColor(theme.backgroundColor, '#94a3b8', '#cbd5f5');
+  const periodLabelColor = getContrastColor(
+    theme.backgroundColor,
+    '#6b7280',
+    '#e2e8f0'
+  );
 
   // Helper to convert date to Y position
   const dateToY = (date: Date): number => {
@@ -737,7 +778,7 @@ function renderVerticalTimeline(
         y="${labelY}" 
         text-anchor="end" 
         font-size="${dateFontSize}" 
-        fill="#666666" 
+        fill="${periodLabelColor}" 
         alignment-baseline="middle" 
         class="runiq-timeline-period-label">${escapeXml(period.label)}</text>`;
     }
@@ -749,7 +790,7 @@ function renderVerticalTimeline(
     y1="${timelineStartY}" 
     x2="${timelineX}" 
     y2="${timelineEndY}" 
-    stroke="#333333" 
+    stroke="${theme.lineColor}" 
     stroke-width="${lineStrokeWidth}" 
     class="runiq-timeline-axis"/>`;
 
@@ -800,7 +841,7 @@ function renderVerticalTimeline(
         text-anchor="${labelAnchor}" 
         font-size="${labelFontSize}" 
         font-weight="600" 
-        fill="#333333" 
+        fill="${labelColor}" 
         class="runiq-timeline-event-label">${escapeXml(event.label)}</text>`;
     }
 
@@ -812,7 +853,7 @@ function renderVerticalTimeline(
         y="${descY}" 
         text-anchor="${labelAnchor}" 
         font-size="${dateFontSize}" 
-        fill="#666666" 
+        fill="${descriptionColor}" 
         class="runiq-timeline-event-description">${escapeXml(event.description)}</text>`;
     }
 
@@ -825,7 +866,7 @@ function renderVerticalTimeline(
         y="${dateY}" 
         text-anchor="${labelAnchor}" 
         font-size="${dateFontSize}" 
-        fill="#999999" 
+        fill="${dateColor}" 
         class="runiq-timeline-event-date">${formatDate(eventDate)}</text>`;
     }
 
