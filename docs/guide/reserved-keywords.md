@@ -155,6 +155,8 @@ pid "Chemical Process" {
 
 **Why Reserved**: Specialized profile for temporal visualization with events and periods.
 
+**Timeline Keywords**: `event`, `period`, `lane`, `task`, `milestone`, `depends`, `orientation`
+
 **Usage**:
 
 ```runiq

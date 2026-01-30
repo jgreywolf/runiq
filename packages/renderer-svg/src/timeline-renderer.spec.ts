@@ -222,6 +222,82 @@ describe('Timeline Renderer', () => {
     });
   });
 
+  describe('Gantt Rendering', () => {
+    it('should render tasks and milestones in lanes', () => {
+      const profile: TimelineProfile = {
+        type: 'timeline',
+        astVersion: '1.0.0',
+        title: 'Gantt Plan',
+        orientation: 'horizontal',
+        events: [],
+        periods: [
+          {
+            id: 'phase1',
+            startDate: '2024-01-01',
+            endDate: '2024-03-01',
+            label: 'Phase 1',
+          },
+        ],
+        lanes: [
+          { id: 'platform', label: 'Platform' },
+        ],
+        tasks: [
+          {
+            id: 'build',
+            startDate: '2024-01-05',
+            endDate: '2024-02-10',
+            label: 'Build',
+            lane: 'platform',
+          },
+        ],
+        milestones: [
+          {
+            id: 'beta',
+            date: '2024-02-15',
+            label: 'Beta',
+            lane: 'platform',
+          },
+        ],
+        dependencies: [
+          { from: 'build', to: 'beta' },
+        ],
+      };
+
+      const result = renderTimeline(profile);
+
+      expect(result.svg).toContain('runiq-timeline-task');
+      expect(result.svg).toContain('runiq-timeline-milestone');
+      expect(result.svg).toContain('runiq-timeline-dependency');
+      expect(result.svg).toContain('Platform');
+      expect(result.svg).toContain('Build');
+      expect(result.svg).toContain('Beta');
+      expect(result.warnings).toHaveLength(0);
+    });
+
+    it('should warn when tasks are missing dates', () => {
+      const profile: TimelineProfile = {
+        type: 'timeline',
+        astVersion: '1.0.0',
+        title: 'Invalid Gantt',
+        orientation: 'horizontal',
+        events: [],
+        tasks: [
+          {
+            id: 'broken',
+            startDate: 'invalid',
+            endDate: '2024-02-10',
+            label: 'Broken',
+          },
+        ],
+        milestones: [],
+      };
+
+      const result = renderTimeline(profile);
+
+      expect(result.warnings.some((warning) => warning.includes('Invalid date'))).toBe(true);
+    });
+  });
+
   describe('Date Formatting', () => {
     it('should format dates correctly', () => {
       const profile: TimelineProfile = {
