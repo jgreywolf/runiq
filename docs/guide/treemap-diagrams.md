@@ -54,6 +54,27 @@ treemap "Engineering Portfolio" {
 }
 ```
 
+## Data-Driven Treemaps
+
+Treemap profiles can bind to CSV or JSON data sources and map rows into hierarchy.
+
+```runiq
+treemap "Data-Driven Usage" {
+  datasource "json" key:usage from:"[{\"id\":\"core\",\"label\":\"Core\",\"value\":70},{\"id\":\"auth\",\"label\":\"Auth\",\"value\":40,\"parent\":\"core\"},{\"id\":\"billing\",\"label\":\"Billing\",\"value\":30,\"parent\":\"core\"},{\"id\":\"addons\",\"label\":\"Add-ons\",\"value\":30},{\"id\":\"exports\",\"label\":\"Exports\",\"value\":20,\"parent\":\"addons\"},{\"id\":\"insights\",\"label\":\"AI Insights\",\"value\":10,\"parent\":\"addons\"}]"
+
+  data use usage
+  map usage as treemap {
+    id: "id"
+    parentId: "parent"
+    label: "label"
+    value: "value"
+  }
+}
+```
+
+**Required mappings:** `value` and `label` (or `name`).
+**Optional mappings:** `id`, `parentId`, `color`.
+
 ## Key Features
 
 - **Groups and items**: Use `group` blocks for hierarchy and `item` for leaves.

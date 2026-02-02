@@ -29,6 +29,9 @@ export interface DiagramAst {
   // Phase 5: Templates & Presets
   templates?: ContainerTemplate[]; // Container template definitions
   presets?: ContainerPreset[]; // Style preset definitions
+  dataSources?: import('./data-types.js').DataSourceDefinition[];
+  dataUse?: string;
+  dataMaps?: import('./data-types.js').DataMapDefinition[];
 }
 
 export interface NodeAst {

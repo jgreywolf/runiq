@@ -159,6 +159,7 @@ export type RuniqKeywordNames =
     | "centerLabel"
     | "central"
     | "centralBuffer"
+    | "chart"
     | "child"
     | "childCountPosition:"
     | "children:"
@@ -342,6 +343,7 @@ export type RuniqKeywordNames =
     | "foreach"
     | "forest"
     | "format"
+    | "format:"
     | "found"
     | "fragment"
     | "frame"
@@ -393,6 +395,7 @@ export type RuniqKeywordNames =
     | "iconColor:"
     | "iconSize:"
     | "id"
+    | "id:"
     | "if"
     | "image"
     | "images"
@@ -454,6 +457,7 @@ export type RuniqKeywordNames =
     | "lineStyle:"
     | "linear"
     | "link:"
+    | "links"
     | "local"
     | "location:"
     | "loop"
@@ -462,6 +466,7 @@ export type RuniqKeywordNames =
     | "low"
     | "m"
     | "manual"
+    | "map"
     | "map:"
     | "margin:"
     | "marginBottom:"
@@ -485,6 +490,7 @@ export type RuniqKeywordNames =
     | "metricType:"
     | "middle"
     | "milestone"
+    | "milestones"
     | "min"
     | "minHeight:"
     | "minResizeHeight:"
@@ -511,6 +517,7 @@ export type RuniqKeywordNames =
     | "net"
     | "node"
     | "nodeSpacing:"
+    | "nodes"
     | "noise"
     | "none"
     | "note"
@@ -636,6 +643,7 @@ export type RuniqKeywordNames =
     | "runiq"
     | "ruptureDisk"
     | "s"
+    | "sankey"
     | "schedule:"
     | "schematic"
     | "se"
@@ -647,6 +655,7 @@ export type RuniqKeywordNames =
     | "separator"
     | "separatorHorizontal"
     | "sequence"
+    | "series"
     | "setpoint:"
     | "settings"
     | "sfc"
@@ -720,6 +729,7 @@ export type RuniqKeywordNames =
     | "tags:"
     | "target"
     | "task"
+    | "tasks"
     | "team"
     | "temp:"
     | "temperature"
@@ -762,6 +772,7 @@ export type RuniqKeywordNames =
     | "type:"
     | "unit:"
     | "units"
+    | "use"
     | "useContainers"
     | "utility"
     | "vGap:"
@@ -1509,6 +1520,54 @@ export function isDataItem(item: unknown): item is DataItem {
     return reflection.isInstance(item, DataItem.$type);
 }
 
+export type DataMapKeyWithColon = 'color:' | 'endDate:' | 'format:' | 'from:' | 'id:' | 'key:' | 'label:' | 'name:' | 'source:' | 'startDate:' | 'to:' | 'value:';
+
+export function isDataMapKeyWithColon(item: unknown): item is DataMapKeyWithColon {
+    return item === 'label:' || item === 'name:' || item === 'id:' || item === 'value:' || item === 'format:' || item === 'color:' || item === 'source:' || item === 'key:' || item === 'from:' || item === 'to:' || item === 'startDate:' || item === 'endDate:';
+}
+
+export interface DataMapProperty extends langium.AstNode {
+    readonly $container: DataMapStatement;
+    readonly $type: 'DataMapProperty';
+    key: DataMapKeyWithColon | FlexibleID;
+    value: string;
+}
+
+export const DataMapProperty = {
+    $type: 'DataMapProperty',
+    key: 'key',
+    value: 'value'
+} as const;
+
+export function isDataMapProperty(item: unknown): item is DataMapProperty {
+    return reflection.isInstance(item, DataMapProperty.$type);
+}
+
+export interface DataMapStatement extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock | TimelineProfile | TreemapProfile;
+    readonly $type: 'DataMapStatement';
+    properties: Array<DataMapProperty>;
+    source: DiagramIdentifier;
+    target: DataMapTarget;
+}
+
+export const DataMapStatement = {
+    $type: 'DataMapStatement',
+    properties: 'properties',
+    source: 'source',
+    target: 'target'
+} as const;
+
+export function isDataMapStatement(item: unknown): item is DataMapStatement {
+    return reflection.isInstance(item, DataMapStatement.$type);
+}
+
+export type DataMapTarget = 'chart' | 'events' | 'milestones' | 'sankey' | 'tasks' | 'timeline' | 'treemap';
+
+export function isDataMapTarget(item: unknown): item is DataMapTarget {
+    return item === 'timeline' || item === 'events' || item === 'tasks' || item === 'milestones' || item === 'sankey' || item === 'treemap' || item === 'chart';
+}
+
 export interface DataObject extends langium.AstNode {
     readonly $container: DataProperty;
     readonly $type: 'DataObject';
@@ -1557,7 +1616,7 @@ export function isDataProperty(item: unknown): item is DataProperty {
 }
 
 export interface DataSourceDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock | TimelineProfile | TreemapProfile;
     readonly $type: 'DataSourceDeclaration';
     format: string;
     key: DiagramIdentifier;
@@ -1607,6 +1666,21 @@ export const DataSourceRefProperty = {
 
 export function isDataSourceRefProperty(item: unknown): item is DataSourceRefProperty {
     return reflection.isInstance(item, DataSourceRefProperty.$type);
+}
+
+export interface DataUseStatement extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock | TimelineProfile | TreemapProfile;
+    readonly $type: 'DataUseStatement';
+    source: DiagramIdentifier;
+}
+
+export const DataUseStatement = {
+    $type: 'DataUseStatement',
+    source: 'source'
+} as const;
+
+export function isDataUseStatement(item: unknown): item is DataUseStatement {
+    return reflection.isInstance(item, DataUseStatement.$type);
 }
 
 export interface DataValue extends langium.AstNode {
@@ -1668,7 +1742,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock | ThemeDeclaration;
+export type DiagramStatement = ContainerBlock | DataMapStatement | DataSourceDeclaration | DataUseStatement | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock | ThemeDeclaration;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -2018,10 +2092,10 @@ export function isFillColorProperty(item: unknown): item is FillColorProperty {
     return reflection.isInstance(item, FillColorProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'e' | 'end' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'team' | 'temperature' | 'to' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'chart' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'e' | 'end' | 'events' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'links' | 'loop' | 'm' | 'member' | 'milestones' | 'mobile' | 'name' | 'node' | 'nodes' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'sankey' | 'series' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'tasks' | 'team' | 'temperature' | 'to' | 'treemap' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'e' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'tasks' || item === 'milestones' || item === 'events' || item === 'nodes' || item === 'links' || item === 'series' || item === 'treemap' || item === 'sankey' || item === 'chart' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'e' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -6565,7 +6639,7 @@ export function isTimelineStartDateProperty(item: unknown): item is TimelineStar
     return reflection.isInstance(item, TimelineStartDateProperty.$type);
 }
 
-export type TimelineStatement = ThemeDeclaration | TimelineDependencyStatement | TimelineEventStatement | TimelineLaneStatement | TimelineMilestoneStatement | TimelineOrientationStatement | TimelinePeriodStatement | TimelineTaskStatement;
+export type TimelineStatement = DataMapStatement | DataSourceDeclaration | DataUseStatement | ThemeDeclaration | TimelineDependencyStatement | TimelineEventStatement | TimelineLaneStatement | TimelineMilestoneStatement | TimelineOrientationStatement | TimelinePeriodStatement | TimelineTaskStatement;
 
 export const TimelineStatement = {
     $type: 'TimelineStatement'
@@ -6806,7 +6880,7 @@ export function isTreemapShowValuesStatement(item: unknown): item is TreemapShow
     return reflection.isInstance(item, TreemapShowValuesStatement.$type);
 }
 
-export type TreemapStatement = ThemeDeclaration | TreemapGapStatement | TreemapGroupBlock | TreemapItemStatement | TreemapLayoutStatement | TreemapPaddingStatement | TreemapShowLegendStatement | TreemapShowValuesStatement;
+export type TreemapStatement = DataMapStatement | DataSourceDeclaration | DataUseStatement | ThemeDeclaration | TreemapGapStatement | TreemapGroupBlock | TreemapItemStatement | TreemapLayoutStatement | TreemapPaddingStatement | TreemapShowLegendStatement | TreemapShowValuesStatement;
 
 export const TreemapStatement = {
     $type: 'TreemapStatement'
@@ -7100,12 +7174,15 @@ export type RuniqAstType = {
     ControlVariantStatement: ControlVariantStatement
     DataArray: DataArray
     DataItem: DataItem
+    DataMapProperty: DataMapProperty
+    DataMapStatement: DataMapStatement
     DataObject: DataObject
     DataObjectProperty: DataObjectProperty
     DataProperty: DataProperty
     DataSourceDeclaration: DataSourceDeclaration
     DataSourceOption: DataSourceOption
     DataSourceRefProperty: DataSourceRefProperty
+    DataUseStatement: DataUseStatement
     DataValue: DataValue
     DeceasedProperty: DeceasedProperty
     DiagramProfile: DiagramProfile
@@ -7968,6 +8045,34 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        DataMapProperty: {
+            name: DataMapProperty.$type,
+            properties: {
+                key: {
+                    name: DataMapProperty.key
+                },
+                value: {
+                    name: DataMapProperty.value
+                }
+            },
+            superTypes: []
+        },
+        DataMapStatement: {
+            name: DataMapStatement.$type,
+            properties: {
+                properties: {
+                    name: DataMapStatement.properties,
+                    defaultValue: []
+                },
+                source: {
+                    name: DataMapStatement.source
+                },
+                target: {
+                    name: DataMapStatement.target
+                }
+            },
+            superTypes: [DiagramStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
+        },
         DataObject: {
             name: DataObject.$type,
             properties: {
@@ -8017,7 +8122,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: DataSourceDeclaration.source
                 }
             },
-            superTypes: [DiagramStatement.$type]
+            superTypes: [DiagramStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         DataSourceOption: {
             name: DataSourceOption.$type,
@@ -8039,6 +8144,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        DataUseStatement: {
+            name: DataUseStatement.$type,
+            properties: {
+                source: {
+                    name: DataUseStatement.source
+                }
+            },
+            superTypes: [DiagramStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         DataValue: {
             name: DataValue.$type,

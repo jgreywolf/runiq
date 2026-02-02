@@ -56,6 +56,19 @@ export interface DataSourceRef {
   options?: Record<string, unknown>;
 }
 
+export interface DataSourceDefinition {
+  format: string;
+  key: string;
+  source: string;
+  options?: Record<string, string | number | boolean>;
+}
+
+export interface DataMapDefinition {
+  source: string;
+  target: string;
+  fields: Record<string, string>;
+}
+
 /**
  * Declarative data binding description used by higher layers (DSL, templates).
  * This does not execute anything by itself; it describes how to obtain and map data.

@@ -31,6 +31,8 @@ DiagramStatement:
     | TemplateBlock
     | PresetBlock
     | DataSourceDeclaration
+    | DataUseStatement
+    | DataMapStatement
     | ForEachBlock;
 
 // ============================================================================
@@ -746,7 +748,10 @@ TimelineStatement:
     | TimelineTaskStatement
     | TimelineMilestoneStatement
     | TimelineDependencyStatement
-    | ThemeDeclaration;
+    | ThemeDeclaration
+    | DataSourceDeclaration
+    | DataUseStatement
+    | DataMapStatement;
 
 // event kickoff date:"2024-01-15" label:"Project Kickoff" description:"Initial meeting" icon:"flag" textColor:"#3b82f6"
   TimelineEventStatement:
@@ -1069,7 +1074,10 @@ TreemapStatement:
     | TreemapShowValuesStatement
     | TreemapShowLegendStatement
     | TreemapGroupBlock
-    | TreemapItemStatement;
+    | TreemapItemStatement
+    | DataSourceDeclaration
+    | DataUseStatement
+    | DataMapStatement;
 
 TreemapLayoutStatement:
     'layout' layout=TreemapLayoutValue;
@@ -1509,7 +1517,7 @@ StringArray:
     '[' (items+=STRING (',' items+=STRING)*)? ']';
 
 DataProperty:
-    'data:' '[' (items+=DataItem (',' items+=DataItem)*)? ']';
+    ('data:' | 'data' ':') '[' (items+=DataItem (',' items+=DataItem)*)? ']';
 
 DataSourceRefProperty:
     'from:' source=DiagramIdentifier;
@@ -1752,8 +1760,27 @@ ContainerLayoutProperty:
 // datasource "json" key:users from:"data/users.json"
 // datasource "csv" key:metrics from:"metrics.csv"
 DataSourceDeclaration:
-    'datasource' format=STRING 'key:' key=DiagramIdentifier 'from:' source=STRING
+    ('datasource' | 'data' 'source') format=STRING 'key:' key=DiagramIdentifier 'from:' source=STRING
     ('options:' '{' options+=DataSourceOption (',' options+=DataSourceOption)* '}')?;
+
+DataUseStatement:
+    'data' 'use' source=DiagramIdentifier;
+
+DataMapStatement:
+    'map' source=DiagramIdentifier 'as' target=DataMapTarget '{'
+        properties+=DataMapProperty*
+    '}';
+
+DataMapTarget returns string:
+    'timeline' | 'events' | 'tasks' | 'milestones' | 'sankey' | 'treemap' | 'chart';
+
+DataMapProperty:
+    key=FlexibleID ':' value=STRING
+    | key=DataMapKeyWithColon value=STRING;
+
+DataMapKeyWithColon returns string:
+    'label:' | 'name:' | 'id:' | 'value:' | 'format:' | 'color:' | 'source:' | 'key:'
+    | 'from:' | 'to:' | 'startDate:' | 'endDate:';
 
 DataSourceOption:
     name=ID ':' value=(STRING | NUMBER | BooleanValue);
@@ -1829,6 +1856,8 @@ FlexibleID returns string:
     ID 
     // Data-driven keywords (excluding 'template' which is a Phase 5 keyword)
     | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit'
+    | 'tasks' | 'milestones' | 'events' | 'nodes' | 'links' | 'series'
+    | 'treemap' | 'sankey' | 'chart'
     // Property keywords  
     | 'label' | 'name' | 'id' | 'type' | 'value' | 'format' | 'color' | 'header' | 'delimiter'
     // Control flow keywords

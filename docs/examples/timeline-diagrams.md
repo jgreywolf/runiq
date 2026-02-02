@@ -78,6 +78,25 @@ timeline "Roadmap Plan" {
 }
 ```
 
+## Data-Driven Roadmap
+
+Map CSV rows into tasks using `data use` and `map ... as tasks`:
+
+```runiq
+timeline "Data-Driven Roadmap" {
+  datasource "csv" key:roadmap from:"id,label,start,end,lane\nT1,Planning,2024-01-05,2024-02-01,Product\nT2,Build,2024-02-05,2024-03-15,Engineering\nT3,Launch Prep,2024-03-20,2024-04-10,Go-To-Market"
+
+  data use roadmap
+  map roadmap as tasks {
+    id: "id"
+    label: "label"
+    startDate: "start"
+    endDate: "end"
+    lane: "lane"
+  }
+}
+```
+
 ## Company History
 
 Chronicle 20 years of organizational growth:

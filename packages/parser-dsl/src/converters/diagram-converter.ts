@@ -179,6 +179,20 @@ function processDialogStatement(
         return { name: opt.name, value };
       }),
     });
+  } else if (Langium.isDataUseStatement(statement)) {
+    (diagram as any).dataUse = unescapeString(statement.source);
+  } else if (Langium.isDataMapStatement(statement)) {
+    if (!(diagram as any).dataMaps) (diagram as any).dataMaps = [];
+    const fields: Record<string, string> = {};
+    for (const prop of statement.properties) {
+      const key = prop.key.replace(/:$/, '');
+      fields[key] = prop.value.replace(/^"|"$/g, '');
+    }
+    (diagram as any).dataMaps.push({
+      source: unescapeString(statement.source),
+      target: statement.target,
+      fields,
+    });
   } else if (Langium.isForEachBlock(statement)) {
     if (!(diagram as any).dataTemplates) (diagram as any).dataTemplates = [];
     (diagram as any).dataTemplates.push({
